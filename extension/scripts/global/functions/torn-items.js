@@ -1,9 +1,9 @@
 function getTornItemName(id) {
-	return hasAPIData() ? torndata.items[id].name : (id in TORN_ITEMS ? TORN_ITEMS[id].name : id);
+	return hasAPIData() ? torndata.items[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
 }
 
 const TORN_ITEMS = {
-	"1": {
+	1: {
 		name: "Hammer",
 		description: "A small, lightweight tool used in the building industry. Can also be used as a weapon.",
 		effect: "",
@@ -16,7 +16,7 @@ const TORN_ITEMS = {
 		circulation: 1838341,
 		image: "https://www.torn.com/images/items/1/large.png",
 	},
-	"2": {
+	2: {
 		name: "Baseball Bat",
 		description: "A long, solid wooden bat. As a weapon, it can land quite a blow on your enemy.",
 		effect: "",
@@ -29,7 +29,7 @@ const TORN_ITEMS = {
 		circulation: 418311,
 		image: "https://www.torn.com/images/items/2/large.png",
 	},
-	"3": {
+	3: {
 		name: "Crowbar",
 		description: "Used for opening crates and large boxes. The sharp hook at one end makes this a great weapon.",
 		effect: "",
@@ -42,7 +42,7 @@ const TORN_ITEMS = {
 		circulation: 279468,
 		image: "https://www.torn.com/images/items/3/large.png",
 	},
-	"4": {
+	4: {
 		name: "Knuckle Dusters",
 		description: "They won't know what hit them with these strong, hard, brass knuckle dusters. They won't even see it coming!",
 		effect: "",
@@ -55,7 +55,7 @@ const TORN_ITEMS = {
 		circulation: 136602,
 		image: "https://www.torn.com/images/items/4/large.png",
 	},
-	"5": {
+	5: {
 		name: "Pen Knife",
 		description: "High quality knife--a great survival tool. Ideal for climbers, adventurers, military personnel, and close combat in dark alleys.",
 		effect: "",
@@ -68,9 +68,10 @@ const TORN_ITEMS = {
 		circulation: 92741,
 		image: "https://www.torn.com/images/items/5/large.png",
 	},
-	"6": {
+	6: {
 		name: "Kitchen Knife",
-		description: "Do your attempts to prepare food like your favourite TV chef end up more like hack and saw than slice and dice? If so, a sharp new knife could be your saviour.",
+		description:
+			"Do your attempts to prepare food like your favourite TV chef end up more like hack and saw than slice and dice? If so, a sharp new knife could be your saviour.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -81,7 +82,7 @@ const TORN_ITEMS = {
 		circulation: 191843,
 		image: "https://www.torn.com/images/items/6/large.png",
 	},
-	"7": {
+	7: {
 		name: "Dagger",
 		description: "A short, sharp metal dagger useful for quick attacks. Straight in, straight out.",
 		effect: "",
@@ -94,7 +95,7 @@ const TORN_ITEMS = {
 		circulation: 86889,
 		image: "https://www.torn.com/images/items/7/large.png",
 	},
-	"8": {
+	8: {
 		name: "Axe",
 		description: "Used mainly for chopping tree roots and splitting kindling. Can bash and split many other substances, too.",
 		effect: "",
@@ -107,7 +108,7 @@ const TORN_ITEMS = {
 		circulation: 86530,
 		image: "https://www.torn.com/images/items/8/large.png",
 	},
-	"9": {
+	9: {
 		name: "Scimitar",
 		description: "The deeply-curved, high-carbon steel blade of the scimitar can terrify your opponent as you attack with a swashbuckling slash.",
 		effect: "",
@@ -120,9 +121,10 @@ const TORN_ITEMS = {
 		circulation: 109581,
 		image: "https://www.torn.com/images/items/9/large.png",
 	},
-	"10": {
+	10: {
 		name: "Chainsaw",
-		description: "A compact chainsaw lets you cut quickly in tight spots. Its standard diamond chain is more than a match for almost anything you might need to slice up.",
+		description:
+			"A compact chainsaw lets you cut quickly in tight spots. Its standard diamond chain is more than a match for almost anything you might need to slice up.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -133,9 +135,10 @@ const TORN_ITEMS = {
 		circulation: 173849,
 		image: "https://www.torn.com/images/items/10/large.png",
 	},
-	"11": {
+	11: {
 		name: "Samurai Sword",
-		description: "A ninja-grade, full-tang samurai sword, created for us by a master artisan. The sword balances perfectly, takes and holds a razor edge, and can divide an eyelash or a full skull in one swipe.",
+		description:
+			"A ninja-grade, full-tang samurai sword, created for us by a master artisan. The sword balances perfectly, takes and holds a razor edge, and can divide an eyelash or a full skull in one swipe.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -146,7 +149,7 @@ const TORN_ITEMS = {
 		circulation: 92770,
 		image: "https://www.torn.com/images/items/11/large.png",
 	},
-	"12": {
+	12: {
 		name: "Glock 17",
 		description: "The Glock 17 is a lightweight semi-automatic pistol holding up to 20 rounds in a magazine.",
 		effect: "",
@@ -159,7 +162,7 @@ const TORN_ITEMS = {
 		circulation: 383621,
 		image: "https://www.torn.com/images/items/12/large.png",
 	},
-	"13": {
+	13: {
 		name: "Raven MP25",
 		description: "The Raven MP25 holds 6 rounds per magazine. It can deliver powerful, quick blows to the opponent at short range.",
 		effect: "",
@@ -172,7 +175,7 @@ const TORN_ITEMS = {
 		circulation: 161499,
 		image: "https://www.torn.com/images/items/13/large.png",
 	},
-	"14": {
+	14: {
 		name: "Ruger 57",
 		description: "A fast firing pistol chambered for the 5.7mm cartridge, holding 20 rounds per magazine. An accurate and moderately powerful weapon.",
 		effect: "",
@@ -185,7 +188,7 @@ const TORN_ITEMS = {
 		circulation: 117912,
 		image: "https://www.torn.com/images/items/14/large.png",
 	},
-	"15": {
+	15: {
 		name: "Beretta M9",
 		description: "The M9 Beretta is the standard Army sidearm. Accurate and fast firing. 17 rounds per magazine.",
 		effect: "",
@@ -198,7 +201,7 @@ const TORN_ITEMS = {
 		circulation: 102461,
 		image: "https://www.torn.com/images/items/15/large.png",
 	},
-	"16": {
+	16: {
 		name: "USP",
 		description: "A good short range weapon that holds 15 rounds per magazine. Very accurate and has fast semi-automatic firing.",
 		effect: "",
@@ -211,7 +214,7 @@ const TORN_ITEMS = {
 		circulation: 200478,
 		image: "https://www.torn.com/images/items/16/large.png",
 	},
-	"17": {
+	17: {
 		name: "Beretta 92FS",
 		description: "A direct-feed, double-stacked pistol with a 20-round magazine. This model has improvements to prevent the slide flying off if it cracks.",
 		effect: "",
@@ -224,7 +227,7 @@ const TORN_ITEMS = {
 		circulation: 55699,
 		image: "https://www.torn.com/images/items/17/large.png",
 	},
-	"18": {
+	18: {
 		name: "Fiveseven",
 		description: "A small and light firearm that holds up to 20 rounds per magazine. Widely used by counter-terrorists all around the world.",
 		effect: "",
@@ -237,7 +240,7 @@ const TORN_ITEMS = {
 		circulation: 81018,
 		image: "https://www.torn.com/images/items/18/large.png",
 	},
-	"19": {
+	19: {
 		name: "Magnum",
 		description: "A very slow but powerful weapon. It holds only 6 rounds, but delivers a mighty blow to the enemy.",
 		effect: "",
@@ -250,9 +253,10 @@ const TORN_ITEMS = {
 		circulation: 103916,
 		image: "https://www.torn.com/images/items/19/large.png",
 	},
-	"20": {
+	20: {
 		name: "Desert Eagle",
-		description: "Fast-firing and very powerful. If you hit your opponent, he goes down and stays down. The magazine only holds eight rounds but the strength of each impact makes up for that.",
+		description:
+			"Fast-firing and very powerful. If you hit your opponent, he goes down and stays down. The magazine only holds eight rounds but the strength of each impact makes up for that.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -263,9 +267,10 @@ const TORN_ITEMS = {
 		circulation: 49350,
 		image: "https://www.torn.com/images/items/20/large.png",
 	},
-	"21": {
+	21: {
 		name: "Dual 92G Berettas",
-		description: "One of the greatest pistols in the world. And when you are packing a pair, the results are incredible: 46 powerful shots to take your opponent down. The Dual 92G Berettas are very hard to get hold of, so cost a premium. But the extra impact is worth the extra price.",
+		description:
+			"One of the greatest pistols in the world. And when you are packing a pair, the results are incredible: 46 powerful shots to take your opponent down. The Dual 92G Berettas are very hard to get hold of, so cost a premium. But the extra impact is worth the extra price.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -276,7 +281,7 @@ const TORN_ITEMS = {
 		circulation: 71701,
 		image: "https://www.torn.com/images/items/21/large.png",
 	},
-	"22": {
+	22: {
 		name: "Sawed-Off Shotgun",
 		description: "Loads and fires two cartridges at a time. If you hit your opponent, you will open up a huge hole.",
 		effect: "",
@@ -289,7 +294,7 @@ const TORN_ITEMS = {
 		circulation: 120648,
 		image: "https://www.torn.com/images/items/22/large.png",
 	},
-	"23": {
+	23: {
 		name: "Benelli M1 Tactical",
 		description: "Simple and sturdy. Takes seven cartridges and delivers each round with power.",
 		effect: "",
@@ -302,7 +307,7 @@ const TORN_ITEMS = {
 		circulation: 186970,
 		image: "https://www.torn.com/images/items/23/large.png",
 	},
-	"24": {
+	24: {
 		name: "MP5 Navy",
 		description: "Lightweight and air-cooled, one of the most widely used submachine guns in the world. 30 rounds per magazine.",
 		effect: "",
@@ -315,9 +320,10 @@ const TORN_ITEMS = {
 		circulation: 189567,
 		image: "https://www.torn.com/images/items/24/large.png",
 	},
-	"25": {
+	25: {
 		name: "P90",
-		description: "Effective close-range automatic weapon. 50-round magazine. Not particularly accurate, but its fast firing will cause heavy damage on anything it hits.",
+		description:
+			"Effective close-range automatic weapon. 50-round magazine. Not particularly accurate, but its fast firing will cause heavy damage on anything it hits.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -328,7 +334,7 @@ const TORN_ITEMS = {
 		circulation: 81971,
 		image: "https://www.torn.com/images/items/25/large.png",
 	},
-	"26": {
+	26: {
 		name: "AK-47",
 		description: "Powerful, accurate and virtually unbreakable. This 30-round magazine fed rifle is a favourite among discerning hit men.",
 		effect: "",
@@ -341,7 +347,7 @@ const TORN_ITEMS = {
 		circulation: 89549,
 		image: "https://www.torn.com/images/items/26/large.png",
 	},
-	"27": {
+	27: {
 		name: "M4A1 Colt Carbine",
 		description: "The Colt is a powerful and accurate rifle. It's one of the best weapons around, a good choice!",
 		effect: "",
@@ -354,9 +360,10 @@ const TORN_ITEMS = {
 		circulation: 77989,
 		image: "https://www.torn.com/images/items/27/large.png",
 	},
-	"28": {
+	28: {
 		name: "Benelli M4 Super",
-		description: "The Auto Shotgun is the best close-range weapon around. Although you may have to reload often as it only holds 7 rounds, the amount of rounds you can pump into your enemy in just a few seconds is amazing.",
+		description:
+			"The Auto Shotgun is the best close-range weapon around. Although you may have to reload often as it only holds 7 rounds, the amount of rounds you can pump into your enemy in just a few seconds is amazing.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -367,7 +374,7 @@ const TORN_ITEMS = {
 		circulation: 79740,
 		image: "https://www.torn.com/images/items/28/large.png",
 	},
-	"29": {
+	29: {
 		name: "M16 A2 Rifle",
 		description: "Much like the Colt, but more powerful and accurate. 30 rounds per magazine, with a fast-fire option.",
 		effect: "",
@@ -380,7 +387,7 @@ const TORN_ITEMS = {
 		circulation: 84800,
 		image: "https://www.torn.com/images/items/29/large.png",
 	},
-	"30": {
+	30: {
 		name: "Steyr AUG",
 		description: "The Steyr AUG holds 30 rounds. It can be very accurate, although its standard scope is a little weak. A great weapon for the price.",
 		effect: "",
@@ -393,9 +400,10 @@ const TORN_ITEMS = {
 		circulation: 129975,
 		image: "https://www.torn.com/images/items/30/large.png",
 	},
-	"31": {
+	31: {
 		name: "M249 SAW",
-		description: "The M249 Squad Automatic Weapon is a light machine-gun that combines the precision and mobility of a rifle with the relentless ferocity of rapid machine-gun fire. A favorite of the US Military, this gas-operated LMG can cut down several targets in a matter of seconds.",
+		description:
+			"The M249 Squad Automatic Weapon is a light machine-gun that combines the precision and mobility of a rifle with the relentless ferocity of rapid machine-gun fire. A favorite of the US Military, this gas-operated LMG can cut down several targets in a matter of seconds.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -406,7 +414,7 @@ const TORN_ITEMS = {
 		circulation: 44870,
 		image: "https://www.torn.com/images/items/31/large.png",
 	},
-	"32": {
+	32: {
 		name: "Leather Vest",
 		description: "Simple and lightweight. If you're lucky, it will protect you from a few shots.",
 		effect: "",
@@ -432,7 +440,7 @@ const TORN_ITEMS = {
 			"Throat Coverage": 0,
 		},
 	},
-	"33": {
+	33: {
 		name: "Police Vest",
 		description: "Strong and durable body armor that will absorb a lot of damage to your torso.",
 		effect: "",
@@ -458,7 +466,7 @@ const TORN_ITEMS = {
 			"Throat Coverage": 0,
 		},
 	},
-	"34": {
+	34: {
 		name: "Bulletproof Vest",
 		description: "Body armor that can absorb a certain amount of heavy-weapons fire, although it will not turn you into Iron Man.",
 		effect: "",
@@ -484,7 +492,7 @@ const TORN_ITEMS = {
 			"Throat Coverage": 0,
 		},
 	},
-	"35": {
+	35: {
 		name: "Box of Chocolate Bars",
 		description: "A box of Mars bars. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 25 and booster cooldown by 30 minutes.",
@@ -497,7 +505,7 @@ const TORN_ITEMS = {
 		circulation: 3795914,
 		image: "https://www.torn.com/images/items/35/large.png",
 	},
-	"36": {
+	36: {
 		name: "Big Box of Chocolate Bars",
 		description: "A very large box of Mars bars. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 35 and booster cooldown by 30 minutes.",
@@ -510,7 +518,7 @@ const TORN_ITEMS = {
 		circulation: 10380028,
 		image: "https://www.torn.com/images/items/36/large.png",
 	},
-	"37": {
+	37: {
 		name: "Bag of Bon Bons",
 		description: "A pack of Bon Bons. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 25 and booster cooldown by 30 minutes.",
@@ -523,7 +531,7 @@ const TORN_ITEMS = {
 		circulation: 1859483,
 		image: "https://www.torn.com/images/items/37/large.png",
 	},
-	"38": {
+	38: {
 		name: "Box of Bon Bons",
 		description: "A box of four luxurious Bon Bons. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 25 and booster cooldown by 30 minutes.",
@@ -536,7 +544,7 @@ const TORN_ITEMS = {
 		circulation: 518907,
 		image: "https://www.torn.com/images/items/38/large.png",
 	},
-	"39": {
+	39: {
 		name: "Box of Extra Strong Mints",
 		description: "Wow, whoever needs these must have very bad breath. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 25 and booster cooldown by 30 minutes.",
@@ -549,7 +557,7 @@ const TORN_ITEMS = {
 		circulation: 3201612,
 		image: "https://www.torn.com/images/items/39/large.png",
 	},
-	"40": {
+	40: {
 		name: "Pack of Music CDs",
 		description: "Some of the hottest bands around, all in one pack of CDs.",
 		effect: "",
@@ -562,7 +570,7 @@ const TORN_ITEMS = {
 		circulation: 2269057,
 		image: "https://www.torn.com/images/items/40/large.png",
 	},
-	"41": {
+	41: {
 		name: "DVD Player",
 		description: "Sony DVD player with MP3 reading ability.",
 		effect: "",
@@ -575,7 +583,7 @@ const TORN_ITEMS = {
 		circulation: 256217,
 		image: "https://www.torn.com/images/items/41/large.png",
 	},
-	"42": {
+	42: {
 		name: "MP3 Player",
 		description: "Brand new MP3 player made by Sony. Comes with a 512 MEG card.",
 		effect: "Converts 1, 3 or 5 energy into happiness.",
@@ -588,9 +596,10 @@ const TORN_ITEMS = {
 		circulation: 1501244,
 		image: "https://www.torn.com/images/items/42/large.png",
 	},
-	"43": {
+	43: {
 		name: "CD Player",
-		description: "This stylish home stereo system was top of the range back in 1994, with its CD player capable of reading even the most scratched up compact discs in your collection.",
+		description:
+			"This stylish home stereo system was top of the range back in 1994, with its CD player capable of reading even the most scratched up compact discs in your collection.",
 		effect: "Converts 1, 3 or 5 energy into happiness.",
 		requirement: "",
 		type: "Electronic",
@@ -601,7 +610,7 @@ const TORN_ITEMS = {
 		circulation: 592567,
 		image: "https://www.torn.com/images/items/43/large.png",
 	},
-	"44": {
+	44: {
 		name: "Pack of Blank CDs : 100",
 		description: "Writable CDs for recording music or saving data.",
 		effect: "",
@@ -614,7 +623,7 @@ const TORN_ITEMS = {
 		circulation: 1246337,
 		image: "https://www.torn.com/images/items/44/large.png",
 	},
-	"45": {
+	45: {
 		name: "Hard Drive",
 		description: "A large hard drive to extend your computer's storage capacity.",
 		effect: "",
@@ -627,7 +636,7 @@ const TORN_ITEMS = {
 		circulation: 724099,
 		image: "https://www.torn.com/images/items/45/large.png",
 	},
-	"46": {
+	46: {
 		name: "Tank Top",
 		description: "A stylish low cut tank top.",
 		effect: "",
@@ -640,7 +649,7 @@ const TORN_ITEMS = {
 		circulation: 1480627,
 		image: "https://www.torn.com/images/items/46/large.png",
 	},
-	"47": {
+	47: {
 		name: "Trainers",
 		description: "A nice pair of trainers.",
 		effect: "",
@@ -653,7 +662,7 @@ const TORN_ITEMS = {
 		circulation: 1178015,
 		image: "https://www.torn.com/images/items/47/large.png",
 	},
-	"48": {
+	48: {
 		name: "Jacket",
 		description: "A very stylish summer jacket.",
 		effect: "",
@@ -666,7 +675,7 @@ const TORN_ITEMS = {
 		circulation: 153754033,
 		image: "https://www.torn.com/images/items/48/large.png",
 	},
-	"49": {
+	49: {
 		name: "Full Body Armor",
 		description: "Full body armor made of high-grade bulletproof material. It will absorb some of the damage from hits taken by the wearer.",
 		effect: "",
@@ -692,9 +701,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"50": {
+	50: {
 		name: "Outer Tactical Vest",
-		description: "Despite the Combat Vest offering improved protection, its predecessor the Outer Tactical Vest is far from obsolete. The increased survivability and enhanced maneuverability provided makes it a more than worthwhile addition to your combat wardrobe.",
+		description:
+			"Despite the Combat Vest offering improved protection, its predecessor the Outer Tactical Vest is far from obsolete. The increased survivability and enhanced maneuverability provided makes it a more than worthwhile addition to your combat wardrobe.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -718,7 +728,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"51": {
+	51: {
 		name: "Plain Silver Ring",
 		description: "A simple silver ring.",
 		effect: "Can be used to propose to someone with.",
@@ -731,7 +741,7 @@ const TORN_ITEMS = {
 		circulation: 2764537,
 		image: "https://www.torn.com/images/items/51/large.png",
 	},
-	"52": {
+	52: {
 		name: "Sapphire Ring",
 		description: "A sapphire ring.",
 		effect: "Can be used to propose to someone with.",
@@ -744,7 +754,7 @@ const TORN_ITEMS = {
 		circulation: 2490015,
 		image: "https://www.torn.com/images/items/52/large.png",
 	},
-	"53": {
+	53: {
 		name: "Gold Ring",
 		description: "A solid gold ring.",
 		effect: "Can be used to propose to someone with.",
@@ -757,7 +767,7 @@ const TORN_ITEMS = {
 		circulation: 2507722,
 		image: "https://www.torn.com/images/items/53/large.png",
 	},
-	"54": {
+	54: {
 		name: "Diamond Ring",
 		description: "An expensive diamond ring.",
 		effect: "Can be used to propose to someone with.",
@@ -770,7 +780,7 @@ const TORN_ITEMS = {
 		circulation: 664687,
 		image: "https://www.torn.com/images/items/54/large.png",
 	},
-	"55": {
+	55: {
 		name: "Pearl Necklace",
 		description: "Matched cultured pearls in an understated but elegant setting.",
 		effect: "",
@@ -783,7 +793,7 @@ const TORN_ITEMS = {
 		circulation: 346691,
 		image: "https://www.torn.com/images/items/55/large.png",
 	},
-	"56": {
+	56: {
 		name: "Silver Necklace",
 		description: "A silver necklace featuring a pattern of semi-precious stones.",
 		effect: "",
@@ -796,7 +806,7 @@ const TORN_ITEMS = {
 		circulation: 501501,
 		image: "https://www.torn.com/images/items/56/large.png",
 	},
-	"57": {
+	57: {
 		name: "Gold Necklace",
 		description: "A mesmerizing spiral of 14-karat gold.",
 		effect: "",
@@ -809,7 +819,7 @@ const TORN_ITEMS = {
 		circulation: 804141,
 		image: "https://www.torn.com/images/items/57/large.png",
 	},
-	"58": {
+	58: {
 		name: "Plastic Watch",
 		description: "This watch is absolutely accurate at least twice a day.",
 		effect: "",
@@ -822,7 +832,7 @@ const TORN_ITEMS = {
 		circulation: 762264,
 		image: "https://www.torn.com/images/items/58/large.png",
 	},
-	"59": {
+	59: {
 		name: "Stainless Steel Watch",
 		description: "Continues working when dropped, stepped on, or hit with a rubber mallet.",
 		effect: "",
@@ -835,7 +845,7 @@ const TORN_ITEMS = {
 		circulation: 505720,
 		image: "https://www.torn.com/images/items/59/large.png",
 	},
-	"60": {
+	60: {
 		name: "Gold Watch",
 		description: "Elegance and luxury at sixty seconds per minute.",
 		effect: "",
@@ -848,7 +858,7 @@ const TORN_ITEMS = {
 		circulation: 7664903,
 		image: "https://www.torn.com/images/items/60/large.png",
 	},
-	"61": {
+	61: {
 		name: "Personal Computer",
 		description: "A high-tech personal computer. Can be used to program viruses.",
 		effect: "Can be used to program viruses.",
@@ -861,7 +871,7 @@ const TORN_ITEMS = {
 		circulation: 5084265,
 		image: "https://www.torn.com/images/items/61/large.png",
 	},
-	"62": {
+	62: {
 		name: "Microwave",
 		description: "A brand new microwave.",
 		effect: "",
@@ -874,7 +884,7 @@ const TORN_ITEMS = {
 		circulation: 348823,
 		image: "https://www.torn.com/images/items/62/large.png",
 	},
-	"63": {
+	63: {
 		name: "Minigun",
 		description: "This gun has a 200-round magazine. When you are done with a burst, your enemy will be in fragments.",
 		effect: "",
@@ -887,7 +897,7 @@ const TORN_ITEMS = {
 		circulation: 59145,
 		image: "https://www.torn.com/images/items/63/large.png",
 	},
-	"64": {
+	64: {
 		name: "Pack of Cuban Cigars",
 		description: "A pack of great quality, very expensive Cuban cigars.",
 		effect: "",
@@ -900,7 +910,7 @@ const TORN_ITEMS = {
 		circulation: 3058896,
 		image: "https://www.torn.com/images/items/64/large.png",
 	},
-	"65": {
+	65: {
 		name: "Television",
 		description: "A king size Sony TV screen.",
 		effect: "Converts 3, 5 or 10 energy into happiness.",
@@ -913,7 +923,7 @@ const TORN_ITEMS = {
 		circulation: 608769,
 		image: "https://www.torn.com/images/items/65/large.png",
 	},
-	"66": {
+	66: {
 		name: "Morphine",
 		description: "A shot of morphine to kill your pain, and shorten your hospital stay.",
 		effect: "Reduces hospital by 70 mins and restores 15% life. Increases medical cooldown by 20 mins.",
@@ -926,7 +936,7 @@ const TORN_ITEMS = {
 		circulation: 26961105,
 		image: "https://www.torn.com/images/items/66/large.png",
 	},
-	"67": {
+	67: {
 		name: "First Aid Kit",
 		description: "Use this first aid kit to bind your wounds and shorten your hospital stay.",
 		effect: "Reduces hospital by 40 minutes and restores 10% life. Increases medical cooldown by 15 mins.",
@@ -939,7 +949,7 @@ const TORN_ITEMS = {
 		circulation: 14250277,
 		image: "https://www.torn.com/images/items/67/large.png",
 	},
-	"68": {
+	68: {
 		name: "Small First Aid Kit",
 		description: "This kit will stop you bleeding on your clothes and will shorten your hospital stay by a small amount.",
 		effect: "Reduces hospital by 20 minutes and restores 5% life. Increases medical cooldown by 10 mins.",
@@ -952,7 +962,7 @@ const TORN_ITEMS = {
 		circulation: 22786920,
 		image: "https://www.torn.com/images/items/68/large.png",
 	},
-	"69": {
+	69: {
 		name: "Simple Virus",
 		description: "A very simple virus that was written by an amateur.",
 		effect: "Used to plant a virus.",
@@ -965,9 +975,10 @@ const TORN_ITEMS = {
 		circulation: 1545169,
 		image: "https://www.torn.com/images/items/69/large.png",
 	},
-	"70": {
+	70: {
 		name: "Polymorphic Virus",
-		description: "Polymorphic viruses are semi-sentient: they adapt themselves with each infection. With a virus-writing toolkit you can even design new viruses.",
+		description:
+			"Polymorphic viruses are semi-sentient: they adapt themselves with each infection. With a virus-writing toolkit you can even design new viruses.",
 		effect: "Used to plant a virus.",
 		requirement: "",
 		type: "Virus",
@@ -978,7 +989,7 @@ const TORN_ITEMS = {
 		circulation: 108595,
 		image: "https://www.torn.com/images/items/70/large.png",
 	},
-	"71": {
+	71: {
 		name: "Tunneling Virus",
 		description: "This virus will attempt to tunnel under anti-virus monitoring programs in order to bypass their monitoring functions.",
 		effect: "Used to plant a virus.",
@@ -991,7 +1002,7 @@ const TORN_ITEMS = {
 		circulation: 127190,
 		image: "https://www.torn.com/images/items/71/large.png",
 	},
-	"72": {
+	72: {
 		name: "Armored Virus",
 		description: "This virus attempts to make disassembly difficult. Great for systems with weak virus protection.",
 		effect: "Used to plant a virus.",
@@ -1004,9 +1015,10 @@ const TORN_ITEMS = {
 		circulation: 45058,
 		image: "https://www.torn.com/images/items/72/large.png",
 	},
-	"73": {
+	73: {
 		name: "Stealth Virus",
-		description: "In order to avoid detection, a virus will often take over virus protection system functions likely to spot it and use them to hide itself. An extremely hard virus to write.",
+		description:
+			"In order to avoid detection, a virus will often take over virus protection system functions likely to spot it and use them to hide itself. An extremely hard virus to write.",
 		effect: "Used to plant a virus.",
 		requirement: "",
 		type: "Virus",
@@ -1017,7 +1029,7 @@ const TORN_ITEMS = {
 		circulation: 197951,
 		image: "https://www.torn.com/images/items/73/large.png",
 	},
-	"74": {
+	74: {
 		name: "Santa Hat '04",
 		description: "A well crafted Santa hat made especially for the 2004 Christmas!",
 		effect: "",
@@ -1030,7 +1042,7 @@ const TORN_ITEMS = {
 		circulation: 21,
 		image: "https://www.torn.com/images/items/74/large.png",
 	},
-	"75": {
+	75: {
 		name: "Christmas Cracker '04",
 		description: "An expensive Christmas cracker made especially for the 2004 Christmas!",
 		effect: "",
@@ -1043,7 +1055,7 @@ const TORN_ITEMS = {
 		circulation: 29,
 		image: "https://www.torn.com/images/items/75/large.png",
 	},
-	"76": {
+	76: {
 		name: "Snow Cannon",
 		description: "A very rare special weapon, made and crafted by Santa himself!",
 		effect: "",
@@ -1056,7 +1068,7 @@ const TORN_ITEMS = {
 		circulation: 108,
 		image: "https://www.torn.com/images/items/76/large.png",
 	},
-	"77": {
+	77: {
 		name: "Toyota MR2",
 		description: "This streamlined import has stunning top end speed but has miserable stopping power.",
 		effect: "",
@@ -1069,9 +1081,10 @@ const TORN_ITEMS = {
 		circulation: 1970948,
 		image: "https://www.torn.com/images/items/77/large.png",
 	},
-	"78": {
+	78: {
 		name: "Honda NSX",
-		description: "This underdog costs a fraction of the price of the other cars in its class, and its acceleration and top speed leave a bit to be desired. However, its handling and braking are hard to match, helping the NSX rate well on the lap time table for Class A.",
+		description:
+			"This underdog costs a fraction of the price of the other cars in its class, and its acceleration and top speed leave a bit to be desired. However, its handling and braking are hard to match, helping the NSX rate well on the lap time table for Class A.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1082,9 +1095,10 @@ const TORN_ITEMS = {
 		circulation: 2051332,
 		image: "https://www.torn.com/images/items/78/large.png",
 	},
-	"79": {
+	79: {
 		name: "Audi TT Quattro",
-		description: "This sleek sports car is not only a hit with the ladies but can accelerate quicker than any in its class. It boasts a streamlined shape paired with a very clever Quattro system. European road laws ruin this car with a top speed limit of 155mph.",
+		description:
+			"This sleek sports car is not only a hit with the ladies but can accelerate quicker than any in its class. It boasts a streamlined shape paired with a very clever Quattro system. European road laws ruin this car with a top speed limit of 155mph.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1095,9 +1109,10 @@ const TORN_ITEMS = {
 		circulation: 82322,
 		image: "https://www.torn.com/images/items/79/large.png",
 	},
-	"80": {
+	80: {
 		name: "BMW M5",
-		description: "This rocket ship can reach a monumental top end speed once de-restricted. The fastest 4-door saloon of its type. Sadly, its immense power struggles to be transferred onto the road during the first couple of gears, slowing its acceleration.",
+		description:
+			"This rocket ship can reach a monumental top end speed once de-restricted. The fastest 4-door saloon of its type. Sadly, its immense power struggles to be transferred onto the road during the first couple of gears, slowing its acceleration.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1108,9 +1123,10 @@ const TORN_ITEMS = {
 		circulation: 76688,
 		image: "https://www.torn.com/images/items/80/large.png",
 	},
-	"81": {
+	81: {
 		name: "BMW Z8",
-		description: "This rear wheel drive \"Beamer\" does struggle for grip off the line but due to its poise and balance it is stable under braking making it very quick in the corners.",
+		description:
+			'This rear wheel drive "Beamer" does struggle for grip off the line but due to its poise and balance it is stable under braking making it very quick in the corners.',
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1121,9 +1137,10 @@ const TORN_ITEMS = {
 		circulation: 274603,
 		image: "https://www.torn.com/images/items/81/large.png",
 	},
-	"82": {
+	82: {
 		name: "Chevrolet Corvette Z06",
-		description: "This car can power its way to a sky high top speed with its glorious 7 litre V8. Again, like most American cars it sadly does not handle particularly well.",
+		description:
+			"This car can power its way to a sky high top speed with its glorious 7 litre V8. Again, like most American cars it sadly does not handle particularly well.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1134,9 +1151,10 @@ const TORN_ITEMS = {
 		circulation: 105623,
 		image: "https://www.torn.com/images/items/82/large.png",
 	},
-	"83": {
+	83: {
 		name: "Dodge Charger",
-		description: "This Dodge can reach breakneck speeds in a straight line, although satisfactory cornering is an expensive optional extra, as this beast turns into a good old American rodeo round the corners.",
+		description:
+			"This Dodge can reach breakneck speeds in a straight line, although satisfactory cornering is an expensive optional extra, as this beast turns into a good old American rodeo round the corners.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1147,9 +1165,10 @@ const TORN_ITEMS = {
 		circulation: 266480,
 		image: "https://www.torn.com/images/items/83/large.png",
 	},
-	"84": {
+	84: {
 		name: "Pontiac Firebird",
-		description: "This American classic tends to under-steer severely in the corners and wallow round any intricate track. However, its impressive top speeds on the straights do a lot to compensate for weak cornering.",
+		description:
+			"This American classic tends to under-steer severely in the corners and wallow round any intricate track. However, its impressive top speeds on the straights do a lot to compensate for weak cornering.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1160,9 +1179,10 @@ const TORN_ITEMS = {
 		circulation: 85136,
 		image: "https://www.torn.com/images/items/84/large.png",
 	},
-	"85": {
+	85: {
 		name: "Ford GT40",
-		description: "This Le Mans derived Ford handles like a racing car should but is slightly let down by its acceleration, especially when considering it is incredibly light for its class.",
+		description:
+			"This Le Mans derived Ford handles like a racing car should but is slightly let down by its acceleration, especially when considering it is incredibly light for its class.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1173,9 +1193,10 @@ const TORN_ITEMS = {
 		circulation: 284610,
 		image: "https://www.torn.com/images/items/85/large.png",
 	},
-	"86": {
+	86: {
 		name: "Hummer H3",
-		description: "This giant has stopping power twice the force of its rivals; its handling however is poor on tarmac due to soft off road suspension and high centre of gravity.",
+		description:
+			"This giant has stopping power twice the force of its rivals; its handling however is poor on tarmac due to soft off road suspension and high centre of gravity.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1186,9 +1207,10 @@ const TORN_ITEMS = {
 		circulation: 116698,
 		image: "https://www.torn.com/images/items/86/large.png",
 	},
-	"87": {
+	87: {
 		name: "Audi S4",
-		description: "This 2.7 litre twin turbo Ferrari killer is extremely planted under braking into corners allowing a great exit speed once its turbos kick in, it does however bog down off the line due to the four wheel drive system when compared to others in its class.",
+		description:
+			"This 2.7 litre twin turbo Ferrari killer is extremely planted under braking into corners allowing a great exit speed once its turbos kick in, it does however bog down off the line due to the four wheel drive system when compared to others in its class.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1199,9 +1221,9 @@ const TORN_ITEMS = {
 		circulation: 110179,
 		image: "https://www.torn.com/images/items/87/large.png",
 	},
-	"88": {
+	88: {
 		name: "Honda Integra R",
-		description: "This import is described by many as the \"closest you'll get to a race car out of factory\" - due to its sharp and responsive handling.",
+		description: 'This import is described by many as the "closest you\'ll get to a race car out of factory" - due to its sharp and responsive handling.',
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1212,9 +1234,10 @@ const TORN_ITEMS = {
 		circulation: 111503,
 		image: "https://www.torn.com/images/items/88/large.png",
 	},
-	"89": {
+	89: {
 		name: "Honda Accord",
-		description: "This car has a wide wheelbase, allowing for superb handling with stiff suspension springs preventing body roll. The car's weight, however, reduces its speed off the line.",
+		description:
+			"This car has a wide wheelbase, allowing for superb handling with stiff suspension springs preventing body roll. The car's weight, however, reduces its speed off the line.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1225,7 +1248,7 @@ const TORN_ITEMS = {
 		circulation: 1841721,
 		image: "https://www.torn.com/images/items/89/large.png",
 	},
-	"90": {
+	90: {
 		name: "Honda Civic",
 		description: "This import has a staggering top speed, but with non independent suspension it suffers from poor handling.",
 		effect: "",
@@ -1238,9 +1261,10 @@ const TORN_ITEMS = {
 		circulation: 251512,
 		image: "https://www.torn.com/images/items/90/large.png",
 	},
-	"91": {
+	91: {
 		name: "Volkswagen Beetle",
-		description: "One of the few good things to come out of WWII, this \"people's car\" handles like it's on rails. It has a limited top speed of 155 mph due to German restrictions.",
+		description:
+			"One of the few good things to come out of WWII, this \"people's car\" handles like it's on rails. It has a limited top speed of 155 mph due to German restrictions.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1251,9 +1275,10 @@ const TORN_ITEMS = {
 		circulation: 213759,
 		image: "https://www.torn.com/images/items/91/large.png",
 	},
-	"92": {
+	92: {
 		name: "Chevrolet Cavalier",
-		description: "The Chevy has a substantially larger 2,800cc engine than most in its class giving it a great top speed. However like most American cars it lacks the simple ability to corner.",
+		description:
+			"The Chevy has a substantially larger 2,800cc engine than most in its class giving it a great top speed. However like most American cars it lacks the simple ability to corner.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1264,9 +1289,10 @@ const TORN_ITEMS = {
 		circulation: 223566,
 		image: "https://www.torn.com/images/items/92/large.png",
 	},
-	"93": {
+	93: {
 		name: "Ford Mustang",
-		description: "This American treasure has its place in most males' dream garage. The car boasts a stunning top speed, and once it's off the line it's unstoppable...literally unstoppable, as the brakes are sponges, no wonder Shelby had to make severe modifications for track racing!",
+		description:
+			"This American treasure has its place in most males' dream garage. The car boasts a stunning top speed, and once it's off the line it's unstoppable...literally unstoppable, as the brakes are sponges, no wonder Shelby had to make severe modifications for track racing!",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1277,9 +1303,10 @@ const TORN_ITEMS = {
 		circulation: 132405,
 		image: "https://www.torn.com/images/items/93/large.png",
 	},
-	"94": {
+	94: {
 		name: "Reliant Robin",
-		description: "This three wheeled beauty can turn on a two pence piece with stunning handling. It comes under scrutiny however, under heavy braking where they have been known to topple over.",
+		description:
+			"This three wheeled beauty can turn on a two pence piece with stunning handling. It comes under scrutiny however, under heavy braking where they have been known to topple over.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -1290,7 +1317,7 @@ const TORN_ITEMS = {
 		circulation: 381488,
 		image: "https://www.torn.com/images/items/94/large.png",
 	},
-	"95": {
+	95: {
 		name: "Holden SS",
 		description: "This Aussie powerhouse reaches a breathtaking top speed. (If it ever gets there after leaving most of its tires on the starting line).",
 		effect: "",
@@ -1303,7 +1330,7 @@ const TORN_ITEMS = {
 		circulation: 1904256,
 		image: "https://www.torn.com/images/items/95/large.png",
 	},
-	"96": {
+	96: {
 		name: "Coat Hanger",
 		description: "A metal coat hanger, often used for picking the locks of cars.",
 		effect: "Required for stealing locked cars",
@@ -1316,7 +1343,7 @@ const TORN_ITEMS = {
 		circulation: 167505,
 		image: "https://www.torn.com/images/items/96/large.png",
 	},
-	"97": {
+	97: {
 		name: "Bunch of Flowers",
 		description: "A bunch of flowers, a perfect gift!",
 		effect: "",
@@ -1329,7 +1356,7 @@ const TORN_ITEMS = {
 		circulation: 25342970,
 		image: "https://www.torn.com/images/items/97/large.png",
 	},
-	"98": {
+	98: {
 		name: "Neutrilux 2000",
 		description: "Very rare: a Leprechaun's most powerful weapon, created out of green nuclear energy. Or at least, that's how the legend goes.",
 		effect: "",
@@ -1342,7 +1369,7 @@ const TORN_ITEMS = {
 		circulation: 9,
 		image: "https://www.torn.com/images/items/98/large.png",
 	},
-	"99": {
+	99: {
 		name: "Springfield 1911",
 		description: "Steel and light weight aluminium frames, stainless, blued and parkerized finishes, V-12 barrel porting... What more could you want?",
 		effect: "",
@@ -1355,7 +1382,7 @@ const TORN_ITEMS = {
 		circulation: 79415,
 		image: "https://www.torn.com/images/items/99/large.png",
 	},
-	"100": {
+	100: {
 		name: "Egg Propelled Launcher",
 		description: "Very rare: the Easter Bunny's most powerful weapon, created out of jelly bean and chocolate egg technology.",
 		effect: "",
@@ -1368,9 +1395,10 @@ const TORN_ITEMS = {
 		circulation: 14,
 		image: "https://www.torn.com/images/items/100/large.png",
 	},
-	"101": {
+	101: {
 		name: "Bunny Suit",
-		description: "Very rare, and created out of the strongest fur yet discovered, this serves as the Easter Bunny's most stylish and most protective armor.",
+		description:
+			"Very rare, and created out of the strongest fur yet discovered, this serves as the Easter Bunny's most stylish and most protective armor.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -1381,7 +1409,7 @@ const TORN_ITEMS = {
 		circulation: 22,
 		image: "https://www.torn.com/images/items/101/large.png",
 	},
-	"102": {
+	102: {
 		name: "Chocolate Egg '05",
 		description: "Every person's favourite treat, made for the 2005 Easter celebration!",
 		effect: "",
@@ -1394,7 +1422,7 @@ const TORN_ITEMS = {
 		circulation: 64,
 		image: "https://www.torn.com/images/items/102/large.png",
 	},
-	"103": {
+	103: {
 		name: "Firewalk Virus",
 		description: "This type of virus is unknown.",
 		effect: "",
@@ -1407,9 +1435,10 @@ const TORN_ITEMS = {
 		circulation: 126975,
 		image: "https://www.torn.com/images/items/103/large.png",
 	},
-	"104": {
+	104: {
 		name: "Game Console",
-		description: "This Game Console is a generic gaming device exclusive to Torn City, and was made from parts cannibalized from an Xbox, PlayStation, and a Sega Saturn. Game Consoles are unique in that they actually bring people happiness when they put effort into them, unlike careers, relationships, or children.",
+		description:
+			"This Game Console is a generic gaming device exclusive to Torn City, and was made from parts cannibalized from an Xbox, PlayStation, and a Sega Saturn. Game Consoles are unique in that they actually bring people happiness when they put effort into them, unlike careers, relationships, or children.",
 		effect: "Converts 1, 3 or 5 energy into happiness.",
 		requirement: "",
 		type: "Electronic",
@@ -1420,7 +1449,7 @@ const TORN_ITEMS = {
 		circulation: 218854,
 		image: "https://www.torn.com/images/items/104/large.png",
 	},
-	"105": {
+	105: {
 		name: "Xbox",
 		description: "A games console used for playing games.",
 		effect: "Converts 5 energy into 8-15 happiness.",
@@ -1433,7 +1462,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/105/large.png",
 	},
-	"106": {
+	106: {
 		name: "Parachute",
 		description: "A collapsible device used to retard the descent of a falling body.",
 		effect: "Permanently increases Dexterity by 1%. Increases booster cooldown by 6 hours.",
@@ -1446,7 +1475,7 @@ const TORN_ITEMS = {
 		circulation: 4925,
 		image: "https://www.torn.com/images/items/106/large.png",
 	},
-	"107": {
+	107: {
 		name: "Trench Coat",
 		description: "A thick trench coat that covers most of the body.",
 		effect: "",
@@ -1459,7 +1488,7 @@ const TORN_ITEMS = {
 		circulation: 74769,
 		image: "https://www.torn.com/images/items/107/large.png",
 	},
-	"108": {
+	108: {
 		name: "9mm Uzi",
 		description: "This Uzi is a compact, boxy, light-weight sub machine gun used throughout the world as a police and special forces firearm.",
 		effect: "",
@@ -1472,7 +1501,7 @@ const TORN_ITEMS = {
 		circulation: 36488,
 		image: "https://www.torn.com/images/items/108/large.png",
 	},
-	"109": {
+	109: {
 		name: "RPG Launcher",
 		description: "The anti-tank RPG launcher is one of the most common and most effective infantry weapons in contemporary conflicts.",
 		effect: "",
@@ -1485,7 +1514,7 @@ const TORN_ITEMS = {
 		circulation: 732,
 		image: "https://www.torn.com/images/items/109/large.png",
 	},
-	"110": {
+	110: {
 		name: "Leather Bullwhip",
 		description: "A whip made of rawhide. In the right hands, it can be a stealthy and deadly weapon. In the wrong hands...you may lose an eye!",
 		effect: "",
@@ -1498,7 +1527,7 @@ const TORN_ITEMS = {
 		circulation: 123321,
 		image: "https://www.torn.com/images/items/110/large.png",
 	},
-	"111": {
+	111: {
 		name: "Ninja Claws",
 		description: "Traditional ninja weapon for close combat, with four needle-sharp spikes.",
 		effect: "",
@@ -1511,7 +1540,7 @@ const TORN_ITEMS = {
 		circulation: 34815,
 		image: "https://www.torn.com/images/items/111/large.png",
 	},
-	"112": {
+	112: {
 		name: "Test Trophy",
 		description: "Test!",
 		effect: "",
@@ -1524,9 +1553,10 @@ const TORN_ITEMS = {
 		circulation: 2,
 		image: "https://www.torn.com/images/items/112/large.png",
 	},
-	"113": {
+	113: {
 		name: "Pet Rock",
-		description: "One of the rarest items in Torn, first discovered by Matt. Warning: this pet is extremely dangerous! Only the very brave or the very stupid should take it on. Matt takes no responsibility for the loss of life or fingertips caused by this pet.",
+		description:
+			"One of the rarest items in Torn, first discovered by Matt. Warning: this pet is extremely dangerous! Only the very brave or the very stupid should take it on. Matt takes no responsibility for the loss of life or fingertips caused by this pet.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1537,7 +1567,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/113/large.png",
 	},
-	"114": {
+	114: {
 		name: "Non-Anon Doll",
 		description: "The perfect gift for when you want to add insult to injury. Patented by Someone...",
 		effect: "",
@@ -1550,7 +1580,7 @@ const TORN_ITEMS = {
 		circulation: 6,
 		image: "https://www.torn.com/images/items/114/large.png",
 	},
-	"115": {
+	115: {
 		name: "Poker Doll",
 		description: "Feisty red haired doll made in the image of Peachy complete with bellybutton poking action!",
 		effect: "",
@@ -1563,7 +1593,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/115/large.png",
 	},
-	"116": {
+	116: {
 		name: "Yoda Figurine",
 		description: "Have a doll like Yoda You must.",
 		effect: "",
@@ -1576,7 +1606,7 @@ const TORN_ITEMS = {
 		circulation: 15,
 		image: "https://www.torn.com/images/items/116/large.png",
 	},
-	"117": {
+	117: {
 		name: "Trojan Horse",
 		description: "This sweet gift from Tebbs seems innocently useful. Inside, it is highly infectious!",
 		effect: "",
@@ -1589,9 +1619,10 @@ const TORN_ITEMS = {
 		circulation: 22,
 		image: "https://www.torn.com/images/items/117/large.png",
 	},
-	"118": {
+	118: {
 		name: "Evil Doll",
-		description: "Replica doll of the Evil Female Admin known as Wynn. Believed to be responsible for lost stats, site lag, mass kicks on IRC and random deletions.",
+		description:
+			"Replica doll of the Evil Female Admin known as Wynn. Believed to be responsible for lost stats, site lag, mass kicks on IRC and random deletions.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1602,9 +1633,10 @@ const TORN_ITEMS = {
 		circulation: 31,
 		image: "https://www.torn.com/images/items/118/large.png",
 	},
-	"119": {
+	119: {
 		name: "Rubber Ducky of Doom",
-		description: "Most powerful weapon in the game can only be used by those with the knowledge to unleash its fearsome Duck Powers. Most often used after being asked the same n00b question for the 5th time in a row. Has also been seen dive bombing random people in IRC.",
+		description:
+			"Most powerful weapon in the game can only be used by those with the knowledge to unleash its fearsome Duck Powers. Most often used after being asked the same n00b question for the 5th time in a row. Has also been seen dive bombing random people in IRC.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1615,9 +1647,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/119/large.png",
 	},
-	"120": {
+	120: {
 		name: "Teppic Bear",
-		description: "Only known of by a very select few, this Teddy Bear stands as proof that even the toughest of players, such as Teppic, do indeed have a softer side.",
+		description:
+			"Only known of by a very select few, this Teddy Bear stands as proof that even the toughest of players, such as Teppic, do indeed have a softer side.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1628,7 +1661,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/120/large.png",
 	},
-	"121": {
+	121: {
 		name: "RockerHead Doll",
 		description: "It has no uses and does nothing just like the staff member it resembles.",
 		effect: "",
@@ -1641,9 +1674,10 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/121/large.png",
 	},
-	"122": {
+	122: {
 		name: "Mouser Doll",
-		description: "Similar to the one used by Mouser to relieve the stress of dealing with uncooperative staff, annoying n00bs, and day to day business of being a Coder in Torn City.",
+		description:
+			"Similar to the one used by Mouser to relieve the stress of dealing with uncooperative staff, annoying n00bs, and day to day business of being a Coder in Torn City.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1654,7 +1688,7 @@ const TORN_ITEMS = {
 		circulation: 18,
 		image: "https://www.torn.com/images/items/122/large.png",
 	},
-	"123": {
+	123: {
 		name: "Elite Action Man",
 		description: "Mimics the actions of the real man. Has been known to abuse Caps Lock Abusers.",
 		effect: "",
@@ -1667,7 +1701,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/123/large.png",
 	},
-	"124": {
+	124: {
 		name: "Toy Reactor",
 		description: "Miniature model of a Nuclear Reactor similar to the one that Sec. Les_Claypool will be working on when he leaves for the Navy.",
 		effect: "",
@@ -1680,9 +1714,10 @@ const TORN_ITEMS = {
 		circulation: 17,
 		image: "https://www.torn.com/images/items/124/large.png",
 	},
-	"125": {
+	125: {
 		name: "Royal Doll",
-		description: "This doll will give its user the feeling of being royalty just like KingAce while in possession. Player will receive special treatment from friends and rivals while carrying this special item!",
+		description:
+			"This doll will give its user the feeling of being royalty just like KingAce while in possession. Player will receive special treatment from friends and rivals while carrying this special item!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1693,9 +1728,10 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/125/large.png",
 	},
-	"126": {
+	126: {
 		name: "Blue Dragon",
-		description: " A blue dragon spawned from the evil TC admin named blue comes packed with evil intentions and wild powers.. Some say rubbing the dragons head makes one 100 times stronger than any normal man!",
+		description:
+			" A blue dragon spawned from the evil TC admin named blue comes packed with evil intentions and wild powers.. Some say rubbing the dragons head makes one 100 times stronger than any normal man!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1706,7 +1742,7 @@ const TORN_ITEMS = {
 		circulation: 22,
 		image: "https://www.torn.com/images/items/126/large.png",
 	},
-	"127": {
+	127: {
 		name: "China Tea Set",
 		description: "Be just like Chedburn, sit in the garden and sip tea with this China Tea Set.",
 		effect: "",
@@ -1719,7 +1755,7 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/127/large.png",
 	},
-	"128": {
+	128: {
 		name: "Mufasa Toy",
 		description: "Replica of a plush toy owned by Randi it looks just like the majestic lion Mufasa... before he was trampled of course.",
 		effect: "",
@@ -1732,9 +1768,10 @@ const TORN_ITEMS = {
 		circulation: 21,
 		image: "https://www.torn.com/images/items/128/large.png",
 	},
-	"129": {
+	129: {
 		name: "Dozen Roses",
-		description: "A dozen roses. This bouquet is available in assorted colors, from red for that special someone to black to send to your enemy after you hospitalize him or her.",
+		description:
+			"A dozen roses. This bouquet is available in assorted colors, from red for that special someone to black to send to your enemy after you hospitalize him or her.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -1745,7 +1782,7 @@ const TORN_ITEMS = {
 		circulation: 2551613,
 		image: "https://www.torn.com/images/items/129/large.png",
 	},
-	"130": {
+	130: {
 		name: "Skanky Doll",
 		description: "Just like the one owned by Infrit this doll comes with black hair blood red lipstick mini skirt and boob tube.",
 		effect: "",
@@ -1758,9 +1795,10 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/130/large.png",
 	},
-	"131": {
+	131: {
 		name: "Lego Hurin",
-		description: "This life like model is comprised completely of legos. Comes with upgrades such as the multi hunting goggles and evilarium connects to the brain. Read instructions for more details. Not intended for use by children age 6 and under.",
+		description:
+			"This life like model is comprised completely of legos. Comes with upgrades such as the multi hunting goggles and evilarium connects to the brain. Read instructions for more details. Not intended for use by children age 6 and under.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1771,9 +1809,10 @@ const TORN_ITEMS = {
 		circulation: 18,
 		image: "https://www.torn.com/images/items/131/large.png",
 	},
-	"132": {
+	132: {
 		name: "Mystical Sphere",
-		description: "A rare object created by Phyrax when he was a helper... Only possessed by a select few in all of Torn City. Every now and then lights and mist shoot out of the sphere and at this time the holder may obtain all knowledge and wisdom.",
+		description:
+			"A rare object created by Phyrax when he was a helper... Only possessed by a select few in all of Torn City. Every now and then lights and mist shoot out of the sphere and at this time the holder may obtain all knowledge and wisdom.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1784,9 +1823,10 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/132/large.png",
 	},
-	"133": {
+	133: {
 		name: "10 Ton Pacifier",
-		description: "Used for that special baby out there.. the one you would like to crush because you just cant get them to stop crying. Drive this pacifier in their mouth and you will get dead silence. Created by Rock for all the babies out there.",
+		description:
+			"Used for that special baby out there.. the one you would like to crush because you just cant get them to stop crying. Drive this pacifier in their mouth and you will get dead silence. Created by Rock for all the babies out there.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1797,9 +1837,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/133/large.png",
 	},
-	"134": {
+	134: {
 		name: "Horse",
-		description: "First seen by those who crossed the Godfather, this strange object greatly increases your desire to annoy people in the chat rooms, while simultaneously draining away all your religious beliefs.",
+		description:
+			"First seen by those who crossed the Godfather, this strange object greatly increases your desire to annoy people in the chat rooms, while simultaneously draining away all your religious beliefs.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1810,9 +1851,10 @@ const TORN_ITEMS = {
 		circulation: 16,
 		image: "https://www.torn.com/images/items/134/large.png",
 	},
-	"135": {
+	135: {
 		name: "Uriel's Speakers",
-		description: "These tripped out speakers will blow you away with thundering bass and a beat that won't quit. Putting out 5000W with a crushing 600 decibels.",
+		description:
+			"These tripped out speakers will blow you away with thundering bass and a beat that won't quit. Putting out 5000W with a crushing 600 decibels.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1823,7 +1865,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/135/large.png",
 	},
-	"136": {
+	136: {
 		name: "Strife Clown",
 		description: "This Ominous Clown is full of discord. This rare item channels all the pain and torture this world has to offer.",
 		effect: "",
@@ -1836,9 +1878,10 @@ const TORN_ITEMS = {
 		circulation: 17,
 		image: "https://www.torn.com/images/items/136/large.png",
 	},
-	"137": {
+	137: {
 		name: "Locked Teddy",
-		description: "This bear is covered in chains connected with padlocks. He has been seen locking forum topics around Torn City, but has yet to have any of his locks picked.",
+		description:
+			"This bear is covered in chains connected with padlocks. He has been seen locking forum topics around Torn City, but has yet to have any of his locks picked.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1849,9 +1892,10 @@ const TORN_ITEMS = {
 		circulation: 21,
 		image: "https://www.torn.com/images/items/137/large.png",
 	},
-	"138": {
+	138: {
 		name: "Riddle's Bat",
-		description: "This baseball bat belongs to Riddle. All know it and most fear it. It causes panic in the IRC realm. Random kicks occur when he is in a bad mood or when mass slapping occurs. Don't mess with the bat!",
+		description:
+			"This baseball bat belongs to Riddle. All know it and most fear it. It causes panic in the IRC realm. Random kicks occur when he is in a bad mood or when mass slapping occurs. Don't mess with the bat!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1862,9 +1906,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/138/large.png",
 	},
-	"139": {
+	139: {
 		name: "Soup Nazi Doll",
-		description: "Often seen running loose on IRC, usually before kicking rule breakers with the message No Soup For You!! Believed to have been released by Lestat.",
+		description:
+			"Often seen running loose on IRC, usually before kicking rule breakers with the message No Soup For You!! Believed to have been released by Lestat.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1875,7 +1920,7 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/139/large.png",
 	},
-	"140": {
+	140: {
 		name: "Pouncer Doll",
 		description: "Be careful of Pouncer. She might pounce on you unexpectedly, or hit you with a pillow or ducks, just like her creator SexySassy.",
 		effect: "",
@@ -1888,9 +1933,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/140/large.png",
 	},
-	"141": {
+	141: {
 		name: "Spammer Doll",
-		description: "A very friendly doll with good interactions, until you make it mad. It can hit back pretty hard, and It will start spamming you, even when you think it should be sleeping, just like Templar.",
+		description:
+			"A very friendly doll with good interactions, until you make it mad. It can hit back pretty hard, and It will start spamming you, even when you think it should be sleeping, just like Templar.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1901,9 +1947,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/141/large.png",
 	},
-	"142": {
+	142: {
 		name: "Cookie Jar",
-		description: "Cookie Jar - Just like the one Is0lati0n has at home, this jar is stocked full of chocolate cookies for late nights working in the IRC channel.",
+		description:
+			"Cookie Jar - Just like the one Is0lati0n has at home, this jar is stocked full of chocolate cookies for late nights working in the IRC channel.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1914,7 +1961,7 @@ const TORN_ITEMS = {
 		circulation: 35,
 		image: "https://www.torn.com/images/items/142/large.png",
 	},
-	"143": {
+	143: {
 		name: "Vanity Mirror",
 		description: "Complete with 24 carat gold rim and handle with YT's initials engraved on it.",
 		effect: "",
@@ -1927,9 +1974,10 @@ const TORN_ITEMS = {
 		circulation: 21,
 		image: "https://www.torn.com/images/items/143/large.png",
 	},
-	"144": {
+	144: {
 		name: "Banana Phone",
-		description: "Bright yellow, shaped like a banana, and plays Titan's favourite song when it rings. Known to annoy other staff members... may be part of the reason he loves it.",
+		description:
+			"Bright yellow, shaped like a banana, and plays Titan's favourite song when it rings. Known to annoy other staff members... may be part of the reason he loves it.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1940,7 +1988,7 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/144/large.png",
 	},
-	"145": {
+	145: {
 		name: "Xbox 360",
 		description: "A games console used for playing games.",
 		effect: "Converts 5 energy into 8-15 happiness.",
@@ -1953,7 +2001,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/145/large.png",
 	},
-	"146": {
+	146: {
 		name: "Yasukuni Sword",
 		description: "A rare Japanese blade of exceptional quality and craftsmanship.",
 		effect: "",
@@ -1966,7 +2014,7 @@ const TORN_ITEMS = {
 		circulation: 19811,
 		image: "https://www.torn.com/images/items/146/large.png",
 	},
-	"147": {
+	147: {
 		name: "Rusty Sword",
 		description: "An old rusty sword.",
 		effect: "",
@@ -1979,9 +2027,10 @@ const TORN_ITEMS = {
 		circulation: 79248,
 		image: "https://www.torn.com/images/items/147/large.png",
 	},
-	"148": {
+	148: {
 		name: "Dance Toy",
-		description: "Although its name refers to Syrup it's nothing near slow. Just press the button on the back and watch this crazy toy dance himself to death!",
+		description:
+			"Although its name refers to Syrup it's nothing near slow. Just press the button on the back and watch this crazy toy dance himself to death!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -1992,9 +2041,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/148/large.png",
 	},
-	"149": {
+	149: {
 		name: "Lucky Dime",
-		description: "Found deep within a lost cavern in Torn City was a rare bag of dimes that were stolen during the first bank robbery in Torn City. They were thought to have been lost forever, but a few have survived and are said to bring luck to those who play roulette in the Casino.",
+		description:
+			"Found deep within a lost cavern in Torn City was a rare bag of dimes that were stolen during the first bank robbery in Torn City. They were thought to have been lost forever, but a few have survived and are said to bring luck to those who play roulette in the Casino.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2005,7 +2055,7 @@ const TORN_ITEMS = {
 		circulation: 31,
 		image: "https://www.torn.com/images/items/149/large.png",
 	},
-	"150": {
+	150: {
 		name: "Crystal Carousel",
 		description: "Created by w1ld_h0rs3s this replica Carousel shows her favourite horses running wild and free.",
 		effect: "",
@@ -2018,9 +2068,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/150/large.png",
 	},
-	"151": {
+	151: {
 		name: "Pixie Sticks",
-		description: "Small plastic tubes filled with flavoured sugar. Available in orange, raspberry, grape and strawberry. Provides a large happiness increase when consumed.",
+		description:
+			"Small plastic tubes filled with flavoured sugar. Available in orange, raspberry, grape and strawberry. Provides a large happiness increase when consumed.",
 		effect: "Increases happiness by 150 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -2031,9 +2082,10 @@ const TORN_ITEMS = {
 		circulation: 209609,
 		image: "https://www.torn.com/images/items/151/large.png",
 	},
-	"152": {
+	152: {
 		name: "Ice Sculpture",
-		description: "Some believe that the reclusive artist who carved these sculptures meant them to depict friendliness and good will. However, some who gaze on these rare pieces feel an icy coldness and a sinking detachment from the world. Only the artist knows his true intent.",
+		description:
+			"Some believe that the reclusive artist who carved these sculptures meant them to depict friendliness and good will. However, some who gaze on these rare pieces feel an icy coldness and a sinking detachment from the world. Only the artist knows his true intent.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2044,9 +2096,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/152/large.png",
 	},
-	"153": {
+	153: {
 		name: "Case of Whiskey",
-		description: "Recovered during a raid at his Mansion these are the last cases of Whiskey that mdshare produced before being captured by Torn City Police for violation of the alcohol ordinance.",
+		description:
+			"Recovered during a raid at his Mansion these are the last cases of Whiskey that mdshare produced before being captured by Torn City Police for violation of the alcohol ordinance.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2057,7 +2110,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/153/large.png",
 	},
-	"154": {
+	154: {
 		name: "Laptop",
 		description: "A high-tech wireless laptop. You can use it on your long travels to check your mail and see how things are going at home.",
 		effect: "Can be used to access additional services while traveling and program viruses.",
@@ -2070,9 +2123,10 @@ const TORN_ITEMS = {
 		circulation: 123725,
 		image: "https://www.torn.com/images/items/154/large.png",
 	},
-	"155": {
+	155: {
 		name: "Purple Frog Doll",
-		description: "A very rare species of frog that lives in Torn City. Sometimes seen on IRC hopping into people's pockets. Usually friendly, but can become extremely violent if provoked.",
+		description:
+			"A very rare species of frog that lives in Torn City. Sometimes seen on IRC hopping into people's pockets. Usually friendly, but can become extremely violent if provoked.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2083,9 +2137,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/155/large.png",
 	},
-	"156": {
+	156: {
 		name: "Hooorang's Key",
-		description: "Hooorang's skeleton key lets you bypass any locked doors and open lockers and safes. Nothing can stop its holder. Holding this item makes you feel invincible.",
+		description:
+			"Hooorang's skeleton key lets you bypass any locked doors and open lockers and safes. Nothing can stop its holder. Holding this item makes you feel invincible.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2096,9 +2151,10 @@ const TORN_ITEMS = {
 		circulation: 23,
 		image: "https://www.torn.com/images/items/156/large.png",
 	},
-	"157": {
+	157: {
 		name: "Patriot Whip",
-		description: "UTBracket's own design, comes in either Union Jack or St. George style. Don't mess with the owner of this collectible or expect to have your day ruined by some painful marks on your butt and the ability to sit down removed!!",
+		description:
+			"UTBracket's own design, comes in either Union Jack or St. George style. Don't mess with the owner of this collectible or expect to have your day ruined by some painful marks on your butt and the ability to sit down removed!!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2109,9 +2165,10 @@ const TORN_ITEMS = {
 		circulation: 15,
 		image: "https://www.torn.com/images/items/157/large.png",
 	},
-	"158": {
+	158: {
 		name: "Statue Of Aeolus",
-		description: "Aeolus Keeper of The Wind possess the power to control the strength and direction of the wind. A Greek Mystical Artifact with powers believed to be related to the wind.",
+		description:
+			"Aeolus Keeper of The Wind possess the power to control the strength and direction of the wind. A Greek Mystical Artifact with powers believed to be related to the wind.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2122,7 +2179,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/158/large.png",
 	},
-	"159": {
+	159: {
 		name: "Bolt Cutters",
 		description: "A pair of quality bolt cutters. Made of tempered steel with cushion-grip handles and durable, heat-treated jaws.",
 		effect: "",
@@ -2135,7 +2192,7 @@ const TORN_ITEMS = {
 		circulation: 1620018,
 		image: "https://www.torn.com/images/items/159/large.png",
 	},
-	"160": {
+	160: {
 		name: "Photographs",
 		description: "Four photographs of a man handing over a briefcase.",
 		effect: "",
@@ -2148,7 +2205,7 @@ const TORN_ITEMS = {
 		circulation: 8425,
 		image: "https://www.torn.com/images/items/160/large.png",
 	},
-	"161": {
+	161: {
 		name: "Black Unicorn",
 		description: "A friend for life and a ferocious fighter feared by all foes.",
 		effect: "",
@@ -2161,9 +2218,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/161/large.png",
 	},
-	"162": {
+	162: {
 		name: "WarPaint Kit",
-		description: "The perfect accessory when going off to war. Fashioned after Scarlet's own personal kit, containing facial paints made of wolf's blood. Once applied, the user is said to gain the prowess of the wolf.",
+		description:
+			"The perfect accessory when going off to war. Fashioned after Scarlet's own personal kit, containing facial paints made of wolf's blood. Once applied, the user is said to gain the prowess of the wolf.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2174,9 +2232,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/162/large.png",
 	},
-	"163": {
+	163: {
 		name: "Official Ninja Kit",
-		description: "The Official Hiro Ninja Kit is a custom fit accessory set for any wannabe ninja. Contains: ninja suit for those stealthy attacks, grappling hook for those difficult larcenies, ninja guide book as penned by Hiro himself. Warning - not for novices.",
+		description:
+			"The Official Hiro Ninja Kit is a custom fit accessory set for any wannabe ninja. Contains: ninja suit for those stealthy attacks, grappling hook for those difficult larcenies, ninja guide book as penned by Hiro himself. Warning - not for novices.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2187,9 +2246,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/163/large.png",
 	},
-	"164": {
+	164: {
 		name: "Leukaemia Teddy Bear",
-		description: "Soft and fluffy, it likes to be cuddled and can comfort you on those lonely nights. But beware: mistreatment of your Leukaemia Teddy Bear will result in a mighty slap from its paws of steel.",
+		description:
+			"Soft and fluffy, it likes to be cuddled and can comfort you on those lonely nights. But beware: mistreatment of your Leukaemia Teddy Bear will result in a mighty slap from its paws of steel.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2200,9 +2260,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/164/large.png",
 	},
-	"165": {
+	165: {
 		name: "Chocobo Flute",
-		description: " Long thought to be lost forever this small item was found in the far reaches of Torn City by CloudFFVII. Many believe peace of mind and swiftness in battle are brought to the holder of this charm.",
+		description:
+			" Long thought to be lost forever this small item was found in the far reaches of Torn City by CloudFFVII. Many believe peace of mind and swiftness in battle are brought to the holder of this charm.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2213,7 +2274,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/165/large.png",
 	},
-	"166": {
+	166: {
 		name: "Annoying Man",
 		description: "This little annoying man can be seen on IRC and on MSN annoying people and getting into trouble just like Manjot.",
 		effect: "",
@@ -2226,7 +2287,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/166/large.png",
 	},
-	"167": {
+	167: {
 		name: "Article on Crime",
 		description: "An article written by the reporter George on specific criminals.",
 		effect: "",
@@ -2239,7 +2300,7 @@ const TORN_ITEMS = {
 		circulation: 2508,
 		image: "https://www.torn.com/images/items/167/large.png",
 	},
-	"168": {
+	168: {
 		name: "Unknown",
 		description: "This item does not exist.",
 		effect: "",
@@ -2252,7 +2313,7 @@ const TORN_ITEMS = {
 		circulation: 7,
 		image: "https://www.torn.com/images/items/168/large.png",
 	},
-	"169": {
+	169: {
 		name: "Barbie Doll",
 		description: "Equipped with Kung Fu Grip, and hot pink nail polish, this doll resembles the Admin Clansdancer.",
 		effect: "",
@@ -2265,7 +2326,7 @@ const TORN_ITEMS = {
 		circulation: 31,
 		image: "https://www.torn.com/images/items/169/large.png",
 	},
-	"170": {
+	170: {
 		name: "Wand of Destruction",
 		description: "A very rare special weapon, this wand was created by The Great Pumpkin himself to wreak havoc on Torn City.",
 		effect: "",
@@ -2278,7 +2339,7 @@ const TORN_ITEMS = {
 		circulation: 7,
 		image: "https://www.torn.com/images/items/170/large.png",
 	},
-	"171": {
+	171: {
 		name: "Jack-O-Lantern '05",
 		description: "Given out by The Great Pumpkin, to good boys and girls all across Torn City.",
 		effect: "",
@@ -2291,7 +2352,7 @@ const TORN_ITEMS = {
 		circulation: 368,
 		image: "https://www.torn.com/images/items/171/large.png",
 	},
-	"172": {
+	172: {
 		name: "Gas Can",
 		description: "An ordinary looking gas can such as what one would find at an ordinary gas station.",
 		effect: "Required for Arson crime",
@@ -2304,7 +2365,7 @@ const TORN_ITEMS = {
 		circulation: 134258,
 		image: "https://www.torn.com/images/items/172/large.png",
 	},
-	"173": {
+	173: {
 		name: "Butterfly Knife",
 		description: "A small knife, deadly in the right hands. The handles fold up to conceal the blade of this dangerous weapon.",
 		effect: "",
@@ -2317,7 +2378,7 @@ const TORN_ITEMS = {
 		circulation: 90391,
 		image: "https://www.torn.com/images/items/173/large.png",
 	},
-	"174": {
+	174: {
 		name: "XM8 Rifle",
 		description: "Lightweight assault rifle, deadly when fired up close. Can break through the toughest armor.",
 		effect: "",
@@ -2330,9 +2391,10 @@ const TORN_ITEMS = {
 		circulation: 73857,
 		image: "https://www.torn.com/images/items/174/large.png",
 	},
-	"175": {
+	175: {
 		name: "Taser",
-		description: "An electroshock gun, non lethal, but will land your opponent in the hospital for a while just as quickly as a more aggressive weapon will.",
+		description:
+			"An electroshock gun, non lethal, but will land your opponent in the hospital for a while just as quickly as a more aggressive weapon will.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -2343,9 +2405,10 @@ const TORN_ITEMS = {
 		circulation: 68329,
 		image: "https://www.torn.com/images/items/175/large.png",
 	},
-	"176": {
+	176: {
 		name: "Chain Mail",
-		description: "Chain Mail consists of a series of individual metal rings linked together to form a mesh, resulting in a flexible yet resilient barrier capable of protecting the wearer during hand-to-hand combat. This form of armor was most commonly used by European warriors between 300 BC - 1600 AD, but today is mostly worn by overweight war reenactors who like to play dress-up on the weekends.",
+		description:
+			"Chain Mail consists of a series of individual metal rings linked together to form a mesh, resulting in a flexible yet resilient barrier capable of protecting the wearer during hand-to-hand combat. This form of armor was most commonly used by European warriors between 300 BC - 1600 AD, but today is mostly worn by overweight war reenactors who like to play dress-up on the weekends.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -2369,7 +2432,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"177": {
+	177: {
 		name: "Cobra Derringer",
 		description: "A small, lightweight pistol. For some people two bullets are all you need.",
 		effect: "",
@@ -2382,7 +2445,7 @@ const TORN_ITEMS = {
 		circulation: 49064,
 		image: "https://www.torn.com/images/items/177/large.png",
 	},
-	"178": {
+	178: {
 		name: "Flak Jacket",
 		description: "Marine issued armor. Sturdy and effective against most small caliber rounds.",
 		effect: "",
@@ -2408,7 +2471,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"179": {
+	179: {
 		name: "Birthday Cake '05",
 		description: "A slice of cake left over from Torn's first birthday.",
 		effect: "",
@@ -2421,7 +2484,7 @@ const TORN_ITEMS = {
 		circulation: 881,
 		image: "https://www.torn.com/images/items/179/large.png",
 	},
-	"180": {
+	180: {
 		name: "Bottle of Beer",
 		description: "Just the thing for when you're looking to kick back after a hard day in the City. Provides a small nerve increase when consumed.",
 		effect: "Increases nerve by 1 and booster cooldown by 1 hour.",
@@ -2434,9 +2497,10 @@ const TORN_ITEMS = {
 		circulation: 90141793,
 		image: "https://www.torn.com/images/items/180/large.png",
 	},
-	"181": {
+	181: {
 		name: "Bottle of Champagne",
-		description: "Celebrate an occasion or show your special someone just how much you care with this bottle of champagne. Imported from France. Provides a small nerve increase when consumed.",
+		description:
+			"Celebrate an occasion or show your special someone just how much you care with this bottle of champagne. Imported from France. Provides a small nerve increase when consumed.",
 		effect: "Increases nerve by 1 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -2447,7 +2511,7 @@ const TORN_ITEMS = {
 		circulation: 747916,
 		image: "https://www.torn.com/images/items/181/large.png",
 	},
-	"182": {
+	182: {
 		name: "Soap on a Rope",
 		description: "Necessity for the often-jailed felon.",
 		effect: "",
@@ -2460,7 +2524,7 @@ const TORN_ITEMS = {
 		circulation: 6145050,
 		image: "https://www.torn.com/images/items/182/large.png",
 	},
-	"183": {
+	183: {
 		name: "Single Red Rose",
 		description: "For when words alone just aren't enough to say how you feel.",
 		effect: "",
@@ -2473,9 +2537,10 @@ const TORN_ITEMS = {
 		circulation: 17634520,
 		image: "https://www.torn.com/images/items/183/large.png",
 	},
-	"184": {
+	184: {
 		name: "Bunch of Black Roses",
-		description: "Not sure your opponent got the meaning of that 4 hour hospital stay? Make SURE you get your point across with this bouquet of black roses.",
+		description:
+			"Not sure your opponent got the meaning of that 4 hour hospital stay? Make SURE you get your point across with this bouquet of black roses.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -2486,9 +2551,10 @@ const TORN_ITEMS = {
 		circulation: 2620033,
 		image: "https://www.torn.com/images/items/184/large.png",
 	},
-	"185": {
+	185: {
 		name: "Bunch of Balloons '05",
-		description: "Large bunch of brightly coloured balloons left over from the First Birthday of Torn City. How they stay inflated after the party's over, no one will ever figure out.",
+		description:
+			"Large bunch of brightly coloured balloons left over from the First Birthday of Torn City. How they stay inflated after the party's over, no one will ever figure out.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2499,7 +2565,7 @@ const TORN_ITEMS = {
 		circulation: 832,
 		image: "https://www.torn.com/images/items/185/large.png",
 	},
-	"186": {
+	186: {
 		name: "Sheep Plushie",
 		description: "Baaaaaa.",
 		effect: "",
@@ -2512,7 +2578,7 @@ const TORN_ITEMS = {
 		circulation: 44817212,
 		image: "https://www.torn.com/images/items/186/large.png",
 	},
-	"187": {
+	187: {
 		name: "Teddy Bear Plushie",
 		description: "Soft plush teddy bear for your special someone to cuddle up with when you're not around.",
 		effect: "",
@@ -2525,7 +2591,7 @@ const TORN_ITEMS = {
 		circulation: 42626267,
 		image: "https://www.torn.com/images/items/187/large.png",
 	},
-	"188": {
+	188: {
 		name: "Cracked Crystal Ball",
 		description: "A small glass globe with several deep cracks running through it. How can this be of any use?",
 		effect: "",
@@ -2538,7 +2604,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/188/large.png",
 	},
-	"189": {
+	189: {
 		name: "S&W Revolver",
 		description: "Smith and Wesson revolver, commonly used in the game of Russian Roulette.",
 		effect: "",
@@ -2551,7 +2617,7 @@ const TORN_ITEMS = {
 		circulation: 107882,
 		image: "https://www.torn.com/images/items/189/large.png",
 	},
-	"190": {
+	190: {
 		name: "C4 Explosive",
 		description: "A C4 high-explosive device.",
 		effect: "",
@@ -2564,7 +2630,7 @@ const TORN_ITEMS = {
 		circulation: 101014,
 		image: "https://www.torn.com/images/items/190/large.png",
 	},
-	"191": {
+	191: {
 		name: "Memory Locket",
 		description: "It has a picture of a happy family inside it.",
 		effect: "",
@@ -2577,7 +2643,7 @@ const TORN_ITEMS = {
 		circulation: 88843,
 		image: "https://www.torn.com/images/items/191/large.png",
 	},
-	"192": {
+	192: {
 		name: "Rainbow Stud Earring",
 		description: "This earring is a symbol of Pride and Love.",
 		effect: "",
@@ -2590,9 +2656,10 @@ const TORN_ITEMS = {
 		circulation: 5,
 		image: "https://www.torn.com/images/items/192/large.png",
 	},
-	"193": {
+	193: {
 		name: "Hamster Toy",
-		description: "Small plush hamster in a plastic ball. Replica of the one that powers parts of the TC Database and cause for most of the lag when he takes a weekend off. Known to annoy kittens and ducks alike he seems to like only one rather isolated admin.",
+		description:
+			"Small plush hamster in a plastic ball. Replica of the one that powers parts of the TC Database and cause for most of the lag when he takes a weekend off. Known to annoy kittens and ducks alike he seems to like only one rather isolated admin.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2603,7 +2670,7 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/193/large.png",
 	},
-	"194": {
+	194: {
 		name: "Snowflake '05",
 		description: "A small crystal snowflake made especially for the 2005 Xmas season.",
 		effect: "",
@@ -2616,7 +2683,7 @@ const TORN_ITEMS = {
 		circulation: 117,
 		image: "https://www.torn.com/images/items/194/large.png",
 	},
-	"195": {
+	195: {
 		name: "Christmas Tree '05",
 		description: "A fully decorated Christmas tree, perfect for decorating your home for the 2005 Christmas season.",
 		effect: "",
@@ -2629,7 +2696,7 @@ const TORN_ITEMS = {
 		circulation: 120,
 		image: "https://www.torn.com/images/items/195/large.png",
 	},
-	"196": {
+	196: {
 		name: "Cannabis",
 		description: "Said to improve one's concentration and nerve.",
 		effect: "Increases nerve by 2-3. Includes side effects.",
@@ -2642,7 +2709,7 @@ const TORN_ITEMS = {
 		circulation: 5256040,
 		image: "https://www.torn.com/images/items/196/large.png",
 	},
-	"197": {
+	197: {
 		name: "Ecstasy",
 		description: "Improves one's happiness.",
 		effect: "Doubles happiness.",
@@ -2655,7 +2722,7 @@ const TORN_ITEMS = {
 		circulation: 1702007,
 		image: "https://www.torn.com/images/items/197/large.png",
 	},
-	"198": {
+	198: {
 		name: "Ketamine",
 		description: "Raises one's defense temporarily, resulting in lower strength and speed.",
 		effect: "Temporarily increases Defense by 50%. Includes side effects.",
@@ -2668,7 +2735,7 @@ const TORN_ITEMS = {
 		circulation: 622038,
 		image: "https://www.torn.com/images/items/198/large.png",
 	},
-	"199": {
+	199: {
 		name: "LSD",
 		description: "Increases one's energy, nerve and happiness.",
 		effect: "Increases energy by 50, nerve by 5, and happiness by 200-500. Includes side effects.",
@@ -2681,7 +2748,7 @@ const TORN_ITEMS = {
 		circulation: 886074,
 		image: "https://www.torn.com/images/items/199/large.png",
 	},
-	"200": {
+	200: {
 		name: "Opium",
 		description: "Said to relieve a large amount of pain.",
 		effect: "Removes all hospital time and replenishes life to 50%. Temporarily increases Defense by 30%.",
@@ -2694,7 +2761,7 @@ const TORN_ITEMS = {
 		circulation: 354327,
 		image: "https://www.torn.com/images/items/200/large.png",
 	},
-	"201": {
+	201: {
 		name: "PCP",
 		description: "Momentarily improves one's strength and dexterity.",
 		effect: "Temporarily increases Strength and Dexterity by 20%. Increases happiness by 250.",
@@ -2707,7 +2774,7 @@ const TORN_ITEMS = {
 		circulation: 244372,
 		image: "https://www.torn.com/images/items/201/large.png",
 	},
-	"202": {
+	202: {
 		name: "Mr Torn Crown '07",
 		description: "Awarded to GZUS [18690] for winning the Mr Torn City awards 2007!",
 		effect: "",
@@ -2720,7 +2787,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/202/large.png",
 	},
-	"203": {
+	203: {
 		name: "Shrooms",
 		description: "Said to increase one's happiness at the cost of some energy.",
 		effect: "Increases happiness by 500 and reduces energy by 25. Includes side effects.",
@@ -2733,7 +2800,7 @@ const TORN_ITEMS = {
 		circulation: 703440,
 		image: "https://www.torn.com/images/items/203/large.png",
 	},
-	"204": {
+	204: {
 		name: "Speed",
 		description: "Increases speed for a short period, but lowers dexterity at the same time.",
 		effect: "Temporarily increases Speed by 20%. Increases happiness by 50. Includes side effects.",
@@ -2746,7 +2813,7 @@ const TORN_ITEMS = {
 		circulation: 214356,
 		image: "https://www.torn.com/images/items/204/large.png",
 	},
-	"205": {
+	205: {
 		name: "Vicodin",
 		description: "Temporarily passively increases all statistics while attacking or defending by 25%.",
 		effect: "Temporarily increases all battle stats by 25%. Increases happiness by 75.",
@@ -2759,7 +2826,7 @@ const TORN_ITEMS = {
 		circulation: 17661913,
 		image: "https://www.torn.com/images/items/205/large.png",
 	},
-	"206": {
+	206: {
 		name: "Xanax",
 		description: "Increases one's energy.",
 		effect: "Increases energy by 250 and happiness by 75. Includes side effects.",
@@ -2772,7 +2839,7 @@ const TORN_ITEMS = {
 		circulation: 4188931,
 		image: "https://www.torn.com/images/items/206/large.png",
 	},
-	"207": {
+	207: {
 		name: "Ms Torn Crown '07",
 		description: "Awarded to Vixen_ [140202] for winning the Miss Torn City awards 2007!",
 		effect: "",
@@ -2785,7 +2852,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/207/large.png",
 	},
-	"208": {
+	208: {
 		name: "Unknown",
 		description: "This item does not exist.",
 		effect: "",
@@ -2798,7 +2865,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/208/large.png",
 	},
-	"209": {
+	209: {
 		name: "Box of Sweet Hearts",
 		description: "Fun filled heart shaped candies with messages for your loved ones. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 25 and booster cooldown by 30 minutes.",
@@ -2811,7 +2878,7 @@ const TORN_ITEMS = {
 		circulation: 3470522,
 		image: "https://www.torn.com/images/items/209/large.png",
 	},
-	"210": {
+	210: {
 		name: "Bag of Chocolate Kisses",
 		description: "Sweet candy kiss for the one you love. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 25 and booster cooldown by 30 minutes.",
@@ -2824,9 +2891,10 @@ const TORN_ITEMS = {
 		circulation: 10691367,
 		image: "https://www.torn.com/images/items/210/large.png",
 	},
-	"211": {
+	211: {
 		name: "Crazy Cow",
-		description: "This is the most Famous Cow of Torn City protector of innocent pets, punisher of the scammer but watch out! Get to close to him and BOOM You have Mad Cow Disease.",
+		description:
+			"This is the most Famous Cow of Torn City protector of innocent pets, punisher of the scammer but watch out! Get to close to him and BOOM You have Mad Cow Disease.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -2837,7 +2905,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/211/large.png",
 	},
-	"212": {
+	212: {
 		name: "Legend's Urn",
 		description: "This item is a urn holding all of the ashes of fallen legends killed by the Legend Killer himself.",
 		effect: "",
@@ -2850,7 +2918,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/212/large.png",
 	},
-	"213": {
+	213: {
 		name: "Dreamcatcher",
 		description: "DL's dream catcher. Hung above a bed or in a window, catches bad dreams while good dreams slip on by.",
 		effect: "",
@@ -2863,7 +2931,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/213/large.png",
 	},
-	"214": {
+	214: {
 		name: "Brutus Keychain",
 		description: "This key chain stands as proof the bearer has survived a brush with the mammoth known as Brutus.",
 		effect: "",
@@ -2876,7 +2944,7 @@ const TORN_ITEMS = {
 		circulation: 28,
 		image: "https://www.torn.com/images/items/214/large.png",
 	},
-	"215": {
+	215: {
 		name: "Kitten Plushie",
 		description: "A small plush kitten. Rumour has it, if you pet its nose it will purr, but is more often heard saying Rawr!",
 		effect: "",
@@ -2889,7 +2957,7 @@ const TORN_ITEMS = {
 		circulation: 40919657,
 		image: "https://www.torn.com/images/items/215/large.png",
 	},
-	"216": {
+	216: {
 		name: "Single White Rose",
 		description: "Found only near Valentine's Day in Torn City, this rose would be the perfect gift for your loved one on that special day.",
 		effect: "",
@@ -2902,9 +2970,10 @@ const TORN_ITEMS = {
 		circulation: 351,
 		image: "https://www.torn.com/images/items/216/large.png",
 	},
-	"217": {
+	217: {
 		name: "Claymore Sword",
-		description: "The claymore is the mother of all broadswords. It's a huge, two-handed thing, approx 4ft long. Do you have the strength to wield this monster?",
+		description:
+			"The claymore is the mother of all broadswords. It's a huge, two-handed thing, approx 4ft long. Do you have the strength to wield this monster?",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -2915,7 +2984,7 @@ const TORN_ITEMS = {
 		circulation: 38576,
 		image: "https://www.torn.com/images/items/217/large.png",
 	},
-	"218": {
+	218: {
 		name: "Crossbow",
 		description: "A crossbow has more impact damage than a normal bow and is capable of easily piercing metal.",
 		effect: "",
@@ -2928,9 +2997,10 @@ const TORN_ITEMS = {
 		circulation: 80033,
 		image: "https://www.torn.com/images/items/218/large.png",
 	},
-	"219": {
+	219: {
 		name: "Enfield SA-80",
-		description: "Gas-powered Enfield SA80 rifles have been the weapon of choice for the British Armed Forces since the 1980's. This edition comes with iron sights as standard, but various telescopic sights can be added to increase its aiming accuracy.",
+		description:
+			"Gas-powered Enfield SA80 rifles have been the weapon of choice for the British Armed Forces since the 1980's. This edition comes with iron sights as standard, but various telescopic sights can be added to increase its aiming accuracy.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -2941,7 +3011,7 @@ const TORN_ITEMS = {
 		circulation: 94262,
 		image: "https://www.torn.com/images/items/219/large.png",
 	},
-	"220": {
+	220: {
 		name: "Grenade",
 		description: "A small hand-held bomb. Pull the pin, count to three, then throw it at your enemy.",
 		effect: "",
@@ -2954,7 +3024,7 @@ const TORN_ITEMS = {
 		circulation: 7915332,
 		image: "https://www.torn.com/images/items/220/large.png",
 	},
-	"221": {
+	221: {
 		name: "Stick Grenade",
 		description: "Stick grenades are less powerful and have shorter fuses than their British counterparts, but weigh significantly less.",
 		effect: "",
@@ -2967,7 +3037,7 @@ const TORN_ITEMS = {
 		circulation: 357304,
 		image: "https://www.torn.com/images/items/221/large.png",
 	},
-	"222": {
+	222: {
 		name: "Flash Grenade",
 		description: "Often used to blind opponents, can give an edge in battle that is very hard to overcome.",
 		effect: "Opponent becomes Blinded, decreasing Speed to 1/5th for 15-20 seconds.",
@@ -2980,7 +3050,7 @@ const TORN_ITEMS = {
 		circulation: 2934767,
 		image: "https://www.torn.com/images/items/222/large.png",
 	},
-	"223": {
+	223: {
 		name: "Jackhammer",
 		description: "A gas operated, fully automatic only shotgun. Able to fire 240 rounds per minute, this is not your average shotgun.",
 		effect: "",
@@ -2993,7 +3063,7 @@ const TORN_ITEMS = {
 		circulation: 51698,
 		image: "https://www.torn.com/images/items/223/large.png",
 	},
-	"224": {
+	224: {
 		name: "Swiss Army Knife",
 		description: "Elegant and light weight pocket knife, with several useful tools integrated.",
 		effect: "",
@@ -3006,7 +3076,7 @@ const TORN_ITEMS = {
 		circulation: 161320,
 		image: "https://www.torn.com/images/items/224/large.png",
 	},
-	"225": {
+	225: {
 		name: "Mag 7",
 		description: "Shotgun intended specially for close combat and operations in confined spaces, like the room-to-room searches.",
 		effect: "",
@@ -3019,9 +3089,10 @@ const TORN_ITEMS = {
 		circulation: 59567,
 		image: "https://www.torn.com/images/items/225/large.png",
 	},
-	"226": {
+	226: {
 		name: "Smoke Grenade",
-		description: "Typically used to send signals or create a smokescreen, this grenade can be used to temporarily blind your opponent, to allow you the upper hand in attacking.",
+		description:
+			"Typically used to send signals or create a smokescreen, this grenade can be used to temporarily blind your opponent, to allow you the upper hand in attacking.",
 		effect: "Opponent becomes Smoked, decreasing Speed to 1/3rd for 120-180 seconds.",
 		requirement: "",
 		type: "Temporary",
@@ -3032,7 +3103,7 @@ const TORN_ITEMS = {
 		circulation: 2251286,
 		image: "https://www.torn.com/images/items/226/large.png",
 	},
-	"227": {
+	227: {
 		name: "Spear",
 		description: "A spear is an ancient weapon used for hunting and war, consisting of a shaft, usually of wood, with a sharpened head.",
 		effect: "",
@@ -3045,9 +3116,10 @@ const TORN_ITEMS = {
 		circulation: 61303,
 		image: "https://www.torn.com/images/items/227/large.png",
 	},
-	"228": {
+	228: {
 		name: "Vektor CR-21",
-		description: "Its futuristic looks are the result of the fact that the entire stock is made of a high-impact polymer. The only metal to be seen on the outside is part of the barrel and the flash-suppressor.",
+		description:
+			"Its futuristic looks are the result of the fact that the entire stock is made of a high-impact polymer. The only metal to be seen on the outside is part of the barrel and the flash-suppressor.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -3058,9 +3130,10 @@ const TORN_ITEMS = {
 		circulation: 60093,
 		image: "https://www.torn.com/images/items/228/large.png",
 	},
-	"229": {
+	229: {
 		name: "Claymore Mine",
-		description: "The mine contains 700 steel spheres (10.5 grains) and 1-1/2 pound layer of composition C-4 explosive and is initiated by an electric blasting cap.",
+		description:
+			"The mine contains 700 steel spheres (10.5 grains) and 1-1/2 pound layer of composition C-4 explosive and is initiated by an electric blasting cap.",
 		effect: "",
 		requirement: "",
 		type: "Temporary",
@@ -3071,7 +3144,7 @@ const TORN_ITEMS = {
 		circulation: 163666,
 		image: "https://www.torn.com/images/items/229/large.png",
 	},
-	"230": {
+	230: {
 		name: "Flare Gun",
 		description: "Can work as a weapon in a pinch, but only as a last resort.  Works best as a device to create light in some of the darker missions.",
 		effect: "",
@@ -3084,7 +3157,7 @@ const TORN_ITEMS = {
 		circulation: 82037,
 		image: "https://www.torn.com/images/items/230/large.png",
 	},
-	"231": {
+	231: {
 		name: "Heckler & Koch SL8",
 		description: "H&K SL8 is a lightweight semi automatic gas powered rifle. With a unique stock design this dependable weapon is widely sought after.",
 		effect: "",
@@ -3097,9 +3170,10 @@ const TORN_ITEMS = {
 		circulation: 45103,
 		image: "https://www.torn.com/images/items/231/large.png",
 	},
-	"232": {
+	232: {
 		name: "SIG 550",
-		description: "The SIG 550 is a custom assault rifle. With a 20 round magazine this weapon can switch between semi automatic and full automatic firing with a flip of a switch.",
+		description:
+			"The SIG 550 is a custom assault rifle. With a 20 round magazine this weapon can switch between semi automatic and full automatic firing with a flip of a switch.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -3110,9 +3184,10 @@ const TORN_ITEMS = {
 		circulation: 39554,
 		image: "https://www.torn.com/images/items/232/large.png",
 	},
-	"233": {
+	233: {
 		name: "BT MP9",
-		description: "Offers a lower and more controllable rate of fire compared to other handguns, is also small enough to be effectively fired with one hand.",
+		description:
+			"Offers a lower and more controllable rate of fire compared to other handguns, is also small enough to be effectively fired with one hand.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -3123,7 +3198,7 @@ const TORN_ITEMS = {
 		circulation: 134743,
 		image: "https://www.torn.com/images/items/233/large.png",
 	},
-	"234": {
+	234: {
 		name: "Chain Whip",
 		description: "Oriental version of the flail. Consists of 4 to 6 iron bars linked end to end by short lengths of chain.",
 		effect: "",
@@ -3136,7 +3211,7 @@ const TORN_ITEMS = {
 		circulation: 21603,
 		image: "https://www.torn.com/images/items/234/large.png",
 	},
-	"235": {
+	235: {
 		name: "Wooden Nunchakus",
 		description: "Consists of two wooden bars linked by a short length of chain.",
 		effect: "",
@@ -3149,7 +3224,7 @@ const TORN_ITEMS = {
 		circulation: 20689,
 		image: "https://www.torn.com/images/items/235/large.png",
 	},
-	"236": {
+	236: {
 		name: "Kama",
 		description: "A simple but very sharp and potentially deadly weapon like a small sickle, a favourite of ninjas.",
 		effect: "",
@@ -3162,9 +3237,10 @@ const TORN_ITEMS = {
 		circulation: 14116,
 		image: "https://www.torn.com/images/items/236/large.png",
 	},
-	"237": {
+	237: {
 		name: "Kodachi",
-		description: "This 2-foot blade is considered too short to be classified as a sword, and yet at the same time it is too long to be a dagger. Consisting of a curved, single-edged blade, the Kodachi was wielded by Samurai during Japan's feudal period, and it may also have been used by civilians, who were not permitted to own longer swords such as those used by warriors and officials.",
+		description:
+			"This 2-foot blade is considered too short to be classified as a sword, and yet at the same time it is too long to be a dagger. Consisting of a curved, single-edged blade, the Kodachi was wielded by Samurai during Japan's feudal period, and it may also have been used by civilians, who were not permitted to own longer swords such as those used by warriors and officials.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -3175,9 +3251,10 @@ const TORN_ITEMS = {
 		circulation: 119254,
 		image: "https://www.torn.com/images/items/237/large.png",
 	},
-	"238": {
+	238: {
 		name: "Sai",
-		description: "The sai's distinctive shape makes it a versatile weapon. With skill, it can be used effectively against a long sword  by trapping the sword's blade between the sai's blade and the tsuba and breaking it with a twist of the hand.",
+		description:
+			"The sai's distinctive shape makes it a versatile weapon. With skill, it can be used effectively against a long sword  by trapping the sword's blade between the sai's blade and the tsuba and breaking it with a twist of the hand.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -3188,9 +3265,10 @@ const TORN_ITEMS = {
 		circulation: 35542,
 		image: "https://www.torn.com/images/items/238/large.png",
 	},
-	"239": {
+	239: {
 		name: "Ninja Star",
-		description: "A lethal throwing weapon that can pierce an opponent's body before they realize an attack is under way. Conceal them, and then throw them underhand at an enemy when they least expect it.",
+		description:
+			"A lethal throwing weapon that can pierce an opponent's body before they realize an attack is under way. Conceal them, and then throw them underhand at an enemy when they least expect it.",
 		effect: "",
 		requirement: "",
 		type: "Temporary",
@@ -3201,9 +3279,10 @@ const TORN_ITEMS = {
 		circulation: 905147,
 		image: "https://www.torn.com/images/items/239/large.png",
 	},
-	"240": {
+	240: {
 		name: "Type 98 Anti Tank",
-		description: "Developed by the Chinese in the late ’90s, the Type 98 Anti-Tank is capable of firing unguided, high-explosive 120mm projectiles over a distance of nearly 2km. The weapon can be fired from the shoulder with minimal recoil and has been nicknamed the “Queen Bee” by its proponents.",
+		description:
+			"Developed by the Chinese in the late ’90s, the Type 98 Anti-Tank is capable of firing unguided, high-explosive 120mm projectiles over a distance of nearly 2km. The weapon can be fired from the shoulder with minimal recoil and has been nicknamed the “Queen Bee” by its proponents.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -3214,7 +3293,7 @@ const TORN_ITEMS = {
 		circulation: 21319,
 		image: "https://www.torn.com/images/items/240/large.png",
 	},
-	"241": {
+	241: {
 		name: "Bushmaster Carbon 15",
 		description: "This top of the line assault weapon weighs less than three and a half pounds. A very effective weapon, regardless of the user's stats.",
 		effect: "",
@@ -3227,7 +3306,7 @@ const TORN_ITEMS = {
 		circulation: 75269,
 		image: "https://www.torn.com/images/items/241/large.png",
 	},
-	"242": {
+	242: {
 		name: "HEG",
 		description: "A fragmentation grenade used to shock and stun the enemy and cause casualties up to a maximum of 190 metres from the point of burst.",
 		effect: "",
@@ -3240,7 +3319,7 @@ const TORN_ITEMS = {
 		circulation: 7568841,
 		image: "https://www.torn.com/images/items/242/large.png",
 	},
-	"243": {
+	243: {
 		name: "Taurus",
 		description: "This firearm has been engineered for reliability, accuracy and durability. One of the best low priced weapons you can buy.",
 		effect: "",
@@ -3253,9 +3332,10 @@ const TORN_ITEMS = {
 		circulation: 157911,
 		image: "https://www.torn.com/images/items/243/large.png",
 	},
-	"244": {
+	244: {
 		name: "Blowgun",
-		description: "Most often used with poison darts, can be quite effective if you don't wish your target to know they are under attack until it's far too late.",
+		description:
+			"Most often used with poison darts, can be quite effective if you don't wish your target to know they are under attack until it's far too late.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -3266,9 +3346,10 @@ const TORN_ITEMS = {
 		circulation: 124586,
 		image: "https://www.torn.com/images/items/244/large.png",
 	},
-	"245": {
+	245: {
 		name: "Bo Staff",
-		description: "A long stick carried in the hand. Can't take too much chopping, but its smooth reversal ability makes it a fluid and versatile weapon when used with skill.",
+		description:
+			"A long stick carried in the hand. Can't take too much chopping, but its smooth reversal ability makes it a fluid and versatile weapon when used with skill.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -3279,9 +3360,10 @@ const TORN_ITEMS = {
 		circulation: 62437,
 		image: "https://www.torn.com/images/items/245/large.png",
 	},
-	"246": {
+	246: {
 		name: "Fireworks",
-		description: "A fascinating mix of charcoal, sulphur and saltpetre compressed into a bamboo tube.  Traditionally fireworks are the sign of getting rid of the old and welcoming the new. When this is ignited and thrown at an opponent they will get a nasty surprise!",
+		description:
+			"A fascinating mix of charcoal, sulphur and saltpetre compressed into a bamboo tube.  Traditionally fireworks are the sign of getting rid of the old and welcoming the new. When this is ignited and thrown at an opponent they will get a nasty surprise!",
 		effect: "",
 		requirement: "",
 		type: "Temporary",
@@ -3292,7 +3374,7 @@ const TORN_ITEMS = {
 		circulation: 311152,
 		image: "https://www.torn.com/images/items/246/large.png",
 	},
-	"247": {
+	247: {
 		name: "Katana",
 		description: "Curved, single-edged sword, or dao, traditionally used by the Japanese samurai. In well trained hands, a deadly weapon.",
 		effect: "",
@@ -3305,9 +3387,10 @@ const TORN_ITEMS = {
 		circulation: 67852,
 		image: "https://www.torn.com/images/items/247/large.png",
 	},
-	"248": {
+	248: {
 		name: "Qsz-92",
-		description: "Most recent development of the Chinese state arms factories. Dual stack magazine holds 15 rounds. Front part of the frame under the barrel is shaped as an accessory rail to accept laser sights or flash lights.",
+		description:
+			"Most recent development of the Chinese state arms factories. Dual stack magazine holds 15 rounds. Front part of the frame under the barrel is shaped as an accessory rail to accept laser sights or flash lights.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -3318,7 +3401,7 @@ const TORN_ITEMS = {
 		circulation: 82544,
 		image: "https://www.torn.com/images/items/248/large.png",
 	},
-	"249": {
+	249: {
 		name: "SKS Carbine",
 		description: "This gun, with the proper cartridges, will serve for deer hunting, pest and predator control, and emergency self defense.",
 		effect: "",
@@ -3331,7 +3414,7 @@ const TORN_ITEMS = {
 		circulation: 46084,
 		image: "https://www.torn.com/images/items/249/large.png",
 	},
-	"250": {
+	250: {
 		name: "Twin Tiger Hooks",
 		description: "This versatile and lethal weapon combines the abilities of a sword, cane and dagger. Perfect for trapping, blocking and slashing.",
 		effect: "",
@@ -3344,9 +3427,10 @@ const TORN_ITEMS = {
 		circulation: 14269,
 		image: "https://www.torn.com/images/items/250/large.png",
 	},
-	"251": {
+	251: {
 		name: "Wushu Double Axes",
-		description: "This is a pair of lethal axes first forged by the legendary Wushu Warrior Li Kwei. Designed to launch a flurry attack at the enemy, hacking and slashing them to pieces.",
+		description:
+			"This is a pair of lethal axes first forged by the legendary Wushu Warrior Li Kwei. Designed to launch a flurry attack at the enemy, hacking and slashing them to pieces.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -3357,7 +3441,7 @@ const TORN_ITEMS = {
 		circulation: 18737,
 		image: "https://www.torn.com/images/items/251/large.png",
 	},
-	"252": {
+	252: {
 		name: "Ithaca 37",
 		description: "One of the oldest pump action shotguns still in production, this is a favourite of several generations.",
 		effect: "",
@@ -3370,9 +3454,10 @@ const TORN_ITEMS = {
 		circulation: 54701,
 		image: "https://www.torn.com/images/items/252/large.png",
 	},
-	"253": {
+	253: {
 		name: "Lorcin 380",
-		description: "This is the handgun most frequently submitted by law enforcement agencies for tracing in connection to violent crimes. Very low quality, so very much a \"use and discard\" weapon for short-range attacks.",
+		description:
+			'This is the handgun most frequently submitted by law enforcement agencies for tracing in connection to violent crimes. Very low quality, so very much a "use and discard" weapon for short-range attacks.',
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -3383,7 +3468,7 @@ const TORN_ITEMS = {
 		circulation: 139201,
 		image: "https://www.torn.com/images/items/253/large.png",
 	},
-	"254": {
+	254: {
 		name: "S&W M29",
 		description: "A six shot double action revolver chambered for the .44 Magnum cartridge. It will also chamber and fire .44 Special cartridges.",
 		effect: "",
@@ -3396,9 +3481,10 @@ const TORN_ITEMS = {
 		circulation: 31043,
 		image: "https://www.torn.com/images/items/254/large.png",
 	},
-	"255": {
+	255: {
 		name: "Flamethrower",
-		description: "Built like a backpack, with dual tanks to hold the highly flammable gas. Be careful though, a well placed bullet could be the end of this powerful weapon.. and the person carrying it.",
+		description:
+			"Built like a backpack, with dual tanks to hold the highly flammable gas. Be careful though, a well placed bullet could be the end of this powerful weapon.. and the person carrying it.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -3409,9 +3495,10 @@ const TORN_ITEMS = {
 		circulation: 50330,
 		image: "https://www.torn.com/images/items/255/large.png",
 	},
-	"256": {
+	256: {
 		name: "Tear Gas",
-		description: "Typically used for riot control, this non-lethal gas will temporarily blind your opponent, possibly giving you a bit of an advantage in battle.",
+		description:
+			"Typically used for riot control, this non-lethal gas will temporarily blind your opponent, possibly giving you a bit of an advantage in battle.",
 		effect: "Opponent becomes Gassed, decreasing Dexterity to 1/3rd for 120-180 seconds.",
 		requirement: "",
 		type: "Temporary",
@@ -3422,7 +3509,7 @@ const TORN_ITEMS = {
 		circulation: 1180537,
 		image: "https://www.torn.com/images/items/256/large.png",
 	},
-	"257": {
+	257: {
 		name: "Throwing Knife",
 		description: "To make the best use of this weapon, skill and practice are needed, but in the right hands, this could be used for a devastating attack.",
 		effect: "",
@@ -3435,7 +3522,7 @@ const TORN_ITEMS = {
 		circulation: 345858,
 		image: "https://www.torn.com/images/items/257/large.png",
 	},
-	"258": {
+	258: {
 		name: "Jaguar Plushie",
 		description: "Modelled after the third largest cat in the world, this small spotted plushie could be easily confused for a leopard.",
 		effect: "",
@@ -3448,9 +3535,10 @@ const TORN_ITEMS = {
 		circulation: 4056792,
 		image: "https://www.torn.com/images/items/258/large.png",
 	},
-	"259": {
+	259: {
 		name: "Mayan Statue",
-		description: "Small, dark jade statue of the Mayan God Quetzacoatl. Quetzalcoatl is the god of human sustenance, penitence, self-sacrifice, re-birth and butterflies.",
+		description:
+			"Small, dark jade statue of the Mayan God Quetzacoatl. Quetzalcoatl is the god of human sustenance, penitence, self-sacrifice, re-birth and butterflies.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -3461,7 +3549,7 @@ const TORN_ITEMS = {
 		circulation: 655350,
 		image: "https://www.torn.com/images/items/259/large.png",
 	},
-	"260": {
+	260: {
 		name: "Dahlia",
 		description: "Spectacular pink bloom with pointed petals, this is the national flower of Mexico.",
 		effect: "",
@@ -3474,7 +3562,7 @@ const TORN_ITEMS = {
 		circulation: 7649856,
 		image: "https://www.torn.com/images/items/260/large.png",
 	},
-	"261": {
+	261: {
 		name: "Wolverine Plushie",
 		description: "The wolverine has been described as the fiercest creature on earth, but this small plush version will only growl if you pull its tail.",
 		effect: "",
@@ -3487,9 +3575,10 @@ const TORN_ITEMS = {
 		circulation: 5275724,
 		image: "https://www.torn.com/images/items/261/large.png",
 	},
-	"262": {
+	262: {
 		name: "Hockey Stick",
-		description: "Replica of the sticks used in the 1920 Olympics, the first year Hockey was recognized as an official Olympic sport. The Winnipeg Falcons had the honour of taking the Gold medal home to Canada.",
+		description:
+			"Replica of the sticks used in the 1920 Olympics, the first year Hockey was recognized as an official Olympic sport. The Winnipeg Falcons had the honour of taking the Gold medal home to Canada.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -3500,7 +3589,7 @@ const TORN_ITEMS = {
 		circulation: 1473811,
 		image: "https://www.torn.com/images/items/262/large.png",
 	},
-	"263": {
+	263: {
 		name: "Crocus",
 		description: "This bright blue flower is often considered the national flower of Canada.",
 		effect: "",
@@ -3513,7 +3602,7 @@ const TORN_ITEMS = {
 		circulation: 4189015,
 		image: "https://www.torn.com/images/items/263/large.png",
 	},
-	"264": {
+	264: {
 		name: "Orchid",
 		description: "Delicate pink flower, the orchid may not be a native of Hawaii, but it has made the transition to this tropical climate with ease.",
 		effect: "",
@@ -3526,7 +3615,7 @@ const TORN_ITEMS = {
 		circulation: 3499388,
 		image: "https://www.torn.com/images/items/264/large.png",
 	},
-	"265": {
+	265: {
 		name: "Pele Charm",
 		description: "Small golden charm of the goddess Pele, bought on your recent trip to the Big Island.",
 		effect: "",
@@ -3539,7 +3628,7 @@ const TORN_ITEMS = {
 		circulation: 820892,
 		image: "https://www.torn.com/images/items/265/large.png",
 	},
-	"266": {
+	266: {
 		name: "Nessie Plushie",
 		description: "Hidden in the depths of the Loch. Seeing this mythical creature will leave a lasting impression.",
 		effect: "",
@@ -3552,7 +3641,7 @@ const TORN_ITEMS = {
 		circulation: 4803513,
 		image: "https://www.torn.com/images/items/266/large.png",
 	},
-	"267": {
+	267: {
 		name: "Heather",
 		description: "Believed to bring good luck to who possess it. These spiky purple and white flowers cover the hillsides of Scotland.",
 		effect: "",
@@ -3565,7 +3654,7 @@ const TORN_ITEMS = {
 		circulation: 2980403,
 		image: "https://www.torn.com/images/items/267/large.png",
 	},
-	"268": {
+	268: {
 		name: "Red Fox Plushie",
 		description: "Small dark red fox plushie, will serve as a memento from your trip to Britain, and your participation in a local Fox Hunt.",
 		effect: "",
@@ -3578,7 +3667,7 @@ const TORN_ITEMS = {
 		circulation: 4818896,
 		image: "https://www.torn.com/images/items/268/large.png",
 	},
-	"269": {
+	269: {
 		name: "Monkey Plushie",
 		description: "Small plush monkey, made in the image of the simians, often seen around the forests of Argentina.",
 		effect: "",
@@ -3591,7 +3680,7 @@ const TORN_ITEMS = {
 		circulation: 4552908,
 		image: "https://www.torn.com/images/items/269/large.png",
 	},
-	"270": {
+	270: {
 		name: "Soccer Ball",
 		description: "Replica of the ball used in the 1930 World Cup final between Argentina and Uruguay.",
 		effect: "",
@@ -3604,7 +3693,7 @@ const TORN_ITEMS = {
 		circulation: 664008,
 		image: "https://www.torn.com/images/items/270/large.png",
 	},
-	"271": {
+	271: {
 		name: "Ceibo Flower",
 		description: "This unusual red flower is the national flower of Argentina.",
 		effect: "",
@@ -3617,7 +3706,7 @@ const TORN_ITEMS = {
 		circulation: 3058928,
 		image: "https://www.torn.com/images/items/271/large.png",
 	},
-	"272": {
+	272: {
 		name: "Edelweiss",
 		description: "Small white blooms are the hallmark of this Swiss national flower.",
 		effect: "",
@@ -3630,7 +3719,7 @@ const TORN_ITEMS = {
 		circulation: 7857879,
 		image: "https://www.torn.com/images/items/272/large.png",
 	},
-	"273": {
+	273: {
 		name: "Chamois Plushie",
 		description: "Small plushie of a Mountain Goat.",
 		effect: "",
@@ -3643,9 +3732,10 @@ const TORN_ITEMS = {
 		circulation: 8876608,
 		image: "https://www.torn.com/images/items/273/large.png",
 	},
-	"274": {
+	274: {
 		name: "Panda Plushie",
-		description: "One of the most recognizable endangered species, Xiong Mao, as they are called in Chinese, instantly bring to mind bamboo forests and quiet contemplation.",
+		description:
+			"One of the most recognizable endangered species, Xiong Mao, as they are called in Chinese, instantly bring to mind bamboo forests and quiet contemplation.",
 		effect: "",
 		requirement: "",
 		type: "Plushie",
@@ -3656,9 +3746,10 @@ const TORN_ITEMS = {
 		circulation: 4788399,
 		image: "https://www.torn.com/images/items/274/large.png",
 	},
-	"275": {
+	275: {
 		name: "Jade Buddha",
-		description: "In a controversy the instant we feel anger we have already ceased striving for the truth, and have begun striving for ourselves. - Buddha",
+		description:
+			"In a controversy the instant we feel anger we have already ceased striving for the truth, and have begun striving for ourselves. - Buddha",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -3669,9 +3760,10 @@ const TORN_ITEMS = {
 		circulation: 149546,
 		image: "https://www.torn.com/images/items/275/large.png",
 	},
-	"276": {
+	276: {
 		name: "Peony",
-		description: "While China has no official national flower, the peony, with its ruffled, pale pink blooms, is widely recognized as the national favourite.",
+		description:
+			"While China has no official national flower, the peony, with its ruffled, pale pink blooms, is widely recognized as the national favourite.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -3682,7 +3774,7 @@ const TORN_ITEMS = {
 		circulation: 3040004,
 		image: "https://www.torn.com/images/items/276/large.png",
 	},
-	"277": {
+	277: {
 		name: "Cherry Blossom",
 		description: "This beautiful pink blossom is often considered the official flower of Japan.",
 		effect: "",
@@ -3695,7 +3787,7 @@ const TORN_ITEMS = {
 		circulation: 3086957,
 		image: "https://www.torn.com/images/items/277/large.png",
 	},
-	"278": {
+	278: {
 		name: "Kabuki Mask",
 		description: "Used in traditional Japanese theatre productions, this beautiful mask can serve as a reminder of your recent trip to Tokyo.",
 		effect: "",
@@ -3708,7 +3800,7 @@ const TORN_ITEMS = {
 		circulation: 123348,
 		image: "https://www.torn.com/images/items/278/large.png",
 	},
-	"279": {
+	279: {
 		name: "Maneki Neko",
 		description: "Meant to bring good fortune and prosperity to its owner, this little cat is more than just a good luck charm.",
 		effect: "",
@@ -3721,9 +3813,10 @@ const TORN_ITEMS = {
 		circulation: 116444,
 		image: "https://www.torn.com/images/items/279/large.png",
 	},
-	"280": {
+	280: {
 		name: "Elephant Statue",
-		description: "This ancient ivory statue is made from the tusks of the very animal it represents,and harvesting the tusks for such artworks is ironically bringing the elephant to the brink of extinction.",
+		description:
+			"This ancient ivory statue is made from the tusks of the very animal it represents,and harvesting the tusks for such artworks is ironically bringing the elephant to the brink of extinction.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -3734,7 +3827,7 @@ const TORN_ITEMS = {
 		circulation: 585735,
 		image: "https://www.torn.com/images/items/280/large.png",
 	},
-	"281": {
+	281: {
 		name: "Lion Plushie",
 		description: "This small plushie is modelled after the African lion. Squeeze his tummy to hear him roar.",
 		effect: "",
@@ -3747,9 +3840,10 @@ const TORN_ITEMS = {
 		circulation: 6230036,
 		image: "https://www.torn.com/images/items/281/large.png",
 	},
-	"282": {
+	282: {
 		name: "African Violet",
-		description: "While not the national flower for Africa, this beautiful purple plant will remind you of your recent trip to the Southern African plains.",
+		description:
+			"While not the national flower for Africa, this beautiful purple plant will remind you of your recent trip to the Southern African plains.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -3760,7 +3854,7 @@ const TORN_ITEMS = {
 		circulation: 4606166,
 		image: "https://www.torn.com/images/items/282/large.png",
 	},
-	"283": {
+	283: {
 		name: "Donator Pack",
 		description: "A Torn City donator pack. Using this will credit you with 31 donator days and give you 50 points!",
 		effect: "Provides 31 days of donator status and 50 points upon opening.",
@@ -3773,7 +3867,7 @@ const TORN_ITEMS = {
 		circulation: 144064,
 		image: "https://www.torn.com/images/items/283/large.png",
 	},
-	"284": {
+	284: {
 		name: "Bronze Paint Brush",
 		description: "This item was given for third place in  one of the many art competitions held by Torn City Staff.",
 		effect: "",
@@ -3786,7 +3880,7 @@ const TORN_ITEMS = {
 		circulation: 32,
 		image: "https://www.torn.com/images/items/284/large.png",
 	},
-	"285": {
+	285: {
 		name: "Silver Paint Brush",
 		description: "This item was given for second place in  one of the many art competitions held by Torn City Staff.",
 		effect: "",
@@ -3799,7 +3893,7 @@ const TORN_ITEMS = {
 		circulation: 30,
 		image: "https://www.torn.com/images/items/285/large.png",
 	},
-	"286": {
+	286: {
 		name: "Gold Paint Brush",
 		description: "This item was given for first place in  one of the many art competitions held by Torn City Staff.",
 		effect: "",
@@ -3812,9 +3906,10 @@ const TORN_ITEMS = {
 		circulation: 27,
 		image: "https://www.torn.com/images/items/286/large.png",
 	},
-	"287": {
+	287: {
 		name: "Pand0ra's Box",
-		description: "After being hidden for years this ancient relic has resurfaced. Mysterious wonders or tragic events await the owner. Open the box if you dare--but following your curiosity may take you down unexpected paths.",
+		description:
+			"After being hidden for years this ancient relic has resurfaced. Mysterious wonders or tragic events await the owner. Open the box if you dare--but following your curiosity may take you down unexpected paths.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -3825,9 +3920,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/287/large.png",
 	},
-	"288": {
+	288: {
 		name: "Mr Brownstone Doll",
-		description: "This rocked out doll will get up around seven Get outta bed around nine And dont worry about nothing 'cause worryin is a waste of ...time.",
+		description:
+			"This rocked out doll will get up around seven Get outta bed around nine And dont worry about nothing 'cause worryin is a waste of ...time.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -3838,7 +3934,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/288/large.png",
 	},
-	"289": {
+	289: {
 		name: "Dual Axes",
 		description: "Only a well trained individual would even dare to attempt to dual wield these weapons.",
 		effect: "",
@@ -3851,7 +3947,7 @@ const TORN_ITEMS = {
 		circulation: 1080,
 		image: "https://www.torn.com/images/items/289/large.png",
 	},
-	"290": {
+	290: {
 		name: "Dual Hammers",
 		description: "Only a well trained individual, ideally with some experience in carpentry, would even dare to attempt to dual wield these weapons.",
 		effect: "",
@@ -3864,9 +3960,10 @@ const TORN_ITEMS = {
 		circulation: 3376,
 		image: "https://www.torn.com/images/items/290/large.png",
 	},
-	"291": {
+	291: {
 		name: "Dual Scimitars",
-		description: "Only a well trained individual would even dare to attempt to dual wield these weapons, and even then only after several puffs on a hookah.",
+		description:
+			"Only a well trained individual would even dare to attempt to dual wield these weapons, and even then only after several puffs on a hookah.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -3877,7 +3974,7 @@ const TORN_ITEMS = {
 		circulation: 2208,
 		image: "https://www.torn.com/images/items/291/large.png",
 	},
-	"292": {
+	292: {
 		name: "Dual Samurai Swords",
 		description: "Only a well trained individual, wearing a classy kimono, would even dare to attempt to dual wield these weapons.",
 		effect: "",
@@ -3890,7 +3987,7 @@ const TORN_ITEMS = {
 		circulation: 2465,
 		image: "https://www.torn.com/images/items/292/large.png",
 	},
-	"293": {
+	293: {
 		name: "Japanese/English Dictionary",
 		description: "This Dictionary can aid you in translating words and symbols from Japanese to English or vice-versa.",
 		effect: "",
@@ -3903,9 +4000,10 @@ const TORN_ITEMS = {
 		circulation: 14133,
 		image: "https://www.torn.com/images/items/293/large.png",
 	},
-	"294": {
+	294: {
 		name: "Bottle of Sake",
-		description: "This is an alcoholic beverage much like wine, made from rice and drunk by Japanese for centuries. Sake is drunk before and after many Japanese events. Provides a small nerve increase when consumed.",
+		description:
+			"This is an alcoholic beverage much like wine, made from rice and drunk by Japanese for centuries. Sake is drunk before and after many Japanese events. Provides a small nerve increase when consumed.",
 		effect: "Increases nerve by 1 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -3916,9 +4014,10 @@ const TORN_ITEMS = {
 		circulation: 533376,
 		image: "https://www.torn.com/images/items/294/large.png",
 	},
-	"295": {
+	295: {
 		name: "Oriental Log",
-		description: "This piece of Japanese oak looks ancient. It has Japanese symbols carved all over it. Strangely, written in English on the bottom of the log there is the name 'Master Keneshi'.",
+		description:
+			"This piece of Japanese oak looks ancient. It has Japanese symbols carved all over it. Strangely, written in English on the bottom of the log there is the name 'Master Keneshi'.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -3929,7 +4028,7 @@ const TORN_ITEMS = {
 		circulation: 25048,
 		image: "https://www.torn.com/images/items/295/large.png",
 	},
-	"296": {
+	296: {
 		name: "Oriental Log Translation",
 		description: "On a piece of paper is written: He who chooses to undertake the mastery of dual weaponry need only speak my name.",
 		effect: "",
@@ -3942,7 +4041,7 @@ const TORN_ITEMS = {
 		circulation: 8596,
 		image: "https://www.torn.com/images/items/296/large.png",
 	},
-	"297": {
+	297: {
 		name: "YouYou Yo Yo",
 		description: "You can walk the dog, rock the cradle but be careful, this YouYou YoYo could turn you into meme!",
 		effect: "",
@@ -3955,9 +4054,10 @@ const TORN_ITEMS = {
 		circulation: 25,
 		image: "https://www.torn.com/images/items/297/large.png",
 	},
-	"298": {
+	298: {
 		name: "Monkey Cuffs",
-		description: "These shiny steel manacles are used by MoNKeY to capture and restrain the bad guys of Torn City. Some lucky ladies hint they have a more naughty purpose!",
+		description:
+			"These shiny steel manacles are used by MoNKeY to capture and restrain the bad guys of Torn City. Some lucky ladies hint they have a more naughty purpose!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -3968,9 +4068,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/298/large.png",
 	},
-	"299": {
+	299: {
 		name: "Jester's Cap",
-		description: "A constant reminder that you should never take things too seriously. Wearing this cap will allow you to act a fool and be praised for it.",
+		description:
+			"A constant reminder that you should never take things too seriously. Wearing this cap will allow you to act a fool and be praised for it.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -3981,7 +4082,7 @@ const TORN_ITEMS = {
 		circulation: 29,
 		image: "https://www.torn.com/images/items/299/large.png",
 	},
-	"300": {
+	300: {
 		name: "Gibal's Dragonfly",
 		description: "Gibal rides around Torn City on her dragonfly looking for wrong-doers. Once caught they are locked up for good!",
 		effect: "",
@@ -3994,7 +4095,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/300/large.png",
 	},
-	"301": {
+	301: {
 		name: "Green Ornament",
 		description: "This ornament was given to Officers of Torn City for Xmas in recognition of a job well done for their time served as staff.",
 		effect: "",
@@ -4007,7 +4108,7 @@ const TORN_ITEMS = {
 		circulation: 142,
 		image: "https://www.torn.com/images/items/301/large.png",
 	},
-	"302": {
+	302: {
 		name: "Purple Ornament",
 		description: "This ornament was given to Helpers of Torn City for Xmas in recognition of a job well done for their time served as staff.",
 		effect: "",
@@ -4020,7 +4121,7 @@ const TORN_ITEMS = {
 		circulation: 147,
 		image: "https://www.torn.com/images/items/302/large.png",
 	},
-	"303": {
+	303: {
 		name: "Blue Ornament",
 		description: "This ornament was given to Mods of Torn City for Xmas in recognition of a job well done for their time served as staff.",
 		effect: "",
@@ -4033,7 +4134,7 @@ const TORN_ITEMS = {
 		circulation: 112,
 		image: "https://www.torn.com/images/items/303/large.png",
 	},
-	"304": {
+	304: {
 		name: "Purple Bell",
 		description: "This ornament was given to Admins of Torn City for Xmas in recognition of a job well done for their time served as staff.",
 		effect: "",
@@ -4046,7 +4147,7 @@ const TORN_ITEMS = {
 		circulation: 16,
 		image: "https://www.torn.com/images/items/304/large.png",
 	},
-	"305": {
+	305: {
 		name: "Mistletoe",
 		description: "A kiss under the mistletoe is said to bring good luck for the year ahead. Why not share this tradition with someone special this year?",
 		effect: "",
@@ -4059,7 +4160,7 @@ const TORN_ITEMS = {
 		circulation: 14964,
 		image: "https://www.torn.com/images/items/305/large.png",
 	},
-	"306": {
+	306: {
 		name: "Mini Sleigh",
 		description: "A miniature replica of the very same one Santa uses when delivering presents to the good boys and girls of Torn City.",
 		effect: "",
@@ -4072,7 +4173,7 @@ const TORN_ITEMS = {
 		circulation: 11659,
 		image: "https://www.torn.com/images/items/306/large.png",
 	},
-	"307": {
+	307: {
 		name: "Snowman",
 		description: "Comes complete with silk top hat, button nose and two eyes made out of coal. Perfect winter decoration for any home.",
 		effect: "",
@@ -4085,7 +4186,7 @@ const TORN_ITEMS = {
 		circulation: 11698,
 		image: "https://www.torn.com/images/items/307/large.png",
 	},
-	"308": {
+	308: {
 		name: "Christmas Gnome",
 		description: "A small misshapen mischievous sprite who makes Christmas wishes of 2006 come true.",
 		effect: "",
@@ -4098,7 +4199,7 @@ const TORN_ITEMS = {
 		circulation: 11849,
 		image: "https://www.torn.com/images/items/308/large.png",
 	},
-	"309": {
+	309: {
 		name: "Gingerbread House",
 		description: "Snowdrifts of icing, walls of gingerbread: this house is a replica of the first home decorated for Xmas in Torn City.",
 		effect: "",
@@ -4111,9 +4212,10 @@ const TORN_ITEMS = {
 		circulation: 13385,
 		image: "https://www.torn.com/images/items/309/large.png",
 	},
-	"310": {
+	310: {
 		name: "Lollipop",
-		description: "Tasty fruity candy lolly for lovers, friends, whiny noobs and spoilt brats alike to enjoy! Available in strawberry, blueberry, banana and chocolate flavours. Provides a small happiness increase when consumed.",
+		description:
+			"Tasty fruity candy lolly for lovers, friends, whiny noobs and spoilt brats alike to enjoy! Available in strawberry, blueberry, banana and chocolate flavours. Provides a small happiness increase when consumed.",
 		effect: "Increases happiness by 25 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -4124,7 +4226,7 @@ const TORN_ITEMS = {
 		circulation: 50459340,
 		image: "https://www.torn.com/images/items/310/large.png",
 	},
-	"311": {
+	311: {
 		name: "Mardi Gras Beads",
 		description: "These beads are from the Mardi Gras and thrown by Body. Do you have what it takes to get a set of them?",
 		effect: "",
@@ -4137,9 +4239,10 @@ const TORN_ITEMS = {
 		circulation: 25,
 		image: "https://www.torn.com/images/items/311/large.png",
 	},
-	"312": {
+	312: {
 		name: "Devil Toy",
-		description: "Tasmanian devil that is. This little fella has been known to create havoc wherever he goes including staff channels, faction forums and anywhere newbies lurk. Rumour has it only Tazzy can control this little whirlwind.",
+		description:
+			"Tasmanian devil that is. This little fella has been known to create havoc wherever he goes including staff channels, faction forums and anywhere newbies lurk. Rumour has it only Tazzy can control this little whirlwind.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4150,7 +4253,7 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/312/large.png",
 	},
-	"313": {
+	313: {
 		name: "Cookie Launcher",
 		description: "A non-working replica of Mix's Cookie launcher, used to launch cookies at his IRC buddies.",
 		effect: "",
@@ -4163,9 +4266,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/313/large.png",
 	},
-	"314": {
+	314: {
 		name: "Cursed Moon Pendant",
-		description: "Be wary of this sacred item. The bearer of this pendant will be put under a spell and become a slave to the evillest of all staff members, Luna. The maker of this pendant cannot be held responsible for any actions you may perform while under its spell. You have been warned.",
+		description:
+			"Be wary of this sacred item. The bearer of this pendant will be put under a spell and become a slave to the evillest of all staff members, Luna. The maker of this pendant cannot be held responsible for any actions you may perform while under its spell. You have been warned.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4176,7 +4280,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/314/large.png",
 	},
-	"315": {
+	315: {
 		name: "Apartment Blueprint",
 		description: "Designs of an Apartment for construction purposes.",
 		effect: "",
@@ -4189,7 +4293,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/315/large.png",
 	},
-	"316": {
+	316: {
 		name: "Semi-Detached House Blueprint",
 		description: "Designs of a Semi-Detached house for construction purposes.",
 		effect: "",
@@ -4202,7 +4306,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/316/large.png",
 	},
-	"317": {
+	317: {
 		name: "Detached House Blueprint",
 		description: "Designs of a Detached house for construction purposes.",
 		effect: "",
@@ -4215,7 +4319,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/317/large.png",
 	},
-	"318": {
+	318: {
 		name: "Beach House Blueprint",
 		description: "Designs of a Beach house for construction purposes.",
 		effect: "",
@@ -4228,7 +4332,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/318/large.png",
 	},
-	"319": {
+	319: {
 		name: "Chalet Blueprint",
 		description: "Designs of a Chalet for construction purposes.",
 		effect: "",
@@ -4241,7 +4345,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/319/large.png",
 	},
-	"320": {
+	320: {
 		name: "Villa Blueprint",
 		description: "Designs of a Villa for construction purposes.",
 		effect: "",
@@ -4254,7 +4358,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/320/large.png",
 	},
-	"321": {
+	321: {
 		name: "Penthouse Blueprint",
 		description: "Designs of a Penthouse for construction purposes.",
 		effect: "",
@@ -4267,7 +4371,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/321/large.png",
 	},
-	"322": {
+	322: {
 		name: "Mansion Blueprint",
 		description: "Designs of a Mansion for construction purposes.",
 		effect: "",
@@ -4280,7 +4384,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/322/large.png",
 	},
-	"323": {
+	323: {
 		name: "Ranch Blueprint",
 		description: "Designs of a Ranch for construction purposes.",
 		effect: "",
@@ -4293,7 +4397,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/323/large.png",
 	},
-	"324": {
+	324: {
 		name: "Palace Blueprint",
 		description: "Designs of a Palace for construction purposes.",
 		effect: "",
@@ -4306,7 +4410,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/324/large.png",
 	},
-	"325": {
+	325: {
 		name: "Castle Blueprint",
 		description: "Designs of a Castle for construction purposes.",
 		effect: "",
@@ -4319,7 +4423,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/325/large.png",
 	},
-	"326": {
+	326: {
 		name: "Printing Paper",
 		description: "Paper, very similar to the type money is printed on.",
 		effect: "Required for counterfeiting money",
@@ -4332,7 +4436,7 @@ const TORN_ITEMS = {
 		circulation: 50905,
 		image: "https://www.torn.com/images/items/326/large.png",
 	},
-	"327": {
+	327: {
 		name: "Blank Tokens",
 		description: "Blank casino token slugs.",
 		effect: "Required for counterfeiting casino tokens",
@@ -4345,7 +4449,7 @@ const TORN_ITEMS = {
 		circulation: 70520,
 		image: "https://www.torn.com/images/items/327/large.png",
 	},
-	"328": {
+	328: {
 		name: "Blank Credit Cards",
 		description: "Blank credit cards without any data on them.",
 		effect: "Required for counterfeiting credit cards",
@@ -4358,7 +4462,7 @@ const TORN_ITEMS = {
 		circulation: 49731,
 		image: "https://www.torn.com/images/items/328/large.png",
 	},
-	"329": {
+	329: {
 		name: "Skateboard",
 		description: "Device used for transportation and entertainment.",
 		effect: "Permanently increases Speed by 1%. Increases booster cooldown by 6 hours.",
@@ -4371,7 +4475,7 @@ const TORN_ITEMS = {
 		circulation: 5029,
 		image: "https://www.torn.com/images/items/329/large.png",
 	},
-	"330": {
+	330: {
 		name: "Boxing Gloves",
 		description: "Worn to protect hands during a boxing event.",
 		effect: "Permanently increases Defense by 1%. Increases booster cooldown by 6 hours.",
@@ -4384,7 +4488,7 @@ const TORN_ITEMS = {
 		circulation: 4944,
 		image: "https://www.torn.com/images/items/330/large.png",
 	},
-	"331": {
+	331: {
 		name: "Dumbbells",
 		description: "Device used to increase muscle mass.",
 		effect: "Permanently increases Strength by 1%. Increases booster cooldown by 6 hours.",
@@ -4397,9 +4501,10 @@ const TORN_ITEMS = {
 		circulation: 4616,
 		image: "https://www.torn.com/images/items/331/large.png",
 	},
-	"332": {
+	332: {
 		name: "Combat Vest",
-		description: "This prototype armor improves on the build of the Outer Tactical Vest to bring its wearer even more protection, making it the lightest, most technologically advanced piece of protective armor ever issued to the Armed Forces of the United States.",
+		description:
+			"This prototype armor improves on the build of the Outer Tactical Vest to bring its wearer even more protection, making it the lightest, most technologically advanced piece of protective armor ever issued to the Armed Forces of the United States.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -4423,9 +4528,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"333": {
+	333: {
 		name: "Liquid Body Armor",
-		description: "Liquid polyethylene glycol and hard nano-particles of silica combined and soaked into all layers of kevlar to make a uniquely flexible and lightweight body armor with amazing stopping power. Top Secret development model!",
+		description:
+			"Liquid polyethylene glycol and hard nano-particles of silica combined and soaked into all layers of kevlar to make a uniquely flexible and lightweight body armor with amazing stopping power. Top Secret development model!",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -4449,7 +4555,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"334": {
+	334: {
 		name: "Flexible Body Armor",
 		description: "Classified! Top Secret!",
 		effect: "",
@@ -4475,7 +4581,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"335": {
+	335: {
 		name: "Stick of Dynamite",
 		description: "A small stick of dynamite. This thing could cause a lot of damage if used in the right place...",
 		effect: "Required for Bombing crime",
@@ -4488,9 +4594,10 @@ const TORN_ITEMS = {
 		circulation: 62738,
 		image: "https://www.torn.com/images/items/335/large.png",
 	},
-	"336": {
+	336: {
 		name: "Cesium-137",
-		description: "A man made radioactive element produced by breaking up uranium atoms. It remains dangerous for hundreds of years until losing its radiation.",
+		description:
+			"A man made radioactive element produced by breaking up uranium atoms. It remains dangerous for hundreds of years until losing its radiation.",
 		effect: "Component used in the construction of a Dirty Bomb",
 		requirement: "",
 		type: "Special",
@@ -4501,9 +4608,10 @@ const TORN_ITEMS = {
 		circulation: 6310,
 		image: "https://www.torn.com/images/items/336/large.png",
 	},
-	"337": {
+	337: {
 		name: "Dirty Bomb",
-		description: "A weapon which combines radioactive material with explosives. A dirty bomb would be unlikely to cause many deaths; its main purpose would be to cause a mass panic.",
+		description:
+			"A weapon which combines radioactive material with explosives. A dirty bomb would be unlikely to cause many deaths; its main purpose would be to cause a mass panic.",
 		effect: "Damages a faction's respect and cripples its members with radiation poisoning and hospital time.",
 		requirement: "",
 		type: "Special",
@@ -4514,7 +4622,7 @@ const TORN_ITEMS = {
 		circulation: 38,
 		image: "https://www.torn.com/images/items/337/large.png",
 	},
-	"338": {
+	338: {
 		name: "Sh0rty's Surfboard",
 		description: "Feel the force of Sh0rty's surfboard as he rides past you working his way around Torn City!",
 		effect: "",
@@ -4527,7 +4635,7 @@ const TORN_ITEMS = {
 		circulation: 24,
 		image: "https://www.torn.com/images/items/338/large.png",
 	},
-	"339": {
+	339: {
 		name: "Puzzle Piece",
 		description: "This oddly shaped item was left over from the last time its owner, Chris, attempted to do a puzzle. Holds some importance....",
 		effect: "",
@@ -4540,9 +4648,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/339/large.png",
 	},
-	"340": {
+	340: {
 		name: "Hunny Pot",
-		description: "This Hunny pot is gold plated and is filled with all the yummy sweetness of honey from contented bees. It is believed to contain the source of Acid's sweetness.",
+		description:
+			"This Hunny pot is gold plated and is filled with all the yummy sweetness of honey from contented bees. It is believed to contain the source of Acid's sweetness.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4553,9 +4662,10 @@ const TORN_ITEMS = {
 		circulation: 22,
 		image: "https://www.torn.com/images/items/340/large.png",
 	},
-	"341": {
+	341: {
 		name: "Seductive Stethoscope",
-		description: "The enigmatic Drmark uses this cold instrument to pick up the heated flutter of a lovestruck lady or the palpitations of a troubled wrongdoer, keeping the population of Torn City healthy.",
+		description:
+			"The enigmatic Drmark uses this cold instrument to pick up the heated flutter of a lovestruck lady or the palpitations of a troubled wrongdoer, keeping the population of Torn City healthy.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4566,9 +4676,10 @@ const TORN_ITEMS = {
 		circulation: 21,
 		image: "https://www.torn.com/images/items/341/large.png",
 	},
-	"342": {
+	342: {
 		name: "Dollar Bill Collectible",
-		description: "This item is so rare that only a few bills were printed. It can only be obtained on the item market during Dollar Day Sales. It costs one dollar to purchase, but due to limited printing it is worth a small fortune.",
+		description:
+			"This item is so rare that only a few bills were printed. It can only be obtained on the item market during Dollar Day Sales. It costs one dollar to purchase, but due to limited printing it is worth a small fortune.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4579,7 +4690,7 @@ const TORN_ITEMS = {
 		circulation: 78,
 		image: "https://www.torn.com/images/items/342/large.png",
 	},
-	"343": {
+	343: {
 		name: "Backstage Pass",
 		description: "This backstage pass gave special benefits to its holder by allowing them to have met performers after concerts held by Torn City Radio.",
 		effect: "",
@@ -4592,7 +4703,7 @@ const TORN_ITEMS = {
 		circulation: 21,
 		image: "https://www.torn.com/images/items/343/large.png",
 	},
-	"344": {
+	344: {
 		name: "Chemi's Magic Potion",
 		description: "This homemade pink brew is powerful, one sip will leave you feeling like you can beat anyone.",
 		effect: "",
@@ -4605,7 +4716,7 @@ const TORN_ITEMS = {
 		circulation: 18,
 		image: "https://www.torn.com/images/items/344/large.png",
 	},
-	"345": {
+	345: {
 		name: "Pack of Trojans",
 		description: "Magnum rubbers for the gangster who really knows how to use his gun.",
 		effect: "",
@@ -4618,7 +4729,7 @@ const TORN_ITEMS = {
 		circulation: 1956,
 		image: "https://www.torn.com/images/items/345/large.png",
 	},
-	"346": {
+	346: {
 		name: "Pair of High Heels",
 		description: "High Heels - essential weaponry in the control of the male species. Ho or Foe, still can be used to smack an average Joe.",
 		effect: "",
@@ -4631,7 +4742,7 @@ const TORN_ITEMS = {
 		circulation: 4206,
 		image: "https://www.torn.com/images/items/346/large.png",
 	},
-	"347": {
+	347: {
 		name: "Thong",
 		description: "Thongs...Not a wise choice if you have too much junk in your trunk.",
 		effect: "",
@@ -4644,7 +4755,7 @@ const TORN_ITEMS = {
 		circulation: 4639,
 		image: "https://www.torn.com/images/items/347/large.png",
 	},
-	"348": {
+	348: {
 		name: "Hazmat Suit",
 		description: "A fully encapsulating garment worn as protection from hazardous materials or substances.",
 		effect: "Immunity to Nerve Gas, Tear Gas, Pepper Spray, and Sand",
@@ -4670,9 +4781,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 70,
 		},
 	},
-	"349": {
+	349: {
 		name: "Flea Collar",
-		description: "Keep those pesky critters away whilst swinging round the city. A rare must-have before it was discontinued. Reminiscent of golden times. The tag reads \"Shadow Still a pup\".",
+		description:
+			'Keep those pesky critters away whilst swinging round the city. A rare must-have before it was discontinued. Reminiscent of golden times. The tag reads "Shadow Still a pup".',
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4683,9 +4795,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/349/large.png",
 	},
-	"350": {
+	350: {
 		name: "Dunkin's Donut",
-		description: "The feeling of invincibility gained by eating one of these cream filled masterpieces has been known to make HOF factions tremble with fear.",
+		description:
+			"The feeling of invincibility gained by eating one of these cream filled masterpieces has been known to make HOF factions tremble with fear.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4696,9 +4809,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/350/large.png",
 	},
-	"351": {
+	351: {
 		name: "Amazon Doll",
-		description: "Modeled after Wild_Irish_Btch, this doll shows that women can stomp your face into the ground while towering above the men of Torn City. Doll comes equipped with a bag of Cheetos, a Teddy Bear plushie, a replica of Brutus, and an avid love of midgets.",
+		description:
+			"Modeled after Wild_Irish_Btch, this doll shows that women can stomp your face into the ground while towering above the men of Torn City. Doll comes equipped with a bag of Cheetos, a Teddy Bear plushie, a replica of Brutus, and an avid love of midgets.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4709,9 +4823,10 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/351/large.png",
 	},
-	"352": {
+	352: {
 		name: "BBQ Smoker",
-		description: "You have to be pretty fast to steal the brisket inside this smoker. Which just happened to be stolen right after this collectible was made. Body and a drifter hobo were both seen eating brisket in the vicinity shortly afterwards. st0ne was last seen crying in his backyard.",
+		description:
+			"You have to be pretty fast to steal the brisket inside this smoker. Which just happened to be stolen right after this collectible was made. Body and a drifter hobo were both seen eating brisket in the vicinity shortly afterwards. st0ne was last seen crying in his backyard.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4722,7 +4837,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/352/large.png",
 	},
-	"353": {
+	353: {
 		name: "Bag of Cheetos",
 		description: " A jumbo bag of these orange cheese twists for late nights on the job. Favored by midgets of all types.",
 		effect: "",
@@ -4735,7 +4850,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/353/large.png",
 	},
-	"354": {
+	354: {
 		name: "Motorbike",
 		description: "You can often find Numbat tearing it up through the city's darkest streets on this, seeking prey. Beware the spiked tires!",
 		effect: "",
@@ -4748,7 +4863,7 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/354/large.png",
 	},
-	"355": {
+	355: {
 		name: "Citrus Squeezer",
 		description: "Commonly used by lem0n to put the squeeze on during lengthy interrogations. Also handy to make a refreshing drink on a warm day.",
 		effect: "",
@@ -4761,7 +4876,7 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/355/large.png",
 	},
-	"356": {
+	356: {
 		name: "Superman Shades",
 		description: "Said to bestow Superman-like powers on the wearer, these ordinary looking shades are rumoured to make all of your stats appear the same.",
 		effect: "",
@@ -4774,9 +4889,10 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/356/large.png",
 	},
-	"357": {
+	357: {
 		name: "Kevlar Helmet",
-		description: "Standard infantry combat wear in the US military. The shell is made from kevlar, a ballistic aramid fabric treated with a phenolic resin system.",
+		description:
+			"Standard infantry combat wear in the US military. The shell is made from kevlar, a ballistic aramid fabric treated with a phenolic resin system.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4787,7 +4903,7 @@ const TORN_ITEMS = {
 		circulation: 19,
 		image: "https://www.torn.com/images/items/357/large.png",
 	},
-	"358": {
+	358: {
 		name: "Raw Ivory",
 		description: "A raw elephant tusk. A hard, smooth yellowish-white substance.",
 		effect: "",
@@ -4800,7 +4916,7 @@ const TORN_ITEMS = {
 		circulation: 20893,
 		image: "https://www.torn.com/images/items/358/large.png",
 	},
-	"359": {
+	359: {
 		name: "Fine Chisel",
 		description: "A tool with a cutting edge on its end. This particular type of chisel can be used to sculpt ivory.",
 		effect: "",
@@ -4813,9 +4929,10 @@ const TORN_ITEMS = {
 		circulation: 12178,
 		image: "https://www.torn.com/images/items/359/large.png",
 	},
-	"360": {
+	360: {
 		name: "Ivory Walking Cane",
-		description: "A handmade walking cane. Used by some of the oldest citizens in Torn City, helping them to get around while they commit various crimes and attend physiotherapy gym sessions.",
+		description:
+			"A handmade walking cane. Used by some of the oldest citizens in Torn City, helping them to get around while they commit various crimes and attend physiotherapy gym sessions.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -4826,9 +4943,10 @@ const TORN_ITEMS = {
 		circulation: 12481,
 		image: "https://www.torn.com/images/items/360/large.png",
 	},
-	"361": {
+	361: {
 		name: "Neumune Tablet",
-		description: "Neumune, an androstenediol, was introduced as a radiation countermeasure by the US Armed Forces Radiobiology Research Institute and has begun production in Switzerland.  Neumune is in Investigational New Drug (IND) status and Phase I trials have been performed.",
+		description:
+			"Neumune, an androstenediol, was introduced as a radiation countermeasure by the US Armed Forces Radiobiology Research Institute and has begun production in Switzerland.  Neumune is in Investigational New Drug (IND) status and Phase I trials have been performed.",
 		effect: "Reduces radiation hospital time by 3 hours and radiation effect by 12 hours. Increases medical cooldown by 3 hours.",
 		requirement: "Under the effect of radiation poisoning.",
 		type: "Medical",
@@ -4839,7 +4957,7 @@ const TORN_ITEMS = {
 		circulation: 189943,
 		image: "https://www.torn.com/images/items/361/large.png",
 	},
-	"362": {
+	362: {
 		name: "Mr Torn Crown '08",
 		description: "Awarded to -KC [130919] for winning the Mr Torn City awards 2008!",
 		effect: "",
@@ -4852,7 +4970,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/362/large.png",
 	},
-	"363": {
+	363: {
 		name: "Ms Torn Crown '08",
 		description: "Awarded to AylaTayla [350383] for winning the Miss Torn City awards 2008!",
 		effect: "",
@@ -4865,7 +4983,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/363/large.png",
 	},
-	"364": {
+	364: {
 		name: "Box of Grenades",
 		description: "A box of 100 grenades, courtesy of the Eaglewood mercenary group.",
 		effect: "Provides 100 Grenades or 100 HEGs when opened.",
@@ -4878,7 +4996,7 @@ const TORN_ITEMS = {
 		circulation: 421305,
 		image: "https://www.torn.com/images/items/364/large.png",
 	},
-	"365": {
+	365: {
 		name: "Box of Medical Supplies",
 		description: "A box of medical supplies, courtesy of the Torn City Health Service.",
 		effect: "Provides 20 Morphine, 20 Empty Blood Bags, 30 First Aid Kits, or 50 Small First Aid Kits when opened.",
@@ -4891,7 +5009,7 @@ const TORN_ITEMS = {
 		circulation: 2391135,
 		image: "https://www.torn.com/images/items/365/large.png",
 	},
-	"366": {
+	366: {
 		name: "Erotic DVD",
 		description: "An Erotic DVD, courtesy of the Performance Ribaldry Network.",
 		effect: "Increases happiness by 2,500 and booster cooldown by 6 hours.",
@@ -4904,7 +5022,7 @@ const TORN_ITEMS = {
 		circulation: 1992055,
 		image: "https://www.torn.com/images/items/366/large.png",
 	},
-	"367": {
+	367: {
 		name: "Feathery Hotel Coupon",
 		description: "A coupon to stay at one of the world's best hotels, courtesy of the Feathery Hotels Group.",
 		effect: "Refills energy. Increases happiness by 500 and booster cooldown by 6 hours.",
@@ -4917,7 +5035,7 @@ const TORN_ITEMS = {
 		circulation: 1750874,
 		image: "https://www.torn.com/images/items/367/large.png",
 	},
-	"368": {
+	368: {
 		name: "Lawyer Business Card",
 		description: "This card has the number of a professional defense lawyer on it, courtesy of the Legal Authorities Group.",
 		effect: "Removes all jail time and increases booster cooldown by 1 hour.",
@@ -4930,7 +5048,7 @@ const TORN_ITEMS = {
 		circulation: 515788,
 		image: "https://www.torn.com/images/items/368/large.png",
 	},
-	"369": {
+	369: {
 		name: "Lottery Voucher",
 		description: "A lottery voucher which can be traded in for 100 lottery tickets for the weekly draw, courtesy of the Lucky Shot Casino.",
 		effect: "Provides 100 Lucky Shot Lotto tickets when used.",
@@ -4943,7 +5061,7 @@ const TORN_ITEMS = {
 		circulation: 2471543,
 		image: "https://www.torn.com/images/items/369/large.png",
 	},
-	"370": {
+	370: {
 		name: "Drug Pack",
 		description: "A drug pack from Symbiotic Ltd. Contains either 10x Xanax or 10x Vicodin.",
 		effect: "Provides 10 Xanax or 10 Vicodin when opened.",
@@ -4956,9 +5074,10 @@ const TORN_ITEMS = {
 		circulation: 1470331,
 		image: "https://www.torn.com/images/items/370/large.png",
 	},
-	"371": {
+	371: {
 		name: "Dark Doll",
-		description: "Legend has it that this doll was made in the darkest depths of a castle by the typing of a keyboard. It is said that whenever someone needs help, another thread is woven deep within the doll.",
+		description:
+			"Legend has it that this doll was made in the darkest depths of a castle by the typing of a keyboard. It is said that whenever someone needs help, another thread is woven deep within the doll.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -4969,7 +5088,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/371/large.png",
 	},
-	"372": {
+	372: {
 		name: "Empty Box",
 		description: "An empty box. Items can be placed in to this box turning it into a parcel. It can then be sent to other people.",
 		effect: "Can be filled with items to create a Parcel.",
@@ -4982,7 +5101,7 @@ const TORN_ITEMS = {
 		circulation: 6901708,
 		image: "https://www.torn.com/images/items/372/large.png",
 	},
-	"373": {
+	373: {
 		name: "Parcel",
 		description: "A parcel containing one or more items.",
 		effect: "Can be opened to receive the items inside.",
@@ -4995,7 +5114,7 @@ const TORN_ITEMS = {
 		circulation: 242027,
 		image: "https://www.torn.com/images/items/373/large.png",
 	},
-	"374": {
+	374: {
 		name: "Birthday Present",
 		description: "A birthday present, containing one or more items.",
 		effect: "Can be opened to receive the items inside.",
@@ -5008,7 +5127,7 @@ const TORN_ITEMS = {
 		circulation: 27618,
 		image: "https://www.torn.com/images/items/374/large.png",
 	},
-	"375": {
+	375: {
 		name: "Present",
 		description: "A present neatly wrapped with generic wrapping paper, containing one or more items.",
 		effect: "Can be opened to receive the items inside.",
@@ -5021,7 +5140,7 @@ const TORN_ITEMS = {
 		circulation: 78489,
 		image: "https://www.torn.com/images/items/375/large.png",
 	},
-	"376": {
+	376: {
 		name: "Christmas Present",
 		description: "A Christmas present, containing one or more items.",
 		effect: "Can be opened to receive the items inside.",
@@ -5034,7 +5153,7 @@ const TORN_ITEMS = {
 		circulation: 32552,
 		image: "https://www.torn.com/images/items/376/large.png",
 	},
-	"377": {
+	377: {
 		name: "Birthday Wrapping Paper",
 		description: "A roll of expensive birthday wrapping paper. Can be used on a parcel to turn it into a birthday present.",
 		effect: "Wraps parcels turning them into Birthday Presents.",
@@ -5047,7 +5166,7 @@ const TORN_ITEMS = {
 		circulation: 852421,
 		image: "https://www.torn.com/images/items/377/large.png",
 	},
-	"378": {
+	378: {
 		name: "Generic Wrapping Paper",
 		description: "A roll of standard wrapping paper. Can be used on a parcel to turn it into a present.",
 		effect: "Wraps parcels turning them into Presents.",
@@ -5060,7 +5179,7 @@ const TORN_ITEMS = {
 		circulation: 1202376,
 		image: "https://www.torn.com/images/items/378/large.png",
 	},
-	"379": {
+	379: {
 		name: "Christmas Wrapping Paper",
 		description: "A roll of expensive Christmas wrapping paper. Can be used on a parcel to turn it into a Christmas present.",
 		effect: "Wraps parcels turning them into Christmas Presents.",
@@ -5073,7 +5192,7 @@ const TORN_ITEMS = {
 		circulation: 1343309,
 		image: "https://www.torn.com/images/items/379/large.png",
 	},
-	"380": {
+	380: {
 		name: "Small Explosive Device",
 		description: "A very small explosive device. Generally used in parcels to give the opener a nasty surprise.",
 		effect: "Can be hidden inside a parcel to hospitalize someone for 5 hours upon opening.",
@@ -5086,9 +5205,10 @@ const TORN_ITEMS = {
 		circulation: 90969,
 		image: "https://www.torn.com/images/items/380/large.png",
 	},
-	"381": {
+	381: {
 		name: "Gold Laptop",
-		description: "Stun others with this exclusive limited edition solid gold laptop. Crafted from one single block of 99.9% pure gold. Use it while travelling, if your arms can bear the weight.",
+		description:
+			"Stun others with this exclusive limited edition solid gold laptop. Crafted from one single block of 99.9% pure gold. Use it while travelling, if your arms can bear the weight.",
 		effect: "Can be used to access additional services while traveling and program viruses.",
 		requirement: "",
 		type: "Electronic",
@@ -5099,9 +5219,10 @@ const TORN_ITEMS = {
 		circulation: 9,
 		image: "https://www.torn.com/images/items/381/large.png",
 	},
-	"382": {
+	382: {
 		name: "Gold Plated AK-47",
-		description: "One of the best rifles in the world, made even better. This highly tuned, gold plated AK-47 Kalashnikov will send fear coursing through the blood of your enemies. Configured to fire an extended magazine of ammunition, it's not the cheapest, but it'll certainly leave a mark.",
+		description:
+			"One of the best rifles in the world, made even better. This highly tuned, gold plated AK-47 Kalashnikov will send fear coursing through the blood of your enemies. Configured to fire an extended magazine of ammunition, it's not the cheapest, but it'll certainly leave a mark.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -5112,9 +5233,10 @@ const TORN_ITEMS = {
 		circulation: 240,
 		image: "https://www.torn.com/images/items/382/large.png",
 	},
-	"383": {
+	383: {
 		name: "Platinum PDA",
-		description: "This luxury, platinum plated personal data assistant has a large storage area for contacts. Boosting your friend and enemy capacity by 500, you'll never be without company again.",
+		description:
+			"This luxury, platinum plated personal data assistant has a large storage area for contacts. Boosting your friend and enemy capacity by 500, you'll never be without company again.",
 		effect: "Increases friends list and enemies list capacity by +500.",
 		requirement: "",
 		type: "Electronic",
@@ -5125,7 +5247,7 @@ const TORN_ITEMS = {
 		circulation: 2,
 		image: "https://www.torn.com/images/items/383/large.png",
 	},
-	"384": {
+	384: {
 		name: "Camel Plushie",
 		description: "This rare camel plushie will instantly remind you of Arabian nights within the U.A.E.",
 		effect: "",
@@ -5138,9 +5260,10 @@ const TORN_ITEMS = {
 		circulation: 4157363,
 		image: "https://www.torn.com/images/items/384/large.png",
 	},
-	"385": {
+	385: {
 		name: "Tribulus Omanense",
-		description: "Originating in the desert, and soon to become Dubai's official flower, the Tribulus Omanense is a hermaphroditic flower that can survive very harsh conditions.",
+		description:
+			"Originating in the desert, and soon to become Dubai's official flower, the Tribulus Omanense is a hermaphroditic flower that can survive very harsh conditions.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -5151,9 +5274,10 @@ const TORN_ITEMS = {
 		circulation: 3063612,
 		image: "https://www.torn.com/images/items/385/large.png",
 	},
-	"386": {
+	386: {
 		name: "Sports Sneakers",
-		description: "This pair of limited edition sneakers will prove their value in the gym. Rumoured to increase speed gains by up to 5%, these lightweight and durable shoes will leave your enemies in the dust.",
+		description:
+			"This pair of limited edition sneakers will prove their value in the gym. Rumoured to increase speed gains by up to 5%, these lightweight and durable shoes will leave your enemies in the dust.",
 		effect: "Increases speed gains in the gym by 5%.",
 		requirement: "",
 		type: "Enhancer",
@@ -5164,7 +5288,7 @@ const TORN_ITEMS = {
 		circulation: 50,
 		image: "https://www.torn.com/images/items/386/large.png",
 	},
-	"387": {
+	387: {
 		name: "Handbag",
 		description: "A platinum plated handbag to keep thieves at bay. Its diamond studs will deliver a nasty blow to any opponent.",
 		effect: "",
@@ -5177,9 +5301,10 @@ const TORN_ITEMS = {
 		circulation: 27,
 		image: "https://www.torn.com/images/items/387/large.png",
 	},
-	"388": {
+	388: {
 		name: "Pink Mac-10",
-		description: "Don't let the pink fool you. With a seriously extended magazine this rapid fire, automatic, sub machine-gun will mow down enemies with ease.",
+		description:
+			"Don't let the pink fool you. With a seriously extended magazine this rapid fire, automatic, sub machine-gun will mow down enemies with ease.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -5190,7 +5315,7 @@ const TORN_ITEMS = {
 		circulation: 15,
 		image: "https://www.torn.com/images/items/388/large.png",
 	},
-	"389": {
+	389: {
 		name: "Mr Torn Crown '09",
 		description: "Awarded to GodsCurse [785385] for winning the Mr Torn City awards 2009!",
 		effect: "",
@@ -5203,7 +5328,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/389/large.png",
 	},
-	"390": {
+	390: {
 		name: "Ms Torn Crown '09",
 		description: "Awarded to Lullsbud [945705] for winning the Miss Torn City awards 2009!",
 		effect: "",
@@ -5216,9 +5341,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/390/large.png",
 	},
-	"391": {
+	391: {
 		name: "Macana",
-		description: "This South American dagger with a handle of the finest Amazon timber is sharper than it looks. This extremely light, hand crafted weapon is very accurate.",
+		description:
+			"This South American dagger with a handle of the finest Amazon timber is sharper than it looks. This extremely light, hand crafted weapon is very accurate.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -5229,9 +5355,10 @@ const TORN_ITEMS = {
 		circulation: 127665,
 		image: "https://www.torn.com/images/items/391/large.png",
 	},
-	"392": {
+	392: {
 		name: "Pepper Spray",
-		description: "The spray contains 200 grams of weapons grade pepper, and once fired can incapacitate your opponent for several seconds. Perfect for that extra edge during a fight.",
+		description:
+			"The spray contains 200 grams of weapons grade pepper, and once fired can incapacitate your opponent for several seconds. Perfect for that extra edge during a fight.",
 		effect: "Opponent becomes Maced, decreasing Dexterity to 1/5th for 15-20 seconds.",
 		requirement: "",
 		type: "Temporary",
@@ -5242,9 +5369,10 @@ const TORN_ITEMS = {
 		circulation: 13340133,
 		image: "https://www.torn.com/images/items/392/large.png",
 	},
-	"393": {
+	393: {
 		name: "Slingshot",
-		description: "This weapon is perfect against a more powerful opponent, although contrary to popular opinion, it was a sling, not a slingshot, which was used by David against Goliath. Thank you to the ******* pedant who pointed this out.",
+		description:
+			"This weapon is perfect against a more powerful opponent, although contrary to popular opinion, it was a sling, not a slingshot, which was used by David against Goliath. Thank you to the ******* pedant who pointed this out.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -5255,9 +5383,10 @@ const TORN_ITEMS = {
 		circulation: 41535,
 		image: "https://www.torn.com/images/items/393/large.png",
 	},
-	"394": {
+	394: {
 		name: "Brick",
-		description: "The brick is a crude way to disable your opponent, but it's easily acquired from any DIY store or building site, and deadly if you can hit your target in a tender spot.",
+		description:
+			"The brick is a crude way to disable your opponent, but it's easily acquired from any DIY store or building site, and deadly if you can hit your target in a tender spot.",
 		effect: "",
 		requirement: "",
 		type: "Temporary",
@@ -5268,9 +5397,10 @@ const TORN_ITEMS = {
 		circulation: 133258660,
 		image: "https://www.torn.com/images/items/394/large.png",
 	},
-	"395": {
+	395: {
 		name: "Metal Nunchakus",
-		description: "The Metal Nunchakus are easily concealed when folded, but once opened become a weapon with lethal force for someone with Martial Arts training.",
+		description:
+			"The Metal Nunchakus are easily concealed when folded, but once opened become a weapon with lethal force for someone with Martial Arts training.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -5281,9 +5411,10 @@ const TORN_ITEMS = {
 		circulation: 59929,
 		image: "https://www.torn.com/images/items/395/large.png",
 	},
-	"396": {
+	396: {
 		name: "Business Class Ticket",
-		description: "If you want to travel in style and comfort, the only way to do this is to travel in business class. Stretch your legs and relax. You can use this two way ticket at the travel agency, and you'll be at your destination before you know it!",
+		description:
+			"If you want to travel in style and comfort, the only way to do this is to travel in business class. Stretch your legs and relax. You can use this two way ticket at the travel agency, and you'll be at your destination before you know it!",
 		effect: "Provides a return business class trip which reduces flight duration by 70%. Grants a base travel capacity of 15.",
 		requirement: "",
 		type: "Special",
@@ -5294,9 +5425,10 @@ const TORN_ITEMS = {
 		circulation: 85464,
 		image: "https://www.torn.com/images/items/396/large.png",
 	},
-	"397": {
+	397: {
 		name: "Flail",
-		description: "Used by knights in ancient times, it is still a devastating weapon in the right hands. This very rare medieval flail is highly inaccurate but will deliver a massive blow to anyone standing in its way.",
+		description:
+			"Used by knights in ancient times, it is still a devastating weapon in the right hands. This very rare medieval flail is highly inaccurate but will deliver a massive blow to anyone standing in its way.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -5307,7 +5439,7 @@ const TORN_ITEMS = {
 		circulation: 2870,
 		image: "https://www.torn.com/images/items/397/large.png",
 	},
-	"398": {
+	398: {
 		name: "SIG 552",
 		description: "This rifle is a very powerful weapon and comes with a folding leaf sight.",
 		effect: "",
@@ -5320,7 +5452,7 @@ const TORN_ITEMS = {
 		circulation: 9778,
 		image: "https://www.torn.com/images/items/398/large.png",
 	},
-	"399": {
+	399: {
 		name: "ArmaLite M-15A4",
 		description: "Made from the latest composites, this lightweight but powerful rifle is perfect for the experienced shooter.",
 		effect: "",
@@ -5333,9 +5465,10 @@ const TORN_ITEMS = {
 		circulation: 38560,
 		image: "https://www.torn.com/images/items/399/large.png",
 	},
-	"400": {
+	400: {
 		name: "Guandao",
-		description: "This Chinese pole weapon has a heavy blade, and a rear spike for when you swing it back around. Truly a weapon for the finest assassins. Not the best accuracy but hits hard!",
+		description:
+			"This Chinese pole weapon has a heavy blade, and a rear spike for when you swing it back around. Truly a weapon for the finest assassins. Not the best accuracy but hits hard!",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -5346,7 +5479,7 @@ const TORN_ITEMS = {
 		circulation: 12857,
 		image: "https://www.torn.com/images/items/400/large.png",
 	},
-	"401": {
+	401: {
 		name: "Lead Pipe",
 		description: "The lead pipe is quite clumsy and heavy, but a big swing can result in some devastating damage to your opponent.",
 		effect: "",
@@ -5359,9 +5492,10 @@ const TORN_ITEMS = {
 		circulation: 202678,
 		image: "https://www.torn.com/images/items/401/large.png",
 	},
-	"402": {
+	402: {
 		name: "Ice Pick",
-		description: "Nice and light, the ice pick is easy to handle, but is very sharp and can cause significant damage. Also useful for preparing drinks at parties after a hard week of crime.",
+		description:
+			"Nice and light, the ice pick is easy to handle, but is very sharp and can cause significant damage. Also useful for preparing drinks at parties after a hard week of crime.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -5372,7 +5506,7 @@ const TORN_ITEMS = {
 		circulation: 25717,
 		image: "https://www.torn.com/images/items/402/large.png",
 	},
-	"403": {
+	403: {
 		name: "Box of Tissues",
 		description: "The perfect present to dry the tears of your opponent in battle. If you win, that is.",
 		effect: "Increases happiness by 5-20 if under 20% of maximum.",
@@ -5385,7 +5519,7 @@ const TORN_ITEMS = {
 		circulation: 7553603,
 		image: "https://www.torn.com/images/items/403/large.png",
 	},
-	"404": {
+	404: {
 		name: "Bandana",
 		description: "Always nice to wear on warm summer days walking around the city. But be careful as sometimes it's the mark of a gang member.",
 		effect: "",
@@ -5398,7 +5532,7 @@ const TORN_ITEMS = {
 		circulation: 322636,
 		image: "https://www.torn.com/images/items/404/large.png",
 	},
-	"405": {
+	405: {
 		name: "Loaf of Bread",
 		description: "Considered the staple of many diets, bread tastes best when covered slightly with butter or margarine.",
 		effect: "",
@@ -5411,7 +5545,7 @@ const TORN_ITEMS = {
 		circulation: 4996,
 		image: "https://www.torn.com/images/items/405/large.png",
 	},
-	"406": {
+	406: {
 		name: "Afro Comb",
 		description: "Perfect for those bad hair days when your hair just will not behave, the afro comb will get you ready for your date on time.",
 		effect: "",
@@ -5424,7 +5558,7 @@ const TORN_ITEMS = {
 		circulation: 63858,
 		image: "https://www.torn.com/images/items/406/large.png",
 	},
-	"407": {
+	407: {
 		name: "Compass",
 		description: "This was the GPS of its time, and it made sure that weary travellers could find their way even in the most difficult conditions.",
 		effect: "",
@@ -5437,7 +5571,7 @@ const TORN_ITEMS = {
 		circulation: 266821,
 		image: "https://www.torn.com/images/items/407/large.png",
 	},
-	"408": {
+	408: {
 		name: "Sextant",
 		description: "Modern cruiseliners do not need a sextant these days, but they are made from the finest bronze and adorn many a Captain's cabin.",
 		effect: "",
@@ -5450,9 +5584,10 @@ const TORN_ITEMS = {
 		circulation: 20587,
 		image: "https://www.torn.com/images/items/408/large.png",
 	},
-	"409": {
+	409: {
 		name: "Yucca Plant",
-		description: "Native to hot and dry climates, this ornamental plant has tough sword shaped leaves. It is also the state flower of New Mexico and is perfect for your island garden.",
+		description:
+			"Native to hot and dry climates, this ornamental plant has tough sword shaped leaves. It is also the state flower of New Mexico and is perfect for your island garden.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -5463,9 +5598,10 @@ const TORN_ITEMS = {
 		circulation: 105278,
 		image: "https://www.torn.com/images/items/409/large.png",
 	},
-	"410": {
+	410: {
 		name: "Fire Hydrant",
-		description: "The Fire Hydrant is needed in case of fire, especially if you have invested heavily in your property and you want the firemen to put the flames out more quickly.",
+		description:
+			"The Fire Hydrant is needed in case of fire, especially if you have invested heavily in your property and you want the firemen to put the flames out more quickly.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -5476,7 +5612,7 @@ const TORN_ITEMS = {
 		circulation: 110530,
 		image: "https://www.torn.com/images/items/410/large.png",
 	},
-	"411": {
+	411: {
 		name: "Model Space Ship",
 		description: "This ship is made of die cast metal and has red LED lights. You can sit back and think about travelling where no one has gone before.",
 		effect: "",
@@ -5489,9 +5625,10 @@ const TORN_ITEMS = {
 		circulation: 64024,
 		image: "https://www.torn.com/images/items/411/large.png",
 	},
-	"412": {
+	412: {
 		name: "Sports Shades",
-		description: "The ultimate accessory when driving your GT40 with the top down on the highway, these shades are made from a non scratch material. One pair of these last a lifetime.",
+		description:
+			"The ultimate accessory when driving your GT40 with the top down on the highway, these shades are made from a non scratch material. One pair of these last a lifetime.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -5502,7 +5639,7 @@ const TORN_ITEMS = {
 		circulation: 248520,
 		image: "https://www.torn.com/images/items/412/large.png",
 	},
-	"413": {
+	413: {
 		name: "Mountie Hat",
 		description: "Worn by the Canadian Mounted Police while on duty, it can keep your head warm and dry or keep the sun out of your eyes.",
 		effect: "",
@@ -5515,7 +5652,7 @@ const TORN_ITEMS = {
 		circulation: 41052,
 		image: "https://www.torn.com/images/items/413/large.png",
 	},
-	"414": {
+	414: {
 		name: "Proda Sunglasses",
 		description: "The ultimate in city chic, these should only be worn when you want to dress to impress.",
 		effect: "",
@@ -5528,9 +5665,10 @@ const TORN_ITEMS = {
 		circulation: 92970,
 		image: "https://www.torn.com/images/items/414/large.png",
 	},
-	"415": {
+	415: {
 		name: "Ship in a Bottle",
-		description: "People always wonder how the ship got inside the bottle. If you look closely at this amazing ornament you can see tiny sailors on the deck.",
+		description:
+			"People always wonder how the ship got inside the bottle. If you look closely at this amazing ornament you can see tiny sailors on the deck.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -5541,7 +5679,7 @@ const TORN_ITEMS = {
 		circulation: 22674,
 		image: "https://www.torn.com/images/items/415/large.png",
 	},
-	"416": {
+	416: {
 		name: "Paper Weight",
 		description: "This piece of office equipment has many uses, not just for keeping paper under control on a busy desk. Truly a multi function device.",
 		effect: "",
@@ -5554,7 +5692,7 @@ const TORN_ITEMS = {
 		circulation: 234510,
 		image: "https://www.torn.com/images/items/416/large.png",
 	},
-	"417": {
+	417: {
 		name: "RS232 Cable",
 		description: "This miracle of modern computing technology is rumoured to be able to connect absolutely any two devices together.",
 		effect: "",
@@ -5567,9 +5705,10 @@ const TORN_ITEMS = {
 		circulation: 2184658,
 		image: "https://www.torn.com/images/items/417/large.png",
 	},
-	"418": {
+	418: {
 		name: "Tailors Dummy",
-		description: "This dummy is not only great to try out your latest designs on. It can keep you company on lonely evenings or even serve as a deterrent to would be burglars.",
+		description:
+			"This dummy is not only great to try out your latest designs on. It can keep you company on lonely evenings or even serve as a deterrent to would be burglars.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -5580,9 +5719,10 @@ const TORN_ITEMS = {
 		circulation: 29450,
 		image: "https://www.torn.com/images/items/418/large.png",
 	},
-	"419": {
+	419: {
 		name: "Small Suitcase",
-		description: "The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 2 more items back with you.",
+		description:
+			"The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 2 more items back with you.",
 		effect: "Increases travel capacity by +2. Does not stack with other suitcases.",
 		requirement: "",
 		type: "Enhancer",
@@ -5593,9 +5733,10 @@ const TORN_ITEMS = {
 		circulation: 6137,
 		image: "https://www.torn.com/images/items/419/large.png",
 	},
-	"420": {
+	420: {
 		name: "Medium Suitcase",
-		description: "The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 3 more items back with you.",
+		description:
+			"The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 3 more items back with you.",
 		effect: "Increases travel capacity by +3. Does not stack with other suitcases.",
 		requirement: "",
 		type: "Enhancer",
@@ -5606,9 +5747,10 @@ const TORN_ITEMS = {
 		circulation: 8651,
 		image: "https://www.torn.com/images/items/420/large.png",
 	},
-	"421": {
+	421: {
 		name: "Large Suitcase",
-		description: "The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 4 more items back with you.",
+		description:
+			"The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 4 more items back with you.",
 		effect: "Increases travel capacity by +4. Does not stack with other suitcases.",
 		requirement: "",
 		type: "Enhancer",
@@ -5619,7 +5761,7 @@ const TORN_ITEMS = {
 		circulation: 67656,
 		image: "https://www.torn.com/images/items/421/large.png",
 	},
-	"422": {
+	422: {
 		name: "Vanity Hand Mirror",
 		description: "This compact mirror is ideal to check yourself out before the big date.",
 		effect: "Can be used to check appearance.",
@@ -5632,7 +5774,7 @@ const TORN_ITEMS = {
 		circulation: 12762,
 		image: "https://www.torn.com/images/items/422/large.png",
 	},
-	"423": {
+	423: {
 		name: "Poker Chip",
 		description: "A very rare, lucky poker chip. Carry this in your pocket in your next big tournament; hopefully it will bring you good luck.",
 		effect: "",
@@ -5645,7 +5787,7 @@ const TORN_ITEMS = {
 		circulation: 654,
 		image: "https://www.torn.com/images/items/423/large.png",
 	},
-	"424": {
+	424: {
 		name: "Rabbit Foot",
 		description: "This is said to bestow good luck and fortune for those who own one, but be careful: losing it brings massive bad luck.",
 		effect: "",
@@ -5658,7 +5800,7 @@ const TORN_ITEMS = {
 		circulation: 337,
 		image: "https://www.torn.com/images/items/424/large.png",
 	},
-	"425": {
+	425: {
 		name: "Voodoo Doll",
 		description: "This doll is for sale to unsuspecting tourists who assume it is a long forgotten art, only to run into bad luck once they return home.",
 		effect: "",
@@ -5671,9 +5813,10 @@ const TORN_ITEMS = {
 		circulation: 235,
 		image: "https://www.torn.com/images/items/425/large.png",
 	},
-	"426": {
+	426: {
 		name: "Bottle of Tequila",
-		description: "Full to begin with, empty at the end, be sure to bring one of these back from your holidays in Mexico. Provides a small nerve increase when consumed.",
+		description:
+			"Full to begin with, empty at the end, be sure to bring one of these back from your holidays in Mexico. Provides a small nerve increase when consumed.",
 		effect: "Increases nerve by 1 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -5684,7 +5827,7 @@ const TORN_ITEMS = {
 		circulation: 3091524,
 		image: "https://www.torn.com/images/items/426/large.png",
 	},
-	"427": {
+	427: {
 		name: "Sumo Doll",
 		description: "Whether it be from fear or respect, you definitely need to hold this doll in high regard.",
 		effect: "",
@@ -5697,7 +5840,7 @@ const TORN_ITEMS = {
 		circulation: 369018,
 		image: "https://www.torn.com/images/items/427/large.png",
 	},
-	"428": {
+	428: {
 		name: "Casino Pass",
 		description: "The perfect gift for the avid gambler, this pass allows you to stay and gamble after hours, so you can try to make your losses back.",
 		effect: "Provides 50 Casino Tokens upon use.",
@@ -5710,9 +5853,10 @@ const TORN_ITEMS = {
 		circulation: 17634,
 		image: "https://www.torn.com/images/items/428/large.png",
 	},
-	"429": {
+	429: {
 		name: "Chopsticks",
-		description: "You can't go to Japan without giving your next meal a chance with a pair of these chopsticks. Definitely a must have item and experience while visiting.",
+		description:
+			"You can't go to Japan without giving your next meal a chance with a pair of these chopsticks. Definitely a must have item and experience while visiting.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -5723,7 +5867,7 @@ const TORN_ITEMS = {
 		circulation: 341811,
 		image: "https://www.torn.com/images/items/429/large.png",
 	},
-	"430": {
+	430: {
 		name: "Coconut Bra",
 		description: "While traveling in Hawaii and enjoying the amazing beaches they offer, don't forget your Hawaiian attire!",
 		effect: "",
@@ -5736,7 +5880,7 @@ const TORN_ITEMS = {
 		circulation: 6338,
 		image: "https://www.torn.com/images/items/430/large.png",
 	},
-	"431": {
+	431: {
 		name: "Dart Board",
 		description: "Be sure to stop in to the local pub for a quick game of darts while visiting London.",
 		effect: "",
@@ -5749,7 +5893,7 @@ const TORN_ITEMS = {
 		circulation: 262874,
 		image: "https://www.torn.com/images/items/431/large.png",
 	},
-	"432": {
+	432: {
 		name: "Crazy Straw",
 		description: "Bend them, stretch them, do as you please with them, but don't get caught without one in your drink.",
 		effect: "",
@@ -5762,7 +5906,7 @@ const TORN_ITEMS = {
 		circulation: 1367743,
 		image: "https://www.torn.com/images/items/432/large.png",
 	},
-	"433": {
+	433: {
 		name: "Sensu",
 		description: "The traditional Japanese fan can be used to keep you cool, or placed for a traditional Japanese look in any room.",
 		effect: "",
@@ -5775,7 +5919,7 @@ const TORN_ITEMS = {
 		circulation: 106870,
 		image: "https://www.torn.com/images/items/433/large.png",
 	},
-	"434": {
+	434: {
 		name: "Yakitori Lantern",
 		description: "This bright red lantern will help guide to the nearest Yakitori stall for a quick bite to eat.",
 		effect: "",
@@ -5788,9 +5932,10 @@ const TORN_ITEMS = {
 		circulation: 130344,
 		image: "https://www.torn.com/images/items/434/large.png",
 	},
-	"435": {
+	435: {
 		name: "Dozen White Roses",
-		description: "When you need just that special gift, nothing says it better than a dozen pure white roses. Specially selected, very rare and expensive flowers.",
+		description:
+			"When you need just that special gift, nothing says it better than a dozen pure white roses. Specially selected, very rare and expensive flowers.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -5801,7 +5946,7 @@ const TORN_ITEMS = {
 		circulation: 107,
 		image: "https://www.torn.com/images/items/435/large.png",
 	},
-	"436": {
+	436: {
 		name: "Snowboard",
 		description: "This is a must have accessory when visiting the slopes in Switzerland.",
 		effect: "",
@@ -5814,7 +5959,7 @@ const TORN_ITEMS = {
 		circulation: 480192,
 		image: "https://www.torn.com/images/items/436/large.png",
 	},
-	"437": {
+	437: {
 		name: "Glow Stick",
 		description: "They come in many colors and make the perfect accessory for a night out in the city with your friends.",
 		effect: "",
@@ -5827,7 +5972,7 @@ const TORN_ITEMS = {
 		circulation: 93250,
 		image: "https://www.torn.com/images/items/437/large.png",
 	},
-	"438": {
+	438: {
 		name: "Cricket Bat",
 		description: "Made from the finest willow and protected with linseed oil, this bat can literally knock your opponent for six.",
 		effect: "",
@@ -5840,9 +5985,10 @@ const TORN_ITEMS = {
 		circulation: 21699,
 		image: "https://www.torn.com/images/items/438/large.png",
 	},
-	"439": {
+	439: {
 		name: "Frying Pan",
-		description: "Usually used in the kitchen, it can be a very handy weapon if nothing else is to hand. Makes a loud noise on contact so make sure no witnesses are around.",
+		description:
+			"Usually used in the kitchen, it can be a very handy weapon if nothing else is to hand. Makes a loud noise on contact so make sure no witnesses are around.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -5853,9 +5999,10 @@ const TORN_ITEMS = {
 		circulation: 74861,
 		image: "https://www.torn.com/images/items/439/large.png",
 	},
-	"440": {
+	440: {
 		name: "Pillow",
-		description: "Filled with the finest duck feathers, it is hard to miss your opponent with this pillow. Make sure you swing hard as it is very soft to the touch.",
+		description:
+			"Filled with the finest duck feathers, it is hard to miss your opponent with this pillow. Make sure you swing hard as it is very soft to the touch.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -5866,9 +6013,10 @@ const TORN_ITEMS = {
 		circulation: 42184,
 		image: "https://www.torn.com/images/items/440/large.png",
 	},
-	"441": {
+	441: {
 		name: "Khinkeh P0rnStar Doll",
-		description: "This doll can only be possessed by the most deviant, twisted and gifted of sexually explicit individuals.  Its owner will soon find their senses heightened their stamina full and their abilities peaked.",
+		description:
+			"This doll can only be possessed by the most deviant, twisted and gifted of sexually explicit individuals.  Its owner will soon find their senses heightened their stamina full and their abilities peaked.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -5879,9 +6027,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/441/large.png",
 	},
-	"442": {
+	442: {
 		name: "Blow-Up Doll",
-		description: "This item is a Collectable fake female, after all there are no girlz on the interwebz. Good set of lungs required. Puncture proof guaranteed!",
+		description:
+			"This item is a Collectable fake female, after all there are no girlz on the interwebz. Good set of lungs required. Puncture proof guaranteed!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -5892,9 +6041,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/442/large.png",
 	},
-	"443": {
+	443: {
 		name: "Strawberry Milkshake",
-		description: "Made with extra loving care by Hate_Train with some of his favorite special ingredients. This is an amazingly tasty and refreshing treat the entire family can enjoy. Or is it?",
+		description:
+			"Made with extra loving care by Hate_Train with some of his favorite special ingredients. This is an amazingly tasty and refreshing treat the entire family can enjoy. Or is it?",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -5905,9 +6055,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/443/large.png",
 	},
-	"444": {
+	444: {
 		name: "Breadfan Doll",
-		description: "This doll is quite harmless unless provoked. Then it's Screw it all with no regrets. If you have drawn his shortest straw, sleep with one eye open. Here comes the Harvester of sorrow. Your life will be blackened by the God that failed.",
+		description:
+			"This doll is quite harmless unless provoked. Then it's Screw it all with no regrets. If you have drawn his shortest straw, sleep with one eye open. Here comes the Harvester of sorrow. Your life will be blackened by the God that failed.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -5918,9 +6069,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/444/large.png",
 	},
-	"445": {
+	445: {
 		name: "Chaos Man",
-		description: "The name of this guy strikes fear into everyone. But on the inside he is all soft and tender. Filled with innocence, Chaos Man is best handled with a nice warm hug.",
+		description:
+			"The name of this guy strikes fear into everyone. But on the inside he is all soft and tender. Filled with innocence, Chaos Man is best handled with a nice warm hug.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -5931,7 +6083,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/445/large.png",
 	},
-	"446": {
+	446: {
 		name: "Karate Man",
 		description: "This karate master bruises on the inside, and be careful not to get too close as he has a kung fu grip. KACHOW!",
 		effect: "",
@@ -5944,7 +6096,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/446/large.png",
 	},
-	"447": {
+	447: {
 		name: "Burmese Flag",
 		description: "This flag represents what the secretary Baalsagoth spends most of his day admiring. Huge IP's and broken browsers surely will follow.",
 		effect: "",
@@ -5957,9 +6109,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/447/large.png",
 	},
-	"448": {
+	448: {
 		name: "Bl0ndie's Dictionary",
-		description: "When your spelling is as bad as 'the typo queen' Bl0ndie's you will always need to carry a dictionary. Also gives a mighty whack when used to hit people who bring up her mistakes.",
+		description:
+			"When your spelling is as bad as 'the typo queen' Bl0ndie's you will always need to carry a dictionary. Also gives a mighty whack when used to hit people who bring up her mistakes.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -5970,9 +6123,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/448/large.png",
 	},
-	"449": {
+	449: {
 		name: "Hydroponic Grow Tent",
-		description: " This tent can be set up in any small space and every crop will easily generate more than enough Skunk to keep even Hydr0 well stoned into the wee hours! Own one of these and you no longer have to pay the man, You can be the man!",
+		description:
+			" This tent can be set up in any small space and every crop will easily generate more than enough Skunk to keep even Hydr0 well stoned into the wee hours! Own one of these and you no longer have to pay the man, You can be the man!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -5983,9 +6137,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/449/large.png",
 	},
-	"450": {
+	450: {
 		name: "Leopard Coin",
-		description: "An attempt by Edward III to produce a gold coin to be used internationally, much like the Florin but only half of the value. The Leopard bore the following Latin legend: 'DOMINE NE IN FURORE TUO ARGUAS ME', meaning: 'O Lord, rebuke me not in Thy anger'. The Florin was recalled and melted down in 1344 to produce the Noble. Few specimens have survived of what is often regarded as one of the most beautiful medieval coins ever produced.",
+		description:
+			"An attempt by Edward III to produce a gold coin to be used internationally, much like the Florin but only half of the value. The Leopard bore the following Latin legend: 'DOMINE NE IN FURORE TUO ARGUAS ME', meaning: 'O Lord, rebuke me not in Thy anger'. The Florin was recalled and melted down in 1344 to produce the Noble. Few specimens have survived of what is often regarded as one of the most beautiful medieval coins ever produced.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -5996,9 +6151,10 @@ const TORN_ITEMS = {
 		circulation: 22569,
 		image: "https://www.torn.com/images/items/450/large.png",
 	},
-	"451": {
+	451: {
 		name: "Florin Coin",
-		description: "An English coin based on a French coin, and issued in Florence, Italy in 1252. The Florin was made from gold and was intended as an international coin, however the gold it was made from was overvalued and the coin was not accepted by international merchants. The coin was then withdrawn from circulation and melted down to form the Noble. Because of this, the Florin is very rare.",
+		description:
+			"An English coin based on a French coin, and issued in Florence, Italy in 1252. The Florin was made from gold and was intended as an international coin, however the gold it was made from was overvalued and the coin was not accepted by international merchants. The coin was then withdrawn from circulation and melted down to form the Noble. Because of this, the Florin is very rare.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6009,9 +6165,10 @@ const TORN_ITEMS = {
 		circulation: 22772,
 		image: "https://www.torn.com/images/items/451/large.png",
 	},
-	"452": {
+	452: {
 		name: "Gold Noble Coin",
-		description: "The first mass-produced English coin, preceded by the Florin, the gold Noble was valued at six shillings and eight pence. The coin was introduced in 1344, and weighed 138.5 grains, later reduced to 128.5 grains. Mentioned in Shakespeare's plays, this coin is sought after by museums and private collectors.",
+		description:
+			"The first mass-produced English coin, preceded by the Florin, the gold Noble was valued at six shillings and eight pence. The coin was introduced in 1344, and weighed 138.5 grains, later reduced to 128.5 grains. Mentioned in Shakespeare's plays, this coin is sought after by museums and private collectors.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6022,9 +6179,10 @@ const TORN_ITEMS = {
 		circulation: 22906,
 		image: "https://www.torn.com/images/items/452/large.png",
 	},
-	"453": {
+	453: {
 		name: "Ganesha Sculpture",
-		description: "Also known as Ganapati, worshipped widely throughout Hindu India as the remover of obstacles. Ganesha has figured often in Indian art since around 100 AD. This rare work is made from gold and is highly sought after as part of a set of South Asian artifacts.",
+		description:
+			"Also known as Ganapati, worshipped widely throughout Hindu India as the remover of obstacles. Ganesha has figured often in Indian art since around 100 AD. This rare work is made from gold and is highly sought after as part of a set of South Asian artifacts.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6035,9 +6193,10 @@ const TORN_ITEMS = {
 		circulation: 5365,
 		image: "https://www.torn.com/images/items/453/large.png",
 	},
-	"454": {
+	454: {
 		name: "Vairocana Buddha Sculpture",
-		description: "The Vairocana Buddha is an embodiment of Dharmakaya. It is well known as the generalised depiction of the historical Gautama Buddha.Throughout Asia the image has different meanings: in Tibet - 'the illuminator' and in Japan - 'great sun'. Not as common as other Buddhist sculptures, this valuable gold specimen is a great collector's item.",
+		description:
+			"The Vairocana Buddha is an embodiment of Dharmakaya. It is well known as the generalised depiction of the historical Gautama Buddha.Throughout Asia the image has different meanings: in Tibet - 'the illuminator' and in Japan - 'great sun'. Not as common as other Buddhist sculptures, this valuable gold specimen is a great collector's item.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6048,9 +6207,10 @@ const TORN_ITEMS = {
 		circulation: 8327,
 		image: "https://www.torn.com/images/items/454/large.png",
 	},
-	"455": {
+	455: {
 		name: "Quran Script : Ibn Masud",
-		description: "The Qur'an, which in Arabic means 'the recitation', is recognized by Muslims as the main miracle of prophet Muhammad, and is a compilation of divine messages. It is a book of guidance as opposed to an account of specific events. This particular script is the Ibn Masud version, and is extremely valuable in a set of all three versions.",
+		description:
+			"The Qur'an, which in Arabic means 'the recitation', is recognized by Muslims as the main miracle of prophet Muhammad, and is a compilation of divine messages. It is a book of guidance as opposed to an account of specific events. This particular script is the Ibn Masud version, and is extremely valuable in a set of all three versions.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6061,9 +6221,10 @@ const TORN_ITEMS = {
 		circulation: 7650,
 		image: "https://www.torn.com/images/items/455/large.png",
 	},
-	"456": {
+	456: {
 		name: "Quran Script : Ubay Ibn Kab",
-		description: "The Qur'an, which in Arabic means 'the recitation', is recognized by Muslims as the main miracle of prophet Muhammad, and is a compilation of divine messages. It is a book of guidance as opposed to an account of specific events. This particular script is the Ubay Ibn Ka'b version, and is extremely valuable in a set of all three versions.",
+		description:
+			"The Qur'an, which in Arabic means 'the recitation', is recognized by Muslims as the main miracle of prophet Muhammad, and is a compilation of divine messages. It is a book of guidance as opposed to an account of specific events. This particular script is the Ubay Ibn Ka'b version, and is extremely valuable in a set of all three versions.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6074,9 +6235,10 @@ const TORN_ITEMS = {
 		circulation: 7420,
 		image: "https://www.torn.com/images/items/456/large.png",
 	},
-	"457": {
+	457: {
 		name: "Quran Script : Ali",
-		description: "The Qur'an, which in Arabic means 'the recitation', is recognized by Muslims as the main miracle of prophet Muhammad, and is a compilation of divine messages. It is a book of guidance as opposed to an account of specific events. This particular script is the Ali version, and is extremely valuable in a set of all three versions.",
+		description:
+			"The Qur'an, which in Arabic means 'the recitation', is recognized by Muslims as the main miracle of prophet Muhammad, and is a compilation of divine messages. It is a book of guidance as opposed to an account of specific events. This particular script is the Ali version, and is extremely valuable in a set of all three versions.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6087,9 +6249,10 @@ const TORN_ITEMS = {
 		circulation: 7560,
 		image: "https://www.torn.com/images/items/457/large.png",
 	},
-	"458": {
+	458: {
 		name: "Shabti Sculpture",
-		description: "Shabtis were placed in the tomb among the gods of the grave, acting as a substitute for the dead. The Egyptians believed that when they passed into the afterlife they would be called to do manual labour. The shabtis would then take their place and do the work, leaving the deceased to rest in peace. Shabtis from famous tombs are very rare, reflecting their high value.",
+		description:
+			"Shabtis were placed in the tomb among the gods of the grave, acting as a substitute for the dead. The Egyptians believed that when they passed into the afterlife they would be called to do manual labour. The shabtis would then take their place and do the work, leaving the deceased to rest in peace. Shabtis from famous tombs are very rare, reflecting their high value.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6100,9 +6263,10 @@ const TORN_ITEMS = {
 		circulation: 9540,
 		image: "https://www.torn.com/images/items/458/large.png",
 	},
-	"459": {
+	459: {
 		name: "Egyptian Amulet",
-		description: "These amulets, often in the form of a scarab beetle, were left in tombs as grave goods or given to people and the gods as presents. The Scarab, or 'Kheper' (which means \"to transform\"), was used in many of the pharaonic names. Pharaoh Amenhotep III was famous for his group of '5 scarabs'. This particular amulet is made from fired clay.",
+		description:
+			"These amulets, often in the form of a scarab beetle, were left in tombs as grave goods or given to people and the gods as presents. The Scarab, or 'Kheper' (which means \"to transform\"), was used in many of the pharaonic names. Pharaoh Amenhotep III was famous for his group of '5 scarabs'. This particular amulet is made from fired clay.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6113,9 +6277,10 @@ const TORN_ITEMS = {
 		circulation: 439,
 		image: "https://www.torn.com/images/items/459/large.png",
 	},
-	"460": {
+	460: {
 		name: "White Senet Pawn",
-		description: "An ancient game piece used in the game of Senet. As a complete set of 5 white pawns, 5 black pawns, and the Senet board, this collection would be very valuable to any collector or museum.",
+		description:
+			"An ancient game piece used in the game of Senet. As a complete set of 5 white pawns, 5 black pawns, and the Senet board, this collection would be very valuable to any collector or museum.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6126,9 +6291,10 @@ const TORN_ITEMS = {
 		circulation: 25774,
 		image: "https://www.torn.com/images/items/460/large.png",
 	},
-	"461": {
+	461: {
 		name: "Black Senet Pawn",
-		description: "An ancient game piece used in the game of Senet. As a complete set of 5 white pawns, 5 black pawns, and the Senet board, this collection would be very valuable to any collector or museum.",
+		description:
+			"An ancient game piece used in the game of Senet. As a complete set of 5 white pawns, 5 black pawns, and the Senet board, this collection would be very valuable to any collector or museum.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6139,9 +6305,10 @@ const TORN_ITEMS = {
 		circulation: 25430,
 		image: "https://www.torn.com/images/items/461/large.png",
 	},
-	"462": {
+	462: {
 		name: "Senet Board",
-		description: "Senet, or Senat is regarded as possibly the oldest board game in the world. Found in Predynastic and First Dynasty burials of Egypt, around 3500BC and 3100BC. The game is similar to draughts, with a board of 30 squares (3x10). The game is played with two sets of at least 5 pawns. Although Senet sets are mass produced today, this original set from around 3200BC would be priceless for a keen collector.",
+		description:
+			"Senet, or Senat is regarded as possibly the oldest board game in the world. Found in Predynastic and First Dynasty burials of Egypt, around 3500BC and 3100BC. The game is similar to draughts, with a board of 30 squares (3x10). The game is played with two sets of at least 5 pawns. Although Senet sets are mass produced today, this original set from around 3200BC would be priceless for a keen collector.",
 		effect: "",
 		requirement: "",
 		type: "Artifact",
@@ -6152,9 +6319,10 @@ const TORN_ITEMS = {
 		circulation: 21038,
 		image: "https://www.torn.com/images/items/462/large.png",
 	},
-	"463": {
+	463: {
 		name: "Epinephrine",
-		description: "Epinephrine is released from the adrenal glands when the user is in danger or excited. It prepares the user for these situations by boosting the supply of oxygen and glucose to the brain and muscles also increasing heart rate and suppressing the immune system. When used in combat, this steroid will provide a massive bonus to strength.",
+		description:
+			"Epinephrine is released from the adrenal glands when the user is in danger or excited. It prepares the user for these situations by boosting the supply of oxygen and glucose to the brain and muscles also increasing heart rate and suppressing the immune system. When used in combat, this steroid will provide a massive bonus to strength.",
 		effect: "User becomes Strengthened, increasing Strength by 500% for 120 seconds.",
 		requirement: "Bachelor of Biology education course.",
 		type: "Temporary",
@@ -6165,9 +6333,10 @@ const TORN_ITEMS = {
 		circulation: 146549,
 		image: "https://www.torn.com/images/items/463/large.png",
 	},
-	"464": {
+	464: {
 		name: "Melatonin",
-		description: "Melatonin reduces the effects of disease and pain and in other tests, Melatonin can possibly increase one's concentration levels. When used in combat, this steroid will provide a massive bonus to speed.",
+		description:
+			"Melatonin reduces the effects of disease and pain and in other tests, Melatonin can possibly increase one's concentration levels. When used in combat, this steroid will provide a massive bonus to speed.",
 		effect: "User becomes Hastened, increasing Speed by 500% for 120 seconds.",
 		requirement: "Bachelor of Biology education course.",
 		type: "Temporary",
@@ -6178,9 +6347,10 @@ const TORN_ITEMS = {
 		circulation: 216822,
 		image: "https://www.torn.com/images/items/464/large.png",
 	},
-	"465": {
+	465: {
 		name: "Serotonin",
-		description: "Serotonin acts as a pain killer, and helps with blood clotting. Tests on animals show that serotonin can make the animal more dominant and aggressive. When used in combat, this steroid will provide a massive bonus to defense, and may even replenish some life.",
+		description:
+			"Serotonin acts as a pain killer, and helps with blood clotting. Tests on animals show that serotonin can make the animal more dominant and aggressive. When used in combat, this steroid will provide a massive bonus to defense, and may even replenish some life.",
 		effect: "User becomes Hardened, increasing Defense by 300% for 120 seconds and replenishing life by 25%.",
 		requirement: "Bachelor of Biology education course.",
 		type: "Temporary",
@@ -6191,9 +6361,10 @@ const TORN_ITEMS = {
 		circulation: 161605,
 		image: "https://www.torn.com/images/items/465/large.png",
 	},
-	"466": {
+	466: {
 		name: "Snow Globe '09",
-		description: "These sit quietly all year round out of view, but at Christmas time one shake of this globe is the perfect reminder of the festive season.",
+		description:
+			"These sit quietly all year round out of view, but at Christmas time one shake of this globe is the perfect reminder of the festive season.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -6204,7 +6375,7 @@ const TORN_ITEMS = {
 		circulation: 2639,
 		image: "https://www.torn.com/images/items/466/large.png",
 	},
-	"467": {
+	467: {
 		name: "Dancing Santa Claus '09",
 		description: "This hand me down from your favourite auntie lights up the room and gets everyone singing their favourite Christmas carols.",
 		effect: "",
@@ -6217,7 +6388,7 @@ const TORN_ITEMS = {
 		circulation: 16376,
 		image: "https://www.torn.com/images/items/467/large.png",
 	},
-	"468": {
+	468: {
 		name: "Christmas Stocking '09",
 		description: "This stocking is never worn, but at Christmas time it is filled with lots of tasty goodies and hopefully a few presents.",
 		effect: "",
@@ -6230,9 +6401,10 @@ const TORN_ITEMS = {
 		circulation: 5,
 		image: "https://www.torn.com/images/items/468/large.png",
 	},
-	"469": {
+	469: {
 		name: "Santa's Elf '09",
-		description: "Santa's elves work hard all year round. This figurine was made in recognition of their efforts, and is sold in secret stores around the city.",
+		description:
+			"Santa's elves work hard all year round. This figurine was made in recognition of their efforts, and is sold in secret stores around the city.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -6243,9 +6415,10 @@ const TORN_ITEMS = {
 		circulation: 402,
 		image: "https://www.torn.com/images/items/469/large.png",
 	},
-	"470": {
+	470: {
 		name: "Christmas Card '09",
-		description: "Send this clever card, made from 100% recycled paper, to your loved ones at Christmas. It has a sweet festive rhyme inside if you are lost for words.",
+		description:
+			"Send this clever card, made from 100% recycled paper, to your loved ones at Christmas. It has a sweet festive rhyme inside if you are lost for words.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -6256,9 +6429,10 @@ const TORN_ITEMS = {
 		circulation: 5,
 		image: "https://www.torn.com/images/items/470/large.png",
 	},
-	"471": {
+	471: {
 		name: "Admin Portrait '09",
-		description: "A portrait of Clansy, Wolfeh, Davz and Ched. To hang above the mantel while the fire glows. We give you this gift because we care, No really we dont mind if you sit and stare. We know you guys luff us the best, Ched even wore his best Christmas vest. Merry Christmas!",
+		description:
+			"A portrait of Clansy, Wolfeh, Davz and Ched. To hang above the mantel while the fire glows. We give you this gift because we care, No really we dont mind if you sit and stare. We know you guys luff us the best, Ched even wore his best Christmas vest. Merry Christmas!",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -6269,9 +6443,10 @@ const TORN_ITEMS = {
 		circulation: 38,
 		image: "https://www.torn.com/images/items/471/large.png",
 	},
-	"472": {
+	472: {
 		name: "Blue Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +$100,000 when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +$100,000 when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -6282,9 +6457,10 @@ const TORN_ITEMS = {
 		circulation: 70184,
 		image: "https://www.torn.com/images/items/472/large.png",
 	},
-	"473": {
+	473: {
 		name: "Green Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +50 Energy when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +50 Energy when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -6295,9 +6471,10 @@ const TORN_ITEMS = {
 		circulation: 85321,
 		image: "https://www.torn.com/images/items/473/large.png",
 	},
-	"474": {
+	474: {
 		name: "Red Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +10 Nerve when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +10 Nerve when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -6308,9 +6485,10 @@ const TORN_ITEMS = {
 		circulation: 84303,
 		image: "https://www.torn.com/images/items/474/large.png",
 	},
-	"475": {
+	475: {
 		name: "Yellow Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +250 happiness when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +250 happiness when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -6321,9 +6499,10 @@ const TORN_ITEMS = {
 		circulation: 80502,
 		image: "https://www.torn.com/images/items/475/large.png",
 	},
-	"476": {
+	476: {
 		name: "White Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +5 Points when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +5 Points when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -6334,9 +6513,10 @@ const TORN_ITEMS = {
 		circulation: 36238,
 		image: "https://www.torn.com/images/items/476/large.png",
 	},
-	"477": {
+	477: {
 		name: "Black Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides Crime Experience when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides Crime Experience when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -6347,9 +6527,10 @@ const TORN_ITEMS = {
 		circulation: 70613,
 		image: "https://www.torn.com/images/items/477/large.png",
 	},
-	"478": {
+	478: {
 		name: "Gold Easter Egg",
-		description: "The rarest of all Easter eggs. One can only claim one of these when turning in the ten others; Blue, Green, Red, Yellow, White, Black, Brown, Orange, Pink, and Purple. Provides a very large happiness increase when consumed.",
+		description:
+			"The rarest of all Easter eggs. One can only claim one of these when turning in the ten others; Blue, Green, Red, Yellow, White, Black, Brown, Orange, Pink, and Purple. Provides a very large happiness increase when consumed.",
 		effect: "Increases happiness by 250 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -6360,7 +6541,7 @@ const TORN_ITEMS = {
 		circulation: 33628,
 		image: "https://www.torn.com/images/items/478/large.png",
 	},
-	"479": {
+	479: {
 		name: "Metal Dog Tag",
 		description: "A solid metal dog tag, given to winners of the yearly happy tagging competition.",
 		effect: "",
@@ -6373,7 +6554,7 @@ const TORN_ITEMS = {
 		circulation: 177,
 		image: "https://www.torn.com/images/items/479/large.png",
 	},
-	"480": {
+	480: {
 		name: "Bronze Dog Tag",
 		description: "A solid bronze dog tag, given to the 3rd place winner of the yearly happy tagging competition.",
 		effect: "",
@@ -6386,7 +6567,7 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/480/large.png",
 	},
-	"481": {
+	481: {
 		name: "Silver Dog Tag",
 		description: "A solid silver dog tag, given to the 2nd place winner of the yearly happy tagging competition.",
 		effect: "",
@@ -6399,7 +6580,7 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/481/large.png",
 	},
-	"482": {
+	482: {
 		name: "Gold Dog Tag",
 		description: "A solid gold dog tag, given to the 1st place winner of the yearly happy tagging competition.",
 		effect: "",
@@ -6412,7 +6593,7 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/482/large.png",
 	},
-	"483": {
+	483: {
 		name: "MP5k",
 		description: "A short version of the standard MP5. The MP5k is a short-range weapon with a lot of fire power.",
 		effect: "",
@@ -6425,9 +6606,10 @@ const TORN_ITEMS = {
 		circulation: 46285,
 		image: "https://www.torn.com/images/items/483/large.png",
 	},
-	"484": {
+	484: {
 		name: "AK74U",
-		description: "A shortened AK74. The AK74U has roughly the same dimensions and range as most Submachine Guns, but has the advantage of standard issue assault rifle ammunition.",
+		description:
+			"A shortened AK74. The AK74U has roughly the same dimensions and range as most Submachine Guns, but has the advantage of standard issue assault rifle ammunition.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -6438,9 +6620,10 @@ const TORN_ITEMS = {
 		circulation: 51509,
 		image: "https://www.torn.com/images/items/484/large.png",
 	},
-	"485": {
+	485: {
 		name: "Skorpion",
-		description: "This Czech weapon was designed for police, but is also used by some military units. It offers single shot, 3 burst fires and fully automatic functions.",
+		description:
+			"This Czech weapon was designed for police, but is also used by some military units. It offers single shot, 3 burst fires and fully automatic functions.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -6451,7 +6634,7 @@ const TORN_ITEMS = {
 		circulation: 46169,
 		image: "https://www.torn.com/images/items/485/large.png",
 	},
-	"486": {
+	486: {
 		name: "TMP",
 		description: "This modern SMG has a blowback operated, locked breech design. The TMP has no stock and can therefore, only be fired from pistol-style.",
 		effect: "",
@@ -6464,7 +6647,7 @@ const TORN_ITEMS = {
 		circulation: 47692,
 		image: "https://www.torn.com/images/items/486/large.png",
 	},
-	"487": {
+	487: {
 		name: "Thompson",
 		description: "An American blowback SMG. The Thompson takes a double row, box magazine designed to be inserted from below.",
 		effect: "",
@@ -6477,9 +6660,10 @@ const TORN_ITEMS = {
 		circulation: 48695,
 		image: "https://www.torn.com/images/items/487/large.png",
 	},
-	"488": {
+	488: {
 		name: "MP 40",
-		description: "Made in Germany, the MP40 is an open bolt, blowback operated Submachine Gun. Has a slow rate of fire and little recoil, and is useful for single shots rather than bursts.",
+		description:
+			"Made in Germany, the MP40 is an open bolt, blowback operated Submachine Gun. Has a slow rate of fire and little recoil, and is useful for single shots rather than bursts.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -6490,9 +6674,10 @@ const TORN_ITEMS = {
 		circulation: 49006,
 		image: "https://www.torn.com/images/items/488/large.png",
 	},
-	"489": {
+	489: {
 		name: "Luger",
-		description: "Also known as the \"Parabellum Pistole\". This name comes from the Latin phrase \"Si vis pacem, para bellum\"--\"if you want peace, prepare for war.\" A semi-automatic 9mm handgun.",
+		description:
+			'Also known as the "Parabellum Pistole". This name comes from the Latin phrase "Si vis pacem, para bellum"--"if you want peace, prepare for war." A semi-automatic 9mm handgun.',
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -6503,9 +6688,10 @@ const TORN_ITEMS = {
 		circulation: 48585,
 		image: "https://www.torn.com/images/items/489/large.png",
 	},
-	"490": {
+	490: {
 		name: "Blunderbuss",
-		description: "The Blunderbuss is a muzzle loading, single shot, short barrelled firearm. It is an early form of shotgun adapted to be used for personal and military defense.",
+		description:
+			"The Blunderbuss is a muzzle loading, single shot, short barrelled firearm. It is an early form of shotgun adapted to be used for personal and military defense.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -6516,7 +6702,7 @@ const TORN_ITEMS = {
 		circulation: 50253,
 		image: "https://www.torn.com/images/items/490/large.png",
 	},
-	"491": {
+	491: {
 		name: "Zombie Brain",
 		description: "A zombie brain, carefully dissected from the head of a zombie.",
 		effect: "",
@@ -6529,7 +6715,7 @@ const TORN_ITEMS = {
 		circulation: 4388,
 		image: "https://www.torn.com/images/items/491/large.png",
 	},
-	"492": {
+	492: {
 		name: "Human Head",
 		description: "A trophy for some zombies. A tasty snack for others.",
 		effect: "",
@@ -6542,7 +6728,7 @@ const TORN_ITEMS = {
 		circulation: 2614,
 		image: "https://www.torn.com/images/items/492/large.png",
 	},
-	"493": {
+	493: {
 		name: "Medal of Honor",
 		description: "Given to the valiant troops who lead their flag to victory in the World War competition.",
 		effect: "",
@@ -6555,7 +6741,7 @@ const TORN_ITEMS = {
 		circulation: 4657,
 		image: "https://www.torn.com/images/items/493/large.png",
 	},
-	"494": {
+	494: {
 		name: "Citroen Saxo",
 		description: "The Saxo is quick off the line, but it struggles with top speed due to a small 1400cc engine.",
 		effect: "",
@@ -6568,9 +6754,10 @@ const TORN_ITEMS = {
 		circulation: 55060,
 		image: "https://www.torn.com/images/items/494/large.png",
 	},
-	"495": {
+	495: {
 		name: "Classic Mini",
-		description: "This British classic is a retro icon with sharp handling. With only small 8\" discs on the front and drums on the back its braking isn't excellent.",
+		description:
+			"This British classic is a retro icon with sharp handling. With only small 8\" discs on the front and drums on the back its braking isn't excellent.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6581,7 +6768,7 @@ const TORN_ITEMS = {
 		circulation: 91824,
 		image: "https://www.torn.com/images/items/495/large.png",
 	},
-	"496": {
+	496: {
 		name: "Fiat Punto",
 		description: "The Fiat performs very well in the corners, but with only 80bhp it lacks top end speed.",
 		effect: "",
@@ -6594,9 +6781,10 @@ const TORN_ITEMS = {
 		circulation: 32335,
 		image: "https://www.torn.com/images/items/496/large.png",
 	},
-	"497": {
+	497: {
 		name: "Nissan Micra",
-		description: "Unfortunately most of these are ex-driving school cars which have been curbed one too many times resulting in bad handling. Its braking, however, is brilliant.",
+		description:
+			"Unfortunately most of these are ex-driving school cars which have been curbed one too many times resulting in bad handling. Its braking, however, is brilliant.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6607,9 +6795,10 @@ const TORN_ITEMS = {
 		circulation: 45442,
 		image: "https://www.torn.com/images/items/497/large.png",
 	},
-	"498": {
+	498: {
 		name: "Peugeot 106",
-		description: "This French hot hatch is very popular in its class due to its rapid acceleration. Sadly, its brakes are poor, but they do stop the car. Eventually.",
+		description:
+			"This French hot hatch is very popular in its class due to its rapid acceleration. Sadly, its brakes are poor, but they do stop the car. Eventually.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6620,7 +6809,7 @@ const TORN_ITEMS = {
 		circulation: 102124,
 		image: "https://www.torn.com/images/items/498/large.png",
 	},
-	"499": {
+	499: {
 		name: "Renault Clio",
 		description: "This rapid Renault has an astounding top speed thanks to a 16-valve engine, but with little torque it fails to get there in a hurry.",
 		effect: "",
@@ -6633,7 +6822,7 @@ const TORN_ITEMS = {
 		circulation: 57750,
 		image: "https://www.torn.com/images/items/499/large.png",
 	},
-	"500": {
+	500: {
 		name: "Vauxhall Corsa",
 		description: "This car's brakes are its major asset. Unfortunately, with its poor top speed, they're rarely used.",
 		effect: "",
@@ -6646,9 +6835,10 @@ const TORN_ITEMS = {
 		circulation: 41298,
 		image: "https://www.torn.com/images/items/500/large.png",
 	},
-	"501": {
+	501: {
 		name: "Volvo 850",
-		description: "This battleship can easily exceed 100 mph where others in its class will struggle. Being two tonnes however requires better brakes than those supplied.",
+		description:
+			"This battleship can easily exceed 100 mph where others in its class will struggle. Being two tonnes however requires better brakes than those supplied.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6659,9 +6849,10 @@ const TORN_ITEMS = {
 		circulation: 77217,
 		image: "https://www.torn.com/images/items/501/large.png",
 	},
-	"502": {
+	502: {
 		name: "Alfa Romeo 156",
-		description: "The Alfa has copious amounts of torque giving it ferocious acceleration off the line. Stopping on the other hand is an issue; with Alfa reliability affecting everything...including the all important brakes.",
+		description:
+			"The Alfa has copious amounts of torque giving it ferocious acceleration off the line. Stopping on the other hand is an issue; with Alfa reliability affecting everything...including the all important brakes.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6672,9 +6863,10 @@ const TORN_ITEMS = {
 		circulation: 93155,
 		image: "https://www.torn.com/images/items/502/large.png",
 	},
-	"503": {
+	503: {
 		name: "BMW X5",
-		description: "This drug dealer special has monstrous brakes to stop in time for those red lights (when not running from the police), yet its handling is as sharp as a tug boat on tarmac. On the plus side its 20 inch alloys do help it to overcome any potholes.",
+		description:
+			"This drug dealer special has monstrous brakes to stop in time for those red lights (when not running from the police), yet its handling is as sharp as a tug boat on tarmac. On the plus side its 20 inch alloys do help it to overcome any potholes.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6685,9 +6877,10 @@ const TORN_ITEMS = {
 		circulation: 36154,
 		image: "https://www.torn.com/images/items/503/large.png",
 	},
-	"504": {
+	504: {
 		name: "Seat Leon Cupra",
-		description: "This turbo charged European hatchback is lightning quick off the line, however it has poor aerodynamic properties hindering its top end speed.",
+		description:
+			"This turbo charged European hatchback is lightning quick off the line, however it has poor aerodynamic properties hindering its top end speed.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6698,9 +6891,10 @@ const TORN_ITEMS = {
 		circulation: 107752,
 		image: "https://www.torn.com/images/items/504/large.png",
 	},
-	"505": {
+	505: {
 		name: "Vauxhall Astra GSI",
-		description: "This turbocharged car will not disappoint with its top speed. Its acceleration off the line is delayed by dreaded \"torque steer\" as all the power is put through the front wheels.",
+		description:
+			'This turbocharged car will not disappoint with its top speed. Its acceleration off the line is delayed by dreaded "torque steer" as all the power is put through the front wheels.',
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6711,7 +6905,7 @@ const TORN_ITEMS = {
 		circulation: 62259,
 		image: "https://www.torn.com/images/items/505/large.png",
 	},
-	"506": {
+	506: {
 		name: "Volkswagen Golf GTI",
 		description: "The king of hot hatches cannot be faulted with its superb handling, it's a shame it lacks speed at the top end.",
 		effect: "",
@@ -6724,9 +6918,10 @@ const TORN_ITEMS = {
 		circulation: 44242,
 		image: "https://www.torn.com/images/items/506/large.png",
 	},
-	"507": {
+	507: {
 		name: "Audi S3",
-		description: "This car is sublime off the line due to its high tech Quattro system; it does however have an electronically limited top speed of 155 mph from the factory.",
+		description:
+			"This car is sublime off the line due to its high tech Quattro system; it does however have an electronically limited top speed of 155 mph from the factory.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6737,9 +6932,10 @@ const TORN_ITEMS = {
 		circulation: 15,
 		image: "https://www.torn.com/images/items/507/large.png",
 	},
-	"508": {
+	508: {
 		name: "Ford Focus RS",
-		description: "This fast Ford is worshiped by all boy racers, as it should be with its aggressive looks and a 300 bhp, 2.5 litre turbocharged engine delivering a magnificent sound as it rapidly accelerates It is however unnervingly twitchy under braking.",
+		description:
+			"This fast Ford is worshiped by all boy racers, as it should be with its aggressive looks and a 300 bhp, 2.5 litre turbocharged engine delivering a magnificent sound as it rapidly accelerates It is however unnervingly twitchy under braking.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6750,9 +6946,10 @@ const TORN_ITEMS = {
 		circulation: 31466,
 		image: "https://www.torn.com/images/items/508/large.png",
 	},
-	"509": {
+	509: {
 		name: "Honda S2000",
-		description: "This Honda is a well balanced two seat roadster, stable and poised under braking. However it does have a tail happy tendency that can catch out even the most experienced drivers.",
+		description:
+			"This Honda is a well balanced two seat roadster, stable and poised under braking. However it does have a tail happy tendency that can catch out even the most experienced drivers.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6763,9 +6960,10 @@ const TORN_ITEMS = {
 		circulation: 27858,
 		image: "https://www.torn.com/images/items/509/large.png",
 	},
-	"510": {
+	510: {
 		name: "Mini Cooper S",
-		description: "This German-revised British classic has retained the original car's playful and remarkable handling, with some clever tweaking from British tuning company John Cooper. As this car is supercharged, all the power is delivered at the low end of the revs, allowing great torque but affecting its top speed.",
+		description:
+			"This German-revised British classic has retained the original car's playful and remarkable handling, with some clever tweaking from British tuning company John Cooper. As this car is supercharged, all the power is delivered at the low end of the revs, allowing great torque but affecting its top speed.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6776,9 +6974,10 @@ const TORN_ITEMS = {
 		circulation: 16439,
 		image: "https://www.torn.com/images/items/510/large.png",
 	},
-	"511": {
+	511: {
 		name: "Sierra Cosworth",
-		description: "This king of the rally world is still a pin-up for most boy racers. It will out-manoeuvre most cars in its class with its sheer mechanical grip and no electronic trickery. The low horsepower, however, does affect this car's acceleration to top speed.",
+		description:
+			"This king of the rally world is still a pin-up for most boy racers. It will out-manoeuvre most cars in its class with its sheer mechanical grip and no electronic trickery. The low horsepower, however, does affect this car's acceleration to top speed.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6789,9 +6988,10 @@ const TORN_ITEMS = {
 		circulation: 24274,
 		image: "https://www.torn.com/images/items/511/large.png",
 	},
-	"512": {
+	512: {
 		name: "Lotus Exige",
-		description: "This British giant-killer will out-handle all in its class with ease, but shortly after will be swallowed up on the straights due to its miniscule 1.8 litre engine.",
+		description:
+			"This British giant-killer will out-handle all in its class with ease, but shortly after will be swallowed up on the straights due to its miniscule 1.8 litre engine.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6802,9 +7002,10 @@ const TORN_ITEMS = {
 		circulation: 134506,
 		image: "https://www.torn.com/images/items/512/large.png",
 	},
-	"513": {
+	513: {
 		name: "Mitsubishi Evo X",
-		description: "This rally pro is more suited to off-road and rally tracks with its handling on tarmac seemingly compromised. It does however hurl itself off the line with an incredibly impressive 0-60 time of 4.5 seconds, which would place it mid-field in class A.",
+		description:
+			"This rally pro is more suited to off-road and rally tracks with its handling on tarmac seemingly compromised. It does however hurl itself off the line with an incredibly impressive 0-60 time of 4.5 seconds, which would place it mid-field in class A.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6815,9 +7016,10 @@ const TORN_ITEMS = {
 		circulation: 19529,
 		image: "https://www.torn.com/images/items/513/large.png",
 	},
-	"514": {
+	514: {
 		name: "Porsche 911 GT3",
-		description: "This lightweight racer is stunning off the line and cannot be faulted on a track with its perfect set-up. The only fault would be the top end speed which is hindered by the sheer down-force the Porsche produces.",
+		description:
+			"This lightweight racer is stunning off the line and cannot be faulted on a track with its perfect set-up. The only fault would be the top end speed which is hindered by the sheer down-force the Porsche produces.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6828,9 +7030,10 @@ const TORN_ITEMS = {
 		circulation: 29556,
 		image: "https://www.torn.com/images/items/514/large.png",
 	},
-	"515": {
+	515: {
 		name: "Subaru Impreza STI",
-		description: "This rally legend is more at home on the loose stuff compared to a track, making under-steer a major issue when on tarmac. Its pure grunt off the line compensates for this though, twinned with a gorgeous thundering burble from the boxer engine.",
+		description:
+			"This rally legend is more at home on the loose stuff compared to a track, making under-steer a major issue when on tarmac. Its pure grunt off the line compensates for this though, twinned with a gorgeous thundering burble from the boxer engine.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6841,9 +7044,10 @@ const TORN_ITEMS = {
 		circulation: 23167,
 		image: "https://www.torn.com/images/items/515/large.png",
 	},
-	"516": {
+	516: {
 		name: "TVR Sagaris",
-		description: "This spitfire of the car world has raw mechanical grip round a track giving it balance and precision. Providing actual brakes that work would have been a nice touch, though.",
+		description:
+			"This spitfire of the car world has raw mechanical grip round a track giving it balance and precision. Providing actual brakes that work would have been a nice touch, though.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6854,9 +7058,10 @@ const TORN_ITEMS = {
 		circulation: 18259,
 		image: "https://www.torn.com/images/items/516/large.png",
 	},
-	"517": {
+	517: {
 		name: "Aston Martin One-77",
-		description: "This prestigious thoroughbred impresses not only the lords and ladies of the manor but petrol-heads as well. Its 700bhp V12 engine propels this Aston to a staggering 220 mph. Handling such power takes training and practice, and for this reason most will find it twitchy round corners, especially powering out of the corner exit.",
+		description:
+			"This prestigious thoroughbred impresses not only the lords and ladies of the manor but petrol-heads as well. Its 700bhp V12 engine propels this Aston to a staggering 220 mph. Handling such power takes training and practice, and for this reason most will find it twitchy round corners, especially powering out of the corner exit.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6867,9 +7072,10 @@ const TORN_ITEMS = {
 		circulation: 23240,
 		image: "https://www.torn.com/images/items/517/large.png",
 	},
-	"518": {
+	518: {
 		name: "Audi R8",
-		description: "This precision all-rounder is the most practical car in its range, and is so easy to handle it will make any driver seem like a seasoned F1 professional. It's a shame it lacks any real top end speed.",
+		description:
+			"This precision all-rounder is the most practical car in its range, and is so easy to handle it will make any driver seem like a seasoned F1 professional. It's a shame it lacks any real top end speed.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6880,9 +7086,10 @@ const TORN_ITEMS = {
 		circulation: 21481,
 		image: "https://www.torn.com/images/items/518/large.png",
 	},
-	"519": {
+	519: {
 		name: "Bugatti Veyron",
-		description: "This Goliath is the pinnacle of engineering perfection, the quad-turbocharged W16 propels this rocket 0-60 in 2.5 seconds and all the way on to 253mph! Although braking is immense with the huge air brake on the rear, judging distance to brake is somewhat warped by the incomprehensible speeds. Handling is much to be desired also with this car clocking mid table lap times for its class around a track regardless of its fighter jet straight line capabilities.",
+		description:
+			"This Goliath is the pinnacle of engineering perfection, the quad-turbocharged W16 propels this rocket 0-60 in 2.5 seconds and all the way on to 253mph! Although braking is immense with the huge air brake on the rear, judging distance to brake is somewhat warped by the incomprehensible speeds. Handling is much to be desired also with this car clocking mid table lap times for its class around a track regardless of its fighter jet straight line capabilities.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6893,9 +7100,10 @@ const TORN_ITEMS = {
 		circulation: 28,
 		image: "https://www.torn.com/images/items/519/large.png",
 	},
-	"520": {
+	520: {
 		name: "Ferrari 458",
-		description: "This Italian Stallion is the best handling Ferrari to date. This is no surprise as the great Michael Schumacher worked closely with the development team to fine-tune this prancing horse. You would expect a bit more top end speed compared to others in its class; however, 202 mph shouldn't disappoint too many.",
+		description:
+			"This Italian Stallion is the best handling Ferrari to date. This is no surprise as the great Michael Schumacher worked closely with the development team to fine-tune this prancing horse. You would expect a bit more top end speed compared to others in its class; however, 202 mph shouldn't disappoint too many.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6906,9 +7114,10 @@ const TORN_ITEMS = {
 		circulation: 25910,
 		image: "https://www.torn.com/images/items/520/large.png",
 	},
-	"521": {
+	521: {
 		name: "Lamborghini Gallardo",
-		description: "This show-boater is a hard beast to tame round the corners, but show it a straight line and all hell breaks loose going 0-60 in just 3.4 seconds. You need to be a good matador to tame this wild bull.",
+		description:
+			"This show-boater is a hard beast to tame round the corners, but show it a straight line and all hell breaks loose going 0-60 in just 3.4 seconds. You need to be a good matador to tame this wild bull.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6919,9 +7128,10 @@ const TORN_ITEMS = {
 		circulation: 18523,
 		image: "https://www.torn.com/images/items/521/large.png",
 	},
-	"522": {
+	522: {
 		name: "Lexus LFA",
-		description: "This newcomer is the hard work of normally quite tame Lexus. It is a triumph of technology married to brute force, but its weight causes great inertia under braking even with its incredible brakes. Top speeds are post 200 mph and it will out-drag most of its class rivals, including its Japanese friend the GT-R.",
+		description:
+			"This newcomer is the hard work of normally quite tame Lexus. It is a triumph of technology married to brute force, but its weight causes great inertia under braking even with its incredible brakes. Top speeds are post 200 mph and it will out-drag most of its class rivals, including its Japanese friend the GT-R.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6932,9 +7142,10 @@ const TORN_ITEMS = {
 		circulation: 28605,
 		image: "https://www.torn.com/images/items/522/large.png",
 	},
-	"523": {
+	523: {
 		name: "Mercedes SLR",
-		description: "This formula one-inspired poster pin-up boasts a maximum speed of 208 mph. Some find handling somewhat difficult, however, with all 617 horses screaming to be released at once.",
+		description:
+			"This formula one-inspired poster pin-up boasts a maximum speed of 208 mph. Some find handling somewhat difficult, however, with all 617 horses screaming to be released at once.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6945,9 +7156,10 @@ const TORN_ITEMS = {
 		circulation: 22246,
 		image: "https://www.torn.com/images/items/523/large.png",
 	},
-	"524": {
+	524: {
 		name: "Nissan GT-R",
-		description: "This Nissan is the ultimate toy for any boy, sporting every gadget you could dream of. It is second in its class at accelerating, with 0-60 coming up in just 3.3 seconds, but unlike competitors like the Veyron it does not compromise in the other areas. Sadly though, it does not break the 200 mph barrier, with factory spec peaking at a measly 192 mph.",
+		description:
+			"This Nissan is the ultimate toy for any boy, sporting every gadget you could dream of. It is second in its class at accelerating, with 0-60 coming up in just 3.3 seconds, but unlike competitors like the Veyron it does not compromise in the other areas. Sadly though, it does not break the 200 mph barrier, with factory spec peaking at a measly 192 mph.",
 		effect: "",
 		requirement: "",
 		type: "Car",
@@ -6958,7 +7170,7 @@ const TORN_ITEMS = {
 		circulation: 25260,
 		image: "https://www.torn.com/images/items/524/large.png",
 	},
-	"525": {
+	525: {
 		name: "Mr Torn Crown '10",
 		description: "Awarded to Madmiketyson [979994] for winning the Mr Torn City awards 2010!",
 		effect: "",
@@ -6971,7 +7183,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/525/large.png",
 	},
-	"526": {
+	526: {
 		name: "Ms Torn Crown '10",
 		description: "Awarded to Iamone [1296111] for winning the Miss Torn City awards 2010!",
 		effect: "",
@@ -6984,7 +7196,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/526/large.png",
 	},
-	"527": {
+	527: {
 		name: "Bag of Candy Kisses",
 		description: "Small tear shaped chocolate candies. Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
@@ -6997,7 +7209,7 @@ const TORN_ITEMS = {
 		circulation: 1287676,
 		image: "https://www.torn.com/images/items/527/large.png",
 	},
-	"528": {
+	528: {
 		name: "Bag of Tootsie Rolls",
 		description: "A pack of individually wrapped chewy candies with an assortment of flavours. Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 75 and booster cooldown by 30 minutes.",
@@ -7010,7 +7222,7 @@ const TORN_ITEMS = {
 		circulation: 1372606,
 		image: "https://www.torn.com/images/items/528/large.png",
 	},
-	"529": {
+	529: {
 		name: "Bag of Chocolate Truffles",
 		description: "With a chocolate ganache center coated in chocolate, nothing tastes better. Provides a large happiness increase when consumed.",
 		effect: "Increases happiness by 100 and booster cooldown by 30 minutes.",
@@ -7023,7 +7235,7 @@ const TORN_ITEMS = {
 		circulation: 1295239,
 		image: "https://www.torn.com/images/items/529/large.png",
 	},
-	"530": {
+	530: {
 		name: "Can of Munster",
 		description: "Wake up to a roaring monster. Provides a moderate energy increase when consumed.",
 		effect: "Increases energy by 20 and booster cooldown by 2 hours.",
@@ -7036,7 +7248,7 @@ const TORN_ITEMS = {
 		circulation: 473247,
 		image: "https://www.torn.com/images/items/530/large.png",
 	},
-	"531": {
+	531: {
 		name: "Bottle of Pumpkin Brew",
 		description: "Brewed with the finest pumpkins, the perfect alcoholic drink for Halloween. Provides a moderate nerve increase when consumed.",
 		effect: "Increases nerve by 2 and booster cooldown by 1 hour.",
@@ -7049,9 +7261,10 @@ const TORN_ITEMS = {
 		circulation: 735269,
 		image: "https://www.torn.com/images/items/531/large.png",
 	},
-	"532": {
+	532: {
 		name: "Can of Red Cow",
-		description: "Red cows are rare, only after years of the cows eating the right mix of red roses and tulips can you produce this high protein milk. Provides a large energy increase when consumed.",
+		description:
+			"Red cows are rare, only after years of the cows eating the right mix of red roses and tulips can you produce this high protein milk. Provides a large energy increase when consumed.",
 		effect: "Increases energy by 25 and booster cooldown by 2 hours.",
 		requirement: "",
 		type: "Energy Drink",
@@ -7062,9 +7275,10 @@ const TORN_ITEMS = {
 		circulation: 470118,
 		image: "https://www.torn.com/images/items/532/large.png",
 	},
-	"533": {
+	533: {
 		name: "Can of Taurine Elite",
-		description: "With its 250mg of caffeine per can, this drink is illegal in many countries worldwide. Provides a very large energy increase when consumed.",
+		description:
+			"With its 250mg of caffeine per can, this drink is illegal in many countries worldwide. Provides a very large energy increase when consumed.",
 		effect: "Increases energy by 30 and booster cooldown by 2 hours.",
 		requirement: "",
 		type: "Energy Drink",
@@ -7075,7 +7289,7 @@ const TORN_ITEMS = {
 		circulation: 394411,
 		image: "https://www.torn.com/images/items/533/large.png",
 	},
-	"534": {
+	534: {
 		name: "Witch's Cauldron",
 		description: "A black plastic ornamental cauldron, ideal for Halloween decorations.",
 		effect: "",
@@ -7088,7 +7302,7 @@ const TORN_ITEMS = {
 		circulation: 12550,
 		image: "https://www.torn.com/images/items/534/large.png",
 	},
-	"535": {
+	535: {
 		name: "Electronic Pumpkin",
 		description: "Designed for people who have no spare time: just pop in the batteries and it's ready to go.",
 		effect: "",
@@ -7101,7 +7315,7 @@ const TORN_ITEMS = {
 		circulation: 137288,
 		image: "https://www.torn.com/images/items/535/large.png",
 	},
-	"536": {
+	536: {
 		name: "Jack O Lantern Lamp",
 		description: "This beautifully crafted lamp will sit nicely on your table, but at night turn it on to see it in its full spooky glory.",
 		effect: "",
@@ -7114,9 +7328,10 @@ const TORN_ITEMS = {
 		circulation: 206914,
 		image: "https://www.torn.com/images/items/536/large.png",
 	},
-	"537": {
+	537: {
 		name: "Spooky Paper Weight",
-		description: "This glass paperweight has an ancient model castle inside. If you look closely you can almost see some eyes looking out of the front door.",
+		description:
+			"This glass paperweight has an ancient model castle inside. If you look closely you can almost see some eyes looking out of the front door.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -7127,7 +7342,7 @@ const TORN_ITEMS = {
 		circulation: 142261,
 		image: "https://www.torn.com/images/items/537/large.png",
 	},
-	"538": {
+	538: {
 		name: "Medieval Helmet",
 		description: "Found in William the Bald's Castle this armor is more for show than battle due to the ductile and malleable material it is made of.",
 		effect: "",
@@ -7153,7 +7368,7 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"539": {
+	539: {
 		name: "Blood Spattered Sickle",
 		description: "A traditional Halloween weapon, second hand as these are not made anymore. Complete with authentic blood stains.",
 		effect: "",
@@ -7166,9 +7381,10 @@ const TORN_ITEMS = {
 		circulation: 11544,
 		image: "https://www.torn.com/images/items/539/large.png",
 	},
-	"540": {
+	540: {
 		name: "Cauldron",
-		description: "Forged from iron ore, this handmade black cauldron is ideal to hang over an open fire and cook food in. According to legend, witches used cauldrons for concocting their potions.",
+		description:
+			"Forged from iron ore, this handmade black cauldron is ideal to hang over an open fire and cook food in. According to legend, witches used cauldrons for concocting their potions.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -7179,9 +7395,10 @@ const TORN_ITEMS = {
 		circulation: 23817,
 		image: "https://www.torn.com/images/items/540/large.png",
 	},
-	"541": {
+	541: {
 		name: "Bottle of Stinky Swamp Punch",
-		description: "This drink smells like a real swamp: you will need nerves of steel to down this puppy. Provides a very large nerve increase when consumed.",
+		description:
+			"This drink smells like a real swamp: you will need nerves of steel to down this puppy. Provides a very large nerve increase when consumed.",
 		effect: "Increases nerve by 4 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -7192,7 +7409,7 @@ const TORN_ITEMS = {
 		circulation: 321028,
 		image: "https://www.torn.com/images/items/541/large.png",
 	},
-	"542": {
+	542: {
 		name: "Bottle of Wicked Witch",
 		description: "Forget the tequila with the worm ... try the cider with the frog leg floaters! Provides a large nerve increase when consumed.",
 		effect: "Increases nerve by 3 and booster cooldown by 1 hour.",
@@ -7205,9 +7422,10 @@ const TORN_ITEMS = {
 		circulation: 301564,
 		image: "https://www.torn.com/images/items/542/large.png",
 	},
-	"543": {
+	543: {
 		name: "Deputy Star",
-		description: "Double struck solid copper with a gold antique finish. This item is only earned through merit and is given to those with the resolve to solve the most difficult cases. Pinned to your chest, the deputy star should be worn with the utmost pride. It is a recognisable symbol of peace and justice throughout Torn.",
+		description:
+			"Double struck solid copper with a gold antique finish. This item is only earned through merit and is given to those with the resolve to solve the most difficult cases. Pinned to your chest, the deputy star should be worn with the utmost pride. It is a recognisable symbol of peace and justice throughout Torn.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -7218,9 +7436,10 @@ const TORN_ITEMS = {
 		circulation: 10587,
 		image: "https://www.torn.com/images/items/543/large.png",
 	},
-	"544": {
+	544: {
 		name: "Wind Proof Lighter",
-		description: "With a lifetime guarantee, this windproof lighter is a must have for the outdoor type. It features our patented flint-wheel ignition and extra thick side walls to take those hard knocks. This lighter is also refillable with butane gas and gives off a beautiful blue flame.",
+		description:
+			"With a lifetime guarantee, this windproof lighter is a must have for the outdoor type. It features our patented flint-wheel ignition and extra thick side walls to take those hard knocks. This lighter is also refillable with butane gas and gives off a beautiful blue flame.",
 		effect: "Improves success rate for the Arson crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7231,9 +7450,10 @@ const TORN_ITEMS = {
 		circulation: 32687,
 		image: "https://www.torn.com/images/items/544/large.png",
 	},
-	"545": {
+	545: {
 		name: "Dual TMPs",
-		description: "Dual TMP sub machine guns. With the smallest magazines, you'll be reloading often. Although it'd be surprising if you couldn't kill them within the first round.",
+		description:
+			"Dual TMP sub machine guns. With the smallest magazines, you'll be reloading often. Although it'd be surprising if you couldn't kill them within the first round.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -7244,9 +7464,10 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/545/large.png",
 	},
-	"546": {
+	546: {
 		name: "Dual Bushmasters",
-		description: "Dual Bushmaster Carbon 15 Type 21s sub machine guns. Certainly the most accurate in the range: unleash the awesome fire-power while actually hitting the targets you're aiming at.",
+		description:
+			"Dual Bushmaster Carbon 15 Type 21s sub machine guns. Certainly the most accurate in the range: unleash the awesome fire-power while actually hitting the targets you're aiming at.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -7257,7 +7478,7 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/546/large.png",
 	},
-	"547": {
+	547: {
 		name: "Dual MP5s",
 		description: "Accurate and deadly dual MP5-Navy sub machine guns. Simply hold the triggers and let 'em have it!",
 		effect: "",
@@ -7270,9 +7491,10 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/547/large.png",
 	},
-	"548": {
+	548: {
 		name: "Dual P90s",
-		description: "Dual P90 sub machine guns. The P90s easily have the biggest magazine when compared to the other dual SMG's--you'll last several rounds without having to reload.",
+		description:
+			"Dual P90 sub machine guns. The P90s easily have the biggest magazine when compared to the other dual SMG's--you'll last several rounds without having to reload.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -7283,9 +7505,10 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/548/large.png",
 	},
-	"549": {
+	549: {
 		name: "Dual Uzis",
-		description: "Dual 9mm Uzi sub machine guns. The least accurate, but most damaging SMG in the range. Even if you don't hit them, they won't be popping their head up again after that onslaught of firepower.",
+		description:
+			"Dual 9mm Uzi sub machine guns. The least accurate, but most damaging SMG in the range. Even if you don't hit them, they won't be popping their head up again after that onslaught of firepower.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -7296,9 +7519,10 @@ const TORN_ITEMS = {
 		circulation: 9,
 		image: "https://www.torn.com/images/items/549/large.png",
 	},
-	"550": {
+	550: {
 		name: "Bottle of Kandy Kane",
-		description: "This bottled drink is said to be a Santa favourite. Gives your nerve the boost it needs. Provides a moderate nerve increase when consumed.",
+		description:
+			"This bottled drink is said to be a Santa favourite. Gives your nerve the boost it needs. Provides a moderate nerve increase when consumed.",
 		effect: "Increases nerve by 2 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -7309,9 +7533,10 @@ const TORN_ITEMS = {
 		circulation: 826976,
 		image: "https://www.torn.com/images/items/550/large.png",
 	},
-	"551": {
+	551: {
 		name: "Bottle of Minty Mayhem",
-		description: "A bottle of this can create mayhem with your nerve. Boosting your nerve enough to take the edge off. Provides a large nerve increase when consumed.",
+		description:
+			"A bottle of this can create mayhem with your nerve. Boosting your nerve enough to take the edge off. Provides a large nerve increase when consumed.",
 		effect: "Increases nerve by 3 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -7322,7 +7547,7 @@ const TORN_ITEMS = {
 		circulation: 824255,
 		image: "https://www.torn.com/images/items/551/large.png",
 	},
-	"552": {
+	552: {
 		name: "Bottle of Mistletoe Madness",
 		description: "One bottle of this is all it takes sometimes. Boost your nerve to the right level. Provides a very large nerve increase when consumed.",
 		effect: "Increases nerve by 4 and booster cooldown by 1 hour.",
@@ -7335,7 +7560,7 @@ const TORN_ITEMS = {
 		circulation: 848891,
 		image: "https://www.torn.com/images/items/552/large.png",
 	},
-	"553": {
+	553: {
 		name: "Can of Santa Shooters",
 		description: "A shot of Santa is sure to boost your energy. Provides a moderate energy increase when consumed.",
 		effect: "Increases energy by 20 and booster cooldown by 2 hours.",
@@ -7348,7 +7573,7 @@ const TORN_ITEMS = {
 		circulation: 598791,
 		image: "https://www.torn.com/images/items/553/large.png",
 	},
-	"554": {
+	554: {
 		name: "Can of Rockstar Rudolph",
 		description: "A can of this will keep you Rockin' around the Christmas tree all day! Provides a large energy increase when consumed.",
 		effect: "Increases energy by 25 and booster cooldown by 2 hours.",
@@ -7361,7 +7586,7 @@ const TORN_ITEMS = {
 		circulation: 586911,
 		image: "https://www.torn.com/images/items/554/large.png",
 	},
-	"555": {
+	555: {
 		name: "Can of X-MASS",
 		description: "X-MASS! Giving you the MASS you need this Christmas. Provides a very large energy increase when consumed.",
 		effect: "Increases energy by 30 and booster cooldown by 2 hours.",
@@ -7374,9 +7599,10 @@ const TORN_ITEMS = {
 		circulation: 543980,
 		image: "https://www.torn.com/images/items/555/large.png",
 	},
-	"556": {
+	556: {
 		name: "Bag of Reindeer Droppings",
-		description: "That's right, by all appearances it's a bag of Reindeer droppings. Don't let the looks deceive you, these chocolate covered raisins will melt in your mouth and boost your happiness! Provides a large happiness increase when consumed.",
+		description:
+			"That's right, by all appearances it's a bag of Reindeer droppings. Don't let the looks deceive you, these chocolate covered raisins will melt in your mouth and boost your happiness! Provides a large happiness increase when consumed.",
 		effect: "Increases happiness by 100 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -7387,9 +7613,10 @@ const TORN_ITEMS = {
 		circulation: 782184,
 		image: "https://www.torn.com/images/items/556/large.png",
 	},
-	"557": {
+	557: {
 		name: "Advent Calendar",
-		description: "Every day brings us one step closer to Christmas. Peeling back the paper door on the calendar helps the countdown seem real and gives a bit of chocolate for the day.",
+		description:
+			"Every day brings us one step closer to Christmas. Peeling back the paper door on the calendar helps the countdown seem real and gives a bit of chocolate for the day.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -7400,7 +7627,7 @@ const TORN_ITEMS = {
 		circulation: 67000,
 		image: "https://www.torn.com/images/items/557/large.png",
 	},
-	"558": {
+	558: {
 		name: "Santa's Snot",
 		description: "Warm and gooey, though not much of a treat, at least you know Christmas will happen this year. What a souvenir to remember it by.",
 		effect: "",
@@ -7413,7 +7640,7 @@ const TORN_ITEMS = {
 		circulation: 67085,
 		image: "https://www.torn.com/images/items/558/large.png",
 	},
-	"559": {
+	559: {
 		name: "Polar Bear Toy",
 		description: "Fluffy and cute, this plushie is sure to keep you warm in winter.",
 		effect: "",
@@ -7426,7 +7653,7 @@ const TORN_ITEMS = {
 		circulation: 211126,
 		image: "https://www.torn.com/images/items/559/large.png",
 	},
-	"560": {
+	560: {
 		name: "Fruitcake",
 		description: "Everyone gets one of these, and no one wants it. Hard and stale.",
 		effect: "",
@@ -7439,9 +7666,10 @@ const TORN_ITEMS = {
 		circulation: 16803601,
 		image: "https://www.torn.com/images/items/560/large.png",
 	},
-	"561": {
+	561: {
 		name: "Book of Carols",
-		description: "A book filled with all the Christmas favourites. Just opening it makes you a bit more knowledgeable. Lowers current education time by a small amount.",
+		description:
+			"A book filled with all the Christmas favourites. Just opening it makes you a bit more knowledgeable. Lowers current education time by a small amount.",
 		effect: "Reduces education course duration by 6 hours and increases booster cooldown by 6 hours.",
 		requirement: "",
 		type: "Booster",
@@ -7452,7 +7680,7 @@ const TORN_ITEMS = {
 		circulation: 20580,
 		image: "https://www.torn.com/images/items/561/large.png",
 	},
-	"562": {
+	562: {
 		name: "Sweater",
 		description: "Never attractive, but always seems to be under the tree on Christmas morning. Hopefully it at least protects you from the cold.",
 		effect: "",
@@ -7465,9 +7693,10 @@ const TORN_ITEMS = {
 		circulation: 81409,
 		image: "https://www.torn.com/images/items/562/large.png",
 	},
-	"563": {
+	563: {
 		name: "Gift Card",
-		description: "The perfect gift for when you just don't know what to get someone. Takes a bit of time and stress off the shopping list. Lowers current bank investment time by a small amount.",
+		description:
+			"The perfect gift for when you just don't know what to get someone. Takes a bit of time and stress off the shopping list. Lowers current bank investment time by a small amount.",
 		effect: "Reduces bank investment duration by 6 hours and increases booster cooldown by 6 hours.",
 		requirement: "",
 		type: "Booster",
@@ -7478,9 +7707,10 @@ const TORN_ITEMS = {
 		circulation: 21150,
 		image: "https://www.torn.com/images/items/563/large.png",
 	},
-	"564": {
+	564: {
 		name: "Glasses",
-		description: "A pair of high quality designer spectacles. Soft adjustable nose pads and plastic arm tips help to create a comfortable fit. These frames also make very cool sunglasses for men and women.",
+		description:
+			"A pair of high quality designer spectacles. Soft adjustable nose pads and plastic arm tips help to create a comfortable fit. These frames also make very cool sunglasses for men and women.",
 		effect: "Improves success rate for the Search For Cash crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7491,9 +7721,10 @@ const TORN_ITEMS = {
 		circulation: 57783,
 		image: "https://www.torn.com/images/items/564/large.png",
 	},
-	"565": {
+	565: {
 		name: "High-Speed Drive",
-		description: "This state-of-the-art CD drive can burn CDs faster than any other device on the market. Perfect for creating large volumes of high quality backups.",
+		description:
+			"This state-of-the-art CD drive can burn CDs faster than any other device on the market. Perfect for creating large volumes of high quality backups.",
 		effect: "Improves success rate for the Selling Copied Media crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7504,9 +7735,10 @@ const TORN_ITEMS = {
 		circulation: 58486,
 		image: "https://www.torn.com/images/items/565/large.png",
 	},
-	"566": {
+	566: {
 		name: "Mountain Bike",
-		description: "The Mountain Bike is a high spec bicycle created for off-road cycling. This high-performance bike has an aluminium dual suspension frame, alloy linear pull brakes and 24 speed gears.  Perfect for quick  shopping runs in the city.",
+		description:
+			"The Mountain Bike is a high spec bicycle created for off-road cycling. This high-performance bike has an aluminium dual suspension frame, alloy linear pull brakes and 24 speed gears.  Perfect for quick  shopping runs in the city.",
 		effect: "Improves success rate for the Shoplifting crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7517,9 +7749,10 @@ const TORN_ITEMS = {
 		circulation: 58287,
 		image: "https://www.torn.com/images/items/566/large.png",
 	},
-	"567": {
+	567: {
 		name: "Cut-Throat Razor",
-		description: "The Cut-Throat Razor is a razor with a blade that can fold into its handle.  Once widely used, it has since been replaced by modern safety razors. However it is still a popular tool with pickpockets who use it to open victim's pockets and cut bag straps unnoticed.",
+		description:
+			"The Cut-Throat Razor is a razor with a blade that can fold into its handle.  Once widely used, it has since been replaced by modern safety razors. However it is still a popular tool with pickpockets who use it to open victim's pockets and cut bag straps unnoticed.",
 		effect: "Improves success rate for the Pickpocketing crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7530,9 +7763,10 @@ const TORN_ITEMS = {
 		circulation: 58659,
 		image: "https://www.torn.com/images/items/567/large.png",
 	},
-	"568": {
+	568: {
 		name: "Slim Crowbar",
-		description: "The Slim Crowbar is a tool used for forcing entry. It is smaller and lighter than an ordinary crowbar making it easy to conceal. It can pop windows and doors with the minimum of effort.",
+		description:
+			"The Slim Crowbar is a tool used for forcing entry. It is smaller and lighter than an ordinary crowbar making it easy to conceal. It can pop windows and doors with the minimum of effort.",
 		effect: "Improves success rate for the Larceny crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7543,9 +7777,10 @@ const TORN_ITEMS = {
 		circulation: 58139,
 		image: "https://www.torn.com/images/items/568/large.png",
 	},
-	"569": {
+	569: {
 		name: "Balaclava",
-		description: "The Balaclava is a warm hat that covers the whole head. It has two eye holes for improved vision and a convenient mouth hole for barking orders at bank and convenience store staff.",
+		description:
+			"The Balaclava is a warm hat that covers the whole head. It has two eye holes for improved vision and a convenient mouth hole for barking orders at bank and convenience store staff.",
 		effect: "Improves success rate for the Armed Robbery crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7556,9 +7791,10 @@ const TORN_ITEMS = {
 		circulation: 58502,
 		image: "https://www.torn.com/images/items/569/large.png",
 	},
-	"570": {
+	570: {
 		name: "Advanced Driving Manual",
-		description: "The Advanced Driving Manual is a special textbook used in training the FBI, MI5 and other government security departments. It details tried and tested methods for evading pursuers on public roads. This book is not available to the public.",
+		description:
+			"The Advanced Driving Manual is a special textbook used in training the FBI, MI5 and other government security departments. It details tried and tested methods for evading pursuers on public roads. This book is not available to the public.",
 		effect: "Improves success rate for the Transporting Drugs crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7569,9 +7805,10 @@ const TORN_ITEMS = {
 		circulation: 59149,
 		image: "https://www.torn.com/images/items/570/large.png",
 	},
-	"571": {
+	571: {
 		name: "Ergonomic Keyboard",
-		description: "This healthier alternative for standard keyboards greatly increases typing speed and lets you work for longer, more comfortably. It has been expertly crafted to allow you to work in a more natural position.",
+		description:
+			"This healthier alternative for standard keyboards greatly increases typing speed and lets you work for longer, more comfortably. It has been expertly crafted to allow you to work in a more natural position.",
 		effect: "Improves success rate for the Planting Computer Viruses crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7582,9 +7819,10 @@ const TORN_ITEMS = {
 		circulation: 58662,
 		image: "https://www.torn.com/images/items/571/large.png",
 	},
-	"572": {
+	572: {
 		name: "Tracking Device",
-		description: "The Tracking Device is a kit that comprises a discreet, magnetic tracker and handheld GPS mapping system. It can track anyone or anything anywhere in the world to within 1 meter.",
+		description:
+			"The Tracking Device is a kit that comprises a discreet, magnetic tracker and handheld GPS mapping system. It can track anyone or anything anywhere in the world to within 1 meter.",
 		effect: "Improves success rate for the Assassination crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7595,9 +7833,10 @@ const TORN_ITEMS = {
 		circulation: 58058,
 		image: "https://www.torn.com/images/items/572/large.png",
 	},
-	"573": {
+	573: {
 		name: "Screwdriver",
-		description: "A strong flat-head screwdriver. With corrosion resistant, high grade chrome plated steel bars, the chance of tip breakage while shoving it in to a car ignition is extremely low.",
+		description:
+			"A strong flat-head screwdriver. With corrosion resistant, high grade chrome plated steel bars, the chance of tip breakage while shoving it in to a car ignition is extremely low.",
 		effect: "Improves success rate for the Grand Theft Auto crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7608,9 +7847,10 @@ const TORN_ITEMS = {
 		circulation: 58836,
 		image: "https://www.torn.com/images/items/573/large.png",
 	},
-	"574": {
+	574: {
 		name: "Fanny Pack",
-		description: "Problem solved! The bum bag is both comfortable and very fashionable to wear, while also keeping your personal belongings 100% secure as they are kept as close to you as possible. Perfect for storing and retrieving things on the fly!",
+		description:
+			"Problem solved! The bum bag is both comfortable and very fashionable to wear, while also keeping your personal belongings 100% secure as they are kept as close to you as possible. Perfect for storing and retrieving things on the fly!",
 		effect: "Improves success rate for the Robbing The Pawn Shop crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7621,9 +7861,10 @@ const TORN_ITEMS = {
 		circulation: 58270,
 		image: "https://www.torn.com/images/items/574/large.png",
 	},
-	"575": {
+	575: {
 		name: "Tumble Dryer",
-		description: "A condenser tumble dryer with a 10 kg capacity load. Use to dry clothes, or to make money, casino chips and credit cards look old and used - more realistic!",
+		description:
+			"A condenser tumble dryer with a 10 kg capacity load. Use to dry clothes, or to make money, casino chips and credit cards look old and used - more realistic!",
 		effect: "Improves success rate for the Counterfeiting crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7634,9 +7875,10 @@ const TORN_ITEMS = {
 		circulation: 58291,
 		image: "https://www.torn.com/images/items/575/large.png",
 	},
-	"576": {
+	576: {
 		name: "Chloroform",
-		description: "Made by creating a chain reaction involving highly reactive chemicals, this strong smelling substance is sure to keep your kidnap victims quiet while you negotiate ransoms.",
+		description:
+			"Made by creating a chain reaction involving highly reactive chemicals, this strong smelling substance is sure to keep your kidnap victims quiet while you negotiate ransoms.",
 		effect: "Improves success rate for the Kidnapping crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7647,9 +7889,10 @@ const TORN_ITEMS = {
 		circulation: 59276,
 		image: "https://www.torn.com/images/items/576/large.png",
 	},
-	"577": {
+	577: {
 		name: "Heavy Duty Padlock",
-		description: "This weatherproof high security padlock is great for securing the back of big rigs to prevent the cargo from being stolen, the cops won't even bother with it if they stop you!",
+		description:
+			"This weatherproof high security padlock is great for securing the back of big rigs to prevent the cargo from being stolen, the cops won't even bother with it if they stop you!",
 		effect: "Improves success rate for the Arms Trafficking crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7660,9 +7903,10 @@ const TORN_ITEMS = {
 		circulation: 58444,
 		image: "https://www.torn.com/images/items/577/large.png",
 	},
-	"578": {
+	578: {
 		name: "Duct Tape",
-		description: "Bonds on rough and uneven surfaces with a strong bite, is 100% waterproof, has strong re-inforced backing, a rugged all-weather shell, double-thick adhesive and is perfect for sticking explosive material to pillars, surfaces or walls.",
+		description:
+			"Bonds on rough and uneven surfaces with a strong bite, is 100% waterproof, has strong re-inforced backing, a rugged all-weather shell, double-thick adhesive and is perfect for sticking explosive material to pillars, surfaces or walls.",
 		effect: "Improves success rate for the Bombing crime.",
 		requirement: "",
 		type: "Enhancer",
@@ -7673,7 +7917,7 @@ const TORN_ITEMS = {
 		circulation: 58350,
 		image: "https://www.torn.com/images/items/578/large.png",
 	},
-	"579": {
+	579: {
 		name: "Wireless Dongle",
 		description: "Access the internet nearly anywhere! A very useful tool for getting close to unsecure networks and bank mainframes.",
 		effect: "Improves success rate for the Hacking crime.",
@@ -7686,7 +7930,7 @@ const TORN_ITEMS = {
 		circulation: 58741,
 		image: "https://www.torn.com/images/items/579/large.png",
 	},
-	"580": {
+	580: {
 		name: "Horse's Head",
 		description: "Go 'Godfather' on them... Place this horse's head in a parcel to give the recipient an awful surprise.",
 		effect: "Can be hidden inside a parcel to zero someone's energy, nerve and happiness upon opening.",
@@ -7699,7 +7943,7 @@ const TORN_ITEMS = {
 		circulation: 24632,
 		image: "https://www.torn.com/images/items/580/large.png",
 	},
-	"581": {
+	581: {
 		name: "Book",
 		description: "Make someone feel schooled. Punish them severely by throwing the book at them.",
 		effect: "Opponent becomes undignified, reducing their respectability.",
@@ -7712,9 +7956,10 @@ const TORN_ITEMS = {
 		circulation: 10044,
 		image: "https://www.torn.com/images/items/581/large.png",
 	},
-	"582": {
+	582: {
 		name: "Tin Foil Hat",
-		description: "Designed for the paranoid of mind, this hat keeps out all of those unwanted radio signals and mind reading devices that stalk your every move.",
+		description:
+			"Designed for the paranoid of mind, this hat keeps out all of those unwanted radio signals and mind reading devices that stalk your every move.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -7725,9 +7970,10 @@ const TORN_ITEMS = {
 		circulation: 49,
 		image: "https://www.torn.com/images/items/582/large.png",
 	},
-	"583": {
+	583: {
 		name: "Brown Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +100 to random working stat when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +100 to random working stat when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes",
 		requirement: "",
 		type: "Candy",
@@ -7738,9 +7984,10 @@ const TORN_ITEMS = {
 		circulation: 58539,
 		image: "https://www.torn.com/images/items/583/large.png",
 	},
-	"584": {
+	584: {
 		name: "Orange Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +50 Casino Tokens when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +50 Casino Tokens when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -7751,9 +7998,10 @@ const TORN_ITEMS = {
 		circulation: 80703,
 		image: "https://www.torn.com/images/items/584/large.png",
 	},
-	"585": {
+	585: {
 		name: "Pink Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides Experience when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides Experience when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -7764,9 +8012,10 @@ const TORN_ITEMS = {
 		circulation: 77674,
 		image: "https://www.torn.com/images/items/585/large.png",
 	},
-	"586": {
+	586: {
 		name: "Jawbreaker",
-		description: "This colossal 3 inch jawstopper has 15 different flavoured layers of tooth rotting goodness. Provides a large happiness increase when consumed.",
+		description:
+			"This colossal 3 inch jawstopper has 15 different flavoured layers of tooth rotting goodness. Provides a large happiness increase when consumed.",
 		effect: "Increases happiness by 150 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -7777,9 +8026,10 @@ const TORN_ITEMS = {
 		circulation: 70902,
 		image: "https://www.torn.com/images/items/586/large.png",
 	},
-	"587": {
+	587: {
 		name: "Bag of Sherbet",
-		description: "This bag of sherbet provides you with that mouth tingling fizz that you've always been waiting for. Provides a large happiness increase when consumed.",
+		description:
+			"This bag of sherbet provides you with that mouth tingling fizz that you've always been waiting for. Provides a large happiness increase when consumed.",
 		effect: "Increases happiness by 150 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -7790,7 +8040,7 @@ const TORN_ITEMS = {
 		circulation: 51507,
 		image: "https://www.torn.com/images/items/587/large.png",
 	},
-	"588": {
+	588: {
 		name: "Goodie Bag",
 		description: "An exquisite mix of Torn's hidden desires. Ranging from delicious bags of candy to revitalizing cans of energy drinks.",
 		effect: "Provides an assortment of 30 items made up of Candy, Alcohol and Energy Drinks when opened.",
@@ -7803,7 +8053,7 @@ const TORN_ITEMS = {
 		circulation: 12357,
 		image: "https://www.torn.com/images/items/588/large.png",
 	},
-	"589": {
+	589: {
 		name: "Undefined",
 		description: "",
 		effect: "",
@@ -7816,7 +8066,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/589/large.png",
 	},
-	"590": {
+	590: {
 		name: "Undefined 2",
 		description: "",
 		effect: "",
@@ -7829,7 +8079,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/590/large.png",
 	},
-	"591": {
+	591: {
 		name: "Undefined 3",
 		description: "",
 		effect: "",
@@ -7842,7 +8092,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/591/large.png",
 	},
-	"592": {
+	592: {
 		name: "Undefined 4",
 		description: "",
 		effect: "",
@@ -7855,7 +8105,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/592/large.png",
 	},
-	"593": {
+	593: {
 		name: "Mr Torn Crown '11",
 		description: "Awarded to Driving [1497275] for winning the Mr Torn City awards 2011!",
 		effect: "",
@@ -7868,7 +8118,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/593/large.png",
 	},
-	"594": {
+	594: {
 		name: "Ms Torn Crown '11",
 		description: "Awarded to Kimmy [995567] for winning the Miss Torn City awards 2011!",
 		effect: "",
@@ -7881,7 +8131,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/594/large.png",
 	},
-	"595": {
+	595: {
 		name: "Pile of Vomit",
 		description: "A huge pile of vomit created by all the scared residents of Torn during Halloween.",
 		effect: "",
@@ -7894,7 +8144,7 @@ const TORN_ITEMS = {
 		circulation: 8175,
 		image: "https://www.torn.com/images/items/595/large.png",
 	},
-	"596": {
+	596: {
 		name: "Rusty Dog Tag",
 		description: "A rusty dog tag from a long gone citizen of Torn. Not as good as a normal tag... obviously.",
 		effect: "",
@@ -7907,7 +8157,7 @@ const TORN_ITEMS = {
 		circulation: 2233,
 		image: "https://www.torn.com/images/items/596/large.png",
 	},
-	"597": {
+	597: {
 		name: "Gold Nugget",
 		description: "A gold nugget, the size of a golf ball.",
 		effect: "",
@@ -7920,7 +8170,7 @@ const TORN_ITEMS = {
 		circulation: 5385,
 		image: "https://www.torn.com/images/items/597/large.png",
 	},
-	"598": {
+	598: {
 		name: "Witch's Hat",
 		description: "A weird looking witch hat found in Halloween Town.",
 		effect: "",
@@ -7933,7 +8183,7 @@ const TORN_ITEMS = {
 		circulation: 1399,
 		image: "https://www.torn.com/images/items/598/large.png",
 	},
-	"599": {
+	599: {
 		name: "Golden Broomstick",
 		description: "A broom used to smuggle gold out of Halloween Town.",
 		effect: "",
@@ -7946,7 +8196,7 @@ const TORN_ITEMS = {
 		circulation: 3422,
 		image: "https://www.torn.com/images/items/599/large.png",
 	},
-	"600": {
+	600: {
 		name: "Devil's Pitchfork",
 		description: "A three pronged fork of sorcery.",
 		effect: "",
@@ -7959,7 +8209,7 @@ const TORN_ITEMS = {
 		circulation: 1543,
 		image: "https://www.torn.com/images/items/600/large.png",
 	},
-	"601": {
+	601: {
 		name: "Christmas Lights",
 		description: "Christmas tree lights with red, green and blue sparkling LEDs.",
 		effect: "",
@@ -7972,7 +8222,7 @@ const TORN_ITEMS = {
 		circulation: 18212,
 		image: "https://www.torn.com/images/items/601/large.png",
 	},
-	"602": {
+	602: {
 		name: "Gingerbread Man",
 		description: "A soft gingerbread cookie, carefully shaped in to a figure.",
 		effect: "",
@@ -7985,7 +8235,7 @@ const TORN_ITEMS = {
 		circulation: 16647,
 		image: "https://www.torn.com/images/items/602/large.png",
 	},
-	"603": {
+	603: {
 		name: "Golden Wreath",
 		description: "Only a true carnival gamer will walk away with this number one prize.",
 		effect: "",
@@ -7998,7 +8248,7 @@ const TORN_ITEMS = {
 		circulation: 10716,
 		image: "https://www.torn.com/images/items/603/large.png",
 	},
-	"604": {
+	604: {
 		name: "Pair of Ice Skates",
 		description: "Elegantly glide your way over frozen lakes with these professional grade ice skates.",
 		effect: "",
@@ -8011,7 +8261,7 @@ const TORN_ITEMS = {
 		circulation: 10661,
 		image: "https://www.torn.com/images/items/604/large.png",
 	},
-	"605": {
+	605: {
 		name: "Diamond Icicle",
 		description: "This sharp diamond encrusted icicle will really touch the heart of your worst enemy.",
 		effect: "",
@@ -8024,7 +8274,7 @@ const TORN_ITEMS = {
 		circulation: 14808,
 		image: "https://www.torn.com/images/items/605/large.png",
 	},
-	"606": {
+	606: {
 		name: "Santa Boots",
 		description: "A pair of Santa's boots from Christmas Town.",
 		effect: "",
@@ -8037,7 +8287,7 @@ const TORN_ITEMS = {
 		circulation: 14482,
 		image: "https://www.torn.com/images/items/606/large.png",
 	},
-	"607": {
+	607: {
 		name: "Santa Gloves",
 		description: "A pair of Santa's gloves from Christmas Town.",
 		effect: "",
@@ -8050,7 +8300,7 @@ const TORN_ITEMS = {
 		circulation: 14570,
 		image: "https://www.torn.com/images/items/607/large.png",
 	},
-	"608": {
+	608: {
 		name: "Santa Hat",
 		description: "Santa's soft warm hat, found in Christmas Town.",
 		effect: "",
@@ -8063,7 +8313,7 @@ const TORN_ITEMS = {
 		circulation: 11018,
 		image: "https://www.torn.com/images/items/608/large.png",
 	},
-	"609": {
+	609: {
 		name: "Santa Jacket",
 		description: "Santa's cozy jacket, found in Christmas Town.",
 		effect: "",
@@ -8076,7 +8326,7 @@ const TORN_ITEMS = {
 		circulation: 13023,
 		image: "https://www.torn.com/images/items/609/large.png",
 	},
-	"610": {
+	610: {
 		name: "Santa Trousers",
 		description: "Santa's red trousers, found in Christmas Town.",
 		effect: "",
@@ -8089,7 +8339,7 @@ const TORN_ITEMS = {
 		circulation: 16040,
 		image: "https://www.torn.com/images/items/610/large.png",
 	},
-	"611": {
+	611: {
 		name: "Snowball",
 		description: "A snowball carefully rounded and crunched up as tight as possible for maximum effect. A sensible owner would keep it in the freezer.",
 		effect: "Opponent becomes Christmassy, increasing their goodwill.",
@@ -8102,7 +8352,7 @@ const TORN_ITEMS = {
 		circulation: 670024,
 		image: "https://www.torn.com/images/items/611/large.png",
 	},
-	"612": {
+	612: {
 		name: "Tavor TAR-21",
 		description: "The Tavor TAR-21 is a gas operated, selective fire, magazine fed assault rifle of bullpup configuration.",
 		effect: "",
@@ -8115,7 +8365,7 @@ const TORN_ITEMS = {
 		circulation: 51812,
 		image: "https://www.torn.com/images/items/612/large.png",
 	},
-	"613": {
+	613: {
 		name: "Harpoon",
 		description: "Originally used to catch fish and large marine mammals. When fired the spear can penetrate through most armor worn by humans.",
 		effect: "",
@@ -8128,9 +8378,10 @@ const TORN_ITEMS = {
 		circulation: 17044,
 		image: "https://www.torn.com/images/items/613/large.png",
 	},
-	"614": {
+	614: {
 		name: "Diamond Bladed Knife",
-		description: "A saw blade which has diamonds fixed on the blade's base to cut hard or abrasive materials. This weapon is so sharp it will literally cut through anything.",
+		description:
+			"A saw blade which has diamonds fixed on the blade's base to cut hard or abrasive materials. This weapon is so sharp it will literally cut through anything.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -8141,9 +8392,9 @@ const TORN_ITEMS = {
 		circulation: 124313,
 		image: "https://www.torn.com/images/items/614/large.png",
 	},
-	"615": {
+	615: {
 		name: "Naval Cutlass",
-		description: "The 1860 Naval cutlass has a 27\" sharpened steel blade. It can slice any enemy open like butter!",
+		description: 'The 1860 Naval cutlass has a 27" sharpened steel blade. It can slice any enemy open like butter!',
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -8154,9 +8405,10 @@ const TORN_ITEMS = {
 		circulation: 2619,
 		image: "https://www.torn.com/images/items/615/large.png",
 	},
-	"616": {
+	616: {
 		name: "Trout",
-		description: "This 22 inch prize trout will make a fantastic feast. Alternatively you could express your disappointment or disgust with someone by bludgeoning them with it.",
+		description:
+			"This 22 inch prize trout will make a fantastic feast. Alternatively you could express your disappointment or disgust with someone by bludgeoning them with it.",
 		effect: "",
 		requirement: "",
 		type: "Temporary",
@@ -8167,9 +8419,10 @@ const TORN_ITEMS = {
 		circulation: 838476,
 		image: "https://www.torn.com/images/items/616/large.png",
 	},
-	"617": {
+	617: {
 		name: "Banana Orchid",
-		description: "The national flower of the Cayman Islands, the Wild Banana Orchid is one of many species on the islands but certainly the most unique and recognizable.",
+		description:
+			"The national flower of the Cayman Islands, the Wild Banana Orchid is one of many species on the islands but certainly the most unique and recognizable.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -8180,7 +8433,7 @@ const TORN_ITEMS = {
 		circulation: 3601394,
 		image: "https://www.torn.com/images/items/617/large.png",
 	},
-	"618": {
+	618: {
 		name: "Stingray Plushie",
 		description: "A cuddly stingray plushie, one of the Cayman Islands' most famous inhabitants.",
 		effect: "",
@@ -8193,7 +8446,7 @@ const TORN_ITEMS = {
 		circulation: 5031212,
 		image: "https://www.torn.com/images/items/618/large.png",
 	},
-	"619": {
+	619: {
 		name: "Steel Drum",
 		description: "55 gallons of musical steel to calypso the night away - musical talent not included!",
 		effect: "",
@@ -8206,7 +8459,7 @@ const TORN_ITEMS = {
 		circulation: 153714,
 		image: "https://www.torn.com/images/items/619/large.png",
 	},
-	"620": {
+	620: {
 		name: "Nodding Turtle",
 		description: "Duuuuuude, this tiny nodding turtle will agree with everything you say.",
 		effect: "",
@@ -8219,7 +8472,7 @@ const TORN_ITEMS = {
 		circulation: 1008674,
 		image: "https://www.torn.com/images/items/620/large.png",
 	},
-	"621": {
+	621: {
 		name: "Snorkel",
 		description: "A pair of reef exploring goggles with snorkel. Make sure you're properly equipped before heading out to the ocean!",
 		effect: "",
@@ -8232,7 +8485,7 @@ const TORN_ITEMS = {
 		circulation: 44537,
 		image: "https://www.torn.com/images/items/621/large.png",
 	},
-	"622": {
+	622: {
 		name: "Flippers",
 		description: "A pair of diving flippers more than suitable for snorkelling. If you're looking for underwater speed, you've got it!",
 		effect: "",
@@ -8245,7 +8498,7 @@ const TORN_ITEMS = {
 		circulation: 69375,
 		image: "https://www.torn.com/images/items/622/large.png",
 	},
-	"623": {
+	623: {
 		name: "Speedo",
 		description: "Although not so visually appealing, it's important to be streamlined when snorkelling.",
 		effect: "",
@@ -8258,7 +8511,7 @@ const TORN_ITEMS = {
 		circulation: 258021,
 		image: "https://www.torn.com/images/items/623/large.png",
 	},
-	"624": {
+	624: {
 		name: "Bikini",
 		description: "The most popular female beachwear around the globe. Perfect for snorkelling, and perhaps in some cases, cross dressing.",
 		effect: "",
@@ -8271,7 +8524,7 @@ const TORN_ITEMS = {
 		circulation: 405296,
 		image: "https://www.torn.com/images/items/624/large.png",
 	},
-	"625": {
+	625: {
 		name: "Wetsuit",
 		description: "For more advanced snorkellers, this suit will provide buoyancy in water and keep the cold out.",
 		effect: "",
@@ -8284,7 +8537,7 @@ const TORN_ITEMS = {
 		circulation: 33802,
 		image: "https://www.torn.com/images/items/625/large.png",
 	},
-	"626": {
+	626: {
 		name: "Diving Gloves",
 		description: "These thick diving gloves will protect your hands from harsh rocks and cold water.",
 		effect: "",
@@ -8297,9 +8550,10 @@ const TORN_ITEMS = {
 		circulation: 168130,
 		image: "https://www.torn.com/images/items/626/large.png",
 	},
-	"627": {
+	627: {
 		name: "Dog Poop",
-		description: "Fresh dog poop in a paper bag, the apparatus of a traditional practical joke. Place on your victim's doorstep and set the bag alight! Watch them fly out of their home to try to stomp the flames out. Perfect for April Fools' day.",
+		description:
+			"Fresh dog poop in a paper bag, the apparatus of a traditional practical joke. Place on your victim's doorstep and set the bag alight! Watch them fly out of their home to try to stomp the flames out. Perfect for April Fools' day.",
 		effect: "Decreases an occupant's happiness by 20% if successfully used on their property.",
 		requirement: "",
 		type: "Special",
@@ -8310,9 +8564,10 @@ const TORN_ITEMS = {
 		circulation: 60973,
 		image: "https://www.torn.com/images/items/627/large.png",
 	},
-	"628": {
+	628: {
 		name: "Stink Bombs",
-		description: "A pack of disgustingly smelly stink bombs. Break these little glass vials and put them through your victim's letter box to really spoil their day. A great prank for April Fools'.",
+		description:
+			"A pack of disgustingly smelly stink bombs. Break these little glass vials and put them through your victim's letter box to really spoil their day. A great prank for April Fools'.",
 		effect: "Decreases an occupant's happiness by 20% if successfully used on their property.",
 		requirement: "",
 		type: "Special",
@@ -8323,9 +8578,10 @@ const TORN_ITEMS = {
 		circulation: 52696,
 		image: "https://www.torn.com/images/items/628/large.png",
 	},
-	"629": {
+	629: {
 		name: "Toilet Paper",
-		description: "This budget toilet roll paper serves little use other than spoiling someone's home and garden. Throw the rolls over your victim's property to give them an unpleasant morning surprise. Perfect for April Fools' day.",
+		description:
+			"This budget toilet roll paper serves little use other than spoiling someone's home and garden. Throw the rolls over your victim's property to give them an unpleasant morning surprise. Perfect for April Fools' day.",
 		effect: "Decreases an occupant's happiness by 20% if successfully used on their property.",
 		requirement: "",
 		type: "Special",
@@ -8336,7 +8592,7 @@ const TORN_ITEMS = {
 		circulation: 54295,
 		image: "https://www.torn.com/images/items/629/large.png",
 	},
-	"630": {
+	630: {
 		name: "Mr Torn Crown '12",
 		description: "Awarded to scony [429271] for winning the Mr Torn City awards 2012!",
 		effect: "",
@@ -8349,7 +8605,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/630/large.png",
 	},
-	"631": {
+	631: {
 		name: "Ms Torn Crown '12",
 		description: "Awarded to JoNeSyGaLL [1263544] for winning the Miss Torn City awards 2012!",
 		effect: "",
@@ -8362,7 +8618,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/631/large.png",
 	},
-	"632": {
+	632: {
 		name: "Petrified Humerus",
 		description: "The perfect weapon for any enemy you have a bone to pick with.",
 		effect: "",
@@ -8375,7 +8631,7 @@ const TORN_ITEMS = {
 		circulation: 3561,
 		image: "https://www.torn.com/images/items/632/large.png",
 	},
-	"633": {
+	633: {
 		name: "Latex Gloves",
 		description: "Protect your iron fists from injuries with a pair of latex gloves.",
 		effect: "",
@@ -8388,7 +8644,7 @@ const TORN_ITEMS = {
 		circulation: 3334,
 		image: "https://www.torn.com/images/items/633/large.png",
 	},
-	"634": {
+	634: {
 		name: "Bag of Bloody Eyeballs",
 		description: "Eye Candy Halloween style. Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 75 and booster cooldown by 30 minutes.",
@@ -8401,7 +8657,7 @@ const TORN_ITEMS = {
 		circulation: 136920,
 		image: "https://www.torn.com/images/items/634/large.png",
 	},
-	"635": {
+	635: {
 		name: "Straitjacket",
 		description: "If the jacket fits, wear it. It will only restrain your body; your mind is free to go!",
 		effect: "",
@@ -8414,7 +8670,7 @@ const TORN_ITEMS = {
 		circulation: 3233,
 		image: "https://www.torn.com/images/items/635/large.png",
 	},
-	"636": {
+	636: {
 		name: "Cinnamon Decoration",
 		description: "A home-made Christmas tree decoration, giving off a lovely whiff of cinnamon.",
 		effect: "",
@@ -8427,7 +8683,7 @@ const TORN_ITEMS = {
 		circulation: 17538,
 		image: "https://www.torn.com/images/items/636/large.png",
 	},
-	"637": {
+	637: {
 		name: "Christmas Express",
 		description: "All aboard!",
 		effect: "",
@@ -8440,7 +8696,7 @@ const TORN_ITEMS = {
 		circulation: 14014,
 		image: "https://www.torn.com/images/items/637/large.png",
 	},
-	"638": {
+	638: {
 		name: "Bottle of Christmas Cocktail",
 		description: "Torn's liquefied way of wishing you a Merry Christmas and a very Happy New Year. Provides a large nerve increase when consumed.",
 		effect: "Increases nerve by 3 and booster cooldown by 1 hour.",
@@ -8453,7 +8709,7 @@ const TORN_ITEMS = {
 		circulation: 543856,
 		image: "https://www.torn.com/images/items/638/large.png",
 	},
-	"639": {
+	639: {
 		name: "Golden Candy Cane",
 		description: "A solid gold Candy Cane, not suited for consumption.",
 		effect: "",
@@ -8466,7 +8722,7 @@ const TORN_ITEMS = {
 		circulation: 14163,
 		image: "https://www.torn.com/images/items/639/large.png",
 	},
-	"640": {
+	640: {
 		name: "Kevlar Gloves",
 		description: "These gloves can protect you from cuts and extreme temperatures, providing light-weight dexterity and comfort.",
 		effect: "",
@@ -8492,9 +8748,10 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"641": {
+	641: {
 		name: "WWII Helmet",
-		description: "The Stahlhelm (\"steel helmet\"), with its distinctive \"coal scuttle\" shape, was an instantly-recognizable military icon and became a common element of military propaganda as well as protecting many skulls from shrapnel.",
+		description:
+			'The Stahlhelm ("steel helmet"), with its distinctive "coal scuttle" shape, was an instantly-recognizable military icon and became a common element of military propaganda as well as protecting many skulls from shrapnel.',
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8518,9 +8775,10 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"642": {
+	642: {
 		name: "Motorcycle Helmet",
-		description: "What would be more embarrassing than suffering a crash because you got a bug in your eye? And if you get mugged, the helmet can protect you from blunt instruments and pepper spray.",
+		description:
+			"What would be more embarrassing than suffering a crash because you got a bug in your eye? And if you get mugged, the helmet can protect you from blunt instruments and pepper spray.",
 		effect: "Immunity to Pepper Spray and Sand",
 		requirement: "",
 		type: "Defensive",
@@ -8544,9 +8802,10 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"643": {
+	643: {
 		name: "Construction Helmet",
-		description: "Protects you from tools and other object dropped by fellow-workers above you, and from muggers trying to crack your skull. Also gives you license to whistle at likely-looking passers-by.",
+		description:
+			"Protects you from tools and other object dropped by fellow-workers above you, and from muggers trying to crack your skull. Also gives you license to whistle at likely-looking passers-by.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8570,9 +8829,10 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"644": {
+	644: {
 		name: "Welding Helmet",
-		description: "Designed to protect your eyes, head, and neck from flash burn while welding, this sturdy helmet can also deflect attacks from blunt instruments and pepper spray.",
+		description:
+			"Designed to protect your eyes, head, and neck from flash burn while welding, this sturdy helmet can also deflect attacks from blunt instruments and pepper spray.",
 		effect: "Immunity to Flash Grenades, Pepper Spray, and Sand",
 		requirement: "",
 		type: "Defensive",
@@ -8596,9 +8856,10 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"645": {
+	645: {
 		name: "Safety Boots",
-		description: "These steel-toed boots protect your feet from heavy, sharp, or hot objects; provide extra power for your kick; and gain you respect among the street-wise.",
+		description:
+			"These steel-toed boots protect your feet from heavy, sharp, or hot objects; provide extra power for your kick; and gain you respect among the street-wise.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8622,9 +8883,10 @@ const TORN_ITEMS = {
 			"Groin Coverage": 0,
 		},
 	},
-	"646": {
+	646: {
 		name: "Hiking Boots",
-		description: "These boots will support you along difficult trails and up rocky scrambles. They also provide moderate protection against both gunfire and blade attacks.",
+		description:
+			"These boots will support you along difficult trails and up rocky scrambles. They also provide moderate protection against both gunfire and blade attacks.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8648,9 +8910,10 @@ const TORN_ITEMS = {
 			"Groin Coverage": 0,
 		},
 	},
-	"647": {
+	647: {
 		name: "Leather Helmet",
-		description: "This helmet keeps the sun out of your eyes, the dust off your neck, and your brains more or less in place if someone swats you with a baseball bat.",
+		description:
+			"This helmet keeps the sun out of your eyes, the dust off your neck, and your brains more or less in place if someone swats you with a baseball bat.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8674,7 +8937,7 @@ const TORN_ITEMS = {
 			"Groin Coverage": 0,
 		},
 	},
-	"648": {
+	648: {
 		name: "Leather Pants",
 		description: "These pants can deflect some knife thrusts, and reduce injuries from motorcycle accidents or rug burn.",
 		effect: "",
@@ -8700,7 +8963,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"649": {
+	649: {
 		name: "Leather Boots",
 		description: "These boots make a style and a safety statement at the same time, offering both eye appeal and modest protection against attacks.",
 		effect: "",
@@ -8726,9 +8989,10 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"650": {
+	650: {
 		name: "Leather Gloves",
-		description: "These gloves protect your hands from extremes of heat and cold, and from some weapons; however, it sure is hard to pick up a coin while wearing them!",
+		description:
+			"These gloves protect your hands from extremes of heat and cold, and from some weapons; however, it sure is hard to pick up a coin while wearing them!",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8752,9 +9016,10 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"651": {
+	651: {
 		name: "Combat Helmet",
-		description: "This helmet cradles the wearer's head and provides protection against both concussion and shrapnel. You can also fill it with water and boil eggs for your supper.",
+		description:
+			"This helmet cradles the wearer's head and provides protection against both concussion and shrapnel. You can also fill it with water and boil eggs for your supper.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8778,9 +9043,10 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"652": {
+	652: {
 		name: "Combat Pants",
-		description: "These pants are camouflaged, so you may have trouble finding them in your closet. However, once on they provide added protection against cuts and abrasions and have many handy pockets.",
+		description:
+			"These pants are camouflaged, so you may have trouble finding them in your closet. However, once on they provide added protection against cuts and abrasions and have many handy pockets.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8804,9 +9070,10 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"653": {
+	653: {
 		name: "Combat Boots",
-		description: "These boots will keep you well-attached to the surface of the Earth. Their weight is largely made up of protective layers in the sole and uppers to keep your feet safer even when you waltz through a minefield.",
+		description:
+			"These boots will keep you well-attached to the surface of the Earth. Their weight is largely made up of protective layers in the sole and uppers to keep your feet safer even when you waltz through a minefield.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8830,7 +9097,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"654": {
+	654: {
 		name: "Combat Gloves",
 		description: "These reinforced gauntlets keep your hands safe in close-combat situations, although they do make it harder to text on your cell phone.",
 		effect: "",
@@ -8856,7 +9123,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"655": {
+	655: {
 		name: "Riot Helmet",
 		description: "This helmet can protect you against thrown bricks, fire splash from incendiaries, and flowers tossed your way by pacifists.",
 		effect: "Immunity to Pepper Spray and Sand",
@@ -8882,9 +9149,10 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"656": {
+	656: {
 		name: "Riot Body",
-		description: "Although this armor for your torso will slow down your dance-floor moves, you will thank it when it deflects a knife blade or a platter of shrapnel from an explosion.",
+		description:
+			"Although this armor for your torso will slow down your dance-floor moves, you will thank it when it deflects a knife blade or a platter of shrapnel from an explosion.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8908,9 +9176,10 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"657": {
+	657: {
 		name: "Riot Pants",
-		description: "No matter which side of the riot you're on, you'll have more fun if you don't have to worry about skinned knees or Molotov-cocktail burns.",
+		description:
+			"No matter which side of the riot you're on, you'll have more fun if you don't have to worry about skinned knees or Molotov-cocktail burns.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8934,7 +9203,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"658": {
+	658: {
 		name: "Riot Boots",
 		description: "These boots will protect you from puncture wounds, slashes, acid, heat, and the blood of the people you stomp.",
 		effect: "",
@@ -8960,9 +9229,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"659": {
+	659: {
 		name: "Riot Gloves",
-		description: "When you wear these gloves you can't do fine-motor stuff like picking up a dime. But you can compel other people to do that stuff for you.",
+		description:
+			"When you wear these gloves you can't do fine-motor stuff like picking up a dime. But you can compel other people to do that stuff for you.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -8986,9 +9256,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"660": {
+	660: {
 		name: "Dune Helmet",
-		description: "With this helmet you can deflect objects that might otherwise dent your skull, while making yourself a tougher target for your enemy to find.",
+		description:
+			"With this helmet you can deflect objects that might otherwise dent your skull, while making yourself a tougher target for your enemy to find.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -9012,7 +9283,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"661": {
+	661: {
 		name: "Dune Vest",
 		description: "About the only challenge this body armor does not help protect you from is an itchy trickle of sand down the small of your back.",
 		effect: "",
@@ -9038,7 +9309,7 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"662": {
+	662: {
 		name: "Dune Pants",
 		description: "Camouflaged and reinforced pants; way cool although not particularly useful for urban combat.",
 		effect: "",
@@ -9064,7 +9335,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"663": {
+	663: {
 		name: "Dune Boots",
 		description: "These boots will help keep your feet cool, dry, dirt-free, and safe from impact wounds.",
 		effect: "",
@@ -9090,9 +9361,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"664": {
+	664: {
 		name: "Dune Gloves",
-		description: "In addition to the protection they offer, these gloves have gecko-like grips on the pads of the fingers to help you pick up small items without putting your hand at risk.",
+		description:
+			"In addition to the protection they offer, these gloves have gecko-like grips on the pads of the fingers to help you pick up small items without putting your hand at risk.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -9116,7 +9388,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"665": {
+	665: {
 		name: "Assault Helmet",
 		description: "You're going to attack the enemy, right? You're going head-first, right? Good idea to protect your head, don't you think?",
 		effect: "",
@@ -9142,7 +9414,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"666": {
+	666: {
 		name: "Assault Body",
 		description: "The design of this body armor presumes you are going into harm's way. It helps make sure you can come back.",
 		effect: "",
@@ -9168,7 +9440,7 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"667": {
+	667: {
 		name: "Assault Pants",
 		description: "These pants protect you against stabs, abrasions, and shrapnel, and have lots of useful pockets and pouches.",
 		effect: "",
@@ -9194,7 +9466,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"668": {
+	668: {
 		name: "Assault Boots",
 		description: "Wear these boots to walk easily over booby-traps, razor wire, and the bodies of your opponents.",
 		effect: "",
@@ -9220,7 +9492,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"669": {
+	669: {
 		name: "Assault Gloves",
 		description: "With these gauntlets on, you hardly need a weapon beside your hands. But take one anyhow, just in case.",
 		effect: "",
@@ -9246,7 +9518,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"670": {
+	670: {
 		name: "Delta Gas Mask",
 		description: "Even the air you breathe is out to get you. This enhanced gas mask can filter out most of the toxins.",
 		effect: "Immunity to Nerve Gas, Tear Gas, Pepper Spray, and Sand",
@@ -9272,7 +9544,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"671": {
+	671: {
 		name: "Delta Body",
 		description: "This body armor combines protection and flexibility, so you can move and fight with confidence.",
 		effect: "",
@@ -9298,7 +9570,7 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"672": {
+	672: {
 		name: "Delta Pants",
 		description: "Battle on any battlefield and wade through any risk in this high-life-expectancy pair of pants.",
 		effect: "",
@@ -9324,7 +9596,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"673": {
+	673: {
 		name: "Delta Boots",
 		description: "With these boots you can do just about anything safely except maybe walk on water.",
 		effect: "",
@@ -9350,7 +9622,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"674": {
+	674: {
 		name: "Delta Gloves",
 		description: "Damage resistant and flexible, these gloves let you deal a hand of cards in a fire-fight, if that's what you really need to do.",
 		effect: "",
@@ -9376,7 +9648,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"675": {
+	675: {
 		name: "Marauder Face Mask",
 		description: "Kevlar layers and an impervious faceplate let this helmet protect your head in most combat conditions.",
 		effect: "Immunity to Pepper Spray and Sand",
@@ -9402,7 +9674,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"676": {
+	676: {
 		name: "Marauder Body",
 		description: "The Kevlar armor in this bodysuit protects against slashes, punctures, projectile fire, and accusations of poor taste.",
 		effect: "",
@@ -9428,7 +9700,7 @@ const TORN_ITEMS = {
 			"Groin Coverage": 0,
 		},
 	},
-	"677": {
+	677: {
 		name: "Marauder Pants",
 		description: "Wear these pants whenever you need to slide down razor blades or roll in a pool of fire.",
 		effect: "",
@@ -9454,7 +9726,7 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"678": {
+	678: {
 		name: "Marauder Boots",
 		description: "These boots resist shock, heat, slashes, and punctures, and add force when you have to kick your way out of a situation.",
 		effect: "",
@@ -9480,7 +9752,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"679": {
+	679: {
 		name: "Marauder Gloves",
 		description: "Ultimate finger-protectors. Kevlar is light, flexible, and really tough.",
 		effect: "",
@@ -9506,9 +9778,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"680": {
+	680: {
 		name: "EOD Helmet",
-		description: "Got a bomb? We have the bomb-disposal helmet for you. Rugged and impact-resistant, with a built-in mini-searchlight for helping you read the instructions you wrote on your hand.",
+		description:
+			"Got a bomb? We have the bomb-disposal helmet for you. Rugged and impact-resistant, with a built-in mini-searchlight for helping you read the instructions you wrote on your hand.",
 		effect: "Immunity to Concussion Grenades, Pepper Spray, and Sand",
 		requirement: "",
 		type: "Defensive",
@@ -9532,7 +9805,7 @@ const TORN_ITEMS = {
 			"Chest Coverage": 0,
 		},
 	},
-	"681": {
+	681: {
 		name: "EOD Apron",
 		description: "When the bomb goes off, its impact goes everywhere. This apron shields your vital organs from blast compression and debris damage.",
 		effect: "",
@@ -9558,7 +9831,7 @@ const TORN_ITEMS = {
 			"Foot Coverage": 0,
 		},
 	},
-	"682": {
+	682: {
 		name: "EOD Pants",
 		description: "These pants are not stylish, but they will help you walk away should that bomb go off while you are disarming it.",
 		effect: "",
@@ -9584,7 +9857,7 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"683": {
+	683: {
 		name: "EOD Boots",
 		description: "Sturdy and stiff, with good treads for good grip, these boots can protect your feet from powerful blasts.",
 		effect: "",
@@ -9610,9 +9883,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"684": {
+	684: {
 		name: "EOD Gloves",
-		description: "These must be the rarest armor elements in Torn. They'll keep your hands safe near a blast, but in order to actually deal with the bomb you're going to have to, you know, take them off and work with exposed hands.",
+		description:
+			"These must be the rarest armor elements in Torn. They'll keep your hands safe near a blast, but in order to actually deal with the bomb you're going to have to, you know, take them off and work with exposed hands.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -9636,9 +9910,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"685": {
+	685: {
 		name: "Torn Bible",
-		description: "In addition to a fictitious tale about Torn's saviour, this book contains all the mysteries and information about the game, written in a language only translatable by Bogie. This book is said to be 100% accurate, especially when thrown at close range.",
+		description:
+			"In addition to a fictitious tale about Torn's saviour, this book contains all the mysteries and information about the game, written in a language only translatable by Bogie. This book is said to be 100% accurate, especially when thrown at close range.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9649,9 +9924,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/685/large.png",
 	},
-	"686": {
+	686: {
 		name: "Friendly Bot Guide",
-		description: "Caspeh can be seen lurking around the many channels of IRC, and this is your guide to all things bottish! Join and win with Caspeh during the famous Hamster give-aways or kick back and relax with some scrabble - the possibilities are endless with Caspeh's Friendly Bot Guide.",
+		description:
+			"Caspeh can be seen lurking around the many channels of IRC, and this is your guide to all things bottish! Join and win with Caspeh during the famous Hamster give-aways or kick back and relax with some scrabble - the possibilities are endless with Caspeh's Friendly Bot Guide.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9662,7 +9938,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/686/large.png",
 	},
-	"687": {
+	687: {
 		name: "Egotistical Bear",
 		description: "A bear created to stroke Passie's ego, so she can continue to regard herself as central to the world which revolves around her.",
 		effect: "",
@@ -9675,7 +9951,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/687/large.png",
 	},
-	"688": {
+	688: {
 		name: "Brewery Key",
 		description: "Grants the holder of the key unlimited access to the Guinness Brewery, and also the amazing alcohol tolerance of the Irish.",
 		effect: "",
@@ -9688,9 +9964,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/688/large.png",
 	},
-	"689": {
+	689: {
 		name: "Signed Jersey",
-		description: "This jersey was worn in the annual Torn Sports Tournament by RatedR and has been signed by the whole staff team. Give this framed, signed jersey a nice place on your wall!",
+		description:
+			"This jersey was worn in the annual Torn Sports Tournament by RatedR and has been signed by the whole staff team. Give this framed, signed jersey a nice place on your wall!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9701,9 +9978,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/689/large.png",
 	},
-	"690": {
+	690: {
 		name: "Mafia Kit",
-		description: "A unique kit handed down through generations of bloodshed and war to Two. Although the contents are still unknown, the kit is rumoured to contain a custom fitted bullet proof Armani suit and a matching hat. Owning this kit guarantees knowledge, power and wealth.",
+		description:
+			"A unique kit handed down through generations of bloodshed and war to Two. Although the contents are still unknown, the kit is rumoured to contain a custom fitted bullet proof Armani suit and a matching hat. Owning this kit guarantees knowledge, power and wealth.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9714,9 +9992,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/690/large.png",
 	},
-	"691": {
+	691: {
 		name: "Octopus Toy",
-		description: "This octopus toy was modelled after Karty's pet octopus. This little 8 tentacled beast likes hiding in dark holes and is a sucker for the ladies! Be careful though, he's known to spray his ink over your face when you're least expecting it!",
+		description:
+			"This octopus toy was modelled after Karty's pet octopus. This little 8 tentacled beast likes hiding in dark holes and is a sucker for the ladies! Be careful though, he's known to spray his ink over your face when you're least expecting it!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9727,9 +10006,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/691/large.png",
 	},
-	"692": {
+	692: {
 		name: "Bear Skin Rug",
-		description: "This collectible rug is perfect for snuggling, bear skin to bare skin. You can find one on Prodi's floor near the fireplace. PETA approved as well, of course!",
+		description:
+			"This collectible rug is perfect for snuggling, bear skin to bare skin. You can find one on Prodi's floor near the fireplace. PETA approved as well, of course!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9740,9 +10020,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/692/large.png",
 	},
-	"693": {
+	693: {
 		name: "Tractor Toy",
-		description: "A toy it may seem to you, however it has run into cars, had bottles thrown at it and been crashed multiple times. Only a tractor owned by DaveO comes with this kind of history. Equipped with a mini seat for the shortest of passengers and a radio that keeps you awake after a 14 hour day.",
+		description:
+			"A toy it may seem to you, however it has run into cars, had bottles thrown at it and been crashed multiple times. Only a tractor owned by DaveO comes with this kind of history. Equipped with a mini seat for the shortest of passengers and a radio that keeps you awake after a 14 hour day.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9753,7 +10034,7 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/693/large.png",
 	},
-	"694": {
+	694: {
 		name: "Mr Torn Crown '13",
 		description: "Awarded to bogie [148747] for winning the Mr Torn City awards 2013!",
 		effect: "",
@@ -9766,7 +10047,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/694/large.png",
 	},
-	"695": {
+	695: {
 		name: "Ms Torn Crown '13",
 		description: "Awarded to 2hOt4WoTuGoT [183048] for winning the Miss Torn City awards 2013!",
 		effect: "",
@@ -9779,7 +10060,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/695/large.png",
 	},
-	"696": {
+	696: {
 		name: "Piece of Cake",
 		description: "Covered in fine pink frosting and... It's cake!",
 		effect: "",
@@ -9792,7 +10073,7 @@ const TORN_ITEMS = {
 		circulation: 2277,
 		image: "https://www.torn.com/images/items/696/large.png",
 	},
-	"697": {
+	697: {
 		name: "Rotten Eggs",
 		description: "As fresh as the day they were laid, 7 months ago...",
 		effect: "",
@@ -9805,7 +10086,7 @@ const TORN_ITEMS = {
 		circulation: 2158,
 		image: "https://www.torn.com/images/items/697/large.png",
 	},
-	"698": {
+	698: {
 		name: "Peg Leg",
 		description: "Made from the finest shivered timbers.  Rumoured to be 3 inches taller until the termites set in...",
 		effect: "",
@@ -9818,9 +10099,10 @@ const TORN_ITEMS = {
 		circulation: 2979,
 		image: "https://www.torn.com/images/items/698/large.png",
 	},
-	"699": {
+	699: {
 		name: "Antidote",
-		description: "This antidote has varying results in reversing the effects of the TCX-59 pathological agent. It will have a far higher chance of success against underdeveloped strains of the virus. Please see enclosed notes before use.",
+		description:
+			"This antidote has varying results in reversing the effects of the TCX-59 pathological agent. It will have a far higher chance of success against underdeveloped strains of the virus. Please see enclosed notes before use.",
 		effect: "",
 		requirement: "",
 		type: "Medical",
@@ -9831,7 +10113,7 @@ const TORN_ITEMS = {
 		circulation: 1109,
 		image: "https://www.torn.com/images/items/699/large.png",
 	},
-	"700": {
+	700: {
 		name: "Christmas Angel",
 		description: "A perfect addition to your Christmas tree.",
 		effect: "",
@@ -9844,9 +10126,10 @@ const TORN_ITEMS = {
 		circulation: 32529,
 		image: "https://www.torn.com/images/items/700/large.png",
 	},
-	"701": {
+	701: {
 		name: "Eggnog",
-		description: "Egg, sugar and cream... What else could possibly taste this good on a cold Christmassy evening. Sprinkle on some nutmeg for that very authentic flavour.",
+		description:
+			"Egg, sugar and cream... What else could possibly taste this good on a cold Christmassy evening. Sprinkle on some nutmeg for that very authentic flavour.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -9857,7 +10140,7 @@ const TORN_ITEMS = {
 		circulation: 13477,
 		image: "https://www.torn.com/images/items/701/large.png",
 	},
-	"702": {
+	702: {
 		name: "Sprig of Holly",
 		description: "A very merry berry addition to any Christmas.",
 		effect: "",
@@ -9870,7 +10153,7 @@ const TORN_ITEMS = {
 		circulation: 34280,
 		image: "https://www.torn.com/images/items/702/large.png",
 	},
-	"703": {
+	703: {
 		name: "Festive Socks",
 		description: "Knitted with love by Mrs Claus to keep your tootsies warm.",
 		effect: "",
@@ -9883,7 +10166,7 @@ const TORN_ITEMS = {
 		circulation: 29620,
 		image: "https://www.torn.com/images/items/703/large.png",
 	},
-	"704": {
+	704: {
 		name: "Respo Hoodie",
 		description: "Gifted exclusively to the BETA testers in the staff team and player committee who helped to test RESPO prior to launch.",
 		effect: "",
@@ -9896,9 +10179,10 @@ const TORN_ITEMS = {
 		circulation: 75,
 		image: "https://www.torn.com/images/items/704/large.png",
 	},
-	"705": {
+	705: {
 		name: "Staff Haxx Button",
-		description: "For a long hard day at the office, when it seems like the help questions and forum reports will just not stop coming in. Never fear, the Staff Haxx Button you always wanted is here. May the force be with you!",
+		description:
+			"For a long hard day at the office, when it seems like the help questions and forum reports will just not stop coming in. Never fear, the Staff Haxx Button you always wanted is here. May the force be with you!",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -9909,7 +10193,7 @@ const TORN_ITEMS = {
 		circulation: 54,
 		image: "https://www.torn.com/images/items/705/large.png",
 	},
-	"706": {
+	706: {
 		name: "Birthday Cake '14",
 		description: "A birthday cake celebrating the 10th anniversary of Torn. What an epic decade! Here's to the next ten years.",
 		effect: "",
@@ -9922,7 +10206,7 @@ const TORN_ITEMS = {
 		circulation: 2909,
 		image: "https://www.torn.com/images/items/706/large.png",
 	},
-	"707": {
+	707: {
 		name: "Lump of Coal",
 		description: "It seems Santa has been very displeased with you. It looks like this is all you're getting for Christmas this year.",
 		effect: "",
@@ -9935,9 +10219,10 @@ const TORN_ITEMS = {
 		circulation: 47343,
 		image: "https://www.torn.com/images/items/707/large.png",
 	},
-	"708": {
+	708: {
 		name: "Gold Rosette",
-		description: "This gold rosette is awarded to the 1st place winners of community events. Handed out on rare occasions, this prestigious award proves the recipient is better than everyone else at everything, full stop.",
+		description:
+			"This gold rosette is awarded to the 1st place winners of community events. Handed out on rare occasions, this prestigious award proves the recipient is better than everyone else at everything, full stop.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9948,9 +10233,10 @@ const TORN_ITEMS = {
 		circulation: 269,
 		image: "https://www.torn.com/images/items/708/large.png",
 	},
-	"709": {
+	709: {
 		name: "Silver Rosette",
-		description: "This silver rosette is awarded to the 2nd place winners of community events. Its sale is frowned upon by event administrators. Treasure it forever!",
+		description:
+			"This silver rosette is awarded to the 2nd place winners of community events. Its sale is frowned upon by event administrators. Treasure it forever!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9961,9 +10247,10 @@ const TORN_ITEMS = {
 		circulation: 279,
 		image: "https://www.torn.com/images/items/709/large.png",
 	},
-	"710": {
+	710: {
 		name: "Bronze Rosette",
-		description: "This bronze rosette is awarded to the 3rd place winners of community events. Not quite as good as gold or silver, the recipient has still strongly excelled over the majority of other participants.",
+		description:
+			"This bronze rosette is awarded to the 3rd place winners of community events. Not quite as good as gold or silver, the recipient has still strongly excelled over the majority of other participants.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9974,9 +10261,10 @@ const TORN_ITEMS = {
 		circulation: 306,
 		image: "https://www.torn.com/images/items/710/large.png",
 	},
-	"711": {
+	711: {
 		name: "Coin : Factions",
-		description: "This limited edition gold coin given to just 250 citizens, commemorates ten years of Torn. It features two crossed AK-47's, an iconic symbol of factional warfare. Although Factions have been the sole reason for hundreds of thousands of hospitalizations over the years, they sum up extensive teamwork and friendship. As of December 2014, there are thought to be over 2,000 of these small underground groups causing an estimated 10,000 hospitalizations per day.",
+		description:
+			"This limited edition gold coin given to just 250 citizens, commemorates ten years of Torn. It features two crossed AK-47's, an iconic symbol of factional warfare. Although Factions have been the sole reason for hundreds of thousands of hospitalizations over the years, they sum up extensive teamwork and friendship. As of December 2014, there are thought to be over 2,000 of these small underground groups causing an estimated 10,000 hospitalizations per day.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -9987,9 +10275,10 @@ const TORN_ITEMS = {
 		circulation: 249,
 		image: "https://www.torn.com/images/items/711/large.png",
 	},
-	"712": {
+	712: {
 		name: "Coin : Casino",
-		description: "This limited edition gold coin given to just 250 citizens, commemorates ten years of the Lucky Shot Casino. The preferred entertainment establishment among the majority of citizens certainly bolsters Torn's reputation, and over the last decade gambling revenues have brought the city in-line with Las Vegas.",
+		description:
+			"This limited edition gold coin given to just 250 citizens, commemorates ten years of the Lucky Shot Casino. The preferred entertainment establishment among the majority of citizens certainly bolsters Torn's reputation, and over the last decade gambling revenues have brought the city in-line with Las Vegas.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10000,9 +10289,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/712/large.png",
 	},
-	"713": {
+	713: {
 		name: "Coin : Education",
-		description: "This limited edition gold coin given to just 250 citizens, commemorates ten years of the Torn community college. With over a hundred courses, the college can prepare citizens for almost any walk of life. Its popularity is unprecedented, which is unusual when compared with other metrics like crime rates and health service statistics. The wonders of Torn City's educational system really are profound and have helped make the city what it is today.",
+		description:
+			"This limited edition gold coin given to just 250 citizens, commemorates ten years of the Torn community college. With over a hundred courses, the college can prepare citizens for almost any walk of life. Its popularity is unprecedented, which is unusual when compared with other metrics like crime rates and health service statistics. The wonders of Torn City's educational system really are profound and have helped make the city what it is today.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10013,9 +10303,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/713/large.png",
 	},
-	"714": {
+	714: {
 		name: "Coin : Hospital",
-		description: "This limited edition platinum coin given to just 250 citizens, commemorates ten years of the Torn City Health Service. Their valiant doctors and nurses have helped hundreds of thousands of people recover from violent injuries over the last decade. As of December 2014, the TCHS has seen over 17,000,000 patients and cares for over a thousand at any one time.",
+		description:
+			"This limited edition platinum coin given to just 250 citizens, commemorates ten years of the Torn City Health Service. Their valiant doctors and nurses have helped hundreds of thousands of people recover from violent injuries over the last decade. As of December 2014, the TCHS has seen over 17,000,000 patients and cares for over a thousand at any one time.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10026,9 +10317,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/714/large.png",
 	},
-	"715": {
+	715: {
 		name: "Coin : Jail",
-		description: "This limited edition platinum coin given to just 250 citizens, commemorates ten years of the TCPD and Torn penitentiary whose officers arrest and watch over almost 3,000 inmates on a daily basis. Despite sceptics believing that the unique 'instant-justice' short term sentences have little-to-no impact on hardened criminals, officials say managing crime rather than actually reducing it is the best thing for the city.",
+		description:
+			"This limited edition platinum coin given to just 250 citizens, commemorates ten years of the TCPD and Torn penitentiary whose officers arrest and watch over almost 3,000 inmates on a daily basis. Despite sceptics believing that the unique 'instant-justice' short term sentences have little-to-no impact on hardened criminals, officials say managing crime rather than actually reducing it is the best thing for the city.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10039,9 +10331,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/715/large.png",
 	},
-	"716": {
+	716: {
 		name: "Coin : Travel Agency",
-		description: "This limited edition platinum coin given to just 250 citizens, commemorates ten years of Torn. This coin in particular displays an airliner, celebrating Torn's bustling international airport. Although offering only a handful of destinations, it serves over 5,000 commuters daily and drastically increases tourism.",
+		description:
+			"This limited edition platinum coin given to just 250 citizens, commemorates ten years of Torn. This coin in particular displays an airliner, celebrating Torn's bustling international airport. Although offering only a handful of destinations, it serves over 5,000 commuters daily and drastically increases tourism.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10052,9 +10345,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/716/large.png",
 	},
-	"717": {
+	717: {
 		name: "Coin : Companies",
-		description: "This limited edition silver coin given to just 250 citizens, commemorates ten years of Torn. This coin in particular focuses on companies. Their employees and directors have helped bring commerce and tourism to the city despite its shortcomings. As of December 2014, there are over 2,500 registered companies generating $81 billion per week.",
+		description:
+			"This limited edition silver coin given to just 250 citizens, commemorates ten years of Torn. This coin in particular focuses on companies. Their employees and directors have helped bring commerce and tourism to the city despite its shortcomings. As of December 2014, there are over 2,500 registered companies generating $81 billion per week.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10065,9 +10359,10 @@ const TORN_ITEMS = {
 		circulation: 249,
 		image: "https://www.torn.com/images/items/717/large.png",
 	},
-	"718": {
+	718: {
 		name: "Coin : Stock Exchange",
-		description: "This limited edition silver coin given to just 250 citizens, commemorates ten years of Torn. This coin is dedicated to the Torn City Stock Exchange. World renowned for the unique gifts its directors lavish upon investors, and the fortunes made. Its legitimacy has strongly recovered since the days of insider-trading and a conspiracy among a few investors to manipulate the markets - nicknamed Torngate. Today's stock exchange pumps billions into Torn's corporations, strengthening the city's once questionable economical state.",
+		description:
+			"This limited edition silver coin given to just 250 citizens, commemorates ten years of Torn. This coin is dedicated to the Torn City Stock Exchange. World renowned for the unique gifts its directors lavish upon investors, and the fortunes made. Its legitimacy has strongly recovered since the days of insider-trading and a conspiracy among a few investors to manipulate the markets - nicknamed Torngate. Today's stock exchange pumps billions into Torn's corporations, strengthening the city's once questionable economical state.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10078,9 +10373,10 @@ const TORN_ITEMS = {
 		circulation: 249,
 		image: "https://www.torn.com/images/items/718/large.png",
 	},
-	"719": {
+	719: {
 		name: "Coin : Church",
-		description: "This limited edition silver coin given to just 250 citizens, commemorates ten years of Torn. In particular this coin celebrates the newly completed multi-faith church which hosts hundreds of wedding ceremonies on a monthly basis. Despite initial criticism from atheists, its construction has been blessed by thousands of citizens who go there at least once a month to pray, and have raised over $15,000,000,000 in charitable donations as of December 2014.",
+		description:
+			"This limited edition silver coin given to just 250 citizens, commemorates ten years of Torn. In particular this coin celebrates the newly completed multi-faith church which hosts hundreds of wedding ceremonies on a monthly basis. Despite initial criticism from atheists, its construction has been blessed by thousands of citizens who go there at least once a month to pray, and have raised over $15,000,000,000 in charitable donations as of December 2014.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10091,9 +10387,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/719/large.png",
 	},
-	"720": {
+	720: {
 		name: "Coin : Auction House",
-		description: "This limited edition bronze coin given to just 250 citizens, commemorates ten years of Torn. This particular coin features the city's Auction House, where citizens can enter and bid on exceedingly rare items and even unique properties. Over the years, its auctions have attracted celebrities and tycoons, and made headlines around the world.",
+		description:
+			"This limited edition bronze coin given to just 250 citizens, commemorates ten years of Torn. This particular coin features the city's Auction House, where citizens can enter and bid on exceedingly rare items and even unique properties. Over the years, its auctions have attracted celebrities and tycoons, and made headlines around the world.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10104,9 +10401,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/720/large.png",
 	},
-	"721": {
+	721: {
 		name: "Coin : Race Track",
-		description: "This limited edition bronze coin given to just 250 citizens, commemorates ten years of Torn. This coin celebrates Torn's raceway and the hundreds of enthusiasts who participate daily. Although criticised for spurring on an increase of illegal street races on Torn's roads, it's certainly a unique fascination among citizens and has greatly boosted the city's automotive industry.",
+		description:
+			"This limited edition bronze coin given to just 250 citizens, commemorates ten years of Torn. This coin celebrates Torn's raceway and the hundreds of enthusiasts who participate daily. Although criticised for spurring on an increase of illegal street races on Torn's roads, it's certainly a unique fascination among citizens and has greatly boosted the city's automotive industry.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10117,9 +10415,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/721/large.png",
 	},
-	"722": {
+	722: {
 		name: "Coin : Museum",
-		description: "This limited edition bronze coin, given to just 250 citizens, commemorates ten years of Torn. This particular coin is dedicated to the museum. Established in 2009, it quickly gained the international spotlight for its unique and diverse collections. Working with volunteers in the community, its assortment of rare artifacts, continental flower arrangements and even collectors' edition plushies expands daily.",
+		description:
+			"This limited edition bronze coin, given to just 250 citizens, commemorates ten years of Torn. This particular coin is dedicated to the museum. Established in 2009, it quickly gained the international spotlight for its unique and diverse collections. Working with volunteers in the community, its assortment of rare artifacts, continental flower arrangements and even collectors' edition plushies expands daily.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10130,9 +10429,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/722/large.png",
 	},
-	"723": {
+	723: {
 		name: "Coin : Drugs",
-		description: "This limited edition copper coin given to just 250 citizens, commemorates ten years of Torn. This particular coin features a cannabis leaf. Drugs, although illegal, are rarely policed and have had a large impact on the city and its residents. Research suggests that citizens on drugs are generally more successful individuals than those who avoid them, but some critics strongly disagree - condemning their usage and calling for tougher laws. Their usage rate is unprecedented, making Torn the drug capital of the USA.",
+		description:
+			"This limited edition copper coin given to just 250 citizens, commemorates ten years of Torn. This particular coin features a cannabis leaf. Drugs, although illegal, are rarely policed and have had a large impact on the city and its residents. Research suggests that citizens on drugs are generally more successful individuals than those who avoid them, but some critics strongly disagree - condemning their usage and calling for tougher laws. Their usage rate is unprecedented, making Torn the drug capital of the USA.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10143,9 +10443,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/723/large.png",
 	},
-	"724": {
+	724: {
 		name: "Coin : Dump",
-		description: "This limited edition copper coin given to just 250 citizens, commemorates ten years of Torn. This one in particular spotlights the Torn City Dump. Residents have ditched over 50 million items, but what's fascinating are the crowds of people who head over each day to look through them. Hundreds of people sorting through other people's waste will always be an iconic image of Torn.",
+		description:
+			"This limited edition copper coin given to just 250 citizens, commemorates ten years of Torn. This one in particular spotlights the Torn City Dump. Residents have ditched over 50 million items, but what's fascinating are the crowds of people who head over each day to look through them. Hundreds of people sorting through other people's waste will always be an iconic image of Torn.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10156,9 +10457,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/724/large.png",
 	},
-	"725": {
+	725: {
 		name: "Coin : Estate Agents",
-		description: "This limited edition copper coin given to just 250 citizens, commemorates ten years of the Torn City Estate Agents. Ranging from trailers to private islands, over 100 brand new properties are sold daily. A true sign of social status; climbing the property ladder is one of the biggest desires among citizens. A recent statistic claims that as of December 2014, there are over 10,000 private islands off the coast, with an average of three per day being artificially created to meet demand.",
+		description:
+			"This limited edition copper coin given to just 250 citizens, commemorates ten years of the Torn City Estate Agents. Ranging from trailers to private islands, over 100 brand new properties are sold daily. A true sign of social status; climbing the property ladder is one of the biggest desires among citizens. A recent statistic claims that as of December 2014, there are over 10,000 private islands off the coast, with an average of three per day being artificially created to meet demand.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -10169,7 +10471,7 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/725/large.png",
 	},
-	"726": {
+	726: {
 		name: "Scrooge's Top Hat",
 		description: "A once-elegant hat, now shiny with wear and a little out of fashion.",
 		effect: "",
@@ -10182,7 +10484,7 @@ const TORN_ITEMS = {
 		circulation: 341,
 		image: "https://www.torn.com/images/items/726/large.png",
 	},
-	"727": {
+	727: {
 		name: "Scrooge's Topcoat",
 		description: "A long, solid, dark coat that buttons to the neck and seems to reject snow and rain with scorn.",
 		effect: "",
@@ -10195,7 +10497,7 @@ const TORN_ITEMS = {
 		circulation: 372,
 		image: "https://www.torn.com/images/items/727/large.png",
 	},
-	"728": {
+	728: {
 		name: "Scrooge's Trousers",
 		description: "Tight woolen trousers, with pockets that resist giving up their contents, whether a coin or a handkerchief.",
 		effect: "",
@@ -10208,7 +10510,7 @@ const TORN_ITEMS = {
 		circulation: 342,
 		image: "https://www.torn.com/images/items/728/large.png",
 	},
-	"729": {
+	729: {
 		name: "Scrooge's Boots",
 		description: "Boots as accustomed to kicking beggars out of the path as to treading the floors in Scrooge's counting house.",
 		effect: "",
@@ -10221,7 +10523,7 @@ const TORN_ITEMS = {
 		circulation: 381,
 		image: "https://www.torn.com/images/items/729/large.png",
 	},
-	"730": {
+	730: {
 		name: "Scrooge's Gloves",
 		description: "Ivory gloves that once were white. No amount of cleaning can remove some suspicious stains from them.",
 		effect: "",
@@ -10234,7 +10536,7 @@ const TORN_ITEMS = {
 		circulation: 360,
 		image: "https://www.torn.com/images/items/730/large.png",
 	},
-	"731": {
+	731: {
 		name: "Empty Blood Bag",
 		description: "An empty blood transfusion bag ready to be filled.",
 		effect: "Produces a blood bag of your type. Reduces life by 30%. Increases medical cooldown by 1 hour.",
@@ -10247,7 +10549,7 @@ const TORN_ITEMS = {
 		circulation: 8917760,
 		image: "https://www.torn.com/images/items/731/large.png",
 	},
-	"732": {
+	732: {
 		name: "Blood Bag : A+",
 		description: "A blood bag filled with type A+ blood. Compatible with recipients in group A+ and AB+.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10260,7 +10562,7 @@ const TORN_ITEMS = {
 		circulation: 5334953,
 		image: "https://www.torn.com/images/items/732/large.png",
 	},
-	"733": {
+	733: {
 		name: "Blood Bag : A-",
 		description: "A blood bag filled with type A- blood. Compatible with recipients in groups A-, A+, AB- and AB+.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10273,7 +10575,7 @@ const TORN_ITEMS = {
 		circulation: 1464205,
 		image: "https://www.torn.com/images/items/733/large.png",
 	},
-	"734": {
+	734: {
 		name: "Blood Bag : B+",
 		description: "A blood bag filled with type B+ blood. Compatible with recipients in group B+ and AB+.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10286,7 +10588,7 @@ const TORN_ITEMS = {
 		circulation: 1561130,
 		image: "https://www.torn.com/images/items/734/large.png",
 	},
-	"735": {
+	735: {
 		name: "Blood Bag : B-",
 		description: "A blood bag filled with type B- blood. Compatible with recipients in groups B-, B+, AB- and AB+.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10299,7 +10601,7 @@ const TORN_ITEMS = {
 		circulation: 606413,
 		image: "https://www.torn.com/images/items/735/large.png",
 	},
-	"736": {
+	736: {
 		name: "Blood Bag : AB+",
 		description: "A blood bag filled with type AB+ blood. Only compatible with recipients in group AB+.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10312,7 +10614,7 @@ const TORN_ITEMS = {
 		circulation: 736485,
 		image: "https://www.torn.com/images/items/736/large.png",
 	},
-	"737": {
+	737: {
 		name: "Blood Bag : AB-",
 		description: "A blood bag filled with type AB- blood. Compatible with recipients in group AB- and AB+.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10325,7 +10627,7 @@ const TORN_ITEMS = {
 		circulation: 359442,
 		image: "https://www.torn.com/images/items/737/large.png",
 	},
-	"738": {
+	738: {
 		name: "Blood Bag : O+",
 		description: "A blood bag filled with type O+ blood. Compatible with recipients in groups O+, A+, B+ and AB+.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10338,7 +10640,7 @@ const TORN_ITEMS = {
 		circulation: 6126154,
 		image: "https://www.torn.com/images/items/738/large.png",
 	},
-	"739": {
+	739: {
 		name: "Blood Bag : O-",
 		description: "A blood bag filled with type O- blood. Compatible with recipients in any blood group.",
 		effect: "Reduces hospital by 120 mins and restores 30% life. Increases medical cooldown by 30 mins.",
@@ -10351,7 +10653,7 @@ const TORN_ITEMS = {
 		circulation: 1707798,
 		image: "https://www.torn.com/images/items/739/large.png",
 	},
-	"740": {
+	740: {
 		name: "Mr Torn Crown",
 		description: "Awarded to the annual winner of the Mr Torn competition. One of the very rarest and most sought after awards.",
 		effect: "",
@@ -10364,7 +10666,7 @@ const TORN_ITEMS = {
 		circulation: 8,
 		image: "https://www.torn.com/images/items/740/large.png",
 	},
-	"741": {
+	741: {
 		name: "Ms Torn Crown",
 		description: "Awarded to the annual winner of the Ms Torn competition. One of the very rarest and most sought after awards.",
 		effect: "",
@@ -10377,9 +10679,10 @@ const TORN_ITEMS = {
 		circulation: 8,
 		image: "https://www.torn.com/images/items/741/large.png",
 	},
-	"742": {
+	742: {
 		name: "Molotov Cocktail",
-		description: "Easy to make with an empty bottle, some gasoline, and a wick to plug the neck of the bottle. The trick is knowing how long to wait, after you light the wick, before throwing the Molotov cocktail at your target--you don't want it to bounce off, but to explode in a ball of fire.",
+		description:
+			"Easy to make with an empty bottle, some gasoline, and a wick to plug the neck of the bottle. The trick is knowing how long to wait, after you light the wick, before throwing the Molotov cocktail at your target--you don't want it to bounce off, but to explode in a ball of fire.",
 		effect: "Opponent receives Severe Burning damage over 3 turns.",
 		requirement: "",
 		type: "Temporary",
@@ -10390,9 +10693,10 @@ const TORN_ITEMS = {
 		circulation: 381710,
 		image: "https://www.torn.com/images/items/742/large.png",
 	},
-	"743": {
+	743: {
 		name: "Christmas Sweater '15",
-		description: "Given to you by relatives you only see once per year, worn to boozy Christmas parties that result in disgraceful pictures plastered on social media. This Christmas sweater represents bad taste and good times had by all.",
+		description:
+			"Given to you by relatives you only see once per year, worn to boozy Christmas parties that result in disgraceful pictures plastered on social media. This Christmas sweater represents bad taste and good times had by all.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -10403,9 +10707,10 @@ const TORN_ITEMS = {
 		circulation: 796,
 		image: "https://www.torn.com/images/items/743/large.png",
 	},
-	"744": {
+	744: {
 		name: "Book : Brawn Over Brains",
-		description: "Have you ever worn a tight-fitting vest top only to realise you look like Tom Hanks at the end of Philadelphia? Worry no more, as this helpful collection of workout tips will help to increase your strength and have you lifting heavy things like a big boy in no time. With over 5,000 revolutionary exercises, including \"Deaf Guy Deadlifts\", \"Paralyser Pushups\" and \"Soil Yourself Squats\", you'll become the man or manly-looking woman you always wanted to be.",
+		description:
+			'Have you ever worn a tight-fitting vest top only to realise you look like Tom Hanks at the end of Philadelphia? Worry no more, as this helpful collection of workout tips will help to increase your strength and have you lifting heavy things like a big boy in no time. With over 5,000 revolutionary exercises, including "Deaf Guy Deadlifts", "Paralyser Pushups" and "Soil Yourself Squats", you\'ll become the man or manly-looking woman you always wanted to be.',
 		effect: "Permanently increases Strength by 5% (up to 10,000,000 maximum gain) after 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10416,9 +10721,10 @@ const TORN_ITEMS = {
 		circulation: 9786,
 		image: "https://www.torn.com/images/items/744/large.png",
 	},
-	"745": {
+	745: {
 		name: "Book : Time Is In The Mind",
-		description: "Time is a metaphysical concept whose values change according to the unique perception of every individual human. A romantic moment with a partner can whizz by in mere moments, whereas listening to the dull stories told by an elderly relative can feel like a lifetime. Using a variety of psychological techniques <span class=\"italic\">Time Is In The Mind </span> will help you react faster, enjoy moments longer, and punch people in the face before they even know what hit them. By utilising simple methods such as putting your wristwatch in the freezer, or making every gap between seconds on your wall clock twelve metres long, you will become a veritable master of chronology and come to possess almost superhuman reactive ability.",
+		description:
+			'Time is a metaphysical concept whose values change according to the unique perception of every individual human. A romantic moment with a partner can whizz by in mere moments, whereas listening to the dull stories told by an elderly relative can feel like a lifetime. Using a variety of psychological techniques <span class="italic">Time Is In The Mind </span> will help you react faster, enjoy moments longer, and punch people in the face before they even know what hit them. By utilising simple methods such as putting your wristwatch in the freezer, or making every gap between seconds on your wall clock twelve metres long, you will become a veritable master of chronology and come to possess almost superhuman reactive ability.',
 		effect: "Permanently increases Speed by 5% (up to 10,000,000 maximum gain) after 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10429,9 +10735,10 @@ const TORN_ITEMS = {
 		circulation: 9636,
 		image: "https://www.torn.com/images/items/745/large.png",
 	},
-	"746": {
+	746: {
 		name: "Book : Keeping Your Face Handsome",
-		description: "Tom Cruise. Denzel Washington. Will Smith. What do they all have in common? No, they aren't all black, unless Tom Cruise is currently undergoing a reverse Michael Jackson. The answer of course is that they are all handsome movie stars. And do you know why? Because they never get punched in the face. <span class=\"italic\">Keeping Your Face Handsome</span> is the book movie stars don't want you to see. With its unique insights into blocking, ducking and diving, you'll ensure your gorgeous mush continues to look lovely until the end of time.<br/><br/><span class=\"bold\">\"I wish I'd read this book before my face got spazzed\"</span><br/>\r\n<span class=\"t-gray-9\">- Sylvester Stallone.</span>",
+		description:
+			'Tom Cruise. Denzel Washington. Will Smith. What do they all have in common? No, they aren\'t all black, unless Tom Cruise is currently undergoing a reverse Michael Jackson. The answer of course is that they are all handsome movie stars. And do you know why? Because they never get punched in the face. <span class="italic">Keeping Your Face Handsome</span> is the book movie stars don\'t want you to see. With its unique insights into blocking, ducking and diving, you\'ll ensure your gorgeous mush continues to look lovely until the end of time.<br/><br/><span class="bold">"I wish I\'d read this book before my face got spazzed"</span><br/>\r\n<span class="t-gray-9">- Sylvester Stallone.</span>',
 		effect: "Permanently increases Defense by 5% (up to 10,000,000 maximum gain) after 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10442,9 +10749,10 @@ const TORN_ITEMS = {
 		circulation: 9605,
 		image: "https://www.torn.com/images/items/746/large.png",
 	},
-	"747": {
+	747: {
 		name: "Book : A Job For Your Hands",
-		description: "Did you know that humans use less than 2% of their hands' potential? What if we could somehow unlock the other 204%? My name is Colette Branlette, and whilst on holiday in Peru I studied the mystical ways of the human phalanges for over three weeks. Our dextrous extremities offer so much more to the world than simply tapping on keyboards and touching ourselves. In my inspiring personal story I recant how I unlocked society's iron grip on my own two mitts, and in turn explored the dormant life-force which lay untapped within my people paws - and all through the power of extreme shadow puppetry.",
+		description:
+			"Did you know that humans use less than 2% of their hands' potential? What if we could somehow unlock the other 204%? My name is Colette Branlette, and whilst on holiday in Peru I studied the mystical ways of the human phalanges for over three weeks. Our dextrous extremities offer so much more to the world than simply tapping on keyboards and touching ourselves. In my inspiring personal story I recant how I unlocked society's iron grip on my own two mitts, and in turn explored the dormant life-force which lay untapped within my people paws - and all through the power of extreme shadow puppetry.",
 		effect: "Permanently increases Dexterity by 5% (up to 10,000,000 maximum gain) after 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10455,9 +10763,10 @@ const TORN_ITEMS = {
 		circulation: 9678,
 		image: "https://www.torn.com/images/items/747/large.png",
 	},
-	"748": {
+	748: {
 		name: "Book : Working 9 Til 5",
-		description: "Dolly Parton is the world's favourite large-breasted country singer, unless you count Tim McGraw. But did you know that aside from being a platinum recording artist Ms Parton is also the brains behind a cutting-edge method of project management? This revolutionary scheme takes inspiration from Parton's 9 to 5 single, and fans of her mantra include Donald Trump, Flava Flav, and Bill Gates - the latter seeing an increase of over 400% in productivity since employing Ms Parton's methods at Microsoft. If you're sick of working 9 to 5, barely gettin' by, with all talkin' and no givin', then this book has the potential to change your life.\r\n<br/><br/>\r\n<span class=\"bold\">\"If I'd known of Ms Parton's methods when I first started, I probably wouldn't be dead\"</span><br/>\r\n<span class=\"t-gray-9\">- Steve Jobs</span>",
+		description:
+			"Dolly Parton is the world's favourite large-breasted country singer, unless you count Tim McGraw. But did you know that aside from being a platinum recording artist Ms Parton is also the brains behind a cutting-edge method of project management? This revolutionary scheme takes inspiration from Parton's 9 to 5 single, and fans of her mantra include Donald Trump, Flava Flav, and Bill Gates - the latter seeing an increase of over 400% in productivity since employing Ms Parton's methods at Microsoft. If you're sick of working 9 to 5, barely gettin' by, with all talkin' and no givin', then this book has the potential to change your life.\r\n<br/><br/>\r\n<span class=\"bold\">\"If I'd known of Ms Parton's methods when I first started, I probably wouldn't be dead\"</span><br/>\r\n<span class=\"t-gray-9\">- Steve Jobs</span>",
 		effect: "Increases all working stats by 5% (up to 2,500 maximum gain each) upon completion.",
 		requirement: "",
 		type: "Book",
@@ -10468,9 +10777,10 @@ const TORN_ITEMS = {
 		circulation: 9477,
 		image: "https://www.torn.com/images/items/748/large.png",
 	},
-	"749": {
+	749: {
 		name: "Book : Making Friends, Enemies, And Cakes",
-		description: "In our modern digital world it can be hard to find new friends, and just as hard to find yourself a pure evil nemesis. With everyone too focused on their iPads, Netflix and terror atrocities we all find it hard to break through and make new acquaintances from time to time. But did you know you can make both friends and foes on the bus, simply by sniffing them? Our easy program of 328 simple steps means you'll acquire lifelong pals and mortal enemies with ease, and all in the time it takes for a stranger to say \"What are you doing to my hair?\"",
+		description:
+			'In our modern digital world it can be hard to find new friends, and just as hard to find yourself a pure evil nemesis. With everyone too focused on their iPads, Netflix and terror atrocities we all find it hard to break through and make new acquaintances from time to time. But did you know you can make both friends and foes on the bus, simply by sniffing them? Our easy program of 328 simple steps means you\'ll acquire lifelong pals and mortal enemies with ease, and all in the time it takes for a stranger to say "What are you doing to my hair?"',
 		effect: "Increases friends list & enemies list capacity by +100 upon completion.",
 		requirement: "",
 		type: "Book",
@@ -10481,9 +10791,10 @@ const TORN_ITEMS = {
 		circulation: 9078,
 		image: "https://www.torn.com/images/items/749/large.png",
 	},
-	"750": {
+	750: {
 		name: "Book : High School For Adults",
-		description: "Many of us have regrets about our time in high school - how come I never stood up for myself, I wish I had kissed that girl, why didn't I tell the Principal about coach's after school massage lessons? But the thing most people wish they could change is their course of study. You might be stuck in a dead-end graphic design job wishing you'd studied French. Perhaps you toil away as a physicist but your real passion is interpretive dance. Or maybe you're a Physical Education teacher and you wish you'd actually been to school...like even just once. <span class=\"italic\">High School For Adults</span> is the antidote to all of your educational errors, and contains a series of useful ideas which will help you retrain your brain for a whole new vocation or industry. <br/><br/>\r\n\r\n<span class=\"bold\">\"I was one of the best pediatric cancer specialists in the world, but curing sick children never gave me anything like the rush I get when I turn up to work at the strip club and let strange men put dollar bills down my buttcrack\"</span><br/>\r\n<span class=\"t-gray-9\">- Dr Brandy Giggletits</span>",
+		description:
+			'Many of us have regrets about our time in high school - how come I never stood up for myself, I wish I had kissed that girl, why didn\'t I tell the Principal about coach\'s after school massage lessons? But the thing most people wish they could change is their course of study. You might be stuck in a dead-end graphic design job wishing you\'d studied French. Perhaps you toil away as a physicist but your real passion is interpretive dance. Or maybe you\'re a Physical Education teacher and you wish you\'d actually been to school...like even just once. <span class="italic">High School For Adults</span> is the antidote to all of your educational errors, and contains a series of useful ideas which will help you retrain your brain for a whole new vocation or industry. <br/><br/>\r\n\r\n<span class="bold">"I was one of the best pediatric cancer specialists in the world, but curing sick children never gave me anything like the rush I get when I turn up to work at the strip club and let strange men put dollar bills down my buttcrack"</span><br/>\r\n<span class="t-gray-9">- Dr Brandy Giggletits</span>',
 		effect: "Provides a free merit reset upon completion.",
 		requirement: "",
 		type: "Book",
@@ -10494,9 +10805,10 @@ const TORN_ITEMS = {
 		circulation: 9243,
 		image: "https://www.torn.com/images/items/750/large.png",
 	},
-	"751": {
+	751: {
 		name: "Book : Milk Yourself Sober",
-		description: "The healing properties of milk have long been known to mankind, and those first intrepid perverts who dared to suckle on the teat of their bovine brethren unlocked a delicious creamy cave of medicinal wonder. Addiction is a terrible thing, but by replacing each of your daily meals with twelve glasses of milk you'll see those ketamine cravings and hashish hankerings disappear almost as if by magic. A treasure trove of milk stories and milk based recipes can also be found in this, a book described as \"dangerously unscientific\" by the National Medical Council.",
+		description:
+			'The healing properties of milk have long been known to mankind, and those first intrepid perverts who dared to suckle on the teat of their bovine brethren unlocked a delicious creamy cave of medicinal wonder. Addiction is a terrible thing, but by replacing each of your daily meals with twelve glasses of milk you\'ll see those ketamine cravings and hashish hankerings disappear almost as if by magic. A treasure trove of milk stories and milk based recipes can also be found in this, a book described as "dangerously unscientific" by the National Medical Council.',
 		effect: "Removes a substantial amount of drug addiction upon completion.",
 		requirement: "",
 		type: "Book",
@@ -10507,9 +10819,10 @@ const TORN_ITEMS = {
 		circulation: 9200,
 		image: "https://www.torn.com/images/items/751/large.png",
 	},
-	"752": {
+	752: {
 		name: "Book : Fight Like An Asshole",
-		description: "The greatest fighters and warmongers in history - Sun Tzu, Napoleon, Hitler, Mike Tyson, Judge Judy - what do they all have in common? They were all gigantic ass-hats. It was Muhammed Ali who was once so eloquently quoted as saying \"float like a butterfly, sting like a bee\". Yet who amongst the animal kingdom is more of a dick than bees? Perhaps hyenas, but that's besides the point. To become a great fighter you must first become a great douchebag. In <span class=\"italic\">Fight Like An Asshole</span> you will learn how to unleash your inner shithead, learning all manner of titty twisters, eye-gouges, and shin-kicks to the cock which will leave your enemy in a crumpled heap of tears and shame.",
+		description:
+			'The greatest fighters and warmongers in history - Sun Tzu, Napoleon, Hitler, Mike Tyson, Judge Judy - what do they all have in common? They were all gigantic ass-hats. It was Muhammed Ali who was once so eloquently quoted as saying "float like a butterfly, sting like a bee". Yet who amongst the animal kingdom is more of a dick than bees? Perhaps hyenas, but that\'s besides the point. To become a great fighter you must first become a great douchebag. In <span class="italic">Fight Like An Asshole</span> you will learn how to unleash your inner shithead, learning all manner of titty twisters, eye-gouges, and shin-kicks to the cock which will leave your enemy in a crumpled heap of tears and shame.',
 		effect: "Provides a passive 25% bonus to all battle stats for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10520,9 +10833,10 @@ const TORN_ITEMS = {
 		circulation: 9486,
 		image: "https://www.torn.com/images/items/752/large.png",
 	},
-	"753": {
+	753: {
 		name: "Book : Mind Over Matter",
-		description: "Mind over matter - a saying we've all heard but what exactly does it mean?\r\n<br>Dr Prahapeemanafaleshakorlanomatophitarplain believes that the human body can actually \"think\" itself strong. The award winning author of such books as <span class=\"italic\">Smell Yourself Thin</span>, <span class=\"italic\">Bones Are A Social Construct</span> and <span class=\"italic\">Bullying Children Makes Them Smart</span> now brings you this in-depth guide as to how you can use the power of self-belief to increase your strength.\r\n(N.B. Dr Prahapeemanafaleshakorlanomatophitarplain makes no guarantees as to the success or longevity of his methods and you attempt these activities at your own risk)",
+		description:
+			'Mind over matter - a saying we\'ve all heard but what exactly does it mean?\r\n<br>Dr Prahapeemanafaleshakorlanomatophitarplain believes that the human body can actually "think" itself strong. The award winning author of such books as <span class="italic">Smell Yourself Thin</span>, <span class="italic">Bones Are A Social Construct</span> and <span class="italic">Bullying Children Makes Them Smart</span> now brings you this in-depth guide as to how you can use the power of self-belief to increase your strength.\r\n(N.B. Dr Prahapeemanafaleshakorlanomatophitarplain makes no guarantees as to the success or longevity of his methods and you attempt these activities at your own risk)',
 		effect: "Provides a passive 100% bonus to Strength for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10533,9 +10847,10 @@ const TORN_ITEMS = {
 		circulation: 9363,
 		image: "https://www.torn.com/images/items/753/large.png",
 	},
-	"754": {
+	754: {
 		name: "Book : No Shame No Pain",
-		description: "In her 2015 essay on the human nervous system entitled <span class=\"italic\">Agony and Anxiety - Whaaaa?</span> Professor Folang&eacute; Musketeer-Smith revealed a ground-breaking discovery regarding the human nervous system. After a series of experiments involving children subjected to severe amounts of emotional and physical agony, Professor Musketeer-Smith made the astonishing discovery that people who were embarrassed to a sufficiently high degree become entirely immune to pain. <span class=\"italic\">No Shame No Pain</span> expands on the Professor's initial findings with a more detailed examination of the ways you can shame yourself and loved ones into an agony free existence.",
+		description:
+			'In her 2015 essay on the human nervous system entitled <span class="italic">Agony and Anxiety - Whaaaa?</span> Professor Folang&eacute; Musketeer-Smith revealed a ground-breaking discovery regarding the human nervous system. After a series of experiments involving children subjected to severe amounts of emotional and physical agony, Professor Musketeer-Smith made the astonishing discovery that people who were embarrassed to a sufficiently high degree become entirely immune to pain. <span class="italic">No Shame No Pain</span> expands on the Professor\'s initial findings with a more detailed examination of the ways you can shame yourself and loved ones into an agony free existence.',
 		effect: "Provides a passive 100% bonus to Defense for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10546,9 +10861,10 @@ const TORN_ITEMS = {
 		circulation: 9408,
 		image: "https://www.torn.com/images/items/754/large.png",
 	},
-	"755": {
+	755: {
 		name: "Book : Run Like The Wind",
-		description: "There isn't a man, woman or child alive who hasn't at some point dreamed of winning the 100m Olympic Sprint with a record breaking time of 9.04 seconds. Many of us have of course tried to achieve such feats, only to be told we're \"too old\", \"too slow\", \"too fat\" and \"not from Jamaica\". But what if you could use your own personal jet-engine to help you run faster than anyone ever has before you? <span class=\"italic\">Run Like The Wind</span> contains scientifically proven methods based on the principle of harnessing your own human flatulence in order to increase speed. Once you know the power your air biscuits can provide, we guarantee you'll never waste another one.\r\n\r\n<br/><br/>\r\n<span class=\"bold\">\"Disgusting\"</span><br/>\r\n<span class=\"t-gray-9\">- Oprah Winfrey</span>",
+		description:
+			'There isn\'t a man, woman or child alive who hasn\'t at some point dreamed of winning the 100m Olympic Sprint with a record breaking time of 9.04 seconds. Many of us have of course tried to achieve such feats, only to be told we\'re "too old", "too slow", "too fat" and "not from Jamaica". But what if you could use your own personal jet-engine to help you run faster than anyone ever has before you? <span class="italic">Run Like The Wind</span> contains scientifically proven methods based on the principle of harnessing your own human flatulence in order to increase speed. Once you know the power your air biscuits can provide, we guarantee you\'ll never waste another one.\r\n\r\n<br/><br/>\r\n<span class="bold">"Disgusting"</span><br/>\r\n<span class="t-gray-9">- Oprah Winfrey</span>',
 		effect: "Provides a passive 100% bonus to Speed for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10559,9 +10875,10 @@ const TORN_ITEMS = {
 		circulation: 9200,
 		image: "https://www.torn.com/images/items/755/large.png",
 	},
-	"756": {
+	756: {
 		name: "Book : Weaseling Out Of Trouble",
-		description: "When the world's animals are listed in order of danger a few familiar names make up the top five; sharks, hippos, lions, spiders, mosquitos. But each time one notable absentee invalidates such lists, and it shall be to his eternal detriment if mankind continues to ignore the ever-present threat of the Weasel. Weasels are known for their extreme dexterity and cunning, yet their passive nature means they rarely use their powers for evil. Those weasels which do turn against man often manage to weasel out of court cases, leading to far fewer prosecutions than you would expect or hope. The only way humanity can combat any future insurrection by Earth's weasel population is to adopt and utilise their methods. By reading <span class=\"italic\">Weaseling Out of Trouble</span>, you might just save your life.",
+		description:
+			"When the world's animals are listed in order of danger a few familiar names make up the top five; sharks, hippos, lions, spiders, mosquitos. But each time one notable absentee invalidates such lists, and it shall be to his eternal detriment if mankind continues to ignore the ever-present threat of the Weasel. Weasels are known for their extreme dexterity and cunning, yet their passive nature means they rarely use their powers for evil. Those weasels which do turn against man often manage to weasel out of court cases, leading to far fewer prosecutions than you would expect or hope. The only way humanity can combat any future insurrection by Earth's weasel population is to adopt and utilise their methods. By reading <span class=\"italic\">Weaseling Out of Trouble</span>, you might just save your life.",
 		effect: "Provides a passive 100% bonus to Dexterity for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10572,9 +10889,10 @@ const TORN_ITEMS = {
 		circulation: 9158,
 		image: "https://www.torn.com/images/items/756/large.png",
 	},
-	"757": {
+	757: {
 		name: "Book : Get Hard Or Go Home",
-		description: "Fast cars, leather jackets, a horrible personality; men use all sorts of things to mask the fact that they're packing a flaccid little cocktail weenie down there. But we all know the best way to overcompensate for having genitals which resemble an outty belly button is to hit the gym hard. Super hard. So hard it doesn't even matter if someone finds you sobbing in a heap clutching your junk. It doesn't matter okay? It's what you do with it that counts. LEAVE ME ALONE!!!",
+		description:
+			"Fast cars, leather jackets, a horrible personality; men use all sorts of things to mask the fact that they're packing a flaccid little cocktail weenie down there. But we all know the best way to overcompensate for having genitals which resemble an outty belly button is to hit the gym hard. Super hard. So hard it doesn't even matter if someone finds you sobbing in a heap clutching your junk. It doesn't matter okay? It's what you do with it that counts. LEAVE ME ALONE!!!",
 		effect: "Increases all gym gains by 20% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10585,9 +10903,10 @@ const TORN_ITEMS = {
 		circulation: 10043,
 		image: "https://www.torn.com/images/items/757/large.png",
 	},
-	"758": {
+	758: {
 		name: "Book : Gym Grunting - Shouting To Success",
-		description: "World famous documentarian Alan Cucumber documents the athletic regimen of tennis legend Serena Williams in a bid to uncover why her on-court grunting regime has brought her so much success. Following Ms Williams over a single calendar year, Cucumber discovers Serena's specific method of grunting and how it helps her in the gym, on the tennis court, and in the bedroom. Sadly Alan Cucumber's eardrums were shattered by one particular grunt as Ms Williams attempted a 6am bicep curl, but the erstwhile storyteller perseveres and brings you the full, unedited story of his time with the multiple Grand Slam champion, in a book which the UK's Guardian newspaper described as \"baffling\".",
+		description:
+			"World famous documentarian Alan Cucumber documents the athletic regimen of tennis legend Serena Williams in a bid to uncover why her on-court grunting regime has brought her so much success. Following Ms Williams over a single calendar year, Cucumber discovers Serena's specific method of grunting and how it helps her in the gym, on the tennis court, and in the bedroom. Sadly Alan Cucumber's eardrums were shattered by one particular grunt as Ms Williams attempted a 6am bicep curl, but the erstwhile storyteller perseveres and brings you the full, unedited story of his time with the multiple Grand Slam champion, in a book which the UK's Guardian newspaper described as \"baffling\".",
 		effect: "Increases Strength gym gains by 30% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10598,9 +10917,10 @@ const TORN_ITEMS = {
 		circulation: 9913,
 		image: "https://www.torn.com/images/items/758/large.png",
 	},
-	"759": {
+	759: {
 		name: "Book : Self Defense In The Workplace",
-		description: "An attack on an office can happen at any place, at any time...well obviously that place has to be an office, and it would also have to be open, but you get the point. If a masked intruder was to storm in and murder you at your desk, would you survive? <span class=\"italic\">Self Defense In The Workplace</span> teaches you the skills you need to protect yourself in the event of workplace warfare. Find out how dangerous a trapper keeper can be with the right training. Discover how a single sheet of A4 paper can slice a man's throat clean open. And commit to memory the knowledge that someone armed with only six post-it notes, two B3 pencils and a scientific calculator can hold off a horde of over 200 heavily armed troops.",
+		description:
+			'An attack on an office can happen at any place, at any time...well obviously that place has to be an office, and it would also have to be open, but you get the point. If a masked intruder was to storm in and murder you at your desk, would you survive? <span class="italic">Self Defense In The Workplace</span> teaches you the skills you need to protect yourself in the event of workplace warfare. Find out how dangerous a trapper keeper can be with the right training. Discover how a single sheet of A4 paper can slice a man\'s throat clean open. And commit to memory the knowledge that someone armed with only six post-it notes, two B3 pencils and a scientific calculator can hold off a horde of over 200 heavily armed troops.',
 		effect: "Increases Defense gym gains by 30% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10611,9 +10931,10 @@ const TORN_ITEMS = {
 		circulation: 9813,
 		image: "https://www.torn.com/images/items/759/large.png",
 	},
-	"760": {
+	760: {
 		name: "Book : Speed 3 - The Rejected Script",
-		description: "Screenwriter and amateur gynaecologist Ricky Buttons finally reveals to the world the full shooting script for the cancelled third entry into the Speed franchise; <span class=\"italic\">Speed 3: Piggyback Ride</span>. In this uniquely fascinating manuscript a young father agrees to give his seven year old daughter a piggyback ride, discovering to his horror that he must then travel faster than 40 miles per hour at all times to avoid seeing his little girl detonate before his very eyes. This romantic action comedy romp is both entertaining and inspiring, as we read with bemusement the various methods employed by the desperate dad to keep his legs perpetually in motion.",
+		description:
+			'Screenwriter and amateur gynaecologist Ricky Buttons finally reveals to the world the full shooting script for the cancelled third entry into the Speed franchise; <span class="italic">Speed 3: Piggyback Ride</span>. In this uniquely fascinating manuscript a young father agrees to give his seven year old daughter a piggyback ride, discovering to his horror that he must then travel faster than 40 miles per hour at all times to avoid seeing his little girl detonate before his very eyes. This romantic action comedy romp is both entertaining and inspiring, as we read with bemusement the various methods employed by the desperate dad to keep his legs perpetually in motion.',
 		effect: "Increases Speed gym gains by 30% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10624,9 +10945,10 @@ const TORN_ITEMS = {
 		circulation: 9901,
 		image: "https://www.torn.com/images/items/760/large.png",
 	},
-	"761": {
+	761: {
 		name: "Book : Limbo Lovers 101",
-		description: "The dexterity of one's spine has long been seen as an indication of their sexual prowess, and it is no coincidence that many of the greatest limbo champions were also spectacular in the bedroom. Margaret Headstone-Guff spent six years stalking and bedding some of the greatest pole-avoiders the world has ever seen, and during this time she absorbed many tips and tricks of the trade. Now this knowledge is passed on to you in this, a comprehensive guide to limbering yourself up real good, in a way which hopefully won't leave you paralysed.\r\n\r\n<br/><br/>\r\n<span class=\"bold\">\"After limbering myself up using the instructions in Limbo Lovers 101, I now eat and defecate through a tube\"</span><br/>\r\n<span class=\"t-gray-9\">- The guy from Mumford & Sons</span>",
+		description:
+			'The dexterity of one\'s spine has long been seen as an indication of their sexual prowess, and it is no coincidence that many of the greatest limbo champions were also spectacular in the bedroom. Margaret Headstone-Guff spent six years stalking and bedding some of the greatest pole-avoiders the world has ever seen, and during this time she absorbed many tips and tricks of the trade. Now this knowledge is passed on to you in this, a comprehensive guide to limbering yourself up real good, in a way which hopefully won\'t leave you paralysed.\r\n\r\n<br/><br/>\r\n<span class="bold">"After limbering myself up using the instructions in Limbo Lovers 101, I now eat and defecate through a tube"</span><br/>\r\n<span class="t-gray-9">- The guy from Mumford & Sons</span>',
 		effect: "Increases Dexterity gym gains by 30% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10637,9 +10959,10 @@ const TORN_ITEMS = {
 		circulation: 9746,
 		image: "https://www.torn.com/images/items/761/large.png",
 	},
-	"762": {
+	762: {
 		name: "Book : The Hamburglar's Guide To Crime",
-		description: "For three decades The Hamburglar's cheeky beef-stealing exploits were a mainstay of the McDonald's marketing campaign - until a brush with the law in 2003 put an end to both his career and his freedom. Embittered by a custody feud with his ex-wife, Birdie the Early Bird, The Hamburglar (real name Dennis Blork) was sent down for a 12 year stretch by Mayor McCheese after Officer Big Mac stumbled upon him desecrating the salad supplies at a nearby Burger King. But far from being the punishment intended, prison instead hardened The Hamburglar's criminal ways, giving him a range of crafty cons and terrible torture techniques courtesy of his fellow inmates. Now in this tell-all autobiography, The Hamburglar passes on his unique blend of criminal insight and erotic onion-based anecdotes in this <span class=\"italic\">The Hamburglar's Guide To Crime</span>.\r\n<br/><br/>\r\n<span class=\"bold\">\"If I see you looking at me like that again I'll f**king cut you\"</span><br/>\r\n<span class=\"t-gray-9\">- R. McDonald Esq</span>",
+		description:
+			'For three decades The Hamburglar\'s cheeky beef-stealing exploits were a mainstay of the McDonald\'s marketing campaign - until a brush with the law in 2003 put an end to both his career and his freedom. Embittered by a custody feud with his ex-wife, Birdie the Early Bird, The Hamburglar (real name Dennis Blork) was sent down for a 12 year stretch by Mayor McCheese after Officer Big Mac stumbled upon him desecrating the salad supplies at a nearby Burger King. But far from being the punishment intended, prison instead hardened The Hamburglar\'s criminal ways, giving him a range of crafty cons and terrible torture techniques courtesy of his fellow inmates. Now in this tell-all autobiography, The Hamburglar passes on his unique blend of criminal insight and erotic onion-based anecdotes in this <span class="italic">The Hamburglar\'s Guide To Crime</span>.\r\n<br/><br/>\r\n<span class="bold">"If I see you looking at me like that again I\'ll f**king cut you"</span><br/>\r\n<span class="t-gray-9">- R. McDonald Esq</span>',
 		effect: "Increases crime skill & crime experience gain by 25% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10650,9 +10973,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/762/large.png",
 	},
-	"763": {
+	763: {
 		name: "Book : What Are Old Folk Good For Anyway?",
-		description: "Society has long wondered what to do with the elderly - ignore them, burn them, use them as some kind of hat-stand. Many believe we should just put them in old people jail and leave them to rot, but to do these things would be a waste of the delicious knowledge retained inside the minds of our many wrinkled wanderers. In <span class=\"italic\">What Are Old Folk Good For Anyway?</span> we examine how you can feast upon the experience inside old-people brains for your own benefit. From how to unlock a door using slippers through to a range of fascinating techniques for persuading someone to sleep with you out of pity - this book is an anthology of elderly experience no young whippersnapper can do without.",
+		description:
+			'Society has long wondered what to do with the elderly - ignore them, burn them, use them as some kind of hat-stand. Many believe we should just put them in old people jail and leave them to rot, but to do these things would be a waste of the delicious knowledge retained inside the minds of our many wrinkled wanderers. In <span class="italic">What Are Old Folk Good For Anyway?</span> we examine how you can feast upon the experience inside old-people brains for your own benefit. From how to unlock a door using slippers through to a range of fascinating techniques for persuading someone to sleep with you out of pity - this book is an anthology of elderly experience no young whippersnapper can do without.',
 		effect: "Increases leveling EXP gains by 25% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10663,9 +10987,10 @@ const TORN_ITEMS = {
 		circulation: 9288,
 		image: "https://www.torn.com/images/items/763/large.png",
 	},
-	"764": {
+	764: {
 		name: "Book : Medical Degree Schmedical Degree",
-		description: "Ever wonder how doctors know so much about your inside parts? Have you ever stopped to consider the possibility that they are wrong and you are right? We've all watched Grey's Anatomy, it can't be that hard. Hear the story of how I, Kenny Manchego, repeatedly leave hospitals against doctor's recommendations several days early, and how you can too!",
+		description:
+			"Ever wonder how doctors know so much about your inside parts? Have you ever stopped to consider the possibility that they are wrong and you are right? We've all watched Grey's Anatomy, it can't be that hard. Hear the story of how I, Kenny Manchego, repeatedly leave hospitals against doctor's recommendations several days early, and how you can too!",
 		effect: "Reduces all hospital time by 50% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10676,9 +11001,10 @@ const TORN_ITEMS = {
 		circulation: 9171,
 		image: "https://www.torn.com/images/items/764/large.png",
 	},
-	"765": {
+	765: {
 		name: "Book : No More Soap On A Rope",
-		description: "Humans have tattled on each other since the dawn of time. Many of us remember the first time we told mom it was the kid next door who shat on the porch. Tattling is what makes humans human, so let us rekindle this spirit and apply those tale-telling traits to the Torn legal system. This guide will help you discover how to rat on your fellow criminals so hard the judge can't help but go easy on you.",
+		description:
+			"Humans have tattled on each other since the dawn of time. Many of us remember the first time we told mom it was the kid next door who shat on the porch. Tattling is what makes humans human, so let us rekindle this spirit and apply those tale-telling traits to the Torn legal system. This guide will help you discover how to rat on your fellow criminals so hard the judge can't help but go easy on you.",
 		effect: "Reduces all jail time by 50% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10689,9 +11015,10 @@ const TORN_ITEMS = {
 		circulation: 8849,
 		image: "https://www.torn.com/images/items/765/large.png",
 	},
-	"766": {
+	766: {
 		name: "Book : Mailing Yourself Abroad",
-		description: "Ever wonder how mail seems to arrive so much faster at its destination than people do? Ervington Winterbottom did, so he decided to try something out. Over a period of three months he shipped 84 individually boxed kittens to various destinations across the country. On each occasion Winterbottom then attempted to arrive at his parcel's destination before his pussy packages using conventional public transport, and he failed every single time. Despite the unfortunate felines suffocating to death during each journey Ervington knew he had stumbled upon something life-changing, and to this day he saves thousands of pounds and hours every year shipping himself and his family to exotic destinations around the world. <span class=\"italic\">Mailing Yourself Abroad</span> is the essential guide to cheap and easy international travel, and within minutes of reading it you'll be taping yourself up for the trip of a lifetime.",
+		description:
+			"Ever wonder how mail seems to arrive so much faster at its destination than people do? Ervington Winterbottom did, so he decided to try something out. Over a period of three months he shipped 84 individually boxed kittens to various destinations across the country. On each occasion Winterbottom then attempted to arrive at his parcel's destination before his pussy packages using conventional public transport, and he failed every single time. Despite the unfortunate felines suffocating to death during each journey Ervington knew he had stumbled upon something life-changing, and to this day he saves thousands of pounds and hours every year shipping himself and his family to exotic destinations around the world. <span class=\"italic\">Mailing Yourself Abroad</span> is the essential guide to cheap and easy international travel, and within minutes of reading it you'll be taping yourself up for the trip of a lifetime.",
 		effect: "Reduces all travel times by 25% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10702,9 +11029,10 @@ const TORN_ITEMS = {
 		circulation: 9492,
 		image: "https://www.torn.com/images/items/766/large.png",
 	},
-	"767": {
+	767: {
 		name: "Book : Smuggling For Beginners",
-		description: "International smuggler Reynauld Le Cul has transported over 8,000 tonnes of illicit items between borders over his lifetime, and now as he approaches retirement he has decided to share this knowledge with the world. By building up from small frozen grapes Le Cul explains how to secrete items within yourself, gradually stretching the body's natural elasticated entrances until you are capable of smuggling a baby grand piano without the use of lubricant. <span class=\"italic\">Smuggling For Beginners</span> also covers eluding sniffer dogs, how to ace a cavity search, and how it's possible to walk with twelve coke-filled pineapples inside your body without arousing suspicion.",
+		description:
+			"International smuggler Reynauld Le Cul has transported over 8,000 tonnes of illicit items between borders over his lifetime, and now as he approaches retirement he has decided to share this knowledge with the world. By building up from small frozen grapes Le Cul explains how to secrete items within yourself, gradually stretching the body's natural elasticated entrances until you are capable of smuggling a baby grand piano without the use of lubricant. <span class=\"italic\">Smuggling For Beginners</span> also covers eluding sniffer dogs, how to ace a cavity search, and how it's possible to walk with twelve coke-filled pineapples inside your body without arousing suspicion.",
 		effect: "Increases travel capacity by +10 for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10715,9 +11043,10 @@ const TORN_ITEMS = {
 		circulation: 9429,
 		image: "https://www.torn.com/images/items/767/large.png",
 	},
-	"768": {
+	768: {
 		name: "Book : Stealthy Stealing of Underwear",
-		description: "If Torn City was more like Tokyo and sold used underwear in vending machines then we wouldn't need a book like this, but it isn't, so we do. I, Miranda Gropenstein, have dedicated my life to stealing all manner of undergarments from people's homes and dumpsters. Filthy men's boxer shorts? You got it. Ladies' thongs. No problem. Crotchless hosiery from the washing basket of a 94 year old blind lady? You better believe it. And guess what, I've never been caught! Let me share with you my stealthy secrets, so you too can become what several newspapers have described as \"A filthy-minded wrong-un\".",
+		description:
+			"If Torn City was more like Tokyo and sold used underwear in vending machines then we wouldn't need a book like this, but it isn't, so we do. I, Miranda Gropenstein, have dedicated my life to stealing all manner of undergarments from people's homes and dumpsters. Filthy men's boxer shorts? You got it. Ladies' thongs. No problem. Crotchless hosiery from the washing basket of a 94 year old blind lady? You better believe it. And guess what, I've never been caught! Let me share with you my stealthy secrets, so you too can become what several newspapers have described as \"A filthy-minded wrong-un\".",
 		effect: "Maximum stealth for the next 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10728,9 +11057,10 @@ const TORN_ITEMS = {
 		circulation: 9127,
 		image: "https://www.torn.com/images/items/768/large.png",
 	},
-	"769": {
+	769: {
 		name: "Book : Shawshank Sure Ain't For Me!",
-		description: "Since the release of <span class=\"italic\">The Shawshank Redemption</span>, prison breakouts have become a little clich&eacute;. Every warden worth his salt now checks behind posters of cute girls for holes, under toilets for cracks in the floor, and at the end of sewerage pipes for excrement-slathered convicts. The old ways no longer work, so <span class=\"italic\">Shawshank Sure Ain't For Me!</span> aims to \"breakout\" and devise a whole new approach to the traditional prison bust. From seducing the warden and dressing up like a Mexican bandido through to pleading insanity and gradually mailing yourself piece by piece to an alternate destination - this book is the go-to guide for both current convicts and potential lawbreakers alike.",
+		description:
+			'Since the release of <span class="italic">The Shawshank Redemption</span>, prison breakouts have become a little clich&eacute;. Every warden worth his salt now checks behind posters of cute girls for holes, under toilets for cracks in the floor, and at the end of sewerage pipes for excrement-slathered convicts. The old ways no longer work, so <span class="italic">Shawshank Sure Ain\'t For Me!</span> aims to "breakout" and devise a whole new approach to the traditional prison bust. From seducing the warden and dressing up like a Mexican bandido through to pleading insanity and gradually mailing yourself piece by piece to an alternate destination - this book is the go-to guide for both current convicts and potential lawbreakers alike.',
 		effect: "Large jail bust & escape boost for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10741,9 +11071,10 @@ const TORN_ITEMS = {
 		circulation: 9380,
 		image: "https://www.torn.com/images/items/769/large.png",
 	},
-	"770": {
+	770: {
 		name: "Book : Ignorance Is Bliss",
-		description: "Happiness is the right of every human being, and the best way to achieve this is to pretend bad things don't happen. There is a reason stupid people always seem so giddy with excitement, and that's because their simple minds have no way of knowing what the hell is going on. We take inspiration from those kids in high school who sat at the back of the class eating paste and bring you some psychological tricks to turn that frown upside down. Has your Grandmother died recently? Burn those treasured family photos. Starving kids in Africa? Smash your TV into bits. People calling you dumb? Just straight up murder them with hammers. Our book is full of handy happiness hints suitable for children and adults alike. And if none of them work, our words are also printed on LSD blotter paper.",
+		description:
+			"Happiness is the right of every human being, and the best way to achieve this is to pretend bad things don't happen. There is a reason stupid people always seem so giddy with excitement, and that's because their simple minds have no way of knowing what the hell is going on. We take inspiration from those kids in high school who sat at the back of the class eating paste and bring you some psychological tricks to turn that frown upside down. Has your Grandmother died recently? Burn those treasured family photos. Starving kids in Africa? Smash your TV into bits. People calling you dumb? Just straight up murder them with hammers. Our book is full of handy happiness hints suitable for children and adults alike. And if none of them work, our words are also printed on LSD blotter paper.",
 		effect: "Happiness can regenerate above maximum for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10754,9 +11085,10 @@ const TORN_ITEMS = {
 		circulation: 9671,
 		image: "https://www.torn.com/images/items/770/large.png",
 	},
-	"771": {
+	771: {
 		name: "Book : Winking To Win",
-		description: "There are many books on the art of persuasion, yet they all over-complicate what is essentially a very simple process. Making people give you more of what you want is as easy as two plus two, which if you didn't know equals four. <span class=\"italic\">Winking To Win</span> teaches you how a simple wink of the right eye can double your fee in business negotiations instantly, and several winks in a row brings riches you can only dream of. Most people are too afraid to utilise the full power of the wink for fear it may make them resemble a pervert or stroke victim, yet those who truly understand the ways of the semi-blink will testify to its uniquely persuasive nature.\r\n\r\n<br/><br/>\r\n<span class=\"bold\">\"Since I started winking I haven't looked back, mostly because I over did it and my eyes fell out\"</span><br/>\r\n<span class=\"t-gray-9\">- Stevie Wonder</span>",
+		description:
+			'There are many books on the art of persuasion, yet they all over-complicate what is essentially a very simple process. Making people give you more of what you want is as easy as two plus two, which if you didn\'t know equals four. <span class="italic">Winking To Win</span> teaches you how a simple wink of the right eye can double your fee in business negotiations instantly, and several winks in a row brings riches you can only dream of. Most people are too afraid to utilise the full power of the wink for fear it may make them resemble a pervert or stroke victim, yet those who truly understand the ways of the semi-blink will testify to its uniquely persuasive nature.\r\n\r\n<br/><br/>\r\n<span class="bold">"Since I started winking I haven\'t looked back, mostly because I over did it and my eyes fell out"</span><br/>\r\n<span class="t-gray-9">- Stevie Wonder</span>',
 		effect: "Doubles contract credit and money rewards for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10767,9 +11099,10 @@ const TORN_ITEMS = {
 		circulation: 9213,
 		image: "https://www.torn.com/images/items/771/large.png",
 	},
-	"772": {
+	772: {
 		name: "Book : Finders Keepers",
-		description: "Why is it some people seem to get all the luck? One of your friends finds $50 on the floor, your mother acquires a briefcase full of jewels on the bus, and who hasn't got a best friend who just \"happened\" to stumble across a spare kidney in Taco Bell? I don't think this is luck at all. My name is D'aniel Bonkonovitch and in <span class=\"italic\">Finders Keepers</span> I'll teach you how to make your own good fortune in this world of ours by simply re-classifying burglary, grand theft auto and pickpocketing as \"aggressively opportunistic scavenging\".",
+		description:
+			'Why is it some people seem to get all the luck? One of your friends finds $50 on the floor, your mother acquires a briefcase full of jewels on the bus, and who hasn\'t got a best friend who just "happened" to stumble across a spare kidney in Taco Bell? I don\'t think this is luck at all. My name is D\'aniel Bonkonovitch and in <span class="italic">Finders Keepers</span> I\'ll teach you how to make your own good fortune in this world of ours by simply re-classifying burglary, grand theft auto and pickpocketing as "aggressively opportunistic scavenging".',
 		effect: "Increases awareness by 2500% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10780,9 +11113,10 @@ const TORN_ITEMS = {
 		circulation: 10040,
 		image: "https://www.torn.com/images/items/772/large.png",
 	},
-	"773": {
+	773: {
 		name: "Book : Hot Turkey",
-		description: "Addiction is a cruel mistress and has blighted many people, but all of these tragically wasted lives could have been saved using one simple trick - denial. Both Alcoholics and Narcotics Anonymous claim the realisation of addiction is the first step towards recovery, but by delaying this crucial first step and recategorizing yourself as being \"on the road to being on the road to recovery\", you can enjoy one last month-long blowout before going cold turkey. In <span class=\"italic\">Hot Turkey</span> we pose the questions drunk people are too wasted to ask. For example, giving in to your vice is often called \"Falling off the Wagon\", but how do we know the wagon is going in the right direction? Who is driving the wagon? Are there snacks on board? Maybe being on the wagon isn't all that great after all?",
+		description:
+			'Addiction is a cruel mistress and has blighted many people, but all of these tragically wasted lives could have been saved using one simple trick - denial. Both Alcoholics and Narcotics Anonymous claim the realisation of addiction is the first step towards recovery, but by delaying this crucial first step and recategorizing yourself as being "on the road to being on the road to recovery", you can enjoy one last month-long blowout before going cold turkey. In <span class="italic">Hot Turkey</span> we pose the questions drunk people are too wasted to ask. For example, giving in to your vice is often called "Falling off the Wagon", but how do we know the wagon is going in the right direction? Who is driving the wagon? Are there snacks on board? Maybe being on the wagon isn\'t all that great after all?',
 		effect: "Gain no drug addiction for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10793,9 +11127,10 @@ const TORN_ITEMS = {
 		circulation: 9605,
 		image: "https://www.torn.com/images/items/773/large.png",
 	},
-	"774": {
+	774: {
 		name: "Book : Higher Daddy, Higher!",
-		description: "The noble art of pushing children on swings has long been suggested as a potential solution to the world's energy crisis. For reasons as yet unknown, the mysterious power of a child screaming \"Higher Daddy, Higher!\" seems to generate an unlimited amount of energy from untapped reserves located deep within the human body. <span class=\"italic\">Higher Daddy, Higher</span> examines this elusive source of raw brute force and seeks to apply its principles to everyday urban living.\r\n\r\n<br/><br/>\r\n<span class=\"bold\">\"I shouted 'higher daddy, higher!' whilst running for the subway, and I felt more energised than ever before in my life...until I was wrestled to the ground by police officers\"</span><br/>\r\n<span class=\"t-gray-9\">- Judge Judy</span>",
+		description:
+			'The noble art of pushing children on swings has long been suggested as a potential solution to the world\'s energy crisis. For reasons as yet unknown, the mysterious power of a child screaming "Higher Daddy, Higher!" seems to generate an unlimited amount of energy from untapped reserves located deep within the human body. <span class="italic">Higher Daddy, Higher</span> examines this elusive source of raw brute force and seeks to apply its principles to everyday urban living.\r\n\r\n<br/><br/>\r\n<span class="bold">"I shouted \'higher daddy, higher!\' whilst running for the subway, and I felt more energised than ever before in my life...until I was wrestled to the ground by police officers"</span><br/>\r\n<span class="t-gray-9">- Judge Judy</span>',
 		effect: "Provides +20% energy regeneration for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10806,9 +11141,10 @@ const TORN_ITEMS = {
 		circulation: 9606,
 		image: "https://www.torn.com/images/items/774/large.png",
 	},
-	"775": {
+	775: {
 		name: "Book : The Real Dutch Courage",
-		description: "During the Anglo-Dutch war of 1665-1667 the English sailors often remarked upon how brave their clog-wearing foes were in the heat of battle. The Dutch seemed to have complete disregard for their own safety, as was evident by their exclusive use of bicycles in a war fought entirely at sea. One man remarked that the Dutch must've been drunk, and it is from this incident the term \"Dutch Courage\" originates. Taking a drink before a stressful situation in order to stiffen one's resolve has long been referred to by this term, but <span class=\"italic\">The Real Dutch Courage</span> seeks to obliterate this myth and reveal the true source of the Dutch sailors' bravery - the humble wasp. Each Dutchman took to battle a tiny wooden windmill filled with wasps affixed to their inner thigh as a method of encouragement, and the story of how this tradition came to pass truly is a tale for the ages.",
+		description:
+			'During the Anglo-Dutch war of 1665-1667 the English sailors often remarked upon how brave their clog-wearing foes were in the heat of battle. The Dutch seemed to have complete disregard for their own safety, as was evident by their exclusive use of bicycles in a war fought entirely at sea. One man remarked that the Dutch must\'ve been drunk, and it is from this incident the term "Dutch Courage" originates. Taking a drink before a stressful situation in order to stiffen one\'s resolve has long been referred to by this term, but <span class="italic">The Real Dutch Courage</span> seeks to obliterate this myth and reveal the true source of the Dutch sailors\' bravery - the humble wasp. Each Dutchman took to battle a tiny wooden windmill filled with wasps affixed to their inner thigh as a method of encouragement, and the story of how this tradition came to pass truly is a tale for the ages.',
 		effect: "Doubles nerve regeneration for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10819,9 +11155,10 @@ const TORN_ITEMS = {
 		circulation: 9531,
 		image: "https://www.torn.com/images/items/775/large.png",
 	},
-	"776": {
+	776: {
 		name: "Book : Because I'm Happy - The Pharrell Story",
-		description: "The popular musician and producer Pharrell Williams has long suffered from a debilitating mental condition which causes him to smile at all times, regardless as to whether the situation calls for it. The \"Happy\" hitmaker is often seen grinning at road traffic accidents, laughing at unfortunate medical diagnoses, and seeming positively ecstatic when informed of the death of a close family friend. This condition was caused by a blow to the head suffered when a 6 year old Pharrell was hit by an ice cream truck whilst walking his dog. However, when the young RnB sensation awoke to find his canine companion had passed away after gorging itself on chocolate snow-cones spilled during the accident, he found the news so funny he became unable to shed tears ever again. This inspiring unauthorised biography of Pharrell Williams is a must read for anyone who needs something to stare at while taking a dump.",
+		description:
+			'The popular musician and producer Pharrell Williams has long suffered from a debilitating mental condition which causes him to smile at all times, regardless as to whether the situation calls for it. The "Happy" hitmaker is often seen grinning at road traffic accidents, laughing at unfortunate medical diagnoses, and seeming positively ecstatic when informed of the death of a close family friend. This condition was caused by a blow to the head suffered when a 6 year old Pharrell was hit by an ice cream truck whilst walking his dog. However, when the young RnB sensation awoke to find his canine companion had passed away after gorging itself on chocolate snow-cones spilled during the accident, he found the news so funny he became unable to shed tears ever again. This inspiring unauthorised biography of Pharrell Williams is a must read for anyone who needs something to stare at while taking a dump.',
 		effect: "Doubles happiness regeneration for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10832,9 +11169,10 @@ const TORN_ITEMS = {
 		circulation: 9049,
 		image: "https://www.torn.com/images/items/776/large.png",
 	},
-	"777": {
+	777: {
 		name: "Book : No More Sick Days",
-		description: "Traditional medicine has long been established as the one and only method of healing the sick, but did Jesus have access to aspirin and cough syrup when he cured the lepers? Historians say no, so how could he possibly achieve both this and the growth of such a long, lustrous beard? At the Medicinal Institute for Non-Derivative Life Extending Support Systems we work with homeopaths, psychics, spiritual healers and other non-qualified individuals to create alternative medical products for the gullible folk of the 21st Century. Did we say gullible? We meant smart. Smart educated people who clearly know more than those idiots with their \"medical qualifications\", \"years of training\" and their \"reasonable logic\".",
+		description:
+			'Traditional medicine has long been established as the one and only method of healing the sick, but did Jesus have access to aspirin and cough syrup when he cured the lepers? Historians say no, so how could he possibly achieve both this and the growth of such a long, lustrous beard? At the Medicinal Institute for Non-Derivative Life Extending Support Systems we work with homeopaths, psychics, spiritual healers and other non-qualified individuals to create alternative medical products for the gullible folk of the 21st Century. Did we say gullible? We meant smart. Smart educated people who clearly know more than those idiots with their "medical qualifications", "years of training" and their "reasonable logic".',
 		effect: "Doubles life regeneration for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10845,9 +11183,10 @@ const TORN_ITEMS = {
 		circulation: 8986,
 		image: "https://www.torn.com/images/items/777/large.png",
 	},
-	"778": {
+	778: {
 		name: "Book : Duke - My Story",
-		description: "How you doin? I'm The Duke, and this is my story what I gone and wrote myself. Now if you wanna learn how to be a big-time honcho head like me you better sit down and read this, but don't go reading it on the john cause I don't wanna see that business! My book is full of stories about how people double crossed over me and I whacked em real hard, but they ain't put no pictures in like I said because they say Oprah won't read it if I do. If you wanna hear about how I grew up on the streets alone, how I became the biggest shark in a small duck pond of fish, and why I'm even more dangerous than those Balsamic State nutjobs over in the Middle Earth...then you better buy this book yeah? Good. I knew you'd agree.",
+		description:
+			"How you doin? I'm The Duke, and this is my story what I gone and wrote myself. Now if you wanna learn how to be a big-time honcho head like me you better sit down and read this, but don't go reading it on the john cause I don't wanna see that business! My book is full of stories about how people double crossed over me and I whacked em real hard, but they ain't put no pictures in like I said because they say Oprah won't read it if I do. If you wanna hear about how I grew up on the streets alone, how I became the biggest shark in a small duck pond of fish, and why I'm even more dangerous than those Balsamic State nutjobs over in the Middle Earth...then you better buy this book yeah? Good. I knew you'd agree.",
 		effect: "Duke will occasionally retaliate against your attackers for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10858,9 +11197,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/778/large.png",
 	},
-	"779": {
+	779: {
 		name: "Book : Self Control Is For Losers",
-		description: "How many beers do you think it's safe to drink in an hour? Four? Twelve? Forty twelve? What about cigars, cream cakes and breakfast burritos? Surely there's a limit right? Everything in moderation? Not if you're smart about it there isn't. My name is Hermando Ravioli, and my breakfast consists of deep-fried lard balls accompanied by a Champagne and human blood smoothie. But how can I eat this and still weigh only six stone? By tricking my body like a sucker that's how. Each morning I use visualisation techniques to convince my brain I've just completed a marathon, thereby increasing my metabolism and allowing me to fill my face with ever more crap. With <span class=\"italic\">Self Control is For Losers</span> you too will learn my gluttonous secrets, and before long you'll be on your way to a well-earned heart attack.",
+		description:
+			"How many beers do you think it's safe to drink in an hour? Four? Twelve? Forty twelve? What about cigars, cream cakes and breakfast burritos? Surely there's a limit right? Everything in moderation? Not if you're smart about it there isn't. My name is Hermando Ravioli, and my breakfast consists of deep-fried lard balls accompanied by a Champagne and human blood smoothie. But how can I eat this and still weigh only six stone? By tricking my body like a sucker that's how. Each morning I use visualisation techniques to convince my brain I've just completed a marathon, thereby increasing my metabolism and allowing me to fill my face with ever more crap. With <span class=\"italic\">Self Control is For Losers</span> you too will learn my gluttonous secrets, and before long you'll be on your way to a well-earned heart attack.",
 		effect: "Reduces all consumable cooldowns by 50% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10871,9 +11211,10 @@ const TORN_ITEMS = {
 		circulation: 9588,
 		image: "https://www.torn.com/images/items/779/large.png",
 	},
-	"780": {
+	780: {
 		name: "Book : Going Back For More",
-		description: "When the ordinary public uses non-prescription medication for headaches, stomach pain or genital warts they often pay close attention to the recommended dosage. If the packet says take two every 24 hours, you take two every 24 hours - unless you are attempting to kill yourself. But did you know that you can take two times, three times, or even twelve times the recommended dose of any medication and only suffer minor internal bleeding and blindness? <span class=\"italic\">Going Back For More</span> lifts the lid on the \"recommended dosage\" conspiracy and gives you the inside track on exactly how much morphine, neumune and painkilling medication you can take before you realise \"I may have gone too far\".",
+		description:
+			'When the ordinary public uses non-prescription medication for headaches, stomach pain or genital warts they often pay close attention to the recommended dosage. If the packet says take two every 24 hours, you take two every 24 hours - unless you are attempting to kill yourself. But did you know that you can take two times, three times, or even twelve times the recommended dose of any medication and only suffer minor internal bleeding and blindness? <span class="italic">Going Back For More</span> lifts the lid on the "recommended dosage" conspiracy and gives you the inside track on exactly how much morphine, neumune and painkilling medication you can take before you realise "I may have gone too far".',
 		effect: "Reduces all medical cooldowns by 50% for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10884,9 +11225,10 @@ const TORN_ITEMS = {
 		circulation: 9136,
 		image: "https://www.torn.com/images/items/780/large.png",
 	},
-	"781": {
+	781: {
 		name: "Book : Get Drunk And Lose Dignity",
-		description: "Hollywood is littered with tales of tinseltown stars losing their minds in a haze of drunken debauchery, with Marlon Brando, Alec Guinness, Colin Farrell and Betty White all falling foul of the demon drink at one point or another. But one woman outstrips them all - Lindsay Lohan. The enchanting tale of the silver screen's hepatitis typhoon is brought to life in this exquisite anthology of crayon drawings and doodles. If you've always wanted to puke like a Hollywood starlet then this story will both inspire and disgust you, as you are taken on a veritable rollercoaster of booze, bitching, and blowjobs behind dumpsters.",
+		description:
+			"Hollywood is littered with tales of tinseltown stars losing their minds in a haze of drunken debauchery, with Marlon Brando, Alec Guinness, Colin Farrell and Betty White all falling foul of the demon drink at one point or another. But one woman outstrips them all - Lindsay Lohan. The enchanting tale of the silver screen's hepatitis typhoon is brought to life in this exquisite anthology of crayon drawings and doodles. If you've always wanted to puke like a Hollywood starlet then this story will both inspire and disgust you, as you are taken on a veritable rollercoaster of booze, bitching, and blowjobs behind dumpsters.",
 		effect: "Doubles alcohol effects for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10897,9 +11239,10 @@ const TORN_ITEMS = {
 		circulation: 9231,
 		image: "https://www.torn.com/images/items/781/large.png",
 	},
-	"782": {
+	782: {
 		name: "Book : Fuelling Your Way To Failure",
-		description: "In 1995 on a quiet walk through a forgettable city centre I met a man who would change my life. My name is Letitia Solid-Loaf and for years I had suffered with fatigue of both the mind and brain, until I bumped into a homeless man drinking petrol behind a KFC. He went by the name of Toxic Terry, and with his deep blue eyes and unruly mop of shaggy blonde hair he persuaded me to take a taste of his \"cocktail\" - which I later discovered was a simple energy drink mixed with petroleum. For the first time in my life I felt alive, and since this revelation I haven't gone more than three hours without combining an energy drink with harmful industrial propellants. Despite losing all of my hair, teeth, gums and dignity I do not regret a thing, and in <span class=\"italic\">Fuelling Your Way To Failure</span> I offer up some of my favourite refuelling recipes for you to try at home, at school, or in a heavily soiled alleyway.",
+		description:
+			'In 1995 on a quiet walk through a forgettable city centre I met a man who would change my life. My name is Letitia Solid-Loaf and for years I had suffered with fatigue of both the mind and brain, until I bumped into a homeless man drinking petrol behind a KFC. He went by the name of Toxic Terry, and with his deep blue eyes and unruly mop of shaggy blonde hair he persuaded me to take a taste of his "cocktail" - which I later discovered was a simple energy drink mixed with petroleum. For the first time in my life I felt alive, and since this revelation I haven\'t gone more than three hours without combining an energy drink with harmful industrial propellants. Despite losing all of my hair, teeth, gums and dignity I do not regret a thing, and in <span class="italic">Fuelling Your Way To Failure</span> I offer up some of my favourite refuelling recipes for you to try at home, at school, or in a heavily soiled alleyway.',
 		effect: "Doubles energy drink effects for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10910,9 +11253,10 @@ const TORN_ITEMS = {
 		circulation: 9675,
 		image: "https://www.torn.com/images/items/782/large.png",
 	},
-	"783": {
+	783: {
 		name: "Book : Yes Please Diabetes",
-		description: "If the tale of the Hungry Hungry Caterpillar tells us anything, it's that the morbidly obese eventually turn into a beautiful butterfly. Wouldn't you like to be that beautiful butterfly? Of course you would. This step by step guide will teach you the skills you need to become happier than ever as you consume nothing but candy and become a complete shut in within the comfort of your own home.",
+		description:
+			"If the tale of the Hungry Hungry Caterpillar tells us anything, it's that the morbidly obese eventually turn into a beautiful butterfly. Wouldn't you like to be that beautiful butterfly? Of course you would. This step by step guide will teach you the skills you need to become happier than ever as you consume nothing but candy and become a complete shut in within the comfort of your own home.",
 		effect: "Doubles candy effects for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10923,9 +11267,10 @@ const TORN_ITEMS = {
 		circulation: 9016,
 		image: "https://www.torn.com/images/items/783/large.png",
 	},
-	"784": {
+	784: {
 		name: "Book : Ugly Energy",
-		description: "If there's one thing ugly people are known for it's their enthusiasm - because when you have a face that looks like you've fallen out of the ugly tree, been dragged through the whole hideous forest, chopped down by a grotesque lumber corporation and fashioned into the most vomit-inducing coffee table the world has ever seen...you've got to make a bit of an effort. In <span class=\"italic\">Ugly Energy</span> we help you feel more energetic by teaching you how to disfigure your own face using nothing but a screwdriver, two tubs of mayonnaise and an industrial belt sander. And once you've messed up those stunning looks of yours, you'll begin to massively overcompensate and release the true power locked behind that one gorgeous mush.\r\n<br/><br/>\r\n<span class=\"bold\">\"I used to be pretty, but now I do stuff instead...literally all the stuff\"</span><br/>\r\n<span class=\"t-gray-9\">- Lady Gaga</span>",
+		description:
+			'If there\'s one thing ugly people are known for it\'s their enthusiasm - because when you have a face that looks like you\'ve fallen out of the ugly tree, been dragged through the whole hideous forest, chopped down by a grotesque lumber corporation and fashioned into the most vomit-inducing coffee table the world has ever seen...you\'ve got to make a bit of an effort. In <span class="italic">Ugly Energy</span> we help you feel more energetic by teaching you how to disfigure your own face using nothing but a screwdriver, two tubs of mayonnaise and an industrial belt sander. And once you\'ve messed up those stunning looks of yours, you\'ll begin to massively overcompensate and release the true power locked behind that one gorgeous mush.\r\n<br/><br/>\r\n<span class="bold">"I used to be pretty, but now I do stuff instead...literally all the stuff"</span><br/>\r\n<span class="t-gray-9">- Lady Gaga</span>',
 		effect: "Increases maximum energy to 250 for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10936,9 +11281,10 @@ const TORN_ITEMS = {
 		circulation: 10002,
 		image: "https://www.torn.com/images/items/784/large.png",
 	},
-	"785": {
+	785: {
 		name: "Book : Memories And Mammaries",
-		description: "Some people are blessed with a photographic memory, others possess a naturally advanced brain capacity - but what about the rest of us? During her teenage years, mathematician and convicted felon Jennifer Yellow-Hat noticed that her friends had an astounding ability to recall her words whenever she wore a bulky sweater. Conversely, on days where her cleavage was on display, her associates' efforts to memorise facts and figures failed repeatedly. Her conclusion that the presence of breasts reduces the human mind's capacity for memory helped one Harvard student to a 100% grade on his advanced physics paper, and in <span class=\"italic\">Memories and Mammaries</span> Ms Yellow-Hat explains how you too can improve information retention with three simple boob banishing techniques.\r\n<br/><br/>\r\n<span class=\"bold\">\"What's my name again? Who are you? What am I doing here?\"</span><br/>\r\n<span class=\"t-gray-9\">- Hugh Hefner</span>",
+		description:
+			'Some people are blessed with a photographic memory, others possess a naturally advanced brain capacity - but what about the rest of us? During her teenage years, mathematician and convicted felon Jennifer Yellow-Hat noticed that her friends had an astounding ability to recall her words whenever she wore a bulky sweater. Conversely, on days where her cleavage was on display, her associates\' efforts to memorise facts and figures failed repeatedly. Her conclusion that the presence of breasts reduces the human mind\'s capacity for memory helped one Harvard student to a 100% grade on his advanced physics paper, and in <span class="italic">Memories and Mammaries</span> Ms Yellow-Hat explains how you too can improve information retention with three simple boob banishing techniques.\r\n<br/><br/>\r\n<span class="bold">"What\'s my name again? Who are you? What am I doing here?"</span><br/>\r\n<span class="t-gray-9">- Hugh Hefner</span>',
 		effect: "Takes the same effect from the last used book for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10949,9 +11295,10 @@ const TORN_ITEMS = {
 		circulation: 8729,
 		image: "https://www.torn.com/images/items/785/large.png",
 	},
-	"786": {
+	786: {
 		name: "Book : Brown-nosing The Boss",
-		description: "The term \"brown-nosing\" refers to the behavior of an employee attempting to curry favor with their superior or superiors. It was first coined by the Roman Emperor Tiberius, whose appointed counsel frequently cleansed their leader's unvarnished penny as an act of worship and servitude. Obviously such techniques are inappropriate today, but what modern equivalents can an employee use to increase their workplace reputation? With step-by-step guides to everything from incisive compliments through to impromptu massage at the urinals, <span class=\"italic\">Brown-nosing The Boss</span> is the most important career-progression tool you will ever need.",
+		description:
+			'The term "brown-nosing" refers to the behavior of an employee attempting to curry favor with their superior or superiors. It was first coined by the Roman Emperor Tiberius, whose appointed counsel frequently cleansed their leader\'s unvarnished penny as an act of worship and servitude. Obviously such techniques are inappropriate today, but what modern equivalents can an employee use to increase their workplace reputation? With step-by-step guides to everything from incisive compliments through to impromptu massage at the urinals, <span class="italic">Brown-nosing The Boss</span> is the most important career-progression tool you will ever need.',
 		effect: "Greatly increases personal employee effectiveness for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10962,9 +11309,10 @@ const TORN_ITEMS = {
 		circulation: 9211,
 		image: "https://www.torn.com/images/items/786/large.png",
 	},
-	"787": {
+	787: {
 		name: "Book : Running Away From Trouble",
-		description: "Some of Torn's most respected cowards draw upon a lifetime's experience of running from scary shit to offer an eye-opening glimpse into the world of the namby pamby wuss. In this guide you'll find strategies and stories, none of which are heroic, which you can use to inspire yourself to run screaming like a little girl at the next sign of trouble.\r\n<br/><br/>\r\n<span class=\"bold\">\"A book so gutless we're surprised it's even got a spine\"</span><br/>\r\n<span class=\"t-gray-9\">- The New York Times</span>",
+		description:
+			'Some of Torn\'s most respected cowards draw upon a lifetime\'s experience of running from scary shit to offer an eye-opening glimpse into the world of the namby pamby wuss. In this guide you\'ll find strategies and stories, none of which are heroic, which you can use to inspire yourself to run screaming like a little girl at the next sign of trouble.\r\n<br/><br/>\r\n<span class="bold">"A book so gutless we\'re surprised it\'s even got a spine"</span><br/>\r\n<span class="t-gray-9">- The New York Times</span>',
 		effect: "Guaranteed attacking escape attempt success for 31 days.",
 		requirement: "",
 		type: "Book",
@@ -10975,9 +11323,10 @@ const TORN_ITEMS = {
 		circulation: 9166,
 		image: "https://www.torn.com/images/items/787/large.png",
 	},
-	"788": {
+	788: {
 		name: "Certificate of Awesome",
-		description: "If there was an Awesomeness competition you would come first, second and third. And then we'd end the competition, burn down the stadium, and award you this Certificate of Awesome.",
+		description:
+			"If there was an Awesomeness competition you would come first, second and third. And then we'd end the competition, burn down the stadium, and award you this Certificate of Awesome.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -10988,9 +11337,10 @@ const TORN_ITEMS = {
 		circulation: 492872,
 		image: "https://www.torn.com/images/items/788/large.png",
 	},
-	"789": {
+	789: {
 		name: "Certificate of Lame",
-		description: "There's nothing worse than trying and failing. You may as well just give up on life now. This Certificate of Lame can be presented at any pharmacy in exchange for a bottle of vodka, sleeping pills, and medicinal suicide grenades.",
+		description:
+			"There's nothing worse than trying and failing. You may as well just give up on life now. This Certificate of Lame can be presented at any pharmacy in exchange for a bottle of vodka, sleeping pills, and medicinal suicide grenades.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -11001,7 +11351,7 @@ const TORN_ITEMS = {
 		circulation: 257071,
 		image: "https://www.torn.com/images/items/789/large.png",
 	},
-	"790": {
+	790: {
 		name: "Plastic Sword",
 		description: "Kids have so much fun fighting with plastic swords and now you can too! Unless of course your opponent has an actual sword...",
 		effect: "",
@@ -11014,9 +11364,10 @@ const TORN_ITEMS = {
 		circulation: 328578,
 		image: "https://www.torn.com/images/items/790/large.png",
 	},
-	"791": {
+	791: {
 		name: "Mediocre T-Shirt",
-		description: "Need to blend into a crowd? Nothing says 'Average Joe' like this Mediocre T-shirt. Wear this on the streets and both cops and crooks will know you are reasonably okay at stuff.",
+		description:
+			"Need to blend into a crowd? Nothing says 'Average Joe' like this Mediocre T-shirt. Wear this on the streets and both cops and crooks will know you are reasonably okay at stuff.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11027,9 +11378,10 @@ const TORN_ITEMS = {
 		circulation: 534228,
 		image: "https://www.torn.com/images/items/791/large.png",
 	},
-	"792": {
+	792: {
 		name: "Penelope",
-		description: "Penelope is Duke's favourite baseball bat which he's had since he was a kid. It is named after his ex-girlfriend Penelope because he likes to smash people in the balls with it, which was her favourite pastime too.",
+		description:
+			"Penelope is Duke's favourite baseball bat which he's had since he was a kid. It is named after his ex-girlfriend Penelope because he likes to smash people in the balls with it, which was her favourite pastime too.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -11040,7 +11392,7 @@ const TORN_ITEMS = {
 		circulation: 545,
 		image: "https://www.torn.com/images/items/792/large.png",
 	},
-	"793": {
+	793: {
 		name: "Cake Frosting",
 		description: "Just regular frosting. You know, the kind your mom buys for your birthday cake when she doesn't love you enough to make it herself.",
 		effect: "Can be used with a Fruitcake and Lock Picking Kit to create a Special Fruitcake.",
@@ -11053,7 +11405,7 @@ const TORN_ITEMS = {
 		circulation: 399,
 		image: "https://www.torn.com/images/items/793/large.png",
 	},
-	"794": {
+	794: {
 		name: "Lock Picking Kit",
 		description: "This kit can pick any lock, key or electronic, and is small enough to be secreted anywhere you like. Except there.",
 		effect: "Can be used with a Fruitcake and Cake Frosting to create a Special Fruitcake.",
@@ -11066,9 +11418,9 @@ const TORN_ITEMS = {
 		circulation: 399,
 		image: "https://www.torn.com/images/items/794/large.png",
 	},
-	"795": {
+	795: {
 		name: "Special Fruitcake",
-		description: "This fruitcake isn't \"special\" in the same way as your cousin Billy. It just means it now contains a secret lock picking kit.",
+		description: 'This fruitcake isn\'t "special" in the same way as your cousin Billy. It just means it now contains a secret lock picking kit.',
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -11079,7 +11431,7 @@ const TORN_ITEMS = {
 		circulation: 96,
 		image: "https://www.torn.com/images/items/795/large.png",
 	},
-	"796": {
+	796: {
 		name: "Felovax",
 		description: "Felovax is a vaccine for cats against the Feline Immunodeficiency Virus. You are now safe from Cat AIDS.",
 		effect: "Treats Feline Immunodeficiency Virus.",
@@ -11092,7 +11444,7 @@ const TORN_ITEMS = {
 		circulation: 307,
 		image: "https://www.torn.com/images/items/796/large.png",
 	},
-	"797": {
+	797: {
 		name: "Zylkene",
 		description: "Zylkene is a stress reducing drug mostly prescribed to dogs.",
 		effect: "Reduces stress in canines.",
@@ -11105,9 +11457,10 @@ const TORN_ITEMS = {
 		circulation: 281,
 		image: "https://www.torn.com/images/items/797/large.png",
 	},
-	"798": {
+	798: {
 		name: "Duke's Safe",
-		description: "Duke's safe isn't used for mere money, the things you'll find in here will make you feel dirtier than if you licked the bottom of a garbage can.",
+		description:
+			"Duke's safe isn't used for mere money, the things you'll find in here will make you feel dirtier than if you licked the bottom of a garbage can.",
 		effect: "Can be opened to reveal the contents if the correct combination is entered.",
 		requirement: "",
 		type: "Other",
@@ -11118,7 +11471,7 @@ const TORN_ITEMS = {
 		circulation: 554,
 		image: "https://www.torn.com/images/items/798/large.png",
 	},
-	"799": {
+	799: {
 		name: "Duke's Selfies",
 		description: "Duke's naked polaroids from the '80s show a much fitter, leaner gentleman.",
 		effect: "",
@@ -11131,7 +11484,7 @@ const TORN_ITEMS = {
 		circulation: 12946,
 		image: "https://www.torn.com/images/items/799/large.png",
 	},
-	"800": {
+	800: {
 		name: "Duke's Poetry",
 		description: "To offset his violent tendencies, Duke relaxes by writing love poems in this book.",
 		effect: "",
@@ -11144,7 +11497,7 @@ const TORN_ITEMS = {
 		circulation: 13152,
 		image: "https://www.torn.com/images/items/800/large.png",
 	},
-	"801": {
+	801: {
 		name: "Duke's Dog's Ashes",
 		description: "Duke's dog Nixon was killed by squirrels. His ashes are stored in this urn.",
 		effect: "",
@@ -11157,7 +11510,7 @@ const TORN_ITEMS = {
 		circulation: 13103,
 		image: "https://www.torn.com/images/items/801/large.png",
 	},
-	"802": {
+	802: {
 		name: "Duke's Will",
 		description: "This will bequeaths Duke's possessions to his ex-girlfriend Penelope...not the baseball bat.",
 		effect: "",
@@ -11170,7 +11523,7 @@ const TORN_ITEMS = {
 		circulation: 12992,
 		image: "https://www.torn.com/images/items/802/large.png",
 	},
-	"803": {
+	803: {
 		name: "Duke's Gimp Mask",
 		description: "Duke accidentally bought this leather gimp mask thinking it was a sleeping hood...or so he says.",
 		effect: "",
@@ -11183,7 +11536,7 @@ const TORN_ITEMS = {
 		circulation: 12928,
 		image: "https://www.torn.com/images/items/803/large.png",
 	},
-	"804": {
+	804: {
 		name: "Duke's Herpes Medication",
 		description: "This packet may or may not contain herpes medication, but Duke takes them anyway.",
 		effect: "",
@@ -11196,7 +11549,7 @@ const TORN_ITEMS = {
 		circulation: 13005,
 		image: "https://www.torn.com/images/items/804/large.png",
 	},
-	"805": {
+	805: {
 		name: "Duke's Hammer",
 		description: "A devastatingly brutal claw hammer which is also a fruity shade of purple. Duke likes purple.",
 		effect: "",
@@ -11209,7 +11562,7 @@ const TORN_ITEMS = {
 		circulation: 628,
 		image: "https://www.torn.com/images/items/805/large.png",
 	},
-	"806": {
+	806: {
 		name: "Old Lady Mask",
 		description: "With this realistic rubber old lady mask you could infiltrate an old folks home easily...if you wanted to.",
 		effect: "",
@@ -11222,7 +11575,7 @@ const TORN_ITEMS = {
 		circulation: 54290,
 		image: "https://www.torn.com/images/items/806/large.png",
 	},
-	"807": {
+	807: {
 		name: "Exotic Gentleman Mask",
 		description: "Nobody can decide whether this rubber mask of an Indian man is racist or not. Duke owns it, so it probably is.",
 		effect: "",
@@ -11235,7 +11588,7 @@ const TORN_ITEMS = {
 		circulation: 54195,
 		image: "https://www.torn.com/images/items/807/large.png",
 	},
-	"808": {
+	808: {
 		name: "Ginger Kid Mask",
 		description: "Ever wanted to experience ginger-prejudice up close and personal? Try this rubber ginger kid mask!",
 		effect: "",
@@ -11248,7 +11601,7 @@ const TORN_ITEMS = {
 		circulation: 54001,
 		image: "https://www.torn.com/images/items/808/large.png",
 	},
-	"809": {
+	809: {
 		name: "Young Lady Mask",
 		description: "With this realistic attractive young lady mask you too can be cat-called by construction workers whenever you like.",
 		effect: "",
@@ -11261,7 +11614,7 @@ const TORN_ITEMS = {
 		circulation: 54479,
 		image: "https://www.torn.com/images/items/809/large.png",
 	},
-	"810": {
+	810: {
 		name: "Moustache Man Mask",
 		description: "Everyone trusts a guy with a moustache, but if you can't grow your own this rubber moustache man mask will do the job instead.",
 		effect: "",
@@ -11274,7 +11627,7 @@ const TORN_ITEMS = {
 		circulation: 54085,
 		image: "https://www.torn.com/images/items/810/large.png",
 	},
-	"811": {
+	811: {
 		name: "Scarred Man Mask",
 		description: "This rubber scarred man mask is perfect for Halloween, or getting your own row of seats on the bus.",
 		effect: "",
@@ -11287,7 +11640,7 @@ const TORN_ITEMS = {
 		circulation: 53976,
 		image: "https://www.torn.com/images/items/811/large.png",
 	},
-	"812": {
+	812: {
 		name: "Psycho Clown Mask",
 		description: "This rubber psycho clown mask is so realistic even your unborn grandchildren will have nightmares.",
 		effect: "",
@@ -11300,9 +11653,10 @@ const TORN_ITEMS = {
 		circulation: 54224,
 		image: "https://www.torn.com/images/items/812/large.png",
 	},
-	"813": {
+	813: {
 		name: "Nun Mask",
-		description: "Nobody suspects a nun of anything untoward, so why not wear this realistic rubber nun mask whilst committing terrible acts in the Lord's name?",
+		description:
+			"Nobody suspects a nun of anything untoward, so why not wear this realistic rubber nun mask whilst committing terrible acts in the Lord's name?",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11313,9 +11667,10 @@ const TORN_ITEMS = {
 		circulation: 54025,
 		image: "https://www.torn.com/images/items/813/large.png",
 	},
-	"814": {
+	814: {
 		name: "Tyrosine",
-		description: "Tyrosine acts as a mental alertness booster by synthesising itself into dopamine; a compound which improves the transport of messages between nerve cells and neurons. Tests on animals show that Tyrosine can have an effect on mood and alertness. When used in combat, this steroid will provide a massive bonus to dexterity.",
+		description:
+			"Tyrosine acts as a mental alertness booster by synthesising itself into dopamine; a compound which improves the transport of messages between nerve cells and neurons. Tests on animals show that Tyrosine can have an effect on mood and alertness. When used in combat, this steroid will provide a massive bonus to dexterity.",
 		effect: "User becomes Sharpened, increasing Dexterity by 500% for 120 seconds.",
 		requirement: "Bachelor of Biology education course.",
 		type: "Temporary",
@@ -11326,9 +11681,10 @@ const TORN_ITEMS = {
 		circulation: 147031,
 		image: "https://www.torn.com/images/items/814/large.png",
 	},
-	"815": {
+	815: {
 		name: "Keg of Beer",
-		description: "This keg will provide you with a delicious glass of foaming ice-cold beer, but if you're planning to chug the whole thing you may be out of luck. The quantity of intoxicating liquor within each keg is unknown, meaning you could squeeze out five, ten or even just a single solitary pint from this item. Make sure to savour every drop, because it could be your last.",
+		description:
+			"This keg will provide you with a delicious glass of foaming ice-cold beer, but if you're planning to chug the whole thing you may be out of luck. The quantity of intoxicating liquor within each keg is unknown, meaning you could squeeze out five, ten or even just a single solitary pint from this item. Make sure to savour every drop, because it could be your last.",
 		effect: "Provides a Glass of Beer when used. Estimated 80 servings.",
 		requirement: "",
 		type: "Supply Pack",
@@ -11339,9 +11695,10 @@ const TORN_ITEMS = {
 		circulation: 10445,
 		image: "https://www.torn.com/images/items/815/large.png",
 	},
-	"816": {
+	816: {
 		name: "Glass of Beer",
-		description: "Only savages drink beer straight out of the bottle. This glass of beer is obtained fresh from the keg, and provides the same level of drunken joy as you'd get from a regular bottle of suds. Provides a moderate nerve increase when consumed.",
+		description:
+			"Only savages drink beer straight out of the bottle. This glass of beer is obtained fresh from the keg, and provides the same level of drunken joy as you'd get from a regular bottle of suds. Provides a moderate nerve increase when consumed.",
 		effect: "Increases nerve by 2 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -11352,9 +11709,10 @@ const TORN_ITEMS = {
 		circulation: 573495,
 		image: "https://www.torn.com/images/items/816/large.png",
 	},
-	"817": {
+	817: {
 		name: "Six Pack of Alcohol",
-		description: "When one bottle of booze simply isn't enough, this six-pack of exquisite forget-me-juice is just the thing you need to block out painful memories and make you feel on top of the world. Minty Mayhem, Kandy Kane, and Pumpkin Brew are just some of the drinks your randomly selected six-pack might contain.",
+		description:
+			"When one bottle of booze simply isn't enough, this six-pack of exquisite forget-me-juice is just the thing you need to block out painful memories and make you feel on top of the world. Minty Mayhem, Kandy Kane, and Pumpkin Brew are just some of the drinks your randomly selected six-pack might contain.",
 		effect: "Provides 6 premium alcoholic drinks when opened.",
 		requirement: "",
 		type: "Supply Pack",
@@ -11365,9 +11723,10 @@ const TORN_ITEMS = {
 		circulation: 152517,
 		image: "https://www.torn.com/images/items/817/large.png",
 	},
-	"818": {
+	818: {
 		name: "Six Pack of Energy Drink",
-		description: "Need a pick me up? This randomly chosen six-pack of assorted energy drinks will have you shaking with pure enthusiasm in five seconds flat. Munster, Red Cow or Taurine Elite could be waiting for you in this carefully curated collection of refreshing liquid vitality...as could a heart attack.",
+		description:
+			"Need a pick me up? This randomly chosen six-pack of assorted energy drinks will have you shaking with pure enthusiasm in five seconds flat. Munster, Red Cow or Taurine Elite could be waiting for you in this carefully curated collection of refreshing liquid vitality...as could a heart attack.",
 		effect: "Provides 6 premium energy drinks when opened.",
 		requirement: "",
 		type: "Supply Pack",
@@ -11378,9 +11737,10 @@ const TORN_ITEMS = {
 		circulation: 83190,
 		image: "https://www.torn.com/images/items/818/large.png",
 	},
-	"819": {
+	819: {
 		name: "Rosary Beads",
-		description: "If your god or gods still won't answer your prayers then these deity-tempting Rosary Beads are sure to get their attention. Made from the most sacred blend of polyurethane on the market, holding these in the palm of your hand will increase the effects of praying in the Church.",
+		description:
+			"If your god or gods still won't answer your prayers then these deity-tempting Rosary Beads are sure to get their attention. Made from the most sacred blend of polyurethane on the market, holding these in the palm of your hand will increase the effects of praying in the Church.",
 		effect: "Boosts the effects of praying in the church by 10%.",
 		requirement: "",
 		type: "Enhancer",
@@ -11391,9 +11751,10 @@ const TORN_ITEMS = {
 		circulation: 19309,
 		image: "https://www.torn.com/images/items/819/large.png",
 	},
-	"820": {
+	820: {
 		name: "Piggy Bank",
-		description: "The Piggy Bank is a porcine pottery vessel which can be used to store money. If you find saving hard, this item works in lieu of willpower to stash your cash away for a rainy day, as its contents can only be acquired by smashing it open.",
+		description:
+			"The Piggy Bank is a porcine pottery vessel which can be used to store money. If you find saving hard, this item works in lieu of willpower to stash your cash away for a rainy day, as its contents can only be acquired by smashing it open.",
 		effect: "Can safely store money. Withdrawing the contents will destroy the item.",
 		requirement: "",
 		type: "Special",
@@ -11404,9 +11765,10 @@ const TORN_ITEMS = {
 		circulation: 47875,
 		image: "https://www.torn.com/images/items/820/large.png",
 	},
-	"821": {
+	821: {
 		name: "Empty Vial",
-		description: "Suitable for storing all manner of excretia and internal fluids, the glass vial comes with a water-tight screw-top lid designed to prevent spillage.",
+		description:
+			"Suitable for storing all manner of excretia and internal fluids, the glass vial comes with a water-tight screw-top lid designed to prevent spillage.",
 		effect: "Can be filled with bodily fluids.",
 		requirement: "",
 		type: "Other",
@@ -11417,7 +11779,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/821/large.png",
 	},
-	"822": {
+	822: {
 		name: "Vial of Blood",
 		description: "This is a glass vial which now contains your blood. Take care not to spill it at a crime scene.",
 		effect: "",
@@ -11430,7 +11792,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/822/large.png",
 	},
-	"823": {
+	823: {
 		name: "Vial of Urine",
 		description: "This is a glass vial which now contains your urine. It feels pleasantly warm to the touch.",
 		effect: "",
@@ -11443,9 +11805,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/823/large.png",
 	},
-	"824": {
+	824: {
 		name: "Vial of Saliva",
-		description: "This is a glass vial which now contains your saliva. If you forgot to brush your teeth beforehand it may also contain traces of your dinner.",
+		description:
+			"This is a glass vial which now contains your saliva. If you forgot to brush your teeth beforehand it may also contain traces of your dinner.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -11456,9 +11819,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/824/large.png",
 	},
-	"825": {
+	825: {
 		name: "Questionnaire ",
-		description: "The Neurological Uniform Temperament Survey is a form containing probing psychological questions, the answers to which can be used to determine the subject's proclivities for violence, empathy and general shenanigans.",
+		description:
+			"The Neurological Uniform Temperament Survey is a form containing probing psychological questions, the answers to which can be used to determine the subject's proclivities for violence, empathy and general shenanigans.",
 		effect: "Needs to be completed and returned to Amanda.",
 		requirement: "",
 		type: "Other",
@@ -11469,9 +11833,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/825/large.png",
 	},
-	"826": {
+	826: {
 		name: "Agreement",
-		description: "The Casus Foederis is a legal document created on behalf of Professor Amanda Ravenscroft. The signing of this document allows for your continued employment by the Professor, but you would be wise to read its terms before you do so.",
+		description:
+			"The Casus Foederis is a legal document created on behalf of Professor Amanda Ravenscroft. The signing of this document allows for your continued employment by the Professor, but you would be wise to read its terms before you do so.",
 		effect: "Needs to be signed and returned to Amanda.",
 		requirement: "",
 		type: "Other",
@@ -11482,9 +11847,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/826/large.png",
 	},
-	"827": {
+	827: {
 		name: "Perceptron : Calibrator",
-		description: "This calibration edition of the Perceptron is a handheld tablet loaded with Psyreader 4.001 cognitive profiling software. This program utilises the user's response to logical, emotional and creative stimulus in order to generate a virtual mental profile, a profile which is subsequently used to calibrate any further devices used by the individual.",
+		description:
+			"This calibration edition of the Perceptron is a handheld tablet loaded with Psyreader 4.001 cognitive profiling software. This program utilises the user's response to logical, emotional and creative stimulus in order to generate a virtual mental profile, a profile which is subsequently used to calibrate any further devices used by the individual.",
 		effect: "",
 		requirement: "",
 		type: "Electronic",
@@ -11495,9 +11861,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/827/large.png",
 	},
-	"828": {
+	828: {
 		name: "Donald Trump Mask '16",
-		description: "Whether you love him or hate him, there's no denying that Donald Trump certainly exists. And now you too can walk around snatching felines at will with this realistic rubber depiction of his frequently animated face. (Made in Mexico)",
+		description:
+			"Whether you love him or hate him, there's no denying that Donald Trump certainly exists. And now you too can walk around snatching felines at will with this realistic rubber depiction of his frequently animated face. (Made in Mexico)",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11508,9 +11875,10 @@ const TORN_ITEMS = {
 		circulation: 60,
 		image: "https://www.torn.com/images/items/828/large.png",
 	},
-	"829": {
+	829: {
 		name: "Yellow Snowman '16",
-		description: "We've all made snowmen before, and who doesn't love writing their name in yellow snow? But rarely are these two elegant pastimes combined, until now, with this magnificent showstopping ornament made from 100% anonymous tramp urine.",
+		description:
+			"We've all made snowmen before, and who doesn't love writing their name in yellow snow? But rarely are these two elegant pastimes combined, until now, with this magnificent showstopping ornament made from 100% anonymous tramp urine.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -11521,9 +11889,10 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/829/large.png",
 	},
-	"830": {
+	830: {
 		name: "Nock Gun",
-		description: "The Nock Gun is a seven-barrelled rifle used by the British Royal Navy in the 18th Century. Capable of firing all seven of its 12mm rounds at once, the recoil from this gun means it can be fired just once per encounter, yet if you hit your opponent, once is all that's needed. Owned by Leslie Chanthavong thanks to his ancestors' theft of them from a Navy frigate 300 years ago, Leslie insists that each round fired from this weapon has spent a small period of time inside his bottom.",
+		description:
+			"The Nock Gun is a seven-barrelled rifle used by the British Royal Navy in the 18th Century. Capable of firing all seven of its 12mm rounds at once, the recoil from this gun means it can be fired just once per encounter, yet if you hit your opponent, once is all that's needed. Owned by Leslie Chanthavong thanks to his ancestors' theft of them from a Navy frigate 300 years ago, Leslie insists that each round fired from this weapon has spent a small period of time inside his bottom.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -11534,9 +11903,10 @@ const TORN_ITEMS = {
 		circulation: 47,
 		image: "https://www.torn.com/images/items/830/large.png",
 	},
-	"831": {
+	831: {
 		name: "Beretta Pico",
-		description: "If you're looking for a handgun small enough to hide in your bra yet strong enough to stop a horse, then the Beretta Pico is the firearm for you. The Pico is the thinnest semi-auto handgun in the world, and is capable of holding 6 .380 bullets inside its tiny 5 inch frame.",
+		description:
+			"If you're looking for a handgun small enough to hide in your bra yet strong enough to stop a horse, then the Beretta Pico is the firearm for you. The Pico is the thinnest semi-auto handgun in the world, and is capable of holding 6 .380 bullets inside its tiny 5 inch frame.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -11547,9 +11917,10 @@ const TORN_ITEMS = {
 		circulation: 1381,
 		image: "https://www.torn.com/images/items/831/large.png",
 	},
-	"832": {
+	832: {
 		name: "Riding Crop",
-		description: "Wielded by equestrians and perverts alike, the riding crop is a 30-inch lash-less whip comprising a fibreglass cane covered in leather. With one end thickened for grip and the other finished with a leather tongue, it is designed so as to not leave a mark when used. Using just a single flick of the wrist, one can inflict a great deal of pain or pleasure with this tasty little item.",
+		description:
+			"Wielded by equestrians and perverts alike, the riding crop is a 30-inch lash-less whip comprising a fibreglass cane covered in leather. With one end thickened for grip and the other finished with a leather tongue, it is designed so as to not leave a mark when used. Using just a single flick of the wrist, one can inflict a great deal of pain or pleasure with this tasty little item.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -11560,9 +11931,10 @@ const TORN_ITEMS = {
 		circulation: 167,
 		image: "https://www.torn.com/images/items/832/large.png",
 	},
-	"833": {
+	833: {
 		name: "Sand",
-		description: "There's nothing worse than getting sand in your eyes, especially in the middle of a fight with an aggressive stranger. Sand causes your opponent to become temporarily blinded, although this effect wears off over time.",
+		description:
+			"There's nothing worse than getting sand in your eyes, especially in the middle of a fight with an aggressive stranger. Sand causes your opponent to become temporarily blinded, although this effect wears off over time.",
 		effect: "Opponent becomes Blinded, decreasing Speed to 1/5th for 15-20 seconds.",
 		requirement: "",
 		type: "Temporary",
@@ -11573,9 +11945,10 @@ const TORN_ITEMS = {
 		circulation: 4914,
 		image: "https://www.torn.com/images/items/833/large.png",
 	},
-	"834": {
+	834: {
 		name: "Sweatpants",
-		description: "These grubby sweatpants belong to Leslie Chanthavong and have his name sewn into them. If you are wearing them you may wish to make an appointment at the local GUM clinic as soon as possible.",
+		description:
+			"These grubby sweatpants belong to Leslie Chanthavong and have his name sewn into them. If you are wearing them you may wish to make an appointment at the local GUM clinic as soon as possible.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11586,9 +11959,10 @@ const TORN_ITEMS = {
 		circulation: 5113,
 		image: "https://www.torn.com/images/items/834/large.png",
 	},
-	"835": {
+	835: {
 		name: "String Vest",
-		description: "For a look that screams welfare-dependent alcoholic, this lightly soiled string vest is a staple fixture in the wardrobe of any self-respecting bum.",
+		description:
+			"For a look that screams welfare-dependent alcoholic, this lightly soiled string vest is a staple fixture in the wardrobe of any self-respecting bum.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11599,9 +11973,10 @@ const TORN_ITEMS = {
 		circulation: 5258,
 		image: "https://www.torn.com/images/items/835/large.png",
 	},
-	"836": {
+	836: {
 		name: "Black Oxfords",
-		description: "This pair of classy, gentleman's Oxford shoes are tough, buffed and guaranteed to make even the most insignificant lowlife feel like a big shot. Just don't go wearing them for a game of Foot Roulette.",
+		description:
+			"This pair of classy, gentleman's Oxford shoes are tough, buffed and guaranteed to make even the most insignificant lowlife feel like a big shot. Just don't go wearing them for a game of Foot Roulette.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11612,9 +11987,10 @@ const TORN_ITEMS = {
 		circulation: 1451,
 		image: "https://www.torn.com/images/items/836/large.png",
 	},
-	"837": {
+	837: {
 		name: "Rheinmetall MG 3",
-		description: "This German-made, belt-fed machine gun works best when mounted on a tripod or vehicle, but it still looks pretty badass wielded in one hand Rambo-style. Its surprisingly short recoil is complimented by a 1300 rounds per minute rate, and with an effective range of 200 to 1200 metres there's no hiding from this weapon's deadly brand of German efficiency.",
+		description:
+			"This German-made, belt-fed machine gun works best when mounted on a tripod or vehicle, but it still looks pretty badass wielded in one hand Rambo-style. Its surprisingly short recoil is complimented by a 1300 rounds per minute rate, and with an effective range of 200 to 1200 metres there's no hiding from this weapon's deadly brand of German efficiency.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -11625,9 +12001,10 @@ const TORN_ITEMS = {
 		circulation: 90,
 		image: "https://www.torn.com/images/items/837/large.png",
 	},
-	"838": {
+	838: {
 		name: "Homemade Pocket Shotgun",
-		description: "Capable of firing a single 12 gauge shell with more accuracy than a regular shotgun, this concealable pistol-sized sidearm will probably do as much damage to you as it does your opponent. But despite its hefty recoil and single-shell capacity, one shot from this baby is often more than enough.",
+		description:
+			"Capable of firing a single 12 gauge shell with more accuracy than a regular shotgun, this concealable pistol-sized sidearm will probably do as much damage to you as it does your opponent. But despite its hefty recoil and single-shell capacity, one shot from this baby is often more than enough.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -11638,9 +12015,10 @@ const TORN_ITEMS = {
 		circulation: 1301,
 		image: "https://www.torn.com/images/items/838/large.png",
 	},
-	"839": {
+	839: {
 		name: "Madball",
-		description: "The Madball is the weapon of choice for gangster's on a budget, consisting of nothing more than a billiard ball placed into the end of a tube sock. But don't let this weapon's simple nature deceive you, because a single crack to the skull can render even the toughest brutes unconscious within seconds.",
+		description:
+			"The Madball is the weapon of choice for gangster's on a budget, consisting of nothing more than a billiard ball placed into the end of a tube sock. But don't let this weapon's simple nature deceive you, because a single crack to the skull can render even the toughest brutes unconscious within seconds.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -11651,9 +12029,10 @@ const TORN_ITEMS = {
 		circulation: 1168,
 		image: "https://www.torn.com/images/items/839/large.png",
 	},
-	"840": {
+	840: {
 		name: "Nail Bomb",
-		description: "Based on an old Irish recipe passed down through the generations, this particular style of Nail Bomb comes in the form of a pressure cooker filled with nails, ball-bearings and razorblades. Detonated using a blasting cap placed into the cooker's cover, many hapless terrorists have been known to confuse this device for a pot of mammy's delicious stew.",
+		description:
+			"Based on an old Irish recipe passed down through the generations, this particular style of Nail Bomb comes in the form of a pressure cooker filled with nails, ball-bearings and razorblades. Detonated using a blasting cap placed into the cooker's cover, many hapless terrorists have been known to confuse this device for a pot of mammy's delicious stew.",
 		effect: "",
 		requirement: "",
 		type: "Temporary",
@@ -11664,9 +12043,10 @@ const TORN_ITEMS = {
 		circulation: 5935,
 		image: "https://www.torn.com/images/items/840/large.png",
 	},
-	"841": {
+	841: {
 		name: "Classic Fedora",
-		description: "With its wide-brim and indented crown, the Fedora proved a popular choice for gangsters and criminals of the early 20th Century. Later sported by the likes of Frank Sinatra, Indiana Jones and Michael Jackson, this piece of elegant headgear is often made of wool, cashmere or rabbit-hair, but this particular edition comes thanks to the eternal sacrifice of three brave chinchillas.",
+		description:
+			"With its wide-brim and indented crown, the Fedora proved a popular choice for gangsters and criminals of the early 20th Century. Later sported by the likes of Frank Sinatra, Indiana Jones and Michael Jackson, this piece of elegant headgear is often made of wool, cashmere or rabbit-hair, but this particular edition comes thanks to the eternal sacrifice of three brave chinchillas.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11677,9 +12057,10 @@ const TORN_ITEMS = {
 		circulation: 4158,
 		image: "https://www.torn.com/images/items/841/large.png",
 	},
-	"842": {
+	842: {
 		name: "Pinstripe Suit Trousers",
-		description: "These stylish pinstripe suit trousers are made from 100% natural wool, which guarantees both long-lasting wear and the flexibility needed to swiftly kick a man when he's down.",
+		description:
+			"These stylish pinstripe suit trousers are made from 100% natural wool, which guarantees both long-lasting wear and the flexibility needed to swiftly kick a man when he's down.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11690,9 +12071,10 @@ const TORN_ITEMS = {
 		circulation: 4277,
 		image: "https://www.torn.com/images/items/842/large.png",
 	},
-	"843": {
+	843: {
 		name: "Duster",
-		description: "Traditionally the preserve of cowboys, 50's detectives and 90's high-school shooters, the trenchcoat duster allows you to circumvent concealed carry laws with ease and keep your enemy guessing until the very last moment.",
+		description:
+			"Traditionally the preserve of cowboys, 50's detectives and 90's high-school shooters, the trenchcoat duster allows you to circumvent concealed carry laws with ease and keep your enemy guessing until the very last moment.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11703,9 +12085,10 @@ const TORN_ITEMS = {
 		circulation: 93,
 		image: "https://www.torn.com/images/items/843/large.png",
 	},
-	"844": {
+	844: {
 		name: "Tranquilizer Gun",
-		description: "The Tranquiliser Gun fires etorphine-laced darts at a rate of one every twenty seconds, requiring fast reflexes and a keen eye to be in the least bit effective.",
+		description:
+			"The Tranquiliser Gun fires etorphine-laced darts at a rate of one every twenty seconds, requiring fast reflexes and a keen eye to be in the least bit effective.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -11716,9 +12099,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/844/large.png",
 	},
-	"845": {
+	845: {
 		name: "Bolt Gun",
-		description: "Using pressurised air to propel a pointed metal projectile, the Bolt Gun is capable of penetrating the skull of most creatures with one devastating shot. Often found on farms and in slaughterhouses, this weapon's retractable ammunition requires a close-range hit to be effective.",
+		description:
+			"Using pressurised air to propel a pointed metal projectile, the Bolt Gun is capable of penetrating the skull of most creatures with one devastating shot. Often found on farms and in slaughterhouses, this weapon's retractable ammunition requires a close-range hit to be effective.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -11729,9 +12113,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/845/large.png",
 	},
-	"846": {
+	846: {
 		name: "Scalpel",
-		description: "The blade of this surgical scalpel is made from volcanic glass, which is many times finer than a conventional steel blade, and this makes its edge capable of gliding through flesh at a cellular level.",
+		description:
+			"The blade of this surgical scalpel is made from volcanic glass, which is many times finer than a conventional steel blade, and this makes its edge capable of gliding through flesh at a cellular level.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -11742,9 +12127,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/846/large.png",
 	},
-	"847": {
+	847: {
 		name: "Nerve Gas",
-		description: "Odorless, colourless and extremely potent, Sarin Nerve gas paralyses the lung muscles to cause death from suffocation within one to ten minutes after inhalation.",
+		description:
+			"Odorless, colourless and extremely potent, Sarin Nerve gas paralyses the lung muscles to cause death from suffocation within one to ten minutes after inhalation.",
 		effect: "Opponent receives Contaminated damage over 20 turns.",
 		requirement: "",
 		type: "Temporary",
@@ -11755,9 +12141,10 @@ const TORN_ITEMS = {
 		circulation: 9,
 		image: "https://www.torn.com/images/items/847/large.png",
 	},
-	"848": {
+	848: {
 		name: "Kevlar Lab Coat",
-		description: "This laboratory coat consists of a Kevlar polymer reinforced with carbon-fiber and overlaid with fire-resistant Nomex. Knives, bullets and flames will have a hard time penetrating this piece of apparel.",
+		description:
+			"This laboratory coat consists of a Kevlar polymer reinforced with carbon-fiber and overlaid with fire-resistant Nomex. Knives, bullets and flames will have a hard time penetrating this piece of apparel.",
 		effect: "",
 		requirement: "",
 		type: "Defensive",
@@ -11781,9 +12168,10 @@ const TORN_ITEMS = {
 			"Head Coverage": 0,
 		},
 	},
-	"849": {
+	849: {
 		name: "Loupes",
-		description: "Whether you're performing life-saving surgery or an agonising vivisection procedure, these head-mounted medical loupes allow you to magnify your view of the subject and make incisions with precision.",
+		description:
+			"Whether you're performing life-saving surgery or an agonising vivisection procedure, these head-mounted medical loupes allow you to magnify your view of the subject and make incisions with precision.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11794,9 +12182,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/849/large.png",
 	},
-	"850": {
+	850: {
 		name: "Sledgehammer",
-		description: "The 40lb Sledgehammer is a difficult weapon to wield. But if you do manage to connect with your opponent, a single blow is often enough to pulverize their pelvis into dust. Incidentally, that's why Peter Gabriel chose this as his nickname.",
+		description:
+			"The 40lb Sledgehammer is a difficult weapon to wield. But if you do manage to connect with your opponent, a single blow is often enough to pulverize their pelvis into dust. Incidentally, that's why Peter Gabriel chose this as his nickname.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -11807,9 +12196,10 @@ const TORN_ITEMS = {
 		circulation: 75,
 		image: "https://www.torn.com/images/items/850/large.png",
 	},
-	"851": {
+	851: {
 		name: "Wifebeater",
-		description: "Whenever someone rocks up to a fight wearing a vest, you know they're gonna be able to take a punch. There's just something about the wifebeater vest that makes you harder to put down. Don't believe us, try it for yourself!",
+		description:
+			"Whenever someone rocks up to a fight wearing a vest, you know they're gonna be able to take a punch. There's just something about the wifebeater vest that makes you harder to put down. Don't believe us, try it for yourself!",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -11820,9 +12210,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/851/large.png",
 	},
-	"852": {
+	852: {
 		name: "Metal Detector",
-		description: "Most frequently found in the hands of lonely middle-aged men with nothing better to do on a Sunday, the metal detector is a handheld device capable of locating metallic objects through sand, soil and human flesh.",
+		description:
+			"Most frequently found in the hands of lonely middle-aged men with nothing better to do on a Sunday, the metal detector is a handheld device capable of locating metallic objects through sand, soil and human flesh.",
 		effect: "",
 		requirement: "",
 		type: "Electronic",
@@ -11833,9 +12224,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/852/large.png",
 	},
-	"853": {
+	853: {
 		name: "Graveyard Key",
-		description: "As its name suggests, this key grants access to the Torn City Graveyard, enabling you to desecrate graves, interfere with corpses and make goth music videos as often as you so wish.",
+		description:
+			"As its name suggests, this key grants access to the Torn City Graveyard, enabling you to desecrate graves, interfere with corpses and make goth music videos as often as you so wish.",
 		effect: "Enables access to the graveyard.",
 		requirement: "",
 		type: "Collectible",
@@ -11846,9 +12238,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/853/large.png",
 	},
-	"854": {
+	854: {
 		name: "Questionnaire : Completed",
-		description: "The Neurological Uniform Temperament Survey is a form containing probing psychological questions, the answers to which can be used to determine the subject's proclivities for violence, empathy and general shenanigans.",
+		description:
+			"The Neurological Uniform Temperament Survey is a form containing probing psychological questions, the answers to which can be used to determine the subject's proclivities for violence, empathy and general shenanigans.",
 		effect: "Needs to be returned to Amanda.",
 		requirement: "",
 		type: "Other",
@@ -11859,9 +12252,10 @@ const TORN_ITEMS = {
 		circulation: 3,
 		image: "https://www.torn.com/images/items/854/large.png",
 	},
-	"855": {
+	855: {
 		name: "Agreement : Signed",
-		description: "The Casus Foederis is a legal document created on behalf of Professor Amanda Ravenscroft. The signing of this document allows for your continued employment by the Professor, but you would be wise to read its terms before you do so.",
+		description:
+			"The Casus Foederis is a legal document created on behalf of Professor Amanda Ravenscroft. The signing of this document allows for your continued employment by the Professor, but you would be wise to read its terms before you do so.",
 		effect: "Needs to be returned to Amanda.",
 		requirement: "",
 		type: "Other",
@@ -11872,7 +12266,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/855/large.png",
 	},
-	"856": {
+	856: {
 		name: "Spray Can : Black",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11885,7 +12279,7 @@ const TORN_ITEMS = {
 		circulation: 11,
 		image: "https://www.torn.com/images/items/856/large.png",
 	},
-	"857": {
+	857: {
 		name: "Spray Can : Red",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11898,7 +12292,7 @@ const TORN_ITEMS = {
 		circulation: 10,
 		image: "https://www.torn.com/images/items/857/large.png",
 	},
-	"858": {
+	858: {
 		name: "Spray Can : Pink",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11911,7 +12305,7 @@ const TORN_ITEMS = {
 		circulation: 247,
 		image: "https://www.torn.com/images/items/858/large.png",
 	},
-	"859": {
+	859: {
 		name: "Spray Can : Purple",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11924,7 +12318,7 @@ const TORN_ITEMS = {
 		circulation: 307,
 		image: "https://www.torn.com/images/items/859/large.png",
 	},
-	"860": {
+	860: {
 		name: "Spray Can : Blue",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11937,7 +12331,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/860/large.png",
 	},
-	"861": {
+	861: {
 		name: "Spray Can : Green",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11950,7 +12344,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/861/large.png",
 	},
-	"862": {
+	862: {
 		name: "Spray Can : Yellow",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11963,7 +12357,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/862/large.png",
 	},
-	"863": {
+	863: {
 		name: "Spray Can : Orange",
 		description: "A spray can.",
 		effect: "Used to spray graffiti.",
@@ -11976,9 +12370,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/863/large.png",
 	},
-	"864": {
+	864: {
 		name: "Salt Shaker",
-		description: "The Salt Shaker is similar to a pepper shaker, in so much as it is a shaker full of salt, rather than pepper. You may wish to send it to someone who frequently dispenses excess sodium within the forums.",
+		description:
+			"The Salt Shaker is similar to a pepper shaker, in so much as it is a shaker full of salt, rather than pepper. You may wish to send it to someone who frequently dispenses excess sodium within the forums.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -11989,9 +12384,10 @@ const TORN_ITEMS = {
 		circulation: 47102,
 		image: "https://www.torn.com/images/items/864/large.png",
 	},
-	"865": {
+	865: {
 		name: "Poison Mistletoe",
-		description: "The quickest route to pleasure is through someone else's misery. If 2017 had a slogan, that would be it. So why not ring out the year by smooching under this Poison Mistletoe, which contains a hidden spritzer allowing you to drench your beloved in toxic chemicals and gain happiness at their expense.",
+		description:
+			"The quickest route to pleasure is through someone else's misery. If 2017 had a slogan, that would be it. So why not ring out the year by smooching under this Poison Mistletoe, which contains a hidden spritzer allowing you to drench your beloved in toxic chemicals and gain happiness at their expense.",
 		effect: "Decreases a target's happiness by 25%, increasing your happiness by the same amount.",
 		requirement: "",
 		type: "Special",
@@ -12002,9 +12398,10 @@ const TORN_ITEMS = {
 		circulation: 16251,
 		image: "https://www.torn.com/images/items/865/large.png",
 	},
-	"866": {
+	866: {
 		name: "Santa's List '17",
-		description: "Have you been naughty or nice in 2017? This list was stolen from Santa's grotto and contains the names of all Torn's citizens neatly separated into two, highly judgemental columns. Those with split personality disorders are deemed eligible for both.",
+		description:
+			"Have you been naughty or nice in 2017? This list was stolen from Santa's grotto and contains the names of all Torn's citizens neatly separated into two, highly judgemental columns. Those with split personality disorders are deemed eligible for both.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12015,9 +12412,10 @@ const TORN_ITEMS = {
 		circulation: 100,
 		image: "https://www.torn.com/images/items/866/large.png",
 	},
-	"867": {
+	867: {
 		name: "Soapbox",
-		description: "Have you got something mean to say about staff or Chedburn? Perhaps you're leaving the game due to a recent change and you'd like everyone to stand up and notice. If so, you'll need a portable pontification podium from which to preach your wisdom. Feel free to pass on the Soapbox to those who need it most.",
+		description:
+			"Have you got something mean to say about staff or Chedburn? Perhaps you're leaving the game due to a recent change and you'd like everyone to stand up and notice. If so, you'll need a portable pontification podium from which to preach your wisdom. Feel free to pass on the Soapbox to those who need it most.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12028,9 +12426,10 @@ const TORN_ITEMS = {
 		circulation: 25,
 		image: "https://www.torn.com/images/items/867/large.png",
 	},
-	"868": {
+	868: {
 		name: "Turkey Baster",
-		description: "The favoured tool of same sex and surrogate parents, this turkey baster can be employed to assist in the impregnation of a human woman without resorting to formal intercourse. It may also be used to slather a piece of cooked meat in its own juices - after you've rinsed it out.",
+		description:
+			"The favoured tool of same sex and surrogate parents, this turkey baster can be employed to assist in the impregnation of a human woman without resorting to formal intercourse. It may also be used to slather a piece of cooked meat in its own juices - after you've rinsed it out.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -12041,9 +12440,10 @@ const TORN_ITEMS = {
 		circulation: 13891,
 		image: "https://www.torn.com/images/items/868/large.png",
 	},
-	"869": {
+	869: {
 		name: "Elon Musk Mask '17",
-		description: "The fragrantly-named Elon Musk poses a threat to humanity like no man before. A potential super-villain in the making, his artificially intelligent bidets and hyperscoop payment pals will destroy us all. Amber Heard found this out for herself, so please, raise awareness of Musk's evil intentions by sporting this mask of his face. Just like Space X rockets, this mask is reusable and may explode upon impact.",
+		description:
+			"The fragrantly-named Elon Musk poses a threat to humanity like no man before. A potential super-villain in the making, his artificially intelligent bidets and hyperscoop payment pals will destroy us all. Amber Heard found this out for herself, so please, raise awareness of Musk's evil intentions by sporting this mask of his face. Just like Space X rockets, this mask is reusable and may explode upon impact.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -12054,9 +12454,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/869/large.png",
 	},
-	"870": {
+	870: {
 		name: "Love Juice",
-		description: "Made from the secretions of the Patagonian Filth Weasel, Love Juice is a fast acting aphrodisiac - or so it says on the label. In reality, this product is known to be useless, unless you are exposed to a large cloud of human reproductive pheromones, in which case it will make you angry, hyperactive and strangely Samaritan.",
+		description:
+			"Made from the secretions of the Patagonian Filth Weasel, Love Juice is a fast acting aphrodisiac - or so it says on the label. In reality, this product is known to be useless, unless you are exposed to a large cloud of human reproductive pheromones, in which case it will make you angry, hyperactive and strangely Samaritan.",
 		effect: "Reduces attack & revive energy cost by 10. Increases Speed by 50% and Dexterity by 25%.",
 		requirement: "Only works during the Valentine's day event.",
 		type: "Drug",
@@ -12067,9 +12468,10 @@ const TORN_ITEMS = {
 		circulation: 55344,
 		image: "https://www.torn.com/images/items/870/large.png",
 	},
-	"871": {
+	871: {
 		name: "Bug Swatter",
-		description: "This bug swatter is given to those who report serious exploits or bugs which they could have abused for their own gain. The number of these items in circulation gives a good idea of how honest citizens really are.",
+		description:
+			"This bug swatter is given to those who report serious exploits or bugs which they could have abused for their own gain. The number of these items in circulation gives a good idea of how honest citizens really are.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -12080,9 +12482,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/871/large.png",
 	},
-	"872": {
+	872: {
 		name: "Nothing",
-		description: "Following the results of a city-wide poll, the people of Torn decided that the first 100 people to reach Level 100 should be given nothing. So here it is. Absolutely diddly squat. Zilch. Nada. Nowt.",
+		description:
+			"Following the results of a city-wide poll, the people of Torn decided that the first 100 people to reach Level 100 should be given nothing. So here it is. Absolutely diddly squat. Zilch. Nada. Nowt.",
 		effect: "Does nothing.",
 		requirement: "Requires nothing.",
 		type: "Other",
@@ -12093,9 +12496,10 @@ const TORN_ITEMS = {
 		circulation: 100,
 		image: "https://www.torn.com/images/items/872/large.png",
 	},
-	"873": {
+	873: {
 		name: "Bottle of Green Stout",
-		description: "Consisting of nothing more than a glug of Irish stout and copious amounts of toxic green food colouring, this emerald-coloured beverage will give you the supreme confidence of a drunk while also serving to clean out your colon in record time. Provides a very large nerve increase when consumed.",
+		description:
+			"Consisting of nothing more than a glug of Irish stout and copious amounts of toxic green food colouring, this emerald-coloured beverage will give you the supreme confidence of a drunk while also serving to clean out your colon in record time. Provides a very large nerve increase when consumed.",
 		effect: "Increases nerve by 5 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -12106,9 +12510,10 @@ const TORN_ITEMS = {
 		circulation: 61731,
 		image: "https://www.torn.com/images/items/873/large.png",
 	},
-	"874": {
+	874: {
 		name: "Prototype",
-		description: "A weapon provisionally delegated by Torn authorities to members of the staff and committee for the experimentation of special bonuses. The firearm should be kept in optimal condition and cleaned regularly during entrustment, may be repossessed at any time.",
+		description:
+			"A weapon provisionally delegated by Torn authorities to members of the staff and committee for the experimentation of special bonuses. The firearm should be kept in optimal condition and cleaned regularly during entrustment, may be repossessed at any time.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -12119,9 +12524,10 @@ const TORN_ITEMS = {
 		circulation: 74,
 		image: "https://www.torn.com/images/items/874/large.png",
 	},
-	"875": {
+	875: {
 		name: "Rotten Apple",
-		description: "A withered apple. It's puckered skin is spotted with age. Shaking the apple stirs a faint rattling, as dried seeds echo within its woody core.",
+		description:
+			"A withered apple. It's puckered skin is spotted with age. Shaking the apple stirs a faint rattling, as dried seeds echo within its woody core.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12132,9 +12538,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/875/large.png",
 	},
-	"876": {
+	876: {
 		name: "Festering Chicken",
-		description: "A decaying chicken drumstick half covered in dried ranch dressing. Despite its rancid aroma, it is considered a delicacy by much of Torn City's animal population.",
+		description:
+			"A decaying chicken drumstick half covered in dried ranch dressing. Despite its rancid aroma, it is considered a delicacy by much of Torn City's animal population.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12145,7 +12552,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/876/large.png",
 	},
-	"877": {
+	877: {
 		name: "Moldy Pizza",
 		description: "A putrid slice of pizza adorned with mushrooms of dubious origin. Sniffing it very carefully reveals the faintest odour of anchovies.",
 		effect: "",
@@ -12158,7 +12565,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/877/large.png",
 	},
-	"878": {
+	878: {
 		name: "Smelly Cheese",
 		description: "A rancid slice of cheese garnished with gobs of spoiled mayonnaise. Left out in the sun too long, it oozes grease.",
 		effect: "",
@@ -12171,9 +12578,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/878/large.png",
 	},
-	"879": {
+	879: {
 		name: "Sour Milk",
-		description: "A grubby bottle of spoiled milk. The glass is smeared with greasy fingerprints and the contents are dried and lumpy. It is not a good idea to smell this item.",
+		description:
+			"A grubby bottle of spoiled milk. The glass is smeared with greasy fingerprints and the contents are dried and lumpy. It is not a good idea to smell this item.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12184,7 +12592,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/879/large.png",
 	},
-	"880": {
+	880: {
 		name: "Stale Bread",
 		description: "A piece of dry bread. Once part of a sandwich, now it is home to a collection of molds.",
 		effect: "",
@@ -12197,9 +12605,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/880/large.png",
 	},
-	"881": {
+	881: {
 		name: "Spoiled Fish",
-		description: "A fetid piece of fish, half rotted, then dried in the midday sun. In some places this might be considered a local delicacy. Torn City is not one of them.",
+		description:
+			"A fetid piece of fish, half rotted, then dried in the midday sun. In some places this might be considered a local delicacy. Torn City is not one of them.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12210,9 +12619,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/881/large.png",
 	},
-	"882": {
+	882: {
 		name: "Insurance Policy ",
-		description: "A fully customizable insurance policy with blanks in both standard and non-standard places. It can be used to insure anything and everyone, with or without their knowledge.",
+		description:
+			"A fully customizable insurance policy with blanks in both standard and non-standard places. It can be used to insure anything and everyone, with or without their knowledge.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12223,7 +12633,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/882/large.png",
 	},
-	"883": {
+	883: {
 		name: "Bank Statement",
 		description: "A bank statement bearing the name, address and account number of someone unfortunate with money to steal.",
 		effect: "",
@@ -12236,7 +12646,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/883/large.png",
 	},
-	"884": {
+	884: {
 		name: "Car Battery",
 		description: "A fully charged car battery.",
 		effect: "",
@@ -12249,7 +12659,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/884/large.png",
 	},
-	"885": {
+	885: {
 		name: "Scrap Metal",
 		description: "A useful-looking piece of scrap metal. This item can be sold for cash or put to a number of innovative and profitable uses.",
 		effect: "",
@@ -12262,9 +12672,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/885/large.png",
 	},
-	"886": {
+	886: {
 		name: "Torn City Times",
-		description: "Read all about Torn's most dangerous criminals in the city's only officially recognized newspaper!\r\n\r\nThe Torn City Times: Bringing you the biggest, realest, newest news.",
+		description:
+			"Read all about Torn's most dangerous criminals in the city's only officially recognized newspaper!\r\n\r\nThe Torn City Times: Bringing you the biggest, realest, newest news.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12275,7 +12686,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/886/large.png",
 	},
-	"887": {
+	887: {
 		name: "Magazine",
 		description: "Karma! Magazine: Exposing the looks, loves and dirty laundry of Torn's hottest criminals.",
 		effect: "",
@@ -12288,7 +12699,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/887/large.png",
 	},
-	"888": {
+	888: {
 		name: "Umbrella",
 		description: "This convenient travel umbrella comes with a telescopic handle and absolutely no guarantees.",
 		effect: "",
@@ -12301,7 +12712,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/888/large.png",
 	},
-	"889": {
+	889: {
 		name: "Travel Mug",
 		description: "A leak-proof travel mug that makes it easier to beat people up without spilling your coffee.",
 		effect: "",
@@ -12314,7 +12725,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/889/large.png",
 	},
-	"890": {
+	890: {
 		name: "Headphones",
 		description: "Block out the sound of danger with these stylish headphones! Disclaimer: danger may persist despite silence.",
 		effect: "",
@@ -12327,7 +12738,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/890/large.png",
 	},
-	"891": {
+	891: {
 		name: "Undefined",
 		description: "",
 		effect: "",
@@ -12340,7 +12751,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/891/large.png",
 	},
-	"892": {
+	892: {
 		name: "Mix CD",
 		description: "A home-made CD featuring a romantic hand-picked playlist.",
 		effect: "",
@@ -12353,7 +12764,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/892/large.png",
 	},
-	"893": {
+	893: {
 		name: "Lost and Found Office Key",
 		description: "This key opens the door to the Subway Lost and Found office.",
 		effect: "Unlocks additional outcomes when searching the subway.",
@@ -12366,7 +12777,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/893/large.png",
 	},
-	"894": {
+	894: {
 		name: "Cosmetics Case",
 		description: "A high quality cosmetics case filled with designer makeup and high quality applicators.",
 		effect: "",
@@ -12379,7 +12790,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/894/large.png",
 	},
-	"895": {
+	895: {
 		name: "Phone Card",
 		description: "This long distance phone card is great for catching up with friends, threatening your enemies, and lying to parole officers.",
 		effect: "",
@@ -12392,7 +12803,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/895/large.png",
 	},
-	"896": {
+	896: {
 		name: "Subway Pass",
 		description: "Get through turnstiles faster with a season pass for the Torn City subway.",
 		effect: "",
@@ -12405,7 +12816,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/896/large.png",
 	},
-	"897": {
+	897: {
 		name: "Bottle Cap",
 		description: "The apocalypse is inevitable. Invest in the currency of the future by collecting bottle caps!",
 		effect: "",
@@ -12418,7 +12829,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/897/large.png",
 	},
-	"898": {
+	898: {
 		name: "Silver Coin",
 		description: "An old American silver dollar polished by the sands of time.",
 		effect: "",
@@ -12431,7 +12842,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/898/large.png",
 	},
-	"899": {
+	899: {
 		name: "Silver Bead",
 		description: "A native american silver bead decorated with an intricate pattern.",
 		effect: "",
@@ -12444,7 +12855,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/899/large.png",
 	},
-	"900": {
+	900: {
 		name: "Lucky Quarter",
 		description: "This lucky quarter will give you a heads' up whenever you need it!",
 		effect: "",
@@ -12457,7 +12868,7 @@ const TORN_ITEMS = {
 		circulation: 2,
 		image: "https://www.torn.com/images/items/900/large.png",
 	},
-	"901": {
+	901: {
 		name: "Daffodil",
 		description: "A bright and cheerful yellow flower certain to fill you with the joys of spring.",
 		effect: "",
@@ -12470,9 +12881,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/901/large.png",
 	},
-	"902": {
+	902: {
 		name: "Bunch of Carnations",
-		description: "An inexpensive yet stylish bunch of flowers from a gas station near you! Perfect for apologising to your wife or taking to the funeral of a colleague you didn't really like.",
+		description:
+			"An inexpensive yet stylish bunch of flowers from a gas station near you! Perfect for apologising to your wife or taking to the funeral of a colleague you didn't really like.",
 		effect: "",
 		requirement: "",
 		type: "Flower",
@@ -12483,7 +12895,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/902/large.png",
 	},
-	"903": {
+	903: {
 		name: "White Lily",
 		description: "Pay your respects with this flawless white lily.  May leave pollen on your clothing.",
 		effect: "",
@@ -12496,7 +12908,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/903/large.png",
 	},
-	"904": {
+	904: {
 		name: "Funeral Wreath",
 		description: "Send your enemies off in style with this tasteful funeral wreath!",
 		effect: "",
@@ -12509,7 +12921,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/904/large.png",
 	},
-	"905": {
+	905: {
 		name: "Car Keys",
 		description: "These mystery car keys are missing their fob, but they might still turn out to be useful.",
 		effect: "",
@@ -12522,7 +12934,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/905/large.png",
 	},
-	"906": {
+	906: {
 		name: "Handkerchief",
 		description: "A delicately embroidered handkerchief, perfect for drying tears.",
 		effect: "",
@@ -12535,7 +12947,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/906/large.png",
 	},
-	"907": {
+	907: {
 		name: "Candle",
 		description: "A sturdy ten inch candle suitable for a variety of uses.",
 		effect: "",
@@ -12548,9 +12960,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/907/large.png",
 	},
-	"908": {
+	908: {
 		name: "Paper Bag",
-		description: "Awarded to the winners of Leslie's 'I Hate Mr and Ms Torn' contest, this paper bag can be worn over the head to protect others from the soul-destroying horror that is your damned ugly face.",
+		description:
+			"Awarded to the winners of Leslie's 'I Hate Mr and Ms Torn' contest, this paper bag can be worn over the head to protect others from the soul-destroying horror that is your damned ugly face.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12561,7 +12974,7 @@ const TORN_ITEMS = {
 		circulation: 50,
 		image: "https://www.torn.com/images/items/908/large.png",
 	},
-	"909": {
+	909: {
 		name: "Tin Can",
 		description: "An empty tin can with a rusty edge, perfect for storing leftovers or throwing at local wildlife.",
 		effect: "",
@@ -12574,9 +12987,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/909/large.png",
 	},
-	"910": {
+	910: {
 		name: "Betting Slip",
-		description: "This commemorative betting slip was given to members of the bookie team, whose years of manual bets and inputs came to an end when they were replaced by machines who worked harder and complained less.",
+		description:
+			"This commemorative betting slip was given to members of the bookie team, whose years of manual bets and inputs came to an end when they were replaced by machines who worked harder and complained less.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12587,9 +13001,10 @@ const TORN_ITEMS = {
 		circulation: 51,
 		image: "https://www.torn.com/images/items/910/large.png",
 	},
-	"911": {
+	911: {
 		name: "Fidget Spinner",
-		description: "A popular craze back in 2017, Fidget Spinners were invented by Steve Fidget and Steve Spinner in 1992 as a way of distracting children's fingers from the exotic lure of plug sockets. This one was awarded to Jammed, and is subsequently now broken and gunked up with mashed potatoes.",
+		description:
+			"A popular craze back in 2017, Fidget Spinners were invented by Steve Fidget and Steve Spinner in 1992 as a way of distracting children's fingers from the exotic lure of plug sockets. This one was awarded to Jammed, and is subsequently now broken and gunked up with mashed potatoes.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12600,9 +13015,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/911/large.png",
 	},
-	"912": {
+	912: {
 		name: "Majestic Moose",
-		description: "At first glance, you may believe this Majestic Moose to be so named due to its magnificent set of antlers. You would be wrong. The majesty of this moose is evident through its personality, just like Forgey, who it was awarded to for being consistently majestic and protecting the Canadian border.",
+		description:
+			"At first glance, you may believe this Majestic Moose to be so named due to its magnificent set of antlers. You would be wrong. The majesty of this moose is evident through its personality, just like Forgey, who it was awarded to for being consistently majestic and protecting the Canadian border.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12613,9 +13029,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/912/large.png",
 	},
-	"913": {
+	913: {
 		name: "Lego Wonder Woman",
-		description: "Just like Poptop, this Lego Wonder Woman comes equipped with Dual Ban Hammers and a plastic personality. Unlike Poptop, this figurine poses a choking hazard to children aged 3 and under.",
+		description:
+			"Just like Poptop, this Lego Wonder Woman comes equipped with Dual Ban Hammers and a plastic personality. Unlike Poptop, this figurine poses a choking hazard to children aged 3 and under.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12626,9 +13043,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/913/large.png",
 	},
-	"914": {
+	914: {
 		name: "CR7 Doll",
-		description: "Awarded to Tiller in recognition of his speed, skill and magnificent thighs. Unfortunately, the doll can only be viewed from the back, as the face looks nothing like him.",
+		description:
+			"Awarded to Tiller in recognition of his speed, skill and magnificent thighs. Unfortunately, the doll can only be viewed from the back, as the face looks nothing like him.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12639,9 +13057,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/914/large.png",
 	},
-	"915": {
+	915: {
 		name: "Stretch Armstrong Doll",
-		description: "This Stretch Armstrong doll is made of plastic, rubber and filled with a non-toxic gel. It was awarded to staff member Stretch, who is made of skin, bones and filled with a highly toxic substance known as alcohol.",
+		description:
+			"This Stretch Armstrong doll is made of plastic, rubber and filled with a non-toxic gel. It was awarded to staff member Stretch, who is made of skin, bones and filled with a highly toxic substance known as alcohol.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12652,9 +13071,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/915/large.png",
 	},
-	"916": {
+	916: {
 		name: "Beef Femur",
-		description: "After a hard day's staffing, 787thWarDog loves nothing more than to kick back and relax by chewing on a 10lb beef femur. Now you know why his coat is so glossy.",
+		description:
+			"After a hard day's staffing, 787thWarDog loves nothing more than to kick back and relax by chewing on a 10lb beef femur. Now you know why his coat is so glossy.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12665,9 +13085,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/916/large.png",
 	},
-	"917": {
+	917: {
 		name: "Snake's Fang",
-		description: "Filled with enough venom to kill a whale or 4,000 puppies, this snake's fang was originally implanted into the mouth of staff member Dexter. Sadly, he had to have it removed after accidentally biting his own tongue.",
+		description:
+			"Filled with enough venom to kill a whale or 4,000 puppies, this snake's fang was originally implanted into the mouth of staff member Dexter. Sadly, he had to have it removed after accidentally biting his own tongue.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12678,9 +13099,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/917/large.png",
 	},
-	"918": {
+	918: {
 		name: "Icey Igloo",
-		description: "As Torn City's resident data wrangler, IceBlueFire often becomes overheated due to the heavy server loads running through his brain. As such, he must live inside an igloo, like this one, except bigger.",
+		description:
+			"As Torn City's resident data wrangler, IceBlueFire often becomes overheated due to the heavy server loads running through his brain. As such, he must live inside an igloo, like this one, except bigger.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12691,9 +13113,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/918/large.png",
 	},
-	"919": {
+	919: {
 		name: "Federal Jail Key",
-		description: "Honourable people are often awarded the key to the city. Instead, Porny has been given the key to the federal jail, to commemorate his efforts in ridding Torn of dishonorable scumbags.",
+		description:
+			"Honourable people are often awarded the key to the city. Instead, Porny has been given the key to the federal jail, to commemorate his efforts in ridding Torn of dishonorable scumbags.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12704,9 +13127,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/919/large.png",
 	},
-	"920": {
+	920: {
 		name: "Halloween Basket : Spooky",
-		description: "This Spooky Halloween basket can be used to pilfer sweets, booze and energy drinks from your fellow citizens. It is made from 100% Vinyl Chloride, a carcinogen which is known to leech toxic chemicals into liquids and foodstuffs.",
+		description:
+			"This Spooky Halloween basket can be used to pilfer sweets, booze and energy drinks from your fellow citizens. It is made from 100% Vinyl Chloride, a carcinogen which is known to leech toxic chemicals into liquids and foodstuffs.",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -12717,9 +13141,10 @@ const TORN_ITEMS = {
 		circulation: 8718,
 		image: "https://www.torn.com/images/items/920/large.png",
 	},
-	"921": {
+	921: {
 		name: "Michael Myers Mask '18",
-		description: "Originally based on the face of William Shatner, this iconic mask was most famously worn by the villain of the Halloween movies, Michael Myers; a fictional murderer not to be confused with the real life guy who played Shrek.",
+		description:
+			"Originally based on the face of William Shatner, this iconic mask was most famously worn by the villain of the Halloween movies, Michael Myers; a fictional murderer not to be confused with the real life guy who played Shrek.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -12730,9 +13155,10 @@ const TORN_ITEMS = {
 		circulation: 249,
 		image: "https://www.torn.com/images/items/921/large.png",
 	},
-	"922": {
+	922: {
 		name: "Toast Jesus '18",
-		description: "This piece of toast has been burnt in such a way that it seems to depict the face of the Son of God. What a glorious miracle! This year, rather than turkey, why not consume our Lord and Savioury Jesus Christ on Christmas Day instead?",
+		description:
+			"This piece of toast has been burnt in such a way that it seems to depict the face of the Son of God. What a glorious miracle! This year, rather than turkey, why not consume our Lord and Savioury Jesus Christ on Christmas Day instead?",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12743,9 +13169,10 @@ const TORN_ITEMS = {
 		circulation: 50,
 		image: "https://www.torn.com/images/items/922/large.png",
 	},
-	"923": {
+	923: {
 		name: "Cheesus '18",
-		description: "Forget Edam and Eve. They are nacho saviours. They will not boursin for you. But this Jesus-shaped Cheeto will. For this man is the Son of Gouda, Cheesus Christ. Camembert witness to his glorious legacy. Halloumi brie thy name.",
+		description:
+			"Forget Edam and Eve. They are nacho saviours. They will not boursin for you. But this Jesus-shaped Cheeto will. For this man is the Son of Gouda, Cheesus Christ. Camembert witness to his glorious legacy. Halloumi brie thy name.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12756,9 +13183,10 @@ const TORN_ITEMS = {
 		circulation: 52,
 		image: "https://www.torn.com/images/items/923/large.png",
 	},
-	"924": {
+	924: {
 		name: "Bottle of Christmas Spirit",
-		description: "This Bottle of Christmas Spirit is guaranteed to get you in the mood to tell your relatives what you really think of them. Replete with flavours of pine, candy and turkey, this booze will leave you feeling so full you'll barely suffer a hangover at all. Provides a very large nerve increase when consumed.",
+		description:
+			"This Bottle of Christmas Spirit is guaranteed to get you in the mood to tell your relatives what you really think of them. Replete with flavours of pine, candy and turkey, this booze will leave you feeling so full you'll barely suffer a hangover at all. Provides a very large nerve increase when consumed.",
 		effect: "Increases nerve by 5 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -12769,9 +13197,10 @@ const TORN_ITEMS = {
 		circulation: 19979,
 		image: "https://www.torn.com/images/items/924/large.png",
 	},
-	"925": {
+	925: {
 		name: "Scammer in the Slammer '18",
-		description: "You've heard of Elf on the Shelf, well here comes Scammer in the Slammer! This 100% asbestos toy can be used to watch over your family and friends to prevent them from selling Snowboards as Skateboards and Vicodin for Xanax. Zachjuv, Perplex and Kapten beware, the Scammer in the Slammer is watching you!",
+		description:
+			"You've heard of Elf on the Shelf, well here comes Scammer in the Slammer! This 100% asbestos toy can be used to watch over your family and friends to prevent them from selling Snowboards as Skateboards and Vicodin for Xanax. Zachjuv, Perplex and Kapten beware, the Scammer in the Slammer is watching you!",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -12782,9 +13211,10 @@ const TORN_ITEMS = {
 		circulation: 50,
 		image: "https://www.torn.com/images/items/925/large.png",
 	},
-	"926": {
+	926: {
 		name: "Gronch Mask '18",
-		description: "Say hello to everyone's favourite festive villain, The Gronch! Legally distinct from other similar looking children's characters, The Gronch hates Christmas so much he'll knife anyone wearing an Xmas sweater. And now you too can follow in his bloody snowprints, by sporting this definitely non-copyright infringing Gronch Mask!",
+		description:
+			"Say hello to everyone's favourite festive villain, The Gronch! Legally distinct from other similar looking children's characters, The Gronch hates Christmas so much he'll knife anyone wearing an Xmas sweater. And now you too can follow in his bloody snowprints, by sporting this definitely non-copyright infringing Gronch Mask!",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -12795,7 +13225,7 @@ const TORN_ITEMS = {
 		circulation: 50,
 		image: "https://www.torn.com/images/items/926/large.png",
 	},
-	"927": {
+	927: {
 		name: "Baseball Cap",
 		description: "Wear it forwards to keep your head cool, wear it backwards to be even cooler.",
 		effect: "",
@@ -12808,7 +13238,7 @@ const TORN_ITEMS = {
 		circulation: 1031,
 		image: "https://www.torn.com/images/items/927/large.png",
 	},
-	"928": {
+	928: {
 		name: "Bermudas",
 		description: "Some say these are named 'bermudas' because it's so easy to get lost in 'em.",
 		effect: "",
@@ -12821,7 +13251,7 @@ const TORN_ITEMS = {
 		circulation: 1038,
 		image: "https://www.torn.com/images/items/928/large.png",
 	},
-	"929": {
+	929: {
 		name: "Blouse",
 		description: "A lovely, flattering garment for warmer days.",
 		effect: "",
@@ -12834,7 +13264,7 @@ const TORN_ITEMS = {
 		circulation: 1057,
 		image: "https://www.torn.com/images/items/929/large.png",
 	},
-	"930": {
+	930: {
 		name: "Boob Tube",
 		description: "The best choice of clothing, if you want to spend all day hoisting something up.",
 		effect: "",
@@ -12847,7 +13277,7 @@ const TORN_ITEMS = {
 		circulation: 1002,
 		image: "https://www.torn.com/images/items/930/large.png",
 	},
-	"931": {
+	931: {
 		name: "Bush Hat",
 		description: "It's said the mere presence of this hat makes crocs flee on sight.",
 		effect: "",
@@ -12860,7 +13290,7 @@ const TORN_ITEMS = {
 		circulation: 993,
 		image: "https://www.torn.com/images/items/931/large.png",
 	},
-	"932": {
+	932: {
 		name: "Camisole",
 		description: "This versatile undershirt can be worn on its own to add some flirty flavor.",
 		effect: "",
@@ -12873,7 +13303,7 @@ const TORN_ITEMS = {
 		circulation: 1029,
 		image: "https://www.torn.com/images/items/932/large.png",
 	},
-	"933": {
+	933: {
 		name: "Capri Pants",
 		description: "Having a great shin day? Show them off with these pants.",
 		effect: "",
@@ -12886,7 +13316,7 @@ const TORN_ITEMS = {
 		circulation: 1039,
 		image: "https://www.torn.com/images/items/933/large.png",
 	},
-	"934": {
+	934: {
 		name: "Cardigan",
 		description: "For days that are neither hot nor cold, or when you don't want people to look at your butt.",
 		effect: "",
@@ -12899,7 +13329,7 @@ const TORN_ITEMS = {
 		circulation: 994,
 		image: "https://www.torn.com/images/items/934/large.png",
 	},
-	"935": {
+	935: {
 		name: "Cork Hat",
 		description: "If you turn your head really fast, maybe you'll make some awesome music! Warning: this injures the eyes.",
 		effect: "",
@@ -12912,7 +13342,7 @@ const TORN_ITEMS = {
 		circulation: 988,
 		image: "https://www.torn.com/images/items/935/large.png",
 	},
-	"936": {
+	936: {
 		name: "Crop Top",
 		description: "For whatever reason, you might decide that everyone needs to intimately get to know your gut. Wear this.",
 		effect: "",
@@ -12925,7 +13355,7 @@ const TORN_ITEMS = {
 		circulation: 1098,
 		image: "https://www.torn.com/images/items/936/large.png",
 	},
-	"937": {
+	937: {
 		name: "Fisherman Hat",
 		description: "This item gives +1 to Fishing skill but -1 to Seduction.",
 		effect: "",
@@ -12938,7 +13368,7 @@ const TORN_ITEMS = {
 		circulation: 1042,
 		image: "https://www.torn.com/images/items/937/large.png",
 	},
-	"938": {
+	938: {
 		name: "Gym Shorts",
 		description: "You don't just have to wear these to the gym, you can wear them anywhere you want! Isn't that cool?",
 		effect: "",
@@ -12951,7 +13381,7 @@ const TORN_ITEMS = {
 		circulation: 995,
 		image: "https://www.torn.com/images/items/938/large.png",
 	},
-	"939": {
+	939: {
 		name: "Halterneck",
 		description: "What, you're too good for sleeves?",
 		effect: "",
@@ -12964,7 +13394,7 @@ const TORN_ITEMS = {
 		circulation: 1014,
 		image: "https://www.torn.com/images/items/939/large.png",
 	},
-	"940": {
+	940: {
 		name: "Raincoat",
 		description: "Contrary to popular belief, this coat was invented to protect from rain, not create it.",
 		effect: "",
@@ -12977,7 +13407,7 @@ const TORN_ITEMS = {
 		circulation: 996,
 		image: "https://www.torn.com/images/items/940/large.png",
 	},
-	"941": {
+	941: {
 		name: "Pantyhose",
 		description: "Wear this on your face for a stylish accessory to your robbery.",
 		effect: "",
@@ -12990,7 +13420,7 @@ const TORN_ITEMS = {
 		circulation: 1040,
 		image: "https://www.torn.com/images/items/941/large.png",
 	},
-	"942": {
+	942: {
 		name: "Pencil Skirt",
 		description: "Is it a pencil? Is it a skirt? It's actually neither. (Except it's a skirt.)",
 		effect: "",
@@ -13003,7 +13433,7 @@ const TORN_ITEMS = {
 		circulation: 1019,
 		image: "https://www.torn.com/images/items/942/large.png",
 	},
-	"943": {
+	943: {
 		name: "Peplum Top",
 		description: "This shirt was designed as a dress for people who still wanted to wear pants.",
 		effect: "",
@@ -13016,7 +13446,7 @@ const TORN_ITEMS = {
 		circulation: 1074,
 		image: "https://www.torn.com/images/items/943/large.png",
 	},
-	"944": {
+	944: {
 		name: "Polo Shirt",
 		description: "This casual sports shirt is sure to make people think you're a pretty cool guy.",
 		effect: "",
@@ -13029,7 +13459,7 @@ const TORN_ITEMS = {
 		circulation: 1084,
 		image: "https://www.torn.com/images/items/944/large.png",
 	},
-	"945": {
+	945: {
 		name: "Poncho",
 		description: "This stylish must-have is the perfect combination of airy and warm.",
 		effect: "",
@@ -13042,7 +13472,7 @@ const TORN_ITEMS = {
 		circulation: 1057,
 		image: "https://www.torn.com/images/items/945/large.png",
 	},
-	"946": {
+	946: {
 		name: "Puffer Vest",
 		description: "This handsome and authoritative vest is said to get people to respect your opinions 33% more. It also keeps your torso super warm!",
 		effect: "",
@@ -13055,7 +13485,7 @@ const TORN_ITEMS = {
 		circulation: 1073,
 		image: "https://www.torn.com/images/items/946/large.png",
 	},
-	"947": {
+	947: {
 		name: "Mackintosh",
 		description: "Legally, you are still supposed to wear clothes underneath this. But this is Torn, so you do you.",
 		effect: "",
@@ -13068,7 +13498,7 @@ const TORN_ITEMS = {
 		circulation: 1048,
 		image: "https://www.torn.com/images/items/947/large.png",
 	},
-	"948": {
+	948: {
 		name: "Shorts",
 		description: "Like pants, but less.",
 		effect: "",
@@ -13081,7 +13511,7 @@ const TORN_ITEMS = {
 		circulation: 1031,
 		image: "https://www.torn.com/images/items/948/large.png",
 	},
-	"949": {
+	949: {
 		name: "Skirt",
 		description: "It's like a lampshade for people.",
 		effect: "",
@@ -13094,7 +13524,7 @@ const TORN_ITEMS = {
 		circulation: 1086,
 		image: "https://www.torn.com/images/items/949/large.png",
 	},
-	"950": {
+	950: {
 		name: "Travel Socks",
 		description: "Keep your toes as warm and snuggly as your favourite handgun with these cozy travel socks.",
 		effect: "",
@@ -13107,7 +13537,7 @@ const TORN_ITEMS = {
 		circulation: 960,
 		image: "https://www.torn.com/images/items/950/large.png",
 	},
-	"951": {
+	951: {
 		name: "Turtleneck",
 		description: "This garment provides a handy built-in escape from awkward conversations.",
 		effect: "",
@@ -13120,7 +13550,7 @@ const TORN_ITEMS = {
 		circulation: 999,
 		image: "https://www.torn.com/images/items/951/large.png",
 	},
-	"952": {
+	952: {
 		name: "Yoga Pants",
 		description: "Wear these if you want to do yoga, or if you want to remind people that you have a butt.",
 		effect: "",
@@ -13133,9 +13563,10 @@ const TORN_ITEMS = {
 		circulation: 1016,
 		image: "https://www.torn.com/images/items/952/large.png",
 	},
-	"953": {
+	953: {
 		name: "Bronze Racing Trophy",
-		description: "This Bronze Racing Trophy is awarded to those who finish third in racing events. Finishing third is probably worse than finishing fourth, as not only did you not win, but you've been recognised for your failure to achieve even a runner-up spot.",
+		description:
+			"This Bronze Racing Trophy is awarded to those who finish third in racing events. Finishing third is probably worse than finishing fourth, as not only did you not win, but you've been recognised for your failure to achieve even a runner-up spot.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13146,9 +13577,10 @@ const TORN_ITEMS = {
 		circulation: 9,
 		image: "https://www.torn.com/images/items/953/large.png",
 	},
-	"954": {
+	954: {
 		name: "Silver Racing Trophy",
-		description: "This Silver Racing Trophy is awarded to those who finish second in racing events. Having been so close to victory, this trophy is here to remind you of the glory you failed to achieve. May its presence forever haunt you.",
+		description:
+			"This Silver Racing Trophy is awarded to those who finish second in racing events. Having been so close to victory, this trophy is here to remind you of the glory you failed to achieve. May its presence forever haunt you.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13159,9 +13591,10 @@ const TORN_ITEMS = {
 		circulation: 9,
 		image: "https://www.torn.com/images/items/954/large.png",
 	},
-	"955": {
+	955: {
 		name: "Gold Racing Trophy",
-		description: "This Gold Racing Trophy is awarded to the winner of a Torn racing event. Ownership of this item marks you out as a true champion - unless you bought it, in which case you are quite possibly the biggest loser of all.",
+		description:
+			"This Gold Racing Trophy is awarded to the winner of a Torn racing event. Ownership of this item marks you out as a true champion - unless you bought it, in which case you are quite possibly the biggest loser of all.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13172,7 +13605,7 @@ const TORN_ITEMS = {
 		circulation: 8,
 		image: "https://www.torn.com/images/items/955/large.png",
 	},
-	"956": {
+	956: {
 		name: "Pack of Blank CDs : 250",
 		description: "Writable CDs for recording music or saving data.",
 		effect: "",
@@ -13185,7 +13618,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/956/large.png",
 	},
-	"957": {
+	957: {
 		name: "Pack of Blank CDs : 50",
 		description: "Writable CDs for recording music or saving data.",
 		effect: "",
@@ -13198,7 +13631,7 @@ const TORN_ITEMS = {
 		circulation: 9471,
 		image: "https://www.torn.com/images/items/957/large.png",
 	},
-	"958": {
+	958: {
 		name: "Chest Harness",
 		description: "If you can ever figure out how to get this thing on, you'll be the belle of the leather fetish ball.",
 		effect: "",
@@ -13211,7 +13644,7 @@ const TORN_ITEMS = {
 		circulation: 887,
 		image: "https://www.torn.com/images/items/958/large.png",
 	},
-	"959": {
+	959: {
 		name: "Choker",
 		description: "Despite its name, this flattering neck accessory is surprisingly comfortable.",
 		effect: "",
@@ -13224,7 +13657,7 @@ const TORN_ITEMS = {
 		circulation: 891,
 		image: "https://www.torn.com/images/items/959/large.png",
 	},
-	"960": {
+	960: {
 		name: "Fishnet Stockings",
 		description: "Aside from the occasional fish caught in them, this steamy alternative to pantyhose remains a fan favourite.",
 		effect: "",
@@ -13237,7 +13670,7 @@ const TORN_ITEMS = {
 		circulation: 901,
 		image: "https://www.torn.com/images/items/960/large.png",
 	},
-	"961": {
+	961: {
 		name: "Knee-high Boots",
 		description: "If you were to wear these and enter a 'highest boots' competition, you would only lose out to thigh-highs.",
 		effect: "",
@@ -13250,7 +13683,7 @@ const TORN_ITEMS = {
 		circulation: 865,
 		image: "https://www.torn.com/images/items/961/large.png",
 	},
-	"962": {
+	962: {
 		name: "Lingerie",
 		description: "It's really just a fancy word for underoos.",
 		effect: "",
@@ -13263,7 +13696,7 @@ const TORN_ITEMS = {
 		circulation: 934,
 		image: "https://www.torn.com/images/items/962/large.png",
 	},
-	"963": {
+	963: {
 		name: "Mankini",
 		description: "Wear a mankini, but make sure you manscape first. Don't make me mansplain it to you.",
 		effect: "",
@@ -13276,7 +13709,7 @@ const TORN_ITEMS = {
 		circulation: 112,
 		image: "https://www.torn.com/images/items/963/large.png",
 	},
-	"964": {
+	964: {
 		name: "Mini Skirt",
 		description: "The regular skirt's shorter, flirtier, smaller cousin.",
 		effect: "",
@@ -13289,7 +13722,7 @@ const TORN_ITEMS = {
 		circulation: 877,
 		image: "https://www.torn.com/images/items/964/large.png",
 	},
-	"965": {
+	965: {
 		name: "Nipple Tassels",
 		description: "Jump up and down so they go around and around and around and around!",
 		effect: "",
@@ -13302,9 +13735,10 @@ const TORN_ITEMS = {
 		circulation: 243,
 		image: "https://www.torn.com/images/items/965/large.png",
 	},
-	"966": {
+	966: {
 		name: "Bowler Hat",
-		description: "Also known as a billycock, bob hat, bombin or derby, the Bowler Hat was once the preserve of city gentleman, being a key part of typical business attire until the 1970's. These days, Bowler Hats are exclusively worn by Dr Watson cosplayers and people going through a steampunk phase.",
+		description:
+			"Also known as a billycock, bob hat, bombin or derby, the Bowler Hat was once the preserve of city gentleman, being a key part of typical business attire until the 1970's. These days, Bowler Hats are exclusively worn by Dr Watson cosplayers and people going through a steampunk phase.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13315,9 +13749,10 @@ const TORN_ITEMS = {
 		circulation: 1026,
 		image: "https://www.torn.com/images/items/966/large.png",
 	},
-	"967": {
+	967: {
 		name: "Fitted Shirt",
-		description: "Everyone looks good in a fitted white shirt. With  extra tailoring applied around the chest and waist area, it will enable you to show off your pecks, bosoms or man-boobs in all their spectacular glory. Just don't spill gravy on it.",
+		description:
+			"Everyone looks good in a fitted white shirt. With  extra tailoring applied around the chest and waist area, it will enable you to show off your pecks, bosoms or man-boobs in all their spectacular glory. Just don't spill gravy on it.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13328,9 +13763,10 @@ const TORN_ITEMS = {
 		circulation: 949,
 		image: "https://www.torn.com/images/items/967/large.png",
 	},
-	"968": {
+	968: {
 		name: "Bow Tie",
-		description: "If you're attending a fancy dinner and want to look smart, or you want to dress like a 12-year-old chess prodigy whose parents pushed him so hard he is unable to form meaningful friendships in adulthood, the Bow Tie is the perfect accessory. This one is made from red silk, and should be paired with a red pocket square and a smug, condescending outlook toward your peers.",
+		description:
+			"If you're attending a fancy dinner and want to look smart, or you want to dress like a 12-year-old chess prodigy whose parents pushed him so hard he is unable to form meaningful friendships in adulthood, the Bow Tie is the perfect accessory. This one is made from red silk, and should be paired with a red pocket square and a smug, condescending outlook toward your peers.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13341,9 +13777,10 @@ const TORN_ITEMS = {
 		circulation: 1004,
 		image: "https://www.torn.com/images/items/968/large.png",
 	},
-	"969": {
+	969: {
 		name: "Neck Tie",
-		description: "This red neck tie screams authority. The minute you sport this bad boy to the office everyone will stop to listen to you, even if you have nothing useful to say. Made from pure silk, this tie can also be used as an emergency bandana.",
+		description:
+			"This red neck tie screams authority. The minute you sport this bad boy to the office everyone will stop to listen to you, even if you have nothing useful to say. Made from pure silk, this tie can also be used as an emergency bandana.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13354,9 +13791,10 @@ const TORN_ITEMS = {
 		circulation: 992,
 		image: "https://www.torn.com/images/items/969/large.png",
 	},
-	"970": {
+	970: {
 		name: "Waistcoat",
-		description: "Gray waistcoats are most commonly spotted at weddings and christenings, given that they serve no useful purpose other than to make you feel slightly warmer than you ought to be. This one comes with a decorative pocket, which tells others that you could have pockets if you wanted, but you have chosen a wiser path.",
+		description:
+			"Gray waistcoats are most commonly spotted at weddings and christenings, given that they serve no useful purpose other than to make you feel slightly warmer than you ought to be. This one comes with a decorative pocket, which tells others that you could have pockets if you wanted, but you have chosen a wiser path.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13367,9 +13805,10 @@ const TORN_ITEMS = {
 		circulation: 980,
 		image: "https://www.torn.com/images/items/970/large.png",
 	},
-	"971": {
+	971: {
 		name: "Blazer",
-		description: "Blazers are a multipurpose item which can be worn by everyone from business bros and bridegrooms through to schoolboys and boat jerks. Team this dark gray blazer with a pair of blue jeans for that ultimate \"poor guy cosplaying a rich guy\" look.",
+		description:
+			'Blazers are a multipurpose item which can be worn by everyone from business bros and bridegrooms through to schoolboys and boat jerks. Team this dark gray blazer with a pair of blue jeans for that ultimate "poor guy cosplaying a rich guy" look.',
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13380,9 +13819,10 @@ const TORN_ITEMS = {
 		circulation: 1056,
 		image: "https://www.torn.com/images/items/971/large.png",
 	},
-	"972": {
+	972: {
 		name: "Suit Trousers",
-		description: "Unless you're one of those kilt-wearing berks who thinks they're Scottish because their uncle once visited Aberdeen, black suit trousers are the most formal form of legwear mankind has thus far invented. These particular trousers would work well for someone attending a job inteview, visiting a funeral, appearing in court, or dressing up as the guy from Hitman. ",
+		description:
+			"Unless you're one of those kilt-wearing berks who thinks they're Scottish because their uncle once visited Aberdeen, black suit trousers are the most formal form of legwear mankind has thus far invented. These particular trousers would work well for someone attending a job inteview, visiting a funeral, appearing in court, or dressing up as the guy from Hitman. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13393,9 +13833,10 @@ const TORN_ITEMS = {
 		circulation: 1029,
 		image: "https://www.torn.com/images/items/972/large.png",
 	},
-	"973": {
+	973: {
 		name: "Derby Shoes",
-		description: "Derby Shoes were once worn by hunters and sportsmen, but today they are suitable for occasions both formal and informal. The Derby is an open laced shoe, meaning the quarters are sewn on top of the vamp, which makes them easy to put on. If you neither know nor care what that means, you may be interested to learn that the Derby was invented for the 19th Century Earl of Derby, who was so fat he had trouble putting his regular shoes on. And if that isn't a legacy, I don't know what is.",
+		description:
+			"Derby Shoes were once worn by hunters and sportsmen, but today they are suitable for occasions both formal and informal. The Derby is an open laced shoe, meaning the quarters are sewn on top of the vamp, which makes them easy to put on. If you neither know nor care what that means, you may be interested to learn that the Derby was invented for the 19th Century Earl of Derby, who was so fat he had trouble putting his regular shoes on. And if that isn't a legacy, I don't know what is.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13406,9 +13847,10 @@ const TORN_ITEMS = {
 		circulation: 959,
 		image: "https://www.torn.com/images/items/973/large.png",
 	},
-	"974": {
+	974: {
 		name: "Smoking Jacket",
-		description: "Smoking Jackets were designed in the 19th Century for men who wanted to enjoy tobacco without their clothes smelling absolutely rank. The most iconic colorway for a Smoking Jacket is Burgundy and Black, with silk or velvet the preferred material. Famous aficionados of the garment include Fred Astaire, Hugh Hefner, and 2006 Playmate of the Year Saddam Hussein.",
+		description:
+			"Smoking Jackets were designed in the 19th Century for men who wanted to enjoy tobacco without their clothes smelling absolutely rank. The most iconic colorway for a Smoking Jacket is Burgundy and Black, with silk or velvet the preferred material. Famous aficionados of the garment include Fred Astaire, Hugh Hefner, and 2006 Playmate of the Year Saddam Hussein.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13419,9 +13861,10 @@ const TORN_ITEMS = {
 		circulation: 244,
 		image: "https://www.torn.com/images/items/974/large.png",
 	},
-	"975": {
+	975: {
 		name: "Monocle",
-		description: "Consisting of a circular lens within a wire frame attached to a short string or chain, the Monocle is a piece of corrective eyewear used to enhance your vision in one single eye. With the advancements of modern optometry and the death of Patrick Moore, the monocle has now been rendered obsolete.",
+		description:
+			"Consisting of a circular lens within a wire frame attached to a short string or chain, the Monocle is a piece of corrective eyewear used to enhance your vision in one single eye. With the advancements of modern optometry and the death of Patrick Moore, the monocle has now been rendered obsolete.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13432,9 +13875,10 @@ const TORN_ITEMS = {
 		circulation: 133,
 		image: "https://www.torn.com/images/items/975/large.png",
 	},
-	"976": {
+	976: {
 		name: "Bronze Microphone",
-		description: "Nobody remembers those who came in third place in any event ever, not even their families and friends. But this bronze microphone trophy will change that, given as it is to those who were deemed not good enough for second place in a Torn singing competition.",
+		description:
+			"Nobody remembers those who came in third place in any event ever, not even their families and friends. But this bronze microphone trophy will change that, given as it is to those who were deemed not good enough for second place in a Torn singing competition.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13445,9 +13889,10 @@ const TORN_ITEMS = {
 		circulation: 28,
 		image: "https://www.torn.com/images/items/976/large.png",
 	},
-	"977": {
+	977: {
 		name: "Silver Microphone",
-		description: "If you're second in the Olympic 100 metres this is often a temporary scenario, as you'll likely be bumped up to first ten years later when a random drug test eliminates the victor. We can't promise that will happen with Torn's singing competitions though, so you'll have to make do with this silver microphone trophy instead.",
+		description:
+			"If you're second in the Olympic 100 metres this is often a temporary scenario, as you'll likely be bumped up to first ten years later when a random drug test eliminates the victor. We can't promise that will happen with Torn's singing competitions though, so you'll have to make do with this silver microphone trophy instead.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13458,9 +13903,10 @@ const TORN_ITEMS = {
 		circulation: 30,
 		image: "https://www.torn.com/images/items/977/large.png",
 	},
-	"978": {
+	978: {
 		name: "Gold Microphone",
-		description: "This ownership of this golden microphone trophy indicates that you have achieved one of two things; either you won a Torn singing competition due to your fantastic musical abilities, or you bought the trophy off the item market to pretend you've achieved something.",
+		description:
+			"This ownership of this golden microphone trophy indicates that you have achieved one of two things; either you won a Torn singing competition due to your fantastic musical abilities, or you bought the trophy off the item market to pretend you've achieved something.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13471,9 +13917,10 @@ const TORN_ITEMS = {
 		circulation: 25,
 		image: "https://www.torn.com/images/items/978/large.png",
 	},
-	"979": {
+	979: {
 		name: "Paint Mask",
-		description: "Would you like to avoid huffing half a gallon of paint into your lungs while repainting the spare bedroom? Then this Paint Mask is the product for you, as its particulate cotton filters ensure your airways are free from both fumes and droplets. WARNING: Does not protect against airborne viruses. ",
+		description:
+			"Would you like to avoid huffing half a gallon of paint into your lungs while repainting the spare bedroom? Then this Paint Mask is the product for you, as its particulate cotton filters ensure your airways are free from both fumes and droplets. WARNING: Does not protect against airborne viruses. ",
 		effect: "",
 		requirement: "",
 		type: "Enhancer",
@@ -13484,9 +13931,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/979/large.png",
 	},
-	"980": {
+	980: {
 		name: "Ladder",
-		description: "Ladders were traditionally used to help people avoid snakes, but these days they have all sorts of uses; scaling a tree to retrieve a cat, peeping into your neighbor's bedroom window late at night to look at their cat, and gaining entry to the Ladder Owners Club of Torn. This ladder is made from flimsy aluminium and has been described as \"a death trap\" by online reviewers.",
+		description:
+			'Ladders were traditionally used to help people avoid snakes, but these days they have all sorts of uses; scaling a tree to retrieve a cat, peeping into your neighbor\'s bedroom window late at night to look at their cat, and gaining entry to the Ladder Owners Club of Torn. This ladder is made from flimsy aluminium and has been described as "a death trap" by online reviewers.',
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13497,9 +13945,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/980/large.png",
 	},
-	"981": {
+	981: {
 		name: "Wire Cutters",
-		description: "The sharp steel blades of these industrial-sized wire cutters are capable of cutting cables up to 1cm thick. You can also cut cables that are not as thick as this, if you so desire. The one thing these cutters cannot be used to cut through is the ground-breaking crime drama The Wire.",
+		description:
+			"The sharp steel blades of these industrial-sized wire cutters are capable of cutting cables up to 1cm thick. You can also cut cables that are not as thick as this, if you so desire. The one thing these cutters cannot be used to cut through is the ground-breaking crime drama The Wire.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -13510,9 +13959,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/981/large.png",
 	},
-	"982": {
+	982: {
 		name: "Ripped Jeans",
-		description: "These ripped jeans weren't ripped by a fashion brand to make them appear trendy and distressed. These jeans were ripped by life itself, therefore proving the wearer's commitment to \"keeping it real\". They are made out of 75% denim and 25% human angst.",
+		description:
+			"These ripped jeans weren't ripped by a fashion brand to make them appear trendy and distressed. These jeans were ripped by life itself, therefore proving the wearer's commitment to \"keeping it real\". They are made out of 75% denim and 25% human angst.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13523,9 +13973,10 @@ const TORN_ITEMS = {
 		circulation: 612,
 		image: "https://www.torn.com/images/items/982/large.png",
 	},
-	"983": {
+	983: {
 		name: "Bandit Mask",
-		description: "Ever wanted to commit a crime without the victims knowing your identity? You should probably buy something more substantial than this Bandit Mask, then, as it covers approximately one fifth of a regular-sized human face. Even Batman's cowl does more than that.",
+		description:
+			"Ever wanted to commit a crime without the victims knowing your identity? You should probably buy something more substantial than this Bandit Mask, then, as it covers approximately one fifth of a regular-sized human face. Even Batman's cowl does more than that.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13536,9 +13987,10 @@ const TORN_ITEMS = {
 		circulation: 2010,
 		image: "https://www.torn.com/images/items/983/large.png",
 	},
-	"984": {
+	984: {
 		name: "Bottle of Moonshine",
-		description: "Distilled in secret by illegal brewers, this moonshine is far more potent than regular alcohol. Sip slowly, or it'll knock more than your socks off. Provides a very large nerve increase when consumed.",
+		description:
+			"Distilled in secret by illegal brewers, this moonshine is far more potent than regular alcohol. Sip slowly, or it'll knock more than your socks off. Provides a very large nerve increase when consumed.",
 		effect: "Increases nerve by 5 and booster cooldown by 1 hour.",
 		requirement: "",
 		type: "Alcohol",
@@ -13549,7 +14001,7 @@ const TORN_ITEMS = {
 		circulation: 136536,
 		image: "https://www.torn.com/images/items/984/large.png",
 	},
-	"985": {
+	985: {
 		name: "Can of Goose Juice",
 		description: "Gain the aggressive power of a goose in no time by sinking a can of this highly-concentrated energy drink.",
 		effect: "Increases energy by 5 and booster cooldown by 2 hours.",
@@ -13562,9 +14014,10 @@ const TORN_ITEMS = {
 		circulation: 657608,
 		image: "https://www.torn.com/images/items/985/large.png",
 	},
-	"986": {
+	986: {
 		name: "Can of Damp Valley",
-		description: "Infused with rare nutrients found only in the Damp Valley region of Torn, this energy drink will boost both your energy and blood pressure.",
+		description:
+			"Infused with rare nutrients found only in the Damp Valley region of Torn, this energy drink will boost both your energy and blood pressure.",
 		effect: "Increases energy by 10 and booster cooldown by 2 hours.",
 		requirement: "",
 		type: "Energy Drink",
@@ -13575,7 +14028,7 @@ const TORN_ITEMS = {
 		circulation: 606296,
 		image: "https://www.torn.com/images/items/986/large.png",
 	},
-	"987": {
+	987: {
 		name: "Can of Crocozade",
 		description: "Packed full of glucose, sucrose, pentose and hexose, this super sugary energy drink has a real bite to it.",
 		effect: "Increases energy by 15 and booster cooldown by 2 hours.",
@@ -13588,9 +14041,10 @@ const TORN_ITEMS = {
 		circulation: 565195,
 		image: "https://www.torn.com/images/items/987/large.png",
 	},
-	"988": {
+	988: {
 		name: "Fur Coat",
-		description: "Animal rights protestors have labelled this fur coat the cruellest garment of Autumn Winter 2020. Made from 40% fox, 38% mink and 22% miscellaneous fur, this gorgeous coat would suit both a lady of elegance and a bloke in his mid-thirties who thinks he looks like Macklemore.",
+		description:
+			"Animal rights protestors have labelled this fur coat the cruellest garment of Autumn Winter 2020. Made from 40% fox, 38% mink and 22% miscellaneous fur, this gorgeous coat would suit both a lady of elegance and a bloke in his mid-thirties who thinks he looks like Macklemore.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13601,9 +14055,10 @@ const TORN_ITEMS = {
 		circulation: 919,
 		image: "https://www.torn.com/images/items/988/large.png",
 	},
-	"989": {
+	989: {
 		name: "Fur Scarf",
-		description: "When you wear a fur scarf it tells others that you like animals too much to wear a full coat of their skin, but not so much that you wouldn't fashion them into an accessory. Constructed from a gorgeous blend of Chinchilla and Madagascan boy fur, this scarf is 100% vegan unfriendly.",
+		description:
+			"When you wear a fur scarf it tells others that you like animals too much to wear a full coat of their skin, but not so much that you wouldn't fashion them into an accessory. Constructed from a gorgeous blend of Chinchilla and Madagascan boy fur, this scarf is 100% vegan unfriendly.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13614,9 +14069,10 @@ const TORN_ITEMS = {
 		circulation: 908,
 		image: "https://www.torn.com/images/items/989/large.png",
 	},
-	"990": {
+	990: {
 		name: "Fur Hat",
-		description: "In Red Dead Redemption 2 you can construct many different types of fur hat out of a range of interesting animals, from grizzlies and wolves through to beavers and racoons. In Torn, you get just one, and it's made from cat hair.",
+		description:
+			"In Red Dead Redemption 2 you can construct many different types of fur hat out of a range of interesting animals, from grizzlies and wolves through to beavers and racoons. In Torn, you get just one, and it's made from cat hair.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13627,9 +14083,10 @@ const TORN_ITEMS = {
 		circulation: 946,
 		image: "https://www.torn.com/images/items/990/large.png",
 	},
-	"991": {
+	991: {
 		name: "Platform Shoes",
-		description: "Platform Shoes were popular with both men and women throughout history, and while today they are more commonly seen as a feminine item, discrete platform shoes are still worn by \"short kings\" to disguise their lack of vertical manhood. These dusky pink platforms come with a 100% money back guarantee that you'll sprain your ankle in them within the first 30 days.",
+		description:
+			'Platform Shoes were popular with both men and women throughout history, and while today they are more commonly seen as a feminine item, discrete platform shoes are still worn by "short kings" to disguise their lack of vertical manhood. These dusky pink platforms come with a 100% money back guarantee that you\'ll sprain your ankle in them within the first 30 days.',
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13640,9 +14097,10 @@ const TORN_ITEMS = {
 		circulation: 886,
 		image: "https://www.torn.com/images/items/991/large.png",
 	},
-	"992": {
+	992: {
 		name: "Silver Flats",
-		description: "These Silver Flats are notable for their lack of sole, whereas the music of Ed Sheeran is known for its distinct lack of soul. Made from a mixture of recycled trash and commercial adhesive, Ed Sheeran has sold over 150 million terrible records. This fact has nothing to do with these shoes, which are fine if you like that sort of thing.",
+		description:
+			"These Silver Flats are notable for their lack of sole, whereas the music of Ed Sheeran is known for its distinct lack of soul. Made from a mixture of recycled trash and commercial adhesive, Ed Sheeran has sold over 150 million terrible records. This fact has nothing to do with these shoes, which are fine if you like that sort of thing.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13653,9 +14111,10 @@ const TORN_ITEMS = {
 		circulation: 894,
 		image: "https://www.torn.com/images/items/992/large.png",
 	},
-	"993": {
+	993: {
 		name: "Crystal Bracelet",
-		description: "Crystal Bracelets are as gaudy as they are shiny. Constructed from reasonable quality silver by Francis Montana, Torn's resident jeweller, this bracelet is studded with white topaz crystals, which are said to improve the wearer's mental clarity - something which much of Torn's populace could benefit from greatly.",
+		description:
+			"Crystal Bracelets are as gaudy as they are shiny. Constructed from reasonable quality silver by Francis Montana, Torn's resident jeweller, this bracelet is studded with white topaz crystals, which are said to improve the wearer's mental clarity - something which much of Torn's populace could benefit from greatly.",
 		effect: "",
 		requirement: "",
 		type: "Jewelry",
@@ -13666,9 +14125,10 @@ const TORN_ITEMS = {
 		circulation: 430,
 		image: "https://www.torn.com/images/items/993/large.png",
 	},
-	"994": {
+	994: {
 		name: "Cocktail Ring",
-		description: "Cocktail Rings are also known as statement rings, given that they are chunky and feature a large, often fake gemstone in their settings. Quite what statement the wearer intends to make is down to you, but given the sheer size of this thing, you'd certainly make an impression if you punched someone in the temple with it.",
+		description:
+			"Cocktail Rings are also known as statement rings, given that they are chunky and feature a large, often fake gemstone in their settings. Quite what statement the wearer intends to make is down to you, but given the sheer size of this thing, you'd certainly make an impression if you punched someone in the temple with it.",
 		effect: "",
 		requirement: "",
 		type: "Jewelry",
@@ -13679,9 +14139,10 @@ const TORN_ITEMS = {
 		circulation: 912,
 		image: "https://www.torn.com/images/items/994/large.png",
 	},
-	"995": {
+	995: {
 		name: "Sun Hat",
-		description: "The Sun Hat is a type of headwear defined by a large brim, with its purpose being to protect the head, neck and shoulders from the sun's rays. You will often find these hats being worn by people who live in Earth's equatorial regions, but they can also be spotted on the heads of English women who think they're posh just because their boyfriend won tickets to the races.",
+		description:
+			"The Sun Hat is a type of headwear defined by a large brim, with its purpose being to protect the head, neck and shoulders from the sun's rays. You will often find these hats being worn by people who live in Earth's equatorial regions, but they can also be spotted on the heads of English women who think they're posh just because their boyfriend won tickets to the races.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13692,9 +14153,10 @@ const TORN_ITEMS = {
 		circulation: 869,
 		image: "https://www.torn.com/images/items/995/large.png",
 	},
-	"996": {
+	996: {
 		name: "Square Sunglasses",
-		description: "Whether you're trying to hide an unsightly bruise or you're just damn sick of the sight of the sun, these Square Sunglasses will keep your peepers behind closed doors and then some! Made from low-grade plastic by a Vietnamese child, these glasses are guaranteed to shatter if you look at them the wrong way.",
+		description:
+			"Whether you're trying to hide an unsightly bruise or you're just damn sick of the sight of the sun, these Square Sunglasses will keep your peepers behind closed doors and then some! Made from low-grade plastic by a Vietnamese child, these glasses are guaranteed to shatter if you look at them the wrong way.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13705,9 +14167,10 @@ const TORN_ITEMS = {
 		circulation: 847,
 		image: "https://www.torn.com/images/items/996/large.png",
 	},
-	"997": {
+	997: {
 		name: "Statement Necklace",
-		description: "A necklace is a piece of jewellery worn around the neck. If you were born without a neck, you are prohibited from wearing a necklace. This statement necklace comes studded with rose quartz crystals, which supposedly promote healing, if you believe in all that s***e.",
+		description:
+			"A necklace is a piece of jewellery worn around the neck. If you were born without a neck, you are prohibited from wearing a necklace. This statement necklace comes studded with rose quartz crystals, which supposedly promote healing, if you believe in all that s***e.",
 		effect: "",
 		requirement: "",
 		type: "Jewelry",
@@ -13718,9 +14181,10 @@ const TORN_ITEMS = {
 		circulation: 435,
 		image: "https://www.torn.com/images/items/997/large.png",
 	},
-	"998": {
+	998: {
 		name: "Floral Dress",
-		description: "Girls love nothing more than flowers. Not oxygen, not their boyfriends, not even puppy dogs. That's why this Floral Dress is so popular among the fairer sex, given that it has been designed in a floral style. If it had been made with a print of severed horse heads, it wouldn't be nearly as popular. ",
+		description:
+			"Girls love nothing more than flowers. Not oxygen, not their boyfriends, not even puppy dogs. That's why this Floral Dress is so popular among the fairer sex, given that it has been designed in a floral style. If it had been made with a print of severed horse heads, it wouldn't be nearly as popular. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13731,9 +14195,10 @@ const TORN_ITEMS = {
 		circulation: 890,
 		image: "https://www.torn.com/images/items/998/large.png",
 	},
-	"1001": {
+	1001: {
 		name: "Shrug",
-		description: "The Shrug is a cropped, cardigan-like garment with short or long sleeves cut in one with the body, often made from knitted wool. This description was the first thing that came up when we googled Shrug. If you ask most people what a Shrug is, they will probably do something expressive with their shoulders.",
+		description:
+			"The Shrug is a cropped, cardigan-like garment with short or long sleeves cut in one with the body, often made from knitted wool. This description was the first thing that came up when we googled Shrug. If you ask most people what a Shrug is, they will probably do something expressive with their shoulders.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13744,9 +14209,10 @@ const TORN_ITEMS = {
 		circulation: 932,
 		image: "https://www.torn.com/images/items/1001/large.png",
 	},
-	"1002": {
+	1002: {
 		name: "Eye Patch",
-		description: "Contrary to popular belief, pirates did not wear eye patches because they had lost an eye in battle. Their true purpose was to hide the black eyes often inflicted upon pirates by their ocean bretheren. Relationships between men can often become violent, and this is never more true when you're stuck out at sea with nothing but salty water and rum for lubricant.",
+		description:
+			"Contrary to popular belief, pirates did not wear eye patches because they had lost an eye in battle. Their true purpose was to hide the black eyes often inflicted upon pirates by their ocean bretheren. Relationships between men can often become violent, and this is never more true when you're stuck out at sea with nothing but salty water and rum for lubricant.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13757,9 +14223,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1002/large.png",
 	},
-	"1003": {
+	1003: {
 		name: "Halloween Basket : Creepy",
-		description: "This Creepy Halloween basket has a joyous expression painted on the side, because we all know that the creepiest thing of all is someone who is happy. But you too will be happy, given that this creepy basket provides an extra 5% chance of gaining a treat!",
+		description:
+			"This Creepy Halloween basket has a joyous expression painted on the side, because we all know that the creepiest thing of all is someone who is happy. But you too will be happy, given that this creepy basket provides an extra 5% chance of gaining a treat!",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13770,9 +14237,10 @@ const TORN_ITEMS = {
 		circulation: 3873,
 		image: "https://www.torn.com/images/items/1003/large.png",
 	},
-	"1004": {
+	1004: {
 		name: "Halloween Basket : Freaky",
-		description: "The reason this basket is called Freaky is because we made it look like Lindsay Lohan in Freaky Friday. In real life, she has only two teeth in her mouth. And in Torn City, this basket provides you with two 5% bonuses to your treat collection chance. That's 10% in total, omg!",
+		description:
+			"The reason this basket is called Freaky is because we made it look like Lindsay Lohan in Freaky Friday. In real life, she has only two teeth in her mouth. And in Torn City, this basket provides you with two 5% bonuses to your treat collection chance. That's 10% in total, omg!",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13783,9 +14251,10 @@ const TORN_ITEMS = {
 		circulation: 4156,
 		image: "https://www.torn.com/images/items/1004/large.png",
 	},
-	"1005": {
+	1005: {
 		name: "Halloween Basket : Frightful",
-		description: "You know this basket is genuinely frightful because it has zigzags for a mouth. That's just pure science right there. And how's this for pure maths? You now get a 15% bonus to your treat collection chance when attacking! How frightfully nice of us.",
+		description:
+			"You know this basket is genuinely frightful because it has zigzags for a mouth. That's just pure science right there. And how's this for pure maths? You now get a 15% bonus to your treat collection chance when attacking! How frightfully nice of us.",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13796,9 +14265,10 @@ const TORN_ITEMS = {
 		circulation: 4053,
 		image: "https://www.torn.com/images/items/1005/large.png",
 	},
-	"1006": {
+	1006: {
 		name: "Halloween Basket : Haunting",
-		description: "This basket is more hillbilly than haunting, but I suppose that's quite apt. After all, what's more haunting than the image of a redneck sleeping with his sister? Him sleeping with his mother? Yes, I'll give you that. And we'll also give you an extra 20% in treat collection bonuses too.",
+		description:
+			"This basket is more hillbilly than haunting, but I suppose that's quite apt. After all, what's more haunting than the image of a redneck sleeping with his sister? Him sleeping with his mother? Yes, I'll give you that. And we'll also give you an extra 20% in treat collection bonuses too.",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13809,9 +14279,10 @@ const TORN_ITEMS = {
 		circulation: 4023,
 		image: "https://www.torn.com/images/items/1006/large.png",
 	},
-	"1007": {
+	1007: {
 		name: "Halloween Basket : Shocking",
-		description: "This Halloween basket is shocking because we've written vile slurs all over the inside. There's ******, **** and even the S-word in there. I don't even know what the S-word is, but it sounds bad. This basket is now more shocking than Ricky Gervais- who isn't actually that shocking. But do you know what is? The 25% treat bonus this basket brings!",
+		description:
+			"This Halloween basket is shocking because we've written vile slurs all over the inside. There's ******, **** and even the S-word in there. I don't even know what the S-word is, but it sounds bad. This basket is now more shocking than Ricky Gervais- who isn't actually that shocking. But do you know what is? The 25% treat bonus this basket brings!",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13822,9 +14293,10 @@ const TORN_ITEMS = {
 		circulation: 5325,
 		image: "https://www.torn.com/images/items/1007/large.png",
 	},
-	"1008": {
+	1008: {
 		name: "Halloween Basket : Terrifying",
-		description: "If you want to be terrified just look at your bank balance! Oh my god I'm just slaying tonight. And you will be too with this Terrifying Halloween Basket, which provides its bearer with 30% in treat collection bonuses. Now you'll have more treats than ever, and you can stop selling your underwear online to pay your bills.",
+		description:
+			"If you want to be terrified just look at your bank balance! Oh my god I'm just slaying tonight. And you will be too with this Terrifying Halloween Basket, which provides its bearer with 30% in treat collection bonuses. Now you'll have more treats than ever, and you can stop selling your underwear online to pay your bills.",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13835,9 +14307,10 @@ const TORN_ITEMS = {
 		circulation: 5124,
 		image: "https://www.torn.com/images/items/1008/large.png",
 	},
-	"1009": {
+	1009: {
 		name: "Halloween Basket : Horrifying",
-		description: "This basket looks like it's in pain, and pain is quite horrifying, so I've heard. If you've never felt pain before, why not try stabbing yourself in the arm with a butter knife? Or, alternatively, stab someone else while holding this basket, because you'll get a 35% treat collection bonus if you do!",
+		description:
+			"This basket looks like it's in pain, and pain is quite horrifying, so I've heard. If you've never felt pain before, why not try stabbing yourself in the arm with a butter knife? Or, alternatively, stab someone else while holding this basket, because you'll get a 35% treat collection bonus if you do!",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13848,9 +14321,10 @@ const TORN_ITEMS = {
 		circulation: 3069,
 		image: "https://www.torn.com/images/items/1009/large.png",
 	},
-	"1010": {
+	1010: {
 		name: "Halloween Basket : Petrifying",
-		description: "What's the difference between petrified and horrified? We don't know, and nor do we care, so please don't Google it and tell us. Either way, this Petrifying Halloween Basket will give you a 40% extra chance of collecting a treat from someone. And that goes up to 100% if you ask them nicely.",
+		description:
+			"What's the difference between petrified and horrified? We don't know, and nor do we care, so please don't Google it and tell us. Either way, this Petrifying Halloween Basket will give you a 40% extra chance of collecting a treat from someone. And that goes up to 100% if you ask them nicely.",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13861,9 +14335,10 @@ const TORN_ITEMS = {
 		circulation: 1949,
 		image: "https://www.torn.com/images/items/1010/large.png",
 	},
-	"1011": {
+	1011: {
 		name: "Halloween Basket : Nightmarish",
-		description: "This Basket contains your worst nightmares... and candy. Inside you'll find that animal you're scared of, your partner cheating on you with your father, and that time you called the teacher mom in front of the whole class. Oh, and you'll also find that this basket gives you an extra 45% chance of collecting treats!",
+		description:
+			"This Basket contains your worst nightmares... and candy. Inside you'll find that animal you're scared of, your partner cheating on you with your father, and that time you called the teacher mom in front of the whole class. Oh, and you'll also find that this basket gives you an extra 45% chance of collecting treats!",
 		effect: "Used to gather treats from others.",
 		requirement: "",
 		type: "Special",
@@ -13874,7 +14349,7 @@ const TORN_ITEMS = {
 		circulation: 421,
 		image: "https://www.torn.com/images/items/1011/large.png",
 	},
-	"1012": {
+	1012: {
 		name: "Blood Bag : Irradiated",
 		description: "A blood bag filled with irradiated blood. This should be destroyed at an appropriate disposal facility.",
 		effect: "Causes low-level radiation sickness. Increases medical cooldown by 30 mins.",
@@ -13887,9 +14362,10 @@ const TORN_ITEMS = {
 		circulation: 139267,
 		image: "https://www.torn.com/images/items/1012/large.png",
 	},
-	"1013": {
+	1013: {
 		name: "Jigsaw Mask '19",
-		description: "Billy the Puppet was used in the Saw films by evil antagonist John Kramer as a means of communicating with his test subjects. Why not wear this Billy mask the next time you're watching a naive young woman try to escape a reverse bear trap?",
+		description:
+			"Billy the Puppet was used in the Saw films by evil antagonist John Kramer as a means of communicating with his test subjects. Why not wear this Billy mask the next time you're watching a naive young woman try to escape a reverse bear trap?",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13900,9 +14376,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1013/large.png",
 	},
-	"1014": {
+	1014: {
 		name: "Reading Glasses",
-		description: "Struggling to read that Report on Crime? These Reading Glasses will help restore your eyesight to that of a prepubescent child. And they come with the added bonus of making you look like a very old lady.",
+		description:
+			"Struggling to read that Report on Crime? These Reading Glasses will help restore your eyesight to that of a prepubescent child. And they come with the added bonus of making you look like a very old lady.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13913,9 +14390,10 @@ const TORN_ITEMS = {
 		circulation: 1110,
 		image: "https://www.torn.com/images/items/1014/large.png",
 	},
-	"1015": {
+	1015: {
 		name: "Chinos",
-		description: "These lightweight cotton Chinos are perfect for the man who wants to make minimal impact in every room he walks into. Their dark beige color matches the aura of their wearer, and we guarantee that nobody will expect you to be funny or interesting while wearing them.",
+		description:
+			"These lightweight cotton Chinos are perfect for the man who wants to make minimal impact in every room he walks into. Their dark beige color matches the aura of their wearer, and we guarantee that nobody will expect you to be funny or interesting while wearing them.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13926,9 +14404,10 @@ const TORN_ITEMS = {
 		circulation: 1074,
 		image: "https://www.torn.com/images/items/1015/large.png",
 	},
-	"1016": {
+	1016: {
 		name: "Collared Shawl",
-		description: "The Collared Shawl is a timeless piece of knitwear which suits both the elderly and the elderly at heart. If you're lucky, you might find butterscotch candies stuck to the inside pocket. If you're unlucky, blood.",
+		description:
+			"The Collared Shawl is a timeless piece of knitwear which suits both the elderly and the elderly at heart. If you're lucky, you might find butterscotch candies stuck to the inside pocket. If you're unlucky, blood.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13939,9 +14418,10 @@ const TORN_ITEMS = {
 		circulation: 1003,
 		image: "https://www.torn.com/images/items/1016/large.png",
 	},
-	"1017": {
+	1017: {
 		name: "Pleated Skirt",
-		description: "Traditionally the preserve of substitute teachers with scant regard for their appearance, the Pleated Skirt has made a comeback in recent years, and can now be seen on people who you'd easily describe as a potential 7/10. This particular skirt is made from Navy Blue flannel, which is exactly as sexy as it sounds - not very.",
+		description:
+			"Traditionally the preserve of substitute teachers with scant regard for their appearance, the Pleated Skirt has made a comeback in recent years, and can now be seen on people who you'd easily describe as a potential 7/10. This particular skirt is made from Navy Blue flannel, which is exactly as sexy as it sounds - not very.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13952,9 +14432,10 @@ const TORN_ITEMS = {
 		circulation: 1063,
 		image: "https://www.torn.com/images/items/1017/large.png",
 	},
-	"1018": {
+	1018: {
 		name: "Flip Flops",
-		description: "Flip Flops are commonly worn at the beach or on holiday, but those of an elderly persuasion are fond of wearing them with a pair of socks underneath. Pensioners probably do this due to the wretched state of their ancient feet, which makes you wonder why they don't just wear a pair of damn shoes instead.",
+		description:
+			"Flip Flops are commonly worn at the beach or on holiday, but those of an elderly persuasion are fond of wearing them with a pair of socks underneath. Pensioners probably do this due to the wretched state of their ancient feet, which makes you wonder why they don't just wear a pair of damn shoes instead.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13965,9 +14446,10 @@ const TORN_ITEMS = {
 		circulation: 1045,
 		image: "https://www.torn.com/images/items/1018/large.png",
 	},
-	"1019": {
+	1019: {
 		name: "Bingo Visor",
-		description: "This lurid green Bingo Visor is a must-have accessory for any self-respecting douchebag. Whereas they were once sported by old folk who wished to avoid the glare of the bingo hall's halogen lights, Bingo Visors are now often worn by young people at the beach, and that guy from that band called A. Remember them? No, nobody does.",
+		description:
+			"This lurid green Bingo Visor is a must-have accessory for any self-respecting douchebag. Whereas they were once sported by old folk who wished to avoid the glare of the bingo hall's halogen lights, Bingo Visors are now often worn by young people at the beach, and that guy from that band called A. Remember them? No, nobody does.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13978,9 +14460,10 @@ const TORN_ITEMS = {
 		circulation: 272,
 		image: "https://www.torn.com/images/items/1019/large.png",
 	},
-	"1020": {
+	1020: {
 		name: "Cover-ups",
-		description: "Too cheap to afford a pair of prescription sunglasses? These cover-ups are an affordable alternative, as they are designed to sit on top of your regular spectacles and protect your peepers from the sun's harmful rays. However, while wearing them, you do run the risk of looking extremely frail, so bear that in mind.",
+		description:
+			"Too cheap to afford a pair of prescription sunglasses? These cover-ups are an affordable alternative, as they are designed to sit on top of your regular spectacles and protect your peepers from the sun's harmful rays. However, while wearing them, you do run the risk of looking extremely frail, so bear that in mind.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -13991,9 +14474,10 @@ const TORN_ITEMS = {
 		circulation: 538,
 		image: "https://www.torn.com/images/items/1020/large.png",
 	},
-	"1021": {
+	1021: {
 		name: "Sandals",
-		description: "These leather strap Sandals are exactly what the Lord and Saviour Jesus Christ might've worn if he lived today or indeed ever. And speaking of fictional tales, these particular Sandals were purchased in a job lot from the producers of the 2000 movie Gladiator, who used the money to purchase tranquilisers for Russell Crowe at the wrap party.",
+		description:
+			"These leather strap Sandals are exactly what the Lord and Saviour Jesus Christ might've worn if he lived today or indeed ever. And speaking of fictional tales, these particular Sandals were purchased in a job lot from the producers of the 2000 movie Gladiator, who used the money to purchase tranquilisers for Russell Crowe at the wrap party.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14004,9 +14488,10 @@ const TORN_ITEMS = {
 		circulation: 1110,
 		image: "https://www.torn.com/images/items/1021/large.png",
 	},
-	"1022": {
+	1022: {
 		name: "Golf Socks",
-		description: "Constructed from a poly-cotton elastane blend, these Golf Socks are so durable that the only way you'll get a \"hole in one\" is through a game of Foot Russian Roulette. ",
+		description:
+			'Constructed from a poly-cotton elastane blend, these Golf Socks are so durable that the only way you\'ll get a "hole in one" is through a game of Foot Russian Roulette. ',
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14017,9 +14502,10 @@ const TORN_ITEMS = {
 		circulation: 1085,
 		image: "https://www.torn.com/images/items/1022/large.png",
 	},
-	"1023": {
+	1023: {
 		name: "Flat Cap",
-		description: "Flat Caps have enjoyed a resurgence lately thanks to their appearance in Peaky Blinders, a crime series covering the exploits of the Shelby crime family whose members are stricken with a disease which forces them to walk in slow motion. Formed from a rounded cap with a short stiff brim, these flat caps are sadly bereft of blades, but you will certainly look sharp wearing one.",
+		description:
+			"Flat Caps have enjoyed a resurgence lately thanks to their appearance in Peaky Blinders, a crime series covering the exploits of the Shelby crime family whose members are stricken with a disease which forces them to walk in slow motion. Formed from a rounded cap with a short stiff brim, these flat caps are sadly bereft of blades, but you will certainly look sharp wearing one.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14030,9 +14516,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1023/large.png",
 	},
-	"1024": {
+	1024: {
 		name: "Slippers",
-		description: "These neoprene foam Slippers were stolen in bulk from a fancy spa retreat just over the Torn border. Both comfortable and wipe clean, these foot gloves will prevent you stepping on broken glass as you make your way through the kitchen at midnight to grab yourself a beer.",
+		description:
+			"These neoprene foam Slippers were stolen in bulk from a fancy spa retreat just over the Torn border. Both comfortable and wipe clean, these foot gloves will prevent you stepping on broken glass as you make your way through the kitchen at midnight to grab yourself a beer.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14043,9 +14530,10 @@ const TORN_ITEMS = {
 		circulation: 132,
 		image: "https://www.torn.com/images/items/1024/large.png",
 	},
-	"1025": {
+	1025: {
 		name: "Bathrobe",
-		description: "There's nothing better than sinking into a fluffy white Bathrobe after a nice hot crack bath - which is a lot like a regular bath, except you smoke crack while in the tub. This particular robe is made from the purest white silk, and is modelled on one which Whitney Houston owned.",
+		description:
+			"There's nothing better than sinking into a fluffy white Bathrobe after a nice hot crack bath - which is a lot like a regular bath, except you smoke crack while in the tub. This particular robe is made from the purest white silk, and is modelled on one which Whitney Houston owned.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14056,9 +14544,10 @@ const TORN_ITEMS = {
 		circulation: 132,
 		image: "https://www.torn.com/images/items/1025/large.png",
 	},
-	"1026": {
+	1026: {
 		name: "Party Hat '19",
-		description: "The design of this party hat is generic enough to be suitable for children's birthdays, office shindigs and festive ritual sacrifices. It must be worn at a jaunty angle to demonstrate the full force of your wackiness.",
+		description:
+			"The design of this party hat is generic enough to be suitable for children's birthdays, office shindigs and festive ritual sacrifices. It must be worn at a jaunty angle to demonstrate the full force of your wackiness.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14069,7 +14558,7 @@ const TORN_ITEMS = {
 		circulation: 25650,
 		image: "https://www.torn.com/images/items/1026/large.png",
 	},
-	"1027": {
+	1027: {
 		name: "Badge : 15th Anniversary",
 		description: "This badge celebrates Torn's 15th anniversary. It can be worn to advertise your age, IQ or frequent use of profanities.",
 		effect: "",
@@ -14082,9 +14571,10 @@ const TORN_ITEMS = {
 		circulation: 25651,
 		image: "https://www.torn.com/images/items/1027/large.png",
 	},
-	"1028": {
+	1028: {
 		name: "Birthday Cupcake",
-		description: "This looks delicious, and it's reasonably fresh too! Every part of it is edible, including the candle and the paper case... if you're a goat.",
+		description:
+			"This looks delicious, and it's reasonably fresh too! Every part of it is edible, including the candle and the paper case... if you're a goat.",
 		effect: "Increases happiness by 250 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -14095,9 +14585,10 @@ const TORN_ITEMS = {
 		circulation: 32292,
 		image: "https://www.torn.com/images/items/1028/large.png",
 	},
-	"1029": {
+	1029: {
 		name: "Strippogram Voucher",
-		description: "This strippogram voucher entitles the bearer to bestow the gift of a strippogram upon any other person in Torn City. It is a gift that is both classy and arousing in equal measure.",
+		description:
+			"This strippogram voucher entitles the bearer to bestow the gift of a strippogram upon any other person in Torn City. It is a gift that is both classy and arousing in equal measure.",
 		effect: "Increases a target's happiness by 2,500.",
 		requirement: "",
 		type: "Special",
@@ -14108,9 +14599,10 @@ const TORN_ITEMS = {
 		circulation: 16004,
 		image: "https://www.torn.com/images/items/1029/large.png",
 	},
-	"1030": {
+	1030: {
 		name: "Dong : Thomas",
-		description: "Thomas is a daft little rascal who likes nothing more than chasing squirrels and eating out of garbage cans. But don't get him too excited, because Thomas suffers from severe breathing difficulties which will eventually kill him.",
+		description:
+			"Thomas is a daft little rascal who likes nothing more than chasing squirrels and eating out of garbage cans. But don't get him too excited, because Thomas suffers from severe breathing difficulties which will eventually kill him.",
 		effect: "",
 		requirement: "",
 		type: "Plushie",
@@ -14121,9 +14613,10 @@ const TORN_ITEMS = {
 		circulation: 5114,
 		image: "https://www.torn.com/images/items/1030/large.png",
 	},
-	"1031": {
+	1031: {
 		name: "Dong : Greg",
-		description: "Unlike the Taco Bell Chihuahua, Greg doesn't like Mexican food. In fact, he doesn't like Mexicans much either. Greg is extremely racist and suspicious of all foreigners. But he does love snuggles.",
+		description:
+			"Unlike the Taco Bell Chihuahua, Greg doesn't like Mexican food. In fact, he doesn't like Mexicans much either. Greg is extremely racist and suspicious of all foreigners. But he does love snuggles.",
 		effect: "",
 		requirement: "",
 		type: "Plushie",
@@ -14134,9 +14627,10 @@ const TORN_ITEMS = {
 		circulation: 5193,
 		image: "https://www.torn.com/images/items/1031/large.png",
 	},
-	"1032": {
+	1032: {
 		name: "Dong : Effy",
-		description: "Despite her prim and proper appearance, Effy is the very definition of a basic bitch. When she's not drinking a whole vat of cooking oil because it smells nice, she can be found chasing sticks down ravines and encroaching on the personal space of complete strangers.",
+		description:
+			"Despite her prim and proper appearance, Effy is the very definition of a basic bitch. When she's not drinking a whole vat of cooking oil because it smells nice, she can be found chasing sticks down ravines and encroaching on the personal space of complete strangers.",
 		effect: "",
 		requirement: "",
 		type: "Plushie",
@@ -14147,9 +14641,10 @@ const TORN_ITEMS = {
 		circulation: 5127,
 		image: "https://www.torn.com/images/items/1032/large.png",
 	},
-	"1033": {
+	1033: {
 		name: "Dong : Holly",
-		description: "Holly is a mischievous old hound with a thoroughly evil soul. She often breaks out of her home and will lead small children and other dogs out into the middle of a busy road, at which point she will sit back and watch the carnage unfold.",
+		description:
+			"Holly is a mischievous old hound with a thoroughly evil soul. She often breaks out of her home and will lead small children and other dogs out into the middle of a busy road, at which point she will sit back and watch the carnage unfold.",
 		effect: "",
 		requirement: "",
 		type: "Plushie",
@@ -14160,9 +14655,10 @@ const TORN_ITEMS = {
 		circulation: 5063,
 		image: "https://www.torn.com/images/items/1033/large.png",
 	},
-	"1034": {
+	1034: {
 		name: "Dong : Jeremy",
-		description: "Jeremy loves to laugh, but he rarely does, as he is painfully aware of all the suffering going on in the world - something you can see for yourself by looking into his cold, sad eyes. Because of his perpetually morbid outlook, Jeremy is quite fond of chocolate.",
+		description:
+			"Jeremy loves to laugh, but he rarely does, as he is painfully aware of all the suffering going on in the world - something you can see for yourself by looking into his cold, sad eyes. Because of his perpetually morbid outlook, Jeremy is quite fond of chocolate.",
 		effect: "",
 		requirement: "",
 		type: "Plushie",
@@ -14173,7 +14669,7 @@ const TORN_ITEMS = {
 		circulation: 5159,
 		image: "https://www.torn.com/images/items/1034/large.png",
 	},
-	"1035": {
+	1035: {
 		name: "Anniversary Present",
 		description: "This box was given out on Torn's 15th anniversary. It contains roughly 15% of your daily ration of joy.",
 		effect: "",
@@ -14186,9 +14682,10 @@ const TORN_ITEMS = {
 		circulation: 5818,
 		image: "https://www.torn.com/images/items/1035/large.png",
 	},
-	"1036": {
+	1036: {
 		name: "Greta Mask '19",
-		description: "As befits her status as an inspirational, teenage eco-warrior, this mask has been made from 100% non-recyclable, non-sustainable, highly carcinogenic plastics. How dare we!",
+		description:
+			"As befits her status as an inspirational, teenage eco-warrior, this mask has been made from 100% non-recyclable, non-sustainable, highly carcinogenic plastics. How dare we!",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14199,9 +14696,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1036/large.png",
 	},
-	"1037": {
+	1037: {
 		name: "Anatoly Mask '19",
-		description: "This lightly irradiated mask of Anatoly Dyatlov from Chernobyl is made from 3.6% graphite, which we found up on the roof, despite Anatoly insisting it definitely wasn't there. Its quality is not great, not terrible, and if you think you can taste metal while wearing this mask, then you're clearly in shock.",
+		description:
+			"This lightly irradiated mask of Anatoly Dyatlov from Chernobyl is made from 3.6% graphite, which we found up on the roof, despite Anatoly insisting it definitely wasn't there. Its quality is not great, not terrible, and if you think you can taste metal while wearing this mask, then you're clearly in shock.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14212,9 +14710,10 @@ const TORN_ITEMS = {
 		circulation: 243,
 		image: "https://www.torn.com/images/items/1037/large.png",
 	},
-	"1038": {
+	1038: {
 		name: "Santa Beard",
-		description: "With this big jolly Santa beard strapped to your face, you'll almost have everything you need to impersonate Jolly Saint Nick at your local mall. All you need now is a big red suit, a gut which resembles that of a pregnant manatee, and the rosy red cheeks of someone who is quite clearly suffering from severe alcoholism.",
+		description:
+			"With this big jolly Santa beard strapped to your face, you'll almost have everything you need to impersonate Jolly Saint Nick at your local mall. All you need now is a big red suit, a gut which resembles that of a pregnant manatee, and the rosy red cheeks of someone who is quite clearly suffering from severe alcoholism.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14225,9 +14724,10 @@ const TORN_ITEMS = {
 		circulation: 999,
 		image: "https://www.torn.com/images/items/1038/large.png",
 	},
-	"1039": {
+	1039: {
 		name: "Bag of Humbugs",
-		description: "Bah, Humbug! So sayeth Scrooge McDuck in the 1983 movie Mickey's Christmas Carol. These delicious boiled sweets are flavored with peppermint. Provides a large happiness increase when consumed.",
+		description:
+			"Bah, Humbug! So sayeth Scrooge McDuck in the 1983 movie Mickey's Christmas Carol. These delicious boiled sweets are flavored with peppermint. Provides a large happiness increase when consumed.",
 		effect: "Increases happiness by 150 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -14238,9 +14738,10 @@ const TORN_ITEMS = {
 		circulation: 21235,
 		image: "https://www.torn.com/images/items/1039/large.png",
 	},
-	"1040": {
+	1040: {
 		name: "Christmas Cracker",
-		description: "Without pain, there can be no joy. This Christmas Cracker item is the epitome of that sentiment, as when you try to pull it with someone else, only one of you will receive a lovely surprise.",
+		description:
+			"Without pain, there can be no joy. This Christmas Cracker item is the epitome of that sentiment, as when you try to pull it with someone else, only one of you will receive a lovely surprise.",
 		effect: "When used on a target, provides gifts to one, and a 5% happiness decrease to the other.",
 		requirement: "",
 		type: "Special",
@@ -14251,9 +14752,10 @@ const TORN_ITEMS = {
 		circulation: 32943,
 		image: "https://www.torn.com/images/items/1040/large.png",
 	},
-	"1041": {
+	1041: {
 		name: "Special Snowflake",
-		description: "This item is given to staff in recognition of the many special snowflakes they have to deal with on a daily basis. Delicate, frosty and prone to melting, Torn's players are just as unique as individual snowflakes, but distinctly less fun to catch on your tongue.",
+		description:
+			"This item is given to staff in recognition of the many special snowflakes they have to deal with on a daily basis. Delicate, frosty and prone to melting, Torn's players are just as unique as individual snowflakes, but distinctly less fun to catch on your tongue.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14264,9 +14766,10 @@ const TORN_ITEMS = {
 		circulation: 27,
 		image: "https://www.torn.com/images/items/1041/large.png",
 	},
-	"1042": {
+	1042: {
 		name: "Concussion Grenade",
-		description: "There are two ways to give someone concussion; punch them in the head repeatedly, or lob a Concussion Grenade at them. When your opponent is concussed, they may suffer problems with concentration, memory, balance and coordination.",
+		description:
+			"There are two ways to give someone concussion; punch them in the head repeatedly, or lob a Concussion Grenade at them. When your opponent is concussed, they may suffer problems with concentration, memory, balance and coordination.",
 		effect: "Opponent becomes Concussed, decreasing Dexterity to 1/5th for 15-20 seconds.",
 		requirement: "",
 		type: "Temporary",
@@ -14277,9 +14780,10 @@ const TORN_ITEMS = {
 		circulation: 3626,
 		image: "https://www.torn.com/images/items/1042/large.png",
 	},
-	"1043": {
+	1043: {
 		name: "Paper Crown : Green",
-		description: "This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
+		description:
+			"This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14290,9 +14794,10 @@ const TORN_ITEMS = {
 		circulation: 6953,
 		image: "https://www.torn.com/images/items/1043/large.png",
 	},
-	"1044": {
+	1044: {
 		name: "Paper Crown : Yellow",
-		description: "This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
+		description:
+			"This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14303,9 +14808,10 @@ const TORN_ITEMS = {
 		circulation: 7077,
 		image: "https://www.torn.com/images/items/1044/large.png",
 	},
-	"1045": {
+	1045: {
 		name: "Paper Crown : Red",
-		description: "This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
+		description:
+			"This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14316,9 +14822,10 @@ const TORN_ITEMS = {
 		circulation: 6965,
 		image: "https://www.torn.com/images/items/1045/large.png",
 	},
-	"1046": {
+	1046: {
 		name: "Paper Crown : Blue",
-		description: "This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
+		description:
+			"This paper crown can be found inside a Christmas Cracker, along with a crap joke and an even worse gift. Made of a weird type of laminated tissue paper, these festive hats somehow make you feel like you're still wearing them hours after you've taken them off.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14329,9 +14836,10 @@ const TORN_ITEMS = {
 		circulation: 6894,
 		image: "https://www.torn.com/images/items/1046/large.png",
 	},
-	"1047": {
+	1047: {
 		name: "Denim Shirt",
-		description: "Denim Shirts give off a clear signal to everyone around you, and that signal is \"I like jeans so much I want to wear them all over my body\". This particular shirt is made from stretch denim, because let's face it, you haven't been looking after yourself lately. ",
+		description:
+			"Denim Shirts give off a clear signal to everyone around you, and that signal is \"I like jeans so much I want to wear them all over my body\". This particular shirt is made from stretch denim, because let's face it, you haven't been looking after yourself lately. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14342,9 +14850,10 @@ const TORN_ITEMS = {
 		circulation: 1784,
 		image: "https://www.torn.com/images/items/1047/large.png",
 	},
-	"1048": {
+	1048: {
 		name: "Denim Vest",
-		description: "When accompanied by a white t-shirt and a set of dog tags, a Denim Vest tells others that while you aren't someone to be messed with, there won't be many consequences if you do. This particular vest is made from denim that is raw and untreated, like your spirit, I guess.",
+		description:
+			"When accompanied by a white t-shirt and a set of dog tags, a Denim Vest tells others that while you aren't someone to be messed with, there won't be many consequences if you do. This particular vest is made from denim that is raw and untreated, like your spirit, I guess.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14355,9 +14864,10 @@ const TORN_ITEMS = {
 		circulation: 1728,
 		image: "https://www.torn.com/images/items/1048/large.png",
 	},
-	"1049": {
+	1049: {
 		name: "Denim Jacket",
-		description: "Denim Jackets work best when teamed with items that are not made of denim, lest you suffer the ignominy of being seen in double denim. There are many items not made of denim, including cotton t-shirts, woolen overcoats, and PVC onesies to name but a few.",
+		description:
+			"Denim Jackets work best when teamed with items that are not made of denim, lest you suffer the ignominy of being seen in double denim. There are many items not made of denim, including cotton t-shirts, woolen overcoats, and PVC onesies to name but a few.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14368,9 +14878,10 @@ const TORN_ITEMS = {
 		circulation: 1704,
 		image: "https://www.torn.com/images/items/1049/large.png",
 	},
-	"1050": {
+	1050: {
 		name: "Denim Jeans",
-		description: "Jeans were invented by Steve Jeans in 1992, when a shortage of chinos meant that dads everywhere were rendered pantsless on Saturday afternoons. The denim fabric from which they are made was created in Europe in the 16th Century, which was also when colonialism really started to take off. Coincidence? Yes.",
+		description:
+			"Jeans were invented by Steve Jeans in 1992, when a shortage of chinos meant that dads everywhere were rendered pantsless on Saturday afternoons. The denim fabric from which they are made was created in Europe in the 16th Century, which was also when colonialism really started to take off. Coincidence? Yes.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14381,9 +14892,10 @@ const TORN_ITEMS = {
 		circulation: 1748,
 		image: "https://www.torn.com/images/items/1050/large.png",
 	},
-	"1051": {
+	1051: {
 		name: "Denim Shoes",
-		description: "If you're trying to build some sort of denim gimp suit, then you'll need this pair of Denim Hi-Tops to go with your Denim Jacket, Denim Vest, Denim Shirt, Denim Trousers and Denim Thong. These shoes are unsuitable for both men and women over the age of 32.",
+		description:
+			"If you're trying to build some sort of denim gimp suit, then you'll need this pair of Denim Hi-Tops to go with your Denim Jacket, Denim Vest, Denim Shirt, Denim Trousers and Denim Thong. These shoes are unsuitable for both men and women over the age of 32.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14394,9 +14906,10 @@ const TORN_ITEMS = {
 		circulation: 1723,
 		image: "https://www.torn.com/images/items/1051/large.png",
 	},
-	"1052": {
+	1052: {
 		name: "Denim Cap",
-		description: "Denim Caps should be worn backwards for a \"radical\" effect, or front ways for an \"I don't like the sun in my eyes\" vibe. These caps can also be worn sideways at your own risk.",
+		description:
+			'Denim Caps should be worn backwards for a "radical" effect, or front ways for an "I don\'t like the sun in my eyes" vibe. These caps can also be worn sideways at your own risk.',
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14407,9 +14920,10 @@ const TORN_ITEMS = {
 		circulation: 1690,
 		image: "https://www.torn.com/images/items/1052/large.png",
 	},
-	"1053": {
+	1053: {
 		name: "Bread Knife",
-		description: "Whether you're looking to slice open an artisan sourdough or a rival's throat, the Bread Knife allows you to do so with consumate ease. The weapon of choice for Jimmy \"Two-Shins\", this serrated blade will lacerate your opponent and leave them bleeding long after you've slashed them.",
+		description:
+			"Whether you're looking to slice open an artisan sourdough or a rival's throat, the Bread Knife allows you to do so with consumate ease. The weapon of choice for Jimmy \"Two-Shins\", this serrated blade will lacerate your opponent and leave them bleeding long after you've slashed them.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -14420,9 +14934,10 @@ const TORN_ITEMS = {
 		circulation: 62,
 		image: "https://www.torn.com/images/items/1053/large.png",
 	},
-	"1054": {
+	1054: {
 		name: "Semtex",
-		description: "Semtex is a general purpose plastic explosive which can be moulded into all kinds of amusing shapes, if the mood strikes. When fitted with a timer and a detonating cord, this material can be used to explode your target into tiny disappointed pieces.",
+		description:
+			"Semtex is a general purpose plastic explosive which can be moulded into all kinds of amusing shapes, if the mood strikes. When fitted with a timer and a detonating cord, this material can be used to explode your target into tiny disappointed pieces.",
 		effect: "",
 		requirement: "",
 		type: "Temporary",
@@ -14433,9 +14948,10 @@ const TORN_ITEMS = {
 		circulation: 9,
 		image: "https://www.torn.com/images/items/1054/large.png",
 	},
-	"1055": {
+	1055: {
 		name: "Poison Umbrella",
-		description: "Considered the weapon of choice for Cold War assassins, this Poison Umbrella is capable of transferring a small poisonous pellet into your opponent. This particular umbrella is wielded by Fernando Maria Fernández, a.k.a. Fingers, and the ingredients in its poison are known only to him.",
+		description:
+			"Considered the weapon of choice for Cold War assassins, this Poison Umbrella is capable of transferring a small poisonous pellet into your opponent. This particular umbrella is wielded by Fernando Maria Fernández, a.k.a. Fingers, and the ingredients in its poison are known only to him.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -14446,9 +14962,10 @@ const TORN_ITEMS = {
 		circulation: 88,
 		image: "https://www.torn.com/images/items/1055/large.png",
 	},
-	"1056": {
+	1056: {
 		name: "Millwall Brick",
-		description: "The Millwall Brick is an improvised weapon consisting of a simple newspaper rolled up lengthways and folded in half to create a solid club-like edge at one end. It was invented by fans of Millwall Football Club as a way of smuggling a weapon into football grounds, but Arsenal supporters claim they almost invented it first.",
+		description:
+			"The Millwall Brick is an improvised weapon consisting of a simple newspaper rolled up lengthways and folded in half to create a solid club-like edge at one end. It was invented by fans of Millwall Football Club as a way of smuggling a weapon into football grounds, but Arsenal supporters claim they almost invented it first.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -14459,9 +14976,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1056/large.png",
 	},
-	"1057": {
+	1057: {
 		name: "Gentleman Cache",
-		description: "The Gentleman Cache is a Supply Pack which contains one item from a selection of refined, formal garments considered suitable attire for the opera, the racecourse, or the murder of a prostitute in 19th Century East London.",
+		description:
+			"The Gentleman Cache is a Supply Pack which contains one item from a selection of refined, formal garments considered suitable attire for the opera, the racecourse, or the murder of a prostitute in 19th Century East London.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -14472,9 +14990,10 @@ const TORN_ITEMS = {
 		circulation: 4599,
 		image: "https://www.torn.com/images/items/1057/large.png",
 	},
-	"1058": {
+	1058: {
 		name: "Gold Chain",
-		description: "All that glitters is gold, but only shooting stars break the mold. You won't exactly break any molds in this 9 karat Gold Chain, but you will make yourself a target for muggers if you wear this on the streets.",
+		description:
+			"All that glitters is gold, but only shooting stars break the mold. You won't exactly break any molds in this 9 karat Gold Chain, but you will make yourself a target for muggers if you wear this on the streets.",
 		effect: "",
 		requirement: "",
 		type: "Jewelry",
@@ -14485,9 +15004,10 @@ const TORN_ITEMS = {
 		circulation: 121,
 		image: "https://www.torn.com/images/items/1058/large.png",
 	},
-	"1059": {
+	1059: {
 		name: "Snapback Hat",
-		description: "This Snapback Hat comes without one of those douchey silver stickers attached to the brim. We removed it on your behalf, because what are you, twelve?",
+		description:
+			"This Snapback Hat comes without one of those douchey silver stickers attached to the brim. We removed it on your behalf, because what are you, twelve?",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14498,9 +15018,10 @@ const TORN_ITEMS = {
 		circulation: 1013,
 		image: "https://www.torn.com/images/items/1059/large.png",
 	},
-	"1060": {
+	1060: {
 		name: "Saggy Pants",
-		description: "The practice of wearing Saggy Pants is believed to have originated in the US prison system, where belts and braces are prohibited, and prison-issue items are often oversized. Outside of the clink, those who wear this style of trouser do so to show off how clean their underwear is.",
+		description:
+			"The practice of wearing Saggy Pants is believed to have originated in the US prison system, where belts and braces are prohibited, and prison-issue items are often oversized. Outside of the clink, those who wear this style of trouser do so to show off how clean their underwear is.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14511,9 +15032,10 @@ const TORN_ITEMS = {
 		circulation: 493,
 		image: "https://www.torn.com/images/items/1060/large.png",
 	},
-	"1061": {
+	1061: {
 		name: "Oversized Shirt",
-		description: "It doesn't matter how fat or thin you are, this Oversized Shirt will always be two sizes too big for you. Made from a revolutionary fabric called Nylong, this shirt adapts to the wearer's physique and stretches without pressure, enabling you to look \"proper street\" from the moment you put it on.",
+		description:
+			"It doesn't matter how fat or thin you are, this Oversized Shirt will always be two sizes too big for you. Made from a revolutionary fabric called Nylong, this shirt adapts to the wearer's physique and stretches without pressure, enabling you to look \"proper street\" from the moment you put it on.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14524,9 +15046,10 @@ const TORN_ITEMS = {
 		circulation: 968,
 		image: "https://www.torn.com/images/items/1061/large.png",
 	},
-	"1062": {
+	1062: {
 		name: "Basketball Shirt",
-		description: "The Torn City Basketball Team is known as The Shivs, and while they haven't played a match in fourteen years, their apparel is still popular among the city's youth. This vest is made from a high-tech breathable fabric known as Pit-Stahp, enabling you to emerge from even the most intense interrogation sweating less than Prince Andrew.",
+		description:
+			"The Torn City Basketball Team is known as The Shivs, and while they haven't played a match in fourteen years, their apparel is still popular among the city's youth. This vest is made from a high-tech breathable fabric known as Pit-Stahp, enabling you to emerge from even the most intense interrogation sweating less than Prince Andrew.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14537,9 +15060,10 @@ const TORN_ITEMS = {
 		circulation: 991,
 		image: "https://www.torn.com/images/items/1062/large.png",
 	},
-	"1063": {
+	1063: {
 		name: "Parachute Pants",
-		description: "If you want to be noticed and / or beaten to a pulp, you could do no better than this pair of gold lamé Parachute Pants. Popularized by MC Hammer in the 1980s, parachute pants were originally made of nylon to allow the wearer to breakdance effectively. These are made from lamé, because who even breakdances anymore?",
+		description:
+			"If you want to be noticed and / or beaten to a pulp, you could do no better than this pair of gold lamé Parachute Pants. Popularized by MC Hammer in the 1980s, parachute pants were originally made of nylon to allow the wearer to breakdance effectively. These are made from lamé, because who even breakdances anymore?",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14550,9 +15074,10 @@ const TORN_ITEMS = {
 		circulation: 247,
 		image: "https://www.torn.com/images/items/1063/large.png",
 	},
-	"1064": {
+	1064: {
 		name: "Tube Dress",
-		description: "A Tube Dress is not a dress in a tube, it is simply a dress that is shaped like a tube - you know, like Pringles, except clothes. Made from viscose and elastine, this pink Tube Dress can be thrown on by women and crossdressers in a matter of seconds, which comes in handy if you need to exit your lover's bedroom window in a pinch. ",
+		description:
+			"A Tube Dress is not a dress in a tube, it is simply a dress that is shaped like a tube - you know, like Pringles, except clothes. Made from viscose and elastine, this pink Tube Dress can be thrown on by women and crossdressers in a matter of seconds, which comes in handy if you need to exit your lover's bedroom window in a pinch. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14563,9 +15088,10 @@ const TORN_ITEMS = {
 		circulation: 968,
 		image: "https://www.torn.com/images/items/1064/large.png",
 	},
-	"1065": {
+	1065: {
 		name: "Gold Sneakers",
-		description: "Jazz up an otherwise forgettable outfit with this pair of snazzy Gold Sneakers! Constructed from coated rubber and canvas, these Gold Sneakers will look like absolute s**t as soon as you scuff them just once, so treat them with care!",
+		description:
+			"Jazz up an otherwise forgettable outfit with this pair of snazzy Gold Sneakers! Constructed from coated rubber and canvas, these Gold Sneakers will look like absolute s**t as soon as you scuff them just once, so treat them with care!",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14576,9 +15102,10 @@ const TORN_ITEMS = {
 		circulation: 262,
 		image: "https://www.torn.com/images/items/1065/large.png",
 	},
-	"1066": {
+	1066: {
 		name: "Shutter Shades",
-		description: "Remember when Kanye West wore a pair of Shutter Shades in 2007? Like almost everything Yeezy creates, this style was stolen from a 1980's trend, but now you can bring them back in style by sporting a pair of these cheap plastic knock-offs.",
+		description:
+			"Remember when Kanye West wore a pair of Shutter Shades in 2007? Like almost everything Yeezy creates, this style was stolen from a 1980's trend, but now you can bring them back in style by sporting a pair of these cheap plastic knock-offs.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14589,9 +15116,10 @@ const TORN_ITEMS = {
 		circulation: 490,
 		image: "https://www.torn.com/images/items/1066/large.png",
 	},
-	"1067": {
+	1067: {
 		name: "Silver Hoodie",
-		description: "If you've ever wanted to attract an increasing number of magpies to your body then this Silver Hoodie is exactly what you need. Made from cotton flocked with a mixture of PU and Mercury, this hoodie will leave you weak and trembling if you wear it for long enough.",
+		description:
+			"If you've ever wanted to attract an increasing number of magpies to your body then this Silver Hoodie is exactly what you need. Made from cotton flocked with a mixture of PU and Mercury, this hoodie will leave you weak and trembling if you wear it for long enough.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14602,9 +15130,10 @@ const TORN_ITEMS = {
 		circulation: 990,
 		image: "https://www.torn.com/images/items/1067/large.png",
 	},
-	"1068": {
+	1068: {
 		name: "Bucket Hat",
-		description: "Popular among British festival-goers of the 1990's, the Bucket Hat is a piece of headwear made from thick canvas - three times as thick as Liam Gallagher, actually. This particular Bucket Hat comes in a shade known as Hot Salmon.",
+		description:
+			"Popular among British festival-goers of the 1990's, the Bucket Hat is a piece of headwear made from thick canvas - three times as thick as Liam Gallagher, actually. This particular Bucket Hat comes in a shade known as Hot Salmon.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14615,9 +15144,10 @@ const TORN_ITEMS = {
 		circulation: 972,
 		image: "https://www.torn.com/images/items/1068/large.png",
 	},
-	"1069": {
+	1069: {
 		name: "Puffer Jacket",
-		description: "The Puffer Jacket, also known as the Down Jacket, was designed by Australian chemist George Finch for the 1922 Everest expedition. While his design was initially mocked, it eventually fell into favor due to its wind-resistance abilities, and the fact that it makes you look three times as big as you actually are.",
+		description:
+			"The Puffer Jacket, also known as the Down Jacket, was designed by Australian chemist George Finch for the 1922 Everest expedition. While his design was initially mocked, it eventually fell into favor due to its wind-resistance abilities, and the fact that it makes you look three times as big as you actually are.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14628,9 +15158,10 @@ const TORN_ITEMS = {
 		circulation: 1009,
 		image: "https://www.torn.com/images/items/1069/large.png",
 	},
-	"1070": {
+	1070: {
 		name: "Durag",
-		description: "Durags, also known as do-rags or du-rags, consist of a simple cloth worn over the head and tied around the back. They are most commonly worn by people of colour who are in the process of developing wave, braided or dreadlocked hairstyles, but they can also be worn by white people who want to look like a weapons-grade bellend.",
+		description:
+			"Durags, also known as do-rags or du-rags, consist of a simple cloth worn over the head and tied around the back. They are most commonly worn by people of colour who are in the process of developing wave, braided or dreadlocked hairstyles, but they can also be worn by white people who want to look like a weapons-grade bellend.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14641,9 +15172,10 @@ const TORN_ITEMS = {
 		circulation: 983,
 		image: "https://www.torn.com/images/items/1070/large.png",
 	},
-	"1071": {
+	1071: {
 		name: "Onesie",
-		description: "Onesies were once the sole preserve of newborn babies whose parents couldn't be bothered to dress them up properly. But today, the Onesie is now popular as a homewear item, or a streetwear item if you have abandoned the concept of shame.",
+		description:
+			"Onesies were once the sole preserve of newborn babies whose parents couldn't be bothered to dress them up properly. But today, the Onesie is now popular as a homewear item, or a streetwear item if you have abandoned the concept of shame.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14654,9 +15186,10 @@ const TORN_ITEMS = {
 		circulation: 123,
 		image: "https://www.torn.com/images/items/1071/large.png",
 	},
-	"1072": {
+	1072: {
 		name: "Baseball Jacket",
-		description: "In the United States, many citizens wear Baseball Jackets to excuse the fact that they are carrying a baseball bat around with them at the time. In Torn, such chicanery is unnecessary, so feel free to sport this retro polyester Baseball Jacket to disguise yourself as a yankee tourist instead.",
+		description:
+			"In the United States, many citizens wear Baseball Jackets to excuse the fact that they are carrying a baseball bat around with them at the time. In Torn, such chicanery is unnecessary, so feel free to sport this retro polyester Baseball Jacket to disguise yourself as a yankee tourist instead.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14667,9 +15200,10 @@ const TORN_ITEMS = {
 		circulation: 903,
 		image: "https://www.torn.com/images/items/1072/large.png",
 	},
-	"1073": {
+	1073: {
 		name: "Braces",
-		description: "If for some reason you're allergic to belts, then a pair of Braces does just as good a job at holding your trousers up instead. Of course, you wouldn't need either if you'd bought properly fitting trousers in the first place, but until you grow into them, these elasticated black braces will stop you looking like a gangsta rapper. ",
+		description:
+			"If for some reason you're allergic to belts, then a pair of Braces does just as good a job at holding your trousers up instead. Of course, you wouldn't need either if you'd bought properly fitting trousers in the first place, but until you grow into them, these elasticated black braces will stop you looking like a gangsta rapper. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14680,9 +15214,10 @@ const TORN_ITEMS = {
 		circulation: 487,
 		image: "https://www.torn.com/images/items/1073/large.png",
 	},
-	"1074": {
+	1074: {
 		name: "Panama Hat",
-		description: "Panama Hats are lightweight, brimmed, and typically made of woven straw. They were originally an Ecuadorian invention, but Panama Hat sounds nicer than Ecuador Hat, so everyone just pretends that's where they came from. ",
+		description:
+			"Panama Hats are lightweight, brimmed, and typically made of woven straw. They were originally an Ecuadorian invention, but Panama Hat sounds nicer than Ecuador Hat, so everyone just pretends that's where they came from. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14693,9 +15228,10 @@ const TORN_ITEMS = {
 		circulation: 999,
 		image: "https://www.torn.com/images/items/1074/large.png",
 	},
-	"1075": {
+	1075: {
 		name: "Pipe",
-		description: "Used to smoke loose tobacco, the Pipe is a dual-purpose item given that it also increases your ability to contemplate things by roughly 400%. Pipes are best smoked by a roaring fireplace in a room with lots of books in, and perhaps an ancient musket on the wall for good measure.",
+		description:
+			"Used to smoke loose tobacco, the Pipe is a dual-purpose item given that it also increases your ability to contemplate things by roughly 400%. Pipes are best smoked by a roaring fireplace in a room with lots of books in, and perhaps an ancient musket on the wall for good measure.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14706,9 +15242,10 @@ const TORN_ITEMS = {
 		circulation: 102,
 		image: "https://www.torn.com/images/items/1075/large.png",
 	},
-	"1076": {
+	1076: {
 		name: "Shoulder Sweater",
-		description: "In Torn City it is illegal for someone to board a boat without their sweater being tied over their shoulders. This Shoulder Sweater comes pre-tied to save you the trouble. ",
+		description:
+			"In Torn City it is illegal for someone to board a boat without their sweater being tied over their shoulders. This Shoulder Sweater comes pre-tied to save you the trouble. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14719,9 +15256,10 @@ const TORN_ITEMS = {
 		circulation: 234,
 		image: "https://www.torn.com/images/items/1076/large.png",
 	},
-	"1077": {
+	1077: {
 		name: "Sports Jacket",
-		description: "Sports Jackets are so-called due to their historic use by men playing outdoor sports, such as shooting, hunting, and cricket. Unlike a blazer, the Sports Coat is made from a hardwearing fabric which enables it to be worn as a casual, everyday item. This one is made from light tweed, which sounds like Mike Tyson trying to describe the universal physical constant.",
+		description:
+			"Sports Jackets are so-called due to their historic use by men playing outdoor sports, such as shooting, hunting, and cricket. Unlike a blazer, the Sports Coat is made from a hardwearing fabric which enables it to be worn as a casual, everyday item. This one is made from light tweed, which sounds like Mike Tyson trying to describe the universal physical constant.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14732,9 +15270,10 @@ const TORN_ITEMS = {
 		circulation: 479,
 		image: "https://www.torn.com/images/items/1077/large.png",
 	},
-	"1078": {
+	1078: {
 		name: "Old Wallet",
-		description: "Inside this old, leather wallet you'll find a snapshot of someone else's life. Credit cards. Membership cards. A coupon for half off at Big Al's. Family photographs. An expired condom. Who knows, maybe you'll even find a wad of cash in this wallet, cash you could use to buy something useful, like a wallet.",
+		description:
+			"Inside this old, leather wallet you'll find a snapshot of someone else's life. Credit cards. Membership cards. A coupon for half off at Big Al's. Family photographs. An expired condom. Who knows, maybe you'll even find a wad of cash in this wallet, cash you could use to buy something useful, like a wallet.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -14745,9 +15284,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1078/large.png",
 	},
-	"1079": {
+	1079: {
 		name: "Cardholder",
-		description: "Cardholders are bought by people too rich to carry cash, but too poor to have their PA pay for their groceries. This particular cardholder might contain one of several types of cards you can steal but the most important thing is that it won't ruin your silhouette when you store it in your ass pocket.",
+		description:
+			"Cardholders are bought by people too rich to carry cash, but too poor to have their PA pay for their groceries. This particular cardholder might contain one of several types of cards you can steal but the most important thing is that it won't ruin your silhouette when you store it in your ass pocket.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -14758,9 +15298,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1079/large.png",
 	},
-	"1080": {
+	1080: {
 		name: "Billfold",
-		description: "A billfold is thinner and has fewer compartments than a wallet, but they can hold more cash than a stripper's g-string. The only problem with a billfold is having to deal with people who compliment your \"fancy new wallet\", as you'll have to correct them, to which they will reply \"I don't care\".",
+		description:
+			'A billfold is thinner and has fewer compartments than a wallet, but they can hold more cash than a stripper\'s g-string. The only problem with a billfold is having to deal with people who compliment your "fancy new wallet", as you\'ll have to correct them, to which they will reply "I don\'t care".',
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -14771,9 +15312,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1080/large.png",
 	},
-	"1081": {
+	1081: {
 		name: "Coin Purse",
-		description: "The Coin Purse is most popular among elderly women, who remain gloriously oblivious to its use as a slang term for testicles. Inside this Coin Purse you may find several coins of various denominations, which you are then free to insert into vending machines, gumball machines, or the Neverending Story coin-operated ride that's been outside your local 7-11 since 1984.",
+		description:
+			"The Coin Purse is most popular among elderly women, who remain gloriously oblivious to its use as a slang term for testicles. Inside this Coin Purse you may find several coins of various denominations, which you are then free to insert into vending machines, gumball machines, or the Neverending Story coin-operated ride that's been outside your local 7-11 since 1984.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -14784,9 +15326,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1081/large.png",
 	},
-	"1082": {
+	1082: {
 		name: "Zip Wallet",
-		description: "Zip wallets are wallets for those who refuse to embrace chaos. If it is destiny that your driver's license should fall out of your wallet and end up in the hands of a methed-up sex criminal who tracks you down so he may consume your toenail clippings, then who are you to deny the will of the universe? This Zip Wallet may contain useful items, but it will not save you from your predetermined fate.",
+		description:
+			"Zip wallets are wallets for those who refuse to embrace chaos. If it is destiny that your driver's license should fall out of your wallet and end up in the hands of a methed-up sex criminal who tracks you down so he may consume your toenail clippings, then who are you to deny the will of the universe? This Zip Wallet may contain useful items, but it will not save you from your predetermined fate.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -14797,9 +15340,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1082/large.png",
 	},
-	"1083": {
+	1083: {
 		name: "Clutch",
-		description: "In 1832 famed biologist Henri Latrine discovered that women were deathly allergic to pockets, hence why it is illegal for ladies' clothing to possess hidden compartments to this day. The Clutch Bag was invented to enable the fairer sex to transport their various accoutrements without having to store them in their mouth. This Clutch Bag may contain anything from cash to make-up, through to old receipts and the number of a man who was both creepy and persistent.",
+		description:
+			"In 1832 famed biologist Henri Latrine discovered that women were deathly allergic to pockets, hence why it is illegal for ladies' clothing to possess hidden compartments to this day. The Clutch Bag was invented to enable the fairer sex to transport their various accoutrements without having to store them in their mouth. This Clutch Bag may contain anything from cash to make-up, through to old receipts and the number of a man who was both creepy and persistent.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -14810,9 +15354,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1083/large.png",
 	},
-	"1084": {
+	1084: {
 		name: "Credit Card",
-		description: "Credit Cards can be used to acquire a significant amount of debt in exchange for items you want but can't afford. They can also be used to cut up lines of cocaine, if Torn had any cocaine, which it doesn't... yet.",
+		description:
+			"Credit Cards can be used to acquire a significant amount of debt in exchange for items you want but can't afford. They can also be used to cut up lines of cocaine, if Torn had any cocaine, which it doesn't... yet.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14823,9 +15368,10 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/1084/large.png",
 	},
-	"1085": {
+	1085: {
 		name: "Lipstick",
-		description: "Lipstick is a cosmetic item made of oils, waxes, pigments and moisturizers used to apply color to the lips. The point of lipstick is to make your mouth more attractive to others, but the same effect can be achieved by stuffing it full of mashed potatoes and gravy. This particular lipstick is Flesh Wound Carmine #005.",
+		description:
+			"Lipstick is a cosmetic item made of oils, waxes, pigments and moisturizers used to apply color to the lips. The point of lipstick is to make your mouth more attractive to others, but the same effect can be achieved by stuffing it full of mashed potatoes and gravy. This particular lipstick is Flesh Wound Carmine #005.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14836,9 +15382,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1085/large.png",
 	},
-	"1086": {
+	1086: {
 		name: "License",
-		description: "This Driver's License should be in the wallet of its owner rather than your hand. But given that it is not, you may as well use it to take out a bank loan, adopt a child, or get married in someone else's name.",
+		description:
+			"This Driver's License should be in the wallet of its owner rather than your hand. But given that it is not, you may as well use it to take out a bank loan, adopt a child, or get married in someone else's name.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14849,9 +15396,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1086/large.png",
 	},
-	"1087": {
+	1087: {
 		name: "Tampon",
-		description: "Tampons are a feminine hygiene product used to absorb the menstrual flow during a woman's period. They can also be filled with vodka and used to imbibe alcohol at a party through non-oral means, although this will probably kill you.",
+		description:
+			"Tampons are a feminine hygiene product used to absorb the menstrual flow during a woman's period. They can also be filled with vodka and used to imbibe alcohol at a party through non-oral means, although this will probably kill you.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14862,9 +15410,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1087/large.png",
 	},
-	"1088": {
+	1088: {
 		name: "Receipt",
-		description: "Judging by this receipt, it appears that someone is in for a great night by themselves, given that it lists the purchase of a cucumber, ten trash bags, some duct tape, a family-sized jar of mayonnaise, and a Hannah Montana blu-ray.",
+		description:
+			"Judging by this receipt, it appears that someone is in for a great night by themselves, given that it lists the purchase of a cucumber, ten trash bags, some duct tape, a family-sized jar of mayonnaise, and a Hannah Montana blu-ray.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14875,9 +15424,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1088/large.png",
 	},
-	"1089": {
+	1089: {
 		name: "Family Photo",
-		description: "This photo appears to have captured a precious, intimate moment between a loving family during a day at the beach. But for all we know, this may have been the last time they were seen alive, as their psychotic father dragged them kicking and screaming into the sea in a four-way death pact. Either way, it's beautifully composed.",
+		description:
+			"This photo appears to have captured a precious, intimate moment between a loving family during a day at the beach. But for all we know, this may have been the last time they were seen alive, as their psychotic father dragged them kicking and screaming into the sea in a four-way death pact. Either way, it's beautifully composed.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14888,9 +15438,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1089/large.png",
 	},
-	"1090": {
+	1090: {
 		name: "Lint",
-		description: "Lint is a mixture of textile fibers, human hair, skin cells, animal fur, dust and microorganisms which can often be found at the bottom of your dryer, in your pockets or inside your belly button. Eat it, you might like it. ",
+		description:
+			"Lint is a mixture of textile fibers, human hair, skin cells, animal fur, dust and microorganisms which can often be found at the bottom of your dryer, in your pockets or inside your belly button. Eat it, you might like it. ",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14901,9 +15452,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1090/large.png",
 	},
-	"1091": {
+	1091: {
 		name: "Handcuffs",
-		description: "Beloved by law enforcement and kinky lovers alike, these steel Handcuffs are capable of fixing a person's hands behind their back or to the bedframe until such time as they are released. ",
+		description:
+			"Beloved by law enforcement and kinky lovers alike, these steel Handcuffs are capable of fixing a person's hands behind their back or to the bedframe until such time as they are released. ",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14914,9 +15466,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1091/large.png",
 	},
-	"1092": {
+	1092: {
 		name: "Lubricant",
-		description: "A silicon based lube with a full body and undertones of rich orchard fruits. Perfect for smearing on your loved one before committing acts that would disappoint your mother.",
+		description:
+			"A silicon based lube with a full body and undertones of rich orchard fruits. Perfect for smearing on your loved one before committing acts that would disappoint your mother.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14927,9 +15480,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1092/large.png",
 	},
-	"1093": {
+	1093: {
 		name: "Hit Contract",
-		description: "Inside this envelope is the name of a dangerous, wanted criminal, along with a contract for their \"termination\". The envelope itself is quite nice, so you might want to save it for when you start eBaying all the crap in your spare room. ",
+		description:
+			'Inside this envelope is the name of a dangerous, wanted criminal, along with a contract for their "termination". The envelope itself is quite nice, so you might want to save it for when you start eBaying all the crap in your spare room. ',
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14940,9 +15494,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1093/large.png",
 	},
-	"1094": {
+	1094: {
 		name: "Syringe",
-		description: "This unused 5ml syringe could be used to inject yourself with all manner of intoxicating substances. Or, if you're thrifty, you might use it to refill an off-brand printer cartridge and save yourself some dough. Just make sure you don't get confused and overdose on Magenta. ",
+		description:
+			"This unused 5ml syringe could be used to inject yourself with all manner of intoxicating substances. Or, if you're thrifty, you might use it to refill an off-brand printer cartridge and save yourself some dough. Just make sure you don't get confused and overdose on Magenta. ",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14953,9 +15508,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1094/large.png",
 	},
-	"1095": {
+	1095: {
 		name: "Spoon",
-		description: "The bowl of this spoon is suspiciously charred. This leads you to believe that someone has been using it to heat cold soup while holding it over the stove. ",
+		description:
+			"The bowl of this spoon is suspiciously charred. This leads you to believe that someone has been using it to heat cold soup while holding it over the stove. ",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -14966,9 +15522,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1095/large.png",
 	},
-	"1096": {
+	1096: {
 		name: "Cell Phone",
-		description: "Known as the most durable mobile phone of all time, the Italian-made Gnocchia 3310 should really be classed as a melee weapon, given that one single blow with this object is capable of turning someone's face into a concave structure. ",
+		description:
+			"Known as the most durable mobile phone of all time, the Italian-made Gnocchia 3310 should really be classed as a melee weapon, given that one single blow with this object is capable of turning someone's face into a concave structure. ",
 		effect: "",
 		requirement: "",
 		type: "Electronic",
@@ -14979,9 +15536,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1096/large.png",
 	},
-	"1097": {
+	1097: {
 		name: "Assless Chaps",
-		description: "Traditonally, a set of chaps consists of a pair of leggings and a belt, often made of leather, which are worn over trousers to protect the wearer's legs while on horseback. Chaps do not typically cover your crotch or buttocks, but this pair has been designed with a front pouch, which hints that they are to be worn over bare naked flesh. Assless they may be, but you'll have no trouble tapping dat in a pair of these bad boys.",
+		description:
+			"Traditonally, a set of chaps consists of a pair of leggings and a belt, often made of leather, which are worn over trousers to protect the wearer's legs while on horseback. Chaps do not typically cover your crotch or buttocks, but this pair has been designed with a front pouch, which hints that they are to be worn over bare naked flesh. Assless they may be, but you'll have no trouble tapping dat in a pair of these bad boys.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -14992,9 +15550,10 @@ const TORN_ITEMS = {
 		circulation: 828,
 		image: "https://www.torn.com/images/items/1097/large.png",
 	},
-	"1098": {
+	1098: {
 		name: "Opera Gloves",
-		description: "Once the preserve of high society dames and regality, Opera Gloves are now worn by slags and wannabe starlets everywhere. The long, slender design of these stylish gloves make even the roughest broad feel like she's having Breakfast At Tiffany's when she's snarfing down an Egg McMuffin in Maccies at half nine in the morning.",
+		description:
+			"Once the preserve of high society dames and regality, Opera Gloves are now worn by slags and wannabe starlets everywhere. The long, slender design of these stylish gloves make even the roughest broad feel like she's having Breakfast At Tiffany's when she's snarfing down an Egg McMuffin in Maccies at half nine in the morning.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15005,9 +15564,10 @@ const TORN_ITEMS = {
 		circulation: 443,
 		image: "https://www.torn.com/images/items/1098/large.png",
 	},
-	"1099": {
+	1099: {
 		name: "Booty Shorts",
-		description: "Not everyone can pull off a pair of Booty Shorts, especially if it's a hot day and they've stuck to the inside of your ass-flaps. These leopard-print crack-snugglers are perfect for those whose friends have no imagination, because they leave absolutely nothing to it. There's no need to upload pictures of your food to Instagram while wearing Booty Shorts this tight, because everyone can see what you had for dinner.",
+		description:
+			"Not everyone can pull off a pair of Booty Shorts, especially if it's a hot day and they've stuck to the inside of your ass-flaps. These leopard-print crack-snugglers are perfect for those whose friends have no imagination, because they leave absolutely nothing to it. There's no need to upload pictures of your food to Instagram while wearing Booty Shorts this tight, because everyone can see what you had for dinner.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15018,9 +15578,10 @@ const TORN_ITEMS = {
 		circulation: 900,
 		image: "https://www.torn.com/images/items/1099/large.png",
 	},
-	"1100": {
+	1100: {
 		name: "Collar",
-		description: "When people see you wearing a collar they are liable to suppose one of two things. Either you're a goth, or you're under the influence of a 40-something online dom who has convinced you you're his sex slave to mask the fact he doesn't know how to please a woman. You were hoping to meet your very own Christian Grey, but he's more of a Christopher Beige.",
+		description:
+			"When people see you wearing a collar they are liable to suppose one of two things. Either you're a goth, or you're under the influence of a 40-something online dom who has convinced you you're his sex slave to mask the fact he doesn't know how to please a woman. You were hoping to meet your very own Christian Grey, but he's more of a Christopher Beige.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15031,9 +15592,10 @@ const TORN_ITEMS = {
 		circulation: 253,
 		image: "https://www.torn.com/images/items/1100/large.png",
 	},
-	"1101": {
+	1101: {
 		name: "Ball Gag",
-		description: "The Ball Gag is the perfect gift for a lover who refuses to stop making weird noises at the point of orgasm. Consisting of a hardy leather strap and a rubber ball fixed together with steel clasps, this item can also be used to recreate the gimp scene from Pulp Fiction, if you're into that sort of thing.",
+		description:
+			"The Ball Gag is the perfect gift for a lover who refuses to stop making weird noises at the point of orgasm. Consisting of a hardy leather strap and a rubber ball fixed together with steel clasps, this item can also be used to recreate the gimp scene from Pulp Fiction, if you're into that sort of thing.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15044,9 +15606,10 @@ const TORN_ITEMS = {
 		circulation: 119,
 		image: "https://www.torn.com/images/items/1101/large.png",
 	},
-	"1102": {
+	1102: {
 		name: "Blindfold",
-		description: "This blindfold is made from soft, black silk, and is capable of obstructing the wearer's vision even in the presence of daylight. Blindfolds can be great fun in the bedroom if you like a little mystery in your sex life. They also come in handy if your partner hasn't aged well, or has recently undergone reconstructive surgery after a particularly nasty car accident.",
+		description:
+			"This blindfold is made from soft, black silk, and is capable of obstructing the wearer's vision even in the presence of daylight. Blindfolds can be great fun in the bedroom if you like a little mystery in your sex life. They also come in handy if your partner hasn't aged well, or has recently undergone reconstructive surgery after a particularly nasty car accident.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15057,9 +15620,10 @@ const TORN_ITEMS = {
 		circulation: 442,
 		image: "https://www.torn.com/images/items/1102/large.png",
 	},
-	"1103": {
+	1103: {
 		name: "Maid Uniform",
-		description: "French Maid Uniforms are one of the most popular types of sexy outfit, alongside schoolgirl, secretary, nurse, and 14th Century Brigandine. This particular Maid Uniform is made from cheap polyester and cotton lace, and will no doubt fall apart during a vigorous polishing of the ornaments.",
+		description:
+			"French Maid Uniforms are one of the most popular types of sexy outfit, alongside schoolgirl, secretary, nurse, and 14th Century Brigandine. This particular Maid Uniform is made from cheap polyester and cotton lace, and will no doubt fall apart during a vigorous polishing of the ornaments.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15070,9 +15634,10 @@ const TORN_ITEMS = {
 		circulation: 916,
 		image: "https://www.torn.com/images/items/1103/large.png",
 	},
-	"1104": {
+	1104: {
 		name: "Maid Hat",
-		description: "No Maid Uniform is complete without a dainty little Maid Hat to top it off. This \"hat\" may be no more than a strip of starched lace glued to a simple headband, but from the instant you wear it, you'll feel as if you're in the bedchambers of an old French aristocrat whose bedpan needs to be emptied forthwith.",
+		description:
+			"No Maid Uniform is complete without a dainty little Maid Hat to top it off. This \"hat\" may be no more than a strip of starched lace glued to a simple headband, but from the instant you wear it, you'll feel as if you're in the bedchambers of an old French aristocrat whose bedpan needs to be emptied forthwith.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15083,9 +15648,10 @@ const TORN_ITEMS = {
 		circulation: 900,
 		image: "https://www.torn.com/images/items/1104/large.png",
 	},
-	"1105": {
+	1105: {
 		name: "Ball Gown",
-		description: "This floor-length Ball Gown is so elegant it could make a princess out of a pig. Hewn from luxurious chiffon in a shade of purple known as Deluge, the way this dress exposes the full glory of your décolletage means you'll be deluged with suitors before you've had time to wonder why your drink tastes sleepy.",
+		description:
+			"This floor-length Ball Gown is so elegant it could make a princess out of a pig. Hewn from luxurious chiffon in a shade of purple known as Deluge, the way this dress exposes the full glory of your décolletage means you'll be deluged with suitors before you've had time to wonder why your drink tastes sleepy.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15096,9 +15662,10 @@ const TORN_ITEMS = {
 		circulation: 232,
 		image: "https://www.torn.com/images/items/1105/large.png",
 	},
-	"1106": {
+	1106: {
 		name: "Fascinator Hat",
-		description: "The Fascinator Hat was invented in the 17th Century, and originally consisted of a lacey scarf wrapped around a woman's head with the aim of drawing attention and invoking an air of mystery. These days, the term Fascinator is used to describe any overly elaborate hat worn at a stupid angle to a wedding or a racecourse, with the only mystery being \"Why the hell are you wearing that?\"",
+		description:
+			'The Fascinator Hat was invented in the 17th Century, and originally consisted of a lacey scarf wrapped around a woman\'s head with the aim of drawing attention and invoking an air of mystery. These days, the term Fascinator is used to describe any overly elaborate hat worn at a stupid angle to a wedding or a racecourse, with the only mystery being "Why the hell are you wearing that?"',
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15109,9 +15676,10 @@ const TORN_ITEMS = {
 		circulation: 222,
 		image: "https://www.torn.com/images/items/1106/large.png",
 	},
-	"1107": {
+	1107: {
 		name: "Wedding Dress",
-		description: "Wedding dresses are like Crocs; it's tragic if you wear them more than once in your life. This particular Wedding Dress is an off-the-rack number made from white satin, meaning you could spill a White Russian all over it and nobody would notice.",
+		description:
+			"Wedding dresses are like Crocs; it's tragic if you wear them more than once in your life. This particular Wedding Dress is an off-the-rack number made from white satin, meaning you could spill a White Russian all over it and nobody would notice.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15122,9 +15690,10 @@ const TORN_ITEMS = {
 		circulation: 108,
 		image: "https://www.torn.com/images/items/1107/large.png",
 	},
-	"1108": {
+	1108: {
 		name: "Wedding Veil",
-		description: "Wedding veils were originally worn to protect the Bride from evil and impurity, because apparently a thin layer of net fabric can repel such things. In Torn, a veil is worn to protect the wedding congregation from Bridal saliva, as the women here are neither good nor pure, and are prone to spitting to get their own way.",
+		description:
+			"Wedding veils were originally worn to protect the Bride from evil and impurity, because apparently a thin layer of net fabric can repel such things. In Torn, a veil is worn to protect the wedding congregation from Bridal saliva, as the women here are neither good nor pure, and are prone to spitting to get their own way.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15135,9 +15704,10 @@ const TORN_ITEMS = {
 		circulation: 119,
 		image: "https://www.torn.com/images/items/1108/large.png",
 	},
-	"1109": {
+	1109: {
 		name: "Head Scarf",
-		description: "The favored headwear for terminally ill patients and white women returning from a gap year in India, the headscarf is a versatile piece of clothing well-suited to various climates - except wind or rain. This headscarf is made from a piece of floral fabric, and would not look out of place on the head of an 84-year-old woman whose husband recently passed away.",
+		description:
+			"The favored headwear for terminally ill patients and white women returning from a gap year in India, the headscarf is a versatile piece of clothing well-suited to various climates - except wind or rain. This headscarf is made from a piece of floral fabric, and would not look out of place on the head of an 84-year-old woman whose husband recently passed away.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15148,9 +15718,10 @@ const TORN_ITEMS = {
 		circulation: 539,
 		image: "https://www.torn.com/images/items/1109/large.png",
 	},
-	"1110": {
+	1110: {
 		name: "Nightgown",
-		description: "The only thing better than wearing a silk nightgown to bed is dying in your sleep - peacefully, of course. Contemporary nightgowns are mostly worn by women, but can also be worn by men awaiting a visit by three judgemental spirits in the dead of night. This particular nightgown has a buttoned-up access panel about the rear for the release of nightly discharge.",
+		description:
+			"The only thing better than wearing a silk nightgown to bed is dying in your sleep - peacefully, of course. Contemporary nightgowns are mostly worn by women, but can also be worn by men awaiting a visit by three judgemental spirits in the dead of night. This particular nightgown has a buttoned-up access panel about the rear for the release of nightly discharge.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15161,9 +15732,10 @@ const TORN_ITEMS = {
 		circulation: 278,
 		image: "https://www.torn.com/images/items/1110/large.png",
 	},
-	"1111": {
+	1111: {
 		name: "Pullover",
-		description: "This tight-fitting, woolen pullover comes in a unique shade of brown rarely seen outside of a sewage sluice. Soft to the touch and hard-wearing, this sweater is very much a one-off, in that as soon as you put one on, you'll want to take it off.",
+		description:
+			"This tight-fitting, woolen pullover comes in a unique shade of brown rarely seen outside of a sewage sluice. Soft to the touch and hard-wearing, this sweater is very much a one-off, in that as soon as you put one on, you'll want to take it off.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15174,9 +15746,10 @@ const TORN_ITEMS = {
 		circulation: 1068,
 		image: "https://www.torn.com/images/items/1111/large.png",
 	},
-	"1112": {
+	1112: {
 		name: "Elegant Cache",
-		description: "Coco Chanel once said that elegance is when the inside is as beautiful as the outside, but she was a Nazi agent, so who cares what she thinks. Upon opening, this Elegant Cache will bestow upon you an item of such luxury that you will be immediately marked out as someone worth mugging.",
+		description:
+			"Coco Chanel once said that elegance is when the inside is as beautiful as the outside, but she was a Nazi agent, so who cares what she thinks. Upon opening, this Elegant Cache will bestow upon you an item of such luxury that you will be immediately marked out as someone worth mugging.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15187,9 +15760,10 @@ const TORN_ITEMS = {
 		circulation: 4683,
 		image: "https://www.torn.com/images/items/1112/large.png",
 	},
-	"1113": {
+	1113: {
 		name: "Naughty Cache",
-		description: "The Naughty Cache is the kind of item you keep at the back of the wardrobe away from the children and your mother-in-law. Inside this crate you will find a single item that will transform your sex life. It could be a blindfold to increase suspense, a maid uniform for role-play, or a garden gnome butt-plug eight inches in diameter. Whatever's inside, please wash it before use.",
+		description:
+			"The Naughty Cache is the kind of item you keep at the back of the wardrobe away from the children and your mother-in-law. Inside this crate you will find a single item that will transform your sex life. It could be a blindfold to increase suspense, a maid uniform for role-play, or a garden gnome butt-plug eight inches in diameter. Whatever's inside, please wash it before use.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15200,9 +15774,10 @@ const TORN_ITEMS = {
 		circulation: 4527,
 		image: "https://www.torn.com/images/items/1113/large.png",
 	},
-	"1114": {
+	1114: {
 		name: "Elderly Cache",
-		description: "Due to the unattractive nature of their withered physique, the elderly are required by law to wear as many clothes as possible so as not to put people off their dinner. This Elderly Cache contains an item of clothing suited to those of a wrinkled disposition, with most pieces coming in a shade known as forgettable mauve.",
+		description:
+			"Due to the unattractive nature of their withered physique, the elderly are required by law to wear as many clothes as possible so as not to put people off their dinner. This Elderly Cache contains an item of clothing suited to those of a wrinkled disposition, with most pieces coming in a shade known as forgettable mauve.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15213,9 +15788,10 @@ const TORN_ITEMS = {
 		circulation: 4691,
 		image: "https://www.torn.com/images/items/1114/large.png",
 	},
-	"1115": {
+	1115: {
 		name: "Denim Cache",
-		description: "Double denim is for losers. Triple denim is for pussies. But sextuple denim is for jeaniuses. This Denim Cache will provide you with one of six possible denim items. Collect them all to fulfil your destiny and become a denim deity.",
+		description:
+			"Double denim is for losers. Triple denim is for pussies. But sextuple denim is for jeaniuses. This Denim Cache will provide you with one of six possible denim items. Collect them all to fulfil your destiny and become a denim deity.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15226,9 +15802,10 @@ const TORN_ITEMS = {
 		circulation: 5129,
 		image: "https://www.torn.com/images/items/1115/large.png",
 	},
-	"1116": {
+	1116: {
 		name: "Wannabe Cache",
-		description: "It doesn't matter if you're pretty fly for a white guy or a bit of a prick for an asian chick, this Wannabe Cache will have you dressing like an absolute banker in the time it takes to say gunter glieben glauten globen. Snapbacks, Shutter Shades, Saggy Pants and the rest await you inside this treasure trove of trends for try-hards.",
+		description:
+			"It doesn't matter if you're pretty fly for a white guy or a bit of a prick for an asian chick, this Wannabe Cache will have you dressing like an absolute banker in the time it takes to say gunter glieben glauten globen. Snapbacks, Shutter Shades, Saggy Pants and the rest await you inside this treasure trove of trends for try-hards.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15239,9 +15816,10 @@ const TORN_ITEMS = {
 		circulation: 4662,
 		image: "https://www.torn.com/images/items/1116/large.png",
 	},
-	"1117": {
+	1117: {
 		name: "Cutesy Cache",
-		description: "The colorful clothes and accessories in this Cutesy Cache wouldn't look out of place on a nine-year-old girl. These days, you're more likely to see them on a woman in her mid-thirties who still describes herself as a dweemgurl pwincess. ",
+		description:
+			"The colorful clothes and accessories in this Cutesy Cache wouldn't look out of place on a nine-year-old girl. These days, you're more likely to see them on a woman in her mid-thirties who still describes herself as a dweemgurl pwincess. ",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15252,9 +15830,10 @@ const TORN_ITEMS = {
 		circulation: 4769,
 		image: "https://www.torn.com/images/items/1117/large.png",
 	},
-	"1118": {
+	1118: {
 		name: "Armor Cache",
-		description: "Pretty armor does not make a warrior, but it will keep the blood inside your body while you wait for your mates to turn up. This Armor Cache will provide you with one piece of armor. We make no promises that it will stop you from being killed to death.",
+		description:
+			"Pretty armor does not make a warrior, but it will keep the blood inside your body while you wait for your mates to turn up. This Armor Cache will provide you with one piece of armor. We make no promises that it will stop you from being killed to death.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15265,9 +15844,10 @@ const TORN_ITEMS = {
 		circulation: 130,
 		image: "https://www.torn.com/images/items/1118/large.png",
 	},
-	"1119": {
+	1119: {
 		name: "Melee Cache",
-		description: "This Melee Cache contains a melee weapon, which you can use to harm other human beings in a melee, fracas, scuffle, or kerfuffle at your leisure. You may not use melee weapons to harm animals, because that's mean.",
+		description:
+			"This Melee Cache contains a melee weapon, which you can use to harm other human beings in a melee, fracas, scuffle, or kerfuffle at your leisure. You may not use melee weapons to harm animals, because that's mean.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15278,9 +15858,10 @@ const TORN_ITEMS = {
 		circulation: 171,
 		image: "https://www.torn.com/images/items/1119/large.png",
 	},
-	"1120": {
+	1120: {
 		name: "Small Arms Cache",
-		description: "Despite its name implying otherwise, the Small Arms Cache cannot be opened by a Tyrannosaurus Rex. Upon opening this crate, you will receive a small, lightweight firearm that you can use to cause injury and / or death to your opponents and / or lover.",
+		description:
+			"Despite its name implying otherwise, the Small Arms Cache cannot be opened by a Tyrannosaurus Rex. Upon opening this crate, you will receive a small, lightweight firearm that you can use to cause injury and / or death to your opponents and / or lover.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15291,9 +15872,10 @@ const TORN_ITEMS = {
 		circulation: 170,
 		image: "https://www.torn.com/images/items/1120/large.png",
 	},
-	"1121": {
+	1121: {
 		name: "Medium Arms Cache",
-		description: "Medium Arms are defined as being neither Small Arms nor Heavy Arms, but something in between. This Medium Arms cache therefore contains armaments that are not light enough to be stuffed in your waistband, but nor must they be mounted on a tripod. Don't blame me if this description doesn't make sense. Open it up and see for yourself if you care that much.",
+		description:
+			"Medium Arms are defined as being neither Small Arms nor Heavy Arms, but something in between. This Medium Arms cache therefore contains armaments that are not light enough to be stuffed in your waistband, but nor must they be mounted on a tripod. Don't blame me if this description doesn't make sense. Open it up and see for yourself if you care that much.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15304,9 +15886,10 @@ const TORN_ITEMS = {
 		circulation: 144,
 		image: "https://www.torn.com/images/items/1121/large.png",
 	},
-	"1122": {
+	1122: {
 		name: "Heavy Arms Cache",
-		description: "The Heavy Arms cache is where you will find big f***ing weapons to put down big f***ing people. If you feel like you have heavy arms then you may be suffering from a severe nerve disorder, but if you want heavy arms, open this damn crate.",
+		description:
+			"The Heavy Arms cache is where you will find big f***ing weapons to put down big f***ing people. If you feel like you have heavy arms then you may be suffering from a severe nerve disorder, but if you want heavy arms, open this damn crate.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15317,9 +15900,10 @@ const TORN_ITEMS = {
 		circulation: 20,
 		image: "https://www.torn.com/images/items/1122/large.png",
 	},
-	"1123": {
+	1123: {
 		name: "Spy Camera",
-		description: "Ever wanted to know what your uncle does in the shed late at night? Install this Spy Camera in a discrete location and find out why he's on an FBI watchlist. This Spy Camera is made in China, so everything it records will appear as if it had been filmed through a potato.",
+		description:
+			"Ever wanted to know what your uncle does in the shed late at night? Install this Spy Camera in a discrete location and find out why he's on an FBI watchlist. This Spy Camera is made in China, so everything it records will appear as if it had been filmed through a potato.",
 		effect: "",
 		requirement: "",
 		type: "Electronic",
@@ -15330,9 +15914,10 @@ const TORN_ITEMS = {
 		circulation: 758,
 		image: "https://www.torn.com/images/items/1123/large.png",
 	},
-	"1124": {
+	1124: {
 		name: "Cloning Device",
-		description: "In the year 2045 you will be able to clone perfect replicas of yourself which you can use to do your bidding, your spouse, and your laundry. Until then, you'll have to make do with this Card Cloning Device, which takes mere seconds to lift the data off someone's credit card once it's been swiped through.",
+		description:
+			"In the year 2045 you will be able to clone perfect replicas of yourself which you can use to do your bidding, your spouse, and your laundry. Until then, you'll have to make do with this Card Cloning Device, which takes mere seconds to lift the data off someone's credit card once it's been swiped through.",
 		effect: "",
 		requirement: "",
 		type: "Electronic",
@@ -15343,9 +15928,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1124/large.png",
 	},
-	"1125": {
+	1125: {
 		name: "Card Skimmer",
-		description: "A Card Skimmer jammed into an ATM can record the details of hundreds of individual credit cards every hour. The best place to mount these is outside a place where people withdraw cash in a hurry, such as a strip club, or a KFC whose card machine is always busted.",
+		description:
+			"A Card Skimmer jammed into an ATM can record the details of hundreds of individual credit cards every hour. The best place to mount these is outside a place where people withdraw cash in a hurry, such as a strip club, or a KFC whose card machine is always busted.",
 		effect: "",
 		requirement: "",
 		type: "Electronic",
@@ -15356,9 +15942,10 @@ const TORN_ITEMS = {
 		circulation: 662,
 		image: "https://www.torn.com/images/items/1125/large.png",
 	},
-	"1126": {
+	1126: {
 		name: "Tutu",
-		description: "The Tutu was named after its inventor, Archbishop Desmond Tutu, who wore the garment to public rallies in the 1980's to distract white South Africans from the fact he was helping to dismantle apartheid. This Tutu is made from pink gauze and will rise up when the wearer pirouettes, or stands over a leafblower.",
+		description:
+			"The Tutu was named after its inventor, Archbishop Desmond Tutu, who wore the garment to public rallies in the 1980's to distract white South Africans from the fact he was helping to dismantle apartheid. This Tutu is made from pink gauze and will rise up when the wearer pirouettes, or stands over a leafblower.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15369,9 +15956,10 @@ const TORN_ITEMS = {
 		circulation: 494,
 		image: "https://www.torn.com/images/items/1126/large.png",
 	},
-	"1127": {
+	1127: {
 		name: "Knee Socks",
-		description: "Knee Socks imply that the wearer is somewhat playful, or that they have really ugly shins. These pink cotton Knee Socks stop just below the thigh on a regular-sized person, but could probably be used as a sleeping bag by those of restricted height, such as Oompa Loompas, or Tyrion Lannister. ",
+		description:
+			"Knee Socks imply that the wearer is somewhat playful, or that they have really ugly shins. These pink cotton Knee Socks stop just below the thigh on a regular-sized person, but could probably be used as a sleeping bag by those of restricted height, such as Oompa Loompas, or Tyrion Lannister. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15382,9 +15970,10 @@ const TORN_ITEMS = {
 		circulation: 957,
 		image: "https://www.torn.com/images/items/1127/large.png",
 	},
-	"1128": {
+	1128: {
 		name: "Kitty Shoes",
-		description: "These red leather Kitty Shoes are perfect for anyone who loves the color red, and who likes cats. They are wholly unsuitable for someone who prefers purple and is obsessed with narwhals.",
+		description:
+			"These red leather Kitty Shoes are perfect for anyone who loves the color red, and who likes cats. They are wholly unsuitable for someone who prefers purple and is obsessed with narwhals.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15395,9 +15984,10 @@ const TORN_ITEMS = {
 		circulation: 268,
 		image: "https://www.torn.com/images/items/1128/large.png",
 	},
-	"1129": {
+	1129: {
 		name: "Cat Ears",
-		description: "These Cat Ears won't make you look like a cat, but they will make you look like you have the ears of a cat. To complete the full cat look you'd need whiskers, a tail, and a spine flexible enough that you can reach your posterior with your tongue.",
+		description:
+			"These Cat Ears won't make you look like a cat, but they will make you look like you have the ears of a cat. To complete the full cat look you'd need whiskers, a tail, and a spine flexible enough that you can reach your posterior with your tongue.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15408,9 +15998,10 @@ const TORN_ITEMS = {
 		circulation: 928,
 		image: "https://www.torn.com/images/items/1129/large.png",
 	},
-	"1130": {
+	1130: {
 		name: "Bunny Ears",
-		description: "Myxomatosis is a severely painful disease in rabbits which attacks their skin, eyes, lungs, and genitals. Remember that the next time you appropriate their culture by wearing these Bunny Ears. ",
+		description:
+			"Myxomatosis is a severely painful disease in rabbits which attacks their skin, eyes, lungs, and genitals. Remember that the next time you appropriate their culture by wearing these Bunny Ears. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15421,9 +16012,10 @@ const TORN_ITEMS = {
 		circulation: 967,
 		image: "https://www.torn.com/images/items/1130/large.png",
 	},
-	"1131": {
+	1131: {
 		name: "Puppy Ears",
-		description: "If you want a headband which comes with the ears of a full-sized dog attached then you are shit out of luck my friend. But if you're after some realistic-looking Puppy Ears, then why not buy a pair of these Puppy Ears? They look like real Puppy Ears. PUPPY EARS!",
+		description:
+			"If you want a headband which comes with the ears of a full-sized dog attached then you are shit out of luck my friend. But if you're after some realistic-looking Puppy Ears, then why not buy a pair of these Puppy Ears? They look like real Puppy Ears. PUPPY EARS!",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15434,9 +16026,10 @@ const TORN_ITEMS = {
 		circulation: 979,
 		image: "https://www.torn.com/images/items/1131/large.png",
 	},
-	"1132": {
+	1132: {
 		name: "Heart Sunglasses",
-		description: "If you're an Elton John cosplayer or simply wish to hide the hate behind your sunken eyes, these Heart Sunglasses will do the job. Obviously the hearts which these glasses depict do not in any way resemble real human hearts. But legend has it that if you fly to South Africa on a Tuesday, you can pick up pair of surprisingly realistic liver aviators.",
+		description:
+			"If you're an Elton John cosplayer or simply wish to hide the hate behind your sunken eyes, these Heart Sunglasses will do the job. Obviously the hearts which these glasses depict do not in any way resemble real human hearts. But legend has it that if you fly to South Africa on a Tuesday, you can pick up pair of surprisingly realistic liver aviators.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15447,9 +16040,10 @@ const TORN_ITEMS = {
 		circulation: 107,
 		image: "https://www.torn.com/images/items/1132/large.png",
 	},
-	"1133": {
+	1133: {
 		name: "Hair Bow",
-		description: "A Hair Bow may look cute, but they also serve as a signal to others that your hair is a gift to them. When wearing a Hair Bow you must therefore be vigilant, and avoid accessorizing with matching gift tag earrings, lest you be scalped by a confused onlooker.",
+		description:
+			"A Hair Bow may look cute, but they also serve as a signal to others that your hair is a gift to them. When wearing a Hair Bow you must therefore be vigilant, and avoid accessorizing with matching gift tag earrings, lest you be scalped by a confused onlooker.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15460,9 +16054,10 @@ const TORN_ITEMS = {
 		circulation: 975,
 		image: "https://www.torn.com/images/items/1133/large.png",
 	},
-	"1134": {
+	1134: {
 		name: "Lolita Dress",
-		description: "The term Lolita means a sexually precocious young girl. To avoid Torn being shut down and raided by the police, we're going to end this description right here.",
+		description:
+			"The term Lolita means a sexually precocious young girl. To avoid Torn being shut down and raided by the police, we're going to end this description right here.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15473,9 +16068,10 @@ const TORN_ITEMS = {
 		circulation: 455,
 		image: "https://www.torn.com/images/items/1134/large.png",
 	},
-	"1135": {
+	1135: {
 		name: "Unicorn Horn",
-		description: "Many people believe that Unicorns possessed a single large horn in the centre of their head, however, recent paleontological evidence suggests they actually had one giant tentacle there instead. But don't let that stop you perpetuating the Unicorn horn myth with this brightly colored plastic Unicorn Horn, which you can also wear around your waist as a Merman's penis.",
+		description:
+			"Many people believe that Unicorns possessed a single large horn in the centre of their head, however, recent paleontological evidence suggests they actually had one giant tentacle there instead. But don't let that stop you perpetuating the Unicorn horn myth with this brightly colored plastic Unicorn Horn, which you can also wear around your waist as a Merman's penis.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15486,9 +16082,10 @@ const TORN_ITEMS = {
 		circulation: 138,
 		image: "https://www.torn.com/images/items/1135/large.png",
 	},
-	"1136": {
+	1136: {
 		name: "Check Skirt",
-		description: "This red checkered cotton skirt resembles the type worn as part of a uniform by British schoolgirls - and the occasional schoolboy, if he was feeling adventurous.  ",
+		description:
+			"This red checkered cotton skirt resembles the type worn as part of a uniform by British schoolgirls - and the occasional schoolboy, if he was feeling adventurous.  ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15499,9 +16096,10 @@ const TORN_ITEMS = {
 		circulation: 909,
 		image: "https://www.torn.com/images/items/1136/large.png",
 	},
-	"1137": {
+	1137: {
 		name: "Polka Dot Dress",
-		description: "Red Polka Dot dresses are closely associated with the 1950's, and wearing one implies that you love everything about this decade, including racism, the Cold War, and the mass coverup of the harmful effects of smoking by international tobacco companies. Who knew that wearing a little old dress meant so much!",
+		description:
+			"Red Polka Dot dresses are closely associated with the 1950's, and wearing one implies that you love everything about this decade, including racism, the Cold War, and the mass coverup of the harmful effects of smoking by international tobacco companies. Who knew that wearing a little old dress meant so much!",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15512,9 +16110,10 @@ const TORN_ITEMS = {
 		circulation: 241,
 		image: "https://www.torn.com/images/items/1137/large.png",
 	},
-	"1138": {
+	1138: {
 		name: "Ballet Shoes",
-		description: "Ballet Shoes are shoes you wear for performing ballet, not while attending a ballet. You could wear ballet shoes while attending a ballet, but people will be confused and think you are performing in the ballet, when really you are just attending a ballet in ballet shoes. If you do decide to wear ballet shoes to a ballet in which you are not performing, simply because you like to wear ballet shoes, you'd have to explain to multiple people that you weren't performing in the ballet, you were simply attending a ballet in ballet shoes, and that could be quite long-winded. ",
+		description:
+			"Ballet Shoes are shoes you wear for performing ballet, not while attending a ballet. You could wear ballet shoes while attending a ballet, but people will be confused and think you are performing in the ballet, when really you are just attending a ballet in ballet shoes. If you do decide to wear ballet shoes to a ballet in which you are not performing, simply because you like to wear ballet shoes, you'd have to explain to multiple people that you weren't performing in the ballet, you were simply attending a ballet in ballet shoes, and that could be quite long-winded. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15525,9 +16124,10 @@ const TORN_ITEMS = {
 		circulation: 956,
 		image: "https://www.torn.com/images/items/1138/large.png",
 	},
-	"1139": {
+	1139: {
 		name: "Dungarees",
-		description: "Dungarees are jeans with ideas above their station. Pair them with a banjo and a gap-toothed smile for that timeless hillbilly look. Alternatively, if you're bald, add a pacifier for that cute \"I'm a giant baby\" aesthetic. In America, dungarees are known as overalls, but not in Torn. Overall, the term overall doesn't make overall sense, given that this slutty combination of jean shorts and a denim vest does not cover over all of your body.",
+		description:
+			"Dungarees are jeans with ideas above their station. Pair them with a banjo and a gap-toothed smile for that timeless hillbilly look. Alternatively, if you're bald, add a pacifier for that cute \"I'm a giant baby\" aesthetic. In America, dungarees are known as overalls, but not in Torn. Overall, the term overall doesn't make overall sense, given that this slutty combination of jean shorts and a denim vest does not cover over all of your body.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15538,9 +16138,10 @@ const TORN_ITEMS = {
 		circulation: 986,
 		image: "https://www.torn.com/images/items/1139/large.png",
 	},
-	"1140": {
+	1140: {
 		name: "Tights",
-		description: "Tights were invented in 1965 by the famous bankrobber Ian Tights, who wished to obscure his appearance while performing criminal acts. In the 1980's, women found a new use for tights as a leg covering, with these thin, nylon garments helping to hide the fact that they hadn't shaved their trouser-arms due to feminism. Today, men and women of all ages enjoy wearing tights, thanks to a resurgence in their popularity caused by the 1993 documentary Robin Hood: Men in Tights.",
+		description:
+			"Tights were invented in 1965 by the famous bankrobber Ian Tights, who wished to obscure his appearance while performing criminal acts. In the 1980's, women found a new use for tights as a leg covering, with these thin, nylon garments helping to hide the fact that they hadn't shaved their trouser-arms due to feminism. Today, men and women of all ages enjoy wearing tights, thanks to a resurgence in their popularity caused by the 1993 documentary Robin Hood: Men in Tights.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15551,9 +16152,10 @@ const TORN_ITEMS = {
 		circulation: 1006,
 		image: "https://www.torn.com/images/items/1140/large.png",
 	},
-	"1141": {
+	1141: {
 		name: "Pennywise Mask '20",
-		description: "Inspire tasty tasty beautiful fear in the heart of your enemy with this mask of Pennywise the Clown, the horrifying antagonist of Stephen King’s 1986 novel IT. This mask is perfect attire for those who inhabit the sewers, because we all float down here. We all float. Disclaimer: You may not actually float.",
+		description:
+			"Inspire tasty tasty beautiful fear in the heart of your enemy with this mask of Pennywise the Clown, the horrifying antagonist of Stephen King’s 1986 novel IT. This mask is perfect attire for those who inhabit the sewers, because we all float down here. We all float. Disclaimer: You may not actually float.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15564,9 +16166,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1141/large.png",
 	},
-	"1142": {
+	1142: {
 		name: "Tiger King Mask '20",
-		description: "Joe Exotic will be forever remembered as the face that got us through the early days of the Coronavirus lockdown, and now you can wear that face by sporting this iconic Tiger King Mask. Feel free to wear it as you mistreat tigers, flirt with an 18-year-old toothless hillbilly, or as you're murdering that b***h Carole Baskin.",
+		description:
+			"Joe Exotic will be forever remembered as the face that got us through the early days of the Coronavirus lockdown, and now you can wear that face by sporting this iconic Tiger King Mask. Feel free to wear it as you mistreat tigers, flirt with an 18-year-old toothless hillbilly, or as you're murdering that b***h Carole Baskin.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15577,9 +16180,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1142/large.png",
 	},
-	"1143": {
+	1143: {
 		name: "Medical Mask",
-		description: "Demonstrate to the world what a kind, considerate, and courteous citizen you are by proudly wearing this Medical Mask over your mouth and nose. Wearing a face covering marks you out as a pillar of society, and lets others know that you are willing to temporarily breathe in some of your own breath to avoid killing your grandmother.",
+		description:
+			"Demonstrate to the world what a kind, considerate, and courteous citizen you are by proudly wearing this Medical Mask over your mouth and nose. Wearing a face covering marks you out as a pillar of society, and lets others know that you are willing to temporarily breathe in some of your own breath to avoid killing your grandmother.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15590,9 +16194,10 @@ const TORN_ITEMS = {
 		circulation: 2000,
 		image: "https://www.torn.com/images/items/1143/large.png",
 	},
-	"1144": {
+	1144: {
 		name: "Chin Diaper",
-		description: "If you’re the kind of person who likes to “stick it to the man” by refusing to wear a face mask, then show your disapproval towards the experts with their fancy book-learning by sporting this fashionable Chin Diaper beneath your stupid face. Asthmatics, pregnant women, and the elderly will all be at risk around you, but you don’t care about that, because, uhhhhh, freedumb?",
+		description:
+			"If you’re the kind of person who likes to “stick it to the man” by refusing to wear a face mask, then show your disapproval towards the experts with their fancy book-learning by sporting this fashionable Chin Diaper beneath your stupid face. Asthmatics, pregnant women, and the elderly will all be at risk around you, but you don’t care about that, because, uhhhhh, freedumb?",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15603,9 +16208,10 @@ const TORN_ITEMS = {
 		circulation: 1972,
 		image: "https://www.torn.com/images/items/1144/large.png",
 	},
-	"1145": {
+	1145: {
 		name: "Tighty Whities",
-		description: "A pair of snug, white underpants are 100% guaranteed to show off your thunderous man-bulge in all its magnificent glory. Made from breathable cotton, your meat and two veg will be safe, secure, and sweat-free in these naughty little boy-briefs. ",
+		description:
+			"A pair of snug, white underpants are 100% guaranteed to show off your thunderous man-bulge in all its magnificent glory. Made from breathable cotton, your meat and two veg will be safe, secure, and sweat-free in these naughty little boy-briefs. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15616,9 +16222,10 @@ const TORN_ITEMS = {
 		circulation: 4805,
 		image: "https://www.torn.com/images/items/1145/large.png",
 	},
-	"1146": {
+	1146: {
 		name: "Tangerine",
-		description: "Tangerines are smaller and sweeter than oranges, but larger and less delicious than M&Ms. These fruits were traditionally placed into people’s stockings at Christmas to symbolize the nuggets of gold handed out by St Nicholas, but these days, they are more commonly given to children who don’t deserve proper presents because they’ve been utter bastards all year.",
+		description:
+			"Tangerines are smaller and sweeter than oranges, but larger and less delicious than M&Ms. These fruits were traditionally placed into people’s stockings at Christmas to symbolize the nuggets of gold handed out by St Nicholas, but these days, they are more commonly given to children who don’t deserve proper presents because they’ve been utter bastards all year.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -15629,9 +16236,10 @@ const TORN_ITEMS = {
 		circulation: 18526,
 		image: "https://www.torn.com/images/items/1146/large.png",
 	},
-	"1147": {
+	1147: {
 		name: "Helmet of Justice",
-		description: "The Helmet of Justice marks out the wearer as a paradigm of honor and integrity, and is bestowed only upon those deemed virtuous enough to have earned S.T.A.F.F. status. Vanquisher of trolls, hunter of multis, solver of minor administrative woes, S.T.A.F.F. are crucial to the smooth running of Torn City, and this piece of iconic headwear sends a simple, yet effective message to those who would wreak havoc upon the innocent: Staff Are Law.",
+		description:
+			"The Helmet of Justice marks out the wearer as a paradigm of honor and integrity, and is bestowed only upon those deemed virtuous enough to have earned S.T.A.F.F. status. Vanquisher of trolls, hunter of multis, solver of minor administrative woes, S.T.A.F.F. are crucial to the smooth running of Torn City, and this piece of iconic headwear sends a simple, yet effective message to those who would wreak havoc upon the innocent: Staff Are Law.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15642,9 +16250,10 @@ const TORN_ITEMS = {
 		circulation: 36,
 		image: "https://www.torn.com/images/items/1147/large.png",
 	},
-	"1148": {
+	1148: {
 		name: "Broken Bauble",
-		description: "Pre-broken for your convenience, this Christmas bauble can be deployed in and around the home wherever bare feet are likely to tread. Made from ultra-brittle plastic, the razor-sharp shards of the broken bauble are guaranteed to pierce the skin of even the most calloused foot when stepped upon. More painful than a Lego Brick, and less noticable than a bear trap, why not recreate one of the most famous scenes from Home Alone this Christmas by decorating your living room carpet with this delightfully agonising accessory.",
+		description:
+			"Pre-broken for your convenience, this Christmas bauble can be deployed in and around the home wherever bare feet are likely to tread. Made from ultra-brittle plastic, the razor-sharp shards of the broken bauble are guaranteed to pierce the skin of even the most calloused foot when stepped upon. More painful than a Lego Brick, and less noticable than a bear trap, why not recreate one of the most famous scenes from Home Alone this Christmas by decorating your living room carpet with this delightfully agonising accessory.",
 		effect: "",
 		requirement: "",
 		type: "Other",
@@ -15655,9 +16264,10 @@ const TORN_ITEMS = {
 		circulation: 9175,
 		image: "https://www.torn.com/images/items/1148/large.png",
 	},
-	"1149": {
+	1149: {
 		name: "Purple Easter Egg",
-		description: "A rare Easter egg that can only be found during the month of April, which provides +10 Mission Credits when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
+		description:
+			"A rare Easter egg that can only be found during the month of April, which provides +10 Mission Credits when picked up. Trade in all ten Easter eggs for a special Gold Egg, an honor bar, and some points! Provides a moderate happiness increase when consumed.",
 		effect: "Increases happiness by 50 and booster cooldown by 30 minutes.",
 		requirement: "",
 		type: "Candy",
@@ -15668,9 +16278,10 @@ const TORN_ITEMS = {
 		circulation: 25213,
 		image: "https://www.torn.com/images/items/1149/large.png",
 	},
-	"1150": {
+	1150: {
 		name: "Ski Mask",
-		description: "You’ll look like the cutest lil terrorist in the world wearing this dusky pink ski mask! Originally owned by the Easter Bunny, this rosy-colored balaclava allows you to stand out while simultaneously obscuring your identity, thus ensuring that your adorable wickle crimes are never traced back to you.",
+		description:
+			"You’ll look like the cutest lil terrorist in the world wearing this dusky pink ski mask! Originally owned by the Easter Bunny, this rosy-colored balaclava allows you to stand out while simultaneously obscuring your identity, thus ensuring that your adorable wickle crimes are never traced back to you.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15681,9 +16292,10 @@ const TORN_ITEMS = {
 		circulation: 179,
 		image: "https://www.torn.com/images/items/1150/large.png",
 	},
-	"1151": {
+	1151: {
 		name: "Bunny Nose",
-		description: "Whether you’re a committed cosplayer or you just like wandering around the city in a rabbit costume, this realistic-looking bunny nose is an essential addition to your creepy creature costume box. Jessica Rabbit may have had a spectacular ass, but she never had teeth like these. Ears and ass sold separately.",
+		description:
+			"Whether you’re a committed cosplayer or you just like wandering around the city in a rabbit costume, this realistic-looking bunny nose is an essential addition to your creepy creature costume box. Jessica Rabbit may have had a spectacular ass, but she never had teeth like these. Ears and ass sold separately.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15694,9 +16306,10 @@ const TORN_ITEMS = {
 		circulation: 80,
 		image: "https://www.torn.com/images/items/1151/large.png",
 	},
-	"1152": {
+	1152: {
 		name: "SMAW Launcher",
-		description: "The Shoulder-Launched Multipurpose Assault Weapon is a versatile rocket launcher capable of reducing vehicles and infrastructure to a smoldering wreck. This weapon is effective against armored units at a range of half a kilometer - just make sure nobody you love is standing behind you when you fire, as the SMAW’s backblast is lethal up to a hundred feet away.",
+		description:
+			"The Shoulder-Launched Multipurpose Assault Weapon is a versatile rocket launcher capable of reducing vehicles and infrastructure to a smoldering wreck. This weapon is effective against armored units at a range of half a kilometer - just make sure nobody you love is standing behind you when you fire, as the SMAW’s backblast is lethal up to a hundred feet away.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -15707,9 +16320,10 @@ const TORN_ITEMS = {
 		circulation: 53,
 		image: "https://www.torn.com/images/items/1152/large.png",
 	},
-	"1153": {
+	1153: {
 		name: "China Lake",
-		description: "The one thing you don’t want to see when scouring your enemy’s loadout is the term “Pump-Action Grenade Launcher”. These Vietnam-era weapons mimic the arc of a hand-thrown grenade, allowing the bearer to launch several explosive rounds towards their target in quick succession.",
+		description:
+			"The one thing you don’t want to see when scouring your enemy’s loadout is the term “Pump-Action Grenade Launcher”. These Vietnam-era weapons mimic the arc of a hand-thrown grenade, allowing the bearer to launch several explosive rounds towards their target in quick succession.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -15720,9 +16334,10 @@ const TORN_ITEMS = {
 		circulation: 42,
 		image: "https://www.torn.com/images/items/1153/large.png",
 	},
-	"1154": {
+	1154: {
 		name: "Milkor MGL",
-		description: "Despite their common use by modern anti-riot police as a means of deploying baton rounds and gas grenades against protestors, the Milkor Multiple Grenade Launcher was primarily intended as a lethal addition to shorthanded military units. The Milkor is the lovechild of a revolver and a traditional grenade launcher, with its six-shot cylinder magazine bestowing the user with a ridiculously high rate of fire for such a devastating weapon.",
+		description:
+			"Despite their common use by modern anti-riot police as a means of deploying baton rounds and gas grenades against protestors, the Milkor Multiple Grenade Launcher was primarily intended as a lethal addition to shorthanded military units. The Milkor is the lovechild of a revolver and a traditional grenade launcher, with its six-shot cylinder magazine bestowing the user with a ridiculously high rate of fire for such a devastating weapon.",
 		effect: "",
 		requirement: "",
 		type: "Secondary",
@@ -15733,9 +16348,10 @@ const TORN_ITEMS = {
 		circulation: 40,
 		image: "https://www.torn.com/images/items/1154/large.png",
 	},
-	"1155": {
+	1155: {
 		name: "PKM",
-		description: "If you’re looking for a reliable front-line weapon with which to eviscerate enemy infantry, you could do no better than the PKM belt-fed machine gun. This modernized variant of the original PK was devised by famed Soviet military engineer and arms designer Mikhael Kalashnikov, and the fact that it is still used today by the Russian armed forces is a testament to its efficacy and reliability.",
+		description:
+			"If you’re looking for a reliable front-line weapon with which to eviscerate enemy infantry, you could do no better than the PKM belt-fed machine gun. This modernized variant of the original PK was devised by famed Soviet military engineer and arms designer Mikhael Kalashnikov, and the fact that it is still used today by the Russian armed forces is a testament to its efficacy and reliability.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -15746,9 +16362,10 @@ const TORN_ITEMS = {
 		circulation: 48,
 		image: "https://www.torn.com/images/items/1155/large.png",
 	},
-	"1156": {
+	1156: {
 		name: "Negev NG-5",
-		description: "Also known as the IWI Negev, the NG-5 is an Israeli light machine gun designed to be reliable in the most adverse conditions imaginable. The weapon’s predecessor, the Galil, had a propensity to overheat in desert settings, but the NG-5 has no such issues thanks to the addition of an adjustable gas regulator which allows for different rates of fire depending on the environment.",
+		description:
+			"Also known as the IWI Negev, the NG-5 is an Israeli light machine gun designed to be reliable in the most adverse conditions imaginable. The weapon’s predecessor, the Galil, had a propensity to overheat in desert settings, but the NG-5 has no such issues thanks to the addition of an adjustable gas regulator which allows for different rates of fire depending on the environment.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -15759,9 +16376,10 @@ const TORN_ITEMS = {
 		circulation: 61,
 		image: "https://www.torn.com/images/items/1156/large.png",
 	},
-	"1157": {
+	1157: {
 		name: "Stoner 96",
-		description: "The Stoner 96 light machine gun was the final project of renowned American gun designer Eugene Stoner before his death in 1997. Created as a refinement of the Stoner 86 model, the 96 design enjoys lower recoil than its predecessor due to its use of a stock buffer and its ability to fire with an open bolt. These modifications mean that the 96 Stoner is shorter and lighter than the 86 at the expense of a reduced fire rate.",
+		description:
+			"The Stoner 96 light machine gun was the final project of renowned American gun designer Eugene Stoner before his death in 1997. Created as a refinement of the Stoner 86 model, the 96 design enjoys lower recoil than its predecessor due to its use of a stock buffer and its ability to fire with an open bolt. These modifications mean that the 96 Stoner is shorter and lighter than the 86 at the expense of a reduced fire rate.",
 		effect: "",
 		requirement: "",
 		type: "Primary",
@@ -15772,9 +16390,10 @@ const TORN_ITEMS = {
 		circulation: 64,
 		image: "https://www.torn.com/images/items/1157/large.png",
 	},
-	"1158": {
+	1158: {
 		name: "Meat Hook",
-		description: "Meat Hooks are typically used by butchers to suspend animal carcasses while they are prepared for sale. However, these sharp metal objects can also be employed earlier in the butchering process if you wish to insert holes and slashes into flesh before its owner has expired.",
+		description:
+			"Meat Hooks are typically used by butchers to suspend animal carcasses while they are prepared for sale. However, these sharp metal objects can also be employed earlier in the butchering process if you wish to insert holes and slashes into flesh before its owner has expired.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -15785,9 +16404,10 @@ const TORN_ITEMS = {
 		circulation: 2177,
 		image: "https://www.torn.com/images/items/1158/large.png",
 	},
-	"1159": {
+	1159: {
 		name: "Cleaver",
-		description: "The Cleaver is a hatchet-shaped knife that is more than capable of hacking through tough flesh and bone, whether it be bovine, porcine, or your ex-lover Caroline. For those of a plant-persuasion, the Cleaver can be used to slice, dice, and mash up a lovely little eggplant.",
+		description:
+			"The Cleaver is a hatchet-shaped knife that is more than capable of hacking through tough flesh and bone, whether it be bovine, porcine, or your ex-lover Caroline. For those of a plant-persuasion, the Cleaver can be used to slice, dice, and mash up a lovely little eggplant.",
 		effect: "",
 		requirement: "",
 		type: "Melee",
@@ -15798,9 +16418,10 @@ const TORN_ITEMS = {
 		circulation: 2232,
 		image: "https://www.torn.com/images/items/1159/large.png",
 	},
-	"1176": {
+	1176: {
 		name: "Arca Fortunae",
-		description: "The Arca Fortunae is a decorative object said to contain the greatest desires of those who come to possess it. It is unknown where this object comes from, nor where its power is drawn, but it appears to be something the beast M'aol is willing to protect with his life. Once its contents are removed, the Arca Fortunae vanishes entirely, only to reappear once more upon the slaughter of M'aol's latest form.",
+		description:
+			"The Arca Fortunae is a decorative object said to contain the greatest desires of those who come to possess it. It is unknown where this object comes from, nor where its power is drawn, but it appears to be something the beast M'aol is willing to protect with his life. Once its contents are removed, the Arca Fortunae vanishes entirely, only to reappear once more upon the slaughter of M'aol's latest form.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -15811,9 +16432,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1176/large.png",
 	},
-	"1177": {
+	1177: {
 		name: "Sandworm Mask '21",
-		description: "In Frank Herbert's Dune, the planet Arrakis is home to a race of giant sandworms called the Shai-Hulud. Sadly, Denis Villeneuve's Dune movie contains only one large worm whose individual name is unknown. The video game series Worms contains a potentially infinite number of worms, each of which you can call whatever you like. We must therefore conclude that Worms is better than the new Dune movie, and to celebrate this fact, here is a mask of our favorite worm from Worms, Spicy Alan.",
+		description:
+			"In Frank Herbert's Dune, the planet Arrakis is home to a race of giant sandworms called the Shai-Hulud. Sadly, Denis Villeneuve's Dune movie contains only one large worm whose individual name is unknown. The video game series Worms contains a potentially infinite number of worms, each of which you can call whatever you like. We must therefore conclude that Worms is better than the new Dune movie, and to celebrate this fact, here is a mask of our favorite worm from Worms, Spicy Alan.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15824,9 +16446,10 @@ const TORN_ITEMS = {
 		circulation: 249,
 		image: "https://www.torn.com/images/items/1177/large.png",
 	},
-	"1178": {
+	1178: {
 		name: "Party Popper",
-		description: "Party Poppers form an essential part of the Christmas dining experience, as no meal is complete without having to pick ribbons of gravy-soaked tissue off your dinner plate. Each Party Popper contains roughly 0.016g of explosive material, meaning you would need 12,000 of these to make your own yuletide grenade. Alternatively, you could just equip one of these as a temporary weapon and fire it at your opponent's face, as doing so will drape them in pretty little streamers. How cute!",
+		description:
+			"Party Poppers form an essential part of the Christmas dining experience, as no meal is complete without having to pick ribbons of gravy-soaked tissue off your dinner plate. Each Party Popper contains roughly 0.016g of explosive material, meaning you would need 12,000 of these to make your own yuletide grenade. Alternatively, you could just equip one of these as a temporary weapon and fire it at your opponent's face, as doing so will drape them in pretty little streamers. How cute!",
 		effect: "Opponent becomes Festive, decreasing melancholy to 1/5th for 24 hours.",
 		requirement: "",
 		type: "Temporary",
@@ -15837,9 +16460,10 @@ const TORN_ITEMS = {
 		circulation: 24703,
 		image: "https://www.torn.com/images/items/1178/large.png",
 	},
-	"1179": {
+	1179: {
 		name: "Eye Bleach",
-		description: "In their role as the city's moderators, Torn's staff are forced to bear witness to indescribable horrors on a daily basis. From erotic chats and casual racism through to unpixelated nudes and long-winded complaint essays, staff wade through it all to keep our city clean of perverts, prejudice, and pontificating pillocks. To maintain their mental stability, Torn's staff are supplied with one bottle of Eye Bleach, each of which contains a soothing shot of sodium hypochlorite that must be squirted directly onto the cornea to take full effect.",
+		description:
+			"In their role as the city's moderators, Torn's staff are forced to bear witness to indescribable horrors on a daily basis. From erotic chats and casual racism through to unpixelated nudes and long-winded complaint essays, staff wade through it all to keep our city clean of perverts, prejudice, and pontificating pillocks. To maintain their mental stability, Torn's staff are supplied with one bottle of Eye Bleach, each of which contains a soothing shot of sodium hypochlorite that must be squirted directly onto the cornea to take full effect.",
 		effect: "Decreases staff anguish by 12% over 200 minutes. Includes side effects (blindness).",
 		requirement: "",
 		type: "Special",
@@ -15850,9 +16474,10 @@ const TORN_ITEMS = {
 		circulation: 32,
 		image: "https://www.torn.com/images/items/1179/large.png",
 	},
-	"1180": {
+	1180: {
 		name: "Prince Philip Mask '21",
-		description: "HRH Prince Philip, Duke of Edinburgh, was born Prince Philip of Greece and Denmark in 1921. Phil died nearly 100 years later in April 2021, and during his Royal Highness' lifetime he achieved many great things, such as fighting in World War 2, marrying a princess who was also kinda his cousin, being worshipped as a god by a Vanuatan tribe, bestowing certificates upon British schoolchildren for trivial feats of endurance, offending numerous foreign dignitaries, and seeing Queen Elizabeth II naked. This is a mask of Prince Philip's living face - although you wouldn't know to look at it.",
+		description:
+			"HRH Prince Philip, Duke of Edinburgh, was born Prince Philip of Greece and Denmark in 1921. Phil died nearly 100 years later in April 2021, and during his Royal Highness' lifetime he achieved many great things, such as fighting in World War 2, marrying a princess who was also kinda his cousin, being worshipped as a god by a Vanuatan tribe, bestowing certificates upon British schoolchildren for trivial feats of endurance, offending numerous foreign dignitaries, and seeing Queen Elizabeth II naked. This is a mask of Prince Philip's living face - although you wouldn't know to look at it.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15863,9 +16488,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1180/large.png",
 	},
-	"1181": {
+	1181: {
 		name: "Krampus Mask '21",
-		description: "The Krampus is a mythical figure taken from European folklore whose purpose was to scare the ever-loving hell out of misbehaving children during Christmas. Krampus' name comes from the German word krampen, meaning claw, as he is typically depicted as a dark, hairy beast with sharp talons, cloven hooves, and the horns of a goat. In some versions of his origin story, Krampus is said to be the brother of Saint Nicholas, and if this tale is ever told by Hollywood, the role of Krampus will likely be played by Harry Styles.",
+		description:
+			"The Krampus is a mythical figure taken from European folklore whose purpose was to scare the ever-loving hell out of misbehaving children during Christmas. Krampus' name comes from the German word krampen, meaning claw, as he is typically depicted as a dark, hairy beast with sharp talons, cloven hooves, and the horns of a goat. In some versions of his origin story, Krampus is said to be the brother of Saint Nicholas, and if this tale is ever told by Hollywood, the role of Krampus will likely be played by Harry Styles.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15876,9 +16502,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1181/large.png",
 	},
-	"1182": {
+	1182: {
 		name: "Head Bandage",
-		description: "The sight of someone's head covered entirely in gauze used to conjure up images of a brave hero burned beyond all recognition, perhaps after risking their life to save a child from a house fire. These days, someone sporting a bandage niqab is probably hiding the results of an eyelid lift or a half-assed nose job. Whatever is wrong with your face, this full head bandage will keep your features under wraps.",
+		description:
+			"The sight of someone's head covered entirely in gauze used to conjure up images of a brave hero burned beyond all recognition, perhaps after risking their life to save a child from a house fire. These days, someone sporting a bandage niqab is probably hiding the results of an eyelid lift or a half-assed nose job. Whatever is wrong with your face, this full head bandage will keep your features under wraps.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15889,9 +16516,10 @@ const TORN_ITEMS = {
 		circulation: 256,
 		image: "https://www.torn.com/images/items/1182/large.png",
 	},
-	"1183": {
+	1183: {
 		name: "Medical Eye Patch",
-		description: "A soft, breathable cotton patch taped over the eye to prevent infection. Whether you're suffering from a serious case of pink eye or you've tried to remove your contact lens with dirty fingernails, this medical eye patch will protect your peeper until mummy has kissed it better.",
+		description:
+			"A soft, breathable cotton patch taped over the eye to prevent infection. Whether you're suffering from a serious case of pink eye or you've tried to remove your contact lens with dirty fingernails, this medical eye patch will protect your peeper until mummy has kissed it better.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15902,9 +16530,10 @@ const TORN_ITEMS = {
 		circulation: 229,
 		image: "https://www.torn.com/images/items/1183/large.png",
 	},
-	"1184": {
+	1184: {
 		name: "Knee Brace",
-		description: "A knee brace works by shifting your weight from the most damaged part of the knee, allowing the wearer to walk more comfortably without pain. In the UK, it is estimated that the average 5-a-side football player will own fourteen knee braces by the time he is 38, and will spend roughly 1/8th of his remaining lifespan talking about his knees \"giving him jip\". ",
+		description:
+			'A knee brace works by shifting your weight from the most damaged part of the knee, allowing the wearer to walk more comfortably without pain. In the UK, it is estimated that the average 5-a-side football player will own fourteen knee braces by the time he is 38, and will spend roughly 1/8th of his remaining lifespan talking about his knees "giving him jip". ',
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15915,9 +16544,10 @@ const TORN_ITEMS = {
 		circulation: 224,
 		image: "https://www.torn.com/images/items/1184/large.png",
 	},
-	"1185": {
+	1185: {
 		name: "Band-Aids",
-		description: "Like Hoover, Velcro, Mayonnaise, and Tupperware, the term Band-Aid is actually a brand name used by Johnson & Johnson for their range of adhesive bandages first released in 1920. Band-Aids have been subject to controversy in recent years as they're often only available in a light caucasian skin color, with non-white people enduring accusations of \"whiteface\" every time they want to cover up a boo-boo. To avoid a race row, these particular Band-Aids are only available in bright white to reinforce the racial superiority of snowmen and albinos. ",
+		description:
+			'Like Hoover, Velcro, Mayonnaise, and Tupperware, the term Band-Aid is actually a brand name used by Johnson & Johnson for their range of adhesive bandages first released in 1920. Band-Aids have been subject to controversy in recent years as they\'re often only available in a light caucasian skin color, with non-white people enduring accusations of "whiteface" every time they want to cover up a boo-boo. To avoid a race row, these particular Band-Aids are only available in bright white to reinforce the racial superiority of snowmen and albinos. ',
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15928,9 +16558,10 @@ const TORN_ITEMS = {
 		circulation: 115,
 		image: "https://www.torn.com/images/items/1185/large.png",
 	},
-	"1186": {
+	1186: {
 		name: "Torso Bandage",
-		description: "The torso, or trunk, describes the area above the ass but below the neck minus your legs and arms. When a bandage covers this area, it means the wearer has either undergone major organ surgery, or they've treated themselves to a lovely set of E-cups. This particular Torso Bandage has been pre-bloodied for your convenience.",
+		description:
+			"The torso, or trunk, describes the area above the ass but below the neck minus your legs and arms. When a bandage covers this area, it means the wearer has either undergone major organ surgery, or they've treated themselves to a lovely set of E-cups. This particular Torso Bandage has been pre-bloodied for your convenience.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15941,9 +16572,10 @@ const TORN_ITEMS = {
 		circulation: 227,
 		image: "https://www.torn.com/images/items/1186/large.png",
 	},
-	"1187": {
+	1187: {
 		name: "Prosthetic Arm",
-		description: "For those shorn of an upper limb, this carbon fiber Prosthetic Arm allows the wearer to maintain the appearance of being able to do the Macarena without providing them with the ability to do so. And while this false arm may be entirely non-functional, wearing one does mean you finally have a use for all those spare gloves.",
+		description:
+			"For those shorn of an upper limb, this carbon fiber Prosthetic Arm allows the wearer to maintain the appearance of being able to do the Macarena without providing them with the ability to do so. And while this false arm may be entirely non-functional, wearing one does mean you finally have a use for all those spare gloves.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15954,9 +16586,10 @@ const TORN_ITEMS = {
 		circulation: 63,
 		image: "https://www.torn.com/images/items/1187/large.png",
 	},
-	"1188": {
+	1188: {
 		name: "Prosthetic Leg",
-		description: "Prosthetic Legs are built more for function than aesthetics, with this titanium model capable of restoring full walking and kicking ability to its mono-legged user. Side effects of wearing Prosthetic Legs include contact dermatitis, blisters, and a propensity for shooting people on the john.",
+		description:
+			"Prosthetic Legs are built more for function than aesthetics, with this titanium model capable of restoring full walking and kicking ability to its mono-legged user. Side effects of wearing Prosthetic Legs include contact dermatitis, blisters, and a propensity for shooting people on the john.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15967,7 +16600,7 @@ const TORN_ITEMS = {
 		circulation: 62,
 		image: "https://www.torn.com/images/items/1188/large.png",
 	},
-	"1189": {
+	1189: {
 		name: "Formaldehyde",
 		description: "",
 		effect: "",
@@ -15980,9 +16613,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1189/large.png",
 	},
-	"1190": {
+	1190: {
 		name: "Hook Hand",
-		description: "The metacarpus-replacement of choice for pirates and radical clerics alike, a Hook Hand represents a more practical prosthesis for those who are not finger privileged. Hand Hooks may not look like a real human hand, but they can do many things a fleshy extremity cannot, such as slice things open, hammer nails, and allow masochists to wipe their backside in a manner more befitting of their lifestyle choice.",
+		description:
+			"The metacarpus-replacement of choice for pirates and radical clerics alike, a Hook Hand represents a more practical prosthesis for those who are not finger privileged. Hand Hooks may not look like a real human hand, but they can do many things a fleshy extremity cannot, such as slice things open, hammer nails, and allow masochists to wipe their backside in a manner more befitting of their lifestyle choice.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -15993,9 +16627,10 @@ const TORN_ITEMS = {
 		circulation: 36,
 		image: "https://www.torn.com/images/items/1190/large.png",
 	},
-	"1191": {
+	1191: {
 		name: "Plaster Cast Leg",
-		description: "Plaster casts consist of a bandage covered by a hard coating of plaster of paris, with this second layer relied upon to hold broken bones in place while nature does its thing. This particular plaster cast fits on a human leg, but it could also be used on a large cat or a very tiny horse.",
+		description:
+			"Plaster casts consist of a bandage covered by a hard coating of plaster of paris, with this second layer relied upon to hold broken bones in place while nature does its thing. This particular plaster cast fits on a human leg, but it could also be used on a large cat or a very tiny horse.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -16006,9 +16641,10 @@ const TORN_ITEMS = {
 		circulation: 245,
 		image: "https://www.torn.com/images/items/1191/large.png",
 	},
-	"1192": {
+	1192: {
 		name: "Plaster Cast Arm",
-		description: "When placed on the arm, plaster casts are at constant risk of being signed or doodled-upon by friends, relatives, and random well-wishers. Unfortunately, this plaster cast has been coated in a layer of ink-resistant material, ensuring that the wearer looks like a billy no-mates for the duration of their recovery.",
+		description:
+			"When placed on the arm, plaster casts are at constant risk of being signed or doodled-upon by friends, relatives, and random well-wishers. Unfortunately, this plaster cast has been coated in a layer of ink-resistant material, ensuring that the wearer looks like a billy no-mates for the duration of their recovery.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -16019,9 +16655,10 @@ const TORN_ITEMS = {
 		circulation: 237,
 		image: "https://www.torn.com/images/items/1192/large.png",
 	},
-	"1193": {
+	1193: {
 		name: "Neck Brace",
-		description: "Also known as a cervical collar, the Neck Brace consists of a hard polyethylene frame over a soft, foam cushion. These items are designed to limit head movement to allow the wearer to recover from whiplash or a neck sprain, but they can also be used to garner sympathy from a court during a court hearing, or prevent hickeys.",
+		description:
+			"Also known as a cervical collar, the Neck Brace consists of a hard polyethylene frame over a soft, foam cushion. These items are designed to limit head movement to allow the wearer to recover from whiplash or a neck sprain, but they can also be used to garner sympathy from a court during a court hearing, or prevent hickeys.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -16032,9 +16669,10 @@ const TORN_ITEMS = {
 		circulation: 230,
 		image: "https://www.torn.com/images/items/1193/large.png",
 	},
-	"1194": {
+	1194: {
 		name: "Halo Vest",
-		description: "Whereas a Neck Brace merely limits head movement, the Halo Vest fully immobilizes the patient's head through the use of pins screwed directly into the skull. By putting your neck bones under tension, a Halo Vest helps to heal fractures and breaks while protecting your spinal column from further injury. Conversely, a Halo T-shirt will make people think you spent most of your 20's racking up kills at Blood Gulch.",
+		description:
+			"Whereas a Neck Brace merely limits head movement, the Halo Vest fully immobilizes the patient's head through the use of pins screwed directly into the skull. By putting your neck bones under tension, a Halo Vest helps to heal fractures and breaks while protecting your spinal column from further injury. Conversely, a Halo T-shirt will make people think you spent most of your 20's racking up kills at Blood Gulch.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -16045,9 +16683,10 @@ const TORN_ITEMS = {
 		circulation: 112,
 		image: "https://www.torn.com/images/items/1194/large.png",
 	},
-	"1195": {
+	1195: {
 		name: "Crutches",
-		description: "These Crutches are of the auxillary variety, meaning they rest under your armpits as opposed to relying on your forearms, as an elbow crutch does. Auxillary crutches restrict your movement more than other types of crutch, but they are well-suited to those who have poor balance, such as def whores. Did you know that 99% of all crutches are never returned to hospitals? That's not true, it's actually 80%, but that's still pretty high.",
+		description:
+			"These Crutches are of the auxillary variety, meaning they rest under your armpits as opposed to relying on your forearms, as an elbow crutch does. Auxillary crutches restrict your movement more than other types of crutch, but they are well-suited to those who have poor balance, such as def whores. Did you know that 99% of all crutches are never returned to hospitals? That's not true, it's actually 80%, but that's still pretty high.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -16058,9 +16697,10 @@ const TORN_ITEMS = {
 		circulation: 135,
 		image: "https://www.torn.com/images/items/1195/large.png",
 	},
-	"1196": {
+	1196: {
 		name: "Medical Diaper",
-		description: "The Medical Diaper is a garment made for those with various conditions, such as dementia, impaired movement, or incontinence, which restrict them from using regular bathroom facilities. Those who wear adult diapers may feel self-conscious about doing so, but given they never have to wait in line to take a dump, or hover precariously over a pee-streaked public toilet seat, these items could be seen as somewhat aspirational. ",
+		description:
+			"The Medical Diaper is a garment made for those with various conditions, such as dementia, impaired movement, or incontinence, which restrict them from using regular bathroom facilities. Those who wear adult diapers may feel self-conscious about doing so, but given they never have to wait in line to take a dump, or hover precariously over a pee-streaked public toilet seat, these items could be seen as somewhat aspirational. ",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -16071,9 +16711,10 @@ const TORN_ITEMS = {
 		circulation: 228,
 		image: "https://www.torn.com/images/items/1196/large.png",
 	},
-	"1197": {
+	1197: {
 		name: "Hospital Gown",
-		description: "Hospital gowns are long, loose pieces of clothing worn by patients about to undergo surgery. These gowns were traditionally open at the back, but in recent years, complaints by bashful patients have led most hospitals to adopt a less revealing design. Rest assured, the Hospital Gowns used in Torn City are of the old variety, allowing doctors and onlookers to gain full, unfettered access to the wearer's backdoor.",
+		description:
+			"Hospital gowns are long, loose pieces of clothing worn by patients about to undergo surgery. These gowns were traditionally open at the back, but in recent years, complaints by bashful patients have led most hospitals to adopt a less revealing design. Rest assured, the Hospital Gowns used in Torn City are of the old variety, allowing doctors and onlookers to gain full, unfettered access to the wearer's backdoor.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -16084,7 +16725,7 @@ const TORN_ITEMS = {
 		circulation: 228,
 		image: "https://www.torn.com/images/items/1197/large.png",
 	},
-	"1198": {
+	1198: {
 		name: "Sticky Notes",
 		description: "",
 		effect: "",
@@ -16097,7 +16738,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1198/large.png",
 	},
-	"1199": {
+	1199: {
 		name: "Casket",
 		description: "",
 		effect: "",
@@ -16110,7 +16751,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1199/large.png",
 	},
-	"1200": {
+	1200: {
 		name: "Nitrous Tank",
 		description: "",
 		effect: "",
@@ -16123,7 +16764,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1200/large.png",
 	},
-	"1201": {
+	1201: {
 		name: "Rope",
 		description: "",
 		effect: "",
@@ -16136,7 +16777,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/1201/large.png",
 	},
-	"1202": {
+	1202: {
 		name: "Window Breaker",
 		description: "",
 		effect: "",
@@ -16149,7 +16790,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/1202/large.png",
 	},
-	"1203": {
+	1203: {
 		name: "Lockpicks",
 		description: "",
 		effect: "",
@@ -16162,7 +16803,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/1203/large.png",
 	},
-	"1204": {
+	1204: {
 		name: "Skeleton Key",
 		description: "",
 		effect: "",
@@ -16175,7 +16816,7 @@ const TORN_ITEMS = {
 		circulation: 1,
 		image: "https://www.torn.com/images/items/1204/large.png",
 	},
-	"1205": {
+	1205: {
 		name: "Wrench",
 		description: "",
 		effect: "",
@@ -16188,7 +16829,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1205/large.png",
 	},
-	"1206": {
+	1206: {
 		name: "Truck Nuts",
 		description: "",
 		effect: "",
@@ -16201,7 +16842,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1206/large.png",
 	},
-	"1207": {
+	1207: {
 		name: "Thimble",
 		description: "",
 		effect: "",
@@ -16214,7 +16855,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1207/large.png",
 	},
-	"1208": {
+	1208: {
 		name: "Beach Ball",
 		description: "",
 		effect: "",
@@ -16227,7 +16868,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1208/large.png",
 	},
-	"1209": {
+	1209: {
 		name: "Hunting Trophy",
 		description: "",
 		effect: "",
@@ -16240,7 +16881,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1209/large.png",
 	},
-	"1210": {
+	1210: {
 		name: "Hoe",
 		description: "",
 		effect: "",
@@ -16253,7 +16894,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1210/large.png",
 	},
-	"1211": {
+	1211: {
 		name: "Fishing Rod",
 		description: "",
 		effect: "",
@@ -16266,7 +16907,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1211/large.png",
 	},
-	"1212": {
+	1212: {
 		name: "Bleach",
 		description: "",
 		effect: "",
@@ -16279,7 +16920,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1212/large.png",
 	},
-	"1213": {
+	1213: {
 		name: "Lye",
 		description: "",
 		effect: "",
@@ -16292,7 +16933,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1213/large.png",
 	},
-	"1214": {
+	1214: {
 		name: "Towel",
 		description: "",
 		effect: "",
@@ -16305,7 +16946,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1214/large.png",
 	},
-	"1215": {
+	1215: {
 		name: "Scissors",
 		description: "",
 		effect: "",
@@ -16318,7 +16959,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1215/large.png",
 	},
-	"1216": {
+	1216: {
 		name: "Clippers",
 		description: "",
 		effect: "",
@@ -16331,7 +16972,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1216/large.png",
 	},
-	"1217": {
+	1217: {
 		name: "Shaving Foam",
 		description: "",
 		effect: "",
@@ -16344,7 +16985,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1217/large.png",
 	},
-	"1219": {
+	1219: {
 		name: "Oxygen Tank",
 		description: "",
 		effect: "",
@@ -16357,7 +16998,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1219/large.png",
 	},
-	"1220": {
+	1220: {
 		name: "Massage Oil",
 		description: "",
 		effect: "",
@@ -16370,7 +17011,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1220/large.png",
 	},
-	"1221": {
+	1221: {
 		name: "Jigsaw Puzzle",
 		description: "",
 		effect: "",
@@ -16383,7 +17024,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1221/large.png",
 	},
-	"1222": {
+	1222: {
 		name: "Picture Frame",
 		description: "",
 		effect: "",
@@ -16396,7 +17037,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1222/large.png",
 	},
-	"1223": {
+	1223: {
 		name: "Cigar Cutter",
 		description: "",
 		effect: "",
@@ -16409,7 +17050,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1223/large.png",
 	},
-	"1224": {
+	1224: {
 		name: "Ash Tray",
 		description: "",
 		effect: "",
@@ -16422,7 +17063,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1224/large.png",
 	},
-	"1225": {
+	1225: {
 		name: "Bowling Trophy",
 		description: "",
 		effect: "",
@@ -16435,7 +17076,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1225/large.png",
 	},
-	"1226": {
+	1226: {
 		name: "Fertilizer",
 		description: "",
 		effect: "",
@@ -16448,7 +17089,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1226/large.png",
 	},
-	"1227": {
+	1227: {
 		name: "Igniter Cord",
 		description: "",
 		effect: "",
@@ -16461,7 +17102,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1227/large.png",
 	},
-	"1228": {
+	1228: {
 		name: "Paper Ream",
 		description: "",
 		effect: "",
@@ -16474,7 +17115,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1228/large.png",
 	},
-	"1230": {
+	1230: {
 		name: "Detonator",
 		description: "",
 		effect: "",
@@ -16487,7 +17128,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1230/large.png",
 	},
-	"1231": {
+	1231: {
 		name: "Golf Club",
 		description: "",
 		effect: "",
@@ -16500,7 +17141,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1231/large.png",
 	},
-	"1232": {
+	1232: {
 		name: "Garden Gnome",
 		description: "",
 		effect: "",
@@ -16513,7 +17154,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1232/large.png",
 	},
-	"1233": {
+	1233: {
 		name: "Wheelbarrow",
 		description: "",
 		effect: "",
@@ -16526,7 +17167,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1233/large.png",
 	},
-	"1234": {
+	1234: {
 		name: "Shovel",
 		description: "",
 		effect: "",
@@ -16539,7 +17180,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1234/large.png",
 	},
-	"1235": {
+	1235: {
 		name: "Blanket",
 		description: "",
 		effect: "",
@@ -16552,7 +17193,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1235/large.png",
 	},
-	"1236": {
+	1236: {
 		name: "Crockpot",
 		description: "",
 		effect: "",
@@ -16565,7 +17206,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1236/large.png",
 	},
-	"1237": {
+	1237: {
 		name: "Plunger",
 		description: "",
 		effect: "",
@@ -16578,7 +17219,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1237/large.png",
 	},
-	"1238": {
+	1238: {
 		name: "Silver Cutlery Set",
 		description: "",
 		effect: "",
@@ -16591,7 +17232,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1238/large.png",
 	},
-	"1239": {
+	1239: {
 		name: "Stash Box",
 		description: "",
 		effect: "",
@@ -16604,7 +17245,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1239/large.png",
 	},
-	"1240": {
+	1240: {
 		name: "Perfume",
 		description: "",
 		effect: "",
@@ -16617,7 +17258,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1240/large.png",
 	},
-	"1241": {
+	1241: {
 		name: "Croquet Set",
 		description: "",
 		effect: "",
@@ -16630,7 +17271,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1241/large.png",
 	},
-	"1242": {
+	1242: {
 		name: "Horseshoe",
 		description: "",
 		effect: "",
@@ -16643,7 +17284,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1242/large.png",
 	},
-	"1243": {
+	1243: {
 		name: "Persian Rug",
 		description: "",
 		effect: "",
@@ -16656,7 +17297,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1243/large.png",
 	},
-	"1244": {
+	1244: {
 		name: "Typewriter",
 		description: "",
 		effect: "",
@@ -16669,7 +17310,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1244/large.png",
 	},
-	"1245": {
+	1245: {
 		name: "Chandelier",
 		description: "",
 		effect: "",
@@ -16682,7 +17323,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1245/large.png",
 	},
-	"1246": {
+	1246: {
 		name: "Inkwell",
 		description: "",
 		effect: "",
@@ -16695,7 +17336,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1246/large.png",
 	},
-	"1247": {
+	1247: {
 		name: "Bull Semen",
 		description: "",
 		effect: "",
@@ -16708,7 +17349,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1247/large.png",
 	},
-	"1248": {
+	1248: {
 		name: "Ammonia",
 		description: "",
 		effect: "",
@@ -16721,7 +17362,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1248/large.png",
 	},
-	"1249": {
+	1249: {
 		name: "Hydrochloric Acid",
 		description: "",
 		effect: "",
@@ -16734,7 +17375,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1249/large.png",
 	},
-	"1250": {
+	1250: {
 		name: "Anchor",
 		description: "",
 		effect: "",
@@ -16747,7 +17388,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1250/large.png",
 	},
-	"1251": {
+	1251: {
 		name: "Boat Engine",
 		description: "",
 		effect: "",
@@ -16760,7 +17401,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1251/large.png",
 	},
-	"1252": {
+	1252: {
 		name: "Steel Ingot",
 		description: "",
 		effect: "",
@@ -16773,7 +17414,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1252/large.png",
 	},
-	"1253": {
+	1253: {
 		name: "Tractor Part",
 		description: "",
 		effect: "",
@@ -16786,7 +17427,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1253/large.png",
 	},
-	"1254": {
+	1254: {
 		name: "Tire",
 		description: "",
 		effect: "",
@@ -16799,7 +17440,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1254/large.png",
 	},
-	"1255": {
+	1255: {
 		name: "Bone Saw",
 		description: "",
 		effect: "",
@@ -16812,7 +17453,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1255/large.png",
 	},
-	"1256": {
+	1256: {
 		name: "Machine Part",
 		description: "",
 		effect: "",
@@ -16825,7 +17466,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1256/large.png",
 	},
-	"1257": {
+	1257: {
 		name: "Cattle Prod",
 		description: "",
 		effect: "",
@@ -16838,7 +17479,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1257/large.png",
 	},
-	"1258": {
+	1258: {
 		name: "Binoculars",
 		description: "",
 		effect: "",
@@ -16851,7 +17492,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1258/large.png",
 	},
-	"1259": {
+	1259: {
 		name: "Razor Wire",
 		description: "",
 		effect: "",
@@ -16864,7 +17505,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1259/large.png",
 	},
-	"1260": {
+	1260: {
 		name: "Stamp Collection",
 		description: "",
 		effect: "",
@@ -16877,7 +17518,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1260/large.png",
 	},
-	"1261": {
+	1261: {
 		name: "Bucket",
 		description: "",
 		effect: "",
@@ -16890,7 +17531,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1261/large.png",
 	},
-	"1262": {
+	1262: {
 		name: "Urea",
 		description: "",
 		effect: "",
@@ -16903,7 +17544,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1262/large.png",
 	},
-	"1263": {
+	1263: {
 		name: "Phosphorus",
 		description: "",
 		effect: "",
@@ -16916,7 +17557,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1263/large.png",
 	},
-	"1264": {
+	1264: {
 		name: "Potassium Nitrate",
 		description: "",
 		effect: "",
@@ -16929,7 +17570,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1264/large.png",
 	},
-	"1265": {
+	1265: {
 		name: "Grain",
 		description: "",
 		effect: "",
@@ -16942,7 +17583,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1265/large.png",
 	},
-	"1266": {
+	1266: {
 		name: "Shampoo",
 		description: "",
 		effect: "",
@@ -16955,7 +17596,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1266/large.png",
 	},
-	"1267": {
+	1267: {
 		name: "Detergent",
 		description: "",
 		effect: "",
@@ -16968,7 +17609,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1267/large.png",
 	},
-	"1268": {
+	1268: {
 		name: "Vitamins",
 		description: "",
 		effect: "",
@@ -16981,7 +17622,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1268/large.png",
 	},
-	"1269": {
+	1269: {
 		name: "Cough Syrup",
 		description: "",
 		effect: "",
@@ -16994,7 +17635,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1269/large.png",
 	},
-	"1270": {
+	1270: {
 		name: "Paper Towels",
 		description: "",
 		effect: "",
@@ -17007,7 +17648,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1270/large.png",
 	},
-	"1271": {
+	1271: {
 		name: "Pepper Mill",
 		description: "",
 		effect: "",
@@ -17020,7 +17661,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1271/large.png",
 	},
-	"1272": {
+	1272: {
 		name: "Toothbrush",
 		description: "",
 		effect: "",
@@ -17033,7 +17674,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1272/large.png",
 	},
-	"1273": {
+	1273: {
 		name: "Toothpaste",
 		description: "",
 		effect: "",
@@ -17046,7 +17687,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1273/large.png",
 	},
-	"1274": {
+	1274: {
 		name: "Mouthwash",
 		description: "",
 		effect: "",
@@ -17059,7 +17700,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1274/large.png",
 	},
-	"1275": {
+	1275: {
 		name: "Mop",
 		description: "",
 		effect: "",
@@ -17072,7 +17713,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1275/large.png",
 	},
-	"1276": {
+	1276: {
 		name: "Broom",
 		description: "",
 		effect: "",
@@ -17085,7 +17726,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1276/large.png",
 	},
-	"1277": {
+	1277: {
 		name: "Floor Cleaner",
 		description: "",
 		effect: "",
@@ -17098,7 +17739,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1277/large.png",
 	},
-	"1278": {
+	1278: {
 		name: "Model Spine",
 		description: "",
 		effect: "",
@@ -17111,7 +17752,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1278/large.png",
 	},
-	"1279": {
+	1279: {
 		name: "Massage Table",
 		description: "",
 		effect: "",
@@ -17124,7 +17765,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1279/large.png",
 	},
-	"1280": {
+	1280: {
 		name: "Scalp Massager",
 		description: "",
 		effect: "",
@@ -17137,7 +17778,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1280/large.png",
 	},
-	"1281": {
+	1281: {
 		name: "Dentures",
 		description: "",
 		effect: "",
@@ -17150,7 +17791,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1281/large.png",
 	},
-	"1282": {
+	1282: {
 		name: "Gold Tooth",
 		description: "",
 		effect: "",
@@ -17163,7 +17804,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1282/large.png",
 	},
-	"1283": {
+	1283: {
 		name: "Bleaching Tray",
 		description: "",
 		effect: "",
@@ -17176,7 +17817,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1283/large.png",
 	},
-	"1284": {
+	1284: {
 		name: "Dental Mirror",
 		description: "",
 		effect: "",
@@ -17189,7 +17830,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1284/large.png",
 	},
-	"1285": {
+	1285: {
 		name: "Paperclips",
 		description: "",
 		effect: "",
@@ -17202,7 +17843,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1285/large.png",
 	},
-	"1286": {
+	1286: {
 		name: "Stapler",
 		description: "",
 		effect: "",
@@ -17215,7 +17856,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1286/large.png",
 	},
-	"1287": {
+	1287: {
 		name: "Hole Punch",
 		description: "",
 		effect: "",
@@ -17228,7 +17869,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1287/large.png",
 	},
-	"1288": {
+	1288: {
 		name: "Notepad",
 		description: "",
 		effect: "",
@@ -17241,7 +17882,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1288/large.png",
 	},
-	"1289": {
+	1289: {
 		name: "Permanent Marker",
 		description: "",
 		effect: "",
@@ -17254,7 +17895,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1289/large.png",
 	},
-	"1290": {
+	1290: {
 		name: "Toner",
 		description: "",
 		effect: "",
@@ -17267,7 +17908,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1290/large.png",
 	},
-	"1291": {
+	1291: {
 		name: "Bloody Apron",
 		description: "",
 		effect: "",
@@ -17280,7 +17921,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1291/large.png",
 	},
-	"1292": {
+	1292: {
 		name: "Bone",
 		description: "",
 		effect: "",
@@ -17293,9 +17934,10 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1292/large.png",
 	},
-	"1293": {
+	1293: {
 		name: "Injury Cache",
-		description: "Have you had an accident in the last five years that wasn't your fault? Arrive at the trial wearing an item from the Injury Cache, and you could increase your payout by over 500%!!! Bandages, braces, and prostheses can be found in this box of medical-themed wearables, with most items left bloody and unwashed so as to retain the unique musk of human misery.",
+		description:
+			"Have you had an accident in the last five years that wasn't your fault? Arrive at the trial wearing an item from the Injury Cache, and you could increase your payout by over 500%!!! Bandages, braces, and prostheses can be found in this box of medical-themed wearables, with most items left bloody and unwashed so as to retain the unique musk of human misery.",
 		effect: "",
 		requirement: "",
 		type: "Supply Pack",
@@ -17306,9 +17948,10 @@ const TORN_ITEMS = {
 		circulation: 2139,
 		image: "https://www.torn.com/images/items/1293/large.png",
 	},
-	"1294": {
+	1294: {
 		name: "Glitter Bomb",
-		description: "A recent poll listed glitter as the second-most annoying substance known to mankind, behind old milk but ahead of uranium. This Glitter Bomb can be used to deploy shiny dirt into every crease and crevice of your opponent, either as a sign of affection, or a display of malicious intent. The glitter in this Glitter Bomb was made from recycled DVD covers produced for Mariah Carey’s 2001 movie Glitter, which bombed at the box office.",
+		description:
+			"A recent poll listed glitter as the second-most annoying substance known to mankind, behind old milk but ahead of uranium. This Glitter Bomb can be used to deploy shiny dirt into every crease and crevice of your opponent, either as a sign of affection, or a display of malicious intent. The glitter in this Glitter Bomb was made from recycled DVD covers produced for Mariah Carey’s 2001 movie Glitter, which bombed at the box office.",
 		effect: "Opponent becomes Fabulous, increasing flamboyance by 57% for 24 hours.",
 		requirement: "",
 		type: "Temporary",
@@ -17319,9 +17962,10 @@ const TORN_ITEMS = {
 		circulation: 11853,
 		image: "https://www.torn.com/images/items/1294/large.png",
 	},
-	"1295": {
+	1295: {
 		name: "Hell Priest Mask '22",
-		description: "Known to many as Pinhead, the Hell Priest is both the leader of The Cenobites and an important figure in the modern identity politics movement, as he identifies as neither an angel nor a demon. In tribute to the character's sadomasochistic persuasion, this mask of the Hell Priest was created with the sharp ends of the pins turned inwards - pain has a face, allow us to show it to you.",
+		description:
+			"Known to many as Pinhead, the Hell Priest is both the leader of The Cenobites and an important figure in the modern identity politics movement, as he identifies as neither an angel nor a demon. In tribute to the character's sadomasochistic persuasion, this mask of the Hell Priest was created with the sharp ends of the pins turned inwards - pain has a face, allow us to show it to you.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -17332,9 +17976,10 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1295/large.png",
 	},
-	"1296": {
+	1296: {
 		name: "Ban Hammer",
-		description: "The mythical Ban Hammer wielded by staff against unruly citizens has now become manifest. All hail its unrivaled ability to defeat cheaters and perverts through the power of federal jailing. Bow before its might. Fear its judgement. Loathe it. Love it. Kiss it as if it were your mother. For if you step out of line, even just once, the Ban Hammer shall be brought down upon you with the full force of Federal Law.",
+		description:
+			"The mythical Ban Hammer wielded by staff against unruly citizens has now become manifest. All hail its unrivaled ability to defeat cheaters and perverts through the power of federal jailing. Bow before its might. Fear its judgement. Loathe it. Love it. Kiss it as if it were your mother. For if you step out of line, even just once, the Ban Hammer shall be brought down upon you with the full force of Federal Law.",
 		effect: "Opponent becomes chastized, increasing their chances of posting a complaint thread in GD.",
 		requirement: "",
 		type: "Melee",
@@ -17345,9 +17990,10 @@ const TORN_ITEMS = {
 		circulation: 33,
 		image: "https://www.torn.com/images/items/1296/large.png",
 	},
-	"1297": {
+	1297: {
 		name: "Donkey Adoption Certificate",
-		description: "Alan is a 14-year-old retired beach donkey who lives on an island sanctuary off the south coast of Torn City. This Donkey Adoption Certificate confirms that someone has paid on your behalf to cover the cost of Alan's care for the foreseeable future. In return, the bearer of this certificate will receive regular updates on Alan's health, general demeanor, and frequent romantic encounters.",
+		description:
+			"Alan is a 14-year-old retired beach donkey who lives on an island sanctuary off the south coast of Torn City. This Donkey Adoption Certificate confirms that someone has paid on your behalf to cover the cost of Alan's care for the foreseeable future. In return, the bearer of this certificate will receive regular updates on Alan's health, general demeanor, and frequent romantic encounters.",
 		effect: "",
 		requirement: "",
 		type: "Collectible",
@@ -17358,9 +18004,10 @@ const TORN_ITEMS = {
 		circulation: 1000,
 		image: "https://www.torn.com/images/items/1297/large.png",
 	},
-	"1298": {
+	1298: {
 		name: "Tin of Treats",
-		description: "Looking to indulge your sweet tooth? Then pop open this Tin of Treats and feast upon the sugary goodness inside. Each tin contains six random candies, including Jawbreakers, Pixie Sticks, Candy Kisses, Tootsie Rolls, Chocolate Truffles, and Sherbet. And if your favorite pet has just died, or your partner has left you for a younger lover, nobody could judge you for shoving the whole lot right in your miserable gob.",
+		description:
+			"Looking to indulge your sweet tooth? Then pop open this Tin of Treats and feast upon the sugary goodness inside. Each tin contains six random candies, including Jawbreakers, Pixie Sticks, Candy Kisses, Tootsie Rolls, Chocolate Truffles, and Sherbet. And if your favorite pet has just died, or your partner has left you for a younger lover, nobody could judge you for shoving the whole lot right in your miserable gob.",
 		effect: "Provides 6 premium candies when opened.",
 		requirement: "",
 		type: "Supply Pack",
@@ -17371,9 +18018,10 @@ const TORN_ITEMS = {
 		circulation: 7632,
 		image: "https://www.torn.com/images/items/1298/large.png",
 	},
-	"1299": {
+	1299: {
 		name: "Queen Elizabeth II Mask '22",
-		description: "In some cultures, the creation of a death mask is considered a sign of respect - that's our excuse, and we're sticking with it. This Queen Elizabeth II mask, created to honor the second-longest reigning Monarch in history, is made from recycled Union Flags and copies of the Daily Express. It is your divine right to wear this mask on any occasion you see fit, whether you're cutting the ribbon on a new sewage works, orchestrating the death of your daughter-in-law, or visiting a local branch of Coutts to pay off your son's considerable legal bills.",
+		description:
+			"In some cultures, the creation of a death mask is considered a sign of respect - that's our excuse, and we're sticking with it. This Queen Elizabeth II mask, created to honor the second-longest reigning Monarch in history, is made from recycled Union Flags and copies of the Daily Express. It is your divine right to wear this mask on any occasion you see fit, whether you're cutting the ribbon on a new sewage works, orchestrating the death of your daughter-in-law, or visiting a local branch of Coutts to pay off your son's considerable legal bills.",
 		effect: "",
 		requirement: "",
 		type: "Clothing",
@@ -17384,7 +18032,7 @@ const TORN_ITEMS = {
 		circulation: 250,
 		image: "https://www.torn.com/images/items/1299/large.png",
 	},
-	"1300": {
+	1300: {
 		name: "eCPU",
 		description: "",
 		effect: "",
@@ -17397,7 +18045,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1300/large.png",
 	},
-	"1301": {
+	1301: {
 		name: "CPU",
 		description: "",
 		effect: "",
@@ -17410,7 +18058,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1301/large.png",
 	},
-	"1302": {
+	1302: {
 		name: "HPCPU",
 		description: "",
 		effect: "",
@@ -17423,7 +18071,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1302/large.png",
 	},
-	"1303": {
+	1303: {
 		name: "Computer Fan",
 		description: "",
 		effect: "",
@@ -17436,7 +18084,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1303/large.png",
 	},
-	"1304": {
+	1304: {
 		name: "Water Block",
 		description: "",
 		effect: "",
@@ -17449,7 +18097,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1304/large.png",
 	},
-	"1305": {
+	1305: {
 		name: "Heat Sink",
 		description: "",
 		effect: "",
@@ -17462,7 +18110,7 @@ const TORN_ITEMS = {
 		circulation: 0,
 		image: "https://www.torn.com/images/items/1305/large.png",
 	},
-	"1306": {
+	1306: {
 		name: "PSU",
 		description: "",
 		effect: "",

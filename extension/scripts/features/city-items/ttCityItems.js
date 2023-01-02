@@ -42,7 +42,7 @@
 				marker.classList.add("city-item");
 				marker.dataset.id = id;
 
-				const itemName = hasAPIData() ? torndata.items[id].name : (id in TORN_ITEMS ? TORN_ITEMS[id].name : id);
+				const itemName = hasAPIData() ? torndata.items[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
 
 				if (settings.pages.city.combineDuplicates) {
 					const duplicate = items.find((item) => item.id === id);

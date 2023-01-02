@@ -718,10 +718,7 @@
 		{
 			"matches": ["https://www.torn.com/city.php*"],
 			"css": ["scripts/features/city-items/ttCityItems.css"],
-			"js": [
-				"scripts/global/functions/torn_items.js",
-				"scripts/features/city-items/ttCityItems.js"
-			],
+			"js": ["scripts/global/functions/torn_items.js", "scripts/features/city-items/ttCityItems.js"],
 			"run_at": "document_end"
 		},
 		{
