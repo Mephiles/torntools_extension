@@ -86,3 +86,7 @@ body.tt-tablet .items-cont .qty {
 .thumbnails .tt-item-price-wrap {
 	display: block !important;
 }
+
+body.tt-mobile #bazaarRoot .tt-item-price-wrap {
+	margin-bottom: 1px;
+}

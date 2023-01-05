@@ -10,7 +10,8 @@
 			],
 			"fixes": [
 				{ "message": "Fix company stock button updating.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix city items when no API key is provided.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix city items when no API key is provided.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix item value for the first item of each category while adding items in your bazaar on mobile.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Add Sellout Slayer mission hint.", "contributor": "DeKleineKobini" },
