@@ -44,7 +44,7 @@
 		const totalCapacity = stockForm.find(".storage-capacity .max").dataset.initial.getNumber();
 		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
 
-		stockForm.findAll(".stock-list > li:not([class]), .stock-list > li.new").forEach((stockItem) => {
+		stockForm.findAll(".stock-list > li:not(.total):not(.quantity)").forEach((stockItem) => {
 			const ordered = stockItem.find(".delivery").lastChild.textContent.getNumber();
 			const stock = stockItem.find(".stock").lastChild.textContent.getNumber();
 			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
