@@ -6,7 +6,8 @@
 		"logs": {
 			"features": [
 				{ "message": "Show last action on the OC page.", "contributor": "DeKleineKobini" },
-				{ "message": "Filter in the auction house.", "contributor": "DeKleineKobini" }
+				{ "message": "Filter in the auction house.", "contributor": "DeKleineKobini" },
+				{ "message": "Ignore single forum posts using the forum menu.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Fix company stock button updating.", "contributor": "DeKleineKobini" },

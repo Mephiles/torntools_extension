@@ -42,8 +42,9 @@
 			}
 
 			const userId = getUsername(thread).id;
+			const threadId = new URL(thread.find("a.thread-name").href).searchParams.get("t").getNumber();
 
-			const shouldHideThreads = settings.pages.forums.hideThreads[userId];
+			const shouldHideThreads = settings.pages.forums.hideThreads[userId] || settings.pages.forums.ignoredThreads[threadId];
 			if (shouldHideThreads) {
 				thread.classList.add("tt-forums-hide");
 
@@ -86,6 +87,8 @@
 
 		let countHiddenPost = 0;
 		let firstHiddenPost;
+
+		const threadId = getHashParameters().get("t").getNumber();
 
 		const posts = document.findAll(".thread-list > li");
 		for (let i = 0; i < posts.length; i++) {
@@ -320,6 +323,21 @@
 											ttStorage.set({ settings });
 
 											showPosts();
+										},
+									},
+								}),
+								document.newElement({
+									type: "div",
+									text: `${settings.pages.forums.ignoredThreads[threadId] ? "Unignore" : "Ignore"} this entire thread`,
+									events: {
+										click(event) {
+											const status = settings.pages.forums.ignoredThreads[threadId];
+
+											if (status) delete settings.pages.forums.ignoredThreads[threadId];
+											else settings.pages.forums.ignoredThreads[threadId] = true;
+
+											ttStorage.set({ settings });
+											event.target.textContent = `${!status ? "Unignore" : "Ignore"} this entire thread`;
 										},
 									},
 								}),
