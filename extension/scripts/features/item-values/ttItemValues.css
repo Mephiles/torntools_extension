@@ -90,3 +90,7 @@ body.tt-tablet .items-cont .qty {
 body.tt-mobile #bazaarRoot .tt-item-price-wrap {
 	margin-bottom: 1px;
 }
+
+body.tt-mobile .items-wrap .tt-item-price-wrap {
+	margin-bottom: 4px;
+}
