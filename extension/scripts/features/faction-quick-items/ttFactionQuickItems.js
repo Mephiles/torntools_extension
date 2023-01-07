@@ -126,7 +126,7 @@
 	}
 
 	function setupQuickDragListeners() {
-		for (const item of document.findAll(".armoury-tabs .item-list > li")) {
+		for (const item of document.findAll("#faction-armoury-tabs .armoury-tabs .item-list > li")) {
 			const imgWrap = item.find(".img-wrap");
 
 			if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type").textContent)) continue;
@@ -227,21 +227,54 @@
 						responseWrap.appendChild(
 							document.newElement({
 								type: "div",
-								class: "action-wrap use-act use-action",
+								class: "armoury-tabs",
 								children: [
 									document.newElement({
-										type: "form",
-										dataset: { action: "" },
-										attributes: { method: "post" },
+										type: "ul",
+										class: "item-list",
 										children: [
-											document.newElement({ type: "p", html: result.text }),
-											document.newElement({ type: "p", children: links }),
-											document.newElement({ type: "div", class: "clear" }),
+											document.newElement({
+												type: "li",
+												class: "item-use-act",
+												children: [
+													document.newElement({
+														type: "div",
+														class: "name",
+														children: [document.newElement({ type: "span", class: "qty", text: "10000" })],
+													}),
+													document.newElement({
+														type: "div",
+														class: "use-cont action-cont",
+														children: [
+															document.newElement({
+																type: "div",
+																class: "use-wrap",
+																children: [
+																	document.newElement({
+																		type: "form",
+																		dataset: { action: "useItem" },
+																		attributes: { method: "post" },
+																		children: [
+																			document.newElement({ type: "p", html: result.text }),
+																			document.newElement({ type: "p", children: links }),
+																			document.newElement({ type: "div", class: "clear" }),
+																		],
+																	}),
+																],
+																style: { display: "block" },
+															}),
+														],
+														dataset: { itemid: id },
+													}),
+													document.newElement({ type: "div", class: "clear" }),
+												],
+											}),
 										],
 									}),
 								],
 							}),
 						);
+
 
 						for (const count of responseWrap.findAll(".counter-wrap")) {
 							count.classList.add("tt-modified");

@@ -89,3 +89,11 @@ body:not(.dark-mode) #factionQuickItems .inner-content .item.removable {
 body.dark-mode #factionQuickItems .inner-content .item.removable {
 	background-color: #9d2f2f !important;
 }
+
+#factionQuickItems .response-wrap .name {
+    display: none;
+}
+
+#factionQuickItems .response-wrap .use-cont {
+    border: none;
+}
