@@ -17,7 +17,7 @@
 			storage: ["settings.pages.faction.quickItems"],
 		},
 		null,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	function addListener() {
@@ -96,8 +96,7 @@
 						}
 
 						for (const category of document.findAll("#faction-armoury-tabs .torn-tabs > li")) {
-							if (!["Medical", "Drugs", "Boosters"].includes(category.find("a.ui-tabs-anchor").textContent.trim()))
-								continue;
+							if (!["Medical", "Drugs", "Boosters"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
@@ -113,7 +112,7 @@
 						attachEditListeners(enabled);
 					},
 				},
-			}),
+			})
 		);
 
 		for (const quickItem of quick.factionItems) {
@@ -195,9 +194,7 @@
 					}
 
 					const body = new URLSearchParams();
-					Object.entries({ step: "useItem", fac: "1", itemID: id }).forEach(
-						([key, value]) => body.set(key, value),
-					);
+					Object.entries({ step: "useItem", fac: "1", itemID: id }).forEach(([key, value]) => body.set(key, value));
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 						if (typeof result !== "object") return;
@@ -215,9 +212,9 @@
 											link.attr
 												.split(" ")
 												.filter((x) => !!x)
-												.map((x) => x.split("=")),
+												.map((x) => x.split("="))
 										),
-									}),
+									})
 								);
 							}
 						}
@@ -272,9 +269,8 @@
 										],
 									}),
 								],
-							}),
+							})
 						);
-
 
 						for (const count of responseWrap.findAll(".counter-wrap")) {
 							count.classList.add("tt-modified");
@@ -317,7 +313,7 @@
 			},
 		});
 		itemWrap.appendChild(
-			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }),
+			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
 		);
 		if (hasAPIData()) {
 			itemWrap.setAttribute("title", torndata.items[id].name);

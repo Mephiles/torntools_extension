@@ -91,9 +91,9 @@ body.dark-mode #factionQuickItems .inner-content .item.removable {
 }
 
 #factionQuickItems .response-wrap .name {
-    display: none;
+	display: none;
 }
 
 #factionQuickItems .response-wrap .use-cont {
-    border: none;
+	border: none;
 }
