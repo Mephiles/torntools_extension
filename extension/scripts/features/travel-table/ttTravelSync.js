@@ -13,11 +13,11 @@
 		null,
 		null,
 		{
-			storage: ["settings.pages.travel.table", "settings.external.yata"],
+			storage: ["settings.pages.travel.table", "settings.external.yata", "settings.external.prometheus"],
 		},
 		() => {
-			if (!settings.external.yata) return "YATA not enabled";
-		}
+			if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
+		},
 	);
 
 	function updatePrices() {
@@ -40,13 +40,24 @@
 			data.items.push({ id, quantity, cost });
 		}
 
-		fetchData("yata", { section: "travel/import/", method: "POST", body: data, relay: true })
-			.then((response) => {
-				console.log("TT - Updated YATA abroad prices.", response);
-			})
-			.catch((error) => {
-				console.warn("TT - Failed to update YATA abroad prices.", error);
-			});
+		if (settings.external.yata) {
+			fetchData("yata", { section: "travel/import/", method: "POST", body: data, relay: true })
+				.then((response) => {
+					console.log("TT - Updated YATA abroad prices.", response);
+				})
+				.catch((error) => {
+					console.warn("TT - Failed to update YATA abroad prices.", error);
+				});
+		}
+		if (settings.external.prometheus) {
+			fetchData("prometheus", { section: "travel", method: "POST", body: data, relay: true })
+				.then((response) => {
+					console.log("TT - Updated Prometheus abroad prices.", response);
+				})
+				.catch((error) => {
+					console.warn("TT - Failed to update Prometheus abroad prices.", error);
+				});
+		}
 
 		function getCountryName() {
 			return document.find("#skip-to-content").textContent.trim().slice(0, 3).toLowerCase();

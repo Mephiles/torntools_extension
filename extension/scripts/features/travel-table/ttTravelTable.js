@@ -26,13 +26,13 @@
 		startTable,
 		removeTable,
 		{
-			storage: ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata"],
+			storage: ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata", "settings.external.prometheus"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API data!";
-			else if (!settings.external.yata) return "YATA not enabled";
+			else if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
 			else if (isCaptcha()) return "Captcha present.";
-		}
+		},
 	);
 
 	function initialise() {
@@ -196,7 +196,7 @@
 								</div>
 							</div>
 						`,
-					})
+					}),
 				);
 
 				content.find(".legend-icon").addEventListener("click", (event) => {
@@ -354,7 +354,14 @@
 			}
 
 			async function pullInformation() {
-				return fetchData("yata", { section: "travel/export/", relay: true });
+				const fetchYata = () => fetchData("yata", { section: "travel/export/", relay: true });
+				const fetchPrometheus = () => fetchData("prometheus", { section: "travel", relay: true });
+
+				if (settings.external.yata && settings.external.prometheus) return fetchYata().catch(fetchPrometheus);
+				else if (settings.external.yata) return fetchYata();
+				else if (settings.external.prometheus) return fetchPrometheus();
+
+				throw "No available data.";
 			}
 
 			function toRow(item, country, lastUpdate) {
@@ -479,7 +486,7 @@
 							click: changeState,
 						},
 					}),
-					document.find("#top-page-links-list .links-footer")
+					document.find("#top-page-links-list .links-footer"),
 				);
 
 				function changeState() {
@@ -577,6 +584,7 @@
 
 		return count;
 	}
+
 	function getTimeModifier(type) {
 		switch (type) {
 			case "standard":
