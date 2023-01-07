@@ -479,6 +479,7 @@ async function setupPreferences(requireCleanup) {
 
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
 	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
+	_preferences.find("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = event.target.value;
@@ -548,7 +549,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
-		for (const service of ["tornstats", "yata"]) {
+		for (const service of ["tornstats", "yata", "prometheus"]) {
 			_preferences.find(`#external-${service}`).checked = settings.external[service];
 		}
 
@@ -934,6 +935,7 @@ async function setupPreferences(requireCleanup) {
 
 		settings.external.tornstats = _preferences.find("#external-tornstats").checked;
 		settings.external.yata = _preferences.find("#external-yata").checked;
+		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
@@ -1227,6 +1229,7 @@ async function setupPreferences(requireCleanup) {
 		for (const { id, origin } of [
 			{ id: "external-tornstats", origin: FETCH_PLATFORMS.tornstats },
 			{ id: "external-yata", origin: FETCH_PLATFORMS.yata },
+			{ id: "external-prometheus", origin: FETCH_PLATFORMS.prometheus },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;
 
