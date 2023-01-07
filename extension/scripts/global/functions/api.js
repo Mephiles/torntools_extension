@@ -127,7 +127,7 @@ async function fetchData(location, options = {}) {
 				case "prometheus":
 					url = FETCH_PLATFORMS.prometheus;
 
-					path =  ["api", options.section].join("/");
+					path = ["api", options.section].join("/");
 					break;
 			}
 
