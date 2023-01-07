@@ -28,7 +28,8 @@
 		"https://www.nukefamily.org/",
 		"https://tornuhc.eu/",
 		"https://inq.mavri.dev/",
-		"https://api.no1irishstig.co.uk/"
+		"https://api.no1irishstig.co.uk/",
+		"https://prombot.co.uk:8443/"
 	],
 	"web_accessible_resources": [
 		"resources/images/*.png",

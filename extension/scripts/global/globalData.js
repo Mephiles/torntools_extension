@@ -665,6 +665,7 @@ const DEFAULT_STORAGE = {
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	filters: {
