@@ -1,0 +1,99 @@
+#factionQuickItems .inner-content {
+	width: 100%;
+	padding: 0 5px 5px 5px;
+	box-sizing: border-box;
+}
+
+#factionQuickItems > main.drag-progress * {
+	pointer-events: none;
+}
+
+#factionQuickItems .inner-content .item {
+	display: inline-block;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	position: relative;
+	margin: 5px 5px 0 0;
+}
+
+body:not(.dark-mode) #factionQuickItems .inner-content .item {
+	border: 1px solid lightgray;
+	background-color: white;
+}
+
+body.dark-mode #factionQuickItems .inner-content .item {
+	border: 1px solid #444;
+	background-color: #333;
+}
+
+#factionQuickItems .inner-content .item .tt-close-icon {
+	opacity: 0;
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	color: #a7a7a7;
+}
+
+.tt-mobile #factionQuickItems .inner-content .item .tt-close-icon,
+#factionQuickItems .inner-content .item:hover .tt-close-icon {
+	opacity: 1;
+}
+
+#factionQuickItems .inner-content .item .tt-close-icon:hover {
+	color: gray;
+}
+
+#factionQuickItems .inner-content .temp.item {
+	opacity: 0.2;
+	border: 1px solid gray;
+}
+
+#factionQuickItems .inner-content .item .pic {
+	width: 60px;
+	height: 30px;
+	background-size: cover;
+	margin: auto;
+}
+
+#factionQuickItems .inner-content .item .text {
+	text-align: center;
+}
+
+#factionQuickItems .response-wrap {
+	display: none;
+	padding: 10px;
+	background-color: var(--items-cont-bg-color);
+	text-align: center;
+	border-top: 1px solid var(--items-cont-description-border-top-color);
+	border-bottom: 1px solid var(--items-cont-description-border-top-color);
+}
+
+#factionQuickItems .ajax-placeholder {
+	left: 0 !important;
+}
+
+#factionQuickItems #edit-items-button i {
+	margin-right: 4px;
+}
+
+.tt-overlay-item li.tt-overlay-ignore[data-item] {
+	border-top: 1px solid #00000059;
+	border-bottom: 1px solid #00000059;
+}
+
+body:not(.dark-mode) #factionQuickItems .inner-content .item.removable {
+	background-color: #ffd5d5 !important;
+}
+
+body.dark-mode #factionQuickItems .inner-content .item.removable {
+	background-color: #9d2f2f !important;
+}
+
+#factionQuickItems .response-wrap .name {
+    display: none;
+}
+
+#factionQuickItems .response-wrap .use-cont {
+    border: none;
+}
