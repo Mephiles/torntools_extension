@@ -33,7 +33,7 @@
 
 			await requireElement(".players-list .ajax-placeholder", { invert: true });
 
-			showEstimates().then(() => {});
+			showEstimates().catch(() => console.error(`Failed to load stats estimate for the '${type}' list.`))
 		});
 	}
 
@@ -41,17 +41,16 @@
 		await requireElement(".players-list > li");
 		await requireElement(".players-list > li .ajax-preloader", { invert: true });
 
-		let levelSelector;
-		if (document.find(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList.contains("levels")) {
-			levelSelector = ".player-info .col-big.bold";
-		} else {
-			levelSelector = ".player-info .col-small";
-		}
+		const hofType = document.find(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList[1];
+		if (["battle", "respect", "factionchains", "factionrank"].includes(hofType)) return;
+
+		const levelIndex = [...document.querySelector(".table-titles").children].findIndex((title) => title.textContent === "Level");
+		if (levelIndex === -1) return;
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(".players-list > li:not(.empty)", (row) => ({
 			id: parseInt(row.find(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-			level: parseInt(row.find(levelSelector).textContent),
+			level: parseInt(row.find(`.player-info > li:nth-child(${levelIndex + 1})`).textContent),
 		}));
 	}
 
