@@ -2,13 +2,15 @@
 
 (async () => {
 	const feature = featureManager.registerFeature(
-		"PointsMarket No Confirm",
+		"PointsMarket No Confirm - Remove",
 		"no confirm",
-		() => settings.scripts.noConfirm.pointsMarketRemove,
+		() => settings.scripts.noConfirm.pointsMarketRemove || settings.scripts.noConfirm.pointsMarketBuy,
 		initialise,
 		startFeature,
 		null,
-		null,
+		{
+			storage: ["settings.scripts.noConfirm.pointsMarketRemove", "settings.scripts.noConfirm.pointsMarketBuy"],
+		},
 		null
 	);
 
@@ -29,9 +31,15 @@
 	}
 
 	function removeConfirmation() {
-		for (const item of document.findAll(".users-point-sell > li.bg-green:not(.yes) > span[href]")) {
-			item.classList.add("yes");
-			item.setAttribute("href", item.getAttribute("href").replace("ajax_action=remove", "ajax_action=remove1"));
+		for (const item of document.findAll(".users-point-sell > li:not(.yes) > span[href]")) {
+			const url = item.getAttribute("href");
+			if (settings.scripts.noConfirm.pointsMarketRemove && url.includes("ajax_action=remove")) {
+				item.classList.add("yes");
+				item.setAttribute("href", url.replace("ajax_action=remove", "ajax_action=remove1"));
+			} else if (settings.scripts.noConfirm.pointsMarketBuy && url.includes("ajax_action=buy")) {
+				item.classList.add("yes");
+				item.setAttribute("href", url.replace("ajax_action=buy", "ajax_action=buy1"));
+			}
 		}
 	}
 })();
