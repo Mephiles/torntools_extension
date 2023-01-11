@@ -77,7 +77,13 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 			triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
 			new MutationObserver((mutations) => {
-				if (!mutations.some((mutation) => mutation.addedNodes.length > 5)) return;
+				if (!mutations.some((mutation) =>{
+					const addedNodes = [...mutation.addedNodes];
+
+					return addedNodes
+						.filter((node) => node.nodeType === Node.ELEMENT_NODE)
+						.some((node) => node.classList.contains("item-list") || (node.tagName === "DIV" && node.classList.contains("p10")))
+				})) return;
 
 				const mutation = mutations.find((mutation) => mutation.target.id.includes("armoury-"));
 				if (!mutation) return;
