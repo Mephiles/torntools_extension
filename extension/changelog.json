@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 10, "build": 0 },
+		"version": { "major": 6, "minor": 11, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 10, "build": 0 },
+		"date": "2023/01/11",
 		"logs": {
 			"features": [
 				{ "message": "Show last action on the OC page.", "contributor": "DeKleineKobini" },
@@ -27,8 +33,7 @@
 				{ "message": "Change torndata validity check to better avoid corrupt data.", "contributor": "DeKleineKobini" },
 				{ "message": "Show item name when using quick items when no API key is provided.", "contributor": "DeKleineKobini" },
 				{ "message": "Round can energy so it shows the actual amount of energy.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
