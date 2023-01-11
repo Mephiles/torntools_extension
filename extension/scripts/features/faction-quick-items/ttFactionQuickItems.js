@@ -128,7 +128,7 @@
 		for (const item of document.findAll("#faction-armoury-tabs .armoury-tabs .item-list > li")) {
 			const imgWrap = item.find(".img-wrap");
 
-			if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type").textContent)) continue;
+			if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
 
 			item.setAttribute("draggable", "true");
 			item.addEventListener("dragstart", onDragStart);

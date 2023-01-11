@@ -3,7 +3,10 @@
 		"version": { "major": 6, "minor": 11, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fix faction armory tab detection if a tab is empty.", "contributor": "DeKleineKobini" }], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [
+			{ "message": "Fix faction armory tab detection if a tab is empty.", "contributor": "DeKleineKobini" },
+			{ "message": "Fix faction quick item error while setting up drag listeners.", "contributor": "DeKleineKobini" }
+		], "changes": [], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 10, "build": 0 },
