@@ -6,7 +6,7 @@
 		"logs": { "features": [], "fixes": [
 			{ "message": "Fix faction armory tab detection if a tab is empty.", "contributor": "DeKleineKobini" },
 			{ "message": "Fix faction quick item error while setting up drag listeners.", "contributor": "DeKleineKobini" }
-		], "changes": [], "removed": [] }
+		], "changes": [{ "message": "Also show faction quick items on the points, cesium deposit tabs.", "contributor": "DeKleineKobini" }], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 10, "build": 0 },
