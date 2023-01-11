@@ -33,7 +33,7 @@
 
 			await requireElement(".players-list .ajax-placeholder", { invert: true });
 
-			showEstimates().catch(() => console.error(`Failed to load stats estimate for the '${type}' list.`))
+			showEstimates().catch(() => console.error(`Failed to load stats estimate for the '${type}' list.`));
 		});
 	}
 
