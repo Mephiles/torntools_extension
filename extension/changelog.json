@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 9, "build": 4 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [
