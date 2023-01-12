@@ -17,7 +17,7 @@
 			storage: ["settings.pages.faction.quickItems"],
 		},
 		null,
-		{ liveReload: true }
+		{ liveReload: true },
 	);
 
 	function addListener() {
@@ -112,7 +112,7 @@
 						attachEditListeners(enabled);
 					},
 				},
-			})
+			}),
 		);
 
 		for (const quickItem of quick.factionItems) {
@@ -125,14 +125,34 @@
 	}
 
 	function setupQuickDragListeners() {
-		for (const item of document.findAll("#faction-armoury-tabs .armoury-tabs .item-list > li")) {
-			const imgWrap = item.find(".img-wrap");
+		const tab = document.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
 
-			if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
+		if (tab.id === "armoury-points") {
+			for (const item of tab.findAll(".give[data-role]")) {
+				const type = item.textContent.trim().split(" ")[1].toLowerCase();
 
-			item.setAttribute("draggable", "true");
-			item.addEventListener("dragstart", onDragStart);
-			item.addEventListener("dragend", onDragEnd);
+				item.dataset.type = "tt-points";
+				item.setAttribute("draggable", "true");
+				item.addEventListener("dragstart", onDragStart);
+				item.addEventListener("dragend", onDragEnd);
+
+				item.appendChild(document.newElement({
+					type: "div",
+					class: "img-wrap tt-lazy-magic",
+					dataset: { itemid: `points-${type}` },
+					style: { display: "none" },
+				}));
+			}
+		} else {
+			for (const item of tab.findAll(".item-list > li")) {
+				const imgWrap = item.find(".img-wrap");
+
+				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
+
+				item.setAttribute("draggable", "true");
+				item.addEventListener("dragstart", onDragStart);
+				item.addEventListener("dragend", onDragEnd);
+			}
 		}
 
 		function onDragStart(event) {
@@ -142,7 +162,7 @@
 				document.find("#factionQuickItems > main").classList.add("drag-progress");
 				if (document.find("#factionQuickItems .temp.item")) return;
 
-				const id = parseInt(event.target.find(".img-wrap").dataset.itemid);
+				const id = event.target.find(".img-wrap").dataset.itemid;
 
 				addQuickItem({ id }, true);
 			}, 10);
@@ -167,7 +187,7 @@
 		const { id } = data;
 
 		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
-		if (!allowQuickItem(id, torndata.items[id].type)) return;
+		if (!allowQuickItem(id, torndata.items[id]?.type)) return;
 
 		const itemWrap = document.newElement({
 			type: "div",
@@ -212,9 +232,9 @@
 											link.attr
 												.split(" ")
 												.filter((x) => !!x)
-												.map((x) => x.split("="))
+												.map((x) => x.split("=")),
 										),
-									})
+									}),
 								);
 							}
 						}
@@ -269,7 +289,7 @@
 										],
 									}),
 								],
-							})
+							}),
 						);
 
 						for (const count of responseWrap.findAll(".counter-wrap")) {
@@ -313,16 +333,28 @@
 			},
 		});
 		itemWrap.appendChild(
-			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
+			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }),
 		);
-		if (hasAPIData()) {
-			itemWrap.setAttribute("title", torndata.items[id].name);
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
-		} else if (id in TORN_ITEMS) {
-			itemWrap.setAttribute("title", TORN_ITEMS[id].name);
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
-		} else {
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
+		switch (id) {
+			case "points-energy":
+				itemWrap.setAttribute("title", "Energy Refill");
+				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Energy Refill" }));
+				break;
+			case "points-nerve":
+				itemWrap.setAttribute("title", "Nerve Refill");
+				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Nerve Refill" }));
+				break;
+			default:
+				if (hasAPIData()) {
+					itemWrap.setAttribute("title", torndata.items[id].name);
+					itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
+				} else if (id in TORN_ITEMS) {
+					itemWrap.setAttribute("title", TORN_ITEMS[id].name);
+					itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
+				} else {
+					itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
+				}
+				break;
 		}
 
 		const closeIcon = document.newElement({
@@ -361,7 +393,7 @@
 	}
 
 	function allowQuickItem(id, category) {
-		return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category);
+		return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) || id === "points-energy" || id === "points-nerve";
 	}
 
 	function hideQuickItems() {
@@ -373,7 +405,7 @@
 			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
 				const imgWrap = item.find(".img-wrap");
 
-				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type").textContent)) continue;
+				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
@@ -381,7 +413,7 @@
 			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
 				const imgWrap = item.find(".img-wrap");
 
-				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type").textContent)) continue;
+				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
 
 				item.removeEventListener("click", onItemClickQuickEdit);
 			}
@@ -393,7 +425,7 @@
 		event.preventDefault();
 
 		const target = findParent(event.target, { tag: "LI" });
-		const id = parseInt(target.find(".img-wrap").dataset.itemid);
+		const id = target.find(".img-wrap").dataset.itemid;
 
 		const item = addQuickItem({ id }, false);
 		if (item) item.classList.add("tt-overlay-item", "removable");
@@ -405,7 +437,7 @@
 		for (const item of tab.findAll(".item-list > li")) {
 			const imgWrap = item.find(".img-wrap");
 
-			if (allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type").textContent)) continue;
+			if (allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
 
 			item.classList.add("tt-overlay-ignore");
 		}
