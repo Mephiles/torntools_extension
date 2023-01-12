@@ -120,7 +120,7 @@
 			const bonusFilter = createFilterSection({
 				type: "Weapon Bonus",
 				callback: applyFilters,
-				defaults: filters.auction[itemType].weaponBonus
+				defaults: filters.auction[itemType].weaponBonus,
 			});
 			filterContent.appendChild(bonusFilter.element);
 			localFilters.weaponBonus = { getValues: bonusFilter.getValues };
