@@ -10,7 +10,7 @@
 				{ "message": "Fix faction quick item error while setting up drag listeners.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix cooldowns that go over 24h to not show that.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Also show faction quick items on the points, cesium deposit tabs.", "contributor": "DeKleineKobini" }],
+			"changes": [{ "message": "Also show faction quick items on the points, cesium deposit tabs.", "contributor": "DeKleineKobini" },{ "message": "Add 22 missing weapon bonuses to the auction filter.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},
