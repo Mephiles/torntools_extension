@@ -164,10 +164,7 @@
 		await applyFilters();
 
 		function createWeaponBonusFilter({ callback, defaults }) {
-			const selectOptions = [
-				{ value: "", description: "None" },
-				...WEAPON_BONUSES.map((bonus) => ({ value: bonus.toLowerCase(), description: bonus })),
-			];
+			const selectOptions = [{ value: "", description: "None" }, ...WEAPON_BONUSES.map((bonus) => ({ value: bonus.toLowerCase(), description: bonus }))];
 
 			const select1 = createSelect(selectOptions);
 			select1.onChange(callback);
