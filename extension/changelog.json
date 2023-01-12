@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Filter on weapon bonus in the faction armory.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix faction armory tab detection if a tab is empty.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction quick item error while setting up drag listeners.", "contributor": "DeKleineKobini" },

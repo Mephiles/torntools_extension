@@ -783,6 +783,7 @@ const DEFAULT_STORAGE = {
 		},
 		factionArmory: {
 			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			weaponBonus: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		factionRankedWar: {
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
