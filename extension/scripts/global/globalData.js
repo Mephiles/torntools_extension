@@ -1239,6 +1239,7 @@ const API_USAGE = {
 		},
 		enhancer_perks: true,
 		job_perks: true,
+		book_perks: true,
 		faction_perks: true,
 		education_perks: true,
 		merit_perks: true,
