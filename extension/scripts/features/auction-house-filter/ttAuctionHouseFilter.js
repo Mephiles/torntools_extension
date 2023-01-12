@@ -117,9 +117,10 @@
 			filterContent.appendChild(accuracyFilter.element);
 			localFilters.accuracy = { getValue: accuracyFilter.getValue };
 
-			const bonusFilter = createWeaponBonusFilter({
+			const bonusFilter = createFilterSection({
+				type: "Weapon Bonus",
 				callback: applyFilters,
-				defaults: filters.auction[itemType].weaponBonus,
+				defaults: filters.auction[itemType].weaponBonus
 			});
 			filterContent.appendChild(bonusFilter.element);
 			localFilters.weaponBonus = { getValues: bonusFilter.getValues };
@@ -162,44 +163,6 @@
 		content.appendChild(filterContent);
 
 		await applyFilters();
-
-		function createWeaponBonusFilter({ callback, defaults }) {
-			const selectOptions = [{ value: "", description: "None" }, ...WEAPON_BONUSES.map((bonus) => ({ value: bonus.toLowerCase(), description: bonus }))];
-
-			const select1 = createSelect(selectOptions);
-			select1.onChange(callback);
-			const value1 = createTextbox({ type: "number", style: { width: "40px" } });
-			value1.onChange(callback);
-
-			const select2 = createSelect(selectOptions);
-			select2.onChange(callback);
-			const value2 = createTextbox({ type: "number", style: { width: "40px" } });
-			value2.onChange(callback);
-
-			if (defaults.length >= 1) {
-				select1.setSelected(defaults[0].bonus);
-				value1.setValue(defaults[0].value ?? "");
-			}
-			if (defaults.length >= 2) {
-				select2.setSelected(defaults[1].bonus);
-				value2.setValue(defaults[1].value ?? "");
-			}
-
-			const bonusFilter = createFilterSection({ title: "Bonus" });
-			bonusFilter.element.appendChild(select1.element);
-			bonusFilter.element.appendChild(value1.element);
-			bonusFilter.element.appendChild(select2.element);
-			bonusFilter.element.appendChild(value2.element);
-
-			return {
-				element: bonusFilter.element,
-				getValues: () =>
-					[
-						[select1, value1],
-						[select2, value2],
-					].map(([s, v]) => ({ bonus: s.getSelected(), value: isNaN(v.getValue()) ? "" : parseInt(v.getValue()) })),
-			};
-		}
 	}
 
 	async function applyFilters() {

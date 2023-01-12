@@ -1,4 +1,4 @@
-.bonus__section-class {
+.weaponBonus__section-class {
 	display: grid;
 	grid-template:
 		"title title" auto
@@ -7,6 +7,6 @@
 	gap: 4px;
 }
 
-.bonus__section-class strong {
+.weaponBonus__section-class strong {
 	grid-area: title;
 }
