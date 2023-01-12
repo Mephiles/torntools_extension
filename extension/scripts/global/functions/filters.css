@@ -150,3 +150,16 @@ body.tt-tablet .tt-filter .content > div {
 .tt-filter .content .slider-counter {
 	margin-top: 5px;
 }
+
+.weaponBonus__section-class {
+	display: grid;
+	grid-template:
+		"title title" auto
+		"b1    v1" auto
+		"b2    v2" auto / 1fr 1fr;
+	gap: 4px;
+}
+
+.weaponBonus__section-class strong {
+	grid-area: title;
+}
