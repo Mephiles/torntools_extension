@@ -113,7 +113,7 @@
 				hint: "If the claimer is anonymous, their ID # still shows up in the mission screen.",
 			},
 			double_jeopardy: {
-				task: "Put a bounty on (P) and defeat them.",
+				task: "Put a bounty on someone and defeat them.",
 				hint: "Bounty can be any amount as it doesn't have to be claimed.",
 			},
 			drug_problem: {
