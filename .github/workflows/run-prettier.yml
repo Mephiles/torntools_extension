@@ -12,9 +12,9 @@ jobs:
 
             # Runs prettier
             - name: Format with prettier
-              uses: actionsx/prettier@v2
+              uses: creyD/prettier_action@v4.2
               with:
-                  args: --config .prettierrc --write . --list-different
+                prettier_options: --config .prettierrc --write . --list-different
 
             - name: Add & Commit
               uses: EndBug/add-and-commit@v9

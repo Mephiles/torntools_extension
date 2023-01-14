@@ -101,9 +101,9 @@ jobs:
           export version
           echo "version=$version" >> "$GITHUB_ENV"
       - name: Format with prettier
-        uses: actionsx/prettier@v2
+        uses: creyD/prettier_action@v4.2
         with:
-          args: --config .prettierrc --write . --list-different
+          prettier_options: --config .prettierrc --write . --list-different
       - name: Release
         uses: ncipollo/release-action@v1
         with:
