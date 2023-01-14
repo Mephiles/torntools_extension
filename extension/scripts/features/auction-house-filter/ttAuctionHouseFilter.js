@@ -131,7 +131,7 @@
 				title: "Defence",
 				text: "number",
 				style: { width: "50px" },
-				default: filters.auction[itemType].damage,
+				default: filters.auction[itemType].defence,
 				callback: applyFilters,
 			});
 			filterContent.appendChild(defenceFilter.element);
