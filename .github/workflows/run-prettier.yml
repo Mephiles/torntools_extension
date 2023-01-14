@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # Downloads Repos for Usage
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
 
             # Runs prettier
             - name: Format with prettier
@@ -17,7 +17,7 @@ jobs:
                   args: --config .prettierrc --write . --list-different
 
             - name: Add & Commit
-              uses: EndBug/add-and-commit@v7.3.0
+              uses: EndBug/add-and-commit@v9
               with:
                   message: Apply prettier changes.
                   default_author: github_actions
