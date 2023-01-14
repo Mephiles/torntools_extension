@@ -74,7 +74,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 		async function loadArmory() {
 			const tab = await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
-			await requireElement(`#${tab.getAttribute("aria-controls")} .ajax-preloader`, { invert: true });
+			await requireElement(`#${tab.getAttribute("aria-controls")} > .ajax-preloader`, { invert: true });
 
 			triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
 			new MutationObserver((mutations) => {
