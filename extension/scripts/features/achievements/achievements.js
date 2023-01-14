@@ -6,6 +6,7 @@ const ACHIEVEMENTS = [
 			userdata.enhancer_perks.length +
 			userdata.faction_perks.length +
 			userdata.job_perks.length +
+			userdata.book_perks.length +
 			userdata.merit_perks.length +
 			userdata.property_perks.length +
 			userdata.stock_perks.length,

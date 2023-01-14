@@ -783,6 +783,24 @@ const DEFAULT_STORAGE = {
 		},
 		factionArmory: {
 			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			weapons: {
+				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+				category: new DefaultSetting({ type: "string", defaultValue: "" }),
+				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
+				weaponType: new DefaultSetting({ type: "string", defaultValue: "" }),
+				damage: new DefaultSetting({ type: "string", defaultValue: "" }),
+				accuracy: new DefaultSetting({ type: "string", defaultValue: "" }),
+				weaponBonus: new DefaultSetting({ type: "array", defaultValue: [] }),
+			},
+			armor: {
+				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
+				defence: new DefaultSetting({ type: "string", defaultValue: "" }),
+				set: new DefaultSetting({ type: "string", defaultValue: "" }),
+			},
+			temporary: {
+				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+			},
 		},
 		factionRankedWar: {
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
@@ -1239,6 +1257,7 @@ const API_USAGE = {
 		},
 		enhancer_perks: true,
 		job_perks: true,
+		book_perks: true,
 		faction_perks: true,
 		education_perks: true,
 		merit_perks: true,

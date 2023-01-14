@@ -51,6 +51,8 @@ function createFilterSection(options) {
 		...options,
 	};
 
+	const isWeaponBonus = options.type === "Weapon Bonus";
+
 	if (options.type === "Activity") {
 		options.title = "Activity";
 		options.checkboxes = [
@@ -58,9 +60,12 @@ function createFilterSection(options) {
 			{ id: "idle", description: "Idle" },
 			{ id: "offline", description: "Offline" },
 		];
+	} else if (isWeaponBonus) {
+		options.title = options.title || "Weapon Bonus";
+		options.classPrefix = "weaponBonus";
 	}
 
-	const ccTitle = options.title.camelCase(true) + "__section-class";
+	const ccTitle = (options.classPrefix || options.title.camelCase(true)) + "__section-class";
 	const section = document.newElement({ type: "div", class: ccTitle, style: options.style });
 
 	if (!options.noTitle) section.appendChild(document.newElement({ type: "strong", text: options.title }));
@@ -179,6 +184,43 @@ function createFilterSection(options) {
 
 			counter.textContent = string;
 		}
+	}
+
+	if (isWeaponBonus) {
+		const selectOptions = [{ value: "", description: "None" }, ...WEAPON_BONUSES.map((bonus) => ({ value: bonus.toLowerCase(), description: bonus }))];
+
+		const select1 = createSelect(selectOptions);
+		const value1 = createTextbox({ type: "number", style: { width: "40px" } });
+		const select2 = createSelect(selectOptions);
+		const value2 = createTextbox({ type: "number", style: { width: "40px" } });
+
+		select1.onChange(options.callback);
+		value1.onChange(options.callback);
+		select2.onChange(options.callback);
+		value2.onChange(options.callback);
+
+		if (options.defaults.length >= 1) {
+			select1.setSelected(options.defaults[0].bonus);
+			value1.setValue(options.defaults[0].value ?? "");
+		}
+		if (options.defaults.length >= 2) {
+			select2.setSelected(options.defaults[1].bonus);
+			value2.setValue(options.defaults[1].value ?? "");
+		}
+
+		section.appendChild(select1.element);
+		section.appendChild(value1.element);
+		section.appendChild(select2.element);
+		section.appendChild(value2.element);
+
+		return {
+			element: section,
+			getValues: () =>
+				[
+					[select1, value1],
+					[select2, value2],
+				].map(([s, v]) => ({ bonus: s.getSelected(), value: isNaN(v.getValue()) ? "" : parseInt(v.getValue()) })),
+		};
 	}
 
 	return { element: section };

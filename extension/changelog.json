@@ -4,12 +4,22 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Filter on a lot of things in the faction armory.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix faction armory tab detection if a tab is empty.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix faction quick item error while setting up drag listeners.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix faction quick item error while setting up drag listeners.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix cooldowns that go over 24h to not show that.", "contributor": "DeKleineKobini" },
+				{ "message": "Count book perks that are shown as perk for the merit.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix armor defence filter in the auction house not saving.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix armory filter loading on page load.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix chain CSV header missing.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Also show faction quick items on the points, cesium deposit tabs.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Also show faction quick items on the points, cashes, cesium and deposit tabs.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't show the faction quick items on the temporary items page.", "contributor": "DeKleineKobini" },
+				{ "message": "Show the armory filter on the temporary items page.", "contributor": "DeKleineKobini" },
+				{ "message": "Add 22 missing weapon bonuses to the auction filter.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},

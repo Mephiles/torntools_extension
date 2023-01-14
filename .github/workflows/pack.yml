@@ -6,7 +6,7 @@ jobs:
     environment: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Update the changelog.json
         run: |
           DaySuffix() {
@@ -101,9 +101,9 @@ jobs:
           export version
           echo "version=$version" >> "$GITHUB_ENV"
       - name: Format with prettier
-        uses: actionsx/prettier@v2
+        uses: creyD/prettier_action@v4.2
         with:
-          args: --config .prettierrc --write . --list-different
+          prettier_options: --config .prettierrc --write . --list-different
       - name: Release
         uses: ncipollo/release-action@v1
         with:
@@ -117,6 +117,6 @@ jobs:
           rm -f ./releaseBody.md
           rm -rf versions
       - name: Add & Commit
-        uses: EndBug/add-and-commit@v7.0.0
+        uses: EndBug/add-and-commit@v9
         with:
           message: "Pack v${{ env.version }}"
