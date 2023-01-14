@@ -21,7 +21,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(({ section }) => {
 			if (!feature.enabled()) return;
 
-			if (["weapons", "armour"].includes(section)) addFilter(section);
+			if (["weapons", "armour", "temporary"].includes(section)) addFilter(section);
 			else hideFilter();
 		});
 	}
@@ -30,16 +30,8 @@
 	let localFilters = {};
 
 	async function addFilter(section) {
-		if (!["weapons", "armour"].includes(section)) return;
+		if (!["weapons", "armour", "temporary"].includes(section)) return;
 		else if (section === "armour") section = "armor";
-
-		// const presentFilter = findContainer("Armory Filter");
-		// if (presentFilter) {
-		// 	presentFilter.classList.remove("tt-hidden");
-		//
-		// 	await applyFilters();
-		// 	return;
-		// }
 
 		const { options, content } = createContainer("Armory Filter", {
 			class: "mt10",

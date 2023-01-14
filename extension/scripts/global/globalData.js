@@ -798,6 +798,9 @@ const DEFAULT_STORAGE = {
 				defence: new DefaultSetting({ type: "string", defaultValue: "" }),
 				set: new DefaultSetting({ type: "string", defaultValue: "" }),
 			},
+			temporary: {
+				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+			},
 		},
 		factionRankedWar: {
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
