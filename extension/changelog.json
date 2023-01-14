@@ -14,7 +14,7 @@
 				{ "message": "Fix armory filter loading on page load.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
-				{ "message": "Also show faction quick items on the points, cesium and deposit tabs.", "contributor": "DeKleineKobini" },
+				{ "message": "Also show faction quick items on the points, cashes, cesium and deposit tabs.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't show the faction quick items on the temporary items page.", "contributor": "DeKleineKobini" },
 				{ "message": "Show the armory filter on the temporary items page.", "contributor": "DeKleineKobini" },
 				{ "message": "Add 22 missing weapon bonuses to the auction filter.", "contributor": "DeKleineKobini" }

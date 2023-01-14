@@ -45,7 +45,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(({ section }) => {
 			if (!feature.enabled()) return;
 
-			if (["medical", "drugs", "boosters", "cesium", "points", "donate"].includes(section)) {
+			if (["medical", "drugs", "boosters", "caches", "cesium", "points", "donate"].includes(section)) {
 				showQuickItems(section);
 				setupQuickDragListeners();
 				setupOverlayItems(document);
