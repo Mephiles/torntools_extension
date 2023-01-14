@@ -84,7 +84,12 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 						return addedNodes
 							.filter((node) => node.nodeType === Node.ELEMENT_NODE)
-							.some((node) => node.classList.contains("item-list") || (node.tagName === "DIV" && node.classList.contains("p10")) || node.id === "inventory-container");
+							.some(
+								(node) =>
+									node.classList.contains("item-list") ||
+									(node.tagName === "DIV" && node.classList.contains("p10")) ||
+									node.id === "inventory-container"
+							);
 					})
 				)
 					return;
