@@ -56,6 +56,12 @@ body.dark-mode #factionQuickItems .inner-content .item {
 	margin: auto;
 }
 
+#factionQuickItems .inner-content .item .icon-refill {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 #factionQuickItems .inner-content .item .text {
 	text-align: center;
 }
@@ -96,4 +102,26 @@ body.dark-mode #factionQuickItems .inner-content .item.removable {
 
 #factionQuickItems .response-wrap .use-cont {
 	border: none;
+}
+
+.item[data-id^="points-"] .icon-refill i {
+    position: absolute;
+}
+
+.item[data-id^="points-"] .icon-refill i::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.item[data-id="points-energy"] .icon-refill i::after {
+    content: "E";
+    color: #6cad2b;
+}
+
+.item[data-id="points-nerve"] .icon-refill i::after {
+    content: "N";
+    color: #cc7032;
 }

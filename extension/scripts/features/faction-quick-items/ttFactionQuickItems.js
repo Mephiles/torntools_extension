@@ -96,14 +96,14 @@
 						}
 
 						for (const category of document.findAll("#faction-armoury-tabs .torn-tabs > li")) {
-							if (!["Medical", "Drugs", "Boosters"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
+							if (!["Medical", "Drugs", "Boosters", "Points"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
 						}
-						for (const item of document.findAll("#armoury-medical, #armoury-drugs, #armoury-boosters")) {
-							if (enabled) item.classList.add("tt-overlay-item");
-							else item.classList.remove("tt-overlay-item");
+						for (const item of document.findAll("#armoury-medical, #armoury-drugs, #armoury-boosters, #armoury-points")) {
+							if (enabled) item.classList.add("tt-overlay-item-notbroken");
+							else item.classList.remove("tt-overlay-item-notbroken");
 						}
 
 						if (enabled) document.find(".tt-overlay").classList.remove("tt-hidden");
@@ -203,7 +203,7 @@
 						return;
 					}
 
-					if (settings.pages.items.energyWarning && hasAPIData() && ["Drug", "Energy Drink"].includes(torndata.items[id].type)) {
+					if (settings.pages.items.energyWarning && hasAPIData() && ["Drug", "Energy Drink"].includes(torndata.items[id]?.type)) {
 						const received = getItemEnergy(id);
 						if (received) {
 							const [current, max] = getUserEnergy();
@@ -214,89 +214,109 @@
 					}
 
 					const body = new URLSearchParams();
-					Object.entries({ step: "useItem", fac: "1", itemID: id }).forEach(([key, value]) => body.set(key, value));
 
-					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
-						if (typeof result !== "object") return;
+					if (id === "points-energy" || id === "points-nerve") {
+						body.set("step", "armouryRefillEnergy");
+						if (id === "points-energy") body.set("step", "armouryRefillEnergy");
+						else if (id === "points-nerve") body.set("step", "armouryRefillNerve");
 
-						const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
-						if (result.links) {
-							for (const link of result.links) {
-								links.push(
-									document.newElement({
-										type: "a",
-										class: `t-blue h m-left10 ${link.class}`,
-										href: link.url,
-										text: link.title,
-										attributes: Object.fromEntries(
-											link.attr
-												.split(" ")
-												.filter((x) => !!x)
-												.map((x) => x.split("=")),
-										),
-									}),
-								);
+						fetchData("torn_direct", { action: "factions.php", method: "POST", body })
+							.then((result) => {
+								responseWrap.style.display = "block";
+								responseWrap.innerHTML = "";
+
+								responseWrap.appendChild(document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, text: result.message }));
+								responseWrap.appendChild(document.newElement({
+									type: "div",
+									style: { display: "block" },
+									children: [document.newElement({ type: "a", href: "#", class: "close-act t-blue bold c-pointer", text: "Okay" })],
+								}));
+							});
+					} else {
+						Object.entries({ step: "useItem", fac: "1", itemID: id }).forEach(([key, value]) => body.set(key, value));
+
+						fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
+							if (typeof result !== "object") return;
+
+							const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
+							if (result.links) {
+								for (const link of result.links) {
+									links.push(
+										document.newElement({
+											type: "a",
+											class: `t-blue h m-left10 ${link.class}`,
+											href: link.url,
+											text: link.title,
+											attributes: Object.fromEntries(
+												link.attr
+													.split(" ")
+													.filter((x) => !!x)
+													.map((x) => x.split("=")),
+											),
+										}),
+									);
+								}
 							}
-						}
 
-						responseWrap.style.display = "block";
-						responseWrap.childNodes.forEach((child) => child.remove());
-						responseWrap.appendChild(
-							document.newElement({
-								type: "div",
-								class: "armoury-tabs",
-								children: [
-									document.newElement({
-										type: "ul",
-										class: "item-list",
-										children: [
-											document.newElement({
-												type: "li",
-												class: "item-use-act",
-												children: [
-													document.newElement({
-														type: "div",
-														class: "name",
-														children: [document.newElement({ type: "span", class: "qty", text: "10000" })],
-													}),
-													document.newElement({
-														type: "div",
-														class: "use-cont action-cont",
-														children: [
-															document.newElement({
-																type: "div",
-																class: "use-wrap",
-																children: [
-																	document.newElement({
-																		type: "form",
-																		dataset: { action: "useItem" },
-																		attributes: { method: "post" },
-																		children: [
-																			document.newElement({ type: "p", html: result.text }),
-																			document.newElement({ type: "p", children: links }),
-																			document.newElement({ type: "div", class: "clear" }),
-																		],
-																	}),
-																],
-																style: { display: "block" },
-															}),
-														],
-														dataset: { itemid: id },
-													}),
-													document.newElement({ type: "div", class: "clear" }),
-												],
-											}),
-										],
-									}),
-								],
-							}),
-						);
+							responseWrap.style.display = "block";
+							responseWrap.innerHTML = "";
+							responseWrap.appendChild(
+								document.newElement({
+									type: "div",
+									class: "armoury-tabs",
+									children: [
+										document.newElement({
+											type: "ul",
+											class: "item-list",
+											children: [
+												document.newElement({
+													type: "li",
+													class: "item-use-act",
+													children: [
+														document.newElement({
+															type: "div",
+															class: "name",
+															children: [document.newElement({ type: "span", class: "qty", text: "10000" })],
+														}),
+														document.newElement({
+															type: "div",
+															class: "use-cont action-cont",
+															children: [
+																document.newElement({
+																	type: "div",
+																	class: "use-wrap",
+																	children: [
+																		document.newElement({
+																			type: "form",
+																			dataset: { action: "useItem" },
+																			attributes: { method: "post" },
+																			children: [
+																				document.newElement({ type: "p", html: result.text }),
+																				document.newElement({ type: "p", children: links }),
+																				document.newElement({ type: "div", class: "clear" }),
+																			],
+																		}),
+																	],
+																	style: { display: "block" },
+																}),
+															],
+															dataset: { itemid: id },
+														}),
+														document.newElement({ type: "div", class: "clear" }),
+													],
+												}),
+											],
+										}),
+									],
+								}),
+							);
 
-						for (const count of responseWrap.findAll(".counter-wrap")) {
-							count.classList.add("tt-modified");
-							count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
-						}
-					});
+							for (const count of responseWrap.findAll(".counter-wrap")) {
+								count.classList.add("tt-modified");
+								count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
+							}
+						});
+					}
 				},
 				dragstart(event) {
 					event.dataTransfer.effectAllowed = "move";
@@ -332,19 +352,29 @@
 				draggable: true,
 			},
 		});
-		itemWrap.appendChild(
-			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }),
-		);
 		switch (id) {
 			case "points-energy":
+				itemWrap.appendChild(document.newElement({
+					type: "div",
+					class: "pic icon-refill",
+					children: [document.newElement({ type: "i", class: "currency-points" })],
+				}));
 				itemWrap.setAttribute("title", "Energy Refill");
 				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Energy Refill" }));
 				break;
 			case "points-nerve":
+				itemWrap.appendChild(document.newElement({
+					type: "div",
+					class: "pic icon-refill",
+					children: [document.newElement({ type: "i", class: "currency-points" })],
+				}));
 				itemWrap.setAttribute("title", "Nerve Refill");
 				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Nerve Refill" }));
 				break;
 			default:
+				itemWrap.appendChild(
+					document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }),
+				);
 				if (hasAPIData()) {
 					itemWrap.setAttribute("title", torndata.items[id].name);
 					itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
@@ -382,12 +412,10 @@
 
 		await ttStorage.change({
 			quick: {
-				factionItems: [...content.findAll(".item")].map((x) => {
-					const data = { id: parseInt(x.dataset.id) };
-					if (x.dataset.xid) data.xid = x.dataset.xid;
-
-					return data;
-				}),
+				factionItems: [...content.findAll(".item")]
+					.map((x) => x.dataset.id)
+					.map((x) => isNaN(x) ? x : parseInt(x))
+					.map((x) => ({ id: x })),
 			},
 		});
 	}
@@ -409,6 +437,9 @@
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
+			for (const refill of document.findAll("#armoury-points .give[data-role='give']")) {
+				refill.addEventListener("click", onItemClickQuickEdit);
+			}
 		} else {
 			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
 				const imgWrap = item.find(".img-wrap");
@@ -417,6 +448,9 @@
 
 				item.removeEventListener("click", onItemClickQuickEdit);
 			}
+			for (const refill of document.findAll("#armoury-points .give[data-role='give']")) {
+				refill.removeEventListener("click", onItemClickQuickEdit);
+			}
 		}
 	}
 
@@ -424,7 +458,7 @@
 		event.stopPropagation();
 		event.preventDefault();
 
-		const target = findParent(event.target, { tag: "LI" });
+		const target = event.target.dataset.type === "tt-points" ? event.target : findParent(event.target, { tag: "LI" });
 		const id = target.find(".img-wrap").dataset.itemid;
 
 		const item = addQuickItem({ id }, false);
