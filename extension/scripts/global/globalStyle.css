@@ -38,7 +38,8 @@
 	background-color: #00000059;
 }
 
-.tt-overlay-item, .tt-overlay-item-notbroken {
+.tt-overlay-item,
+.tt-overlay-item-notbroken {
 	position: relative;
 	z-index: 999999999;
 }

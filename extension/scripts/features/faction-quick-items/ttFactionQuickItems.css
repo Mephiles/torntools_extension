@@ -105,23 +105,23 @@ body.dark-mode #factionQuickItems .inner-content .item.removable {
 }
 
 .item[data-id^="points-"] .icon-refill i {
-    position: absolute;
+	position: absolute;
 }
 
 .item[data-id^="points-"] .icon-refill i::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    font-size: 11px;
-    font-weight: bold;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	font-size: 11px;
+	font-weight: bold;
 }
 
 .item[data-id="points-energy"] .icon-refill i::after {
-    content: "E";
-    color: #6cad2b;
+	content: "E";
+	color: #6cad2b;
 }
 
 .item[data-id="points-nerve"] .icon-refill i::after {
-    content: "N";
-    color: #cc7032;
+	content: "N";
+	color: #cc7032;
 }

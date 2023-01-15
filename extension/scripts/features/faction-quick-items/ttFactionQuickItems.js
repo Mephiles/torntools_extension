@@ -17,7 +17,7 @@
 			storage: ["settings.pages.faction.quickItems"],
 		},
 		null,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	function addListener() {
@@ -112,7 +112,7 @@
 						attachEditListeners(enabled);
 					},
 				},
-			}),
+			})
 		);
 
 		for (const quickItem of quick.factionItems) {
@@ -136,12 +136,14 @@
 				item.addEventListener("dragstart", onDragStart);
 				item.addEventListener("dragend", onDragEnd);
 
-				item.appendChild(document.newElement({
-					type: "div",
-					class: "img-wrap tt-lazy-magic",
-					dataset: { itemid: `points-${type}` },
-					style: { display: "none" },
-				}));
+				item.appendChild(
+					document.newElement({
+						type: "div",
+						class: "img-wrap tt-lazy-magic",
+						dataset: { itemid: `points-${type}` },
+						style: { display: "none" },
+					})
+				);
 			}
 		} else {
 			for (const item of tab.findAll(".item-list > li")) {
@@ -220,18 +222,21 @@
 						if (id === "points-energy") body.set("step", "armouryRefillEnergy");
 						else if (id === "points-nerve") body.set("step", "armouryRefillNerve");
 
-						fetchData("torn_direct", { action: "factions.php", method: "POST", body })
-							.then((result) => {
-								responseWrap.style.display = "block";
-								responseWrap.innerHTML = "";
+						fetchData("torn_direct", { action: "factions.php", method: "POST", body }).then((result) => {
+							responseWrap.style.display = "block";
+							responseWrap.innerHTML = "";
 
-								responseWrap.appendChild(document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, text: result.message }));
-								responseWrap.appendChild(document.newElement({
+							responseWrap.appendChild(
+								document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, text: result.message })
+							);
+							responseWrap.appendChild(
+								document.newElement({
 									type: "div",
 									style: { display: "block" },
 									children: [document.newElement({ type: "a", href: "#", class: "close-act t-blue bold c-pointer", text: "Okay" })],
-								}));
-							});
+								})
+							);
+						});
 					} else {
 						Object.entries({ step: "useItem", fac: "1", itemID: id }).forEach(([key, value]) => body.set(key, value));
 
@@ -251,9 +256,9 @@
 												link.attr
 													.split(" ")
 													.filter((x) => !!x)
-													.map((x) => x.split("=")),
+													.map((x) => x.split("="))
 											),
-										}),
+										})
 									);
 								}
 							}
@@ -308,7 +313,7 @@
 											],
 										}),
 									],
-								}),
+								})
 							);
 
 							for (const count of responseWrap.findAll(".counter-wrap")) {
@@ -354,26 +359,30 @@
 		});
 		switch (id) {
 			case "points-energy":
-				itemWrap.appendChild(document.newElement({
-					type: "div",
-					class: "pic icon-refill",
-					children: [document.newElement({ type: "i", class: "currency-points" })],
-				}));
+				itemWrap.appendChild(
+					document.newElement({
+						type: "div",
+						class: "pic icon-refill",
+						children: [document.newElement({ type: "i", class: "currency-points" })],
+					})
+				);
 				itemWrap.setAttribute("title", "Energy Refill");
 				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Energy Refill" }));
 				break;
 			case "points-nerve":
-				itemWrap.appendChild(document.newElement({
-					type: "div",
-					class: "pic icon-refill",
-					children: [document.newElement({ type: "i", class: "currency-points" })],
-				}));
+				itemWrap.appendChild(
+					document.newElement({
+						type: "div",
+						class: "pic icon-refill",
+						children: [document.newElement({ type: "i", class: "currency-points" })],
+					})
+				);
 				itemWrap.setAttribute("title", "Nerve Refill");
 				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Nerve Refill" }));
 				break;
 			default:
 				itemWrap.appendChild(
-					document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }),
+					document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
 				);
 				if (hasAPIData()) {
 					itemWrap.setAttribute("title", torndata.items[id].name);
@@ -414,7 +423,7 @@
 			quick: {
 				factionItems: [...content.findAll(".item")]
 					.map((x) => x.dataset.id)
-					.map((x) => isNaN(x) ? x : parseInt(x))
+					.map((x) => (isNaN(x) ? x : parseInt(x)))
 					.map((x) => ({ id: x })),
 			},
 		});
