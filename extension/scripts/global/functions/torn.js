@@ -1727,6 +1727,10 @@ function getStockBoughtPrice(stock) {
 	return { boughtTotal, boughtPrice: boughtTotal / stock.total_shares };
 }
 
+function is2FACheckPage() {
+	return !!document.find(".content-wrapper.logged-out .two-factor-auth-container");
+}
+
 function getPageStatus() {
 	const infoMessage = document.find(".content-wrapper .info-msg-cont");
 	if (infoMessage && infoMessage.classList.contains("red")) {
@@ -1739,6 +1743,7 @@ function getPageStatus() {
 
 	if (document.find(".captcha")) return { access: false, message: "Captcha required" };
 	else if (document.find(".dirty-bomb")) return { access: false, message: "Dirty bomb screen" };
+	else if (is2FACheckPage()) return { access: false, message: "2 Factor Authentication" };
 
 	return { access: true };
 }
