@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (is2FACheckPage()) return;
+
 	let highlights;
 
 	const feature = featureManager.registerFeature(

@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (is2FACheckPage()) return;
+
 	const feature = featureManager.registerFeature(
 		"Colored Chat",
 		"chat",
