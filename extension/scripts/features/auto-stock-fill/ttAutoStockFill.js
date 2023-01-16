@@ -41,7 +41,8 @@
 
 	async function fillStock() {
 		const stockForm = await requireElement("form[action*='stock']");
-		const totalCapacity = stockForm.find(".storage-capacity .max").dataset.initial.getNumber();
+		const storageCapacity = stockForm.find(".storage-capacity").textContent.match(/(?<=\n).*(?=\n\/)|(?<=\/\n).*/g).map(x => parseInt(x));
+		const totalCapacity = storageCapacity[1] - storageCapacity[0];
 		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
 
 		stockForm.findAll(".stock-list > li:not(.total):not(.quantity)").forEach((stockItem) => {
