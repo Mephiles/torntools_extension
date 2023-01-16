@@ -19,7 +19,8 @@
 				{ "message": "Don't show the faction quick items on the temporary items page.", "contributor": "DeKleineKobini" },
 				{ "message": "Show the armory filter on the temporary items page.", "contributor": "DeKleineKobini" },
 				{ "message": "Add 22 missing weapon bonuses to the auction filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow refills to be added in the faction quick items.", "contributor": "DeKleineKobini" }
+				{ "message": "Allow refills to be added in the faction quick items.", "contributor": "DeKleineKobini" },
+				{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
