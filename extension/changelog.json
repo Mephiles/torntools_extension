@@ -3,7 +3,7 @@
 		"version": { "major": 6, "minor": 11, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [], "changes": [{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" }], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 10, "build": 1 },

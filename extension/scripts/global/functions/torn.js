@@ -1727,6 +1727,67 @@ function getStockBoughtPrice(stock) {
 	return { boughtTotal, boughtPrice: boughtTotal / stock.total_shares };
 }
 
+function is2FACheckPage() {
+	return !!document.find(".content-wrapper.logged-out .two-factor-auth-container");
+}
+
+/*
+2FA page DOM Layout, for testing.
+
+<div class="content responsive-sidebar-container anonymous">
+<div class="container" id="mainContainer"><div id="sidebarroot"></div><div class="content-wrapper logged-out winter  " role="main"><div class="content-title m-bottom10">
+<h4 id="skip-to-content" class="left">Two-factor authentication</h4>
+<div class="right line-h24 t-gray-6 f-normal">pod2</div>
+<div class="clear"></div>
+<hr class="page-head-delimiter">
+</div><div class="two-factor-auth-container m-top10">
+<div class="verify-block">
+<i class="verify-icon-email"></i>
+<span class="vertical-divider"></span>
+<div class="form-wrap">
+<p class="m-bottom10 form-title">A six digit code has been sent to your <span class="bold">email address</span>. Please enter this code below.</p>
+<form action="/authenticate.php" method="post" id="verify-code-form" data-current-step="email" class="">
+<div class="verify-code-input-wrap">
+<input id="verify-code-input" class="verify-code-input input-text" name="code" data-code-type="email" type="tel" placeholder="Enter 6-digit code from email message" autocomplete="off" autofocus="">
+<input type="hidden" name="codeType" value="email">
+<input type="hidden" name="noAjax2FA" value="1">
+<input type="hidden" name="step" value="checkCodeAndVerifyIP">
+</div>
+<div class="btn-wrap submit silver">
+<div class="btn">
+ <div class="preloader-wrap">
+<div class="dzsulb-preloader preloader-fountain">
+<div id="fountainG_1" class="fountainG"></div>
+<div id="fountainG_2" class="fountainG"></div>
+<div id="fountainG_3" class="fountainG"></div>
+<div id="fountainG_4" class="fountainG"></div>
+</div>
+</div>
+<button type="submit" class="torn-btn">
+VERIFY
+</button>
+</div>
+</div>
+<a href="#" class="resend t-blue h c-pointer disabled">
+Resend
+<span class="otp-timeleft-wrap">(<span class="otp-timeleft hasCountdown" data-time-exp="300" aria-live="off" role="alert">76</span>)</span>
+</a>
+<img src="/images/v2/main/search_loader.gif?v=1528808940574" class="link-preloader">
+</form>
+<div class="m-top5 italic">
+<span class="t-gray-9">If you're having trouble, the </span>
+<a class="t-blue h c-pointer" href="/account_recovery.php">Account Recovery</a>
+<span class="t-gray-9">system can be used as a last resort</span>
+</div>
+</div>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+</div>*/
+
 function getPageStatus() {
 	const infoMessage = document.find(".content-wrapper .info-msg-cont");
 	if (infoMessage && infoMessage.classList.contains("red")) {
@@ -1739,6 +1800,7 @@ function getPageStatus() {
 
 	if (document.find(".captcha")) return { access: false, message: "Captcha required" };
 	else if (document.find(".dirty-bomb")) return { access: false, message: "Dirty bomb screen" };
+	else if (is2FACheckPage()) return { access: false, message: "2 Factor Authentication" };
 
 	return { access: true };
 }
