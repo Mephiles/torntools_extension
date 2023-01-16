@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 10, "build": 1 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Filter on a lot of things in the faction armory.", "contributor": "DeKleineKobini" }],
