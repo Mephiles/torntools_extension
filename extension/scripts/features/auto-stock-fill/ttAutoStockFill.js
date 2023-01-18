@@ -44,6 +44,7 @@
 		const storageCapacity = stockForm.find(".storage-capacity").textContent.match(/(?<=\n).*(?=\n\/)|(?<=\/\n).*/g).map(x => x.getNumber());
 		const totalCapacity = storageCapacity[1] - storageCapacity[0];
 		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
+		console.log(storageCapacity, totalCapacity, totalSoldDaily);
 
 		stockForm.findAll(".stock-list > li:not(.total):not(.quantity)").forEach((stockItem) => {
 			const ordered = stockItem.find(".delivery").lastChild.textContent.getNumber();
@@ -52,6 +53,8 @@
 
 			let neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - ordered - stock).dropDecimals();
 			neededStock = Math.max(0, neededStock);
+
+			console.log(ordered, stock, soldDaily, neededStock);
 
 			updateReactInput(stockItem.find("input"), neededStock, { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
 		});
