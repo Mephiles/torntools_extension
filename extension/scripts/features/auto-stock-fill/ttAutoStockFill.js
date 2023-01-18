@@ -41,16 +41,21 @@
 
 	async function fillStock() {
 		const stockForm = await requireElement("form[action*='stock']");
-		const totalCapacity = stockForm.find(".storage-capacity .max").dataset.initial.getNumber();
+		const storageCapacity = [...stockForm.findAll(".storage-capacity > *")].map(x => x.dataset.initial.getNumber());
+		const usableCapacity = storageCapacity[1] - storageCapacity[0];
 		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
+		console.log(storageCapacity, usableCapacity, totalSoldDaily);
 
 		stockForm.findAll(".stock-list > li:not(.total):not(.quantity)").forEach((stockItem) => {
-			const ordered = stockItem.find(".delivery").lastChild.textContent.getNumber();
-			const stock = stockItem.find(".stock").lastChild.textContent.getNumber();
 			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
 
-			let neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - ordered - stock).dropDecimals();
+			// Original
+			// let neededStock = (((soldDaily / totalSoldDaily) * totalCapacity) - stock - ordered).dropDecimals();
+
+			let neededStock = (((soldDaily / totalSoldDaily) * usableCapacity)).dropDecimals();
 			neededStock = Math.max(0, neededStock);
+
+			console.log(soldDaily, neededStock);
 
 			updateReactInput(stockItem.find("input"), neededStock, { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
 		});
