@@ -41,17 +41,19 @@
 
 	async function fillStock() {
 		const stockForm = await requireElement("form[action*='stock']");
-		const storageCapacity = stockForm.find(".storage-capacity").textContent.match(/(?<=\n).*(?=\n\/)|(?<=\/\n).*/g).map(x => x.getNumber());
-		const totalCapacity = storageCapacity[1] - storageCapacity[0];
-		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
-		console.log(storageCapacity, totalCapacity, totalSoldDaily);
+		let storageCapacity = stockForm.find(".storage-capacity").textContent.match(/(?<=\n).*(?=\n\/)|(?<=\/\n).*/g).map(x => x.getNumber());
+		// let totalCapacity = storageCapacity[1] - storageCapacity[0];
+		let usableCapacity = storageCapacity[1] - storageCapacity[0];
+		let totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
+		console.log(storageCapacity, usableCapacity, totalSoldDaily);
 
 		stockForm.findAll(".stock-list > li:not(.total):not(.quantity)").forEach((stockItem) => {
-			const ordered = stockItem.find(".delivery").lastChild.textContent.getNumber();
-			const stock = stockItem.find(".stock").lastChild.textContent.getNumber();
-			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
+			let ordered = stockItem.find(".delivery").lastChild.textContent.getNumber();
+			let stock = stockItem.find(".stock").lastChild.textContent.getNumber();
+			let soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
 
-			let neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - ordered - stock).dropDecimals();
+			// let neededStock = (((soldDaily / totalSoldDaily) * totalCapacity) - stock).dropDecimals();
+			let neededStock = (((soldDaily / totalSoldDaily) * usableCapacity)).dropDecimals();
 			neededStock = Math.max(0, neededStock);
 
 			console.log(ordered, stock, soldDaily, neededStock);
