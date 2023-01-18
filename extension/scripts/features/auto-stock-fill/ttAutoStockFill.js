@@ -41,7 +41,7 @@
 
 	async function fillStock() {
 		const stockForm = await requireElement("form[action*='stock']");
-		const storageCapacity = [...stockForm.findAll(".storage-capacity > *")].map(x => x.dataset.initial.getNumber());
+		const storageCapacity = [...stockForm.findAll(".storage-capacity > *")].map((x) => x.dataset.initial.getNumber());
 		const usableCapacity = storageCapacity[1] - storageCapacity[0];
 		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
 		console.log(storageCapacity, usableCapacity, totalSoldDaily);
@@ -52,7 +52,7 @@
 			// Original
 			// let neededStock = (((soldDaily / totalSoldDaily) * totalCapacity) - stock - ordered).dropDecimals();
 
-			let neededStock = (((soldDaily / totalSoldDaily) * usableCapacity)).dropDecimals();
+			let neededStock = ((soldDaily / totalSoldDaily) * usableCapacity).dropDecimals();
 			neededStock = Math.max(0, neededStock);
 
 			console.log(soldDaily, neededStock);
