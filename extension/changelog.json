@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix Auto Stock Fill.", "contributor": "TheFoxMan" }],
+			"fixes": [{ "message": "Fix Auto Stock Fill.", "contributor": "TheFoxMan" }, { "message": "Fix auction house filters when something isn't present.", "contributor": "TheFoxMan" }],
 			"changes": [{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}

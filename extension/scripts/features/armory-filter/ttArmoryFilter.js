@@ -260,7 +260,7 @@
 		if (filters.armorBonus && !isNaN(filters.armorBonus)) {
 			const bonus = parseFloat(filters.armorBonus);
 
-			if (row.find(".bonus-attachment-melee-protection").getAttribute("title").getNumber() < bonus) {
+			if (row.find(".bonus-attachment-melee-protection")?.getAttribute("title").getNumber() < bonus) {
 				hide("bonus");
 				return;
 			}
@@ -270,6 +270,7 @@
 			const foundBonuses = [...row.findAll(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)")]
 				.map((icon) => icon.getAttribute("title"))
 				.map((title) => title.split("<br/>"))
+				.filter((values) => values.length >= 2)
 				.map(([bonus, description]) => ({
 					bonus: bonus.substring(3, bonus.length - 4).toLowerCase(),
 					value: description.getNumber(),
