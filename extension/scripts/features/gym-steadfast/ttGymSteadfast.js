@@ -86,12 +86,7 @@
 			const box = properties.find(`[class*='${stat}___']`);
 			if (box.find(".tt-gym-steadfast")) continue;
 
-			const parent = document.newElement({
-				type: "div",
-				class: "tt-gym-steadfast",
-				style: { height: `${maxBonus * 12}px` },
-				attributes: { title: "Total additional gym gain." },
-			});
+			const parent = document.newElement({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
 			box.insertBefore(parent, box.firstElementChild);
 
 			for (const perk of perks) {
