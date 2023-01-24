@@ -114,14 +114,14 @@
 			function generateText() {
 				let element;
 				if (items.length > 0) {
-					let totalCount = items.map(({ count }) => count).totalSum();
+					const totalCount = items.map(({ count }) => count).totalSum();
 					element = document.newElement({
 						type: "p",
 						children: [
 							"There",
-							totalCount == 1 ? " is " : " are ",
+							totalCount === 1 ? " is " : " are ",
 							document.newElement({ type: "strong", text: totalCount }),
-							totalCount == 1 ? " item " : " items ",
+							totalCount === 1 ? " item " : " items ",
 							"in the city: ",
 						],
 					});
