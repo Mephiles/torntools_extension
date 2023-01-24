@@ -7,7 +7,7 @@
 }
 
 .tt-gym-steadfast[data-total]::after {
-	content: attr(data-total) '%';
+	content: attr(data-total) "%";
 	position: absolute;
 	right: 8px;
 	font-size: 11px;

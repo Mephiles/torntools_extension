@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.perks) return "No API access.";
-		},
+		}
 	);
 
 	function initialiseListeners() {
@@ -36,10 +36,10 @@
 		const bookPerk = userdata.book_perks.find((perk) => perk.includes("gym gains"));
 
 		const bonus = {
-			"strength": [],
-			"defense": [],
-			"speed": [],
-			"dexterity": [],
+			strength: [],
+			defense: [],
+			speed: [],
+			dexterity: [],
 		};
 		Object.entries(bonus).forEach(([stat, values]) => {
 			const factionPerk = factionPerks.find((perk) => perk.includes(stat));
@@ -49,7 +49,7 @@
 
 			const jobPerk = jobPerks.filter((perk) => perk.includes(stat) || perk.match(/\+ [0-9]+% gym gains?/));
 			if (jobPerk.length) {
-				let totalJob = jobPerk.map((perk) => 1 + (perk.getNumber() / 100)).reduce((total, value) => total * value, 1);
+				let totalJob = jobPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
 				totalJob -= 1;
 				totalJob *= 100;
 				totalJob = totalJob.dropDecimals();
@@ -63,7 +63,7 @@
 
 			const eductionPerk = eductionPerks.filter((perk) => perk.includes(stat) || perk.match(/\+ [0-9]+% gym gains?/));
 			if (eductionPerk.length) {
-				let totalEducation = eductionPerk.map((perk) => 1 + (perk.getNumber() / 100)).reduce((total, value) => total * value, 1);
+				let totalEducation = eductionPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
 				totalEducation -= 1;
 				totalEducation *= 100;
 				totalEducation = totalEducation.dropDecimals();
@@ -77,7 +77,7 @@
 		});
 
 		const maxBonus = Object.values(bonus)
-			.map(x => x.find(y => ["company", "faction"].includes(y.source)).length)
+			.map((x) => x.find((y) => ["company", "faction"].includes(y.source)).length)
 			.findHighest();
 
 		for (const [stat, perks] of Object.entries(bonus)) {
@@ -109,14 +109,13 @@
 			}
 
 			if (shownPerks > 1) {
-				let totalBonus = perks.map((perk) => 1 + (perk.value / 100)).reduce((total, value) => total * value, 1);
+				let totalBonus = perks.map((perk) => 1 + perk.value / 100).reduce((total, value) => total * value, 1);
 				totalBonus -= 1;
 				totalBonus *= 100;
 				totalBonus = (Math.round(totalBonus * 10) / 10).toFixed(1);
 
 				parent.dataset.total = totalBonus;
 			}
-
 		}
 	}
 
