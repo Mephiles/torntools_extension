@@ -119,12 +119,13 @@
 			addQuickItem(quickItem, false);
 		}
 
-		requireItemsLoaded().then(() => {
-			setupQuickDragListeners();
-		});
+		requireItemsLoaded().then(setupQuickDragListeners);
 	}
 
 	function setupQuickDragListeners() {
+		const enableDrag = !mobile && !tablet;
+		if (!enableDrag) return;
+
 		const tab = document.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
 
 		if (tab.id === "armoury-points") {

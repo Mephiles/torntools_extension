@@ -368,6 +368,9 @@
 	}
 
 	function setupQuickDragListeners() {
+		const enableDrag = !mobile && !tablet;
+		if (!enableDrag) return;
+
 		for (const item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
 			if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 

@@ -98,6 +98,9 @@
 		makeDraggable();
 
 		function makeDraggable() {
+			const enableDrag = !mobile && !tablet;
+			if (!enableDrag) return;
+
 			const form = document.find(".specials-cont-wrap form[name='crimes']");
 			if (!form || !form.hasAttribute("action")) return;
 

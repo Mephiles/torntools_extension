@@ -9,7 +9,10 @@
 				{ "message": "Fix Auto Stock Fill.", "contributor": "TheFoxMan" },
 				{ "message": "Fix auction house filters when something isn't present.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" },
+				{ "message": "Disable dragging for quick items and crimes on mobile and tablets.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},
