@@ -77,7 +77,7 @@
 		});
 
 		const maxBonus = Object.values(bonus)
-			.map((x) => x.find((y) => ["company", "faction"].includes(y.source)).length)
+			.map((x) => x.filter((y) => ["company", "faction"].includes(y.source)).length)
 			.findHighest();
 
 		for (const [stat, perks] of Object.entries(bonus)) {
@@ -86,10 +86,9 @@
 			const box = properties.find(`[class*='${stat}___']`);
 			if (box.find(".tt-gym-steadfast")) continue;
 
-			const parent = document.newElement({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
+			const parent = document.newElement({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` }, attributes: {title: "Total additional gym gain."} });
 			box.insertBefore(parent, box.firstElementChild);
 
-			let shownPerks = 0;
 			for (const perk of perks) {
 				let title;
 				switch (perk.source) {
@@ -105,10 +104,9 @@
 				}
 
 				parent.appendChild(document.newElement({ type: "span", text: `${title}: ${perk.value}%` }));
-				shownPerks++;
 			}
 
-			if (shownPerks > 1) {
+			if (perks.length > 1) {
 				let totalBonus = perks.map((perk) => 1 + perk.value / 100).reduce((total, value) => total * value, 1);
 				totalBonus -= 1;
 				totalBonus *= 100;

@@ -10,7 +10,7 @@
 	content: attr(data-total) "%";
 	position: absolute;
 	right: 8px;
-	font-size: 11px;
+	font-size: 10px;
 	background-color: var(--tt-color-green--30);
-	padding: 4px;
+	padding: 3px;
 }
