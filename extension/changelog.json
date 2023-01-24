@@ -11,7 +11,9 @@
 			],
 			"changes": [
 				{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" },
-				{ "message": "Disable dragging for quick items and crimes on mobile and tablets.", "contributor": "DeKleineKobini" }
+				{ "message": "Disable dragging for quick items and crimes on mobile and tablets.", "contributor": "DeKleineKobini" },
+				{ "message": "Show gym bonus from your job.", "contributor": "DeKleineKobini" },
+				{ "message": "Show total gym bonus.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

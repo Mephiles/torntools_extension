@@ -1,4 +1,16 @@
 .tt-gym-steadfast {
-	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	padding: 2px;
+}
+
+.tt-gym-steadfast[data-total]::after {
+	content: attr(data-total) '%';
+	position: absolute;
+	right: 8px;
+	font-size: 11px;
+	background-color: var(--tt-color-green--30);
+	padding: 4px;
 }
