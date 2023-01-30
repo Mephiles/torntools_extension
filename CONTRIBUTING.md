@@ -26,6 +26,7 @@ We have prettier formatting to help you follow our coding conventions.
     * Both the feature's CSS and JS scripts should reside in the same directory.
         * Don't include empty CSS files.
     * The loading of the script is done in `manifest.json`, so that we can find which page has which features.
+        * If a script should be loaded at `document_start`, then the file should have the `.entry.js
 * All features should be in its own anonymous function, in the files as specified above.
     * In this function, you register the feature in the Feature Manager.
         * `name` is a string with the feature name.
@@ -73,6 +74,7 @@ We have prettier formatting to help you follow our coding conventions.
 * All code should work on as much browsers as possible.
     * Optional Chaining isn't supported by Kiwi Browser.
 * Any changes should be added in the `extension/changelog.json` file under the first unreleased version.
+    * First contributions should also update `extension/ scripts/global/team.js` to add yourself as member and choose a color for in the changelog.
 
 ## Development Tips
 
