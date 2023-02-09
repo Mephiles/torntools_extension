@@ -781,8 +781,22 @@
 
 				section.appendChild(footer);
 			} else {
-				section.appendChild(document.newElement({ type: "span", class: "no-spy", text: "There is no spy report." }));
+				const footer = document.newElement({ type: "div", class: "spy-footer" });
 
+				footer.appendChild(document.newElement({ type: "span", class: "no-spy", text: "There is no spy report." }));
+				footer.appendChild(
+					document.newElement({
+						type: "i",
+						class: "fas fa-redo",
+						events: {
+							click: () => {
+								section.remove();
+								buildSpy(true);
+							},
+						},
+					})
+				);
+				section.appendChild(footer);
 				if (errors.length) {
 					section.appendChild(
 						document.newElement({

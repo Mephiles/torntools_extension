@@ -16,7 +16,8 @@
 				{ "message": "Show gym bonus from your job.", "contributor": "DeKleineKobini" },
 				{ "message": "Show total gym bonus.", "contributor": "DeKleineKobini" },
 				{ "message": "Show 'item' for singular city finds.", "contributor": "h4xnoodle" },
-				{ "message": "Improve handling of error 17.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve handling of error 17.", "contributor": "DeKleineKobini" },
+				{ "message": "Include a button to manually refresh the profile box spy when there is no prior spy.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
