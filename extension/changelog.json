@@ -18,7 +18,8 @@
 				{ "message": "Show 'item' for singular city finds.", "contributor": "h4xnoodle" },
 				{ "message": "Improve handling of error 17.", "contributor": "DeKleineKobini" },
 				{ "message": "Include a button to manually refresh the profile box spy when there is no prior spy.", "contributor": "DeKleineKobini" },
-				{ "message": "Invalidate TornStats spy cache upon saving a spy to TornStats.", "contributor": "DeKleineKobini" }
+				{ "message": "Invalidate TornStats spy cache upon saving a spy to TornStats.", "contributor": "DeKleineKobini" },
+				{ "message": "Decrease jail score filter step amount from 25 to 10.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

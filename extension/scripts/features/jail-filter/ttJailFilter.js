@@ -99,7 +99,7 @@
 			slider: {
 				min: 0,
 				max: 5000,
-				step: 25,
+				step: 10,
 				valueLow: filters.jail.scoreStart,
 				valueHigh: filters.jail.scoreEnd,
 			},
