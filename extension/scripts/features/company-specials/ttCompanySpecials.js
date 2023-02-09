@@ -167,11 +167,13 @@
 				text: "Save to TornStats",
 				events: {
 					click() {
+						const id = parseInt(json.result.user.userID);
+
 						fetchData(FETCH_PLATFORMS.tornstats, {
 							section: "store/spy",
 							method: "POST",
 							params: {
-								player_id: parseInt(json.result.user.userID),
+								player_id: id,
 								player_name: json.result.user.playername,
 								player_level: parseInt(json.result.user.level),
 								...data[user],
@@ -189,6 +191,8 @@
 								} else {
 									button.removeAttribute("disabled");
 								}
+
+								ttCache.remove("tornstats-spy", id);
 
 								if (!responseElement) {
 									specialContext.appendChild(

@@ -158,6 +158,23 @@ const ttCache = new (class {
 		else return this.hasValue(key) ? this.cache[key].value : undefined;
 	}
 
+	async remove(section, key) {
+		if (!key) {
+			key = section;
+			section = null;
+		}
+
+		if ((section && !this.hasValue(section, key)) || (!section && !this.hasValue(key))) {
+			// Nothing to delete.
+			return;
+		}
+
+		if (section) delete this.cache[section][key];
+		else delete this.cache[key];
+
+		await ttStorage.set({ cache: this.cache });
+	}
+
 	hasValue(section, key) {
 		if (!key) {
 			key = section;
