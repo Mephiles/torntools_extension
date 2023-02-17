@@ -227,6 +227,7 @@
 			"matches": ["https://www.torn.com/bounties.php*"],
 			"css": ["scripts/features/bounty-filter/ttBountyFilter.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
+				"scripts/global/functions/filters.js",
 				"scripts/content/bounties/ttBounties.js",
 				"scripts/features/bounty-filter/ttBountyFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
