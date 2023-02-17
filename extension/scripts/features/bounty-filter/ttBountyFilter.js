@@ -47,8 +47,9 @@
 				text: "Max Level",
 			})
 		);
+		let statistics;
 		if (!device.mobile && !device.tablet) {
-			const statistics = createStatistics("rows", true);
+			statistics = createStatistics("rows", true);
 			options.parentElement.find(".title .text").appendChild(statistics.element);
 		}
 
