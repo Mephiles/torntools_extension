@@ -77,7 +77,7 @@
 					hideBounty(bounty);
 					continue;
 				} else showBounty(bounty);
-				if (hideUnavailable && bounty.find(".t-red")) {
+				if (hideUnavailable && bounty.find(".user-red-status, .user-blue-status")) {
 					hideBounty(bounty);
 					// noinspection UnnecessaryContinueJS
 					continue;
