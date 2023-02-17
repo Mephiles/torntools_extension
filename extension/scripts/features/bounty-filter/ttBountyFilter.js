@@ -21,6 +21,8 @@
 	}
 
 	async function addFilter() {
+		const device = await checkDevice();
+
 		if (findContainer("Bounty Filter")) return;
 		await requireElement(".bounties-list > li > ul > li .reward");
 		const { options } = createContainer("Bounty Filter", {
@@ -45,6 +47,10 @@
 				text: "Max Level",
 			})
 		);
+		if (!device.mobile && !device.tablet) {
+			const statistics = createStatistics("rows", true);
+			options.parentElement.find(".title .text").appendChild(statistics.element);
+		}
 
 		// Setup saved filters
 		maxLevelInput.value = filters.bounties.maxLevel;
@@ -85,6 +91,11 @@
 			}
 
 			list.classList.add("tt-filtered");
+			if (!device.mobile && !device.tablet) statistics.updateStatistics(
+				document.findAll(".bounties-list > li[data-id]:not(.tt-hidden)").length,
+				document.findAll(".bounties-list > li[data-id]").length,
+				options.parentElement.find(".title .text")
+			);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 			function hideBounty(bounty) {
