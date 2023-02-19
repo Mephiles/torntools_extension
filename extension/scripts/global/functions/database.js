@@ -1,6 +1,21 @@
 "use strict";
 
-let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata, npcs, notificationHistory, stockdata, factionStakeouts;
+let settings,
+	filters,
+	version,
+	api,
+	userdata,
+	torndata,
+	stakeouts,
+	attackHistory,
+	notes,
+	factiondata,
+	quick,
+	localdata,
+	npcs,
+	notificationHistory,
+	stockdata,
+	factionStakeouts;
 let databaseLoaded = false;
 let databaseLoading = false;
 const storageListeners = {

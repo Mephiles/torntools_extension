@@ -35,7 +35,7 @@
 	}
 
 	async function displayBox() {
-		if (isInternal && getHashParameters().get("tab") !== "info") return
+		if (isInternal && getHashParameters().get("tab") !== "info") return;
 
 		const { content } = createContainer("Faction Stakeout", {
 			class: "mt10",
@@ -71,7 +71,11 @@
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { chainReaches: parseInt(chainReaches.getValue()) || false } } } });
 		});
 
-		const memberCountDrops = createTextbox({ description: { before: "member count drops below", after: "members" }, type: "number", attributes: { min: 1 } });
+		const memberCountDrops = createTextbox({
+			description: { before: "member count drops below", after: "members" },
+			type: "number",
+			attributes: { min: 1 },
+		});
 		memberCountDrops.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
@@ -88,11 +92,7 @@
 		const alerts = document.newElement({
 			type: "div",
 			class: "alerts",
-			children: [
-				chainReaches.element,
-				memberCountDrops.element,
-				rankedWarStarts.element,
-			],
+			children: [chainReaches.element, memberCountDrops.element, rankedWarStarts.element],
 		});
 
 		if (hasStakeout) {

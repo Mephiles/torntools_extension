@@ -337,7 +337,11 @@ async function setupDashboard() {
 		}
 
 		function setupFactionStakeouts() {
-			if (settings.pages.popup.showStakeouts && Object.keys(factionStakeouts).length && !(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date))
+			if (
+				settings.pages.popup.showStakeouts &&
+				Object.keys(factionStakeouts).length &&
+				!(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)
+			)
 				dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
 			else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
 		}
@@ -523,7 +527,11 @@ async function setupDashboard() {
 	}
 
 	function updateFactionStakeouts() {
-		if (settings.pages.popup.showStakeouts && Object.keys(factionStakeouts).length && !(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)) {
+		if (
+			settings.pages.popup.showStakeouts &&
+			Object.keys(factionStakeouts).length &&
+			!(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)
+		) {
 			dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
 
 			const stakeoutList = dashboard.find(".faction-stakeouts .stakeout-list");
@@ -575,7 +583,7 @@ async function setupDashboard() {
 									document.newElement({
 										type: "div",
 										class: "members",
-										text: members !== "N/A" ? `${members} of ${maxMembers} members` : "unknown members"
+										text: members !== "N/A" ? `${members} of ${maxMembers} members` : "unknown members",
 									}),
 									document.newElement({
 										type: "div",

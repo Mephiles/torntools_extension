@@ -1148,7 +1148,11 @@ async function updateFactionStakeouts() {
 				const key = `faction_${factionId}_memberCountDrops`;
 				if (memberCount >= oldMemberCount && (!oldMemberCount || oldMemberCount > memberCount) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification("Faction Stakeouts", `${data.name} now has less than ${memberCount} members.`, `https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`);
+						notifications.stakeouts[key] = newNotification(
+							"Faction Stakeouts",
+							`${data.name} now has less than ${memberCount} members.`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+						);
 				} else if (data.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
 				}
@@ -1160,7 +1164,11 @@ async function updateFactionStakeouts() {
 				const key = `faction_${factionId}_rankedWarStarts`;
 				if (isWarring && (!oldData || !wasWarring) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification("Faction Stakeouts", `${data.name} is now in a ranked war.`, `https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`);
+						notifications.stakeouts[key] = newNotification(
+							"Faction Stakeouts",
+							`${data.name} is now in a ranked war.`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+						);
 				} else if (data.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
 				}
