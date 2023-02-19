@@ -26,7 +26,18 @@
 
 			filterRow(row, { statsEstimates }, true);
 		});
-		// TODO - Detect page switch.
+		addXHRListener(async ({ detail: { page, xhr } }) => {
+			if (!feature.enabled()) return;
+			if (page !== "userlist") return;
+
+			const step = new URLSearchParams(xhr.requestBody).get("step");
+			if (step !== "blackList") return;
+
+			new MutationObserver((mutations, observer) => {
+				addFilters();
+				observer.disconnect();
+			}).observe(document.find(".blacklist"), { childList: true });
+		});
 	}
 
 	const localFilters = {};
