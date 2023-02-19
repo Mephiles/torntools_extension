@@ -12,7 +12,7 @@ jobs:
 
             # Runs prettier
             - name: Format with prettier
-              uses: creyD/prettier_action@v4.2
+              uses: creyD/prettier_action@v4.3
               with:
                 prettier_options: --config .prettierrc --write . --list-different
 
