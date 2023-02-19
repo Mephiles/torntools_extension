@@ -152,6 +152,8 @@ async function setupDashboard() {
 	storageListeners.userdata.push(updateDashboard);
 	updateStakeouts();
 	storageListeners.stakeouts.push(updateStakeouts);
+	updateFactionStakeouts();
+	storageListeners.factionStakeouts.push(updateFactionStakeouts);
 
 	setInterval(() => {
 		if (settings.apiUsage.user.bars)
@@ -193,6 +195,20 @@ async function setupDashboard() {
 			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-right");
 		}
 	});
+	// dashboard.find(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
+	dashboard.find(".faction-stakeouts .heading i").addEventListener("click", () => {
+		const factionStakeoutSection = dashboard.find(".faction-stakeouts .stakeout-list");
+
+		if (factionStakeoutSection.classList.contains("tt-hidden")) {
+			factionStakeoutSection.classList.remove("tt-hidden");
+			dashboard.find(".faction-stakeouts .heading i").classList.add("fa-caret-down");
+			dashboard.find(".faction-stakeouts .heading i").classList.remove("fa-caret-right");
+		} else {
+			factionStakeoutSection.classList.add("tt-hidden");
+			dashboard.find(".faction-stakeouts .heading i").classList.remove("fa-caret-down");
+			dashboard.find(".faction-stakeouts .heading i").classList.add("fa-caret-right");
+		}
+	});
 
 	function updateDashboard() {
 		// Country and status
@@ -212,6 +228,7 @@ async function setupDashboard() {
 		updateExtra();
 		updateActions();
 		setupStakeouts();
+		setupFactionStakeouts();
 
 		function updateStatus() {
 			if (userdata.travel.time_left) {
@@ -317,6 +334,12 @@ async function setupDashboard() {
 			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 1 && stakeouts.date))
 				dashboard.find(".stakeouts").classList.remove("tt-hidden");
 			else dashboard.find(".stakeouts").classList.add("tt-hidden");
+		}
+
+		function setupFactionStakeouts() {
+			if (settings.pages.popup.showStakeouts && Object.keys(factionStakeouts).length && !(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date))
+				dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
+			else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
 		}
 	}
 
@@ -497,6 +520,76 @@ async function setupDashboard() {
 				);
 			}
 		} else dashboard.find(".stakeouts").classList.add("tt-hidden");
+	}
+
+	function updateFactionStakeouts() {
+		if (settings.pages.popup.showStakeouts && Object.keys(factionStakeouts).length && !(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)) {
+			dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
+
+			const stakeoutList = dashboard.find(".faction-stakeouts .stakeout-list");
+			stakeoutList.innerHTML = "";
+
+			for (const factionId in factionStakeouts) {
+				if (isNaN(parseInt(factionId))) continue;
+
+				let name, chain, members, maxMembers;
+
+				if (factionStakeouts[factionId].info && Object.keys(factionStakeouts[factionId].info).length) {
+					name = factionStakeouts[factionId].info.name;
+					chain = factionStakeouts[factionId].info.chain;
+					members = factionStakeouts[factionId].info.members.current;
+					maxMembers = factionStakeouts[factionId].info.members.maximum;
+				} else {
+					name = factionId;
+					chain = "N/A";
+					members = "N/A";
+					maxMembers = "N/A";
+				}
+
+				const removeStakeoutButton = document.newElement({
+					type: "div",
+					class: "delete-stakeout-wrap",
+					children: [document.newElement({ type: "i", class: "delete-stakeout fas fa-trash-alt" })],
+				});
+				removeStakeoutButton.addEventListener("click", () => {
+					delete factionStakeouts[factionId];
+
+					ttStorage.set({ factionStakeouts });
+				});
+
+				stakeoutList.appendChild(
+					document.newElement({
+						type: "div",
+						class: "faction",
+						children: [
+							document.newElement({
+								type: "div",
+								class: "row information",
+								children: [
+									document.newElement({
+										type: "a",
+										href: `https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
+										text: name,
+										attributes: { target: "_blank" },
+									}),
+									document.newElement({
+										type: "div",
+										class: "members",
+										text: members !== "N/A" ? `${members} of ${maxMembers} members` : "unknown members"
+									}),
+									document.newElement({
+										type: "div",
+										class: "chain",
+										text: chain ? `${chain} chain` : "no chain",
+									}),
+									removeStakeoutButton,
+								],
+							}),
+						],
+					})
+				);
+			}
+		} else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
 	}
 }
 

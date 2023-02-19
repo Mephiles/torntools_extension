@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Filter on the enemies page.", "contributor": "DeKleineKobini" }],
+			"features": [{ "message": "Filter on the enemies page.", "contributor": "DeKleineKobini" }, { "message": "Stakeout factions.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix Auto Stock Fill.", "contributor": "TheFoxMan" },
 				{ "message": "Fix auction house filters when something isn't present.", "contributor": "DeKleineKobini" },

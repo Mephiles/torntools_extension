@@ -308,7 +308,8 @@
 				"scripts/features/armory-worth/ttArmoryWorth.css",
 				"scripts/features/ranked-war-filter/ttRankedWarFilter.css",
 				"scripts/features/medical-life/ttMedicalLife.css",
-				"scripts/features/faction-quick-items/ttFactionQuickItems.css"
+				"scripts/features/faction-quick-items/ttFactionQuickItems.css",
+				"scripts/features/faction-stakeouts/ttFactionStakeouts.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -346,7 +347,8 @@
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js",
 				"scripts/features/medical-life/ttMedicalLife.js",
-				"scripts/features/faction-quick-items/ttFactionQuickItems.js"
+				"scripts/features/faction-quick-items/ttFactionQuickItems.js",
+				"scripts/features/faction-stakeouts/ttFactionStakeouts.js"
 			],
 			"run_at": "document_end"
 		},

@@ -598,6 +598,7 @@ const DEFAULT_STORAGE = {
 				memberInfo: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				rankedWarFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				stakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -895,6 +896,7 @@ const DEFAULT_STORAGE = {
 		},
 	},
 	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
+	factionStakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 	attackHistory: {
 		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),
 		lastAttack: new DefaultSetting({ type: "number", defaultValue: 0 }),

@@ -193,51 +193,62 @@ body.dark #dashboard .extra {
 
 /* Stakeouts */
 
-#dashboard .stakeouts {
+#dashboard .stakeouts,
+#dashboard .faction-stakeouts {
 	margin-top: 8px;
 }
 
-#dashboard .stakeouts .heading {
+#dashboard .stakeouts .heading,
+#dashboard .faction-stakeouts .heading {
 	display: flex;
 }
 
-#dashboard .stakeouts .user {
+#dashboard .stakeouts .user,
+#dashboard .faction-stakeouts .faction {
 	padding: 4px;
 }
 
-body.light #dashboard .stakeouts .user:nth-child(odd) {
+body.light #dashboard .stakeouts .user:nth-child(odd),
+body.light #dashboard .faction-stakeouts .faction:nth-child(odd) {
 	background-color: #f5f5f5;
 }
 
-body.light #dashboard .stakeouts .user:nth-child(even) {
+body.light #dashboard .stakeouts .user:nth-child(even),
+body.light #dashboard .faction-stakeouts .faction:nth-child(even) {
 	background-color: #e3e3e3;
 }
 
-body.dark #dashboard .stakeouts .user:nth-child(odd) {
+body.dark #dashboard .stakeouts .user:nth-child(odd),
+body.dark #dashboard .faction-stakeouts .faction:nth-child(odd) {
 	background-color: #3c3c3c;
 }
 
-body.dark #dashboard .stakeouts .user:nth-child(even) {
+body.dark #dashboard .stakeouts .user:nth-child(even),
+body.dark #dashboard .faction-stakeouts .faction:nth-child(even) {
 	background-color: #2b2b2b;
 }
 
-#dashboard .stakeouts a {
+#dashboard .stakeouts a,
+#dashboard .faction-stakeouts a {
 	text-decoration: none;
 	color: inherit;
 }
 
-#dashboard .stakeouts i {
+#dashboard .stakeouts i,
+#dashboard .faction-stakeouts i {
 	cursor: pointer;
 	font-size: 16px;
 	flex: 1;
 	text-align: end;
 }
 
-#dashboard .stakeouts .row {
+#dashboard .stakeouts .row,
+#dashboard .faction-stakeouts .row {
 	display: flex;
 }
 
-#dashboard .stakeouts .row.information {
+#dashboard .stakeouts .row.information,
+#dashboard .faction-stakeouts .row.information {
 	justify-content: space-between;
 }
 
@@ -261,7 +272,8 @@ body.dark #dashboard .stakeouts .user:nth-child(even) {
 	background-color: green;
 }
 
-#dashboard .stakeouts .delete-stakeout {
+#dashboard .stakeouts .delete-stakeout,
+#dashboard .faction-stakeouts .delete-stakeout {
 	font-size: 12px;
 }
 
