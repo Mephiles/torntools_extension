@@ -644,6 +644,9 @@ const DEFAULT_STORAGE = {
 			museum: {
 				autoFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			enemies: {
+				filter: new DefaultSetting({type: "boolean", defaultValue: true})
+			}
 		},
 		scripts: {
 			noConfirm: {
@@ -861,6 +864,12 @@ const DEFAULT_STORAGE = {
 				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
 			},
 		},
+		enemies: {
+			status: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+		}
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
