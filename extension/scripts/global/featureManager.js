@@ -305,7 +305,7 @@ class FeatureManager {
 			settings.featureDisplay ? "" : "tt-hidden",
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : "",
-			settings.featureDisplayHideEmpty  ? "hide-empty" : ""
+			settings.featureDisplayHideEmpty ? "hide-empty" : ""
 		);
 		this.hideEmptyScopes();
 	}
