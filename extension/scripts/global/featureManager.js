@@ -304,7 +304,8 @@ class FeatureManager {
 		this.container.setClass(
 			settings.featureDisplay ? "" : "tt-hidden",
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
-			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
+			settings.featureDisplayHideDisabled ? "hide-disabled" : "",
+			settings.featureDisplayHideEmpty  ? "hide-empty" : ""
 		);
 		this.hideEmptyScopes();
 	}

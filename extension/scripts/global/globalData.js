@@ -290,6 +290,7 @@ const DEFAULT_STORAGE = {
 		featureDisplayPosition: new DefaultSetting({ type: "string", defaultValue: "bottom-left" }),
 		featureDisplayOnlyFailed: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		featureDisplayHideDisabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		featureDisplayHideEmpty: new DefaultSetting({ type: "boolean", defaultValue: true }),
 		developer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		formatting: {
 			tct: new DefaultSetting({ type: "boolean", defaultValue: false }),
