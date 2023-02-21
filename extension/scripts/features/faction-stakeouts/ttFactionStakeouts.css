@@ -1,0 +1,11 @@
+#factionStakeout .alerts {
+	margin-left: 20px;
+
+	display: flex;
+	flex-direction: column;
+}
+
+#factionStakeout .alerts .tt-textbox {
+	width: 40px;
+	margin-left: 2px;
+}

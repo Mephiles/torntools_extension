@@ -4,12 +4,17 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{ "message": "Filter on the enemies page.", "contributor": "DeKleineKobini" },
+				{ "message": "Stakeout factions.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Fix Auto Stock Fill.", "contributor": "TheFoxMan" },
 				{ "message": "Fix auction house filters when something isn't present.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix gym steadfast perk percentages in wrong position after changing gyms.", "contributor": "TheFoxMan" },
-				{ "message": "Fix bounty filter.", "contributor": "TheFoxMan" }
+				{ "message": "Fix bounty filter.", "contributor": "TheFoxMan" },
+				{ "message": "Fix collapible area to work with the changes.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix update notice.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" },
@@ -21,9 +26,11 @@
 				{ "message": "Include a button to manually refresh the profile box spy when there is no prior spy.", "contributor": "DeKleineKobini" },
 				{ "message": "Invalidate TornStats spy cache upon saving a spy to TornStats.", "contributor": "DeKleineKobini" },
 				{ "message": "Decrease jail score filter step amount from 25 to 10.", "contributor": "DeKleineKobini" },
-				{ "message": "Add statistics for bounty filter.", "contributor": "TheFoxMan" }
+				{ "message": "Add statistics for bounty filter.", "contributor": "TheFoxMan" },
+				{ "message": "Change torndata validity check to better avoid corrupt data, again.", "contributor": "DeKleineKobini" },
+				{ "message": "Add the option to not show the feature manager when there is nothing to show.", "contributor": "DeKleineKobini" }
 			],
-			"removed": []
+			"removed": [{ "message": "Remove hide area feature because of Torn implementing it itself.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

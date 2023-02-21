@@ -16,28 +16,29 @@
 		},
 		async () => {
 			await requireSidebar();
-
-			if (document.find("#sidebarroot .tablet")) return "Already collapsible.";
 		}
 	);
 
 	let observer;
 
 	async function addCollapseIcon() {
-		const header = document.find("h2=Areas");
-		if (header.classList.contains("tt-title-torn")) return;
+		const title = document.find("h2=Areas");
+		if (title.classList.contains("tt-title-torn")) return;
 
-		header.classList.add("tt-title-torn");
+		const header = title.parentElement;
+
+		header.classList.add("tt-areas-header");
+		title.classList.add("tt-title-torn");
 		if (filters.containers.collapseAreas) header.classList.add("collapsed");
-		header.addEventListener("click", clickListener);
+		title.addEventListener("click", clickListener);
 
 		const icon = document.newElement({ type: "i", class: "icon fas fa-caret-down" });
-		header.appendChild(icon);
+		title.appendChild(icon);
 
 		observer = new MutationObserver(() => {
-			if (!header.classList.contains("tt-title-torn")) header.classList.add("tt-title-torn");
+			if (!title.classList.contains("tt-title-torn")) title.classList.add("tt-title-torn");
 		});
-		observer.observe(header, { attributes: true, attributeFilter: ["class"] });
+		observer.observe(title, { attributes: true, attributeFilter: ["class"] });
 	}
 
 	async function removeCollapseIcon() {
@@ -53,8 +54,8 @@
 	}
 
 	async function clickListener() {
-		const areasHeader = document.find("h2=Areas");
-		const collapsed = areasHeader.classList.toggle("collapsed");
+		const header = document.find("h2=Areas").parentElement;
+		const collapsed = header.classList.toggle("collapsed");
 
 		await ttStorage.change({ filters: { containers: { collapseAreas: collapsed } } });
 	}

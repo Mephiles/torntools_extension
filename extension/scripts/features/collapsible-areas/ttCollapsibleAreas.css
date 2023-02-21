@@ -2,11 +2,11 @@
 	cursor: pointer !important;
 }
 
-.tt-title-torn.collapsed {
+.tt-areas-header.collapsed {
 	margin-bottom: 2px !important;
 }
 
-.tt-title-torn .icon {
+.tt-areas-header .icon {
 	line-height: inherit;
 	font-size: 16px;
 	position: absolute;
@@ -14,10 +14,14 @@
 	right: 9px;
 }
 
-.tt-title-torn.collapsed .icon {
+.tt-areas-header:hover .icon {
+	right: 26px;
+}
+
+.tt-areas-header.collapsed .icon {
 	transform: rotate(-90deg);
 }
 
-.tt-title-torn.collapsed + div {
+.tt-areas-header.collapsed + div {
 	display: none;
 }

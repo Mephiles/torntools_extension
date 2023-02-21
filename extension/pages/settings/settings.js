@@ -380,16 +380,6 @@ async function setupPreferences(requireCleanup) {
 		);
 	}
 
-	const hideAreasParent = _preferences.find("#hide-areas");
-	for (const area of ALL_AREAS) {
-		const areaWrap = document.newElement({ type: "span", text: area.text, attributes: { name: area.class } });
-
-		hideAreasParent.appendChild(areaWrap);
-		if (ALL_AREAS.indexOf(area) + 1 !== ALL_AREAS.length) hideAreasParent.appendChild(document.createTextNode("\n"));
-
-		areaWrap.addEventListener("click", () => areaWrap.classList.toggle("disabled"));
-	}
-
 	const hideIconsParent = _preferences.find("#hide-icons");
 	for (const { icon, id, description } of ALL_ICONS) {
 		const iconsWrap = document.newElement({
@@ -536,7 +526,7 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	function fillSettings() {
-		for (const setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFailed", "featureDisplayHideDisabled"]) {
+		for (const setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFailed", "featureDisplayHideDisabled", "featureDisplayHideEmpty"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
@@ -652,9 +642,6 @@ async function setupPreferences(requireCleanup) {
 			}
 		}
 
-		for (const area of settings.hideAreas) {
-			_preferences.find(`#hide-areas span[name="${area}"]`).classList.add("disabled");
-		}
 		for (const icon of settings.hideIcons) {
 			_preferences.find(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
 		}
@@ -918,7 +905,7 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	async function saveSettings() {
-		for (const setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFailed", "featureDisplayHideDisabled"]) {
+		for (const setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFailed", "featureDisplayHideDisabled", "featureDisplayHideEmpty"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
@@ -1006,7 +993,6 @@ async function setupPreferences(requireCleanup) {
 			}
 		}
 
-		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
 		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
 		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
@@ -1270,7 +1256,7 @@ async function setupPreferences(requireCleanup) {
 	function addSaveDialog(event) {
 		if (
 			["INPUT", "SELECT"].includes(event.target.tagName) ||
-			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-areas, #hide-casino-games, #hide-stocks, #hide-attack-options")
+			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-casino-games, #hide-stocks, #hide-attack-options")
 		) {
 			if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
 			else document.find("#saveSettingsBar").classList.remove("tt-hidden");
@@ -1278,9 +1264,7 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	function revertSettings() {
-		_preferences
-			.findAll("#hide-areas .disabled, #hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled")
-			.forEach((x) => x.classList.remove("disabled"));
+		_preferences.findAll("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled").forEach((x) => x.classList.remove("disabled"));
 		_preferences.findAll("button.remove-icon-wrap").forEach((x) => x.closest("li").remove());
 		fillSettings();
 	}

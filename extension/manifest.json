@@ -63,7 +63,6 @@
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.css",
 				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.css",
 				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.css",
-				"scripts/features/hide-areas/ttHideAreas.css",
 				"scripts/features/hide-icons/ttHideIcons.css",
 				"scripts/features/block-zalgo/ttBlockZalgo.css",
 				"scripts/features/achievements/ttAchievements.css",
@@ -103,7 +102,6 @@
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.entry.js",
 				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.entry.js",
 				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.entry.js",
-				"scripts/features/hide-areas/ttHideAreas.entry.js",
 				"scripts/features/hide-icons/ttHideIcons.entry.js",
 				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
 				"scripts/features/achievements/achievements.js",
@@ -309,7 +307,8 @@
 				"scripts/features/armory-worth/ttArmoryWorth.css",
 				"scripts/features/ranked-war-filter/ttRankedWarFilter.css",
 				"scripts/features/medical-life/ttMedicalLife.css",
-				"scripts/features/faction-quick-items/ttFactionQuickItems.css"
+				"scripts/features/faction-quick-items/ttFactionQuickItems.css",
+				"scripts/features/faction-stakeouts/ttFactionStakeouts.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -347,7 +346,8 @@
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js",
 				"scripts/features/medical-life/ttMedicalLife.js",
-				"scripts/features/faction-quick-items/ttFactionQuickItems.js"
+				"scripts/features/faction-quick-items/ttFactionQuickItems.js",
+				"scripts/features/faction-stakeouts/ttFactionStakeouts.js"
 			],
 			"run_at": "document_end"
 		},
@@ -741,8 +741,13 @@
 		{ "matches": ["https://www.torn.com/museum.php*"], "js": ["scripts/features/museum-auto-fill/ttMuseumAutoFill.js"], "run_at": "document_end" },
 		{
 			"matches": ["https://www.torn.com/blacklist.php*"],
-			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
-			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateEnemies.js"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateEnemies.js",
+				"scripts/features/enemy-filter/ttEnemyFilter.js"
+			],
 			"run_at": "document_end"
 		},
 		{

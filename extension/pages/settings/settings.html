@@ -133,6 +133,7 @@
 						<li name="museum">Museum</li>
 						<li name="api">API</li>
 						<li name="auction-house">Auction House</li>
+						<li name="enemies">Enemies</li>
 					</ul>
 				</nav>
 
@@ -154,6 +155,10 @@
 						<div class="option tabbed">
 							<input id="featureDisplayHideDisabled" type="checkbox" />
 							<label for="featureDisplayHideDisabled">Hide disabled features.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="featureDisplayHideEmpty" type="checkbox" />
+							<label for="featureDisplayHideEmpty">Hide when there is nothing to display.</label>
 						</div>
 
 						<div class="header">Page Theme</div>
@@ -518,9 +523,6 @@
 
 						<div class="header">Hide Icons</div>
 						<div id="hide-icons"></div>
-
-						<div class="header extra-mb">Hide Areas</div>
-						<div id="hide-areas" class="hide-items"></div>
 
 						<div class="header">Custom Links</div>
 						<ul id="customLinks" class="list-table grid">
@@ -1303,6 +1305,13 @@
 						<div class="option">
 							<input id="competition-filter" type="checkbox" />
 							<label for="competition-filter">Enable competition filters where applicable.</label>
+						</div>
+					</section>
+					<section name="enemies">
+						<div class="header">Enemies</div>
+						<div class="option">
+							<input id="enemies-filter" type="checkbox" />
+							<label for="enemies-filter">Enable enemies filters.</label>
 						</div>
 					</section>
 					<section name="stock-exchange">

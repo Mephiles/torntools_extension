@@ -252,6 +252,14 @@ function timedUpdates() {
 				} else console.log("Skipped this stakeout update.");
 			})
 			.catch((error) => logError("updating stakeouts", error));
+		updateFactionStakeouts()
+			.then(({ updated, success, failed }) => {
+				if (updated) {
+					if (success || failed) console.log("Updated faction stakeouts.", { success, failed });
+					else console.log("No faction stakeouts to update.");
+				} else console.log("Skipped this faction stakeout update.");
+			})
+			.catch((error) => logError("updating faction stakeouts", error));
 
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
 			// Update once every torn day.
@@ -1087,6 +1095,102 @@ async function updateStakeouts() {
 	return { updated: true, success, failed };
 }
 
+async function updateFactionStakeouts() {
+	const now = Date.now();
+
+	if (factionStakeouts.date && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) return { updated: false };
+
+	let success = 0;
+	let failed = 0;
+	for (const factionId in factionStakeouts) {
+		if (isNaN(parseInt(factionId))) continue;
+
+		const oldData = factionStakeouts[factionId]?.info ?? false;
+		let data;
+		try {
+			data = await fetchData("torn", { section: "faction", selections: ["basic", "chain"], id: factionId, silent: true });
+			if (!data) {
+				console.log("Unexpected result during faction stakeout updating.");
+				failed++;
+				continue;
+			}
+
+			success++;
+		} catch (e) {
+			console.log("FACTION STAKEOUT error", e);
+			failed++;
+			continue;
+		}
+
+		if (factionStakeouts[factionId].alerts) {
+			const { chainReaches, memberCountDrops, rankedWarStarts } = factionStakeouts[factionId].alerts;
+
+			if (chainReaches) {
+				const oldChainCount = oldData ? oldData.chain : false;
+				const chainCount = data.chain.current;
+
+				const key = `faction_${factionId}_chainReaches`;
+				if (chainCount >= chainReaches && (!oldChainCount || oldChainCount < chainCount) && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Faction Stakeouts",
+							`${data.name} has reached a ${chainCount} chain.`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+						);
+				} else if (chainCount < factionId) {
+					delete notifications.stakeouts[key];
+				}
+			}
+			if (memberCountDrops) {
+				const oldMemberCount = oldData ? oldData.members.current : false;
+				const memberCount = Object.keys(data.members).length;
+
+				const key = `faction_${factionId}_memberCountDrops`;
+				if (memberCount >= oldMemberCount && (!oldMemberCount || oldMemberCount > memberCount) && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Faction Stakeouts",
+							`${data.name} now has less than ${memberCount} members.`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+						);
+				} else if (data.status.state !== "Okay") {
+					delete notifications.stakeouts[key];
+				}
+			}
+			if (rankedWarStarts) {
+				const wasWarring = oldData.rankedWar;
+				const isWarring = Object.keys(data.ranked_wars).length > 0;
+
+				const key = `faction_${factionId}_rankedWarStarts`;
+				if (isWarring && (!oldData || !wasWarring) && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Faction Stakeouts",
+							`${data.name} is now in a ranked war.`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+						);
+				} else if (data.status.state !== "Okay") {
+					delete notifications.stakeouts[key];
+				}
+			}
+		}
+
+		factionStakeouts[factionId].info = {
+			name: data.name,
+			chain: data.chain.current,
+			members: {
+				current: Object.keys(data.members).length,
+				maximum: data.capacity,
+			},
+			rankedWar: Object.keys(data.ranked_wars).length > 0,
+		};
+	}
+	factionStakeouts.date = now;
+
+	await ttStorage.change({ factionStakeouts });
+	return { updated: true, success, failed };
+}
+
 async function updateTorndata() {
 	const data = await fetchData("torn", {
 		section: "torn",
@@ -1099,7 +1203,16 @@ async function updateTorndata() {
 	await ttStorage.set({ torndata: data });
 
 	function isValidTorndata(data) {
-		return !!data && Object.keys(data).length > 0 && data.items && Object.keys(data.items).length > 0;
+		return (
+			!!data &&
+			Object.keys(data).length > 0 &&
+			// Validate items object.
+			data.items &&
+			Object.keys(data.items).length > 0 &&
+			// Validate stats object to have a point price.
+			data.stats &&
+			data.stats.points_averagecost
+		);
 	}
 }
 

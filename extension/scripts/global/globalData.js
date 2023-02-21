@@ -290,6 +290,7 @@ const DEFAULT_STORAGE = {
 		featureDisplayPosition: new DefaultSetting({ type: "string", defaultValue: "bottom-left" }),
 		featureDisplayOnlyFailed: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		featureDisplayHideDisabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		featureDisplayHideEmpty: new DefaultSetting({ type: "boolean", defaultValue: true }),
 		developer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		formatting: {
 			tct: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -375,7 +376,6 @@ const DEFAULT_STORAGE = {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
 			containers: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
-		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideCasinoGames: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideStocks: new DefaultSetting({ type: "array", defaultValue: [] }),
@@ -598,6 +598,7 @@ const DEFAULT_STORAGE = {
 				memberInfo: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				rankedWarFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				stakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -643,6 +644,9 @@ const DEFAULT_STORAGE = {
 			},
 			museum: {
 				autoFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
+			enemies: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		scripts: {
@@ -861,6 +865,12 @@ const DEFAULT_STORAGE = {
 				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
 			},
 		},
+		enemies: {
+			status: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
@@ -886,6 +896,7 @@ const DEFAULT_STORAGE = {
 		},
 	},
 	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
+	factionStakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 	attackHistory: {
 		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),
 		lastAttack: new DefaultSetting({ type: "number", defaultValue: 0 }),

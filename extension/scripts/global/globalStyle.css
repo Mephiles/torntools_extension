@@ -218,6 +218,10 @@ body.dark-mode #tt-page-status .tt-features-list {
 }
 
 /* When all scopes are hidden */
+#tt-page-status.no-content.hide-empty {
+	display: none;
+}
+
 #tt-page-status.no-content .tt-features-list::before {
 	display: inline-block;
 	padding: 15px 15px 5px 15px;
