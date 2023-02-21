@@ -1,6 +1,16 @@
+#bountyFilter {
+	font-family: Arial;
+}
+
+#bountyFilter .text .statistics {
+	display: inline;
+	margin-left: 5px;
+}
+
 #bountyFilter .options input[type="number"] {
 	height: 20px;
 	margin: 0 6px;
+	padding-left: 5px;
 	width: 50px;
 	border-radius: 5px;
 }
