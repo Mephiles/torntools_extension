@@ -1264,9 +1264,7 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	function revertSettings() {
-		_preferences
-			.findAll("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled")
-			.forEach((x) => x.classList.remove("disabled"));
+		_preferences.findAll("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled").forEach((x) => x.classList.remove("disabled"));
 		_preferences.findAll("button.remove-icon-wrap").forEach((x) => x.closest("li").remove());
 		fillSettings();
 	}
