@@ -11,7 +11,8 @@
 			"fixes": [
 				{ "message": "Fix Auto Stock Fill.", "contributor": "TheFoxMan" },
 				{ "message": "Fix auction house filters when something isn't present.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix gym steadfast perk percentages in wrong position after changing gyms.", "contributor": "TheFoxMan" }
+				{ "message": "Fix gym steadfast perk percentages in wrong position after changing gyms.", "contributor": "TheFoxMan" },
+				{ "message": "Fix collapible area to work with the changes.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Stop features from running on 2FA page.", "contributor": "TheFoxMan" },
