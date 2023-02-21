@@ -92,11 +92,12 @@
 			}
 
 			list.classList.add("tt-filtered");
-			if (!device.mobile && !device.tablet) statistics.updateStatistics(
-				document.findAll(".bounties-list > li[data-id]:not(.tt-hidden)").length,
-				document.findAll(".bounties-list > li[data-id]").length,
-				options.parentElement.find(".title .text")
-			);
+			if (!device.mobile && !device.tablet)
+				statistics.updateStatistics(
+					document.findAll(".bounties-list > li[data-id]:not(.tt-hidden)").length,
+					document.findAll(".bounties-list > li[data-id]").length,
+					options.parentElement.find(".title .text")
+				);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 			function hideBounty(bounty) {
