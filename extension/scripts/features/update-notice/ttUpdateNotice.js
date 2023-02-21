@@ -29,7 +29,7 @@
 
 		const currentVersion = chrome.runtime.getManifest().version;
 
-		const parent = document.find("h2=Areas").nextElementSibling;
+		const parent = document.find("h2=Areas").parentElement.nextElementSibling;
 		parent.insertBefore(
 			document.newElement({
 				type: "div",
