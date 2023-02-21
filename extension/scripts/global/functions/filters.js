@@ -226,12 +226,12 @@ function createFilterSection(options) {
 	return { element: section };
 }
 
-function createStatistics(name = "entries", addBrackets = false) {
+function createStatistics(name = "entries", addBrackets = false, lowercase = false) {
 	const statistics = document.newElement({
 		type: "div",
 		class: "statistics",
 		children: [
-			(addBrackets ? "(" : "") + "Showing ",
+			(addBrackets ? "(" : "") + `${lowercase ? "s" : "S"}howing `,
 			document.newElement({ type: "strong", class: "stat-count", text: "X" }),
 			" of ",
 			document.newElement({ type: "strong", class: "stat-total", text: "Y" }),

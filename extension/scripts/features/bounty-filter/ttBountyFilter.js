@@ -49,7 +49,7 @@
 		);
 		let statistics;
 		if (!device.mobile && !device.tablet) {
-			statistics = createStatistics("rows", true);
+			statistics = createStatistics("rows", true, true);
 			options.parentElement.find(".title .text").appendChild(statistics.element);
 		}
 
