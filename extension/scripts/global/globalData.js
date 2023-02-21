@@ -376,7 +376,6 @@ const DEFAULT_STORAGE = {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
 			containers: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
-		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideCasinoGames: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideStocks: new DefaultSetting({ type: "array", defaultValue: [] }),
