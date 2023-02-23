@@ -100,6 +100,7 @@
 				{ id: "okay", description: "Okay" },
 				{ id: "hospital", description: "Hospital" },
 				{ id: "jail", description: "Jail" },
+				{ id: "abroad", description: "Abroad" },
 				{ id: "traveling", description: "Traveling" },
 			],
 			defaults: filters.faction.status,

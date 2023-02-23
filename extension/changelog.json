@@ -28,7 +28,8 @@
 				{ "message": "Decrease jail score filter step amount from 25 to 10.", "contributor": "DeKleineKobini" },
 				{ "message": "Add statistics for bounty filter.", "contributor": "TheFoxMan" },
 				{ "message": "Change torndata validity check to better avoid corrupt data, again.", "contributor": "DeKleineKobini" },
-				{ "message": "Add the option to not show the feature manager when there is nothing to show.", "contributor": "DeKleineKobini" }
+				{ "message": "Add the option to not show the feature manager when there is nothing to show.", "contributor": "DeKleineKobini" },
+				{ "message": "Filter on abroad status for faction members.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [{ "message": "Remove hide area feature because of Torn implementing it itself.", "contributor": "DeKleineKobini" }]
 		}
