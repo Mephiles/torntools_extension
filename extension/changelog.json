@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 11, "build": 0 },
+		"version": { "major": 6, "minor": 12, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 11, "build": 0 },
+		"date": "2023/02/24",
 		"logs": {
 			"features": [
 				{ "message": "Filter on the enemies page.", "contributor": "DeKleineKobini" },
