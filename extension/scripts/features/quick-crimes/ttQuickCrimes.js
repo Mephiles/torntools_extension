@@ -34,6 +34,7 @@
 	async function loadCrimes() {
 		await requireElement(".specials-cont-wrap form[name='crimes'], #defaultCountdown");
 
+		const isTouchDevice = mobile || tablet;
 		const { container, content, options } = createContainer("Quick Crimes", {
 			previousElement: document.find(".content-title"),
 			allowDragging: true,
@@ -69,19 +70,22 @@
 						if (enabled) {
 							document.find(".tt-overlay").classList.remove("tt-hidden");
 
-							if (document.find(".specials-cont-wrap form[name=crimes] .item[draggable='true']")) {
-								document.find(".specials-cont-wrap form[name='crimes']").classList.add("tt-overlay-item");
+							const draggableCrimes = document.findAll(".specials-cont-wrap form[name='crimes'] .item[draggable='true']");
+							if (draggableCrimes.length) {
+								draggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']").classList.add("tt-overlay-item");
 
-								for (const crime of document.findAll(".specials-cont-wrap form[name='crimes'] .item[draggable='true']")) {
+								for (const crime of draggableCrimes) {
 									crime.addEventListener("click", onCrimeClick);
 									crime.setAttribute("draggable", "false");
 								}
 							}
 						} else {
 							document.find(".tt-overlay").classList.add("tt-hidden");
-							document.find(".specials-cont-wrap form[name='crimes']").classList.remove("tt-overlay-item");
 
-							for (const crime of document.findAll(".specials-cont-wrap form[name='crimes'] .item[draggable='false']")) {
+							const nonDraggableCrimes = document.findAll(".specials-cont-wrap form[name='crimes'] .item[draggable='false']");
+							nonDraggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']").classList.remove("tt-overlay-item");
+
+							for (const crime of nonDraggableCrimes) {
 								crime.removeEventListener("click", onCrimeClick);
 								crime.setAttribute("draggable", "true");
 							}
@@ -98,9 +102,6 @@
 		makeDraggable();
 
 		function makeDraggable() {
-			const enableDrag = !mobile && !tablet;
-			if (!enableDrag) return;
-
 			const form = document.find(".specials-cont-wrap form[name='crimes']");
 			if (!form || !form.hasAttribute("action")) return;
 
@@ -112,8 +113,10 @@
 				if (crime.hasAttribute("draggable")) continue;
 
 				crime.setAttribute("draggable", "true");
-				crime.addEventListener("dragstart", onDragStart);
-				crime.addEventListener("dragend", onDragEnd);
+				if (!isTouchDevice) {
+					crime.addEventListener("dragstart", onDragStart);
+					crime.addEventListener("dragend", onDragEnd);
+				}
 			}
 		}
 
