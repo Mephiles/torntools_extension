@@ -31,18 +31,23 @@
 		const now = Date.now();
 
 		const timerSettings = { type: "wordTimer", extraShort: true };
-		if (npcs.planned) {
-			const left = npcs.planned - now;
-			const timer = document.newElement({
-				type: "span",
-				class: "timer",
-				text: formatTime(left, timerSettings),
-				dataset: {
-					seconds: (left / TO_MILLIS.SECONDS).dropDecimals(),
-					timeSettings: timerSettings,
-				},
-			});
-			countdownTimers.push(timer);
+		if ("planned" in npcs) {
+			let timer;
+			if (npcs.planned) {
+				const left = npcs.planned - now;
+				timer = document.newElement({
+					type: "span",
+					class: "timer",
+					text: formatTime(left, timerSettings),
+					dataset: {
+						seconds: (left / TO_MILLIS.SECONDS).dropDecimals(),
+						timeSettings: timerSettings,
+					},
+				});
+				countdownTimers.push(timer);
+			} else {
+				timer = document.newElement({ type: "span", class: "timer", text: "Not Scheduled" });
+			}
 
 			content.appendChild(
 				document.newElement({
