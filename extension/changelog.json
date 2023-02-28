@@ -5,7 +5,8 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Stakeout factions for raid and territory wars.", "contributor": "DeKleineKobini" }],
-			"fixes": [{ "message": "Fix Edit option of Quick Crimes on mobiles & tablets.", "contributor": "TheFoxMan" }, { "message": "Clean (faction) stakeout fields after disabling stakeout for that user or faction.", "contributor": "DeKleineKobini" }],
+			"fixes": [{ "message": "Fix Edit option of Quick Crimes on mobiles & tablets.", "contributor": "TheFoxMan" }, { "message": "Clean (faction) stakeout fields after disabling stakeout for that user or faction.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix stakeout faction notifications not properly resetting.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{
 					"message": "Change behavior for the faction stakeouts when chain reaches is set to 0, to show a notification if their chain drops.",

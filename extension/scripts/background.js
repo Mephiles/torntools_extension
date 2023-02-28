@@ -1171,53 +1171,28 @@ async function updateFactionStakeouts() {
 					delete notifications.stakeouts[key];
 				}
 			}
-			if (rankedWarStarts) {
-				const wasWarring = oldData.rankedWar;
-				const isWarring = Object.keys(data.ranked_wars).length > 0;
 
-				const key = `faction_${factionId}_rankedWarStarts`;
-				if (isWarring && (!oldData || !wasWarring) && !notifications.stakeouts[key]) {
+			const handleWarStakeout = (type, wasValue, isValue, createMessage) => {
+				const key = `faction_${factionId}_${type}`;
+				if (isValue && (!oldData || !wasValue) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Faction Stakeouts",
-							`${data.name} is now in a ranked war.`,
+							createMessage(),
 							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 						);
-				} else if (data.status.state !== "Okay") {
+				} else if (!isValue) {
 					delete notifications.stakeouts[key];
 				}
+			};
+			if (rankedWarStarts) {
+				handleWarStakeout("rankedWarStarts", oldData.rankedWar, Object.keys(data.ranked_wars).length > 0, () => `${data.name} is now in a ranked war.`);
 			}
 			if (inRaid) {
-				const wasValue = oldData.raid;
-				const isValue = Array.isArray(data.raid_wars);
-
-				const key = `faction_${factionId}_inRaid`;
-				if (isValue && (!oldData || !wasValue) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
-							"Faction Stakeouts",
-							`${data.name} is now in a raid.`,
-							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
-						);
-				} else if (!isValue) {
-					delete notifications.stakeouts[key];
-				}
+				handleWarStakeout("inRaid", oldData.raid, Array.isArray(data.raid_wars), () => `${data.name} is now in a raid.`);
 			}
 			if (inTerritoryWar) {
-				const wasValue = oldData.territoryWar;
-				const isValue = Array.isArray(data.territory_wars);
-
-				const key = `faction_${factionId}_inTerritoryWar`;
-				if (isValue && (!oldData || !wasValue) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
-							"Faction Stakeouts",
-							`${data.name} is now in a territory war.`,
-							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
-						);
-				} else if (!isValue) {
-					delete notifications.stakeouts[key];
-				}
+				handleWarStakeout("inTerritoryWar", oldData.territoryWar, Array.isArray(data.territory_wars), () => `${data.name} is now in a territory war.`);
 			}
 		}
 
