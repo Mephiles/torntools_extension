@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Stakeout factions for raid and territory wars.", "contributor": "DeKleineKobini" }],
 			"fixes": [{ "message": "Fix Edit option of Quick Crimes on mobiles & tablets.", "contributor": "TheFoxMan" }, { "message": "Clean (faction) stakeout fields after disabling stakeout for that user or faction.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{

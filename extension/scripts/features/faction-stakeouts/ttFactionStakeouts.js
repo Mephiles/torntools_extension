@@ -51,15 +51,15 @@
 			if (checkbox.isChecked()) {
 				ttStorage.change({
 					factionStakeouts: {
-						[factionId]: { alerts: { chainReaches: false, memberCountDrops: false, rankedWarStarts: false } },
+						[factionId]: { alerts: { chainReaches: false, memberCountDrops: false, rankedWarStarts: false, inRaid: false, inTerritoryWar: false } },
 					},
 				});
 
-				alerts.classList.remove("tt-hidden");
+				alertsWrap.classList.remove("tt-hidden");
 			} else {
 				ttStorage.change({ factionStakeouts: { [factionId]: undefined } });
 
-				alerts.classList.add("tt-hidden");
+				alertsWrap.classList.add("tt-hidden");
 				content.findAll("input[type='text'], input[type='number']").forEach((input) => input.value = "");
 				content.findAll("input[type='checkbox']").forEach((input) => input.checked = false);
 			}
@@ -87,28 +87,58 @@
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { memberCountDrops: parseInt(memberCountDrops.getValue()) || false } } } });
 		});
 
-		const rankedWarStarts = createCheckbox({ description: "ranked war starts" });
+		const rankedWarStarts = createCheckbox({ description: "ranked war" });
 		rankedWarStarts.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { rankedWarStarts: rankedWarStarts.isChecked() } } } });
 		});
 
-		const alerts = document.newElement({
+		const inRaid = createCheckbox({ description: "raid" });
+		inRaid.onChange(() => {
+			if (!(factionId in factionStakeouts)) return;
+
+			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inRaid: inRaid.isChecked() } } } });
+		});
+
+		const inTerritoryWar = createCheckbox({ description: "territory war" });
+		inTerritoryWar.onChange(() => {
+			if (!(factionId in factionStakeouts)) return;
+
+			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inTerritoryWar: inTerritoryWar.isChecked() } } } });
+		});
+
+		const alertsWrap = document.newElement({
 			type: "div",
-			class: "alerts",
-			children: [chainReaches.element, memberCountDrops.element, rankedWarStarts.element],
+			class: "alerts-wrap",
+			children: [
+				createAlertSection("General", [chainReaches.element, memberCountDrops.element]),
+				createAlertSection("Wars", [rankedWarStarts.element, inRaid.element, inTerritoryWar.element]),
+			],
 		});
 
 		if (hasStakeout) {
 			chainReaches.setNumberValue(factionStakeouts[factionId].alerts.chainReaches);
 			memberCountDrops.setNumberValue(factionStakeouts[factionId].alerts.memberCountDrops);
 			rankedWarStarts.setChecked(factionStakeouts[factionId].alerts.rankedWarStarts);
+			inRaid.setChecked(factionStakeouts[factionId].alerts.inRaid);
+			inTerritoryWar.setChecked(factionStakeouts[factionId].alerts.inTerritoryWar);
 		} else {
-			alerts.classList.add("tt-hidden");
+			alertsWrap.classList.add("tt-hidden");
 		}
 
-		content.appendChild(alerts);
+		content.appendChild(alertsWrap);
+
+		function createAlertSection(title, elements) {
+			return document.newElement({
+				type: "div",
+				class: "alerts",
+				children: [
+					document.newElement({ type: "strong", text: title }),
+					...elements
+				]
+			})
+		}
 	}
 
 	function removeBox() {

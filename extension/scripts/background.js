@@ -1123,7 +1123,7 @@ async function updateFactionStakeouts() {
 		}
 
 		if (factionStakeouts[factionId].alerts) {
-			const { chainReaches, memberCountDrops, rankedWarStarts } = factionStakeouts[factionId].alerts;
+			const { chainReaches, memberCountDrops, rankedWarStarts, inRaid, inTerritoryWar } = factionStakeouts[factionId].alerts;
 
 			if (chainReaches !== false) {
 				const oldChainCount = oldData ? oldData.chain : false;
@@ -1187,6 +1187,38 @@ async function updateFactionStakeouts() {
 					delete notifications.stakeouts[key];
 				}
 			}
+			if (inRaid) {
+				const wasValue = oldData.raid;
+				const isValue = Array.isArray(data.raid_wars);
+
+				const key = `faction_${factionId}_inRaid`;
+				if (isValue && (!oldData || !wasValue) && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Faction Stakeouts",
+							`${data.name} is now in a raid.`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+						);
+				} else if (!isValue) {
+					delete notifications.stakeouts[key];
+				}
+			}
+			if (inTerritoryWar) {
+				const wasValue = oldData.territoryWar;
+				const isValue = Array.isArray(data.territory_wars);
+
+				const key = `faction_${factionId}_inTerritoryWar`;
+				if (isValue && (!oldData || !wasValue) && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Faction Stakeouts",
+							`${data.name} is now in a territory war.`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+						);
+				} else if (!isValue) {
+					delete notifications.stakeouts[key];
+				}
+			}
 		}
 
 		factionStakeouts[factionId].info = {
@@ -1197,6 +1229,8 @@ async function updateFactionStakeouts() {
 				maximum: data.capacity,
 			},
 			rankedWar: Object.keys(data.ranked_wars).length > 0,
+			raid: Array.isArray(data.raid_wars),
+			territoryWar: Array.isArray(data.territory_wars),
 		};
 	}
 	factionStakeouts.date = now;
