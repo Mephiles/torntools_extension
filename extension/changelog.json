@@ -18,7 +18,7 @@
 					"message": "Change behavior for the faction stakeouts when chain reaches is set to 0, to show a notification if their chain drops.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "", "contributor": "DeKleineKobini" }
+				{ "message": "Change NPC loot timer layout.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

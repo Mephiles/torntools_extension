@@ -57,8 +57,7 @@
 		}
 
 		for (const [id, npc] of Object.entries(npcs.targets).sort(([, a], [, b]) => a.order - b.order)) {
-			const status = npc.current === 0 ? "Hospital" : "Okay";
-
+			const status = npc.current === 0 ? "Hospital" : `Level ${npc.current}`;
 			const next = npc.current !== 5 ? npc.current + 1 : false;
 
 			let timer;
@@ -88,10 +87,7 @@
 							type: "div",
 							class: "npc-information",
 							children: [
-								document.newElement({ type: "span", class: `status ${status.toLowerCase()}`, text: status }),
-								document.newElement({ type: "span", text: " / " }),
-								document.newElement({ type: "span", class: "loot-level", text: npc.current }),
-								document.newElement({ type: "span", text: " / " }),
+								document.newElement({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }),
 								timer,
 							],
 						}),
