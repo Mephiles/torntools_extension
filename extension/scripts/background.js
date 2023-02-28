@@ -1337,8 +1337,8 @@ async function updateFactiondata() {
 }
 
 async function updateNPCs() {
-	const { yata: useYata, tornstats: useTornstats, lazerpent: useLazerpent } = settings.external;
-	if (!useYata && !useTornstats && !useLazerpent) {
+	const { yata: useYata, tornstats: useTornstats, lzpt: useLzpt } = settings.external;
+	if (!useYata && !useTornstats && !useLzpt) {
 		await ttStorage.set({ npcs: {} });
 		return { updated: false };
 	}
@@ -1362,7 +1362,7 @@ async function updateNPCs() {
 		updated = await updateLevels();
 	} else {
 		const services = [
-			{ service: "loot-rangers", method: fetchLootRangers, check: useLazerpent },
+			{ service: "loot-rangers", method: fetchLootRangers, check: useLzpt },
 			{ service: "yata", method: fetchYata, check: useYata },
 			{ service: "tornstats", method: fetchTornStats, check: useTornstats },
 		].filter((s) => s.check);
@@ -1444,7 +1444,7 @@ async function updateNPCs() {
 	}
 
 	async function fetchLootRangers() {
-		const data = await fetchData("lazerpent", { section: "loot" });
+		const data = await fetchData("lzpt", { section: "loot" });
 		const planned = data.time.clear;
 
 		npcs = {

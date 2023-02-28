@@ -470,7 +470,7 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
 	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
 	_preferences.find("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
-	_preferences.find("#external-lazerpent").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lazerpent, event));
+	_preferences.find("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = event.target.value;
@@ -540,7 +540,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
-		for (const service of ["tornstats", "yata", "prometheus", "lazerpent"]) {
+		for (const service of ["tornstats", "yata", "prometheus", "lzpt"]) {
 			_preferences.find(`#external-${service}`).checked = settings.external[service];
 		}
 
@@ -924,7 +924,7 @@ async function setupPreferences(requireCleanup) {
 		settings.external.tornstats = _preferences.find("#external-tornstats").checked;
 		settings.external.yata = _preferences.find("#external-yata").checked;
 		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
-		settings.external.lazerpent = _preferences.find("#external-lazerpent").checked;
+		settings.external.lzpt = _preferences.find("#external-lzpt").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
@@ -1218,7 +1218,7 @@ async function setupPreferences(requireCleanup) {
 			{ id: "external-tornstats", origin: FETCH_PLATFORMS.tornstats },
 			{ id: "external-yata", origin: FETCH_PLATFORMS.yata },
 			{ id: "external-prometheus", origin: FETCH_PLATFORMS.prometheus },
-			{ id: "external-lazerpent", origin: FETCH_PLATFORMS.lazerpent },
+			{ id: "external-lzpt", origin: FETCH_PLATFORMS.lzpt },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;
 

@@ -20,7 +20,7 @@ const FETCH_PLATFORMS = {
 	hela: "https://api.no1irishstig.co.uk/",
 	shadow_healers: "https://api.no1irishstig.co.uk/",
 	prometheus: "https://prombot.co.uk:8443/",
-	lazerpent: "https://api.lzpt.io/",
+	lzpt: "https://api.lzpt.io/",
 };
 
 const FACTION_ACCESS = {
@@ -130,8 +130,8 @@ async function fetchData(location, options = {}) {
 
 					path = ["api", options.section].join("/");
 					break;
-				case "lazerpent":
-					url = FETCH_PLATFORMS.lazerpent;
+				case "lzpt":
+					url = FETCH_PLATFORMS.lzpt;
 					path = options.section;
 					break;
 			}

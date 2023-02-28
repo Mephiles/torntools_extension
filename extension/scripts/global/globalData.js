@@ -691,7 +691,7 @@ const DEFAULT_STORAGE = {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			lazerpent: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			lzpt: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	filters: {
