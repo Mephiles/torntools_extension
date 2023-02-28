@@ -1448,7 +1448,7 @@ async function updateNPCs() {
 		const planned = data.time.clear;
 
 		npcs = {
-			next_update: now + TO_MILLIS.MINUTES * (planned === 0 ? 1: 15),
+			next_update: now + TO_MILLIS.MINUTES * (planned === 0 ? 1 : 15),
 			service: "Loot Rangers",
 			targets: {},
 		};
