@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!settings.external.yata && !settings.external.tornstats) return "YATA or TornStats not enabled";
-		},
+		}
 	);
 
 	async function showNPCs() {
@@ -50,9 +50,9 @@
 					class: "tt-npc",
 					children: [
 						document.newElement({ type: "span", class: "npc-name", text: "Planned Attack" }),
-						document.newElement({ type: "div", class: "npc-information", children: [ timer ], }),
+						document.newElement({ type: "div", class: "npc-information", children: [timer] }),
 					],
-				}),
+				})
 			);
 		}
 
@@ -86,13 +86,10 @@
 						document.newElement({
 							type: "div",
 							class: "npc-information",
-							children: [
-								document.newElement({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }),
-								timer,
-							],
+							children: [document.newElement({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }), timer],
 						}),
 					],
-				}),
+				})
 			);
 		}
 

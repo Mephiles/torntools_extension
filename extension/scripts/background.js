@@ -1555,10 +1555,7 @@ async function updateNPCs() {
 
 				if (notifications.npcs[key]) continue;
 
-				notifications.npcs[key] = newNotification(
-					"NPC Loot",
-					`There is a planned attack in ${formatTime(left, { type: "wordTimer" })}.`,
-				);
+				notifications.npcs[key] = newNotification("NPC Loot", `There is a planned attack in ${formatTime(left, { type: "wordTimer" })}.`);
 				alerts++;
 			}
 		}
