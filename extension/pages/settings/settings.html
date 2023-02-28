@@ -493,7 +493,7 @@
 						<div class="option no-mobile">
 							<input id="sidebar-npcLootTimes" type="checkbox" />
 							<label for="sidebar-npcLootTimes">Show NPC loot times in the sidebar.</label>
-							<label class="tabbed note" for="sidebar-npcLootTimes">Requires YATA or Tornstats to be enabled as external service.</label>
+							<label class="tabbed note" for="sidebar-npcLootTimes">Requires YATA, Tornstats or Lazerpent to be enabled as external service.</label>
 						</div>
 						<div class="option no-mobile tabbed">
 							<div class="option">
@@ -503,6 +503,10 @@
 							<div class="option">
 								<input id="sidebar-npcLootTimes_yata" type="radio" name="npcLootTimesService" value="yata" />
 								<label for="sidebar-npcLootTimes_yata">YATA</label>
+							</div>
+							<div class="option">
+								<input id="sidebar-npcLootTimes_loot-ranger" type="radio" name="npcLootTimesService" value="loot-ranger" />
+								<label for="sidebar-npcLootTimes_loot-ranger">Loot Rangers (service = Lazerpent)</label>
 							</div>
 							<div class="note">Will use the selected service if more than is enabled.</div>
 						</div>
@@ -759,8 +763,15 @@
 							<input id="notification_type-npcsGlobal" type="checkbox" />
 							<label for="notification_type-npcsGlobal">NPC Alerts</label>
 						</div>
-						<div class="note">Requires YATA to be enabled as external service.</div>
+						<div class="note">Requires YATA, TornStats or Lazerpent to be enabled as external service.</div>
 						<ul id="npc-alerts" class="list-table"></ul>
+						<div class="option">
+							<input id="notification_type-npcPlannedEnabled" type="checkbox" />
+							<label for="notification_type-npcPlanned">Notify me</label>
+							<input id="notification_type-npcPlanned" type="text" />
+							<label for="notification_type-npcPlanned">minutes before the planned attack.</label>
+						</div>
+						<div class="tabbed note">Requires Lazerpent to be enabled as external service and used for NPCs.</div>
 					</section>
 					<section name="education">
 						<div class="header">Education</div>
@@ -807,6 +818,10 @@
 						<div class="option">
 							<input id="external-prometheus" type="checkbox" />
 							<label for="external-prometheus">Connect to Prometheus.</label>
+						</div>
+						<div class="option">
+							<input id="external-lazerpent" type="checkbox" />
+							<label for="external-lazerpent">Connect to Lazerpent.</label>
 						</div>
 					</section>
 					<section name="competition">

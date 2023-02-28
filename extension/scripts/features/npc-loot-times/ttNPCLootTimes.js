@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!settings.external.yata && !settings.external.tornstats) return "YATA or TornStats not enabled";
-		}
+		},
 	);
 
 	async function showNPCs() {
@@ -29,7 +29,34 @@
 		});
 
 		const now = Date.now();
-		for (const [id, npc] of Object.entries(npcs.targets)) {
+
+		const timerSettings = { type: "wordTimer", extraShort: true };
+		if (npcs.planned) {
+			const left = npcs.planned - now;
+			const timer = document.newElement({
+				type: "span",
+				class: "timer",
+				text: formatTime(left, timerSettings),
+				dataset: {
+					seconds: (left / TO_MILLIS.SECONDS).dropDecimals(),
+					timeSettings: timerSettings,
+				},
+			});
+			countdownTimers.push(timer);
+
+			content.appendChild(
+				document.newElement({
+					type: "div",
+					class: "tt-npc",
+					children: [
+						document.newElement({ type: "span", class: "npc-name", text: "Planned Attack" }),
+						document.newElement({ type: "div", class: "npc-information", children: [ timer ], }),
+					],
+				}),
+			);
+		}
+
+		for (const [id, npc] of Object.entries(npcs.targets).sort(([, a], [, b]) => a.order - b.order)) {
 			const status = npc.current === 0 ? "Hospital" : "Okay";
 
 			const next = npc.current !== 5 ? npc.current + 1 : false;
@@ -38,14 +65,13 @@
 			if (next) {
 				const left = npc.levels[next] - now;
 
-				const settings = { type: "wordTimer", extraShort: true };
 				timer = document.newElement({
 					type: "span",
 					class: "timer",
 					text: formatTime(left, settings),
 					dataset: {
 						seconds: (left / TO_MILLIS.SECONDS).dropDecimals(),
-						timeSettings: settings,
+						timeSettings: timerSettings,
 					},
 				});
 
@@ -70,7 +96,7 @@
 							],
 						}),
 					],
-				})
+				}),
 			);
 		}
 

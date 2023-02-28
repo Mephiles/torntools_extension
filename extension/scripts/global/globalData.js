@@ -337,6 +337,8 @@ const DEFAULT_STORAGE = {
 				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
 				npcsGlobal: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcs: new DefaultSetting({ type: "array", defaultValue: [] }),
+				npcPlannedEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				npcPlanned: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 		},
 		apiUsage: {
@@ -689,6 +691,7 @@ const DEFAULT_STORAGE = {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			lazerpent: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	filters: {

@@ -1337,8 +1337,8 @@ async function updateFactiondata() {
 }
 
 async function updateNPCs() {
-	const { yata: useYata, tornstats: useTornstats } = settings.external;
-	if (!useYata && !useTornstats) {
+	const { yata: useYata, tornstats: useTornstats, lazerpent: useLazerpent } = settings.external;
+	if (!useYata && !useTornstats && !useLazerpent) {
 		await ttStorage.set({ npcs: {} });
 		return { updated: false };
 	}
@@ -1360,20 +1360,15 @@ async function updateNPCs() {
 
 	if (npcs && npcs.next_update && npcs.next_update > now) {
 		updated = await updateLevels();
-	} else if (useYata && useTornstats) {
-		switch (settings.pages.sidebar.npcLootTimesService) {
-			case "tornstats":
-				updated = await fetchTornStats();
-				break;
-			case "yata":
-			default:
-				updated = await fetchYata();
-				break;
-		}
-	} else if (useYata) {
-		updated = await fetchYata();
-	} else if (useTornstats) {
-		updated = await fetchTornStats();
+	} else {
+		const services = [
+			{ service: "loot-rangers", method: fetchLootRangers, check: useLazerpent },
+			{ service: "yata", method: fetchYata, check: useYata },
+			{ service: "tornstats", method: fetchTornStats, check: useTornstats },
+		].filter((s) => s.check);
+		const service = services.find((s) => s.service === settings.pages.sidebar.npcLootTimesService) || services[0];
+
+		updated = await service.method();
 	}
 
 	if (updated || !npcUpdater) triggerUpdate();
@@ -1405,6 +1400,7 @@ async function updateNPCs() {
 					5: hospital + TO_MILLIS.MINUTES * 450,
 				},
 				name: NPCS[id] ?? "Unknown",
+				order: id,
 			};
 
 			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
@@ -1437,10 +1433,45 @@ async function updateNPCs() {
 					5: npc.loot_5 * 1000,
 				},
 				name: npc.name,
+				order: npc.torn_id,
 			};
 
 			npcs.targets[npc.torn_id].current = getCurrentLevel(npcs.targets[npc.torn_id]);
 		}
+
+		await ttStorage.set({ npcs });
+		return true;
+	}
+
+	async function fetchLootRangers() {
+		const data = await fetchData("lazerpent", { section: "loot" });
+
+		npcs = {
+			next_update: now /*+ TO_MILLIS.MINUTES * 15*/,
+			service: "Loot Rangers",
+			targets: {},
+		};
+
+		for (let [id, npc] of Object.entries(data.npcs)) {
+			id = parseInt(id);
+			const hospital = npc.hosp_out * 1000;
+
+			npcs.targets[id] = {
+				levels: {
+					1: hospital,
+					2: hospital + TO_MILLIS.MINUTES * 30,
+					3: hospital + TO_MILLIS.MINUTES * 90,
+					4: hospital + TO_MILLIS.MINUTES * 210,
+					5: hospital + TO_MILLIS.MINUTES * 450,
+				},
+				name: npc.name || (NPCS[id] ?? "Unknown"),
+				order: data.order.findIndex((o) => o === id),
+			};
+
+			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
+		}
+
+		npcs.planned = data.time.clear * 1000;
 
 		await ttStorage.set({ npcs });
 		return true;
@@ -1504,6 +1535,32 @@ async function updateNPCs() {
 				`https://www.torn.com/profiles.php?XID=${id}`
 			);
 			alerts++;
+		}
+		if (settings.notifications.types.npcPlannedEnabled && npcs.planned) {
+			for (const minutes of settings.notifications.types.npcPlanned.sort()) {
+				const key = `npc_planned_${minutes}`;
+
+				const time = npcs.planned;
+				if (!time) {
+					delete notifications.npcs[key];
+					continue;
+				}
+
+				const left = time - now;
+				const _minutes = Math.ceil(left / TO_MILLIS.MINUTES);
+				if (_minutes > minutes || _minutes < 0) {
+					delete notifications.npcs[key];
+					continue;
+				}
+
+				if (notifications.npcs[key]) continue;
+
+				notifications.npcs[key] = newNotification(
+					"NPC Loot",
+					`There is a planned attack in ${formatTime(left, { type: "wordTimer" })}.`,
+				);
+				alerts++;
+			}
 		}
 
 		return alerts;
