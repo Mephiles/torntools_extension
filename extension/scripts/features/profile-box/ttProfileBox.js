@@ -844,8 +844,8 @@
 					ttStorage.change({ stakeouts: { [id]: undefined } });
 
 					alerts.classList.add("tt-hidden");
-					content.findAll("input[type='text'], input[type='number']").forEach((input) => input.value = "");
-					content.findAll("input[type='checkbox']").forEach((input) => input.checked = false);
+					content.findAll("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
+					content.findAll("input[type='checkbox']").forEach((input) => (input.checked = false));
 				}
 			});
 

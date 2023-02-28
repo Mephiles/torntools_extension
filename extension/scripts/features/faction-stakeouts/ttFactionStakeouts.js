@@ -60,8 +60,8 @@
 				ttStorage.change({ factionStakeouts: { [factionId]: undefined } });
 
 				alertsWrap.classList.add("tt-hidden");
-				content.findAll("input[type='text'], input[type='number']").forEach((input) => input.value = "");
-				content.findAll("input[type='checkbox']").forEach((input) => input.checked = false);
+				content.findAll("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
+				content.findAll("input[type='checkbox']").forEach((input) => (input.checked = false));
 			}
 		});
 		content.appendChild(checkbox.element);
@@ -133,11 +133,8 @@
 			return document.newElement({
 				type: "div",
 				class: "alerts",
-				children: [
-					document.newElement({ type: "strong", text: title }),
-					...elements
-				]
-			})
+				children: [document.newElement({ type: "strong", text: title }), ...elements],
+			});
 		}
 	}
 

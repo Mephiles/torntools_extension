@@ -2,7 +2,7 @@
 	margin-left: 20px;
 	display: flex;
 	flex-direction: row;
-    gap: 8px;
+	gap: 8px;
 }
 
 #factionStakeout .alerts {
