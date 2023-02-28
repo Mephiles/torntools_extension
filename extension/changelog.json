@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix Edit option of Quick Crimes on mobiles & tablets.", "contributor": "TheFoxMan" }],
-			"changes": [],
+			"changes": [{ "message": "Change behavior for the faction stakeouts when chain reaches is set to 0, to show a notification if their chain drops.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},

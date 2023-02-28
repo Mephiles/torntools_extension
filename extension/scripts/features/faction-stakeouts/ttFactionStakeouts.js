@@ -68,7 +68,10 @@
 		chainReaches.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
-			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { chainReaches: parseInt(chainReaches.getValue()) || false } } } });
+			let value = parseInt(chainReaches.getValue());
+			if (isNaN(value) || value < 0) value = false;
+
+			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { chainReaches: value } } } });
 		});
 
 		const memberCountDrops = createTextbox({
@@ -96,8 +99,8 @@
 		});
 
 		if (hasStakeout) {
-			chainReaches.setValue(factionStakeouts[factionId].alerts.chainReaches);
-			memberCountDrops.setValue(factionStakeouts[factionId].alerts.memberCountDrops);
+			chainReaches.setNumberValue(factionStakeouts[factionId].alerts.chainReaches);
+			memberCountDrops.setNumberValue(factionStakeouts[factionId].alerts.memberCountDrops);
 			rankedWarStarts.setChecked(factionStakeouts[factionId].alerts.rankedWarStarts);
 		} else {
 			alerts.classList.add("tt-hidden");

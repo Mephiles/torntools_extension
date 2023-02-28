@@ -1125,21 +1125,37 @@ async function updateFactionStakeouts() {
 		if (factionStakeouts[factionId].alerts) {
 			const { chainReaches, memberCountDrops, rankedWarStarts } = factionStakeouts[factionId].alerts;
 
-			if (chainReaches) {
+			if (chainReaches !== false) {
 				const oldChainCount = oldData ? oldData.chain : false;
 				const chainCount = data.chain.current;
 
-				const key = `faction_${factionId}_chainReaches`;
-				if (chainCount >= chainReaches && (!oldChainCount || oldChainCount < chainCount) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
-							"Faction Stakeouts",
-							`${data.name} has reached a ${chainCount} chain.`,
-							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
-						);
-				} else if (chainCount < factionId) {
-					delete notifications.stakeouts[key];
+
+				if (chainReaches === 0) {
+					const key = `faction_${factionId}_chainDrops`;
+					if (chainCount < oldChainCount && oldChainCount >= 10 && !notifications.stakeouts[key]) {
+						if (settings.notifications.types.global)
+							notifications.stakeouts[key] = newNotification(
+								"Faction Stakeouts",
+								`${data.name} has dropped their ${oldChainCount} chain.`,
+								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+							);
+					} else if (chainCount > 10) {
+						delete notifications.stakeouts[key];
+					}
+				} else {
+					const key = `faction_${factionId}_chainReaches`;
+					if (chainCount >= chainReaches && (!oldChainCount || oldChainCount < chainCount) && !notifications.stakeouts[key]) {
+						if (settings.notifications.types.global)
+							notifications.stakeouts[key] = newNotification(
+								"Faction Stakeouts",
+								`${data.name} has reached a ${chainCount} chain.`,
+								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
+							);
+					} else if (chainCount < oldChainCount) {
+						delete notifications.stakeouts[key];
+					}
 				}
+
 			}
 			if (memberCountDrops) {
 				const oldMemberCount = oldData ? oldData.members.current : false;

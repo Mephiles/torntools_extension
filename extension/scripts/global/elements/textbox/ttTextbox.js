@@ -38,6 +38,12 @@ function createTextbox(options = {}) {
 		textbox.value = value;
 	}
 
+	function setNumberValue(value) {
+		if (isNaN(value)) value = "";
+
+		textbox.value = value;
+	}
+
 	function getValue() {
 		return textbox.value;
 	}
@@ -61,6 +67,7 @@ function createTextbox(options = {}) {
 	return {
 		element,
 		setValue,
+		setNumberValue,
 		getValue,
 		onChange,
 		dispose,
