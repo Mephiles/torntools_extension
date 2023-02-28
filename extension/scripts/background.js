@@ -1445,9 +1445,10 @@ async function updateNPCs() {
 
 	async function fetchLootRangers() {
 		const data = await fetchData("lazerpent", { section: "loot" });
+		const planned = data.time.clear;
 
 		npcs = {
-			next_update: now /*+ TO_MILLIS.MINUTES * 15*/,
+			next_update: now + TO_MILLIS.MINUTES * (planned === 0 ? 1: 15),
 			service: "Loot Rangers",
 			targets: {},
 		};
@@ -1471,7 +1472,7 @@ async function updateNPCs() {
 			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
 		}
 
-		npcs.planned = data.time.clear * 1000;
+		npcs.planned = planned === 0 ? false : planned * 1000;
 
 		await ttStorage.set({ npcs });
 		return true;
