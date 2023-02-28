@@ -1129,7 +1129,6 @@ async function updateFactionStakeouts() {
 				const oldChainCount = oldData ? oldData.chain : false;
 				const chainCount = data.chain.current;
 
-
 				if (chainReaches === 0) {
 					const key = `faction_${factionId}_chainDrops`;
 					if (chainCount < oldChainCount && oldChainCount >= 10 && !notifications.stakeouts[key]) {
@@ -1155,7 +1154,6 @@ async function updateFactionStakeouts() {
 						delete notifications.stakeouts[key];
 					}
 				}
-
 			}
 			if (memberCountDrops) {
 				const oldMemberCount = oldData ? oldData.members.current : false;
