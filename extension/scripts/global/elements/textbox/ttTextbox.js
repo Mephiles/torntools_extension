@@ -39,7 +39,7 @@ function createTextbox(options = {}) {
 	}
 
 	function setNumberValue(value) {
-		if (isNaN(value)) value = "";
+		if (isNaN(value) || !["string", "number"].includes(typeof value)) value = "";
 
 		textbox.value = value;
 	}
