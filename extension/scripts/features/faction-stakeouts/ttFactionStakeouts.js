@@ -60,6 +60,8 @@
 				ttStorage.change({ factionStakeouts: { [factionId]: undefined } });
 
 				alerts.classList.add("tt-hidden");
+				content.findAll("input[type='text'], input[type='number']").forEach((input) => input.value = "");
+				content.findAll("input[type='checkbox']").forEach((input) => input.checked = false);
 			}
 		});
 		content.appendChild(checkbox.element);
