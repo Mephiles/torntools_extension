@@ -207,7 +207,7 @@ async function setupPreferences(requireCleanup) {
 
 		addSaveDialog();
 	});
-	_preferences.addEventListener("change",  (event) => {
+	_preferences.addEventListener("change", (event) => {
 		if (event.target.tagName !== "INPUT" && event.target.tagName !== "SELECT") return;
 
 		addSaveDialog();
