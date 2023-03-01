@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 11, "build": 1 },
+		"version": { "major": 6, "minor": 12, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 11, "build": 1 },
+		"date": "2023/03/01",
 		"logs": {
 			"features": [
 				{ "message": "Add Loot Rangers as NPC source.", "contributor": "DeKleineKobini" },
@@ -19,8 +25,7 @@
 				},
 				{ "message": "Change NPC loot timer layout.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't require an API key for NPC alerts.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
