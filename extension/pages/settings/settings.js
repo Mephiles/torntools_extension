@@ -202,7 +202,26 @@ async function setupPreferences(requireCleanup) {
 	searchPreferences();
 
 	const _preferences = document.find("#preferences");
-	_preferences.addEventListener("click", addSaveDialog);
+	_preferences.addEventListener("click", (event) => {
+		if (!event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-casino-games, #hide-stocks, #hide-attack-options")) return;
+
+		addSaveDialog();
+	});
+	_preferences.addEventListener("change",  (event) => {
+		if (event.target.tagName !== "INPUT" && event.target.tagName !== "SELECT") return;
+
+		addSaveDialog();
+	});
+	_preferences.addEventListener("input", (event) => {
+		if (event.target.tagName !== "INPUT") return;
+
+		addSaveDialog();
+	});
+	_preferences.addEventListener("dragend", (event) => {
+		if (!event.target.closest("#customLinks")) return;
+
+		addSaveDialog();
+	});
 
 	if (getSearchParameters().has("section"))
 		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
@@ -1256,14 +1275,9 @@ async function setupPreferences(requireCleanup) {
 		});
 	}
 
-	function addSaveDialog(event) {
-		if (
-			["INPUT", "SELECT"].includes(event.target.tagName) ||
-			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-casino-games, #hide-stocks, #hide-attack-options")
-		) {
-			if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
-			else document.find("#saveSettingsBar").classList.remove("tt-hidden");
-		}
+	function addSaveDialog() {
+		if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
+		else document.find("#saveSettingsBar").classList.remove("tt-hidden");
 	}
 
 	function revertSettings() {
