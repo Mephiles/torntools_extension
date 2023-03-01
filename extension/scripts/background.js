@@ -1364,7 +1364,7 @@ async function updateNPCs() {
 		const services = [
 			{ service: "loot-rangers", method: fetchLootRangers, check: useLzpt },
 			{ service: "yata", method: fetchYata, check: useYata },
-			{ service: "tornstats", method: fetchTornStats, check: useTornstats },
+			{ service: "tornstats", method: fetchTornStats, check: useTornstats && hasAPIData() },
 		].filter((s) => s.check);
 		const service = services.find((s) => s.service === settings.pages.sidebar.npcLootTimesService) || services[0];
 
