@@ -46,6 +46,9 @@
 							removeHelper();
 							break;
 						case "startGame":
+							removeHelper();
+							moveStart();
+							break;
 						case "moneyTaken":
 							removeHelper();
 							break;
@@ -84,6 +87,7 @@
 			else if (outcome === "50/50") action = Math.random() < 0.5 ? "higher" : "lower";
 
 			actions.dataset.outcome = action;
+			document.find(".startGame").style.display = "none";
 		} else {
 			const element = actions.find(".tt-high-low");
 			if (element) element.textContent = outcome;
@@ -103,6 +107,24 @@
 		else throw `Invalid card value (${nameShort}).`;
 
 		return { value, suit };
+	}
+
+	function moveStart() {
+		if (!settings.pages.casino.highlowMovement) return
+
+		const actionsWrap = document.find(".actions-wrap");
+		const actions = document.find(".actions");
+		const startButton = document.find(".startGame");
+		const lowButton = document.find(".low");
+		const highButton = document.find(".high");
+		const continueButton = document.find(".continue");
+
+		actionsWrap.style.display = "block";
+		actions.appendChild(startButton)
+		startButton.style.display = "inline-block";
+		lowButton.style.display = "none";
+		highButton.style.display = "none";
+		continueButton.style.display = "none";
 	}
 
 	function shuffleDeck() {

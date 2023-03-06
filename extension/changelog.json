@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [],
-			"changes": [{ "message": "Improve the settings save button logic.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Improve the settings save button logic.", "contributor": "DeKleineKobini" },
+				{ "message": "Move the start button for the high-low game, so you can keep clicking.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},
