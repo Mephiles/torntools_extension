@@ -8,7 +8,8 @@
 			"fixes": [],
 			"changes": [
 				{ "message": "Improve the settings save button logic.", "contributor": "DeKleineKobini" },
-				{ "message": "Move the start button for the high-low game, so you can keep clicking.", "contributor": "DeKleineKobini" }
+				{ "message": "Move the start button for the high-low game, so you can keep clicking.", "contributor": "DeKleineKobini" },
+				{ "message": "Disable the high-low helper by default, to avoid confusion.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
