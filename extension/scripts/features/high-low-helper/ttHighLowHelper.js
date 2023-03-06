@@ -110,7 +110,7 @@
 	}
 
 	function moveStart() {
-		if (!settings.pages.casino.highlowMovement) return
+		if (!settings.pages.casino.highlowMovement) return;
 
 		const actionsWrap = document.find(".actions-wrap");
 		const actions = document.find(".actions");
@@ -120,7 +120,7 @@
 		const continueButton = document.find(".continue");
 
 		actionsWrap.style.display = "block";
-		actions.appendChild(startButton)
+		actions.appendChild(startButton);
 		startButton.style.display = "inline-block";
 		lowButton.style.display = "none";
 		highButton.style.display = "none";
