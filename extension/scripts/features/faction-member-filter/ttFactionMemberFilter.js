@@ -251,7 +251,7 @@
 			}
 
 			// Status
-			if (status && status.length > 0 && status.length !== 4) {
+			if (status && status.length > 0 && status.length !== 5) {
 				const liStatus = li.find(".status .ellipsis").textContent.trim().toLowerCase();
 				if (!status.includes(liStatus)) {
 					hideRow(li);
