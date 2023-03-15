@@ -15,47 +15,18 @@
 			storage: ["settings.pages.sidebar.companyAddictionLevel", "userdata.job.company_id"],
 		},
 		() => {
-			if (!hasAPIData()) return "No API access.";
+			if (!hasAPIData() || !userdata.job.company_id) return "No API access.";
 		}
 	);
 
 	async function showCompanyAddictionLevel() {
-
-		let id = userdata.player_id;
-		let company_id = userdata?.job?.company_id;
-		if (company_id == 0 || company_id == null || company_id == undefined)
-			return;
-
 		await requireSidebar();
 
 		removeCompanyAddictionLevel();
 		addInformationSection();
 		showInformationSection();
 
-		let addiction;
-		if (ttCache.hasValue("company", "addiction")) {
-			addiction = ttCache.get("company", "addiction");
-
-            console.log(" from cache ");
-		} else {
-			const company_employees = (
-				await fetchData("torn", {
-					section: "company",
-					id: company_id,
-					selections: ["employees"],
-					silent: true,
-					succeedOnError: true,
-				})
-			).company_employees;
-
-			let timeUntilNextUpdate = timeTillNextUpdate();
-
-            console.log(" from fetch ");
-
-			addiction = company_employees[id].effectiveness.addiction;
-
-			ttCache.set({ addiction: addiction }, timeUntilNextUpdate, "company").then(() => {});
-		}
+		let addiction = await getCompanyAddiction();
 
 		let companyAddictionElement = document.newElement({ type: "span", dataset: { addiction } })
 
@@ -69,6 +40,31 @@
 			})
 		);
 	}
+
+    async function getCompanyAddiction() {
+        if (ttCache.hasValue("company", "addiction")) {
+			return ttCache.get("company", "addiction");
+		} else {
+            let id = userdata.player_id;
+		    let company_id = userdata.job.company_id;
+
+			const company_employees = (
+				await fetchData("torn", {
+					section: "company",
+					id: company_id,
+					selections: ["employees"],
+					silent: true,
+					succeedOnError: true,
+				})
+			).company_employees;
+
+			let addiction = company_employees[id].effectiveness.addiction;
+
+			ttCache.set({ addiction: addiction }, timeTillNextUpdate(), "company").then(() => {});
+
+            return addiction;
+		}
+    }
 
 	function timeTillNextUpdate() {
 		const now = new Date().getTime();
