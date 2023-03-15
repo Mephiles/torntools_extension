@@ -143,6 +143,7 @@
 				"scripts/content/global/ttGlobal.js",
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.js",
 				"scripts/features/oc-time/ttOCTime.js",
+				"scripts/features/company-addiction/ttCompanyAddiction.js",
 				"scripts/features/custom-links/ttCustomLinks.js",
 				"scripts/features/update-notice/ttUpdateNotice.js",
 				"scripts/features/sidebar-notes/ttSidebarNotes.js",

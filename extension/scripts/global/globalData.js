@@ -438,6 +438,7 @@ const DEFAULT_STORAGE = {
 				npcLootTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcLootTimesService: new DefaultSetting({ type: "string", defaultValue: "tornstats" }),
 				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				companyAddictionLevel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -1377,6 +1378,13 @@ const API_USAGE = {
 				},
 			},
 		},
+		company_employees: {
+			"*": {
+				effectiveness: {
+					addiction: true
+				}
+			}
+		}
 	},
 	item_market: {
 		bazaar: {
@@ -1480,6 +1488,7 @@ const API_SELECTIONS = {
 	],
 	company: [
 		"profile", // target
+		"employees"
 	],
 	item_market: ["bazaar", "itemmarket"],
 	torn: ["bank", "education", "honors", "items", "medals", "pawnshop", "properties", "stocks", "stats"],
