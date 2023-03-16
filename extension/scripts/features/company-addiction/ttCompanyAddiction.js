@@ -26,9 +26,9 @@
 		addInformationSection();
 		showInformationSection();
 
-		let addiction = await getCompanyAddiction();
+		const addiction = await getCompanyAddiction();
 
-		let companyAddictionElement = document.newElement({ type: "span", dataset: { addiction } })
+		const companyAddictionElement = document.newElement({ type: "span", dataset: { addiction } })
 
 		companyAddictionElement.textContent = addiction.toString();
 
@@ -45,24 +45,30 @@
         if (ttCache.hasValue("company", "addiction")) {
 			return ttCache.get("company", "addiction");
 		} else {
-            let id = userdata.player_id;
-		    let company_id = userdata.job.company_id;
+            const id = userdata.player_id;
+		    const company_id = userdata.job.company_id;
 
-			const company_employees = (
-				await fetchData("torn", {
-					section: "company",
-					id: company_id,
-					selections: ["employees"],
-					silent: true,
-					succeedOnError: true,
-				})
-			).company_employees;
+			try
+			{
+				const response = (
+					await fetchData("torn", {
+						section: "company",
+						id: company_id,
+						selections: ["employees"],
+						silent: true,
+						succeedOnError: true,
+					})
+				).company_employees;
+			
+				const addiction = response[id].effectiveness.addiction;
 
-			let addiction = company_employees[id].effectiveness.addiction;
+				ttCache.set({ addiction: addiction }, timeTillNextUpdate(), "company").then(() => {});
 
-			ttCache.set({ addiction: addiction }, timeTillNextUpdate(), "company").then(() => {});
-
-            return addiction;
+				return addiction;
+			} catch(error) {
+				console.error("TT - An error occurred when fetching company employees data, Error: " + error);
+				throw new Error("An error occurred when fetching company employees data, Error: " + error);
+			}
 		}
     }
 
