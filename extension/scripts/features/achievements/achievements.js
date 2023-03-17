@@ -303,7 +303,7 @@ const ACHIEVEMENTS = [
 	{
 		name: "Total hits",
 		stats: () => userdata.personalstats.attackhits,
-		detection: { keyword: "hits", exclude: ["critical", "finishing"] },
+		detection: { keyword: "hits", exclude: ["critical", "finishing", "single chain"] },
 		requirements: { pages: ["missions"] },
 	},
 	{

@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix Faction Member Filter not working properly with fedded players.", "contributor": "TheFoxMan" }],
+			"fixes": [{ "message": "Fix Faction Member Filter not working properly with fedded players.", "contributor": "TheFoxMan" }, { "message": "Solve honor for 100 hits in a single chain being detected as one for total hits.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Improve the settings save button logic.", "contributor": "DeKleineKobini" },
 				{ "message": "Move the start button for the high-low game, so you can keep clicking.", "contributor": "DeKleineKobini" },
