@@ -1343,6 +1343,7 @@ const LINKS = {
 	hospital: "https://www.torn.com/hospitalview.php",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 	gym: "https://www.torn.com/gym.php",
+	companyEmployees: "https://www.torn.com/companies.php#/option=employees",
 };
 
 const ITEM_TYPES = [
