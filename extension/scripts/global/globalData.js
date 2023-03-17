@@ -1381,10 +1381,10 @@ const API_USAGE = {
 		company_employees: {
 			"*": {
 				effectiveness: {
-					addiction: true
-				}
-			}
-		}
+					addiction: true,
+				},
+			},
+		},
 	},
 	item_market: {
 		bazaar: {
@@ -1488,7 +1488,7 @@ const API_SELECTIONS = {
 	],
 	company: [
 		"profile", // target
-		"employees"
+		"employees",
 	],
 	item_market: ["bazaar", "itemmarket"],
 	torn: ["bank", "education", "honors", "items", "medals", "pawnshop", "properties", "stocks", "stats"],
