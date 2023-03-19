@@ -5,7 +5,7 @@
 	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
 
 	featureManager.registerFeature(
-		"Company Addicition Level",
+		"Company Addiction Level",
 		"sidebar",
 		() => settings.pages.sidebar.companyAddictionLevel,
 		null,
@@ -15,7 +15,8 @@
 			storage: ["settings.pages.sidebar.companyAddictionLevel", "userdata.job.company_id"],
 		},
 		() => {
-			if (!hasAPIData() || !userdata.job.company_id) return "No API access.";
+			if (!hasAPIData()) return "No API access.";
+			else if (!!userdata.job.company_id || userdata.job.position === "Director") return "Not a company employee";
 		}
 	);
 

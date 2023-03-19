@@ -1332,6 +1332,8 @@ const API_USAGE = {
 			total: true,
 		},
 		job: {
+			position: true,
+			company_id: true,
 			company_type: true,
 		},
 		weaponexp: {
