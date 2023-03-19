@@ -1228,13 +1228,7 @@ async function updateTorndata() {
 	function isValidTorndata(data) {
 		return (
 			!!data &&
-			Object.keys(data).length > 0 &&
-			// Validate items object.
-			data.items &&
-			Object.keys(data.items).length > 0 &&
-			// Validate stats object to have a point price.
-			data.stats &&
-			data.stats.points_averagecost
+			!data.error
 		);
 	}
 }

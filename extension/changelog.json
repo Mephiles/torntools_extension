@@ -12,7 +12,8 @@
 			"changes": [
 				{ "message": "Improve the settings save button logic.", "contributor": "DeKleineKobini" },
 				{ "message": "Move the start button for the high-low game, so you can keep clicking.", "contributor": "DeKleineKobini" },
-				{ "message": "Disable the high-low helper by default, to avoid confusion.", "contributor": "DeKleineKobini" }
+				{ "message": "Disable the high-low helper by default, to avoid confusion.", "contributor": "DeKleineKobini" },
+				{ "message": "Undo checking for corrupt torndata. This will likely result in more corrupted data, but we have our reasons for doing so.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
