@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 11, "build": 2 },
+		"version": { "major": 6, "minor": 12, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 11, "build": 2 },
+		"date": "2023/03/19",
 		"logs": {
 			"features": [{ "message": "Show company addition in the sidebar.", "contributor": "Conrado" }],
 			"fixes": [
@@ -16,8 +22,7 @@
 					"message": "Undo checking for corrupt torndata. This will likely result in more corrupted data, but we have our reasons for doing so.",
 					"contributor": "DeKleineKobini"
 				}
-			],
-			"removed": []
+			]
 		}
 	},
 	{
