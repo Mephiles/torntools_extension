@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 11, "build": 2 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Show company addition in the sidebar.", "contributor": "Conrado" }],
