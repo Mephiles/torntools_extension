@@ -1226,10 +1226,7 @@ async function updateTorndata() {
 	await ttStorage.set({ torndata: data });
 
 	function isValidTorndata(data) {
-		return (
-			!!data &&
-			!data.error
-		);
+		return !!data && !data.error;
 	}
 }
 
