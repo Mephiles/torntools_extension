@@ -141,7 +141,7 @@
 				title: "Set",
 				select: [
 					{ value: "", description: "All" },
-					...["Assault", "Riot", "Dune", "Delta", "Marauder", "EOD"].map((type) => ({ value: type.toLowerCase(), description: type })),
+					...["Assault", "Riot", "Dune", "Delta", "Marauder", "EOD", "Sentinel"].map((type) => ({ value: type.toLowerCase(), description: type })),
 				],
 				defaults: filters.auction[itemType].set,
 				callback: applyFilters,
