@@ -3,7 +3,12 @@
 		"version": { "major": 6, "minor": 12, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" }], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 11, "build": 2 },
