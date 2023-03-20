@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}

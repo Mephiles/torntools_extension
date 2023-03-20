@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!!userdata.job.company_id || userdata.job.position === "Director") return "Not a company employee";
+			else if (!userdata.job.company_id || userdata.job.position === "Director") return "Not a company employee";
 		}
 	);
 
