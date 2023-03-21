@@ -63,7 +63,7 @@
 					})
 				).company_employees;
 
-				const addiction = response[id].effectiveness.addiction;
+				const addiction = response[id].effectiveness.addiction ?? 0;
 
 				ttCache.set({ addiction: addiction }, timeTillNextUpdate(), "company").then(() => {});
 
