@@ -429,6 +429,7 @@ const DEFAULT_STORAGE = {
 				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				ocTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				factionOCTimer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				settingsLink: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
