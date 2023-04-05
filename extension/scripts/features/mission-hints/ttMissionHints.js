@@ -140,6 +140,7 @@
 			},
 			frenzy: {
 				task: "Defeat any 5 - 15 players.",
+				hint: "You must initiate the attacks; buying losses will not work for this mission",
 			},
 			get_things_jumping: {
 				task: "Deal and receive damage.",
