@@ -58,7 +58,7 @@
 			})
 		);
 
-		// Next available OC timer
+		/*// Next available OC timer
 		if (factiondata?.crimes) {
 			const nextOCElement = document.newElement({ type: "span", class: "countdown" });
 			let ocArray = Object.values(factiondata.crimes).filter((el) => { return el.time_completed == 0; }).sort((a, b) => { return a.time_left - b.time_left; });
@@ -92,16 +92,16 @@
 					children: [document.newElement({ type: "a", class: "title", text: "Faction OC: ", href: LINKS.organizedCrimes }), nextOCElement],
 				})
 			);
-		}
+		}*/
 	}
 
 	function removeTimer() {
 		const timer = document.find("#ocTimer");
 		if (timer) timer.remove();
 
-		// Timer for the next available *faction* OC
+		/*// Timer for the next available *faction* OC
 		const secondTimer = document.find("#nextOCTimer");
-		if (secondTimer) secondTimer.remove();
+		if (secondTimer) secondTimer.remove();*/
 	}
 
 	function addInformationSection() {
