@@ -29,10 +29,10 @@
 		// Next available OC timer
 		if (factiondata?.crimes) {
 			const factionOCElement = document.newElement({ type: "span", class: "countdown" });
-			let ocArray = Object.values(factiondata.crimes).filter((el) => { return el.time_completed == 0; }).sort((a, b) => { return a.time_left - b.time_left; });
+			const ocArray = Object.values(factiondata.crimes).filter((el) => { return el.time_completed == 0; }).sort((a, b) => { return a.time_left - b.time_left; });
 
 			if (ocArray.length) {
-				let nextOC = ocArray[0];
+				const nextOC = ocArray[0];
 
 				const nextOCTimeLeft = (nextOC.time_ready * 1000) - Date.now();
 
