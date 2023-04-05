@@ -26,8 +26,6 @@
 		addInformationSection();
 		showInformationSection();
 
-		console.log('OK????');
-
 		// Next available OC timer
 		if (factiondata?.crimes) {
 			const factionOCElement = document.newElement({ type: "span", class: "countdown" });
