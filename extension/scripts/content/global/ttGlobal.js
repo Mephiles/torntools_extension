@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	handleTheme().catch(() => {});
+	handleTheme().catch(() => { });
 	createOverlay();
 	observeChat().catch(console.error);
 	observeBody().catch(console.error);
@@ -76,8 +76,18 @@
 	}
 
 	function decreaseCountdown() {
+		const now = Date.now();
+
 		countdownTimers.forEach((countdown, index) => {
-			const seconds = parseInt(countdown.dataset.seconds) - 1;
+			// Rewritten so the timers don't desync when the tab is inactive
+			// old method left in as a fallback for timers that haven't yet been updated
+			let seconds;
+
+			if (countdown.dataset.end) {
+				seconds = parseInt((parseInt(countdown.dataset.end) - now) / 1000);
+			} else {
+				seconds = parseInt(countdown.dataset.seconds) - 1;
+			}
 
 			if (seconds <= 0) {
 				countdown.textContent = countdown.dataset.doneText || "Ready";

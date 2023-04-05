@@ -70,6 +70,15 @@
 		filterContent.appendChild(specialFilter.element);
 		localFilters["Special"] = { getSelections: specialFilter.getSelections };
 
+		const hospReasonFilter = createFilterSection({
+			title: "Hosp Reason",
+			ynCheckboxes: ["Attacked By", "Mugged By", "Hospitalized By", "Other"],
+			defaults: filters.userlist.hospReason,
+			callback: () => filtering(true),
+		});
+		filterContent.appendChild(hospReasonFilter.element);
+		localFilters["Hosp Reason"] = { getSelections: hospReasonFilter.getSelections };
+
 		const levelFilter = createFilterSection({
 			title: "Level Filter",
 			noTitle: true,
@@ -118,6 +127,7 @@
 		const content = findContainer("Userlist Filter", { selector: "main" });
 		const activity = localFilters["Activity"].getSelections(content);
 		const special = localFilters["Special"].getSelections(content);
+		const hospReason = localFilters["Hosp Reason"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
@@ -137,6 +147,7 @@
 					levelStart: levelStart,
 					levelEnd: levelEnd,
 					special: special,
+					hospReason: hospReason,
 					estimates: statsEstimates ?? filters.userlist.estimates,
 				},
 			},
@@ -144,7 +155,7 @@
 
 		// Actual Filtering
 		for (const li of document.findAll(".user-info-list-wrap > li")) {
-			filterRow(li, { activity, special, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+			filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
@@ -192,6 +203,35 @@
 
 			if (match) {
 				hide(`special-${match[0]}`);
+				return;
+			}
+		}
+
+		if (filters.hospReason) {
+			const match = Object.entries(filters.hospReason)
+				.filter(([, value]) => value !== "both" && value !== "none")
+				.find(([key, value]) => {
+					const isHospitalized = row.querySelector('li[title*="Hospital"]');
+
+					if (isHospitalized) {
+						const hospitalizationReason = isHospitalized.title.split('<br>')[1];
+
+						if (key == "other") {
+							return (
+								(value === "yes" && HOSPITALIZATION_REASONS[key].some((reason) => hospitalizationReason.match(reason))) ||
+								(value === "no" && !HOSPITALIZATION_REASONS[key].some((reason) => hospitalizationReason.match(reason)))
+							);
+						} else {
+							return (
+								(value === "yes" && !hospitalizationReason.includes(HOSPITALIZATION_REASONS[key])) ||
+								(value === "no" && hospitalizationReason.includes(HOSPITALIZATION_REASONS[key]))
+							);
+						}
+					}
+				});
+
+			if (match) {
+				hide(`hospReason-${match[0]}`);
 				return;
 			}
 		}
