@@ -5,16 +5,7 @@
 
 	if (Date.UTC(year, 3, 5, 12) > now || Date.UTC(year, 3, 25, 12) < now) return;
 
-	featureManager.registerFeature(
-		"Easter Eggs",
-		"event",
-		() => settings.pages.competitions.easterEggs,
-		initialiseDetector,
-		enableDetector,
-		null,
-		null,
-		null
-	);
+	featureManager.registerFeature("Easter Eggs", "event", () => settings.pages.competitions.easterEggs, initialiseDetector, enableDetector, null, null, null);
 
 	/*
 	Easter Egg HTML 2023:
@@ -72,11 +63,7 @@
 					if (node.nodeType !== Node.ELEMENT_NODE) continue;
 
 					if (node.matches(EGG_SELECTOR) || node.find(EGG_SELECTOR)) {
-						highlightEgg(
-							node.matches(EGG_SELECTOR)
-								? node
-								: node.find(EGG_SELECTOR)
-						);
+						highlightEgg(node.matches(EGG_SELECTOR) ? node : node.find(EGG_SELECTOR));
 						observer.disconnect();
 						break;
 					}
