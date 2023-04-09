@@ -7,7 +7,52 @@
 
 	featureManager.registerFeature("Easter Eggs", "event", () => settings.pages.competitions.easterEggs, initialiseDetector, enableDetector, null, null, null);
 
-	const EGG_SELECTOR = "img[src^='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']";
+	/*
+	Easter Egg HTML 2023:
+	<div id="easter-egg-hunt-root">
+		<div class="eggContainer___D1zXi">
+			<button type="button" class="eggAnim___ktpqQ" style="top: 1021px; left: 106px;" i-data="i_278_1021_100_50">
+				<img id="egg190002" src="/images/items/476/large.png" alt="White egg" class="egg___TaPK3">
+				<div class="glow___RFqkj"></div>
+				<div class="particles___Q5Jvq">
+					<div class="rotate___OHCOt">
+						<div class="angle___j_7IF">
+							<div class="size___p75j3">
+								<div class="position___Z2iK6">
+									<div class="pulse___zzi26">
+										<div class="particle___GbWL8"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="angle___j_7IF">
+							<div class="size___p75j3">
+								<div class="position___Z2iK6">
+									<div class="pulse___zzi26">
+										<div class="particle___GbWL8"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="angle___j_7IF">
+							<div class="size___p75j3">
+								<div class="position___Z2iK6">
+									<div class="pulse___zzi26">
+										<div class="particle___GbWL8"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</button>
+		</div>
+	</div>
+	CSS Selector from DevTools:
+	/html/body/div[6]/div/div[2]
+	*/
+
+	const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
 
 	function initialiseDetector() {
 		const container = document.find("#mainContainer");
@@ -15,11 +60,13 @@
 		if (container) {
 			new MutationObserver((mutations, observer) => {
 				for (const node of mutations.flatMap((mutation) => [...mutation.addedNodes])) {
-					if (node.nodeType !== Node.ELEMENT_NODE || !node.find(EGG_SELECTOR)) continue;
+					if (node.nodeType !== Node.ELEMENT_NODE) continue;
 
-					highlightEgg(node.find(EGG_SELECTOR));
-					observer.disconnect();
-					break;
+					if (node.matches(EGG_SELECTOR) || node.find(EGG_SELECTOR)) {
+						highlightEgg(node.matches(EGG_SELECTOR) ? node : node.find(EGG_SELECTOR));
+						observer.disconnect();
+						break;
+					}
 				}
 			}).observe(container, { childList: true });
 		}
@@ -35,7 +82,7 @@
 
 	function highlightEgg(egg) {
 		// Make sure the egg has been loaded.
-		if (!egg.complete) {
+		/*if (!egg.complete) {
 			egg.addEventListener("load", () => highlightEgg(egg));
 			return;
 		}
@@ -44,11 +91,14 @@
 			console.log("TT detected an hidden egg", egg);
 			egg.classList.add("hidden-egg");
 			return;
-		}
+		}*/
+
+		alert("TornTools detected an easter egg on this page.");
+
+		const locationText = calculateLocation(egg.find("button"));
 
 		document.find(".tt-overlay").classList.remove("tt-hidden");
-
-		const locationText = calculateLocation(egg);
+		document.find(".tt-overlay").style.zIndex = "999";
 
 		const popup = document.newElement({
 			type: "div",
@@ -77,6 +127,7 @@
 
 		function removePopup() {
 			document.find(".tt-overlay").classList.add("tt-hidden");
+			document.find(".tt-overlay").style = "";
 			popup.remove();
 		}
 	}
