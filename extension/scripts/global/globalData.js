@@ -1570,5 +1570,5 @@ const HOSPITALIZATION_REASONS = {
 	attackedBy: "Attacked by",
 	muggedBy: "Mugged by",
 	hospitalizedBy: "Hospitalized by",
-	other: ["Attacked by", "Mugged by", "Hospitalized by"]
+	other: ["Attacked by", "Mugged by", "Hospitalized by"],
 };

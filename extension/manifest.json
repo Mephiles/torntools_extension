@@ -29,12 +29,7 @@
 			"scripts/background.js"
 		]
 	},
-	"permissions": [
-		"storage",
-		"notifications",
-		"background",
-		"https://api.torn.com/"
-	],
+	"permissions": ["storage", "notifications", "background", "https://api.torn.com/"],
 	"optional_permissions": [
 		"https://www.tornstats.com/",
 		"https://yata.yt/",
@@ -65,12 +60,8 @@
 	},
 	"content_scripts": [
 		{
-			"matches": [
-				"https://www.torn.com/*.php*"
-			],
-			"exclude_matches": [
-				"https://www.torn.com/logout.php*"
-			],
+			"matches": ["https://www.torn.com/*.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*"],
 			"css": [
 				"scripts/global/globalVariables.css",
 				"scripts/global/globalStyle.css",
@@ -137,12 +128,8 @@
 			"run_at": "document_start"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/*.php*"
-			],
-			"exclude_matches": [
-				"https://www.torn.com/logout.php*"
-			],
+			"matches": ["https://www.torn.com/*.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*"],
 			"css": [
 				"scripts/features/oc-time/ttOCTime.css",
 				"scripts/features/faction-oc-time/ttFactionOCTime.css",
@@ -201,9 +188,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/api.html*"
-			],
+			"matches": ["https://www.torn.com/api.html*"],
 			"js": [
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
@@ -216,9 +201,7 @@
 			"run_at": "document_start"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/api.html*"
-			],
+			"matches": ["https://www.torn.com/api.html*"],
 			"css": [
 				"scripts/global/globalVariables.css",
 				"scripts/features/api-selections/ttAPISelections.css",
@@ -234,21 +217,13 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/bazaar.php*"
-			],
-			"css": [
-				"scripts/features/bazaar-worth/ttBazaarWorth.css"
-			],
-			"js": [
-				"scripts/features/bazaar-worth/ttBazaarWorth.entry.js"
-			],
+			"matches": ["https://www.torn.com/bazaar.php*"],
+			"css": ["scripts/features/bazaar-worth/ttBazaarWorth.css"],
+			"js": ["scripts/features/bazaar-worth/ttBazaarWorth.entry.js"],
 			"run_at": "document_start"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/bazaar.php*"
-			],
+			"matches": ["https://www.torn.com/bazaar.php*"],
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/item-values/ttItemValues.css",
@@ -266,13 +241,8 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/bounties.php*"
-			],
-			"css": [
-				"scripts/features/bounty-filter/ttBountyFilter.css",
-				"scripts/features/stats-estimate/ttStatsEstimate.css"
-			],
+			"matches": ["https://www.torn.com/bounties.php*"],
+			"css": ["scripts/features/bounty-filter/ttBountyFilter.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/bounties/ttBounties.js",
@@ -283,21 +253,13 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/casino.php*"
-			],
-			"css": [
-				"scripts/features/hide-casino-games/ttHideCasinoGames.css"
-			],
-			"js": [
-				"scripts/features/hide-casino-games/ttHideCasinoGames.js"
-			],
+			"matches": ["https://www.torn.com/casino.php*"],
+			"css": ["scripts/features/hide-casino-games/ttHideCasinoGames.css"],
+			"js": ["scripts/features/hide-casino-games/ttHideCasinoGames.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/companies.php*"
-			],
+			"matches": ["https://www.torn.com/companies.php*"],
 			"css": [
 				"scripts/features/company-specials/ttCompanySpecials.css",
 				"scripts/features/last-action/ttLastAction.css",
@@ -316,9 +278,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/displaycase.php*"
-			],
+			"matches": ["https://www.torn.com/displaycase.php*"],
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/item-values/ttItemValues.css",
@@ -332,32 +292,19 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/education.php*"
-			],
-			"css": [
-				"scripts/features/grey-completed-courses/ttGreyCompletedCourses.css"
-			],
-			"js": [
-				"scripts/features/grey-completed-courses/ttGreyCompletedCourses.js",
-				"scripts/features/education-finish-time/ttEducationFinishTime.js"
-			],
+			"matches": ["https://www.torn.com/education.php*"],
+			"css": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.css"],
+			"js": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.js", "scripts/features/education-finish-time/ttEducationFinishTime.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/events.php*"
-			],
+			"matches": ["https://www.torn.com/events.php*"],
 			"css": [],
-			"js": [
-				"scripts/features/event-worth/ttEventWorth.js"
-			],
+			"js": ["scripts/features/event-worth/ttEventWorth.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/factions.php*"
-			],
+			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
 				"scripts/global/functions/filters.css",
 				"scripts/features/drug-details/ttDrugDetails.css",
@@ -429,12 +376,8 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/hospitalview.php*"
-			],
-			"css": [
-				"scripts/global/functions/filters.css"
-			],
+			"matches": ["https://www.torn.com/hospitalview.php*"],
+			"css": ["scripts/global/functions/filters.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/hospital/ttHospital.js",
@@ -444,9 +387,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/imarket.php*"
-			],
+			"matches": ["https://www.torn.com/imarket.php*"],
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/no-confirm/ttItemMarketNoConfirm.css",
@@ -463,9 +404,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/index.php*"
-			],
+			"matches": ["https://www.torn.com/index.php*"],
 			"css": [
 				"scripts/global/functions/filters.css",
 				"scripts/features/effective-stats/ttEffectiveStats.css",
@@ -497,12 +436,8 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/index.php?page=people*"
-			],
-			"css": [
-				"scripts/features/stats-estimate/ttStatsEstimate.css"
-			],
+			"matches": ["https://www.torn.com/index.php?page=people*"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
 				"scripts/features/abroad-people-filter/ttPeopleFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
@@ -511,9 +446,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/item.php*"
-			],
+			"matches": ["https://www.torn.com/item.php*"],
 			"css": [
 				"scripts/features/quick-items/ttQuickItems.css",
 				"scripts/features/market-icons/ttMarketIcons.css",
@@ -549,25 +482,14 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/itemuseparcel.php*"
-			],
-			"css": [
-				"scripts/features/item-values/ttItemValues.css"
-			],
-			"js": [
-				"scripts/features/item-values/ttItemValues.js"
-			],
+			"matches": ["https://www.torn.com/itemuseparcel.php*"],
+			"css": ["scripts/features/item-values/ttItemValues.css"],
+			"js": ["scripts/features/item-values/ttItemValues.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/jailview.php*"
-			],
-			"css": [
-				"scripts/global/functions/filters.css",
-				"scripts/features/jail-filter/ttJailFilter.css"
-			],
+			"matches": ["https://www.torn.com/jailview.php*"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/jail-filter/ttJailFilter.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/jail/ttJail.js",
@@ -577,9 +499,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/joblist.php*"
-			],
+			"matches": ["https://www.torn.com/joblist.php*"],
 			"css": [
 				"scripts/features/job-specials/ttJobSpecials.css",
 				"scripts/features/last-action/ttLastAction.css",
@@ -594,26 +514,14 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=attack*"
-			],
-			"css": [
-				"scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css"
-			],
-			"js": [
-				"scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js",
-				"scripts/features/hide-attack-buttons/ttHideAttackButtons.js"
-			],
+			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"css": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css"],
+			"js": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js", "scripts/features/hide-attack-buttons/ttHideAttackButtons.js"],
 			"run_at": "document_start"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=attack*"
-			],
-			"css": [
-				"scripts/features/stats-estimate/ttStatsEstimate.css",
-				"scripts/features/weapon-experience/ttWeaponExperience.css"
-			],
+			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css", "scripts/features/weapon-experience/ttWeaponExperience.css"],
 			"js": [
 				"scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
@@ -631,18 +539,12 @@
 				"https://www.torn.com/page.php?sid=bookie*",
 				"https://www.torn.com/bookies.php*"
 			],
-			"css": [
-				"scripts/features/casino-net-total/ttCasinoNetTotal.css"
-			],
-			"js": [
-				"scripts/features/casino-net-total/ttCasinoNetTotal.js"
-			],
+			"css": ["scripts/features/casino-net-total/ttCasinoNetTotal.css"],
+			"js": ["scripts/features/casino-net-total/ttCasinoNetTotal.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/profiles.php*"
-			],
+			"matches": ["https://www.torn.com/profiles.php*"],
 			"css": [
 				"scripts/features/profile-notes/ttProfileNotes.css",
 				"scripts/features/status-indicator/ttStatusIndicator.css",
@@ -671,35 +573,19 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/properties.ph*"
-			],
-			"css": [
-				"scripts/features/property-happiness/ttPropertyHappiness.css"
-			],
-			"js": [
-				"scripts/features/property-values/ttPropertyValues.js",
-				"scripts/features/property-happiness/ttPropertyHappiness.js"
-			],
+			"matches": ["https://www.torn.com/properties.ph*"],
+			"css": ["scripts/features/property-happiness/ttPropertyHappiness.css"],
+			"js": ["scripts/features/property-values/ttPropertyValues.js", "scripts/features/property-happiness/ttPropertyHappiness.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=racing*"
-			],
-			"css": [
-				"scripts/features/racing-upgrades/ttRacingUpgrades.css"
-			],
-			"js": [
-				"scripts/features/car-win-percentage/ttCarWinPercentage.js",
-				"scripts/features/racing-upgrades/ttRacingUpgrades.js"
-			],
+			"matches": ["https://www.torn.com/loader.php?sid=racing*"],
+			"css": ["scripts/features/racing-upgrades/ttRacingUpgrades.css"],
+			"js": ["scripts/features/car-win-percentage/ttCarWinPercentage.js", "scripts/features/racing-upgrades/ttRacingUpgrades.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/page.php?sid=stocks*"
-			],
+			"matches": ["https://www.torn.com/page.php?sid=stocks*"],
 			"css": [
 				"scripts/global/functions/filters.css",
 				"scripts/features/stocks-filter/ttStocksFilter.css",
@@ -717,13 +603,8 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/page.php?sid=UserList*"
-			],
-			"css": [
-				"scripts/global/functions/filters.css",
-				"scripts/features/stats-estimate/ttStatsEstimate.css"
-			],
+			"matches": ["https://www.torn.com/page.php?sid=UserList*"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/userlist/ttUserlist.js",
@@ -735,10 +616,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/shops.php*",
-				"https://www.torn.com/bigalgunshop.php*"
-			],
+			"matches": ["https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php*"],
 			"css": [
 				"scripts/features/shops-fill-max/ttShopsFillMax.css",
 				"scripts/features/shop-profits/ttShopProfits.css",
@@ -752,9 +630,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/trade.php*"
-			],
+			"matches": ["https://www.torn.com/trade.php*"],
 			"css": [
 				"scripts/features/item-values/ttItemValues.css",
 				"scripts/features/trade-values/ttTradeValues.css",
@@ -770,9 +646,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/travelagency.php*"
-			],
+			"matches": ["https://www.torn.com/travelagency.php*"],
 			"css": [
 				"scripts/features/travel-table/ttTravelTable.css",
 				"scripts/features/flying-time/ttFlyingTime.css",
@@ -787,96 +661,49 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/war.php?step=warreport*"
-			],
-			"css": [
-				"scripts/features/csv-war-report/ttCSVWarReport.css"
-			],
-			"js": [
-				"scripts/features/csv-war-report/ttCSVWarReport.js"
-			],
+			"matches": ["https://www.torn.com/war.php?step=warreport*"],
+			"css": ["scripts/features/csv-war-report/ttCSVWarReport.css"],
+			"js": ["scripts/features/csv-war-report/ttCSVWarReport.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/war.php?step=rankreport*"
-			],
-			"css": [
-				"scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.css"
-			],
-			"js": [
-				"scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.js"
-			],
+			"matches": ["https://www.torn.com/war.php?step=rankreport*"],
+			"css": ["scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.css"],
+			"js": ["scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/war.php?step=raidreport*"
-			],
-			"css": [
-				"scripts/features/csv-raid-report/ttCSVRaidReport.css"
-			],
-			"js": [
-				"scripts/features/csv-raid-report/ttCSVRaidReport.js"
-			],
+			"matches": ["https://www.torn.com/war.php?step=raidreport*"],
+			"css": ["scripts/features/csv-raid-report/ttCSVRaidReport.css"],
+			"js": ["scripts/features/csv-raid-report/ttCSVRaidReport.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/war.php?step=chainreport*"
-			],
-			"css": [
-				"scripts/features/csv-chain-report/ttCSVChainReport.css"
-			],
-			"js": [
-				"scripts/features/csv-chain-report/ttCSVChainReport.js"
-			],
+			"matches": ["https://www.torn.com/war.php?step=chainreport*"],
+			"css": ["scripts/features/csv-chain-report/ttCSVChainReport.css"],
+			"js": ["scripts/features/csv-chain-report/ttCSVChainReport.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/forums.php*"
-			],
-			"css": [
-				"scripts/features/forum-warning/ttForumWarning.css",
-				"scripts/features/forum-menu/ttForumMenu.css"
-			],
-			"js": [
-				"scripts/features/forum-warning/ttForumWarning.js",
-				"scripts/features/forum-menu/ttForumMenu.js"
-			],
+			"matches": ["https://www.torn.com/forums.php*"],
+			"css": ["scripts/features/forum-warning/ttForumWarning.css", "scripts/features/forum-menu/ttForumMenu.css"],
+			"js": ["scripts/features/forum-warning/ttForumWarning.js", "scripts/features/forum-menu/ttForumMenu.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/preferences.php*"
-			],
-			"css": [
-				"scripts/features/preference-settings/ttPreferenceSettings.css"
-			],
-			"js": [
-				"scripts/features/preference-settings/ttPreferenceSettings.js"
-			],
+			"matches": ["https://www.torn.com/preferences.php*"],
+			"css": ["scripts/features/preference-settings/ttPreferenceSettings.css"],
+			"js": ["scripts/features/preference-settings/ttPreferenceSettings.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/bank.php*"
-			],
-			"css": [
-				"scripts/features/bank-investment-info/ttBankInvestmentInfo.css"
-			],
-			"js": [
-				"scripts/features/bank-investment-info/ttBankInvestmentInfo.js",
-				"scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"
-			],
+			"matches": ["https://www.torn.com/bank.php*"],
+			"css": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.css"],
+			"js": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.js", "scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/gym.php*"
-			],
+			"matches": ["https://www.torn.com/gym.php*"],
 			"css": [
 				"scripts/features/specialist-gyms/ttSpecialistGyms.css",
 				"scripts/features/gym-disable-stats/ttGymDisableStats.css",
@@ -896,27 +723,14 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/crimes.php*"
-			],
-			"css": [
-				"scripts/features/quick-crimes/ttQuickCrimes.css"
-			],
-			"js": [
-				"vendor/drag-drop-touch/DragDropTouch.js",
-				"scripts/content/crimes/ttCrimes.js",
-				"scripts/features/quick-crimes/ttQuickCrimes.js"
-			],
+			"matches": ["https://www.torn.com/crimes.php*"],
+			"css": ["scripts/features/quick-crimes/ttQuickCrimes.css"],
+			"js": ["vendor/drag-drop-touch/DragDropTouch.js", "scripts/content/crimes/ttCrimes.js", "scripts/features/quick-crimes/ttQuickCrimes.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=missions"
-			],
-			"css": [
-				"scripts/features/mission-hints/ttMissionHints.css",
-				"scripts/features/mission-rewards/ttMissionRewards.css"
-			],
+			"matches": ["https://www.torn.com/loader.php?sid=missions"],
+			"css": ["scripts/features/mission-hints/ttMissionHints.css", "scripts/features/mission-rewards/ttMissionRewards.css"],
 			"js": [
 				"scripts/content/missions/ttMissions.js",
 				"scripts/features/mission-hints/ttMissionHints.js",
@@ -925,71 +739,37 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=attackLog*"
-			],
-			"css": [
-				"scripts/features/weapon-bonus-information/ttWeaponBonusInformation.css"
-			],
-			"js": [
-				"scripts/features/weapon-bonus-information/ttWeaponBonusInformation.js"
-			],
+			"matches": ["https://www.torn.com/loader.php?sid=attackLog*"],
+			"css": ["scripts/features/weapon-bonus-information/ttWeaponBonusInformation.css"],
+			"js": ["scripts/features/weapon-bonus-information/ttWeaponBonusInformation.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/city.php*"
-			],
-			"css": [
-				"scripts/features/city-items/ttCityItems.css"
-			],
-			"js": [
-				"scripts/global/functions/torn-items.js",
-				"scripts/features/city-items/ttCityItems.js"
-			],
+			"matches": ["https://www.torn.com/city.php*"],
+			"css": ["scripts/features/city-items/ttCityItems.css"],
+			"js": ["scripts/global/functions/torn-items.js", "scripts/features/city-items/ttCityItems.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=blackjack*"
-			],
-			"css": [
-				"scripts/features/blackjack-strategy/ttBlackjackStrategy.css"
-			],
-			"js": [
-				"scripts/features/blackjack-strategy/ttBlackjackStrategy.js"
-			],
+			"matches": ["https://www.torn.com/loader.php?sid=blackjack*"],
+			"css": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.css"],
+			"js": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=highlow*"
-			],
-			"css": [
-				"scripts/features/high-low-helper/ttHighLowHelper.css"
-			],
-			"js": [
-				"scripts/features/high-low-helper/ttHighLowHelper.js"
-			],
+			"matches": ["https://www.torn.com/loader.php?sid=highlow*"],
+			"css": ["scripts/features/high-low-helper/ttHighLowHelper.css"],
+			"js": ["scripts/features/high-low-helper/ttHighLowHelper.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/museum.php*"
-			],
-			"js": [
-				"scripts/features/museum-auto-fill/ttMuseumAutoFill.js"
-			],
+			"matches": ["https://www.torn.com/museum.php*"],
+			"js": ["scripts/features/museum-auto-fill/ttMuseumAutoFill.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/blacklist.php*"
-			],
-			"css": [
-				"scripts/global/functions/filters.css",
-				"scripts/features/stats-estimate/ttStatsEstimate.css"
-			],
+			"matches": ["https://www.torn.com/blacklist.php*"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
@@ -999,22 +779,13 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/halloffame.php*"
-			],
-			"css": [
-				"scripts/features/stats-estimate/ttStatsEstimate.css"
-			],
-			"js": [
-				"scripts/features/stats-estimate/statsEstimate.js",
-				"scripts/features/stats-estimate/ttStatsEstimateHOF.js"
-			],
+			"matches": ["https://www.torn.com/halloffame.php*"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateHOF.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/competition.php*"
-			],
+			"matches": ["https://www.torn.com/competition.php*"],
 			"css": [
 				"scripts/global/functions/filters.css",
 				"scripts/features/competition-filter/ttCompetitionFilter.css",
@@ -1030,21 +801,13 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/pmarket.php*"
-			],
-			"js": [
-				"scripts/features/no-confirm/ttPointsMarketNoConfirm.js"
-			],
+			"matches": ["https://www.torn.com/pmarket.php*"],
+			"js": ["scripts/features/no-confirm/ttPointsMarketNoConfirm.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/amarket.php*"
-			],
-			"css": [
-				"scripts/global/functions/filters.css"
-			],
+			"matches": ["https://www.torn.com/amarket.php*"],
+			"css": ["scripts/global/functions/filters.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/auction-house/ttAuctionHouse.js",

@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	handleTheme().catch(() => { });
+	handleTheme().catch(() => {});
 	createOverlay();
 	observeChat().catch(console.error);
 	observeBody().catch(console.error);

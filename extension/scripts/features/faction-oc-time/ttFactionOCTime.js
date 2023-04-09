@@ -29,12 +29,18 @@
 		// Next available OC timer
 		if (factiondata?.crimes) {
 			const factionOCElement = document.newElement({ type: "span", class: "countdown" });
-			const ocArray = Object.values(factiondata.crimes).filter((el) => { return el.time_completed == 0; }).sort((a, b) => { return a.time_left - b.time_left; });
+			const ocArray = Object.values(factiondata.crimes)
+				.filter((el) => {
+					return el.time_completed == 0;
+				})
+				.sort((a, b) => {
+					return a.time_left - b.time_left;
+				});
 
 			if (ocArray.length) {
 				const nextOC = ocArray[0];
 
-				const nextOCTimeLeft = (nextOC.time_ready * 1000) - Date.now();
+				const nextOCTimeLeft = nextOC.time_ready * 1000 - Date.now();
 
 				if (nextOCTimeLeft <= TO_MILLIS.HOURS * 8) factionOCElement.classList.add("short");
 				else if (nextOCTimeLeft <= TO_MILLIS.HOURS * 12) factionOCElement.classList.add("medium");
@@ -42,7 +48,7 @@
 				if (nextOCTimeLeft > 0) {
 					factionOCElement.textContent = formatTime({ milliseconds: nextOCTimeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
 
-					factionOCElement.dataset.end = (nextOC.time_ready * 1000);
+					factionOCElement.dataset.end = nextOC.time_ready * 1000;
 					factionOCElement.dataset.seconds = (nextOCTimeLeft / 1000).dropDecimals();
 					factionOCElement.dataset.timeSettings = JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true });
 					countdownTimers.push(factionOCElement);

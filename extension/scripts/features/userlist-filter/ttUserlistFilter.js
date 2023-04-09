@@ -214,7 +214,7 @@
 					const isHospitalized = row.querySelector('li[title*="Hospital"]');
 
 					if (isHospitalized) {
-						const hospitalizationReason = isHospitalized.title.split('<br>')[1];
+						const hospitalizationReason = isHospitalized.title.split("<br>")[1];
 
 						if (key == "other") {
 							return (

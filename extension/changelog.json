@@ -2,51 +2,22 @@
 	{
 		"version": {
 			"major": 6,
-			"minor": 13,
-			"build": 0
-		},
-		"title": "2023/04/05",
-		"logs": {
-			"features": [
-				{
-					"message": "Show next Faction OC in the sidebar.",
-					"contributor": "Vrasp"
-				},
-				{
-					"message": "Allow filtering the userlist page based on hospitalization reason.",
-					"contributor": "Vrasp"
-				}
-			],
-			"fixes": [
-				{
-					"message": "Fixed the OC timer desync that could occur when tabbing away for long periods of time.",
-					"contributor": "Vrasp"
-				}
-			]
-		}
-	},
-	{
-		"version": {
-			"major": 6,
 			"minor": 12,
 			"build": 0
 		},
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{ "message": "Show next Faction OC in the sidebar.", "contributor": "Vrasp" },
+				{ "message": "Allow filtering the userlist page based on hospitalization reason.", "contributor": "Vrasp" }
+			],
 			"fixes": [
-				{
-					"message": "Properly show company addiction in the sidebar.",
-					"contributor": "DeKleineKobini"
-				}
+				{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" },
+				{ "message": "Change egg selector in Easter Eggs script.", "contributor": "TheFoxMan" },
+				{ "message": "Fixed the OC timer desync that could occur when tabbing away for long periods of time.", "contributor": "Vrasp" }
 			],
-			"changes": [
-				{
-					"message": "Include sentinel armor for the filters.",
-					"contributor": "DeKleineKobini"
-				}
-			],
+			"changes": [{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},
