@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" },
+				{ "message": "Change egg selector in Easter Eggs script.", "contributor": "TheFoxMan" }
+			],
 			"changes": [{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
