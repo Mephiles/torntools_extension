@@ -3,16 +3,8 @@
 	"name": "TornTools",
 	"version": "6.12.0",
 	"description": "Several tools for Torn.",
-	"icons": {
-		"16": "resources/images/icon_16.png",
-		"48": "resources/images/icon_48.png",
-		"128": "resources/images/icon_128.png"
-	},
-	"browser_action": {
-		"default_title": "TornTools",
-		"default_popup": "pages/popup/popup.html",
-		"default_icon": "resources/images/icon_128.png"
-	},
+	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
+	"browser_action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 	"background": {
 		"scripts": [
@@ -49,15 +41,8 @@
 		"scripts/*.inject.js",
 		"vendor/*"
 	],
-	"options_ui": {
-		"page": "pages/settings/settings.html",
-		"open_in_tab": true
-	},
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
-		}
-	},
+	"options_ui": { "page": "pages/settings/settings.html", "open_in_tab": true },
+	"browser_specific_settings": { "gecko": { "id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}" } },
 	"content_scripts": [
 		{
 			"matches": ["https://www.torn.com/*.php*"],
@@ -297,12 +282,7 @@
 			"js": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.js", "scripts/features/education-finish-time/ttEducationFinishTime.js"],
 			"run_at": "document_end"
 		},
-		{
-			"matches": ["https://www.torn.com/events.php*"],
-			"css": [],
-			"js": ["scripts/features/event-worth/ttEventWorth.js"],
-			"run_at": "document_end"
-		},
+		{ "matches": ["https://www.torn.com/events.php*"], "css": [], "js": ["scripts/features/event-worth/ttEventWorth.js"], "run_at": "document_end" },
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
@@ -762,11 +742,7 @@
 			"js": ["scripts/features/high-low-helper/ttHighLowHelper.js"],
 			"run_at": "document_end"
 		},
-		{
-			"matches": ["https://www.torn.com/museum.php*"],
-			"js": ["scripts/features/museum-auto-fill/ttMuseumAutoFill.js"],
-			"run_at": "document_end"
-		},
+		{ "matches": ["https://www.torn.com/museum.php*"], "js": ["scripts/features/museum-auto-fill/ttMuseumAutoFill.js"], "run_at": "document_end" },
 		{
 			"matches": ["https://www.torn.com/blacklist.php*"],
 			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
@@ -800,11 +776,7 @@
 			],
 			"run_at": "document_end"
 		},
-		{
-			"matches": ["https://www.torn.com/pmarket.php*"],
-			"js": ["scripts/features/no-confirm/ttPointsMarketNoConfirm.js"],
-			"run_at": "document_end"
-		},
+		{ "matches": ["https://www.torn.com/pmarket.php*"], "js": ["scripts/features/no-confirm/ttPointsMarketNoConfirm.js"], "run_at": "document_end" },
 		{
 			"matches": ["https://www.torn.com/amarket.php*"],
 			"css": ["scripts/global/functions/filters.css"],
