@@ -14,8 +14,8 @@ const TEAM = [
 	},
 	{
 		name: "DeKleineKobini",
-		title: "Developer",
-		core: true,
+		title: "Former Maintainer / Developer",
+		core: false,
 		torn: 2114440,
 		color: "orange",
 		donations: [

@@ -9,7 +9,10 @@
 				{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" },
 				{ "message": "Change egg selector in Easter Eggs script.", "contributor": "TheFoxMan" }
 			],
-			"changes": [{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" },
+				{ "message": "Update the core team titles to reflect DeKleineKobini quitting.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},
