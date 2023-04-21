@@ -80,7 +80,7 @@
 		}
 	}
 
-	function highlightEgg(egg) {
+	async function highlightEgg(egg) {
 		// Make sure the egg has been loaded.
 		/*if (!egg.complete) {
 			egg.addEventListener("load", () => highlightEgg(egg));
@@ -95,7 +95,7 @@
 
 		alert("TornTools detected an easter egg on this page.");
 
-		const locationText = calculateLocation(egg.find("button"));
+		const locationText = calculateLocation(await requireElement(EGG_SELECTOR + " img"));
 
 		document.find(".tt-overlay").classList.remove("tt-hidden");
 		document.find(".tt-overlay").style.zIndex = "999";
