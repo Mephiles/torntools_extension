@@ -429,6 +429,7 @@ const DEFAULT_STORAGE = {
 				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				ocTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				factionOCTimer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				settingsLink: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -774,6 +775,12 @@ const DEFAULT_STORAGE = {
 				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				inHospital: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				inJail: new DefaultSetting({ type: "string", defaultValue: "both" }),
+			},
+			hospReason: {
+				attackedBy: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				muggedBy: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				hospitalizedBy: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				other: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
 			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
@@ -1557,4 +1564,11 @@ const RANK_TRIGGERS = {
 	networth: [5000000, 50000000, 500000000, 5000000000, 50000000000],
 
 	stats: ["under 2k", "2k - 25k", "20k - 250k", "200k - 2.5m", "2m - 25m", "20m - 250m", "over 200m"],
+};
+
+const HOSPITALIZATION_REASONS = {
+	attackedBy: "Attacked by",
+	muggedBy: "Mugged by",
+	hospitalizedBy: "Hospitalized by",
+	other: ["Attacked by", "Mugged by", "Hospitalized by"],
 };
