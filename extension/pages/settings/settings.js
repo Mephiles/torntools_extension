@@ -501,6 +501,7 @@ async function setupPreferences(requireCleanup) {
 		else if (provider === "imperium") origin = FETCH_PLATFORMS.imperium;
 		else if (provider === "hela") origin = FETCH_PLATFORMS.hela;
 		else if (provider === "shadow_healers") origin = FETCH_PLATFORMS.shadow_healers;
+		else if (provider === "wtf") origin = FETCH_PLATFORMS.wtf
 
 		if (!origin) return;
 
@@ -1252,6 +1253,7 @@ async function setupPreferences(requireCleanup) {
 			else if (reviveProvider === "imperium") origin = FETCH_PLATFORMS.imperium;
 			else if (reviveProvider === "hela") origin = FETCH_PLATFORMS.hela;
 			else if (reviveProvider === "shadow_healers") origin = FETCH_PLATFORMS.shadow_healers;
+			else if (reviveProvider === "wtf") origin = FETCH_PLATFORMS.wtf;
 
 			if (origin) origins.push(origin);
 		}

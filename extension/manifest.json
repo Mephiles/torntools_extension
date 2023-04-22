@@ -30,7 +30,8 @@
 		"https://inq.mavri.dev/",
 		"https://api.no1irishstig.co.uk/",
 		"https://prombot.co.uk:8443/",
-		"https://api.lzpt.io/"
+		"https://api.lzpt.io/",
+		"https://port203.de/"
 	],
 	"web_accessible_resources": [
 		"resources/images/*.png",
