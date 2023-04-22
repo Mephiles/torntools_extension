@@ -211,12 +211,12 @@
 			const match = Object.entries(filters.hospReason)
 				.filter(([, value]) => value !== "both" && value !== "none")
 				.find(([key, value]) => {
-					const isHospitalized = row.querySelector('li[title*="Hospital"]');
+					const isHospitalized = row.querySelector("li[title*='Hospital']");
 
 					if (isHospitalized) {
 						const hospitalizationReason = isHospitalized.title.split("<br>")[1];
 
-						if (key == "other") {
+						if (key === "other") {
 							return (
 								(value === "yes" && HOSPITALIZATION_REASONS[key].some((reason) => hospitalizationReason.match(reason))) ||
 								(value === "no" && !HOSPITALIZATION_REASONS[key].some((reason) => hospitalizationReason.match(reason)))
