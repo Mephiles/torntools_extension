@@ -4,10 +4,13 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{ "message": "Show next Faction OC in the sidebar.", "contributor": "Vrasp" },
+				{ "message": "Allow filtering the userlist page based on hospitalization reason.", "contributor": "Vrasp" }
+			],
 			"fixes": [
 				{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" },
-				{ "message": "Change egg selector in Easter Eggs script.", "contributor": "TheFoxMan" }
+				{ "message": "Fixed the OC timer desync that could occur when tabbing away for long periods of time.", "contributor": "Vrasp" }
 			],
 			"changes": [
 				{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" },
@@ -20,7 +23,7 @@
 		"version": { "major": 6, "minor": 11, "build": 2 },
 		"date": "2023/03/19",
 		"logs": {
-			"features": [{ "message": "Show company addition in the sidebar.", "contributor": "Conrado" }],
+			"features": [{ "message": "Show employee drug addiction(in companies) in the sidebar.", "contributor": "Conrado" }],
 			"fixes": [
 				{ "message": "Fix Faction Member Filter not working properly with fedded players.", "contributor": "TheFoxMan" },
 				{ "message": "Solve honor for 100 hits in a single chain being detected as one for total hits.", "contributor": "DeKleineKobini" }

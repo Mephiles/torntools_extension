@@ -118,6 +118,7 @@
 			"exclude_matches": ["https://www.torn.com/logout.php*"],
 			"css": [
 				"scripts/features/oc-time/ttOCTime.css",
+				"scripts/features/faction-oc-time/ttFactionOCTime.css",
 				"scripts/features/custom-links/ttCustomLinks.css",
 				"scripts/features/update-notice/ttUpdateNotice.css",
 				"scripts/features/sidebar-notes/ttSidebarNotes.css",
@@ -144,6 +145,7 @@
 				"scripts/content/global/ttGlobal.js",
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.js",
 				"scripts/features/oc-time/ttOCTime.js",
+				"scripts/features/faction-oc-time/ttFactionOCTime.js",
 				"scripts/features/company-addiction/ttCompanyAddiction.js",
 				"scripts/features/custom-links/ttCustomLinks.js",
 				"scripts/features/update-notice/ttUpdateNotice.js",
