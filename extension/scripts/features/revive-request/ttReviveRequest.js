@@ -22,9 +22,6 @@
 				case "nuke":
 					if (!hasAPIData()) return "No API access.";
 					break;
-				case "wtf":
-					//if (!hasAPIData()) return "No API access.";
-					break;
 			}
 		}
 	);
