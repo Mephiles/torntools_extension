@@ -21,7 +21,7 @@ const FETCH_PLATFORMS = {
 	shadow_healers: "https://api.no1irishstig.co.uk/",
 	prometheus: "https://prombot.co.uk:8443/",
 	lzpt: "https://api.lzpt.io/",
-	wtf: "https://port203.de/",
+	wtf: "https://what-the-f.de/",
 };
 
 const FACTION_ACCESS = {
