@@ -192,7 +192,7 @@
 				const response = await fetchData("wtf", {
 					section: "wtfapi/revive",
 					method: "POST",
-					body: { userID: id, userName: name, Faction: faction, Country: country, app: source },
+					body: { userID: id, userName: name, Faction: faction, Country: country, requestChannel: source },
 					relay: true,
 					silent: true,
 					succeedOnError: true,
