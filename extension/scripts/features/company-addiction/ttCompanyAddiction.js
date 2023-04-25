@@ -16,9 +16,14 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!userdata.job.company_id || userdata.job.company_id === 0 ||
-					!userdata.job.company_type || userdata.job.company_type === 0 ||
-					userdata.job.position === "Director") return "Not a company employee";
+			else if (
+				!userdata.job.company_id ||
+				userdata.job.company_id === 0 ||
+				!userdata.job.company_type ||
+				userdata.job.company_type === 0 ||
+				userdata.job.position === "Director"
+			)
+				return "Not a company employee";
 		}
 	);
 
