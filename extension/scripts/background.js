@@ -328,11 +328,20 @@ async function updateUserdata() {
 	if (updateEssential) {
 		selections.push("profile", "timestamp");
 
-		for (const selection of ["bars", "cooldowns", "travel", "newevents", "newmessages", "money", "refills"]) {
+		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "money", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
 		}
+
+		// Notifications have a 100K count limit from being fetched via the Torn API
+		// Use "newevents" selection only when the old events count > new events count
+		const notificationsCount = await fetchData("torn", { section: "user", selections: "notifications" });
+		if (userdata?.oldNotificationsCount?.events !== notificationsCount.events) {
+			selections.push("newevents");
+		}
+		userdata.oldNotificationsCount = notificationsCount;
+
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
