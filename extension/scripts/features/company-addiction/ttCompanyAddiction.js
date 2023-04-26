@@ -20,10 +20,11 @@
 				!userdata.job.company_id ||
 				userdata.job.company_id === 0 ||
 				!userdata.job.company_type ||
-				userdata.job.company_type === 0 ||
-				userdata.job.position === "Director"
+				userdata.job.company_type === 0
 			)
-				return "Not a company employee";
+				return "City jobs do not have addiction effects.";
+			else if (userdata.job.position === "Director")
+				return "Company directors do not have addiction.";
 		}
 	);
 
