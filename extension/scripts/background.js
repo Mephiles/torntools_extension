@@ -336,11 +336,8 @@ async function updateUserdata() {
 
 		// Notifications have a 100K count limit from being fetched via the Torn API
 		// Use "newevents" selection only when the old events count > new events count
-		const notificationsCount = await fetchData("torn", { section: "user", selections: "notifications" });
-		if (userdata?.oldNotificationsCount?.events !== notificationsCount.events) {
-			selections.push("newevents");
-		}
-		userdata.oldNotificationsCount = notificationsCount;
+		// Fetch the notifications count always, to avoid additional API calls
+		selections.push("notifications");
 
 		updatedTypes.push("essential");
 	}
@@ -384,6 +381,13 @@ async function updateUserdata() {
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
+
+	// Notifications have a 100K count limit from being fetched via the Torn API
+	// Use "newevents" selection only when the old events count > new events count
+	// Fetch only when new events arrived
+	if (oldUserdata?.notifications?.events !== userdata?.notifications?.events) {
+		userdata.events = (await fetchData("torn", { section: "user", selections: ["newevents"] })).events;
+	}
 
 	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
 	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));
