@@ -10,11 +10,13 @@
 			],
 			"fixes": [
 				{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" },
-				{ "message": "Fixed the OC timer desync that could occur when tabbing away for long periods of time.", "contributor": "Vrasp" }
+				{ "message": "Fixed the OC timer desync that could occur when tabbing away for long periods of time.", "contributor": "Vrasp" },
+				{ "message": "Change the check for city jobs in Company Addiction sidebar.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" },
-				{ "message": "Update the core team titles to reflect DeKleineKobini quitting.", "contributor": "DeKleineKobini" }
+				{ "message": "Update the core team titles to reflect DeKleineKobini quitting.", "contributor": "DeKleineKobini" },
+				{ "message": "Change the background logic to reduce events call usage(by new limit).", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
