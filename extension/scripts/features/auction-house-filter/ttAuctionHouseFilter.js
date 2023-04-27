@@ -124,6 +124,20 @@
 			});
 			filterContent.appendChild(bonusFilter.element);
 			localFilters.weaponBonus = { getValues: bonusFilter.getValues };
+
+			const qualityFilter = createFilterSection({
+				title: "Quality",
+				select: [
+					{ value: "all", description: "All" },
+					{ value: "yellow", description: "Yellow" },
+					{ value: "orange", description: "Orange" },
+					{ value: "red", description: "Red" }
+				],
+				callback: applyFilters,
+				defaults: filters.auction[itemType].quality,
+			});
+			filterContent.appendChild(qualityFilter.element);
+			localFilters.quality = { getSelected: qualityFilter.getSelected };
 		}
 
 		if (itemType === "armor") {
@@ -184,6 +198,7 @@
 			filters.damage = localFilters.damage.getValue();
 			filters.accuracy = localFilters.accuracy.getValue();
 			filters.weaponBonus = localFilters.weaponBonus.getValues();
+			filters.quality = localFilters.quality.getSelected(content);
 		}
 
 		if (itemType === "armor") {
@@ -268,6 +283,13 @@
 		if (filters.set) {
 			if (row.find(".item-cont-wrap .item-name").textContent.split(" ")[0].toLowerCase() !== filters.set) {
 				hide("set");
+				return;
+			}
+		}
+		if (filters.quality !== "all") {
+			const weaponQuality = row.find(".item-plate img.item.torn-item").className.match(/yellow|orange|red/)[0];
+			if (weaponQuality !== filters.quality) {
+				hide("quality");
 				return;
 			}
 		}

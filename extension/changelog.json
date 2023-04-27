@@ -6,7 +6,8 @@
 		"logs": {
 			"features": [
 				{ "message": "Show next Faction OC in the sidebar.", "contributor": "Vrasp" },
-				{ "message": "Allow filtering the userlist page based on hospitalization reason.", "contributor": "Vrasp" }
+				{ "message": "Allow filtering the userlist page based on hospitalization reason.", "contributor": "Vrasp" },
+				{ "message": "Add quality filtering on Auction House page.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
 				{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" },
