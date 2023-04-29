@@ -286,7 +286,7 @@
 				return;
 			}
 		}
-		if (filters.quality !== "all") {
+		if (filters.quality && filters.quality !== "all") {
 			const weaponQuality = row.find(".item-plate img.item.torn-item").className.match(/yellow|orange|red/)[0];
 			if (weaponQuality !== filters.quality) {
 				hide("quality");

@@ -156,7 +156,7 @@ body.tt-tablet .tt-filter .content > div {
 	grid-template:
 		"title title" auto
 		"b1    v1" auto
-		"b2    v2" auto / 1fr 1fr;
+		"b2    v2" auto / 1fr 0.5fr;
 	gap: 4px;
 }
 
