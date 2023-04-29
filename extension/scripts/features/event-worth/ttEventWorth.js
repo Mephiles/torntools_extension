@@ -5,7 +5,7 @@
 		"Event Worth",
 		"events",
 		() => settings.pages.events.worth,
-		startListener,
+		null,
 		addWorth,
 		removeWorth,
 		{
@@ -14,35 +14,36 @@
 		null
 	);
 
-	function startListener() {
-		addXHRListener(({ detail: { page } }) => {
-			if (page === "events" && feature.enabled()) addWorth();
-		});
-	}
-
 	async function addWorth() {
-		await requireElement("form#masssell .no-messages");
+		const eventsListWrapper = await requireElement("[class*='eventsList__']");
 
 		const regexes = [
 			/(?<=bought ).*(?= of)|(?<=your points that were on the market for \$).*(?=\.)/g,
 			/(?<=bought ).*(?= x )|(?<=from your bazaar for \$).*(?=\.)/g,
 		];
-		document.findAll("form#masssell .mail-link[id]").forEach((li) => {
+
+		eventsListWrapper.addEventListener("mouseover", (event) => {
+			if (!feature.enabled()) return;
+
+			if (!event.target.matches("[class*='eventItem___'] [class*='message__']") ||
+			    event.target.className.includes("tt-modified")) return;
+
+			const eventMessageEl = event.target;
 			regexes.forEach((regex) => {
-				const matches = li.textContent.match(regex);
+				const matches = eventMessageEl.textContent.match(regex);
 				if (matches?.length === 2) {
-					li.setAttribute(
+					eventMessageEl.setAttribute(
 						"title",
 						`(worth ${formatNumber(matches[1].replaceAll(",", "") / matches[0].replaceAll(",", ""), { currency: true })} each)`
 					);
-					li.classList.add("tt-modified");
+					eventMessageEl.classList.add("tt-modified");
 				}
 			});
-		});
+		}, { capture: true });
 	}
 
 	function removeWorth() {
-		document.findAll("form#masssell .tt-modified.mail-link[id]").forEach((x) => {
+		document.findAll("[class*='eventsList__'] [class*='eventItem___'] [class*='message__']").forEach((x) => {
 			x.removeAttribute("title");
 			x.classList.remove("tt-modified");
 		});
