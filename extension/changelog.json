@@ -18,7 +18,8 @@
 			"changes": [
 				{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" },
 				{ "message": "Update the core team titles to reflect DeKleineKobini quitting.", "contributor": "DeKleineKobini" },
-				{ "message": "Change the background logic to reduce events call usage(by new limit).", "contributor": "TheFoxMan" }
+				{ "message": "Change the background logic to reduce events call usage(by new limit).", "contributor": "TheFoxMan" },
+				{ "message": "Change hospital filtering to reduce errors.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
