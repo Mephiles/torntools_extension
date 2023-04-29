@@ -131,7 +131,7 @@
 					{ value: "all", description: "All" },
 					{ value: "yellow", description: "Yellow" },
 					{ value: "orange", description: "Orange" },
-					{ value: "red", description: "Red" }
+					{ value: "red", description: "Red" },
 				],
 				callback: applyFilters,
 				defaults: filters.auction[itemType].quality,

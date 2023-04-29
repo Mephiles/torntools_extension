@@ -22,24 +22,27 @@
 			/(?<=bought ).*(?= x )|(?<=from your bazaar for \$).*(?=\.)/g,
 		];
 
-		eventsListWrapper.addEventListener("mouseover", (event) => {
-			if (!feature.enabled()) return;
+		eventsListWrapper.addEventListener(
+			"mouseover",
+			(event) => {
+				if (!feature.enabled()) return;
 
-			if (!event.target.matches("[class*='eventItem___'] [class*='message__']") ||
-			    event.target.className.includes("tt-modified")) return;
+				if (!event.target.matches("[class*='eventItem___'] [class*='message__']") || event.target.className.includes("tt-modified")) return;
 
-			const eventMessageEl = event.target;
-			regexes.forEach((regex) => {
-				const matches = eventMessageEl.textContent.match(regex);
-				if (matches?.length === 2) {
-					eventMessageEl.setAttribute(
-						"title",
-						`(worth ${formatNumber(matches[1].replaceAll(",", "") / matches[0].replaceAll(",", ""), { currency: true })} each)`
-					);
-					eventMessageEl.classList.add("tt-modified");
-				}
-			});
-		}, { capture: true });
+				const eventMessageEl = event.target;
+				regexes.forEach((regex) => {
+					const matches = eventMessageEl.textContent.match(regex);
+					if (matches?.length === 2) {
+						eventMessageEl.setAttribute(
+							"title",
+							`(worth ${formatNumber(matches[1].replaceAll(",", "") / matches[0].replaceAll(",", ""), { currency: true })} each)`
+						);
+						eventMessageEl.classList.add("tt-modified");
+					}
+				});
+			},
+			{ capture: true }
+		);
 	}
 
 	function removeWorth() {

@@ -282,7 +282,12 @@
 			"js": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.js", "scripts/features/education-finish-time/ttEducationFinishTime.js"],
 			"run_at": "document_end"
 		},
-		{ "matches": ["https://www.torn.com/page.php?sid=events*"], "css": [], "js": ["scripts/features/event-worth/ttEventWorth.js"], "run_at": "document_end" },
+		{
+			"matches": ["https://www.torn.com/page.php?sid=events*"],
+			"css": [],
+			"js": ["scripts/features/event-worth/ttEventWorth.js"],
+			"run_at": "document_end"
+		},
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
