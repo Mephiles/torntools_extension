@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 12, "build": 0 },
+		"version": { "major": 6, "minor": 13, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 12, "build": 0 },
+		"date": "2023/04/30",
 		"logs": {
 			"features": [
 				{ "message": "Show next Faction OC in the sidebar.", "contributor": "Vrasp" },
@@ -19,8 +25,7 @@
 				{ "message": "Update the core team titles to reflect DeKleineKobini quitting.", "contributor": "DeKleineKobini" },
 				{ "message": "Change the background logic to reduce events call usage(by new limit).", "contributor": "TheFoxMan" },
 				{ "message": "Change hospital filtering to reduce errors.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
