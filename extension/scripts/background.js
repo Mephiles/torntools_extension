@@ -386,8 +386,24 @@ async function updateUserdata() {
 	// Use "newevents" selection only when the old events count > new events count
 	// Fetch only when new events arrived
 	if (oldUserdata?.notifications?.events !== userdata?.notifications?.events) {
-		userdata.events = (await fetchData("torn", { section: "user", selections: ["newevents"] })).events;
+		const newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
+
+		// When old notifications are read and user has new notifications
+		// but with lesser count than old notifications, we
+		// have negative value. TT then fetches all the new notifications.
+		if (newEventsCount < 0) newEventsCount = userdata?.notifications?.events ?? 0;
+
+		if (newEventsCount > 0) {
+			if (newEventsCount <= 25) {
+				userdata.events = (await fetchData("torn", { section: "user", selections: ["newevents"], params: { limit: newEventsCount } })).events;
+			} else {
+				userdata.events = (await fetchData("torn", { section: "user", selections: ["events"], params: { limit: newEventsCount } })).events;
+			}
+		}
+
+		if (newEventsCount === 0) userdata.events = oldUserdata.events;
 	}
+	if (!userdata.events) userdata.events = oldUserdata.events ?? {};
 
 	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
 	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));

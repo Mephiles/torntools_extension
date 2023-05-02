@@ -1,24 +1,31 @@
 [
 	{
-		"version": { "major": 6, "minor": 12, "build": 0 },
+		"version": { "major": 6, "minor": 13, "build": 0 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 12, "build": 0 },
+		"date": "2023/04/30",
 		"logs": {
 			"features": [
 				{ "message": "Show next Faction OC in the sidebar.", "contributor": "Vrasp" },
-				{ "message": "Allow filtering the userlist page based on hospitalization reason.", "contributor": "Vrasp" }
+				{ "message": "Allow filtering the userlist page based on hospitalization reason.", "contributor": "Vrasp" },
+				{ "message": "Add quality filtering on Auction House page.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
 				{ "message": "Properly show company addiction in the sidebar.", "contributor": "DeKleineKobini" },
 				{ "message": "Fixed the OC timer desync that could occur when tabbing away for long periods of time.", "contributor": "Vrasp" },
-				{ "message": "Change the check for city jobs in Company Addiction sidebar.", "contributor": "TheFoxMan" }
+				{ "message": "Change the check for city jobs in Company Addiction sidebar.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Event Worth for the new events page layout.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Include sentinel armor for the filters.", "contributor": "DeKleineKobini" },
 				{ "message": "Update the core team titles to reflect DeKleineKobini quitting.", "contributor": "DeKleineKobini" },
-				{ "message": "Change the background logic to reduce events call usage(by new limit).", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+				{ "message": "Change the background logic to reduce events call usage(by new limit).", "contributor": "TheFoxMan" },
+				{ "message": "Change hospital filtering to reduce errors.", "contributor": "TheFoxMan" }
+			]
 		}
 	},
 	{

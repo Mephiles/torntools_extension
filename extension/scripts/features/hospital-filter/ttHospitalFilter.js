@@ -155,7 +155,7 @@
 			}
 
 			// Revives On
-			if (revivesOn && li.find(".revive").classList.contains("reviveNotAvailable")) {
+			if (revivesOn && li.find(".revive")?.classList?.contains("reviveNotAvailable")) {
 				hideRow(li);
 				continue;
 			}

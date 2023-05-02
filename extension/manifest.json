@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "TornTools",
-	"version": "6.12.0",
+	"version": "6.13.0",
 	"description": "Several tools for Torn.",
 	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
 	"browser_action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
@@ -283,7 +283,12 @@
 			"js": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.js", "scripts/features/education-finish-time/ttEducationFinishTime.js"],
 			"run_at": "document_end"
 		},
-		{ "matches": ["https://www.torn.com/events.php*"], "css": [], "js": ["scripts/features/event-worth/ttEventWorth.js"], "run_at": "document_end" },
+		{
+			"matches": ["https://www.torn.com/page.php?sid=events*"],
+			"css": [],
+			"js": ["scripts/features/event-worth/ttEventWorth.js"],
+			"run_at": "document_end"
+		},
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
