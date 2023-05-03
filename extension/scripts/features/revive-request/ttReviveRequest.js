@@ -187,8 +187,7 @@
 					button.removeAttribute("disabled");
 					console.log("TT - Failed to request a revive with " + providers[provider] + "!", response);
 				}
-			}
-			else if (provider === "wtf") {
+			} else if (provider === "wtf") {
 				const response = await fetchData("wtf", {
 					section: "wtfapi/revive",
 					method: "POST",
