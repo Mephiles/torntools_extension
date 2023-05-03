@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Added WTF as revive provider", "contributor": "Anti0815" }
+				{ "message": "Added WTF as revive provider.", "contributor": "Anti0815" }
 			],
 			"fixes": [],
 			"changes": [],
