@@ -386,7 +386,7 @@ async function updateUserdata() {
 	// Use "newevents" selection only when the old events count > new events count
 	// Fetch only when new events arrived
 	if (oldUserdata?.notifications?.events !== userdata?.notifications?.events) {
-		const newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
+		let newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
 
 		// When old notifications are read and user has new notifications
 		// but with lesser count than old notifications, we
