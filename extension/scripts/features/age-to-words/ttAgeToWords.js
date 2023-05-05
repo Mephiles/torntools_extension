@@ -21,7 +21,7 @@
 		ageDiv.find(".box-name").classList.add("tt-hidden");
 		let age = boxValue.textContent.getNumber();
 
-		const signupDate = new Date((new Date).getTime() + age * 86400 * 1000);
+		const signupDate = new Date(new Date().getTime() + age * 86400 * 1000);
 		const daysInMonth = [31, signupDate.getUTCFullYear() % 4 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 		const years = Math.floor(age / 365);
@@ -30,11 +30,11 @@
 		let months = -1;
 		let sum = 0;
 		for (let month = 1; month <= 12; month++) {
-		    if (sum + daysInMonth[month - 1] <= age) sum = sum + daysInMonth[month - 1];
-		    else {
-		        months = month - 1;
-		        break;
-		    }
+			if (sum + daysInMonth[month - 1] <= age) sum = sum + daysInMonth[month - 1];
+			else {
+				months = month - 1;
+				break;
+			}
 		}
 		if (months === -1) months = 0;
 		age = age - sum;
@@ -42,7 +42,7 @@
 		const parts = [
 			years > 0 ? `${years} year${applyPlural(years)}` : "",
 			months > 0 ? `${months} month${applyPlural(months)}` : "",
-			age > 0 ? `${age} day${applyPlural(age)}` : ""
+			age > 0 ? `${age} day${applyPlural(age)}` : "",
 		];
 
 		/*const dateCurrent = new Date();
