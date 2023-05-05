@@ -21,6 +21,7 @@ const FETCH_PLATFORMS = {
 	shadow_healers: "https://api.no1irishstig.co.uk/",
 	prometheus: "https://prombot.co.uk:8443/",
 	lzpt: "https://api.lzpt.io/",
+	wtf: "https://what-the-f.de/",
 };
 
 const FACTION_ACCESS = {
@@ -132,6 +133,10 @@ async function fetchData(location, options = {}) {
 					break;
 				case "lzpt":
 					url = FETCH_PLATFORMS.lzpt;
+					path = options.section;
+					break;
+				case "wtf":
+					url = FETCH_PLATFORMS.wtf;
 					path = options.section;
 					break;
 			}

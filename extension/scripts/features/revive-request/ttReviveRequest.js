@@ -187,6 +187,23 @@
 					button.removeAttribute("disabled");
 					console.log("TT - Failed to request a revive with " + providers[provider] + "!", response);
 				}
+			} else if (provider === "wtf") {
+				const response = await fetchData("wtf", {
+					section: "wtfapi/revive",
+					method: "POST",
+					body: { userID: id, userName: name, Faction: faction, Country: country, requestChannel: source },
+					relay: true,
+					silent: true,
+					succeedOnError: true,
+				});
+
+				if (response.success) {
+					displayMessage("Revive requested!");
+				} else {
+					displayMessage("Failed to request!", true);
+					button.removeAttribute("disabled");
+					console.log("TT - Failed to request a revive with WTF!", response);
+				}
 			} else {
 				console.error("There was an attempt to request revives from an non-existing provider.", settings.pages.global.reviveProvider);
 			}
