@@ -317,8 +317,7 @@ async function setupDashboard() {
 		}
 
 		function updateExtra() {
-			if (settings.apiUsage.user.newevents)
-				dashboard.find(".extra .events .count").textContent = userdata.notifications.events;
+			if (settings.apiUsage.user.newevents) dashboard.find(".extra .events .count").textContent = userdata.notifications.events;
 			if (settings.apiUsage.user.newmessages)
 				dashboard.find(".extra .messages .count").textContent = Object.values(userdata.messages).filter((message) => !message.seen).length;
 			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").textContent = `$${formatNumber(userdata.money_onhand)}`;
