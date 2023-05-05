@@ -401,9 +401,10 @@ async function updateUserdata() {
 			}
 		}
 
-		if (newEventsCount === 0) userdata.events = oldUserdata.events;
+		// No new events. So reset events.
+		if (newEventsCount === 0) userdata.events = {};
 	}
-	if (!userdata.events) userdata.events = oldUserdata.events ?? {};
+	if (!userdata.events || userdata?.notifications?.events === 0) userdata.events = {};
 
 	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
 	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));
