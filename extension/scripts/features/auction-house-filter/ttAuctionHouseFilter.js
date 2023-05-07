@@ -287,7 +287,8 @@
 			}
 		}
 		if (filters.quality && filters.quality !== "all") {
-			const weaponQuality = row.find(".item-plate img.item.torn-item").className.match(/yellow|orange|red/)[0];
+			const weaponQualityMatch = row.find(".item-plate img.item.torn-item").className.match(/yellow|orange|red/);
+			const weaponQuality = weaponQualityMatch ? weaponQualityMatch[0] : "none";
 			if (weaponQuality !== filters.quality) {
 				hide("quality");
 				return;

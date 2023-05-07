@@ -5,7 +5,9 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added WTF as revive provider.", "contributor": "Anti0815" }],
-			"fixes": [],
+			"fixes": [
+				{ "message": "Fix Auction House filtering for normal weapons.", "contributor": "TheFoxMan" }
+			],
 			"changes": [
 				{ "message": "Reset events data when there are no new events.", "contributor": "TheFoxMan" },
 				{ "message": "Change date difference formatting logic for Age To Words feature.", "contributor": "TheFoxMan" }
