@@ -18,7 +18,6 @@ class FeatureManager {
 		});
 		this.logInfo = async (...params) => {
 			params[0] = this.logPadding + params[0];
-			console.log(...params);
 		};
 		this.logError = async (info, error) => {
 			this.errorCount = this.errorCount + 1;
