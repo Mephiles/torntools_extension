@@ -40,17 +40,17 @@ body:not(.dark-mode) .travel-agency-market .tt-travel-market-cell {
 	display: none !important;
 }
 
-body.tt-mobile .tt-travel-market-heading {
+body:is(.tt-mobile, .tt-tablet) .tt-travel-market-heading {
 	right: 0;
 	width: fit-content;
 	position: absolute;
 }
 
-body.tt-mobile .travel-agency-market.tt-travel-profits-table .users-list {
-	overflow: scroll !important;
+body:is(.tt-mobile, .tt-tablet) .travel-agency-market.tt-travel-profits-table .users-list {
+	overflow: auto !important;
 }
 
-body.tt-mobile .travel-agency-market.tt-travel-profits-table .users-list > li > span {
+body:is(.tt-mobile, .tt-tablet) .travel-agency-market.tt-travel-profits-table .users-list > li > span {
 	width: max-content;
 	background-color: var(--default-bg-panel-color);
 	border-bottom-color: var(--default-panel-divider-outer-side-color);
