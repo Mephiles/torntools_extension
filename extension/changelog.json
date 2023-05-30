@@ -11,7 +11,8 @@
 			],
 			"changes": [
 				{ "message": "Reset events data when there are no new events.", "contributor": "TheFoxMan" },
-				{ "message": "Change date difference formatting logic for Age To Words feature.", "contributor": "TheFoxMan" }
+				{ "message": "Change date difference formatting logic for Age To Words feature.", "contributor": "TheFoxMan" },
+				{ "message": "Add warning that high-low helper is enabled.", "contributor": "Kwack"}
 			],
 			"removed": []
 		}
