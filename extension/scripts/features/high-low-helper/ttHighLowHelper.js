@@ -9,7 +9,7 @@
 		() => settings.pages.casino.highlow,
 		initialiseHelper,
 		null,
-		removeHelper,
+		cleanup,
 		{
 			storage: ["settings.pages.casino.highlow"],
 		},
@@ -20,6 +20,25 @@
 	shuffleDeck();
 
 	function initialiseHelper() {
+		requireElement(".tutorial-cont .tutorial-desc.bottom-round").then((container) => {
+			container.innerHTML = document.newElement({
+				type: "div",
+				children: [
+					document.newElement({
+						type: "div",
+						class: "tt-msg",
+						children: [
+							document.newElement({
+								type: "span",
+								text: "High-Low Helper has been added by TornTools. If you would like to make your own selections it can be disabled in TornTools' settings.",
+							}),
+						],
+					}),
+				],
+			}).innerHTML; // Replace the tutorial text with the helper text instead of appending as the initial tutorial is too long (and unnecessary with tool enabled).
+			container.parentElement.style.display = "block"; // Force the tutorial to be shown on page load.
+		});
+
 		addXHRListener(({ detail: { page, xhr, json } }) => {
 			if (!feature.enabled()) return;
 
@@ -147,5 +166,10 @@
 			delete actions.dataset.outcome;
 			actions.find(".tt-high-low")?.remove();
 		}
+	}
+
+	function cleanup() {
+		removeHelper();
+		document.find(".tutorial-cont").style.display = "none";
 	}
 })();
