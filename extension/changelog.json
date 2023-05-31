@@ -7,7 +7,8 @@
 			"features": [{ "message": "Added WTF as revive provider.", "contributor": "Anti0815" }],
 			"fixes": [
 				{ "message": "Fix Auction House filtering for normal weapons.", "contributor": "TheFoxMan" },
-				{ "message": "Fix tablet layout of Travel Item Profits.", "contributor": "TheFoxMan" }
+				{ "message": "Fix tablet layout of Travel Item Profits.", "contributor": "TheFoxMan" },
+				{ "message": "Fix incorrect travel CD investment message when switching travel types.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Reset events data when there are no new events.", "contributor": "TheFoxMan" },

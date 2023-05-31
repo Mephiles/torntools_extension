@@ -135,6 +135,6 @@
 	}
 
 	function removeWarnings() {
-		document.findAll(".tt-cooldowns").forEach((cooldown) => cooldown.remove());
+		document.findAll(".tt-cooldowns, .tt-cooldowns ~ .cooldown").forEach((cooldown) => cooldown.remove());
 	}
 })();
