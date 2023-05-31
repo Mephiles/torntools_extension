@@ -8,7 +8,7 @@
 	if (page === "factions" && !isOwnFaction) return;
 	else if (page === "home" && !isAbroad()) return;
 
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"Drug Details",
 		"items",
 		() => settings.pages.items.drugDetails,
@@ -26,7 +26,7 @@
 			case "item":
 				setupXHR({ changeListener: true });
 				break;
-			case "abroad": // TODO - Finish testing.
+			case "home": // In abroad
 			case "imarket":
 				setupXHR();
 				break;
@@ -45,31 +45,10 @@
 
 		function setupXHR(options = {}) {
 			addXHRListener(({ detail: { page, xhr, json } }) => {
-				if (!json || page !== "inventory") return;
+				if (!json || page !== "page") return;
 
-				handleRequest(xhr, json, options);
+				showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
 			});
-		}
-
-		function handleRequest(request, json, options = {}) {
-			const step = getStep();
-			if (step !== "info") return;
-
-			showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
-
-			function getStep() {
-				let params;
-
-				if (request.url) {
-					try {
-						params = new URL(request.url).searchParams;
-
-						if (params.has("step")) return params.get("step");
-					} catch (error) {}
-				}
-
-				return new URLSearchParams(request.requestBody).get("step");
-			}
 		}
 
 		function addMutationObserver(selector) {
@@ -93,7 +72,7 @@
 
 					const id = parseInt(
 						target
-							.find(".info-wrap")
+							.find("[aria-labelledby*='armory-info-']")
 							.getAttribute("aria-labelledby")
 							.match(/armory-info-(\d*)/i)[1]
 					);
@@ -113,7 +92,7 @@
 			...options,
 		};
 
-		if (!settings.pages.items.drugDetails) return;
+		if (!feature.enabled()) return;
 
 		let element;
 
@@ -143,12 +122,11 @@
 				options.target.find(`li[itemid="${id}"] .view-item-info`) ||
 				options.target.find(
 					[
-						".show-item-info",
-						".view-item-info[style*='display: block;']",
-						".buy-show-item-info",
-						".item-info-wrap + .details[aria-expanded='true']",
-						".details-wrap[style*='display: block;']",
-					].join(", ")
+						(page === "imarket" ? ".details-wrap[style*='display: block;']" : ""),
+						(["item", "bazaar", "displaycase"].includes(page) ? ".show-item-info" : ""),
+						(page === "factions" ? ".view-item-info[style*='display: block;']" : ""),
+						(page === "home" ? ".item-info-wrap + .details[aria-expanded='true']" : "")
+					].filter(x => x).join(", ")
 				)
 			);
 		}
@@ -270,8 +248,8 @@
 
 				const newElement = findElement();
 				show(newElement.find(".info-msg"), details);
-				watchChanges(newElement, details);
 				observer.disconnect();
+				watchChanges(newElement, details);
 			});
 			observer.observe(element, { childList: true, attributes: true, subtree: true });
 		}
