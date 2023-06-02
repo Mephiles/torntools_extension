@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 13, "build": 0 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added WTF as revive provider.", "contributor": "Anti0815" }],
