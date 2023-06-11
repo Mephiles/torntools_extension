@@ -3,7 +3,9 @@
 		"version": { "major": 6, "minor": 14, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [
+		"logs": { "features": [], "fixes": [
+			{ "message": "Fix melee Item Values overlapping in tablet mode.", "contributor": "TheFoxMan" }
+		], "changes": [
 			{ "message": "Extend Drug Details to regular item market browsing.", "contributor": "TheFoxMan" }
 		], "removed": [] }
 	},
