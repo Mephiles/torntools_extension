@@ -317,12 +317,12 @@ async function updateUserdata() {
 
 	const updatedTypes = [];
 	const updateEssential =
-		!userdata || !Object.keys(userdata).length || hasTimePassed(userdata.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
+		!userdata || !Object.keys(userdata).length || hasTimePassed((userdata.date ?? 0) - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
 	const updateBasic =
 		updateEssential &&
 		(!userdata.dateBasic ||
 			(hasTimePassed(userdata.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
-				!hasTimePassed(userdata.last_action.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
+				!hasTimePassed(userdata.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
 	const selections = [];
 	if (updateEssential) {
