@@ -122,7 +122,7 @@
 				options.target.find(`li[itemid="${id}"] .view-item-info`) ||
 				options.target.find(
 					[
-						page === "imarket" ? ".details-wrap[style*='display: block;']" : "",
+						page === "imarket" ? ".details-wrap[style*='display: block;'], #drugs .m-items-list > .show-item-info" : "",
 						["item", "bazaar", "displaycase"].includes(page) ? ".show-item-info" : "",
 						page === "factions" ? ".view-item-info[style*='display: block;']" : "",
 						page === "home" ? ".item-info-wrap + .details[aria-expanded='true']" : "",
