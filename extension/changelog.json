@@ -3,13 +3,16 @@
 		"version": { "major": 6, "minor": 14, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [
-			{ "message": "Fix melee Item Values overlapping in tablet mode.", "contributor": "TheFoxMan" }
-		], "changes": [
-			{ "message": "Extend Drug Details to regular item market browsing.", "contributor": "TheFoxMan" },
-			{ "message": "Include few API edge cases in background script.", "contributor": "TheFoxMan" },
-			{ "message": "Change mission hint from 'him' to 'them'.", "contributor": "TheFoxMan" }
-		], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix melee Item Values overlapping in tablet mode.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Extend Drug Details to regular item market browsing.", "contributor": "TheFoxMan" },
+				{ "message": "Include few API edge cases in background script.", "contributor": "TheFoxMan" },
+				{ "message": "Change mission hint from 'him' to 'them'.", "contributor": "TheFoxMan" }
+			],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 13, "build": 0 },
