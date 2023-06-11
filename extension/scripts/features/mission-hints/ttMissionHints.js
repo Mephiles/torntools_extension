@@ -277,7 +277,7 @@
 			},
 			scammer: {
 				task: "Defeat (P).",
-				hint: "Target might have some nice cash on him, mugging could be beneficial.",
+				hint: "Target might have some nice cash on them, mugging could be beneficial.",
 			},
 			sellout_slayer: {
 				task: "Buy a gun, use the gun on any 2 - 6 players, then sell it again.",
