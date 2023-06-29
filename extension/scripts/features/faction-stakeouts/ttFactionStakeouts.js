@@ -42,7 +42,12 @@
 			nextElement: await requireElement(".faction-info-wrap"),
 		});
 
-		const factionId = parseInt(document.find(".faction-info[data-faction]").dataset.faction);
+		const factionId =
+			parseInt(
+				(await requireElement(".faction-info-wrap .f-war-list .table-row [class*='factionWrap__'] a[href*='/factions.php']"))
+				.getAttribute("href")
+				.split("&ID=")[1]
+			);
 		const hasStakeout = factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "undefined";
 
 		const checkbox = createCheckbox({ description: "Stakeout this faction." });

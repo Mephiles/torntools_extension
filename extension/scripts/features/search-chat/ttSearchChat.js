@@ -15,6 +15,11 @@
 	);
 
 	function initialiseSearchChat() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_NEW].push(({ chat }) => {
+			if (!feature.enabled()) return;
+
+			addChatSearch(chat);
+		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
