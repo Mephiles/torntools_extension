@@ -63,7 +63,19 @@
 
 		const specialFilter = createFilterSection({
 			title: "Special",
-			ynCheckboxes: ["Fedded", "Fallen", "Traveling", "New Player", "On Wall", "In Company", "In Faction", "Is Donator", "In Hospital", "In Jail", "Early Discharge"],
+			ynCheckboxes: [
+				"Fedded",
+				"Fallen",
+				"Traveling",
+				"New Player",
+				"On Wall",
+				"In Company",
+				"In Faction",
+				"Is Donator",
+				"In Hospital",
+				"In Jail",
+				"Early Discharge",
+			],
 			defaults: filters.userlist.special,
 			callback: () => filtering(true),
 		});
