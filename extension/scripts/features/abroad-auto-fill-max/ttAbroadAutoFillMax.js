@@ -27,10 +27,8 @@
 		if (hasAPIData() && settings.apiUsage.user.perks && userdata.job.company_type) {
 			const companyType = userdata.job.company_type;
 			if (
-				(companyType === 3 &&
-					userdata.job_perks.some((perk) => perk.includes("special flowers") && perk.includes("5 additional"))) ||
-				(companyType === 9 &&
-					userdata.job_perks.some((perk) => perk.includes("+5 plushies") && perk.includes("from abroad")))
+				(companyType === 3 && userdata.job_perks.some((perk) => perk.includes("special flowers") && perk.includes("5 additional"))) ||
+				(companyType === 9 && userdata.job_perks.some((perk) => perk.includes("+5 plushies") && perk.includes("from abroad")))
 			)
 				travelCapacity += 5;
 		}

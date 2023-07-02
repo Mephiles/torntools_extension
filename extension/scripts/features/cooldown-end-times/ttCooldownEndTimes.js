@@ -39,9 +39,16 @@
 					removeEndTimes(tooltipPortal);
 					const tooltip = tooltipPortal.find("[class*='tooltip__']");
 					if (
-						["Education", "Reading Book", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown", "Organized Crime", "Bank Investment"].includes(
-							tooltip.getElementsByTagName("b")[0]?.textContent
-						)
+						[
+							"Education",
+							"Reading Book",
+							"Racing",
+							"Drug Cooldown",
+							"Booster Cooldown",
+							"Medical Cooldown",
+							"Organized Crime",
+							"Bank Investment",
+						].includes(tooltip.getElementsByTagName("b")[0]?.textContent)
 					) {
 						const time =
 							Date.now() +
