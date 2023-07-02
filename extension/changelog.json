@@ -6,6 +6,7 @@
 		"logs": {
 			"features": [{ "message": "Added filtering against Early Discharge status to the userlist page.", "contributor": "Vrasp" }],
 			"fixes": [
+				{ "message": "Fix unread threads not being highlighted in forums.", "contributor": "Kwack" },
 				{ "message": "Fix melee Item Values overlapping in tablet mode.", "contributor": "TheFoxMan" },
 				{ "message": "Fix faction stakeouts not detecting faction ID properly.", "contributor": "TheFoxMan" },
 				{ "message": "Fix nerve notification opening blank page.", "contributor": "TheFoxMan" },
