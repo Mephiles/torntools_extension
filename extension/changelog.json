@@ -5,11 +5,18 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added filtering against Early Discharge status to the userlist page.", "contributor": "Vrasp" }],
-			"fixes": [{ "message": "Fix melee Item Values overlapping in tablet mode.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fix melee Item Values overlapping in tablet mode.", "contributor": "TheFoxMan" },
+				{ "message": "Fix faction stakeouts not detecting faction ID properly.", "contributor": "TheFoxMan" },
+				{ "message": "Fix nerve notification opening blank page.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Abroad Auto Max Fill for Flower Shop and Toy Store employees.", "contributor": "TheFoxMan" }
+			],
 			"changes": [
 				{ "message": "Extend Drug Details to regular item market browsing.", "contributor": "TheFoxMan" },
 				{ "message": "Include few API edge cases in background script.", "contributor": "TheFoxMan" },
-				{ "message": "Change mission hint from 'him' to 'them'.", "contributor": "TheFoxMan" }
+				{ "message": "Change mission hint from 'him' to 'them'.", "contributor": "TheFoxMan" },
+				{ "message": "Extend Search Chat to newly opened chat boxes(if old closed chats are reopened).", "contributor": "TheFoxMan" },
+				{ "message": "Extend Cooldown End Times to books, bank investment, OC.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
