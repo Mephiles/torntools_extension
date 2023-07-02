@@ -88,6 +88,6 @@ body.dark-mode .tt-forums-button-dropdown {
 	background-color: #ffdd0020;
 }
 
-ul.threads-list li.tt-forums-highlight.new {
+.threads-list .tt-forums-highlight.new {
 	background: linear-gradient(180deg, #ffdd0045, #ffdd0005);
 }
