@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix melee Item Values overlapping in tablet mode.", "contributor": "TheFoxMan" },
-				{ "message": "Fix faction stakeouts not detecting faction ID properly.", "contributor": "TheFoxMan" }
+				{ "message": "Fix faction stakeouts not detecting faction ID properly.", "contributor": "TheFoxMan" },
+				{ "message": "Fix nerve notification opening blank page.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Extend Drug Details to regular item market browsing.", "contributor": "TheFoxMan" },

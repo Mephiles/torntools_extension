@@ -1341,6 +1341,7 @@ const LINKS = {
 	education: "https://www.torn.com/education.php#/step=main",
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
 	hospital: "https://www.torn.com/hospitalview.php",
+	crimes: "https://www.torn.com/crimes.php",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 	gym: "https://www.torn.com/gym.php",
 	companyEmployees: "https://www.torn.com/companies.php#/option=employees",
