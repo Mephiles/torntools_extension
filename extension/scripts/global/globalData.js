@@ -775,6 +775,7 @@ const DEFAULT_STORAGE = {
 				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				inHospital: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				inJail: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				earlyDischarge: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
 			hospReason: {
 				attackedBy: new DefaultSetting({ type: "string", defaultValue: "both" }),
