@@ -19,7 +19,7 @@
 	);
 
 	function applyStyle() {
-		if (!userdata.refills.energy_refill_used && settings.pages.sidebar.highlightEnergy)
+		if (!userdata?.refills?.energy_refill_used && settings.pages.sidebar.highlightEnergy)
 			document.documentElement.classList.add("tt-highlight-energy-refill");
 		else document.documentElement.classList.remove("tt-highlight-energy-refill");
 	}
