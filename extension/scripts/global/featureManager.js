@@ -9,6 +9,7 @@ class FeatureManager {
 		this.popupLoaded = false;
 		this.resultQueue = [];
 		this.errorCount = 0;
+		this.earlyErrors = [];
 
 		this.isDisconnected = false;
 		this.port = chrome.runtime.connect({ name: "status-check" });
@@ -39,20 +40,33 @@ class FeatureManager {
 					</pre>
 				</div>
 			</div>*/
-			if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
-			else {
-				this.container.setAttribute("error-count", this.errorCount);
-				this.container.find(".error-messages").appendChild(
-					document.newElement({
-						type: "div",
-						class: "error",
-						children: [
-							document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
-							document.newElement({ type: "pre", class: "stack", text: error.stack }),
-						],
-					})
-				);
+
+			if (!this.container) {
+				this.earlyErrors.push(error);
+			} else {
+				if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
+				else {
+					this.container.setAttribute("error-count", this.errorCount);
+					this.addErrorToPopup(error);
+				}
 			}
+		};
+		this.addErrorToPopup = (error) => {
+			this.container.setAttribute("error-count", this.errorCount);
+			this.container.find(".error-messages").appendChild(
+				document.newElement({
+					type: "div",
+					class: "error",
+					children: [
+						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+						document.newElement({ type: "pre", class: "stack", text: error.stack }),
+					],
+				})
+			);
+		};
+		this.clearEarlyErrors = () => {
+			this.earlyErrors.forEach((error) => this.addErrorToPopup(error));
+			this.earlyErrors = [];
 		};
 	}
 
@@ -308,6 +322,7 @@ class FeatureManager {
 			settings.featureDisplayHideEmpty ? "hide-empty" : ""
 		);
 		this.hideEmptyScopes();
+		this.clearEarlyErrors();
 	}
 
 	async createPopup() {
