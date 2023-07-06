@@ -72,7 +72,7 @@ function requireItemsLoaded() {
 }
 
 function requireChatsLoaded() {
-	return requireElement("[class*='overview_']");
+	return requireElement("#chatRoot [class*='_chat-box-settings_']");
 }
 
 function requireFeatureManager() {

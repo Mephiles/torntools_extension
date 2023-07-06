@@ -16,7 +16,9 @@
 		}).observe(document.find("#chatRoot [class*='_chat-box-settings_'] [class*='_overview_']"), { childList: true });
 	}
 
-	function showButton() {
+	async function showButton() {
+		await requireChatsLoaded();
+
 		const settingsBox = document.find("#chatRoot [class*='_chat-box-settings_']");
 		if (!settingsBox.classList.contains("^=_chat-active_")) return;
 
