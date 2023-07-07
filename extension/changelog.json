@@ -13,7 +13,8 @@
 				{ "message": "Fix Abroad Auto Max Fill for Flower Shop and Toy Store employees.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Highlight Energy Refill error during cleanup.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Hide Chats early loading problem(only observed on Firefox).", "contributor": "TheFoxMan" },
-				{ "message": "Fix Item Equip No Confirm not working on Firefox.", "contributor": "TheFoxMan" }
+				{ "message": "Fix Item Equip No Confirm not working on Firefox.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Mini Profile last action missing.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Extend Drug Details to regular item market browsing.", "contributor": "TheFoxMan" },

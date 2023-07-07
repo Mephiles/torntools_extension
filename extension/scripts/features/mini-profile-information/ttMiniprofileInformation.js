@@ -25,7 +25,7 @@
 
 			const params = new URL(fetch.url).searchParams;
 			const step = params.get("step");
-			if (step !== "getUserNameContextMenu") return;
+			if (step !== "getMiniProfile") return;
 
 			showInformation(json);
 		});
