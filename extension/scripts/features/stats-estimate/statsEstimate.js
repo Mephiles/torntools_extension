@@ -71,7 +71,7 @@ class StatsEstimate {
 			}
 
 			if (estimate) {
-				section.textContent = `Stats Estimate: ${estimate}`;
+				section.textContent = `↑ Stats Estimate: ${estimate} ↑`;
 				if (hasFilter) row.dataset.estimate = estimate;
 
 				showLoadingPlaceholder(section, false);
