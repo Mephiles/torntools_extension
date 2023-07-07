@@ -13,7 +13,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
+		}
 	);
 
 	function initialiseFilters() {
@@ -88,7 +88,7 @@
 				select: [
 					{ value: "", description: "All" },
 					...["Clubbing", "Piercing", "Slashing", "Mechanical", "Pistol", "Shotgun", "SMG", "Rifle", "Machine gun", "Heavy artillery"].map(
-						(type) => ({ value: type.toLowerCase(), description: type }),
+						(type) => ({ value: type.toLowerCase(), description: type })
 					),
 				],
 				defaults: filters.auction[itemType].weaponType,
@@ -220,7 +220,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
 			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
-			content,
+			content
 		);
 	}
 
@@ -314,7 +314,7 @@
 				}));
 
 			const hasBonuses = toFilterBonus.every(
-				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0,
+				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
 			);
 
 			if (!hasBonuses) {

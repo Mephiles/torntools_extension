@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.enemies.filter"],
 		},
-		null,
+		null
 	);
 
 	function initialiseFilters() {
@@ -150,7 +150,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 			document.findAll("ul.user-info-blacklist-wrap > li").length,
-			content,
+			content
 		);
 	}
 
@@ -195,7 +195,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 					document.findAll("ul.user-info-blacklist-wrap > li").length,
-					content,
+					content
 				);
 			}
 		}
@@ -214,7 +214,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 					document.findAll("ul.user-info-blacklist-wrap> li").length,
-					content,
+					content
 				);
 			}
 		}

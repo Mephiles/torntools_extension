@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.events.worth"],
 		},
-		null,
+		null
 	);
 
 	async function addWorth() {
@@ -35,13 +35,13 @@
 					if (matches?.length === 2) {
 						eventMessageEl.setAttribute(
 							"title",
-							`(worth ${formatNumber(matches[1].replaceAll(",", "") / matches[0].replaceAll(",", ""), { currency: true })} each)`,
+							`(worth ${formatNumber(matches[1].replaceAll(",", "") / matches[0].replaceAll(",", ""), { currency: true })} each)`
 						);
 						eventMessageEl.classList.add("tt-modified");
 					}
 				});
 			},
-			{ capture: true },
+			{ capture: true }
 		);
 	}
 

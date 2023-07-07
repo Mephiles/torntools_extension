@@ -12,7 +12,7 @@
 			storage: ["settings.userAlias"],
 		},
 		null,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	async function addListeners() {

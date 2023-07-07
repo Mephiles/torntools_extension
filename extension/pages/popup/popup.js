@@ -414,7 +414,7 @@ async function setupDashboard() {
 
 		cooldown.find(".cooldown-label").textContent = formatTime(
 			{ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 },
-			{ type: "timer", daysToHours: true },
+			{ type: "timer", daysToHours: true }
 		);
 	}
 
@@ -519,7 +519,7 @@ async function setupDashboard() {
 								children: [document.newElement({ type: "span", class: "state ", text: state })],
 							}),
 						],
-					}),
+					})
 				);
 			}
 		} else dashboard.find(".stakeouts").classList.add("tt-hidden");
@@ -593,7 +593,7 @@ async function setupDashboard() {
 								],
 							}),
 						],
-					}),
+					})
 				);
 			}
 		} else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
@@ -705,7 +705,7 @@ async function setupMarketSearch() {
 								type: "div",
 								class: "price",
 								text: `${item.quantity}x | $${formatNumber(item.cost)}`,
-							}),
+							})
 						);
 					}
 				} else {
@@ -714,7 +714,7 @@ async function setupMarketSearch() {
 							type: "div",
 							class: "price no-price",
 							text: "No price found.",
-						}),
+						})
 					);
 				}
 
@@ -782,7 +782,7 @@ async function setupCalculator() {
 						},
 					}),
 				],
-			}),
+			})
 		);
 	}
 
@@ -847,7 +847,7 @@ async function setupCalculator() {
 						document.createTextNode("="),
 						document.newElement({ type: "span", class: "price", text: formatNumber(price, { currency: true, decimals: 0 }) }),
 					],
-				}),
+				})
 			);
 
 			totalValue += price;
@@ -959,14 +959,14 @@ async function setupStocksOverview() {
 						type: "span",
 						class: "quantity",
 						text: `(${formatNumber(userStock.total_shares, { shorten: 2 })} share${applyPlural(userStock.total_shares)})`,
-					}),
+					})
 				);
 				wrapper.appendChild(
 					document.newElement({
 						type: "div",
 						class: `profit ${getProfitClass(profit)}`,
 						text: `${getProfitIndicator(profit)}${formatNumber(Math.abs(profit), { currency: true })}`,
-					}),
+					})
 				);
 			}
 
@@ -999,7 +999,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Price Information", priceContent), priceContent],
-				}),
+				})
 			);
 
 			if (userStock) {
@@ -1008,7 +1008,7 @@ async function setupStocksOverview() {
 					document.newElement({
 						type: "span",
 						text: `Bought at: ${formatNumber(boughtPrice, { decimals: 3, currency: true })}`,
-					}),
+					})
 				);
 			}
 		}
@@ -1024,7 +1024,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Benefit Information", benefitContent), benefitContent],
-				}),
+				})
 			);
 
 			if (userStock) {
@@ -1037,7 +1037,7 @@ async function setupStocksOverview() {
 									? "Ready now!"
 									: `Available in ${stock.benefit.frequency - userStock.dividend.progress}/${stock.benefit.frequency} days.`
 								: `Available every ${stock.benefit.frequency} days.`,
-						}),
+						})
 					);
 
 					benefitContent.appendChild(createRoiTable(stock, userStock));
@@ -1046,7 +1046,7 @@ async function setupStocksOverview() {
 						document.newElement({
 							type: "span",
 							text: `Required stocks: ${formatNumber(userStock.total_shares)}/${formatNumber(stock.benefit.requirement)}`,
-						}),
+						})
 					);
 					benefitContent.appendChild(document.newElement("br"));
 
@@ -1074,7 +1074,7 @@ async function setupStocksOverview() {
 						document.newElement({
 							type: "span",
 							text: `Available every ${stock.benefit.frequency} days.`,
-						}),
+						})
 					);
 
 					benefitContent.appendChild(createRoiTable(stock, undefined));
@@ -1098,7 +1098,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Alerts", alertsContent), alertsContent],
-				}),
+				})
 			);
 
 			alertsContent.appendChild(document.newElement({ type: "span", class: "title", text: "Price" }));
@@ -1127,7 +1127,7 @@ async function setupStocksOverview() {
 							},
 						}),
 					],
-				}),
+				})
 			);
 			alertsContent.appendChild(
 				document.newElement({
@@ -1154,7 +1154,7 @@ async function setupStocksOverview() {
 							},
 						}),
 					],
-				}),
+				})
 			);
 		}
 
@@ -1223,7 +1223,7 @@ async function setupStocksOverview() {
 							document.newElement({ type: "td", text: reward }),
 							document.newElement({ type: "td", text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A" }),
 						],
-					}),
+					})
 				);
 			}
 

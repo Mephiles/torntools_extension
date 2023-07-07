@@ -14,7 +14,7 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 		},
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	function addListener() {
@@ -59,7 +59,7 @@
 							type: "div",
 							class: "tt-bazaar-text",
 							text: "TORN API returned error:" + error.toString(),
-						}),
+						})
 					);
 					console.log("TT - Bazaar Worth API Error:", error);
 				});
@@ -82,7 +82,7 @@
 						class: "tt-bazaar-text",
 						text: "This bazaar is worth ",
 						children: [document.newElement({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
-					}),
+					})
 				);
 		}
 	}

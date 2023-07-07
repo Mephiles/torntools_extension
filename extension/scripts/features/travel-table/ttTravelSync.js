@@ -17,7 +17,7 @@
 		},
 		() => {
 			if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
-		},
+		}
 	);
 
 	function updatePrices() {

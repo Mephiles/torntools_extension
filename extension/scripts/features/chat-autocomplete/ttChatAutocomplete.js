@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.chat.completeUsernames"],
 		},
-		null,
+		null
 	);
 
 	function initialiseAutocomplete() {

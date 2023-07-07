@@ -107,7 +107,7 @@ async function setupChangelog() {
 						text: `${contributor.name} [${contributor.id}]`,
 						href: `https://www.torn.com/profiles.php?XID=${contributor.id}`,
 						attributes: { target: "_blank" },
-					}),
+					})
 				);
 			else child.appendChild(document.newElement({ type: "span", text: contributor.name }));
 
@@ -192,7 +192,7 @@ function cleanupPreferences() {
 				"#userAlias > li:not(.input)",
 				"#chatHighlight > li:not(.input)",
 				"#chatTitleHighlight> li:not(.input)",
-			].join(", "),
+			].join(", ")
 		)
 		.forEach((element) => element.remove());
 }
@@ -395,7 +395,7 @@ async function setupPreferences(requireCleanup) {
 				class: "tabbed note",
 				text: `${placeholder.name} - ${placeholder.description}`,
 			}),
-			chatSection.find("#chatHighlight+.note").nextElementSibling,
+			chatSection.find("#chatHighlight+.note").nextElementSibling
 		);
 	}
 
@@ -438,7 +438,7 @@ async function setupPreferences(requireCleanup) {
 					type: "span",
 					id: stock,
 					text: capitalizeText(stockName),
-				}),
+				})
 			);
 		}
 		hideStocksParent.addEventListener("click", (event) => {
@@ -474,7 +474,7 @@ async function setupPreferences(requireCleanup) {
 						}),
 					],
 					dataset: { id },
-				}),
+				})
 			);
 		}
 	}
@@ -1155,7 +1155,7 @@ async function setupPreferences(requireCleanup) {
 				document,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-				null,
+				null
 			);
 			searchList.innerHTML = "";
 			// Sorry but there is no forEach method available. Had to use traditional loops.
@@ -1179,7 +1179,7 @@ async function setupPreferences(requireCleanup) {
 							text: name,
 							attributes: { [keyword]: section },
 							children: [document.newElement("br")],
-						}),
+						})
 					);
 					searchList.appendChild(document.newElement("hr"));
 				}
@@ -1189,7 +1189,7 @@ async function setupPreferences(requireCleanup) {
 						type: "span",
 						id: "no-result",
 						text: "No Results",
-					}),
+					})
 				);
 			}
 			searchResults = null;
@@ -1446,19 +1446,19 @@ async function setupAPIInfo() {
 		chrome.runtime.sendMessage({ action: "forceUpdate", update: "torndata" }, (result) => {
 			console.log("Manually fetched torndata.", result);
 			sendMessage("Fetched torndata.", true);
-		}),
+		})
 	);
 	document.find("#update-stocks").addEventListener("click", () =>
 		chrome.runtime.sendMessage({ action: "forceUpdate", update: "stocks" }, (result) => {
 			console.log("Manually fetched stocks.", result);
 			sendMessage("Fetched stocks.", true);
-		}),
+		})
 	);
 	document.find("#update-factiondata").addEventListener("click", () =>
 		chrome.runtime.sendMessage({ action: "forceUpdate", update: "factiondata" }, (result) => {
 			console.log("Manually fetched factiondata.", result);
 			sendMessage("Fetched factiondata.", true);
-		}),
+		})
 	);
 
 	updateUsage(usageChart, "Last 5");
@@ -1539,7 +1539,7 @@ async function setupExport() {
 								document.newElement({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
 								document.newElement({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
 							],
-						}),
+						})
 					);
 			},
 		},
@@ -1854,7 +1854,7 @@ function setupAbout() {
 							text: method.name,
 							href: method.link,
 							attributes: { target: "_blank" },
-						}),
+						})
 					);
 				}
 

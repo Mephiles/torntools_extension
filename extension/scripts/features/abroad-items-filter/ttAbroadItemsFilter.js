@@ -15,7 +15,7 @@
 		{
 			storage: ["settings.pages.travel.itemFilter"],
 		},
-		null,
+		null
 	);
 
 	function addFilter() {

@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.attack.timeoutWarning"],
 		},
-		null,
+		null
 	);
 
 	let observer;
@@ -59,7 +59,7 @@
 					(response) => {
 						if (response.error) return reject(response);
 						else return resolve(response);
-					},
+					}
 				);
 			} else if (seconds >= 30) return;
 

@@ -19,7 +19,7 @@
 					text: "Settings",
 					href: chrome.runtime.getURL("pages/settings/settings.html"),
 					attributes: { target: "_blank" },
-				}),
+				})
 			);
 
 			const connectButton = document.newElement({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });

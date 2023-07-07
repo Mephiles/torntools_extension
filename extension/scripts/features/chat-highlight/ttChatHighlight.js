@@ -15,7 +15,7 @@
 		{
 			storage: ["settings.pages.chat.highlights"],
 		},
-		null,
+		null
 	);
 
 	function initialiseHighlights() {

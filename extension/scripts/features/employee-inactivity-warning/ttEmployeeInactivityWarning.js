@@ -12,7 +12,7 @@
 			storage: ["settings.employeeInactivityWarning"],
 		},
 		null,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	let lastActionState = isOwnCompany ? settings.scripts.lastAction.companyOwn : settings.scripts.lastAction.companyOther;

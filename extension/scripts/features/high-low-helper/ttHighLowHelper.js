@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.casino.highlow"],
 		},
-		null,
+		null
 	);
 
 	let deck;

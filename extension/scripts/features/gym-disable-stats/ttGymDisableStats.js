@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.gym.disableStats"],
 		},
-		null,
+		null
 	);
 
 	function initialiseListeners() {
@@ -56,7 +56,7 @@
 							toggleStat(stat);
 						},
 					},
-				}),
+				})
 			);
 
 			const name = stat.find("[class*='propertyValue___']").id.split("-")[0];

@@ -16,7 +16,7 @@
 		() => {
 			if (!hasFactionAPIAccess()) return "No faction API access.";
 		},
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	function addListener() {
@@ -54,7 +54,7 @@
 									text: err.error === "Incorrect ID-entity relation" ? "No faction API access." : "Error during fetching API data.",
 								}),
 							],
-						}),
+						})
 					);
 				});
 		}
@@ -85,7 +85,7 @@
 						document.newElement({ type: "span", text: "Armory value: " }),
 						document.newElement({ type: "span", text: formatNumber(total, { currency: true }) }),
 					],
-				}),
+				})
 			);
 		}
 	}

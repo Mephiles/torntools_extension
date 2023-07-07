@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.faction.rankedWarFilter"],
 		},
-		null,
+		null
 	);
 
 	function initialiseFilters() {
@@ -21,7 +21,7 @@
 			const rankedWarItem = event.target.closest("[class*='warListItem__']");
 			if (rankedWarItem && rankedWarItem.find(":scope > [data-warid]")) {
 				addFilters(
-					(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war"),
+					(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war")
 				).catch(console.error);
 			}
 		});
@@ -162,7 +162,7 @@
 		localFilters["Statistics"].updateStatistics(
 			membersWrap.findAll(".members-list > li:not(.tt-hidden)").length,
 			membersWrap.findAll(".members-list > li").length,
-			content,
+			content
 		);
 	}
 
@@ -216,7 +216,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
 					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
-					content,
+					content
 				);
 			}
 		}
@@ -235,7 +235,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
 					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
-					content,
+					content
 				);
 			}
 		}

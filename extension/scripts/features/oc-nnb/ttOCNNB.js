@@ -21,7 +21,7 @@
 			else if (!settings.external.yata && !settings.external.tornstats) return "YATA or TornStats not enabled";
 
 			await checkDevice();
-		},
+		}
 	);
 
 	function initialiseListeners() {
@@ -135,7 +135,7 @@
 							text: "NNB",
 							children: [document.newElement({ type: "div", class: "t-delimiter" })],
 						}),
-						stat,
+						stat
 					);
 					continue;
 				}
@@ -164,7 +164,7 @@
 							text: "NNB",
 							children: [document.newElement({ type: "div", class: "t-delimiter" })],
 						}),
-						act,
+						act
 					);
 					continue;
 				}

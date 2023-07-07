@@ -15,7 +15,7 @@
 		{
 			storage: ["settings.pages.travel.cleanFlight"],
 		},
-		null,
+		null
 	);
 
 	function addCleanFlight() {

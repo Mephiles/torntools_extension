@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.profile.statusIndicator"],
 		},
-		async () => {},
+		async () => {}
 	);
 
 	async function addIndicator() {
@@ -25,7 +25,7 @@
 				type: "ul",
 				class: "big tt-profile-icon",
 				children: [basicInfo.cloneNode(true)],
-			}),
+			})
 		);
 	}
 

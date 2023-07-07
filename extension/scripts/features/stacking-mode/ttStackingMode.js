@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.global.stackingMode"],
 		},
-		null,
+		null
 	);
 
 	function registerListeners() {

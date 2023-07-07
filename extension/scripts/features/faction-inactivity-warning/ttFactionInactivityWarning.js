@@ -12,7 +12,7 @@
 			storage: ["settings.factionInactivityWarning"],
 		},
 		null,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	let lastActionState = settings.scripts.lastAction.factionMember;

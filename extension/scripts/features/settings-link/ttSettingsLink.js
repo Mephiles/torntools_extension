@@ -14,7 +14,7 @@
 		{
 			storage: ["settings.pages.sidebar.settingsLink"],
 		},
-		null,
+		null
 	);
 
 	function initialiseLink() {

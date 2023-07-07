@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.faction.numberMembers"],
 		},
-		null,
+		null
 	);
 
 	function addListener() {

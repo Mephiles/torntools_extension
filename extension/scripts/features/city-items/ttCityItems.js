@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.city.items"],
 		},
-		null,
+		null
 	);
 
 	let hasContainer = false;
@@ -95,7 +95,7 @@
 						document.newElement({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
 						document.newElement({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
 					],
-				}),
+				})
 			);
 		}
 

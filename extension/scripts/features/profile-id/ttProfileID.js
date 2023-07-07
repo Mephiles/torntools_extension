@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.profile.idBesideProfileName"],
 		},
-		null,
+		null
 	);
 
 	async function addID() {
@@ -40,7 +40,7 @@
 
 	function getUserID() {
 		return parseInt(
-			document.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0],
+			document.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0]
 		);
 	}
 })();

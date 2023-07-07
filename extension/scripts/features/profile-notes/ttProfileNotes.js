@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.profile.notes"],
 		},
-		null,
+		null
 	);
 
 	async function addNotes() {

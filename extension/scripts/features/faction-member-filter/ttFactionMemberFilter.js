@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.faction.memberFilter"],
 		},
-		null,
+		null
 	);
 
 	let filterContent, lastActionState;
@@ -330,7 +330,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".members-list .table-body > li:not(.tt-hidden)").length,
 			document.findAll(".members-list .table-body > li").length,
-			content,
+			content
 		);
 	}
 

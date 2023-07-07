@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.crimes.quickCrimes"],
 		},
-		null,
+		null
 	);
 
 	let movingElement, showCrimesAgainOnFirefoxObserver;
@@ -92,7 +92,7 @@
 						}
 					},
 				},
-			}),
+			})
 		);
 
 		for (const quickCrime of quick.crimes) {

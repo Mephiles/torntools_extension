@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.faction.csvChainReport"],
 		},
-		null,
+		null
 	);
 
 	async function addCSVContainer() {

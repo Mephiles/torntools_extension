@@ -14,7 +14,7 @@
 			storage: ["settings.pages.faction.armoryFilter"],
 		},
 		null,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	function addListener() {
@@ -81,7 +81,7 @@
 				select: [
 					{ value: "", description: "All" },
 					...["Clubbing", "Piercing", "Slashing", "Mechanical", "Pistol", "Shotgun", "SMG", "Rifle", "Machine gun", "Heavy artillery"].map(
-						(type) => ({ value: type.toLowerCase(), description: type }),
+						(type) => ({ value: type.toLowerCase(), description: type })
 					),
 				],
 				defaults: filters.factionArmory[itemType].weaponType,
@@ -187,7 +187,7 @@
 			localFilters["Statistics"].updateStatistics(
 				document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
 				document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
-				content,
+				content
 			);
 		}
 	}
@@ -277,7 +277,7 @@
 				}));
 
 			const hasBonuses = toFilterBonus.every(
-				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0,
+				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
 			);
 
 			if (!hasBonuses) {

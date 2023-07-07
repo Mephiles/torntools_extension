@@ -32,7 +32,7 @@
 			if (!hasAPIData()) return "No API data!";
 			else if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
 			else if (isCaptcha()) return "Captcha present.";
-		},
+		}
 	);
 
 	function initialise() {
@@ -196,7 +196,7 @@
 								</div>
 							</div>
 						`,
-					}),
+					})
 				);
 
 				content.find(".legend-icon").addEventListener("click", (event) => {
@@ -486,7 +486,7 @@
 							click: changeState,
 						},
 					}),
-					document.find("#top-page-links-list .links-footer"),
+					document.find("#top-page-links-list .links-footer")
 				);
 
 				function changeState() {

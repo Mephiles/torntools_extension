@@ -13,7 +13,7 @@
 		},
 		async () => {
 			await requireSidebar();
-		},
+		}
 	);
 
 	function initialiseHideIcons() {

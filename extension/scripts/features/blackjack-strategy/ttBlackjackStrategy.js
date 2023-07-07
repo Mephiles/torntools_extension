@@ -456,7 +456,7 @@
 		{
 			storage: ["settings.pages.casino.blackjack"],
 		},
-		null,
+		null
 	);
 
 	function initialiseStrategy() {

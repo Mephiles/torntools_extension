@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.bounties.filter"],
 		},
-		null,
+		null
 	);
 
 	function initialiseListener() {
@@ -45,7 +45,7 @@
 			document.newElement({
 				type: "span",
 				text: "Max Level",
-			}),
+			})
 		);
 		let statistics;
 		if (!device.mobile && !device.tablet) {
@@ -96,7 +96,7 @@
 				statistics.updateStatistics(
 					document.findAll(".bounties-list > li[data-id]:not(.tt-hidden)").length,
 					document.findAll(".bounties-list > li[data-id]").length,
-					options.parentElement.find(".title .text"),
+					options.parentElement.find(".title .text")
 				);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 

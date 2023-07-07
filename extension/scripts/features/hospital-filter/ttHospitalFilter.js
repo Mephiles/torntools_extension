@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.hospital.filter"],
 		},
-		null,
+		null
 	);
 
 	function initialiseFilters() {
@@ -212,7 +212,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".users-list > li:not(.tt-hidden)").length,
 			document.findAll(".users-list > li").length,
-			content,
+			content
 		);
 	}
 
@@ -225,7 +225,7 @@
 						.filter((img) => !!img)
 						.map((img) => img.getAttribute("title").trim())
 						.filter((tag) => !!tag)
-				: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
+				: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
 		);
 
 		const factions = [];

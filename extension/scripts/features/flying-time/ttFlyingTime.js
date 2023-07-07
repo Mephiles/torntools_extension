@@ -16,7 +16,7 @@
 		},
 		async () => {
 			await checkDevice();
-		},
+		}
 	);
 
 	function initialise() {
@@ -37,12 +37,12 @@
 		const container = document.find(
 			mobile || tablet
 				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
-				: ".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']",
+				: ".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']"
 		);
 		if (!container) return;
 
 		const duration = textToTime(
-			mobile || tablet ? container.find(".flight-time-table").textContent.trim() : container.find(".flight-time").textContent.match(/(?<=- ).*/g)[0],
+			mobile || tablet ? container.find(".flight-time-table").textContent.trim() : container.find(".flight-time").textContent.match(/(?<=- ).*/g)[0]
 		);
 
 		const now = new Date();

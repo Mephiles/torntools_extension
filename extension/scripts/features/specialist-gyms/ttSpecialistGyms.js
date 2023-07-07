@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.gym.specialist"],
 		},
-		null,
+		null
 	);
 
 	let battleStats = {};

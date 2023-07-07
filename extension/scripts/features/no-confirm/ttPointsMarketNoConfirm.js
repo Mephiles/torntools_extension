@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.scripts.noConfirm.pointsMarketRemove", "settings.scripts.noConfirm.pointsMarketBuy"],
 		},
-		null,
+		null
 	);
 
 	function initialise() {

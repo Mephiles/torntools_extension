@@ -10,7 +10,7 @@
 			document.newElement({
 				type: "script",
 				attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/features/no-confirm/ttItemNoConfirm.inject.js") },
-			}),
+			})
 		);
 	}
 })();

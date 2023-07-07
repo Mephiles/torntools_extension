@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.chat.searchChat"],
 		},
-		null,
+		null
 	);
 
 	function initialiseSearchChat() {
@@ -135,7 +135,7 @@
 						},
 					}),
 				],
-			}),
+			})
 		);
 	}
 

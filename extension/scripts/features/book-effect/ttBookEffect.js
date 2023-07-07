@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.items.bookEffects"],
 		},
-		null,
+		null
 	);
 
 	function initialiseAddEffects() {
@@ -30,7 +30,7 @@
 
 			book.find(".name-wrap .qty.t-hide").insertAdjacentElement(
 				"afterend",
-				document.newElement({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` }),
+				document.newElement({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
 			);
 		});
 	}

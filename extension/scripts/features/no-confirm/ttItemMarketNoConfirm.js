@@ -15,7 +15,7 @@
 		startFeature,
 		null,
 		null,
-		null,
+		null
 	);
 
 	function initialise() {

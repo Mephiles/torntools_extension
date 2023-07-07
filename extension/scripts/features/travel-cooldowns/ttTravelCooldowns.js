@@ -25,7 +25,7 @@
 				return "No API access.";
 
 			await checkDevice();
-		},
+		}
 	);
 
 	function initialiseListeners() {
@@ -44,7 +44,7 @@
 		const container = document.find(
 			mobile || tablet
 				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
-				: ".travel-agency div[aria-expanded='true'] .travel-container.full-map[style='display: block;']",
+				: ".travel-agency div[aria-expanded='true'] .travel-container.full-map[style='display: block;']"
 		);
 		if (!container) return;
 
@@ -103,7 +103,7 @@
 						type: "div",
 						class: ["cooldown", "education", getDurationClass(userdata.education_timeleft)],
 						text: "Your education course will end before you return!",
-					}),
+					})
 				);
 
 			const investmentMessage = userdata.city_bank.time_left
@@ -115,7 +115,7 @@
 					type: "div",
 					class: ["cooldown", "investment", getDurationClass(userdata.city_bank.time_left)],
 					text: investmentMessage,
-				}),
+				})
 			);
 		} else {
 			handleClass(cooldowns.find(".energy"), userdata.energy.fulltime);

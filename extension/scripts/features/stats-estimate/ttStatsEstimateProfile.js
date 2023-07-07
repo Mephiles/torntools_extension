@@ -17,7 +17,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
+		}
 	);
 
 	let observer;

@@ -64,7 +64,7 @@ function injectFetch() {
 		document.newElement({
 			type: "script",
 			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/inject/fetch.inject.js") },
-		}),
+		})
 	);
 	injectedFetch = true;
 }
@@ -82,7 +82,7 @@ function injectXHR() {
 		document.newElement({
 			type: "script",
 			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/inject/xhr.inject.js") },
-		}),
+		})
 	);
 	injectedXHR = true;
 }

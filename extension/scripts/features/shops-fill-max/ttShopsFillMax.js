@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.shops.fillMax"],
 		},
-		null,
+		null
 	);
 
 	async function addFillMax() {

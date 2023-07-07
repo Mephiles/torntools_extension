@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.education.greyOut"],
 		},
-		null,
+		null
 	);
 
 	function initialiseObserver() {

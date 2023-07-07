@@ -17,7 +17,7 @@
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 
 			await checkDevice();
-		},
+		}
 	);
 	const featurePlushies = featureManager.registerFeature(
 		"Missing Plushies",
@@ -33,7 +33,7 @@
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 
 			await checkDevice();
-		},
+		}
 	);
 
 	function initialiseFlowers() {
@@ -131,7 +131,7 @@
 				type: "span",
 				class: "tt-item-price",
 				text: `${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value, { currency: true })}`,
-			}),
+			})
 		);
 	}
 
@@ -166,7 +166,7 @@
 						children: [document.newElement({ type: "i", class: "torn-icon-item-market", attributes: { title: "Open Item Market" } })],
 					}),
 				],
-			}),
+			})
 		);
 	}
 

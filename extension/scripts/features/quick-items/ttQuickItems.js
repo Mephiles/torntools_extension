@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.items.quickItems"],
 		},
-		null,
+		null
 	);
 
 	let movingElement;
@@ -110,7 +110,7 @@
 						attachEditListeners(enabled);
 					},
 				},
-			}),
+			})
 		);
 
 		for (const quickItem of quick.items) {
@@ -165,7 +165,7 @@
 
 					const body = new URLSearchParams();
 					Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
-						([key, value]) => body.set(key, value),
+						([key, value]) => body.set(key, value)
 					);
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
@@ -183,9 +183,9 @@
 												link.attr
 													.split(" ")
 													.filter((x) => !!x)
-													.map((x) => x.split("=")),
+													.map((x) => x.split("="))
 											),
-										}),
+										})
 									);
 								}
 							}
@@ -208,7 +208,7 @@
 											],
 										}),
 									],
-								}),
+								})
 							);
 
 							for (const count of responseWrap.findAll(".counter-wrap")) {
@@ -248,12 +248,12 @@
 
 							if (result.includes(" equipped ")) {
 								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
-									x.classList.remove("equipped"),
+									x.classList.remove("equipped")
 								);
 								itemWrap.classList.add("equipped");
 							} else if (result.includes(" unequipped "))
 								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
-									x.classList.remove("equipped"),
+									x.classList.remove("equipped")
 								);
 						}
 					});
@@ -293,7 +293,7 @@
 			},
 		});
 		itemWrap.appendChild(
-			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }),
+			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
 		);
 		if (hasAPIData()) {
 			itemWrap.setAttribute("title", torndata.items[id].name);

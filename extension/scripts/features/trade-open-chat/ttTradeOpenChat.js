@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.trade.openChat"],
 		},
-		null,
+		null
 	);
 
 	function initialiseListeners() {
@@ -44,7 +44,7 @@
 			document.newElement({
 				type: "div",
 				children: [button],
-			}),
+			})
 		);
 	}
 

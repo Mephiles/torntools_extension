@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.missions.hints"],
 		},
-		null,
+		null
 	);
 
 	function initialise() {
@@ -365,7 +365,7 @@
 			if (hint) {
 				children.push(
 					document.newElement("br"),
-					document.newElement({ type: "span", children: [document.newElement({ type: "b", text: "Hint: " }), hint] }),
+					document.newElement({ type: "span", children: [document.newElement({ type: "b", text: "Hint: " }), hint] })
 				);
 			}
 

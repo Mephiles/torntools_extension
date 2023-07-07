@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.profile.ageToWords"],
 		},
-		null,
+		null
 	);
 
 	async function addWords() {

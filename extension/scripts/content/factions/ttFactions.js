@@ -88,7 +88,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 								(node) =>
 									node.classList.contains("item-list") ||
 									(node.tagName === "DIV" && node.classList.contains("p10")) ||
-									node.id === "inventory-container",
+									node.id === "inventory-container"
 							);
 					})
 				)
@@ -152,7 +152,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 						if (handled) return;
 
 						const reduced = [...mutations].filter((mutation) =>
-							[...mutation.addedNodes].every((node) => !node.classList.contains(".tt-last-action")),
+							[...mutation.addedNodes].every((node) => !node.classList.contains(".tt-last-action"))
 						);
 						if (!reduced.length) return;
 

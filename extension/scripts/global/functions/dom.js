@@ -421,7 +421,7 @@ function showLoadingPlaceholder(element, show) {
 				document.newElement({
 					type: "div",
 					class: "tt-loading-placeholder active",
-				}),
+				})
 			);
 		}
 	} else if (placeholder) {

@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.hideStocks"],
 		},
-		null,
+		null
 	);
 
 	async function hideStocks() {

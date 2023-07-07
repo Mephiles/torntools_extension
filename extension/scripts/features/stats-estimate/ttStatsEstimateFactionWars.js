@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
+		}
 	);
 
 	let observer;
@@ -48,7 +48,7 @@
 			observer = new MutationObserver((mutations) => {
 				if (
 					![...mutations].some((mutation) =>
-						[...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions") && node.find(".enemy-faction")),
+						[...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions") && node.find(".enemy-faction"))
 					)
 				)
 					return;
@@ -99,7 +99,7 @@
 					};
 				},
 				false,
-				undefined,
+				undefined
 			);
 		});
 	}

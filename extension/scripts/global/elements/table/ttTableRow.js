@@ -6,7 +6,7 @@ function createTableRow(rowData, tableColumnsDefs, options) {
 		rowCells = [createTableCell(rowData.header, { width: 0 }, options.cellRenderers[rowData.cellRenderer ?? "string"], options)];
 	} else {
 		rowCells = tableColumnsDefs.map((columnDef) =>
-			createTableCell(rowData[columnDef.id], columnDef, options.cellRenderers[rowData.cellRenderer ?? columnDef.cellRenderer], options),
+			createTableCell(rowData[columnDef.id], columnDef, options.cellRenderers[rowData.cellRenderer ?? columnDef.cellRenderer], options)
 		);
 	}
 

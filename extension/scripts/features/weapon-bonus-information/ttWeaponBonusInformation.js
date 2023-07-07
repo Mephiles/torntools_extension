@@ -106,7 +106,7 @@
 		{
 			storage: ["settings.pages.attack.bonusInformation"],
 		},
-		null,
+		null
 	);
 
 	function initialiseListeners() {
@@ -172,7 +172,7 @@
 					type: "div",
 					class: "tt-bonus-information",
 					children: [document.newElement({ type: "i", class: "fas fa-info-circle", attributes: { title: bonus.description } })],
-				}),
+				})
 			);
 		}
 	}

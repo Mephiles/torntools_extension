@@ -12,7 +12,7 @@ if (!isOwnCompany) {
 					(mutation) =>
 						mutation.addedNodes &&
 						mutation.addedNodes.length &&
-						[...mutation.addedNodes].some((node) => node.classList && node.classList.contains("employees-wrap")),
+						[...mutation.addedNodes].some((node) => node.classList && node.classList.contains("employees-wrap"))
 				)
 			)
 				return;

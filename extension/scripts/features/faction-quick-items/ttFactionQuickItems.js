@@ -17,7 +17,7 @@
 			storage: ["settings.pages.faction.quickItems"],
 		},
 		null,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	function addListener() {
@@ -112,7 +112,7 @@
 						attachEditListeners(enabled);
 					},
 				},
-			}),
+			})
 		);
 
 		for (const quickItem of quick.factionItems) {
@@ -143,7 +143,7 @@
 						class: "img-wrap tt-lazy-magic",
 						dataset: { itemid: `points-${type}` },
 						style: { display: "none" },
-					}),
+					})
 				);
 			}
 		} else {
@@ -228,14 +228,14 @@
 							responseWrap.innerHTML = "";
 
 							responseWrap.appendChild(
-								document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, text: result.message }),
+								document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, text: result.message })
 							);
 							responseWrap.appendChild(
 								document.newElement({
 									type: "div",
 									style: { display: "block" },
 									children: [document.newElement({ type: "a", href: "#", class: "close-act t-blue bold c-pointer", text: "Okay" })],
-								}),
+								})
 							);
 						});
 					} else {
@@ -257,9 +257,9 @@
 												link.attr
 													.split(" ")
 													.filter((x) => !!x)
-													.map((x) => x.split("=")),
+													.map((x) => x.split("="))
 											),
-										}),
+										})
 									);
 								}
 							}
@@ -314,7 +314,7 @@
 											],
 										}),
 									],
-								}),
+								})
 							);
 
 							for (const count of responseWrap.findAll(".counter-wrap")) {
@@ -365,7 +365,7 @@
 						type: "div",
 						class: "pic icon-refill",
 						children: [document.newElement({ type: "i", class: "currency-points" })],
-					}),
+					})
 				);
 				itemWrap.setAttribute("title", "Energy Refill");
 				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Energy Refill" }));
@@ -376,14 +376,14 @@
 						type: "div",
 						class: "pic icon-refill",
 						children: [document.newElement({ type: "i", class: "currency-points" })],
-					}),
+					})
 				);
 				itemWrap.setAttribute("title", "Nerve Refill");
 				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Nerve Refill" }));
 				break;
 			default:
 				itemWrap.appendChild(
-					document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }),
+					document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
 				);
 				if (hasAPIData()) {
 					itemWrap.setAttribute("title", torndata.items[id].name);

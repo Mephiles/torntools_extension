@@ -14,7 +14,7 @@
 			storage: ["settings.pages.competition.filter"],
 		},
 		undefined,
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	function initialiseFilters() {
@@ -148,7 +148,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".competition-list > li:not(.tt-hidden)").length,
 			document.findAll(".competition-list > li").length,
-			content,
+			content
 		);
 	}
 
@@ -186,7 +186,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".competition-list > li:not(.tt-hidden)").length,
 					document.findAll(".competition-list > li").length,
-					content,
+					content
 				);
 			}
 		}
@@ -205,7 +205,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".competition-list > li:not(.tt-hidden)").length,
 					document.findAll(".competition-list > li").length,
-					content,
+					content
 				);
 			}
 		}

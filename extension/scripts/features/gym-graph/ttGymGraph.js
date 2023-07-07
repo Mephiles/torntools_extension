@@ -18,7 +18,7 @@
 			else if (!settings.external.tornstats) return "TornStats not enabled";
 
 			await checkDevice();
-		},
+		}
 	);
 
 	async function showGraph() {

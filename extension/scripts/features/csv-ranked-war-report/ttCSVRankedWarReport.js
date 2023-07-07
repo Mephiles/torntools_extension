@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.faction.csvRankedWarReport"],
 		},
-		null,
+		null
 	);
 
 	async function addCSVContainer() {

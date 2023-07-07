@@ -18,7 +18,7 @@
 		{
 			storage: ["settings.pages.items.drugDetails"],
 		},
-		null,
+		null
 	);
 
 	function initialiseDrugDetails() {
@@ -74,7 +74,7 @@
 						target
 							.find("[aria-labelledby*='armory-info-']")
 							.getAttribute("aria-labelledby")
-							.match(/armory-info-(\d*)/i)[1],
+							.match(/armory-info-(\d*)/i)[1]
 					);
 
 					showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
@@ -128,7 +128,7 @@
 						page === "home" ? ".item-info-wrap + .details[aria-expanded='true']" : "",
 					]
 						.filter((x) => x)
-						.join(", "),
+						.join(", ")
 				)
 			);
 		}
@@ -148,7 +148,7 @@
 							type: "div",
 							class: "item-effect pro tabbed",
 							text: effect,
-						}),
+						})
 					);
 				}
 			}
@@ -163,7 +163,7 @@
 							type: "div",
 							class: "item-effect con tabbed",
 							text: effect,
-						}),
+						})
 					);
 				}
 			}
@@ -175,7 +175,7 @@
 						type: "div",
 						class: "item-effect con",
 						text: `Cooldown: ${details.cooldown}`,
-					}),
+					})
 				);
 			}
 
@@ -190,7 +190,7 @@
 							type: "div",
 							class: "item-effect con tabbed",
 							text: "Bars",
-						}),
+						})
 					);
 
 					for (const effect of details.overdose.bars) {
@@ -199,7 +199,7 @@
 								type: "div",
 								class: "item-effect con double-tabbed",
 								text: effect,
-							}),
+							})
 						);
 					}
 				}
@@ -211,7 +211,7 @@
 							type: "div",
 							class: "item-effect con tabbed",
 							text: `Stats: ${details.overdose.stats}`,
-						}),
+						})
 					);
 				}
 
@@ -222,7 +222,7 @@
 							type: "div",
 							class: "item-effect con tabbed",
 							text: `Hospital: ${details.overdose.hosp_time}`,
-						}),
+						})
 					);
 				}
 
@@ -233,7 +233,7 @@
 							type: "div",
 							class: "item-effect con tabbed",
 							text: `Extra: ${details.overdose.extra}`,
-						}),
+						})
 					);
 				}
 			}
@@ -244,7 +244,7 @@
 
 			observer = new MutationObserver((mutations, observer) => {
 				const filteredMutations = [...mutations].filter((mutation) =>
-					[...mutation.addedNodes].some((node) => node.nodeType === Node.ELEMENT_NODE && node.classList.contains("info-wrap")),
+					[...mutation.addedNodes].some((node) => node.nodeType === Node.ELEMENT_NODE && node.classList.contains("info-wrap"))
 				);
 				if (!filteredMutations.length) return;
 

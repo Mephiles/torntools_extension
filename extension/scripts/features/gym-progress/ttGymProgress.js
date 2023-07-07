@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.gym.progress"],
 		},
-		null,
+		null
 	);
 
 	async function addProgress() {
@@ -38,7 +38,7 @@
 				class: "tt-gym-energy-progress",
 				text: "Estimated Energy progress: ",
 				children: [document.newElement({ type: "span", text: `${formatNumber(stat, { decimals: 0 })}/${formatNumber(goal, { decimals: 0 })}E.` })],
-			}),
+			})
 		);
 	}
 

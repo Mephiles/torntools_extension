@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
+		}
 	);
 
 	let triggerFilter;
@@ -59,7 +59,7 @@
 					.getNumber(),
 				level: row.find(".level").textContent.getNumber(),
 			}),
-			true,
+			true
 		);
 	}
 

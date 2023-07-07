@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.education) return "No API access.";
-		},
+		}
 	);
 
 	function initialise() {
@@ -31,7 +31,7 @@
 
 		msg.insertAdjacentElement(
 			"afterend",
-			document.newElement({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` }),
+			document.newElement({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` })
 		);
 	}
 

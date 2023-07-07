@@ -185,7 +185,7 @@ async function convertDatabase() {
 					.split(".")
 					.map((part) => part.padStart(3, "0"))
 					.join("")
-					.padEnd(9, "9"),
+					.padEnd(9, "9")
 			);
 		}
 	}
@@ -437,7 +437,7 @@ async function updateUserdata() {
 
 		if (oldUserdata.personalstats && userdata.personalstats) {
 			const fetchData = ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"].some(
-				(stat) => oldUserdata.personalstats[stat] !== userdata.personalstats[stat],
+				(stat) => oldUserdata.personalstats[stat] !== userdata.personalstats[stat]
 			);
 
 			await ttStorage.change({ attackHistory: { fetchData } });
@@ -726,7 +726,7 @@ async function updateUserdata() {
 
 			const checkpoints = settings.notifications.types[bar]
 				.map((checkpoint) =>
-					typeof checkpoint === "string" && checkpoint.includes("%") ? (parseInt(checkpoint) / 100) * userdata[bar].maximum : parseInt(checkpoint),
+					typeof checkpoint === "string" && checkpoint.includes("%") ? (parseInt(checkpoint) / 100) * userdata[bar].maximum : parseInt(checkpoint)
 				)
 				.sort((a, b) => b - a);
 
@@ -750,7 +750,7 @@ async function updateUserdata() {
 					notifications[bar][checkpoint] = newNotification(
 						"Bars",
 						`Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
-						url,
+						url
 					);
 					break;
 				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
@@ -779,7 +779,7 @@ async function updateUserdata() {
 				notifications.chain[key] = newNotification(
 					"Chain",
 					`Chain timer will run out in ${formatTime({ milliseconds: timeout }, { type: "wordTimer" })}.`,
-					LINKS.chain,
+					LINKS.chain
 				);
 				break;
 			}
@@ -804,7 +804,7 @@ async function updateUserdata() {
 				notifications.chainCount[key] = newNotification(
 					"Chain",
 					`Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
-					LINKS.chain,
+					LINKS.chain
 				);
 				break;
 			}
@@ -829,7 +829,7 @@ async function updateUserdata() {
 				notifications.hospital[checkpoint] = newNotification(
 					"Hospital",
 					`You will be out of the hospital in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
-					LINKS.hospital,
+					LINKS.hospital
 				);
 				break;
 			}
@@ -850,7 +850,7 @@ async function updateUserdata() {
 				notifications.travel[checkpoint] = newNotification(
 					"Travel",
 					`You will be landing in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
-					LINKS.home,
+					LINKS.home
 				);
 				break;
 			}
@@ -894,7 +894,7 @@ async function updateUserdata() {
 					notifications[cooldown.memory][checkpoint] = newNotification(
 						cooldown.title,
 						`Your ${cooldown.name} cooldown will end in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
-						LINKS.items,
+						LINKS.items
 					);
 				}
 			} else {
@@ -1016,7 +1016,7 @@ async function updateStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
 							`${data.name} is now in the hospital.`,
-							`https://www.torn.com/profiles.php?XID=${id}`,
+							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (data.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
@@ -1029,7 +1029,7 @@ async function updateStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
 							`${data.name} is now ${data.status.state === "Abroad" ? data.status.description : "in Torn"}.`,
-							`https://www.torn.com/profiles.php?XID=${id}`,
+							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (data.last_action.status === "Traveling") {
 					delete notifications.stakeouts[key];
@@ -1046,7 +1046,7 @@ async function updateStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
 							`${data.name} is now online.`,
-							`https://www.torn.com/profiles.php?XID=${id}`,
+							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (data.last_action.status !== "Online") {
 					delete notifications.stakeouts[key];
@@ -1059,7 +1059,7 @@ async function updateStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
 							`${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
-							`https://www.torn.com/profiles.php?XID=${id}`,
+							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (data.life.current > data.life.maximum * (life / 100)) {
 					delete notifications.stakeouts[key];
@@ -1075,7 +1075,7 @@ async function updateStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
 							`${data.name} has been offline for ${offlineHours} hours.`,
-							`https://www.torn.com/profiles.php?XID=${id}`,
+							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (offlineHours < offline) {
 					delete notifications.stakeouts[key];
@@ -1091,7 +1091,7 @@ async function updateStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
 							`${data.name} is now revivable.`,
-							`https://www.torn.com/profiles.php?XID=${id}`,
+							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (!oldIsRevivable) {
 					delete notifications.stakeouts[key];
@@ -1166,7 +1166,7 @@ async function updateFactionStakeouts() {
 							notifications.stakeouts[key] = newNotification(
 								"Faction Stakeouts",
 								`${data.name} has dropped their ${oldChainCount} chain.`,
-								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
+								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 							);
 					} else if (chainCount > 10) {
 						delete notifications.stakeouts[key];
@@ -1178,7 +1178,7 @@ async function updateFactionStakeouts() {
 							notifications.stakeouts[key] = newNotification(
 								"Faction Stakeouts",
 								`${data.name} has reached a ${chainCount} chain.`,
-								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
+								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 							);
 					} else if (chainCount < oldChainCount) {
 						delete notifications.stakeouts[key];
@@ -1195,7 +1195,7 @@ async function updateFactionStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Faction Stakeouts",
 							`${data.name} now has less than ${memberCount} members.`,
-							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 						);
 				} else if (data.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
@@ -1209,7 +1209,7 @@ async function updateFactionStakeouts() {
 						notifications.stakeouts[key] = newNotification(
 							"Faction Stakeouts",
 							createMessage(),
-							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
+							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 						);
 				} else if (!isValue) {
 					delete notifications.stakeouts[key];
@@ -1554,7 +1554,7 @@ async function updateNPCs() {
 			notifications.npcs[id] = newNotification(
 				"NPC Loot",
 				`${npc.name} is reaching loot level ${formatNumber(level, { roman: true })} in ${formatTime(left, { type: "wordTimer" })}.`,
-				`https://www.torn.com/profiles.php?XID=${id}`,
+				`https://www.torn.com/profiles.php?XID=${id}`
 			);
 			alerts++;
 		}

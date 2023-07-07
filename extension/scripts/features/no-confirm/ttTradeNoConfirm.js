@@ -11,7 +11,7 @@
 		null,
 		{
 			storage: ["settings.scripts.noConfirm.tradeAccept"],
-		},
+		}
 	);
 
 	function initialiseListeners() {

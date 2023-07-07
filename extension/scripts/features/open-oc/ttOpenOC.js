@@ -16,7 +16,7 @@
 		{
 			storage: ["settings.pages.faction.openOc"],
 		},
-		null,
+		null
 	);
 
 	function initialiseListeners() {

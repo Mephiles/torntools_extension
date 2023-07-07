@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.stocks.acronyms"],
 		},
-		null,
+		null
 	);
 
 	async function addAcronyms() {
@@ -27,7 +27,7 @@
 			container.classList.add("tt-acronym-container");
 			container.insertAdjacentElement(
 				"afterbegin",
-				document.newElement({ type: "span", class: "tt-acronym", text: `(${acronym}) `, dataset: { acronym } }),
+				document.newElement({ type: "span", class: "tt-acronym", text: `(${acronym}) `, dataset: { acronym } })
 			);
 		}
 	}

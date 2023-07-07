@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.global.hideQuitButtons"],
 		},
-		null,
+		null
 	);
 
 	function applyStyle() {

@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.chat.blockZalgo"],
 		},
-		null,
+		null
 	);
 
 	async function hideZalgo() {

@@ -19,7 +19,7 @@
 			if (!hasAPIData()) return "No API access.";
 
 			await checkDevice();
-		},
+		}
 	);
 
 	async function showEstimate() {

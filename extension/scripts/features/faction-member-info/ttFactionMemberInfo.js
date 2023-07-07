@@ -16,7 +16,7 @@
 		() => {
 			if (!hasFactionAPIAccess()) return "No API access!";
 		},
-		{ liveReload: true },
+		{ liveReload: true }
 	);
 
 	let lastActionState = settings.scripts.lastAction.factionMember;
@@ -94,7 +94,7 @@
 						type: "div",
 						class: "tt-points-balance",
 						text: `Point Balance: ${formatNumber(donations[userID].points_balance)}`,
-					}),
+					})
 				);
 			}
 			if (donations[userID].money_balance) {
@@ -103,7 +103,7 @@
 						type: "div",
 						class: "tt-money-balance",
 						text: `Money Balance: ${formatNumber(donations[userID].money_balance, { currency: true })}`,
-					}),
+					})
 				);
 			}
 

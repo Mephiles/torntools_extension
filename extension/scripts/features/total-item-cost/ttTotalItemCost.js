@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.bazaar.itemsCost"],
 		},
-		null,
+		null
 	);
 
 	function initialiseListeners() {

@@ -14,7 +14,7 @@
 		{ storage: ["settings.pages.sidebar.pointsValue"] },
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
+		}
 	);
 
 	async function showValue() {
@@ -33,7 +33,7 @@
 			document,
 			null,
 			XPathResult.FIRST_ORDERED_NODE_TYPE,
-			null,
+			null
 		)?.singleNodeValue;
 		if (!block) {
 			console.warn("Couldn't find your points block for some odd reason.");
@@ -51,7 +51,7 @@
 				`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
 					currency: true,
 					shorten: 2,
-				})}`,
+				})}`
 			);
 
 		executeScript((wrapped) => wrapped.initializeTooltip(".tt-points-value", "white-tooltip"), "initializeTooltip('.tt-points-value', 'white-tooltip')");

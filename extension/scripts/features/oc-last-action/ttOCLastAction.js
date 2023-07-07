@@ -18,7 +18,7 @@
 		},
 		async () => {
 			if (!hasAPIData() || !factiondata || !factiondata.members) return "No API access.";
-		},
+		}
 	);
 
 	function initialiseListeners() {
@@ -51,7 +51,7 @@
 					class: "tt-oc-last-action",
 					text: `Last action: ${lastAction.relative}`,
 					attributes: { hours: hours },
-				}),
+				})
 			);
 		}
 	}

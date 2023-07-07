@@ -16,7 +16,7 @@
 		{
 			storage: ["settings.pages.faction.availablePlayers"],
 		},
-		null,
+		null
 	);
 
 	function initialiseListeners() {

@@ -91,7 +91,7 @@
 							if (typeof value === "object") {
 								if (Array.isArray(value)) {
 									modifiedPre.appendChild(
-										document.newElement({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}"${key}": [` }),
+										document.newElement({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}"${key}": [` })
 									);
 									modifiedPre.appendChild(document.newElement("br"));
 
@@ -106,12 +106,12 @@
 												const _marking = marking === true || marking[key] === true || (key in marking ? marking[key]["*"] || {} : {});
 
 												modifiedPre.appendChild(
-													document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}{` }),
+													document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}{` })
 												);
 												modifiedPre.appendChild(document.newElement("br"));
 												loadResponse(item, _marking || {}, indent + 2);
 												modifiedPre.appendChild(
-													document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}},` }),
+													document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}},` })
 												);
 											}
 										} else {
@@ -121,7 +121,7 @@
 									}
 
 									modifiedPre.appendChild(
-										document.newElement({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}],` }),
+										document.newElement({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}],` })
 									);
 								} else if (value === null) {
 									displayValue(key, null, indent, marking);
@@ -129,7 +129,7 @@
 									const toMark = marking === true || key in marking || "*" in marking;
 
 									modifiedPre.appendChild(
-										document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent)}"${key}": {` }),
+										document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent)}"${key}": {` })
 									);
 									modifiedPre.appendChild(document.newElement("br"));
 									loadResponse(value, marking[key] || marking["*"] || {}, indent + 1);

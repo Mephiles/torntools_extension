@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.global.pageTitles"],
 		},
-		undefined,
+		undefined
 	);
 
 	let original = document.title;

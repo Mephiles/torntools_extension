@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.money) return "No API access.";
-		},
+		}
 	);
 
 	function createBankInvestmentFacade(node) {

@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
+		}
 	);
 
 	function initialiseListeners() {
@@ -111,7 +111,7 @@
 						class: "tt-total-value",
 						text: "Total value: ",
 						children: [document.newElement({ type: "span", text: formatNumber(totalValue, { currency: true }) })],
-					}),
+					})
 				);
 			}
 
