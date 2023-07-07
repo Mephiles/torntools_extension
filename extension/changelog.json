@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 14, "build": 0 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added filtering against Early Discharge status to the userlist page.", "contributor": "Vrasp" }],
