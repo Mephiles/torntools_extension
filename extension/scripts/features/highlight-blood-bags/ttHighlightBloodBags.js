@@ -18,7 +18,7 @@
 		{
 			storage: ["settings.pages.items.highlightBloodBags"],
 		},
-		null
+		null,
 	);
 
 	function initialiseBloodBags() {
@@ -75,7 +75,7 @@
 							type: "span",
 							class: "tt-blood-price",
 							text: `${formatNumber(torndata.items[itemId].market_value, { currency: true })}`,
-						})
+						}),
 					);
 				}
 			}

@@ -13,7 +13,7 @@
 		},
 		async () => {
 			await checkDevice();
-		}
+		},
 	);
 
 	async function showLinks() {
@@ -47,7 +47,7 @@
 								children: [document.newElement({ type: "span", text: link.name })],
 							}),
 						],
-					})
+					}),
 				);
 			});
 
@@ -79,7 +79,7 @@
 					href: link.href,
 					text: link.name,
 					attributes: { target: link.newTab ? "_blank" : "_self" },
-				})
+				}),
 			);
 		}
 	}

@@ -13,7 +13,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.weaponexp) return "No API access.";
-		}
+		},
 	);
 
 	let observers = [];

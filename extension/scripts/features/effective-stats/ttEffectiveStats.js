@@ -17,7 +17,7 @@
 		},
 		async () => {
 			await checkDevice();
-		}
+		},
 	);
 
 	async function showEffectiveBattleStats() {

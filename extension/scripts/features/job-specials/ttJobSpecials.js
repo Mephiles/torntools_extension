@@ -15,7 +15,7 @@
 		},
 		async () => {
 			await checkDevice();
-		}
+		},
 	);
 
 	async function addListener() {
@@ -53,7 +53,7 @@
 							document.newElement({ type: "hr", class: "second-hr" }),
 							document.newElement({ type: "div", text: effect }),
 						],
-					})
+					}),
 				);
 			} else {
 				content.appendChild(
@@ -69,7 +69,7 @@
 							document.newElement({ type: "div", text: `${cost} ${cost === "Passive" ? "" : cost === "1" ? "job point" : "job points"}` }),
 							document.newElement({ type: "div", text: effect }),
 						],
-					})
+					}),
 				);
 			}
 		}

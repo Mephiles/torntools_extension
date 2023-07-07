@@ -18,7 +18,7 @@
 		},
 		async () => {
 			await checkDevice();
-		}
+		},
 	);
 
 	const ORGANIZED_CRIMES = {

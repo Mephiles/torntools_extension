@@ -13,7 +13,7 @@
 		},
 		async () => {
 			await checkDevice();
-		}
+		},
 	);
 
 	async function addProfitAndValue() {
@@ -48,7 +48,7 @@
 						text: formatNumber(profits, { currency: true, shorten }),
 					}),
 				],
-			})
+			}),
 		);
 		if (mobile) document.find("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
 	}

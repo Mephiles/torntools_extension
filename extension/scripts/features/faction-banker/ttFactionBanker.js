@@ -18,7 +18,7 @@
 		{
 			storage: ["settings.pages.faction.banker"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListeners() {

@@ -17,7 +17,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
-		}
+		},
 	);
 
 	async function showNetworth() {
@@ -77,7 +77,7 @@
 					table,
 					document.newElement({ type: "div", class: "tt-networth-footer", text: "Networth change compared to Torn's last known Networth" }),
 				],
-			})
+			}),
 		);
 
 		function newRow(name, value) {
@@ -142,7 +142,7 @@
 							class: isPositive ? "positive" : "negative",
 						}),
 					],
-				})
+				}),
 			);
 		}
 	}

@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.travel.autoFillMax"],
 		},
-		null
+		null,
 	);
 
 	async function autoFillInputs() {

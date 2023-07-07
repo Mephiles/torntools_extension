@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.global.hideTutorials"],
 		},
-		undefined
+		undefined,
 	);
 
 	async function applyStyle() {

@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.chat.hideChatButton"],
 		},
-		null
+		null,
 	);
 
 	function hideChats() {

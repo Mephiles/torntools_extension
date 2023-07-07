@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		}
+		},
 	);
 
 	function registerListeners() {

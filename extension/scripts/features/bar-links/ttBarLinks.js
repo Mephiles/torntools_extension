@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.sidebar.barLinks"],
 		},
-		null
+		null,
 	);
 
 	const LINKS = {

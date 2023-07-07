@@ -23,7 +23,7 @@
 		{
 			storage: ["settings.pages.casino.netTotal"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListener() {
@@ -55,7 +55,7 @@
 				document,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-				null
+				null,
 			);
 			if (moneyElementsList.snapshotLength !== 2) continue;
 			const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replace(/[$, ]/g, ""));
@@ -74,7 +74,7 @@
 						document.newElement({ type: "li", class: "name", text: "Net total" }),
 						document.newElement({ type: "li", class: "value", text: formatNumber(totalWon - totalLost, { currency: true }) }),
 					],
-				})
+				}),
 			);
 		}
 

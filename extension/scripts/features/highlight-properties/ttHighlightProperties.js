@@ -16,7 +16,7 @@
 		},
 		async () => {
 			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
-		}
+		},
 	);
 
 	async function addHighlight() {

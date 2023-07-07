@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.racing.winPercentage"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListener() {

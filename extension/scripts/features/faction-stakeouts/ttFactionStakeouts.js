@@ -17,7 +17,7 @@
 		{
 			storage: ["settings.pages.faction.stakeout"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListeners() {
@@ -45,7 +45,7 @@
 		const factionId = parseInt(
 			(await requireElement(".faction-info-wrap .f-war-list .table-row [class*='factionWrap__'] a[href*='/factions.php']"))
 				.getAttribute("href")
-				.split("&ID=")[1]
+				.split("&ID=")[1],
 		);
 		const hasStakeout = factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "undefined";
 

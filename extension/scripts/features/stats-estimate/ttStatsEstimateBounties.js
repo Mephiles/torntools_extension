@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		}
+		},
 	);
 
 	function registerListeners() {
@@ -55,7 +55,7 @@
 				id: parseInt(row.find(".target a").href.match(/(\d+)/g)?.last()),
 				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").last().trim()),
 			}),
-			true
+			true,
 		);
 	}
 

@@ -196,7 +196,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		}
+		},
 	);
 
 	let overlayStatus = false;
@@ -242,7 +242,7 @@
 								section.remove();
 							} else if (finished === 2) {
 								for (const section of [...content.findAll(".section[order]")].sort(
-									(a, b) => parseInt(a.getAttribute("order")) - parseInt(b.getAttribute("order"))
+									(a, b) => parseInt(a.getAttribute("order")) - parseInt(b.getAttribute("order")),
 								))
 									section.parentElement.appendChild(section);
 							}
@@ -490,7 +490,7 @@
 						},
 						stretchColumns: true,
 						hasHeaders,
-					}
+					},
 				);
 			}
 
@@ -749,7 +749,7 @@
 							return rowData.them > rowData.you.value ? "superior-them" : "superior-you";
 						},
 						stretchColumns: true,
-					}
+					},
 				);
 				section.appendChild(table.element);
 
@@ -776,7 +776,7 @@
 								buildSpy(true);
 							},
 						},
-					})
+					}),
 				);
 
 				section.appendChild(footer);
@@ -794,7 +794,7 @@
 								buildSpy(true);
 							},
 						},
-					})
+					}),
 				);
 				section.appendChild(footer);
 				if (errors.length) {
@@ -803,7 +803,7 @@
 							type: "p",
 							class: "no-spy-errors",
 							html: errors.map(({ service, message }) => `${service} - ${message}`).join("<br>"),
-						})
+						}),
 					);
 				}
 			}
@@ -971,7 +971,7 @@
 							},
 						},
 						stretchColumns: true,
-					}
+					},
 				);
 
 				section.appendChild(table.element);

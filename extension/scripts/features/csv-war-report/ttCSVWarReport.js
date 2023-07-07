@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.faction.csvWarReport"],
 		},
-		null
+		null,
 	);
 
 	async function addCSVContainer() {
@@ -47,7 +47,7 @@
 							row.find(".lvl").textContent,
 							row.find(".points").textContent,
 							row.find(".joins").textContent,
-							row.find(".knock-off").textContent
+							row.find(".knock-off").textContent,
 						);
 					}
 				} else csv.append("None");

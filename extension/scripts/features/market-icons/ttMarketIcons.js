@@ -16,7 +16,7 @@
 			storage: ["settings.pages.items.marketLinks"],
 		},
 		null,
-		{ triggerCallback: true }
+		{ triggerCallback: true },
 	);
 
 	function initialiseMarketIcons() {
@@ -57,7 +57,7 @@
 							children: [document.newElement({ type: "i", class: "item-market-icon", attributes: { title: "Open Item Market" } })],
 						}),
 					],
-				})
+				}),
 			);
 
 			isFirst = false;

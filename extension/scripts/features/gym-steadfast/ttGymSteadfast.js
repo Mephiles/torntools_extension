@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.perks) return "No API access.";
-		}
+		},
 	);
 
 	function initialiseListeners() {

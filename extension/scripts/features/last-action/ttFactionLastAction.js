@@ -14,7 +14,7 @@
 		() => {
 			if (!hasAPIData()) return "No API access!";
 		},
-		{ triggerCallback: true, liveReload: true }
+		{ triggerCallback: true, liveReload: true },
 	);
 
 	let members;

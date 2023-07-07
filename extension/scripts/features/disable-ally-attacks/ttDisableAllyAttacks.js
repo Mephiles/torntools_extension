@@ -14,7 +14,7 @@
 		{
 			storage: ["settings.pages.profile.disableAllyAttacks", "settings.alliedFactions"],
 		},
-		null
+		null,
 	);
 
 	async function startObserver() {

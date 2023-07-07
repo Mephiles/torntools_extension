@@ -12,7 +12,7 @@
 		{
 			storage: ["settings.pages.chat.fontSize"],
 		},
-		null
+		null,
 	);
 
 	function applySize() {

@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.bank.investmentInfo"],
 		},
-		null
+		null,
 	);
 
 	const DAYS_IN_YEAR = 365;

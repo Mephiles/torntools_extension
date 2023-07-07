@@ -14,7 +14,7 @@
 		{
 			storage: ["settings.pages.itemmarket.compactList"],
 		},
-		null
+		null,
 	);
 
 	async function makeCompact() {

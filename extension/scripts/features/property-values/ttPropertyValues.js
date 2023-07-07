@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.property.value"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListener() {
@@ -37,7 +37,7 @@
 					type: "span",
 					class: "tt-property-value",
 					text: ` (${formatNumber(info.textContent.getNumber(), { currency: true })})`,
-				})
+				}),
 			);
 		}
 	}

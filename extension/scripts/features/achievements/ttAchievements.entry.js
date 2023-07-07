@@ -29,7 +29,7 @@
 				!settings.apiUsage.user.weaponexp
 			)
 				return "No API access.";
-		}
+		},
 	);
 
 	function setupAchievements() {}

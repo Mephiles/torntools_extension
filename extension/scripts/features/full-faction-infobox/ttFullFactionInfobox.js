@@ -17,7 +17,7 @@
 		{
 			storage: ["settings.pages.faction.showFullDescription"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListeners() {

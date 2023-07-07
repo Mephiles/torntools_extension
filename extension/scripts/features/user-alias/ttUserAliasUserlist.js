@@ -18,7 +18,7 @@
 		{
 			storage: ["settings.userAlias"],
 		},
-		null
+		null,
 	);
 
 	const SELECTORS = {

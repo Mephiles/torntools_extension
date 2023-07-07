@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !((settings.apiUsage.user.icons && userdata.userCrime) || factiondata.userCrime)) return "No API access.";
-		}
+		},
 	);
 
 	async function showTimer() {
@@ -55,7 +55,7 @@
 				type: "section",
 				id: "ocTimer",
 				children: [document.newElement({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), timeLeftElement],
-			})
+			}),
 		);
 	}
 

@@ -14,14 +14,14 @@
 		document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");
 		document.documentElement.style.setProperty(
 			"--tt-theme-background",
-			settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)"
+			settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)",
 		);
 		storageListeners.settings.push((oldSettings) => {
 			if (!oldSettings || !oldSettings.themes || !settings || !settings.themes || oldSettings.themes.containers !== settings.themes.containers) {
 				document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");
 				document.documentElement.style.setProperty(
 					"--tt-theme-background",
-					settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)"
+					settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)",
 				);
 			}
 		});

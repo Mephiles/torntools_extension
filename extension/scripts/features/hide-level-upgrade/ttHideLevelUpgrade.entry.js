@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.global.hideLevelUpgrade"],
 		},
-		null
+		null,
 	);
 
 	function applyStyle() {

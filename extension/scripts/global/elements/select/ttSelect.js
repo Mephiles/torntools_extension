@@ -71,7 +71,7 @@ function createSelect(options) {
 					...(option.disabled ? { disabled: true } : {}),
 				},
 				text: option.description,
-			})
+			}),
 		);
 	}
 

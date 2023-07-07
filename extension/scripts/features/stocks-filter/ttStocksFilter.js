@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.stocks.filter"],
 		},
-		null
+		null,
 	);
 
 	async function initialiseFilters() {
@@ -203,7 +203,7 @@
 		localFilters.statistics.updateStatistics(
 			document.findAll("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
 			document.findAll("#stockmarketroot ul[class*='stock___']").length,
-			content
+			content,
 		);
 	}
 

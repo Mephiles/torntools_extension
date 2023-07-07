@@ -14,7 +14,7 @@
 		{
 			storage: ["settings.pages.travel.fillMax"],
 		},
-		null
+		null,
 	);
 
 	async function addFillMax() {

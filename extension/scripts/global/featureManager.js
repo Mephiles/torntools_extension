@@ -61,7 +61,7 @@ class FeatureManager {
 						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
 						document.newElement({ type: "pre", class: "stack", text: error.stack }),
 					],
-				})
+				}),
 			);
 		};
 		this.clearEarlyErrors = () => {
@@ -138,7 +138,7 @@ class FeatureManager {
 
 					if (typeof requirements === "string") {
 						await this.executeFunction(feature.cleanup).catch((error) =>
-							this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error)
+							this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error),
 						);
 
 						this.showResult(feature, "information", { message: requirements });
@@ -319,7 +319,7 @@ class FeatureManager {
 			settings.featureDisplay ? "" : "tt-hidden",
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : "",
-			settings.featureDisplayHideEmpty ? "hide-empty" : ""
+			settings.featureDisplayHideEmpty ? "hide-empty" : "",
 		);
 		this.hideEmptyScopes();
 		this.clearEarlyErrors();

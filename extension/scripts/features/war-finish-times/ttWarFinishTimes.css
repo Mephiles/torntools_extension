@@ -1,5 +1,7 @@
 .tt-timer {
-	font-family: fjalla one, sans-serif;
+	font-family:
+		fjalla one,
+		sans-serif;
 	font-size: 11px;
 	color: #858585;
 	text-shadow: var(--title-text-shadow);

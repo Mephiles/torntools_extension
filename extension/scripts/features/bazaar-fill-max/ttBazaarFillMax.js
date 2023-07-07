@@ -15,7 +15,7 @@
 		},
 		async () => {
 			await checkDevice();
-		}
+		},
 	);
 
 	let reactObserver;

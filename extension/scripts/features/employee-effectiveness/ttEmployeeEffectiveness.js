@@ -13,7 +13,7 @@
 		removeEffectiveness,
 		{
 			storage: ["settings.pages.companies.employeeEffectiveness"],
-		}
+		},
 	);
 
 	function initialiseListeners() {

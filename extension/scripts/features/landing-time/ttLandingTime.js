@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.travel.landingTime"],
 		},
-		null
+		null,
 	);
 
 	function showTime() {
@@ -31,7 +31,7 @@
 				class: "tt-landing-time",
 				children: [document.newElement({ type: "span", class: "description", text: `Landing at ${formatTime(arrival)}.` })],
 			}),
-			destinationTitle.nextElementSibling
+			destinationTitle.nextElementSibling,
 		);
 	}
 

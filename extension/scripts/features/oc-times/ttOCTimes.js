@@ -18,7 +18,7 @@
 		},
 		async () => {
 			if (!hasAPIData() || !factiondata || !factiondata.crimes) return "No API access.";
-		}
+		},
 	);
 
 	function initialiseListeners() {

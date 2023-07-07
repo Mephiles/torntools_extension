@@ -15,7 +15,7 @@
 		{
 			storage: ["settings.pages.companies.specials"],
 		},
-		null
+		null,
 	);
 
 	function initialiseCompanySpecials() {
@@ -96,9 +96,9 @@
 				type: "li",
 				text: `Potential mug${api ? "" : "*"}: ${formatNumber(cash * (percentageMin / 100), { decimals: 0, currency: true })} - ${formatNumber(
 					cash * (percentageMax / 100),
-					{ decimals: 0, currency: true }
+					{ decimals: 0, currency: true },
 				)}`,
-			})
+			}),
 		);
 		if (!api) jobInfo.appendChild(document.newElement({ type: "li", text: "* Might not be entirely accurate due to missing API information." }));
 	}
@@ -206,7 +206,7 @@
 													text: response.message,
 												}),
 											],
-										})
+										}),
 									);
 								}
 							})
@@ -217,7 +217,7 @@
 										type: "div",
 										class: "external-response-wrap",
 										children: [document.newElement({ type: "span", class: "external-response error", text: "Something went wrong!" })],
-									})
+									}),
 								);
 							});
 					},

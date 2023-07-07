@@ -17,7 +17,7 @@
 			if (!hasAPIData()) return "No API access.";
 
 			await checkDevice();
-		}
+		},
 	);
 
 	const localFilters = {};
@@ -44,7 +44,7 @@
 				type: "div",
 				class: "tt-shop-filters tt-theme",
 				children: [shopFilters.element],
-			})
+			}),
 		);
 	}
 

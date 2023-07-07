@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.chat.titleHighlights"],
 		},
-		null
+		null,
 	);
 
 	function initialiseColoredChats() {

@@ -17,7 +17,7 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 		},
-		{ liveReload: true }
+		{ liveReload: true },
 	);
 
 	function registerListeners() {
@@ -74,7 +74,7 @@
 			(row) =>
 				row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-member-info")
 					? row.nextElementSibling
-					: row
+					: row,
 		);
 	}
 

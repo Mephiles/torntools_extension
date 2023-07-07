@@ -23,7 +23,7 @@
 					if (!hasAPIData()) return "No API access.";
 					break;
 			}
-		}
+		},
 	);
 
 	async function initialiseListeners() {

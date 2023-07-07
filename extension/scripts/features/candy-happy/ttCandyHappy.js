@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		}
+		},
 	);
 
 	function initialiseAddGains() {
@@ -37,7 +37,7 @@
 				torndata.items[candy.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
-					.filter((x) => !isNaN(x))[0]
+					.filter((x) => !isNaN(x))[0],
 			);
 			let totalHappy = baseHappy;
 			if (!isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;

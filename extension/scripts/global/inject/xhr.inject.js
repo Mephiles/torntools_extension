@@ -50,7 +50,7 @@ function interceptXHR(channel) {
 								responseURL: this.responseURL,
 							},
 						},
-					})
+					}),
 				);
 			}
 		});

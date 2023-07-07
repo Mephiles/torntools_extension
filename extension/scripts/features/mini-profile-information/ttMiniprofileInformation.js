@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.global.miniProfileLastAction"],
 		},
-		null
+		null,
 	);
 
 	function initialiseMiniprofile() {

@@ -30,7 +30,7 @@
 
 			await checkDevice();
 		},
-		{ triggerCallback: true }
+		{ triggerCallback: true },
 	);
 
 	function initialiseItemValues() {
@@ -205,21 +205,21 @@
 					document.newElement({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })} | `,
-					})
+					}),
 				);
 				priceElement.appendChild(
 					document.newElement({
 						type: "span",
 						text: `${quantity}x = `,
 						class: "tt-item-quantity",
-					})
+					}),
 				);
 			}
 			priceElement.appendChild(
 				document.newElement({
 					type: "span",
 					text: `${formatNumber(totalPrice, { currency: true })}`,
-				})
+				}),
 			);
 		} else if (price === 0) {
 			priceElement.textContent = "N/A";
@@ -261,27 +261,27 @@
 						document.newElement({
 							type: "span",
 							text: `${formatNumber(price, { currency: true })}`,
-						})
+						}),
 					);
 				} else {
 					priceElement.appendChild(
 						document.newElement({
 							type: "span",
 							text: `${formatNumber(price, { currency: true })} | `,
-						})
+						}),
 					);
 					priceElement.appendChild(
 						document.newElement({
 							type: "span",
 							text: `${quantity}x = `,
 							class: "tt-item-quantity",
-						})
+						}),
 					);
 					priceElement.appendChild(
 						document.newElement({
 							type: "span",
 							text: `${formatNumber(totalPrice, { currency: true })}`,
-						})
+						}),
 					);
 				}
 			} else if (price === 0) {
@@ -311,7 +311,7 @@
 					document.newElement({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })}`,
-					})
+					}),
 				);
 			} else {
 				quantityElement.textContent = `${newQuantity}x = `;

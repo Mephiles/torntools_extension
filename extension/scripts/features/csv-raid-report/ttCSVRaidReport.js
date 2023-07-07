@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.faction.csvRaidReport"],
 		},
-		null
+		null,
 	);
 
 	async function addCSVContainer() {

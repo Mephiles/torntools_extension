@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		}
+		},
 	);
 
 	let observer;
@@ -64,7 +64,7 @@
 					};
 				},
 				true,
-				(row) => row.find(".clear")
+				(row) => row.find(".clear"),
 			);
 		});
 	}

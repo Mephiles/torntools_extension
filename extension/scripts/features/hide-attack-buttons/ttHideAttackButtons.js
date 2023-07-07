@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.attack.hideAttackButtons"],
 		},
-		null
+		null,
 	);
 
 	let observer;

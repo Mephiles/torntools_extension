@@ -61,7 +61,7 @@
 						events: { click: showPopup },
 					}),
 				],
-			})
+			}),
 		);
 
 		function showPopup() {

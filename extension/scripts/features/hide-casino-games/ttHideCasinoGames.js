@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.hideCasinoGames"],
 		},
-		null
+		null,
 	);
 
 	function hideCasinoGames() {
@@ -29,7 +29,7 @@
 							text: "Some games have been removed by TornTools. They can be re-enabled in TornTools' settings.",
 						}),
 					],
-				})
+				}),
 			);
 		}
 		document.findAll(".games-list .tt-hidden").forEach((game) => {
@@ -49,7 +49,7 @@
 					type: "div",
 					class: "tt-hidden",
 					children: [document.newElement({ type: "b", text: "• REMOVED •" })],
-				})
+				}),
 			);
 		}
 	}

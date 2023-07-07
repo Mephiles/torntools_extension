@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.profile.disableAllyAttacks", "settings.alliedFactions"],
 		},
-		null
+		null,
 	);
 
 	let closedOption = false;

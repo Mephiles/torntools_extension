@@ -14,7 +14,7 @@
 		{
 			storage: ["settings.pages.sidebar.notes"],
 		},
-		null
+		null,
 	);
 
 	async function showNotes() {
@@ -45,7 +45,7 @@
 						await ttStorage.change({ notes: { sidebar: { text: event.target.value } } });
 					},
 				},
-			})
+			}),
 		);
 	}
 

@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.chat.tradeTimer", "localdata.tradeMessage"],
 		},
-		null
+		null,
 	);
 
 	function initialise() {

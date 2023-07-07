@@ -18,7 +18,7 @@
 			else if (hasAPIData() && settings.apiUsage.user.inventory && !hasComputer()) return "No computer found!";
 
 			await checkDevice();
-		}
+		},
 	);
 
 	async function showComputer() {
@@ -55,7 +55,7 @@
 					href: "pc.php",
 				},
 			}),
-			document.find("#top-page-links-list > .events")
+			document.find("#top-page-links-list > .events"),
 		);
 	}
 

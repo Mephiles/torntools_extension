@@ -14,7 +14,7 @@
 		{
 			storage: ["settings.updateNotice", "version.showNotice"],
 		},
-		null
+		null,
 	);
 
 	async function showNotice() {
@@ -49,7 +49,7 @@
 					}),
 				],
 			}),
-			parent.firstElementChild
+			parent.firstElementChild,
 		);
 	}
 

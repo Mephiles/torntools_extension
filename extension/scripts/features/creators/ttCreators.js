@@ -8,8 +8,8 @@
 	async function showCreators() {
 		const id = parseInt(
 			(await requireElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")).textContent.match(
-				/(?<=\[)\d*(?=])/i
-			)[0]
+				/(?<=\[)\d*(?=])/i,
+			)[0],
 		);
 
 		const creator = TEAM.find(({ torn }) => torn === id);
@@ -23,7 +23,7 @@
 				type: "div",
 				class: "tt-creator",
 				children: [ttSvg(), document.newElement({ type: "span", text: title })],
-			})
+			}),
 		);
 	}
 })();

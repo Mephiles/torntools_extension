@@ -15,7 +15,7 @@
 			storage: ["settings.pages.faction.upgradeRequiredRespect"],
 		},
 		null,
-		{ liveReload: true }
+		{ liveReload: true },
 	);
 
 	function addListener() {
@@ -32,7 +32,7 @@
 			document
 				.find("#faction-upgrades .skill-tree .residue-respect")
 				.textContent.replace(/[\n, ]/g, "")
-				.trim()
+				.trim(),
 		);
 		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] .required .text");
 		if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;

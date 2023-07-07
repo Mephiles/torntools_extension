@@ -13,7 +13,7 @@
 		},
 		async () => {
 			await checkDevice();
-		}
+		},
 	);
 
 	let hadHighlight = false;

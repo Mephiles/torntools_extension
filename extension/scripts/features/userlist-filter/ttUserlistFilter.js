@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.userlist.filter"],
 		},
-		null
+		null,
 	);
 
 	function initialiseFilters() {
@@ -133,7 +133,7 @@
 			() =>
 				!document.find(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader") ||
 				document.find(".userlist-wrapper div=No users found"),
-			{}
+			{},
 		);
 
 		const content = findContainer("Userlist Filter", { selector: "main" });
@@ -175,7 +175,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
 			document.findAll(".user-info-list-wrap > li").length,
-			content
+			content,
 		);
 	}
 
@@ -193,7 +193,7 @@
 							.getAttribute("title")
 							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
 							.toLowerCase()
-							.trim()
+							.trim(),
 				)
 			) {
 				hide("activity");
@@ -280,7 +280,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
 					document.findAll(".user-info-list-wrap > li").length,
-					content
+					content,
 				);
 			}
 		}
@@ -299,7 +299,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
 					document.findAll(".user-info-list-wrap > li").length,
-					content
+					content,
 				);
 			}
 		}

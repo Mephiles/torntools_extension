@@ -186,5 +186,5 @@ const TEAM = [
 
 const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer") || color).reduce(
 	(object, { name, torn, color }) => ({ ...object, [name]: { id: torn, name, color } }),
-	{}
+	{},
 );

@@ -11,6 +11,6 @@
 		{
 			storage: ["settings.pages.global.alignLeft"],
 		},
-		null
+		null,
 	);
 })();

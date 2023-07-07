@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.faction.warFinishTimes"],
 		},
-		null
+		null,
 	);
 
 	function startListeners() {
@@ -30,7 +30,7 @@
 
 			timer.insertAdjacentElement(
 				"afterend",
-				document.newElement({ type: "div", class: "tt-timer", text: `${formatTime(millis)} ${formatDate(millis)}` })
+				document.newElement({ type: "div", class: "tt-timer", text: `${formatTime(millis)} ${formatDate(millis)}` }),
 			);
 			timer.classList.add("tt-modified");
 		}

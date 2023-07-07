@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.userAlias"],
 		},
-		null
+		null,
 	);
 
 	async function addAlias() {

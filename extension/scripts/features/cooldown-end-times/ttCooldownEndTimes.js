@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.sidebar.cooldownEndTimes"],
 		},
-		null
+		null,
 	);
 
 	const iconRegex = /1[97]|39|4\d|5[0-3]/m;
@@ -33,7 +33,7 @@
 				if (
 					feature.enabled() &&
 					!mutations.some(
-						(mut) => mut.addedNodes[0]?.className === "tt-tooltip-end-times" || mut.removedNodes[0]?.className === "tt-tooltip-end-times"
+						(mut) => mut.addedNodes[0]?.className === "tt-tooltip-end-times" || mut.removedNodes[0]?.className === "tt-tooltip-end-times",
 					)
 				) {
 					removeEndTimes(tooltipPortal);
@@ -58,7 +58,7 @@
 								type: "div",
 								class: "tt-tooltip-end-times",
 								text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
-							})
+							}),
 						);
 					}
 				}

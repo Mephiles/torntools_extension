@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		}
+		},
 	);
 
 	function initialiseAddGains() {
@@ -38,7 +38,7 @@
 				torndata.items[alcoholicDrink.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
-					.filter((x) => !isNaN(x))[0]
+					.filter((x) => !isNaN(x))[0],
 			);
 			if (!isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;
 			if (!isNaN(companyPerk)) totalNerve *= 1 + companyPerk / 100;

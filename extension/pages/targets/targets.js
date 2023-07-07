@@ -83,7 +83,7 @@ async function setupAttackHistory() {
 				type: "td",
 				class: "id",
 				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
-			})
+			}),
 		);
 		row.appendChild(
 			document.newElement({
@@ -92,7 +92,7 @@ async function setupAttackHistory() {
 				children: [
 					document.newElement({ type: "a", text: data.name, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } }),
 				],
-			})
+			}),
 		);
 
 		const lastAttackText = `${formatDate({ milliseconds: data.lastAttack }, { showYear: true })}, ${formatTime({ milliseconds: data.lastAttack })}`;
@@ -110,7 +110,7 @@ async function setupAttackHistory() {
 							attributes: { target: "_blank" },
 						}),
 					],
-				})
+				}),
 			);
 		} else {
 			row.appendChild(
@@ -119,7 +119,7 @@ async function setupAttackHistory() {
 					class: "last-attack",
 					text: lastAttackText,
 					attributes: { value: data.lastAttack },
-				})
+				}),
 			);
 		}
 		const totalWins = data.win;
@@ -159,7 +159,7 @@ async function setupAttackHistory() {
 					class: "data fair_fight",
 					text: data.latestFairFightModifier,
 					attributes: { value: data.latestFairFightModifier },
-				})
+				}),
 			);
 		} else {
 			row.appendChild(document.newElement({ type: "td", class: "data fair_fight", text: "-", attributes: { value: -1 } }));
@@ -223,7 +223,7 @@ async function setupStakeouts() {
 				type: "td",
 				class: "id",
 				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
-			})
+			}),
 		);
 		if (data && data.info && Object.keys(data.info).length) {
 			let statusValue;
@@ -254,7 +254,7 @@ async function setupStakeouts() {
 							attributes: { target: "_blank" },
 						}),
 					],
-				})
+				}),
 			);
 			row.appendChild(
 				document.newElement({
@@ -262,7 +262,7 @@ async function setupStakeouts() {
 					class: `status ${data.info.last_action.status.toLowerCase()}`,
 					text: data.info.last_action.status,
 					attributes: { value: statusValue },
-				})
+				}),
 			);
 			row.appendChild(
 				document.newElement({
@@ -270,7 +270,7 @@ async function setupStakeouts() {
 					class: "last-action",
 					text: data.info.last_action.relative,
 					attributes: { value: Date.now() - data.info.last_action.timestamp },
-				})
+				}),
 			);
 		} else {
 			if (showStatus) row.classList.add("new");
@@ -291,7 +291,7 @@ async function setupStakeouts() {
 				type: "td",
 				class: "delete-wrap",
 				children: [deleteButton],
-			})
+			}),
 		);
 
 		const alerts = [];
@@ -347,7 +347,7 @@ async function setupStakeouts() {
 					document.newElement({ type: "input", id: `revivable-${id}`, class: "revivable", attributes: { type: "checkbox" } }),
 					document.newElement({ type: "label", attributes: { for: `revivable-${id}` }, text: "is revivable" }),
 				],
-			})
+			}),
 		);
 
 		const alertsWrap = document.newElement({ type: "td", class: "alerts-wrap", children: alerts });
@@ -402,7 +402,7 @@ async function setupStakeouts() {
 							text: stakeouts[id].info.name,
 							href: `https://www.torn.com/profiles.php?XID=${id}`,
 							attributes: { target: "_blank" },
-						})
+						}),
 					);
 				row.find(".status").textContent = stakeouts[id].info.last_action.status;
 				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());

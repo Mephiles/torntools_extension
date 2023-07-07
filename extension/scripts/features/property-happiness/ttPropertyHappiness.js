@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.apiUsage.user.properties", "settings.pages.property.happy"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListener() {
@@ -36,7 +36,7 @@
 					type: "div",
 					class: "tt-property-happiness",
 					text: `Happy: ${formatNumber(userdata.properties[propertyID]?.happy ?? 100)}`,
-				})
+				}),
 			);
 		}
 	}

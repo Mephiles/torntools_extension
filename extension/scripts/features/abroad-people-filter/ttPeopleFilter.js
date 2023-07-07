@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.travel.peopleFilter"],
 		},
-		null
+		null,
 	);
 
 	function initialiseFilters() {
@@ -166,7 +166,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".users-list > li:not(.tt-hidden)").length,
 			document.findAll(".users-list > li").length,
-			content
+			content,
 		);
 	}
 
@@ -174,7 +174,7 @@
 		if (filters.activity?.length) {
 			if (
 				!filters.activity.some(
-					(x) => x.trim() === row.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim()
+					(x) => x.trim() === row.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim(),
 				)
 			) {
 				hide("activity");
@@ -273,7 +273,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".users-list > li:not(.tt-hidden)").length,
 					document.findAll(".users-list > li").length,
-					content
+					content,
 				);
 			}
 		}
@@ -292,7 +292,7 @@
 				localFilters["Statistics"].updateStatistics(
 					document.findAll(".users-list > li:not(.tt-hidden)").length,
 					document.findAll(".users-list > li").length,
-					content
+					content,
 				);
 			}
 		}
@@ -307,7 +307,7 @@
 						.filter((img) => !!img)
 						.map((img) => img.getAttribute("title").trim())
 						.filter((tag) => !!tag)
-				: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
+				: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
 		);
 
 		const factions = [];

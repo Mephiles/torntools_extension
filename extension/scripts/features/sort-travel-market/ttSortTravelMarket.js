@@ -15,7 +15,7 @@
 		{
 			storage: ["settings.pages.travel.sortable"],
 		},
-		null
+		null,
 	);
 
 	async function makeSortable() {
@@ -42,7 +42,7 @@
 			if (!header) await sort("none", undefined);
 			else {
 				header.appendChild(
-					document.newElement({ type: "i", class: `fas ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` })
+					document.newElement({ type: "i", class: `fas ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` }),
 				);
 				await sort(settings.sorting.abroad.order, header);
 			}

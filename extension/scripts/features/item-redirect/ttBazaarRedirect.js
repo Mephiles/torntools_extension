@@ -15,7 +15,7 @@
 		{
 			storage: ["settings.pages.bazaar.redirects"],
 		},
-		null
+		null,
 	);
 
 	async function addHighlight() {

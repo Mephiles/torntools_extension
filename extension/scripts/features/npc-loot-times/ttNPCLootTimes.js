@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!settings.external.yata && !settings.external.tornstats && !settings.external.lzpt) return "YATA, TornStats or LZPT not enabled";
-		}
+		},
 	);
 
 	async function showNPCs() {
@@ -57,7 +57,7 @@
 						document.newElement({ type: "span", class: "npc-name", text: "Planned Attack" }),
 						document.newElement({ type: "div", class: "npc-information", children: [timer] }),
 					],
-				})
+				}),
 			);
 		}
 
@@ -94,7 +94,7 @@
 							children: [document.newElement({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }), timer],
 						}),
 					],
-				})
+				}),
 			);
 		}
 
@@ -116,7 +116,7 @@
 						ttStorage.change({ settings: { notifications: { types: { npcsGlobal: notifications } } } });
 					},
 				},
-			})
+			}),
 		);
 	}
 

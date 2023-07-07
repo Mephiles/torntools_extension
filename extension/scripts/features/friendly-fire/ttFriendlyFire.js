@@ -13,7 +13,7 @@
 		{
 			storage: ["settings.pages.profile.showAllyWarning", "settings.allyFactionsIDs"],
 		},
-		null
+		null,
 	);
 
 	async function addWarning() {
@@ -37,7 +37,7 @@
 				type: "span",
 				class: "tt-ally-warning",
 				text: warning,
-			})
+			}),
 		);
 	}
 

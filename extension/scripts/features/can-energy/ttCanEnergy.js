@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		}
+		},
 	);
 
 	function initialiseAddEGains() {
@@ -37,7 +37,7 @@
 				torndata.items[eCanElement.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
-					.filter((x) => !isNaN(x))[0]
+					.filter((x) => !isNaN(x))[0],
 			);
 			let totalEnergy = baseEnergy;
 			if (!isNaN(factionPerk)) totalEnergy += (factionPerk / 100) * baseEnergy;

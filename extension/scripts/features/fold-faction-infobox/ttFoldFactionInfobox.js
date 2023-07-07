@@ -17,7 +17,7 @@
 		{
 			storage: ["settings.pages.faction.foldableInfobox"],
 		},
-		null
+		null,
 	);
 
 	function initialiseListeners() {

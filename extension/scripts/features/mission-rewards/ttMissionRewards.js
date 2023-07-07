@@ -15,7 +15,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.ammo) return "No API access.";
-		}
+		},
 	);
 
 	function initialise() {
@@ -57,7 +57,7 @@
 							}),
 						],
 					}),
-					actionsWrap.find(".actions")
+					actionsWrap.find(".actions"),
 				);
 				reward.classList.add("tt-modified");
 			} else if (type === "Item") {
@@ -99,7 +99,7 @@
 							}),
 						],
 					}),
-					actionsWrap.find(".actions")
+					actionsWrap.find(".actions"),
 				);
 				reward.classList.add("tt-modified");
 			}

@@ -16,7 +16,7 @@
 		},
 		async () => {
 			await requireSidebar();
-		}
+		},
 	);
 
 	let observer;
