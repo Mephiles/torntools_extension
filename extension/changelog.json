@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 14, "build": 0 },
+		"version": { "major": 6, "minor": 15, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 14, "build": 0 },
+		"date": "2023/07/07",
 		"logs": {
 			"features": [{ "message": "Added filtering against Early Discharge status to the userlist page.", "contributor": "Vrasp" }],
 			"fixes": [
@@ -22,8 +28,7 @@
 				{ "message": "Extend Search Chat to newly opened chat boxes(if old closed chats are reopened).", "contributor": "TheFoxMan" },
 				{ "message": "Extend Cooldown End Times to books, bank investment, OC.", "contributor": "TheFoxMan" },
 				{ "message": "Ensure that errors found before feature manager popup loaded are also logged.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
