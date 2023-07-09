@@ -3,9 +3,12 @@
 		"version": { "major": 6, "minor": 15, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [
-			{ "message": "Fix Abroad Auto Max Fill for Flower Shop employees(again).", "contributor": "TheFoxMan" }
-		], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix Abroad Auto Max Fill for Flower Shop employees(again).", "contributor": "TheFoxMan" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 14, "build": 0 },
