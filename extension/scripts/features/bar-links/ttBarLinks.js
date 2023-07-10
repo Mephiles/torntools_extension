@@ -17,15 +17,15 @@
 	);
 
 	const LINKS = {
-		barEnergy: "https://www.torn.com/gym.php",
-		barNerve: "https://www.torn.com/crimes.php",
+		"[class*='bar__'] [class*='energy__']": "https://www.torn.com/gym.php",
+		"[class*='bar__'] [class*='nerve___']": "https://www.torn.com/crimes.php",
 	};
 
 	async function addLinks() {
 		await requireSidebar();
 
-		for (const id of Object.keys(LINKS)) {
-			const barLink = document.find(`#${id}`);
+		for (const selector of Object.keys(LINKS)) {
+			const barLink = document.find(selector);
 			if (!barLink) continue;
 
 			barLink.removeAttribute("href");
@@ -40,10 +40,10 @@
 	}
 
 	function onClick(event) {
-		const bar = event.target.closest("a[id][class*='bar___']");
+		const bar = event.target.closest("a[class*='bar___']");
 		if (!bar) return;
 
-		const link = LINKS[bar.id];
+		const link = LINKS[Object.keys(LINKS).filter(selector => bar.matches(selector))[0]];
 		if (!link) return;
 
 		let target;
@@ -54,8 +54,8 @@
 	}
 
 	function removeLinks() {
-		for (const id of Object.keys(LINKS)) {
-			const barName = document.find(`#${id} .bar-link`);
+		for (const selector of Object.keys(LINKS)) {
+			const barName = document.find(selector);
 			if (!barName) continue;
 
 			barName.removeEventListener("click", onClick);
