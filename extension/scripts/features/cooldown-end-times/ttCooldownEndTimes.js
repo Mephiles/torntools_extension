@@ -25,18 +25,14 @@
 
 			const tooltip = (await requireElement("body > [id*='floating-ui-']")).find("[class*='tooltip__']");
 			const tooltipName = tooltip.getElementsByTagName("b")[0]?.textContent;
-			if ([
-					"Education",
-					"Reading Book",
-					"Racing",
-					"Drug Cooldown",
-					"Booster Cooldown",
-					"Medical Cooldown",
-					"Organized Crime",
-					"Bank Investment",
-				].includes(tooltipName)) {
+			if (
+				["Education", "Reading Book", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown", "Organized Crime", "Bank Investment"].includes(
+					tooltipName
+				)
+			) {
 				removeEndTimes(tooltip);
-				const time = Date.now() + textToTime(tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent);
+				const time =
+					Date.now() + textToTime(tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent);
 				tooltip.appendChild(
 					document.newElement({
 						type: "div",

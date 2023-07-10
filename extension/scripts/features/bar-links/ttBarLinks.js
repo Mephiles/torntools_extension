@@ -43,7 +43,7 @@
 		const bar = event.target.closest("a[class*='bar___']");
 		if (!bar) return;
 
-		const link = LINKS[Object.keys(LINKS).filter(selector => bar.matches(selector))[0]];
+		const link = LINKS[Object.keys(LINKS).filter((selector) => bar.matches(selector))[0]];
 		if (!link) return;
 
 		let target;
