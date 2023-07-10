@@ -9,7 +9,8 @@
 				{ "message": "Fix Abroad Auto Max Fill for Flower Shop employees(again).", "contributor": "TheFoxMan" },
 				{ "message": "Fix Sidebar Links.", "contributor": "TheFoxMan" },
 				{ "message": "Fix energy and nerve refill highlighting.", "contributor": "TheFoxMan" },
-				{ "message": "Fix Cooldown End Times.", "contributor": "TheFoxMan" }
+				{ "message": "Fix Cooldown End Times.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Hide Level Upgrade.", "contributor": "TheFoxMan" }
 			],
 			"changes": [],
 			"removed": []
