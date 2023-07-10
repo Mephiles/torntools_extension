@@ -1847,7 +1847,7 @@ function isOwnProfile() {
 
 function getUserEnergy() {
 	return document
-		.find("#barEnergy [class*='bar-value___']")
+		.find("[class*='bar__'][class*='energy__'] [class*='bar-value___']")
 		.textContent.split("/")
 		.map((x) => parseInt(x));
 }
