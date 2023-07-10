@@ -18,51 +18,33 @@
 	async function addEndTimes() {
 		const statusIcons = await requireElement("#sidebarroot [class*='status-icons__']");
 		statusIcons.addEventListener("mouseover", listener);
-		let tooltipPortal,
-			addedListener = true;
+		let tooltipPortal;
 
 		async function listener(event) {
-			if (!event.target.closest("li")?.getAttribute("class")?.match(iconRegex)) return;
+			if (!event.target.closest("li")?.matches("[class*='icon']")) return;
 
-			if (addedListener) {
-				statusIcons.removeEventListener("mouseover", listener);
-				addedListener = false;
+			const tooltip = (await requireElement("body > [id*='floating-ui-']")).find("[class*='tooltip__']");
+			const tooltipName = tooltip.getElementsByTagName("b")[0]?.textContent;
+			if ([
+					"Education",
+					"Reading Book",
+					"Racing",
+					"Drug Cooldown",
+					"Booster Cooldown",
+					"Medical Cooldown",
+					"Organized Crime",
+					"Bank Investment",
+				].includes(tooltipName)) {
+				removeEndTimes(tooltip);
+				const time = Date.now() + textToTime(tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent);
+				tooltip.appendChild(
+					document.newElement({
+						type: "div",
+						class: "tt-tooltip-end-times",
+						text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
+					})
+				);
 			}
-			if (!tooltipPortal) tooltipPortal = await requireElement("body > .ToolTipPortal");
-			new MutationObserver((mutations) => {
-				if (
-					feature.enabled() &&
-					!mutations.some(
-						(mut) => mut.addedNodes[0]?.className === "tt-tooltip-end-times" || mut.removedNodes[0]?.className === "tt-tooltip-end-times"
-					)
-				) {
-					removeEndTimes(tooltipPortal);
-					const tooltip = tooltipPortal.find("[class*='tooltip__']");
-					if (
-						[
-							"Education",
-							"Reading Book",
-							"Racing",
-							"Drug Cooldown",
-							"Booster Cooldown",
-							"Medical Cooldown",
-							"Organized Crime",
-							"Bank Investment",
-						].includes(tooltip.getElementsByTagName("b")[0]?.textContent)
-					) {
-						const time =
-							Date.now() +
-							textToTime(tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent);
-						tooltip.appendChild(
-							document.newElement({
-								type: "div",
-								class: "tt-tooltip-end-times",
-								text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
-							})
-						);
-					}
-				}
-			}).observe(tooltipPortal, { childList: true, subtree: true });
 		}
 	}
 
