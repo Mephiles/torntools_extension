@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix Abroad Auto Max Fill for Flower Shop employees(again).", "contributor": "TheFoxMan" },
-				{ "message": "Fix Sidebar Links.", "contributor": "TheFoxMan" }
+				{ "message": "Fix Sidebar Links.", "contributor": "TheFoxMan" },
+				{ "message": "Fix energy and nerve refill highlighting.", "contributor": "TheFoxMan" }
 			],
 			"changes": [],
 			"removed": []

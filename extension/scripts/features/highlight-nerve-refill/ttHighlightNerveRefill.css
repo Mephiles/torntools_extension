@@ -1,3 +1,3 @@
-.tt-highlight-nerve-refill #barNerve p[class*="bar-name_"] {
+.tt-highlight-nerve-refill [class*="bar__"][class*="nerve__"] p[class*="bar-name_"] {
 	color: var(--default-green-color) !important;
 }
