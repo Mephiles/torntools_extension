@@ -1,10 +1,15 @@
 [
 	{
+		"version": { "major": 6, "minor": 16, "build": 0 },
+		"title": "Beta",
+		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
 		"version": { "major": 6, "minor": 15, "build": 0 },
 		"title": "Sidebar fixes",
-		"date": false,
+		"date": "2023/07/11",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix Abroad Auto Max Fill for Flower Shop employees(again).", "contributor": "TheFoxMan" },
 				{ "message": "Fix Sidebar Links.", "contributor": "TheFoxMan" },
@@ -13,9 +18,7 @@
 				{ "message": "Fix Hide Level Upgrade.", "contributor": "TheFoxMan" },
 				{ "message": "Fix any energy giving items taken through Quick Items.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Medical Life on HP items.", "contributor": "TheFoxMan" }
-			],
-			"changes": [],
-			"removed": []
+			]
 		}
 	},
 	{
