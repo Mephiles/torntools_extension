@@ -11,7 +11,8 @@
 				{ "message": "Fix energy and nerve refill highlighting.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Cooldown End Times.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Hide Level Upgrade.", "contributor": "TheFoxMan" },
-				{ "message": "Fix any energy giving items taken through Quick Items.", "contributor": "TheFoxMan" }
+				{ "message": "Fix any energy giving items taken through Quick Items.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Medical Life on HP items.", "contributor": "TheFoxMan" }
 			],
 			"changes": [],
 			"removed": []

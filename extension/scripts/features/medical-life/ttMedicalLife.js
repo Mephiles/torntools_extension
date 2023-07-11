@@ -66,7 +66,7 @@
 			.totalSum();
 		const percentage = (1 + perks / 100) * MEDICAL_ITEMS[id];
 
-		const lifeValues = document.find("#barLife [class*='bar-value___']").textContent.split("/");
+		const lifeValues = document.find("[class*='bar__'][class*='life__'] [class*='bar-value___']").textContent.split("/");
 		const currentLife = parseInt(lifeValues[0]);
 		const maximumLife = parseInt(lifeValues[1]);
 
