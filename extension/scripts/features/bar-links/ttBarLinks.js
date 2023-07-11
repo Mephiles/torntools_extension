@@ -17,8 +17,8 @@
 	);
 
 	const LINKS = {
-		"[class*='bar__'] [class*='energy__']": "https://www.torn.com/gym.php",
-		"[class*='bar__'] [class*='nerve___']": "https://www.torn.com/crimes.php",
+		"[class*='bar__'][class*='energy__']": "https://www.torn.com/gym.php",
+		"[class*='bar__'][class*='nerve___']": "https://www.torn.com/crimes.php",
 	};
 
 	async function addLinks() {
