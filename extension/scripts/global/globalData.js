@@ -812,6 +812,7 @@ const DEFAULT_STORAGE = {
 				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				isRecruit: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
 		},
 		factionArmory: {

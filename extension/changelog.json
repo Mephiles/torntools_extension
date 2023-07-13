@@ -3,7 +3,9 @@
 		"version": { "major": 6, "minor": 16, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": { "features": [
+			{ "message": "Added Recruit status filtering on the faction page.", "contributor": "LePluB"}
+		], "fixes": [], "changes": [], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 15, "build": 0 },
