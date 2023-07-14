@@ -392,17 +392,11 @@ async function updateUserdata() {
 		// but with lesser count than old notifications, we
 		// have negative value. TT then fetches all the new notifications.
 		if (newEventsCount < 0) newEventsCount = userdata?.notifications?.events ?? 0;
-
-		if (newEventsCount > 0) {
-			if (newEventsCount <= 25) {
-				userdata.events = (await fetchData("torn", { section: "user", selections: ["newevents"], params: { limit: newEventsCount } })).events;
-			} else {
-				userdata.events = (await fetchData("torn", { section: "user", selections: ["events"], params: { limit: newEventsCount } })).events;
-			}
-		}
-
-		// No new events. So reset events.
-		if (newEventsCount === 0) userdata.events = {};
+		else if (newEventsCount > 0) {
+			const category = (newEventsCount <= 25) ? "newevents" : "events";
+			userdata.events = (await fetchData("torn", { section: "user", selections: [category], params: { limit: newEventsCount } })).events;
+			selections.push(category);
+		} else if (newEventsCount === 0) userdata.events = {}; // No new events. So reset events.
 	}
 	if (!userdata.events || userdata?.notifications?.events === 0) userdata.events = {};
 
@@ -584,6 +578,7 @@ async function updateUserdata() {
 				eventCount++;
 			}
 			if (events.length) {
+				// Remove profile links from event message
 				let message = events.last().event.replace(/<\/?[^>]+(>|$)/g, "");
 				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""})`;
 
