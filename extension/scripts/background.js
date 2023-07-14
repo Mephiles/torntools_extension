@@ -613,7 +613,7 @@ async function updateUserdata() {
 			}
 		}
 
-		await setBadge("count", { events: eventCount, messages: messageCount });
+		await setBadge("count", { events: userdata.notifications.events, messages: userdata.notifications.messages });
 	}
 
 	async function notifyStatusChange() {
