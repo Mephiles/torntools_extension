@@ -28,6 +28,8 @@
 	async function addWorth(force) {
 		if (!force) return;
 
+		document.find(".tt-armory-worth")?.remove();
+
 		const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement;
 		const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
 
