@@ -393,7 +393,7 @@ async function updateUserdata() {
 		// have negative value. TT then fetches all the new notifications.
 		if (newEventsCount < 0) newEventsCount = userdata?.notifications?.events ?? 0;
 		else if (newEventsCount > 0) {
-			const category = (newEventsCount <= 25) ? "newevents" : "events";
+			const category = newEventsCount <= 25 ? "newevents" : "events";
 			userdata.events = (await fetchData("torn", { section: "user", selections: [category], params: { limit: newEventsCount } })).events;
 			selections.push(category);
 		} else if (newEventsCount === 0) userdata.events = {}; // No new events. So reset events.
