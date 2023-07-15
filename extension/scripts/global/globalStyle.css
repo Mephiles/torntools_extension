@@ -232,6 +232,14 @@ body.dark-mode #tt-page-status .tt-features-list {
 /* Open features list when focused(PC) or hover(mobiles & tablets) */
 #tt-page-status.open .tt-features-list {
 	display: block;
+	border-top: none;
+}
+
+#tt-page-status.open button {
+	background-color: #333;
+	background-repeat: no-repeat;
+	background-size: 25px;
+	background-position: center;
 }
 
 /* Error messages styles */
