@@ -660,6 +660,7 @@ const DEFAULT_STORAGE = {
 				marketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				pointsMarketRemove: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				pointsMarketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				abroadItemBuy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			achievements: {
 				show: new DefaultSetting({ type: "boolean", defaultValue: true }),

@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "No Confirm for buying flowers and plushies abroad.", "contributor": "TheFoxMan" }],
 			"fixes": [{ "message": "Fix extension icon missing number of new events and messages.", "contributor": "TheFoxMan" }],
 			"changes": [],
 			"removed": []
