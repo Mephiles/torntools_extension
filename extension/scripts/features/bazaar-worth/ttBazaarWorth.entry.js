@@ -1,6 +1,7 @@
 "use strict";
 
 (async () => {
+	await featureManagerLoaded();
 	featureManager.registerFeature(
 		"Bazaar Worth",
 		"bazaar",
@@ -89,5 +90,9 @@
 
 	function removeWorth() {
 		document.find(".tt-bazaar-text").remove();
+	}
+
+	async function featureManagerLoaded() {
+		await requireCondition(() => window.isfeatureManagerLoaded, { delay: 100 });
 	}
 })();

@@ -68,6 +68,8 @@ class FeatureManager {
 			this.earlyErrors.forEach((error) => this.addErrorToPopup(error));
 			this.earlyErrors = [];
 		};
+
+		window.isfeatureManagerLoaded = true;
 	}
 
 	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {
