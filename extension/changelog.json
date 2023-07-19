@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [{ "message": "No Confirm for buying flowers and plushies abroad.", "contributor": "TheFoxMan" }],
 			"fixes": [{ "message": "Fix extension icon missing number of new events and messages.", "contributor": "TheFoxMan" }],
-			"changes": [],
+			"changes": [{ "message": "Change Faction Member Filter to filter when player status updates automatically.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
 	},

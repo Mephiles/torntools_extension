@@ -132,6 +132,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 		handleFilter();
 		handleSorting();
+		handleIconUpdates();
 
 		async function handleFilter() {
 			const searchInput = await requireElement(".table-header input[class*='searchInput___']");
@@ -194,6 +195,26 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 					observer.disconnect();
 				}).observe(document.find(".members-list .table-body"), { childList: true });
 			}
+		}
+
+		async function handleIconUpdates() {
+			const memberTable = await requireElement(".members-list .table-body");
+			const observer = new MutationObserver((records) => {
+				if (records.length > 1) return;
+
+				for (const record of records) {
+					if (!record.removedNodes?.[0].matches("#iconTray")) continue;
+
+					const oldIconsCount = record.removedNodes?.[0].children.length;
+					const newIconsCount = record.addedNodes?.[0].children.length;
+
+					if (oldIconsCount > 0 && newIconsCount > 0 && oldIconsCount !== newIconsCount) {
+						triggerCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE);
+						break;
+					}
+				};
+			});
+			observer.observe(memberTable, { childList: true, subtree: true });
 		}
 	}
 })();

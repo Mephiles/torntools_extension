@@ -45,6 +45,11 @@
 
 			await applyFilter();
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE].push(async () => {
+			if (!feature.enabled()) return;
+
+			await applyFilter();
+		});
 	}
 
 	let localFilters = {};
