@@ -212,7 +212,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 						triggerCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE);
 						break;
 					}
-				};
+				}
 			});
 			observer.observe(memberTable, { childList: true, subtree: true });
 		}
