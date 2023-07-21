@@ -137,7 +137,8 @@
 				"scripts/features/hide-chat/ttHideChat.css",
 				"scripts/features/revive-request/ttReviveRequest.css",
 				"scripts/features/user-alias/ttUserAlias.css",
-				"scripts/features/stacking-mode/ttStackingMode.css"
+				"scripts/features/stacking-mode/ttStackingMode.css",
+				"scripts/features/page-jump/ttPageJump.css"
 			],
 			"js": [
 				"resources/images/svg-icons/cross.js",
@@ -171,7 +172,8 @@
 				"scripts/features/revive-request/ttReviveRequest.js",
 				"scripts/features/user-alias/ttUserAlias.js",
 				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js",
-				"scripts/features/stacking-mode/ttStackingMode.js"
+				"scripts/features/stacking-mode/ttStackingMode.js",
+				"scripts/features/page-jump/ttPageJump.js"
 			],
 			"run_at": "document_end"
 		},

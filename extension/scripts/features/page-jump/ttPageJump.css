@@ -1,0 +1,135 @@
+.tt-page-jump {
+  --tt-page-jump-dark-bg: #333;
+}
+
+.tt-page-jump {
+  background-color: rgba(0, 0, 0, 0.40);
+  font-size: 1.1em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+
+.tt-page-jump.visible {
+  display: flex;
+}
+
+.tt-page-jump .search-container {
+  width: 40%;
+  max-width: 500px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 15px #0000008a;
+}
+
+.tt-page-jump .search-box-container {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+}
+
+.tt-page-jump .search-box-container .search-input input[type="text"] {
+  font-size: 1.1em;
+  padding: 0px 5px;
+}
+
+.tt-page-jump .search-box-container .search-icon {
+  flex-shrink: 1;
+  padding-top: 1px 10px 0 0;
+}
+
+.tt-page-jump .search-box-container .filtering-by {
+  flex-shrink: 1;
+  font-weight: bold;
+  margin-left: 5px;
+  font-size: 1.1em;
+  padding-top: 1px;
+}
+
+.tt-page-jump .search-box-container .search-input {
+  flex-grow: 1;
+}
+
+.tt-page-jump .search-box-container .search-input input {
+  width: 100%;
+}
+
+.tt-page-jump .results-container {
+  padding: 10px;
+}
+
+.tt-page-jump .results-container .result {
+  padding: 10px;
+  display: flex;
+  font-size: 1.1em;
+}
+
+.tt-page-jump .results-container .result.selected {
+  cursor: pointer;
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.tt-page-jump .results-container .result .icon {
+  flex-basis: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.tt-page-jump .results-container .result .name {
+  flex-grow: 1;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.tt-page-jump .results-container .result .name .value {
+  color: var(--default-green-color);
+}
+
+.tt-page-jump .results-container .result .subtext {
+  flex-shrink: 1;
+  color: #999;
+  display: flex;
+  font-size: 0.9em;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.tt-page-jump .results-container .result .subtext .smaller {
+  font-size: 0.8em;
+  padding-top: 5px;
+}
+
+.tt-page-jump .results-container .result .subtext .key {
+  text-transform: uppercase;
+  font-size: 0.9em;
+  border: 1px solid #ccc;
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  padding: 1px 5px;
+  color: #656565;
+  margin-right: 2px;
+}
+
+.tt-page-jump .results-container .no-results {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1em;
+}
+
+body.dark-mode .tt-page-jump .search-container { background-color: var(--tt-page-jump-dark-bg); }
+body.dark-mode .tt-page-jump .search-box-container .search-icon svg { fill: #fff; }
+body.dark-mode .tt-page-jump .search-box-container .search-input input {
+  background-color: var(--tt-page-jump-dark-bg);
+  color: #fff;
+}
+body.dark-mode .tt-page-jump .results-container .result.selected {
+  background-color: rgb(75 74 74);
+}
