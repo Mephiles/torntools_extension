@@ -17,10 +17,13 @@
 		}
 	);
 
+	let pointsBlock = null;
+	let pointsObserver = null;
+
 	async function showValue() {
 		await requireSidebar();
 
-		const block = document.evaluate(
+		pointsBlock = document.evaluate(
 			`
 				(
 					//a[@id='pointsPoints']
@@ -35,17 +38,26 @@
 			XPathResult.FIRST_ORDERED_NODE_TYPE,
 			null
 		)?.singleNodeValue;
-		if (!block) {
+		if (!pointsBlock) {
 			console.warn("Couldn't find your points block for some odd reason.");
 			return;
 		}
 
-		block.classList.add("tt-points-value");
+		pointsBlock.classList.add("tt-points-value");
 
+		pointsObserver = new MutationObserver(updateValue);
+		pointsObserver.observe(pointsBlock.find("span[class*='value___']"), { characterData: true, childList: true, subtree: true });
+
+		updateValue(pointsBlock);
+
+		executeScript((wrapped) => wrapped.initializeTooltip(".tt-points-value", "white-tooltip"), "initializeTooltip('.tt-points-value', 'white-tooltip')");
+	}
+
+	function updateValue(block) {
 		const value = torndata.stats.points_averagecost;
-		const points = block.find("span[class*='value___']").textContent.getNumber();
+		const points = pointsBlock.find("span[class*='value___']").textContent.getNumber();
 
-		for (const elements of block.findAll(":scope > span"))
+		for (const elements of pointsBlock.findAll(":scope > span"))
 			elements.setAttribute(
 				"title",
 				`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
@@ -53,13 +65,13 @@
 					shorten: 2,
 				})}`
 			);
-
-		executeScript((wrapped) => wrapped.initializeTooltip(".tt-points-value", "white-tooltip"), "initializeTooltip('.tt-points-value', 'white-tooltip')");
 	}
 
 	function removeValue() {
 		const block = document.find(".tt-points-value");
 		if (!block) return;
+
+		pointsObserver.disconnect();
 
 		block.classList.remove("tt-points-value");
 		for (const elements of block.findAll(":scope > span")) elements.removeAttribute("title");
