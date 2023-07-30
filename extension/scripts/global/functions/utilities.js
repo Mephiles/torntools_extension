@@ -234,3 +234,22 @@ function toClipboard(text) {
 		document.body.removeChild(textarea);
 	}
 }
+
+function getTimeUntilNextJobUpdate() {
+	const now = new Date().getTime();
+
+	const nextJobUpdate = new Date();
+	nextJobUpdate.setUTCHours(18);
+	nextJobUpdate.setUTCMinutes(30);
+	nextJobUpdate.setUTCSeconds(0);
+	nextJobUpdate.setUTCMilliseconds(0);
+
+	// If the current time is after 6:30 PM, add 1 day to the target time
+	if (nextJobUpdate.getTime() <= now) {
+		nextJobUpdate.setDate(nextJobUpdate.getDate() + 1);
+	}
+
+	const timeUntilNextJobUpdate = nextJobUpdate.getTime() - now;
+
+	return timeUntilNextJobUpdate;
+}
