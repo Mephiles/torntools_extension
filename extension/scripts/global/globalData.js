@@ -362,6 +362,7 @@ const DEFAULT_STORAGE = {
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				networth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				inventory: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				jobpoints: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				merits: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				perks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				icons: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -442,6 +443,7 @@ const DEFAULT_STORAGE = {
 				npcLootTimesService: new DefaultSetting({ type: "string", defaultValue: "tornstats" }),
 				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				companyAddictionLevel: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				showJobPointsToolTip: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -1346,6 +1348,16 @@ const API_USAGE = {
 			position: true,
 			company_id: true,
 			company_type: true,
+		},
+		jobpoints: {
+			jobs: {
+				"*": true,
+			},
+			companies: {
+				"*": {
+					jobpoints: true,
+				}
+			},
 		},
 		weaponexp: {
 			"*": {
