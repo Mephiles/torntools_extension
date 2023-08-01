@@ -14,7 +14,7 @@
 		() => {
 			if (!hasAPIData() ) return "No API access.";
 			else if (!settings.apiUsage.user.jobpoints) return "Job points API usage disabled.";
-            else if (!userdata.job.job) return "Currently you don't have a job.";
+            else if (!userdata.job.job || (userdata.job.job === "None" && userdata.job.company_name === "None")) return "Currently you don't have a job.";
 		}
 	);
 
@@ -62,7 +62,7 @@
 		if (ttCache.hasValue("job", "points")) {
 			return ttCache.get("job", "points");
 		} else {
-			const jobId = !userdata.job.company_type || userdata.job.company_type === 0 ? userdata.job.job : userdata.job.company_type;
+			const jobId = !userdata.job.company_type || userdata.job.company_type === 0 || userdata.job?.company_id === 0 ? userdata.job.job : userdata.job.company_type;
 			
 			try {
 				const response = (
@@ -80,7 +80,7 @@
                 else
                     currentJobPoints = response.companies[jobId].jobpoints ?? 0;
 
-				ttCache.set({ points: currentJobPoints }, getTimeUntilNextJobUpdate(), "job").then(() => {});
+				await ttCache.set({ points: currentJobPoints }, getTimeUntilNextJobUpdate(), "job");
 
 				return currentJobPoints;
 			} catch (error) {
