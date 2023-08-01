@@ -36,7 +36,28 @@
 		const jobIcon = await requireElement("#sidebarroot a[href*='/job']");
 		jobIcon.addEventListener("mouseover", tooltipListener);
     }
-	
+
+	async function tooltipListener() {
+		if (!feature.enabled()) return;
+        const jobPoints = await getCurrentJobPoints();
+
+		await sleep(200); // Tooltip transition duration from one icon's tooltip information to another icon's tooltip information
+		
+		const tooltipEl = (await requireElement("body > [id*='floating-ui-']")).find("[class*='tooltip__']");
+		const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
+		const tooltipBodyText = tooltipBodyEl.textContent;
+		const lastParenthesisIndex = tooltipBodyText.lastIndexOf(")");
+		
+		const pointsText = ` - ${jobPoints} points`;
+
+		if (tooltipBodyText.includes(pointsText)) return;
+		
+		if (lastParenthesisIndex > -1)
+			tooltipBodyEl.textContent = tooltipBodyText.substr(0, lastParenthesisIndex) + pointsText + tooltipBodyText.substr(lastParenthesisIndex);
+		else
+			tooltipBodyEl.textContent.insertAdjacentText("beforeend", pointsText);
+	}
+
 	async function getCurrentJobPoints() {
 		if (ttCache.hasValue("job", "points")) {
 			return ttCache.get("job", "points");
@@ -66,30 +87,6 @@
 				console.error("TT - An error occurred when fetching job points data, Error: " + error);
 				throw new Error("An error occurred when fetching job points data, Error: " + error);
 			}
-		}
-	}
-
-	async function tooltipListener() {
-		if (!feature.enabled()) return;
-        const jobPoints = await getCurrentJobPoints();
-
-		await sleep(200); // Tooltip transition duration from one icon's tooltip information to another icon's tooltip information
-		
-		const tooltipEl = (await requireElement("body > [id*='floating-ui-']")).find("[class*='tooltip__']");
-		const tooltipTitle = tooltipEl.getElementsByTagName("b")[0]?.textContent;
-		const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
-		
-		const pointsText = ` - ${jobPoints} points`;
-
-		if (tooltipBodyEl.textContent.includes(pointsText)) return;
-
-		if (tooltipTitle === "Job")
-			tooltipBodyEl.textContent.insertAdjacentText("beforeend", pointsText);
-		else if (tooltipTitle === "Company") {
-			const tooltipBodyText = tooltipBodyEl.textContent;
-			const lastParenthesisIndex = tooltipBodyText.lastIndexOf(")");
-			
-			tooltipBodyEl.textContent = tooltipBodyText.substr(0, lastParenthesisIndex) + pointsText + tooltipBodyText.substr(lastParenthesisIndex);
 		}
 	}
 })();
