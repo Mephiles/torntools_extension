@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "No Confirm for buying flowers and plushies abroad.", "contributor": "TheFoxMan" }],
+			"features": [
+				{ "message": "No Confirm for buying flowers and plushies abroad.", "contributor": "TheFoxMan" },
+				{ "message": "Added job points information in job/company sidebar icon tool tip", "contributor": "Conrado" }
+			],
 			"fixes": [
 				{ "message": "Fix extension icon missing number of new events and messages.", "contributor": "TheFoxMan" },
 				{ "message": "Fix travel cooldowns showing education cooldown when not taking any course.", "contributor": "TheFoxMan" }
