@@ -67,7 +67,7 @@
 
 				const addiction = response[id].effectiveness.addiction ?? 0;
 
-				ttCache.set({ addiction: addiction }, timeTillNextUpdate(), "company").then(() => {});
+				ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company").then(() => {});
 
 				return addiction;
 			} catch (error) {
@@ -75,25 +75,6 @@
 				throw new Error("An error occurred when fetching company employees data, Error: " + error);
 			}
 		}
-	}
-
-	function timeTillNextUpdate() {
-		const now = new Date().getTime();
-
-		const next630pm = new Date();
-		next630pm.setUTCHours(18);
-		next630pm.setUTCMinutes(30);
-		next630pm.setUTCSeconds(0);
-		next630pm.setUTCMilliseconds(0);
-
-		// If the current time is after 6:30 PM, add 1 day to the target time
-		if (next630pm.getTime() <= now) {
-			next630pm.setDate(next630pm.getDate() + 1);
-		}
-
-		const timeUntil630pm = next630pm.getTime() - now;
-
-		return timeUntil630pm;
 	}
 
 	function removeCompanyAddictionLevel() {
