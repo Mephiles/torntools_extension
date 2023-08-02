@@ -45,14 +45,16 @@
 		const value = torndata.stats.points_averagecost;
 		const points = block.find("span[class*='value___']").textContent.getNumber();
 
-		for (const elements of block.findAll(":scope > span"))
-			elements.setAttribute(
-				"title",
-				`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
-					currency: true,
-					shorten: 2,
-				})}`
-			);
+		block.addEventListener("mouseover", () => {
+			for (const elements of block.findAll(":scope > span"))
+				elements.setAttribute(
+					"title",
+					`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
+						currency: true,
+						shorten: 2,
+					})}`
+				);
+		});
 
 		executeScript((wrapped) => wrapped.initializeTooltip(".tt-points-value", "white-tooltip"), "initializeTooltip('.tt-points-value', 'white-tooltip')");
 	}
