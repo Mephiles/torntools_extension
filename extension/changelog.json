@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "No Confirm for buying flowers and plushies abroad.", "contributor": "TheFoxMan" }],
+			"features": [
+        { "message": "Added Recruit status filtering on the faction page.", "contributor": "LePluB"},
+        { "message": "No Confirm for buying flowers and plushies abroad.", "contributor": "TheFoxMan" }
+      ],
 			"fixes": [
 				{ "message": "Fix extension icon missing number of new events and messages.", "contributor": "TheFoxMan" },
 				{ "message": "Fix travel cooldowns showing education cooldown when not taking any course.", "contributor": "TheFoxMan" }
