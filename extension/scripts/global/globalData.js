@@ -1357,7 +1357,7 @@ const API_USAGE = {
 			companies: {
 				"*": {
 					jobpoints: true,
-				}
+				},
 			},
 		},
 		weaponexp: {
