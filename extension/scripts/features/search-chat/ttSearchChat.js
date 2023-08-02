@@ -41,7 +41,7 @@
 			if (!feature.enabled()) return;
 
 			const notModifiedInputs = document.findAll("#chatRoot [class*='_chat-box-input_']:not(.tt-modified) .tt-chat-filter");
-			if (notModifiedInputs.length) notModifiedInputs.forEach((x) => x.parentElement.classList.add("tt-modified"));
+			if (notModifiedInputs.length) notModifiedInputs.forEach((x) => x.closest("[class*='_chat-box-input_']").classList.add("tt-modified"));
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REPORT_OPENED].push(({ input }) => {
 			if (!feature.enabled()) return;

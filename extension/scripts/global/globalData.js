@@ -2,6 +2,8 @@
 
 chrome = typeof browser !== "undefined" ? browser : chrome;
 
+window.isfeatureManagerLoaded = false;
+
 const FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16243863";
 
 const ttStorage = new (class {
@@ -660,6 +662,7 @@ const DEFAULT_STORAGE = {
 				marketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				pointsMarketRemove: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				pointsMarketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				abroadItemBuy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			achievements: {
 				show: new DefaultSetting({ type: "boolean", defaultValue: true }),

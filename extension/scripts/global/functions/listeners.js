@@ -21,6 +21,7 @@ const EVENT_CHANNELS = {
 	FACTION_MAIN: "faction-main",
 	FACTION_NATIVE_FILTER: "faction-filter_native",
 	FACTION_NATIVE_SORT: "faction-sort_native",
+	FACTION_NATIVE_ICON_UPDATE: "faction-icon_update_native",
 	ITEM_AMOUNT: "item-amount",
 	ITEM_EQUIPPED: "item-equipped",
 	ITEM_ITEMS_LOADED: "item-items-loaded",

@@ -39,6 +39,12 @@
 			removeLastAction();
 			addLastAction(true);
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE].push(() => {
+			if (!feature.enabled()) return;
+
+			removeLastAction();
+			addLastAction(true);
+		});
 	}
 
 	async function addLastAction(force) {

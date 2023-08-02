@@ -68,6 +68,8 @@ class FeatureManager {
 			this.earlyErrors.forEach((error) => this.addErrorToPopup(error));
 			this.earlyErrors = [];
 		};
+
+		window.isfeatureManagerLoaded = true;
 	}
 
 	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {
@@ -345,7 +347,9 @@ class FeatureManager {
 							events: {
 								click: (e) => {
 									const title = e.target.matches(`#${this.containerID}`) ? e.target : e.target.closest(`#${this.containerID}`);
-									title.classList.toggle("open");
+									if (title.classList.toggle("open"))
+										title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/svg-icons/cross.svg")})`;
+									else title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/icon_128.png")})`;
 								},
 							},
 						}),

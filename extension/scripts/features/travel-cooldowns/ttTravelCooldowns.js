@@ -96,7 +96,7 @@
 				container.parentElement.find(".show-confirm[aria-expanded='true'] .travel-container").insertAdjacentElement("afterend", cooldowns);
 			}
 
-			if (!hasFinishedEducation())
+			if (!hasFinishedEducation() || userdata.education_current > 0)
 				cooldowns.insertAdjacentElement(
 					"afterend",
 					document.newElement({
