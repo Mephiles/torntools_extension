@@ -27,7 +27,7 @@
 	}
 
 	async function showSteadfast() {
-		const properties = await requireElement("#gymroot ul[class*='properties___']:not(:empty)");
+		const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
 
 		const factionPerks = userdata.faction_perks.filter((perk) => perk.includes("gym gains"));
 		const jobPerks = userdata.job_perks.filter((perk) => perk.includes("gym gains"));
