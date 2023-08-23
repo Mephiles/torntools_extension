@@ -13,7 +13,10 @@
 				{ "message": "Fix extension icon missing number of new events and messages.", "contributor": "TheFoxMan" },
 				{ "message": "Fix travel cooldowns showing education cooldown when not taking any course.", "contributor": "TheFoxMan" }
 			],
-			"changes": [{ "message": "Change Faction Member Filter to filter when player status updates automatically.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Change Faction Member Filter to filter when player status updates automatically.", "contributor": "TheFoxMan" },
+				{ "message": "Add notes that TornTools uses Limited Access key.", "contributor": "TheFoxMan" }
+			],
 			"removed": []
 		}
 	},
