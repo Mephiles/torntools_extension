@@ -111,3 +111,15 @@ body.light .search {
 body.dark .search {
 	border: 1px solid #777;
 }
+
+.key-perms-note {
+	margin-top: 5px;
+}
+
+.key-perms-note span {
+	color: #fbc02d;
+}
+
+body.dark .key-perms-note span {
+	color: yellow;
+}

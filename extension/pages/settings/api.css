@@ -1,6 +1,15 @@
+.key-perms-note span {
+	color: #fbc02d;
+}
+
+body.dark .key-perms-note span {
+	color: yellow;
+}
+
 .current-usage .usages {
 	display: flex;
 }
+
 body.tt-mobile .current-usage .usages {
 	flex-direction: column;
 	align-items: center;
