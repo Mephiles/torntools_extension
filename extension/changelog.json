@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 16, "build": 0 },
+		"version": { "major": 6, "minor": 17, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 16, "build": 0 },
+		"date": "2023/08/25",
 		"logs": {
 			"features": [
 				{ "message": "Added Recruit status filtering on the faction page.", "contributor": "LePluB" },
@@ -15,8 +21,7 @@
 			"changes": [
 				{ "message": "Change Faction Member Filter to filter when player status updates automatically.", "contributor": "TheFoxMan" },
 				{ "message": "Add notes that TornTools uses Limited Access key.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
