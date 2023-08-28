@@ -12,7 +12,8 @@
 			"features": [
 				{ "message": "Added Recruit status filtering on the faction page.", "contributor": "LePluB" },
 				{ "message": "No Confirm for buying flowers and plushies abroad.", "contributor": "TheFoxMan" },
-				{ "message": "Added job points information in job/company sidebar icon tool tip", "contributor": "Conrado" }
+				{ "message": "Added job points information in job/company sidebar icon tool tip", "contributor": "Conrado" },
+				{ "message": "Reformat both Faction and Company pages to include ID in name, similar to profiles", "contributor": "Kwack"}
 			],
 			"fixes": [
 				{ "message": "Fix extension icon missing number of new events and messages.", "contributor": "TheFoxMan" },
