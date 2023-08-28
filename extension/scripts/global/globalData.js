@@ -498,6 +498,7 @@ const DEFAULT_STORAGE = {
 				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			companies: {
+				idBesideCompanyName: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				autoStockFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				employeeEffectiveness: new DefaultSetting({ type: "number", defaultValue: 18 }),
