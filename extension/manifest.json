@@ -360,7 +360,8 @@
 				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js",
 				"scripts/features/medical-life/ttMedicalLife.js",
 				"scripts/features/faction-quick-items/ttFactionQuickItems.js",
-				"scripts/features/faction-stakeouts/ttFactionStakeouts.js"
+				"scripts/features/faction-stakeouts/ttFactionStakeouts.js",
+				"scripts/features/faction-id/ttFactionID.js"
 			],
 			"run_at": "document_end"
 		},
@@ -499,7 +500,8 @@
 				"scripts/content/company/ttCompany.js",
 				"scripts/features/job-specials/ttJobSpecials.js",
 				"scripts/features/last-action/ttCompanyLastAction.js",
-				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.js"
+				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.js",
+				"scripts/features/company-id/ttCompanyID.js"
 			],
 			"run_at": "document_end"
 		},
