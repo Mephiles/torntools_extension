@@ -30,7 +30,7 @@
 
 			addID();
 		});
-		
+
 		const hashes = getHashParameters();
 		switch (true) {
 			case isOwnCompany:
