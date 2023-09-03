@@ -330,7 +330,7 @@ async function setupDashboard() {
 		}
 
 		function setupStakeouts() {
-			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 1 && stakeouts.date))
+			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order))
 				dashboard.find(".stakeouts").classList.remove("tt-hidden");
 			else dashboard.find(".stakeouts").classList.add("tt-hidden");
 		}
@@ -425,13 +425,13 @@ async function setupDashboard() {
 	}
 
 	function updateStakeouts() {
-		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 1 && stakeouts.date)) {
+		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)) {
 			dashboard.find(".stakeouts").classList.remove("tt-hidden");
 
 			const stakeoutList = dashboard.find(".stakeouts .stakeout-list");
 			stakeoutList.innerHTML = "";
 
-			for (const id in stakeouts) {
+			for (const id of stakeouts.order) {
 				if (isNaN(parseInt(id))) continue;
 
 				let activity, name, lastAction, lifeCurrent, lifeMaximum, state, stateColor;
@@ -461,6 +461,7 @@ async function setupDashboard() {
 				});
 				removeStakeoutButton.addEventListener("click", () => {
 					delete stakeouts[id];
+					stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
 
 					ttStorage.set({ stakeouts });
 				});

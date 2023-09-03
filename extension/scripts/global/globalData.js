@@ -913,7 +913,7 @@ const DEFAULT_STORAGE = {
 			},
 		},
 	},
-	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
+	stakeouts: new DefaultSetting({ type: "object", defaultValue: {order: []} }),
 	factionStakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 	attackHistory: {
 		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),

@@ -170,6 +170,9 @@ async function convertDatabase() {
 		} else if (version <= toNumericVersion("6.3.0")) {
 			newStorage.localdata.vault = undefined;
 			updated = true;
+		} else if (version <= toNumericVersion("6.16.0")) {
+			newStorage.stakeouts.order = Object.keys(newStorage.stakeouts).filter((id) => !isNaN(parseInt(id)));
+			updated = true;
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
