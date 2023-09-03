@@ -65,7 +65,7 @@
 
 		const { content, options } = createContainer("Faction Quick Items", {
 			class: "mt10",
-			nextElement: document.find("#faction-armoury hr"),
+			nextElement: document.find("#faction-armoury > hr"),
 			allowDragging: true,
 			compact: true,
 		});

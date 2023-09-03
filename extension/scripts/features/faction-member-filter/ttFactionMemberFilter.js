@@ -59,7 +59,7 @@
 
 		const { content } = createContainer("Member Filter", {
 			class: "mt10",
-			nextElement: document.find(".faction-info-wrap .members-list"),
+			nextElement: document.find(".faction-info-wrap > .members-list"),
 			compact: true,
 			filter: true,
 		});

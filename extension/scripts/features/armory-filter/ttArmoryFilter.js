@@ -35,7 +35,7 @@
 
 		const { options, content } = createContainer("Armory Filter", {
 			class: "mt10",
-			nextElement: document.find("#faction-armoury hr"),
+			nextElement: document.find("#faction-armoury > hr"),
 			filter: true,
 		});
 
