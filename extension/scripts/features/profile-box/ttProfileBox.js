@@ -833,15 +833,15 @@
 			checkbox.setChecked(hasStakeout);
 			checkbox.onChange(() => {
 				if (checkbox.isChecked()) {
-					ttStorage.change({
-						stakeouts: {
-							[id]: { alerts: { okay: false, hospital: false, landing: false, online: false, life: false } },
-						},
-					});
+					stakeouts[id] = { alerts: { okay: false, hospital: false, landing: false, online: false, life: false } };
+					stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+					ttStorage.set({ stakeouts });
 
 					alerts.classList.remove("tt-hidden");
 				} else {
-					ttStorage.change({ stakeouts: { [id]: undefined } });
+					delete stakeouts[id];
+					stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+					ttStorage.set({ stakeouts });
 
 					alerts.classList.add("tt-hidden");
 					content.findAll("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));

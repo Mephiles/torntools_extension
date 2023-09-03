@@ -3,9 +3,12 @@
 		"version": { "major": 6, "minor": 17, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [
-			{ "message": "Fixed job points tool tip for city jobs.", "contributor": "Conrado" }
-		], "changes": [], "removed": [] }
+		"logs": {
+			"features": [{ "message": "Stakeouts can be sorted(and should be saved) on targets page.", "contributor": "TheFoxMan" }],
+			"fixes": [{ "message": "Fixed job points tool tip for city jobs.", "contributor": "Conrado" }],
+			"changes": [{ "message": "Chat Search waits until chat root is found.", "contributor": "TheFoxMan" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 16, "build": 0 },

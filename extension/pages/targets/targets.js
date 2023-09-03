@@ -176,6 +176,8 @@ async function setupStakeouts() {
 	fillStakeouts();
 	storageListeners.stakeouts.push(updateStakeouts);
 
+	new Sortable(stakeoutList, { animation: 150 });
+
 	_stakeouts.find("#saveStakeouts").addEventListener("click", async () => await saveStakeouts());
 	_stakeouts.find("#resetStakeouts").addEventListener("click", () => {
 		loadConfirmationPopup({
@@ -208,7 +210,7 @@ async function setupStakeouts() {
 	});
 
 	function fillStakeouts() {
-		for (const id in stakeouts) {
+		for (const id of stakeouts.order) {
 			if (isNaN(parseInt(id))) continue;
 
 			addStakeout(id, stakeouts[id]);
@@ -381,7 +383,7 @@ async function setupStakeouts() {
 			.filter((row) => !row.classList.contains("new"))
 			.forEach((row) => row.remove());
 
-		for (const id in stakeouts) {
+		for (const id of stakeouts.order) {
 			if (isNaN(parseInt(id))) continue;
 
 			const row = stakeoutList.find(`tr[data-id="${id}"]`);
@@ -445,6 +447,8 @@ async function setupStakeouts() {
 				},
 			};
 		}
+
+		newStakeouts.order = [...stakeoutList.findAll("tr.row")].map((row) => row.dataset.id);
 
 		await ttStorage.set({ stakeouts: newStakeouts });
 		console.log("Stakeouts updated!", newStakeouts);
