@@ -62,7 +62,9 @@
 			return ttCache.get("job", "points");
 		} else {
 			const jobId =
-				!userdata.job.company_type || userdata.job.company_type === 0 || userdata.job?.company_id === 0 ? userdata.job.job.toLowerCase() : userdata.job.company_type;
+				!userdata.job.company_type || userdata.job.company_type === 0 || userdata.job?.company_id === 0
+					? userdata.job.job.toLowerCase()
+					: userdata.job.company_type;
 
 			try {
 				const response = (
