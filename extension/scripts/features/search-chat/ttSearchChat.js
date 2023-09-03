@@ -56,6 +56,7 @@
 	}
 
 	async function showSearch() {
+		await requireChatsLoaded();
 		for (const chat of document.findAll("[class*='_chat-active_']:not([class*='_chat-box-settings_'])")) {
 			addChatSearch(chat);
 		}
