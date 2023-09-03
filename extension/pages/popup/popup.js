@@ -330,7 +330,11 @@ async function setupDashboard() {
 		}
 
 		function setupStakeouts() {
-			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order))
+			if (
+				settings.pages.popup.showStakeouts &&
+				Object.keys(stakeouts).length &&
+				!(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)
+			)
 				dashboard.find(".stakeouts").classList.remove("tt-hidden");
 			else dashboard.find(".stakeouts").classList.add("tt-hidden");
 		}
@@ -425,7 +429,11 @@ async function setupDashboard() {
 	}
 
 	function updateStakeouts() {
-		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)) {
+		if (
+			settings.pages.popup.showStakeouts &&
+			Object.keys(stakeouts).length &&
+			!(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)
+		) {
 			dashboard.find(".stakeouts").classList.remove("tt-hidden");
 
 			const stakeoutList = dashboard.find(".stakeouts .stakeout-list");
