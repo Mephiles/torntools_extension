@@ -17,7 +17,10 @@
 	);
 
 	const LINKS = {
-		"[class*='bar__'][class*='energy__']": "https://www.torn.com/gym.php",
+		"[class*='bar__'][class*='energy__']": (
+			(isAbroad() && document.body.dataset.country === "south-africa")
+				? "https://www.torn.com/index.php?page=hunting"
+				: "https://www.torn.com/gym.php"),
 		"[class*='bar__'][class*='nerve___']": "https://www.torn.com/crimes.php",
 	};
 
