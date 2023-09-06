@@ -27,7 +27,7 @@
 			(event) => {
 				if (!feature.enabled()) return;
 
-				if (!event.target.matches("[class*='eventItem___'] [class*='message__']") || event.target.className.includes("tt-modified")) return;
+				if (!event.target.matches("[class*='message__']") || event.target.className.includes("tt-modified")) return;
 
 				const eventMessageEl = event.target;
 				regexes.forEach((regex) => {
