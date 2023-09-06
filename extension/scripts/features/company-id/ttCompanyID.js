@@ -9,8 +9,6 @@
 		player: null,
 	};
 
-	const isOwnCompany = document.location.pathname.toLowerCase() === "/companies.php";
-
 	const feature = featureManager.registerFeature(
 		"Company ID",
 		"companies",

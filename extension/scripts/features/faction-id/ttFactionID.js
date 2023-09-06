@@ -11,7 +11,6 @@
 	};
 
 	const query = getSearchParameters();
-	const isOwnFaction = query.get("step").toLowerCase() === "your";
 
 	const feature = featureManager.registerFeature(
 		"Faction ID",
@@ -28,7 +27,8 @@
 
 	function initialise() {
 		if (isOwnFaction) {
-			userdata.faction.faction_id ? (IDs.faction = userdata.faction.faction_id) : (IDs.player = userdata.player_id);
+			if (userdata.faction.faction_id) IDs.faction = userdata.faction.faction_id;
+			else IDs.player = userdata.player_id;
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
 				if (!feature.enabled || !settings.pages.faction.idBesideFactionName) return;
 
