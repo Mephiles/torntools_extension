@@ -6,7 +6,11 @@
 		"logs": {
 			"features": [{ "message": "Stakeouts can be sorted(and should be saved) on targets page.", "contributor": "TheFoxMan" }],
 			"fixes": [{ "message": "Fixed job points tool tip for city jobs.", "contributor": "Conrado" }],
-			"changes": [{ "message": "Chat Search waits until chat root is found.", "contributor": "TheFoxMan" }, { "message": "Redirect click on Energy bar to Hunting page when in South Africa.", "contributor": "TheFoxMan" }, { "message": "Update job specials for Car Dealership and Theater.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Chat Search waits until chat root is found.", "contributor": "TheFoxMan" },
+				{ "message": "Redirect click on Energy bar to Hunting page when in South Africa.", "contributor": "TheFoxMan" },
+				{ "message": "Update job specials for Car Dealership and Theater.", "contributor": "TheFoxMan" }
+			],
 			"removed": []
 		}
 	},
