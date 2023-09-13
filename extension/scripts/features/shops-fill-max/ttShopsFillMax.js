@@ -46,7 +46,7 @@
 				}
 				if (max > 100) max = 100;
 
-				item.find("input").value = max;
+				item.find("input[id]").value = max;
 			}
 		});
 	}
