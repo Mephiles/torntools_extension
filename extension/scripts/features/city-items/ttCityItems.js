@@ -36,7 +36,7 @@
 		function getAllItems() {
 			const items = [];
 
-			for (const marker of document.findAll("#map .leaflet-marker-icon[src*='https://www.torn.com/images/items/']")) {
+			for (const marker of document.findAll("#map .leaflet-marker-icon[src*='/images/items/']")) {
 				const id = marker.src.split("items/")[1].split("/")[0];
 
 				marker.classList.add("city-item");

@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fixed job points tool tip for city jobs.", "contributor": "Conrado" },
 				{ "message": "Fixed Event Worth to changed page layout.", "contributor": "TheFoxMan" },
-				{ "message": "Fixed City Shops Fill Max issues.", "contributor": "TheFoxMan" }
+				{ "message": "Fixed City Shops Fill Max issues.", "contributor": "TheFoxMan" },
+				{ "message": "Fix items in the city no longer being detected.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Chat Search waits until chat root is found.", "contributor": "TheFoxMan" },
