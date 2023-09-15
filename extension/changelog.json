@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 17, "build": 0 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Stakeouts can be sorted(and should be saved) on targets page.", "contributor": "TheFoxMan" }],
