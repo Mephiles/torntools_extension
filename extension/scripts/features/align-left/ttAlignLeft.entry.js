@@ -1,9 +1,6 @@
 "use strict";
 
 (async () => {
-	const devices = await checkDevice();
-	if (devices.mobile || devices.tablet) return "Not needed on touch devices.";
-
 	featureManager.registerFeature(
 		"Align Left",
 		"global",

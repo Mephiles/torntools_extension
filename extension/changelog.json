@@ -7,7 +7,6 @@
 			"features": [],
 			"fixes": [],
 			"changes": [
-				{ "message": "Remove Align Left for touch devices.", "contributor": "TheFoxMan" },
 				{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
