@@ -6,9 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [],
-			"changes": [
-				{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }
-			],
+			"changes": [{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
 	},
