@@ -3,10 +3,15 @@
 		"version": { "major": 6, "minor": 18, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [
-			{ "message": "Remove Align Left for touch devices.", "contributor": "TheFoxMan" },
-			{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }
-		], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [
+				{ "message": "Remove Align Left for touch devices.", "contributor": "TheFoxMan" },
+				{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }
+			],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 17, "build": 0 },
