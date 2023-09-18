@@ -3,8 +3,6 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	if ((await checkDevice()).mobile) return "Not supported on mobile!";
-
 	featureManager.registerFeature(
 		"Item Redirect",
 		"bazaar",
@@ -43,7 +41,17 @@
 			const isAutofill = params.get("tt_autofill") !== "false";
 
 			if (!foundItem && (!hasAutofill || isAutofill)) {
-				updateReactInput(document.find("div[class*='item__'] input"), itemName);
+				const searchInput = document.find("#bazaarRoot [class*='search___'] input");
+				updateReactInput(searchInput, itemName);
+				const devices = await checkDevice();
+				if (devices.mobile || devices.tablet) {
+					searchInput.setAttribute("title", "Autofilled by TornTools");
+					searchInput.dispatchEvent(new Event("focus"));
+					setTimeout(() => {
+						searchInput.dispatchEvent(new Event("blur"));
+						searchInput.removeAttribute("title");
+					}, 2000);
+				}
 			}
 
 			if (!hasAutofill) updateQuery("tt_autofill", false);

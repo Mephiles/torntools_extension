@@ -3,8 +3,6 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	if ((await checkDevice()).mobile) return "Not supported on mobile!";
-
 	featureManager.registerFeature(
 		"Item Redirect",
 		"market",
