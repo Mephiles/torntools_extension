@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Fix Auction House filtering for new item images.", "contributor": "TheFoxMan" }],
 			"changes": [{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
