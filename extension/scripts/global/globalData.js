@@ -498,6 +498,7 @@ const DEFAULT_STORAGE = {
 				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			companies: {
+				idBesideCompanyName: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				autoStockFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				employeeEffectiveness: new DefaultSetting({ type: "number", defaultValue: 18 }),
@@ -582,6 +583,7 @@ const DEFAULT_STORAGE = {
 				upgrades: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			faction: {
+				idBesideFactionName: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				csvRaidReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				csvRankedWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				csvWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
