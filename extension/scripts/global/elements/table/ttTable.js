@@ -62,9 +62,11 @@ function createTable(tableColumnsDefs, tableRowsData, options = {}) {
 		const newRows = data.map((rowData) => createTableRow(rowData, tableColumnsDefs, options));
 
 		tableBodyElem.replaceChildren();
-		newRows.map((row) => row.element).forEach((row) => {
-			tableBodyElem.appendChild(row);
-		});
+		newRows
+			.map((row) => row.element)
+			.forEach((row) => {
+				tableBodyElem.appendChild(row);
+			});
 	}
 
 	function sortColumn(columnDef, direction) {
