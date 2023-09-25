@@ -1,3 +1,22 @@
+.tt-bank-investment-balance-input {
+	padding: 5px 3px;
+}
+
+.tt-bank-investment-balance-input input {
+	color: var(--input-color);
+	border-radius: 5px;
+	border: 1px solid var(--input-border-color);
+	background: var(--input-background-color);
+	padding: 4px;
+	-moz-appearance: textfield;
+}
+
+.tt-bank-investment-balance-input input::-webkit-outer-spin-button,
+.tt-bank-investment-balance-input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 body:not(.dark-mode) .tt-bank-investment-selected-row {
 	background-color: #9bff9b;
 }

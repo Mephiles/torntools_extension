@@ -17,7 +17,7 @@
 	);
 
 	const DAYS_IN_YEAR = 365;
-	const BALANCE = 2_000_000_000;
+	let balance = 2_000_000_000;
 	const PERIOD_TYPE = {
 		ONE_WEEK: "1w",
 		TWO_WEEKS: "2w",
@@ -47,6 +47,7 @@
 		[INVESTMENTS_BONUSES.TCI]: 0.1,
 		[INVESTMENTS_BONUSES.MERIT]: 0.5,
 	};
+	let investmentTable, bestPeriod;
 
 	function bankMoneyCellRenderer(bankMoneyData) {
 		const element = document.newElement({
@@ -107,22 +108,46 @@
 			},
 		];
 		const tableRowsData = Object.values(PERIOD_TYPE).map((period) => _createRow(period));
-		const bestPeriod = tableRowsData.reduce((maxRow, row) => (row.regular.daily > maxRow.regular.daily ? row : maxRow), tableRowsData[0]).period;
+		bestPeriod = tableRowsData.reduce((maxRow, row) => (row.regular.daily > maxRow.regular.daily ? row : maxRow), tableRowsData[0]).period;
 		const customCellRenderers = {
 			bankMoney: bankMoneyCellRenderer,
 		};
 
-		const table = createTable(tableColumnsDefs, tableRowsData, {
+		investmentTable = createTable(tableColumnsDefs, tableRowsData, {
 			cellRenderers: customCellRenderers,
 			rowClass: (rowData) => (rowData.period === bestPeriod ? "tt-bank-investment-selected-row" : ""),
 			stretchColumns: true,
 		});
 
+		const moneyInput = document.newElement({
+			type: "div",
+			class: "tt-bank-investment-balance-input",
+			children: [
+				document.newElement({
+					type: "label",
+					text: "Amount: ",
+					children: [
+						document.newElement({
+							type: "input",
+							attributes: { type: "number", value: balance },
+							events: {
+								input: (e) => {
+									balance = e.target.value.getNumber();
+									updateInvestmentTable();
+								},
+							},
+						}),
+					],
+				}),
+			],
+		});
+
 		const { content, container } = createContainer("Bank Investment", { previousElement: delimiter });
-		content.appendChild(table.element);
+		content.appendChild(moneyInput);
+		content.appendChild(investmentTable.element);
 
 		function dispose() {
-			table.dispose();
+			investmentTable.dispose();
 			container.remove();
 		}
 
@@ -143,13 +168,19 @@
 			const aprWithBonus = aprPercent * totalBonusRatio;
 			const profitPerDayRatio = (aprWithBonus / DAYS_IN_YEAR) * DAYS[period];
 
-			const total = (profitPerDayRatio.toFixed(4) * BALANCE).roundNearest(1);
+			const total = (profitPerDayRatio.toFixed(4) * balance).roundNearest(1);
 			const daily = (total / DAYS[period]).toFixed();
 
 			return {
 				total,
 				daily,
 			};
+		}
+
+		function updateInvestmentTable() {
+			const tableRowsData = Object.values(PERIOD_TYPE).map((period) => _createRow(period));
+			bestPeriod = tableRowsData.reduce((maxRow, row) => (row.regular.daily > maxRow.regular.daily ? row : maxRow), tableRowsData[0]).period;
+			investmentTable.updateData(tableRowsData);
 		}
 
 		return {

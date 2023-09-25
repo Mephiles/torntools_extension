@@ -58,6 +58,15 @@ function createTable(tableColumnsDefs, tableRowsData, options = {}) {
 		],
 	});
 
+	function updateData(data) {
+		const newRows = data.map((rowData) => createTableRow(rowData, tableColumnsDefs, options));
+
+		tableBodyElem.replaceChildren();
+		newRows.map((row) => row.element).forEach((row) => {
+			tableBodyElem.appendChild(row);
+		});
+	}
+
 	function sortColumn(columnDef, direction) {
 		tableRows.sort((a, b) => {
 			if (columnDef.sortComparator) {
@@ -97,6 +106,7 @@ function createTable(tableColumnsDefs, tableRowsData, options = {}) {
 
 	return {
 		element: tableElem,
+		updateData,
 		sortColumn,
 		dispose,
 	};
