@@ -4,8 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Customizable balance for Bank Investment Table.", "contributor": "TheFoxMan" },
-				{ "message": "Reformat both Faction and Company pages to include ID in name, similar to profiles", "contributor": "Kwack"}],
+			"features": [
+				{ "message": "Customizable balance for Bank Investment Table.", "contributor": "TheFoxMan" },
+				{ "message": "Reformat both Faction and Company pages to include ID in name, similar to profiles", "contributor": "Kwack" }
+			],
 			"fixes": [{ "message": "Fix Auction House filtering for new item images.", "contributor": "TheFoxMan" }],
 			"changes": [{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }],
 			"removed": []
