@@ -1,7 +1,6 @@
 "use strict";
 
 (async () => {
-	console.warn("test");
 	if (!getPageStatus().access) return;
 
 	const IDs = {
