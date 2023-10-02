@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 18, "build": 0 },
+		"version": { "major": 6, "minor": 19, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 18, "build": 0 },
+		"date": "2023/10/02",
 		"logs": {
 			"features": [
 				{ "message": "Customizable balance for Bank Investment Table.", "contributor": "TheFoxMan" },
@@ -11,8 +17,7 @@
 				{ "message": "Fix Auction House filtering for new item images.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Casino High Low and other features for URL change.", "contributor": "TheFoxMan" }
 			],
-			"changes": [{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }],
-			"removed": []
+			"changes": [{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }]
 		}
 	},
 	{
