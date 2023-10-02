@@ -526,10 +526,12 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/loader.php?sid=view*",
-				"https://www.torn.com/loader.php?sid=rouletteStatistics",
+				"https://www.torn.com/page.php?sid=slotsStats",
+				"https://www.torn.com/page.php?sid=highlowStats",
+				"https://www.torn.com/page.php?sid=rouletteStatistics",
+				"https://www.torn.com/page.php?sid=kenoStatistics",
 				"https://www.torn.com/page.php?sid=bookie*",
-				"https://www.torn.com/bookies.php*"
+				"https://www.torn.com/loader.php?sid=view*"
 			],
 			"css": ["scripts/features/casino-net-total/ttCasinoNetTotal.css"],
 			"js": ["scripts/features/casino-net-total/ttCasinoNetTotal.js"],
@@ -749,7 +751,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/loader.php?sid=highlow*"],
+			"matches": ["https://www.torn.com/page.php?sid=highlow*"],
 			"css": ["scripts/features/high-low-helper/ttHighLowHelper.css"],
 			"js": ["scripts/features/high-low-helper/ttHighLowHelper.js"],
 			"run_at": "document_end"

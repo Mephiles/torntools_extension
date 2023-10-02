@@ -8,7 +8,10 @@
 				{ "message": "Customizable balance for Bank Investment Table.", "contributor": "TheFoxMan" },
 				{ "message": "Reformat both Faction and Company pages to include ID in name, similar to profiles", "contributor": "Kwack" }
 			],
-			"fixes": [{ "message": "Fix Auction House filtering for new item images.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fix Auction House filtering for new item images.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Casino High Low and other features for URL change.", "contributor": "TheFoxMan" }
+			],
 			"changes": [{ "message": "Extend Item Market Redirect for touch devices.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
