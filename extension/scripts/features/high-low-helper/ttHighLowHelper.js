@@ -23,11 +23,11 @@
 		addXHRListener(({ detail: { page, xhr, json } }) => {
 			if (!feature.enabled()) return;
 
-			if (page === "loader") {
+			if (page === "page") {
 				const params = new URL(xhr.responseURL).searchParams;
 				const sid = params.get("sid");
 
-				if (sid === "hiloJson" && json) {
+				if (sid === "highlowData" && json) {
 					switch (json.status) {
 						case "gameStarted":
 							if (json.currentGame[0].result === "Incorrect") {
