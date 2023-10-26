@@ -6,7 +6,9 @@
 		"logs": { "features": [], "fixes": [
 			{ "message": "Blackjack strategy for new page URL.", "contributor": "TheFoxMan" },
 			{ "message": "Flowers/Plushies Missing Set uses on page data instead of Torn API data.", "contributor": "TheFoxMan" }
-		], "changes": [], "removed": [] }
+		], "changes": [
+			{ "message": "Change Computer Link to be available for everyone instead of checking PC/Laptop availability in inventory.", "contributor": "TheFoxMan" }
+		], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 18, "build": 0 },
