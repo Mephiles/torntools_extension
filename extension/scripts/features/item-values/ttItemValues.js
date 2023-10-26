@@ -88,10 +88,12 @@
 		};
 
 		const list = getCurrentList();
-		removeTotal(list);
+		// TODO: API Inventory Block.
+		// removeTotal(list);
 
 		if (settings.pages.items.values) {
-			if (type) showTotal(list, type);
+			// TODO: API Inventory Block.
+			// if (type) showTotal(list, type);
 
 			for (const item of items) {
 				if (options.ignoreUntradable && parseInt(item.untradable)) continue;
@@ -148,7 +150,8 @@
 		}
 	}
 
-	function showTotal(list, type) {
+	// TODO: API Inventory Block.
+	/*function showTotal(list, type) {
 		if (!hasAPIData() || !settings.apiUsage.user.inventory) return;
 
 		if (list.find(".tt-item-price.price-total")) list.find(".tt-item-price.price-total").parentElement.remove();
@@ -190,11 +193,10 @@
 				}).observe(wrapper, { attributes: true, attributeFilter: ["class"] });
 			}
 		}, 0);
-	}
+	}*/
 
 	function removeTotal(list) {
-		const total = list.find(".tt-ignore .tt-item-price");
-		if (total) total.parentElement.remove();
+		list.find(".tt-ignore .tt-item-price")?.parentElement.remove();
 	}
 
 	function addValue(priceElement, quantity, price) {
@@ -231,7 +233,8 @@
 	function showItemValues(list) {
 		if (!list.dataset) return;
 
-		showTotal(list, list.dataset.info);
+		// TODO: API Inventory Block.
+		// showTotal(list, list.dataset.info);
 
 		for (const item of list.findAll(":scope > li[data-item]")) {
 			const id = item.dataset.item;
