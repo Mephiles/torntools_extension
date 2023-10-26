@@ -4,7 +4,8 @@
 		"title": "Beta",
 		"date": false,
 		"logs": { "features": [], "fixes": [
-			{ "message": "Blackjack strategy for new page URL.", "contributor": "TheFoxMan" }
+			{ "message": "Blackjack strategy for new page URL.", "contributor": "TheFoxMan" },
+			{ "message": "Flowers/Plushies Missing Set uses on page data instead of Torn API data.", "contributor": "TheFoxMan" }
 		], "changes": [], "removed": [] }
 	},
 	{

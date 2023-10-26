@@ -88,9 +88,12 @@
 
 	async function show(id, selector, option, items) {
 		if (document.find(`#${id}`)) document.find(`#${id}`).remove();
-		if (!document.find(`#category-wrap > ${selector}[aria-expanded='true']`)) return;
 
-		const needed = items.filter((x) => !userdata.inventory.some((y) => x.id === y.ID)).sort((a, b) => a.name.localeCompare(b.name));
+		let currentItems = document.findAll(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
+		if (!currentItems.length || currentItems.length === items.length) return;
+
+		currentItems = [...currentItems].map(x => parseInt(x.dataset.item));
+		const needed = items.filter((x) => !currentItems.some((y) => x.id === y)).sort((a, b) => a.name.localeCompare(b.name));
 		if (needed.length <= 0) return;
 
 		const wrapper = document.newElement({ type: "div", id: id });
