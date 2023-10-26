@@ -153,6 +153,13 @@
 					}
 
 					const equipItem = isEquipable(id, torndata.items[id].type);
+					// TODO: API Inventory Block.
+					/*if (equipItem) {
+						responseWrap.textContent = "";
+						responseWrap.appendChild(document.newElement({ type: "div", text: "Due to a change in Torn API's policies, we are no" }));
+						return;
+					}*/
+
 					if (settings.pages.items.energyWarning && !equipItem && hasAPIData() && ["Drug", "Energy Drink"].includes(torndata.items[id].type)) {
 						const received = getItemEnergy(id);
 						if (received) {
@@ -191,7 +198,7 @@
 							}
 
 							responseWrap.style.display = "block";
-							responseWrap.childNodes.forEach((child) => child.remove());
+							responseWrap.textContent = "";
 							responseWrap.appendChild(
 								document.newElement({
 									type: "div",
@@ -299,14 +306,15 @@
 			itemWrap.setAttribute("title", torndata.items[id].name);
 			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
 
-			if (settings.apiUsage.user.inventory) {
+			// TODO: API Inventory Block.
+			/*if (settings.apiUsage.user.inventory) {
 				const inventoryItem = findItemsInList(userdata.inventory, { ID: id }, { single: true });
 				const amount = inventoryItem ? inventoryItem.quantity : 0;
 
 				itemWrap.appendChild(document.newElement({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" }));
 
 				if (inventoryItem.equipped) itemWrap.classList.add("equipped");
-			}
+			}*/
 		} else if (id in TORN_ITEMS) {
 			itemWrap.setAttribute("title", TORN_ITEMS[id].name);
 			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
@@ -389,11 +397,13 @@
 				document.find("#quickItems > main").classList.add("drag-progress");
 				if (document.find("#quickItems .temp.item")) return;
 
-				const id = parseInt(event.target.parentElement.dataset.item);
+				const itemRow = event.target.closest("li[data-item]");
+
+				const id = parseInt(itemRow.dataset.item);
 
 				const data = { id };
-				if (isEquipable(id, event.target.parentElement.dataset.category)) {
-					data.xid = parseInt(event.target.parentElement.find(".actions[xid]").getAttribute("xid"));
+				if (isEquipable(id, itemRow.dataset.category)) {
+					data.xid = parseInt(itemRow.find(".actions[xid]").getAttribute("xid"));
 				}
 
 				addQuickItem(data, true);
@@ -463,7 +473,7 @@
 
 	async function updateXIDs() {
 		const items = [...document.findAll("ul.items-cont > li .actions[xid]")].filter((x) => {
-			const itemid = parseInt(x.getAttribute("itemid"));
+			const itemid = parseInt(x.closest("li[data-item]").dataset.item);
 			return quick.items.some((y) => y.id === itemid);
 		});
 		if (!items.length) return;
