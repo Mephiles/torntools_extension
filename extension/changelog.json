@@ -3,7 +3,9 @@
 		"version": { "major": 6, "minor": 19, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [
+			{ "message": "Blackjack strategy for new page URL.", "contributor": "TheFoxMan" }
+		], "changes": [], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 18, "build": 0 },

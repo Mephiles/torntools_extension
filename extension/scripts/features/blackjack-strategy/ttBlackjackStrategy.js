@@ -463,11 +463,11 @@
 		addXHRListener(({ detail: { page, xhr, json } }) => {
 			if (!feature.enabled()) return;
 
-			if (page === "loader") {
+			if (page === "page") {
 				const params = new URL(xhr.responseURL).searchParams;
 				const sid = params.get("sid");
 
-				if (sid === "blackjackJson" && json) {
+				if (sid === "blackjackData" && json) {
 					switch (json.DB.result) {
 						// case undefined:
 						case "gameStarted":

@@ -745,7 +745,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/loader.php?sid=blackjack*"],
+			"matches": ["https://www.torn.com/page.php?sid=blackjack*"],
 			"css": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.css"],
 			"js": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.js"],
 			"run_at": "document_end"
