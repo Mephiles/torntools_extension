@@ -16,7 +16,8 @@
 					"contributor": "TheFoxMan"
 				},
 				{ "message": "Remove total values from Item Values feature(on items, bazaar and display case pages).", "contributor": "TheFoxMan" },
-				{ "message": "Remove quantity information from Quick Items(Torn API does not give items data now).", "contributor": "TheFoxMan" }
+				{ "message": "Remove quantity information from Quick Items(Torn API does not give items data now).", "contributor": "TheFoxMan" },
+				{ "message": "Fix Block Zalgo, Chat Autocomplete, Chat Highlight, Colored Chats, Hide Chats, Search Chats, User Alias for Chats 2.0.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
