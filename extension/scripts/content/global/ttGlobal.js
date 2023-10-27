@@ -43,25 +43,20 @@
 					if (node.tagName === "svg") return;
 
 					if (node.className?.includes("group-chat-box__")) {
-						if (mutation.removedNodes.length)
-							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
-						else
-							triggerCustomListener(EVENT_CHANNELS.CHAT_NEW, { chat: node });
+						if (mutation.removedNodes.length) triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
+						else triggerCustomListener(EVENT_CHANNELS.CHAT_NEW, { chat: node });
 
 						chatRefreshObserver.observe(node.find("[class*='chat-box-body__']"), { childList: true });
 					} else if (!node.className && node.parentElement?.className.includes("chat-box-body__"))
 						triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
-					else if (node.className?.includes("chat-app__panel__"))
-						triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
+					else if (node.className?.includes("chat-app__panel__")) triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
 					else if (node.className?.includes("settings-panel__"))
 						triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node });
 				});
 
 				const openedChats = document.findAll("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
-				if (openedChats.length)
-					chatRefreshObserver.observe(openedChats[0].find("[class*='chat-box-body__']"), { childList: true });
-				else
-					chatRefreshObserver.disconnect();
+				if (openedChats.length) chatRefreshObserver.observe(openedChats[0].find("[class*='chat-box-body__']"), { childList: true });
+				else chatRefreshObserver.disconnect();
 			}
 		}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
 	}

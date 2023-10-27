@@ -33,10 +33,9 @@
 
 		if (!settings.pages.chat.titleHighlights.length) return;
 
-		document.findAll("[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']")
-		.forEach((chatHeader) => {
+		document.findAll("[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']").forEach((chatHeader) => {
 			const chatPlayer = chatHeader.textContent;
-			const highlights = settings.pages.chat.titleHighlights.filter(highlight => highlight.title === chatPlayer);
+			const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);
 
 			if (highlights.length && CHAT_TITLE_COLORS[highlights[0].color]?.length === 2) {
 				chatHeader.classList.add("tt-chat-colored");
@@ -44,10 +43,9 @@
 				chatHeader.style.setProperty("--highlight-color_2", CHAT_TITLE_COLORS[highlights[0].color][1]);
 			}
 		});
-		document.findAll("[class*='chat-box__'] > [class*='chat-box-header__']")
-		.forEach((chatHeader) => {
+		document.findAll("[class*='chat-box__'] > [class*='chat-box-header__']").forEach((chatHeader) => {
 			const chatPlayer = chatHeader.textContent;
-			const highlights = settings.pages.chat.titleHighlights.filter(highlight => highlight.title === chatPlayer);
+			const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);
 
 			if (highlights.length && CHAT_TITLE_COLORS[highlights[0].color]?.length === 2) {
 				chatHeader.classList.add("tt-chat-colored");

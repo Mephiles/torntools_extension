@@ -35,8 +35,7 @@
 			if (!input) return;
 
 			const inputValue = input.value;
-			if (inputValue)
-				searchChat(message.find("[class*='chat-box-body__message-box__']"), inputValue);
+			if (inputValue) searchChat(message.find("[class*='chat-box-body__message-box__']"), inputValue);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REFRESHED].push(() => {
 			if (!feature.enabled()) return;
@@ -47,8 +46,7 @@
 				if (!input) return;
 
 				const inputValue = input.value;
-				if (inputValue)
-					onChatSearch({ target: input }, chat);
+				if (inputValue) onChatSearch({ target: input }, chat);
 			});
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED].push(({ peopleMenu }) => {
@@ -82,21 +80,20 @@
 							type: "input",
 							events: { input: (event) => onChatSearch(event, chat) },
 						}),
-					]
+					],
 				}),
 			],
 		});
 
 		// if (hasTradeTimer) {
-			// hasTradeTimer.parentElement.appendChild(searchElement);
+		// hasTradeTimer.parentElement.appendChild(searchElement);
 		// } else {
-			chatFooter.insertAdjacentElement("beforebegin", searchElement);
+		chatFooter.insertAdjacentElement("beforebegin", searchElement);
 		// }
 	}
 
 	function addPeopleSearch(peopleMenu = null) {
-		if (!peopleMenu)
-			peopleMenu = document.find("#chatRoot [class*='chat-app__panel__']");
+		if (!peopleMenu) peopleMenu = document.find("#chatRoot [class*='chat-app__panel__']");
 
 		if (!peopleMenu || peopleMenu.find(".tt-chat-filter")) return;
 
@@ -119,34 +116,34 @@
 
 										if (peopleMenu.find("[class*='chat-list-header__tabs__'] [class*='chat-list-header__tab--active__']:first-child")) {
 											// "Chats" tab opened.
-											const list = peopleMenu.findAll("#scrollableDiv .infinite-scroll-component > button [class*='detailed-chat-card__header__'] a");
+											const list = peopleMenu.findAll(
+												"#scrollableDiv .infinite-scroll-component > button [class*='detailed-chat-card__header__'] a"
+											);
 											list.forEach((chatEntry) => {
-												const shouldHide = keyword &&
-																	((isUserID && chatEntry.href.split("?XID=")[1] !== keyword) ||
-																	(!isUserID && !chatEntry.textContent.toLowerCase().includes(keyword)));
-												if (shouldHide)
-													chatEntry.closest("button").classList.add("tt-hidden");
-												else
-													chatEntry.closest("button").classList.remove("tt-hidden");
+												const shouldHide =
+													keyword &&
+													((isUserID && chatEntry.href.split("?XID=")[1] !== keyword) ||
+														(!isUserID && !chatEntry.textContent.toLowerCase().includes(keyword)));
+												if (shouldHide) chatEntry.closest("button").classList.add("tt-hidden");
+												else chatEntry.closest("button").classList.remove("tt-hidden");
 											});
 										} else {
 											// Other tabs opened.
 											const list = peopleMenu.findAll("#scrollableDiv > [class*='member-card__'] a");
 											list.forEach((chatEntry) => {
-												const shouldHide = keyword &&
-																	((isUserID && chatEntry.href.split("?XID=")[1] !== keyword) ||
-																	(!isUserID && !chatEntry.textContent.toLowerCase().includes(keyword)));
-												if (shouldHide)
-													chatEntry.closest("[class*='member-card__']").classList.add("tt-hidden");
-												else
-													chatEntry.closest("[class*='member-card__']").classList.remove("tt-hidden");
+												const shouldHide =
+													keyword &&
+													((isUserID && chatEntry.href.split("?XID=")[1] !== keyword) ||
+														(!isUserID && !chatEntry.textContent.toLowerCase().includes(keyword)));
+												if (shouldHide) chatEntry.closest("[class*='member-card__']").classList.add("tt-hidden");
+												else chatEntry.closest("[class*='member-card__']").classList.remove("tt-hidden");
 											});
 										}
 									},
 								},
 							}),
-						]
-					})
+						],
+					}),
 				],
 			})
 		);
@@ -178,7 +175,7 @@
 			// const hasTradeTimer = chat.classList.contains("^=_trade_") && chat.find("#tt-trade-timer");
 			// if (!hasTradeTimer) chat.find("[class*='_chat-box-input_']").classList.remove("tt-modified");
 		}
-		document.findAll("#chatRoot .tt-chat-filter").forEach(x => x.remove());
+		document.findAll("#chatRoot .tt-chat-filter").forEach((x) => x.remove());
 	}
 
 	function searchChat(message, keyword) {
