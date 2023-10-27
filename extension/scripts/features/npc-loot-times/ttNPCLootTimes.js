@@ -45,6 +45,8 @@
 					},
 				});
 				countdownTimers.push(timer);
+			} else if (npcs.reason) {
+				timer = document.newElement({ type: "span", class: "timer", text: `After ${npcs.reason}` });
 			} else {
 				timer = document.newElement({ type: "span", class: "timer", text: "Not Scheduled" });
 			}
