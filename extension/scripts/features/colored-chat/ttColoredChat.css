@@ -1,5 +1,14 @@
-.chat-colored[class*="_chat-box-head_"] [class*="_chat-box-title_"] {
-	background: linear-gradient(0deg, var(--highlight-color__1) 0%, var(--highlight-color__2) 100%);
+:is([class*="minimized-chat-box__"], [class*='chat-box-header__']).tt-chat-colored {
+	background: linear-gradient(0deg, var(--highlight-color_1) 0%, var(--highlight-color_2) 100%);
 	border-radius: 5px 5px 0 0;
 	height: inherit;
+}
+
+:is([class*="minimized-chat-box__"], [class*='chat-box-header__']).tt-chat-colored:hover {
+	background: linear-gradient(90deg, var(--highlight-color_1) 0%, var(--highlight-color_2) 100%);
+	filter: brightness(1.25);
+}
+
+[class*="minimized-chat-box__"].tt-chat-colored > button::after {
+	background: none;
 }

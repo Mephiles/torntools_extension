@@ -22,12 +22,12 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			applyHighlights(message);
+			applyHighlights(message.find("[class*='chat-box-body__message-box__']"));
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			for (const message of chat.findAll("[class*='message_']")) {
+			for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__']")) {
 				applyHighlights(message);
 			}
 		});
@@ -50,7 +50,7 @@
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 
-			for (const message of document.findAll("[class*='_chat-box-content_'] [class*='_overview_'] [class*='_message_']")) {
+			for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__']")) {
 				applyHighlights(message);
 			}
 		});
@@ -58,23 +58,22 @@
 
 	function applyHighlights(message) {
 		if (!message) return;
-		if (!message.find) console.log("DKK highlightChat", { message });
 		if (!highlights.length) return;
 
-		const sender = simplify(message.find("a").textContent).slice(0, -1);
-		const words = message.find("span").textContent.split(" ").map(simplify);
+		const sender = simplify(message.find("[class*='chat-box-body__sender-button__'] a").textContent);
+		const words = message.lastElementChild.textContent.split(" ").map(simplify);
 
 		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
 		if (senderHighlights.length) {
-			message.find("a").style.color = senderHighlights[0].senderColor;
-			message.find("a").classList.add("tt-highlight");
+			// When message sender is in highlights.
+			message.style.border = `1px solid ${senderHighlights[0].senderColor}`;
 		}
 
 		for (const { name, color } of highlights) {
+			// When word includes a name in highlights.
 			if (!words.includes(name)) continue;
 
-			message.find("span").parentElement.style.backgroundColor = color;
-			message.find("span").classList.add("tt-highlight");
+			message.style.backgroundColor = color;
 			break;
 		}
 
@@ -84,9 +83,8 @@
 	}
 
 	function removeHighlights() {
-		for (const message of document.findAll("[class*='_chat-box-content_'] [class*='_overview_'] [class*='_message_'] .tt-highlight")) {
-			message.style.color = "unset";
-			message.classList.remove("tt-highlight");
+		for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__'][style]")) {
+			message.style = "";
 		}
 	}
 })();

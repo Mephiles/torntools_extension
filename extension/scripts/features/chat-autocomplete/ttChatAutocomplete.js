@@ -25,14 +25,14 @@
 	async function readSettings() {
 		await requireChatsLoaded();
 
-		for (const chat of document.findAll("[class*='_chat-box_']")) {
+		for (const chat of document.findAll("[class*='group-chat-box__chat-box-wrapper__'] [class*='chat-box__']")) {
 			addAutocomplete(chat);
 		}
 	}
 
 	function addAutocomplete(chat) {
-		const messages = chat.find("[class*='overview_']");
-		if (!messages) return;
+		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__']");
+		if (!messages.length) return;
 
 		const textarea = chat.find("textarea:not(.tt-chat-autocomplete)");
 		if (!textarea) return;
@@ -52,8 +52,8 @@
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = Array.from(messages.findAll("[class*='message_'] > a"))
-				.map((message) => message.textContent.slice(0, -2))
+			const matchedUsernames = [...chat.findAll("[class*='chat-box-body__message-box__'] button a")]
+				.map((message) => message.textContent)
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
 				.sort();
 			if (!matchedUsernames.length) return;

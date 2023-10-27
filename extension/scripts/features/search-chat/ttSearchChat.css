@@ -1,18 +1,11 @@
-[class*="_chat-box-input_"].tt-modified {
-	height: 86px !important;
-	flex-direction: column;
-	align-items: stretch !important;
-}
-
-.tt-chat-filter {
+.tt-chat-filter label {
 	display: flex;
-	margin-left: 4px;
+	padding-left: 4px;
 	padding-top: 2px;
 	align-items: center;
-}
-
-[class*="_chat-box-people_"] .tt-chat-filter {
-	margin-bottom: 2px;
+	background-color: var(--chat-box-bg);
+	color: var(--chat-box-label-info);
+	border-top: var(--chat-box-input-border);
 }
 
 .tt-chat-filter input {
@@ -21,7 +14,12 @@
 	border-radius: 5px;
 	width: -webkit-fill-available;
 	width: -moz-available;
-	border: 1px solid var(--chat-input-border-color);
-	background-color: var(--chat-box-content-bg);
-	color: var(--chat-notebook-text-area-font-color-active);
+	border: var(--chat-box-input-border);
+	background-color: var(--chat-box-bg);
+	color: var(--chat-box-label-info);
+}
+
+/* For filling the SVGs in People Search */
+[class*="member-card__"] svg path[fill*="url(#"] {
+	fill: #ccc;
 }

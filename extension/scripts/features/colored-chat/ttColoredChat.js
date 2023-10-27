@@ -16,36 +16,48 @@
 		null
 	);
 
-	function initialiseColoredChats() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_NEW].push(() => {
+	async function initialiseColoredChats() {
+		await requireChatsLoaded();
+
+		new MutationObserver(() => {
 			if (!feature.enabled()) return;
 
-			showColoredChats();
+			showColoredChats(true);
+		}).observe(document.find("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
+	}
+
+	async function showColoredChats(loaded = false) {
+		if (!loaded) await requireChatsLoaded();
+
+		removeColoredChats();
+
+		if (!settings.pages.chat.titleHighlights.length) return;
+
+		document.findAll("[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']")
+		.forEach((chatHeader) => {
+			const chatPlayer = chatHeader.textContent;
+			const highlights = settings.pages.chat.titleHighlights.filter(highlight => highlight.title === chatPlayer);
+
+			if (highlights.length && CHAT_TITLE_COLORS[highlights[0].color]?.length === 2) {
+				chatHeader.classList.add("tt-chat-colored");
+				chatHeader.style.setProperty("--highlight-color_1", CHAT_TITLE_COLORS[highlights[0].color][0]);
+				chatHeader.style.setProperty("--highlight-color_2", CHAT_TITLE_COLORS[highlights[0].color][1]);
+			}
+		});
+		document.findAll("[class*='chat-box__'] > [class*='chat-box-header__']")
+		.forEach((chatHeader) => {
+			const chatPlayer = chatHeader.textContent;
+			const highlights = settings.pages.chat.titleHighlights.filter(highlight => highlight.title === chatPlayer);
+
+			if (highlights.length && CHAT_TITLE_COLORS[highlights[0].color]?.length === 2) {
+				chatHeader.classList.add("tt-chat-colored");
+				chatHeader.style.setProperty("--highlight-color_1", CHAT_TITLE_COLORS[highlights[0].color][0]);
+				chatHeader.style.setProperty("--highlight-color_2", CHAT_TITLE_COLORS[highlights[0].color][1]);
+			}
 		});
 	}
 
-	async function showColoredChats() {
-		await requireChatsLoaded();
-		removeColoredChats();
-
-		settings.pages.chat.titleHighlights
-			.map((entry) => {
-				return {
-					colors: CHAT_TITLE_COLORS[entry.color],
-					element: findParent(document.find(`[class*='_chat-box-title_'][title^="${entry.title}"]`, { text: entry.title }), {
-						class: "^=_chat-box-head_",
-					}),
-				};
-			})
-			.filter((entry) => entry.colors && entry.colors.length === 2 && entry.element)
-			.forEach((entry) => {
-				entry.element.classList.add("chat-colored");
-				entry.element.style.setProperty("--highlight-color__1", entry.colors[0]);
-				entry.element.style.setProperty("--highlight-color__2", entry.colors[1]);
-			});
-	}
-
 	function removeColoredChats() {
-		[...document.findAll(".chat-colored")].forEach((chat) => chat.classList.remove("chat-colored"));
+		[...document.findAll(".tt-chat-colored")].forEach((chat) => chat.classList.remove("tt-chat-colored"));
 	}
 })();

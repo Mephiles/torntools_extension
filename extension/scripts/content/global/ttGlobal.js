@@ -34,31 +34,34 @@
 	async function observeChat() {
 		await requireChatsLoaded();
 
+		const chatRefreshObserver = new MutationObserver(() => {
+			triggerCustomListener(EVENT_CHANNELS.CHAT_REFRESHED);
+		});
 		new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
-				for (const addedNode of mutation.addedNodes) {
-					if (addedNode.classList) {
-						if (addedNode.classList.contains("^=_chat-box_")) {
-							triggerCustomListener(EVENT_CHANNELS.CHAT_NEW, { chat: addedNode });
-						} else if (addedNode.classList.contains("^=_chat-box-input_")) {
-							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: mutation.target });
-						} else if (addedNode.classList.contains("^=_message_")) {
-							triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: addedNode });
-						} else if (addedNode.classList.contains("^=_error_")) {
-							triggerCustomListener(EVENT_CHANNELS.CHAT_ERROR, { message: addedNode });
-						} else if (addedNode.classList.contains("^=_chat-confirm_")) {
-							triggerCustomListener(EVENT_CHANNELS.CHAT_REPORT_OPENED, { input: mutation.target });
-						}
-					}
-				}
-				for (const removedNode of mutation.removedNodes) {
-					if (removedNode.classList?.contains("^=_error_")) {
-						triggerCustomListener(EVENT_CHANNELS.CHAT_ERROR, { message: removedNode });
-						break;
-					} else if (removedNode.classList?.contains("^=_chat-confirm_")) {
-						triggerCustomListener(EVENT_CHANNELS.CHAT_REPORT_CLOSED, { input: mutation.target });
-					}
-				}
+				mutation.addedNodes.forEach((node) => {
+					if (node.tagName === "svg") return;
+
+					if (node.className?.includes("group-chat-box__")) {
+						if (mutation.removedNodes.length)
+							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
+						else
+							triggerCustomListener(EVENT_CHANNELS.CHAT_NEW, { chat: node });
+
+						chatRefreshObserver.observe(node.find("[class*='chat-box-body__']"), { childList: true });
+					} else if (!node.className && node.parentElement?.className.includes("chat-box-body__"))
+						triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
+					else if (node.className?.includes("chat-app__panel__"))
+						triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
+					else if (node.className?.includes("settings-panel__"))
+						triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node });
+				});
+
+				const openedChats = document.findAll("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
+				if (openedChats.length)
+					chatRefreshObserver.observe(openedChats[0].find("[class*='chat-box-body__']"), { childList: true });
+				else
+					chatRefreshObserver.disconnect();
 			}
 		}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
 	}

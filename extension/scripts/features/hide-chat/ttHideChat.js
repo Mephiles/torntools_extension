@@ -8,22 +8,21 @@
 	async function initialiseListeners() {
 		await requireChatsLoaded();
 
-		new MutationObserver((mutations) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED].push(({ settingsPanel }) => {
 			if (!feature.enabled()) return;
-			if (![...mutations].some((mutation) => mutation.addedNodes.length)) return;
 
-			showButton();
-		}).observe(document.find("#chatRoot [class*='_chat-box-settings_'] [class*='_overview_']"), { childList: true });
+			showButton(settingsPanel);
+		});
 	}
 
-	async function showButton() {
-		await requireChatsLoaded();
+	async function showButton(settingsPanel = null) {
+		if (!settingsPanel) {
+			await requireChatsLoaded();
 
-		const settingsBox = document.find("#chatRoot [class*='_chat-box-settings_']");
-		if (!settingsBox.classList.contains("^=_chat-active_")) return;
+			settingsPanel = document.find("#chatRoot [class*='settings-panel__']");
+		}
 
-		const overview = settingsBox.find("[class*='overview_']");
-		if (overview.find(".tt-hide-chat-option")) return;
+		if (!settingsPanel) return;
 
 		const checkbox = createCheckbox({ description: "Hide chats with TornTools.", class: "tt-hide-chat-option" });
 		checkbox.setChecked(settings.pages.chat.hideChat);
@@ -36,15 +35,7 @@
 			ttStorage.change({ settings: { pages: { chat: { hideChat: checked } } } });
 		});
 
-		overview.appendChild(checkbox.element);
-
-		new MutationObserver((mutations) => {
-			if ([...mutations].every((m) => m.addedNodes.length === 0 || [...m.addedNodes].includes(checkbox.element))) {
-				return;
-			}
-
-			overview.appendChild(checkbox.element);
-		}).observe(overview, { childList: true });
+		settingsPanel.children[1].appendChild(checkbox.element);
 	}
 
 	function hideChats() {

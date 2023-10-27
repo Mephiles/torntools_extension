@@ -1,8 +1,5 @@
-.tt-hide-chat-option {
-	padding: 0 5px;
-}
-
-.tt-chat-hidden [class*="_chat-box_"]:not([class*="_chat-box-notebook_"]),
-.tt-chat-hidden [class*="_chat-box-people_"] {
+.tt-chat-hidden #chatRoot [class*="group-chat-box__"],
+.tt-chat-hidden #chatRoot [class*="group-minimized-chat-box__"],
+.tt-chat-hidden #chatRoot [class*="minimized-menus__root__"] {
 	display: none;
 }
