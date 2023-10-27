@@ -1465,9 +1465,10 @@ async function updateNPCs() {
 	async function fetchLootRangers() {
 		const data = await fetchData("lzpt", { section: "loot" });
 		const planned = data.time.clear;
+		const reason = data.time.reason;
 
 		npcs = {
-			next_update: now + TO_MILLIS.MINUTES * (planned === 0 ? 1 : 15),
+			next_update: now + TO_MILLIS.MINUTES * (planned === 0 && !reason ? 1 : 15),
 			service: "Loot Rangers",
 			targets: {},
 		};
@@ -1492,6 +1493,7 @@ async function updateNPCs() {
 		}
 
 		npcs.planned = planned === 0 ? false : planned * 1000;
+		npcs.reason = reason;
 
 		await ttStorage.set({ npcs });
 		return true;
