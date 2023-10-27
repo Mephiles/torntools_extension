@@ -99,7 +99,9 @@
 
 	function removeAlias() {
 		document
-			.findAll("#chatRoot [class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__'] [class*='minimized-chat-box__username-text__'], #chatRoot [class*='chat-box__'] > [class*='chat-box-header__'] [class*='chat-box-header__name__']")
+			.findAll(
+				"#chatRoot [class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__'] [class*='minimized-chat-box__username-text__'], #chatRoot [class*='chat-box__'] > [class*='chat-box-header__'] [class*='chat-box-header__name__']"
+			)
 			.forEach((x) => {
 				if (x.dataset.original) x.firstChild.textContent = x.dataset.original;
 				delete x.dataset.original;
