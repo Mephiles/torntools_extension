@@ -11,6 +11,7 @@ const EVENT_CHANNELS = {
 	CHAT_PEOPLE_MENU_OPENED: "chat-people-menu-opened",
 	CHAT_SETTINGS_MENU_OPENED: "chat-settings-menu-opened",
 	CHAT_REFRESHED: "chat-refreshed",
+	CHAT_CLOSED: "chat-closed",
 	COMPANY_EMPLOYEES_PAGE: "company-employees-page",
 	COMPANY_STOCK_PAGE: "company-stock-page",
 	FACTION_ARMORY_TAB: "faction-armory-tab",

@@ -37,14 +37,16 @@
 		const chatRefreshObserver = new MutationObserver(() => {
 			triggerCustomListener(EVENT_CHANNELS.CHAT_REFRESHED);
 		});
+		new MutationObserver(() => {
+			triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
+		}).observe(document.find("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
 		new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
 				mutation.addedNodes.forEach((node) => {
 					if (node.tagName === "svg") return;
 
 					if (node.className?.includes("group-chat-box__")) {
-						if (mutation.removedNodes.length) triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
-						else triggerCustomListener(EVENT_CHANNELS.CHAT_NEW, { chat: node });
+						triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
 
 						chatRefreshObserver.observe(node.find("[class*='chat-box-body__']"), { childList: true });
 					} else if (!node.className && node.parentElement?.className.includes("chat-box-body__"))

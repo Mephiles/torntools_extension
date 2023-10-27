@@ -19,11 +19,14 @@
 	async function initialiseColoredChats() {
 		await requireChatsLoaded();
 
-		new MutationObserver(() => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(reColorChats);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_CLOSED].push(reColorChats);
+
+		function reColorChats() {
 			if (!feature.enabled()) return;
 
 			showColoredChats(true);
-		}).observe(document.find("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
+		}
 	}
 
 	async function showColoredChats(loaded = false) {

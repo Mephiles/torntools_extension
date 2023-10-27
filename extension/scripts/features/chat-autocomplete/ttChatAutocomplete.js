@@ -1,6 +1,9 @@
 "use strict";
 
 (async () => {
+	const devices = await checkDevice();
+	if (devices.mobile || devices.tablet) return;
+
 	const feature = featureManager.registerFeature(
 		"Chat Autocomplete",
 		"chat",

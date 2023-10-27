@@ -16,13 +16,11 @@
 	);
 
 	async function addListeners() {
-		await requireElement("#chatRoot [class*='_chat-box-title_']");
+		await requireElement("#chatRoot [class*='chat-note-button__']");
+
 		addAliasTitle();
 		addAliasMessage();
 
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_NEW].push(() => {
-			if (feature.enabled()) addAliasTitle();
-		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(() => {
 			if (feature.enabled()) {
 				addAliasTitle();
@@ -31,6 +29,18 @@
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (feature.enabled()) addAliasMessage(message);
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REFRESHED].push(() => {
+			if (!feature.enabled()) return;
+
+			removeAlias();
+			addAliasTitle();
+			addAliasMessage();
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_CLOSED].push(() => {
+			if (!feature.enabled()) return;
+
+			addAliasTitle();
 		});
 	}
 
@@ -43,15 +53,27 @@
 	}
 
 	function addAliasTitle() {
-		document.findAll("#chatRoot [class*='_chat-box-title_']").forEach((chatTitle) => {
-			const chatPlayerTitle = chatTitle.getAttribute("title").trim();
+		document.findAll("[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']").forEach((chatHeader) => {
+			const chatPlayerTitle = chatHeader.textContent;
 			if (!chatPlayerTitle || (chatPlayerTitle && ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle))) return;
 
 			for (const alias of Object.values(settings.userAlias)) {
 				if (chatPlayerTitle === alias.name.trim()) {
-					const nameNode = chatTitle.find("[class*='name_']");
-					nameNode.dataset.userName = nameNode.textContent;
-					nameNode.textContent = alias.alias;
+					const nameNode = chatHeader.find("[class*='minimized-chat-box__username-text__']");
+					nameNode.dataset.original = nameNode.textContent;
+					nameNode.firstChild.textContent = alias.alias;
+				}
+			}
+		});
+		document.findAll("[class*='chat-box__'] > [class*='chat-box-header__']").forEach((chatHeader) => {
+			const chatPlayerTitle = chatHeader.textContent;
+			if (!chatPlayerTitle || (chatPlayerTitle && ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle))) return;
+
+			for (const alias of Object.values(settings.userAlias)) {
+				if (chatPlayerTitle === alias.name.trim()) {
+					const nameNode = chatHeader.find("[class*='chat-box-header__name__']");
+					nameNode.dataset.original = nameNode.textContent;
+					nameNode.firstChild.textContent = alias.alias;
 				}
 			}
 		});
@@ -60,27 +82,27 @@
 	function addAliasMessage(message = "") {
 		if (!message) {
 			for (const [userID, alias] of Object.entries(settings.userAlias)) {
-				document.findAll(`#chatRoot [class*="message_"] a[href*='/profiles.php?XID=${userID}']`).forEach((profileLink) => {
-					profileLink.dataset.userName = profileLink.textContent;
-					profileLink.textContent = alias.alias + ": ";
+				document.findAll(`#chatRoot [class*="chat-box-body__sender-button__"] a[href*='/profiles.php?XID=${userID}']`).forEach((profileLink) => {
+					profileLink.dataset.original = profileLink.textContent;
+					profileLink.firstChild.textContent = alias.alias;
 				});
 			}
 		} else {
 			const profileLink = message.find("a[href*='/profiles.php?XID=']");
 			const messageUserID = profileLink.href.split("=")[1];
 			if (messageUserID in settings.userAlias) {
-				profileLink.dataset.userName = profileLink.textContent;
-				profileLink.textContent = settings.userAlias[messageUserID].alias + ": ";
+				profileLink.dataset.original = profileLink.textContent;
+				profileLink.firstChild.textContent = settings.userAlias[messageUserID].alias;
 			}
 		}
 	}
 
 	function removeAlias() {
 		document
-			.findAll("#chatRoot [class*='_message_'] a[href*='/profiles.php?XID='], #chatRoot [class*='_chat-box-title_'] [class*='name_']")
+			.findAll("#chatRoot [class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__'] [class*='minimized-chat-box__username-text__'], #chatRoot [class*='chat-box__'] > [class*='chat-box-header__'] [class*='chat-box-header__name__']")
 			.forEach((x) => {
-				if (x.dataset.userName) x.textContent = x.dataset.userName;
-				delete x.dataset.userName;
+				if (x.dataset.original) x.firstChild.textContent = x.dataset.original;
+				delete x.dataset.original;
 			});
 	}
 })();

@@ -60,7 +60,7 @@
 		if (!message) return;
 		if (!highlights.length) return;
 
-		const sender = simplify(message.find("[class*='chat-box-body__sender-button__'] a").textContent);
+		const sender = simplify(message.find("[class*='chat-box-body__sender-button__'] a").textContent.replace(":", ""));
 		const words = message.lastElementChild.textContent.split(" ").map(simplify);
 
 		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
