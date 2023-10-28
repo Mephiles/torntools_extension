@@ -2,8 +2,8 @@
 
 function requireCondition(condition, options = {}) {
 	options = {
-		delay: 10,
-		maxCycles: -1,
+		delay: 50,
+		maxCycles: 1000,
 		...options,
 	};
 
@@ -37,6 +37,8 @@ function requireCondition(condition, options = {}) {
 			if (options.maxCycles <= 0) return false;
 
 			if (count > options.maxCycles) {
+				console.error("TornTools - Maximum cycles reached. Please report this to TornTools developers.");
+				console.trace();
 				reject("Maximum cycles reached.");
 				return true;
 			}
@@ -63,7 +65,6 @@ function requireSidebar() {
 }
 
 function requireContent() {
-	// return requireElement("#skip-to-content, #react-root");
 	return requireElement(".content-wrapper");
 }
 
