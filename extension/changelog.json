@@ -20,7 +20,8 @@
 				{
 					"message": "Fix Block Zalgo, Chat Autocomplete, Chat Highlight, Colored Chats, Hide Chats, Search Chats, User Alias for Chats 2.0.",
 					"contributor": "TheFoxMan"
-				}
+				},
+				{ "message": "Reduce and limit the frequency of requireElement.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
