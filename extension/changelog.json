@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Blackjack strategy for new page URL.", "contributor": "TheFoxMan" },
 				{ "message": "Flowers/Plushies Missing Set uses on page data instead of Torn API data.", "contributor": "TheFoxMan" },
-				{ "message": "Change the element from where Quick Items takes XIDs.", "contributor": "TheFoxMan" }
+				{ "message": "Change the element from where Quick Items takes XIDs.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Block Zalgo, Chat Autocomplete, Chat Highlight, Colored Chats, Hide Chats, Search Chats, User Alias, Chat Font Size for Chats 2.0.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{
@@ -17,10 +18,6 @@
 				},
 				{ "message": "Remove total values from Item Values feature(on items, bazaar and display case pages).", "contributor": "TheFoxMan" },
 				{ "message": "Remove quantity information from Quick Items(Torn API does not give items data now).", "contributor": "TheFoxMan" },
-				{
-					"message": "Fix Block Zalgo, Chat Autocomplete, Chat Highlight, Colored Chats, Hide Chats, Search Chats, User Alias for Chats 2.0.",
-					"contributor": "TheFoxMan"
-				},
 				{ "message": "Reduce and limit the frequency of requireElement.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
