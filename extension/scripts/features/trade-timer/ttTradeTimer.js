@@ -65,8 +65,7 @@
 	}
 
 	function listenTradeChatInput(tradeChat = null) {
-		if (!tradeChat)
-			tradeChat = getTradeChat();
+		if (!tradeChat) tradeChat = getTradeChat();
 		if (!tradeChat) return;
 
 		tradeChat.find("[class*='chat-box-footer__textarea__']").addEventListener("keyup", onKeyUp);
@@ -92,7 +91,8 @@
 		});
 		if (event.target.value) return;
 
-		if (message.className.includes("chat-box-body__block-message-wrapper__") && message.textContent === "Trade rooms allows one message per 60 seconds") return;
+		if (message.className.includes("chat-box-body__block-message-wrapper__") && message.textContent === "Trade rooms allows one message per 60 seconds")
+			return;
 
 		await ttStorage.change({ localdata: { tradeMessage: Date.now() + TO_MILLIS.SECONDS * 61 } });
 	}
@@ -102,8 +102,7 @@
 		timer = null;
 
 		const tradeChatButton = document.find("#chatRoot [class*='minimized-menu-item__'][title='Trade']");
-		if (tradeChatButton)
-			tradeChatButton.find("svg").classList.remove("tt-hidden");
+		if (tradeChatButton) tradeChatButton.find("svg").classList.remove("tt-hidden");
 
 		const tradeChat = getTradeChat();
 		if (!tradeChat) return;
