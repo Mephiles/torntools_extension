@@ -1,9 +1,14 @@
 [
 	{
-		"version": { "major": 6, "minor": 19, "build": 0 },
+		"version": { "major": 6, "minor": 20, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 19, "build": 0 },
+		"date": "2023/10/29",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Blackjack strategy for new page URL.", "contributor": "TheFoxMan" },
 				{ "message": "Flowers/Plushies Missing Set uses on page data instead of Torn API data.", "contributor": "TheFoxMan" },
@@ -22,8 +27,7 @@
 				{ "message": "Remove total values from Item Values feature(on items, bazaar and display case pages).", "contributor": "TheFoxMan" },
 				{ "message": "Remove quantity information from Quick Items(Torn API does not give items data now).", "contributor": "TheFoxMan" },
 				{ "message": "Reduce and limit the frequency of requireElement.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
