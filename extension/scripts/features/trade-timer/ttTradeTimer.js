@@ -16,27 +16,24 @@
 
 	function initialise() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
-			if (!chat.classList.contains("^=_trade_")) return;
+			if (chat.find("[class*='chat-box-header__info__']").textContent !== "Trade") return;
 
-			triggerTrade(chat);
+			listenTradeChatInput(chat);
 		});
 	}
 
+	let timer;
 	async function detectChat() {
 		await requireChatsLoaded();
 
-		const chat = document.find("#chatRoot [class*='_chat-box_'][class*='_trade_'][class*='_chat-active_']");
-		if (!chat) return;
+		const tradeChatButton = document.find("#chatRoot [class*='minimized-menu-item__'][title='Trade']");
+		if (!tradeChatButton) {
+			console.error("TornTools - Trade Chat Button not found.");
+			return;
+		}
 
-		triggerTrade(chat);
-	}
-
-	function triggerTrade(chat) {
-		const input = chat.find("[class*='_chat-box-input_']");
-
-		let timer;
-		if (input.find("#tt-trade-timer")) timer = input.find("#tt-trade-timer");
-		else {
+		tradeChatButton.find("svg").classList.add("tt-hidden");
+		if (!timer) {
 			timer = document.newElement({
 				type: "div",
 				id: "tt-trade-timer",
@@ -45,71 +42,72 @@
 					timeSettings: JSON.stringify({ type: "wordTimer", extraShort: true }),
 				},
 			});
-			input.insertBefore(document.newElement({ type: "div", children: [timer] }), input.firstElementChild);
-
-			input.find("textarea").addEventListener("keypress", onKeyPress);
-			input.classList.add("tt-modified");
 		}
+		if (!countdownTimers.includes(timer)) countdownTimers.push(timer);
 
 		const now = Date.now();
 		if (localdata.tradeMessage > now) {
 			timer.textContent = formatTime({ milliseconds: localdata.tradeMessage - now }, { type: "wordTimer", extraShort: true });
 			timer.dataset.seconds = ((localdata.tradeMessage - now) / TO_MILLIS.SECONDS).dropDecimals().toString();
-			countdownTimers.push(timer);
 		} else {
 			timer.textContent = "OK";
 		}
+		tradeChatButton.appendChild(timer);
 
-		const search = input.find(".tt-chat-filter");
-		if (search) timer.parentElement.appendChild(search);
+		listenTradeChatInput();
 	}
 
-	async function onKeyPress(event) {
-		if (event.key !== "Enter") return;
-		if (!event.target.value) return;
+	function getTradeChat() {
+		const openChats = document.findAll("#chatRoot [class^='chat-box__']");
+		if (!openChats.length) return;
 
-		const chat = findParent(event.target, { class: "^=_chat-box_" });
-		const overview = chat.find("[class*='_overview_']");
+		return [...openChats].filter((chat) => chat.find("[class*='chat-box-header__info__']").textContent === "Trade")?.[0];
+	}
+
+	function listenTradeChatInput(tradeChat = null) {
+		if (!tradeChat)
+			tradeChat = getTradeChat();
+		if (!tradeChat) return;
+
+		tradeChat.find("[class*='chat-box-footer__textarea__']").addEventListener("keyup", onKeyUp);
+	}
+
+	async function onKeyUp(event) {
+		if (event.key !== "Enter") return;
+		// if (!event.target.value) return;
+
+		const tradeChat = event.target.closest("[class^='chat-box__']");
+		const chatBody = tradeChat.find("[class*='chat-box-body___']");
 
 		const message = await new Promise((resolve) => {
 			new MutationObserver((mutations, observer) => {
-				const mutation = mutations.find((mutation) => mutation.addedNodes.length);
+				const mutation = mutations.filter((mutation) => mutation.addedNodes.length).last();
 				if (!mutation) return;
 
 				const node = mutation.addedNodes[0];
 
 				observer.disconnect();
 				resolve(node);
-			}).observe(overview, { childList: true });
+			}).observe(chatBody, { childList: true });
 		});
 		if (event.target.value) return;
 
-		if (message.classList.contains("^=error_")) return;
+		if (message.className.includes("chat-box-body__block-message-wrapper__") && message.textContent === "Trade rooms allows one message per 60 seconds") return;
 
 		await ttStorage.change({ localdata: { tradeMessage: Date.now() + TO_MILLIS.SECONDS * 61 } });
 	}
 
 	function cleanup() {
-		const chat = document.find("#chatRoot [class*='_chat-box_'][class*='_trade_'][class*='_chat-active_']");
-		if (!chat) return;
+		timer.remove();
+		timer = null;
 
-		const timer = chat.find("#tt-trade-timer");
-		if (timer) timer.remove();
+		const tradeChatButton = document.find("#chatRoot [class*='minimized-menu-item__'][title='Trade']");
+		if (tradeChatButton)
+			tradeChatButton.find("svg").classList.remove("tt-hidden");
 
-		const input = chat.find("[class*='_chat-box-input_']");
+		const tradeChat = getTradeChat();
+		if (!tradeChat) return;
 
-		if (!input.find(".tt-chat-filter")) input.classList.remove("tt-modified");
-
-		input.find("textarea").removeEventListener("keypress", onKeyPress);
+		tradeChat.find("textarea").removeEventListener("keypress", onKeyUp);
 	}
-
-	// function moveSearch() {
-	// 	const timer = document.find("#tt-trade-timer");
-	// 	if (!timer) return;
-	//
-	// 	const search = timer.parentElement.parentElement.find(".tt-chat-filter");
-	// 	if (!search) return;
-	//
-	// 	timer.parentElement.appendChild(search);
-	// }
 })();

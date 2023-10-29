@@ -9,7 +9,8 @@
 				{ "message": "Blackjack strategy for new page URL.", "contributor": "TheFoxMan" },
 				{ "message": "Flowers/Plushies Missing Set uses on page data instead of Torn API data.", "contributor": "TheFoxMan" },
 				{ "message": "Change the element from where Quick Items takes XIDs.", "contributor": "TheFoxMan" },
-				{ "message": "Fix Block Zalgo, Chat Autocomplete, Chat Highlight, Colored Chats, Hide Chats, Search Chats, User Alias, Chat Font Size for Chats 2.0.", "contributor": "TheFoxMan" }
+				{ "message": "Fix Block Zalgo, Chat Autocomplete, Chat Highlight, Colored Chats, Hide Chats, Search Chats, User Alias, Chat Font Size for Chats 2.0.", "contributor": "TheFoxMan" },
+				{ "message": "Trade Chat Timer for Chats 2.0.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{

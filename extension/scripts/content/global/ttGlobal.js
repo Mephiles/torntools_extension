@@ -86,7 +86,7 @@
 			if (countdown.dataset.end) {
 				seconds = parseInt((parseInt(countdown.dataset.end) - now) / 1000);
 			} else {
-				seconds = parseInt(countdown.dataset.seconds) - 1;
+				seconds = parseInt(countdown.dataset.seconds ?? "0") - 1;
 			}
 
 			if (seconds <= 0) {

@@ -175,7 +175,7 @@ class FeatureManager {
 				this.showResult(feature, "disabled");
 			}
 		} catch (error) {
-			await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to cleanup in a failed start of "${name}".`, error));
+			await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to cleanup in a failed start of "${feature.name}".`, error));
 
 			this.showResult(feature, "failed");
 			this.logError(`Failed to start "${feature.name}".`, error).then(() => {});
