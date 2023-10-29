@@ -611,7 +611,8 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts;
 		for (const type of ["user"]) {
 			for (const selection in settings.apiUsage[type]) {
-				_preferences.find(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
+				if (_preferences.find(`#api_usage-${type}_${selection}`))
+					_preferences.find(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
 			}
 		}
 
@@ -1046,7 +1047,8 @@ async function setupPreferences(requireCleanup) {
 		settings.apiUsage.delayStakeouts = parseInt(_preferences.find("#api_usage-stakeouts").value);
 		for (const type of ["user"]) {
 			for (const selection in settings.apiUsage[type]) {
-				settings.apiUsage[type][selection] = _preferences.find(`#api_usage-${type}_${selection}`).checked;
+				if (_preferences.find(`#api_usage-${type}_${selection}`))
+					settings.apiUsage[type][selection] = _preferences.find(`#api_usage-${type}_${selection}`).checked;
 			}
 		}
 
