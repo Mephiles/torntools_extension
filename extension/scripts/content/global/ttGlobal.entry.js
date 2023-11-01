@@ -1,6 +1,6 @@
 "use strict";
 
-const countdownTimers = [];
+let countdownTimers = [];
 const countTimers = [];
 
 (async () => {

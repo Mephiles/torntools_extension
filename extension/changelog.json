@@ -3,7 +3,9 @@
 		"version": { "major": 6, "minor": 20, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [], "changes": [
+			{ "message": "Change the location of Trade Chat Timer.", "contributor": "TheFoxMan" }
+		], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 19, "build": 0 },

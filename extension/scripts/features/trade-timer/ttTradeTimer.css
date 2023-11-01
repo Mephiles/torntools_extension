@@ -17,3 +17,8 @@
 #tt-trade-timer:not([data-seconds]) {
 	background: var(--tt-color-green);
 }
+
+[class*="chat-box-footer__"].tt-modified [class*="chat-box-footer__send-icon-wrapper__"] {
+	display: flex;
+	flex-flow: column;
+}

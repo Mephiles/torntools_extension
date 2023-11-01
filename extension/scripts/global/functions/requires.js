@@ -37,9 +37,9 @@ function requireCondition(condition, options = {}) {
 			if (options.maxCycles <= 0) return false;
 
 			if (count > options.maxCycles) {
-				console.error("TornTools - Maximum cycles reached. Please report this to TornTools developers.");
-				console.trace();
-				reject("Maximum cycles reached.");
+				// console.error("TornTools - Maximum cycles reached. Please report this to TornTools developers.");
+				// console.trace();
+				reject(new Error("Maximum cycles reached."));
 				return true;
 			}
 			return false;

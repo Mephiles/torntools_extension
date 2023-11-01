@@ -6,7 +6,7 @@
 		"chat",
 		() => settings.pages.chat.tradeTimer,
 		initialise,
-		detectChat,
+		showTimer,
 		cleanup,
 		{
 			storage: ["settings.pages.chat.tradeTimer", "localdata.tradeMessage"],
@@ -18,21 +18,22 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (chat.find("[class*='chat-box-header__info__']").textContent !== "Trade") return;
 
-			listenTradeChatInput(chat);
+			showTimer(chat);
 		});
 	}
 
 	let timer;
-	async function detectChat() {
+	async function showTimer(tradeChat = null) {
 		await requireChatsLoaded();
 
-		const tradeChatButton = document.find("#chatRoot [class*='minimized-menu-item__'][title='Trade']");
-		if (!tradeChatButton) {
-			console.error("TornTools - Trade Chat Button not found.");
-			return;
-		}
+		if (!tradeChat)
+			tradeChat = getTradeChat();
 
-		tradeChatButton.find("svg").classList.add("tt-hidden");
+		if (!tradeChat) return;
+
+		const sendButton = tradeChat.find("[class*='chat-box-footer__send-icon-wrapper__']");
+		sendButton.parentElement.classList.add("tt-modified");
+
 		if (!timer) {
 			timer = document.newElement({
 				type: "div",
@@ -43,7 +44,8 @@
 				},
 			});
 		}
-		if (!countdownTimers.includes(timer)) countdownTimers.push(timer);
+		countdownTimers = countdownTimers.filter((x) => x.getAttribute("id") !== "tt-trade-timer");
+		countdownTimers.push(timer);
 
 		const now = Date.now();
 		if (localdata.tradeMessage > now) {
@@ -52,9 +54,10 @@
 		} else {
 			timer.textContent = "OK";
 		}
-		tradeChatButton.appendChild(timer);
 
-		listenTradeChatInput();
+		sendButton.insertAdjacentElement("afterbegin", timer);
+
+		listenTradeChatInput(tradeChat);
 	}
 
 	function getTradeChat() {
@@ -64,7 +67,7 @@
 		return [...openChats].filter((chat) => chat.find("[class*='chat-box-header__info__']").textContent === "Trade")?.[0];
 	}
 
-	function listenTradeChatInput(tradeChat = null) {
+	function listenTradeChatInput(tradeChat) {
 		if (!tradeChat) tradeChat = getTradeChat();
 		if (!tradeChat) return;
 
@@ -73,7 +76,6 @@
 
 	async function onKeyUp(event) {
 		if (event.key !== "Enter") return;
-		// if (!event.target.value) return;
 
 		const tradeChat = event.target.closest("[class^='chat-box__']");
 		const chatBody = tradeChat.find("[class*='chat-box-body___']");
@@ -101,11 +103,10 @@
 		timer.remove();
 		timer = null;
 
-		const tradeChatButton = document.find("#chatRoot [class*='minimized-menu-item__'][title='Trade']");
-		if (tradeChatButton) tradeChatButton.find("svg").classList.remove("tt-hidden");
-
 		const tradeChat = getTradeChat();
 		if (!tradeChat) return;
+
+		tradeChat.find("[class*='chat-box-footer__send-icon-wrapper__']").parentElement.classList.remove("tt-modified");
 
 		tradeChat.find("textarea").removeEventListener("keypress", onKeyUp);
 	}
