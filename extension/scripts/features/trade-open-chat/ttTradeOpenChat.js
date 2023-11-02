@@ -49,6 +49,6 @@
 	}
 
 	function removeButton() {
-		document.find(".tt-open-chat").remove();
+		document.find(".tt-open-chat")?.remove();
 	}
 })();

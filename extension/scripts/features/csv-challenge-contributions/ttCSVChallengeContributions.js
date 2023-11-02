@@ -24,6 +24,8 @@
 	}
 
 	async function addCSVContainer() {
+		if (!location.hash.includes("tab=upgrades")) return;
+
 		const descriptionWrap = await requireElement("#factions #faction-upgrades .body #stu-confirmation .description-wrap");
 		const contributionsWrap = descriptionWrap.find(".contributions-wrap");
 		if (!contributionsWrap) return;
