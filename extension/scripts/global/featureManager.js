@@ -22,8 +22,7 @@ class FeatureManager {
 			console.log(...params);
 		};
 		this.logError = async (info, error) => {
-			if (error?.message === "Maximum cycles reached." && !settings.developer)
-				return;
+			if (error?.message === "Maximum cycles reached." && !settings.developer) return;
 
 			this.errorCount = this.errorCount + 1;
 			if (Array.isArray(info)) {

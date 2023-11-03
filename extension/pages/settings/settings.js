@@ -547,7 +547,14 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	function fillSettings() {
-		for (const setting of ["updateNotice", "developer", "featureDisplay", "featureDisplayOnlyFailed", "featureDisplayHideDisabled", "featureDisplayHideEmpty"]) {
+		for (const setting of [
+			"updateNotice",
+			"developer",
+			"featureDisplay",
+			"featureDisplayOnlyFailed",
+			"featureDisplayHideDisabled",
+			"featureDisplayHideEmpty",
+		]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
@@ -927,7 +934,14 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	async function saveSettings() {
-		for (const setting of ["updateNotice", "developer", "featureDisplay", "featureDisplayOnlyFailed", "featureDisplayHideDisabled", "featureDisplayHideEmpty"]) {
+		for (const setting of [
+			"updateNotice",
+			"developer",
+			"featureDisplay",
+			"featureDisplayOnlyFailed",
+			"featureDisplayHideDisabled",
+			"featureDisplayHideEmpty",
+		]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 

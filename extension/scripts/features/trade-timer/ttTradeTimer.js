@@ -26,8 +26,7 @@
 	async function showTimer(tradeChat = null) {
 		await requireChatsLoaded();
 
-		if (!tradeChat)
-			tradeChat = getTradeChat();
+		if (!tradeChat) tradeChat = getTradeChat();
 
 		if (!tradeChat) return;
 
