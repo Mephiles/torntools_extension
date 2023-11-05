@@ -62,14 +62,8 @@
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.css",
 				"scripts/features/align-left/ttAlignLeft.css",
 				"scripts/features/font-size/ttFontSize.css",
-				"scripts/features/hide-leave/ttHideLeave.css",
-				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.css",
-				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.css",
-				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.css",
-				"scripts/features/hide-icons/ttHideIcons.css",
 				"scripts/features/block-zalgo/ttBlockZalgo.css",
-				"scripts/features/achievements/ttAchievements.css",
-				"scripts/features/hide-tutorials/ttHideTutorials.css"
+				"scripts/features/hide-chat/ttHideChat.css"
 			],
 			"js": [
 				"vendor/fontawesome/fontawesome.js",
@@ -101,15 +95,7 @@
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/align-left/ttAlignLeft.entry.js",
 				"scripts/features/font-size/ttFontSize.entry.js",
-				"scripts/features/hide-leave/ttHideLeave.entry.js",
-				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.entry.js",
-				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.entry.js",
-				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.entry.js",
-				"scripts/features/hide-icons/ttHideIcons.entry.js",
 				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
-				"scripts/features/achievements/achievements.js",
-				"scripts/features/achievements/ttAchievements.entry.js",
-				"scripts/features/hide-tutorials/ttHideTutorials.entry.js",
 				"scripts/features/hide-chat/ttHideChat.entry.js"
 			],
 			"run_at": "document_start"
@@ -118,23 +104,10 @@
 			"matches": ["https://www.torn.com/*.php*"],
 			"exclude_matches": ["https://www.torn.com/logout.php*"],
 			"css": [
-				"scripts/features/oc-time/ttOCTime.css",
-				"scripts/features/faction-oc-time/ttFactionOCTime.css",
-				"scripts/features/custom-links/ttCustomLinks.css",
-				"scripts/features/update-notice/ttUpdateNotice.css",
-				"scripts/features/sidebar-notes/ttSidebarNotes.css",
 				"scripts/features/colored-chat/ttColoredChat.css",
 				"scripts/features/search-chat/ttSearchChat.css",
-				"scripts/features/computer-link/ttComputerLink.css",
 				"scripts/features/easter-egg/ttEasterEgg.css",
-				"scripts/features/hide-gym-highlight/ttHideGymHighlight.css",
 				"scripts/features/trade-timer/ttTradeTimer.css",
-				"scripts/features/highlight-properties/ttHighlightProperties.css",
-				"scripts/features/settings-link/ttSettingsLink.css",
-				"scripts/features/bar-links/ttBarLinks.css",
-				"scripts/features/collapsible-areas/ttCollapsibleAreas.css",
-				"scripts/features/npc-loot-times/ttNPCLootTimes.css",
-				"scripts/features/hide-chat/ttHideChat.css",
 				"scripts/features/revive-request/ttReviveRequest.css",
 				"scripts/features/user-alias/ttUserAlias.css",
 				"scripts/features/stacking-mode/ttStackingMode.css"
@@ -144,6 +117,62 @@
 				"resources/images/svg-icons/back.js",
 				"resources/images/svg-icons/icon_128.js",
 				"scripts/content/global/ttGlobal.js",
+				"scripts/features/colored-chat/ttColoredChat.js",
+				"scripts/features/search-chat/ttSearchChat.js",
+				"scripts/features/chat-highlight/ttChatHighlight.js",
+				"scripts/features/chat-autocomplete/ttChatAutocomplete.js",
+				"scripts/features/mini-profile-information/ttMiniprofileInformation.js",
+				"scripts/features/easter-egg/ttEasterEgg.js",
+				"scripts/features/trade-timer/ttTradeTimer.js",
+				"scripts/features/hide-chat/ttHideChat.js",
+				"scripts/features/revive-request/ttReviveRequest.js",
+				"scripts/features/user-alias/ttUserAlias.js",
+				"scripts/features/stacking-mode/ttStackingMode.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/*.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack*"],
+			"css": [
+				"scripts/features/hide-leave/ttHideLeave.css",
+				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.css",
+				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.css",
+				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.css",
+				"scripts/features/hide-icons/ttHideIcons.css",
+				"scripts/features/achievements/ttAchievements.css",
+				"scripts/features/hide-tutorials/ttHideTutorials.css"
+			],
+			"js": [
+				"scripts/features/hide-leave/ttHideLeave.entry.js",
+				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.entry.js",
+				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.entry.js",
+				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.entry.js",
+				"scripts/features/hide-icons/ttHideIcons.entry.js",
+				"scripts/features/achievements/achievements.js",
+				"scripts/features/achievements/ttAchievements.entry.js",
+				"scripts/features/hide-tutorials/ttHideTutorials.entry.js"
+			],
+			"run_at": "document_start"
+		},
+		{
+			"matches": ["https://www.torn.com/*.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack*"],
+			"css": [
+				"scripts/features/oc-time/ttOCTime.css",
+				"scripts/features/faction-oc-time/ttFactionOCTime.css",
+				"scripts/features/custom-links/ttCustomLinks.css",
+				"scripts/features/update-notice/ttUpdateNotice.css",
+				"scripts/features/sidebar-notes/ttSidebarNotes.css",
+				"scripts/features/computer-link/ttComputerLink.css",
+				"scripts/features/hide-gym-highlight/ttHideGymHighlight.css",
+				"scripts/features/highlight-properties/ttHighlightProperties.css",
+				"scripts/features/settings-link/ttSettingsLink.css",
+				"scripts/features/bar-links/ttBarLinks.css",
+				"scripts/features/collapsible-areas/ttCollapsibleAreas.css",
+				"scripts/features/npc-loot-times/ttNPCLootTimes.css"
+			],
+			"js": [
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.js",
 				"scripts/features/oc-time/ttOCTime.js",
 				"scripts/features/faction-oc-time/ttFactionOCTime.js",
@@ -152,26 +181,15 @@
 				"scripts/features/custom-links/ttCustomLinks.js",
 				"scripts/features/update-notice/ttUpdateNotice.js",
 				"scripts/features/sidebar-notes/ttSidebarNotes.js",
-				"scripts/features/colored-chat/ttColoredChat.js",
-				"scripts/features/search-chat/ttSearchChat.js",
 				"scripts/features/computer-link/ttComputerLink.js",
-				"scripts/features/chat-highlight/ttChatHighlight.js",
-				"scripts/features/chat-autocomplete/ttChatAutocomplete.js",
-				"scripts/features/mini-profile-information/ttMiniprofileInformation.js",
-				"scripts/features/easter-egg/ttEasterEgg.js",
 				"scripts/features/hide-gym-highlight/ttHideGymHighlight.js",
-				"scripts/features/trade-timer/ttTradeTimer.js",
 				"scripts/features/highlight-properties/ttHighlightProperties.js",
 				"scripts/features/settings-link/ttSettingsLink.js",
 				"scripts/features/bar-links/ttBarLinks.js",
 				"scripts/features/collapsible-areas/ttCollapsibleAreas.js",
 				"scripts/features/points-value/ttPointsValue.js",
 				"scripts/features/npc-loot-times/ttNPCLootTimes.js",
-				"scripts/features/hide-chat/ttHideChat.js",
-				"scripts/features/revive-request/ttReviveRequest.js",
-				"scripts/features/user-alias/ttUserAlias.js",
-				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js",
-				"scripts/features/stacking-mode/ttStackingMode.js"
+				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js"
 			],
 			"run_at": "document_end"
 		},
@@ -567,7 +585,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/properties.ph*"],
+			"matches": ["https://www.torn.com/properties.php*"],
 			"css": ["scripts/features/property-happiness/ttPropertyHappiness.css"],
 			"js": ["scripts/features/property-values/ttPropertyValues.js", "scripts/features/property-happiness/ttPropertyHappiness.js"],
 			"run_at": "document_end"
