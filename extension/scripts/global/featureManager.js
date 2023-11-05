@@ -98,6 +98,7 @@ class FeatureManager {
 
 		this.logInfo("Registered new feature.", newFeature).then(() => {});
 		this.features.push(newFeature);
+		this.showResult(newFeature, "registered", { message: "Loaded. Starting feature." });
 
 		this.startFeature(newFeature).catch((error) => this.logError(`Failed to start "${name}".`, error));
 		this.startLoadListeners(newFeature);
@@ -268,6 +269,7 @@ class FeatureManager {
 				statusIcon.setClass(getIconClass(status));
 
 				if (options.message) statusIcon.setAttribute("title", options.message);
+				else statusIcon.removeAttribute("title");
 			} else {
 				row = document.newElement({
 					type: "div",
@@ -309,6 +311,10 @@ class FeatureManager {
 				case "loaded":
 					className += "fa-check";
 					break;
+				case "registered":
+					className += "fa-spinner";
+					break;
+				case "information":
 				default:
 					className += "fa-question-circle";
 			}
