@@ -24,11 +24,11 @@
 		const dialogButtons = await requireElement("#defender [class*='dialogButtons__']");
 		if (dialogButtons.childElementCount === 0) return;
 
-		await (new Promise(async (resolve) => {
+		await new Promise(async (resolve) => {
 			dialogButtons.children[0].addEventListener("click", () => {
 				resolve();
 			});
-		}));
+		});
 
 		const timeoutValue = await requireElement("span[id^='timeout-value']");
 
