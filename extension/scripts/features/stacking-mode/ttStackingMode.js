@@ -18,7 +18,7 @@
 
 	function registerListeners() {
 		if (currentPage === "hospital") {
-			CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, disableReviving);
+			CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(disableReviving);
 		}
 
 		addFetchListener(async (event) => {

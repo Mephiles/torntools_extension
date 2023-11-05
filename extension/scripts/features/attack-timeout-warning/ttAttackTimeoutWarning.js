@@ -4,7 +4,7 @@
 	if (!getPageStatus().access) return;
 
 	featureManager.registerFeature(
-		"Timeout warning",
+		"Attack Timeout Warning",
 		"attack",
 		() => settings.pages.attack.timeoutWarning,
 		null,
@@ -20,6 +20,15 @@
 
 	async function addListener() {
 		stopListener();
+
+		const dialogButtons = await requireElement("#defender [class*='dialogButtons__']");
+		if (dialogButtons.childElementCount === 0) return;
+
+		await (new Promise(async (resolve) => {
+			dialogButtons.children[0].addEventListener("click", () => {
+				resolve();
+			});
+		}));
 
 		const timeoutValue = await requireElement("span[id^='timeout-value']");
 
