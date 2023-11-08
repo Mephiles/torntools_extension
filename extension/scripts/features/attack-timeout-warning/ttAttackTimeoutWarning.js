@@ -21,7 +21,7 @@
 	async function addListener() {
 		stopListener();
 
-		const dialogButtons = await requireElement("#defender [class*='dialogButtons__']");
+		const dialogButtons = await requireElement("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']");
 		if (dialogButtons.childElementCount === 0) return;
 
 		await new Promise(async (resolve) => {
