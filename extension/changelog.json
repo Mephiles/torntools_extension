@@ -1,17 +1,21 @@
 [
 	{
-		"version": { "major": 6, "minor": 20, "build": 0 },
+		"version": { "major": 6, "minor": 21, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 20, "build": 0 },
+		"date": "2023/11/09",
 		"logs": {
-			"features": [],
 			"fixes": [{ "message": "Chat Font Size will now change message sender name.", "contributor": "TheFoxMan" }],
 			"changes": [
 				{ "message": "Change the location of Trade Chat Timer.", "contributor": "TheFoxMan" },
 				{ "message": "Maximum cycles error message will be shown only to developers.", "contributor": "TheFoxMan" },
 				{ "message": "Add spinner icon for just registered features.", "contributor": "TheFoxMan" },
 				{ "message": "Remove sidebar features on attack page.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
