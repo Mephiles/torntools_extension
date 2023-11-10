@@ -125,7 +125,7 @@ const CASINO_GAMES = ["slots", "roulette", "high-low", "keno", "craps", "bookie"
 const DRUG_INFORMATION = {
 	// Cannabis
 	196: {
-		pros: ["Increased crime success rate", "+2-3 Nerve"],
+		pros: ["+8-12 Nerve"],
 		cons: ["-20% Strength", "-25% Defense", "-35% Speed"],
 		cooldown: "60-90 minutes",
 		overdose: {
