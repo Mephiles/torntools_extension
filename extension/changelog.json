@@ -3,7 +3,9 @@
 		"version": { "major": 6, "minor": 21, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [
+			{ "message": "Fix CSP error for Points Value.", "contributor": "TheFoxMan" }
+		], "changes": [], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 20, "build": 0 },

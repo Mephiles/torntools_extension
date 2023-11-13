@@ -56,7 +56,16 @@
 				);
 		});
 
-		executeScript((wrapped) => wrapped.initializeTooltip(".tt-points-value", "white-tooltip"), "initializeTooltip('.tt-points-value', 'white-tooltip')");
+		// New method instead of executeScript() to avoid CSP error.
+		const scriptEl = document.newElement({
+			type: "script",
+			attributes: {
+				type: "text/javascript",
+				src: chrome.runtime.getURL("scripts/features/points-value/ttPointsValue.inject.js")
+			}
+		});
+		document.head.appendChild(scriptEl);
+		setTimeout(() => scriptEl.remove(), 2000);
 	}
 
 	function removeValue() {
