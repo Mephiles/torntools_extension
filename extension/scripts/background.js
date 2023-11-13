@@ -607,7 +607,7 @@ async function updateUserdata() {
 				let message = `${messages.last().title} - by ${messages.last().name}`;
 				if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
 
-				notifications.events.combined = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
+				notifications.messages.combined = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
 			}
 		}
 

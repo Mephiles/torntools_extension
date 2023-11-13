@@ -99,7 +99,7 @@
 	}
 
 	function cleanup() {
-		timer.remove();
+		timer?.remove();
 		timer = null;
 
 		const tradeChat = getTradeChat();
