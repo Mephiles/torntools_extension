@@ -974,10 +974,10 @@ async function setupPreferences(requireCleanup) {
 									!isNaN(input.value) && input.value !== ""
 										? parseInt(input.value)
 										: input.hasAttribute("save-empty") && input.value === ""
-										? ""
-										: input.hasAttribute("min")
-										? input.getAttribute("min")
-										: 0;
+										  ? ""
+										  : input.hasAttribute("min")
+										    ? input.getAttribute("min")
+										    : 0;
 								break;
 							case "checkbox":
 								settings[type][page][setting] = input.checked;
