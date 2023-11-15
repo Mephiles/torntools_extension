@@ -68,6 +68,9 @@
 			],
 			"js": [
 				"vendor/fontawesome/fontawesome.js",
+				"resources/images/svg-icons/cross.js",
+				"resources/images/svg-icons/back.js",
+				"resources/images/svg-icons/icon_128.js",
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
 				"scripts/global/functions/browser.js",
@@ -114,9 +117,6 @@
 				"scripts/features/stacking-mode/ttStackingMode.css"
 			],
 			"js": [
-				"resources/images/svg-icons/cross.js",
-				"resources/images/svg-icons/back.js",
-				"resources/images/svg-icons/icon_128.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/features/colored-chat/ttColoredChat.js",
 				"scripts/features/search-chat/ttSearchChat.js",
