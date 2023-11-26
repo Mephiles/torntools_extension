@@ -233,7 +233,7 @@
 		for (const li of document.findAll(".members-list .table-body > li")) {
 			// Activity
 			if (activity.length) {
-				const userActivity = li.find("[class*='userStatusWrap___']").id.match(FILTER_REGEXES.activity_v2)[1].toLowerCase().trim();
+				const userActivity = li.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 
 				if (!activity.some((x) => x.trim() === userActivity)) {
 					hideRow(li);

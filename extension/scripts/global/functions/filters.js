@@ -29,8 +29,8 @@ const defaultFactionsItems = [
 ];
 
 const FILTER_REGEXES = {
-	activity: /(?<=<b>).*(?=<\/b>)/g,
-	activity_v2: /\d+_([a-zA-Z]+)-user/,
+	activity: /Online|Idle|Offline/g,
+	activity_v2_svg: /online|idle|offline/,
 };
 
 function createFilterSection(options) {

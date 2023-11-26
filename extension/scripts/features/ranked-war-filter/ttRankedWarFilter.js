@@ -168,7 +168,7 @@
 
 	function filterRow(row, filters, individual) {
 		if (filters.activity) {
-			const activity = row.find(".member.icons [class*='userStatusWrap___']").id.split("_")[1].split("-")[0].trim();
+			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 				hide("activity");
 				return;

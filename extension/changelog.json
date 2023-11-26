@@ -5,8 +5,14 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix CSP error for Points Value.", "contributor": "TheFoxMan" }],
-			"changes": [{ "message": "Load TT SVG logo before other files.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fix CSP error for Points Value.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Faction Member Filter for new activity icons.", "contributor": "TheFoxMan" }
+			],
+			"changes": [
+				{ "message": "Load TT SVG logo before other files.", "contributor": "TheFoxMan" },
+				{ "message": "Optimize filter activity regexes.", "contributor": "TheFoxMan" }
+			],
 			"removed": []
 		}
 	},

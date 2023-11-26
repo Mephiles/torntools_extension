@@ -169,7 +169,7 @@
 			// Activity
 			if (
 				activity.length &&
-				!activity.some((x) => x.trim() === li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())
+				!activity.includes(li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())
 			) {
 				hideRow(li);
 				continue;
