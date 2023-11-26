@@ -167,10 +167,7 @@
 		// Actual Filtering
 		for (const li of document.findAll(".users-list > li")) {
 			// Activity
-			if (
-				activity.length &&
-				!activity.includes(li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())
-			) {
+			if (activity.length && !activity.includes(li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())) {
 				hideRow(li);
 				continue;
 			}
