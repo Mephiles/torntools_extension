@@ -23,19 +23,12 @@
 			showCheckboxes();
 		});
 
-		requireElement("ul[class*='properties_']").then(() => {
+		requireElement("#gymroot [class*='gym__']").then((gymRoot) => {
 			new MutationObserver((mutations) => {
 				if (!feature.enabled()) return;
 
-				for (const mutation of mutations) {
-					const checkbox = mutation.target.find(".tt-stat-checkbox");
-					if (!checkbox) continue;
-
-					const classList = mutation.target.classList;
-					if (!classList.contains("tt-modified")) classList.add("tt-modified");
-					if (classList.contains("tt-gym-locked") !== checkbox.checked) classList.toggle("tt-gym-locked");
-				}
-			}).observe(document.find("ul[class*='properties_']"), { classList: true, attributes: true, subtree: true });
+				if (mutations.some((mutation) => [...mutation?.addedNodes].some((node) => node.className.includes("gymContentWrapper__")))) showCheckboxes();
+			}).observe(gymRoot, { childList: true, subtree: true });
 		});
 	}
 
