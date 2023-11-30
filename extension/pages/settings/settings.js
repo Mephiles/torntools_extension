@@ -1167,7 +1167,9 @@ async function setupPreferences(requireCleanup) {
 					//section
 						//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'sections')]
 							//section
-								//div[contains(@class, 'header')]${checkDevice().mobile ? "[not(contains(@class, 'no-mobile'))]" : ""}[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]`,
+								//div[contains(@class, 'header')]${
+									checkDevice().mobile ? "[not(contains(@class, 'no-mobile'))]" : ""
+								}[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]`,
 				document,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
