@@ -300,7 +300,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/education.php*"],
+			"matches": ["https://www.torn.com/page.php?sid=education*"],
 			"css": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.css"],
 			"js": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.js", "scripts/features/education-finish-time/ttEducationFinishTime.js"],
 			"run_at": "document_end"

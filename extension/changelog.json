@@ -9,7 +9,8 @@
 				{ "message": "Fix CSP error for Points Value.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Faction Member Filter for new activity icons.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Disable Gym Stats missing when switching gyms on mobile.", "contributor": "TheFoxMan" },
-				{ "message": "Fix attack log page features missing.", "contributor": "TheFoxMan" }
+				{ "message": "Fix attack log page features missing.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Education page features for page rebuild.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Load TT SVG logo before other files.", "contributor": "TheFoxMan" },

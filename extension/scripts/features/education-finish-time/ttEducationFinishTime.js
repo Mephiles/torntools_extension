@@ -7,7 +7,7 @@
 		"Education Finish Time",
 		"education",
 		() => settings.pages.education.finishTime,
-		initialise,
+		null,
 		showEducationFinishTime,
 		removeTime,
 		{
@@ -18,12 +18,7 @@
 		}
 	);
 
-	function initialise() {
-		window.addEventListener("hashchange", showEducationFinishTime);
-	}
-
 	async function showEducationFinishTime() {
-		if (getHashParameters().get("step") !== "main") return;
 		if (userdata.education_timeleft <= 0) return;
 
 		const msg = await requireElement(".msg .bold");
@@ -36,7 +31,6 @@
 	}
 
 	function removeTime() {
-		const ttTime = document.find(".tt-time");
-		if (ttTime) ttTime.remove();
+		document.find(".tt-time")?.remove();
 	}
 })();

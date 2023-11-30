@@ -7,7 +7,7 @@
 		"Grey Completed Courses",
 		"education",
 		() => settings.pages.education.greyOut,
-		initialiseObserver,
+		null,
 		greyOut,
 		removeGreying,
 		{
@@ -16,17 +16,12 @@
 		null
 	);
 
-	function initialiseObserver() {
-		window.addEventListener("hashchange", greyOut, false);
-	}
-
 	async function greyOut() {
-		if (getHashParameters().get("step") !== "main") return;
+		await requireElement("#education-root [class*='categoryItem__']");
 
-		await requireElement(".education .ajax-act");
-
-		for (const category of document.findAll(".education .ajax-act")) {
-			if (category.find(".progressbar").style.width === "100%") category.classList.add("tt-grey");
+		for (const category of document.findAll("#education-root [class*='categoryItem__']")) {
+			if (category.find("[class*='progressCounter__'] [class*='checkIconContainer__']"))
+				category.classList.add("tt-grey");
 		}
 	}
 
