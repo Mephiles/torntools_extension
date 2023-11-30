@@ -14,7 +14,8 @@
 			],
 			"changes": [
 				{ "message": "Load TT SVG logo before other files.", "contributor": "TheFoxMan" },
-				{ "message": "Optimize filter activity regexes.", "contributor": "TheFoxMan" }
+				{ "message": "Optimize filter activity regexes.", "contributor": "TheFoxMan" },
+				{ "message": "Hide Refills section header in settings on mobiles.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}

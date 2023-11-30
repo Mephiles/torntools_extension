@@ -1167,14 +1167,13 @@ async function setupPreferences(requireCleanup) {
 					//section
 						//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'sections')]
 							//section
-								//div[contains(@class, 'header')][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]`,
+								//div[contains(@class, 'header')]${checkDevice().mobile ? "[not(contains(@class, 'no-mobile'))]" : ""}[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]`,
 				document,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
 				null
 			);
 			searchList.innerHTML = "";
-			// Sorry but there is no forEach method available. Had to use traditional loops.
 			if (searchResults.snapshotLength > 0) {
 				for (let i = 0; i < searchResults.snapshotLength; i++) {
 					const option = searchResults.snapshotItem(i);
