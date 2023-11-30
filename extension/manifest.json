@@ -134,7 +134,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*.php*"],
-			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack&*"],
 			"css": [
 				"scripts/features/hide-leave/ttHideLeave.css",
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.css",
@@ -158,7 +158,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*.php*"],
-			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack&*"],
 			"css": [
 				"scripts/features/oc-time/ttOCTime.css",
 				"scripts/features/faction-oc-time/ttFactionOCTime.css",
@@ -525,13 +525,13 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"matches": ["https://www.torn.com/loader.php?sid=attack&*"],
 			"css": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css"],
 			"js": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js", "scripts/features/hide-attack-buttons/ttHideAttackButtons.js"],
 			"run_at": "document_start"
 		},
 		{
-			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"matches": ["https://www.torn.com/loader.php?sid=attack&*"],
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css", "scripts/features/weapon-experience/ttWeaponExperience.css"],
 			"js": [
 				"scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js",
