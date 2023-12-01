@@ -1,9 +1,14 @@
 [
 	{
-		"version": { "major": 6, "minor": 21, "build": 0 },
+		"version": { "major": 6, "minor": 22, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 21, "build": 0 },
+		"date": "2023/12/01",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix CSP error for Points Value.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Faction Member Filter for new activity icons.", "contributor": "TheFoxMan" },
@@ -15,8 +20,7 @@
 				{ "message": "Load TT SVG logo before other files.", "contributor": "TheFoxMan" },
 				{ "message": "Optimize filter activity regexes.", "contributor": "TheFoxMan" },
 				{ "message": "Hide Refills section header in settings on mobiles.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
