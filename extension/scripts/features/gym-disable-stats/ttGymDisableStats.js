@@ -23,11 +23,34 @@
 			showCheckboxes();
 		});
 
+		const gymTrainObserver = new MutationObserver((mutations) => {
+			if (!feature.enabled()) return;
+
+			for (const mutation of mutations) {
+				const checkbox = mutation.target.find(".tt-stat-checkbox");
+				if (!checkbox) continue;
+
+				const classList = mutation.target.classList;
+				if (!classList.contains("tt-modified")) classList.add("tt-modified");
+				if (classList.contains("tt-gym-locked") !== checkbox.checked) classList.toggle("tt-gym-locked");
+			}
+		});
+
+		requireElement("#gymroot ul[class*='properties_']").then((properties) => {
+			gymTrainObserver.observe(properties, { classList: true, attributes: true, subtree: true });
+		});
+
 		requireElement("#gymroot [class*='gym__']").then((gymRoot) => {
-			new MutationObserver((mutations) => {
+			new MutationObserver(async (mutations) => {
 				if (!feature.enabled()) return;
 
-				if (mutations.some((mutation) => [...mutation?.addedNodes].some((node) => node.className.includes("gymContentWrapper__")))) showCheckboxes();
+				if (mutations.some((mutation) => [...mutation?.addedNodes].some((node) => node.className.includes("gymContentWrapper__")))) {
+					showCheckboxes();
+
+					requireElement("#gymroot ul[class*='properties_']").then((properties) => {
+						gymTrainObserver.observe(properties, { classList: true, attributes: true, subtree: true });
+					});
+				}
 			}).observe(gymRoot, { childList: true, subtree: true });
 		});
 	}
