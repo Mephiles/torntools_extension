@@ -19,7 +19,7 @@ const defaultFactionsItems = [
 					value: userdata.faction.faction_tag,
 					description: userdata.faction.faction_tag,
 				},
-		  ]
+			]
 		: []),
 	{
 		value: "------",

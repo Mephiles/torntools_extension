@@ -141,7 +141,7 @@
 						needed.length
 							? `<strong class="counter">${needed.length}</strong> part${applyPlural(needed.length)} available to upgrade: <strong>${needed.join(
 									"<span class='separator'>, </span>"
-							  )}</strong>`
+								)}</strong>`
 							: "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>!"
 					}
 				`,

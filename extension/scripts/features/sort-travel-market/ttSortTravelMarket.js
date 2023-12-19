@@ -116,7 +116,7 @@
 							const newY = parseInt(y.replace(/[a-zA-Z$:,]/g, "").trim());
 							if (newX >= newY) return -1;
 							else if (newX < newY) return 1;
-					  });
+						});
 			if (order === "desc") allValues.reverse();
 
 			for (let i = 0; i < allValues.length; i++) {

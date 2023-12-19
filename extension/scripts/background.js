@@ -560,8 +560,8 @@ async function updateUserdata() {
 			userdata.userCrime = userdata.icons.icon85
 				? userdata.timestamp * TO_MILLIS.SECONDS + textToTime(userdata.icons.icon85.split("-").last().trim())
 				: userdata.icons.icon86
-				  ? userdata.timestamp * TO_MILLIS.SECONDS
-				  : -1;
+					? userdata.timestamp * TO_MILLIS.SECONDS
+					: -1;
 		}
 	}
 
