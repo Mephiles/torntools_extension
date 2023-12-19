@@ -2,6 +2,7 @@
 
 (async () => {
 	await featureManagerLoaded();
+
 	featureManager.registerFeature(
 		"Bazaar Worth",
 		"bazaar",
@@ -89,7 +90,7 @@
 	}
 
 	function removeWorth() {
-		document.find(".tt-bazaar-text").remove();
+		document.find(".tt-bazaar-text")?.remove();
 	}
 
 	async function featureManagerLoaded() {
