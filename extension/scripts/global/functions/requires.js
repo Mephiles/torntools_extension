@@ -7,6 +7,9 @@ function requireCondition(condition, options = {}) {
 		...options,
 	};
 
+	// Preserve stack for throwing later when needed.
+	const error = new Error("Maximum cycles reached.");
+
 	return new Promise((resolve, reject) => {
 		if (checkCondition()) return;
 
@@ -37,7 +40,7 @@ function requireCondition(condition, options = {}) {
 			if (options.maxCycles <= 0) return false;
 
 			if (count > options.maxCycles) {
-				reject(new Error("Maximum cycles reached."));
+				reject(error);
 				console.trace();
 				return true;
 			}

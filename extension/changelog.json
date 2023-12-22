@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix cleanup function for Bazaar Worth.", "contributor": "TheFoxMan" }],
-			"changes": [{ "message": "Add Segoe UI font in popup.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Add Segoe UI font in popup.", "contributor": "TheFoxMan" },
+				{ "message": "Preserve stack when reporting max cycles reached.", "contributor": "TheFoxMan" }
+			],
 			"removed": []
 		}
 	},
