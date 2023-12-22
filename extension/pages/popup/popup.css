@@ -1,6 +1,7 @@
 body {
 	overflow-x: hidden;
 	font-size: 75%;
+	font-family: "Segoe UI";
 }
 
 body.light {

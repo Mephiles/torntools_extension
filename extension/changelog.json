@@ -3,7 +3,12 @@
 		"version": { "major": 6, "minor": 22, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fix cleanup function for Bazaar Worth.", "contributor": "TheFoxMan" }], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix cleanup function for Bazaar Worth.", "contributor": "TheFoxMan" }],
+			"changes": [{ "message": "Add Segoe UI font in popup.", "contributor": "TheFoxMan" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 21, "build": 0 },
