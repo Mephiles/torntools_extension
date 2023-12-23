@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix cleanup function for Bazaar Worth.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fix cleanup function for Bazaar Worth.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Chat features after the addition of timestamps.", "contributor": "TheFoxMan" }
+			],
 			"changes": [
 				{ "message": "Add Segoe UI font in popup.", "contributor": "TheFoxMan" },
 				{ "message": "Preserve stack when reporting max cycles reached.", "contributor": "TheFoxMan" }

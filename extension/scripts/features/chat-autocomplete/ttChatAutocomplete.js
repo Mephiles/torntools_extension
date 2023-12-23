@@ -34,7 +34,7 @@
 	}
 
 	function addAutocomplete(chat) {
-		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__']");
+		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message-']");
 		if (!messages.length) return;
 
 		const textarea = chat.find("textarea:not(.tt-chat-autocomplete)");
@@ -55,8 +55,8 @@
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = [...chat.findAll("[class*='chat-box-body__message-box__'] button a")]
-				.map((message) => message.textContent)
+			const matchedUsernames = [...chat.findAll("[class*='chat-box-message-'] [class*='chat-box-message__sender__']")]
+				.map((message) => message.textContent.split(":")[0])
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
 				.sort();
 			if (!matchedUsernames.length) return;

@@ -22,12 +22,12 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			applyHighlights(message.find("[class*='chat-box-body__message-box__']"));
+			applyHighlights(message.find("[class*='chat-box-message__box__']"));
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__']")) {
+			for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
 				applyHighlights(message);
 			}
 		});
@@ -50,7 +50,7 @@
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 
-			for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__']")) {
+			for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
 				applyHighlights(message);
 			}
 		});
@@ -60,7 +60,7 @@
 		if (!message) return;
 		if (!highlights.length) return;
 
-		const sender = simplify(message.find("[class*='chat-box-body__sender-button__'] a").textContent.replace(":", ""));
+		const sender = simplify(message.find("[class*='chat-box-message__sender__']").textContent.replace(":", ""));
 		const words = message.lastElementChild.textContent.split(" ").map(simplify);
 
 		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
@@ -83,7 +83,7 @@
 	}
 
 	function removeHighlights() {
-		for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-body__message-box__'][style]")) {
+		for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'][style]")) {
 			message.style = "";
 		}
 	}

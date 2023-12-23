@@ -82,7 +82,7 @@
 	function addAliasMessage(message = "") {
 		if (!message) {
 			for (const [userID, alias] of Object.entries(settings.userAlias)) {
-				document.findAll(`#chatRoot [class*="chat-box-body__sender-button__"] a[href*='/profiles.php?XID=${userID}']`).forEach((profileLink) => {
+				document.findAll(`#chatRoot a[class*="chat-box-message__sender__"][href*='/profiles.php?XID=${userID}']`).forEach((profileLink) => {
 					profileLink.dataset.original = profileLink.textContent;
 					profileLink.firstChild.textContent = alias.alias;
 				});
