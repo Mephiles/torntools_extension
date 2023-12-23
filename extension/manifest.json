@@ -699,8 +699,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/forums.php*"],
-			"css": ["scripts/features/forum-warning/ttForumWarning.css", "scripts/features/forum-menu/ttForumMenu.css"],
-			"js": ["scripts/features/forum-warning/ttForumWarning.js", "scripts/features/forum-menu/ttForumMenu.js"],
+			"css": [
+				"scripts/features/forum-warning/ttForumWarning.css",
+				"scripts/features/forum-menu/ttForumMenu.css",
+				"scripts/features/add-debug-info/ttAddDebugInfo.css"
+			],
+			"js": [
+				"scripts/features/forum-warning/ttForumWarning.js",
+				"scripts/features/forum-menu/ttForumMenu.js",
+				"scripts/features/add-debug-info/ttAddDebugInfo.js"
+			],
 			"run_at": "document_end"
 		},
 		{

@@ -550,6 +550,7 @@ const DEFAULT_STORAGE = {
 				highlightPosts: new DefaultSetting({ type: "object", defaultValue: {} }),
 				highlightThreads: new DefaultSetting({ type: "object", defaultValue: {} }),
 				ignoredThreads: new DefaultSetting({ type: "object", defaultValue: {} }),
+				debugInfoBtn: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			bazaar: {
 				itemsCost: new DefaultSetting({ type: "boolean", defaultValue: true }),
