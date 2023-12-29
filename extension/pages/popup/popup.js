@@ -271,7 +271,7 @@ async function setupDashboard() {
 		function updateIcons() {
 			if (!settings.pages.popup.showIcons) {
 				iconsWrap.classList.add("tt-hidden");
-				iconsWrap.findAll(".countdown.automatic").forEach(x => x.classList.remove("countdown"));
+				iconsWrap.findAll(".countdown.automatic").forEach((x) => x.classList.remove("countdown"));
 				return;
 			}
 
@@ -296,16 +296,16 @@ async function setupDashboard() {
 							time = timeSplits[1];
 						}
 
-						iconHTML = text + " - " +
+						iconHTML =
+							text +
+							" - " +
 							`<span class="countdown automatic" data-seconds="${textToTime(time)}" data-time-settings='{ "type": "wordTimer" }'>
 							${time}
 							</span>`;
-					} else
-						iconHTML = iconText;
+					} else iconHTML = iconText;
 
 					icon.children[1].innerHTML = iconHTML;
-				} else
-					icon.classList.add("tt-hidden");
+				} else icon.classList.add("tt-hidden");
 			});
 		}
 
