@@ -30,6 +30,40 @@ a#dashboard > header #country:hover {
 	margin: 0 0 8px 0;
 }
 
+/* Icons */
+
+.icons-wrap {
+	float: right;
+}
+
+.icon {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
+	position: relative;
+}
+
+.icon > div {
+	background: url(https://torn.com/images/v2/svg_icons/sprites/user_status_icons_sprite.svg);
+	width: inherit;
+	height: inherit;
+}
+
+.icon.hover_tooltip .hover_tooltip_text {
+	font-size: 12px;
+	font-weight: normal;
+	margin-top: 5px;
+	bottom: unset;
+}
+
+.icon.hover_tooltip .hover_tooltip_text::after {
+	top: unset;
+	bottom: 100%;
+	border-color: transparent transparent black transparent;
+}
+
 /* Bars */
 
 #dashboard a.bar,

@@ -125,6 +125,19 @@ async function setupInitialize() {
 async function setupDashboard() {
 	const dashboard = document.find("#dashboard");
 
+	const iconsWrap = dashboard.find(".icons-wrap");
+	for (const { icon, id, description } of ALL_ICONS) {
+		const iconWrap = document.newElement({
+			type: "div",
+			class: "icon tt-hidden",
+			children: [document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
+		});
+		iconWrap.classList.add("hover_tooltip");
+		iconWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
+
+		iconsWrap.appendChild(iconWrap);
+	}
+
 	dashboard.find("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
 	dashboard.find("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
 	dashboard.find("#mute-notifications span").textContent = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
@@ -213,6 +226,10 @@ async function setupDashboard() {
 	function updateDashboard() {
 		// Country and status
 		if (settings.apiUsage.user.travel) updateStatus();
+
+		// Icons
+		if (settings.apiUsage.user.icons) updateIcons();
+
 		// Bars
 		if (settings.apiUsage.user.bars)
 			for (const bar of ["energy", "nerve", "happy", "life", "chain"]) {
@@ -249,6 +266,47 @@ async function setupDashboard() {
 
 				updateStatusTimer();
 			}
+		}
+
+		function updateIcons() {
+			if (!settings.pages.popup.showIcons) {
+				iconsWrap.classList.add("tt-hidden");
+				iconsWrap.findAll(".countdown.automatic").forEach(x => x.classList.remove("countdown"));
+				return;
+			}
+
+			iconsWrap.classList.remove("tt-hidden");
+			[...iconsWrap.children].forEach((icon) => {
+				if (Object.keys(userdata.icons).includes(icon.children[0].className)) {
+					icon.classList.remove("tt-hidden");
+
+					let iconText = userdata.icons[icon.children[0].className];
+
+					let iconHTML = "";
+
+					if (iconText.includes(" - ") && iconText.includes(" seconds")) {
+						let timeSplits = iconText.split(" - ");
+						let time, text;
+
+						if (timeSplits.length > 2) {
+							time = timeSplits[timeSplits.length - 1];
+							text = timeSplits.slice(0, -1).join(" - ");
+						} else {
+							text = timeSplits[0];
+							time = timeSplits[1];
+						}
+
+						iconHTML = text + " - " +
+							`<span class="countdown automatic" data-seconds="${textToTime(time)}" data-time-settings='{ "type": "wordTimer" }'>
+							${time}
+							</span>`;
+					} else
+						iconHTML = iconText;
+
+					icon.children[1].innerHTML = iconHTML;
+				} else
+					icon.classList.add("tt-hidden");
+			});
 		}
 
 		function updateBar(name, bar) {

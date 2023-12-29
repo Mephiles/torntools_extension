@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Add button to add debugging information to TT Forum post.", "contributor": "TheFoxMan" }],
+			"features": [
+				{ "message": "Add button to add debugging information to TT Forum post.", "contributor": "TheFoxMan" },
+				{ "message": "Show icons on popup dashboard.", "contributor": "TheFoxMan" }
+			],
 			"fixes": [
 				{ "message": "Fix cleanup function for Bazaar Worth.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Chat features after the addition of timestamps.", "contributor": "TheFoxMan" }
