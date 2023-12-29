@@ -30,7 +30,7 @@
 			if (!input) return;
 
 			const inputValue = input.value;
-			if (inputValue) searchChat(message.find("[class*='chat-box-message-']"), inputValue);
+			if (inputValue) searchChat(message.find("[class*='chat-box-message__box__']"), inputValue);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REFRESHED].push(() => {
 			if (!feature.enabled()) return;
@@ -147,7 +147,7 @@
 	function onChatSearch(event, chat) {
 		const keyword = event.target.value.toLowerCase();
 
-		for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message-']")) {
+		for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
 			searchChat(message, keyword);
 		}
 
@@ -159,7 +159,7 @@
 
 	function removeSearch() {
 		for (const chat of document.findAll("#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__']")) {
-			for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message-'] div[class='tt-hidden']")) {
+			for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'] div[class='tt-hidden']")) {
 				message.classList.remove("tt-hidden");
 			}
 			const chatBody = chat.find("[class*='chat-box-body__']");
@@ -181,16 +181,16 @@
 
 			const sender = message.find("[class*='chat-box-message__sender__']");
 			if (!sender.textContent.toLowerCase().includes(target) && (isNaN(target) || !sender.href.match(`XID=${target}$`))) {
-				message.classList.add("tt-hidden");
+				message.closest("[class*='chat-box-message___']").classList.add("tt-hidden");
 				return;
 			}
 		}
 
 		const messageText = message.find("p").textContent.toLowerCase();
 		if (keyword && !messageText.includes(keyword)) {
-			message.classList.add("tt-hidden");
+			message.closest("[class*='chat-box-message___']").classList.add("tt-hidden");
 		} else {
-			message.classList.remove("tt-hidden");
+			message.closest("[class*='chat-box-message___']").classList.remove("tt-hidden");
 		}
 	}
 })();
