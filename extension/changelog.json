@@ -2,7 +2,6 @@
 	{
 		"version": { "major": 6, "minor": 22, "build": 0 },
 		"title": "Beta",
-		"date": false,
 		"logs": {
 			"features": [
 				{ "message": "Add button to add debugging information to TT Forum post.", "contributor": "TheFoxMan" },
