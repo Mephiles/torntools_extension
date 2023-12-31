@@ -7,7 +7,7 @@
 	},
 	{
 		"version": { "major": 6, "minor": 22, "build": 0 },
-		"title": "Beta",
+		"date": "2023/12/30",
 		"logs": {
 			"features": [
 				{ "message": "Add button to add debugging information to TT Forum post.", "contributor": "TheFoxMan" },
@@ -21,8 +21,7 @@
 				{ "message": "Add Segoe UI font in popup.", "contributor": "TheFoxMan" },
 				{ "message": "Preserve stack when reporting max cycles reached.", "contributor": "TheFoxMan" }
 			]
-		},
-		"date": "2023/12/30"
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 21, "build": 0 },
