@@ -10,3 +10,8 @@
 .tt-align-left .without-sidebar #mainContainer .content-wrapper {
 	margin-left: 20px;
 }
+
+.tt-align-left div.container:has(> div[style*="margin-top: -80px;"] > div.cf > div.iAmUnderAttack > form#challenge-form) {
+	margin-left: 0 !important;
+	justify-content: center !important;
+}
