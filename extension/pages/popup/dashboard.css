@@ -24,6 +24,10 @@ a#dashboard > header #country:hover {
 
 #dashboard > header h1 {
 	margin-bottom: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
 }
 
 #dashboard > header h3 {
@@ -33,7 +37,8 @@ a#dashboard > header #country:hover {
 /* Icons */
 
 .icons-wrap {
-	float: right;
+	display: flex;
+	margin-top: 5px;
 }
 
 .icon {

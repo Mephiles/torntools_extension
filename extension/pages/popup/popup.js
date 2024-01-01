@@ -301,7 +301,7 @@ async function setupDashboard() {
 							" - " +
 							`<span class="countdown automatic" data-seconds="${
 								(textToTime(time) - (Date.now() - userdata.timestamp * 1000)) / 1000
-							}" data-time-settings='{ "type": "wordTimer" }'>
+							}" data-time-settings='{ "type": "wordTimer", "showDays": true }'>
 							${time}
 							</span>`;
 					} else iconHTML = iconText;
