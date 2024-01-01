@@ -331,7 +331,7 @@ async function updateUserdata() {
 	if (updateEssential) {
 		selections.push("profile", "timestamp");
 
-		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "money", "refills"]) {
+		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "money", "refills", "icons"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
@@ -352,7 +352,6 @@ async function updateUserdata() {
 			"merits",
 			"perks",
 			"networth",
-			"icons",
 			"ammo",
 			"honors",
 			"medals",

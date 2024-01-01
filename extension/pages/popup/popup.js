@@ -299,7 +299,9 @@ async function setupDashboard() {
 						iconHTML =
 							text +
 							" - " +
-							`<span class="countdown automatic" data-seconds="${textToTime(time)}" data-time-settings='{ "type": "wordTimer" }'>
+							`<span class="countdown automatic" data-seconds="${
+								(textToTime(time) - (Date.now() - userdata.timestamp * 1000)) / 1000
+							}" data-time-settings='{ "type": "wordTimer" }'>
 							${time}
 							</span>`;
 					} else iconHTML = iconText;

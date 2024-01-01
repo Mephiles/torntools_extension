@@ -3,7 +3,7 @@
 		"version": { "major": 6, "minor": 23, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [{ "message": "Fix incorrect times in popup icons.", "contributor": "TheFoxMan" }], "changes": [], "removed": [] }
 	},
 	{
 		"version": { "major": 6, "minor": 22, "build": 0 },
