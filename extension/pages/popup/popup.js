@@ -277,6 +277,11 @@ async function setupDashboard() {
 
 			iconsWrap.classList.remove("tt-hidden");
 			[...iconsWrap.children].forEach((icon) => {
+				if (settings.hideIcons.includes(icon.children[0].className)) {
+					icon.classList.add("tt-hidden");
+					return;
+				}
+
 				if (Object.keys(userdata.icons).includes(icon.children[0].className)) {
 					icon.classList.remove("tt-hidden");
 

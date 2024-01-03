@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Enable Sidebar Hide Icons for popup.", "contributor": "TheFoxMan" }],
 			"fixes": [
 				{ "message": "Fix popup icons incorrect times and wrapping.", "contributor": "TheFoxMan" },
 				{ "message": "Add fallback fonts for popup.", "contributor": "TheFoxMan" }
