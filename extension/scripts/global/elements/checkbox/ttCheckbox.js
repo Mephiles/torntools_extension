@@ -8,15 +8,17 @@ function createCheckbox(options = {}) {
 		...options,
 	};
 
-	const label = options.isHTML
-		? document.newElement({ type: "label", html: options.description, attributes: { for: options.id } })
-		: document.newElement({ type: "label", text: options.description, attributes: { for: options.id } });
-
 	const checkbox = document.newElement({ type: "input", id: options.id, attributes: { type: "checkbox" } });
+	const label = document.newElement({
+		type: "label",
+		[options.isHTML ? "html": "text"]: options.description
+	});
+	label.insertAdjacentElement("afterbegin", checkbox);
+
 	const checkboxWrapper = document.newElement({
 		type: "div",
 		class: `tt-checkbox-wrapper ${options.reverseLabel ? "reverse-label" : ""} ${options.class}`,
-		children: [...(!options.reverseLabel ? [checkbox] : []), label, ...(options.reverseLabel ? [checkbox] : [])],
+		children: [label],
 		events: {
 			click(event) {
 				event.stopPropagation();

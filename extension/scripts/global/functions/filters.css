@@ -123,10 +123,11 @@ body.tt-tablet .tt-filter .content .tt-checkbox-wrapper {
 
 .tt-filter .content .tt-yn-checkboxes > div {
 	display: flex;
+	align-items: center;
 }
 
 .tt-filter .content .tt-yn-checkboxes label {
-	margin: 0 4px;
+	margin-left: 4px;
 }
 
 .tt-filter .content > div {
