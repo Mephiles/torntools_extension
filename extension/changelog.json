@@ -3,10 +3,15 @@
 		"version": { "major": 6, "minor": 24, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [
-			{ "message": "Add possible fix for Job Points tooltip on other icons.", "contributor": "TheFoxMan" },
-			{ "message": "Change filter labels to use inline checkboxes instead of id attribute.", "contributor": "TheFoxMan" }
-		], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [
+				{ "message": "Add possible fix for Job Points tooltip on other icons.", "contributor": "TheFoxMan" },
+				{ "message": "Change filter labels to use inline checkboxes instead of id attribute.", "contributor": "TheFoxMan" }
+			],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 23, "build": 0 },

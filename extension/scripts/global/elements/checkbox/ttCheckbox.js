@@ -11,7 +11,7 @@ function createCheckbox(options = {}) {
 	const checkbox = document.newElement({ type: "input", id: options.id, attributes: { type: "checkbox" } });
 	const label = document.newElement({
 		type: "label",
-		[options.isHTML ? "html": "text"]: options.description
+		[options.isHTML ? "html" : "text"]: options.description,
 	});
 	label.insertAdjacentElement("afterbegin", checkbox);
 
