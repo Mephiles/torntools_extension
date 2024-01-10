@@ -46,6 +46,12 @@
 		const tooltipEl = (await requireElement("body > [id*='floating-ui-']")).find("[class*='tooltip__']");
 		const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
 		const tooltipBodyText = tooltipBodyEl.textContent;
+
+		// Race condition
+		// Check if the tooltip is still of Company or City Job
+		if (tooltipBodyEl.previousElementSibling.textContent !== "Company" &&
+			tooltipBodyEl.previousElementSibling.textContent !== "Job") return;
+
 		const lastParenthesisIndex = tooltipBodyText.lastIndexOf(")");
 
 		const pointsText = ` - ${jobPoints} points`;
