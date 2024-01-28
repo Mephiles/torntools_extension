@@ -323,9 +323,9 @@ async function updateUserdata() {
 		!userdata || !Object.keys(userdata).length || hasTimePassed((userdata.date ?? 0) - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
 	const updateBasic =
 		updateEssential &&
-		(!userdata.dateBasic ||
-			(hasTimePassed(userdata.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
-				!hasTimePassed(userdata.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
+		(!userdata?.dateBasic ||
+			(hasTimePassed(userdata?.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
+				!hasTimePassed(userdata?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
 	const selections = [];
 	if (updateEssential) {
@@ -382,7 +382,7 @@ async function updateUserdata() {
 	userdata = await fetchData("torn", { section: "user", selections });
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
-	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
+	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
 
 	// Notifications have a 100K count limit from being fetched via the Torn API
 	// Use "newevents" selection only when the old events count > new events count
