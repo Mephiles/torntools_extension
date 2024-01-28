@@ -94,5 +94,7 @@ body.dark-mode .tt-table-row {
 }
 
 .tt-table-row-header {
+	text-align: center;
+	font-size: 115%;
 	font-weight: bold;
 }
