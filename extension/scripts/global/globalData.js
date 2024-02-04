@@ -441,7 +441,7 @@ const DEFAULT_STORAGE = {
 				pointsValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcLootTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcLootTimesService: new DefaultSetting({ type: "string", defaultValue: "tornstats" }),
-				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				companyAddictionLevel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showJobPointsToolTip: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
