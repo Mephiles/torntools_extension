@@ -18,8 +18,18 @@ class FeatureManager {
 			this.isDisconnected = true;
 		});
 		this.logInfo = async (...params) => {
-			params[0] = this.logPadding + params[0];
-			console.log(...params);
+			if (!settings) {
+				loadDatabase().then(maybeLog);
+				return;
+			}
+			maybeLog();
+
+			function maybeLog() {
+				if (!settings.developer) return;
+
+				params[0] = this.logPadding + params[0];
+				console.log(...params);
+			}
 		};
 		this.logError = async (info, error) => {
 			if (error?.message === "Maximum cycles reached." && !settings.developer) return;
@@ -72,6 +82,17 @@ class FeatureManager {
 		};
 
 		window.isfeatureManagerLoaded = true;
+
+		loadDatabase().then(() => {
+			if (settings.developer) return;
+
+			console.log(
+				"%cTorn%cTools %cis running.",
+				"font-size: 30px; font-weight: 600; color: green;",
+				"font-size: 30px; font-weight: 600; color: #000;",
+				"font-size: 30px;"
+			);
+		});
 	}
 
 	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {

@@ -11,7 +11,8 @@
 				{ "message": "Change filter labels to use inline checkboxes instead of id attribute.", "contributor": "TheFoxMan" },
 				{ "message": "Make `userdata` update more resilient to null-ish values.", "contributor": "TheFoxMan" },
 				{ "message": "Add Crimes 2.0 stats to Profile Box.", "contributor": "TheFoxMan" },
-				{ "message": "Make Cooldown End Timers to be on by default.", "contributor": "TheFoxMan" }
+				{ "message": "Make Cooldown End Timers to be on by default.", "contributor": "TheFoxMan" },
+				{ "message": "Enable detailed logs only when developer option is ticked.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
