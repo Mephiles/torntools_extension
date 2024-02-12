@@ -20,7 +20,11 @@
 		addFetchListener((event) => {
 			if (!feature.enabled()) return;
 
-			const { page, json, fetch: { url } } = event.detail;
+			const {
+				page,
+				json,
+				fetch: { url },
+			} = event.detail;
 			if (page !== "page") return;
 
 			const params = new URL(url).searchParams;
