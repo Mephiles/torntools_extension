@@ -20,12 +20,12 @@
 		addFetchListener((event) => {
 			if (!feature.enabled()) return;
 
-			const { page, json, fetch } = event.detail;
-			if (page !== "profiles") return;
+			const { page, json, fetch: { url } } = event.detail;
+			if (page !== "page") return;
 
-			const params = new URL(fetch.url).searchParams;
-			const step = params.get("step");
-			if (step !== "getMiniProfile") return;
+			const params = new URL(url).searchParams;
+			const sid = params.get("sid");
+			if (sid !== "UserMiniProfile") return;
 
 			showInformation(json);
 		});
