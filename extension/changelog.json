@@ -13,7 +13,8 @@
 				{ "message": "Add Crimes 2.0 stats to Profile Box.", "contributor": "TheFoxMan" },
 				{ "message": "Make Cooldown End Timers to be on by default.", "contributor": "TheFoxMan" },
 				{ "message": "Enable detailed logs only when developer option is ticked.", "contributor": "TheFoxMan" },
-				{ "message": "Fix Mini Profile last action missing.", "contributor": "Kwack" }
+				{ "message": "Fix Mini Profile last action missing.", "contributor": "Kwack" },
+				{ "message": "Added 'in a faction' filter to hospital, jail, and travel pages.", "contributor": "ThtAstronautGuy"}
 			],
 			"removed": []
 		}
