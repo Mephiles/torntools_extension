@@ -133,9 +133,10 @@
 				}
 			});
 			const wrap = document.newElement({
-				type: "div",
+				type: "label",
 				class: "tt-hide-values",
-				children: [document.newElement({ type: "span", text: "Hide item values" }), checkbox],
+				text: "Hide item values",
+				children: [checkbox],
 			});
 
 			side.find(".title-black").appendChild(wrap);
