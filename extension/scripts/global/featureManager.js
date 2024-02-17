@@ -19,10 +19,10 @@ class FeatureManager {
 		});
 		this.logInfo = async (...params) => {
 			if (!settings) {
-				loadDatabase().then(maybeLog);
+				loadDatabase().then(maybeLog.bind(this));
 				return;
 			}
-			maybeLog();
+			maybeLog.call(this);
 
 			function maybeLog() {
 				if (!settings.developer) return;

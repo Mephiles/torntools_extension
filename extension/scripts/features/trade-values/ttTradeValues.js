@@ -21,7 +21,7 @@
 	function initialiseListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(({ step }) => {
 			if (!feature.enabled()) return;
-			if (!["view", "initiateTrade", "accept", "start"].includes(step)) return;
+			if (!["logview", "initiateTrade", "accept", "start"].includes(step)) return;
 
 			addItemValues();
 		});
@@ -32,9 +32,9 @@
 		await requireElement(".cont .color1 .desc > li .name");
 		const localMappings = {};
 
-		for (const log of document.findAll(".log li div:not(.tt-modified)")) {
+		for (const log of document.findAll(".log li .msg:not(.tt-modified)")) {
 			log.classList.add("tt-modified");
-			const text = log.childNodes[1].textContent;
+			const text = log.textContent;
 			let totalValue = 0;
 
 			if (!text.includes("says:") && text.includes("added")) {
@@ -49,7 +49,7 @@
 					const quantityMap = {};
 					for (const entry of itemEntries) {
 						const nameRegex = entry.match(/(?<=x ).*/);
-						const quantityRegex = entry.match(/\d*(?=x)/g);
+						const quantityRegex = entry.match(/\d+(?=x)/g);
 						if (!nameRegex || !quantityRegex) {
 							console.log("TT - (Trade Values) Ignoring item because it doesn't match anything.", entry);
 							continue;
