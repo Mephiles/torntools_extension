@@ -59,7 +59,7 @@
 				".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 				(row) => {
 					return {
-						id: parseInt(row.find("[class*='userWrap__'] > a").id.split("-")[0]),
+						id: parseInt(row.find("[class*='honorWrap__'] > a").href.split("XID=")[1]),
 						level: parseInt(row.find(".level").textContent.trim()),
 					};
 				},
