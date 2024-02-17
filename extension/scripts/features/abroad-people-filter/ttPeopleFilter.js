@@ -203,6 +203,11 @@
 					hide("faction");
 					return;
 				}
+			} else if (filters.faction == "In a faction") {
+				if (!hasFaction) {
+					hide("faction");
+					return;
+				}
 			} else {
 				if (
 					!hasFaction || // No faction

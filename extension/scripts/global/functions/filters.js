@@ -13,6 +13,10 @@ const defaultFactionsItems = [
 		value: "Unknown faction",
 		description: "Unknown faction",
 	},
+	{
+		value: "In a faction",
+		description: "In a faction",
+	},
 	...(hasAPIData() && !!userdata.faction.faction_id
 		? [
 				{

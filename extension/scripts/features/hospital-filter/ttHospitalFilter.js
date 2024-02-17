@@ -168,8 +168,13 @@
 				? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
 				: rowFaction.textContent.trim();
 
-			if (faction && faction !== "No faction" && faction !== "Unknown faction") {
+			if (faction && faction !== "No faction" && faction !== "Unknown faction" && faction !== "In a faction") {
 				if (!hasFaction || factionName === "N/A" || factionName !== faction) {
+					hideRow(li);
+					continue;
+				}
+			} else if (faction == "In a faction") {
+				if (!hasFaction) {
 					hideRow(li);
 					continue;
 				}
