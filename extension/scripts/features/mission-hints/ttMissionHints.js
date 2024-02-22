@@ -36,8 +36,8 @@
 				hint: "Guns can stay equipped.",
 			},
 			a_problem_at_the_tracks: {
-				task: "Defeat 3 (P) without using any guns.",
-				hint: "Guns can stay equipped. Using a gun will fail this mission!",
+				task: "Defeat 3 (P) using only fist or melee weapons.",
+				hint: "Other weapons can stay equipped. Using any other weapon will fail this mission!",
 			},
 			a_thor_loser: {
 				task: "Use Duke's hammer to hit 8 - 16 unique body parts",
