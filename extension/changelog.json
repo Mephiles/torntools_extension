@@ -1,15 +1,19 @@
 [
 	{
-		"version": { "major": 6, "minor": 25, "build": 0 },
+		"version": { "major": 6, "minor": 26, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 25, "build": 0 },
+		"date": "2024/02/23",
 		"logs": {
 			"features": [{ "message": "Added 'in a faction' filter to hospital, jail, and travel pages.", "contributor": "ThtAstronautGuy" }],
 			"fixes": [
 				{ "message": "Trade Item Values after Trade page redesign.", "contributor": "TheFoxMan" },
 				{ "message": "RW Stats Estimates profile IDs.", "contributor": "TheFoxMan" }
-			],
-			"changes": [],
-			"removed": []
+			]
 		}
 	},
 	{
