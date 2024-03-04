@@ -36,7 +36,7 @@
 				hint: "Guns can stay equipped.",
 			},
 			a_problem_at_the_tracks: {
-				task: "Defeat 3 (P) without using any guns.",
+				task: "Defeat 3 (P) without using any guns or grenades.",
 				hint: "Guns can stay equipped. Using a gun will fail this mission!",
 			},
 			a_thor_loser: {
