@@ -81,7 +81,7 @@ const ttStorage = new (class {
 	reset(key) {
 		return new Promise(async (resolve) => {
 			if (["attackHistory", "stakeouts"].includes(key)) {
-				await this.set({ [key]: getDefaultStorage(DEFAULT_STORAGE[key]) });
+				await this.set({ [key]: getDefaultStorage(DEFAULT_STORAGE)[key] });
 
 				resolve();
 			} else {

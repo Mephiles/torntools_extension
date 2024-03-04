@@ -3,7 +3,12 @@
 		"version": { "major": 6, "minor": 26, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix corruption of stakeouts with reset in Targets page.", "contributor": "TheFoxMan" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 25, "build": 0 },
