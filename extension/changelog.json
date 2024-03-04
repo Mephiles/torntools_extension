@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix corruption of stakeouts with reset in Targets page.", "contributor": "TheFoxMan" }],
-			"changes": [],
+			"changes": [{ "message": "Alert options layout in stakeouts page.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
 	},

@@ -24,7 +24,11 @@
 }
 
 #stakeouts .alerts-wrap {
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-areas:
+		"div div"
+		"div div"
+		"div div"
+		"div div";
 }
