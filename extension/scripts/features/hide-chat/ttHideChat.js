@@ -35,7 +35,7 @@
 			ttStorage.change({ settings: { pages: { chat: { hideChat: checked } } } });
 		});
 
-		settingsPanel.children[1].appendChild(checkbox.element);
+		settingsPanel.children[1].insertAdjacentElement("afterbegin", checkbox.element);
 	}
 
 	function hideChats() {

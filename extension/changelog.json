@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix corruption of stakeouts with reset in Targets page.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fix corruption of stakeouts with reset in Targets page.", "contributor": "TheFoxMan" },
+				{ "message": "Hide Chats feature.", "contributor": "TheFoxMan" }
+			],
 			"changes": [
 				{ "message": "Alert options layout in stakeouts page.", "contributor": "TheFoxMan" },
 				{ "message": "A Problem at the Tracks mission hint.", "contributor": "TheFoxMan" }
