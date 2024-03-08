@@ -51,9 +51,11 @@
 						chatRefreshObserver.observe(node.find("[class*='chat-box-body__']"), { childList: true });
 					} else if (!node.className && node.parentElement?.className.includes("chat-box-body__"))
 						triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
-					else if (node.className?.includes("chat-app__panel__")) triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
-					else if (node.className?.includes("settings-panel__"))
-						triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node });
+					else if (node.className?.includes("chat-app__panel__")) {
+						if (node.children[0].className.includes("settings-panel__"))
+							triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node.children[0] });
+						else triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
+					}
 				});
 
 				const openedChats = document.findAll("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");

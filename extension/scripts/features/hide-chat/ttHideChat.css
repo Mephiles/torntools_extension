@@ -1,3 +1,7 @@
+.tt-hide-chat-option {
+	margin-bottom: 10px;
+}
+
 .tt-chat-hidden #chatRoot [class*="group-chat-box__"],
 .tt-chat-hidden #chatRoot [class*="group-minimized-chat-box__"],
 .tt-chat-hidden #chatRoot [class*="minimized-menus__root__"] {
