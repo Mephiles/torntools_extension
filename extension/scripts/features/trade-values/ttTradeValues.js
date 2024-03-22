@@ -21,7 +21,7 @@
 	function initialiseListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(({ step }) => {
 			if (!feature.enabled()) return;
-			if (!["logview", "initiateTrade", "accept", "start"].includes(step)) return;
+			if (!["view", "initiateTrade", "accept", "start"].includes(step)) return;
 
 			addItemValues();
 		});
