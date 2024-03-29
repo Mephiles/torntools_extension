@@ -30,9 +30,7 @@
 					}
 				}
 			}).observe(container, { childList: true, subtree: true });
-		} else {
-			console.log("Container not found");
-		}
+		} 
 	}
 
 	function enableDetector() {
