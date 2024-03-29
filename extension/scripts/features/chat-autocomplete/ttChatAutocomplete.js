@@ -67,8 +67,7 @@
 			currentUsername = matchedUsernames[index];
 
 			const valueStart = searchValueMatch.index + searchValueMatch[1].length;
-			textarea.value =
-				textarea.value.substring(0, valueStart) + currentUsername + textarea.value.substring(valueBeforeCursor.length, textarea.value.length);
+			updateReactInput(textarea, textarea.value.substring(0, valueStart) + currentUsername + textarea.value.substring(valueBeforeCursor.length, textarea.value.length), { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
 
 			const selectionIndex = valueStart + currentUsername.length;
 			textarea.setSelectionRange(selectionIndex, selectionIndex);
