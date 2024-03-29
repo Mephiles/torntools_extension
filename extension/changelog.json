@@ -1,9 +1,14 @@
 [
 	{
-		"version": { "major": 6, "minor": 26, "build": 0 },
+		"version": { "major": 6, "minor": 27, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 26, "build": 0 },
+		"date": "2024/03/29",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix corruption of stakeouts with reset in Targets page.", "contributor": "TheFoxMan" },
 				{ "message": "Hide Chats feature.", "contributor": "TheFoxMan" },
@@ -14,8 +19,7 @@
 			"changes": [
 				{ "message": "Alert options layout in stakeouts page.", "contributor": "TheFoxMan" },
 				{ "message": "A Problem at the Tracks mission hint.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
