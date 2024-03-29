@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix corruption of stakeouts with reset in Targets page.", "contributor": "TheFoxMan" },
 				{ "message": "Hide Chats feature.", "contributor": "TheFoxMan" },
-				{ "message": "Fix trade values not appearing due to XHR param change.", "contributor": "TheFoxMan" }
+				{ "message": "Fix trade values not appearing due to XHR param change.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Easter Eggs date validation.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Alert options layout in stakeouts page.", "contributor": "TheFoxMan" },

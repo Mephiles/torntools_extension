@@ -3,16 +3,16 @@
 	const year = new Date().getUTCFullYear();
 	const now = Date.now();
 
-	if (Date.UTC(year, 3, 5, 12) > now || Date.UTC(year, 3, 25, 12) < now) return;
+	if (Date.UTC(year, 2, 28, 12) > now || Date.UTC(year, 3, 4, 12) < now) return;
 
 	featureManager.registerFeature("Easter Eggs", "event", () => settings.pages.competitions.easterEggs, initialiseDetector, enableDetector, null, null, null);
 
 	/*
-	Easter Egg HTML 2023:
+	Easter Egg HTML 2024:
 	<div id="easter-egg-hunt-root">
 		<div class="eggContainer___D1zXi">
-			<button type="button" class="eggAnim___ktpqQ" style="top: 1021px; left: 106px;" i-data="i_278_1021_100_50">
-				<img id="egg190002" src="/images/items/476/large.png" alt="White egg" class="egg___TaPK3">
+			<button type="button" class="eggAnim___ktpqQ" i-data="i_545_435_100_50" disabled="" style="top: 435px; left: 373px;">
+				<img id="egg189995" src="/images/items/474/large.png" alt="Congratulations, you found a Red egg. It has been placed in your inventory" class="egg___TaPK3 clicked___jb4fC">
 				<div class="glow___RFqkj"></div>
 				<div class="particles___Q5Jvq">
 					<div class="rotate___OHCOt">
@@ -46,10 +46,20 @@
 					</div>
 				</div>
 			</button>
+			<div role="alertdialog" aria-modal="true" class="eggPopup___ZQxkj">
+				<div class="popupImages___aaoYY">
+					<div class="eggWrap___cWIUg"></div>
+					<div class="eggItem___W3cY_ Red___P6SG_"></div>
+					<div class="texture___nwZr2"></div>
+				</div>
+				<div class="text___sA1gW">
+					<div class="title___a5Ukd">Congratulations, you found a Red Egg!</div>
+					It has been placed in your inventory
+				</div>
+				<button type="button" aria-label="Close" class="close-icon right c-pointer wai-btn closeIcon___VgHgo"></button>
+			</div>
 		</div>
 	</div>
-	CSS Selector from DevTools:
-	/html/body/div[6]/div/div[2]
 	*/
 
 	const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
