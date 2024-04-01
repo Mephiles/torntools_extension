@@ -31,12 +31,12 @@ async function setBadge(type, options = {}) {
 	if (typeof badge.color === "function") badge.color = await badge.color();
 	if (!badge.text) badge.text = "";
 
-	chrome.browserAction.setBadgeText({ text: badge.text || "" });
-	if (badge.color) chrome.browserAction.setBadgeBackgroundColor({ color: badge.color });
+	chrome.action.setBadgeText({ text: badge.text || "" });
+	if (badge.color) chrome.action.setBadgeBackgroundColor({ color: badge.color });
 }
 
 function getBadgeText() {
 	if (SCRIPT_TYPE !== "BACKGROUND") return Promise.resolve(false);
 
-	return new Promise((resolve) => chrome.browserAction.getBadgeText({}, resolve));
+	return new Promise((resolve) => chrome.action.getBadgeText({}, resolve));
 }

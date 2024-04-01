@@ -903,7 +903,7 @@ async function updateUserdata() {
 
 async function showIconBars() {
 	if (!settings.apiUsage.user.bars || !hasAPIData() || !settings || !settings.pages.icon.global) {
-		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
+		chrome.action.setIcon({ path: chrome.runtime.getURL("resources/images/icon_128.png") });
 	} else {
 		let barCount = 0;
 		if (settings.pages.icon.energy) barCount++;
@@ -963,7 +963,7 @@ async function showIconBars() {
 			y += barHeight + padding;
 		});
 
-		chrome.browserAction.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
+		chrome.action.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
 	}
 }
 
