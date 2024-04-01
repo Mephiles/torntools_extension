@@ -3,12 +3,12 @@
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const SCRIPT_TYPE = (() => {
-	if (chrome && chrome.extension && chrome.extension.getBackgroundPage && chrome.extension.getBackgroundPage() === window) {
+	if (typeof window === "undefined") {
 		return "BACKGROUND";
-	} else if (chrome && chrome.extension && chrome.extension.getBackgroundPage && chrome.extension.getBackgroundPage() !== window) {
+	} else if (chrome.action) {
 		return "POPUP";
-	} else if (!chrome || !chrome.runtime || !chrome.runtime.onMessage) {
-		return "WEB";
+		// } else if (!chrome?.runtime?.onMessage) {
+		// return "WEB";
 	} else {
 		return "CONTENT";
 	}
