@@ -1,12 +1,62 @@
 "use strict";
 
-const notificationPlayer = getAudioPlayer();
-const notificationTestPlayer = getAudioPlayer();
+importScripts(
+	...[
+		"global/globalClasses.js",
+		"global/globalData.js",
+		"global/functions/browser.js",
+		"global/functions/database.js",
+		"global/functions/extension.js",
+		"global/functions/formatting.js",
+		"global/functions/utilities.js",
+		"global/functions/api.js",
+		"global/functions/torn.js",
+	]
+);
+
+const ALARM_NAMES = {
+	NOTIFICATIONS: "notifications-alarm",
+	CLEAR_CACHE: "clear-cache-alarm",
+	CLEAR_USAGE: "clear-usage-alarm",
+	DATA_UPDATE: "data-update-alarm",
+};
+
+const notificationPlayer = {
+	src: "",
+	volume: 0,
+	play: async function () {
+		await setupAudioPlayerDocument();
+
+		if (!this.src) throw Error("No sound src set.");
+
+		await chrome.runtime.sendMessage({
+			offscreen: true,
+			src: chrome.runtime.getURL(this.src),
+			volume: this.volume,
+		});
+	},
+};
+
+const notificationTestPlayer = {
+	src: "",
+	volume: 0,
+	play: async function () {
+		await setupAudioPlayerDocument();
+
+		if (!this.src) throw Error("No sound src set.");
+
+		await chrome.runtime.sendMessage({
+			offscreen: true,
+			src: chrome.runtime.getURL(this.src),
+			volume: this.volume,
+		});
+	},
+};
 
 let notificationSound, notificationWorker;
 const notificationRelations = {};
 
-const notifications = {
+let notifications = {
 	events: {},
 	messages: {},
 	newDay: {},
@@ -27,22 +77,84 @@ const notifications = {
 
 let npcUpdater;
 
-(async () => {
+// On browser update, extension update or extension (re)install
+chrome.runtime.onInstalled.addListener(async () => {
 	await convertDatabase();
 	await loadDatabase();
 
-	notificationHistory = [];
-	ttStorage.set({ notificationHistory: [] }).then(() => {});
-
 	await checkUpdate();
 
-	registerUpdaters();
+	chrome.alarms.clearAll();
+	chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.52 });
+	chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+	chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+	chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+
+	notificationHistory = await ttStorage.get("notificationHistory");
+	notifications = await ttStorage.get("notifications");
+
+	// These are refresh tasks, not clearing.
+	clearUsage();
+	clearCache();
+
+	// Initial call
+	timedUpdates();
 
 	await showIconBars();
 	storageListeners.settings.push(async () => {
 		await showIconBars();
 	});
-})();
+});
+
+// When SW (re)starts
+chrome.runtime.onStartup.addListener(async () => {
+	await loadDatabase();
+
+	notificationHistory = await ttStorage.get("notificationHistory");
+	notifications = await ttStorage.get("notifications");
+
+	// These are refresh tasks, not clearing.
+	clearUsage();
+	clearCache();
+
+	// Initial call
+	timedUpdates();
+
+	await showIconBars();
+	storageListeners.settings.push(async () => {
+		await showIconBars();
+	});
+});
+
+// Register updaters
+// chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.5 });
+// chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+// chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+// chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.5 });
+
+// On alarm triggered
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+	await loadDatabase();
+	notificationHistory = await ttStorage.get("notificationHistory");
+	notifications = await ttStorage.get("notifications");
+
+	switch (alarm.name) {
+		case ALARM_NAMES.NOTIFICATIONS:
+			sendNotifications();
+			break;
+		case ALARM_NAMES.CLEAR_CACHE:
+			clearCache();
+			break;
+		case ALARM_NAMES.CLEAR_USAGE:
+			clearUsage();
+			break;
+		case ALARM_NAMES.DATA_UPDATE:
+			timedUpdates();
+			break;
+		default:
+			throw new Error("Undefined alarm name: " + alarm.name);
+	}
+});
 
 async function convertDatabase() {
 	const storage = await ttStorage.get();
@@ -173,6 +285,26 @@ async function convertDatabase() {
 		} else if (version <= toNumericVersion("6.16.0")) {
 			newStorage.stakeouts.order = Object.keys(newStorage.stakeouts).filter((id) => !isNaN(parseInt(id)));
 			updated = true;
+		} else if (version <= toNumericVersion("6.26.0")) {
+			newStorage.notifications = {
+				events: {},
+				messages: {},
+				newDay: {},
+				energy: {},
+				happy: {},
+				nerve: {},
+				life: {},
+				travel: {},
+				drugs: {},
+				boosters: {},
+				medical: {},
+				hospital: {},
+				chain: {},
+				chainCount: {},
+				stakeouts: {},
+				npcs: {},
+			};
+			updated = true;
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
@@ -207,17 +339,6 @@ async function checkUpdate() {
 	await ttStorage.change(change);
 }
 
-function registerUpdaters() {
-	clearCache();
-	clearUsage();
-	timedUpdates();
-
-	setInterval(sendNotifications, 5 * TO_MILLIS.SECONDS);
-	setInterval(clearCache, 5 * TO_MILLIS.SECONDS);
-	setInterval(clearUsage, 1 * TO_MILLIS.HOURS);
-	setInterval(timedUpdates, 30 * TO_MILLIS.SECONDS);
-}
-
 async function sendNotifications() {
 	for (const type in notifications) {
 		for (const key in notifications[type]) {
@@ -235,7 +356,7 @@ async function sendNotifications() {
 			}
 		}
 	}
-	await ttStorage.set({ notificationHistory });
+	await ttStorage.set({ notifications, notificationHistory });
 }
 
 function timedUpdates() {
@@ -376,6 +497,7 @@ async function updateUserdata() {
 
 		updatedTypes.push("attack history");
 	}
+	console.log("Time elapsed:", Date.now() - userdata.date);
 	if (!selections.length) return { updated: false };
 
 	const oldUserdata = { ...userdata };
@@ -913,7 +1035,7 @@ async function showIconBars() {
 		if (settings.pages.icon.chain && userdata.chain && userdata.chain.current > 0) barCount++;
 		if (settings.pages.icon.travel && userdata.travel && userdata.travel.time_left > 0) barCount++;
 
-		const canvas = document.newElement({ type: "canvas", attributes: { width: 128, height: 128 } });
+		const canvas = new OffscreenCanvas(128, 128);
 
 		const canvasContext = canvas.getContext("2d");
 		canvasContext.fillStyle = "#fff";
@@ -1612,7 +1734,7 @@ function newNotification(title, message, link) {
 async function notifyUser(title, message, url) {
 	await setupSoundPlayer();
 
-	const icon = "resources/images/icon_128.png";
+	const icon = chrome.runtime.getURL("resources/images/icon_128.png");
 	const requireInteraction = hasInteractionSupport() && settings.notifications.requireInteraction;
 	const silent = hasSilentSupport() && notificationSound !== "default";
 
@@ -1778,12 +1900,22 @@ function getNotificationSound(type) {
 	});
 }
 
-function getAudioPlayer() {
-	const audioPlayer = new Audio();
-	audioPlayer.autoplay = false;
-	audioPlayer.preload = true;
+async function setupAudioPlayerDocument() {
+	// Setup of offscreen document for playing audio
 
-	return audioPlayer;
+	const offscreenURL = chrome.runtime.getURL("/scripts/offscreen/offscreen.html");
+	const existingContexts = await chrome.runtime.getContexts({
+		contextTypes: ["OFFSCREEN_DOCUMENT"],
+		documentUrls: [offscreenURL],
+	});
+
+	if (existingContexts.length == 0) {
+		await chrome.offscreen.createDocument({
+			url: offscreenURL,
+			reasons: ["AUDIO_PLAYBACK"],
+			justification: "To play notification alert sound.",
+		});
+	}
 }
 
 function storeNotification(notification) {
