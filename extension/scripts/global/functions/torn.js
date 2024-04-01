@@ -1538,43 +1538,6 @@ function hasDarkMode() {
 	return location.host === chrome.runtime.id ? document.body.classList.contains("dark") : document.body.classList.contains("dark-mode");
 }
 
-const darkModeObserver = new (class {
-	constructor() {
-		this.listeners = new Set();
-		this.prevDarkModeState = null;
-		this.observer = new MutationObserver(() => {
-			const darkModeState = hasDarkMode();
-
-			if (darkModeState !== this.prevDarkModeState) {
-				this.prevDarkModeState = darkModeState;
-				this._invokeListeners(darkModeState);
-			}
-		});
-	}
-
-	addListener(callback) {
-		if (!this.prevDarkModeState) this.prevDarkModeState = hasDarkMode();
-
-		this.listeners.add(callback);
-
-		if (this.listeners.size === 1) {
-			this.observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-		}
-	}
-
-	removeListener(callback) {
-		this.listeners.delete(callback);
-
-		if (this.listeners.size === 0) this.observer.disconnect();
-	}
-
-	_invokeListeners(isInDarkMode) {
-		for (const listener of this.listeners.values()) {
-			listener(isInDarkMode);
-		}
-	}
-})();
-
 function createMessageBox(content, options = {}) {
 	options = {
 		class: "",

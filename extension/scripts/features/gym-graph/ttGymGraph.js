@@ -130,8 +130,10 @@
 			const context = canvas.getContext("2d");
 
 			const gymChart = createChart();
-			darkModeObserver.addListener((darkMode) => {
-				const color = darkMode ? "#fff" : "#000";
+
+			// If Torn dark mode is toggled.
+			document.find("#dark-mode-state").addEventListener("change", (event) => {
+				const color = event.target.checked ? "#fff" : "#000";
 				gymChart.options.scales.x.ticks.color = color;
 				gymChart.options.scales.y.ticks.color = color;
 				gymChart.options.plugins.legend.labels.color = color;

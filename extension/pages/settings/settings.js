@@ -1109,7 +1109,7 @@ async function setupPreferences(requireCleanup) {
 			},
 		});
 
-		["dark", "light"].forEach((theme) => document.body.classList.remove(theme));
+		document.body.classList.remove("light", "dark");
 		document.body.classList.add(getPageTheme());
 
 		sendMessage("Settings saved.", true);
@@ -1448,14 +1448,6 @@ async function setupAPIInfo() {
 				},
 			},
 		},
-	});
-	darkModeObserver.addListener((darkMode) => {
-		const color = darkMode ? "#fff" : "#000";
-		usageChart.options.scales.x.ticks.color = color;
-		usageChart.options.scales.y.ticks.color = color;
-		usageChart.options.plugins.legend.labels.color = color;
-		// noinspection JSCheckFunctionSignatures
-		usageChart.update();
 	});
 	await ttUsage.refresh();
 
