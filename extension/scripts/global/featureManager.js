@@ -1,3 +1,5 @@
+"use script";
+
 class FeatureManager {
 	constructor() {
 		this.logPadding = "[TornTools] FeatureManager - ";
@@ -11,12 +13,6 @@ class FeatureManager {
 		this.errorCount = 0;
 		this.earlyErrors = [];
 
-		this.isDisconnected = false;
-		this.port = chrome.runtime.connect({ name: "status-check" });
-		this.port.onDisconnect.addListener(() => {
-			this.features.forEach((feature) => this.executeFunction(feature.cleanup));
-			this.isDisconnected = true;
-		});
 		this.logInfo = async (...params) => {
 			if (!settings) {
 				loadDatabase().then(maybeLog.bind(this));
@@ -108,7 +104,7 @@ class FeatureManager {
 		const newFeature = {
 			name,
 			scope,
-			enabled: () => !this.isDisconnected && getValue(enabled),
+			enabled: () => getValue(enabled),
 			initialise,
 			execute,
 			cleanup,

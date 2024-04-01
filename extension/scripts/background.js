@@ -1704,7 +1704,7 @@ async function notifyUser(title, message, url) {
 	}
 }
 
-chrome.runtime.onConnect.addListener(() => {});
+// chrome.runtime.onConnect.addListener(() => {});
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	switch (message.action) {
