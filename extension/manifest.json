@@ -1,28 +1,17 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "TornTools",
-	"version": "6.27.0",
+	"version": "7.0.0",
 	"description": "Several tools for Torn.",
 	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
-	"browser_action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
+	"action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 	"background": {
-		"scripts": [
-			"scripts/global/globalClasses.js",
-			"scripts/global/globalData.js",
-			"scripts/global/functions/browser.js",
-			"scripts/global/functions/database.js",
-			"scripts/global/functions/dom.js",
-			"scripts/global/functions/extension.js",
-			"scripts/global/functions/formatting.js",
-			"scripts/global/functions/torn.js",
-			"scripts/global/functions/utilities.js",
-			"scripts/global/functions/api.js",
-			"scripts/background.js"
-		]
+		"service_worker": "scripts/background.js"
 	},
-	"permissions": ["storage", "notifications", "background", "https://api.torn.com/"],
-	"optional_permissions": [
+	"permissions": ["storage", "notifications", "background", "offscreen", "alarms"],
+	"host_permissions": ["https://api.torn.com/"],
+	"optional_host_permissions": [
 		"https://www.tornstats.com/",
 		"https://yata.yt/",
 		"https://www.nukefamily.org/",
@@ -34,15 +23,20 @@
 		"https://what-the-f.de/"
 	],
 	"web_accessible_resources": [
-		"resources/images/*.png",
-		"resources/images/svg-icons/*.svg",
-		"resources/audio/*.wav",
-		"pages/*",
-		"scripts/background.js",
-		"scripts/*.inject.js",
-		"scripts/features/no-confirm/*.inject.js",
-		"vendor/*",
-		"scripts/features/points-value/ttPointsValue.inject.js"
+		{
+			"resources": [
+				"resources/images/*.png",
+				"resources/images/svg-icons/*.svg",
+				"resources/audio/*.wav",
+				"pages/*",
+				"scripts/background.js",
+				"scripts/*.inject.js",
+				"scripts/features/no-confirm/*.inject.js",
+				"vendor/*",
+				"scripts/features/points-value/ttPointsValue.inject.js"
+			],
+			"matches": ["https://*.torn.com/*"]
+		}
 	],
 	"options_ui": { "page": "pages/settings/settings.html", "open_in_tab": true },
 	"browser_specific_settings": { "gecko": { "id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}" } },
