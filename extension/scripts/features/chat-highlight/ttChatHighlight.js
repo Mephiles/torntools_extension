@@ -66,7 +66,7 @@
 		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
 		if (senderHighlights.length) {
 			// When message sender is in highlights.
-			message.style.border = `1px solid ${senderHighlights[0].senderColor}`;
+			message.style.outline = `1px solid ${senderHighlights[0].senderColor}`;
 		}
 
 		for (const { name, color } of highlights) {
