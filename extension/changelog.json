@@ -9,6 +9,10 @@
 				{
 					"message": "Fixed chat highlight causing chat to scroll slightly upwards",
 					"contributor": "Kwack"
+				},
+				{
+					"message": "Fixed sidebar OC timer showing up even when user was not in a faction.",
+					"contributor": "Conrado"
 				}
 			],
 			"changes": [{ "message": "Migrated to manifest version 3.", "contributor": "TheFoxMan" }],
