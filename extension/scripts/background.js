@@ -1,18 +1,19 @@
 "use strict";
 
-importScripts(
-	...[
-		"global/globalClasses.js",
-		"global/globalData.js",
-		"global/functions/browser.js",
-		"global/functions/database.js",
-		"global/functions/extension.js",
-		"global/functions/formatting.js",
-		"global/functions/utilities.js",
-		"global/functions/api.js",
-		"global/functions/torn.js",
-	]
-);
+if (typeof importScripts !== "undefined")
+	importScripts(
+		...[
+			"global/globalClasses.js",
+			"global/globalData.js",
+			"global/functions/browser.js",
+			"global/functions/database.js",
+			"global/functions/extension.js",
+			"global/functions/formatting.js",
+			"global/functions/utilities.js",
+			"global/functions/api.js",
+			"global/functions/torn.js",
+		]
+	);
 
 const ALARM_NAMES = {
 	NOTIFICATIONS: "notifications-alarm",
@@ -84,11 +85,11 @@ chrome.runtime.onInstalled.addListener(async () => {
 
 	await checkUpdate();
 
-	chrome.alarms.clearAll();
-	chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.52 });
-	chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-	chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-	chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+	await chrome.alarms.clearAll();
+	await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.52 });
+	await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+	await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+	await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
 
 	notificationHistory = await ttStorage.get("notificationHistory");
 	notifications = await ttStorage.get("notifications");
@@ -127,10 +128,16 @@ chrome.runtime.onStartup.addListener(async () => {
 });
 
 // Register updaters
-// chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.5 });
-// chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-// chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-// chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.5 });
+// (async () => {
+// 	const currentAlarms = await chrome.alarms.getAll();
+// 	if (currentAlarms.length !== 4) {
+// 		await chrome.alarms.clearAll();
+// 		await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.5 });
+// 		await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+// 		await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+// 		await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.5 });
+// 	}
+// })();
 
 // On alarm triggered
 chrome.alarms.onAlarm.addListener(async (alarm) => {
