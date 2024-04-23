@@ -3,7 +3,17 @@
 		"version": { "major": 7, "minor": 0, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [{ "message": "Migrated to manifest version 3.", "contributor": "TheFoxMan" }], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [
+				{
+					"message": "Fixed chat highlight causing chat to scroll slightly upwards",
+					"contributor": "Kwack"
+				}
+			],
+			"changes": [{ "message": "Migrated to manifest version 3.", "contributor": "TheFoxMan" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 26, "build": 0 },
