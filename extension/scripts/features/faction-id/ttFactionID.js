@@ -10,7 +10,7 @@
 		"faction",
 		() => settings.pages.faction.idBesideFactionName,
 		initialise,
-		addID,
+		null,
 		removeID,
 		{
 			storage: ["settings.pages.faction.idBesideFactionName"],
