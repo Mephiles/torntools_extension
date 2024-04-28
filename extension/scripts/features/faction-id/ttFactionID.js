@@ -19,11 +19,12 @@
 	);
 
 	function initialise() {
-		if (isOwnFaction) CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
-			if (!feature.enabled() || !settings.pages.faction.idBesideFactionName) return;
+		if (isOwnFaction)
+			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
+				if (!feature.enabled() || !settings.pages.faction.idBesideFactionName) return;
 
-			addID();
-		});
+				addID();
+			});
 	}
 
 	async function addID() {
@@ -35,9 +36,7 @@
 		container.appendChild(span);
 	}
 
-	function removeID() {
-
-	}
+	function removeID() {}
 
 	async function getFactionID() {
 		if (isOwnFaction) {
@@ -57,7 +56,7 @@
 			if (cached) return cached;
 			const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
 			const factionID = data.faction.faction_id;
-			ttCache.set({ [userID]: factionID }, 3.5 * TO_MILLIS.DAYS ,"faction-id")
+			ttCache.set({ [userID]: factionID }, 3.5 * TO_MILLIS.DAYS, "faction-id");
 			return factionID;
 		}
 	}
