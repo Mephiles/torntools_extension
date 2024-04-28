@@ -13,6 +13,11 @@
 				{
 					"message": "Fixed sidebar OC timer showing up even when user was not in a faction.",
 					"contributor": "Conrado"
+				},
+				{
+					"message": "Caching and minor fixes for both Faction and Company ID features",
+
+					"contributor": "Kwack"
 				}
 			],
 			"changes": [{ "message": "Migrated to manifest version 3.", "contributor": "TheFoxMan" }],
