@@ -36,7 +36,9 @@
 		container.appendChild(span);
 	}
 
-	function removeID() {}
+	function removeID() {
+		document.findAll("#tt-faction-id").forEach((element) => element.remove());
+	}
 
 	async function getFactionID() {
 		if (isOwnFaction) {
