@@ -11,6 +11,10 @@
 					"contributor": "Kwack"
 				},
 				{
+					"message": "Fixed sidebar OC timer showing up even when user was not in a faction.",
+					"contributor": "Conrado"
+				},
+				{
 					"message": "Fixed race condition for Feature Manager in *.entry.js features.",
 					"contributor": "TheFoxMan"
 				}
