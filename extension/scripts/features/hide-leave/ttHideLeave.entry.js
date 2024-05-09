@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	while (typeof featureManager === "undefined") {}
+
 	featureManager.registerFeature(
 		"Hide Leave Buttons",
 		"global",
