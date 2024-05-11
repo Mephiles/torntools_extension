@@ -17,8 +17,8 @@
 				{
 					"message": "Updated hardcoded fallbacks for torn's items and item categories post Crimes 2.0",
 					"contributor": "Kwack"
-        },
-        {
+				},
+				{
 					"message": "Fixed race condition for Feature Manager in *.entry.js features.",
 					"contributor": "TheFoxMan"
 				}
