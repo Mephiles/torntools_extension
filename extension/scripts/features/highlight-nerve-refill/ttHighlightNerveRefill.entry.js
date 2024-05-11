@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	while (typeof featureManager === "undefined") {}
+
 	await requireElement("body");
 
 	featureManager.registerFeature(
