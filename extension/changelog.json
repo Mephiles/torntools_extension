@@ -19,7 +19,10 @@
 					"contributor": "TheFoxMan"
 				}
 			],
-			"changes": [{ "message": "Migrated to manifest version 3.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Migrated to manifest version 3.", "contributor": "TheFoxMan" },
+				{ "message": "Validate new key level in popup before using.", "contributor": "TheFoxMan" }
+			],
 			"removed": []
 		}
 	},

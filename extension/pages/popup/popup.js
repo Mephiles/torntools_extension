@@ -86,25 +86,34 @@ async function setupInitialize() {
 
 		checkAPIPermission(key)
 			.then((granted) => {
+				if (!granted) {
+					const permissionError = document.find(".permission-error");
+					permissionError.classList.remove("tt-hidden");
+					permissionError.textContent =
+						"TornTools needs a limited access key. Your API key is not the correct API level. This will affect a lot of features.";
+
+					setTimeout(() => {
+						permissionError.classList.add("tt-hidden");
+						permissionError.textContent = "";
+					}, 10 * TO_MILLIS.SECONDS);
+
+					return;
+				}
+
 				changeAPIKey(key)
 					.then(async () => {
 						document.find("#pages").classList.remove("tt-hidden");
 
-						if (granted) {
-							// await showPage(settings.pages.popup.defaultTab);
-						} else {
-							document.find(".permission-error").classList.remove("tt-hidden");
-							document.find(".permission-error").textContent = "Your API key is not the correct API level. This will affect a lot of features.";
+						console.log("TT just got initialised, initial popup data load.");
+						// Wait till userdata loads for the first time.
+						new Promise(async () => {
+							while (!userdata.timestamp) {
+								await sleep(1 * TO_MILLIS.SECONDS);
+							}
 
-							setTimeout(() => {
-								document.find(".permission-error").classList.add("tt-hidden");
-								document.find(".permission-error").textContent = "";
-
-								showPage(settings.pages.popup.defaultTab);
-							}, 10 * TO_MILLIS.SECONDS);
-						}
+							await showPage(settings.pages.popup.defaultTab);
+						});
 					})
-
 					.catch((error) => showError(error.error));
 			})
 			.catch((error) => showError(error.error));
