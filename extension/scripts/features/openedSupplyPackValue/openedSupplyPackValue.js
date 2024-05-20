@@ -62,7 +62,7 @@
                     reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
                 }
 
-                if (isTheSameItem(params, reqXID, itemID)) {
+                if (isTheSameItem(params, reqXID)) {
                     const totalOpenedValue = json?.items?.itemAppear?.reduce(
                         (totalValue, item) => 
                         totalValue += item.isMoney
@@ -95,12 +95,12 @@
         return itemID === 370;
     }
 
-    function isTheSameItem(params, reqXID, itemID) {
-        return params.get("XID") === reqXID || isItemOrItemIDRequest(params, itemID);
+    function isTheSameItem(params, reqXID) {
+        return params.get("XID") === reqXID || isDrugPackUseRequest(params);
     }
 
-    function isItemOrItemIDRequest(params, itemID) {
-        return params.get("item") == itemID || params.get("itemID") == itemID;
+    function isDrugPackUseRequest(params) {
+        return params.get("item") == 370 || params.get("itemID") == 370;
     }
 
     function removeTotalValueElement() {
