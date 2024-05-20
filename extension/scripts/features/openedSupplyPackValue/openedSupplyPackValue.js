@@ -58,12 +58,11 @@
                 if (params.get("action") !== "use" && params.get("step") !== "useItem") return;
 
                 itemID = params.get("id")?.getNumber() ?? itemID;
-                if (SUPPLY_PACK_ITEMS.includes(itemID) && itemID !== 370) {
+                if (isXIDSupplyPack(itemID)) {
                     reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
                 }
 
-                if (params.get("XID") === reqXID
-                    || (params.get("itemID") == itemID || params.get("item") == itemID)) {
+                if (isTheSameItem(params, reqXID, itemID)) {
                     const totalOpenedValue = json?.items?.itemAppear?.reduce(
                         (totalValue, item) => 
                         totalValue += item.isMoney
@@ -86,6 +85,22 @@
         openedValueTextElement.insertAdjacentElement('afterbegin', document.createElement('br'));
 
         greenMsg.insertAdjacentElement('beforeend', openedValueTextElement);
+    }
+
+    function isXIDSupplyPack(itemID) {
+        return SUPPLY_PACK_ITEMS.includes(itemID) && !isDrugPack(itemID);
+    }
+
+    function isDrugPack(itemID) {
+        return itemID === 370;
+    }
+
+    function isTheSameItem(params, reqXID, itemID) {
+        return params.get("XID") === reqXID || isItemOrItemIDRequest(params, itemID);
+    }
+
+    function isItemOrItemIDRequest(params, itemID) {
+        return params.get("item") == itemID || params.get("itemID") == itemID;
     }
 
     function removeTotalValueElement() {
