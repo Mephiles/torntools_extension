@@ -3,13 +3,13 @@
 (async () => {
     const page = getPage();
     
-    featureManager.registerFeature(
+    const feature = featureManager.registerFeature(
         "Opened supply pack total value",
         "items",
         () => settings.pages.items.openedSupplyPackValue,
         addListener,
         undefined,
-        undefined,
+        removeTotalValueElement,
         undefined,
         {storage: ["settings.pages.items.openedSupplyPackValue"]}
     );
@@ -47,44 +47,48 @@
 
     function addListener() {
         if (page === "item") {
-            
             let reqXID = 0;
+            let itemID = 0;
             
             addXHRListener(async ({ detail: { page, xhr, json } }) => {
+                if (!feature.enabled()) return;
                 if (page !== "item") return;
 
                 const params = new URLSearchParams(xhr.requestBody);
-                if (params.get("action") === "use" && SUPPLY_PACK_ITEMS.includes(params.get("id").getNumber())) {
-                    reqXID = (await requireElement('.pack-open-msg input[type="hidden"]')).value;
-                } else if (reqXID === 0) return;
+                if (params.get("action") !== "use" && params.get("step") !== "useItem") return;
 
-                console.log(reqXID)
-                if (params.get("XID") === reqXID) {
-                    const openedItems = json.items.itemAppear;
-                    
-                    let totalOpenedValue = 0;
+                itemID = params.get("id")?.getNumber() ?? itemID;
+                if (SUPPLY_PACK_ITEMS.includes(itemID) && itemID !== 370) {
+                    reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
+                }
 
-                    openedItems.forEach(item => {
-                        if (item.isMoney === true) {
-                            totalOpenedValue += item.moneyGain.substring(1).getNumber();
-                        } else {
-                            totalOpenedValue += torndata.items[item.itemID].market_value;
-                        }
-                    });
+                if (params.get("XID") === reqXID
+                    || (params.get("itemID") == itemID || params.get("item") == itemID)) {
+                    const totalOpenedValue = json?.items?.itemAppear?.reduce(
+                        (totalValue, item) => 
+                        totalValue += item.isMoney
+                                        ? item.moneyGain.substring(1).getNumber()
+                                        : torndata.items[item.ID].market_value * item.qty, 0);
 
-                    await showTotalValue(totalOpenedValue);
+                        await showTotalValue(totalOpenedValue, itemID);
                 }
             });
         }
     };
 
-    async function showTotalValue(totalOpenedValue) {
-        await sleep(2.5 * TO_MILLIS.SECONDS);
-        const greenMsg = await requireElement('.pack-open-msg > form p');
+    async function showTotalValue(totalOpenedValue, itemID) {
+        await sleep(0.1 * TO_MILLIS.SECONDS);
+        const greenMsg = await requireElement(`[data-item="${itemID}"] .cont-wrap form p`);
         
-        console.log(greenMsg)
+        removeTotalValueElement;
 
-        if (!document.getElementById("openedValueText"));
-            greenMsg.insertAdjacentElement('afterend', document.newElement({id: "openedValueText", type: "strong", class: "t-green bold animated-fadeIn", text: `Total value: $${totalOpenedValue}`}));
+        const openedValueTextElement = document.newElement({id: "openedValueText", type: "strong", text: `Total value: ${formatNumber(totalOpenedValue, { currency: true })}`});
+        openedValueTextElement.insertAdjacentElement('afterbegin', document.createElement('br'));
+
+        greenMsg.insertAdjacentElement('beforeend', openedValueTextElement);
+    }
+
+    function removeTotalValueElement() {
+        document.getElementById("openedValueText")?.remove();
     }
 })();
