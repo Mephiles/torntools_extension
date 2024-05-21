@@ -3,11 +3,6 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const IDs = {
-		company: null,
-		player: null,
-	};
-
 	const feature = featureManager.registerFeature(
 		"Company ID",
 		"companies",
@@ -21,66 +16,50 @@
 		null
 	);
 
-	async function initialise() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
-			if (!feature.enabled || !settings.pages.faction.idBesideFactionName) return;
+	function initialise() {
+		if (!isOwnCompany)
+			CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
+				if (!feature.enabled() || !settings.pages.companies.idBesideCompanyName) return;
 
-			addID();
-		});
-
-		const hashes = getHashParameters();
-		switch (true) {
-			case isOwnCompany:
-				return userdata.job.company_id ? (IDs.company = userdata.job.company_id) : (IDs.player = userdata.player_id);
-			case document.location.pathname.toLowerCase() !== "/joblist.php":
-				return false;
-			case !hashes.get("p").toLowerCase() === "corpinfo":
-				return false;
-			case !isNaN(parseInt(hashes.get("ID"))):
-				return (IDs.company = parseInt(hashes.get("ID")));
-			case !isNaN(parseInt(hashes.get("userID"))):
-				return (IDs.player = parseInt(hashes.get("userID")));
-			default:
-				return false;
-		}
+				addID();
+			});
 	}
 
 	async function addID() {
-		console.warn("addID", IDs);
-		if (!IDs.company && !IDs.player) throw new Error("Neither Company nor User ID could be parsed from the URL.");
-		if (isOwnCompany) {
-			const [id, container] = await Promise.all([getID(), requireElement(".company-wrap > .title-black[role='heading']")]);
-			container.textContent += ` [${id}]`;
-		} else {
-			const [id, container] = await Promise.all([getID(), requireElement(".company-details-wrap > .company-details")]);
-
-			container.setAttribute("data-name", container.getAttribute("data-name") + ` [${id}]`);
-			container.find(".m-hide").nextSibling.textContent += `[${id}] `;
-		}
-		async function getID() {
-			if (!IDs.company && !IDs.player) throw "Neither Company nor User ID could be parsed from the URL.";
-			if (IDs.company) return IDs.company;
-			else return await fetchData("torn", { section: "user", selections: ["profile"], id: IDs.player }).then((j) => j.job.company_id);
-		}
+		if (document.getElementById("tt-company-id")) return; // Element has already been added - second check in-case feature reinjects
+		const selector = isOwnCompany ? "div.company-wrap > div.title-black" : "div.company-details-wrap > div.company-details > div.title-black";
+		const [id, container] = await Promise.all([getCompanyID(), requireElement(selector)]);
+		if (!id) throw new Error("Company ID could not be found.");
+		const span = document.newElement({ type: "span", text: ` [${id}]`, id: "tt-company-id" });
+		container.appendChild(span);
 	}
 
-	async function removeID() {
-		console.warn("removeID", IDs);
-		if (isOwnCompany) {
-			const container = await requireElement(".company-wrap > .title-black[role='heading']");
-			container.textContent = removeIDFromString(container.textContent);
-		} else {
-			const container = await requireElement(".company-details-wrap > .company-details");
+	function removeID() {
+		document.findAll("#tt-company-id").forEach((element) => element.remove());
+	}
 
-			container.setAttribute("data-name", removeIDFromString(container.getAttribute("data-name")));
-			const textNode = container.find(".m-hide").nextSibling;
-			textNode.textContent = removeIDFromString(textNode.textContent);
+	async function getCompanyID() {
+		if (isOwnCompany) {
+			if (userdata.job.company_id) return userdata.job.company_id;
+			const userID = userdata.player_id;
+			if (!userID) return null; // ID could not be found
+			return await getCompanyIDFromUser(userID);
 		}
 
-		function removeIDFromString(string) {
-			const arr = string.split("[");
-			arr.pop();
-			return arr.join("[");
+		const hashparams = getHashParameters();
+
+		if (isIntNumber(hashparams.get("ID"))) return parseInt(hashparams.get("ID"));
+		if (isIntNumber(hashparams.get("userID"))) return await getCompanyIDFromUser(parseInt(hashparams.get("userID")));
+
+		return null; // ID could not be found
+
+		async function getCompanyIDFromUser(userID) {
+			const cached = ttCache.get("company-id", userID);
+			if (cached) return cached;
+			const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
+			const companyID = data.job.company_id;
+			ttCache.set({ [userID]: companyID }, 3.5 * TO_MILLIS.DAYS, "company-id");
+			return companyID;
 		}
 	}
 })();

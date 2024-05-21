@@ -166,7 +166,7 @@ function isDefined(object) {
 }
 
 function isIntNumber(number) {
-	return !isNaN(number) && isFinite(number) && number % 1 === 0;
+	return number !== null && !isNaN(number) && isFinite(number) && number % 1 === 0;
 }
 
 function isSameUTCDay(date1, date2) {
