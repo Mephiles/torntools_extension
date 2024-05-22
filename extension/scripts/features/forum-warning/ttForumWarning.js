@@ -34,12 +34,12 @@
 			parent = document.find("ul.title");
 			position = "afterend";
 		} else if (page === "newthread") {
-			parent = document.find("#bbc-editor .actions");
+			parent = document.find("#editor-wrapper");
 			position = "beforebegin";
 
-			parent.find("button[type='submit']").addEventListener("click", handleDisabledPost);
+			parent.find("[class*='actionButtonsWrapper__'] button").addEventListener("click", handleDisabledPost, { capture: true, once: true });
 
-			const input = document.find("#main-input");
+			const input = parent.find(".editor-content.mce-content-body");
 			const text = "I'm currently posting this with TornTools enabled.";
 			if (!input.innerText.includes(text)) {
 				input.innerHTML = text + "<br>" + input.innerHTML;
@@ -114,6 +114,8 @@
 
 	function handleDisabledPost(event) {
 		event.preventDefault();
+		event.stopPropagation();
+		event.stopImmediatePropagation();
 
 		const overlay = document.find(".tt-overlay");
 
@@ -154,13 +156,6 @@
 				}),
 				document.newElement("br"),
 				document.newElement("br"),
-				document.newElement({
-					type: "button",
-					class: "tt-button-link",
-					text: "Confirm post",
-					attributes: { type: "submit" },
-					events: { click: () => setTimeout(closePopup) },
-				}),
 				document.newElement({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
 			],
 		});
