@@ -112,6 +112,29 @@ jobs:
           tag: "${{ env.version }}"
           bodyFile: "./releaseBody.md"
           token: ${{ secrets.GH_TOKEN }}
+      - name: Upload to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
+        with:
+          file-path: versions/torntools_${{ env.version }}.zip
+          extension-id: hjpaapdjcgbmeikfnahipphknonhlhib
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      - name: Create Firefox .xpi
+        id: web-ext-build
+        uses: kewisch/action-web-ext@v1.0
+        with:
+          cmd: build
+          source: extension
+          filename: "{name}-{version}.xpi"
+      - name: Sign Firefox .xpi
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: sign
+          source: ${{ steps.web-ext-build.outputs.target }}
+          channel: unlisted
+          apiKey: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          apiSecret: ${{ secrets.FIREFOX_JWT_SECRET }}
       - name: Delete temporary files
         run: |
           rm -f ./releaseBody.md
