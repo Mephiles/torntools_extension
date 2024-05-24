@@ -2,7 +2,8 @@ name: Run Prettier
 on:
     push:
         branches: [master]
-        paths: [extension]
+        paths:
+          - 'extension/**'
     workflow_dispatch:
 jobs:
     build:
