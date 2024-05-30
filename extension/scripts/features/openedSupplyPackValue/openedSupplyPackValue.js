@@ -58,7 +58,7 @@
                 if (params.get("action") !== "use" && params.get("step") !== "useItem") return;
 
                 itemID = params.get("id")?.getNumber() ?? itemID;
-                if (isXIDSupplyPack(itemID)) {
+                if (isXIDRequestSupplyPack(itemID)) {
                     reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
                 }
 
@@ -87,7 +87,7 @@
         greenMsg.insertAdjacentElement('beforeend', openedValueTextElement);
     }
 
-    function isXIDSupplyPack(itemID) {
+    function isXIDRequestSupplyPack(itemID) {
         return SUPPLY_PACK_ITEMS.includes(itemID) && !isDrugPack(itemID);
     }
 
