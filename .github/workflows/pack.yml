@@ -104,14 +104,6 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --config .prettierrc --write . --list-different
-      - name: Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: versions/torntools_${{ env.version }}.zip
-          name: "Release: v${{ env.version }}"
-          tag: "${{ env.version }}"
-          bodyFile: "./releaseBody.md"
-          token: ${{ secrets.GH_TOKEN }}
       - name: Upload to Chrome Web Store
         uses: mnao305/chrome-extension-upload@v5.0.0
         with:
@@ -135,6 +127,14 @@ jobs:
           channel: unlisted
           apiKey: ${{ secrets.FIREFOX_JWT_ISSUER }}
           apiSecret: ${{ secrets.FIREFOX_JWT_SECRET }}
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: versions/torntools_${{ env.version }}.zip
+          name: "Release: v${{ env.version }}"
+          tag: "${{ env.version }}"
+          bodyFile: "./releaseBody.md"
+          token: ${{ secrets.GH_TOKEN }}
       - name: Delete temporary files
         run: |
           rm -f ./releaseBody.md
