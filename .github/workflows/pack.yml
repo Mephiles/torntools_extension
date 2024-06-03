@@ -26,7 +26,7 @@ jobs:
           readmePath="README.md"
           firstEntry="$("${jqCommand}" -j ".[0]" "${changelogPath}")"
           version="$(echo "$firstEntry" | "${jqCommand}" -j "[ .version | to_entries[] | .value ] | join(\".\")")"
-          newVersionMajor="6"
+          newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | . + 1")" 
           newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | . + 1")" 
           newVersionBuild="0"
           newVersionTitle="Beta"
@@ -104,14 +104,25 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --config .prettierrc --write . --list-different
-      - name: Upload to Chrome Web Store
-        uses: mnao305/chrome-extension-upload@v5.0.0
+      - name: Upload an extension to Chrome Web Store
+        uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
         with:
-          file-path: versions/torntools_${{ env.version }}.zip
-          extension-id: hjpaapdjcgbmeikfnahipphknonhlhib
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          zipFilePath: versions/torntools_${{ env.version }}.zip
+          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
+          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+          apiClientSecret: ${{ secrets.CHROME_SECRET }}
+          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      - name: Publish an extension on Chrome Web Store
+        uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
+        id: publish_step
+        with:
+          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
+          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+          apiClientSecret: ${{ secrets.CHROME_SECRET }}
+          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      - name: Output of CWS Publish
+        run: |
+          echo "${{ steps.publish_step.outputs.publishStatus }}" >> "$GITHUB_OUTPUT"
       - name: Create Firefox .xpi
         id: web-ext-build
         uses: kewisch/action-web-ext@v1.0
