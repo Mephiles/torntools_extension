@@ -1,14 +1,8 @@
 [
 	{
-		"version": { "major": 6, "minor": 1, "build": 0 },
-		"title": "Beta",
-		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
-	},
-	{
 		"version": { "major": 7, "minor": 0, "build": 0 },
 		"title": "Beta",
-		"date": "2024/06/03",
+		"date": false,
 		"logs": {
 			"fixes": [
 				{ "message": "Fixed chat highlight causing chat to scroll slightly upwards", "contributor": "Kwack" },
