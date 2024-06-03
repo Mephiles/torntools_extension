@@ -104,6 +104,8 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --config .prettierrc --write . --list-different
+          commit_options: --dry-run
+          push_options: --dry-run
       - name: Publish an extension on Chrome Web Store
         uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
         id: publish_step
