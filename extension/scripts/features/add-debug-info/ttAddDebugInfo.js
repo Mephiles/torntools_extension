@@ -30,7 +30,7 @@
 			class: "tt-btn",
 			events: {
 				click: async () => {
-					const bbcEditor = document.find("#bbc-editor-wrapper #main-input");
+					const bbcEditor = document.find("#editor-wrapper .editor-content.mce-content-body");
 					if (!bbcEditor) return;
 					if (bbcEditor.innerHTML.startsWith("Debug Information:")) return;
 
@@ -49,7 +49,7 @@
 								"uaFullVersion",
 							]);
 							const platformInfo = debugInfo.platform + " " + debugInfo.platformVersion;
-							const browserInfo = debugInfo.fullVersionList[2].brand + " v" + debugInfo.uaFullVersion.split(".")[0];
+							const browserInfo = debugInfo.fullVersionList[1].brand + " v" + debugInfo.uaFullVersion.split(".")[0];
 
 							debugInfo = platformInfo + "<br>" + browserInfo;
 						} else {
@@ -65,7 +65,10 @@
 
 					// Add the browser information to BBCode input.
 					// Need jQuery as dispatchEvent is not working.
-					executeScript((wrapped) => wrapped.$("#bbc-editor-wrapper #main-input").keyup(), "$('#bbc-editor-wrapper #main-input').keyup();");
+					executeScript(
+						(wrapped) => wrapped.$("#editor-wrapper .editor-content.mce-content-body").keyup(),
+						"$('#editor-wrapper .editor-content.mce-content-body').keyup();"
+					);
 				},
 			},
 		});

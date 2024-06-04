@@ -5,13 +5,6 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const IDs = {
-		faction: null,
-		player: null,
-	};
-
-	const query = getSearchParameters();
-
 	const feature = featureManager.registerFeature(
 		"Faction ID",
 		"faction",
@@ -26,65 +19,47 @@
 	);
 
 	function initialise() {
-		if (isOwnFaction) {
-			if (userdata.faction.faction_id) IDs.faction = userdata.faction.faction_id;
-			else IDs.player = userdata.player_id;
+		if (isOwnFaction)
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
-				if (!feature.enabled || !settings.pages.faction.idBesideFactionName) return;
+				if (!feature.enabled() || !settings.pages.faction.idBesideFactionName) return;
 
 				addID();
 			});
-		} else
-			switch (true) {
-				case !isNaN(parseInt(query.get("ID"))):
-					IDs.faction = parseInt(query.get("ID"));
-					return addID();
-				case !isNaN(parseInt(query.get("userID"))):
-					IDs.player = parseInt(query.get("userID"));
-					return addID();
-				default:
-					return false;
-			}
 	}
 
 	async function addID() {
-		if (!IDs.faction && !IDs.player) throw new Error("Neither Faction nor User ID could be parsed from the URL.");
-		console.log(IDs);
-		if (isOwnFaction) {
-			if (getHashParameters().get("tab") !== "info") return false;
-			const [id, container] = await Promise.all([getID(), requireElement("#react-root-faction-info .faction-info-wrap .title-black[role='heading']")]);
-			container.firstChild.textContent += ` [${id}]`;
-		} else {
-			const [id, container] = await Promise.all([getID(), requireCondition(checkForFactionName)]);
-			container.firstChild.textContent += ` [${id}]`;
-		}
-
-		async function getID() {
-			if (!IDs.faction && !IDs.player) throw "Neither Faction nor User ID could be parsed from the URL.";
-			if (IDs.faction) return IDs.faction;
-			else return await fetchData("torn", { section: "user", selections: ["profile"], id: IDs.player }).then((j) => j.faction.faction_id);
-		}
-
-		function checkForFactionName() {
-			const container = document.find(".faction-info-wrap .title-black[role='heading']");
-			return container?.childNodes.length > 1 ? container : false;
-		}
+		if (document.getElementById("tt-faction-id")) return; // Element has already been added - second check in-case feature reinjects
+		const selector = "div.faction-info-wrap > div.title-black"; // selector is the same for both
+		const [id, container] = await Promise.all([getFactionID(), requireElement(selector)]);
+		if (!id) throw new Error("Faction ID could not be found.");
+		const span = document.newElement({ type: "span", text: ` [${id}]`, id: "tt-faction-id" });
+		container.appendChild(span);
 	}
 
-	async function removeID() {
-		if (isOwnFaction) {
-			if (getHashParameters().get("tab") !== "info") return false;
-			const container = document.find("#react-root-faction-info .faction-info-wrap .title-black[role='heading']");
-			container.textContent = removeIDFromString(container.textContent);
-		} else {
-			const container = document.find(".faction-info-wrap .title-black[role='heading']");
-			container.textContent = removeIDFromString(container.textContent);
-		}
+	function removeID() {
+		document.findAll("#tt-faction-id").forEach((element) => element.remove());
+	}
 
-		function removeIDFromString(string) {
-			const arr = string.split("[");
-			arr.pop();
-			return arr.join("[");
+	async function getFactionID() {
+		if (isOwnFaction) {
+			if (userdata.faction_id) return userdata.faction_id;
+			const userID = userdata.player_id;
+			if (!userID) return null; // ID could not be found
+			return await getFactionIDFromUser(userID);
+		}
+		const hashparams = getSearchParameters();
+		console.log(hashparams.get("ID"), hashparams.get("userID"));
+		if (isIntNumber(hashparams.get("ID"))) return parseInt(hashparams.get("ID"));
+		if (isIntNumber(hashparams.get("userID"))) return await getFactionIDFromUser(parseInt(hashparams.get("userID")));
+		return null; // ID could not be found
+
+		async function getFactionIDFromUser(userID) {
+			const cached = ttCache.get("faction-id", userID);
+			if (cached) return cached;
+			const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
+			const factionID = data.faction.faction_id;
+			ttCache.set({ [userID]: factionID }, 3.5 * TO_MILLIS.DAYS, "faction-id");
+			return factionID;
 		}
 	}
 })();
