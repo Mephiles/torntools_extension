@@ -14,7 +14,8 @@
 			],
 			"changes": [
 				{ "message": "Migrated to manifest version 3.", "contributor": "TheFoxMan" },
-				{ "message": "Validate new key level in popup before using.", "contributor": "TheFoxMan" }
+				{ "message": "Validate new key level in popup before using.", "contributor": "TheFoxMan" },
+				{ "message": "Added a text that indicates the total value of the opened items from a Supply Pack.", "contributor": "Conrado" }
 			]
 		}
 	},
