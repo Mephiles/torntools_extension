@@ -11,7 +11,10 @@
         undefined,
         removeTotalValueElement,
         undefined,
-        {storage: ["settings.pages.items.openedSupplyPackValue"]}
+        {storage: ["settings.pages.items.openedSupplyPackValue"]},
+        () => {
+			if (!hasAPIData()) return "No API access.";
+        }
     );
 
     const SUPPLY_PACK_ITEMS = [
