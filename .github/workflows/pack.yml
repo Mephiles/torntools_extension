@@ -90,13 +90,30 @@ jobs:
           [ ! -d "versions" ] && mkdir versions
           mv "torntools_${version}.zip" ./versions/
 
+      - name: Upload an extension to Chrome Web Store
+        uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
+        with:
+          zipFilePath: versions/torntools_${{ env.version }}.zip
+          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
+          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+          apiClientSecret: ${{ secrets.CHROME_SECRET }}
+          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Publish an extension on Chrome Web Store
+        uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
+        id: publish_step
+        with:
+          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
+          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+          apiClientSecret: ${{ secrets.CHROME_SECRET }}
+          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
       - name: Create Firefox .xpi
         id: web-ext-build
         uses: kewisch/action-web-ext@v1.0
         with:
           cmd: build
           source: extension
-          verbose: true
           artifacts: versions
 
       - name: Sign Firefox .xpi
@@ -105,10 +122,9 @@ jobs:
           cmd: sign
           artifacts: versions
           source: ${{ steps.web-ext-build.outputs.target }}
-          channel: unlisted
+          channel: listed
           apiKey: ${{ secrets.FIREFOX_JWT_ISSUER }}
           apiSecret: ${{ secrets.FIREFOX_JWT_SECRET }}
-          verbose: true
 
       - name: Github Release
         uses: ncipollo/release-action@v1
