@@ -143,7 +143,7 @@ jobs:
           newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | .")" 
           newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | . + 1")" 
           newVersionBuild="0"
-          newVersion = "${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
+          newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
           newVersionTitle="Beta"
 
           export newVersion
@@ -171,6 +171,13 @@ jobs:
           # Update README.md with new version packaged date (today, the day the action is run)
           ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | "${jqCommand}" --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
           awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
+
+      - name: Format with prettier
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --config .prettierrc --write . --list-different
+          commit_options: --dry-run
+          push_options: --dry-run
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9.1.4
