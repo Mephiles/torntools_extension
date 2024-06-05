@@ -106,14 +106,6 @@ jobs:
           prettier_options: --config .prettierrc --write . --list-different
           commit_options: --dry-run
           push_options: --dry-run
-      - name: Upload an extension to Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
-        with:
-          zipFilePath: versions/torntools_${{ env.version }}.zip
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
       - name: Publish an extension on Chrome Web Store
         uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
         id: publish_step
