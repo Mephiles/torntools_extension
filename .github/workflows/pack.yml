@@ -106,17 +106,6 @@ jobs:
           prettier_options: --config .prettierrc --write . --list-different
           commit_options: --dry-run
           push_options: --dry-run
-      - name: Publish an extension on Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
-        id: publish_step
-        with:
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
-      - name: Output of CWS Publish
-        run: |
-          echo "${{ steps.publish_step.outputs.publishStatus }}" >> "$GITHUB_OUTPUT"
       - name: Create Firefox .xpi
         id: web-ext-build
         uses: kewisch/action-web-ext@v1.0
