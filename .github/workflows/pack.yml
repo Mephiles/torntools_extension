@@ -1,6 +1,28 @@
 name: Pack new version
 on:
   workflow_dispatch:
+    inputs:
+      upload_cws:
+        type: boolean
+        description: Upload to CWS
+        default: true
+      publish_cws:
+        type: boolean
+        description: Publish to CWS
+        default: true
+      publish_amo:
+        type: boolean
+        description: Publish to AMO
+        default: true
+      pre_release:
+        type: boolean
+        description: Make a beta release
+        default: false
+      commit_beta_changes:
+        type: boolean
+        description: Commit beta versions
+        default: true
+
 jobs:
   publish:
     environment: Release
@@ -83,17 +105,36 @@ jobs:
           commit_options: --dry-run
           push_options: --dry-run
 
-      - name: Create zip file
+      - name: Create zip files for CWS and AMO
         run: |
           # Create and move extension zip file
-          cd extension && zip -q -r "../torntools_${version}.zip" . && cd ..
+          cd extension || exit 1
+
+          # Setup variables
+          jqCommand="jq"
+          manifestPath="./extension/manifest.json"
+          manifestCopyPath="manifest.json.orig"
+
+          # Create manifest copy
+          cp "${manifestPath}" "${manifestCopyPath}"
+
+          # Remove "background.scripts" from manifest (copy) for CWS
+          "${jqCommand}" -j "del(.background.scripts)" "${manifestCopyPath}" > "${manifestPath}"
+          zip -q -r "../torntools_${version}_chrome.zip" . && cd ..
+
+          # Remove "background.service_worker" from manifest (copy) for AMO
+          "${jqCommand}" -j "del(.background.service_worker)" "${manifestCopyPath}" > "${manifestPath}"
+          zip -q -r "../torntools_${version}_firefox.zip" . && cd ..
+
           [ ! -d "versions" ] && mkdir versions
-          mv "torntools_${version}.zip" ./versions/
+          mv "torntools_${version}_chrome.zip" ./versions/
+          mv "torntools_${version}_firefox.zip" ./versions/
 
       - name: Upload an extension to Chrome Web Store
         uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
+        if: ${{ inputs.upload_cws }}
         with:
-          zipFilePath: versions/torntools_${{ env.version }}.zip
+          zipFilePath: versions/torntools_${{ env.version }}_chrome.zip
           extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
           apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
           apiClientSecret: ${{ secrets.CHROME_SECRET }}
@@ -101,6 +142,7 @@ jobs:
 
       - name: Publish an extension on Chrome Web Store
         uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
+        if: ${{ inputs.publish_cws }}
         id: publish_step
         with:
           extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
@@ -118,6 +160,7 @@ jobs:
 
       - name: Sign Firefox .xpi
         uses: kewisch/action-web-ext@v1
+        if: ${{ inputs.publish_amo }}
         with:
           cmd: sign
           artifacts: versions
@@ -129,11 +172,12 @@ jobs:
       - name: Github Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: versions/torntools_${{ env.version }}.zip
+          artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,${{ steps.web-ext-build.outputs.target }}"
           name: "Release: v${{ env.version }}"
           tag: "${{ env.version }}"
           bodyFile: "./releaseBody.md"
           token: ${{ secrets.GH_TOKEN }}
+          prerelease: ${{ inputs.pre_release }}
 
       - name: Delete temporary files
         run: |
@@ -155,6 +199,7 @@ jobs:
           tmpFile="tmp.tmp"
           readmePath="README.md"
           manifestPath="./extension/manifest.json"
+          manifestCopyPath="manifest.json.orig"
           changelogPath="./extension/changelog.json"
           newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | .")" 
           newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | . + 1")" 
@@ -164,6 +209,9 @@ jobs:
 
           export newVersion
           echo "newVersion=$newVersion" >> "$GITHUB_ENV"
+
+          # Restore original manifest
+          mv "${manifestCopyPath}" "${manifestPath}"
 
           # Add beta changelog entry
           "${jqCommand}" -r --indent 0 "
@@ -197,5 +245,6 @@ jobs:
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9.1.4
+        if: ${{ inputs.commit_beta_changes }}
         with:
           message: "Pack v${{ env.version }} and update to v${{ env.newVersion }}"
