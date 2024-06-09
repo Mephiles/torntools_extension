@@ -107,9 +107,6 @@ jobs:
 
       - name: Create zip files for CWS and AMO
         run: |
-          # Create and move extension zip file
-          cd extension || exit 1
-
           # Setup variables
           jqCommand="jq"
           manifestPath="./extension/manifest.json"
@@ -120,11 +117,19 @@ jobs:
 
           # Remove "background.scripts" from manifest (copy) for CWS
           "${jqCommand}" -j "del(.background.scripts)" "${manifestCopyPath}" > "${manifestPath}"
-          zip -q -r "../torntools_${version}_chrome.zip" . && cd ..
+
+          # Create and move extension zip file
+          cd extension || exit 1
+          zip -q -r "../torntools_${version}_chrome.zip" .
+          cd ..
 
           # Remove "background.service_worker" from manifest (copy) for AMO
           "${jqCommand}" -j "del(.background.service_worker)" "${manifestCopyPath}" > "${manifestPath}"
-          zip -q -r "../torntools_${version}_firefox.zip" . && cd ..
+
+          # Create and move extension zip file
+          cd extension || exit 2
+          zip -q -r "../torntools_${version}_firefox.zip" .
+          cd ..
 
           [ ! -d "versions" ] && mkdir versions
           mv "torntools_${version}_chrome.zip" ./versions/
