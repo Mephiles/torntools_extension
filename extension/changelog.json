@@ -1,11 +1,11 @@
 [
 	{
-		"version": { "major": 7, "minor": 2, "build": 0 },
-		"title": "Beta",
+		"version": { "major": 7, "minor": 2, "build": 1 },
+		"title": "Post-MV3",
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Fixed Torn hanging for few players.", "contributor": "TheFoxMan" }],
 			"changes": [],
 			"removed": []
 		}
