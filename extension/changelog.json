@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 2, "build": 2 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fixed Trade Open Chat.", "contributor": "TheFoxMan" }], "changes": [], "removed": [] }
+		"logs": {
+			"features": [{ "message": "Added bounty filter in Abroad People Filter.", "contributor": "TheFoxMan" }],
+			"fixes": [{ "message": "Fixed Trade Open Chat.", "contributor": "TheFoxMan" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 2, "build": 1 },

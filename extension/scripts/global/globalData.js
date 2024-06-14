@@ -744,6 +744,7 @@ const DEFAULT_STORAGE = {
 				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				hasBounties: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
 			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
