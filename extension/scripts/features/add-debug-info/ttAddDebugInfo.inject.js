@@ -1,1 +1,1 @@
-$("#editor-wrapper .editor-content.mce-content-body").keyup()
+$("#editor-wrapper .editor-content.mce-content-body").keyup();

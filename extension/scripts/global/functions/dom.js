@@ -429,19 +429,18 @@ function showLoadingPlaceholder(element, show) {
 	}
 }
 
-function executeScript(filename, remove=true) {
+function executeScript(filename, remove = true) {
 	const script = document.newElement({
 		type: "script",
 		attributes: {
 			type: "text/javascript",
 			src: filename,
-		}
+		},
 	});
 
 	document.head.appendChild(script);
 
-	if (remove)
-		setTimeout(() => script.remove(), 2000);
+	if (remove) setTimeout(() => script.remove(), 2000);
 }
 
 function updateQuery(key, value) {
