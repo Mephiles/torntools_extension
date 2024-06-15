@@ -31,7 +31,7 @@ const notificationPlayer = {
 		if (!this.src) throw Error("No sound src set.");
 
 		await chrome.runtime.sendMessage({
-			offscreen: true,
+			offscreen: "notification",
 			src: chrome.runtime.getURL(this.src),
 			volume: this.volume,
 		});
@@ -47,7 +47,7 @@ const notificationTestPlayer = {
 		if (!this.src) throw Error("No sound src set.");
 
 		await chrome.runtime.sendMessage({
-			offscreen: true,
+			offscreen: "notification",
 			src: chrome.runtime.getURL(this.src),
 			volume: this.volume,
 		});
@@ -1746,8 +1746,8 @@ async function notifyUser(title, message, url) {
 	const silent = hasSilentSupport() && notificationSound !== "default";
 
 	if (settings.notifications.tts) {
-		readMessage(title);
-		readMessage(message);
+		readMessage(title).then(() => {}).catch(err => console.error(err));
+		readMessage(message).then(() => {}).catch(err => console.error(err));
 	}
 
 	try {
@@ -1826,10 +1826,22 @@ async function notifyUser(title, message, url) {
 		});
 	}
 
-	function readMessage(text) {
-		const ttsMessage = new SpeechSynthesisUtterance(text);
-		ttsMessage.volume = settings.notifications.volume / 100;
-		window.speechSynthesis.speak(ttsMessage);
+	async function readMessage(text) {
+		// Has TTS
+		if (typeof SpeechSynthesisUtterance !== "undefined") {
+			const ttsMessage = new SpeechSynthesisUtterance(text);
+			ttsMessage.volume = settings.notifications.volume / 100;
+			window.speechSynthesis.speak(ttsMessage);
+		} else {
+			// Offscreen documents
+			await setupAudioPlayerDocument();
+
+			await chrome.runtime.sendMessage({
+				offscreen: "tts",
+				text: text,
+				volume: settings.notifications.volume / 100
+			});
+		}
 	}
 }
 
