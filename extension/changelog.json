@@ -9,7 +9,8 @@
 				{ "message": "Fixed Trade Open Chat.", "contributor": "TheFoxMan" },
 				{ "message": "Fixed no notifications.", "contributor": "TheFoxMan" },
 				{ "message": "Show days(if present) in popup for Jail and Hospital status.", "contributor": "TheFoxMan" },
-				{ "message": "CORS error for Gym Graph on Firefox.", "contributor": "TheFoxMan" }
+				{ "message": "CORS error for Gym Graph on Firefox.", "contributor": "TheFoxMan" },
+				{ "message": "Optional permissions(for Global Revive Provider, TS and YATA) on Firefox.", "contributor": "TheFoxMan" }
 			],
 			"changes": [],
 			"removed": []
