@@ -26,6 +26,14 @@ const notificationPlayer = {
 	src: "",
 	volume: 0,
 	play: async function () {
+		if (typeof Audio !== "undefined") {
+			const audio = new Audio(this.src);
+			audio.volume = this.volume;
+			audio.play();
+
+			return;
+		}
+
 		await setupAudioPlayerDocument();
 
 		if (!this.src) throw Error("No sound src set.");
@@ -42,6 +50,14 @@ const notificationTestPlayer = {
 	src: "",
 	volume: 0,
 	play: async function () {
+		if (typeof Audio !== "undefined") {
+			const audio = new Audio(this.src);
+			audio.volume = this.volume;
+			audio.play();
+
+			return;
+		}
+
 		await setupAudioPlayerDocument();
 
 		if (!this.src) throw Error("No sound src set.");
