@@ -1761,8 +1761,12 @@ async function notifyUser(title, message, url) {
 	const silent = hasSilentSupport() && notificationSound !== "default";
 
 	if (settings.notifications.tts) {
-		readMessage(title).then(() => {}).catch(err => console.error(err));
-		readMessage(message).then(() => {}).catch(err => console.error(err));
+		readMessage(title)
+			.then(() => {})
+			.catch((err) => console.error(err));
+		readMessage(message)
+			.then(() => {})
+			.catch((err) => console.error(err));
 	}
 
 	try {
@@ -1854,7 +1858,7 @@ async function notifyUser(title, message, url) {
 			await chrome.runtime.sendMessage({
 				offscreen: "tts",
 				text: text,
-				volume: settings.notifications.volume / 100
+				volume: settings.notifications.volume / 100,
 			});
 		}
 	}
