@@ -41,7 +41,7 @@
 				button.setAttribute("disabled", "");
 				showLoadingPlaceholder(responseElement, true);
 
-				const { message, status } = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/record" })
+				const { message, status } = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/record", relay: true })
 					.then((response) => {
 						if (!response.status) {
 							let message = response.message;
