@@ -430,9 +430,9 @@ async function setupDashboard() {
 		if (!status.dataset.until) return;
 
 		if (status.classList.contains("jail")) {
-			status.textContent = `Jailed for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
+			status.textContent = `Jailed for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer", showDays: true, short: true })}`;
 		} else if (status.classList.contains("hospital")) {
-			status.textContent = `Hospitalized for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
+			status.textContent = `Hospitalized for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer", showDays: true, short: true })}`;
 		}
 	}
 

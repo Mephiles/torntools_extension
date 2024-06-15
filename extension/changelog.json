@@ -5,7 +5,11 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added bounty filter in Abroad People Filter.", "contributor": "TheFoxMan" }],
-			"fixes": [{ "message": "Fixed Trade Open Chat.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fixed Trade Open Chat.", "contributor": "TheFoxMan" },
+				{ "message": "Fixed no notifications.", "contributor": "TheFoxMan" },
+				{ "message": "Show days(if present) in popup for Jail and Hospital status.", "contributor": "TheFoxMan" }
+			],
 			"changes": [],
 			"removed": []
 		}
