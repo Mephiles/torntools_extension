@@ -80,8 +80,11 @@ function requireChatsLoaded() {
 
 function requireFeatureManager() {
 	return new Promise((resolve) => {
-		while (typeof featureManager === "undefined") {} // eslint-disable-line no-empty
+		const featureManagerIntervalID = setInterval(() => {
+			while (typeof featureManager === "undefined") {}
 
-		resolve();
+			clearInterval(featureManagerIntervalID);
+			resolve();
+		}, 500);
 	});
 }

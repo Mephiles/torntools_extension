@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	while (typeof featureManager === "undefined") {}
+	await requireFeatureManager();
 
 	await requireElement("body");
 	const devices = await checkDevice();

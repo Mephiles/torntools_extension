@@ -65,10 +65,7 @@
 
 					// Add the browser information to BBCode input.
 					// Need jQuery as dispatchEvent is not working.
-					executeScript(
-						(wrapped) => wrapped.$("#editor-wrapper .editor-content.mce-content-body").keyup(),
-						"$('#editor-wrapper .editor-content.mce-content-body').keyup();"
-					);
+					executeScript(chrome.runtime.getURL("scripts/features/add-debug-info/ttAddDebugInfo.inject.js"));
 				},
 			},
 		});

@@ -1,14 +1,30 @@
 [
 	{
-		"version": { "major": 7, "minor": 2, "build": 0 },
+		"version": { "major": 7, "minor": 3, "build": 0 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 2, "build": 2 },
+		"title": "Beta",
+		"date": "2024/06/15",
 		"logs": {
-			"features": [],
-			"fixes": [],
-			"changes": [],
-			"removed": []
+			"features": [{ "message": "Added bounty filter in Abroad People Filter.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fixed Trade Open Chat.", "contributor": "TheFoxMan" },
+				{ "message": "Fixed no notifications.", "contributor": "TheFoxMan" },
+				{ "message": "Show days(if present) in popup for Jail and Hospital status.", "contributor": "TheFoxMan" },
+				{ "message": "CORS error for Gym Graph on Firefox.", "contributor": "TheFoxMan" },
+				{ "message": "Optional permissions(for Global Revive Provider, TS and YATA) on Firefox.", "contributor": "TheFoxMan" }
+			]
 		}
+	},
+	{
+		"version": { "major": 7, "minor": 2, "build": 1 },
+		"title": "Post-MV3",
+		"date": "2024/06/14",
+		"logs": { "fixes": [{ "message": "Fixed Torn hanging for few players.", "contributor": "TheFoxMan" }] }
 	},
 	{
 		"version": { "major": 7, "minor": 0, "build": 0 },

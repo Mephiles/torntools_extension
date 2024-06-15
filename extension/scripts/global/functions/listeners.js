@@ -62,12 +62,7 @@ let injectedXHR, injectedFetch;
 function injectFetch() {
 	if (injectedFetch) return;
 
-	document.head.appendChild(
-		document.newElement({
-			type: "script",
-			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/inject/fetch.inject.js") },
-		})
-	);
+	executeScript(chrome.runtime.getURL("/scripts/global/inject/fetch.inject.js"), false);
 	injectedFetch = true;
 }
 
@@ -80,12 +75,7 @@ function addFetchListener(callback) {
 function injectXHR() {
 	if (injectedXHR) return;
 
-	document.head.appendChild(
-		document.newElement({
-			type: "script",
-			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/inject/xhr.inject.js") },
-		})
-	);
+	executeScript(chrome.runtime.getURL("/scripts/global/inject/xhr.inject.js"), false);
 	injectedXHR = true;
 }
 

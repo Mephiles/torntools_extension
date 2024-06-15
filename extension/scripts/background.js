@@ -26,12 +26,20 @@ const notificationPlayer = {
 	src: "",
 	volume: 0,
 	play: async function () {
+		if (typeof Audio !== "undefined") {
+			const audio = new Audio(this.src);
+			audio.volume = this.volume;
+			audio.play();
+
+			return;
+		}
+
 		await setupAudioPlayerDocument();
 
 		if (!this.src) throw Error("No sound src set.");
 
 		await chrome.runtime.sendMessage({
-			offscreen: true,
+			offscreen: "notification",
 			src: chrome.runtime.getURL(this.src),
 			volume: this.volume,
 		});
@@ -42,12 +50,20 @@ const notificationTestPlayer = {
 	src: "",
 	volume: 0,
 	play: async function () {
+		if (typeof Audio !== "undefined") {
+			const audio = new Audio(this.src);
+			audio.volume = this.volume;
+			audio.play();
+
+			return;
+		}
+
 		await setupAudioPlayerDocument();
 
 		if (!this.src) throw Error("No sound src set.");
 
 		await chrome.runtime.sendMessage({
-			offscreen: true,
+			offscreen: "notification",
 			src: chrome.runtime.getURL(this.src),
 			volume: this.volume,
 		});
@@ -527,7 +543,7 @@ async function updateUserdata() {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
 			userdata.events = (await fetchData("torn", { section: "user", selections: [category], params: { limit: newEventsCount } })).events;
 			selections.push(category);
-		} else if (newEventsCount === 0) userdata.events = {}; // No new events. So reset events.
+		}
 	}
 	if (!userdata.events || userdata?.notifications?.events === 0) userdata.events = {};
 
@@ -548,6 +564,8 @@ async function updateUserdata() {
 	await notifyHospital().catch((error) => console.error("Error while sending hospital notifications.", error));
 	await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 	await notifySpecificCooldowns().catch((error) => console.error("Error while sending specific cooldown notifications.", error));
+
+	await ttStorage.set({ notifications });
 
 	return { updated: true, types: updatedTypes, selections };
 
@@ -779,7 +797,6 @@ async function updateUserdata() {
 				date: Date.now(),
 			});
 		}
-		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyCooldownOver() {
@@ -797,7 +814,6 @@ async function updateUserdata() {
 				date: Date.now(),
 			});
 		}
-		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyTravelLanding() {
@@ -811,7 +827,6 @@ async function updateUserdata() {
 			url: LINKS.home,
 			date: Date.now(),
 		});
-		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyEducation() {
@@ -831,7 +846,6 @@ async function updateUserdata() {
 			url: LINKS.education,
 			date: Date.now(),
 		});
-		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyNewDay() {
@@ -1247,7 +1261,7 @@ async function updateStakeouts() {
 	}
 	stakeouts.date = now;
 
-	await ttStorage.change({ stakeouts });
+	await ttStorage.change({ stakeouts, notifications });
 	return { updated: true, success, failed };
 }
 
@@ -1366,7 +1380,7 @@ async function updateFactionStakeouts() {
 	}
 	factionStakeouts.date = now;
 
-	await ttStorage.change({ factionStakeouts });
+	await ttStorage.change({ factionStakeouts, notifications });
 	return { updated: true, success, failed };
 }
 
@@ -1414,7 +1428,6 @@ async function updateStocks() {
 				storeNotification({ title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
 			}
 		}
-		await ttStorage.set({ notificationHistory });
 	}
 }
 
@@ -1521,6 +1534,8 @@ async function updateNPCs() {
 	if (updated || !npcUpdater) triggerUpdate();
 
 	const alerts = checkNPCAlerts();
+
+	await ttStorage.set({ notifications });
 
 	return { updated, alerts };
 
@@ -1746,8 +1761,12 @@ async function notifyUser(title, message, url) {
 	const silent = hasSilentSupport() && notificationSound !== "default";
 
 	if (settings.notifications.tts) {
-		readMessage(title);
-		readMessage(message);
+		readMessage(title)
+			.then(() => {})
+			.catch((err) => console.error(err));
+		readMessage(message)
+			.then(() => {})
+			.catch((err) => console.error(err));
 	}
 
 	try {
@@ -1826,10 +1845,22 @@ async function notifyUser(title, message, url) {
 		});
 	}
 
-	function readMessage(text) {
-		const ttsMessage = new SpeechSynthesisUtterance(text);
-		ttsMessage.volume = settings.notifications.volume / 100;
-		window.speechSynthesis.speak(ttsMessage);
+	async function readMessage(text) {
+		// Has TTS
+		if (typeof SpeechSynthesisUtterance !== "undefined") {
+			const ttsMessage = new SpeechSynthesisUtterance(text);
+			ttsMessage.volume = settings.notifications.volume / 100;
+			window.speechSynthesis.speak(ttsMessage);
+		} else {
+			// Offscreen documents
+			await setupAudioPlayerDocument();
+
+			await chrome.runtime.sendMessage({
+				offscreen: "tts",
+				text: text,
+				volume: settings.notifications.volume / 100,
+			});
+		}
 	}
 }
 
@@ -1925,7 +1956,9 @@ async function setupAudioPlayerDocument() {
 	}
 }
 
-function storeNotification(notification) {
+async function storeNotification(notification) {
 	notificationHistory.insertAt(0, notification);
 	notificationHistory = notificationHistory.slice(0, 100);
+
+	await ttStorage.set({ notificationHistory });
 }

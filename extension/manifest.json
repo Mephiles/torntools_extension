@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "TornTools",
-	"version": "7.2.0",
+	"version": "7.3.0",
 	"description": "Several tools for Torn.",
 	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
 	"action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
@@ -23,6 +23,17 @@
 	},
 	"permissions": ["storage", "notifications", "background", "offscreen", "alarms"],
 	"host_permissions": ["https://api.torn.com/"],
+	"optional_permissions": [
+		"https://www.tornstats.com/*",
+		"https://yata.yt/*",
+		"https://www.nukefamily.org/*",
+		"https://tornuhc.eu/*",
+		"https://inq.mavri.dev/*",
+		"https://api.no1irishstig.co.uk/*",
+		"https://prombot.co.uk:8443/*",
+		"https://api.lzpt.io/*",
+		"https://what-the-f.de/*"
+	],
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
 		"https://yata.yt/",
