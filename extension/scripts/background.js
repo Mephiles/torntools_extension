@@ -1909,6 +1909,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				.then((result) => sendResponse(result))
 				.catch((error) => sendResponse(error));
 			return true;
+		case "reinitialize-timers":
+			(async () => {
+				await chrome.alarms.clearAll();
+				await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.52 });
+				await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+				await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+				await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+
+				sendResponse(await chrome.alarms.getAll());
+			})();
+
+			return true;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });
 			break;
