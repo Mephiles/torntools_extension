@@ -59,7 +59,7 @@
 					result = ttCache.get("crimes", "tornstats");
 				} else {
 					try {
-						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "faction/crimes" });
+						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "faction/crimes", relay: true });
 
 						if (result.status) {
 							ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
