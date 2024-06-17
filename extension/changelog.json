@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fixed various TS features(Gym Graph, OC NNB, Profile Spies) not working.", "contributor": "TheFoxMan" }],
-			"changes": [{ "message": "Add option to force reset background update timers.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Add option to force reset background update timers.", "contributor": "TheFoxMan" },
+				{ "message": "Add re-check and re-add for background update timers.", "contributor": "TheFoxMan" }
+			],
 			"removed": []
 		}
 	},
