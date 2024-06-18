@@ -1,16 +1,20 @@
 [
 	{
+		"version": { "major": 7, "minor": 3, "build": 0 },
+		"title": "Beta",
+		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
 		"version": { "major": 7, "minor": 2, "build": 3 },
 		"title": "Firefox TS & YATA Fixes",
-		"date": false,
+		"date": "2024/06/18",
 		"logs": {
-			"features": [],
 			"fixes": [{ "message": "Fixed various TS features(Gym Graph, OC NNB, Profile Spies) not working.", "contributor": "TheFoxMan" }],
 			"changes": [
 				{ "message": "Add option to force reset background update timers.", "contributor": "TheFoxMan" },
 				{ "message": "Add re-check and re-add for background update timers.", "contributor": "TheFoxMan" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
