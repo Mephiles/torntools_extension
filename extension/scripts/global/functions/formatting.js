@@ -145,7 +145,10 @@ function formatTime(time = {}, options = {}) {
 			parts.push(date.getUTCMinutes());
 			if (!options.hideSeconds) parts.push(date.getUTCSeconds());
 
-			return parts.map((p) => toMultipleDigits(p, 2)).join(":");
+			let timerText = parts.map((p) => toMultipleDigits(p, 2)).join(":");
+			if (options.short && options.showDays && timerText.startsWith("00:")) timerText = timerText.slice(3);
+
+			return timerText;
 		case "wordTimer":
 			date = new Date(millis);
 

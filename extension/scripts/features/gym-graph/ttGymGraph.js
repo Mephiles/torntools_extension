@@ -41,7 +41,7 @@
 				button.setAttribute("disabled", "");
 				showLoadingPlaceholder(responseElement, true);
 
-				const { message, status } = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/record" })
+				const { message, status } = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/record", relay: true })
 					.then((response) => {
 						if (!response.status) {
 							let message = response.message;
@@ -95,7 +95,7 @@
 				result = ttCache.get("gym", "graph");
 			} else {
 				try {
-					result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/graph" });
+					result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/graph", relay: true });
 
 					if (result.status) {
 						ttCache.set({ graph: result }, TO_MILLIS.HOURS, "gym").then(() => {});

@@ -67,7 +67,7 @@
 
 		const specialFilter = createFilterSection({
 			title: "Special",
-			ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator"],
+			ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties"],
 			defaults: filters.abroadPeople.special,
 			callback: () => applyFilters(true),
 		});

@@ -1,6 +1,28 @@
 name: Pack new version
 on:
   workflow_dispatch:
+    inputs:
+      upload_cws:
+        type: boolean
+        description: Upload to CWS
+        default: true
+      publish_cws:
+        type: boolean
+        description: Publish to CWS
+        default: true
+      publish_amo:
+        type: boolean
+        description: Publish to AMO
+        default: true
+      pre_release:
+        type: boolean
+        description: Make a beta release
+        default: false
+      commit_beta_changes:
+        type: boolean
+        description: Commit beta versions
+        default: true
+
 jobs:
   publish:
     environment: Release
@@ -9,27 +31,22 @@ jobs:
       - uses: actions/checkout@v3
       - name: Update the changelog.json
         run: |
-          DaySuffix() {
-            case $(date +%-d) in
-            1|21|31) echo "st";;
-            2|22)    echo "nd";;
-            3|23)    echo "rd";;
-            *)       echo "th";;
-            esac
-          }
+          # Install jq
           sudo apt-get install jq
+
+          # Setup variables
           jqCommand="jq"
-          manifestPath="./extension/manifest.json"
           changelogPath="./extension/changelog.json"
           releaseBodyFile="./releaseBody.md"
           tmpFile="tmp.tmp"
-          readmePath="README.md"
           firstEntry="$("${jqCommand}" -j ".[0]" "${changelogPath}")"
           version="$(echo "$firstEntry" | "${jqCommand}" -j "[ .version | to_entries[] | .value ] | join(\".\")")"
-          newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | .")" 
-          newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | . + 1")" 
-          newVersionBuild="0"
-          newVersionTitle="Beta"
+
+          # Export version for future tasks
+          export version
+          echo "version=$version" >> "$GITHUB_ENV"
+
+          # Create release body
           echo "$firstEntry" | "${jqCommand}" -j "
             .logs as \$clFirstEntryLogs | (
                 \$clFirstEntryLogs |
@@ -76,11 +93,132 @@ jobs:
                 end
             )
           " >> "$releaseBodyFile"
+
+          # Update changelog.json date and remove empty features, fixes and changes entries
           "${jqCommand}" -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
           "${jqCommand}" -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          cd extension && zip -q -r "../torntools_${version}.zip" . && cd ..
+
+      - name: Format with prettier
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --config .prettierrc --write . --list-different
+          commit_options: --dry-run
+          push_options: --dry-run
+
+      - name: Create zip files for CWS and AMO
+        run: |
+          # Setup variables
+          jqCommand="jq"
+          manifestPath="./extension/manifest.json"
+          manifestCopyPath="manifest.json.orig"
+
+          # Create manifest copy
+          cp "${manifestPath}" "${manifestCopyPath}"
+
+          # Remove "background.scripts" from manifest (copy) for CWS
+          "${jqCommand}" -j "del(.background.scripts)" "${manifestCopyPath}" > "${manifestPath}"
+
+          # Create and move extension zip file
+          cd extension || exit 1
+          zip -q -r "../torntools_${version}_chrome.zip" .
+          cd ..
+
+          # Remove "background.service_worker" from manifest (copy) for AMO
+          "${jqCommand}" -j "del(.background.service_worker)" "${manifestCopyPath}" > "${manifestPath}"
+
+          # Create and move extension zip file
+          cd extension || exit 2
+          zip -q -r "../torntools_${version}_firefox.zip" .
+          cd ..
+
           [ ! -d "versions" ] && mkdir versions
-          mv "torntools_${version}.zip" ./versions/
+          mv "torntools_${version}_chrome.zip" ./versions/
+          mv "torntools_${version}_firefox.zip" ./versions/
+
+      - name: Upload an extension to Chrome Web Store
+        uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
+        if: ${{ inputs.upload_cws }}
+        with:
+          zipFilePath: versions/torntools_${{ env.version }}_chrome.zip
+          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
+          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+          apiClientSecret: ${{ secrets.CHROME_SECRET }}
+          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Publish an extension on Chrome Web Store
+        uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
+        if: ${{ inputs.publish_cws }}
+        id: publish_step
+        with:
+          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
+          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+          apiClientSecret: ${{ secrets.CHROME_SECRET }}
+          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Create Firefox .xpi
+        id: web-ext-build
+        uses: kewisch/action-web-ext@v1.0
+        with:
+          cmd: build
+          source: extension
+          artifacts: versions
+
+      - name: Sign Firefox .xpi
+        uses: kewisch/action-web-ext@v1
+        if: ${{ inputs.publish_amo }}
+        with:
+          cmd: sign
+          artifacts: versions
+          source: ${{ steps.web-ext-build.outputs.target }}
+          channel: listed
+          apiKey: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          apiSecret: ${{ secrets.FIREFOX_JWT_SECRET }}
+
+      - name: Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,${{ steps.web-ext-build.outputs.target }}"
+          name: "Release: v${{ env.version }}"
+          tag: "${{ env.version }}"
+          bodyFile: "./releaseBody.md"
+          token: ${{ secrets.GH_TOKEN }}
+          prerelease: ${{ inputs.pre_release }}
+
+      - name: Delete temporary files
+        run: |
+          rm -f ./releaseBody.md
+          rm -rf versions
+
+      - name: Change manifest to beta version
+        run: |
+          # Setup variables again
+          DaySuffix() {
+            case $(date +%-d) in
+            1|21|31) echo "st";;
+            2|22)    echo "nd";;
+            3|23)    echo "rd";;
+            *)       echo "th";;
+            esac
+          }
+          jqCommand="jq"
+          tmpFile="tmp.tmp"
+          readmePath="README.md"
+          manifestPath="./extension/manifest.json"
+          manifestCopyPath="manifest.json.orig"
+          changelogPath="./extension/changelog.json"
+          newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | .")" 
+          newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | . + 1")" 
+          newVersionBuild="0"
+          newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
+          newVersionTitle="Beta"
+
+          export newVersion
+          echo "newVersion=$newVersion" >> "$GITHUB_ENV"
+
+          # Restore original manifest
+          mv "${manifestCopyPath}" "${manifestPath}"
+
+          # Add beta changelog entry
           "${jqCommand}" -r --indent 0 "
             . |= 
               [{
@@ -95,64 +233,23 @@ jobs:
                   }
               }] +
               ." "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          "${jqCommand}" -r --indent 0 ".[\"version\"] |= \"${newVersionMajor}.${newVersionMinor}.${newVersionBuild}\"" "${manifestPath}" > "${tmpFile}" && mv "${tmpFile}" "${manifestPath}"
+
+          # Change manifest to next version
+          "${jqCommand}" -r --indent 0 ".[\"version\"] |= \"${newVersion}\"" "${manifestPath}" > "${tmpFile}" && mv "${tmpFile}" "${manifestPath}"
+
+          # Update README.md with new version packaged date (today, the day the action is run)
           ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | "${jqCommand}" --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
           awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
-          export version
-          echo "version=$version" >> "$GITHUB_ENV"
+
       - name: Format with prettier
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --config .prettierrc --write . --list-different
           commit_options: --dry-run
           push_options: --dry-run
-      - name: Upload an extension to Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
-        with:
-          zipFilePath: versions/torntools_${{ env.version }}.zip
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
-      - name: Publish an extension on Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
-        id: publish_step
-        with:
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
-      - name: Output of CWS Publish
-        run: |
-          echo "${{ steps.publish_step.outputs.publishStatus }}" >> "$GITHUB_OUTPUT"
-      - name: Create Firefox .xpi
-        id: web-ext-build
-        uses: kewisch/action-web-ext@v1.0
-        with:
-          cmd: build
-          source: extension
-          filename: "{name}-{version}.xpi"
-      - name: Sign Firefox .xpi
-        uses: kewisch/action-web-ext@v1
-        with:
-          cmd: sign
-          source: ${{ steps.web-ext-build.outputs.target }}
-          channel: unlisted
-          apiKey: ${{ secrets.FIREFOX_JWT_ISSUER }}
-          apiSecret: ${{ secrets.FIREFOX_JWT_SECRET }}
-      - name: Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: versions/torntools_${{ env.version }}.zip
-          name: "Release: v${{ env.version }}"
-          tag: "${{ env.version }}"
-          bodyFile: "./releaseBody.md"
-          token: ${{ secrets.GH_TOKEN }}
-      - name: Delete temporary files
-        run: |
-          rm -f ./releaseBody.md
-          rm -rf versions
+
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9.1.4
+        if: ${{ inputs.commit_beta_changes }}
         with:
-          message: "Pack v${{ env.version }}"
+          message: "Pack v${{ env.version }} and update to v${{ env.newVersion }}"

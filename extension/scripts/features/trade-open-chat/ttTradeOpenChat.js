@@ -38,7 +38,7 @@
 			class: "tt-open-chat",
 		});
 
-		button.addEventListener("click", () => executeScript((wrapped) => wrapped.chat.r(id), `chat.r(${id})`));
+		button.addEventListener("click", () => executeScript(chrome.runtime.getURL("scripts/features/trade-open-chat/ttTradeOpenChat.inject.js")));
 
 		document.find("#trade-container > .title-black").appendChild(
 			document.newElement({

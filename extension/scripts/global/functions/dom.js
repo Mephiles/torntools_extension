@@ -429,18 +429,18 @@ function showLoadingPlaceholder(element, show) {
 	}
 }
 
-function executeScript(handler, code) {
-	if (window.wrappedJSObject && handler) handler(window.wrappedJSObject);
-	else {
-		const script = document.newElement({
-			type: "script",
-			attributes: { type: "text/javascript" },
-			html: code,
-		});
+function executeScript(filename, remove = true) {
+	const script = document.newElement({
+		type: "script",
+		attributes: {
+			type: "text/javascript",
+			src: filename,
+		},
+	});
 
-		document.head.appendChild(script);
-		setTimeout(() => script.remove(), 100);
-	}
+	document.head.appendChild(script);
+
+	if (remove) setTimeout(() => script.remove(), 2000);
 }
 
 function updateQuery(key, value) {

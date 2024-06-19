@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	while (typeof featureManager === "undefined") {}
+	await requireFeatureManager();
 
 	featureManager.registerFeature(
 		"Hide Tutorials",
