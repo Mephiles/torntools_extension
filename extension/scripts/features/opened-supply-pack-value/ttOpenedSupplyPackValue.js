@@ -49,43 +49,48 @@
     ];
 
     function addListener() {
-        if (page === "item") {
-            let reqXID = 0;
-            let itemID = 0;
-            
-            addXHRListener(async ({ detail: { page, xhr, json } }) => {
-                if (!feature.enabled()) return;
-                if (page !== "item") return;
+        if (page !== "item") return;
 
-                const params = new URLSearchParams(xhr.requestBody);
-                if (params.get("action") !== "use" && params.get("step") !== "useItem") return;
+        let reqXID = 0;
+        let itemID = 0;
+        
+        addXHRListener(async ({ detail: { xhr, json } }) => {
+            if (!feature.enabled()) return;
 
-                itemID = params.get("id")?.getNumber() ?? itemID;
-                if (isXIDRequestSupplyPack(itemID)) {
-                    reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
-                }
+            const params = new URLSearchParams(xhr.requestBody);
+            if (params.get("action") !== "use" && params.get("step") !== "useItem") return;
 
-                if (params.get("XID") === reqXID || isDrugPackUseRequest(params)) {
-                    const totalOpenedValue = json?.items?.itemAppear?.reduce(
-                        (totalValue, item) => 
-                        totalValue += item.isMoney
-                                        ? item.moneyGain.substring(1).getNumber()
-                                        : torndata.items[item.ID].market_value * item.qty, 0);
+            itemID = params.get("id")?.getNumber() ?? itemID;
+            if (isXIDRequestSupplyPack(itemID)) {
+                reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
+            }
 
-                        await showTotalValue(totalOpenedValue, itemID);
-                }
-            });
-        }
+            if (params.get("XID") === reqXID || isDrugPackUseRequest(params)) {
+                const totalOpenedValue = json?.items?.itemAppear?.reduce(
+                    (totalValue, item) => 
+                    totalValue += item.isMoney
+                                    ? item.moneyGain.substring(1).getNumber()
+                                    : torndata.items[item.ID].market_value * item.qty, 0);
+
+                    await showTotalValue(totalOpenedValue, itemID);
+            }
+        });
     };
 
     async function showTotalValue(totalOpenedValue, itemID) {
         await sleep(0.1 * TO_MILLIS.SECONDS);
         const greenMsg = await requireElement(`[data-item="${itemID}"] .cont-wrap form p`);
         
-        removeTotalValueElement;
+        removeTotalValueElement();
 
-        const openedValueTextElement = document.newElement({id: "openedValueText", type: "strong", text: `Total value: ${formatNumber(totalOpenedValue, { currency: true })}`});
+        const openedValueTextElement = document.newElement({id: "openedValueText", type: "strong", class: "tt-opened-supply-pack-value-text", text: `Total value: ${formatNumber(totalOpenedValue, { currency: true })}`});
+
         openedValueTextElement.insertAdjacentElement('afterbegin', document.createElement('br'));
+
+        if (!isDrugPack(itemID)) {
+            openedValueTextElement.style.paddingTop = "0px";
+            openedValueTextElement.style.justifyContent = "center";
+        } 
 
         greenMsg.insertAdjacentElement('beforeend', openedValueTextElement);
     }
@@ -99,7 +104,7 @@
     }
 
     function isDrugPackUseRequest(params) {
-        return params.get("item") == 370 || params.get("itemID") == 370;
+        return params.get("item")?.getNumber() === 370 || params.get("itemID")?.getNumber() === 370;
     }
 
     function removeTotalValueElement() {
