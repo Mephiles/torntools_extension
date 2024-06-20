@@ -20,7 +20,7 @@
 		addXHRListener(async ({ detail: { page, xhr, uri } }) => {
 			if (!feature.enabled()) return;
 
-			if (page === "loader" && uri) {
+			if (page === "page" && uri) {
 				const sid = uri.sid;
 				if (sid !== "racing") return;
 
@@ -33,7 +33,7 @@
 					car.classList.add("tt-modified");
 					car.addEventListener("click", () => requireElement(".pm-categories-wrap").then(showUpgrades));
 				}
-			} else if (page === "loader2") {
+			} else if (page === "page") {
 				const params = new URLSearchParams(xhr.requestBody);
 
 				const sid = params.get("sid");
@@ -45,7 +45,7 @@
 				const confirm = params.get("confirm");
 				if (confirm !== "1") return;
 
-				setTimeout(resetUpgrades, 250);
+				setTimeout(resetUpgrades, 1000);
 			}
 		});
 	}

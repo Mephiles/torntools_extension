@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "TornTools",
-	"version": "7.3.0",
+	"version": "7.2.4",
 	"description": "Several tools for Torn.",
 	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
 	"action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
@@ -609,7 +609,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/loader.php?sid=racing*"],
+			"matches": ["https://www.torn.com/page.php?sid=racing*"],
 			"css": ["scripts/features/racing-upgrades/ttRacingUpgrades.css"],
 			"js": ["scripts/features/car-win-percentage/ttCarWinPercentage.js", "scripts/features/racing-upgrades/ttRacingUpgrades.js"],
 			"run_at": "document_end"
