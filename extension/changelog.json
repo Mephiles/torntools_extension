@@ -1,5 +1,16 @@
 [
 	{
+		"version": { "major": 7, "minor": 3, "build": 0 },
+		"title": "Nuke Family API Change",
+		"date": "2024/06/23",
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Changing the Nuclear Family revive request API endpoint to use new URL", "contributor": "Fogest" }],
+			"removed": []
+		}
+	},
+	{
 		"version": { "major": 7, "minor": 2, "build": 4 },
 		"title": "Beta",
 		"date": false,
