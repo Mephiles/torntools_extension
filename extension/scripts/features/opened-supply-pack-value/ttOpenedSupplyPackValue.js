@@ -10,7 +10,6 @@
         addListener,
         undefined,
         removeTotalValueElement,
-        undefined,
         {storage: ["settings.pages.items.openedSupplyPackValue"]},
         () => {
 			if (!hasAPIData()) return "No API access.";
@@ -18,34 +17,34 @@
     );
 
     const SUPPLY_PACK_ITEMS = [
+        364,
+        365,
+        370,
+        588,
+        815,
+        817,
+        818,
         1035,
+        1057,
+        1078,
+        1079,
+        1080,
+        1081,
+        1082,
+        1083,
+        1112,
+        1113,
+        1114,
+        1115,
+        1116,
+        1117,
         1118,
         1119,
         1120,
         1121,
         1122,
-        1080,
-        364,
-        365,
-        1079,
-        1083,
-        1081,
-        1117,
-        1115,
-        370,
-        1114,
-        1112,
-        1057,
-        588,
         1293,
-        815,
-        1113,
-        1078,
-        817,
-        818,
-        1298,
-        1116,
-        1082,
+        1298
     ];
 
     function addListener() {
@@ -83,14 +82,7 @@
         
         removeTotalValueElement();
 
-        const openedValueTextElement = document.newElement({id: "openedValueText", type: "strong", class: "tt-opened-supply-pack-value-text", text: `Total value: ${formatNumber(totalOpenedValue, { currency: true })}`});
-
-        openedValueTextElement.insertAdjacentElement('afterbegin', document.createElement('br'));
-
-        if (!isDrugPack(itemID)) {
-            openedValueTextElement.style.paddingTop = "0px";
-            openedValueTextElement.style.justifyContent = "center";
-        } 
+        const openedValueTextElement = document.newElement({id: "ttOpenedValueText", type: "strong", class: "tt-opened-supply-pack-value-text", text: `TornTools total value: ${formatNumber(totalOpenedValue, { currency: true })}`});
 
         greenMsg.insertAdjacentElement('beforeend', openedValueTextElement);
     }
@@ -108,6 +100,6 @@
     }
 
     function removeTotalValueElement() {
-        document.getElementById("openedValueText")?.remove();
+        document.getElementById("ttOpenedValueText")?.remove();
     }
 })();
