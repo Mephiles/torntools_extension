@@ -196,6 +196,13 @@ const TEAM = [
 		torn: 1977683,
 		color: "#841210",
 	},
+	{
+		name: "zachwozn",
+		title: "Developer",
+		core: false,
+		torn: 2301700,
+		color: "#017BC7",
+	},
 ];
 
 const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer") || color).reduce(
