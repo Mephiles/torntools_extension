@@ -20,7 +20,7 @@
 		addXHRListener(({ detail: { page, xhr } }) => {
 			if (
 				feature.enabled() &&
-				(page === "loader" || page === "page") &&
+				page === "loader" &&
 				(xhr.responseURL.includes("tab=parts") || xhr.responseURL.includes("tab=cars") || xhr.responseURL.includes("race_carlist.js"))
 			)
 				addPercentage();
