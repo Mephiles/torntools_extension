@@ -1,13 +1,18 @@
 [
 	{
-		"version": { "major": 7, "minor": 2, "build": 4 },
+		"version": { "major": 7, "minor": 3, "build": 0 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 2, "build": 4 },
+		"title": "Beta",
+		"date": "2024/06/26",
 		"logs": {
 			"features": [{ "message": "Show total value of an opened supply pack.", "contributor": "Conrado" }],
 			"fixes": [{ "message": "Fixing (and then reverting) racing features.", "contributor": "TheFoxMan" }],
-			"changes": [{ "message": "Changing the Nuclear Family revive request API endpoint to use new URL", "contributor": "Fogest" }],
-			"removed": []
+			"changes": [{ "message": "Changing the Nuclear Family revive request API endpoint to use new URL", "contributor": "Fogest" }]
 		}
 	},
 	{
