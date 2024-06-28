@@ -114,9 +114,9 @@
 
 			if (provider === "nuke") {
 				const response = await fetchData("nukefamily", {
-					section: "dev/reviveme.php",
+					section: "api/revive-request",
 					method: "POST",
-					body: { uid: id, Player: name, Faction: faction, Country: country, AppInfo: source },
+					body: { torn_player_id: id, torn_player_name: name, torn_player_country: country, app_info: source },
 					relay: true,
 					silent: true,
 					succeedOnError: true,

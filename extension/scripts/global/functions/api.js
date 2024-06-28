@@ -14,7 +14,7 @@ const FETCH_PLATFORMS = {
 	yata: "https://yata.yt/",
 	tornstats: "https://www.tornstats.com/",
 	torntools: "https://torntools.gregork.com/",
-	nukefamily: "https://www.nukefamily.org/",
+	nukefamily: "https://nuke.family/",
 	uhc: "https://tornuhc.eu/",
 	imperium: "https://inq.mavri.dev/",
 	hela: "https://api.no1irishstig.co.uk/",

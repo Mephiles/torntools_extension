@@ -494,6 +494,7 @@ const DEFAULT_STORAGE = {
 				candyHappyGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				medicalLife: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				openedSupplyPackValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			crimes: {
 				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),

@@ -1471,6 +1471,12 @@ async function setupAPIInfo() {
 			sendMessage("Fetched factiondata.", true);
 		})
 	);
+	document.find("#reinitialize-timers").addEventListener("click", () =>
+		chrome.runtime.sendMessage({ action: "reinitialize-timers" }, (result) => {
+			console.log("Manually reset background timers.", result);
+			sendMessage("Reset background timers.", true);
+		})
+	);
 
 	updateUsage(usageChart, "Last 5");
 	document.find(".current-usage .buttons .last-5").addEventListener("click", () => updateUsage(usageChart, "Last 5"));

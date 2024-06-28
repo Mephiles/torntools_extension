@@ -486,7 +486,8 @@
 				"scripts/features/alcohol-nerve/ttAlcoholNerve.css",
 				"scripts/features/candy-happy/ttCandyHappy.css",
 				"scripts/features/energy-warning/ttEnergyWarning.css",
-				"scripts/features/medical-life/ttMedicalLife.css"
+				"scripts/features/medical-life/ttMedicalLife.css",
+				"scripts/features/opened-supply-pack-value/ttOpenedSupplyPackValue.css"
 			],
 			"js": [
 				"vendor/drag-drop-touch/DragDropTouch.js",
@@ -504,7 +505,8 @@
 				"scripts/features/candy-happy/ttCandyHappy.js",
 				"scripts/features/no-confirm/ttItemNoConfirm.js",
 				"scripts/features/energy-warning/ttEnergyWarning.js",
-				"scripts/features/medical-life/ttMedicalLife.js"
+				"scripts/features/medical-life/ttMedicalLife.js",
+				"scripts/features/opened-supply-pack-value/ttOpenedSupplyPackValue.js"
 			],
 			"run_at": "document_end"
 		},

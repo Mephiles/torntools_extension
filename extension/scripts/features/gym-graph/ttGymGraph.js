@@ -95,7 +95,7 @@
 				result = ttCache.get("gym", "graph");
 			} else {
 				try {
-					result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/graph" });
+					result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "battlestats/graph", relay: true });
 
 					if (result.status) {
 						ttCache.set({ graph: result }, TO_MILLIS.HOURS, "gym").then(() => {});

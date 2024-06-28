@@ -638,7 +638,7 @@
 						result = ttCache.get("tornstats-spy", id);
 						isCached = true;
 					} else {
-						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/user", id, silent: true });
+						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/user", id, silent: true, relay: true });
 
 						result = {
 							status: result.status,

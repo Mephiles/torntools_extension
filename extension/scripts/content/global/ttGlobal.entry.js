@@ -32,6 +32,7 @@ const countTimers = [];
 })();
 
 async function forceUpdate() {
+	await requireSidebar();
 	await requireContent();
 
 	document.find("#sidebarroot ul[class*='status-icons']").setAttribute("updated", Date.now());

@@ -143,17 +143,17 @@ chrome.runtime.onStartup.addListener(async () => {
 	});
 });
 
-// Register updaters
-// (async () => {
-// 	const currentAlarms = await chrome.alarms.getAll();
-// 	if (currentAlarms.length !== 4) {
-// 		await chrome.alarms.clearAll();
-// 		await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.5 });
-// 		await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-// 		await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-// 		await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.5 });
-// 	}
-// })();
+// Register updaters, if not registered.
+(async () => {
+	const currentAlarms = await chrome.alarms.getAll();
+	if (currentAlarms.length !== 4) {
+		await chrome.alarms.clearAll();
+		await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.5 });
+		await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+		await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+		await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.5 });
+	}
+})();
 
 // On alarm triggered
 chrome.alarms.onAlarm.addListener(async (alarm) => {
@@ -1908,6 +1908,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			updateFunction()
 				.then((result) => sendResponse(result))
 				.catch((error) => sendResponse(error));
+			return true;
+		case "reinitialize-timers":
+			(async () => {
+				await chrome.alarms.clearAll();
+				await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.52 });
+				await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+				await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+				await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+
+				sendResponse(await chrome.alarms.getAll());
+			})();
+
 			return true;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });
