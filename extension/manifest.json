@@ -26,7 +26,7 @@
 	"optional_permissions": [
 		"https://www.tornstats.com/*",
 		"https://yata.yt/*",
-		"https://www.nukefamily.org/*",
+		"https://nuke.family/*",
 		"https://tornuhc.eu/*",
 		"https://inq.mavri.dev/*",
 		"https://api.no1irishstig.co.uk/*",
@@ -37,7 +37,7 @@
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
 		"https://yata.yt/",
-		"https://www.nukefamily.org/",
+		"https://nuke.family/",
 		"https://tornuhc.eu/",
 		"https://inq.mavri.dev/",
 		"https://api.no1irishstig.co.uk/",
