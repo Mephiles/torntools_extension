@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added WHO as a global revive provider", "contributor": "zachwozn" }],
-			"fixes": [{ "message":  "Updated NUKE Family permission in manifest", "contributor": "zachwozn" }],
+			"fixes": [{ "message": "Updated NUKE Family permission in manifest", "contributor": "zachwozn" }],
 			"changes": [],
 			"removed": []
 		}
