@@ -16,10 +16,9 @@ if (typeof importScripts !== "undefined")
 	);
 
 const ALARM_NAMES = {
-	NOTIFICATIONS: "notifications-alarm",
 	CLEAR_CACHE: "clear-cache-alarm",
 	CLEAR_USAGE: "clear-usage-alarm",
-	DATA_UPDATE: "data-update-alarm",
+	DATA_UPDATE_AND_NOTIFICATIONS: "data-update-and-notifications-alarm",
 };
 
 const notificationPlayer = {
@@ -102,10 +101,9 @@ chrome.runtime.onInstalled.addListener(async () => {
 	await checkUpdate();
 
 	await chrome.alarms.clearAll();
-	await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.52 });
 	await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 	await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-	await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+	await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
 
 	notificationHistory = await ttStorage.get("notificationHistory");
 	notifications = await ttStorage.get("notifications");
@@ -146,12 +144,11 @@ chrome.runtime.onStartup.addListener(async () => {
 // Register updaters, if not registered.
 (async () => {
 	const currentAlarms = await chrome.alarms.getAll();
-	if (currentAlarms.length !== 4) {
+	if (currentAlarms.length !== 3) {
 		await chrome.alarms.clearAll();
-		await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.5 });
 		await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 		await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-		await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.5 });
+		await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
 	}
 })();
 
@@ -162,17 +159,15 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 	notifications = await ttStorage.get("notifications");
 
 	switch (alarm.name) {
-		case ALARM_NAMES.NOTIFICATIONS:
-			sendNotifications();
-			break;
 		case ALARM_NAMES.CLEAR_CACHE:
 			clearCache();
 			break;
 		case ALARM_NAMES.CLEAR_USAGE:
 			clearUsage();
 			break;
-		case ALARM_NAMES.DATA_UPDATE:
-			timedUpdates();
+		case ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS:
+			await Promise.allSettled(timedUpdates());
+			await sendNotifications();
 			break;
 		default:
 			throw new Error("Undefined alarm name: " + alarm.name);
@@ -383,56 +378,74 @@ async function sendNotifications() {
 }
 
 function timedUpdates() {
+	const updatePromises = [];
 	if (api.torn.key) {
-		updateUserdata()
-			.then(({ updated, types, selections }) => {
-				if (updated) console.log(`Updated ${types.join("+")} userdata.`, selections);
-				else console.log("Skipped this userdata update.");
-			})
-			.catch((error) => logError("updating userdata", error));
+		updatePromises.push(
+			updateUserdata()
+				.then(({ updated, types, selections }) => {
+					if (updated) console.log(`Updated ${types.join("+")} userdata.`, selections);
+					else console.log("Skipped this userdata update.");
+				})
+				.catch((error) => logError("updating userdata", error))
+		);
 
-		updateStakeouts()
-			.then(({ updated, success, failed }) => {
-				if (updated) {
-					if (success || failed) console.log("Updated stakeouts.", { success, failed });
-					else console.log("No stakeouts to update.");
-				} else console.log("Skipped this stakeout update.");
-			})
-			.catch((error) => logError("updating stakeouts", error));
-		updateFactionStakeouts()
-			.then(({ updated, success, failed }) => {
-				if (updated) {
-					if (success || failed) console.log("Updated faction stakeouts.", { success, failed });
-					else console.log("No faction stakeouts to update.");
-				} else console.log("Skipped this faction stakeout update.");
-			})
-			.catch((error) => logError("updating faction stakeouts", error));
+		updatePromises.push(
+			updateStakeouts()
+				.then(({ updated, success, failed }) => {
+					if (updated) {
+						if (success || failed) console.log("Updated stakeouts.", { success, failed });
+						else console.log("No stakeouts to update.");
+					} else console.log("Skipped this stakeout update.");
+				})
+				.catch((error) => logError("updating stakeouts", error))
+		);
+
+		updatePromises.push(
+			updateFactionStakeouts()
+				.then(({ updated, success, failed }) => {
+					if (updated) {
+						if (success || failed) console.log("Updated faction stakeouts.", { success, failed });
+						else console.log("No faction stakeouts to update.");
+					} else console.log("Skipped this faction stakeout update.");
+				})
+				.catch((error) => logError("updating faction stakeouts", error))
+		);
 
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
 			// Update once every torn day.
-			updateTorndata()
-				.then(() => console.log("Updated torndata."))
-				.catch((error) => logError("updating torndata", error));
+			updatePromises.push(
+				updateTorndata()
+					.then(() => console.log("Updated torndata."))
+					.catch((error) => logError("updating torndata", error))
+			);
 		}
 
 		if (!stockdata || !stockdata.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5)) {
-			updateStocks()
-				.then(() => console.log("Updated stocks."))
-				.catch((error) => logError("updating stocks", error));
+			updatePromises.push(
+				updateStocks()
+					.then(() => console.log("Updated stocks."))
+					.catch((error) => logError("updating stocks", error))
+			);
 		}
 
 		if (!factiondata || !factiondata.date || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15))
-			updateFactiondata()
-				.then(() => console.log("Updated factiondata."))
-				.catch((error) => logError("updating factiondata", error));
+			updatePromises.push(
+				updateFactiondata()
+					.then(() => console.log("Updated factiondata."))
+					.catch((error) => logError("updating factiondata", error))
+			);
 	}
 
-	updateNPCs()
-		.then(({ updated, alerts }) => {
-			if (updated) console.log("Updated npcs.");
-			if (alerts) console.log(`Sent out ${alerts} npc alerts.`);
-		})
-		.catch((error) => logError("updating npcs", error));
+	updatePromises.push(
+		updateNPCs()
+			.then(({ updated, alerts }) => {
+				if (updated) console.log("Updated npcs.");
+				if (alerts) console.log(`Sent out ${alerts} npc alerts.`);
+			})
+			.catch((error) => logError("updating npcs", error))
+	);
+
+	return updatePromises;
 
 	function logError(message, error) {
 		if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
@@ -1912,10 +1925,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case "reinitialize-timers":
 			(async () => {
 				await chrome.alarms.clearAll();
-				await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.52 });
 				await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 				await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-				await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+				await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
 
 				sendResponse(await chrome.alarms.getAll());
 			})();

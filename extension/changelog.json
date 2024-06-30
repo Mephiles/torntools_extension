@@ -4,9 +4,9 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Added WHO as a global revive provider", "contributor": "zachwozn" }],
-			"fixes": [{ "message": "Updated NUKE Family permission in manifest", "contributor": "zachwozn" }],
-			"changes": [],
+			"features": [{ "message": "Added WHO as a global revive provider.", "contributor": "zachwozn" }],
+			"fixes": [{ "message": "Updated NUKE Family permission in manifest.", "contributor": "zachwozn" }],
+			"changes": [{ "message": "Notifications will now be immediate after a data update.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
 	},
