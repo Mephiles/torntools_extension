@@ -1774,10 +1774,7 @@ async function notifyUser(title, message, url) {
 	const silent = hasSilentSupport() && notificationSound !== "default";
 
 	if (settings.notifications.tts) {
-		readMessage(title)
-			.then(() => {})
-			.catch((err) => console.error(err));
-		readMessage(message)
+		readMessage(title + message)
 			.then(() => {})
 			.catch((err) => console.error(err));
 	}
@@ -1963,20 +1960,29 @@ function getNotificationSound(type) {
 }
 
 async function setupAudioPlayerDocument() {
-	// Setup of offscreen document for playing audio
+	// Setup of offscreen document for playing audio.
 
 	const offscreenURL = chrome.runtime.getURL("/scripts/offscreen/offscreen.html");
 	const existingContexts = await chrome.runtime.getContexts({
 		contextTypes: ["OFFSCREEN_DOCUMENT"],
-		documentUrls: [offscreenURL],
 	});
 
-	if (existingContexts.length == 0) {
-		await chrome.offscreen.createDocument({
-			url: offscreenURL,
-			reasons: ["AUDIO_PLAYBACK"],
-			justification: "To play notification alert sound.",
-		});
+	try {
+		if (existingContexts.length == 0) {
+			await chrome.offscreen.createDocument({
+				url: offscreenURL,
+				reasons: ["AUDIO_PLAYBACK"],
+				justification: "To play notification alert sound.",
+			});
+		}
+	} catch (err) {
+		console.log(
+			"Race condition.",
+			existingContexts,
+			await chrome.runtime.getContexts({
+				contextTypes: ["OFFSCREEN_DOCUMENT"],
+			})
+		);
 	}
 }
 
