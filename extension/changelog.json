@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Added WHO as a global revive provider.", "contributor": "zachwozn" }],
+			"features": [
+				{ "message": "Added WHO as a global revive provider.", "contributor": "zachwozn" },
+				{ "message": "Allow Small Supply Packs in Quick Items.", "contributor": "TheFoxMan" }
+			],
 			"fixes": [
 				{ "message": "Updated NUKE Family permission in manifest.", "contributor": "zachwozn" },
 				{ "message": "Fix TTS not reading messages.", "contributor": "TheFoxMan" }
