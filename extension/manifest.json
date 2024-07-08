@@ -741,7 +741,11 @@
 		{
 			"matches": ["https://www.torn.com/bank.php*"],
 			"css": ["scripts/global/elements/table/ttTable.css", "scripts/features/bank-investment-info/ttBankInvestmentInfo.css"],
-			"js": ["scripts/global/elements/table/ttTable.js", "scripts/features/bank-investment-info/ttBankInvestmentInfo.js", "scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"],
+			"js": [
+				"scripts/global/elements/table/ttTable.js",
+				"scripts/features/bank-investment-info/ttBankInvestmentInfo.js",
+				"scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"
+			],
 			"run_at": "document_end"
 		},
 		{
