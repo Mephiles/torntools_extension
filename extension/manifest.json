@@ -75,7 +75,6 @@
 				"scripts/global/elements/checkbox/ttCheckbox.css",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.css",
 				"scripts/global/elements/slider/ttSlider.css",
-				"scripts/global/elements/table/ttTable.css",
 				"scripts/global/elements/textbox/ttTextbox.css",
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.css",
 				"scripts/features/align-left/ttAlignLeft.css",
@@ -103,7 +102,6 @@
 				"scripts/global/elements/checkbox-list/ttCheckboxList.js",
 				"scripts/global/elements/select/ttSelect.js",
 				"scripts/global/elements/slider/ttSlider.js",
-				"scripts/global/elements/table/ttTable.js",
 				"scripts/global/elements/textbox/ttTextbox.js",
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.js",
 				"resources/images/svg-icons/icon_128.js",
@@ -430,6 +428,7 @@
 			"matches": ["https://www.torn.com/index.php*"],
 			"css": [
 				"scripts/global/functions/filters.css",
+				"scripts/global/elements/table/ttTable.css",
 				"scripts/features/effective-stats/ttEffectiveStats.css",
 				"scripts/features/live-networth/ttLiveNetworth.css",
 				"scripts/features/drug-details/ttDrugDetails.css",
@@ -442,6 +441,7 @@
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
+				"scripts/global/elements/table/ttTable.js",
 				"scripts/features/effective-stats/ttEffectiveStats.js",
 				"scripts/features/live-networth/ttLiveNetworth.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
@@ -575,6 +575,7 @@
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
 			"css": [
+				"scripts/global/elements/table/ttTable.css",
 				"scripts/features/profile-notes/ttProfileNotes.css",
 				"scripts/features/status-indicator/ttStatusIndicator.css",
 				"scripts/features/friendly-fire/ttFriendlyFire.css",
@@ -587,6 +588,7 @@
 			"js": [
 				"vendor/sortable/sortable.js",
 				"resources/images/svg-icons/cross.js",
+				"scripts/global/elements/table/ttTable.js",
 				"scripts/global/team.js",
 				"scripts/features/profile-id/ttProfileID.js",
 				"scripts/features/profile-notes/ttProfileNotes.js",
@@ -678,11 +680,13 @@
 		{
 			"matches": ["https://www.torn.com/travelagency.php*"],
 			"css": [
+				"scripts/global/elements/table/ttTable.css",
 				"scripts/features/travel-table/ttTravelTable.css",
 				"scripts/features/flying-time/ttFlyingTime.css",
 				"scripts/features/travel-cooldowns/ttTravelCooldowns.css"
 			],
 			"js": [
+				"scripts/global/elements/table/ttTable.js",
 				"scripts/content/travelagency/ttTravelAgency.js",
 				"scripts/features/travel-table/ttTravelTable.js",
 				"scripts/features/flying-time/ttFlyingTime.js",
@@ -736,8 +740,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bank.php*"],
-			"css": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.css"],
-			"js": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.js", "scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"],
+			"css": ["scripts/global/elements/table/ttTable.css", "scripts/features/bank-investment-info/ttBankInvestmentInfo.css"],
+			"js": ["scripts/global/elements/table/ttTable.js", "scripts/features/bank-investment-info/ttBankInvestmentInfo.js", "scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"],
 			"run_at": "document_end"
 		},
 		{
