@@ -109,7 +109,6 @@
 				"scripts/global/elements/table/ttHeaderCell.js",
 				"scripts/global/elements/textbox/ttTextbox.js",
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.js",
-				"resources/images/svg-icons/back.js",
 				"resources/images/svg-icons/icon_128.js",
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/align-left/ttAlignLeft.entry.js",
@@ -190,6 +189,7 @@
 				"scripts/features/npc-loot-times/ttNPCLootTimes.css"
 			],
 			"js": [
+				"resources/images/svg-icons/back.js",
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.js",
 				"scripts/features/oc-time/ttOCTime.js",
 				"scripts/features/faction-oc-time/ttFactionOCTime.js",
