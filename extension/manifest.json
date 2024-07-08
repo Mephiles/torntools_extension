@@ -98,7 +98,6 @@
 				"scripts/global/functions/utilities.js",
 				"scripts/global/functions/torn.js",
 				"scripts/global/functions/api.js",
-				"scripts/global/functions/csv.js",
 				"scripts/global/featureManager.js",
 				"scripts/global/elements/checkbox/ttCheckbox.js",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.js",
@@ -361,6 +360,7 @@
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
+				"scripts/global/functions/csv.js",
 				"scripts/global/functions/torn-items.js",
 				"scripts/content/factions/ttFactions.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
@@ -695,25 +695,25 @@
 		{
 			"matches": ["https://www.torn.com/war.php?step=warreport*"],
 			"css": ["scripts/features/csv-war-report/ttCSVWarReport.css"],
-			"js": ["scripts/features/csv-war-report/ttCSVWarReport.js"],
+			"js": ["scripts/global/functions/csv.js", "scripts/features/csv-war-report/ttCSVWarReport.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/war.php?step=rankreport*"],
 			"css": ["scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.css"],
-			"js": ["scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.js"],
+			"js": ["scripts/global/functions/csv.js", "scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/war.php?step=raidreport*"],
 			"css": ["scripts/features/csv-raid-report/ttCSVRaidReport.css"],
-			"js": ["scripts/features/csv-raid-report/ttCSVRaidReport.js"],
+			"js": ["scripts/global/functions/csv.js", "scripts/features/csv-raid-report/ttCSVRaidReport.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/war.php?step=chainreport*"],
 			"css": ["scripts/features/csv-chain-report/ttCSVChainReport.css"],
-			"js": ["scripts/features/csv-chain-report/ttCSVChainReport.js"],
+			"js": ["scripts/global/functions/csv.js", "scripts/features/csv-chain-report/ttCSVChainReport.js"],
 			"run_at": "document_end"
 		},
 		{
