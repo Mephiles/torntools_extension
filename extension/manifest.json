@@ -109,7 +109,6 @@
 				"scripts/global/elements/table/ttHeaderCell.js",
 				"scripts/global/elements/textbox/ttTextbox.js",
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.js",
-				"resources/images/svg-icons/cross.js",
 				"resources/images/svg-icons/back.js",
 				"resources/images/svg-icons/icon_128.js",
 				"scripts/content/global/ttGlobal.entry.js",
@@ -133,6 +132,7 @@
 				"scripts/features/stacking-mode/ttStackingMode.css"
 			],
 			"js": [
+				"resources/images/svg-icons/cross.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/features/colored-chat/ttColoredChat.js",
 				"scripts/features/search-chat/ttSearchChat.js",
@@ -589,6 +589,7 @@
 			],
 			"js": [
 				"vendor/sortable/sortable.js",
+				"resources/images/svg-icons/cross.js",
 				"scripts/global/team.js",
 				"scripts/features/profile-id/ttProfileID.js",
 				"scripts/features/profile-notes/ttProfileNotes.js",
