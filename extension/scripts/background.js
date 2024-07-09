@@ -505,7 +505,7 @@ async function updateUserdata() {
 		for (const selection of [
 			"personalstats",
 			"stocks",
-			"inventory",
+			// "inventory",
 			"merits",
 			"perks",
 			"networth",
