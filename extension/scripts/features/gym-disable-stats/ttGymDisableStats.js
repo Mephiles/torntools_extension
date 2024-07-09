@@ -44,7 +44,7 @@
 			new MutationObserver(async (mutations) => {
 				if (!feature.enabled()) return;
 
-				if (mutations.some((mutation) => [...mutation?.addedNodes].some((node) => node.className.includes("gymContentWrapper__")))) {
+				if (mutations.some((mutation) => [...mutation?.addedNodes].some((node) => node.className.includes?.("gymContentWrapper__")))) {
 					showCheckboxes();
 
 					requireElement("#gymroot ul[class*='properties_']").then((properties) => {
@@ -58,7 +58,7 @@
 	async function showCheckboxes() {
 		await sleep();
 
-		const properties = await requireElement("#gymroot ul[class*='properties___']");
+		const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
 
 		for (const stat of properties.findAll(":scope > li:not([class*='locked___']):not(.tt-modified)")) {
 			stat.classList.add("tt-modified");
