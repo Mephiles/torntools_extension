@@ -1,6 +1,6 @@
 [
 	{
-		"version": { "major": 7, "minor": 4, "build": 0 },
+		"version": { "major": 7, "minor": 3, "build": 2 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
@@ -12,7 +12,7 @@
 	},
 	{
 		"version": { "major": 7, "minor": 3, "build": 1 },
-		"title": "Beta",
+		"title": "TTS Fix & Supply Packs in Quick Items",
 		"date": "2024/07/04",
 		"logs": {
 			"features": [
@@ -28,7 +28,7 @@
 	},
 	{
 		"version": { "major": 7, "minor": 2, "build": 4 },
-		"title": "Beta",
+		"title": "Total Value of Supply Pack",
 		"date": "2024/06/26",
 		"logs": {
 			"features": [{ "message": "Show total value of an opened supply pack.", "contributor": "Conrado" }],
