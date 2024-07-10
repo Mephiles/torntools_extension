@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix Disable Gym Stats when switching gyms.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fix Disable Gym Stats when switching gyms.", "contributor": "TheFoxMan" },
+				{ "message": "Add Vanguard armor set to Auction House Filter.", "contributor": "TheFoxMan" }
+			],
 			"changes": [],
 			"removed": []
 		}
