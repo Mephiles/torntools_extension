@@ -31,9 +31,8 @@
 		observer?.disconnect();
 
 		observer = new MutationObserver((mutations) => {
-			const firstAdditionMutation = mutations.filter(x => x.addedNodes.length)[0];
-			if (firstAdditionMutation.target.matches("#employees.employees"))
-				showEffectiveness();
+			const firstAdditionMutation = mutations.filter((x) => x.addedNodes.length)[0];
+			if (firstAdditionMutation.target.matches("#employees.employees")) showEffectiveness();
 		});
 		observer.observe(await requireElement(".company-wrap > .manage-company"), { childList: true, subtree: true });
 	}
