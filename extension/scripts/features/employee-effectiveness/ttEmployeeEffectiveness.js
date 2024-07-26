@@ -16,6 +16,7 @@
 		}
 	);
 
+	let observer;
 	function initialiseListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
 			if (!feature.enabled()) return;
@@ -24,13 +25,22 @@
 		});
 	}
 
-	function startFeature() {
-		if (getHashParameters().get("option") !== "employees") return;
-
+	async function startFeature() {
 		showEffectiveness();
+
+		observer?.disconnect();
+
+		observer = new MutationObserver((mutations) => {
+			const firstAdditionMutation = mutations.filter(x => x.addedNodes.length)[0];
+			if (firstAdditionMutation.target.matches("#employees.employees"))
+				showEffectiveness();
+		});
+		observer.observe(await requireElement(".company-wrap > .manage-company"), { childList: true, subtree: true });
 	}
 
 	async function showEffectiveness() {
+		if (getHashParameters().get("option") !== "employees") return;
+
 		const list = await requireElement(".employee-list");
 
 		for (const row of list.findAll(".effectiveness[data-multipliers]")) {
@@ -50,5 +60,7 @@
 
 	function removeEffectiveness() {
 		for (const effectiveness of document.findAll(".tt-employee-effectiveness")) effectiveness.classList.remove("tt-employee-effectiveness");
+		observer?.disconnect();
+		observer = null;
 	}
 })();

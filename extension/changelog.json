@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix Disable Gym Stats when switching gyms.", "contributor": "TheFoxMan" },
-				{ "message": "Add Vanguard armor set to Auction House Filter.", "contributor": "TheFoxMan" }
+				{ "message": "Add Vanguard armor set to Auction House Filter.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Employee Effectiveness Highlight after training an employee.", "contributor": "TheFoxMan" }
 			],
 			"changes": [],
 			"removed": []
