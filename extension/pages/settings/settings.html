@@ -591,6 +591,9 @@
 						<div class="option">
 							<input id="popup-stocksOverview" type="checkbox" />
 							<label for="popup-stocksOverview">Enable stocks overview.</label>
+							<div class="tabbed note">
+								The popup shows the profit calculated purely from API data which makes it inaccurate by default of 5 minutes.
+							</div>
 						</div>
 						<div class="option">
 							<input id="popup-notifications" type="checkbox" />
@@ -1389,6 +1392,10 @@
 						<div class="option">
 							<input id="stocks-valueAndProfit" type="checkbox" />
 							<label for="stocks-valueAndProfit">Display total value of portfolio and profits.</label>
+							<div class="tabbed note">
+								The current stock price is live (from the stocks page) but the information of stocks you hold is fetched from the Torn API. This
+								may make the profit shown inaccurate for 30 seconds if you bought or sold stocks (the API data updates after 30 seconds).
+							</div>
 						</div>
 						<div class="header extra-mb">Hide Stocks</div>
 						<div id="hide-stocks" class="hide-items"></div>
