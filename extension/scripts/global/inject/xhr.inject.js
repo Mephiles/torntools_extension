@@ -40,16 +40,20 @@ function interceptXHR(channel) {
 
 				window.dispatchEvent(
 					new CustomEvent(channel, {
-						detail: JSON.stringify({
+						detail: {
 							page,
 							json,
 							uri,
 							xhr: {
-								...this,
+								// We used to pass the current XHR here as "...this"
+								// but not possible due to some change in Chromium.
+								// https://stackoverflow.com/a/53914790
+								// https://issues.chromium.org/issues/40091619
+								requestBody: this.requestBody,
 								response: this.response,
 								responseURL: this.responseURL,
 							},
-						}),
+						},
 					})
 				);
 			}

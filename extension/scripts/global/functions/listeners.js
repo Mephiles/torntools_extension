@@ -82,9 +82,7 @@ function injectXHR() {
 function addXHRListener(callback) {
 	injectXHR();
 
-	window.addEventListener("tt-xhr", (event) => {
-		callback({...event, detail: JSON.parse(event.detail)})
-	});
+	window.addEventListener("tt-xhr", callback);
 }
 
 function triggerCustomListener(channel, details) {

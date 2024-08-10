@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix Disable Gym Stats when switching gyms.", "contributor": "TheFoxMan" },
 				{ "message": "Add Vanguard armor set to Auction House Filter.", "contributor": "TheFoxMan" },
-				{ "message": "Fix Employee Effectiveness Highlight after training an employee.", "contributor": "TheFoxMan" }
+				{ "message": "Fix Employee Effectiveness Highlight after training an employee.", "contributor": "TheFoxMan" },
+				{ "message": "Fix High Low helper and other XHR related features.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Total Portfolio Value is now live and accurate unless stocks transactions are made.", "contributor": "TheFoxMan" }],
 			"removed": []
