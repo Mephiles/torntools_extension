@@ -40,7 +40,7 @@ function interceptXHR(channel) {
 
 				window.dispatchEvent(
 					new CustomEvent(channel, {
-						detail: {
+						detail: JSON.stringify({
 							page,
 							json,
 							uri,
@@ -49,7 +49,7 @@ function interceptXHR(channel) {
 								response: this.response,
 								responseURL: this.responseURL,
 							},
-						},
+						}),
 					})
 				);
 			}
