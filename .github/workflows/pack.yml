@@ -206,9 +206,9 @@ jobs:
           manifestPath="./extension/manifest.json"
           manifestCopyPath="manifest.json.orig"
           changelogPath="./extension/changelog.json"
-          newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | .")" 
-          newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | . + 1")" 
-          newVersionBuild="0"
+          newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | .")"
+          newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | .")"
+          newVersionBuild="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[2] | tonumber | . + 1")"
           newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
           newVersionTitle="Beta"
 
