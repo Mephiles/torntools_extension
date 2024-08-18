@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 3, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Faction selection of a filter stays even when faction members do not exist in list.", "contributor": "TheFoxMan" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 3, "build": 2 },

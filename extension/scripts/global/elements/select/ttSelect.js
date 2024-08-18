@@ -9,8 +9,14 @@ function createSelect(options) {
 	});
 
 	function updateOptionsList(options, select = select) {
+		// Adding the currently selected option when the current selection is not in new options.
+		// Applicable when the user wants to keep the filter selection for other pages.
+		if (options.every((option) => option.value !== selectedOptionValue))
+			options.unshift(shownOptions.find((option) => option.value === selectedOptionValue));
+
 		const newOptions = _createOptionsElements(options);
 
+		// Removing all the existing options.
 		while (select.firstChild) {
 			select.removeChild(select.firstChild);
 		}
@@ -19,15 +25,10 @@ function createSelect(options) {
 		newOptions.forEach((newOption) => documentFragment.appendChild(newOption));
 		select.appendChild(documentFragment);
 
-		if (options.every((option) => option.value !== selectedOptionValue)) {
-			setSelected(options[0].value);
-
-			if (onChangeCallback) {
-				onChangeCallback();
-			}
-		}
-
 		shownOptions = options;
+
+		// Restore the previous selection.
+		setSelected(selectedOptionValue);
 	}
 
 	function setSelected(optionValue) {
