@@ -79,7 +79,7 @@
 				document.getElementById("saveSettingsBar")?.remove();
 				returnToTorn.remove();
 				ttSettingsIframe.remove();
-				delete tornContent.style.visibility;
+				tornContent.style.visibility = "";
 				document.body.classList.remove("tt-align-left");
 			});
 		});
