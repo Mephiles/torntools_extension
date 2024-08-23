@@ -27,9 +27,9 @@
 
 	new Promise(async (resolve) => {
 		for (let stat of ["strength", "defense", "speed", "dexterity"]) {
-			await requireElement(`#${stat}-val`);
+			const el = await requireElement(`div[class*='gymContent_'] li[class*='${stat}_'] span[class*='propertyValue_']`);
 
-			STATS[stat] = parseInt(document.find(`#${stat}-val`).textContent.replaceAll(",", ""));
+			STATS[stat] = parseInt(el.textContent.replaceAll(",", ""));
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.GYM_LOAD, { stats: STATS });

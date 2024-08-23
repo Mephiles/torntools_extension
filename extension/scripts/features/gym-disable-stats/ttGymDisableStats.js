@@ -75,7 +75,7 @@
 				})
 			);
 
-			const name = stat.find("[class*='propertyValue___']").id.split("-")[0];
+			const name = stat.find("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
 
 			if (filters.gym[name]) toggleStat(stat, false);
 		}
@@ -88,7 +88,7 @@
 			checkbox.checked = isLocked;
 
 			if (save) {
-				const name = stat.find("[class*='propertyValue___']").id.split("-")[0];
+				const name = stat.find("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
 
 				ttStorage.change({ filters: { gym: { [name]: isLocked } } });
 			}
