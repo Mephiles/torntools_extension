@@ -57,10 +57,16 @@
 		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
 
 		const onPageFactions = getFactions();
-		const isPreviousFactionSelectionPresent = !["", "No faction", "Unknown faction", "In a faction"].includes(filters.abroadPeople.faction) && onPageFactions.some((option) => option.value === filters.abroadPeople.faction);
+		const isPreviousFactionSelectionPresent =
+			!["", "No faction", "Unknown faction", "In a faction"].includes(filters.abroadPeople.faction) &&
+			onPageFactions.some((option) => option.value === filters.abroadPeople.faction);
 		const factionFilter = createFilterSection({
 			title: "Faction",
-			select: [...(isPreviousFactionSelectionPresent ? [] : [{ value: filters.abroadPeople.faction, description: filters.abroadPeople.faction }]), ...defaultFactionsItems, ...onPageFactions],
+			select: [
+				...(isPreviousFactionSelectionPresent ? [] : [{ value: filters.abroadPeople.faction, description: filters.abroadPeople.faction }]),
+				...defaultFactionsItems,
+				...onPageFactions,
+			],
 			defaults: filters.abroadPeople.faction,
 			callback: () => applyFilters(true),
 		});
