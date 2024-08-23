@@ -23,7 +23,7 @@
 		async function listener(event) {
 			if (!event.target.closest("li")?.matches("[class*='icon']")) return;
 
-			const tooltip = (await requireElement("body > [id*='floating-ui-']")).find("[class*='tooltip__']");
+			const tooltip = (await requireElement("body > div[id][data-floating-ui-portal]")).find("[class*='tooltip__']");
 			const tooltipName = tooltip.getElementsByTagName("b")[0]?.textContent;
 			if (
 				["Education", "Reading Book", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown", "Organized Crime", "Bank Investment"].includes(
