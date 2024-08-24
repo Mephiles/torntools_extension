@@ -33,7 +33,7 @@
 	async function addJobPointsTooltip() {
 		await requireSidebar();
 
-		const jobIcon = await requireElement("#sidebarroot a[href*='/job']");
+		const jobIcon = await requireElement("#sidebarroot [class*='status-icons__'] a[href*='/job']");
 		jobIcon.addEventListener("mouseover", tooltipListener);
 	}
 
@@ -43,7 +43,7 @@
 
 		await sleep(200); // Tooltip transition duration from one icon's tooltip information to another icon's tooltip information
 
-		const tooltipEl = (await requireElement("body > [id*='floating-ui-']")).find("[class*='tooltip__']");
+		const tooltipEl = (await requireElement("body > div[id][data-floating-ui-portal]")).find("[class*='tooltip__']");
 		const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
 		const tooltipBodyText = tooltipBodyEl.textContent;
 

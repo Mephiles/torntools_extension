@@ -9,7 +9,8 @@
 				{ "message": "Avoid crashing the page when opening the torntools settings on some pages.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix query selectors on the gym page after Torn's frontend update.", "contributor": "Kwack" },
 				{ "message": "Fix Cooldown End Times after Torn's frontend update.", "contributor": "TheFoxMan" },
-				{ "message": "Show the gym stat requirements per stat after switching gyms.", "contributor": "DeKleineKobini" }
+				{ "message": "Show the gym stat requirements per stat after switching gyms.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix Job Points Tooltip and show it on mobile.", "contributor": "TheFoxMan" }
 			],
 			"changes": [{ "message": "Faction selection of a filter stays even when faction members do not exist in list.", "contributor": "TheFoxMan" }],
 			"removed": []
