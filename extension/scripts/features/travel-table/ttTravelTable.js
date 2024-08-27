@@ -606,7 +606,7 @@
 
 			if (!element) return hasAPIData() ? getAPIType() : "standard";
 			else return element.textContent.toLowerCase();
-		} else if (page === "home") {
+		} else {
 			return hasAPIData() ? getAPIType() : "standard";
 		}
 
