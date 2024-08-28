@@ -155,24 +155,14 @@ jobs:
           apiClientSecret: ${{ secrets.CHROME_SECRET }}
           apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-      - name: Create Firefox .xpi
-        id: web-ext-build
-        uses: kewisch/action-web-ext@v1.0
-        with:
-          cmd: build
-          source: extension
-          artifacts: versions
-
-      - name: Sign Firefox .xpi
-        uses: kewisch/action-web-ext@v1
+      - name: Release Firefox addon
+        uses: browser-actions/release-firefox-addon@v0.2.1
         if: ${{ inputs.publish_amo }}
         with:
-          cmd: sign
-          artifacts: versions
-          source: ${{ steps.web-ext-build.outputs.target }}
-          channel: listed
-          apiKey: ${{ secrets.FIREFOX_JWT_ISSUER }}
-          apiSecret: ${{ secrets.FIREFOX_JWT_SECRET }}
+          addon-id: "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
+          addon-path: versions/torntools_${{ env.version }}_firefox.zip
+          auth-api-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          auth-api-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
 
       - name: Github Release
         uses: ncipollo/release-action@v1
