@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "TornTools",
-	"version": "7.3.3",
+	"version": "7.3.4",
 	"description": "Several tools for Torn.",
 	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
 	"action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
