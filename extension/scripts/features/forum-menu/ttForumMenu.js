@@ -163,7 +163,7 @@
 									text: "Copy post for Discord",
 									events: {
 										click(event) {
-											const threadTitle = document.find("#topic-title").textContent.trim();
+											const threadTitle = document.find("#topic-title").textContent.replaceAll("\u200B", "").trim();
 											const threadId = document.find(".subscribe").dataset.thread;
 
 											const postId = post.dataset.id;
@@ -171,8 +171,8 @@
 
 											let likes, dislikes;
 											if (!post.find(".rating-results-pending")) {
-												likes = post.find(".like > .value").textContent;
-												dislikes = post.find(".dislike > .value").textContent;
+												likes = post.find(".like > .value").textContent.trim();
+												dislikes = post.find(".dislike > .value").textContent.trim();
 											} else {
 												likes = "N/A";
 												dislikes = "N/A";
@@ -188,7 +188,7 @@
 												prefix = `> ${prefix}`;
 											}
 
-											let postContent = post.find(".origin-post-content").textContent;
+											let postContent = post.find(".post-container .post").textContent;
 
 											// Replace emoticons
 											const emoticonRegex = /\[img].*?emotions\/(\w+).*?\[\/img]/gs;
