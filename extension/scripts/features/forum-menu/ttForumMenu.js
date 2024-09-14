@@ -188,7 +188,7 @@
 												prefix = `> ${prefix}`;
 											}
 
-											let postContent = post.find(".origin-post-content").textContent;
+											let postContent = post.find(".editor-content .post").textContent;
 
 											// Replace emoticons
 											const emoticonRegex = /\[img].*?emotions\/(\w+).*?\[\/img]/gs;
