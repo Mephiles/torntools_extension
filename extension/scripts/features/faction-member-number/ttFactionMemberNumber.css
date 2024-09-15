@@ -1,10 +1,9 @@
 .tt-member-index {
-	width: 22px;
-	margin: auto 0 auto 2px;
+	width: 4%;
+	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0 7px;
 	height: 100%;
 	border-right: 1px solid var(--default-panel-divider-outer-side-color);
 }
@@ -21,15 +20,23 @@
 }
 
 body:not(.tt-mobile) .members-list.tt-modified .table-header .member {
-	width: calc(34% + 62px) !important;
+	width: 38%;
 }
 
-body:not(.tt-mobile) .members-list.tt-modified .table-row .member.icons {
-	min-width: 34%;
+body:not(.tt-mobile) .members-list.tt-modified .table-header .member-icons {
+	width: 28%;
+}
+
+body:not(.tt-mobile) .members-list.tt-modified .table-row .member {
+	width: 34%;
+}
+
+body:not(.tt-mobile) .members-list.tt-modified .table-row .member-icons {
+	width: 28%;
 }
 
 body:not(.tt-mobile) .members-list.tt-modified .status {
-	min-width: 60px;
+	width: 8%;
 }
 
 body.tt-mobile .table-row {
