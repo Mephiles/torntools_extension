@@ -6,9 +6,9 @@
 		"logs": {
 			"features": [],
 			"fixes": [
-        { "message": "Copy Post for Discord not working due to layout changes.", "contributor": "TheFoxMan" },
-        { "message": "Fixed a race condition breaking the Gym Graph on Firefox", "contributor": "Kwack" }
-      ],
+				{ "message": "Copy Post for Discord not working due to layout changes.", "contributor": "TheFoxMan" },
+				{ "message": "Fixed a race condition breaking the Gym Graph on Firefox", "contributor": "Kwack" }
+			],
 			"changes": [],
 			"removed": []
 		}

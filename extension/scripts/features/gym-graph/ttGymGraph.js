@@ -132,13 +132,15 @@
 			const gymChart = createChart();
 
 			// If Torn dark mode is toggled.
-			await requireElement("#dark-mode-state").then((el) => el.addEventListener("change", (event) => {
-				const color = event.target.checked ? "#fff" : "#000";
-				gymChart.options.scales.x.ticks.color = color;
-				gymChart.options.scales.y.ticks.color = color;
-				gymChart.options.plugins.legend.labels.color = color;
-				gymChart.update();
-			}));
+			await requireElement("#dark-mode-state").then((el) =>
+				el.addEventListener("change", (event) => {
+					const color = event.target.checked ? "#fff" : "#000";
+					gymChart.options.scales.x.ticks.color = color;
+					gymChart.options.scales.y.ticks.color = color;
+					gymChart.options.plugins.legend.labels.color = color;
+					gymChart.update();
+				})
+			);
 
 			showLoadingPlaceholder(wrapper, false);
 
