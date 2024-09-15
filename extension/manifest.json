@@ -351,7 +351,8 @@
 				"scripts/features/ranked-war-filter/ttRankedWarFilter.css",
 				"scripts/features/medical-life/ttMedicalLife.css",
 				"scripts/features/faction-quick-items/ttFactionQuickItems.css",
-				"scripts/features/faction-stakeouts/ttFactionStakeouts.css"
+				"scripts/features/faction-stakeouts/ttFactionStakeouts.css",
+				"scripts/features/show-faction-spy/ttShowFactionSpy.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -392,7 +393,8 @@
 				"scripts/features/medical-life/ttMedicalLife.js",
 				"scripts/features/faction-quick-items/ttFactionQuickItems.js",
 				"scripts/features/faction-stakeouts/ttFactionStakeouts.js",
-				"scripts/features/faction-id/ttFactionID.js"
+				"scripts/features/faction-id/ttFactionID.js",
+				"scripts/features/show-faction-spy/ttShowFactionSpy.js"
 			],
 			"run_at": "document_end"
 		},

@@ -612,6 +612,7 @@ const DEFAULT_STORAGE = {
 				rankedWarFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				showFactionSpy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
