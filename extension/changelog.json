@@ -1,16 +1,25 @@
 [
 	{
-		"version": { "major": 7, "minor": 3, "build": 4 },
+		"version": { "major": 7, "minor": 3, "build": 5 },
 		"title": "Beta",
 		"date": false,
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [],
+			"removed": []
+		}
+	},
+	{
+		"version": { "major": 7, "minor": 3, "build": 4 },
+		"title": "Beta",
+		"date": "2024/09/18",
 		"logs": {
 			"features": [{ "message": "Show members stats spies on other faction's pages.", "contributor": "TheFoxMan" }],
 			"fixes": [
 				{ "message": "Copy Post for Discord not working due to layout changes.", "contributor": "TheFoxMan" },
 				{ "message": "Fixed a race condition breaking the Gym Graph on Firefox", "contributor": "Kwack" }
-			],
-			"changes": [],
-			"removed": []
+			]
 		}
 	},
 	{
