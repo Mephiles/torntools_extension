@@ -163,6 +163,7 @@ jobs:
           addon-path: versions/torntools_${{ env.version }}_firefox.zip
           auth-api-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           auth-api-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
+          release-note: ${{ env.version }}
 
       - name: Github Release
         uses: ncipollo/release-action@v1
