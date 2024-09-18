@@ -135,6 +135,16 @@ jobs:
           mv "torntools_${version}_chrome.zip" ./versions/
           mv "torntools_${version}_firefox.zip" ./versions/
 
+      - name: Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,${{ steps.web-ext-build.outputs.target }}"
+          name: "Release: v${{ env.version }}"
+          tag: "${{ env.version }}"
+          bodyFile: "./releaseBody.md"
+          token: ${{ secrets.GH_TOKEN }}
+          prerelease: ${{ inputs.pre_release }}
+
       - name: Upload an extension to Chrome Web Store
         uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
         if: ${{ inputs.upload_cws }}
@@ -164,16 +174,6 @@ jobs:
           auth-api-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           auth-api-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
           release-note: ${{ env.version }}
-
-      - name: Github Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,${{ steps.web-ext-build.outputs.target }}"
-          name: "Release: v${{ env.version }}"
-          tag: "${{ env.version }}"
-          bodyFile: "./releaseBody.md"
-          token: ${{ secrets.GH_TOKEN }}
-          prerelease: ${{ inputs.pre_release }}
 
       - name: Delete temporary files
         run: |
