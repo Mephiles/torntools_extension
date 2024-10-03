@@ -38,7 +38,7 @@
 			class: "networth-info-icon",
 			attributes: {
 				seconds: (Date.now() - userdata.date) / 1000,
-				title: "Last updated " + formatTime({ milliseconds: userdata.date }, { type: "ago" }),
+				title: "Last updated " + formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" }),
 				style: "margin-left: 9px;",
 			},
 		});
@@ -75,7 +75,7 @@
 				class: "comparison",
 				children: [
 					table,
-					document.newElement({ type: "div", class: "tt-networth-footer", text: "Networth change compared to Torn's last known Networth" }),
+					document.newElement({ type: "div", class: "tt-networth-footer", text: `Networth change compared to Torn's last known Networth (updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })})` }),
 				],
 			})
 		);
