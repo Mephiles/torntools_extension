@@ -7,7 +7,7 @@
 			"features": [],
 			"fixes": [],
 			"changes": [],
-			"removed": []
+			"removed": [{ "message": "Remove the bazaar and item market redirect feature, due to the item market overhaul.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
