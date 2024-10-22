@@ -47,6 +47,8 @@ const EVENT_CHANNELS = {
 	STATS_ESTIMATED: "stats-estimated",
 	SWITCH_PAGE: "switch-page",
 	AUCTION_SWITCH_TYPE: "auction-switch-type",
+	ITEMMARKET_CATEGORY_ITEMS: "itemmarket-category-items",
+	ITEMMARKET_ITEMS: "itemmarket-items",
 };
 
 const CUSTOM_LISTENERS = (() => {

@@ -1,4 +1,7 @@
-.tt-highlight-item .title {
-	background-color: var(--tt-color-green--30) !important;
-	margin-left: 0 !important;
+.tt-highlight-item {
+	background-color: var(--tt-color-green--40) !important;
+}
+
+.tt-highlight-item [class*='itemTile___'][class*='expanded___'] {
+	background-color: var(--tt-color-green--20) !important;
 }

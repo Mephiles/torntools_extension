@@ -412,14 +412,23 @@
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/no-confirm/ttItemMarketNoConfirm.css",
-				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css",
 				"scripts/features/compact-item-market/ttCompactItemMarket.css"
 			],
 			"js": [
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/no-confirm/ttItemMarketNoConfirm.js",
-				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.js",
 				"scripts/features/compact-item-market/ttCompactItemMarket.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/page.php?sid=ItemMarket*"],
+			"css": [
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css"
+			],
+			"js": [
+				"scripts/content/itemmarket/ttItemMarket.js",
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.js"
 			],
 			"run_at": "document_end"
 		},
