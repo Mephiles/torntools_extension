@@ -1,7 +1,7 @@
 [
 	{
 		"version": { "major": 7, "minor": 3, "build": 5 },
-		"title": "Beta",
+		"title": "Item market overhaul",
 		"date": false,
 		"logs": {
 			"features": [],
@@ -12,7 +12,6 @@
 	},
 	{
 		"version": { "major": 7, "minor": 3, "build": 4 },
-		"title": "Beta",
 		"date": "2024/09/18",
 		"logs": {
 			"features": [{ "message": "Show members stats spies on other faction's pages.", "contributor": "TheFoxMan" }],
@@ -24,7 +23,6 @@
 	},
 	{
 		"version": { "major": 7, "minor": 3, "build": 3 },
-		"title": "Beta",
 		"date": "2024/08/29",
 		"logs": {
 			"fixes": [
@@ -40,7 +38,6 @@
 	},
 	{
 		"version": { "major": 7, "minor": 3, "build": 2 },
-		"title": "Beta",
 		"date": "2024/08/11",
 		"logs": {
 			"fixes": [
