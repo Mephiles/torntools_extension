@@ -22,8 +22,7 @@ function interceptFetch(channel) {
 					let body = null;
 					if (arguments.length >= 2) {
 						body = arguments[1].body;
-
-						if (typeof body === "object" && body.constructor.name === "FormData") {
+						if (body !== null && typeof body === "object" && body?.constructor?.name === "FormData") {
 							const newBody = {};
 
 							for (const [key, value] of [...body]) {
