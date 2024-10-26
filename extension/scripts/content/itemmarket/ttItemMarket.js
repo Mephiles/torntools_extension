@@ -39,6 +39,13 @@
 	function handleSellerList(list, fetch) {
 		if (!isValidEntry(list)) return;
 
-		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, { list, item: fetch.body?.itemID });
+		const item = fetch.body?.itemID;
+		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, { item, list });
+		new MutationObserver((mutations) => {
+			const addedNodes = mutations.flatMap((mutation) => [...mutation.addedNodes]);
+			if (addedNodes.length <= 0) return;
+
+			triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE, { item, list });
+		}).observe(list, { childList: true });
 	}
 })();

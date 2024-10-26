@@ -23,7 +23,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS].push(({ list }) => {
 			if (!feature.enabled()) return;
 
-			const items = [...list.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]
+			const itemEntries = [...list.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]
 				.map((element) => {
 					const image = element.find("img.torn-item");
 					if (!image) return false;
@@ -36,17 +36,17 @@
 				})
 				.filter((item) => item.element);
 
-			handleCategoryItems(items);
+			handleCategoryItems(itemEntries);
 		});
-		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS].push(({ list, item }) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS].push(({ item, list }) => {
 			if (!feature.enabled()) return;
 
-			const items = [...list.findAll("[class*='rowWrapper___']:not(.tt-highlight-modified)")].map((element) => ({
-				element,
-				price: element.find("[class*='price___']").textContent.getNumber(),
-			}));
+			highlightSellers(item, list, false);
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE].push(({ item, list }) => {
+			if (!feature.enabled()) return;
 
-			handleItemSellers(item, items);
+			highlightSellers(item, list, true);
 		});
 	}
 
@@ -75,6 +75,15 @@
 
 			handleItemSellers(parseInt(params.get("itemID")), itemSellers);
 		}
+	}
+
+	function highlightSellers(item, list, includeModified) {
+		const itemEntries = [...list.findAll(`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"}`)].map((element) => ({
+			element,
+			price: element.find("[class*='price___']").textContent.getNumber(),
+		}));
+
+		handleItemSellers(item, itemEntries);
 	}
 
 	/**

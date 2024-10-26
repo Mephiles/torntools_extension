@@ -49,6 +49,7 @@ const EVENT_CHANNELS = {
 	AUCTION_SWITCH_TYPE: "auction-switch-type",
 	ITEMMARKET_CATEGORY_ITEMS: "itemmarket-category-items",
 	ITEMMARKET_ITEMS: "itemmarket-items",
+	ITEMMARKET_ITEMS_UPDATE: "itemmarket-items-update",
 };
 
 const CUSTOM_LISTENERS = (() => {
