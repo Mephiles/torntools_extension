@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [],
-			"changes": [{ "message": "Adapt cheap item highlights to work with the item market overhaul.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Adapt cheap item highlights to work with the item market overhaul.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt drug details to work with the item market overhaul.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [
 				{ "message": "Remove the bazaar and item market redirect feature, due to the item market overhaul.", "contributor": "DeKleineKobini" },
 				{ "message": "Remove the item market no confirm feature, due to the item market overhaul.", "contributor": "DeKleineKobini" }

@@ -51,6 +51,7 @@ const EVENT_CHANNELS = {
 	ITEMMARKET_CATEGORY_ITEMS_UPDATE: "itemmarket-category-items-update",
 	ITEMMARKET_ITEMS: "itemmarket-items",
 	ITEMMARKET_ITEMS_UPDATE: "itemmarket-items-update",
+	ITEMMARKET_ITEM_DETAILS: "itemmarket-item-details",
 };
 
 const CUSTOM_LISTENERS = (() => {
