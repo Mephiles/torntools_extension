@@ -665,7 +665,6 @@ const DEFAULT_STORAGE = {
 			noConfirm: {
 				itemEquip: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				tradeAccept: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				marketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				pointsMarketRemove: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				pointsMarketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				abroadItemBuy: new DefaultSetting({ type: "boolean", defaultValue: true }),

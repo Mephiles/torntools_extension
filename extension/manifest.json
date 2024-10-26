@@ -411,12 +411,10 @@
 			"matches": ["https://www.torn.com/imarket.php*"],
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
-				"scripts/features/no-confirm/ttItemMarketNoConfirm.css",
 				"scripts/features/compact-item-market/ttCompactItemMarket.css"
 			],
 			"js": [
 				"scripts/features/drug-details/ttDrugDetails.js",
-				"scripts/features/no-confirm/ttItemMarketNoConfirm.js",
 				"scripts/features/compact-item-market/ttCompactItemMarket.js"
 			],
 			"run_at": "document_end"
