@@ -87,7 +87,11 @@
 	}
 
 	function highlightSellers(item, list, includeModified) {
-		const itemEntries = [...list.findAll(`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"}`)].map((element) => ({
+		const itemEntries = [
+			...list.findAll(
+				`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"},[class*='sellerRow___']:not(:first-child)${includeModified ? "" : ":not(.tt-highlight-modified)"}`
+			),
+		].map((element) => ({
 			element,
 			price: element.find("[class*='price___']").textContent.getNumber(),
 		}));

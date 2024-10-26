@@ -13,7 +13,7 @@
 		if (step === "getShopList" || step === "searchItem") {
 			requireElement("[class*='itemList___'],[class*='noItems___']").then(handleItemList);
 		} else if (step === "getListing") {
-			requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, fetch));
+			requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, fetch.body?.itemID));
 		}
 	});
 
@@ -22,8 +22,8 @@
 	if (view === "category" || view === "search") {
 		requireElement("[class*='itemList___'],[class*='noItems___']").then(handleItemList);
 	}
-	if (view === "search") {
-		requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, fetch));
+	if (view === "search" && hash.has("itemID")) {
+		requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, parseInt(hash.get("itemID"))));
 	}
 
 	function isValidEntry(list) {
@@ -41,10 +41,9 @@
 		});
 	}
 
-	function handleSellerList(list, fetch) {
+	function handleSellerList(list, item) {
 		if (!isValidEntry(list)) return;
 
-		const item = fetch.body?.itemID;
 		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, { item, list });
 		new MutationObserver((mutations) => {
 			const addedNodes = mutations.flatMap((mutation) => [...mutation.addedNodes]);
