@@ -34,6 +34,11 @@
 		if (!isValidEntry(list)) return;
 
 		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, { list });
+		[...list.findAll("[class*='itemList___'] > li:first-child")].forEach((itemElement) => {
+			new MutationObserver(() => {
+				triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE, { item: itemElement });
+			}).observe(itemElement.find("[class*='priceAndTotal___'] span:first-child"), { subtree: true, characterData: true });
+		});
 	}
 
 	function handleSellerList(list, fetch) {

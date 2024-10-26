@@ -23,20 +23,12 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS].push(({ list }) => {
 			if (!feature.enabled()) return;
 
-			const itemEntries = [...list.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]
-				.map((element) => {
-					const image = element.find("img.torn-item");
-					if (!image) return false;
+			highlightItems([...list.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]);
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE].push(({ item }) => {
+			if (!feature.enabled()) return;
 
-					return {
-						element,
-						id: image.src.getNumber(),
-						price: element.find("[class*='priceAndTotal'] > span").textContent.getNumber(),
-					};
-				})
-				.filter((item) => item.element);
-
-			handleCategoryItems(itemEntries);
+			highlightItems([item]);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS].push(({ item, list }) => {
 			if (!feature.enabled()) return;
@@ -75,6 +67,23 @@
 
 			handleItemSellers(parseInt(params.get("itemID")), itemSellers);
 		}
+	}
+
+	function highlightItems(items) {
+		const itemEntries = items
+			.map((element) => {
+				const image = element.find("img.torn-item");
+				if (!image) return false;
+
+				return {
+					element,
+					id: image.src.getNumber(),
+					price: element.find("[class*='priceAndTotal'] > span").textContent.getNumber(),
+				};
+			})
+			.filter((item) => item.element);
+
+		handleCategoryItems(itemEntries);
 	}
 
 	function highlightSellers(item, list, includeModified) {
