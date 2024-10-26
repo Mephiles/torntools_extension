@@ -408,16 +408,6 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/imarket.php*"],
-			"css": [
-				"scripts/features/compact-item-market/ttCompactItemMarket.css"
-			],
-			"js": [
-				"scripts/features/compact-item-market/ttCompactItemMarket.js"
-			],
-			"run_at": "document_end"
-		},
-		{
 			"matches": ["https://www.torn.com/page.php?sid=ItemMarket*"],
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",

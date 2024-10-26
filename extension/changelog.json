@@ -12,7 +12,8 @@
 			],
 			"removed": [
 				{ "message": "Remove the bazaar and item market redirect feature, due to the item market overhaul.", "contributor": "DeKleineKobini" },
-				{ "message": "Remove the item market no confirm feature, due to the item market overhaul.", "contributor": "DeKleineKobini" }
+				{ "message": "Remove the item market no confirm feature, due to the item market overhaul.", "contributor": "DeKleineKobini" },
+				{ "message": "Remove the compact item market feature, due to the item market overhaul.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
