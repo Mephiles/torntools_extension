@@ -1,11 +1,13 @@
 "use strict";
 
 (async () => {
+	const { mobile, tablet } = await checkDevice();
+
 	featureManager.registerFeature(
 		"Weapon Experience",
 		"attack",
 		() => settings.pages.attack.weaponExperience,
-		undefined,
+		initialiseListeners,
 		showExperience,
 		removeExperience,
 		{
@@ -18,10 +20,20 @@
 
 	let observers = [];
 
+	async function initialiseListeners() {
+		if (mobile || tablet) {
+			const area = await requireElement("[class*='weaponList___']");
+
+			new MutationObserver(showExperience).observe(area, { childList: true });
+		}
+	}
+
 	async function showExperience() {
-		const attacker = await requireElement("#attacker");
+		const attacker = (await requireElement("[class*='green___']")).parentElement;
 
 		for (const weapon of attacker.findAll("#weapon_main, #weapon_second, #weapon_melee, #weapon_temp")) {
+			if (weapon.className.includes("defender")) continue;
+
 			const name = weapon.find("figure > img[alt]")?.getAttribute("alt");
 			if (!name) continue;
 
