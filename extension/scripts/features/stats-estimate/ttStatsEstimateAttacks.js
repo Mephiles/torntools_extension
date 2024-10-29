@@ -66,11 +66,14 @@
 
 			let entries;
 			if (mobile || tablet) {
+				const sideColor = side === "attacker" ? "green___" : "rose___";
+				entries = document.find(`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`);
+			} else {
 				if (side === "attacker")
-					entries = document.find("div[class*='playersModelWrap___'] div[class*='header___']:first-child div[class*='textEntries___']");
+					entries = document.find("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']");
 				else if (side === "defender")
-					entries = document.find("div[class*='playersModelWrap___'] div[class*='header___']:nth-child(2) div[class*='textEntries___']");
-			} else entries = document.find(`#${side} div[class*='textEntries___']`);
+					entries = document.find("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']");
+			}
 
 			entries.classList.add("tt-stats-estimate-attacks-wrapper");
 			entries.insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "tt-stats-estimate-attacks", text }));

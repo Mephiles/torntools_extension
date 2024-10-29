@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Display when Live Networth was last updated after 1 hour global cache.", "contributor": "Kwack" }],
+			"fixes": [
+				{ "message": "Display when Live Networth was last updated after 1 hour global cache.", "contributor": "Kwack" },
+				{ "message": "Fix stats estimates on the attack page not showing up.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Adapt cheap item highlights to work with the item market overhaul.", "contributor": "DeKleineKobini" },
 				{ "message": "Adapt drug details to work with the item market overhaul.", "contributor": "DeKleineKobini" }
