@@ -1,8 +1,7 @@
 "use strict";
 
 const rotatingElements = {};
-let mobile;
-let tablet;
+let mobile, tablet, hasSidebar;
 
 Object.defineProperty(Document.prototype, "newElement", {
 	value(options = {}) {
@@ -179,7 +178,7 @@ Object.defineProperty(Element.prototype, "setClass", {
 
 function checkDevice() {
 	return new Promise((resolve) => {
-		if (typeof mobile === "boolean" && typeof tablet === "boolean") return resolve({ mobile, tablet });
+		if ([typeof mobile, typeof tablet, typeof hasSidebar].every((t) => t === "boolean")) return resolve({ mobile, tablet, hasSidebar });
 
 		if (document.readyState === "complete" || document.readyState === "interactive") check();
 		else window.addEventListener("DOMContentLoaded", check);
@@ -188,8 +187,9 @@ function checkDevice() {
 			const innerWidth = window.innerWidth;
 			mobile = innerWidth <= 600;
 			tablet = innerWidth <= 960 && innerWidth >= 600;
+			hasSidebar = innerWidth > 1000;
 
-			resolve({ mobile, tablet });
+			resolve({ mobile, tablet, hasSidebar });
 		}
 	});
 }
