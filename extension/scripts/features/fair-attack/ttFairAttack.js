@@ -15,8 +15,6 @@
 		},
 		async () => {
 			if (!hasAPIData()) return "No API access.";
-
-			await checkDevice();
 		}
 	);
 
@@ -27,11 +25,7 @@
 		const ff = attackHistory.history[id]?.latestFairFightModifier;
 		if (!ff) return;
 
-		const entries = document.find(
-			mobile || tablet
-				? "div[class*='playersModelWrap___'] div[class*='header___']:nth-child(2) div[class*='textEntries___']"
-				: "#defender div[class*='textEntries___']"
-		);
+		const entries = document.find("div[class*='headerWrapper___'][class*='rose___'] div[class*='textEntries___']");
 
 		entries.classList.add("tt-fair-attack");
 		entries.insertAdjacentElement(
