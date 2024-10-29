@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Display when Live Networth was last updated after 1 hour global cache.", "contributor": "Kwack" }],
 			"changes": [],
 			"removed": []
 		}
