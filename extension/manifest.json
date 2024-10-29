@@ -409,10 +409,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/page.php?sid=ItemMarket*"],
-			"css": [
-				"scripts/features/drug-details/ttDrugDetails.css",
-				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css"
-			],
+			"css": ["scripts/features/drug-details/ttDrugDetails.css", "scripts/features/highlight-cheap-items/ttHighlightCheapItems.css"],
 			"js": [
 				"scripts/content/itemmarket/ttItemMarket.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
