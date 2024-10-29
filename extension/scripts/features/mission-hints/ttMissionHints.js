@@ -40,7 +40,7 @@
 				hint: "Other weapons can stay equipped. Using any other weapon will fail this mission!",
 			},
 			a_thor_loser: {
-				task: "Use Duke's hammer to hit 8 - 16 unique body parts",
+				task: "Use Duke's hammer to hit 8 - 14 unique body parts",
 				hint: "Stalemating is a good way to achieve this.",
 			},
 			against_the_odds: {
@@ -121,7 +121,6 @@
 			},
 			emotional_debt: {
 				task: "Hit (P) with tear gas or pepper spray.",
-				hint: "Will count as long as it isn't blocked. Tear gas is blocked by an hazmat suit. Most helmets block pepper spray.",
 			},
 			estranged: {
 				task: "Injure one of (P)'s legs.",
