@@ -19,11 +19,27 @@ function interceptFetch(channel) {
 						json = await response.clone().json();
 					} catch {}
 
+					let body = null;
+					if (arguments.length >= 2) {
+						body = arguments[1].body;
+						if (body !== null && typeof body === "object" && body?.constructor?.name === "FormData") {
+							const newBody = {};
+
+							for (const [key, value] of [...body]) {
+								if (isIntNumber(value)) newBody[key] = parseFloat(value);
+								else newBody[key] = value;
+							}
+
+							body = newBody;
+						}
+					}
+
 					const detail = {
 						page,
 						json,
 						fetch: {
 							url: response.url,
+							body,
 							status: response.status,
 						},
 					};

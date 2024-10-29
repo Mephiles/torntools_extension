@@ -43,9 +43,7 @@
 	const localFilters = {};
 
 	async function addFilters() {
-		console.log("DKK addFilters 1");
 		await requireElement("ul.user-info-blacklist-wrap");
-		console.log("DKK addFilters 2");
 
 		const { content } = createContainer("Enemy Filter", {
 			class: "mt10",

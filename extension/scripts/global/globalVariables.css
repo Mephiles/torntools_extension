@@ -4,7 +4,9 @@
 	--tt-color-red: #d83500;
 	--tt-color-icon-bar: #7f7f7f;
 
-	--tt-color-green--30: #00a50050;
+	--tt-color-green--20: rgba(0, 165, 0, 0.2);
+	--tt-color-green--30: rgba(0, 165, 0, 0.3);
+	--tt-color-green--40: rgba(0, 165, 0, 0.4);
 
 	--tt-background-torn-gray: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
 

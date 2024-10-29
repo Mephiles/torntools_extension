@@ -27,7 +27,6 @@
 				setupXHR({ changeListener: true });
 				break;
 			case "home": // In abroad
-			case "imarket":
 				setupXHR();
 				break;
 			case "displaycase":
@@ -41,10 +40,17 @@
 			case "bazaar":
 				addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
 				break;
+			case "itemmarket":
+				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS].push(({ item, element }) => {
+					if (!feature.enabled()) return;
+
+					display(item, element.find("[class*='description___']"));
+				});
+				break;
 		}
 
 		function setupXHR(options = {}) {
-			addXHRListener(({ detail: { page, xhr, json } }) => {
+			addXHRListener(({ detail: { page, json } }) => {
 				if (!json || page !== "page") return;
 
 				showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
@@ -133,112 +139,6 @@
 			);
 		}
 
-		function show(parent, details) {
-			// Remove current info
-			parent.classList.add("tt-modified");
-			[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());
-
-			// Pros
-			if (details.pros) {
-				parent.appendChild(document.newElement({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
-
-				for (const effect of details.pros) {
-					parent.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect pro tabbed",
-							text: effect,
-						})
-					);
-				}
-			}
-
-			// Cons
-			if (details.cons) {
-				parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Cons:" }));
-
-				for (const effect of details.cons) {
-					parent.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect con tabbed",
-							text: effect,
-						})
-					);
-				}
-			}
-
-			// Cooldown
-			if (details.cooldown) {
-				parent.appendChild(
-					document.newElement({
-						type: "div",
-						class: "item-effect con",
-						text: `Cooldown: ${details.cooldown}`,
-					})
-				);
-			}
-
-			// Overdose
-			if (details.overdose) {
-				parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Overdose:" }));
-
-				// bars
-				if (details.overdose.bars) {
-					parent.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect con tabbed",
-							text: "Bars",
-						})
-					);
-
-					for (const effect of details.overdose.bars) {
-						parent.appendChild(
-							document.newElement({
-								type: "div",
-								class: "item-effect con double-tabbed",
-								text: effect,
-							})
-						);
-					}
-				}
-
-				// stats
-				if (details.overdose.stats) {
-					parent.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect con tabbed",
-							text: `Stats: ${details.overdose.stats}`,
-						})
-					);
-				}
-
-				// hospital time
-				if (details.overdose.hosp_time) {
-					parent.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect con tabbed",
-							text: `Hospital: ${details.overdose.hosp_time}`,
-						})
-					);
-				}
-
-				// extra
-				if (details.overdose.extra) {
-					parent.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect con tabbed",
-							text: `Extra: ${details.overdose.extra}`,
-						})
-					);
-				}
-			}
-		}
-
 		function watchChanges(element, details) {
 			if (observer) observer.disconnect();
 
@@ -254,6 +154,119 @@
 				watchChanges(newElement, details);
 			});
 			observer.observe(element, { childList: true, attributes: true, subtree: true });
+		}
+	}
+
+	function display(id, parent) {
+		const details = DRUG_INFORMATION[id];
+		if (!details) return;
+
+		show(parent, details);
+	}
+
+	function show(parent, details) {
+		// Remove current info
+		parent.classList.add("tt-modified");
+		[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());
+
+		// Pros
+		if (details.pros) {
+			parent.appendChild(document.newElement({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
+
+			for (const effect of details.pros) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect pro tabbed",
+						text: effect,
+					})
+				);
+			}
+		}
+
+		// Cons
+		if (details.cons) {
+			parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Cons:" }));
+
+			for (const effect of details.cons) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect con tabbed",
+						text: effect,
+					})
+				);
+			}
+		}
+
+		// Cooldown
+		if (details.cooldown) {
+			parent.appendChild(
+				document.newElement({
+					type: "div",
+					class: "item-effect con",
+					text: `Cooldown: ${details.cooldown}`,
+				})
+			);
+		}
+
+		// Overdose
+		if (details.overdose) {
+			parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Overdose:" }));
+
+			// bars
+			if (details.overdose.bars) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect con tabbed",
+						text: "Bars",
+					})
+				);
+
+				for (const effect of details.overdose.bars) {
+					parent.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect con double-tabbed",
+							text: effect,
+						})
+					);
+				}
+			}
+
+			// stats
+			if (details.overdose.stats) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect con tabbed",
+						text: `Stats: ${details.overdose.stats}`,
+					})
+				);
+			}
+
+			// hospital time
+			if (details.overdose.hosp_time) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect con tabbed",
+						text: `Hospital: ${details.overdose.hosp_time}`,
+					})
+				);
+			}
+
+			// extra
+			if (details.overdose.extra) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect con tabbed",
+						text: `Extra: ${details.overdose.extra}`,
+					})
+				);
+			}
 		}
 	}
 })();

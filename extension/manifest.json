@@ -246,14 +246,12 @@
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/item-values/ttItemValues.css",
 				"scripts/features/total-item-cost/ttTotalItemCost.css",
-				"scripts/features/item-redirect/ttBazaarRedirect.css",
 				"scripts/features/bazaar-fill-max/ttBazaarFillMax.css"
 			],
 			"js": [
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-values/ttItemValues.js",
 				"scripts/features/total-item-cost/ttTotalItemCost.js",
-				"scripts/features/item-redirect/ttBazaarRedirect.js",
 				"scripts/features/bazaar-fill-max/ttBazaarFillMax.js"
 			],
 			"run_at": "document_end"
@@ -410,19 +408,15 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/imarket.php*"],
+			"matches": ["https://www.torn.com/page.php?sid=ItemMarket*"],
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
-				"scripts/features/no-confirm/ttItemMarketNoConfirm.css",
-				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css",
-				"scripts/features/compact-item-market/ttCompactItemMarket.css"
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css"
 			],
 			"js": [
+				"scripts/content/itemmarket/ttItemMarket.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
-				"scripts/features/item-redirect/ttItemMarketRedirect.js",
-				"scripts/features/no-confirm/ttItemMarketNoConfirm.js",
-				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.js",
-				"scripts/features/compact-item-market/ttCompactItemMarket.js"
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.js"
 			],
 			"run_at": "document_end"
 		},

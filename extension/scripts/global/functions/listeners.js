@@ -47,6 +47,11 @@ const EVENT_CHANNELS = {
 	STATS_ESTIMATED: "stats-estimated",
 	SWITCH_PAGE: "switch-page",
 	AUCTION_SWITCH_TYPE: "auction-switch-type",
+	ITEMMARKET_CATEGORY_ITEMS: "itemmarket-category-items",
+	ITEMMARKET_CATEGORY_ITEMS_UPDATE: "itemmarket-category-items-update",
+	ITEMMARKET_ITEMS: "itemmarket-items",
+	ITEMMARKET_ITEMS_UPDATE: "itemmarket-items-update",
+	ITEMMARKET_ITEM_DETAILS: "itemmarket-item-details",
 };
 
 const CUSTOM_LISTENERS = (() => {
