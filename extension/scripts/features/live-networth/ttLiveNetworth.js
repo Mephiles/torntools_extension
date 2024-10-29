@@ -75,7 +75,11 @@
 				class: "comparison",
 				children: [
 					table,
-					document.newElement({ type: "div", class: "tt-networth-footer", text: `Networth change compared to Torn's last known Networth (updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })})` }),
+					document.newElement({
+						type: "div",
+						class: "tt-networth-footer",
+						text: `Networth change compared to Torn's last known Networth (updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })})`,
+					}),
 				],
 			})
 		);
