@@ -740,21 +740,6 @@ async function setupMarketSearch() {
 		const viewItem = document.find("#market #item-information");
 		viewItem.find(".market").classList.add("tt-hidden");
 
-		if (ttCache.hasValue("livePrice", id)) {
-			handleMarket(ttCache.get("livePrice", id));
-		} else {
-			fetchData("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
-				.then((result) => {
-					handleMarket(result);
-
-					ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
-				})
-				.catch((error) => {
-					document.find(".error").classList.remove("tt-hidden");
-					document.find(".error").textContent = error.error;
-				});
-		}
-
 		const item = torndata.items[id];
 		viewItem.find(".circulation").textContent = formatNumber(item.circulation);
 		viewItem.find(".value").textContent = `$${formatNumber(item.market_value)}`;
@@ -764,26 +749,40 @@ async function setupMarketSearch() {
 
 		viewItem.classList.remove("tt-hidden");
 
+		showLoadingPlaceholder(viewItem.find(".market").parentElement, true);
+
+		if (ttCache.hasValue("livePrice", id)) {
+			handleMarket(ttCache.get("livePrice", id));
+			showLoadingPlaceholder(viewItem.find(".market").parentElement, false);
+		} else {
+			fetchData("tornv2", { section: "market", id, selections: ["bazaar", "itemmarket"] })
+				.then((result) => {
+					handleMarket(result);
+
+					ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
+				})
+				.catch((error) => {
+					document.find(".error").classList.remove("tt-hidden");
+					document.find(".error").textContent = error.message;
+				}).finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
+		}
+
 		function handleMarket(result) {
 			const list = viewItem.find(".market");
 			list.innerHTML = "";
 
 			let found = false;
 
-			for (const type of Object.keys(result)) {
-				let text;
-				if (type === "itemmarket") text = "Item Market";
-				else text = capitalizeText(type);
-
-				const wrap = document.newElement({ type: "div" });
-
-				wrap.appendChild(document.newElement({ type: "h4", text }));
-
-				if (result[type]) {
-					found = true;
-
-					for (const item of result[type].slice(0, 3)) {
-						wrap.appendChild(
+			if (!isSellable(id) && !result.bazaar && !result.itemmarket.listings.length) {
+				list.classList.add("untradable");
+				list.innerHTML = "Item is not sellable!";
+			} else {
+				// Bazaar listings.
+				const bazaarWrap = document.newElement({ type: "div" });
+				bazaarWrap.appendChild(document.newElement({ type: "h4", text: "Bazaar" }));
+				if (result.bazaar) {
+					for (const item of result.bazaar.slice(0, 3)) {
+						bazaarWrap.appendChild(
 							document.newElement({
 								type: "div",
 								class: "price",
@@ -792,21 +791,39 @@ async function setupMarketSearch() {
 						);
 					}
 				} else {
-					wrap.appendChild(
+					bazaarWrap.appendChild(
 						document.newElement({
 							type: "div",
 							class: "price no-price",
-							text: "No price found.",
+							text: "No listings found.",
 						})
 					);
 				}
+				list.appendChild(bazaarWrap);
 
-				list.appendChild(wrap);
-			}
-
-			if (!isSellable(id) && !found) {
-				list.classList.add("untradable");
-				list.innerHTML = "Item is not sellable!";
+				// Item market listings.
+				const itemMarketWrap = document.newElement({ type: "div" });
+				itemMarketWrap.appendChild(document.newElement({ type: "h4", text: "Item Market" }));
+				if (result.itemmarket?.listings?.length) {
+					for (const item of result.itemmarket.listings.slice(0, 3)) {
+						itemMarketWrap.appendChild(
+							document.newElement({
+								type: "div",
+								class: "price",
+								text: `${item.amount}x | $${formatNumber(item.price)}`,
+							})
+						);
+					}
+				} else {
+					itemMarketWrap.appendChild(
+						document.newElement({
+							type: "div",
+							class: "price no-price",
+							text: "No listings found.",
+						})
+					);
+				}
+				list.appendChild(itemMarketWrap);
 			}
 			viewItem.find(".market").classList.remove("tt-hidden");
 		}

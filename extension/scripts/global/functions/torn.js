@@ -1462,7 +1462,7 @@ function isSellable(id) {
 			1009, // Halloween Basket
 			1010, // Halloween Basket
 			1011, // Halloween Basket
-		].includes(item.id)
+		].includes(item.id || parseInt(id))
 	);
 }
 
