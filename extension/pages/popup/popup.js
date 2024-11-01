@@ -764,7 +764,8 @@ async function setupMarketSearch() {
 				.catch((error) => {
 					document.find(".error").classList.remove("tt-hidden");
 					document.find(".error").textContent = error.message;
-				}).finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
+				})
+				.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
 		}
 
 		function handleMarket(result) {
