@@ -10,6 +10,7 @@ const FETCH_TIMEOUT = 10 * TO_MILLIS.SECONDS;
 
 const FETCH_PLATFORMS = {
 	torn: "https://api.torn.com/",
+	tornv2: "https://api.torn.com/v2/",
 	torn_direct: "https://www.torn.com/",
 	yata: "https://yata.yt/",
 	tornstats: "https://www.tornstats.com/",
@@ -62,6 +63,20 @@ async function fetchData(location, options = {}) {
 			switch (location) {
 				case "torn":
 					url = FETCH_PLATFORMS.torn;
+
+					path = `${options.section}/${options.id || ""}`;
+
+					params.append("selections", options.selections.join(","));
+					params.append("key", options.key || api.torn.key);
+					if (settings.apiUsage.comment) {
+						// noinspection JSCheckFunctionSignatures
+						params.append("comment", settings.apiUsage.comment);
+					}
+
+					await ttUsage.add(location);
+					break;
+				case "tornv2":
+					url = FETCH_PLATFORMS.tornv2;
 
 					path = `${options.section}/${options.id || ""}`;
 
