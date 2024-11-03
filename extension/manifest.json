@@ -235,6 +235,11 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/personalstats.php*"],
+			"js": ["scripts/features/avg-personal-stat/avg-personal-stat.js"],
+			"run_at": "document_start"
+		},
+		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
 			"css": ["scripts/features/bazaar-worth/ttBazaarWorth.css"],
 			"js": ["scripts/features/bazaar-worth/ttBazaarWorth.entry.js"],
