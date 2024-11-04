@@ -236,7 +236,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/personalstats.php*"],
-			"js": ["scripts/features/avg-personal-stat/avg-personal-stat.js"],
+			"js": ["scripts/features/avg-personal-stat/avg-personal-stat.entry.js"],
 			"run_at": "document_start"
 		},
 		{
