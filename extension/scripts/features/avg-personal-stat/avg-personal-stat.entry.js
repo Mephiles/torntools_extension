@@ -29,11 +29,6 @@
 				calculateStatsAverage(graphData);
 			}
 		});
-
-		addXHRListener((event) => {
-			console.log("XHR:");
-			console.log(event);
-		});
 	}
 
 	function calculateStatsAverage(graphData) {
