@@ -109,7 +109,7 @@
 		localFilters["Score Filter"] = { getStartEnd: scoreFilter.getStartEnd, updateCounter: scoreFilter.updateCounter };
 
 		const bailCostFilter = createTextbox({ type: "number", description: "Bail Cost less than", min: 0 });
-		bailCostFilter.setValue(filters.jail.bailCost || 9999999);
+		bailCostFilter.setValue(filters.jail.bailCost || "");
 		bailCostFilter.onChange(filtering);
 
 		filterContent.appendChild(bailCostFilter.element);
@@ -227,8 +227,8 @@
 			}
 
 			// Time
-			const timeMatch = li.find(".info-wrap .time").textContent;
-			const timeLeft = timeMatch.match(JAIL_FILTER_TIME_REGEX);
+			const timeText = li.find(".info-wrap .time").textContent;
+			const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
 
 			const timeLeftHrs = timeLeft.length > 1 ? timeLeft[0] : 0;
 
@@ -245,12 +245,14 @@
 			}
 
 			// bail cost
-			const timeLeftmins = timeLeft.length > 1 ? timeLeft[1] : timeLeft[0];
-			const totalMinutes = parseInt(timeLeftmins) + parseInt(timeLeftHrs) * 60;
-			const bailTotalCost = totalMinutes * level * bailMultiplier * 100;
-			if (bailTotalCost > bailCost) {
-				hideRow(li);
-				continue;
+			if (bailCost){
+				const timeLeftmins = timeLeft.length > 1 ? timeLeft[1] : timeLeft[0];
+				const totalMinutes = parseInt(timeLeftmins) + parseInt(timeLeftHrs) * 60;
+				const bailTotalCost = totalMinutes * level * bailMultiplier * 100;
+				if (bailTotalCost > bailCost) {
+					hideRow(li);
+					continue;
+				}
 			}
 
 			// Score
