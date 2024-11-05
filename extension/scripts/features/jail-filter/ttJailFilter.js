@@ -230,7 +230,7 @@
 			const timeMatch = li.find(".info-wrap .time").textContent;
 			const timeLeft = timeMatch.match(JAIL_FILTER_TIME_REGEX);
 
-			const timeLeftHrs = timeLeft.length > 0 ? timeLeft[0] : 0;
+			const timeLeftHrs = timeLeft.length > 1 ? timeLeft[0] : 0;
 
 			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs >= timeEnd)) {
 				hideRow(li);
@@ -245,7 +245,7 @@
 			}
 
 			// bail cost
-			const timeLeftmins = timeLeft.length > 0 ? timeLeft[1] : timeLeft[0];
+			const timeLeftmins = timeLeft.length > 1 ? timeLeft[1] : timeLeft[0];
 			const totalMinutes = parseInt(timeLeftmins) + parseInt(timeLeftHrs) * 60;
 			const bailTotalCost = totalMinutes * level * bailMultiplier * 100;
 			if (bailTotalCost > bailCost) {
