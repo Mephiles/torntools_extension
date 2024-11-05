@@ -25,7 +25,7 @@
 	}
 
 	const localFilters = {};
-	const JAIL_FILTER_TIME_REGEX = /\d*(?=h)/g;
+	const JAIL_FILTER_TIME_REGEX = /(\d+)(?=h)|(\d+)(?=m)/g;
 
 	async function addFilters() {
 		await requireElement(".userlist-wrapper .user-info-list-wrap .bust-icon");
@@ -108,6 +108,13 @@
 		filterContent.appendChild(scoreFilter.element);
 		localFilters["Score Filter"] = { getStartEnd: scoreFilter.getStartEnd, updateCounter: scoreFilter.updateCounter };
 
+		const bailCostFilter = createTextbox({ type: "number", description: "Bail Cost less than", min: 0 });
+		bailCostFilter.setValue(filters.jail.bailCost || 9999999);
+		bailCostFilter.onChange(filtering);
+
+		filterContent.appendChild(bailCostFilter.element);
+		localFilters["Bail Cost"] = { getValue: bailCostFilter.getValue };
+
 		content.appendChild(filterContent);
 
 		const quickBust = createCheckbox({ description: "Quick Bust" });
@@ -131,6 +138,7 @@
 		const activity = localFilters["Activity"].getSelections(content);
 		const faction = localFilters["Faction"].getSelected(content).trim();
 		const times = localFilters["Time Filter"].getStartEnd(content);
+		const bailCost = parseInt(localFilters["Bail Cost"].getValue());
 		const timeStart = parseInt(times.start);
 		const timeEnd = parseInt(times.end);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
@@ -139,6 +147,21 @@
 		const scores = localFilters["Score Filter"].getStartEnd(content);
 		const scoreStart = parseInt(scores.start);
 		const scoreEnd = parseInt(scores.end);
+
+		const educationBailPerk = userdata.education_perks.filter((perk) => perk.includes("bail cost reduction"));
+		const jobBailPerk = userdata.job_perks.filter((perk) => perk.includes("bail cost reduction"));
+
+		let bailMultiplier = 1;
+
+		if (educationBailPerk.length > 0) {
+			const eduReduction = parseFloat(educationBailPerk[0].split(" ")[1].replace("%", "")) / 100;
+			bailMultiplier *= 1 - eduReduction;
+		}
+		if (jobBailPerk.length > 0) {
+			const jobReduction = parseFloat(jobBailPerk[0].split(" ")[1].replace("%", "")) / 100;
+			bailMultiplier *= 1 - jobReduction;
+		}
+
 		if (pageChange) {
 			localFilters["Faction"].updateOptions([...defaultFactionsItems, ...getFactions()], content);
 		}
@@ -160,6 +183,7 @@
 					levelEnd: levelEnd,
 					scoreStart: scoreStart,
 					scoreEnd: scoreEnd,
+					bailCost: bailCost,
 				},
 			},
 		});
@@ -203,8 +227,11 @@
 			}
 
 			// Time
-			const timeMatch = li.find(".info-wrap .time").textContent.match(JAIL_FILTER_TIME_REGEX);
-			const timeLeftHrs = timeMatch ? parseInt(timeMatch[0]) : 0;
+			const timeMatch = li.find(".info-wrap .time").textContent;
+			const timeLeft = timeMatch.match(JAIL_FILTER_TIME_REGEX);
+
+			const timeLeftHrs = timeLeft.length > 0 ? timeLeft[0] : 0;
+
 			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs >= timeEnd)) {
 				hideRow(li);
 				continue;
@@ -213,6 +240,15 @@
 			// Level
 			const level = li.find(".info-wrap .level").textContent.getNumber();
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
+				hideRow(li);
+				continue;
+			}
+
+			// bail cost
+			const timeLeftmins = timeLeft.length > 0 ? timeLeft[1] : timeLeft[0];
+			const totalMinutes = parseInt(timeLeftmins) + parseInt(timeLeftHrs) * 60;
+			const bailTotalCost = totalMinutes * level * bailMultiplier * 100;
+			if (bailTotalCost > bailCost) {
 				hideRow(li);
 				continue;
 			}
