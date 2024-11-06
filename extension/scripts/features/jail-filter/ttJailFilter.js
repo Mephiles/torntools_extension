@@ -108,7 +108,7 @@
 		filterContent.appendChild(scoreFilter.element);
 		localFilters["Score Filter"] = { getStartEnd: scoreFilter.getStartEnd, updateCounter: scoreFilter.updateCounter };
 
-		const bailCostFilter = createTextbox({ type: "number", description: "Bail Cost less than", min: 0 });
+		const bailCostFilter = createTextbox({ type: "number", description: "Maximum Bail Cost", min: 0 });
 		bailCostFilter.setValue(filters.jail.bailCost || "");
 		bailCostFilter.onChange(filtering);
 
