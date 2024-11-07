@@ -35,7 +35,7 @@
 		for (const stat in graphData.data) {
 			const statData = graphData.data[stat];
 			let userIndex = 2;
-			for (const user of statData) {
+			for (let user of statData) {
 				// Get Relevant Data
 				const uid = user.uid;
 				const userName = graphData.definitions[uid];
