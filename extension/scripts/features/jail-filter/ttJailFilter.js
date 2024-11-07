@@ -245,7 +245,7 @@
 			}
 
 			// bail cost
-			if (bailCost){
+			if (bailCost) {
 				const timeLeftmins = timeLeft.length > 1 ? timeLeft[1] : timeLeft[0];
 				const totalMinutes = parseInt(timeLeftmins) + parseInt(timeLeftHrs) * 60;
 				const bailTotalCost = totalMinutes * level * bailMultiplier * 100;
