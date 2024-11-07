@@ -32,29 +32,29 @@
 	}
 
 	function calculateStatsAverage(graphData) {
-		for (let stat in graphData.data) {
+		for (const stat in graphData.data) {
 			const statData = graphData.data[stat];
 			let userIndex = 2;
 			for (let user of statData) {
 				// Get Relevant Data
-				let uid = user.uid;
-				let userName = graphData.definitions[uid];
-				let lowerTime = user.data[0].time;
-				let lowerVal = user.data[0].value;
-				let userDatalen = user.data.length;
-				let upperTime = user.data[userDatalen - 1].time;
-				let upperVal = user.data[userDatalen - 1].value;
+				const uid = user.uid;
+				const userName = graphData.definitions[uid];
+				const lowerTime = user.data[0].time;
+				const lowerVal = user.data[0].value;
+				const userDatalen = user.data.length;
+				const upperTime = user.data[userDatalen - 1].time;
+				const upperVal = user.data[userDatalen - 1].value;
 
 				// Calcualte Average
-				let timeLength = (upperTime - lowerTime) / (60 * 60 * 24);
-				let difference = upperVal - lowerVal;
-				let avg = difference / timeLength;
-				let roundedAvg = avg.toFixed(2); // Rounds to 2 decimal places
-				let formattedAvg = roundedAvg.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				const timeLength = (upperTime - lowerTime) / (60 * 60 * 24);
+				const difference = upperVal - lowerVal;
+				const avg = difference / timeLength;
+				const roundedAvg = avg.toFixed(2); // Rounds to 2 decimal places
+				const formattedAvg = roundedAvg.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 				// Insert the data
-				let element = document.querySelectorAll("div[class^='titleItem']")[userIndex];
-				element.textContent = `${userName} ( ${formattedAvg} per day )`;
+				const element = document.querySelectorAll("div[class^='titleItem']")[userIndex];
+				element.textContent = `${userName} (${formattedAvg} per day)`;
 				userIndex++;
 			}
 		}

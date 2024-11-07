@@ -1,5 +1,4 @@
 # Contribution
-bal
 
 Thanks for taking the time to contribute, or at least consider it.
 
