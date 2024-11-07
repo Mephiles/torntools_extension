@@ -16,7 +16,8 @@
 				{ "message": "Adapt cheap item highlights to work with the item market overhaul.", "contributor": "DeKleineKobini" },
 				{ "message": "Adapt drug details to work with the item market overhaul.", "contributor": "DeKleineKobini" },
 				{ "message": "Update some mission hints and tasks.", "contributor": "DeKleineKobini" },
-				{ "message": "Detect sidebar conditions better for the OC time feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Detect sidebar conditions better for the OC time feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Added a bail cost filter", "contributor": "nao" }
 			],
 			"removed": [
 				{ "message": "Remove the bazaar and item market redirect feature, due to the item market overhaul.", "contributor": "DeKleineKobini" },
