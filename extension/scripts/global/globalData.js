@@ -403,6 +403,7 @@ const DEFAULT_STORAGE = {
 				stackingMode: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			profile: {
+				avgpersonalstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				idBesideProfileName: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
