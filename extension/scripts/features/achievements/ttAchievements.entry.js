@@ -11,7 +11,7 @@
 		"Achievements",
 		"achievements",
 		() => settings.scripts.achievements.show,
-		setupAchievements,
+		null,
 		showAchievements,
 		removeAchievements,
 		{
@@ -33,8 +33,6 @@
 				return "No API access.";
 		}
 	);
-
-	function setupAchievements() {}
 
 	async function showAchievements() {
 		await requireSidebar();
