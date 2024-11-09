@@ -5,9 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [
-				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" }
-			],
+			"fixes": [{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" }],
 			"changes": [],
 			"removed": []
 		}
