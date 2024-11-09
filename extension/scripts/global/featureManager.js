@@ -414,3 +414,7 @@ class FeatureManager {
 }
 
 const featureManager = new FeatureManager();
+
+function featureManagerLoaded() {
+	return requireCondition(() => window.isfeatureManagerLoaded, { delay: 100 });
+}
