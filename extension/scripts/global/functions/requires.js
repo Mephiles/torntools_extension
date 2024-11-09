@@ -85,6 +85,6 @@ function requireFeatureManager() {
 
 			clearInterval(featureManagerIntervalID);
 			resolve();
-		}, 500);
+		}, 100);
 	});
 }
