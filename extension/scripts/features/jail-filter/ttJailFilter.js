@@ -208,7 +208,7 @@
 					hideRow(li);
 					continue;
 				}
-			} else if (faction == "In a faction") {
+			} else if (faction === "In a faction") {
 				if (!hasFaction) {
 					hideRow(li);
 					continue;
@@ -230,7 +230,7 @@
 			const timeText = li.find(".info-wrap .time").textContent;
 			const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
 
-			const timeLeftHrs = timeLeft.length > 1 ? timeLeft[0] : 0;
+			const timeLeftHrs = timeLeft.length > 1 ? parseInt(timeLeft[0]) : 0;
 
 			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs >= timeEnd)) {
 				hideRow(li);
@@ -246,8 +246,8 @@
 
 			// bail cost
 			if (bailCost) {
-				const timeLeftmins = timeLeft.length > 1 ? timeLeft[1] : timeLeft[0];
-				const totalMinutes = parseInt(timeLeftmins) + parseInt(timeLeftHrs) * 60;
+				const timeLeftMins = parseInt(timeLeft.length > 1 ? timeLeft[1] : timeLeft[0]);
+				const totalMinutes = timeLeftMins + timeLeftHrs * 60;
 				const bailTotalCost = totalMinutes * level * bailMultiplier * 100;
 				if (bailTotalCost > bailCost) {
 					hideRow(li);

@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" }],
+			"fixes": [
+				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },
+				{ "message": "Fix jail score filter not working properly anymore.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": []
 		}
