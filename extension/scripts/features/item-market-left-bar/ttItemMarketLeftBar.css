@@ -1,7 +1,7 @@
-.tt-item-market-left-bar [class*='marketWrapper___'] {
-    grid-template-columns: 160px 1fr;
+.tt-item-market-left-bar [class*="marketWrapper___"] {
+	grid-template-columns: 160px 1fr;
 }
 
-.tt-item-market-left-bar [class*='itemListWrapper___'] {
-    order: unset;
+.tt-item-market-left-bar [class*="itemListWrapper___"] {
+	order: unset;
 }
