@@ -13,8 +13,8 @@
 ### FontAwesome
 
 - **Location**: extension/vendor/fontawesome/fontawesome.css
-- **Version**: 5.15.3
-- **Source**: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css
+- **Version**: 6.6.0
+- **Source**: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
 - **Note**: fontawesome.js is a custom script to inject that css file
 
 ### Sortable
