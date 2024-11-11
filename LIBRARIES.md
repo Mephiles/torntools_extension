@@ -1,8 +1,8 @@
 ### Chart.js
 
 - **Location**: extension/vendor/chartjs/chart.min.js
-- **Version**: 3.3.2
-- **Source**: https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js
+- **Version**: 4.4.6
+- **Source**: https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.min.js
 
 ### DragDropTouch
 
