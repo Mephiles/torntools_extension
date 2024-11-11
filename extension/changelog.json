@@ -10,7 +10,7 @@
 				{ "message": "Fix jail score filter not working properly anymore.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
-			"removed": []
+			"removed": [{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
