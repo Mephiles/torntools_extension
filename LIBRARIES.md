@@ -20,5 +20,5 @@
 ### Sortable
 
 - **Location**: extension/vendor/sortable/sortable.js
-- **Version**: 1.14.0
-- **Source**: https://raw.githubusercontent.com/SortableJS/Sortable/1.14.0/Sortable.min.js
+- **Version**: 1.15.3
+- **Source**: https://raw.githubusercontent.com/SortableJS/Sortable/1.15.3/Sortable.min.js
