@@ -108,7 +108,7 @@ async function setupInitialize() {
 						// Wait till userdata loads for the first time.
 						new Promise(async () => {
 							while (!userdata.timestamp) {
-								await sleep(1 * TO_MILLIS.SECONDS);
+								await sleep(TO_MILLIS.SECONDS);
 							}
 
 							await showPage(settings.pages.popup.defaultTab);
@@ -295,8 +295,7 @@ async function setupDashboard() {
 					icon.classList.remove("tt-hidden");
 
 					let iconText = userdata.icons[icon.children[0].className];
-
-					let iconHTML = "";
+					let iconHTML;
 
 					if (iconText.includes(" - ") && iconText.includes(" seconds")) {
 						let timeSplits = iconText.split(" - ");
@@ -755,7 +754,7 @@ async function setupMarketSearch() {
 			handleMarket(ttCache.get("livePrice", id));
 			showLoadingPlaceholder(viewItem.find(".market").parentElement, false);
 		} else {
-			fetchData("tornv2", { section: "market", id, selections: ["bazaar", "itemmarket"] })
+			fetchData("tornv2", { section: "market", id, selections: ["itemmarket"] })
 				.then((result) => {
 					handleMarket(result);
 
@@ -772,36 +771,10 @@ async function setupMarketSearch() {
 			const list = viewItem.find(".market");
 			list.innerHTML = "";
 
-			let found = false;
-
-			if (!isSellable(id) && !result.bazaar && !result.itemmarket.listings.length) {
+			if (!isSellable(id) && !result.itemmarket.listings.length) {
 				list.classList.add("untradable");
 				list.innerHTML = "Item is not sellable!";
 			} else {
-				// Bazaar listings.
-				const bazaarWrap = document.newElement({ type: "div" });
-				bazaarWrap.appendChild(document.newElement({ type: "h4", text: "Bazaar" }));
-				if (result.bazaar) {
-					for (const item of result.bazaar.slice(0, 3)) {
-						bazaarWrap.appendChild(
-							document.newElement({
-								type: "div",
-								class: "price",
-								text: `${item.quantity}x | $${formatNumber(item.cost)}`,
-							})
-						);
-					}
-				} else {
-					bazaarWrap.appendChild(
-						document.newElement({
-							type: "div",
-							class: "price no-price",
-							text: "No listings found.",
-						})
-					);
-				}
-				list.appendChild(bazaarWrap);
-
 				// Item market listings.
 				const itemMarketWrap = document.newElement({ type: "div" });
 				itemMarketWrap.appendChild(document.newElement({ type: "h4", text: "Item Market" }));
