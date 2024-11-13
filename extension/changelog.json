@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Option for moving the item market category list to the left.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Option for moving the item market category list to the left.", "contributor": "DeKleineKobini" },
+				{ "message": "Add ranked war hits and wins to Profile Box.", "contributor": "TheFoxMan" }
+			],
 			"fixes": [
 				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },
 				{ "message": "Fix jail score filter not working properly anymore.", "contributor": "DeKleineKobini" }

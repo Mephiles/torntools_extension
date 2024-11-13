@@ -173,6 +173,8 @@
 		{ name: "Token refills", type: "other", getter: (data) => data.personalstats.tokenrefills },
 		{ name: "Merits bought", type: "other", getter: (data) => data.personalstats.meritsbought },
 		{ name: "Days been a donator", type: "other", getter: (data) => data.personalstats.daysbeendonator },
+		{ name: "Ranked Warring Wins", type: "other", getter: (data) => data.personalstats.rankedwarringwins },
+		{ name: "Ranked War Hits", type: "other", getter: (data) => data.personalstats.rankedwarhits },
 	];
 
 	featureManager.registerFeature(
