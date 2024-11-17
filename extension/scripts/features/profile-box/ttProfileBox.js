@@ -40,7 +40,11 @@
 		{ name: "Items looted", type: "attacking", getter: (data) => data.personalstats.itemslooted },
 		{ name: "Highest level beaten", type: "attacking", getter: (data) => data.personalstats.highestbeaten },
 		{ name: "Total respect", type: "attacking", getter: (data) => data.personalstats.respectforfaction },
+		{ name: "Ranked war hits", type: "other", getter: (data) => data.personalstats.rankedwarhits },
+		{ name: "Ranked warring wins", type: "other", getter: (data) => data.personalstats.rankedwarringwins },
+		{ name: "Raid hits", type: "other", getter: (data) => data.personalstats.raidhits },
 		{ name: "Territory wall joins", type: "attacking", getter: (data) => data.personalstats.territoryjoins },
+		{ name: "Territory clears", type: "attacking", getter: (data) => data.personalstats.territoryclears },
 		{ name: "Territory wall time", type: "attacking", getter: (data) => data.personalstats.territorytime },
 		// Jobs
 		{ name: "Job points used", type: "jobs", getter: (data) => data.personalstats.jobpointsused },
@@ -88,15 +92,15 @@
 		{ name: "Classified ads", type: "communication", getter: (data) => data.personalstats.classifiedadsplaced },
 		{ name: "Personals placed", type: "communication", getter: (data) => data.personalstats.personalsplaced },
 		// Criminal offenses
-		{ name: "Counterfeiting", type: "criminal offenses", getter: (data) => data.criminalrecord.counterfeiting },
-		{ name: "Cyber Crime", type: "criminal offenses", getter: (data) => data.criminalrecord.cybercrime },
-		{ name: "Extortion", type: "criminal offenses", getter: (data) => data.criminalrecord.extortion },
-		{ name: "Fraud", type: "criminal offenses", getter: (data) => data.criminalrecord.fraud },
-		{ name: "Illegal Production", type: "criminal offenses", getter: (data) => data.criminalrecord.illegalproduction },
-		{ name: "Illicit Services", type: "criminal offenses", getter: (data) => data.criminalrecord.illicitservices },
-		{ name: "Theft", type: "criminal offenses", getter: (data) => data.criminalrecord.theft },
-		{ name: "Vandalism", type: "criminal offenses", getter: (data) => data.criminalrecord.vandalism },
-		{ name: "Total Crimes", type: "criminal offenses", getter: (data) => data.criminalrecord.total },
+		{ name: "Total offenses", type: "criminal offenses", getter: (data) => data.personalstats.criminaloffenses },
+		{ name: "Vandalism", type: "criminal offenses", getter: (data) => data.personalstats.vandalism },
+		{ name: "Theft", type: "criminal offenses", getter: (data) => data.personalstats.theft },
+		{ name: "Counterfeiting", type: "criminal offenses", getter: (data) => data.personalstats.counterfeiting },
+		{ name: "Fraud", type: "criminal offenses", getter: (data) => data.personalstats.fraud },
+		{ name: "Illicit services", type: "criminal offenses", getter: (data) => data.personalstats.illicitservices },
+		{ name: "Cybercrime", type: "criminal offenses", getter: (data) => data.personalstats.cybercrime },
+		{ name: "Extortion", type: "criminal offenses", getter: (data) => data.personalstats.extortion },
+		{ name: "Illegal production", type: "criminal offenses", getter: (data) => data.personalstats.illegalproduction },
 		{ name: "Organized Crimes", type: "criminal offenses", getter: (data) => data.personalstats.organisedcrimes },
 		// Bounties
 		{ name: "Bounties placed", type: "bounties", getter: (data) => data.personalstats.bountiesplaced },
@@ -117,6 +121,8 @@
 		{ name: "Alcohol drunk", type: "items", getter: (data) => data.personalstats.alcoholused },
 		{ name: "Energy drinks drunk", type: "items", getter: (data) => data.personalstats.energydrinkused },
 		{ name: "Stat enhancers used", type: "items", getter: (data) => data.personalstats.statenhancersused },
+		{ name: "Easter eggs found", type: "other", getter: (data) => data.personalstats.eastereggs },
+		{ name: "Easter eggs used", type: "other", getter: (data) => data.personalstats.eastereggsused },
 		{ name: "Viruses coded", type: "items", getter: (data) => data.personalstats.virusescoded },
 		// Travel
 		{ name: "Times traveled", type: "travel", getter: (data) => data.personalstats.traveltimes },
@@ -170,11 +176,8 @@
 		{ name: "Awards", type: "other", getter: (data) => data.personalstats.awards },
 		{ name: "Energy refills", type: "other", getter: (data) => data.personalstats.refills },
 		{ name: "Nerve refills", type: "other", getter: (data) => data.personalstats.nerverefills },
-		{ name: "Token refills", type: "other", getter: (data) => data.personalstats.tokenrefills },
 		{ name: "Merits bought", type: "other", getter: (data) => data.personalstats.meritsbought },
 		{ name: "Days been a donator", type: "other", getter: (data) => data.personalstats.daysbeendonator },
-		{ name: "Ranked Warring Wins", type: "other", getter: (data) => data.personalstats.rankedwarringwins },
-		{ name: "Ranked War Hits", type: "other", getter: (data) => data.personalstats.rankedwarhits },
 	];
 
 	featureManager.registerFeature(

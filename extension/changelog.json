@@ -6,14 +6,18 @@
 		"logs": {
 			"features": [
 				{ "message": "Option for moving the item market category list to the left.", "contributor": "DeKleineKobini" },
-				{ "message": "Add ranked war hits and wins to Profile Box.", "contributor": "TheFoxMan" }
+				{ "message": "Add ranked war hits and wins to Profile Box.", "contributor": "TheFoxMan" },
+				{ "message": "Add easter eggs found and used, territory clears and raid hits to Profile Box.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },
 				{ "message": "Fix jail score filter not working properly anymore.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
-			"removed": [{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" }]
+			"removed": [
+				{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" },
+				{ "message": "No longer show token refill as option in the profile box as it's no longer public data.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
