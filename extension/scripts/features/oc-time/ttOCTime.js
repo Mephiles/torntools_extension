@@ -37,13 +37,11 @@
 			else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.classList.add("medium");
 
 			if (timeLeft > 0) {
-				timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
+				const formatOptions = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
+				timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
 
-				// Set the crime so the timer will have the actual end date to avoid desync from tab inactivity
 				timeLeftElement.dataset.end = userCrime;
-
-				timeLeftElement.dataset.seconds = (timeLeft / 1000).dropDecimals();
-				timeLeftElement.dataset.timeSettings = JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true });
+				timeLeftElement.dataset.timeSettings = JSON.stringify(formatOptions);
 				countdownTimers.push(timeLeftElement);
 			} else {
 				timeLeftElement.textContent = "Ready";

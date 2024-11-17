@@ -30,12 +30,8 @@
 		if (factiondata?.crimes) {
 			const factionOCElement = document.newElement({ type: "span", class: "countdown" });
 			const ocArray = Object.values(factiondata.crimes)
-				.filter((el) => {
-					return el.time_completed == 0;
-				})
-				.sort((a, b) => {
-					return a.time_left - b.time_left;
-				});
+				.filter((oc) => !oc.time_completed)
+				.sort((a, b) => a.time_left - b.time_left);
 
 			if (ocArray.length) {
 				const nextOC = ocArray[0];
@@ -46,11 +42,11 @@
 				else if (nextOCTimeLeft <= TO_MILLIS.HOURS * 12) factionOCElement.classList.add("medium");
 
 				if (nextOCTimeLeft > 0) {
-					factionOCElement.textContent = formatTime({ milliseconds: nextOCTimeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
+					const formatOptions = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
+					factionOCElement.textContent = formatTime({ milliseconds: nextOCTimeLeft }, formatOptions);
 
 					factionOCElement.dataset.end = nextOC.time_ready * 1000;
-					factionOCElement.dataset.seconds = (nextOCTimeLeft / 1000).dropDecimals();
-					factionOCElement.dataset.timeSettings = JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true });
+					factionOCElement.dataset.timeSettings = JSON.stringify(formatOptions);
 					countdownTimers.push(factionOCElement);
 				} else {
 					factionOCElement.textContent = "OC Ready";

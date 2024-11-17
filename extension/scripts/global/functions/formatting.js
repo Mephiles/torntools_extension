@@ -99,6 +99,7 @@ function formatTime(time = {}, options = {}) {
 		extraShort: false,
 		agoFilter: false,
 		daysToHours: false,
+		truncateSeconds: false,
 		...options,
 	};
 
@@ -150,35 +151,7 @@ function formatTime(time = {}, options = {}) {
 
 			return timerText;
 		case "wordTimer":
-			date = new Date(millis);
-
-			parts = [];
-			if (options.showDays && (date.getTime() / TO_MILLIS.DAYS).dropDecimals() > 0)
-				parts.push(formatUnit(Math.floor(date.getTime() / TO_MILLIS.DAYS), { normal: "day", short: "day", extraShort: "d" }));
-			if (!options.hideHours && date.getUTCHours()) parts.push(formatUnit(date.getUTCHours(), { normal: "hour", short: "hr", extraShort: "h" }));
-			if (date.getUTCMinutes()) parts.push(formatUnit(date.getUTCMinutes(), { normal: "minute", short: "min", extraShort: "m" }));
-			if (!options.hideSeconds && date.getUTCSeconds()) parts.push(formatUnit(date.getUTCSeconds(), { normal: "second", short: "sec", extraShort: "s" }));
-
-			if (parts.length > 1 && !options.extraShort) {
-				parts.insertAt(parts.length - 1, "and");
-			}
-
-			function formatUnit(amount, unit) {
-				// eslint-disable-line no-inner-declarations
-				let formatted = `${amount}`;
-
-				if (options.extraShort) {
-					formatted += unit.extraShort;
-				} else if (options.short) {
-					formatted += ` ${unit.short}${applyPlural(amount)}`;
-				} else {
-					formatted += ` ${unit.normal}${applyPlural(amount)}`;
-				}
-
-				return formatted;
-			}
-
-			return parts.join(" ");
+			return formatTimeAsWordTimer(millis, options);
 		case "ago":
 			let timeAgo = Math.floor(Date.now() - millis);
 
@@ -242,6 +215,48 @@ function formatTime(time = {}, options = {}) {
 		default:
 			return -1;
 	}
+}
+
+function formatTimeAsWordTimer(millis, options) {
+	const date = new Date(millis);
+
+	let hasShownDays = false;
+	let hasShownHours = false;
+
+	const parts = [];
+	if (options.showDays && (date.getTime() / TO_MILLIS.DAYS).dropDecimals() > 0) {
+		hasShownDays = true;
+		parts.push(formatUnit(Math.floor(date.getTime() / TO_MILLIS.DAYS), { normal: "day", short: "day", extraShort: "d" }));
+	}
+	if (!options.hideHours && date.getUTCHours()) {
+		hasShownHours = true;
+		parts.push(formatUnit(date.getUTCHours(), { normal: "hour", short: "hr", extraShort: "h" }));
+	}
+	if (date.getUTCMinutes()) parts.push(formatUnit(date.getUTCMinutes(), { normal: "minute", short: "min", extraShort: "m" }));
+
+	if (!options.hideSeconds && date.getUTCSeconds() && (!options.truncateSeconds || !(hasShownDays || hasShownHours)))
+		parts.push(formatUnit(date.getUTCSeconds(), { normal: "second", short: "sec", extraShort: "s" }));
+
+	if (parts.length > 1 && !options.extraShort) {
+		parts.insertAt(parts.length - 1, "and");
+	}
+
+	function formatUnit(amount, unit) {
+		// eslint-disable-line no-inner-declarations
+		let formatted = `${amount}`;
+
+		if (options.extraShort) {
+			formatted += unit.extraShort;
+		} else if (options.short) {
+			formatted += ` ${unit.short}${applyPlural(amount)}`;
+		} else {
+			formatted += ` ${unit.normal}${applyPlural(amount)}`;
+		}
+
+		return formatted;
+	}
+
+	return parts.join(" ");
 }
 
 function formatDate(date = {}, options = {}) {
