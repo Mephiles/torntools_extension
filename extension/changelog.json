@@ -15,7 +15,7 @@
 			],
 			"changes": [
 				{
-					"message": "Only show seconds in the oc timer and faction oc timer when there are there is less than an hour left.",
+					"message": "Only show seconds in the oc timer and faction oc timer when there is less than an hour left.",
 					"contributor": "DeKleineKobini"
 				}
 			],
