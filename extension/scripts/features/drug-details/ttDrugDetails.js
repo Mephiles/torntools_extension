@@ -116,12 +116,12 @@
 		const details = DRUG_INFORMATION[id];
 		if (!details) return;
 
-		for (const info of [element.find(".info-msg"), document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`)]) {
-			if (!info) continue;
-
-			show(info, details);
-			if (options.changeListener) watchChanges(element, details);
-		}
+		[element.find(".info-msg, [class*='description___']"), document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`)]
+			.filter((info) => !!info)
+			.forEach((info) => {
+				show(info, details);
+				if (options.changeListener) watchChanges(element, details);
+			});
 
 		function findElement() {
 			return (

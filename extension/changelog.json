@@ -11,7 +11,8 @@
 			],
 			"fixes": [
 				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },
-				{ "message": "Fix jail score filter not working properly anymore.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix jail score filter not working properly anymore.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix drug details not showing on the item page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
