@@ -60,6 +60,14 @@
 			class: "content",
 		});
 
+		const activityFilter = createFilterSection({
+			type: "Activity",
+			defaults: filters.enemies.activity,
+			callback: () => applyFilters(true),
+		});
+		filterContent.appendChild(activityFilter.element);
+		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
+
 		const statusFilter = createFilterSection({
 			title: "Status",
 			checkboxes: [
@@ -114,6 +122,7 @@
 
 		// Get the set filters
 		const content = findContainer("Enemy Filter", { selector: "main" });
+		const activity = localFilters["Activity"].getSelections(content);
 		const status = localFilters["Status"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
@@ -130,6 +139,7 @@
 		await ttStorage.change({
 			filters: {
 				enemies: {
+					activity,
 					status,
 					levelStart,
 					levelEnd,
@@ -140,7 +150,7 @@
 
 		// Actual Filtering
 		for (const row of document.findAll("ul.user-info-blacklist-wrap > li")) {
-			filterRow(row, { status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+			filterRow(row, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
@@ -153,6 +163,24 @@
 	}
 
 	function filterRow(row, filters, individual) {
+		if (filters.activity) {
+			if (
+				filters.activity.length &&
+				!filters.activity.some(
+					(x) =>
+						x.trim() ===
+						row
+							.find("#iconTray li")
+							.getAttribute("title")
+							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
+							.toLowerCase()
+							.trim()
+				)
+			) {
+				hide("activity");
+				return;
+			}
+		}
 		if (filters.status?.length && filters.status.length !== 2) {
 			let status = row.find(".status :last-child").textContent.toLowerCase().trim();
 

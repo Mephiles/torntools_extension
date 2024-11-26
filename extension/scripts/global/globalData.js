@@ -887,6 +887,7 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		enemies: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
 			status: new DefaultSetting({ type: "array", defaultValue: [] }),
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
