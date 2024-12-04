@@ -164,7 +164,7 @@ class StatsEstimate {
 				throw { message: "No cached result found!", show: settings.scripts.statsEstimate.displayNoResult };
 
 			try {
-				data = await fetchData("torn", { section: "user", id, selections: ["profile", "personalstats", "crimes"], silent: true });
+				data = await fetchData("torn", { section: "user", id, selections: ["profile", "personalstats", "crimes"], params: { stat: ["networth"] }, silent: true });
 			} catch (error) {
 				let message;
 				if (error.error) message = error.error;
