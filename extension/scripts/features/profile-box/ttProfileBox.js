@@ -259,7 +259,7 @@
 		},
 		// { name: "Weapons bought", type: "trading", v2Getter: (data) => null, v1Getter: (data) => data.personalstats.weaponsbought },
 		{
-			name: "Points bought",	
+			name: "Points bought",
 			type: "trading",
 			v2Getter: (data) => data.personalstats.trading.points.bought,
 			v1Getter: (data) => data.personalstats.pointsbought,
@@ -729,7 +729,7 @@
 
 					triggerCustomListener(EVENT_CHANNELS.PROFILE_FETCHED, { data });
 
-					ttCache.set({ [id]: data }, TO_MILLIS.HOURS * 6, "personal-stats").catch(() => {});
+					ttCache.set({ [id]: data }, millisToNewDay(), "personal-stats").catch(() => {});
 				} catch (error) {
 					console.log("TT - Couldn't fetch users stats.", error);
 				}
