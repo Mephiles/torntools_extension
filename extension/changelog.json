@@ -19,7 +19,8 @@
 					"message": "Only show seconds in the oc timer and faction oc timer when there is less than an hour left.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Filter on activity on the enemy list.", "contributor": "DeKleineKobini" }
+				{ "message": "Filter on activity on the enemy list.", "contributor": "DeKleineKobini" },
+				{ "message": "Use API v2 for the Profile Box in preparation for Torn's incoming changes to the personal stats API", "contributor": "Kwack" }
 			],
 			"removed": [
 				{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" },

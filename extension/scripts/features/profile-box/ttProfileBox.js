@@ -71,7 +71,7 @@
 		{
 			name: "Best kill streak",
 			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.streaks.best,
+			v2Getter: (data) => data.personalstats.attacking.killstreak.best,
 			v1Getter: (data) => data.personalstats.bestkillstreak,
 		},
 		{ name: "Hits", type: "attacking", v2Getter: (data) => data.personalstats.attacking.hits.success, v1Getter: (data) => data.personalstats.attackhits },
@@ -486,7 +486,7 @@
 		{
 			name: "Organized crimes",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.criminal_offenses.organised_crimes,
+			v2Getter: (data) => data.personalstats.criminal_offenses.organized_crimes,
 			v1Getter: (data) => data.personalstats.organisedcrimes,
 		},
 
@@ -569,7 +569,7 @@
 		},
 
 		// Other
-		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.playing_time, v1Getter: (data) => data.personalstats.useractivity },
+		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.time_played, v1Getter: (data) => data.personalstats.useractivity },
 		{
 			name: "Current activity streak",
 			type: "other",
