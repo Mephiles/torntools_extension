@@ -6,9 +6,10 @@
 
 ### DragDropTouch
 
-- **Location**: extension/vendor/drag-drop-touch/DragDropTouch.js
-- **Version**: 1.2
-- **Source**: https://raw.githubusercontent.com/Bernardo-Castilho/dragdroptouch/1.2/DragDropTouch.js
+- **Location**: extension/vendor/drag-drop-touch/drag-drop-touch.esm.min.js
+- **Version**: 5f618a7
+- **Source**: https://raw.githubusercontent.com/drag-drop-touch-js/dragdroptouch/5f618a70008c5d94b0714637ceeda0d09785fe4a/dist/drag-drop-touch.esm.min.js
+- **Note**: drag-drop-touch.js is a custom script to inject that esm javascript
 
 ### FontAwesome
 

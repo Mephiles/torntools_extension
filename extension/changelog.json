@@ -20,6 +20,10 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Filter on activity on the enemy list.", "contributor": "DeKleineKobini" },
+				{ "message": "Update our external library for sortable lists: SortableJS.", "contributor": "DeKleineKobini" },
+				{ "message": "Update our external library for icons: Font Awesome.", "contributor": "DeKleineKobini" },
+				{ "message": "Update our external library for charts: ChartJS.", "contributor": "DeKleineKobini" },
+				{ "message": "Update our external library for mobile drag and drop: DragDropTouch.", "contributor": "DeKleineKobini" },
 				{ "message": "Use API v2 for the Profile Box in preparation for Torn's incoming changes to the personal stats API", "contributor": "Kwack" }
 			],
 			"removed": [
