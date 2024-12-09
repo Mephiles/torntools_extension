@@ -23,7 +23,8 @@
 				{ "message": "Update our external library for sortable lists: SortableJS.", "contributor": "DeKleineKobini" },
 				{ "message": "Update our external library for icons: Font Awesome.", "contributor": "DeKleineKobini" },
 				{ "message": "Update our external library for charts: ChartJS.", "contributor": "DeKleineKobini" },
-				{ "message": "Update our external library for mobile drag and drop: DragDropTouch.", "contributor": "DeKleineKobini" }
+				{ "message": "Update our external library for mobile drag and drop: DragDropTouch.", "contributor": "DeKleineKobini" },
+				{ "message": "Show an indication when Loot Ranger has not included every NPC in their scheduled attack.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" },

@@ -1619,12 +1619,13 @@ async function updateNPCs() {
 	}
 
 	async function fetchLootRangers() {
-		const data = await fetchData("lzpt", { section: "loot" });
-		const planned = data.time.clear;
-		const reason = data.time.reason;
+		const {
+			time: { clear: planned, reason, attack: ongoing },
+			...data
+		} = await fetchData("lzpt", { section: "loot" });
 
 		npcs = {
-			next_update: now + TO_MILLIS.MINUTES * (planned === 0 && !reason ? 1 : 15),
+			next_update: now + TO_MILLIS.MINUTES * (ongoing || (planned === 0 && !reason) ? 1 : 15),
 			service: "Loot Rangers",
 			targets: {},
 		};
@@ -1642,7 +1643,8 @@ async function updateNPCs() {
 					5: hospital + TO_MILLIS.MINUTES * 450,
 				},
 				name: npc.name || (NPCS[id] ?? "Unknown"),
-				order: data.order.findIndex((o) => o === id),
+				scheduled: npc.next ?? true,
+				order: data.order.findIndex((o) => o === id) + (npc.next ? 0 : 10),
 			};
 
 			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);

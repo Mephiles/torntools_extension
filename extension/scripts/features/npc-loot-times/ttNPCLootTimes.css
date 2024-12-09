@@ -38,3 +38,7 @@
 .npc-information .status.hospital {
 	color: red;
 }
+
+.tt-npc-divider {
+	text-align: center;
+}
