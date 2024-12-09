@@ -37,13 +37,16 @@
 			parent = document.find("#editor-wrapper");
 			position = "beforebegin";
 
-			parent.find("[class*='actionButtonsWrapper__'] button").addEventListener("click", handleDisabledPost, { capture: true, once: true });
+			requireElement("[class*='actionButtonsWrapper__'] button", { parent }).then((button) =>
+				button.addEventListener("click", handleDisabledPost, { capture: true, once: true })
+			);
 
-			const input = parent.find(".editor-content.mce-content-body");
-			const text = "I'm currently posting this with TornTools enabled.";
-			if (!input.innerText.includes(text)) {
-				input.innerHTML = text + "<br>" + input.innerHTML;
-			}
+			requireElement(".editor-content.mce-content-body", { parent }).then((input) => {
+				const text = "I'm currently posting this with TornTools enabled.";
+				if (!input.innerText.includes(text)) {
+					input.innerHTML = text + "<br>" + input.innerHTML;
+				}
+			});
 		}
 
 		parent.insertAdjacentElement(

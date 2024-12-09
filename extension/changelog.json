@@ -12,7 +12,8 @@
 			"fixes": [
 				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },
 				{ "message": "Fix jail score filter not working properly anymore.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix drug details not showing on the item page.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix drug details not showing on the item page.", "contributor": "DeKleineKobini" },
+				{ "message": "Bugs & Issues forum warning wasn't showing up in all places anymore.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
