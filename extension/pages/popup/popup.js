@@ -743,7 +743,8 @@ async function setupMarketSearch() {
 		viewItem.find(".circulation").textContent = formatNumber(item.circulation);
 		viewItem.find(".value").textContent = `$${formatNumber(item.market_value)}`;
 		viewItem.find(".name").textContent = item.name;
-		viewItem.find(".name").href = `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.name}`;
+		viewItem.find(".name").href =
+			`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${item.name}&itemType=${item.type}`;
 		viewItem.find(".image").src = item.image;
 
 		viewItem.classList.remove("tt-hidden");

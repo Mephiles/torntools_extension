@@ -15,7 +15,8 @@
 				{ "message": "Fix drug details not showing on the item page.", "contributor": "DeKleineKobini" },
 				{ "message": "Bugs & Issues forum warning wasn't showing up in all places anymore.", "contributor": "DeKleineKobini" },
 				{ "message": "Link market icons to the new item market.", "contributor": "DeKleineKobini" },
-				{ "message": "Link market icons for missing sets to the new item market.", "contributor": "DeKleineKobini" }
+				{ "message": "Link market icons for missing sets to the new item market.", "contributor": "DeKleineKobini" },
+				{ "message": "Link popup items to the new item market.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
