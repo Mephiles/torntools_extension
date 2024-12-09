@@ -45,6 +45,7 @@
 			}
 
 			const name = item.find(".thumbnail-wrap").getAttribute("aria-label");
+			const category = item.dataset.category;
 
 			parent.appendChild(
 				document.newElement({
@@ -53,8 +54,8 @@
 					children: [
 						document.newElement({
 							type: "a",
-							href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}`,
-							children: [document.newElement({ type: "i", class: "item-market-icon", attributes: { title: "Open Item Market" } })],
+							href: `https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${name}&itemType=${category}`,
+							children: [document.newElement({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
 						}),
 					],
 				})
