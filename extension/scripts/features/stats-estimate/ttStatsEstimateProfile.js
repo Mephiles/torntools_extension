@@ -40,13 +40,19 @@
 			if (settings.pages.profile.box && settings.pages.profile.boxStats && settings.apiUsage.user.personalstats && settings.apiUsage.user.crimes) {
 				data = await new Promise((resolve) => CUSTOM_LISTENERS[EVENT_CHANNELS.PROFILE_FETCHED].push(({ data }) => resolve(data)));
 			} else { */
-				try {
-					data = await fetchData("torn", { section: "user", id, selections: ["profile", "personalstats", "crimes"], params: { stat: ["networth"] }, silent: true });
+			try {
+				data = await fetchData("torn", {
+					section: "user",
+					id,
+					selections: ["profile", "personalstats", "crimes"],
+					params: { stat: ["networth"] },
+					silent: true,
+				});
 
-					ttCache.set({ [id]: data }, TO_MILLIS.HOURS * 6, "profile-stats").catch(() => {});
-				} catch (error) {
-					console.log("TT - Couldn't fetch users stats.", error);
-				}
+				ttCache.set({ [id]: data }, TO_MILLIS.HOURS * 6, "profile-stats").catch(() => {});
+			} catch (error) {
+				console.log("TT - Couldn't fetch users stats.", error);
+			}
 			/* } */
 		}
 
