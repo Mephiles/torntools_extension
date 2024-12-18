@@ -30,7 +30,6 @@
 			v2Getter: (data) => data.personalstats.attacking.attacks.assisted,
 			v1Getter: (data) => data.personalstats.attacksassisted,
 		},
-		// { name: "Arrests made", type: "attacking", v2Getter: (data) => null, v1Getter: (data) => data.personalstats.arrestsmade },
 		{
 			name: "Defends won",
 			type: "attacking",
@@ -257,7 +256,6 @@
 			v2Getter: (data) => data.personalstats.trading.items.bought.shop,
 			v1Getter: (data) => data.personalstats.cityitemsbought,
 		},
-		// { name: "Weapons bought", type: "trading", v2Getter: (data) => null, v1Getter: (data) => data.personalstats.weaponsbought },
 		{
 			name: "Points bought",
 			type: "trading",
