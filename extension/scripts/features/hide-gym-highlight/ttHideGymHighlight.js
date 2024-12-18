@@ -29,7 +29,7 @@
 
 		const svg = navGym.find("svg");
 		if (hasDarkMode()) {
-			if (mobile || tablet) {
+			if (!hasSidebar) {
 				svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
 				svg.setAttribute("filter", svg.getAttribute("filter").replace("_green", ""));
 			} else {

@@ -1,8 +1,8 @@
 "use strict";
 
 (async () => {
-	const devices = await checkDevice();
-	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
+	const { hasSidebar } = await checkDevice();
+	if (!hasSidebar) return "Not supported on mobiles or tablets!";
 
 	featureManager.registerFeature(
 		"Sidebar Notes",
