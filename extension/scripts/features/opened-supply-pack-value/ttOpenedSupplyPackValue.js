@@ -41,7 +41,7 @@
 			if (params.get("XID") === reqXID || isDrugPackUseRequest(params)) {
 				const totalOpenedValue = json?.items?.itemAppear?.reduce(
 					(totalValue, item) =>
-						(totalValue += item.isMoney ? item.moneyGain.substring(1).getNumber() : torndata.items[item.ID].market_value * item.qty),
+						totalValue + item.isMoney ? item.moneyGain.substring(1).getNumber() : torndata.items[item.ID].market_value * item.qty,
 					0
 				);
 

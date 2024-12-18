@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Cooldown End Times",
 		"sidebar",
 		() => settings.pages.sidebar.cooldownEndTimes,
@@ -14,11 +14,9 @@
 		null
 	);
 
-	const iconRegex = /1[97]|39|4\d|5[0-3]/m;
 	async function addEndTimes() {
 		const statusIcons = await requireElement("#sidebarroot [class*='status-icons__']");
 		statusIcons.addEventListener("mouseover", listener);
-		let tooltipPortal;
 
 		async function listener(event) {
 			if (!event.target.closest("li")?.matches("[class*='icon']")) return;
