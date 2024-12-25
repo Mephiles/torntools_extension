@@ -228,7 +228,7 @@
 							responseWrap.innerHTML = "";
 
 							responseWrap.appendChild(
-								document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, text: result.message })
+								document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, html: result.message })
 							);
 							responseWrap.appendChild(
 								document.newElement({
