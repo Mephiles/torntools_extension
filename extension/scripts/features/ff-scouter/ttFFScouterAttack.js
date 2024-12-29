@@ -14,7 +14,8 @@
 			storage: ["settings.scripts.ffScouter.attack", "settings.external.tornpal"],
 		},
 		() => {
-			if (!settings.external.tornpal) return "TornPal not enabled";
+			if (!hasAPIData()) return "No API access.";
+			else if (!settings.external.tornpal) return "TornPal not enabled";
 		}
 	);
 
