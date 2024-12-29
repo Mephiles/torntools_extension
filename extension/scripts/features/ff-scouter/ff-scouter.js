@@ -37,7 +37,7 @@ function buildScoutInformation(scout) {
 			suffix = years === 1 ? "(1 year old)" : `(${years} years old)`;
 		}
 
-		message = `Fair Fight: ${scout.result.value} ${suffix}`.trim();
+		message = `Fair Fight: ${scout.result.value.toFixed(2)} ${suffix}`.trim();
 		className = null;
 		detailMessage = null;
 	} else {
