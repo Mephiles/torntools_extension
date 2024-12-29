@@ -23,14 +23,20 @@
 		if (!id) return;
 
 		const scout = await scoutFF(id);
-		const element = buildScoutElement(scout, "tt-ff-scouter-attack");
+		const { message, className, detailMessage } = buildScoutInformation(scout);
+
+		const element = document.newElement({
+			type: "span",
+			class: ["tt-ff-scouter-attack", className],
+			text: detailMessage ? `${message}: ${detailMessage}` : message,
+		});
 
 		const title = document.find("[class*='topSection___']");
 		title.insertAdjacentElement("afterend", element);
 	}
 
 	function removeFF() {
-		document.find(".tt-ff-scouter")?.remove();
+		document.find(".tt-ff-scouter-attack")?.remove();
 	}
 
 	function getUserID() {

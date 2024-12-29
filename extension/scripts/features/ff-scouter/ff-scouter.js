@@ -2,8 +2,8 @@ async function scoutFF(target) {
 	return await fetchData("tornpal", { section: "ffscouter", includeKey: true, params: { target } });
 }
 
-function buildScoutElement(scout, pageClass) {
-	let message, className, hoverMessage;
+function buildScoutInformation(scout) {
+	let message, className, detailMessage;
 	if (scout.status) {
 		const now = Date.now();
 		const age = now - scout.result.last_updated * 1000;
@@ -27,17 +27,12 @@ function buildScoutElement(scout, pageClass) {
 
 		message = `Fair Fight: ${scout.result.value} ${suffix}`.trim();
 		className = null;
-		hoverMessage = null;
+		detailMessage = null;
 	} else {
 		message = "failed FF scout";
 		className = "tt-ff-scouter-error";
-		hoverMessage = scout.message;
+		detailMessage = scout.message;
 	}
 
-	const element = document.newElement({ type: "span", class: ["", pageClass, className], text: message });
-	if (hoverMessage) {
-		element.setAttribute("title", hoverMessage);
-	}
-
-	return element;
+	return { message, className, detailMessage };
 }

@@ -24,14 +24,19 @@
 		const id = getUserID();
 
 		const scout = await scoutFF(id);
-		const element = buildScoutElement(scout, "tt-ff-scouter-profile");
+		const { message, className, detailMessage } = buildScoutInformation(scout);
+
+		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-profile", className], text: message });
+		if (detailMessage) {
+			element.setAttribute("title", detailMessage);
+		}
 
 		const title = document.find(".profile-right-wrapper > .profile-action .title-black");
 		title.appendChild(element);
 	}
 
 	function removeFF() {
-		document.find(".tt-ff-scouter")?.remove();
+		document.find(".tt-ff-scouter-profile")?.remove();
 	}
 
 	function getUserID() {
