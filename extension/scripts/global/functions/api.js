@@ -58,6 +58,7 @@ async function fetchData(location, options = {}) {
 			});
 		} else {
 			let url, path, pathSections, key;
+			let headers = {};
 
 			const params = new URLSearchParams();
 			switch (location) {
@@ -177,8 +178,6 @@ async function fetchData(location, options = {}) {
 			let parameters = {};
 
 			if (options.method.toUpperCase() === "POST") {
-				const headers = {};
-
 				let body;
 				if (options.body instanceof URLSearchParams) body = options.body;
 				else {
@@ -190,13 +189,13 @@ async function fetchData(location, options = {}) {
 					headers["x-requested-with"] = "XMLHttpRequest";
 				}
 
-				parameters = { method: "POST", headers, body };
+				parameters = { method: "POST", body };
 			}
 
 			const controller = new AbortController();
 			const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
 
-			fetch(fullUrl, { ...parameters, signal: controller.signal })
+			fetch(fullUrl, { ...parameters, headers, signal: controller.signal })
 				.then(async (response) => {
 					let result = {};
 
