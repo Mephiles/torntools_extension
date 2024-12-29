@@ -32,7 +32,8 @@
 		"https://api.no1irishstig.co.uk/*",
 		"https://prombot.co.uk:8443/*",
 		"https://api.lzpt.io/*",
-		"https://what-the-f.de/*"
+		"https://what-the-f.de/*",
+		"https://tornpal.com/*"
 	],
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
@@ -43,7 +44,8 @@
 		"https://api.no1irishstig.co.uk/",
 		"https://prombot.co.uk:8443/",
 		"https://api.lzpt.io/",
-		"https://what-the-f.de/"
+		"https://what-the-f.de/",
+		"https://tornpal.com/*"
 	],
 	"web_accessible_resources": [
 		{
