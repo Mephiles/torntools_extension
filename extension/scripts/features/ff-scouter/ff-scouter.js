@@ -1,5 +1,17 @@
-async function scoutFF(target) {
-	return await fetchData("tornpal", { section: "ffscouter", includeKey: true, params: { target } });
+function scoutFF(target) {
+	if (ttCache.hasValue("ff-scouter", target)) {
+		return Promise.resolve(ttCache.get("ff-scouter", target));
+	}
+
+	return new Promise((resolve, reject) => {
+		fetchData("tornpal", { section: "ffscouter", includeKey: true, params: { target } })
+			.then((data) => {
+				ttCache.set({ [target]: data }, data.status ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, "ff-scouter");
+
+				resolve(data);
+			})
+			.catch(reject);
+	});
 }
 
 function buildScoutInformation(scout) {
