@@ -1,0 +1,15 @@
+/*
+.tt-ff-scouter {
+}
+*/
+
+.tt-ff-scouter-error {
+    color: red !important;
+}
+
+.tt-ff-scouter-profile {
+    float: right;
+    padding-right: 10px;
+    color: var(--tt-color-light-green);
+}
+

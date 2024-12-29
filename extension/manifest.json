@@ -589,7 +589,8 @@
 				"scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css",
 				"scripts/features/profile-box/ttProfileBox.css",
 				"scripts/features/stats-estimate/ttStatsEstimate.css",
-				"scripts/features/creators/ttCreators.css"
+				"scripts/features/creators/ttCreators.css",
+				"scripts/features/ff-scouter/ttFFScouter.css"
 			],
 			"js": [
 				"vendor/sortable/sortable.js",
@@ -606,7 +607,9 @@
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateProfile.js",
 				"scripts/features/creators/ttCreators.js",
-				"scripts/features/user-alias/ttUserAliasProfile.js"
+				"scripts/features/user-alias/ttUserAliasProfile.js",
+				"scripts/features/ff-scouter/ff-scouter.js",
+				"scripts/features/ff-scouter/ttFFScouterProfile.js"
 			],
 			"run_at": "document_end"
 		},
