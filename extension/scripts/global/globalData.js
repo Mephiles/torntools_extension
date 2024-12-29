@@ -700,6 +700,7 @@ const DEFAULT_STORAGE = {
 			},
 			ffScouter: {
 				profile: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				attack: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {

@@ -554,14 +554,20 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=attack&*"],
-			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css", "scripts/features/weapon-experience/ttWeaponExperience.css"],
+			"css": [
+				"scripts/features/stats-estimate/ttStatsEstimate.css",
+				"scripts/features/weapon-experience/ttWeaponExperience.css",
+				"scripts/features/ff-scouter/ttFFScouter.css"
+			],
 			"js": [
 				"scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateAttacks.js",
 				"scripts/features/fair-attack/ttFairAttack.js",
 				"scripts/features/weapon-experience/ttWeaponExperience.js",
-				"scripts/features/page-title/ttPageTitleAttack.js"
+				"scripts/features/page-title/ttPageTitleAttack.js",
+				"scripts/features/ff-scouter/ff-scouter.js",
+				"scripts/features/ff-scouter/ttFFScouterAttack.js"
 			],
 			"run_at": "document_end"
 		},
