@@ -703,6 +703,7 @@ const DEFAULT_STORAGE = {
 				profile: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attack: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				factionList: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				gauge: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {

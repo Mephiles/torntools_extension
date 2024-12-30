@@ -143,7 +143,8 @@
 				"scripts/features/user-alias/ttUserAlias.js",
 				"scripts/features/stacking-mode/ttStackingMode.js",
 				"scripts/features/ff-scouter/ff-scouter.js",
-				"scripts/features/ff-scouter/ttFFScouterMiniProfile.js"
+				"scripts/features/ff-scouter/ttFFScouterMiniProfile.js",
+				"scripts/features/ff-scouter/ttFFScouterGauge.js"
 			],
 			"run_at": "document_end"
 		},
