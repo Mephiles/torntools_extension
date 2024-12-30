@@ -1829,6 +1829,28 @@ function getItemEnergy(id) {
 	return !isNaN(value) ? parseInt(value) : false;
 }
 
+function getTTUserId() {
+	if (typeof userdata === "object" && userdata.player_id) {
+		return userdata.player_id;
+	}
+	if (typeof document === "object") {
+		const tornUser = document.find("input#torn-user");
+		if (tornUser) {
+			return JSON.parse(tornUser.value).id;
+		}
+
+		const monScript = document.find("script[playerid]");
+		if (monScript) {
+			return parseInt(monScript.getAttribute("playerid"));
+		}
+	}
+	if (typeof window === "object" && typeof window.topBannerInitData === "object") {
+		return window.topBannerInitData.user.data.userID;
+	}
+
+	throw new Error("Couldn't identify TT user.");
+}
+
 function getUsername(row) {
 	let name, id, combined;
 
