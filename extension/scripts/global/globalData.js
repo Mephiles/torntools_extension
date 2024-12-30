@@ -699,6 +699,7 @@ const DEFAULT_STORAGE = {
 				rankedWars: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			ffScouter: {
+				miniProfile: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				profile: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attack: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				factionList: new DefaultSetting({ type: "boolean", defaultValue: true }),
