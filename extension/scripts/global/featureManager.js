@@ -277,7 +277,7 @@ class FeatureManager {
 			return;
 		}
 
-		new Promise(async (resolve) => {
+		new Promise(async () => {
 			let row = this.container.find(`[feature-name*="${feature.name}"]`);
 			if (row) {
 				row.setAttribute("status", status);
@@ -319,11 +319,11 @@ class FeatureManager {
 		});
 
 		function getIconClass(status) {
-			let className = "fas ";
+			let className = "fa-solid ";
 			switch (status) {
 				case "disabled":
 				case "failed":
-					className += "fa-times-circle";
+					className += "fa-circle-xmark";
 					break;
 				case "loaded":
 					className += "fa-check";
@@ -333,7 +333,7 @@ class FeatureManager {
 					break;
 				case "information":
 				default:
-					className += "fa-question-circle";
+					className += "fa-circle-question";
 			}
 			return className;
 		}

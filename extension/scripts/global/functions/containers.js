@@ -62,7 +62,7 @@ function createContainer(title, options = {}) {
 				<div class="title ${collapsed ? "collapsed" : ""}">
 					<div class="text">${title}</div>
 					<div class="options"></div>
-					${options.collapsible ? "<i class='icon fas fa-caret-down'></i>" : ""}
+					${options.collapsible ? "<i class='icon fa-solid fa-caret-down'></i>" : ""}
 				</div>`;
 		if (!options.onlyHeader) html += `<main class="${mainClasses.join(" ")}"></main>`;
 		container.innerHTML = html;

@@ -59,7 +59,7 @@ async function setupChangelog() {
 
 		const log = document.newElement({ type: "div", class: "version-log" });
 		const heading = document.newElement({ type: "div", class: "title", text: getTitle() });
-		const icon = document.newElement({ type: "i", class: "fas fa-chevron-down" });
+		const icon = document.newElement({ type: "i", class: "fa-solid  fa-chevron-down" });
 		heading.appendChild(icon);
 		log.appendChild(heading);
 
@@ -746,7 +746,7 @@ async function setupPreferences(requireCleanup) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
 		const newRow = document.newElement({
 			type: "li",
@@ -766,7 +766,7 @@ async function setupPreferences(requireCleanup) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
 		const newRow = document.newElement({
 			type: "li",
@@ -859,7 +859,7 @@ async function setupPreferences(requireCleanup) {
 				document.newElement({
 					type: "button",
 					class: "remove-icon-wrap",
-					children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+					children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 					events: {
 						click: () => newRow.remove(),
 					},
@@ -867,7 +867,7 @@ async function setupPreferences(requireCleanup) {
 				document.newElement({
 					type: "div",
 					class: "move-icon-wrap",
-					children: [document.newElement({ type: "i", class: "move-icon fas fa-bars" })],
+					children: [document.newElement({ type: "i", class: "move-icon fa-solid fa-bars" })],
 				}),
 			],
 		});
@@ -879,7 +879,7 @@ async function setupPreferences(requireCleanup) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
 		const newRow = document.newElement({
 			type: "li",
@@ -896,7 +896,7 @@ async function setupPreferences(requireCleanup) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
 		const newRow = document.newElement({
 			type: "li",

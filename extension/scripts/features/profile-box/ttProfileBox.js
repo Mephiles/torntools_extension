@@ -747,7 +747,7 @@
 				const moveButton = document.newElement({
 					type: "button",
 					class: "move-stats",
-					children: [document.newElement({ type: "i", class: "fas fa-arrows-alt" })],
+					children: [document.newElement({ type: "i", class: "fa-solid fa-up-down-left-right" })],
 					events: {
 						click() {
 							if (moveButton.classList.toggle("active")) {
@@ -791,7 +791,7 @@
 				const editButton = document.newElement({
 					type: "button",
 					class: "edit-stats",
-					children: [document.newElement({ type: "i", class: "fas fa-cog" })],
+					children: [document.newElement({ type: "i", class: "fa-solid fa-gear" })],
 					events: {
 						click() {
 							const overlay = document.find(".tt-overlay");
@@ -1196,7 +1196,7 @@
 				footer.appendChild(
 					document.newElement({
 						type: "i",
-						class: "fas fa-redo",
+						class: "fa-solid fa-arrow-rotate-right",
 						events: {
 							click: () => {
 								section.remove();
@@ -1214,7 +1214,7 @@
 				footer.appendChild(
 					document.newElement({
 						type: "i",
-						class: "fas fa-redo",
+						class: "fa-solid fa-arrow-rotate-right",
 						events: {
 							click: () => {
 								section.remove();

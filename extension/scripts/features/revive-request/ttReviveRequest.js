@@ -73,7 +73,7 @@
 		const button = document.newElement({
 			type: "button",
 			class: "tt-revive",
-			children: [document.newElement({ type: "i", class: "fas fa-stethoscope" }), document.newElement({ type: "span", text: "Request Revive" })],
+			children: [document.newElement({ type: "i", class: "fa-solid fa-stethoscope" }), document.newElement({ type: "span", text: "Request Revive" })],
 			events: { click: requestRevive },
 		});
 

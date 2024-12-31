@@ -42,7 +42,7 @@
 			if (!header) await sort("none", undefined);
 			else {
 				header.appendChild(
-					document.newElement({ type: "i", class: `fas ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` })
+					document.newElement({ type: "i", class: `fa-solid ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` })
 				);
 				await sort(settings.sorting.abroad.order, header);
 			}
@@ -60,7 +60,7 @@
 					return "none";
 				}
 			} else {
-				header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-down" }));
+				header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-down" }));
 				return "asc";
 			}
 		}

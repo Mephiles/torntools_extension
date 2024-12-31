@@ -538,7 +538,7 @@ async function setupDashboard() {
 				const removeStakeoutButton = document.newElement({
 					type: "div",
 					class: "delete-stakeout-wrap",
-					children: [document.newElement({ type: "i", class: "delete-stakeout fas fa-trash-alt" })],
+					children: [document.newElement({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
 				});
 				removeStakeoutButton.addEventListener("click", () => {
 					delete stakeouts[id];
@@ -638,7 +638,7 @@ async function setupDashboard() {
 				const removeStakeoutButton = document.newElement({
 					type: "div",
 					class: "delete-stakeout-wrap",
-					children: [document.newElement({ type: "i", class: "delete-stakeout fas fa-trash-alt" })],
+					children: [document.newElement({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
 				});
 				removeStakeoutButton.addEventListener("click", () => {
 					delete factionStakeouts[factionId];
@@ -1239,7 +1239,7 @@ async function setupStocksOverview() {
 				class: "heading",
 				children: [
 					document.newElement({ type: "span", class: "title", text: title }),
-					document.newElement({ type: "i", class: "fas fa-chevron-down" }),
+					document.newElement({ type: "i", class: "fa-solid  fa-chevron-down" }),
 				],
 				events: {
 					click: (event) => {

@@ -34,7 +34,7 @@
 			type: "div",
 			id: "ttExportButton",
 			children: [
-				document.newElement({ type: "i", class: "fa fa-table" }),
+				document.newElement({ type: "i", class: "fa-solid fa-table" }),
 				document.newElement({ type: "span", class: "text", text: "CSV" }),
 				document.newElement({ type: "a", id: "ttExportLink" }),
 			],

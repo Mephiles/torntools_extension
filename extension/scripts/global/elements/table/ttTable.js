@@ -18,7 +18,7 @@ function createTableHeaderCell(columnDef, options) {
 
 	const sortIcon = document.newElement({
 		type: "i",
-		class: "fas tt-table-header-cell-sort-icon tt-hidden",
+		class: "fa-solid tt-table-header-cell-sort-icon tt-hidden",
 	});
 
 	const headerCellElement = document.newElement({

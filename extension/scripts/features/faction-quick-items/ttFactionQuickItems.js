@@ -76,7 +76,7 @@
 				type: "div",
 				class: "option",
 				id: "edit-items-button",
-				children: [document.newElement({ type: "i", class: "fas fa-plus" }), "Edit"],
+				children: [document.newElement({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
 				events: {
 					click: (event) => {
 						event.stopPropagation();
@@ -399,7 +399,7 @@
 
 		const closeIcon = document.newElement({
 			type: "i",
-			class: "fas fa-times tt-close-icon",
+			class: "fa-solid fa-xmark tt-close-icon",
 			attributes: { title: "Remove quick access." },
 			events: {
 				click: async (event) => {

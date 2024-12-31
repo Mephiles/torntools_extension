@@ -295,10 +295,10 @@ function sortTable(table, columnPlace, order) {
 		} else {
 			switch (order) {
 				case "asc":
-					header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-up" }));
+					header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-up" }));
 					break;
 				case "desc":
-					header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-down" }));
+					header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-down" }));
 					break;
 			}
 		}
@@ -315,7 +315,7 @@ function sortTable(table, columnPlace, order) {
 			order = "desc";
 		}
 	} else {
-		header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-up" }));
+		header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-up" }));
 
 		order = "asc";
 	}
