@@ -7,7 +7,14 @@
 			"features": [
 				{ "message": "Option for moving the item market category list to the left.", "contributor": "DeKleineKobini" },
 				{ "message": "Add ranked war hits and wins to Profile Box.", "contributor": "TheFoxMan" },
-				{ "message": "Add easter eggs found and used, territory clears and raid hits to Profile Box.", "contributor": "DeKleineKobini" }
+				{ "message": "Add easter eggs found and used, territory clears and raid hits to Profile Box.", "contributor": "DeKleineKobini" },
+				{
+					"message": [
+						"FairFight Scouter ('FF Scouter') on various pages (profile, mini-profile, attack page and honor bars).",
+						"Requires 'TornPal' to be enabled as external service."
+					],
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"fixes": [
 				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },
