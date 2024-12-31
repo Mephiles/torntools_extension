@@ -297,7 +297,7 @@
 			return;
 		}
 
-		showCrimesAgainOnFirefoxObserver = new MutationObserver((mutations, observer) => {
+		showCrimesAgainOnFirefoxObserver = new MutationObserver((mutations) => {
 			const hasRemovedQuickCrimes = ![...mutations]
 				.filter((mutation) => mutation.removedNodes.length)
 				.flatMap((mutation) => [...mutation.removedNodes])

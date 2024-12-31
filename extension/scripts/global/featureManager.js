@@ -277,7 +277,7 @@ class FeatureManager {
 			return;
 		}
 
-		new Promise(async (resolve) => {
+		new Promise(async () => {
 			let row = this.container.find(`[feature-name*="${feature.name}"]`);
 			if (row) {
 				row.setAttribute("status", status);
