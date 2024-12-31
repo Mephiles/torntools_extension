@@ -30,7 +30,11 @@
 }
 
 #changelog .list > *:not(.subheader) {
-	margin-left: 20px;
+	margin-left: 32px;
+}
+
+#changelog .list .contributor > * {
+	margin-left: -12px;
 }
 
 #changelog .contributor a {

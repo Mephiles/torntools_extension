@@ -125,10 +125,15 @@ async function setupChangelog() {
 			});
 
 			for (const log of entry.logs[title]) {
+				let message;
+				if (typeof log.message === "string") message = log.message;
+				else if (typeof log.message === "object" && Array.isArray(log.message)) message = log.message.join("<br>");
+				else message = log.message.toString();
+
 				const child = document.newElement({
 					type: "div",
 					class: "contributor",
-					children: [document.newElement({ type: "span", text: log.message })],
+					children: [document.newElement({ type: "span", html: message })],
 				});
 
 				const contributor = contributors.filter((x) => x.key === log.contributor);
