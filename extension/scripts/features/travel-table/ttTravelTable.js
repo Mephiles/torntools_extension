@@ -120,7 +120,7 @@
 						html: `
 							<div class="top-row">
 								<div class="legend-icon">
-									<i class="fas fa-chevron-${isOpen ? "down" : "right"}"></i>
+									<i class="fa-solid fa-chevron-${isOpen ? "down" : "right"}"></i>
 									<span>Filters</span>
 								</div>
 								<div class="table-type-wrap">
@@ -479,7 +479,7 @@
 							"aria-labelledby": "travel-table",
 						},
 						children: [
-							document.newElement({ type: "i", class: "fas fa-plane" }),
+							document.newElement({ type: "i", class: "fa-solid fa-plane" }),
 							document.newElement({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
 						],
 						events: {

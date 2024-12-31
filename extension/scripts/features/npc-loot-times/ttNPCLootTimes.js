@@ -112,12 +112,10 @@
 			);
 		}
 
-		// fas-bell-flash
-
 		options.appendChild(
 			document.newElement({
 				type: "i",
-				class: `npc-notifications fas ${settings.notifications.types.npcsGlobal ? "fa-bell" : "fa-bell-slash"}`,
+				class: `npc-notifications fa-solid ${settings.notifications.types.npcsGlobal ? "fa-bell" : "fa-bell-slash"}`,
 				events: {
 					click(event) {
 						const notifications = event.target.classList.toggle("fa-bell");

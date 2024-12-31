@@ -325,7 +325,7 @@
 		function newRefreshButton(customClass = "") {
 			return document.newElement({
 				type: "i",
-				class: `fas fa-redo tt-quick-refresh ${customClass}`,
+				class: `fa-solid fa-arrow-rotate-right tt-quick-refresh ${customClass}`,
 				events: {
 					click: () => location.reload(),
 				},

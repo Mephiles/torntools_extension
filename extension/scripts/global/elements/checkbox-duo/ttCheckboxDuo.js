@@ -10,8 +10,8 @@ function createCheckboxDuo(options = {}) {
 	switch (options.indicator) {
 		case "icon":
 			isHTML = true;
-			descriptionYes = "<i class='icon fas fa-arrow-up'></i>";
-			descriptionNo = "<i class='icon fas fa-arrow-down'></i>";
+			descriptionYes = "<i class='icon fa-solid fa-arrow-up'></i>";
+			descriptionNo = "<i class='icon fa-solid fa-arrow-down'></i>";
 			break;
 		case "text":
 		default:

@@ -284,7 +284,7 @@ async function setupStakeouts() {
 		const deleteButton = document.newElement({
 			type: "button",
 			class: "delete",
-			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
 		deleteButton.addEventListener("click", () => row.remove());
 

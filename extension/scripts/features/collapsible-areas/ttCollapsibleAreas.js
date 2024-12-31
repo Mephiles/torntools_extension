@@ -32,7 +32,7 @@
 		if (filters.containers.collapseAreas) header.classList.add("collapsed");
 		title.addEventListener("click", clickListener);
 
-		const icon = document.newElement({ type: "i", class: "icon fas fa-caret-down" });
+		const icon = document.newElement({ type: "i", class: "icon fa-solid fa-caret-down" });
 		title.appendChild(icon);
 
 		observer = new MutationObserver(() => {
