@@ -40,7 +40,8 @@
 				{ "message": "Show an indication when Loot Ranger has not included every NPC in their scheduled attack.", "contributor": "DeKleineKobini" },
 				{ "message": "Update the core team titles to reflect DeKleineKobini rejoining.", "contributor": "DeKleineKobini" },
 				{ "message": "Update the missing hint for 'estranged' to include feet.", "contributor": "DeKleineKobini" },
-				{ "message": "Detect sidebar conditions better for some sidebar features.", "contributor": "DeKleineKobini" }
+				{ "message": "Detect sidebar conditions better for some sidebar features.", "contributor": "DeKleineKobini" },
+				{ "message": "Add links to the external services, where applicable.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" },
