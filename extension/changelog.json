@@ -42,6 +42,7 @@
 				{ "message": "Update the core team titles to reflect DeKleineKobini rejoining.", "contributor": "DeKleineKobini" },
 				{ "message": "Update the missing hint for 'estranged' to include feet.", "contributor": "DeKleineKobini" },
 				{ "message": "Detect sidebar conditions better for some sidebar features.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust revive request prices to be accurate. Prices are no longer the same for every revive provider.", "contributor": "DeKleineKobini" },
 				{ "message": "Add links to the external services, where applicable.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [

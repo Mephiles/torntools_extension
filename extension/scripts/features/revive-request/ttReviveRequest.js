@@ -95,8 +95,6 @@
 		}
 
 		async function requestRevive() {
-			const provider = settings.pages.global.reviveProvider || "";
-
 			const details = getUserDetails();
 			if (details.error) return false; // TODO - Show error message.
 
@@ -110,103 +108,13 @@
 			else if (country === "uae") country = "UAE";
 			else country = capitalizeText(country.replaceAll("-", " "), { everyWord: true });
 
-			const source = `TornTools v${chrome.runtime.getManifest().version}`;
-
-			if (provider === "nuke") {
-				const response = await fetchData("nukefamily", {
-					section: "api/revive-request",
-					method: "POST",
-					body: { torn_player_id: id, torn_player_name: name, torn_player_country: country, app_info: source },
-					relay: true,
-					silent: true,
-					succeedOnError: true,
-				});
-
-				if (response.success) {
-					displayMessage("Revive requested!");
-				} else {
+			doRequestRevive(id, name, country, faction)
+				.then(({ provider }) => displayMessage(`Revive requested for ${calculateRevivePrice(provider)}!`))
+				.catch(({ provider, response }) => {
 					displayMessage("Failed to request!", true);
 					button.removeAttribute("disabled");
-					console.log("TT - Failed to request a revive with Nuke!", response);
-				}
-			} else if (provider === "uhc") {
-				const response = await fetchData("uhc", {
-					section: "api/request",
-					method: "POST",
-					body: { userID: id, userName: name, factionName: faction, source },
-					relay: true,
-					silent: true,
-					succeedOnError: true,
+					console.log(`TT - Failed to request a revive with ${provider.name}!`, response);
 				});
-
-				if (response.success) {
-					displayMessage("Revive requested!");
-				} else {
-					displayMessage("Failed to request!", true);
-					button.removeAttribute("disabled");
-					console.log("TT - Failed to request a revive with UHC!", response);
-				}
-			} else if (provider === "imperium") {
-				const response = await fetchData("imperium", {
-					section: "revive",
-					method: "POST",
-					body: { userID: id, userName: name, factionName: faction, source },
-					relay: true,
-					silent: true,
-					succeedOnError: true,
-				});
-
-				if (response.success) {
-					displayMessage("Revive requested!");
-				} else {
-					displayMessage("Failed to request!", true);
-					button.removeAttribute("disabled");
-					console.log("TT - Failed to request a revive with Imperium!", response);
-				}
-			} else if (provider === "hela" || provider === "shadow_healers" || provider === "who") {
-				const providers = { hela: "HeLa", shadow_healers: "Shadow Healers", who: "The Wolverines" };
-				const response = await fetchData(provider, {
-					section: "request",
-					method: "POST",
-					body: {
-						tornid: id.toString(),
-						username: name,
-						source: source,
-						vendor: providers[provider],
-						type: "revive",
-					},
-					relay: true,
-					silent: true,
-					succeedOnError: true,
-				});
-
-				if (response.hasOwnProperty("contract")) {
-					displayMessage((response["contract"] ? "Contract " : "") + " Revive requested!");
-				} else {
-					displayMessage("Failed to request!", true);
-					button.removeAttribute("disabled");
-					console.log("TT - Failed to request a revive with " + providers[provider] + "!", response);
-				}
-			} else if (provider === "wtf") {
-				const response = await fetchData("wtf", {
-					section: "wtfapi/revive",
-					method: "POST",
-					body: { userID: id, userName: name, Faction: faction, Country: country, requestChannel: source },
-					relay: true,
-					silent: true,
-					succeedOnError: true,
-				});
-
-				if (response.success) {
-					displayMessage("Revive requested!");
-				} else {
-					displayMessage("Failed to request!", true);
-					button.removeAttribute("disabled");
-					console.log("TT - Failed to request a revive with WTF!", response);
-				}
-			} else {
-				console.error("There was an attempt to request revives from an non-existing provider.", settings.pages.global.reviveProvider);
-			}
 		}
 
 		function getSidebar() {
@@ -223,7 +131,7 @@
 			setTimeout(() => {
 				element.textContent = "Request Revive";
 				element.classList.remove("tt-revive-success");
-			}, 2500);
+			}, 10 * TO_MILLIS.SECONDS);
 		}
 	}
 

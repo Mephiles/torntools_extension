@@ -17,6 +17,7 @@
 			"scripts/global/functions/formatting.js",
 			"scripts/global/functions/utilities.js",
 			"scripts/global/functions/api.js",
+			"scripts/global/functions/api-external.js",
 			"scripts/global/functions/torn.js",
 			"scripts/background.js"
 		]
@@ -99,6 +100,7 @@
 				"scripts/global/functions/utilities.js",
 				"scripts/global/functions/torn.js",
 				"scripts/global/functions/api.js",
+				"scripts/global/functions/api-external.js",
 				"scripts/global/featureManager.js",
 				"scripts/global/elements/checkbox/ttCheckbox.js",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.js",
@@ -220,7 +222,8 @@
 				"scripts/global/functions/database.js",
 				"scripts/global/functions/requires.js",
 				"scripts/global/functions/utilities.js",
-				"scripts/global/functions/api.js"
+				"scripts/global/functions/api.js",
+				"scripts/global/functions/api-external.js"
 			],
 			"run_at": "document_start"
 		},
