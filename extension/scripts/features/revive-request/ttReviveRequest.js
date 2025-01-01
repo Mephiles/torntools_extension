@@ -109,7 +109,7 @@
 			else country = capitalizeText(country.replaceAll("-", " "), { everyWord: true });
 
 			doRequestRevive(id, name, country, faction)
-				.then(() => displayMessage("Revive requested!"))
+				.then(({ provider }) => displayMessage(`Revive requested for ${calculateRevivePrice(provider)}!`))
 				.catch(({ provider, response }) => {
 					displayMessage("Failed to request!", true);
 					button.removeAttribute("disabled");

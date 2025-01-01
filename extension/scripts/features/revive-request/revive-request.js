@@ -156,3 +156,12 @@ function doRequestRevive(id, name, country, faction) {
 		.then(({ response, contract }) => ({ response, contract, provider }))
 		.catch((response) => ({ response, provider }));
 }
+
+function calculateRevivePrice({ price }) {
+	const parts = [];
+
+	if (price?.money) parts.push(formatNumber(price.money, { currency: true, shorten: 3 }));
+	if (price?.xanax) parts.push(`${price.xanax} xan`);
+
+	return parts.length > 0 ? parts.join(" or ") : "unknown";
+}
