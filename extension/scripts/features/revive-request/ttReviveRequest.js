@@ -131,7 +131,7 @@
 			setTimeout(() => {
 				element.textContent = "Request Revive";
 				element.classList.remove("tt-revive-success");
-			}, 2500);
+			}, 10 * TO_MILLIS.SECONDS);
 		}
 	}
 
