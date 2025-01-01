@@ -562,10 +562,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=attack&*"],
-			"css": [
-				"scripts/features/stats-estimate/ttStatsEstimate.css",
-				"scripts/features/weapon-experience/ttWeaponExperience.css"
-			],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css", "scripts/features/weapon-experience/ttWeaponExperience.css"],
 			"js": [
 				"scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
