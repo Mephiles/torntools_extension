@@ -350,7 +350,7 @@ function checkAPIPermission(key) {
 
 function tornpalIdentifier() {
 	try {
-		return `TornTools-${getTTUserId()}`;
+		return `TornTools-${getUserDetails().id}`;
 	} catch {
 		return "TornTools";
 	}
