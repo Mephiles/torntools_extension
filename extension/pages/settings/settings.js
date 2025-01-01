@@ -228,6 +228,17 @@ async function setupPreferences(requireCleanup) {
 		addSaveDialog();
 	});
 
+	const reviveProviderSelectElement = _preferences.find("#global-reviveProvider");
+	for (const provider of REVIVE_PROVIDERS) {
+		reviveProviderSelectElement.appendChild(
+			document.newElement({
+				type: "option",
+				text: `${provider.name} (${calculateRevivePrice(provider)})`,
+				attributes: { value: provider.provider },
+			})
+		);
+	}
+
 	if (getSearchParameters().has("section"))
 		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
 
@@ -500,15 +511,7 @@ async function setupPreferences(requireCleanup) {
 		const provider = event.target.value;
 		if (!provider) return;
 
-		let origin;
-		if (provider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
-		else if (provider === "uhc") origin = FETCH_PLATFORMS.uhc;
-		else if (provider === "imperium") origin = FETCH_PLATFORMS.imperium;
-		else if (provider === "hela") origin = FETCH_PLATFORMS.hela;
-		else if (provider === "shadow_healers") origin = FETCH_PLATFORMS.shadow_healers;
-		else if (provider === "wtf") origin = FETCH_PLATFORMS.wtf;
-		else if (provider === "who") origin = FETCH_PLATFORMS.who;
-
+		const origin = REVIVE_PROVIDERS.find((p) => p === provider)?.origin;
 		if (!origin) return;
 
 		if (!chrome.permissions) {
@@ -1270,14 +1273,7 @@ async function setupPreferences(requireCleanup) {
 
 		const reviveProvider = _preferences.find("#global-reviveProvider").value;
 		if (reviveProvider) {
-			let origin;
-			if (reviveProvider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
-			else if (reviveProvider === "uhc") origin = FETCH_PLATFORMS.uhc;
-			else if (reviveProvider === "imperium") origin = FETCH_PLATFORMS.imperium;
-			else if (reviveProvider === "hela") origin = FETCH_PLATFORMS.hela;
-			else if (reviveProvider === "shadow_healers") origin = FETCH_PLATFORMS.shadow_healers;
-			else if (reviveProvider === "wtf") origin = FETCH_PLATFORMS.wtf;
-			else if (reviveProvider === "who") origin = FETCH_PLATFORMS.who;
+			const origin = REVIVE_PROVIDERS.find((p) => p === reviveProvider)?.origin;
 
 			if (origin) origins.push(origin);
 		}

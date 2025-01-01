@@ -1,3 +1,5 @@
+"use strict";
+
 const __DEFAULT_REVIVE_REQUEST = {
 	method: "POST",
 	relay: true,
@@ -28,6 +30,7 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "nuke",
 		name: "Nuke",
+		origin: FETCH_PLATFORMS.nukefamily,
 		doRequest: (id, name, country, faction, source) =>
 			new Promise((resolve, reject) => {
 				fetchData("nukefamily", {
@@ -54,6 +57,7 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "uhc",
 		name: "UHC",
+		origin: FETCH_PLATFORMS.uhc,
 		doRequest: (id, name, country, faction, source) =>
 			new Promise((resolve, reject) => {
 				fetchData("uhc", {
@@ -75,6 +79,7 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "imperium",
 		name: "Imperium",
+		origin: FETCH_PLATFORMS.imperium,
 		doRequest: (id, name, country, faction, source) =>
 			new Promise((resolve, reject) => {
 				fetchData("imperium", {
@@ -89,7 +94,6 @@ const REVIVE_PROVIDERS = [
 					.catch((reason) => reject(reason));
 			}),
 		price: {
-			// TODO - Request new price.
 			money: 1_800_000,
 			xanax: 2,
 		},
@@ -97,6 +101,7 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "wtf",
 		name: "WTF",
+		origin: FETCH_PLATFORMS.wtf,
 		doRequest: (id, name, country, faction, source) =>
 			new Promise((resolve, reject) => {
 				fetchData("wtf", {
@@ -118,6 +123,7 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "hela",
 		name: "HeLa",
+		origin: FETCH_PLATFORMS.hela,
 		doRequest: __requestStigFormat("hela", "HeLa"),
 		price: {
 			money: 1_800_000,
@@ -127,6 +133,7 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "shadow_healers",
 		name: "Shadow Healers",
+		origin: FETCH_PLATFORMS.shadow_healers,
 		doRequest: __requestStigFormat("shadow_healers", "Shadow Healers"),
 		price: {
 			money: 1_800_000,
@@ -136,6 +143,7 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "who",
 		name: "The Wolverines",
+		origin: FETCH_PLATFORMS.who,
 		doRequest: __requestStigFormat("who", "The Wolverines"),
 		price: {
 			money: 1_000_000,
