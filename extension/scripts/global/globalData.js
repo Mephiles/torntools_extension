@@ -283,6 +283,9 @@ const DEFAULT_STORAGE = {
 		yata: {
 			key: new DefaultSetting({ type: "string" }),
 		},
+		tornpal: {
+			key: new DefaultSetting({ type: "string" }),
+		},
 	},
 	settings: {
 		updateNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -695,12 +698,20 @@ const DEFAULT_STORAGE = {
 				competition: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				rankedWars: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			ffScouter: {
+				miniProfile: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				profile: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				attack: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				factionList: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				gauge: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			lzpt: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			tornpal: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	filters: {

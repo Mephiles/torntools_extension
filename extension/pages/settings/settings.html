@@ -96,6 +96,7 @@
 						<li name="last-action">Last Action</li>
 						<li name="stats-estimate">Stats Estimate</li>
 						<li name="user-alias">User Alias</li>
+						<li name="ff-scouter">FF Scouter</li>
 
 						<li class="header">Pages</li>
 						<li name="home">Home</li>
@@ -826,6 +827,7 @@
 						<div class="option">
 							<input id="external-tornstats" type="checkbox" />
 							<label for="external-tornstats">Connect to TornStats.</label>
+							<a href="https://tornstats.com/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
 
 							<input id="external-tornstats-key" type="text" placeholder="API key" />
 							<label for="external-tornstats-key" class="tabbed note">
@@ -835,6 +837,7 @@
 						<div class="option">
 							<input id="external-yata" type="checkbox" />
 							<label for="external-yata">Connect to YATA.</label>
+							<a href="https://yata.yt/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
 
 							<input id="external-yata-key" type="text" placeholder="API key" />
 							<label for="external-yata-key" class="tabbed note">
@@ -848,6 +851,16 @@
 						<div class="option">
 							<input id="external-lzpt" type="checkbox" />
 							<label for="external-lzpt">Connect to LZPT.</label>
+						</div>
+						<div class="option">
+							<input id="external-tornpal" type="checkbox" />
+							<label for="external-tornpal">Connect to TornPal.</label>
+							<a href="https://tornpal.com/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+
+							<input id="external-tornpal-key" type="text" placeholder="API key" />
+							<label for="external-tornpal-key" class="tabbed note">
+								This API key is optional. It's only required if you use a different key for TornPal.
+							</label>
 						</div>
 					</section>
 					<section name="competition">
@@ -1626,6 +1639,31 @@
 								</button>
 							</li>
 						</ul>
+					</section>
+					<section name="ff-scouter">
+						<div class="header">FF Scouter</div>
+						<div class="note">Requires TornPal to be enabled as External Service.</div>
+
+						<div class="option">
+							<input id="ffScouter-miniProfile" type="checkbox" />
+							<label for="ffScouter-miniProfile">on mini profiles.</label>
+						</div>
+						<div class="option">
+							<input id="ffScouter-profile" type="checkbox" />
+							<label for="ffScouter-profile">on profiles.</label>
+						</div>
+						<div class="option">
+							<input id="ffScouter-attack" type="checkbox" />
+							<label for="ffScouter-attack">on the attack page.</label>
+						</div>
+						<div class="option">
+							<input id="ffScouter-factionList" type="checkbox" />
+							<label for="ffScouter-factionList">on factions member's lists.</label>
+						</div>
+						<div class="option">
+							<input id="ffScouter-gauge" type="checkbox" />
+							<label for="ffScouter-gauge">on all honor bars and name displays.</label>
+						</div>
 					</section>
 
 					<section name="last-action">

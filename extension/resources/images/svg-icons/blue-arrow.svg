@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!--  Credits to rDacted [2670953] (https://www.torn.com/profiles.php?XID=2670953). -->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32" width="48" height="32">
+    <defs>
+        <linearGradient id="swatch1">
+            <stop style="stop-color: #26bcf5;" offset="0"/>
+        </linearGradient>
+    </defs>
+
+    <path fill="url(#swatch1)" d="M 0,0 H 24 48 L 24.001125,32 Z"/>
+</svg>

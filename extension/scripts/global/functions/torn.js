@@ -1783,20 +1783,38 @@ function millisToNewDay() {
 }
 
 function getUserDetails() {
-	let id, name;
-
-	if (!hasAPIData()) {
-		const script = document.find("script[uid][name]");
-		if (!script) return { error: "Couldn't get details" };
-
-		id = parseInt(script.getAttribute("uid"));
-		name = script.getAttribute("name");
-	} else {
-		id = userdata.player_id;
-		name = userdata.name;
+	if (hasAPIData()) {
+		return { id: userdata.player_id, name: userdata.name };
 	}
 
-	return { id, name };
+	const tornUser = document.find("input#torn-user");
+	if (tornUser) {
+		const data = JSON.parse(tornUser.value);
+
+		return { id: data.id, name: data.playername };
+	}
+
+	const monScript = document.find("script[playerid][playername]");
+	if (monScript) {
+		return {
+			id: parseInt(monScript.getAttribute("playerid")),
+			name: monScript.getAttribute("playername"),
+		};
+	}
+
+	const websocketElement = document.getElementById("websocketConnectionData");
+	if (websocketElement) {
+		const data = JSON.parse(websocketElement.textContent);
+
+		return { id: data.userID, name: data.playername };
+	}
+
+	const sidebarElement = findByPartialClass(document, "menu-value___");
+	if (sidebarElement) {
+		return { id: parseInt(sidebarElement.href.getNumber()), name: sidebarElement.textContent };
+	}
+
+	return { error: "Couldn't get details" };
 }
 
 function isOwnProfile() {

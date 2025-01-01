@@ -33,7 +33,8 @@
 		"https://api.no1irishstig.co.uk/*",
 		"https://prombot.co.uk:8443/*",
 		"https://api.lzpt.io/*",
-		"https://what-the-f.de/*"
+		"https://what-the-f.de/*",
+		"https://tornpal.com/*"
 	],
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
@@ -44,7 +45,8 @@
 		"https://api.no1irishstig.co.uk/",
 		"https://prombot.co.uk:8443/",
 		"https://api.lzpt.io/",
-		"https://what-the-f.de/"
+		"https://what-the-f.de/",
+		"https://tornpal.com/*"
 	],
 	"web_accessible_resources": [
 		{
@@ -125,7 +127,8 @@
 				"scripts/features/trade-timer/ttTradeTimer.css",
 				"scripts/features/revive-request/ttReviveRequest.css",
 				"scripts/features/user-alias/ttUserAlias.css",
-				"scripts/features/stacking-mode/ttStackingMode.css"
+				"scripts/features/stacking-mode/ttStackingMode.css",
+				"scripts/features/ff-scouter/ttFFScouter.css"
 			],
 			"js": [
 				"resources/images/svg-icons/cross.js",
@@ -140,7 +143,10 @@
 				"scripts/features/hide-chat/ttHideChat.js",
 				"scripts/features/revive-request/ttReviveRequest.js",
 				"scripts/features/user-alias/ttUserAlias.js",
-				"scripts/features/stacking-mode/ttStackingMode.js"
+				"scripts/features/stacking-mode/ttStackingMode.js",
+				"scripts/features/ff-scouter/ff-scouter.js",
+				"scripts/features/ff-scouter/ttFFScouterMiniProfile.js",
+				"scripts/features/ff-scouter/ttFFScouterGauge.js"
 			],
 			"run_at": "document_end"
 		},
@@ -400,7 +406,8 @@
 				"scripts/features/faction-quick-items/ttFactionQuickItems.js",
 				"scripts/features/faction-stakeouts/ttFactionStakeouts.js",
 				"scripts/features/faction-id/ttFactionID.js",
-				"scripts/features/show-faction-spy/ttShowFactionSpy.js"
+				"scripts/features/show-faction-spy/ttShowFactionSpy.js",
+				"scripts/features/ff-scouter/ttFFScouterFaction.js"
 			],
 			"run_at": "document_end"
 		},
@@ -555,14 +562,18 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=attack&*"],
-			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css", "scripts/features/weapon-experience/ttWeaponExperience.css"],
+			"css": [
+				"scripts/features/stats-estimate/ttStatsEstimate.css",
+				"scripts/features/weapon-experience/ttWeaponExperience.css"
+			],
 			"js": [
 				"scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateAttacks.js",
 				"scripts/features/fair-attack/ttFairAttack.js",
 				"scripts/features/weapon-experience/ttWeaponExperience.js",
-				"scripts/features/page-title/ttPageTitleAttack.js"
+				"scripts/features/page-title/ttPageTitleAttack.js",
+				"scripts/features/ff-scouter/ttFFScouterAttack.js"
 			],
 			"run_at": "document_end"
 		},
@@ -607,7 +618,8 @@
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateProfile.js",
 				"scripts/features/creators/ttCreators.js",
-				"scripts/features/user-alias/ttUserAliasProfile.js"
+				"scripts/features/user-alias/ttUserAliasProfile.js",
+				"scripts/features/ff-scouter/ttFFScouterProfile.js"
 			],
 			"run_at": "document_end"
 		},

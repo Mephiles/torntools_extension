@@ -7,7 +7,15 @@
 			"features": [
 				{ "message": "Option for moving the item market category list to the left.", "contributor": "DeKleineKobini" },
 				{ "message": "Add ranked war hits and wins to Profile Box.", "contributor": "TheFoxMan" },
-				{ "message": "Add easter eggs found and used, territory clears and raid hits to Profile Box.", "contributor": "DeKleineKobini" }
+				{ "message": "Add easter eggs found and used, territory clears and raid hits to Profile Box.", "contributor": "DeKleineKobini" },
+				{
+					"message": [
+						"FairFight Scouter ('FF Scouter') on various pages (profile, mini-profile, attack page and honor bars).",
+						"Credits to Glasnost [1844049] for TornPal and rDacted [2670953] for the original script ('FF Scouter').",
+						"Requires 'TornPal' to be enabled as external service."
+					],
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"fixes": [
 				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },
@@ -37,7 +45,8 @@
 				{
 					"message": "Adjust revive request prices to be accurate. Prices are no longer the same for every revive provider.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Add links to the external services, where applicable.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" },
