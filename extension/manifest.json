@@ -136,6 +136,7 @@
 				"scripts/features/easter-egg/ttEasterEgg.js",
 				"scripts/features/trade-timer/ttTradeTimer.js",
 				"scripts/features/hide-chat/ttHideChat.js",
+				"scripts/features/revive-request/revive-request.js",
 				"scripts/features/revive-request/ttReviveRequest.js",
 				"scripts/features/user-alias/ttUserAlias.js",
 				"scripts/features/stacking-mode/ttStackingMode.js"
