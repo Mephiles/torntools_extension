@@ -44,7 +44,7 @@
 			new MutationObserver(async (mutations) => {
 				if (!feature.enabled()) return;
 
-				if (mutations.some((mutation) => [...mutation?.addedNodes].some((node) => node.className.includes?.("gymContentWrapper__")))) {
+				if (mutations.some((mutation) => [...mutation?.addedNodes].some((node) => node.className?.includes?.("gymContentWrapper__")))) {
 					showCheckboxes();
 
 					requireElement("#gymroot ul[class*='properties_']").then((properties) => {
