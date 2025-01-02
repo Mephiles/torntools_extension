@@ -18,9 +18,7 @@ const FETCH_PLATFORMS = {
 	nukefamily: "https://nuke.family/",
 	uhc: "https://tornuhc.eu/",
 	imperium: "https://inq.mavri.dev/",
-	hela: "https://api.no1irishstig.co.uk/",
-	shadow_healers: "https://api.no1irishstig.co.uk/",
-	who: "https://api.no1irishstig.co.uk/",
+	stig: "https://api.no1irishstig.co.uk/",
 	prometheus: "https://prombot.co.uk:8443/",
 	lzpt: "https://api.lzpt.io/",
 	wtf: "https://what-the-f.de/",
@@ -134,18 +132,8 @@ async function fetchData(location, options = {}) {
 
 					path = options.section;
 					break;
-				case "hela":
-					url = FETCH_PLATFORMS.hela;
-
-					path = options.section;
-					break;
-				case "shadow_healers":
-					url = FETCH_PLATFORMS.shadow_healers;
-
-					path = options.section;
-					break;
-				case "who":
-					url = FETCH_PLATFORMS.who;
+				case "stig":
+					url = FETCH_PLATFORMS.stig;
 
 					path = options.section;
 					break;

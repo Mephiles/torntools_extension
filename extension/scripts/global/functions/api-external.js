@@ -7,10 +7,10 @@ const __DEFAULT_REVIVE_REQUEST = {
 	succeedOnError: true,
 };
 
-function __requestStigFormat(location, vendor) {
+function __requestStigFormat(vendor) {
 	return (id, name, country, faction, source) =>
 		new Promise((resolve, reject) => {
-			fetchData(location, {
+			fetchData("stig", {
 				...__DEFAULT_REVIVE_REQUEST,
 				section: "request",
 				body: { tornid: id.toString(), username: name, source: source, vendor, type: "revive" },
@@ -123,8 +123,8 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "hela",
 		name: "HeLa",
-		origin: FETCH_PLATFORMS.hela,
-		doRequest: __requestStigFormat("hela", "HeLa"),
+		origin: FETCH_PLATFORMS.stig,
+		doRequest: __requestStigFormat("HeLa"),
 		price: {
 			money: 1_800_000,
 			xanax: 2,
@@ -133,8 +133,8 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "shadow_healers",
 		name: "Shadow Healers",
-		origin: FETCH_PLATFORMS.shadow_healers,
-		doRequest: __requestStigFormat("shadow_healers", "Shadow Healers"),
+		origin: FETCH_PLATFORMS.stig,
+		doRequest: __requestStigFormat("Shadow Healers"),
 		price: {
 			money: 1_800_000,
 			xanax: 2,
@@ -143,8 +143,8 @@ const REVIVE_PROVIDERS = [
 	{
 		provider: "who",
 		name: "The Wolverines",
-		origin: FETCH_PLATFORMS.who,
-		doRequest: __requestStigFormat("who", "The Wolverines"),
+		origin: FETCH_PLATFORMS.stig,
+		doRequest: __requestStigFormat("The Wolverines"),
 		price: {
 			money: 1_000_000,
 			xanax: 1,
