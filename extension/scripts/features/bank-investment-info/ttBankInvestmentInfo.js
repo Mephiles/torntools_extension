@@ -206,7 +206,7 @@
 	}
 
 	function teardown() {
-		bankInvestmentInfoContainer.dispose();
+		bankInvestmentInfoContainer?.dispose();
 		bankInvestmentInfoContainer = undefined;
 	}
 })();

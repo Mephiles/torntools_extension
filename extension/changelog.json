@@ -26,7 +26,8 @@
 				{ "message": "Link market icons to the new item market.", "contributor": "DeKleineKobini" },
 				{ "message": "Link market icons for missing sets to the new item market.", "contributor": "DeKleineKobini" },
 				{ "message": "Link popup items to the new item market.", "contributor": "DeKleineKobini" },
-				{ "message": "Properly show links when using refills through faction quick items.", "contributor": "DeKleineKobini" }
+				{ "message": "Properly show links when using refills through faction quick items.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors on the bank page when there is no API key.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

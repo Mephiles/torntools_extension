@@ -55,7 +55,7 @@
 	}
 
 	function teardown() {
-		bankInvestmentFacade.dispose();
+		bankInvestmentFacade?.dispose();
 		bankInvestmentFacade = undefined;
 	}
 })();
