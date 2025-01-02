@@ -15,7 +15,8 @@
 						"Requires 'TornPal' to be enabled as external service."
 					],
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Add 'Wolverines X' as revive provider.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Fix personal stat average injection on Firefox.", "contributor": "tiksan" },

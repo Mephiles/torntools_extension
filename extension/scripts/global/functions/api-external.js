@@ -150,6 +150,16 @@ const REVIVE_PROVIDERS = [
 			xanax: 1,
 		},
 	},
+	{
+		provider: "midnight_x",
+		name: "Midnight X",
+		origin: FETCH_PLATFORMS.stig,
+		doRequest: __requestStigFormat("Midnight X"),
+		price: {
+			money: 1_800_000,
+			xanax: 2,
+		},
+	},
 ];
 
 function doRequestRevive(id, name, country, faction) {
