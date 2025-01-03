@@ -47,52 +47,31 @@ jobs:
           echo "version=$version" >> "$GITHUB_ENV"
 
           # Create release body
-          echo "$firstEntry" | "${jqCommand}" -j "
-            .logs as \$clFirstEntryLogs | (
-                \$clFirstEntryLogs |
-                if ((.features | length) > 0) then
-                    (.features |
-                    map(\"* \" + .message + \"\n\") |
-                    . |= [\"### Features\n\"] + . |
-                    . |= . + [\"\n\"] |
-                    join(\"\"))
-                else (\"\")
-                end
-            ),
-            (
-                \$clFirstEntryLogs |
-                if ((.fixes | length) > 0) then
-                    (.fixes |
-                    map(\"* \" + .message + \"\n\") |
-                    . |= [\"### Fixes\n\"] + . |
-                    . |= . + [\"\n\"] |
-                    join(\"\"))
-                else (\"\")
-                end
-            ),
-            (
-                \$clFirstEntryLogs |
-                if ((.changes | length) > 0) then
-                    (.changes |
-                    map(\"* \" + .message + \"\n\") |
-                    . |= [\"### Changes\n\"] + . |
-                    . |= . + [\"\n\"] |
-                    join(\"\"))
-                else (\"\")
-                end
-            ),
-            (
-                \$clFirstEntryLogs |
-                if ((.removed | length) > 0) then
-                    (.removed |
-                    map(\"* \" + .message + \"\n\") |
-                    . |= [\"### Removed\n\"] + . |
-                    . |= . + [\"\n\"] |
-                    join(\"\"))
-                else (\"\")
-                end
-            )
-          " >> "$releaseBodyFile"
+          echo "$firstEntry" | "${jqCommand}" -j '
+          def process_category($keyAndTitle):
+                . as $logs |
+                $keyAndTitle | split(";")[0] as $key |
+                $keyAndTitle | split(";")[1] as $title |
+                if ($logs[$key] | length) > 0 then
+                    ($logs[$key] |
+                    map("* " +
+                        (if .message | type == "string" then .message
+                         elif .message | type == "array" then .message | join(" ")
+                         else .message | tostring
+                         end
+                        ) +
+                        "\n") |
+                    . |= [$title] + . |
+                    . |= . + ["\n"] |
+                    join(""))
+                else ("")
+                end;
+          .logs |
+          process_category("features;### Features\n"),
+          process_category("fixes;### Fixes\n"),
+          process_category("changes;### Changes\n"),
+          process_category("removed;### Removed\n")
+          ' >> "$releaseBodyFile"
 
           # Update changelog.json date and remove empty features, fixes and changes entries
           "${jqCommand}" -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
