@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Correctly count the supply pack value.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Correctly count the supply pack value.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error on the item market when switching categories.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [{ "message": "Better optimize calls to tornpal.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}

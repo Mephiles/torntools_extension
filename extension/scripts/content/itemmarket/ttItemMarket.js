@@ -52,9 +52,12 @@
 
 		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, { list });
 		[...list.findAll("[class*='itemList___'] > li")].forEach((itemElement) => {
+			const priceElement = itemElement.find("[class*='priceAndTotal___'] span:first-child");
+			if (!priceElement) return;
+
 			new MutationObserver(() => {
 				triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE, { item: itemElement });
-			}).observe(itemElement.find("[class*='priceAndTotal___'] span:first-child"), { subtree: true, characterData: true });
+			}).observe(priceElement, { subtree: true, characterData: true });
 		});
 		if (!mobile && !tablet) {
 			new MutationObserver(async (mutations) => {
