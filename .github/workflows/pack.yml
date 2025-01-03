@@ -41,6 +41,8 @@ jobs:
           tmpFile="tmp.tmp"
           firstEntry="$("${jqCommand}" -j ".[0]" "${changelogPath}")"
           version="$(echo "$firstEntry" | "${jqCommand}" -j "[ .version | to_entries[] | .value ] | join(\".\")")"
+          manifestVersion="$("${jqCommand}" -j ".version" < ./extension/manifest.json)"
+          [ $version != $manifestVersion ] && echo "Manifest version and changelog version are not same. Please verify again." && exit 1
 
           # Export version for future tasks
           export version
