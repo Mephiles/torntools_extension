@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 7, "minor": 4, "build": 0 },
+		"version": { "major": 7, "minor": 4, "build": 1 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 4, "build": 0 },
+		"title": "Beta",
+		"date": "2025/01/03",
 		"logs": {
 			"features": [
 				{ "message": "Option for moving the item market category list to the left.", "contributor": "DeKleineKobini" },
@@ -30,10 +36,7 @@
 				{ "message": "Avoid errors on the bank page when there is no API key.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
-				{
-					"message": "Only show seconds in the oc timer and faction oc timer when there is less than an hour left.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "Only show seconds in the oc timer and faction oc timer when there is less than an hour left.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter on activity on the enemy list.", "contributor": "DeKleineKobini" },
 				{ "message": "Update our external library for sortable lists: SortableJS.", "contributor": "DeKleineKobini" },
 				{ "message": "Update our external library for icons: Font Awesome.", "contributor": "DeKleineKobini" },
