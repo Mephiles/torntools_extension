@@ -38,12 +38,10 @@
 				reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
 			}
 
-			if (params.get("XID") === reqXID || isDrugPackUseRequest(params)) {
-				const totalOpenedValue = json?.items?.itemAppear?.reduce(
-					(totalValue, item) =>
-						totalValue + item.isMoney ? item.moneyGain.substring(1).getNumber() : torndata.items[item.ID].market_value * item.qty,
-					0
-				);
+			if ((params.get("XID") === reqXID || isDrugPackUseRequest(params)) && json?.items?.itemAppear) {
+				const totalOpenedValue = json.items.itemAppear
+					.map((item) => (item.isMoney ? item.moneyGain.substring(1).getNumber() : torndata.items[item.ID].market_value * item.qty))
+					.reduce((totalValue, value) => totalValue + value, 0);
 
 				await showTotalValue(totalOpenedValue, itemID);
 			}
