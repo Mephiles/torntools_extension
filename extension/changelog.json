@@ -7,7 +7,6 @@
 	},
 	{
 		"version": { "major": 7, "minor": 4, "build": 1 },
-		"title": "Beta",
 		"date": "2025/01/03",
 		"logs": {
 			"fixes": [{ "message": "Include personal stats on the profile box that were accidentally removed again.", "contributor": "DeKleineKobini" }],
