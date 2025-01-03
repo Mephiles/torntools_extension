@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 4, "build": 2 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Correctly count the supply pack value.", "contributor": "DeKleineKobini" }], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Correctly count the supply pack value.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 4, "build": 1 },
