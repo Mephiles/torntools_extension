@@ -48,7 +48,8 @@
 					"message": "Adjust revive request prices to be accurate. Prices are no longer the same for every revive provider.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Add links to the external services, where applicable.", "contributor": "DeKleineKobini" }
+				{ "message": "Add links to the external services, where applicable.", "contributor": "DeKleineKobini" },
+				{ "message": "Add support for Firefox for Android in manifest.json.", "contributor": "TheFoxMan" }
 			],
 			"removed": [
 				{ "message": "Removed bazaar prices from the popup, as they are set to be removed from the API.", "contributor": "DeKleineKobini" },
