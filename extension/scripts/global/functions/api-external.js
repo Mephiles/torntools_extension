@@ -169,10 +169,12 @@ function doRequestRevive(id, name, country, faction) {
 	const provider = REVIVE_PROVIDERS.find((p) => p.provider === providerName);
 	if (!provider) throw new Error(`Revive provider '${providerName}' not found.`);
 
-	return provider
-		.doRequest(id, name, country, faction, source)
-		.then(({ response, contract }) => ({ response, contract, provider }))
-		.catch((response) => ({ response, provider }));
+	return new Promise((resolve, reject) => {
+		provider
+			.doRequest(id, name, country, faction, source)
+			.then(({ response, contract }) => resolve({ response, contract, provider }))
+			.catch((response) => reject({ response, provider }));
+	});
 }
 
 function calculateRevivePrice({ price }) {
