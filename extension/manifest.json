@@ -517,7 +517,8 @@
 				"scripts/features/no-confirm/ttItemNoConfirm.js",
 				"scripts/features/energy-warning/ttEnergyWarning.js",
 				"scripts/features/medical-life/ttMedicalLife.js",
-				"scripts/features/opened-supply-pack-value/ttOpenedSupplyPackValue.js"
+				"scripts/features/opened-supply-pack-value/ttOpenedSupplyPackValue.js",
+				"scripts/features/hide-recycle-message/ttHideRecycleMessage.js"
 			],
 			"run_at": "document_end"
 		},

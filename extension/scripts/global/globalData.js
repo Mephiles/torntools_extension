@@ -497,6 +497,7 @@ const DEFAULT_STORAGE = {
 				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				medicalLife: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				openedSupplyPackValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hideRecycleMessage: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			crimes: {
 				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
