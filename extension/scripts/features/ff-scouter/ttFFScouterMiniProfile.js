@@ -47,7 +47,7 @@
 				element.setAttribute("title", detailMessage);
 			}
 
-			requireElement(".profile-container .description").then((d) => d.appendChild(element));
+			requireElement("#profile-mini-root .profile-container .description").then((d) => d.appendChild(element));
 		});
 	}
 })();
