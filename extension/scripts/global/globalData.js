@@ -1,5 +1,6 @@
 "use strict";
 
+// noinspection JSUnresolvedReference
 chrome = typeof browser !== "undefined" ? browser : chrome;
 
 const FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16243863";
