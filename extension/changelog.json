@@ -12,7 +12,8 @@
 				{
 					"message": "Opening a mini profile while on a profile no longer results in the FF Scouter being shown on the profile.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Improved performance while using FF Scouter in some cases.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Better optimize calls to tornpal.", "contributor": "DeKleineKobini" }],
 			"removed": []

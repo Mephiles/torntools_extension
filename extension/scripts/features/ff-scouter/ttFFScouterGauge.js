@@ -35,7 +35,7 @@
 		new MutationObserver(function () {
 			if (!feature.enabled()) return;
 
-			triggerGauge();
+			setTimeout(triggerGauge);
 		}).observe(document, { attributes: false, childList: true, characterData: false, subtree: true });
 	}
 
