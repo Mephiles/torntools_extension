@@ -9,7 +9,10 @@
 				{ "message": "Correctly count the supply pack value.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error on the item market when switching categories.", "contributor": "DeKleineKobini" },
 				{ "message": "Actually show an error when the revive request fails instead of showing the success message.", "contributor": "DeKleineKobini" },
-				{ "message": "Opening a mini profile while on a profile no longer results in the FF Scouter being shown on the profile.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Opening a mini profile while on a profile no longer results in the FF Scouter being shown on the profile.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [{ "message": "Better optimize calls to tornpal.", "contributor": "DeKleineKobini" }],
 			"removed": []
