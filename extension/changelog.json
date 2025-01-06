@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Hide the recycle message on the item page.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Hide the recycle message on the item page.", "contributor": "DeKleineKobini" },
+				{ "message": "Hide the too many items warning on the item page.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Correctly count the supply pack value.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error on the item market when switching categories.", "contributor": "DeKleineKobini" },

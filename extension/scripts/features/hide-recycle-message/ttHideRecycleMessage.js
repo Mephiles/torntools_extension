@@ -28,8 +28,6 @@
 
 		const delimiter = recycleMessageElement.previousElementSibling;
 
-		console.log("DKK warning", recycleMessageElement);
-
 		recycleMessageElement.dataset.type = "recycle-message";
 		recycleMessageElement.classList.add("tt-hidden");
 		delimiter.dataset.type = "recycle-message";
