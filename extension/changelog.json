@@ -17,7 +17,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Improved performance while using FF Scouter in some cases.", "contributor": "DeKleineKobini" },
-				{ "message": "Route tornpal requests through the background to bypass Torn's CSP policy on Firefox.", "contributor": "DeKleineKobini" }
+				{ "message": "Route tornpal requests through the background to bypass Torn's CSP policy on Firefox.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error on the enemy page when switching pages.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Better optimize calls to tornpal.", "contributor": "DeKleineKobini" }],
 			"removed": []

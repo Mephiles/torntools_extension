@@ -21,6 +21,8 @@
 			if (!feature.enabled()) return;
 
 			const content = findContainer("Enemy Filter", { selector: "main" });
+			if (!content) return;
+
 			const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
 			if (!statsEstimates?.length) return;
 
