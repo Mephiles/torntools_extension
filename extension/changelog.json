@@ -16,7 +16,8 @@
 					"message": "Opening a mini profile while on a profile no longer results in the FF Scouter being shown on the profile.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Improved performance while using FF Scouter in some cases.", "contributor": "DeKleineKobini" }
+				{ "message": "Improved performance while using FF Scouter in some cases.", "contributor": "DeKleineKobini" },
+				{ "message": "Route tornpal requests through the background to bypass Torn's CSP policy on Firefox.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Better optimize calls to tornpal.", "contributor": "DeKleineKobini" }],
 			"removed": []

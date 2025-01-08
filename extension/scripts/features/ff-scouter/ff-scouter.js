@@ -4,7 +4,7 @@ function scoutFF(target) {
 	}
 
 	return new Promise((resolve, reject) => {
-		fetchData("tornpal", { section: "ffscouter", includeKey: true, params: { target } })
+		fetchData("tornpal", { section: "ffscouter", includeKey: true, relay: true, params: { target } })
 			.then((data) => {
 				ttCache.set({ [target]: data }, data.status ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, "ff-scouter");
 
@@ -21,7 +21,7 @@ function scoutFFGroup(targets) {
 	}
 
 	return new Promise((resolve, reject) => {
-		fetchData("tornpal", { section: "ffscoutergroup", includeKey: true, params: { targets } })
+		fetchData("tornpal", { section: "ffscoutergroup", includeKey: true, relay: true, params: { targets } })
 			.then((data) => {
 				ttCache.set({ [cacheKey]: data }, data.status ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, "ff-scouter-group");
 
