@@ -324,6 +324,11 @@ async function convertDatabase() {
 				npcs: {},
 			};
 			updated = true;
+		} else if (version <= toNumericVersion("7.4.2")) {
+			if (storage?.settings?.pages?.global?.reviveProvider === "imperium") {
+				newStorage.settings.pages.global.reviveProvider = "";
+			}
+			updated = true;
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;

@@ -17,7 +17,6 @@ const FETCH_PLATFORMS = {
 	torntools: "https://torntools.gregork.com/",
 	nukefamily: "https://nuke.family/",
 	uhc: "https://tornuhc.eu/",
-	imperium: "https://inq.mavri.dev/",
 	stig: "https://api.no1irishstig.co.uk/",
 	prometheus: "https://prombot.co.uk:8443/",
 	lzpt: "https://api.lzpt.io/",
@@ -124,11 +123,6 @@ async function fetchData(location, options = {}) {
 					break;
 				case "uhc":
 					url = FETCH_PLATFORMS.uhc;
-
-					path = options.section;
-					break;
-				case "imperium":
-					url = FETCH_PLATFORMS.imperium;
 
 					path = options.section;
 					break;

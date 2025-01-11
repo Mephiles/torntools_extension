@@ -77,28 +77,6 @@ const REVIVE_PROVIDERS = [
 		},
 	},
 	{
-		provider: "imperium",
-		name: "Imperium",
-		origin: FETCH_PLATFORMS.imperium,
-		doRequest: (id, name, country, faction, source) =>
-			new Promise((resolve, reject) => {
-				fetchData("imperium", {
-					...__DEFAULT_REVIVE_REQUEST,
-					section: "revive",
-					body: { userID: id, userName: name, factionName: faction, source },
-				})
-					.then((response) => {
-						if (response.success) resolve({ response });
-						else reject(response);
-					})
-					.catch((reason) => reject(reason));
-			}),
-		price: {
-			money: 1_800_000,
-			xanax: 2,
-		},
-	},
-	{
 		provider: "wtf",
 		name: "WTF",
 		origin: FETCH_PLATFORMS.wtf,
