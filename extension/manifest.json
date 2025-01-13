@@ -111,7 +111,8 @@
 				"scripts/features/align-left/ttAlignLeft.entry.js",
 				"scripts/features/font-size/ttFontSize.entry.js",
 				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
-				"scripts/features/hide-chat/ttHideChat.entry.js"
+				"scripts/features/hide-chat/ttHideChat.entry.js",
+				"scripts/features/ff-scouter/ff-scouter.js"
 			],
 			"run_at": "document_start"
 		},
@@ -142,7 +143,6 @@
 				"scripts/features/revive-request/ttReviveRequest.js",
 				"scripts/features/user-alias/ttUserAlias.js",
 				"scripts/features/stacking-mode/ttStackingMode.js",
-				"scripts/features/ff-scouter/ff-scouter.js",
 				"scripts/features/ff-scouter/ttFFScouterMiniProfile.js",
 				"scripts/features/ff-scouter/ttFFScouterGauge.js"
 			],
