@@ -461,55 +461,82 @@
 		{
 			name: "Total offenses",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.total,
+			v2Getter: crimesStats(
+				(data) => data.personalstats.crimes.total,
+				(data) => data.personalstats.crimes.offenses.total
+			),
 			v1Getter: (data) => data.personalstats.criminaloffenses,
 		},
 		{
 			name: "Counterfeiting",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.counterfeiting,
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.counterfeiting
+			),
 			v1Getter: (data) => data.personalstats.counterfeiting,
 		},
 		{
 			name: "Cybercrime",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.cybercrime,
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.cybercrime
+			),
 			v1Getter: (data) => data.personalstats.cybercrime,
 		},
 		{
 			name: "Extortion",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.extortion,
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.extortion
+			),
 			v1Getter: (data) => data.personalstats.extortion,
 		},
 		{
 			name: "Illegal production",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.illegal_production,
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.illegal_production
+			),
 			v1Getter: (data) => data.personalstats.illegalproduction,
 		},
 		{
 			name: "Illicit services",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.illicit_services,
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.illicit_services
+			),
 			v1Getter: (data) => data.personalstats.illicitservices,
 		},
 		{
 			name: "Theft",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.theft,
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.theft
+			),
 			v1Getter: (data) => data.personalstats.theft,
 		},
 		{
 			name: "Vandalism",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.vandalism,
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.vandalism
+			),
 			v1Getter: (data) => data.personalstats.vandalism,
 		},
 		{
 			name: "Organized crimes",
 			type: "criminal offenses",
-			v2Getter: (data) => data.personalstats.crimes.offenses.organized_crimes,
+			v2Getter: crimesStats(
+				(data) => data.personalstats.crimes.organized_crimes,
+				(data) => data.personalstats.crimes.offenses.organized_crimes
+			),
 			v1Getter: (data) => data.personalstats.organisedcrimes,
 		},
 
@@ -1148,7 +1175,10 @@
 					.map((stat) => {
 						const them = stat.v2Getter(data);
 						const you = stat.v1Getter(userdata);
-						if (isNaN(them) || isNaN(you)) return false;
+						if (isNaN(them) || isNaN(you)) {
+							console.log("DKK stat", stat, them, you);
+							return false;
+						}
 
 						const row = {
 							stat: stat.name,
@@ -1604,5 +1634,14 @@
 
 	function removeBox() {
 		removeContainer("User Information");
+	}
+
+	function crimesStats(c1Getter, c2Getter) {
+		return (data) => {
+			const cVersion = data.personalstats.crimes.version;
+			if (cVersion === "v1") return c1Getter(data);
+			else if (cVersion === "v2") return c2Getter(data);
+			else throw new Error(`Unsupported crimes version '${cVersion}'!`);
+		};
 	}
 })();
