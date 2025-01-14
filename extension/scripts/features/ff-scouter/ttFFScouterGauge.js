@@ -44,7 +44,7 @@
 		scoutLock = true;
 
 		const honorBars = [...document.findAll(".honor-text-wrap")];
-		if (honorBars) {
+		if (honorBars.length > 0) {
 			applyGauge(honorBars).finally(() => (scoutLock = false));
 		} else {
 			let selector;
@@ -64,10 +64,10 @@
 					selector = ".name";
 					break;
 				case "bounties":
-					selector = ".target,.listed";
+					selector = ".target, .listed";
 					break;
 				case "forums":
-					selector = ".last-poster,.starter,.last-post,.poster";
+					selector = ".last-poster, .starter, .last-post,.poster";
 					break;
 				case "hof":
 					selector = "[class^=''userInfoBox__']";
