@@ -73,7 +73,6 @@
 					selector = "[class^=''userInfoBox__']";
 					break;
 				default:
-					console.log("DKK no page", getPage());
 					return;
 			}
 
