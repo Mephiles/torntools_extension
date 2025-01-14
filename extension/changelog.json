@@ -20,7 +20,8 @@
 				{ "message": "Route tornpal requests through the background to bypass Torn's CSP policy on Firefox.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error on the enemy page when switching pages.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid issues with FF scouter by loading a script earlier.", "contributor": "DeKleineKobini" },
-				{ "message": "FF Scouter gauges weren't showing when honor bars were disabled or on the bounties page.", "contributor": "DeKleineKobini" }
+				{ "message": "FF Scouter gauges weren't showing when honor bars were disabled or on the bounties page.", "contributor": "DeKleineKobini" },
+				{ "message": "Personal stats no longer showed up in the profile box due to an API change.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Better optimize calls to tornpal.", "contributor": "DeKleineKobini" }],
 			"removed": [{ "message": "No longer send revive requests to The Imperium as it no longer worked.", "contributor": "DeKleineKobini" }]
