@@ -21,13 +21,13 @@
 		{
 			name: "Attacks stalemated",
 			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.attacks.stalemated,
+			v2Getter: (data) => data.personalstats.attacking.attacks.stalemate,
 			v1Getter: (data) => data.personalstats.attacksdraw,
 		},
 		{
 			name: "Attacks assisted",
 			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.attacks.assisted,
+			v2Getter: (data) => data.personalstats.attacking.attacks.assist,
 			v1Getter: (data) => data.personalstats.attacksassisted,
 		},
 		{
@@ -45,7 +45,7 @@
 		{
 			name: "Defends stalemated",
 			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.defends.stalemated,
+			v2Getter: (data) => data.personalstats.attacking.defends.stalemate,
 			v1Getter: (data) => data.personalstats.defendsstalemated,
 		},
 		{
@@ -254,7 +254,7 @@
 		{
 			name: "Shop purchases",
 			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.items.bought.shop,
+			v2Getter: (data) => data.personalstats.trading.items.bought.shops,
 			v1Getter: (data) => data.personalstats.cityitemsbought,
 		},
 		{
@@ -291,8 +291,8 @@
 		// Jail
 		{ name: "Times jailed", type: "jail", v2Getter: (data) => data.personalstats.jail.times_jailed, v1Getter: (data) => data.personalstats.jailed },
 		{ name: "People busted", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.success, v1Getter: (data) => data.personalstats.peoplebusted },
-		{ name: "Failed busts", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.failed, v1Getter: (data) => data.personalstats.failedbusts },
-		{ name: "People bailed", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.success, v1Getter: (data) => data.personalstats.peoplebought },
+		{ name: "Failed busts", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.fails, v1Getter: (data) => data.personalstats.failedbusts },
+		{ name: "People bailed", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.amount, v1Getter: (data) => data.personalstats.peoplebought },
 		{
 			name: "Bail fees",
 			type: "jail",
@@ -774,17 +774,17 @@
 		},
 
 		// Other
-		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.time_played, v1Getter: (data) => data.personalstats.useractivity },
+		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.activity.time, v1Getter: (data) => data.personalstats.useractivity },
 		{
 			name: "Current activity streak",
 			type: "other",
-			v2Getter: (data) => data.personalstats.other.current_streak,
+			v2Getter: (data) => data.personalstats.other.activity.streak.current,
 			v1Getter: (data) => data.personalstats.activestreak,
 		},
 		{
 			name: "Best activity streak",
 			type: "other",
-			v2Getter: (data) => data.personalstats.other.best_streak,
+			v2Getter: (data) => data.personalstats.other.activity.streak.best,
 			v1Getter: (data) => data.personalstats.bestactivestreak,
 		},
 		{ name: "Awards", type: "other", v2Getter: (data) => data.personalstats.other.awards, v1Getter: (data) => data.personalstats.awards },
