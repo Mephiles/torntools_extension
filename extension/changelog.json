@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 7, "minor": 4, "build": 2 },
+		"version": { "major": 7, "minor": 4, "build": 3 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 4, "build": 2 },
+		"title": "Beta",
+		"date": "2025/01/15",
 		"logs": {
 			"features": [
 				{ "message": "Hide the recycle message on the item page.", "contributor": "DeKleineKobini" },
