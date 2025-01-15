@@ -73,8 +73,7 @@
 	}
 
 	function buildPositionElement() {
-		// const position = userdata.organizedCrime.slots.find(({ user_id }) => user_id === userdata.user_id)?.position ?? "???";
-		const position = userdata.organizedCrime.slots.find(({ user_id }) => user_id === 1043377)?.position ?? "???";
+		const position = userdata.organizedCrime.slots.find(({ user_id }) => user_id === userdata.user_id)?.position ?? "???";
 		const name = userdata.organizedCrime.name;
 		const level = userdata.organizedCrime.difficulty;
 
