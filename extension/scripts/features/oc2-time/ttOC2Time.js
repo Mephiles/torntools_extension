@@ -12,7 +12,12 @@
 		showTimer,
 		removeTimer,
 		{
-			storage: ["settings.pages.sidebar.oc2Timer", "settings.pages.sidebar.oc2TimerPosition", "userdata.organizedCrime"],
+			storage: [
+				"settings.pages.sidebar.oc2Timer",
+				"settings.pages.sidebar.oc2TimerPosition",
+				"settings.pages.sidebar.oc2TimerLevel",
+				"userdata.organizedCrime",
+			],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
@@ -33,8 +38,11 @@
 		if (inCrime) {
 			elements.push(buildTimeLeftElement());
 			if (settings.pages.sidebar.oc2TimerPosition) {
-				elements.push(document.newElement({ type: "span", class: "countdown", text: " - " }));
+				elements.push(document.newElement({ type: "span", text: " - " }));
 				elements.push(buildPositionElement());
+			}
+			if (settings.pages.sidebar.oc2TimerLevel) {
+				elements.push(buildLevelElement());
 			}
 		} else {
 			elements.push(document.newElement({ type: "span", class: "countdown", text: "No crime joined." }));
@@ -75,9 +83,14 @@
 	function buildPositionElement() {
 		const position = userdata.organizedCrime.slots.find(({ user_id }) => user_id === userdata.user_id)?.position ?? "???";
 		const name = userdata.organizedCrime.name;
+
+		return document.newElement({ type: "span", class: "position", text: `${position} in ${name}` });
+	}
+
+	function buildLevelElement() {
 		const level = userdata.organizedCrime.difficulty;
 
-		return document.newElement({ type: "span", class: "position", text: `${position} in ${name} (Lvl ${level})` });
+		return document.newElement({ type: "span", class: "position", text: ` (Lvl ${level})` });
 	}
 
 	function removeTimer() {
