@@ -1175,10 +1175,7 @@
 					.map((stat) => {
 						const them = stat.v2Getter(data);
 						const you = stat.v1Getter(userdata);
-						if (isNaN(them) || isNaN(you)) {
-							console.log("DKK stat", stat, them, you);
-							return false;
-						}
+						if (isNaN(them) || isNaN(you)) return false;
 
 						const row = {
 							stat: stat.name,
