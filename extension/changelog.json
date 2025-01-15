@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 4, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [{ "message": "Sidebar timer for OC 2.", "contributor": "DeKleineKobini" }], "fixes": [], "changes": [{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" }], "removed": [] }
+		"logs": {
+			"features": [{ "message": "Sidebar timer for OC 2.", "contributor": "DeKleineKobini" }],
+			"fixes": [],
+			"changes": [{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 4, "build": 2 },
