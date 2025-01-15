@@ -7,7 +7,7 @@
 	featureManager.registerFeature(
 		"OC Time",
 		"sidebar",
-		() => settings.pages.sidebar.ocTimer && (userdata?.faction?.faction_id > 0 ?? false),
+		() => settings.pages.sidebar.ocTimer && (userdata?.faction?.faction_id > 0 ?? false) && !userdata.organizedCrime,
 		null,
 		showTimer,
 		removeTimer,
@@ -16,6 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !((settings.apiUsage.user.icons && userdata.userCrime) || factiondata.userCrime)) return "No API access.";
+			else if (!userdata.organizedCrime) return "No OC 1 data.";
 		}
 	);
 
