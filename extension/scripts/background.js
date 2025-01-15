@@ -491,6 +491,7 @@ async function updateUserdata() {
 				!hasTimePassed(userdata?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
 	const selections = [];
+	const selectionsV2 = [];
 	if (updateEssential) {
 		selections.push("profile", "timestamp");
 
@@ -529,6 +530,11 @@ async function updateUserdata() {
 
 			selections.push(selection);
 		}
+		for (const selection of ["organizedcrime"]) {
+			if (!settings.apiUsage.userV2[selection]) continue;
+
+			selectionsV2.push(selection);
+		}
 
 		if (settings.apiUsage.user.education && !hasFinishedEducation()) selections.push("education");
 
@@ -540,10 +546,16 @@ async function updateUserdata() {
 		updatedTypes.push("attack history");
 	}
 	console.log("Time elapsed:", Date.now() - userdata.date);
-	if (!selections.length) return { updated: false };
+	if (!selections.length && !selectionsV2.length) return { updated: false };
 
 	const oldUserdata = { ...userdata };
-	userdata = await fetchData("torn", { section: "user", selections });
+	const newUserdata = selections.length ? await fetchData("torn", { section: "user", selections }) : {};
+	const newUserdataV2 = selectionsV2.length ? await fetchData("tornv2", { section: "user", selections: selectionsV2 }) : {};
+
+	userdata = {
+		...newUserdata,
+		...newUserdataV2,
+	};
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
@@ -560,7 +572,13 @@ async function updateUserdata() {
 		if (newEventsCount < 0) newEventsCount = userdata?.notifications?.events ?? 0;
 		else if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
-			userdata.events = (await fetchData("torn", { section: "user", selections: [category], params: { limit: newEventsCount } })).events;
+			userdata.events = (
+				await fetchData("torn", {
+					section: "user",
+					selections: [category],
+					params: { limit: newEventsCount },
+				})
+			).events;
 			selections.push(category);
 		}
 	}
@@ -1297,7 +1315,12 @@ async function updateFactionStakeouts() {
 		const oldData = factionStakeouts[factionId]?.info ?? false;
 		let data;
 		try {
-			data = await fetchData("torn", { section: "faction", selections: ["basic", "chain"], id: factionId, silent: true });
+			data = await fetchData("torn", {
+				section: "faction",
+				selections: ["basic", "chain"],
+				id: factionId,
+				silent: true,
+			});
 			if (!data) {
 				console.log("Unexpected result during faction stakeout updating.");
 				failed++;
