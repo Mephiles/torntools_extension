@@ -378,6 +378,9 @@ const DEFAULT_STORAGE = {
 				weaponexp: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				properties: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			userV2: {
+				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		themes: {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
