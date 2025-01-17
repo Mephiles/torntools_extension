@@ -16,7 +16,7 @@
 		},
 		() => {
 			if (!hasAPIData() || !((settings.apiUsage.user.icons && userdata.userCrime) || factiondata.userCrime)) return "No API access.";
-			else if (!userdata.organizedCrime) return "No OC 1 data.";
+			else if (!!userdata.organizedCrime) return "No OC 1 data.";
 		}
 	);
 
