@@ -8,7 +8,8 @@
 			"fixes": [],
 			"changes": [
 				{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
-				{ "message": "Disable Faction OC timer when detecting OC 2 data.", "contributor": "DeKleineKobini" }
+				{ "message": "Disable Faction OC timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
+				{ "message": "Better note about external services.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
