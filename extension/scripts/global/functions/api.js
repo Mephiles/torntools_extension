@@ -224,7 +224,7 @@ async function fetchData(location, options = {}) {
 					if (result.error) {
 						await handleError(result);
 					} else {
-						if (location === "torn" && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
+						if (isTornAPICall(location) && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
 							await getBadgeText()
 								.then(async (value) => {
 									if (value === "error") await setBadge("default");
@@ -255,7 +255,7 @@ async function fetchData(location, options = {}) {
 					const isLocal = false;
 					const code = CUSTOM_API_ERROR.CANCELLED;
 
-					if (location === "torn" && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
+					if (isTornAPICall(location) && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
 						await ttStorage.change({ api: { torn: { online: false, error } } });
 						await setBadge("error");
 					}
@@ -276,12 +276,12 @@ async function fetchData(location, options = {}) {
 						}
 					}
 
-					if (location === "torn" && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
+					if (isTornAPICall(location) && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
 						await ttStorage.change({ api: { torn: { online: false, error } } });
 						await setBadge("error");
 					}
 					reject({ error, isLocal, code });
-				} else if (location === "torn") {
+				} else if (isTornAPICall(location)) {
 					let error, online;
 
 					if (result.error instanceof HTTPException) {
@@ -308,6 +308,10 @@ async function fetchData(location, options = {}) {
 			}
 		}
 	});
+}
+
+function isTornAPICall(location) {
+	return ["torn", "tornv2"].includes(location);
 }
 
 function checkAPIPermission(key) {
