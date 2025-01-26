@@ -661,6 +661,7 @@ const DEFAULT_STORAGE = {
 			itemmarket: {
 				highlightCheapItems: new DefaultSetting({ type: "number|empty", defaultValue: "" }),
 				leftBar: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			competition: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),

@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Sidebar timer for OC 2.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Sidebar timer for OC 2.", "contributor": "DeKleineKobini" },
+				{ "message": "Fill Max for Item Market 2.0.", "contributor": "TheFoxMan" }
+			],
 			"fixes": [],
 			"changes": [
 				{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
