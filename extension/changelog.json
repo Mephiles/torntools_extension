@@ -11,7 +11,10 @@
 			"fixes": [
 				{ "message": "Split requests to TornPal if more scouts are needed than allowed in a single request.", "contributor": "DeKleineKobini" },
 				{ "message": "Be more resilient when checking if the api key is present.", "contributor": "DeKleineKobini" },
-				{ "message": "Correctly detect the background page on Firefox. This should fix multiple features, including the event badge.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Correctly detect the background page on Firefox. This should fix multiple features, including the event badge.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
