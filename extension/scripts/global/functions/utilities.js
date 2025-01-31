@@ -3,7 +3,7 @@
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const SCRIPT_TYPE = (() => {
-	if (typeof window === "undefined") {
+	if (typeof window === "undefined" || window.location.href.endsWith("/_generated_background_page.html")) {
 		return "BACKGROUND";
 	} else if (chrome.action) {
 		return "POPUP";
