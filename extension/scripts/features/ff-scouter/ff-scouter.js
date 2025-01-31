@@ -14,7 +14,28 @@ function scoutFF(target) {
 	});
 }
 
+const MAX_TARGET_AMOUNT = 104;
+
 function scoutFFGroup(targets) {
+	targets = Array.from(new Set(targets.map((id) => parseInt(id))));
+
+	if (targets.length > MAX_TARGET_AMOUNT) {
+		const first = targets.slice(0, MAX_TARGET_AMOUNT);
+		const second = targets.slice(MAX_TARGET_AMOUNT);
+
+		return new Promise((resolve, reject) => {
+			Promise.all([scoutFFGroup(first), scoutFFGroup(second)])
+				.then((combined) => {
+					const combinedResults = combined
+						.filter((x) => x.status)
+						.reduce((previousValue, currentValue) => ({ ...previousValue, ...currentValue.results }), {});
+
+					resolve({ status: true, results: combinedResults });
+				})
+				.catch(reject);
+		});
+	}
+
 	const cacheKey = JSON.stringify(targets.toSorted((a, b) => a - b));
 	if (ttCache.hasValue("ff-scouter-group", cacheKey)) {
 		return Promise.resolve(ttCache.get("ff-scouter-group", cacheKey));
