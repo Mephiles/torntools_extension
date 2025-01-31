@@ -61,6 +61,8 @@
 				case "abroad-people":
 				case "hospital":
 				case "userlist":
+				case "blacklist":
+				case "friendlist":
 					selector = ".name";
 					break;
 				case "bounties":
@@ -70,7 +72,10 @@
 					selector = ".last-poster, .starter, .last-post,.poster";
 					break;
 				case "hof":
-					selector = "[class^=''userInfoBox__']";
+					selector = "[class^='userInfoBox__']";
+					break;
+				case "russianroulette":
+					selector = "[class^='rowsWrap___'] [class*='userInfoBox___']";
 					break;
 				default:
 					scoutLock = false;
