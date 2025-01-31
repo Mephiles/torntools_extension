@@ -15,7 +15,7 @@
 					"message": "Correctly detect the background page on Firefox. This should fix multiple features, including the event badge.",
 					"contributor": "DeKleineKobini"
 				},
-				{"message": "Avoid blocking FF scouter gauges on unconfigured pages.", "contributor": "DeKleineKobini"}
+				{ "message": "Avoid blocking FF scouter gauges on unconfigured pages.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
