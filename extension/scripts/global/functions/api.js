@@ -359,8 +359,8 @@ function changeAPIKey(key) {
 }
 
 function hasAPIData() {
-	const hasKey = !!api.torn.key;
-	const hasError = !!api.torn.error && !api.torn.error.includes("Backend error");
+	const hasKey = !!api?.torn?.key;
+	const hasError = !!api?.torn?.error && !api.torn.error.includes("Backend error");
 	const hasUserdata = !!(userdata && Object.keys(userdata).length);
 
 	return hasKey && !hasError && hasUserdata;
