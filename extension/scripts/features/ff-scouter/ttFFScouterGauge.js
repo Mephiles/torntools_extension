@@ -73,6 +73,7 @@
 					selector = "[class^=''userInfoBox__']";
 					break;
 				default:
+					scoutLock = false;
 					return;
 			}
 
