@@ -8,10 +8,7 @@
 				{ "message": "Sidebar timer for OC 2.", "contributor": "DeKleineKobini" },
 				{ "message": "Fill Max for Item Market 2.0.", "contributor": "TheFoxMan" }
 			],
-			"fixes": [
-				{ "message": "Load global filter stuff earlier, in the hopes of it working better.", "contributor": "DeKleineKobini" },
-				{ "message": "Split requests to TornPal if more scouts are needed than allowed in a single request.", "contributor": "DeKleineKobini" }
-			],
+			"fixes": [{ "message": "Split requests to TornPal if more scouts are needed than allowed in a single request.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
 				{ "message": "Disable Faction OC timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
