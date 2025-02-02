@@ -329,6 +329,11 @@ async function convertDatabase() {
 				newStorage.settings.pages.global.reviveProvider = "";
 			}
 			updated = true;
+		} else if (version <= toNumericVersion("7.4.3")) {
+			if (storage?.settings?.apiUsage?.userV2?.personalstats === false) {
+				newStorage.settings.apiUsage.userV2.personalstats = false;
+			}
+			updated = true;
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
@@ -510,7 +515,6 @@ async function updateUserdata() {
 	}
 	if (updateBasic) {
 		for (const selection of [
-			"personalstats",
 			"stocks",
 			// "inventory",
 			"merits",
@@ -530,7 +534,7 @@ async function updateUserdata() {
 
 			selections.push(selection);
 		}
-		for (const selection of ["organizedcrime"]) {
+		for (const selection of ["organizedcrime", "personalstats"]) {
 			if (!settings.apiUsage.userV2[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -550,7 +554,7 @@ async function updateUserdata() {
 
 	const oldUserdata = { ...userdata };
 	const newUserdata = selections.length ? await fetchData("torn", { section: "user", selections }) : {};
-	const newUserdataV2 = selectionsV2.length ? await fetchData("tornv2", { section: "user", selections: selectionsV2 }) : {};
+	const newUserdataV2 = selectionsV2.length ? await fetchData("tornv2", { section: "user", selections: selectionsV2, params: { cat: "all" } }) : {};
 
 	userdata = {
 		...newUserdata,
@@ -616,9 +620,13 @@ async function updateUserdata() {
 		}
 
 		if (oldUserdata.personalstats && userdata.personalstats) {
-			const fetchData = ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"].some(
-				(stat) => oldUserdata.personalstats[stat] !== userdata.personalstats[stat]
-			);
+			const fetchData = [
+				(data) => data.personalstats.attacking.attacks.lost,
+				(data) => data.personalstats.attacking.attacks.stalemate,
+				(data) => data.personalstats.attacking.defends.lost,
+				(data) => data.personalstats.attacking.defends.stalemate,
+				(data) => data.personalstats.attacking.killstreak.current,
+			].some((getter) => getter(oldUserdata) !== getter(userdata));
 
 			await ttStorage.change({ attackHistory: { fetchData } });
 		}
@@ -1999,7 +2007,7 @@ async function setupAudioPlayerDocument() {
 	});
 
 	try {
-		if (existingContexts.length == 0) {
+		if (existingContexts.length === 0) {
 			await chrome.offscreen.createDocument({
 				url: offscreenURL,
 				reasons: ["AUDIO_PLAYBACK"],

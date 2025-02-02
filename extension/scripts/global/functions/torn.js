@@ -1501,6 +1501,7 @@ function getPage() {
 			else page = "home";
 
 			break;
+		case "loader":
 		case "page":
 			page = getSearchParameters().get("sid").toLowerCase();
 			break;
@@ -1515,16 +1516,6 @@ function getPage() {
 			break;
 		case "amarket":
 			page = "auction";
-			break;
-		case "loader":
-			const sid = getSearchParameters().get("sid");
-
-			switch (sid) {
-				case "missions":
-				case "racing":
-				case "attack":
-					page = sid;
-			}
 			break;
 	}
 

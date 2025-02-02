@@ -117,18 +117,20 @@
 		function addToTable(type) {
 			let current, previous;
 
-			let name = type.toLowerCase().replaceAll(" ", "");
-			if (type === "Trade") name = "pending";
+			let nameNetworth = type.toLowerCase().replaceAll(" ", "");
+			let nameStats = type.toLowerCase().replaceAll(" ", "_");
+			if (type === "Trade") {
+				nameNetworth = "pending";
+				nameStats = "pending";
+			} else if (type === "Cayman") nameStats = "overseas_bank";
+			else if (type === "Items") nameStats = "inventory";
 
 			if (type.includes("Cash")) {
 				current = userdata.networth.wallet + userdata.networth.vault;
-				previous = userdata.personalstats.networthwallet + userdata.personalstats.networthvault;
-			} else if (type === "Total") {
-				current = userdata.networth.total;
-				previous = userdata.personalstats.networth;
+				previous = userdata.personalstats.networth.wallet + userdata.personalstats.networth.vaults;
 			} else {
-				current = userdata.networth[name];
-				previous = userdata.personalstats["networth" + name];
+				current = userdata.networth[nameNetworth];
+				previous = userdata.personalstats.networth[nameStats];
 			}
 			if (current === previous) return;
 

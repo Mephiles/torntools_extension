@@ -35,17 +35,12 @@
 		} else if (ttCache.hasValue("profile-stats", id)) {
 			data = ttCache.get("profile-stats", id);
 		} else {
-			/* **NOTE**: profile-box now uses API v2. Until this section does the same, it cannot piggy-back on the profile-box API call.
-
-			if (settings.pages.profile.box && settings.pages.profile.boxStats && settings.apiUsage.user.personalstats && settings.apiUsage.user.crimes) {
-				data = await new Promise((resolve) => CUSTOM_LISTENERS[EVENT_CHANNELS.PROFILE_FETCHED].push(({ data }) => resolve(data)));
-			} else { */
 			try {
-				data = await fetchData("torn", {
+				data = await fetchData("tornv2", {
 					section: "user",
 					id,
-					selections: ["profile", "personalstats", "crimes"],
-					params: { stat: ["networth"] },
+					selections: ["profile", "personalstats"],
+					params: { stat: ["networth", "criminaloffenses", "criminaloffensesold"] },
 					silent: true,
 				});
 
@@ -53,7 +48,6 @@
 			} catch (error) {
 				console.log("TT - Couldn't fetch users stats.", error);
 			}
-			/* } */
 		}
 
 		if (!estimate) {
@@ -61,10 +55,16 @@
 				const {
 					rank,
 					level,
-					criminalrecord: { total: crimes },
-					personalstats: { networth },
+					personalstats: {
+						networth: { total: networth },
+						crimes: { version },
+					},
 					last_action: { timestamp: lastAction },
 				} = data;
+				let crimes;
+				if (version === "v1") crimes = data.personalstats.crimes.total;
+				else if (version === "v2") crimes = data.personalstats.crimes.offenses.total;
+				else throw new Error(`Unsupported crime version: ${version}.`);
 
 				estimate = statsEstimate.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 			} else {
