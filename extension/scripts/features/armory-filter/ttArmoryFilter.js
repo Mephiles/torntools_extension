@@ -114,6 +114,9 @@
 				type: "Weapon Bonus",
 				callback: applyFilters,
 				defaults: filters.factionArmory[itemType].weaponBonus,
+				configuration: {
+					anyWeaponBonus: true,
+				},
 			});
 			filterContent.appendChild(bonusFilter.element);
 			localFilters.weaponBonus = { getValues: bonusFilter.getValues };
@@ -276,9 +279,14 @@
 					value: description.getNumber(),
 				}));
 
-			const hasBonuses = toFilterBonus.every(
-				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
-			);
+			let hasBonuses;
+			if (toFilterBonus.some(({ bonus }) => bonus === "any")) {
+				hasBonuses = foundBonuses.length;
+			} else {
+				hasBonuses = toFilterBonus.every(
+					({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
+				);
+			}
 
 			if (!hasBonuses) {
 				hide("weapon-bonus");

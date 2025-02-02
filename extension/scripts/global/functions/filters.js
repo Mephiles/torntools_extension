@@ -52,6 +52,10 @@ function createFilterSection(options) {
 		orientation: "column",
 		noTitle: false,
 		style: {},
+		configuration: {
+			anyWeaponBonus: false,
+			...(options.configuration ?? {}),
+		},
 		...options,
 	};
 
@@ -191,7 +195,11 @@ function createFilterSection(options) {
 	}
 
 	if (isWeaponBonus) {
-		const selectOptions = [{ value: "", description: "None" }, ...WEAPON_BONUSES.map((bonus) => ({ value: bonus.toLowerCase(), description: bonus }))];
+		const selectOptions = [
+			{ value: "", description: "None" },
+			options.configuration.anyWeaponBonus ? { value: "any", description: "Any" } : undefined,
+			...WEAPON_BONUSES.map((bonus) => ({ value: bonus.toLowerCase(), description: bonus })),
+		].filter((option) => !!option);
 
 		const select1 = createSelect(selectOptions);
 		const value1 = createTextbox({ type: "number", style: { width: "40px" } });

@@ -21,7 +21,8 @@
 				{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
 				{ "message": "Disable Faction OC timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
 				{ "message": "Better note about external services.", "contributor": "DeKleineKobini" },
-				{ "message": "Show FF scouter gauge on more pages when honor bars are disabled.", "contributor": "DeKleineKobini" }
+				{ "message": "Show FF scouter gauge on more pages when honor bars are disabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Filter on any weapon bonus in the faction armory.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
