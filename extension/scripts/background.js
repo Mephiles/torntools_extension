@@ -478,15 +478,19 @@ function clearUsage() {
 	ttUsage.refresh().catch((error) => console.error("Error while clearing API usage data.", error));
 }
 
-async function updateUserdata() {
+async function updateUserdata(forceUpdate = false) {
 	const now = Date.now();
 
 	const updatedTypes = [];
 	const updateEssential =
-		!userdata || !Object.keys(userdata).length || hasTimePassed((userdata.date ?? 0) - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
+		forceUpdate ||
+		!userdata ||
+		!Object.keys(userdata).length ||
+		hasTimePassed((userdata.date ?? 0) - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
 	const updateBasic =
 		updateEssential &&
-		(!userdata?.dateBasic ||
+		(forceUpdate ||
+			!userdata?.dateBasic ||
 			(hasTimePassed(userdata?.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
 				!hasTimePassed(userdata?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
@@ -1944,9 +1948,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (message.update === "torndata") updateFunction = updateTorndata;
 			else if (message.update === "stocks") updateFunction = updateStocks;
 			else if (message.update === "factiondata") updateFunction = updateFactiondata;
+			else if (message.update === "userdata") updateFunction = updateUserdata;
 			else break;
 
-			updateFunction()
+			updateFunction(true)
 				.then((result) => sendResponse(result))
 				.catch((error) => sendResponse(error));
 			return true;

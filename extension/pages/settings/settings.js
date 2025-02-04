@@ -1459,30 +1459,14 @@ async function setupAPIInfo() {
 	});
 	await ttUsage.refresh();
 
-	document.find("#update-torndata").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "forceUpdate", update: "torndata" }, (result) => {
-			console.log("Manually fetched torndata.", result);
-			sendMessage("Fetched torndata.", true);
-		})
-	);
-	document.find("#update-stocks").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "forceUpdate", update: "stocks" }, (result) => {
-			console.log("Manually fetched stocks.", result);
-			sendMessage("Fetched stocks.", true);
-		})
-	);
-	document.find("#update-factiondata").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "forceUpdate", update: "factiondata" }, (result) => {
-			console.log("Manually fetched factiondata.", result);
-			sendMessage("Fetched factiondata.", true);
-		})
-	);
-	document.find("#reinitialize-timers").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "reinitialize-timers" }, (result) => {
-			console.log("Manually reset background timers.", result);
-			sendMessage("Reset background timers.", true);
-		})
-	);
+	["userdata", "torndata", "stocks", "factiondata"].forEach((section) => {
+		document.find(`#update-${section}`).addEventListener("click", () =>
+			chrome.runtime.sendMessage({ action: "forceUpdate", update: section }, (result) => {
+				console.log(`Manually fetched ${section}.`, result);
+				sendMessage(`Fetched ${section}.`, true);
+			})
+		);
+	});
 
 	updateUsage(usageChart, "Last 5");
 	document.find(".current-usage .buttons .last-5").addEventListener("click", () => updateUsage(usageChart, "Last 5"));
