@@ -24,7 +24,8 @@
 				{ "message": "Better note about external services.", "contributor": "DeKleineKobini" },
 				{ "message": "Show FF scouter gauge on more pages when honor bars are disabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter on any weapon bonus in the faction armory.", "contributor": "DeKleineKobini" },
-				{ "message": "Add a button to force update your userdata.", "contributor": "DeKleineKobini" }
+				{ "message": "Add a button to force update your userdata.", "contributor": "DeKleineKobini" },
+				{ "message": "Check whether your data is corrupted on the about page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
