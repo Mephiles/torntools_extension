@@ -11,9 +11,7 @@
 		addButton,
 		removeButton,
 		{ storage: ["settings.pages.itemmarket.fillMax"] },
-		() => {
-			if (!hasAPIData()) return "No API access.";
-		}
+		null
 	);
 
 	function addListener() {
