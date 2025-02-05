@@ -358,7 +358,6 @@ const DEFAULT_STORAGE = {
 				newmessages: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				refills: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stocks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				education: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -380,6 +379,7 @@ const DEFAULT_STORAGE = {
 			},
 			userV2: {
 				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
