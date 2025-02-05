@@ -58,7 +58,7 @@
 
 	function applyHighlights(message) {
 		if (!message) return;
-		if (!highlights.length) return;
+		if (!highlights?.length) return;
 
 		const sender = simplify(message.find("[class*='chat-box-message__sender__']").textContent.replace(":", ""));
 		const words = message.lastElementChild.textContent.split(" ").map(simplify);

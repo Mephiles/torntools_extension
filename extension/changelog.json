@@ -15,7 +15,8 @@
 					"message": "Correctly detect the background page on Firefox. This should fix multiple features, including the event badge.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Avoid blocking FF scouter gauges on unconfigured pages.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid blocking FF scouter gauges on unconfigured pages.", "contributor": "DeKleineKobini" },
+				{ "message": "Be more resilient when applying chat highlights.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Disable OC1 timer when detecting OC 2 data.", "contributor": "DeKleineKobini" },
@@ -23,6 +24,7 @@
 				{ "message": "Better note about external services.", "contributor": "DeKleineKobini" },
 				{ "message": "Show FF scouter gauge on more pages when honor bars are disabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter on any weapon bonus in the faction armory.", "contributor": "DeKleineKobini" },
+				{ "message": "Add a button to force update your userdata.", "contributor": "DeKleineKobini" },
 				{ "message": "Completely migrate over to API v2 for personalstats.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust achievements for crimes 2.", "contributor": "DeKleineKobini" },
 				{ "message": "Include some missing achievements like hospitals and jail visits and special ammo.", "contributor": "DeKleineKobini" },
