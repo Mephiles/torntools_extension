@@ -59,13 +59,20 @@ class StatsEstimate {
 			if (ttCache.hasValue("stats-estimate", id)) {
 				estimate = ttCache.get("stats-estimate", id);
 			} else if (ttCache.hasValue("profile-stats", id)) {
+				const cacheResult = ttCache.get("profile-stats", id);
 				const {
 					rank,
 					level,
-					criminalrecord: { total: crimes },
-					personalstats: { networth },
+					personalstats: {
+						networth: { total: networth },
+						crimes: { version },
+					},
 					last_action: { timestamp: lastAction },
-				} = ttCache.get("profile-stats", id);
+				} = cacheResult;
+				let crimes;
+				if (version === "v1") crimes = data.personalstats.crimes.total;
+				else if (version === "v2") crimes = data.personalstats.crimes.offenses.total;
+				else throw new Error(`Unsupported crime version: ${version}.`);
 
 				estimate = this.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 			}
@@ -164,11 +171,11 @@ class StatsEstimate {
 				throw { message: "No cached result found!", show: settings.scripts.statsEstimate.displayNoResult };
 
 			try {
-				data = await fetchData("torn", {
+				data = await fetchData("tornv2", {
 					section: "user",
 					id,
-					selections: ["profile", "personalstats", "crimes"],
-					params: { stat: ["networth"] },
+					selections: ["profile", "personalstats"],
+					params: { stat: ["networth", "criminaloffenses", "criminaloffensesold"] },
 					silent: true,
 				});
 			} catch (error) {
@@ -186,10 +193,16 @@ class StatsEstimate {
 				const {
 					rank,
 					level,
-					criminalrecord: { total: crimes },
-					personalstats: { networth },
+					personalstats: {
+						networth: { total: networth },
+						crimes: { version },
+					},
 					last_action: { timestamp: lastAction },
 				} = data;
+				let crimes;
+				if (version === "v1") crimes = data.personalstats.crimes.total;
+				else if (version === "v2") crimes = data.personalstats.crimes.offenses.total;
+				else throw new Error(`Unsupported crime version: ${version}.`);
 
 				estimate = this.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 			} else {

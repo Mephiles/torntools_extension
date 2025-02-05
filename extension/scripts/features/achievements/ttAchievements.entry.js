@@ -20,7 +20,7 @@
 		() => {
 			if (
 				!hasAPIData() ||
-				!settings.apiUsage.user.personalstats ||
+				!settings.apiUsage.userV2.personalstats ||
 				!settings.apiUsage.user.perks ||
 				!settings.apiUsage.user.medals ||
 				!settings.apiUsage.user.honors ||
@@ -38,10 +38,11 @@
 		await requireSidebar();
 
 		const page = getPage();
-		let achievements = ACHIEVEMENTS.filter((achievement) => {
-			if (achievement.requirements.pages) return achievement.requirements.pages.includes(page);
-			else return false;
-		}).sort((a, b) => {
+		let achievements = ACHIEVEMENTS.filter(
+			(achievement) =>
+				(!achievement.requirements.pages || achievement.requirements.pages.includes(page)) &&
+				(!achievement.requirements.condition || achievement.requirements.condition())
+		).toSorted((a, b) => {
 			let upperA = a.group ? a.group.toUpperCase() : a.name.toUpperCase();
 			let upperB = b.group ? b.group.toUpperCase() : b.name.toUpperCase();
 
@@ -72,7 +73,7 @@
 		displayContainer();
 
 		function fillGoals() {
-			achievements.forEach((achievement) => {
+			ACHIEVEMENTS.forEach((achievement) => {
 				achievement.current = achievement.stats();
 
 				if (achievement.detection) {

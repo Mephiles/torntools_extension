@@ -6,456 +6,98 @@
 
 	const STATS = [
 		// Attacking
-		{
-			name: "Attacks won",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.attacks.won,
-			v1Getter: (data) => data.personalstats.attackswon,
-		},
-		{
-			name: "Attacks lost",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.attacks.lost,
-			v1Getter: (data) => data.personalstats.attackslost,
-		},
-		{
-			name: "Attacks stalemated",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.attacks.stalemate,
-			v1Getter: (data) => data.personalstats.attacksdraw,
-		},
-		{
-			name: "Attacks assisted",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.attacks.assist,
-			v1Getter: (data) => data.personalstats.attacksassisted,
-		},
-		{
-			name: "Defends won",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.defends.won,
-			v1Getter: (data) => data.personalstats.defendswon,
-		},
-		{
-			name: "Defends lost",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.defends.lost,
-			v1Getter: (data) => data.personalstats.defendslost,
-		},
-		{
-			name: "Defends stalemated",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.defends.stalemate,
-			v1Getter: (data) => data.personalstats.defendsstalemated,
-		},
-		{
-			name: "Defends total",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.defends.total,
-			v1Getter: (data) => data.personalstats.defendswon - data.personalstats.defendslost - data.personalstats.defendsstalemated,
-		},
-		{ name: "Elo Rating", type: "attacking", v2Getter: (data) => data.personalstats.attacking.elo, v1Getter: (data) => data.personalstats.elo },
-		{
-			name: "Times escaped",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.escapes.player,
-			v1Getter: (data) => data.personalstats.yourunaway,
-		},
-		{
-			name: "Foes escaped",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.escapes.foes,
-			v1Getter: (data) => data.personalstats.theyrunaway,
-		},
-		{
-			name: "Unarmored fights won",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.unarmored_wins,
-			v1Getter: (data) => data.personalstats.unarmoredwon,
-		},
-		{
-			name: "Best kill streak",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.killstreak.best,
-			v1Getter: (data) => data.personalstats.bestkillstreak,
-		},
-		{ name: "Hits", type: "attacking", v2Getter: (data) => data.personalstats.attacking.hits.success, v1Getter: (data) => data.personalstats.attackhits },
-		{ name: "Misses", type: "attacking", v2Getter: (data) => data.personalstats.attacking.hits.miss, v1Getter: (data) => data.personalstats.attackmisses },
-		{
-			name: "Total damage made",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.damage.total,
-			v1Getter: (data) => data.personalstats.attackdamage,
-		},
-		{
-			name: "Best damage made",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.damage.best,
-			v1Getter: (data) => data.personalstats.bestdamage,
-		},
-		{
-			name: "One hit kills",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.hits.one_hit_kills,
-			v1Getter: (data) => data.personalstats.onehitkills,
-		},
-		{
-			name: "Critical hits",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.hits.critical,
-			v1Getter: (data) => data.personalstats.attackcriticalhits,
-		},
-		{
-			name: "Rounds fired",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.ammunition.total,
-			v1Getter: (data) => data.personalstats.roundsfired,
-		},
-		{
-			name: "Special ammunition used",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.ammunition.special,
-			v1Getter: (data) => data.personalstats.specialammoused,
-		},
-		{
-			name: "Hollow point ammo used",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.ammunition.hollow_point,
-			v1Getter: (data) => data.personalstats.hollowammoused,
-		},
-		{
-			name: "Tracer ammo used",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.ammunition.tracer,
-			v1Getter: (data) => data.personalstats.tracerammoused,
-		},
-		{
-			name: "Piercing ammo used",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.ammunition.piercing,
-			v1Getter: (data) => data.personalstats.piercingammoused,
-		},
-		{
-			name: "Incendiary ammo used",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.ammunition.incendiary,
-			v1Getter: (data) => data.personalstats.incendiaryammoused,
-		},
-		{
-			name: "Stealth attacks",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.attacks.stealth,
-			v1Getter: (data) => data.personalstats.attacksstealthed,
-		},
-		{
-			name: "Retaliations",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.faction.retaliations,
-			v1Getter: (data) => data.personalstats.retals,
-		},
-		{
-			name: "Money mugged",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.networth.money_mugged,
-			v1Getter: (data) => data.personalstats.moneymugged,
-			formatter: "currency",
-		},
-		{
-			name: "Largest mug",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.networth.largest_mug,
-			v1Getter: (data) => data.personalstats.largestmug,
-			formatter: "currency",
-		},
-		{
-			name: "Items looted",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.networth.items_looted,
-			v1Getter: (data) => data.personalstats.itemslooted,
-		},
-		{
-			name: "Highest level beaten",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.highest_level_beaten,
-			v1Getter: (data) => data.personalstats.highestbeaten,
-		},
-		{
-			name: "Total respect",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.faction.respect,
-			v1Getter: (data) => data.personalstats.respectforfaction,
-		},
-		{
-			name: "Ranked war hits",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.faction.ranked_war_hits,
-			v1Getter: (data) => data.personalstats.rankedwarhits,
-		},
-		{
-			name: "Raid hits",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.faction.raid_hits,
-			v1Getter: (data) => data.personalstats.raidhits,
-		},
-		{
-			name: "Territory wall joins",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.faction.territory.wall_joins,
-			v1Getter: (data) => data.personalstats.territoryjoins,
-		},
-		{
-			name: "Territory clears",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.faction.territory.wall_clears,
-			v1Getter: (data) => data.personalstats.territoryclears,
-		},
-		{
-			name: "Territory wall time",
-			type: "attacking",
-			v2Getter: (data) => data.personalstats.attacking.faction.territory.wall_time,
-			v1Getter: (data) => data.personalstats.territorytime,
-		},
+		{ name: "Attacks won", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.won },
+		{ name: "Attacks lost", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.lost },
+		{ name: "Attacks stalemated", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.stalemate },
+		{ name: "Attacks assisted", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.assist },
+		{ name: "Defends won", type: "attacking", v2Getter: (data) => data.personalstats.attacking.defends.won },
+		{ name: "Defends lost", type: "attacking", v2Getter: (data) => data.personalstats.attacking.defends.lost },
+		{ name: "Defends stalemated", type: "attacking", v2Getter: (data) => data.personalstats.attacking.defends.stalemate },
+		{ name: "Defends total", type: "attacking", v2Getter: (data) => data.personalstats.attacking.defends.total },
+		{ name: "Elo Rating", type: "attacking", v2Getter: (data) => data.personalstats.attacking.elo },
+		{ name: "Times escaped", type: "attacking", v2Getter: (data) => data.personalstats.attacking.escapes.player },
+		{ name: "Foes escaped", type: "attacking", v2Getter: (data) => data.personalstats.attacking.escapes.foes },
+		{ name: "Unarmored fights won", type: "attacking", v2Getter: (data) => data.personalstats.attacking.unarmored_wins },
+		{ name: "Best kill streak", type: "attacking", v2Getter: (data) => data.personalstats.attacking.killstreak.best },
+		{ name: "Hits", type: "attacking", v2Getter: (data) => data.personalstats.attacking.hits.success },
+		{ name: "Misses", type: "attacking", v2Getter: (data) => data.personalstats.attacking.hits.miss },
+		{ name: "Total damage made", type: "attacking", v2Getter: (data) => data.personalstats.attacking.damage.total },
+		{ name: "Best damage made", type: "attacking", v2Getter: (data) => data.personalstats.attacking.damage.best },
+		{ name: "One hit kills", type: "attacking", v2Getter: (data) => data.personalstats.attacking.hits.one_hit_kills },
+		{ name: "Critical hits", type: "attacking", v2Getter: (data) => data.personalstats.attacking.hits.critical },
+		{ name: "Rounds fired", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.total },
+		{ name: "Special ammunition used", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.special },
+		{ name: "Hollow point ammo used", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.hollow_point },
+		{ name: "Tracer ammo used", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.tracer },
+		{ name: "Piercing ammo used", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.piercing },
+		{ name: "Incendiary ammo used", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.incendiary },
+		{ name: "Stealth attacks", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.stealth },
+		{ name: "Retaliations", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.retaliations },
+		{ name: "Money mugged", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.money_mugged, formatter: "currency" },
+		{ name: "Largest mug", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.largest_mug, formatter: "currency" },
+		{ name: "Items looted", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.items_looted },
+		{ name: "Highest level beaten", type: "attacking", v2Getter: (data) => data.personalstats.attacking.highest_level_beaten },
+		{ name: "Total respect", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.respect },
+		{ name: "Ranked war hits", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.ranked_war_hits },
+		{ name: "Raid hits", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.raid_hits },
+		{ name: "Territory wall joins", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.territory.wall_joins },
+		{ name: "Territory clears", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.territory.wall_clears },
+		{ name: "Territory wall time", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.territory.wall_time },
 
 		// Jobs
-		{
-			name: "Job points used",
-			type: "jobs",
-			v2Getter: (data) => data.personalstats.jobs.job_points_used,
-			v1Getter: (data) => data.personalstats.jobpointsused,
-		},
-		{
-			name: "Times trained",
-			type: "jobs",
-			v2Getter: (data) => data.personalstats.jobs.trains_received,
-			v1Getter: (data) => data.personalstats.trainsreceived,
-		},
+		{ name: "Job points used", type: "jobs", v2Getter: (data) => data.personalstats.jobs.job_points_used },
+		{ name: "Times trained", type: "jobs", v2Getter: (data) => data.personalstats.jobs.trains_received },
 
 		// Trading
-		{
-			name: "Market buys",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.items.bought.market,
-			v1Getter: (data) => data.personalstats.itemsbought,
-		},
-		{
-			name: "Auctions won",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.items.auctions.won,
-			v1Getter: (data) => data.personalstats.auctionswon,
-		},
-		{
-			name: "Items auctioned",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.items.auctions.sold,
-			v1Getter: (data) => data.personalstats.auctionsells,
-		},
-		{ name: "Item sends", type: "trading", v2Getter: (data) => data.personalstats.trading.items.sent, v1Getter: (data) => data.personalstats.itemssent },
-		{ name: "Trades made", type: "trading", v2Getter: (data) => data.personalstats.trading.trades, v1Getter: (data) => data.personalstats.trades },
-		{
-			name: "Shop purchases",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.items.bought.shops,
-			v1Getter: (data) => data.personalstats.cityitemsbought,
-		},
-		{
-			name: "Points bought",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.points.bought,
-			v1Getter: (data) => data.personalstats.pointsbought,
-		},
-		{
-			name: "Points sold",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.points.sold,
-			v1Getter: (data) => data.personalstats.pointssold,
-		},
-		{
-			name: "Bazaar customers",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.bazaar.customers,
-			v1Getter: (data) => data.personalstats.bazaarcustomers,
-		},
-		{
-			name: "Bazaar sales",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.bazaar.sales,
-			v1Getter: (data) => data.personalstats.bazaarsales,
-		},
-		{
-			name: "Bazaar income",
-			type: "trading",
-			v2Getter: (data) => data.personalstats.trading.bazaar.profit,
-			v1Getter: (data) => data.personalstats.bazaarprofit,
-		},
+		{ name: "Market buys", type: "trading", v2Getter: (data) => data.personalstats.trading.items.bought.market },
+		{ name: "Auctions won", type: "trading", v2Getter: (data) => data.personalstats.trading.items.auctions.won },
+		{ name: "Items auctioned", type: "trading", v2Getter: (data) => data.personalstats.trading.items.auctions.sold },
+		{ name: "Item sends", type: "trading", v2Getter: (data) => data.personalstats.trading.items.sent },
+		{ name: "Trades made", type: "trading", v2Getter: (data) => data.personalstats.trading.trades },
+		{ name: "Shop purchases", type: "trading", v2Getter: (data) => data.personalstats.trading.items.bought.shops },
+		{ name: "Points bought", type: "trading", v2Getter: (data) => data.personalstats.trading.points.bought },
+		{ name: "Points sold", type: "trading", v2Getter: (data) => data.personalstats.trading.points.sold },
+		{ name: "Bazaar customers", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.customers },
+		{ name: "Bazaar sales", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.sales },
+		{ name: "Bazaar income", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.profit },
 
 		// Jail
-		{ name: "Times jailed", type: "jail", v2Getter: (data) => data.personalstats.jail.times_jailed, v1Getter: (data) => data.personalstats.jailed },
-		{ name: "People busted", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.success, v1Getter: (data) => data.personalstats.peoplebusted },
-		{ name: "Failed busts", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.fails, v1Getter: (data) => data.personalstats.failedbusts },
-		{ name: "People bailed", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.amount, v1Getter: (data) => data.personalstats.peoplebought },
-		{
-			name: "Bail fees",
-			type: "jail",
-			v2Getter: (data) => data.personalstats.jail.bails.fees,
-			v1Getter: (data) => data.personalstats.peopleboughtspent,
-			formatter: "currency",
-		},
+		{ name: "Times jailed", type: "jail", v2Getter: (data) => data.personalstats.jail.times_jailed },
+		{ name: "People busted", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.success },
+		{ name: "Failed busts", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.fails },
+		{ name: "People bailed", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.amount },
+		{ name: "Bail fees", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.fees, formatter: "currency" },
 
 		// Hospital
-		{
-			name: "Times in hospital",
-			type: "hospital",
-			v2Getter: (data) => data.personalstats.hospital.times_hospitalized,
-			v1Getter: (data) => data.personalstats.hospital,
-		},
-		{
-			name: "Meds used",
-			type: "hospital",
-			v2Getter: (data) => data.personalstats.hospital.medical_items_used,
-			v1Getter: (data) => data.personalstats.medicalitemsused,
-		},
-		{
-			name: "Blood withdrawn",
-			type: "hospital",
-			v2Getter: (data) => data.personalstats.hospital.blood_withdrawn,
-			v1Getter: (data) => data.personalstats.bloodwithdrawn,
-		},
-		{
-			name: "Revive skill",
-			type: "hospital",
-			v2Getter: (data) => data.personalstats.hospital.reviving.skill,
-			v1Getter: (data) => data.personalstats.reviveskill,
-		},
-		{
-			name: "Revives given",
-			type: "hospital",
-			v2Getter: (data) => data.personalstats.hospital.reviving.revives,
-			v1Getter: (data) => data.personalstats.revives,
-		},
-		{
-			name: "Revives received",
-			type: "hospital",
-			v2Getter: (data) => data.personalstats.hospital.reviving.revives_received,
-			v1Getter: (data) => data.personalstats.revivesreceived,
-		},
+		{ name: "Times in hospital", type: "hospital", v2Getter: (data) => data.personalstats.hospital.times_hospitalized },
+		{ name: "Meds used", type: "hospital", v2Getter: (data) => data.personalstats.hospital.medical_items_used },
+		{ name: "Blood withdrawn", type: "hospital", v2Getter: (data) => data.personalstats.hospital.blood_withdrawn },
+		{ name: "Revive skill", type: "hospital", v2Getter: (data) => data.personalstats.hospital.reviving.skill },
+		{ name: "Revives given", type: "hospital", v2Getter: (data) => data.personalstats.hospital.reviving.revives },
+		{ name: "Revives received", type: "hospital", v2Getter: (data) => data.personalstats.hospital.reviving.revives_received },
 
 		// Finishing Hits
-		{
-			name: "Heavy artillery",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.heavy_artillery,
-			v1Getter: (data) => data.personalstats.heahits,
-		},
-		{
-			name: "Machine guns",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.machine_guns,
-			v1Getter: (data) => data.personalstats.machits,
-		},
-		{
-			name: "Rifles",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.rifles,
-			v1Getter: (data) => data.personalstats.rifhits,
-		},
-		{
-			name: "Sub machine guns",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.sub_machine_guns,
-			v1Getter: (data) => data.personalstats.smghits,
-		},
-		{
-			name: "Shotguns",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.shotguns,
-			v1Getter: (data) => data.personalstats.shohits,
-		},
-		{
-			name: "Pistols",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.pistols,
-			v1Getter: (data) => data.personalstats.pishits,
-		},
-		{
-			name: "Temporary weapons",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.temporary,
-			v1Getter: (data) => data.personalstats.grehits,
-		},
-		{
-			name: "Piercing weapons",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.piercing,
-			v1Getter: (data) => data.personalstats.piehits,
-		},
-		{
-			name: "Slashing weapons",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.slashing,
-			v1Getter: (data) => data.personalstats.slahits,
-		},
-		{
-			name: "Clubbing weapons",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.clubbing,
-			v1Getter: (data) => data.personalstats.axehits,
-		},
-		{
-			name: "Mechanical weapons",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.mechanical,
-			v1Getter: (data) => data.personalstats.chahits,
-		},
-		{
-			name: "Hand-to-hand",
-			type: "finishing hits",
-			v2Getter: (data) => data.personalstats.finishing_hits.hand_to_hand,
-			v1Getter: (data) => data.personalstats.h2hhits,
-		},
+		{ name: "Heavy artillery", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.heavy_artillery },
+		{ name: "Machine guns", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.machine_guns },
+		{ name: "Rifles", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.rifles },
+		{ name: "Sub machine guns", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.sub_machine_guns },
+		{ name: "Shotguns", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.shotguns },
+		{ name: "Pistols", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.pistols },
+		{ name: "Temporary weapons", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.temporary },
+		{ name: "Piercing weapons", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.piercing },
+		{ name: "Slashing weapons", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.slashing },
+		{ name: "Clubbing weapons", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.clubbing },
+		{ name: "Mechanical weapons", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.mechanical },
+		{ name: "Hand-to-hand", type: "finishing hits", v2Getter: (data) => data.personalstats.finishing_hits.hand_to_hand },
 
 		// Communication
-		{
-			name: "Mails sent",
-			type: "communication",
-			v2Getter: (data) => data.personalstats.communication.mails_sent.total,
-			v1Getter: (data) => data.personalstats.mailssent,
-		},
-		{
-			name: "Mails to friends",
-			type: "communication",
-			v2Getter: (data) => data.personalstats.communication.mails_sent.friends,
-			v1Getter: (data) => data.personalstats.friendmailssent,
-		},
-		{
-			name: "Mails to faction",
-			type: "communication",
-			v2Getter: (data) => data.personalstats.communication.mails_sent.faction,
-			v1Getter: (data) => data.personalstats.factionmailssent,
-		},
-		{
-			name: "Mails to colleagues",
-			type: "communication",
-			v2Getter: (data) => data.personalstats.communication.mails_sent.colleagues,
-			v1Getter: (data) => data.personalstats.companymailssent,
-		},
-		{
-			name: "Mails to spouse",
-			type: "communication",
-			v2Getter: (data) => data.personalstats.communication.mails_sent.spouse,
-			v1Getter: (data) => data.personalstats.spousemailssent,
-		},
-		{
-			name: "Classified ads",
-			type: "communication",
-			v2Getter: (data) => data.personalstats.communication.classified_ads,
-			v1Getter: (data) => data.personalstats.classifiedadsplaced,
-		},
-		{
-			name: "Personals placed",
-			type: "communication",
-			v2Getter: (data) => data.personalstats.communication.personals,
-			v1Getter: (data) => data.personalstats.personalsplaced,
-		},
+		{ name: "Mails sent", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.total },
+		{ name: "Mails to friends", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.friends },
+		{ name: "Mails to faction", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.faction },
+		{ name: "Mails to colleagues", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.colleagues },
+		{ name: "Mails to spouse", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.spouse },
+		{ name: "Classified ads", type: "communication", v2Getter: (data) => data.personalstats.communication.classified_ads },
+		{ name: "Personals placed", type: "communication", v2Getter: (data) => data.personalstats.communication.personals },
 
 		// Criminal Offenses
 		{
@@ -465,7 +107,6 @@
 				(data) => data.personalstats.crimes.total,
 				(data) => data.personalstats.crimes.offenses.total
 			),
-			v1Getter: (data) => data.personalstats.criminaloffenses,
 		},
 		{
 			name: "Counterfeiting",
@@ -474,7 +115,6 @@
 				() => 0,
 				(data) => data.personalstats.crimes.offenses.counterfeiting
 			),
-			v1Getter: (data) => data.personalstats.counterfeiting,
 		},
 		{
 			name: "Cybercrime",
@@ -483,7 +123,6 @@
 				() => 0,
 				(data) => data.personalstats.crimes.offenses.cybercrime
 			),
-			v1Getter: (data) => data.personalstats.cybercrime,
 		},
 		{
 			name: "Extortion",
@@ -492,7 +131,6 @@
 				() => 0,
 				(data) => data.personalstats.crimes.offenses.extortion
 			),
-			v1Getter: (data) => data.personalstats.extortion,
 		},
 		{
 			name: "Illegal production",
@@ -501,7 +139,6 @@
 				() => 0,
 				(data) => data.personalstats.crimes.offenses.illegal_production
 			),
-			v1Getter: (data) => data.personalstats.illegalproduction,
 		},
 		{
 			name: "Illicit services",
@@ -510,7 +147,6 @@
 				() => 0,
 				(data) => data.personalstats.crimes.offenses.illicit_services
 			),
-			v1Getter: (data) => data.personalstats.illicitservices,
 		},
 		{
 			name: "Theft",
@@ -519,7 +155,6 @@
 				() => 0,
 				(data) => data.personalstats.crimes.offenses.theft
 			),
-			v1Getter: (data) => data.personalstats.theft,
 		},
 		{
 			name: "Vandalism",
@@ -528,7 +163,6 @@
 				() => 0,
 				(data) => data.personalstats.crimes.offenses.vandalism
 			),
-			v1Getter: (data) => data.personalstats.vandalism,
 		},
 		{
 			name: "Organized crimes",
@@ -537,288 +171,92 @@
 				(data) => data.personalstats.crimes.organized_crimes,
 				(data) => data.personalstats.crimes.offenses.organized_crimes
 			),
-			v1Getter: (data) => data.personalstats.organisedcrimes,
 		},
 
 		// Bounties
-		{
-			name: "Bounties placed",
-			type: "bounties",
-			v2Getter: (data) => data.personalstats.bounties.placed.amount,
-			v1Getter: (data) => data.personalstats.bountiesplaced,
-		},
-		{
-			name: "Spent on bounties",
-			type: "bounties",
-			v2Getter: (data) => data.personalstats.bounties.placed.value,
-			v1Getter: (data) => data.personalstats.totalbountyspent,
-			formatter: "currency",
-		},
-		{
-			name: "Bounties collected",
-			type: "bounties",
-			v2Getter: (data) => data.personalstats.bounties.collected.amount,
-			v1Getter: (data) => data.personalstats.bountiescollected,
-		},
-		{
-			name: "Money rewarded",
-			type: "bounties",
-			v2Getter: (data) => data.personalstats.bounties.collected.value,
-			v1Getter: (data) => data.personalstats.totalbountyreward,
-			formatter: "currency",
-		},
-		{
-			name: "Bounties received",
-			type: "bounties",
-			v2Getter: (data) => data.personalstats.bounties.received.amount,
-			v1Getter: (data) => data.personalstats.bountiesreceived,
-		},
-		{
-			name: "Received value",
-			type: "bounties",
-			v2Getter: (data) => data.personalstats.bounties.received.value,
-			v1Getter: (data) => data.personalstats.receivedbountyvalue,
-			formatter: "currency",
-		},
+		{ name: "Bounties placed", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.amount },
+		{ name: "Spent on bounties", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.value, formatter: "currency" },
+		{ name: "Bounties collected", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.amount },
+		{ name: "Money rewarded", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.value, formatter: "currency" },
+		{ name: "Bounties received", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.amount },
+		{ name: "Received value", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.value, formatter: "currency" },
 
 		// Items
-		{ name: "Items found", type: "items", v2Getter: (data) => data.personalstats.items.found.city, v1Getter: (data) => data.personalstats.cityfinds },
-		{
-			name: "Items found in dump",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.found.dump,
-			v1Getter: (data) => data.personalstats.dumpfinds,
-		},
-		{ name: "Items trashed", type: "items", v2Getter: (data) => data.personalstats.items.trashed, v1Getter: (data) => data.personalstats.itemsdumped },
-		{ name: "Books read", type: "items", v2Getter: (data) => data.personalstats.items.used.books, v1Getter: (data) => data.personalstats.booksread },
-		{
-			name: "Boosters used",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.used.boosters,
-			v1Getter: (data) => data.personalstats.boostersused,
-		},
-		{
-			name: "Consumables used",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.used.consumables,
-			v1Getter: (data) => data.personalstats.consumablesused,
-		},
-		{ name: "Candy eaten", type: "items", v2Getter: (data) => data.personalstats.items.used.candy, v1Getter: (data) => data.personalstats.candyused },
-		{ name: "Alcohol drunk", type: "items", v2Getter: (data) => data.personalstats.items.used.alcohol, v1Getter: (data) => data.personalstats.alcoholused },
-		{
-			name: "Energy drinks drunk",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.used.energy_drinks,
-			v1Getter: (data) => data.personalstats.energydrinkused,
-		},
-		{
-			name: "Stat enhancers used",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.used.stat_enhancers,
-			v1Getter: (data) => data.personalstats.statenhancersused,
-		},
-		{
-			name: "Easter eggs found",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.found.easter_eggs,
-			v1Getter: (data) => data.personalstats.eastereggs,
-		},
-		{
-			name: "Easter eggs used",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.used.easter_eggs,
-			v1Getter: (data) => data.personalstats.eastereggsused,
-		},
-		{
-			name: "Viruses coded",
-			type: "items",
-			v2Getter: (data) => data.personalstats.items.viruses_coded,
-			v1Getter: (data) => data.personalstats.virusescoded,
-		},
+		{ name: "Items found", type: "items", v2Getter: (data) => data.personalstats.items.found.city },
+		{ name: "Items found in dump", type: "items", v2Getter: (data) => data.personalstats.items.found.dump },
+		{ name: "Items trashed", type: "items", v2Getter: (data) => data.personalstats.items.trashed },
+		{ name: "Books read", type: "items", v2Getter: (data) => data.personalstats.items.used.books },
+		{ name: "Boosters used", type: "items", v2Getter: (data) => data.personalstats.items.used.boosters },
+		{ name: "Consumables used", type: "items", v2Getter: (data) => data.personalstats.items.used.consumables },
+		{ name: "Candy eaten", type: "items", v2Getter: (data) => data.personalstats.items.used.candy },
+		{ name: "Alcohol drunk", type: "items", v2Getter: (data) => data.personalstats.items.used.alcohol },
+		{ name: "Energy drinks drunk", type: "items", v2Getter: (data) => data.personalstats.items.used.energy_drinks },
+		{ name: "Stat enhancers used", type: "items", v2Getter: (data) => data.personalstats.items.used.stat_enhancers },
+		{ name: "Easter eggs found", type: "items", v2Getter: (data) => data.personalstats.items.found.easter_eggs },
+		{ name: "Easter eggs used", type: "items", v2Getter: (data) => data.personalstats.items.used.easter_eggs },
+		{ name: "Viruses coded", type: "items", v2Getter: (data) => data.personalstats.items.viruses_coded },
 
 		// Travel
-		{ name: "Times traveled", type: "travel", v2Getter: (data) => data.personalstats.travel.total, v1Getter: (data) => data.personalstats.traveltimes },
-		{
-			name: "Time spent traveling",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.time_spent,
-			v1Getter: (data) => data.personalstats.traveltime,
-		},
-		{
-			name: "Items bought abroad",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.items_bought,
-			v1Getter: (data) => data.personalstats.itemsboughtabroad,
-		},
-		{
-			name: "Hunting skill",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.hunting.skill,
-			v1Getter: (data) => data.personalstats.huntingskill,
-		},
-		{
-			name: "Attacks won abroad",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.attacks_won,
-			v1Getter: (data) => data.personalstats.attackswonabroad,
-		},
-		{
-			name: "Defends lost abroad",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.defends_lost,
-			v1Getter: (data) => data.personalstats.defendslostabroad,
-		},
-		{ name: "Argentina", type: "travel", v2Getter: (data) => data.personalstats.travel.argentina, v1Getter: (data) => data.personalstats.argtravel },
-		{ name: "Mexico", type: "travel", v2Getter: (data) => data.personalstats.travel.mexico, v1Getter: (data) => data.personalstats.mextravel },
-		{
-			name: "United Arab Emirates",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.united_arab_emirates,
-			v1Getter: (data) => data.personalstats.dubtravel,
-		},
-		{ name: "Hawaii", type: "travel", v2Getter: (data) => data.personalstats.travel.hawaii, v1Getter: (data) => data.personalstats.hawtravel },
-		{ name: "Japan", type: "travel", v2Getter: (data) => data.personalstats.travel.japan, v1Getter: (data) => data.personalstats.japtravel },
-		{
-			name: "United Kingdom",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.united_kingdom,
-			v1Getter: (data) => data.personalstats.lontravel,
-		},
-		{ name: "South Africa", type: "travel", v2Getter: (data) => data.personalstats.travel.south_africa, v1Getter: (data) => data.personalstats.soutravel },
-		{ name: "Switzerland", type: "travel", v2Getter: (data) => data.personalstats.travel.switzerland, v1Getter: (data) => data.personalstats.switravel },
-		{ name: "China", type: "travel", v2Getter: (data) => data.personalstats.travel.china, v1Getter: (data) => data.personalstats.chitravel },
-		{ name: "Canada", type: "travel", v2Getter: (data) => data.personalstats.travel.canada, v1Getter: (data) => data.personalstats.cantravel },
-		{
-			name: "Cayman Islands",
-			type: "travel",
-			v2Getter: (data) => data.personalstats.travel.cayman_islands,
-			v1Getter: (data) => data.personalstats.caytravel,
-		},
+		{ name: "Times traveled", type: "travel", v2Getter: (data) => data.personalstats.travel.total },
+		{ name: "Time spent traveling", type: "travel", v2Getter: (data) => data.personalstats.travel.time_spent },
+		{ name: "Items bought abroad", type: "travel", v2Getter: (data) => data.personalstats.travel.items_bought },
+		{ name: "Hunting skill", type: "travel", v2Getter: (data) => data.personalstats.travel.hunting.skill },
+		{ name: "Attacks won abroad", type: "travel", v2Getter: (data) => data.personalstats.travel.attacks_won },
+		{ name: "Defends lost abroad", type: "travel", v2Getter: (data) => data.personalstats.travel.defends_lost },
+		{ name: "Argentina", type: "travel", v2Getter: (data) => data.personalstats.travel.argentina },
+		{ name: "Mexico", type: "travel", v2Getter: (data) => data.personalstats.travel.mexico },
+		{ name: "United Arab Emirates", type: "travel", v2Getter: (data) => data.personalstats.travel.united_arab_emirates },
+		{ name: "Hawaii", type: "travel", v2Getter: (data) => data.personalstats.travel.hawaii },
+		{ name: "Japan", type: "travel", v2Getter: (data) => data.personalstats.travel.japan },
+		{ name: "United Kingdom", type: "travel", v2Getter: (data) => data.personalstats.travel.united_kingdom },
+		{ name: "South Africa", type: "travel", v2Getter: (data) => data.personalstats.travel.south_africa },
+		{ name: "Switzerland", type: "travel", v2Getter: (data) => data.personalstats.travel.switzerland },
+		{ name: "China", type: "travel", v2Getter: (data) => data.personalstats.travel.china },
+		{ name: "Canada", type: "travel", v2Getter: (data) => data.personalstats.travel.canada },
+		{ name: "Cayman Islands", type: "travel", v2Getter: (data) => data.personalstats.travel.cayman_islands },
 
 		// Drugs
-		{ name: "Drugs used", type: "drugs", v2Getter: (data) => data.personalstats.drugs.total, v1Getter: (data) => data.personalstats.drugsused },
-		{ name: "Times overdosed", type: "drugs", v2Getter: (data) => data.personalstats.drugs.overdoses, v1Getter: (data) => data.personalstats.overdosed },
-		{
-			name: "Rehabilitations",
-			type: "drugs",
-			v2Getter: (data) => data.personalstats.drugs.rehabilitations.amount,
-			v1Getter: (data) => data.personalstats.rehabs,
-		},
-		{
-			name: "Rehabilitation fees",
-			type: "drugs",
-			v2Getter: (data) => data.personalstats.drugs.rehabilitations.fees,
-			v1Getter: (data) => data.personalstats.rehabcost,
-			formatter: "currency",
-		},
-		{ name: "Cannabis taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.cannabis, v1Getter: (data) => data.personalstats.cantaken },
-		{ name: "Ecstasy taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ecstasy, v1Getter: (data) => data.personalstats.exttaken },
-		{ name: "Ketamine taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ketamine, v1Getter: (data) => data.personalstats.kettaken },
-		{ name: "LSD taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.lsd, v1Getter: (data) => data.personalstats.lsdtaken },
-		{ name: "Opium taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.opium, v1Getter: (data) => data.personalstats.opitaken },
-		{ name: "PCP taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.pcp, v1Getter: (data) => data.personalstats.pcptaken },
-		{ name: "Shrooms taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.shrooms, v1Getter: (data) => data.personalstats.shrtaken },
-		{ name: "Speed taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.speed, v1Getter: (data) => data.personalstats.spetaken },
-		{ name: "Vicodin taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.vicodin, v1Getter: (data) => data.personalstats.victaken },
-		{ name: "Xanax taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.xanax, v1Getter: (data) => data.personalstats.xantaken },
+		{ name: "Drugs used", type: "drugs", v2Getter: (data) => data.personalstats.drugs.total },
+		{ name: "Times overdosed", type: "drugs", v2Getter: (data) => data.personalstats.drugs.overdoses },
+		{ name: "Rehabilitations", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.amount },
+		{ name: "Rehabilitation fees", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.fees, formatter: "currency" },
+		{ name: "Cannabis taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.cannabis },
+		{ name: "Ecstasy taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ecstasy },
+		{ name: "Ketamine taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ketamine },
+		{ name: "LSD taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.lsd },
+		{ name: "Opium taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.opium },
+		{ name: "PCP taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.pcp },
+		{ name: "Shrooms taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.shrooms },
+		{ name: "Speed taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.speed },
+		{ name: "Vicodin taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.vicodin },
+		{ name: "Xanax taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.xanax },
 
 		// Missions
-		{
-			name: "Missions completed",
-			type: "missions",
-			v2Getter: (data) => data.personalstats.missions.missions,
-			v1Getter: (data) => data.personalstats.missionscompleted,
-		},
-		{
-			name: "Duke contracts completed",
-			type: "missions",
-			v2Getter: (data) => data.personalstats.missions.contracts.duke,
-			v1Getter: (data) => data.personalstats.dukecontractscompleted,
-		},
-		{
-			name: "Contracts completed",
-			type: "missions",
-			v2Getter: (data) => data.personalstats.missions.contracts.total,
-			v1Getter: (data) => data.personalstats.contractscompleted,
-		},
-		{
-			name: "Mission credits earned",
-			type: "missions",
-			v2Getter: (data) => data.personalstats.missions.credits,
-			v1Getter: (data) => data.personalstats.missioncreditsearned,
-		},
+		{ name: "Missions completed", type: "missions", v2Getter: (data) => data.personalstats.missions.missions },
+		{ name: "Duke contracts completed", type: "missions", v2Getter: (data) => data.personalstats.missions.contracts.duke },
+		{ name: "Contracts completed", type: "missions", v2Getter: (data) => data.personalstats.missions.contracts.total },
+		{ name: "Mission credits earned", type: "missions", v2Getter: (data) => data.personalstats.missions.credits },
 
 		// Racing
-		{ name: "Racing skill", type: "racing", v2Getter: (data) => data.personalstats.racing.skill, v1Getter: (data) => data.personalstats.racingskill },
-		{
-			name: "Racing points earned",
-			type: "racing",
-			v2Getter: (data) => data.personalstats.racing.points,
-			v1Getter: (data) => data.personalstats.racingpointsearned,
-		},
-		{
-			name: "Races entered",
-			type: "racing",
-			v2Getter: (data) => data.personalstats.racing.races.entered,
-			v1Getter: (data) => data.personalstats.racesentered,
-		},
-		{ name: "Races won", type: "racing", v2Getter: (data) => data.personalstats.racing.races.won, v1Getter: (data) => data.personalstats.raceswon },
+		{ name: "Racing skill", type: "racing", v2Getter: (data) => data.personalstats.racing.skill },
+		{ name: "Racing points earned", type: "racing", v2Getter: (data) => data.personalstats.racing.points },
+		{ name: "Races entered", type: "racing", v2Getter: (data) => data.personalstats.racing.races.entered },
+		{ name: "Races won", type: "racing", v2Getter: (data) => data.personalstats.racing.races.won },
 
 		// Networth
-		{
-			name: "Networth",
-			type: "networth",
-			v2Getter: (data) => data.personalstats.networth.total,
-			v1Getter: (data) => data.personalstats.networth,
-			formatter: "currency",
-		},
+		{ name: "Networth", type: "networth", v2Getter: (data) => data.personalstats.networth.total, formatter: "currency" },
 
 		// Other
-		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.activity.time, v1Getter: (data) => data.personalstats.useractivity },
-		{
-			name: "Current activity streak",
-			type: "other",
-			v2Getter: (data) => data.personalstats.other.activity.streak.current,
-			v1Getter: (data) => data.personalstats.activestreak,
-		},
-		{
-			name: "Best activity streak",
-			type: "other",
-			v2Getter: (data) => data.personalstats.other.activity.streak.best,
-			v1Getter: (data) => data.personalstats.bestactivestreak,
-		},
-		{ name: "Awards", type: "other", v2Getter: (data) => data.personalstats.other.awards, v1Getter: (data) => data.personalstats.awards },
-		{ name: "Energy refills", type: "other", v2Getter: (data) => data.personalstats.other.refills.energy, v1Getter: (data) => data.personalstats.refills },
-		{
-			name: "Nerve refills",
-			type: "other",
-			v2Getter: (data) => data.personalstats.other.refills.nerve,
-			v1Getter: (data) => data.personalstats.nerverefills,
-		},
-		{
-			name: "Token refills",
-			type: "other",
-			v2Getter: (data) => data.personalstats.other.refills.token,
-			v1Getter: (data) => data.personalstats.tokenrefills,
-		},
-		{
-			name: "Merits bought",
-			type: "other",
-			v2Getter: (data) => data.personalstats.other.merits_bought,
-			v1Getter: (data) => data.personalstats.meritsbought,
-		},
-		{
-			name: "Days been a donator",
-			type: "other",
-			v2Getter: (data) => data.personalstats.other.donator_days,
-			v1Getter: (data) => data.personalstats.daysbeendonator,
-		},
-		{
-			name: "Ranked warring wins",
-			type: "other",
-			v2Getter: (data) => data.personalstats.other.ranked_war_wins,
-			v1Getter: (data) => data.personalstats.rankedwarringwins,
-		},
+		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.activity.time },
+		{ name: "Current activity streak", type: "other", v2Getter: (data) => data.personalstats.other.activity.streak.current },
+		{ name: "Best activity streak", type: "other", v2Getter: (data) => data.personalstats.other.activity.streak.best },
+		{ name: "Awards", type: "other", v2Getter: (data) => data.personalstats.other.awards },
+		{ name: "Energy refills", type: "other", v2Getter: (data) => data.personalstats.other.refills.energy },
+		{ name: "Nerve refills", type: "other", v2Getter: (data) => data.personalstats.other.refills.nerve },
+		{ name: "Token refills", type: "other", v2Getter: (data) => data.personalstats.other.refills.token },
+		{ name: "Merits bought", type: "other", v2Getter: (data) => data.personalstats.other.merits_bought },
+		{ name: "Days been a donator", type: "other", v2Getter: (data) => data.personalstats.other.donator_days },
+		{ name: "Ranked warring wins", type: "other", v2Getter: (data) => data.personalstats.other.ranked_war_wins },
 	];
 
 	featureManager.registerFeature(
@@ -930,7 +368,7 @@
 		}
 
 		async function buildStats() {
-			if (!settings.pages.profile.boxStats || !settings.apiUsage.user.personalstats || !settings.apiUsage.user.crimes) return;
+			if (!settings.pages.profile.boxStats || !settings.apiUsage.userV2.personalstats || !settings.apiUsage.user.crimes) return;
 
 			const section = document.newElement({ type: "div", class: "section user-stats" });
 			content.appendChild(section);
@@ -1149,7 +587,7 @@
 						if (!stat) return false;
 
 						const them = stat.v2Getter(data);
-						const you = stat.v1Getter(userdata);
+						const you = stat.v2Getter(userdata);
 						if (isNaN(them) || isNaN(you)) return false;
 
 						const row = {
@@ -1174,7 +612,7 @@
 				const _stats = STATS.filter((stat) => !stats.includes(stat.name))
 					.map((stat) => {
 						const them = stat.v2Getter(data);
-						const you = stat.v1Getter(userdata);
+						const you = stat.v2Getter(userdata);
 						if (isNaN(them) || isNaN(you)) return false;
 
 						const row = {

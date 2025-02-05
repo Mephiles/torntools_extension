@@ -40,12 +40,14 @@
 		function handleAttacker() {
 			if (settings.apiUsage.user.battlestats) {
 				createElement(userdata.total, false, "attacker");
-			} else if (settings.apiUsage.user.personalstats && settings.apiUsage.user.crimes) {
+			} else if (settings.apiUsage.userV2.personalstats && settings.apiUsage.user.crimes) {
 				const {
 					rank,
 					level,
 					criminalrecord: { total: crimes },
-					personalstats: { networth },
+					personalstats: {
+						networth: { total: networth },
+					},
 					last_action: { timestamp: lastAction },
 					player_id: id,
 				} = userdata;
