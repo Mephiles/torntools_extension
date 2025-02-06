@@ -1825,6 +1825,12 @@ function setupAbout() {
 	// version
 	about.find(".version").textContent = chrome.runtime.getManifest().version;
 
+	// data corruption
+	showCorruption("userdata-corruption", () => typeof userdata === "object" && Object.keys(userdata).length > 5);
+	showCorruption("torndata-corruption", () => typeof torndata === "object" && typeof torndata.items === "object" && Object.keys(torndata.items).length > 5);
+	showCorruption("stockdata-corruption", () => typeof stockdata === "object" && Object.keys(stockdata).length > 5);
+	showCorruption("factiondata-corruption", () => typeof factiondata === "object" && typeof factiondata.access === "string");
+
 	// disk space
 	ttStorage.getSize().then((size) => (about.find(".disk-space").textContent = formatBytes(size)));
 
@@ -1870,6 +1876,22 @@ function setupAbout() {
 			}
 
 			ourTeam.appendChild(card);
+		}
+	}
+
+	function showCorruption(id, checkFunction) {
+		const element = about.find(`#${id}`);
+		if (!element) return;
+
+		const status = checkFunction();
+
+		element.classList.remove("corruption-okay", "corruption-error");
+		if (status) {
+			element.textContent = "likely okay";
+			element.classList.add("corruption-okay");
+		} else {
+			element.textContent = "possibly corrupted";
+			element.classList.add("corruption-error");
 		}
 	}
 }

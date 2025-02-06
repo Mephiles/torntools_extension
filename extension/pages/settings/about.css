@@ -70,3 +70,11 @@ body.dark #about a {
 	border: none;
 	border-bottom: 1px solid #aaa;
 }
+
+.corruption-okay {
+	color: greenyellow;
+}
+
+.corruption-error {
+	color: red;
+}
