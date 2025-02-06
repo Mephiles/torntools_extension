@@ -329,7 +329,7 @@ async function convertDatabase() {
 				newStorage.settings.pages.global.reviveProvider = "";
 			}
 			updated = true;
-		} else if (version <= toNumericVersion("7.4.3")) {
+		} else if (version <= toNumericVersion("7.5.0")) {
 			if (storage?.settings?.apiUsage?.userV2?.personalstats === false) {
 				newStorage.settings.apiUsage.userV2.personalstats = false;
 			}
