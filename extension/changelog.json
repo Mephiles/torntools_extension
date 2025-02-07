@@ -27,7 +27,8 @@
 				{ "message": "Completely migrate over to API v2 for personalstats.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust achievements for crimes 2.", "contributor": "DeKleineKobini" },
 				{ "message": "Include some missing achievements like hospitals and jail visits and special ammo.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve page detection on 'loader.php'.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve page detection on 'loader.php'.", "contributor": "DeKleineKobini" },
+				{ "message": "Check whether your data is corrupted on the about page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
