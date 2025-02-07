@@ -6,9 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [],
-			"changes": [
-				{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" }
-			],
+			"changes": [{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},
