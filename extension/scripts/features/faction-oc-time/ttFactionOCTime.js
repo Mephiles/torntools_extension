@@ -61,6 +61,7 @@
 					type: "section",
 					id: "factionOCTimer",
 					children: [document.newElement({ type: "a", class: "title", text: "Faction OC: ", href: LINKS.organizedCrimes }), factionOCElement],
+					style: { order: 2 },
 				})
 			);
 		}

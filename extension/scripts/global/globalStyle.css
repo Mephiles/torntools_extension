@@ -488,3 +488,27 @@ body[data-layout="hospital"] #sidebarroot .pill {
 	width: 10px;
 	background: url(https://www.torn.com/images/v2/main/info_msg/ordinary_importance.png) left top no-repeat;
 }
+
+/**
+ * Sidebar Information
+ */
+
+.tt-sidebar-information {
+	display: flex;
+	flex-direction: column;
+}
+
+.tt-sidebar-information .title {
+	font-weight: bold;
+	text-decoration: none;
+	color: inherit;
+	margin: inherit;
+}
+
+.tt-sidebar-information .countdown.short {
+	color: var(--tt-color-red);
+}
+
+.tt-sidebar-information .countdown.medium {
+	color: var(--tt-color-orange);
+}

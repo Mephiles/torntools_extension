@@ -54,6 +54,7 @@
 				type: "section",
 				id: "ocTimer",
 				children: [document.newElement({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), timeLeftElement],
+				style: { order: 1 },
 			})
 		);
 	}

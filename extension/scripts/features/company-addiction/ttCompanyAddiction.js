@@ -43,6 +43,7 @@
 					document.newElement({ type: "a", class: "title", text: "Company Addiction: ", href: LINKS.companyEmployees }),
 					companyAddictionElement,
 				],
+				style: { order: 3 },
 			})
 		);
 	}

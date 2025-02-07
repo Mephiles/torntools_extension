@@ -176,9 +176,6 @@
 			"matches": ["https://www.torn.com/*.php*"],
 			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack&*"],
 			"css": [
-				"scripts/features/oc-time/ttOCTime.css",
-				"scripts/features/oc2-time/ttOC2Time.css",
-				"scripts/features/faction-oc-time/ttFactionOCTime.css",
 				"scripts/features/custom-links/ttCustomLinks.css",
 				"scripts/features/update-notice/ttUpdateNotice.css",
 				"scripts/features/sidebar-notes/ttSidebarNotes.css",

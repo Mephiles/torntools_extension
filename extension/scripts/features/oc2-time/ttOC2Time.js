@@ -53,6 +53,7 @@
 				type: "section",
 				id: "oc2Timer",
 				children: [document.newElement({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), ...elements],
+				style: { order: 1 },
 			})
 		);
 	}
