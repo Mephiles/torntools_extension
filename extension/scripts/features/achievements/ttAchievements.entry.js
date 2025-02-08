@@ -42,7 +42,7 @@
 			(achievement) =>
 				(!achievement.requirements.pages || achievement.requirements.pages.includes(page)) &&
 				(!achievement.requirements.condition || achievement.requirements.condition())
-		).toSorted((a, b) => {
+		).sort((a, b) => {
 			let upperA = a.group ? a.group.toUpperCase() : a.name.toUpperCase();
 			let upperB = b.group ? b.group.toUpperCase() : b.name.toUpperCase();
 

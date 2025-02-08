@@ -36,7 +36,7 @@ function scoutFFGroup(targets) {
 		});
 	}
 
-	const cacheKey = JSON.stringify(targets.toSorted((a, b) => a - b));
+	const cacheKey = JSON.stringify(targets.sort((a, b) => a - b));
 	if (ttCache.hasValue("ff-scouter-group", cacheKey)) {
 		return Promise.resolve(ttCache.get("ff-scouter-group", cacheKey));
 	}

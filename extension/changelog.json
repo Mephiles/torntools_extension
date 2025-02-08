@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix custom sounds not working anymore.", "contributor": "DeKleineKobini" }],
-			"changes": [{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" },
+				{ "message": "Change some features to be compatible with older browsers again.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},
