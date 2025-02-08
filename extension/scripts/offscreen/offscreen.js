@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener((msg) => {
 function playAudio({ src, volume }) {
 	const audio = new Audio(src);
 	audio.volume = volume;
-	audio.play();
+	void audio.play();
 }
 
 function playTTS({ text, volume }) {

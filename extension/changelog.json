@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Fix custom sounds not working anymore.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}

@@ -22,53 +22,38 @@ const ALARM_NAMES = {
 	DATA_UPDATE_AND_NOTIFICATIONS: "data-update-and-notifications-alarm",
 };
 
-const notificationPlayer = {
-	src: "",
-	volume: 0,
-	play: async function () {
+class AudioPlayer {
+	set src(src) {
+		this._src = src;
+	}
+
+	set volume(volume) {
+		this._volume = volume;
+	}
+
+	async play() {
 		if (typeof Audio !== "undefined") {
-			const audio = new Audio(this.src);
-			audio.volume = this.volume;
-			audio.play();
+			const audio = new Audio(this._src);
+			audio.volume = this._volume;
+			void audio.play();
 
 			return;
 		}
 
 		await setupAudioPlayerDocument();
 
-		if (!this.src) throw Error("No sound src set.");
+		if (!this._src) throw Error("No sound src set.");
 
 		await chrome.runtime.sendMessage({
 			offscreen: "notification",
-			src: chrome.runtime.getURL(this.src),
-			volume: this.volume,
+			src: this._src,
+			volume: this._volume,
 		});
-	},
-};
+	}
+}
 
-const notificationTestPlayer = {
-	src: "",
-	volume: 0,
-	play: async function () {
-		if (typeof Audio !== "undefined") {
-			const audio = new Audio(this.src);
-			audio.volume = this.volume;
-			audio.play();
-
-			return;
-		}
-
-		await setupAudioPlayerDocument();
-
-		if (!this.src) throw Error("No sound src set.");
-
-		await chrome.runtime.sendMessage({
-			offscreen: "notification",
-			src: chrome.runtime.getURL(this.src),
-			volume: this.volume,
-		});
-	},
-};
+const notificationPlayer = new AudioPlayer();
+const notificationTestPlayer = new AudioPlayer();
 
 let notificationSound, notificationWorker;
 const notificationRelations = {};
@@ -1834,7 +1819,7 @@ async function notifyUser(title, message, url) {
 
 	async function setupSoundPlayer() {
 		if (notificationSound !== settings.notifications.sound) {
-			const sound = await getNotificationSound(settings.notifications.sound);
+			const sound = getNotificationSound(settings.notifications.sound);
 
 			if (sound && sound !== "mute") {
 				notificationPlayer.src = sound;
@@ -1927,14 +1912,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			sendResponse({ success: true });
 			break;
 		case "play-notification-sound":
-			getNotificationSound(message.sound).then((sound) => {
-				if (!sound) return;
-
+			const sound = getNotificationSound(message.sound);
+			if (sound) {
 				notificationTestPlayer.volume = message.volume / 100;
 				notificationTestPlayer.src = sound;
-				// noinspection JSIgnoredPromiseFromCall
-				notificationTestPlayer.play();
-			});
+				void notificationTestPlayer.play();
+			}
 			sendResponse({ success: true });
 			break;
 		case "stop-notification-sound":
@@ -1987,38 +1970,34 @@ chrome.notifications.onClicked.addListener((id) => {
 });
 
 function getNotificationSound(type) {
-	return new Promise((resolve) => {
-		switch (type) {
-			case "1":
-			case "2":
-			case "3":
-			case "4":
-			case "5":
-				return resolve(`resources/audio/notification${type}.wav`);
-			case "custom":
-				return resolve(settings.notifications.soundCustom);
-			default:
-				return resolve(false);
-		}
-	});
+	switch (type) {
+		case "1":
+		case "2":
+		case "3":
+		case "4":
+		case "5":
+			return chrome.runtime.getURL(`resources/audio/notification${type}.wav`);
+		case "custom":
+			return settings.notifications.soundCustom;
+		default:
+			return false;
+	}
 }
 
 async function setupAudioPlayerDocument() {
 	// Setup of offscreen document for playing audio.
-
 	const offscreenURL = chrome.runtime.getURL("/scripts/offscreen/offscreen.html");
 	const existingContexts = await chrome.runtime.getContexts({
 		contextTypes: ["OFFSCREEN_DOCUMENT"],
 	});
+	if (existingContexts.length > 0) return;
 
 	try {
-		if (existingContexts.length === 0) {
-			await chrome.offscreen.createDocument({
-				url: offscreenURL,
-				reasons: ["AUDIO_PLAYBACK"],
-				justification: "To play notification alert sound.",
-			});
-		}
+		await chrome.offscreen.createDocument({
+			url: offscreenURL,
+			reasons: ["AUDIO_PLAYBACK"],
+			justification: "To play notification alert sound.",
+		});
 	} catch (err) {
 		console.log(
 			"Race condition.",

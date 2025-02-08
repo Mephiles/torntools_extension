@@ -336,6 +336,7 @@ async function setupPreferences(requireCleanup) {
 		const reader = new FileReader();
 		reader.addEventListener("load", (event) => {
 			if (event.target.result.length > 5242880) {
+				console.warn(`Uploaded file had a size of ${formatBytes(event.target.result.length)}.`);
 				return sendMessage("Maximum file size exceeded. (5MB)", false);
 			}
 
