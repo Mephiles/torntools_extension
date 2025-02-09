@@ -253,3 +253,13 @@ function getTimeUntilNextJobUpdate() {
 
 	return timeUntilNextJobUpdate;
 }
+
+function toNumericVersion(version) {
+	return parseInt(
+		version
+			.split(".")
+			.map((part) => part.padStart(3, "0"))
+			.join("")
+			.padEnd(9, "9")
+	);
+}

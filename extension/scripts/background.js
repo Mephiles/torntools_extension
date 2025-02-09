@@ -58,31 +58,11 @@ const notificationTestPlayer = new AudioPlayer();
 let notificationSound, notificationWorker;
 const notificationRelations = {};
 
-let notifications = {
-	events: {},
-	messages: {},
-	newDay: {},
-	energy: {},
-	happy: {},
-	nerve: {},
-	life: {},
-	travel: {},
-	drugs: {},
-	boosters: {},
-	medical: {},
-	hospital: {},
-	chain: {},
-	chainCount: {},
-	stakeouts: {},
-	npcs: {},
-};
-
 let npcUpdater;
 
 // On browser update, extension update or extension (re)install
 chrome.runtime.onInstalled.addListener(async () => {
-	await convertDatabase();
-	await loadDatabase();
+	await migrateDatabase(true);
 
 	await checkUpdate();
 
@@ -109,10 +89,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 
 // When SW (re)starts
 chrome.runtime.onStartup.addListener(async () => {
-	await loadDatabase();
-
-	notificationHistory = await ttStorage.get("notificationHistory");
-	notifications = await ttStorage.get("notifications");
+	await migrateDatabase(false);
 
 	// These are refresh tasks, not clearing.
 	clearUsage();
@@ -141,8 +118,6 @@ chrome.runtime.onStartup.addListener(async () => {
 // On alarm triggered
 chrome.alarms.onAlarm.addListener(async (alarm) => {
 	await loadDatabase();
-	notificationHistory = await ttStorage.get("notificationHistory");
-	notifications = await ttStorage.get("notifications");
 
 	switch (alarm.name) {
 		case ALARM_NAMES.CLEAR_CACHE:
@@ -159,186 +134,6 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 			throw new Error("Undefined alarm name: " + alarm.name);
 	}
 });
-
-async function convertDatabase() {
-	const storage = await ttStorage.get();
-
-	if (!storage || !Object.keys(storage).length) {
-		console.log("Setting new storage.");
-		await ttStorage.reset();
-	} else {
-		console.log("Old storage.", storage);
-
-		const newStorage = convertGeneral(storage, DEFAULT_STORAGE);
-		convertSpecific(storage, newStorage);
-
-		await ttStorage.set(newStorage);
-
-		const keys = Object.keys(newStorage);
-		const outdatedKeys = Object.keys(storage).filter((key) => !keys.includes(key));
-		if (outdatedKeys.length) await ttStorage.remove(outdatedKeys);
-
-		console.log("New storage.", newStorage);
-	}
-
-	function convertGeneral(oldStorage, defaultStorage) {
-		const newStorage = {};
-
-		for (const key in defaultStorage) {
-			if (!oldStorage) oldStorage = {};
-			if (!(key in oldStorage)) oldStorage[key] = {};
-
-			if (typeof defaultStorage[key] === "object") {
-				if (defaultStorage[key] instanceof DefaultSetting) {
-					let useCurrent = true;
-
-					if (defaultStorage[key].type === "array") {
-						if (!Array.isArray(oldStorage[key])) {
-							useDefault();
-							useCurrent = false;
-						}
-					} else if (
-						!defaultStorage[key].type.split("|").some((value) => value === typeof oldStorage[key] || (value === "empty" && oldStorage[key] === ""))
-					) {
-						useDefault();
-						useCurrent = false;
-					}
-
-					if (useCurrent) newStorage[key] = oldStorage[key];
-				} else {
-					newStorage[key] = convertGeneral(oldStorage[key], defaultStorage[key]);
-				}
-			}
-
-			function useDefault() {
-				if (!defaultStorage[key].hasOwnProperty("defaultValue")) return;
-
-				switch (typeof defaultStorage[key].defaultValue) {
-					case "function":
-						newStorage[key] = defaultStorage[key].defaultValue();
-						break;
-					case "boolean":
-						newStorage[key] = defaultStorage[key].defaultValue;
-						break;
-					default:
-						newStorage[key] = defaultStorage[key].defaultValue;
-						break;
-				}
-			}
-		}
-
-		return newStorage;
-	}
-
-	function convertSpecific(storage, newStorage) {
-		const versionString = storage?.version?.current || "5.0.0";
-		const version = toNumericVersion(versionString);
-
-		let updated = false;
-		if (version <= toNumericVersion("5")) {
-			if (storage?.notes?.text || storage?.notes?.height) {
-				newStorage.notes.sidebar.text = storage.notes.text || "";
-				newStorage.notes.sidebar.height = storage.notes.height || "22px";
-			}
-			if (storage?.profile_notes?.profiles) {
-				for (const [id, { height, notes }] of Object.entries(storage.profile_notes.profiles)) {
-					newStorage.notes.profile[id] = { height: height || "17px", text: notes };
-				}
-			}
-			newStorage.quick.items = storage?.quick?.items?.map((id) => ({ id: parseInt(id) })) || [];
-			if (storage?.stakeouts)
-				newStorage.stakeouts = Object.entries(storage.stakeouts)
-					.filter(([id]) => !isNaN(id) && !!parseInt(id))
-					.map(([id, stakeout]) => ({
-						[id]: {
-							alerts: {
-								okay: stakeout.notifications.okay,
-								hospital: stakeout.notifications.hospital,
-								landing: stakeout.notifications.lands,
-								online: stakeout.notifications.online,
-								life: false,
-								offline: false,
-							},
-						},
-					}))
-					.filter((result) => Object.values(result)[0] !== undefined)
-					.reduce((prev, current) => ({ ...prev, ...current }), {});
-			if (storage?.stock_alerts)
-				newStorage.settings.notifications.types.stocks = Object.entries(storage.stock_alerts)
-					.filter(([id]) => !isNaN(id) && !!parseInt(id))
-					.map(([id, alert]) => ({
-						[id]: {
-							priceFalls: parseInt(alert.fall) || "",
-							priceReaches: parseInt(alert.reach) || "",
-						},
-					}))
-					.reduce((prev, current) => ({ ...prev, ...current }), {});
-
-			// Reset
-			newStorage.quick.crimes = [];
-			newStorage.userdata = {};
-			newStorage.torndata = {};
-			newStorage.cache = {};
-			updated = true;
-		} else if (version === toNumericVersion("6.0.0")) {
-			newStorage.settings.apiUsage.comment = storage?.settings?.apiUsage?.comment || "TornTools";
-			updated = true;
-		} else if (version <= toNumericVersion("6.3.0")) {
-			newStorage.localdata.vault = undefined;
-			updated = true;
-		} else if (version <= toNumericVersion("6.16.0")) {
-			newStorage.stakeouts.order = Object.keys(newStorage.stakeouts).filter((id) => !isNaN(parseInt(id)));
-			updated = true;
-		} else if (version <= toNumericVersion("6.26.0")) {
-			newStorage.notifications = {
-				events: {},
-				messages: {},
-				newDay: {},
-				energy: {},
-				happy: {},
-				nerve: {},
-				life: {},
-				travel: {},
-				drugs: {},
-				boosters: {},
-				medical: {},
-				hospital: {},
-				chain: {},
-				chainCount: {},
-				stakeouts: {},
-				npcs: {},
-			};
-			updated = true;
-		} else if (version <= toNumericVersion("7.4.2")) {
-			if (storage?.settings?.pages?.global?.reviveProvider === "imperium") {
-				newStorage.settings.pages.global.reviveProvider = "";
-			}
-			updated = true;
-		} else if (version <= toNumericVersion("7.5.0")) {
-			if (storage?.settings?.apiUsage?.userV2?.personalstats === false) {
-				newStorage.settings.apiUsage.userV2.personalstats = false;
-			}
-			updated = true;
-		}
-
-		const newVersion = chrome.runtime.getManifest().version;
-		if (updated) {
-			console.log(`Upgraded database from ${versionString} to ${newVersion}`);
-		}
-
-		newStorage.version.current = newVersion;
-
-		function toNumericVersion(version) {
-			return parseInt(
-				version
-					.split(".")
-					.map((part) => part.padStart(3, "0"))
-					.join("")
-					.padEnd(9, "9")
-			);
-		}
-	}
-}
 
 async function checkUpdate() {
 	const oldVersion = version.oldVersion;

@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix custom sounds not working anymore.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix custom sounds not working anymore.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate the database when the background loads as well, if needed.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" },
 				{ "message": "Change some features to be compatible with older browsers again.", "contributor": "DeKleineKobini" },
