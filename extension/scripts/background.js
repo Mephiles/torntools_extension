@@ -63,16 +63,13 @@ let npcUpdater;
 // On browser update, extension update or extension (re)install
 chrome.runtime.onInstalled.addListener(async () => {
 	await migrateDatabase(true);
+	void checkUpdate();
 
-	await checkUpdate();
-
-	await chrome.alarms.clearAll();
-	await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-	await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-	await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
-
-	notificationHistory = await ttStorage.get("notificationHistory");
-	notifications = await ttStorage.get("notifications");
+	chrome.alarms.clearAll().then(() => {
+		void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+		void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+		void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+	});
 
 	// These are refresh tasks, not clearing.
 	clearUsage();
@@ -81,15 +78,14 @@ chrome.runtime.onInstalled.addListener(async () => {
 	// Initial call
 	timedUpdates();
 
-	await showIconBars();
-	storageListeners.settings.push(async () => {
-		await showIconBars();
-	});
+	void showIconBars();
+	storageListeners.settings.push(showIconBars);
 });
 
 // When SW (re)starts
 chrome.runtime.onStartup.addListener(async () => {
 	await migrateDatabase(false);
+	void checkUpdate();
 
 	// These are refresh tasks, not clearing.
 	clearUsage();
@@ -98,21 +94,21 @@ chrome.runtime.onStartup.addListener(async () => {
 	// Initial call
 	timedUpdates();
 
-	await showIconBars();
-	storageListeners.settings.push(async () => {
-		await showIconBars();
-	});
+	void showIconBars();
+	storageListeners.settings.push(showIconBars);
 });
 
 // Register updaters, if not registered.
 (async () => {
-	const currentAlarms = await chrome.alarms.getAll();
-	if (currentAlarms.length !== 3) {
-		await chrome.alarms.clearAll();
-		await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-		await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-		await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
-	}
+	chrome.alarms.getAll().then((currentAlarms) => {
+		if (currentAlarms.length === 3) return;
+
+		chrome.alarms.clearAll().then(() => {
+			void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+			void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+			void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+		});
+	});
 })();
 
 // On alarm triggered
