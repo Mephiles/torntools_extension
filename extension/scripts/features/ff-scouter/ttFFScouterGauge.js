@@ -20,7 +20,7 @@
 		"ff-scouter",
 		() => settings.scripts.ffScouter.gauge,
 		initialise,
-		triggerGauge,
+		() => setTimeout(triggerGauge),
 		removeGauge,
 		{
 			storage: ["settings.scripts.ffScouter.gauge", "settings.external.tornpal"],
