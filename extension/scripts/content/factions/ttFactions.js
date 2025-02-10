@@ -218,3 +218,54 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		}
 	}
 })();
+
+async function readFactionDetails() {
+	const viewWarsLink = document.querySelector("a.view-wars")?.href;
+	if (viewWarsLink) {
+		const match = viewWarsLink.match(/ranked\/(\d+)/);
+		if (match) {
+			return { id: parseInt(match[1]) };
+		}
+	}
+
+	const factionIDLink = document.querySelector(".faction-info a[href*='factionID']");
+	if (factionIDLink) {
+		const match = factionIDLink.match(/#factionID=(\d+)/);
+		if (match) {
+			return { id: parseInt(match[1]) };
+		}
+	}
+
+	if (isOwnFaction && hasAPIData()) {
+		if (userdata.faction_id) return { id: userdata.faction_id };
+
+		const userID = userdata.player_id;
+		if (!userID) return null; // ID could not be found
+
+		return { id: await getFactionIDFromUser(userID) };
+	}
+
+	const params = getSearchParameters();
+
+	if (isIntNumber(params.get("ID"))) {
+		return { id: parseInt(params.get("ID")) };
+	}
+
+	if (isIntNumber(params.get("userID")) && hasAPIData()) {
+		return { id: await getFactionIDFromUser(parseInt(params.get("userID"))) };
+	}
+
+	return null; // ID could not be found
+
+	async function getFactionIDFromUser(userID) {
+		const cached = ttCache.get("faction-id", userID);
+		if (cached) return cached;
+
+		const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
+		const factionID = data.faction.faction_id;
+
+		void ttCache.set({ [userID]: factionID }, 1 * TO_MILLIS.DAYS, "faction-id");
+
+		return factionID;
+	}
+}

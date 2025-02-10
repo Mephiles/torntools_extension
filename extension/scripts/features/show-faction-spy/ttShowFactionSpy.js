@@ -50,7 +50,10 @@
 		if (isOwnFaction) return;
 
 		// Add spy data to members list.
-		const spies = await fetchSpies(await getFactionID());
+		const factionDetails = await readFactionDetails();
+		if (!factionDetails) throw new Error("Faction ID could not be found.");
+
+		const spies = await fetchSpies(factionDetails.id);
 
 		await requireElement(".members-list .table-body > li .status");
 
@@ -119,9 +122,6 @@
 		let spies = {};
 
 		if (settings.external.tornstats) {
-			// await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/faction", id: "38044" });
-			// await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/faction", id: "40992" });
-
 			let data;
 			if (ttCache.hasValue("faction-spy-tornstats", factionID)) data = ttCache.get("faction-spy-tornstats", factionID);
 			else {
@@ -133,9 +133,6 @@
 				for (const memberID of Object.keys(data.faction.members)) spies[memberID] = data.faction.members[memberID].spy;
 			}
 		} else if (settings.external.yata) {
-			// await fetchData(FETCH_PLATFORMS.yata, { relay: true, section: "spies", includeKey: true, params: { faction: "38044" } });
-			// await fetchData(FETCH_PLATFORMS.yata, { relay: true, section: "spies", includeKey: true, params: { faction: "40992" } });
-
 			let data;
 			if (ttCache.hasValue("faction-spy-yata", factionID)) data = ttCache.get("faction-spy-yata", factionID);
 			else {
@@ -158,34 +155,6 @@
 		// Sometimes, the modifications of the `spies` object causes unnecessary
 		// modifications during storage. Returning a clone instead.
 		return window.structuredClone(spies);
-	}
-
-	async function getFactionID() {
-		if (isOwnFaction) {
-			if (userdata.faction_id) return userdata.faction_id;
-
-			const userID = userdata.player_id;
-			if (!userID) return null; // ID could not be found
-
-			return await getFactionIDFromUser(userID);
-		}
-
-		const hashparams = getSearchParameters();
-
-		if (isIntNumber(hashparams.get("ID"))) return parseInt(hashparams.get("ID"));
-		if (isIntNumber(hashparams.get("userID"))) return await getFactionIDFromUser(parseInt(hashparams.get("userID")));
-
-		return null; // ID could not be found
-
-		async function getFactionIDFromUser(userID) {
-			const cached = ttCache.get("faction-id", userID);
-			if (cached) return cached;
-
-			const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
-			const factionID = data.faction.faction_id;
-			ttCache.set({ [userID]: factionID }, 1 * TO_MILLIS.DAYS, "faction-id");
-			return factionID;
-		}
 	}
 
 	function removeSpies(onlyRWSpies = false) {
