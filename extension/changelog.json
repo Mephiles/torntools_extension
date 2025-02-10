@@ -9,7 +9,8 @@
 				{ "message": "Migrate the database when the background loads as well, if needed.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve the performance issue with FF Scouter gauges.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the faction id feature not running when it should.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix background errors when only attacks are fetched.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix background errors when only attacks are fetched.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix incorrect migration from personalstats.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" },

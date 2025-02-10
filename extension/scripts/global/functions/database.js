@@ -212,7 +212,7 @@ async function migrateDatabase(force = false) {
 			}
 			updated = true;
 		} else if (version <= toNumericVersion("7.5.0")) {
-			if (storage?.settings?.apiUsage?.userV2?.personalstats === false) {
+			if (storage?.settings?.apiUsage?.user?.personalstats === false) {
 				newStorage.settings.apiUsage.userV2.personalstats = false;
 			}
 			updated = true;
