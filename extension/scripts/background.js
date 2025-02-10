@@ -374,16 +374,18 @@ async function updateUserdata(forceUpdate = false) {
 	await ttStorage.set({ userdata: { ...oldUserdata, ...userdata } });
 
 	await showIconBars().catch((error) => console.error("Error while updating the icon bars.", error));
-	await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
+	if (updateEssential) {
+		await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
+		await notifyTravelLanding().catch((error) => console.error("Error while sending travel landing notifications.", error));
+		await notifyBars().catch((error) => console.error("Error while sending bar notification.", error));
+		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
+		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
+	}
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
-	await notifyTravelLanding().catch((error) => console.error("Error while sending travel landing notifications.", error));
 	await notifyEducation().catch((error) => console.error("Error while sending education notifications.", error));
 	await notifyNewDay().catch((error) => console.error("Error while sending new day notification.", error));
-	await notifyBars().catch((error) => console.error("Error while sending bar notification.", error));
-	await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
 	await notifyHospital().catch((error) => console.error("Error while sending hospital notifications.", error));
-	await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 	await notifySpecificCooldowns().catch((error) => console.error("Error while sending specific cooldown notifications.", error));
 
 	await ttStorage.set({ notifications });
