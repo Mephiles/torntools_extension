@@ -13,7 +13,8 @@
 				{ "message": "Keep a consistent order within the sidebar information section.", "contributor": "DeKleineKobini" },
 				{ "message": "Change some features to be compatible with older browsers again.", "contributor": "DeKleineKobini" },
 				{ "message": "Update the hardcoded items which we use as fallback.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve background performance.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve background performance.", "contributor": "DeKleineKobini" },
+				{ "message": "Update all company specials to avoid outdated specials being shown.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

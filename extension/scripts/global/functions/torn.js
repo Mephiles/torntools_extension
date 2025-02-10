@@ -227,6 +227,31 @@ const DRUG_INFORMATION = {
 	},
 };
 
+/*
+	Object.entries(companies)
+		.map(([id, company]) => ({
+			id: parseInt(id),
+			name: company.name,
+			specials: Object.entries(company.specials).map(([specialName, special]) => ({
+				name: specialName,
+				rating: special.rating_required,
+				effect: special.effect,
+				cost: special.cost ? special.cost.toString() : "Passive",
+			})),
+		}))
+		.reduce((total, company) => {
+			total[company.name] = company.specials.reduce((specialsTotal, special) => {
+				specialsTotal[special.rating.toString()] = {
+					name: special.name,
+					cost: special.cost,
+					effect: special.effect,
+				};
+				return specialsTotal;
+			}, {});
+			return total;
+		}, {});
+ */
+
 const COMPANY_INFORMATION = {
 	"Adult Novelties": {
 		1: {
@@ -252,14 +277,14 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "Indecent",
 			cost: "Passive",
-			effect: "100% bonus to Erotic DVDs",
+			effect: "100% happy gain from Erotic DVDs",
 		},
 	},
 	"Amusement Park": {
 		1: {
 			name: "Dauntless",
 			cost: "1",
-			effect: "+2 nerve",
+			effect: "2 nerve",
 		},
 		3: {
 			name: "Free Ride",
@@ -274,7 +299,7 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Adrenaline Rush",
 			cost: "Passive",
-			effect: "25% epinephrine effect & duration",
+			effect: "25% Epinephrine effectiveness & duration",
 		},
 		10: {
 			name: "Thrill Seeker",
@@ -306,7 +331,7 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "Meditation",
 			cost: "250",
-			effect: "View someone's true level if they are level holding",
+			effect: "View someone's true level",
 		},
 	},
 	"Car Dealership": {
@@ -316,14 +341,14 @@ const COMPANY_INFORMATION = {
 			effect: "Racing point",
 		},
 		3: {
-			name: "Discount parts",
+			name: "Discount Parts",
 			cost: "Passive",
-			effect: "75% cost discount on car parts",
+			effect: "75% car parts cost reduction",
 		},
 		5: {
 			name: "Salesman",
 			cost: "Passive",
-			effect: "No item market fees",
+			effect: "Free anonymous Item Market listings",
 		},
 		7: {
 			name: "Two-Faced",
@@ -331,9 +356,9 @@ const COMPANY_INFORMATION = {
 			effect: "15% fraud crime exp & skill gain",
 		},
 		10: {
-			name: "Getaway car",
+			name: "Getaway Car",
 			cost: "Passive",
-			effect: "Escape button always enabled",
+			effect: "Escape option always available during attacks",
 		},
 	},
 	"Clothing Store": {
@@ -343,24 +368,24 @@ const COMPANY_INFORMATION = {
 			effect: "Experience",
 		},
 		3: {
-			name: "Nine to five",
+			name: "Nine to Five",
 			cost: "10",
-			effect: "100 Endurance",
+			effect: "100 endurance",
 		},
 		5: {
 			name: "Activewear",
 			cost: "Passive",
-			effect: "+25% Passive Dexterity",
+			effect: "25% passive dexterity",
 		},
 		7: {
-			name: "Secret pockets",
+			name: "Secret Pockets",
 			cost: "Passive",
-			effect: "+75% Mug Protection",
+			effect: "75% incoming mug reduction",
 		},
 		10: {
 			name: "Tailoring",
 			cost: "Passive",
-			effect: "+20% Armor Bonus",
+			effect: "20% armor mitigation bonus",
 		},
 	},
 	"Cruise Line": {
@@ -372,7 +397,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Portage",
 			cost: "Passive",
-			effect: "2 extra travel items",
+			effect: "2 travel item capacity",
 		},
 		5: {
 			name: "R&R",
@@ -387,14 +412,14 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "Freight",
 			cost: "Passive",
-			effect: "3 extra travel items",
+			effect: "3 travel item capacity",
 		},
 	},
 	"Cyber Cafe": {
 		1: {
 			name: "Ub3rg33k",
 			cost: "Passive",
-			effect: "50% virus coding time reduction",
+			effect: "50% coding time reduction",
 		},
 		3: {
 			name: "Clone Data",
@@ -421,39 +446,39 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "References",
 			cost: "2",
-			effect: "View someone's employment and faction history",
+			effect: "View someone's employment & faction history",
 		},
 		3: {
 			name: "Deputized",
 			cost: "Passive",
-			effect: "Able to Arrest those who meet the required threshold after defeat",
+			effect: "Arrest ability",
 		},
 		5: {
 			name: "Friend or Foe",
 			cost: "100",
-			effect: "See who's friended / blacklisted you (or a target)",
+			effect: "See who's added someone to their friend / enemy list",
 		},
 		7: {
 			name: "Watchlist",
 			cost: "50",
-			effect: "Anonymously extend a target's flight time by 1:30 - 2:00 hours",
+			effect: "Anonymously extend a target's flight time",
 		},
 		10: {
 			name: "Most Wanted",
 			cost: "25",
-			effect: "View a list of people with the highest wanted rewards",
+			effect: "View a list of highest wanted rewards",
 		},
 	},
 	Farm: {
 		1: {
-			name: "Fullfillment",
+			name: "Fulfillment",
 			cost: "1",
 			effect: "50 happiness",
 		},
 		3: {
 			name: "Animal Instinct",
 			cost: "Passive",
-			effect: "25% hunting reward",
+			effect: "25% hunting income",
 		},
 		5: {
 			name: "Special K",
@@ -475,27 +500,22 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Audaciousness",
 			cost: "1",
-			effect: "+2 Nerve",
+			effect: "2 nerve",
 		},
 		3: {
 			name: "Illumination",
 			cost: "Passive",
-			effect: "+50% Awareness",
+			effect: "50% awareness",
 		},
 		5: {
 			name: "Pyromania",
 			cost: "Passive",
-			effect: "+25% Flamethrower Damage, +10 Flamethrower Accuracy",
-		},
-		7: {
-			name: "Explosives Expert",
-			cost: "5",
-			effect: "Random bomb parts (Temporarily Unavailable)",
+			effect: "Flamethrower damage & accuracy",
 		},
 		10: {
 			name: "Inferno",
 			cost: "25",
-			effect: "Random incendiary ammunition, supplying currently equipped weapons if applicable",
+			effect: "Random incendiary ammunition ",
 		},
 	},
 	"Fitness Center": {
@@ -507,7 +527,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Goal Oriented",
 			cost: "Passive",
-			effect: "50% reduction of happiness loss in gym",
+			effect: "50% happy loss reduction in gym",
 		},
 		5: {
 			name: "Roid Rage",
@@ -531,11 +551,6 @@ const COMPANY_INFORMATION = {
 			cost: "3",
 			effect: "Special flower",
 		},
-		3: {
-			name: "Cultivation",
-			cost: "Passive",
-			effect: "25% illegal production success & gain (Temporarily Unavailable)",
-		},
 		5: {
 			name: "Herbal Cleansing",
 			cost: "1",
@@ -544,7 +559,7 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Over Capacity",
 			cost: "Passive",
-			effect: "Buy 5 additional special flowers abroad",
+			effect: "5 travel flower capacity",
 		},
 		10: {
 			name: "Floral Contacts",
@@ -583,7 +598,7 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Ub3rg33k",
 			cost: "Passive",
-			effect: "50% virus coding time reduction",
+			effect: "50% coding time reduction",
 		},
 		3: {
 			name: "Early Release",
@@ -593,7 +608,7 @@ const COMPANY_INFORMATION = {
 		5: {
 			name: "Gamer",
 			cost: "Passive",
-			effect: "100% console happiness",
+			effect: "100% happy gain from Game Console",
 		},
 		7: {
 			name: "Power Levelling",
@@ -610,54 +625,54 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Molotov Cocktail",
 			cost: "3",
-			effect: "+1 Molotov Cocktail",
+			effect: "Molotov cocktail",
 		},
 		3: {
 			name: "Fueled",
 			cost: "Passive",
-			effect: "+25% bonus to Speed",
+			effect: "25% passive speed",
 		},
 		5: {
 			name: "Cauterize",
 			cost: "Passive",
-			effect: "Occasional 20% health regeneration (10% chance per turn)",
+			effect: "Occasional healing during combat",
 		},
 		7: {
 			name: "Fireproof",
 			cost: "Passive",
-			effect: "50% reduction to Burning damage received",
+			effect: "50% fire damage mitigation",
 		},
 		10: {
 			name: "Blaze of Glory",
 			cost: "Passive",
-			effect: "50% bonus to Burning damage dealt",
+			effect: "50% fire damage dealt",
 		},
 	},
 	"Gents Strip Club": {
 		1: {
 			name: "Happy Ending",
 			cost: "1",
-			effect: "+50 Happy",
+			effect: "50 happiness",
 		},
 		3: {
 			name: "Dancer's Flair",
 			cost: "Passive",
-			effect: "+25% Passive Dexterity",
+			effect: "25% passive dexterity",
 		},
 		5: {
 			name: "Supple",
 			cost: "Passive",
-			effect: "+50% Tyrosine effect & duration",
+			effect: "50% Tyrosine effectiveness & duration",
 		},
 		7: {
 			name: "Pilates",
 			cost: "Passive",
-			effect: "+10% Dexterity gym gains",
+			effect: "10% dexterity gym gains",
 		},
 		10: {
 			name: "No Touching",
 			cost: "Passive",
-			effect: "1/4 chance to dodge melee attacks",
+			effect: "25% chance of dodging incoming melee attacks",
 		},
 	},
 	"Grocery Store": {
@@ -669,7 +684,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Fast Metabolism",
 			cost: "Passive",
-			effect: "10% consumable cooldown",
+			effect: "10% consumable cooldown reduction",
 		},
 		5: {
 			name: "Bottled Up",
@@ -679,10 +694,10 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Absorption",
 			cost: "Passive",
-			effect: "10% consumable boost",
+			effect: "10% consumable gain",
 		},
 		10: {
-			name: "Canned in",
+			name: "Canned In",
 			cost: "12",
 			effect: "Can of energy drink",
 		},
@@ -691,22 +706,22 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Sales Discount",
 			cost: "Passive",
-			effect: "20% discount on standard ammo",
+			effect: "20% standard ammo cost reduction",
 		},
 		3: {
 			name: "Surplus",
 			cost: "15",
-			effect: "Random special ammunition, supplying currently equipped weapons if applicable",
+			effect: "Random special ammunition",
 		},
 		5: {
 			name: "Skilled Analysis",
 			cost: "Passive",
-			effect: "Target equipment and ammo is always visible",
+			effect: "Target loadout is always visible",
 		},
 		7: {
 			name: "Bandoleer",
 			cost: "Passive",
-			effect: "1 extra clip for guns during combat",
+			effect: "1 extra clip for guns during attacks",
 		},
 		10: {
 			name: "Firearms Expert",
@@ -728,10 +743,10 @@ const COMPANY_INFORMATION = {
 		5: {
 			name: "Rumors",
 			cost: "Passive",
-			effect: "Reduced enemy stealth",
+			effect: "2.0 opponent stealth reduction",
 		},
 		7: {
-			name: "Cutting corners",
+			name: "Cutting Corners",
 			cost: "1",
 			effect: "30 minute education time reduction",
 		},
@@ -745,39 +760,39 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Hot Flush",
 			cost: "1",
-			effect: "+50 Happy",
+			effect: "50 happiness",
 		},
 		3: {
 			name: "Hench",
 			cost: "Passive",
-			effect: "+25% Passive Defense",
+			effect: "25% passive defense",
 		},
 		5: {
 			name: "Hormonal",
 			cost: "Passive",
-			effect: "+50% Serotonin effect & duration",
+			effect: "50% Serotonin effectiveness & duration",
 		},
 		7: {
 			name: "Boxercise",
 			cost: "Passive",
-			effect: "+10% Defense gym gains",
+			effect: "10% defense gym gains",
 		},
 		10: {
 			name: "Hardbody",
 			cost: "Passive",
-			effect: "30% melee damage mitigation",
+			effect: "30% incoming melee attacks damage reduction",
 		},
 	},
 	"Law Firm": {
 		1: {
 			name: "Bail Bondsman",
 			cost: "Passive",
-			effect: "50% decreased bail costs",
+			effect: "50% bail cost reduction",
 		},
 		3: {
 			name: "Background Check",
 			cost: "10",
-			effect: "View someone's stats",
+			effect: "View someone's battle stats",
 		},
 		5: {
 			name: "Closing Argument",
@@ -787,7 +802,7 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Loophole",
 			cost: "Passive",
-			effect: "20% organised crime skill",
+			effect: "20% passive crime XP during Organized Crimes",
 		},
 		10: {
 			name: "Educated Decisions",
@@ -804,22 +819,22 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Concealment",
 			cost: "Passive",
-			effect: "2 extra travel items",
+			effect: "2 travel item capacity",
 		},
 		5: {
 			name: "Born Free",
 			cost: "Passive",
-			effect: "+50% speed and dexterity when not wearing armor",
+			effect: "50% passive speed & dexterity when not wearing armor",
 		},
 		7: {
 			name: "Simp",
 			cost: "Passive",
-			effect: "Waive all property upkeep and staff costs",
+			effect: "No property upkeep or staff costs",
 		},
 		10: {
 			name: "Sex Appeal",
 			cost: "Passive",
-			effect: "Provides Free Business Class Travel",
+			effect: "Free business class upgrades",
 		},
 	},
 	"Logistics Management": {
@@ -831,34 +846,34 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Organized",
 			cost: "Passive",
-			effect: "Increases available open mission contracts from 3 to 5",
+			effect: "2 additional open mission contracts",
 		},
 		5: {
 			name: "Repatriated",
 			cost: "Passive",
-			effect: "Allows traveling back to Torn from abroad while in hosp",
+			effect: "Return from abroad while in hospital",
 		},
 		7: {
 			name: "Contraband",
 			cost: "50",
-			effect: "Large quantity of a foreign item",
+			effect: "Shipment of foreign goods",
 		},
 		10: {
 			name: "Logistics Report",
 			cost: "250",
-			effect: "Targeted company productivity boost",
+			effect: "Company productivity boost",
 		},
 	},
 	"Meat Warehouse": {
 		1: {
 			name: "Blood Thirst",
 			cost: "1",
-			effect: "+2 nerve",
+			effect: "2 nerve",
 		},
 		3: {
 			name: "Blood Splatter",
 			cost: "Passive",
-			effect: "50% reduction in crime  penalty",
+			effect: "50% crime penalty reduction",
 		},
 		5: {
 			name: "Carnage",
@@ -873,7 +888,7 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "Vampiric",
 			cost: "Passive",
-			effect: "3% life regeneration per tick",
+			effect: "3.0% life regeneration",
 		},
 	},
 	"Mechanic Shop": {
@@ -885,7 +900,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Discount Parts",
 			cost: "Passive",
-			effect: "75% cost discount on car parts",
+			effect: "75% car parts cost reduction",
 		},
 		5: {
 			name: "Junkyard Dog",
@@ -900,14 +915,14 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "Driver",
 			cost: "Passive",
-			effect: "50% driving skill gain",
+			effect: "50% racing skill gain",
 		},
 	},
 	"Mining Corporation": {
 		1: {
-			name: "Salty",
-			cost: "5",
-			effect: "Salt Shaker",
+			name: "Mining Boom",
+			cost: "10",
+			effect: "Random excavation equipment",
 		},
 		3: {
 			name: "Thirsty Work",
@@ -927,7 +942,7 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "Preserved Meat",
 			cost: "25",
-			effect: "Boost current life to 150% of maximum",
+			effect: "Boosts current life to 150% of maximum",
 		},
 	},
 	"Music Store": {
@@ -939,12 +954,12 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Well Tuned",
 			cost: "Passive",
-			effect: "30% increased gym experience",
+			effect: "30% gym experience",
 		},
 		5: {
 			name: "High-fidelity",
 			cost: "Passive",
-			effect: "Reduced enemy stealth",
+			effect: "2.0 opponent stealth reduction",
 		},
 		7: {
 			name: "Deafened",
@@ -954,7 +969,7 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "The Score",
 			cost: "Passive",
-			effect: "+15% passive on all stats",
+			effect: "15% passive battle stats",
 		},
 	},
 	Nightclub: {
@@ -966,17 +981,17 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Target Market",
 			cost: "Passive",
-			effect: "25% illicit services success & skill gain (Temporarily Unavailable)",
+			effect: "15% illicit services crime exp & skill gain",
 		},
 		5: {
 			name: "Suppression",
 			cost: "1",
-			effect: "Drug addiction reduction",
+			effect: "Drug addiction",
 		},
 		7: {
 			name: "Tolerance",
 			cost: "Passive",
-			effect: "50% drug overdose chance reduction",
+			effect: "50% drug overdose risk reduction",
 		},
 		10: {
 			name: "Restraint",
@@ -1003,7 +1018,7 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Tax Haven",
 			cost: "Passive",
-			effect: "10% increase of Cayman Islands interest rate",
+			effect: "10% offshore bank interest",
 		},
 		10: {
 			name: "Fat Cat",
@@ -1020,7 +1035,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Tactical Breach",
 			cost: "Passive",
-			effect: "+50% flash grenade intensity",
+			effect: "50% Flash Grenade intensity",
 		},
 		5: {
 			name: "Open Arsenal",
@@ -1052,7 +1067,7 @@ const COMPANY_INFORMATION = {
 		5: {
 			name: "Vendor",
 			cost: "Passive",
-			effect: "No item market or auction house fees",
+			effect: "Free anonymous Item Market listings",
 		},
 		7: {
 			name: "Insider Trading",
@@ -1084,12 +1099,12 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Lightweight",
 			cost: "Passive",
-			effect: "50% bottle of alcohol boost",
+			effect: "50% nerve gain from alcohol",
 		},
 		10: {
 			name: "Buzzed",
 			cost: "Passive",
-			effect: "+15 maximum nerve",
+			effect: "15 maximum nerve",
 		},
 	},
 	Restaurant: {
@@ -1111,7 +1126,7 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Healthy Diet",
 			cost: "Passive",
-			effect: "2% life regeneration per tick",
+			effect: "2.0% life regeneration",
 		},
 		10: {
 			name: "Professional Metabolism",
@@ -1123,7 +1138,7 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Ub3rg33k",
 			cost: "Passive",
-			effect: "50% virus coding time reduction",
+			effect: "50% coding time reduction",
 		},
 		3: {
 			name: "Proxy Hacking",
@@ -1133,12 +1148,12 @@ const COMPANY_INFORMATION = {
 		5: {
 			name: "Intricate Hack",
 			cost: "250",
-			effect: "Steals 1-3% of a company's funds",
+			effect: "Hack a company's bank account",
 		},
 		7: {
 			name: "Hack the Planet",
 			cost: "Passive",
-			effect: "+25% computer crime success & skill gain (Temporarily Unavailable)",
+			effect: "15% cybercrime success & skill gain",
 		},
 		10: {
 			name: "Corporate Espionage",
@@ -1175,24 +1190,19 @@ const COMPANY_INFORMATION = {
 	},
 	"Television Network": {
 		1: {
-			name: "Propaganda",
+			name: "Propaganda ",
 			cost: "5",
 			effect: "1 faction respect",
 		},
 		3: {
 			name: "Scoop",
 			cost: "Passive",
-			effect: "50% newspaper advertising cost",
+			effect: "50% newspaper advertising cost reduction",
 		},
 		5: {
 			name: "Inside Story",
 			cost: "15",
-			effect: "View someone's stats & money",
-		},
-		7: {
-			name: "Bad Publicity",
-			cost: "Passive",
-			effect: "25% extortion success rate and skill gain (Temporarily Unavailable)",
+			effect: "View someone's battle stats & money",
 		},
 		10: {
 			name: "Press Pass",
@@ -1224,7 +1234,7 @@ const COMPANY_INFORMATION = {
 		10: {
 			name: "Disguised",
 			cost: "Passive",
-			effect: "Hidden traveling status & destination",
+			effect: "Hidden destination & traveling status",
 		},
 	},
 	"Toy Shop": {
@@ -1241,12 +1251,12 @@ const COMPANY_INFORMATION = {
 		5: {
 			name: "Gamer",
 			cost: "Passive",
-			effect: "100% console happiness",
+			effect: "100% happy gain from Game Console",
 		},
 		7: {
 			name: "Over Capacity",
 			cost: "Passive",
-			effect: "Able to bring back +5 plushies from abroad",
+			effect: "5 travel plushie capacity",
 		},
 		10: {
 			name: "Toy Importer",
@@ -1263,7 +1273,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Animal Instinct",
 			cost: "Passive",
-			effect: "25% hunting reward",
+			effect: "25% hunting income",
 		},
 		5: {
 			name: "Special K",
@@ -1273,12 +1283,12 @@ const COMPANY_INFORMATION = {
 		7: {
 			name: "Eye of the Tiger",
 			cost: "Passive",
-			effect: "70% Awareness",
+			effect: "70% awareness",
 		},
 		10: {
 			name: "Seasoned Poacher",
 			cost: "Passive",
-			effect: "+3.00 Accuracy",
+			effect: "3.0 accuracy",
 		},
 	},
 };
