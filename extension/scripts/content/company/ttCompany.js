@@ -26,3 +26,38 @@ if (!isOwnCompany) {
 		else if (getHashParameters().get("option") === "stock") triggerCustomListener(EVENT_CHANNELS.COMPANY_STOCK_PAGE);
 	});
 }
+
+async function readCompanyDetails() {
+	if (isOwnCompany && hasAPIData()) {
+		if (userdata.job.company_id) return { id: userdata.job.company_id };
+
+		const userID = userdata.player_id;
+		if (!userID) return null; // ID could not be found
+
+		return { id: await getCompanyIDFromUser(userID) };
+	}
+
+	const params = getHashParameters();
+
+	if (isIntNumber(params.get("ID"))) {
+		return { id: parseInt(params.get("ID")) };
+	}
+
+	if (isIntNumber(params.get("userID")) && hasAPIData()) {
+		return { id: await getCompanyIDFromUser(parseInt(params.get("userID"))) };
+	}
+
+	return null; // ID could not be found
+
+	async function getCompanyIDFromUser(userID) {
+		const cached = ttCache.get("company-id", userID);
+		if (cached) return cached;
+
+		const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
+		const companyID = data.job.company_id;
+
+		void ttCache.set({ [userID]: companyID }, 1 * TO_MILLIS.DAYS, "company-id");
+
+		return companyID;
+	}
+}

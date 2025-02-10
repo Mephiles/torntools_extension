@@ -16,7 +16,8 @@
 				{ "message": "Update the hardcoded items which we use as fallback.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve background performance.", "contributor": "DeKleineKobini" },
 				{ "message": "Update all company specials to avoid outdated specials being shown.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve the detection which faction id you are currently visiting.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve the detection which faction id you are currently visiting.", "contributor": "DeKleineKobini" },
+				{ "message": "Refactor the company id feature.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
