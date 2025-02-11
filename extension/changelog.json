@@ -1,9 +1,14 @@
 [
 	{
-		"version": { "major": 7, "minor": 5, "build": 1 },
+		"version": { "major": 7, "minor": 5, "build": 2 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 5, "build": 1 },
+		"date": "2025/02/11",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix custom sounds not working anymore.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate the database when the background loads as well, if needed.", "contributor": "DeKleineKobini" },
@@ -20,8 +25,7 @@
 				{ "message": "Update all company specials to avoid outdated specials being shown.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve the detection which faction id you are currently visiting.", "contributor": "DeKleineKobini" },
 				{ "message": "Refactor the company id feature.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
