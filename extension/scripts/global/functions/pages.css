@@ -91,6 +91,10 @@ body.tt-unscrollable {
 
 /* General pages */
 
+body.tt-mobile main {
+	margin: auto;
+}
+
 main > h2 {
 	text-align: center;
 }
@@ -107,7 +111,7 @@ body:not(.tt-mobile) main > section {
 }
 
 body.tt-mobile main > section {
-	width: 95%;
+	width: 88%;
 }
 
 body.light main > section {

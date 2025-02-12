@@ -5,6 +5,14 @@ main#preferences > h2 {
 	margin-left: 8em;
 }
 
+body.tt-mobile main#preferences {
+	margin: auto;
+}
+
+body.tt-mobile main#preferences > section {
+	width: 88%;
+}
+
 body.tt-mobile .no-mobile {
 	display: none !important;
 }
@@ -204,8 +212,17 @@ body.dark #tt-search-list::-webkit-scrollbar-thumb {
 	padding: 0;
 }
 
+body.tt-mobile #preferences > section:first-of-type {
+	flex-flow: column;
+}
+
 #preferences nav {
 	width: max-content;
+}
+
+body.tt-mobile #preferences nav {
+	width: unset;
+	overflow: hidden;
 }
 
 body.light #preferences nav {
@@ -222,6 +239,16 @@ body.dark #preferences nav {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+
+body.tt-mobile #preferences nav ul {
+	display: flex;
+	flex-flow: row;
+	overflow: auto;
+}
+
+body.tt-mobile #preferences nav ul::-webkit-scrollbar {
+	display: none;
 }
 
 #preferences nav ul > li {
