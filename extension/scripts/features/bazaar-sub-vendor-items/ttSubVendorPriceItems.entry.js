@@ -3,11 +3,14 @@
 (async () => {
 	await featureManagerLoaded();
 
+	let CLASS_NAME = "tt-sub-vendor-highlight";
+	var observer;
+
 	// noinspection JSIncompatibleTypesComparison
 	featureManager.registerFeature(
 		"Highlight Cheap Items",
 		"bazaar",
-		() => true /* settings.pages.bazaar.highlightSubVendorItems !== "" */,
+		() => settings.pages.bazaar.highlightSubVendorItems !== "",
 		initialise,
 		highlightEverything,
 		removeHighlights,
@@ -19,7 +22,6 @@
 		}
 	);
 
-	var observer;
 	async function initialise() {
 		observer = new MutationObserver(() => { highlightEverything() });
 		observer.observe(document.body, {
@@ -54,15 +56,15 @@
 
 	function handleItem(item) {
 		if (shouldHighlight(item.id, item.price)) {
-			item.element.find("[class*='description___']").classList.add("tt-highlight-item");
+			item.element.find("[class*='description___']").classList.add(CLASS_NAME);
 		} else {
-			item.element.find("[class*='description___']").classList.remove("tt-highlight-item");
+			item.element.find("[class*='description___']").classList.remove(CLASS_NAME);
 		}
 	}
 
 	function removeHighlights() {
 		observer?.disconnect();
-		document.findAll(".tt-highlight-item")
-			.forEach((item) => item.classList.remove("tt-highlight-item"));
+		document.findAll(`.${CLASS_NAME}`)
+			.forEach((item) => item.classList.remove(CLASS_NAME));
 	}
 })();
