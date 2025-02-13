@@ -253,6 +253,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
+			"css": ["scripts/features/bazaar-sub-vendor-items/ttSubVendorPriceItems.css"],
+			"js": ["scripts/features/bazaar-sub-vendor-items/ttSubVendorPriceItems.js"],
+			"run_at": "document_start"
+		},
+		{
+			"matches": ["https://www.torn.com/bazaar.php*"],
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/item-values/ttItemValues.css",
