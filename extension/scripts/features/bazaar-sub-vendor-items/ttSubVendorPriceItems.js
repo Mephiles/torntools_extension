@@ -1,29 +1,30 @@
 "use strict";
 
 (async () => {
-	if (!getPageStatus().access) return;
+	await featureManagerLoaded();
 
 	// noinspection JSIncompatibleTypesComparison
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Highlight Cheap Items",
 		"bazaar",
-		() => settings.pages.itemmarket.highlightSubVendorItems !== "",
-		initialiseListeners,
+		() => true /* settings.pages.bazaar.highlightSubVendorItems !== "" */,
+		initialise,
 		highlightEverything,
 		removeHighlights,
 		{
-			storage: ["settings.pages.itemmarket.highlightSubVendorItems"],
+			storage: ["settings.pages.bazaar.highlightSubVendorItems"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
 		}
 	);
 
-	async function initialiseListeners() {
-		addFetchListener(({ detail: { page, json, fetch } }) => {
-			if (page === "bazaar" && json) {
-				highlightEverything()
-			}
+	var observer;
+	async function initialise() {
+		observer = new MutationObserver(() => { highlightEverything() });
+		observer.observe(document.body, {
+			childList: true,
+			subtree: true
 		});
 	}
 
@@ -53,13 +54,14 @@
 
 	function handleItem(item) {
 		if (shouldHighlight(item.id, item.price)) {
-			item.element.classList.add("tt-highlight-item");
+			item.element.find("[class*='description___']").classList.add("tt-highlight-item");
 		} else {
-			item.element.classList.remove("tt-highlight-item");
+			item.element.find("[class*='description___']").classList.remove("tt-highlight-item");
 		}
 	}
 
 	function removeHighlights() {
+		observer?.disconnect();
 		document.findAll(".tt-highlight-item")
 			.forEach((item) => item.classList.remove("tt-highlight-item"));
 	}
