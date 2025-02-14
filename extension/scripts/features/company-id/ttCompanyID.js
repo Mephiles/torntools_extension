@@ -33,10 +33,10 @@
 			isOwnCompany ? "div.company-wrap > div.title-black" : "div.company-details-wrap > div.company-details > div.title-black"
 		);
 
-		const id = await readCompanyDetails();
-		if (!id) throw new Error("Company ID could not be found.");
+		const details = await readCompanyDetails();
+		if (!details) throw new Error("Company ID could not be found.");
 
-		container.appendChild(document.newElement({ type: "span", text: ` [${id}]`, id: "tt-company-id" }));
+		container.appendChild(document.newElement({ type: "span", text: ` [${details.id}]`, id: "tt-company-id" }));
 	}
 
 	function removeID() {
