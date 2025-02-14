@@ -203,7 +203,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				if (records.length > 1) return;
 
 				for (const record of records) {
-					if (!record.removedNodes?.[0].matches("#iconTray")) continue;
+					if (!record.removedNodes?.[0]?.matches("#iconTray")) continue;
 
 					const oldIconsCount = record.removedNodes?.[0].children.length;
 					const newIconsCount = record.addedNodes?.[0].children.length;
