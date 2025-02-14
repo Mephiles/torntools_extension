@@ -2,6 +2,6 @@
 	background-color: var(--tt-color-green--40) !important;
 }
 
-.tt-sub-vendor-highlight [class*=buyForm___] {
+.tt-sub-vendor-highlight [class*="buyForm___"] {
 	background-color: #f1f1f1 !important;
 }

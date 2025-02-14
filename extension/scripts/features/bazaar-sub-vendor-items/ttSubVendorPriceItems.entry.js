@@ -23,21 +23,23 @@
 	);
 
 	async function initialise() {
-		observer = new MutationObserver(() => { highlightEverything() });
+		observer = new MutationObserver(() => {
+			highlightEverything();
+		});
 		observer.observe(document.body, {
 			childList: true,
-			subtree: true
+			subtree: true,
 		});
 	}
 
 	function highlightEverything() {
-		const items = [...document.findAll("[class*='item__'] > [class*='itemDescription__']")]	
-			.map((element) => { 
-				return { 
+		const items = [...document.findAll("[class*='item__'] > [class*='itemDescription__']")]
+			.map((element) => {
+				return {
 					element,
-					id: element.find("img").src.getNumber(), 
-					price: element.find("[class*='price___']").textContent.getNumber()
-				} 
+					id: element.find("img").src.getNumber(),
+					price: element.find("[class*='price___']").textContent.getNumber(),
+				};
 			})
 			.filter((item) => item.element);
 
@@ -64,7 +66,6 @@
 
 	function removeHighlights() {
 		observer?.disconnect();
-		document.findAll(`.${CLASS_NAME}`)
-			.forEach((item) => item.classList.remove(CLASS_NAME));
+		document.findAll(`.${CLASS_NAME}`).forEach((item) => item.classList.remove(CLASS_NAME));
 	}
 })();
