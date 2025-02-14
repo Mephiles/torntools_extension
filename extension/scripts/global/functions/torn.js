@@ -223,7 +223,7 @@ const DRUG_INFORMATION = {
 	870: {
 		pros: ["Cost of attacking and reviving reduced by 10 energy.", "+50% Speed", "+25% Dexterity"],
 		cons: ["Only works on Valentine's Day"],
-		cooldown: "5 hours",
+		cooldown: "5-8 hours",
 	},
 };
 
