@@ -8,7 +8,8 @@
 			"fixes": [{ "message": "Fix the company id showing something wrong.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Change layout of preferences page on mobiles.", "contributor": "TheFoxMan" },
-				{ "message": "Correctly list Love Juice cooldown.", "contributor": "TheFoxMan" }
+				{ "message": "Correctly list Love Juice cooldown.", "contributor": "TheFoxMan" },
+				{ "message": "Option to highlight items in Bazaars that have a ccost less than the vendor price.", "contributor": "TravisTheTechie" }
 			],
 			"removed": []
 		}
