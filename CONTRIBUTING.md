@@ -78,6 +78,11 @@ We have prettier formatting to help you follow our coding conventions.
 
 ## Development Tips
 
+### Testing
+
+* Chrome: [load an unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
+* Firefox: [install a temporary extension](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)
+
 ##### Ignore local manifest.json changes.
 
 This can be used to remove the Firefox only setting to avoid warnings in Chromium-browsers.

@@ -570,6 +570,7 @@ const DEFAULT_STORAGE = {
 				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				highlightSubVendorItems: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			trade: {
 				itemValues: new DefaultSetting({ type: "boolean", defaultValue: true }),
