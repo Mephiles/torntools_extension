@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix the company id showing something wrong.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix the company id showing something wrong.", "contributor": "DeKleineKobini" },
+				{ "message": "Prevent error on the faction page when member list is modified", "contributor": "MOBermejo" }
+			],
 			"changes": [{ "message": "Change layout of preferences page on mobiles.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
