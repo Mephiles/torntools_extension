@@ -247,8 +247,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
-			"css": ["scripts/features/bazaar-worth/ttBazaarWorth.css"],
-			"js": ["scripts/features/bazaar-worth/ttBazaarWorth.entry.js"],
+			"css": ["scripts/features/bazaar-worth/ttBazaarWorth.css", "scripts/features/bazaar-sub-vendor-items/ttSubVendorPriceItems.css"],
+			"js": ["scripts/features/bazaar-worth/ttBazaarWorth.entry.js", "scripts/features/bazaar-sub-vendor-items/ttSubVendorPriceItems.entry.js"],
 			"run_at": "document_start"
 		},
 		{

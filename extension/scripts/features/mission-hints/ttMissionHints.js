@@ -238,7 +238,8 @@
 			},
 			painleth_dentitht: {
 				task: "Defeat (P) with a baseball bat.",
-				hint: "Other weapons can stay equipped. Using any other weapon will fail this mission!",
+				// Using any other weapon is allowed. https://www.torn.com/forums.php#/p=threads&f=19&t=16291785&b=0&a=0&start=0&to=22732030
+				hint: "Other weapons can stay equipped.",
 			},
 			party_tricks: {
 				task: "Defeat (P) despite their nimble dexterity.",

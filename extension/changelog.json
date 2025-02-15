@@ -5,11 +5,14 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [
-				{ "message": "Fix the company id showing something wrong.", "contributor": "DeKleineKobini" },
-				{ "message": "Prevent error on the faction page when member list is modified", "contributor": "MOBermejo" }
+			"fixes": [{ "message": "Fix the company id showing something wrong.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Change layout of preferences page on mobiles.", "contributor": "TheFoxMan" },
+				{ "message": "Correctly list Love Juice cooldown.", "contributor": "DeKleineKobini" },
+				{ "message": "Option to highlight items in Bazaars that have a ccost less than the vendor price.", "contributor": "TravisTheTechie" },
+				{ "message": "Update 'Painleth Dentitht' mission hint.", "contributor": "DeKleineKobini" },
+        { "message": "Prevent error on the faction page when member list is modified", "contributor": "MOBermejo" }
 			],
-			"changes": [{ "message": "Change layout of preferences page on mobiles.", "contributor": "TheFoxMan" }],
 			"removed": []
 		}
 	},

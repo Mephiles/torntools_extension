@@ -218,12 +218,19 @@ const TEAM = [
 		color: "white", // No explicit color chosen.
 	},
 	{
-		name: "MOBermejo",
+		name: "TravisTheTechie",
+		title: "Developer",
+		core: false,
+		torn: 3549588,
+		color: "firebrick",
+	},
+  {
+    name: "MOBermejo",
 		title: "Developer",
 		core: false,
 		torn: 3385879,
 		color: "#DAA520",
-	},
+  }
 ];
 
 const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer") || color).reduce(
