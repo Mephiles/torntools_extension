@@ -34,6 +34,8 @@
 
 	function highlightEverything() {
 		const items = [...document.findAll("[class*='item__'] > [class*='itemDescription__']")]
+			// filter out $1 items that you can't buy
+			.filter((element) => !element.find("[class*='isBlockedForBuying___'"))
 			.map((element) => {
 				return {
 					element,
