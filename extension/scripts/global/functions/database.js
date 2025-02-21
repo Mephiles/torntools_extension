@@ -220,6 +220,13 @@ async function migrateDatabase(force = false) {
 			if (storage?.settings?.apiUsage?.user?.attacks === false) {
 				newStorage.settings.apiUsage.userV2.attacks = false;
 			}
+			if (storage?.cache && "faction-members" in storage.cache) {
+				newStorage.cache = {
+					...(storage?.cache ?? {}),
+					"faction-members": {},
+				};
+			}
+
 			updated = true;
 		}
 

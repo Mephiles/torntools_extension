@@ -67,12 +67,13 @@
 			if (row.find(".icons li[id*='icon77___']")) return;
 
 			const userID = getUsername(row).id;
-			const hours = ((nowDate - members[userID].last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
+			const member = members.find((m) => m.id === userID);
+			const hours = ((nowDate - member.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
 			const element = document.newElement({
 				type: "div",
 				class: "tt-last-action",
-				text: `Last action: ${members[userID].last_action.relative}`,
+				text: `Last action: ${member.last_action.relative}`,
 				attributes: {
 					hours: hours,
 				},
@@ -91,7 +92,7 @@
 				members = ttCache.get("faction-members", id);
 			} else {
 				members = (
-					await fetchData("torn", {
+					await fetchData("tornv2", {
 						section: "faction",
 						...(isNaN(id) ? {} : { id }),
 						selections: ["basic"],
