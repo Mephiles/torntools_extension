@@ -324,8 +324,8 @@ async function updateUserdata(forceUpdate = false) {
 
 		updatedTypes.push("basic");
 	}
-	if (attackHistory.fetchData && settings.apiUsage.user.attacks && settings.pages.global.keepAttackHistory) {
-		selections.push("attacks");
+	if (attackHistory.fetchData && settings.apiUsage.userV2.attacks && settings.pages.global.keepAttackHistory) {
+		selectionsV2.push("attacks");
 
 		updatedTypes.push("attack history");
 	}
@@ -415,108 +415,107 @@ async function updateUserdata(forceUpdate = false) {
 
 		async function updateAttackHistory() {
 			let lastAttack = attackHistory.lastAttack;
-			for (const attackId in userdata.attacks) {
-				if (parseInt(attackId) <= attackHistory.lastAttack) continue;
-				if (parseInt(attackId) > lastAttack) lastAttack = parseInt(attackId);
+			userdata.attacks
+				.filter(({ id }) => id > attackHistory.lastAttack)
+				.forEach((attack) => {
+					if (attack.id > lastAttack) lastAttack = attack.id;
 
-				const attack = userdata.attacks[attackId];
+					const enemyId = attack.attacker?.id === userdata.player_id ? attack.defender.id : attack.attacker.id;
+					if (!enemyId) return;
 
-				const enemyId = attack.attacker_id === userdata.player_id ? attack.defender_id : attack.attacker_id;
-				if (!enemyId) continue;
+					// Setup the data so there are no missing keys.
+					if (!attackHistory.history[enemyId]) attackHistory.history[enemyId] = {};
+					attackHistory.history[enemyId] = {
+						name: "",
+						defend: 0,
+						defend_lost: 0,
+						lose: 0,
+						stalemate: 0,
+						win: 0,
+						stealth: 0,
+						mug: 0,
+						hospitalise: 0,
+						leave: 0,
+						arrest: 0,
+						assist: 0,
+						special: 0,
+						escapes: 0,
+						respect: [],
+						respect_base: [],
+						...attackHistory.history[enemyId],
+					};
 
-				// Setup the data so there are no missing keys.
-				if (!attackHistory.history[enemyId]) attackHistory.history[enemyId] = {};
-				attackHistory.history[enemyId] = {
-					name: "",
-					defend: 0,
-					defend_lost: 0,
-					lose: 0,
-					stalemate: 0,
-					win: 0,
-					stealth: 0,
-					mug: 0,
-					hospitalise: 0,
-					leave: 0,
-					arrest: 0,
-					assist: 0,
-					special: 0,
-					escapes: 0,
-					respect: [],
-					respect_base: [],
-					...attackHistory.history[enemyId],
-				};
+					// Manipulate the data to be correct.
+					attackHistory.history[enemyId].lastAttack = attack.ended * 1000;
+					attackHistory.history[enemyId].lastAttackCode = attack.code;
 
-				// Manipulate the data to be correct.
-				attackHistory.history[enemyId].lastAttack = attack.timestamp_ended * 1000;
-				attackHistory.history[enemyId].lastAttackCode = attack.code;
+					if (attack.defender.id === userdata.player_id) {
+						if (attack.attacker.name) attackHistory.history[enemyId].name = attack.attacker.name;
 
-				if (attack.defender_id === userdata.player_id) {
-					if (attack.attacker_name) attackHistory.history[enemyId].name = attack.attacker_name;
+						if (attack.result === "Assist") {
+							// Ignore group attacks that isn't the finishing hit
+						} else if (["Lost", "Timeout", "Escape", "Stalemate"].includes(attack.result)) {
+							attackHistory.history[enemyId].defend++;
+						} else {
+							attackHistory.history[enemyId].defend_lost++;
+						}
+					} else if (attack.attacker.id === userdata.player_id) {
+						if (attack.defender.name) attackHistory.history[enemyId].name = attack.defender.name;
 
-					if (attack.result === "Assist") {
-						// Ignore group attacks that isn't the finishing hit
-					} else if (["Lost", "Timeout", "Escape", "Stalemate"].includes(attack.result)) {
-						attackHistory.history[enemyId].defend++;
-					} else {
-						attackHistory.history[enemyId].defend_lost++;
-					}
-				} else if (attack.attacker_id === userdata.player_id) {
-					if (attack.defender_name) attackHistory.history[enemyId].name = attack.defender_name;
+						if (attack.result === "Lost" || attack.result === "Timeout") attackHistory.history[enemyId].lose++;
+						else if (attack.result === "Stalemate") attackHistory.history[enemyId].stalemate++;
+						else if (attack.result === "Assist") attackHistory.history[enemyId].assist++;
+						else if (attack.result === "Escape") attackHistory.history[enemyId].escapes++;
+						else {
+							attackHistory.history[enemyId].win++;
+							if (attack.is_stealthed) attackHistory.history[enemyId].stealth++;
 
-					if (attack.result === "Lost" || attack.result === "Timeout") attackHistory.history[enemyId].lose++;
-					else if (attack.result === "Stalemate") attackHistory.history[enemyId].stalemate++;
-					else if (attack.result === "Assist") attackHistory.history[enemyId].assist++;
-					else if (attack.result === "Escape") attackHistory.history[enemyId].escapes++;
-					else {
-						attackHistory.history[enemyId].win++;
-						if (attack.stealthed) attackHistory.history[enemyId].stealth++;
+							let respect = attack.respect_gain;
+							if (respect !== 0) {
+								let hasAccurateModifiers = attack.modifiers;
 
-						let respect = attack.respect_gain;
-						if (respect !== 0) {
-							let hasAccurateModifiers = attack.modifiers;
+								if (hasAccurateModifiers) {
+									if (respect === attack.modifiers.chain) {
+										respect = 1;
+										hasAccurateModifiers = false;
+									} else {
+										if (attack.result === "Mugged") respect /= 0.75;
 
-							if (hasAccurateModifiers) {
-								if (respect === attack.modifiers.chain_bonus) {
-									respect = 1;
-									hasAccurateModifiers = false;
-								} else {
-									if (attack.result === "Mugged") respect /= 0.75;
-
-									respect =
-										respect /
-										attack.modifiers.war /
-										attack.modifiers.retaliation /
-										attack.modifiers.group_attack /
-										attack.modifiers.overseas /
-										attack.modifiers.chain_bonus /
-										(attack.modifiers.warlord_bonus || 1);
+										respect =
+											respect /
+											attack.modifiers.war /
+											attack.modifiers.retaliation /
+											attack.modifiers.group /
+											attack.modifiers.overseas /
+											attack.modifiers.chain_bonus /
+											attack.modifiers.warlord;
+									}
+									attackHistory.history[enemyId].latestFairFightModifier = attack.modifiers.fair_fight;
 								}
-								attackHistory.history[enemyId].latestFairFightModifier = attack.modifiers.fair_fight;
+
+								attackHistory.history[enemyId][hasAccurateModifiers ? "respect_base" : "respect"].push(respect);
 							}
 
-							attackHistory.history[enemyId][hasAccurateModifiers ? "respect_base" : "respect"].push(respect);
-						}
-
-						switch (attack.result) {
-							case "Mugged":
-								attackHistory.history[enemyId].mug++;
-								break;
-							case "Hospitalized":
-								attackHistory.history[enemyId].hospitalise++;
-								break;
-							case "Attacked":
-								attackHistory.history[enemyId].leave++;
-								break;
-							case "Arrested":
-								attackHistory.history[enemyId].arrest++;
-								break;
-							case "Special":
-								attackHistory.history[enemyId].special++;
-								break;
+							switch (attack.result) {
+								case "Mugged":
+									attackHistory.history[enemyId].mug++;
+									break;
+								case "Hospitalized":
+									attackHistory.history[enemyId].hospitalise++;
+									break;
+								case "Attacked":
+									attackHistory.history[enemyId].leave++;
+									break;
+								case "Arrested":
+									attackHistory.history[enemyId].arrest++;
+									break;
+								case "Special":
+									attackHistory.history[enemyId].special++;
+									break;
+							}
 						}
 					}
-				}
-			}
+				});
 
 			await ttStorage.change({
 				attackHistory: {

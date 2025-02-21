@@ -11,7 +11,8 @@
 				{ "message": "Correctly list Love Juice cooldown.", "contributor": "DeKleineKobini" },
 				{ "message": "Option to highlight items in Bazaars that have a cost less than the vendor price.", "contributor": "TravisTheTechie" },
 				{ "message": "Update 'Painleth Dentitht' mission hint.", "contributor": "DeKleineKobini" },
-				{ "message": "Prevent error on the faction page when member list is modified", "contributor": "MOBermejo" }
+				{ "message": "Prevent error on the faction page when member list is modified", "contributor": "MOBermejo" },
+				{ "message": "Migrate attacks over to API V2.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
