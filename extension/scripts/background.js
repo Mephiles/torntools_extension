@@ -334,7 +334,13 @@ async function updateUserdata(forceUpdate = false) {
 
 	const oldUserdata = { ...userdata };
 	const newUserdata = selections.length ? await fetchData("torn", { section: "user", selections }) : {};
-	const newUserdataV2 = selectionsV2.length ? await fetchData("tornv2", { section: "user", selections: selectionsV2, params: { cat: "all" } }) : {};
+	const newUserdataV2 = selectionsV2.length
+		? await fetchData("tornv2", {
+				section: "user",
+				selections: selectionsV2,
+				params: { cat: "all" },
+			})
+		: {};
 
 	userdata = {
 		...newUserdata,
@@ -356,13 +362,14 @@ async function updateUserdata(forceUpdate = false) {
 		if (newEventsCount < 0) newEventsCount = userdata?.notifications?.events ?? 0;
 		else if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
-			userdata.events = (
-				await fetchData("torn", {
-					section: "user",
-					selections: [category],
-					params: { limit: newEventsCount },
-				})
-			).events;
+			userdata.events = // TODO - Migrate to V2 (user/events + user/newevents).
+				(
+					await fetchData("torn", {
+						section: "user",
+						selections: [category],
+						params: { limit: newEventsCount },
+					})
+				).events;
 			selections.push(category);
 		}
 	}
@@ -949,6 +956,7 @@ async function updateStakeouts() {
 		const oldData = stakeouts[id]?.info ?? false;
 		let data;
 		try {
+			// TODO - Migrate to V2 (user/profile).
 			data = await fetchData("torn", { section: "user", selections: ["profile"], id, silent: true });
 			if (!data) {
 				console.log("Unexpected result during stakeout updating.");
@@ -1104,9 +1112,9 @@ async function updateFactionStakeouts() {
 		const oldData = factionStakeouts[factionId]?.info ?? false;
 		let data;
 		try {
-			data = await fetchData("torn", {
+			data = await fetchData("tornv2", {
 				section: "faction",
-				selections: ["basic", "chain"],
+				selections: ["basic", "chain", "wars"],
 				id: factionId,
 				silent: true,
 			});
@@ -1136,7 +1144,7 @@ async function updateFactionStakeouts() {
 						if (settings.notifications.types.global)
 							notifications.stakeouts[key] = newNotification(
 								"Faction Stakeouts",
-								`${data.name} has dropped their ${oldChainCount} chain.`,
+								`${data.basic.name} has dropped their ${oldChainCount} chain.`,
 								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 							);
 					} else if (chainCount > 10) {
@@ -1148,7 +1156,7 @@ async function updateFactionStakeouts() {
 						if (settings.notifications.types.global)
 							notifications.stakeouts[key] = newNotification(
 								"Faction Stakeouts",
-								`${data.name} has reached a ${chainCount} chain.`,
+								`${data.basic.name} has reached a ${chainCount} chain.`,
 								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 							);
 					} else if (chainCount < oldChainCount) {
@@ -1158,17 +1166,17 @@ async function updateFactionStakeouts() {
 			}
 			if (memberCountDrops) {
 				const oldMemberCount = oldData ? oldData.members.current : false;
-				const memberCount = Object.keys(data.members).length;
+				const memberCount = data.basic.members;
 
 				const key = `faction_${factionId}_memberCountDrops`;
 				if (memberCount >= oldMemberCount && (!oldMemberCount || oldMemberCount > memberCount) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Faction Stakeouts",
-							`${data.name} now has less than ${memberCount} members.`,
+							`${data.basic.name} now has less than ${memberCount} members.`,
 							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 						);
-				} else if (data.status.state !== "Okay") {
+				} else {
 					delete notifications.stakeouts[key];
 				}
 			}
@@ -1187,26 +1195,31 @@ async function updateFactionStakeouts() {
 				}
 			};
 			if (rankedWarStarts) {
-				handleWarStakeout("rankedWarStarts", oldData.rankedWar, Object.keys(data.ranked_wars).length > 0, () => `${data.name} is now in a ranked war.`);
+				handleWarStakeout("rankedWarStarts", oldData.rankedWar, data.wars.ranked !== null, () => `${data.basic.name} is now in a ranked war.`);
 			}
 			if (inRaid) {
-				handleWarStakeout("inRaid", oldData.raid, Array.isArray(data.raid_wars), () => `${data.name} is now in a raid.`);
+				handleWarStakeout("inRaid", oldData.raid, data.wars.raids.length > 0, () => `${data.basic.name} is now in a raid.`);
 			}
 			if (inTerritoryWar) {
-				handleWarStakeout("inTerritoryWar", oldData.territoryWar, Array.isArray(data.territory_wars), () => `${data.name} is now in a territory war.`);
+				handleWarStakeout(
+					"inTerritoryWar",
+					oldData.territoryWar,
+					data.wars.territory.length > 0,
+					() => `${data.basic.name} is now in a territory war.`
+				);
 			}
 		}
 
 		factionStakeouts[factionId].info = {
-			name: data.name,
+			name: data.basic.name,
 			chain: data.chain.current,
 			members: {
-				current: Object.keys(data.members).length,
-				maximum: data.capacity,
+				current: data.basic.members,
+				maximum: data.basic.capacity,
 			},
-			rankedWar: Object.keys(data.ranked_wars).length > 0,
-			raid: Array.isArray(data.raid_wars),
-			territoryWar: Array.isArray(data.territory_wars),
+			rankedWar: data.wars.ranked !== null,
+			raid: data.wars.raids.length > 0,
+			territoryWar: data.wars.territory.length > 0,
 		};
 	}
 	factionStakeouts.date = now;
@@ -1216,6 +1229,7 @@ async function updateFactionStakeouts() {
 }
 
 async function updateTorndata() {
+	// TODO - Migrate to V2 (many shit).
 	const data = await fetchData("torn", {
 		section: "torn",
 		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"],
@@ -1233,6 +1247,7 @@ async function updateTorndata() {
 
 async function updateStocks() {
 	const oldStocks = { ...stockdata };
+	// TODO - Migrate to V2 (torn/stocks).
 	const stocks = (await fetchData("torn", { section: "torn", selections: ["stocks"] })).stocks;
 	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
 	stocks.date = Date.now();
@@ -1282,10 +1297,12 @@ async function updateFactiondata() {
 
 	async function updateAccess() {
 		try {
+			// TODO - Migrate to V2 (faction/basic + faction/crimes).
 			const data = await fetchData("torn", { section: "faction", selections: ["crimes", "basic"], silent: true });
 			data.access = FACTION_ACCESS.full_access;
 			data.date = Date.now();
 
+			// FIXME - Look into OC2 not breaking this.
 			data.userCrime = calculateOC(data.crimes);
 			return data;
 		} catch (error) {
@@ -1316,6 +1333,7 @@ async function updateFactiondata() {
 
 	async function updateBasic() {
 		try {
+			// FIXME - Migrate to V2 (faction/basic).
 			const data = await fetchData("torn", { section: "faction", selections: ["basic"], silent: true });
 			data.access = FACTION_ACCESS.basic;
 			data.date = Date.now();
