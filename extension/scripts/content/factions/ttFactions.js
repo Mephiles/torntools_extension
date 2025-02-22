@@ -230,7 +230,7 @@ async function readFactionDetails() {
 
 	const factionIDLink = document.querySelector(".faction-info a[href*='factionID']");
 	if (factionIDLink) {
-		const match = factionIDLink.match(/#factionID=(\d+)/);
+		const match = factionIDLink.href.match(/#factionID=(\d+)/);
 		if (match) {
 			return { id: parseInt(match[1]) };
 		}
