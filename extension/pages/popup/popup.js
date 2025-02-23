@@ -135,7 +135,7 @@ async function setupDashboard() {
 	const dashboard = document.find("#dashboard");
 
 	const iconsWrap = dashboard.find(".icons-wrap");
-	for (const { icon, id, description } of ALL_ICONS) {
+	for (const { icon, id, description, url } of ALL_ICONS) {
 		const iconWrap = document.newElement({
 			type: "div",
 			class: "icon tt-hidden",
@@ -143,6 +143,15 @@ async function setupDashboard() {
 		});
 		iconWrap.classList.add("hover_tooltip");
 		iconWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
+
+		// Add a click event if the icon has a URL
+		if (url) {
+			iconWrap.addEventListener("click", () => {
+				window.open(url, "_blank", "noopener,noreferrer");
+			});
+
+			iconWrap.style.cursor = "pointer";
+		}
 
 		iconsWrap.appendChild(iconWrap);
 	}

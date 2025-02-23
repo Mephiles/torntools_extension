@@ -17,7 +17,8 @@
 				{ "message": "Prevent error on the faction page when member list is modified", "contributor": "MOBermejo" },
 				{ "message": "Migrate attacks over to API V2.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate faction stakeouts over to API V2.", "contributor": "DeKleineKobini" },
-				{ "message": "Migrate faction last action over to API V2.", "contributor": "DeKleineKobini" }
+				{ "message": "Migrate faction last action over to API V2.", "contributor": "DeKleineKobini" },
+				{ "message": "Make icons in the popup clickable to open their corresponding pages.", "contributor": "Hashibee" }
 			],
 			"removed": []
 		}
