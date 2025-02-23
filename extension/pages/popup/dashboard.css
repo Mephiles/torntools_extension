@@ -46,8 +46,11 @@ a#dashboard > header #country:hover {
 	height: 16px;
 	display: inline-block;
 	margin-right: 5px;
-	cursor: pointer;
 	position: relative;
+}
+
+a.icon {
+	cursor: pointer;
 }
 
 .icon > div {

@@ -1,5 +1,46 @@
 "use strict";
 
+const LINKS = {
+	auction: "https://www.torn.com/amarket.php",
+	bank: "https://www.torn.com/bank.php",
+	bazaar: "https://www.torn.com/bazaar.php",
+	bounties: "https://www.torn.com/bounties.php#!p=main",
+	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
+	church: "https://www.torn.com/church.php",
+	committee: "https://www.torn.com/committee.php",
+	companies: "https://www.torn.com/companies.php",
+	companyEmployees: "https://www.torn.com/companies.php#/option=employees",
+	crimes: "https://www.torn.com/crimes.php",
+	donator: "https://www.torn.com/donator.php",
+	education: "https://www.torn.com/page.php?sid=education",
+	events: "https://www.torn.com/events.php#/step=all",
+	faction: "https://www.torn.com/factions.php",
+	faction_oc: "https://www.torn.com/factions.php?step=your#/tab=crimes",
+	gym: "https://www.torn.com/gym.php",
+	home: "https://www.torn.com/index.php",
+	homepage: "https://www.torn.com/index.php",
+	hospital: "https://www.torn.com/hospitalview.php", // Missing link to the job page.
+	itemmarket: "https://www.torn.com/page.php?sid=ItemMarket",
+	items: "https://www.torn.com/item.php",
+	items_booster: "https://www.torn.com/item.php#boosters-items",
+	items_candy: "https://www.torn.com/item.php#candy-items",
+	items_drug: "https://www.torn.com/item.php#drugs-items",
+	items_medical: "https://www.torn.com/item.php#medical-items",
+	jailview: "https://www.torn.com/jailview.php",
+	jobs: "https://www.torn.com/companies.php",
+	loan: "https://www.torn.com/loan.php",
+	messages: "https://www.torn.com/messages.php",
+	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
+	pointsmarket: "https://www.torn.com/pmarket.php",
+	property_upkeep: "https://www.torn.com/properties.php#/p=options&tab=upkeep",
+	property_vault: "https://www.torn.com/properties.php#/p=options&tab=vault",
+	raceway: "https://www.torn.com/loader.php?sid=racing",
+	staff: "https://www.torn.com/staff.php",
+	stocks: "https://www.torn.com/page.php?sid=stocks",
+	trade: "https://www.torn.com/trade.php",
+	travelagency: "https://www.torn.com/travelagency.php",
+};
+
 // [...document.querySelectorAll("#iconTray > li")].map((icon) => ({ id: parseInt(icon.id.replace("icon", "")), icon: icon.id, description: icon.getAttribute("title").substring(3, icon.getAttribute("title").length - 4) }))
 const ALL_ICONS = [
 	{ id: 1, icon: "icon1", description: "Online" },
@@ -9,83 +50,85 @@ const ALL_ICONS = [
 	{ id: 7, icon: "icon7", description: "Female" },
 	{ id: 87, icon: "icon87", description: "Enby" },
 	{ id: 72, icon: "icon72", description: "New player" },
-	{ id: 3, icon: "icon3", description: "Donator", url: "https://www.torn.com/donator.php" },
-	{ id: 4, icon: "icon4", description: "Subscriber", url: "https://www.torn.com/donator.php" },
-	{ id: 11, icon: "icon11", description: "Staff" },
-	{ id: 10, icon: "icon10", description: "Committee" },
-	{ id: 8, icon: "icon8", description: "Marriage" },
+	{ id: 3, icon: "icon3", description: "Donator", url: LINKS.donator },
+	{ id: 4, icon: "icon4", description: "Subscriber", url: LINKS.donator },
+	{ id: 11, icon: "icon11", description: "Staff", url: LINKS.staff },
+	{ id: 10, icon: "icon10", description: "Committee", url: LINKS.committee },
+	{ id: 8, icon: "icon8", description: "Marriage", url: LINKS.church },
 	{ id: 5, icon: "icon5", description: "Level 100" },
-	{ id: 21, icon: "icon21", description: "Army job" },
-	{ id: 22, icon: "icon22", description: "Casino job" },
-	{ id: 23, icon: "icon23", description: "Medical job" },
-	{ id: 24, icon: "icon24", description: "Grocer job" },
-	{ id: 25, icon: "icon25", description: "Lawyer job" },
-	{ id: 26, icon: "icon26", description: "Education job" },
-	{ id: 73, icon: "icon73", description: "Company director", url: "https://www.torn.com/companies.php" },
-	{ id: 27, icon: "icon27", description: "Company employee", url: "https://www.torn.com/companies.php" },
-	{ id: 83, icon: "icon83", description: "Company recruit", url: "https://www.torn.com/companies.php" },
-	{ id: 74, icon: "icon74", description: "Faction leader / co-leader", url: "https://www.torn.com/factions.php" },
-	{ id: 9, icon: "icon9", description: "Faction member", url: "https://www.torn.com/factions.php" },
-	{ id: 81, icon: "icon81", description: "Faction recruit", url: "https://www.torn.com/factions.php" },
-	{ id: 75, icon: "icon75", description: "Territory war (defending)" },
-	{ id: 76, icon: "icon76", description: "Territory war (assaulting)" },
-	{ id: 19, icon: "icon19", description: "Education in progress" },
-	{ id: 20, icon: "icon20", description: "Education completed" },
-	{ id: 29, icon: "icon29", description: "Investment in progress", url: "https://www.torn.com/bank.php" },
-	{ id: 30, icon: "icon30", description: "Investment completed", url: "https://www.torn.com/bank.php" },
-	{ id: 31, icon: "icon31", description: "Cayman islands bank" },
-	{ id: 32, icon: "icon32", description: "Property vault", url: "https://www.torn.com/properties.php#/p=options&tab=vault" },
-	{ id: 33, icon: "icon33", description: "Loan" },
-	{ id: 34, icon: "icon34", description: "Items in auction" },
-	{ id: 35, icon: "icon35", description: "Items in bazaar", url: "https://www.torn.com/bazaar.php" },
-	{ id: 36, icon: "icon36", description: "Items in item market" },
-	{ id: 54, icon: "icon54", description: "Points market" },
-	{ id: 38, icon: "icon38", description: "Stocks owned", url: "https://www.torn.com/page.php?sid=stocks" },
-	{ id: 84, icon: "icon84", description: "Dividend collection ready", url: "https://www.torn.com/page.php?sid=stocks" },
-	{ id: 37, icon: "icon37", description: "Trade in progress" },
+	{ id: 21, icon: "icon21", description: "Army job", url: LINKS.jobs },
+	{ id: 22, icon: "icon22", description: "Casino job", url: LINKS.jobs },
+	{ id: 23, icon: "icon23", description: "Medical job", url: LINKS.jobs },
+	{ id: 24, icon: "icon24", description: "Grocer job", url: LINKS.jobs },
+	{ id: 25, icon: "icon25", description: "Lawyer job", url: LINKS.jobs },
+	{ id: 26, icon: "icon26", description: "Education job", url: LINKS.jobs },
+	{ id: 73, icon: "icon73", description: "Company director", url: LINKS.companies },
+	{ id: 27, icon: "icon27", description: "Company employee", url: LINKS.companies },
+	{ id: 83, icon: "icon83", description: "Company recruit", url: LINKS.companies },
+	{ id: 74, icon: "icon74", description: "Faction leader / co-leader", url: LINKS.faction },
+	{ id: 9, icon: "icon9", description: "Faction member", url: LINKS.faction },
+	{ id: 81, icon: "icon81", description: "Faction recruit", url: LINKS.faction },
+	{ id: 75, icon: "icon75", description: "Territory war (defending)", url: LINKS.faction },
+	{ id: 76, icon: "icon76", description: "Territory war (assaulting)", url: LINKS.faction },
+	{ id: 19, icon: "icon19", description: "Education in progress", url: LINKS.education },
+	{ id: 20, icon: "icon20", description: "Education completed", url: LINKS.education },
+	{ id: 29, icon: "icon29", description: "Investment in progress", url: LINKS.bank },
+	{ id: 30, icon: "icon30", description: "Investment completed", url: LINKS.bank },
+	{ id: 31, icon: "icon31", description: "Cayman islands bank", url: LINKS.travelagency },
+	{ id: 32, icon: "icon32", description: "Property vault", url: LINKS.property_vault },
+	{ id: 33, icon: "icon33", description: "Loan", url: LINKS.loan },
+	{ id: 34, icon: "icon34", description: "Items in auction", url: LINKS.auction },
+	{ id: 35, icon: "icon35", description: "Items in bazaar", url: LINKS.bazaar },
+	{ id: 36, icon: "icon36", description: "Items in item market", url: LINKS.itemmarket },
+	{ id: 54, icon: "icon54", description: "Points market", url: LINKS.pointsmarket },
+	{ id: 38, icon: "icon38", description: "Stocks owned", url: LINKS.stocks },
+	{ id: 84, icon: "icon84", description: "Dividend collection ready", url: LINKS.stocks },
+	{ id: 37, icon: "icon37", description: "Trade in progress", url: LINKS.trade },
 	{ id: 68, icon: "icon68", description: "Reading book" },
-	{ id: 71, icon: "icon71", description: "Traveling" },
-	{ id: 17, icon: "icon17", description: "Racing in progress", url: "https://www.torn.com/loader.php?sid=racing" },
-	{ id: 18, icon: "icon18", description: "Racing completed", url: "https://www.torn.com/loader.php?sid=racing" },
-	{ id: 85, icon: "icon85", description: "Organized crime being planned", url: "https://www.torn.com/factions.php?step=your#/tab=crimes" },
-	{ id: 86, icon: "icon86", description: "Organized crime ready", url: "https://www.torn.com/factions.php?step=your#/tab=crimes" },
-	{ id: 13, icon: "icon13", description: "Bounty" },
-	{ id: 28, icon: "icon28", description: "Cashier's checks" },
-	{ id: 55, icon: "icon55", description: "Auction high bidder" },
-	{ id: 56, icon: "icon56", description: "Auction outbid" },
-	{ id: 15, icon: "icon15", description: "Hospital", url: "https://www.torn.com/hospitalview.php" },
-	{ id: 82, icon: "icon82", description: "Hospital early discharge" },
-	{ id: 16, icon: "icon16", description: "Jail" },
+	{ id: 71, icon: "icon71", description: "Traveling", url: LINKS.homepage },
+	{ id: 17, icon: "icon17", description: "Racing in progress", url: LINKS.raceway },
+	{ id: 18, icon: "icon18", description: "Racing completed", url: LINKS.raceway },
+	{ id: 85, icon: "icon85", description: "Organized crime being planned", url: LINKS.faction_oc },
+	{ id: 86, icon: "icon86", description: "Organized crime ready", url: LINKS.faction_oc },
+	{ id: 89, icon: "icon89", description: "Organized crime recruiting", url: LINKS.faction_oc },
+	{ id: 90, icon: "icon90", description: "Organized crime completed", url: LINKS.faction_oc },
+	{ id: 13, icon: "icon13", description: "Bounty", url: LINKS.bounties },
+	{ id: 28, icon: "icon28", description: "Cashier's checks", url: LINKS.bank },
+	{ id: 55, icon: "icon55", description: "Auction high bidder", url: LINKS.auction },
+	{ id: 56, icon: "icon56", description: "Auction outbid", url: LINKS.auction },
+	{ id: 15, icon: "icon15", description: "Hospital", url: LINKS.hospital },
+	{ id: 82, icon: "icon82", description: "Hospital early discharge", url: LINKS.hospital },
+	{ id: 16, icon: "icon16", description: "Jail", url: LINKS.jailview },
 	{ id: 70, icon: "icon70", description: "Federal jail" },
-	{ id: 12, icon: "icon12", description: "Low life", url: "https://www.torn.com/hospitalview.php" },
-	{ id: 39, icon: "icon39", description: "Booster cooldown (0-6hr)" },
-	{ id: 40, icon: "icon40", description: "Booster cooldown (6-12hr)" },
-	{ id: 41, icon: "icon41", description: "Booster cooldown (12-18hr)" },
-	{ id: 42, icon: "icon42", description: "Booster cooldown (18-24hr)" },
-	{ id: 43, icon: "icon43", description: "Booster cooldown (24hr+)" },
-	{ id: 44, icon: "icon44", description: "Medical cooldown (0-90m)" },
-	{ id: 45, icon: "icon45", description: "Medical cooldown (90-180m)" },
-	{ id: 46, icon: "icon46", description: "Medical cooldown (180m-270m)" },
-	{ id: 47, icon: "icon47", description: "Medical cooldown (270-360m)" },
-	{ id: 48, icon: "icon48", description: "Medical cooldown (360m+)" },
-	{ id: 49, icon: "icon49", description: "Drug cooldown (0-10m)" },
-	{ id: 50, icon: "icon50", description: "Drug cooldown (10-60m)" },
-	{ id: 51, icon: "icon51", description: "Drug cooldown (1-2hr)" },
-	{ id: 52, icon: "icon52", description: "Drug cooldown (2-5hr)" },
-	{ id: 53, icon: "icon53", description: "Drug cooldown (5hr+)" },
-	{ id: 57, icon: "icon57", description: "Drug addiction (1-4%)" },
-	{ id: 58, icon: "icon58", description: "Drug addiction (5-9%)" },
-	{ id: 59, icon: "icon59", description: "Drug addiction (10-19%)" },
-	{ id: 60, icon: "icon60", description: "Drug addiction (20-29%)" },
-	{ id: 61, icon: "icon61", description: "Drug addiction (30%+)" },
-	{ id: 63, icon: "icon63", description: "Radiation sickness (1-17%)" },
-	{ id: 64, icon: "icon64", description: "Radiation sickness (18-34%)" },
-	{ id: 65, icon: "icon65", description: "Radiation sickness (35-50%)" },
-	{ id: 66, icon: "icon66", description: "Radiation sickness (51-67%)" },
-	{ id: 67, icon: "icon67", description: "Radiation sickness (68%+)" },
-	{ id: 78, icon: "icon78", description: "Upkeep due (4-6%)" },
-	{ id: 79, icon: "icon79", description: "Upkeep due (6-8%)" },
-	{ id: 80, icon: "icon80", description: "Upkeep due (8%+)" },
+	{ id: 12, icon: "icon12", description: "Low life", url: LINKS.hospital },
+	{ id: 39, icon: "icon39", description: "Booster cooldown (0-6hr)", url: LINKS.items_booster },
+	{ id: 40, icon: "icon40", description: "Booster cooldown (6-12hr)", url: LINKS.items_booster },
+	{ id: 41, icon: "icon41", description: "Booster cooldown (12-18hr)", url: LINKS.items_booster },
+	{ id: 42, icon: "icon42", description: "Booster cooldown (18-24hr)", url: LINKS.items_booster },
+	{ id: 43, icon: "icon43", description: "Booster cooldown (24hr+)", url: LINKS.items_booster },
+	{ id: 44, icon: "icon44", description: "Medical cooldown (0-90m)", url: LINKS.items_medical },
+	{ id: 45, icon: "icon45", description: "Medical cooldown (90-180m)", url: LINKS.items_medical },
+	{ id: 46, icon: "icon46", description: "Medical cooldown (180m-270m)", url: LINKS.items_medical },
+	{ id: 47, icon: "icon47", description: "Medical cooldown (270-360m)", url: LINKS.items_medical },
+	{ id: 48, icon: "icon48", description: "Medical cooldown (360m+)", url: LINKS.items_medical },
+	{ id: 49, icon: "icon49", description: "Drug cooldown (0-10m)", url: LINKS.items_drug },
+	{ id: 50, icon: "icon50", description: "Drug cooldown (10-60m)", url: LINKS.items_drug },
+	{ id: 51, icon: "icon51", description: "Drug cooldown (1-2hr)", url: LINKS.items_drug },
+	{ id: 52, icon: "icon52", description: "Drug cooldown (2-5hr)", url: LINKS.items_drug },
+	{ id: 53, icon: "icon53", description: "Drug cooldown (5hr+)", url: LINKS.items_drug },
+	{ id: 57, icon: "icon57", description: "Drug addiction (1-4%)", url: LINKS.travelagency },
+	{ id: 58, icon: "icon58", description: "Drug addiction (5-9%)", url: LINKS.travelagency },
+	{ id: 59, icon: "icon59", description: "Drug addiction (10-19%)", url: LINKS.travelagency },
+	{ id: 60, icon: "icon60", description: "Drug addiction (20-29%)", url: LINKS.travelagency },
+	{ id: 61, icon: "icon61", description: "Drug addiction (30%+)", url: LINKS.travelagency },
+	{ id: 63, icon: "icon63", description: "Radiation sickness (1-17%)", url: LINKS.items_medical },
+	{ id: 64, icon: "icon64", description: "Radiation sickness (18-34%)", url: LINKS.items_medical },
+	{ id: 65, icon: "icon65", description: "Radiation sickness (35-50%)", url: LINKS.items_medical },
+	{ id: 66, icon: "icon66", description: "Radiation sickness (51-67%)", url: LINKS.items_medical },
+	{ id: 67, icon: "icon67", description: "Radiation sickness (68%+)", url: LINKS.items_medical },
+	{ id: 78, icon: "icon78", description: "Upkeep due (4-6%)", url: LINKS.property_upkeep },
+	{ id: 79, icon: "icon79", description: "Upkeep due (6-8%)", url: LINKS.property_upkeep },
+	{ id: 80, icon: "icon80", description: "Upkeep due (8%+)", url: LINKS.property_upkeep },
 ];
 const ALL_AREAS = [
 	{ class: "home", text: "Home" },
@@ -1343,23 +1386,6 @@ const SPECIAL_FILTER_ICONS = {
 
 const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];
 
-const LINKS = {
-	events: "https://www.torn.com/events.php#/step=all",
-	messages: "https://www.torn.com/messages.php",
-	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
-	home: "https://www.torn.com/index.php",
-	items: "https://www.torn.com/item.php",
-	items_candy: "https://www.torn.com/item.php#candy-items",
-	items_medical: "https://www.torn.com/item.php#medical-items",
-	education: "https://www.torn.com/education.php#/step=main",
-	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
-	hospital: "https://www.torn.com/hospitalview.php",
-	crimes: "https://www.torn.com/crimes.php",
-	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
-	gym: "https://www.torn.com/gym.php",
-	companyEmployees: "https://www.torn.com/companies.php#/option=employees",
-};
-
 const ITEM_TYPES = [
 	"Melee",
 	"Secondary",
@@ -1559,7 +1585,13 @@ function createMessageBox(content, options = {}) {
 			document.newElement({
 				type: "div",
 				class: "tt-message-wrap",
-				children: [document.newElement({ type: "div", class: "tt-message", [options.isHTML ? "html" : "text"]: content })],
+				children: [
+					document.newElement({
+						type: "div",
+						class: "tt-message",
+						[options.isHTML ? "html" : "text"]: content,
+					}),
+				],
 			}),
 		],
 	});
@@ -1784,38 +1816,20 @@ function millisToNewDay() {
 }
 
 function getUserDetails() {
-	if (hasAPIData()) {
-		return { id: userdata.player_id, name: userdata.name };
+	let id, name;
+
+	if (!hasAPIData()) {
+		const script = document.find("script[uid][name]");
+		if (!script) return { error: "Couldn't get details" };
+
+		id = parseInt(script.getAttribute("uid"));
+		name = script.getAttribute("name");
+	} else {
+		id = userdata.player_id;
+		name = userdata.name;
 	}
 
-	const tornUser = document.find("input#torn-user");
-	if (tornUser) {
-		const data = JSON.parse(tornUser.value);
-
-		return { id: data.id, name: data.playername };
-	}
-
-	const monScript = document.find("script[playerid][playername]");
-	if (monScript) {
-		return {
-			id: parseInt(monScript.getAttribute("playerid")),
-			name: monScript.getAttribute("playername"),
-		};
-	}
-
-	const websocketElement = document.getElementById("websocketConnectionData");
-	if (websocketElement) {
-		const data = JSON.parse(websocketElement.textContent);
-
-		return { id: data.userID, name: data.playername };
-	}
-
-	const sidebarElement = findByPartialClass(document, "menu-value___");
-	if (sidebarElement) {
-		return { id: parseInt(sidebarElement.href.getNumber()), name: sidebarElement.textContent };
-	}
-
-	return { error: "Couldn't get details" };
+	return { id, name };
 }
 
 function isOwnProfile() {
@@ -1888,4 +1902,8 @@ function hasFinishedEducation() {
 	if (!torndata.education || !userdata.education_completed) return false;
 
 	return Object.keys(torndata.education).every((id) => userdata.education_completed.includes(parseInt(id)));
+}
+
+function isChatV3() {
+	return !!document.getElementById("notes_settings_button");
 }

@@ -136,24 +136,17 @@ async function setupDashboard() {
 
 	const iconsWrap = dashboard.find(".icons-wrap");
 	for (const { icon, id, description, url } of ALL_ICONS) {
-		const iconWrap = document.newElement({
-			type: "div",
-			class: "icon tt-hidden",
-			children: [document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
-		});
-		iconWrap.classList.add("hover_tooltip");
-		iconWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
-
-		// Add a click event if the icon has a URL
-		if (url) {
-			iconWrap.addEventListener("click", () => {
-				window.open(url, "_blank", "noopener,noreferrer");
-			});
-
-			iconWrap.style.cursor = "pointer";
-		}
-
-		iconsWrap.appendChild(iconWrap);
+		iconsWrap.appendChild(
+			document.newElement({
+				type: url ? "a" : "div",
+				class: ["icon", "tt-hidden", "hover_tooltip"],
+				children: [
+					document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
+					document.newElement({ type: "span", class: "hover_tooltip_text", text: description }),
+				],
+				attributes: url ? { href: url, target: "_blank" } : {},
+			})
+		);
 	}
 
 	dashboard.find("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
