@@ -9,6 +9,12 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
+            # Set git to CRLF
+            - name: Set git to use CRLF
+              run: |
+                git config --global core.autocrlf true
+                git config --global core.eol crlf
+
             # Downloads Repos for Usage
             - uses: actions/checkout@v3
 
