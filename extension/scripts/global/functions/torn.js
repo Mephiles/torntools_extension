@@ -19,7 +19,7 @@ const LINKS = {
 	gym: "https://www.torn.com/gym.php",
 	home: "https://www.torn.com/index.php",
 	homepage: "https://www.torn.com/index.php",
-	hospital: "https://www.torn.com/hospitalview.php", // Missing link to the job page.
+	hospital: "https://www.torn.com/hospitalview.php",
 	itemmarket: "https://www.torn.com/page.php?sid=ItemMarket",
 	items: "https://www.torn.com/item.php",
 	items_booster: "https://www.torn.com/item.php#boosters-items",
