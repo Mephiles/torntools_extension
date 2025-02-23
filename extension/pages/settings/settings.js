@@ -420,11 +420,12 @@ async function setupPreferences(requireCleanup) {
 	for (const { icon, id, description } of ALL_ICONS) {
 		const iconsWrap = document.newElement({
 			type: "div",
-			class: "icon",
-			children: [document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
+			class: ["icon", "hover_tooltip"],
+			children: [
+				document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
+				document.newElement({ type: "span", class: "hover_tooltip_text", text: description }),
+			],
 		});
-		iconsWrap.classList.add("hover_tooltip");
-		iconsWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
 
 		hideIconsParent.appendChild(iconsWrap);
 
