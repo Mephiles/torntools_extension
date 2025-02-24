@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix the company id showing something wrong.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the faction id not working for your own faction.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the faction id not working for your own faction.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix faction last action not working for other factions.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change layout of preferences page on mobiles.", "contributor": "TheFoxMan" },

@@ -53,7 +53,7 @@
 
 		await requireElement(".members-list .table-body > li");
 
-		const id = isOwnFaction ? "own" : parseInt(document.find(".faction-info-wrap .faction-info").dataset.faction);
+		const id = isOwnFaction ? "own" : (await readFactionDetails()).id;
 		if (!id) return;
 
 		await loadMembers(id);
