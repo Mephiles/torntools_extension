@@ -68,6 +68,7 @@
 
 			const userID = getUsername(row).id;
 			const member = members.find((m) => m.id === userID);
+			if (!member) return;
 			const hours = ((nowDate - member.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
 			const element = document.newElement({
@@ -95,7 +96,7 @@
 					await fetchData("tornv2", {
 						section: "faction",
 						...(isNaN(id) ? {} : { id }),
-						selections: ["basic"],
+						selections: ["members"],
 						silent: true,
 						succeedOnError: true,
 					})
