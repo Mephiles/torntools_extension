@@ -141,7 +141,7 @@
 	}
 
 	async function showLastAction() {
-		if (!lastActionState || (localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element)) return;
+		if (lastActionState || (localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element)) return;
 
 		await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
 
