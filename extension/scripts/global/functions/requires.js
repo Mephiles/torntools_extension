@@ -41,7 +41,6 @@ function requireCondition(condition, options = {}) {
 
 			if (count > options.maxCycles) {
 				reject(error);
-				console.trace();
 				return true;
 			}
 			return false;
