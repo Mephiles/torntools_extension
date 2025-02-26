@@ -80,6 +80,7 @@
 		observer?.disconnect();
 		observer = new MutationObserver((mutations) => {
 			if (![...mutations].some((mutation) => [...mutation.addedNodes].every((node) => node.nodeType === Document.TEXT_NODE))) return;
+			if (title.find(".tt-stats-estimate-profile")) return;
 
 			title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
 		});
