@@ -28,6 +28,7 @@ function __requestStigFormat(vendor) {
 
 const REVIVE_PROVIDERS = [
 	{
+		// Original Script: https://greasyfork.org/en/scripts/406516-central-hospital-revive-request
 		provider: "nuke",
 		name: "Nuke",
 		origin: FETCH_PLATFORMS.nukefamily,
@@ -55,6 +56,7 @@ const REVIVE_PROVIDERS = [
 		},
 	},
 	{
+		// Original Script: https://greasyfork.org/en/scripts/412591-universal-healthcare-revives
 		provider: "uhc",
 		name: "UHC",
 		origin: FETCH_PLATFORMS.uhc,
@@ -99,6 +101,7 @@ const REVIVE_PROVIDERS = [
 		},
 	},
 	{
+		// Original Script: https://greasyfork.org/en/scripts/452523-hela-revives
 		provider: "hela",
 		name: "HeLa",
 		origin: FETCH_PLATFORMS.stig,
@@ -109,6 +112,7 @@ const REVIVE_PROVIDERS = [
 		},
 	},
 	{
+		// Original Script: https://greasyfork.org/en/scripts/452524-shadow-healers-revive-requests
 		provider: "shadow_healers",
 		name: "Shadow Healers",
 		origin: FETCH_PLATFORMS.stig,
@@ -119,6 +123,7 @@ const REVIVE_PROVIDERS = [
 		},
 	},
 	{
+		// Original Script: https://greasyfork.org/en/scripts/489851-the-wolverines-revive-requests
 		provider: "who",
 		name: "The Wolverines",
 		origin: FETCH_PLATFORMS.stig,
@@ -129,6 +134,7 @@ const REVIVE_PROVIDERS = [
 		},
 	},
 	{
+		// Original Script: https://greasyfork.org/en/scripts/476679-midnight-x-revive-requests
 		provider: "midnight_x",
 		name: "Midnight X",
 		origin: FETCH_PLATFORMS.stig,
