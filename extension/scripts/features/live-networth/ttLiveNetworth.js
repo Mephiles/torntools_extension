@@ -110,6 +110,11 @@
 				"Bookie",
 				"Auction House",
 				"Cayman",
+				"Properties",
+				"Enlisted Cars",
+				"Item Market",
+				"Loan",
+				"Vault",
 				"Total",
 			];
 		}
@@ -124,6 +129,9 @@
 				nameStats = "pending";
 			} else if (type === "Cayman") nameStats = "overseas_bank";
 			else if (type === "Items") nameStats = "inventory";
+			else if (type === "Properties") nameStats = "property";
+			else if (type === "Loan") nameStats = "loans";
+			else if (type === "Vault") nameStats = "vaults";
 
 			if (type.includes("Cash")) {
 				current = userdata.networth.wallet + userdata.networth.vault;
