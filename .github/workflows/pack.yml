@@ -145,15 +145,14 @@ jobs:
           client-secret: ${{ secrets.CHROME_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-      - name: Release Firefox addon
-        uses: browser-actions/release-firefox-addon@v0.2.1
+      - name: Release on Firefox Browser Add-ons
+        uses: wdzeng/firefox-addon@v1
         if: ${{ inputs.publish_amo }}
         with:
-          addon-id: "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
-          addon-path: versions/torntools_${{ env.version }}_firefox.zip
-          auth-api-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
-          auth-api-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
-          release-note: ${{ env.version }}
+          addon-guid: "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
+          jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
+          xpi-path: versions/torntools_${{ env.version }}_firefox.zip
 
       - name: Release on Microsoft Edge Add-ons
         uses: wdzeng/edge-addon@v2
