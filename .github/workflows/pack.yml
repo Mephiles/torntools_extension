@@ -134,25 +134,16 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           prerelease: ${{ inputs.pre_release }}
 
-      - name: Upload an extension to Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
+      - name: Release on Chrome Web Store
+        uses: wdzeng/chrome-extension@v1
         if: ${{ inputs.upload_cws }}
         with:
-          zipFilePath: versions/torntools_${{ env.version }}_chrome.zip
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
-
-      - name: Publish an extension on Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
-        if: ${{ inputs.publish_cws }}
-        id: publish_step
-        with:
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          extension-id: "hjpaapdjcgbmeikfnahipphknonhlhib"
+          zip-path: versions/torntools_${{ env.version }}_chrome.zip
+          upload-only: ${{ inputs.publish_cws }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
       - name: Release Firefox addon
         uses: browser-actions/release-firefox-addon@v0.2.1
