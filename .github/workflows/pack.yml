@@ -14,6 +14,14 @@ on:
         type: boolean
         description: Publish to AMO
         default: true
+      upload_mea:
+        type: boolean
+        description: Upload to MEA
+        default: true
+      publish_mea:
+        type: boolean
+        description: Publish to MEA
+        default: true
       pre_release:
         type: boolean
         description: Make a beta release
@@ -155,6 +163,16 @@ jobs:
           auth-api-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           auth-api-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
           release-note: ${{ env.version }}
+
+      - name: Release on Microsoft Edge Add-ons
+        uses: wdzeng/edge-addon@v2
+        if: ${{ inputs.upload_mea }}
+        with:
+          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
+          api-key: ${{ secrets.EDGE_API_KEY }}
+          zip-path: versions/torntools_${{ env.version }}_chrome.zip
+          upload-only: ${{ inputs.publish_mea }}
 
       - name: Delete temporary files
         run: |
