@@ -2,6 +2,10 @@ name: Pack new version
 on:
   workflow_dispatch:
     inputs:
+      release_github:
+        type: boolean
+        description: Release on Github
+        default: true
       publish_cws:
         type: boolean
         description: Publish to Chrome Web Store
@@ -118,6 +122,7 @@ jobs:
 
       - name: Github Release
         uses: ncipollo/release-action@v1
+        if: ${{ inputs.release_github }}
         with:
           artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,${{ steps.web-ext-build.outputs.target }}"
           name: "Release: v${{ env.version }}"
