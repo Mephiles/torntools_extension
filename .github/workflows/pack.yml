@@ -2,25 +2,17 @@ name: Pack new version
 on:
   workflow_dispatch:
     inputs:
-      upload_cws:
-        type: boolean
-        description: Upload to CWS
-        default: true
       publish_cws:
         type: boolean
-        description: Publish to CWS
+        description: Publish to Chrome Web Store
         default: true
       publish_amo:
         type: boolean
-        description: Publish to AMO
-        default: true
-      upload_mea:
-        type: boolean
-        description: Upload to MEA
+        description: Publish to Firefox Browser Add-ons
         default: true
       publish_mea:
         type: boolean
-        description: Publish to MEA
+        description: Publish to Microsoft Edge Add-ons
         default: true
       pre_release:
         type: boolean
@@ -136,11 +128,10 @@ jobs:
 
       - name: Release on Chrome Web Store
         uses: wdzeng/chrome-extension@v1
-        if: ${{ inputs.upload_cws }}
+        if: ${{ inputs.publish_cws }}
         with:
           extension-id: "hjpaapdjcgbmeikfnahipphknonhlhib"
           zip-path: versions/torntools_${{ env.version }}_chrome.zip
-          upload-only: ${{ inputs.publish_cws }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
@@ -156,13 +147,12 @@ jobs:
 
       - name: Release on Microsoft Edge Add-ons
         uses: wdzeng/edge-addon@v2
-        if: ${{ inputs.upload_mea }}
+        if: ${{ inputs.publish_mea }}
         with:
           product-id: ${{ secrets.EDGE_PRODUCT_ID }}
           client-id: ${{ secrets.EDGE_CLIENT_ID }}
           api-key: ${{ secrets.EDGE_API_KEY }}
           zip-path: versions/torntools_${{ env.version }}_chrome.zip
-          upload-only: ${{ inputs.publish_mea }}
 
       - name: Delete temporary files
         run: |
