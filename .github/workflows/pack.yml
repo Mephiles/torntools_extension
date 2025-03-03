@@ -2,17 +2,21 @@ name: Pack new version
 on:
   workflow_dispatch:
     inputs:
-      upload_cws:
+      release_github:
         type: boolean
-        description: Upload to CWS
+        description: Release on Github
         default: true
       publish_cws:
         type: boolean
-        description: Publish to CWS
+        description: Publish to Chrome Web Store
         default: true
       publish_amo:
         type: boolean
-        description: Publish to AMO
+        description: Publish to Firefox Browser Add-ons
+        default: true
+      publish_mea:
+        type: boolean
+        description: Publish to Microsoft Edge Add-ons
         default: true
       pre_release:
         type: boolean
@@ -118,6 +122,7 @@ jobs:
 
       - name: Github Release
         uses: ncipollo/release-action@v1
+        if: ${{ inputs.release_github }}
         with:
           artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,${{ steps.web-ext-build.outputs.target }}"
           name: "Release: v${{ env.version }}"
@@ -126,35 +131,33 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           prerelease: ${{ inputs.pre_release }}
 
-      - name: Upload an extension to Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.10
-        if: ${{ inputs.upload_cws }}
-        with:
-          zipFilePath: versions/torntools_${{ env.version }}_chrome.zip
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
-
-      - name: Publish an extension on Chrome Web Store
-        uses: cardinalby/webext-buildtools-chrome-webstore-publish-action@1.0.7
+      - name: Release on Chrome Web Store
+        uses: wdzeng/chrome-extension@v1
         if: ${{ inputs.publish_cws }}
-        id: publish_step
         with:
-          extensionId: 'hjpaapdjcgbmeikfnahipphknonhlhib'
-          apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
-          apiClientSecret: ${{ secrets.CHROME_SECRET }}
-          apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          extension-id: "hjpaapdjcgbmeikfnahipphknonhlhib"
+          zip-path: versions/torntools_${{ env.version }}_chrome.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-      - name: Release Firefox addon
-        uses: browser-actions/release-firefox-addon@v0.2.1
+      - name: Release on Firefox Browser Add-ons
+        uses: wdzeng/firefox-addon@v1
         if: ${{ inputs.publish_amo }}
         with:
-          addon-id: "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
-          addon-path: versions/torntools_${{ env.version }}_firefox.zip
-          auth-api-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
-          auth-api-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
-          release-note: ${{ env.version }}
+          addon-guid: "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
+          jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
+          xpi-path: versions/torntools_${{ env.version }}_firefox.zip
+
+      - name: Release on Microsoft Edge Add-ons
+        uses: wdzeng/edge-addon@v2
+        if: ${{ inputs.publish_mea }}
+        with:
+          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
+          api-key: ${{ secrets.EDGE_API_KEY }}
+          zip-path: versions/torntools_${{ env.version }}_chrome.zip
 
       - name: Delete temporary files
         run: |
