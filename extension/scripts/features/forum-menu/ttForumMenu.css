@@ -72,14 +72,14 @@ body.dark-mode .tt-forums-button-dropdown {
 	cursor: pointer;
 	text-align: center;
 	padding: 5px !important;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid transparent;
 }
 
 .thread-list > .tt-forums-hidden::after {
 	content: "";
 	display: block;
-	border-bottom: 10px solid white;
-	border-top: 1px solid #ccc;
+	border-bottom: 10px solid var(--default-panel-divider-inner-side-color);
+	border-top: 1px solid var(--default-panel-divider-outer-side-color);
 	margin: 5px -5px -5px;
 }
 
