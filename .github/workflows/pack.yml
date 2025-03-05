@@ -154,9 +154,9 @@ jobs:
         uses: wdzeng/edge-addon@v2
         if: ${{ inputs.publish_mea }}
         with:
-          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
-          client-id: ${{ secrets.EDGE_CLIENT_ID }}
-          api-key: ${{ secrets.EDGE_API_KEY }}
+          product-id: ${{ secrets.MICROSOFT_PRODUCT_ID }}
+          client-id: ${{ secrets.MICROSOFT_CLIENT_ID }}
+          api-key: ${{ secrets.MICROSOFT_API_KEY }}
           zip-path: versions/torntools_${{ env.version }}_chrome.zip
 
       - name: Delete temporary files
