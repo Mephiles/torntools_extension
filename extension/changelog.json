@@ -1,10 +1,15 @@
 [
 	{
-		"version": { "major": 7, "minor": 5, "build": 2 },
+		"version": { "major": 7, "minor": 5, "build": 3 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 5, "build": 2 },
+		"title": "Beta",
+		"date": "2025/03/05",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix the company id showing something wrong.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the faction id not working for your own faction.", "contributor": "DeKleineKobini" },
@@ -23,8 +28,7 @@
 				{ "message": "Make icons in the popup clickable to open their corresponding pages.", "contributor": "Hashibee" },
 				{ "message": "Show some more networth types in live networth.", "contributor": "DeKleineKobini" },
 				{ "message": "More accurate/useful end time for OC2 countdown in sidebar", "contributor": "Phoenix" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
