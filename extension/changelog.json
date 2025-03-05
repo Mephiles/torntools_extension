@@ -21,7 +21,8 @@
 				{ "message": "Migrate faction stakeouts over to API V2.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate faction last action over to API V2.", "contributor": "DeKleineKobini" },
 				{ "message": "Make icons in the popup clickable to open their corresponding pages.", "contributor": "Hashibee" },
-				{ "message": "Show some more networth types in live networth.", "contributor": "DeKleineKobini" }
+				{ "message": "Show some more networth types in live networth.", "contributor": "DeKleineKobini" },
+				{ "message": "More accurate/useful end time for OC2 countdown in sidebar", "contributor": "Phoenix" }
 			],
 			"removed": []
 		}

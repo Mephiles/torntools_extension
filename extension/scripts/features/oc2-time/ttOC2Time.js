@@ -60,9 +60,29 @@
 
 	function buildTimeLeftElement() {
 		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
+		const now = Date.now();
+		let readyAt;
+		// Torn's ready_at value corresponds to the planning finish time for currently joined members
+		// If the OC is partially filled it will not provide an accurate end time (i.e. when it will initiate)
 
-		const readyAt = userdata.organizedCrime.ready_at * 1000;
-		const timeLeft = readyAt - Date.now();
+		// Count the missing members
+		let missingMembers = 0;
+		for (const slot of userdata.organizedCrime.slots) {
+			if (slot.user_id === null) {
+				missingMembers += 1;
+			}
+		}
+
+		// Add 24 hours for every missing member
+		// The end result is that this now provides the earliest projected end/initiation time
+		if (missingMembers > 0) {
+			const missingTime = 24 * 60 * 60 * missingMembers;
+			readyAt = Math.max((userdata.organizedCrime.ready_at + missingTime) * 1000, now + missingTime * 1000);
+		} else {
+			readyAt = userdata.organizedCrime.ready_at * 1000;
+		}
+
+		const timeLeft = readyAt - now;
 
 		if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.classList.add("short");
 		else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.classList.add("medium");
