@@ -238,6 +238,13 @@ const TEAM = [
 		torn: 2303184,
 		color: "#6ACF65",
 	},
+	{
+		name: "Phoenix",
+		title: "Developer",
+		core: false,
+		torn: 85185,
+		color: "#085185",
+	},
 ];
 
 const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer") || color).reduce(
