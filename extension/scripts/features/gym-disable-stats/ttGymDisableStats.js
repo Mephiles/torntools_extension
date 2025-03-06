@@ -84,6 +84,10 @@
 			const checkbox = stat.find(".tt-stat-checkbox");
 
 			const isLocked = stat.classList.toggle("tt-gym-locked");
+			if (isLocked) {
+				const button = stat.querySelector(".torn-btn");
+				if (button) button.disabled = true;
+			}
 
 			checkbox.checked = isLocked;
 
