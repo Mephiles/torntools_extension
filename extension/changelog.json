@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}

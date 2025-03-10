@@ -114,7 +114,6 @@
 				"Enlisted Cars",
 				"Item Market",
 				"Loan",
-				"Vault",
 				"Total",
 			];
 		}
