@@ -38,7 +38,7 @@ const LINKS = {
 	staff: "https://www.torn.com/staff.php",
 	stocks: "https://www.torn.com/page.php?sid=stocks",
 	trade: "https://www.torn.com/trade.php",
-	travelagency: "https://www.torn.com/travelagency.php",
+	travelagency: "https://www.torn.com/page.php?sid=travel",
 };
 
 // [...document.querySelectorAll("#iconTray > li")].map((icon) => ({ id: parseInt(icon.id.replace("icon", "")), icon: icon.id, description: icon.getAttribute("title").substring(3, icon.getAttribute("title").length - 4) }))
@@ -1906,4 +1906,23 @@ function hasFinishedEducation() {
 
 function isChatV3() {
 	return !!document.getElementById("notes_settings_button");
+}
+
+let ttTopLinks, ttTopLinksCreating;
+
+async function createTTTopLinks() {
+	if (ttTopLinks) {
+		if (ttTopLinksCreating) {
+			await requireCondition(() => !ttTopLinksCreating);
+		}
+		return ttTopLinks;
+	}
+
+	ttTopLinksCreating = true;
+	ttTopLinks = document.newElement({ type: "div", class: "tt-top-icons" });
+	await requireElement("[class*='titleContainer___']").then((title) => {
+		title.appendChild(ttTopLinks);
+		ttTopLinksCreating = false;
+	});
+	return ttTopLinks;
 }

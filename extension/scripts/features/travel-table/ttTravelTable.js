@@ -2,7 +2,7 @@
 
 (async () => {
 	const page = getPage();
-	if (page === "home" && !isFlying()) return;
+	if (isAbroad()) return;
 
 	const COUNTRIES = {
 		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: 167 },
@@ -42,10 +42,19 @@
 			document.find("#travel-items").value = getTravelCount(type);
 			updateValues();
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(({ country }) => {
+			if (!feature.enabled() || !settings.pages.travel.autoTravelTableCountry) return;
+
+			const content = findContainer("Travel Destinations", { selector: ":scope > main" });
+
+			content.findAll(".countries .flag.selected").forEach((flag) => flag.classList.remove("selected"));
+			content.find(`.countries .flag[country*="${country}"]`).classList.add("selected");
+			updateTable(content);
+		});
 	}
 
 	async function startTable() {
-		if (page === "home") startFlyingTable();
+		if (isFlying()) startFlyingTable();
 		else {
 			await createTable();
 		}
@@ -107,7 +116,7 @@
 			});
 
 			content.appendChild(document.newElement({ type: "div", class: "table-wrap", children: [table] }));
-			updateTable();
+			updateTable(content);
 			sortTable(table, 7, "desc");
 
 			function addLegend() {
@@ -255,16 +264,16 @@
 				content.find(".countries-select-all").addEventListener("click", () => {
 					for (const country of content.findAll(".countries .flag")) country.classList.add("selected");
 
-					ttStorage.change({ filters: { travel: { countries: getSelectedCountries() } } });
+					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
-					updateTable();
+					updateTable(content);
 				});
 				content.find(".countries-select-none").addEventListener("click", () => {
 					for (const country of content.findAll(".countries .flag")) country.classList.remove("selected");
 
-					ttStorage.change({ filters: { travel: { countries: getSelectedCountries() } } });
+					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
-					updateTable();
+					updateTable(content);
 				});
 
 				content.find("#travel-items").value = amount;
@@ -284,72 +293,23 @@
 				content.find("#hide-out-of-stock").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { hideOutOfStock: event.target.checked } } });
 
-					updateTable();
+					updateTable(content);
 				});
 				for (const item of content.findAll(".categories input[name='item']")) {
 					item.addEventListener("change", () => {
-						ttStorage.change({ filters: { travel: { categories: getSelectedCategories() } } });
+						ttStorage.change({ filters: { travel: { categories: getSelectedCategories(content) } } });
 
-						updateTable();
+						updateTable(content);
 					});
 				}
 				for (const item of content.findAll(".countries .flag")) {
 					item.addEventListener("click", (event) => {
 						event.target.classList.toggle("selected");
 
-						ttStorage.change({ filters: { travel: { countries: getSelectedCountries() } } });
+						ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
-						updateTable();
+						updateTable(content);
 					});
-				}
-
-				if (!isFlying() && !isAbroad() && !document.find(".info-msg-cont.red .msg"))
-					document.find("#tab-menu4").addEventListener("click", (event) => {
-						if (
-							settings.pages.travel.table &&
-							settings.pages.travel.autoTravelTableCountry &&
-							(event.target.matches("[aria-hidden*='false'] > .raceway") || event.target.closest(".travel-info-table-list"))
-						) {
-							let country =
-								mobile || tablet
-									? event.target.closest(".travel-info-table-list").find(".city-flag")?.className.replaceAll("city-flag", "").trim()
-									: event.target.dataset.race.trim();
-							if (!country) return;
-
-							if (country === "uk") {
-								country = "united_kingdom";
-							}
-
-							content.findAll(".countries .flag.selected").forEach((flag) => flag.classList.remove("selected"));
-							content.find(`.countries .flag[country*="${country.replaceAll("-", "_")}"]`).classList.add("selected");
-							updateTable();
-						}
-					});
-			}
-
-			function getSelectedCategories() {
-				return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
-			}
-
-			function getSelectedCountries() {
-				return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
-			}
-
-			function updateTable() {
-				const categories = getSelectedCategories();
-				const countries = getSelectedCountries();
-				const hideOutOfStock = content.find("#hide-out-of-stock").checked;
-
-				for (const row of table.findAll(".row:not(.header)")) {
-					const { country, category, stock } = row.dataset;
-
-					if (
-						(categories.length > 0 && !categories.includes(category)) ||
-						(countries.length > 0 && !countries.includes(country)) ||
-						(hideOutOfStock && !parseInt(stock))
-					)
-						row.classList.add("tt-hidden");
-					else row.classList.remove("tt-hidden");
 				}
 			}
 
@@ -470,23 +430,24 @@
 			if (isOpened) showTable();
 			else hideTable();
 
-			function showIcon() {
-				document.find("#top-page-links-list").insertBefore(
+			async function showIcon() {
+				const ttTopLinks = await createTTTopLinks();
+
+				ttTopLinks.appendChild(
 					document.newElement({
-						type: "span",
-						class: "tt-travel last",
+						type: "div",
+						class: "tt-travel-wrapper",
 						attributes: {
 							"aria-labelledby": "travel-table",
 						},
 						children: [
-							document.newElement({ type: "i", class: "fa-solid fa-plane" }),
-							document.newElement({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
+							document.newElement({ type: "i", class: "tt-travel-icon fa-solid fa-plane" }),
+							mobile ? null : document.newElement({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
 						],
 						events: {
 							click: changeState,
 						},
-					}),
-					document.find("#top-page-links-list .links-footer")
+					})
 				);
 
 				function changeState() {
@@ -496,7 +457,8 @@
 					searchParams.set("travel", `${isOpened}`);
 					history.pushState(null, "", `${location.pathname}?${searchParams.toString()}`);
 
-					document.find(".tt-travel span").textContent = isOpened ? "Home" : "Travel Table";
+					const travelText = document.find(".tt-travel span");
+					if (travelText) travelText.textContent = isOpened ? "Home" : "Travel Table";
 
 					if (isOpened) showTable();
 					else hideTable();
@@ -504,30 +466,45 @@
 			}
 
 			function showTable() {
-				const agency = document.find(".travel-agency-travelling");
-
-				const hiddenBy = JSON.parse(agency.dataset.hiddenBy || "[]");
-				hiddenBy.push("travel-table");
-				agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
-
-				agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.add("tt-hidden"));
+				document.querySelector("#travel-root")?.classList.add("tt-travel-table-hide-plane");
 
 				findContainer("Travel Destinations").classList.remove("tt-hidden");
 			}
 
 			function hideTable() {
-				const agency = document.find(".travel-agency-travelling");
-				const hiddenBy = JSON.parse(agency.dataset.hiddenBy || "[]").filter((by) => by !== "travel-table");
+				document.querySelector("#travel-root")?.classList.remove("tt-travel-table-hide-plane");
 
-				if (hiddenBy.length) {
-					agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
-				} else {
-					agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.remove("tt-hidden"));
-
-					delete agency.dataset.hiddenBy;
-				}
 				findContainer("Travel Destinations").classList.add("tt-hidden");
 			}
+		}
+	}
+
+	function getSelectedCategories(content) {
+		return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
+	}
+
+	function getSelectedCountries(content) {
+		return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
+	}
+
+	function updateTable(content) {
+		const table = document.find("#tt-travel-table");
+		if (!table) return;
+
+		const categories = getSelectedCategories(content);
+		const countries = getSelectedCountries(content);
+		const hideOutOfStock = content.find("#hide-out-of-stock").checked;
+
+		for (const row of table.findAll(".row:not(.header)")) {
+			const { country, category, stock } = row.dataset;
+
+			if (
+				(categories.length > 0 && !categories.includes(category)) ||
+				(countries.length > 0 && !countries.includes(country)) ||
+				(hideOutOfStock && !parseInt(stock))
+			)
+				row.classList.add("tt-hidden");
+			else row.classList.remove("tt-hidden");
 		}
 	}
 
@@ -601,11 +578,11 @@
 	}
 
 	function getTravelType() {
-		if (page === "travelagency") {
-			const element = document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name");
+		if (page === "travel") {
+			const element = document.find("input[name='travelType'][aria-checked='true']");
 
 			if (!element) return hasAPIData() ? getAPIType() : "standard";
-			else return element.textContent.toLowerCase();
+			else return toCorrectType(element.value);
 		} else {
 			return hasAPIData() ? getAPIType() : "standard";
 		}
@@ -613,15 +590,21 @@
 		function getAPIType() {
 			if (!hasAPIData() || !settings.apiUsage.user.travel) return "standard";
 
-			switch (userdata.travel.method.toLowerCase()) {
+			return toCorrectMethod(userdata.travel.method.toLowerCase());
+		}
+
+		function toCorrectMethod(method) {
+			switch (method) {
+				case "standard":
+					return "standard";
 				case "airstrip":
 					return "private";
-				case "private": // Needs to be validated.
+				case "private":
 					return "private";
 				case "business":
 					return "business";
 				default:
-					console.log("TT - Detected unknown travel type.", userdata.travel.method);
+					console.log("TT - Detected unknown travel type.", method);
 					return "standard";
 			}
 		}

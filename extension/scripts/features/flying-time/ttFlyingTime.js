@@ -20,30 +20,36 @@
 	);
 
 	function initialise() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(() => {
-			if (!feature.enabled()) return;
+		if (mobile || tablet) {
+			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(() => {
+				if (!feature.enabled()) return;
 
-			showTime();
-		});
-		if (mobile || tablet)
+				showTime();
+			});
 			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(() => {
 				if (!feature.enabled()) return;
 
 				showTime();
 			});
+		} else {
+			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE].push(() => {
+				if (!feature.enabled()) return;
+
+				showTime();
+			});
+		}
 	}
 
-	function showTime() {
-		const container = document.find(
-			mobile || tablet
-				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
-				: ".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']"
+	async function showTime() {
+		const container = await requireElement(
+			mobile || tablet ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
 		);
 		if (!container) return;
 
-		const duration = textToTime(
-			mobile || tablet ? container.find(".flight-time-table").textContent.trim() : container.find(".flight-time").textContent.match(/(?<=- ).*/g)[0]
-		);
+		const durationText = container.querySelector("[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]")?.textContent;
+		if (!durationText) return;
+
+		const duration = textToTime(durationText);
 
 		const now = new Date();
 		const arrivalTime = new Date(now.getTime() + duration);
@@ -54,7 +60,7 @@
 		let timer = document.find(".tt-flying-time");
 		if (timer) timer.textContent = text;
 		else {
-			document.find("div.travel-agency:not([id])").appendChild(document.newElement({ type: "span", class: "tt-flying-time", text }));
+			document.find("#travel-root").appendChild(document.newElement({ type: "span", class: "tt-flying-time", text }));
 		}
 		function format(date) {
 			if (date.getDate() === now.getDate()) return formatTime(date, { hideSeconds: true });

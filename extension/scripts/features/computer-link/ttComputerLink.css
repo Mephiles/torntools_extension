@@ -3,4 +3,19 @@
 	color: var(--default-color, #333);
 	text-decoration: none;
 	float: right;
+	display: flex;
+}
+
+.tt-custom-computer {
+    color: var(--content-title-links, #666);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.tt-custom-computer .tt-svg-wrapper {
+    display: flex;
+    width: 15px;
+    height: 16px;
+    padding: 5px;
 }

@@ -32,6 +32,7 @@ const EVENT_CHANNELS = {
 	USERLIST_SWITCH_PAGE: "userlist-switch-page",
 	TRAVEL_SELECT_TYPE: "travel-select-type",
 	TRAVEL_SELECT_COUNTRY: "travel-select-country",
+	TRAVEL_DESTINATION_UPDATE: "travel-destination-update",
 	FEATURE_ENABLED: "feature-enabled",
 	FEATURE_DISABLED: "feature-disabled",
 	STATE_CHANGED: "state-changed",

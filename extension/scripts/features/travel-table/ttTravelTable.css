@@ -1,17 +1,19 @@
 /* Travel Icon */
 
-.tt-travel {
+.tt-travel-wrapper {
 	display: flex;
 	cursor: pointer;
-	color: var(--tt-color-icon-bar);
-	line-height: 24px;
-	float: right;
-	margin-right: 30px;
+	color: var(--content-title-links, #666);
+	align-items: center;
+	text-decoration: none;
 }
 
-.tt-travel i {
+.tt-travel-icon {
+	display: flex;
 	padding: 5px;
-	font-size: 15px;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
 }
 
 @media screen and (max-width: 600px) {
@@ -224,4 +226,10 @@
 
 #tt-travel-table .negative {
 	color: var(--tt-color-red);
+}
+
+.tt-travel-table-hide-plane [class*="randomFactWrapper___"],
+.tt-travel-table-hide-plane [class*="airspaceScene___"],
+.tt-travel-table-hide-plane [class*="flightProgressSection___"] hr:first-child {
+	display: none;
 }

@@ -512,3 +512,8 @@ body[data-layout="hospital"] #sidebarroot .pill {
 .tt-sidebar-information .countdown.medium {
 	color: var(--tt-color-orange);
 }
+
+.tt-top-icons {
+	display: flex;
+	gap: 10px;
+}

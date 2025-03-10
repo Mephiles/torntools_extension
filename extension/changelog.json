@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix attack history not updating properly.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix attack history not updating properly.", "contributor": "DeKleineKobini" },
+				{ "message": "Update all travel features to work with the reworked travel pages.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" }],
 			"removed": []
