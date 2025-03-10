@@ -427,7 +427,7 @@ async function updateUserdata(forceUpdate = false) {
 				.forEach((attack) => {
 					if (attack.id > lastAttack) lastAttack = attack.id;
 
-					const enemyId = attack.attacker?.id === userdata.player_id ? attack.defender.id : attack.attacker.id;
+					const enemyId = attack.attacker?.id === userdata.player_id ? attack.defender.id : attack.attacker?.id;
 					if (!enemyId) return;
 
 					// Setup the data so there are no missing keys.

@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix attack history not updating properly.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
