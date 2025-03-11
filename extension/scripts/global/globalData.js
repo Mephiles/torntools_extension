@@ -1595,7 +1595,7 @@ const BOOK_DESCRIPTIONS = {
 	746: "Incr. Def by 5% up to 10m upon completion.",
 	747: "Incr. Dex by 5% up to 10m upon completion.",
 	748: "Incr. all working stats by 5% up to 2.5k each upon completion.",
-	749: "Incr. blacklist & friend list by 100 upon completion.",
+	749: "Incr. friends, enemies and targets lists by 100 upon completion.",
 	750: "Provides a free merit reset upon completion.",
 	751: "Removes a large amount of drug addiction upon completion.",
 	752: "Provides a passive 25% bonus to all stats (31 days).",

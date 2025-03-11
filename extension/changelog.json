@@ -8,9 +8,14 @@
 			"fixes": [
 				{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix attack history not updating properly.", "contributor": "DeKleineKobini" },
-				{ "message": "Update all travel features to work with the reworked travel pages.", "contributor": "DeKleineKobini" }
+				{ "message": "Update all travel features to work with the reworked travel pages.", "contributor": "DeKleineKobini" },
+				{ "message": "Faction Quick Items on mobile didn't seem to allow refills being added.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust FF Scouter for the reworked friends, enemies and target pages.", "contributor": "DeKleineKobini" },
+				{ "message": "Update book and item descriptions.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},

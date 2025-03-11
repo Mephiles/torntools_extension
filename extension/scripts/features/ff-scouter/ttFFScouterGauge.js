@@ -61,8 +61,6 @@
 				case "abroad-people":
 				case "hospital":
 				case "userlist":
-				case "blacklist":
-				case "friendlist":
 					selector = ".name";
 					break;
 				case "bounties":
@@ -76,6 +74,11 @@
 					break;
 				case "russianroulette":
 					selector = "[class^='rowsWrap___'] [class*='userInfoBox___']";
+					break;
+				case "enemies":
+				case "friends":
+				case "targets":
+					selector = "[class*='name___'] [class*='honorWrap___']";
 					break;
 				default:
 					scoutLock = false;

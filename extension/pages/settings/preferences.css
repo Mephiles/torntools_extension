@@ -223,6 +223,8 @@ body.tt-mobile #preferences > section:first-of-type {
 body.tt-mobile #preferences nav {
 	width: unset;
 	overflow: hidden;
+	position: sticky;
+	top: 0;
 }
 
 body.light #preferences nav {
