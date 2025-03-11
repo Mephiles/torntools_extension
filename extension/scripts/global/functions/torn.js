@@ -1539,7 +1539,10 @@ function getPage() {
 			break;
 		case "loader":
 		case "page":
-			page = getSearchParameters().get("sid").toLowerCase();
+			const sid = getSearchParameters().get("sid").toLowerCase();
+
+			if (sid === "list") page = getSearchParameters().get("type");
+			else page = sid;
 			break;
 		case "hospitalview":
 			page = "hospital";
