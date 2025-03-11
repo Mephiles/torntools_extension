@@ -93,7 +93,21 @@
 						}
 
 						for (const category of document.findAll("#categoriesItem:not(.no-items)")) {
-							if (!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
+							if (
+								![
+									"Primary",
+									"Secondary",
+									"Melee",
+									"Temporary",
+									"Medical",
+									"Drug",
+									"Energy Drink",
+									"Alcohol",
+									"Candy",
+									"Booster",
+									"Other",
+								].includes(category.dataset.type)
+							)
 								continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
@@ -423,7 +437,7 @@
 
 	function allowQuickItem(id, category) {
 		return (
-			["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
+			["Primary", "Secondary", "Melee", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
 			[
 				// Temporary Items
 				220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042, 1205,
@@ -436,7 +450,7 @@
 	}
 
 	function isEquipable(id, category) {
-		return ["Temporary"].includes(category);
+		return ["Primary", "Secondary", "Melee", "Temporary"].includes(category);
 	}
 
 	function getEquipPosition(id, category) {
