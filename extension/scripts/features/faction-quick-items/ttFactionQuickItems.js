@@ -124,8 +124,6 @@
 
 	function setupQuickDragListeners() {
 		const enableDrag = !mobile && !tablet;
-		if (!enableDrag) return;
-
 		const tab = document.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
 
 		if (tab.id === "armoury-points") {
@@ -133,9 +131,11 @@
 				const type = item.textContent.trim().split(" ")[1].toLowerCase();
 
 				item.dataset.type = "tt-points";
-				item.setAttribute("draggable", "true");
-				item.addEventListener("dragstart", onDragStart);
-				item.addEventListener("dragend", onDragEnd);
+				if (enableDrag) {
+					item.setAttribute("draggable", "true");
+					item.addEventListener("dragstart", onDragStart);
+					item.addEventListener("dragend", onDragEnd);
+				}
 
 				item.appendChild(
 					document.newElement({
@@ -152,9 +152,11 @@
 
 				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
 
-				item.setAttribute("draggable", "true");
-				item.addEventListener("dragstart", onDragStart);
-				item.addEventListener("dragend", onDragEnd);
+				if (enableDrag) {
+					item.setAttribute("draggable", "true");
+					item.addEventListener("dragstart", onDragStart);
+					item.addEventListener("dragend", onDragEnd);
+				}
 			}
 		}
 
