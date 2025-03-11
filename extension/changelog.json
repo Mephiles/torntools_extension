@@ -12,7 +12,8 @@
 			],
 			"changes": [
 				{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" },
-				{ "message": "Adjust FF Scouter for the reworked friends, enemies and target pages.", "contributor": "DeKleineKobini" }
+				{ "message": "Adjust FF Scouter for the reworked friends, enemies and target pages.", "contributor": "DeKleineKobini" },
+				{ "message": "Update book and item descriptions.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
