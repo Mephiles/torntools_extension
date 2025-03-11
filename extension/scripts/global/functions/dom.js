@@ -39,7 +39,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 			}
 			if (options.href) newElement.href = options.href;
 
-			for (const child of options.children || []) {
+			for (const child of options.children.filter((child) => !!child) || []) {
 				if (typeof child === "string") {
 					newElement.appendChild(document.createTextNode(child));
 				} else {

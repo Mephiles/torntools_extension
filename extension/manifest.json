@@ -452,7 +452,6 @@
 				"scripts/features/travel-item-profits/ttTravelItemProfits.css",
 				"scripts/features/travel-fill-max/ttTravelFillMax.css",
 				"scripts/features/sort-travel-market/ttSortTravelMarket.css",
-				"scripts/features/landing-time/ttLandingTime.css",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css"
 			],
 			"js": [
@@ -463,11 +462,9 @@
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/travel-table/ttTravelTable.js",
 				"scripts/features/travel-table/ttTravelSync.js",
-				"scripts/features/clean-flight/ttCleanFlight.js",
 				"scripts/features/travel-item-profits/ttTravelItemProfits.js",
 				"scripts/features/travel-fill-max/ttTravelFillMax.js",
 				"scripts/features/sort-travel-market/ttSortTravelMarket.js",
-				"scripts/features/landing-time/ttLandingTime.js",
 				"scripts/features/abroad-items-filter/ttAbroadItemsFilter.js",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
 				"scripts/features/abroad-auto-fill-max/ttAbroadAutoFillMax.js",
@@ -698,19 +695,23 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/travelagency.php*"],
+			"matches": ["https://www.torn.com/page.php?sid=travel"],
 			"css": [
 				"scripts/global/elements/table/ttTable.css",
 				"scripts/features/travel-table/ttTravelTable.css",
 				"scripts/features/flying-time/ttFlyingTime.css",
-				"scripts/features/travel-cooldowns/ttTravelCooldowns.css"
+				"scripts/features/travel-cooldowns/ttTravelCooldowns.css",
+				"scripts/features/clean-flight/ttCleanFlight.css",
+				"scripts/features/landing-time/ttLandingTime.css"
 			],
 			"js": [
 				"scripts/global/elements/table/ttTable.js",
-				"scripts/content/travelagency/ttTravelAgency.js",
+				"scripts/content/travel/ttTravelFlying.js",
 				"scripts/features/travel-table/ttTravelTable.js",
 				"scripts/features/flying-time/ttFlyingTime.js",
-				"scripts/features/travel-cooldowns/ttTravelCooldowns.js"
+				"scripts/features/travel-cooldowns/ttTravelCooldowns.js",
+				"scripts/features/clean-flight/ttCleanFlight.js",
+				"scripts/features/landing-time/ttLandingTime.js"
 			],
 			"run_at": "document_end"
 		},

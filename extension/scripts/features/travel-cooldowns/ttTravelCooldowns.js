@@ -2,7 +2,7 @@
 
 (async () => {
 	if (!getPageStatus().access) return;
-	if (isFlying() || isAbroad()) return;
+	if (isFlying()) return;
 
 	const feature = featureManager.registerFeature(
 		"Travel Cooldowns",
@@ -35,24 +35,24 @@
 			showWarnings();
 		};
 
-		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(handler);
-		if (mobile || tablet) CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(handler);
-		else CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(removeWarnings);
+		if (mobile || tablet) {
+			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(handler);
+			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(handler);
+		} else {
+			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE].push(handler);
+		}
 	}
 
-	function showWarnings() {
-		const container = document.find(
-			mobile || tablet
-				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
-				: ".travel-agency div[aria-expanded='true'] .travel-container.full-map[style='display: block;']"
+	async function showWarnings() {
+		const container = await requireElement(
+			mobile || tablet ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
 		);
 		if (!container) return;
 
-		const element = mobile || tablet ? container.find(".flight-time-table") : container.find(".flight-time");
-		if (!element) return;
+		const durationText = container.querySelector("[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]")?.textContent;
+		if (!durationText) return;
 
-		const duration = textToTime(mobile || tablet ? element.textContent.trim() : element.textContent.match(/(?<=- ).*/g)[0]) * 2;
-
+		const duration = textToTime(durationText) * 2;
 		let cooldowns =
 			mobile || tablet
 				? container.parentElement.find(".show-confirm[aria-expanded='true'] .tt-cooldowns")
@@ -62,7 +62,6 @@
 				type: "div",
 				class: "tt-cooldowns",
 				children: [
-					document.newElement({ type: "div", class: "patter-left" }),
 					document.newElement({
 						type: "div",
 						class: "travel-wrap",
@@ -93,7 +92,7 @@
 
 			if (!mobile && !tablet) container.insertAdjacentElement("beforebegin", cooldowns);
 			else {
-				container.parentElement.find(".show-confirm[aria-expanded='true'] .travel-container").insertAdjacentElement("afterend", cooldowns);
+				container.find("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
 			}
 
 			if (!hasFinishedEducation() || userdata.education_current > 0)
