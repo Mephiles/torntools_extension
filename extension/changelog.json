@@ -8,13 +8,18 @@
 			"fixes": [
 				{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix attack history not updating properly.", "contributor": "DeKleineKobini" },
-				{ "message": "Update all travel features to work with the reworked travel pages.", "contributor": "DeKleineKobini" },
-				{ "message": "Faction Quick Items on mobile didn't seem to allow refills being added.", "contributor": "DeKleineKobini" }
+				{ "message": "Update all travel features to work with the reworked travel pages.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust FF Scouter for the reworked friends, enemies and target pages.", "contributor": "DeKleineKobini" },
-				{ "message": "Update book and item descriptions.", "contributor": "DeKleineKobini" }
+				{ "message": "Update book and item descriptions.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust achievements to show on the new travel page.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust clean flight to work with the new travel page.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust computer link to work on the new travel page.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust flying and landing time to work on the new travel page.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust travel cooldown to work with the new travel page.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust travel table to work with the new travel page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
