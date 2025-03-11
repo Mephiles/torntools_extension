@@ -245,6 +245,13 @@ const TEAM = [
 		torn: 85185,
 		color: "#085185",
 	},
+	{
+		name: "xentac",
+		title: "Developer",
+		core: false,
+		torn: 3354782,
+		color: "#a569bd",
+	},
 ];
 
 const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer") || color).reduce(
