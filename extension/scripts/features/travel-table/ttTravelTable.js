@@ -573,7 +573,7 @@
 			case "business":
 				return 0.3;
 			default:
-				console.error("Unknown travel type");
+				console.error(`Unknown travel type '${type}'!`);
 		}
 	}
 
@@ -582,7 +582,7 @@
 			const element = document.find("input[name='travelType'][aria-checked='true']");
 
 			if (!element) return hasAPIData() ? getAPIType() : "standard";
-			else return toCorrectType(element.value);
+			else return toCorrectMethod(element.value);
 		} else {
 			return hasAPIData() ? getAPIType() : "standard";
 		}

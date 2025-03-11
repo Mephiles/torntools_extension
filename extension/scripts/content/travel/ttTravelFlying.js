@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	if (!isFlying()) return;
+	if (isFlying()) return;
 
 	const { mobile, tablet } = await checkDevice();
 
