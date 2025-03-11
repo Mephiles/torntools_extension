@@ -1,5 +1,5 @@
-.tt-clean-flight [class*='randomFactWrapper___'],
-.tt-clean-flight [class*='airspaceScene___'],
-.tt-clean-flight [class*='flightProgressSection___'] hr:first-child {
-    display: none;
+.tt-clean-flight [class*="randomFactWrapper___"],
+.tt-clean-flight [class*="airspaceScene___"],
+.tt-clean-flight [class*="flightProgressSection___"] hr:first-child {
+	display: none;
 }
