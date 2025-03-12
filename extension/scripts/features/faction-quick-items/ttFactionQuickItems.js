@@ -449,7 +449,7 @@
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
-			for (const refill of document.findAll("#armoury-points .give[data-role='give']")) {
+			for (const refill of document.findAll("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
 				refill.addEventListener("click", onItemClickQuickEdit);
 			}
 		} else {
@@ -460,7 +460,7 @@
 
 				item.removeEventListener("click", onItemClickQuickEdit);
 			}
-			for (const refill of document.findAll("#armoury-points .give[data-role='give']")) {
+			for (const refill of document.findAll("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
 				refill.removeEventListener("click", onItemClickQuickEdit);
 			}
 		}
