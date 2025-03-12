@@ -9,7 +9,6 @@
 				{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix attack history not updating properly.", "contributor": "DeKleineKobini" },
 				{ "message": "Faction Quick Items on mobile didn't seem to allow refills being added.", "contributor": "DeKleineKobini" },
-				{ "message": "Update all travel features to work with the reworked travel pages.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix adding points to faction quick items when they are refillable", "contributor": "xentac" }
 			],
 			"changes": [
