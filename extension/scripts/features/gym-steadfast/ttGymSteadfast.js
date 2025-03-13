@@ -33,7 +33,7 @@
 		const jobPerks = userdata.job_perks.filter((perk) => perk.includes("gym gains"));
 		const propertyPerk = userdata.property_perks.find((perk) => perk.includes("gym gains"));
 		const eductionPerks = userdata.education_perks.filter((perk) => perk.includes("gym gains"));
-		const bookPerk = userdata.book_perks.find((perk) => perk.includes("gym gains"));
+		const bookPerk = userdata.book_perks.find((perk) => perk.includes("gym gains"))?.toLowerCase();
 
 		const bonus = {
 			strength: [],
@@ -71,7 +71,7 @@
 				values.push({ source: "education", value: totalEducation });
 			}
 
-			if (bookPerk) {
+			if (bookPerk && (bookPerk.includes(" all ") || bookPerk.includes(stat))) {
 				values.push({ source: "book", value: bookPerk.getNumber() });
 			}
 		});

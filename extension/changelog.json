@@ -9,7 +9,8 @@
 				{ "message": "Fix vault networth being shown twice with live networth.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix attack history not updating properly.", "contributor": "DeKleineKobini" },
 				{ "message": "Faction Quick Items on mobile didn't seem to allow refills being added.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix adding points to faction quick items when they are refillable", "contributor": "xentac" }
+				{ "message": "Fix adding points to faction quick items when they are refillable", "contributor": "xentac" },
+				{ "message": "Show the correct steadfast bonus when reading a stat specific book.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" },
