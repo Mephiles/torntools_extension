@@ -16,14 +16,15 @@
 		null
 	);
 
-	function showTime() {
-		const destinationTitle = document.find(".flight-info .destination-title");
-		if (!destinationTitle) return;
+	async function showTime() {
+		const destinationTitle = await requireElement("#travel-root [class*='progressTextLineBreaker___']");
 
-		if (destinationTitle.find(".tt-landing-time")) return;
+		if (destinationTitle.parentElement.find(".tt-landing-time")) return;
 
-		const timer = destinationTitle.find(".remaining-time > span");
-		const arrival = Date.now() + timer.dataset.to * TO_MILLIS.SECONDS;
+		const timer = await requireElement("#travel-root time[datetime]");
+		const duration = textToTime(timer.textContent);
+
+		const arrival = Date.now() + duration;
 
 		destinationTitle.parentElement.insertBefore(
 			document.newElement({
