@@ -130,11 +130,11 @@
 		const { id, xid } = data;
 
 		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
-		if (!allowQuickItem(id, torndata.items[id].type)) return;
+		if (!allowQuickItem(id, getTornItemType(id))) return;
 
 		let equipPosition;
-		if (isEquipable(id, torndata.items[id].type)) {
-			equipPosition = getEquipPosition(id, torndata.items[id].type);
+		if (isEquipable(id, getTornItemType(id))) {
+			equipPosition = getEquipPosition(id, getTornItemType(id));
 			data.equipPosition = equipPosition;
 		}
 
@@ -152,7 +152,7 @@
 						return;
 					}
 
-					const equipItem = isEquipable(id, torndata.items[id].type);
+					const equipItem = isEquipable(id, getTornItemType(id));
 					// TODO: API Inventory Block.
 					/*if (equipItem) {
 						responseWrap.textContent = "";
@@ -160,7 +160,7 @@
 						return;
 					}*/
 
-					if (settings.pages.items.energyWarning && !equipItem && hasAPIData() && ["Drug", "Energy Drink"].includes(torndata.items[id].type)) {
+					if (settings.pages.items.energyWarning && !equipItem && hasAPIData() && ["Drug", "Energy Drink"].includes(getTornItemType(id))) {
 						const received = getItemEnergy(id);
 						if (received) {
 							const [current, max] = getUserEnergy();
@@ -497,12 +497,10 @@
 	}
 
 	function updateEquippedItem(id, isEquip) {
-		const item = torndata.items[id];
-
-		const equipPosition = getEquipPosition(item.id, item.type);
+		const equipPosition = getEquipPosition(id, getTornItemType(id));
 		[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
 
-		if (isEquip && document.find(`.item[data-id="${item.id}"]`)) document.find(`.item[data-id="${item.id}"]`).classList.add("equipped");
+		if (isEquip && document.find(`.item[data-id="${id}"]`)) document.find(`.item[data-id="${id}"]`).classList.add("equipped");
 	}
 
 	function setupOverlayItems(tab) {

@@ -192,7 +192,7 @@
 		const { id } = data;
 
 		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
-		if (!allowQuickItem(id, torndata.items[id]?.type)) return;
+		if (!allowQuickItem(id, getTornItemType(id))) return;
 
 		const itemWrap = document.newElement({
 			type: "div",
@@ -208,7 +208,7 @@
 						return;
 					}
 
-					if (settings.pages.items.energyWarning && hasAPIData() && ["Drug", "Energy Drink"].includes(torndata.items[id]?.type)) {
+					if (settings.pages.items.energyWarning && hasAPIData() && ["Drug", "Energy Drink"].includes(getTornItemType(id))) {
 						const received = getItemEnergy(id);
 						if (received) {
 							const [current, max] = getUserEnergy();

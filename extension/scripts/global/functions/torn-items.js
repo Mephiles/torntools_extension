@@ -2,6 +2,10 @@ function getTornItemName(id) {
 	return hasAPIData() ? torndata.items[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
 }
 
+function getTornItemType(id) {
+	return hasAPIData() ? torndata.items[id].type : id in TORN_ITEMS ? TORN_ITEMS[id].type : null;
+}
+
 const TORN_ITEMS = {
 	1: {
 		name: "Hammer",
