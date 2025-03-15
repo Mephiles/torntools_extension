@@ -18,6 +18,7 @@
 		},
 		async () => {
 			if (!hasAPIData() || !factiondata || !factiondata.members) return "No API access.";
+			else if (!!userdata.organizedCrime) return "No OC 1 data.";
 		}
 	);
 
