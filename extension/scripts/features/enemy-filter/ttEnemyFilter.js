@@ -16,7 +16,8 @@
 		null
 	);
 
-	function initialiseFilters() {
+	let filterSetupComplete;
+	async function initialiseFilters() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
 			if (!feature.enabled()) return;
 
@@ -28,32 +29,27 @@
 
 			filterRow(row, { statsEstimates }, true);
 		});
-		addXHRListener(async ({ detail: { page, xhr } }) => {
-			if (!feature.enabled()) return;
-			if (page !== "userlist") return;
 
-			const step = new URLSearchParams(xhr.requestBody).get("step");
-			if (step !== "blackList") return;
-
-			new MutationObserver((mutations, observer) => {
-				addFilters();
-				observer.disconnect();
-			}).observe(document.find(".blacklist"), { childList: true });
+		const observer = new MutationObserver((mutations) => {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
+				if (filterSetupComplete && feature.enabled())
+					applyFilters(true);
+			}
 		});
+		observer.observe(await requireElement(".tableWrapper"), { childList: true });
 	}
 
 	const localFilters = {};
 
 	async function addFilters() {
-		await requireElement("ul.user-info-blacklist-wrap");
-
 		const { content } = createContainer("Enemy Filter", {
 			class: "mt10",
-			nextElement: document.find(".pagination-wrapper"),
+			nextElement: await requireElement(".wrapper[role='alert']"),
+			compact: true,
 			filter: true,
 		});
 
-		const statistics = createStatistics("players");
+		const statistics = createStatistics("enemies");
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
@@ -69,20 +65,6 @@
 		});
 		filterContent.appendChild(activityFilter.element);
 		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
-
-		const statusFilter = createFilterSection({
-			title: "Status",
-			checkboxes: [
-				{ id: "okay", description: "Okay" },
-				{ id: "hospital", description: "Hospital" },
-				{ id: "abroad", description: "Abroad" },
-				{ id: "traveling", description: "Traveling" },
-			],
-			defaults: filters.enemies.status,
-			callback: () => applyFilters(true),
-		});
-		filterContent.appendChild(statusFilter.element);
-		localFilters["Status"] = { getSelections: statusFilter.getSelections };
 
 		const levelFilter = createFilterSection({
 			title: "Level Filter",
@@ -117,15 +99,16 @@
 		}
 
 		await applyFilters();
+
+		filterSetupComplete = true;
 	}
 
 	async function applyFilters(includeEstimates) {
-		await requireElement("ul.user-info-blacklist-wrap > li");
+		await requireElement(".tableWrapper ul > li");
 
 		// Get the set filters
 		const content = findContainer("Enemy Filter", { selector: "main" });
 		const activity = localFilters["Activity"].getSelections(content);
-		const status = localFilters["Status"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
@@ -142,7 +125,6 @@
 			filters: {
 				enemies: {
 					activity,
-					status,
 					levelStart,
 					levelEnd,
 					estimates: statsEstimates ?? filters.enemies.estimates,
@@ -151,48 +133,35 @@
 		});
 
 		// Actual Filtering
-		for (const row of document.findAll("ul.user-info-blacklist-wrap > li")) {
-			filterRow(row, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+		for (const row of document.findAll(".tableWrapper ul > li")) {
+			filterRow(row, { activity, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-			document.findAll("ul.user-info-blacklist-wrap > li").length,
+			document.findAll(".tableWrapper ul > li:not(.tt-hidden)").length,
+			document.findAll(".tableWrapper ul > li").length,
 			content
 		);
 	}
 
 	function filterRow(row, filters, individual) {
 		if (filters.activity) {
+			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (
 				filters.activity.length &&
 				!filters.activity.some(
 					(x) =>
-						x.trim() ===
-						row
-							.find("#iconTray li")
-							.getAttribute("title")
-							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
-							.toLowerCase()
-							.trim()
+						x.trim() === activity
 				)
 			) {
 				hide("activity");
 				return;
 			}
 		}
-		if (filters.status?.length && filters.status.length !== 2) {
-			let status = row.find(".status :last-child").textContent.toLowerCase().trim();
-
-			if (!filters.status.includes(status)) {
-				hide("status");
-				return;
-			}
-		}
 		if (filters.level?.start || filters.level?.end) {
-			const level = row.find(".level").textContent.getNumber();
+			const level = row.find("[class*='level__']").textContent.getNumber();
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;
