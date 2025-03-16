@@ -24,7 +24,8 @@
 				{ "message": "Adjust travel cooldown to work with the new travel page.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust travel table to work with the new travel page.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve forum menu compatibility with dark mode.", "contributor": "DeKleineKobini" },
-				{ "message": "Change (faction) quick items to work better without api key.", "contributor": "DeKleineKobini" }
+				{ "message": "Change (faction) quick items to work better without api key.", "contributor": "DeKleineKobini" },
+				{ "message": "Disable more OC1 features when OC2 has been detected.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
