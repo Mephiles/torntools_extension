@@ -30,13 +30,24 @@
 			filterRow(row, { statsEstimates }, true);
 		});
 
-		const observer = new MutationObserver((mutations) => {
-			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
+		const listObserver = new MutationObserver((mutations) => {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.matches("li[class*='tableRow__']")))) {
 				if (filterSetupComplete && feature.enabled())
 					applyFilters(true);
 			}
 		});
-		observer.observe(await requireElement(".tableWrapper"), { childList: true });
+
+		const tableObserver = new MutationObserver((mutations) => {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
+				if (filterSetupComplete && feature.enabled()) {
+					applyFilters(true);
+					listObserver.observe(document.find(".tableWrapper > ul"));
+				}
+			}
+		});
+
+		tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });
+		listObserver.observe(await requireElement(".tableWrapper > ul"), { childList: true });
 	}
 
 	const localFilters = {};

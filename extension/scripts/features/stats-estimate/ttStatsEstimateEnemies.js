@@ -20,13 +20,24 @@
 	);
 
 	async function registerListeners() {
-		const observer = new MutationObserver((mutations) => {
-			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
+		const listObserver = new MutationObserver((mutations) => {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.matches("li[class*='tableRow__']")))) {
 				if (feature.enabled())
 					showEstimates();
 			}
 		});
-		observer.observe(await requireElement(".tableWrapper"), { childList: true });
+
+		const tableObserver = new MutationObserver((mutations) => {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
+				if (feature.enabled()) {
+					showEstimates();
+					listObserver.observe(document.find(".tableWrapper > ul"));
+				}
+			}
+		});
+
+		tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });
+		listObserver.observe(await requireElement(".tableWrapper > ul"), { childList: true });
 	}
 
 	async function showEstimates() {
