@@ -31,7 +31,7 @@
 			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
 				if (feature.enabled()) {
 					showEstimates();
-					listObserver.observe(document.find(".tableWrapper > ul"));
+					listObserver.observe(document.find(".tableWrapper > ul", { childList: true }));
 				}
 			}
 		});
