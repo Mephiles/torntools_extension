@@ -11,7 +11,9 @@
 				{ "message": "Faction Quick Items on mobile didn't seem to allow refills being added.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix adding points to faction quick items when they are refillable", "contributor": "xentac" },
 				{ "message": "Show the correct steadfast bonus when reading a stat specific book.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix Attack Page Title modification.", "contributor": "TheFoxMan" }
+				{ "message": "Fix Attack Page Title modification.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Enemies filter.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Enemies page Stats Estimates.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Completely disable the train button for disabled stats as extra measure.", "contributor": "DeKleineKobini" },
