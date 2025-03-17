@@ -835,8 +835,8 @@
 		},
 		{ "matches": ["https://www.torn.com/museum.php*"], "js": ["scripts/features/museum-auto-fill/ttMuseumAutoFill.js"], "run_at": "document_end" },
 		{
-			"matches": ["https://www.torn.com/blacklist.php*"],
-			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"matches": ["https://www.torn.com/page.php?sid=list&type=enemies*"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css", "scripts/features/enemy-filter/ttEnemyFilter.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/features/stats-estimate/statsEstimate.js",

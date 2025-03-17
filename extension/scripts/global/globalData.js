@@ -911,11 +911,14 @@ const DEFAULT_STORAGE = {
 		},
 		enemies: {
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			status: new DefaultSetting({ type: "array", defaultValue: [] }),
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
+		burglary: {
+			targetType: new DefaultSetting({ type: "string", defaultValue: "" }),
+			targetName: new DefaultSetting({ type: "string", defaultValue: "" }),
+		}
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),

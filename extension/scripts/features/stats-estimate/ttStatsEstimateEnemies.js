@@ -19,30 +19,36 @@
 		}
 	);
 
-	function registerListeners() {
-		addXHRListener(async ({ detail: { page, xhr } }) => {
-			if (!feature.enabled()) return;
-			if (page !== "userlist") return;
-
-			const step = new URLSearchParams(xhr.requestBody).get("step");
-			if (step !== "blackList") return;
-
-			new MutationObserver((mutations, observer) => {
-				showEstimates();
-				observer.disconnect();
-			}).observe(document.find(".blacklist"), { childList: true });
+	async function registerListeners() {
+		const listObserver = new MutationObserver((mutations) => {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.matches("li[class*='tableRow__']")))) {
+				if (feature.enabled())
+					showEstimates();
+			}
 		});
+
+		const tableObserver = new MutationObserver((mutations) => {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
+				if (feature.enabled()) {
+					showEstimates();
+					listObserver.observe(document.find(".tableWrapper > ul"), { childList: true });
+				}
+			}
+		});
+
+		tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });
+		listObserver.observe(await requireElement(".tableWrapper > ul"), { childList: true });
 	}
 
 	async function showEstimates() {
-		await requireElement(".user-info-blacklist-wrap");
+		await requireElement(".tableWrapper ul > li");
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(
-			".user-info-blacklist-wrap > li[data-id]",
+			".tableWrapper ul > li",
 			(row) => ({
-				id: parseInt(row.find(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").last().trim()),
+				id: parseInt(row.find("[class*='userInfoBox__'] a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+				level: row.find("[class*='level__']").textContent.getNumber(),
 			}),
 			true
 		);
