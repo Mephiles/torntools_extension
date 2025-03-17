@@ -1,14 +1,7 @@
 [
-	{
-		"version": { "major": 7, "minor": 5, "build": 5 },
-		"title": "Beta",
-		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
-	},
 	{ "version": { "major": 7, "minor": 5, "build": 4 }, "title": "Beta", "date": "2025/03/17", "logs": {} },
 	{
 		"version": { "major": 7, "minor": 5, "build": 3 },
-		"title": "Beta",
 		"date": "2025/03/17",
 		"logs": {
 			"features": [{ "message": "Show last action of defender on attack page.", "contributor": "TheFoxMan" }],
