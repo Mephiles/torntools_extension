@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 7, "minor": 5, "build": 3 },
+		"version": { "major": 7, "minor": 5, "build": 4 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 5, "build": 3 },
+		"title": "Beta",
+		"date": "2025/03/17",
 		"logs": {
 			"features": [{ "message": "Show last action of defender on attack page.", "contributor": "TheFoxMan" }],
 			"fixes": [
@@ -28,8 +34,7 @@
 				{ "message": "Improve forum menu compatibility with dark mode.", "contributor": "DeKleineKobini" },
 				{ "message": "Change (faction) quick items to work better without api key.", "contributor": "DeKleineKobini" },
 				{ "message": "Disable more OC1 features when OC2 has been detected.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
