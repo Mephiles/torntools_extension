@@ -32,8 +32,7 @@
 
 		const listObserver = new MutationObserver((mutations) => {
 			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.matches("li[class*='tableRow__']")))) {
-				if (filterSetupComplete && feature.enabled())
-					applyFilters(true);
+				if (filterSetupComplete && feature.enabled()) applyFilters(true);
 			}
 		});
 
@@ -160,13 +159,7 @@
 	function filterRow(row, filters, individual) {
 		if (filters.activity) {
 			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
-			if (
-				filters.activity.length &&
-				!filters.activity.some(
-					(x) =>
-						x.trim() === activity
-				)
-			) {
+			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 				hide("activity");
 				return;
 			}

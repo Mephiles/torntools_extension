@@ -918,7 +918,7 @@ const DEFAULT_STORAGE = {
 		burglary: {
 			targetType: new DefaultSetting({ type: "string", defaultValue: "" }),
 			targetName: new DefaultSetting({ type: "string", defaultValue: "" }),
-		}
+		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),

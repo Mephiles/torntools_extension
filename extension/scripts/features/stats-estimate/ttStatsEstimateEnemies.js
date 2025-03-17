@@ -22,8 +22,7 @@
 	async function registerListeners() {
 		const listObserver = new MutationObserver((mutations) => {
 			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.matches("li[class*='tableRow__']")))) {
-				if (feature.enabled())
-					showEstimates();
+				if (feature.enabled()) showEstimates();
 			}
 		});
 
