@@ -623,6 +623,7 @@ const DEFAULT_STORAGE = {
 				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showFactionSpy: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				oc2Filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -918,6 +919,9 @@ const DEFAULT_STORAGE = {
 		burglary: {
 			targetType: new DefaultSetting({ type: "string", defaultValue: "" }),
 			targetName: new DefaultSetting({ type: "string", defaultValue: "" }),
+		},
+		oc2: {
+			difficulty: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
