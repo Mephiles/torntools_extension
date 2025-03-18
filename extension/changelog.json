@@ -3,7 +3,10 @@
 		"version": { "major": 7, "minor": 5, "build": 4 },
 		"title": "Beta",
 		"date": "2025/03/17",
-		"logs": { "features": [{ "message": "Filter on OC2 crimes.", "contributor": "DeKleineKobini" }] }
+		"logs": {
+			"features": [{ "message": "Filter on OC2 crimes.", "contributor": "DeKleineKobini" }],
+			"changes": [{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" }]
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 5, "build": 3 },
