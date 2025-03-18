@@ -624,6 +624,7 @@ const DEFAULT_STORAGE = {
 				stakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showFactionSpy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				oc2Filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				warnCrime: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),

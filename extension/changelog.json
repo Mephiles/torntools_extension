@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": "2025/03/17",
 		"logs": {
-			"features": [{ "message": "Filter on OC2 crimes.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Filter on OC2 crimes.", "contributor": "DeKleineKobini" },
+				{ "message": "Warn when joining a crime without passing the conditions (only item for now).", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [],
 			"changes": [{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" }],
 			"removed": []

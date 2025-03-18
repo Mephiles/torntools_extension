@@ -361,7 +361,8 @@
 				"scripts/features/medical-life/ttMedicalLife.css",
 				"scripts/features/faction-quick-items/ttFactionQuickItems.css",
 				"scripts/features/faction-stakeouts/ttFactionStakeouts.css",
-				"scripts/features/show-faction-spy/ttShowFactionSpy.css"
+				"scripts/features/show-faction-spy/ttShowFactionSpy.css",
+				"scripts/features/warn-crime/ttWarnCrime.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -405,7 +406,8 @@
 				"scripts/features/faction-id/ttFactionID.js",
 				"scripts/features/show-faction-spy/ttShowFactionSpy.js",
 				"scripts/features/ff-scouter/ttFFScouterFaction.js",
-				"scripts/features/oc2-filter/ttOC2Filter.js"
+				"scripts/features/oc2-filter/ttOC2Filter.js",
+				"scripts/features/warn-crime/ttWarnCrime.js"
 			],
 			"run_at": "document_end"
 		},
