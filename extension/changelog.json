@@ -5,7 +5,9 @@
 		"date": "2025/03/17",
 		"logs": {
 			"features": [{ "message": "Filter on OC2 crimes.", "contributor": "DeKleineKobini" }],
-			"changes": [{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" }]
+			"fixes": [],
+			"changes": [{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" }],
+			"removed": []
 		}
 	},
 	{
