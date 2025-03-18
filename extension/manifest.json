@@ -361,8 +361,7 @@
 				"scripts/features/medical-life/ttMedicalLife.css",
 				"scripts/features/faction-quick-items/ttFactionQuickItems.css",
 				"scripts/features/faction-stakeouts/ttFactionStakeouts.css",
-				"scripts/features/show-faction-spy/ttShowFactionSpy.css",
-				"scripts/features/oc2-filter/ttOC2Filter.css"
+				"scripts/features/show-faction-spy/ttShowFactionSpy.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
