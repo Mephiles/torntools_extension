@@ -67,11 +67,28 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		}
 
 		async function loadCrimes() {
-			await requireElement("#faction-crimes .crimes-list");
+			let loaded = false;
 
-			triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES);
+			requireElement("#faction-crimes .crimes-list", { maxCycles: 20 })
+				.then(() => {
+					loaded = true;
+					triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES);
+				})
+				.catch((cause) => loaded || console.error(cause));
+			requireElement("#faction-crimes-root [class*='buttonsContainer___']", { maxCycles: 20 })
+				.then(async () => {
+					loaded = true;
+
+					const list = await requireElement("#faction-crimes-root .page-head-delimiter + div:not([class])");
+					await requireElement("[class*='loader___']", { parent: list, invert: true });
+					list.classList.add("tt-oc2-list");
+
+					triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES2);
+
+					new MutationObserver(() => triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH)).observe(list, { childList: true });
+				})
+				.catch((cause) => loaded || console.error(cause));
 		}
-
 		async function loadArmory() {
 			const tab = await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
 			await requireElement(`#${tab.getAttribute("aria-controls")} > .ajax-preloader`, { invert: true });

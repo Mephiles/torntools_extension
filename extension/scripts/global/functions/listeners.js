@@ -16,6 +16,8 @@ const EVENT_CHANNELS = {
 	COMPANY_STOCK_PAGE: "company-stock-page",
 	FACTION_ARMORY_TAB: "faction-armory-tab",
 	FACTION_CRIMES: "faction-crimes",
+	FACTION_CRIMES2: "faction-crimes2",
+	FACTION_CRIMES2_REFRESH: "faction-crimes2-refresh",
 	FACTION_GIVE_TO_USER: "faction-give-to-user",
 	FACTION_UPGRADE_INFO: "faction-upgrade-info",
 	FACTION_INFO: "faction-info",
