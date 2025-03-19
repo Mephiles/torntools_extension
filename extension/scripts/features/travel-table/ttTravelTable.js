@@ -55,7 +55,7 @@
 
 	async function startTable() {
 		if (isFlying()) startFlyingTable();
-		else if (window.location.search.includes("sid=travel")) {
+		else {
 			await createTable();
 		}
 
