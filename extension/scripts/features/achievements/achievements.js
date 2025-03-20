@@ -199,12 +199,6 @@ const ACHIEVEMENTS = [
 		requirements: { pages: ["education"] },
 	},
 	{
-		name: "Org. crimes",
-		stats: () => userdata.personalstats.crimes.offenses.organized_crimes ?? userdata.personalstats.crimes.organized_crimes,
-		detection: { keyword: "organized crimes" },
-		requirements: { pages: ["factions"] },
-	},
-	{
 		name: "Respect",
 		stats: () => userdata.personalstats.attacking.faction.respect,
 		detection: { keyword: "respect", include: ["earn"], exclude: ["hit"] },
@@ -754,6 +748,12 @@ const ACHIEVEMENTS = [
 		detection: { keyword: "other crimes" },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
+	{
+		name: "Org. crimes",
+		stats: () => userdata.personalstats.crimes.organized_crimes,
+		detection: { keyword: "organized crimes" },
+		requirements: { pages: ["factions"], condition: () => userdata.personalstats.crimes.version === "v1" },
+	},
 
 	// Crimes 2.0
 	{
@@ -895,6 +895,12 @@ const ACHIEVEMENTS = [
 		stats: () => userdata.personalstats.crimes.skills.scamming,
 		detection: { keyword: "scamming", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
+	},
+	{
+		name: "Org. crimes",
+		stats: () => userdata.personalstats.crimes.offenses.organized_crimes,
+		detection: { keyword: "organized crimes" },
+		requirements: { pages: ["factions"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 ];
 
