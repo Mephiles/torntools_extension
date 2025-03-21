@@ -1,9 +1,13 @@
 function getTornItemName(id) {
-	return hasAPIData() ? torndata.items[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
+	return getTornItem(id)?.name ?? null;
 }
 
 function getTornItemType(id) {
-	return hasAPIData() ? torndata.items[id].type : id in TORN_ITEMS ? TORN_ITEMS[id].type : null;
+	return getTornItem(id)?.type ?? null;
+}
+
+function getTornItem(id) {
+	return hasAPIData() && id in torndata.items ? torndata.items[id] : id in TORN_ITEMS ? TORN_ITEMS[id] : null;
 }
 
 const TORN_ITEMS = {
