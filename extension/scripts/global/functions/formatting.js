@@ -58,7 +58,6 @@ function textToTime(time, options = {}) {
 		}
 	} else {
 		let group;
-		// noinspection JSUnusedAssignment
 		if ((group = time.match(/(\d+) ?d/i))) {
 			millis += parseInt(group[1]) * TO_MILLIS.DAYS;
 		}

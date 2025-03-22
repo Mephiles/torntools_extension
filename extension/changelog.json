@@ -11,7 +11,8 @@
 			"fixes": [
 				{ "message": "Fix Travel Table appearing on Home page when not flying.", "contributor": "TheFoxMan" },
 				{ "message": "Fix achievements being broken when still on crimes 1.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix refills for faction quick items. Might need to readd them though.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix refills for faction quick items. Might need to read them though.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix travel time not showing up on mobile view.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" }],
 			"removed": []

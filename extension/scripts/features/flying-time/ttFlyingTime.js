@@ -46,7 +46,9 @@
 		);
 		if (!container) return;
 
-		const durationText = container.querySelector("[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]")?.textContent;
+		const durationText = container.querySelector(
+			["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", ")
+		)?.textContent;
 		if (!durationText) return;
 
 		const duration = textToTime(durationText);
