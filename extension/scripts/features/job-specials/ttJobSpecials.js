@@ -39,7 +39,20 @@
 		const companyInfo = COMPANY_INFORMATION[companyType];
 
 		for (const stars of [1, 3, 5, 7, 10]) {
-			const { name, cost, effect } = companyInfo[stars];
+			let name, cost, effect;
+			if (stars in companyInfo) {
+				name = companyInfo[stars].name;
+				cost = companyInfo[stars].cost;
+				effect = companyInfo[stars].effect;
+			} else {
+				name = "No Special";
+				cost = "N/A";
+				effect = "";
+			}
+
+			let costText;
+			if (cost === "Passive" || cost === "N/A") costText = cost;
+			else costText = `${cost} job point${applyPlural(cost)}`;
 
 			if (!mobile) {
 				content.appendChild(
@@ -49,7 +62,7 @@
 						children: [
 							document.newElement({ type: "div", class: "heading", text: `${name} (${stars}★)` }),
 							document.newElement({ type: "hr", class: "first-hr" }),
-							document.newElement({ type: "div", text: `${cost} ${cost === "Passive" ? "" : cost === "1" ? "job point" : "job points"}` }),
+							document.newElement({ type: "div", text: costText }),
 							document.newElement({ type: "hr", class: "second-hr" }),
 							document.newElement({ type: "div", text: effect }),
 						],
@@ -66,7 +79,7 @@
 								class: "heading",
 								children: [document.newElement({ type: "div", text: name }), document.newElement({ type: "div", text: `(${stars}★)` })],
 							}),
-							document.newElement({ type: "div", text: `${cost} ${cost === "Passive" ? "" : cost === "1" ? "job point" : "job points"}` }),
+							document.newElement({ type: "div", text: costText }),
 							document.newElement({ type: "div", text: effect }),
 						],
 					})
