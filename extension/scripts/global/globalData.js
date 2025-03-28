@@ -590,6 +590,7 @@ const DEFAULT_STORAGE = {
 				blackjack: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlow: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				highlowMovement: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				fastSlotsAnimations: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			racing: {
 				winPercentage: new DefaultSetting({ type: "boolean", defaultValue: true }),

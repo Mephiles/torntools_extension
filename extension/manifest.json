@@ -286,6 +286,11 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/page.php?sid=slots*"],
+			"js": ["scripts/features/casino-slots-animation-speed/ttSlotsAnimationSpeed.entry.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/companies.php*"],
 			"css": [
 				"scripts/features/company-specials/ttCompanySpecials.css",
