@@ -35,21 +35,23 @@
 					if (bbcEditor.innerHTML.startsWith("Debug Information:")) return;
 
 					// Get browser info.
-					let browser = "Not defined";
 					if (!debugInfo) {
 						const ttVersion = "TornTools version: " + version.current;
 
 						if (navigator.userAgentData) {
 							// Chrome and others
-							debugInfo = await navigator.userAgentData.getHighEntropyValues([
+							const uaData = await navigator.userAgentData.getHighEntropyValues([
 								"fullVersionList",
 								"model",
 								"platform",
 								"platformVersion",
 								"uaFullVersion",
 							]);
-							const platformInfo = debugInfo.platform + " " + debugInfo.platformVersion;
-							const browserInfo = debugInfo.fullVersionList[1].brand + " v" + debugInfo.uaFullVersion.split(".")[0];
+							const platformInfo = uaData.platform + " " + uaData.platformVersion;
+							const browserInfo = uaData.brands
+								.filter((b) => !b.brand.includes("Brand"))
+								.map((b) => `${b.brand} v${b.version}`)
+								.join(" - ");
 
 							debugInfo = platformInfo + "<br>" + browserInfo;
 						} else {
