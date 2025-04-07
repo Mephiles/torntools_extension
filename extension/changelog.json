@@ -17,7 +17,10 @@
 				{ "message": "Fix the gym stat disable not allowing trains when deselecting the checkbox.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix debug info listing a useless browser brand.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" },
+				{ "message": "Improve OC version detection.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},

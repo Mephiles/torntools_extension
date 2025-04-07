@@ -19,7 +19,7 @@
 		async () => {
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.external.yata && !settings.external.tornstats) return "YATA or TornStats not enabled";
-			else if (!!userdata.organizedCrime) return "No OC 1 data.";
+			else if (!hasOC1Data()) return "No OC 1 data.";
 
 			await checkDevice();
 		}

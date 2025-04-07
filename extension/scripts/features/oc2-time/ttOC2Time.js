@@ -21,7 +21,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!userdata.organizedCrime) return "No OC data (still on OC 1?).";
+			else if (!hasOC2Data()) return "No OC 2 data.";
 		}
 	);
 
@@ -34,7 +34,7 @@
 
 		const elements = [];
 
-		const inCrime = ["Recruiting", "Planning"].includes(userdata.organizedCrime.status);
+		const inCrime = userdata.organizedCrime !== null ? ["Recruiting", "Planning"].includes(userdata.organizedCrime.status) : false;
 		if (inCrime) {
 			elements.push(buildTimeLeftElement());
 			if (settings.pages.sidebar.oc2TimerPosition) {
@@ -52,7 +52,15 @@
 			document.newElement({
 				type: "section",
 				id: "oc2Timer",
-				children: [document.newElement({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), ...elements],
+				children: [
+					document.newElement({
+						type: "a",
+						class: "title",
+						text: "OC: ",
+						href: LINKS.organizedCrimes,
+					}),
+					...elements,
+				],
 				style: { order: 1 },
 			})
 		);
@@ -123,7 +131,12 @@
 
 		const parent = document.find("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']");
 
-		parent.appendChild(document.newElement({ type: "hr", class: "tt-sidebar-information-divider tt-delimiter tt-hidden" }));
+		parent.appendChild(
+			document.newElement({
+				type: "hr",
+				class: "tt-sidebar-information-divider tt-delimiter tt-hidden",
+			})
+		);
 		parent.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information tt-hidden" }));
 	}
 

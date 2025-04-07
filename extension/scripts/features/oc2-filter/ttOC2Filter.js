@@ -13,7 +13,9 @@
 		{
 			storage: ["settings.pages.faction.oc2Filter"],
 		},
-		null
+		() => {
+			if (hasOC1Data()) return "Still on OC1.";
+		}
 	);
 
 	function addListener() {

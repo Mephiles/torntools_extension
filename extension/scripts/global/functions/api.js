@@ -372,6 +372,19 @@ function hasFactionAPIAccess() {
 	return factiondata?.access === FACTION_ACCESS.full_access;
 }
 
+function hasOC2Data() {
+	if (!hasAPIData() || !("organizedCrime" in userdata)) return false;
+
+	return userdata.organizedCrime === null || !("error" in userdata.organizedCrime);
+}
+
+function hasOC1Data() {
+	if (!hasAPIData() || !("organizedCrime" in userdata)) return false;
+
+	// 27: "Must be migrated to organized crimes 2.0"
+	return userdata.organizedCrime !== null && userdata.organizedCrime.error === 27;
+}
+
 async function hasOrigins(...origins) {
 	return new Promise((resolve) => chrome.permissions.contains({ origins }, (granted) => resolve(granted)));
 }
