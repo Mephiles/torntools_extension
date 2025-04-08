@@ -19,7 +19,15 @@
 			],
 			"changes": [
 				{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve OC version detection.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve OC version detection.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust block zalgo to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust chat autocomplete to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust chat highlight to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust colored chat to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust font size to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust hide chat to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust search chat to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust trade timer to work with the new chat 3.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

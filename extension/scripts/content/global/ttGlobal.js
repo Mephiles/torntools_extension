@@ -34,35 +34,91 @@
 	async function observeChat() {
 		await requireChatsLoaded();
 
-		const chatRefreshObserver = new MutationObserver(() => {
-			triggerCustomListener(EVENT_CHANNELS.CHAT_REFRESHED);
-		});
-		new MutationObserver(() => {
-			triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
-		}).observe(document.find("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
-		new MutationObserver((mutations) => {
-			for (const mutation of mutations) {
-				mutation.addedNodes.forEach((node) => {
-					if (node.tagName === "svg") return;
+		if (isChatV3()) {
+			const chatRefreshObserver = new MutationObserver((mutations) => {
+				triggerCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, { chat: mutations[0].target });
+			});
+			new MutationObserver((mutations) => {
+				if (mutations.every((mutation) => mutation.removedNodes.length === 0)) return;
 
-					if (node.className?.includes("group-chat-box__")) {
-						triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
+				triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
+			}).observe(document.find("#chatRoot > [class*='root___'] > [class*='root___']:first-child"), {
+				childList: true,
+			});
+			new MutationObserver((mutations) => {
+				for (const mutation of mutations) {
+					mutation.addedNodes.forEach((node) => {
+						if (node.tagName === "svg") return;
 
-						chatRefreshObserver.observe(node.find("[class*='chat-box-body__']"), { childList: true });
-					} else if (!node.className && node.parentElement?.className.includes("chat-box-body__"))
-						triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
-					else if (node.className?.includes("chat-app__panel__")) {
-						if (node.children[0].className.includes("settings-panel__"))
-							triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node.children[0] });
-						else triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
-					}
-				});
+						if (node.className?.includes("item___")) {
+							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
+							chatRefreshObserver.observe(node.find("[class*='scrollContainer___'] > [class*='list___']"), { childList: true });
+						} else if (node.id === "settings_panel") {
+							const panel = mutation.target.querySelector(":scope > [class*='root___']");
 
-				const openedChats = document.findAll("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
-				if (openedChats.length) chatRefreshObserver.observe(openedChats[0].find("[class*='chat-box-body__']"), { childList: true });
-				else chatRefreshObserver.disconnect();
+							triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: panel });
+						} else if (node.id === "people_panel") {
+							const panel = mutation.target.querySelector(":scope > [class*='root___']");
+
+							triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: panel });
+						} else if (
+							mutation.target.className.includes("list___") &&
+							node.className?.includes("root___") &&
+							!node.className?.includes("messageGroupTimestamp___")
+						) {
+							triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
+						}
+					});
+				}
+			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
+			new MutationObserver(() => {
+				triggerCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED);
+			}).observe(document.find("#chatRoot"), { childList: true });
+
+			for (const chat of document.findAll("#chatRoot > [class*='root___'] > [class*='root___'] > [class*='item___']")) {
+				const chatPanel = chat.find(":scope > [class*='root___']");
+				if (!chatPanel) continue; // No content in the panel.
+
+				if (chatPanel.id === "people_panel") {
+					triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: chat });
+				} else if (chatPanel.id === "settings_panel") {
+					triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: chat });
+				} else if (!chatPanel.id) {
+					// Special panels have an id, normal chats don't.
+					triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: chat });
+				}
 			}
-		}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
+		} else {
+			const chatRefreshObserver = new MutationObserver(() => {
+				triggerCustomListener(EVENT_CHANNELS.CHAT_REFRESHED);
+			});
+			new MutationObserver(() => {
+				triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
+			}).observe(document.find("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
+			new MutationObserver((mutations) => {
+				for (const mutation of mutations) {
+					mutation.addedNodes.forEach((node) => {
+						if (node.tagName === "svg") return;
+
+						if (node.className?.includes("group-chat-box__")) {
+							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
+
+							chatRefreshObserver.observe(node.find("[class*='chat-box-body__']"), { childList: true });
+						} else if (!node.className && node.parentElement?.className.includes("chat-box-body__")) {
+							triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
+						} else if (node.className?.includes("chat-app__panel__")) {
+							if (node.children[0].className.includes("sett`ings-panel__"))
+								triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node.children[0] });
+							else triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
+						}
+					});
+
+					const openedChats = document.findAll("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
+					if (openedChats.length) chatRefreshObserver.observe(openedChats[0].find("[class*='chat-box-body__']"), { childList: true });
+					else chatRefreshObserver.disconnect();
+				}
+			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
+		}
 	}
 
 	async function observeBody() {

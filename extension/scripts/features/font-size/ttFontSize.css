@@ -1,3 +1,9 @@
 #chatRoot :is([class*="chat-box-message__sender__"], [class*="chat-box-message__box__"] p) {
 	font-size: var(--torntools-chat-font-size, 12px) !important;
 }
+
+#chatRoot [class*="sender___"],
+#chatRoot [class*="body__"][class*="message___"] span {
+	font-size: var(--torntools-chat-font-size, 12px) !important;
+	line-height: var(--torntools-chat-font-size, 15px) !important;
+}

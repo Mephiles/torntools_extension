@@ -19,7 +19,7 @@
 		if (!settingsPanel) {
 			await requireChatsLoaded();
 
-			settingsPanel = document.find("#chatRoot [class*='settings-panel__']");
+			settingsPanel = document.find("#chatRoot [class*='settings-panel__'], #settings_panel");
 		}
 
 		if (!settingsPanel) return;
@@ -35,7 +35,11 @@
 			ttStorage.change({ settings: { pages: { chat: { hideChat: checked } } } });
 		});
 
-		settingsPanel.children[1].insertAdjacentElement("afterbegin", checkbox.element);
+		if (!settingsPanel.id) {
+			settingsPanel.children[1].insertAdjacentElement("afterbegin", checkbox.element);
+		} else {
+			settingsPanel.find("[class*='content___']").insertAdjacentElement("afterbegin", checkbox.element);
+		}
 	}
 
 	function hideChats() {
