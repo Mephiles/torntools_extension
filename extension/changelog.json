@@ -7,7 +7,8 @@
 				{ "message": "Filter on OC2 crimes.", "contributor": "DeKleineKobini" },
 				{ "message": "Warn when joining a crime without passing the conditions (only item for now).", "contributor": "DeKleineKobini" },
 				{ "message": "Filter on the friends page.", "contributor": "DeKleineKobini" },
-				{ "message": "Stats estimates on the targets page.", "contributor": "DeKleineKobini" }
+				{ "message": "Stats estimates on the targets page.", "contributor": "DeKleineKobini" },
+				{ "message": "Filter on the targets page.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Fix Travel Table appearing on Home page when not flying.", "contributor": "TheFoxMan" },

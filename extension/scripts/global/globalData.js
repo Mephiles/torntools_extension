@@ -679,6 +679,9 @@ const DEFAULT_STORAGE = {
 			friends: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			targets: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {
@@ -925,6 +928,12 @@ const DEFAULT_STORAGE = {
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+		},
+		targets: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		burglary: {
 			targetType: new DefaultSetting({ type: "string", defaultValue: "" }),

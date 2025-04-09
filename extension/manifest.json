@@ -862,7 +862,8 @@
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
-				"scripts/features/stats-estimate/ttStatsEstimateTargets.js"
+				"scripts/features/stats-estimate/ttStatsEstimateTargets.js",
+				"scripts/features/target-filter/ttTargetFilter.js"
 			],
 			"run_at": "document_end"
 		},
