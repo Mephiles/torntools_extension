@@ -857,6 +857,16 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/page.php?sid=list&type=targets*"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateTargets.js"
+			],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/halloffame.php*"],
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateHOF.js"],

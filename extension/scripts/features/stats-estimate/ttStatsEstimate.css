@@ -53,3 +53,7 @@ body.dark-mode .bounties-list .tt-stats-estimate {
 .faction-war .tt-stats-estimate {
 	border-bottom: unset;
 }
+
+.tt-transparent-estimates .tt-stats-estimate {
+	background-color: var(--default-bg-panel-color);
+}

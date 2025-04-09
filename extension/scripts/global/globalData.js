@@ -714,6 +714,7 @@ const DEFAULT_STORAGE = {
 				abroad: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				competition: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				rankedWars: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				targets: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			ffScouter: {
 				miniProfile: new DefaultSetting({ type: "boolean", defaultValue: true }),
