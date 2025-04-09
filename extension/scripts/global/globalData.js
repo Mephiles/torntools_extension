@@ -676,6 +676,12 @@ const DEFAULT_STORAGE = {
 			enemies: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			friends: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
+			targets: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {
@@ -711,6 +717,7 @@ const DEFAULT_STORAGE = {
 				abroad: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				competition: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				rankedWars: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				targets: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			ffScouter: {
 				miniProfile: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -912,6 +919,17 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		enemies: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+		},
+		friends: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+		},
+		targets: {
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
