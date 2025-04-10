@@ -74,7 +74,7 @@ function requireItemsLoaded() {
 }
 
 function requireChatsLoaded() {
-	return requireElement("#chatRoot [class*='chat-list-button__']");
+	return requireElement("#chatRoot [class*='chat-list-button__'], #notes_settings_button");
 }
 
 function requireFeatureManager() {

@@ -2,8 +2,25 @@
 	margin-bottom: 10px;
 }
 
+/*
+ * Chat 2.0
+ */
+
 .tt-chat-hidden #chatRoot [class*="group-chat-box__"],
 .tt-chat-hidden #chatRoot [class*="group-minimized-chat-box__"],
 .tt-chat-hidden #chatRoot [class*="minimized-menus__root__"] {
+	display: none;
+}
+
+/*
+ * Chat 3.0
+ */
+
+#chatRoot [class*="root___"] .tt-hide-chat-option {
+	margin-block: 10px 5px;
+}
+
+.tt-chat-hidden #chatRoot > [class*="root___"] > [class*="root___"]:first-child > [class*="item___"]:has(> [class*="root___"]:not([id])),
+.tt-chat-hidden #chatRoot > [class*="root___"] > [class*="root___"]:nth-child(2) > div[class*="root___"] {
 	display: none;
 }

@@ -23,3 +23,17 @@
 [class*="member-card__"] svg path[fill*="url(#"] {
 	fill: #ccc;
 }
+
+/*
+ * Chat 3.0
+ */
+
+[class*="root___"] .tt-chat-filter {
+	border-top: 1px solid var(--chat-color-border-secondary, #ccc);
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+
+[class*="root___"] .tt-chat-filter input {
+	background-color: rgba(0, 0, 0, 0.05);
+}

@@ -28,13 +28,15 @@
 	async function readSettings() {
 		await requireChatsLoaded();
 
-		for (const chat of document.findAll("[class*='group-chat-box__chat-box-wrapper__'] [class*='chat-box__']")) {
+		for (const chat of document.findAll(
+			"[class*='group-chat-box__chat-box-wrapper__'] [class*='chat-box__'], #chatRoot [class*='item___'][style*='z-index']"
+		)) {
 			addAutocomplete(chat);
 		}
 	}
 
 	function addAutocomplete(chat) {
-		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__']");
+		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='scrollContainer___'] [class*='box___']");
 		if (!messages.length) return;
 
 		const textarea = chat.find("textarea:not(.tt-chat-autocomplete)");
@@ -55,7 +57,7 @@
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = [...chat.findAll("[class*='chat-box-message__sender__']")]
+			const matchedUsernames = [...chat.findAll("[class*='chat-box-message__sender__'], [class*='sender___']")]
 				.map((message) => message.textContent.split(":")[0])
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
 				.sort();
