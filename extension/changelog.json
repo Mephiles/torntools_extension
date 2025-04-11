@@ -17,7 +17,8 @@
 				{ "message": "Fix travel time not showing up on mobile view.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix job specials not working when there is a company without a special for a certain level.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the gym stat disable not allowing trains when deselecting the checkbox.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix debug info listing a useless browser brand.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix debug info listing a useless browser brand.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the auction house filter breaking for items without damage, accuracy or defence when the respective filter is configured.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" },

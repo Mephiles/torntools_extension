@@ -262,7 +262,13 @@
 		if (filters.damage && !isNaN(filters.damage)) {
 			const damage = parseFloat(filters.damage);
 
-			if (parseFloat(row.find(".bonus-attachment-item-damage-bonus + .label-value").textContent) < damage) {
+			const weaponDamageLabel = row.find(".bonus-attachment-item-damage-bonus + .label-value");
+			if (!weaponDamageLabel) {
+				hide("damage");
+				return;
+			}
+
+			if (parseFloat(weaponDamageLabel.textContent) < damage) {
 				hide("damage");
 				return;
 			}
@@ -270,7 +276,13 @@
 		if (filters.accuracy && !isNaN(filters.accuracy)) {
 			const accuracy = parseFloat(filters.accuracy);
 
-			if (parseFloat(row.find(".bonus-attachment-item-accuracy-bonus + .label-value").textContent) < accuracy) {
+			const weaponAccuracyLabel = row.find(".bonus-attachment-item-accuracy-bonus + .label-value");
+			if (!weaponAccuracyLabel) {
+				hide("accuracy");
+				return;
+			}
+
+			if (parseFloat(weaponAccuracyLabel.textContent) < accuracy) {
 				hide("accuracy");
 				return;
 			}
@@ -278,7 +290,13 @@
 		if (filters.defence && !isNaN(filters.defence)) {
 			const defence = parseFloat(filters.defence);
 
-			if (parseFloat(row.find(".bonus-attachment-item-defence-bonus + .label-value").textContent) < defence) {
+			const armorDefenceLabel = row.find(".bonus-attachment-item-defence-bonus + .label-value");
+			if (!armorDefenceLabel) {
+				hide("defence");
+				return;
+			}
+
+			if (parseFloat(armorDefenceLabel.textContent) < defence) {
 				hide("defence");
 				return;
 			}
