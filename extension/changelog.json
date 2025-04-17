@@ -1,5 +1,11 @@
 [
 	{
+		"version": { "major": 7, "minor": 6, "build": 1 },
+		"title": "Beta",
+		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
 		"version": { "major": 7, "minor": 6, "build": 0 },
 		"title": "Beta",
 		"logs": {
@@ -37,9 +43,9 @@
 				{ "message": "Adjust trade timer to work with the new chat 3.", "contributor": "DeKleineKobini" },
 				{ "message": "Check Easter Egg Hunt times dynamically.", "contributor": "DeKleineKobini" },
 				{ "message": "Option to disable the blocking Easter Egg Hunt alert.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
-		}
+			]
+		},
+		"date": "2025/04/17"
 	},
 	{
 		"version": { "major": 7, "minor": 5, "build": 3 },
