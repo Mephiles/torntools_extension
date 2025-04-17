@@ -1,8 +1,5 @@
 "use strict";
 (async () => {
-	const year = new Date().getUTCFullYear();
-	const now = Date.now();
-
 	if (!isEventActive("Easter Egg Hunt", "events", true)) {
 		return;
 	}
@@ -93,18 +90,6 @@
 	}
 
 	async function highlightEgg(egg) {
-		// Make sure the egg has been loaded.
-		/*if (!egg.complete) {
-			egg.addEventListener("load", () => highlightEgg(egg));
-			return;
-		}
-
-		if (!isVisible(egg)) {
-			console.log("TT detected an hidden egg", egg);
-			egg.classList.add("hidden-egg");
-			return;
-		}*/
-
 		alert("TornTools detected an easter egg on this page.");
 
 		const locationText = calculateLocation(await requireElement(EGG_SELECTOR + " img"));
@@ -142,21 +127,6 @@
 			document.find(".tt-overlay").style = "";
 			popup.remove();
 		}
-	}
-
-	function isVisible(egg) {
-		const canvas = document.newElement({ type: "canvas", attributes: { width: egg.width, height: egg.height } });
-		const context = canvas.getContext("2d");
-		context.drawImage(egg, 0, 0);
-
-		const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
-
-		// total pixels 	= 1520
-		// 0				= 868
-		// not 0			= 652
-
-		// 0 means it's transparent, not having any other pixels means it's completely hidden
-		return data.some((d) => d !== 0);
 	}
 
 	function calculateLocation(element) {
