@@ -377,6 +377,7 @@ const DEFAULT_STORAGE = {
 				properties: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			userV2: {
+				calendar: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),

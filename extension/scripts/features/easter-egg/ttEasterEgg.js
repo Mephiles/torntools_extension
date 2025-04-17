@@ -3,7 +3,9 @@
 	const year = new Date().getUTCFullYear();
 	const now = Date.now();
 
-	if (Date.UTC(year, 2, 28, 12) > now || Date.UTC(year, 3, 4, 12) < now) return;
+	if (!isEventActive("Easter Egg Hunt", "events", true)) {
+		return;
+	}
 
 	featureManager.registerFeature("Easter Eggs", "event", () => settings.pages.competitions.easterEggs, initialiseDetector, enableDetector, null, null, null);
 

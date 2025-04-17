@@ -314,7 +314,7 @@ async function updateUserdata(forceUpdate = false) {
 
 			selections.push(selection);
 		}
-		for (const selection of ["organizedcrime", "personalstats"]) {
+		for (const selection of ["calendar", "organizedcrime", "personalstats"]) {
 			if (!settings.apiUsage.userV2[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -1230,15 +1230,25 @@ async function updateFactionStakeouts() {
 
 async function updateTorndata() {
 	// TODO - Migrate to V2 (many shit).
-	const data = await fetchData("torn", {
+	const dataV1 = await fetchData("torn", {
 		section: "torn",
 		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"],
 	});
-	if (!isValidTorndata(data)) throw new Error("Aborted updating due to an unexpected response.");
-	data.date = Date.now();
+	const dataV2 = await fetchData("tornv2", {
+		section: "torn",
+		selections: ["calendar"],
+	});
+	if (!isValidTorndata(dataV1)) throw new Error("Aborted updating due to an unexpected response.");
+	if (!isValidTorndata(dataV2)) throw new Error("Aborted updating due to an unexpected response in V2.");
 
-	torndata = data;
-	await ttStorage.set({ torndata: data });
+	const newData = {
+		...dataV1,
+		...dataV2,
+		date: Date.now(),
+	};
+
+	torndata = newData;
+	await ttStorage.set({ torndata: newData });
 
 	function isValidTorndata(data) {
 		return !!data && !data.error;

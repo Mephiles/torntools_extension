@@ -228,6 +228,11 @@ async function migrateDatabase(force = false) {
 			}
 
 			updated = true;
+		} else if (version <= toNumericVersion("7.6.0")) {
+			newStorage.userdata = {};
+			newStorage.torndata = {};
+
+			updated = true;
 		}
 
 		if (updated) {

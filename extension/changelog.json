@@ -21,7 +21,8 @@
 				{
 					"message": "Fix the auction house filter breaking for items without damage, accuracy or defence when the respective filter is configured.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Fix Easter Egg Hunt not running because of a time check being incorrect..", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Highlight your own OC2 crime.", "contributor": "DeKleineKobini" },
@@ -33,7 +34,8 @@
 				{ "message": "Adjust font size to work with the new chat 3.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust hide chat to work with the new chat 3.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust search chat to work with the new chat 3.", "contributor": "DeKleineKobini" },
-				{ "message": "Adjust trade timer to work with the new chat 3.", "contributor": "DeKleineKobini" }
+				{ "message": "Adjust trade timer to work with the new chat 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Check Easter Egg Hunt times dynamically.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

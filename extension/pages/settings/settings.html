@@ -407,6 +407,10 @@
 						<div class="header">User Selections V2</div>
 						<div class="note">Disabling certain selections will silently disable certain features that rely on that api selection.</div>
 						<div class="option">
+							<input id="api_usage-userV2_calendar" type="checkbox" />
+							<label for="api_usage-userV2_calendar">Calendar</label>
+						</div>
+						<div class="option">
 							<input id="api_usage-userV2_organizedcrime" type="checkbox" />
 							<label for="api_usage-userV2_organizedcrime">Organized Crime</label>
 						</div>
@@ -1906,7 +1910,7 @@
 							<li>Stakeout target's information. (every 30 seconds (configurable), 1 request per stakeout)</li>
 							<li>Faction crime data. (every 15 minutes)</li>
 							<li>Torn's stock data. (every 5 minutes)</li>
-							<li>Torn's items, point values, properties, honors, medals and educations. (daily)</li>
+							<li>Torn's calendar, items, point values, properties, honors, medals and educations. (2 calls daily)</li>
 						</ul>
 					</li>
 					<li>

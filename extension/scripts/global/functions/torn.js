@@ -1470,6 +1470,137 @@ const WEAPON_BONUSES = [
 	"Wither",
 ];
 
+const BACKUP_CALENDAR_2025 = {
+	calendar: {
+		competitions: [
+			{
+				title: "Christmas Town",
+				description:
+					"Torn's very own festive theme park opens its doors to the public, with citizens able to scour both official and player-created maps to search for treasure and avoid traps!",
+				start: 1766102400,
+				end: 1767225599,
+			},
+		],
+		events: [
+			{
+				title: "Awareness Awareness Week",
+				description: "Increased awareness for one week",
+				start: 1737331200,
+				end: 1737935999,
+			},
+			{
+				title: "Weekend Road Trip",
+				description: "Double racing points & racing skill",
+				start: 1738368000,
+				end: 1738454399,
+			},
+			{
+				title: "Valentine's Day",
+				description: "Love Juice reduces the energy cost of attacking & reviving",
+				start: 1739491200,
+				end: 1739577599,
+			},
+			{
+				title: "Employee Appreciation Day",
+				description: "Job points received tripled & training effects tripled",
+				start: 1741305600,
+				end: 1741391999,
+			},
+			{
+				title: "St Patrick's Day",
+				description: "Alcohol effects are doubled & Green Stout appears in city",
+				start: 1742169600,
+				end: 1742255999,
+			},
+			{
+				title: "420 Day",
+				description: "Cannabis effects are tripled",
+				start: 1745107200,
+				end: 1745193599,
+			},
+			{
+				title: "Museum Day",
+				description: "10% bonus to museum point rewards",
+				start: 1747526400,
+				end: 1747612799,
+			},
+			{
+				title: "World Blood Donor Day",
+				description: "Life and cooldown penalties for drawing blood are halved",
+				start: 1749859200,
+				end: 1749945599,
+			},
+			{
+				title: "World Population Day",
+				description: "Level and weapon EXP gained while attacking is doubled",
+				start: 1752192000,
+				end: 1752278399,
+			},
+			{
+				title: "World Tiger Day",
+				description: "Hunting experience is increased by x5",
+				start: 1753747200,
+				end: 1753833599,
+			},
+			{
+				title: "International Beer Day",
+				description: "Beer items are five times more effective",
+				start: 1754006400,
+				end: 1754092799,
+			},
+			{
+				title: "Tourism Day",
+				description: "Travel capacity doubled for flights leaving during this event",
+				start: 1758931200,
+				end: 1759017599,
+			},
+			{
+				title: "CaffeineCon 2025",
+				description: "Energy drink effects are doubled",
+				start: 1760486400,
+				end: 1760572799,
+			},
+			{
+				title: "Trick or Treat",
+				description: "Dress up and attack others to fill your basket with treats",
+				start: 1761350400,
+				end: 1762041599,
+			},
+			{
+				title: "World Diabetes Day",
+				description: "Candy effects are tripled",
+				start: 1763078400,
+				end: 1763164799,
+			},
+			{
+				title: "Black Friday",
+				description: "Torn's yearly dollar sale sees many bazaars listing goods for $1",
+				start: 1764288000,
+				end: 1764374399,
+			},
+			{
+				title: "Slash Wednesday",
+				description: "Hospital times reduced by 75%",
+				start: 1765324800,
+				end: 1765411199,
+			},
+			{
+				title: "Torn Anniversary",
+				description: "Torn turns 21 years old",
+				start: 1763164800,
+				end: 1763251199,
+			},
+			{
+				title: "Easter Egg Hunt",
+				description:
+					"A variety of different Easter eggs will appear at random throughout Torn. Pick them up to add them into your inventory, then consume them at your leisure to receive their powerful effects.",
+				start: 1744848000,
+				end: 1745452799,
+			},
+		],
+	},
+};
+
 function getNextChainBonus(current) {
 	return CHAIN_BONUSES.find((bonus) => bonus > current);
 }
@@ -1928,4 +2059,31 @@ async function createTTTopLinks() {
 		ttTopLinksCreating = false;
 	});
 	return ttTopLinks;
+}
+
+function isEventActive(name, type, useLocalStart = true) {
+	const calendar = hasAPIData() ? torndata.calendar : BACKUP_CALENDAR_2025.calendar;
+
+	if (!(type in calendar)) throw new Error(`Invalid calendar type '${type}'!`);
+
+	const tornEvent = calendar[type].find((event) => event.title.toLowerCase() === name.toLowerCase());
+	if (!tornEvent) return false;
+
+	const start = new Date(tornEvent.start * 1000);
+	const end = new Date(tornEvent.end * 1000);
+
+	if (useLocalStart && hasAPIData()) {
+		const timeParts = userdata.calendar.start_time.split(" ")[0].split(":");
+		const hours = parseInt(timeParts[0]);
+		const minutes = parseInt(timeParts[1]);
+
+		start.setUTCHours(hours);
+		start.setUTCMinutes(minutes);
+		end.setUTCHours(hours);
+		end.setUTCMinutes(minutes);
+	}
+
+	const now = new Date();
+
+	return now > start && now < end;
 }
