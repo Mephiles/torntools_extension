@@ -90,7 +90,9 @@
 	}
 
 	async function highlightEgg(egg) {
-		alert("TornTools detected an easter egg on this page.");
+		if (settings.pages.competitions.easterEggsAlert) {
+			alert("TornTools detected an easter egg on this page.");
+		}
 
 		const locationText = calculateLocation(await requireElement(EGG_SELECTOR + " img"));
 

@@ -540,6 +540,7 @@ const DEFAULT_STORAGE = {
 			},
 			competitions: {
 				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				easterEggsAlert: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			events: {
 				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),

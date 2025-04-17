@@ -35,7 +35,8 @@
 				{ "message": "Adjust hide chat to work with the new chat 3.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust search chat to work with the new chat 3.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust trade timer to work with the new chat 3.", "contributor": "DeKleineKobini" },
-				{ "message": "Check Easter Egg Hunt times dynamically.", "contributor": "DeKleineKobini" }
+				{ "message": "Check Easter Egg Hunt times dynamically.", "contributor": "DeKleineKobini" },
+				{ "message": "Option to disable the blocking Easter Egg Hunt alert.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
