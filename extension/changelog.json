@@ -3,7 +3,17 @@
 		"version": { "major": 7, "minor": 6, "build": 1 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [
+				{
+					"message": "Move drag-drop-touch to our own ownership, to be in compliance with Firefox 3rd-party library rules.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 6, "build": 0 },
