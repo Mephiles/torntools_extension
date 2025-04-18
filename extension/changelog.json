@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 7, "minor": 6, "build": 1 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [],
@@ -17,7 +16,6 @@
 	},
 	{
 		"version": { "major": 7, "minor": 6, "build": 0 },
-		"title": "Beta",
 		"logs": {
 			"features": [
 				{ "message": "Filter on OC2 crimes.", "contributor": "DeKleineKobini" },
