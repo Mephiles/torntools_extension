@@ -769,7 +769,7 @@ async function setupMarketSearch() {
 					? Promise.resolve(ttCache.get("tornpalPrice", id))
 					: fetchData("tornpal", { section: `markets/clist/${id}` })
 						.then(result => {
-							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "tornpalPrice");
+							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 60, "tornpalPrice");
 							return result;
 						}))
 				: Promise.resolve({ listings: [] })
