@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 6, "build": 2 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 6, "build": 1 },
