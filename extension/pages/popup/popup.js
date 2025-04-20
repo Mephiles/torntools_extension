@@ -753,36 +753,49 @@ async function setupMarketSearch() {
 
 		showLoadingPlaceholder(viewItem.find(".market").parentElement, true);
 
-		if (ttCache.hasValue("livePrice", id)) {
-			handleMarket(ttCache.get("livePrice", id));
-			showLoadingPlaceholder(viewItem.find(".market").parentElement, false);
-		} else {
-			fetchData("tornv2", { section: "market", id, selections: ["itemmarket"] })
-				.then((result) => {
-					handleMarket(result);
+		// Make both API calls in parallel
+		Promise.all([
+			// Torn market data
+			ttCache.hasValue("livePrice", id) 
+				? Promise.resolve(ttCache.get("livePrice", id))
+				: fetchData("tornv2", { section: "market", id, selections: ["itemmarket"] })
+					.then(result => {
+						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
+						return result;
+					}),
+			// TornPal market data - only fetch if both market search and bazaar search are enabled
+			(settings.pages.popup.marketSearch && settings.pages.popup.bazaarSearch && settings.external.tornpal)
+				? (ttCache.hasValue("tornpalPrice", id)
+					? Promise.resolve(ttCache.get("tornpalPrice", id))
+					: fetchData("tornpal", { section: `markets/clist/${id}` })
+						.then(result => {
+							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 60, "tornpalPrice");
+							return result;
+						}))
+				: Promise.resolve({ listings: [] })
+		])
+		.then(([tornResult, tornpalResult]) => {
+			handleMarket(tornResult, tornpalResult);
+		})
+		.catch((error) => {
+			document.find(".error").classList.remove("tt-hidden");
+			document.find(".error").textContent = error.message;
+		})
+		.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
 
-					ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
-				})
-				.catch((error) => {
-					document.find(".error").classList.remove("tt-hidden");
-					document.find(".error").textContent = error.message;
-				})
-				.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
-		}
-
-		function handleMarket(result) {
+		function handleMarket(tornResult, tornpalResult) {
 			const list = viewItem.find(".market");
 			list.innerHTML = "";
 
-			if (!isSellable(id) && !result.itemmarket.listings.length) {
+			if (!isSellable(id) && !tornResult.itemmarket.listings.length) {
 				list.classList.add("untradable");
 				list.innerHTML = "Item is not sellable!";
 			} else {
 				// Item market listings.
 				const itemMarketWrap = document.newElement({ type: "div" });
 				itemMarketWrap.appendChild(document.newElement({ type: "h4", text: "Item Market" }));
-				if (result.itemmarket?.listings?.length) {
-					for (const item of result.itemmarket.listings.slice(0, 3)) {
+				if (tornResult.itemmarket?.listings?.length) {
+					for (const item of tornResult.itemmarket.listings.slice(0, 3)) {
 						itemMarketWrap.appendChild(
 							document.newElement({
 								type: "div",
@@ -801,6 +814,32 @@ async function setupMarketSearch() {
 					);
 				}
 				list.appendChild(itemMarketWrap);
+
+				// TornPal market listings
+				const tornpalMarketWrap = document.newElement({ type: "div" });
+				tornpalMarketWrap.appendChild(document.newElement({ type: "h4", text: "Bazaars" }));
+				if (settings.pages.popup.bazaarSearch && settings.external.tornpal && tornpalResult?.listings?.length) {
+					for (const item of tornpalResult.listings.slice(0, 3)) {
+						tornpalMarketWrap.appendChild(
+							document.newElement({
+								type: "div",
+								class: "price",
+								text: `${item.quantity}x | $${formatNumber(item.price)}`,
+							})
+						);
+					}
+				} else {
+					tornpalMarketWrap.appendChild(
+						document.newElement({
+							type: "div",
+							class: "price no-price",
+							text: "No listings found.",
+						})
+					);
+				}
+				if (settings.pages.popup.bazaarSearch && settings.external.tornpal) {
+					list.appendChild(tornpalMarketWrap);
+				}
 			}
 			viewItem.find(".market").classList.remove("tt-hidden");
 		}
@@ -1038,7 +1077,7 @@ async function setupStocksOverview() {
 						text: `(${formatNumber(userStock.total_shares, { shorten: 2 })} share${applyPlural(userStock.total_shares)})`,
 					})
 				);
-				wrapper.appendChild(
+				heading.appendChild(
 					document.newElement({
 						type: "div",
 						class: `profit ${getProfitClass(profit)}`,
