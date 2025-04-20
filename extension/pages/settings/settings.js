@@ -974,7 +974,6 @@ async function setupPreferences(requireCleanup) {
 		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
 		settings.external.lzpt = _preferences.find("#external-lzpt").checked;
 		settings.external.tornpal = _preferences.find("#external-tornpal").checked;
-		settings.pages.popup.bazaarSearch = _preferences.find("#popup-bazaarSearch").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {

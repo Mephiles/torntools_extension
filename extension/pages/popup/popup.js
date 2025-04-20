@@ -762,8 +762,8 @@ async function setupMarketSearch() {
 						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
 						return result;
 					}),
-			// TornPal market data - only fetch if both market search and bazaar search are enabled
-			settings.pages.popup.marketSearch && settings.pages.popup.bazaarSearch && settings.external.tornpal
+			// TornPal market data - only fetch if both bazaar search is enabled and connection to TornPal is allowed
+			settings.pages.popup.bazaarUsingExternal && settings.external.tornpal
 				? ttCache.hasValue("tornpalPrice", id)
 					? Promise.resolve(ttCache.get("tornpalPrice", id))
 					: fetchData("tornpal", { section: `markets/clist/${id}` }).then((result) => {
@@ -816,7 +816,7 @@ async function setupMarketSearch() {
 				// TornPal market listings
 				const tornpalMarketWrap = document.newElement({ type: "div" });
 				tornpalMarketWrap.appendChild(document.newElement({ type: "h4", text: "Bazaars" }));
-				if (settings.pages.popup.bazaarSearch && settings.external.tornpal && tornpalResult?.listings?.length) {
+				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornpal && tornpalResult?.listings?.length) {
 					for (const item of tornpalResult.listings.slice(0, 3)) {
 						tornpalMarketWrap.appendChild(
 							document.newElement({
@@ -835,7 +835,7 @@ async function setupMarketSearch() {
 						})
 					);
 				}
-				if (settings.pages.popup.bazaarSearch && settings.external.tornpal) {
+				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornpal) {
 					list.appendChild(tornpalMarketWrap);
 				}
 			}

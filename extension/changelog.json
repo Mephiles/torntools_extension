@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" }],
 			"fixes": [],
 			"changes": [{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" }],
 			"removed": []
