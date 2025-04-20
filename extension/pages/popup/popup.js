@@ -756,32 +756,30 @@ async function setupMarketSearch() {
 		// Make both API calls in parallel
 		Promise.all([
 			// Torn market data
-			ttCache.hasValue("livePrice", id) 
+			ttCache.hasValue("livePrice", id)
 				? Promise.resolve(ttCache.get("livePrice", id))
-				: fetchData("tornv2", { section: "market", id, selections: ["itemmarket"] })
-					.then(result => {
+				: fetchData("tornv2", { section: "market", id, selections: ["itemmarket"] }).then((result) => {
 						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
 						return result;
 					}),
 			// TornPal market data - only fetch if both market search and bazaar search are enabled
-			(settings.pages.popup.marketSearch && settings.pages.popup.bazaarSearch && settings.external.tornpal)
-				? (ttCache.hasValue("tornpalPrice", id)
+			settings.pages.popup.marketSearch && settings.pages.popup.bazaarSearch && settings.external.tornpal
+				? ttCache.hasValue("tornpalPrice", id)
 					? Promise.resolve(ttCache.get("tornpalPrice", id))
-					: fetchData("tornpal", { section: `markets/clist/${id}` })
-						.then(result => {
+					: fetchData("tornpal", { section: `markets/clist/${id}` }).then((result) => {
 							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 60, "tornpalPrice");
 							return result;
-						}))
-				: Promise.resolve({ listings: [] })
+						})
+				: Promise.resolve({ listings: [] }),
 		])
-		.then(([tornResult, tornpalResult]) => {
-			handleMarket(tornResult, tornpalResult);
-		})
-		.catch((error) => {
-			document.find(".error").classList.remove("tt-hidden");
-			document.find(".error").textContent = error.message;
-		})
-		.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
+			.then(([tornResult, tornpalResult]) => {
+				handleMarket(tornResult, tornpalResult);
+			})
+			.catch((error) => {
+				document.find(".error").classList.remove("tt-hidden");
+				document.find(".error").textContent = error.message;
+			})
+			.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
 
 		function handleMarket(tornResult, tornpalResult) {
 			const list = viewItem.find(".market");
