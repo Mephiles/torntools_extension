@@ -169,7 +169,7 @@
 					hideRow(li);
 					continue;
 				}
-			} else if (faction == "In a faction") {
+			} else if (faction === "In a faction") {
 				if (!hasFaction) {
 					hideRow(li);
 					continue;
