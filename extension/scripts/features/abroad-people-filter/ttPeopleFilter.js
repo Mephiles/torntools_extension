@@ -95,12 +95,8 @@
 		localFilters["Status"] = { getSelections: statusFilter.getSelections };
 
 		const levelFilter = createFilterSection({
-			title: "Level Filter",
-			noTitle: true,
-			slider: {
-				min: 1,
-				max: 100,
-				step: 1,
+			type: "LevelAll",
+			typeData: {
 				valueLow: filters.abroadPeople.levelStart,
 				valueHigh: filters.abroadPeople.levelEnd,
 			},

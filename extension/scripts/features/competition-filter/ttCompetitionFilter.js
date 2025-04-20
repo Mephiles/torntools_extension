@@ -77,12 +77,8 @@
 		});
 
 		const levelFilter = createFilterSection({
-			title: "Level Filter",
-			noTitle: true,
-			slider: {
-				min: 1,
-				max: 100,
-				step: 1,
+			type: "LevelPlayer",
+			typeData: {
 				valueLow: filters.competition.levelStart,
 				valueHigh: filters.competition.levelEnd,
 			},

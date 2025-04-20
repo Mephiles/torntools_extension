@@ -60,6 +60,8 @@ function createFilterSection(options) {
 	};
 
 	const isWeaponBonus = options.type === "Weapon Bonus";
+	const isLevelAll = options.type === "LevelAll";
+	const isLevelPlayer = options.type === "LevelPlayer";
 
 	if (options.type === "Activity") {
 		options.title = "Activity";
@@ -71,6 +73,16 @@ function createFilterSection(options) {
 	} else if (isWeaponBonus) {
 		options.title = options.title || "Weapon Bonus";
 		options.classPrefix = "weaponBonus";
+	} else if (isLevelAll || isLevelPlayer) {
+		options.title = "Level Filter";
+		options.noTitle = true;
+		options.slider = {
+			min: isLevelAll ? 0 : 1,
+			max: 100,
+			step: 1,
+			valueLow: options.typeData.valueLow,
+			valueHigh: options.typeData.valueHigh,
+		};
 	}
 
 	const ccTitle = (options.classPrefix || options.title.camelCase(true)) + "__section-class";

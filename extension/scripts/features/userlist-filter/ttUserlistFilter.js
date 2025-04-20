@@ -92,12 +92,8 @@
 		localFilters["Hosp Reason"] = { getSelections: hospReasonFilter.getSelections };
 
 		const levelFilter = createFilterSection({
-			title: "Level Filter",
-			noTitle: true,
-			slider: {
-				min: 1,
-				max: 100,
-				step: 1,
+			type: "LevelAll",
+			typeData: {
 				valueLow: filters.userlist.levelStart,
 				valueHigh: filters.userlist.levelEnd,
 			},

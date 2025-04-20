@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" }],
 			"fixes": [],
-			"changes": [{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow level filters for friends, enemies, targets, user search and abroad go to 0 due to NPCs being level 0.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},
