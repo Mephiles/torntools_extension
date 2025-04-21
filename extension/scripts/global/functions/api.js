@@ -382,7 +382,7 @@ function hasOC1Data() {
 	if (!hasAPIData() || !("organizedCrime" in userdata)) return false;
 
 	// 27: "Must be migrated to organized crimes 2.0"
-	return userdata.organizedCrime !== null && userdata.organizedCrime.error === 27;
+	return userdata.organizedCrime !== null && userdata.organizedCrime.code === 27;
 }
 
 async function hasOrigins(...origins) {
