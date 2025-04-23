@@ -18,10 +18,10 @@
 					"message": "Allow level filters for friends, enemies, targets, user search and abroad go to 0 due to NPCs being level 0.",
 					"contributor": "DeKleineKobini"
 				},
-              {
-                "message": "Allow filtering on temporary weapons in the auction house filter.",
-                "contributor": "DeKleineKobini"
-              }
+				{
+					"message": "Allow filtering on temporary weapons in the auction house filter.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": []
 		}
