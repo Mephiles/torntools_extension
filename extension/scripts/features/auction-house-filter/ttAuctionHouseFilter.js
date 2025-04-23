@@ -254,7 +254,7 @@
 			}
 		}
 		if (filters.weaponType) {
-			if (torndata.items[id].weapon_type.toLowerCase() !== filters.weaponType) {
+			if (torndata.items[id].weapon_type?.toLowerCase() !== filters.weaponType) {
 				hide("weapon_type");
 				return;
 			}
@@ -364,9 +364,9 @@
 
 	function getCategories(itemType) {
 		if (itemType === "weapons") {
-			return ["Melee", "Secondary", "Primary"].sort().map((type) => ({ value: type.toLowerCase(), description: type }));
+			return ["Melee", "Secondary", "Primary", "Temporary"].sort().map((type) => ({ value: type.toLowerCase(), description: type }));
 		} else if (itemType === "items") {
-			return ITEM_TYPES.filter((type) => !["Melee", "Secondary", "Primary", "Defensive", "Unused", "Book"].includes(type))
+			return ITEM_TYPES.filter((type) => !["Melee", "Secondary", "Primary", "Defensive", "Unused", "Book", "Temporary"].includes(type))
 				.sort()
 				.map((type) => ({ value: type.toLowerCase(), description: type }));
 		} else {

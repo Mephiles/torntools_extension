@@ -5,13 +5,23 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" }],
-			"fixes": [{ "message": "Fix OC1 detection not working properly.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix OC1 detection not working properly.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Fix auction house filter breaking for weapon type when a weapon without type appears (like Bolas).",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
 				{
 					"message": "Allow level filters for friends, enemies, targets, user search and abroad go to 0 due to NPCs being level 0.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+              {
+                "message": "Allow filtering on temporary weapons in the auction house filter.",
+                "contributor": "DeKleineKobini"
+              }
 			],
 			"removed": []
 		}
