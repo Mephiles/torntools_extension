@@ -10,7 +10,8 @@
 				{
 					"message": "Fix auction house filter breaking for weapon type when a weapon without type appears (like Bolas).",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Load faction features correctly when opening tabs in a new browser tab.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },

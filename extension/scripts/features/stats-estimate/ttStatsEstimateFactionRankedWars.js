@@ -32,7 +32,7 @@
 	}
 
 	async function startFeature() {
-		if (isOwnFaction && getHashParameters().has("tab")) return;
+		if (isOwnFaction && getFactionSubpage() !== "main") return;
 
 		observeWars();
 	}

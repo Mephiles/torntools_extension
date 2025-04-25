@@ -43,7 +43,7 @@
 		let title, description, key;
 
 		if (isInternal) {
-			if (getHashParameters().get("tab") === "info") {
+			if (getFactionSubpage() === "info") {
 				title = document.find(".faction-title");
 				description = document.find(".faction-description");
 				key = "faction_description_fold";

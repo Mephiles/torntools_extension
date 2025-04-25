@@ -27,7 +27,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
 		document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 
-		switch (getSubpage()) {
+		switch (getFactionSubpage()) {
 			case "main":
 				loadMain().then(() => {});
 				break;
@@ -45,11 +45,6 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				break;
 			default:
 				break;
-		}
-
-		function getSubpage() {
-			const hash = location.hash.replace("#/", "");
-			return !hash || hash.includes("war/") ? "main" : getHashParameters().get("tab") || "";
 		}
 
 		async function loadMain() {
@@ -285,4 +280,18 @@ async function readFactionDetails() {
 
 		return factionID;
 	}
+}
+
+function getFactionSubpage() {
+	const hash = location.hash.replace("#/", "");
+	if (!hash || hash.includes("war/")) return "main";
+
+	const params = getHashParameters();
+	if (params.has("tab")) return params.get("tab");
+
+	if (hash.startsWith("#faction-")) {
+		return hash.substring("#faction-".length);
+	}
+
+	return "";
 }

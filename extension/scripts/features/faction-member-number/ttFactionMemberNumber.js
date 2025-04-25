@@ -32,7 +32,7 @@
 	}
 
 	async function addNumbers(force) {
-		if (!force && isOwnFaction && getHashParameters().get("tab") !== "info") return;
+		if (!force && isOwnFaction && getFactionSubpage() !== "info") return;
 
 		if (document.find(".tt-member-index")) return;
 		await requireElement(".faction-info-wrap .table-body > .table-row");

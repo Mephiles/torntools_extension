@@ -49,7 +49,7 @@
 	}
 
 	async function startFeature(forced) {
-		if (isOwnFaction && (getHashParameters().get("tab") !== "info" || !forced)) return;
+		if (isOwnFaction && (getFactionSubpage() !== "info" || !forced)) return;
 		if (settings.pages.faction.memberFilter && !forced) return;
 
 		await showEstimates();

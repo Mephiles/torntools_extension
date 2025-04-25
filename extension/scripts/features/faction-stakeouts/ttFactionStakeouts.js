@@ -35,7 +35,7 @@
 	}
 
 	async function displayBox() {
-		if (isInternal && getHashParameters().get("tab") !== "info") return;
+		if (isInternal && getFactionSubpage() !== "info") return;
 
 		const { content } = createContainer("Faction Stakeout", {
 			class: "mt10",

@@ -55,7 +55,7 @@
 	let localFilters = {};
 
 	async function addFilter() {
-		if (isOwnFaction && !location.hash.includes("tab=info")) return;
+		if (isOwnFaction && getFactionSubpage() !== "info") return;
 
 		await requireElement(".faction-info-wrap .members-list .table-row");
 
