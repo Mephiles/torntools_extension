@@ -533,6 +533,8 @@ const DEFAULT_STORAGE = {
 				cooldownWarnings: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				autoTravelTableCountry: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				autoFillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				efficientRehab: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				efficientRehabSelect: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			stocks: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),

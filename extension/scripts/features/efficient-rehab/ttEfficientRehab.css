@@ -1,0 +1,12 @@
+.tt-efficient-rehab {
+	border-top: 1px solid var(--default-panel-divider-outer-side-color, #ccc);
+	padding: 10px;
+}
+
+.tt-efficient-rehab--amount {
+	font-weight: bold;
+}
+
+.tt-efficient-rehab--too-much {
+	color: var(--default-red-color, red);
+}

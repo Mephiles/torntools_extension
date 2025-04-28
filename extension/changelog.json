@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" }],
+			"features": [
+				{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" },
+				{ "message": "Make more efficient use of your rehabs.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Fix OC1 detection not working properly.", "contributor": "DeKleineKobini" },
 				{

@@ -438,9 +438,11 @@ function executeScript(filename, remove = true) {
 		},
 	});
 
-	document.head.appendChild(script);
+	requireCondition(() => !!document.head).then(() => {
+		document.head.appendChild(script);
 
-	if (remove) setTimeout(() => script.remove(), 2000);
+		if (remove) setTimeout(() => script.remove(), 2000);
+	});
 }
 
 function updateQuery(key, value) {

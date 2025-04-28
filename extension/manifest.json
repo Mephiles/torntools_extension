@@ -7,34 +7,10 @@
 	"action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 	"background": {
-		"service_worker": "scripts/background.js",
-		"scripts": [
-			"scripts/global/globalClasses.js",
-			"scripts/global/globalData.js",
-			"scripts/global/functions/browser.js",
-			"scripts/global/functions/database.js",
-			"scripts/global/functions/extension.js",
-			"scripts/global/functions/formatting.js",
-			"scripts/global/functions/utilities.js",
-			"scripts/global/functions/api.js",
-			"scripts/global/functions/api-external.js",
-			"scripts/global/functions/torn.js",
-			"scripts/background.js"
-		]
+		"service_worker": "scripts/background.js"
 	},
-	"permissions": ["storage", "notifications", "background", "offscreen", "alarms"],
-	"host_permissions": ["https://api.torn.com/"],
-	"optional_permissions": [
-		"https://www.tornstats.com/*",
-		"https://yata.yt/*",
-		"https://nuke.family/*",
-		"https://tornuhc.eu/*",
-		"https://api.no1irishstig.co.uk/*",
-		"https://prombot.co.uk:8443/*",
-		"https://api.lzpt.io/*",
-		"https://what-the-f.de/*",
-		"https://tornpal.com/*"
-	],
+	"permissions": ["storage", "notifications", "background", "offscreen", "alarms", "tabs"],
+	"host_permissions": ["https://torn.com/"],
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
 		"https://yata.yt/",
@@ -820,6 +796,12 @@
 			"matches": ["https://www.torn.com/city.php*"],
 			"css": ["scripts/features/city-items/ttCityItems.css"],
 			"js": ["scripts/global/functions/torn-items.js", "scripts/features/city-items/ttCityItems.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/index.php?page=rehab*"],
+			"css": ["scripts/features/efficient-rehab/ttEfficientRehab.css"],
+			"js": ["scripts/features/efficient-rehab/ttEfficientRehab.js"],
 			"run_at": "document_end"
 		},
 		{
