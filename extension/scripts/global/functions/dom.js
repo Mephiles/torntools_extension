@@ -186,7 +186,7 @@ function checkDevice() {
 		function check() {
 			const innerWidth = window.innerWidth;
 			mobile = innerWidth <= 600;
-			tablet = innerWidth <= 960 && innerWidth >= 600;
+			tablet = innerWidth <= 1000 && innerWidth >= 600;
 			hasSidebar = innerWidth > 1000;
 
 			resolve({ mobile, tablet, hasSidebar });
