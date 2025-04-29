@@ -144,18 +144,19 @@
 		const scoreStart = parseInt(scores.start);
 		const scoreEnd = parseInt(scores.end);
 
-		const educationBailPerk = userdata.education_perks.filter((perk) => perk.includes("bail cost reduction"));
-		const jobBailPerk = userdata.job_perks.filter((perk) => perk.includes("bail cost reduction"));
-
 		let bailMultiplier = 1;
+		if (hasAPIData() && settings.apiUsage.user.perks) {
+			const educationBailPerk = userdata.education_perks.filter((perk) => perk.includes("bail cost reduction"));
+			if (educationBailPerk.length > 0) {
+				const eduReduction = parseFloat(educationBailPerk[0].split(" ")[1].replace("%", "")) / 100;
+				bailMultiplier *= 1 - eduReduction;
+			}
 
-		if (educationBailPerk.length > 0) {
-			const eduReduction = parseFloat(educationBailPerk[0].split(" ")[1].replace("%", "")) / 100;
-			bailMultiplier *= 1 - eduReduction;
-		}
-		if (jobBailPerk.length > 0) {
-			const jobReduction = parseFloat(jobBailPerk[0].split(" ")[1].replace("%", "")) / 100;
-			bailMultiplier *= 1 - jobReduction;
+			const jobBailPerk = userdata.job_perks.filter((perk) => perk.includes("bail cost reduction"));
+			if (jobBailPerk.length > 0) {
+				const jobReduction = parseFloat(jobBailPerk[0].split(" ")[1].replace("%", "")) / 100;
+				bailMultiplier *= 1 - jobReduction;
+			}
 		}
 
 		if (pageChange) {
