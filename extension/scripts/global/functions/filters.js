@@ -193,8 +193,13 @@ function createFilterSection(options) {
 		return { element: section, getStartEnd, updateCounter };
 
 		function getStartEnd(content) {
+			const rangeElement = content.find(`.${ccTitle} .tt-dual-range`);
+			if (!rangeElement) {
+				return { start: options.slider.valueLow, end: options.slider.valueHigh };
+			}
+
 			// eslint-disable-line no-inner-declarations
-			return { start: content.find(`.${ccTitle} .tt-dual-range`).dataset.low, end: content.find(`.${ccTitle} .tt-dual-range`).dataset.high };
+			return { start: rangeElement.dataset.low, end: rangeElement.dataset.high };
 		}
 
 		function updateCounter(string, content) {
