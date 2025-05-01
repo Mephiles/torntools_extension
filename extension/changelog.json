@@ -17,7 +17,8 @@
 				{ "message": "Load faction features correctly when opening tabs in a new browser tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the faction member filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the jail filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the faction last action feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the faction last action feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix faction fold infobox not always working.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },

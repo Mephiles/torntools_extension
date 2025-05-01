@@ -44,11 +44,11 @@
 
 		if (isInternal) {
 			if (getFactionSubpage() === "info") {
-				title = document.find(".faction-title");
+				title = await requireElement(".faction-title");
 				description = document.find(".faction-description");
 				key = "faction_description_fold";
 			} else {
-				title = document.find("#faction-main [data-title='announcement'][role='heading']");
+				title = await requireElement("#faction-main [data-title='announcement'][role='heading']");
 				description = title.nextElementSibling;
 				key = "faction_announcement_fold";
 			}
