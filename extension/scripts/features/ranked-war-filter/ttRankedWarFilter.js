@@ -153,7 +153,7 @@
 			filterRow(li, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
-		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Ranked War Filter" });
 
 		localFilters["Statistics"].updateStatistics(
 			membersWrap.findAll(".members-list > li:not(.tt-hidden)").length,

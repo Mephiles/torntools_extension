@@ -17,7 +17,7 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 		},
-		{ liveReload: true }
+		null
 	);
 
 	function registerListeners() {
@@ -29,8 +29,8 @@
 			});
 		}
 
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(() => {
-			if (!feature.enabled()) return;
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(({ filter }) => {
+			if (!feature.enabled() || filter !== "Faction Member Filter") return;
 
 			showEstimates();
 		});
@@ -49,9 +49,10 @@
 	}
 
 	async function startFeature(forced) {
-		if (isOwnFaction && (getFactionSubpage() !== "info" || !forced)) return;
+		if (isOwnFaction && getFactionSubpage() !== "info") return;
 		if (settings.pages.faction.memberFilter && !forced) return;
 
+		console.log("DKK estimate start", isOwnFaction, getFactionSubpage());
 		await showEstimates();
 	}
 

@@ -98,7 +98,7 @@
 					document.findAll(".bounties-list > li[data-id]").length,
 					options.parentElement.find(".title .text")
 				);
-			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 
 			function hideBounty(bounty) {
 				bounty.classList.add("tt-hidden");

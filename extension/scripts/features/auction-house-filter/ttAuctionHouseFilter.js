@@ -218,7 +218,7 @@
 			filterRow(row, filters);
 		}
 
-		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Auction House Filter" });
 
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,

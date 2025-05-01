@@ -165,7 +165,7 @@
 			filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
-		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "People Filter" });
 
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".users-list > li:not(.tt-hidden)").length,

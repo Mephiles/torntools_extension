@@ -143,7 +143,7 @@
 			filterRow(row, { activity, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
-		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Enemy Filter" });
 
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".tableWrapper ul > li:not(.tt-hidden)").length,
