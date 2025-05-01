@@ -17,7 +17,7 @@
 		{ triggerCallback: true, liveReload: true }
 	);
 
-	let members;
+	let _members;
 
 	function addListener() {
 		if (isOwnFaction) {
@@ -56,7 +56,7 @@
 		const id = isOwnFaction ? "own" : (await readFactionDetails()).id;
 		if (!id) return;
 
-		await loadMembers(id);
+		const members = await loadMembers(id);
 
 		const list = document.find(".members-list .table-body");
 		list.classList.add("tt-modified");
@@ -87,23 +87,25 @@
 		list.setAttribute("max-hours", maxHours);
 
 		async function loadMembers(id) {
-			if (members) return;
+			if (!_members) {
+				if (ttCache.hasValue("faction-members", id)) {
+					_members = ttCache.get("faction-members", id);
+				} else {
+					_members = (
+						await fetchData("tornv2", {
+							section: "faction",
+							...(isNaN(id) ? {} : { id }),
+							selections: ["members"],
+							silent: true,
+							succeedOnError: true,
+						})
+					).members;
 
-			if (ttCache.hasValue("faction-members", id)) {
-				members = ttCache.get("faction-members", id);
-			} else {
-				members = (
-					await fetchData("tornv2", {
-						section: "faction",
-						...(isNaN(id) ? {} : { id }),
-						selections: ["members"],
-						silent: true,
-						succeedOnError: true,
-					})
-				).members;
-
-				ttCache.set({ [id]: members }, TO_MILLIS.SECONDS * 30, "faction-members").then(() => {});
+					ttCache.set({ [id]: _members }, TO_MILLIS.SECONDS * 30, "faction-members").then(() => {});
+				}
 			}
+
+			return _members;
 		}
 	}
 
