@@ -43,10 +43,19 @@
 		});
 	}
 
+	let interval;
 	const localFilters = {};
+
 	async function addFilters(rankedWarList) {
+		if (interval) {
+			clearInterval(interval);
+			interval = null;
+		}
+
 		if (location.hash.includes("#/war/rank")) rankedWarList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war");
 		if (!rankedWarList) return;
+
+		interval = setInterval(() => filtering(false), 2500);
 
 		const { content } = createContainer("Ranked War Filter", {
 			nextElement: rankedWarList,
