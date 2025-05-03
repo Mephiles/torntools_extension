@@ -92,7 +92,7 @@
 
 /* New Filters CSS Model */
 .tt-filter {
-	font-family: Arial;
+	font-family: Arial !important;
 }
 
 .tt-filter .statistics {

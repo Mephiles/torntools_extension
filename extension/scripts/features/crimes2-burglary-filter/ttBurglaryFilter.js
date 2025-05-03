@@ -1,0 +1,199 @@
+"use strict";
+
+(async () => {
+	const TARGET_TYPE_MAPPING = {
+		Apartment: "Residential Targets",
+		"Beach Hut": "Residential Targets",
+		Bungalow: "Residential Targets",
+		Cottage: "Residential Targets",
+		Farmhouse: "Residential Targets",
+		"Lake House": "Residential Targets",
+		"Luxury Villa": "Residential Targets",
+		"Manor House": "Residential Targets",
+		"Mobile Home": "Residential Targets",
+		"Secluded Cabin": "Residential Targets",
+		"Suburban Home": "Residential Targets",
+		"Tool Shed": "Residential Targets",
+		"Advertising Agency": "Commercial Targets",
+		Barbershop: "Commercial Targets",
+		Chiropractors: "Commercial Targets",
+		"Cleaning Agency": "Commercial Targets",
+		"Dentists Office": "Commercial Targets",
+		"Funeral Directors": "Commercial Targets",
+		"Liquor Store": "Commercial Targets",
+		Market: "Commercial Targets",
+		"Postal Office": "Commercial Targets",
+		"Recruitment Agency": "Commercial Targets",
+		"Self-Storage Facility": "Commercial Targets",
+		Brewery: "Industrial Targets",
+		"Dockside Warehouse": "Industrial Targets",
+		"Farm Storage_Unit": "Industrial Targets",
+		"Fertilizer Plant": "Industrial Targets",
+		Foundry: "Industrial Targets",
+		"Old Factory": "Industrial Targets",
+		"Paper Mill": "Industrial Targets",
+		"Printing Works": "Industrial Targets",
+		Shipyard: "Industrial Targets",
+		Slaughterhouse: "Industrial Targets",
+		Truckyard: "Industrial Targets",
+	};
+
+	if (!getPageStatus().access) return;
+
+	const feature = featureManager.registerFeature(
+		"Burglary Filter",
+		"crimes2",
+		() => settings.pages.crimes2.burglaryFilter,
+		initialise,
+		addFilter,
+		removeFilter,
+		{
+			storage: ["settings.pages.crimes2.burglaryFilter"],
+		},
+		null
+	);
+
+	let CRIMES2_ROWS_START_Y = 64,
+		CRIMES2_ROW_HEIGHT = 51;
+	function initialise() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_BURGLARY_LOADED].push(async ({ crimeRoot, url }) => {
+			if (!feature.enabled()) return;
+
+			const searchParams = (new URL(url)).searchParams
+			if (searchParams.get("step") === "attempt") {
+				await requireElement(".virtual-item.outcome-expanded button.commit-button");
+
+				CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+			}
+
+			addFilter(crimeRoot);
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_HOME_LOADED].push(() => {
+			removeFilter();
+		});
+	}
+
+	const localFilters = {};
+	async function createFilter(crimeRoot) {
+		document.body.classList.add("torntools-burglary-filter");
+
+		const { content, options } = createContainer("Burglary Filter", {
+			class: "mb10",
+			nextElement: crimeRoot,
+			filter: true,
+		});
+
+		const statistics = createStatistics("targets");
+		content.appendChild(statistics.element);
+		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
+
+		const filterContent = document.newElement({
+			type: "div",
+			class: "content",
+		});
+
+		const targetNameFilter = createFilterSection({
+			title: "Target Name",
+			text: "text",
+			default: filters.burglary.targetName,
+			callback: filtering,
+		});
+		filterContent.appendChild(targetNameFilter.element);
+		localFilters["Target Name"] = { getValue: targetNameFilter.getValue };
+
+		const targetTypeFilter = createFilterSection({
+			type: "Target Type",
+			checkboxes: [
+				{ description: "Residential Targets", id: "residential-targets" },
+				{ description: "Commercial Targets", id: "commercial-targets" },
+				{ description: "Industrial Targets", id: "industrial-targets" },
+			],
+			defaults: filters.burglary.targetType,
+			callback: filtering,
+		});
+		filterContent.appendChild(targetTypeFilter.element);
+		localFilters["Target Type"] = { getSelections: targetTypeFilter.getSelections };
+
+		content.appendChild(filterContent);
+
+		return content;
+	}
+
+	async function addFilter(crimeRoot) {
+		if (!window.location.hash.includes("burglary")) return;
+		else {
+			if (!crimeRoot) {
+				crimeRoot = await requireElement(".crime-root.burglary-root");
+			}
+		}
+
+		if (!crimeRoot) return;
+
+		if (!findContainer("Burglary Filter")) createFilter(crimeRoot);
+
+		await filtering();
+	}
+
+	async function filtering(argument) {
+		await requireElement(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']");
+
+		CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+
+		const content = findContainer("Burglary Filter").find("main");
+		const targetName = localFilters["Target Name"].getValue(content).trim();
+		const targetType = localFilters["Target Type"].getSelections(content);
+
+		// Save filters
+		await ttStorage.change({
+			filters: { burglary: { targetName, targetType } },
+		});
+
+		// Actual Filtering
+		// Burglary targets are absolutely positioned on the page, using translateY style.
+		// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
+		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
+		for (const targetEl of document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
+			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent,
+				rowTargetType = TARGET_TYPE_MAPPING[rowTargetName].toLowerCase().replace(" ", "-");
+			if (targetName && !rowTargetName.includes(targetName)) {
+				hideRow(targetEl);
+				continue;
+			}
+			if (targetType.length && !targetType.includes(rowTargetType)) {
+				hideRow(targetEl);
+				continue;
+			}
+			showRow(targetEl, targetRowHeightsSum);
+			targetRowHeightsSum += targetEl.style.height.getNumber();
+		}
+
+		localFilters["Statistics"].updateStatistics(
+			document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
+			document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
+			content
+		);
+
+		function showRow(li, translateHeight) {
+			li.classList.remove("tt-filter-hidden");
+			li.style.transform = `translateY(${translateHeight}px)`;
+		}
+
+		function hideRow(li) {
+			li.style.transform = `translateY(0)`;
+			li.classList.add("tt-filter-hidden");
+		}
+	}
+
+	function removeFilter() {
+		document.body.classList.remove("torntools-burglary-filter");
+		removeContainer("Burglary Filter");
+
+		CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
+		document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__'].tt-filter-hidden").forEach((li) => {
+			li.classList.remove("tt-filter-hidden");
+			li.style.transform = `translateY(${targetRowHeightsSum})`;
+			targetRowHeightsSum += li.style.height.getNumber();
+		});
+	}
+})();
