@@ -7,7 +7,7 @@
 			"features": [
 				{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" },
 				{ "message": "Make more efficient use of your rehabs.", "contributor": "DeKleineKobini" },
-				{ "message": "Crimes 2.0 Burglary Targets filter.", "contributor": "TheFoxMan" },
+				{ "message": "Crimes 2.0 Burglary Targets filter.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
 				{ "message": "Fix OC1 detection not working properly.", "contributor": "DeKleineKobini" },

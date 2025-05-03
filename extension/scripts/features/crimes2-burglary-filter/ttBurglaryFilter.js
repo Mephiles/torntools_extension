@@ -123,11 +123,13 @@
 		if (!window.location.hash.includes("burglary")) return;
 		else {
 			if (!crimeRoot) {
-				crimeRoot = await requireElement(".crime-root.burglary-root");
+				try {
+					crimeRoot = await requireElement(".crime-root.burglary-root");
+				} catch (error) {
+					return;
+				}
 			}
 		}
-
-		if (!crimeRoot) return;
 
 		if (!findContainer("Burglary Filter")) createFilter(crimeRoot);
 
