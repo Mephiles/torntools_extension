@@ -146,7 +146,7 @@ const ALL_AREAS = [
 	{ class: "casino", text: "Casino" },
 	{ class: "forums", text: "Forums" },
 	{ class: "hall_of_fame", text: "Hall of Fame" },
-	{ class: "my_faction", text: "My Faction" },
+	{ class: "faction", text: "My Faction" },
 	{ class: "recruit_citizens", text: "Recruit Citizens" },
 	{ class: "competitions", text: "Competitions" },
 	{ class: "community_events", text: "Community Events" },
