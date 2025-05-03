@@ -33,7 +33,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Trigger tablet more at 1000px instead of at 960px.", "contributor": "DeKleineKobini" },
-				{ "message": "Apply ranked war filters on an interval to follow the live updates.", "contributor": "DeKleineKobini" }
+				{ "message": "Apply ranked war filters on an interval to follow the live updates.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust Trade Open Chat to work with Chat 3.0.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
