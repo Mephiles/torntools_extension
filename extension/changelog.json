@@ -20,8 +20,7 @@
 				{ "message": "Avoid errors with the faction last action feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction fold infobox not always working.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the faction stats estimate filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix sidebar custom links placed above or below 'My Faction' not showing.", "contributor": "XDeltaA77" },
-				{ "message": "Trade Open Chat for Chat 3.0.", "contributor": "TheFoxMan" }
+				{ "message": "Fix sidebar custom links placed above or below 'My Faction' not showing.", "contributor": "XDeltaA77" }
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
@@ -34,7 +33,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Trigger tablet more at 1000px instead of at 960px.", "contributor": "DeKleineKobini" },
-				{ "message": "Apply ranked war filters on an interval to follow the live updates.", "contributor": "DeKleineKobini" }
+				{ "message": "Apply ranked war filters on an interval to follow the live updates.", "contributor": "DeKleineKobini" },
+				{ "message": "Adjust Trade Open Chat to work with Chat 3.0.", "contributor": "TheFoxMan" }
 			],
 			"removed": []
 		}
