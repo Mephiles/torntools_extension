@@ -192,9 +192,9 @@
 
 		CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
-		document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__'].tt-filter-hidden").forEach((li) => {
+		document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").forEach((li) => {
 			li.classList.remove("tt-filter-hidden");
-			li.style.transform = `translateY(${targetRowHeightsSum})`;
+			li.style.transform = `translateY(${targetRowHeightsSum}px)`;
 			targetRowHeightsSum += li.style.height.getNumber();
 		});
 	}
