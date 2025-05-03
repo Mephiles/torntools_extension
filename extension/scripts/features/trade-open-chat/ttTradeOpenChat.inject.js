@@ -4,5 +4,16 @@
 		.attr("href")
 		.match(/XID=(\d*)/i)[1];
 
-	chat.r(traderID);
+	if (window.chat && typeof window.chat === "object")
+		// For Chat 2.0.
+		window.chat.r(traderID);
+	else
+		// For Chat 3.0, copied from Torn's mini profiles code.
+		window.dispatchEvent(
+			new CustomEvent("chat.openChannel", {
+				detail: {
+					userId: String(traderID),
+				},
+			})
+		);
 })();
