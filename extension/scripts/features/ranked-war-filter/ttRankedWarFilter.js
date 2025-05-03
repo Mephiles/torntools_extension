@@ -180,10 +180,9 @@
 			}
 		}
 		if (filters.status?.length) {
-			let status = row.find(".status").textContent.toLowerCase().trim();
-			if (status.includes(":")) status = "hospital";
+			const statusElement = row.find(".status");
 
-			if (!filters.status.includes(status)) {
+			if (!filters.status.some((s) => statusElement.classList.contains(s))) {
 				hide("status");
 				return;
 			}
