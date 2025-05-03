@@ -20,7 +20,8 @@
 				{ "message": "Avoid errors with the jail filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the faction last action feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction fold infobox not always working.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the faction stats estimate filter.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the faction stats estimate filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix sidebar custom links placed above or below 'My Faction' not showing.", "contributor": "XDeltaA77" }
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
