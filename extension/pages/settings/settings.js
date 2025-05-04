@@ -1151,6 +1151,7 @@ async function setupPreferences(requireCleanup) {
 		const searchOverlay = document.find("#tt-search-overlay");
 		document.find("#preferences-search").addEventListener("click", () => {
 			searchOverlay.classList.remove("tt-hidden");
+			searchOverlayInput.focus();
 			search();
 		});
 
