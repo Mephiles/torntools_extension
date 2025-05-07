@@ -964,7 +964,7 @@ const COMPANY_INFORMATION = {
 	"Mining Corporation": {
 		1: {
 			name: "Mining Boom",
-			cost: "10",
+			cost: "5",
 			effect: "Random excavation equipment",
 		},
 		3: {
