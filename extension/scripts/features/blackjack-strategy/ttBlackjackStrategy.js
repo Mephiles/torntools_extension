@@ -12,6 +12,19 @@
 	};
 
 	const SUGGESTIONS = {
+		// 4 is only used in a very specific case : After 2,2 is split and you get dealt another 2. Re-splits are not allowed, and therefore you need a backup strategy (which is to always hit, based on the strategy for 2,2).
+		4: {
+			2: "H",
+			3: "H",
+			4: "H",
+			5: "H",
+			6: "H",
+			7: "H",
+			8: "H",
+			9: "H",
+			10: "H",
+			A: "H",
+		},
 		5: {
 			2: "H",
 			3: "H",
