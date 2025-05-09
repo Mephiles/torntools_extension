@@ -21,7 +21,9 @@
 				{ "message": "Fix faction fold infobox not always working.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the faction stats estimate filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix sidebar custom links placed above or below 'My Faction' not showing.", "contributor": "XDeltaA77" },
-				{ "message": "Fix 'FF Scouter' on Firefox causing visual issues on the RR page when honor were disabled.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix 'FF Scouter' on Firefox causing visual issues on the RR page when honor were disabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix Blackjack script not proposing a strategy when splitting 2s and then being dealt a 2.", "contributor": "EazzyPeazzy" }
+
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
