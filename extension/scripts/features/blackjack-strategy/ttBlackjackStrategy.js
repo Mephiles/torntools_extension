@@ -11,6 +11,11 @@
 		R: "Surrender",
 	};
 
+	/* these suggestions come from :
+	https://www.beatingbonuses.com/bjstrategy.php?decks=8&soft17=stand&doubleon=any2cards&peek=off&das=on&dsa=on&charlie=on&surrender=earlyf&opt=1&btn=Generate+Strategy
+	(8 decks, double on any 2 cards, Double after Split, Hit Split Aces, 6-Card charlie, No Resplits Allowed, Dealer Stands on Soft 17, Dealer does not peek, full early surrender)
+	*/
+
 	const SUGGESTIONS = {
 		// 4 is only used in a very specific case : After 2,2 is split and you get dealt another 2. Re-splits are not allowed, and therefore you need a backup strategy (which is to always hit, based on the strategy for 2,2).
 		4: {
@@ -455,7 +460,7 @@
 			8: "P",
 			9: "P",
 			10: "P",
-			A: "H",
+			A: "P",
 		},
 	};
 
@@ -585,7 +590,7 @@
 						if (hand[0] === hand[1]) {
 							let value;
 							if (isNaN(hand[0])) {
-								if (hand[0] === "A") value = 12;
+								if (hand[0] === "A") return "H"; // It's not in the suggestions array, but we should always hit A,A after split
 								else value = 20;
 							} else value = parseInt(hand[0]) * 2;
 
