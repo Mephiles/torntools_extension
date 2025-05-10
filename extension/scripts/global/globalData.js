@@ -687,6 +687,9 @@ const DEFAULT_STORAGE = {
 			targets: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			crimes2: {
+				burglaryFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			}
 		},
 		scripts: {
 			noConfirm: {
@@ -941,8 +944,8 @@ const DEFAULT_STORAGE = {
 			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		burglary: {
-			targetType: new DefaultSetting({ type: "string", defaultValue: "" }),
 			targetName: new DefaultSetting({ type: "string", defaultValue: "" }),
+			targetType: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		oc2: {
 			difficulty: new DefaultSetting({ type: "array", defaultValue: [] }),
