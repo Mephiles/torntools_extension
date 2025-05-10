@@ -22,7 +22,9 @@
 				{ "message": "Avoid errors with the faction stats estimate filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix sidebar custom links placed above or below 'My Faction' not showing.", "contributor": "XDeltaA77" },
 				{ "message": "Fix 'FF Scouter' on Firefox causing visual issues on the RR page when honor were disabled.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix Blackjack script not proposing a strategy when splitting 2s and then being dealt a 2.", "contributor": "EazzyPeazzy" }
+				{ "message": "Update source for blackjack strategy to reflect hitting is authorized after split Aces.", "contributor": "EazzyPeazzy"},
+				{ "message": "Fix Blackjack script not proposing a strategy when splitting 2s and then being dealt another 2.", "contributor": "EazzyPeazzy"},
+				{ "message": "Fix Blackjack script not proposing the right play when splitting Aces and being dealt another Ace.", "contributor": "EazzyPeazzy"}
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
