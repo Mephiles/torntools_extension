@@ -590,7 +590,7 @@
 						if (hand[0] === hand[1]) {
 							let value;
 							if (isNaN(hand[0])) {
-								if (hand[0] === "A") value = 12;
+								if (hand[0] === "A") return "H"; // It's not in the suggestions array, but we should always hit A,A after split
 								else value = 20;
 							} else value = parseInt(hand[0]) * 2;
 
