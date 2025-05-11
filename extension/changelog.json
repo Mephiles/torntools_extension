@@ -4,9 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [
-				{ "message": "Make more efficient use of your rehabs.", "contributor": "DeKleineKobini" }
-			],
+			"features": [{ "message": "Make more efficient use of your rehabs.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix OC1 detection not working properly.", "contributor": "DeKleineKobini" },
 				{
