@@ -21,7 +21,6 @@ const FETCH_PLATFORMS = {
 	prometheus: "https://prombot.co.uk:8443/",
 	lzpt: "https://api.lzpt.io/",
 	wtf: "https://what-the-f.de/",
-	tornpal: "https://tornpal.com/",
 	tornw3b: "https://weav3r.dev/",
 };
 
@@ -144,14 +143,6 @@ async function fetchData(location, options = {}) {
 				case "wtf":
 					url = FETCH_PLATFORMS.wtf;
 					path = options.section;
-					break;
-				case "tornpal":
-					url = FETCH_PLATFORMS.tornpal;
-					key = api.tornpal.key;
-					path = ["api", "v1", options.section].join("/");
-					const identifier = tornpalIdentifier();
-					headers["User-Agent"] = identifier; // doesn't work in Chromium - https://issues.chromium.org/issues/40450316
-					params.append("comment", identifier);
 					break;
 				case "tornw3b":
 					url = FETCH_PLATFORMS.tornw3b;
@@ -337,14 +328,6 @@ function checkAPIPermission(key) {
 				reject(error.error);
 			});
 	});
-}
-
-function tornpalIdentifier() {
-	try {
-		return `TornTools-${getUserDetails().id}`;
-	} catch {
-		return "TornTools";
-	}
 }
 
 function changeAPIKey(key) {

@@ -23,11 +23,11 @@
 		() => setTimeout(triggerGauge),
 		removeGauge,
 		{
-			storage: ["settings.scripts.ffScouter.gauge", "settings.external.tornpal"],
+			storage: ["settings.scripts.ffScouter.gauge"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!settings.external.tornpal) return "TornPal not enabled";
+			return "Unavailable due to TornPal shutting down.";
 		}
 	);
 

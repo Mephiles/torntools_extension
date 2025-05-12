@@ -284,9 +284,6 @@ const DEFAULT_STORAGE = {
 		yata: {
 			key: new DefaultSetting({ type: "string" }),
 		},
-		tornpal: {
-			key: new DefaultSetting({ type: "string" }),
-		},
 	},
 	settings: {
 		updateNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -737,7 +734,6 @@ const DEFAULT_STORAGE = {
 			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			lzpt: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			tornpal: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			tornw3b: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},

@@ -9,11 +9,11 @@
 		null,
 		null,
 		{
-			storage: ["settings.scripts.ffScouter.miniProfile", "settings.external.tornpal"],
+			storage: ["settings.scripts.ffScouter.miniProfile"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!settings.external.tornpal) return "TornPal not enabled";
+			return "Unavailable due to TornPal shutting down.";
 		}
 	);
 

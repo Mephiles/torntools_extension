@@ -508,7 +508,6 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
 	_preferences.find("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
 	_preferences.find("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
-	_preferences.find("#external-tornpal").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornpal, event));
 	_preferences.find("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
@@ -580,7 +579,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
-		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornpal", "tornw3b"]) {
+		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b"]) {
 			_preferences.find(`#external-${service}`).checked = settings.external[service];
 		}
 
@@ -638,7 +637,6 @@ async function setupPreferences(requireCleanup) {
 
 		if (api.tornstats.key) _preferences.find("#external-tornstats-key").value = api.tornstats.key;
 		if (api.yata.key) _preferences.find("#external-yata-key").value = api.yata.key;
-		if (api.tornpal.key) _preferences.find("#external-tornpal-key").value = api.tornpal.key;
 
 		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
@@ -974,7 +972,6 @@ async function setupPreferences(requireCleanup) {
 		settings.external.yata = _preferences.find("#external-yata").checked;
 		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
 		settings.external.lzpt = _preferences.find("#external-lzpt").checked;
-		settings.external.tornpal = _preferences.find("#external-tornpal").checked;
 		settings.external.tornw3b = _preferences.find("#external-tornw3b").checked;
 
 		for (const type of ["pages", "scripts"]) {
@@ -1122,7 +1119,6 @@ async function setupPreferences(requireCleanup) {
 			api: {
 				tornstats: { key: document.find("#external-tornstats-key").value },
 				yata: { key: document.find("#external-yata-key").value },
-				tornpal: { key: document.find("#external-tornpal-key").value },
 			},
 		});
 
@@ -1274,7 +1270,6 @@ async function setupPreferences(requireCleanup) {
 			{ id: "external-yata", origin: FETCH_PLATFORMS.yata },
 			{ id: "external-prometheus", origin: FETCH_PLATFORMS.prometheus },
 			{ id: "external-lzpt", origin: FETCH_PLATFORMS.lzpt },
-			{ id: "external-tornpal", origin: FETCH_PLATFORMS.tornpal },
 			{ id: "external-tornw3b", origin: FETCH_PLATFORMS.tornw3b },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;

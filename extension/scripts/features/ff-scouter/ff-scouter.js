@@ -3,15 +3,7 @@ function scoutFF(target) {
 		return Promise.resolve(ttCache.get("ff-scouter", target));
 	}
 
-	return new Promise((resolve, reject) => {
-		fetchData("tornpal", { section: "ffscouter", includeKey: true, relay: true, params: { target } })
-			.then((data) => {
-				ttCache.set({ [target]: data }, data.status ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, "ff-scouter");
-
-				resolve(data);
-			})
-			.catch(reject);
-	});
+	return Promise.reject("TornPal shutting down");
 }
 
 const MAX_TARGET_AMOUNT = 104;
@@ -41,21 +33,7 @@ function scoutFFGroup(targets) {
 		return Promise.resolve(ttCache.get("ff-scouter-group", cacheKey));
 	}
 
-	return new Promise((resolve, reject) => {
-		fetchData("tornpal", { section: "ffscoutergroup", includeKey: true, relay: true, params: { targets } })
-			.then((data) => {
-				ttCache.set({ [cacheKey]: data }, data.status ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, "ff-scouter-group");
-
-				if (data.status) {
-					Object.entries(data.results).forEach(([id, result]) => {
-						ttCache.set({ [id]: result }, result.status ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, "ff-scouter");
-					});
-				}
-
-				resolve(data);
-			})
-			.catch(reject);
-	});
+	return Promise.reject("TornPal shutting down");
 }
 
 function buildScoutInformation(scout) {

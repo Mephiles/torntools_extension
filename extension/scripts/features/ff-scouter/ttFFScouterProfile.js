@@ -11,11 +11,11 @@
 		showFF,
 		removeFF,
 		{
-			storage: ["settings.scripts.ffScouter.profile", "settings.external.tornpal"],
+			storage: ["settings.scripts.ffScouter.profile"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!settings.external.tornpal) return "TornPal not enabled";
+			return "Unavailable due to TornPal shutting down.";
 		}
 	);
 

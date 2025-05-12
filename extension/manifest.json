@@ -33,7 +33,6 @@
 		"https://prombot.co.uk:8443/*",
 		"https://api.lzpt.io/*",
 		"https://what-the-f.de/*",
-		"https://tornpal.com/*",
 		"https://weav3r.dev/*"
 	],
 	"optional_host_permissions": [
@@ -45,7 +44,6 @@
 		"https://prombot.co.uk:8443/",
 		"https://api.lzpt.io/",
 		"https://what-the-f.de/",
-		"https://tornpal.com/*",
 		"https://weav3r.dev/*"
 	],
 	"web_accessible_resources": [
