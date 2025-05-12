@@ -509,6 +509,7 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
 	_preferences.find("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
 	_preferences.find("#external-tornpal").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornpal, event));
+	_preferences.find("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = event.target.value;
@@ -579,7 +580,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
-		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornpal"]) {
+		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornpal", "tornw3b"]) {
 			_preferences.find(`#external-${service}`).checked = settings.external[service];
 		}
 
@@ -974,6 +975,7 @@ async function setupPreferences(requireCleanup) {
 		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
 		settings.external.lzpt = _preferences.find("#external-lzpt").checked;
 		settings.external.tornpal = _preferences.find("#external-tornpal").checked;
+		settings.external.tornw3b = _preferences.find("#external-tornw3b").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
@@ -1273,6 +1275,7 @@ async function setupPreferences(requireCleanup) {
 			{ id: "external-prometheus", origin: FETCH_PLATFORMS.prometheus },
 			{ id: "external-lzpt", origin: FETCH_PLATFORMS.lzpt },
 			{ id: "external-tornpal", origin: FETCH_PLATFORMS.tornpal },
+			{ id: "external-tornw3b", origin: FETCH_PLATFORMS.tornw3b },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;
 

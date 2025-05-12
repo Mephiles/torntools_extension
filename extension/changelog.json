@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Make more efficient use of your rehabs.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" },
+				{ "message": "Make more efficient use of your rehabs.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Fix OC1 detection not working properly.", "contributor": "DeKleineKobini" },
 				{
@@ -24,7 +27,8 @@
 				{
 					"message": "Fix Blackjack script not proposing the right play when splitting Aces and being dealt another Ace.",
 					"contributor": "EazzyPeazzy"
-				}
+				},
+				{ "message": "Move bazaar prices in the popup to using TornW3B.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },

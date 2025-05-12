@@ -22,6 +22,7 @@ const FETCH_PLATFORMS = {
 	lzpt: "https://api.lzpt.io/",
 	wtf: "https://what-the-f.de/",
 	tornpal: "https://tornpal.com/",
+	tornw3b: "https://weav3r.dev/",
 };
 
 const FACTION_ACCESS = {
@@ -151,6 +152,10 @@ async function fetchData(location, options = {}) {
 					const identifier = tornpalIdentifier();
 					headers["User-Agent"] = identifier; // doesn't work in Chromium - https://issues.chromium.org/issues/40450316
 					params.append("comment", identifier);
+					break;
+				case "tornw3b":
+					url = FETCH_PLATFORMS.tornw3b;
+					path = ["api", options.section].join("/");
 					break;
 			}
 
