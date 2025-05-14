@@ -52,7 +52,7 @@
 			},
 			army_of_one: {
 				task: "Attack (P) 3 times with various masks.",
-				hint: "Duke will send you the two masks to wear. Make sure that one of the attacks is without any mask.",
+				hint: "Duke will send you the two masks to wear. Make sure that one of the attacks is without any mask. You just need to attack the target, defeating them isn't a requirement.",
 			},
 			bakeout_breakout: {
 				task: "Combine a fruitcake and the lock pick, and send 'special fruitcake' to someone in jail.",
