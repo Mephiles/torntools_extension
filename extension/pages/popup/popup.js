@@ -80,6 +80,7 @@ async function showPage(name) {
 
 async function setupInitialize() {
 	document.find("#pages").classList.add("tt-hidden");
+	document.find("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
 
 	document.find("#import-previous-settings").addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
 
