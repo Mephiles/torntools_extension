@@ -266,6 +266,7 @@
 								>Revive prices vary per revive provider. They can be changed at their will. We have no connection to any revive provider
 								ourselves.</label
 							>
+							<div class="note">Your API key is NOT shared with any of these services.</div>
 						</div>
 						<div class="option">
 							<input id="global-pageTitles" type="checkbox" />
@@ -857,42 +858,72 @@
 					</section>
 					<section name="external">
 						<div class="header">External Services</div>
-						<span class="note">
-							By enabling these services, you agree to the usage of these services as they are provided.<br />
-							Visit the websites to know more about what it is and their privacy policies.
-						</span>
-						<div class="option">
-							<input id="external-tornstats" type="checkbox" />
-							<label for="external-tornstats">Connect to TornStats.</label>
-							<a href="https://tornstats.com/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-
-							<input id="external-tornstats-key" type="text" placeholder="API key" />
-							<label for="external-tornstats-key" class="tabbed note">
-								This API key is optional. It's only required if you use a different key for TornStats.
-							</label>
+						<span class="note"> By enabling these services, you agree to the usage of these services as they are provided.</span>
+						<div class="external-service">
+							<span>TornStats</span>
+							<div class="note">Your API key is used to authenticate.</div>
+							<div class="links">
+								<a href="https://tornstats.com/" target="_blank">Website<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+								<!-- FIXME - Correct ToS link. -->
+								<a href="https://tornstats.com/terms" target="_blank">Terms of Service<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+							</div>
+							<div class="option">
+								<input id="external-tornstats" type="checkbox" />
+								<label for="external-tornstats">Allow TornStats integration.</label>
+							</div>
+							<div class="option">
+								<label for="external-tornstats-key">Alternative key</label>
+								<input id="external-tornstats-key" type="text" placeholder="API key" />
+								<span class="tabbed note"> Only required if you use a different key for TornStats. Will use known key otherwise. </span>
+							</div>
 						</div>
-						<div class="option">
-							<input id="external-yata" type="checkbox" />
-							<label for="external-yata">Connect to YATA.</label>
-							<a href="https://yata.yt/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-
-							<input id="external-yata-key" type="text" placeholder="API key" />
-							<label for="external-yata-key" class="tabbed note">
-								This API key is optional. It's only required if you use a different key for YATA.
-							</label>
+						<div class="external-service">
+							<span>YATA</span>
+							<div class="note">Your API key is used to authenticate.</div>
+							<div class="links">
+								<a href="https://yata.yt/" target="_blank">Website<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+								<a href="https://yata.yt/tos" target="_blank">Terms of Service<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+							</div>
+							<div class="option">
+								<input id="external-yata" type="checkbox" />
+								<label for="external-yata">Allow YATA integration.</label>
+							</div>
+							<div class="option">
+								<label for="external-yata-key">Alternative key</label>
+								<input id="external-yata-key" type="text" placeholder="API key" />
+								<span class="tabbed note"> Only required if you use a different key for YATA. Will use known key otherwise. </span>
+							</div>
 						</div>
-						<div class="option">
-							<input id="external-prometheus" type="checkbox" />
-							<label for="external-prometheus">Connect to Prometheus.</label>
+						<div class="external-service">
+							<span>Prometheus</span>
+							<div class="note">Your API key is NOT shared with this service.</div>
+							<div class="option">
+								<input id="external-prometheus" type="checkbox" />
+								<label for="external-prometheus">Allow Prometheus integration.</label>
+							</div>
 						</div>
-						<div class="option">
-							<input id="external-lzpt" type="checkbox" />
-							<label for="external-lzpt">Connect to LZPT.</label>
+						<div class="external-service">
+							<span>LZPT</span>
+							<div class="note">Your API key is NOT shared with this service.</div>
+							<div class="option">
+								<input id="external-lzpt" type="checkbox" />
+								<label for="external-lzpt">Allow LZPT integration.</label>
+							</div>
 						</div>
-						<div class="option">
-							<input id="external-tornw3b" type="checkbox" />
-							<label for="external-tornw3b">Connect to TornW3B.</label>
-							<a href="https://weav3r.dev" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+						<div class="external-service">
+							<span>TornW3B</span>
+							<div class="note">
+								Your API key is not used to authenticate at this time, but it will be in the future. Keep this in mind before allowing this
+								connection.
+							</div>
+							<div class="links">
+								<a href="https://weav3r.dev" target="_blank">Website<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+								<a href="https://weav3r.dev/auth" target="_blank">Terms of Service<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+							</div>
+							<div class="option">
+								<input id="external-tornw3b" type="checkbox" />
+								<label for="external-tornw3b">Allow TornW3B integration.</label>
+							</div>
 						</div>
 					</section>
 					<section name="competition">
