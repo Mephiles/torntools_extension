@@ -130,5 +130,5 @@ body.dark .key-perms-note span {
 #tos {
 	display: block;
 	text-decoration: none;
-	color: var(--color-link)
+	color: var(--color-link);
 }

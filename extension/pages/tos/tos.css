@@ -1,17 +1,17 @@
 tr {
-    outline: 1px solid currentColor;
+	outline: 1px solid currentColor;
 }
 
 td {
-    padding: 4px;
-    vertical-align: top;
+	padding: 4px;
+	vertical-align: top;
 }
 
 code {
-    padding: 2px 4px;
-    font-size: 90%;
-    color: #c7254e;
-    background-color: #f9f2f4;
-    white-space: nowrap;
-    border-radius: 4px;
+	padding: 2px 4px;
+	font-size: 90%;
+	color: #c7254e;
+	background-color: #f9f2f4;
+	white-space: nowrap;
+	border-radius: 4px;
 }
