@@ -601,25 +601,25 @@ body.dark #saveSettingsBar {
  */
 
 .external-service {
-    margin-top: 8px;
+	margin-top: 8px;
 
-    span:first-child {
-        text-decoration: underline;
-    }
+	span:first-child {
+		text-decoration: underline;
+	}
 
-    .links {
-        display: flex;
-        gap: 8px;
+	.links {
+		display: flex;
+		gap: 8px;
 
-        i {
-            font-size: 12px;
-            margin-left: 4px;
-        }
-    }
+		i {
+			font-size: 12px;
+			margin-left: 4px;
+		}
+	}
 
-    a {
-        display: block;
-        text-decoration: none;
-        color: var(--color-link);
-    }
+	a {
+		display: block;
+		text-decoration: none;
+		color: var(--color-link);
+	}
 }
