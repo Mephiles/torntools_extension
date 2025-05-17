@@ -638,7 +638,7 @@ async function setupPreferences(requireCleanup) {
 
 		if (api.tornstats.key) _preferences.find("#external-tornstats-key").value = api.tornstats.key;
 		if (api.yata.key) _preferences.find("#external-yata-key").value = api.yata.key;
-		if (api.ffScouter.key) _preferences.find("#external-ffScouter-key").value = api.yata.key;
+		if (api.ffScouter.key) _preferences.find("#external-ffScouter-key").value = api.ffScouter.key;
 
 		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
