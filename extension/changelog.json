@@ -48,7 +48,8 @@
 				{ "message": "Improve compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Focus on the search input by default on our settings page.", "contributor": "DeKleineKobini" },
 				{ "message": "Update the hint of 'Army of One' to make clear that the target doesn't need to be defeated.", "contributor": "DeKleineKobini" },
-				{ "message": "Rework external services preference to link to the ToS of each applicable service.", "contributor": "DeKleineKobini" }
+				{ "message": "Rework external services preference to link to the ToS of each applicable service.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate FFScouter (the feature) from TornPal to FFScouter (the service).", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

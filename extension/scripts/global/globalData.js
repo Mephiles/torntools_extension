@@ -284,6 +284,9 @@ const DEFAULT_STORAGE = {
 		yata: {
 			key: new DefaultSetting({ type: "string" }),
 		},
+		ffScouter: {
+			key: new DefaultSetting({ type: "string" }),
+		},
 	},
 	settings: {
 		updateNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -735,6 +738,7 @@ const DEFAULT_STORAGE = {
 			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			lzpt: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			tornw3b: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			ffScouter: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	filters: {

@@ -11,11 +11,11 @@
 		showFF,
 		removeFF,
 		{
-			storage: ["settings.scripts.ffScouter.factionList"],
+			storage: ["settings.scripts.ffScouter.factionList", "settings.external.ffScouter"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			return "Unavailable due to TornPal shutting down.";
+			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 		}
 	);
 
@@ -49,15 +49,9 @@
 			parseInt(new URL(link.href).searchParams.get("XID"))
 		);
 
-		scoutFFGroup(memberIds).then((scouts) => {
-			if (scouts.status) {
-				const reducedResults = Object.entries(scouts.results).reduce((list, [id, result]) => [...list, { id: parseInt(id), ...result }], []);
-
-				fillFF(list, reducedResults);
-			} else {
-				console.warn("TT - Failed to scout ff for the faction.", scouts.message);
-			}
-		});
+		scoutFFGroup(memberIds)
+			.then((scouts) => fillFF(list, Object.values(scouts)))
+			.catch((reason) => console.warn("TT - Failed to scout ff for the faction.", reason));
 	}
 
 	function fillFF(list, results) {
@@ -69,8 +63,8 @@
 			}
 
 			const userID = getUsername(row).id;
-			const scout = results.find((r) => r.id === userID);
-			if (!scout || !scout.status) {
+			const scout = results.find((r) => r.player_id === userID);
+			if (!scout) {
 				row.dataset.ffScout = "N/A";
 				row.find(".table-cell.lvl").insertAdjacentElement(
 					"afterend",
@@ -83,7 +77,7 @@
 				return;
 			}
 
-			const ff = scout.result.value;
+			const ff = scout.fair_fight;
 			row.dataset.ffScout = ff;
 
 			const backgroundColor = ffColor(ff);

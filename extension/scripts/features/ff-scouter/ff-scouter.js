@@ -1,46 +1,78 @@
 function scoutFF(target) {
-	if (ttCache.hasValue("ff-scouter", target)) {
-		return Promise.resolve(ttCache.get("ff-scouter", target));
+	if (ttCache.hasValue("ff-scouter-v3", target)) {
+		return Promise.resolve(ttCache.get("ff-scouter-v3", target));
 	}
 
-	return Promise.reject("TornPal shutting down");
+	return _scoutFFGroup([target]).then((result) => result[0]);
 }
 
 const MAX_TARGET_AMOUNT = 104;
 
-function scoutFFGroup(targets) {
-	targets = Array.from(new Set(targets.map((id) => parseInt(id))));
+async function scoutFFGroup(targets) {
+	const uniqueTargets = Array.from(new Set(targets.map((id) => parseInt(id))));
+
+	const cachedTargets = uniqueTargets.filter((target) => ttCache.hasValue("ff-scouter-v3", target));
+	const missingTargets = uniqueTargets.filter((target) => !ttCache.hasValue("ff-scouter-v3", target));
+
+	const results = {};
+
+	cachedTargets.map((target) => ttCache.get("ff-scouter-v3", target)).forEach((result) => (results[result.player_id] = result));
+
+	const resultList = await _scoutFFGroup(missingTargets);
+	resultList.forEach((result) => (results[result.player_id] = result));
+
+	return results;
+}
+
+function _scoutFFGroup(targets) {
+	if (targets.length === 0) return Promise.resolve([]);
 
 	if (targets.length > MAX_TARGET_AMOUNT) {
 		const first = targets.slice(0, MAX_TARGET_AMOUNT);
 		const second = targets.slice(MAX_TARGET_AMOUNT);
 
 		return new Promise((resolve, reject) => {
-			Promise.all([scoutFFGroup(first), scoutFFGroup(second)])
+			Promise.all([_scoutFFGroup(first), _scoutFFGroup(second)])
 				.then((combined) => {
-					const combinedResults = combined
-						.filter((x) => x.status)
-						.reduce((previousValue, currentValue) => ({ ...previousValue, ...currentValue.results }), {});
+					const combinedResults = combined.flatMap((x) => x);
 
-					resolve({ status: true, results: combinedResults });
+					resolve(combinedResults);
 				})
 				.catch(reject);
 		});
 	}
 
-	const cacheKey = JSON.stringify(targets.sort((a, b) => a - b));
-	if (ttCache.hasValue("ff-scouter-group", cacheKey)) {
-		return Promise.resolve(ttCache.get("ff-scouter-group", cacheKey));
-	}
+	return new Promise((resolve, reject) => {
+		fetchData("ffscouter", { section: "get-stats", includeKey: true, relay: true, params: { targets } })
+			.then((data) => {
+				data = data.map((result) => {
+					if (result.fair_fight === null) {
+						return {
+							player_id: result.player_id,
+							message: "No known fair fight for this player.",
+							message_short: "No FF known.",
+							isError: false,
+						};
+					}
 
-	return Promise.reject("TornPal shutting down");
+					return result;
+				});
+
+				data.forEach((result) => {
+					void ttCache.set({ [result.player_id]: result }, result.fair_fight ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, "ff-scouter-v3");
+				});
+
+				resolve(data);
+			})
+			.catch(reject);
+	});
 }
 
 function buildScoutInformation(scout) {
 	let message, className, detailMessage;
-	if (scout.status) {
+	if (!scout.message) {
 		const now = Date.now();
-		const age = now - scout.result.last_updated * 1000;
+		const age = now - scout.last_updated * 1000;
 
 		let suffix;
 		if (age < TO_MILLIS.DAYS) {
@@ -59,12 +91,12 @@ function buildScoutInformation(scout) {
 			suffix = years === 1 ? "(1 year old)" : `(${years} years old)`;
 		}
 
-		message = `Fair Fight: ${scout.result.value.toFixed(2)} ${suffix}`.trim();
+		message = `Fair Fight: ${scout.fair_fight.toFixed(2)} ${suffix}`.trim();
 		className = null;
 		detailMessage = null;
 	} else {
-		message = "failed FF scout";
-		className = "tt-ff-scouter-error";
+		message = scout.message_short ?? "failed FF scout";
+		className = scout.isError ? "tt-ff-scouter-error" : null;
 		detailMessage = scout.message;
 	}
 

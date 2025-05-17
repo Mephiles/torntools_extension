@@ -23,11 +23,11 @@
 		() => setTimeout(triggerGauge),
 		removeGauge,
 		{
-			storage: ["settings.scripts.ffScouter.gauge"],
+			storage: ["settings.scripts.ffScouter.gauge", "settings.external.ffScouter"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			return "Unavailable due to TornPal shutting down.";
+			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 		}
 	);
 
@@ -98,11 +98,6 @@
 
 		return new Promise((resolve) => {
 			scoutFFGroup(elements.map(({ id }) => id)).then((scouts) => {
-				if (!scouts.status) {
-					resolve();
-					return;
-				}
-
 				for (const { element, id } of elements) {
 					element.classList.add("tt-ff-scouter-indicator");
 					if (!element.classList.contains("indicator-lines")) {
@@ -111,7 +106,7 @@
 						element.style.setProperty("--arrow-width", "20px");
 					}
 
-					const ff = scouts.results[id]?.result?.value;
+					const ff = scouts[id].fair_fight;
 					if (ff) {
 						const percent = convertFFToPercentage(ff);
 						element.style.setProperty("--band-percent", percent);

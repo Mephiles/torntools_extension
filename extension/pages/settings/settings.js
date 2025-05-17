@@ -509,6 +509,7 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
 	_preferences.find("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
 	_preferences.find("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
+	_preferences.find("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = event.target.value;
@@ -579,7 +580,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
-		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b"]) {
+		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b", "ffScouter"]) {
 			_preferences.find(`#external-${service}`).checked = settings.external[service];
 		}
 
@@ -637,6 +638,7 @@ async function setupPreferences(requireCleanup) {
 
 		if (api.tornstats.key) _preferences.find("#external-tornstats-key").value = api.tornstats.key;
 		if (api.yata.key) _preferences.find("#external-yata-key").value = api.yata.key;
+		if (api.ffScouter.key) _preferences.find("#external-ffScouter-key").value = api.yata.key;
 
 		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
@@ -973,6 +975,7 @@ async function setupPreferences(requireCleanup) {
 		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
 		settings.external.lzpt = _preferences.find("#external-lzpt").checked;
 		settings.external.tornw3b = _preferences.find("#external-tornw3b").checked;
+		settings.external.ffScouter = _preferences.find("#external-ffScouter").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
@@ -1119,6 +1122,7 @@ async function setupPreferences(requireCleanup) {
 			api: {
 				tornstats: { key: document.find("#external-tornstats-key").value },
 				yata: { key: document.find("#external-yata-key").value },
+				ffScouter: { key: document.find("#external-ffScouter-key").value },
 			},
 		});
 
@@ -1271,6 +1275,7 @@ async function setupPreferences(requireCleanup) {
 			{ id: "external-prometheus", origin: FETCH_PLATFORMS.prometheus },
 			{ id: "external-lzpt", origin: FETCH_PLATFORMS.lzpt },
 			{ id: "external-tornw3b", origin: FETCH_PLATFORMS.tornw3b },
+			{ id: "external-ffScouter", origin: FETCH_PLATFORMS.ffscouter },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;
 

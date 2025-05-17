@@ -22,6 +22,7 @@ const FETCH_PLATFORMS = {
 	lzpt: "https://api.lzpt.io/",
 	wtf: "https://what-the-f.de/",
 	tornw3b: "https://weav3r.dev/",
+	ffscouter: "https://ffscouter.com/",
 };
 
 const FACTION_ACCESS = {
@@ -147,6 +148,11 @@ async function fetchData(location, options = {}) {
 				case "tornw3b":
 					url = FETCH_PLATFORMS.tornw3b;
 					path = ["api", options.section].join("/");
+					break;
+				case "ffscouter":
+					url = FETCH_PLATFORMS.ffscouter;
+					path = ["api", "v1", options.section].join("/");
+					key = api.ffScouter.key;
 					break;
 			}
 

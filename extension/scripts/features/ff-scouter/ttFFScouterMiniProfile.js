@@ -5,19 +5,19 @@
 		"FF Scouter Mini Profile",
 		"ff-scouter",
 		() => settings.scripts.ffScouter.miniProfile,
-		initialiseMiniprofile,
+		initialiseMiniProfile,
 		null,
 		null,
 		{
-			storage: ["settings.scripts.ffScouter.miniProfile"],
+			storage: ["settings.scripts.ffScouter.miniProfile", "settings.external.ffScouter"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			return "Unavailable due to TornPal shutting down.";
+			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 		}
 	);
 
-	function initialiseMiniprofile() {
+	function initialiseMiniProfile() {
 		addFetchListener((event) => {
 			if (!feature.enabled()) return;
 
