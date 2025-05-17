@@ -24,7 +24,18 @@
 
 		const id = getUserID();
 
-		const scout = await scoutFF(id);
+		scoutFF(id)
+			.then((scout) => showResult(scout))
+			.catch((reason) => {
+				if ("error" in reason) {
+					showResult({ message: reason.error, isError: true });
+				} else {
+					console.error("TT - Failed to scout ff for the profile.", reason);
+				}
+			});
+	}
+
+	function showResult(scout) {
 		const { message, className, detailMessage } = buildScoutInformation(scout);
 
 		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-profile", className], text: message });

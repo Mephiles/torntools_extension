@@ -39,15 +39,25 @@
 	async function showFF(information) {
 		const userId = information.user.userID;
 
-		scoutFF(userId).then((scout) => {
-			const { message, className, detailMessage } = buildScoutInformation(scout);
+		scoutFF(userId)
+			.then((scout) => showResult(scout))
+			.catch((reason) => {
+				if ("error" in reason) {
+					showResult({ message: reason.error, isError: true });
+				} else {
+					console.error("TT - Failed to scout ff for the mini profile.", reason);
+				}
+			});
+	}
 
-			const element = document.newElement({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });
-			if (detailMessage) {
-				element.setAttribute("title", detailMessage);
-			}
+	function showResult(scout) {
+		const { message, className, detailMessage } = buildScoutInformation(scout);
 
-			requireElement("#profile-mini-root .profile-container .description").then((d) => d.appendChild(element));
-		});
+		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });
+		if (detailMessage) {
+			element.setAttribute("title", detailMessage);
+		}
+
+		requireElement("#profile-mini-root .profile-container .description").then((d) => d.appendChild(element));
 	}
 })();

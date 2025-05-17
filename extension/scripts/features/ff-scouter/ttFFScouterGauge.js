@@ -14,6 +14,7 @@
 	const RED_ARROW = chrome.runtime.getURL("resources/images/svg-icons/red-arrow.svg");
 
 	let scoutLock = false;
+	let lockFailure = false;
 
 	const feature = featureManager.registerFeature(
 		"FF Scouter Gauge",
@@ -45,7 +46,13 @@
 
 		const honorBars = [...document.findAll(".honor-text-wrap")];
 		if (honorBars.length > 0) {
-			applyGauge(honorBars).finally(() => (scoutLock = false));
+			applyGauge(honorBars)
+				.catch((reason) => {
+					if (!reason) return;
+
+					console.error("TT - Failed to scout ff for the honor bars.", reason);
+				})
+				.finally(() => (scoutLock = false));
 		} else {
 			let selector;
 
@@ -85,7 +92,13 @@
 					return;
 			}
 
-			applyGauge([...document.findAll(selector)]).finally(() => (scoutLock = false));
+			applyGauge([...document.findAll(selector)])
+				.catch((reason) => {
+					if (!reason) return;
+
+					console.error("TT - Failed to scout ff for the honor bars.", reason);
+				})
+				.finally(() => (scoutLock = false));
 		}
 	}
 
@@ -96,44 +109,51 @@
 			.filter(({ id }) => !!id);
 		if (elements.length === 0) return Promise.resolve();
 
-		return new Promise((resolve) => {
-			scoutFFGroup(elements.map(({ id }) => id)).then((scouts) => {
-				for (const { element, id } of elements) {
-					element.classList.add("tt-ff-scouter-indicator");
-					if (!element.classList.contains("indicator-lines")) {
-						element.classList.remove("small", "big");
-						element.classList.add("indicator-lines");
-						element.style.setProperty("--arrow-width", "20px");
-					}
+		if (lockFailure) return Promise.reject();
 
-					const ff = scouts[id].fair_fight;
-					if (ff) {
-						const percent = convertFFToPercentage(ff);
-						element.style.setProperty("--band-percent", percent);
-
-						element.find(".tt-ff-scouter-arrow")?.remove();
-
-						let arrow;
-						if (percent < 33) {
-							arrow = BLUE_ARROW;
-						} else if (percent < 66) {
-							arrow = GREEN_ARROW;
-						} else {
-							arrow = RED_ARROW;
+		return new Promise((resolve, reject) => {
+			scoutFFGroup(elements.map(({ id }) => id))
+				.then((scouts) => {
+					for (const { element, id } of elements) {
+						element.classList.add("tt-ff-scouter-indicator");
+						if (!element.classList.contains("indicator-lines")) {
+							element.classList.remove("small", "big");
+							element.classList.add("indicator-lines");
+							element.style.setProperty("--arrow-width", "20px");
 						}
 
-						element.appendChild(
-							document.newElement({
-								type: "img",
-								class: "tt-ff-scouter-arrow",
-								attributes: { src: arrow },
-							})
-						);
-					}
-				}
+						const ff = scouts[id].fair_fight;
+						if (ff) {
+							const percent = convertFFToPercentage(ff);
+							element.style.setProperty("--band-percent", percent);
 
-				resolve();
-			});
+							element.find(".tt-ff-scouter-arrow")?.remove();
+
+							let arrow;
+							if (percent < 33) {
+								arrow = BLUE_ARROW;
+							} else if (percent < 66) {
+								arrow = GREEN_ARROW;
+							} else {
+								arrow = RED_ARROW;
+							}
+
+							element.appendChild(
+								document.newElement({
+									type: "img",
+									class: "tt-ff-scouter-arrow",
+									attributes: { src: arrow },
+								})
+							);
+						}
+					}
+
+					resolve();
+				})
+				.catch((reason) => {
+					lockFailure = true;
+					reject(reason);
+				});
 		});
 	}
 

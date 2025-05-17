@@ -34,24 +34,29 @@
 
 		await requireElement(".members-list .table-body > li");
 
-		const header = document.newElement({
-			type: "li",
-			class: ["table-cell", "lvl", "torn-divider", "divider-vertical", "tt-ff-scouter-faction-list-header"],
-			text: "FF",
-			attributes: { tabindex: "0" },
-		});
-		document.find(".table-header > .lvl").insertAdjacentElement("afterend", header);
-
 		const list = document.find(".members-list .table-body");
-		list.classList.add("tt-modified-ff-scouter");
 
 		const memberIds = [...list.findAll("[class*='honorWrap___'] a[class*='linkWrap___']")].map((link) =>
 			parseInt(new URL(link.href).searchParams.get("XID"))
 		);
 
 		scoutFFGroup(memberIds)
-			.then((scouts) => fillFF(list, Object.values(scouts)))
-			.catch((reason) => console.warn("TT - Failed to scout ff for the faction.", reason));
+			.then((scouts) => {
+				list.classList.add("tt-modified-ff-scouter");
+
+				const header = document.newElement({
+					type: "li",
+					class: ["table-cell", "lvl", "torn-divider", "divider-vertical", "tt-ff-scouter-faction-list-header"],
+					text: "FF",
+					attributes: { tabindex: "0" },
+				});
+				document.find(".table-header > .lvl").insertAdjacentElement("afterend", header);
+
+				fillFF(list, Object.values(scouts));
+			})
+			.catch((reason) => {
+				console.error("TT - Failed to scout ff for the faction.", reason);
+			});
 	}
 
 	function fillFF(list, results) {
