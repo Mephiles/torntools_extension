@@ -3,6 +3,8 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
+	const SCOUTER_SERVICE = scouterService();
+
 	const feature = featureManager.registerFeature(
 		"FF Scouter Faction",
 		"ff-scouter",
@@ -40,7 +42,7 @@
 			parseInt(new URL(link.href).searchParams.get("XID"))
 		);
 
-		scoutFFGroup(memberIds)
+		SCOUTER_SERVICE.scoutGroup(memberIds)
 			.then((scouts) => {
 				list.classList.add("tt-modified-ff-scouter");
 

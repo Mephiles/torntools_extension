@@ -3,6 +3,8 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
+	const SCOUTER_SERVICE = scouterService();
+
 	featureManager.registerFeature(
 		"FF Scouter Profile",
 		"ff-scouter",
@@ -24,7 +26,7 @@
 
 		const id = getUserID();
 
-		scoutFF(id)
+		SCOUTER_SERVICE.scoutSingle(id)
 			.then((scout) => showResult(scout))
 			.catch((reason) => {
 				if ("error" in reason) {

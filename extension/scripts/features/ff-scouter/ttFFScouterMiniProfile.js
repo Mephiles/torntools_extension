@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	const SCOUTER_SERVICE = scouterService();
+
 	const feature = featureManager.registerFeature(
 		"FF Scouter Mini Profile",
 		"ff-scouter",
@@ -39,7 +41,7 @@
 	async function showFF(information) {
 		const userId = information.user.userID;
 
-		scoutFF(userId)
+		SCOUTER_SERVICE.scoutSingle(userId)
 			.then((scout) => showResult(scout))
 			.catch((reason) => {
 				if ("error" in reason) {

@@ -16,6 +16,8 @@
 	let scoutLock = false;
 	let lockFailure = false;
 
+	const SCOUTER_SERVICE = scouterService();
+
 	const feature = featureManager.registerFeature(
 		"FF Scouter Gauge",
 		"ff-scouter",
@@ -112,7 +114,7 @@
 		if (lockFailure) return Promise.reject();
 
 		return new Promise((resolve, reject) => {
-			scoutFFGroup(elements.map(({ id }) => id))
+			SCOUTER_SERVICE.scoutGroup(elements.map(({ id }) => id))
 				.then((scouts) => {
 					for (const { element, id } of elements) {
 						element.classList.add("tt-ff-scouter-indicator");

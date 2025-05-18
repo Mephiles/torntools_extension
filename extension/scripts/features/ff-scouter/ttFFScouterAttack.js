@@ -3,6 +3,8 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
+	const SCOUTER_SERVICE = scouterService();
+
 	featureManager.registerFeature(
 		"FF Scouter Attack",
 		"ff-scouter",
@@ -23,7 +25,7 @@
 		const id = getUserID();
 		if (!id) return;
 
-		const scout = await scoutFF(id);
+		const scout = await SCOUTER_SERVICE.scoutSingle(id);
 		const { message, className, detailMessage } = buildScoutInformation(scout);
 
 		const element = document.newElement({
