@@ -59,7 +59,7 @@
 		} else {
 			informationElement.appendChild(document.createTextNode("This means that you should rehab up to "));
 			informationElement.appendChild(document.newElement({ type: "span", class: "tt-efficient-rehab--amount", text: maxRehabs - safe }));
-			informationElement.appendChild(document.createTextNode(" time."));
+			informationElement.appendChild(document.createTextNode(` time${applyPlural(maxRehabs - safe)}.`));
 		}
 
 		if (settings.pages.travel.efficientRehabSelect) {
