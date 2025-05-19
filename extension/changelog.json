@@ -29,7 +29,8 @@
 					"message": "Fix Blackjack script not proposing the right play when splitting Aces and being dealt another Ace.",
 					"contributor": "EazzyPeazzy"
 				},
-				{ "message": "Move bazaar prices in the popup to using TornW3B.", "contributor": "DeKleineKobini" }
+				{ "message": "Move bazaar prices in the popup to using TornW3B.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix OC2 timer.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
