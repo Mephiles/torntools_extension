@@ -14,7 +14,7 @@
 		{ name: "Defends lost", type: "attacking", v2Getter: (data) => data.personalstats.attacking.defends.lost },
 		{ name: "Defends stalemated", type: "attacking", v2Getter: (data) => data.personalstats.attacking.defends.stalemate },
 		{ name: "Defends total", type: "attacking", v2Getter: (data) => data.personalstats.attacking.defends.total },
-		{ name: "Elo Rating", type: "attacking", v2Getter: (data) => data.personalstats.attacking.elo },
+		{ name: "Elo rating", type: "attacking", v2Getter: (data) => data.personalstats.attacking.elo },
 		{ name: "Times escaped", type: "attacking", v2Getter: (data) => data.personalstats.attacking.escapes.player },
 		{ name: "Foes escaped", type: "attacking", v2Getter: (data) => data.personalstats.attacking.escapes.foes },
 		{ name: "Unarmored fights won", type: "attacking", v2Getter: (data) => data.personalstats.attacking.unarmored_wins },
@@ -46,10 +46,10 @@
 
 		// Jobs
 		{ name: "Job points used", type: "jobs", v2Getter: (data) => data.personalstats.jobs.job_points_used },
-		{ name: "Times trained", type: "jobs", v2Getter: (data) => data.personalstats.jobs.trains_received },
+		{ name: "Times trained by director", type: "jobs", v2Getter: (data) => data.personalstats.jobs.trains_received },
 
 		// Trading
-		{ name: "Market buys", type: "trading", v2Getter: (data) => data.personalstats.trading.items.bought.market },
+		{ name: "Items bought from market", type: "trading", v2Getter: (data) => data.personalstats.trading.items.bought.market },
 		{ name: "Auctions won", type: "trading", v2Getter: (data) => data.personalstats.trading.items.auctions.won },
 		{ name: "Items auctioned", type: "trading", v2Getter: (data) => data.personalstats.trading.items.auctions.sold },
 		{ name: "Item sends", type: "trading", v2Getter: (data) => data.personalstats.trading.items.sent },
@@ -59,7 +59,7 @@
 		{ name: "Points sold", type: "trading", v2Getter: (data) => data.personalstats.trading.points.sold },
 		{ name: "Bazaar customers", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.customers },
 		{ name: "Bazaar sales", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.sales },
-		{ name: "Bazaar income", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.profit },
+		{ name: "Bazaar revenue", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.profit },
 		{ name: "Item Market customers", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.customers },
 		{ name: "Item Market sales", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.sales },
 		{ name: "Item Market revenue", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.revenue },
@@ -74,7 +74,7 @@
 
 		// Hospital
 		{ name: "Times in hospital", type: "hospital", v2Getter: (data) => data.personalstats.hospital.times_hospitalized },
-		{ name: "Meds used", type: "hospital", v2Getter: (data) => data.personalstats.hospital.medical_items_used },
+		{ name: "Medical items used", type: "hospital", v2Getter: (data) => data.personalstats.hospital.medical_items_used },
 		{ name: "Blood withdrawn", type: "hospital", v2Getter: (data) => data.personalstats.hospital.blood_withdrawn },
 		{ name: "Revive skill", type: "hospital", v2Getter: (data) => data.personalstats.hospital.reviving.skill },
 		{ name: "Revives given", type: "hospital", v2Getter: (data) => data.personalstats.hospital.reviving.revives },
@@ -100,7 +100,7 @@
 		{ name: "Mails to faction", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.faction },
 		{ name: "Mails to colleagues", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.colleagues },
 		{ name: "Mails to spouse", type: "communication", v2Getter: (data) => data.personalstats.communication.mails_sent.spouse },
-		{ name: "Classified ads", type: "communication", v2Getter: (data) => data.personalstats.communication.classified_ads },
+		{ name: "Classified ads placed", type: "communication", v2Getter: (data) => data.personalstats.communication.classified_ads },
 		{ name: "Personals placed", type: "communication", v2Getter: (data) => data.personalstats.communication.personals },
 
 		// Criminal Offenses

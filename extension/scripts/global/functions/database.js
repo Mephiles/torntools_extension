@@ -233,6 +233,16 @@ async function migrateDatabase(force = false) {
 			newStorage.torndata = {};
 
 			updated = true;
+		} else if (version <= toNumericVersion("7.7.1")) {
+			let stats = replaceProfileBoxStat(storage.filters.profile.stats, "Bazaar income", "Bazaar revenue");
+			stats = replaceProfileBoxStat(stats, "Market buys", "Items bought from market");
+			stats = replaceProfileBoxStat(stats, "Times trained", "Times trained by director");
+			stats = replaceProfileBoxStat(stats, "Elo Rating", "Elo rating");
+			stats = replaceProfileBoxStat(stats, "Meds used", "Medical items used");
+			stats = replaceProfileBoxStat(stats, "Classified ads", "Classified ads placed");
+			newStorage.filters.profile.stats = stats;
+
+			updated = true;
 		}
 
 		if (updated) {
@@ -240,6 +250,16 @@ async function migrateDatabase(force = false) {
 		}
 
 		newStorage.version.current = loadedVersion;
+
+		function replaceProfileBoxStat(stats, oldStat, newStat) {
+			const index = stats.indexOf(oldStat);
+			if (index === -1) return;
+
+			const newStats = stats.filter((stat) => stat !== oldStat);
+			newStats.insertAt(index, newStat);
+
+			return newStats;
+		}
 	}
 }
 
