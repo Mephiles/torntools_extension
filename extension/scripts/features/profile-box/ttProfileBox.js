@@ -60,6 +60,10 @@
 		{ name: "Bazaar customers", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.customers },
 		{ name: "Bazaar sales", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.sales },
 		{ name: "Bazaar income", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.profit },
+		{ name: "Item Market customers", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.customers },
+		{ name: "Item Market sales", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.sales },
+		{ name: "Item Market revenue", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.revenue },
+		{ name: "Item Market fees paid", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.fees },
 
 		// Jail
 		{ name: "Times jailed", type: "jail", v2Getter: (data) => data.personalstats.jail.times_jailed },
