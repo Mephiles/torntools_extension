@@ -5,7 +5,8 @@
 		"date": false,
 		"logs": { "features": [], "fixes": [], "changes": [
 			{ "message": "Include item market personal stats to the profile box.", "contributor": "DeKleineKobini" },
-			{ "message": "Rename profile box stats to be the same as in-game itself.", "contributor": "DeKleineKobini" }
+			{ "message": "Rename profile box stats to be the same as in-game itself.", "contributor": "DeKleineKobini" },
+			{ "message": "Remove permission 'tabs' that was accidentally left over from testing.", "contributor": "DeKleineKobini" }
 		], "removed": [] }
 	},
 	{

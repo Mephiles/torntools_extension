@@ -22,7 +22,7 @@
 			"scripts/background.js"
 		]
 	},
-	"permissions": ["storage", "notifications", "background", "offscreen", "alarms", "tabs"],
+	"permissions": ["storage", "notifications", "background", "offscreen", "alarms"],
 	"host_permissions": ["https://torn.com/"],
 	"optional_permissions": [
 		"https://www.tornstats.com/*",
