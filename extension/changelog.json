@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 7, "minor": 7, "build": 0 },
+		"version": { "major": 7, "minor": 7, "build": 1 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 0 },
+		"date": "2025/05/21",
 		"logs": {
 			"features": [
 				{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" },
@@ -38,10 +44,7 @@
 					"message": "Allow level filters for friends, enemies, targets, user search and abroad go to 0 due to NPCs being level 0.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "Allow filtering on temporary weapons in the auction house filter.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "Allow filtering on temporary weapons in the auction house filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Trigger tablet more at 1000px instead of at 960px.", "contributor": "DeKleineKobini" },
 				{ "message": "Apply ranked war filters on an interval to follow the live updates.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust Trade Open Chat to work with Chat 3.0.", "contributor": "TheFoxMan" },
@@ -52,8 +55,7 @@
 				{ "message": "Rework external services preference to link to the ToS of each applicable service.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate FFScouter (the feature) from TornPal to FFScouter (the service).", "contributor": "DeKleineKobini" },
 				{ "message": "Improve sidebar information loading.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
