@@ -113,47 +113,15 @@
 			),
 		},
 		{
-			name: "Counterfeiting",
+			name: "Vandalism offenses",
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.counterfeiting
+				(data) => data.personalstats.crimes.offenses.vandalism
 			),
 		},
 		{
-			name: "Cybercrime",
-			type: "criminal offenses",
-			v2Getter: crimesStats(
-				() => 0,
-				(data) => data.personalstats.crimes.offenses.cybercrime
-			),
-		},
-		{
-			name: "Extortion",
-			type: "criminal offenses",
-			v2Getter: crimesStats(
-				() => 0,
-				(data) => data.personalstats.crimes.offenses.extortion
-			),
-		},
-		{
-			name: "Illegal production",
-			type: "criminal offenses",
-			v2Getter: crimesStats(
-				() => 0,
-				(data) => data.personalstats.crimes.offenses.illegal_production
-			),
-		},
-		{
-			name: "Illicit services",
-			type: "criminal offenses",
-			v2Getter: crimesStats(
-				() => 0,
-				(data) => data.personalstats.crimes.offenses.illicit_services
-			),
-		},
-		{
-			name: "Theft",
+			name: "Theft offenses",
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
@@ -161,11 +129,51 @@
 			),
 		},
 		{
-			name: "Vandalism",
+			name: "Counterfeiting offenses",
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.vandalism
+				(data) => data.personalstats.crimes.offenses.counterfeiting
+			),
+		},
+		{
+			name: "Fraud offenses",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.fraud
+			),
+		},
+		{
+			name: "Illicit services offenses",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.illicit_services
+			),
+		},
+		{
+			name: "Cybercrime offenses",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.cybercrime
+			),
+		},
+		{
+			name: "Extortion offenses",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.extortion
+			),
+		},
+		{
+			name: "Illegal production offenses",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.offenses.illegal_production
 			),
 		},
 		{

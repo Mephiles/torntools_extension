@@ -240,6 +240,13 @@ async function migrateDatabase(force = false) {
 			stats = replaceProfileBoxStat(stats, "Elo Rating", "Elo rating");
 			stats = replaceProfileBoxStat(stats, "Meds used", "Medical items used");
 			stats = replaceProfileBoxStat(stats, "Classified ads", "Classified ads placed");
+			stats = replaceProfileBoxStat(stats, "Vandalism", "Vandalism offenses");
+			stats = replaceProfileBoxStat(stats, "Theft", "Theft offenses");
+			stats = replaceProfileBoxStat(stats, "Counterfeiting", "Counterfeiting offenses");
+			stats = replaceProfileBoxStat(stats, "Illicit services", "Illicit services offenses");
+			stats = replaceProfileBoxStat(stats, "Cybercrime", "Cybercrime offenses");
+			stats = replaceProfileBoxStat(stats, "Extortion", "Extortion offenses");
+			stats = replaceProfileBoxStat(stats, "Illegal production", "Illegal production offenses");
 			newStorage.filters.profile.stats = stats;
 
 			updated = true;
