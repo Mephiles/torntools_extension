@@ -184,6 +184,102 @@
 				(data) => data.personalstats.crimes.offenses.organized_crimes
 			),
 		},
+		{
+			name: "Search for cash skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.search_for_cash
+			),
+		},
+		{
+			name: "Bootlegging skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.bootlegging
+			),
+		},
+		{
+			name: "Graffiti skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.graffiti
+			),
+		},
+		{
+			name: "Shoplifting skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.shoplifting
+			),
+		},
+		{
+			name: "Pickpocketing skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.pickpocketing
+			),
+		},
+		{
+			name: "Card Skimming skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.card_skimming
+			),
+		},
+		{
+			name: "Burglary skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.burglary
+			),
+		},
+		{
+			name: "Hustling skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.hustling
+			),
+		},
+		{
+			name: "Disposal skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.disposal
+			),
+		},
+		{
+			name: "Cracking skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.cracking
+			),
+		},
+		{
+			name: "Forgery skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.forgery
+			),
+		},
+		{
+			name: "Scamming skill",
+			type: "criminal offenses",
+			v2Getter: crimesStats(
+				() => 0,
+				(data) => data.personalstats.crimes.skills.scamming
+			),
+		},
 
 		// Bounties
 		{ name: "Bounties placed", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.amount },

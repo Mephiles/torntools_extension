@@ -260,7 +260,7 @@ async function migrateDatabase(force = false) {
 
 		function replaceProfileBoxStat(stats, oldStat, newStat) {
 			const index = stats.indexOf(oldStat);
-			if (index === -1) return;
+			if (index === -1) return stats;
 
 			const newStats = stats.filter((stat) => stat !== oldStat);
 			newStats.insertAt(index, newStat);
