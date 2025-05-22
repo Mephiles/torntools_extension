@@ -45,6 +45,7 @@ jobs:
           tmpFile="tmp.tmp"
           firstEntry="$("${jqCommand}" -j ".[0]" "${changelogPath}")"
           version="$(echo "$firstEntry" | "${jqCommand}" -j "[ .version | to_entries[] | .value ] | join(\".\")")"
+          releaseTitle="$(echo "$firstEntry" | "${jqCommand}" -j "[ .title ]")"
           manifestVersion="$("${jqCommand}" -j ".version" < ./extension/manifest.json)"
           [ $version != $manifestVersion ] && echo "Manifest version and changelog version are not same. Please verify again." && exit 1
 
@@ -80,6 +81,10 @@ jobs:
           ' >> "$releaseBodyFile"
 
           # Update changelog.json date and remove empty features, fixes and changes entries
+          if [ "${jqCommand}" == "Beta" ]
+          then
+              "${jqCommand}" -j ".[0].beta |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+          fi
           "${jqCommand}" -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
           "${jqCommand}" -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
 
