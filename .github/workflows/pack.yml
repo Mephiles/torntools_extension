@@ -81,7 +81,7 @@ jobs:
           ' >> "$releaseBodyFile"
 
           # Update changelog.json date and remove empty features, fixes and changes entries
-          if [ "${jqCommand}" == "Beta" ]
+          if [ "${releaseTitle}" == "Beta" ]
           then
               "${jqCommand}" -j ".[0].beta |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
           fi
