@@ -985,13 +985,20 @@ async function updateStakeouts() {
 			}
 			if (hospital) {
 				const key = `${id}_hospital`;
-				if (data.status.state === "Hospital" && (!oldData || oldData.status.state !== data.status.state) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
+				if (data.status.state === "Hospital" && (!oldData || oldData.status.state !== data.status.state)) {
+					if (settings.notifications.types.global) {
+						let reasonText = "";
+						const reason = getHospitalizationReason(data.status.details);
+						if (reason && reason.important) {
+							reasonText = reason.display_sentence ?? reason.display ?? reason.name;
+							reasonText = " " + reasonText;
+						}
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now in the hospital.`,
+							`${data.name} is now in the hospital${reasonText}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
+					}
 				} else if (data.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
 				}
