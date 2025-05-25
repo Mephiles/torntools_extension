@@ -1348,10 +1348,10 @@ async function setupAPIInfo() {
 		const key = document.find("#api_key").value;
 
 		checkAPIPermission(key)
-			.then((granted) => {
+			.then(({ access }) => {
 				changeAPIKey(key)
 					.then(() => {
-						if (granted) sendMessage("API Key updated", true);
+						if (access) sendMessage("API Key updated", true);
 						else sendMessage("Your API key is not the correct API level. This will affect a lot of features.", false);
 						console.log("TT - Updated api key!");
 					})

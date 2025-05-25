@@ -318,21 +318,16 @@ function isTornAPICall(location) {
 
 function checkAPIPermission(key) {
 	return new Promise((resolve, reject) => {
-		fetchData("torn", { section: "key", selections: ["info"], key, silent: true })
+		fetchData("tornv2", { section: "key", selections: ["info"], key, silent: true })
 			.then(async (response) => {
-				const level = response.access_level;
-				if (
-					level === 3 || // Limited Access
-					level === 4 // Full Access
-				) {
-					resolve(true);
+				const { type, faction, company } = response.info.access.type;
+				if (type === "Limited Access" || type === "Full Access") {
+					resolve({ access: true, faction, company });
 				} else {
-					resolve(false);
+					resolve({ access: false });
 				}
 			})
-			.catch((error) => {
-				reject(error.error);
-			});
+			.catch((error) => reject(error.error));
 	});
 }
 

@@ -88,8 +88,8 @@ async function setupInitialize() {
 		const key = document.find("#api_key").value;
 
 		checkAPIPermission(key)
-			.then((granted) => {
-				if (!granted) {
+			.then(({ access }) => {
+				if (!access) {
 					const permissionError = document.find(".permission-error");
 					permissionError.classList.remove("tt-hidden");
 					permissionError.textContent =
