@@ -95,7 +95,7 @@
 				document.newElement({
 					type: "li",
 					class: ["table-cell", "lvl", "tt-ff-scouter-faction-list-value"],
-					text: ff.toFixed(2),
+					text: ff !== null ? ff.toFixed(2) : "?",
 					style: {
 						backgroundColor: backgroundColor,
 						color: textColor,
