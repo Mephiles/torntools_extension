@@ -1358,6 +1358,8 @@ async function setupNotifications() {
 		const { message, date, url } = notification;
 		const title = notification.title.replace("TornTools - ", "");
 
+		const period = isToday(date) ? formatTime(date) : `${formatDate(date)} ${formatTime(date)}`;
+
 		return document.newElement({
 			type: "li",
 			children: [
@@ -1368,7 +1370,7 @@ async function setupNotifications() {
 						document.newElement({
 							type: "div",
 							class: "title",
-							children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: formatTime(date) })],
+							children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: period })],
 						}),
 						document.newElement({ type: "span", text: message }),
 					],

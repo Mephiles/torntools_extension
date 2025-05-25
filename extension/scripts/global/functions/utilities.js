@@ -173,6 +173,10 @@ function isSameUTCDay(date1, date2) {
 	return date1.setUTCHours(24, 0, 0, 0) === date2.setUTCHours(24, 0, 0, 0);
 }
 
+function isToday(timestamp) {
+	return new Date().getDate() === new Date(timestamp).getDate();
+}
+
 function getUUID() {
 	return "_" + Math.random().toString(36).substr(2, 9);
 }
