@@ -375,5 +375,8 @@ function hasOC1Data() {
 }
 
 async function hasOrigins(...origins) {
+	// We have permission for the entire domain, not just the api subdomain.
+	origins = origins.map((origin) => origin.replaceAll("api.torn.com", "torn.com"));
+
 	return new Promise((resolve) => chrome.permissions.contains({ origins }, (granted) => resolve(granted)));
 }
