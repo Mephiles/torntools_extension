@@ -5,7 +5,13 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix FF Scouter failing when there isn't a result.", "contributor": "DeKleineKobini" },{ "message": "Correctly show 'network issues' again instead of 'permissions issues' when all permissions are in order.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix FF Scouter failing when there isn't a result.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Correctly show 'network issues' again instead of 'permissions issues' when all permissions are in order.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"changes": [
 				{ "message": "Show date of notifications in the popup, unless they were shown today.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate key info over to API V2.", "contributor": "DeKleineKobini" },
