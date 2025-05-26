@@ -71,7 +71,7 @@
 
 			const userID = getUsername(row).id;
 			const scout = results.find((r) => r.player_id === userID);
-			if (!scout) {
+			if (!scout?.fair_fight) {
 				row.dataset.ffScout = "N/A";
 				row.find(".table-cell.lvl").insertAdjacentElement(
 					"afterend",

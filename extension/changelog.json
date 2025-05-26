@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Fix FF Scouter failing when there isn't a result.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Show date of notifications in the popup, unless they were shown today.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate key info over to API V2.", "contributor": "DeKleineKobini" },
