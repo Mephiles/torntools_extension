@@ -32,7 +32,7 @@ jobs:
     environment: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Update the changelog.json
         run: |
           # Install jq
@@ -89,11 +89,10 @@ jobs:
           "${jqCommand}" -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
 
       - name: Format with prettier
-        uses: creyD/prettier_action@v4.3
+        uses: creyD/prettier_action@v4.5
         with:
           prettier_options: --config .prettierrc --write . --list-different
-          commit_options: --dry-run
-          push_options: --dry-run
+          no_commit: true
 
       - name: Create zip files for CWS and AMO
         run: |
@@ -222,11 +221,10 @@ jobs:
           awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
 
       - name: Format with prettier
-        uses: creyD/prettier_action@v4.3
+        uses: creyD/prettier_action@v4.5
         with:
           prettier_options: --config .prettierrc --write . --list-different
-          commit_options: --dry-run
-          push_options: --dry-run
+          no_commit: true
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9.1.4
