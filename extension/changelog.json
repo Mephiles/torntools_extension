@@ -14,7 +14,8 @@
 				{
 					"message": "Fix ranked war filter (and potentially other filters) ignoring stat estimates filters when updating on the timer.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Fix ranked war filter applying stat estimates filters on the normal faction members list.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Show date of notifications in the popup, unless they were shown today.", "contributor": "DeKleineKobini" },

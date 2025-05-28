@@ -52,7 +52,6 @@
 		if (isOwnFaction && getFactionSubpage() !== "info") return;
 		if (settings.pages.faction.memberFilter && !forced) return;
 
-		console.log("DKK estimate start", isOwnFaction, getFactionSubpage());
 		await showEstimates();
 	}
 

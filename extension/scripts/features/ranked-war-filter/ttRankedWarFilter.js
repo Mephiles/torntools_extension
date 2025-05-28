@@ -29,6 +29,11 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
 			if (!feature.enabled()) return;
 
+			if (!row.closest(".faction-war")) {
+				// Estimate didn't happen in a ranked war list.
+				return;
+			}
+
 			const content = findContainer("Ranked War Filter", { selector: "main" });
 			const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
 			if (!statsEstimates?.length) return;
