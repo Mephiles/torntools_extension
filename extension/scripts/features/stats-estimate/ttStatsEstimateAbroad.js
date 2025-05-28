@@ -4,7 +4,7 @@
 	if (!getPageStatus().access) return;
 	if (!isAbroad()) return;
 
-	const statsEstimate = new StatsEstimate(true);
+	const statsEstimate = new StatsEstimate("Abroad People", true);
 	const feature = featureManager.registerFeature(
 		"Stats Estimate",
 		"stat estimates",

@@ -51,7 +51,7 @@
 		const activityFilter = createFilterSection({
 			type: "Activity",
 			defaults: filters.abroadPeople.activity,
-			callback: () => applyFilters(true),
+			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(activityFilter.element);
 		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
@@ -68,7 +68,7 @@
 				...onPageFactions,
 			],
 			defaults: filters.abroadPeople.faction,
-			callback: () => applyFilters(true),
+			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(factionFilter.element);
 		localFilters["Faction"] = { getSelected: factionFilter.getSelected };
@@ -77,7 +77,7 @@
 			title: "Special",
 			ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties"],
 			defaults: filters.abroadPeople.special,
-			callback: () => applyFilters(true),
+			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(specialFilter.element);
 		localFilters["Special"] = { getSelections: specialFilter.getSelections };
@@ -89,7 +89,7 @@
 				{ id: "hospital", description: "Hospital" },
 			],
 			defaults: filters.abroadPeople.status,
-			callback: () => applyFilters(true),
+			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(statusFilter.element);
 		localFilters["Status"] = { getSelections: statusFilter.getSelections };
@@ -100,7 +100,7 @@
 				valueLow: filters.abroadPeople.levelStart,
 				valueHigh: filters.abroadPeople.levelEnd,
 			},
-			callback: () => applyFilters(true),
+			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(levelFilter.element);
 		content.appendChild(filterContent);
@@ -115,7 +115,7 @@
 					{ id: "n/a", description: "N/A" },
 				],
 				defaults: filters.abroadPeople.estimates,
-				callback: () => applyFilters(true),
+				callback: () => applyFilters(),
 			});
 			filterContent.appendChild(estimatesFilter.element);
 
@@ -125,7 +125,7 @@
 		await applyFilters();
 	}
 
-	async function applyFilters(includeEstimates) {
+	async function applyFilters() {
 		await requireElement(".users-list > li");
 
 		// Get the set filters
@@ -138,7 +138,7 @@
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
 		const statsEstimates =
-			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
+			hasStatsEstimatesLoaded("Abroad People") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
 				? localFilters["Stats Estimate"]?.getSelections(content)
 				: undefined;
 

@@ -27,12 +27,16 @@ const RANKS = {
 	Invincible: 26,
 };
 
+const ESTIMATE_INSTANCES = {};
+
 class StatsEstimate {
-	constructor(isList) {
+	constructor(name, isList) {
 		this.queue = [];
 		this.running = false;
 
 		this.isList = isList;
+
+		ESTIMATE_INSTANCES[name] = this;
 	}
 
 	showEstimates(selector, handler, hasFilter, placement) {
@@ -232,4 +236,8 @@ class StatsEstimate {
 
 		return estimate;
 	}
+}
+
+function hasStatsEstimatesLoaded(name) {
+	return name in ESTIMATE_INSTANCES && !ESTIMATE_INSTANCES[name].running;
 }

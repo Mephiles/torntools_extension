@@ -3,7 +3,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const statsEstimate = new StatsEstimate(true);
+	const statsEstimate = new StatsEstimate("Competitions", true);
 	const feature = featureManager.registerFeature(
 		"Stats Estimate",
 		"stat estimates",
@@ -55,7 +55,7 @@
 				id: row
 					.find(".user.name[href]")
 					.getAttribute("href")
-					.match(/(?<=XID\=)\d+/)[0]
+					.match(/(?<=XID=)\d+/)[0]
 					.getNumber(),
 				level: row.find(".level").textContent.getNumber(),
 			}),

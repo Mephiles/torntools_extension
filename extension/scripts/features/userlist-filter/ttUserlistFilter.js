@@ -20,7 +20,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(() => {
 			if (!feature.enabled()) return;
 
-			filtering(false);
+			filtering();
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
 			if (!feature.enabled()) return;
@@ -56,7 +56,7 @@
 		const activityFilter = createFilterSection({
 			type: "Activity",
 			defaults: filters.userlist.activity,
-			callback: () => filtering(true),
+			callback: () => filtering(),
 		});
 		filterContent.appendChild(activityFilter.element);
 		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
@@ -77,7 +77,7 @@
 				"Early Discharge",
 			],
 			defaults: filters.userlist.special,
-			callback: () => filtering(true),
+			callback: () => filtering(),
 		});
 		filterContent.appendChild(specialFilter.element);
 		localFilters["Special"] = { getSelections: specialFilter.getSelections };
@@ -86,7 +86,7 @@
 			title: "Hosp Reason",
 			ynCheckboxes: ["Attacked By", "Mugged By", "Hospitalized By", "Other"],
 			defaults: filters.userlist.hospReason,
-			callback: () => filtering(true),
+			callback: () => filtering(),
 		});
 		filterContent.appendChild(hospReasonFilter.element);
 		localFilters["Hosp Reason"] = { getSelections: hospReasonFilter.getSelections };
@@ -97,7 +97,7 @@
 				valueLow: filters.userlist.levelStart,
 				valueHigh: filters.userlist.levelEnd,
 			},
-			callback: () => filtering(true),
+			callback: () => filtering(),
 		});
 		filterContent.appendChild(levelFilter.element);
 		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
@@ -111,7 +111,7 @@
 					{ id: "n/a", description: "N/A" },
 				],
 				defaults: filters.userlist.estimates,
-				callback: () => filtering(true),
+				callback: () => filtering(),
 			});
 			filterContent.appendChild(estimatesFilter.element);
 
@@ -120,10 +120,10 @@
 
 		content.appendChild(filterContent);
 
-		await filtering(false);
+		await filtering();
 	}
 
-	async function filtering(includeEstimates) {
+	async function filtering() {
 		await requireElement(".user-info-list-wrap");
 		await requireCondition(
 			() =>
@@ -140,7 +140,7 @@
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
 		const statsEstimates =
-			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
+			hasStatsEstimatesLoaded("Userlist") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
 				? localFilters["Stats Estimate"]?.getSelections(content)
 				: undefined;
 

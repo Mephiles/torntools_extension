@@ -55,7 +55,7 @@
 		if (location.hash.includes("#/war/rank")) rankedWarList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war");
 		if (!rankedWarList) return;
 
-		interval = setInterval(() => filtering(false), 2500);
+		interval = setInterval(() => filtering(), 2500);
 
 		const { content } = createContainer("Ranked War Filter", {
 			nextElement: rankedWarList,
@@ -76,7 +76,7 @@
 		const activityFilter = createFilterSection({
 			type: "Activity",
 			defaults: filters.factionRankedWar.activity,
-			callback: () => filtering(true),
+			callback: () => filtering(),
 		});
 		filterContent.appendChild(activityFilter.element);
 		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
@@ -90,7 +90,7 @@
 				{ id: "traveling", description: "Traveling" },
 			],
 			defaults: filters.factionRankedWar.status,
-			callback: () => filtering(true),
+			callback: () => filtering(),
 		});
 		filterContent.appendChild(statusFilter.element);
 		localFilters["Status"] = { getSelections: statusFilter.getSelections };
@@ -101,7 +101,7 @@
 				valueLow: filters.factionRankedWar.levelStart,
 				valueHigh: filters.factionRankedWar.levelEnd,
 			},
-			callback: () => filtering(true),
+			callback: () => filtering(),
 		});
 		filterContent.appendChild(levelFilter.element);
 		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
@@ -115,7 +115,7 @@
 					{ id: "n/a", description: "N/A" },
 				],
 				defaults: filters.factionRankedWar.estimates,
-				callback: () => filtering(true),
+				callback: () => filtering(),
 			});
 			filterContent.appendChild(estimatesFilter.element);
 
@@ -124,10 +124,10 @@
 
 		content.appendChild(filterContent);
 
-		await filtering(false);
+		await filtering();
 	}
 
-	async function filtering(includeEstimates) {
+	async function filtering() {
 		const membersWrap = await requireElement(".faction-war[class*='membersWrap__']");
 
 		const content = findContainer("Ranked War Filter");
@@ -137,7 +137,7 @@
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
 		const statsEstimates =
-			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.rankedWars && hasAPIData()
+			hasStatsEstimatesLoaded("Faction Ranked Wars") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.rankedWars && hasAPIData()
 				? localFilters["Stats Estimate"]?.getSelections(content)
 				: undefined;
 

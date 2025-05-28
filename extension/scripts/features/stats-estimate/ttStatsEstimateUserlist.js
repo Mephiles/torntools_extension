@@ -3,7 +3,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const statsEstimate = new StatsEstimate(true);
+	const statsEstimate = new StatsEstimate("Userlist", true);
 	const feature = featureManager.registerFeature(
 		"Stats Estimate",
 		"stat estimates",

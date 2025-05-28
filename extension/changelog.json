@@ -10,6 +10,10 @@
 				{
 					"message": "Correctly show 'network issues' again instead of 'permissions issues' when all permissions are in order.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Fix ranked war filter (and potentially other filters) ignoring stat estimates filters when updating on the timer.",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"changes": [

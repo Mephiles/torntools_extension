@@ -32,14 +32,14 @@
 
 		const listObserver = new MutationObserver((mutations) => {
 			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.matches("li[class*='tableRow__']")))) {
-				if (filterSetupComplete && feature.enabled()) applyFilters(true);
+				if (filterSetupComplete && feature.enabled()) applyFilters();
 			}
 		});
 
 		const tableObserver = new MutationObserver((mutations) => {
 			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
 				if (filterSetupComplete && feature.enabled()) {
-					applyFilters(true);
+					applyFilters();
 					listObserver.observe(document.find(".tableWrapper > ul"), { childList: true });
 				}
 			}
@@ -71,7 +71,7 @@
 		const activityFilter = createFilterSection({
 			type: "Activity",
 			defaults: filters.targets.activity,
-			callback: () => applyFilters(true),
+			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(activityFilter.element);
 		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
@@ -82,7 +82,7 @@
 				valueLow: filters.targets.levelStart,
 				valueHigh: filters.targets.levelEnd,
 			},
-			callback: () => applyFilters(true),
+			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(levelFilter.element);
 		content.appendChild(filterContent);
@@ -97,7 +97,7 @@
 					{ id: "n/a", description: "N/A" },
 				],
 				defaults: filters.targets.estimates,
-				callback: () => applyFilters(true),
+				callback: () => applyFilters(),
 			});
 			filterContent.appendChild(estimatesFilter.element);
 
@@ -109,7 +109,7 @@
 		filterSetupComplete = true;
 	}
 
-	async function applyFilters(includeEstimates) {
+	async function applyFilters() {
 		await requireElement(".tableWrapper ul > li");
 
 		// Get the set filters
@@ -119,7 +119,7 @@
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
 		const statsEstimates =
-			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.targets && hasAPIData()
+			hasStatsEstimatesLoaded("Targets") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.targets && hasAPIData()
 				? localFilters["Stats Estimate"]?.getSelections(content)
 				: undefined;
 

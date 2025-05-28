@@ -3,7 +3,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const statsEstimate = new StatsEstimate(true);
+	const statsEstimate = new StatsEstimate("Faction Ranked Wars", true);
 	const feature = featureManager.registerFeature(
 		"Ranked War Estimates",
 		"stat estimates",
