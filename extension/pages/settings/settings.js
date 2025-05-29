@@ -1693,23 +1693,6 @@ async function setupExport() {
 
 	// Remote Sync
 	loadSync();
-
-	// Remote Server
-	// exportSection.find("#export-remote-server").addEventListener("click", () => {
-	// 	loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
-	// 		.then(() => {
-	// 			// TODO - Store data in remote server.
-	// 		})
-	// 		.catch(() => {});
-	// });
-	// exportSection.find("#import-remote-server").addEventListener("click", () => {
-	// 	loadConfirmationPopup(POPUP_TEMPLATES.IMPORT)
-	// 		.then(() => {
-	// 			// TODO - Load data from remote server.
-	// 		})
-	// 		.catch(() => {});
-	// });
-
 	async function getExportData(api) {
 		const exportedKeys = ["version", "settings", "filters", "stakeouts", "notes", "quick"];
 		if (api) exportedKeys.insertAt(0, "api");
