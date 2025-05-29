@@ -239,6 +239,16 @@ async function setupPreferences(requireCleanup) {
 		);
 	}
 
+	reviveProviderSelectElement.addEventListener("change", (event) => {
+		const origin = REVIVE_PROVIDERS.find((p) => p.provider === event.target.value)?.origin;
+
+		chrome.permissions.request({ origins: [origin] }, (granted) => {
+			if (granted) return;
+
+			sendMessage("That permission is required for the revive provider you selected.", false);
+		});
+	});
+
 	if (getSearchParameters().has("section"))
 		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
 
@@ -1284,7 +1294,7 @@ async function setupPreferences(requireCleanup) {
 
 		const reviveProvider = _preferences.find("#global-reviveProvider").value;
 		if (reviveProvider) {
-			const origin = REVIVE_PROVIDERS.find((p) => p === reviveProvider)?.origin;
+			const origin = REVIVE_PROVIDERS.find((p) => p.provider === reviveProvider)?.origin;
 
 			if (origin) origins.push(origin);
 		}
@@ -1296,14 +1306,15 @@ async function setupPreferences(requireCleanup) {
 				title: "Permission Issue",
 				message: "There are settings enabled that require permissions to be given, but those permissions are missing.",
 			})
-				.then(() => {})
-				.catch(() => {})
 				.then(() => {
 					chrome.permissions.request({ origins }, (granted) => {
 						if (granted) return;
 
 						sendMessage("These permissions are essential.", false);
 					});
+				})
+				.catch(() => {
+					sendMessage("These permissions are essential.", false);
 				});
 		});
 	}
