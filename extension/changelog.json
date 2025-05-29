@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Add 'Laekna' as revive provider.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix FF Scouter failing when there isn't a result.", "contributor": "DeKleineKobini" },
 				{

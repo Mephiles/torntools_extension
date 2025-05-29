@@ -17,13 +17,7 @@
 		{
 			storage: ["settings.pages.global.reviveProvider"],
 		},
-		() => {
-			switch (settings.pages.global.reviveProvider) {
-				case "nuke":
-					if (!hasAPIData()) return "No API access.";
-					break;
-			}
-		}
+		undefined
 	);
 
 	async function initialiseListeners() {
@@ -108,12 +102,20 @@
 			else if (country === "uae") country = "UAE";
 			else country = capitalizeText(country.replaceAll("-", " "), { everyWord: true });
 
-			doRequestRevive(id, name, country, faction)
+			const { statusIcons } = getSidebarData();
+			const countryIcon = statusIcons.icons.travel?.subtitle ?? "Torn";
+
+			doRequestRevive(id, name, country, countryIcon, faction)
 				.then(({ provider }) => displayMessage(`Revive requested for ${calculateRevivePrice(provider)}!`))
 				.catch(({ provider, response }) => {
-					displayMessage("Failed to request!", true);
-					button.removeAttribute("disabled");
-					console.log(`TT - Failed to request a revive with ${provider.name}!`, response);
+					if (response.code === "COOLDOWN") {
+						displayMessage("Cooldown, wait for a little bit!", true);
+						button.removeAttribute("disabled");
+					} else {
+						displayMessage("Failed to request!", true);
+						button.removeAttribute("disabled");
+						console.log(`TT - Failed to request a revive with ${provider.name}!`, response);
+					}
 				});
 		}
 

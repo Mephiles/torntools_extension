@@ -23,6 +23,7 @@ const FETCH_PLATFORMS = {
 	wtf: "https://what-the-f.de/",
 	tornw3b: "https://weav3r.dev/",
 	ffscouter: "https://ffscouter.com/",
+	laekna: "https://laekna-revive-bot.onrender.com/",
 };
 
 const FACTION_ACCESS = {
@@ -117,33 +118,9 @@ async function fetchData(location, options = {}) {
 					path = pathSections.join("/");
 					await ttUsage.add(location);
 					break;
-				case "nukefamily":
-					url = FETCH_PLATFORMS.nukefamily;
-
-					path = options.section;
-					break;
-				case "uhc":
-					url = FETCH_PLATFORMS.uhc;
-
-					path = options.section;
-					break;
-				case "stig":
-					url = FETCH_PLATFORMS.stig;
-
-					path = options.section;
-					break;
 				case "prometheus":
 					url = FETCH_PLATFORMS.prometheus;
-
 					path = ["api", options.section].join("/");
-					break;
-				case "lzpt":
-					url = FETCH_PLATFORMS.lzpt;
-					path = options.section;
-					break;
-				case "wtf":
-					url = FETCH_PLATFORMS.wtf;
-					path = options.section;
 					break;
 				case "tornw3b":
 					url = FETCH_PLATFORMS.tornw3b;
@@ -153,6 +130,10 @@ async function fetchData(location, options = {}) {
 					url = FETCH_PLATFORMS.ffscouter;
 					path = ["api", "v1", options.section].join("/");
 					key = api.ffScouter.key;
+					break;
+				default:
+					url = FETCH_PLATFORMS[location];
+					path = options.section;
 					break;
 			}
 
@@ -195,7 +176,7 @@ async function fetchData(location, options = {}) {
 					try {
 						result = await response.clone().json();
 					} catch (error) {
-						if (location === "torn_direct") {
+						if (location === "torn_direct" || location === "laekna") {
 							result = await response.clone().text();
 
 							resolve(result);

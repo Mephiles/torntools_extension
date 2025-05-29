@@ -34,7 +34,8 @@
 		"https://api.lzpt.io/*",
 		"https://what-the-f.de/*",
 		"https://weav3r.dev/*",
-		"https://ffscouter.com/"
+		"https://ffscouter.com/",
+		"https://laekna-revive-bot.onrender.com/"
 	],
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
@@ -46,7 +47,8 @@
 		"https://api.lzpt.io/",
 		"https://what-the-f.de/",
 		"https://weav3r.dev/*",
-		"https://ffscouter.com/"
+		"https://ffscouter.com/",
+		"https://laekna-revive-bot.onrender.com/"
 	],
 	"web_accessible_resources": [
 		{

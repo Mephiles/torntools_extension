@@ -2195,3 +2195,10 @@ function getHospitalizationReason(details) {
 
 	return HOSP_REASONS.find((_reason) => _reason.keywords.some((keyword) => details.includes(keyword)));
 }
+
+function getSidebarData() {
+	return Object.entries(sessionStorage)
+		.filter(([key]) => /sidebarData\d+/.test(key))
+		.map(([, value]) => JSON.parse(value))
+		.find(() => true);
+}
