@@ -23,8 +23,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			if (!settings.external.tornstats || !settings.external.yata) return "Both TornStats and YATA are disabled.";
-			if (
+			else if (!settings.external.tornstats && !settings.external.yata) return "Both TornStats and YATA are disabled.";
+			else if (
 				settings.scripts.statsEstimate.global &&
 				settings.scripts.statsEstimate.factions &&
 				settings.scripts.statsEstimate.wars &&

@@ -17,7 +17,8 @@
 				},
 				{ "message": "Fix ranked war filter applying stat estimates filters on the normal faction members list.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix permissions when changing revive provider.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the 'Show Faction Spy' feature incorrectly showing the mobile view.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the 'Show Faction Spy' feature incorrectly showing the mobile view.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the 'Show Faction Spy' requiring both YATA and TornStats to be enabled.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Show date of notifications in the popup, unless they were shown today.", "contributor": "DeKleineKobini" },
