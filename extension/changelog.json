@@ -19,7 +19,8 @@
 				{ "message": "Fix permissions when changing revive provider.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the 'Show Faction Spy' feature incorrectly showing the mobile view.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the 'Show Faction Spy' requiring both YATA and TornStats to be enabled.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the 'Show Faction Spy' not showing the total when using YATA.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the 'Show Faction Spy' not showing the total when using YATA.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix compatibility between 'Show Faction Spy' and 'FF Scouter'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Show date of notifications in the popup, unless they were shown today.", "contributor": "DeKleineKobini" },

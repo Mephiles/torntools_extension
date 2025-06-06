@@ -66,3 +66,19 @@
 	object-fit: cover;
 	pointer-events: none; /* Allow clicks to pass through */
 }
+
+/**
+ * Compatibility with 'Show Faction Spy'
+ */
+
+body:not(.tt-mobile) .tt-modified-ff-scouter.tt-modified-faction-spy .table-row .member {
+	width: 32% !important;
+}
+
+body:not(.tt-mobile) .tt-modified-ff-scouter.tt-modified-faction-spy .table-row .member-icons {
+	width: 26% !important;
+}
+
+body:not(.tt-mobile) .tt-modified-ff-scouter.tt-modified-faction-spy .table-row .status {
+	width: 7% !important;
+}
