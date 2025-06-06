@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	const { mobile } = await checkDevice();
+
 	const feature = featureManager.registerFeature(
 		"Show Faction Spy",
 		"faction",
