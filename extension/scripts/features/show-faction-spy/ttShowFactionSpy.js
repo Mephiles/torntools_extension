@@ -63,7 +63,8 @@
 		tableBody.classList.add("tt-modified-faction-spy");
 
 		[...tableBody.children].forEach((row) => {
-			const memberID = row.find(".member.icons [href*='/profiles.php']").getAttribute("href").split("XID=")[1];
+			const memberID = row.find(".member.icons [href*='/profiles.php']")?.getAttribute("href").split("XID=")[1];
+			if (!memberID) return;
 			let spyData = spies[memberID];
 
 			let statFields = [];
@@ -165,6 +166,7 @@
 						defense: spyData.defense,
 						speed: spyData.speed,
 						dexterity: spyData.dexterity,
+						total: spyData.total,
 						timestamp: spyData.update,
 					};
 			}
