@@ -72,22 +72,6 @@
 				for (const stat of ["strength", "defense", "speed", "dexterity", "total"])
 					spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
 				spyData.timestamp = formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true });
-				checkDevice().then((result) => {
-					console.log(
-						"TT TEMP - Show spy data",
-						[
-							`Strength: ${spyData.strength}`,
-							`Defense: ${spyData.defense}`,
-							`Speed: ${spyData.speed}`,
-							`Dexterity: ${spyData.dexterity}`,
-							`Total: ${spyData.total}`,
-							`⏱: ${spyData.timestamp}`,
-						],
-						mobile,
-						result
-					);
-				});
-
 				statFields = [
 					`Strength: ${spyData.strength}`,
 					`Defense: ${spyData.defense}`,
