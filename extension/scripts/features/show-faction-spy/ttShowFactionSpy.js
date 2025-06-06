@@ -68,26 +68,30 @@
 			let spyData = spies[memberID];
 
 			let statFields = [];
+			let title = "";
 			if (spyData) {
 				for (const stat of ["strength", "defense", "speed", "dexterity", "total"])
 					spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
 				spyData.timestamp = formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true });
-				statFields = [
+
+				const allFields = [
 					`Strength: ${spyData.strength}`,
 					`Defense: ${spyData.defense}`,
 					`Speed: ${spyData.speed}`,
 					`Dexterity: ${spyData.dexterity}`,
 					`Total: ${spyData.total}`,
 					`⏱: ${spyData.timestamp}`,
-				]
-					.slice(mobile ? 4 : 0)
-					.map((text) => document.newElement({ type: "div", text: text }));
+				];
+
+				statFields = allFields.slice(mobile ? 4 : 0).map((text) => document.newElement({ type: "div", text: text }));
+				title = allFields.join("\n");
 			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
 
 			const spyElement = document.newElement({
 				type: "div",
 				class: "tt-faction-spy",
 				children: statFields,
+				attributes: { title },
 			});
 			row.appendChild(spyElement);
 		});
@@ -104,18 +108,30 @@
 			let spyData = spies[memberID];
 
 			let statFields = [];
+			let title = "";
 			if (spyData) {
 				for (const stat of ["strength", "defense", "speed", "dexterity", "total"])
 					spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
 				spyData.timestamp = formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true });
 
-				statFields = [`Total: ${spyData.total}`, `⏱: ${spyData.timestamp}`].map((text) => document.newElement({ type: "div", text: text }));
+				const allFields = [
+					`Strength: ${spyData.strength}`,
+					`Defense: ${spyData.defense}`,
+					`Speed: ${spyData.speed}`,
+					`Dexterity: ${spyData.dexterity}`,
+					`Total: ${spyData.total}`,
+					`⏱: ${spyData.timestamp}`,
+				];
+
+				statFields = allFields.slice(4).map((text) => document.newElement({ type: "div", text: text }));
+				title = allFields.join("<br>");
 			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
 
 			const spyElement = document.newElement({
 				type: "div",
 				class: "tt-faction-rw-spy",
 				children: statFields,
+				attributes: { title },
 			});
 			row.appendChild(spyElement);
 		});

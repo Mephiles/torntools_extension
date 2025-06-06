@@ -24,7 +24,8 @@
 			"changes": [
 				{ "message": "Show date of notifications in the popup, unless they were shown today.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate key info over to API V2.", "contributor": "DeKleineKobini" },
-				{ "message": "Show the (important) reason of the hospitalization in the stakeout message.", "contributor": "DeKleineKobini" }
+				{ "message": "Show the (important) reason of the hospitalization in the stakeout message.", "contributor": "DeKleineKobini" },
+				{ "message": "Hovering over the 'Faction Spy' will now show the full stats.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
