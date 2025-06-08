@@ -1027,7 +1027,7 @@ const CUSTOM_LINKS_PRESET = {
 	Museum: { link: "https://www.torn.com/museum.php" },
 	Pharmacy: { link: "https://www.torn.com/shops.php?step=pharmacy" },
 	"Points Market": { link: "https://www.torn.com/pmarket.php" },
-	Raceway: { link: "https://www.torn.com/loader.php?sid=racing" },
+	Raceway: { link: "https://www.torn.com/page.php?sid=racing" },
 	"Travel Agency": { link: "https://www.torn.com/page.php?sid=travel" },
 	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 };

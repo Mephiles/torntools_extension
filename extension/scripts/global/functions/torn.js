@@ -34,7 +34,7 @@ const LINKS = {
 	pointsmarket: "https://www.torn.com/pmarket.php",
 	property_upkeep: "https://www.torn.com/properties.php#/p=options&tab=upkeep",
 	property_vault: "https://www.torn.com/properties.php#/p=options&tab=vault",
-	raceway: "https://www.torn.com/loader.php?sid=racing",
+	raceway: "https://www.torn.com/page.php?sid=racing",
 	staff: "https://www.torn.com/staff.php",
 	stocks: "https://www.torn.com/page.php?sid=stocks",
 	trade: "https://www.torn.com/trade.php",
