@@ -350,7 +350,8 @@
 
 				if (getTravelType() === "standard") totalCost += country.cost;
 
-				let value = torndata.items[item.id].market_value;
+				const tornItem = torndata.items[item.id];
+				let value = tornItem.market_value;
 				let time = country.time * getTimeModifier(getTravelType());
 				let profitItem, profitMinute, profit;
 				if (value !== 0) {
@@ -373,7 +374,7 @@
 							<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
 							<span class="name">${country.name}</span>
 						</div>
-						<a class="item" target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.id}">
+						<a class="item" target="_blank" href="https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${item.id}&itemName=${item.name}&itemType=${tornItem.type}">
 							<img class="icon" src="/images/items/${item.id}/small.png" alt="${item.name}" title="${item.name}"/>
 							<span>${item.name}</a>
 						</a>
