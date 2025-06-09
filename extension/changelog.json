@@ -29,7 +29,8 @@
 				{ "message": "Show the (important) reason of the hospitalization in the stakeout message.", "contributor": "DeKleineKobini" },
 				{ "message": "Hovering over the 'Faction Spy' will now show the full stats.", "contributor": "DeKleineKobini" },
 				{ "message": "Move links to the new raceway url.", "contributor": "DeKleineKobini" },
-				{ "message": "Move and adjust links to the new item market url.", "contributor": "DeKleineKobini" }
+				{ "message": "Move and adjust links to the new item market url.", "contributor": "DeKleineKobini" },
+				{ "message": "Update 'A Thor Loser' mission task.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

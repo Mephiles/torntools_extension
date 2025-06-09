@@ -40,7 +40,7 @@
 				hint: "Other weapons can stay equipped. Using any other weapon will fail this mission!",
 			},
 			a_thor_loser: {
-				task: "Use Duke's hammer to hit 8 - 14 unique body parts",
+				task: "Use Duke's hammer to hit 6 - 14 unique body parts",
 				hint: "Stalemating is a good way to achieve this.",
 			},
 			against_the_odds: {
