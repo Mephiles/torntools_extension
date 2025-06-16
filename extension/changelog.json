@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 7, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fix gym features not appearing when going back to the same gym.", "contributor": "DeKleineKobini" }], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix gym features not appearing when going back to the same gym.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 7, "build": 2 },
