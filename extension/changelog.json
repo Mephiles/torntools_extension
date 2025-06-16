@@ -37,7 +37,6 @@
 	},
 	{
 		"version": { "major": 7, "minor": 7, "build": 1 },
-		"title": "Beta",
 		"date": "2025/05/22",
 		"logs": {
 			"changes": [
