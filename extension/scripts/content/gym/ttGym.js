@@ -27,14 +27,25 @@
 		}
 	});
 
-	new Promise(async (resolve) => {
-		for (let stat of ["strength", "defense", "speed", "dexterity"]) {
-			const el = await requireElement(`div[class*='gymContent_'] li[class*='${stat}_'] span[class*='propertyValue_']`);
+	document.getElementById("gymroot").addEventListener("click", (event) => {
+		const target = event.target;
+		if (target.tagName !== "BUTTON" || target.textContent !== "BACK TO GYM") return;
 
-			STATS[stat] = parseInt(el.textContent.replaceAll(",", ""));
-		}
+		triggerGymLoadFromDOM();
+	});
 
-		triggerCustomListener(EVENT_CHANNELS.GYM_LOAD, { stats: STATS });
-		resolve();
-	}).then(() => {});
+	triggerGymLoadFromDOM();
+
+	function triggerGymLoadFromDOM() {
+		new Promise(async (resolve) => {
+			for (let stat of ["strength", "defense", "speed", "dexterity"]) {
+				const el = await requireElement(`div[class*='gymContent_'] li[class*='${stat}_'] span[class*='propertyValue_']`);
+
+				STATS[stat] = parseInt(el.textContent.replaceAll(",", ""));
+			}
+
+			triggerCustomListener(EVENT_CHANNELS.GYM_LOAD, { stats: STATS });
+			resolve();
+		}).then(() => {});
+	}
 })();
