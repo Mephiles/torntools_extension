@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 7, "minor": 7, "build": 2 },
+		"version": { "major": 7, "minor": 7, "build": 3 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 2 },
+		"title": "Beta",
+		"date": "2025/06/16",
 		"logs": {
 			"features": [{ "message": "Add 'Laekna' as revive provider.", "contributor": "DeKleineKobini" }],
 			"fixes": [
@@ -31,8 +37,7 @@
 				{ "message": "Move links to the new raceway url.", "contributor": "DeKleineKobini" },
 				{ "message": "Move and adjust links to the new item market url.", "contributor": "DeKleineKobini" },
 				{ "message": "Update 'A Thor Loser' mission task.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
