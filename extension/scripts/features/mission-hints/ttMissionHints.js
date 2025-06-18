@@ -208,7 +208,7 @@
 			},
 			make_it_slow: {
 				task: "Defeat (P) in no fewer than 5 - 9 turns in a single attack.",
-				hint: "Survive for at least 7 or 9 turns then defeat the target. You can keep retrying if it fails.",
+				hint: "Survive for said amount of turns then defeat the target. You can keep retrying if it fails.",
 			},
 			marriage_counseling: {
 				task: "Defeat (P)'s spouse.",
