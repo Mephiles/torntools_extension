@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix gym features not appearing when going back to the same gym.", "contributor": "DeKleineKobini" }],
+			"fixes": [{ "message": "Fix gym features not appearing when going back to the same gym.", "contributor": "DeKleineKobini" }, { "message": "Fix api key validation being broken.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": []
 		}

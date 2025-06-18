@@ -301,7 +301,7 @@ function checkAPIPermission(key) {
 	return new Promise((resolve, reject) => {
 		fetchData("tornv2", { section: "key", selections: ["info"], key, silent: true })
 			.then(async (response) => {
-				const { type, faction, company } = response.info.access.type;
+				const { type, faction, company } = response.info.access;
 				if (type === "Limited Access" || type === "Full Access") {
 					resolve({ access: true, faction, company });
 				} else {
