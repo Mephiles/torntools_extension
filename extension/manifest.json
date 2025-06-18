@@ -373,6 +373,7 @@
 				"scripts/global/functions/csv.js",
 				"scripts/global/functions/torn-items.js",
 				"scripts/content/factions/ttFactions.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-values/ttItemValues.js",
 				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js",
@@ -400,7 +401,6 @@
 				"scripts/features/energy-warning/ttEnergyWarning.js",
 				"scripts/features/user-alias/ttUserAliasUserlist.js",
 				"scripts/features/ranked-war-filter/ttRankedWarFilter.js",
-				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js",
@@ -481,8 +481,8 @@
 			"matches": ["https://www.torn.com/index.php?page=people*"],
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
-				"scripts/features/abroad-people-filter/ttPeopleFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/abroad-people-filter/ttPeopleFilter.js",
 				"scripts/features/stats-estimate/ttStatsEstimateAbroad.js"
 			],
 			"run_at": "document_end"
@@ -893,8 +893,8 @@
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/competition/ttCompetition.js",
-				"scripts/features/competition-filter/ttCompetitionFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/competition-filter/ttCompetitionFilter.js",
 				"scripts/features/stats-estimate/ttStatsEstimateCompetition.js"
 			],
 			"run_at": "document_end"
