@@ -7,7 +7,8 @@
 			"fixes": [
 				{ "message": "Fix gym features not appearing when going back to the same gym.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix api key validation being broken.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix abroad people filter no longer working.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix abroad people filter no longer working.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix travel cooldowns not working properly on mobile.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Update 'Make it Slow' mission hint.", "contributor": "DeKleineKobini" }],
 			"removed": []

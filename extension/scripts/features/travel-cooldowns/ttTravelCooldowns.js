@@ -49,14 +49,13 @@
 		);
 		if (!container) return;
 
-		const durationText = container.querySelector("[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]")?.textContent;
+		const durationText = container.querySelector(
+			["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", ")
+		)?.textContent;
 		if (!durationText) return;
 
 		const duration = textToTime(durationText) * 2;
-		let cooldowns =
-			mobile || tablet
-				? container.parentElement.find(".show-confirm[aria-expanded='true'] .tt-cooldowns")
-				: container.parentElement.find(".tt-cooldowns");
+		let cooldowns = container.parentElement.find(".tt-cooldowns");
 		if (!cooldowns) {
 			cooldowns = document.newElement({
 				type: "div",
@@ -90,11 +89,6 @@
 				],
 			});
 
-			if (!mobile && !tablet) container.insertAdjacentElement("beforebegin", cooldowns);
-			else {
-				container.find("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
-			}
-
 			if (!hasFinishedEducation() || userdata.education_current > 0)
 				cooldowns.insertAdjacentElement(
 					"afterend",
@@ -126,11 +120,18 @@
 			handleClass(cooldowns.parentElement.find(".investment"), userdata.city_bank.time_left);
 		}
 
+		if (!mobile && !tablet) container.insertAdjacentElement("beforebegin", cooldowns);
+		else {
+			container.find("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
+		}
+
 		function getDurationClass(time) {
 			return time * 1000 < duration ? "waste" : "";
 		}
 
 		function handleClass(element, time) {
+			if (!element) return;
+
 			const isWasted = time * 1000 < duration;
 
 			if (isWasted !== element.classList.contains("waste")) element.classList.toggle("waste");
