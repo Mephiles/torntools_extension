@@ -162,7 +162,8 @@
 				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.css",
 				"scripts/features/hide-icons/ttHideIcons.css",
 				"scripts/features/achievements/ttAchievements.css",
-				"scripts/features/hide-tutorials/ttHideTutorials.css"
+				"scripts/features/hide-tutorials/ttHideTutorials.css",
+				"scripts/features/hide-newspaper-highlight/ttHideNewspaperHighlight.css"
 			],
 			"js": [
 				"scripts/features/hide-leave/ttHideLeave.entry.js",
@@ -172,7 +173,8 @@
 				"scripts/features/hide-icons/ttHideIcons.entry.js",
 				"scripts/features/achievements/achievements.js",
 				"scripts/features/achievements/ttAchievements.entry.js",
-				"scripts/features/hide-tutorials/ttHideTutorials.entry.js"
+				"scripts/features/hide-tutorials/ttHideTutorials.entry.js",
+				"scripts/features/hide-newspaper-highlight/ttHideNewspaperHighlight.entry.js"
 			],
 			"run_at": "document_start"
 		},

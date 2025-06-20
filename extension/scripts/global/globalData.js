@@ -446,6 +446,7 @@ const DEFAULT_STORAGE = {
 				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				settingsLink: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				hideNewspaperHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				upkeepPropHighlight: new DefaultSetting({ type: "number", defaultValue: 0 }),
 				barLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				pointsValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
