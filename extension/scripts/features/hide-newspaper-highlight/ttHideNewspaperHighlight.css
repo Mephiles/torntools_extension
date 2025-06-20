@@ -1,4 +1,4 @@
-.tt-hide-newspaper-highlight #nav-newspaper:not([class*='area-mobile___']) [class*='area-row___'] {
+.tt-hide-newspaper-highlight #nav-newspaper:not([class*="area-mobile___"]) [class*="area-row___"] {
 	background-color: var(--default-bg-panel-color) !important;
 
 	svg {
@@ -6,7 +6,7 @@
 	}
 }
 
-.tt-hide-newspaper-highlight #nav-newspaper[class*='area-mobile___'] [class*='area-row___'] {
+.tt-hide-newspaper-highlight #nav-newspaper[class*="area-mobile___"] [class*="area-row___"] {
 	.sidebarMobileLink {
 		color: #999;
 	}
