@@ -1445,7 +1445,7 @@ const WEAPON_BONUSES = [
 	"Home Run",
 	"Irradiate",
 	"Motivation",
-	"Paralyzed",
+	"Paralyze",
 	"Parry",
 	"Penetrate",
 	"Plunder",
