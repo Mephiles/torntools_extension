@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Hide newspaper highlight.", "contributor": "DeKleineKobini" }],
-			"fixes": [{ "message": "Rename the 'Paralyzed' bonus to 'Paralyze.'", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Rename the 'Paralyzed' bonus to 'Paralyze.'", "contributor": "DeKleineKobini" },
+				{ "message": "Correctly calculate the player age.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": []
 		}

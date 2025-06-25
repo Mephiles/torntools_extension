@@ -267,3 +267,53 @@ function toNumericVersion(version) {
 			.padEnd(9, "9")
 	);
 }
+
+function calculateDatePeriod(startDate, endDate) {
+	// Ensure endDate is not before startDate
+	if (startDate > endDate) {
+		[startDate, endDate] = [endDate, startDate]; // Swap if dates are in wrong order
+	}
+
+	// Create mutable copies of the dates to avoid modifying the originals
+	const currentStartDate = new Date(startDate.getTime());
+	const currentEndDate = new Date(endDate.getTime());
+
+	// Increment years until adding another year would exceed the end date
+	let years = 0;
+	while (
+		currentStartDate.getFullYear() + 1 <= currentEndDate.getFullYear() ||
+		(currentStartDate.getFullYear() + 1 === currentEndDate.getFullYear() &&
+			(currentStartDate.getMonth() < currentEndDate.getMonth() ||
+				(currentStartDate.getMonth() === currentEndDate.getMonth() && currentStartDate.getDate() <= currentEndDate.getDate())))
+	) {
+		currentStartDate.setFullYear(currentStartDate.getFullYear() + 1);
+		years++;
+	}
+
+	// Adjust currentStartDate back by one year if it overshot
+	if (currentStartDate > currentEndDate && years > 0) {
+		currentStartDate.setFullYear(currentStartDate.getFullYear() - 1);
+		years--;
+	}
+
+	// Increment months until adding another month would exceed the end date
+	let months = 0;
+	while (currentStartDate.getMonth() < 11 || currentStartDate.getFullYear() < currentEndDate.getFullYear()) {
+		let testDate = new Date(currentStartDate.getTime());
+		testDate.setMonth(testDate.getMonth() + 1);
+
+		if (testDate > currentEndDate) {
+			break;
+		}
+		currentStartDate.setMonth(currentStartDate.getMonth() + 1);
+		months++;
+	}
+
+	// Calculate days
+	// The difference in milliseconds between the remaining dates
+	const diffTime = Math.abs(currentEndDate.getTime() - currentStartDate.getTime());
+	// Convert milliseconds to days
+	const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+	return { years, months, days };
+}
