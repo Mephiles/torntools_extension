@@ -29,7 +29,7 @@
 
 	document.getElementById("gymroot").addEventListener("click", (event) => {
 		const target = event.target;
-		if (target.tagName !== "BUTTON" || target.textContent !== "BACK TO GYM") return;
+		if (target.tagName !== "BUTTON" || (target.textContent !== "BACK TO GYM" && target.textContent !== "Cancel")) return;
 
 		triggerGymLoadFromDOM();
 	});

@@ -7,7 +7,8 @@
 			"features": [{ "message": "Hide newspaper highlight.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Rename the 'Paralyzed' bonus to 'Paralyze.'", "contributor": "DeKleineKobini" },
-				{ "message": "Correctly calculate the player age.", "contributor": "DeKleineKobini" }
+				{ "message": "Correctly calculate the player age.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix gym features not appearing when going back to the same gym while selecting another one.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []
