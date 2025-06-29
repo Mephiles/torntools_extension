@@ -9,7 +9,8 @@
 				{ "message": "Rename the 'Paralyzed' bonus to 'Paralyze.'", "contributor": "DeKleineKobini" },
 				{ "message": "Correctly calculate the player age.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix gym features not appearing when going back to the same gym while selecting another one.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix bazaar highlight of cheap items not working.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix bazaar highlight of cheap items not working.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix drug details not working on the bazaar page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []
