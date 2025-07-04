@@ -101,7 +101,29 @@
 				const worth = parseInt(marketValue * quantity);
 				totalValue += worth;
 
-				item.appendChild(document.newElement({ type: "span", class: "tt-item-value", text: formatNumber(worth, { currency: true }) }));
+				//item.appendChild(document.newElement({ type: "span", class: "tt-item-value", text: formatNumber(worth, { currency: true }) }));
+				item.appendChild(document.newElement({
+					type: "span",
+					class: "tt-item-value",
+					children: [
+						document.newElement({
+							type: "span",
+							class: "tt-item-value-unit",
+							text: formatNumber(marketValue, { currency: true }),
+						}),
+						document.createTextNode(" | "),
+						document.newElement({
+							type: "span",
+							class: "tt-item-value-quantity",
+							text: `${quantity}x = `,
+						}),
+						document.newElement({
+							type: "span",
+							class: "tt-item-value-total",
+							text: formatNumber(worth, { currency: true }),
+						}),
+					]
+				}));
 			}
 
 			if (totalValue !== 0) {
