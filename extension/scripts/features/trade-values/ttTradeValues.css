@@ -15,6 +15,15 @@
 	color: var(--tt-color-item-text);
 }
 
+.tt-item-value-unit {
+	color: var(--tt-color-item-text);
+}
+
+.tt-item-value-quantity,
+.tt-item-value-total {
+	color: var(--tt-color-item-quantity);
+}
+
 body.tt-trade-values .log .desc {
 	position: relative;
 	color: var(--default-color) !important;
