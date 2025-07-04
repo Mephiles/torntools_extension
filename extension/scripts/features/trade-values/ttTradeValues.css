@@ -15,12 +15,13 @@
 	color: var(--tt-color-item-text);
 }
 
-.tt-item-value-unit {
+.tt-item-value-unit,
+.tt-item-value-total {
 	color: var(--tt-color-item-text);
 }
 
-.tt-item-value-quantity,
-.tt-item-value-total {
+.tt-item-value-quantity {
+	font-weight: bold;
 	color: var(--tt-color-item-quantity);
 }
 
