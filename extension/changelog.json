@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 7, "minor": 7, "build": 4 },
+		"version": { "major": 7, "minor": 7, "build": 5 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 4 },
+		"date": "2025/07/12",
 		"logs": {
 			"features": [{ "message": "Hide newspaper highlight.", "contributor": "DeKleineKobini" }],
 			"fixes": [
@@ -11,9 +17,7 @@
 				{ "message": "Fix bazaar highlight of cheap items not working.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix drug details not working on the bazaar page.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix respect not being tracked anymore in the attack history.", "contributor": "DeKleineKobini" }
-			],
-			"changes": [],
-			"removed": []
+			]
 		}
 	},
 	{
