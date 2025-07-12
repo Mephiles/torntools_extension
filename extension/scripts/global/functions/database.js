@@ -250,6 +250,19 @@ async function migrateDatabase(force = false) {
 			newStorage.filters.profile.stats = stats;
 
 			updated = true;
+		} else if (version <= toNumericVersion("7.7.4")) {
+			newStorage.attackHistory.history = Object.entries(storage.attackHistory.history).reduce((previousValue, [id, data]) => {
+				return {
+					...previousValue,
+					[id]: {
+						...data,
+						respect: data.respect.filter((r) => !!r),
+						respect_base: data.respect_base.filter((r) => !!r),
+					},
+				};
+			}, {});
+
+			updated = true;
 		}
 
 		if (updated) {

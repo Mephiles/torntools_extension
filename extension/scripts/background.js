@@ -494,7 +494,7 @@ async function updateUserdata(forceUpdate = false) {
 											attack.modifiers.retaliation /
 											attack.modifiers.group /
 											attack.modifiers.overseas /
-											attack.modifiers.chain_bonus /
+											attack.modifiers.chain /
 											attack.modifiers.warlord;
 									}
 									attackHistory.history[enemyId].latestFairFightModifier = attack.modifiers.fair_fight;
