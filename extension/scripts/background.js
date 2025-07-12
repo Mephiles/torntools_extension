@@ -354,13 +354,9 @@ async function updateUserdata(forceUpdate = false) {
 	// Use "newevents" selection only when the old events count > new events count
 	// Fetch only when new events arrived
 	if (oldUserdata?.notifications?.events !== userdata?.notifications?.events) {
-		let newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
+		const newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
 
-		// When old notifications are read and user has new notifications
-		// but with lesser count than old notifications, we
-		// have negative value. TT then fetches all the new notifications.
-		if (newEventsCount < 0) newEventsCount = userdata?.notifications?.events ?? 0;
-		else if (newEventsCount > 0) {
+		if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
 			userdata.events = // TODO - Migrate to V2 (user/events + user/newevents).
 				(
