@@ -8,7 +8,7 @@ const __DEFAULT_REVIVE_REQUEST = {
 };
 
 function __requestStigFormat(vendor) {
-	return (id, name, country, countryIcon, faction, source) =>
+	return (id, name, country, faction, source) =>
 		new Promise((resolve, reject) => {
 			fetchData("stig", {
 				...__DEFAULT_REVIVE_REQUEST,
@@ -32,7 +32,7 @@ const REVIVE_PROVIDERS = [
 		provider: "nuke",
 		name: "Nuke",
 		origin: FETCH_PLATFORMS.nukefamily,
-		doRequest: (id, name, country, countryIcon, faction, source) =>
+		doRequest: (id, name, country, faction, source) =>
 			new Promise((resolve, reject) => {
 				fetchData("nukefamily", {
 					...__DEFAULT_REVIVE_REQUEST,
@@ -60,7 +60,7 @@ const REVIVE_PROVIDERS = [
 		provider: "uhc",
 		name: "UHC",
 		origin: FETCH_PLATFORMS.uhc,
-		doRequest: (id, name, country, countryIcon, faction, source) =>
+		doRequest: (id, name, country, faction, source) =>
 			new Promise((resolve, reject) => {
 				fetchData("uhc", {
 					...__DEFAULT_REVIVE_REQUEST,
@@ -82,7 +82,7 @@ const REVIVE_PROVIDERS = [
 		provider: "wtf",
 		name: "WTF",
 		origin: FETCH_PLATFORMS.wtf,
-		doRequest: (id, name, country, countryIcon, faction, source) =>
+		doRequest: (id, name, country, faction, source) =>
 			new Promise((resolve, reject) => {
 				fetchData("wtf", {
 					...__DEFAULT_REVIVE_REQUEST,
@@ -149,12 +149,12 @@ const REVIVE_PROVIDERS = [
 		provider: "laekna",
 		name: "Laekna",
 		origin: FETCH_PLATFORMS.laekna,
-		doRequest: (id, name, country, countryIcon, faction, source) => {
+		doRequest: (id, name, country, faction, source) => {
 			return new Promise((resolve, reject) => {
 				fetchData("laekna", {
 					...__DEFAULT_REVIVE_REQUEST,
 					section: "revive",
-					body: { userID: id, userName: name, factionName: faction, travelLocation: countryIcon, source },
+					body: { userID: id, userName: name, factionName: faction, travelLocation: country, source },
 				})
 					.then((response) => {
 						if (response === "Posted") resolve({ response: {} });
@@ -171,7 +171,7 @@ const REVIVE_PROVIDERS = [
 	},
 ];
 
-function doRequestRevive(id, name, country, countryIcon, faction) {
+function doRequestRevive(id, name, country, faction) {
 	const source = `TornTools v${chrome.runtime.getManifest().version}`;
 
 	const providerName = settings.pages.global.reviveProvider || "";
@@ -185,7 +185,7 @@ function doRequestRevive(id, name, country, countryIcon, faction) {
 
 	return new Promise((resolve, reject) => {
 		provider
-			.doRequest(id, name, country, countryIcon, faction, source)
+			.doRequest(id, name, country, faction, source)
 			.then(({ response, contract }) => {
 				if (hasCooldown) {
 					void ttCache.set({ [`revive-${provider.provider}`]: Date.now() }, provider.cooldown, "cooldown", `revive-${provider.provider}`);

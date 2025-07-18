@@ -95,17 +95,14 @@
 			button.setAttribute("disabled", "");
 
 			const { id, name } = details;
-			const faction = getSidebar().statusIcons.icons.faction?.subtitle.split(" of ")[1] || "";
+			const faction = getSidebarData().statusIcons.icons.faction?.subtitle.split(" of ")[1] || "";
 
 			let country = document.body.dataset.country;
 			if (country === "uk") country = "United Kingdom";
 			else if (country === "uae") country = "UAE";
 			else country = capitalizeText(country.replaceAll("-", " "), { everyWord: true });
 
-			const { statusIcons } = getSidebarData();
-			const countryIcon = statusIcons.icons.travel?.subtitle ?? "Torn";
-
-			doRequestRevive(id, name, country, countryIcon, faction)
+			doRequestRevive(id, name, country, faction)
 				.then(({ provider }) => displayMessage(`Revive requested for ${calculateRevivePrice(provider)}!`))
 				.catch(({ provider, response }) => {
 					if (response.code === "COOLDOWN") {
@@ -117,12 +114,6 @@
 						console.log(`TT - Failed to request a revive with ${provider.name}!`, response);
 					}
 				});
-		}
-
-		function getSidebar() {
-			const key = Object.keys(sessionStorage).find((key) => /sidebarData\d+/.test(key));
-
-			return JSON.parse(sessionStorage.getItem(key));
 		}
 
 		function displayMessage(message, error) {
