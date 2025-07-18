@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 7, "build": 5 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fix your country not always being properly send when requesting a revive.", "contributor": "DeKleineKobini" }], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix your country not always being properly send when requesting a revive.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 7, "build": 4 },
