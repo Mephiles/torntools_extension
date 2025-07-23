@@ -202,6 +202,7 @@
 			},
 			loud_and_clear: {
 				task: "Use 3 - 11 explosive grenades.",
+				hint: "Some explosive grenades are 'Flash Grenade', 'HEG', 'Grenade', <a href='https://wiki.torn.com/wiki/Explosive_Grenade' target='_blank'>and more</a>.",
 			},
 			loyal_customer: {
 				task: "Defeat (P).",
@@ -349,7 +350,7 @@
 				const mission = MISSION_HINTS[key];
 
 				task = mission.task;
-				hint = mission.hint;
+				hint = document.newElement({ type: "span", html: mission.hint });
 			} else {
 				if (title.includes("{name}")) {
 					task = "You are using a conflicting script.";

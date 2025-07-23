@@ -6,7 +6,9 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix your country not always being properly send when requesting a revive.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [
+				{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},
