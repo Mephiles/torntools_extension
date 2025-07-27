@@ -595,3 +595,31 @@ body.dark #saveSettingsBar {
 	font-weight: bold;
 	background-color: #0000;
 }
+
+/**
+ * External Services
+ */
+
+.external-service {
+	margin-top: 8px;
+
+	span:first-child {
+		text-decoration: underline;
+	}
+
+	.links {
+		display: flex;
+		gap: 8px;
+
+		i {
+			font-size: 12px;
+			margin-left: 4px;
+		}
+	}
+
+	a {
+		display: block;
+		text-decoration: none;
+		color: var(--color-link);
+	}
+}

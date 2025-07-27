@@ -3,7 +3,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const statsEstimate = new StatsEstimate(true);
+	const statsEstimate = new StatsEstimate("Faction Wars", true);
 	const feature = featureManager.registerFeature(
 		"War Estimates",
 		"stat estimates",

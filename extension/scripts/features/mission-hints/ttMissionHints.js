@@ -40,7 +40,7 @@
 				hint: "Other weapons can stay equipped. Using any other weapon will fail this mission!",
 			},
 			a_thor_loser: {
-				task: "Use Duke's hammer to hit 8 - 14 unique body parts",
+				task: "Use Duke's hammer to hit 6 - 14 unique body parts",
 				hint: "Stalemating is a good way to achieve this.",
 			},
 			against_the_odds: {
@@ -52,7 +52,7 @@
 			},
 			army_of_one: {
 				task: "Attack (P) 3 times with various masks.",
-				hint: "Duke will send you the two masks to wear. Make sure that one of the attacks is without any mask.",
+				hint: "Duke will send you the two masks to wear. Make sure that one of the attacks is without any mask. You just need to attack the target, defeating them isn't a requirement.",
 			},
 			bakeout_breakout: {
 				task: "Combine a fruitcake and the lock pick, and send 'special fruitcake' to someone in jail.",
@@ -202,13 +202,14 @@
 			},
 			loud_and_clear: {
 				task: "Use 3 - 11 explosive grenades.",
+				hint: "Some explosive grenades are 'Flash Grenade', 'HEG', 'Grenade', <a href='https://wiki.torn.com/wiki/Explosive_Grenade' target='_blank'>and more</a>.",
 			},
 			loyal_customer: {
 				task: "Defeat (P).",
 			},
 			make_it_slow: {
 				task: "Defeat (P) in no fewer than 5 - 9 turns in a single attack.",
-				hint: "Survive for at least 7 or 9 turns then defeat the target. You can keep retrying if it fails.",
+				hint: "Survive for said amount of turns then defeat the target. You can keep retrying if it fails.",
 			},
 			marriage_counseling: {
 				task: "Defeat (P)'s spouse.",
@@ -349,7 +350,7 @@
 				const mission = MISSION_HINTS[key];
 
 				task = mission.task;
-				hint = mission.hint;
+				hint = document.newElement({ type: "span", html: mission.hint });
 			} else {
 				if (title.includes("{name}")) {
 					task = "You are using a conflicting script.";

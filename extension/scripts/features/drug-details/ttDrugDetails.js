@@ -76,12 +76,19 @@
 						target = newNodes[0];
 					}
 
-					const id = parseInt(
-						target
-							.find("[aria-labelledby*='armory-info-']")
-							.getAttribute("aria-labelledby")
-							.match(/armory-info-(\d*)/i)[1]
-					);
+					let id;
+					const armoryInfo = target.find("[aria-labelledby*='armory-info-']");
+					if (armoryInfo) {
+						id = parseInt(armoryInfo.getAttribute("aria-labelledby").match(/armory-info-(\d*)/i)[1]);
+					} else {
+						const image = target.find("img");
+
+						if (image) {
+							id = image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1];
+						} else {
+							throw new Error("No id found for this item!");
+						}
+					}
 
 					showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
 				}).observe(document.find(selector), { subtree: true, childList: true });

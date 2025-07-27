@@ -3,6 +3,8 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
+	const SCOUTER_SERVICE = scouterService();
+
 	featureManager.registerFeature(
 		"FF Scouter Profile",
 		"ff-scouter",
@@ -11,11 +13,11 @@
 		showFF,
 		removeFF,
 		{
-			storage: ["settings.scripts.ffScouter.profile", "settings.external.tornpal"],
+			storage: ["settings.scripts.ffScouter.profile", "settings.external.ffScouter"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!settings.external.tornpal) return "TornPal not enabled";
+			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 		}
 	);
 
@@ -24,7 +26,18 @@
 
 		const id = getUserID();
 
-		const scout = await scoutFF(id);
+		SCOUTER_SERVICE.scoutSingle(id)
+			.then((scout) => showResult(scout))
+			.catch((reason) => {
+				if ("error" in reason) {
+					showResult({ message: reason.error, isError: true });
+				} else {
+					console.error("TT - Failed to scout ff for the profile.", reason);
+				}
+			});
+	}
+
+	function showResult(scout) {
 		const { message, className, detailMessage } = buildScoutInformation(scout);
 
 		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-profile", className], text: message });

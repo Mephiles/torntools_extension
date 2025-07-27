@@ -1,16 +1,42 @@
 {
 	"manifest_version": 3,
 	"name": "TornTools",
-	"version": "7.6.2",
+	"version": "7.7.5",
 	"description": "Several tools for Torn.",
 	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
 	"action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 	"background": {
-		"service_worker": "scripts/background.js"
+		"service_worker": "scripts/background.js",
+		"scripts": [
+			"scripts/global/globalClasses.js",
+			"scripts/global/globalData.js",
+			"scripts/global/functions/browser.js",
+			"scripts/global/functions/database.js",
+			"scripts/global/functions/extension.js",
+			"scripts/global/functions/formatting.js",
+			"scripts/global/functions/utilities.js",
+			"scripts/global/functions/api.js",
+			"scripts/global/functions/api-external.js",
+			"scripts/global/functions/torn.js",
+			"scripts/background.js"
+		]
 	},
-	"permissions": ["storage", "notifications", "background", "offscreen", "alarms", "tabs"],
+	"permissions": ["storage", "notifications", "background", "offscreen", "alarms"],
 	"host_permissions": ["https://torn.com/"],
+	"optional_permissions": [
+		"https://www.tornstats.com/*",
+		"https://yata.yt/*",
+		"https://nuke.family/*",
+		"https://tornuhc.eu/*",
+		"https://api.no1irishstig.co.uk/*",
+		"https://prombot.co.uk:8443/*",
+		"https://api.lzpt.io/*",
+		"https://what-the-f.de/*",
+		"https://weav3r.dev/*",
+		"https://ffscouter.com/",
+		"https://laekna-revive-bot.onrender.com/"
+	],
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
 		"https://yata.yt/",
@@ -20,7 +46,9 @@
 		"https://prombot.co.uk:8443/",
 		"https://api.lzpt.io/",
 		"https://what-the-f.de/",
-		"https://tornpal.com/*"
+		"https://weav3r.dev/*",
+		"https://ffscouter.com/",
+		"https://laekna-revive-bot.onrender.com/"
 	],
 	"web_accessible_resources": [
 		{
@@ -134,7 +162,8 @@
 				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.css",
 				"scripts/features/hide-icons/ttHideIcons.css",
 				"scripts/features/achievements/ttAchievements.css",
-				"scripts/features/hide-tutorials/ttHideTutorials.css"
+				"scripts/features/hide-tutorials/ttHideTutorials.css",
+				"scripts/features/hide-newspaper-highlight/ttHideNewspaperHighlight.css"
 			],
 			"js": [
 				"scripts/features/hide-leave/ttHideLeave.entry.js",
@@ -144,7 +173,8 @@
 				"scripts/features/hide-icons/ttHideIcons.entry.js",
 				"scripts/features/achievements/achievements.js",
 				"scripts/features/achievements/ttAchievements.entry.js",
-				"scripts/features/hide-tutorials/ttHideTutorials.entry.js"
+				"scripts/features/hide-tutorials/ttHideTutorials.entry.js",
+				"scripts/features/hide-newspaper-highlight/ttHideNewspaperHighlight.entry.js"
 			],
 			"run_at": "document_start"
 		},
@@ -345,6 +375,7 @@
 				"scripts/global/functions/csv.js",
 				"scripts/global/functions/torn-items.js",
 				"scripts/content/factions/ttFactions.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-values/ttItemValues.js",
 				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js",
@@ -372,7 +403,6 @@
 				"scripts/features/energy-warning/ttEnergyWarning.js",
 				"scripts/features/user-alias/ttUserAliasUserlist.js",
 				"scripts/features/ranked-war-filter/ttRankedWarFilter.js",
-				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js",
@@ -453,8 +483,8 @@
 			"matches": ["https://www.torn.com/index.php?page=people*"],
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
-				"scripts/features/abroad-people-filter/ttPeopleFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/abroad-people-filter/ttPeopleFilter.js",
 				"scripts/features/stats-estimate/ttStatsEstimateAbroad.js"
 			],
 			"run_at": "document_end"
@@ -609,7 +639,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/loader.php?sid=racing*"],
+			"matches": ["https://www.torn.com/loader.php?sid=racing*", "https://www.torn.com/page.php?sid=racing*"],
 			"css": ["scripts/features/racing-upgrades/ttRacingUpgrades.css"],
 			"js": ["scripts/features/car-win-percentage/ttCarWinPercentage.js", "scripts/features/racing-upgrades/ttRacingUpgrades.js"],
 			"run_at": "document_end"
@@ -871,8 +901,8 @@
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/competition/ttCompetition.js",
-				"scripts/features/competition-filter/ttCompetitionFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/competition-filter/ttCompetitionFilter.js",
 				"scripts/features/stats-estimate/ttStatsEstimateCompetition.js"
 			],
 			"run_at": "document_end"

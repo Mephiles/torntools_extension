@@ -15,17 +15,22 @@
 	);
 
 	let isInjected = false;
+	let knownPercentages;
 
 	function addListener() {
 		executeScript(chrome.runtime.getURL("scripts/features/efficient-rehab/ttEfficientRehab.inject.js"));
 		window.addEventListener("tt-injected--efficient-rehab", () => (isInjected = true));
 
-		addXHRListener(async ({ detail: { page, xhr } }) => {
+		addXHRListener(async ({ detail: { page, xhr, json } }) => {
 			if (page === "travelagency") {
 				const params = new URLSearchParams(xhr.requestBody);
 				const step = params.get("step");
 
 				if (step === "tryRehab") {
+					removeInformation();
+					void showInformation();
+				} else if (step === "checkAddiction" && !!json) {
+					knownPercentages = json.percentages;
 					removeInformation();
 					void showInformation();
 				}
@@ -36,7 +41,7 @@
 	async function showInformation() {
 		await requireCondition(() => isInjected);
 
-		const percentages = JSON.parse((await requireElement("#rehub-progress .range-slider-data")).dataset.percentages);
+		const percentages = knownPercentages ?? JSON.parse((await requireElement("#rehub-progress .range-slider-data")).dataset.percentages);
 
 		const maxRehabs = parseInt(Object.keys(percentages).reverse()[0]);
 		const { safe } = calculateSafeRehabs();
@@ -59,7 +64,7 @@
 		} else {
 			informationElement.appendChild(document.createTextNode("This means that you should rehab up to "));
 			informationElement.appendChild(document.newElement({ type: "span", class: "tt-efficient-rehab--amount", text: maxRehabs - safe }));
-			informationElement.appendChild(document.createTextNode(" time."));
+			informationElement.appendChild(document.createTextNode(` time${applyPlural(maxRehabs - safe)}.`));
 		}
 
 		if (settings.pages.travel.efficientRehabSelect) {

@@ -354,13 +354,9 @@ async function updateUserdata(forceUpdate = false) {
 	// Use "newevents" selection only when the old events count > new events count
 	// Fetch only when new events arrived
 	if (oldUserdata?.notifications?.events !== userdata?.notifications?.events) {
-		let newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
+		const newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
 
-		// When old notifications are read and user has new notifications
-		// but with lesser count than old notifications, we
-		// have negative value. TT then fetches all the new notifications.
-		if (newEventsCount < 0) newEventsCount = userdata?.notifications?.events ?? 0;
-		else if (newEventsCount > 0) {
+		if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
 			userdata.events = // TODO - Migrate to V2 (user/events + user/newevents).
 				(
@@ -494,7 +490,7 @@ async function updateUserdata(forceUpdate = false) {
 											attack.modifiers.retaliation /
 											attack.modifiers.group /
 											attack.modifiers.overseas /
-											attack.modifiers.chain_bonus /
+											attack.modifiers.chain /
 											attack.modifiers.warlord;
 									}
 									attackHistory.history[enemyId].latestFairFightModifier = attack.modifiers.fair_fight;
@@ -985,13 +981,20 @@ async function updateStakeouts() {
 			}
 			if (hospital) {
 				const key = `${id}_hospital`;
-				if (data.status.state === "Hospital" && (!oldData || oldData.status.state !== data.status.state) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
+				if (data.status.state === "Hospital" && (!oldData || oldData.status.state !== data.status.state)) {
+					if (settings.notifications.types.global) {
+						let reasonText = "";
+						const reason = getHospitalizationReason(data.status.details);
+						if (reason && reason.important) {
+							reasonText = reason.display_sentence ?? reason.display ?? reason.name;
+							reasonText = " " + reasonText;
+						}
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now in the hospital.`,
+							`${data.name} is now in the hospital${reasonText}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
+					}
 				} else if (data.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
 				}

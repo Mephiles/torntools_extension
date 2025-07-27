@@ -284,7 +284,7 @@ const DEFAULT_STORAGE = {
 		yata: {
 			key: new DefaultSetting({ type: "string" }),
 		},
-		tornpal: {
+		ffScouter: {
 			key: new DefaultSetting({ type: "string" }),
 		},
 	},
@@ -446,6 +446,7 @@ const DEFAULT_STORAGE = {
 				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				settingsLink: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				hideNewspaperHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				upkeepPropHighlight: new DefaultSetting({ type: "number", defaultValue: 0 }),
 				barLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				pointsValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -740,7 +741,8 @@ const DEFAULT_STORAGE = {
 			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			lzpt: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			tornpal: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			tornw3b: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			ffScouter: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	filters: {
@@ -1025,11 +1027,11 @@ const CUSTOM_LINKS_PRESET = {
 	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },
 	"Faction : Armory": { link: "https://www.torn.com/factions.php?step=your#/tab=armoury" },
 	"Faction : Organized Crimes": { link: "https://www.torn.com/factions.php?step=your#/tab=crimes" },
-	"Item Market": { link: "https://www.torn.com/imarket.php" },
+	"Item Market": { link: "https://www.torn.com/page.php?sid=ItemMarket" },
 	Museum: { link: "https://www.torn.com/museum.php" },
 	Pharmacy: { link: "https://www.torn.com/shops.php?step=pharmacy" },
 	"Points Market": { link: "https://www.torn.com/pmarket.php" },
-	Raceway: { link: "https://www.torn.com/loader.php?sid=racing" },
+	Raceway: { link: "https://www.torn.com/page.php?sid=racing" },
 	"Travel Agency": { link: "https://www.torn.com/page.php?sid=travel" },
 	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 };

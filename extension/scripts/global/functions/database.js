@@ -233,6 +233,36 @@ async function migrateDatabase(force = false) {
 			newStorage.torndata = {};
 
 			updated = true;
+		} else if (version <= toNumericVersion("7.7.1")) {
+			let stats = replaceProfileBoxStat(storage.filters.profile.stats, "Bazaar income", "Bazaar revenue");
+			stats = replaceProfileBoxStat(stats, "Market buys", "Items bought from market");
+			stats = replaceProfileBoxStat(stats, "Times trained", "Times trained by director");
+			stats = replaceProfileBoxStat(stats, "Elo Rating", "Elo rating");
+			stats = replaceProfileBoxStat(stats, "Meds used", "Medical items used");
+			stats = replaceProfileBoxStat(stats, "Classified ads", "Classified ads placed");
+			stats = replaceProfileBoxStat(stats, "Vandalism", "Vandalism offenses");
+			stats = replaceProfileBoxStat(stats, "Theft", "Theft offenses");
+			stats = replaceProfileBoxStat(stats, "Counterfeiting", "Counterfeiting offenses");
+			stats = replaceProfileBoxStat(stats, "Illicit services", "Illicit services offenses");
+			stats = replaceProfileBoxStat(stats, "Cybercrime", "Cybercrime offenses");
+			stats = replaceProfileBoxStat(stats, "Extortion", "Extortion offenses");
+			stats = replaceProfileBoxStat(stats, "Illegal production", "Illegal production offenses");
+			newStorage.filters.profile.stats = stats;
+
+			updated = true;
+		} else if (version <= toNumericVersion("7.7.4")) {
+			newStorage.attackHistory.history = Object.entries(storage.attackHistory.history).reduce((previousValue, [id, data]) => {
+				return {
+					...previousValue,
+					[id]: {
+						...data,
+						respect: data.respect.filter((r) => !!r),
+						respect_base: data.respect_base.filter((r) => !!r),
+					},
+				};
+			}, {});
+
+			updated = true;
 		}
 
 		if (updated) {
@@ -240,6 +270,16 @@ async function migrateDatabase(force = false) {
 		}
 
 		newStorage.version.current = loadedVersion;
+
+		function replaceProfileBoxStat(stats, oldStat, newStat) {
+			const index = stats.indexOf(oldStat);
+			if (index === -1) return stats;
+
+			const newStats = stats.filter((stat) => stat !== oldStat);
+			newStats.insertAt(index, newStat);
+
+			return newStats;
+		}
 	}
 }
 

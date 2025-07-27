@@ -1,13 +1,97 @@
 [
 	{
-		"version": { "major": 7, "minor": 6, "build": 2 },
+		"version": { "major": 7, "minor": 7, "build": 5 },
 		"title": "Beta",
 		"date": false,
+		"logs": {
+			"features": [{ "message": "Crimes 2.0 Burglary Targets filter.", "contributor": "TheFoxMan" }],
+			"fixes": [{ "message": "Fix your country not always being properly send when requesting a revive.", "contributor": "DeKleineKobini" }],
+			"changes": [{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" }],
+			"removed": []
+		}
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 4 },
+		"date": "2025/07/12",
+		"logs": {
+			"features": [{ "message": "Hide newspaper highlight.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Rename the 'Paralyzed' bonus to 'Paralyze.'", "contributor": "DeKleineKobini" },
+				{ "message": "Correctly calculate the player age.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix gym features not appearing when going back to the same gym while selecting another one.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix bazaar highlight of cheap items not working.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix drug details not working on the bazaar page.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix respect not being tracked anymore in the attack history.", "contributor": "DeKleineKobini" }
+			]
+		}
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 3 },
+		"date": "2025/06/20",
+		"logs": {
+			"fixes": [
+				{ "message": "Fix gym features not appearing when going back to the same gym.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix api key validation being broken.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix abroad people filter no longer working.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix travel cooldowns not working properly on mobile.", "contributor": "DeKleineKobini" }
+			],
+			"changes": [{ "message": "Update 'Make it Slow' mission hint.", "contributor": "DeKleineKobini" }]
+		}
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 2 },
+		"date": "2025/06/16",
+		"logs": {
+			"features": [{ "message": "Add 'Laekna' as revive provider.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix FF Scouter failing when there isn't a result.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Correctly show 'network issues' again instead of 'permissions issues' when all permissions are in order.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Fix ranked war filter (and potentially other filters) ignoring stat estimates filters when updating on the timer.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Fix ranked war filter applying stat estimates filters on the normal faction members list.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix permissions when changing revive provider.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the 'Show Faction Spy' feature incorrectly showing the mobile view.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the 'Show Faction Spy' requiring both YATA and TornStats to be enabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the 'Show Faction Spy' not showing the total when using YATA.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix compatibility between 'Show Faction Spy' and 'FF Scouter'.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix racing features not working on the new raceway page.", "contributor": "DeKleineKobini" }
+			],
+			"changes": [
+				{ "message": "Show date of notifications in the popup, unless they were shown today.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate key info over to API V2.", "contributor": "DeKleineKobini" },
+				{ "message": "Show the (important) reason of the hospitalization in the stakeout message.", "contributor": "DeKleineKobini" },
+				{ "message": "Hovering over the 'Faction Spy' will now show the full stats.", "contributor": "DeKleineKobini" },
+				{ "message": "Move links to the new raceway url.", "contributor": "DeKleineKobini" },
+				{ "message": "Move and adjust links to the new item market url.", "contributor": "DeKleineKobini" },
+				{ "message": "Update 'A Thor Loser' mission task.", "contributor": "DeKleineKobini" }
+			]
+		}
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 1 },
+		"date": "2025/05/22",
+		"logs": {
+			"changes": [
+				{ "message": "Include item market personal stats in the profile box.", "contributor": "DeKleineKobini" },
+				{ "message": "Rename profile box stats to be the same as in-game itself.", "contributor": "DeKleineKobini" },
+				{ "message": "Remove permission 'tabs' that was accidentally left over from testing.", "contributor": "DeKleineKobini" },
+				{ "message": "Include crimes 2 skills in the profile box.", "contributor": "DeKleineKobini" }
+			]
+		}
+	},
+	{
+		"version": { "major": 7, "minor": 7, "build": 0 },
+		"date": "2025/05/21",
 		"logs": {
 			"features": [
 				{ "message": "Populate bazaar prices in the popup by using TornPal.", "contributor": "Weav3r" },
 				{ "message": "Make more efficient use of your rehabs.", "contributor": "DeKleineKobini" },
-				{ "message": "Crimes 2.0 Burglary Targets filter.", "contributor": "TheFoxMan" }
+				{ "message": "Create a ToS page.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Fix OC1 detection not working properly.", "contributor": "DeKleineKobini" },
@@ -21,7 +105,17 @@
 				{ "message": "Avoid errors with the faction last action feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction fold infobox not always working.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the faction stats estimate filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix sidebar custom links placed above or below 'My Faction' not showing.", "contributor": "XDeltaA77" }
+				{ "message": "Fix sidebar custom links placed above or below 'My Faction' not showing.", "contributor": "XDeltaA77" },
+				{ "message": "Fix 'FF Scouter' on Firefox causing visual issues on the RR page when honor were disabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Update source for blackjack strategy to reflect hitting is authorized after split Aces.", "contributor": "EazzyPeazzy" },
+				{ "message": "Fix Blackjack script not proposing a strategy when splitting 2s and then being dealt another 2.", "contributor": "EazzyPeazzy" },
+				{
+					"message": "Fix Blackjack script not proposing the right play when splitting Aces and being dealt another Ace.",
+					"contributor": "EazzyPeazzy"
+				},
+				{ "message": "Move bazaar prices in the popup to using TornW3B.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix OC2 timer.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix some icons not being hidden properly.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change the OC2 Highlight color on dark mode.", "contributor": "DeKleineKobini" },
@@ -29,16 +123,18 @@
 					"message": "Allow level filters for friends, enemies, targets, user search and abroad go to 0 due to NPCs being level 0.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "Allow filtering on temporary weapons in the auction house filter.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "Allow filtering on temporary weapons in the auction house filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Trigger tablet more at 1000px instead of at 960px.", "contributor": "DeKleineKobini" },
 				{ "message": "Apply ranked war filters on an interval to follow the live updates.", "contributor": "DeKleineKobini" },
 				{ "message": "Adjust Trade Open Chat to work with Chat 3.0.", "contributor": "TheFoxMan" },
-				{ "message": "Improve compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+				{ "message": "Adjust point cost of Mining Boom from 10 to 5", "contributor": "StaticFree" },
+				{ "message": "Improve compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Focus on the search input by default on our settings page.", "contributor": "DeKleineKobini" },
+				{ "message": "Update the hint of 'Army of One' to make clear that the target doesn't need to be defeated.", "contributor": "DeKleineKobini" },
+				{ "message": "Rework external services preference to link to the ToS of each applicable service.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate FFScouter (the feature) from TornPal to FFScouter (the service).", "contributor": "DeKleineKobini" },
+				{ "message": "Improve sidebar information loading.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{

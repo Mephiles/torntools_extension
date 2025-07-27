@@ -16,11 +16,11 @@ jobs:
                 git config --global core.eol crlf
 
             # Downloads Repos for Usage
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             # Runs prettier
             - name: Format with prettier
-              uses: creyD/prettier_action@v4.3
+              uses: creyD/prettier_action@v4.5
               with:
                 prettier_options: --config .prettierrc --write . --list-different
 

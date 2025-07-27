@@ -80,6 +80,7 @@ async function showPage(name) {
 
 async function setupInitialize() {
 	document.find("#pages").classList.add("tt-hidden");
+	document.find("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
 
 	document.find("#import-previous-settings").addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
 
@@ -87,8 +88,8 @@ async function setupInitialize() {
 		const key = document.find("#api_key").value;
 
 		checkAPIPermission(key)
-			.then((granted) => {
-				if (!granted) {
+			.then(({ access }) => {
+				if (!access) {
 					const permissionError = document.find(".permission-error");
 					permissionError.classList.remove("tt-hidden");
 					permissionError.textContent =
@@ -764,18 +765,18 @@ async function setupMarketSearch() {
 						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
 						return result;
 					}),
-			// TornPal market data - only fetch if both bazaar search is enabled and connection to TornPal is allowed
-			settings.pages.popup.bazaarUsingExternal && settings.external.tornpal
-				? ttCache.hasValue("tornpalPrice", id)
-					? Promise.resolve(ttCache.get("tornpalPrice", id))
-					: fetchData("tornpal", { section: `markets/clist/${id}` }).then((result) => {
-							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 60, "tornpalPrice");
+			// TornW3B market data - only fetch if both bazaar search is enabled and connection to TornW3B is allowed
+			settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b
+				? ttCache.hasValue("tornw3bPrice", id)
+					? Promise.resolve(ttCache.get("tornw3bPrice", id))
+					: fetchData("tornw3b", { section: `marketplace/${id}` }).then((result) => {
+							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
 							return result;
 						})
 				: Promise.resolve({ listings: [] }),
 		])
-			.then(([tornResult, tornpalResult]) => {
-				handleMarket(tornResult, tornpalResult);
+			.then(([tornResult, tornw3bResult]) => {
+				handleMarket(tornResult, tornw3bResult);
 			})
 			.catch((error) => {
 				document.find(".error").classList.remove("tt-hidden");
@@ -783,7 +784,7 @@ async function setupMarketSearch() {
 			})
 			.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
 
-		function handleMarket(tornResult, tornpalResult) {
+		function handleMarket(tornResult, tornw3bResult) {
 			const list = viewItem.find(".market");
 			list.innerHTML = "";
 
@@ -815,12 +816,12 @@ async function setupMarketSearch() {
 				}
 				list.appendChild(itemMarketWrap);
 
-				// TornPal market listings
-				const tornpalMarketWrap = document.newElement({ type: "div" });
-				tornpalMarketWrap.appendChild(document.newElement({ type: "h4", text: "Bazaars" }));
-				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornpal && tornpalResult?.listings?.length) {
-					for (const item of tornpalResult.listings.slice(0, 3)) {
-						tornpalMarketWrap.appendChild(
+				// TornW3B market listings
+				const bazaarWrap = document.newElement({ type: "div" });
+				bazaarWrap.appendChild(document.newElement({ type: "h4", text: "Bazaars" }));
+				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b && tornw3bResult?.listings?.length) {
+					for (const item of tornw3bResult.listings.slice(0, 3)) {
+						bazaarWrap.appendChild(
 							document.newElement({
 								type: "div",
 								class: "price",
@@ -829,7 +830,7 @@ async function setupMarketSearch() {
 						);
 					}
 				} else {
-					tornpalMarketWrap.appendChild(
+					bazaarWrap.appendChild(
 						document.newElement({
 							type: "div",
 							class: "price no-price",
@@ -837,8 +838,8 @@ async function setupMarketSearch() {
 						})
 					);
 				}
-				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornpal) {
-					list.appendChild(tornpalMarketWrap);
+				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b) {
+					list.appendChild(bazaarWrap);
 				}
 			}
 			viewItem.find(".market").classList.remove("tt-hidden");
@@ -1357,6 +1358,8 @@ async function setupNotifications() {
 		const { message, date, url } = notification;
 		const title = notification.title.replace("TornTools - ", "");
 
+		const period = isToday(date) ? formatTime(date) : `${formatDate(date)} ${formatTime(date)}`;
+
 		return document.newElement({
 			type: "li",
 			children: [
@@ -1367,7 +1370,7 @@ async function setupNotifications() {
 						document.newElement({
 							type: "div",
 							class: "title",
-							children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: formatTime(date) })],
+							children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: period })],
 						}),
 						document.newElement({ type: "span", text: message }),
 					],

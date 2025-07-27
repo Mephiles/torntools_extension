@@ -144,6 +144,31 @@ const REVIVE_PROVIDERS = [
 			xanax: 2,
 		},
 	},
+	{
+		// Original Script: https://greasyfork.org/en/scripts/536134-laekna-revive-request
+		provider: "laekna",
+		name: "Laekna",
+		origin: FETCH_PLATFORMS.laekna,
+		doRequest: (id, name, country, faction, source) => {
+			return new Promise((resolve, reject) => {
+				fetchData("laekna", {
+					...__DEFAULT_REVIVE_REQUEST,
+					section: "revive",
+					body: { userID: id, userName: name, factionName: faction, travelLocation: country, source },
+				})
+					.then((response) => {
+						if (response === "Posted") resolve({ response: {} });
+						else reject(response);
+					})
+					.catch((reason) => reject(reason));
+			});
+		},
+		cooldown: TO_MILLIS.MINUTES * 2,
+		price: {
+			money: 1_800_000,
+			xanax: 2,
+		},
+	},
 ];
 
 function doRequestRevive(id, name, country, faction) {
@@ -153,10 +178,20 @@ function doRequestRevive(id, name, country, faction) {
 	const provider = REVIVE_PROVIDERS.find((p) => p.provider === providerName);
 	if (!provider) throw new Error(`Revive provider '${providerName}' not found.`);
 
+	const hasCooldown = "cooldown" in provider;
+	if (hasCooldown && ttCache.hasValue("cooldown", `revive-${provider.provider}`)) {
+		return Promise.reject({ response: { code: "COOLDOWN" }, provider });
+	}
+
 	return new Promise((resolve, reject) => {
 		provider
 			.doRequest(id, name, country, faction, source)
-			.then(({ response, contract }) => resolve({ response, contract, provider }))
+			.then(({ response, contract }) => {
+				if (hasCooldown) {
+					void ttCache.set({ [`revive-${provider.provider}`]: Date.now() }, provider.cooldown, "cooldown", `revive-${provider.provider}`);
+				}
+				resolve({ response, contract, provider });
+			})
 			.catch((response) => reject({ response, provider }));
 	});
 }

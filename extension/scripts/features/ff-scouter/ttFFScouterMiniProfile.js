@@ -1,23 +1,25 @@
 "use strict";
 
 (async () => {
+	const SCOUTER_SERVICE = scouterService();
+
 	const feature = featureManager.registerFeature(
 		"FF Scouter Mini Profile",
 		"ff-scouter",
 		() => settings.scripts.ffScouter.miniProfile,
-		initialiseMiniprofile,
+		initialiseMiniProfile,
 		null,
 		null,
 		{
-			storage: ["settings.scripts.ffScouter.miniProfile", "settings.external.tornpal"],
+			storage: ["settings.scripts.ffScouter.miniProfile", "settings.external.ffScouter"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!settings.external.tornpal) return "TornPal not enabled";
+			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 		}
 	);
 
-	function initialiseMiniprofile() {
+	function initialiseMiniProfile() {
 		addFetchListener((event) => {
 			if (!feature.enabled()) return;
 
@@ -39,15 +41,25 @@
 	async function showFF(information) {
 		const userId = information.user.userID;
 
-		scoutFF(userId).then((scout) => {
-			const { message, className, detailMessage } = buildScoutInformation(scout);
+		SCOUTER_SERVICE.scoutSingle(userId)
+			.then((scout) => showResult(scout))
+			.catch((reason) => {
+				if ("error" in reason) {
+					showResult({ message: reason.error, isError: true });
+				} else {
+					console.error("TT - Failed to scout ff for the mini profile.", reason);
+				}
+			});
+	}
 
-			const element = document.newElement({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });
-			if (detailMessage) {
-				element.setAttribute("title", detailMessage);
-			}
+	function showResult(scout) {
+		const { message, className, detailMessage } = buildScoutInformation(scout);
 
-			requireElement("#profile-mini-root .profile-container .description").then((d) => d.appendChild(element));
-		});
+		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });
+		if (detailMessage) {
+			element.setAttribute("title", detailMessage);
+		}
+
+		requireElement("#profile-mini-root .profile-container .description").then((d) => d.appendChild(element));
 	}
 })();

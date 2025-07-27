@@ -34,7 +34,7 @@ const LINKS = {
 	pointsmarket: "https://www.torn.com/pmarket.php",
 	property_upkeep: "https://www.torn.com/properties.php#/p=options&tab=upkeep",
 	property_vault: "https://www.torn.com/properties.php#/p=options&tab=vault",
-	raceway: "https://www.torn.com/loader.php?sid=racing",
+	raceway: "https://www.torn.com/page.php?sid=racing",
 	staff: "https://www.torn.com/staff.php",
 	stocks: "https://www.torn.com/page.php?sid=stocks",
 	trade: "https://www.torn.com/trade.php",
@@ -964,7 +964,7 @@ const COMPANY_INFORMATION = {
 	"Mining Corporation": {
 		1: {
 			name: "Mining Boom",
-			cost: "10",
+			cost: "5",
 			effect: "Random excavation equipment",
 		},
 		3: {
@@ -1445,7 +1445,7 @@ const WEAPON_BONUSES = [
 	"Home Run",
 	"Irradiate",
 	"Motivation",
-	"Paralyzed",
+	"Paralyze",
 	"Parry",
 	"Penetrate",
 	"Plunder",
@@ -2086,4 +2086,119 @@ function isEventActive(name, type, useLocalStart = true) {
 	const now = new Date();
 
 	return now > start && now < end;
+}
+
+const HOSP_REASONS = [
+	{
+		name: "overdosed",
+		display: "Overdosed",
+		display_sentence: "after overdosing",
+		keywords: ["overdosed", "collapsed after taking", "collapsed while smoking"],
+		important: true,
+	},
+	{
+		name: "hospitalized",
+		display: "Hospitalized",
+		display_sentence: "after being hospitalized",
+		keywords: ["hospitalized"],
+		important: true,
+	},
+	{
+		name: "mugged",
+		display: "Mugged",
+		display_sentence: "after being mugged",
+		keywords: ["mugged"],
+		important: true,
+	},
+	{
+		name: "attacked",
+		display: "Attacked",
+		display_sentence: "after being attacked",
+		keywords: ["attacked"],
+		important: true,
+	},
+	{
+		name: "lost",
+		display: "Lost",
+		keywords: ["lost"],
+	},
+	{
+		name: "crashed",
+		display: "Crashed",
+		keywords: ["crashed"],
+	},
+	{
+		name: "oc 1 failure",
+		display: "OC 1 Failure",
+		keywords: [
+			"thrown at a wall",
+			"nudist rebels",
+			"shot in the back",
+			"exploded",
+			"swat marksman",
+			"taken down by members",
+			"taken down by guards",
+			"attempted robbery",
+			"derailed",
+			"attempting to take down a president",
+			"dropped by swiss guards",
+		],
+	},
+	{
+		name: "crimes 1 failure",
+		display: "Crimes 1 Failure",
+		keywords: [
+			"trying to rob",
+			"drive-by shooting",
+			"third degree burns",
+			"hitman mission",
+			"arson attempt",
+			"mauled by a guard dog",
+			"shot while resisting arrest",
+		],
+	},
+	{
+		name: "crimes 2 failure",
+		display: "Crimes 2 Failure",
+		keywords: ["gunshot wound", "primary blast"],
+	},
+	{
+		name: "sed",
+		display: "SED",
+		display_sentence: "after using a SED",
+		keywords: ["nasty surprise"],
+		important: true,
+	},
+	{
+		name: "blood_bag",
+		display: "Blood Bag",
+		display_sentence: "after using a wrong blood bag",
+		keywords: ["acute hemolytic transfusion reaction"],
+		important: true,
+	},
+	{
+		name: "ipecac_syrup",
+		display: "Ipecac Syrup",
+		display_sentence: "after ingesting Ipecac Syrup",
+		keywords: ["ipecac syrup"],
+		important: true,
+	},
+	{
+		name: "radiation_poisoning",
+		display: "Radiation Poisoning",
+		keywords: ["radiation poisoning"],
+	},
+];
+
+function getHospitalizationReason(details) {
+	details = details.toLowerCase();
+
+	return HOSP_REASONS.find((_reason) => _reason.keywords.some((keyword) => details.includes(keyword)));
+}
+
+function getSidebarData() {
+	return Object.entries(sessionStorage)
+		.filter(([key]) => /sidebarData\d+/.test(key))
+		.map(([, value]) => JSON.parse(value))
+		.find(() => true);
 }

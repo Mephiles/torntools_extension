@@ -341,3 +341,19 @@
 #sidebarroot ul[class*="status-icons_"] > li[class*="icon86_"] {
 	display: var(--torntools-hide-icons-icon86, inline-block);
 }
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon87_"] {
+	display: var(--torntools-hide-icons-icon87, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon88_"] {
+	display: var(--torntools-hide-icons-icon88, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon89_"] {
+	display: var(--torntools-hide-icons-icon89, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon90_"] {
+	display: var(--torntools-hide-icons-icon90, inline-block);
+}

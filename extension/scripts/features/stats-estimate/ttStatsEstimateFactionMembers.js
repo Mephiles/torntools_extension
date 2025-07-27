@@ -3,7 +3,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const statsEstimate = new StatsEstimate(true);
+	const statsEstimate = new StatsEstimate("Faction Members", true);
 	const feature = featureManager.registerFeature(
 		"Stats Estimate",
 		"stat estimates",
@@ -52,7 +52,6 @@
 		if (isOwnFaction && getFactionSubpage() !== "info") return;
 		if (settings.pages.faction.memberFilter && !forced) return;
 
-		console.log("DKK estimate start", isOwnFaction, getFactionSubpage());
 		await showEstimates();
 	}
 

@@ -239,6 +239,16 @@ async function setupPreferences(requireCleanup) {
 		);
 	}
 
+	reviveProviderSelectElement.addEventListener("change", (event) => {
+		const origin = REVIVE_PROVIDERS.find((p) => p.provider === event.target.value)?.origin;
+
+		chrome.permissions.request({ origins: [origin] }, (granted) => {
+			if (granted) return;
+
+			sendMessage("That permission is required for the revive provider you selected.", false);
+		});
+	});
+
 	if (getSearchParameters().has("section"))
 		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
 
@@ -508,7 +518,8 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
 	_preferences.find("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
 	_preferences.find("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
-	_preferences.find("#external-tornpal").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornpal, event));
+	_preferences.find("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
+	_preferences.find("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = event.target.value;
@@ -579,7 +590,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
-		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornpal"]) {
+		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b", "ffScouter"]) {
 			_preferences.find(`#external-${service}`).checked = settings.external[service];
 		}
 
@@ -637,7 +648,7 @@ async function setupPreferences(requireCleanup) {
 
 		if (api.tornstats.key) _preferences.find("#external-tornstats-key").value = api.tornstats.key;
 		if (api.yata.key) _preferences.find("#external-yata-key").value = api.yata.key;
-		if (api.tornpal.key) _preferences.find("#external-tornpal-key").value = api.tornpal.key;
+		if (api.ffScouter.key) _preferences.find("#external-ffScouter-key").value = api.ffScouter.key;
 
 		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
@@ -973,7 +984,8 @@ async function setupPreferences(requireCleanup) {
 		settings.external.yata = _preferences.find("#external-yata").checked;
 		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
 		settings.external.lzpt = _preferences.find("#external-lzpt").checked;
-		settings.external.tornpal = _preferences.find("#external-tornpal").checked;
+		settings.external.tornw3b = _preferences.find("#external-tornw3b").checked;
+		settings.external.ffScouter = _preferences.find("#external-ffScouter").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
@@ -1120,7 +1132,7 @@ async function setupPreferences(requireCleanup) {
 			api: {
 				tornstats: { key: document.find("#external-tornstats-key").value },
 				yata: { key: document.find("#external-yata-key").value },
-				tornpal: { key: document.find("#external-tornpal-key").value },
+				ffScouter: { key: document.find("#external-ffScouter-key").value },
 			},
 		});
 
@@ -1151,6 +1163,7 @@ async function setupPreferences(requireCleanup) {
 		const searchOverlay = document.find("#tt-search-overlay");
 		document.find("#preferences-search").addEventListener("click", () => {
 			searchOverlay.classList.remove("tt-hidden");
+			searchOverlayInput.focus();
 			search();
 		});
 
@@ -1271,7 +1284,8 @@ async function setupPreferences(requireCleanup) {
 			{ id: "external-yata", origin: FETCH_PLATFORMS.yata },
 			{ id: "external-prometheus", origin: FETCH_PLATFORMS.prometheus },
 			{ id: "external-lzpt", origin: FETCH_PLATFORMS.lzpt },
-			{ id: "external-tornpal", origin: FETCH_PLATFORMS.tornpal },
+			{ id: "external-tornw3b", origin: FETCH_PLATFORMS.tornw3b },
+			{ id: "external-ffScouter", origin: FETCH_PLATFORMS.ffscouter },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;
 
@@ -1280,7 +1294,7 @@ async function setupPreferences(requireCleanup) {
 
 		const reviveProvider = _preferences.find("#global-reviveProvider").value;
 		if (reviveProvider) {
-			const origin = REVIVE_PROVIDERS.find((p) => p === reviveProvider)?.origin;
+			const origin = REVIVE_PROVIDERS.find((p) => p.provider === reviveProvider)?.origin;
 
 			if (origin) origins.push(origin);
 		}
@@ -1292,14 +1306,15 @@ async function setupPreferences(requireCleanup) {
 				title: "Permission Issue",
 				message: "There are settings enabled that require permissions to be given, but those permissions are missing.",
 			})
-				.then(() => {})
-				.catch(() => {})
 				.then(() => {
 					chrome.permissions.request({ origins }, (granted) => {
 						if (granted) return;
 
 						sendMessage("These permissions are essential.", false);
 					});
+				})
+				.catch(() => {
+					sendMessage("These permissions are essential.", false);
 				});
 		});
 	}
@@ -1344,10 +1359,10 @@ async function setupAPIInfo() {
 		const key = document.find("#api_key").value;
 
 		checkAPIPermission(key)
-			.then((granted) => {
+			.then(({ access }) => {
 				changeAPIKey(key)
 					.then(() => {
-						if (granted) sendMessage("API Key updated", true);
+						if (access) sendMessage("API Key updated", true);
 						else sendMessage("Your API key is not the correct API level. This will affect a lot of features.", false);
 						console.log("TT - Updated api key!");
 					})
@@ -1689,23 +1704,6 @@ async function setupExport() {
 
 	// Remote Sync
 	loadSync();
-
-	// Remote Server
-	// exportSection.find("#export-remote-server").addEventListener("click", () => {
-	// 	loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
-	// 		.then(() => {
-	// 			// TODO - Store data in remote server.
-	// 		})
-	// 		.catch(() => {});
-	// });
-	// exportSection.find("#import-remote-server").addEventListener("click", () => {
-	// 	loadConfirmationPopup(POPUP_TEMPLATES.IMPORT)
-	// 		.then(() => {
-	// 			// TODO - Load data from remote server.
-	// 		})
-	// 		.catch(() => {});
-	// });
-
 	async function getExportData(api) {
 		const exportedKeys = ["version", "settings", "filters", "stakeouts", "notes", "quick"];
 		if (api) exportedKeys.insertAt(0, "api");

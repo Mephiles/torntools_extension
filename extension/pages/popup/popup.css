@@ -6,10 +6,12 @@ body {
 
 body.light {
 	--default-preloader-url: url(https://www.torn.com/images/v2/main/ajax-loader.gif);
+	--color-link: mediumblue;
 }
 
 body.dark {
 	--default-preloader-url: url(https://www.torn.com/images/v2/main/ajax-loader-white.gif);
+	--color-link: dodgerblue;
 }
 
 body.loading *:not(.tt-loading-placeholder) {
@@ -123,4 +125,10 @@ body.dark .search {
 
 body.dark .key-perms-note span {
 	color: yellow;
+}
+
+#tos {
+	display: block;
+	text-decoration: none;
+	color: var(--color-link);
 }

@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	const { mobile } = await checkDevice();
+
 	const feature = featureManager.registerFeature(
 		"Show Faction Spy",
 		"faction",
@@ -21,8 +23,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			if (!settings.external.tornstats || !settings.external.yata) return "Both TornStats and YATA are disabled.";
-			if (
+			else if (!settings.external.tornstats && !settings.external.yata) return "Both TornStats and YATA are disabled.";
+			else if (
 				settings.scripts.statsEstimate.global &&
 				settings.scripts.statsEstimate.factions &&
 				settings.scripts.statsEstimate.wars &&
@@ -61,30 +63,35 @@
 		tableBody.classList.add("tt-modified-faction-spy");
 
 		[...tableBody.children].forEach((row) => {
-			const memberID = row.find(".member.icons [href*='/profiles.php']").getAttribute("href").split("XID=")[1];
+			const memberID = row.find(".member.icons [href*='/profiles.php']")?.getAttribute("href").split("XID=")[1];
+			if (!memberID) return;
 			let spyData = spies[memberID];
 
 			let statFields = [];
+			let title = "";
 			if (spyData) {
 				for (const stat of ["strength", "defense", "speed", "dexterity", "total"])
 					spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
 				spyData.timestamp = formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true });
-				statFields = [
+
+				const allFields = [
 					`Strength: ${spyData.strength}`,
 					`Defense: ${spyData.defense}`,
 					`Speed: ${spyData.speed}`,
 					`Dexterity: ${spyData.dexterity}`,
 					`Total: ${spyData.total}`,
 					`⏱: ${spyData.timestamp}`,
-				]
-					.slice(mobile ? 4 : 0)
-					.map((text) => document.newElement({ type: "div", text: text }));
+				];
+
+				statFields = allFields.slice(mobile ? 4 : 0).map((text) => document.newElement({ type: "div", text: text }));
+				title = allFields.join("\n");
 			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
 
 			const spyElement = document.newElement({
 				type: "div",
 				class: "tt-faction-spy",
 				children: statFields,
+				attributes: { title },
 			});
 			row.appendChild(spyElement);
 		});
@@ -101,18 +108,30 @@
 			let spyData = spies[memberID];
 
 			let statFields = [];
+			let title = "";
 			if (spyData) {
 				for (const stat of ["strength", "defense", "speed", "dexterity", "total"])
 					spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
 				spyData.timestamp = formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true });
 
-				statFields = [`Total: ${spyData.total}`, `⏱: ${spyData.timestamp}`].map((text) => document.newElement({ type: "div", text: text }));
+				const allFields = [
+					`Strength: ${spyData.strength}`,
+					`Defense: ${spyData.defense}`,
+					`Speed: ${spyData.speed}`,
+					`Dexterity: ${spyData.dexterity}`,
+					`Total: ${spyData.total}`,
+					`⏱: ${spyData.timestamp}`,
+				];
+
+				statFields = allFields.slice(4).map((text) => document.newElement({ type: "div", text: text }));
+				title = allFields.join("<br>");
 			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
 
 			const spyElement = document.newElement({
 				type: "div",
 				class: "tt-faction-rw-spy",
 				children: statFields,
+				attributes: { title },
 			});
 			row.appendChild(spyElement);
 		});
@@ -147,6 +166,7 @@
 						defense: spyData.defense,
 						speed: spyData.speed,
 						dexterity: spyData.dexterity,
+						total: spyData.total,
 						timestamp: spyData.update,
 					};
 			}

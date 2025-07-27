@@ -82,7 +82,7 @@
 				valueLow: filters.competition.levelStart,
 				valueHigh: filters.competition.levelEnd,
 			},
-			callback: () => applyFilter(true),
+			callback: () => applyFilter(),
 		});
 		filterContent.appendChild(levelFilter.element);
 		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
@@ -96,7 +96,7 @@
 					{ id: "n/a", description: "N/A" },
 				],
 				defaults: filters.competition.estimates,
-				callback: () => applyFilter(true),
+				callback: () => applyFilter(),
 			});
 			filterContent.appendChild(estimatesFilter.element);
 
@@ -105,10 +105,10 @@
 
 		content.appendChild(filterContent);
 
-		await applyFilter(false);
+		await applyFilter();
 	}
 
-	async function applyFilter(includeEstimates) {
+	async function applyFilter() {
 		await requireElement(".team-list-wrap");
 
 		const content = findContainer("Competition Filter", { selector: "main" });
@@ -116,7 +116,7 @@
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
 		const statsEstimates =
-			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.competition && hasAPIData()
+			hasStatsEstimatesLoaded("Competitions") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.competition && hasAPIData()
 				? localFilters["Stats Estimate"]?.getSelections(content)
 				: undefined;
 

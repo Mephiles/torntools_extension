@@ -21,7 +21,9 @@ const FETCH_PLATFORMS = {
 	prometheus: "https://prombot.co.uk:8443/",
 	lzpt: "https://api.lzpt.io/",
 	wtf: "https://what-the-f.de/",
-	tornpal: "https://tornpal.com/",
+	tornw3b: "https://weav3r.dev/",
+	ffscouter: "https://ffscouter.com/",
+	laekna: "https://laekna-revive-bot.onrender.com/",
 };
 
 const FACTION_ACCESS = {
@@ -116,41 +118,22 @@ async function fetchData(location, options = {}) {
 					path = pathSections.join("/");
 					await ttUsage.add(location);
 					break;
-				case "nukefamily":
-					url = FETCH_PLATFORMS.nukefamily;
-
-					path = options.section;
-					break;
-				case "uhc":
-					url = FETCH_PLATFORMS.uhc;
-
-					path = options.section;
-					break;
-				case "stig":
-					url = FETCH_PLATFORMS.stig;
-
-					path = options.section;
-					break;
 				case "prometheus":
 					url = FETCH_PLATFORMS.prometheus;
-
 					path = ["api", options.section].join("/");
 					break;
-				case "lzpt":
-					url = FETCH_PLATFORMS.lzpt;
-					path = options.section;
+				case "tornw3b":
+					url = FETCH_PLATFORMS.tornw3b;
+					path = ["api", options.section].join("/");
 					break;
-				case "wtf":
-					url = FETCH_PLATFORMS.wtf;
-					path = options.section;
-					break;
-				case "tornpal":
-					url = FETCH_PLATFORMS.tornpal;
-					key = api.tornpal.key;
+				case "ffscouter":
+					url = FETCH_PLATFORMS.ffscouter;
 					path = ["api", "v1", options.section].join("/");
-					const identifier = tornpalIdentifier();
-					headers["User-Agent"] = identifier; // doesn't work in Chromium - https://issues.chromium.org/issues/40450316
-					params.append("comment", identifier);
+					key = api.ffScouter.key;
+					break;
+				default:
+					url = FETCH_PLATFORMS[location];
+					path = options.section;
 					break;
 			}
 
@@ -193,7 +176,7 @@ async function fetchData(location, options = {}) {
 					try {
 						result = await response.clone().json();
 					} catch (error) {
-						if (location === "torn_direct") {
+						if (location === "torn_direct" || location === "laekna") {
 							result = await response.clone().text();
 
 							resolve(result);
@@ -316,30 +299,17 @@ function isTornAPICall(location) {
 
 function checkAPIPermission(key) {
 	return new Promise((resolve, reject) => {
-		fetchData("torn", { section: "key", selections: ["info"], key, silent: true })
+		fetchData("tornv2", { section: "key", selections: ["info"], key, silent: true })
 			.then(async (response) => {
-				const level = response.access_level;
-				if (
-					level === 3 || // Limited Access
-					level === 4 // Full Access
-				) {
-					resolve(true);
+				const { type, faction, company } = response.info.access;
+				if (type === "Limited Access" || type === "Full Access") {
+					resolve({ access: true, faction, company });
 				} else {
-					resolve(false);
+					resolve({ access: false });
 				}
 			})
-			.catch((error) => {
-				reject(error.error);
-			});
+			.catch((error) => reject(error.error));
 	});
-}
-
-function tornpalIdentifier() {
-	try {
-		return `TornTools-${getUserDetails().id}`;
-	} catch {
-		return "TornTools";
-	}
 }
 
 function changeAPIKey(key) {
@@ -386,5 +356,8 @@ function hasOC1Data() {
 }
 
 async function hasOrigins(...origins) {
+	// We have permission for the entire domain, not just the api subdomain.
+	origins = origins.map((origin) => origin.replaceAll("api.torn.com", "torn.com"));
+
 	return new Promise((resolve) => chrome.permissions.contains({ origins }, (granted) => resolve(granted)));
 }

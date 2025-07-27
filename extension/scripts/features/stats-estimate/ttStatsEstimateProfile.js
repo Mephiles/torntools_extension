@@ -4,7 +4,7 @@
 	if (!getPageStatus().access) return;
 	if (isOwnProfile()) return;
 
-	const statsEstimate = new StatsEstimate(false);
+	const statsEstimate = new StatsEstimate("Profile", false);
 	featureManager.registerFeature(
 		"Stats Estimate",
 		"stat estimates",

@@ -26,10 +26,8 @@
 		observer = new MutationObserver(() => {
 			highlightEverything();
 		});
-		observer.observe(document.body, {
-			childList: true,
-			subtree: true,
-		});
+
+		requireContent().then(() => observer.observe(document.body, { childList: true, subtree: true }));
 	}
 
 	function highlightEverything() {
