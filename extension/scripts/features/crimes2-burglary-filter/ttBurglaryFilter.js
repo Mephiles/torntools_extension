@@ -1,43 +1,6 @@
 "use strict";
 
 (async () => {
-	const TARGET_TYPE_MAPPING = {
-		Apartment: "Residential Targets",
-		"Beach Hut": "Residential Targets",
-		Bungalow: "Residential Targets",
-		Cottage: "Residential Targets",
-		Farmhouse: "Residential Targets",
-		"Lake House": "Residential Targets",
-		"Luxury Villa": "Residential Targets",
-		"Manor House": "Residential Targets",
-		"Mobile Home": "Residential Targets",
-		"Secluded Cabin": "Residential Targets",
-		"Suburban Home": "Residential Targets",
-		"Tool Shed": "Residential Targets",
-		"Advertising Agency": "Commercial Targets",
-		Barbershop: "Commercial Targets",
-		Chiropractors: "Commercial Targets",
-		"Cleaning Agency": "Commercial Targets",
-		"Dentists Office": "Commercial Targets",
-		"Funeral Directors": "Commercial Targets",
-		"Liquor Store": "Commercial Targets",
-		Market: "Commercial Targets",
-		"Postal Office": "Commercial Targets",
-		"Recruitment Agency": "Commercial Targets",
-		"Self-Storage Facility": "Commercial Targets",
-		Brewery: "Industrial Targets",
-		"Dockside Warehouse": "Industrial Targets",
-		"Farm Storage_Unit": "Industrial Targets",
-		"Fertilizer Plant": "Industrial Targets",
-		Foundry: "Industrial Targets",
-		"Old Factory": "Industrial Targets",
-		"Paper Mill": "Industrial Targets",
-		"Printing Works": "Industrial Targets",
-		Shipyard: "Industrial Targets",
-		Slaughterhouse: "Industrial Targets",
-		Truckyard: "Industrial Targets",
-	};
-
 	if (!getPageStatus().access) return;
 
 	const feature = featureManager.registerFeature(
@@ -77,7 +40,7 @@
 	async function createFilter(crimeRoot) {
 		document.body.classList.add("torntools-burglary-filter");
 
-		const { content, options } = createContainer("Burglary Filter", {
+		const { content } = createContainer("Burglary Filter", {
 			class: "mb10",
 			nextElement: crimeRoot,
 			filter: true,
@@ -102,6 +65,7 @@
 		localFilters["Target Name"] = { getValue: targetNameFilter.getValue };
 
 		const targetTypeFilter = createFilterSection({
+			title: "Target Type",
 			type: "Target Type",
 			checkboxes: [
 				{ description: "Residential Targets", id: "residential-targets" },
@@ -156,7 +120,7 @@
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 		for (const targetEl of document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
 			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent,
-				rowTargetType = TARGET_TYPE_MAPPING[rowTargetName].toLowerCase().replace(" ", "-");
+				rowTargetType = targetEl.find("[class*='crime-image'] img").currentSrc.match(/residential|commercial|industrial/)[0] + "-targets";
 			if (targetName && !rowTargetName.includes(targetName)) {
 				hideRow(targetEl);
 				continue;

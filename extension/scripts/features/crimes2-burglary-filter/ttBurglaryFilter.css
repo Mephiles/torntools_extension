@@ -9,3 +9,10 @@ body.torntools-burglary-filter .burglary-root [class*="currentCrime__"] [class*=
 body.torntools-burglary-filter .burglary-root [class*="currentCrime__"] [class*="virtualItem__"]:not(:first-child) {
 	overflow: hidden;
 }
+
+/* body #react-root .crimes-app #burglaryFilter { */
+body #react-root .crimes-app #burglaryFilter * {
+	font-family: Arial !important;
+	letter-spacing: 0 !important;
+}
+
