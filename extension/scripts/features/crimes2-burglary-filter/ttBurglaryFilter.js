@@ -22,7 +22,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_BURGLARY_LOADED].push(async ({ crimeRoot, url }) => {
 			if (!feature.enabled()) return;
 
-			const searchParams = (new URL(url)).searchParams
+			const searchParams = new URL(url).searchParams;
 			if (searchParams.get("step") === "attempt") {
 				await requireElement(".virtual-item.outcome-expanded button.commit-button");
 

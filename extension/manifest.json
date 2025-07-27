@@ -809,7 +809,11 @@
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=crimes*"],
 			"css": ["scripts/global/functions/filters.css", "scripts/features/crimes2-burglary-filter/ttBurglaryFilter.css"],
-			"js": ["scripts/global/functions/filters.js", "scripts/content/crimes2/ttCrimes2.js", "scripts/features/crimes2-burglary-filter/ttBurglaryFilter.js"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/content/crimes2/ttCrimes2.js",
+				"scripts/features/crimes2-burglary-filter/ttBurglaryFilter.js"
+			],
 			"run_at": "document_end"
 		},
 		{

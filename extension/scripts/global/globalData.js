@@ -690,7 +690,7 @@ const DEFAULT_STORAGE = {
 			},
 			crimes2: {
 				burglaryFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-			}
+			},
 		},
 		scripts: {
 			noConfirm: {
