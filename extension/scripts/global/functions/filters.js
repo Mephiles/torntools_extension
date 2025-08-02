@@ -41,6 +41,7 @@ function createFilterSection(options) {
 	options = {
 		type: "",
 		title: "",
+		text: "",
 		checkbox: "",
 		checkboxes: [],
 		ynCheckboxes: [],
