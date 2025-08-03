@@ -350,7 +350,7 @@
 				const mission = MISSION_HINTS[key];
 
 				task = mission.task;
-				hint = document.newElement({ type: "span", html: mission.hint });
+				hint = mission.hint ? document.newElement({ type: "span", html: mission.hint }) : null;
 			} else {
 				if (title.includes("{name}")) {
 					task = "You are using a conflicting script.";
