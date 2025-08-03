@@ -1,0 +1,11 @@
+body.torntools-burglary-filter .burglary-root .tt-filter-hidden [class*="outcomeWrapper__"] {
+	display: none;
+}
+
+body.torntools-burglary-filter .burglary-root [class*="currentCrime__"] [class*="virtualItemsBackdrop__"] {
+	display: none;
+}
+
+body.torntools-burglary-filter .burglary-root [class*="currentCrime__"] [class*="virtualItem__"]:not(:first-child) {
+	overflow: hidden;
+}

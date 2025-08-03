@@ -807,6 +807,16 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/loader.php?sid=crimes*", "https://www.torn.com/page.php?sid=crimes*"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/crimes2-burglary-filter/ttBurglaryFilter.css"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/content/crimes2/ttCrimes2.js",
+				"scripts/features/crimes2-burglary-filter/ttBurglaryFilter.js"
+			],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/loader.php?sid=missions"],
 			"css": ["scripts/features/mission-hints/ttMissionHints.css", "scripts/features/mission-rewards/ttMissionRewards.css"],
 			"js": [

@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Crimes 2.0 Burglary Targets filter.", "contributor": "TheFoxMan" }],
 			"fixes": [{ "message": "Fix your country not always being properly send when requesting a revive.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" }],
 			"removed": []
