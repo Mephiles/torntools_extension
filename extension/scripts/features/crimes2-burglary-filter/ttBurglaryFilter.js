@@ -16,8 +16,8 @@
 		null
 	);
 
-	let CRIMES2_ROWS_START_Y = 64,
-		CRIMES2_ROW_HEIGHT = 51;
+	let CRIMES2_ROWS_START_Y = 64;
+
 	function initialise() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_BURGLARY_LOADED].push(async ({ crimeRoot, url }) => {
 			if (!feature.enabled()) return;
@@ -99,7 +99,7 @@
 		await filtering();
 	}
 
-	async function filtering(argument) {
+	async function filtering() {
 		await requireElement(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']");
 
 		CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
