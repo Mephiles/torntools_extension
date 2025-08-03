@@ -44,6 +44,7 @@
 			class: "mb10",
 			nextElement: crimeRoot,
 			filter: true,
+			resetStyles: true,
 		});
 
 		const statistics = createStatistics("targets");

@@ -98,3 +98,9 @@ body.tt-tablet #sidebarroot .tt-container .title {
 .tt-container > main.background {
 	background-color: var(--default-bg-panel-color);
 }
+
+.tt-container.reset-styles {
+	font-family: Arial, serif !important;
+	color: var(--default-color) !important;
+	letter-spacing: 0;
+}
