@@ -85,13 +85,11 @@
 
 	async function addFilter(crimeRoot) {
 		if (!window.location.hash.includes("burglary")) return;
-		else {
-			if (!crimeRoot) {
-				try {
-					crimeRoot = await requireElement(".crime-root.burglary-root");
-				} catch (error) {
-					return;
-				}
+		if (!crimeRoot) {
+			try {
+				crimeRoot = await requireElement(".crime-root.burglary-root");
+			} catch (error) {
+				return;
 			}
 		}
 
