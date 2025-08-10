@@ -338,7 +338,7 @@ async function updateUserdata(forceUpdate = false) {
 		? await fetchData("tornv2", {
 				section: "user",
 				selections: selectionsV2,
-				params: { cat: "all" },
+				params: { cat: "all", timestamp: Math.floor(Date.now() / 1000) },
 			})
 		: {};
 
@@ -462,7 +462,7 @@ async function updateUserdata(forceUpdate = false) {
 						} else {
 							attackHistory.history[enemyId].defend_lost++;
 						}
-					} else if (attack.attacker.id === userdata.player_id) {
+					} else if (attack.attacker?.id === userdata.player_id) {
 						if (attack.defender.name) attackHistory.history[enemyId].name = attack.defender.name;
 
 						if (attack.result === "Lost" || attack.result === "Timeout") attackHistory.history[enemyId].lose++;
