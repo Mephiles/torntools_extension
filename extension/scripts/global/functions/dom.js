@@ -221,12 +221,16 @@ function findParent(element, options = {}) {
 		class: false,
 		id: false,
 		hasAttribute: false,
+		maxAttempts: -1,
+		currentAttempt: 1,
 		...options,
 	};
 
 	if (!element || !element.parentElement) return undefined;
+	if (options.maxAttempts !== -1 && options.currentAttempt > options.maxAttempts) return undefined;
 
 	if (options.tag && element.parentElement.tagName === options.tag) return element.parentElement;
+	if (options.id && element.parentElement.id === options.id) return element.parentElement;
 	if (
 		options.class &&
 		((Array.isArray(options.class) && options.class.some((c) => element.parentElement.classList.contains(c))) ||
@@ -235,7 +239,7 @@ function findParent(element, options = {}) {
 		return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
-	return findParent(element.parentElement, options);
+	return findParent(element.parentElement, { ...options, currentAttempts: options.currentAttempt + 1 });
 }
 
 function rotateElement(element, degrees) {

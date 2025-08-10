@@ -355,6 +355,11 @@ class DragDropTouch {
 	}
 
 	_shouldHandle(e) {
+		// Force disable when touching the sidebar.
+		if (findParent(e.target, { id: "sidebar", maxAttempts: 6 })) {
+			return false;
+		}
+
 		return e && !e.defaultPrevented && e.touches && e.touches.length < 2;
 	}
 
