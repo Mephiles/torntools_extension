@@ -11,7 +11,7 @@
 				{ "message": "Fix scrolling through the sidebar not being possible on the items page on mobile.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" }],
-			"removed": []
+			"removed": [{ "message": "Remove 'Defender Last Action' due to the information no longer being available without many API calls.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

@@ -564,12 +564,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=attack&*"],
-			"css": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css", "scripts/features/attack-last-action/ttAttackLastAction.css"],
-			"js": [
-				"scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js",
-				"scripts/features/hide-attack-buttons/ttHideAttackButtons.js",
-				"scripts/features/attack-last-action/ttAttackLastAction.entry.js"
-			],
+			"css": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css"],
+			"js": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js", "scripts/features/hide-attack-buttons/ttHideAttackButtons.js"],
 			"run_at": "document_start"
 		},
 		{

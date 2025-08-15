@@ -653,7 +653,6 @@ const DEFAULT_STORAGE = {
 				fairAttack: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				weaponExperience: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideAttackButtons: new DefaultSetting({ type: "array", defaultValue: [] }),
-				defenderLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			city: {
 				items: new DefaultSetting({ type: "boolean", defaultValue: true }),
