@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix your country not always being properly send when requesting a revive.", "contributor": "DeKleineKobini" },
 				{ "message": "Bypass the API cache for V2 calls. This should result in new data properly flowing through.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix scrolling through the sidebar not being possible on the items page on mobile.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix scrolling through the sidebar not being possible on the items page on mobile.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with the 'Highlight Cheap Items' when there is no price element.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" }],
 			"removed": [

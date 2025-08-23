@@ -91,10 +91,9 @@
 			...list.findAll(
 				`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"},[class*='sellerRow___']:not(:first-child)${includeModified ? "" : ":not(.tt-highlight-modified)"}`
 			),
-		].map((element) => ({
-			element,
-			price: element.find("[class*='price___']").textContent.getNumber(),
-		}));
+		]
+			.filter((element) => !!element.find("[class*='price___']"))
+			.map((element) => ({ element, price: element.find("[class*='price___']").textContent.getNumber() }));
 
 		handleItemSellers(item, itemEntries);
 	}
