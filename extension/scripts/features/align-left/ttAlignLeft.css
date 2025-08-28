@@ -10,3 +10,7 @@
 .tt-align-left .without-sidebar #mainContainer .content-wrapper {
 	margin-left: 20px;
 }
+
+.tt-align-left .d .backdrops-container .custom-bg-desktop {
+	background-position: calc(967px + 20px) top;
+}
