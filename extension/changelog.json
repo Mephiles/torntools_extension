@@ -11,7 +11,10 @@
 				{ "message": "Fix scrolling through the sidebar not being possible on the items page on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Highlight Cheap Items' when there is no price element.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" },
+				{ "message": "Align the page backdrops when using the align left feature." }
+			],
 			"removed": [
 				{
 					"message": "Remove 'Defender Last Action' due to the information no longer being available without many API calls.",
