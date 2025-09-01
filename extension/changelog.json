@@ -13,7 +13,8 @@
 			],
 			"changes": [
 				{ "message": "Link to the explosive grenades wiki page for the 'Loud and Clear' mission hint.", "contributor": "DeKleineKobini" },
-				{ "message": "Align the page backdrops when using the align left feature." }
+				{ "message": "Align the page backdrops when using the align left feature." },
+				{ "message": "Include Vanguard armor set in the faction armory filter.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{

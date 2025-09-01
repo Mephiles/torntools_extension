@@ -155,7 +155,7 @@
 				title: "Set",
 				select: [
 					{ value: "", description: "All" },
-					...["Assault", "Riot", "Dune", "Delta", "Vanguard", "Marauder", "EOD", "Sentinel"].map((type) => ({
+					...ARMOR_SETS.map((type) => ({
 						value: type.toLowerCase(),
 						description: type,
 					})),

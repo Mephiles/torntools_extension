@@ -136,7 +136,7 @@
 				select: [
 					{ value: "", description: "All" },
 					{ value: "any", description: "Any (ranked)" },
-					...["Assault", "Riot", "Dune", "Delta", "Marauder", "EOD", "Sentinel"].map((type) => ({ value: type.toLowerCase(), description: type })),
+					...ARMOR_SETS.map((type) => ({ value: type.toLowerCase(), description: type })),
 				],
 				defaults: filters.factionArmory[itemType].set,
 				callback: applyFilters,
@@ -249,7 +249,7 @@
 		if (filters.set) {
 			const set = row.find(".name").textContent.split(" ")[0].toLowerCase();
 			if (filters.set === "any") {
-				if (!["assault", "riot", "dune", "delta", "marauder", "eod", "sentinel"].includes(set)) {
+				if (!ARMOR_SETS.map((x) => x.toLowerCase()).includes(set)) {
 					hide("set");
 					return;
 				}

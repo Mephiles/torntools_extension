@@ -1601,6 +1601,8 @@ const BACKUP_CALENDAR_2025 = {
 	},
 };
 
+const ARMOR_SETS = ["Assault", "Riot", "Dune", "Delta", "Marauder", "EOD", "Sentinel", "Vanguard"];
+
 function getNextChainBonus(current) {
 	return CHAIN_BONUSES.find((bonus) => bonus > current);
 }
