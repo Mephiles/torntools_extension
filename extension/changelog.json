@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 7, "minor": 8, "build": 0 },
+		"version": { "major": 7, "minor": 8, "build": 1 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 8, "build": 0 },
+		"date": "2025/09/03",
 		"logs": {
 			"features": [{ "message": "Crimes 2.0 Burglary Targets filter.", "contributor": "TheFoxMan" }],
 			"fixes": [
