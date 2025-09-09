@@ -46,45 +46,25 @@
 
 			const id = json.result.user.userID;
 			let jobResult;
-			if (ttCache.hasValue("profile", id)) {
-				jobResult = ttCache.get("profile", id);
+			if (ttCache.hasValue("user-job", id)) {
+				jobResult = ttCache.get("user-job", id);
 			} else {
 				jobResult = (
-					await fetchData("torn", {
+					await fetchData("tornv2", {
 						section: "user",
 						id,
-						selections: ["profile"],
+						selections: ["job"],
 						silent: true,
 						succeedOnError: true,
 					})
 				).job;
 
-				ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "profile").then(() => {});
+				ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "user-job").then(() => {});
 			}
 
-			if (jobResult && jobResult.company_type === 5) {
-				let companyResult;
-
-				if (ttCache.hasValue("company", jobResult.company_id)) {
-					companyResult = ttCache.get("company", jobResult.company_id);
-				} else {
-					companyResult = (
-						await fetchData("torn", {
-							section: "company",
-							id: jobResult.company_id,
-							selections: ["profile"],
-							silent: true,
-							succeedOnError: true,
-						})
-					).company;
-
-					ttCache.set({ [jobResult.company_id]: jobResult }, TO_MILLIS.SECONDS * 30, "company").then(() => {});
-				}
-
-				if (companyResult && companyResult.rating >= 7) {
-					percentageMin /= 4;
-					percentageMax /= 4;
-				}
+			if (jobResult && jobResult.type === "company" && jobResult.type_id === 5 && jobResult.rating >= 7) {
+				percentageMin /= 4;
+				percentageMax /= 4;
 			}
 		}
 
