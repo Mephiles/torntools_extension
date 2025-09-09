@@ -197,6 +197,7 @@
 		if (ttCache.hasValue("bankInterest")) {
 			response = ttCache.get("bankInterest");
 		} else {
+			// TODO - Migrate to V2 (torn/bank).
 			response = (await fetchData("torn", { section: "torn", selections: ["bank"] })).bank;
 
 			ttCache.set({ bankInterest: response }, millisToNewDay()).then(() => {});

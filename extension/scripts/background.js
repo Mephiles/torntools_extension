@@ -281,6 +281,13 @@ async function updateUserdata(forceUpdate = false) {
 		// TODO - Move some of those behind a setting.
 		selectionsV2.push("profile", "faction", "job", "timestamp");
 
+		// TODO - Migrate to V2 (user/bars).
+		// TODO - Migrate to V2 (user/cooldowns).
+		// TODO - Migrate to V2 (user/travel).
+		// TODO - Migrate to V2 (user/newmessages).
+		// FIXME - Migrate to V2 (user/money).
+		// TODO - Migrate to V2 (user/refills).
+		// FIXME - Migrate to V2 (user/icons).
 		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "money", "refills", "icons"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
@@ -295,6 +302,19 @@ async function updateUserdata(forceUpdate = false) {
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
+		// TODO - Migrate to V2 (user/stocks).
+		// FIXME - Migrate to V2 (user/merits).
+		// TODO - Migrate to V2 (user/perks).
+		// TODO - Migrate to V2 (user/networth).
+		// TODO - Migrate to V2 (user/ammo).
+		// FIXME - Migrate to V2 (user/honors).
+		// FIXME - Migrate to V2 (user/medals).
+		// FIXME - Migrate to V2 (user/battlestats).
+		// FIXME - Migrate to V2 (user/crimes).
+		// TODO - Migrate to V2 (user/workstats).
+		// FIXME - Migrate to V2 (user/skills).
+		// TODO - Migrate to V2 (user/weaponexp).
+		// FIXME - Migrate to V2 (user/properties).
 		for (const selection of [
 			"stocks",
 			// "inventory",
@@ -321,6 +341,7 @@ async function updateUserdata(forceUpdate = false) {
 			selectionsV2.push(selection);
 		}
 
+		// FIXME - Migrate to V2 (user/education).
 		if (settings.apiUsage.user.education && !hasFinishedEducation()) selections.push("education");
 
 		updatedTypes.push("basic");
@@ -359,7 +380,9 @@ async function updateUserdata(forceUpdate = false) {
 
 		if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
-			userdata.events = // TODO - Migrate to V2 (user/events + user/newevents).
+			userdata.events =
+				// TODO - Migrate to V2 (user/events).
+				// TODO - Migrate to V2 (user/newevents).
 				(
 					await fetchData("torn", {
 						section: "user",
@@ -1236,7 +1259,13 @@ async function updateFactionStakeouts() {
 }
 
 async function updateTorndata() {
-	// TODO - Migrate to V2 (many shit).
+	// FIXME - Migrate to V2 (torn/education).
+	// FIXME - Migrate to V2 (torn/honors).
+	// FIXME - Migrate to V2 (torn/items).
+	// FIXME - Migrate to V2 (torn/medals).
+	// TODO - Migrate to V2 (torn/pawnshop).
+	// FIXME - Migrate to V2 (torn/properties).
+	// TODO - Migrate to V2 (torn/stats).
 	const dataV1 = await fetchData("torn", {
 		section: "torn",
 		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"],
@@ -1314,7 +1343,8 @@ async function updateFactiondata() {
 
 	async function updateAccess() {
 		try {
-			// TODO - Migrate to V2 (faction/basic + faction/crimes).
+			// FIXME - Migrate to V2 (faction/basic).
+			// FIXME - Migrate to V2 (faction/crimes).
 			const data = await fetchData("torn", { section: "faction", selections: ["crimes", "basic"], silent: true });
 			data.access = FACTION_ACCESS.full_access;
 			data.date = Date.now();

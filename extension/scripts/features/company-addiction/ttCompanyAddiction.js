@@ -56,7 +56,8 @@
 			const company_id = userdata.job?.id;
 
 			try {
-				const response = (
+				const response = // TODO - Migrate to V2 (company/employees).
+				(
 					await fetchData("torn", {
 						section: "company",
 						id: company_id,

@@ -68,6 +68,7 @@
 		if (ttCache.hasValue("faction-members-donations", userdata.faction.id)) {
 			donations = ttCache.get("faction-members-donations", userdata.faction.id);
 		} else {
+			// FIXME - Migrate to V2 (faction/donations -> faction/balance).
 			donations = (await fetchData("torn", { section: "faction", selections: ["donations"], silent: true, succeedOnError: true })).donations;
 
 			ttCache.set({ [userdata.faction.id]: donations }, TO_MILLIS.SECONDS * 60, "faction-members-donations").then(() => {});
