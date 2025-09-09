@@ -53,8 +53,8 @@ async function readCompanyDetails() {
 		const cached = ttCache.get("company-id", userID);
 		if (cached) return cached;
 
-		const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
-		const companyID = data.job.company_id;
+		const data = await fetchData("tornv2", { section: "user", selections: ["job"], id: userID });
+		const companyID = data.job?.id;
 
 		void ttCache.set({ [userID]: companyID }, 1 * TO_MILLIS.DAYS, "company-id");
 
