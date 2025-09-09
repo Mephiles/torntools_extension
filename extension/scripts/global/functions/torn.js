@@ -2037,7 +2037,7 @@ function getUsername(row) {
 function hasFinishedEducation() {
 	if (!torndata.education || !userdata.education_completed) return false;
 
-	return Object.keys(torndata.education).every((id) => userdata.education_completed.includes(parseInt(id)));
+	return torndata.education.every(({ id }) => userdata.education_completed.includes(id));
 }
 
 function isChatV3() {
