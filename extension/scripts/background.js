@@ -952,8 +952,7 @@ async function updateStakeouts() {
 		const oldData = stakeouts[id]?.info ?? false;
 		let data;
 		try {
-			// TODO - Migrate to V2 (user/profile).
-			data = await fetchData("torn", { section: "user", selections: ["profile"], id, silent: true });
+			data = await fetchData("tornv2", { section: "user", selections: ["profile"], id, silent: true });
 			if (!data) {
 				console.log("Unexpected result during stakeout updating.");
 				failed++;
@@ -972,86 +971,90 @@ async function updateStakeouts() {
 
 			if (okay) {
 				const key = `${id}_okay`;
-				if (data.status.state === "Okay" && (!oldData || oldData.status.state !== data.status.state) && !notifications.stakeouts[key]) {
+				if (data.profile.status.state === "Okay" && (!oldData || oldData.status.state !== data.profile.status.state) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now okay.`, `https://www.torn.com/profiles.php?XID=${id}`);
-				} else if (data.status.state !== "Okay") {
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.profile.name} is now okay.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
+				} else if (data.profile.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (hospital) {
 				const key = `${id}_hospital`;
-				if (data.status.state === "Hospital" && (!oldData || oldData.status.state !== data.status.state)) {
+				if (data.profile.status.state === "Hospital" && (!oldData || oldData.status.state !== data.profile.status.state)) {
 					if (settings.notifications.types.global) {
 						let reasonText = "";
-						const reason = getHospitalizationReason(data.status.details);
+						const reason = getHospitalizationReason(data.profile.status.details);
 						if (reason && reason.important) {
 							reasonText = reason.display_sentence ?? reason.display ?? reason.name;
 							reasonText = " " + reasonText;
 						}
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now in the hospital${reasonText}.`,
+							`${data.profile.name} is now in the hospital${reasonText}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 					}
-				} else if (data.status.state !== "Hospital") {
+				} else if (data.profile.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (landing) {
 				const key = `${id}_landing`;
-				if (data.status.state !== "Traveling" && !notifications.stakeouts[key]) {
+				if (data.profile.status.state !== "Traveling" && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now ${data.status.state === "Abroad" ? data.status.description : "in Torn"}.`,
+							`${data.profile.name} is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.last_action.status === "Traveling") {
+				} else if (data.profile.last_action.status === "Traveling") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (online) {
 				const key = `${id}_online`;
 				if (
-					data.last_action.status === "Online" &&
-					(!oldData || oldData.last_action.status !== data.last_action.status) &&
+					data.profile.last_action.status === "Online" &&
+					(!oldData || oldData.last_action.status !== data.profile.last_action.status) &&
 					!notifications.stakeouts[key]
 				) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now online.`,
+							`${data.profile.name} is now online.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.last_action.status !== "Online") {
+				} else if (data.profile.last_action.status !== "Online") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (life) {
 				const key = `${id}_life`;
-				if (data.life.current <= data.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
+				if (data.profile.profile.life.current <= data.profile.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
+							`${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.life.current > data.life.maximum * (life / 100)) {
+				} else if (data.profile.life.current > data.profile.life.maximum * (life / 100)) {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (offline) {
 				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : false;
-				const offlineHours = ((now - data.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
+				const offlineHours = ((now - data.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
 				const key = `${id}_offline`;
 				if (offlineHours >= offline && (!oldOfflineHours || oldOfflineHours < offlineHours) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} has been offline for ${offlineHours} hours.`,
+							`${data.profile.name} has been offline for ${offlineHours} hours.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (offlineHours < offline) {
@@ -1060,14 +1063,14 @@ async function updateStakeouts() {
 			}
 			if (revivable) {
 				const oldIsRevivable = oldData?.isRevivable ?? false;
-				const isRevivable = data.revivable === 1;
+				const isRevivable = data.profile.revivable;
 
 				const key = `${id}_revivable`;
 				if (!oldIsRevivable && isRevivable && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now revivable.`,
+							`${data.profile.name} is now revivable.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (!oldIsRevivable) {
@@ -1077,23 +1080,23 @@ async function updateStakeouts() {
 		}
 
 		stakeouts[id].info = {
-			name: data.name,
+			name: data.profile.name,
 			last_action: {
-				status: data.last_action.status,
-				relative: data.last_action.relative,
-				timestamp: data.last_action.timestamp * 1000,
+				status: data.profile.last_action.status,
+				relative: data.profile.last_action.relative,
+				timestamp: data.profile.last_action.timestamp * 1000,
 			},
 			life: {
-				current: data.life.current,
-				maximum: data.life.maximum,
+				current: data.profile.life.current,
+				maximum: data.profile.life.maximum,
 			},
 			status: {
-				state: data.status.state,
-				color: data.status.color,
-				until: data.status.until * 1000,
-				description: data.status.description,
+				state: data.profile.status.state,
+				color: data.profile.status.color,
+				until: data.profile.status.until ? data.profile.status.until * 1000 : null,
+				description: data.profile.status.description,
 			},
-			isRevivable: data.revivable === 1,
+			isRevivable: data.profile.revivable,
 		};
 	}
 	stakeouts.date = now;
