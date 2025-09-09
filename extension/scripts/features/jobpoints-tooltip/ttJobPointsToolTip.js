@@ -70,7 +70,7 @@
 
 			try {
 				const response = (
-					await fetchData("torn", {
+					await fetchData("tornv2", {
 						section: "user",
 						selections: ["jobpoints"],
 						silent: true,
@@ -80,7 +80,7 @@
 
 				let currentJobPoints;
 				if (isNaN(jobId)) currentJobPoints = response.jobs[jobId] ?? 0;
-				else currentJobPoints = response.companies[jobId].jobpoints ?? 0;
+				else currentJobPoints = response.companies.find((c) => c.company.id === jobId)?.points ?? 0;
 
 				await ttCache.set({ points: currentJobPoints }, getTimeUntilNextJobUpdate(), "job");
 
