@@ -314,7 +314,7 @@ function checkAPIPermission(key) {
 
 function changeAPIKey(key) {
 	return new Promise((resolve, reject) => {
-		fetchData("torn", { section: "user", selections: ["profile"], key, silent: true })
+		fetchData("tornv2", { section: "user", selections: ["basic"], key, silent: true })
 			.then(async () => {
 				await ttStorage.change({ api: { torn: { key } } });
 
