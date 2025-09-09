@@ -268,6 +268,8 @@ async function migrateDatabase(force = false) {
 			newStorage.cache = {};
 			newStorage.userdata = {
 				...storage.userdata,
+				date: 0,
+				dateBasic: 0,
 				profile: {
 					...storage.userdata,
 					id: storage.userdata.player_id,
@@ -289,6 +291,7 @@ async function migrateDatabase(force = false) {
 			if (storage?.settings?.apiUsage?.user?.honors === false) {
 				newStorage.settings.apiUsage.userV2.honors = false;
 			}
+			newStorage.torndata = {};
 
 			updated = true;
 		}
