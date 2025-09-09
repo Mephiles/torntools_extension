@@ -12,13 +12,13 @@
 		showCompanyAddictionLevel,
 		removeCompanyAddictionLevel,
 		{
-			storage: ["settings.pages.sidebar.companyAddictionLevel", "userdata.job.company_id"],
+			storage: ["settings.pages.sidebar.companyAddictionLevel", "userdata.job.id"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			else if (!userdata.job.company_id || userdata.job.company_id === 0 || !userdata.job.company_type || userdata.job.company_type === 0)
+			else if (!userdata.job?.id || userdata.job?.id === 0 || !userdata.job?.type_id || userdata.job?.type_id === 0)
 				return "City jobs do not have addiction effects.";
-			else if (userdata.job.position === "Director") return "Company directors do not have addiction.";
+			else if (userdata.job?.position === "Director") return "Company directors do not have addiction.";
 		}
 	);
 
@@ -52,8 +52,8 @@
 		if (ttCache.hasValue("company", "addiction")) {
 			return ttCache.get("company", "addiction");
 		} else {
-			const id = userdata.player_id;
-			const company_id = userdata.job.company_id;
+			const id = userdata.profile.id;
+			const company_id = userdata.job?.id;
 
 			try {
 				const response = (

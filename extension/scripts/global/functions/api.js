@@ -339,7 +339,7 @@ function hasAPIData() {
 function hasFactionAPIAccess() {
 	if (!hasAPIData()) return false;
 
-	return factiondata?.access === FACTION_ACCESS.full_access;
+	return userdata.faction && factiondata?.access === FACTION_ACCESS.full_access;
 }
 
 function hasOC2Data() {

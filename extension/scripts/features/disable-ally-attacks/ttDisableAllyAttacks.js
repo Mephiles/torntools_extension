@@ -40,7 +40,7 @@
 		const factionID = new URLSearchParams(factionLink.href).get("ID").getNumber();
 		const factionName = factionLink.textContent.trim();
 		if (
-			(hasAPIData() && factionID === userdata.faction.faction_id) ||
+			(hasAPIData() && factionID === userdata.faction?.id) ||
 			settings.alliedFactions.some((ally) => {
 				if (isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;
 				else return ally.trim() === factionName;

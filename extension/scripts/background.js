@@ -278,7 +278,8 @@ async function updateUserdata(forceUpdate = false) {
 	const selections = [];
 	const selectionsV2 = [];
 	if (updateEssential) {
-		selections.push("profile", "timestamp");
+		// TODO - Move some of those behind a setting.
+		selectionsV2.push("profile", "faction", "job", "timestamp");
 
 		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "money", "refills", "icons"]) {
 			if (!settings.apiUsage.user[selection]) continue;
@@ -423,7 +424,7 @@ async function updateUserdata(forceUpdate = false) {
 				.forEach((attack) => {
 					if (attack.id > lastAttack) lastAttack = attack.id;
 
-					const enemyId = attack.attacker?.id === userdata.player_id ? attack.defender.id : attack.attacker?.id;
+					const enemyId = attack.attacker?.id === userdata.profile.id ? attack.defender.id : attack.attacker?.id;
 					if (!enemyId) return;
 
 					// Setup the data so there are no missing keys.
@@ -452,7 +453,7 @@ async function updateUserdata(forceUpdate = false) {
 					attackHistory.history[enemyId].lastAttack = attack.ended * 1000;
 					attackHistory.history[enemyId].lastAttackCode = attack.code;
 
-					if (attack.defender.id === userdata.player_id) {
+					if (attack.defender.id === userdata.profile.id) {
 						if (attack.attacker.name) attackHistory.history[enemyId].name = attack.attacker.name;
 
 						if (attack.result === "Assist") {
@@ -462,7 +463,7 @@ async function updateUserdata(forceUpdate = false) {
 						} else {
 							attackHistory.history[enemyId].defend_lost++;
 						}
-					} else if (attack.attacker?.id === userdata.player_id) {
+					} else if (attack.attacker?.id === userdata.profile.id) {
 						if (attack.defender.name) attackHistory.history[enemyId].name = attack.defender.name;
 
 						if (attack.result === "Lost" || attack.result === "Timeout") attackHistory.history[enemyId].lose++;
@@ -590,10 +591,10 @@ async function updateUserdata(forceUpdate = false) {
 	}
 
 	async function notifyStatusChange() {
-		if (!settings.notifications.types.global || !settings.notifications.types.status || !oldUserdata.status) return;
+		if (!settings.notifications.types.global || !settings.notifications.types.status || !oldUserdata.profile.status) return;
 
-		const previous = oldUserdata.status.state;
-		const current = userdata.status.state;
+		const previous = oldUserdata.profile.status.state;
+		const current = userdata.profile.status.state;
 
 		if (current === previous || current === "Traveling" || current === "Abroad") return;
 
@@ -618,10 +619,10 @@ async function updateUserdata(forceUpdate = false) {
 				});
 			}
 		} else {
-			await notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
+			await notifyUser("TornTools - Status", userdata.profile.status.description, LINKS.home);
 			storeNotification({
 				title: "TornTools - Status",
-				message: userdata.status.description,
+				message: userdata.profile.status.description,
 				url: LINKS.home,
 				date: Date.now(),
 			});
@@ -788,10 +789,10 @@ async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.leavingHospitalEnabled &&
 			settings.notifications.types.leavingHospital.length &&
-			userdata.status.state === "Hospital"
+			userdata.profile.status.state === "Hospital"
 		) {
 			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
-				const timeLeft = userdata.status.until * 1000 - now;
+				const timeLeft = userdata.profile.status.until * 1000 - now;
 
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
@@ -1338,7 +1339,7 @@ async function updateFactiondata() {
 			for (const id of Object.keys(crimes).reverse()) {
 				const crime = crimes[id];
 
-				if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;
+				if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.profile.id)) continue;
 
 				oc = crime.time_ready * 1000;
 			}

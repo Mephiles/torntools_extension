@@ -1961,8 +1961,8 @@ function getUserDetails() {
 		id = parseInt(script.getAttribute("uid"));
 		name = script.getAttribute("name");
 	} else {
-		id = userdata.player_id;
-		name = userdata.name;
+		id = userdata.profile.id;
+		name = userdata.profile.name;
 	}
 
 	return { id, name };

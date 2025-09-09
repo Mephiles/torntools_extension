@@ -47,14 +47,14 @@
 	}
 
 	function highlightCrime1() {
-		const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
+		const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.profile.id}"]`);
 		if (!member) return;
 
 		member.closest(".item-wrap").classList.add("tt-oc-highlight");
 	}
 
 	function highlightCrime2() {
-		const member = document.querySelector(`[class*='slotMenuItem___'][href="/profiles.php?XID=${userdata.player_id}"]`);
+		const member = document.querySelector(`[class*='slotMenuItem___'][href="/profiles.php?XID=${userdata.profile.id}"]`);
 		if (!member) return;
 
 		member.closest("[class*='contentLayer___']").classList.add("tt-oc-highlight");

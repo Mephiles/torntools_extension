@@ -17,11 +17,11 @@ const defaultFactionsItems = [
 		value: "In a faction",
 		description: "In a faction",
 	},
-	...(hasAPIData() && !!userdata.faction.faction_id
+	...(hasAPIData() && !!userdata.faction
 		? [
 				{
-					value: userdata.faction.faction_tag,
-					description: userdata.faction.faction_tag,
+					value: userdata.faction.tag,
+					description: userdata.faction.tag,
 				},
 			]
 		: []),

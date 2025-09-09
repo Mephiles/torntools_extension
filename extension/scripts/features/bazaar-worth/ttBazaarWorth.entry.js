@@ -38,7 +38,7 @@
 
 		const bazaarUserId = parseInt(getSearchParameters().get("userId"));
 
-		if (!bazaarUserId || bazaarUserId === userdata.player_id) await requireElement(".info-msg-cont:not(.red) .msg");
+		if (!bazaarUserId || bazaarUserId === userdata.profile.id) await requireElement(".info-msg-cont:not(.red) .msg");
 		else await requireElement(".info-msg-cont .msg a[href]");
 
 		if (list && Array.isArray(list)) {

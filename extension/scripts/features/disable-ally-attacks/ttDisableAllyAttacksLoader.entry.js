@@ -31,7 +31,7 @@
 		if (document.find(".tt-disable-ally-attack")) return;
 
 		const selector = mobile || tablet ? "[class*='playerArea__'] [class*='modal__']" : "[class*='players__'] #defender [class*='modal__']";
-		if ((hasAPIData() && userdata.faction.faction_id === factionID) || settings.alliedFactions.some((ally) => ally === factionID)) {
+		if ((hasAPIData() && userdata.faction?.id === factionID) || settings.alliedFactions.some((ally) => ally === factionID)) {
 			const node = await requireElement(selector);
 
 			const warning = document.newElement({

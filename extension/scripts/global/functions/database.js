@@ -266,6 +266,23 @@ async function migrateDatabase(force = false) {
 		} else if (version <= toNumericVersion("7.8.2")) {
 			// Reset cache.
 			newStorage.cache = {};
+			newStorage.userdata = {
+				...storage.userdata,
+				profile: {
+					...storage.userdata,
+					id: storage.userdata.player_id,
+					spouse: {
+						days_married: storage.userdata.married.duration,
+					},
+					job: {
+						id: storage.userdata.job.company_id,
+					},
+					faction: {
+						id: storage.userdata.faction_id,
+						tag: storage.userdata.faction.faction_tag,
+					},
+				},
+			};
 
 			updated = true;
 		}

@@ -8,11 +8,11 @@
 	if (page === "displaycase") {
 		const userId = location.hash.startsWith("#display/") ? parseInt(location.hash.substring(9)) || false : false;
 
-		if (userId && hasAPIData() && userId !== userdata.player_id) return;
+		if (userId && hasAPIData() && userId !== userdata.profile.id) return;
 	} else if (page === "bazaar") {
 		const userId = parseInt(getSearchParameters().get("userId"));
 
-		if (userId && hasAPIData() && userId !== userdata.player_id) return;
+		if (userId && hasAPIData() && userId !== userdata.profile.id) return;
 	} else if (page === "faction" && !isOwnFaction) return;
 
 	const feature = featureManager.registerFeature(

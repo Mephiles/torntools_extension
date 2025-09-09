@@ -24,13 +24,12 @@
 
 		const boughtItems = document.find(".info-msg-cont .msg .bold:nth-of-type(3)").textContent.getNumber();
 		let travelCapacity = document.find(".info-msg-cont .msg .bold:nth-of-type(4)").textContent.getNumber();
-		if (hasAPIData() && settings.apiUsage.user.perks && userdata.job.company_type) {
-			const companyType = userdata.job.company_type;
-			if (
-				(companyType === 3 && userdata.job_perks.some((perk) => perk.includes("5 travel flower capacity"))) ||
-				(companyType === 9 && userdata.job_perks.some((perk) => perk.includes("+5 plushies") && perk.includes("from abroad")))
-			)
-				travelCapacity += 5;
+		if (
+			hasAPIData() &&
+			settings.apiUsage.user.perks &&
+			userdata.job_perks.some((perk) => perk.includes("5 travel flower capacity") || (perk.includes("+5 plushies") && perk.includes("from abroad")))
+		) {
+			travelCapacity += 5;
 		}
 
 		const leftCapacity = travelCapacity - boughtItems;

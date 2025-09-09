@@ -29,9 +29,9 @@ if (!isOwnCompany) {
 
 async function readCompanyDetails() {
 	if (isOwnCompany && hasAPIData()) {
-		if (userdata.job.company_id) return { id: userdata.job.company_id };
+		if (userdata.job?.id) return { id: userdata.job.id };
 
-		const userID = userdata.player_id;
+		const userID = userdata.profile.id;
 		if (!userID) return null; // ID could not be found
 
 		return { id: await getCompanyIDFromUser(userID) };

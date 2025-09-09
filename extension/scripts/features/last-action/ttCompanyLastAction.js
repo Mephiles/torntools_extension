@@ -35,7 +35,7 @@
 
 		let id;
 		if (isOwnCompany) {
-			id = userdata.job.company_id;
+			id = userdata.job?.id;
 		} else {
 			id = parseInt(getHashParameters().get("ID"));
 			if (isNaN(id)) {

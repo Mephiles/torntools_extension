@@ -249,9 +249,9 @@ async function readFactionDetails() {
 	}
 
 	if (isOwnFaction && hasAPIData()) {
-		if (userdata.faction_id) return { id: userdata.faction_id };
+		if (userdata.faction) return { id: userdata.faction.id };
 
-		const userID = userdata.player_id;
+		const userID = userdata.profile.id;
 		if (!userID) return null; // ID could not be found
 
 		return { id: await getFactionIDFromUser(userID) };

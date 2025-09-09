@@ -105,7 +105,7 @@
 	}
 
 	function buildPositionElement() {
-		const position = userdata.organizedCrime.slots.find(({ user }) => user?.id === userdata.player_id)?.position ?? "???";
+		const position = userdata.organizedCrime.slots.find(({ user }) => user?.id === userdata.profile.id)?.position ?? "???";
 		const name = userdata.organizedCrime.name;
 
 		return document.newElement({ type: "span", class: "position", text: `${position} in ${name}` });

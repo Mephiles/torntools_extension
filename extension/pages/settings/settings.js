@@ -1722,7 +1722,7 @@ async function setupExport() {
 		};
 
 		if (hasAPIData()) {
-			data.user = { id: userdata.player_id, name: userdata.name };
+			data.user = { id: userdata.profile.id, name: userdata.profile.name };
 		}
 
 		return data;

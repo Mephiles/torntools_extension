@@ -21,7 +21,12 @@ const ACHIEVEMENTS = [
 		requirements: { pages: ["home"] },
 	},
 	{ name: "Awards", stats: () => userdata.personalstats.other.awards, detection: { keyword: "total awards" }, requirements: { pages: ["home", "awards"] } },
-	{ name: "Married (days)", stats: () => userdata.married.duration, detection: { keyword: "stay married" }, requirements: { pages: ["home", "church"] } },
+	{
+		name: "Married (days)",
+		stats: () => userdata.profile.spouse?.days_married ?? 0,
+		detection: { keyword: "stay married" },
+		requirements: { pages: ["home", "church"] },
+	},
 	{
 		name: "Points sold",
 		stats: () => userdata.personalstats.trading.points.sold,
@@ -602,7 +607,7 @@ const ACHIEVEMENTS = [
 	},
 	{
 		name: "Days in faction",
-		stats: () => userdata.faction.days_in_faction,
+		stats: () => userdata.faction?.days_in_faction ?? 0,
 		detection: { keyword: "days in a single faction" },
 		requirements: { pages: ["factions"] },
 	},
@@ -644,7 +649,7 @@ const ACHIEVEMENTS = [
 	},
 	{
 		name: "Age",
-		stats: () => userdata.age,
+		stats: () => userdata.profile.age,
 		detection: {
 			goals: [
 				{ score: 365, type: "medals", id: 225 },
@@ -663,7 +668,7 @@ const ACHIEVEMENTS = [
 	},
 	{
 		name: "Level",
-		stats: () => userdata.level,
+		stats: () => userdata.profile.level,
 		detection: {
 			goals: [
 				{ score: 5, type: "medals", id: 34 },

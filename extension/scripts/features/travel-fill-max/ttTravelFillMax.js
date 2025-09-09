@@ -35,17 +35,11 @@
 				let max = parseInt(row.find(".stck-amount").textContent.replace(/,/g, ""));
 				let limit = parseInt(document.find(".user-info .msg .bold:nth-of-type(4)").textContent) - bought;
 
-				if (hasAPIData() && settings.apiUsage.user.perks && userdata.job.company_type) {
-					const companyType = userdata.job.company_type;
-
+				if (hasAPIData() && settings.apiUsage.user.perks) {
 					const itemType = row.find(".type").textContent.split("\n")[1].toLowerCase();
 					if (
-						(companyType === 3 &&
-							itemType === "flower" &&
-							userdata.job_perks.some((perk) => perk.includes("special flowers") && perk.includes("5 additional"))) ||
-						(companyType === 9 &&
-							itemType === "plushie" &&
-							userdata.job_perks.some((perk) => perk.includes("+5 plushies") && perk.includes("from abroad")))
+						(itemType === "flower" && userdata.job_perks.some((perk) => perk.includes("special flowers") && perk.includes("5 additional"))) ||
+						(itemType === "plushie" && userdata.job_perks.some((perk) => perk.includes("+5 plushies") && perk.includes("from abroad")))
 					)
 						limit += 5;
 				}

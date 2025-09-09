@@ -33,8 +33,8 @@
 		const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement;
 		const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
 
-		if (ttCache.hasValue("armory", userdata.faction.faction_id)) {
-			handleData(ttCache.get("armory", userdata.faction.faction_id));
+		if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
+			handleData(ttCache.get("armory", userdata.faction.id));
 		} else {
 			fetchData("torn", { section: "faction", selections })
 				.then((data) => {
