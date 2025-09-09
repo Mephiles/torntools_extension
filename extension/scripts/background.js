@@ -1057,7 +1057,7 @@ async function updateStakeouts() {
 			}
 			if (life) {
 				const key = `${id}_life`;
-				if (data.profile.profile.life.current <= data.profile.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
+				if (data.profile.life.current <= data.profile.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
