@@ -921,13 +921,13 @@ function validateAchievements() {
 		1076, 1097, 1106, 1129, 1136, 1166,
 	];
 
-	const nonMatchingMedals = Object.entries(torndata.medals)
-		.filter(([id, medal]) => ACHIEVEMENTS.every((a) => !matchesAchievement(a, medal, parseInt(id), "medals")))
-		.filter(([id]) => !EXPLICITLY_IGNORED_MEDALS.includes(parseInt(id)));
-	const nonMatchingHonors = Object.entries(torndata.honors)
-		.filter(([id, honor]) => ACHIEVEMENTS.every((a) => !matchesAchievement(a, honor, parseInt(id), "honors")))
-		.filter(([, honor]) => "rarity" in honor)
-		.filter(([id]) => !EXPLICITLY_IGNORED_HONORS.includes(parseInt(id)));
+	const nonMatchingMedals = torndata.medals
+		.filter(({ id, ...medal }) => ACHIEVEMENTS.every((a) => !matchesAchievement(a, medal, id, "medals")))
+		.filter(({ id }) => !EXPLICITLY_IGNORED_MEDALS.includes(id));
+	const nonMatchingHonors = torndata.honors
+		.filter(({ id, ...honor }) => ACHIEVEMENTS.every((a) => !matchesAchievement(a, honor, id, "honors")))
+		.filter((honor) => "rarity" in honor)
+		.filter(({ id }) => !EXPLICITLY_IGNORED_HONORS.includes(id));
 
 	return { nonMatchingMedals, nonMatchingHonors };
 

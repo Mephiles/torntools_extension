@@ -87,10 +87,8 @@
 						for (const type of ["honors", "medals"]) {
 							const merits = torndata[type];
 
-							for (let id in merits) {
-								id = parseInt(id);
-
-								const description = merits[id].description.toLowerCase();
+							for (const merit of merits) {
+								const description = merits.description.toLowerCase();
 								if (!description.includes(keyword)) continue;
 
 								if (include.length && !include.every((incl) => description.includes(incl))) continue;
@@ -110,7 +108,7 @@
 									continue;
 								}
 
-								achievement.goals.push({ score, completed: !!userdata[type].find((a) => a.id === id) });
+								achievement.goals.push({ score, completed: !!userdata[type].find((a) => a.id === merit.id) });
 							}
 						}
 					}

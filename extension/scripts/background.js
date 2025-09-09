@@ -1258,18 +1258,16 @@ async function updateFactionStakeouts() {
 }
 
 async function updateTorndata() {
-	// FIXME - Migrate to V2 (torn/honors).
 	// FIXME - Migrate to V2 (torn/items).
-	// FIXME - Migrate to V2 (torn/medals).
 	// TODO - Migrate to V2 (torn/pawnshop).
 	// TODO - Migrate to V2 (torn/stats).
 	const dataV1 = await fetchData("torn", {
 		section: "torn",
-		selections: ["honors", "items", "medals", "pawnshop", "stats"],
+		selections: ["items", "pawnshop", "stats"],
 	});
 	const dataV2 = await fetchData("tornv2", {
 		section: "torn",
-		selections: ["education", "calendar", "properties"],
+		selections: ["education", "calendar", "properties", "honors", "medals"],
 	});
 	if (!isValidTorndata(dataV1)) throw new Error("Aborted updating due to an unexpected response.");
 	if (!isValidTorndata(dataV2)) throw new Error("Aborted updating due to an unexpected response in V2.");
