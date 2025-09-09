@@ -1832,7 +1832,7 @@ function getRewardValue(reward) {
 					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => torndata.items[id].market_value);
 					break;
 				case "Random Property":
-					prices = Object.values(torndata.properties)
+					prices = torndata.properties
 						.map((property) => property.cost)
 						.filter((price) => !!price)
 						.map((price) => price * 0.75);

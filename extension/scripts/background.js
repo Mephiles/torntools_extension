@@ -1263,15 +1263,14 @@ async function updateTorndata() {
 	// FIXME - Migrate to V2 (torn/items).
 	// FIXME - Migrate to V2 (torn/medals).
 	// TODO - Migrate to V2 (torn/pawnshop).
-	// FIXME - Migrate to V2 (torn/properties).
 	// TODO - Migrate to V2 (torn/stats).
 	const dataV1 = await fetchData("torn", {
 		section: "torn",
-		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"],
+		selections: ["education", "honors", "items", "medals", "pawnshop", "stats"],
 	});
 	const dataV2 = await fetchData("tornv2", {
 		section: "torn",
-		selections: ["calendar"],
+		selections: ["calendar", "properties"],
 	});
 	if (!isValidTorndata(dataV1)) throw new Error("Aborted updating due to an unexpected response.");
 	if (!isValidTorndata(dataV2)) throw new Error("Aborted updating due to an unexpected response in V2.");
