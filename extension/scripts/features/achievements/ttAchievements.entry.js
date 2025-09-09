@@ -88,7 +88,7 @@
 							const merits = torndata[type];
 
 							for (const merit of merits) {
-								const description = merits.description.toLowerCase();
+								const description = merit.description.toLowerCase();
 								if (!description.includes(keyword)) continue;
 
 								if (include.length && !include.every((incl) => description.includes(incl))) continue;
