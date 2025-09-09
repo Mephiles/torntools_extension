@@ -263,6 +263,11 @@ async function migrateDatabase(force = false) {
 			}, {});
 
 			updated = true;
+		} else if (version <= toNumericVersion("7.8.2")) {
+			// Reset cache.
+			newStorage.cache = {};
+
+			updated = true;
 		}
 
 		if (updated) {

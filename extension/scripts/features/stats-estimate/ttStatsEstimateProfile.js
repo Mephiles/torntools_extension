@@ -29,49 +29,7 @@
 
 		const id = parseInt(userInfoValue.textContent.trim().match(/\[(\d*)]/i)[1]);
 
-		let estimate, data;
-		if (ttCache.hasValue("stats-estimate", id)) {
-			estimate = ttCache.get("stats-estimate", id);
-		} else if (ttCache.hasValue("profile-stats", id)) {
-			data = ttCache.get("profile-stats", id);
-		} else {
-			try {
-				data = await fetchData("tornv2", {
-					section: "user",
-					id,
-					selections: ["profile", "personalstats"],
-					params: { stat: ["networth", "criminaloffenses", "criminaloffensesold"] },
-					silent: true,
-				});
-
-				ttCache.set({ [id]: data }, TO_MILLIS.HOURS * 6, "profile-stats").catch(() => {});
-			} catch (error) {
-				console.log("TT - Couldn't fetch users stats.", error);
-			}
-		}
-
-		if (!estimate) {
-			if (data) {
-				const {
-					rank,
-					level,
-					personalstats: {
-						networth: { total: networth },
-						crimes: { version },
-					},
-					last_action: { timestamp: lastAction },
-				} = data;
-				let crimes;
-				if (version === "v1") crimes = data.personalstats.crimes.total;
-				else if (version === "v2") crimes = data.personalstats.crimes.offenses.total;
-				else throw new Error(`Unsupported crime version: ${version}.`);
-
-				estimate = statsEstimate.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
-			} else {
-				console.log("TT - Failed to load estimates.");
-				return;
-			}
-		}
+		const estimate = await statsEstimate.fetchEstimate(id);
 
 		const title = document.find(".profile-right-wrapper > .profile-action .title-black");
 

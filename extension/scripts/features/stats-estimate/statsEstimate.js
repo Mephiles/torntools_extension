@@ -65,13 +65,15 @@ class StatsEstimate {
 			} else if (ttCache.hasValue("profile-stats", id)) {
 				const cacheResult = ttCache.get("profile-stats", id);
 				const {
-					rank,
-					level,
+					profile: {
+						rank,
+						level,
+						last_action: { timestamp: lastAction },
+					},
 					personalstats: {
 						networth: { total: networth },
 						crimes: { version },
 					},
-					last_action: { timestamp: lastAction },
 				} = cacheResult;
 				let crimes;
 				if (version === "v1") crimes = data.personalstats.crimes.total;
@@ -195,13 +197,15 @@ class StatsEstimate {
 		if (!estimate) {
 			if (data) {
 				const {
-					rank,
-					level,
+					profile: {
+						rank,
+						level,
+						last_action: { timestamp: lastAction },
+					},
 					personalstats: {
 						networth: { total: networth },
 						crimes: { version },
 					},
-					last_action: { timestamp: lastAction },
 				} = data;
 				let crimes;
 				if (version === "v1") crimes = data.personalstats.crimes.total;
