@@ -273,8 +273,8 @@ async function readFactionDetails() {
 		const cached = ttCache.get("faction-id", userID);
 		if (cached) return cached;
 
-		const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
-		const factionID = data.faction.faction_id;
+		const data = await fetchData("tornv2", { section: "user", selections: ["faction"], id: userID });
+		const factionID = data.faction?.id;
 
 		void ttCache.set({ [userID]: factionID }, 1 * TO_MILLIS.DAYS, "faction-id");
 
