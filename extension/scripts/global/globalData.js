@@ -366,8 +366,6 @@ const DEFAULT_STORAGE = {
 				perks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				icons: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ammo: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				honors: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				medals: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				battlestats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				crimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				workstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -381,6 +379,8 @@ const DEFAULT_STORAGE = {
 				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				honors: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				medals: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {

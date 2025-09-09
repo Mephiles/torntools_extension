@@ -310,8 +310,6 @@ async function updateUserdata(forceUpdate = false) {
 		// TODO - Migrate to V2 (user/perks).
 		// TODO - Migrate to V2 (user/networth).
 		// TODO - Migrate to V2 (user/ammo).
-		// FIXME - Migrate to V2 (user/honors).
-		// FIXME - Migrate to V2 (user/medals).
 		// FIXME - Migrate to V2 (user/battlestats).
 		// FIXME - Migrate to V2 (user/crimes).
 		// TODO - Migrate to V2 (user/workstats).
@@ -325,8 +323,6 @@ async function updateUserdata(forceUpdate = false) {
 			"perks",
 			"networth",
 			"ammo",
-			"honors",
-			"medals",
 			"battlestats",
 			"crimes",
 			"workstats",
@@ -338,7 +334,7 @@ async function updateUserdata(forceUpdate = false) {
 
 			selections.push(selection);
 		}
-		for (const selection of ["calendar", "organizedcrime", "personalstats"]) {
+		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals"]) {
 			if (!settings.apiUsage.userV2[selection]) continue;
 
 			selectionsV2.push(selection);

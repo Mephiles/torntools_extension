@@ -22,8 +22,8 @@
 				!hasAPIData() ||
 				!settings.apiUsage.userV2.personalstats ||
 				!settings.apiUsage.user.perks ||
-				!settings.apiUsage.user.medals ||
-				!settings.apiUsage.user.honors ||
+				!settings.apiUsage.userV2.medals ||
+				!settings.apiUsage.userV2.honors ||
 				!settings.apiUsage.user.crimes ||
 				!settings.apiUsage.user.battlestats ||
 				!settings.apiUsage.user.workstats ||
@@ -110,12 +110,12 @@
 									continue;
 								}
 
-								achievement.goals.push({ score, completed: userdata[`${type}_awarded`].includes(id) });
+								achievement.goals.push({ score, completed: !!userdata[type].find((a) => a.id === id) });
 							}
 						}
 					}
 					if (goals)
-						achievement.goals.push(...goals.map(({ score, type, id }) => ({ score: score, completed: userdata[`${type}_awarded`].includes(id) })));
+						achievement.goals.push(...goals.map(({ score, type, id }) => ({ score: score, completed: !!userdata[type].find((a) => a.id === id) })));
 
 					achievement.goals = achievement.goals.sort((a, b) => {
 						if (a.score > b.score) return 1;

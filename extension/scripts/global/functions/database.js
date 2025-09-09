@@ -286,6 +286,9 @@ async function migrateDatabase(force = false) {
 			if (storage?.settings?.apiUsage?.user?.money === false) {
 				newStorage.settings.apiUsage.userV2.money = false;
 			}
+			if (storage?.settings?.apiUsage?.user?.honors === false) {
+				newStorage.settings.apiUsage.userV2.honors = false;
+			}
 
 			updated = true;
 		}
