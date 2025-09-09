@@ -21,7 +21,7 @@
 	function createBankInvestmentFacade(node) {
 		const investmentTimeLeftElement = node;
 
-		const dueDate = new Date(userdata.date + userdata.city_bank.time_left * 1000);
+		const dueDate = new Date(userdata.money.city_bank.until * 1000);
 		const formattedDate = formatDate(dueDate, { showYear: true });
 		const formattedTime = formatTime(dueDate);
 		const formatted = `${formattedDate} ${formattedTime}`;

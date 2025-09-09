@@ -280,24 +280,27 @@ async function updateUserdata(forceUpdate = false) {
 	if (updateEssential) {
 		// TODO - Move some of those behind a setting.
 		selectionsV2.push("profile", "faction", "job", "timestamp");
+		// Notifications have a 100K count limit from being fetched via the Torn API
+		// Use "newevents" selection only when the old events count > new events count
+		// Fetch the notifications count always, to avoid additional API calls
+		selections.push("notifications");
 
 		// TODO - Migrate to V2 (user/bars).
 		// TODO - Migrate to V2 (user/cooldowns).
 		// TODO - Migrate to V2 (user/travel).
 		// TODO - Migrate to V2 (user/newmessages).
-		// FIXME - Migrate to V2 (user/money).
 		// TODO - Migrate to V2 (user/refills).
 		// FIXME - Migrate to V2 (user/icons).
-		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "money", "refills", "icons"]) {
+		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "refills", "icons"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
 		}
+		for (const selection of ["money"]) {
+			if (!settings.apiUsage.userV2[selection]) continue;
 
-		// Notifications have a 100K count limit from being fetched via the Torn API
-		// Use "newevents" selection only when the old events count > new events count
-		// Fetch the notifications count always, to avoid additional API calls
-		selections.push("notifications");
+			selectionsV2.push(selection);
+		}
 
 		updatedTypes.push("essential");
 	}

@@ -283,6 +283,9 @@ async function migrateDatabase(force = false) {
 					},
 				},
 			};
+			if (storage?.settings?.apiUsage?.user?.money === false) {
+				newStorage.settings.apiUsage.userV2.money = false;
+			}
 
 			updated = true;
 		}

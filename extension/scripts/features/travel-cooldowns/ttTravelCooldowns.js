@@ -99,14 +99,15 @@
 					})
 				);
 
-			const investmentMessage = userdata.city_bank.time_left
-				? "Your bank will be ready for investment before you return!"
-				: "You have no bank investment going on.";
+			const investmentMessage =
+				userdata.money.city_bank.until * 1000 <= Date.now()
+					? "Your bank will be ready for investment before you return!"
+					: "You have no bank investment going on.";
 			cooldowns.insertAdjacentElement(
 				"afterend",
 				document.newElement({
 					type: "div",
-					class: ["cooldown", "investment", getDurationClass(userdata.city_bank.time_left)],
+					class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank.until - userdata.date)],
 					text: investmentMessage,
 				})
 			);
@@ -117,7 +118,7 @@
 			handleClass(cooldowns.find(".booster"), userdata.cooldowns.booster);
 			handleClass(cooldowns.find(".medical"), userdata.cooldowns.medical);
 			if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.find(".education"), userdata.education_timeleft);
-			handleClass(cooldowns.parentElement.find(".investment"), userdata.city_bank.time_left);
+			handleClass(cooldowns.parentElement.find(".investment"), userdata.money.city_bank.time_left - userdata.date);
 		}
 
 		if (!mobile && !tablet) container.insertAdjacentElement("beforebegin", cooldowns);

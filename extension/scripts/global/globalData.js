@@ -356,7 +356,6 @@ const DEFAULT_STORAGE = {
 				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				newevents: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				newmessages: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				refills: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stocks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				education: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -381,6 +380,7 @@ const DEFAULT_STORAGE = {
 				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
