@@ -1,12 +1,16 @@
 [
 	{
-		"version": { "major": 7, "minor": 8, "build": 2 },
+		"version": { "major": 7, "minor": 8, "build": 3 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 8, "build": 2 },
+		"date": "2025/09/10",
 		"logs": {
-			"features": [],
 			"fixes": [{ "message": "Solve issue with stats estimates no longer working.", "contributor": "DeKleineKobini" }],
-			"changes": [{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" }],
-			"removed": []
+			"changes": [{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
