@@ -24,7 +24,7 @@
 		const factionName = factionNode.textContent.trim();
 
 		let warning;
-		if (hasAPIData() && factionID === userdata.faction.faction_id) warning = "This user is in your faction!";
+		if (hasAPIData() && factionID === userdata.faction?.id) warning = "This user is in your faction!";
 		else if (
 			settings.alliedFactions.some((ally) => {
 				if (isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;

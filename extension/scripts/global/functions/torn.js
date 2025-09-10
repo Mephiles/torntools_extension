@@ -1832,7 +1832,7 @@ function getRewardValue(reward) {
 					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => torndata.items[id].market_value);
 					break;
 				case "Random Property":
-					prices = Object.values(torndata.properties)
+					prices = torndata.properties
 						.map((property) => property.cost)
 						.filter((price) => !!price)
 						.map((price) => price * 0.75);
@@ -1961,8 +1961,8 @@ function getUserDetails() {
 		id = parseInt(script.getAttribute("uid"));
 		name = script.getAttribute("name");
 	} else {
-		id = userdata.player_id;
-		name = userdata.name;
+		id = userdata.profile.id;
+		name = userdata.profile.name;
 	}
 
 	return { id, name };
@@ -2037,7 +2037,7 @@ function getUsername(row) {
 function hasFinishedEducation() {
 	if (!torndata.education || !userdata.education_completed) return false;
 
-	return Object.keys(torndata.education).every((id) => userdata.education_completed.includes(parseInt(id)));
+	return torndata.education.every(({ id }) => userdata.education_completed.includes(id));
 }
 
 function isChatV3() {

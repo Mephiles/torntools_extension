@@ -249,9 +249,9 @@ async function readFactionDetails() {
 	}
 
 	if (isOwnFaction && hasAPIData()) {
-		if (userdata.faction_id) return { id: userdata.faction_id };
+		if (userdata.faction) return { id: userdata.faction.id };
 
-		const userID = userdata.player_id;
+		const userID = userdata.profile.id;
 		if (!userID) return null; // ID could not be found
 
 		return { id: await getFactionIDFromUser(userID) };
@@ -273,8 +273,8 @@ async function readFactionDetails() {
 		const cached = ttCache.get("faction-id", userID);
 		if (cached) return cached;
 
-		const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
-		const factionID = data.faction.faction_id;
+		const data = await fetchData("tornv2", { section: "user", selections: ["faction"], id: userID });
+		const factionID = data.faction?.id;
 
 		void ttCache.set({ [userID]: factionID }, 1 * TO_MILLIS.DAYS, "faction-id");
 

@@ -9,12 +9,12 @@
 		addJobPointsTooltip,
 		null,
 		{
-			storage: ["settings.pages.sidebar.showJobPointsToolTip", "userdata.job.job"],
+			storage: ["settings.pages.sidebar.showJobPointsToolTip", "userdata.job.name"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.apiUsage.user.jobpoints) return "Job points API usage disabled.";
-			else if (!userdata.job.job || (userdata.job.job === "None" && userdata.job.company_name === "None")) return "Currently you don't have a job.";
+			else if (!userdata.job) return "Currently you don't have a job.";
 		}
 	);
 
@@ -66,14 +66,11 @@
 		if (ttCache.hasValue("job", "points")) {
 			return ttCache.get("job", "points");
 		} else {
-			const jobId =
-				!userdata.job.company_type || userdata.job.company_type === 0 || userdata.job?.company_id === 0
-					? userdata.job.job.toLowerCase()
-					: userdata.job.company_type;
+			const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
 
 			try {
 				const response = (
-					await fetchData("torn", {
+					await fetchData("tornv2", {
 						section: "user",
 						selections: ["jobpoints"],
 						silent: true,
@@ -83,7 +80,7 @@
 
 				let currentJobPoints;
 				if (isNaN(jobId)) currentJobPoints = response.jobs[jobId] ?? 0;
-				else currentJobPoints = response.companies[jobId].jobpoints ?? 0;
+				else currentJobPoints = response.companies.find((c) => c.company.id === jobId)?.points ?? 0;
 
 				await ttCache.set({ points: currentJobPoints }, getTimeUntilNextJobUpdate(), "job");
 

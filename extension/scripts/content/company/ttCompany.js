@@ -29,9 +29,9 @@ if (!isOwnCompany) {
 
 async function readCompanyDetails() {
 	if (isOwnCompany && hasAPIData()) {
-		if (userdata.job.company_id) return { id: userdata.job.company_id };
+		if (userdata.job?.id) return { id: userdata.job.id };
 
-		const userID = userdata.player_id;
+		const userID = userdata.profile.id;
 		if (!userID) return null; // ID could not be found
 
 		return { id: await getCompanyIDFromUser(userID) };
@@ -53,8 +53,8 @@ async function readCompanyDetails() {
 		const cached = ttCache.get("company-id", userID);
 		if (cached) return cached;
 
-		const data = await fetchData("torn", { section: "user", selections: ["profile"], id: userID });
-		const companyID = data.job.company_id;
+		const data = await fetchData("tornv2", { section: "user", selections: ["job"], id: userID });
+		const companyID = data.job?.id;
 
 		void ttCache.set({ [userID]: companyID }, 1 * TO_MILLIS.DAYS, "company-id");
 

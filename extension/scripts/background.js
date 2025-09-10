@@ -278,22 +278,44 @@ async function updateUserdata(forceUpdate = false) {
 	const selections = [];
 	const selectionsV2 = [];
 	if (updateEssential) {
-		selections.push("profile", "timestamp");
-
-		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "money", "refills", "icons"]) {
-			if (!settings.apiUsage.user[selection]) continue;
-
-			selections.push(selection);
-		}
-
+		// TODO - Move some of those behind a setting.
+		selectionsV2.push("profile", "faction", "job", "timestamp");
 		// Notifications have a 100K count limit from being fetched via the Torn API
 		// Use "newevents" selection only when the old events count > new events count
 		// Fetch the notifications count always, to avoid additional API calls
 		selections.push("notifications");
 
+		// TODO - Migrate to V2 (user/bars).
+		// TODO - Migrate to V2 (user/cooldowns).
+		// TODO - Migrate to V2 (user/travel).
+		// TODO - Migrate to V2 (user/newmessages).
+		// TODO - Migrate to V2 (user/refills).
+		// FIXME - Migrate to V2 (user/icons).
+		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "refills", "icons"]) {
+			if (!settings.apiUsage.user[selection]) continue;
+
+			selections.push(selection);
+		}
+		for (const selection of ["money"]) {
+			if (!settings.apiUsage.userV2[selection]) continue;
+
+			selectionsV2.push(selection);
+		}
+
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
+		// TODO - Migrate to V2 (user/stocks).
+		// FIXME - Migrate to V2 (user/merits).
+		// TODO - Migrate to V2 (user/perks).
+		// TODO - Migrate to V2 (user/networth).
+		// TODO - Migrate to V2 (user/ammo).
+		// FIXME - Migrate to V2 (user/battlestats).
+		// FIXME - Migrate to V2 (user/crimes).
+		// TODO - Migrate to V2 (user/workstats).
+		// FIXME - Migrate to V2 (user/skills).
+		// TODO - Migrate to V2 (user/weaponexp).
+		// FIXME - Migrate to V2 (user/properties).
 		for (const selection of [
 			"stocks",
 			// "inventory",
@@ -301,8 +323,6 @@ async function updateUserdata(forceUpdate = false) {
 			"perks",
 			"networth",
 			"ammo",
-			"honors",
-			"medals",
 			"battlestats",
 			"crimes",
 			"workstats",
@@ -314,12 +334,13 @@ async function updateUserdata(forceUpdate = false) {
 
 			selections.push(selection);
 		}
-		for (const selection of ["calendar", "organizedcrime", "personalstats"]) {
+		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals"]) {
 			if (!settings.apiUsage.userV2[selection]) continue;
 
 			selectionsV2.push(selection);
 		}
 
+		// FIXME - Migrate to V2 (user/education).
 		if (settings.apiUsage.user.education && !hasFinishedEducation()) selections.push("education");
 
 		updatedTypes.push("basic");
@@ -358,7 +379,9 @@ async function updateUserdata(forceUpdate = false) {
 
 		if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
-			userdata.events = // TODO - Migrate to V2 (user/events + user/newevents).
+			userdata.events =
+				// TODO - Migrate to V2 (user/events).
+				// TODO - Migrate to V2 (user/newevents).
 				(
 					await fetchData("torn", {
 						section: "user",
@@ -423,7 +446,7 @@ async function updateUserdata(forceUpdate = false) {
 				.forEach((attack) => {
 					if (attack.id > lastAttack) lastAttack = attack.id;
 
-					const enemyId = attack.attacker?.id === userdata.player_id ? attack.defender.id : attack.attacker?.id;
+					const enemyId = attack.attacker?.id === userdata.profile.id ? attack.defender.id : attack.attacker?.id;
 					if (!enemyId) return;
 
 					// Setup the data so there are no missing keys.
@@ -452,7 +475,7 @@ async function updateUserdata(forceUpdate = false) {
 					attackHistory.history[enemyId].lastAttack = attack.ended * 1000;
 					attackHistory.history[enemyId].lastAttackCode = attack.code;
 
-					if (attack.defender.id === userdata.player_id) {
+					if (attack.defender.id === userdata.profile.id) {
 						if (attack.attacker.name) attackHistory.history[enemyId].name = attack.attacker.name;
 
 						if (attack.result === "Assist") {
@@ -462,7 +485,7 @@ async function updateUserdata(forceUpdate = false) {
 						} else {
 							attackHistory.history[enemyId].defend_lost++;
 						}
-					} else if (attack.attacker?.id === userdata.player_id) {
+					} else if (attack.attacker?.id === userdata.profile.id) {
 						if (attack.defender.name) attackHistory.history[enemyId].name = attack.defender.name;
 
 						if (attack.result === "Lost" || attack.result === "Timeout") attackHistory.history[enemyId].lose++;
@@ -590,10 +613,10 @@ async function updateUserdata(forceUpdate = false) {
 	}
 
 	async function notifyStatusChange() {
-		if (!settings.notifications.types.global || !settings.notifications.types.status || !oldUserdata.status) return;
+		if (!settings.notifications.types.global || !settings.notifications.types.status || !oldUserdata.profile.status) return;
 
-		const previous = oldUserdata.status.state;
-		const current = userdata.status.state;
+		const previous = oldUserdata.profile.status.state;
+		const current = userdata.profile.status.state;
 
 		if (current === previous || current === "Traveling" || current === "Abroad") return;
 
@@ -618,10 +641,10 @@ async function updateUserdata(forceUpdate = false) {
 				});
 			}
 		} else {
-			await notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
+			await notifyUser("TornTools - Status", userdata.profile.status.description, LINKS.home);
 			storeNotification({
 				title: "TornTools - Status",
-				message: userdata.status.description,
+				message: userdata.profile.status.description,
 				url: LINKS.home,
 				date: Date.now(),
 			});
@@ -788,10 +811,10 @@ async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.leavingHospitalEnabled &&
 			settings.notifications.types.leavingHospital.length &&
-			userdata.status.state === "Hospital"
+			userdata.profile.status.state === "Hospital"
 		) {
 			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
-				const timeLeft = userdata.status.until * 1000 - now;
+				const timeLeft = userdata.profile.status.until * 1000 - now;
 
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
@@ -952,8 +975,7 @@ async function updateStakeouts() {
 		const oldData = stakeouts[id]?.info ?? false;
 		let data;
 		try {
-			// TODO - Migrate to V2 (user/profile).
-			data = await fetchData("torn", { section: "user", selections: ["profile"], id, silent: true });
+			data = await fetchData("tornv2", { section: "user", selections: ["profile"], id, silent: true });
 			if (!data) {
 				console.log("Unexpected result during stakeout updating.");
 				failed++;
@@ -972,86 +994,90 @@ async function updateStakeouts() {
 
 			if (okay) {
 				const key = `${id}_okay`;
-				if (data.status.state === "Okay" && (!oldData || oldData.status.state !== data.status.state) && !notifications.stakeouts[key]) {
+				if (data.profile.status.state === "Okay" && (!oldData || oldData.status.state !== data.profile.status.state) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now okay.`, `https://www.torn.com/profiles.php?XID=${id}`);
-				} else if (data.status.state !== "Okay") {
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.profile.name} is now okay.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
+				} else if (data.profile.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (hospital) {
 				const key = `${id}_hospital`;
-				if (data.status.state === "Hospital" && (!oldData || oldData.status.state !== data.status.state)) {
+				if (data.profile.status.state === "Hospital" && (!oldData || oldData.status.state !== data.profile.status.state)) {
 					if (settings.notifications.types.global) {
 						let reasonText = "";
-						const reason = getHospitalizationReason(data.status.details);
+						const reason = getHospitalizationReason(data.profile.status.details);
 						if (reason && reason.important) {
 							reasonText = reason.display_sentence ?? reason.display ?? reason.name;
 							reasonText = " " + reasonText;
 						}
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now in the hospital${reasonText}.`,
+							`${data.profile.name} is now in the hospital${reasonText}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 					}
-				} else if (data.status.state !== "Hospital") {
+				} else if (data.profile.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (landing) {
 				const key = `${id}_landing`;
-				if (data.status.state !== "Traveling" && !notifications.stakeouts[key]) {
+				if (data.profile.status.state !== "Traveling" && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now ${data.status.state === "Abroad" ? data.status.description : "in Torn"}.`,
+							`${data.profile.name} is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.last_action.status === "Traveling") {
+				} else if (data.profile.last_action.status === "Traveling") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (online) {
 				const key = `${id}_online`;
 				if (
-					data.last_action.status === "Online" &&
-					(!oldData || oldData.last_action.status !== data.last_action.status) &&
+					data.profile.last_action.status === "Online" &&
+					(!oldData || oldData.last_action.status !== data.profile.last_action.status) &&
 					!notifications.stakeouts[key]
 				) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now online.`,
+							`${data.profile.name} is now online.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.last_action.status !== "Online") {
+				} else if (data.profile.last_action.status !== "Online") {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (life) {
 				const key = `${id}_life`;
-				if (data.life.current <= data.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
+				if (data.profile.life.current <= data.profile.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
+							`${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.life.current > data.life.maximum * (life / 100)) {
+				} else if (data.profile.life.current > data.profile.life.maximum * (life / 100)) {
 					delete notifications.stakeouts[key];
 				}
 			}
 			if (offline) {
 				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : false;
-				const offlineHours = ((now - data.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
+				const offlineHours = ((now - data.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
 				const key = `${id}_offline`;
 				if (offlineHours >= offline && (!oldOfflineHours || oldOfflineHours < offlineHours) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} has been offline for ${offlineHours} hours.`,
+							`${data.profile.name} has been offline for ${offlineHours} hours.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (offlineHours < offline) {
@@ -1060,14 +1086,14 @@ async function updateStakeouts() {
 			}
 			if (revivable) {
 				const oldIsRevivable = oldData?.isRevivable ?? false;
-				const isRevivable = data.revivable === 1;
+				const isRevivable = data.profile.revivable;
 
 				const key = `${id}_revivable`;
 				if (!oldIsRevivable && isRevivable && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now revivable.`,
+							`${data.profile.name} is now revivable.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (!oldIsRevivable) {
@@ -1077,23 +1103,23 @@ async function updateStakeouts() {
 		}
 
 		stakeouts[id].info = {
-			name: data.name,
+			name: data.profile.name,
 			last_action: {
-				status: data.last_action.status,
-				relative: data.last_action.relative,
-				timestamp: data.last_action.timestamp * 1000,
+				status: data.profile.last_action.status,
+				relative: data.profile.last_action.relative,
+				timestamp: data.profile.last_action.timestamp * 1000,
 			},
 			life: {
-				current: data.life.current,
-				maximum: data.life.maximum,
+				current: data.profile.life.current,
+				maximum: data.profile.life.maximum,
 			},
 			status: {
-				state: data.status.state,
-				color: data.status.color,
-				until: data.status.until * 1000,
-				description: data.status.description,
+				state: data.profile.status.state,
+				color: data.profile.status.color,
+				until: data.profile.status.until ? data.profile.status.until * 1000 : null,
+				description: data.profile.status.description,
 			},
-			isRevivable: data.revivable === 1,
+			isRevivable: data.profile.revivable,
 		};
 	}
 	stakeouts.date = now;
@@ -1232,14 +1258,16 @@ async function updateFactionStakeouts() {
 }
 
 async function updateTorndata() {
-	// TODO - Migrate to V2 (many shit).
+	// FIXME - Migrate to V2 (torn/items).
+	// TODO - Migrate to V2 (torn/pawnshop).
+	// TODO - Migrate to V2 (torn/stats).
 	const dataV1 = await fetchData("torn", {
 		section: "torn",
-		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"],
+		selections: ["items", "pawnshop", "stats"],
 	});
 	const dataV2 = await fetchData("tornv2", {
 		section: "torn",
-		selections: ["calendar"],
+		selections: ["education", "calendar", "properties", "honors", "medals"],
 	});
 	if (!isValidTorndata(dataV1)) throw new Error("Aborted updating due to an unexpected response.");
 	if (!isValidTorndata(dataV2)) throw new Error("Aborted updating due to an unexpected response in V2.");
@@ -1310,7 +1338,8 @@ async function updateFactiondata() {
 
 	async function updateAccess() {
 		try {
-			// TODO - Migrate to V2 (faction/basic + faction/crimes).
+			// FIXME - Migrate to V2 (faction/basic).
+			// FIXME - Migrate to V2 (faction/crimes).
 			const data = await fetchData("torn", { section: "faction", selections: ["crimes", "basic"], silent: true });
 			data.access = FACTION_ACCESS.full_access;
 			data.date = Date.now();
@@ -1335,7 +1364,7 @@ async function updateFactiondata() {
 			for (const id of Object.keys(crimes).reverse()) {
 				const crime = crimes[id];
 
-				if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;
+				if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.profile.id)) continue;
 
 				oc = crime.time_ready * 1000;
 			}

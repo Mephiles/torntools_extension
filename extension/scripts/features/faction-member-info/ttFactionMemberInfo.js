@@ -64,23 +64,24 @@
 		await requireElement(".members-list .table-body > li");
 		if (lastActionState) await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
 
-		let donations;
-		if (ttCache.hasValue("faction-members-donations", userdata.faction.faction_id)) {
-			donations = ttCache.get("faction-members-donations", userdata.faction.faction_id);
+		let balance;
+		if (ttCache.hasValue("faction-members-balance", userdata.faction.id)) {
+			balance = ttCache.get("faction-members-balance", userdata.faction.id);
 		} else {
-			donations = (await fetchData("torn", { section: "faction", selections: ["donations"], silent: true, succeedOnError: true })).donations;
+			balance = (await fetchData("tornv2", { section: "faction", selections: ["balance"], silent: true, succeedOnError: true })).balance;
 
-			ttCache.set({ [userdata.faction.faction_id]: donations }, TO_MILLIS.SECONDS * 60, "faction-members-donations").then(() => {});
+			ttCache.set({ [userdata.faction.id]: balance }, TO_MILLIS.SECONDS * 60, "faction-members-balance").then(() => {});
 		}
 
-		if (!donations) {
-			console.log("TT - Failed to load donations.");
+		if (!balance) {
+			console.log("TT - Failed to load faction balance.");
 			return;
 		}
 
 		document.findAll(".members-list .table-body > li").forEach((li) => {
 			const userID = getUsername(li).id;
-			if (!donations[userID] || (!donations[userID].points_balance && !donations[userID].money_balance)) return;
+			const userBalance = balance.members.find((m) => m.id === userID);
+			if (!userBalance || (!userBalance.points && !userBalance.money)) return;
 
 			// Don't show this for fallen players.
 			if (li.find(".icons li[id*='icon77___']")) return;
@@ -88,21 +89,21 @@
 			const memberInfo = document.newElement({ type: "div", class: "tt-member-info" });
 			const parent = lastActionState && li.nextSibling?.className?.includes("tt-last-action") ? li.nextSibling : memberInfo;
 
-			if (donations[userID].points_balance) {
+			if (userBalance.points) {
 				parent.appendChild(
 					document.newElement({
 						type: "div",
 						class: "tt-points-balance",
-						text: `Point Balance: ${formatNumber(donations[userID].points_balance)}`,
+						text: `Point Balance: ${formatNumber(userBalance.points)}`,
 					})
 				);
 			}
-			if (donations[userID].money_balance) {
+			if (userBalance.money) {
 				parent.appendChild(
 					document.newElement({
 						type: "div",
 						class: "tt-money-balance",
-						text: `Money Balance: ${formatNumber(donations[userID].money_balance, { currency: true })}`,
+						text: `Money Balance: ${formatNumber(userBalance.money, { currency: true })}`,
 					})
 				);
 			}

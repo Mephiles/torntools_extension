@@ -35,7 +35,7 @@
 
 		let id;
 		if (isOwnCompany) {
-			id = userdata.job.company_id;
+			id = userdata.job?.id;
 		} else {
 			id = parseInt(getHashParameters().get("ID"));
 			if (isNaN(id)) {
@@ -44,8 +44,8 @@
 					id = ttCache.get("company-ids", companyName);
 				} else {
 					const directorID = document.find(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
-					const directorData = await fetchData("torn", { section: "user", selections: ["profile"], id: directorID });
-					id = directorData.job.company_id;
+					const directorData = await fetchData("tornv2", { section: "user", selections: ["job"], id: directorID });
+					id = directorData.job?.id;
 					ttCache.set({ [companyName]: id }, TO_MILLIS.SECONDS * 30, "company-ids").then(() => {});
 				}
 			}

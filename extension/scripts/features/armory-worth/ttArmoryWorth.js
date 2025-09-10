@@ -31,10 +31,18 @@
 		document.find(".tt-armory-worth")?.remove();
 
 		const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement;
+		// TODO - Migrate to V2 (faction/weapons).
+		// TODO - Migrate to V2 (faction/armor).
+		// TODO - Migrate to V2 (faction/temporary).
+		// TODO - Migrate to V2 (faction/medical).
+		// TODO - Migrate to V2 (faction/drugs).
+		// TODO - Migrate to V2 (faction/boosters).
+		// TODO - Migrate to V2 (faction/cesium).
+		// FIXME - Migrate to V2 (faction/currency -> faction/balance).
 		const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
 
-		if (ttCache.hasValue("armory", userdata.faction.faction_id)) {
-			handleData(ttCache.get("armory", userdata.faction.faction_id));
+		if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
+			handleData(ttCache.get("armory", userdata.faction.id));
 		} else {
 			fetchData("torn", { section: "faction", selections })
 				.then((data) => {

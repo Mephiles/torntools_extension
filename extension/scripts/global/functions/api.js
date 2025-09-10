@@ -314,7 +314,7 @@ function checkAPIPermission(key) {
 
 function changeAPIKey(key) {
 	return new Promise((resolve, reject) => {
-		fetchData("torn", { section: "user", selections: ["profile"], key, silent: true })
+		fetchData("tornv2", { section: "user", selections: ["basic"], key, silent: true })
 			.then(async () => {
 				await ttStorage.change({ api: { torn: { key } } });
 
@@ -339,7 +339,7 @@ function hasAPIData() {
 function hasFactionAPIAccess() {
 	if (!hasAPIData()) return false;
 
-	return factiondata?.access === FACTION_ACCESS.full_access;
+	return userdata.faction && factiondata?.access === FACTION_ACCESS.full_access;
 }
 
 function hasOC2Data() {

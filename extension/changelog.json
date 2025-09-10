@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Solve issue with stats estimates no longer working.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},

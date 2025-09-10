@@ -42,14 +42,16 @@
 				createElement(userdata.total, false, "attacker");
 			} else if (settings.apiUsage.userV2.personalstats && settings.apiUsage.user.crimes) {
 				const {
-					rank,
-					level,
+					profile: {
+						rank,
+						level,
+						last_action: { timestamp: lastAction },
+						id,
+					},
 					criminalrecord: { total: crimes },
 					personalstats: {
 						networth: { total: networth },
 					},
-					last_action: { timestamp: lastAction },
-					player_id: id,
 				} = userdata;
 
 				const estimate = statsEstimate.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);

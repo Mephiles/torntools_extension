@@ -330,10 +330,6 @@
 							<label for="api_usage-user_newmessages">Unread Messages</label>
 						</div>
 						<div class="option">
-							<input id="api_usage-user_money" type="checkbox" />
-							<label for="api_usage-user_money">Money</label>
-						</div>
-						<div class="option">
 							<input id="api_usage-user_refills" type="checkbox" />
 							<label for="api_usage-user_refills">Refills</label>
 						</div>
@@ -372,14 +368,6 @@
 						<div class="option">
 							<input id="api_usage-user_ammo" type="checkbox" />
 							<label for="api_usage-user_ammo">Ammo</label>
-						</div>
-						<div class="option">
-							<input id="api_usage-user_honors" type="checkbox" />
-							<label for="api_usage-user_honors">Honors</label>
-						</div>
-						<div class="option">
-							<input id="api_usage-user_medals" type="checkbox" />
-							<label for="api_usage-user_medals">Medals</label>
 						</div>
 						<div class="option">
 							<input id="api_usage-user_battlestats" type="checkbox" />
@@ -423,6 +411,18 @@
 						<div class="option">
 							<input id="api_usage-userV2_attacks" type="checkbox" />
 							<label for="api_usage-userV2_attacks">Attacks</label>
+						</div>
+						<div class="option">
+							<input id="api_usage-userV2_money" type="checkbox" />
+							<label for="api_usage-userV2_money">Money</label>
+						</div>
+						<div class="option">
+							<input id="api_usage-userV2_honors" type="checkbox" />
+							<label for="api_usage-userV2_honors">Honors</label>
+						</div>
+						<div class="option">
+							<input id="api_usage-userV2_medals" type="checkbox" />
+							<label for="api_usage-userV2_medals">Medals</label>
 						</div>
 					</section>
 					<section name="chat">
@@ -1967,11 +1967,11 @@
 						Background
 						<ul>
 							<li>
-								User's information, status, cooldown, money, unread events, unread messages and refills. (every 30 seconds (configurable))
+								User's information, job, faction, status, cooldown, money, unread events, unread messages and refills. (2 calls every 30 seconds (configurable))
 								<ul>
 									<li>
 										User's personal stats, networth, stock inventory, ammo, stats, crimes, skills, weapon experience, educations and merit
-										allocation. (2 calls every 2 minutes (configurable), when active on Torn)
+										allocation. (4 calls every 2 minutes (configurable), when active on Torn)
 									</li>
 									<li>User's attack history. (whenever an attack or defend is detected)</li>
 								</ul>

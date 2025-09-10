@@ -356,7 +356,6 @@ const DEFAULT_STORAGE = {
 				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				newevents: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				newmessages: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				refills: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stocks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				education: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -367,8 +366,6 @@ const DEFAULT_STORAGE = {
 				perks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				icons: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ammo: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				honors: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				medals: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				battlestats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				crimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				workstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -381,6 +378,9 @@ const DEFAULT_STORAGE = {
 				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				honors: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				medals: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
@@ -1035,7 +1035,7 @@ const CUSTOM_LINKS_PRESET = {
 	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 };
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.profile.name || "", description: "Your player name." }];
 
 const API_USAGE = {
 	user: {

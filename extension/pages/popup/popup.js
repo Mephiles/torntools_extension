@@ -268,14 +268,14 @@ async function setupDashboard() {
 			} else {
 				dashboard.find("#country").textContent = userdata.travel.destination;
 
-				const status = userdata.status.state === "abroad" ? "okay" : userdata.status.state.toLowerCase();
+				const status = userdata.profile.status.state.toLowerCase() === "abroad" ? "okay" : userdata.profile.status.state.toLowerCase();
 
 				dashboard.find("#status").textContent = capitalizeText(status);
 				dashboard.find("#status").setAttribute("class", status);
 				dashboard.find(".status-wrap").classList.remove("tt-hidden");
 
-				if (userdata.status.until) {
-					dashboard.find("#status").dataset.until = userdata.status.until * 1000;
+				if (userdata.profile.status.until) {
+					dashboard.find("#status").dataset.until = userdata.profile.status.until * 1000;
 				} else delete dashboard.find("#status").dataset.until;
 
 				updateStatusTimer();
@@ -398,7 +398,7 @@ async function setupDashboard() {
 			if (settings.apiUsage.user.newevents) dashboard.find(".extra .events .count").textContent = userdata.notifications.events;
 			if (settings.apiUsage.user.newmessages)
 				dashboard.find(".extra .messages .count").textContent = Object.values(userdata.messages).filter((message) => !message.seen).length;
-			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").textContent = `$${formatNumber(userdata.money_onhand)}`;
+			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").textContent = `$${formatNumber(userdata.money.wallet)}`;
 		}
 
 		function updateActions() {

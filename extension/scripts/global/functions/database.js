@@ -266,6 +266,32 @@ async function migrateDatabase(force = false) {
 		} else if (version <= toNumericVersion("7.8.2")) {
 			// Reset cache.
 			newStorage.cache = {};
+			newStorage.userdata = {
+				...storage.userdata,
+				date: 0,
+				dateBasic: 0,
+				profile: {
+					...storage.userdata,
+					id: storage.userdata.player_id,
+					spouse: {
+						days_married: storage.userdata.married.duration,
+					},
+					job: {
+						id: storage.userdata.job.company_id,
+					},
+					faction: {
+						id: storage.userdata.faction_id,
+						tag: storage.userdata.faction.faction_tag,
+					},
+				},
+			};
+			if (storage?.settings?.apiUsage?.user?.money === false) {
+				newStorage.settings.apiUsage.userV2.money = false;
+			}
+			if (storage?.settings?.apiUsage?.user?.honors === false) {
+				newStorage.settings.apiUsage.userV2.honors = false;
+			}
+			newStorage.torndata = {};
 
 			updated = true;
 		}

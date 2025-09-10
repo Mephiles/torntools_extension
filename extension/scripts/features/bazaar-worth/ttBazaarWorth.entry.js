@@ -38,7 +38,7 @@
 
 		const bazaarUserId = parseInt(getSearchParameters().get("userId"));
 
-		if (!bazaarUserId || bazaarUserId === userdata.player_id) await requireElement(".info-msg-cont:not(.red) .msg");
+		if (!bazaarUserId || bazaarUserId === userdata.profile.id) await requireElement(".info-msg-cont:not(.red) .msg");
 		else await requireElement(".info-msg-cont .msg a[href]");
 
 		if (list && Array.isArray(list)) {
@@ -49,6 +49,7 @@
 		if (ttCache.hasValue("bazaar", bazaarUserId)) {
 			handleBazaar(ttCache.get("bazaar", bazaarUserId)).catch(console.error);
 		} else {
+			// TODO - Migrate to V2 (user/bazaar).
 			fetchData("torn", { section: "user", id: bazaarUserId, selections: ["bazaar"] })
 				.then((result) => {
 					handleBazaar(result.bazaar);
