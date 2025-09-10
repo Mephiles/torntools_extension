@@ -57,15 +57,15 @@
 
 			try {
 				const response = // TODO - Migrate to V2 (company/employees).
-				(
-					await fetchData("torn", {
-						section: "company",
-						id: company_id,
-						selections: ["employees"],
-						silent: true,
-						succeedOnError: true,
-					})
-				).company_employees;
+					(
+						await fetchData("torn", {
+							section: "company",
+							id: company_id,
+							selections: ["employees"],
+							silent: true,
+							succeedOnError: true,
+						})
+					).company_employees;
 
 				const addiction = response[id].effectiveness.addiction ?? 0;
 
