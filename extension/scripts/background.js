@@ -1319,7 +1319,7 @@ async function updateStocks() {
 }
 
 async function updateFactiondata() {
-	if (!userdata?.faction?.faction_id) {
+	if (!userdata?.faction) {
 		factiondata = { access: FACTION_ACCESS.none };
 	} else {
 		const hasFactiondata = !factiondata || typeof factiondata !== "object" || factiondata.access !== FACTION_ACCESS.none;

@@ -7,7 +7,7 @@
 	featureManager.registerFeature(
 		"OC Time",
 		"sidebar",
-		() => settings.pages.sidebar.ocTimer && (userdata?.faction?.faction_id > 0 ?? false),
+		() => settings.pages.sidebar.ocTimer && userdata?.faction,
 		null,
 		showTimer,
 		removeTimer,
