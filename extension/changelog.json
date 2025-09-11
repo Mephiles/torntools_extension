@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 8, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fix OC 1 and OC2 timers no longer showing up.", "contributor": "DeKleineKobini" }], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix OC 1 and OC2 timers no longer showing up.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 8, "build": 2 },
