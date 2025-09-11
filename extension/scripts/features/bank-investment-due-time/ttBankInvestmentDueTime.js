@@ -14,7 +14,7 @@
 			storage: ["settings.pages.bank.investmentDueTime"],
 		},
 		() => {
-			if (!hasAPIData() || !settings.apiUsage.user.money) return "No API access.";
+			if (!hasAPIData() || !settings.apiUsage.userV2.money) return "No API access.";
 		}
 	);
 
