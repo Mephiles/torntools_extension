@@ -9,7 +9,8 @@
 				{ "message": "Fix OC 1 and OC2 timers no longer showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix travel cooldowns no longer showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix bank investment no longer showing up.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix money not showing correctly in the popup.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix money not showing correctly in the popup.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve another (unrelated) issue with stats estimates no longer working.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []

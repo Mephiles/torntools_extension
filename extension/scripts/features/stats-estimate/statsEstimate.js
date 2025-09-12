@@ -181,7 +181,7 @@ class StatsEstimate {
 					section: "user",
 					id,
 					selections: ["profile", "personalstats"],
-					params: { stat: ["networth", "criminaloffenses", "criminaloffensesold"] },
+					params: { cat: "all" },
 					silent: true,
 				});
 			} catch (error) {
@@ -207,6 +207,7 @@ class StatsEstimate {
 						crimes: { version },
 					},
 				} = data;
+
 				let crimes;
 				if (version === "v1") crimes = data.personalstats.crimes.total;
 				else if (version === "v2") crimes = data.personalstats.crimes.offenses.total;
