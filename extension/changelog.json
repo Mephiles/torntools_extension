@@ -3,7 +3,7 @@
 		"version": { "major": 7, "minor": 8, "build": 4 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [], "changes": [{ "message": "Optimize stats estimate API call.", "contributor": "DeKleineKobini" }], "removed": [] }
 	},
 	{
 		"version": { "major": 7, "minor": 8, "build": 3 },

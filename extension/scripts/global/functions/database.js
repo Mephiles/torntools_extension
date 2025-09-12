@@ -294,6 +294,10 @@ async function migrateDatabase(force = false) {
 			newStorage.torndata = {};
 
 			updated = true;
+		} else if (version <= toNumericVersion("7.8.4")) {
+			newStorage.cache["profile-stats"] = {};
+
+			updated = true;
 		}
 
 		if (updated) {

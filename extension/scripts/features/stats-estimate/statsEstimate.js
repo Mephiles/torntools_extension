@@ -181,7 +181,7 @@ class StatsEstimate {
 					section: "user",
 					id,
 					selections: ["profile", "personalstats"],
-					params: { cat: "all" },
+					params: { cat: "popular" },
 					silent: true,
 				});
 			} catch (error) {
