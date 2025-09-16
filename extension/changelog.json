@@ -1,17 +1,21 @@
 [
 	{
-		"version": { "major": 7, "minor": 8, "build": 4 },
+		"version": { "major": 7, "minor": 8, "build": 5 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 8, "build": 4 },
+		"date": "2025/09/16",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{
 					"message": "Fix 'basic userdata' not updating anymore, resulting in multiple features using outdated information.",
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"changes": [{ "message": "Optimize stats estimate API call.", "contributor": "DeKleineKobini" }],
-			"removed": []
+			"changes": [{ "message": "Optimize stats estimate API call.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
