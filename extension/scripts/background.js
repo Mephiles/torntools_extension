@@ -273,7 +273,7 @@ async function updateUserdata(forceUpdate = false) {
 		(forceUpdate ||
 			!userdata?.dateBasic ||
 			(hasTimePassed(userdata?.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
-				!hasTimePassed(userdata?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
+				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
 	const selections = [];
 	const selectionsV2 = [];
