@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 8, "build": 5 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [{ "message": "Optimize item market API call by limiting it to the amount of items we show.", "contributor": "DeKleineKobini" }], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Optimize item market API call by limiting it to the amount of items we show.", "contributor": "DeKleineKobini" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 8, "build": 4 },
