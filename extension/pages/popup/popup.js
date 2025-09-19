@@ -761,7 +761,7 @@ async function setupMarketSearch() {
 			// Torn market data
 			ttCache.hasValue("livePrice", id)
 				? Promise.resolve(ttCache.get("livePrice", id))
-				: fetchData("tornv2", { section: "market", id, selections: ["itemmarket"] }).then((result) => {
+				: fetchData("tornv2", { section: "market", id, selections: ["itemmarket"], params: { limit: 3 } }).then((result) => {
 						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
 						return result;
 					}),
@@ -796,7 +796,7 @@ async function setupMarketSearch() {
 				const itemMarketWrap = document.newElement({ type: "div" });
 				itemMarketWrap.appendChild(document.newElement({ type: "h4", text: "Item Market" }));
 				if (tornResult.itemmarket?.listings?.length) {
-					for (const item of tornResult.itemmarket.listings.slice(0, 3)) {
+					for (const item of tornResult.itemmarket.listings) {
 						itemMarketWrap.appendChild(
 							document.newElement({
 								type: "div",
