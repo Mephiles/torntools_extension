@@ -56,10 +56,11 @@
 			employees = ttCache.get("company-employees", id);
 		} else {
 			employees = (
-				await fetchData("torn", {
+				await fetchData("tornv2", {
 					section: "company",
 					id: id,
 					selections: ["profile"],
+					legacySelections: ["profile"],
 					silent: true,
 					succeedOnError: true,
 				})

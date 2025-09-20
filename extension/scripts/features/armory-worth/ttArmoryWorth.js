@@ -44,7 +44,7 @@
 		if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
 			handleData(ttCache.get("armory", userdata.faction.id));
 		} else {
-			fetchData("torn", { section: "faction", selections })
+			fetchData("tornv2", { section: "faction", selections, legacySelections: selections })
 				.then((data) => {
 					handleData(data);
 

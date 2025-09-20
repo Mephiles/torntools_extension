@@ -27,7 +27,7 @@
 		if (displayCaseUserId && !isNaN(displayCaseUserId) && parseInt(displayCaseUserId) !== userdata.profile.id) {
 			await requireElement(".info-msg-cont .msg");
 			// TODO - Migrate to V2 (user/display).
-			fetchData("torn", { section: "user", id: displayCaseUserId, selections: ["display"] })
+			fetchData("tornv2", { section: "user", id: displayCaseUserId, selections: ["display"], legacySelections: ["display"] })
 				.then((result) => {
 					let total = 0;
 
@@ -61,7 +61,7 @@
 				});
 		} else {
 			// TODO - Migrate to V2 (user/display).
-			fetchData("torn", { section: "user", id: userdata.profile.id, selections: ["display"] })
+			fetchData("tornv2", { section: "user", id: userdata.profile.id, selections: ["display"], legacySelections: ["display"] })
 				.then(async (result) => {
 					let total = 0;
 

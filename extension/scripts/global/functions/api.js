@@ -38,6 +38,7 @@ async function fetchData(location, options = {}) {
 		section: undefined,
 		id: undefined,
 		selections: [],
+		legacySelections: [],
 		key: undefined,
 		action: undefined,
 		method: "GET",
@@ -81,7 +82,8 @@ async function fetchData(location, options = {}) {
 
 					path = `${options.section}/${options.id || ""}`;
 
-					params.append("selections", options.selections.join(","));
+					params.append("selections", [...options.selections, ...options.legacySelections].join(","));
+					params.append("legacy", options.legacySelections.join(","));
 					params.append("key", options.key || api.torn.key);
 					if (settings.apiUsage.comment) {
 						// noinspection JSCheckFunctionSignatures

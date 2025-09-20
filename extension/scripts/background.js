@@ -354,19 +354,14 @@ async function updateUserdata(forceUpdate = false) {
 	if (!selections.length && !selectionsV2.length) return { updated: false };
 
 	const oldUserdata = { ...userdata };
-	const newUserdata = selections.length ? await fetchData("torn", { section: "user", selections }) : {};
-	const newUserdataV2 = selectionsV2.length
-		? await fetchData("tornv2", {
-				section: "user",
-				selections: selectionsV2,
-				params: { cat: "all", timestamp: Math.floor(Date.now() / 1000) },
-			})
-		: {};
+	const newUserdata = await fetchData("tornv2", {
+		section: "user",
+		legacySelections: selections,
+		selections: selectionsV2,
+		params: { cat: "all", timestamp: Math.floor(Date.now() / 1000) },
+	});
 
-	userdata = {
-		...newUserdata,
-		...newUserdataV2,
-	};
+	userdata = newUserdata;
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
@@ -383,9 +378,10 @@ async function updateUserdata(forceUpdate = false) {
 				// TODO - Migrate to V2 (user/events).
 				// TODO - Migrate to V2 (user/newevents).
 				(
-					await fetchData("torn", {
+					await fetchData("tornv2", {
 						section: "user",
 						selections: [category],
+						legacySelections: [category],
 						params: { limit: newEventsCount },
 					})
 				).events;
@@ -1261,20 +1257,15 @@ async function updateTorndata() {
 	// FIXME - Migrate to V2 (torn/items).
 	// TODO - Migrate to V2 (torn/pawnshop).
 	// TODO - Migrate to V2 (torn/stats).
-	const dataV1 = await fetchData("torn", {
+	const data = await fetchData("tornv2", {
 		section: "torn",
-		selections: ["items", "pawnshop", "stats"],
+		selections: ["education", "calendar", "properties", "honors", "medals", "items", "pawnshop", "stats"],
+		legacySelections: ["items", "pawnshop", "stats"],
 	});
-	const dataV2 = await fetchData("tornv2", {
-		section: "torn",
-		selections: ["education", "calendar", "properties", "honors", "medals"],
-	});
-	if (!isValidTorndata(dataV1)) throw new Error("Aborted updating due to an unexpected response.");
-	if (!isValidTorndata(dataV2)) throw new Error("Aborted updating due to an unexpected response in V2.");
+	if (!isValidTorndata(data)) throw new Error("Aborted updating due to an unexpected response in V2.");
 
 	const newData = {
-		...dataV1,
-		...dataV2,
+		...data,
 		date: Date.now(),
 	};
 
@@ -1289,7 +1280,7 @@ async function updateTorndata() {
 async function updateStocks() {
 	const oldStocks = { ...stockdata };
 	// TODO - Migrate to V2 (torn/stocks).
-	const stocks = (await fetchData("torn", { section: "torn", selections: ["stocks"] })).stocks;
+	const stocks = (await fetchData("tornv2", { section: "torn", selections: ["stocks"], legacySelections: ["stocks"] })).stocks;
 	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
 	stocks.date = Date.now();
 
@@ -1340,7 +1331,12 @@ async function updateFactiondata() {
 		try {
 			// FIXME - Migrate to V2 (faction/basic).
 			// FIXME - Migrate to V2 (faction/crimes).
-			const data = await fetchData("torn", { section: "faction", selections: ["crimes", "basic"], silent: true });
+			const data = await fetchData("tornv2", {
+				section: "faction",
+				selections: ["crimes", "basic"],
+				legacySelections: ["crimes", "basic"],
+				silent: true,
+			});
 			data.access = FACTION_ACCESS.full_access;
 			data.date = Date.now();
 
@@ -1376,7 +1372,7 @@ async function updateFactiondata() {
 	async function updateBasic() {
 		try {
 			// FIXME - Migrate to V2 (faction/basic).
-			const data = await fetchData("torn", { section: "faction", selections: ["basic"], silent: true });
+			const data = await fetchData("tornv2", { section: "faction", selections: ["basic"], legacySelections: ["basic"], silent: true });
 			data.access = FACTION_ACCESS.basic;
 			data.date = Date.now();
 

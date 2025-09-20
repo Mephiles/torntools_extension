@@ -58,10 +58,11 @@
 			try {
 				const response = // TODO - Migrate to V2 (company/employees).
 					(
-						await fetchData("torn", {
+						await fetchData("tornv2", {
 							section: "company",
 							id: company_id,
 							selections: ["employees"],
+							legacySelections: ["employees"],
 							silent: true,
 							succeedOnError: true,
 						})
