@@ -298,7 +298,7 @@ async function migrateDatabase(force = false) {
 			newStorage.cache["profile-stats"] = {};
 
 			updated = true;
-		} else if (version <= toNumericVersion("7.8.5") || true) {
+		} else if (version <= toNumericVersion("7.8.5")) {
 			newStorage.settings.apiUsage.user = {
 				...storage.settings.apiUsage.user,
 				...storage.settings.apiUsage.userV2,
