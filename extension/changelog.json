@@ -8,7 +8,10 @@
 			"fixes": [],
 			"changes": [
 				{ "message": "Optimize item market API call by limiting it to the amount of items we show.", "contributor": "DeKleineKobini" },
-				{ "message": "Move all API calls to the V2 API, using the legacy selections parameter instead to reduce the amount of calls we do again.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Move all API calls to the V2 API, using the legacy selections parameter instead to reduce the amount of calls we do again.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": []
 		}
