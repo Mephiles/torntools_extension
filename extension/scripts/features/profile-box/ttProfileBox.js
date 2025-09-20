@@ -476,7 +476,7 @@
 		}
 
 		async function buildStats() {
-			if (!settings.pages.profile.boxStats || !settings.apiUsage.userV2.personalstats || !settings.apiUsage.user.crimes) return;
+			if (!settings.pages.profile.boxStats || !settings.apiUsage.user.personalstats || !settings.apiUsage.user.crimes) return;
 
 			const section = document.newElement({ type: "div", class: "section user-stats" });
 			content.appendChild(section);

@@ -8,9 +8,9 @@
 		addListener,
 		showInformation,
 		removeInformation,
-		{ storage: ["settings.pages.travel.efficientRehab", "settings.apiUsage.userV2.personalstats"] },
+		{ storage: ["settings.pages.travel.efficientRehab", "settings.apiUsage.user.personalstats"] },
 		() => {
-			if (!hasAPIData() || !settings.apiUsage.userV2.personalstats) return "No API access.";
+			if (!hasAPIData() || !settings.apiUsage.user.personalstats) return "No API access.";
 		}
 	);
 

@@ -20,10 +20,10 @@
 		() => {
 			if (
 				!hasAPIData() ||
-				!settings.apiUsage.userV2.personalstats ||
+				!settings.apiUsage.user.personalstats ||
 				!settings.apiUsage.user.perks ||
-				!settings.apiUsage.userV2.medals ||
-				!settings.apiUsage.userV2.honors ||
+				!settings.apiUsage.user.medals ||
+				!settings.apiUsage.user.honors ||
 				!settings.apiUsage.user.crimes ||
 				!settings.apiUsage.user.battlestats ||
 				!settings.apiUsage.user.workstats ||

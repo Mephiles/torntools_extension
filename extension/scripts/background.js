@@ -297,7 +297,7 @@ async function updateUserdata(forceUpdate = false) {
 			selections.push(selection);
 		}
 		for (const selection of ["money"]) {
-			if (!settings.apiUsage.userV2[selection]) continue;
+			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
 		}
@@ -335,7 +335,7 @@ async function updateUserdata(forceUpdate = false) {
 			selections.push(selection);
 		}
 		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals"]) {
-			if (!settings.apiUsage.userV2[selection]) continue;
+			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
 		}
@@ -345,7 +345,7 @@ async function updateUserdata(forceUpdate = false) {
 
 		updatedTypes.push("basic");
 	}
-	if (attackHistory.fetchData && settings.apiUsage.userV2.attacks && settings.pages.global.keepAttackHistory) {
+	if (attackHistory.fetchData && settings.apiUsage.user.attacks && settings.pages.global.keepAttackHistory) {
 		selectionsV2.push("attacks");
 
 		updatedTypes.push("attack history");

@@ -20,7 +20,7 @@
 				!settings.apiUsage.user.bars ||
 				!settings.apiUsage.user.cooldowns ||
 				!settings.apiUsage.user.education ||
-				!settings.apiUsage.userV2.money
+				!settings.apiUsage.user.money
 			)
 				return "No API access.";
 

@@ -213,12 +213,12 @@ async function migrateDatabase(force = false) {
 			updated = true;
 		} else if (version <= toNumericVersion("7.5.0")) {
 			if (storage?.settings?.apiUsage?.user?.personalstats === false) {
-				newStorage.settings.apiUsage.userV2.personalstats = false;
+				newStorage.settings.apiUsage.user.personalstats = false;
 			}
 			updated = true;
 		} else if (version <= toNumericVersion("7.5.2")) {
 			if (storage?.settings?.apiUsage?.user?.attacks === false) {
-				newStorage.settings.apiUsage.userV2.attacks = false;
+				newStorage.settings.apiUsage.user.attacks = false;
 			}
 			if (storage?.cache && "faction-members" in storage.cache) {
 				newStorage.cache = {
@@ -286,16 +286,23 @@ async function migrateDatabase(force = false) {
 				},
 			};
 			if (storage?.settings?.apiUsage?.user?.money === false) {
-				newStorage.settings.apiUsage.userV2.money = false;
+				newStorage.settings.apiUsage.user.money = false;
 			}
 			if (storage?.settings?.apiUsage?.user?.honors === false) {
-				newStorage.settings.apiUsage.userV2.honors = false;
+				newStorage.settings.apiUsage.user.honors = false;
 			}
 			newStorage.torndata = {};
 
 			updated = true;
 		} else if (version <= toNumericVersion("7.8.4")) {
 			newStorage.cache["profile-stats"] = {};
+
+			updated = true;
+		} else if (version <= toNumericVersion("7.8.5") || true) {
+			newStorage.settings.apiUsage.user = {
+				...storage.settings.apiUsage.user,
+				...storage.settings.apiUsage.userV2,
+			};
 
 			updated = true;
 		}

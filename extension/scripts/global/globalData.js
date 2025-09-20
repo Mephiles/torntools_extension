@@ -372,8 +372,6 @@ const DEFAULT_STORAGE = {
 				skills: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				weaponexp: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				properties: new DefaultSetting({ type: "boolean", defaultValue: true }),
-			},
-			userV2: {
 				calendar: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
