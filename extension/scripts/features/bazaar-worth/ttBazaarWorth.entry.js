@@ -50,7 +50,7 @@
 			handleBazaar(ttCache.get("bazaar", bazaarUserId)).catch(console.error);
 		} else {
 			// TODO - Migrate to V2 (user/bazaar).
-			fetchData("torn", { section: "user", id: bazaarUserId, selections: ["bazaar"] })
+			fetchData("tornv2", { section: "user", id: bazaarUserId, selections: ["bazaar"], legacySelections: ["bazaar"] })
 				.then((result) => {
 					handleBazaar(result.bazaar);
 
