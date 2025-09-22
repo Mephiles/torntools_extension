@@ -9,7 +9,6 @@ const CUSTOM_API_ERROR = {
 const FETCH_TIMEOUT = 10 * TO_MILLIS.SECONDS;
 
 const FETCH_PLATFORMS = {
-	torn: "https://api.torn.com/",
 	tornv2: "https://api.torn.com/v2/",
 	torn_direct: "https://www.torn.com/",
 	yata: "https://yata.yt/",
@@ -63,20 +62,6 @@ async function fetchData(location, options = {}) {
 
 			const params = new URLSearchParams();
 			switch (location) {
-				case "torn":
-					url = FETCH_PLATFORMS.torn;
-
-					path = `${options.section}/${options.id || ""}`;
-
-					params.append("selections", options.selections.join(","));
-					params.append("key", options.key || api.torn.key);
-					if (settings.apiUsage.comment) {
-						// noinspection JSCheckFunctionSignatures
-						params.append("comment", settings.apiUsage.comment);
-					}
-
-					await ttUsage.add(location);
-					break;
 				case "tornv2":
 					url = FETCH_PLATFORMS.tornv2;
 
