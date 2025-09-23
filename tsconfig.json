@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "none",
+    "outDir": "dist",
+    "target": "esnext",
+    "allowJs": true,
+    "types": ["chrome-types"]
+  },
+  "include": ["extension/**/*"],
+}
