@@ -10,3 +10,5 @@ extension/scripts/eslint.json
 
 extension/find.txt
 extension/find.txtf
+
+node_modules
