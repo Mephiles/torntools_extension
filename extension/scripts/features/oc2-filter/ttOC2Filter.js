@@ -11,7 +11,7 @@
 		addFilter,
 		removeFilter,
 		{
-			storage: ["settings.pages.faction.oc2Filter"],
+			storage: ["settings.pages.faction.oc2Filter", "settings.pages.faction.oc2StatusFilter"],
 		},
 		() => {
 			if (hasOC1Data()) return "Still on OC1.";
@@ -70,18 +70,42 @@
 		filterContent.appendChild(difficultyFilter.element);
 		localFilters.difficulty = { getSelections: difficultyFilter.getSelections };
 
+		// Crime Status Filter (always create if enabled, show/hide based on tab)
+		if (settings.pages.faction.oc2StatusFilter) {
+			const statusFilter = createFilterSection({
+				title: "Crime Status",
+				checkboxes: [
+					{ id: "paid", description: "Paid" },
+					{ id: "unpaid", description: "Unpaid" },
+					{ id: "chain", description: "Chain" },
+					{ id: "failed", description: "Failed" },
+				],
+				defaults: filters.oc2.status || ["paid", "unpaid", "chain", "failed"],
+				callback: applyFilters,
+			});
+			filterContent.appendChild(statusFilter.element);
+			localFilters.status = { getSelections: statusFilter.getSelections };
+			
+			// Initially hide/show based on current tab
+			updateStatusFilterVisibility();
+		}
+
 		await applyFilters();
 	}
 
 	async function applyFilters() {
 		await requireElement(".page-head-delimiter + div:not([class*='manualSpawnerContainer___'])");
 
+		// Update status filter visibility based on current tab
+		updateStatusFilterVisibility();
+
 		// Get the set filters
 		const content = findContainer("OC Filter", { selector: "main" });
 
 		const difficulty = localFilters.difficulty.getSelections(content).map((l) => parseInt(l));
+		const status = localFilters.status ? localFilters.status.getSelections(content) : [];
 
-		const filters = { difficulty };
+		const filters = { difficulty, status };
 
 		// Save the filters
 		await ttStorage.change({ filters: { oc2: filters } });
@@ -102,6 +126,15 @@
 			return;
 		}
 
+		// Check crime status filter (only apply if enabled, we're on completed crimes tab, and filters are set)
+		if (settings.pages.faction.oc2StatusFilter && filters.status.length && isCompletedCrimesTab()) {
+			const crimeStatus = getCrimeStatus(row);
+			if (crimeStatus && !filters.status.includes(crimeStatus)) {
+				hide("status");
+				return;
+			}
+		}
+
 		show();
 
 		function show() {
@@ -118,5 +151,64 @@
 	function removeFilter() {
 		removeContainer("OC Filter");
 		document.findAll(".tt-oc2-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+	}
+
+	// Helper function to determine if we're on the completed crimes tab
+	function isCompletedCrimesTab() {
+		// Check if we're viewing completed crimes vs recruiting or planning
+		const activeTab = document.querySelector("#faction-crimes-root [class*='buttonsContainer___'] > [class*='active___']");
+		
+		if (!activeTab) {
+			return false; // Default to false if we can't determine tab
+		}
+		
+		const tabText = activeTab.textContent.trim().toLowerCase();
+		
+		// Check if the active tab is NOT recruiting or planning (so it must be completed)
+		return !tabText.includes('recruiting') && !tabText.includes('planning');
+	}
+
+	function updateStatusFilterVisibility() {
+		// The createFilterSection creates a class based on the title: "Crime Status" becomes "crimeStatus__section-class"
+		const statusFilterSection = document.querySelector('.crimeStatus__section-class');
+		if (statusFilterSection) {
+			const isCompleted = isCompletedCrimesTab();
+			statusFilterSection.style.display = isCompleted ? 'block' : 'none';
+		}
+	}
+
+	// Helper function to determine crime status from the row element
+	function getCrimeStatus(row) {
+		// Check for failed crimes - look for div with class containing "failed"
+		const failedDiv = row.querySelector('div[class*="failed"]');
+		if (failedDiv) {
+			return 'failed';
+		}
+		
+		// Check for success crimes - look for div with class containing "success"
+		const successDiv = row.querySelector('div[class*="success"]');
+		if (successDiv) {
+			// For successful crimes, check if it's paid, unpaid, or chain
+			
+			// Check for paid crimes - look for span with aria-label="Paid"
+			const paidSpan = row.querySelector('span[aria-label="Paid"]');
+			if (paidSpan) {
+				return 'paid';
+			}
+			
+			// Check for unpaid crimes - look for button with class containing "payoutBtn" and text "PayOut"
+			const payoutButton = row.querySelector('button[class*="payoutBtn"]');
+			if (payoutButton && payoutButton.textContent.includes('PayOut')) {
+				return 'unpaid';
+			}
+			
+			// Check for chain crimes - look for div with class containing "nextCrimeContainer"
+			const nextCrimeDiv = row.querySelector('div[class*="nextCrimeContainer"]');
+			if (nextCrimeDiv) {
+				return 'chain';
+			}
+		}
+		
+		return null;
 	}
 })();
