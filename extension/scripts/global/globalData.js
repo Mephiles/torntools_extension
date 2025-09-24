@@ -628,6 +628,7 @@ const DEFAULT_STORAGE = {
 				stakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showFactionSpy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				oc2Filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				oc2StatusFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				warnCrime: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			property: {
@@ -948,6 +949,7 @@ const DEFAULT_STORAGE = {
 		},
 		oc2: {
 			difficulty: new DefaultSetting({ type: "array", defaultValue: [] }),
+			status: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
