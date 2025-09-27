@@ -19,21 +19,23 @@
 	let CRIMES2_ROWS_START_Y = 64;
 
 	function initialise() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_BURGLARY_LOADED].push(async ({ crimeRoot, url }) => {
-			if (!feature.enabled()) return;
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_CRIME_LOADED].push(async ({ crime, crimeRoot, url }) => {
+			if (crime === CRIMES2.BURGLARY) {
+				if (!feature.enabled()) return;
 
-			const searchParams = new URL(url).searchParams;
-			if (searchParams.get("step") === "attempt") {
-				await requireElement(".virtual-item.outcome-expanded button.commit-button");
+				const searchParams = new URL(url).searchParams;
+				if (searchParams.get("step") === "attempt") {
+					await requireElement(".virtual-item.outcome-expanded button.commit-button");
 
-				CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+					CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+				}
+
+				await addFilter(crimeRoot);
+			} else {
+				removeFilter();
 			}
-
-			addFilter(crimeRoot);
 		});
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_HOME_LOADED].push(() => {
-			removeFilter();
-		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_HOME_LOADED].push(() => removeFilter());
 	}
 
 	const localFilters = {};
@@ -94,7 +96,7 @@
 			}
 		}
 
-		if (!findContainer("Burglary Filter")) createFilter(crimeRoot);
+		if (!findContainer("Burglary Filter")) await createFilter(crimeRoot);
 
 		await filtering();
 	}

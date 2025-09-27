@@ -24,18 +24,31 @@
 				if (!(page === "page" && sid === "crimesData" && ["crimesList", "attempt"].includes(step))) return;
 
 				// If any new crime needs a filter, add it here and in listeners.js.
-				const CRIMES_AND_EVENTS_MAPPING = {
-					burglary: EVENT_CHANNELS.CRIMES2_BURGLARY_LOADED,
+				const CRIMES_MAPPING = {
+					burglary: CRIMES2.BURGLARY,
 				};
-				for (const [hash, eventName] of Object.entries(CRIMES_AND_EVENTS_MAPPING)) {
-					if (window.location.hash.includes(hash)) {
-						triggerCustomListener(eventName, { crimeRoot: await requireElement(".crime-root"), page, url, json });
-						break;
-					}
-				}
+
+				const crime =
+					Object.entries(CRIMES_MAPPING)
+						.filter(([hash]) => window.location.hash.includes(hash))
+						.map(([, name]) => name)
+						.find(() => true) ?? CRIMES2.__UNKNOWN__;
+
+				triggerCustomListener(EVENT_CHANNELS.CRIMES2_CRIME_LOADED, {
+					crime,
+					crimeRoot: await requireElement(".crime-root"),
+					page,
+					url,
+					json,
+				});
 			} catch (err) {
 				console.log("[TornTools] error during Crimes 2.0 listener trigger:", err);
 			}
 		}
 	);
 })();
+
+const CRIMES2 = {
+	__UNKNOWN__: "__UNKNOWN__",
+	BURGLARY: "burglary",
+};

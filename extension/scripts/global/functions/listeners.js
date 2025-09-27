@@ -45,6 +45,7 @@ const EVENT_CHANNELS = {
 	CRIMES_CRIME: "crimes-crime",
 	CRIMES2_HOME_LOADED: "crimes2-home-loaded",
 	CRIMES2_BURGLARY_LOADED: "crimes2-burglary-loaded",
+	CRIMES2_CRIME_LOADED: "crimes2-crime-loaded",
 	MISSION_LOAD: "mission-load",
 	MISSION_REWARDS: "mission-rewards",
 	TRADE: "trade",
