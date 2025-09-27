@@ -72,7 +72,7 @@
 
 						return { message, status: true };
 					})
-					.catch((error) => ({ message: error.error, status: false }));
+					.catch((error) => ({ message: errorHandling(error), status: false }));
 
 				responseElement.textContent = message;
 				responseElement.classList.add(status ? "success" : "error");
@@ -101,9 +101,7 @@
 						ttCache.set({ graph: result }, TO_MILLIS.HOURS, "gym").then(() => {});
 					}
 				} catch (error) {
-					const message = error.error instanceof HTTPException ? error.error.message : error.error;
-
-					result = { status: false, message };
+					result = { status: false, message: errorHandling(error) };
 				}
 			}
 
@@ -219,5 +217,23 @@
 
 	function removeGraph() {
 		removeContainer("Graph");
+	}
+
+	function errorHandling(error) {
+		if (error.error instanceof HTTPException) {
+			return error.error.message;
+		}
+
+		if ("code" in error.error) {
+			const code = error.error.code;
+			console.log("DKK ts issue", code);
+
+			switch (code) {
+				case 403:
+					return "TornStats is rejecting your request. This is likely caused by a faulty configured API key. Please check your settings.";
+			}
+		}
+
+		return error.error;
 	}
 })();
