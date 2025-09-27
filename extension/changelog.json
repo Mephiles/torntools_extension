@@ -12,7 +12,7 @@
 					"message": "Move all API calls to the V2 API, using the legacy selections parameter instead to reduce the amount of calls we do again.",
 					"contributor": "DeKleineKobini"
 				},
-              { "message": "Minor improvement in the error handling of TornStats calls.", "contributor": "DeKleineKobini" }
+				{ "message": "Minor improvement in the error handling of TornStats calls.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
