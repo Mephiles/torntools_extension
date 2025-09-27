@@ -354,14 +354,13 @@ async function updateUserdata(forceUpdate = false) {
 	if (!selections.length && !selectionsV2.length) return { updated: false };
 
 	const oldUserdata = { ...userdata };
-	const newUserdata = await fetchData("tornv2", {
+
+	userdata = await fetchData("tornv2", {
 		section: "user",
 		legacySelections: selections,
 		selections: selectionsV2,
 		params: { cat: "all", timestamp: Math.floor(Date.now() / 1000) },
 	});
-
-	userdata = newUserdata;
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
