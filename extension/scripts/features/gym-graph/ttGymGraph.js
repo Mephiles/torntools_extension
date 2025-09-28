@@ -226,7 +226,6 @@
 
 		if ("code" in error.error) {
 			const code = error.error.code;
-			console.log("DKK ts issue", code);
 
 			switch (code) {
 				case 403:
