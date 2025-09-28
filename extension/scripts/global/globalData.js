@@ -1032,7 +1032,7 @@ const CUSTOM_LINKS_PRESET = {
 	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 };
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.profile.name || "", description: "Your player name." }];
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata?.profile?.name || "", description: "Your player name." }];
 
 const API_USAGE = {
 	user: {
