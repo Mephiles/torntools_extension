@@ -399,6 +399,7 @@ async function updateUserdata(forceUpdate = false) {
 		await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
 		await notifyTravelLanding().catch((error) => console.error("Error while sending travel landing notifications.", error));
 		await notifyBars().catch((error) => console.error("Error while sending bar notification.", error));
+		await notifyOffline().catch((error) => console.error("Error while sending offline notification.", error));
 		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
 		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 	}
@@ -743,6 +744,24 @@ async function updateUserdata(forceUpdate = false) {
 				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
 					delete notifications[bar][checkpoint];
 				}
+			}
+		}
+	}
+
+	async function notifyOffline() {
+		if (!settings.notifications.types.global || !settings.notifications.types.offline.length || !oldUserdata?.profile?.last_action?.timestamp) return;
+
+		const checkpoints = settings.notifications.types.offline.sort((a, b) => b - a);
+
+		const oldHoursOffline = Math.floor((new Date() - oldUserdata.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS);
+		const hoursOffline = Math.floor((new Date() - userdata.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS);
+
+		for (const checkpoint of checkpoints) {
+			if (oldHoursOffline < hoursOffline && hoursOffline >= checkpoint && !notifications.offline[checkpoint]) {
+				notifications.offline[checkpoint] = newNotification("Offline", `You've been offline for over ${checkpoint} hours.`, LINKS.home);
+				break;
+			} else if (hoursOffline < checkpoint && notifications.offline[checkpoint]) {
+				delete notifications.offline[checkpoint];
 			}
 		}
 	}
@@ -1279,7 +1298,13 @@ async function updateTorndata() {
 async function updateStocks() {
 	const oldStocks = { ...stockdata };
 	// TODO - Migrate to V2 (torn/stocks).
-	const stocks = (await fetchData("tornv2", { section: "torn", selections: ["stocks"], legacySelections: ["stocks"] })).stocks;
+	const stocks = (
+		await fetchData("tornv2", {
+			section: "torn",
+			selections: ["stocks"],
+			legacySelections: ["stocks"],
+		})
+	).stocks;
 	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
 	stocks.date = Date.now();
 
@@ -1371,7 +1396,12 @@ async function updateFactiondata() {
 	async function updateBasic() {
 		try {
 			// FIXME - Migrate to V2 (faction/basic).
-			const data = await fetchData("tornv2", { section: "faction", selections: ["basic"], legacySelections: ["basic"], silent: true });
+			const data = await fetchData("tornv2", {
+				section: "faction",
+				selections: ["basic"],
+				legacySelections: ["basic"],
+				silent: true,
+			});
 			data.access = FACTION_ACCESS.basic;
 			data.date = Date.now();
 
