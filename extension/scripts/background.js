@@ -753,12 +753,16 @@ async function updateUserdata(forceUpdate = false) {
 
 		const checkpoints = settings.notifications.types.offline.sort((a, b) => b - a);
 
-		const oldHoursOffline = Math.floor((new Date() - oldUserdata.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS);
-		const hoursOffline = Math.floor((new Date() - userdata.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS);
+		const oldHoursOffline = Math.floor(((oldUserdata.timestamp - oldUserdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
+		const hoursOffline = Math.floor(((userdata.timestamp - userdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
 
 		for (const checkpoint of checkpoints) {
 			if (oldHoursOffline < hoursOffline && hoursOffline >= checkpoint && !notifications.offline[checkpoint]) {
-				notifications.offline[checkpoint] = newNotification("Offline", `You've been offline for over ${checkpoint} hours.`, LINKS.home);
+				notifications.offline[checkpoint] = newNotification(
+					"Offline",
+					`You've been offline for over ${checkpoint} hour${applyPlural(checkpoint)}.`,
+					LINKS.home
+				);
 				break;
 			} else if (hoursOffline < checkpoint && notifications.offline[checkpoint]) {
 				delete notifications.offline[checkpoint];
