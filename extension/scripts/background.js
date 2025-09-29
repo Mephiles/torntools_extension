@@ -412,7 +412,7 @@ async function updateUserdata(forceUpdate = false) {
 
 	await ttStorage.set({ notifications });
 
-	return { updated: true, types: updatedTypes, selections };
+	return { updated: true, types: updatedTypes, selections: [...selections, ...selectionsV2] };
 
 	async function checkAttacks() {
 		if (!settings.pages.global.keepAttackHistory) return;
