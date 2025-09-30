@@ -11,7 +11,7 @@
 		addFilter,
 		removeFilter,
 		{
-			storage: ["settings.pages.faction.oc2Filter", "settings.pages.faction.oc2StatusFilter"],
+			storage: ["settings.pages.faction.oc2Filter"],
 		},
 		() => {
 			if (hasOC1Data()) return "Still on OC1.";
@@ -70,8 +70,8 @@
 		filterContent.appendChild(difficultyFilter.element);
 		localFilters.difficulty = { getSelections: difficultyFilter.getSelections };
 
-		// Crime Status Filter (always create if enabled, show/hide based on tab)
-		if (settings.pages.faction.oc2StatusFilter) {
+		// Crime Status Filter (always create if on completed crimes tab)
+		if (isCompletedCrimesTab()) {
 			const statusFilter = createFilterSection({
 				title: "Crime Status",
 				checkboxes: [
@@ -85,9 +85,6 @@
 			});
 			filterContent.appendChild(statusFilter.element);
 			localFilters.status = { getSelections: statusFilter.getSelections };
-			
-			// Initially hide/show based on current tab
-			updateStatusFilterVisibility();
 		}
 
 		await applyFilters();
@@ -95,9 +92,6 @@
 
 	async function applyFilters() {
 		await requireElement(".page-head-delimiter + div:not([class*='manualSpawnerContainer___'])");
-
-		// Update status filter visibility based on current tab
-		updateStatusFilterVisibility();
 
 		// Get the set filters
 		const content = findContainer("OC Filter", { selector: "main" });
@@ -126,8 +120,8 @@
 			return;
 		}
 
-		// Check crime status filter (only apply if enabled, we're on completed crimes tab, and filters are set)
-		if (settings.pages.faction.oc2StatusFilter && filters.status.length && isCompletedCrimesTab()) {
+		// Check crime status filter (only apply if we're on completed crimes tab and filters are set)
+		if (localFilters.status && filters.status.length && isCompletedCrimesTab()) {
 			const crimeStatus = getCrimeStatus(row);
 			if (crimeStatus && !filters.status.includes(crimeStatus)) {
 				hide("status");
@@ -155,7 +149,7 @@
 
 	// Helper function to determine if we're on the completed crimes tab
 	function isCompletedCrimesTab() {
-		// Check if we're viewing completed crimes vs recruiting or planning
+		// Check if we're viewing completed crimes
 		const activeTab = document.querySelector("#faction-crimes-root [class*='buttonsContainer___'] > [class*='active___']");
 		
 		if (!activeTab) {
@@ -164,17 +158,8 @@
 		
 		const tabText = activeTab.textContent.trim().toLowerCase();
 		
-		// Check if the active tab is NOT recruiting or planning (so it must be completed)
-		return !tabText.includes('recruiting') && !tabText.includes('planning');
-	}
-
-	function updateStatusFilterVisibility() {
-		// The createFilterSection creates a class based on the title: "Crime Status" becomes "crimeStatus__section-class"
-		const statusFilterSection = document.querySelector('.crimeStatus__section-class');
-		if (statusFilterSection) {
-			const isCompleted = isCompletedCrimesTab();
-			statusFilterSection.style.display = isCompleted ? 'block' : 'none';
-		}
+		// Check if the active tab is "completed"
+		return tabText.includes('completed');
 	}
 
 	// Helper function to determine crime status from the row element
