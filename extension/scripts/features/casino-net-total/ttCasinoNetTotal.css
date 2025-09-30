@@ -47,11 +47,11 @@ body.tt-mobile .tt-net-total .name {
 }
 
 .tt-net-total.bookie .value {
-    border-width: 1px;
+	border-width: 1px;
 }
 
 .tt-net-total.poker .value {
-    border-left: var(--holdem-stat-delimitr);
+	border-left: var(--holdem-stat-delimitr);
 }
 
 body.tt-tablet .tt-net-total .value {
