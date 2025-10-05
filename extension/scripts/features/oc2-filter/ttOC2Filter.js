@@ -151,15 +151,15 @@
 	function isCompletedCrimesTab() {
 		// Check if we're viewing completed crimes
 		const activeTab = document.querySelector("#faction-crimes-root [class*='buttonsContainer___'] > [class*='active___']");
-		
+
 		if (!activeTab) {
 			return false; // Default to false if we can't determine tab
 		}
-		
+
 		const tabText = activeTab.textContent.trim().toLowerCase();
-		
+
 		// Check if the active tab is "completed"
-		return tabText.includes('completed');
+		return tabText.includes("completed");
 	}
 
 	// Helper function to determine crime status from the row element
@@ -167,33 +167,35 @@
 		// Check for failed crimes - look for div with class containing "failed"
 		const failedDiv = row.querySelector('div[class*="failed"]');
 		if (failedDiv) {
-			return 'failed';
+			return "failed";
 		}
-		
+
 		// Check for success crimes - look for div with class containing "success"
 		const successDiv = row.querySelector('div[class*="success"]');
 		if (successDiv) {
 			// For successful crimes, check if it's paid, unpaid, or chain
-			
+
 			// Check for paid crimes - look for span with aria-label="Paid"
 			const paidSpan = row.querySelector('span[aria-label="Paid"]');
 			if (paidSpan) {
-				return 'paid';
+				return "paid";
 			}
-			
+
 			// Check for unpaid crimes - look for button with class containing "payoutBtn" and text "PayOut"
 			const payoutButton = row.querySelector('button[class*="payoutBtn"]');
-			if (payoutButton && payoutButton.textContent.includes('PayOut')) {
-				return 'unpaid';
+			if (payoutButton && payoutButton.textContent.includes("PayOut")) {
+				return "unpaid";
 			}
-			
+
 			// Check for chain crimes - look for div with class containing "nextCrimeContainer"
 			const nextCrimeDiv = row.querySelector('div[class*="nextCrimeContainer"]');
 			if (nextCrimeDiv) {
-				return 'chain';
+				return "chain";
 			}
+
+			return "unpaid";
 		}
-		
+
 		return null;
 	}
 })();
