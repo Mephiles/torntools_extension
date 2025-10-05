@@ -16,11 +16,16 @@ body.tt-mobile .tt-net-total {
 }
 
 .tt-net-total .name {
-	width: 215px;
+	width: 214px;
 }
 
 .tt-net-total.bookie .name {
+	width: 215px;
 	border-right: 1px solid var(--default-panel-divider-inner-side-color);
+}
+
+.tt-net-total.poker .name {
+	box-shadow: var(--holdem-stat-delimitr-shad);
 }
 
 body.tt-mobile .tt-net-total.bookie .name {
@@ -41,6 +46,14 @@ body.tt-mobile .tt-net-total .name {
 	border-left: 2px solid var(--default-panel-divider-outer-side-color);
 }
 
+.tt-net-total.bookie .value {
+	border-width: 1px;
+}
+
+.tt-net-total.poker .value {
+	border-left: var(--holdem-stat-delimitr);
+}
+
 body.tt-tablet .tt-net-total .value {
 	width: 139px;
 }
@@ -50,10 +63,6 @@ body.tt-mobile .tt-net-total .value {
 	border: 0;
 	border-bottom: 1px solid var(--default-panel-divider-outer-side-color);
 	width: 100%;
-}
-
-.tt-net-total.bookie .value {
-	border-width: 1px;
 }
 
 body:not(.dark-mode) .tt-net-total {

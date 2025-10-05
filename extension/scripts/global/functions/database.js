@@ -303,6 +303,7 @@ async function migrateDatabase(force = false) {
 				...storage.settings.apiUsage.user,
 				...storage.settings.apiUsage.userV2,
 			};
+			newStorage.cache.job = {};
 
 			updated = true;
 		}

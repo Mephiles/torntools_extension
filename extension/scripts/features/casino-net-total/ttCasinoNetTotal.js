@@ -5,14 +5,6 @@
 
 	const page = getPage();
 
-	if (page === "loader") {
-		const sid = getSearchParameters().get("sid");
-
-		if (["viewLotteryStats"].includes(sid)) {
-			return;
-		}
-	}
-
 	const feature = featureManager.registerFeature(
 		"Casino Net Total",
 		"casino",
@@ -40,7 +32,7 @@
 		if (isBookie() && !location.hash.includes("stats/")) return;
 
 		for (const statsType of ["overall", "your"]) {
-			if (statsType === "overall" && isPoker()) continue;
+			if (statsType === "overall" && hasOnlyPersonalStats()) continue;
 
 			await requireElement(`#${statsType}-stats .stat-value`);
 			const moneyElementsList = document.evaluate(
@@ -69,7 +61,7 @@
 				"afterend",
 				document.newElement({
 					type: "ul",
-					class: `tt-net-total ${isBookie(true) ? "bookie" : ""}`,
+					class: ["tt-net-total", isBookie() ? "bookie" : null, isPoker() ? "poker" : null],
 					children: [
 						document.newElement({ type: "li", class: "name", text: "Net total" }),
 						document.newElement({ type: "li", class: "value", text: formatNumber(totalWon - totalLost, { currency: true }) }),
@@ -78,13 +70,17 @@
 			);
 		}
 
+		function hasOnlyPersonalStats() {
+			return ["russianroulettestatistics", "holdemstats"].includes(page);
+		}
+
 		function isPoker() {
-			return page === "loader" && getSearchParameters().get("sid") === "viewPokerStats";
+			return page === "holdemstats";
 		}
 	}
 
-	function isBookie(beta = false) {
-		return (!beta && page === "bookies") || page === "bookie";
+	function isBookie() {
+		return page === "bookie";
 	}
 
 	function removeTotal() {

@@ -325,7 +325,7 @@
 			}
 
 			function toRow(item, country, lastUpdate) {
-				let category = torndata.items[item.id].type.toLowerCase();
+				let category = item.id in torndata.items ? torndata.items[item.id].type.toLowerCase() : "other";
 				switch (category) {
 					case "plushie":
 					case "flower":
@@ -351,7 +351,7 @@
 				if (getTravelType() === "standard") totalCost += country.cost;
 
 				const tornItem = torndata.items[item.id];
-				let value = tornItem.market_value;
+				let value = tornItem?.market_value ?? 0;
 				let time = country.time * getTimeModifier(getTravelType());
 				let profitItem, profitMinute, profit;
 				if (value !== 0) {
@@ -374,7 +374,7 @@
 							<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
 							<span class="name">${country.name}</span>
 						</div>
-						<a class="item" target="_blank" href="https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${item.id}&itemName=${item.name}&itemType=${tornItem.type}">
+						<a class="item" target="_blank" href="https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${item.id}&itemName=${item.name}&itemType=${tornItem?.type ?? ""}">
 							<img class="icon" src="/images/items/${item.id}/small.png" alt="${item.name}" title="${item.name}"/>
 							<span>${item.name}</a>
 						</a>

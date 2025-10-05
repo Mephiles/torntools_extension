@@ -324,6 +324,7 @@ const DEFAULT_STORAGE = {
 				nerve: new DefaultSetting({ type: "array", defaultValue: ["100%"] }),
 				happy: new DefaultSetting({ type: "array", defaultValue: ["100%"] }),
 				life: new DefaultSetting({ type: "array", defaultValue: ["100%"] }),
+				offline: new DefaultSetting({ type: "array", defaultValue: [] }),
 				chainTimerEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				chainBonusEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				leavingHospitalEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -998,27 +999,25 @@ const DEFAULT_STORAGE = {
 	usage: new DefaultSetting({ type: "object", defaultValue: {} }),
 	npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
 	notificationHistory: new DefaultSetting({ type: "array", defaultValue: [] }),
-	notifications: new DefaultSetting({
-		type: "object",
-		defaultValue: {
-			events: {},
-			messages: {},
-			newDay: {},
-			energy: {},
-			happy: {},
-			nerve: {},
-			life: {},
-			travel: {},
-			drugs: {},
-			boosters: {},
-			medical: {},
-			hospital: {},
-			chain: {},
-			chainCount: {},
-			stakeouts: {},
-			npcs: {},
-		},
-	}),
+	notifications: {
+		events: new DefaultSetting({ type: "object", defaultValue: {} }),
+		messages: new DefaultSetting({ type: "object", defaultValue: {} }),
+		newDay: new DefaultSetting({ type: "object", defaultValue: {} }),
+		energy: new DefaultSetting({ type: "object", defaultValue: {} }),
+		happy: new DefaultSetting({ type: "object", defaultValue: {} }),
+		nerve: new DefaultSetting({ type: "object", defaultValue: {} }),
+		life: new DefaultSetting({ type: "object", defaultValue: {} }),
+		travel: new DefaultSetting({ type: "object", defaultValue: {} }),
+		drugs: new DefaultSetting({ type: "object", defaultValue: {} }),
+		boosters: new DefaultSetting({ type: "object", defaultValue: {} }),
+		medical: new DefaultSetting({ type: "object", defaultValue: {} }),
+		hospital: new DefaultSetting({ type: "object", defaultValue: {} }),
+		chain: new DefaultSetting({ type: "object", defaultValue: {} }),
+		chainCount: new DefaultSetting({ type: "object", defaultValue: {} }),
+		stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
+		npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
+		offline: new DefaultSetting({ type: "object", defaultValue: {} }),
+	},
 };
 
 const CUSTOM_LINKS_PRESET = {
@@ -1034,7 +1033,7 @@ const CUSTOM_LINKS_PRESET = {
 	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 };
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.profile.name || "", description: "Your player name." }];
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata?.profile?.name || "", description: "Your player name." }];
 
 const API_USAGE = {
 	user: {

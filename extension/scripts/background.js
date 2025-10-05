@@ -354,14 +354,13 @@ async function updateUserdata(forceUpdate = false) {
 	if (!selections.length && !selectionsV2.length) return { updated: false };
 
 	const oldUserdata = { ...userdata };
-	const newUserdata = await fetchData("tornv2", {
+
+	userdata = await fetchData("tornv2", {
 		section: "user",
 		legacySelections: selections,
 		selections: selectionsV2,
 		params: { cat: "all", timestamp: Math.floor(Date.now() / 1000) },
 	});
-
-	userdata = newUserdata;
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
@@ -400,6 +399,7 @@ async function updateUserdata(forceUpdate = false) {
 		await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
 		await notifyTravelLanding().catch((error) => console.error("Error while sending travel landing notifications.", error));
 		await notifyBars().catch((error) => console.error("Error while sending bar notification.", error));
+		await notifyOffline().catch((error) => console.error("Error while sending offline notification.", error));
 		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
 		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 	}
@@ -412,7 +412,7 @@ async function updateUserdata(forceUpdate = false) {
 
 	await ttStorage.set({ notifications });
 
-	return { updated: true, types: updatedTypes, selections };
+	return { updated: true, types: updatedTypes, selections: [...selections, ...selectionsV2] };
 
 	async function checkAttacks() {
 		if (!settings.pages.global.keepAttackHistory) return;
@@ -744,6 +744,28 @@ async function updateUserdata(forceUpdate = false) {
 				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
 					delete notifications[bar][checkpoint];
 				}
+			}
+		}
+	}
+
+	async function notifyOffline() {
+		if (!settings.notifications.types.global || !settings.notifications.types.offline.length || !oldUserdata?.profile?.last_action?.timestamp) return;
+
+		const checkpoints = settings.notifications.types.offline.sort((a, b) => b - a);
+
+		const oldHoursOffline = Math.floor(((oldUserdata.timestamp - oldUserdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
+		const hoursOffline = Math.floor(((userdata.timestamp - userdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
+
+		for (const checkpoint of checkpoints) {
+			if (oldHoursOffline < hoursOffline && hoursOffline >= checkpoint && !notifications.offline[checkpoint]) {
+				notifications.offline[checkpoint] = newNotification(
+					"Offline",
+					`You've been offline for over ${checkpoint} hour${applyPlural(checkpoint)}.`,
+					LINKS.home
+				);
+				break;
+			} else if (hoursOffline < checkpoint && notifications.offline[checkpoint]) {
+				delete notifications.offline[checkpoint];
 			}
 		}
 	}
@@ -1280,7 +1302,13 @@ async function updateTorndata() {
 async function updateStocks() {
 	const oldStocks = { ...stockdata };
 	// TODO - Migrate to V2 (torn/stocks).
-	const stocks = (await fetchData("tornv2", { section: "torn", selections: ["stocks"], legacySelections: ["stocks"] })).stocks;
+	const stocks = (
+		await fetchData("tornv2", {
+			section: "torn",
+			selections: ["stocks"],
+			legacySelections: ["stocks"],
+		})
+	).stocks;
 	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
 	stocks.date = Date.now();
 
@@ -1372,7 +1400,12 @@ async function updateFactiondata() {
 	async function updateBasic() {
 		try {
 			// FIXME - Migrate to V2 (faction/basic).
-			const data = await fetchData("tornv2", { section: "faction", selections: ["basic"], legacySelections: ["basic"], silent: true });
+			const data = await fetchData("tornv2", {
+				section: "faction",
+				selections: ["basic"],
+				legacySelections: ["basic"],
+				silent: true,
+			});
 			data.access = FACTION_ACCESS.basic;
 			data.date = Date.now();
 

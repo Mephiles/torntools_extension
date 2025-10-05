@@ -1,12 +1,13 @@
 [
-
 	{
 		"version": { "major": 7, "minor": 8, "build": 5 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Notification for being offline a certain amount of hours.", "contributor": "DeKleineKobini" },
-				{ "message": "Add crime status filter to OC2 filter (Paid/Unpaid/Chain/Failed) - appears on completed crimes tab.", "contributor": "vALT0r" }],
+			"features": [
+        { "message": "Notification for being offline a certain amount of hours.", "contributor": "DeKleineKobini" }, 
+        { "message": "Add crime status filter to OC2 filter (Paid/Unpaid/Chain/Failed) - appears on completed crimes tab.", "contributor": "vALT0r" }
+      ],
 			"fixes": [
 				{ "message": "Hide burglary filter when no longer on the burglary page.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve chat highlight issue when there is no api key present.", "contributor": "DeKleineKobini" },
@@ -19,7 +20,9 @@
 					"message": "Move all API calls to the V2 API, using the legacy selections parameter instead to reduce the amount of calls we do again.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Minor improvement in the error handling of TornStats calls.", "contributor": "DeKleineKobini" }
+				{ "message": "Minor improvement in the error handling of TornStats calls.", "contributor": "DeKleineKobini" },
+              { "message": "Improve job points tooltip to work while switching jobs.", "contributor": "DeKleineKobini" },
+              { "message": "Format job points in the tooltip with thousands separators.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

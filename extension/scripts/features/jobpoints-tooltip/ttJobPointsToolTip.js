@@ -39,7 +39,11 @@
 
 	async function tooltipListener() {
 		if (!feature.enabled()) return;
-		const jobPoints = await getCurrentJobPoints();
+
+		const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
+		const allJobPoints = await getAllJobPoints();
+
+		const jobPoints = jobId in allJobPoints ? allJobPoints[jobId] : 0;
 
 		await sleep(200); // Tooltip transition duration from one icon's tooltip information to another icon's tooltip information
 
@@ -53,7 +57,7 @@
 
 		const lastParenthesisIndex = tooltipBodyText.lastIndexOf(")");
 
-		const pointsText = ` - ${jobPoints} points`;
+		const pointsText = ` - ${formatNumber(jobPoints)} points`;
 
 		if (tooltipBodyText.includes(pointsText)) return;
 
@@ -62,12 +66,10 @@
 		else tooltipBodyEl.insertAdjacentText("beforeend", pointsText);
 	}
 
-	async function getCurrentJobPoints() {
+	async function getAllJobPoints() {
 		if (ttCache.hasValue("job", "points")) {
 			return ttCache.get("job", "points");
 		} else {
-			const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
-
 			try {
 				const response = (
 					await fetchData("tornv2", {
@@ -78,13 +80,12 @@
 					})
 				).jobpoints;
 
-				let currentJobPoints;
-				if (isNaN(jobId)) currentJobPoints = response.jobs[jobId] ?? 0;
-				else currentJobPoints = response.companies.find((c) => c.company.id === jobId)?.points ?? 0;
+				const jobPoints = { ...response.jobs };
+				response.companies.forEach((c) => (jobPoints[c.company.id] = c.points));
 
-				await ttCache.set({ points: currentJobPoints }, getTimeUntilNextJobUpdate(), "job");
+				await ttCache.set({ points: jobPoints }, getTimeUntilNextJobUpdate(), "job");
 
-				return currentJobPoints;
+				return jobPoints;
 			} catch (error) {
 				console.error("TT - An error occurred when fetching job points data, Error: " + error);
 				throw new Error("An error occurred when fetching job points data, Error: " + error);
