@@ -9,7 +9,8 @@
 				{ "message": "Hide burglary filter when no longer on the burglary page.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve chat highlight issue when there is no api key present.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix casino net total not being shown on all games anymore.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't break the travel table if an item no longer exists.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't break the travel table if an item no longer exists.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix travel table not showing up while flying if you reload the page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Optimize item market API call by limiting it to the amount of items we show.", "contributor": "DeKleineKobini" },

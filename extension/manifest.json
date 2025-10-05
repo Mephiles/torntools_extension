@@ -705,7 +705,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/page.php?sid=travel"],
+			"matches": ["https://www.torn.com/page.php?sid=travel*"],
 			"css": [
 				"scripts/global/elements/table/ttTable.css",
 				"scripts/features/travel-table/ttTravelTable.css",
