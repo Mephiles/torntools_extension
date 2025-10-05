@@ -949,6 +949,7 @@ const DEFAULT_STORAGE = {
 		},
 		oc2: {
 			difficulty: new DefaultSetting({ type: "array", defaultValue: [] }),
+			status: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),

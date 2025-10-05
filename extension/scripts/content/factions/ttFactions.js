@@ -71,7 +71,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				})
 				.catch((cause) => loaded || console.error(cause));
 			requireElement("#faction-crimes-root [class*='buttonsContainer___']", { maxCycles: 20 })
-				.then(async () => {
+				.then(async (buttonsContainer) => {
 					loaded = true;
 
 					const list = await requireElement("#faction-crimes-root .page-head-delimiter + div:not([class])");
@@ -81,6 +81,16 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 					triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES2);
 
 					new MutationObserver(() => triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH)).observe(list, { childList: true });
+
+					buttonsContainer.querySelectorAll("button").forEach((button) => {
+						const tabName = button.querySelector("[class*='tabName___']").textContent.trim();
+
+						new MutationObserver(() => {
+							if (!button.className.includes("active___")) return;
+
+							triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_TAB, { tabName });
+						}).observe(button, { attributes: true, attributeFilter: ["class"] });
+					});
 				})
 				.catch((cause) => loaded || console.error(cause));
 		}
