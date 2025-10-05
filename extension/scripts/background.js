@@ -232,6 +232,8 @@ function timedUpdates() {
 			.catch((error) => logError("updating npcs", error))
 	);
 
+	updatePromises.push(verifyTime().catch((error) => logError("Failed to verify your time to be synced.", error)));
+
 	return updatePromises;
 
 	function logError(message, error) {
@@ -980,10 +982,12 @@ async function showIconBars() {
 	}
 }
 
-async function updateStakeouts() {
+async function updateStakeouts(forceUpdate = false) {
 	const now = Date.now();
 
-	if (stakeouts.date && !hasTimePassed(stakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) return { updated: false };
+	if (!forceUpdate && stakeouts.date && !hasTimePassed(stakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
+		return { updated: false };
+	}
 
 	let success = 0;
 	let failed = 0;
@@ -1146,10 +1150,12 @@ async function updateStakeouts() {
 	return { updated: true, success, failed };
 }
 
-async function updateFactionStakeouts() {
+async function updateFactionStakeouts(forceUpdate = false) {
 	const now = Date.now();
 
-	if (factionStakeouts.date && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) return { updated: false };
+	if (!forceUpdate && factionStakeouts.date && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
+		return { updated: false };
+	}
 
 	let success = 0;
 	let failed = 0;
@@ -1900,4 +1906,17 @@ async function storeNotification(notification) {
 	notificationHistory = notificationHistory.slice(0, 100);
 
 	await ttStorage.set({ notificationHistory });
+}
+
+async function verifyTime() {
+	const savedTime = await ttStorage.get("time");
+
+	const now = Date.now();
+	if (savedTime != null && savedTime > Date.now()) {
+		console.warn("Detected a desynchronized time! Resetting timed data.");
+		ttCache.clear();
+		await Promise.all([updateUserdata(true), updateFactiondata(), updateTorndata(), updateStocks(), updateStakeouts(true), updateFactionStakeouts(true)]);
+	}
+
+	await ttStorage.set({ time: now });
 }
