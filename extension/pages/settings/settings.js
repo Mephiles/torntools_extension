@@ -1484,6 +1484,18 @@ async function setupAPIInfo() {
 			})
 		);
 	});
+	document.find("#reinitialize-timers").addEventListener("click", () =>
+		chrome.runtime.sendMessage({ action: "reinitialize-timers" }, (result) => {
+			console.log("Manually reset background timers.", result);
+			sendMessage("Reset background timers.", true);
+		})
+	);
+	document.find("#clear-cache").addEventListener("click", () =>
+		chrome.runtime.sendMessage({ action: "clear-cache" }, (result) => {
+			console.log("Manually cleared your cache.", result);
+			sendMessage("Cleared cache.", true);
+		})
+	);
 
 	updateUsage(usageChart, "Last 5");
 	document.find(".current-usage .buttons .last-5").addEventListener("click", () => updateUsage(usageChart, "Last 5"));
