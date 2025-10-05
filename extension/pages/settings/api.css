@@ -88,3 +88,7 @@ body.dark .yata svg .yata-fill {
 	justify-content: center;
 	cursor: unset;
 }
+
+.additional-actions {
+	margin-top: 6px;
+}

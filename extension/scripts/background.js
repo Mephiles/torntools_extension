@@ -1838,6 +1838,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			})();
 
 			return true;
+		case "clear-cache":
+			ttCache.clear();
+
+			sendResponse({ success: true });
+			return true;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });
 			break;
