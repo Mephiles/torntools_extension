@@ -24,6 +24,11 @@
 
 			addFilter();
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2_TAB].push(() => {
+			if (!feature.enabled()) return;
+
+			addFilter();
+		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2_REFRESH].push(() => {
 			if (!feature.enabled()) return;
 
