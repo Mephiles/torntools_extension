@@ -18,7 +18,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Minor improvement in the error handling of TornStats calls.", "contributor": "DeKleineKobini" },
-              { "message": "Improve job points tooltip to work while switching jobs.", "contributor": "DeKleineKobini" }
+              { "message": "Improve job points tooltip to work while switching jobs.", "contributor": "DeKleineKobini" },
+              { "message": "Format job points in the tooltip with thousands separators.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

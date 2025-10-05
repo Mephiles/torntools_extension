@@ -57,7 +57,7 @@
 
 		const lastParenthesisIndex = tooltipBodyText.lastIndexOf(")");
 
-		const pointsText = ` - ${jobPoints} points`;
+		const pointsText = ` - ${formatNumber(jobPoints)} points`;
 
 		if (tooltipBodyText.includes(pointsText)) return;
 
