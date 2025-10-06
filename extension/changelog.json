@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 7, "minor": 8, "build": 5 },
+		"version": { "major": 7, "minor": 8, "build": 6 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 8, "build": 5 },
+		"date": "2025/10/06",
 		"logs": {
 			"features": [
 				{ "message": "Notification for being offline a certain amount of hours.", "contributor": "DeKleineKobini" },
@@ -25,8 +31,7 @@
 				{ "message": "Format job points in the tooltip with thousands separators.", "contributor": "DeKleineKobini" },
 				{ "message": "Provide a button to clear your cache.", "contributor": "DeKleineKobini" },
 				{ "message": "Automatically detect desynchronized times and reset all time related updates.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
