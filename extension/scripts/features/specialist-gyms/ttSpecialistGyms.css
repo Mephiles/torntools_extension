@@ -65,11 +65,11 @@
 }
 
 .tt-specialist-stat-required {
-	color: red;
+	color: var(--tt-color-red);
 }
 
 .tt-specialist-stat-allowed {
-	color: green;
+	color: var(--tt-color-green);
 }
 
 .tt-specialist-gyms-message {

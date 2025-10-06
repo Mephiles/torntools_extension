@@ -25,7 +25,7 @@
 	};
 	const SPECIAL_GYM = {
 		BALBOAS: "balboas",
-		FRONLINE: "frontline",
+		FRONTLINE: "frontline",
 		GYM3000: "gym3000",
 		ISOYAMAS: "isoyamas",
 		REBOUND: "rebound",
@@ -38,7 +38,7 @@
 
 	const specialGymDescMap = {
 		[SPECIAL_GYM.BALBOAS]: "Balboas Gym (def/dex)",
-		[SPECIAL_GYM.FRONLINE]: "Frontline Fitness (str/spd)",
+		[SPECIAL_GYM.FRONTLINE]: "Frontline Fitness (str/spd)",
 		[SPECIAL_GYM.GYM3000]: "Gym 3000 (str)",
 		[SPECIAL_GYM.ISOYAMAS]: "Mr. Isoyamas (def)",
 		[SPECIAL_GYM.REBOUND]: "Total Rebound (spd)",
@@ -50,7 +50,7 @@
 			statOneName: BATTLE_STAT.DEF,
 			statTwoName: BATTLE_STAT.DEX,
 		},
-		[SPECIAL_GYM.FRONLINE]: {
+		[SPECIAL_GYM.FRONTLINE]: {
 			type: SPECIAL_GYM_TYPE.TWO_STATS,
 			statOneName: BATTLE_STAT.STR,
 			statTwoName: BATTLE_STAT.SPD,
@@ -286,7 +286,7 @@
 
 		const statsValueElementsMap = Object.values(BATTLE_STAT).reduce((obj, statName) => {
 			const valueElement = document.querySelector(
-				`[class^="gymContent"] [class^="${statName.toLowerCase()}"] [class^="propertyTitle"] [class^="propertyValue"]`
+				`[class*="gymContent___"] [class*="${statName.toLowerCase()}___"] [class*="propertyTitle___"] [class*="propertyValue___"]`
 			);
 			obj[statName] = valueElement;
 
@@ -331,15 +331,15 @@
 	function createStatAllowedElement(result, statName) {
 		return document.newElement({
 			type: "div",
+			class: "tt-specialist-stat-allowed",
 			children: [
 				document.newElement({
 					type: "span",
-					class: "tt-specialist-stat-allowed",
 					text: "Allowed: ",
 				}),
 				document.newElement({
 					type: "span",
-					text: (result.missing[statName] + result.available[statName]).toLocaleString(),
+					text: formatNumber(result.missing[statName] + result.available[statName]),
 				}),
 			],
 		});
@@ -348,15 +348,15 @@
 	function createStatRequiredElement(result, statName) {
 		return document.newElement({
 			type: "div",
+			class: "tt-specialist-stat-required",
 			children: [
 				document.newElement({
 					type: "span",
-					class: "tt-specialist-stat-required",
 					text: "Required: ",
 				}),
 				document.newElement({
 					type: "span",
-					text: result.missing[statName].toLocaleString(),
+					text: formatNumber(result.missing[statName]),
 				}),
 			],
 		});
@@ -443,7 +443,7 @@
 								document.newElement({
 									type: "div",
 									class: "tt-specialist-stat-value",
-									text: statValue.toLocaleString(),
+									text: formatNumber(statValue),
 								}),
 								createStatRequiredElement(result, statName),
 								createStatAllowedElement(result, statName),
@@ -500,9 +500,9 @@
 	}
 
 	function createGymContentManager() {
-		const propertiesContainer = document.querySelector('[class^="gymContent"] > [class^="properties"]');
+		const propertiesContainer = document.querySelector('[class*="gymContent___"] > [class*="properties___"]');
 		const areasElementsMap = Object.values(BATTLE_STAT).reduce((obj, statName) => {
-			const areaElement = propertiesContainer.querySelector(`[class^="${statName.toLowerCase()}"] > [class^="propertyContent"]`);
+			const areaElement = propertiesContainer.querySelector(`[class*="${statName.toLowerCase()}___"] > [class*="propertyContent___"]`);
 			obj[statName] = areaElement;
 
 			return obj;
@@ -547,7 +547,7 @@
 	let gymContentManager;
 
 	async function startFeature() {
-		await requireElement('[class^="gymContent"] > [class^="properties"] [class^="propertyValue"]');
+		await requireElement('[class*="gymContent___"] > [class*="properties___"] [class*="propertyValue___"]');
 
 		statsWatcher = createStatsWatcher();
 		gymContentManager = createGymContentManager();
