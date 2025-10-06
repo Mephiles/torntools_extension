@@ -93,24 +93,17 @@
 		let newMainStat1 = mainStat1;
 		let newMainStat2 = mainStat2;
 
-		const total = otherStats.totalSum() * 1.25;
+		const otherStatsSum = otherStats.totalSum();
+		const total = otherStatsSum * 1.25;
 
 		if (total > newMainStat1 + newMainStat2) {
-			const desiredHalf = total / 2;
+			const toAdd = total - newMainStat1 - newMainStat2;
+			const unclamped = (newMainStat2 + toAdd - newMainStat1) / 2;
+			const addToMainStat1 = Math.min(Math.max(unclamped, 0), toAdd);
+			const addToMainStat2 = toAdd - addToMainStat1;
 
-			if (newMainStat1 < desiredHalf) {
-				newMainStat1 = desiredHalf;
-			}
-
-			if (newMainStat2 < desiredHalf) {
-				newMainStat2 = desiredHalf;
-			}
-
-			const leftover = Math.max(0, total - (newMainStat1 + newMainStat2));
-			const halfLeftover = leftover / 2;
-
-			newMainStat1 += halfLeftover;
-			newMainStat2 += halfLeftover;
+			newMainStat1 += addToMainStat1;
+			newMainStat2 += addToMainStat2;
 		}
 
 		return {
@@ -122,7 +115,7 @@
 			available: {
 				mainStat1: Infinity,
 				mainStat2: Infinity,
-				otherStats: otherStats.map((otherStat) => Math.round(Math.max(0, (newMainStat1 + newMainStat2) / 1.25 - total - otherStat))),
+				otherStats: otherStats.map(() => Math.round(Math.max(0, (newMainStat1 + newMainStat2) / 1.25 - otherStatsSum))),
 			},
 		};
 	}
