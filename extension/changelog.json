@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 8, "build": 6 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" }],
+			"fixes": [],
+			"changes": [{ "message": "Specialist gyms refactor.", "contributor": "AllMight" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 8, "build": 5 },

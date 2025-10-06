@@ -1,22 +1,77 @@
-.tt-mobile #specialistGyms main {
+.tt-specialist-gym {
+	margin-top: 10px;
+}
+
+.tt-specialist-gym > main {
+	display: flex;
 	flex-direction: column;
+	padding: 10px;
 }
 
-.specialist-gym {
-	flex-basis: 100%;
-	padding: 4px;
+.tt-specialist-gym-selects-container {
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	row-gap: 5px;
+	margin-bottom: 10px;
 }
 
-.specialist-gym select {
+.tt-specialist-gym-info-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	padding: 10px;
+}
+
+.tt-specialist-stats-header {
+	font-weight: bold;
+	margin-bottom: 10px;
+	font-size: 1.2rem;
+	text-align: center;
+}
+
+.tt-specialist-stats-info {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 	width: 100%;
 }
 
-.specialist-gym span {
-	display: block;
-	margin-top: 2px;
+.tt-specialist-stat-info {
+	flex: 1;
+	min-width: fit-content;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	border: 1px solid #c8c0c0;
+	border-radius: 10px;
+	padding: 5px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.tt-specialist-stat {
-	height: 1rem;
-	margin-top: 4px;
+.tt-specialist-stat-header {
+	align-self: center;
+	font-weight: bold;
+	text-decoration: underline;
+	margin-bottom: 5px;
+	font-size: 1.1rem;
+}
+
+.tt-specialist-stat-value {
+	align-self: center;
+	font-weight: bold;
+}
+
+.tt-specialist-stat-required {
+	color: red;
+}
+
+.tt-specialist-stat-allowed {
+	color: green;
+}
+
+.tt-specialist-gyms-message {
+	font-weight: bold;
 }
