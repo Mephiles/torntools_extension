@@ -263,28 +263,12 @@ async function migrateDatabase(force = false) {
 			}, {});
 
 			updated = true;
-		} else if (version <= toNumericVersion("7.8.2")) {
+		}
+		if (version <= toNumericVersion("7.8.2")) {
 			// Reset cache.
 			newStorage.cache = {};
-			newStorage.userdata = {
-				...storage.userdata,
-				date: 0,
-				dateBasic: 0,
-				profile: {
-					...storage.userdata,
-					id: storage.userdata.player_id,
-					spouse: {
-						days_married: storage.userdata.married.duration,
-					},
-					job: {
-						id: storage.userdata.job.company_id,
-					},
-					faction: {
-						id: storage.userdata.faction_id,
-						tag: storage.userdata.faction.faction_tag,
-					},
-				},
-			};
+			newStorage.userdata = {};
+
 			if (storage?.settings?.apiUsage?.user?.money === false) {
 				newStorage.settings.apiUsage.user.money = false;
 			}
@@ -294,14 +278,16 @@ async function migrateDatabase(force = false) {
 			newStorage.torndata = {};
 
 			updated = true;
-		} else if (version <= toNumericVersion("7.8.4")) {
+		}
+		if (version <= toNumericVersion("7.8.4")) {
 			newStorage.cache["profile-stats"] = {};
 
 			updated = true;
-		} else if (version <= toNumericVersion("7.8.5")) {
+		}
+		if (version <= toNumericVersion("7.8.5")) {
 			newStorage.settings.apiUsage.user = {
-				...storage.settings.apiUsage.user,
-				...storage.settings.apiUsage.userV2,
+				...(storage.settings?.apiUsage?.user ?? {}),
+				...(storage.settings?.apiUsage?.userV2 ?? {}),
 			};
 			newStorage.cache.job = {};
 
