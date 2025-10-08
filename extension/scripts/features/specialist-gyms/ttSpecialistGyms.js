@@ -403,17 +403,10 @@
 				const resultDesc = document.newElement({
 					type: "div",
 					class: "tt-specialist-gyms-message",
-					text: "Those special gyms combination is impossible.",
+					text: "This combination of specialist gyms is impossible.",
 				});
 				infoContainer.appendChild(resultDesc);
 			} else {
-				const explanationLine = document.newElement({
-					type: "div",
-					text: "Closest stats to unlock selected special gyms",
-					class: "tt-specialist-stats-header",
-				});
-				infoContainer.appendChild(explanationLine);
-
 				const statsInfo = document.newElement({
 					type: "div",
 					class: "tt-specialist-stats-info",
