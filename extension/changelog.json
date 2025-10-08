@@ -5,8 +5,14 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" }],
-			"fixes": [{ "message": "Fix some database migrations to resolve issues with several features.", "contributor": "DeKleineKobini" }],
-			"changes": [{ "message": "Specialist gyms refactor.", "contributor": "AllMight" }],
+			"fixes": [
+				{ "message": "Fix some database migrations to resolve issues with several features.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix can energy formula to be accurate.", "contributor": "DeKleineKobini" }
+			],
+			"changes": [
+				{ "message": "Update can energy formula to take books into account.", "contributor": "DeKleineKobini" },
+				{ "message": "Specialist gyms refactor.", "contributor": "AllMight" }
+			],
 			"removed": []
 		}
 	},

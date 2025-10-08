@@ -27,22 +27,23 @@
 	}
 
 	function addEnergyGains() {
-		const factionPerk = parseInt(userdata.faction_perks.filter((x) => /energy drinks/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
-		const companyPerk = parseInt(userdata.job_perks.filter((x) => /consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+		const totalPerkMultiplier = [...userdata.faction_perks, ...userdata.job_perks, ...userdata.book_perks]
+			.filter((x) => /energy drinks/i.test(x) || /consumable gain/i.test(x))
+			.map((x) => x.replace(/\D+/g, ""))
+			.map((x) => 1 + parseInt(x) / 100)
+			.reduce((totalMultiplier, perkMultiplier) => totalMultiplier * perkMultiplier, 1);
+
 		document.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
 			if (eCanElement.find(".tt-e-gains")) return;
 
-			// noinspection JSCheckFunctionSignatures,DuplicatedCode
+			// noinspection JSCheckFunctionSignatures
 			const baseEnergy = parseInt(
 				torndata.items[eCanElement.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]
 			);
-			let totalEnergy = baseEnergy;
-			if (!isNaN(factionPerk)) totalEnergy += (factionPerk / 100) * baseEnergy;
-			if (!isNaN(companyPerk)) totalEnergy += (companyPerk / 100) * baseEnergy;
-			totalEnergy = Math.round(totalEnergy);
+			const totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);
 
 			eCanElement
 				.find(".name-wrap")
