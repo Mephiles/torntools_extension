@@ -1,16 +1,20 @@
 [
 	{
-		"version": { "major": 7, "minor": 8, "build": 6 },
+		"version": { "major": 7, "minor": 8, "build": 7 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 8, "build": 6 },
+		"date": "2025/10/09",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix some database migrations to resolve issues with several features.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix can energy formula to be accurate.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix bazaar fill max not working when clicking the actual icon.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Update can energy formula to take books into account.", "contributor": "DeKleineKobini" }],
-			"removed": []
+			"changes": [{ "message": "Update can energy formula to take books into account.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
