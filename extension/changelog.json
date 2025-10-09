@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix some database migrations to resolve issues with several features.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix can energy formula to be accurate.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix can energy formula to be accurate.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix bazaar fill max not working when clicking the actual icon.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Update can energy formula to take books into account.", "contributor": "DeKleineKobini" }],
 			"removed": []
