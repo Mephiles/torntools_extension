@@ -330,6 +330,10 @@ function formatNumber(number, options = {}) {
 		else number = parseFloat(number);
 	}
 
+	if (number === Number.POSITIVE_INFINITY) {
+		return "∞";
+	}
+
 	if (options.decimals !== -1) {
 		number = options.decimals === 0 ? parseInt(number) : parseFloat(number.toFixed(options.decimals));
 	}
