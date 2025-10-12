@@ -45,7 +45,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(({ section }) => {
 			if (!feature.enabled()) return;
 
-			if (["medical", "drugs", "boosters", "caches", "cesium", "points", "donate"].includes(section)) {
+			if (["medical", "drugs", "boosters", "points", "donate", "consumables"].includes(section)) {
 				showQuickItems(section);
 				setupQuickDragListeners();
 				setupOverlayItems(document);
@@ -96,12 +96,12 @@
 						}
 
 						for (const category of document.findAll("#faction-armoury-tabs .torn-tabs > li")) {
-							if (!["Medical", "Drugs", "Boosters", "Points"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
+							if (!["Medical", "Drugs", "Boosters", "Points", "Consumables"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
 						}
-						for (const item of document.findAll("#armoury-medical, #armoury-drugs, #armoury-boosters, #armoury-points")) {
+						for (const item of document.findAll("#armoury-medical, #armoury-drugs, #armoury-boosters, #armoury-points, #armoury-consumables")) {
 							if (enabled) item.classList.add("tt-overlay-item-notbroken");
 							else item.classList.remove("tt-overlay-item-notbroken");
 						}
@@ -433,7 +433,7 @@
 	}
 
 	function allowQuickItem(id, category) {
-		return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) || id === "points-energy" || id === "points-nerve";
+		return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Consumables"].includes(category) || id === "points-energy" || id === "points-nerve";
 	}
 
 	function hideQuickItems() {
