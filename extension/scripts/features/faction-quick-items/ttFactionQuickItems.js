@@ -45,7 +45,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(({ section }) => {
 			if (!feature.enabled()) return;
 
-			if (["medical", "drugs", "boosters", "points", "donate", "consumables"].includes(section)) {
+			if (["medical", "drugs", "boosters", "points", "consumables"].includes(section)) {
 				showQuickItems(section);
 				setupQuickDragListeners();
 				setupOverlayItems(document);
@@ -433,7 +433,7 @@
 	}
 
 	function allowQuickItem(id, category) {
-		return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Consumables"].includes(category) || id === "points-energy" || id === "points-nerve";
+		return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) || id === "points-energy" || id === "points-nerve";
 	}
 
 	function hideQuickItems() {
@@ -489,3 +489,4 @@
 		}
 	}
 })();
+
