@@ -45,7 +45,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(({ section }) => {
 			if (!feature.enabled()) return;
 
-			if (["medical", "drugs", "boosters", "points", "consumables"].includes(section)) {
+			if (["medical", "drugs", "boosters", "points", "donate", "consumables", "loot", "utilities"].includes(section)) {
 				showQuickItems(section);
 				setupQuickDragListeners();
 				setupOverlayItems(document);
@@ -96,7 +96,7 @@
 						}
 
 						for (const category of document.findAll("#faction-armoury-tabs .torn-tabs > li")) {
-							if (!["Medical", "Drugs", "Boosters", "Points", "Consumables"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
+							if (!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
@@ -489,4 +489,3 @@
 		}
 	}
 })();
-
