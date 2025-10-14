@@ -3,11 +3,12 @@
 		"version": { "major": 7, "minor": 8, "build": 7 },
 		"title": "Beta",
 		"date": false,
-		"logs": { 
-			"features": [
-				{ "message": "Add 'Consumables' tab for the faction armory 'Quick Item Menu'.", "contributor": "Simpsons" }
-			],
-			"fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [{ "message": "Add 'Consumables' tab for the faction armory 'Quick Item Menu'.", "contributor": "Simpsons" }],
+			"fixes": [],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 8, "build": 6 },
@@ -2632,4 +2633,3 @@
 		"title": "Long time, no see(?)"
 	}
 ]
-

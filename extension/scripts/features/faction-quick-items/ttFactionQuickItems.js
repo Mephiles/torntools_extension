@@ -96,7 +96,12 @@
 						}
 
 						for (const category of document.findAll("#faction-armoury-tabs .torn-tabs > li")) {
-							if (!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(category.find("a.ui-tabs-anchor").textContent.trim())) continue;
+							if (
+								!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(
+									category.find("a.ui-tabs-anchor").textContent.trim()
+								)
+							)
+								continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
