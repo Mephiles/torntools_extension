@@ -1,19 +1,28 @@
 [
 	{
-		"version": { "major": 7, "minor": 8, "build": 6 },
+		"version": { "major": 7, "minor": 8, "build": 7 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" }],
+			"features": [
+				{ "message": "Add 'Consumables' tab for the faction armory 'Quick Item Menu'.", "contributor": "Simpsons" },
+				{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" }
+			],
+			"fixes": [],
+			"changes": [{ "message": "Specialist gyms refactor.", "contributor": "AllMight" }],
+			"removed": []
+		}
+	},
+	{
+		"version": { "major": 7, "minor": 8, "build": 6 },
+		"date": "2025/10/09",
+		"logs": {
 			"fixes": [
 				{ "message": "Fix some database migrations to resolve issues with several features.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix can energy formula to be accurate.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix can energy formula to be accurate.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix bazaar fill max not working when clicking the actual icon.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [
-				{ "message": "Update can energy formula to take books into account.", "contributor": "DeKleineKobini" },
-				{ "message": "Specialist gyms refactor.", "contributor": "AllMight" }
-			],
-			"removed": []
+			"changes": [{ "message": "Update can energy formula to take books into account.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
