@@ -47,9 +47,9 @@
 		}
 	}
 
-	async function maxBuyListener(clickEvent = "") {
+	async function maxBuyListener(clickEvent = null) {
 		if (!mobile) {
-			if (!clickEvent.target.classList.contains("^=controlPanelButton__")) return;
+			if (!clickEvent || !clickEvent.target.closest("[class*='controlPanelButton___']")) return;
 			requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.find("[class*='buyMenu__']")));
 		} else {
 			await requireElement(".ReactVirtualized__Grid__innerScrollContainer [class*='buyForm___']");
