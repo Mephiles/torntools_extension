@@ -2063,16 +2063,54 @@ async function createTTTopLinks() {
 	return ttTopLinks;
 }
 
-function isEventActive(name, type, useLocalStart = true) {
+const TORN_EVENTS = {
+	EASTER_EGG_HUNT: {
+		name: "Easter Egg Hunt",
+		type: "events",
+		isEvent(event) {
+			return event.title.toLowerCase() === "Easter Egg Hunt".toLowerCase();
+		},
+	},
+	ST_PATRICKS_DAY: {
+		name: "St Patrick's Day",
+		type: "events",
+		isEvent(event) {
+			return event.title.toLowerCase() === "St Patrick's Day".toLowerCase();
+		},
+	},
+	INTERNATIONAL_BEER_DAY: {
+		name: "International Beer Day",
+		type: "events",
+		isEvent(event) {
+			return event.title.toLowerCase() === "International Beer Day".toLowerCase();
+		},
+	},
+	CAFFEINE_CON: {
+		name: "CaffeineCon",
+		type: "events",
+		isEvent(event) {
+			return event.title.toLowerCase().startsWith("CaffeineCon".toLowerCase());
+		},
+	},
+	WORLD_DIABETES_DAY: {
+		name: "World Diabetes Day",
+		type: "events",
+		isEvent(event) {
+			return event.title.toLowerCase() === "World Diabetes Day".toLowerCase();
+		},
+	},
+};
+
+function isEventActive(calendarEvent, useLocalStart = true) {
 	const calendar = hasAPIData() ? torndata.calendar : BACKUP_CALENDAR_2025.calendar;
 
-	if (!(type in calendar)) throw new Error(`Invalid calendar type '${type}'!`);
+	if (!(calendarEvent.type in calendar)) throw new Error(`Invalid calendar type '${calendarEvent.type}'!`);
 
-	const tornEvent = calendar[type].find((event) => event.title.toLowerCase() === name.toLowerCase());
+	const tornEvent = calendar[calendarEvent.type].find(calendarEvent.isEvent);
 	if (!tornEvent) return false;
 
-	const start = new Date(tornEvent.start * 1000);
-	const end = new Date(tornEvent.end * 1000);
+	const start = new Date(tornEvent.start * 1000 - TO_MILLIS.DAYS);
+	const end = new Date(tornEvent.end * 1000 + TO_MILLIS.DAYS);
 
 	if (useLocalStart && hasAPIData()) {
 		const timeParts = userdata.calendar.start_time.split(" ")[0].split(":");

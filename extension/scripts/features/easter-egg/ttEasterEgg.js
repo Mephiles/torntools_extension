@@ -1,6 +1,6 @@
 "use strict";
 (async () => {
-	if (!isEventActive("Easter Egg Hunt", "events", true)) {
+	if (!isEventActive(TORN_EVENTS.EASTER_EGG_HUNT, true)) {
 		return;
 	}
 

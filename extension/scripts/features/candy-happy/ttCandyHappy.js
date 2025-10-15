@@ -42,6 +42,11 @@
 			let totalHappy = baseHappy;
 			if (!isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;
 			if (!isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
+
+			if (isEventActive(TORN_EVENTS.WORLD_DIABETES_DAY, true)) {
+				totalHappy *= 2;
+			}
+
 			candy.find(".name-wrap").insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
 		});
 	}

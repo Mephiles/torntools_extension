@@ -43,7 +43,11 @@
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]
 			);
-			const totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);
+			let totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);
+			// Apply the doubling effect of the energy can event here. It only applies the doubling after the initial perk multiplier + rounding.
+			if (isEventActive(TORN_EVENTS.CAFFEINE_CON, true)) {
+				totalEnergy *= 2;
+			}
 
 			eCanElement
 				.find(".name-wrap")

@@ -33,6 +33,8 @@
 		document.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
 			if (alcoholicDrink.find(".tt-alcohol-gains")) return;
 
+			const id = parseInt(alcoholicDrink.dataset.item);
+			console.log("DKK alcohol", { id });
 			// noinspection JSCheckFunctionSignatures
 			let totalNerve = parseInt(
 				torndata.items[alcoholicDrink.dataset.item].effect
@@ -42,8 +44,17 @@
 			);
 			if (!isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;
 			if (!isNaN(companyPerk)) totalNerve *= 1 + companyPerk / 100;
+
+			if (isEventActive(TORN_EVENTS.ST_PATRICKS_DAY, true)) {
+				totalNerve *= 2;
+			}
+			if (isEventActive(TORN_EVENTS.INTERNATIONAL_BEER_DAY, true) && [180, 816].includes(id)) {
+				totalNerve *= 5;
+			}
+
 			const maxNerve = Math.ceil(totalNerve);
 			const minNerve = Math.floor(totalNerve);
+
 			const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
 			alcoholicDrink
 				.find(".name-wrap")
