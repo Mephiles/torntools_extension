@@ -1,10 +1,16 @@
 name: Run Prettier
+
 on:
     push:
         branches: [master]
         paths:
           - 'extension/**'
     workflow_dispatch:
+
+concurrency:
+    group: ${{ github.repository }}
+    cancel-in-progress: true
+
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -29,3 +35,4 @@ jobs:
               with:
                   message: Apply prettier changes.
                   default_author: github_actions
+
