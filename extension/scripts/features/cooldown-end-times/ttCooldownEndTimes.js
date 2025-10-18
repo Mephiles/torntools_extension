@@ -16,7 +16,9 @@
 
 	async function addEndTimes() {
 		const statusIcons = await requireElement("#sidebarroot [class*='status-icons__']");
-		statusIcons.addEventListener("mouseover", listener);
+		let isTouchDevice = await checkDevice();
+		isTouchDevice = isTouchDevice.mobile || isTouchDevice.tablet;
+		statusIcons.addEventListener(!isTouchDevice ? "mouseover" : "click", listener);
 
 		async function listener(event) {
 			if (!event.target.closest("li")?.matches("[class*='icon']")) return;
