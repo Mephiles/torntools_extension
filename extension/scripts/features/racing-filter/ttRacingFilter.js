@@ -52,6 +52,7 @@
 			class: "mt10",
 			nextElement: document.find(".custom-events-wrap"),
 			filter: true,
+			compact: true,
 		});
 
 		const filterContent = document.newElement({
