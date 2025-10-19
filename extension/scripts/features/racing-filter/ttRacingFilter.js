@@ -241,16 +241,15 @@
 			const laps = parseInt(li.querySelector(".laps").textContent.match(/\d+/)[0], 10);
 
 			// Start time
-			const timeText = li.find(".event-wrap .startTime").textContent; // Format can be : "waiting", "26 m", "10 h 30 m"
+			const timeText = li.find(".event-wrap .startTime").textContent.trim(); // Format can be : "waiting", "26 m", "10 h 30 m"
 
 			let totalHours = 0;
-
 			if (!timeText || timeText.toLowerCase() === "waiting") {
-				totalHours = 0;
+				totalHours = -1;
 			}
 			else {
 				// normalize text
-				const cleanText = timeText.trim().toLowerCase();
+				const cleanText = timeText.toLowerCase();
 
 				// extract hours and minutes explicitly
 				const hoursMatch = cleanText.match(/(\d+)\s*h/);
@@ -308,7 +307,10 @@
 			}
 
 			// Start time
-			if ((timeStart && totalHours < timeStart) || (timeEnd !== 48 && totalHours >= timeEnd)) {
+			if ((timeStart === 0) && (timeEnd === 0) && (totalHours === -1)) {
+				// Don't hide races that are waiting
+			}
+			else if ((timeStart && (totalHours < timeStart)) || ((timeEnd !== 48) && (totalHours >= timeEnd))) {
 				hideRow(li);
 				continue;
 			}

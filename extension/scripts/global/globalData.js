@@ -767,8 +767,8 @@ const DEFAULT_STORAGE = {
 		racing: {
 			hideRaces: new DefaultSetting({ type: "array", defaultValue: [] }),
 			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			driversMin: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			timeEnd: new DefaultSetting({ type: "number", defaultValue: 48 }),
+			driversMin: new DefaultSetting({ type: "number", defaultValue: 2 }),
 			driversMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			lapsMin: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			lapsMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
