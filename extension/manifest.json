@@ -547,6 +547,14 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/page.php?sid=racing*"],
+			"css": ["scripts/global/functions/filters.css"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/features/racing-filter/ttRacingFilter.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/joblist.php*"],
 			"css": [
 				"scripts/features/job-specials/ttJobSpecials.css",

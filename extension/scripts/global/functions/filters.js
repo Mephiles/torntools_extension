@@ -71,6 +71,14 @@ function createFilterSection(options) {
 			{ id: "idle", description: "Idle" },
 			{ id: "offline", description: "Offline" },
 		];
+	} else if (options.type === "HideRaces") {
+		options.title = "Hide Races";
+		options.checkboxes = [
+			{ id: "full", description: "Full" },
+			{ id: "protected", description: "Protected" },
+			{ id: "incompatible", description: "Incompatible" },
+			{ id: "paid", description: "With Fee" },
+		];
 	} else if (isWeaponBonus) {
 		options.title = options.title || "Weapon Bonus";
 		options.classPrefix = "weaponBonus";

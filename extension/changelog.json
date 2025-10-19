@@ -7,6 +7,7 @@
 			"features": [
 				{ "message": "Add 'Consumables' tab for the faction armory 'Quick Item Menu'.", "contributor": "Simpsons" },
 				{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" }
+				{ "message": "Added an advanced filter for Custom Races.", "contributor": "Simpsons" }
 			],
 			"fixes": [],
 			"changes": [
