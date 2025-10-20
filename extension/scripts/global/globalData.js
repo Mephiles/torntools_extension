@@ -772,7 +772,7 @@ const DEFAULT_STORAGE = {
 			driversMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			lapsMin: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			lapsMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			track: new DefaultSetting({ type: "string", defaultValue: "" }),
+			track: new DefaultSetting({ type: "array", defaultValue: [] }),
 			name: new DefaultSetting({ type: "string", defaultValue: "" }),
 		},
 		containers: new DefaultSetting({ type: "object", defaultValue: {} }),

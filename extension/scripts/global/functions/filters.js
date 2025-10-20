@@ -46,6 +46,7 @@ function createFilterSection(options) {
 		checkboxes: [],
 		ynCheckboxes: [],
 		select: [],
+		multiSelect: false,
 		slider: {},
 		callback: () => {},
 		default: false,
@@ -179,16 +180,37 @@ function createFilterSection(options) {
 	}
 
 	if (options.select.length) {
-		const select = createSelect(options.select);
-		select.setSelected(options.defaults);
-		select.onChange(options.callback);
-		section.appendChild(select.element);
+		if (options.multiSelect) {
+			const multiSelect = createMultiSelect({
+				select: options.select,
+				defaults: options.defaults,
+				size: options.multiSelect,
+			});
 
-		return {
-			element: section,
-			getSelected: (content) => content.find(`.${ccTitle} select`).value,
-			updateOptions: (newOptions, content) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
-		};
+			multiSelect.setSelected(options.defaults);
+			multiSelect.onChange(options.callback);
+			section.appendChild(multiSelect.element);
+
+			return {
+				element: section,
+				getSelected: (content) =>
+					[...content.find(`.${ccTitle} select`).selectedOptions].map((opt) => opt.value),
+				updateOptions: (newOptions, content) =>
+					multiSelect.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
+			};
+		}
+		else {
+			const select = createSelect(options.select, options.multiple);
+			select.setSelected(options.defaults);
+			select.onChange(options.callback);
+			section.appendChild(select.element);
+
+			return {
+				element: section,
+				getSelected: (content) => content.find(`.${ccTitle} select`).value,
+				updateOptions: (newOptions, content) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
+			};
+		}
 	}
 
 	if (options.slider && Object.keys(options.slider).length) {

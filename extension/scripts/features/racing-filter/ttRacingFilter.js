@@ -125,8 +125,8 @@
 		// Track
 		const trackFilter = createFilterSection({
 			title: "Track",
+			multiSelect: 6,
 			select: [
-				{ value: "", description: "All" },
 				...["Uptown", "Withdrawal", "Underdog", "Parkland", "Docks", "Commerce", "Two Islands", "Industrial", "Vector", "Mudpit",
 					"Hammerhead", "Sewege", "Meltdown", "Speedway", "Stone Park", "Convict"].map(
 					(track) => ({ value: track, description: track })
@@ -316,7 +316,7 @@
 			}
 
 			// Track
-			if (!trackName.includes(trackFilter)) {
+			if ((trackFilter != "") && (!trackFilter.includes(trackName))) {
 				hideRow(li);
 				continue;
 			}
