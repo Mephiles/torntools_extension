@@ -30,6 +30,7 @@
 
 		const items = getAllItems();
 		handleHighlight();
+		handleSearchBox();
 		if (hasAPIData()) showValue();
 		showItemList();
 
@@ -173,6 +174,43 @@
 					});
 				}
 			}
+		}
+
+		function handleSearchBox() {
+			const searchBox = document.newElement({
+				type: "label",
+				text: "Search:",
+				children: [
+					document.newElement({
+						type: "input",
+						attributes: {
+							type: "text",
+							// placeholder: "Search for items here",
+						},
+						events: {
+							input: (e) => {
+								const query = e.target.value.toLowerCase();
+								for (const item of document.findAll(`.city-item.force-hover`)) {
+									item.classList.remove("force-hover");
+								}
+								if (content.previousElementSibling.find(".tt-checkbox-wrapper input:checked"))
+									document.find("#map").classList.add("highlight-items");
+
+								if (!query.length) return;
+
+								const matchedItemIds = items.filter((item) => item.name.toLowerCase().includes(query)).map((item) => item.id);
+								for (const id of matchedItemIds)
+									for (const item of document.findAll(`.city-item[data-id="${id}"]`)) {
+										item.classList.add("force-hover");
+									}
+								document.find("#map").classList.remove("highlight-items");
+							},
+						},
+					}),
+				],
+			});
+
+			content.appendChild(searchBox);
 		}
 	}
 
