@@ -182,21 +182,17 @@ function createFilterSection(options) {
 	if (options.select.length) {
 		if (options.multiSelect) {
 			const multiSelect = createMultiSelect({
-				select: options.select,
+				select: options.select.filter(opt => opt.value !== ""),
 				defaults: options.defaults,
-				size: options.multiSelect,
 			});
 
-			multiSelect.setSelected(options.defaults);
 			multiSelect.onChange(options.callback);
 			section.appendChild(multiSelect.element);
 
 			return {
 				element: section,
-				getSelected: (content) =>
-					[...content.find(`.${ccTitle} select`).selectedOptions].map((opt) => opt.value),
-				updateOptions: (newOptions, content) =>
-					multiSelect.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
+				getSelected: () => multiSelect.getSelected(),
+				updateOptions: (newOptions) => multiSelect.updateOptionsList(newOptions),
 			};
 		}
 		else {

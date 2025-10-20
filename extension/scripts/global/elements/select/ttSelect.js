@@ -95,91 +95,81 @@ function createSelect(options) {
 }
 
 function createMultiSelect(options) {
-	let selectedValues = Array.isArray(options.defaults) ? options.defaults : [];
-	let shownOptions = options.select;
-	let maxSize = options.size || 10;
-	
-	let onChangeCallback;
+    let selectedValues = Array.isArray(options.defaults) ? options.defaults : [];
+    let shownOptions = options.select;
+    let onChangeCallback;
 
-	const select = document.newElement({
-		type: "select",
-		attributes: { multiple: true, size: Math.min(shownOptions.length, maxSize) },
-		children: _createOptionsElements(shownOptions),
-	});
+    // Container for checkboxes
+    const container = document.createElement("div");
+    container.style.display = "flex";
+    container.style.flexDirection = "column";
+    container.style.maxHeight = "100px"; // limit height
+    container.style.overflowY = "auto";
+	container.style.overflowX = "hidden"; // disable horizontal scrollbar
+	container.style.backgroundColor = "#d0d0d0"; // light gray background
+	container.style.padding = "5px";
+	container.style.borderRadius = "4px";
 
-	// Toggle selection with click/tap
-	select.addEventListener("mousedown", function (e) {
-		// Prevent default selection behavior
-		e.preventDefault();
+    function renderOptions() {
+        container.innerHTML = "";
 
-		const option = e.target;
-		if (option.tagName.toLowerCase() === "option" && !option.disabled) {
-			option.selected = !option.selected; // Toggle selection manually
+        shownOptions.forEach(opt => {
+            const wrapper = document.createElement("label");
+            wrapper.style.display = "flex";
+            wrapper.style.alignItems = "center";
+            wrapper.style.marginBottom = "4px";
+            wrapper.style.cursor = opt.disabled ? "not-allowed" : "pointer";
 
-			selectedValues = [...select.selectedOptions].map((opt) => opt.value);
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = opt.value;
+            checkbox.disabled = !!opt.disabled;
+            checkbox.checked = selectedValues.includes(opt.value);
 
-			if (onChangeCallback) onChangeCallback();
-		}
-	});
+            checkbox.addEventListener("change", () => {
+                if (checkbox.checked) {
+                    if (!selectedValues.includes(opt.value)) selectedValues.push(opt.value);
+                } else {
+                    selectedValues = selectedValues.filter(v => v !== opt.value);
+                }
+                if (onChangeCallback) onChangeCallback();
+            });
 
-	function _createOptionsElements(list) {
-		return list.map((opt) =>
-			document.newElement({
-				type: "option",
-				attributes: {
-					value: opt.value,
-					...(selectedValues.includes(opt.value) ? { selected: true } : {}),
-					...(opt.disabled ? { disabled: true } : {}),
-				},
-				text: opt.description,
-			})
-		);
-	}
+            const text = document.createElement("span");
+            text.textContent = opt.description;
+            text.style.marginLeft = "6px"; // spacing between checkbox and label
 
-	function setSelected(values) {
-		selectedValues = Array.isArray(values) ? values : [values];
-		for (const opt of select.options) {
-			opt.selected = selectedValues.includes(opt.value);
-		}
-	}
+            wrapper.appendChild(checkbox);
+            wrapper.appendChild(text);
+            container.appendChild(wrapper);
+        });
+    }
 
-	function getSelected() {
-		return [...select.selectedOptions].map((opt) => opt.value);
-	}
+    function setSelected(values) {
+        selectedValues = Array.isArray(values) ? values : [values];
+        renderOptions();
+    }
 
-	function onChange(callback) {
-		onChangeCallback = callback;
-		select.addEventListener("change", _onChangeListener);
-	}
+    function getSelected() {
+        return [...selectedValues];
+    }
 
-	function updateOptionsList(newList, selectEl = select) {
-		const fragment = document.createDocumentFragment();
-		const newOptions = _createOptionsElements(newList);
-		selectEl.innerHTML = "";
-		newOptions.forEach((o) => fragment.appendChild(o));
-		selectEl.appendChild(fragment);
-		shownOptions = newList;
-		setSelected(selectedValues);
-	}
+    function onChange(callback) {
+        onChangeCallback = callback;
+    }
 
-	function dispose() {
-		if (onChangeCallback) {
-			select.removeEventListener("change", _onChangeListener);
-			onChangeCallback = undefined;
-		}
-	}
+    function updateOptionsList(newList) {
+        shownOptions = newList;
+        renderOptions();
+    }
 
-	function _onChangeListener() {
-		selectedValues = getSelected();
-		if (onChangeCallback) onChangeCallback();
-	}
+    renderOptions();
 
-	return {
-		element: select,
-		getSelected,
-		setSelected,
-		onChange,
-		updateOptionsList,
-		dispose,
-	};
+    return {
+        element: container,
+        getSelected,
+        setSelected,
+        onChange,
+        updateOptionsList,
+    };
 }

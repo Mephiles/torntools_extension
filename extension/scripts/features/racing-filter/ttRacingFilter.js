@@ -327,14 +327,6 @@
 				continue;
 			}
 
-			// Update statistics
-			const allRaces = document.querySelectorAll(".events-list > li");
-			localFilters["Statistics"].updateStatistics(
-				[...allRaces].filter(li => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
-				[...allRaces].filter(li => li.className !== "clear").length,
-				content
-			);
-
 			showRow(li);
 		}
 
@@ -345,6 +337,14 @@
 		function hideRow(li) {
 			li.classList.add("tt-hidden");
 		}
+
+		// Update statistics
+		const allRaces = document.querySelectorAll(".events-list > li");
+		localFilters["Statistics"].updateStatistics(
+			[...allRaces].filter(li => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
+			[...allRaces].filter(li => li.className !== "clear").length,
+			content
+		);
     }
 
 	function removeFilters() {
