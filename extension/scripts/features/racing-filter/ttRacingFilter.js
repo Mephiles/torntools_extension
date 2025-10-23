@@ -3,7 +3,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-    console.log("[TT] Racing Filter script loaded");
+	console.log("[TT] Racing Filter script loaded");
 
 	const feature = featureManager.registerFeature(
 		"Racing Filter",
@@ -23,15 +23,14 @@
 			if (!feature.enabled()) return;
 
 			if ((page === "page" || page === "loader") && uri) {
-
 				const sid = uri.sid;
-				if ((sid !== "racing") && (sid !== "undefined")) {
+				if (sid !== "racing" && sid !== "undefined") {
 					removeFilters();
 					return;
 				}
 
 				const tab = uri.tab;
-				if ((tab !== "customrace") && (tab !== "undefined")) {
+				if (tab !== "customrace" && tab !== "undefined") {
 					removeFilters();
 					return;
 				}
@@ -45,7 +44,7 @@
 
 	const localFilters = {};
 
-    async function addFilters() {
+	async function addFilters() {
 		await requireElement(".custom-events-wrap");
 
 		const { content } = createContainer("Racing Filter", {
@@ -127,10 +126,24 @@
 			title: "Track",
 			multiSelect: 6,
 			select: [
-				...["Uptown", "Withdrawal", "Underdog", "Parkland", "Docks", "Commerce", "Two Islands", "Industrial", "Vector", "Mudpit",
-					"Hammerhead", "Sewege", "Meltdown", "Speedway", "Stone Park", "Convict"].map(
-					(track) => ({ value: track, description: track })
-				),
+				...[
+					"Uptown",
+					"Withdrawal",
+					"Underdog",
+					"Parkland",
+					"Docks",
+					"Commerce",
+					"Two Islands",
+					"Industrial",
+					"Vector",
+					"Mudpit",
+					"Hammerhead",
+					"Sewege",
+					"Meltdown",
+					"Speedway",
+					"Stone Park",
+					"Convict",
+				].map((track) => ({ value: track, description: track })),
 			],
 			defaults: filters.racing.track,
 			callback: applyFilters,
@@ -151,9 +164,9 @@
 		content.appendChild(filterContent);
 
 		await applyFilters();
-    }
+	}
 
-    async function applyFilters() {
+	async function applyFilters() {
 		await requireElement(".events-list > li");
 		const content = findContainer("Racing Filter").find("main");
 		const hideRacesFilter = localFilters["HideRaces"].getSelections(content);
@@ -164,8 +177,8 @@
 		const minLaps = parseInt(lapsFilter.start);
 		const maxLaps = parseInt(lapsFilter.end);
 		const driversFilter = localFilters["Drivers"].getStartEnd(content);
-        const driversMin = parseInt(driversFilter.start);
-        const driversMax = parseInt(driversFilter.end);
+		const driversMin = parseInt(driversFilter.start);
+		const driversMax = parseInt(driversFilter.end);
 		const trackFilter = localFilters["Track"].getSelected(content);
 		const nameFilter = localFilters["Name"].getValue();
 
@@ -193,18 +206,18 @@
 
 		// Actual Filtering
 		for (const li of document.findAll(".events-list > li")) {
-            if (li.className === "clear") {
+			if (li.className === "clear") {
 				continue;
 			}
 			/*************************************************/
 			/**         Get data from racing page           **/
 			/*************************************************/
 			// Password
-            const isProtected = li.classList.contains("protected");
+			const isProtected = li.classList.contains("protected");
 
 			// No suitable cars enlisted
-            const isIncompatible = li.classList.contains("no-suitable");
-			
+			const isIncompatible = li.classList.contains("no-suitable");
+
 			// Fee
 			const feeElement = li.querySelector("li.fee");
 
@@ -231,7 +244,6 @@
 					driversJoined = parseInt(match[1], 10);
 					maxDriversAllowed = parseInt(match[2], 10);
 					if (driversJoined >= maxDriversAllowed) {
-						
 						isFull = true;
 					}
 				}
@@ -246,14 +258,13 @@
 			let totalHours = 0;
 			if (!timeText || timeText.toLowerCase() === "waiting") {
 				totalHours = -1;
-			}
-			else {
+			} else {
 				// normalize text
 				const cleanText = timeText.toLowerCase();
 
 				// extract hours and minutes explicitly
 				const hoursMatch = cleanText.match(/(\d+)\s*h/);
-				const minsMatch  = cleanText.match(/(\d+)\s*m/);
+				const minsMatch = cleanText.match(/(\d+)\s*m/);
 
 				const hours = hoursMatch ? parseInt(hoursMatch[1], 10) : 0;
 				const minutes = minsMatch ? parseInt(minsMatch[1], 10) : 0;
@@ -265,8 +276,8 @@
 			// Track name
 			const trackElement = li.querySelector("li.track");
 			const trackName = Array.from(trackElement.childNodes)
-				.filter(node => node.nodeType === Node.TEXT_NODE)
-				.map(node => node.textContent.trim())
+				.filter((node) => node.nodeType === Node.TEXT_NODE)
+				.map((node) => node.textContent.trim())
 				.join(" ")
 				.trim();
 
@@ -276,47 +287,46 @@
 			/*************************************************/
 			/**    Apply filters and update race list       **/
 			/*************************************************/
-            // Hide races
+			// Hide races
 			if (hideRacesFilter.length && hideRacesFilter.includes("protected") && isProtected) {
 				hideRow(li);
 				continue;
 			}
-            if (hideRacesFilter.length && hideRacesFilter.includes("incompatible") && isIncompatible) {
+			if (hideRacesFilter.length && hideRacesFilter.includes("incompatible") && isIncompatible) {
 				hideRow(li);
 				continue;
 			}
-            if (hideRacesFilter.length && hideRacesFilter.includes("paid") && hasFee) {
+			if (hideRacesFilter.length && hideRacesFilter.includes("paid") && hasFee) {
 				hideRow(li);
 				continue;
 			}
-            if (hideRacesFilter.length && hideRacesFilter.includes("full") && isFull) {
+			if (hideRacesFilter.length && hideRacesFilter.includes("full") && isFull) {
 				hideRow(li);
 				continue;
 			}
 
 			// Max Drivers
-			if ((maxDriversAllowed < driversMin) || (maxDriversAllowed > driversMax)) {
+			if (maxDriversAllowed < driversMin || maxDriversAllowed > driversMax) {
 				hideRow(li);
 				continue;
 			}
 
 			// Max Laps
-			if ((laps < minLaps) || (laps > maxLaps)) {
+			if (laps < minLaps || laps > maxLaps) {
 				hideRow(li);
 				continue;
 			}
 
 			// Start time
-			if ((timeStart === 0) && (timeEnd === 0) && (totalHours === -1)) {
+			if (timeStart === 0 && timeEnd === 0 && totalHours === -1) {
 				// Don't hide races that are waiting
-			}
-			else if ((timeStart && (totalHours < timeStart)) || ((timeEnd !== 48) && (totalHours >= timeEnd))) {
+			} else if ((timeStart && totalHours < timeStart) || (timeEnd !== 48 && totalHours >= timeEnd)) {
 				hideRow(li);
 				continue;
 			}
 
 			// Track
-			if ((trackFilter != "") && (!trackFilter.includes(trackName))) {
+			if (trackFilter != "" && !trackFilter.includes(trackName)) {
 				hideRow(li);
 				continue;
 			}
@@ -341,11 +351,11 @@
 		// Update statistics
 		const allRaces = document.querySelectorAll(".events-list > li");
 		localFilters["Statistics"].updateStatistics(
-			[...allRaces].filter(li => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
-			[...allRaces].filter(li => li.className !== "clear").length,
+			[...allRaces].filter((li) => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
+			[...allRaces].filter((li) => li.className !== "clear").length,
 			content
 		);
-    }
+	}
 
 	function removeFilters() {
 		removeContainer("Racing Filter");

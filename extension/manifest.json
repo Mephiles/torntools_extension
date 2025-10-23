@@ -639,10 +639,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing*", "https://www.torn.com/page.php?sid=racing*"],
-			"css": [
-				"scripts/features/racing-upgrades/ttRacingUpgrades.css",
-				"scripts/global/functions/filters.css"
-			],
+			"css": ["scripts/features/racing-upgrades/ttRacingUpgrades.css", "scripts/global/functions/filters.css"],
 			"js": [
 				"scripts/features/car-win-percentage/ttCarWinPercentage.js",
 				"scripts/features/racing-upgrades/ttRacingUpgrades.js",

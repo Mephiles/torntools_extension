@@ -182,7 +182,7 @@ function createFilterSection(options) {
 	if (options.select.length) {
 		if (options.multiSelect) {
 			const multiSelect = createMultiSelect({
-				select: options.select.filter(opt => opt.value !== ""),
+				select: options.select.filter((opt) => opt.value !== ""),
 				defaults: options.defaults,
 			});
 
@@ -194,8 +194,7 @@ function createFilterSection(options) {
 				getSelected: () => multiSelect.getSelected(),
 				updateOptions: (newOptions) => multiSelect.updateOptionsList(newOptions),
 			};
-		}
-		else {
+		} else {
 			const select = createSelect(options.select, options.multiple);
 			select.setSelected(options.defaults);
 			select.onChange(options.callback);
