@@ -100,44 +100,36 @@ function createMultiSelect(options) {
 	let onChangeCallback;
 
 	// Container for checkboxes
-	const container = document.createElement("div");
-	container.style.display = "flex";
-	container.style.flexDirection = "column";
-	container.style.maxHeight = "100px"; // limit height
-	container.style.overflowY = "auto";
-	container.style.overflowX = "hidden"; // disable horizontal scrollbar
-	container.style.backgroundColor = "#d0d0d0"; // light gray background
-	container.style.padding = "5px";
-	container.style.borderRadius = "4px";
+	const container = document.newElement({
+		type: "div",
+		class: "tt-multi-select",
+	});
 
 	function renderOptions() {
 		container.innerHTML = "";
 
 		shownOptions.forEach((opt) => {
-			const wrapper = document.createElement("label");
-			wrapper.style.display = "flex";
-			wrapper.style.alignItems = "center";
-			wrapper.style.marginBottom = "4px";
-			wrapper.style.cursor = opt.disabled ? "not-allowed" : "pointer";
+			const wrapper = document.newElement({ type: "label" });
+			if (opt.disabled) wrapper.setAttribute("disabled", true);
 
-			const checkbox = document.createElement("input");
-			checkbox.type = "checkbox";
-			checkbox.value = opt.value;
-			checkbox.disabled = !!opt.disabled;
-			checkbox.checked = selectedValues.includes(opt.value);
-
-			checkbox.addEventListener("change", () => {
-				if (checkbox.checked) {
-					if (!selectedValues.includes(opt.value)) selectedValues.push(opt.value);
-				} else {
-					selectedValues = selectedValues.filter((v) => v !== opt.value);
-				}
-				if (onChangeCallback) onChangeCallback();
+			const checkbox = document.newElement({
+				type: "input",
+				value: opt.value,
+				attributes: { type: "checkbox", checked: selectedValues.includes(opt.value) },
+				events: {
+					change: () => {
+						if (checkbox.checked) {
+							if (!selectedValues.includes(opt.value)) selectedValues.push(opt.value);
+						} else {
+							selectedValues = selectedValues.filter((v) => v !== opt.value);
+						}
+						if (onChangeCallback) onChangeCallback();
+					},
+				},
 			});
+			checkbox.disabled = !!opt.disabled;
 
-			const text = document.createElement("span");
-			text.textContent = opt.description;
-			text.style.marginLeft = "6px"; // spacing between checkbox and label
+			const text = document.newElement({ type: "span", text: opt.description });
 
 			wrapper.appendChild(checkbox);
 			wrapper.appendChild(text);

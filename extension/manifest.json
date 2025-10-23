@@ -79,6 +79,7 @@
 				"scripts/global/functions/dom.css",
 				"scripts/global/elements/checkbox/ttCheckbox.css",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.css",
+				"scripts/global/elements/select/ttSelect.css",
 				"scripts/global/elements/slider/ttSlider.css",
 				"scripts/global/elements/textbox/ttTextbox.css",
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.css",
