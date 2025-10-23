@@ -599,6 +599,7 @@ const DEFAULT_STORAGE = {
 			racing: {
 				winPercentage: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				upgrades: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			faction: {
 				idBesideFactionName: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -762,6 +763,17 @@ const DEFAULT_STORAGE = {
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			scoreStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			scoreEnd: new DefaultSetting({ type: "number", defaultValue: 5000 }),
+		},
+		racing: {
+			hideRaces: new DefaultSetting({ type: "array", defaultValue: [] }),
+			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			timeEnd: new DefaultSetting({ type: "number", defaultValue: 48 }),
+			driversMin: new DefaultSetting({ type: "number", defaultValue: 2 }),
+			driversMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			lapsMin: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			lapsMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			track: new DefaultSetting({ type: "array", defaultValue: [] }),
+			name: new DefaultSetting({ type: "string", defaultValue: "" }),
 		},
 		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
 		travel: {
