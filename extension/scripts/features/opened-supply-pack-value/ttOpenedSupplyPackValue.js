@@ -49,7 +49,7 @@
 	}
 
 	async function showTotalValue(totalOpenedValue, itemID) {
-		await sleep(0.1 * TO_MILLIS.SECONDS);
+		await sleep(0.5 * TO_MILLIS.SECONDS);
 		const greenMsg = await requireElement(`[data-item="${itemID}"] .cont-wrap form p`);
 
 		removeTotalValueElement();
