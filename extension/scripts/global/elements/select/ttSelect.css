@@ -1,0 +1,36 @@
+.tt-multi-select {
+	display: flex;
+	flex-direction: column;
+	max-height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 5px;
+	border-radius: 4px;
+}
+
+body:not(.dark-mode) .tt-multi-select {
+	background-color: #ddd;
+}
+
+body.dark-mode .tt-multi-select {
+	background-color: #444;
+}
+
+.tt-multi-select label {
+	display: flex;
+	align-items: center;
+	margin-bottom: 4px;
+	cursor: pointer;
+}
+
+.tt-multi-select label[disabled] {
+	cursor: not-allowed;
+}
+
+.tt-multi-select input {
+	cursor: not-allowed;
+}
+
+.tt-multi-select span {
+	margin-left: 6px;
+}

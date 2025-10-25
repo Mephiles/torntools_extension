@@ -46,6 +46,7 @@ function createFilterSection(options) {
 		checkboxes: [],
 		ynCheckboxes: [],
 		select: [],
+		multiSelect: false,
 		slider: {},
 		callback: () => {},
 		default: false,
@@ -70,6 +71,14 @@ function createFilterSection(options) {
 			{ id: "online", description: "Online" },
 			{ id: "idle", description: "Idle" },
 			{ id: "offline", description: "Offline" },
+		];
+	} else if (options.type === "HideRaces") {
+		options.title = "Hide Races";
+		options.checkboxes = [
+			{ id: "full", description: "Full" },
+			{ id: "protected", description: "Protected" },
+			{ id: "incompatible", description: "Incompatible" },
+			{ id: "paid", description: "With Fee" },
 		];
 	} else if (isWeaponBonus) {
 		options.title = options.title || "Weapon Bonus";
@@ -171,16 +180,32 @@ function createFilterSection(options) {
 	}
 
 	if (options.select.length) {
-		const select = createSelect(options.select);
-		select.setSelected(options.defaults);
-		select.onChange(options.callback);
-		section.appendChild(select.element);
+		if (options.multiSelect) {
+			const multiSelect = createMultiSelect({
+				select: options.select.filter((opt) => opt.value !== ""),
+				defaults: options.defaults,
+			});
 
-		return {
-			element: section,
-			getSelected: (content) => content.find(`.${ccTitle} select`).value,
-			updateOptions: (newOptions, content) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
-		};
+			multiSelect.onChange(options.callback);
+			section.appendChild(multiSelect.element);
+
+			return {
+				element: section,
+				getSelected: () => multiSelect.getSelected(),
+				updateOptions: (newOptions) => multiSelect.updateOptionsList(newOptions),
+			};
+		} else {
+			const select = createSelect(options.select, options.multiple);
+			select.setSelected(options.defaults);
+			select.onChange(options.callback);
+			section.appendChild(select.element);
+
+			return {
+				element: section,
+				getSelected: (content) => content.find(`.${ccTitle} select`).value,
+				updateOptions: (newOptions, content) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
+			};
+		}
 	}
 
 	if (options.slider && Object.keys(options.slider).length) {

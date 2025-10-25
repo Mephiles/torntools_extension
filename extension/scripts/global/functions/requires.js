@@ -87,3 +87,60 @@ function requireFeatureManager() {
 		}, 100);
 	});
 }
+
+/**
+ * Observes a chain of selectors from {@link root} and invokes {@link onReached} once all of them are rendered
+ * @param {HTMLElement} root
+ * @param {string[]} selectorsChain
+ * @param {(lastChainElement: HTMLElement) => () => void} onReached
+ */
+function observeChain(root, selectorsChain, onReached) {
+	let activeObservers = [];
+	let cleanupFn = undefined;
+
+	function observe(target, index) {
+		const selector = selectorsChain[index];
+		const observer = new MutationObserver(() => {
+			const activeObserver = activeObservers[index];
+			const selectorResult = target.querySelector(selector) ?? undefined;
+
+			if (selectorResult === activeObserver.selectorResult) {
+				return;
+			}
+
+			activeObserver.selectorResult = selectorResult;
+
+			if (!selectorResult) {
+				const obsolete = activeObservers.splice(index + 1, activeObservers.length - 1);
+				obsolete.forEach((activeObserver) => activeObserver.observer.disconnect());
+				cleanupFn?.();
+
+				return;
+			}
+
+			if (index === selectorsChain.length - 1) {
+				cleanupFn = onReached(selectorResult) ?? undefined;
+
+				return;
+			}
+
+			observe(selectorResult, index + 1);
+		});
+
+		activeObservers.push({
+			observer,
+			selectorResult: undefined,
+		});
+		observer.observe(target, { childList: true, subtree: true });
+	}
+
+	function disconnect() {
+		activeObservers.forEach((activeObserver) => activeObserver.observer.disconnect());
+		activeObservers = [];
+		cleanupFn?.();
+	}
+
+	observe(root, 0);
+
+	return { disconnect };
+}

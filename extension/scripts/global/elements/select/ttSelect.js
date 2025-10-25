@@ -93,3 +93,75 @@ function createSelect(options) {
 		dispose,
 	};
 }
+
+function createMultiSelect(options) {
+	let selectedValues = Array.isArray(options.defaults) ? options.defaults : [];
+	let shownOptions = options.select;
+	let onChangeCallback;
+
+	// Container for checkboxes
+	const container = document.newElement({
+		type: "div",
+		class: "tt-multi-select",
+	});
+
+	function renderOptions() {
+		container.innerHTML = "";
+
+		shownOptions.forEach((opt) => {
+			const wrapper = document.newElement({ type: "label" });
+			if (opt.disabled) wrapper.setAttribute("disabled", true);
+
+			const checkbox = document.newElement({
+				type: "input",
+				value: opt.value,
+				attributes: { type: "checkbox", checked: selectedValues.includes(opt.value) },
+				events: {
+					change: () => {
+						if (checkbox.checked) {
+							if (!selectedValues.includes(opt.value)) selectedValues.push(opt.value);
+						} else {
+							selectedValues = selectedValues.filter((v) => v !== opt.value);
+						}
+						if (onChangeCallback) onChangeCallback();
+					},
+				},
+			});
+			checkbox.disabled = !!opt.disabled;
+
+			const text = document.newElement({ type: "span", text: opt.description });
+
+			wrapper.appendChild(checkbox);
+			wrapper.appendChild(text);
+			container.appendChild(wrapper);
+		});
+	}
+
+	function setSelected(values) {
+		selectedValues = Array.isArray(values) ? values : [values];
+		renderOptions();
+	}
+
+	function getSelected() {
+		return [...selectedValues];
+	}
+
+	function onChange(callback) {
+		onChangeCallback = callback;
+	}
+
+	function updateOptionsList(newList) {
+		shownOptions = newList;
+		renderOptions();
+	}
+
+	renderOptions();
+
+	return {
+		element: container,
+		getSelected,
+		setSelected,
+		onChange,
+		updateOptionsList,
+	};
+}

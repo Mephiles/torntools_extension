@@ -79,6 +79,7 @@
 				"scripts/global/functions/dom.css",
 				"scripts/global/elements/checkbox/ttCheckbox.css",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.css",
+				"scripts/global/elements/select/ttSelect.css",
 				"scripts/global/elements/slider/ttSlider.css",
 				"scripts/global/elements/textbox/ttTextbox.css",
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.css",
@@ -639,8 +640,13 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing*", "https://www.torn.com/page.php?sid=racing*"],
-			"css": ["scripts/features/racing-upgrades/ttRacingUpgrades.css"],
-			"js": ["scripts/features/car-win-percentage/ttCarWinPercentage.js", "scripts/features/racing-upgrades/ttRacingUpgrades.js"],
+			"css": ["scripts/features/racing-upgrades/ttRacingUpgrades.css", "scripts/global/functions/filters.css"],
+			"js": [
+				"scripts/features/car-win-percentage/ttCarWinPercentage.js",
+				"scripts/features/racing-upgrades/ttRacingUpgrades.js",
+				"scripts/global/functions/filters.js",
+				"scripts/features/racing-filter/ttRacingFilter.js"
+			],
 			"run_at": "document_end"
 		},
 		{

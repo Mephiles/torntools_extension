@@ -276,20 +276,27 @@
 
 	function createStatsWatcher() {
 		let onChangeCallback;
+		let statsValueElementsMap = {};
 
-		const statsValueElementsMap = Object.values(BATTLE_STAT).reduce((obj, statName) => {
-			const valueElement = document.querySelector(
-				`[class*="gymContent___"] [class*="${statName.toLowerCase()}___"] [class*="propertyTitle___"] [class*="propertyValue___"]`
-			);
-			obj[statName] = valueElement;
+		const chainObserver = observeChain(document, ['[class*="gymContent___"]:has([class*="properties___"] [class*="propertyValue___"])'], (gymContent) => {
+			const statsObservers = Object.values(BATTLE_STAT).map((statName) => {
+				const selector = `[class*="${statName.toLowerCase()}___"] [class*="propertyTitle___"] [class*="propertyValue___"]`;
+				const observer = new MutationObserver(() => onChangeCallback?.(true));
+				const element = gymContent.querySelector(selector);
 
-			return obj;
-		}, {});
+				statsValueElementsMap[statName] = element;
+				observer.observe(element, { characterData: true, childList: true, subtree: true });
 
-		const observer = new MutationObserver(() => {
-			if (onChangeCallback) {
-				onChangeCallback();
-			}
+				return observer;
+			});
+
+			onChangeCallback?.(true);
+
+			return () => {
+				statsObservers.forEach((statObserver) => statObserver.disconnect());
+				statsValueElementsMap = {};
+				onChangeCallback?.(false);
+			};
 		});
 
 		function readStats() {
@@ -307,12 +314,8 @@
 		}
 
 		function dispose() {
-			observer.disconnect();
+			chainObserver.disconnect();
 		}
-
-		Object.values(BATTLE_STAT).forEach((statName) =>
-			observer.observe(statsValueElementsMap[statName], { characterData: true, childList: true, subtree: true })
-		);
 
 		return {
 			readStats,
@@ -533,11 +536,6 @@
 	let gymContentManager;
 
 	async function startFeature() {
-		await requireElement('[class*="gymContent___"] > [class*="properties___"] [class*="propertyValue___"]');
-
-		statsWatcher = createStatsWatcher();
-		gymContentManager = createGymContentManager();
-
 		function updateGymContentInfo() {
 			const result = calculateSpecialGymsData(statsWatcher.readStats(), specialGyms.getSpecialGymOne(), specialGyms.getSpecialGymTwo());
 
@@ -548,14 +546,23 @@
 			}
 		}
 
-		specialGyms = createSpecialistGymsBoxElement(document.querySelector("#gymroot"), () => statsWatcher.readStats(), updateGymContentInfo);
+		statsWatcher = createStatsWatcher();
 
-		statsWatcher.onChange(() => {
-			specialGyms.updateStats();
-			updateGymContentInfo();
+		statsWatcher.onChange((statsExist) => {
+			if (statsExist) {
+				gymContentManager = gymContentManager ?? createGymContentManager();
+				specialGyms =
+					specialGyms ?? createSpecialistGymsBoxElement(document.querySelector("#gymroot"), () => statsWatcher.readStats(), updateGymContentInfo);
+
+				specialGyms.updateStats();
+				updateGymContentInfo();
+			} else {
+				specialGyms.dispose();
+				gymContentManager.dispose();
+				specialGyms = undefined;
+				gymContentManager = undefined;
+			}
 		});
-
-		updateGymContentInfo();
 	}
 
 	function disposeFeature() {
