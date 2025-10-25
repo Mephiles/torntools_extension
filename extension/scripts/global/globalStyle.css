@@ -243,21 +243,37 @@ body.dark-mode #tt-page-status .tt-features-list {
 }
 
 /* Error messages styles */
-#tt-page-status .error-messages:not(:empty)::before {
-	content: "Errors";
-	display: block;
+#tt-page-status .error-messages {
+	display: none;
 	margin: 10px 0;
-	color: red;
+	padding: 10px 5px;
+	border: 2px solid red;
+	border-radius: 5px;
+}
+
+#tt-page-status .error-messages.show {
+	display: block;
+}
+
+#tt-page-status .error-messages .heading {
 	font-size: 16px;
 	text-align: center;
 	font-weight: bold;
-	border-bottom: 5px solid red;
 }
 
-#tt-page-status .error-messages:not(:empty) .error .name {
+#tt-page-status .error-messages .heading i {
+	float: right;
+}
+
+#tt-page-status .error-messages .error:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+#tt-page-status .error-messages .error .name {
 	margin-top: 5px;
 	font-weight: bold;
-	background: #ff3e00;
+	border-bottom: 2.5px solid #fff;
+	margin-bottom: 5px;
 }
 
 /* Using JS due to usability issues on mobiles & tablets
