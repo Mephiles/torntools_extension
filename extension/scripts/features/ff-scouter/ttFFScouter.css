@@ -13,6 +13,10 @@
 	color: var(--tt-color-light-green);
 }
 
+.tt-ff-scouter-mini-profile {
+    padding: 0 0 1px 4px;
+}
+
 /*
  * Credits to rDacted [2670953] (https://www.torn.com/profiles.php?XID=2670953).
  *

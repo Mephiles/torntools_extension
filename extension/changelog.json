@@ -16,7 +16,8 @@
 				{ "message": "Update alcohol nerve formula to take the events into account.", "contributor": "DeKleineKobini" },
 				{ "message": "Update candy happy formula to take the event into account.", "contributor": "DeKleineKobini" },
 				{ "message": "Change cooldown end times to work on \"click\" on mobile.", "contributor": "TheFoxMan" },
-				{ "message": "Move last action to the new native element.", "contributor": "DeKleineKobini" }
+				{ "message": "Move last action to the new native element.", "contributor": "DeKleineKobini" },
+				{ "message": "Move FFScouter in the mini profile to the status description instead of last action.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

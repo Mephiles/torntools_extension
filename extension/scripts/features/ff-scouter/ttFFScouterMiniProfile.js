@@ -52,7 +52,7 @@
 			});
 	}
 
-	function showResult(scout) {
+	async function showResult(scout) {
 		const { message, className, detailMessage } = buildScoutInformation(scout);
 
 		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });
@@ -60,6 +60,7 @@
 			element.setAttribute("title", detailMessage);
 		}
 
-		requireElement("#profile-mini-root .profile-container .description").then((d) => d.appendChild(element));
+		const lastActionSection = await requireElement("#profile-mini-root .profile-container .description .last-action");
+		lastActionSection.insertAdjacentElement("beforebegin", element);
 	}
 })();
