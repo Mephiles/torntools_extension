@@ -9,7 +9,10 @@
 				{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" },
 				{ "message": "Added an advanced filter for Custom Races.", "contributor": "Simpsons" }
 			],
-			"fixes": [{ "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" }],
+			"fixes": [
+              { "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" },
+              { "message": "Fix 'disable ally attacks' after the profile update.", "contributor": "DeKleineKobini" }
+            ],
 			"changes": [
 				{ "message": "Specialist gyms refactor.", "contributor": "AllMight" },
 				{ "message": "Update can energy formula to take the event into account.", "contributor": "DeKleineKobini" },

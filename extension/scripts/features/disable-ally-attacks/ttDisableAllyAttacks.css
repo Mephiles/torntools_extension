@@ -1,8 +1,9 @@
 .tt-disable-ally.tt-cross {
 	width: 35px;
 	height: 35px;
-	padding: 7px;
-	transform: translate(-4px, -51px);
+	/*padding: 7px;*/
+	/*transform: translate(-4px, -51px);*/
+    position: absolute;
 }
 
 .tt-disable-ally-attack {
