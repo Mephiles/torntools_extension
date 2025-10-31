@@ -7,7 +7,9 @@
 			"features": [
 				{ "message": "Add 'Consumables' tab for the faction armory 'Quick Item Menu'.", "contributor": "Simpsons" },
 				{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" },
-				{ "message": "Added an advanced filter for Custom Races.", "contributor": "Simpsons" }
+				{ "message": "Added an advanced filter for Custom Races.", "contributor": "Simpsons" },
+				{ "message": "Notification at a set time when you are at the maximum mission amount.", "contributor": "DeKleineKobini" },
+				{ "message": "Notification certain hours before a mission expires.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" },
@@ -20,7 +22,9 @@
 				{ "message": "Update candy happy formula to take the event into account.", "contributor": "DeKleineKobini" },
 				{ "message": "Change cooldown end times to work on \"click\" on mobile.", "contributor": "TheFoxMan" },
 				{ "message": "Move last action to the new native element.", "contributor": "DeKleineKobini" },
-				{ "message": "Move FFScouter in the mini profile to the status description instead of last action.", "contributor": "DeKleineKobini" }
+				{ "message": "Move FFScouter in the mini profile to the status description instead of last action.", "contributor": "DeKleineKobini" },
+				{ "message": "Fetch mission data in the 'basic' userdata cycle.", "contributor": "DeKleineKobini" },
+				{ "message": "Send notifications faster when queued outside the usual fetching cycle.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
