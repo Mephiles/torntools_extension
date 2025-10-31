@@ -336,7 +336,7 @@ async function updateUserdata(forceUpdate = false) {
 
 			selections.push(selection);
 		}
-		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals"]) {
+		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals", "missions"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
