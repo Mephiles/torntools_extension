@@ -10,9 +10,9 @@
 				{ "message": "Added an advanced filter for Custom Races.", "contributor": "Simpsons" }
 			],
 			"fixes": [
-              { "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" },
-              { "message": "Fix 'disable ally attacks' after the profile update.", "contributor": "DeKleineKobini" }
-            ],
+				{ "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" },
+				{ "message": "Fix 'disable ally attacks' after the profile update.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Specialist gyms refactor.", "contributor": "AllMight" },
 				{ "message": "Update can energy formula to take the event into account.", "contributor": "DeKleineKobini" },
