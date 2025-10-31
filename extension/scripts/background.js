@@ -20,6 +20,7 @@ const ALARM_NAMES = {
 	CLEAR_CACHE: "clear-cache-alarm",
 	CLEAR_USAGE: "clear-usage-alarm",
 	DATA_UPDATE_AND_NOTIFICATIONS: "data-update-and-notifications-alarm",
+	NOTIFICATIONS: "notifications-alarm",
 };
 
 class AudioPlayer {
@@ -69,6 +70,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 		void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 		void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
 		void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+		void chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 	});
 
 	// These are refresh tasks, not clearing.
@@ -101,12 +103,13 @@ chrome.runtime.onStartup.addListener(async () => {
 // Register updaters, if not registered.
 (async () => {
 	chrome.alarms.getAll().then((currentAlarms) => {
-		if (currentAlarms.length === 3) return;
+		if (currentAlarms.length === 4) return;
 
 		chrome.alarms.clearAll().then(() => {
 			void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 			void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
 			void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+			void chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 		});
 	});
 })();
@@ -124,6 +127,9 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 			break;
 		case ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS:
 			await Promise.allSettled(timedUpdates());
+			await sendNotifications();
+			break;
+		case ALARM_NAMES.NOTIFICATIONS:
 			await sendNotifications();
 			break;
 		default:
@@ -1871,6 +1877,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 				await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
 				await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+				await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 
 				sendResponse(await chrome.alarms.getAll());
 			})();

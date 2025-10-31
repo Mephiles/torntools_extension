@@ -22,7 +22,8 @@
 				{ "message": "Change cooldown end times to work on \"click\" on mobile.", "contributor": "TheFoxMan" },
 				{ "message": "Move last action to the new native element.", "contributor": "DeKleineKobini" },
 				{ "message": "Move FFScouter in the mini profile to the status description instead of last action.", "contributor": "DeKleineKobini" },
-				{ "message": "Fetch mission data in the 'basic' userdata cycle.", "contributor": "DeKleineKobini" }
+				{ "message": "Fetch mission data in the 'basic' userdata cycle.", "contributor": "DeKleineKobini" },
+				{ "message": "Send notifications faster when queued outside the usual fetching cycle.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
