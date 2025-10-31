@@ -340,6 +340,8 @@ const DEFAULT_STORAGE = {
 				cooldownBooster: new DefaultSetting({ type: "array", defaultValue: [] }),
 				cooldownMedical: new DefaultSetting({ type: "array", defaultValue: [] }),
 				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
+				missionsLimitEnabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				missionsLimit: new DefaultSetting({ type: "string", defaultValue: "" }),
 				npcsGlobal: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcs: new DefaultSetting({ type: "array", defaultValue: [] }),
 				npcPlannedEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -1030,6 +1032,7 @@ const DEFAULT_STORAGE = {
 		stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 		npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
 		offline: new DefaultSetting({ type: "object", defaultValue: {} }),
+		missionsLimit: new DefaultSetting({ type: "object", defaultValue: {} }),
 	},
 };
 

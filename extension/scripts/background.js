@@ -404,6 +404,7 @@ async function updateUserdata(forceUpdate = false) {
 		await notifyOffline().catch((error) => console.error("Error while sending offline notification.", error));
 		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
 		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
+		await notifyMissions().catch((error) => console.error("Error while sending mission notifications.", error));
 	}
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
@@ -912,6 +913,37 @@ async function updateUserdata(forceUpdate = false) {
 			} else {
 				notifications[cooldown.memory] = {};
 			}
+		}
+	}
+
+	async function notifyMissions() {
+		if (!settings.apiUsage.user.missions || !settings.notifications.types.global) return;
+
+		if (settings.notifications.types.missionsLimitEnabled && settings.notifications.types.missionsLimit) {
+			const limitParts = settings.notifications.types.missionsLimit.split(":").map((part) => parseInt(part, 10));
+			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
+
+			if (new Date() >= cutoff) {
+				for (const { name, contracts } of userdata.missions.givers) {
+					const activeContracts = contracts.filter((contract) => contract.completed_at === null);
+					const maxMissions = name in MAX_MISSIONS ? MAX_MISSIONS[name] : MAX_MISSIONS.DEFAULT;
+
+					if (activeContracts.length >= maxMissions) {
+						const now = new Date();
+						const key = `${name}_${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+
+						if (!(key in notifications.missionsLimit)) {
+							notifications.missionsLimit[key] = newNotification(
+								"Missions",
+								`You are currently at the maximum amount of contracts (${maxMissions}) for ${name}.`,
+								LINKS.missions
+							);
+						}
+					}
+				}
+			}
+		} else {
+			notifications.missionsLimit = {};
 		}
 	}
 }

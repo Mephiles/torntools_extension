@@ -30,6 +30,7 @@ const LINKS = {
 	jobs: "https://www.torn.com/companies.php",
 	loan: "https://www.torn.com/loan.php",
 	messages: "https://www.torn.com/messages.php",
+	missions: "https://www.torn.com/loader.php?sid=missions",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 	pointsmarket: "https://www.torn.com/pmarket.php",
 	property_upkeep: "https://www.torn.com/properties.php#/p=options&tab=upkeep",
@@ -2242,3 +2243,8 @@ function getSidebarData() {
 		.map(([, value]) => JSON.parse(value))
 		.find(() => true);
 }
+
+const MAX_MISSIONS = {
+	Duke: 3,
+	DEFAULT: 3,
+};
