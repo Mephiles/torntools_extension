@@ -951,6 +951,30 @@ async function updateUserdata(forceUpdate = false) {
 		} else {
 			notifications.missionsLimit = {};
 		}
+
+		if (settings.notifications.types.missionsExpireEnabled && settings.notifications.types.missionsExpire.length) {
+			for (const { name, contracts } of userdata.missions.givers) {
+				const ongoingMissions = contracts.filter((contract) => contract.status === "Accepted");
+
+				for (const mission of ongoingMissions) {
+					for (const checkpoint of settings.notifications.types.missionsExpire.sort((a, b) => a - b)) {
+						const timeLeft = mission.expires_at * 1000 - now;
+						const key = `${name}_${mission.title}_${mission.created_at}_${checkpoint}`;
+
+						if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.HOURS || notifications.missionsExpire[key]) continue;
+
+						notifications.missionsExpire[key] = newNotification(
+							"Missions",
+							`'${mission.title}' by ${name} will expire in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer", showDays: true, truncateSeconds: true })}.`,
+							LINKS.missions
+						);
+						break;
+					}
+				}
+			}
+		} else {
+			notifications.missionsExpire = {};
+		}
 	}
 }
 

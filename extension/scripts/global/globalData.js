@@ -342,6 +342,8 @@ const DEFAULT_STORAGE = {
 				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
 				missionsLimitEnabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				missionsLimit: new DefaultSetting({ type: "string", defaultValue: "" }),
+				missionsExpireEnabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				missionsExpire: new DefaultSetting({ type: "array", defaultValue: [] }),
 				npcsGlobal: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcs: new DefaultSetting({ type: "array", defaultValue: [] }),
 				npcPlannedEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -1033,6 +1035,7 @@ const DEFAULT_STORAGE = {
 		npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
 		offline: new DefaultSetting({ type: "object", defaultValue: {} }),
 		missionsLimit: new DefaultSetting({ type: "object", defaultValue: {} }),
+		missionsExpire: new DefaultSetting({ type: "object", defaultValue: {} }),
 	},
 };
 
