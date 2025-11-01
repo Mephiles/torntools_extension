@@ -31,6 +31,11 @@ class FeatureManager {
 			if (error?.message === "Maximum cycles reached." && !settings.developer) return;
 
 			this.errorCount = this.errorCount + 1;
+			if (this.errorCount === 1) {
+				// Show error messages from first error.
+				document.find("#tt-page-status .error-messages").classList.add("show");
+			}
+
 			if (Array.isArray(info)) {
 				info[0] = this.logPadding + info[0];
 			} else {
@@ -76,6 +81,22 @@ class FeatureManager {
 			this.earlyErrors.forEach((error) => this.addErrorToPopup(error));
 			this.earlyErrors = [];
 		};
+
+		// For testing.
+		// setTimeout(() => {
+		// 	throw Error("abc");
+		// }, 6000);
+		// setTimeout(() => {
+		// 	throw Error("abc");
+		// }, 12000);
+		window.addEventListener("error", (e) => {
+			// debugger;
+			this.logError("Uncaught window error:", e.error);
+		});
+		window.addEventListener("unhandledrejection", (e) => {
+			// debugger;
+			this.logError("Uncaught promise rejection:", new Error(e.reason));
+		});
 
 		window.isfeatureManagerLoaded = true;
 
@@ -383,7 +404,26 @@ class FeatureManager {
 				document.newElement({
 					type: "div",
 					class: "tt-features-list",
-					children: [document.newElement({ type: "div", class: "error-messages" })],
+					children: [
+						document.newElement({
+							type: "div",
+							class: "error-messages",
+							children: [
+								document.newElement({
+									type: "div",
+									class: "heading",
+									text: "Errors",
+									attributes: { title: "Click or touch to copy all errors" },
+									children: [document.newElement({ type: "i", class: "fa-solid fa-copy" })],
+									events: {
+										click: () => {
+											toClipboard("TornTools " + document.find("#tt-page-status .error-messages").innerText);
+										},
+									},
+								}),
+							],
+						}),
+					],
 				}),
 			],
 		});
