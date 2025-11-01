@@ -141,7 +141,7 @@
 				"scripts/features/search-chat/ttSearchChat.js",
 				"scripts/features/chat-highlight/ttChatHighlight.js",
 				"scripts/features/chat-autocomplete/ttChatAutocomplete.js",
-				"scripts/features/mini-profile-information/ttMiniprofileInformation.js",
+				"scripts/features/mini-profile-last-action/ttMiniProfileLastAction.js",
 				"scripts/features/easter-egg/ttEasterEgg.js",
 				"scripts/features/trade-timer/ttTradeTimer.js",
 				"scripts/features/hide-chat/ttHideChat.js",

@@ -115,7 +115,7 @@ function createMultiSelect(options) {
 			const checkbox = document.newElement({
 				type: "input",
 				value: opt.value,
-				attributes: { type: "checkbox", checked: selectedValues.includes(opt.value) },
+				attributes: { type: "checkbox" },
 				events: {
 					change: () => {
 						if (checkbox.checked) {
@@ -127,6 +127,7 @@ function createMultiSelect(options) {
 					},
 				},
 			});
+			checkbox.checked = selectedValues.includes(opt.value);
 			checkbox.disabled = !!opt.disabled;
 
 			const text = document.newElement({ type: "span", text: opt.description });

@@ -9,13 +9,18 @@
 				{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" },
 				{ "message": "Added an advanced filter for Custom Races.", "contributor": "Simpsons" }
 			],
-			"fixes": [{ "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" }],
+			"fixes": [
+				{ "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" },
+				{ "message": "Fix 'disable ally attacks' after the profile update.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Specialist gyms refactor.", "contributor": "AllMight" },
 				{ "message": "Update can energy formula to take the event into account.", "contributor": "DeKleineKobini" },
 				{ "message": "Update alcohol nerve formula to take the events into account.", "contributor": "DeKleineKobini" },
 				{ "message": "Update candy happy formula to take the event into account.", "contributor": "DeKleineKobini" },
-				{ "message": "Change cooldown end times to work on \"click\" on mobile.", "contributor": "TheFoxMan" }
+				{ "message": "Change cooldown end times to work on \"click\" on mobile.", "contributor": "TheFoxMan" },
+				{ "message": "Move last action to the new native element.", "contributor": "DeKleineKobini" },
+				{ "message": "Move FFScouter in the mini profile to the status description instead of last action.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
