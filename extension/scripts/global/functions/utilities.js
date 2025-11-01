@@ -170,7 +170,17 @@ function isIntNumber(number) {
 }
 
 function isSameUTCDay(date1, date2) {
-	return date1.setUTCHours(24, 0, 0, 0) === date2.setUTCHours(24, 0, 0, 0);
+	const _date1 = new Date(date1);
+	const _date2 = new Date(date2);
+
+	return _date1.setUTCHours(24, 0, 0, 0) === _date2.setUTCHours(24, 0, 0, 0);
+}
+
+function getUTCTodayAtTime(hours, minutes) {
+	const date = new Date();
+	date.setUTCHours(hours, minutes);
+
+	return date;
 }
 
 function isToday(timestamp) {

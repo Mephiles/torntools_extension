@@ -666,10 +666,14 @@ async function setupPreferences(requireCleanup) {
 				option = _preferences.find(`#notification_type-${notificationType}[type="text"]`);
 				if (!option) continue;
 				option.value = settings.notifications.types[notificationType].join(",");
-			} else {
+			} else if (typeof settings.notifications.types[notificationType] === "boolean") {
 				option = _preferences.find(`#notification_type-${notificationType}`);
 				if (!option) continue;
 				option.checked = settings.notifications.types[notificationType];
+			} else {
+				option = _preferences.find(`#notification_type-${notificationType}`);
+				if (!option) continue;
+				option.value = settings.notifications.types[notificationType];
 			}
 
 			if (notificationsDisabled && notificationType !== "global") option.setAttribute("disabled", true);
@@ -1095,15 +1099,19 @@ async function setupPreferences(requireCleanup) {
 		for (const notificationType in settings.notifications.types) {
 			if (notificationType === "stocks" || notificationType === "npcs") continue;
 
+			let newValue;
 			if (Array.isArray(settings.notifications.types[notificationType])) {
-				settings.notifications.types[notificationType] = _preferences
+				newValue = _preferences
 					.find(`#notification_type-${notificationType}[type="text"]`)
 					.value.split(",")
 					.filter((x) => x)
 					.map((x) => (!isNaN(x) ? parseFloat(x) : x));
+			} else if (typeof settings.notifications.types[notificationType] === "boolean") {
+				newValue = _preferences.find(`#notification_type-${notificationType}`).checked;
 			} else {
-				settings.notifications.types[notificationType] = _preferences.find(`#notification_type-${notificationType}`).checked;
+				newValue = _preferences.find(`#notification_type-${notificationType}`).value;
 			}
+			settings.notifications.types[notificationType] = newValue;
 		}
 		settings.notifications.types.npcs = [..._preferences.findAll("#npc-alerts > li")]
 			.map((row) => {

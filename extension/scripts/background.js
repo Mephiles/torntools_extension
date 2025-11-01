@@ -20,6 +20,7 @@ const ALARM_NAMES = {
 	CLEAR_CACHE: "clear-cache-alarm",
 	CLEAR_USAGE: "clear-usage-alarm",
 	DATA_UPDATE_AND_NOTIFICATIONS: "data-update-and-notifications-alarm",
+	NOTIFICATIONS: "notifications-alarm",
 };
 
 class AudioPlayer {
@@ -69,6 +70,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 		void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 		void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
 		void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+		void chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 	});
 
 	// These are refresh tasks, not clearing.
@@ -101,12 +103,13 @@ chrome.runtime.onStartup.addListener(async () => {
 // Register updaters, if not registered.
 (async () => {
 	chrome.alarms.getAll().then((currentAlarms) => {
-		if (currentAlarms.length === 3) return;
+		if (currentAlarms.length === 4) return;
 
 		chrome.alarms.clearAll().then(() => {
 			void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 			void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
 			void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+			void chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 		});
 	});
 })();
@@ -124,6 +127,9 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 			break;
 		case ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS:
 			await Promise.allSettled(timedUpdates());
+			await sendNotifications();
+			break;
+		case ALARM_NAMES.NOTIFICATIONS:
 			await sendNotifications();
 			break;
 		default:
@@ -336,7 +342,7 @@ async function updateUserdata(forceUpdate = false) {
 
 			selections.push(selection);
 		}
-		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals"]) {
+		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals", "missions"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -404,6 +410,7 @@ async function updateUserdata(forceUpdate = false) {
 		await notifyOffline().catch((error) => console.error("Error while sending offline notification.", error));
 		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
 		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
+		await notifyMissions().catch((error) => console.error("Error while sending mission notifications.", error));
 	}
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
@@ -912,6 +919,61 @@ async function updateUserdata(forceUpdate = false) {
 			} else {
 				notifications[cooldown.memory] = {};
 			}
+		}
+	}
+
+	async function notifyMissions() {
+		if (!settings.apiUsage.user.missions || !settings.notifications.types.global) return;
+
+		if (settings.notifications.types.missionsLimitEnabled && settings.notifications.types.missionsLimit) {
+			const limitParts = settings.notifications.types.missionsLimit.split(":").map((part) => parseInt(part, 10));
+			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
+
+			if (new Date() >= cutoff) {
+				for (const { name, contracts } of userdata.missions.givers) {
+					const activeContracts = contracts.filter((contract) => contract.completed_at === null);
+					const maxMissions = name in MAX_MISSIONS ? MAX_MISSIONS[name] : MAX_MISSIONS.DEFAULT;
+
+					if (activeContracts.length >= maxMissions) {
+						const now = new Date();
+						const key = `${name}_${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+
+						if (!(key in notifications.missionsLimit)) {
+							notifications.missionsLimit[key] = newNotification(
+								"Missions",
+								`You are currently at the maximum amount of contracts (${maxMissions}) for ${name}.`,
+								LINKS.missions
+							);
+						}
+					}
+				}
+			}
+		} else {
+			notifications.missionsLimit = {};
+		}
+
+		if (settings.notifications.types.missionsExpireEnabled && settings.notifications.types.missionsExpire.length) {
+			for (const { name, contracts } of userdata.missions.givers) {
+				const ongoingMissions = contracts.filter((contract) => contract.status === "Accepted");
+
+				for (const mission of ongoingMissions) {
+					for (const checkpoint of settings.notifications.types.missionsExpire.sort((a, b) => a - b)) {
+						const timeLeft = mission.expires_at * 1000 - now;
+						const key = `${name}_${mission.title}_${mission.created_at}_${checkpoint}`;
+
+						if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.HOURS || notifications.missionsExpire[key]) continue;
+
+						notifications.missionsExpire[key] = newNotification(
+							"Missions",
+							`'${mission.title}' by ${name} will expire in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer", showDays: true, truncateSeconds: true })}.`,
+							LINKS.missions
+						);
+						break;
+					}
+				}
+			}
+		} else {
+			notifications.missionsExpire = {};
 		}
 	}
 }
@@ -1839,6 +1901,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
 				await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
 				await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+				await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 
 				sendResponse(await chrome.alarms.getAll());
 			})();

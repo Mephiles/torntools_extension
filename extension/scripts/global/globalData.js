@@ -340,6 +340,10 @@ const DEFAULT_STORAGE = {
 				cooldownBooster: new DefaultSetting({ type: "array", defaultValue: [] }),
 				cooldownMedical: new DefaultSetting({ type: "array", defaultValue: [] }),
 				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
+				missionsLimitEnabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				missionsLimit: new DefaultSetting({ type: "string", defaultValue: "" }),
+				missionsExpireEnabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				missionsExpire: new DefaultSetting({ type: "array", defaultValue: [] }),
 				npcsGlobal: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcs: new DefaultSetting({ type: "array", defaultValue: [] }),
 				npcPlannedEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -375,6 +379,7 @@ const DEFAULT_STORAGE = {
 				properties: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				calendar: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				missions: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -1029,6 +1034,8 @@ const DEFAULT_STORAGE = {
 		stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 		npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
 		offline: new DefaultSetting({ type: "object", defaultValue: {} }),
+		missionsLimit: new DefaultSetting({ type: "object", defaultValue: {} }),
+		missionsExpire: new DefaultSetting({ type: "object", defaultValue: {} }),
 	},
 };
 
