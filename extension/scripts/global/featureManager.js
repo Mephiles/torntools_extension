@@ -90,11 +90,11 @@ class FeatureManager {
 		// 	throw Error("abc");
 		// }, 12000);
 		window.addEventListener("error", (e) => {
-			debugger;
+			// debugger;
 			this.logError("Uncaught window error:", e.error);
 		});
 		window.addEventListener("unhandledrejection", (e) => {
-			debugger;
+			// debugger;
 			this.logError("Uncaught promise rejection:", new Error(e.reason));
 		});
 
