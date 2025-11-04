@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 7, "minor": 9, "build": 0 },
+		"version": { "major": 7, "minor": 9, "build": 1 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 9, "build": 0 },
+		"date": "2025/11/04",
 		"logs": {
 			"features": [
 				{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" },
@@ -24,8 +30,7 @@
 				{ "message": "Move FFScouter in the mini profile to the status description instead of last action.", "contributor": "DeKleineKobini" },
 				{ "message": "Fetch mission data in the 'basic' userdata cycle.", "contributor": "DeKleineKobini" },
 				{ "message": "Send notifications faster when queued outside the usual fetching cycle.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
