@@ -5,13 +5,13 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Add 'Consumables' tab for the faction armory 'Quick Item Menu'.", "contributor": "Simpsons" },
 				{ "message": "Specialist gyms live stats sync and new bottom box info with new algorithm.", "contributor": "AllMight" },
 				{ "message": "Added an advanced filter for Custom Races.", "contributor": "Simpsons" },
 				{ "message": "Notification at a set time when you are at the maximum mission amount.", "contributor": "DeKleineKobini" },
 				{ "message": "Notification certain hours before a mission expires.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
+				{ "message": "Show 'Faction Quick Items' on the 'Consumables' tab for the faction armory.", "contributor": "Simpsons" },
 				{ "message": "Extend supply pack animation wait delay.", "contributor": "AllMight" },
 				{ "message": "Fix 'disable ally attacks' after the profile update.", "contributor": "DeKleineKobini" }
 			],
