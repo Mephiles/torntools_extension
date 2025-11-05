@@ -1,10 +1,10 @@
 [
 	{
-		"version": { "major": 7, "minor": 9, "build": 1 },
+		"version": { "major": 7, "minor": 9, "build": 2 },
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix specialist gyms by reverting to the old version.", "contributor": "Simpsons" }],
+			"fixes": [{ "message": "Fix specialist gyms by reverting to the old version.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": []
 		}
