@@ -3,7 +3,12 @@
 		"version": { "major": 7, "minor": 9, "build": 1 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix specialist gyms by reverting to the old version.", "contributor": "Simpsons" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 7, "minor": 9, "build": 0 },
