@@ -41,7 +41,9 @@ class FeatureManager {
 			} else {
 				info = [this.logPadding + info];
 			}
-			info.push(error.stack);
+			if (error && "stack" in error) {
+				info.push(error.stack);
+			}
 			console.error(...info);
 			// this.container.find(".error-messages")
 			/*
