@@ -105,8 +105,9 @@ class FeatureManager {
 			this.logError("Uncaught window error:", e.error);
 		});
 		window.addEventListener("unhandledrejection", (e) => {
+			const error = e.reason instanceof Error ? e.reason : new Error(e.reason);
 			// debugger;
-			this.logError("Uncaught promise rejection:", new Error(e.reason));
+			this.logError("Uncaught promise rejection:", error);
 		});
 
 		window.isfeatureManagerLoaded = true;

@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix some errors causing errors of their own while trying to log them.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix some errors causing errors of their own while trying to log them.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix some errors losing crucial information (the location where it originates).", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": []
 		}
