@@ -68,16 +68,25 @@ class FeatureManager {
 		};
 		this.addErrorToPopup = (error) => {
 			this.container.setAttribute("error-count", this.errorCount);
-			this.container.find(".error-messages").appendChild(
-				document.newElement({
+
+			let errorElement;
+			if (error != null && typeof error === "object") {
+				errorElement = document.newElement({
 					type: "div",
 					class: "error",
 					children: [
 						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
 						document.newElement({ type: "pre", class: "stack", text: error.stack }),
 					],
-				})
-			);
+				});
+			} else {
+				errorElement = document.newElement({
+					type: "pre",
+					class: "error",
+					children: [document.newElement({ type: "div", class: "name", text: `Unknown error message: ${error}` })],
+				});
+			}
+			this.container.find(".error-messages").appendChild(errorElement);
 		};
 		this.clearEarlyErrors = () => {
 			this.earlyErrors.forEach((error) => this.addErrorToPopup(error));
