@@ -4,10 +4,11 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Reenable new specialists gym feature", "contributor": "AllMight" }],
 			"fixes": [
 				{ "message": "Fix some errors causing errors of their own while trying to log them.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix some errors losing crucial information (the location where it originates).", "contributor": "DeKleineKobini" }
+				{ "message": "Fix some errors losing crucial information (the location where it originates).", "contributor": "DeKleineKobini" },
+				{ "message": "Fix specialist gyms overlapping single stat and two stats combinations.", "contributor": "AllMight" }
 			],
 			"changes": [],
 			"removed": []
