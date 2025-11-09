@@ -5,7 +5,7 @@
 .tt-specialist-gym > main {
 	display: flex;
 	flex-direction: column;
-	padding: 10px;
+	padding: 5px;
 }
 
 .tt-specialist-gym-selects-container {
@@ -13,7 +13,6 @@
 	justify-content: space-evenly;
 	flex-wrap: wrap;
 	row-gap: 5px;
-	margin-bottom: 5px;
 }
 
 .tt-specialist-gym-info-container {
@@ -21,8 +20,8 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: 1rem;
-	padding: 10px;
+	font-size: 1.2em;
+	padding: 5px 0 0 0;
 }
 
 .tt-specialist-stats-info {
@@ -37,11 +36,19 @@
 	min-width: fit-content;
 	display: flex;
 	flex-direction: column;
-	gap: 5px;
-	border: 1px solid #c8c0c0;
-	border-radius: 10px;
+	gap: 2px;
+	border-radius: 5px;
 	padding: 5px;
-	box-shadow: rgba(0, 0, 0, 0.35) 0 3px 6px;
+}
+
+body:not(.dark-mode) .tt-specialist-stat-info {
+	border: 1px solid lightgray;
+	background-color: white;
+}
+
+body.dark-mode .tt-specialist-stat-info {
+	border: 1px solid #444;
+	background-color: #333;
 }
 
 .tt-specialist-stat-header {
@@ -55,7 +62,8 @@
 }
 
 .tt-specialist-stat-info .tt-specialist-stat-required,
-.tt-specialist-stat-info .tt-specialist-stat-allowed {
+.tt-specialist-stat-info .tt-specialist-stat-allowed,
+.tt-specialist-stat-info .tt-specialist-stat-value {
 	font-size: 0.9em;
 }
 
