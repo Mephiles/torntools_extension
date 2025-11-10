@@ -10,7 +10,7 @@
 				{ "message": "Fix some errors losing crucial information (the location where it originates).", "contributor": "DeKleineKobini" },
 				{ "message": "Fix specialist gyms overlapping single stat and two stats combinations.", "contributor": "AllMight" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Update travel sync logic.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},
