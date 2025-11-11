@@ -11,10 +11,11 @@
 		initialize,
 		teardown,
 		{
-			storage: ["settings.pages.bank.investmentDueTime"],
+			storage: ["settings.pages.bank.investmentDueTime", "userdata.money.city_bank.until"],
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.money) return "No API access.";
+			else if (!userdata.money.city_bank.until) return "No active investment.";
 		}
 	);
 
