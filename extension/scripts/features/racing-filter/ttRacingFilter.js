@@ -138,7 +138,7 @@
 					"Vector",
 					"Mudpit",
 					"Hammerhead",
-					"Sewege",
+					"Sewage",
 					"Meltdown",
 					"Speedway",
 					"Stone Park",
@@ -362,3 +362,4 @@
 		document.findAll(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();
+
