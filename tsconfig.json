@@ -4,7 +4,7 @@
     "outDir": "dist",
     "target": "esnext",
     "allowJs": true,
-    "types": ["chrome-types"]
+    "types": ["chrome-types", "tornapi-typescript"]
   },
   "include": ["extension/**/*"],
 }
