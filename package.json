@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "clean": "rimraf dist",
+    "transpile": "esbuild extension/**/*.ts --outdir=dist --target=esnext --minify=false",
+    "copy-assets": "copyfiles -u 1 extension/**/* -e extension/**/*.ts dist/",
+    "build": "npm run clean && npm run transpile && npm run copy-assets"
+  },
+  "devDependencies": {
+    "chrome-types": "^0.1.378",
+    "copyfiles": "^2.4.1",
+    "esbuild": "^0.23.0",
+    "rimraf": "^6.0.1"
+  },
+  "dependencies": {
+    "tornapi-typescript": "^4.3.2"
+  }
+}
