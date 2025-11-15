@@ -31,12 +31,16 @@ function textWithColor(text, color) {
 
 async function runTypeChecker() {
 	try {
-		const parts = ["tsc", "--noEmit", ...(isWatch ? ["--incremental"] : []), "--project", "tsconfig.json"];
+		const parts = ["tsc", "--noEmit", "--pretty false", ...(isWatch ? ["--incremental"] : []), "--project", "tsconfig.json"];
 		await execPromise(parts.join(" "));
 
 		return true;
 	} catch (err) {
-		const errorTexts = err.stdout.split("\r\n").filter(Boolean);
+		const errorTexts = err.stdout
+			.trim()
+			.split(/\r?\n(?=[^ \n].*\(\d+,\d+\): error TS\d+:)/)
+			.map((chunk) => chunk.split(/\r?\n/)[0])
+			.filter(Boolean);
 		const diagnostics = errorTexts.flatMap((errorText) => parse(errorText));
 		const esBuildFormats = [];
 
@@ -132,14 +136,14 @@ function logSummary(durationMs, operationLogs, isBuild) {
 	}
 }
 
-async function processFile(srcPath, event) {
+async function processFile(srcPath, shouldDelete) {
 	if (srcPath.endsWith(".d.ts")) {
 		return "skip";
 	}
 
 	const outPath = getOutPath(srcPath);
 
-	if (event === "delete") {
+	if (shouldDelete) {
 		try {
 			await fs.remove(outPath);
 
@@ -179,9 +183,7 @@ async function processFile(srcPath, event) {
 	}
 }
 
-async function main() {
-	console.log(textWithColor(`Starting build for ${srcDir} -> ${outDir}...`, colors.bright));
-
+async function build() {
 	try {
 		await fs.emptyDir(outDir);
 		console.log(`[${textWithColor("CLEAN", colors.yellow)}] Cleared ${outDir} directory.`);
@@ -190,21 +192,29 @@ async function main() {
 		process.exit(1);
 	}
 
-	const initialBuildStart = performance.now();
+	const buildStart = performance.now();
 
 	const typeCheckPromise = runTypeChecker();
 	const allFiles = await glob(`${srcDir}/**/*.*`, {
 		ignore: ["**/node_modules/**"],
 	});
-	const allResults = await Promise.all(allFiles.map((file) => processFile(file, "add")));
+	const allResults = await Promise.all(allFiles.map((file) => processFile(file, false)));
 	const typeCheckSucceeded = await typeCheckPromise;
 
-	const initialBuildDuration = performance.now() - initialBuildStart;
+	const buildDuration = performance.now() - buildStart;
 
-	logSummary(initialBuildDuration, allResults, true);
+	logSummary(buildDuration, allResults, true);
+
+	return typeCheckSucceeded && !allResults.includes("error");
+}
+
+async function main() {
+	console.log(textWithColor(`Starting build for ${srcDir} -> ${outDir}...`, colors.bright));
+
+	const success = await build();
 
 	if (!isWatch) {
-		if (!typeCheckSucceeded || allResults.includes("error")) {
+		if (!success) {
 			process.exit(1);
 		}
 
@@ -219,44 +229,79 @@ async function main() {
 		ignoreInitial: true,
 	});
 
-	let logs = [];
-	let timeout = null;
-	let startTime = null;
+	let pendingFilePaths = new Set();
+	let debounceTimer = null;
+	let isRebuilding = false;
 
-	watcher.on("all", async (event, filePath) => {
+	async function rebuild() {
+		isRebuilding = true;
+
 		console.log(textWithColor("Rebuilding...", colors.bright));
 
-		const normalizedPath = path.normalize(filePath);
+		const startTime = performance.now();
+		const filePaths = Array.from(pendingFilePaths);
+		pendingFilePaths.clear();
 
-		if (!startTime) {
-			startTime = performance.now();
+		const typeCheckPromise = runTypeChecker();
+		const logs = await Promise.all(
+			filePaths.flatMap(async (filePath) => {
+				const exists = await fs.pathExists(filePath);
+
+				// ts file deleted but there is now a js file with same name
+				// js will be copied and overwrite old transpiled js file
+				// so must not delete;
+				if (filePath.endsWith(".ts") && !exists) {
+					const jsExists = await fs.pathExists(filePath.replace(".ts", ".js"));
+
+					if (jsExists) {
+						return [];
+					}
+				}
+
+				// js file deleted but there is a ts file with same name
+				// ts will be transpiled to js and overwrite old copied js file
+				// so must not delete
+				if (filePath.endsWith(".js") && !exists) {
+					const tsExists = await fs.pathExists(filePath.replace(".js", ".ts"));
+
+					if (tsExists) {
+						return [];
+					}
+				}
+
+				const log = await processFile(filePath, !exists);
+
+				return [log];
+			})
+		);
+		await typeCheckPromise;
+
+		const endTime = performance.now() - startTime;
+
+		logSummary(endTime, logs, false);
+		console.log(textWithColor("Watching for changes...", `${colors.bright}${colors.cyan}`));
+
+		isRebuilding = false;
+
+		if (pendingFilePaths.length) {
+			schedule();
+		}
+	}
+
+	function schedule(filePath) {
+		if (filePath) {
+			pendingFilePaths.add(filePath);
 		}
 
-		const logType = await processFile(normalizedPath, event === "add" || event === "change" ? "change" : "delete");
-
-		logs.push(logType);
-
-		if (timeout) {
-			clearTimeout(timeout);
+		if (isRebuilding) {
+			return;
 		}
 
-		timeout = setTimeout(async () => {
-			timeout = null;
+		clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(rebuild, 200);
+	}
 
-			const currentLogs = logs;
-			const currentStartTime = startTime;
-
-			startTime = null;
-			logs = [];
-
-			await runTypeChecker();
-
-			const watchEndTime = performance.now() - currentStartTime;
-
-			logSummary(watchEndTime, currentLogs, false);
-			console.log(textWithColor("Watching for changes...", `${colors.bright}${colors.cyan}`));
-		}, 200);
-	});
+	watcher.on("add", schedule).on("change", schedule).on("unlink", schedule);
 }
 
 main().catch((err) => {
