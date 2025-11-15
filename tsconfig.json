@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "none",
+    "outDir": "dist",
+    "target": "esnext",
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "types": ["chrome-types"]
+  },
+  "include": ["extension/**/*.ts", "extension/**/*.js"],
+  "exclude": ["node_modules", "dist"]
+}

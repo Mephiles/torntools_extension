@@ -1,6 +1,7 @@
 # Only prettify torntools subfolder
 /*
 !/extension
+!build.js
 
 # Ignore external libs
 /extension/vendor/*
