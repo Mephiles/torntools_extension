@@ -307,4 +307,3 @@ const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer
 	(object, { name, torn, color }) => ({ ...object, [name]: { id: torn, name, color } }),
 	{}
 );
-

@@ -388,4 +388,3 @@
 		for (const information of document.findAll(".tt-mission-information")) information.remove();
 	}
 })();
-
