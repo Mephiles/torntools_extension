@@ -12,7 +12,10 @@
 				{ "message": "Don't show the bank investment due date when there is no active investment.", "contributor": "DeKleineKobini" },
 				{ "message": "Corrected spelling of Sewage in the racing filter", "contributor": "XDeltaA77" }
 			],
-			"changes": [{ "message": "Update travel sync logic.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Update travel sync logic.", "contributor": "DeKleineKobini" },
+				{ "message": "Hint for 'Safari' mission", "contributor": "Taznister" }
+			],
 			"removed": []
 		}
 	},
