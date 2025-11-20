@@ -294,9 +294,17 @@ const TEAM = [
 		torn: 247677,
 		color: "#008B8B",
 	},
+	{
+		name: "Taznister",
+		title: "Developer",
+		core: false,
+		torn: 3770016,
+		color: "#53629E",
+	},
 ];
 
 const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer") || color).reduce(
 	(object, { name, torn, color }) => ({ ...object, [name]: { id: torn, name, color } }),
 	{}
 );
+
