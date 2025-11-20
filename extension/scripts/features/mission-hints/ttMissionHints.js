@@ -277,6 +277,8 @@
 			},
 			safari: {
 				task: "Defeat (P) with a rifle in South Africa.",
+				// tested myself, plus https://www.torn.com/forums.php#/p=threads&f=3&t=15959926
+				hint: "All hits need to be done with a rifle weapon type. Other weapons can stay equipped.",
 			},
 			scammer: {
 				task: "Defeat (P).",
@@ -386,3 +388,4 @@
 		for (const information of document.findAll(".tt-mission-information")) information.remove();
 	}
 })();
+
