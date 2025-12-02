@@ -14,7 +14,8 @@
 			],
 			"changes": [
 				{ "message": "Update travel sync logic.", "contributor": "DeKleineKobini" },
-				{ "message": "Hint for 'Safari' mission", "contributor": "Taznister" }
+				{ "message": "Hint for 'Safari' mission", "contributor": "Taznister" },
+				{ "message": "Make 'Event Worth' work with item market sales.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

@@ -20,6 +20,7 @@
 		const regexes = [
 			/(?<=bought ).*(?= of)|(?<=your points that were on the market for \$).*(?=\.)/g,
 			/(?<=bought ).*(?= x )|(?<=from your bazaar for \$).*(?=\.)/g,
+			/(?<=You sold )\d+(?=x)|(?<= for \$)[\d,]+/g,
 		];
 
 		eventsListWrapper.addEventListener(
