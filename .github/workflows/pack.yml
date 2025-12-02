@@ -44,14 +44,12 @@ jobs:
           sudo apt-get install jq
 
           # Setup variables
-          jqCommand="jq"
           changelogPath="./extension/changelog.json"
           releaseBodyFile="./releaseBody.md"
           tmpFile="tmp.tmp"
-          firstEntry="$("${jqCommand}" -j ".[0]" "${changelogPath}")"
-          version="$(echo "$firstEntry" | "${jqCommand}" -j "[ .version | to_entries[] | .value ] | join(\".\")")"
-          releaseTitle="$(echo "$firstEntry" | "${jqCommand}" -j "[ .title ]")"
-          manifestVersion="$("${jqCommand}" -j ".version" < ./extension/manifest.json)"
+          firstEntry="$(jq -j ".[0]" "${changelogPath}")"
+          version="$(echo "$firstEntry" | jq -j "[ .version | to_entries[] | .value ] | join(\".\")")"
+          manifestVersion="$(jq -j ".version" < ./extension/manifest.json)"
           [ $version != $manifestVersion ] && echo "Manifest version and changelog version are not same. Please verify again." && exit 1
 
           # Export version for future tasks
@@ -59,7 +57,7 @@ jobs:
           echo "version=$version" >> "$GITHUB_ENV"
 
           # Create release body
-          echo "$firstEntry" | "${jqCommand}" -j '
+          echo "$firstEntry" | jq -j '
           def process_category($keyAndTitle):
                 . as $logs |
                 $keyAndTitle | split(";")[0] as $key |
@@ -86,12 +84,9 @@ jobs:
           ' >> "$releaseBodyFile"
 
           # Update changelog.json date and remove empty features, fixes and changes entries
-          if [ "${releaseTitle}" == "Beta" ]
-          then
-              "${jqCommand}" -j ".[0].beta |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          fi
-          "${jqCommand}" -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          "${jqCommand}" -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+          jq -j 'del(.[].title | select(. == "Beta"))' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+          jq -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+          jq -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
 
       - name: Format with prettier
         uses: creyD/prettier_action@v4.5
@@ -102,7 +97,6 @@ jobs:
       - name: Create zip files for CWS and AMO
         run: |
           # Setup variables
-          jqCommand="jq"
           manifestPath="./extension/manifest.json"
           manifestCopyPath="manifest.json.orig"
 
@@ -110,7 +104,7 @@ jobs:
           cp "${manifestPath}" "${manifestCopyPath}"
 
           # Remove "background.scripts" from manifest (copy) for CWS
-          "${jqCommand}" -j "del(.background.scripts)" "${manifestCopyPath}" > "${manifestPath}"
+          jq -j "del(.background.scripts)" "${manifestCopyPath}" > "${manifestPath}"
 
           # Create and move extension zip file
           cd extension || exit 1
@@ -118,7 +112,7 @@ jobs:
           cd ..
 
           # Remove "background.service_worker" from manifest (copy) for AMO
-          "${jqCommand}" -j "del(.background.service_worker)" "${manifestCopyPath}" > "${manifestPath}"
+          jq -j "del(.background.service_worker)" "${manifestCopyPath}" > "${manifestPath}"
 
           # Create and move extension zip file
           cd extension || exit 2
@@ -137,7 +131,6 @@ jobs:
           name: "Release: v${{ env.version }}"
           tag: "${{ env.version }}"
           bodyFile: "./releaseBody.md"
-          token: ${{ secrets.GH_TOKEN }}
           prerelease: ${{ inputs.pre_release }}
 
       - name: Release on Chrome Web Store
@@ -184,15 +177,14 @@ jobs:
             *)       echo "th";;
             esac
           }
-          jqCommand="jq"
           tmpFile="tmp.tmp"
           readmePath="README.md"
           manifestPath="./extension/manifest.json"
           manifestCopyPath="manifest.json.orig"
           changelogPath="./extension/changelog.json"
-          newVersionMajor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[0] | tonumber | .")"
-          newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | .")"
-          newVersionBuild="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[2] | tonumber | . + 1")"
+          newVersionMajor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[0] | tonumber | .")"
+          newVersionMinor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[1] | tonumber | .")"
+          newVersionBuild="$(echo -n "\"${version}\"" | jq -j "split(\".\")[2] | tonumber | . + 1")"
           newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
           newVersionTitle="Beta"
 
@@ -203,7 +195,7 @@ jobs:
           mv "${manifestCopyPath}" "${manifestPath}"
 
           # Add beta changelog entry
-          "${jqCommand}" -r --indent 0 "
+          jq -r --indent 0 "
             . |= 
               [{
                   \"version\": { \"major\": ${newVersionMajor}, \"minor\": ${newVersionMinor}, \"build\": ${newVersionBuild} },
@@ -219,10 +211,10 @@ jobs:
               ." "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
 
           # Change manifest to next version
-          "${jqCommand}" -r --indent 0 ".[\"version\"] |= \"${newVersion}\"" "${manifestPath}" > "${tmpFile}" && mv "${tmpFile}" "${manifestPath}"
+          jq -r --indent 0 ".[\"version\"] |= \"${newVersion}\"" "${manifestPath}" > "${tmpFile}" && mv "${tmpFile}" "${manifestPath}"
 
           # Update README.md with new version packaged date (today, the day the action is run)
-          ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | "${jqCommand}" --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
+          ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | jq --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
           awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
 
       - name: Format with prettier
@@ -236,4 +228,3 @@ jobs:
         if: ${{ inputs.commit_beta_changes }}
         with:
           message: "Pack v${{ env.version }} and update to v${{ env.newVersion }}"
-
