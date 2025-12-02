@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 7, "minor": 9, "build": 3 },
+		"version": { "major": 7, "minor": 9, "build": 4 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 7, "minor": 9, "build": 3 },
+		"title": "Beta",
+		"date": "2025/12/02",
 		"logs": {
 			"features": [{ "message": "Re-enable new specialists gym feature", "contributor": "AllMight" }],
 			"fixes": [
@@ -16,8 +22,7 @@
 				{ "message": "Update travel sync logic.", "contributor": "DeKleineKobini" },
 				{ "message": "Hint for 'Safari' mission", "contributor": "Taznister" },
 				{ "message": "Make 'Event Worth' work with item market sales.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
