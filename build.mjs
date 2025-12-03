@@ -21,5 +21,7 @@ if (process.argv.includes("--watch")) {
 	const ctx = await esbuild.context(options);
 	await ctx.watch();
 } else {
-	await esbuild.build(options);
+	const result = await esbuild.build(options);
+
+	console.log(result);
 }
