@@ -1,11 +1,10 @@
 [
 	{
-		"version": { "major": 7, "minor": 9, "build": 6 },
+		"version": { "major": 9, "minor": 0, "build": 0 },
 		"title": "Beta",
 		"date": false,
 		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
 	},
-	{ "version": { "major": 7, "minor": 9, "build": 5 }, "date": "2025/12/03", "logs": {} },
 	{ "version": { "major": 7, "minor": 9, "build": 4 }, "date": "2025/12/03", "logs": {} },
 	{
 		"version": { "major": 7, "minor": 9, "build": 3 },
