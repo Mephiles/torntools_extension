@@ -1,12 +1,4 @@
 import * as esbuild from "esbuild";
-// We use 'fast-glob' to efficiently find all source files matching the pattern.
-// Note: You must install this package using npm: `npm install fast-glob`
-import fastGlob from "fast-glob";
-import path from "path";
-
-// --- Configuration ---
-
-const entryPointsGlob = ["./extension/**/*"];
 
 const buildOptions = {
 	entryPoints: ["./extension/**/*"],
@@ -27,18 +19,17 @@ const buildOptions = {
 	sourcemap: true,
 };
 
-// --- Execution ---
-
 async function build() {
-	// const entryPoints = await fastGlob(entryPointsGlob);
-	// buildOptions.entryPoints = entryPoints;
-
-	// console.log(`Found ${entryPoints.length} entry files for bundling.`);
-
 	try {
-		await esbuild.build(buildOptions);
-		console.log('✅  Build successful! Output generated in the "dist" folder.');
-		process.exit(0);
+		if (process.argv.includes("--watch")) {
+			const ctx = await esbuild.context(buildOptions);
+			console.log("✅  Started watching successful!");
+			await ctx.watch();
+		} else {
+			await esbuild.build(buildOptions);
+			console.log('✅  Build successful! Output generated in the "dist" folder.');
+			process.exit(0);
+		}
 	} catch (e) {
 		console.error("❌  Esbuild build failed:", typeof e === "object" && "message" in e ? e.message : e);
 		process.exit(1);
