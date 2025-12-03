@@ -1,16 +1,11 @@
 {
   "scripts": {
-    "build": "node build.js",
-    "watch": "node build.js --watch"
+	  "build": "esbuild extension/**/* --outdir=dist --target=chrome109,firefox128,edge109 --minify=false --loader:.html=copy --loader:.wav=copy --loader:.svg=copy --loader:.png=copy --loader:.woff2=copy --loader:.ttf=copy --loader:.json=copy",
+	  "watch": "esbuild extension/**/* --outdir=dist --target=chrome109,firefox128,edge109 --minify=false --watch --loader:.html=copy --loader:.wav=copy --loader:.svg=copy --loader:.png=copy --loader:.woff2=copy --loader:.ttf=copy --loader:.json=copy"
   },
   "devDependencies": {
-    "@aivenio/tsc-output-parser": "^2.1.1",
-    "chokidar": "^4.0.3",
     "chrome-types": "^0.1.378",
     "esbuild": "^0.27.0",
-    "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.2",
-    "nthline": "^1.0.2",
     "typescript": "^5.9.3"
   }
 }
