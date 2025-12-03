@@ -1,7 +1,7 @@
 {
   "scripts": {
-	  "build": "esbuild extension/**/* --outdir=dist --target=chrome109,firefox128,edge109 --minify=false --loader:.html=copy --loader:.wav=copy --loader:.svg=copy --loader:.png=copy --loader:.woff2=copy --loader:.ttf=copy --loader:.json=copy --loader:.md=copy",
-	  "watch": "esbuild extension/**/* --outdir=dist --target=chrome109,firefox128,edge109 --minify=false --watch --loader:.html=copy --loader:.wav=copy --loader:.svg=copy --loader:.png=copy --loader:.woff2=copy --loader:.ttf=copy --loader:.json=copy --loader:.md=copy"
+	  "build": "esbuild ./extension/**/* --outdir=dist --target=chrome109,firefox128,edge109 --minify=false --loader:.html=copy --loader:.wav=copy --loader:.svg=copy --loader:.png=copy --loader:.woff2=copy --loader:.ttf=copy --loader:.json=copy --loader:.md=copy",
+	  "watch": "esbuild ./extension/**/* --outdir=dist --target=chrome109,firefox128,edge109 --minify=false --watch --loader:.html=copy --loader:.wav=copy --loader:.svg=copy --loader:.png=copy --loader:.woff2=copy --loader:.ttf=copy --loader:.json=copy --loader:.md=copy"
   },
   "devDependencies": {
     "chrome-types": "^0.1.378",
