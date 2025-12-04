@@ -16,7 +16,7 @@ const buildOptions = {
 		".md": "copy",
 		".css": "copy",
 	},
-	sourcemap: true,
+	sourcemap: false,
 };
 
 async function build() {
