@@ -15,6 +15,7 @@ const buildOptions = {
 		".json": "copy",
 		".md": "copy",
 		".css": "copy",
+		".d.ts": "empty",
 	},
 	sourcemap: false,
 };
