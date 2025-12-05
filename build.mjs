@@ -144,6 +144,8 @@ const buildOptions = {
 };
 
 async function build() {
+	console.log(textWithColor(`Cleaning ${outDir}...`, colors.yellow));
+	fs.rmSync(outDir, { recursive: true, force: true });
 	console.log(textWithColor(`Starting build for ${srcDir} -> ${outDir}...`, colors.bright));
 
 	try {
