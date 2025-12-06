@@ -7,7 +7,7 @@ declare global {
 		html?: string;
 		value?: any | (() => any);
 		href?: string;
-		children?: HTMLElement[];
+		children?: Node[];
 		attributes?: Record<string, string> | (() => Record<string, string>);
 		events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
 		style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
@@ -22,7 +22,7 @@ declare global {
 
 	interface Document {
 		newElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
-		newElement(options: NewElementOptions): HTMLElement;
+		newElement<K extends keyof HTMLElementTagNameMap>(options: Omit<NewElementOptions, "type"> & { type: K }): HTMLElementTagNameMap[K];
 		find(selector: string, options?: Partial<FindOptions>): HTMLElement;
 		findAll(selector: string): NodeListOf<HTMLElement>;
 		setClass(...classNames: string[]): void;
@@ -41,6 +41,23 @@ declare global {
 
 	interface Number {
 		roundNearest(multiple: number): number;
+	}
+
+	interface Array<T> {
+		last(): T;
+		insertAt(index: number, ...values: T[]): void;
+		totalSum(): number;
+		findHighest(): number;
+		findLowest(): number;
+		equals(other: T[]): boolean;
+	}
+
+	interface Object {
+		equals(other: object): boolean;
+	}
+
+	interface JSON {
+		isValid(str: string): boolean;
 	}
 }
 
