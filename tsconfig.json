@@ -9,7 +9,8 @@
 		"types": ["chrome-types"],
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
-		"strictBuiltinIteratorReturn": true
+		"strictBuiltinIteratorReturn": true,
+		"strictFunctionTypes": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
