@@ -13,7 +13,8 @@
 		"strictFunctionTypes": true,
 		"strictBindCallApply": true,
 		"alwaysStrict": true,
-		"noImplicitOverride": true
+		"noImplicitOverride": true,
+		"noImplicitThis": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
