@@ -62,6 +62,8 @@ Object.defineProperty(Document.prototype, "newElement", {
 			}
 
 			return newElement;
+		} else {
+			throw new Error("Invalid options provided to newElement.");
 		}
 	},
 	enumerable: false,
@@ -394,7 +396,7 @@ function sortTable(table: HTMLElement, columnPlace: number, order: "asc" | "desc
 						break;
 					default:
 						console.warn("Attempting to sort by a non-existing type.", elementA.getAttribute("sort-type"));
-						return;
+						return { a: 0, b: 0 }; // Keep original sorting order this way.
 				}
 			} else if (elementA.hasAttribute("value")) {
 				valueA = elementA.getAttribute("value");
