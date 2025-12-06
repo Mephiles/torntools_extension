@@ -1,3 +1,5 @@
+## Production Libraries
+
 ### Chart.js
 
 - **Location**: extension/vendor/chartjs/chart.min.js

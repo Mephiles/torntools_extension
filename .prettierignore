@@ -2,5 +2,9 @@
 /*
 !/extension
 
+# Make an exception for some more recent non-extension files
+!build.mjs
+!tsconfig.json
+
 # Ignore external libs
 /extension/vendor/*

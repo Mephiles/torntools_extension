@@ -37,7 +37,11 @@ jobs:
     environment: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
       - name: Update the changelog.json
         run: |
           # Install jq
@@ -81,6 +85,7 @@ jobs:
           process_category("fixes;### Fixes\n"),
           process_category("changes;### Changes\n"),
           process_category("removed;### Removed\n")
+          process_category("technical;### Technical\n")
           ' >> "$releaseBodyFile"
 
           # Update changelog.json date and remove empty features, fixes and changes entries
@@ -89,15 +94,20 @@ jobs:
           jq -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
 
       - name: Format with prettier
-        uses: creyD/prettier_action@v4.5
+        uses: creyD/prettier_action@v4.6
         with:
           prettier_options: --config .prettierrc --write . --list-different
           no_commit: true
 
+      - name: Build extension
+        run: |
+          npm ci
+          npm run build
+
       - name: Create zip files for CWS and AMO
         run: |
           # Setup variables
-          manifestPath="./extension/manifest.json"
+          manifestPath="./dist/manifest.json"
           manifestCopyPath="manifest.json.orig"
 
           # Create manifest copy
@@ -107,7 +117,7 @@ jobs:
           jq -j "del(.background.scripts)" "${manifestCopyPath}" > "${manifestPath}"
 
           # Create and move extension zip file
-          cd extension || exit 1
+          cd dist || exit 1
           zip -q -r "../torntools_${version}_chrome.zip" .
           cd ..
 
@@ -115,19 +125,25 @@ jobs:
           jq -j "del(.background.service_worker)" "${manifestCopyPath}" > "${manifestPath}"
 
           # Create and move extension zip file
-          cd extension || exit 2
+          cd dist || exit 2
           zip -q -r "../torntools_${version}_firefox.zip" .
+          cd ..
+          
+          # Create and move extension source zip file
+          cd extension || exit 2
+          zip -q -r "../torntools_${version}_source.zip" .
           cd ..
 
           [ ! -d "versions" ] && mkdir versions
           mv "torntools_${version}_chrome.zip" ./versions/
           mv "torntools_${version}_firefox.zip" ./versions/
+          mv "torntools_${version}_source.zip" ./versions/
 
       - name: Github Release
         uses: ncipollo/release-action@v1
         if: ${{ inputs.release_github }}
         with:
-          artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,${{ steps.web-ext-build.outputs.target }}"
+          artifacts: "versions/torntools_${{ env.version }}_chrome.zip,versions/torntools_${{ env.version }}_firefox.zip,versions/torntools_${{ env.version }}_source.zip"
           name: "Release: v${{ env.version }}"
           tag: "${{ env.version }}"
           bodyFile: "./releaseBody.md"
@@ -151,6 +167,8 @@ jobs:
           jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
           xpi-path: versions/torntools_${{ env.version }}_firefox.zip
+          source-file-path: versions/torntools_${{ env.version }}_source.zip
+          approval-notes: Build instructions can be found in FIREFOX.md in the source zip.
 
       - name: Release on Microsoft Edge Add-ons
         uses: wdzeng/edge-addon@v2
@@ -205,7 +223,8 @@ jobs:
                       \"features\": [],
                       \"fixes\": [],
                       \"changes\": [],
-                      \"removed\": []
+                      \"removed\": [],
+                      \"technical\": []
                   }
               }] +
               ." "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
@@ -218,7 +237,7 @@ jobs:
           awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
 
       - name: Format with prettier
-        uses: creyD/prettier_action@v4.5
+        uses: creyD/prettier_action@v4.6
         with:
           prettier_options: --config .prettierrc --write . --list-different
           no_commit: true
