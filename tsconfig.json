@@ -10,7 +10,8 @@
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
 		"strictBuiltinIteratorReturn": true,
-		"strictFunctionTypes": true
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
