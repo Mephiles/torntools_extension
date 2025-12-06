@@ -6,7 +6,7 @@
 		"allowJs": true,
 		"checkJs": false,
 		"skipLibCheck": true,
-		"types": ["chrome-types"],
+		"types": ["chrome-types", "user-agent-data-types"],
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
 		"strictBuiltinIteratorReturn": true,
