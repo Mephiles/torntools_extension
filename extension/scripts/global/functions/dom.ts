@@ -194,7 +194,7 @@ function checkDevice() {
 	});
 }
 
-function getSearchParameters(input: string) {
+function getSearchParameters(input?: string) {
 	if (!input) input = location.href;
 
 	try {
