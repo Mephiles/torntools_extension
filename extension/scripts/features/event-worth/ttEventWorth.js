@@ -34,10 +34,10 @@
 				regexes.forEach((regex) => {
 					const matches = eventMessageEl.textContent.match(regex);
 					if (matches?.length === 2) {
-						eventMessageEl.setAttribute(
-							"title",
-							`(worth ${formatNumber(matches[1].replaceAll(",", "") / matches[0].replaceAll(",", ""), { currency: true })} each)`
-						);
+						const totalPrice = matches[1].replaceAll(",", "");
+						const quantity = matches[0].replaceAll(",", "");
+
+						eventMessageEl.setAttribute("title", `(worth ${formatNumber(totalPrice / quantity, { currency: true, decimals: 0 })} each)`);
 						eventMessageEl.classList.add("tt-modified");
 					}
 				});
