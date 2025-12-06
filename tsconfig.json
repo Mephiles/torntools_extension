@@ -15,7 +15,8 @@
 		"alwaysStrict": true,
 		"noImplicitOverride": true,
 		"noImplicitThis": true,
-		"noUncheckedIndexedAccess": true
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
