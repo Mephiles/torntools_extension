@@ -6,7 +6,8 @@
 		"allowJs": true,
 		"checkJs": false,
 		"skipLibCheck": true,
-		"types": ["chrome-types"]
+		"types": ["chrome-types"],
+		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
