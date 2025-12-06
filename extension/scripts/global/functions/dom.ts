@@ -1,5 +1,3 @@
-"use strict";
-
 const rotatingElements: Record<string, { interval: number; totalDegrees: number }> = {};
 let mobile: boolean, tablet: boolean, hasSidebar: boolean;
 

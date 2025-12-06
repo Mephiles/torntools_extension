@@ -11,7 +11,8 @@
 		"noImplicitReturns": true,
 		"strictBuiltinIteratorReturn": true,
 		"strictFunctionTypes": true,
-		"strictBindCallApply": true
+		"strictBindCallApply": true,
+		"alwaysStrict": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
