@@ -14,7 +14,8 @@
 		"strictBindCallApply": true,
 		"alwaysStrict": true,
 		"noImplicitOverride": true,
-		"noImplicitThis": true
+		"noImplicitThis": true,
+		"noUncheckedIndexedAccess": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
