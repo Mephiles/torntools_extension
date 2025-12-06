@@ -1,17 +1,19 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 4 },
+		"version": { "major": 8, "minor": 0, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Fix event worth not rounding, resulting in a lot of decimals sometimes.", "contributor": "DeKleineKobini" }],
+			"technical": [
+				{ "message": "Initial work on Typescript migration.", "contributor": "AllMight" },
+				{ "message": "Continue work on Typescript migration.", "contributor": "DeKleineKobini" }
+			],
+			"removed": []
+		}
 	},
-	{
-		"version": { "major": 9, "minor": 0, "build": 3 },
-		"date": "2025/12/06",
-		"logs": { "fixes": [{ "message": "Fix event worth not rounding, resulting in a lot of decimals sometimes.", "contributor": "DeKleineKobini" }] }
-	},
-	{ "version": { "major": 9, "minor": 0, "build": 1 }, "date": "2025/12/03", "logs": {} },
-	{ "version": { "major": 9, "minor": 0, "build": 0 }, "date": "2025/12/03", "logs": {} },
 	{ "version": { "major": 7, "minor": 9, "build": 4 }, "date": "2025/12/03", "logs": {} },
 	{
 		"version": { "major": 7, "minor": 9, "build": 3 },
