@@ -18,7 +18,8 @@
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
 		"allowUnreachableCode": true,
-		"noFallthroughCasesInSwitch": true
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedParameters": true
 	},
 	"include": ["extension/**/*.ts", "extension/**/*.js"],
 	"exclude": ["node_modules", "dist"]
