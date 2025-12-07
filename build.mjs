@@ -192,7 +192,7 @@ async function runTypeChecker() {
 
 	const program = ts.createProgram(fileNames, options);
 	const allDiagnostics = Array.from(
-		new Set([...ts.getPreEmitDiagnostics(program), ...program.getSemanticDiagnostics(), ...program.getSemanticDiagnostics()])
+		new Set([...ts.getPreEmitDiagnostics(program), ...program.getSemanticDiagnostics(), ...program.getSyntacticDiagnostics()])
 	);
 
 	if (allDiagnostics.length === 0) {
