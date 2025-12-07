@@ -29,7 +29,7 @@ declare global {
 	}
 
 	interface Element {
-		find(selector: string, options?: Partial<FindOptions>): HTMLElement;
+		find<T extends HTMLElement>(selector: string, options?: Partial<FindOptions>): T;
 		findAll(selector: string): NodeListOf<HTMLElement>;
 		setClass(...classNames: string[]): void;
 	}
