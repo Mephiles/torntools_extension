@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -24,8 +22,9 @@
 		ONE_MONTH: "1m",
 		TWO_MONTHS: "2m",
 		THREE_MONTHS: "3m",
-	};
-	const PERIOD_DESC = {
+	} as const;
+	type PERIOD_TYPE = (typeof PERIOD_TYPE)[keyof typeof PERIOD_TYPE];
+	const PERIOD_DESC: Record<PERIOD_TYPE, string> = {
 		[PERIOD_TYPE.ONE_WEEK]: "1 Week",
 		[PERIOD_TYPE.TWO_WEEKS]: "2 Weeks",
 		[PERIOD_TYPE.ONE_MONTH]: "1 Month",
@@ -35,19 +34,20 @@
 	const INVESTMENTS_BONUSES = {
 		TCI: "tci",
 		MERIT: "merit",
-	};
-	const DAYS = {
+	} as const;
+	type INVESTMENTS_BONUSES = (typeof INVESTMENTS_BONUSES)[keyof typeof INVESTMENTS_BONUSES];
+	const DAYS: Record<PERIOD_TYPE, number> = {
 		[PERIOD_TYPE.ONE_WEEK]: 7,
 		[PERIOD_TYPE.TWO_WEEKS]: 14,
 		[PERIOD_TYPE.ONE_MONTH]: 30,
 		[PERIOD_TYPE.TWO_MONTHS]: 60,
 		[PERIOD_TYPE.THREE_MONTHS]: 90,
 	};
-	const BONUSES_RATIO = {
+	const BONUSES_RATIO: Record<INVESTMENTS_BONUSES, number> = {
 		[INVESTMENTS_BONUSES.TCI]: 0.1,
 		[INVESTMENTS_BONUSES.MERIT]: 0.5,
 	};
-	let investmentTable, bestPeriod;
+	let investmentTable, bestPeriod: string;
 
 	function bankMoneyCellRenderer(bankMoneyData) {
 		const element = document.newElement({
@@ -74,7 +74,11 @@
 		};
 	}
 
-	function createBankInvestmentContainer(bankAprInfo, delimiter) {
+	interface BankInvestmentContainer {
+		dispose: () => void;
+	}
+
+	function createBankInvestmentContainer(bankAprInfo, delimiter: HTMLElement): BankInvestmentContainer {
 		const tableColumnsDefs = [
 			{
 				id: "period",
@@ -129,10 +133,10 @@
 					children: [
 						document.newElement({
 							type: "input",
-							attributes: { type: "number", value: balance },
+							attributes: { type: "number", value: balance.toString() },
 							events: {
 								input: (e) => {
-									balance = e.target.value.getNumber();
+									balance = (e.target as HTMLInputElement).valueAsNumber;
 									updateInvestmentTable();
 								},
 							},
@@ -151,7 +155,7 @@
 			container.remove();
 		}
 
-		function _createRow(period) {
+		function _createRow(period: PERIOD_TYPE) {
 			return {
 				period: PERIOD_DESC[period],
 				regular: _getMoneyInfo(period, []),
@@ -161,14 +165,14 @@
 			};
 		}
 
-		function _getMoneyInfo(period, bonuses) {
+		function _getMoneyInfo(period: PERIOD_TYPE, bonuses: INVESTMENTS_BONUSES[]) {
 			const apr = parseFloat(bankAprInfo[period]);
 			const aprPercent = apr / 100;
 			const totalBonusRatio = bonuses.reduce((total, bonus) => total * (1 + BONUSES_RATIO[bonus]), 1);
 			const aprWithBonus = aprPercent * totalBonusRatio;
 			const profitPerDayRatio = (aprWithBonus / DAYS_IN_YEAR) * DAYS[period];
 
-			const total = (profitPerDayRatio.toFixed(4) * balance).roundNearest(1);
+			const total = (+profitPerDayRatio.toFixed(4) * balance).roundNearest(1);
 			const daily = (total / DAYS[period]).toFixed();
 
 			return {
@@ -188,7 +192,7 @@
 		};
 	}
 
-	let bankInvestmentInfoContainer;
+	let bankInvestmentInfoContainer: BankInvestmentContainer;
 
 	async function initialize() {
 		const delimiter = await requireElement(".content-wrapper > .delimiter-999");

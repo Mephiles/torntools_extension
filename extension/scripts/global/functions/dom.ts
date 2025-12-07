@@ -1,21 +1,19 @@
-"use strict";
-
-const rotatingElements = {};
-let mobile, tablet, hasSidebar;
+const rotatingElements: Record<string, { interval: number; totalDegrees: number }> = {};
+let mobile: boolean, tablet: boolean, hasSidebar: boolean;
 
 Object.defineProperty(Document.prototype, "newElement", {
-	value(options = {}) {
+	value(this: Document, options: string | Partial<NewElementOptions> = {}): HTMLElement {
 		if (typeof options === "string") {
 			return this.createElement(options);
 		} else if (typeof options === "object") {
 			options = {
 				type: "div",
-				id: false,
-				class: false,
-				text: false,
-				html: false,
-				value: false,
-				href: false,
+				id: undefined,
+				class: undefined,
+				text: undefined,
+				html: undefined,
+				value: undefined,
+				href: undefined,
 				children: [],
 				attributes: {},
 				events: {},
@@ -31,13 +29,13 @@ Object.defineProperty(Document.prototype, "newElement", {
 				if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
 				else newElement.setClass(options.class.trim());
 			}
-			if (options.text !== false) newElement.textContent = options.text;
+			if (options.text !== undefined) newElement.textContent = options.text;
 			if (options.html) newElement.innerHTML = options.html;
-			if (options.value) {
+			if (options.value && "value" in newElement) {
 				if (typeof options.value === "function") newElement.value = options.value();
 				else newElement.value = options.value;
 			}
-			if (options.href) newElement.href = options.href;
+			if (options.href && "href" in newElement) newElement.href = options.href;
 
 			for (const child of options.children.filter((child) => !!child) || []) {
 				if (typeof child === "string") {
@@ -62,13 +60,15 @@ Object.defineProperty(Document.prototype, "newElement", {
 			}
 
 			return newElement;
+		} else {
+			throw new Error("Invalid options provided to newElement.");
 		}
 	},
 	enumerable: false,
 });
 
 Object.defineProperty(DOMTokenList.prototype, "contains", {
-	value(className) {
+	value(this: DOMTokenList, className: string): boolean {
 		const classes = [...this];
 		if (className.startsWith("^=")) {
 			className = className.substring(2, className.length);
@@ -86,7 +86,7 @@ Object.defineProperty(DOMTokenList.prototype, "contains", {
 	enumerable: false,
 });
 Object.defineProperty(DOMTokenList.prototype, "removeSpecial", {
-	value(className) {
+	value(this: DOMTokenList, className: string): void {
 		const classes = [...this];
 		if (className.startsWith("^=")) {
 			className = className.substring(2, className.length);
@@ -104,9 +104,9 @@ Object.defineProperty(DOMTokenList.prototype, "removeSpecial", {
 	enumerable: false,
 });
 
-function _find(element, selector, options = {}) {
+function _find(element: ParentNode, selector: string, options: Partial<FindOptions> = {}): Element {
 	options = {
-		text: false,
+		text: undefined,
 		...options,
 	};
 
@@ -138,46 +138,46 @@ function _find(element, selector, options = {}) {
 }
 
 Object.defineProperty(Document.prototype, "find", {
-	value(selector, options = {}) {
+	value(this: Document, selector: string, options: Partial<FindOptions> = {}): Element {
 		return _find(this, selector, options);
 	},
 	enumerable: false,
 });
 Object.defineProperty(Element.prototype, "find", {
-	value(selector, options = {}) {
+	value(this: Element, selector: string, options: Partial<FindOptions> = {}): Element {
 		return _find(this, selector, options);
 	},
 	enumerable: false,
 });
 
 Object.defineProperty(Document.prototype, "findAll", {
-	value(selector) {
+	value(this: Document, selector: string): NodeListOf<Element> {
 		return this.querySelectorAll(selector);
 	},
 	enumerable: false,
 });
 Object.defineProperty(Element.prototype, "findAll", {
-	value(selector) {
+	value(this: Document, selector: string): NodeListOf<Element> {
 		return this.querySelectorAll(selector);
 	},
 	enumerable: false,
 });
 
 Object.defineProperty(Document.prototype, "setClass", {
-	value(...classNames) {
+	value(this: Element, ...classNames: string[]) {
 		this.setAttribute("class", classNames.join(" "));
 	},
 	enumerable: false,
 });
 Object.defineProperty(Element.prototype, "setClass", {
-	value(...classNames) {
+	value(this: Element, ...classNames: string[]) {
 		this.setAttribute("class", classNames.join(" "));
 	},
 	enumerable: false,
 });
 
 function checkDevice() {
-	return new Promise((resolve) => {
+	return new Promise<{ mobile: boolean; tablet: boolean; hasSidebar: boolean }>((resolve) => {
 		if ([typeof mobile, typeof tablet, typeof hasSidebar].every((t) => t === "boolean")) return resolve({ mobile, tablet, hasSidebar });
 
 		if (document.readyState === "complete" || document.readyState === "interactive") check();
@@ -194,7 +194,7 @@ function checkDevice() {
 	});
 }
 
-function getSearchParameters(input) {
+function getSearchParameters(input: string) {
 	if (!input) input = location.href;
 
 	try {
@@ -204,7 +204,7 @@ function getSearchParameters(input) {
 	}
 }
 
-function getHashParameters(hash) {
+function getHashParameters(hash: string) {
 	if (!hash) hash = location.hash;
 
 	if (hash.startsWith("#/")) hash = hash.substring(2);
@@ -215,12 +215,21 @@ function getHashParameters(hash) {
 	return new URLSearchParams(hash);
 }
 
-function findParent(element, options = {}) {
+interface FindParentOptions {
+	tag: string;
+	class: string;
+	id: string;
+	hasAttribute: string;
+	maxAttempts: number;
+	currentAttempt: number;
+}
+
+function findParent(element: Element, options: Partial<FindParentOptions> = {}) {
 	options = {
-		tag: false,
-		class: false,
-		id: false,
-		hasAttribute: false,
+		tag: undefined,
+		class: undefined,
+		id: undefined,
+		hasAttribute: undefined,
 		maxAttempts: -1,
 		currentAttempt: 1,
 		...options,
@@ -239,11 +248,11 @@ function findParent(element, options = {}) {
 		return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
-	return findParent(element.parentElement, { ...options, currentAttempts: options.currentAttempt + 1 });
+	return findParent(element.parentElement, { ...options, currentAttempt: options.currentAttempt + 1 });
 }
 
-function rotateElement(element, degrees) {
-	let uuid;
+function rotateElement(element: HTMLElement, degrees: number) {
+	let uuid: string;
 	if (element.hasAttribute("rotate-id")) uuid = element.getAttribute("rotate-id");
 	else {
 		uuid = getUUID();
@@ -277,7 +286,7 @@ function rotateElement(element, degrees) {
 	};
 }
 
-function sortTable(table, columnPlace, order) {
+function sortTable(table: HTMLElement, columnPlace: number, order: "asc" | "desc" | "none") {
 	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
 	const icon = header.find("i");
 	if (order) {
@@ -329,7 +338,7 @@ function sortTable(table, columnPlace, order) {
 		if (h.find("i")) h.find("i").remove();
 	}
 
-	let rows;
+	let rows: HTMLElement[];
 	if (!table.find("tr:not(.heading), .row:not(.header)")) rows = [];
 	else {
 		rows = [...table.findAll("tr:not(.header), .row:not(.header)")];
@@ -338,7 +347,7 @@ function sortTable(table, columnPlace, order) {
 
 	for (const row of rows) table.appendChild(row);
 
-	function sortRows(rows) {
+	function sortRows(rows: HTMLElement[]) {
 		if (order === "asc") {
 			rows.sort((a, b) => {
 				const helper = sortHelper(a, b);
@@ -355,19 +364,19 @@ function sortTable(table, columnPlace, order) {
 
 		return rows;
 
-		function sortHelper(elementA, elementB) {
+		function sortHelper(elementA: HTMLElement, elementB: HTMLElement) {
 			elementA = elementA.find(`:scope > *:nth-child(${columnPlace})`);
 			elementB = elementB.find(`:scope > *:nth-child(${columnPlace})`);
 
-			let valueA, valueB;
+			let valueA: string, valueB: string;
 			if (elementA.hasAttribute("sort-type")) {
 				switch (elementA.getAttribute("sort-type")) {
 					case "date":
 						valueA = elementA.getAttribute("value");
 						valueB = elementB.getAttribute("value");
 
-						if (Date.parse(valueA)) valueA = Date.parse(valueA);
-						if (Date.parse(valueB)) valueA = Date.parse(valueB);
+						if (Date.parse(valueA)) valueA = Date.parse(valueA).toString();
+						if (Date.parse(valueB)) valueA = Date.parse(valueB).toString();
 						break;
 					case "css-dataset":
 						valueA =
@@ -385,7 +394,7 @@ function sortTable(table, columnPlace, order) {
 						break;
 					default:
 						console.warn("Attempting to sort by a non-existing type.", elementA.getAttribute("sort-type"));
-						return;
+						return { a: 0, b: 0 }; // Keep original sorting order this way.
 				}
 			} else if (elementA.hasAttribute("value")) {
 				valueA = elementA.getAttribute("value");
@@ -395,7 +404,7 @@ function sortTable(table, columnPlace, order) {
 				valueB = elementB.textContent;
 			}
 
-			let a, b;
+			let a: number, b: number;
 			if (isNaN(parseFloat(valueA))) {
 				if (valueA.includes("$")) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
@@ -414,7 +423,7 @@ function sortTable(table, columnPlace, order) {
 	}
 }
 
-function showLoadingPlaceholder(element, show) {
+function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
 	const placeholder = element.find(".tt-loading-placeholder");
 
 	if (show) {
@@ -433,7 +442,7 @@ function showLoadingPlaceholder(element, show) {
 	}
 }
 
-function executeScript(filename, remove = true) {
+function executeScript(filename: string, remove = true) {
 	const script = document.newElement({
 		type: "script",
 		attributes: {
@@ -449,7 +458,7 @@ function executeScript(filename, remove = true) {
 	});
 }
 
-function updateQuery(key, value) {
+function updateQuery(key: string, value: string) {
 	if (history.pushState) {
 		const url = new URL(location.href);
 		const params = url.searchParams;

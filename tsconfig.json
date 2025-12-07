@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"module": "none",
+		"outDir": "dist",
+		"target": "esnext",
+		"allowJs": true,
+		"checkJs": false,
+		"skipLibCheck": true,
+		"types": ["chrome-types"],
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"strictBuiltinIteratorReturn": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"alwaysStrict": true,
+		"noImplicitOverride": true,
+		"noImplicitThis": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"allowUnreachableCode": false,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedParameters": true
+	},
+	"include": ["extension/**/*.ts", "extension/**/*.js"],
+	"exclude": ["node_modules", "dist"]
+}

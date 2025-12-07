@@ -20,6 +20,7 @@ should contain more information about the changes.
 Start reading our code and you'll get the hang of it. We optimize for readability:
 We have prettier formatting to help you follow our coding conventions.
 
+* New files all have to be written in **Typescript**.
 * We follow a certain pattern for our files.
     * Each feature has its own file and those are placed in the `extension/scripts/features` folder, in a folder based
       on the name of it.
@@ -49,7 +50,7 @@ We have prettier formatting to help you follow our coding conventions.
         2. Requirements, like missing api access or no mobile support, should be handled inside of the `requirements`
            function.
         3. When something unexpected happened, like the feature already being loaded, it should be silently handled
-           inside of the `execute` function.
+           inside the `execute` function.
 * Don't use any of Torn's CSS-classes, they are always subject to change.
     * It's fine to rely on them as selectors.
         * If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
@@ -66,12 +67,12 @@ We have prettier formatting to help you follow our coding conventions.
     * Operators ( = + - * / ) and commas are followed by spaces.
     * Statements end with a semicolon.
     * Strings are surrounded by `"`'s.
-    * Although we have automated code formatting via Github Actions, maintain readable code in PRs.
-        * Please note that HTML inside of a `.js`-file, won't get automatically formatted. Please format them manually.
+    * Although we have automated code formatting via GitHub Actions, maintain readable code in PRs.
+        * Please note that HTML inside `.js` and `.ts` files, won't get automatically formatted. Please format them manually.
 * We also use some standard naming conventions.
     * Identifier names (variables and functions) start with a letter and use camelCase.
         * If they are global constants, use UPPERCASE.
-* All code should work on as much browsers as possible.
+* All code should work on as many browsers as possible.
     * Optional Chaining isn't supported by Kiwi Browser.
 * Any changes should be added in the `extension/changelog.json` file under the first unreleased version.
     * First contributions should also update `extension/ scripts/global/team.js` to add yourself as member and choose a color for in the changelog.
