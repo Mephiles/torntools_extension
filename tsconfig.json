@@ -17,7 +17,7 @@
 		"noImplicitThis": true,
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
-		"allowUnreachableCode": true,
+		"allowUnreachableCode": false,
 		"noFallthroughCasesInSwitch": true,
 		"noUnusedParameters": true
 	},
