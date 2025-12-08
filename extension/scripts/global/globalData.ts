@@ -280,25 +280,7 @@ class TornToolsUsage {
 
 const ttUsage = new TornToolsUsage();
 
-// type ExtractDefaultSettingType<T> =
-// 	T extends DefaultSetting<infer U>
-// 		? U
-// 		: T extends readonly any[]
-// 			? T
-// 			: T extends any[]
-// 				? T
-// 				: T extends object
-// 					? { [K in keyof T]: ExtractDefaultSettingType<T[K]> }
-// 					: T;
-// type ExtractDefaultSettingType<T> =
-// 	T extends DefaultSetting<infer U>
-// 		? U
-// 		: T extends any[]
-// 				? T
-// 				: T extends object
-// 					? { [K in keyof T]: ExtractDefaultSettingType<T[K]> }
-// 					: T;
-type ExtractDefaultSettingType<T> = T extends DefaultSetting<infer U> ? U : T extends object ? { [K in keyof T]: ExtractDefaultSettingType<T[K]> } : T;
+type InternalPageTheme = "default" | "dark" | "light";
 
 const DEFAULT_STORAGE = {
 	version: {
@@ -422,7 +404,7 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		themes: {
-			pages: new DefaultSetting("string", "default"),
+			pages: new DefaultSetting<InternalPageTheme>("string", "default"),
 			containers: new DefaultSetting("string", "default"),
 		},
 		hideIcons: new DefaultSetting("array", []),
@@ -1072,6 +1054,26 @@ const DEFAULT_STORAGE = {
 		missionsExpire: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	},
 } as const;
+
+// type ExtractDefaultSettingType<T> =
+// 	T extends DefaultSetting<infer U>
+// 		? U
+// 		: T extends readonly any[]
+// 			? T
+// 			: T extends any[]
+// 				? T
+// 				: T extends object
+// 					? { [K in keyof T]: ExtractDefaultSettingType<T[K]> }
+// 					: T;
+// type ExtractDefaultSettingType<T> =
+// 	T extends DefaultSetting<infer U>
+// 		? U
+// 		: T extends any[]
+// 				? T
+// 				: T extends object
+// 					? { [K in keyof T]: ExtractDefaultSettingType<T[K]> }
+// 					: T;
+type ExtractDefaultSettingType<T> = T extends DefaultSetting<infer U> ? U : T extends object ? { [K in keyof T]: ExtractDefaultSettingType<T[K]> } : T;
 
 type DefaultStorageType = ExtractDefaultSettingType<typeof DEFAULT_STORAGE>;
 
