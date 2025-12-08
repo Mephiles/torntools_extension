@@ -46,7 +46,9 @@ interface FetchOptions {
 	params: { [key: string]: string };
 }
 
-async function fetchData<R = any>(location: keyof typeof FETCH_PLATFORMS, partialOptions: Partial<FetchOptions> = {}): Promise<R> {
+type FetchLocation = keyof typeof FETCH_PLATFORMS | string;
+
+async function fetchData<R = any>(location: FetchLocation, partialOptions: Partial<FetchOptions> = {}): Promise<R> {
 	const options: FetchOptions = {
 		fakeResponse: false,
 		section: undefined,
@@ -97,6 +99,7 @@ async function fetchData<R = any>(location: keyof typeof FETCH_PLATFORMS, partia
 				params.set("rfcv", getRFC());
 				break;
 			case "tornstats":
+			case FETCH_PLATFORMS.tornstats:
 				url = FETCH_PLATFORMS.tornstats;
 
 				pathSections = ["api", "v2", options.key || api.tornstats.key || api.torn.key];
@@ -290,8 +293,8 @@ async function fetchData<R = any>(location: keyof typeof FETCH_PLATFORMS, partia
 	});
 }
 
-function isTornAPICall(location: keyof typeof FETCH_PLATFORMS) {
-	return ["torn", "tornv2"].includes(location);
+function isTornAPICall(location: FetchLocation) {
+	return ["tornv2"].includes(location);
 }
 
 async function checkAPIPermission(key: string) {
