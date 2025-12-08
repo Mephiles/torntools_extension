@@ -336,7 +336,7 @@ const DEFAULT_STORAGE = {
 			time: new DefaultSetting("string", "eu"),
 		},
 		sorting: {
-			abroad: new DefaultSetting("object", {}), // TODO - Figure out full type.
+			abroad: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 		},
 		notifications: {
 			sound: new DefaultSetting("string", "default"),
@@ -602,11 +602,11 @@ const DEFAULT_STORAGE = {
 			},
 			forums: {
 				menu: new DefaultSetting("boolean", true),
-				hidePosts: new DefaultSetting("object", {}), // TODO - Figure out full type.
-				hideThreads: new DefaultSetting("object", {}), // TODO - Figure out full type.
-				highlightPosts: new DefaultSetting("object", {}), // TODO - Figure out full type.
-				highlightThreads: new DefaultSetting("object", {}), // TODO - Figure out full type.
-				ignoredThreads: new DefaultSetting("object", {}), // TODO - Figure out full type.
+				hidePosts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+				hideThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+				highlightPosts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+				highlightThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+				ignoredThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 				debugInfoBtn: new DefaultSetting("boolean", true),
 			},
 			bazaar: {
@@ -707,7 +707,7 @@ const DEFAULT_STORAGE = {
 				filter: new DefaultSetting("boolean", true),
 			},
 			itemmarket: {
-				highlightCheapItems: new DefaultSetting("number|empty", ""), // TODO - Rework this one.
+				highlightCheapItems: new DefaultSetting<number | "">("number|empty", ""), // TODO - Rework this one.
 				leftBar: new DefaultSetting("boolean", false),
 				fillMax: new DefaultSetting("boolean", true),
 			},
@@ -1003,10 +1003,10 @@ const DEFAULT_STORAGE = {
 			status: new DefaultSetting("array", []), // TODO - Figure out full type.
 		},
 	},
-	userdata: new DefaultSetting("object", {}), // TODO - Figure out full type.
-	torndata: new DefaultSetting("object", {}), // TODO - Figure out full type.
-	stockdata: new DefaultSetting("object", {}), // TODO - Figure out full type.
-	factiondata: new DefaultSetting("object", {}), // TODO - Figure out full type.
+	userdata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	torndata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	stockdata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	factiondata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	localdata: {
 		tradeMessage: new DefaultSetting("number", 0),
 		popup: {
@@ -1026,19 +1026,19 @@ const DEFAULT_STORAGE = {
 			},
 		},
 	},
-	stakeouts: new DefaultSetting("object", { order: [] }), // TODO - Figure out full type.
-	factionStakeouts: new DefaultSetting("object", {}), // TODO - Figure out full type.
+	stakeouts: new DefaultSetting<any>("object", { order: [] }), // TODO - Figure out full type.
+	factionStakeouts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),
 		lastAttack: new DefaultSetting("number", 0),
-		history: new DefaultSetting("object", {}), // TODO - Figure out full type.
+		history: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	},
 	notes: {
 		sidebar: {
 			text: new DefaultSetting("string", ""),
 			height: new DefaultSetting("string", "22px"),
 		},
-		profile: new DefaultSetting("object", {}), // TODO - Figure out full type.
+		profile: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	},
 	quick: {
 		items: new DefaultSetting("array", []), // TODO - Figure out full type.
@@ -1046,30 +1046,30 @@ const DEFAULT_STORAGE = {
 		crimes: new DefaultSetting("array", []), // TODO - Figure out full type.
 		jail: new DefaultSetting("array", []), // TODO - Figure out full type.
 	},
-	cache: new DefaultSetting("object", {}), // TODO - Figure out full type.
-	usage: new DefaultSetting("object", {}), // TODO - Figure out full type.
-	npcs: new DefaultSetting("object", {}), // TODO - Figure out full type.
+	cache: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	usage: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	npcs: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	notificationHistory: new DefaultSetting("array", []), // TODO - Figure out full type.
 	notifications: {
-		events: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		messages: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		newDay: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		energy: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		happy: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		nerve: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		life: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		travel: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		drugs: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		boosters: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		medical: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		hospital: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		chain: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		chainCount: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		stakeouts: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		npcs: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		offline: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		missionsLimit: new DefaultSetting("object", {}), // TODO - Figure out full type.
-		missionsExpire: new DefaultSetting("object", {}), // TODO - Figure out full type.
+		events: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		messages: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		newDay: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		energy: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		happy: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		nerve: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		life: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		travel: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		drugs: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		boosters: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		medical: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		hospital: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		chain: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		chainCount: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		stakeouts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		npcs: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		offline: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		missionsLimit: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		missionsExpire: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	},
 } as const;
 
