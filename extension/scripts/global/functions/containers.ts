@@ -1,4 +1,4 @@
-type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node };
+type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | {};
 
 type ContainerOptions = {
 	id: string;
