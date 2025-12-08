@@ -10,7 +10,7 @@ function getTornItem(id: number): TornV1Item | null {
 	return hasAPIData() && id in torndata.items ? torndata.items[id] : id in TORN_ITEMS ? TORN_ITEMS[id] : null;
 }
 
-const TORN_ITEMS = {
+const TORN_ITEMS: TornV1Items = {
 	1: {
 		name: "Hammer",
 		description: "A small, lightweight tool used in the building industry. Can also be used as a weapon.",
