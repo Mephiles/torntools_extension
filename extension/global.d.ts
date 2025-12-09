@@ -23,13 +23,13 @@ declare global {
 	interface Document {
 		newElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
 		newElement<K extends keyof HTMLElementTagNameMap>(options: Omit<NewElementOptions, "type"> & { type: K }): HTMLElementTagNameMap[K];
-		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T;
+		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 		findAll(selector: string): NodeListOf<Element>;
 		setClass(...classNames: string[]): void;
 	}
 
 	interface Element {
-		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T;
+		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
 		setClass(...classNames: string[]): void;
 	}
