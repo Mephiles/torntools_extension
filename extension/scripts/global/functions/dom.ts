@@ -286,7 +286,9 @@ function rotateElement(element: HTMLElement, degrees: number) {
 	};
 }
 
-function sortTable(table: Element, columnPlace: number, order?: "asc" | "desc" | "none") {
+type TableSortOrder = "asc" | "desc" | "none";
+
+function sortTable(table: Element, columnPlace: number, order?: TableSortOrder) {
 	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
 	const icon = header.find("i");
 	if (order) {

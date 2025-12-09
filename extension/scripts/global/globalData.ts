@@ -318,7 +318,10 @@ const DEFAULT_STORAGE = {
 			time: new DefaultSetting("string", "eu"),
 		},
 		sorting: {
-			abroad: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+			abroad: {
+				column: new DefaultSetting("string", ""),
+				order: new DefaultSetting("string", "none"),
+			},
 		},
 		notifications: {
 			sound: new DefaultSetting("string", "default"),
@@ -588,7 +591,7 @@ const DEFAULT_STORAGE = {
 				hideThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 				highlightPosts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 				highlightThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-				ignoredThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+				ignoredThreads: new DefaultSetting<{ [id: string]: boolean }>("object", {}),
 				debugInfoBtn: new DefaultSetting("boolean", true),
 			},
 			bazaar: {
@@ -796,17 +799,17 @@ const DEFAULT_STORAGE = {
 			track: new DefaultSetting("array", []), // TODO - Figure out full type.
 			name: new DefaultSetting("string", ""),
 		},
-		containers: new DefaultSetting("object", {}), // TODO - Figure out full type.
+		containers: new DefaultSetting<{ [id: string]: boolean }>("object", {}),
 		travel: {
 			open: new DefaultSetting("boolean", false),
 			type: new DefaultSetting("string", "basic"),
-			categories: new DefaultSetting("array", []), // TODO - Figure out full type.
+			categories: new DefaultSetting<string[]>("array", []),
 			countries: new DefaultSetting("array", []), // TODO - Figure out full type.
 			hideOutOfStock: new DefaultSetting("boolean", false),
 		},
 		abroadPeople: {
 			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
-			status: new DefaultSetting("array", []), // TODO - Figure out full type.
+			status: new DefaultSetting<string[]>("array", []), // TODO - Figure out full type.
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			faction: new DefaultSetting("string", ""),
@@ -926,7 +929,7 @@ const DEFAULT_STORAGE = {
 		},
 		profile: {
 			relative: new DefaultSetting("boolean", false),
-			stats: new DefaultSetting("array", []), // TODO - Figure out full type.
+			stats: new DefaultSetting<string[]>("array", []),
 		},
 		competition: {
 			levelStart: new DefaultSetting("number", 1),
