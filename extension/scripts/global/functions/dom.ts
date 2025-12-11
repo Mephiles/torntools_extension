@@ -194,7 +194,7 @@ function checkDevice() {
 	});
 }
 
-function getSearchParameters(input: string) {
+function getSearchParameters(input?: string) {
 	if (!input) input = location.href;
 
 	try {
@@ -286,7 +286,7 @@ function rotateElement(element: HTMLElement, degrees: number) {
 	};
 }
 
-function sortTable(table: HTMLElement, columnPlace: number, order: "asc" | "desc" | "none") {
+function sortTable(table: Element, columnPlace: number, order?: "asc" | "desc" | "none") {
 	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
 	const icon = header.find("i");
 	if (order) {
@@ -341,7 +341,7 @@ function sortTable(table: HTMLElement, columnPlace: number, order: "asc" | "desc
 	let rows: HTMLElement[];
 	if (!table.find("tr:not(.heading), .row:not(.header)")) rows = [];
 	else {
-		rows = [...table.findAll("tr:not(.header), .row:not(.header)")];
+		rows = [...table.findAll<HTMLElement>("tr:not(.header), .row:not(.header)")];
 		rows = sortRows(rows);
 	}
 
