@@ -299,11 +299,10 @@ function createTable<T>(
 		tableHeader.setColumnSort(direction);
 		sortInfo = { columnId, direction };
 
+		tableRows.forEach((row) => row.dispose());
 		tableRows = _createTableRows(tableRowsData);
 
-		for (const tableRow of tableRows) {
-			tableBodyElem.appendChild(tableRow.element);
-		}
+		tableBodyElem.replaceChildren(...tableRows.map((row) => row.element));
 	}
 
 	function dispose() {
