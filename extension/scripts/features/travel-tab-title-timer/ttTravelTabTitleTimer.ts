@@ -25,7 +25,6 @@
 	}
 
 	function updateTabTimer() {
-
 		// Steal text from existing HTML element
 		const time_el = document.querySelector("[class*='progressTextLineBreaker__'] time");
 		if (!time_el) return;
