@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isFlying()) return;
 
