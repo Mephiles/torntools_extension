@@ -65,6 +65,13 @@ const TEAM: TeamMember[] = [
 		color: "red",
 	},
 	{
+		name: "luke__",
+		title: "Developer",
+		core: false,
+		torn: 3720006,
+		color: "#f141ddff",
+	},
+	{
 		name: "finally",
 		title: "Developer",
 		core: false,

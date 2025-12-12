@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
 			"fixes": [],
 			"changes": [
 				{ "message": "Fix event worth not rounding, resulting in a lot of decimals sometimes.", "contributor": "DeKleineKobini" },
