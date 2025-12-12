@@ -727,7 +727,8 @@
 				"scripts/features/flying-time/ttFlyingTime.js",
 				"scripts/features/travel-cooldowns/ttTravelCooldowns.js",
 				"scripts/features/clean-flight/ttCleanFlight.js",
-				"scripts/features/landing-time/ttLandingTime.js"
+				"scripts/features/landing-time/ttLandingTime.js",
+				"scripts/features/travel-tab-title-timer/ttTravelTabTitleTimer.js"
 			],
 			"run_at": "document_end"
 		},
