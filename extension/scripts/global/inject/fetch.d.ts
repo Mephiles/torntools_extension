@@ -1,6 +1,6 @@
 interface FetchDetails {
 	page: string;
-	json: object;
+	json: undefined | { [key: string]: any };
 	fetch: {
 		url: string;
 		body: any;

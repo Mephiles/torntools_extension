@@ -6,7 +6,6 @@
 	const page = getPage();
 
 	if (page === "factions" && !isOwnFaction) return;
-	else if (page === "home" && !isAbroad()) return;
 
 	const feature = featureManager.registerFeature(
 		"Drug Details",
@@ -25,9 +24,6 @@
 		switch (page) {
 			case "item":
 				setupXHR({ changeListener: true });
-				break;
-			case "home": // In abroad
-				setupXHR();
 				break;
 			case "displaycase":
 				setupXHR({ react: true, changeListener: true });
@@ -138,7 +134,6 @@
 						page === "imarket" ? ".details-wrap[style*='display: block;'], #drugs .m-items-list > .show-item-info" : "",
 						["item", "bazaar", "displaycase"].includes(page) ? ".show-item-info" : "",
 						page === "factions" ? ".view-item-info[style*='display: block;']" : "",
-						page === "home" ? ".item-info-wrap + .details[aria-expanded='true']" : "",
 					]
 						.filter((x) => x)
 						.join(", ")

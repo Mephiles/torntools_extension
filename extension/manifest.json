@@ -452,38 +452,15 @@
 		},
 		{
 			"matches": ["https://www.torn.com/index.php*"],
-			"css": [
-				"scripts/global/functions/filters.css",
-				"scripts/global/elements/table/ttTable.css",
-				"scripts/features/effective-stats/ttEffectiveStats.css",
-				"scripts/features/live-networth/ttLiveNetworth.css",
-				"scripts/features/drug-details/ttDrugDetails.css",
-				"scripts/features/travel-item-profits/ttTravelItemProfits.css",
-				"scripts/features/travel-fill-max/ttTravelFillMax.css",
-				"scripts/features/sort-travel-market/ttSortTravelMarket.css",
-				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css"
-			],
-			"js": [
-				"scripts/global/functions/filters.js",
-				"scripts/global/elements/table/ttTable.js",
-				"scripts/features/effective-stats/ttEffectiveStats.js",
-				"scripts/features/live-networth/ttLiveNetworth.js",
-				"scripts/features/drug-details/ttDrugDetails.js",
-				"scripts/features/travel-table/ttTravelSync.js",
-				"scripts/features/travel-item-profits/ttTravelItemProfits.js",
-				"scripts/features/travel-fill-max/ttTravelFillMax.js",
-				"scripts/features/sort-travel-market/ttSortTravelMarket.js",
-				"scripts/features/abroad-items-filter/ttAbroadItemsFilter.js",
-				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
-				"scripts/features/abroad-auto-fill-max/ttAbroadAutoFillMax.js",
-				"scripts/features/no-confirm/ttAbroadBuyNoConfirm.js"
-			],
+			"css": ["scripts/features/effective-stats/ttEffectiveStats.css"],
+			"js": ["scripts/features/effective-stats/ttEffectiveStats.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/index.php?page=people*"],
-			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
+				"scripts/global/functions/filters.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/abroad-people-filter/ttPeopleFilter.js",
 				"scripts/features/stats-estimate/ttStatsEstimateAbroad.js"
@@ -713,21 +690,38 @@
 		{
 			"matches": ["https://www.torn.com/page.php?sid=travel*"],
 			"css": [
+				"scripts/global/functions/filters.css",
 				"scripts/global/elements/table/ttTable.css",
+				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/travel-table/ttTravelTable.css",
 				"scripts/features/flying-time/ttFlyingTime.css",
 				"scripts/features/travel-cooldowns/ttTravelCooldowns.css",
 				"scripts/features/clean-flight/ttCleanFlight.css",
-				"scripts/features/landing-time/ttLandingTime.css"
+				"scripts/features/landing-time/ttLandingTime.css",
+				"scripts/features/travel-item-profits/ttTravelItemProfits.css",
+				"scripts/features/travel-fill-max/ttTravelFillMax.css",
+				"scripts/features/sort-travel-market/ttSortTravelMarket.css",
+				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css"
 			],
 			"js": [
+				"scripts/global/functions/filters.js",
 				"scripts/global/elements/table/ttTable.js",
-				"scripts/content/travel/ttTravelFlying.js",
+				"scripts/content/travel/ttTravelHome.js",
+				"scripts/content/travel/ttTravelAbroad.js",
+				"scripts/features/drug-details/ttDrugDetails.js",
+				"scripts/features/travel-table/ttTravelSync.js",
 				"scripts/features/travel-table/ttTravelTable.js",
 				"scripts/features/flying-time/ttFlyingTime.js",
 				"scripts/features/travel-cooldowns/ttTravelCooldowns.js",
 				"scripts/features/clean-flight/ttCleanFlight.js",
 				"scripts/features/landing-time/ttLandingTime.js",
+				"scripts/features/travel-item-profits/ttTravelItemProfits.js",
+				"scripts/features/travel-fill-max/ttTravelFillMax.js",
+				"scripts/features/sort-travel-market/ttSortTravelMarket.js",
+				"scripts/features/abroad-items-filter/ttAbroadItemsFilter.js",
+				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
+				"scripts/features/abroad-auto-fill-max/ttAbroadAutoFillMax.js",
+				"scripts/features/no-confirm/ttAbroadBuyNoConfirm.js",
 				"scripts/features/travel-tab-title-timer/ttTravelTabTitleTimer.js"
 			],
 			"run_at": "document_end"

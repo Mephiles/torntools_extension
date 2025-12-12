@@ -2,13 +2,13 @@ declare global {
 	interface NewElementOptions {
 		type: keyof HTMLElementTagNameMap;
 		id?: string;
-		class?: string;
+		class?: string | string[];
 		text?: string;
 		html?: string;
 		value?: any | (() => any);
 		href?: string;
 		children?: (string | Node)[];
-		attributes?: Record<string, string> | (() => Record<string, string>);
+		attributes?: Record<string, string | number> | (() => Record<string, string | number>);
 		events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
 		style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
 		dataset?: {
@@ -24,7 +24,7 @@ declare global {
 		newElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
 		newElement<K extends keyof HTMLElementTagNameMap>(options: Omit<NewElementOptions, "type"> & { type: K }): HTMLElementTagNameMap[K];
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T;
-		findAll(selector: string): NodeListOf<Element>;
+		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
 		setClass(...classNames: string[]): void;
 	}
 
