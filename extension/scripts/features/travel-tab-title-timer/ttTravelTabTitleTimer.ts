@@ -16,13 +16,12 @@
 		null
 	);
 
-	let timer_update_interval = undefined;
+	let timerUpdateInterval: number = undefined;
 
 	async function showTabTimer() {
-		timer_update_interval = setInterval(() => {
+		timerUpdateInterval = setInterval(() => {
 			updateTabTimer();
 		}, 1000);
-
 
 		updateTabTimer();
 	}
@@ -35,7 +34,7 @@
 	}
 
 	function removeTabTimer() {
-		clearInterval(timer_update_interval);
+		clearInterval(timerUpdateInterval);
 		document.title = "Traveling | TORN";
 	}
 })();
