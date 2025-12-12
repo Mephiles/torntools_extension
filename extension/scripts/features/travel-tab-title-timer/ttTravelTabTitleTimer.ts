@@ -16,7 +16,7 @@
 		null
 	);
 
-	let timerUpdateInterval: number = undefined;
+	let timerUpdateInterval: number | undefined = undefined;
 
 	async function showTabTimer() {
 		timerUpdateInterval = setInterval(() => {
@@ -28,8 +28,12 @@
 
 	function updateTabTimer() {
 
-		// Steal text from existing HTML element and set it as the doccument title
-		let time = (document.querySelector("[class*='progressTextLineBreaker__'] time") as HTMLElement).innerText;
+		// Steal text from existing HTML element
+		const time_el = document.querySelector("[class*='progressTextLineBreaker__'] time");
+		if (!time_el) return;
+
+		// Set it as the document title
+		const time = (time_el as HTMLElement).innerText;
 		document.title = `${time} | TORN`;
 	}
 
