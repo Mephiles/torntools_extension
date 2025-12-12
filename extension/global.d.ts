@@ -12,7 +12,7 @@ declare global {
 		events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
 		style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
 		dataset?: {
-			[name: string]: string;
+			[name: string]: string | object;
 		};
 	}
 

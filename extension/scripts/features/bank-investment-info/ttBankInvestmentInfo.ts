@@ -14,6 +14,19 @@
 		null
 	);
 
+	interface MoneyInfo {
+		total: number;
+		daily: number;
+	}
+
+	interface BankTableRowData {
+		period: string;
+		regular: MoneyInfo;
+		tciOnly: MoneyInfo;
+		meritsOnly: MoneyInfo;
+		meritsAndTci: MoneyInfo;
+	}
+
 	const DAYS_IN_YEAR = 365;
 	let balance = 2_000_000_000;
 	const PERIOD_TYPE = {
@@ -47,9 +60,9 @@
 		[INVESTMENTS_BONUSES.TCI]: 0.1,
 		[INVESTMENTS_BONUSES.MERIT]: 0.5,
 	};
-	let investmentTable, bestPeriod: string;
+	let investmentTable: TableElement<BankTableRowData>, bestPeriod: string;
 
-	function bankMoneyCellRenderer(bankMoneyData) {
+	function bankMoneyCellRenderer(bankMoneyData: MoneyInfo): BaseElement {
 		const element = document.newElement({
 			type: "div",
 			class: "bank-investment-money-cell-wrapper",
@@ -79,46 +92,47 @@
 	}
 
 	function createBankInvestmentContainer(bankAprInfo, delimiter: HTMLElement): BankInvestmentContainer {
-		const tableColumnsDefs = [
+		const tableColumnsDefs: TableColumnDef<BankTableRowData>[] = [
 			{
 				id: "period",
 				title: "Period",
 				width: 120,
-				cellRenderer: "string",
+				sortable: false,
+				cellRenderer: stringCellRenderer,
 			},
 			{
 				id: "regular",
 				title: "Regular",
 				width: 110,
-				cellRenderer: "bankMoney",
+				sortable: false,
+				cellRenderer: bankMoneyCellRenderer,
 			},
 			{
 				id: "tciOnly",
 				title: "TCI Only",
 				width: 110,
-				cellRenderer: "bankMoney",
+				sortable: false,
+				cellRenderer: bankMoneyCellRenderer,
 			},
 			{
 				id: "meritsOnly",
 				title: "10/10 Merits Only",
 				width: 115,
-				cellRenderer: "bankMoney",
+				sortable: false,
+				cellRenderer: bankMoneyCellRenderer,
 			},
 			{
 				id: "meritsAndTci",
 				title: "10/10 Merits + TCI",
 				width: 125,
-				cellRenderer: "bankMoney",
+				sortable: false,
+				cellRenderer: bankMoneyCellRenderer,
 			},
 		];
 		const tableRowsData = Object.values(PERIOD_TYPE).map((period) => _createRow(period));
 		bestPeriod = tableRowsData.reduce((maxRow, row) => (row.regular.daily > maxRow.regular.daily ? row : maxRow), tableRowsData[0]).period;
-		const customCellRenderers = {
-			bankMoney: bankMoneyCellRenderer,
-		};
 
 		investmentTable = createTable(tableColumnsDefs, tableRowsData, {
-			cellRenderers: customCellRenderers,
 			rowClass: (rowData) => (rowData.period === bestPeriod ? "tt-bank-investment-selected-row" : ""),
 			stretchColumns: true,
 		});
@@ -155,7 +169,7 @@
 			container.remove();
 		}
 
-		function _createRow(period: PERIOD_TYPE) {
+		function _createRow(period: PERIOD_TYPE): BankTableRowData {
 			return {
 				period: PERIOD_DESC[period],
 				regular: _getMoneyInfo(period, []),
@@ -165,7 +179,7 @@
 			};
 		}
 
-		function _getMoneyInfo(period: PERIOD_TYPE, bonuses: INVESTMENTS_BONUSES[]) {
+		function _getMoneyInfo(period: PERIOD_TYPE, bonuses: INVESTMENTS_BONUSES[]): MoneyInfo {
 			const apr = parseFloat(bankAprInfo[period]);
 			const aprPercent = apr / 100;
 			const totalBonusRatio = bonuses.reduce((total, bonus) => total * (1 + BONUSES_RATIO[bonus]), 1);
@@ -173,7 +187,7 @@
 			const profitPerDayRatio = (aprWithBonus / DAYS_IN_YEAR) * DAYS[period];
 
 			const total = (+profitPerDayRatio.toFixed(4) * balance).roundNearest(1);
-			const daily = (total / DAYS[period]).toFixed();
+			const daily = +(total / DAYS[period]).toFixed();
 
 			return {
 				total,
