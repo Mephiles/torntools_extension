@@ -537,6 +537,7 @@ const DEFAULT_STORAGE = {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				cleanFlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				tabTitleTimer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				travelProfits: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
