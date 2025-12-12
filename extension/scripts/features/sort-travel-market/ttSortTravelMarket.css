@@ -4,6 +4,7 @@
 }
 
 .sortable {
+	gap: 8px;
 	cursor: pointer;
 	white-space: nowrap;
 }
