@@ -1,5 +1,5 @@
 (async () => {
-	if (!isFlying() && !isAbroad()) return;
+	if (!isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(
 		"Tab Title Timer",
