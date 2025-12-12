@@ -291,7 +291,7 @@ function createTable<T>(
 
 		const colDefIndex = tableColumnsDefs.findIndex((columnDef) => (columnDef.id = columnId));
 
-		if (colDefIndex == 1) {
+		if (colDefIndex === -1) {
 			throw new Error(`ttTable: Cannot sort column ${columnId.toString()} as there is no colDef for it`);
 		}
 
