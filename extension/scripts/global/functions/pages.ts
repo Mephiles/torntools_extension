@@ -122,7 +122,7 @@ function sendMessage(text: string, good: boolean, partialOptions: Partial<Messag
 	}
 }
 
-function getPageTheme(): "dark" | "light" {
+function getPageTheme(): InternalPageTheme {
 	const theme = settings.themes.pages;
 
 	// noinspection JSIncompatibleTypesComparison

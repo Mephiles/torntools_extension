@@ -10,7 +10,7 @@ class DualRangeSlider {
 	private readonly options: DualRangeSliderOptions;
 	private readonly uuid: string;
 	private startPos: number;
-	private slider: HTMLElement | undefined;
+	slider: HTMLElement | undefined;
 	private activeHandle: HTMLElement | undefined;
 	private handles: HTMLElement[];
 	private readonly moveTouchListener = this.moveTouch.bind(this);
