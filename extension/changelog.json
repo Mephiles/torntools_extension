@@ -1,7 +1,7 @@
 [
 	{
 		"version": { "major": 8, "minor": 0, "build": 0 },
-		"title": "Beta",
+		"title": "a technical leap: TypeScript",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
@@ -11,8 +11,8 @@
 				{ "message": "Fix most abroad features after changes by Torn, the others were removed/disabled.", "contributor": "DeKleineKobini" }
 			],
 			"technical": [
-				{ "message": "Initial work on Typescript migration.", "contributor": "AllMight" },
-				{ "message": "Continue work on Typescript migration.", "contributor": "DeKleineKobini" }
+				{ "message": "Initial work on TypeScript migration.", "contributor": "AllMight" },
+				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{
