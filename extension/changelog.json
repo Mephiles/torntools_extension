@@ -1,7 +1,7 @@
 [
 	{
 		"version": { "major": 8, "minor": 0, "build": 0 },
-		"title": "Beta",
+		"title": "a technical leap: TypeScript",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
@@ -11,8 +11,8 @@
 				{ "message": "Fix most abroad features after changes by Torn, the others were removed/disabled.", "contributor": "DeKleineKobini" }
 			],
 			"technical": [
-				{ "message": "Initial work on Typescript migration.", "contributor": "AllMight" },
-				{ "message": "Continue work on Typescript migration.", "contributor": "DeKleineKobini" }
+				{ "message": "Initial work on TypeScript migration.", "contributor": "AllMight" },
+				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{
@@ -27,11 +27,15 @@
 					"message": "Temporary disable 'Abroad Energy Warning' until we can find a resolution or permanently remove it.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Removed 'Drug Details' support while abroad.", "contributor": "DeKleineKobini" }
+				{ "message": "Removed 'Drug Details' support while abroad.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Removed 'Stats Estimates' on the competition page due to performance concerns (it wasn't working for this year already).",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Removed 'Competition Filter' due to page changes and potential rule concerns.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
-	{ "version": { "major": 7, "minor": 9, "build": 4 }, "date": "2025/12/03", "logs": {} },
 	{
 		"version": { "major": 7, "minor": 9, "build": 3 },
 		"date": "2025/12/02",
