@@ -320,7 +320,7 @@ const DEFAULT_STORAGE = {
 		sorting: {
 			abroad: {
 				column: new DefaultSetting("string", ""),
-				order: new DefaultSetting("string", "none"),
+				order: new DefaultSetting<"none" | "asc" | "desc">("string", "none"),
 			},
 		},
 		notifications: {

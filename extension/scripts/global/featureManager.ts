@@ -8,7 +8,7 @@ type FeatureEnabledFn = () => boolean;
 type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
 type FeatureFn = FeatureSingleFn | FeatureSingleFn[];
 type FeatureLoadListeners = { storage: string[] };
-type FeatureRequirementsFn = () => Promise<string | true>;
+type FeatureRequirementsFn = (() => string | true) | (() => Promise<string | true>);
 
 interface FeatureOptions {
 	triggerCallback: boolean;
