@@ -46,9 +46,9 @@ interface FetchOptions {
 	params: { [key: string]: string };
 }
 
-type FetchLocation = keyof typeof FETCH_PLATFORMS | string;
+type FetchLocation = keyof typeof FETCH_PLATFORMS | typeof FETCH_PLATFORMS.tornstats;
 
-async function fetchData<R = any>(location: FetchLocation, partialOptions: Partial<FetchOptions> = {}): Promise<R> {
+async function fetchData<R = any>(l: FetchLocation, partialOptions: Partial<FetchOptions> = {}): Promise<R> {
 	const options: FetchOptions = {
 		fakeResponse: false,
 		section: undefined,
@@ -68,10 +68,23 @@ async function fetchData<R = any>(location: FetchLocation, partialOptions: Parti
 	};
 
 	if (options.relay && SCRIPT_TYPE !== "BACKGROUND") {
-		return chrome.runtime.sendMessage({ action: "fetchRelay", location, options: { ...options, relay: false } });
+		return chrome.runtime.sendMessage({ action: "fetchRelay", location: l, options: { ...options, relay: false } });
 	}
 
 	return new Promise(async (resolve, reject) => {
+		let location: keyof typeof FETCH_PLATFORMS;
+		if (!(l in FETCH_PLATFORMS)) {
+			location = Object.entries(FETCH_PLATFORMS)
+				.filter(([, value]) => l === value)
+				.map<keyof typeof FETCH_PLATFORMS>(([key]) => key as keyof typeof FETCH_PLATFORMS)
+				.find(() => true);
+			if (!location) {
+				throw new Error(`Unknown fetch platform was chosen: ${l}!`);
+			}
+		} else {
+			location = l as keyof typeof FETCH_PLATFORMS;
+		}
+
 		let url: string, path: string, pathSections: string[], key: string;
 		let headers: { [key: string]: string } = {};
 
@@ -99,7 +112,6 @@ async function fetchData<R = any>(location: FetchLocation, partialOptions: Parti
 				params.set("rfcv", getRFC());
 				break;
 			case "tornstats":
-			case FETCH_PLATFORMS.tornstats:
 				url = FETCH_PLATFORMS.tornstats;
 
 				pathSections = ["api", "v2", options.key || api.tornstats.key || api.torn.key];
@@ -113,7 +125,7 @@ async function fetchData<R = any>(location: FetchLocation, partialOptions: Parti
 				url = FETCH_PLATFORMS.yata;
 
 				pathSections = ["api", "v1", options.section];
-				if (options.id) pathSections.push(options.id);
+				if (options.id) pathSections.push(options.id, "");
 				if (options.includeKey) key = api.yata.key;
 
 				path = pathSections.join("/");
