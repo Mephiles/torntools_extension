@@ -452,7 +452,7 @@ const DEFAULT_STORAGE = {
 				blockZalgo: new DefaultSetting("boolean", true),
 				completeUsernames: new DefaultSetting("boolean", true),
 				highlights: new DefaultSetting("array", [{ name: "$player", color: "#7ca900" }]),
-				titleHighlights: new DefaultSetting("array", []), // TODO - Figure out full type.
+				titleHighlights: new DefaultSetting<ColoredChatOption[]>("array", []),
 				tradeTimer: new DefaultSetting("boolean", true),
 				hideChatButton: new DefaultSetting("boolean", true),
 				hideChat: new DefaultSetting("boolean", false),
@@ -588,11 +588,11 @@ const DEFAULT_STORAGE = {
 			},
 			forums: {
 				menu: new DefaultSetting("boolean", true),
-				hidePosts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-				hideThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-				highlightPosts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-				highlightThreads: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-				ignoredThreads: new DefaultSetting<{ [id: string]: boolean }>("object", {}),
+				hidePosts: new DefaultSetting<Record<number, boolean>>("object", {}),
+				hideThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
+				highlightPosts: new DefaultSetting<Record<number, boolean>>("object", {}),
+				highlightThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
+				ignoredThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
 				debugInfoBtn: new DefaultSetting("boolean", true),
 			},
 			bazaar: {
@@ -677,7 +677,7 @@ const DEFAULT_STORAGE = {
 				timeoutWarning: new DefaultSetting("boolean", true),
 				fairAttack: new DefaultSetting("boolean", true),
 				weaponExperience: new DefaultSetting("boolean", true),
-				hideAttackButtons: new DefaultSetting("array", []), // TODO - Figure out full type.
+				hideAttackButtons: new DefaultSetting<string[]>("array", []),
 			},
 			city: {
 				items: new DefaultSetting("boolean", true),
