@@ -27,7 +27,12 @@
 					"message": "Temporary disable 'Abroad Energy Warning' until we can find a resolution or permanently remove it.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Removed 'Drug Details' support while abroad.", "contributor": "DeKleineKobini" }
+				{ "message": "Removed 'Drug Details' support while abroad.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Removed 'Stats Estimates' on the competition page due to performance concerns (it wasn't working for this year already).",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Removed 'Competition Filter' due to page changes and potential rule concerns.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
