@@ -49,7 +49,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 				let attributes = options.attributes;
 				if (typeof attributes === "function") attributes = attributes();
 
-				for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute]);
+				for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute].toString());
 			}
 			for (const event in options.events) newElement.addEventListener(event, options.events[event]);
 

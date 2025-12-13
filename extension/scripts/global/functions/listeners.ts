@@ -35,6 +35,8 @@ enum EVENT_CHANNELS {
 	TRAVEL_SELECT_TYPE = "travel-select-type",
 	TRAVEL_SELECT_COUNTRY = "travel-select-country",
 	TRAVEL_DESTINATION_UPDATE = "travel-destination-update",
+	TRAVEL_ABROAD__SHOP_LOAD = "TRAVEL_ABROAD__SHOP_LOAD",
+	TRAVEL_ABROAD__SHOP_REFRESH = "TRAVEL_ABROAD__SHOP_REFRESH",
 	FEATURE_ENABLED = "feature-enabled",
 	FEATURE_DISABLED = "feature-disabled",
 	STATE_CHANGED = "state-changed",
@@ -96,7 +98,7 @@ function addXHRListener(callback: (event: CustomEvent<XHRDetails>) => void) {
 	window.addEventListener(EVENT_CHANNELS.XHR, callback as EventListener);
 }
 
-function triggerCustomListener(channel: string, details: any) {
+function triggerCustomListener(channel: string, details?: any) {
 	for (const listener of CUSTOM_LISTENERS[channel]) {
 		listener(details);
 	}

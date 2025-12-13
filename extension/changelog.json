@@ -4,14 +4,31 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
 			"fixes": [],
-			"changes": [{ "message": "Fix event worth not rounding, resulting in a lot of decimals sometimes.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Fix event worth not rounding, resulting in a lot of decimals sometimes.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix most abroad features after changes by Torn, the others were removed/disabled.", "contributor": "DeKleineKobini" }
+			],
 			"technical": [
 				{ "message": "Initial work on Typescript migration.", "contributor": "AllMight" },
 				{ "message": "Continue work on Typescript migration.", "contributor": "DeKleineKobini" }
 			],
-			"removed": []
+			"removed": [
+				{
+					"message": "Temporary disable 'Abroad Buy No Confirm' until we can find a resolution or permanently remove it.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Temporary disable 'Abroad Fill Max' until we can find a resolution or permanently remove it.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Temporary disable 'Abroad Energy Warning' until we can find a resolution or permanently remove it.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Removed 'Drug Details' support while abroad.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{ "version": { "major": 7, "minor": 9, "build": 4 }, "date": "2025/12/03", "logs": {} },
