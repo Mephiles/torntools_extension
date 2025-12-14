@@ -26,8 +26,7 @@ Object.defineProperty(Array.prototype, "insertAt", {
 });
 Object.defineProperty(Array.prototype, "totalSum", {
 	value() {
-		// noinspection JSUnusedAssignment
-		return this.reduce((a: any, b: any) => (a += b), 0);
+		return this.reduce((a: any, b: any) => a + b, 0);
 	},
 	enumerable: false,
 });

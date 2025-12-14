@@ -156,7 +156,6 @@ async function fetchData<R = any>(l: FetchLocation, partialOptions: Partial<Fetc
 
 		if (options.params) {
 			for (const [key, value] of Object.entries(options.params)) {
-				// noinspection JSCheckFunctionSignatures
 				params.append(key, value);
 			}
 		}
