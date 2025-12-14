@@ -84,7 +84,7 @@ jobs:
           process_category("features;### Features\n"),
           process_category("fixes;### Fixes\n"),
           process_category("changes;### Changes\n"),
-          process_category("removed;### Removed\n")
+          process_category("removed;### Removed\n"),
           process_category("technical;### Technical\n")
           ' >> "$releaseBodyFile"
 
