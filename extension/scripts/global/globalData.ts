@@ -140,6 +140,8 @@ const ttStorage = new TornToolsStorage();
 
 type DatabaseCache = { [key: string]: any };
 
+type CacheKey = string | number;
+
 class TornToolsCache {
 	private _cache: DatabaseCache;
 
@@ -155,23 +157,23 @@ class TornToolsCache {
 		return this._cache;
 	}
 
-	get(section: string, key?: string) {
+	get(section: string, key?: CacheKey) {
 		if (!key) {
 			key = section;
 			section = null;
 		}
 
 		if (section) return this.hasValue(section, key) ? this.cache[section][key].value : undefined;
-		else return this.hasValue(key) ? this.cache[key].value : undefined;
+		else return this.hasValue(key.toString()) ? this.cache[key].value : undefined;
 	}
 
-	async remove(section: string, key?: string) {
+	async remove(section: string, key?: CacheKey) {
 		if (!key) {
 			key = section;
 			section = null;
 		}
 
-		if ((section && !this.hasValue(section, key)) || (!section && !this.hasValue(key))) {
+		if ((section && !this.hasValue(section, key)) || (!section && !this.hasValue(key.toString()))) {
 			// Nothing to delete.
 			return;
 		}
@@ -182,7 +184,7 @@ class TornToolsCache {
 		await ttStorage.set({ cache: this.cache });
 	}
 
-	hasValue(section: string, key?: string) {
+	hasValue(section: string, key?: CacheKey) {
 		if (!key) {
 			key = section;
 			section = null;

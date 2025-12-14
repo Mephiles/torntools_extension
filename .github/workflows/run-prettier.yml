@@ -15,11 +15,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            # Set git to CRLF
-            - name: Set git to use CRLF
-              run: |
-                git config --global core.autocrlf true
-                git config --global core.eol crlf
+            # Set git to LF
+            - name: Set git to use LF
+              run: git config --global core.eol lf
 
             # Downloads Repos for Usage
             - uses: actions/checkout@v6
