@@ -1,8 +1,14 @@
 [
 	{
+		"version": { "major": 8, "minor": 0, "build": 1 },
+		"title": "Beta",
+		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
 		"version": { "major": 8, "minor": 0, "build": 0 },
 		"title": "a technical leap: TypeScript",
-		"date": false,
+		"date": "2025/12/14",
 		"logs": {
 			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
 			"fixes": [{ "message": "Fix 'Bazaar Worth' not always staying visible.", "contributor": "AllMight" }],
@@ -19,10 +25,7 @@
 					"message": "Temporary disable 'Abroad Buy No Confirm' until we can find a resolution or permanently remove it.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "Temporary disable 'Abroad Fill Max' until we can find a resolution or permanently remove it.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "Temporary disable 'Abroad Fill Max' until we can find a resolution or permanently remove it.", "contributor": "DeKleineKobini" },
 				{
 					"message": "Temporary disable 'Abroad Energy Warning' until we can find a resolution or permanently remove it.",
 					"contributor": "DeKleineKobini"
