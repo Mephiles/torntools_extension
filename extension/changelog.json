@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
-			"fixes": [],
+			"fixes": [{ "message": "Fix 'Bazaar Worth' not always staying visible.", "contributor": "AllMight" }],
 			"changes": [
 				{ "message": "Fix event worth not rounding, resulting in a lot of decimals sometimes.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix most abroad features after changes by Torn, the others were removed/disabled.", "contributor": "DeKleineKobini" }
