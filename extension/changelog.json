@@ -3,7 +3,13 @@
 		"version": { "major": 8, "minor": 0, "build": 1 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]
+		}
 	},
 	{
 		"version": { "major": 8, "minor": 0, "build": 0 },

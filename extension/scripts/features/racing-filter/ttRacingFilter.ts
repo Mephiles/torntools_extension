@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -19,9 +17,10 @@
 	);
 
 	function initialise() {
-		addXHRListener(async ({ detail: { page, xhr, uri } }) => {
-			if (!feature.enabled()) return;
+		addXHRListener(async ({ detail: { page, ...detail } }) => {
+			if (!feature.enabled() || !("uri" in detail)) return;
 
+			const { uri } = detail;
 			if ((page === "page" || page === "loader") && uri) {
 				const sid = uri.sid;
 				if (sid !== "racing" && sid !== "undefined") {
@@ -37,7 +36,7 @@
 
 				await requireElement(".events-list");
 
-				addFilters();
+				void addFilters();
 			}
 		});
 	}
@@ -340,11 +339,11 @@
 			showRow(li);
 		}
 
-		function showRow(li) {
+		function showRow(li: HTMLElement) {
 			li.classList.remove("tt-hidden");
 		}
 
-		function hideRow(li) {
+		function hideRow(li: HTMLElement) {
 			li.classList.add("tt-hidden");
 		}
 

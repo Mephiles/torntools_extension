@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	await loadDatabase();
 
@@ -23,8 +21,8 @@
 			} while (range.endOffset < node.textContent.length && range.toString().indexOf(",") === -1 && range.toString().trim() !== "");
 			const selection = range.toString().replaceAll(",", "").trim();
 
-			const panel = event.target.closest("div.panel-group");
-			const selectionsInput = panel.find("input[id*=selections]");
+			const panel = (event.target as Element).closest("div.panel-group");
+			const selectionsInput = panel.find<HTMLInputElement>("input[id*=selections]");
 
 			if (event.ctrlKey) {
 				if (selectionsInput.value.trim() === "") selectionsInput.value = selection;
