@@ -365,7 +365,6 @@
 					profit = "N/A";
 				}
 
-				// noinspection HtmlUnknownTarget
 				return document.newElement({
 					type: "div",
 					class: "row",

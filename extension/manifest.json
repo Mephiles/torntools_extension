@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "TornTools",
-	"version": "8.0.0",
+	"version": "8.0.1",
 	"description": "Several tools for Torn.",
 	"icons": { "16": "resources/images/icon_16.png", "48": "resources/images/icon_48.png", "128": "resources/images/icon_128.png" },
 	"action": { "default_title": "TornTools", "default_popup": "pages/popup/popup.html", "default_icon": "resources/images/icon_128.png" },
@@ -893,22 +893,6 @@
 			"matches": ["https://www.torn.com/halloffame.php*"],
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateHOF.js"],
-			"run_at": "document_end"
-		},
-		{
-			"matches": ["https://www.torn.com/competition.php*"],
-			"css": [
-				"scripts/global/functions/filters.css",
-				"scripts/features/competition-filter/ttCompetitionFilter.css",
-				"scripts/features/stats-estimate/ttStatsEstimate.css"
-			],
-			"js": [
-				"scripts/global/functions/filters.js",
-				"scripts/content/competition/ttCompetition.js",
-				"scripts/features/stats-estimate/statsEstimate.js",
-				"scripts/features/competition-filter/ttCompetitionFilter.js",
-				"scripts/features/stats-estimate/ttStatsEstimateCompetition.js"
-			],
 			"run_at": "document_end"
 		},
 		{ "matches": ["https://www.torn.com/pmarket.php*"], "js": ["scripts/features/no-confirm/ttPointsMarketNoConfirm.js"], "run_at": "document_end" },

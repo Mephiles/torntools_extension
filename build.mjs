@@ -140,7 +140,7 @@ const buildOptions = {
 		".css": "copy",
 		".d.ts": "empty",
 	},
-	sourcemap: false,
+	sourcemap: true,
 };
 
 async function build() {

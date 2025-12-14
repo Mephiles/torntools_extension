@@ -20,7 +20,7 @@ should contain more information about the changes.
 Start reading our code and you'll get the hang of it. We optimize for readability:
 We have prettier formatting to help you follow our coding conventions.
 
-* New files all have to be written in **Typescript**.
+* New files all have to be written in **TypeScript**.
 * We follow a certain pattern for our files.
     * Each feature has its own file and those are placed in the `extension/scripts/features` folder, in a folder based
       on the name of it.

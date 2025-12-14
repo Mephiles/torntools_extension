@@ -1,37 +1,50 @@
 [
 	{
-		"version": { "major": 8, "minor": 0, "build": 0 },
+		"version": { "major": 8, "minor": 0, "build": 1 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
+			"features": [],
 			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]
+		}
+	},
+	{
+		"version": { "major": 8, "minor": 0, "build": 0 },
+		"title": "a technical leap: TypeScript",
+		"date": "2025/12/14",
+		"logs": {
+			"features": [{ "message": "Added travel timer in browser-tab", "contributor": "luke__" }],
+			"fixes": [{ "message": "Fix 'Bazaar Worth' not always staying visible.", "contributor": "AllMight" }],
 			"changes": [
 				{ "message": "Fix event worth not rounding, resulting in a lot of decimals sometimes.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix most abroad features after changes by Torn, the others were removed/disabled.", "contributor": "DeKleineKobini" }
 			],
 			"technical": [
-				{ "message": "Initial work on Typescript migration.", "contributor": "AllMight" },
-				{ "message": "Continue work on Typescript migration.", "contributor": "DeKleineKobini" }
+				{ "message": "Initial work on TypeScript migration.", "contributor": "AllMight" },
+				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{
 					"message": "Temporary disable 'Abroad Buy No Confirm' until we can find a resolution or permanently remove it.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "Temporary disable 'Abroad Fill Max' until we can find a resolution or permanently remove it.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "Temporary disable 'Abroad Fill Max' until we can find a resolution or permanently remove it.", "contributor": "DeKleineKobini" },
 				{
 					"message": "Temporary disable 'Abroad Energy Warning' until we can find a resolution or permanently remove it.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Removed 'Drug Details' support while abroad.", "contributor": "DeKleineKobini" }
+				{ "message": "Removed 'Drug Details' support while abroad.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Removed 'Stats Estimates' on the competition page due to performance concerns (it wasn't working for this year already).",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Removed 'Competition Filter' due to page changes and potential rule concerns.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
-	{ "version": { "major": 7, "minor": 9, "build": 4 }, "date": "2025/12/03", "logs": {} },
 	{
 		"version": { "major": 7, "minor": 9, "build": 3 },
 		"date": "2025/12/02",

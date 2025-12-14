@@ -125,7 +125,6 @@ function sendMessage(text: string, good: boolean, partialOptions: Partial<Messag
 function getPageTheme(): "dark" | "light" {
 	const theme = settings.themes.pages;
 
-	// noinspection JSIncompatibleTypesComparison
 	if (theme === "default") {
 		if (window.matchMedia) return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 		return "light";

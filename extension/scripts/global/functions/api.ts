@@ -32,7 +32,7 @@ const FACTION_ACCESS = {
 interface FetchOptions {
 	fakeResponse: boolean;
 	section: string;
-	id: undefined | string;
+	id: undefined | string | number;
 	selections: string[];
 	legacySelections: string[];
 	key: undefined | string;
@@ -85,7 +85,7 @@ async function fetchData<R = any>(l: FetchLocation, partialOptions: Partial<Fetc
 			location = l as keyof typeof FETCH_PLATFORMS;
 		}
 
-		let url: string, path: string, pathSections: string[], key: string;
+		let url: string, path: string, pathSections: (string | number)[], key: string;
 		let headers: { [key: string]: string } = {};
 
 		const params = new URLSearchParams();
@@ -156,7 +156,6 @@ async function fetchData<R = any>(l: FetchLocation, partialOptions: Partial<Fetc
 
 		if (options.params) {
 			for (const [key, value] of Object.entries(options.params)) {
-				// noinspection JSCheckFunctionSignatures
 				params.append(key, value);
 			}
 		}
