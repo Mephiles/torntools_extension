@@ -4,6 +4,56 @@
 	if (!getPageStatus().access) return;
 	if (isOwnProfile()) return;
 
+	function numberCellRenderer(value) {
+		let node;
+		if (typeof value === "object") {
+			const isRelative = filters.profile.relative;
+
+			const actualValue = isRelative ? value.relative : value.value;
+			const forceOperation = isRelative;
+
+			const options = { decimals: 0, forceOperation };
+			node = document.newElement({
+				type: "span",
+				class: "relative-field",
+				text: formatNumber(actualValue, options),
+				dataset: { value: value.value, relative: value.relative, options },
+			});
+		} else {
+			node = document.createTextNode(formatNumber(value, { decimals: 0 }));
+		}
+
+		return {
+			element: node,
+			dispose: () => {},
+		};
+	}
+
+	function currencyCellRenderer(data) {
+		let node;
+		if (typeof data === "object") {
+			const isRelative = filters.profile.relative;
+
+			const value = isRelative ? data.relative : data.value;
+			const forceOperation = isRelative;
+
+			const options = { decimals: 0, currency: true, forceOperation };
+			node = document.newElement({
+				type: "span",
+				class: "relative-field",
+				text: formatNumber(value, options),
+				dataset: { value: data.value, relative: data.relative, options },
+			});
+		} else {
+			node = document.createTextNode(formatNumber(data, { decimals: 0, currency: true }));
+		}
+
+		return {
+			element: node,
+			dispose: () => {},
+		};
+	}
+
 	const STATS = [
 		// Attacking
 		{ name: "Attacks won", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.won },
@@ -33,8 +83,8 @@
 		{ name: "Incendiary ammo used", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.incendiary },
 		{ name: "Stealth attacks", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.stealth },
 		{ name: "Retaliations", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.retaliations },
-		{ name: "Money mugged", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.money_mugged, formatter: "currency" },
-		{ name: "Largest mug", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.largest_mug, formatter: "currency" },
+		{ name: "Money mugged", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.money_mugged, formatter: currencyCellRenderer },
+		{ name: "Largest mug", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.largest_mug, formatter: currencyCellRenderer },
 		{ name: "Items looted", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.items_looted },
 		{ name: "Highest level beaten", type: "attacking", v2Getter: (data) => data.personalstats.attacking.highest_level_beaten },
 		{ name: "Total respect", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.respect },
@@ -70,7 +120,7 @@
 		{ name: "People busted", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.success },
 		{ name: "Failed busts", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.fails },
 		{ name: "People bailed", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.amount },
-		{ name: "Bail fees", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.fees, formatter: "currency" },
+		{ name: "Bail fees", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.fees, formatter: currencyCellRenderer },
 
 		// Hospital
 		{ name: "Times in hospital", type: "hospital", v2Getter: (data) => data.personalstats.hospital.times_hospitalized },
@@ -283,11 +333,11 @@
 
 		// Bounties
 		{ name: "Bounties placed", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.amount },
-		{ name: "Spent on bounties", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.value, formatter: "currency" },
+		{ name: "Spent on bounties", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.value, formatter: currencyCellRenderer },
 		{ name: "Bounties collected", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.amount },
-		{ name: "Money rewarded", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.value, formatter: "currency" },
+		{ name: "Money rewarded", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.value, formatter: currencyCellRenderer },
 		{ name: "Bounties received", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.amount },
-		{ name: "Received value", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.value, formatter: "currency" },
+		{ name: "Received value", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.value, formatter: currencyCellRenderer },
 
 		// Items
 		{ name: "Items found", type: "items", v2Getter: (data) => data.personalstats.items.found.city },
@@ -327,7 +377,7 @@
 		{ name: "Drugs used", type: "drugs", v2Getter: (data) => data.personalstats.drugs.total },
 		{ name: "Times overdosed", type: "drugs", v2Getter: (data) => data.personalstats.drugs.overdoses },
 		{ name: "Rehabilitations", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.amount },
-		{ name: "Rehabilitation fees", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.fees, formatter: "currency" },
+		{ name: "Rehabilitation fees", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.fees, formatter: currencyCellRenderer },
 		{ name: "Cannabis taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.cannabis },
 		{ name: "Ecstasy taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ecstasy },
 		{ name: "Ketamine taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ketamine },
@@ -352,7 +402,7 @@
 		{ name: "Races won", type: "racing", v2Getter: (data) => data.personalstats.racing.races.won },
 
 		// Networth
-		{ name: "Networth", type: "networth", v2Getter: (data) => data.personalstats.networth.total, formatter: "currency" },
+		{ name: "Networth", type: "networth", v2Getter: (data) => data.personalstats.networth.total, formatter: currencyCellRenderer },
 
 		// Other
 		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.activity.time },
@@ -617,71 +667,25 @@
 			function createStatsTable(id, rows, hidden = false, hasHeaders = false) {
 				return createTable(
 					[
-						{ id: "stat", title: "Stat", width: 140, cellRenderer: "string" },
-						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRenderer: "number" },
-						{ id: "you", title: "You", class: "your-stat", width: 80, cellRenderer: "number" },
+						{ id: "stat", title: "Stat", width: 140, cellRenderer: stringCellRenderer },
+						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRenderer: numberCellRenderer },
+						{ id: "you", title: "You", class: "your-stat", width: 80, cellRenderer: numberCellRenderer },
 					],
 					rows,
 					{
-						class: `${id} ${hidden ? "tt-hidden" : ""}`,
-						cellRenderers: {
-							number: (data) => {
-								let node;
-								if (typeof data === "object") {
-									const isRelative = filters.profile.relative;
-
-									const value = isRelative ? data.relative : data.value;
-									const forceOperation = isRelative;
-
-									const options = { decimals: 0, forceOperation };
-									node = document.newElement({
-										type: "span",
-										class: "relative-field",
-										text: formatNumber(value, options),
-										dataset: { value: data.value, relative: data.relative, options },
-									});
-								} else {
-									node = document.createTextNode(formatNumber(data, { decimals: 0 }));
-								}
-
-								return {
-									element: node,
-									dispose: () => {},
-								};
-							},
-							currency: (data) => {
-								let node;
-								if (typeof data === "object") {
-									const isRelative = filters.profile.relative;
-
-									const value = isRelative ? data.relative : data.value;
-									const forceOperation = isRelative;
-
-									const options = { decimals: 0, currency: true, forceOperation };
-									node = document.newElement({
-										type: "span",
-										class: "relative-field",
-										text: formatNumber(value, options),
-										dataset: { value: data.value, relative: data.relative, options },
-									});
-								} else {
-									node = document.createTextNode(formatNumber(data, { decimals: 0, currency: true }));
-								}
-
-								return {
-									element: node,
-									dispose: () => {},
-								};
-							},
-						},
-						rowClass: (rowData, isHeader) => {
-							if (isHeader) return "";
+						tableClass: `${id} ${hidden ? "tt-hidden" : ""}`,
+						rowClass: (rowData) => {
 							if (rowData.them === "N/A" || rowData.you?.value === "N/A" || rowData.them === rowData.you?.value) return "";
 
 							return rowData.them > rowData.you?.value ? "superior-them" : "superior-you";
 						},
 						stretchColumns: true,
-						hasHeaders,
+						rowGroupInfo: hasHeaders
+							? {
+									groupBy: "type",
+									cellRenderer: stringCellRenderer,
+							  }
+							: undefined,
 					}
 				);
 			}
@@ -735,13 +739,7 @@
 						return row;
 					})
 					.filter((value) => !!value);
-				const types = [...new Set(_stats.map((stat) => stat.type))];
-
-				const rows = types.flatMap((type) => {
-					return [{ header: capitalizeText(type) }, ..._stats.filter((stat) => stat.type === type)];
-				});
-
-				const table = createStatsTable("other-stats", rows, true, true);
+				const table = createStatsTable("other-stats", _stats, true, true);
 
 				if (requireCleanup) {
 					section.find(".other-stats")?.remove();
@@ -893,9 +891,9 @@
 			if (spy) {
 				const table = createTable(
 					[
-						{ id: "stat", title: "Stat", width: 60, cellRenderer: "string" },
-						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRenderer: "number" },
-						{ id: "you", title: "You", class: "your-stat", width: 80, cellRenderer: "number" },
+						{ id: "stat", title: "Stat", width: 60, cellRenderer: stringCellRenderer },
+						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRenderer: numberCellRenderer },
+						{ id: "you", title: "You", class: "your-stat", width: 80, cellRenderer: numberCellRenderer },
 					],
 					[
 						{ stat: "Strength", them: spy.strength, you: { value: userdata.strength, relative: getRelative(spy.strength, userdata.strength) } },
@@ -909,32 +907,6 @@
 						{ stat: "Total", them: spy.total, you: { value: userdata.total, relative: getRelative(spy.total, userdata.total) } },
 					],
 					{
-						cellRenderers: {
-							number: (data) => {
-								let node;
-								if (typeof data === "object") {
-									const isRelative = filters.profile.relative;
-
-									const value = isRelative ? data.relative : data.value;
-									const forceOperation = isRelative;
-
-									const options = { decimals: 0, forceOperation };
-									node = document.newElement({
-										type: "span",
-										class: "relative-field",
-										text: formatNumber(value, options),
-										dataset: { value: data.value, relative: data.relative, options },
-									});
-								} else {
-									node = document.createTextNode(formatNumber(data, { decimals: 0 }));
-								}
-
-								return {
-									element: node,
-									dispose: () => {},
-								};
-							},
-						},
 						rowClass: (rowData) => {
 							if (rowData.them === "N/A" || rowData.you.value === "N/A") return "";
 
@@ -1127,41 +1099,41 @@
 			if (id in attackHistory.history) {
 				const history = attackHistory.history[id];
 
+				function respectCellRenderer(respectArray) {
+					let respect = respectArray.length ? respectArray.totalSum() / respectArray.length : 0;
+					if (respect > 0) respect = formatNumber(respect, { decimals: 2 });
+					else respect = "-";
+
+					return {
+						element: document.createTextNode(respect),
+						dispose: () => {},
+					};
+				}
+
+				function ffCellRenderer(modifier) {
+					let ff;
+					if (modifier > 0) ff = formatNumber(modifier, { decimals: 2 });
+					else ff = "-";
+
+					return {
+						element: document.createTextNode(ff),
+						dispose: () => {},
+					};
+				}
+
 				const table = createTable(
 					[
-						{ id: "win", title: "Wins", class: "positive", width: 40, cellRenderer: "string" },
-						{ id: "defend", title: "Defends", class: "positive last-cell", width: 60, cellRenderer: "string" },
-						{ id: "lose", title: "Lost", class: "negative", width: 30, cellRenderer: "string" },
-						{ id: "defend_lost", title: "Defends lost", class: "negative", width: 80, cellRenderer: "string" },
-						{ id: "stalemate", title: "Stalemates", class: "negative", width: 70, cellRenderer: "string" },
-						{ id: "escapes", title: "Escapes", class: "negative last-cell", width: 60, cellRenderer: "string" },
-						{ id: "respect_base", title: "Respect", class: "neutral", width: 50, cellRenderer: "respect" },
-						{ id: "latestFairFightModifier", title: "FF", class: "neutral", width: 50, cellRenderer: "ff" },
+						{ id: "win", title: "Wins", class: "positive", width: 40, cellRenderer: stringCellRenderer },
+						{ id: "defend", title: "Defends", class: "positive last-cell", width: 60, cellRenderer: stringCellRenderer },
+						{ id: "lose", title: "Lost", class: "negative", width: 30, cellRenderer: stringCellRenderer },
+						{ id: "defend_lost", title: "Defends lost", class: "negative", width: 80, cellRenderer: stringCellRenderer },
+						{ id: "stalemate", title: "Stalemates", class: "negative", width: 70, cellRenderer: stringCellRenderer },
+						{ id: "escapes", title: "Escapes", class: "negative last-cell", width: 60, cellRenderer: stringCellRenderer },
+						{ id: "respect_base", title: "Respect", class: "neutral", width: 50, cellRenderer: respectCellRenderer },
+						{ id: "latestFairFightModifier", title: "FF", class: "neutral", width: 50, cellRenderer: ffCellRenderer },
 					],
 					[history],
 					{
-						cellRenderers: {
-							respect: (respectArray) => {
-								let respect = respectArray.length ? respectArray.totalSum() / respectArray.length : 0;
-								if (respect > 0) respect = formatNumber(respect, { decimals: 2 });
-								else respect = "-";
-
-								return {
-									element: document.createTextNode(respect),
-									dispose: () => {},
-								};
-							},
-							ff: (modifier) => {
-								let ff;
-								if (modifier > 0) ff = formatNumber(modifier, { decimals: 2 });
-								else ff = "-";
-
-								return {
-									element: document.createTextNode(ff),
-									dispose: () => {},
-								};
-							},
-						},
 						stretchColumns: true,
 					}
 				);

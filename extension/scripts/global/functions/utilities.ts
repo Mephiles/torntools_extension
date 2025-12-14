@@ -358,3 +358,33 @@ function calculateDatePeriod(startDate: Date, endDate: Date) {
 
 	return { years, months, days };
 }
+
+function toRecord<TItem, TValue>(array: TItem[], fn: (item: TItem, index: number) => [string, TValue]): Record<string, TValue> {
+	return array.reduce<Record<string, TValue>>((record, item, index) => {
+		const [key, value] = fn(item, index);
+		record[key] = value;
+
+		return record;
+	}, {});
+}
+
+function groupBy<TItem, TValue>(array: TItem[], fn: (item: TItem, index: number) => [string, TValue]): Record<string, TValue[]> {
+	return array.reduce<Record<string, TValue[]>>((record, item, index) => {
+		const [key, value] = fn(item, index);
+		record[key] = record[key] ?? [];
+		record[key].push(value);
+
+		return record;
+	}, {});
+}
+
+/**
+ * Like keyof but for keys with specific value.
+ *
+ * For example: `TypedKeyOf<{a: number; b: string}, string>` will yield `'b'`
+ */
+type TypedKeyOf<T, K> = { [P in keyof T]: T[P] extends K ? P : never }[keyof T];
+
+function getTypedKeyOf<T, K>(item: T, typedKeyOf: TypedKeyOf<T, K>): K {
+	return item[typedKeyOf] as K;
+}
