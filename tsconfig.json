@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"lib": ["DOM", "DOM.Iterable", "ES2024", "WebWorker"],
 		"module": "none",
 		"outDir": "dist",
 		"target": "esnext",
