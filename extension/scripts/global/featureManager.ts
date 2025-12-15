@@ -320,7 +320,7 @@ class FeatureManager {
 
 				storageListeners[key].push((oldSettings: any) => {
 					if (
-						!storageKeys[key].some((path: any) => {
+						!storageKeys[key].some((path) => {
 							const newValue = rec(getter(), path);
 							const oldValue = rec(oldSettings, path);
 
@@ -337,7 +337,7 @@ class FeatureManager {
 			}
 		}
 
-		function rec(parent: any[], path: any[]) {
+		function rec(parent: { [key: string]: any }, path: string[]) {
 			if (!parent) return false;
 			if (path.length > 1) return rec(parent[path[0]], path.slice(1));
 

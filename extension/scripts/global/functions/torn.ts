@@ -1630,7 +1630,7 @@ function isSellable(id: number | string) {
 			1009, // Halloween Basket
 			1010, // Halloween Basket
 			1011, // Halloween Basket
-		].includes(item.id || parseInt(id.toString()))
+		].includes(parseInt(id.toString()))
 	);
 }
 
@@ -2003,7 +2003,7 @@ function getItemEnergy(id: number) {
 
 	const value = energy[0];
 
-	return !isNaN(value) ? parseInt(value) : false;
+	return !isNaN(parseInt(value)) ? parseInt(value) : false;
 }
 
 function getUsername(row: Element) {

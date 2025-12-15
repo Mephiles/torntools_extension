@@ -4,12 +4,5 @@
 # VS Code settings
 .vscode
 
-extension/scripts/jshint.json
-extension/scripts/eslint.json
-.gitignore
-
-extension/find.txt
-extension/find.txtf
-
 node_modules
 dist

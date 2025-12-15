@@ -6,7 +6,7 @@
   "devDependencies": {
     "chrome-types": "^0.1.396",
     "esbuild": "^0.27.1",
-    "tornapi-types": "^0.0.4",
+    "tornapi-types": "^0.0.9",
     "typescript": "^5.9.3",
     "user-agent-data-types": "^0.4.2"
   }

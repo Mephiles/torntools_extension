@@ -117,7 +117,7 @@
 			handleClass(cooldowns.find(".booster"), userdata.cooldowns.booster);
 			handleClass(cooldowns.find(".medical"), userdata.cooldowns.medical);
 			if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.find(".education"), userdata.education_timeleft);
-			handleClass(cooldowns.parentElement.find(".investment"), userdata.money.city_bank.time_left - userdata.date);
+			handleClass(cooldowns.parentElement.find(".investment"), userdata.money.city_bank.until - userdata.date);
 		}
 
 		if (!mobile && !tablet) container.insertAdjacentElement("beforebegin", cooldowns);

@@ -43,7 +43,7 @@ interface FetchOptions {
 	succeedOnError: boolean;
 	includeKey: boolean;
 	relay: boolean;
-	params: { [key: string]: string };
+	params: { [key: string]: string | number };
 }
 
 type FetchLocation = keyof typeof FETCH_PLATFORMS | typeof FETCH_PLATFORMS.tornstats;
@@ -156,7 +156,7 @@ async function fetchData<R = any>(l: FetchLocation, partialOptions: Partial<Fetc
 
 		if (options.params) {
 			for (const [key, value] of Object.entries(options.params)) {
-				params.append(key, value);
+				params.append(key, value.toString());
 			}
 		}
 
@@ -358,7 +358,7 @@ function hasOC1Data(): boolean {
 	if (!hasAPIData() || !("organizedCrime" in userdata)) return false;
 
 	// 27: "Must be migrated to organized crimes 2.0"
-	return userdata.organizedCrime !== null && userdata.organizedCrime.code === 27;
+	return userdata.organizedCrime !== null && "code" in userdata.organizedCrime && userdata.organizedCrime.code === 27;
 }
 
 async function hasOrigins(...origins: string[]): Promise<boolean> {

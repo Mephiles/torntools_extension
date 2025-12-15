@@ -1,20 +1,20 @@
-type DatabaseSettings = DefaultStorageType["settings"];
-type DatabaseFilters = DefaultStorageType["filters"];
-type DatabaseVersion = DefaultStorageType["version"];
-type DatabaseApi = DefaultStorageType["api"];
-type DatabaseUserdata = DefaultStorageType["userdata"];
-type DatabaseTorndata = DefaultStorageType["torndata"];
-type DatabaseStakeouts = DefaultStorageType["stakeouts"];
-type DatabaseAttackHistory = DefaultStorageType["attackHistory"];
-type DatabaseNotes = DefaultStorageType["notes"];
-type DatabaseFactiondata = DefaultStorageType["factiondata"];
-type DatabaseQuick = DefaultStorageType["quick"];
-type DatabaseLocaldata = DefaultStorageType["localdata"];
-type DatabaseNpcs = DefaultStorageType["npcs"];
-type DatabaseNotificationHistory = DefaultStorageType["notificationHistory"];
-type DatabaseStockdata = DefaultStorageType["stockdata"];
-type DatabaseFactionStakeouts = DefaultStorageType["factionStakeouts"];
-type DatabaseNotifications = DefaultStorageType["notifications"];
+type DatabaseSettings = Writable<DefaultStorageType["settings"]>;
+type DatabaseFilters = Writable<DefaultStorageType["filters"]>;
+type DatabaseVersion = Writable<DefaultStorageType["version"]>;
+type DatabaseApi = Writable<DefaultStorageType["api"]>;
+type DatabaseUserdata = Writable<DefaultStorageType["userdata"]>;
+type DatabaseTorndata = Writable<DefaultStorageType["torndata"]>;
+type DatabaseStakeouts = Writable<DefaultStorageType["stakeouts"]>;
+type DatabaseAttackHistory = Writable<DefaultStorageType["attackHistory"]>;
+type DatabaseNotes = Writable<DefaultStorageType["notes"]>;
+type DatabaseFactiondata = Writable<DefaultStorageType["factiondata"]>;
+type DatabaseQuick = Writable<DefaultStorageType["quick"]>;
+type DatabaseLocaldata = Writable<DefaultStorageType["localdata"]>;
+type DatabaseNpcs = Writable<DefaultStorageType["npcs"]>;
+type DatabaseNotificationHistory = Writable<DefaultStorageType["notificationHistory"]>;
+type DatabaseStockdata = Writable<DefaultStorageType["stockdata"]>;
+type DatabaseFactionStakeouts = Writable<DefaultStorageType["factionStakeouts"]>;
+type DatabaseNotifications = Writable<DefaultStorageType["notifications"]>;
 
 interface Database {
 	settings: DatabaseSettings;

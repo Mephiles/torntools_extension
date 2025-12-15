@@ -39,7 +39,7 @@ class TornToolsStorage {
 		return chrome.storage.local.clear();
 	}
 
-	change(object: { [key: string]: any }): Promise<void> {
+	change(object: RecursivePartial<Writable<Database>>): Promise<void> {
 		return new Promise(async (resolve) => {
 			for (const key of Object.keys(object)) {
 				const data = this.recursive(await this.get(key), object[key]);
@@ -283,6 +283,66 @@ const ttUsage = new TornToolsUsage();
 
 type InternalPageTheme = "default" | "dark" | "light";
 
+type StoredNpcs = {
+	next_update: number;
+	service: string;
+	targets: {
+		[id: string]: StoredNpc;
+	};
+	planned?: number | false;
+	reason?: string;
+};
+
+interface StoredNpc {
+	name: string;
+	levels: {
+		1: number;
+		2: number;
+		3: number;
+		4: number;
+		5: number;
+	};
+	current?: number;
+	scheduled?: boolean;
+	order?: number;
+}
+
+type StoredUserdata = FetchedUserdata & {
+	date: number;
+	dateBasic: number;
+	userCrime?: number;
+};
+
+interface StoredFactionStakeouts {
+	date: number;
+	[id: string]:
+		| {
+				alerts: never;
+				info: {
+					name: string;
+					chain: number;
+					members: {
+						current: number;
+						maximum: number;
+					};
+					rankedWar: boolean;
+					raid: boolean;
+					territoryWar: boolean;
+				};
+		  }
+		| number;
+}
+
+type StoredFactiondataNoAccess = { access: "none"; error?: any; retry?: number };
+type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number };
+type StoredFactiondataFullAccess = { access: "full_access"; date: number; userCrime: number } & FetchedFactiondataWithAccess;
+type StoredFactiondata = StoredFactiondataNoAccess | StoredFactiondataBasic | StoredFactiondataFullAccess;
+
+type StoredTorndata = FetchedTorndata & { date: number };
+
+// type StoredStockdata = FetchedStockdata["stocks"] & { date: number };
+type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
+
 const DEFAULT_STORAGE = {
 	version: {
 		current: new DefaultSetting<string>("string", () => chrome.runtime.getManifest().version),
@@ -344,7 +404,7 @@ const DEFAULT_STORAGE = {
 				nerve: new DefaultSetting("array", ["100%"]),
 				happy: new DefaultSetting("array", ["100%"]),
 				life: new DefaultSetting("array", ["100%"]),
-				offline: new DefaultSetting("array", []),
+				offline: new DefaultSetting("array", []), // TODO - Figure out full type.
 				chainTimerEnabled: new DefaultSetting("boolean", true),
 				chainBonusEnabled: new DefaultSetting("boolean", true),
 				leavingHospitalEnabled: new DefaultSetting("boolean", true),
@@ -352,22 +412,22 @@ const DEFAULT_STORAGE = {
 				cooldownDrugEnabled: new DefaultSetting("boolean", true),
 				cooldownBoosterEnabled: new DefaultSetting("boolean", true),
 				cooldownMedicalEnabled: new DefaultSetting("boolean", true),
-				chainTimer: new DefaultSetting("array", []),
-				chainBonus: new DefaultSetting("array", []),
-				leavingHospital: new DefaultSetting("array", []),
-				landing: new DefaultSetting("array", []),
-				cooldownDrug: new DefaultSetting("array", []),
-				cooldownBooster: new DefaultSetting("array", []),
-				cooldownMedical: new DefaultSetting("array", []),
+				chainTimer: new DefaultSetting<number[]>("array", []),
+				chainBonus: new DefaultSetting<number[]>("array", []),
+				leavingHospital: new DefaultSetting<number[]>("array", []),
+				landing: new DefaultSetting<number[]>("array", []),
+				cooldownDrug: new DefaultSetting<number[]>("array", []),
+				cooldownBooster: new DefaultSetting<number[]>("array", []),
+				cooldownMedical: new DefaultSetting<number[]>("array", []),
 				stocks: new DefaultSetting("object", {}),
 				missionsLimitEnabled: new DefaultSetting("boolean", false),
 				missionsLimit: new DefaultSetting("string", ""),
 				missionsExpireEnabled: new DefaultSetting("boolean", false),
-				missionsExpire: new DefaultSetting("array", []),
+				missionsExpire: new DefaultSetting<number[]>("array", []),
 				npcsGlobal: new DefaultSetting("boolean", true),
-				npcs: new DefaultSetting("array", []),
+				npcs: new DefaultSetting<{ id: number; level: number | ""; minutes: number | "" }[]>("array", []),
 				npcPlannedEnabled: new DefaultSetting("boolean", true),
-				npcPlanned: new DefaultSetting("array", []),
+				npcPlanned: new DefaultSetting<number[]>("array", []),
 			},
 		},
 		apiUsage: {
@@ -411,13 +471,13 @@ const DEFAULT_STORAGE = {
 			pages: new DefaultSetting<InternalPageTheme>("string", "default"),
 			containers: new DefaultSetting("string", "default"),
 		},
-		hideIcons: new DefaultSetting("array", []),
-		hideCasinoGames: new DefaultSetting("array", []),
-		hideStocks: new DefaultSetting("array", []),
-		alliedFactions: new DefaultSetting("array", []),
-		customLinks: new DefaultSetting("array", []),
-		employeeInactivityWarning: new DefaultSetting("array", []),
-		factionInactivityWarning: new DefaultSetting("array", []),
+		hideIcons: new DefaultSetting<string[]>("array", []),
+		hideCasinoGames: new DefaultSetting<string[]>("array", []),
+		hideStocks: new DefaultSetting<string[]>("array", []),
+		alliedFactions: new DefaultSetting<string[]>("array", []),
+		customLinks: new DefaultSetting("array", []), // TODO - Figure out full type.
+		employeeInactivityWarning: new DefaultSetting("array", []), // TODO - Figure out full type.
+		factionInactivityWarning: new DefaultSetting("array", []), // TODO - Figure out full type.
 		userAlias: new DefaultSetting("object", {}),
 		csvDelimiter: new DefaultSetting("string", ";"),
 		pages: {
@@ -777,11 +837,11 @@ const DEFAULT_STORAGE = {
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			faction: new DefaultSetting("string", ""),
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
 			revivesOn: new DefaultSetting("boolean", false),
 		},
 		jail: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
 			faction: new DefaultSetting("string", "All"),
 			timeStart: new DefaultSetting("number", 0),
 			timeEnd: new DefaultSetting("number", 100),
@@ -791,14 +851,14 @@ const DEFAULT_STORAGE = {
 			scoreEnd: new DefaultSetting("number", 5000),
 		},
 		racing: {
-			hideRaces: new DefaultSetting("array", []), // TODO - Figure out full type.
+			hideRaces: new DefaultSetting<string[]>("array", []),
 			timeStart: new DefaultSetting("number", 0),
 			timeEnd: new DefaultSetting("number", 48),
 			driversMin: new DefaultSetting("number", 2),
 			driversMax: new DefaultSetting("number", 100),
 			lapsMin: new DefaultSetting("number", 1),
 			lapsMax: new DefaultSetting("number", 100),
-			track: new DefaultSetting("array", []), // TODO - Figure out full type.
+			track: new DefaultSetting<string[]>("array", []),
 			name: new DefaultSetting("string", ""),
 		},
 		containers: new DefaultSetting<{ [id: string]: boolean }>("object", {}),
@@ -806,12 +866,12 @@ const DEFAULT_STORAGE = {
 			open: new DefaultSetting("boolean", false),
 			type: new DefaultSetting("string", "basic"),
 			categories: new DefaultSetting<string[]>("array", []),
-			countries: new DefaultSetting("array", []), // TODO - Figure out full type.
+			countries: new DefaultSetting<string[]>("array", []),
 			hideOutOfStock: new DefaultSetting("boolean", false),
 		},
 		abroadPeople: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
-			status: new DefaultSetting<string[]>("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
+			status: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			faction: new DefaultSetting("string", ""),
@@ -822,10 +882,10 @@ const DEFAULT_STORAGE = {
 				isDonator: new DefaultSetting("string", "both"),
 				hasBounties: new DefaultSetting("string", "both"),
 			},
-			estimates: new DefaultSetting("array", []), // TODO - Figure out full type.
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		abroadItems: {
-			categories: new DefaultSetting("array", []), // TODO - Figure out full type.
+			categories: new DefaultSetting<string[]>("array", []),
 			profitOnly: new DefaultSetting("boolean", false),
 		},
 		trade: {
@@ -847,7 +907,7 @@ const DEFAULT_STORAGE = {
 			hideUnavailable: new DefaultSetting("boolean", false),
 		},
 		userlist: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			special: {
@@ -869,7 +929,7 @@ const DEFAULT_STORAGE = {
 				hospitalizedBy: new DefaultSetting("string", "both"),
 				other: new DefaultSetting("string", "both"),
 			},
-			estimates: new DefaultSetting("array", []), // TODO - Figure out full type.
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		stocks: {
 			name: new DefaultSetting("string", ""),
@@ -884,12 +944,12 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		faction: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 1),
 			levelEnd: new DefaultSetting("number", 100),
 			lastActionStart: new DefaultSetting("number", 0),
 			lastActionEnd: new DefaultSetting("number", -1),
-			status: new DefaultSetting("array", []), // TODO - Figure out full type.
+			status: new DefaultSetting<string[]>("array", []),
 			position: new DefaultSetting("string", ""),
 			special: {
 				fedded: new DefaultSetting("string", "both"),
@@ -909,7 +969,7 @@ const DEFAULT_STORAGE = {
 				weaponType: new DefaultSetting("string", ""),
 				damage: new DefaultSetting("string", ""),
 				accuracy: new DefaultSetting("string", ""),
-				weaponBonus: new DefaultSetting("array", []), // TODO - Figure out full type.
+				weaponBonus: new DefaultSetting<string[]>("array", []),
 			},
 			armor: {
 				name: new DefaultSetting("string", ""),
@@ -922,11 +982,11 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		factionRankedWar: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
-			status: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
+			status: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 1),
 			levelEnd: new DefaultSetting("number", 100),
-			estimates: new DefaultSetting("array", []), // TODO - Figure out full type.
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		profile: {
 			relative: new DefaultSetting("boolean", false),
@@ -989,10 +1049,10 @@ const DEFAULT_STORAGE = {
 			status: new DefaultSetting("array", []), // TODO - Figure out full type.
 		},
 	},
-	userdata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-	torndata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-	stockdata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-	factiondata: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	userdata: new DefaultSetting<StoredUserdata>("object", {} as StoredUserdata),
+	torndata: new DefaultSetting<StoredTorndata>("object", {} as StoredTorndata),
+	stockdata: new DefaultSetting<StoredStockdata>("object", {} as StoredStockdata),
+	factiondata: new DefaultSetting<StoredFactiondata>("object", {} as StoredFactiondata),
 	localdata: {
 		tradeMessage: new DefaultSetting("number", 0),
 		popup: {
@@ -1013,7 +1073,7 @@ const DEFAULT_STORAGE = {
 		},
 	},
 	stakeouts: new DefaultSetting<any>("object", { order: [] }), // TODO - Figure out full type.
-	factionStakeouts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),
 		lastAttack: new DefaultSetting("number", 0),
@@ -1032,9 +1092,9 @@ const DEFAULT_STORAGE = {
 		crimes: new DefaultSetting("array", []), // TODO - Figure out full type.
 		jail: new DefaultSetting("array", []), // TODO - Figure out full type.
 	},
-	cache: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-	usage: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-	npcs: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+	cache: new DefaultSetting<DatabaseCache>("object", {}),
+	usage: new DefaultSetting<DatabaseUsage>("object", {}),
+	npcs: new DefaultSetting<StoredNpcs>("object", {} as StoredNpcs),
 	notificationHistory: new DefaultSetting("array", []), // TODO - Figure out full type.
 	notifications: {
 		events: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
@@ -1059,24 +1119,6 @@ const DEFAULT_STORAGE = {
 	},
 } as const;
 
-// type ExtractDefaultSettingType<T> =
-// 	T extends DefaultSetting<infer U>
-// 		? U
-// 		: T extends readonly any[]
-// 			? T
-// 			: T extends any[]
-// 				? T
-// 				: T extends object
-// 					? { [K in keyof T]: ExtractDefaultSettingType<T[K]> }
-// 					: T;
-// type ExtractDefaultSettingType<T> =
-// 	T extends DefaultSetting<infer U>
-// 		? U
-// 		: T extends any[]
-// 				? T
-// 				: T extends object
-// 					? { [K in keyof T]: ExtractDefaultSettingType<T[K]> }
-// 					: T;
 type ExtractDefaultSettingType<T> = T extends DefaultSetting<infer U> ? U : T extends object ? { [K in keyof T]: ExtractDefaultSettingType<T[K]> } : T;
 
 type DefaultStorageType = ExtractDefaultSettingType<typeof DEFAULT_STORAGE>;
