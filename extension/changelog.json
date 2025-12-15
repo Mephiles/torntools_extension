@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "'Live Networth' was no longer loading, which is now resolved.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": [],
 			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]

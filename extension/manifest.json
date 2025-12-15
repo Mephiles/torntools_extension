@@ -452,8 +452,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/index.php*"],
-			"css": ["scripts/features/effective-stats/ttEffectiveStats.css"],
-			"js": ["scripts/features/effective-stats/ttEffectiveStats.js"],
+			"css": ["scripts/features/effective-stats/ttEffectiveStats.css", "scripts/features/live-networth/ttLiveNetworth.css"],
+			"js": ["scripts/features/effective-stats/ttEffectiveStats.js", "scripts/features/live-networth/ttLiveNetworth.js"],
 			"run_at": "document_end"
 		},
 		{
