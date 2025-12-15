@@ -42,36 +42,35 @@ class TornToolsStorage {
 	change(object: { [key: string]: any }): Promise<void> {
 		return new Promise(async (resolve) => {
 			for (const key of Object.keys(object)) {
-				const data = recursive(await this.get(key), object[key]);
-
-				function recursive(parent: any, toChange: any) {
-					// eslint-disable-line no-inner-declarations
-					for (const key in toChange) {
-						if (
-							parent &&
-							typeof parent === "object" &&
-							!Array.isArray(parent[key]) &&
-							key in parent &&
-							typeof toChange[key] === "object" &&
-							!Array.isArray(toChange[key])
-						) {
-							parent[key] = recursive(parent[key], toChange[key]);
-						} else if (parent && typeof parent === "object") {
-							const value = toChange[key];
-
-							if (value === undefined || value === null) delete parent[key];
-							else parent[key] = value;
-						} else {
-							parent = { [key]: toChange[key] };
-						}
-					}
-					return parent;
-				}
+				const data = this.recursive(await this.get(key), object[key]);
 
 				await this.set({ [key]: data });
 			}
 			resolve();
 		});
+	}
+
+	private recursive(parent: any, toChange: any) {
+		for (const key in toChange) {
+			if (
+				parent &&
+				typeof parent === "object" &&
+				!Array.isArray(parent[key]) &&
+				key in parent &&
+				typeof toChange[key] === "object" &&
+				!Array.isArray(toChange[key])
+			) {
+				parent[key] = this.recursive(parent[key], toChange[key]);
+			} else if (parent && typeof parent === "object") {
+				const value = toChange[key];
+
+				if (value === undefined || value === null) delete parent[key];
+				else parent[key] = value;
+			} else {
+				parent = { [key]: toChange[key] };
+			}
+		}
+		return parent;
 	}
 
 	reset(): Promise<void>;
