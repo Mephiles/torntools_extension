@@ -871,7 +871,6 @@ const DEFAULT_STORAGE = {
 			},
 			estimates: new DefaultSetting("array", []), // TODO - Figure out full type.
 		},
-		closedScopes: new DefaultSetting("array", []), // TODO - Figure out full type.
 		stocks: {
 			name: new DefaultSetting("string", ""),
 			investment: {
