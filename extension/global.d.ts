@@ -3,7 +3,7 @@ declare global {
 		type: keyof HTMLElementTagNameMap;
 		id?: string;
 		class?: string | string[];
-		text?: string;
+		text?: string | number;
 		html?: string;
 		value?: any | (() => any);
 		href?: string;

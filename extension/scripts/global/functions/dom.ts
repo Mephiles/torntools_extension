@@ -29,7 +29,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 				if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
 				else newElement.setClass(options.class.trim());
 			}
-			if (options.text !== undefined) newElement.textContent = options.text;
+			if (options.text !== undefined) newElement.textContent = options.text.toString();
 			if (options.html) newElement.innerHTML = options.html;
 			if (options.value && "value" in newElement) {
 				if (typeof options.value === "function") newElement.value = options.value();
