@@ -7,7 +7,7 @@
 			"features": [],
 			"fixes": [{ "message": "'Live Networth' was no longer loading, which is now resolved.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "Update 'Travel Sync' to use the new new structure.", "contributor": "DeKleineKobini" }],
-			"removed": [],
+			"removed": [{ "message": "Remove 'Sort Travel Market' since it was natively implemented.", "contributor": "DeKleineKobini" }],
 			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]
 		}
 	},

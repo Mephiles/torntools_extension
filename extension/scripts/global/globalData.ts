@@ -542,7 +542,6 @@ const DEFAULT_STORAGE = {
 				tabTitleTimer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				travelProfits: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				peopleFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				landingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				flyingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
