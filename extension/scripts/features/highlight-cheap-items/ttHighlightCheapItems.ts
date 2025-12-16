@@ -20,27 +20,21 @@
 
 	async function initialiseListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS].push(({ list }) => {
-			console.log("DKK ITEMMARKET_CATEGORY_ITEMS 1", list);
 			if (!feature.enabled()) return;
 
-			console.log("DKK ITEMMARKET_CATEGORY_ITEMS 2", [...list.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]);
 			highlightItems([...list.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE].push(({ item }) => {
-			console.log("DKK ITEMMARKET_CATEGORY_ITEMS_UPDATE 1", item);
 			if (!feature.enabled()) return;
 
-			console.log("DKK ITEMMARKET_CATEGORY_ITEMS_UPDATE 2", item);
 			highlightItems([item]);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS].push(({ item, list }) => {
-			console.log("DKK ITEMMARKET_ITEMS", item, list);
 			if (!feature.enabled()) return;
 
 			highlightSellers(item, list, false);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE].push(({ item, list }) => {
-			console.log("DKK ITEMMARKET_ITEMS_UPDATE", item, list);
 			if (!feature.enabled()) return;
 
 			highlightSellers(item, list, true);
