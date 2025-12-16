@@ -19,11 +19,11 @@
 		await requireElement("[class*='stockTableWrapper___']");
 		const { content } = createContainer("Item Filters", {
 			class: "mb10",
-			nextElement: document.find("[class*='stockTableWrapper___']"),
+			nextElement: document.find("[class*='shops__']"),
 			filter: true,
 		});
 
-		await requireElement("[class*='stockTableWrapper___'] [class*='row___']");
+		await requireElement("[class*='stockTableWrapper___'] > li");
 		const statistics = createStatistics("items");
 		content.appendChild(statistics.element);
 
@@ -64,10 +64,10 @@
 			const categories = categoryFilter.getSelections(content);
 			if (profitOnly) await requireElement(".tt-travel-market-cell");
 
-			for (const li of document.findAll("[class*='stockTableWrapper___'] [class*='row___']")) {
+			for (const li of document.findAll("[class*='stockTableWrapper___'] > li")) {
 				showRow(li);
 
-				if (profitOnly && parseInt(li.find(".tt-travel-market-cell").getAttribute("value")) < 0) {
+				if (profitOnly && li.find(".tt-travel-market-cell").getAttribute("value").getNumber() < 0) {
 					hideRow(li);
 					continue;
 				}
@@ -130,8 +130,8 @@
 			});
 
 			statistics.updateStatistics(
-				document.findAll("[class*='stockTableWrapper___'] [class*='row___']:not(.tt-hidden)").length,
-				document.findAll("[class*='stockTableWrapper___'] [class*='row___']").length,
+				document.findAll("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
+				document.findAll("[class*='stockTableWrapper___'] > li").length,
 				content
 			);
 		}
@@ -147,6 +147,6 @@
 
 	function removeFilter() {
 		removeContainer("Item Filters");
-		document.findAll("[class*='stockTableWrapper___'] [class*='row___'].tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll("[class*='stockTableWrapper___'] li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();
