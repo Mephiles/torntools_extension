@@ -38,46 +38,46 @@
 
 		document.body.classList.add("tt-travel-profits");
 		const market = document.find("#travel-root");
-		const headings = market.find("[class*='stockHeader___']");
+		for (const headings of market.findAll("[class*='stockTableWrapper__'] [class*='itemsHeader__']")) {
+			if (!headings.find(".tt-travel-market-heading")) {
+				const profitHeading = document.newElement({
+					type: "div",
+					text: "Profit",
+					class: `tt-travel-market-heading tt-title-${settings.themes.containers}`,
+					dataset: {
+						ttContentType: "profit",
+					},
+				});
+				headings.insertBefore(profitHeading, headings.find("[class*='tabletColC__']"));
+			}
+			await requireElement("[class*='stockTableWrapper___'] > li");
+			const rows = document.findAll("[class*='stockTableWrapper___'] > li:not(:has([data-tt-content-type='profit']))");
+			for (const row of rows) {
+				const id = row.find("[data-tt-content-type='item'] img").getAttribute("srcset").split(" ")[0].getNumber();
+				const marketPrice = parseInt(torndata.items[id].market_value);
+				const buyPrice = row.find("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent.getNumber();
+				const profit = marketPrice - buyPrice;
 
-		if (!headings.find('[data-tt-content-type="profit"]')) {
-			const profitHeading = document.newElement({
-				type: "div",
-				text: "Profit",
-				class: `tt-travel-market-heading tt-title-${settings.themes.containers}`,
-				dataset: {
-					ttContentType: "profit",
-				},
-			});
-			headings.insertBefore(profitHeading, headings.find('[data-tt-content-type="stock"]'));
-		}
-		await requireElement("[class*='stockTableWrapper___'] [class*='row___']");
-		const rows = document.findAll("[class*='stockTableWrapper___'] [class*='row___']:not(:has([data-tt-content-type='profit']))");
-		for (const row of rows) {
-			const id = row.find("[data-tt-content-type='item'] img").getAttribute("srcset").split(" ")[0].getNumber();
-			const marketPrice = parseInt(torndata.items[id].market_value);
-			const buyPrice = row.find("[data-tt-content-type='cost']").textContent.getNumber();
-			const profit = marketPrice - buyPrice;
+				const span = document.newElement({
+					type: "span",
+					class: "tt-travel-market-cell",
+					attributes: { value: profit },
+					dataset: {
+						ttContentType: "profit",
+					},
+				});
+				const innerSpan = document.newElement({
+					type: "span",
+					text: `${profit < 0 ? "-$" : "+$"}${formatNumber(Math.abs(profit))}`,
+				});
 
-			const span = document.newElement({
-				type: "span",
-				class: "tt-travel-market-cell",
-				attributes: { value: profit },
-				dataset: {
-					ttContentType: "profit",
-				},
-			});
-			const innerSpan = document.newElement({
-				type: "span",
-				text: `${profit < 0 ? "-$" : "+$"}${formatNumber(Math.abs(profit))}`,
-			});
+				span.classList.remove("tt-color-green", "tt-color-red");
+				if (buyPrice > marketPrice) span.classList.add("tt-color-red");
+				else if (buyPrice < marketPrice) span.classList.add("tt-color-green");
 
-			span.classList.remove("tt-color-green", "tt-color-red");
-			if (buyPrice > marketPrice) span.classList.add("tt-color-red");
-			else if (buyPrice < marketPrice) span.classList.add("tt-color-green");
-
-			span.appendChild(innerSpan);
-			row.insertBefore(span, row.find("[data-tt-content-type='stock']"));
+				span.appendChild(innerSpan);
+				row.find(":scope > div[class*='row__']").insertBefore(span, row.find("[data-tt-content-type='stock']"));
+			}
 		}
 	}
 

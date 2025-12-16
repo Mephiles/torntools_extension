@@ -38,7 +38,7 @@
 			const stock = item.find("[data-tt-content-type='stock']").textContent.getNumber();
 			if (stock === 0) return;
 
-			const price = item.find("[data-tt-content-type='type'] + div[class*='cell__']").textContent.getNumber();
+			const price = item.find("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent.getNumber();
 
 			const affordableStock = (money / price).dropDecimals();
 			if (affordableStock === 0 || affordableStock === 1) return;

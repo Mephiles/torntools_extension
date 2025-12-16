@@ -1,5 +1,5 @@
 .tt-travel-profits [class*="stockTableWrapper___"] {
-	[class*="stockHeader___"],
+	[class*="itemsHeader___"],
 	[class*="row___"] {
 		grid-template-columns: 71px 1.5fr repeat(2, 1fr) repeat(4, 80px);
 	}
@@ -8,7 +8,7 @@
 .tt-tablet,
 .tt-mobile {
 	&.tt-travel-profits [class*="stockTableWrapper___"] {
-		[class*="stockHeader___"],
+		[class*="itemsHeader___"],
 		[class*="row___"] {
 			grid-template-columns: 71px 1fr 80px 44px;
 		}
