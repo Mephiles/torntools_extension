@@ -1,5 +1,3 @@
-"use strict";
-
 (() => {
 	new MutationObserver(() => {
 		triggerCustomListener(EVENT_CHANNELS.SWITCH_PAGE);

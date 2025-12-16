@@ -1,7 +1,6 @@
-"use strict";
-
 (async () => {
-	const STATS = {};
+	const STATS: { [stat: string]: number } = {};
+
 	addFetchListener((event) => {
 		const { page, json, fetch } = event.detail;
 
@@ -28,7 +27,7 @@
 	});
 
 	document.getElementById("gymroot").addEventListener("click", (event) => {
-		const target = event.target;
+		const target = event.target as Element;
 		if (target.tagName !== "BUTTON" || (target.textContent !== "BACK TO GYM" && target.textContent !== "Cancel")) return;
 
 		triggerGymLoadFromDOM();
@@ -37,7 +36,7 @@
 	triggerGymLoadFromDOM();
 
 	function triggerGymLoadFromDOM() {
-		new Promise(async (resolve) => {
+		new Promise<void>(async (resolve) => {
 			for (let stat of ["strength", "defense", "speed", "dexterity"]) {
 				const el = await requireElement(`div[class*='gymContent_'] li[class*='${stat}_'] span[class*='propertyValue_']`);
 

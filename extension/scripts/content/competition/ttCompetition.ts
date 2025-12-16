@@ -1,5 +1,3 @@
-"use strict";
-
 (() => {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
 		if (page === "competition") {

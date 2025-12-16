@@ -1,7 +1,5 @@
-"use strict";
-
-let countdownTimers = [];
-const countTimers = [];
+let countdownTimers: HTMLElement[] = [];
+const countTimers: HTMLElement[] = [];
 
 (async () => {
 	handleDevice();
@@ -35,5 +33,5 @@ async function forceUpdate() {
 	await requireSidebar();
 	await requireContent();
 
-	document.find("#sidebarroot ul[class*='status-icons']").setAttribute("updated", Date.now());
+	document.find("#sidebarroot ul[class*='status-icons']").setAttribute("updated", Date.now().toString());
 }

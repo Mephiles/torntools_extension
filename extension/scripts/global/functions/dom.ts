@@ -487,3 +487,7 @@ function showInformationSection() {
 	document.find(".tt-sidebar-information-divider")?.classList.remove("tt-hidden");
 	document.find(".tt-sidebar-information")?.classList.remove("tt-hidden");
 }
+
+function isElement(node: Node): node is Element {
+	return node.nodeType === Node.ELEMENT_NODE;
+}

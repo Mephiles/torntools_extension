@@ -35,7 +35,7 @@
 		new MutationObserver(async (mutations) => {
 			const itemInfo = mutations
 				.flatMap((mutation) => [...mutation.addedNodes])
-				.filter((node): node is Element => node.nodeType === Node.ELEMENT_NODE)
+				.filter(isElement)
 				.find((element) => element.classList.contains("item-info"));
 			if (!itemInfo) return;
 
@@ -65,7 +65,7 @@
 			new MutationObserver(async (mutations) => {
 				const infoWrapper = mutations
 					.flatMap((mutation) => [...mutation.addedNodes])
-					.filter((node): node is Element => node.nodeType === Node.ELEMENT_NODE)
+					.filter(isElement)
 					.find((element) => element.className.includes("itemInfoWrapper___"));
 				if (!infoWrapper) return;
 

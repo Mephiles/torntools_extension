@@ -1,5 +1,3 @@
-"use strict";
-
 const isOwnFaction = getSearchParameters().get("step") === "your";
 (async () => {
 	if (isOwnFaction) {
@@ -71,7 +69,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				})
 				.catch((cause) => loaded || console.error(cause));
 			requireElement("#faction-crimes-root [class*='buttonsContainer___']", { maxCycles: 20 })
-				.then(async (buttonsContainer) => {
+				.then(async (buttonsContainer: Element) => {
 					loaded = true;
 
 					const list = await requireElement("#faction-crimes-root .page-head-delimiter + div:not([class])");
@@ -94,6 +92,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				})
 				.catch((cause) => loaded || console.error(cause));
 		}
+
 		async function loadArmory() {
 			const tab = await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
 			await requireElement(`#${tab.getAttribute("aria-controls")} > .ajax-preloader`, { invert: true });
@@ -105,7 +104,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 						const addedNodes = [...mutation.addedNodes];
 
 						return addedNodes
-							.filter((node) => node.nodeType === Node.ELEMENT_NODE)
+							.filter(isElement)
 							.some(
 								(node) =>
 									node.classList.contains("item-list") ||
@@ -116,10 +115,10 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				)
 					return;
 
-				const mutation = mutations.find((mutation) => mutation.target.id.includes("armoury-"));
+				const mutation = mutations.find((mutation) => (mutation.target as Element).id.includes("armoury-"));
 				if (!mutation) return;
 
-				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: mutation.target.id.replace("armoury-", "") });
+				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: (mutation.target as Element).id.replace("armoury-", "") });
 			}).observe(document.find("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 			function getCurrentSection() {
@@ -147,7 +146,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		loadMemberTable();
 	}
 
-	let observer;
+	let observer: MutationObserver | undefined;
 
 	function loadMemberTable() {
 		const table = document.find(".members-list .table-body");
@@ -174,8 +173,8 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 					observer = new MutationObserver((mutations) => {
 						if (handled) return;
 
-						const reduced = [...mutations].filter((mutation) =>
-							[...mutation.addedNodes].every((node) => !node.classList.contains(".tt-last-action"))
+						const reduced = Array.from(mutations).filter((mutation) =>
+							Array.from(mutation.addedNodes).every((node) => !isElement(node) || !node.classList.contains(".tt-last-action"))
 						);
 						if (!reduced.length) return;
 
@@ -205,14 +204,14 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				header.addEventListener("click", sortListener);
 			}
 
-			function sortListener(event) {
-				const isFilter = event.target.closest("button, input");
+			function sortListener(event: MouseEvent) {
+				const isFilter = (event.target as Element).closest("button, input");
 				if (isFilter) return;
 
 				const rows = document.findAll(".members-list .table-body .table-row");
 				if (!rows.length) return;
 
-				new MutationObserver((mutations, observer) => {
+				new MutationObserver((_mutations, observer) => {
 					triggerCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT);
 					observer.disconnect();
 				}).observe(document.find(".members-list .table-body"), { childList: true });
@@ -225,10 +224,11 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				if (records.length > 1) return;
 
 				for (const record of records) {
-					if (!record.removedNodes?.[0]?.matches("#iconTray")) continue;
+					const firstRemovedNode = record.removedNodes?.[0] as Element;
+					if (!firstRemovedNode?.matches("#iconTray")) continue;
 
-					const oldIconsCount = record.removedNodes?.[0].children.length;
-					const newIconsCount = record.addedNodes?.[0].children.length;
+					const oldIconsCount = firstRemovedNode.children.length;
+					const newIconsCount = (record.addedNodes?.[0] as Element).children.length;
 
 					if (oldIconsCount > 0 && newIconsCount > 0 && oldIconsCount !== newIconsCount) {
 						triggerCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE);
@@ -242,7 +242,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 })();
 
 async function readFactionDetails() {
-	const viewWarsLink = document.querySelector("a.view-wars")?.href;
+	const viewWarsLink = document.querySelector<HTMLAnchorElement>("a.view-wars")?.href;
 	if (viewWarsLink) {
 		const match = viewWarsLink.match(/ranked\/(\d+)/);
 		if (match) {
@@ -250,7 +250,7 @@ async function readFactionDetails() {
 		}
 	}
 
-	const factionIDLink = document.querySelector(".faction-info a[href*='factionID']");
+	const factionIDLink = document.querySelector<HTMLAnchorElement>(".faction-info a[href*='factionID']");
 	if (factionIDLink) {
 		const match = factionIDLink.href.match(/#factionID=(\d+)/);
 		if (match) {
@@ -279,14 +279,14 @@ async function readFactionDetails() {
 
 	return null; // ID could not be found
 
-	async function getFactionIDFromUser(userID) {
+	async function getFactionIDFromUser(userID: number): Promise<number> {
 		const cached = ttCache.get("faction-id", userID);
 		if (cached) return cached;
 
-		const data = await fetchData("tornv2", { section: "user", selections: ["faction"], id: userID });
+		const data = await fetchData<UserFactionResponse>("tornv2", { section: "user", selections: ["faction"], id: userID });
 		const factionID = data.faction?.id;
 
-		void ttCache.set({ [userID]: factionID }, 1 * TO_MILLIS.DAYS, "faction-id");
+		void ttCache.set({ [userID]: factionID }, TO_MILLIS.DAYS, "faction-id");
 
 		return factionID;
 	}
