@@ -1,5 +1,4 @@
-"use strict";
-
+// @ts-expect-error Detects reassignment, but those pages are never loaded in the same context.
 const initiatedPages = {};
 
 (async () => {
@@ -18,8 +17,8 @@ const initiatedPages = {};
 
 const isIframe = window.self !== window.top; // https://stackoverflow.com/a/326076
 
-// noinspection DuplicatedCode
-async function showPage(name) {
+// @ts-expect-error Detects reassignment, but those pages are never loaded in the same context.
+async function showPage(name: string) {
 	const params = new URL(location.href).searchParams;
 	params.set("page", name);
 	if (name !== "preferences") params.delete("section");
@@ -49,8 +48,17 @@ async function showPage(name) {
 	}
 }
 
+type Changelog = {
+	version: { major: number; minor: number; build: number };
+	title?: string;
+	date?: false | string | Date;
+	logs: {
+		[section: string]: { message: string | string[]; contributor: string }[];
+	};
+}[];
+
 async function setupChangelog() {
-	const changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
+	const changelog: Changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
 	const content = document.find("#changelog > section");
 
 	changelog.forEach((entry, index, allEntries) => {
@@ -100,7 +108,7 @@ async function setupChangelog() {
 				class: "contributor",
 			});
 
-			if (contributor.id)
+			if ("id" in contributor)
 				child.appendChild(
 					document.newElement({
 						type: "a",
@@ -111,7 +119,7 @@ async function setupChangelog() {
 				);
 			else child.appendChild(document.newElement({ type: "span", text: contributor.name }));
 
-			if (contributor.color) child.style.setProperty("--contributor-color", contributor.color);
+			if ("color" in contributor) child.style.setProperty("--contributor-color", contributor.color);
 
 			contributorsWrap.appendChild(child);
 		});
@@ -125,10 +133,9 @@ async function setupChangelog() {
 			});
 
 			for (const log of entry.logs[title]) {
-				let message;
+				let message: string;
 				if (typeof log.message === "string") message = log.message;
 				else if (typeof log.message === "object" && Array.isArray(log.message)) message = log.message.join("<br>");
-				else message = log.message.toString();
 
 				const child = document.newElement({
 					type: "div",
@@ -138,7 +145,7 @@ async function setupChangelog() {
 
 				const contributor = contributors.filter((x) => x.key === log.contributor);
 				if (contributor.length) {
-					if (contributor[0].color) child.style.setProperty("--contributor-color", contributor[0].color);
+					if ("color" in contributor[0]) child.style.setProperty("--contributor-color", contributor[0].color);
 				}
 
 				parent.appendChild(child);
@@ -162,7 +169,8 @@ async function setupChangelog() {
 			const parts = [];
 
 			parts.push(getVersion());
-			if (entry.date) parts.push(`${MONTHS[entry.date.getMonth()]}, ${daySuffix(entry.date.getDate())} ${entry.date.getFullYear()}`);
+			if (entry.date && typeof entry.date === "object")
+				parts.push(`${MONTHS[entry.date.getMonth()]}, ${daySuffix(entry.date.getDate())} ${entry.date.getFullYear()}`);
 			if (entry.title) parts.push(entry.title);
 
 			return parts.join(" - ");
@@ -202,28 +210,28 @@ function cleanupPreferences() {
 		.forEach((element) => element.remove());
 }
 
-async function setupPreferences(requireCleanup) {
+async function setupPreferences(requireCleanup: boolean = false) {
 	if (requireCleanup) cleanupPreferences();
 	searchPreferences();
 
 	const _preferences = document.find("#preferences");
 	_preferences.addEventListener("click", (event) => {
-		if (!event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-casino-games, #hide-stocks, #hide-attack-options")) return;
+		if (!(event.target as Element).closest("button.remove-icon-wrap, #hide-icons, #hide-casino-games, #hide-stocks, #hide-attack-options")) return;
 
 		addSaveDialog();
 	});
 	_preferences.addEventListener("change", (event) => {
-		if (event.target.tagName !== "INPUT" && event.target.tagName !== "SELECT") return;
+		if ((event.target as Element).tagName !== "INPUT" && (event.target as Element).tagName !== "SELECT") return;
 
 		addSaveDialog();
 	});
 	_preferences.addEventListener("input", (event) => {
-		if (event.target.tagName !== "INPUT") return;
+		if ((event.target as Element).tagName !== "INPUT") return;
 
 		addSaveDialog();
 	});
 	_preferences.addEventListener("dragend", (event) => {
-		if (!event.target.closest("#customLinks")) return;
+		if (!(event.target as Element).closest("#customLinks")) return;
 
 		addSaveDialog();
 	});
@@ -240,7 +248,7 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	reviveProviderSelectElement.addEventListener("change", (event) => {
-		const origin = REVIVE_PROVIDERS.find((p) => p.provider === event.target.value)?.origin;
+		const origin = REVIVE_PROVIDERS.find((p) => p.provider === (event.target as HTMLInputElement).value)?.origin;
 
 		chrome.permissions.request({ origins: [origin] }, (granted) => {
 			if (granted) return;
@@ -259,18 +267,18 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#addChatHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatHighlight .input");
 
-		addChatHighlightRow(inputRow.find(".name").value, inputRow.find(".color").value);
+		addChatHighlightRow(inputRow.find<HTMLInputElement>(".name").value, inputRow.find<HTMLInputElement>(".color").value);
 
-		inputRow.find(".name").value = "";
-		inputRow.find(".color").value = "#7ca900";
+		inputRow.find<HTMLInputElement>(".name").value = "";
+		inputRow.find<HTMLInputElement>(".color").value = "#7ca900";
 	});
 	_preferences.find("#addChatTitleHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatTitleHighlight .input");
 
-		addChatTitleHighlightRow(inputRow.find(".title").value, inputRow.find(".color").value);
+		addChatTitleHighlightRow(inputRow.find<HTMLInputElement>(".title").value, inputRow.find<HTMLInputElement>(".color").value);
 
-		inputRow.find(".title").value = "";
-		inputRow.find(".color").selectedIndex = 0;
+		inputRow.find<HTMLInputElement>(".title").value = "";
+		inputRow.find<HTMLSelectElement>(".color").selectedIndex = 0;
 	});
 	_preferences.find("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
 
@@ -294,25 +302,24 @@ async function setupPreferences(requireCleanup) {
 			.then(async () => {
 				await ttStorage.reset();
 
-				chrome.runtime.sendMessage({ action: "initialize" }, () => {
-					sendMessage("Settings reset.", true, { reload: true });
-				});
+				await chrome.runtime.sendMessage({ action: "initialize" });
+				sendMessage("Settings reset.", true, { reload: true });
 			})
 			.catch(() => {});
 	});
 
 	_preferences.find("#notification_type-global").addEventListener("click", (event) => {
-		const disable = !event.target.checked;
+		const disable = !(event.target as HTMLInputElement).checked;
 
 		for (const notificationType in settings.notifications.types) {
 			if (["global", "stocks", "npcs"].includes(notificationType)) continue;
 
-			if (disable) _preferences.find(`#notification_type-${notificationType}`).setAttribute("disabled", true);
+			if (disable) _preferences.find(`#notification_type-${notificationType}`).setAttribute("disabled", "true");
 			else _preferences.find(`#notification_type-${notificationType}`).removeAttribute("disabled");
 		}
 	});
 	_preferences.find("#notification-sound").addEventListener("change", (event) => {
-		const value = event.target.value;
+		const value = (event.target as HTMLInputElement).value;
 
 		if (value === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
@@ -333,26 +340,32 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#notification-sound-play").addEventListener("click", () => {
 		chrome.runtime.sendMessage({
 			action: "play-notification-sound",
-			sound: _preferences.find("#notification-sound").value,
-			volume: parseInt(_preferences.find("#notification-volume").value),
+			sound: _preferences.find<HTMLInputElement>("#notification-sound").value,
+			volume: parseInt(_preferences.find<HTMLInputElement>("#notification-volume").value),
 		});
 	});
 	_preferences.find("#notification-sound-stop").addEventListener("click", () => {
 		chrome.runtime.sendMessage({ action: "stop-notification-sound" });
 	});
 	_preferences.find("#notification-sound-upload").addEventListener("change", (event) => {
-		if (!event.target.files.length) return;
+		const target = event.target as HTMLInputElement;
+		if (!target.files.length) return;
 
 		const reader = new FileReader();
 		reader.addEventListener("load", (event) => {
-			if (event.target.result.length > 5242880) {
-				console.warn(`Uploaded file had a size of ${formatBytes(event.target.result.length)}.`);
+			const result = event.target.result;
+			if (typeof result !== "string") {
+				return;
+			}
+
+			if (result.length > 5242880) {
+				console.warn(`Uploaded file had a size of ${formatBytes(result.length)}.`);
 				return sendMessage("Maximum file size exceeded. (5MB)", false);
 			}
 
-			ttStorage.change({ settings: { notifications: { soundCustom: event.target.result } } });
+			ttStorage.change({ settings: { notifications: { soundCustom: result } } });
 		});
-		reader.readAsDataURL(event.target.files[0]);
+		reader.readAsDataURL(target.files[0]);
 	});
 
 	new Sortable(_preferences.find("#customLinks"), {
@@ -361,13 +374,14 @@ async function setupPreferences(requireCleanup) {
 		ghostClass: "dragging",
 	});
 	_preferences.find("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
-	_preferences.find("#customLinks .input select.preset").value = "custom";
+	_preferences.find<HTMLSelectElement>("#customLinks .input select.preset").value = "custom";
 	_preferences.find("#customLinks .input select.preset").addEventListener("change", (event) => {
-		const hrefInput = _preferences.find("#customLinks .input .href");
-		const nameInput = _preferences.find("#customLinks .input .name");
+		const target = event.target as HTMLSelectElement;
+		const hrefInput = _preferences.find<HTMLInputElement>("#customLinks .input .href");
+		const nameInput = _preferences.find<HTMLInputElement>("#customLinks .input .name");
 
 		// noinspection DuplicatedCode
-		if (event.target.value === "custom") {
+		if (target.value === "custom") {
 			hrefInput.classList.remove("tt-hidden");
 			hrefInput.value = "";
 			nameInput.classList.remove("tt-hidden");
@@ -376,42 +390,46 @@ async function setupPreferences(requireCleanup) {
 			hrefInput.classList.add("tt-hidden");
 			nameInput.classList.add("tt-hidden");
 
-			hrefInput.value = CUSTOM_LINKS_PRESET[event.target.value.replaceAll("_", " ")].link;
-			nameInput.value = event.target.value.replaceAll("_", " ");
+			hrefInput.value = CUSTOM_LINKS_PRESET[target.value.replaceAll("_", " ")].link;
+			nameInput.value = target.value.replaceAll("_", " ");
 		}
 	});
 	_preferences.find("#customLinks .input select.location").innerHTML = getCustomLinkLocations();
-	_preferences.find("#customLinks .input select.location").value = "above";
+	_preferences.find<HTMLSelectElement>("#customLinks .input select.location").value = "above";
 	_preferences.find("#addCustomLink").addEventListener("click", () => {
 		const inputRow = document.find("#customLinks .input");
 
 		addCustomLink({
-			newTab: inputRow.find(".newTab").checked,
-			preset: inputRow.find(".preset").value,
-			location: inputRow.find(".location").value,
-			name: inputRow.find(".name").value,
-			href: inputRow.find(".href").value,
+			newTab: inputRow.find<HTMLInputElement>(".newTab").checked,
+			preset: inputRow.find<HTMLInputElement>(".preset").value,
+			location: inputRow.find<HTMLInputElement>(".location").value,
+			name: inputRow.find<HTMLInputElement>(".name").value,
+			href: inputRow.find<HTMLInputElement>(".href").value,
 		});
 
-		inputRow.find(".newTab").checked = false;
-		inputRow.find(".preset").value = "custom";
-		inputRow.find(".location").value = "above";
-		inputRow.find(".name").value = "";
+		inputRow.find<HTMLInputElement>(".newTab").checked = false;
+		inputRow.find<HTMLInputElement>(".preset").value = "custom";
+		inputRow.find<HTMLInputElement>(".location").value = "above";
+		inputRow.find<HTMLInputElement>(".name").value = "";
 		inputRow.find(".name").classList.remove("tt-hidden");
-		inputRow.find(".href").value = "";
+		inputRow.find<HTMLInputElement>(".href").value = "";
 		inputRow.find(".href").classList.remove("tt-hidden");
 	});
 
 	_preferences.find("#addAllyFaction").addEventListener("click", () => {
 		const inputRow = document.find("#allyFactions .input");
 
-		addAllyFaction(inputRow.find(".faction").value);
+		addAllyFaction(inputRow.find<HTMLInputElement>(".faction").value);
 	});
 
 	_preferences.find("#addUserAlias").addEventListener("click", () => {
 		const inputRow = document.find("#userAlias li:last-child");
 
-		addUserAlias(inputRow.find(".userID").value, inputRow.find(".name").value, inputRow.find(".alias").value);
+		addUserAlias(
+			inputRow.find<HTMLInputElement>(".userID").value,
+			inputRow.find<HTMLInputElement>(".name").value,
+			inputRow.find<HTMLInputElement>(".alias").value
+		);
 	});
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
@@ -451,14 +469,13 @@ async function setupPreferences(requireCleanup) {
 		hideCasinoGamesParent.appendChild(casinoGame);
 		if (CASINO_GAMES.indexOf(game) + 1 !== CASINO_GAMES.length) hideCasinoGamesParent.appendChild(document.createTextNode("\n"));
 
-		casinoGame.addEventListener("click", (event) => event.target.classList.toggle("disabled"));
+		casinoGame.addEventListener("click", (event) => (event.target as Element).classList.toggle("disabled"));
 	}
 
 	const hideStocksParent = _preferences.find("#hide-stocks");
 	if (hasAPIData() && stockdata) {
 		for (const stock in stockdata) {
-			// noinspection JSCheckFunctionSignatures
-			if (isNaN(stock)) continue;
+			if (typeof stockdata[stock] === "number") continue;
 
 			const stockName = stockdata[stock].name;
 			hideStocksParent.appendChild(
@@ -470,7 +487,8 @@ async function setupPreferences(requireCleanup) {
 			);
 		}
 		hideStocksParent.addEventListener("click", (event) => {
-			if (!isNaN(event.target.getAttribute("id"))) event.target.classList.toggle("disabled");
+			const target = event.target as Element;
+			if (!isNaN(parseInt(target.getAttribute("id")))) target.classList.toggle("disabled");
 		});
 	} else {
 		hideStocksParent.classList.add("warning");
@@ -511,7 +529,7 @@ async function setupPreferences(requireCleanup) {
 	["leave", "mug", "hospitalize"].forEach((option) => {
 		const optionNode = document.newElement({ type: "span", text: capitalizeText(option), attributes: { value: option } });
 		hideAttackOptionsParent.appendChild(optionNode);
-		optionNode.addEventListener("click", (event) => event.target.classList.toggle("disabled"));
+		optionNode.addEventListener("click", (event) => (event.target as Element).classList.toggle("disabled"));
 	});
 
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
@@ -522,14 +540,14 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
-		const provider = event.target.value;
+		const provider = (event.target as HTMLInputElement).value;
 		if (!provider) return;
 
-		const origin = REVIVE_PROVIDERS.find((p) => p === provider)?.origin;
+		const origin = REVIVE_PROVIDERS.find((p) => p.provider === provider)?.origin;
 		if (!origin) return;
 
 		if (!chrome.permissions) {
-			event.target.value = settings.pages.global.reviveProvider;
+			(event.target as HTMLInputElement).value = settings.pages.global.reviveProvider;
 			warnMissingPermissionAPI();
 			return;
 		}
@@ -537,7 +555,7 @@ async function setupPreferences(requireCleanup) {
 		chrome.permissions.request({ origins: [origin] }, (granted) => {
 			if (!granted) {
 				sendMessage("Can't select this provider without accepting the permission.", false);
-				event.target.value = settings.pages.global.reviveProvider;
+				(event.target as HTMLInputElement).value = settings.pages.global.reviveProvider;
 			}
 		});
 	});
@@ -554,7 +572,7 @@ async function setupPreferences(requireCleanup) {
 		});
 	}
 
-	function switchSection(link) {
+	function switchSection(link: HTMLElement) {
 		const params = new URL(location.href).searchParams;
 		params.set("page", "preferences");
 		params.set("section", link.getAttribute("name"));
@@ -578,35 +596,37 @@ async function setupPreferences(requireCleanup) {
 			"featureDisplayHideDisabled",
 			"featureDisplayHideEmpty",
 		]) {
-			const checkbox = _preferences.find(`#${setting}`);
+			const checkbox = _preferences.find<HTMLInputElement>(`#${setting}`);
 			if (!checkbox) continue;
 
 			checkbox.checked = settings[setting];
 		}
 
-		_preferences.find("#formatting-tct").checked = settings.formatting.tct;
-		_preferences.find(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
-		_preferences.find(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
-		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
-		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
+		_preferences.find<HTMLInputElement>("#formatting-tct").checked = settings.formatting.tct;
+		_preferences.find<HTMLInputElement>(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
+		_preferences.find<HTMLInputElement>(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
+		_preferences.find<HTMLInputElement>(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
+		_preferences.find<HTMLInputElement>(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
 		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b", "ffScouter"]) {
-			_preferences.find(`#external-${service}`).checked = settings.external[service];
+			_preferences.find<HTMLInputElement>(`#external-${service}`).checked = settings.external[service];
 		}
 
-		_preferences.find("#csvDelimiter").value = settings.csvDelimiter;
+		_preferences.find<HTMLInputElement>("#csvDelimiter").value = settings.csvDelimiter;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
 				const isGlobalDisabled = settings[type][page].global === false;
 
 				for (const setting in settings[type][page]) {
-					const input = _preferences.find(`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`);
+					const input = _preferences.find<HTMLInputElement>(
+						`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`
+					);
 					if (!input) continue;
 
 					if (setting === "global") {
 						input.addEventListener("change", (event) => {
-							const isGlobalDisabled = !event.target.checked;
+							const isGlobalDisabled = !(event.target as HTMLInputElement).checked;
 
 							for (const setting in settings[type][page]) {
 								if (setting === "global") continue;
@@ -614,11 +634,11 @@ async function setupPreferences(requireCleanup) {
 								const input = _preferences.find(`#${page}-${setting}`);
 								if (!input) continue;
 
-								if (isGlobalDisabled) input.setAttribute("disabled", true);
+								if (isGlobalDisabled) input.setAttribute("disabled", "true");
 								else input.removeAttribute("disabled");
 							}
 						});
-					} else if (isGlobalDisabled) input.setAttribute("disabled", true);
+					} else if (isGlobalDisabled) input.setAttribute("disabled", "true");
 					else input.removeAttribute("disabled");
 
 					const value = settings[type][page][setting];
@@ -635,20 +655,20 @@ async function setupPreferences(requireCleanup) {
 			}
 		}
 
-		_preferences.find("#api_usage-comment").value = settings.apiUsage.comment;
-		_preferences.find("#api_usage-essential").value = settings.apiUsage.delayEssential;
-		_preferences.find("#api_usage-basic").value = settings.apiUsage.delayBasic;
-		_preferences.find("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts;
+		_preferences.find<HTMLInputElement>("#api_usage-comment").value = settings.apiUsage.comment;
+		_preferences.find<HTMLInputElement>("#api_usage-essential").value = settings.apiUsage.delayEssential.toString();
+		_preferences.find<HTMLInputElement>("#api_usage-basic").value = settings.apiUsage.delayBasic.toString();
+		_preferences.find<HTMLInputElement>("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts.toString();
 		for (const type of ["user"]) {
 			for (const selection in settings.apiUsage[type]) {
 				if (_preferences.find(`#api_usage-${type}_${selection}`))
-					_preferences.find(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
+					_preferences.find<HTMLInputElement>(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
 			}
 		}
 
-		if (api.tornstats.key) _preferences.find("#external-tornstats-key").value = api.tornstats.key;
-		if (api.yata.key) _preferences.find("#external-yata-key").value = api.yata.key;
-		if (api.ffScouter.key) _preferences.find("#external-ffScouter-key").value = api.ffScouter.key;
+		if (api.tornstats.key) _preferences.find<HTMLInputElement>("#external-tornstats-key").value = api.tornstats.key;
+		if (api.yata.key) _preferences.find<HTMLInputElement>("#external-yata-key").value = api.yata.key;
+		if (api.ffScouter.key) _preferences.find<HTMLInputElement>("#external-ffScouter-key").value = api.ffScouter.key;
 
 		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
@@ -660,7 +680,7 @@ async function setupPreferences(requireCleanup) {
 		const notificationsDisabled = !settings.notifications.types.global;
 		for (const notificationType in settings.notifications.types) {
 			if (notificationType === "stocks") continue;
-			let option;
+			let option: any;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				option = _preferences.find(`#notification_type-${notificationType}[type="text"]`);
@@ -680,11 +700,11 @@ async function setupPreferences(requireCleanup) {
 			else option.removeAttribute("disabled");
 		}
 
-		_preferences.find("#notification-sound").value = settings.notifications.sound;
-		_preferences.find("#notification-tts").checked = settings.notifications.tts;
-		_preferences.find("#notification-link").checked = settings.notifications.link;
-		_preferences.find("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
-		_preferences.find("#notification-volume").value = settings.notifications.volume;
+		_preferences.find<HTMLInputElement>("#notification-sound").value = settings.notifications.sound;
+		_preferences.find<HTMLInputElement>("#notification-tts").checked = settings.notifications.tts;
+		_preferences.find<HTMLInputElement>("#notification-link").checked = settings.notifications.link;
+		_preferences.find<HTMLInputElement>("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
+		_preferences.find<HTMLInputElement>("#notification-volume").value = settings.notifications.volume.toString();
 		if (settings.notifications.sound === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
 		} else {
@@ -714,14 +734,14 @@ async function setupPreferences(requireCleanup) {
 		settings.employeeInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
-			row.find("input[type='color']").value = warning.color;
+			row.find<HTMLInputElement>("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
+			row.find<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.factionInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.find(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
-			row.find("input[type='color']").value = warning.color;
+			row.find<HTMLInputElement>("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
+			row.find<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
 		for (const userID in settings.userAlias) {
@@ -731,8 +751,8 @@ async function setupPreferences(requireCleanup) {
 			const row = _preferences.find(`#npc-alerts > li[data-id='${id}']`);
 			if (!row) continue;
 
-			row.find(".level").value = level;
-			row.find(".minutes").value = minutes;
+			row.find<HTMLInputElement>(".level").value = level.toString();
+			row.find<HTMLInputElement>(".minutes").value = minutes.toString();
 		}
 		for (const option of settings.pages.attack.hideAttackButtons) {
 			hideAttackOptionsParent.find(`[value*="${option}"]`).classList.add("disabled");
@@ -749,20 +769,20 @@ async function setupPreferences(requireCleanup) {
 
 			for (const type in settings.notifications.types) {
 				if (type === "stocks") continue;
-				const option = _preferences.find(`#notification_type-${type}`);
+				const option = _preferences.find<HTMLInputElement>(`#notification_type-${type}`);
 				if (!option) continue;
 
 				if (type === "global") {
 					option.checked = !isGlobalDisabled;
 				} else {
-					if (isGlobalDisabled) option.setAttribute("disabled", true);
+					if (isGlobalDisabled) option.setAttribute("disabled", "true");
 					else option.removeAttribute("disabled");
 				}
 			}
 		}
 	}
 
-	function addChatHighlightRow(name, color) {
+	function addChatHighlightRow(name: string, color: string) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
@@ -782,7 +802,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find("#chatHighlight").insertBefore(newRow, _preferences.find("#chatHighlight .input"));
 	}
 
-	function addChatTitleHighlightRow(title, color) {
+	function addChatTitleHighlightRow(title: string, color: string) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
@@ -818,7 +838,15 @@ async function setupPreferences(requireCleanup) {
 		return options.join("");
 	}
 
-	function addCustomLink(data) {
+	interface CustomLink {
+		newTab: boolean;
+		preset: string;
+		location: string;
+		name: string;
+		href: string;
+	}
+
+	function addCustomLink(data: CustomLink) {
 		const newRow = document.newElement({
 			type: "li",
 			children: [
@@ -841,19 +869,20 @@ async function setupPreferences(requireCleanup) {
 					html: getCustomLinkOptions(),
 					events: {
 						change: (event) => {
-							const hrefInput = newRow.find(".href");
-							const nameInput = newRow.find(".name");
+							const target = event.target as HTMLInputElement;
+							const hrefInput = newRow.find<HTMLInputElement>(".href");
+							const nameInput = newRow.find<HTMLInputElement>(".name");
 
 							// noinspection DuplicatedCode
-							if (event.target.value === "custom") {
+							if (target.value === "custom") {
 								hrefInput.classList.remove("tt-hidden");
 								nameInput.classList.remove("tt-hidden");
 							} else {
 								hrefInput.classList.add("tt-hidden");
 								nameInput.classList.add("tt-hidden");
 
-								hrefInput.value = CUSTOM_LINKS_PRESET[event.target.value.replaceAll("_", " ")].link;
-								nameInput.value = event.target.value.replaceAll("_", " ");
+								hrefInput.value = CUSTOM_LINKS_PRESET[target.value.replaceAll("_", " ")].link;
+								nameInput.value = target.value.replaceAll("_", " ");
 							}
 						},
 					},
@@ -895,7 +924,7 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find("#customLinks").insertBefore(newRow, _preferences.find("#customLinks .input"));
 	}
 
-	function addAllyFaction(ally) {
+	function addAllyFaction(ally: string | number) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
@@ -909,10 +938,10 @@ async function setupPreferences(requireCleanup) {
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
 		_preferences.find("#allyFactions li:last-child").insertAdjacentElement("beforebegin", newRow);
-		_preferences.find("#allyFactions li:last-child input").value = "";
+		_preferences.find<HTMLInputElement>("#allyFactions li:last-child input").value = "";
 	}
 
-	function addUserAlias(userID, name, alias) {
+	function addUserAlias(userID: string, name: string, alias: string) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
@@ -931,7 +960,7 @@ async function setupPreferences(requireCleanup) {
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
 		_preferences.find("#userAlias li:last-child").insertAdjacentElement("beforebegin", newRow);
-		_preferences.findAll("#userAlias li:last-child input").forEach((x) => (x.value = ""));
+		_preferences.findAll<HTMLInputElement>("#userAlias li:last-child input").forEach((x) => (x.value = ""));
 	}
 
 	function getCustomLinkOptions() {
@@ -970,38 +999,38 @@ async function setupPreferences(requireCleanup) {
 			"featureDisplayHideDisabled",
 			"featureDisplayHideEmpty",
 		]) {
-			const checkbox = _preferences.find(`#${setting}`);
+			const checkbox = _preferences.find<HTMLInputElement>(`#${setting}`);
 			if (!checkbox) continue;
 
 			settings[setting] = checkbox.checked;
 		}
 
-		settings.formatting.tct = _preferences.find("#formatting-tct").checked;
-		settings.formatting.date = _preferences.find("input[name='formatDate']:checked").value;
-		settings.formatting.time = _preferences.find("input[name='formatTime']:checked").value;
-		settings.themes.pages = _preferences.find("input[name='themePage']:checked").value;
-		settings.themes.containers = _preferences.find("input[name='themeContainers']:checked").value;
+		settings.formatting.tct = _preferences.find<HTMLInputElement>("#formatting-tct").checked;
+		settings.formatting.date = _preferences.find<HTMLInputElement>("input[name='formatDate']:checked").value;
+		settings.formatting.time = _preferences.find<HTMLInputElement>("input[name='formatTime']:checked").value;
+		settings.themes.pages = _preferences.find<HTMLInputElement>("input[name='themePage']:checked").value as InternalPageTheme;
+		settings.themes.containers = _preferences.find<HTMLInputElement>("input[name='themeContainers']:checked").value;
 
-		settings.csvDelimiter = _preferences.find("#csvDelimiter").value;
+		settings.csvDelimiter = _preferences.find<HTMLInputElement>("#csvDelimiter").value;
 
-		settings.external.tornstats = _preferences.find("#external-tornstats").checked;
-		settings.external.yata = _preferences.find("#external-yata").checked;
-		settings.external.prometheus = _preferences.find("#external-prometheus").checked;
-		settings.external.lzpt = _preferences.find("#external-lzpt").checked;
-		settings.external.tornw3b = _preferences.find("#external-tornw3b").checked;
-		settings.external.ffScouter = _preferences.find("#external-ffScouter").checked;
+		settings.external.tornstats = _preferences.find<HTMLInputElement>("#external-tornstats").checked;
+		settings.external.yata = _preferences.find<HTMLInputElement>("#external-yata").checked;
+		settings.external.prometheus = _preferences.find<HTMLInputElement>("#external-prometheus").checked;
+		settings.external.lzpt = _preferences.find<HTMLInputElement>("#external-lzpt").checked;
+		settings.external.tornw3b = _preferences.find<HTMLInputElement>("#external-tornw3b").checked;
+		settings.external.ffScouter = _preferences.find<HTMLInputElement>("#external-ffScouter").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
 				for (const setting in settings[type][page]) {
-					const input = _preferences.find(`#${page}-${setting}, input[name="${setting}"]:checked`);
+					const input = _preferences.find<HTMLInputElement>(`#${page}-${setting}, input[name="${setting}"]:checked`);
 					if (!input) continue;
 
 					if (input.tagName === "INPUT") {
 						switch (input.getAttribute("type")) {
 							case "number":
 								settings[type][page][setting] =
-									!isNaN(input.value) && input.value !== ""
+									!isNaN(parseInt(input.value)) && input.value !== ""
 										? parseInt(input.value)
 										: input.hasAttribute("save-empty") && input.value === ""
 											? ""
@@ -1025,28 +1054,28 @@ async function setupPreferences(requireCleanup) {
 
 		settings.customLinks = [..._preferences.findAll("#customLinks > li:not(.input)")].map((link) => {
 			return {
-				newTab: link.find(".newTab").checked,
-				preset: link.find(".preset").value,
-				location: link.find(".location").value,
-				name: link.find(".name").value,
-				href: link.find(".href").value,
+				newTab: link.find<HTMLInputElement>(".newTab").checked,
+				preset: link.find<HTMLInputElement>(".preset").value,
+				location: link.find<HTMLInputElement>(".location").value,
+				name: link.find<HTMLInputElement>(".name").value,
+				href: link.find<HTMLInputElement>(".href").value,
 			};
 		});
 		settings.pages.chat.highlights = [..._preferences.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
 			return {
-				name: highlight.find(".name").value,
-				color: highlight.find(".color").value,
+				name: highlight.find<HTMLInputElement>(".name").value,
+				color: highlight.find<HTMLInputElement>(".color").value,
 			};
 		});
 		settings.pages.chat.titleHighlights = [..._preferences.findAll("#chatTitleHighlight > li:not(.input)")].map((highlight) => {
 			return {
-				title: highlight.find(".title").value,
-				color: highlight.find(".color").value,
+				title: highlight.find<HTMLInputElement>(".title").value,
+				color: highlight.find<HTMLInputElement>(".color").value,
 			};
 		});
-		settings.alliedFactions = [..._preferences.findAll("#allyFactions input")]
+		settings.alliedFactions = [..._preferences.findAll<HTMLInputElement>("#allyFactions input")]
 			.map((input) => {
-				if (isNaN(input.value)) return input.value.trim();
+				if (isNaN(parseInt(input.value))) return input.value.trim();
 				else return parseInt(input.value.trim());
 			})
 			.filter((x) => {
@@ -1054,9 +1083,12 @@ async function setupPreferences(requireCleanup) {
 				else return x;
 			});
 		settings.userAlias = {};
-		for (const aliasRow of _preferences.findAll("#userAlias > li")) {
-			if (aliasRow.find(".userID").value) {
-				settings.userAlias[aliasRow.find(".userID").value] = { name: aliasRow.find(".name").value, alias: aliasRow.find(".alias").value };
+		for (const aliasRow of _preferences.findAll<HTMLInputElement>("#userAlias > li")) {
+			if (aliasRow.find<HTMLInputElement>(".userID").value) {
+				settings.userAlias[aliasRow.find<HTMLInputElement>(".userID").value] = {
+					name: aliasRow.find<HTMLInputElement>(".name").value,
+					alias: aliasRow.find<HTMLInputElement>(".alias").value,
+				};
 			}
 		}
 
@@ -1065,72 +1097,72 @@ async function setupPreferences(requireCleanup) {
 		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
 		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed")]
 			.map((warning) => {
-				const days = warning.find("input[type='number']").value;
+				const days = warning.find<HTMLInputElement>("input[type='number']").value;
 
 				return {
-					color: warning.find("input[type='color']").value,
-					days: !isNaN(days) && days !== "" ? parseInt(days) : false,
+					color: warning.find<HTMLInputElement>("input[type='color']").value,
+					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
-			.sort((first, second) => first.days - second.days);
+			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
 		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed")]
 			.map((warning) => {
-				const days = warning.find("input[type='number']").value;
+				const days = warning.find<HTMLInputElement>("input[type='number']").value;
 
 				return {
-					color: warning.find("input[type='color']").value,
-					days: !isNaN(days) && days !== "" ? parseInt(days) : false,
+					color: warning.find<HTMLInputElement>("input[type='color']").value,
+					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
-			.sort((first, second) => first.days - second.days);
+			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
 		settings.pages.attack.hideAttackButtons = [..._preferences.findAll("#hide-attack-options span.disabled")].map((x) => x.getAttribute("value"));
 
-		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;
-		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
-		settings.apiUsage.delayBasic = parseInt(_preferences.find("#api_usage-basic").value);
-		settings.apiUsage.delayStakeouts = parseInt(_preferences.find("#api_usage-stakeouts").value);
+		settings.apiUsage.comment = _preferences.find<HTMLInputElement>("#api_usage-comment").value;
+		settings.apiUsage.delayEssential = parseInt(_preferences.find<HTMLInputElement>("#api_usage-essential").value);
+		settings.apiUsage.delayBasic = parseInt(_preferences.find<HTMLInputElement>("#api_usage-basic").value);
+		settings.apiUsage.delayStakeouts = parseInt(_preferences.find<HTMLInputElement>("#api_usage-stakeouts").value);
 		for (const type of ["user"]) {
 			for (const selection in settings.apiUsage[type]) {
 				if (_preferences.find(`#api_usage-${type}_${selection}`))
-					settings.apiUsage[type][selection] = _preferences.find(`#api_usage-${type}_${selection}`).checked;
+					settings.apiUsage[type][selection] = (_preferences.find(`#api_usage-${type}_${selection}`) as HTMLInputElement).checked;
 			}
 		}
 
 		for (const notificationType in settings.notifications.types) {
 			if (notificationType === "stocks" || notificationType === "npcs") continue;
 
-			let newValue;
+			let newValue: any;
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				newValue = _preferences
-					.find(`#notification_type-${notificationType}[type="text"]`)
+					.find<HTMLInputElement>(`#notification_type-${notificationType}[type="text"]`)
 					.value.split(",")
 					.filter((x) => x)
-					.map((x) => (!isNaN(x) ? parseFloat(x) : x));
+					.map((x) => (!isNaN(parseFloat(x)) ? parseFloat(x) : x));
 			} else if (typeof settings.notifications.types[notificationType] === "boolean") {
-				newValue = _preferences.find(`#notification_type-${notificationType}`).checked;
+				newValue = _preferences.find<HTMLInputElement>(`#notification_type-${notificationType}`).checked;
 			} else {
-				newValue = _preferences.find(`#notification_type-${notificationType}`).value;
+				newValue = _preferences.find<HTMLInputElement>(`#notification_type-${notificationType}`).value;
 			}
 			settings.notifications.types[notificationType] = newValue;
 		}
 		settings.notifications.types.npcs = [..._preferences.findAll("#npc-alerts > li")]
 			.map((row) => {
-				const level = row.find(".level").value;
-				const minutes = row.find(".minutes").value;
+				const level = row.find<HTMLInputElement>(".level").value;
+				const minutes = row.find<HTMLInputElement>(".minutes").value;
 
 				return {
 					id: parseInt(row.dataset.id),
-					level: !level || isNaN(level) ? "" : parseInt(level),
-					minutes: !minutes || isNaN(minutes) ? "" : parseInt(minutes),
+					level: !level || isNaN(parseInt(level)) ? ("" as const) : parseInt(level),
+					minutes: !minutes || isNaN(parseInt(minutes)) ? ("" as const) : parseInt(minutes),
 				};
 			})
 			.filter(({ level, minutes }) => level !== "" || minutes !== "");
 
-		settings.notifications.tts = _preferences.find("#notification-tts").checked;
-		settings.notifications.link = _preferences.find("#notification-link").checked;
-		settings.notifications.requireInteraction = _preferences.find("#notification-requireInteraction").checked;
-		settings.notifications.volume = parseInt(_preferences.find("#notification-volume").value);
-		settings.notifications.sound = _preferences.find("#notification-sound").value;
+		settings.notifications.tts = _preferences.find<HTMLInputElement>("#notification-tts").checked;
+		settings.notifications.link = _preferences.find<HTMLInputElement>("#notification-link").checked;
+		settings.notifications.requireInteraction = _preferences.find<HTMLInputElement>("#notification-requireInteraction").checked;
+		settings.notifications.volume = parseInt(_preferences.find<HTMLInputElement>("#notification-volume").value);
+		settings.notifications.sound = _preferences.find<HTMLInputElement>("#notification-sound").value;
 
 		const newStorage = { settings };
 		await ttStorage.set(newStorage);
@@ -1138,9 +1170,9 @@ async function setupPreferences(requireCleanup) {
 
 		await ttStorage.change({
 			api: {
-				tornstats: { key: document.find("#external-tornstats-key").value },
-				yata: { key: document.find("#external-yata-key").value },
-				ffScouter: { key: document.find("#external-ffScouter-key").value },
+				tornstats: { key: document.find<HTMLInputElement>("#external-tornstats-key").value },
+				yata: { key: document.find<HTMLInputElement>("#external-yata-key").value },
+				ffScouter: { key: document.find<HTMLInputElement>("#external-ffScouter-key").value },
 			},
 		});
 
@@ -1150,11 +1182,12 @@ async function setupPreferences(requireCleanup) {
 		sendMessage("Settings saved.", true);
 	}
 
-	function requestOrigin(origin, event) {
-		if (!event.target.checked) return;
+	function requestOrigin(origin: string, event: MouseEvent) {
+		const target = event.target as HTMLInputElement;
+		if (!target.checked) return;
 
 		if (!chrome.permissions) {
-			event.target.checked = false;
+			target.checked = false;
 			warnMissingPermissionAPI();
 			return;
 		}
@@ -1162,7 +1195,7 @@ async function setupPreferences(requireCleanup) {
 		chrome.permissions.request({ origins: [origin] }, (granted) => {
 			if (!granted) {
 				sendMessage("Can't enable this without accepting the permission.", false);
-				event.target.checked = false;
+				target.checked = false;
 			}
 		});
 	}
@@ -1179,7 +1212,7 @@ async function setupPreferences(requireCleanup) {
 			searchOverlay.find("#tt-search-list").innerHTML = "";
 			searchOverlay.classList.add("tt-hidden");
 		});
-		const searchOverlayInput = searchOverlay.find("input");
+		const searchOverlayInput = searchOverlay.find<HTMLInputElement>("input");
 		searchOverlay.find("#tt-search-button").addEventListener("click", search);
 		searchOverlayInput.addEventListener("input", search);
 		searchOverlayInput.addEventListener("keydown", (event) => {
@@ -1188,7 +1221,7 @@ async function setupPreferences(requireCleanup) {
 
 		const searchList = searchOverlay.find("#tt-search-list");
 
-		function search() {
+		async function search() {
 			const searchFor = searchOverlayInput.value.toLowerCase().trim();
 			if (!searchFor) return;
 			document.findAll(".searched").forEach((option) => option.classList.remove("searched"));
@@ -1204,7 +1237,7 @@ async function setupPreferences(requireCleanup) {
 						//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'sections')]
 							//section
 								//div[contains(@class, 'header')]${
-									checkDevice().mobile ? "[not(contains(@class, 'no-mobile'))]" : ""
+									(await checkDevice()).mobile ? "[not(contains(@class, 'no-mobile'))]" : ""
 								}[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]`,
 				document,
 				null,
@@ -1214,10 +1247,10 @@ async function setupPreferences(requireCleanup) {
 			searchList.innerHTML = "";
 			if (searchResults.snapshotLength > 0) {
 				for (let i = 0; i < searchResults.snapshotLength; i++) {
-					const option = searchResults.snapshotItem(i);
+					const option = searchResults.snapshotItem(i) as Element;
 					const name = option.textContent.replace("New!", "").replace("\n", "").trim();
 
-					let keyword, section;
+					let keyword: string, section: string;
 					if (option.getAttribute("for")) {
 						keyword = "for";
 						section = option.getAttribute("for");
@@ -1251,16 +1284,16 @@ async function setupPreferences(requireCleanup) {
 		searchList.addEventListener("click", (event) => {
 			event.stopPropagation();
 			searchOverlay.classList.add("tt-hidden");
-			if (event.target.textContent.trim() !== "No Results") {
-				const nameAttr = event.target.getAttribute("name");
-				const forAttr = event.target.getAttribute("for");
+			if ((event.target as Element).textContent.trim() !== "No Results") {
+				const nameAttr = (event.target as Element).getAttribute("name");
+				const forAttr = (event.target as Element).getAttribute("for");
 				if (forAttr) {
 					const optionFound = document.find(`#preferences [for="${forAttr}"]`);
 					document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
 					optionFound.parentElement.classList.add("searched");
 				} else if (nameAttr) {
 					for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
-						if (x.textContent.trim() === event.target.textContent.trim()) {
+						if (x.textContent.trim() === (event.target as Element).textContent.trim()) {
 							x.classList.add("searched");
 							document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
 							break;
@@ -1272,20 +1305,21 @@ async function setupPreferences(requireCleanup) {
 		});
 	}
 
-	function enforceInputLimits(event) {
-		const value = event.target.value || "";
-		if (value === "") return;
+	function enforceInputLimits(event: Event) {
+		const target = event.target as HTMLInputElement;
+		const value = parseInt(target.value);
+		if (isNaN(value)) return;
 
-		const newValue = Math.min(Math.max(event.target.value, parseInt(event.target.min)), parseInt(event.target.max));
+		const newValue = Math.min(Math.max(parseInt(target.value), parseInt(target.min)), parseInt(target.max));
 		if (value === newValue) return;
 
-		event.target.value = newValue;
+		target.value = newValue.toString();
 	}
 
 	function requestPermissions() {
 		if (!chrome.permissions) return;
 
-		const origins = [];
+		const origins: string[] = [];
 
 		for (const { id, origin } of [
 			{ id: "external-tornstats", origin: FETCH_PLATFORMS.tornstats },
@@ -1295,12 +1329,12 @@ async function setupPreferences(requireCleanup) {
 			{ id: "external-tornw3b", origin: FETCH_PLATFORMS.tornw3b },
 			{ id: "external-ffScouter", origin: FETCH_PLATFORMS.ffscouter },
 		]) {
-			if (!_preferences.find(`#${id}`)?.checked) continue;
+			if (!_preferences.find<HTMLInputElement>(`#${id}`)?.checked) continue;
 
 			origins.push(origin);
 		}
 
-		const reviveProvider = _preferences.find("#global-reviveProvider").value;
+		const reviveProvider = _preferences.find<HTMLSelectElement>("#global-reviveProvider").value;
 		if (reviveProvider) {
 			const origin = REVIVE_PROVIDERS.find((p) => p.provider === reviveProvider)?.origin;
 
@@ -1361,10 +1395,10 @@ async function setupPreferences(requireCleanup) {
 async function setupAPIInfo() {
 	const _api = document.find("#api");
 
-	if (api.torn.key) _api.find("#api_key").value = api.torn.key;
+	if (api.torn.key) _api.find<HTMLInputElement>("#api_key").value = api.torn.key;
 
 	document.find("#update_api_key").addEventListener("click", async () => {
-		const key = document.find("#api_key").value;
+		const key = document.find<HTMLInputElement>("#api_key").value;
 
 		checkAPIPermission(key)
 			.then(({ access }) => {
@@ -1377,13 +1411,13 @@ async function setupAPIInfo() {
 					.catch((error) => {
 						sendMessage(error, false);
 						console.log("TT - Couldn't update API key!", error);
-						document.find("#api_key").value = api.torn.key || "";
+						document.find<HTMLInputElement>("#api_key").value = api.torn.key || "";
 					});
 			})
 			.catch((error) => {
 				sendMessage(error, false);
 				console.log("TT - Couldn't update API key!", error);
-				document.find("#api_key").value = api.torn.key || "";
+				document.find<HTMLInputElement>("#api_key").value = api.torn.key || "";
 			});
 	});
 
@@ -1402,7 +1436,7 @@ async function setupAPIInfo() {
 	};
 
 	Object.entries(ttUsage.usage).forEach(([minute, localUsage]) => {
-		const hourOfMinute = (minute / 60).dropDecimals();
+		const hourOfMinute = (parseInt(minute) / 60).dropDecimals();
 		for (const location of apiUsageLocations) {
 			if (localUsage[location] !== undefined && localUsage[location] !== null) {
 				perMinuteUsage[location].usage += localUsage[location];
@@ -1486,20 +1520,20 @@ async function setupAPIInfo() {
 
 	["userdata", "torndata", "stocks", "factiondata"].forEach((section) => {
 		document.find(`#update-${section}`).addEventListener("click", () =>
-			chrome.runtime.sendMessage({ action: "forceUpdate", update: section }, (result) => {
+			chrome.runtime.sendMessage({ action: "forceUpdate", update: section }).then((result) => {
 				console.log(`Manually fetched ${section}.`, result);
 				sendMessage(`Fetched ${section}.`, true);
 			})
 		);
 	});
 	document.find("#reinitialize-timers").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "reinitialize-timers" }, (result) => {
+		chrome.runtime.sendMessage({ action: "reinitialize-timers" }).then((result) => {
 			console.log("Manually reset background timers.", result);
 			sendMessage("Reset background timers.", true);
 		})
 	);
 	document.find("#clear-cache").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "clear-cache" }, (result) => {
+		chrome.runtime.sendMessage({ action: "clear-cache" }).then((result) => {
 			console.log("Manually cleared your cache.", result);
 			sendMessage("Cleared cache.", true);
 		})
@@ -1510,8 +1544,8 @@ async function setupAPIInfo() {
 	document.find(".current-usage .buttons .last-1hr").addEventListener("click", () => updateUsage(usageChart, "Last 1hr"));
 	document.find(".current-usage .buttons .last-24hrs").addEventListener("click", () => updateUsage(usageChart, "Last 24hrs"));
 
-	function updateUsage(usageChart, position) {
-		let maxIndex, barThickness, lastMinute;
+	function updateUsage(usageChart: Chart, position: string) {
+		let maxIndex: number, barThickness: number;
 		if (position === "Last 5") {
 			maxIndex = 5;
 			barThickness = 30;
@@ -1528,9 +1562,10 @@ async function setupAPIInfo() {
 		let i = 0;
 		const offset = new Date().getTimezoneOffset();
 		let minutesArray = Object.keys(ttUsage.usage).slice(-maxIndex);
+		let lastMinute: number | undefined;
 		if (position === "Last 1hr") {
 			lastMinute = parseInt(minutesArray.at(-1)) - 60;
-			minutesArray = minutesArray.filter((minute) => minute >= lastMinute);
+			minutesArray = minutesArray.filter((minute) => parseInt(minute) >= lastMinute);
 		}
 		for (const minute of minutesArray) {
 			const seconds = (parseInt(minute) - offset) * 60;
@@ -1544,6 +1579,12 @@ async function setupAPIInfo() {
 		i = null;
 		usageChart.update(false);
 	}
+}
+
+interface PopupTemplate {
+	title: string;
+	message: string;
+	execute?(popup: Element, variables: { [key: string]: string }): void;
 }
 
 async function setupExport() {
@@ -1631,7 +1672,7 @@ async function setupExport() {
 			title: "Clear",
 			message: "<h3>Are you sure you want to clear the remote storage?</h3>",
 		},
-	};
+	} satisfies { [template: string]: PopupTemplate };
 
 	const exportSection = document.find("#export");
 
@@ -1657,9 +1698,8 @@ async function setupExport() {
 					return;
 				}
 
-				let data;
+				let data: ExportData;
 				try {
-					// noinspection JSCheckFunctionSignatures
 					data = JSON.parse(importtext);
 				} catch (error) {
 					console.error("Couldn't read the file!", error);
@@ -1702,15 +1742,17 @@ async function setupExport() {
 	exportSection.find("#import-local-file-origin").addEventListener("change", (event) => {
 		const reader = new FileReader();
 		reader.addEventListener("load", async (event) => {
-			if (event.target.result.length > 5242880) {
+			const result = event.target.result;
+			if (typeof result !== "string") return;
+
+			if (result.length > 5242880) {
 				sendMessage("Maximum file size exceeded. (5MB)", false);
 				return;
 			}
 
-			let data;
+			let data: any;
 			try {
-				// noinspection JSCheckFunctionSignatures
-				data = JSON.parse(event.target.result);
+				data = JSON.parse(result);
 			} catch (error) {
 				console.error("Couldn't read the file!", error);
 				sendMessage("Couldn't read the file!", false);
@@ -1719,16 +1761,32 @@ async function setupExport() {
 
 			await importData(data);
 		});
-		reader.readAsText(event.target.files[0]);
+		reader.readAsText((event.target as HTMLInputElement).files[0]);
 	});
 
 	// Remote Sync
 	loadSync();
-	async function getExportData(api) {
+
+	interface ExportData {
+		user: false | { id: number; name: string };
+		client: {
+			version: string;
+			space: number;
+		};
+		date: string;
+		database: { [key: string]: any };
+	}
+
+	interface ExportError {
+		error: true;
+		message: string;
+	}
+
+	async function getExportData(api: boolean): Promise<ExportData> {
 		const exportedKeys = ["version", "settings", "filters", "stakeouts", "notes", "quick"];
 		if (api) exportedKeys.insertAt(0, "api");
 
-		const data = {
+		const data: ExportData = {
 			user: false,
 			client: {
 				version: chrome.runtime.getManifest().version,
@@ -1748,7 +1806,7 @@ async function setupExport() {
 		return data;
 	}
 
-	async function importData(data) {
+	async function importData(data: ExportData) {
 		try {
 			await ttStorage.change(data.database);
 		} catch (error) {
@@ -1773,9 +1831,7 @@ async function setupExport() {
 					const data = await getExportData(false);
 
 					try {
-						await new Promise((resolve) => {
-							chrome.storage.sync.set(data, () => resolve());
-						});
+						await chrome.storage.sync.set(data);
 					} catch (error) {
 						console.error("Failed to save data!", error);
 						sendMessage("Failed to save data!", false);
@@ -1789,15 +1845,13 @@ async function setupExport() {
 		});
 		importRemoteSync.addEventListener("click", () => {
 			loadConfirmationPopup(POPUP_TEMPLATES.IMPORT)
-				.then(async () => await importData(data))
+				.then(async (data) => await importData(data as ExportData))
 				.catch(() => {});
 		});
 		clearRemoteSync.addEventListener("click", () => {
 			loadConfirmationPopup(POPUP_TEMPLATES.CLEAR)
 				.then(async () => {
-					await new Promise((resolve) => {
-						chrome.storage.sync.clear(() => resolve());
-					});
+					await chrome.storage.sync.clear();
 
 					sendMessage("Cleared sync data.", true);
 					handleSyncData({ error: true, message: "No exported data." });
@@ -1805,15 +1859,15 @@ async function setupExport() {
 				.catch(() => {});
 		});
 
-		new Promise((resolve) => {
+		new Promise<ExportData | ExportError>((resolve) => {
 			chrome.storage.sync.get(null, (data) => {
-				if (Object.keys(data).length && "database" in data) resolve(data);
+				if (Object.keys(data).length && "database" in data) resolve(data as ExportData);
 				else resolve({ error: true, message: "No exported data." });
 			});
 		}).then((data) => handleSyncData(data));
 
-		function handleSyncData(data) {
-			if (!data.error) {
+		function handleSyncData(data: ExportData | ExportError) {
+			if (!("error" in data)) {
 				importRemoteSync.removeAttribute("disabled");
 				importRemoteSync.classList.remove("tooltip");
 				importRemoteSync.find(".tooltip-text").textContent = "";
@@ -1877,7 +1931,7 @@ function setupAbout() {
 				],
 			});
 
-			if (member.donations) {
+			if ("donations" in member) {
 				const donations = document.newElement({ type: "div", class: "donations" });
 
 				for (const method of member.donations) {
@@ -1899,7 +1953,7 @@ function setupAbout() {
 		}
 	}
 
-	function showCorruption(id, checkFunction) {
+	function showCorruption(id: string, checkFunction: () => boolean) {
 		const element = about.find(`#${id}`);
 		if (!element) return;
 
@@ -1916,10 +1970,14 @@ function setupAbout() {
 	}
 }
 
-function formatBytes(bytes, options = {}) {
-	options = {
+interface FormatBytesOptions {
+	decimals: number;
+}
+
+function formatBytes(bytes: number, partialOptions: Partial<FormatBytesOptions> = {}) {
+	const options: FormatBytesOptions = {
 		decimals: 2,
-		...options,
+		...partialOptions,
 	};
 
 	if (bytes === 0) return "0 bytes";

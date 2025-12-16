@@ -5,6 +5,7 @@ declare global {
 		set options(arg: any);
 		get options(): any;
 		update(mode?: any): void;
+		get data(): any;
 	}
 }
 

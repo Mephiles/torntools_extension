@@ -8,7 +8,7 @@ declare global {
 		value?: any | (() => any);
 		href?: string;
 		children?: (string | Node)[];
-		attributes?: Record<string, string | number> | (() => Record<string, string | number>);
+		attributes?: Record<string, string | number | boolean> | (() => Record<string, string | number | boolean>);
 		events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
 		style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
 		dataset?: {

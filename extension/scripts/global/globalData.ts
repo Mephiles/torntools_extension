@@ -474,11 +474,11 @@ const DEFAULT_STORAGE = {
 		hideIcons: new DefaultSetting<string[]>("array", []),
 		hideCasinoGames: new DefaultSetting<string[]>("array", []),
 		hideStocks: new DefaultSetting<string[]>("array", []),
-		alliedFactions: new DefaultSetting<string[]>("array", []),
+		alliedFactions: new DefaultSetting<(string | number)[]>("array", []),
 		customLinks: new DefaultSetting("array", []), // TODO - Figure out full type.
 		employeeInactivityWarning: new DefaultSetting("array", []), // TODO - Figure out full type.
 		factionInactivityWarning: new DefaultSetting("array", []), // TODO - Figure out full type.
-		userAlias: new DefaultSetting("object", {}),
+		userAlias: new DefaultSetting<{ [alias: string]: { name: string; alias: string } }>("object", {}),
 		csvDelimiter: new DefaultSetting("string", ";"),
 		pages: {
 			global: {
