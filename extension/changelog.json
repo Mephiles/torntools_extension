@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "'Live Networth' was no longer loading, which is now resolved.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Update 'Travel Sync' to use the new new structure.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]
 		}
