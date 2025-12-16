@@ -1,3 +1,20 @@
+interface InternalTornTravelDataShop {
+	country: string;
+	money: number;
+	shops?: {
+		name: string;
+		stock: {
+			ID: number;
+			name: string;
+			type2: string;
+			price: number;
+			stock: number;
+		}[];
+	}[];
+	stock?: { ID: number; name: string; type2: string; price: number; stock: number }[];
+	travelDuration: number;
+}
+
 (async () => {
 	if (!isAbroad()) return;
 
@@ -11,10 +28,29 @@
 		const step = params.get("step");
 		if (step !== "shop") return;
 
-		const items = (json.stock as any[]).map<SyncItem>((s) => ({ id: s.ID, quantity: s.stock, cost: s.price }));
+		const data = json as InternalTornTravelDataShop;
+
+		let items: SyncItem[];
+		if ("shops" in data) {
+			items = data.shops
+				.flatMap((shop) => shop.stock)
+				.map((s) => ({
+					id: s.ID,
+					quantity: s.stock,
+					cost: s.price,
+				}));
+		} else if ("stock" in data) {
+			items = data.stock.map<SyncItem>((s) => ({ id: s.ID, quantity: s.stock, cost: s.price }));
+		} else {
+			throw new Error("Unexpected abroad travel data response!");
+		}
+
 		const country: string = json.country;
 
-		triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, { country, items } satisfies TravelAbroadShopLoadDetails);
+		triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, {
+			country,
+			items,
+		} satisfies TravelAbroadShopLoadDetails);
 	});
 })();
 

@@ -1,9 +1,6 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
-	// noinspection JSIncompatibleTypesComparison
 	const feature = featureManager.registerFeature(
 		"Highlight Cheap Items",
 		"item market",
@@ -16,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -44,9 +43,9 @@
 
 	function highlightEverything() {
 		const categoryItems = [...document.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]
-			.map((element) => {
-				const image = element.find("img.torn-item");
-				if (!image) return false;
+			.map<ItemEntry | null>((element) => {
+				const image = element.find<HTMLImageElement>("img.torn-item");
+				if (!image) return null;
 
 				return {
 					element,
@@ -54,26 +53,34 @@
 					price: element.find("[class*='priceAndTotal'] > span").textContent.getNumber(),
 				};
 			})
-			.filter((item) => item.element);
+			.filter((item) => item?.element);
 
 		handleCategoryItems(categoryItems);
 
 		const params = getHashParameters();
 		if (params.has("itemID")) {
-			const itemSellers = [...document.findAll("[class*='rowWrapper___']:not(.tt-highlight-modified)")].map((element) => ({
+			const id = parseInt(params.get("itemID"));
+			const itemSellers = [...document.findAll("[class*='rowWrapper___']:not(.tt-highlight-modified)")].map<ItemEntry>((element) => ({
 				element,
 				price: element.find("[class*='price___']").textContent.getNumber(),
+				id,
 			}));
 
-			handleItemSellers(parseInt(params.get("itemID")), itemSellers);
+			handleItemSellers(id, itemSellers);
 		}
 	}
 
-	function highlightItems(items) {
+	interface ItemEntry {
+		element: Element;
+		price: number;
+		id: number;
+	}
+
+	function highlightItems(items: Element[]) {
 		const itemEntries = items
-			.map((element) => {
-				const image = element.find("img.torn-item");
-				if (!image) return false;
+			.map<ItemEntry | null>((element) => {
+				const image = element.find<HTMLImageElement>("img.torn-item");
+				if (!image) return null;
 
 				return {
 					element,
@@ -81,30 +88,31 @@
 					price: element.find("[class*='priceAndTotal'] > span").textContent.getNumber(),
 				};
 			})
-			.filter((item) => item.element);
+			.filter((item) => item?.element);
 
 		handleCategoryItems(itemEntries);
 	}
 
-	function highlightSellers(item, list, includeModified) {
+	function highlightSellers(item: number, list: Element, includeModified: boolean) {
 		const itemEntries = [
 			...list.findAll(
 				`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"},[class*='sellerRow___']:not(:first-child)${includeModified ? "" : ":not(.tt-highlight-modified)"}`
 			),
 		]
 			.filter((element) => !!element.find("[class*='price___']"))
-			.map((element) => ({ element, price: element.find("[class*='price___']").textContent.getNumber() }));
+			.map<ItemEntry>((element) => ({
+				element,
+				price: element.find("[class*='price___']").textContent.getNumber(),
+				id: item,
+			}));
 
 		handleItemSellers(item, itemEntries);
 	}
 
 	/**
 	 * Should highlight the given item based on the price?
-	 * @param id {number|string}
-	 * @param price {number}
-	 * @returns {boolean}
 	 */
-	function shouldHighlight(id, price) {
+	function shouldHighlight(id: number, price: number) {
 		const percentage = 1 - settings.pages.itemmarket.highlightCheapItems / 100;
 
 		const value = torndata.items[id]?.market_value;
@@ -113,7 +121,7 @@
 		return value * percentage >= price;
 	}
 
-	function handleCategoryItems(items) {
+	function handleCategoryItems(items: ItemEntry[]) {
 		items.forEach(({ id, price, element }) => {
 			if (shouldHighlight(id, price)) {
 				element.classList.add("tt-highlight-item", "tt-highlight-modified");
@@ -124,7 +132,7 @@
 		});
 	}
 
-	function handleItemSellers(id, items) {
+	function handleItemSellers(id: number, items: ItemEntry[]) {
 		items.forEach(({ price, element }) => {
 			if (shouldHighlight(id, price)) {
 				element.classList.add("tt-highlight-item", "tt-highlight-modified");

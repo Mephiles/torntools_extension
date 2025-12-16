@@ -1,5 +1,3 @@
-"use strict";
-
 window.addEventListener("hashchange", (e) => {
 	const oldHash = new URL(e.oldURL).hash || "#";
 	const newHash = new URL(e.newURL).hash || "#";
@@ -8,7 +6,7 @@ window.addEventListener("hashchange", (e) => {
 	if (oldStart !== newStart) {
 		requireElement(".user-info-list-wrap .last .ajax-preloader").then(() => {
 			requireElement(".user-info-list-wrap .last #iconTray li").then(() => {
-				triggerCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, null);
+				triggerCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, null);
 			});
 		});
 	}

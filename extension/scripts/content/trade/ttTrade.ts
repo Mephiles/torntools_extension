@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	addXHRListener(({ detail: { page, xhr } }) => {
 		if (page === "trade") {
@@ -16,7 +14,7 @@
 		triggerEvent(step);
 	});
 
-	function triggerEvent(step) {
+	function triggerEvent(step: string) {
 		const active = ["view", "initiateTrade", "accept"].includes(step);
 
 		triggerCustomListener(EVENT_CHANNELS.TRADE, { step, active });
