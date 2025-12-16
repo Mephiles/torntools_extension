@@ -7,12 +7,13 @@ const SETUP_PAGES = {
 	calculator: setupCalculator,
 	stocks: setupStocksOverview,
 	notifications: setupNotifications,
-};
+} as const;
 const LOAD_PAGES = {
 	market: loadMarketSearch,
 	calculator: loadCalculator,
-};
+} as const;
 
+// @ts-expect-error Detects reassignment, but those pages are never loaded in the same context.
 const initiatedPages = {};
 
 (async () => {
@@ -80,12 +81,12 @@ async function showPage(name) {
 
 async function setupInitialize() {
 	document.find("#pages").classList.add("tt-hidden");
-	document.find("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
+	document.find<HTMLAnchorElement>("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
 
 	document.find("#import-previous-settings").addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
 
 	document.find("#set_api_key").addEventListener("click", () => {
-		const key = document.find("#api_key").value;
+		const key = document.find<HTMLInputElement>("#api_key").value;
 
 		checkAPIPermission(key)
 			.then(({ access }) => {
@@ -138,7 +139,9 @@ async function setupDashboard() {
 	const dashboard = document.find("#dashboard");
 
 	const iconsWrap = dashboard.find(".icons-wrap");
-	for (const { icon, id, description, url } of ALL_ICONS) {
+	for (const { icon, id, description, ...r } of ALL_ICONS) {
+		let url = "url" in r ? r.url : null;
+
 		iconsWrap.appendChild(
 			document.newElement({
 				type: url ? "a" : "div",
@@ -204,11 +207,11 @@ async function setupDashboard() {
 			}
 
 			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
-			countdown.dataset.seconds = seconds;
+			countdown.dataset.seconds = seconds.toString();
 		}
 	}, 1000);
 
-	dashboard.find(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
+	dashboard.find<HTMLAnchorElement>(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
 	dashboard.find(".stakeouts .heading i").addEventListener("click", () => {
 		const stakeoutSection = dashboard.find(".stakeouts .stakeout-list");
 
@@ -275,7 +278,7 @@ async function setupDashboard() {
 				dashboard.find(".status-wrap").classList.remove("tt-hidden");
 
 				if (userdata.profile.status.until) {
-					dashboard.find("#status").dataset.until = userdata.profile.status.until * 1000;
+					dashboard.find("#status").dataset.until = (userdata.profile.status.until * 1000).toString();
 				} else delete dashboard.find("#status").dataset.until;
 
 				updateStatusTimer();
