@@ -8,7 +8,10 @@
 			"fixes": [
 				{ "message": "'Live Networth' was no longer loading, which is now resolved.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve race condition causing 'Highlight Cheap Items' to not always load.", "contributor": "DeKleineKobini" },
-				{ "message": "Solve badge text getting stuck at some times.", "contributor": "DeKleineKobini" }
+				{ "message": "Solve badge text getting stuck at some times.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Abroad Items Filter' visually for the new^2 layout.", "contributor": "TheFoxMan" },
+				{ "message": "Fix 'Abroad Auto Fill Max' for the new^2 layout.", "contributor": "TheFoxMan" },
+				{ "message": "Fix 'Travel Item Profits' for the new^2 layout.", "contributor": "TheFoxMan" }
 			],
 			"changes": [{ "message": "Update 'Travel Sync' to use the new new structure.", "contributor": "DeKleineKobini" }],
 			"removed": [{ "message": "Remove 'Sort Travel Market' since it was natively implemented.", "contributor": "DeKleineKobini" }],
