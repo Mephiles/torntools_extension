@@ -275,7 +275,7 @@
 			// Track name
 			const trackElement = li.querySelector("li.track");
 			const trackName = Array.from(trackElement.childNodes)
-				.filter((node) => node.nodeType === Node.TEXT_NODE)
+				.filter(isElement)
 				.map((node) => node.textContent.trim())
 				.join(" ")
 				.trim();

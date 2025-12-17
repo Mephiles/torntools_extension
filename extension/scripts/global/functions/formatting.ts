@@ -108,7 +108,7 @@ interface FormatTimeOptions {
 	truncateSeconds: boolean;
 }
 
-function formatTime(time: DateObject, partialOptions: Partial<FormatTimeOptions> = {}) {
+function formatTime(time: DateObject, partialOptions: Partial<FormatTimeOptions> = {}): string {
 	if (typeof time === "number") return formatTime({ milliseconds: time }, partialOptions);
 	else if (time instanceof Date) return formatTime({ milliseconds: time.getTime() }, partialOptions);
 
@@ -235,9 +235,9 @@ function formatTime(time: DateObject, partialOptions: Partial<FormatTimeOptions>
 				}
 			}
 
-			return timeAgo;
+			return timeAgo.toString();
 		default:
-			return -1;
+			throw new Error("Invalid formatTime type.");
 	}
 }
 

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	addFetchListener(
 		async ({
@@ -51,4 +49,4 @@
 const CRIMES2 = {
 	__UNKNOWN__: "__UNKNOWN__",
 	BURGLARY: "burglary",
-};
+} as const;

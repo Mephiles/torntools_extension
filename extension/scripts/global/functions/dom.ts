@@ -204,7 +204,7 @@ function getSearchParameters(input?: string) {
 	}
 }
 
-function getHashParameters(hash: string) {
+function getHashParameters(hash?: string) {
 	if (!hash) hash = location.hash;
 
 	if (hash.startsWith("#/")) hash = hash.substring(2);
@@ -486,4 +486,8 @@ async function addInformationSection() {
 function showInformationSection() {
 	document.find(".tt-sidebar-information-divider")?.classList.remove("tt-hidden");
 	document.find(".tt-sidebar-information")?.classList.remove("tt-hidden");
+}
+
+function isElement(node: Node): node is Element {
+	return node.nodeType === Node.ELEMENT_NODE;
 }

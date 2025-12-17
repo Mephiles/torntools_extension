@@ -3,6 +3,11 @@ interface BadgeOptions {
 	messages: number;
 }
 
+interface BadgeType {
+	text: string | ((options: BadgeOptions) => Promise<string | null>) | null;
+	color: string | ((options: BadgeOptions) => Promise<string | null>) | null;
+}
+
 const BADGE_TYPES = {
 	default: { text: "", color: null },
 	error: { text: "error", color: "#FF0000" },
@@ -20,12 +25,7 @@ const BADGE_TYPES = {
 			else return (await getBadgeText()) === "error" ? "error" : null;
 		},
 	},
-} satisfies {
-	[key: string]: {
-		text: string | ((options: BadgeOptions) => Promise<string | null>) | null;
-		color: string | ((options: BadgeOptions) => Promise<string | null>) | null;
-	};
-};
+} as const satisfies { [key: string]: BadgeType };
 
 async function setBadge(type: keyof typeof BADGE_TYPES, partialOptions: Partial<BadgeOptions> = {}): Promise<boolean> {
 	if (SCRIPT_TYPE !== "BACKGROUND") return false;
@@ -36,7 +36,7 @@ async function setBadge(type: keyof typeof BADGE_TYPES, partialOptions: Partial<
 		...partialOptions,
 	};
 
-	const badge = BADGE_TYPES[type];
+	const badge: BadgeType = { ...BADGE_TYPES[type] };
 	if (typeof badge.text === "function") badge.text = await badge.text(options);
 	if (typeof badge.color === "function") badge.color = await badge.color(options);
 	if (!badge.text) badge.text = "";

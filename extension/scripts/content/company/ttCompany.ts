@@ -1,5 +1,3 @@
-"use strict";
-
 const isOwnCompany = location.pathname === "/companies.php";
 
 if (!isOwnCompany) {
@@ -8,11 +6,10 @@ if (!isOwnCompany) {
 			if (
 				!(mutations.length > 1) ||
 				(isOwnCompany && getHashParameters().get("option") !== "employees") ||
-				!mutations.some(
-					(mutation) =>
-						mutation.addedNodes &&
-						mutation.addedNodes.length &&
-						[...mutation.addedNodes].some((node) => node.classList && node.classList.contains("employees-wrap"))
+				!mutations.some((mutation) =>
+					Array.from(mutation.addedNodes)
+						.filter(isElement)
+						.some((node) => node.classList && node.classList.contains("employees-wrap"))
 				)
 			)
 				return;
@@ -49,14 +46,14 @@ async function readCompanyDetails() {
 
 	return null; // ID could not be found
 
-	async function getCompanyIDFromUser(userID) {
+	async function getCompanyIDFromUser(userID: number) {
 		const cached = ttCache.get("company-id", userID);
 		if (cached) return cached;
 
 		const data = await fetchData("tornv2", { section: "user", selections: ["job"], id: userID });
 		const companyID = data.job?.id;
 
-		void ttCache.set({ [userID]: companyID }, 1 * TO_MILLIS.DAYS, "company-id");
+		void ttCache.set({ [userID]: companyID }, TO_MILLIS.DAYS, "company-id");
 
 		return companyID;
 	}

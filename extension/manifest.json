@@ -700,7 +700,6 @@
 				"scripts/features/landing-time/ttLandingTime.css",
 				"scripts/features/travel-item-profits/ttTravelItemProfits.css",
 				"scripts/features/travel-fill-max/ttTravelFillMax.css",
-				"scripts/features/sort-travel-market/ttSortTravelMarket.css",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css"
 			],
 			"js": [
@@ -717,7 +716,6 @@
 				"scripts/features/landing-time/ttLandingTime.js",
 				"scripts/features/travel-item-profits/ttTravelItemProfits.js",
 				"scripts/features/travel-fill-max/ttTravelFillMax.js",
-				"scripts/features/sort-travel-market/ttSortTravelMarket.js",
 				"scripts/features/abroad-items-filter/ttAbroadItemsFilter.js",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
 				"scripts/features/abroad-auto-fill-max/ttAbroadAutoFillMax.js",
