@@ -721,6 +721,7 @@
 				"scripts/features/abroad-items-filter/ttAbroadItemsFilter.js",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
 				"scripts/features/abroad-auto-fill-max/ttAbroadAutoFillMax.js",
+				"scripts/features/no-confirm/ttAbroadBuyNoConfirm.js",
 				"scripts/features/travel-tab-title-timer/ttTravelTabTitleTimer.js"
 			],
 			"run_at": "document_end"
