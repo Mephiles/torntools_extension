@@ -97,6 +97,8 @@
 					result = await fetchData("tornstats", { section: "battlestats/graph", relay: true });
 
 					if (result.status) {
+						result.data = filterData(result.data);
+
 						ttCache.set({ graph: result }, TO_MILLIS.HOURS, "gym").then(() => {});
 					}
 				} catch (error) {
@@ -233,5 +235,11 @@
 		}
 
 		return error.error;
+	}
+
+	function filterData(data: any[]) {
+		const cutoffTimestamp = Date.now() - TO_MILLIS.DAYS * 93;
+
+		return data.filter((x) => x.timestamp * 1000 > cutoffTimestamp);
 	}
 })();

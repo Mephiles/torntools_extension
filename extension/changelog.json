@@ -15,7 +15,10 @@
 				{ "message": "Avoid errors when hovering over the organized crime icon.", "contributor": "DeKleineKobini" },
 				{ "message": "Incorrect date was being shown in some cases.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Update 'Travel Sync' to use the new new structure.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Update 'Travel Sync' to use the new new structure.", "contributor": "DeKleineKobini" },
+				{ "message": "Only show last 93 days of battle stats history on the gym page.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [{ "message": "Remove 'Sort Travel Market' since it was natively implemented.", "contributor": "DeKleineKobini" }],
 			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]
 		}
