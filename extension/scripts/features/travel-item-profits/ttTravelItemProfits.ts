@@ -61,8 +61,8 @@
 				const span = document.newElement({
 					type: "span",
 					class: "tt-travel-market-cell",
-					attributes: { value: profit },
 					dataset: {
+						ttValue: profit.toString(),
 						ttContentType: "profit",
 					},
 				});

@@ -67,7 +67,7 @@
 			for (const li of document.findAll("[class*='stockTableWrapper___'] > li")) {
 				showRow(li);
 
-				if (profitOnly && li.find(".tt-travel-market-cell").getAttribute("value").getNumber() < 0) {
+				if (profitOnly && li.find(".tt-travel-market-cell").dataset.ttValue.getNumber() < 0) {
 					hideRow(li);
 					continue;
 				}
