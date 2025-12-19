@@ -11,7 +11,8 @@
 				{ "message": "Solve badge text getting stuck at some times.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Abroad Items Filter' visually for the new^2 layout.", "contributor": "TheFoxMan" },
 				{ "message": "Fix 'Abroad Auto Fill Max' for the new^2 layout.", "contributor": "TheFoxMan" },
-				{ "message": "Fix 'Travel Item Profits' for the new^2 layout.", "contributor": "TheFoxMan" }
+				{ "message": "Fix 'Travel Item Profits' for the new^2 layout.", "contributor": "TheFoxMan" },
+				{ "message": "Avoid errors when hovering over the organized crime icon.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Update 'Travel Sync' to use the new new structure.", "contributor": "DeKleineKobini" }],
 			"removed": [{ "message": "Remove 'Sort Travel Market' since it was natively implemented.", "contributor": "DeKleineKobini" }],

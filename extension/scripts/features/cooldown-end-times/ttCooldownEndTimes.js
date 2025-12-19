@@ -30,9 +30,11 @@
 					tooltipName
 				)
 			) {
+				const timeElement = tooltip.find("[class*='static-width___']") ?? tooltip.find("p:not([class])");
+				if (!timeElement) return;
+
 				removeEndTimes(tooltip);
-				const time =
-					Date.now() + textToTime(tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent);
+				const time = Date.now() + textToTime(timeElement.textContent);
 				tooltip.appendChild(
 					document.newElement({
 						type: "div",
