@@ -224,7 +224,7 @@ interface FindParentOptions {
 	currentAttempt: number;
 }
 
-function findParent(element: Element, options: Partial<FindParentOptions> = {}) {
+function findParent(element: Node, options: Partial<FindParentOptions> = {}) {
 	options = {
 		tag: undefined,
 		class: undefined,

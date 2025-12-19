@@ -2267,3 +2267,10 @@ const MAX_MISSIONS = {
 	Duke: 3,
 	DEFAULT: 3,
 } as const;
+
+function getSidebarArea(): Node | null {
+	const areasTitle = document.evaluate("//h2[contains(text(), 'Areas')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	if (!areasTitle) return null;
+
+	return areasTitle;
+}
