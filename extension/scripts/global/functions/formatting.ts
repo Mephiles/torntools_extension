@@ -1,5 +1,5 @@
 const REGEXES = {
-	getNumber: /\D/g,
+	getNumber: /-?\d+(\.\d+)?/,
 	formatNumber: /\B(?=(\d{3})+(?!\d))/g,
 };
 
@@ -25,7 +25,9 @@ String.prototype.camelCase = function (lowerCamelCase) {
 };
 
 String.prototype.getNumber = function () {
-	return parseInt(this.replace(REGEXES.getNumber, "")) || 0;
+	const match = this.match(REGEXES.getNumber);
+
+	return match ? Number(match[0]) : NaN;
 };
 
 function toSeconds(milliseconds: any) {
