@@ -1,10 +1,14 @@
 [
 	{
-		"version": { "major": 8, "minor": 0, "build": 1 },
+		"version": { "major": 8, "minor": 0, "build": 2 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 8, "minor": 0, "build": 1 },
+		"date": "2025/12/19",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "'Live Networth' was no longer loading, which is now resolved.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve race condition causing 'Highlight Cheap Items' to not always load.", "contributor": "DeKleineKobini" },
