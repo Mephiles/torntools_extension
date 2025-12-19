@@ -304,7 +304,7 @@ function formatDate(date: DateObject, partialOptions: Partial<FormatDateOptions>
 
 	let millis: number;
 	if ("milliseconds" in date) millis = date.milliseconds;
-	else if ("seconds" in date) millis = date.seconds;
+	else if ("seconds" in date) millis = date.seconds * 1000;
 
 	const _date = new Date(millis);
 
