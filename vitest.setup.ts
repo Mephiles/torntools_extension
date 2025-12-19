@@ -1,33 +1,9 @@
 /// <reference types="vite/client" />
 import { vi } from "vitest";
 import ts from "typescript";
+import { chrome } from "vitest-chrome";
 
-// Mock Chrome API
-const chromeMock = {
-	runtime: {
-		getManifest: () => ({ version: "1.0.0" }),
-		sendMessage: vi.fn(),
-		onMessage: { addListener: vi.fn() },
-	},
-	storage: {
-		local: {
-			get: vi.fn().mockResolvedValue({}),
-			set: vi.fn().mockResolvedValue(undefined),
-			remove: vi.fn().mockResolvedValue(undefined),
-			clear: vi.fn().mockResolvedValue(undefined),
-		},
-	},
-	action: {
-		getBadgeText: vi.fn().mockResolvedValue(""),
-		setBadgeText: vi.fn(),
-		setBadgeBackgroundColor: vi.fn(),
-	},
-	permissions: {
-		contains: vi.fn().mockResolvedValue(true),
-	},
-};
-
-vi.stubGlobal("chrome", chromeMock);
+vi.stubGlobal("chrome", chrome);
 
 const ORDERED_FILES = [
 	"./extension/scripts/global/functions/utilities.ts",
@@ -37,10 +13,11 @@ const ORDERED_FILES = [
 	"./extension/scripts/global/functions/api.ts",
 ];
 
-const coreModulesRaw = import.meta.glob(
-	["./extension/scripts/global/**/*.ts", "!**/*.test.ts"],
-	{ query: "?raw", import: "default", eager: true },
-) as Record<string, string>;
+const coreModulesRaw = import.meta.glob(["./extension/scripts/global/**/*.ts", "!**/*.test.ts"], {
+	query: "?raw",
+	import: "default",
+	eager: true,
+}) as Record<string, string>;
 
 function getGlobalNames(code: string) {
 	const sourceFile = ts.createSourceFile("temp.ts", code, ts.ScriptTarget.ES2020, true);
