@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"module": "none",
+		"module": "esnext",
+		"moduleResolution": "bundler",
 		"outDir": "dist",
 		"target": "esnext",
 		"allowJs": true,
