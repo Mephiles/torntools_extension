@@ -68,7 +68,7 @@
 			applyRounding: false,
 			contentBackground: false,
 			compact: true,
-			[filter === "above" ? "nextElement" : "previousElement"]: findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" }),
+			[filter === "above" ? "nextElement" : "previousElement"]: findParent(getSidebarArea(), { class: "^=sidebar-block_" }),
 		});
 
 		for (const link of settings.customLinks.filter((link) => link.location === filter)) {
@@ -87,7 +87,7 @@
 	function showInside() {
 		for (const link of document.findAll(".custom-link")) link.remove();
 
-		const areas = findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" });
+		const areas = findParent(getSidebarArea(), { class: "^=sidebar-block_" });
 		for (const link of settings.customLinks.filter((link) => link.location !== "above" && link.location !== "under")) {
 			const locationSplit = link.location.split("_");
 
