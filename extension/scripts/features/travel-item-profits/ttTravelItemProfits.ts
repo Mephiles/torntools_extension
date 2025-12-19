@@ -39,6 +39,7 @@
 		document.body.classList.add("tt-travel-profits");
 		const market = document.find("#travel-root");
 		for (const headings of market.findAll("[class*='stockTableWrapper__'] [class*='itemsHeader__']")) {
+			markTravelTableColumns();
 			if (!headings.find(".tt-travel-market-heading")) {
 				const profitHeading = document.newElement({
 					type: "div",
