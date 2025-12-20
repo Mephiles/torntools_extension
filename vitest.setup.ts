@@ -1,4 +1,3 @@
-/// <reference types="vite/client" />
 import { vi } from "vitest";
 import ts from "typescript";
 import { chrome } from "vitest-chrome";
