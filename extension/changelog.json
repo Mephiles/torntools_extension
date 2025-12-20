@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix 'Travel Item Profits' layout on mobile.", "contributor": "DeKleineKobini" }],
-			"changes": [{ "message": "Improve 'Travel Item Profits' layout on desktop.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Improve 'Travel Item Profits' layout on desktop.", "contributor": "DeKleineKobini" },
+				{ "message": "Reload Gym Graph right after updating battle stats on TornStats.", "contributor": "TheFoxMan" }
+			],
 			"removed": [],
 			"technical": []
 		}
