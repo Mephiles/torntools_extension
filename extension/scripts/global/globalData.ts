@@ -818,6 +818,7 @@ const DEFAULT_STORAGE = {
 		abroadItems: {
 			categories: new DefaultSetting({ type: "array", defaultValue: [] }),
 			profitOnly: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			outOfStock: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 		trade: {
 			hideValues: new DefaultSetting({ type: "boolean", defaultValue: false }),
