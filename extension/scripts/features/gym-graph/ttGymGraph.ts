@@ -69,6 +69,13 @@
 								: `You have gained ${gains.join(", ")} since your last update ${response.age}.`
 							: `You have not gained any stats since your last update ${response.age}.`;
 
+						if (gains.length) {
+							ttCache.remove("gym", "graph");
+							// Remove old chart and load it again.
+							content.lastElementChild.remove();
+							loadGraph();
+						}
+
 						return { message, status: true };
 					})
 					.catch((error) => ({ message: errorHandling(error), status: false }));
