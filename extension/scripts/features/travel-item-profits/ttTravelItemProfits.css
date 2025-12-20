@@ -5,7 +5,6 @@
 	}
 }
 
-.tt-tablet,
 .tt-mobile {
 	&.tt-travel-profits [class*="stockTableWrapper___"] {
 		[class*="itemsHeader___"],
@@ -23,21 +22,6 @@
 		border-left: 1px solid var(--default-panel-divider-inner-side-color);
 		grid-area: profit;
 	}
-
-	/*.tt-travel-market-heading:before,*/
-	/*.tt-travel-market-cell:before {*/
-	/*	background: var(--default-panel-divider-inner-side-color);*/
-	/*	bottom: -1px;*/
-	/*	height: 1px;*/
-	/*	left: -1px;*/
-	/*	top: unset;*/
-	/*	width: 1px;*/
-	/*}*/
-
-	/*.tt-travel-market-heading:after,*/
-	/*.tt-travel-market-cell:after {*/
-	/*	content: unset;*/
-	/*}*/
 }
 
 .tt-travel-market-heading,
