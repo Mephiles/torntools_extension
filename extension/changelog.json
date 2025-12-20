@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Filter abroad items on out of stock.", "contributor": "DeKleineKobini" }],
 			"fixes": [{ "message": "Fix 'Travel Item Profits' layout on mobile.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Improve 'Travel Item Profits' layout on desktop.", "contributor": "DeKleineKobini" },

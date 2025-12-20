@@ -17,13 +17,14 @@
 
 	async function addFilter() {
 		await requireElement("[class*='stockTableWrapper___']");
-		const { content } = createContainer("Item Filters", {
+		const { content } = createContainer("Abroad Item Filter", {
 			class: "mb10",
 			nextElement: document.find("[class*='shops__']"),
 			filter: true,
 		});
 
 		await requireElement("[class*='stockTableWrapper___'] > li");
+		markTravelTableColumns();
 		const statistics = createStatistics("items");
 		content.appendChild(statistics.element);
 
@@ -39,6 +40,14 @@
 			callback: filtering,
 		});
 		filterContent.appendChild(profitOnlyFilter.element);
+
+		const outOfStockFilter = createFilterSection({
+			title: "Out of stock",
+			checkbox: "Hide out of stock",
+			defaults: filters.abroadItems.outOfStock,
+			callback: filtering,
+		});
+		filterContent.appendChild(outOfStockFilter.element);
 
 		const categoryFilter = createFilterSection({
 			title: "Category",
@@ -61,6 +70,7 @@
 
 		async function filtering() {
 			const profitOnly = settings.pages.travel.travelProfits && profitOnlyFilter.isChecked(content);
+			const outOfStock = outOfStockFilter.isChecked(content);
 			const categories = categoryFilter.getSelections(content);
 			if (profitOnly) await requireElement(".tt-travel-market-cell");
 
@@ -68,6 +78,11 @@
 				showRow(li);
 
 				if (profitOnly && li.find(".tt-travel-market-cell").dataset.ttValue.getNumber() < 0) {
+					hideRow(li);
+					continue;
+				}
+
+				if (outOfStock && li.find("[data-tt-content-type='stock']").textContent.getNumber() <= 0) {
 					hideRow(li);
 					continue;
 				}
@@ -124,6 +139,7 @@
 				filters: {
 					abroadItems: {
 						profitOnly,
+						outOfStock,
 						categories,
 					},
 				},
@@ -146,7 +162,7 @@
 	}
 
 	function removeFilter() {
-		removeContainer("Item Filters");
+		removeContainer("Abroad Item Filter");
 		document.findAll("[class*='stockTableWrapper___'] li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();
