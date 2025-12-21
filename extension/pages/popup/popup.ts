@@ -13,7 +13,7 @@ const LOAD_PAGES = {
 	calculator: loadCalculator,
 } as const;
 
-// @ts-expect-error Detects reassignment, but those pages are never loaded in the same context.
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 const initiatedPages = {};
 
 (async () => {
@@ -62,7 +62,7 @@ const initiatedPages = {};
 	}
 })();
 
-// @ts-expect-error Detects reassignment, but those pages are never loaded in the same context.
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 async function showPage(name: string) {
 	document.find(`#${name}`).classList.add("active");
 

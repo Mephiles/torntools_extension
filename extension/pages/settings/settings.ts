@@ -1,4 +1,4 @@
-// @ts-expect-error Detects reassignment, but those pages are never loaded in the same context.
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 const initiatedPages = {};
 
 (async () => {
@@ -17,7 +17,7 @@ const initiatedPages = {};
 
 const isIframe = window.self !== window.top; // https://stackoverflow.com/a/326076
 
-// @ts-expect-error Detects reassignment, but those pages are never loaded in the same context.
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 async function showPage(name: string) {
 	const params = new URL(location.href).searchParams;
 	params.set("page", name);
