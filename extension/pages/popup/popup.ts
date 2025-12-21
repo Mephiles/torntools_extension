@@ -931,7 +931,7 @@ async function setupCalculator() {
 								}
 
 								if (!item) {
-									item = { id };
+									item = { id, amount: -1 };
 									selectedItems.push(item);
 								}
 								item.amount = parseInt(amount);

@@ -380,6 +380,17 @@ type StoredStakeouts = {
 	date: number;
 };
 
+type QuickItem = { id: number; xid?: number };
+type QuickFactionItem = { id: number | "points-energy" | "points-nerve" };
+type QuickCrime = {
+	step: string;
+	nerve: number;
+	name: string;
+	icon: string;
+	text: string;
+};
+type QuickJail = ("bust" | "bail")[];
+
 const DEFAULT_STORAGE = {
 	version: {
 		current: new DefaultSetting<string>("string", () => chrome.runtime.getManifest().version),
@@ -441,7 +452,7 @@ const DEFAULT_STORAGE = {
 				nerve: new DefaultSetting("array", ["100%"]),
 				happy: new DefaultSetting("array", ["100%"]),
 				life: new DefaultSetting("array", ["100%"]),
-				offline: new DefaultSetting("array", []), // TODO - Figure out full type.
+				offline: new DefaultSetting<number[]>("array", []),
 				chainTimerEnabled: new DefaultSetting("boolean", true),
 				chainBonusEnabled: new DefaultSetting("boolean", true),
 				leavingHospitalEnabled: new DefaultSetting("boolean", true),
@@ -512,9 +523,9 @@ const DEFAULT_STORAGE = {
 		hideCasinoGames: new DefaultSetting<string[]>("array", []),
 		hideStocks: new DefaultSetting<string[]>("array", []),
 		alliedFactions: new DefaultSetting<(string | number)[]>("array", []),
-		customLinks: new DefaultSetting("array", []), // TODO - Figure out full type.
-		employeeInactivityWarning: new DefaultSetting("array", []), // TODO - Figure out full type.
-		factionInactivityWarning: new DefaultSetting("array", []), // TODO - Figure out full type.
+		customLinks: new DefaultSetting<CustomLink[]>("array", []),
+		employeeInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
+		factionInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
 		userAlias: new DefaultSetting<{ [alias: string]: { name: string; alias: string } }>("object", {}),
 		csvDelimiter: new DefaultSetting("string", ";"),
 		pages: {
@@ -1032,7 +1043,7 @@ const DEFAULT_STORAGE = {
 		competition: {
 			levelStart: new DefaultSetting("number", 1),
 			levelEnd: new DefaultSetting("number", 100),
-			estimates: new DefaultSetting("array", []), // TODO - Figure out full type.
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		shops: {
 			hideLoss: new DefaultSetting("boolean", false),
@@ -1046,7 +1057,7 @@ const DEFAULT_STORAGE = {
 				weaponType: new DefaultSetting("string", ""),
 				damage: new DefaultSetting("string", ""),
 				accuracy: new DefaultSetting("string", ""),
-				weaponBonus: new DefaultSetting("array", []), // TODO - Figure out full type.
+				weaponBonus: new DefaultSetting<string[]>("array", []),
 			},
 			armor: {
 				name: new DefaultSetting("string", ""),
@@ -1061,29 +1072,29 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		enemies: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
-			estimates: new DefaultSetting("array", []), // TODO - Figure out full type.
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		friends: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 		},
 		targets: {
-			activity: new DefaultSetting("array", []), // TODO - Figure out full type.
+			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
-			estimates: new DefaultSetting("array", []), // TODO - Figure out full type.
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		burglary: {
 			targetName: new DefaultSetting("string", ""),
-			targetType: new DefaultSetting("array", []), // TODO - Figure out full type.
+			targetType: new DefaultSetting<string[]>("array", []),
 		},
 		oc2: {
-			difficulty: new DefaultSetting("array", []), // TODO - Figure out full type.
-			status: new DefaultSetting("array", []), // TODO - Figure out full type.
+			difficulty: new DefaultSetting<string[]>("array", []),
+			status: new DefaultSetting<string[]>("array", []),
 		},
 	},
 	userdata: new DefaultSetting<StoredUserdata>("object", {} as StoredUserdata),
@@ -1093,7 +1104,7 @@ const DEFAULT_STORAGE = {
 	localdata: {
 		tradeMessage: new DefaultSetting("number", 0),
 		popup: {
-			calculatorItems: new DefaultSetting("array", []), // TODO - Figure out full type.
+			calculatorItems: new DefaultSetting<{ id: string; amount: number }[]>("array", []),
 		},
 		vault: {
 			initialized: new DefaultSetting("boolean", false),
@@ -1124,10 +1135,10 @@ const DEFAULT_STORAGE = {
 		profile: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
 	},
 	quick: {
-		items: new DefaultSetting("array", []), // TODO - Figure out full type.
-		factionItems: new DefaultSetting("array", []), // TODO - Figure out full type.
-		crimes: new DefaultSetting("array", []), // TODO - Figure out full type.
-		jail: new DefaultSetting("array", []), // TODO - Figure out full type.
+		items: new DefaultSetting<QuickItem[]>("array", []),
+		factionItems: new DefaultSetting<QuickFactionItem[]>("array", []),
+		crimes: new DefaultSetting<QuickCrime[]>("array", []),
+		jail: new DefaultSetting<QuickJail[]>("array", []),
 	},
 	cache: new DefaultSetting<DatabaseCache>("object", {}),
 	usage: new DefaultSetting<DatabaseUsage>("object", {}),

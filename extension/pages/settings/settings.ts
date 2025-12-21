@@ -210,6 +210,19 @@ function cleanupPreferences() {
 		.forEach((element) => element.remove());
 }
 
+interface CustomLink {
+	newTab: boolean;
+	preset: string;
+	location: string;
+	name: string;
+	href: string;
+}
+
+interface InactivityDisplay {
+	color: string;
+	days: number | null;
+}
+
 async function setupPreferences(requireCleanup: boolean = false) {
 	if (requireCleanup) cleanupPreferences();
 	searchPreferences();
@@ -734,13 +747,13 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		settings.employeeInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find<HTMLInputElement>("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
+			row.find<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
 			row.find<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.factionInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.find(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find<HTMLInputElement>("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
+			row.find<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
 			row.find<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
@@ -836,14 +849,6 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		}
 
 		return options.join("");
-	}
-
-	interface CustomLink {
-		newTab: boolean;
-		preset: string;
-		location: string;
-		name: string;
-		href: string;
 	}
 
 	function addCustomLink(data: CustomLink) {
