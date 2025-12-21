@@ -45,7 +45,6 @@ class TornToolsStorage {
 				const data = recursive(await this.get(key), object[key]);
 
 				function recursive(parent: any, toChange: any) {
-					// eslint-disable-line no-inner-declarations
 					for (const key in toChange) {
 						if (
 							parent &&

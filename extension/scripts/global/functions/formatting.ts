@@ -274,7 +274,6 @@ function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions) {
 	}
 
 	function formatUnit(amount: number, unit: FormattableUnit) {
-		// eslint-disable-line no-inner-declarations
 		let formatted = `${amount}`;
 
 		if (options.extraShort) {
