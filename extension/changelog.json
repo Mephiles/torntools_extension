@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix 'Travel Item Profits' layout on mobile and tablet.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Racing Filter' not working when selecting a track.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors in 'Burglary Filter' when scouting.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors in 'Burglary Filter' when scouting.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix incorrect number parsing, breaking several features.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve 'Travel Item Profits' layout on desktop.", "contributor": "DeKleineKobini" },
