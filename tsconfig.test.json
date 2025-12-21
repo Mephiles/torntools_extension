@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"types": ["chrome-types", "user-agent-data-types", "tornapi-types", "vitest/globals", "vite/client"]
+	},
+	"include": ["extension/**/*.ts", "extension/**/*.js", "vitest.*.ts"],
+	"exclude": ["node_modules", "dist"]
+}

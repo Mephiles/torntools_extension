@@ -139,6 +139,7 @@ const buildOptions = {
 		".md": "copy",
 		".css": "copy",
 		".d.ts": "empty",
+		".test.ts": "empty",
 	},
 	sourcemap: true,
 };

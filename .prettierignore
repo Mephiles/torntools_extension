@@ -4,7 +4,10 @@
 
 # Make an exception for some more recent non-extension files
 !build.mjs
+!package.json
 !tsconfig.json
+!vitest.config.ts
+!vitest.setup.ts
 
 # Ignore external libs
 /extension/vendor/*
