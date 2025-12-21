@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Filter abroad items on out of stock.", "contributor": "DeKleineKobini" }],
-			"fixes": [{ "message": "Fix 'Travel Item Profits' layout on mobile and tablet.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix 'Travel Item Profits' layout on mobile and tablet.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Racing Filter' not working when selecting a track.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Improve 'Travel Item Profits' layout on desktop.", "contributor": "DeKleineKobini" },
 				{ "message": "Reload Gym Graph right after updating battle stats on TornStats.", "contributor": "TheFoxMan" }
