@@ -39,7 +39,7 @@
 	}
 
 	const localFilters = {};
-	async function createFilter(crimeRoot) {
+	async function createFilter(crimeRoot: Element) {
 		document.body.classList.add("torntools-burglary-filter");
 
 		const { content } = createContainer("Burglary Filter", {
@@ -86,7 +86,7 @@
 		return content;
 	}
 
-	async function addFilter(crimeRoot) {
+	async function addFilter(crimeRoot: Element) {
 		if (!window.location.hash.includes("burglary")) return;
 		if (!crimeRoot) {
 			try {
@@ -143,12 +143,12 @@
 			content
 		);
 
-		function showRow(li, translateHeight) {
+		function showRow(li: HTMLElement, translateHeight: number) {
 			li.classList.remove("tt-filter-hidden");
 			li.style.transform = `translateY(${translateHeight}px)`;
 		}
 
-		function hideRow(li) {
+		function hideRow(li: HTMLElement) {
 			li.style.transform = `translateY(0)`;
 			li.classList.add("tt-filter-hidden");
 		}
