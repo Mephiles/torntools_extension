@@ -55,14 +55,14 @@
 			for (const row of rows) {
 				const id = row.find("[data-tt-content-type='item'] img").getAttribute("srcset").split(" ")[0].getNumber();
 				const marketPrice = torndata.items[id].market_value;
-				const buyPrice = row.find("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent.getNumber();
+				const buyPrice = row.find("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent.getNumber();
 				const profit = marketPrice - buyPrice;
 
 				const span = document.newElement({
 					type: "span",
 					class: "tt-travel-market-cell",
-					attributes: { value: profit },
 					dataset: {
+						ttValue: profit.toString(),
 						ttContentType: "profit",
 					},
 				});

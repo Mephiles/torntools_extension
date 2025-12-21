@@ -238,7 +238,6 @@ async function fetchData<R = any>(l: FetchLocation, partialOptions: Partial<Fetc
 		return fullUrl;
 
 		async function handleError(result: any) {
-			// eslint-disable-line no-inner-declarations
 			if (options.succeedOnError) {
 				resolve(result);
 				await ttUsage.add(location);

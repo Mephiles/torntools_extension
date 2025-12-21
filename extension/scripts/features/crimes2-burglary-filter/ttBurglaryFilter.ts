@@ -39,7 +39,7 @@
 	}
 
 	const localFilters = {};
-	async function createFilter(crimeRoot) {
+	async function createFilter(crimeRoot: Element) {
 		document.body.classList.add("torntools-burglary-filter");
 
 		const { content } = createContainer("Burglary Filter", {
@@ -86,7 +86,7 @@
 		return content;
 	}
 
-	async function addFilter(crimeRoot) {
+	async function addFilter(crimeRoot: Element) {
 		if (!window.location.hash.includes("burglary")) return;
 		if (!crimeRoot) {
 			try {
@@ -120,13 +120,16 @@
 		// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 		for (const targetEl of document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
-			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent,
-				rowTargetType = targetEl.find("[class*='crime-image'] img").currentSrc.match(/residential|commercial|industrial/)[0] + "-targets";
+			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent;
 			if (targetName && !rowTargetName.includes(targetName)) {
 				hideRow(targetEl);
 				continue;
 			}
-			if (targetType.length && !targetType.includes(rowTargetType)) {
+
+			const targetImageSource = targetEl.find<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
+			const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
+			const rowTargetType = matchedImageSource && matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
+			if (targetType.length && (rowTargetType === null || !targetType.includes(rowTargetType))) {
 				hideRow(targetEl);
 				continue;
 			}
@@ -140,12 +143,12 @@
 			content
 		);
 
-		function showRow(li, translateHeight) {
+		function showRow(li: HTMLElement, translateHeight: number) {
 			li.classList.remove("tt-filter-hidden");
 			li.style.transform = `translateY(${translateHeight}px)`;
 		}
 
-		function hideRow(li) {
+		function hideRow(li: HTMLElement) {
 			li.style.transform = `translateY(0)`;
 			li.classList.add("tt-filter-hidden");
 		}

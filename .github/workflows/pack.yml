@@ -104,6 +104,9 @@ jobs:
           npm ci
           npm run build
 
+      - name: Run tests
+        run: npm run test
+
       - name: Create zip files for CWS and AMO
         run: |
           # Setup variables

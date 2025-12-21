@@ -1,10 +1,28 @@
 [
 	{
-		"version": { "major": 8, "minor": 0, "build": 1 },
+		"version": { "major": 8, "minor": 0, "build": 2 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Filter abroad items on out of stock.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix 'Travel Item Profits' layout on mobile and tablet.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Racing Filter' not working when selecting a track.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors in 'Burglary Filter' when scouting.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix incorrect number parsing, breaking several features.", "contributor": "DeKleineKobini" }
+			],
+			"changes": [
+				{ "message": "Improve 'Travel Item Profits' layout on desktop.", "contributor": "DeKleineKobini" },
+				{ "message": "Reload Gym Graph right after updating battle stats on TornStats.", "contributor": "TheFoxMan" }
+			],
+			"removed": [],
+			"technical": []
+		}
+	},
+	{
+		"version": { "major": 8, "minor": 0, "build": 1 },
+		"date": "2025/12/19",
+		"logs": {
 			"fixes": [
 				{ "message": "'Live Networth' was no longer loading, which is now resolved.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve race condition causing 'Highlight Cheap Items' to not always load.", "contributor": "DeKleineKobini" },

@@ -1,13 +1,19 @@
 {
-  "scripts": {
-    "build": "node build.mjs",
-    "watch": "node build.mjs --watch"
-  },
-  "devDependencies": {
-    "chrome-types": "^0.1.396",
-    "esbuild": "^0.27.1",
-    "tornapi-types": "^0.0.9",
-    "typescript": "^5.9.3",
-    "user-agent-data-types": "^0.4.2"
-  }
+	"scripts": {
+		"build": "node build.mjs",
+		"watch": "node build.mjs --watch",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"devDependencies": {
+		"chrome-types": "^0.1.396",
+		"esbuild": "^0.27.1",
+		"jest-chrome": "^0.8.0",
+		"jsdom": "^27.3.0",
+		"tornapi-types": "^0.0.9",
+		"typescript": "^5.9.3",
+		"user-agent-data-types": "^0.4.2",
+		"vitest": "^4.0.16",
+		"vitest-chrome": "^0.1.0"
+	}
 }

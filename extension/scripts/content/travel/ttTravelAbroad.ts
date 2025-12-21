@@ -66,7 +66,7 @@ interface TravelAbroadShopLoadDetails {
 }
 
 function markTravelTableColumns() {
-	document.findAll("[class*='stockHeader___'] > *:not([tt-content-type])").forEach((header) => {
+	document.findAll("[class*='itemsHeader___'] > *:not([data-tt-content-type])").forEach((header) => {
 		let contentType: string;
 		if (header.textContent === "Item") contentType = "item";
 		else if (header.textContent === "Name") contentType = "name";
@@ -79,13 +79,13 @@ function markTravelTableColumns() {
 
 		header.dataset.ttContentType = contentType;
 	});
-	requireElement("[class*='stockTableWrapper___'] [class*='row___'] > *:not([tt-content-type])").then(() => {
-		document.findAll("[class*='stockTableWrapper___'] [class*='row___'] > *:not([tt-content-type])").forEach((row) => {
+	requireElement("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").then(() => {
+		document.findAll("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").forEach((row) => {
 			let contentType: string;
 			if (row.className.includes("imageCell___")) contentType = "item";
 			else if (row.className.includes("itemName___")) contentType = "name";
 			else if (row.textContent.startsWith("type")) contentType = "type";
-			else if (row.textContent.startsWith("cost")) contentType = "cost";
+			else if (row.textContent.startsWith("cost") || row.textContent.startsWith("$")) contentType = "cost";
 			else if (row.textContent.startsWith("stock")) contentType = "stock";
 			else if (row.tagName === "FORM") contentType = "amount";
 			else if (row.className.includes("buyCell___")) contentType = "buy";

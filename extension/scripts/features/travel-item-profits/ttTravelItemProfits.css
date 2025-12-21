@@ -1,17 +1,26 @@
 .tt-travel-profits [class*="stockTableWrapper___"] {
 	[class*="itemsHeader___"],
 	[class*="row___"] {
-		grid-template-columns: 71px 1.5fr repeat(2, 1fr) repeat(4, 80px);
+		grid-template-columns: 71px 1.5fr repeat(2, 1fr) 90px repeat(3, 80px);
 	}
 }
 
-.tt-tablet,
 .tt-mobile {
 	&.tt-travel-profits [class*="stockTableWrapper___"] {
 		[class*="itemsHeader___"],
 		[class*="row___"] {
-			grid-template-columns: 71px 1fr 80px 44px;
+			grid-template-columns: [item]65px [name]1fr [stock]44px [profit]90px [cost]66px [buy]34px;
 		}
+	}
+
+	[data-tt-content-type] {
+		grid-area: attr(data-tt-content-type) !important;
+	}
+
+	.tt-travel-market-heading,
+	.tt-travel-market-cell {
+		border-left: 1px solid var(--default-panel-divider-inner-side-color);
+		grid-area: profit;
 	}
 }
 
