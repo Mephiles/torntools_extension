@@ -128,7 +128,7 @@
 
 			const targetImageSource = targetEl.find<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
 			const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
-			const rowTargetType = matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
+			const rowTargetType = matchedImageSource && matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
 			if (targetType.length && (rowTargetType === null || !targetType.includes(rowTargetType))) {
 				hideRow(targetEl);
 				continue;
