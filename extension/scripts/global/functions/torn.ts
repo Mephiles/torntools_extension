@@ -1786,10 +1786,13 @@ function updateReactInput(input: HTMLInputElement, value: string, partialOptions
 	}
 }
 
-function isDividendStock(id: string) {
-	if (isIntNumber(id)) return [1, 4, 5, 6, 7, 9, 10, 12, 15, 16, 17, 18, 19, 22, 24, 27, 28, 29, 31, 32, 33, 35].includes(parseInt(id));
+function isDividendStock(id: string | number) {
+	let _id: number;
+	if (typeof id === "number") _id = id;
+	else if (isIntNumber(id)) _id = parseInt(id);
+	else return false;
 
-	return false;
+	return [1, 4, 5, 6, 7, 9, 10, 12, 15, 16, 17, 18, 19, 22, 24, 27, 28, 29, 31, 32, 33, 35].includes(_id);
 }
 
 function getRequiredStocks(required: number, increment: number) {

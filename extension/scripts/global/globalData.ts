@@ -342,6 +342,43 @@ type StoredTorndata = FetchedTorndata & { date: number };
 
 // type StoredStockdata = FetchedStockdata["stocks"] & { date: number };
 type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
+type StoredStakeouts = {
+	[name: string]:
+		| {
+				info: {
+					name: string;
+					last_action: {
+						status: UserLastActionStatusEnum;
+						relative: string;
+						timestamp: number;
+					};
+					life: {
+						current: number;
+						maximum: number;
+					};
+					status: {
+						state: UserStatusStateEnum | string;
+						color: string;
+						until: number | null;
+						description: string;
+					};
+					isRevivable: boolean;
+				};
+				alerts: {
+					okay: boolean;
+					hospital: boolean;
+					landing: boolean;
+					online: boolean;
+					life: number | false;
+					offline: number | false;
+					revivable: boolean;
+				};
+		  }
+		| any[]
+		| number;
+	order: string[];
+	date: number;
+};
 
 const DEFAULT_STORAGE = {
 	version: {
@@ -886,7 +923,7 @@ const DEFAULT_STORAGE = {
 		abroadItems: {
 			categories: new DefaultSetting<string[]>("array", []),
 			profitOnly: new DefaultSetting("boolean", false),
-			outOfStock: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			outOfStock: new DefaultSetting("boolean", false),
 		},
 		trade: {
 			hideValues: new DefaultSetting("boolean", false),
@@ -1072,7 +1109,7 @@ const DEFAULT_STORAGE = {
 			},
 		},
 	},
-	stakeouts: new DefaultSetting<any>("object", { order: [] }), // TODO - Figure out full type.
+	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
 	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),

@@ -1111,9 +1111,10 @@ async function updateStakeouts(forceUpdate = false) {
 	let success = 0;
 	let failed = 0;
 	for (const id in stakeouts) {
-		if (isNaN(parseInt(id))) continue;
+		const stakeout = stakeouts[id];
+		if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
-		const oldData = stakeouts[id]?.info ?? false;
+		const oldData = stakeout?.info ?? null;
 		let data: UserProfileResponse;
 		try {
 			data = await fetchData<UserProfileResponse>("tornv2", {
@@ -1135,8 +1136,8 @@ async function updateStakeouts(forceUpdate = false) {
 			continue;
 		}
 
-		if (stakeouts[id].alerts) {
-			const { okay, hospital, landing, online, life, offline, revivable } = stakeouts[id].alerts;
+		if (stakeout.alerts) {
+			const { okay, hospital, landing, online, life, offline, revivable } = stakeout.alerts;
 
 			if (okay) {
 				const key = `${id}_okay`;
@@ -1215,7 +1216,7 @@ async function updateStakeouts(forceUpdate = false) {
 				}
 			}
 			if (offline) {
-				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : false;
+				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : null;
 				const offlineHours = ((now - data.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
 				const key = `${id}_offline`;
@@ -1248,24 +1249,27 @@ async function updateStakeouts(forceUpdate = false) {
 			}
 		}
 
-		stakeouts[id].info = {
-			name: data.profile.name,
-			last_action: {
-				status: data.profile.last_action.status,
-				relative: data.profile.last_action.relative,
-				timestamp: data.profile.last_action.timestamp * 1000,
+		stakeouts[id] = {
+			...stakeout,
+			info: {
+				name: data.profile.name,
+				last_action: {
+					status: data.profile.last_action.status,
+					relative: data.profile.last_action.relative,
+					timestamp: data.profile.last_action.timestamp * 1000,
+				},
+				life: {
+					current: data.profile.life.current,
+					maximum: data.profile.life.maximum,
+				},
+				status: {
+					state: data.profile.status.state,
+					color: data.profile.status.color,
+					until: data.profile.status.until ? data.profile.status.until * 1000 : null,
+					description: data.profile.status.description,
+				},
+				isRevivable: data.profile.revivable,
 			},
-			life: {
-				current: data.profile.life.current,
-				maximum: data.profile.life.maximum,
-			},
-			status: {
-				state: data.profile.status.state,
-				color: data.profile.status.color,
-				until: data.profile.status.until ? data.profile.status.until * 1000 : null,
-				description: data.profile.status.description,
-			},
-			isRevivable: data.profile.revivable,
 		};
 	}
 	stakeouts.date = now;
