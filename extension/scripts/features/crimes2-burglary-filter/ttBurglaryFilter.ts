@@ -120,13 +120,16 @@
 		// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 		for (const targetEl of document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
-			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent,
-				rowTargetType = targetEl.find("[class*='crime-image'] img").currentSrc.match(/residential|commercial|industrial/)[0] + "-targets";
+			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent;
 			if (targetName && !rowTargetName.includes(targetName)) {
 				hideRow(targetEl);
 				continue;
 			}
-			if (targetType.length && !targetType.includes(rowTargetType)) {
+
+			const targetImageSource = targetEl.find<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
+			const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
+			const rowTargetType = matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
+			if (targetType.length && (rowTargetType === null || !targetType.includes(rowTargetType))) {
 				hideRow(targetEl);
 				continue;
 			}
