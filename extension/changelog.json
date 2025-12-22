@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix profile box currency table cells not working", "contributor": "AllMight" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]
