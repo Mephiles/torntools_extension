@@ -391,6 +391,8 @@ type QuickCrime = {
 };
 type QuickJail = ("bust" | "bail")[];
 
+type NotificationMap = { [key: string]: TTNotification };
+
 const DEFAULT_STORAGE = {
 	version: {
 		current: new DefaultSetting<string>("string", () => chrome.runtime.getManifest().version),
@@ -1143,27 +1145,27 @@ const DEFAULT_STORAGE = {
 	cache: new DefaultSetting<DatabaseCache>("object", {}),
 	usage: new DefaultSetting<DatabaseUsage>("object", {}),
 	npcs: new DefaultSetting<StoredNpcs>("object", {} as StoredNpcs),
-	notificationHistory: new DefaultSetting("array", []), // TODO - Figure out full type.
+	notificationHistory: new DefaultSetting<TTNotification[]>("array", []),
 	notifications: {
-		events: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		messages: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		newDay: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		energy: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		happy: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		nerve: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		life: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		travel: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		drugs: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		boosters: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		medical: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		hospital: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		chain: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		chainCount: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		stakeouts: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		npcs: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		offline: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		missionsLimit: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
-		missionsExpire: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		events: new DefaultSetting<NotificationMap>("object", {}),
+		messages: new DefaultSetting<NotificationMap>("object", {}),
+		newDay: new DefaultSetting<NotificationMap>("object", {}),
+		energy: new DefaultSetting<NotificationMap>("object", {}),
+		happy: new DefaultSetting<NotificationMap>("object", {}),
+		nerve: new DefaultSetting<NotificationMap>("object", {}),
+		life: new DefaultSetting<NotificationMap>("object", {}),
+		travel: new DefaultSetting<NotificationMap>("object", {}),
+		drugs: new DefaultSetting<NotificationMap>("object", {}),
+		boosters: new DefaultSetting<NotificationMap>("object", {}),
+		medical: new DefaultSetting<NotificationMap>("object", {}),
+		hospital: new DefaultSetting<NotificationMap>("object", {}),
+		chain: new DefaultSetting<NotificationMap>("object", {}),
+		chainCount: new DefaultSetting<NotificationMap>("object", {}),
+		stakeouts: new DefaultSetting<NotificationMap>("object", {}),
+		npcs: new DefaultSetting<NotificationMap>("object", {}),
+		offline: new DefaultSetting<NotificationMap>("object", {}),
+		missionsLimit: new DefaultSetting<NotificationMap>("object", {}),
+		missionsExpire: new DefaultSetting<NotificationMap>("object", {}),
 	},
 } as const;
 

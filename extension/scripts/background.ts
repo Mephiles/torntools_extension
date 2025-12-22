@@ -164,12 +164,15 @@ async function checkUpdate() {
 async function sendNotifications() {
 	for (const type in notifications) {
 		for (const key in notifications[type]) {
-			const { skip, seen, date, title, message, url } = notifications[type][key];
+			const notification: TTNotification = notifications[type][key];
+			if ("combined" in notification) continue;
 
-			if (!skip && !seen) {
+			const { seen, date, title, message, url } = notification;
+
+			if (!seen) {
 				await notifyUser(title, message, url);
 
-				notifications[type][key].seen = true;
+				notification.seen = true;
 				await storeNotification({ title, message, url, type, key, date });
 			}
 
@@ -626,7 +629,7 @@ async function updateUserdata(forceUpdate = false) {
 
 				if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[key]) {
 					events.push({ id: key, event: event.event });
-					notifications.events[key] = { skip: true };
+					notifications.events[key] = { combined: true };
 				}
 
 				eventCount++;
@@ -649,7 +652,7 @@ async function updateUserdata(forceUpdate = false) {
 
 				if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[key]) {
 					messages.push({ id: key, title: message.title, name: message.name });
-					notifications.messages[key] = { skip: true };
+					notifications.messages[key] = { combined: true };
 				}
 
 				messageCount++;
@@ -1837,14 +1840,17 @@ async function updateNPCs() {
 	}
 }
 
-interface TTNotification {
-	title: string;
-	message: string;
-	url?: string;
-	date: number;
-	type?: string;
-	key?: string | number;
-}
+type TTNotification =
+	| {
+			title: string;
+			message: string;
+			url?: string;
+			date: number;
+			type?: string;
+			key?: string | number;
+			seen?: boolean;
+	  }
+	| { combined: true };
 
 function newNotification(title: string, message: string, link?: string): TTNotification {
 	return {
