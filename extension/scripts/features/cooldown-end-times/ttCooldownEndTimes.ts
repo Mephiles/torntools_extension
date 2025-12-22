@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature(
 		"Cooldown End Times",
@@ -7,7 +5,7 @@
 		() => settings.pages.sidebar.cooldownEndTimes,
 		null,
 		addEndTimes,
-		removeEndTimes,
+		() => removeEndTimes(),
 		{
 			storage: ["settings.pages.sidebar.cooldownEndTimes"],
 		},
@@ -16,21 +14,22 @@
 
 	async function addEndTimes() {
 		const statusIcons = await requireElement("#sidebarroot [class*='status-icons__']");
-		let isTouchDevice = await checkDevice();
-		isTouchDevice = isTouchDevice.mobile || isTouchDevice.tablet;
+		const { mobile, tablet } = await checkDevice();
+		const isTouchDevice = mobile || tablet;
+
 		statusIcons.addEventListener(!isTouchDevice ? "mouseover" : "click", listener);
 
-		async function listener(event) {
-			if (!event.target.closest("li")?.matches("[class*='icon']")) return;
+		async function listener(event: MouseEvent) {
+			if (!(event.target as HTMLElement).closest("li")?.matches("[class*='icon']")) return;
 
-			const tooltip = (await requireElement("body > div[id][data-floating-ui-portal]")).find("[class*='tooltip__']");
+			const tooltip = ((await requireElement("body > div[id][data-floating-ui-portal]")) as Element).find("[class*='tooltip__']");
 			const tooltipName = tooltip.getElementsByTagName("b")[0]?.textContent;
 			if (
 				["Education", "Reading Book", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown", "Organized Crime", "Bank Investment"].includes(
 					tooltipName
 				)
 			) {
-				const timeElement = tooltip.find("[class*='static-width___']") ?? tooltip.find("p:not([class])");
+				const timeElement = tooltip.find("[class*='static-width___']")?.firstChild ?? tooltip.find("p:not([class])");
 				if (!timeElement) return;
 
 				removeEndTimes(tooltip);
@@ -46,7 +45,7 @@
 		}
 	}
 
-	function removeEndTimes(parent = document) {
+	function removeEndTimes(parent: Document | Element = document) {
 		[...parent.getElementsByClassName("tt-tooltip-end-times")].forEach((x) => x.remove());
 	}
 })();
