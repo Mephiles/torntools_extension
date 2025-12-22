@@ -1,5 +1,4 @@
-"use strict";
-
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 const initiatedPages = {};
 
 (async () => {
@@ -20,8 +19,8 @@ const initiatedPages = {};
 	}
 })();
 
-// noinspection DuplicatedCode
-async function showPage(name) {
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
+async function showPage(name: string) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
 	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
@@ -49,7 +48,7 @@ async function setupAttackHistory() {
 	sortTable(historyList, 3, "desc");
 
 	_attackHistory.find("#percentageHistory").addEventListener("click", (event) => {
-		_attackHistory.find("#attacksList").classList[event.target.checked ? "add" : "remove"]("switched");
+		_attackHistory.find("#attacksList").classList[(event.target as HTMLInputElement).checked ? "add" : "remove"]("switched");
 	});
 
 	_attackHistory.find("#resetHistory").addEventListener("click", () => {
@@ -75,7 +74,7 @@ async function setupAttackHistory() {
 		}
 	}
 
-	function addHistoryRow(id, data = {}) {
+	function addHistoryRow(id: string, data: AttackHistory) {
 		const row = document.newElement({ type: "tr", class: "row" });
 
 		row.appendChild(
@@ -197,7 +196,7 @@ async function setupStakeouts() {
 	});
 
 	document.find("#addStakeout").addEventListener("click", async () => {
-		const id = document.find("#stakeoutId").value;
+		const id = document.find<HTMLInputElement>("#stakeoutId").value;
 		if (!id) return;
 
 		if (document.find(`#stakeout_${id}`)) {
@@ -206,18 +205,19 @@ async function setupStakeouts() {
 			addStakeout(parseInt(id));
 		}
 
-		document.find("#stakeoutId").value = "";
+		document.find<HTMLInputElement>("#stakeoutId").value = "";
 	});
 
 	function fillStakeouts() {
 		for (const id of stakeouts.order) {
-			if (isNaN(parseInt(id))) continue;
+			const stakeout = stakeouts[id];
+			if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
-			addStakeout(id, stakeouts[id]);
+			addStakeout(parseInt(id), stakeout);
 		}
 	}
 
-	function addStakeout(id, data = {}, showStatus = true) {
+	function addStakeout(id: number, data: StakeoutData | null = null, showStatus = true) {
 		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}`, dataset: { id } });
 
 		row.appendChild(
@@ -227,8 +227,8 @@ async function setupStakeouts() {
 				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
 			})
 		);
-		if (data && data.info && Object.keys(data.info).length) {
-			let statusValue;
+		if (data && data.info !== null) {
+			let statusValue: number;
 			switch (data.info.last_action.status.toLowerCase()) {
 				case "offline":
 					statusValue = 3;
@@ -359,7 +359,7 @@ async function setupStakeouts() {
 			for (const key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
-				const element = alertsWrap.find(`.${key}`);
+				const element = alertsWrap.find<HTMLInputElement>(`.${key}`);
 				if (!element) continue;
 
 				switch (typeof data.alerts[key]) {
@@ -368,7 +368,7 @@ async function setupStakeouts() {
 						break;
 					case "number":
 					case "string":
-						element.value = data.alerts[key];
+						element.value = data.alerts[key].toString();
 						break;
 				}
 			}
@@ -388,27 +388,30 @@ async function setupStakeouts() {
 
 			const row = stakeoutList.find(`tr[data-id="${id}"]`);
 			if (!row) {
-				addStakeout(id, {}, false);
+				addStakeout(parseInt(id), null, false);
 				continue;
 			}
 
 			row.classList.remove("new");
 
 			row.find(".status").classList.remove("offline", "idle", "online");
-			if (stakeouts[id] && stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
-				if (row.find(".name a")) row.find(".name a").textContent = stakeouts[id].info.name;
+			const stakeout = stakeouts[id];
+			if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
+
+			if (Object.keys(stakeout.info).length) {
+				if (row.find(".name a")) row.find(".name a").textContent = stakeout.info.name;
 				else
 					row.find(".name").appendChild(
 						document.newElement({
 							type: "a",
-							text: stakeouts[id].info.name,
+							text: stakeout.info.name,
 							href: `https://www.torn.com/profiles.php?XID=${id}`,
 							attributes: { target: "_blank" },
 						})
 					);
-				row.find(".status").textContent = stakeouts[id].info.last_action.status;
-				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());
-				row.find(".last-action").textContent = stakeouts[id].info.last_action.relative;
+				row.find(".status").textContent = stakeout.info.last_action.status;
+				row.find(".status").classList.add(stakeout.info.last_action.status.toLowerCase());
+				row.find(".last-action").textContent = stakeout.info.last_action.relative;
 			} else {
 				row.find(".name").innerHTML = "";
 				row.find(".status").textContent = "";
@@ -416,18 +419,21 @@ async function setupStakeouts() {
 			}
 
 			const alerts = row.find(".alerts-wrap");
-			alerts.find(".okay").checked = stakeouts[id].alerts.okay;
-			alerts.find(".hospital").checked = stakeouts[id].alerts.hospital;
-			alerts.find(".landing").checked = stakeouts[id].alerts.landing;
-			alerts.find(".online").checked = stakeouts[id].alerts.online;
-			alerts.find(".life").value = stakeouts[id].alerts.life || "";
-			alerts.find(".offline").value = stakeouts[id].alerts.offline || "";
-			alerts.find(".revivable").checked = stakeouts[id].alerts.revivable;
+			alerts.find<HTMLInputElement>(".okay").checked = stakeout.alerts.okay;
+			alerts.find<HTMLInputElement>(".hospital").checked = stakeout.alerts.hospital;
+			alerts.find<HTMLInputElement>(".landing").checked = stakeout.alerts.landing;
+			alerts.find<HTMLInputElement>(".online").checked = stakeout.alerts.online;
+			alerts.find<HTMLInputElement>(".life").value = stakeout.alerts.life.toString() || "";
+			alerts.find<HTMLInputElement>(".offline").value = stakeout.alerts.offline.toString() || "";
+			alerts.find<HTMLInputElement>(".revivable").checked = stakeout.alerts.revivable;
 		}
 	}
 
 	async function saveStakeouts() {
-		const newStakeouts = {};
+		const newStakeouts: StoredStakeouts = {
+			order: [...stakeoutList.findAll("tr.row")].map((row) => row.dataset.id),
+			date: 0,
+		};
 
 		for (const row of stakeoutList.findAll("tr.row")) {
 			const id = parseInt(row.dataset.id);
@@ -435,15 +441,15 @@ async function setupStakeouts() {
 			const alertsSection = row.find(".alerts-wrap");
 
 			newStakeouts[id] = {
-				info: id in stakeouts ? stakeouts[id].info : {},
+				info: id in stakeouts && typeof stakeouts[id] === "object" && !Array.isArray(stakeouts[id]) ? stakeouts[id].info : null,
 				alerts: {
-					okay: alertsSection.find(".okay").checked,
-					hospital: alertsSection.find(".hospital").checked,
-					landing: alertsSection.find(".landing").checked,
-					online: alertsSection.find(".online").checked,
-					life: parseInt(alertsSection.find(".life").value) || false,
-					offline: parseInt(alertsSection.find(".offline").value) || false,
-					revivable: alertsSection.find(".revivable").checked,
+					okay: alertsSection.find<HTMLInputElement>(".okay").checked,
+					hospital: alertsSection.find<HTMLInputElement>(".hospital").checked,
+					landing: alertsSection.find<HTMLInputElement>(".landing").checked,
+					online: alertsSection.find<HTMLInputElement>(".online").checked,
+					life: parseInt(alertsSection.find<HTMLInputElement>(".life").value) || false,
+					offline: parseInt(alertsSection.find<HTMLInputElement>(".offline").value) || false,
+					revivable: alertsSection.find<HTMLInputElement>(".revivable").checked,
 				},
 			};
 		}

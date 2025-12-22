@@ -342,40 +342,38 @@ type StoredTorndata = FetchedTorndata & { date: number };
 
 // type StoredStockdata = FetchedStockdata["stocks"] & { date: number };
 type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
+type StakeoutData = {
+	info: {
+		name: string;
+		last_action: {
+			status: UserLastActionStatusEnum;
+			relative: string;
+			timestamp: number;
+		};
+		life: {
+			current: number;
+			maximum: number;
+		};
+		status: {
+			state: UserStatusStateEnum | string;
+			color: string;
+			until: number | null;
+			description: string;
+		};
+		isRevivable: boolean;
+	} | null;
+	alerts: {
+		okay: boolean;
+		hospital: boolean;
+		landing: boolean;
+		online: boolean;
+		life: number | false;
+		offline: number | false;
+		revivable: boolean;
+	};
+};
 type StoredStakeouts = {
-	[name: string]:
-		| {
-				info: {
-					name: string;
-					last_action: {
-						status: UserLastActionStatusEnum;
-						relative: string;
-						timestamp: number;
-					};
-					life: {
-						current: number;
-						maximum: number;
-					};
-					status: {
-						state: UserStatusStateEnum | string;
-						color: string;
-						until: number | null;
-						description: string;
-					};
-					isRevivable: boolean;
-				};
-				alerts: {
-					okay: boolean;
-					hospital: boolean;
-					landing: boolean;
-					online: boolean;
-					life: number | false;
-					offline: number | false;
-					revivable: boolean;
-				};
-		  }
-		| any[]
-		| number;
+	[name: string]: StakeoutData | any[] | number;
 	order: string[];
 	date: number;
 };
@@ -393,28 +391,29 @@ type QuickJail = ("bust" | "bail")[];
 
 type NotificationMap = { [key: string]: TTNotification };
 type StoredProfileNotes = { [id: number]: { height: string; text: string } };
+type AttackHistory = {
+	name: string;
+	defend: number;
+	defend_lost: number;
+	lose: number;
+	stalemate: number;
+	win: number;
+	stealth: number;
+	mug: number;
+	hospitalise: number;
+	leave: number;
+	arrest: number;
+	assist: number;
+	special: number;
+	escapes: number;
+	respect: number[];
+	respect_base: number[];
+	lastAttack: number;
+	lastAttackCode: string;
+	latestFairFightModifier?: number;
+};
 type AttackHistoryMap = {
-	[id: number]: {
-		name: string;
-		defend: number;
-		defend_lost: number;
-		lose: number;
-		stalemate: number;
-		win: number;
-		stealth: number;
-		mug: number;
-		hospitalise: number;
-		leave: number;
-		arrest: number;
-		assist: number;
-		special: number;
-		escapes: number;
-		respect: number[];
-		respect_base: number[];
-		lastAttack: number;
-		lastAttackCode: string;
-		latestFairFightModifier?: number;
-	};
+	[id: number]: AttackHistory;
 };
 
 const DEFAULT_STORAGE = {
