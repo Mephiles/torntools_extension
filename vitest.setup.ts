@@ -10,6 +10,7 @@ const ORDERED_FILES = [
 	"./extension/scripts/global/globalClasses.ts",
 	"./extension/scripts/global/globalData.ts",
 	"./extension/scripts/global/functions/api.ts",
+	"./extension/scripts/global/functions/formatting.ts",
 ];
 
 const coreModulesRaw = import.meta.glob(["./extension/scripts/global/**/*.ts", "!**/*.test.ts"], {

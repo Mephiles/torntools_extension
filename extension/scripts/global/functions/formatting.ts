@@ -376,7 +376,7 @@ function formatNumber(number: number | string, partialOptions: Partial<FormatNum
 	}
 
 	if (options.decimals !== undefined) {
-		number = options.decimals === 0 ? parseInt(number.toString()) : parseFloat(number.toFixed(options.decimals));
+		number = parseFloat(number.toFixed(options.decimals));
 	}
 
 	if (options.formatter) {
