@@ -506,7 +506,6 @@ async function updateUserdata(forceUpdate = false) {
 					if (!enemyId) return;
 
 					// Set up the data so there are no missing keys.
-					if (!attackHistory.history[enemyId]) attackHistory.history[enemyId] = {};
 					attackHistory.history[enemyId] = {
 						name: "",
 						defend: 0,
@@ -524,12 +523,10 @@ async function updateUserdata(forceUpdate = false) {
 						escapes: 0,
 						respect: [],
 						respect_base: [],
-						...attackHistory.history[enemyId],
+						...(enemyId in attackHistory.history ? attackHistory.history[enemyId] : {}),
+						lastAttack: attack.ended * 1000,
+						lastAttackCode: attack.code,
 					};
-
-					// Manipulate the data to be correct.
-					attackHistory.history[enemyId].lastAttack = attack.ended * 1000;
-					attackHistory.history[enemyId].lastAttackCode = attack.code;
 
 					if (attack.defender.id === userdata.profile.id) {
 						if (attack.attacker.name) attackHistory.history[enemyId].name = attack.attacker.name;

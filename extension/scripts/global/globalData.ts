@@ -392,6 +392,30 @@ type QuickCrime = {
 type QuickJail = ("bust" | "bail")[];
 
 type NotificationMap = { [key: string]: TTNotification };
+type StoredProfileNotes = { [id: number]: { height: string; text: string } };
+type AttackHistoryMap = {
+	[id: number]: {
+		name: string;
+		defend: number;
+		defend_lost: number;
+		lose: number;
+		stalemate: number;
+		win: number;
+		stealth: number;
+		mug: number;
+		hospitalise: number;
+		leave: number;
+		arrest: number;
+		assist: number;
+		special: number;
+		escapes: number;
+		respect: number[];
+		respect_base: number[];
+		lastAttack: number;
+		lastAttackCode: string;
+		latestFairFightModifier?: number;
+	};
+};
 
 const DEFAULT_STORAGE = {
 	version: {
@@ -1127,14 +1151,14 @@ const DEFAULT_STORAGE = {
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),
 		lastAttack: new DefaultSetting("number", 0),
-		history: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		history: new DefaultSetting<AttackHistoryMap>("object", {}),
 	},
 	notes: {
 		sidebar: {
 			text: new DefaultSetting("string", ""),
 			height: new DefaultSetting("string", "22px"),
 		},
-		profile: new DefaultSetting<any>("object", {}), // TODO - Figure out full type.
+		profile: new DefaultSetting<StoredProfileNotes>("object", {}),
 	},
 	quick: {
 		items: new DefaultSetting<QuickItem[]>("array", []),
