@@ -1,5 +1,3 @@
-"use strict";
-
 fetch(chrome.runtime.getURL("/vendor/fontawesome/fontawesome.css"))
 	.then((response) => response.text())
 	.then((css) => {
@@ -13,7 +11,7 @@ fetch(chrome.runtime.getURL("/vendor/fontawesome/fontawesome.css"))
 		style.classList.add("tt-style")
 		style.innerHTML = css;
 
-		new Promise((resolve) => {
+		new Promise<void>((resolve) => {
 			let counter = 0;
 			const interval = setInterval(() => {
 				if (counter++ > 1000) {
