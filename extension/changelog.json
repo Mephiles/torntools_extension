@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 8, "minor": 0, "build": 2 },
+		"version": { "major": 8, "minor": 0, "build": 3 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 8, "minor": 0, "build": 2 },
+		"date": "2025/12/22",
 		"logs": {
 			"features": [{ "message": "Filter abroad items on out of stock.", "contributor": "DeKleineKobini" }],
 			"fixes": [
@@ -14,9 +19,7 @@
 			"changes": [
 				{ "message": "Improve 'Travel Item Profits' layout on desktop.", "contributor": "DeKleineKobini" },
 				{ "message": "Reload Gym Graph right after updating battle stats on TornStats.", "contributor": "TheFoxMan" }
-			],
-			"removed": [],
-			"technical": []
+			]
 		}
 	},
 	{
