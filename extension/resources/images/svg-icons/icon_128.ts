@@ -1,5 +1,3 @@
-// noinspection JSCheckFunctionSignatures
-
 function ttSvg() {
 	const svgNS = "http://www.w3.org/2000/svg";
 
@@ -12,17 +10,17 @@ function ttSvg() {
 	g1.setAttributeNS(null, "aria-label", "T");
 
 	const g1Rect1 = document.createElementNS(svgNS, "rect");
-	g1Rect1.setAttributeNS(null, "height", 19);
-	g1Rect1.setAttributeNS(null, "width", 72);
-	g1Rect1.setAttributeNS(null, "x", 17);
-	g1Rect1.setAttributeNS(null, "y", 19);
+	g1Rect1.setAttributeNS(null, "height", "19");
+	g1Rect1.setAttributeNS(null, "width", "72");
+	g1Rect1.setAttributeNS(null, "x", "17");
+	g1Rect1.setAttributeNS(null, "y", "19");
 	g1.appendChild(g1Rect1);
 
 	const g1Rect2 = document.createElementNS(svgNS, "rect");
-	g1Rect2.setAttributeNS(null, "height", 63);
-	g1Rect2.setAttributeNS(null, "width", 22);
-	g1Rect2.setAttributeNS(null, "x", 42);
-	g1Rect2.setAttributeNS(null, "y", 38);
+	g1Rect2.setAttributeNS(null, "height", "63");
+	g1Rect2.setAttributeNS(null, "width", "22");
+	g1Rect2.setAttributeNS(null, "x", "42");
+	g1Rect2.setAttributeNS(null, "y", "38");
 	g1.appendChild(g1Rect2);
 
 	svg.appendChild(g1);
@@ -32,17 +30,17 @@ function ttSvg() {
 	g2.setAttributeNS(null, "aria-label", "t");
 
 	const g2Rect1 = document.createElementNS(svgNS, "rect");
-	g2Rect1.setAttributeNS(null, "height", 8);
-	g2Rect1.setAttributeNS(null, "width", 35);
-	g2Rect1.setAttributeNS(null, "x", 65);
-	g2Rect1.setAttributeNS(null, "y", 54);
+	g2Rect1.setAttributeNS(null, "height", "8");
+	g2Rect1.setAttributeNS(null, "width", "35");
+	g2Rect1.setAttributeNS(null, "x", "65");
+	g2Rect1.setAttributeNS(null, "y", "54");
 	g2.appendChild(g2Rect1);
 
 	const g2Rect2 = document.createElementNS(svgNS, "rect");
-	g2Rect2.setAttributeNS(null, "height", 45);
-	g2Rect2.setAttributeNS(null, "width", 10);
-	g2Rect2.setAttributeNS(null, "x", 75);
-	g2Rect2.setAttributeNS(null, "y", 46);
+	g2Rect2.setAttributeNS(null, "height", "45");
+	g2Rect2.setAttributeNS(null, "width", "10");
+	g2Rect2.setAttributeNS(null, "x", "75");
+	g2Rect2.setAttributeNS(null, "y", "46");
 	g2.appendChild(g2Rect2);
 
 	const path = document.createElementNS(svgNS, "path");
