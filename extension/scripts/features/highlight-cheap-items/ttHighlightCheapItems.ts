@@ -113,7 +113,7 @@
 	 * Should highlight the given item based on the price?
 	 */
 	function shouldHighlight(id: number, price: number) {
-		const percentage = 1 - settings.pages.itemmarket.highlightCheapItems / 100;
+		const percentage = 1 - (settings.pages.itemmarket.highlightCheapItems as number) / 100;
 
 		const value = torndata.items[id]?.market_value;
 		if (!value) return false;

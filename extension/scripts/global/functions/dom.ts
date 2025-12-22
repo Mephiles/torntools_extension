@@ -29,7 +29,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 				if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
 				else newElement.setClass(options.class.trim());
 			}
-			if (options.text !== undefined) newElement.textContent = options.text;
+			if (options.text !== undefined) newElement.textContent = options.text.toString();
 			if (options.html) newElement.innerHTML = options.html;
 			if (options.value && "value" in newElement) {
 				if (typeof options.value === "function") newElement.value = options.value();
@@ -56,7 +56,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 			for (const key in options.style) newElement.style[key] = options.style[key];
 			for (const key in options.dataset) {
 				if (typeof options.dataset[key] === "object") newElement.dataset[key] = JSON.stringify(options.dataset[key]);
-				else newElement.dataset[key] = options.dataset[key];
+				else newElement.dataset[key] = options.dataset[key].toString();
 			}
 
 			return newElement;
@@ -286,7 +286,9 @@ function rotateElement(element: HTMLElement, degrees: number) {
 	};
 }
 
-function sortTable(table: Element, columnPlace: number, order?: "asc" | "desc" | "none") {
+type TableSortOrder = "asc" | "desc" | "none";
+
+function sortTable(table: Element, columnPlace: number, order?: TableSortOrder) {
 	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
 	const icon = header.find("i");
 	if (order) {

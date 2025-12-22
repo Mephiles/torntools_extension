@@ -39,38 +39,38 @@ class TornToolsStorage {
 		return chrome.storage.local.clear();
 	}
 
-	change(object: { [key: string]: any }): Promise<void> {
+	change(object: RecursivePartial<Writable<Database>>): Promise<void> {
 		return new Promise(async (resolve) => {
 			for (const key of Object.keys(object)) {
-				const data = recursive(await this.get(key), object[key]);
-
-				function recursive(parent: any, toChange: any) {
-					for (const key in toChange) {
-						if (
-							parent &&
-							typeof parent === "object" &&
-							!Array.isArray(parent[key]) &&
-							key in parent &&
-							typeof toChange[key] === "object" &&
-							!Array.isArray(toChange[key])
-						) {
-							parent[key] = recursive(parent[key], toChange[key]);
-						} else if (parent && typeof parent === "object") {
-							const value = toChange[key];
-
-							if (value === undefined || value === null) delete parent[key];
-							else parent[key] = value;
-						} else {
-							parent = { [key]: toChange[key] };
-						}
-					}
-					return parent;
-				}
+				const data = this.recursive(await this.get(key), object[key]);
 
 				await this.set({ [key]: data });
 			}
 			resolve();
 		});
+	}
+
+	private recursive(parent: any, toChange: any) {
+		for (const key in toChange) {
+			if (
+				parent &&
+				typeof parent === "object" &&
+				!Array.isArray(parent[key]) &&
+				key in parent &&
+				typeof toChange[key] === "object" &&
+				!Array.isArray(toChange[key])
+			) {
+				parent[key] = this.recursive(parent[key], toChange[key]);
+			} else if (parent && typeof parent === "object") {
+				const value = toChange[key];
+
+				if (value === undefined || value === null) delete parent[key];
+				else parent[key] = value;
+			} else {
+				parent = { [key]: toChange[key] };
+			}
+		}
+		return parent;
 	}
 
 	reset(): Promise<void>;
@@ -137,10 +137,12 @@ class TornToolsStorage {
 
 const ttStorage = new TornToolsStorage();
 
+type DatabaseCache = { [key: string]: any };
+
 type CacheKey = string | number;
 
 class TornToolsCache {
-	private _cache: { [key: string]: any };
+	private _cache: DatabaseCache;
 
 	constructor() {
 		this.cache = {};
@@ -191,7 +193,7 @@ class TornToolsCache {
 		else return key in this.cache && this.cache[key].timeout > Date.now();
 	}
 
-	async set(object: { [key: string]: any }, ttl: number, section?: string) {
+	async set(object: DatabaseCache, ttl: number, section?: string) {
 		const timeout = Date.now() + ttl;
 		if (section) {
 			if (!(section in this.cache)) this.cache[section] = {};
@@ -243,8 +245,10 @@ class TornToolsCache {
 
 const ttCache = new TornToolsCache();
 
+type DatabaseUsage = { [minute: number]: { [location: string]: number } };
+
 class TornToolsUsage {
-	private usage: { [minute: number]: { [location: string]: number } };
+	usage: DatabaseUsage;
 
 	constructor() {
 		this.usage = {};
@@ -277,779 +281,921 @@ class TornToolsUsage {
 
 const ttUsage = new TornToolsUsage();
 
+type InternalPageTheme = "default" | "dark" | "light";
+
+type StoredNpcs = {
+	next_update: number;
+	service: string;
+	targets: {
+		[id: string]: StoredNpc;
+	};
+	planned?: number | false;
+	reason?: string;
+};
+
+interface StoredNpc {
+	name: string;
+	levels: {
+		1: number;
+		2: number;
+		3: number;
+		4: number;
+		5: number;
+	};
+	current?: number;
+	scheduled?: boolean;
+	order?: number;
+}
+
+type StoredUserdata = FetchedUserdata & {
+	date: number;
+	dateBasic: number;
+	userCrime?: number;
+};
+
+interface StoredFactionStakeouts {
+	date: number;
+	[id: string]:
+		| {
+				alerts: never;
+				info: {
+					name: string;
+					chain: number;
+					members: {
+						current: number;
+						maximum: number;
+					};
+					rankedWar: boolean;
+					raid: boolean;
+					territoryWar: boolean;
+				};
+		  }
+		| number;
+}
+
+type StoredFactiondataNoAccess = { access: "none"; error?: any; retry?: number };
+type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number };
+type StoredFactiondataFullAccess = { access: "full_access"; date: number; userCrime: number } & FetchedFactiondataWithAccess;
+type StoredFactiondata = StoredFactiondataNoAccess | StoredFactiondataBasic | StoredFactiondataFullAccess;
+
+type StoredTorndata = FetchedTorndata & { date: number };
+
+// type StoredStockdata = FetchedStockdata["stocks"] & { date: number };
+type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
+type StoredStakeouts = {
+	[name: string]:
+		| {
+				info: {
+					name: string;
+					last_action: {
+						status: UserLastActionStatusEnum;
+						relative: string;
+						timestamp: number;
+					};
+					life: {
+						current: number;
+						maximum: number;
+					};
+					status: {
+						state: UserStatusStateEnum | string;
+						color: string;
+						until: number | null;
+						description: string;
+					};
+					isRevivable: boolean;
+				};
+				alerts: {
+					okay: boolean;
+					hospital: boolean;
+					landing: boolean;
+					online: boolean;
+					life: number | false;
+					offline: number | false;
+					revivable: boolean;
+				};
+		  }
+		| any[]
+		| number;
+	order: string[];
+	date: number;
+};
+
+type QuickItem = { id: number; xid?: number };
+type QuickFactionItem = { id: number | "points-energy" | "points-nerve" };
+type QuickCrime = {
+	step: string;
+	nerve: number;
+	name: string;
+	icon: string;
+	text: string;
+};
+type QuickJail = ("bust" | "bail")[];
+
+type NotificationMap = { [key: string]: TTNotification };
+type StoredProfileNotes = { [id: number]: { height: string; text: string } };
+type AttackHistoryMap = {
+	[id: number]: {
+		name: string;
+		defend: number;
+		defend_lost: number;
+		lose: number;
+		stalemate: number;
+		win: number;
+		stealth: number;
+		mug: number;
+		hospitalise: number;
+		leave: number;
+		arrest: number;
+		assist: number;
+		special: number;
+		escapes: number;
+		respect: number[];
+		respect_base: number[];
+		lastAttack: number;
+		lastAttackCode: string;
+		latestFairFightModifier?: number;
+	};
+};
+
 const DEFAULT_STORAGE = {
 	version: {
-		current: new DefaultSetting({ type: "string", defaultValue: () => chrome.runtime.getManifest().version }),
-		oldVersion: new DefaultSetting({ type: "string" }),
-		showNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
+		current: new DefaultSetting<string>("string", () => chrome.runtime.getManifest().version),
+		oldVersion: new DefaultSetting<string | null>("string"),
+		showNotice: new DefaultSetting("boolean", true),
 	},
 	api: {
 		torn: {
-			key: new DefaultSetting({ type: "string" }),
-			online: new DefaultSetting({ type: "boolean", defaultValue: true }),
-			error: new DefaultSetting({ type: "string" }),
+			key: new DefaultSetting<string | null>("string"),
+			online: new DefaultSetting("boolean", true),
+			error: new DefaultSetting<string | null>("string"),
 		},
 		tornstats: {
-			key: new DefaultSetting({ type: "string" }),
+			key: new DefaultSetting<string | null>("string"),
 		},
 		yata: {
-			key: new DefaultSetting({ type: "string" }),
+			key: new DefaultSetting<string | null>("string"),
 		},
 		ffScouter: {
-			key: new DefaultSetting({ type: "string" }),
+			key: new DefaultSetting<string | null>("string"),
 		},
 	},
 	settings: {
-		updateNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
-		featureDisplay: new DefaultSetting({ type: "boolean", defaultValue: true }),
-		featureDisplayPosition: new DefaultSetting({ type: "string", defaultValue: "bottom-left" }),
-		featureDisplayOnlyFailed: new DefaultSetting({ type: "boolean", defaultValue: false }),
-		featureDisplayHideDisabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
-		featureDisplayHideEmpty: new DefaultSetting({ type: "boolean", defaultValue: true }),
-		developer: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		updateNotice: new DefaultSetting("boolean", true),
+		featureDisplay: new DefaultSetting("boolean", true),
+		featureDisplayPosition: new DefaultSetting("string", "bottom-left"),
+		featureDisplayOnlyFailed: new DefaultSetting("boolean", false),
+		featureDisplayHideDisabled: new DefaultSetting("boolean", false),
+		featureDisplayHideEmpty: new DefaultSetting("boolean", true),
+		developer: new DefaultSetting("boolean", false),
 		formatting: {
-			tct: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			date: new DefaultSetting({ type: "string", defaultValue: "eu" }),
-			time: new DefaultSetting({ type: "string", defaultValue: "eu" }),
+			tct: new DefaultSetting("boolean", false),
+			date: new DefaultSetting("string", "eu"),
+			time: new DefaultSetting("string", "eu"),
 		},
 		sorting: {
-			abroad: new DefaultSetting({ type: "object", defaultValue: {} }),
+			abroad: {
+				column: new DefaultSetting("string", ""),
+				order: new DefaultSetting<"none" | "asc" | "desc">("string", "none"),
+			},
 		},
 		notifications: {
-			sound: new DefaultSetting({ type: "string", defaultValue: "default" }),
-			soundCustom: new DefaultSetting({ type: "string", defaultValue: "" }),
-			tts: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			link: new DefaultSetting({ type: "boolean", defaultValue: true }),
-			volume: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			requireInteraction: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			sound: new DefaultSetting("string", "default"),
+			soundCustom: new DefaultSetting("string", ""),
+			tts: new DefaultSetting("boolean", false),
+			link: new DefaultSetting("boolean", true),
+			volume: new DefaultSetting("number", 100),
+			requireInteraction: new DefaultSetting("boolean", false),
 			types: {
-				global: new DefaultSetting({ type: "boolean", defaultValue: () => Notification.permission === "granted" }),
-				events: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				messages: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				status: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				traveling: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cooldowns: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				education: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				newDay: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				energy: new DefaultSetting({ type: "array", defaultValue: ["100%"] }),
-				nerve: new DefaultSetting({ type: "array", defaultValue: ["100%"] }),
-				happy: new DefaultSetting({ type: "array", defaultValue: ["100%"] }),
-				life: new DefaultSetting({ type: "array", defaultValue: ["100%"] }),
-				offline: new DefaultSetting({ type: "array", defaultValue: [] }),
-				chainTimerEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				chainBonusEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				leavingHospitalEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				landingEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cooldownDrugEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cooldownBoosterEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cooldownMedicalEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				chainTimer: new DefaultSetting({ type: "array", defaultValue: [] }),
-				chainBonus: new DefaultSetting({ type: "array", defaultValue: [] }),
-				leavingHospital: new DefaultSetting({ type: "array", defaultValue: [] }),
-				landing: new DefaultSetting({ type: "array", defaultValue: [] }),
-				cooldownDrug: new DefaultSetting({ type: "array", defaultValue: [] }),
-				cooldownBooster: new DefaultSetting({ type: "array", defaultValue: [] }),
-				cooldownMedical: new DefaultSetting({ type: "array", defaultValue: [] }),
-				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
-				missionsLimitEnabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				missionsLimit: new DefaultSetting({ type: "string", defaultValue: "" }),
-				missionsExpireEnabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				missionsExpire: new DefaultSetting({ type: "array", defaultValue: [] }),
-				npcsGlobal: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				npcs: new DefaultSetting({ type: "array", defaultValue: [] }),
-				npcPlannedEnabled: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				npcPlanned: new DefaultSetting({ type: "array", defaultValue: [] }),
+				global: new DefaultSetting("boolean", () => Notification.permission === "granted"),
+				events: new DefaultSetting("boolean", true),
+				messages: new DefaultSetting("boolean", true),
+				status: new DefaultSetting("boolean", true),
+				traveling: new DefaultSetting("boolean", true),
+				cooldowns: new DefaultSetting("boolean", true),
+				education: new DefaultSetting("boolean", true),
+				newDay: new DefaultSetting("boolean", true),
+				energy: new DefaultSetting("array", ["100%"]),
+				nerve: new DefaultSetting("array", ["100%"]),
+				happy: new DefaultSetting("array", ["100%"]),
+				life: new DefaultSetting("array", ["100%"]),
+				offline: new DefaultSetting<number[]>("array", []),
+				chainTimerEnabled: new DefaultSetting("boolean", true),
+				chainBonusEnabled: new DefaultSetting("boolean", true),
+				leavingHospitalEnabled: new DefaultSetting("boolean", true),
+				landingEnabled: new DefaultSetting("boolean", true),
+				cooldownDrugEnabled: new DefaultSetting("boolean", true),
+				cooldownBoosterEnabled: new DefaultSetting("boolean", true),
+				cooldownMedicalEnabled: new DefaultSetting("boolean", true),
+				chainTimer: new DefaultSetting<number[]>("array", []),
+				chainBonus: new DefaultSetting<number[]>("array", []),
+				leavingHospital: new DefaultSetting<number[]>("array", []),
+				landing: new DefaultSetting<number[]>("array", []),
+				cooldownDrug: new DefaultSetting<number[]>("array", []),
+				cooldownBooster: new DefaultSetting<number[]>("array", []),
+				cooldownMedical: new DefaultSetting<number[]>("array", []),
+				stocks: new DefaultSetting("object", {}),
+				missionsLimitEnabled: new DefaultSetting("boolean", false),
+				missionsLimit: new DefaultSetting("string", ""),
+				missionsExpireEnabled: new DefaultSetting("boolean", false),
+				missionsExpire: new DefaultSetting<number[]>("array", []),
+				npcsGlobal: new DefaultSetting("boolean", true),
+				npcs: new DefaultSetting<{ id: number; level: number | ""; minutes: number | "" }[]>("array", []),
+				npcPlannedEnabled: new DefaultSetting("boolean", true),
+				npcPlanned: new DefaultSetting<number[]>("array", []),
 			},
 		},
 		apiUsage: {
-			comment: new DefaultSetting({ type: "string", defaultValue: "TornTools" }),
-			delayEssential: new DefaultSetting({ type: "number", defaultValue: 30 }),
-			delayBasic: new DefaultSetting({ type: "number", defaultValue: 120 }),
-			delayStakeouts: new DefaultSetting({ type: "number", defaultValue: 30 }),
+			comment: new DefaultSetting("string", "TornTools"),
+			delayEssential: new DefaultSetting("number", 30),
+			delayBasic: new DefaultSetting("number", 120),
+			delayStakeouts: new DefaultSetting("number", 30),
 			user: {
-				bars: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cooldowns: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				newevents: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				newmessages: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				refills: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				stocks: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				education: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				networth: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				inventory: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				jobpoints: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				merits: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				perks: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				icons: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				ammo: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				battlestats: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				crimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				workstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				skills: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				weaponexp: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				properties: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				calendar: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				organizedcrime: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				missions: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				personalstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				money: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				honors: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				medals: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				bars: new DefaultSetting("boolean", true),
+				cooldowns: new DefaultSetting("boolean", true),
+				travel: new DefaultSetting("boolean", true),
+				newevents: new DefaultSetting("boolean", true),
+				newmessages: new DefaultSetting("boolean", true),
+				refills: new DefaultSetting("boolean", true),
+				stocks: new DefaultSetting("boolean", true),
+				education: new DefaultSetting("boolean", true),
+				networth: new DefaultSetting("boolean", true),
+				inventory: new DefaultSetting("boolean", true),
+				jobpoints: new DefaultSetting("boolean", true),
+				merits: new DefaultSetting("boolean", true),
+				perks: new DefaultSetting("boolean", true),
+				icons: new DefaultSetting("boolean", true),
+				ammo: new DefaultSetting("boolean", true),
+				battlestats: new DefaultSetting("boolean", true),
+				crimes: new DefaultSetting("boolean", true),
+				workstats: new DefaultSetting("boolean", true),
+				skills: new DefaultSetting("boolean", true),
+				weaponexp: new DefaultSetting("boolean", true),
+				properties: new DefaultSetting("boolean", true),
+				calendar: new DefaultSetting("boolean", true),
+				organizedcrime: new DefaultSetting("boolean", true),
+				missions: new DefaultSetting("boolean", true),
+				personalstats: new DefaultSetting("boolean", true),
+				attacks: new DefaultSetting("boolean", true),
+				money: new DefaultSetting("boolean", true),
+				honors: new DefaultSetting("boolean", true),
+				medals: new DefaultSetting("boolean", true),
 			},
 		},
 		themes: {
-			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
-			containers: new DefaultSetting({ type: "string", defaultValue: "default" }),
+			pages: new DefaultSetting<InternalPageTheme>("string", "default"),
+			containers: new DefaultSetting("string", "default"),
 		},
-		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
-		hideCasinoGames: new DefaultSetting({ type: "array", defaultValue: [] }),
-		hideStocks: new DefaultSetting({ type: "array", defaultValue: [] }),
-		alliedFactions: new DefaultSetting({ type: "array", defaultValue: [] }),
-		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
-		employeeInactivityWarning: new DefaultSetting({ type: "array", defaultValue: [] }),
-		factionInactivityWarning: new DefaultSetting({ type: "array", defaultValue: [] }),
-		userAlias: new DefaultSetting({ type: "object", defaultValue: {} }),
-		csvDelimiter: new DefaultSetting({ type: "string", defaultValue: ";" }),
+		hideIcons: new DefaultSetting<string[]>("array", []),
+		hideCasinoGames: new DefaultSetting<string[]>("array", []),
+		hideStocks: new DefaultSetting<string[]>("array", []),
+		alliedFactions: new DefaultSetting<(string | number)[]>("array", []),
+		customLinks: new DefaultSetting<CustomLink[]>("array", []),
+		employeeInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
+		factionInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
+		userAlias: new DefaultSetting<{ [alias: string]: { name: string; alias: string } }>("object", {}),
+		csvDelimiter: new DefaultSetting("string", ";"),
 		pages: {
 			global: {
-				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				hideLevelUpgrade: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				hideQuitButtons: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				hideTutorials: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				keepAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				reviveProvider: new DefaultSetting({ type: "string", defaultValue: "" }),
-				pageTitles: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				stackingMode: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				alignLeft: new DefaultSetting("boolean", false),
+				hideLevelUpgrade: new DefaultSetting("boolean", false),
+				hideQuitButtons: new DefaultSetting("boolean", false),
+				hideTutorials: new DefaultSetting("boolean", false),
+				keepAttackHistory: new DefaultSetting("boolean", true),
+				miniProfileLastAction: new DefaultSetting("boolean", true),
+				reviveProvider: new DefaultSetting("string", ""),
+				pageTitles: new DefaultSetting("boolean", true),
+				stackingMode: new DefaultSetting("boolean", false),
 			},
 			profile: {
-				avgpersonalstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				idBesideProfileName: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				showAllyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				ageToWords: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				disableAllyAttacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				box: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				boxStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				boxSpy: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				boxStakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				boxAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				boxFetch: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				avgpersonalstats: new DefaultSetting("boolean", false),
+				statusIndicator: new DefaultSetting("boolean", true),
+				idBesideProfileName: new DefaultSetting("boolean", true),
+				notes: new DefaultSetting("boolean", true),
+				showAllyWarning: new DefaultSetting("boolean", true),
+				ageToWords: new DefaultSetting("boolean", true),
+				disableAllyAttacks: new DefaultSetting("boolean", true),
+				box: new DefaultSetting("boolean", true),
+				boxStats: new DefaultSetting("boolean", true),
+				boxSpy: new DefaultSetting("boolean", true),
+				boxStakeout: new DefaultSetting("boolean", true),
+				boxAttackHistory: new DefaultSetting("boolean", true),
+				boxFetch: new DefaultSetting("boolean", true),
 			},
 			chat: {
-				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
-				searchChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				blockZalgo: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				completeUsernames: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
-				titleHighlights: new DefaultSetting({ type: "array", defaultValue: [] }),
-				tradeTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				hideChatButton: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				hideChat: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				fontSize: new DefaultSetting("number", 12),
+				searchChat: new DefaultSetting("boolean", true),
+				blockZalgo: new DefaultSetting("boolean", true),
+				completeUsernames: new DefaultSetting("boolean", true),
+				highlights: new DefaultSetting("array", [{ name: "$player", color: "#7ca900" }]),
+				titleHighlights: new DefaultSetting<ColoredChatOption[]>("array", []),
+				tradeTimer: new DefaultSetting("boolean", true),
+				hideChatButton: new DefaultSetting("boolean", true),
+				hideChat: new DefaultSetting("boolean", false),
 			},
 			sidebar: {
-				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				ocTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				oc2Timer: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				oc2TimerPosition: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				oc2TimerLevel: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				factionOCTimer: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				settingsLink: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				hideNewspaperHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				upkeepPropHighlight: new DefaultSetting({ type: "number", defaultValue: 0 }),
-				barLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				pointsValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				npcLootTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				npcLootTimesService: new DefaultSetting({ type: "string", defaultValue: "tornstats" }),
-				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				companyAddictionLevel: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				showJobPointsToolTip: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				notes: new DefaultSetting("boolean", true),
+				highlightEnergy: new DefaultSetting("boolean", true),
+				highlightNerve: new DefaultSetting("boolean", false),
+				ocTimer: new DefaultSetting("boolean", true),
+				oc2Timer: new DefaultSetting("boolean", true),
+				oc2TimerPosition: new DefaultSetting("boolean", false),
+				oc2TimerLevel: new DefaultSetting("boolean", true),
+				factionOCTimer: new DefaultSetting("boolean", false),
+				collapseAreas: new DefaultSetting("boolean", true),
+				settingsLink: new DefaultSetting("boolean", true),
+				hideGymHighlight: new DefaultSetting("boolean", false),
+				hideNewspaperHighlight: new DefaultSetting("boolean", false),
+				upkeepPropHighlight: new DefaultSetting("number", 0),
+				barLinks: new DefaultSetting("boolean", true),
+				pointsValue: new DefaultSetting("boolean", true),
+				npcLootTimes: new DefaultSetting("boolean", true),
+				npcLootTimesService: new DefaultSetting("string", "tornstats"),
+				cooldownEndTimes: new DefaultSetting("boolean", true),
+				companyAddictionLevel: new DefaultSetting("boolean", true),
+				showJobPointsToolTip: new DefaultSetting("boolean", true),
 			},
 			popup: {
-				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				marketSearch: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				bazaarUsingExternal: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				calculator: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				stocksOverview: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				notifications: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				defaultTab: new DefaultSetting({ type: "string", defaultValue: "dashboard" }),
-				hoverBarTime: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				showStakeouts: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				showIcons: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				dashboard: new DefaultSetting("boolean", true),
+				marketSearch: new DefaultSetting("boolean", true),
+				bazaarUsingExternal: new DefaultSetting("boolean", true),
+				calculator: new DefaultSetting("boolean", true),
+				stocksOverview: new DefaultSetting("boolean", true),
+				notifications: new DefaultSetting("boolean", true),
+				defaultTab: new DefaultSetting("string", "dashboard"),
+				hoverBarTime: new DefaultSetting("boolean", false),
+				showStakeouts: new DefaultSetting("boolean", true),
+				showIcons: new DefaultSetting("boolean", true),
 			},
 			icon: {
-				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				energy: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				nerve: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				happy: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				life: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				chain: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				global: new DefaultSetting("boolean", true),
+				energy: new DefaultSetting("boolean", true),
+				nerve: new DefaultSetting("boolean", true),
+				happy: new DefaultSetting("boolean", true),
+				life: new DefaultSetting("boolean", true),
+				chain: new DefaultSetting("boolean", true),
+				travel: new DefaultSetting("boolean", true),
 			},
 			education: {
-				greyOut: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				finishTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				greyOut: new DefaultSetting("boolean", true),
+				finishTime: new DefaultSetting("boolean", true),
 			},
 			jail: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			bank: {
-				investmentInfo: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				investmentDueTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				investmentInfo: new DefaultSetting("boolean", true),
+				investmentDueTime: new DefaultSetting("boolean", true),
 			},
 			home: {
-				networthDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				effectiveStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				networthDetails: new DefaultSetting("boolean", true),
+				effectiveStats: new DefaultSetting("boolean", true),
 			},
 			items: {
-				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				values: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				drugDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				marketLinks: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				highlightBloodBags: new DefaultSetting({ type: "string", defaultValue: "none" }),
-				missingFlowers: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				missingPlushies: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				bookEffects: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				canGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				nerveGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				candyHappyGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				medicalLife: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				openedSupplyPackValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				hideRecycleMessage: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				hideTooManyItemsWarning: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				quickItems: new DefaultSetting("boolean", true),
+				values: new DefaultSetting("boolean", true),
+				drugDetails: new DefaultSetting("boolean", true),
+				marketLinks: new DefaultSetting("boolean", false),
+				highlightBloodBags: new DefaultSetting("string", "none"),
+				missingFlowers: new DefaultSetting("boolean", false),
+				missingPlushies: new DefaultSetting("boolean", false),
+				bookEffects: new DefaultSetting("boolean", true),
+				canGains: new DefaultSetting("boolean", true),
+				nerveGains: new DefaultSetting("boolean", true),
+				candyHappyGains: new DefaultSetting("boolean", true),
+				energyWarning: new DefaultSetting("boolean", true),
+				medicalLife: new DefaultSetting("boolean", true),
+				openedSupplyPackValue: new DefaultSetting("boolean", true),
+				hideRecycleMessage: new DefaultSetting("boolean", false),
+				hideTooManyItemsWarning: new DefaultSetting("boolean", false),
 			},
 			crimes: {
-				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				quickCrimes: new DefaultSetting("boolean", true),
 			},
 			companies: {
-				idBesideCompanyName: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				autoStockFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				employeeEffectiveness: new DefaultSetting({ type: "number", defaultValue: 18 }),
+				idBesideCompanyName: new DefaultSetting("boolean", false),
+				specials: new DefaultSetting("boolean", true),
+				autoStockFill: new DefaultSetting("boolean", true),
+				employeeEffectiveness: new DefaultSetting("number", 18),
 			},
 			travel: {
-				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cleanFlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				tabTitleTimer: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				travelProfits: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				peopleFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				landingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				flyingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				itemFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cooldownWarnings: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				autoTravelTableCountry: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				autoFillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				efficientRehab: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				efficientRehabSelect: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				computer: new DefaultSetting("boolean", true),
+				table: new DefaultSetting("boolean", true),
+				cleanFlight: new DefaultSetting("boolean", false),
+				tabTitleTimer: new DefaultSetting("boolean", false),
+				travelProfits: new DefaultSetting("boolean", true),
+				fillMax: new DefaultSetting("boolean", true),
+				peopleFilter: new DefaultSetting("boolean", true),
+				landingTime: new DefaultSetting("boolean", true),
+				flyingTime: new DefaultSetting("boolean", true),
+				itemFilter: new DefaultSetting("boolean", true),
+				energyWarning: new DefaultSetting("boolean", true),
+				cooldownWarnings: new DefaultSetting("boolean", true),
+				autoTravelTableCountry: new DefaultSetting("boolean", false),
+				autoFillMax: new DefaultSetting("boolean", true),
+				efficientRehab: new DefaultSetting("boolean", true),
+				efficientRehabSelect: new DefaultSetting("boolean", false),
 			},
 			stocks: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				valueAndProfit: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
+				acronyms: new DefaultSetting("boolean", true),
+				valueAndProfit: new DefaultSetting("boolean", true),
 			},
 			competitions: {
-				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				easterEggsAlert: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				easterEggs: new DefaultSetting("boolean", false),
+				easterEggsAlert: new DefaultSetting("boolean", true),
 			},
 			events: {
-				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				worth: new DefaultSetting("boolean", true),
 			},
 			hospital: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			auction: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			api: {
-				autoFillKey: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				autoDemo: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				autoPretty: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				clickableSelections: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				marking: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				autoFillKey: new DefaultSetting("boolean", true),
+				autoDemo: new DefaultSetting("boolean", true),
+				autoPretty: new DefaultSetting("boolean", true),
+				clickableSelections: new DefaultSetting("boolean", true),
+				marking: new DefaultSetting("boolean", true),
 			},
 			forums: {
-				menu: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				hidePosts: new DefaultSetting({ type: "object", defaultValue: {} }),
-				hideThreads: new DefaultSetting({ type: "object", defaultValue: {} }),
-				highlightPosts: new DefaultSetting({ type: "object", defaultValue: {} }),
-				highlightThreads: new DefaultSetting({ type: "object", defaultValue: {} }),
-				ignoredThreads: new DefaultSetting({ type: "object", defaultValue: {} }),
-				debugInfoBtn: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				menu: new DefaultSetting("boolean", true),
+				hidePosts: new DefaultSetting<Record<number, boolean>>("object", {}),
+				hideThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
+				highlightPosts: new DefaultSetting<Record<number, boolean>>("object", {}),
+				highlightThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
+				ignoredThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
+				debugInfoBtn: new DefaultSetting("boolean", true),
 			},
 			bazaar: {
-				itemsCost: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				highlightSubVendorItems: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				itemsCost: new DefaultSetting("boolean", true),
+				worth: new DefaultSetting("boolean", true),
+				fillMax: new DefaultSetting("boolean", true),
+				maxBuyIgnoreCash: new DefaultSetting("boolean", false),
+				highlightSubVendorItems: new DefaultSetting("boolean", false),
 			},
 			trade: {
-				itemValues: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				openChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				itemValues: new DefaultSetting("boolean", true),
+				openChat: new DefaultSetting("boolean", true),
 			},
 			displayCase: {
-				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				worth: new DefaultSetting("boolean", true),
 			},
 			shops: {
-				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				profit: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				filters: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				fillMax: new DefaultSetting("boolean", true),
+				maxBuyIgnoreCash: new DefaultSetting("boolean", false),
+				profit: new DefaultSetting("boolean", true),
+				filters: new DefaultSetting("boolean", true),
 			},
 			casino: {
-				netTotal: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				blackjack: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				highlow: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				highlowMovement: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				netTotal: new DefaultSetting("boolean", true),
+				blackjack: new DefaultSetting("boolean", true),
+				highlow: new DefaultSetting("boolean", false),
+				highlowMovement: new DefaultSetting("boolean", true),
 			},
 			racing: {
-				winPercentage: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				upgrades: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				winPercentage: new DefaultSetting("boolean", true),
+				upgrades: new DefaultSetting("boolean", true),
+				filter: new DefaultSetting("boolean", true),
 			},
 			faction: {
-				idBesideFactionName: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				csvRaidReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				csvRankedWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				csvWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				csvChainReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				csvChallengeContributions: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				openOc: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				highlightOwn: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				availablePlayers: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				recommendedNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				ocNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				ocTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				ocLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				banker: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				showFullInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				foldableInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				numberMembers: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				warFinishTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				memberFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				armoryFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				armoryWorth: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				upgradeRequiredRespect: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				memberInfo: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				rankedWarFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				stakeout: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				showFactionSpy: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				oc2Filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				warnCrime: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				idBesideFactionName: new DefaultSetting("boolean", false),
+				csvRaidReport: new DefaultSetting("boolean", true),
+				csvRankedWarReport: new DefaultSetting("boolean", true),
+				csvWarReport: new DefaultSetting("boolean", true),
+				csvChainReport: new DefaultSetting("boolean", true),
+				csvChallengeContributions: new DefaultSetting("boolean", true),
+				openOc: new DefaultSetting("boolean", true),
+				highlightOwn: new DefaultSetting("boolean", true),
+				availablePlayers: new DefaultSetting("boolean", true),
+				recommendedNnb: new DefaultSetting("boolean", true),
+				ocNnb: new DefaultSetting("boolean", true),
+				ocTimes: new DefaultSetting("boolean", true),
+				ocLastAction: new DefaultSetting("boolean", true),
+				banker: new DefaultSetting("boolean", true),
+				showFullInfobox: new DefaultSetting("boolean", true),
+				foldableInfobox: new DefaultSetting("boolean", true),
+				numberMembers: new DefaultSetting("boolean", true),
+				warFinishTimes: new DefaultSetting("boolean", false),
+				memberFilter: new DefaultSetting("boolean", true),
+				armoryFilter: new DefaultSetting("boolean", true),
+				armoryWorth: new DefaultSetting("boolean", true),
+				upgradeRequiredRespect: new DefaultSetting("boolean", true),
+				memberInfo: new DefaultSetting("boolean", false),
+				rankedWarFilter: new DefaultSetting("boolean", true),
+				quickItems: new DefaultSetting("boolean", true),
+				stakeout: new DefaultSetting("boolean", true),
+				showFactionSpy: new DefaultSetting("boolean", true),
+				oc2Filter: new DefaultSetting("boolean", true),
+				warnCrime: new DefaultSetting("boolean", false),
 			},
 			property: {
-				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				happy: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				value: new DefaultSetting("boolean", true),
+				happy: new DefaultSetting("boolean", true),
 			},
 			gym: {
-				specialist: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				disableStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				graph: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				steadfast: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				progress: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				specialist: new DefaultSetting("boolean", true),
+				disableStats: new DefaultSetting("boolean", true),
+				graph: new DefaultSetting("boolean", true),
+				steadfast: new DefaultSetting("boolean", true),
+				progress: new DefaultSetting("boolean", true),
 			},
 			missions: {
-				hints: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				rewards: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hints: new DefaultSetting("boolean", true),
+				rewards: new DefaultSetting("boolean", true),
 			},
 			attack: {
-				bonusInformation: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				timeoutWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				fairAttack: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				weaponExperience: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				hideAttackButtons: new DefaultSetting({ type: "array", defaultValue: [] }),
+				bonusInformation: new DefaultSetting("boolean", true),
+				timeoutWarning: new DefaultSetting("boolean", true),
+				fairAttack: new DefaultSetting("boolean", true),
+				weaponExperience: new DefaultSetting("boolean", true),
+				hideAttackButtons: new DefaultSetting<string[]>("array", []),
 			},
 			city: {
-				items: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				combineDuplicates: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				items: new DefaultSetting("boolean", true),
+				combineDuplicates: new DefaultSetting("boolean", true),
 			},
 			joblist: {
-				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				specials: new DefaultSetting("boolean", true),
 			},
 			bounties: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			userlist: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			itemmarket: {
-				highlightCheapItems: new DefaultSetting({ type: "number|empty", defaultValue: "" }),
-				leftBar: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				highlightCheapItems: new DefaultSetting<number | "">("number|empty", ""), // TODO - Rework this one.
+				leftBar: new DefaultSetting("boolean", false),
+				fillMax: new DefaultSetting("boolean", true),
 			},
 			competition: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			museum: {
-				autoFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				autoFill: new DefaultSetting("boolean", true),
 			},
 			enemies: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			friends: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			targets: {
-				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filter: new DefaultSetting("boolean", true),
 			},
 			crimes2: {
-				burglaryFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				burglaryFilter: new DefaultSetting("boolean", true),
 			},
 		},
 		scripts: {
 			noConfirm: {
-				itemEquip: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				tradeAccept: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				pointsMarketRemove: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				pointsMarketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				abroadItemBuy: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				itemEquip: new DefaultSetting("boolean", true),
+				tradeAccept: new DefaultSetting("boolean", false),
+				pointsMarketRemove: new DefaultSetting("boolean", false),
+				pointsMarketBuy: new DefaultSetting("boolean", false),
+				abroadItemBuy: new DefaultSetting("boolean", true),
 			},
 			achievements: {
-				show: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				completed: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				show: new DefaultSetting("boolean", true),
+				completed: new DefaultSetting("boolean", false),
 			},
 			lastAction: {
-				factionMember: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				companyOwn: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				companyOther: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				factionMember: new DefaultSetting("boolean", false),
+				companyOwn: new DefaultSetting("boolean", false),
+				companyOther: new DefaultSetting("boolean", false),
 			},
 			statsEstimate: {
-				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				delay: new DefaultSetting({ type: "number", defaultValue: 1500 }),
-				cachedOnly: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				displayNoResult: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
-				profiles: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				enemies: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				hof: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				userlist: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				bounties: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				factions: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				wars: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				abroad: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				competition: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				rankedWars: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				targets: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				global: new DefaultSetting("boolean", true),
+				delay: new DefaultSetting("number", 1500),
+				cachedOnly: new DefaultSetting("boolean", true),
+				displayNoResult: new DefaultSetting("boolean", false),
+				maxLevel: new DefaultSetting("number", 100),
+				profiles: new DefaultSetting("boolean", true),
+				enemies: new DefaultSetting("boolean", true),
+				hof: new DefaultSetting("boolean", true),
+				attacks: new DefaultSetting("boolean", true),
+				userlist: new DefaultSetting("boolean", true),
+				bounties: new DefaultSetting("boolean", true),
+				factions: new DefaultSetting("boolean", true),
+				wars: new DefaultSetting("boolean", true),
+				abroad: new DefaultSetting("boolean", true),
+				competition: new DefaultSetting("boolean", true),
+				rankedWars: new DefaultSetting("boolean", true),
+				targets: new DefaultSetting("boolean", true),
 			},
 			ffScouter: {
-				miniProfile: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				profile: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				attack: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				factionList: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				gauge: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				miniProfile: new DefaultSetting("boolean", true),
+				profile: new DefaultSetting("boolean", true),
+				attack: new DefaultSetting("boolean", true),
+				factionList: new DefaultSetting("boolean", true),
+				gauge: new DefaultSetting("boolean", true),
 			},
 		},
 		external: {
-			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			prometheus: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			lzpt: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			tornw3b: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			ffScouter: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			tornstats: new DefaultSetting("boolean", false),
+			yata: new DefaultSetting("boolean", false),
+			prometheus: new DefaultSetting("boolean", false),
+			lzpt: new DefaultSetting("boolean", false),
+			tornw3b: new DefaultSetting("boolean", false),
+			ffScouter: new DefaultSetting("boolean", false),
 		},
 	},
 	filters: {
 		hospital: {
-			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			revivesOn: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			timeStart: new DefaultSetting("number", 0),
+			timeEnd: new DefaultSetting("number", 100),
+			levelStart: new DefaultSetting("number", 0),
+			levelEnd: new DefaultSetting("number", 100),
+			faction: new DefaultSetting("string", ""),
+			activity: new DefaultSetting<string[]>("array", []),
+			revivesOn: new DefaultSetting("boolean", false),
 		},
 		jail: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			faction: new DefaultSetting({ type: "string", defaultValue: "All" }),
-			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			scoreStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			scoreEnd: new DefaultSetting({ type: "number", defaultValue: 5000 }),
+			activity: new DefaultSetting<string[]>("array", []),
+			faction: new DefaultSetting("string", "All"),
+			timeStart: new DefaultSetting("number", 0),
+			timeEnd: new DefaultSetting("number", 100),
+			levelStart: new DefaultSetting("number", 1),
+			levelEnd: new DefaultSetting("number", 100),
+			scoreStart: new DefaultSetting("number", 0),
+			scoreEnd: new DefaultSetting("number", 5000),
 		},
 		racing: {
-			hideRaces: new DefaultSetting({ type: "array", defaultValue: [] }),
-			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			timeEnd: new DefaultSetting({ type: "number", defaultValue: 48 }),
-			driversMin: new DefaultSetting({ type: "number", defaultValue: 2 }),
-			driversMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			lapsMin: new DefaultSetting({ type: "number", defaultValue: 1 }),
-			lapsMax: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			track: new DefaultSetting({ type: "array", defaultValue: [] }),
-			name: new DefaultSetting({ type: "string", defaultValue: "" }),
+			hideRaces: new DefaultSetting<string[]>("array", []),
+			timeStart: new DefaultSetting("number", 0),
+			timeEnd: new DefaultSetting("number", 48),
+			driversMin: new DefaultSetting("number", 2),
+			driversMax: new DefaultSetting("number", 100),
+			lapsMin: new DefaultSetting("number", 1),
+			lapsMax: new DefaultSetting("number", 100),
+			track: new DefaultSetting<string[]>("array", []),
+			name: new DefaultSetting("string", ""),
 		},
-		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
+		containers: new DefaultSetting<{ [id: string]: boolean }>("object", {}),
 		travel: {
-			open: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			type: new DefaultSetting({ type: "string", defaultValue: "basic" }),
-			categories: new DefaultSetting({ type: "array", defaultValue: [] }),
-			countries: new DefaultSetting({ type: "array", defaultValue: [] }),
-			hideOutOfStock: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			open: new DefaultSetting("boolean", false),
+			type: new DefaultSetting("string", "basic"),
+			categories: new DefaultSetting<string[]>("array", []),
+			countries: new DefaultSetting<string[]>("array", []),
+			hideOutOfStock: new DefaultSetting("boolean", false),
 		},
 		abroadPeople: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			status: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
+			activity: new DefaultSetting<string[]>("array", []),
+			status: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 0),
+			levelEnd: new DefaultSetting("number", 100),
+			faction: new DefaultSetting("string", ""),
 			special: {
-				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				hasBounties: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				newPlayer: new DefaultSetting("string", "both"),
+				inCompany: new DefaultSetting("string", "both"),
+				inFaction: new DefaultSetting("string", "both"),
+				isDonator: new DefaultSetting("string", "both"),
+				hasBounties: new DefaultSetting("string", "both"),
 			},
-			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		abroadItems: {
-			categories: new DefaultSetting({ type: "array", defaultValue: [] }),
-			profitOnly: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			outOfStock: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			categories: new DefaultSetting<string[]>("array", []),
+			profitOnly: new DefaultSetting("boolean", false),
+			outOfStock: new DefaultSetting("boolean", false),
 		},
 		trade: {
-			hideValues: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			hideValues: new DefaultSetting("boolean", false),
 		},
 		gym: {
-			specialist1: new DefaultSetting({ type: "string", defaultValue: "none" }),
-			specialist2: new DefaultSetting({ type: "string", defaultValue: "none" }),
-			strength: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			speed: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			defense: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			dexterity: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			specialist1: new DefaultSetting("string", "none"),
+			specialist2: new DefaultSetting("string", "none"),
+			strength: new DefaultSetting("boolean", false),
+			speed: new DefaultSetting("boolean", false),
+			defense: new DefaultSetting("boolean", false),
+			dexterity: new DefaultSetting("boolean", false),
 		},
 		city: {
-			highlightItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			highlightItems: new DefaultSetting("boolean", true),
 		},
 		bounties: {
-			maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			maxLevel: new DefaultSetting("number", 100),
+			hideUnavailable: new DefaultSetting("boolean", false),
 		},
 		userlist: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			activity: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 0),
+			levelEnd: new DefaultSetting("number", 100),
 			special: {
-				fedded: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				fallen: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				traveling: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				onWall: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				inHospital: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				inJail: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				earlyDischarge: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				fedded: new DefaultSetting("string", "both"),
+				fallen: new DefaultSetting("string", "both"),
+				traveling: new DefaultSetting("string", "both"),
+				newPlayer: new DefaultSetting("string", "both"),
+				onWall: new DefaultSetting("string", "both"),
+				inCompany: new DefaultSetting("string", "both"),
+				inFaction: new DefaultSetting("string", "both"),
+				isDonator: new DefaultSetting("string", "both"),
+				inHospital: new DefaultSetting("string", "both"),
+				inJail: new DefaultSetting("string", "both"),
+				earlyDischarge: new DefaultSetting("string", "both"),
 			},
 			hospReason: {
-				attackedBy: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				muggedBy: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				hospitalizedBy: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				other: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				attackedBy: new DefaultSetting("string", "both"),
+				muggedBy: new DefaultSetting("string", "both"),
+				hospitalizedBy: new DefaultSetting("string", "both"),
+				other: new DefaultSetting("string", "both"),
 			},
-			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
-		closedScopes: new DefaultSetting({ type: "array", defaultValue: [] }),
 		stocks: {
-			name: new DefaultSetting({ type: "string", defaultValue: "" }),
+			name: new DefaultSetting("string", ""),
 			investment: {
-				owned: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				benefit: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				passive: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				owned: new DefaultSetting("string", "both"),
+				benefit: new DefaultSetting("string", "both"),
+				passive: new DefaultSetting("string", "both"),
 			},
 			price: {
-				price: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				profit: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				price: new DefaultSetting("string", "both"),
+				profit: new DefaultSetting("string", "both"),
 			},
 		},
 		faction: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			lastActionStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			lastActionEnd: new DefaultSetting({ type: "number", defaultValue: -1 }),
-			status: new DefaultSetting({ type: "array", defaultValue: [] }),
-			position: new DefaultSetting({ type: "string", defaultValue: "" }),
+			activity: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 1),
+			levelEnd: new DefaultSetting("number", 100),
+			lastActionStart: new DefaultSetting("number", 0),
+			lastActionEnd: new DefaultSetting("number", -1),
+			status: new DefaultSetting<string[]>("array", []),
+			position: new DefaultSetting("string", ""),
 			special: {
-				fedded: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				fallen: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				isRecruit: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				fedded: new DefaultSetting("string", "both"),
+				fallen: new DefaultSetting("string", "both"),
+				newPlayer: new DefaultSetting("string", "both"),
+				inCompany: new DefaultSetting("string", "both"),
+				isDonator: new DefaultSetting("string", "both"),
+				isRecruit: new DefaultSetting("string", "both"),
 			},
 		},
 		factionArmory: {
-			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			hideUnavailable: new DefaultSetting("boolean", false),
 			weapons: {
-				name: new DefaultSetting({ type: "string", defaultValue: "" }),
-				category: new DefaultSetting({ type: "string", defaultValue: "" }),
-				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
-				weaponType: new DefaultSetting({ type: "string", defaultValue: "" }),
-				damage: new DefaultSetting({ type: "string", defaultValue: "" }),
-				accuracy: new DefaultSetting({ type: "string", defaultValue: "" }),
-				weaponBonus: new DefaultSetting({ type: "array", defaultValue: [] }),
+				name: new DefaultSetting("string", ""),
+				category: new DefaultSetting("string", ""),
+				rarity: new DefaultSetting("string", ""),
+				weaponType: new DefaultSetting("string", ""),
+				damage: new DefaultSetting("string", ""),
+				accuracy: new DefaultSetting("string", ""),
+				weaponBonus: new DefaultSetting<string[]>("array", []),
 			},
 			armor: {
-				name: new DefaultSetting({ type: "string", defaultValue: "" }),
-				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
-				defence: new DefaultSetting({ type: "string", defaultValue: "" }),
-				set: new DefaultSetting({ type: "string", defaultValue: "" }),
+				name: new DefaultSetting("string", ""),
+				rarity: new DefaultSetting("string", ""),
+				defence: new DefaultSetting("string", ""),
+				set: new DefaultSetting("string", ""),
 			},
 			temporary: {
-				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+				name: new DefaultSetting("string", ""),
 			},
 		},
 		factionRankedWar: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			status: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+			activity: new DefaultSetting<string[]>("array", []),
+			status: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 1),
+			levelEnd: new DefaultSetting("number", 100),
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		profile: {
-			relative: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			stats: new DefaultSetting({ type: "array", defaultValue: [] }),
+			relative: new DefaultSetting("boolean", false),
+			stats: new DefaultSetting<string[]>("array", []),
 		},
 		competition: {
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting("number", 1),
+			levelEnd: new DefaultSetting("number", 100),
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		shops: {
-			hideLoss: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			hideUnder100: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			hideLoss: new DefaultSetting("boolean", false),
+			hideUnder100: new DefaultSetting("boolean", false),
 		},
 		auction: {
 			weapons: {
-				name: new DefaultSetting({ type: "string", defaultValue: "" }),
-				category: new DefaultSetting({ type: "string", defaultValue: "" }),
-				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
-				weaponType: new DefaultSetting({ type: "string", defaultValue: "" }),
-				damage: new DefaultSetting({ type: "string", defaultValue: "" }),
-				accuracy: new DefaultSetting({ type: "string", defaultValue: "" }),
-				weaponBonus: new DefaultSetting({ type: "array", defaultValue: [] }),
+				name: new DefaultSetting("string", ""),
+				category: new DefaultSetting("string", ""),
+				rarity: new DefaultSetting("string", ""),
+				weaponType: new DefaultSetting("string", ""),
+				damage: new DefaultSetting("string", ""),
+				accuracy: new DefaultSetting("string", ""),
+				weaponBonus: new DefaultSetting<string[]>("array", []),
 			},
 			armor: {
-				name: new DefaultSetting({ type: "string", defaultValue: "" }),
-				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
-				defence: new DefaultSetting({ type: "string", defaultValue: "" }),
-				set: new DefaultSetting({ type: "string", defaultValue: "" }),
+				name: new DefaultSetting("string", ""),
+				rarity: new DefaultSetting("string", ""),
+				defence: new DefaultSetting("string", ""),
+				set: new DefaultSetting("string", ""),
 			},
 			items: {
-				name: new DefaultSetting({ type: "string", defaultValue: "" }),
-				category: new DefaultSetting({ type: "string", defaultValue: "" }),
-				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
+				name: new DefaultSetting("string", ""),
+				category: new DefaultSetting("string", ""),
+				rarity: new DefaultSetting("string", ""),
 			},
 		},
 		enemies: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+			activity: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 0),
+			levelEnd: new DefaultSetting("number", 100),
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		friends: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			activity: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 0),
+			levelEnd: new DefaultSetting("number", 100),
 		},
 		targets: {
-			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+			activity: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 0),
+			levelEnd: new DefaultSetting("number", 100),
+			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		burglary: {
-			targetName: new DefaultSetting({ type: "string", defaultValue: "" }),
-			targetType: new DefaultSetting({ type: "array", defaultValue: [] }),
+			targetName: new DefaultSetting("string", ""),
+			targetType: new DefaultSetting<string[]>("array", []),
 		},
 		oc2: {
-			difficulty: new DefaultSetting({ type: "array", defaultValue: [] }),
-			status: new DefaultSetting({ type: "array", defaultValue: [] }),
+			difficulty: new DefaultSetting<string[]>("array", []),
+			status: new DefaultSetting<string[]>("array", []),
 		},
 	},
-	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
-	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
-	stockdata: new DefaultSetting({ type: "object", defaultValue: {} }),
-	factiondata: new DefaultSetting({ type: "object", defaultValue: {} }),
+	userdata: new DefaultSetting<StoredUserdata>("object", {} as StoredUserdata),
+	torndata: new DefaultSetting<StoredTorndata>("object", {} as StoredTorndata),
+	stockdata: new DefaultSetting<StoredStockdata>("object", {} as StoredStockdata),
+	factiondata: new DefaultSetting<StoredFactiondata>("object", {} as StoredFactiondata),
 	localdata: {
-		tradeMessage: new DefaultSetting({ type: "number", defaultValue: 0 }),
+		tradeMessage: new DefaultSetting("number", 0),
 		popup: {
-			calculatorItems: new DefaultSetting({ type: "array", defaultValue: [] }),
+			calculatorItems: new DefaultSetting<{ id: string; amount: number }[]>("array", []),
 		},
 		vault: {
-			initialized: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			lastTransaction: new DefaultSetting({ type: "string", defaultValue: "" }),
-			total: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			initialized: new DefaultSetting("boolean", false),
+			lastTransaction: new DefaultSetting("string", ""),
+			total: new DefaultSetting("number", 0),
 			user: {
-				initial: new DefaultSetting({ type: "number", defaultValue: 0 }),
-				current: new DefaultSetting({ type: "number", defaultValue: 0 }),
+				initial: new DefaultSetting("number", 0),
+				current: new DefaultSetting("number", 0),
 			},
 			partner: {
-				initial: new DefaultSetting({ type: "number", defaultValue: 0 }),
-				current: new DefaultSetting({ type: "number", defaultValue: 0 }),
+				initial: new DefaultSetting("number", 0),
+				current: new DefaultSetting("number", 0),
 			},
 		},
 	},
-	stakeouts: new DefaultSetting({ type: "object", defaultValue: { order: [] } }),
-	factionStakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
+	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
+	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
 	attackHistory: {
-		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),
-		lastAttack: new DefaultSetting({ type: "number", defaultValue: 0 }),
-		history: new DefaultSetting({ type: "object", defaultValue: {} }),
+		fetchData: new DefaultSetting("boolean", true),
+		lastAttack: new DefaultSetting("number", 0),
+		history: new DefaultSetting<AttackHistoryMap>("object", {}),
 	},
 	notes: {
 		sidebar: {
-			text: new DefaultSetting({ type: "string", defaultValue: "" }),
-			height: new DefaultSetting({ type: "string", defaultValue: "22px" }),
+			text: new DefaultSetting("string", ""),
+			height: new DefaultSetting("string", "22px"),
 		},
-		profile: new DefaultSetting({ type: "object", defaultValue: {} }),
+		profile: new DefaultSetting<StoredProfileNotes>("object", {}),
 	},
 	quick: {
-		items: new DefaultSetting({ type: "array", defaultValue: [] }),
-		factionItems: new DefaultSetting({ type: "array", defaultValue: [] }),
-		crimes: new DefaultSetting({ type: "array", defaultValue: [] }),
-		jail: new DefaultSetting({ type: "array", defaultValue: [] }),
+		items: new DefaultSetting<QuickItem[]>("array", []),
+		factionItems: new DefaultSetting<QuickFactionItem[]>("array", []),
+		crimes: new DefaultSetting<QuickCrime[]>("array", []),
+		jail: new DefaultSetting<QuickJail[]>("array", []),
 	},
-	cache: new DefaultSetting({ type: "object", defaultValue: {} }),
-	usage: new DefaultSetting({ type: "object", defaultValue: {} }),
-	npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
-	notificationHistory: new DefaultSetting({ type: "array", defaultValue: [] }),
+	cache: new DefaultSetting<DatabaseCache>("object", {}),
+	usage: new DefaultSetting<DatabaseUsage>("object", {}),
+	npcs: new DefaultSetting<StoredNpcs>("object", {} as StoredNpcs),
+	notificationHistory: new DefaultSetting<TTNotification[]>("array", []),
 	notifications: {
-		events: new DefaultSetting({ type: "object", defaultValue: {} }),
-		messages: new DefaultSetting({ type: "object", defaultValue: {} }),
-		newDay: new DefaultSetting({ type: "object", defaultValue: {} }),
-		energy: new DefaultSetting({ type: "object", defaultValue: {} }),
-		happy: new DefaultSetting({ type: "object", defaultValue: {} }),
-		nerve: new DefaultSetting({ type: "object", defaultValue: {} }),
-		life: new DefaultSetting({ type: "object", defaultValue: {} }),
-		travel: new DefaultSetting({ type: "object", defaultValue: {} }),
-		drugs: new DefaultSetting({ type: "object", defaultValue: {} }),
-		boosters: new DefaultSetting({ type: "object", defaultValue: {} }),
-		medical: new DefaultSetting({ type: "object", defaultValue: {} }),
-		hospital: new DefaultSetting({ type: "object", defaultValue: {} }),
-		chain: new DefaultSetting({ type: "object", defaultValue: {} }),
-		chainCount: new DefaultSetting({ type: "object", defaultValue: {} }),
-		stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
-		npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
-		offline: new DefaultSetting({ type: "object", defaultValue: {} }),
-		missionsLimit: new DefaultSetting({ type: "object", defaultValue: {} }),
-		missionsExpire: new DefaultSetting({ type: "object", defaultValue: {} }),
+		events: new DefaultSetting<NotificationMap>("object", {}),
+		messages: new DefaultSetting<NotificationMap>("object", {}),
+		newDay: new DefaultSetting<NotificationMap>("object", {}),
+		energy: new DefaultSetting<NotificationMap>("object", {}),
+		happy: new DefaultSetting<NotificationMap>("object", {}),
+		nerve: new DefaultSetting<NotificationMap>("object", {}),
+		life: new DefaultSetting<NotificationMap>("object", {}),
+		travel: new DefaultSetting<NotificationMap>("object", {}),
+		drugs: new DefaultSetting<NotificationMap>("object", {}),
+		boosters: new DefaultSetting<NotificationMap>("object", {}),
+		medical: new DefaultSetting<NotificationMap>("object", {}),
+		hospital: new DefaultSetting<NotificationMap>("object", {}),
+		chain: new DefaultSetting<NotificationMap>("object", {}),
+		chainCount: new DefaultSetting<NotificationMap>("object", {}),
+		stakeouts: new DefaultSetting<NotificationMap>("object", {}),
+		npcs: new DefaultSetting<NotificationMap>("object", {}),
+		offline: new DefaultSetting<NotificationMap>("object", {}),
+		missionsLimit: new DefaultSetting<NotificationMap>("object", {}),
+		missionsExpire: new DefaultSetting<NotificationMap>("object", {}),
 	},
-};
+} as const;
+
+type ExtractDefaultSettingType<T> = T extends DefaultSetting<infer U> ? U : T extends object ? { [K in keyof T]: ExtractDefaultSettingType<T[K]> } : T;
+
+type DefaultStorageType = ExtractDefaultSettingType<typeof DEFAULT_STORAGE>;
 
 const CUSTOM_LINKS_PRESET = {
 	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },

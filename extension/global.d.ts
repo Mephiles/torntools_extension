@@ -3,16 +3,16 @@ declare global {
 		type: keyof HTMLElementTagNameMap;
 		id?: string;
 		class?: string | string[];
-		text?: string;
+		text?: string | number;
 		html?: string;
 		value?: any | (() => any);
 		href?: string;
 		children?: (string | Node)[];
-		attributes?: Record<string, string | number> | (() => Record<string, string | number>);
+		attributes?: Record<string, string | number | boolean> | (() => Record<string, string | number | boolean>);
 		events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
 		style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
 		dataset?: {
-			[name: string]: string | object;
+			[name: string]: string | object | boolean | number;
 		};
 	}
 
@@ -23,13 +23,13 @@ declare global {
 	interface Document {
 		newElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
 		newElement<K extends keyof HTMLElementTagNameMap>(options: Omit<NewElementOptions, "type"> & { type: K }): HTMLElementTagNameMap[K];
-		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T;
+		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
 		setClass(...classNames: string[]): void;
 	}
 
 	interface Element {
-		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T;
+		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
 		setClass(...classNames: string[]): void;
 	}
@@ -59,6 +59,11 @@ declare global {
 	interface JSON {
 		isValid(str: string): boolean;
 	}
+
+	type RecursivePartial<T> = {
+		[P in keyof T]?: T[P] extends (infer U)[] ? RecursivePartial<U>[] : T[P] extends object | undefined ? RecursivePartial<T[P]> : T[P];
+	};
+	type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
 }
 
 export {};

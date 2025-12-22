@@ -1,16 +1,12 @@
-type DefaultSettingOptions =
-	| { type: "string"; defaultValue?: string | (() => string) }
-	| { type: "boolean"; defaultValue?: boolean | (() => boolean) }
-	| { type: "number"; defaultValue?: number }
-	| { type: "number|empty"; defaultValue?: number | "" }
-	| { type: "object"; defaultValue?: object }
-	| { type: "array"; defaultValue?: unknown[] };
+type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
-class DefaultSetting {
-	constructor(options: DefaultSettingOptions) {
-		for (const option in options) {
-			this[option] = options[option];
-		}
+class DefaultSetting<T = never> {
+	readonly type: SettingType;
+	readonly defaultValue: undefined | T | (() => T) | null;
+
+	constructor(type: SettingType, defaultValue?: T | (() => T) | null) {
+		this.type = type;
+		this.defaultValue = defaultValue;
 	}
 }
 

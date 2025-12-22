@@ -163,7 +163,6 @@ function createFilterSection(options) {
 		};
 
 		function getSelections(content) {
-			// eslint-disable-line no-inner-declarations
 			const selections = {};
 			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
 				const checkboxes = specialDiv.findAll("input");

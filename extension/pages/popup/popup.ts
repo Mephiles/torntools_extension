@@ -1,5 +1,3 @@
-"use strict";
-
 const SETUP_PAGES = {
 	initialize: setupInitialize,
 	dashboard: setupDashboard,
@@ -7,12 +5,13 @@ const SETUP_PAGES = {
 	calculator: setupCalculator,
 	stocks: setupStocksOverview,
 	notifications: setupNotifications,
-};
+} as const;
 const LOAD_PAGES = {
 	market: loadMarketSearch,
 	calculator: loadCalculator,
-};
+} as const;
 
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 const initiatedPages = {};
 
 (async () => {
@@ -61,7 +60,8 @@ const initiatedPages = {};
 	}
 })();
 
-async function showPage(name) {
+// @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
+async function showPage(name: string) {
 	document.find(`#${name}`).classList.add("active");
 
 	for (const active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
@@ -80,12 +80,12 @@ async function showPage(name) {
 
 async function setupInitialize() {
 	document.find("#pages").classList.add("tt-hidden");
-	document.find("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
+	document.find<HTMLAnchorElement>("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
 
 	document.find("#import-previous-settings").addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
 
 	document.find("#set_api_key").addEventListener("click", () => {
-		const key = document.find("#api_key").value;
+		const key = document.find<HTMLInputElement>("#api_key").value;
 
 		checkAPIPermission(key)
 			.then(({ access }) => {
@@ -128,7 +128,7 @@ async function setupInitialize() {
 		});
 	});
 
-	function showError(message) {
+	function showError(message: string) {
 		document.find(".error").classList.remove("tt-hidden");
 		document.find(".error").textContent = message;
 	}
@@ -138,7 +138,9 @@ async function setupDashboard() {
 	const dashboard = document.find("#dashboard");
 
 	const iconsWrap = dashboard.find(".icons-wrap");
-	for (const { icon, id, description, url } of ALL_ICONS) {
+	for (const { icon, id, description, ...r } of ALL_ICONS) {
+		let url = "url" in r ? r.url : null;
+
 		iconsWrap.appendChild(
 			document.newElement({
 				type: url ? "a" : "div",
@@ -204,11 +206,11 @@ async function setupDashboard() {
 			}
 
 			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
-			countdown.dataset.seconds = seconds;
+			countdown.dataset.seconds = seconds.toString();
 		}
 	}, 1000);
 
-	dashboard.find(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
+	dashboard.find<HTMLAnchorElement>(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
 	dashboard.find(".stakeouts .heading i").addEventListener("click", () => {
 		const stakeoutSection = dashboard.find(".stakeouts .stakeout-list");
 
@@ -222,7 +224,6 @@ async function setupDashboard() {
 			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-right");
 		}
 	});
-	// dashboard.find(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
 	dashboard.find(".faction-stakeouts .heading i").addEventListener("click", () => {
 		const factionStakeoutSection = dashboard.find(".faction-stakeouts .stakeout-list");
 
@@ -245,10 +246,13 @@ async function setupDashboard() {
 		if (settings.apiUsage.user.icons) updateIcons();
 
 		// Bars
-		if (settings.apiUsage.user.bars)
-			for (const bar of ["energy", "nerve", "happy", "life", "chain"]) {
+		if (settings.apiUsage.user.bars) {
+			for (const bar of ["energy", "nerve", "happy", "life"]) {
 				updateBar(bar, userdata[bar]);
 			}
+			updateChainBar(userdata.chain);
+		}
+
 		if (settings.apiUsage.user.travel) updateTravelBar();
 		// Cooldowns
 		if (settings.apiUsage.user.cooldowns)
@@ -275,7 +279,7 @@ async function setupDashboard() {
 				dashboard.find(".status-wrap").classList.remove("tt-hidden");
 
 				if (userdata.profile.status.until) {
-					dashboard.find("#status").dataset.until = userdata.profile.status.until * 1000;
+					dashboard.find("#status").dataset.until = (userdata.profile.status.until * 1000).toString();
 				} else delete dashboard.find("#status").dataset.until;
 
 				updateStatusTimer();
@@ -300,11 +304,11 @@ async function setupDashboard() {
 					icon.classList.remove("tt-hidden");
 
 					let iconText = userdata.icons[icon.children[0].className];
-					let iconHTML;
+					let iconHTML: string;
 
 					if (iconText.includes(" - ") && iconText.includes(" seconds")) {
 						let timeSplits = iconText.split(" - ");
-						let time, text;
+						let time: string, text: string;
 
 						if (timeSplits.length > 2) {
 							time = timeSplits[timeSplits.length - 1];
@@ -317,9 +321,7 @@ async function setupDashboard() {
 						iconHTML =
 							text +
 							" - " +
-							`<span class="countdown automatic" data-seconds="${
-								(textToTime(time) - (Date.now() - userdata.timestamp * 1000)) / 1000
-							}" data-time-settings='{ "type": "wordTimer", "showDays": true }'>
+							`<span class="countdown automatic" data-seconds="${(textToTime(time) - (Date.now() - userdata.timestamp * 1000)) / 1000}" data-time-settings='{ "type": "wordTimer", "showDays": true }'>
 							${time}
 							</span>`;
 					} else iconHTML = iconText;
@@ -329,44 +331,58 @@ async function setupDashboard() {
 			});
 		}
 
-		function updateBar(name, bar) {
+		function updateBar(name: string, bar: UserV1Bar) {
 			const current = bar ? bar.current : 0;
 			let maximum = bar ? bar.maximum : 100;
-			let tickAt = (userdata.server_time + (bar ? bar.ticktime : 0)) * 1000;
-			let fullAt = (userdata.server_time + bar.fulltime) * 1000;
+			let tickAt: string | number = (userdata.server_time + (bar ? bar.ticktime : 0)) * 1000;
+			let fullAt: string | number = (userdata.server_time + bar.fulltime) * 1000;
 
 			if (current === maximum) fullAt = "full";
 			else if (current > maximum) fullAt = "over";
 
-			if (name === "chain") {
-				if (current === 0) {
-					dashboard.find(`#${name}`).classList.add("tt-hidden");
-					return;
-				}
-				dashboard.find(`#${name}`).classList.remove("tt-hidden");
-
-				if (current !== maximum) maximum = getNextChainBonus(current);
-				if (bar.cooldown !== 0) {
-					dashboard.find(`#${name}`).classList.add("cooldown");
-					fullAt = (userdata.server_time + bar.cooldown) * 1000;
-					tickAt = (userdata.server_time + bar.cooldown) * 1000;
-				} else {
-					dashboard.find(`#${name}`).classList.remove("cooldown");
-					fullAt = (userdata.server_time + bar.timeout) * 1000;
-					tickAt = (userdata.server_time + bar.timeout) * 1000;
-				}
-			}
-
 			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
 			dashboard.find(`#${name} .bar-info .bar-label`).textContent = `${current}/${maximum}`;
 
-			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt;
-			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt;
+			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt.toString();
+			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt.toString();
 			if (bar.interval) {
-				dashboard.find(`#${name} .bar-info`).dataset.tick_time = bar.interval * 1000;
+				dashboard.find(`#${name} .bar-info`).dataset.tick_time = (bar.interval * 1000).toString();
 			}
 
 			updateBarTimer(dashboard.find(`#${name}`));
+		}
+
+		function updateChainBar(bar: UserV1ChainBar) {
+			const current = bar ? bar.current : 0;
+
+			if (current === 0) {
+				dashboard.find("#chain").classList.add("tt-hidden");
+				return;
+			}
+			dashboard.find("#chain").classList.remove("tt-hidden");
+
+			let maximum = bar ? bar.maximum : 100;
+			if (current !== maximum) maximum = getNextChainBonus(current);
+
+			let tickAt: string | number;
+			let fullAt: string | number;
+			if (bar.cooldown !== 0) {
+				dashboard.find("#chain").classList.add("cooldown");
+				fullAt = (userdata.server_time + bar.cooldown) * 1000;
+				tickAt = (userdata.server_time + bar.cooldown) * 1000;
+			} else {
+				dashboard.find("#chain").classList.remove("cooldown");
+				fullAt = (userdata.server_time + bar.timeout) * 1000;
+				tickAt = (userdata.server_time + bar.timeout) * 1000;
+			}
+
+			dashboard.find(`#chain .progress .value`).style.width = `${(current / maximum) * 100}%`;
+			dashboard.find(`#chain .bar-info .bar-label`).textContent = `${current}/${maximum}`;
+
+			dashboard.find(`#chain .bar-info`).dataset.full_at = fullAt.toString();
+			dashboard.find(`#chain .bar-info`).dataset.tick_at = tickAt.toString();
+
+			updateBarTimer(dashboard.find("#chain"));
 		}
 
 		function updateTravelBar() {
@@ -382,27 +398,29 @@ async function setupDashboard() {
 			dashboard.find("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
 			dashboard.find("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.timestamp * 1000);
 
-			dashboard.find("#traveling .bar-info").dataset.tick_at = userdata.travel.timestamp * 1000;
-			dashboard.find("#traveling .bar-info").dataset.full_at = userdata.travel.timestamp * 1000;
+			dashboard.find("#traveling .bar-info").dataset.tick_at = (userdata.travel.timestamp * 1000).toString();
+			dashboard.find("#traveling .bar-info").dataset.full_at = (userdata.travel.timestamp * 1000).toString();
 
 			updateBarTimer(dashboard.find("#traveling"));
 		}
 
-		function updateCooldown(name, cooldown) {
-			dashboard.find(`#${name}-cooldown`).dataset.completed_at = userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0;
+		function updateCooldown(name: string, cooldown) {
+			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0).toString();
 
 			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
 		}
 
 		function updateExtra() {
-			if (settings.apiUsage.user.newevents) dashboard.find(".extra .events .count").textContent = userdata.notifications.events;
+			if (settings.apiUsage.user.newevents) dashboard.find(".extra .events .count").textContent = userdata.notifications.events.toString();
 			if (settings.apiUsage.user.newmessages)
-				dashboard.find(".extra .messages .count").textContent = Object.values(userdata.messages).filter((message) => !message.seen).length;
+				dashboard.find(".extra .messages .count").textContent = Object.values(userdata.messages)
+					.filter((message) => !message.seen)
+					.length.toString();
 			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").textContent = `$${formatNumber(userdata.money.wallet)}`;
 		}
 
 		function updateActions() {
-			dashboard.find("#last-update").dataset.updated_at = userdata.date;
+			dashboard.find("#last-update").dataset.updated_at = userdata.date.toString();
 
 			updateUpdateTimer();
 		}
@@ -434,13 +452,15 @@ async function setupDashboard() {
 		if (!status.dataset.until) return;
 
 		if (status.classList.contains("jail")) {
-			status.textContent = `Jailed for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer", showDays: true, short: true })}`;
+			const until: number = parseInt(status.dataset.until);
+			status.textContent = `Jailed for ${formatTime({ milliseconds: until - current }, { type: "timer", showDays: true, short: true })}`;
 		} else if (status.classList.contains("hospital")) {
-			status.textContent = `Hospitalized for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer", showDays: true, short: true })}`;
+			const until: number = parseInt(status.dataset.until);
+			status.textContent = `Hospitalized for ${formatTime({ milliseconds: until - current }, { type: "timer", showDays: true, short: true })}`;
 		}
 	}
 
-	function updateBarTimer(bar) {
+	function updateBarTimer(bar: Element) {
 		const name = bar.id;
 		const current = Date.now();
 
@@ -449,19 +469,19 @@ async function setupDashboard() {
 
 		let full_at = parseInt(dataset.full_at) || dataset.full_at;
 		let tick_at = parseInt(dataset.tick_at);
-		if (full_at <= current) full_at = "full";
+		if (typeof full_at === "number" && full_at <= current) full_at = "full";
 
 		if (tick_at <= current) {
 			if (name === "traveling" || name === "chain") tick_at = current;
 			else tick_at += parseInt(dataset.tick_time);
 		}
 
-		let full;
-		if (full_at === "full" || full_at === "over") full = "FULL";
+		let full: string;
+		if (name === "happy" && full_at === "over") full = `${formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true })}`;
+		else if (typeof full_at === "string") full = "FULL";
 		else if (name === "chain" && bar.classList.contains("cooldown"))
 			full = `Cooldown over in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", daysToHours: true })}`;
-		else if (name === "chain" || (name === "happy" && full_at === "over"))
-			full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
+		else if (name === "chain") full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
 		else if (name === "traveling") full = `Landing in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
 		else {
 			full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", daysToHours: true })}`;
@@ -469,7 +489,7 @@ async function setupDashboard() {
 			if (settings.pages.popup.hoverBarTime) full += ` (${formatTime({ milliseconds: full_at }, { type: "normal" })})`;
 		}
 
-		let tick;
+		let tick: string;
 		if (name === "traveling") tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer" });
 		else if (name === "chain" && bar.classList.contains("cooldown"))
 			tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", daysToHours: true });
@@ -518,18 +538,19 @@ async function setupDashboard() {
 			stakeoutList.innerHTML = "";
 
 			for (const id of stakeouts.order) {
-				if (isNaN(parseInt(id))) continue;
+				const stakeout = stakeouts[id];
+				if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
-				let activity, name, lastAction, lifeCurrent, lifeMaximum, state, stateColor;
+				let activity: string, name: string, lastAction: string, lifeCurrent: number, lifeMaximum: number, state: string, stateColor: string;
 
-				if (stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
-					activity = stakeouts[id].info.last_action.status;
-					name = stakeouts[id].info.name;
-					lastAction = stakeouts[id].info.last_action.relative;
-					lifeCurrent = stakeouts[id].info.life.current;
-					lifeMaximum = stakeouts[id].info.life.maximum;
-					state = stakeouts[id].info.status.description;
-					stateColor = stakeouts[id].info.status.color;
+				if (stakeout && Object.keys(stakeout).length) {
+					activity = stakeout.info.last_action.status;
+					name = stakeout.info.name;
+					lastAction = stakeout.info.last_action.relative;
+					lifeCurrent = stakeout.info.life.current;
+					lifeMaximum = stakeout.info.life.maximum;
+					state = stakeout.info.status.description;
+					stateColor = stakeout.info.status.color;
 				} else {
 					activity = "N/A";
 					name = id;
@@ -583,7 +604,10 @@ async function setupDashboard() {
 										type: "div",
 										class: "activity",
 										children: [
-											document.newElement({ type: "span", class: `status ${activity.toLowerCase()}` }),
+											document.newElement({
+												type: "span",
+												class: `status ${activity.toLowerCase()}`,
+											}),
 											document.newElement({
 												type: "a",
 												href: `https://www.torn.com/profiles.php?XID=${id}`,
@@ -598,7 +622,14 @@ async function setupDashboard() {
 							document.newElement({
 								type: "div",
 								class: "row detailed",
-								children: [lifeBar, document.newElement({ type: "span", class: "lastAction", text: `Last action: ${lastAction}` })],
+								children: [
+									lifeBar,
+									document.newElement({
+										type: "span",
+										class: "lastAction",
+										text: `Last action: ${lastAction}`,
+									}),
+								],
 							}),
 							document.newElement({
 								type: "div",
@@ -624,9 +655,9 @@ async function setupDashboard() {
 			stakeoutList.innerHTML = "";
 
 			for (const factionId in factionStakeouts) {
-				if (isNaN(parseInt(factionId))) continue;
+				if (isNaN(parseInt(factionId)) || typeof factionStakeouts[factionId] === "number") continue;
 
-				let name, chain, members, maxMembers;
+				let name: string, chain: number | string, members: number | string, maxMembers: number | string;
 
 				if (factionStakeouts[factionId].info && Object.keys(factionStakeouts[factionId].info).length) {
 					name = factionStakeouts[factionId].info.name;
@@ -714,15 +745,15 @@ async function setupMarketSearch() {
 
 	// setup searchbar
 	document.find("#market #search-bar").addEventListener("keyup", (event) => {
-		const keyword = event.target.value.toLowerCase();
+		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
 			itemSelection.classList.add("tt-hidden");
 			return;
 		}
 
-		let id;
-		if (!isNaN(keyword)) id = parseInt(keyword);
+		let id: number | undefined;
+		if (!isNaN(parseInt(keyword))) id = parseInt(keyword);
 
 		for (const item of document.findAll("#market .item-list li")) {
 			if (item.textContent.toLowerCase().includes(keyword) || (id && parseInt(item.dataset.id) === id)) {
@@ -734,13 +765,13 @@ async function setupMarketSearch() {
 		}
 	});
 	document.find("#market #search-bar").addEventListener("click", (event) => {
-		event.target.value = "";
+		(event.target as HTMLInputElement).value = "";
 
 		document.find("#market .item-list").classList.add("tt-hidden");
 		document.find("#market #item-information").classList.add("tt-hidden");
 	});
 
-	function showMarketInfo(id) {
+	function showMarketInfo(id: string) {
 		const viewItem = document.find("#market #item-information");
 		viewItem.find(".market").classList.add("tt-hidden");
 
@@ -748,9 +779,9 @@ async function setupMarketSearch() {
 		viewItem.find(".circulation").textContent = formatNumber(item.circulation);
 		viewItem.find(".value").textContent = `$${formatNumber(item.market_value)}`;
 		viewItem.find(".name").textContent = item.name;
-		viewItem.find(".name").href =
+		viewItem.find<HTMLAnchorElement>(".name").href =
 			`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${item.name}&itemType=${item.type}`;
-		viewItem.find(".image").src = item.image;
+		viewItem.find<HTMLImageElement>(".image").src = item.image;
 
 		viewItem.classList.remove("tt-hidden");
 
@@ -761,11 +792,15 @@ async function setupMarketSearch() {
 			// Torn market data
 			ttCache.hasValue("livePrice", id)
 				? Promise.resolve(ttCache.get("livePrice", id))
-				: fetchData("tornv2", { section: "market", id, selections: ["itemmarket"], params: { limit: 3 } }).then((result) => {
+				: fetchData("tornv2", {
+						section: "market",
+						id,
+						selections: ["itemmarket"],
+						params: { limit: 3 },
+					}).then((result) => {
 						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
 						return result;
-					}),
-			// TornW3B market data - only fetch if both bazaar search is enabled and connection to TornW3B is allowed
+					}), // TornW3B market data - only fetch if both bazaar search is enabled and connection to TornW3B is allowed
 			settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b
 				? ttCache.hasValue("tornw3bPrice", id)
 					? Promise.resolve(ttCache.get("tornw3bPrice", id))
@@ -870,7 +905,11 @@ async function setupCalculator() {
 				class: "item",
 				id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
 				children: [
-					document.newElement({ type: "label", text: name, attributes: { for: identifier } }),
+					document.newElement({
+						type: "label",
+						text: name,
+						attributes: { for: identifier },
+					}),
 					document.newElement({
 						type: "input",
 						id: identifier,
@@ -879,7 +918,7 @@ async function setupCalculator() {
 							input(event) {
 								let item = selectedItems.find((i) => i.id === id);
 
-								const amount = event.target.value;
+								const amount = (event.target as HTMLInputElement).value;
 								if (amount === "") {
 									if (item) {
 										selectedItems = selectedItems.filter((i) => i.id !== id);
@@ -890,7 +929,7 @@ async function setupCalculator() {
 								}
 
 								if (!item) {
-									item = { id };
+									item = { id, amount: -1 };
 									selectedItems.push(item);
 								}
 								item.amount = parseInt(amount);
@@ -906,7 +945,7 @@ async function setupCalculator() {
 	// setup searchbar
 	const search = calculator.find(".search");
 	search.addEventListener("keyup", (event) => {
-		const keyword = event.target.value.toLowerCase();
+		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
 			itemSelection.classList.add("tt-hidden");
@@ -923,7 +962,7 @@ async function setupCalculator() {
 		}
 	});
 	search.addEventListener("click", (event) => {
-		event.target.value = "";
+		(event.target as HTMLInputElement).value = "";
 
 		calculator.find(".item-list").classList.add("tt-hidden");
 	});
@@ -959,10 +998,22 @@ async function setupCalculator() {
 				document.newElement({
 					type: "li",
 					children: [
-						document.newElement({ type: "span", class: "amount", text: `${formatNumber(amount)}x` }),
-						document.newElement({ type: "span", class: "item", text: name }),
+						document.newElement({
+							type: "span",
+							class: "amount",
+							text: `${formatNumber(amount)}x`,
+						}),
+						document.newElement({
+							type: "span",
+							class: "item",
+							text: name,
+						}),
 						document.createTextNode("="),
-						document.newElement({ type: "span", class: "price", text: formatNumber(price, { currency: true, decimals: 0 }) }),
+						document.newElement({
+							type: "span",
+							class: "price",
+							text: formatNumber(price, { currency: true, decimals: 0 }),
+						}),
 					],
 				})
 			);
@@ -971,7 +1022,13 @@ async function setupCalculator() {
 		}
 
 		receipt.appendChild(items);
-		receipt.appendChild(document.newElement({ type: "div", class: "total", text: `Total: ${formatNumber(totalValue, { currency: true, decimals: 0 })}` }));
+		receipt.appendChild(
+			document.newElement({
+				type: "div",
+				class: "total",
+				text: `Total: ${formatNumber(totalValue, { currency: true, decimals: 0 })}`,
+			})
+		);
 
 		ttStorage.change({ localdata: { popup: { calculatorItems: selectedItems } } });
 	}
@@ -987,14 +1044,13 @@ async function setupStocksOverview() {
 
 	for (let id in stockdata) {
 		if (id === "date") continue;
-		id = parseInt(id);
 
-		allStocks.appendChild(buildSection(id));
+		allStocks.appendChild(buildSection(parseInt(id)));
 	}
 
 	// setup searchbar
 	stocksOverview.find("#stock-search-bar").addEventListener("keyup", (event) => {
-		const keyword = event.target.value.toLowerCase();
+		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
 			for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
@@ -1015,7 +1071,7 @@ async function setupStocksOverview() {
 		}
 	});
 	stocksOverview.find("#stock-search-bar").addEventListener("click", (event) => {
-		event.target.value = "";
+		(event.target as HTMLInputElement).value = "";
 
 		for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
 			item.classList.add("tt-hidden");
@@ -1029,9 +1085,11 @@ async function setupStocksOverview() {
 		item.classList.add("tt-hidden");
 	}
 
-	function buildSection(id) {
-		const stock = stockdata[id];
-		const userStock = settings.apiUsage.user.stocks ? userdata.stocks[id] || false : false;
+	function buildSection(id: number) {
+		const stock = typeof stockdata[id] === "number" ? null : stockdata[id];
+		if (stock === null) return null;
+
+		const userStock: UserV1Stock | null = settings.apiUsage.user.stocks ? (userdata.stocks[id] ?? null) : null;
 
 		const wrapper = document.newElement({
 			type: "div",
@@ -1040,7 +1098,7 @@ async function setupStocksOverview() {
 			children: [document.newElement("hr")],
 		});
 
-		let boughtPrice, profit;
+		let boughtPrice: number, profit: number;
 		if (userStock) {
 			boughtPrice = getStockBoughtPrice(userStock).boughtPrice;
 			profit = ((stock.current_price - boughtPrice) * userStock.total_shares).dropDecimals();
@@ -1087,11 +1145,11 @@ async function setupStocksOverview() {
 				);
 			}
 
-			function getProfitClass(profit) {
+			function getProfitClass(profit: number) {
 				return profit > 0 ? "positive" : profit < 0 ? "negative" : "";
 			}
 
-			function getProfitIndicator(profit) {
+			function getProfitIndicator(profit: number) {
 				return profit > 0 ? "+" : profit < 0 ? "-" : "";
 			}
 		}
@@ -1167,8 +1225,8 @@ async function setupStocksOverview() {
 					);
 					benefitContent.appendChild(document.newElement("br"));
 
-					let color;
-					let duration;
+					let color: string;
+					let duration: string;
 
 					if (userStock.benefit) {
 						if (userStock.benefit.ready) {
@@ -1182,8 +1240,21 @@ async function setupStocksOverview() {
 						duration = `after ${stock.benefit.frequency} days.`;
 					}
 
-					benefitContent.appendChild(document.newElement({ type: "span", class: `description ${color}`, text: `${stock.benefit.description}` }));
-					if (duration) benefitContent.appendChild(document.newElement({ type: "span", class: "duration", text: duration }));
+					benefitContent.appendChild(
+						document.newElement({
+							type: "span",
+							class: `description ${color}`,
+							text: `${stock.benefit.description}`,
+						})
+					);
+					if (duration)
+						benefitContent.appendChild(
+							document.newElement({
+								type: "span",
+								class: "duration",
+								text: duration,
+							})
+						);
 				}
 			} else {
 				if (isDividendStock(id)) {
@@ -1196,10 +1267,27 @@ async function setupStocksOverview() {
 
 					benefitContent.appendChild(createRoiTable(stock, undefined));
 				} else {
-					benefitContent.appendChild(document.newElement({ type: "span", text: `Required stocks: ${formatNumber(stock.benefit.requirement)}` }));
+					benefitContent.appendChild(
+						document.newElement({
+							type: "span",
+							text: `Required stocks: ${formatNumber(stock.benefit.requirement)}`,
+						})
+					);
 					benefitContent.appendChild(document.newElement("br"));
-					benefitContent.appendChild(document.newElement({ type: "span", class: "description not-completed", text: `${stock.benefit.description}` }));
-					benefitContent.appendChild(document.newElement({ type: "span", class: "duration", text: `after ${stock.benefit.frequency} days.` }));
+					benefitContent.appendChild(
+						document.newElement({
+							type: "span",
+							class: "description not-completed",
+							text: `${stock.benefit.description}`,
+						})
+					);
+					benefitContent.appendChild(
+						document.newElement({
+							type: "span",
+							class: "duration",
+							text: `after ${stock.benefit.frequency} days.`,
+						})
+					);
 				}
 			}
 		}
@@ -1223,7 +1311,11 @@ async function setupStocksOverview() {
 				document.newElement({
 					type: "div",
 					children: [
-						document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__reaches` }, text: "reaches" }),
+						document.newElement({
+							type: "label",
+							attributes: { for: `stock-${id}-alert__reaches` },
+							text: "reaches",
+						}),
 						document.newElement({
 							type: "input",
 							id: `stock-${id}-alert__reaches`,
@@ -1237,7 +1329,9 @@ async function setupStocksOverview() {
 								change: async (event) => {
 									await ttStorage.change({
 										settings: {
-											notifications: { types: { stocks: { [id]: { priceReaches: parseFloat(event.target.value) } } } },
+											notifications: {
+												types: { stocks: { [id]: { priceReaches: parseFloat((event.target as HTMLInputElement).value) } } },
+											},
 										},
 									});
 								},
@@ -1250,7 +1344,11 @@ async function setupStocksOverview() {
 				document.newElement({
 					type: "div",
 					children: [
-						document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__falls` }, text: "falls to" }),
+						document.newElement({
+							type: "label",
+							attributes: { for: `stock-${id}-alert__falls` },
+							text: "falls to",
+						}),
 						document.newElement({
 							type: "input",
 							id: `stock-${id}-alert__falls`,
@@ -1264,7 +1362,9 @@ async function setupStocksOverview() {
 								change: async (event) => {
 									await ttStorage.change({
 										settings: {
-											notifications: { types: { stocks: { [id]: { priceFalls: parseFloat(event.target.value) } } } },
+											notifications: {
+												types: { stocks: { [id]: { priceFalls: parseFloat((event.target as HTMLInputElement).value) } } },
+											},
 										},
 									});
 								},
@@ -1275,25 +1375,30 @@ async function setupStocksOverview() {
 			);
 		}
 
-		function getHeadingElement(title, content) {
+		function getHeadingElement(title: string, content: Element) {
 			return document.newElement({
 				type: "div",
 				class: "heading",
 				children: [
-					document.newElement({ type: "span", class: "title", text: title }),
+					document.newElement({
+						type: "span",
+						class: "title",
+						text: title,
+					}),
 					document.newElement({ type: "i", class: "fa-solid  fa-chevron-down" }),
 				],
 				events: {
 					click: (event) => {
 						content.classList[content.classList.contains("tt-hidden") ? "remove" : "add"]("tt-hidden");
 
-						rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+						const target = event.target as HTMLElement;
+						rotateElement((target.classList.contains("heading") ? target : target.parentElement).find("i"), 180);
 					},
 				},
 			});
 		}
 
-		function createRoiTable(stock, userStock) {
+		function createRoiTable(stock: TornV1Stock, userStock: UserV1Stock | undefined) {
 			const benefitTable = document.newElement({
 				type: "table",
 				children: [
@@ -1301,16 +1406,22 @@ async function setupStocksOverview() {
 						type: "tr",
 						children: [
 							document.newElement({ type: "th", text: "Increment" }),
-							document.newElement({ type: "th", text: "Stocks" }),
+							document.newElement({
+								type: "th",
+								text: "Stocks",
+							}),
 							document.newElement({ type: "th", text: "Cost" }),
-							document.newElement({ type: "th", text: "Reward" }),
+							document.newElement({
+								type: "th",
+								text: "Reward",
+							}),
 							document.newElement({ type: "th", text: "ROI" }),
 						],
 					}),
 				],
 			});
 
-			let ownedLevel, activeLevel;
+			let ownedLevel: number, activeLevel: number;
 			if (userStock) {
 				ownedLevel = getStockIncrement(stock.benefit.requirement, userStock.total_shares);
 				activeLevel = userStock.dividend ? userStock.dividend.increment : 0;
@@ -1335,10 +1446,19 @@ async function setupStocksOverview() {
 						class: ["increment", level <= ownedLevel ? (level <= activeLevel ? "completed" : "awaiting") : ""],
 						children: [
 							document.newElement({ type: "td", text: level }),
-							document.newElement({ type: "td", text: formatNumber(stocks) }),
-							document.newElement({ type: "td", text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }) }),
+							document.newElement({
+								type: "td",
+								text: formatNumber(stocks),
+							}),
+							document.newElement({
+								type: "td",
+								text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }),
+							}),
 							document.newElement({ type: "td", text: reward }),
-							document.newElement({ type: "td", text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A" }),
+							document.newElement({
+								type: "td",
+								text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A",
+							}),
 						],
 					})
 				);
@@ -1370,7 +1490,13 @@ async function setupNotifications() {
 						document.newElement({
 							type: "div",
 							class: "title",
-							children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: period })],
+							children: [
+								document.newElement({
+									type: "span",
+									text: title,
+								}),
+								document.newElement({ type: "span", text: period }),
+							],
 						}),
 						document.newElement({ type: "span", text: message }),
 					],

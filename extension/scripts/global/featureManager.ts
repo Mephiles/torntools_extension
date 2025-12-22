@@ -1,6 +1,49 @@
-"use script";
+interface Window {
+	isFeatureManagerLoaded: boolean;
+}
+
+type FeatureName = string;
+type FeatureScope = string;
+type FeatureEnabledFn = () => boolean;
+type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
+type FeatureFn = FeatureSingleFn | FeatureSingleFn[];
+type FeatureLoadListeners = { storage: string[] };
+type FeatureRequirementsFn = (() => string | true) | (() => Promise<string | true>);
+
+interface FeatureOptions {
+	triggerCallback: boolean;
+	liveReload: boolean;
+}
+
+type Feature = {
+	name: FeatureName;
+	scope: FeatureScope;
+	enabled: FeatureEnabledFn;
+	initialise: FeatureFn;
+	execute: FeatureFn;
+	cleanup: FeatureFn;
+	loadListeners: FeatureLoadListeners;
+	requirements: FeatureRequirementsFn;
+	options: FeatureOptions;
+	hasLoaded?: boolean;
+};
+type FeatureStatus = "disabled" | "failed" | "loaded" | "registered" | "information";
+
+interface ResultOptions {
+	message?: string;
+}
 
 class FeatureManager {
+	private readonly logPadding: string;
+	private readonly containerID: string;
+	private container: null | HTMLElement;
+	private features: Feature[];
+	private initialized: string[];
+	private popupLoaded: boolean;
+	private readonly resultQueue: [Feature, FeatureStatus, ResultOptions][];
+	private errorCount: number;
+	private earlyErrors: any[];
+
 	constructor() {
 		this.logPadding = "[TornTools] FeatureManager - ";
 		this.containerID = "tt-page-status";
@@ -12,86 +55,6 @@ class FeatureManager {
 		this.resultQueue = [];
 		this.errorCount = 0;
 		this.earlyErrors = [];
-
-		this.logInfo = async (...params) => {
-			if (!settings) {
-				loadDatabase().then(maybeLog.bind(this));
-				return;
-			}
-			maybeLog.call(this);
-
-			function maybeLog() {
-				if (!settings.developer) return;
-
-				params[0] = this.logPadding + params[0];
-				console.log(...params);
-			}
-		};
-		this.logError = async (info, error) => {
-			if (error?.message === "Maximum cycles reached." && !settings.developer) return;
-
-			this.errorCount = this.errorCount + 1;
-			if (this.errorCount === 1) {
-				// Show error messages from first error.
-				document.find("#tt-page-status .error-messages").classList.add("show");
-			}
-
-			if (Array.isArray(info)) {
-				info[0] = this.logPadding + info[0];
-			} else {
-				info = [this.logPadding + info];
-			}
-			if (error && "stack" in error) {
-				info.push(error.stack);
-			}
-			console.error(...info);
-			// this.container.find(".error-messages")
-			/*
-			<div class="error-messages">
-				<div class="error">
-					<div class="name">Uncaught Error: Error Name.</div>
-					<pre class="stack">	at sample.js:90
-						at otherSample.js:100
-					</pre>
-				</div>
-			</div>*/
-
-			if (!this.container) {
-				this.earlyErrors.push(error);
-			} else {
-				if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
-				else {
-					this.container.setAttribute("error-count", this.errorCount);
-					this.addErrorToPopup(error);
-				}
-			}
-		};
-		this.addErrorToPopup = (error) => {
-			this.container.setAttribute("error-count", this.errorCount);
-
-			let errorElement;
-			if (error != null && typeof error === "object") {
-				errorElement = document.newElement({
-					type: "div",
-					class: "error",
-					children: [
-						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
-						document.newElement({ type: "pre", class: "stack", text: error.stack }),
-					],
-				});
-			} else {
-				errorElement = document.newElement({
-					type: "pre",
-					class: "error",
-					children: [document.newElement({ type: "div", class: "name", text: `Unknown error message: ${error}` })],
-				});
-			}
-			this.container.find(".error-messages").appendChild(errorElement);
-		};
-		this.clearEarlyErrors = () => {
-			this.earlyErrors.forEach((error) => this.addErrorToPopup(error));
-			this.earlyErrors = [];
-		};
 
 		// For testing.
 		// setTimeout(() => {
@@ -110,7 +73,7 @@ class FeatureManager {
 			this.logError("Uncaught promise rejection:", error);
 		});
 
-		window.isfeatureManagerLoaded = true;
+		window.isFeatureManagerLoaded = true;
 
 		loadDatabase().then(() => {
 			if (settings.developer) return;
@@ -124,17 +87,114 @@ class FeatureManager {
 		});
 	}
 
-	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {
-		options = {
+	private async logInfo(...params: any[]) {
+		if (!settings) {
+			loadDatabase().then(() => this.logInfo(params));
+			return;
+		}
+		if (!settings.developer) return;
+
+		params[0] = this.logPadding + params[0];
+		console.log(...params);
+	}
+
+	private logError(info: string | string[], error: any) {
+		if (error?.message === "Maximum cycles reached." && !settings.developer) return;
+
+		this.errorCount = this.errorCount + 1;
+		if (this.errorCount === 1) {
+			// Show error messages from first error.
+			document.find("#tt-page-status .error-messages").classList.add("show");
+		}
+
+		if (Array.isArray(info)) {
+			info[0] = this.logPadding + info[0];
+		} else {
+			info = [this.logPadding + info];
+		}
+		if (error && "stack" in error) {
+			info.push(error.stack);
+		}
+		console.error(...info);
+		// this.container.find(".error-messages")
+		/*
+		<div class="error-messages">
+			<div class="error">
+				<div class="name">Uncaught Error: Error Name.</div>
+				<pre class="stack">	at sample.js:90
+					at otherSample.js:100
+				</pre>
+			</div>
+		</div>*/
+
+		if (!this.container) {
+			this.earlyErrors.push(error);
+		} else {
+			if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
+			else {
+				this.container.setAttribute("error-count", this.errorCount.toString());
+				this.addErrorToPopup(error);
+			}
+		}
+	}
+
+	private addErrorToPopup(error: any) {
+		if (!this.container) return;
+
+		this.container.setAttribute("error-count", this.errorCount.toString());
+
+		let errorElement: HTMLElement;
+		if (error != null && typeof error === "object") {
+			errorElement = document.newElement({
+				type: "div",
+				class: "error",
+				children: [
+					document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+					document.newElement({ type: "pre", class: "stack", text: error.stack }),
+				],
+			});
+		} else {
+			errorElement = document.newElement({
+				type: "pre",
+				class: "error",
+				children: [
+					document.newElement({
+						type: "div",
+						class: "name",
+						text: `Unknown error message: ${error}`,
+					}),
+				],
+			});
+		}
+		this.container.find(".error-messages").appendChild(errorElement);
+	}
+
+	private clearEarlyErrors() {
+		this.earlyErrors.forEach((error) => this.addErrorToPopup(error));
+		this.earlyErrors = [];
+	}
+
+	registerFeature(
+		name: FeatureName,
+		scope: FeatureScope,
+		enabled: FeatureEnabledFn,
+		initialise: FeatureFn,
+		execute: FeatureFn,
+		cleanup: FeatureFn,
+		loadListeners?: FeatureLoadListeners,
+		requirements?: Feature["requirements"],
+		partialOptions?: Partial<FeatureOptions>
+	) {
+		const options: Feature["options"] = {
 			triggerCallback: false,
 			liveReload: false,
-			...options,
+			...partialOptions,
 		};
 
 		const oldFeature = this.findFeature(name);
 		if (oldFeature) throw "Feature already registered.";
 
-		const newFeature = {
+		const newFeature: Feature = {
 			name,
 			scope,
 			enabled: () => getValue(enabled),
@@ -156,7 +216,7 @@ class FeatureManager {
 		return newFeature;
 	}
 
-	adjustFeature(name, initialise, execute, cleanup) {
+	adjustFeature(name: FeatureName, initialise: FeatureSingleFn, execute: FeatureSingleFn, cleanup: FeatureSingleFn) {
 		const feature = this.findFeature(name);
 		if (!feature) throw "Feature not found.";
 
@@ -164,7 +224,7 @@ class FeatureManager {
 			["initialise", initialise],
 			["execute", execute],
 			["cleanup", cleanup],
-		]) {
+		] as const) {
 			if (!feature[key]) feature[key] = [func];
 			else if (Array.isArray(feature[key])) feature[key].push(func);
 			else feature[key] = [feature[key], func];
@@ -179,11 +239,11 @@ class FeatureManager {
 		return feature;
 	}
 
-	findFeature(name) {
-		return this.features.find((feature) => feature.name === name);
+	findFeature(name: string): Feature | null {
+		return this.features.find((feature) => feature.name === name) ?? null;
 	}
 
-	async startFeature(feature, liveReload) {
+	async startFeature(feature: Feature, liveReload?: boolean) {
 		await loadDatabase();
 		try {
 			if (getValue(feature.enabled)) {
@@ -231,16 +291,16 @@ class FeatureManager {
 			await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to cleanup in a failed start of "${feature.name}".`, error));
 
 			this.showResult(feature, "failed");
-			this.logError(`Failed to start "${feature.name}".`, error).then(() => {});
+			this.logError(`Failed to start "${feature.name}".`, error);
 		}
 		feature.hasLoaded = true;
 	}
 
-	startLoadListeners(feature) {
+	startLoadListeners(feature: Feature) {
 		if (!feature.loadListeners) return;
 
 		if (feature.loadListeners.storage) {
-			const storageKeys = feature.loadListeners.storage.reduce((previousValue, currentValue) => {
+			const storageKeys = feature.loadListeners.storage.reduce<{ [key: string]: string[][] }>((previousValue, currentValue) => {
 				const path = currentValue.split(".");
 				const area = path[0];
 				if (!previousValue[area]) previousValue[area] = [];
@@ -255,10 +315,10 @@ class FeatureManager {
 				["factiondata", () => factiondata],
 				["localdata", () => localdata],
 				["npcs", () => npcs],
-			]) {
+			] as const) {
 				if (!(key in storageKeys)) continue;
 
-				storageListeners[key].push((oldSettings) => {
+				storageListeners[key].push((oldSettings: any) => {
 					if (
 						!storageKeys[key].some((path) => {
 							const newValue = rec(getter(), path);
@@ -272,12 +332,12 @@ class FeatureManager {
 					)
 						return;
 
-					this.startFeature(feature, "liveReload").catch((error) => this.logError(`Failed to start "${feature.name}" during live reload.`, error));
+					this.startFeature(feature, true).catch((error) => this.logError(`Failed to start "${feature.name}" during live reload.`, error));
 				});
 			}
 		}
 
-		function rec(parent, path) {
+		function rec(parent: { [key: string]: any }, path: string[]) {
 			if (!parent) return false;
 			if (path.length > 1) return rec(parent[path[0]], path.slice(1));
 
@@ -285,12 +345,12 @@ class FeatureManager {
 		}
 	}
 
-	async executeFunction(func, liveReload) {
+	async executeFunction(func: FeatureFn, liveReload?: boolean) {
 		if (!func) return;
 
 		if (Array.isArray(func)) {
 			for (const f of func) {
-				await this.executeFunction(f);
+				await this.executeFunction(f, liveReload);
 			}
 			return;
 		}
@@ -304,7 +364,7 @@ class FeatureManager {
 		}
 	}
 
-	showResult(feature, status, options = {}) {
+	showResult(feature: Feature, status: FeatureStatus, options: ResultOptions = {}) {
 		if (!this.popupLoaded) {
 			this.resultQueue.push([feature, status, options]);
 			return;
@@ -348,10 +408,10 @@ class FeatureManager {
 			}
 			this.hideEmptyScopes();
 		}).catch((error) => {
-			this.logError(`Couldn't log result for ${feature.name}: ${JSON.stringify(options)}`, error).then(() => {});
+			this.logError(`Couldn't log result for ${feature.name}: ${JSON.stringify(options)}`, error);
 		});
 
-		function getIconClass(status) {
+		function getIconClass(status: FeatureStatus) {
 			let className = "fa-solid ";
 			switch (status) {
 				case "disabled":
@@ -392,8 +452,8 @@ class FeatureManager {
 			type: "div",
 			id: this.containerID,
 			attributes: {
-				tabindex: 0, // To make :focus-within working on div elements
-				"error-count": 0,
+				tabindex: "0", // To make :focus-within working on div elements
+				"error-count": "0",
 			},
 			children: [
 				document.newElement({
@@ -401,10 +461,11 @@ class FeatureManager {
 					children: [
 						document.newElement({
 							type: "button",
-							style: { "background-image": `url(${chrome.runtime.getURL("resources/images/icon_128.png")})` },
+							style: { backgroundImage: `url(${chrome.runtime.getURL("resources/images/icon_128.png")})` },
 							events: {
 								click: (e) => {
-									const title = e.target.matches(`#${this.containerID}`) ? e.target : e.target.closest(`#${this.containerID}`);
+									const target = e.target as Element;
+									const title = target.matches(`#${this.containerID}`) ? target : target.closest(`#${this.containerID}`);
 									if (title.classList.toggle("open"))
 										title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/svg-icons/cross.svg")})`;
 									else title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/icon_128.png")})`;
@@ -467,6 +528,6 @@ class FeatureManager {
 
 const featureManager = new FeatureManager();
 
-function featureManagerLoaded() {
-	return requireCondition(() => window.isfeatureManagerLoaded, { delay: 100 });
+function featureManagerLoaded(): Promise<boolean> {
+	return requireCondition(() => window.isFeatureManagerLoaded, { delay: 100 });
 }

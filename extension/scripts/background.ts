@@ -1,5 +1,3 @@
-"use strict";
-
 if (typeof importScripts !== "undefined")
 	importScripts(
 		...[
@@ -21,14 +19,18 @@ const ALARM_NAMES = {
 	CLEAR_USAGE: "clear-usage-alarm",
 	DATA_UPDATE_AND_NOTIFICATIONS: "data-update-and-notifications-alarm",
 	NOTIFICATIONS: "notifications-alarm",
-};
+} as const;
 
 class AudioPlayer {
-	set src(src) {
+	private _src: string;
+	private _volume: number;
+	private _audio: HTMLAudioElement | undefined;
+
+	set src(src: string) {
 		this._src = src;
 	}
 
-	set volume(volume) {
+	set volume(volume: number) {
 		this._volume = volume;
 	}
 
@@ -46,32 +48,37 @@ class AudioPlayer {
 		if (!this._src) throw Error("No sound src set.");
 
 		await chrome.runtime.sendMessage({
-			offscreen: "notification",
+			offscreen: "play-audio",
 			src: this._src,
 			volume: this._volume,
 		});
+	}
+
+	async pause() {
+		if (this._audio) {
+			this._audio.pause();
+
+			return;
+		}
+
+		await chrome.runtime.sendMessage({ offscreen: "pause-audio" });
 	}
 }
 
 const notificationPlayer = new AudioPlayer();
 const notificationTestPlayer = new AudioPlayer();
 
-let notificationSound, notificationWorker;
-const notificationRelations = {};
+let notificationSound: string | undefined, notificationWorker: ServiceWorkerRegistration | undefined;
+const notificationRelations: { [id: string]: string } = {};
 
-let npcUpdater;
+let npcUpdater: number | undefined;
 
 // On browser update, extension update or extension (re)install
 chrome.runtime.onInstalled.addListener(async () => {
 	await migrateDatabase(true);
 	void checkUpdate();
 
-	chrome.alarms.clearAll().then(() => {
-		void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-		void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-		void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
-		void chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
-	});
+	void resetAlarms();
 
 	// These are refresh tasks, not clearing.
 	clearUsage();
@@ -105,14 +112,18 @@ chrome.runtime.onStartup.addListener(async () => {
 	chrome.alarms.getAll().then((currentAlarms) => {
 		if (currentAlarms.length === 4) return;
 
-		chrome.alarms.clearAll().then(() => {
-			void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-			void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-			void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
-			void chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
-		});
+		void resetAlarms();
 	});
 })();
+
+async function resetAlarms() {
+	await chrome.alarms.clearAll();
+
+	void chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
+	void chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
+	void chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
+	void chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
+}
 
 // On alarm triggered
 chrome.alarms.onAlarm.addListener(async (alarm) => {
@@ -141,7 +152,7 @@ async function checkUpdate() {
 	const oldVersion = version.oldVersion;
 	const newVersion = chrome.runtime.getManifest().version;
 
-	const change = { version: { oldVersion: newVersion } };
+	const change: RecursivePartial<Writable<Database>> = { version: { oldVersion: newVersion } };
 	if (oldVersion !== newVersion) {
 		console.log("New version detected!", newVersion);
 		change.version.showNotice = true;
@@ -153,13 +164,16 @@ async function checkUpdate() {
 async function sendNotifications() {
 	for (const type in notifications) {
 		for (const key in notifications[type]) {
-			const { skip, seen, date, title, message, url } = notifications[type][key];
+			const notification: TTNotification = notifications[type][key];
+			if ("combined" in notification) continue;
 
-			if (!skip && !seen) {
+			const { seen, date, title, message, url } = notification;
+
+			if (!seen) {
 				await notifyUser(title, message, url);
 
-				notifications[type][key].seen = true;
-				storeNotification({ title, message, url, type, key, date });
+				notification.seen = true;
+				await storeNotification({ title, message, url, type, key, date });
 			}
 
 			if (seen && Date.now() - date > 3 * TO_MILLIS.DAYS) {
@@ -221,7 +235,7 @@ function timedUpdates() {
 			);
 		}
 
-		if (!factiondata || !factiondata.date || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15))
+		if (!factiondata || !("date" in factiondata) || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15))
 			updatePromises.push(
 				updateFactiondata()
 					.then(() => console.log("Updated factiondata."))
@@ -242,7 +256,7 @@ function timedUpdates() {
 
 	return updatePromises;
 
-	function logError(message, error) {
+	function logError(message: any, error: any) {
 		if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
 			console.warn(`You disabled our permission to call the API!`);
 		} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
@@ -253,7 +267,7 @@ function timedUpdates() {
 	}
 }
 
-function hasTimePassed(timestamp, time) {
+function hasTimePassed(timestamp: number, time: number) {
 	const difference = Date.now() - timestamp;
 
 	return Math.abs(difference) >= time;
@@ -266,6 +280,39 @@ function clearCache() {
 function clearUsage() {
 	ttUsage.refresh().catch((error) => console.error("Error while clearing API usage data.", error));
 }
+
+type FetchedUserdata = UserProfileResponse &
+	UserFactionResponse &
+	UserJobResponse &
+	TimestampResponse &
+	UserV1NotificationsResponse &
+	UserV1BarsResponse &
+	UserV1CooldownsResponse &
+	UserV1TravelResponse &
+	UserV1NewmessagesResponse &
+	UserV1RefillsResponse &
+	UserV1IconsResponse &
+	UserMoneyResponse &
+	UserV1StocksResponse &
+	UserV1MeritsResponse &
+	UserV1PerksResponse &
+	UserV1NetworthResponse &
+	UserV1AmmoResponse &
+	UserV1BattlestatsResponse &
+	UserV1CrimesResponse &
+	UserV1WorkstatsResponse &
+	UserV1SkillsResponse &
+	UserV1WeaponexpResponse &
+	UserV1PropertiesResponse &
+	UserCalendarResponse &
+	UserOrganizedCrimeResponse &
+	UserPersonalStatsFull &
+	UserHonorsResponse &
+	UserMedalsResponse &
+	UserMissionsResponse &
+	UserV1EducationResponse &
+	FactionAttacksResponse &
+	(UserEventsResponse | UserNewEventsResponse);
 
 async function updateUserdata(forceUpdate = false) {
 	const now = Date.now();
@@ -363,7 +410,8 @@ async function updateUserdata(forceUpdate = false) {
 
 	const oldUserdata = { ...userdata };
 
-	userdata = await fetchData("tornv2", {
+	// @ts-expect-error System from before the migration. We are setting these parameters later on.
+	userdata = await fetchData<FetchedUserdata>("tornv2", {
 		section: "user",
 		legacySelections: selections,
 		selections: selectionsV2,
@@ -385,7 +433,7 @@ async function updateUserdata(forceUpdate = false) {
 				// TODO - Migrate to V2 (user/events).
 				// TODO - Migrate to V2 (user/newevents).
 				(
-					await fetchData("tornv2", {
+					await fetchData<UserEventsResponse | UserNewEventsResponse>("tornv2", {
 						section: "user",
 						selections: [category],
 						legacySelections: [category],
@@ -395,7 +443,10 @@ async function updateUserdata(forceUpdate = false) {
 			selections.push(category);
 		}
 	}
-	if (!userdata.events || userdata?.notifications?.events === 0) userdata.events = {};
+	if (!("events" in userdata) || userdata?.notifications?.events === 0) {
+		// @ts-expect-error pre-migration shit
+		userdata.events = {};
+	}
 
 	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
 	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));
@@ -434,11 +485,11 @@ async function updateUserdata(forceUpdate = false) {
 
 		if (oldUserdata.personalstats && userdata.personalstats) {
 			const fetchData = [
-				(data) => data.personalstats.attacking.attacks.lost,
-				(data) => data.personalstats.attacking.attacks.stalemate,
-				(data) => data.personalstats.attacking.defends.lost,
-				(data) => data.personalstats.attacking.defends.stalemate,
-				(data) => data.personalstats.attacking.killstreak.current,
+				(data: DatabaseUserdata) => data.personalstats.attacking.attacks.lost,
+				(data: DatabaseUserdata) => data.personalstats.attacking.attacks.stalemate,
+				(data: DatabaseUserdata) => data.personalstats.attacking.defends.lost,
+				(data: DatabaseUserdata) => data.personalstats.attacking.defends.stalemate,
+				(data: DatabaseUserdata) => data.personalstats.attacking.killstreak.current,
 			].some((getter) => getter(oldUserdata) !== getter(userdata));
 
 			await ttStorage.change({ attackHistory: { fetchData } });
@@ -454,8 +505,7 @@ async function updateUserdata(forceUpdate = false) {
 					const enemyId = attack.attacker?.id === userdata.profile.id ? attack.defender.id : attack.attacker?.id;
 					if (!enemyId) return;
 
-					// Setup the data so there are no missing keys.
-					if (!attackHistory.history[enemyId]) attackHistory.history[enemyId] = {};
+					// Set up the data so there are no missing keys.
 					attackHistory.history[enemyId] = {
 						name: "",
 						defend: 0,
@@ -473,12 +523,10 @@ async function updateUserdata(forceUpdate = false) {
 						escapes: 0,
 						respect: [],
 						respect_base: [],
-						...attackHistory.history[enemyId],
+						...(enemyId in attackHistory.history ? attackHistory.history[enemyId] : {}),
+						lastAttack: attack.ended * 1000,
+						lastAttackCode: attack.code,
 					};
-
-					// Manipulate the data to be correct.
-					attackHistory.history[enemyId].lastAttack = attack.ended * 1000;
-					attackHistory.history[enemyId].lastAttackCode = attack.code;
 
 					if (attack.defender.id === userdata.profile.id) {
 						if (attack.attacker.name) attackHistory.history[enemyId].name = attack.attacker.name;
@@ -503,7 +551,7 @@ async function updateUserdata(forceUpdate = false) {
 
 							let respect = attack.respect_gain;
 							if (respect !== 0) {
-								let hasAccurateModifiers = attack.modifiers;
+								let hasAccurateModifiers = "modifiers" in attack;
 
 								if (hasAccurateModifiers) {
 									if (respect === attack.modifiers.chain) {
@@ -578,7 +626,7 @@ async function updateUserdata(forceUpdate = false) {
 
 				if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[key]) {
 					events.push({ id: key, event: event.event });
-					notifications.events[key] = { skip: true };
+					notifications.events[key] = { combined: true };
 				}
 
 				eventCount++;
@@ -601,7 +649,7 @@ async function updateUserdata(forceUpdate = false) {
 
 				if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[key]) {
 					messages.push({ id: key, title: message.title, name: message.name });
-					notifications.messages[key] = { skip: true };
+					notifications.messages[key] = { combined: true };
 				}
 
 				messageCount++;
@@ -628,7 +676,7 @@ async function updateUserdata(forceUpdate = false) {
 		if (current === "Okay") {
 			if (previous === "Hospital") {
 				await notifyUser("TornTools - Status", "You are out of the hospital.", LINKS.home);
-				storeNotification({
+				await storeNotification({
 					title: "TornTools - Status",
 					message: "You are out of the hospital.",
 					url: LINKS.home,
@@ -638,7 +686,7 @@ async function updateUserdata(forceUpdate = false) {
 				});
 			} else if (previous === "Jail") {
 				await notifyUser("TornTools - Status", "You are out of the jail.", LINKS.home);
-				storeNotification({
+				await storeNotification({
 					title: "TornTools - Status",
 					message: "You are out of the jail.",
 					url: LINKS.home,
@@ -647,7 +695,7 @@ async function updateUserdata(forceUpdate = false) {
 			}
 		} else {
 			await notifyUser("TornTools - Status", userdata.profile.status.description, LINKS.home);
-			storeNotification({
+			await storeNotification({
 				title: "TornTools - Status",
 				message: userdata.profile.status.description,
 				url: LINKS.home,
@@ -664,7 +712,7 @@ async function updateUserdata(forceUpdate = false) {
 			if (userdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
 			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
-			storeNotification({
+			await storeNotification({
 				title: "TornTools - Cooldown",
 				message: `Your ${type} cooldown has ended.`,
 				url: LINKS.items,
@@ -678,7 +726,7 @@ async function updateUserdata(forceUpdate = false) {
 		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
 		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}.`, LINKS.home);
-		storeNotification({
+		await storeNotification({
 			title: "TornTools - Traveling",
 			message: `You have landed in ${userdata.travel.destination}.`,
 			url: LINKS.home,
@@ -697,7 +745,7 @@ async function updateUserdata(forceUpdate = false) {
 		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await notifyUser("TornTools - Education", "You have finished your education course.", LINKS.education);
-		storeNotification({
+		await storeNotification({
 			title: "TornTools - Education",
 			message: "You have finished your education course.",
 			url: LINKS.education,
@@ -721,9 +769,11 @@ async function updateUserdata(forceUpdate = false) {
 		for (const bar of ["energy", "happy", "nerve", "life"]) {
 			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) continue;
 
-			const checkpoints = settings.notifications.types[bar]
-				.map((checkpoint) =>
-					typeof checkpoint === "string" && checkpoint.includes("%") ? (parseInt(checkpoint) / 100) * userdata[bar].maximum : parseInt(checkpoint)
+			const checkpoints = (settings.notifications.types[bar] as any[])
+				.map<number>((checkpoint: string | number) =>
+					typeof checkpoint === "string" && checkpoint.includes("%")
+						? (parseInt(checkpoint) / 100) * userdata[bar].maximum
+						: parseInt(checkpoint.toString())
 				)
 				.sort((a, b) => b - a);
 
@@ -793,7 +843,7 @@ async function updateUserdata(forceUpdate = false) {
 
 			for (const checkpoint of settings.notifications.types.chainTimer.sort((a, b) => a - b)) {
 				const key = `${count}_${checkpoint}`;
-				if (timeout > parseInt(checkpoint) * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
+				if (timeout > checkpoint * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
 
 				notifications.chain[key] = newNotification(
 					"Chain",
@@ -818,7 +868,7 @@ async function updateUserdata(forceUpdate = false) {
 			for (const checkpoint of settings.notifications.types.chainBonus.sort((a, b) => b - a)) {
 				const key = `${nextBonus}_${checkpoint}`;
 
-				if (nextBonus - count > parseInt(checkpoint) || notifications.chainCount[key]) continue;
+				if (nextBonus - count > checkpoint || notifications.chainCount[key]) continue;
 
 				notifications.chainCount[key] = newNotification(
 					"Chain",
@@ -843,7 +893,7 @@ async function updateUserdata(forceUpdate = false) {
 			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
 				const timeLeft = userdata.profile.status.until * 1000 - now;
 
-				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
+				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
 				notifications.hospital[checkpoint] = newNotification(
 					"Hospital",
@@ -864,7 +914,7 @@ async function updateUserdata(forceUpdate = false) {
 			for (const checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
 				const timeLeft = userdata.travel.timestamp * 1000 - now;
 
-				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
+				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
 				notifications.travel[checkpoint] = newNotification(
 					"Travel",
@@ -905,7 +955,7 @@ async function updateUserdata(forceUpdate = false) {
 				settings.notifications.types[cooldown.setting].length &&
 				userdata.cooldowns[cooldown.name] > 0
 			) {
-				for (const checkpoint of settings.notifications.types[cooldown.setting].sort((a, b) => a - b)) {
+				for (const checkpoint of settings.notifications.types[cooldown.setting].sort((a: number, b: number) => a - b)) {
 					const timeLeft = userdata.cooldowns[cooldown.name] * 1000;
 
 					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
@@ -961,11 +1011,18 @@ async function updateUserdata(forceUpdate = false) {
 						const timeLeft = mission.expires_at * 1000 - now;
 						const key = `${name}_${mission.title}_${mission.created_at}_${checkpoint}`;
 
-						if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.HOURS || notifications.missionsExpire[key]) continue;
+						if (timeLeft > checkpoint * TO_MILLIS.HOURS || notifications.missionsExpire[key]) continue;
 
 						notifications.missionsExpire[key] = newNotification(
 							"Missions",
-							`'${mission.title}' by ${name} will expire in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer", showDays: true, truncateSeconds: true })}.`,
+							`'${mission.title}' by ${name} will expire in ${formatTime(
+								{ milliseconds: timeLeft },
+								{
+									type: "wordTimer",
+									showDays: true,
+									truncateSeconds: true,
+								}
+							)}.`,
 							LINKS.missions
 						);
 						break;
@@ -980,7 +1037,7 @@ async function updateUserdata(forceUpdate = false) {
 
 async function showIconBars() {
 	if (!settings.apiUsage.user.bars || !hasAPIData() || !settings || !settings.pages.icon.global) {
-		chrome.action.setIcon({ path: chrome.runtime.getURL("resources/images/icon_128.png") });
+		await chrome.action.setIcon({ path: chrome.runtime.getURL("resources/images/icon_128.png") });
 	} else {
 		let barCount = 0;
 		if (settings.pages.icon.energy) barCount++;
@@ -1015,7 +1072,7 @@ async function showIconBars() {
 			if (!settings.pages.icon[key] || !userdata[key]) return;
 			if (key === "chain" && userdata.chain.current === 0) return;
 
-			let current, maximum;
+			let current: number, maximum: number;
 			if (key === "travel") {
 				const totalTrip = userdata[key].timestamp - userdata[key].departed;
 
@@ -1040,7 +1097,7 @@ async function showIconBars() {
 			y += barHeight + padding;
 		});
 
-		chrome.action.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
+		await chrome.action.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
 	}
 }
 
@@ -1054,12 +1111,18 @@ async function updateStakeouts(forceUpdate = false) {
 	let success = 0;
 	let failed = 0;
 	for (const id in stakeouts) {
-		if (isNaN(parseInt(id))) continue;
+		const stakeout = stakeouts[id];
+		if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
-		const oldData = stakeouts[id]?.info ?? false;
-		let data;
+		const oldData = stakeout?.info ?? null;
+		let data: UserProfileResponse;
 		try {
-			data = await fetchData("tornv2", { section: "user", selections: ["profile"], id, silent: true });
+			data = await fetchData<UserProfileResponse>("tornv2", {
+				section: "user",
+				selections: ["profile"],
+				id,
+				silent: true,
+			});
 			if (!data) {
 				console.log("Unexpected result during stakeout updating.");
 				failed++;
@@ -1073,8 +1136,8 @@ async function updateStakeouts(forceUpdate = false) {
 			continue;
 		}
 
-		if (stakeouts[id].alerts) {
-			const { okay, hospital, landing, online, life, offline, revivable } = stakeouts[id].alerts;
+		if (stakeout.alerts) {
+			const { okay, hospital, landing, online, life, offline, revivable } = stakeout.alerts;
 
 			if (okay) {
 				const key = `${id}_okay`;
@@ -1118,7 +1181,7 @@ async function updateStakeouts(forceUpdate = false) {
 							`${data.profile.name} is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.profile.last_action.status === "Traveling") {
+				} else if (data.profile.status.state === "Traveling") {
 					delete notifications.stakeouts[key];
 				}
 			}
@@ -1153,7 +1216,7 @@ async function updateStakeouts(forceUpdate = false) {
 				}
 			}
 			if (offline) {
-				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : false;
+				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : null;
 				const offlineHours = ((now - data.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
 				const key = `${id}_offline`;
@@ -1186,24 +1249,27 @@ async function updateStakeouts(forceUpdate = false) {
 			}
 		}
 
-		stakeouts[id].info = {
-			name: data.profile.name,
-			last_action: {
-				status: data.profile.last_action.status,
-				relative: data.profile.last_action.relative,
-				timestamp: data.profile.last_action.timestamp * 1000,
+		stakeouts[id] = {
+			...stakeout,
+			info: {
+				name: data.profile.name,
+				last_action: {
+					status: data.profile.last_action.status,
+					relative: data.profile.last_action.relative,
+					timestamp: data.profile.last_action.timestamp * 1000,
+				},
+				life: {
+					current: data.profile.life.current,
+					maximum: data.profile.life.maximum,
+				},
+				status: {
+					state: data.profile.status.state,
+					color: data.profile.status.color,
+					until: data.profile.status.until ? data.profile.status.until * 1000 : null,
+					description: data.profile.status.description,
+				},
+				isRevivable: data.profile.revivable,
 			},
-			life: {
-				current: data.profile.life.current,
-				maximum: data.profile.life.maximum,
-			},
-			status: {
-				state: data.profile.status.state,
-				color: data.profile.status.color,
-				until: data.profile.status.until ? data.profile.status.until * 1000 : null,
-				description: data.profile.status.description,
-			},
-			isRevivable: data.profile.revivable,
 		};
 	}
 	stakeouts.date = now;
@@ -1212,10 +1278,12 @@ async function updateStakeouts(forceUpdate = false) {
 	return { updated: true, success, failed };
 }
 
+type FetchedFactionStakeout = FactionBasicResponse & FactionOngoingChainResponse & FactionWarsResponse;
+
 async function updateFactionStakeouts(forceUpdate = false) {
 	const now = Date.now();
 
-	if (!forceUpdate && factionStakeouts.date && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
+	if (!forceUpdate && "date" in factionStakeouts && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
 		return { updated: false };
 	}
 
@@ -1224,10 +1292,10 @@ async function updateFactionStakeouts(forceUpdate = false) {
 	for (const factionId in factionStakeouts) {
 		if (isNaN(parseInt(factionId))) continue;
 
-		const oldData = factionStakeouts[factionId]?.info ?? false;
-		let data;
+		const oldData = typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null ? factionStakeouts[factionId].info : null;
+		let data: FetchedFactionStakeout;
 		try {
-			data = await fetchData("tornv2", {
+			data = await fetchData<FetchedFactionStakeout>("tornv2", {
 				section: "faction",
 				selections: ["basic", "chain", "wars"],
 				id: factionId,
@@ -1246,7 +1314,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			continue;
 		}
 
-		if (factionStakeouts[factionId].alerts) {
+		if (typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null && factionStakeouts[factionId].alerts) {
 			const { chainReaches, memberCountDrops, rankedWarStarts, inRaid, inTerritoryWar } = factionStakeouts[factionId].alerts;
 
 			if (chainReaches !== false) {
@@ -1255,7 +1323,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 
 				if (chainReaches === 0) {
 					const key = `faction_${factionId}_chainDrops`;
-					if (chainCount < oldChainCount && oldChainCount >= 10 && !notifications.stakeouts[key]) {
+					if (typeof oldChainCount === "number" && chainCount < oldChainCount && oldChainCount >= 10 && !notifications.stakeouts[key]) {
 						if (settings.notifications.types.global)
 							notifications.stakeouts[key] = newNotification(
 								"Faction Stakeouts",
@@ -1274,7 +1342,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 								`${data.basic.name} has reached a ${chainCount} chain.`,
 								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`
 							);
-					} else if (chainCount < oldChainCount) {
+					} else if (typeof oldChainCount === "number" && chainCount < oldChainCount) {
 						delete notifications.stakeouts[key];
 					}
 				}
@@ -1284,7 +1352,12 @@ async function updateFactionStakeouts(forceUpdate = false) {
 				const memberCount = data.basic.members;
 
 				const key = `faction_${factionId}_memberCountDrops`;
-				if (memberCount >= oldMemberCount && (!oldMemberCount || oldMemberCount > memberCount) && !notifications.stakeouts[key]) {
+				if (
+					typeof oldMemberCount === "number" &&
+					memberCount >= oldMemberCount &&
+					(!oldMemberCount || oldMemberCount > memberCount) &&
+					!notifications.stakeouts[key]
+				) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Faction Stakeouts",
@@ -1296,7 +1369,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 				}
 			}
 
-			const handleWarStakeout = (type, wasValue, isValue, createMessage) => {
+			const handleWarStakeout = (type: string, wasValue: boolean, isValue: boolean, createMessage: () => string) => {
 				const key = `faction_${factionId}_${type}`;
 				if (isValue && (!oldData || !wasValue) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
@@ -1325,34 +1398,44 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			}
 		}
 
-		factionStakeouts[factionId].info = {
-			name: data.basic.name,
-			chain: data.chain.current,
-			members: {
-				current: data.basic.members,
-				maximum: data.basic.capacity,
-			},
-			rankedWar: data.wars.ranked !== null,
-			raid: data.wars.raids.length > 0,
-			territoryWar: data.wars.territory.length > 0,
-		};
+		if (typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null) {
+			factionStakeouts[factionId].info = {
+				name: data.basic.name,
+				chain: data.chain.current,
+				members: {
+					current: data.basic.members,
+					maximum: data.basic.capacity,
+				},
+				rankedWar: data.wars.ranked !== null,
+				raid: data.wars.raids.length > 0,
+				territoryWar: data.wars.territory.length > 0,
+			};
+		}
 	}
-	factionStakeouts.date = now;
+	factionStakeouts = { ...factionStakeouts, date: now };
 
 	await ttStorage.change({ factionStakeouts, notifications });
 	return { updated: true, success, failed };
 }
 
+type FetchedTorndata = TornEducationResponse &
+	TornCalendarResponse &
+	TornProperties &
+	TornHonorsResponse &
+	TornMedalsResponse &
+	TornV1ItemsResponse &
+	TornV1PawnshopResponse &
+	TornV1StatsResponse;
+
 async function updateTorndata() {
 	// FIXME - Migrate to V2 (torn/items).
 	// TODO - Migrate to V2 (torn/pawnshop).
 	// TODO - Migrate to V2 (torn/stats).
-	const data = await fetchData("tornv2", {
+	const data = await fetchData<FetchedTorndata>("tornv2", {
 		section: "torn",
 		selections: ["education", "calendar", "properties", "honors", "medals", "items", "pawnshop", "stats"],
 		legacySelections: ["items", "pawnshop", "stats"],
 	});
-	if (!isValidTorndata(data)) throw new Error("Aborted updating due to an unexpected response in V2.");
 
 	const newData = {
 		...data,
@@ -1361,29 +1444,28 @@ async function updateTorndata() {
 
 	torndata = newData;
 	await ttStorage.set({ torndata: newData });
-
-	function isValidTorndata(data) {
-		return !!data && !data.error;
-	}
 }
+
+type FetchedStockdata = TornV1StocksResponse;
 
 async function updateStocks() {
 	const oldStocks = { ...stockdata };
 	// TODO - Migrate to V2 (torn/stocks).
 	const stocks = (
-		await fetchData("tornv2", {
+		await fetchData<FetchedStockdata>("tornv2", {
 			section: "torn",
 			selections: ["stocks"],
 			legacySelections: ["stocks"],
 		})
 	).stocks;
 	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
-	stocks.date = Date.now();
 
-	await ttStorage.change({ stockdata: stocks });
+	await ttStorage.change({ stockdata: { ...stocks, date: Date.now() } });
 
 	if (oldStocks && settings.notifications.types.global) {
 		for (const id in settings.notifications.types.stocks) {
+			if (typeof oldStocks[id] === "number") continue;
+
 			const alerts = settings.notifications.types.stocks[id];
 
 			if (alerts.priceFalls && oldStocks[id].current_price > alerts.priceFalls && stocks[id].current_price <= alerts.priceFalls) {
@@ -1392,18 +1474,31 @@ async function updateStocks() {
 				})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`;
 
 				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
-				storeNotification({ title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
+				await storeNotification({
+					title: "TornTools -  Stock Alerts",
+					message,
+					url: LINKS.stocks,
+					date: Date.now(),
+				});
 			} else if (alerts.priceReaches && oldStocks[id].current_price < alerts.priceReaches && stocks[id].current_price >= alerts.priceReaches) {
 				const message = `(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
 					currency: true,
 				})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`;
 
 				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
-				storeNotification({ title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
+				await storeNotification({
+					title: "TornTools -  Stock Alerts",
+					message,
+					url: LINKS.stocks,
+					date: Date.now(),
+				});
 			}
 		}
 	}
 }
+
+type FetchedFactiondataBasic = FactionV1BasicResponse;
+type FetchedFactiondataWithAccess = FetchedFactiondataBasic & FactionV1CrimesResponse;
 
 async function updateFactiondata() {
 	if (!userdata?.faction) {
@@ -1414,7 +1509,7 @@ async function updateFactiondata() {
 		if (!hasFactiondata || hasFactionAPIAccess()) {
 			factiondata = await updateAccess();
 		} else {
-			const retry = !factiondata.retry || hasTimePassed(factiondata.date, TO_MILLIS.HOURS * 6);
+			const retry = ("retry" in factiondata && !!factiondata.retry) || ("date" in factiondata && hasTimePassed(factiondata.date, TO_MILLIS.HOURS * 6));
 
 			if (retry) factiondata = await updateAccess();
 			else factiondata = await updateBasic();
@@ -1423,34 +1518,34 @@ async function updateFactiondata() {
 
 	await ttStorage.set({ factiondata });
 
-	async function updateAccess() {
+	async function updateAccess(): Promise<StoredFactiondata> {
 		try {
 			// FIXME - Migrate to V2 (faction/basic).
 			// FIXME - Migrate to V2 (faction/crimes).
-			const data = await fetchData("tornv2", {
+			const data = await fetchData<FetchedFactiondataWithAccess>("tornv2", {
 				section: "faction",
 				selections: ["crimes", "basic"],
 				legacySelections: ["crimes", "basic"],
 				silent: true,
 			});
-			data.access = FACTION_ACCESS.full_access;
-			data.date = Date.now();
 
-			// FIXME - Look into OC2 not breaking this.
-			data.userCrime = calculateOC(data.crimes);
-			return data;
+			return {
+				...data,
+				access: FACTION_ACCESS.full_access,
+				date: Date.now(),
+				userCrime: calculateOC(data.crimes), // FIXME - Look into OC2 not breaking this.
+			};
 		} catch (error) {
 			if (error?.code === 7) {
 				const data = await updateBasic();
-				data.retry = Date.now();
 
-				return data;
+				return { ...data, retry: Date.now() };
 			}
 
 			return { error, access: FACTION_ACCESS.none };
 		}
 
-		function calculateOC(crimes) {
+		function calculateOC(crimes: FactionV1Crimes) {
 			let oc = -1;
 
 			for (const id of Object.keys(crimes).reverse()) {
@@ -1465,7 +1560,7 @@ async function updateFactiondata() {
 		}
 	}
 
-	async function updateBasic() {
+	async function updateBasic(): Promise<StoredFactiondataBasic | StoredFactiondataNoAccess> {
 		try {
 			// FIXME - Migrate to V2 (faction/basic).
 			const data = await fetchData("tornv2", {
@@ -1504,9 +1599,9 @@ async function updateNPCs() {
 	};
 
 	const now = Date.now();
-	let updated;
+	let updated: boolean;
 
-	if (npcs && npcs.next_update && npcs.next_update > now) {
+	if (npcs && "next_update" in npcs && npcs.next_update > now) {
 		updated = await updateLevels();
 	} else {
 		const services = [
@@ -1528,11 +1623,11 @@ async function updateNPCs() {
 	return { updated, alerts };
 
 	async function fetchYata() {
-		const data = await fetchData("yata", { section: "loot" });
+		const data = await fetchData<YATALoot>("yata", { section: "loot" });
 
-		if (npcs && npcs.timestamp === data.timestamp) return await updateLevels();
+		if (npcs && "timestamp" in npcs && npcs.timestamp === data.timestamp) return await updateLevels();
 
-		npcs = {
+		const newNpcs: StoredNpcs = {
 			next_update: data.next_update * 1000,
 			service: "YATA",
 			targets: {},
@@ -1541,7 +1636,7 @@ async function updateNPCs() {
 		for (let [id, hospital] of Object.entries(data.hosp_out)) {
 			hospital = hospital * 1000;
 
-			npcs.targets[id] = {
+			newNpcs.targets[id] = {
 				levels: {
 					1: hospital,
 					2: hospital + TO_MILLIS.MINUTES * 30,
@@ -1550,10 +1645,10 @@ async function updateNPCs() {
 					5: hospital + TO_MILLIS.MINUTES * 450,
 				},
 				name: NPCS[id] ?? "Unknown",
-				order: id,
+				order: parseInt(id),
 			};
 
-			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
+			newNpcs.targets[id].current = getCurrentLevel(newNpcs.targets[id]);
 		}
 
 		await ttStorage.set({ npcs });
@@ -1561,11 +1656,11 @@ async function updateNPCs() {
 	}
 
 	async function fetchTornStats() {
-		const data = await fetchData(FETCH_PLATFORMS.tornstats, { section: "loot" });
+		const data = await fetchData<TornstatsLoot>("tornstats", { section: "loot" });
 
 		if (data && !data.status) return await updateLevels();
 
-		npcs = {
+		const newNpcs: StoredNpcs = {
 			next_update: now + TO_MILLIS.MINUTES * 15,
 			service: "TornStats",
 			targets: {},
@@ -1574,7 +1669,7 @@ async function updateNPCs() {
 		for (const npc of Object.values(data)
 			.filter((x) => typeof x === "object")
 			.filter((npc) => npc.torn_id)) {
-			npcs.targets[npc.torn_id] = {
+			newNpcs.targets[npc.torn_id] = {
 				levels: {
 					1: npc.hosp_out * 1000,
 					2: npc.loot_2 * 1000,
@@ -1586,10 +1681,10 @@ async function updateNPCs() {
 				order: npc.torn_id,
 			};
 
-			npcs.targets[npc.torn_id].current = getCurrentLevel(npcs.targets[npc.torn_id]);
+			newNpcs.targets[npc.torn_id].current = getCurrentLevel(newNpcs.targets[npc.torn_id]);
 		}
 
-		await ttStorage.set({ npcs });
+		await ttStorage.set({ npcs: newNpcs });
 		return true;
 	}
 
@@ -1597,19 +1692,19 @@ async function updateNPCs() {
 		const {
 			time: { clear: planned, reason, attack: ongoing },
 			...data
-		} = await fetchData("lzpt", { section: "loot" });
+		} = await fetchData<LootRangersLoot>("lzpt", { section: "loot" });
 
-		npcs = {
+		const newNpcs: StoredNpcs = {
 			next_update: now + TO_MILLIS.MINUTES * (ongoing || (planned === 0 && !reason) ? 1 : 15),
 			service: "Loot Rangers",
 			targets: {},
 		};
 
-		for (let [id, npc] of Object.entries(data.npcs)) {
-			id = parseInt(id);
+		for (const [_id, npc] of Object.entries(data.npcs)) {
+			const id = parseInt(_id);
 			const hospital = npc.hosp_out * 1000;
 
-			npcs.targets[id] = {
+			newNpcs.targets[id] = {
 				levels: {
 					1: hospital,
 					2: hospital + TO_MILLIS.MINUTES * 30,
@@ -1622,18 +1717,20 @@ async function updateNPCs() {
 				order: data.order.findIndex((o) => o === id) + (npc.next ? 0 : 10),
 			};
 
-			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
+			newNpcs.targets[id].current = getCurrentLevel(newNpcs.targets[id]);
 		}
 
-		npcs.planned = planned === 0 ? false : planned * 1000;
-		npcs.reason = reason;
+		newNpcs.planned = planned === 0 ? false : planned * 1000;
+		newNpcs.reason = reason;
 
-		await ttStorage.set({ npcs });
+		await ttStorage.set({ npcs: newNpcs });
 		return true;
 	}
 
 	async function updateLevels() {
-		const targets = {};
+		if (!("targets" in npcs)) return false;
+
+		const targets: { [id: string]: Partial<StoredNpc> } = {};
 
 		for (const [id, npc] of Object.entries(npcs.targets)) {
 			const current = getCurrentLevel(npc);
@@ -1648,7 +1745,7 @@ async function updateNPCs() {
 		return false;
 	}
 
-	function getCurrentLevel(npc) {
+	function getCurrentLevel(npc: StoredNpc) {
 		return (
 			Object.entries(npc.levels)
 				.filter(([, time]) => time <= now)
@@ -1659,10 +1756,13 @@ async function updateNPCs() {
 
 	function checkNPCAlerts() {
 		if (!settings.notifications.types.global || !settings.notifications.types.npcsGlobal) return 0;
+		if (!("targets" in npcs)) return 0;
 
 		let alerts = 0;
 
-		for (const { id, level, minutes } of settings.notifications.types.npcs.filter(({ level, minutes }) => level !== "" && minutes !== "")) {
+		for (const { id, level, minutes } of settings.notifications.types.npcs.filter(
+			(npc): npc is { id: number; level: number; minutes: number } => npc.level !== "" && npc.minutes !== ""
+		)) {
 			const npc = npcs.targets[id];
 			if (!npc) {
 				delete notifications.npcs[id];
@@ -1719,11 +1819,14 @@ async function updateNPCs() {
 	}
 
 	function triggerUpdate() {
-		const shortest = Object.values(npcs.targets)
-			.flatMap((npc) => Object.values(npc.levels))
-			.filter((time) => time > now)
-			.sort()[0];
-		if (!shortest) return false;
+		const shortest =
+			"targets" in npcs
+				? Object.values(npcs.targets)
+						.flatMap((npc) => Object.values(npc.levels))
+						.filter((time) => time > now)
+						.sort()[0]
+				: null;
+		if (!shortest) return;
 
 		if (npcUpdater) clearTimeout(npcUpdater);
 		npcUpdater = setTimeout(() => {
@@ -1734,7 +1837,19 @@ async function updateNPCs() {
 	}
 }
 
-function newNotification(title, message, link) {
+type TTNotification =
+	| {
+			title: string;
+			message: string;
+			url?: string;
+			date: number;
+			type?: string;
+			key?: string | number;
+			seen?: boolean;
+	  }
+	| { combined: true };
+
+function newNotification(title: string, message: string, link?: string): TTNotification {
 	return {
 		title: `TornTools - ${title}`,
 		message,
@@ -1743,7 +1858,7 @@ function newNotification(title, message, link) {
 	};
 }
 
-async function notifyUser(title, message, url) {
+async function notifyUser(title: string, message: string, url?: string) {
 	await setupSoundPlayer();
 
 	const icon = chrome.runtime.getURL("resources/images/icon_128.png");
@@ -1780,13 +1895,10 @@ async function notifyUser(title, message, url) {
 	}
 
 	async function notifyNative() {
-		const id = await new Promise((resolve) => {
-			const options = { type: "basic", iconUrl: icon, title, message };
-			if (silent) options.silent = true;
-			if (requireInteraction) options.requireInteraction = true;
-
-			chrome.notifications.create(options, (id) => resolve(id));
-		});
+		const options: any = { type: "basic", iconUrl: icon, title, message };
+		if (silent) options.silent = true;
+		if (requireInteraction) options.requireInteraction = true;
+		const id = await chrome.notifications.create(options);
 
 		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().then(() => {});
 
@@ -1794,7 +1906,7 @@ async function notifyUser(title, message, url) {
 	}
 
 	async function notifyService() {
-		const options = {
+		const options: any = {
 			icon,
 			body: message,
 			requireInteraction,
@@ -1807,20 +1919,15 @@ async function notifyUser(title, message, url) {
 		}
 
 		if (!notificationWorker) {
-			// Setup the service worker.
-			await new Promise((resolve, reject) => {
-				navigator.serviceWorker
-					.register("scripts/service-worker.js")
-					.then((registration) => {
-						notificationWorker = registration;
-						registration.update().then(() => resolve());
-					})
-					.catch((error) => reject(error));
+			// Set up the service worker.
+			await navigator.serviceWorker.register("scripts/service-worker.js").then(async (registration) => {
+				notificationWorker = registration;
+				await registration.update();
 			});
 		}
 
 		// Send the actual notification.
-		await new Promise((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			notificationWorker
 				.showNotification(title, options)
 				.then(() => {
@@ -1832,7 +1939,7 @@ async function notifyUser(title, message, url) {
 		});
 	}
 
-	async function readMessage(text) {
+	async function readMessage(text: string) {
 		// Has TTS
 		if (typeof SpeechSynthesisUtterance !== "undefined") {
 			const ttsMessage = new SpeechSynthesisUtterance(text);
@@ -1853,7 +1960,17 @@ async function notifyUser(title, message, url) {
 
 // chrome.runtime.onConnect.addListener(() => {});
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+type BackgroundMessage =
+	| { action: "initialize" }
+	| { action: "play-notification-sound"; sound: string; volume: number }
+	| { action: "stop-notification-sound" }
+	| { action: "notification"; title: string; message: string; url?: string }
+	| { action: "fetchRelay"; location: FetchLocation; options: Partial<FetchOptions> }
+	| { action: "forceUpdate"; update: "torndata" | "stocks" | "factiondata" | "userdata" }
+	| { action: "reinitialize-timers" }
+	| { action: "clear-cache" };
+
+chrome.runtime.onMessage.addListener((message: BackgroundMessage, _sender, sendResponse: (response?: any) => void) => {
 	switch (message.action) {
 		case "initialize":
 			timedUpdates();
@@ -1870,7 +1987,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			sendResponse({ success: true });
 			break;
 		case "stop-notification-sound":
-			notificationTestPlayer.pause();
+			void notificationTestPlayer.pause();
 			break;
 		case "notification":
 			notifyUser(message.title, message.message, message.url)
@@ -1883,7 +2000,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				.catch((error) => sendResponse(error));
 			return true;
 		case "forceUpdate":
-			let updateFunction;
+			let updateFunction: (forceUpdate?: boolean) => Promise<void> | ReturnType<typeof updateUserdata>;
 
 			if (message.update === "torndata") updateFunction = updateTorndata;
 			else if (message.update === "stocks") updateFunction = updateStocks;
@@ -1892,16 +2009,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			else break;
 
 			updateFunction(true)
-				.then((result) => sendResponse(result))
-				.catch((error) => sendResponse(error));
+				.then((result: any) => sendResponse(result))
+				.catch((error: any) => sendResponse(error));
 			return true;
 		case "reinitialize-timers":
 			(async () => {
-				await chrome.alarms.clearAll();
-				await chrome.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-				await chrome.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
-				await chrome.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
-				await chrome.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
+				await resetAlarms();
 
 				sendResponse(await chrome.alarms.getAll());
 			})();
@@ -1916,15 +2029,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			sendResponse({ success: false, message: "Unknown action." });
 			break;
 	}
+	return undefined;
 });
 
 chrome.notifications.onClicked.addListener((id) => {
 	if (id in notificationRelations) {
-		chrome.tabs.create({ url: notificationRelations[id] });
+		void chrome.tabs.create({ url: notificationRelations[id] });
 	}
 });
 
-function getNotificationSound(type) {
+function getNotificationSound(type: string) {
 	switch (type) {
 		case "1":
 		case "2":
@@ -1964,7 +2078,7 @@ async function setupAudioPlayerDocument() {
 	}
 }
 
-async function storeNotification(notification) {
+async function storeNotification(notification: TTNotification) {
 	notificationHistory.insertAt(0, notification);
 	notificationHistory = notificationHistory.slice(0, 100);
 

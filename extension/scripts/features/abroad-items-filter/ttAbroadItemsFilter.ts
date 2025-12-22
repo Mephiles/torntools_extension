@@ -71,7 +71,7 @@
 		async function filtering() {
 			const profitOnly = settings.pages.travel.travelProfits && profitOnlyFilter.isChecked(content);
 			const outOfStock = outOfStockFilter.isChecked(content);
-			const categories = categoryFilter.getSelections(content);
+			const categories = categoryFilter.getSelections(content) as string[];
 			if (profitOnly) await requireElement(".tt-travel-market-cell");
 
 			for (const li of document.findAll("[class*='stockTableWrapper___'] > li")) {

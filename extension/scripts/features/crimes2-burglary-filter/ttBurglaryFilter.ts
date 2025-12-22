@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -8,7 +6,7 @@
 		"crimes2",
 		() => settings.pages.crimes2.burglaryFilter,
 		initialise,
-		addFilter,
+		() => addFilter(null),
 		removeFilter,
 		{
 			storage: ["settings.pages.crimes2.burglaryFilter"],
@@ -86,7 +84,7 @@
 		return content;
 	}
 
-	async function addFilter(crimeRoot: Element) {
+	async function addFilter(crimeRoot: Element | null) {
 		if (!window.location.hash.includes("burglary")) return;
 		if (!crimeRoot) {
 			try {

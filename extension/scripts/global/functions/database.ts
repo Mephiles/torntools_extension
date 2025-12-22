@@ -1,25 +1,82 @@
-"use strict";
+type DatabaseSettings = Writable<DefaultStorageType["settings"]>;
+type DatabaseFilters = Writable<DefaultStorageType["filters"]>;
+type DatabaseVersion = Writable<DefaultStorageType["version"]>;
+type DatabaseApi = Writable<DefaultStorageType["api"]>;
+type DatabaseUserdata = Writable<DefaultStorageType["userdata"]>;
+type DatabaseTorndata = Writable<DefaultStorageType["torndata"]>;
+type DatabaseStakeouts = Writable<DefaultStorageType["stakeouts"]>;
+type DatabaseAttackHistory = Writable<DefaultStorageType["attackHistory"]>;
+type DatabaseNotes = Writable<DefaultStorageType["notes"]>;
+type DatabaseFactiondata = Writable<DefaultStorageType["factiondata"]>;
+type DatabaseQuick = Writable<DefaultStorageType["quick"]>;
+type DatabaseLocaldata = Writable<DefaultStorageType["localdata"]>;
+type DatabaseNpcs = Writable<DefaultStorageType["npcs"]>;
+type DatabaseNotificationHistory = Writable<DefaultStorageType["notificationHistory"]>;
+type DatabaseStockdata = Writable<DefaultStorageType["stockdata"]>;
+type DatabaseFactionStakeouts = Writable<DefaultStorageType["factionStakeouts"]>;
+type DatabaseNotifications = Writable<DefaultStorageType["notifications"]>;
 
-let settings,
-	filters,
-	version,
-	api,
-	userdata,
-	torndata,
-	stakeouts,
-	attackHistory,
-	notes,
-	factiondata,
-	quick,
-	localdata,
-	npcs,
-	notificationHistory,
-	stockdata,
-	factionStakeouts,
-	notifications;
+interface Database {
+	settings: DatabaseSettings;
+	filters: DatabaseFilters;
+	version: DatabaseVersion;
+	api: DatabaseApi;
+	userdata: DatabaseUserdata;
+	torndata: DatabaseTorndata;
+	stakeouts: DatabaseStakeouts;
+	attackHistory: DatabaseAttackHistory;
+	notes: DatabaseNotes;
+	factiondata: DatabaseFactiondata;
+	quick: DatabaseQuick;
+	localdata: DatabaseLocaldata;
+	npcs: DatabaseNpcs;
+	notificationHistory: DatabaseNotificationHistory;
+	stockdata: DatabaseStockdata;
+	factionStakeouts: DatabaseFactionStakeouts;
+	notifications: DatabaseNotifications;
+	cache: DatabaseCache;
+	usage: DatabaseUsage;
+}
+
+let settings: DatabaseSettings;
+let filters: DatabaseFilters;
+let version: DatabaseVersion;
+let api: DatabaseApi;
+let userdata: DatabaseUserdata;
+let torndata: DatabaseTorndata;
+let stakeouts: DatabaseStakeouts;
+let attackHistory: DatabaseAttackHistory;
+let notes: DatabaseNotes;
+let factiondata: DatabaseFactiondata;
+let quick: DatabaseQuick;
+let localdata: DatabaseLocaldata;
+let npcs: DatabaseNpcs;
+let notificationHistory: DatabaseNotificationHistory;
+let stockdata: DatabaseStockdata;
+let factionStakeouts: DatabaseFactionStakeouts;
+let notifications: DatabaseNotifications;
+
 let databaseLoaded = false;
 let databaseLoading = false;
-const storageListeners = {
+
+type StorageListener<T> = (oldValue: T) => void;
+
+interface StorageListeners {
+	settings: StorageListener<DatabaseSettings>[];
+	filters: StorageListener<DatabaseFilters>[];
+	version: StorageListener<DatabaseVersion>[];
+	userdata: StorageListener<DatabaseUserdata>[];
+	stakeouts: StorageListener<DatabaseStakeouts>[];
+	factionStakeouts: StorageListener<DatabaseFactionStakeouts>[];
+	notes: StorageListener<DatabaseNotes>[];
+	factiondata: StorageListener<DatabaseFactiondata>[];
+	localdata: StorageListener<DatabaseLocaldata>[];
+	cache: StorageListener<DatabaseCache>[];
+	api: StorageListener<DatabaseApi>[];
+	npcs: StorageListener<DatabaseNpcs>[];
+}
+
+const storageListeners: StorageListeners = {
 	settings: [],
 	filters: [],
 	version: [],
@@ -32,7 +89,7 @@ const storageListeners = {
 	cache: [],
 	api: [],
 	npcs: [],
-};
+} as const;
 
 async function loadDatabase() {
 	if (databaseLoaded) return Promise.resolve();
@@ -79,7 +136,7 @@ async function migrateDatabase(force = false) {
 
 	populateDatabaseVariables(migratedStorage);
 
-	function convertGeneral(oldStorage, defaultStorage) {
+	function convertGeneral(oldStorage: any, defaultStorage: any) {
 		const newStorage = {};
 
 		for (const key in defaultStorage) {
@@ -87,17 +144,16 @@ async function migrateDatabase(force = false) {
 			if (!(key in oldStorage)) oldStorage[key] = {};
 
 			if (typeof defaultStorage[key] === "object") {
-				if (defaultStorage[key] instanceof DefaultSetting) {
+				const storage = defaultStorage[key];
+				if (storage instanceof DefaultSetting) {
 					let useCurrent = true;
 
-					if (defaultStorage[key].type === "array") {
+					if (storage.type === "array") {
 						if (!Array.isArray(oldStorage[key])) {
 							useDefault();
 							useCurrent = false;
 						}
-					} else if (
-						!defaultStorage[key].type.split("|").some((value) => value === typeof oldStorage[key] || (value === "empty" && oldStorage[key] === ""))
-					) {
+					} else if (!storage.type.split("|").some((value) => value === typeof oldStorage[key] || (value === "empty" && oldStorage[key] === ""))) {
 						useDefault();
 						useCurrent = false;
 					}
@@ -128,7 +184,7 @@ async function migrateDatabase(force = false) {
 		return newStorage;
 	}
 
-	function convertSpecific(storage, newStorage) {
+	function convertSpecific(storage: any, newStorage: any) {
 		const version = toNumericVersion(storedVersion);
 
 		let updated = false;
@@ -138,37 +194,44 @@ async function migrateDatabase(force = false) {
 				newStorage.notes.sidebar.height = storage.notes.height || "22px";
 			}
 			if (storage?.profile_notes?.profiles) {
-				for (const [id, { height, notes }] of Object.entries(storage.profile_notes.profiles)) {
-					newStorage.notes.profile[id] = { height: height || "17px", text: notes };
+				for (const [id, profileNote] of Object.entries(storage.profile_notes.profiles)) {
+					const note = profileNote as { height?: string; notes?: string };
+					newStorage.notes.profile[id] = { height: note.height || "17px", text: note.notes };
 				}
 			}
 			newStorage.quick.items = storage?.quick?.items?.map((id) => ({ id: parseInt(id) })) || [];
 			if (storage?.stakeouts)
 				newStorage.stakeouts = Object.entries(storage.stakeouts)
-					.filter(([id]) => !isNaN(id) && !!parseInt(id))
-					.map(([id, stakeout]) => ({
-						[id]: {
-							alerts: {
-								okay: stakeout.notifications.okay,
-								hospital: stakeout.notifications.hospital,
-								landing: stakeout.notifications.lands,
-								online: stakeout.notifications.online,
-								life: false,
-								offline: false,
+					.filter(([id]) => !isNaN(parseInt(id)) && !!parseInt(id))
+					.map(([id, stakeout]) => {
+						const stakeoutData = stakeout as { notifications?: { okay?: boolean; hospital?: boolean; lands?: boolean; online?: boolean } };
+						return {
+							[id]: {
+								alerts: {
+									okay: stakeoutData.notifications?.okay || false,
+									hospital: stakeoutData.notifications?.hospital || false,
+									landing: stakeoutData.notifications?.lands || false,
+									online: stakeoutData.notifications?.online || false,
+									life: false,
+									offline: false,
+								},
 							},
-						},
-					}))
+						};
+					})
 					.filter((result) => Object.values(result)[0] !== undefined)
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
 			if (storage?.stock_alerts)
 				newStorage.settings.notifications.types.stocks = Object.entries(storage.stock_alerts)
-					.filter(([id]) => !isNaN(id) && !!parseInt(id))
-					.map(([id, alert]) => ({
-						[id]: {
-							priceFalls: parseInt(alert.fall) || "",
-							priceReaches: parseInt(alert.reach) || "",
-						},
-					}))
+					.filter(([id]) => !isNaN(parseInt(id)) && !!parseInt(id))
+					.map(([id, alert]) => {
+						const alertData = alert as { fall?: string | number; reach?: string | number };
+						return {
+							[id]: {
+								priceFalls: typeof alertData.fall === "number" ? alertData.fall : parseInt(String(alertData.fall || "")) || "",
+								priceReaches: typeof alertData.reach === "number" ? alertData.reach : parseInt(String(alertData.reach || "")) || "",
+							},
+						};
+					})
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
 
 			// Reset
@@ -252,12 +315,13 @@ async function migrateDatabase(force = false) {
 			updated = true;
 		} else if (version <= toNumericVersion("7.7.4")) {
 			newStorage.attackHistory.history = Object.entries(storage.attackHistory.history).reduce((previousValue, [id, data]) => {
+				const entry = data as { respect?: number[]; respect_base?: number[]; [key: string]: any };
 				return {
 					...previousValue,
 					[id]: {
-						...data,
-						respect: data.respect.filter((r) => !!r),
-						respect_base: data.respect_base.filter((r) => !!r),
+						...entry,
+						respect: (entry.respect || []).filter((r) => !!r),
+						respect_base: (entry.respect_base || []).filter((r) => !!r),
 					},
 				};
 			}, {});
@@ -300,7 +364,7 @@ async function migrateDatabase(force = false) {
 
 		newStorage.version.current = loadedVersion;
 
-		function replaceProfileBoxStat(stats, oldStat, newStat) {
+		function replaceProfileBoxStat(stats: string[], oldStat: string, newStat: string) {
 			const index = stats.indexOf(oldStat);
 			if (index === -1) return stats;
 
@@ -312,7 +376,7 @@ async function migrateDatabase(force = false) {
 	}
 }
 
-function populateDatabaseVariables(database) {
+function populateDatabaseVariables(database: Database) {
 	settings = database.settings;
 	filters = database.filters;
 	version = database.version;

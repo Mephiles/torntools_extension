@@ -6,7 +6,7 @@
 		"bazaar",
 		() => settings.pages.bazaar.worth,
 		addListener,
-		addWorth,
+		(liveReload) => addWorth(liveReload, null),
 		removeWorth,
 		{
 			storage: ["settings.pages.bazaar.worth"],
