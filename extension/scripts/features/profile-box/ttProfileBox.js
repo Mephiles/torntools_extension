@@ -692,7 +692,7 @@
 							? {
 									groupBy: "type",
 									cellRenderer: stringCellRenderer,
-							  }
+								}
 							: undefined,
 					}
 				);

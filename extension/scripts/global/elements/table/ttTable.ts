@@ -99,8 +99,8 @@ function createTableHeaderCell<T>(
 		const direction = !currentDirection
 			? COLUMN_SORT_DIRECTION.Asc
 			: currentDirection === COLUMN_SORT_DIRECTION.Asc
-			? COLUMN_SORT_DIRECTION.Desc
-			: COLUMN_SORT_DIRECTION.Asc;
+				? COLUMN_SORT_DIRECTION.Desc
+				: COLUMN_SORT_DIRECTION.Asc;
 		setColumnSort(direction);
 		options.onColumnSorted?.(direction);
 	}
