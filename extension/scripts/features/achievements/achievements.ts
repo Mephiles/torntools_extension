@@ -1,4 +1,18 @@
-const ACHIEVEMENTS = [
+type Achievement = {
+	name: string;
+	group?: string;
+	type?: string;
+	stats: () => number;
+	detection?: {
+		keyword?: string;
+		include?: string[];
+		exclude?: string[];
+		goals?: { score: number; type: "honors" | "medals"; id: number }[];
+	};
+	requirements: { pages: string[]; condition?: () => boolean };
+} & { goals?: { score: number; completed: boolean; count?: number }[]; current?: number; completed?: boolean };
+
+const ACHIEVEMENTS: Achievement[] = [
 	{
 		name: "Perks",
 		stats: () =>
@@ -625,7 +639,7 @@ const ACHIEVEMENTS = [
 	},
 	{
 		name: "Hunting skill",
-		stats: () => userdata.hunting,
+		stats: () => parseInt(userdata.hunting),
 		detection: { keyword: "hunting", include: ["skill"] },
 		requirements: { pages: ["home", "travel"] },
 	},
@@ -755,7 +769,7 @@ const ACHIEVEMENTS = [
 	},
 	{
 		name: "Org. crimes",
-		stats: () => userdata.personalstats.crimes.organized_crimes,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).organized_crimes,
 		detection: { keyword: "organized crimes" },
 		requirements: { pages: ["factions"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
@@ -764,146 +778,146 @@ const ACHIEVEMENTS = [
 	{
 		name: "Fraud",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.fraud,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.fraud,
 		detection: { keyword: "fraud", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Theft",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.theft,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.theft,
 		detection: { keyword: "theft", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Vandalism",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.vandalism,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.vandalism,
 		detection: { keyword: "vandalism", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Counterfeiting",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.counterfeiting,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.counterfeiting,
 		detection: { keyword: "counterfeiting", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Illicit Service",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.illicit_services,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.illicit_services,
 		detection: { keyword: "illicit service", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Cybercrime",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.cybercrime,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.cybercrime,
 		detection: { keyword: "cybercrime", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Extortion",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.extortion,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.extortion,
 		detection: { keyword: "extortion", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Illegal Production",
 		group: "crime total",
-		stats: () => userdata.personalstats.crimes.offenses.illegal_production,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.illegal_production,
 		detection: { keyword: "illegal production", include: ["offenses"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Search for Cash Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.search_for_cash,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.search_for_cash,
 		detection: { keyword: "search for cash", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Bootlegging Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.bootlegging,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.bootlegging,
 		detection: { keyword: "bootlegging", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Graffiti Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.graffiti,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.graffiti,
 		detection: { keyword: "graffiti", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Shoplifting Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.shoplifting,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.shoplifting,
 		detection: { keyword: "shoplifting", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Card Skimming Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.card_skimming,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.card_skimming,
 		detection: { keyword: "card skimming", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Burglary Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.burglary,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.burglary,
 		detection: { keyword: "burglary", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Pickpocketing Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.pickpocketing,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.pickpocketing,
 		detection: { keyword: "pickpocketing", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Hustling Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.hustling,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.hustling,
 		detection: { keyword: "hustling", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Disposal Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.disposal,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.disposal,
 		detection: { keyword: "disposal", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Cracking Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.cracking,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.cracking,
 		detection: { keyword: "cracking", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Forgery Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.forgery,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.forgery,
 		detection: { keyword: "forgery", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Scamming Skill",
 		group: "crime skill",
-		stats: () => userdata.personalstats.crimes.skills.scamming,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.scamming,
 		detection: { keyword: "scamming", include: ["skill"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
 		name: "Org. crimes",
-		stats: () => userdata.personalstats.crimes.offenses.organized_crimes,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.organized_crimes,
 		detection: { keyword: "organized crimes" },
 		requirements: { pages: ["factions"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
@@ -931,7 +945,7 @@ function validateAchievements() {
 
 	return { nonMatchingMedals, nonMatchingHonors };
 
-	function matchesAchievement(achievement, merit, id, type) {
+	function matchesAchievement(achievement: Achievement, merit: Omit<TornMedal, "id"> | Omit<TornHonor, "id">, id: number, type: "medals" | "honors") {
 		if (achievement.detection) {
 			let { keyword, include, exclude, goals } = achievement.detection;
 			if (goals && goals.some((g) => g.type === type && id === g.id)) {

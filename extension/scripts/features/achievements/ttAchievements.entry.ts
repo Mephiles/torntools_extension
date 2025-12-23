@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	await requireFeatureManager();
 
@@ -31,6 +29,8 @@
 				!settings.apiUsage.user.weaponexp
 			)
 				return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -85,7 +85,7 @@
 
 					if (keyword) {
 						for (const type of ["honors", "medals"]) {
-							const merits = torndata[type];
+							const merits: TornMedal[] | TornHonor[] = torndata[type];
 
 							for (const merit of merits) {
 								const description = merit.description.toLowerCase();
@@ -98,8 +98,8 @@
 								desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
 								desc = desc.replace(/\D|\d+%/g, ""); // replace all non-numbers and percentages
 
-								const score = parseInt(desc) || "none";
-								if (isNaN(score)) continue;
+								const score = parseInt(desc) || null;
+								if (score === null || isNaN(score)) continue;
 
 								// Remove duplicates.
 								const duplicate = achievement.goals.find((goal) => goal.score === score);
@@ -108,7 +108,7 @@
 									continue;
 								}
 
-								achievement.goals.push({ score, completed: !!userdata[type].find((a) => a.id === merit.id) });
+								achievement.goals.push({ score, completed: !!userdata[type].find((a: TornHonor | TornMedal) => a.id === merit.id) });
 							}
 						}
 					}
@@ -147,8 +147,8 @@
 			for (const achievement of achievements) {
 				const hasGoals = !!achievement.goals;
 
-				const dataset = { score: achievement.current };
-				let text;
+				const dataset: { [key: string]: any } = { score: achievement.current };
+				let text: string;
 				if (achievement.completed) text = "Completed!";
 				else if (achievement.goals)
 					text = `${formatNumber(achievement.current, { shorten: true })}/${formatNumber(achievement.goals.find((goal) => !goal.completed).score, {
@@ -193,15 +193,16 @@
 				countTimers.push(timer);
 			}
 
-			function showTooltip(event) {
-				if (event.target.classList.contains("active")) return;
+			function showTooltip(event: Event) {
+				const target = event.target as HTMLElement;
+				if (target.classList.contains("active")) return;
 
 				const active = document.find(".tt-award.active");
 				if (active) active.classList.remove("active");
 
-				event.target.classList.add("active");
+				target.classList.add("active");
 
-				const position = event.target.getBoundingClientRect();
+				const position = target.getBoundingClientRect();
 				const positionBody = document.body.getBoundingClientRect();
 				tooltip.style.left = `${position.x + 172 + 7}px`;
 				tooltip.style.top = `${position.y + Math.abs(positionBody.y) + 6}px`;
@@ -210,8 +211,8 @@
 
 				const progress = document.newElement({ type: "ol", class: "awards-progress" });
 
-				const score = parseInt(event.target.dataset.score);
-				const goals = JSON.parse(event.target.dataset.goals);
+				const score = parseInt(target.dataset.score);
+				const goals = JSON.parse(target.dataset.goals);
 
 				let addedScore = false;
 				for (const goal of goals) {
@@ -230,7 +231,7 @@
 
 				tooltipContent.appendChild(progress);
 
-				function getNode(score, isCompleted, isActive) {
+				function getNode(score: number, isCompleted: boolean, isActive: boolean) {
 					return document.newElement({
 						type: "li",
 						class: `${isCompleted ? "is-completed" : ""} ${isActive ? "is-current" : ""}`,
@@ -239,9 +240,9 @@
 				}
 			}
 
-			function hideTooltip(event) {
+			function hideTooltip(event: Event) {
 				if (document.activeElement === event.target) return;
-				event.target.classList.remove("active");
+				(event.target as Element).classList.remove("active");
 
 				tooltip.style.display = "none";
 			}
@@ -251,4 +252,6 @@
 	function removeAchievements() {
 		removeContainer("Awards");
 	}
+
+	return true;
 })();
