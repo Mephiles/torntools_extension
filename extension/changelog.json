@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix profile box currency table cells not working", "contributor": "AllMight" }
+				{ "message": "Fix profile box currency table cells not working", "contributor": "AllMight" },
+				{ "message": "Fix 'Travel Table' not being loaded correctly when YATA is slow.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
