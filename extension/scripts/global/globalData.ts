@@ -941,6 +941,8 @@ const DEFAULT_STORAGE = {
 			categories: new DefaultSetting<string[]>("array", []),
 			countries: new DefaultSetting<string[]>("array", []),
 			hideOutOfStock: new DefaultSetting("boolean", false),
+			applySalesTax: new DefaultSetting("boolean", false),
+			sellAnonymously: new DefaultSetting("boolean", false),
 		},
 		abroadPeople: {
 			activity: new DefaultSetting<string[]>("array", []),

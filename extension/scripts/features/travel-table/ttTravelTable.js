@@ -18,6 +18,9 @@
 		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 1800, time: 159 },
 	};
 
+	const SALES_TAX = 5;
+	const ANONYMOUS_TAX = 10;
+
 	const feature = featureManager.registerFeature(
 		"Travel Table",
 		"travel",
@@ -145,10 +148,18 @@
 										<input id="travel-items" type="number" min="5"/>
 									</div>
 								</div>
-								<div class="row flex">
+								<div class="row">
 									<div>
 										<input id="hide-out-of-stock" type="checkbox"/>
 										<label for="hide-out-of-stock">Hide out of stock items.</label>
+									</div>
+									<div>
+										<input id="apply-sales-tax" type="checkbox"/>
+										<label for="apply-sales-tax">Apply ${SALES_TAX}% sales tax for item market.</label>
+									</div>
+									<div>
+										<input id="sell-anonymously" type="checkbox"/>
+										<label for="sell-anonymously">Apply ${ANONYMOUS_TAX}% tax for selling anonymously.</label>
 									</div>
 								</div>
 								<div class="heading">Items</div>
@@ -279,6 +290,8 @@
 				content.find("#travel-items").value = amount;
 
 				if (filters.travel.hideOutOfStock) content.find("#hide-out-of-stock").checked = true;
+				if (filters.travel.applySalesTax) content.find("#apply-sales-tax").checked = true;
+				if (filters.travel.sellAnonymously) content.find("#sell-anonymously").checked = true;
 				for (const category of filters.travel.categories) {
 					const element = content.find(`.categories input[name="item"][category="${category}"]`);
 					if (element) element.checked = true;
@@ -294,6 +307,16 @@
 					ttStorage.change({ filters: { travel: { hideOutOfStock: event.target.checked } } });
 
 					updateTable(content);
+				});
+				content.find("#apply-sales-tax").addEventListener("change", (event) => {
+					ttStorage.change({ filters: { travel: { applySalesTax: event.target.checked } } });
+
+					setTimeout(updateValues);
+				});
+				content.find("#sell-anonymously").addEventListener("change", (event) => {
+					ttStorage.change({ filters: { travel: { sellAnonymously: event.target.checked } } });
+
+					setTimeout(updateValues);
 				});
 				for (const item of content.findAll(".categories input[name='item']")) {
 					item.addEventListener("change", () => {
@@ -352,11 +375,19 @@
 
 				const tornItem = torndata.items[item.id];
 				let value = tornItem?.market_value ?? 0;
-				let time = country.time * getTimeModifier(getTravelType());
+				const time = country.time * getTimeModifier(getTravelType());
 				let profitItem, profitMinute, profit;
 				if (value !== 0) {
-					profitItem = value - cost;
-					profit = amount * value - totalCost;
+					const sales = value * amount;
+
+					const applySalesTax = content.find("#apply-sales-tax").checked;
+					const salesTax = applySalesTax ? Math.ceil((sales * SALES_TAX) / 100) : 0;
+
+					const sellAnonymously = content.find("#sell-anonymously").checked;
+					const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
+
+					profit = sales - (totalCost + salesTax + anonymousTax);
+					profitItem = (profit / amount).dropDecimals();
 					profitMinute = (profit / (time * 2)).dropDecimals();
 				} else {
 					value = "N/A";
@@ -412,12 +443,6 @@
 						stock: item.quantity,
 					},
 				});
-			}
-
-			function getValueClass(value) {
-				if (value === "N/A") return "";
-
-				return value > 0 ? "positive" : "negative";
 			}
 		}
 
@@ -479,6 +504,12 @@
 		}
 	}
 
+	function getValueClass(value) {
+		if (value === "N/A") return "";
+
+		return value > 0 ? "positive" : "negative";
+	}
+
 	function getSelectedCategories(content) {
 		return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
 	}
@@ -511,20 +542,42 @@
 	function updateValues() {
 		const content = findContainer("Travel Destinations", { selector: ":scope > main" });
 		const table = content.find("#tt-travel-table");
+		if (!table) return;
 
 		const amount = parseInt(content.find("#travel-items").value);
+		const applySalesTax = content.find("#apply-sales-tax").checked;
+		const sellAnonymously = content.find("#sell-anonymously").checked;
 
 		for (const row of table.findAll(".row:not(.header)")) {
 			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
 			if (!cost) continue;
+
 			const modifiedTime = time * getTimeModifier(getTravelType());
 			const totalCost = amount * cost + travelCost;
 			if (value && value !== "N/A") {
-				const profit = amount * value - totalCost;
+				const sales = value * amount;
+				const salesTax = applySalesTax ? Math.ceil((sales * SALES_TAX) / 100) : 0;
+				const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
+
+				const profit = sales - (totalCost + salesTax + anonymousTax);
+				const profitItem = (profit / amount).dropDecimals();
 				const profitMinute = (profit / (modifiedTime * 2)).dropDecimals();
 
-				row.find(".profit-minute").textContent = formatNumber(profitMinute, { shorten: true, currency: true, forceOperation: true });
-				row.find(".profit").textContent = formatNumber(profit, { shorten: true, currency: true, forceOperation: true });
+				const elementProfitItem = row.find(".profit-item");
+				const elementProfitMinute = row.find(".profit-minute");
+				const elementProfit = row.find(".profit");
+
+				[
+					[elementProfitItem, profitItem],
+					[elementProfitMinute, profitMinute],
+					[elementProfit, profit],
+				].forEach(([element, value]) => {
+					element.classList.remove("positive", "negative");
+					element.classList.add(getValueClass(value));
+					element.textContent = formatNumber(value, { shorten: true, currency: true, forceOperation: true });
+					element.setAttribute("value", value);
+				});
+				resortTable(table);
 			}
 
 			row.find(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
