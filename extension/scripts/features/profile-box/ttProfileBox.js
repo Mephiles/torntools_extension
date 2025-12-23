@@ -83,8 +83,8 @@
 		{ name: "Incendiary ammo used", type: "attacking", v2Getter: (data) => data.personalstats.attacking.ammunition.incendiary },
 		{ name: "Stealth attacks", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.stealth },
 		{ name: "Retaliations", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.retaliations },
-		{ name: "Money mugged", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.money_mugged, formatter: currencyCellRenderer },
-		{ name: "Largest mug", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.largest_mug, formatter: currencyCellRenderer },
+		{ name: "Money mugged", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.money_mugged, format: "currency" },
+		{ name: "Largest mug", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.largest_mug, format: "currency" },
 		{ name: "Items looted", type: "attacking", v2Getter: (data) => data.personalstats.attacking.networth.items_looted },
 		{ name: "Highest level beaten", type: "attacking", v2Getter: (data) => data.personalstats.attacking.highest_level_beaten },
 		{ name: "Total respect", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.respect },
@@ -120,7 +120,7 @@
 		{ name: "People busted", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.success },
 		{ name: "Failed busts", type: "jail", v2Getter: (data) => data.personalstats.jail.busts.fails },
 		{ name: "People bailed", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.amount },
-		{ name: "Bail fees", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.fees, formatter: currencyCellRenderer },
+		{ name: "Bail fees", type: "jail", v2Getter: (data) => data.personalstats.jail.bails.fees, format: "currency" },
 
 		// Hospital
 		{ name: "Times in hospital", type: "hospital", v2Getter: (data) => data.personalstats.hospital.times_hospitalized },
@@ -333,11 +333,11 @@
 
 		// Bounties
 		{ name: "Bounties placed", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.amount },
-		{ name: "Spent on bounties", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.value, formatter: currencyCellRenderer },
+		{ name: "Spent on bounties", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.value, format: "currency" },
 		{ name: "Bounties collected", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.amount },
-		{ name: "Money rewarded", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.value, formatter: currencyCellRenderer },
+		{ name: "Money rewarded", type: "bounties", v2Getter: (data) => data.personalstats.bounties.collected.value, format: "currency" },
 		{ name: "Bounties received", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.amount },
-		{ name: "Received value", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.value, formatter: currencyCellRenderer },
+		{ name: "Received value", type: "bounties", v2Getter: (data) => data.personalstats.bounties.received.value, format: "currency" },
 
 		// Items
 		{ name: "Items found", type: "items", v2Getter: (data) => data.personalstats.items.found.city },
@@ -377,7 +377,7 @@
 		{ name: "Drugs used", type: "drugs", v2Getter: (data) => data.personalstats.drugs.total },
 		{ name: "Times overdosed", type: "drugs", v2Getter: (data) => data.personalstats.drugs.overdoses },
 		{ name: "Rehabilitations", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.amount },
-		{ name: "Rehabilitation fees", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.fees, formatter: currencyCellRenderer },
+		{ name: "Rehabilitation fees", type: "drugs", v2Getter: (data) => data.personalstats.drugs.rehabilitations.fees, format: "currency" },
 		{ name: "Cannabis taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.cannabis },
 		{ name: "Ecstasy taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ecstasy },
 		{ name: "Ketamine taken", type: "drugs", v2Getter: (data) => data.personalstats.drugs.ketamine },
@@ -402,7 +402,7 @@
 		{ name: "Races won", type: "racing", v2Getter: (data) => data.personalstats.racing.races.won },
 
 		// Networth
-		{ name: "Networth", type: "networth", v2Getter: (data) => data.personalstats.networth.total, formatter: currencyCellRenderer },
+		{ name: "Networth", type: "networth", v2Getter: (data) => data.personalstats.networth.total, format: "currency" },
 
 		// Other
 		{ name: "Time played", type: "other", v2Getter: (data) => data.personalstats.other.activity.time },
@@ -665,11 +665,19 @@
 			}
 
 			function createStatsTable(id, rows, hidden = false, hasHeaders = false) {
+				const cellRendererSelector = (row) => {
+					switch (row.format) {
+						case "currency":
+							return currencyCellRenderer;
+						default:
+							return numberCellRenderer;
+					}
+				};
 				return createTable(
 					[
 						{ id: "stat", title: "Stat", width: 140, cellRenderer: stringCellRenderer },
-						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRenderer: numberCellRenderer },
-						{ id: "you", title: "You", class: "your-stat", width: 80, cellRenderer: numberCellRenderer },
+						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRendererSelector },
+						{ id: "you", title: "You", class: "your-stat", width: 80, cellRendererSelector },
 					],
 					rows,
 					{
@@ -684,7 +692,7 @@
 							? {
 									groupBy: "type",
 									cellRenderer: stringCellRenderer,
-								}
+							  }
 							: undefined,
 					}
 				);
@@ -706,9 +714,8 @@
 							stat: stat.name,
 							them: them,
 							you: { value: you, relative: you - them },
+							format: stat.format,
 						};
-
-						if (stat.formatter) row.cellRenderer = stat.formatter;
 
 						return row;
 					})
@@ -732,9 +739,8 @@
 							them: them,
 							you: { value: you, relative: you - them },
 							type: stat.type,
+							format: stat.format,
 						};
-
-						if (stat.formatter) row.cellRenderer = stat.formatter;
 
 						return row;
 					})
