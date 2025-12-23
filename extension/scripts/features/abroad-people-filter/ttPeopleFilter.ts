@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isAbroad()) return;
 
@@ -174,7 +172,25 @@
 		);
 	}
 
-	function filterRow(row, filters, individual) {
+	type AbroadPeopleFilters = {
+		activity: string[];
+		status: string[];
+		level: {
+			start: number;
+			end: number;
+		};
+		faction: string;
+		special: {
+			newPlayer: SpecialFilterValue;
+			inCompany: SpecialFilterValue;
+			inFaction: SpecialFilterValue;
+			isDonator: SpecialFilterValue;
+			hasBounties: SpecialFilterValue;
+		};
+		statsEstimates: string[];
+	};
+
+	function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, individual: boolean) {
 		if (filters.activity?.length) {
 			if (
 				!filters.activity.some(
@@ -186,7 +202,7 @@
 			}
 		}
 		if (filters.faction) {
-			const factionElement = row.find(".user.faction");
+			const factionElement = row.find<HTMLAnchorElement>(".user.faction");
 
 			const hasFaction = !!factionElement.href;
 			const factionName = hasFaction
@@ -287,7 +303,7 @@
 			}
 		}
 
-		function hide(reason) {
+		function hide(reason: string) {
 			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 
