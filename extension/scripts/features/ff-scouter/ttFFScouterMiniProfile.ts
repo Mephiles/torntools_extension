@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const SCOUTER_SERVICE = scouterService();
 
@@ -16,6 +14,8 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
+
+			return true;
 		}
 	);
 
@@ -38,21 +38,21 @@
 		});
 	}
 
-	async function showFF(information) {
+	async function showFF(information: any) {
 		const userId = information.user.userID;
 
 		SCOUTER_SERVICE.scoutSingle(userId)
 			.then((scout) => showResult(scout))
 			.catch((reason) => {
 				if ("error" in reason) {
-					showResult({ message: reason.error, isError: true });
+					showResult({ player_id: userId, message: reason.error, message_short: reason.error, isError: true });
 				} else {
 					console.error("TT - Failed to scout ff for the mini profile.", reason);
 				}
 			});
 	}
 
-	async function showResult(scout) {
+	async function showResult(scout: ScouterResult) {
 		const { message, className, detailMessage } = buildScoutInformation(scout);
 
 		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -18,6 +16,8 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
+
+			return true;
 		}
 	);
 

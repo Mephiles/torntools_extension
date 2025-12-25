@@ -1,52 +1,38 @@
-/**
- * @typedef ScouterResult
- * @type {object}
- * @property {number} player_id
- * @property {number|null} fair_fight
- * @property {number|null} bs_estimate
- * @property {string|null} bs_estimate_human
- * @property {EpochTimeStamp|null} last_updated
- * @property {string|null} message
- * @property {string|null} message_short
- * @property {boolean|null} isError
- */
+type ScouterResult =
+	| {
+			player_id: number;
+			fair_fight: number | null;
+			bs_estimate: number | null;
+			bs_estimate_human: string | null;
+			last_updated: EpochTimeStamp | null;
+	  }
+	| {
+			player_id: number;
+			message: string;
+			message_short: string;
+			isError: boolean;
+	  };
 
 class ScouterService {
-	/**
-	 * @param cacheKey {string}
-	 */
-	constructor(cacheKey) {
+	private readonly cacheKey: string;
+
+	constructor(cacheKey: string) {
 		this.cacheKey = cacheKey;
 	}
 
-	/**
-	 * @param target {number}
-	 * @returns {boolean}
-	 */
-	inCache(target) {
+	inCache(target: number) {
 		return ttCache.hasValue(this.cacheKey, target);
 	}
 
-	/**
-	 * @param target {number}
-	 * @returns {ScouterResult}
-	 */
-	fromCache(target) {
-		return /** @type {ScouterResult} */ ttCache.get(this.cacheKey, target);
+	fromCache(target: number): ScouterResult {
+		return ttCache.get(this.cacheKey, target);
 	}
 
-	/**
-	 * @param result {ScouterResult}
-	 */
-	toCache(result) {
-		void ttCache.set({ [result.player_id]: result }, result.fair_fight ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, this.cacheKey);
+	toCache(result: ScouterResult) {
+		void ttCache.set({ [result.player_id]: result }, "fair_fight" in result && result.fair_fight ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, this.cacheKey);
 	}
 
-	/**
-	 * @param target {number}
-	 * @returns {Promise<ScouterResult>}
-	 */
-	scoutSingle(target) {
+	scoutSingle(target: number): Promise<ScouterResult> {
 		if (this.inCache(target)) {
 			return Promise.resolve(this.fromCache(target));
 		}
@@ -54,20 +40,12 @@ class ScouterService {
 		return this._fetchSingle(target);
 	}
 
-	/**
-	 * @param target {number}
-	 * @returns {Promise<ScouterResult>}
-	 */
-	_fetchSingle(target) {
+	_fetchSingle(_target: number): Promise<ScouterResult> {
 		throw new Error("You have to implement the method _fetchSingle!");
 	}
 
-	/**
-	 * @param targets {(number|string)[]}
-	 * @returns {Promise<{[id: string]: ScouterResult}>}
-	 */
-	async scoutGroup(targets) {
-		const uniqueTargets = Array.from(new Set(targets.map((id) => parseInt(id))));
+	async scoutGroup(targets: (number | string)[]): Promise<{ [id: string]: ScouterResult }> {
+		const uniqueTargets = Array.from(new Set(targets.map((id) => parseInt(id.toString()))));
 
 		const cachedTargets = uniqueTargets.filter((target) => this.inCache(target));
 		const missingTargets = uniqueTargets.filter((target) => !this.inCache(target));
@@ -82,34 +60,25 @@ class ScouterService {
 		return results;
 	}
 
-	/**
-	 * @param targets {(number)[]}
-	 * @returns {Promise<ScouterResult[]>}
-	 */
-	_fetchGroup(targets) {
+	_fetchGroup(_targets: number[]): Promise<ScouterResult[]> {
 		throw new Error("You have to implement the method _fetchGroup!");
 	}
 }
 
 class FFScouterService extends ScouterService {
-	MAX_TARGET_AMOUNT = 104;
+	MAX_TARGET_AMOUNT = 104 as const;
 
 	constructor() {
 		super("ff-scouter-v3");
 	}
-	/**
-	 * @param target {number}
-	 * @returns {Promise<ScouterResult>}
-	 */
-	_fetchSingle(target) {
-		return this._fetchGroup([target]).then((result) => result[0]);
+
+	override async _fetchSingle(target: number): Promise<ScouterResult> {
+		const result = await this._fetchGroup([target]);
+
+		return result[0];
 	}
 
-	/**
-	 * @param targets {(number)[]}
-	 * @returns {Promise<ScouterResult[]>}
-	 */
-	_fetchGroup(targets) {
+	override _fetchGroup(targets: number[]): Promise<ScouterResult[]> {
 		if (targets.length === 0) return Promise.resolve([]);
 
 		if (targets.length > this.MAX_TARGET_AMOUNT) {
@@ -130,29 +99,22 @@ class FFScouterService extends ScouterService {
 		return this.__fetch(targets);
 	}
 
-	/**
-	 * @param targets {(number)[]}
-	 * @returns {Promise<ScouterResult[]>}
-	 */
-	__fetch(targets) {
-		return fetchData("ffscouter", { section: "get-stats", includeKey: true, relay: true, params: { targets } }).then((data) => {
-			data = data.map((result) => {
-				if (result.fair_fight === null) {
-					return {
-						player_id: result.player_id,
-						message: "No known fair fight for this player.",
-						message_short: "No FF known.",
-						isError: false,
-					};
-				}
+	async __fetch(targets: number[]): Promise<ScouterResult[]> {
+		const data = await fetchData<FFScouterResult>("ffscouter", { section: "get-stats", includeKey: true, relay: true, params: { targets } });
+		const mappedData = data.map<ScouterResult>((result) => {
+			if (result.fair_fight === null) {
+				return {
+					player_id: result.player_id,
+					message: "No known fair fight for this player.",
+					message_short: "No FF known.",
+					isError: false,
+				};
+			}
 
-				return result;
-			});
-
-			data.forEach((result) => this.toCache(result));
-
-			return data;
+			return result;
 		});
+		mappedData.forEach((r) => this.toCache(r));
+		return mappedData;
 	}
 }
 
@@ -166,21 +128,17 @@ function scouterService() {
 
 	const services = [{ name: "ffscouter", service: FF_SCOUTER_SERVICE, check: useFFScouter && hasAPIData() }].filter((s) => s.check);
 
-	const selectedService = services.find((s) => s.name === settings.scripts.ffScouter.ffScouterService) ?? services[0];
+	const selectedService = services[0];
 	return selectedService.service;
 }
 
-/**
- * @param scout {ScouterResult}
- * @returns {{message: string, className: string, detailMessage: string}}
- */
-function buildScoutInformation(scout) {
-	let message, className, detailMessage;
-	if (!scout.message) {
+function buildScoutInformation(scout: ScouterResult): { message: string; className: string; detailMessage: string } {
+	let message: string, className: string, detailMessage: string;
+	if (!("message" in scout)) {
 		const now = Date.now();
 		const age = now - scout.last_updated * 1000;
 
-		let suffix;
+		let suffix: string;
 		if (age < TO_MILLIS.DAYS) {
 			suffix = "";
 		} else if (age < 31 * TO_MILLIS.DAYS) {
@@ -212,8 +170,8 @@ function buildScoutInformation(scout) {
 /*
  * Credits to rDacted [2670953] (https://www.torn.com/profiles.php?XID=2670953).
  */
-function ffColor(value) {
-	let r, g, b;
+function ffColor(value: number) {
+	let r: number, g: number, b: number;
 
 	// Transition from
 	// blue - #2828c6
@@ -251,14 +209,14 @@ function ffColor(value) {
 /*
  * Credits to rDacted [2670953] (https://www.torn.com/profiles.php?XID=2670953).
  */
-function rgbToHex(r, g, b) {
+function rgbToHex(r: number, g: number, b: number) {
 	return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
 }
 
 /*
  * Credits to rDacted [2670953] (https://www.torn.com/profiles.php?XID=2670953).
  */
-function contrastFFColor(hex) {
+function contrastFFColor(hex: string) {
 	// Convert hex to RGB
 	const r = parseInt(hex.slice(1, 3), 16);
 	const g = parseInt(hex.slice(3, 5), 16);

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -18,6 +16,8 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
+
+			return true;
 		}
 	);
 
@@ -31,14 +31,14 @@
 		}
 	}
 
-	async function showFF(force) {
+	async function showFF(force: boolean) {
 		if (isOwnFaction && !force) return;
 
 		await requireElement(".members-list .table-body > li");
 
 		const list = document.find(".members-list .table-body");
 
-		const memberIds = [...list.findAll("[class*='honorWrap___'] a[class*='linkWrap___']")].map((link) =>
+		const memberIds = [...list.findAll<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']")].map((link) =>
 			parseInt(new URL(link.href).searchParams.get("XID"))
 		);
 
@@ -61,7 +61,7 @@
 			});
 	}
 
-	function fillFF(list, results) {
+	function fillFF(list: Element, results: ScouterResult[]) {
 		list.findAll(":scope > li.table-row").forEach((row) => {
 			// Don't show this for fallen players.
 			if (row.find(".icons li[id*='icon77___']")) {
@@ -71,7 +71,7 @@
 
 			const userID = getUsername(row).id;
 			const scout = results.find((r) => r.player_id === userID);
-			if (!scout?.fair_fight) {
+			if ("message" in scout || scout.fair_fight === null) {
 				row.dataset.ffScout = "N/A";
 				row.find(".table-cell.lvl").insertAdjacentElement(
 					"afterend",
@@ -85,7 +85,7 @@
 			}
 
 			const ff = scout.fair_fight;
-			row.dataset.ffScout = ff;
+			row.dataset.ffScout = ff.toString();
 
 			const backgroundColor = ffColor(ff);
 			const textColor = contrastFFColor(backgroundColor);

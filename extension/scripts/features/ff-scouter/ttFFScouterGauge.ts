@@ -1,5 +1,3 @@
-"use strict";
-
 /*
  * Credits to rDacted [2670953] (https://www.torn.com/profiles.php?XID=2670953).
  *
@@ -31,6 +29,8 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.external.ffScouter) return "FFScouter not enabled.";
+
+			return true;
 		}
 	);
 
@@ -46,7 +46,7 @@
 		if (scoutLock) return;
 		scoutLock = true;
 
-		const honorBars = [...document.findAll(".honor-text-wrap")];
+		const honorBars = [...document.findAll<HTMLAnchorElement>(".honor-text-wrap")];
 		if (honorBars.length > 0) {
 			applyGauge(honorBars)
 				.catch((reason) => {
@@ -56,7 +56,7 @@
 				})
 				.finally(() => (scoutLock = false));
 		} else {
-			let selector;
+			let selector: string;
 
 			switch (getPage()) {
 				case "factions":
@@ -94,7 +94,7 @@
 					return;
 			}
 
-			applyGauge([...document.findAll(selector)])
+			applyGauge([...document.findAll<HTMLAnchorElement>(selector)])
 				.catch((reason) => {
 					if (!reason) return;
 
@@ -104,16 +104,21 @@
 		}
 	}
 
-	function applyGauge(elements) {
-		elements = elements
+	interface GaugeElements {
+		element: HTMLElement;
+		id: string;
+	}
+
+	function applyGauge(e: HTMLAnchorElement[]) {
+		const elements = e
 			.filter((element) => !element.classList.contains("tt-ff-scouter-indicator"))
-			.map((element) => ({ element, id: extractPlayerId(element) }))
+			.map<GaugeElements>((element) => ({ element, id: extractPlayerId(element) }))
 			.filter(({ id }) => !!id);
 		if (elements.length === 0) return Promise.resolve();
 
 		if (lockFailure) return Promise.reject();
 
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			SCOUTER_SERVICE.scoutGroup(elements.map(({ id }) => id))
 				.then((scouts) => {
 					for (const { element, id } of elements) {
@@ -124,14 +129,14 @@
 							element.style.setProperty("--arrow-width", "20px");
 						}
 
-						const ff = scouts[id].fair_fight;
+						const ff = id in scouts && "fair_fight" in scouts[id] ? scouts[id].fair_fight : null;
 						if (ff) {
 							const percent = convertFFToPercentage(ff);
-							element.style.setProperty("--band-percent", percent);
+							element.style.setProperty("--band-percent", percent.toString());
 
 							element.find(".tt-ff-scouter-arrow")?.remove();
 
-							let arrow;
+							let arrow: string;
 							if (percent < 33) {
 								arrow = BLUE_ARROW;
 							} else if (percent < 66) {
@@ -159,8 +164,8 @@
 		});
 	}
 
-	function extractPlayerId(element) {
-		const match = element.parentElement?.href?.match(/.*XID=(?<target_id>\d+)/);
+	function extractPlayerId(element: HTMLAnchorElement) {
+		const match = (element.parentElement as HTMLAnchorElement)?.href?.match(/.*XID=(?<target_id>\d+)/);
 		if (match) {
 			return match.groups.target_id;
 		}
@@ -184,7 +189,7 @@
 		return null;
 	}
 
-	function convertFFToPercentage(ff) {
+	function convertFFToPercentage(ff: number) {
 		ff = Math.min(ff, 8);
 		// There are 3 key areas, low, medium, high
 		// Low is 1-2
@@ -197,7 +202,7 @@
 		const lowMidPercent = 33;
 		const midHighPercent = 66;
 
-		let percent;
+		let percent: number;
 		if (ff < lowPoint) {
 			percent = ((ff - 1) / (lowPoint - 1)) * lowMidPercent;
 		} else if (ff < highPoint) {
