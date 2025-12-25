@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -38,6 +38,7 @@
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]
+					.toString()
 			);
 			let totalHappy = baseHappy;
 			if (!isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;

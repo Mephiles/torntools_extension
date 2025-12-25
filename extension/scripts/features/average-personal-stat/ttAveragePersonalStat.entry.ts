@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -13,6 +11,8 @@
 		null,
 		async () => {
 			await checkDevice();
+
+			return true;
 		}
 	);
 
@@ -30,7 +30,7 @@
 		});
 	}
 
-	function calculateStatsAverage(graphData) {
+	function calculateStatsAverage(graphData: any) {
 		for (const stat in graphData.data) {
 			const statData = graphData.data[stat];
 			let userIndex = 2;

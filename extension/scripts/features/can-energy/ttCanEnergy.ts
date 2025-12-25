@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -36,12 +36,12 @@
 		document.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
 			if (eCanElement.find(".tt-e-gains")) return;
 
-			// noinspection JSCheckFunctionSignatures
 			const baseEnergy = parseInt(
 				torndata.items[eCanElement.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]
+					.toString()
 			);
 			let totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);
 			// Apply the doubling effect of the energy can event here. It only applies the doubling after the initial perk multiplier + rounding.

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if ((await checkDevice()).mobile) return "Not supported on mobile!";
 
@@ -40,14 +38,14 @@
 		}
 	}
 
-	function onClick(event) {
-		const bar = event.target.closest("a[class*='bar___']");
+	function onClick(event: MouseEvent) {
+		const bar = (event.target as Element).closest("a[class*='bar___']");
 		if (!bar) return;
 
 		const link = LINKS[Object.keys(LINKS).filter((selector) => bar.matches(selector))[0]];
 		if (!link) return;
 
-		let target;
+		let target: string;
 		if (event.button === 1) target = "_blank";
 		else target = "_self";
 
@@ -63,4 +61,5 @@
 			barName.classList.remove("bar-link");
 		}
 	}
+	return true;
 })();

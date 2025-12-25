@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -52,6 +50,8 @@
 			if (moneyElementsList.snapshotLength !== 2) continue;
 			const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replace(/[$, ]/g, ""));
 			const totalLostElement = moneyElementsList.snapshotItem(1);
+			if (!isElement(totalLostElement)) return;
+
 			const totalLost = parseInt(totalLostElement.textContent.replace(/[$, ]/g, ""));
 
 			if (document.find(`.${statsType}-stats-wrap .tt-net-total`)) return;

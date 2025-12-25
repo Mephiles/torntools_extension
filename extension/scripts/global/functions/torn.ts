@@ -1747,11 +1747,13 @@ interface ReactInputOptions {
 	version: REACT_UPDATE_VERSIONS | "complex-please-never-be-needed";
 }
 
-function updateReactInput(input: HTMLInputElement, value: string, partialOptions: Partial<ReactInputOptions> = {}) {
+function updateReactInput(input: HTMLInputElement | HTMLTextAreaElement, value: string | number, partialOptions: Partial<ReactInputOptions> = {}) {
 	const options: ReactInputOptions = {
 		version: REACT_UPDATE_VERSIONS.DEFAULT,
 		...partialOptions,
 	};
+
+	const valueString = value.toString();
 
 	switch (options.version) {
 		// case "complex-please-never-be-needed":
@@ -1769,18 +1771,18 @@ function updateReactInput(input: HTMLInputElement, value: string, partialOptions
 		// 	break;
 		case REACT_UPDATE_VERSIONS.NATIVE_SETTER:
 			const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
-			nativeSetter.call(input, value);
+			nativeSetter.call(input, valueString);
 
 			input.dispatchEvent(new Event("input", { bubbles: true }));
 			break;
 		case REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT:
-			input.value = value;
+			input.value = valueString;
 			input.dispatchEvent(new Event("input", { bubbles: true }));
 			input.dispatchEvent(new Event("change", { bubbles: true }));
 			break;
 		case REACT_UPDATE_VERSIONS.DEFAULT:
 		default:
-			input.value = value;
+			input.value = valueString;
 			input.dispatchEvent(new Event("input", { bubbles: true }));
 			break;
 	}

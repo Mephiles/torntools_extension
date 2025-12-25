@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -36,11 +34,11 @@
 
 		document.findAll(".enlist-info").forEach((stat) => {
 			const values = [...stat.findAll(".enlisted-stat > li")]
-				.map((item) => item.textContent.replace(/[^\d\w :]/g, "").trim())
+				.map((item) => item.textContent.replace(/[^\w :]/g, "").trim())
 				.filter((text) => REGEX.test(text))
 				.map((text) => text.getNumber());
 
-			let text;
+			let text: string;
 			if (values[0] === 0) text = "• Win Percentage: 0%";
 			else text = `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%`;
 

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -18,6 +16,12 @@
 
 	let hasContainer = false;
 
+	interface CityItem {
+		id: string;
+		count: number;
+		name: string;
+	}
+
 	async function showHighlight() {
 		if (hasContainer) return;
 
@@ -35,9 +39,9 @@
 		showItemList();
 
 		function getAllItems() {
-			const items = [];
+			const items: CityItem[] = [];
 
-			for (const marker of document.findAll("#map .leaflet-marker-icon[src*='/images/items/']")) {
+			for (const marker of document.findAll<HTMLImageElement>("#map .leaflet-marker-icon[src*='/images/items/']")) {
 				const id = marker.src.split("items/")[1].split("/")[0];
 
 				marker.classList.add("city-item");
@@ -71,7 +75,7 @@
 
 			options.appendChild(checkbox.element);
 
-			function highlight(state) {
+			function highlight(state: boolean) {
 				const map = document.find("#map");
 
 				if (state) map.classList.add("highlight-items");
@@ -113,7 +117,7 @@
 			content.appendChild(listElement);
 
 			function generateText() {
-				let element;
+				let element: HTMLElement;
 				if (items.length > 0) {
 					const totalCount = items.map(({ count }) => count).totalSum();
 					element = document.newElement({
@@ -149,8 +153,8 @@
 				}
 				listElement.appendChild(element);
 
-				function createItemElement({ id, name, count }) {
-					let text;
+				function createItemElement({ id, name, count }: CityItem) {
+					let text: string;
 					if (count > 1) {
 						text = `${count}x ${name}`;
 					} else text = name;
@@ -189,7 +193,7 @@
 						},
 						events: {
 							input: (e) => {
-								const query = e.target.value.toLowerCase();
+								const query = (e.target as HTMLInputElement).value.toLowerCase();
 								for (const item of document.findAll(`.city-item.force-hover`)) {
 									item.classList.remove("force-hover");
 								}

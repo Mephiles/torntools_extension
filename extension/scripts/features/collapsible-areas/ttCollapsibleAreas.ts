@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { hasSidebar } = await checkDevice();
 	if (!hasSidebar) return "Not supported on mobiles or tablets!";
@@ -16,10 +14,11 @@
 		},
 		async () => {
 			await requireSidebar();
+			return true;
 		}
 	);
 
-	let observer;
+	let observer: MutationObserver | undefined;
 
 	async function addCollapseIcon() {
 		const title = document.find("h2=Areas");
@@ -59,4 +58,6 @@
 
 		await ttStorage.change({ filters: { containers: { collapseAreas: collapsed } } });
 	}
+
+	return true;
 })();

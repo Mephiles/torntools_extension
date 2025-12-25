@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	// if (!getPageStatus().access) return;
 
@@ -478,8 +476,9 @@
 	);
 
 	function initialiseStrategy() {
-		addXHRListener(({ detail: { page, xhr, json } }) => {
-			if (!feature.enabled()) return;
+		addXHRListener(({ detail: { page, xhr, ...detail } }) => {
+			if (!feature.enabled() || !("json" in detail)) return;
+			const { json } = detail;
 
 			if (page === "page") {
 				const params = new URL(xhr.responseURL).searchParams;
@@ -511,7 +510,7 @@
 		});
 	}
 
-	function executeStrategy(data) {
+	function executeStrategy(data: any) {
 		const cards = { dealer: getWorth(data.dealer.hand[0]), player: [] };
 
 		for (const card of data.player.hand) {
@@ -520,7 +519,7 @@
 			cards.player.push(worth);
 		}
 
-		let playerValue;
+		let playerValue: any;
 		if (cards.player.length === 2) {
 			if (cards.player.includes("A")) {
 				const other = cards.player.find((worth) => worth !== "A");
@@ -550,16 +549,16 @@
 			document.find(".player-cards").appendChild(document.newElement({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
 		}
 
-		function getWorth(card) {
-			let symbol;
+		function getWorth(card: any) {
+			let symbol: any;
 			if (typeof card === "string") symbol = card.split("-").last();
 			else symbol = card;
 
 			return isNaN(symbol) ? (symbol === "A" ? "A" : 10) : parseInt(symbol);
 		}
 
-		function getSuggestion(player) {
-			let suggestion;
+		function getSuggestion(player: any) {
+			let suggestion: string;
 			if (player in SUGGESTIONS) {
 				const dealer = cards.dealer;
 
@@ -576,7 +575,7 @@
 
 			return suggestion;
 
-			function getAction(action, allowSelf) {
+			function getAction(action: string, allowSelf: boolean) {
 				if (action === "S3") return cards.player.length > 3 ? "H" : "S";
 				else if (action === "S4") return cards.player.length > 4 ? "H" : "S";
 				else if (action === "D" && !data.availableActions.includes("doubleDown")) return "H";
@@ -588,7 +587,7 @@
 					if (allowSelf) {
 						const hand = player.split(",");
 						if (hand[0] === hand[1]) {
-							let value;
+							let value: number;
 							if (isNaN(hand[0])) {
 								if (hand[0] === "A")
 									return "H"; // It's not in the suggestions array, but we should always hit A,A after split

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const devices = await checkDevice();
 	if (devices.mobile || devices.tablet) return;
@@ -35,15 +33,15 @@
 		}
 	}
 
-	function addAutocomplete(chat) {
+	function addAutocomplete(chat: HTMLElement) {
 		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='scrollContainer___'] [class*='box___']");
 		if (!messages.length) return;
 
-		const textarea = chat.find("textarea:not(.tt-chat-autocomplete)");
+		const textarea = chat.find<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
 		if (!textarea) return;
 		textarea.classList.add("tt-chat-autocomplete");
 
-		let currentUsername, currentSearchValue;
+		let currentUsername: string | null, currentSearchValue: string | null;
 		textarea.addEventListener("keydown", (event) => {
 			if (event.key !== "Tab") {
 				currentUsername = null;

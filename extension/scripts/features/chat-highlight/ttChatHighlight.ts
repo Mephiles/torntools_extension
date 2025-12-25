@@ -3,12 +3,12 @@
 (async () => {
 	if (is2FACheckPage()) return;
 
-	let highlights;
+	let highlights: HighlightColor[];
 
 	const feature = featureManager.registerFeature(
 		"Chat Highlight",
 		"chat",
-		() => settings.pages.chat.highlights.length,
+		() => !!settings.pages.chat.highlights.length,
 		initialiseHighlights,
 		readSettings,
 		removeHighlights,
@@ -17,6 +17,12 @@
 		},
 		null
 	);
+
+	interface HighlightColor {
+		name: string;
+		color: string;
+		senderColor: string;
+	}
 
 	function initialiseHighlights() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
@@ -60,7 +66,7 @@
 	}
 
 	function readSettings() {
-		highlights = settings.pages.chat.highlights.map((highlight) => {
+		highlights = settings.pages.chat.highlights.map<HighlightColor>((highlight) => {
 			let { name, color } = highlight;
 
 			for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
@@ -85,7 +91,7 @@
 		});
 	}
 
-	function applyV2Highlights(message) {
+	function applyV2Highlights(message: HTMLElement) {
 		if (!message) return;
 		if (!highlights?.length) return;
 
@@ -106,16 +112,16 @@
 			break;
 		}
 
-		function simplify(text) {
+		function simplify(text: string) {
 			return text.toLowerCase().trim();
 		}
 	}
 
-	function applyV3Highlights(message) {
+	function applyV3Highlights(message: HTMLElement) {
 		if (!message) return;
 		if (!highlights?.length) return;
 
-		let sender;
+		let sender: string;
 		const senderElement = message.find("[class*='sender___']");
 		if (senderElement) {
 			sender = senderElement.textContent.replace(":", "");
@@ -147,7 +153,7 @@
 			break;
 		}
 
-		function simplify(text) {
+		function simplify(text: string) {
 			return text.toLowerCase().trim();
 		}
 	}

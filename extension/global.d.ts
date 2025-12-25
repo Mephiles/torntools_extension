@@ -29,6 +29,7 @@ declare global {
 	}
 
 	interface Element {
+		find<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): HTMLElementTagNameMap[K] | null;
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
 		setClass(...classNames: string[]): void;

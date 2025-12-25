@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (!isOwnCompany) return;
@@ -26,7 +24,7 @@
 		});
 	}
 
-	async function addFillStockButton(add) {
+	async function addFillStockButton(add: boolean) {
 		if (!add && getHashParameters().get("option") !== "stock") return;
 
 		(await requireElement("form[action*='stock'] .order ~ a")).insertAdjacentElement(
@@ -40,7 +38,7 @@
 	}
 
 	async function fillStock() {
-		const stockForm = await requireElement("form[action*='stock']");
+		const stockForm: Element = await requireElement("form[action*='stock']");
 		const storageCapacity = [...stockForm.findAll(".storage-capacity > *")].map((x) => x.dataset.initial.getNumber());
 		const usableCapacity = storageCapacity[1] - storageCapacity[0];
 		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();

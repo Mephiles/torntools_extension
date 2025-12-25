@@ -156,7 +156,7 @@ class TornToolsCache {
 		return this._cache;
 	}
 
-	get(section: string, key?: CacheKey) {
+	get<T = any>(section: string, key?: CacheKey): T | undefined {
 		if (!key) {
 			key = section;
 			section = null;

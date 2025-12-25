@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,10 +14,12 @@
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.money) return "No API access.";
 			else if (!userdata.money.city_bank.until) return "No active investment.";
+
+			return true;
 		}
 	);
 
-	function createBankInvestmentFacade(node) {
+	function createBankInvestmentFacade(node: Element) {
 		const investmentTimeLeftElement = node;
 
 		const dueDate = new Date(userdata.money.city_bank.until * 1000);
@@ -49,7 +49,7 @@
 		};
 	}
 
-	let bankInvestmentFacade;
+	let bankInvestmentFacade: ReturnType<typeof createBankInvestmentFacade> | undefined;
 
 	async function initialize() {
 		bankInvestmentFacade = createBankInvestmentFacade(await requireElement("p.m-clear"));
