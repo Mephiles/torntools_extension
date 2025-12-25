@@ -15,6 +15,10 @@ type TableColumnDef<T, K extends keyof T = keyof T> = {
 		sortable: boolean;
 		sortComparator?: (a: T[P], b: T[P], direction: COLUMN_SORT_DIRECTION) => number;
 		cellRenderer: TableCellRenderer<T[P]>;
+		/**
+		 * When provided {@link TableColumnDef.cellRenderer} is ignored
+		 */
+		cellRendererSelector?: (rowData: T) => TableCellRenderer<T[P]>;
 	};
 }[K];
 
@@ -111,8 +115,9 @@ function createTableHeaderCell<T>(
 
 type TableHeaderCell<T> = ReturnType<typeof createTableHeaderCell<T>>;
 
-function createTableCell<T, K extends keyof T>(data: T[K], columnDef: TableColumnDef<T, K>, options: { stretchCell: boolean }) {
-	const cell = columnDef.cellRenderer(data);
+function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef: TableColumnDef<T, K>, options: { stretchCell: boolean }) {
+	const cellRenderer = columnDef.cellRendererSelector ? columnDef.cellRendererSelector(rowData) : columnDef.cellRenderer;
+	const cell = cellRenderer(data);
 	const cellElement = document.newElement({
 		type: "div",
 		class: ["tt-table-row-cell", ...(columnDef.class ? [columnDef.class] : [])],
@@ -139,7 +144,7 @@ function createTableRow<T extends Record<string, any>>(
 	tableColumnsDefs: TableColumnDef<T>[],
 	options: { rowClass?: (rowData: T) => string; stretchColumns: boolean }
 ) {
-	const rowCells = tableColumnsDefs.map((columnDef) => createTableCell(rowData[columnDef.id], columnDef, { stretchCell: options.stretchColumns }));
+	const rowCells = tableColumnsDefs.map((columnDef) => createTableCell(rowData, rowData[columnDef.id], columnDef, { stretchCell: options.stretchColumns }));
 
 	const rowElement = document.newElement({
 		type: "div",

@@ -1142,7 +1142,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 					.find<HTMLInputElement>(`#notification_type-${notificationType}[type="text"]`)
 					.value.split(",")
 					.filter((x) => x)
-					.map((x) => (!isNaN(parseFloat(x)) ? parseFloat(x) : x));
+					.map((x) => (parseFloat(x).toString() === x ? parseFloat(x) : x));
 			} else if (typeof settings.notifications.types[notificationType] === "boolean") {
 				newValue = _preferences.find<HTMLInputElement>(`#notification_type-${notificationType}`).checked;
 			} else {

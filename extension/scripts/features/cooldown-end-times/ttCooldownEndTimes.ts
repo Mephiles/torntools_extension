@@ -20,28 +20,46 @@
 		statusIcons.addEventListener(!isTouchDevice ? "mouseover" : "click", listener);
 
 		async function listener(event: MouseEvent) {
-			if (!(event.target as HTMLElement).closest("li")?.matches("[class*='icon']")) return;
+			const target = event.target as Element;
+			if (!target.closest("li")?.matches("[class*='icon']")) return;
+			console.log("DKK listener 2", event.target);
 
-			const tooltip = ((await requireElement("body > div[id][data-floating-ui-portal]")) as Element).find("[class*='tooltip__']");
-			const tooltipName = tooltip.getElementsByTagName("b")[0]?.textContent;
+			const iconName = target.getAttribute("aria-label").split(":")[0].trim();
 			if (
-				["Education", "Reading Book", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown", "Organized Crime", "Bank Investment"].includes(
-					tooltipName
-				)
-			) {
-				const timeElement = tooltip.find("[class*='static-width___']")?.firstChild ?? tooltip.find("p:not([class])");
-				if (!timeElement) return;
+				![
+					"Education",
+					"Reading Book",
+					"Racing",
+					"Drug Cooldown",
+					"Booster Cooldown",
+					"Medical Cooldown",
+					"Organized Crime",
+					"Bank Investment",
+				].includes(iconName)
+			)
+				return;
 
-				removeEndTimes(tooltip);
-				const time = Date.now() + textToTime(timeElement.textContent);
-				tooltip.appendChild(
-					document.newElement({
-						type: "div",
-						class: "tt-tooltip-end-times",
-						text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
-					})
-				);
-			}
+			const tooltip = await requireCondition(() => {
+				const tooltip = document.find("body > div[id][data-floating-ui-portal] [class*='tooltip__']");
+				const name = tooltip?.getElementsByTagName("b")[0]?.textContent;
+
+				if (name !== iconName) return false;
+
+				return tooltip;
+			});
+
+			const timeElement = tooltip.find("[class*='static-width___']")?.firstChild ?? tooltip.find("p:not([class])");
+			if (!timeElement) return;
+
+			removeEndTimes(tooltip);
+			const time = Date.now() + textToTime(timeElement.textContent);
+			tooltip.appendChild(
+				document.newElement({
+					type: "div",
+					class: "tt-tooltip-end-times",
+					text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
+				})
+			);
 		}
 	}
 

@@ -317,7 +317,7 @@
 				const fetchYata = () => fetchData("yata", { section: "travel/export/", relay: true });
 				const fetchPrometheus = () => fetchData("prometheus", { section: "travel", relay: true });
 
-				if (settings.external.yata && settings.external.prometheus) return fetchYata().catch(fetchPrometheus);
+				if (settings.external.yata && settings.external.prometheus) return Promise.any([fetchYata(), fetchPrometheus()]);
 				else if (settings.external.yata) return fetchYata();
 				else if (settings.external.prometheus) return fetchPrometheus();
 
