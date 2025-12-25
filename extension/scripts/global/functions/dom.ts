@@ -288,7 +288,7 @@ function rotateElement(element: HTMLElement, degrees: number) {
 
 type TableSortOrder = "asc" | "desc" | "none";
 
-function sortTable(table: Element, columnPlace: number, order?: TableSortOrder) {
+function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrder) {
 	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
 	const icon = header.find("i");
 	if (order) {
@@ -334,6 +334,10 @@ function sortTable(table: Element, columnPlace: number, order?: TableSortOrder) 
 
 		order = "asc";
 	}
+
+	table.dataset.ttSortColumn = columnPlace.toString();
+	table.dataset.ttSortOrder = order;
+
 	for (const h of table.findAll("th, .row.header > *")) {
 		if (h === header) continue;
 
@@ -423,6 +427,15 @@ function sortTable(table: Element, columnPlace: number, order?: TableSortOrder) 
 			return { a, b };
 		}
 	}
+}
+
+function resortTable(table: HTMLElement) {
+	if (!("ttSortColumn" in table.dataset) || !("ttSortOrder" in table.dataset)) return;
+
+	const column = parseInt(table.dataset.ttSortColumn);
+	const order = table.dataset.ttSortOrder as TableSortOrder;
+
+	sortTable(table, column, order);
 }
 
 function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
