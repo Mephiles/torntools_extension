@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Auction House Filter",
@@ -13,6 +11,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -35,9 +35,9 @@
 		await addFilters(tab.dataset.itemtype);
 	}
 
-	let localFilters = {};
+	let localFilters: any = {};
 
-	async function addFilters(itemType) {
+	async function addFilters(itemType: string) {
 		if (!["items", "weapons", "armor"].includes(itemType)) {
 			throw new Error(`Unsupported item type detected: ${itemType}`);
 		}
@@ -134,6 +134,7 @@
 					{ value: "red", description: "Red" },
 				],
 				callback: applyFilters,
+				// @ts-ignore
 				defaults: filters.auction[itemType].quality,
 			});
 			filterContent.appendChild(qualityFilter.element);
@@ -190,7 +191,7 @@
 		const itemType = localFilters.itemType;
 
 		const name = localFilters.name.getValue();
-		const filters = { name };
+		const filters: Partial<AuctionHouseFilters> = { name };
 
 		if (itemType === "items" || itemType === "weapons") {
 			filters.category = localFilters.category.getSelected(content);
@@ -227,8 +228,21 @@
 		);
 	}
 
-	function filterRow(row, filters) {
-		const id = row.find("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1];
+	type AuctionHouseFilters = {
+		name: string;
+		category: string;
+		weaponType: string;
+		damage: string;
+		accuracy: string;
+		weaponBonus: WeaponBonusFilter[];
+		quality: string;
+		defence: string;
+		set: string;
+		armorBonus: string;
+	};
+
+	function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
+		const id = row.find<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1];
 
 		if (filters.name) {
 			if (!row.find(".item-name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
@@ -242,24 +256,13 @@
 				return;
 			}
 		}
-		if (filters.rarity) {
-			if (
-				row
-					.find(".item-cont-wrap .title p")
-					.textContent.match(/\((.+) [0-9]+\)/)[1]
-					.toLowerCase() !== filters.rarity
-			) {
-				hide("rarity");
-				return;
-			}
-		}
 		if (filters.weaponType) {
 			if (torndata.items[id].weapon_type?.toLowerCase() !== filters.weaponType) {
 				hide("weapon_type");
 				return;
 			}
 		}
-		if (filters.damage && !isNaN(filters.damage)) {
+		if (filters.damage && !isNaN(parseFloat(filters.damage))) {
 			const damage = parseFloat(filters.damage);
 
 			const weaponDamageLabel = row.find(".bonus-attachment-item-damage-bonus + .label-value");
@@ -273,7 +276,7 @@
 				return;
 			}
 		}
-		if (filters.accuracy && !isNaN(filters.accuracy)) {
+		if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
 			const accuracy = parseFloat(filters.accuracy);
 
 			const weaponAccuracyLabel = row.find(".bonus-attachment-item-accuracy-bonus + .label-value");
@@ -287,7 +290,7 @@
 				return;
 			}
 		}
-		if (filters.defence && !isNaN(filters.defence)) {
+		if (filters.defence && !isNaN(parseFloat(filters.defence))) {
 			const defence = parseFloat(filters.defence);
 
 			const armorDefenceLabel = row.find(".bonus-attachment-item-defence-bonus + .label-value");
@@ -315,7 +318,7 @@
 				return;
 			}
 		}
-		if (filters.armorBonus && !isNaN(filters.armorBonus)) {
+		if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
 			const bonus = parseFloat(filters.armorBonus);
 
 			if (row.find(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title").getNumber() < bonus) {
@@ -351,7 +354,7 @@
 			row.removeAttribute("data-hide-reason");
 		}
 
-		function hide(reason) {
+		function hide(reason: string) {
 			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 		}
@@ -362,7 +365,7 @@
 		document.findAll(".items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 
-	function getCategories(itemType) {
+	function getCategories(itemType: string) {
 		if (itemType === "weapons") {
 			return ["Melee", "Secondary", "Primary", "Temporary"].sort().map((type) => ({ value: type.toLowerCase(), description: type }));
 		} else if (itemType === "items") {

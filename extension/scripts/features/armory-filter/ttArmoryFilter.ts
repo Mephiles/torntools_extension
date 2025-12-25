@@ -32,7 +32,7 @@
 		weaponType: string;
 		damage: string;
 		accuracy: string;
-		weaponBonus: { bonus: string; value: number }[];
+		weaponBonus: WeaponBonusFilter[];
 		// itemType: string;
 		defence: string;
 		set: string;

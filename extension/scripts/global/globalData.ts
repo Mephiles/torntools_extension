@@ -416,6 +416,11 @@ type AttackHistoryMap = {
 	[id: number]: AttackHistory;
 };
 
+interface WeaponBonusFilter {
+	bonus: string;
+	value: number;
+}
+
 const DEFAULT_STORAGE = {
 	version: {
 		current: new DefaultSetting<string>("string", () => chrome.runtime.getManifest().version),
@@ -1042,7 +1047,7 @@ const DEFAULT_STORAGE = {
 				weaponType: new DefaultSetting("string", ""),
 				damage: new DefaultSetting("string", ""),
 				accuracy: new DefaultSetting("string", ""),
-				weaponBonus: new DefaultSetting<string[]>("array", []),
+				weaponBonus: new DefaultSetting<WeaponBonusFilter[]>("array", []),
 			},
 			armor: {
 				name: new DefaultSetting("string", ""),
@@ -1083,13 +1088,15 @@ const DEFAULT_STORAGE = {
 				weaponType: new DefaultSetting("string", ""),
 				damage: new DefaultSetting("string", ""),
 				accuracy: new DefaultSetting("string", ""),
-				weaponBonus: new DefaultSetting<string[]>("array", []),
+				weaponBonus: new DefaultSetting<WeaponBonusFilter[]>("array", []),
+				quality: new DefaultSetting("string", ""),
 			},
 			armor: {
 				name: new DefaultSetting("string", ""),
 				rarity: new DefaultSetting("string", ""),
 				defence: new DefaultSetting("string", ""),
 				set: new DefaultSetting("string", ""),
+				armorBonus: new DefaultSetting("string", ""),
 			},
 			items: {
 				name: new DefaultSetting("string", ""),

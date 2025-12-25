@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Armory Filter' not saving the armor bonus value.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix 'Armory Filter' not applying the armor bonus filter.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix 'Armory Filter' not applying the armor bonus filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Auction House Filter' not saving the armor bonus and weapon quality values.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
