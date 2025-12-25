@@ -11,7 +11,7 @@
 		"jest-chrome": "^0.8.0",
 		"jsdom": "^27.3.0",
 		"prettier": "^3.7.4",
-		"tornapi-types": "^0.0.9",
+		"tornapi-types": "^0.0.10",
 		"typescript": "^5.9.3",
 		"user-agent-data-types": "^0.4.2",
 		"vitest": "^4.0.16",

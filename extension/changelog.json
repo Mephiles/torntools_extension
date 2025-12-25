@@ -12,7 +12,10 @@
 				{
 					"message": "Fix 'Cooldown End Times' not properly displaying times when hovering over multiple icons in sequence.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Fix 'Armory Filter' not saving the armor bonus value.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Armory Filter' not applying the armor bonus filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Auction House Filter' not saving the armor bonus and weapon quality values.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],

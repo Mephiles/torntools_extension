@@ -156,7 +156,7 @@ class TornToolsCache {
 		return this._cache;
 	}
 
-	get(section: string, key?: CacheKey) {
+	get<T = any>(section: string, key?: CacheKey): T | undefined {
 		if (!key) {
 			key = section;
 			section = null;
@@ -342,40 +342,38 @@ type StoredTorndata = FetchedTorndata & { date: number };
 
 // type StoredStockdata = FetchedStockdata["stocks"] & { date: number };
 type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
+type StakeoutData = {
+	info: {
+		name: string;
+		last_action: {
+			status: UserLastActionStatusEnum;
+			relative: string;
+			timestamp: number;
+		};
+		life: {
+			current: number;
+			maximum: number;
+		};
+		status: {
+			state: UserStatusStateEnum | string;
+			color: string;
+			until: number | null;
+			description: string;
+		};
+		isRevivable: boolean;
+	} | null;
+	alerts: {
+		okay: boolean;
+		hospital: boolean;
+		landing: boolean;
+		online: boolean;
+		life: number | false;
+		offline: number | false;
+		revivable: boolean;
+	};
+};
 type StoredStakeouts = {
-	[name: string]:
-		| {
-				info: {
-					name: string;
-					last_action: {
-						status: UserLastActionStatusEnum;
-						relative: string;
-						timestamp: number;
-					};
-					life: {
-						current: number;
-						maximum: number;
-					};
-					status: {
-						state: UserStatusStateEnum | string;
-						color: string;
-						until: number | null;
-						description: string;
-					};
-					isRevivable: boolean;
-				};
-				alerts: {
-					okay: boolean;
-					hospital: boolean;
-					landing: boolean;
-					online: boolean;
-					life: number | false;
-					offline: number | false;
-					revivable: boolean;
-				};
-		  }
-		| any[]
-		| number;
+	[name: string]: StakeoutData | any[] | number;
 	order: string[];
 	date: number;
 };
@@ -393,29 +391,35 @@ type QuickJail = ("bust" | "bail")[];
 
 type NotificationMap = { [key: string]: TTNotification };
 type StoredProfileNotes = { [id: number]: { height: string; text: string } };
-type AttackHistoryMap = {
-	[id: number]: {
-		name: string;
-		defend: number;
-		defend_lost: number;
-		lose: number;
-		stalemate: number;
-		win: number;
-		stealth: number;
-		mug: number;
-		hospitalise: number;
-		leave: number;
-		arrest: number;
-		assist: number;
-		special: number;
-		escapes: number;
-		respect: number[];
-		respect_base: number[];
-		lastAttack: number;
-		lastAttackCode: string;
-		latestFairFightModifier?: number;
-	};
+type AttackHistory = {
+	name: string;
+	defend: number;
+	defend_lost: number;
+	lose: number;
+	stalemate: number;
+	win: number;
+	stealth: number;
+	mug: number;
+	hospitalise: number;
+	leave: number;
+	arrest: number;
+	assist: number;
+	special: number;
+	escapes: number;
+	respect: number[];
+	respect_base: number[];
+	lastAttack: number;
+	lastAttackCode: string;
+	latestFairFightModifier?: number;
 };
+type AttackHistoryMap = {
+	[id: number]: AttackHistory;
+};
+
+interface WeaponBonusFilter {
+	bonus: string;
+	value: number;
+}
 
 const DEFAULT_STORAGE = {
 	version: {
@@ -951,11 +955,11 @@ const DEFAULT_STORAGE = {
 			levelEnd: new DefaultSetting("number", 100),
 			faction: new DefaultSetting("string", ""),
 			special: {
-				newPlayer: new DefaultSetting("string", "both"),
-				inCompany: new DefaultSetting("string", "both"),
-				inFaction: new DefaultSetting("string", "both"),
-				isDonator: new DefaultSetting("string", "both"),
-				hasBounties: new DefaultSetting("string", "both"),
+				newPlayer: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				inCompany: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				inFaction: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				isDonator: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				hasBounties: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
 		},
@@ -1045,13 +1049,14 @@ const DEFAULT_STORAGE = {
 				weaponType: new DefaultSetting("string", ""),
 				damage: new DefaultSetting("string", ""),
 				accuracy: new DefaultSetting("string", ""),
-				weaponBonus: new DefaultSetting<string[]>("array", []),
+				weaponBonus: new DefaultSetting<WeaponBonusFilter[]>("array", []),
 			},
 			armor: {
 				name: new DefaultSetting("string", ""),
 				rarity: new DefaultSetting("string", ""),
 				defence: new DefaultSetting("string", ""),
 				set: new DefaultSetting("string", ""),
+				armorBonus: new DefaultSetting("string", ""),
 			},
 			temporary: {
 				name: new DefaultSetting("string", ""),
@@ -1085,13 +1090,15 @@ const DEFAULT_STORAGE = {
 				weaponType: new DefaultSetting("string", ""),
 				damage: new DefaultSetting("string", ""),
 				accuracy: new DefaultSetting("string", ""),
-				weaponBonus: new DefaultSetting<string[]>("array", []),
+				weaponBonus: new DefaultSetting<WeaponBonusFilter[]>("array", []),
+				quality: new DefaultSetting("string", ""),
 			},
 			armor: {
 				name: new DefaultSetting("string", ""),
 				rarity: new DefaultSetting("string", ""),
 				defence: new DefaultSetting("string", ""),
 				set: new DefaultSetting("string", ""),
+				armorBonus: new DefaultSetting("string", ""),
 			},
 			items: {
 				name: new DefaultSetting("string", ""),

@@ -43,7 +43,7 @@ interface FetchOptions {
 	succeedOnError: boolean;
 	includeKey: boolean;
 	relay: boolean;
-	params: { [key: string]: string | number };
+	params: { [key: string]: any };
 }
 
 type FetchLocation = keyof typeof FETCH_PLATFORMS | typeof FETCH_PLATFORMS.tornstats;

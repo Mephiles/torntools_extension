@@ -40,3 +40,11 @@ interface LootRangersLoot {
 	};
 	order: number[];
 }
+
+type FFScouterResult = {
+	player_id: number;
+	fair_fight: number | null;
+	bs_estimate: number | null;
+	bs_estimate_human: string | null;
+	last_updated: number | null;
+}[];
