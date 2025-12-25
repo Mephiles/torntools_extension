@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,8 @@
 		},
 		async () => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 

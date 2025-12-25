@@ -1,5 +1,3 @@
-"use strict";
-
 // Reformat profile page headings as "USERNAME [ID]".
 
 (async () => {

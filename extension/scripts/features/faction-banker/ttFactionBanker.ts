@@ -1,12 +1,10 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
 	const params = getSearchParameters();
 	if (params.get("step") !== "your") return;
 
-	let originalText;
+	let originalText: string | undefined;
 
 	const feature = featureManager.registerFeature(
 		"Faction Banker",
@@ -43,7 +41,7 @@
 	}
 
 	function showBalance() {
-		const input = document.find("#money-user");
+		const input = document.find<HTMLInputElement>("#money-user");
 		if (!input) return;
 
 		const label = document.find(".select-wrap .placeholder");

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Member rank",
@@ -31,7 +29,7 @@
 		});
 	}
 
-	async function addNumbers(force) {
+	async function addNumbers(force: boolean) {
 		if (!force && isOwnFaction && getFactionSubpage() !== "info") return;
 
 		if (document.find(".tt-member-index")) return;
@@ -43,12 +41,12 @@
 
 		let reduced = 0;
 		list.findAll(".table-body > .table-row").forEach((row, index) => {
-			let text;
+			let text: string;
 			if (row.find(".icons li[id*='icon77___']")) {
 				text = "-";
 				reduced++;
 			} else {
-				text = index + 1 - reduced;
+				text = (index + 1 - reduced).toString();
 			}
 
 			row.insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "tt-member-index", text }));

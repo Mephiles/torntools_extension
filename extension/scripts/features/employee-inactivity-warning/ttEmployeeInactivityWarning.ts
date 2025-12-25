@@ -1,10 +1,8 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Employee Inactivity Warning",
 		"companies",
-		() => settings.employeeInactivityWarning.filter((warning) => warning.days !== undefined && warning.days !== false).length,
+		() => !!settings.employeeInactivityWarning.filter((warning) => warning.days !== null).length,
 		addListener,
 		addWarning,
 		removeWarning,
@@ -34,12 +32,12 @@
 
 			if (name === "Last Action") {
 				lastActionState = false;
-				await removeWarning();
+				removeWarning();
 			}
 		});
 	}
 
-	async function addWarning(force) {
+	async function addWarning(force: boolean | undefined) {
 		if (!force || !lastActionState) return;
 
 		await requireElement(".employee-list-wrap .employee-list > li + .tt-last-action, .employees-wrap .employees-list > li + .tt-last-action");
@@ -47,10 +45,10 @@
 		for (const row of document.findAll(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li")) {
 			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 
-			const days = parseInt(row.nextElementSibling.dataset.days);
+			const days = parseInt((row.nextElementSibling as HTMLElement).dataset.days);
 
 			for (const warning of settings.employeeInactivityWarning) {
-				if (!(warning.days !== undefined && warning.days !== false) || days < warning.days) continue;
+				if (!(warning.days !== null) || days < warning.days) continue;
 
 				row.style.setProperty("--tt-inactive-background", warning.color);
 				row.classList.add("tt-inactive");

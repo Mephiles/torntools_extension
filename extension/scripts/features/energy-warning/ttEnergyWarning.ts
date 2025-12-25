@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	const factionPage = getPage() === "factions";
@@ -17,6 +15,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -24,19 +24,20 @@
 		document.addEventListener("click", (event) => {
 			if (!feature.enabled()) return;
 
-			let item;
-			if (factionPage) item = event.target.closest("li");
-			else item = event.target.closest("li[data-category*='Drug'], li[data-category*='Energy Drink']");
+			let item: HTMLElement | undefined;
+			if (factionPage) item = (event.target as Element).closest("li");
+			else item = (event.target as Element).closest("li[data-category*='Drug'], li[data-category*='Energy Drink']");
+
 			if (item) addWarning(item);
 		});
 	}
 
-	async function addWarning(item) {
+	async function addWarning(item: HTMLElement) {
 		if (!item) return;
 
 		item.findAll(".tt-energy-warning").forEach((x) => x.remove());
 
-		const message = await requireElement(".confirm-wrap, .use-act", { parent: item });
+		const message: Element = await requireElement(".confirm-wrap, .use-act", { parent: item });
 		if (!message) return;
 
 		const received = getItemEnergy(factionPage ? item.find(".img-wrap").dataset.itemid : item.dataset.item);
@@ -57,7 +58,7 @@
 		}
 	}
 
-	function clickListener(event) {
+	function clickListener(event: MouseEvent) {
 		if (!confirm("Are you sure to use this item ? It will get you to more than 1000E.")) {
 			event.stopPropagation();
 			event.stopImmediatePropagation();

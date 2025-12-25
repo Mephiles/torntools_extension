@@ -1999,7 +1999,7 @@ function getUserEnergy() {
 		.map((x) => parseInt(x));
 }
 
-function getItemEnergy(id: number) {
+function getItemEnergy(id: number | string) {
 	const effect = torndata.items[id]?.effect;
 	if (!effect) return false;
 

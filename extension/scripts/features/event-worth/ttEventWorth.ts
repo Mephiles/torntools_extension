@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Event Worth",
@@ -25,20 +23,20 @@
 
 		eventsListWrapper.addEventListener(
 			"mouseover",
-			(event) => {
+			(event: MouseEvent) => {
 				if (!feature.enabled()) return;
 
-				if (!event.target.matches("[class*='message__']") || event.target.className.includes("tt-modified")) return;
+				const target = event.target as Element;
+				if (!target.matches("[class*='message__']") || target.className.includes("tt-modified")) return;
 
-				const eventMessageEl = event.target;
 				regexes.forEach((regex) => {
-					const matches = eventMessageEl.textContent.match(regex);
+					const matches = target.textContent.match(regex);
 					if (matches?.length === 2) {
-						const totalPrice = matches[1].replaceAll(",", "");
-						const quantity = matches[0].replaceAll(",", "");
+						const totalPrice = parseInt(matches[1].replaceAll(",", ""));
+						const quantity = parseInt(matches[0].replaceAll(",", ""));
 
-						eventMessageEl.setAttribute("title", `(worth ${formatNumber(totalPrice / quantity, { currency: true, decimals: 0 })} each)`);
-						eventMessageEl.classList.add("tt-modified");
+						target.setAttribute("title", `(worth ${formatNumber(totalPrice / quantity, { currency: true, decimals: 0 })} each)`);
+						target.classList.add("tt-modified");
 					}
 				});
 			},
