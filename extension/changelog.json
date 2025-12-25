@@ -5,7 +5,11 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Armory Filter' not saving the armor bonus value.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Armory Filter' not applying the armor bonus filter.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]

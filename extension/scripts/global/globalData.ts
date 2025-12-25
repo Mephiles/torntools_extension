@@ -1049,6 +1049,7 @@ const DEFAULT_STORAGE = {
 				rarity: new DefaultSetting("string", ""),
 				defence: new DefaultSetting("string", ""),
 				set: new DefaultSetting("string", ""),
+				armorBonus: new DefaultSetting("string", ""),
 			},
 			temporary: {
 				name: new DefaultSetting("string", ""),

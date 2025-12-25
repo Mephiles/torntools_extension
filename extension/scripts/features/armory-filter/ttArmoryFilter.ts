@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isOwnFaction) return;
 
@@ -8,7 +6,7 @@
 		"faction",
 		() => settings.pages.faction.armoryFilter,
 		addListener,
-		addFilter,
+		() => addFilter(null),
 		removeFilter,
 		{
 			storage: ["settings.pages.faction.armoryFilter"],
@@ -26,10 +24,25 @@
 		});
 	}
 
-	let cbHideUnavailable;
-	let localFilters = {};
+	type ArmoryFilters = {
+		hideUnavailable: boolean;
+		name: string;
+		category: string;
+		// rarity: string;
+		weaponType: string;
+		damage: string;
+		accuracy: string;
+		weaponBonus: { bonus: string; value: number }[];
+		// itemType: string;
+		defence: string;
+		set: string;
+		armorBonus: string;
+	};
 
-	async function addFilter(section) {
+	let cbHideUnavailable: CheckboxObject | undefined;
+	let localFilters: any = {};
+
+	async function addFilter(section: string | null) {
 		if (!["weapons", "armour", "temporary"].includes(section)) return;
 		else if (section === "armour") section = "armor";
 
@@ -168,7 +181,7 @@
 
 			const hideUnavailable = cbHideUnavailable.isChecked();
 			const name = localFilters.name.getValue();
-			const filters = { name };
+			const filters: Partial<ArmoryFilters> = { name };
 
 			if (itemType === "weapons") {
 				filters.category = localFilters.category.getSelected(content);
@@ -195,7 +208,7 @@
 		}
 	}
 
-	function filterRow(row, filters) {
+	function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 		const id = row.find(".img-wrap").dataset.itemid;
 
 		if (filters.hideUnavailable) {
@@ -222,7 +235,7 @@
 				return;
 			}
 		}
-		if (filters.damage && !isNaN(filters.damage)) {
+		if (filters.damage && !isNaN(parseFloat(filters.damage))) {
 			const damage = parseFloat(filters.damage);
 
 			if (parseFloat(row.find(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
@@ -230,7 +243,7 @@
 				return;
 			}
 		}
-		if (filters.accuracy && !isNaN(filters.accuracy)) {
+		if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
 			const accuracy = parseFloat(filters.accuracy);
 
 			if (parseFloat(row.find(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
@@ -238,7 +251,7 @@
 				return;
 			}
 		}
-		if (filters.defence && !isNaN(filters.defence)) {
+		if (filters.defence && !isNaN(parseFloat(filters.defence))) {
 			const defence = parseFloat(filters.defence);
 
 			if (parseFloat(row.find(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
@@ -260,10 +273,10 @@
 				}
 			}
 		}
-		if (filters.armorBonus && !isNaN(filters.armorBonus)) {
+		if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
 			const bonus = parseFloat(filters.armorBonus);
 
-			if (row.find(".bonus-attachment-melee-protection")?.getAttribute("title").getNumber() < bonus) {
+			if (row.find(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title").getNumber() < bonus) {
 				hide("bonus");
 				return;
 			}
@@ -279,9 +292,9 @@
 					value: description.getNumber(),
 				}));
 
-			let hasBonuses;
+			let hasBonuses: boolean;
 			if (toFilterBonus.some(({ bonus }) => bonus === "any")) {
-				hasBonuses = foundBonuses.length;
+				hasBonuses = !!foundBonuses.length;
 			} else {
 				hasBonuses = toFilterBonus.every(
 					({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
@@ -301,7 +314,7 @@
 			row.removeAttribute("data-hide-reason");
 		}
 
-		function hide(reason) {
+		function hide(reason: string) {
 			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 		}
