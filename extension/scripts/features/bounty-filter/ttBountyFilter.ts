@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Bounty Filter",
@@ -54,7 +52,7 @@
 		}
 
 		// Setup saved filters
-		maxLevelInput.value = filters.bounties.maxLevel;
+		maxLevelInput.value = filters.bounties.maxLevel.toString();
 		cbHideUnavailable.setChecked(filters.bounties.hideUnavailable);
 
 		maxLevelInput.addEventListener("input", filterListing);
@@ -65,7 +63,7 @@
 			// Get the set filters
 			const tempMaxLevel = parseInt(maxLevelInput.value);
 			const maxLevel = tempMaxLevel < 100 && tempMaxLevel > 0 ? tempMaxLevel : 100;
-			maxLevelInput.value = maxLevelInput.value === "" ? "" : maxLevel;
+			maxLevelInput.value = maxLevelInput.value === "" ? "" : maxLevel.toString();
 			const hideUnavailable = cbHideUnavailable.isChecked();
 
 			// Save the filters
@@ -100,7 +98,7 @@
 				);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 
-			function hideBounty(bounty) {
+			function hideBounty(bounty: Element) {
 				bounty.classList.add("tt-hidden");
 
 				if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {
@@ -108,7 +106,7 @@
 				}
 			}
 
-			function showBounty(bounty) {
+			function showBounty(bounty: Element) {
 				bounty.classList.remove("tt-hidden");
 
 				if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {

@@ -1,5 +1,3 @@
-"use strict";
-
 (() => {
 	const feature = featureManager.registerFeature(
 		"Add Debug Info",
@@ -13,11 +11,11 @@
 	);
 
 	function addListener() {
-		addDebugInfo();
+		void addDebugInfo();
 		window.addEventListener("hashchange", addDebugInfo);
 	}
 
-	let debugInfo;
+	let debugInfo: string | undefined;
 	async function addDebugInfo() {
 		if (!feature.enabled()) return;
 		if (!viewingTTForumThread()) return;

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature(
 		"Age to Words",

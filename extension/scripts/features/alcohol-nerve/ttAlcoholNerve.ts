@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -35,12 +35,12 @@
 
 			const id = parseInt(alcoholicDrink.dataset.item);
 			console.log("DKK alcohol", { id });
-			// noinspection JSCheckFunctionSignatures
 			let totalNerve = parseInt(
 				torndata.items[alcoholicDrink.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]
+					.toString()
 			);
 			if (!isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;
 			if (!isNaN(companyPerk)) totalNerve *= 1 + companyPerk / 100;
