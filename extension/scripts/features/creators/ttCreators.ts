@@ -1,9 +1,7 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
-	featureManager.registerFeature("Creators", "profile", true, undefined, showCreators);
+	featureManager.registerFeature("Creators", "profile", () => true, undefined, showCreators);
 
 	async function showCreators() {
 		const id = parseInt(

@@ -1,14 +1,12 @@
-"use strict";
-
 (async () => {
 	await requireFeatureManager();
 
 	const feature = featureManager.registerFeature(
 		"Disable Ally Attacks",
 		"loader",
-		() => settings.pages.profile.disableAllyAttacks && settings.alliedFactions.length,
+		() => settings.pages.profile.disableAllyAttacks && !!settings.alliedFactions.length,
 		startListener,
-		disableAttackButton,
+		() => disableAttackButton(null),
 		removeWarning,
 		{
 			storage: ["settings.pages.profile.disableAllyAttacks", "settings.alliedFactions"],
@@ -26,7 +24,7 @@
 		});
 	}
 
-	async function disableAttackButton(factionID) {
+	async function disableAttackButton(factionID: number | null) {
 		if (!factionID) return;
 		if (document.find(".tt-disable-ally-attack")) return;
 
@@ -44,7 +42,7 @@
 				event.stopImmediatePropagation();
 
 				if (confirm("Are you sure you want to attack this ally?")) {
-					event.target.remove();
+					(event.target as Element).remove();
 					closedOption = true;
 				}
 			});

@@ -1,24 +1,22 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
 	featureManager.registerFeature(
-		"War Report to CSV",
+		"Raid Report to CSV",
 		"faction",
-		() => settings.pages.faction.csvWarReport,
+		() => settings.pages.faction.csvRaidReport,
 		null,
 		addCSVContainer,
 		removeCSVContainer,
 		{
-			storage: ["settings.pages.faction.csvWarReport"],
+			storage: ["settings.pages.faction.csvRaidReport"],
 		},
 		null
 	);
 
 	async function addCSVContainer() {
 		await requireElement(".faction-war");
-		const { options } = createContainer("War Report", {
+		const { options } = createContainer("Raid Report", {
 			previousElement: document.find(".content-wrapper .content-title"),
 			onlyHeader: true,
 		});
@@ -32,23 +30,17 @@
 			],
 		});
 		ttExportButton.addEventListener("click", () => {
-			const warID = getSearchParameters().get("warID");
-			const csv = new CSVExport(`War Report [${warID}]`, options.find("#ttExportLink"));
+			const raidID = getSearchParameters().get("raidID");
+			const csv = new CSVExport(`Raid Report [${raidID}]`, options.find("#ttExportLink"));
 
 			for (const selector of ["enemy", "your"]) {
-				csv.append(document.find(`.faction-war .${selector}`).textContent);
-				csv.append("Members", "Level", "Points", "Joins", "Clears");
+				csv.append(document.find(`.faction-war .${selector} div[class*="text___"]`).textContent);
+				csv.append("Members", "Level", "Attacks", "Damage");
 
 				const members = document.findAll(`.${selector}-faction .members-list > *[class]`);
 				if (members.length) {
 					for (const row of members) {
-						csv.append(
-							getUsername(row).combined,
-							row.find(".lvl").textContent,
-							row.find(".points").textContent,
-							row.find(".joins").textContent,
-							row.find(".knock-off").textContent
-						);
+						csv.append(getUsername(row).combined, row.find(".level").textContent, row.find(".points").textContent, row.find(".status").textContent);
 					}
 				} else csv.append("None");
 			}
@@ -59,6 +51,6 @@
 	}
 
 	function removeCSVContainer() {
-		removeContainer("War Report");
+		removeContainer("Raid Report");
 	}
 })();

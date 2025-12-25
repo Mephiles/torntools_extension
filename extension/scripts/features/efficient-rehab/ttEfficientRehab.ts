@@ -1,5 +1,3 @@
-"use strict";
-
 (() => {
 	featureManager.registerFeature(
 		"Efficient Rehab",
@@ -11,17 +9,23 @@
 		{ storage: ["settings.pages.travel.efficientRehab", "settings.apiUsage.user.personalstats"] },
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.personalstats) return "No API access.";
+
+			return true;
 		}
 	);
 
 	let isInjected = false;
-	let knownPercentages;
+	let knownPercentages: any;
 
 	function addListener() {
 		executeScript(chrome.runtime.getURL("scripts/features/efficient-rehab/ttEfficientRehab.inject.js"));
 		window.addEventListener("tt-injected--efficient-rehab", () => (isInjected = true));
 
-		addXHRListener(async ({ detail: { page, xhr, json } }) => {
+		addXHRListener(async ({ detail }) => {
+			if (!("json" in detail)) return;
+
+			const { page, xhr, json } = detail;
+
 			if (page === "travelagency") {
 				const params = new URLSearchParams(xhr.requestBody);
 				const step = params.get("step");
@@ -78,7 +82,7 @@
 		const rehabsDone = userdata.personalstats.drugs.rehabilitations.amount;
 
 		const costAP = rehabsDone <= 19_232 ? rehabsDone * 12.85 + 2_857.14 : 250_000;
-		const rehabAP = parseInt(Math.round((250_000 / costAP) * 100)) / 100;
+		const rehabAP = parseInt(Math.round((250_000 / costAP) * 100).toString()) / 100;
 
 		return {
 			minimum: Math.ceil(20 / rehabAP),

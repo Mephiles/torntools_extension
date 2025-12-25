@@ -180,7 +180,7 @@ class FeatureManager {
 		enabled: FeatureEnabledFn,
 		initialise: FeatureFn,
 		execute: FeatureFn,
-		cleanup: FeatureFn,
+		cleanup?: FeatureFn,
 		loadListeners?: FeatureLoadListeners,
 		requirements?: Feature["requirements"],
 		partialOptions?: Partial<FeatureOptions>

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,6 +15,8 @@
 		},
 		async () => {
 			await checkDevice();
+
+			return true;
 		}
 	);
 
@@ -35,18 +35,20 @@
 		const stats = ["Strength", "Defense", "Speed", "Dexterity"];
 		for (let i = 0; i < stats.length; i++) {
 			const base = statsContainer.find(`li:nth-child(${i + 1}) .desc`).textContent.getNumber();
-			let modifier = statsContainer.find(`li:nth-child(${i + 1}) .mod`).textContent.trim();
-			if (modifier.charAt(0) === "+") modifier = parseInt(modifier.slice(1, -1)) / 100 + 1;
-			else modifier = 1 - parseInt(modifier.slice(1, -1)) / 100;
+
+			const modifierText = statsContainer.find(`li:nth-child(${i + 1}) .mod`).textContent.trim();
+			let modifier: number;
+			if (modifierText.charAt(0) === "+") modifier = parseInt(modifierText.slice(1, -1)) / 100 + 1;
+			else modifier = 1 - parseInt(modifierText.slice(1, -1)) / 100;
 			const effective = (base * modifier).dropDecimals();
 
 			effectiveTotal += effective;
 			content.appendChild(newRow(stats[i], formatNumber(effective)));
 		}
 
-		content.appendChild(newRow("Total", formatNumber(effectiveTotal, false)));
+		content.appendChild(newRow("Total", formatNumber(effectiveTotal)));
 
-		function newRow(name, value) {
+		function newRow(name: string, value: string) {
 			return document.newElement({
 				type: "li",
 				class: "stats-row",

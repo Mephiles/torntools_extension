@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (!isOwnCompany) return;
@@ -7,7 +5,7 @@
 	const feature = featureManager.registerFeature(
 		"Employee Effectiveness",
 		"companies",
-		() => settings.pages.companies.employeeEffectiveness,
+		() => !!settings.pages.companies.employeeEffectiveness,
 		initialiseListeners,
 		startFeature,
 		removeEffectiveness,
@@ -16,7 +14,7 @@
 		}
 	);
 
-	let observer;
+	let observer: MutationObserver | undefined;
 	function initialiseListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
 			if (!feature.enabled()) return;
@@ -26,13 +24,13 @@
 	}
 
 	async function startFeature() {
-		showEffectiveness();
+		void showEffectiveness();
 
 		observer?.disconnect();
 
 		observer = new MutationObserver((mutations) => {
 			const firstAdditionMutation = mutations.filter((x) => x.addedNodes.length)[0];
-			if (firstAdditionMutation.target.matches("#employees.employees")) showEffectiveness();
+			if ((firstAdditionMutation.target as Element).matches("#employees.employees")) showEffectiveness();
 		});
 		observer.observe(await requireElement(".company-wrap > .manage-company"), { childList: true, subtree: true });
 	}
@@ -40,11 +38,11 @@
 	async function showEffectiveness() {
 		if (getHashParameters().get("option") !== "employees") return;
 
-		const list = await requireElement(".employee-list");
+		const list: Element = await requireElement(".employee-list");
 
 		for (const row of list.findAll(".effectiveness[data-multipliers]")) {
 			const multipliers = JSON.parse(row.dataset.multipliers) || [];
-			const reduction = multipliers.filter((multiplier) => multiplier < 0).totalSum() * -1;
+			const reduction = multipliers.filter((multiplier: any) => multiplier < 0).totalSum() * -1;
 
 			const element = row.find(".effectiveness-value");
 

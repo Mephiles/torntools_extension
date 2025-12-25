@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isFlying() && !isAbroad()) return;
 
@@ -20,6 +18,7 @@
 			else if (hasAPIData() && settings.apiUsage.user.inventory && !hasComputer()) return "No computer found!";
 
 			await checkDevice();
+			return true;
 		}
 	);
 

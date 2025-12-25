@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Display Case Worth",
@@ -13,6 +11,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -24,7 +24,7 @@
 
 	async function addWorth() {
 		const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").last() : "";
-		if (displayCaseUserId && !isNaN(displayCaseUserId) && parseInt(displayCaseUserId) !== userdata.profile.id) {
+		if (displayCaseUserId && !isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
 			await requireElement(".info-msg-cont .msg");
 			// TODO - Migrate to V2 (user/display).
 			fetchData("tornv2", { section: "user", id: displayCaseUserId, selections: ["display"], legacySelections: ["display"] })

@@ -1,4 +1,3 @@
-"use strict";
 (async () => {
 	if (!isEventActive(TORN_EVENTS.EASTER_EGG_HUNT, true)) {
 		return;
@@ -69,7 +68,7 @@
 		if (container) {
 			new MutationObserver((mutations, observer) => {
 				for (const node of mutations.flatMap((mutation) => [...mutation.addedNodes])) {
-					if (node.nodeType !== Node.ELEMENT_NODE) continue;
+					if (!isElement(node)) continue;
 
 					if (node.matches(EGG_SELECTOR) || node.find(EGG_SELECTOR)) {
 						highlightEgg(node.matches(EGG_SELECTOR) ? node : node.find(EGG_SELECTOR));
@@ -89,7 +88,7 @@
 		}
 	}
 
-	async function highlightEgg(egg) {
+	async function highlightEgg(egg: Element) {
 		if (settings.pages.competitions.easterEggsAlert) {
 			alert("TornTools detected an easter egg on this page.");
 		}
@@ -131,7 +130,7 @@
 		}
 	}
 
-	function calculateLocation(element) {
+	function calculateLocation(element: Element) {
 		const { left, top, width, height } = element.getBoundingClientRect();
 
 		const centerX = left + width / 2;
@@ -143,7 +142,7 @@
 		const relativeHeight = centerY / innerHeight;
 		const relativeWidth = centerX / innerWidth;
 
-		let verticalText, horizontalText;
+		let verticalText: string, horizontalText: string;
 
 		if (relativeHeight < 0.25) verticalText = "top";
 		else if (relativeHeight > 0.75) verticalText = "bottom";
@@ -153,7 +152,7 @@
 		else if (relativeWidth > 0.7) horizontalText = "right";
 		else horizontalText = "center";
 
-		let text;
+		let text: string;
 		if (verticalText === horizontalText) text = verticalText;
 		else text = `${verticalText} ${horizontalText}`;
 

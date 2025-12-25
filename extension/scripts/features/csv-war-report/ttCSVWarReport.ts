@@ -1,24 +1,22 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
 	featureManager.registerFeature(
-		"Ranked War Report to CSV",
+		"War Report to CSV",
 		"faction",
-		() => settings.pages.faction.csvRankedWarReport,
+		() => settings.pages.faction.csvWarReport,
 		null,
 		addCSVContainer,
 		removeCSVContainer,
 		{
-			storage: ["settings.pages.faction.csvRankedWarReport"],
+			storage: ["settings.pages.faction.csvWarReport"],
 		},
 		null
 	);
 
 	async function addCSVContainer() {
 		await requireElement(".faction-war");
-		const { options } = createContainer("Ranked War Report", {
+		const { options } = createContainer("War Report", {
 			previousElement: document.find(".content-wrapper .content-title"),
 			onlyHeader: true,
 		});
@@ -32,17 +30,23 @@
 			],
 		});
 		ttExportButton.addEventListener("click", () => {
-			const rankID = getSearchParameters().get("rankID");
-			const csv = new CSVExport(`Ranked War Report [${rankID}]`, options.find("#ttExportLink"));
+			const warID = getSearchParameters().get("warID");
+			const csv = new CSVExport(`War Report [${warID}]`, options.find("#ttExportLink"));
 
 			for (const selector of ["enemy", "your"]) {
-				csv.append(document.find(`.faction-war .${selector} div[class*="text___"]`).textContent);
-				csv.append("Members", "Level", "Attacks", "Score");
+				csv.append(document.find(`.faction-war .${selector}`).textContent);
+				csv.append("Members", "Level", "Points", "Joins", "Clears");
 
 				const members = document.findAll(`.${selector}-faction .members-list > *[class]`);
 				if (members.length) {
 					for (const row of members) {
-						csv.append(getUsername(row).combined, row.find(".level").textContent, row.find(".points").textContent, row.find(".status").textContent);
+						csv.append(
+							getUsername(row).combined,
+							row.find(".lvl").textContent,
+							row.find(".points").textContent,
+							row.find(".joins").textContent,
+							row.find(".knock-off").textContent
+						);
 					}
 				} else csv.append("None");
 			}
@@ -53,6 +57,6 @@
 	}
 
 	function removeCSVContainer() {
-		removeContainer("Ranked War Report");
+		removeContainer("War Report");
 	}
 })();

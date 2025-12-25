@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,13 +13,15 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.education) return "No API access.";
+
+			return true;
 		}
 	);
 
 	async function showEducationFinishTime() {
 		if (userdata.education_timeleft <= 0) return;
 
-		const msg = await requireElement(".msg .bold");
+		const msg: Element = await requireElement(".msg .bold");
 		const overDate = new Date(userdata.dateBasic + userdata.education_timeleft * 1000).getTime();
 
 		msg.insertAdjacentElement(

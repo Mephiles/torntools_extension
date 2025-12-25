@@ -1,24 +1,22 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
 	featureManager.registerFeature(
-		"Raid Report to CSV",
+		"Ranked War Report to CSV",
 		"faction",
-		() => settings.pages.faction.csvRaidReport,
+		() => settings.pages.faction.csvRankedWarReport,
 		null,
 		addCSVContainer,
 		removeCSVContainer,
 		{
-			storage: ["settings.pages.faction.csvRaidReport"],
+			storage: ["settings.pages.faction.csvRankedWarReport"],
 		},
 		null
 	);
 
 	async function addCSVContainer() {
 		await requireElement(".faction-war");
-		const { options } = createContainer("Raid Report", {
+		const { options } = createContainer("Ranked War Report", {
 			previousElement: document.find(".content-wrapper .content-title"),
 			onlyHeader: true,
 		});
@@ -32,12 +30,12 @@
 			],
 		});
 		ttExportButton.addEventListener("click", () => {
-			const raidID = getSearchParameters().get("raidID");
-			const csv = new CSVExport(`Raid Report [${raidID}]`, options.find("#ttExportLink"));
+			const rankID = getSearchParameters().get("rankID");
+			const csv = new CSVExport(`Ranked War Report [${rankID}]`, options.find("#ttExportLink"));
 
 			for (const selector of ["enemy", "your"]) {
 				csv.append(document.find(`.faction-war .${selector} div[class*="text___"]`).textContent);
-				csv.append("Members", "Level", "Attacks", "Damage");
+				csv.append("Members", "Level", "Attacks", "Score");
 
 				const members = document.findAll(`.${selector}-faction .members-list > *[class]`);
 				if (members.length) {
@@ -53,6 +51,6 @@
 	}
 
 	function removeCSVContainer() {
-		removeContainer("Raid Report");
+		removeContainer("Ranked War Report");
 	}
 })();
