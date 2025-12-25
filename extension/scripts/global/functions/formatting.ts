@@ -320,7 +320,7 @@ function formatDate(date: DateObject, partialOptions: Partial<FormatDateOptions>
 		year = _date.getFullYear();
 	}
 
-	const parts = [];
+	const parts: number[] = [];
 	let separator: string;
 	switch (settings.formatting.date) {
 		case "us":
