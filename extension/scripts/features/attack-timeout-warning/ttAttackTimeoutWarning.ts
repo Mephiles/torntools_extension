@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,7 +14,7 @@
 		null
 	);
 
-	let observer;
+	let observer: MutationObserver | undefined;
 
 	async function addListener() {
 		stopListener();
@@ -24,7 +22,7 @@
 		const dialogButtons = await requireElement("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']");
 		if (dialogButtons.childElementCount === 0) return;
 
-		await new Promise(async (resolve) => {
+		await new Promise<void>(async (resolve) => {
 			dialogButtons.children[0].addEventListener("click", () => {
 				resolve();
 			});
@@ -32,7 +30,7 @@
 
 		const timeoutValue = await requireElement("span[id^='timeout-value']");
 
-		const soundSource = await new Promise((resolve) => {
+		const soundSource = await new Promise<string>((resolve) => {
 			const type = settings.notifications.sound;
 			switch (type) {
 				case "1":
@@ -63,13 +61,12 @@
 
 			if (seconds <= 0) return;
 			else if (seconds === 29 && settings.notifications.types.global) {
-				chrome.runtime.sendMessage(
-					{ action: "notification", title: "Attack Timeout", message: `Your attack is about to timeout in ${seconds} seconds!`, url: location.href },
-					(response) => {
-						if (response.error) return reject(response);
-						else return resolve(response);
-					}
-				);
+				chrome.runtime.sendMessage({
+					action: "notification",
+					title: "Attack Timeout",
+					message: `Your attack is about to timeout in ${seconds} seconds!`,
+					url: location.href,
+				});
 			} else if (seconds >= 30) return;
 
 			audio.play().catch(() => {});

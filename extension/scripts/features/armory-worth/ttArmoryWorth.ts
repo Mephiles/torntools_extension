@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isOwnFaction) return;
 
@@ -15,9 +13,20 @@
 		},
 		() => {
 			if (!hasFactionAPIAccess()) return "No faction API access.";
+
+			return true;
 		},
 		{ liveReload: true }
 	);
+
+	type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
+		FactionV1ArmorResponse &
+		FactionV1TemporaryResponse &
+		FactionV1MedicalResponse &
+		FactionV1DrugsResponse &
+		FactionV1BoostersResponse &
+		FactionV1CesiumResponse &
+		FactionV1CurrencyResponse;
 
 	function addListener() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
@@ -25,7 +34,7 @@
 		});
 	}
 
-	async function addWorth(force) {
+	async function addWorth(force: boolean) {
 		if (!force) return;
 
 		document.find(".tt-armory-worth")?.remove();
@@ -44,7 +53,7 @@
 		if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
 			handleData(ttCache.get("armory", userdata.faction.id));
 		} else {
-			fetchData("tornv2", { section: "faction", selections, legacySelections: selections })
+			fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", selections, legacySelections: selections })
 				.then((data) => {
 					handleData(data);
 
@@ -69,7 +78,7 @@
 				});
 		}
 
-		function handleData(data) {
+		function handleData(data: ArmoryWorthFetchResponse) {
 			let total = 0;
 			for (const type of selections) {
 				if (data[type]) {
