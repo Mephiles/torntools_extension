@@ -333,6 +333,8 @@ interface StoredFactionStakeouts {
 		| number;
 }
 
+type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReaches: number } };
+
 type StoredFactiondataNoAccess = { access: "none"; error?: any; retry?: number };
 type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number };
 type StoredFactiondataFullAccess = { access: "full_access"; date: number; userCrime: number } & FetchedFactiondataWithAccess;
@@ -497,7 +499,7 @@ const DEFAULT_STORAGE = {
 				cooldownDrug: new DefaultSetting<number[]>("array", []),
 				cooldownBooster: new DefaultSetting<number[]>("array", []),
 				cooldownMedical: new DefaultSetting<number[]>("array", []),
-				stocks: new DefaultSetting("object", {}),
+				stocks: new DefaultSetting<StoredStockNotifications>("object", {}),
 				missionsLimitEnabled: new DefaultSetting("boolean", false),
 				missionsLimit: new DefaultSetting("string", ""),
 				missionsExpireEnabled: new DefaultSetting("boolean", false),

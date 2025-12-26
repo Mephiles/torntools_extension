@@ -8,7 +8,7 @@ interface BadgeType {
 	color: string | ((options: BadgeOptions) => Promise<string | null>) | null;
 }
 
-const BADGE_TYPES = {
+const BADGE_TYPES: { [key: string]: BadgeType } = {
 	default: { text: "", color: null },
 	error: { text: "error", color: "#FF0000" },
 	count: {
@@ -25,7 +25,7 @@ const BADGE_TYPES = {
 			else return (await getBadgeText()) === "error" ? "error" : null;
 		},
 	},
-} as const satisfies { [key: string]: BadgeType };
+};
 
 async function setBadge(type: keyof typeof BADGE_TYPES, partialOptions: Partial<BadgeOptions> = {}): Promise<boolean> {
 	if (SCRIPT_TYPE !== "BACKGROUND") return false;

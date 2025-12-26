@@ -48,3 +48,22 @@ type FFScouterResult = {
 	bs_estimate_human: string | null;
 	last_updated: number | null;
 }[];
+
+type TornW3BResult = {
+	// item_id: number;
+	// item_name: string;
+	// market_price: number;
+	// bazaar_average: number;
+	// total_listings: number;
+	listings: {
+		item_id: number;
+		player_id: number;
+		player_name: string;
+		quantity: number;
+		price: number;
+		content_updated: number;
+		last_checked: number;
+		content_updated_relative: string;
+		last_checked_relative: string;
+	}[];
+};
