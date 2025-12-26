@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,13 +15,22 @@
 			if (!hasAPIData()) return "No API access.";
 
 			await checkDevice();
+			return true;
 		}
 	);
 
-	const localFilters = {};
+	type ShopFilterId = "hideLoss" | "hideUnder100";
+
+	type LocalFilters = {
+		filters?: {
+			getSelections: () => ShopFilterId[];
+		};
+	};
+
+	const localFilters: LocalFilters = {};
 
 	async function addFilters() {
-		const title = await requireElement(".buy-items-wrap > [role*='heading']");
+		const title = (await requireElement(".buy-items-wrap > [role*='heading']")) as HTMLElement;
 
 		const shopFilters = createCheckboxList({
 			items: [
@@ -32,12 +39,13 @@
 			],
 			orientation: "row",
 		});
+
 		shopFilters.setSelections([...(filters.shops.hideLoss ? ["hideLoss"] : []), ...(filters.shops.hideUnder100 ? ["hideUnder100"] : [])]);
 
 		shopFilters.onSelectionChange(filtering);
-		localFilters.filters = { getSelections: shopFilters.getSelections };
+		localFilters.filters = { getSelections: shopFilters.getSelections as () => ShopFilterId[] };
 
-		filtering().then(() => {});
+		void filtering();
 
 		title.appendChild(
 			document.newElement({
@@ -51,15 +59,25 @@
 	async function filtering() {
 		await requireElement(".item-desc");
 
-		const checkboxes = localFilters.filters.getSelections();
+		const checkboxes = localFilters.filters?.getSelections() ?? [];
 		const hideLoss = checkboxes.includes("hideLoss");
 		const hideUnder100 = checkboxes.includes("hideUnder100");
 
 		await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
 
 		for (const element of document.findAll(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
-			const id = element.find(".item").getAttribute("itemid").getNumber();
-			const profitable = torndata.items[id].market_value - element.find(".price").firstChild.textContent.getNumber() > 0;
+			const itemElement = element.find(".item");
+			const itemIdAttr = itemElement.getAttribute("itemid");
+			if (!itemIdAttr) continue;
+
+			const id = itemIdAttr.getNumber();
+			const item = torndata.items[id];
+			if (!item) continue;
+
+			const priceText = element.find(".price").firstChild?.textContent ?? "";
+			const price = priceText.getNumber();
+
+			const profitable = item.market_value - price > 0;
 			if (hideLoss && !profitable) {
 				element.classList.add("tt-hidden");
 				continue;
