@@ -72,7 +72,7 @@
 		}
 
 		if (settings.pages.travel.efficientRehabSelect) {
-			window.dispatchEvent(new CustomEvent("tt-efficient-rehab", { detail: { ticks: Math.max(maxRehabs - safe, 1) } }));
+			window.dispatchEvent(new CustomEvent<EfficientRehabDetails>("tt-efficient-rehab", { detail: { ticks: Math.max(maxRehabs - safe, 1) } }));
 		}
 
 		document.querySelector(".rehab-desc").insertAdjacentElement("afterend", informationElement);

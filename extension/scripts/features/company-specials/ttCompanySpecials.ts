@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -19,10 +17,10 @@
 	);
 
 	function initialiseCompanySpecials() {
-		addXHRListener(async (event) => {
-			if (!feature.enabled()) return;
+		addXHRListener(async ({ detail }) => {
+			if (!feature.enabled() || !("json" in detail)) return;
 
-			const { page, json } = event.detail;
+			const { page, json } = detail;
 
 			if (page === "companies" && json) {
 				if (json.result && json.result.msg) {
@@ -33,7 +31,7 @@
 		});
 	}
 
-	async function showMuggableCash(json) {
+	async function showMuggableCash(json: any) {
 		const api = hasAPIData() && settings.apiUsage.user.merits;
 
 		let percentageMin = 5;
@@ -45,12 +43,12 @@
 			percentageMax *= merits;
 
 			const id = json.result.user.userID;
-			let jobResult;
+			let jobResult: UserJob | UserCompany;
 			if (ttCache.hasValue("user-job", id)) {
 				jobResult = ttCache.get("user-job", id);
 			} else {
 				jobResult = (
-					await fetchData("tornv2", {
+					await fetchData<UserJobResponse>("tornv2", {
 						section: "user",
 						id,
 						selections: ["job"],
@@ -83,7 +81,7 @@
 		if (!api) jobInfo.appendChild(document.newElement({ type: "li", text: "* Might not be entirely accurate due to missing API information." }));
 	}
 
-	async function calculateSpies(json) {
+	async function calculateSpies(json: any) {
 		const user = parseInt(json.result.user.userID);
 
 		const stats = ["strength", "speed", "dexterity", "defense", "total"];
@@ -93,7 +91,7 @@
 		for (let [key, value] of Object.entries(json.result.msg)) {
 			if (key === "defence") key = "defense";
 
-			if (!stats.includes(key)) continue;
+			if (!stats.includes(key) || typeof value !== "string") continue;
 
 			if (value === "N/A") {
 				if (data[user] && data[user][key] !== -1) {

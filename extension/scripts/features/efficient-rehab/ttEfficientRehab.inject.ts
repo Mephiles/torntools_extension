@@ -1,4 +1,8 @@
-window.addEventListener("tt-efficient-rehab", (event) => {
+interface EfficientRehabDetails {
+	ticks: number;
+}
+
+window.addEventListener("tt-efficient-rehab", (event: CustomEventInit<EfficientRehabDetails>) => {
 	const $slider = $("#rehub-progress .ui-slider");
 	const rehabPercentages = JSON.parse($slider.attr("data-percentages")) || [];
 
