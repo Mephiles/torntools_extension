@@ -1,10 +1,8 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature(
 		"Custom Links",
 		"sidebar",
-		() => settings.customLinks.length,
+		() => !!settings.customLinks.length,
 		null,
 		showLinks,
 		removeLinks,
@@ -13,6 +11,7 @@
 		},
 		async () => {
 			await checkDevice();
+			return true;
 		}
 	);
 
@@ -56,7 +55,7 @@
 		}
 	}
 
-	function showOutside(filter, id) {
+	function showOutside(filter: "above" | "under", id: string) {
 		if (!settings.customLinks.filter((link) => link.location === filter).length) {
 			removeContainer("Custom Links", { id });
 			return;
@@ -97,7 +96,7 @@
 			let target = areas.find(`#nav-${area[0].class}`);
 			if (!target) continue;
 
-			if (locationSplit[0] === "under") target = target.nextSibling;
+			if (locationSplit[0] === "under") target = target.nextSibling as HTMLElement;
 
 			const pill = document.newElement({
 				type: "a",
