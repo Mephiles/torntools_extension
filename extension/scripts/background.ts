@@ -1317,7 +1317,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 		if (typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null && factionStakeouts[factionId].alerts) {
 			const { chainReaches, memberCountDrops, rankedWarStarts, inRaid, inTerritoryWar } = factionStakeouts[factionId].alerts;
 
-			if (chainReaches !== false) {
+			if (chainReaches !== null) {
 				const oldChainCount = oldData ? oldData.chain : false;
 				const chainCount = data.chain.current;
 

@@ -164,7 +164,19 @@ const ALLOWED_BLOOD = {
 
 const CASINO_GAMES = ["slots", "roulette", "high-low", "keno", "craps", "bookie", "lottery", "blackjack", "poker", "r-roulete", "spin-the-wheel"] as const;
 
-const DRUG_INFORMATION = {
+interface DrugDetail {
+	pros: string[];
+	cons?: string[];
+	cooldown: string;
+	overdose?: {
+		bars: string[];
+		hosp_time?: string;
+		stats?: string;
+		extra?: string;
+	};
+}
+
+const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	// Cannabis
 	196: {
 		pros: ["+8-12 Nerve"],
@@ -267,7 +279,7 @@ const DRUG_INFORMATION = {
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5-8 hours",
 	},
-} as const;
+};
 
 /*
 	Object.entries(companies)

@@ -511,7 +511,7 @@
 	}
 
 	function executeStrategy(data: any) {
-		const cards = { dealer: getWorth(data.dealer.hand[0]), player: [] };
+		const cards = { dealer: getWorth(data.dealer.hand[0]), player: [] as (string | number)[] };
 
 		for (const card of data.player.hand) {
 			const worth = getWorth(card);

@@ -38,7 +38,7 @@
 	let localFilters: any = {};
 
 	async function addFilters(itemType: string) {
-		if (!["items", "weapons", "armor"].includes(itemType)) {
+		if (itemType !== "weapons" && itemType !== "items" && itemType !== "armor") {
 			throw new Error(`Unsupported item type detected: ${itemType}`);
 		}
 
