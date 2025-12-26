@@ -1,10 +1,10 @@
-interface SelectOption {
-	value: string;
+interface SelectOption<TValue extends string = string> {
+	value: TValue;
 	description: string;
 	disabled?: boolean;
 }
 
-function createSelect(options: SelectOption[]) {
+function createSelect<TValue extends string = string>(options: SelectOption<TValue>[]) {
 	let selectedOptionValue = options[0].value;
 	let shownOptions = options;
 	let onChangeCallback: () => void | undefined;
@@ -14,7 +14,7 @@ function createSelect(options: SelectOption[]) {
 		children: _createOptionsElements(shownOptions),
 	});
 
-	function updateOptionsList(options: SelectOption[], s: HTMLElement = select) {
+	function updateOptionsList(options: SelectOption<TValue>[], s: HTMLElement = select) {
 		// Adding the currently selected option when the current selection is not in new options.
 		// Applicable when the user wants to keep the filter selection for other pages.
 		if (options.every((option) => option.value !== selectedOptionValue))
@@ -37,7 +37,7 @@ function createSelect(options: SelectOption[]) {
 		setSelected(selectedOptionValue);
 	}
 
-	function setSelected(optionValue: string) {
+	function setSelected(optionValue: TValue) {
 		const index = shownOptions.findIndex((option) => option.value === optionValue);
 
 		if (index === -1) {
@@ -54,7 +54,7 @@ function createSelect(options: SelectOption[]) {
 	}
 
 	function getSelected() {
-		return select.value;
+		return select.value as TValue;
 	}
 
 	function onChange(callback: () => void) {
@@ -84,7 +84,7 @@ function createSelect(options: SelectOption[]) {
 	}
 
 	function _onChangeListener() {
-		selectedOptionValue = select.value;
+		selectedOptionValue = select.value as TValue;
 
 		if (onChangeCallback) {
 			onChangeCallback();

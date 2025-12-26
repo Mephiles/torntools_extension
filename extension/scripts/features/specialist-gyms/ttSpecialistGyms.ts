@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,12 +15,16 @@
 	);
 
 	const NONE = "none";
+	type NONE = typeof NONE;
+
 	const BATTLE_STAT = {
 		STR: "Strength",
 		DEF: "Defense",
 		SPD: "Speed",
 		DEX: "Dexterity",
-	};
+	} as const satisfies Record<string, string>;
+	type BATTLE_STAT = (typeof BATTLE_STAT)[keyof typeof BATTLE_STAT];
+
 	const SPECIAL_GYM = {
 		BALBOAS: "balboas",
 		FRONTLINE: "frontline",
@@ -30,13 +32,16 @@
 		ISOYAMAS: "isoyamas",
 		REBOUND: "rebound",
 		ELITES: "elites",
-	};
+	} as const satisfies Record<string, string>;
+	type SPECIAL_GYM = (typeof SPECIAL_GYM)[keyof typeof SPECIAL_GYM];
+
 	const SPECIAL_GYM_TYPE = {
 		SINGLE_STAT: "singleStat",
 		TWO_STATS: "twoStats",
-	};
+	} as const satisfies Record<string, string>;
+	type SPECIAL_GYM_TYPE = (typeof SPECIAL_GYM_TYPE)[keyof typeof SPECIAL_GYM_TYPE];
 
-	const specialGymDescMap = {
+	const specialGymDescMap: Record<SPECIAL_GYM, string> = {
 		[SPECIAL_GYM.BALBOAS]: "Balboas Gym (def/dex)",
 		[SPECIAL_GYM.FRONTLINE]: "Frontline Fitness (str/spd)",
 		[SPECIAL_GYM.GYM3000]: "Gym 3000 (str)",
@@ -44,7 +49,23 @@
 		[SPECIAL_GYM.REBOUND]: "Total Rebound (spd)",
 		[SPECIAL_GYM.ELITES]: "Elites (dex)",
 	};
-	const specialGymInfo = {
+
+	interface BaseSpecialGymInfo<T extends SPECIAL_GYM_TYPE> {
+		type: T;
+	}
+
+	interface TwoStatsSpecialGymInfo extends BaseSpecialGymInfo<"twoStats"> {
+		statOneName: BATTLE_STAT;
+		statTwoName: BATTLE_STAT;
+	}
+
+	interface SingleStatSpecialGymInfo extends BaseSpecialGymInfo<"singleStat"> {
+		statName: BATTLE_STAT;
+	}
+
+	type SpecialGymInfo = TwoStatsSpecialGymInfo | SingleStatSpecialGymInfo;
+
+	const specialGymInfo: Record<SPECIAL_GYM, SpecialGymInfo> = {
 		[SPECIAL_GYM.BALBOAS]: {
 			type: SPECIAL_GYM_TYPE.TWO_STATS,
 			statOneName: BATTLE_STAT.DEF,
@@ -73,7 +94,7 @@
 		},
 	};
 
-	function calculateSingleStatGym(mainStat, otherStats) {
+	function calculateSingleStatGym(mainStat: number, otherStats: number[]) {
 		const highestOther = Math.max(...otherStats);
 		const missingMain = Math.max(0, highestOther * 1.25 - mainStat);
 
@@ -89,7 +110,7 @@
 		};
 	}
 
-	function calculateTwoStatsGym(mainStat1, mainStat2, otherStats) {
+	function calculateTwoStatsGym(mainStat1: number, mainStat2: number, otherStats: number[]) {
 		let newMainStat1 = mainStat1;
 		let newMainStat2 = mainStat2;
 
@@ -117,7 +138,7 @@
 		};
 	}
 
-	function calculateSingleStatAndTwoStatsOverlappingGyms(mainStat, secondaryStat, neglectedStat1, neglectedStat2) {
+	function calculateSingleStatAndTwoStatsOverlappingGyms(mainStat: number, secondaryStat: number, neglectedStat1: number, neglectedStat2: number) {
 		let newMainStat = mainStat;
 		let newSecondaryStat = secondaryStat;
 		let newNeglectedStat1 = neglectedStat1;
@@ -169,7 +190,7 @@
 		}
 	}
 
-	function calculateSingleStatAndTwoStatsGyms(mainStat, secondaryStat1, secondaryStat2, neglectedStat) {
+	function calculateSingleStatAndTwoStatsGyms(mainStat: number, secondaryStat1: number, secondaryStat2: number, neglectedStat: number) {
 		let newMainStat = mainStat;
 		let newSecondaryStat1 = secondaryStat1;
 		let newSecondaryStat2 = secondaryStat2;
@@ -213,70 +234,96 @@
 		}
 	}
 
-	function calculateSpecialGymsData(stats, selectionOne, selectionTwo) {
+	interface NoneSpecialGymsCalcResult {
+		type: NONE;
+	}
+
+	interface ImpossibleSpecialGymsCalcResult {
+		type: "impossible";
+	}
+
+	interface SuccessSpecialGymsCalcResult {
+		type: "success";
+		missing: Record<BATTLE_STAT, number>;
+		available: Record<BATTLE_STAT, number>;
+	}
+
+	type SpecialGymsCalcResult = NoneSpecialGymsCalcResult | ImpossibleSpecialGymsCalcResult | SuccessSpecialGymsCalcResult;
+
+	function calculateSpecialGymsData(
+		stats: Record<BATTLE_STAT, number>,
+		selectionOne: NONE | SPECIAL_GYM,
+		selectionTwo: NONE | SPECIAL_GYM
+	): SpecialGymsCalcResult {
 		if (selectionOne === NONE && selectionTwo === NONE) {
-			return { type: "none" };
+			return { type: NONE };
 		}
 
 		if (selectionOne === NONE || selectionTwo === NONE || selectionOne === selectionTwo) {
-			const relevantSelection = selectionOne === NONE ? selectionTwo : selectionOne;
-			const selectionConfig = specialGymInfo[relevantSelection];
+			const relevantSelection = selectionOne === NONE ? (selectionTwo as SPECIAL_GYM) : selectionOne;
+			const selectionSpecialGymInfo = specialGymInfo[relevantSelection];
 
-			if (selectionConfig.type === SPECIAL_GYM_TYPE.SINGLE_STAT) {
-				const otherStatNames = Object.values(BATTLE_STAT).filter((statName) => statName !== selectionConfig.statName);
+			if (selectionSpecialGymInfo.type === SPECIAL_GYM_TYPE.SINGLE_STAT) {
+				const otherStatNames = Object.values(BATTLE_STAT).filter((statName) => statName !== selectionSpecialGymInfo.statName);
 
 				const result = calculateSingleStatGym(
-					stats[selectionConfig.statName],
+					stats[selectionSpecialGymInfo.statName],
 					otherStatNames.map((statName) => stats[statName])
 				);
 
 				return {
 					type: "success",
 					missing: {
-						[selectionConfig.statName]: result.missing.mainStat,
-						...otherStatNames.reduce((obj, statName, index) => ({ ...obj, [statName]: result.missing.otherStats[index] }), {}),
+						[selectionSpecialGymInfo.statName]: result.missing.mainStat,
+						...toRecord(otherStatNames, (statName, index) => [statName, result.missing.otherStats[index]]),
 					},
 					available: {
-						[selectionConfig.statName]: result.available.mainStat,
-						...otherStatNames.reduce((obj, statName, index) => ({ ...obj, [statName]: result.available.otherStats[index] }), {}),
+						[selectionSpecialGymInfo.statName]: result.available.mainStat,
+						...toRecord(otherStatNames, (statName, index) => [statName, result.available.otherStats[index]]),
 					},
 				};
 			} else {
 				const otherStatNames = Object.values(BATTLE_STAT).filter(
-					(statName) => statName !== selectionConfig.statOneName && statName !== selectionConfig.statTwoName
+					(statName) => statName !== selectionSpecialGymInfo.statOneName && statName !== selectionSpecialGymInfo.statTwoName
 				);
 
 				const result = calculateTwoStatsGym(
-					stats[selectionConfig.statOneName],
-					stats[selectionConfig.statTwoName],
+					stats[selectionSpecialGymInfo.statOneName],
+					stats[selectionSpecialGymInfo.statTwoName],
 					otherStatNames.map((statName) => stats[statName])
 				);
 
 				return {
 					type: "success",
 					missing: {
-						[selectionConfig.statOneName]: result.missing.mainStat1,
-						[selectionConfig.statTwoName]: result.missing.mainStat2,
-						...otherStatNames.reduce((obj, statName, index) => ({ ...obj, [statName]: result.missing.otherStats[index] }), {}),
+						[selectionSpecialGymInfo.statOneName]: result.missing.mainStat1,
+						[selectionSpecialGymInfo.statTwoName]: result.missing.mainStat2,
+						...toRecord(otherStatNames, (statName, index) => [statName, result.missing.otherStats[index]]),
 					},
 					available: {
-						[selectionConfig.statOneName]: result.available.mainStat1,
-						[selectionConfig.statTwoName]: result.available.mainStat2,
-						...otherStatNames.reduce((obj, statName, index) => ({ ...obj, [statName]: result.available.otherStats[index] }), {}),
+						[selectionSpecialGymInfo.statOneName]: result.available.mainStat1,
+						[selectionSpecialGymInfo.statTwoName]: result.available.mainStat2,
+						...toRecord(otherStatNames, (statName, index) => [statName, result.available.otherStats[index]]),
 					},
 				};
 			}
 		}
 
-		const selectionOneConfig = specialGymInfo[selectionOne];
-		const selectionTwoConfig = specialGymInfo[selectionTwo];
+		const selectionOneSpecialGymInfo = specialGymInfo[selectionOne];
+		const selectionTwoSpecialGymInfo = specialGymInfo[selectionTwo];
 
-		if (selectionOneConfig.type === selectionTwoConfig.type) {
+		if (selectionOneSpecialGymInfo.type === selectionTwoSpecialGymInfo.type) {
 			return { type: "impossible" };
 		}
 
-		const singleStatConfig = selectionOneConfig.type === SPECIAL_GYM_TYPE.SINGLE_STAT ? selectionOneConfig : selectionTwoConfig;
-		const twoStatsConfig = selectionOneConfig.type === SPECIAL_GYM_TYPE.SINGLE_STAT ? selectionTwoConfig : selectionOneConfig;
+		const singleStatConfig =
+			selectionOneSpecialGymInfo.type === SPECIAL_GYM_TYPE.SINGLE_STAT
+				? selectionOneSpecialGymInfo
+				: (selectionTwoSpecialGymInfo as SingleStatSpecialGymInfo);
+		const twoStatsConfig =
+			selectionOneSpecialGymInfo.type === SPECIAL_GYM_TYPE.SINGLE_STAT
+				? (selectionTwoSpecialGymInfo as TwoStatsSpecialGymInfo)
+				: selectionOneSpecialGymInfo;
 
 		if (twoStatsConfig.statOneName === singleStatConfig.statName || twoStatsConfig.statTwoName === singleStatConfig.statName) {
 			const secondaryStatName = twoStatsConfig.statOneName === singleStatConfig.statName ? twoStatsConfig.statTwoName : twoStatsConfig.statOneName;
@@ -297,13 +344,13 @@
 					[secondaryStatName]: result.missing.secondaryStat,
 					[neglectedStatsNames[0]]: result.missing.neglectedStat1,
 					[neglectedStatsNames[1]]: result.missing.neglectedStat2,
-				},
+				} as Record<BATTLE_STAT, number>,
 				available: {
 					[singleStatConfig.statName]: result.available.mainStat,
 					[secondaryStatName]: result.available.secondaryStat,
 					[neglectedStatsNames[0]]: result.available.neglectedStat1,
 					[neglectedStatsNames[1]]: result.available.neglectedStat2,
-				},
+				} as Record<BATTLE_STAT, number>,
 			};
 		}
 
@@ -325,19 +372,20 @@
 				[twoStatsConfig.statOneName]: result.missing.secondaryStat1,
 				[twoStatsConfig.statTwoName]: result.missing.secondaryStat2,
 				[neglectedStatName]: result.missing.neglectedStat,
-			},
+			} as Record<BATTLE_STAT, number>,
 			available: {
 				[singleStatConfig.statName]: result.available.mainStat,
 				[twoStatsConfig.statOneName]: result.available.secondaryStat1,
 				[twoStatsConfig.statTwoName]: result.available.secondaryStat2,
 				[neglectedStatName]: result.available.neglectedStat,
-			},
+			} as Record<BATTLE_STAT, number>,
 		};
 	}
 
 	function createStatsWatcher() {
-		let onChangeCallback;
-		let statsValueElementsMap = {};
+		type ChangeCallback = (statsExist: boolean) => void;
+		let onChangeCallback: ChangeCallback;
+		let statsValueElementsMap: Partial<Record<BATTLE_STAT, Element>> = {};
 
 		const chainObserver = observeChain(document, ['[class*="gymContent___"]:has([class*="properties___"] [class*="propertyValue___"])'], (gymContent) => {
 			const statsObservers = Object.values(BATTLE_STAT).map((statName) => {
@@ -361,16 +409,10 @@
 		});
 
 		function readStats() {
-			const stats = Object.values(BATTLE_STAT).reduce((obj, statName) => {
-				obj[statName] = +statsValueElementsMap[statName].textContent.replace(/,/g, "");
-
-				return obj;
-			}, {});
-
-			return stats;
+			return toRecord(Object.values(BATTLE_STAT), (statName) => [statName, +statsValueElementsMap[statName].textContent.replace(/,/g, "")]);
 		}
 
-		function onChange(cb) {
+		function onChange(cb: ChangeCallback) {
 			onChangeCallback = cb;
 		}
 
@@ -385,7 +427,9 @@
 		};
 	}
 
-	function createStatAllowedElement(result, statName) {
+	type StatsWatcher = ReturnType<typeof createStatsWatcher>;
+
+	function createStatAllowedElement(result: SuccessSpecialGymsCalcResult, statName: BATTLE_STAT) {
 		return document.newElement({
 			type: "div",
 			class: "tt-specialist-stat-allowed",
@@ -402,7 +446,7 @@
 		});
 	}
 
-	function createStatRequiredElement(result, statName) {
+	function createStatRequiredElement(result: SuccessSpecialGymsCalcResult, statName: BATTLE_STAT) {
 		return document.newElement({
 			type: "div",
 			class: "tt-specialist-stat-required",
@@ -419,18 +463,25 @@
 		});
 	}
 
-	function createSpecialistGymsBoxElement(prevElement, getStatsFn, statsChangeFn) {
+	interface SpecialGymOption {
+		value: NONE | SPECIAL_GYM;
+		description: string;
+	}
+
+	function createSpecialistGymsBoxElement(prevElement: Element, getStatsFn: () => Record<BATTLE_STAT, number>, statsChangeFn: () => void) {
 		const { content, container } = createContainer("Specialist Gyms", { class: "tt-specialist-gym", compact: true, previousElement: prevElement });
 
-		const specialGymOptions = [
+		const specialGymOptions: SpecialGymOption[] = [
 			{
 				value: NONE,
-				description: "none",
+				description: NONE,
 			},
-			...Object.values(SPECIAL_GYM).map((specialGym) => ({
-				value: specialGym,
-				description: specialGymDescMap[specialGym],
-			})),
+			...Object.values(SPECIAL_GYM).map(
+				(specialGym): SpecialGymOption => ({
+					value: specialGym,
+					description: specialGymDescMap[specialGym],
+				})
+			),
 		];
 
 		const specialGymSelectOne = createSelect(specialGymOptions);
@@ -453,10 +504,10 @@
 		content.appendChild(selectsContainer);
 		content.appendChild(infoContainer);
 
-		function renderStatsInfo(stats, result) {
+		function renderStatsInfo(stats: Record<BATTLE_STAT, number>, result: SpecialGymsCalcResult) {
 			infoContainer.innerHTML = "";
 
-			if (result.type === "none") {
+			if (result.type === NONE) {
 				const resultDesc = document.newElement({
 					type: "div",
 					class: "tt-specialist-gyms-message",
@@ -526,7 +577,7 @@
 			updateStats(getStatsFn());
 		});
 
-		function updateStats(stats, emit = true) {
+		function updateStats(stats: Record<BATTLE_STAT, number>, emit = true) {
 			const result = calculateSpecialGymsData(stats, specialGymOne, specialGymTwo);
 			renderStatsInfo(stats, result);
 
@@ -549,18 +600,18 @@
 		};
 	}
 
+	type SpecialistGymsBoxElement = ReturnType<typeof createSpecialistGymsBoxElement>;
+
 	function createGymContentManager() {
 		const propertiesContainer = document.querySelector('[class*="gymContent___"] > [class*="properties___"]');
-		const areasElementsMap = Object.values(BATTLE_STAT).reduce((obj, statName) => {
-			const areaElement = propertiesContainer.querySelector(`[class*="${statName.toLowerCase()}___"] > [class*="propertyContent___"]`);
-			obj[statName] = areaElement;
+		const areasElementsMap = toRecord(Object.values(BATTLE_STAT), (statName) => [
+			statName,
+			propertiesContainer.querySelector(`[class*="${statName.toLowerCase()}___"] > [class*="propertyContent___"]`),
+		]);
 
-			return obj;
-		}, {});
+		let statsInfoElementsMap: Partial<Record<BATTLE_STAT, HTMLElement>> = {};
 
-		let statsInfoElementsMap = {};
-
-		function updateInfo(result) {
+		function updateInfo(result: SuccessSpecialGymsCalcResult) {
 			for (const statName of Object.values(BATTLE_STAT)) {
 				const statInfoElement = statsInfoElementsMap[statName];
 
@@ -592,9 +643,11 @@
 		return { updateInfo, dispose };
 	}
 
-	let specialGyms;
-	let statsWatcher;
-	let gymContentManager;
+	type GymContentManager = ReturnType<typeof createGymContentManager>;
+
+	let specialGyms: SpecialistGymsBoxElement;
+	let statsWatcher: StatsWatcher;
+	let gymContentManager: GymContentManager;
 
 	async function startFeature() {
 		function updateGymContentInfo() {

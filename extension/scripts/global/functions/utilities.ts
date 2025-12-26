@@ -359,13 +359,16 @@ function calculateDatePeriod(startDate: Date, endDate: Date) {
 	return { years, months, days };
 }
 
-function toRecord<TItem, TValue>(array: TItem[], fn: (item: TItem, index: number) => [string, TValue]): Record<string, TValue> {
-	return array.reduce<Record<string, TValue>>((record, item, index) => {
-		const [key, value] = fn(item, index);
-		record[key] = value;
+function toRecord<TItem, TValue, TKey extends string = string>(array: TItem[], fn: (item: TItem, index: number) => [TKey, TValue]): Record<TKey, TValue> {
+	return array.reduce<Record<TKey, TValue>>(
+		(record, item, index) => {
+			const [key, value] = fn(item, index);
+			record[key] = value;
 
-		return record;
-	}, {});
+			return record;
+		},
+		{} as Record<TKey, TValue>
+	);
 }
 
 function groupBy<TItem, TValue>(array: TItem[], fn: (item: TItem, index: number) => [string, TValue]): Record<string, TValue[]> {
