@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature(
 		"Gym Progress",
@@ -20,7 +18,7 @@
 			200, 500, 1000, 2000, 2750, 3000, 3500, 4000, 6000, 7000, 8000, 11000, 12420, 18000, 18100, 24140, 31260, 36610, 46640, 56520, 67775, 84535, 106305,
 		];
 
-		let currentGym;
+		let currentGym: Element;
 		try {
 			currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']");
 		} catch (error) {
@@ -28,7 +26,7 @@
 		}
 		if (!currentGym) return;
 
-		const index = currentGym.id.split("-")[1] - 2;
+		const index = currentGym.id.split("-")[1].getNumber() - 2;
 		const percentage = currentGym.find("[class*='percentage_']").textContent.getNumber();
 		let goal = gymGoals[index];
 		if (userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
