@@ -36,7 +36,7 @@
 
 			if (name === "Last Action") {
 				lastActionState = false;
-				await removeWarning();
+				removeWarning();
 			}
 		});
 
@@ -60,7 +60,7 @@
 			const days = (row.nextElementSibling.getAttribute("hours") / 24).dropDecimals();
 
 			for (const warning of settings.factionInactivityWarning) {
-				if (!(warning.days !== undefined && warning.days !== false) || days < warning.days) continue;
+				if (warning.days === null || days < warning.days) continue;
 
 				row.style.setProperty("--tt-inactive-background", warning.color);
 				row.classList.add("tt-inactive");

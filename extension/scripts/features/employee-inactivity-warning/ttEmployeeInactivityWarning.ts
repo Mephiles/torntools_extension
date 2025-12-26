@@ -48,7 +48,7 @@
 			const days = parseInt((row.nextElementSibling as HTMLElement).dataset.days);
 
 			for (const warning of settings.employeeInactivityWarning) {
-				if (!(warning.days !== null) || days < warning.days) continue;
+				if (warning.days === null || days < warning.days) continue;
 
 				row.style.setProperty("--tt-inactive-background", warning.color);
 				row.classList.add("tt-inactive");
