@@ -1,10 +1,8 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Member Inactivity Warning",
 		"faction",
-		() => settings.factionInactivityWarning.filter((warning) => warning.days !== undefined && warning.days !== false).length,
+		() => !!settings.factionInactivityWarning.filter((warning) => warning.days !== null).length,
 		addListener,
 		addWarning,
 		removeWarning,
@@ -47,7 +45,7 @@
 		});
 	}
 
-	async function addWarning(force) {
+	async function addWarning(force: boolean) {
 		if (!force || !lastActionState) return;
 
 		await requireElement(".tt-last-action");
@@ -57,7 +55,7 @@
 			// Skip users that are confirmed to be dead IRL.
 			if (row.find("[id*='icon77___']")) continue;
 
-			const days = (row.nextElementSibling.getAttribute("hours") / 24).dropDecimals();
+			const days = (row.nextElementSibling.getAttribute("hours").getNumber() / 24).dropDecimals();
 
 			for (const warning of settings.factionInactivityWarning) {
 				if (warning.days === null || days < warning.days) continue;

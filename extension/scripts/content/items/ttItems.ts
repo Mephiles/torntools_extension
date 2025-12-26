@@ -1,5 +1,3 @@
-"use strict";
-
 interface ActionItem {
 	item: string;
 }
