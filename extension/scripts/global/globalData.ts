@@ -980,8 +980,8 @@ const DEFAULT_STORAGE = {
 			hideValues: new DefaultSetting("boolean", false),
 		},
 		gym: {
-			specialist1: new DefaultSetting("string", "none"),
-			specialist2: new DefaultSetting("string", "none"),
+			specialist1: new DefaultSetting<"balboas" | "frontline" | "gym3000" | "isoyamas" | "rebound" | "elites" | "none">("string", "none"),
+			specialist2: new DefaultSetting<"balboas" | "frontline" | "gym3000" | "isoyamas" | "rebound" | "elites" | "none">("string", "none"),
 			strength: new DefaultSetting("boolean", false),
 			speed: new DefaultSetting("boolean", false),
 			defense: new DefaultSetting("boolean", false),

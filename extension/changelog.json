@@ -19,7 +19,10 @@
 			],
 			"changes": [],
 			"removed": [],
-			"technical": [{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate specialist gyms to typescript", "contributor": "AllMight" }
+			]
 		}
 	},
 	{
