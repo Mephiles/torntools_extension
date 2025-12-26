@@ -106,11 +106,11 @@ interface ChainedObserver {
 /**
  * Observes a chain of selectors from {@link root} and invokes {@link onReached} once all of them are rendered.
  */
-function observeChain(root: HTMLElement, selectorsChain: string[], onReached: (lastChainElement: Element) => () => void) {
+function observeChain(root: ParentNode, selectorsChain: string[], onReached: (lastChainElement: Element) => () => void) {
 	let activeObservers: ChainedObserver[] = [];
 	let cleanupFn: () => void | undefined = undefined;
 
-	function observe(target: Element, index: number) {
+	function observe(target: ParentNode, index: number) {
 		const selector = selectorsChain[index];
 		const observer = new MutationObserver(() => {
 			const activeObserver = activeObservers[index];
