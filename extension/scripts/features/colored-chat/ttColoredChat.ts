@@ -1,4 +1,7 @@
-"use strict";
+interface ColoredChatOption {
+	title: string;
+	color: string;
+}
 
 (async () => {
 	if (is2FACheckPage()) return;
@@ -6,7 +9,7 @@
 	const feature = featureManager.registerFeature(
 		"Colored Chat",
 		"chat",
-		() => settings.pages.chat.titleHighlights.length,
+		() => !!settings.pages.chat.titleHighlights.length,
 		initialiseColoredChats,
 		showColoredChats,
 		removeColoredChats,
@@ -61,7 +64,7 @@
 			});
 	}
 
-	function applyColor(highlights, header) {
+	function applyColor(highlights: ColoredChatOption[], header: HTMLElement) {
 		if (!highlights.length) return;
 		if (CHAT_TITLE_COLORS[highlights[0].color]?.length !== 2) return;
 

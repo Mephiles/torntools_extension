@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (isOwnProfile()) return;
@@ -24,16 +22,16 @@
 		}).observe(await requireElement(".profile-container"), { childList: true });
 	}
 
-	function listenerFunction(event) {
+	function listenerFunction(event: MouseEvent) {
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		if (confirm("Are you sure you want to attack this ally?")) {
-			location = document.find(".profile-buttons .profile-button-attack").href;
+			window.open(document.find<HTMLAnchorElement>(".profile-buttons .profile-button-attack").href, "_self");
 		}
 	}
 
 	async function disableAttackButton() {
-		const factionLink = await requireElement(".user-info-value [href*='/factions.php']");
+		const factionLink: HTMLAnchorElement = await requireElement(".user-info-value [href*='/factions.php']");
 
 		enableButton();
 
@@ -42,7 +40,7 @@
 		if (
 			(hasAPIData() && factionID === userdata.faction?.id) ||
 			settings.alliedFactions.some((ally) => {
-				if (isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;
+				if (typeof ally === "number" || isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;
 				else return ally.trim() === factionName;
 			})
 		) {

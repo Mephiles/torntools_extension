@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -46,33 +44,38 @@
 		}
 
 		function setupXHR(options = {}) {
-			addXHRListener(({ detail: { page, json } }) => {
-				if (!json || page !== "page") return;
+			addXHRListener(({ detail }) => {
+				const { page } = detail;
+				if (!("json" in detail) || page !== "page") return;
+
+				const { json } = detail;
 
 				showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
 			});
 		}
 
-		function addMutationObserver(selector) {
+		function addMutationObserver(selector: string) {
 			requireElement(selector).then(() => {
 				new MutationObserver(async (mutations) => {
-					const viewMutations = mutations.filter((mutation) => [...mutation.addedNodes].some((node) => node.classList?.contains("^=view_")));
+					const viewMutations = mutations.filter((mutation) =>
+						[...mutation.addedNodes].some((node) => isElement(node) && node.classList?.contains("^=view_"))
+					);
 					if (!viewMutations.length) return;
 
 					const newNodes = viewMutations[0].addedNodes;
-					let target;
-					if ([...newNodes].some((node) => node.find(":scope > [class*='preloader_']"))) {
+					let target: Element;
+					if ([...newNodes].some((node) => isElement(node) && node.find(":scope > [class*='preloader_']"))) {
 						target = await new Promise((resolve) => {
 							new MutationObserver((mutations1, observer) => {
 								observer.disconnect();
-								resolve(mutations1[1].target);
+								resolve(mutations1[1].target as Element);
 							}).observe(newNodes[0], { childList: true });
 						});
 					} else {
-						target = newNodes[0];
+						target = newNodes[0] as Element;
 					}
 
-					let id;
+					let id: number;
 					const armoryInfo = target.find("[aria-labelledby*='armory-info-']");
 					if (armoryInfo) {
 						id = parseInt(armoryInfo.getAttribute("aria-labelledby").match(/armory-info-(\d*)/i)[1]);
@@ -80,7 +83,7 @@
 						const image = target.find("img");
 
 						if (image) {
-							id = image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1];
+							id = image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1].getNumber();
 						} else {
 							throw new Error("No id found for this item!");
 						}
@@ -92,18 +95,25 @@
 		}
 	}
 
-	let observer;
+	let observer: MutationObserver | undefined;
 
-	async function showDetails(id, options = {}) {
-		options = {
+	interface DrugDetailsOptions {
+		react: boolean | (() => boolean);
+		target: Document | Element;
+		changeListener: boolean;
+	}
+
+	async function showDetails(id: number, partialOptions: Partial<DrugDetailsOptions> = {}) {
+		const options: DrugDetailsOptions = {
 			react: false,
 			target: document,
-			...options,
+			changeListener: false,
+			...partialOptions,
 		};
 
 		if (!feature.enabled()) return;
 
-		let element;
+		let element: Element;
 
 		if (options.react && (typeof options.react !== "function" || options.react()) && options.target.find(".info-active .show-item-info[data-reactid]")) {
 			const reactid = options.target.find(".info-active .show-item-info").dataset.reactid;
@@ -141,12 +151,12 @@
 			);
 		}
 
-		function watchChanges(element, details) {
+		function watchChanges(element: Element, details: DrugDetail) {
 			if (observer) observer.disconnect();
 
 			observer = new MutationObserver((mutations, observer) => {
 				const filteredMutations = [...mutations].filter((mutation) =>
-					[...mutation.addedNodes].some((node) => node.nodeType === Node.ELEMENT_NODE && node.classList.contains("info-wrap"))
+					[...mutation.addedNodes].some((node) => isElement(node) && node.classList.contains("info-wrap"))
 				);
 				if (!filteredMutations.length) return;
 
@@ -159,14 +169,14 @@
 		}
 	}
 
-	function display(id, parent) {
+	function display(id: number, parent: Element) {
 		const details = DRUG_INFORMATION[id];
 		if (!details) return;
 
 		show(parent, details);
 	}
 
-	function show(parent, details) {
+	function show(parent: Element, details: DrugDetail) {
 		// Remove current info
 		parent.classList.add("tt-modified");
 		[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());

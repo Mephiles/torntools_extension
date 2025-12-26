@@ -195,10 +195,10 @@ function findItemInList<T>(list: T[], attributes: object = {}): undefined | T {
 	return undefined;
 }
 
-function isIntNumber(number: string | null) {
+function isIntNumber(number: string | null): boolean {
 	if (number === null) return false;
 
-	const _number = parseFloat(number);
+	const _number = parseFloat(number.toString());
 	return !isNaN(_number) && isFinite(_number) && _number % 1 === 0;
 }
 

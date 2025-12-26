@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isOwnFaction) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (!hasFactionAPIAccess()) return "No API access!";
+
+			return true;
 		},
 		{ liveReload: true }
 	);
@@ -57,18 +57,19 @@
 		});
 	}
 
-	async function addInfo(force) {
+	async function addInfo(force: boolean) {
 		if (!force) return;
 		removeInfo();
 
 		await requireElement(".members-list .table-body > li");
 		if (lastActionState) await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
 
-		let balance;
+		let balance: FactionBalance;
 		if (ttCache.hasValue("faction-members-balance", userdata.faction.id)) {
-			balance = ttCache.get("faction-members-balance", userdata.faction.id);
+			balance = ttCache.get<FactionBalance>("faction-members-balance", userdata.faction.id);
 		} else {
-			balance = (await fetchData("tornv2", { section: "faction", selections: ["balance"], silent: true, succeedOnError: true })).balance;
+			balance = (await fetchData<FactionBalanceResponse>("tornv2", { section: "faction", selections: ["balance"], silent: true, succeedOnError: true }))
+				.balance;
 
 			ttCache.set({ [userdata.faction.id]: balance }, TO_MILLIS.SECONDS * 60, "faction-members-balance").then(() => {});
 		}
@@ -86,8 +87,10 @@
 			// Don't show this for fallen players.
 			if (li.find(".icons li[id*='icon77___']")) return;
 
+			const nextSibling = li.nextSibling as HTMLElement | undefined;
+
 			const memberInfo = document.newElement({ type: "div", class: "tt-member-info" });
-			const parent = lastActionState && li.nextSibling?.className?.includes("tt-last-action") ? li.nextSibling : memberInfo;
+			const parent = lastActionState && nextSibling?.className?.includes("tt-last-action") ? li.nextSibling : memberInfo;
 
 			if (userBalance.points) {
 				parent.appendChild(
@@ -108,8 +111,8 @@
 				);
 			}
 
-			if (lastActionState && li.nextSibling?.className?.includes("tt-last-action")) {
-				li.nextSibling.classList.add("tt-modified");
+			if (lastActionState && nextSibling?.className?.includes("tt-last-action")) {
+				nextSibling.classList.add("tt-modified");
 			} else if (memberInfo.hasChildNodes()) {
 				li.insertAdjacentElement("afterend", memberInfo);
 			}
