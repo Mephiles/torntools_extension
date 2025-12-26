@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -47,15 +45,16 @@
 				.getAttribute("href")
 				.split("&ID=")[1]
 		);
-		const hasStakeout = factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "undefined";
+		const hasStakeout = factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "object" && typeof factionStakeouts[factionId] !== "number";
 
 		const checkbox = createCheckbox({ description: "Stakeout this faction." });
 		checkbox.setChecked(hasStakeout);
 		checkbox.onChange(() => {
 			if (checkbox.isChecked()) {
 				ttStorage.change({
+					// @ts-expect-error Pre-migration shenanigans
 					factionStakeouts: {
-						[factionId]: { alerts: { chainReaches: false, memberCountDrops: false, rankedWarStarts: false, inRaid: false, inTerritoryWar: false } },
+						[factionId]: { alerts: { chainReaches: null, memberCountDrops: null, rankedWarStarts: false, inRaid: false, inTerritoryWar: false } },
 					},
 				});
 
@@ -64,37 +63,40 @@
 				ttStorage.change({ factionStakeouts: { [factionId]: undefined } });
 
 				alertsWrap.classList.add("tt-hidden");
-				content.findAll("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
-				content.findAll("input[type='checkbox']").forEach((input) => (input.checked = false));
+				content.findAll<HTMLInputElement>("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
+				content.findAll<HTMLInputElement>("input[type='checkbox']").forEach((input) => (input.checked = false));
 			}
 		});
 		content.appendChild(checkbox.element);
 
-		const chainReaches = createTextbox({ description: { before: "chain reaches" }, type: "text", attributes: { min: 1 }, style: { width: "100px" } });
+		const chainReaches = createTextbox({ description: { before: "chain reaches" }, type: "text", attributes: { min: "1" }, style: { width: "100px" } });
 		chainReaches.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
-			let value = parseInt(chainReaches.getValue());
-			if (isNaN(value) || value < 0) value = false;
+			let value: number | null = parseInt(chainReaches.getValue());
+			if (isNaN(value) || value < 0) value = null;
 
+			// @ts-expect-error Pre-migration shenanigans
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { chainReaches: value } } } });
 		});
 
 		const memberCountDrops = createTextbox({
 			description: { before: "member count drops below", after: "members" },
 			type: "number",
-			attributes: { min: 1 },
+			attributes: { min: "1" },
 		});
 		memberCountDrops.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
-			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { memberCountDrops: parseInt(memberCountDrops.getValue()) || false } } } });
+			// @ts-expect-error Pre-migration shenanigans
+			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { memberCountDrops: parseInt(memberCountDrops.getValue()) || null } } } });
 		});
 
 		const rankedWarStarts = createCheckbox({ description: "ranked war" });
 		rankedWarStarts.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
+			// @ts-expect-error Pre-migration shenanigans
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { rankedWarStarts: rankedWarStarts.isChecked() } } } });
 		});
 
@@ -102,6 +104,7 @@
 		inRaid.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
+			// @ts-expect-error Pre-migration shenanigans
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inRaid: inRaid.isChecked() } } } });
 		});
 
@@ -109,6 +112,7 @@
 		inTerritoryWar.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
+			// @ts-expect-error Pre-migration shenanigans
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inTerritoryWar: inTerritoryWar.isChecked() } } } });
 		});
 
@@ -121,7 +125,7 @@
 			],
 		});
 
-		if (hasStakeout) {
+		if (factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "number") {
 			chainReaches.setNumberValue(factionStakeouts[factionId].alerts.chainReaches);
 			memberCountDrops.setNumberValue(factionStakeouts[factionId].alerts.memberCountDrops);
 			rankedWarStarts.setChecked(factionStakeouts[factionId].alerts.rankedWarStarts);
@@ -133,7 +137,7 @@
 
 		content.appendChild(alertsWrap);
 
-		function createAlertSection(title, elements) {
+		function createAlertSection(title: string, elements: Element[]) {
 			return document.newElement({
 				type: "div",
 				class: "alerts",

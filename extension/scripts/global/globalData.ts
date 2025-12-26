@@ -317,7 +317,13 @@ interface StoredFactionStakeouts {
 	date: number;
 	[id: string]:
 		| {
-				alerts: never;
+				alerts: {
+					chainReaches: number | null;
+					memberCountDrops: number | null;
+					rankedWarStarts: boolean;
+					inRaid: boolean;
+					inTerritoryWar: boolean;
+				};
 				info: {
 					name: string;
 					chain: number;

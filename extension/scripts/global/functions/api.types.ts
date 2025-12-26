@@ -67,3 +67,5 @@ type TornW3BResult = {
 		last_checked_relative: string;
 	}[];
 };
+
+type TornDirectPostItemResult = { success: false; text: string };

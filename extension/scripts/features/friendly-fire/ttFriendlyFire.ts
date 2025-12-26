@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -23,11 +21,11 @@
 		const factionID = parseInt(new URLSearchParams(factionNode.href).get("ID"));
 		const factionName = factionNode.textContent.trim();
 
-		let warning;
+		let warning: string | undefined;
 		if (hasAPIData() && factionID === userdata.faction?.id) warning = "This user is in your faction!";
 		else if (
 			settings.alliedFactions.some((ally) => {
-				if (isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;
+				if (typeof ally === "number" || isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;
 				else return ally.trim() === factionName;
 			})
 		)

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Faction Member Filter",
@@ -14,7 +12,7 @@
 		null
 	);
 
-	let filterContent, lastActionState;
+	let filterContent: Element, lastActionState: boolean;
 
 	function addListener() {
 		if (isOwnFaction) {
@@ -187,7 +185,7 @@
 		await requireElement(".members-list .table-body > li");
 
 		const content = findContainer("Member Filter").find("main");
-		const activity = localFilters["Activity"].getSelections(content);
+		const activity: string[] = localFilters["Activity"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
@@ -288,7 +286,13 @@
 			}
 
 			// Last Action
-			if (lastActionState && li.nextSibling && li.nextSibling.className && li.nextSibling.className.includes("tt-last-action")) {
+			if (
+				lastActionState &&
+				li.nextSibling &&
+				isElement(li.nextSibling) &&
+				li.nextSibling.className &&
+				li.nextSibling.className.includes("tt-last-action")
+			) {
 				const liLastAction = parseInt(li.nextElementSibling.getAttribute("hours"));
 				if ((lastActionStart && liLastAction < lastActionStart) || (lastActionEnd !== -1 && liLastAction > lastActionEnd)) {
 					hideRow(li, "last-action");
@@ -301,7 +305,7 @@
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Faction Member Filter" });
 
-		function showRow(li) {
+		function showRow(li: Element) {
 			li.classList.remove("tt-hidden");
 			li.classList.remove("last-action");
 			if (li.nextElementSibling?.classList.contains("tt-last-action") || li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
@@ -315,7 +319,7 @@
 			}
 		}
 
-		function hideRow(li, customClass = "") {
+		function hideRow(li: Element, customClass = "") {
 			li.classList.add("tt-hidden");
 			if (customClass) li.classList.add(customClass);
 

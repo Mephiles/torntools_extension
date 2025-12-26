@@ -1,9 +1,7 @@
-"use strict";
-
 (async () => {
 	if (!isOwnFaction) return;
 
-	let movingElement;
+	let movingElement: Element | undefined;
 	let isEditing = false;
 
 	const feature = featureManager.registerFeature(
@@ -11,7 +9,7 @@
 		"faction",
 		() => settings.pages.faction.quickItems,
 		addListener,
-		showQuickItems,
+		null,
 		() => removeContainer("Faction Quick Items"),
 		{
 			storage: ["settings.pages.faction.quickItems"],
@@ -22,7 +20,7 @@
 
 	function addListener() {
 		document.addEventListener("click", (event) => {
-			if (event.target.classList.contains("close-act")) {
+			if (isElement(event.target) && event.target.classList.contains("close-act")) {
 				const responseWrap = findParent(event.target, { class: "response-wrap" });
 
 				if (responseWrap) responseWrap.style.display = "none";
@@ -30,7 +28,7 @@
 		});
 		setInterval(() => {
 			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
-				let secondsLeft;
+				let secondsLeft: number;
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
 				secondsLeft--;
@@ -54,7 +52,7 @@
 		});
 	}
 
-	async function showQuickItems(section) {
+	async function showQuickItems(section: string) {
 		if (!section) return;
 
 		const presentFilter = findContainer("Faction Quick Items");
@@ -165,14 +163,14 @@
 			}
 		}
 
-		function onDragStart(event) {
+		function onDragStart(event: DragEvent) {
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
 				document.find("#factionQuickItems > main").classList.add("drag-progress");
 				if (document.find("#factionQuickItems .temp.item")) return;
 
-				const id = event.target.find(".img-wrap").dataset.itemid;
+				const id = (event.target as Element).find(".img-wrap").dataset.itemid;
 
 				addQuickItem({ id }, true);
 			}, 10);
@@ -189,7 +187,7 @@
 		}
 	}
 
-	function addQuickItem(data, temporary = false) {
+	function addQuickItem(data: { id: string | number }, temporary = false) {
 		const content = findContainer("Faction Quick Items", { selector: ":scope > main" });
 		const innerContent = content.find(".inner-content");
 		const responseWrap = content.find(".response-wrap");
@@ -197,7 +195,7 @@
 		const { id } = data;
 
 		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
-		if (!allowQuickItem(id, getTornItemType(id))) return;
+		if (!allowQuickItem(id, typeof id === "number" ? getTornItemType(id) : null)) return null;
 
 		const itemWrap = document.newElement({
 			type: "div",
@@ -213,7 +211,12 @@
 						return;
 					}
 
-					if (settings.pages.items.energyWarning && hasAPIData() && ["Drug", "Energy Drink"].includes(getTornItemType(id))) {
+					if (
+						settings.pages.items.energyWarning &&
+						hasAPIData() &&
+						typeof id === "number" &&
+						["Drug", "Energy Drink"].includes(getTornItemType(id))
+					) {
 						const received = getItemEnergy(id);
 						if (received) {
 							const [current, max] = getUserEnergy();
@@ -246,13 +249,13 @@
 							);
 						});
 					} else {
-						Object.entries({ step: "useItem", fac: "1", itemID: id }).forEach(([key, value]) => body.set(key, value));
+						Object.entries({ step: "useItem", fac: "1", itemID: id }).forEach(([key, value]) => body.set(key, value.toString()));
 
-						fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
+						fetchData<TornInternalUseItem>("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 							if (typeof result !== "object") return;
 
 							const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
-							if (result.links) {
+							if ("links" in result) {
 								for (const link of result.links) {
 									links.push(
 										document.newElement({
@@ -333,9 +336,9 @@
 				},
 				dragstart(event) {
 					event.dataTransfer.effectAllowed = "move";
-					event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
+					event.dataTransfer.setDragImage(event.currentTarget as Element, 0, 0);
 
-					movingElement = event.currentTarget;
+					movingElement = event.currentTarget as Element;
 				},
 				async dragend() {
 					movingElement.classList.remove("temp");
@@ -350,10 +353,10 @@
 					if (movingElement !== event.currentTarget) {
 						const children = [...innerContent.children];
 
-						if (children.indexOf(movingElement) > children.indexOf(event.currentTarget))
-							innerContent.insertBefore(movingElement, event.currentTarget);
-						else if (event.currentTarget.nextElementSibling) {
-							innerContent.insertBefore(movingElement, event.currentTarget.nextElementSibling);
+						const currentTarget = event.currentTarget as Element;
+						if (children.indexOf(movingElement) > children.indexOf(currentTarget)) innerContent.insertBefore(movingElement, currentTarget);
+						else if (currentTarget.nextElementSibling) {
+							innerContent.insertBefore(movingElement, currentTarget.nextElementSibling);
 						} else {
 							innerContent.appendChild(movingElement);
 						}
@@ -431,13 +434,13 @@
 			quick: {
 				factionItems: [...content.findAll(".item")]
 					.map((x) => x.dataset.id)
-					.map((x) => (isNaN(x) ? x : parseInt(x)))
+					.map((x) => (isNaN(parseInt(x)) ? (x as QuickFactionItem["id"]) : parseInt(x)))
 					.map((x) => ({ id: x })),
 			},
 		});
 	}
 
-	function allowQuickItem(id, category) {
+	function allowQuickItem(id: number | string, category: string | null) {
 		return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) || id === "points-energy" || id === "points-nerve";
 	}
 
@@ -445,7 +448,7 @@
 		findContainer("Faction Quick Items")?.classList?.add("tt-hidden");
 	}
 
-	function attachEditListeners(enabled) {
+	function attachEditListeners(enabled: boolean) {
 		if (enabled) {
 			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
 				const imgWrap = item.find(".img-wrap");
@@ -471,11 +474,12 @@
 		}
 	}
 
-	async function onItemClickQuickEdit(event) {
+	async function onItemClickQuickEdit(event: MouseEvent) {
 		event.stopPropagation();
 		event.preventDefault();
 
-		const target = event.target.dataset.type === "tt-points" ? event.target : findParent(event.target, { tag: "LI" });
+		const _target = event.target as HTMLElement;
+		const target = _target.dataset.type === "tt-points" ? _target : findParent(_target, { tag: "LI" });
 		const id = target.find(".img-wrap").dataset.itemid;
 
 		const item = addQuickItem({ id }, false);
@@ -484,7 +488,7 @@
 		await saveQuickItems();
 	}
 
-	function setupOverlayItems(tab) {
+	function setupOverlayItems(tab: Document | Element) {
 		for (const item of tab.findAll(".item-list > li")) {
 			const imgWrap = item.find(".img-wrap");
 

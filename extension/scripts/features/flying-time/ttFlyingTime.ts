@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (isFlying() || isAbroad()) return;
@@ -16,6 +14,8 @@
 		},
 		async () => {
 			await checkDevice();
+
+			return true;
 		}
 	);
 
@@ -64,7 +64,7 @@
 		else {
 			document.find("#travel-root").appendChild(document.newElement({ type: "span", class: "tt-flying-time", text }));
 		}
-		function format(date) {
+		function format(date: Date) {
 			if (date.getDate() === now.getDate()) return formatTime(date, { hideSeconds: true });
 			else return `${formatTime(date, { hideSeconds: true })} ${formatDate(date)}`;
 		}

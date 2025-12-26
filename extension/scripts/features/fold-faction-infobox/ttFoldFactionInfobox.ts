@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -40,7 +38,7 @@
 	}
 
 	async function foldInfobox() {
-		let title, description, key;
+		let title: Element, description: Element, key: string;
 
 		if (isInternal) {
 			if (getFactionSubpage() === "info") {
@@ -71,13 +69,13 @@
 
 		if (!title.classList.contains(`tt-${key}`)) {
 			title.classList.add(`tt-${key}`);
-			title.addEventListener("click", () => fold());
+			title.addEventListener("click", () => fold(null));
 		}
 
-		function fold(state) {
+		function fold(state: boolean | null) {
 			if (!feature.enabled()) return;
 
-			if (typeof state === "undefined") {
+			if (state === null) {
 				state = description.classList.toggle("folded");
 			} else {
 				if (state) description.classList.add("folded");

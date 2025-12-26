@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature("Forum Menu", "forums", () => settings.pages.forums.menu, initialiseListeners, startFeature, removeMenu, {
 		storage: ["settings.pages.forums.menu"],
@@ -30,7 +28,7 @@
 		await requireElement(".forums-committee-wrap");
 
 		let countHiddenThread = 0;
-		let firstHiddenThread;
+		let firstHiddenThread: HTMLElement;
 
 		const threads = document.findAll(".threads-list > li");
 		for (let i = 0; i < threads.length; i++) {
@@ -42,7 +40,7 @@
 			}
 
 			const userId = getUsername(thread).id;
-			const threadId = new URL(thread.find("a.thread-name").href).searchParams.get("t").getNumber();
+			const threadId = new URL(thread.find<HTMLAnchorElement>("a.thread-name").href).searchParams.get("t").getNumber();
 
 			const shouldHideThreads = settings.pages.forums.hideThreads[userId] || settings.pages.forums.ignoredThreads[threadId];
 			if (shouldHideThreads) {
@@ -66,7 +64,7 @@
 						text: `${countHiddenThread} hidden thread${applyPlural(countHiddenThread)}`,
 						events: {
 							click(event) {
-								let thread = event.target.nextElementSibling;
+								let thread = (event.target as Element).nextElementSibling;
 								while (thread && thread.classList.contains("tt-forums-hide")) {
 									thread.classList.toggle("tt-forums-hide-show");
 									thread = thread.nextElementSibling;
@@ -86,7 +84,7 @@
 		await requireElement(".forums-thread");
 
 		let countHiddenPost = 0;
-		let firstHiddenPost;
+		let firstHiddenPost: HTMLElement;
 
 		const threadId = getHashParameters().get("t").getNumber();
 
@@ -132,7 +130,7 @@
 						text: `${countHiddenPost} hidden post${applyPlural(countHiddenPost)}`,
 						events: {
 							click(event) {
-								let post = event.target.nextElementSibling;
+								let post = (event.target as Element).nextElementSibling;
 								while (post && post.classList.contains("tt-forums-hide")) {
 									post.classList.toggle("tt-forums-hide-show");
 									post = post.nextElementSibling;
@@ -169,7 +167,7 @@
 											const postId = post.dataset.id;
 											const date = post.find(".time-wrap > .created, .time-wrap > .posted").textContent;
 
-											let likes, dislikes;
+											let likes: string, dislikes: string;
 											if (!post.find(".rating-results-pending")) {
 												likes = post.find(".like > .value").textContent.trim();
 												dislikes = post.find(".dislike > .value").textContent.trim();
@@ -203,8 +201,8 @@
 											// Replace urls
 											const urls = [];
 											const urlRegex = /\[url=(.*?)](.*?)\[\/url]/gs;
-											const urlCallback = (match, url, content) => {
-												let place;
+											const urlCallback = (_match: string, url: string, content: string) => {
+												let place: number;
 
 												if (urls.includes(url)) {
 													place = urls.indexOf(url) + 1;
@@ -257,8 +255,8 @@
 
 											toClipboard(text);
 
-											event.target.textContent = "Copied!";
-											setTimeout(() => (event.target.textContent = "Copy post for Discord"), 1000);
+											(event.target as Element).textContent = "Copied!";
+											setTimeout(() => ((event.target as Element).textContent = "Copy post for Discord"), 1000);
 										},
 									},
 								}),
@@ -274,7 +272,7 @@
 
 											ttStorage.set({ settings });
 
-											event.target.textContent = `${!status ? "Show" : "Hide"} ${name} threads`;
+											(event.target as Element).textContent = `${!status ? "Show" : "Hide"} ${name} threads`;
 										},
 									},
 								}),
@@ -306,7 +304,7 @@
 
 											ttStorage.set({ settings });
 
-											event.target.textContent = `${!status ? "Unhighlight" : "Highlight"} ${name} threads`;
+											(event.target as Element).textContent = `${!status ? "Unhighlight" : "Highlight"} ${name} threads`;
 										},
 									},
 								}),
@@ -337,7 +335,7 @@
 											else settings.pages.forums.ignoredThreads[threadId] = true;
 
 											ttStorage.set({ settings });
-											event.target.textContent = `${!status ? "Unignore" : "Ignore"} this entire thread`;
+											(event.target as Element).textContent = `${!status ? "Unignore" : "Ignore"} this entire thread`;
 										},
 									},
 								}),

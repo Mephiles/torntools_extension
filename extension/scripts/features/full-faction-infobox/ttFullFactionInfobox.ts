@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -40,7 +38,7 @@
 	}
 
 	async function showFull() {
-		let title, description, key;
+		let title: Element, description: Element, key: string;
 
 		if (isInternal) {
 			if (getFactionSubpage() === "info") {

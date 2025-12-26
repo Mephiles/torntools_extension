@@ -1,12 +1,9 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const feature = featureManager.registerFeature("Forum Warning", "forums", true, initialise, showWarning, removeWarning, null, null);
+	const feature = featureManager.registerFeature("Forum Warning", "forums", () => true, initialise, showWarning, removeWarning, null, null);
 
 	async function initialise() {
-		// noinspection JSCheckFunctionSignatures
 		new MutationObserver(() => {
 			if (!feature.enabled()) return;
 
@@ -29,7 +26,7 @@
 		const page = hash.get("p");
 		if (page !== "forums" && page !== "newthread") return;
 
-		let parent, position;
+		let parent: Element, position: "afterend" | "beforebegin";
 		if (page === "forums") {
 			parent = document.find("ul.title");
 			position = "afterend";
@@ -115,7 +112,7 @@
 		}
 	}
 
-	function handleDisabledPost(event) {
+	function handleDisabledPost(event: MouseEvent) {
 		event.preventDefault();
 		event.stopPropagation();
 		event.stopImmediatePropagation();
