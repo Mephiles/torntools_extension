@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,6 +14,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		},
 		null
 	);
@@ -48,7 +48,7 @@
 		});
 	}
 
-	async function startFeature(forced) {
+	async function startFeature(forced: boolean) {
 		if (isOwnFaction && getFactionSubpage() !== "info") return;
 		if (settings.pages.faction.memberFilter && !forced) return;
 
@@ -63,7 +63,7 @@
 			".faction-info-wrap .table-body > .table-row",
 			(row) => {
 				// Don't show this for fallen players.
-				if (row.find(".icons li[id*='icon77___']")) return {};
+				if (row.find(".icons li[id*='icon77___']")) return null;
 
 				return {
 					id: getUsername(row).id,
@@ -73,7 +73,7 @@
 			true,
 			(row) =>
 				row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-member-info")
-					? row.nextElementSibling
+					? (row.nextElementSibling as HTMLElement)
 					: row
 		);
 	}

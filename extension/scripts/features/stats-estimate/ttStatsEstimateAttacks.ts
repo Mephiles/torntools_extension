@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (isOwnProfile()) return;
@@ -19,6 +17,7 @@
 			if (!hasAPIData()) return "No API access.";
 
 			await checkDevice();
+			return true;
 		}
 	);
 
@@ -60,15 +59,17 @@
 			}
 		}
 
-		function createElement(estimate, isEstimate = true, side) {
-			let text;
-			if (isEstimate) {
+		function createElement(stats: number, isEstimate: false, side: "attacker" | "defender"): void;
+		function createElement(estimate: string, isEstimate: true, side: "attacker" | "defender"): void;
+		function createElement(estimate: string | number, isEstimate: boolean, side: "attacker" | "defender") {
+			let text: string;
+			if (isEstimate && typeof estimate === "string") {
 				text = mobile ? `Estimate: ${estimate.replace("under ", "<").replace("over ", ">")}` : `Stats Estimate: ${estimate}`;
-			} else if (!isNaN(estimate)) {
+			} else if (!isNaN(parseInt(estimate.toString()))) {
 				text = mobile ? `Stats: ${formatNumber(estimate, { shorten: 3, decimals: 1 })}` : `Battle Stats: ${formatNumber(estimate, { shorten: true })}`;
 			} else throw "Not a correct estimate!";
 
-			let entries;
+			let entries: HTMLElement;
 			if (mobile || tablet) {
 				const sideColor = side === "attacker" ? "green___" : "rose___";
 				entries = document.find(`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`);

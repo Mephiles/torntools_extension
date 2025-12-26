@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,6 +14,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -45,14 +45,14 @@
 		await requireElement(".bounties-list");
 
 		const startParam = parseInt(getHashParameters().get("start")) || 0;
-		const start = parseInt(getHashParameters(document.find(".claim a").href.split("#!")[1] ?? "").get("start")) || 0;
+		const start = parseInt(getHashParameters(document.find<HTMLAnchorElement>(".claim a").href.split("#!")[1] ?? "").get("start")) || 0;
 		if (start !== startParam) return;
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(
 			".bounties-list > li[data-id]",
 			(row) => ({
-				id: parseInt(row.find(".target a").href.match(/(\d+)/g)?.last()),
+				id: parseInt(row.find<HTMLAnchorElement>(".target a").href.match(/(\d+)/g)?.last()),
 				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").last().trim()),
 			}),
 			true

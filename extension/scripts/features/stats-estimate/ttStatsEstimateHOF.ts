@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,6 +14,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -49,7 +49,7 @@
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(".players-list > li:not(.empty)", (row) => ({
-			id: parseInt(row.find(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+			id: parseInt(row.find<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
 			level: parseInt(row.find(`.player-info > li:nth-child(${levelIndex + 1})`).textContent),
 		}));
 	}

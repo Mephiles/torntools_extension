@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,10 +14,12 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
-	let observer;
+	let observer: MutationObserver | undefined;
 
 	function registerListeners() {
 		if (isOwnFaction) {
@@ -44,7 +44,12 @@
 
 		requireElement("ul.f-war-list").then(() => {
 			observer = new MutationObserver((mutations) => {
-				if (![...mutations].some((mutation) => [...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions")))) return;
+				if (
+					![...mutations].some((mutation) =>
+						[...(mutation.addedNodes ?? [])].some((node) => isElement(node) && node.classList.contains("descriptions"))
+					)
+				)
+					return;
 
 				showEstimates();
 			});
@@ -59,7 +64,7 @@
 				".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 				(row) => {
 					return {
-						id: parseInt(row.find("[class*='honorWrap__'] > a").href.split("XID=")[1]),
+						id: parseInt(row.find<HTMLAnchorElement>("[class*='honorWrap__'] > a").href.split("XID=")[1]),
 						level: parseInt(row.find(".level").textContent.trim()),
 					};
 				},

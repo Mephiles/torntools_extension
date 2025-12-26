@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (isOwnProfile()) return;
@@ -17,10 +15,12 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
-	let observer;
+	let observer: MutationObserver | undefined;
 
 	async function showEstimate() {
 		const userInfoValue = await requireElement(".basic-information .info-table .user-info-value > *:first-child");
@@ -37,7 +37,7 @@
 
 		observer?.disconnect();
 		observer = new MutationObserver((mutations) => {
-			if (![...mutations].some((mutation) => [...mutation.addedNodes].every((node) => node.nodeType === Document.TEXT_NODE))) return;
+			if (![...mutations].some((mutation) => [...mutation.addedNodes].every(isTextNode))) return;
 			if (title.find(".tt-stats-estimate-profile")) return;
 
 			title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));

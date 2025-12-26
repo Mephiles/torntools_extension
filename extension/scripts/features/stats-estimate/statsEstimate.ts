@@ -25,12 +25,28 @@ const RANKS = {
 	Legendary: 24,
 	Elite: 25,
 	Invincible: 26,
-};
+} as const;
 
-const ESTIMATE_INSTANCES = {};
+const ESTIMATE_INSTANCES: { [name: string]: StatsEstimate } = {};
+
+interface X {
+	row: HTMLElement;
+	section: HTMLElement;
+	id: number;
+	hasFilter: boolean;
+}
+
+interface EstimationRequest {
+	id: number;
+	level: number;
+}
 
 class StatsEstimate {
-	constructor(name, isList) {
+	private queue: X[];
+	running: boolean;
+	private readonly isList: boolean;
+
+	constructor(name: string, isList: boolean) {
 		this.queue = [];
 		this.running = false;
 
@@ -39,12 +55,19 @@ class StatsEstimate {
 		ESTIMATE_INSTANCES[name] = this;
 	}
 
-	showEstimates(selector, handler, hasFilter, placement) {
+	showEstimates(
+		selector: string,
+		handler: (row: HTMLElement) => EstimationRequest | null,
+		hasFilter: boolean = false,
+		placement?: (row: HTMLElement) => HTMLElement
+	) {
 		for (const row of document.findAll(selector)) {
 			if ((row.classList.contains("tt-hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
 
-			const { id, level } = handler(row);
-			if (!id) continue;
+			const request = handler(row);
+			if (!request) continue;
+
+			const { id, level } = request;
 
 			if (level && settings.scripts.statsEstimate.maxLevel && settings.scripts.statsEstimate.maxLevel < level) continue;
 
@@ -52,35 +75,16 @@ class StatsEstimate {
 
 			const section = document.newElement({ type: "div", class: "tt-stats-estimate" });
 			const parent = placement ? (placement(row) ?? row) : row;
-			new Promise((resolve) => {
+			new Promise<void>((resolve) => {
 				parent.insertAdjacentElement("afterend", section);
 				resolve();
 			}).then(() => {});
 
 			showLoadingPlaceholder(section, true);
 
-			let estimate;
+			let estimate: string;
 			if (ttCache.hasValue("stats-estimate", id)) {
-				estimate = ttCache.get("stats-estimate", id);
-			} else if (ttCache.hasValue("profile-stats", id)) {
-				const cacheResult = ttCache.get("profile-stats", id);
-				const {
-					profile: {
-						rank,
-						level,
-						last_action: { timestamp: lastAction },
-					},
-					personalstats: {
-						networth: { total: networth },
-						crimes: { version },
-					},
-				} = cacheResult;
-				let crimes;
-				if (version === "v1") crimes = data.personalstats.crimes.total;
-				else if (version === "v2") crimes = data.personalstats.crimes.offenses.total;
-				else throw new Error(`Unsupported crime version: ${version}.`);
-
-				estimate = this.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
+				estimate = ttCache.get<string>("stats-estimate", id);
 			}
 
 			if (estimate) {
@@ -154,7 +158,7 @@ class StatsEstimate {
 		this.queue = [];
 	}
 
-	getEstimate(rank, level, crimes, networth) {
+	getEstimate(rank: string, level: number, crimes: number, networth: number) {
 		rank = rank.match(/[A-Z][a-z ]+/g)[0].trim();
 
 		const triggersLevel = RANK_TRIGGERS.level.filter((x) => x <= level).length;
@@ -166,18 +170,16 @@ class StatsEstimate {
 		return RANK_TRIGGERS.stats[triggersStats] ?? "N/A";
 	}
 
-	async fetchEstimate(id) {
-		let estimate, data;
+	async fetchEstimate(id: number) {
+		let estimate: string, data: UserProfileResponse & UserPersonalStatsPopular;
 		if (ttCache.hasValue("stats-estimate", id)) {
-			estimate = ttCache.get("stats-estimate", id);
-		} else if (ttCache.hasValue("profile-stats", id)) {
-			data = ttCache.get("profile-stats", id);
+			estimate = ttCache.get<string>("stats-estimate", id);
 		} else {
 			if (this.isList && settings.scripts.statsEstimate.cachedOnly)
 				throw { message: "No cached result found!", show: settings.scripts.statsEstimate.displayNoResult };
 
 			try {
-				data = await fetchData("tornv2", {
+				data = await fetchData<UserProfileResponse & UserPersonalStatsPopular>("tornv2", {
 					section: "user",
 					id,
 					selections: ["profile", "personalstats"],
@@ -185,7 +187,7 @@ class StatsEstimate {
 					silent: true,
 				});
 			} catch (error) {
-				let message;
+				let message: string;
 				if (error.error) message = error.error;
 				else if (error.code) message = `Unknown (code ${error.code})`;
 				else message = error;
@@ -204,14 +206,9 @@ class StatsEstimate {
 					},
 					personalstats: {
 						networth: { total: networth },
-						crimes: { version },
+						crimes: { total: crimes },
 					},
 				} = data;
-
-				let crimes;
-				if (version === "v1") crimes = data.personalstats.crimes.total;
-				else if (version === "v2") crimes = data.personalstats.crimes.offenses.total;
-				else throw new Error(`Unsupported crime version: ${version}.`);
 
 				estimate = this.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 			} else {
@@ -222,17 +219,17 @@ class StatsEstimate {
 		return estimate;
 	}
 
-	cacheResult(id, estimate, lastAction) {
+	cacheResult(id: number, estimate: string, lastAction: number) {
 		let days = 7;
 
-		if (estimate === RANK_TRIGGERS.stats.last()) days = 31;
+		if (estimate === (RANK_TRIGGERS.stats as unknown as string[]).last()) days = 31;
 		else if (lastAction && lastAction <= Date.now() - TO_MILLIS.DAYS * 180) days = 31;
 		else if (estimate === "N/A") days = 1;
 
 		return ttCache.set({ [id]: estimate }, TO_MILLIS.DAYS * days, "stats-estimate");
 	}
 
-	getAndCacheResult(id, rank, level, crimes, networth, lastAction) {
+	getAndCacheResult(id: number, rank: string, level: number, crimes: number, networth: number, lastAction: number) {
 		const isOldSystem = new Date(lastAction * 1000).getUTCFullYear() <= 2015;
 		if (isOldSystem) return "N/A";
 
@@ -243,6 +240,6 @@ class StatsEstimate {
 	}
 }
 
-function hasStatsEstimatesLoaded(name) {
+function hasStatsEstimatesLoaded(name: string) {
 	return name in ESTIMATE_INSTANCES && !ESTIMATE_INSTANCES[name].running;
 }

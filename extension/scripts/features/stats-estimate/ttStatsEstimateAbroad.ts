@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (!isAbroad()) return;
@@ -17,10 +15,12 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
-	let triggerFilter;
+	let triggerFilter: number | undefined;
 
 	function registerListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(() => {
@@ -47,7 +47,7 @@
 		statsEstimate.showEstimates(
 			".users-list > li",
 			(row) => ({
-				id: parseInt(row.find(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+				id: parseInt(row.find<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
 				level: parseInt(row.find(".level").textContent),
 			}),
 			true

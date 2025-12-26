@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,10 +14,12 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
-	let observer;
+	let observer: MutationObserver | undefined;
 
 	function registerListeners() {
 		if (isOwnFaction) {
@@ -48,7 +48,9 @@
 			observer = new MutationObserver((mutations) => {
 				if (
 					![...mutations].some((mutation) =>
-						[...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions") && node.find(".enemy-faction"))
+						[...(mutation.addedNodes ?? [])].some(
+							(node) => isElement(node) && node.classList.contains("descriptions") && node.find(".enemy-faction")
+						)
 					)
 				)
 					return;
@@ -68,14 +70,14 @@
 
 				for (const mutation of mutations) {
 					for (const node of mutation.removedNodes) {
-						if (!node.classList?.contains("tt-estimated")) continue;
+						if (!isElement(node) || !node.classList?.contains("tt-estimated")) continue;
 
 						node.classList.remove("tt-estimated");
-						mutation.nextSibling?.remove();
+						(mutation.nextSibling as Element)?.remove();
 					}
 
 					for (const node of mutation.addedNodes) {
-						if (!node.classList?.contains("your") && !node.classList?.contains("enemy")) continue;
+						if (!isElement(node) || (!node.classList?.contains("your") && !node.classList?.contains("enemy"))) continue;
 
 						shouldEstimate = true;
 						break;
