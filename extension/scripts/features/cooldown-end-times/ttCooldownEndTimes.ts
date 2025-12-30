@@ -22,7 +22,6 @@
 		async function listener(event: MouseEvent) {
 			const target = event.target as Element;
 			if (!target.closest("li")?.matches("[class*='icon']")) return;
-			console.log("DKK listener 2", event.target);
 
 			const iconName = target.getAttribute("aria-label").split(":")[0].trim();
 			if (

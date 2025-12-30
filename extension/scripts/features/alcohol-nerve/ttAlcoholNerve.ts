@@ -34,7 +34,6 @@
 			if (alcoholicDrink.find(".tt-alcohol-gains")) return;
 
 			const id = parseInt(alcoholicDrink.dataset.item);
-			console.log("DKK alcohol", { id });
 			let totalNerve = parseInt(
 				torndata.items[alcoholicDrink.dataset.item].effect
 					.split(" ")
