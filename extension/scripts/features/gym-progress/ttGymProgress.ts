@@ -26,7 +26,12 @@
 		}
 		if (!currentGym) return;
 
-		const index = currentGym.id.split("-")[1].getNumber() - 2;
+		const categoryElement = currentGym.parentElement;
+		const categoryElementIndex = Array.from(categoryElement.parentElement.children).indexOf(categoryElement);
+
+		const currentGymIndex = Array.from(currentGym.parentElement.children).indexOf(currentGym);
+		const index = categoryElementIndex * 8 + currentGymIndex - 1;
+
 		const percentage = currentGym.find("[class*='percentage_']").textContent.getNumber();
 		let goal = gymGoals[index];
 		if (userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
