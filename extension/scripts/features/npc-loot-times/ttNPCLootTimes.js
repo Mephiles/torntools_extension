@@ -16,6 +16,7 @@
 		},
 		() => {
 			if (!settings.external.yata && !settings.external.tornstats && !settings.external.lzpt) return "YATA, TornStats or LZPT not enabled";
+			else if (npcs === null) return "NPC data is not yet available.";
 		}
 	);
 
