@@ -21,7 +21,7 @@
 
 		async function listener(event: MouseEvent) {
 			const target = event.target as Element;
-			if (!target.closest("li")?.matches("[class*='icon']")) return;
+			if (!target.closest("li")?.matches("[class*='icon']") || !target.hasAttribute("aria-label")) return;
 
 			const iconName = target.getAttribute("aria-label").split(":")[0].trim();
 			if (
