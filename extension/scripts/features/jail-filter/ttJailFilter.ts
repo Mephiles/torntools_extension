@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -24,7 +22,7 @@
 		});
 	}
 
-	const localFilters = {};
+	const localFilters: any = {};
 	const JAIL_FILTER_TIME_REGEX = /(\d+)(?=h)|(\d+)(?=m)/g;
 
 	async function addFilters() {
@@ -104,8 +102,8 @@
 		filterContent.appendChild(scoreFilter.element);
 		localFilters["Score Filter"] = { getStartEnd: scoreFilter.getStartEnd, updateCounter: scoreFilter.updateCounter };
 
-		const bailCostFilter = createTextbox({ type: "number", description: "Maximum Bail Cost", min: 0 });
-		bailCostFilter.setValue(filters.jail.bailCost || "");
+		const bailCostFilter = createTextbox({ type: "number", description: "Maximum Bail Cost" });
+		bailCostFilter.setValue(filters.jail.bailCost?.toString() || "");
 		bailCostFilter.onChange(filtering);
 
 		filterContent.appendChild(bailCostFilter.element);
@@ -128,11 +126,11 @@
 		await filtering();
 	}
 
-	async function filtering(pageChange) {
+	async function filtering(pageChange: boolean = false) {
 		await requireElement(".users-list > li");
 		const content = findContainer("Jail Filter").find("main");
-		const activity = localFilters["Activity"].getSelections(content);
-		const faction = localFilters["Faction"].getSelected(content).trim();
+		const activity: string[] = localFilters["Activity"].getSelections(content);
+		const faction: string = localFilters["Faction"].getSelected(content).trim();
 		const times = localFilters["Time Filter"].getStartEnd(content);
 		const bailCost = parseInt(localFilters["Bail Cost"].getValue());
 		const timeStart = parseInt(times.start);
@@ -194,7 +192,7 @@
 			}
 
 			// Faction
-			const rowFaction = li.find(".user.faction");
+			const rowFaction = li.find<HTMLAnchorElement>(".user.faction");
 			const hasFaction = !!rowFaction.href;
 			const factionName = rowFaction.hasAttribute("rel")
 				? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
@@ -262,11 +260,11 @@
 			showRow(li);
 		}
 
-		function showRow(li) {
+		function showRow(li: Element) {
 			li.classList.remove("tt-hidden");
 		}
 
-		function hideRow(li) {
+		function hideRow(li: Element) {
 			li.classList.add("tt-hidden");
 		}
 
@@ -329,13 +327,13 @@
 			});
 		}
 
-		function addQAndHref(iconNode) {
+		function addQAndHref(iconNode: HTMLAnchorElement) {
 			if (iconNode.find(":scope > .tt-quick-q")) return;
 			iconNode.appendChild(document.newElement({ type: "span", class: "tt-quick-q", text: "Q" }));
 			iconNode.href = iconNode.getAttribute("href") + "1";
 		}
 
-		function removeQAndHref(iconNode) {
+		function removeQAndHref(iconNode: HTMLAnchorElement) {
 			const quickQ = iconNode.find(":scope > .tt-quick-q");
 			if (quickQ) quickQ.remove();
 			if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.getAttribute("href").slice(0, -1);
