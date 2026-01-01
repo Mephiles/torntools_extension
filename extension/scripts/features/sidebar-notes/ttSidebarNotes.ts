@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { hasSidebar } = await checkDevice();
 	if (!hasSidebar) return "Not supported on mobiles or tablets!";
@@ -36,13 +34,15 @@
 				style: { height: notes.sidebar.height },
 				events: {
 					async mouseup(event) {
-						if (event.target.style.height === notes.sidebar.height) return;
+						if (!isHTMLElement(event.target) || event.target.style.height === notes.sidebar.height) return;
 
 						console.log("Resized sidebar notes.", event.target.style.height);
 						await ttStorage.change({ notes: { sidebar: { height: event.target.style.height } } });
 					},
 					async change(event) {
-						await ttStorage.change({ notes: { sidebar: { text: event.target.value } } });
+						if (!isHTMLElement(event.target)) return;
+
+						await ttStorage.change({ notes: { sidebar: { text: (event.target as HTMLInputElement).value } } });
 					},
 				},
 			})
@@ -52,4 +52,6 @@
 	function removeNotes() {
 		removeContainer("Notes", { id: "sidebarNotes" });
 	}
+
+	return true;
 })();

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -22,7 +20,10 @@
 		for (const stockName of document.findAll("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
 			const container = stockName.find("[class*='nameContainer__']");
 
-			const acronym = stockdata[stockName.closest("[class*='stock___']").id].acronym;
+			const id = stockName.closest("[class*='stock___']").id;
+			if (typeof stockdata[id] === "number") continue;
+
+			const acronym = stockdata[id].acronym;
 
 			container.classList.add("tt-acronym-container");
 			container.insertAdjacentElement(

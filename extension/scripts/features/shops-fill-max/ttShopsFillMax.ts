@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -34,7 +32,7 @@
 
 			item.find(".buy-act").appendChild(fillMaxOverlay);
 
-			function fillMax(event) {
+			function fillMax(event: MouseEvent) {
 				event.stopPropagation();
 
 				let max = item.find(".instock").textContent.getNumber();
@@ -46,7 +44,7 @@
 				}
 				if (max > 100) max = 100;
 
-				item.find("input[id]").value = max;
+				item.find<HTMLInputElement>("input[id]").value = max.toString();
 			}
 		});
 	}

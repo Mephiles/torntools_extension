@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -13,7 +11,7 @@
 		{
 			storage: ["settings.pages.profile.statusIndicator"],
 		},
-		async () => {}
+		null
 	);
 
 	async function addIndicator() {

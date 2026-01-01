@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { hasSidebar } = await checkDevice();
 	if (!hasSidebar) return "Not supported on mobiles or tablets!";
@@ -24,7 +22,7 @@
 			const setting = document.find(".tt-settings");
 			if (!setting) return;
 
-			new MutationObserver((mutations, observer) => {
+			new MutationObserver((_mutations, observer) => {
 				observer.disconnect();
 				setting.parentElement.appendChild(setting);
 			}).observe(setting.parentElement, { childList: true });
@@ -86,7 +84,7 @@
 		document.find(".areasWrapper [class*='toggle-content__']").appendChild(ttSettingsDiv);
 	}
 
-	function messageListener(event) {
+	function messageListener(event: MessageEvent) {
 		let saveSettingsBar = document.getElementById("saveSettingsBar");
 		if (!saveSettingsBar) {
 			saveSettingsBar = document.newElement({
@@ -105,7 +103,7 @@
 								events: {
 									click: () => {
 										document.getElementById("saveSettingsBar").classList.add("tt-hidden");
-										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, revert: 1 }, "*");
+										document.find<HTMLIFrameElement>("#tt-settings-iframe").contentWindow.postMessage({ torntools: 1, revert: 1 }, "*");
 									},
 								},
 							}),
@@ -116,7 +114,7 @@
 								events: {
 									click: () => {
 										document.getElementById("saveSettingsBar").classList.add("tt-hidden");
-										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, save: 1 }, "*");
+										document.find<HTMLIFrameElement>("#tt-settings-iframe").contentWindow.postMessage({ torntools: 1, save: 1 }, "*");
 									},
 								},
 							}),
@@ -140,4 +138,6 @@
 
 		document.body.classList.remove("tt-align-left");
 	}
+
+	return true;
 })();
