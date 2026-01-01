@@ -1,11 +1,9 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (isOwnProfile()) return;
 
-	function numberCellRenderer(value) {
-		let node;
+	function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {
+		let node: Node;
 		if (typeof value === "object") {
 			const isRelative = filters.profile.relative;
 
@@ -29,8 +27,8 @@
 		};
 	}
 
-	function currencyCellRenderer(data) {
-		let node;
+	function currencyCellRenderer(data: StatValue | { relative: StatValue; value: StatValue }) {
+		let node: Node;
 		if (typeof data === "object") {
 			const isRelative = filters.profile.relative;
 
@@ -54,7 +52,26 @@
 		};
 	}
 
-	const STATS = [
+	type StatFormat = "currency";
+
+	interface StatDef {
+		name: string;
+		type: string;
+		v2Getter: (data: UserPersonalStatsFull) => number;
+		format?: StatFormat;
+	}
+
+	type StatValue = number | "N/A";
+
+	interface StatRow {
+		stat: string;
+		them: StatValue;
+		you: { value: StatValue; relative: StatValue };
+		format?: StatFormat | null;
+		type?: string;
+	}
+
+	const STATS: StatDef[] = [
 		// Attacking
 		{ name: "Attacks won", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.won },
 		{ name: "Attacks lost", type: "attacking", v2Getter: (data) => data.personalstats.attacking.attacks.lost },
@@ -158,8 +175,8 @@
 			name: "Total offenses",
 			type: "criminal offenses",
 			v2Getter: crimesStats(
-				(data) => data.personalstats.crimes.total,
-				(data) => data.personalstats.crimes.offenses.total
+				(crimes) => crimes.total,
+				(crimes) => crimes.offenses.total
 			),
 		},
 		{
@@ -167,7 +184,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.vandalism
+				(crimes) => crimes.offenses.vandalism
 			),
 		},
 		{
@@ -175,7 +192,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.theft
+				(crimes) => crimes.offenses.theft
 			),
 		},
 		{
@@ -183,7 +200,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.counterfeiting
+				(crimes) => crimes.offenses.counterfeiting
 			),
 		},
 		{
@@ -191,7 +208,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.fraud
+				(crimes) => crimes.offenses.fraud
 			),
 		},
 		{
@@ -199,7 +216,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.illicit_services
+				(crimes) => crimes.offenses.illicit_services
 			),
 		},
 		{
@@ -207,7 +224,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.cybercrime
+				(crimes) => crimes.offenses.cybercrime
 			),
 		},
 		{
@@ -215,7 +232,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.extortion
+				(crimes) => crimes.offenses.extortion
 			),
 		},
 		{
@@ -223,15 +240,15 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.offenses.illegal_production
+				(crimes) => crimes.offenses.illegal_production
 			),
 		},
 		{
 			name: "Organized crimes",
 			type: "criminal offenses",
 			v2Getter: crimesStats(
-				(data) => data.personalstats.crimes.organized_crimes,
-				(data) => data.personalstats.crimes.offenses.organized_crimes
+				(crimes) => crimes.organized_crimes,
+				(crimes) => crimes.offenses.organized_crimes
 			),
 		},
 		{
@@ -239,7 +256,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.search_for_cash
+				(crimes) => crimes.skills.search_for_cash
 			),
 		},
 		{
@@ -247,7 +264,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.bootlegging
+				(crimes) => crimes.skills.bootlegging
 			),
 		},
 		{
@@ -255,7 +272,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.graffiti
+				(crimes) => crimes.skills.graffiti
 			),
 		},
 		{
@@ -263,7 +280,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.shoplifting
+				(crimes) => crimes.skills.shoplifting
 			),
 		},
 		{
@@ -271,7 +288,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.pickpocketing
+				(crimes) => crimes.skills.pickpocketing
 			),
 		},
 		{
@@ -279,7 +296,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.card_skimming
+				(crimes) => crimes.skills.card_skimming
 			),
 		},
 		{
@@ -287,7 +304,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.burglary
+				(crimes) => crimes.skills.burglary
 			),
 		},
 		{
@@ -295,7 +312,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.hustling
+				(crimes) => crimes.skills.hustling
 			),
 		},
 		{
@@ -303,7 +320,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.disposal
+				(crimes) => crimes.skills.disposal
 			),
 		},
 		{
@@ -311,7 +328,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.cracking
+				(crimes) => crimes.skills.cracking
 			),
 		},
 		{
@@ -319,7 +336,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.forgery
+				(crimes) => crimes.skills.forgery
 			),
 		},
 		{
@@ -327,7 +344,7 @@
 			type: "criminal offenses",
 			v2Getter: crimesStats(
 				() => 0,
-				(data) => data.personalstats.crimes.skills.scamming
+				(crimes) => crimes.skills.scamming
 			),
 		},
 
@@ -438,6 +455,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+			return true;
 		}
 	);
 
@@ -446,10 +464,12 @@
 	async function showBox() {
 		const userInfoValue = await requireElement(".basic-information .info-table .user-info-value > *:first-child");
 
-		const id = parseInt(userInfoValue.textContent.trim().match(/\[(\d*)]/i)[1]);
+		const match = userInfoValue.textContent!.trim().match(/\[(\d*)]/i);
+		if (!match?.[1]) return;
+		const id = parseInt(match[1]);
 
 		const { content, options } = createContainer("User Information", {
-			nextElement: document.find(".medals-wrapper") || document.find(".basic-information")?.closest(".profile-wrapper"),
+			nextElement: document.find(".medals-wrapper") || document.find(".basic-information")?.closest(".profile-wrapper") || undefined,
 			class: "mt10",
 		});
 
@@ -484,9 +504,9 @@
 								section.remove();
 							} else if (finished === 2) {
 								for (const section of [...content.findAll(".section[order]")].sort(
-									(a, b) => parseInt(a.getAttribute("order")) - parseInt(b.getAttribute("order"))
+									(a, b) => parseInt(a.getAttribute("order")!) - parseInt(b.getAttribute("order")!)
 								))
-									section.parentElement.appendChild(section);
+									section.parentElement!.appendChild(section);
 							}
 						}
 					},
@@ -511,11 +531,10 @@
 			relativeValue.onChange(() => {
 				const isRelative = relativeValue.isChecked();
 
-				for (const field of content.findAll(".relative-field")) {
+				for (const field of content.findAll<HTMLElement>(".relative-field")) {
 					const value = isRelative ? field.dataset.relative : field.dataset.value;
 
-					// noinspection JSCheckFunctionSignatures
-					const options = { ...(JSON.parse(field.dataset.options ?? false) || { decimals: 0 }), forceOperation: isRelative };
+					const options = { ...(JSON.parse(field.dataset.options ?? "false") || { decimals: 0 }), forceOperation: isRelative };
 
 					field.textContent = formatNumber(value, options);
 				}
@@ -533,12 +552,18 @@
 
 			showLoadingPlaceholder(section, true);
 
-			let data;
+			let data: UserPersonalStatsFull;
 			if (ttCache.hasValue("personal-stats", id)) {
-				data = ttCache.get("personal-stats", id);
+				data = ttCache.get<UserPersonalStatsFull>("personal-stats", id);
 			} else {
 				try {
-					data = await fetchData("tornv2", { section: "user", id, selections: ["personalstats"], params: { cat: ["all"] }, silent: true });
+					data = await fetchData<UserPersonalStatsFull>("tornv2", {
+						section: "user",
+						id,
+						selections: ["personalstats"],
+						params: { cat: ["all"] },
+						silent: true,
+					});
 
 					triggerCustomListener(EVENT_CHANNELS.PROFILE_FETCHED, { data });
 
@@ -552,8 +577,7 @@
 				buildCustom();
 				buildOthers();
 
-				// noinspection JSUnusedGlobalSymbols
-				const sortable = new Sortable(section.find(".custom-stats .tt-table-body"), {
+				const sortable = new Sortable(section.find(".custom-stats .tt-table-body")!, {
 					animation: 150,
 					disabled: true,
 					onEnd: () => saveStats(),
@@ -567,13 +591,13 @@
 						click() {
 							if (moveButton.classList.toggle("active")) {
 								// Enable movement.
-								section.find(".other-stats-button").setAttribute("disabled", "");
+								section.find(".other-stats-button")!.setAttribute("disabled", "");
 								section.findAll(".custom-stats .tt-table-row").forEach((row) => row.classList.add("tt-sortable"));
 
 								sortable.option("disabled", false);
 							} else {
 								// Disable movement.
-								section.find(".other-stats-button").removeAttribute("disabled");
+								section.find(".other-stats-button")!.removeAttribute("disabled");
 								section.findAll(".custom-stats .tt-table-row").forEach((row) => row.classList.remove("tt-sortable"));
 
 								sortable.option("disabled", true);
@@ -588,15 +612,15 @@
 					text: "View other stats.",
 					events: {
 						click() {
-							const isCustom = !content.find(".custom-stats").classList.toggle("tt-hidden");
+							const isCustom = !content.find(".custom-stats")!.classList.toggle("tt-hidden");
 
 							if (isCustom) {
-								content.find(".other-stats").classList.add("tt-hidden");
-								content.find(".move-stats").classList.remove("tt-hidden");
+								content.find(".other-stats")!.classList.add("tt-hidden");
+								content.find(".move-stats")!.classList.remove("tt-hidden");
 								otherList.textContent = "View other stats.";
 							} else {
-								content.find(".other-stats").classList.remove("tt-hidden");
-								content.find(".move-stats").classList.add("tt-hidden");
+								content.find(".other-stats")!.classList.remove("tt-hidden");
+								content.find(".move-stats")!.classList.add("tt-hidden");
 								otherList.textContent = "View custom list.";
 							}
 						},
@@ -609,13 +633,13 @@
 					children: [document.newElement({ type: "i", class: "fa-solid fa-gear" })],
 					events: {
 						click() {
-							const overlay = document.find(".tt-overlay");
+							const overlay = document.find(".tt-overlay")!;
 
-							const button = section.find(".edit-stats");
-							const otherStatsButton = section.find(".other-stats-button");
+							const button = section.find(".edit-stats")!;
+							const otherStatsButton = section.find(".other-stats-button")!;
 
-							const customStats = section.find(".custom-stats");
-							const otherStats = section.find(".other-stats");
+							const customStats = section.find(".custom-stats")!;
+							const otherStats = section.find(".other-stats")!;
 
 							if (overlay.classList.toggle("tt-hidden")) {
 								// Overlay is now hidden.
@@ -638,20 +662,20 @@
 				section.appendChild(document.newElement({ type: "div", class: "stats-error-message", text: "Failed to fetch data." }));
 			}
 
-			showLoadingPlaceholder(section, false);
+			showLoadingPlaceholder(section as HTMLElement, false);
 
-			async function onStatClick(event) {
-				const row = event.target.closest(".tt-table-row");
+			async function onStatClick(event: Event) {
+				const row = (event.target as Element).closest(".tt-table-row") as HTMLElement;
 				if (!row) return;
 
-				const table = row.closest(".tt-table");
+				const table = row.closest(".tt-table")!;
 				const isCustom = table.classList.contains("custom-stats");
 				if (isCustom) {
 					row.remove();
 					await saveStats();
 					buildOthers(true);
 				} else {
-					const otherTable = table.previousElementSibling.find(".tt-table-body");
+					const otherTable = table.previousElementSibling!.find(".tt-table-body")!;
 
 					otherTable.appendChild(row);
 					await saveStats();
@@ -659,13 +683,13 @@
 			}
 
 			function saveStats() {
-				const stats = [...section.findAll(".custom-stats .tt-table-row")].map((row) => row.children[0].textContent);
+				const stats = [...section.findAll(".custom-stats .tt-table-row")].map((row) => row.children[0]!.textContent!);
 
 				return ttStorage.change({ filters: { profile: { stats } } });
 			}
 
-			function createStatsTable(id, rows, hidden = false, hasHeaders = false) {
-				const cellRendererSelector = (row) => {
+			function createStatsTable(id: string, rows: StatRow[], hidden = false, hasHeaders = false) {
+				const cellRendererSelector = (row: StatRow) => {
 					switch (row.format) {
 						case "currency":
 							return currencyCellRenderer;
@@ -673,7 +697,7 @@
 							return numberCellRenderer;
 					}
 				};
-				return createTable(
+				return createTable<StatRow>(
 					[
 						{ id: "stat", title: "Stat", width: 140, cellRenderer: stringCellRenderer },
 						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRendererSelector },
@@ -701,8 +725,8 @@
 			function buildCustom() {
 				const stats = filters.profile.stats;
 
-				const rows = stats
-					.map((name) => {
+				const rows: StatRow[] = stats
+					.map((name): StatRow | false => {
 						const stat = STATS.find((_stat) => _stat.name === name);
 						if (!stat) return false;
 
@@ -710,41 +734,37 @@
 						const you = stat.v2Getter(userdata);
 						if (isNaN(them) || isNaN(you)) return false;
 
-						const row = {
+						return {
 							stat: stat.name,
 							them: them,
 							you: { value: you, relative: you - them },
 							format: stat.format,
 						};
-
-						return row;
 					})
-					.filter((value) => !!value);
+					.filter((value): value is StatRow => !!value);
 
 				const table = createStatsTable("custom-stats", rows, false, false);
 				section.appendChild(table.element);
 			}
 
-			function buildOthers(requireCleanup) {
+			function buildOthers(requireCleanup?: boolean) {
 				const stats = filters.profile.stats;
 
-				const _stats = STATS.filter((stat) => !stats.includes(stat.name))
-					.map((stat) => {
+				const _stats: StatRow[] = STATS.filter((stat) => !stats.includes(stat.name))
+					.map((stat): StatRow | false => {
 						const them = stat.v2Getter(data);
 						const you = stat.v2Getter(userdata);
 						if (isNaN(them) || isNaN(you)) return false;
 
-						const row = {
+						return {
 							stat: stat.name,
 							them: them,
 							you: { value: you, relative: you - them },
 							type: stat.type,
 							format: stat.format,
 						};
-
-						return row;
 					})
-					.filter((value) => !!value);
+					.filter((value): value is StatRow => !!value);
 				const table = createStatsTable("other-stats", _stats, true, true);
 
 				if (requireCleanup) {
@@ -755,15 +775,27 @@
 						table.element.findAll(".tt-table-row:not(.tt-table-row-header)").forEach((row) => row.removeEventListener("click", onStatClick));
 					}
 
-					const actions = section.find(".stat-actions");
-					actions.parentElement.insertBefore(table.element, actions);
+					const actions = section.find(".stat-actions")!;
+					actions.parentElement!.insertBefore(table.element, actions);
 				} else {
 					section.appendChild(table.element);
 				}
 			}
 		}
 
-		async function buildSpy(ignoreCache) {
+		type SpyResult = {
+			defense: number;
+			dexterity: number;
+			speed: number;
+			strength: number;
+			total: number;
+			type: string | false;
+			timestamp: number;
+			updated: string;
+			source: string;
+		};
+
+		async function buildSpy(ignoreCache: boolean) {
 			if (!settings.pages.profile.boxSpy || !settings.apiUsage.user.battlestats) return;
 
 			const section = document.newElement({ type: "div", class: "section spy-information" });
@@ -771,22 +803,22 @@
 
 			showLoadingPlaceholder(section, true);
 
-			const errors = [];
-			let spy = false,
-				isCached = false;
+			const errors: { service: string; message: string }[] = [];
+			let spy: SpyResult | null = null;
+			let isCached = false;
 			if (settings.external.yata) {
 				try {
-					let result;
+					let result: YATASpyResponse["spies"][string];
 					if (!ignoreCache && ttCache.hasValue("yata-spy", id)) {
 						result = ttCache.get("yata-spy", id);
 						isCached = true;
 					} else {
-						result = (await fetchData(FETCH_PLATFORMS.yata, { relay: true, section: "spy", id, includeKey: true, silent: true }))?.spies[id];
+						const yataResult = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spy", id, includeKey: true, silent: true });
 
-						if (result) {
+						if (!("error" in yataResult) && yataResult.spies[id]) {
 							result = {
-								...result,
-								update: result.update * 1000,
+								...yataResult.spies[id],
+								update: yataResult.spies[id].update * 1000,
 							};
 						}
 
@@ -809,7 +841,7 @@
 						};
 					}
 				} catch (error) {
-					if (typeof error.error === "object") {
+					if (typeof error.error === "object" && error.error !== null) {
 						const { code, error: message } = error.error;
 
 						if (code === 2 && message === "Player not found") errors.push({ service: "YATA", message: "You don't have an account." });
@@ -829,12 +861,12 @@
 			}
 			if (settings.external.tornstats) {
 				try {
-					let result;
+					let result: { status: boolean; message: string; spy: undefined | TornstatsSpy["spy"] };
 					if (!ignoreCache && ttCache.hasValue("tornstats-spy", id)) {
 						result = ttCache.get("tornstats-spy", id);
 						isCached = true;
 					} else {
-						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/user", id, silent: true, relay: true });
+						result = await fetchData<TornstatsSpy>("tornstats", { section: "spy/user", id, silent: true, relay: true });
 
 						result = {
 							status: result.status,
@@ -842,7 +874,13 @@
 							spy: result.spy,
 						};
 
-						ttCache.set({ [id]: result }, getCacheTime(result.spy?.status, result.spy?.timestamp * 1000), "tornstats-spy").then(() => {});
+						ttCache
+							.set(
+								{ [id]: result },
+								getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
+								"tornstats-spy"
+							)
+							.then(() => {});
 						isCached = false;
 					}
 
@@ -875,7 +913,7 @@
 						}
 					}
 				} catch (error) {
-					if (typeof error.error === "object") {
+					if (typeof error.error === "object" && error.error !== null) {
 						const { code, error: message } = error.error;
 
 						if (code === 429) errors.push({ service: "TornStats", message: "You've exceeded your API limit. Try again in a minute." });
@@ -892,10 +930,10 @@
 				}
 			}
 
-			showLoadingPlaceholder(section, false);
+			showLoadingPlaceholder(section as HTMLElement, false);
 
 			if (spy) {
-				const table = createTable(
+				const table = createTable<StatRow>(
 					[
 						{ id: "stat", title: "Stat", width: 60, cellRenderer: stringCellRenderer },
 						{ id: "them", title: "Them", class: "their-stat", width: 80, cellRenderer: numberCellRenderer },
@@ -923,7 +961,7 @@
 				);
 				section.appendChild(table.element);
 
-				let sourceText;
+				let sourceText: string | undefined;
 				if (spy.source) {
 					if (isCached) sourceText = "Cached Source: ";
 					else sourceText = "Source: ";
@@ -978,13 +1016,13 @@
 				}
 			}
 
-			function getRelative(them, your) {
+			function getRelative(them: StatValue, your: StatValue) {
 				return them === "N/A" || your === "N/A" ? "N/A" : your - them;
 			}
 
-			function getCacheTime(hasSpy, timestamp) {
+			function getCacheTime(hasSpy: boolean, timestamp: number) {
 				if (!hasSpy) {
-					return TO_MILLIS.HOURS * 1;
+					return TO_MILLIS.HOURS;
 				}
 
 				const days = timestamp / TO_MILLIS.DAYS;
@@ -1003,7 +1041,10 @@
 			checkbox.setChecked(hasStakeout);
 			checkbox.onChange(() => {
 				if (checkbox.isChecked()) {
-					stakeouts[id] = { alerts: { okay: false, hospital: false, landing: false, online: false, life: false } };
+					stakeouts[id] = {
+						info: null,
+						alerts: { okay: false, hospital: false, landing: false, online: false, life: false, offline: false, revivable: false },
+					};
 					stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
 					ttStorage.set({ stakeouts });
 
@@ -1014,8 +1055,8 @@
 					ttStorage.set({ stakeouts });
 
 					alerts.classList.add("tt-hidden");
-					content.findAll("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
-					content.findAll("input[type='checkbox']").forEach((input) => (input.checked = false));
+					content.findAll<HTMLInputElement>("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
+					content.findAll<HTMLInputElement>("input[type='checkbox']").forEach((input) => (input.checked = false));
 				}
 			});
 
@@ -1023,6 +1064,7 @@
 			isOkay.onChange(() => {
 				if (!(id in stakeouts)) return;
 
+				// @ts-expect-error Pre-migration shenanigans
 				ttStorage.change({ stakeouts: { [id]: { alerts: { okay: isOkay.isChecked() } } } });
 			});
 
@@ -1030,6 +1072,7 @@
 			isInHospital.onChange(() => {
 				if (!(id in stakeouts)) return;
 
+				// @ts-expect-error Pre-migration shenanigans
 				ttStorage.change({ stakeouts: { [id]: { alerts: { hospital: isInHospital.isChecked() } } } });
 			});
 
@@ -1037,6 +1080,7 @@
 			lands.onChange(() => {
 				if (!(id in stakeouts)) return;
 
+				// @ts-expect-error Pre-migration shenanigans
 				ttStorage.change({ stakeouts: { [id]: { alerts: { landing: lands.isChecked() } } } });
 			});
 
@@ -1044,20 +1088,23 @@
 			comesOnline.onChange(() => {
 				if (!(id in stakeouts)) return;
 
+				// @ts-expect-error Pre-migration shenanigans
 				ttStorage.change({ stakeouts: { [id]: { alerts: { online: comesOnline.isChecked() } } } });
 			});
 
-			const lifeDrops = createTextbox({ description: { before: "life drops below", after: "%" }, type: "number", attributes: { min: 1, max: 100 } });
+			const lifeDrops = createTextbox({ description: { before: "life drops below", after: "%" }, type: "number", attributes: { min: "1", max: "100" } });
 			lifeDrops.onChange(() => {
 				if (!(id in stakeouts)) return;
 
+				// @ts-expect-error Pre-migration shenanigans
 				ttStorage.change({ stakeouts: { [id]: { alerts: { life: parseInt(lifeDrops.getValue()) || false } } } });
 			});
 
-			const offlineFor = createTextbox({ description: { before: "offline for over", after: "hours" }, type: "number", attributes: { min: 1 } });
+			const offlineFor = createTextbox({ description: { before: "offline for over", after: "hours" }, type: "number", attributes: { min: "1" } });
 			offlineFor.onChange(() => {
 				if (!(id in stakeouts)) return;
 
+				// @ts-expect-error Pre-migration shenanigans
 				ttStorage.change({ stakeouts: { [id]: { alerts: { offline: parseInt(offlineFor.getValue()) || false } } } });
 			});
 
@@ -1065,6 +1112,7 @@
 			isRevivable.onChange(() => {
 				if (!(id in stakeouts)) return;
 
+				// @ts-expect-error Pre-migration shenanigans
 				ttStorage.change({ stakeouts: { [id]: { alerts: { revivable: isRevivable.isChecked() } } } });
 			});
 
@@ -1083,13 +1131,14 @@
 			});
 
 			if (hasStakeout) {
-				isOkay.setChecked(stakeouts[id].alerts.okay);
-				isInHospital.setChecked(stakeouts[id].alerts.hospital);
-				lands.setChecked(stakeouts[id].alerts.landing);
-				comesOnline.setChecked(stakeouts[id].alerts.online);
-				lifeDrops.setValue(stakeouts[id].alerts.life === false ? "" : stakeouts[id].alerts.life);
-				offlineFor.setValue(stakeouts[id].alerts.offline === false ? "" : stakeouts[id].alerts.offline);
-				isRevivable.setChecked(stakeouts[id].alerts.revivable);
+				const stakeout = stakeouts[id] as StakeoutData;
+				isOkay.setChecked(stakeout.alerts.okay);
+				isInHospital.setChecked(stakeout.alerts.hospital);
+				lands.setChecked(stakeout.alerts.landing);
+				comesOnline.setChecked(stakeout.alerts.online);
+				lifeDrops.setValue(stakeout.alerts.life === false ? "" : String(stakeout.alerts.life));
+				offlineFor.setValue(stakeout.alerts.offline === false ? "" : String(stakeout.alerts.offline));
+				isRevivable.setChecked(stakeout.alerts.revivable);
 			} else {
 				alerts.classList.add("tt-hidden");
 			}
@@ -1103,21 +1152,21 @@
 			const section = document.newElement({ type: "div", class: "section attack-history" });
 
 			if (id in attackHistory.history) {
-				const history = attackHistory.history[id];
+				const history = attackHistory.history[id]!;
 
-				function respectCellRenderer(respectArray) {
-					let respect = respectArray.length ? respectArray.totalSum() / respectArray.length : 0;
+				function respectCellRenderer(respectArray: number[]) {
+					let respect: string | number = respectArray.length ? respectArray.totalSum() / respectArray.length : 0;
 					if (respect > 0) respect = formatNumber(respect, { decimals: 2 });
 					else respect = "-";
 
 					return {
-						element: document.createTextNode(respect),
+						element: document.createTextNode(respect.toString()),
 						dispose: () => {},
 					};
 				}
 
-				function ffCellRenderer(modifier) {
-					let ff;
+				function ffCellRenderer(modifier: number) {
+					let ff: string;
 					if (modifier > 0) ff = formatNumber(modifier, { decimals: 2 });
 					else ff = "-";
 
@@ -1157,11 +1206,11 @@
 		removeContainer("User Information");
 	}
 
-	function crimesStats(c1Getter, c2Getter) {
-		return (data) => {
+	function crimesStats(c1Getter: (data: PersonalStatsCrimesV1) => number, c2Getter: (data: PersonalStatsCrimesV2) => number) {
+		return (data: UserPersonalStatsFull) => {
 			const cVersion = data.personalstats.crimes.version;
-			if (cVersion === "v1") return c1Getter(data);
-			else if (cVersion === "v2") return c2Getter(data);
+			if (cVersion === "v1") return c1Getter(data.personalstats.crimes as PersonalStatsCrimesV1);
+			else if (cVersion === "v2") return c2Getter(data.personalstats.crimes as PersonalStatsCrimesV2);
 			else throw new Error(`Unsupported crimes version '${cVersion}'!`);
 		};
 	}

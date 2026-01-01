@@ -29,8 +29,8 @@ type TableRowGroupInfo<T> = {
 	cellRenderer: TableCellRenderer<string>;
 };
 
-function stringCellRenderer(value: string): BaseElement<Node> {
-	const element = document.createTextNode(value);
+function stringCellRenderer(value: string | number): BaseElement<Node> {
+	const element = document.createTextNode(value.toString());
 
 	return {
 		element,
