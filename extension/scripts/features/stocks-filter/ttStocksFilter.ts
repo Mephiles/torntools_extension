@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,7 +15,6 @@
 	);
 
 	async function initialiseFilters() {
-		// noinspection JSCheckFunctionSignatures
 		new MutationObserver((mutations) => {
 			if (!feature.enabled()) return;
 
@@ -28,7 +25,7 @@
 		}).observe(await requireElement("#stockmarketroot [class*='stockMarket___']"), { subtree: true, attributes: true, attributeFilter: ["aria-label"] });
 	}
 
-	let localFilters;
+	let localFilters: any;
 
 	async function addFilters() {
 		const stockMarketRoot = await requireElement("#stockmarketroot");
@@ -108,12 +105,12 @@
 
 		const content = findContainer("Stocks Filter", { selector: "main" });
 
-		const name = localFilters.name.getValue();
-		const owned = localFilters.owned.getValue();
-		const benefit = localFilters.benefit.getValue();
-		const passive = localFilters.passive.getValue();
-		const price = localFilters.price.getValue();
-		const profit = localFilters.profit.getValue();
+		const name: string = localFilters.name.getValue();
+		const owned: SpecialFilterValue = localFilters.owned.getValue();
+		const benefit: SpecialFilterValue = localFilters.benefit.getValue();
+		const passive: SpecialFilterValue = localFilters.passive.getValue();
+		const price: SpecialFilterValue = localFilters.price.getValue();
+		const profit: SpecialFilterValue = localFilters.profit.getValue();
 
 		// Save filters
 		await ttStorage.change({ filters: { stocks: { name, investment: { owned, benefit, passive }, price: { price, profit } } } });
@@ -176,6 +173,10 @@
 					continue;
 				}
 
+				if (typeof stockdata[id] === "number") {
+					continue;
+				}
+
 				const currentPrice = stockdata[id].current_price * userdata.stocks[id].total_shares;
 				const boughtPrice = Object.values(userdata.stocks[id].transactions)
 					.map((transaction) => transaction.shares * transaction.bought_price)
@@ -192,11 +193,11 @@
 			showRow(row);
 		}
 
-		function showRow(li) {
+		function showRow(li: HTMLElement) {
 			li.classList.remove("tt-hidden");
 		}
 
-		function hideRow(li) {
+		function hideRow(li: HTMLElement) {
 			li.classList.add("tt-hidden");
 		}
 

@@ -41,7 +41,7 @@ function createCheckboxDuo(partialOptions: Partial<CheckboxDuoOptions> = {}) {
 		},
 	});
 
-	function setValue(value: "yes" | "no" | "both") {
+	function setValue(value: "yes" | "no" | "both" | "none") {
 		yesCheckbox.setChecked(value === "yes" || value === "both");
 		noCheckbox.setChecked(value === "no" || value === "both");
 	}
