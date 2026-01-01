@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -7,7 +5,6 @@
 
 	if (page === "factions" && !isOwnFaction) return;
 
-	// noinspection JSIncompatibleTypesComparison
 	const feature = featureManager.registerFeature(
 		"Highlight Blood Bags",
 		"items",
@@ -51,7 +48,7 @@
 			} else return;
 		}
 
-		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
+		const allowedBlood: number[] = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
 		for (const item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #armoury-medical .item-list > li")) {
 			if (!item.find(".name-wrap, .name")) continue;

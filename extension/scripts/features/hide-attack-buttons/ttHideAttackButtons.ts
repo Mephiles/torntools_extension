@@ -1,12 +1,10 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
 	featureManager.registerFeature(
 		"Hide Attack Buttons",
 		"attack",
-		() => settings.pages.attack.hideAttackButtons.length,
+		() => settings.pages.attack.hideAttackButtons.length > 0,
 		null,
 		addObserver,
 		removeObserver,
@@ -16,15 +14,15 @@
 		null
 	);
 
-	let observer;
+	let observer: MutationObserver | undefined;
 	async function addObserver() {
-		const defenderDiv = await requireElement("#defender");
+		const defenderDiv: Element = await requireElement("#defender");
 		removeObserver().catch(console.error);
 
 		if (!observer)
 			observer = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {
-					if (mutation.addedNodes?.length && [...mutation.addedNodes]?.some((node) => node.matches("[class*='defender__']"))) {
+					if (mutation.addedNodes?.length && [...mutation.addedNodes]?.some((node) => isElement(node) && node.matches("[class*='defender__']"))) {
 						removeObserver();
 
 						defenderDiv.findAll("button").forEach((button) => {

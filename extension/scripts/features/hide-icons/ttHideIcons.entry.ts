@@ -1,12 +1,10 @@
-"use strict";
-
 (async () => {
 	await requireFeatureManager();
 
 	featureManager.registerFeature(
 		"Hide Icons",
 		"sidebar",
-		() => settings.hideIcons.length,
+		() => settings.hideIcons.length > 0,
 		initialiseHideIcons,
 		applyStyle,
 		applyStyle,
@@ -15,13 +13,14 @@
 		},
 		async () => {
 			await requireSidebar();
+			return true;
 		}
 	);
 
 	function initialiseHideIcons() {
 		const selector = "#sidebarroot ul[class*='status-icons_']";
 		if (document.find(selector)) {
-			new MutationObserver((mutations, observer) => {
+			new MutationObserver((_mutations, observer) => {
 				observer.disconnect();
 				moveIcons();
 				observer.observe(document.find(selector), { childList: true, attributes: true });

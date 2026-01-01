@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature(
 		"Hide Gym Highlight",
@@ -13,6 +11,7 @@
 		},
 		async () => {
 			await checkDevice();
+			return true;
 		}
 	);
 

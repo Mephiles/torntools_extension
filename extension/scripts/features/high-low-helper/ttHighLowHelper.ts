@@ -1,8 +1,4 @@
-"use strict";
-
 (async () => {
-	// if (!getPageStatus().access) return;
-
 	const feature = featureManager.registerFeature(
 		"High-low Helper",
 		"casino",
@@ -16,7 +12,15 @@
 		null
 	);
 
-	let deck;
+	interface CardDeck {
+		hearts: number[];
+		diamonds: number[];
+		clubs: number[];
+		spades: number[];
+	}
+	type CardSuit = keyof CardDeck;
+
+	let deck: CardDeck;
 	shuffleDeck();
 
 	function initialiseHelper() {
@@ -62,7 +66,7 @@
 		});
 	}
 
-	function executeStrategy(data) {
+	function executeStrategy(data: any) {
 		const { value: dealerValue, suit: dealerSuit } = getCardWorth(data.currentGame[0].dealerCardInfo);
 		removeCard(dealerSuit, dealerValue);
 
@@ -75,14 +79,14 @@
 			}
 		}
 
-		let outcome;
+		let outcome: string;
 		if (higher < lower) outcome = "lower";
 		else if (higher > lower) outcome = "higher";
 		else outcome = "50/50";
 
 		const actions = document.find(".actions-wrap");
 		if (settings.pages.casino.highlowMovement) {
-			let action;
+			let action: string;
 			if (outcome === "lower" || outcome === "higher") action = outcome;
 			else if (outcome === "50/50") action = Math.random() < 0.5 ? "higher" : "lower";
 
@@ -95,11 +99,11 @@
 		}
 	}
 
-	function getCardWorth({ classCode, nameShort }) {
-		const suit = classCode.split("-")[0];
+	function getCardWorth({ classCode, nameShort }: { classCode: string; nameShort: string }) {
+		const suit = classCode.split("-")[0] as CardSuit;
 
-		let value;
-		if (!isNaN(nameShort)) value = parseInt(nameShort);
+		let value: number;
+		if (!isNaN(parseInt(nameShort))) value = parseInt(nameShort);
 		else if (nameShort === "J") value = 11;
 		else if (nameShort === "Q") value = 12;
 		else if (nameShort === "K") value = 13;
@@ -136,7 +140,7 @@
 		};
 	}
 
-	function removeCard(suit, value) {
+	function removeCard(suit: CardSuit, value: number) {
 		deck[suit].splice(deck[suit].indexOf(value), 1);
 	}
 

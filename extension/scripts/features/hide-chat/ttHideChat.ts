@@ -1,9 +1,7 @@
-"use strict";
-
 (async () => {
 	if (is2FACheckPage()) return;
 
-	const feature = featureManager.adjustFeature("Hide Chat", initialiseListeners, showButton, removeButton);
+	const feature = featureManager.adjustFeature("Hide Chat", initialiseListeners, () => showButton(), removeButton);
 
 	async function initialiseListeners() {
 		await requireChatsLoaded();
@@ -15,7 +13,7 @@
 		});
 	}
 
-	async function showButton(settingsPanel = null) {
+	async function showButton(settingsPanel: HTMLElement = null) {
 		if (!settingsPanel) {
 			await requireChatsLoaded();
 

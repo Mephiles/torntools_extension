@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (isFlying() || isAbroad()) return;
@@ -7,7 +5,7 @@
 	featureManager.registerFeature(
 		"Highlight Property",
 		"sidebar",
-		() => settings.pages.sidebar.upkeepPropHighlight,
+		() => !!settings.pages.sidebar.upkeepPropHighlight,
 		null,
 		addHighlight,
 		removeHighlight,
@@ -16,6 +14,8 @@
 		},
 		async () => {
 			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
+
+			return true;
 		}
 	);
 

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.perks) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -26,8 +26,15 @@
 		});
 	}
 
+	interface SteadfastBonus {
+		source: "faction" | "company" | "property" | "education" | "book";
+		value: number;
+	}
+
 	async function showSteadfast() {
-		const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
+		const properties = ((await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")) as Element).closest(
+			"#gymroot ul[class*='properties___']"
+		);
 
 		const factionPerks = userdata.faction_perks.filter((perk) => perk.includes("gym gains"));
 		const jobPerks = userdata.job_perks.filter((perk) => perk.includes("gym gains"));
@@ -35,7 +42,7 @@
 		const eductionPerks = userdata.education_perks.filter((perk) => perk.includes("gym gains"));
 		const bookPerk = userdata.book_perks.find((perk) => perk.includes("gym gains"))?.toLowerCase();
 
-		const bonus = {
+		const bonus: Record<string, SteadfastBonus[]> = {
 			strength: [],
 			defense: [],
 			speed: [],
@@ -90,7 +97,7 @@
 			box.insertBefore(parent, box.firstElementChild);
 
 			for (const perk of perks) {
-				let title;
+				let title: string;
 				switch (perk.source) {
 					case "company":
 						title = "Company";
@@ -110,9 +117,8 @@
 				let totalBonus = perks.map((perk) => 1 + perk.value / 100).reduce((total, value) => total * value, 1);
 				totalBonus -= 1;
 				totalBonus *= 100;
-				totalBonus = (Math.round(totalBonus * 10) / 10).toFixed(1);
 
-				parent.dataset.total = totalBonus;
+				parent.dataset.total = (Math.round(totalBonus * 10) / 10).toFixed(1);
 			}
 		}
 	}

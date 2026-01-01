@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	await requireFeatureManager();
 
@@ -17,6 +15,8 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.refills) return "No API access.";
+
+			return true;
 		}
 	);
 

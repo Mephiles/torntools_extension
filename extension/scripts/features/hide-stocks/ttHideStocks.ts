@@ -1,12 +1,10 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
 	featureManager.registerFeature(
 		"Hide Stocks",
 		"stocks",
-		() => settings.hideStocks.length,
+		() => settings.hideStocks.length > 0,
 		null,
 		hideStocks,
 		unhideStocks,

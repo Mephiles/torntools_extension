@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -24,9 +22,9 @@
 			XPathResult.FIRST_ORDERED_NODE_TYPE,
 			null
 		).singleNodeValue;
-		if (!tooManyItemsWarning) return;
+		if (!tooManyItemsWarning || !isHTMLElement(tooManyItemsWarning)) return;
 
-		const delimiter = tooManyItemsWarning.previousElementSibling;
+		const delimiter = tooManyItemsWarning.previousElementSibling as HTMLElement;
 
 		tooManyItemsWarning.dataset.type = "too-many-items-warning";
 		tooManyItemsWarning.classList.add("tt-hidden");

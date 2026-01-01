@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	featureManager.adjustFeature("Hide Level Upgrade", null, hideUpgrade, showUpgrade);
 

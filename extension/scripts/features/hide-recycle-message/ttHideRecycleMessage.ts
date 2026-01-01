@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -24,9 +22,9 @@
 			XPathResult.FIRST_ORDERED_NODE_TYPE,
 			null
 		).singleNodeValue;
-		if (!recycleMessageElement) return;
+		if (!recycleMessageElement || !isHTMLElement(recycleMessageElement)) return;
 
-		const delimiter = recycleMessageElement.previousElementSibling;
+		const delimiter = recycleMessageElement.previousElementSibling as HTMLElement;
 
 		recycleMessageElement.dataset.type = "recycle-message";
 		recycleMessageElement.classList.add("tt-hidden");

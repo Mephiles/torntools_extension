@@ -5,7 +5,7 @@ type XHRDetails = {
 		response: any;
 		responseURL: string;
 	};
-} & ({ json: any } | { uri: { [key: string]: string } });
+} & ({ json: any; uri: undefined } | { uri: { [key: string]: string }; json: undefined });
 
 interface Window {
 	xhrOpenAdjustments: { [key: string]: (xhr: XMLHttpRequest, method: string, url: string | URL) => any };

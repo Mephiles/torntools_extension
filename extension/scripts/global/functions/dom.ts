@@ -510,3 +510,7 @@ function isElement(node: Node | EventTarget): node is Element {
 function isTextNode(node: Node): node is Text {
 	return node.nodeType === Node.TEXT_NODE;
 }
+
+function isHTMLElement(node: Node | EventTarget): node is HTMLElement {
+	return isElement(node) && "dataset" in node;
+}
