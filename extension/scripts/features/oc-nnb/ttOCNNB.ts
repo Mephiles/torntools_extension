@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -22,6 +20,7 @@
 			else if (!hasOC1Data()) return "No OC 1 data.";
 
 			await checkDevice();
+			return true;
 		}
 	);
 
@@ -39,15 +38,30 @@
 		showNNB();
 	}
 
+	interface NNBMap {
+		[id: string]: NNBInformation;
+	}
+
+	interface NNBInformation {
+		verified: boolean;
+		nnb: number;
+		degree?: boolean;
+		federal_judge?: boolean;
+		merits?: number;
+	}
+
 	async function showNNB() {
-		const data = await loadData().catch((error) => console.error("TT - Unhandled error. Report this to the TornTools developers!", error));
+		const data = await loadData().catch((error) => {
+			console.error("TT - Unhandled error. Report this to the TornTools developers!", error);
+			return false;
+		});
 		if (!data) return;
 
 		populateCrimes();
 		populateSelection();
 
 		async function loadData() {
-			const data = {};
+			const data: NNBMap = {};
 
 			if (settings.external.tornstats) await loadTornstats();
 			if (settings.external.yata) await loadYATA();
@@ -55,12 +69,12 @@
 			return data;
 
 			async function loadTornstats() {
-				let result;
+				let result: TornstatsFactionCrimes;
 				if (ttCache.hasValue("crimes", "tornstats")) {
-					result = ttCache.get("crimes", "tornstats");
+					result = ttCache.get<TornstatsFactionCrimes>("crimes", "tornstats");
 				} else {
 					try {
-						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "faction/crimes", relay: true });
+						result = await fetchData<TornstatsFactionCrimes>(FETCH_PLATFORMS.tornstats, { section: "faction/crimes", relay: true });
 
 						if (result.status) {
 							ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
@@ -93,12 +107,12 @@
 			}
 
 			async function loadYATA() {
-				let result;
+				let result: YATAFactionMembers;
 				if (ttCache.hasValue("crimes", "yata")) {
-					result = ttCache.get("crimes", "yata");
+					result = ttCache.get<YATAFactionMembers>("crimes", "yata");
 				} else {
 					try {
-						result = await fetchData("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
+						result = await fetchData<YATAFactionMembers>("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
 
 						ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
 					} catch (error) {
@@ -108,14 +122,14 @@
 				}
 
 				for (const [user, value] of Object.entries(result.members)) {
-					if (!value.NNB) continue;
+					if (!value.nnb) continue;
 
 					if (user in data) {
 						const { verified, nnb } = data[user];
-						if (!verified && nnb !== value.NNB) data[user].nnb = value.NNB;
+						if (!verified && nnb !== value.nnb) data[user].nnb = value.nnb;
 					} else {
 						data[user] = {
-							nnb: value.NNB,
+							nnb: value.nnb,
 							verified: true,
 						};
 					}
@@ -142,7 +156,7 @@
 				}
 
 				const id = row.find(".h").getAttribute("href").split("XID=")[1];
-				if (id in data) {
+				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 
 					stat.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb", text: `${verified ? "" : "*"}${nnb}` }));
@@ -171,7 +185,7 @@
 				}
 
 				const id = row.find(".h").getAttribute("href").split("XID=")[1];
-				if (id in data) {
+				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 
 					act.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb short", text: `${verified ? "" : "*"}${nnb}` }));

@@ -6,6 +6,34 @@ interface YATALoot {
 	timestamp: number;
 }
 
+interface YATAFactionMembers {
+	members: {
+		[id: string]: {
+			id: number;
+			name: string;
+			status: string;
+			last_action: number;
+			dif: number;
+			crimes_rank: number;
+			bonus_score: number;
+			nnb_share: number;
+			nnb: number;
+			energy_share: number;
+			energy: number;
+			refill: boolean;
+			drug_cd: number;
+			revive: boolean;
+			carnage: number;
+			stats_share: number;
+			stats_dexterity: number;
+			stats_defense: number;
+			stats_speed: number;
+			stats_strength: number;
+			stats_total: number;
+		};
+	};
+}
+
 interface TornstatsLoot {
 	[id: string]: {
 		name: string;
@@ -19,6 +47,25 @@ interface TornstatsLoot {
 		updated: number;
 	};
 }
+
+type TornstatsFactionCrimes =
+	| {
+			status: false;
+			message: string;
+	  }
+	| {
+			status: true;
+			message: string;
+			members: {
+				[id: string]: {
+					natural_nerve: 60;
+					crime_success: 9;
+					psych_degree: 1;
+					federal_judge: 1;
+					verified: 1;
+				};
+			};
+	  };
 
 interface LootRangersLoot {
 	time: {
@@ -50,11 +97,6 @@ type FFScouterResult = {
 }[];
 
 type TornW3BResult = {
-	// item_id: number;
-	// item_name: string;
-	// market_price: number;
-	// bazaar_average: number;
-	// total_listings: number;
 	listings: {
 		item_id: number;
 		player_id: number;

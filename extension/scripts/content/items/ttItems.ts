@@ -23,9 +23,11 @@ const pendingActions: { [key: string]: ActionItem } = {};
 
 				if (json.items) {
 					if (json.items.itemAppear) {
-						for (const item of json.items.itemAppear) {
-							triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: parseInt(item.qty), reason: "usage" });
-						}
+						json.items.itemAppear
+							.filter((item): item is { ID: string; qty: string; type: string } => !("isMoney" in item))
+							.forEach((item) => {
+								triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: parseInt(item.qty), reason: "usage" });
+							});
 					}
 					if (json.items.itemDisappear) {
 						for (const item of json.items.itemDisappear) {
@@ -122,7 +124,7 @@ type TornInternalUseItem =
 			itemCreate?: true;
 			itemID?: string;
 			items?: {
-				itemAppear: { ID: string; qty: string; type: string }[];
+				itemAppear: ({ ID: string; qty: string; type: string } | { moneyGain: string; isMoney: true })[];
 				itemDisappear: { ID: string; qty: string; type: string }[];
 			};
 	  };

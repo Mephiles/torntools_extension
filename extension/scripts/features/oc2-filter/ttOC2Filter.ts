@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isOwnFaction) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (hasOC1Data()) return "Still on OC1.";
+
+			return true;
 		}
 	);
 
@@ -36,7 +36,7 @@
 		});
 	}
 
-	const localFilters = {};
+	const localFilters: any = {};
 
 	async function addFilter() {
 		const list = await requireElement(".tt-oc2-list");
@@ -101,8 +101,8 @@
 		// Get the set filters
 		const content = findContainer("OC Filter", { selector: "main" });
 
-		const difficulty = localFilters.difficulty.getSelections(content).map((l) => parseInt(l));
-		const status = localFilters.status ? localFilters.status.getSelections(content) : [];
+		const difficulty: number[] = localFilters.difficulty.getSelections(content).map((l) => parseInt(l));
+		const status: string[] = localFilters.status ? localFilters.status.getSelections(content) : [];
 
 		const filters = { difficulty, status };
 

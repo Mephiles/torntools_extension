@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,8 +15,10 @@
 			storage: ["settings.pages.faction.ocTimes"],
 		},
 		async () => {
-			if (!hasAPIData() || !factiondata || !factiondata.crimes) return "No API access.";
+			if (!hasAPIData() || !factiondata || !("crimes" in factiondata) || !factiondata.crimes) return "No API access.";
 			else if (!hasOC1Data()) return "No OC 1 data.";
+
+			return true;
 		}
 	);
 
@@ -37,7 +37,7 @@
 	}
 
 	function showTimes() {
-		let oldDate = false;
+		let oldDate: boolean | string = false;
 
 		for (const crime of document.findAll(".organize-wrap .crimes-list > .item-wrap")) {
 			const details = crime.find(".details-wrap");
@@ -45,8 +45,8 @@
 
 			const id = details.dataset.crime;
 
-			let text;
-			if (id in factiondata.crimes) {
+			let text: string;
+			if ("crimes" in factiondata && id in factiondata.crimes) {
 				const finish = new Date(factiondata.crimes[id].time_ready * 1000);
 
 				const date = formatDate(finish);

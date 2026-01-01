@@ -1137,7 +1137,7 @@ const DEFAULT_STORAGE = {
 			targetType: new DefaultSetting<string[]>("array", []),
 		},
 		oc2: {
-			difficulty: new DefaultSetting<string[]>("array", []),
+			difficulty: new DefaultSetting<number[]>("array", []),
 			status: new DefaultSetting<string[]>("array", []),
 		},
 	},

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { hasSidebar } = await checkDevice();
 	if (!hasSidebar) return "Not supported on mobiles or tablets!";
@@ -7,7 +5,7 @@
 	featureManager.registerFeature(
 		"OC2 Time",
 		"sidebar",
-		() => settings.pages.sidebar.oc2Timer && userdata?.faction,
+		() => settings.pages.sidebar.oc2Timer && !!userdata?.faction,
 		null,
 		showTimer,
 		removeTimer,
@@ -22,6 +20,8 @@
 		() => {
 			if (!hasAPIData()) return "No API access.";
 			else if (!hasOC2Data()) return "No OC 2 data.";
+
+			return true;
 		}
 	);
 
@@ -32,9 +32,9 @@
 		await addInformationSection();
 		showInformationSection();
 
-		const elements = [];
+		const elements: Element[] = [];
 
-		const inCrime = userdata.organizedCrime !== null ? ["Recruiting", "Planning"].includes(userdata.organizedCrime.status) : false;
+		const inCrime = userdata.organizedCrime !== null ? ["Recruiting", "Planning"].includes((userdata.organizedCrime as FactionCrime).status) : false;
 		if (inCrime) {
 			elements.push(buildTimeLeftElement());
 			if (settings.pages.sidebar.oc2TimerPosition) {
@@ -61,7 +61,7 @@
 					}),
 					...elements,
 				],
-				style: { order: 1 },
+				style: { order: "1" },
 			})
 		);
 	}
@@ -69,20 +69,20 @@
 	function buildTimeLeftElement() {
 		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
 		const now = Date.now();
-		let readyAt;
+		let readyAt: number;
 		// Torn's ready_at value corresponds to the planning finish time for currently joined members
 		// If the OC is partially filled it will not provide an accurate end time (i.e. when it will initiate)
 
 		// Count the missing members
-		const missingMembers = userdata.organizedCrime.slots.filter(({ user }) => user === null).length;
+		const missingMembers = (userdata.organizedCrime as FactionCrime).slots.filter(({ user }) => user === null).length;
 
 		// Add 24 hours for every missing member
 		// The result is that this now provides the earliest projected end/initiation time
 		if (missingMembers > 0) {
 			const missingTime = TO_MILLIS.DAYS * missingMembers;
-			readyAt = Math.max(userdata.organizedCrime.ready_at * 1000 + missingTime, now + missingTime);
+			readyAt = Math.max((userdata.organizedCrime as FactionCrime).ready_at * 1000 + missingTime, now + missingTime);
 		} else {
-			readyAt = userdata.organizedCrime.ready_at * 1000;
+			readyAt = (userdata.organizedCrime as FactionCrime).ready_at * 1000;
 		}
 
 		const timeLeft = readyAt - now;
@@ -91,28 +91,28 @@
 		else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.classList.add("medium");
 
 		if (timeLeft > 0) {
-			const formatOptions = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
+			const formatOptions: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
 			timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
 
-			timeLeftElement.dataset.end = readyAt;
+			timeLeftElement.dataset.end = readyAt.toString();
 			timeLeftElement.dataset.timeSettings = JSON.stringify(formatOptions);
 			countdownTimers.push(timeLeftElement);
 		} else {
-			timeLeftElement.textContent = `Ready ${userdata.organizedCrime.status}`;
+			timeLeftElement.textContent = `Ready ${(userdata.organizedCrime as FactionCrime).status}`;
 		}
 
 		return timeLeftElement;
 	}
 
 	function buildPositionElement() {
-		const position = userdata.organizedCrime.slots.find(({ user }) => user?.id === userdata.profile.id)?.position ?? "???";
-		const name = userdata.organizedCrime.name;
+		const position = (userdata.organizedCrime as FactionCrime).slots.find(({ user }) => user?.id === userdata.profile.id)?.position ?? "???";
+		const name = (userdata.organizedCrime as FactionCrime).name;
 
 		return document.newElement({ type: "span", class: "position", text: `${position} in ${name}` });
 	}
 
 	function buildLevelElement() {
-		const level = userdata.organizedCrime.difficulty;
+		const level = (userdata.organizedCrime as FactionCrime).difficulty;
 
 		return document.newElement({ type: "span", class: "position", text: ` (Lvl ${level})` });
 	}
@@ -120,4 +120,6 @@
 	function removeTimer() {
 		document.find("#oc2Timer")?.remove();
 	}
+
+	return true;
 })();

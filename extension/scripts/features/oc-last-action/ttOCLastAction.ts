@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,8 +15,10 @@
 			storage: ["settings.pages.faction.ocLastAction"],
 		},
 		async () => {
-			if (!hasAPIData() || !factiondata || !factiondata.members) return "No API access.";
+			if (!hasAPIData() || !factiondata || !("members" in factiondata)) return "No API access.";
 			else if (!hasOC1Data()) return "No OC 1 data.";
+
+			return true;
 		}
 	);
 
@@ -40,9 +40,9 @@
 		const nowDate = Date.now();
 
 		for (const row of document.findAll(".organize-wrap .crimes-list .details-list > li:not(:first-child) > ul")) {
-			const id = new URL(row.find(".member a").href).searchParams.get("XID");
+			const id = new URL(row.find<HTMLAnchorElement>(".member a").href).searchParams.get("XID");
 
-			const lastAction = factiondata.members[id].last_action;
+			const lastAction = (factiondata as StoredFactiondataFullAccess).members[id].last_action;
 			const hours = ((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
 			row.insertAdjacentElement(
