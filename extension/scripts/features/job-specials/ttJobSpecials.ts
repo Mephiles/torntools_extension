@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,7 @@
 		},
 		async () => {
 			await checkDevice();
+			return true;
 		}
 	);
 
@@ -38,8 +37,8 @@
 		const companyType = document.find(".details-wrap ul.info .m-title .m-show:not(.arrow-left)").textContent.trim();
 		const companyInfo = COMPANY_INFORMATION[companyType];
 
-		for (const stars of [1, 3, 5, 7, 10]) {
-			let name, cost, effect;
+		for (const stars of [1, 3, 5, 7, 10] as const) {
+			let name: string, cost: string, effect: string;
 			if (stars in companyInfo) {
 				name = companyInfo[stars].name;
 				cost = companyInfo[stars].cost;
@@ -50,9 +49,9 @@
 				effect = "";
 			}
 
-			let costText;
+			let costText: string;
 			if (cost === "Passive" || cost === "N/A") costText = cost;
-			else costText = `${cost} job point${applyPlural(cost)}`;
+			else costText = `${cost} job point${applyPlural(parseInt(cost))}`;
 
 			if (!mobile) {
 				content.appendChild(

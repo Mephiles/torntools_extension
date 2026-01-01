@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { mobile, tablet } = await checkDevice();
 
@@ -16,7 +14,7 @@
 
 	function addListener() {
 		document.addEventListener("click", (event) => {
-			if (!event.target.matches("[class*='rowWrapper__'] [class*='available__']")) return;
+			if (!isElement(event.target) || !event.target.matches("[class*='rowWrapper__'] [class*='available__']")) return;
 
 			if (!feature.enabled()) return;
 
@@ -30,7 +28,7 @@
 			const itemPrice = listing.find("[class*='price__']").textContent.getNumber();
 			const purchasableQuantity = Math.min(quantityAvailable, Math.floor(moneyOnHand / itemPrice));
 
-			const quantityInput = listing.find(".input-money-group input:not([type])");
+			const quantityInput = listing.find<HTMLInputElement>(".input-money-group input:not([type])");
 			updateReactInput(quantityInput, purchasableQuantity);
 		});
 	}

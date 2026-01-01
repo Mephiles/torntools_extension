@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Job Points Tooltip",
@@ -15,6 +13,8 @@
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.apiUsage.user.jobpoints) return "Job points API usage disabled.";
 			else if (!userdata.job) return "Currently you don't have a job.";
+
+			return true;
 		}
 	);
 
@@ -66,13 +66,17 @@
 		else tooltipBodyEl.insertAdjacentText("beforeend", pointsText);
 	}
 
+	interface AllJobPoints {
+		[jobOrCompanyId: string | number]: number;
+	}
+
 	async function getAllJobPoints() {
 		if (ttCache.hasValue("job", "points")) {
-			return ttCache.get("job", "points");
+			return ttCache.get<AllJobPoints>("job", "points");
 		} else {
 			try {
 				const response = (
-					await fetchData("tornv2", {
+					await fetchData<UserJobPointsResponse>("tornv2", {
 						section: "user",
 						selections: ["jobpoints"],
 						silent: true,
@@ -80,7 +84,7 @@
 					})
 				).jobpoints;
 
-				const jobPoints = { ...response.jobs };
+				const jobPoints: AllJobPoints = { ...response.jobs };
 				response.companies.forEach((c) => (jobPoints[c.company.id] = c.points));
 
 				await ttCache.set({ points: jobPoints }, getTimeUntilNextJobUpdate(), "job");

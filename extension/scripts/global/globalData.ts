@@ -395,7 +395,7 @@ type QuickCrime = {
 	icon: string;
 	text: string;
 };
-type QuickJail = ("bust" | "bail")[];
+type QuickJail = "bust" | "bail";
 
 type NotificationMap = { [key: string]: TTNotification };
 type StoredProfileNotes = { [id: number]: { height: string; text: string } };
@@ -934,6 +934,7 @@ const DEFAULT_STORAGE = {
 			levelEnd: new DefaultSetting("number", 100),
 			scoreStart: new DefaultSetting("number", 0),
 			scoreEnd: new DefaultSetting("number", 5000),
+			bailCost: new DefaultSetting("number", 5000),
 		},
 		racing: {
 			hideRaces: new DefaultSetting<string[]>("array", []),

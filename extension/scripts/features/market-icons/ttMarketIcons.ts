@@ -1,7 +1,5 @@
-"use strict";
-
 (async () => {
-	if (!getPageStatus().access) return;
+	if (!getPageStatus().access) return false;
 
 	if ((await checkDevice()).mobile) return "Not supported on mobile!";
 
@@ -28,7 +26,7 @@
 		await requireItemsLoaded();
 
 		let isFirst = true;
-		let lastItem;
+		let lastItem: Element | undefined;
 		for (const item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]:not(.tt-ignore):not(.ajax-placeholder)")) {
 			if (item.find(".market-link")) continue;
 
@@ -72,4 +70,6 @@
 			link.remove();
 		}
 	}
+
+	return true;
 })();

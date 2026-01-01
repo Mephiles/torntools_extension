@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -29,9 +27,15 @@
 			if (page === "item" && !hasAPIData()) return "No API access.";
 
 			await checkDevice();
+			return true;
 		},
 		{ triggerCallback: true }
 	);
+
+	interface ItemValuesXHROptions {
+		addRelative?: boolean;
+		ignoreUntradable?: boolean;
+	}
 
 	function initialiseItemValues() {
 		switch (page) {
@@ -59,7 +63,7 @@
 			showItemValues(tab);
 		}
 
-		function setupXHR(options = {}) {
+		function setupXHR(options: ItemValuesXHROptions = {}) {
 			addXHRListener(({ detail: { page, xhr, json } }) => {
 				if (!json || page !== "inventory") return;
 
@@ -67,24 +71,24 @@
 			});
 		}
 
-		function handleRequest(xhr, json, options = {}) {
+		function handleRequest(xhr: XHRDetails["xhr"], json: any, options: ItemValuesXHROptions = {}) {
 			const params = new URLSearchParams(xhr.requestBody);
 
 			const step = params.get("step");
 			switch (step) {
 				case "getList":
 				case "getListById":
-					showInventoryList(params.get("type") || false, json.list, options).catch((error) => console.error("Couldn't show the item values.", error));
+					showInventoryList(params.get("type") || null, json.list, options).catch((error) => console.error("Couldn't show the item values.", error));
 					break;
 			}
 		}
 	}
 
-	async function showInventoryList(type, items, options = {}) {
-		options = {
+	async function showInventoryList(type: string | null, items: any[], partialOptions: ItemValuesXHROptions = {}) {
+		const options: Required<ItemValuesXHROptions> = {
 			ignoreUntradable: true,
 			addRelative: false,
-			...options,
+			...partialOptions,
 		};
 
 		const list = getCurrentList();
@@ -119,7 +123,7 @@
 						valueWrap.innerHTML = "";
 						valueWrap.classList.add("tt-item-price-color");
 						addValue(valueWrap, quantity, price);
-					} else if (valueWrap && valueWrap.clientWidth && (!valueWrap.nextSibling || !valueWrap.nextSibling.childElementCount)) {
+					} else if (valueWrap && valueWrap.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
 						valueWrap.style.setProperty("position", "relative");
 
 						const priceElement = document.newElement({ type: "span", class: "tt-item-price" });
@@ -193,13 +197,13 @@
 				}).observe(wrapper, { attributes: true, attributeFilter: ["class"] });
 			}
 		}, 0);
-	}*/
+	}
 
 	function removeTotal(list) {
 		list.find(".tt-ignore .tt-item-price")?.parentElement.remove();
-	}
+	}*/
 
-	function addValue(priceElement, quantity, price) {
+	function addValue(priceElement: Element, quantity: number, price: number) {
 		const totalPrice = quantity * price;
 		if (totalPrice) {
 			if (quantity > 1) {
@@ -230,7 +234,7 @@
 		}
 	}
 
-	function showItemValues(list) {
+	function showItemValues(list: HTMLElement) {
 		if (!list.dataset) return;
 
 		// TODO: API Inventory Block.
@@ -243,11 +247,11 @@
 			const parent = mobile || tablet ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
 
 			const quantity = parseInt(item.find(".item-amount.qty").textContent) || 1;
-			const totalPrice = quantity * parseInt(price);
+			const totalPrice = quantity * price;
 
 			if (parent.find(".tt-item-price")) continue;
 
-			let priceElement;
+			let priceElement: HTMLElement;
 			if (item.find(".bonuses-wrap")) {
 				priceElement = document.newElement({ type: "li", class: "tt-item-price fl" });
 			} else {
@@ -297,7 +301,7 @@
 		}
 	}
 
-	function updateItemAmount(id, change) {
+	function updateItemAmount(id: string, change: number) {
 		for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
 			const priceElement = item.find(".tt-item-price");
 			if (!priceElement) continue;

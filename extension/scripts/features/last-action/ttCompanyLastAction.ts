@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Last Action",
@@ -13,6 +11,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access!";
+
+			return true;
 		},
 		{ triggerCallback: true }
 	);
@@ -25,7 +25,7 @@
 		});
 	}
 
-	async function addLastAction(force) {
+	async function addLastAction(force: boolean) {
 		if (isOwnCompany && getHashParameters().get("option") !== "employees" && !force) return;
 		if (document.find(".tt-last-action")) return;
 		if (isOwnCompany && !settings.scripts.lastAction.companyOwn) return;
@@ -33,30 +33,14 @@
 
 		await requireElement(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li");
 
-		let id;
-		if (isOwnCompany) {
-			id = userdata.job?.id;
-		} else {
-			id = parseInt(getHashParameters().get("ID"));
-			if (isNaN(id)) {
-				const companyName = document.find(".company-details").dataset.name;
-				if (ttCache.hasValue("company-ids", companyName)) {
-					id = ttCache.get("company-ids", companyName);
-				} else {
-					const directorID = document.find(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
-					const directorData = await fetchData("tornv2", { section: "user", selections: ["job"], id: directorID });
-					id = directorData.job?.id;
-					ttCache.set({ [companyName]: id }, TO_MILLIS.SECONDS * 30, "company-ids").then(() => {});
-				}
-			}
-		}
+		const id = await extractCompanyId();
 
-		let employees;
+		let employees: CompanyV1Employees;
 		if (ttCache.hasValue("company-employees", id)) {
 			employees = ttCache.get("company-employees", id);
 		} else {
 			employees = (
-				await fetchData("tornv2", {
+				await fetchData<CompanyV1ProfileResponse>("tornv2", {
 					section: "company",
 					id: id,
 					selections: ["profile"],
@@ -86,6 +70,33 @@
 			);
 		}
 		list.classList.add("tt-modified");
+	}
+
+	async function extractCompanyId(): Promise<number> {
+		if (isOwnCompany && userdata.job && userdata.job.type === "company") {
+			return userdata.job.id;
+		}
+
+		const id = parseInt(getHashParameters().get("ID"));
+		if (!isNaN(id)) {
+			return id;
+		}
+
+		const companyName = document.find(".company-details").dataset.name;
+		if (ttCache.hasValue("company-ids", companyName)) {
+			return ttCache.get<number>("company-ids", companyName);
+		} else {
+			const directorID = document.find<HTMLAnchorElement>(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
+			const directorData = await fetchData<UserJobResponse>("tornv2", { section: "user", selections: ["job"], id: directorID });
+
+			if (directorData.job && directorData.job.type === "company") {
+				const companyId = directorData.job.id;
+				ttCache.set({ [companyName]: companyId }, TO_MILLIS.SECONDS * 30, "company-ids").then(() => {});
+				return companyId;
+			}
+		}
+
+		throw new Error("Failed to extract company id.");
 	}
 
 	function removeLastAction() {

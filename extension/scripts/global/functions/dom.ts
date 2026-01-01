@@ -503,8 +503,8 @@ function showInformationSection() {
 	document.find(".tt-sidebar-information")?.classList.remove("tt-hidden");
 }
 
-function isElement(node: Node | EventTarget): node is Element {
-	return "nodeType" in node && node.nodeType === Node.ELEMENT_NODE;
+function isElement(node: Node | EventTarget | null): node is Element {
+	return node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE;
 }
 
 function isTextNode(node: Node): node is Text {

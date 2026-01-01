@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { hasSidebar } = await checkDevice();
 	if (!hasSidebar) return "Not supported on mobiles or tablets!";
@@ -17,6 +15,8 @@
 		() => {
 			if (!settings.external.yata && !settings.external.tornstats && !settings.external.lzpt) return "YATA, TornStats or LZPT not enabled";
 			else if (npcs === null) return "NPC data is not yet available.";
+
+			return true;
 		}
 	);
 
@@ -31,9 +31,9 @@
 
 		const now = Date.now();
 
-		const timerSettings = { type: "wordTimer", extraShort: true };
+		const timerSettings: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true };
 		if ("planned" in npcs) {
-			let timer;
+			let timer: HTMLElement;
 			if (npcs.planned) {
 				const left = npcs.planned - now;
 				timer = document.newElement({
@@ -67,9 +67,9 @@
 		let hasNotScheduled = false;
 		for (const [id, npc] of Object.entries(npcs.targets).sort(([, a], [, b]) => a.order - b.order)) {
 			const status = npc.current === 0 ? "Hospital" : `Level ${npc.current}`;
-			const next = npc.current !== 5 ? npc.current + 1 : false;
+			const next = npc.current !== 5 ? npc.current + 1 : null;
 
-			let timer;
+			let timer: HTMLElement;
 			if (next) {
 				const left = npc.levels[next] - now;
 
@@ -119,6 +119,8 @@
 				class: `npc-notifications fa-solid ${settings.notifications.types.npcsGlobal ? "fa-bell" : "fa-bell-slash"}`,
 				events: {
 					click(event) {
+						if (!isElement(event.target)) return;
+
 						const notifications = event.target.classList.toggle("fa-bell");
 
 						if (notifications) event.target.classList.remove("fa-bell-slash");
@@ -136,4 +138,6 @@
 	function removeNPCs() {
 		removeContainer("NPCs", { id: "npc-loot-times" });
 	}
+
+	return true;
 })();

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.ammo) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -42,7 +42,7 @@
 			if (type === "Ammo") {
 				const { title: size, ammoType } = information;
 
-				const found = findItemsInList(userdata.ammo, { size, type: ammoType }, { single: true });
+				const found = findItemInList(userdata.ammo, { size, type: ammoType });
 				const owned = found ? found.quantity : 0;
 
 				actionsWrap.insertBefore(

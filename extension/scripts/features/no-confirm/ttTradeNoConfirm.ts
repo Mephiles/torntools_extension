@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Trade No Confirm",
@@ -7,7 +5,6 @@
 		() => settings.scripts.noConfirm.tradeAccept,
 		initialiseListeners,
 		removeConfirmation,
-		null,
 		null,
 		{
 			storage: ["settings.scripts.noConfirm.tradeAccept"],

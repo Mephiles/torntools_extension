@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const page = getPage();
 
@@ -45,7 +43,7 @@
 			document.find("#faction-armoury").addEventListener("click", (event) => {
 				if (!feature.enabled()) return;
 
-				if (!event.target.classList.contains("use")) return;
+				if (!isElement(event.target) || !event.target.classList.contains("use")) return;
 
 				const id = event.target.closest(".item-use-act").find(".use-cont").dataset.itemid.getNumber();
 				if (!doesRestoreLife(id)) return;
@@ -55,11 +53,11 @@
 		}
 	}
 
-	function doesRestoreLife(id) {
+	function doesRestoreLife(id: number) {
 		return id in MEDICAL_ITEMS;
 	}
 
-	async function showInformation(id) {
+	async function showInformation(id: number) {
 		const perks = userdata.education_perks
 			.filter((perk) => perk.includes("Medical item effectiveness"))
 			.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
@@ -73,7 +71,7 @@
 		const replenish = Math.max(Math.min(maximumLife * (percentage / 100), maximumLife - currentLife), 0);
 		const newLife = currentLife + replenish;
 
-		let actionWrap;
+		let actionWrap: Element;
 		if (page === "item") {
 			actionWrap = await requireElement(".use-action[style*='display: block;'] #wai-action-desc, .use-action:not([style]) #wai-action-desc");
 		} else if (page === "factions") {

@@ -1,5 +1,3 @@
-"use strict";
-
 (() => {
 	featureManager.registerFeature(
 		"Market Left Bar",

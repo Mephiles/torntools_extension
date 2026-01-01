@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature("Item No Confirm", "no confirm", () => settings.scripts.noConfirm.itemEquip, injectAdjustments, null, null, null, null);
 

@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -9,7 +7,7 @@
 
 	function addListener() {
 		document.addEventListener("click", (event) => {
-			if (feature.enabled() && event.target.closest(".museum-map > .pinpoint, .museum #tabs .boxes > .box")) autoFill();
+			if (feature.enabled() && isElement(event.target) && event.target.closest(".museum-map > .pinpoint, .museum #tabs .boxes > .box")) autoFill();
 		});
 	}
 
@@ -20,7 +18,7 @@
 		document.findAll("[aria-hidden*='false'] .item-amount.qty").forEach((qty) => quantities.push(qty.textContent.getNumber() || 0));
 		const leastQuantity = !quantities.includes(0) ? quantities.sort((a, b) => a - b)[0] : false;
 		if (leastQuantity !== false) {
-			const input = document.find("[aria-hidden*='false'] .set-description input[type*='tel']");
+			const input = document.find<HTMLInputElement>("[aria-hidden*='false'] .set-description input[type*='tel']");
 			if (!input.disabled) {
 				input.value = leastQuantity;
 				input.dispatchEvent(new Event("keyup"));

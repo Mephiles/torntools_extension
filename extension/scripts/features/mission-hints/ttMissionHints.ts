@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -344,10 +342,10 @@
 		};
 
 		for (const context of document.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
-			const title = context.find(".title-black").childNodes[0].wholeText.replace(/\n/g, "").trim();
+			const title = (context.find(".title-black").childNodes[0] as Text).wholeText.replace(/\n/g, "").trim();
 
 			const key = transformTitle(title);
-			let task, hint;
+			let task: string, hint: HTMLElement | string | null;
 			if (key in MISSION_HINTS) {
 				const mission = MISSION_HINTS[key];
 
@@ -378,7 +376,7 @@
 			context.classList.add("tt-modified");
 		}
 
-		function transformTitle(title) {
+		function transformTitle(title: string) {
 			return title.toLowerCase().replaceAll(" ", "_").replaceAll(":", "").replaceAll("-", "_").replaceAll("!", "").replaceAll(",", "");
 		}
 	}

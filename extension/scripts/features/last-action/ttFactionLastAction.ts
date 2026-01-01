@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Last Action",
@@ -13,11 +11,13 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access!";
+
+			return true;
 		},
 		{ triggerCallback: true, liveReload: true }
 	);
 
-	let _members;
+	let _members: FactionMember[] | undefined;
 
 	function addListener() {
 		if (isOwnFaction) {
@@ -47,7 +47,7 @@
 		});
 	}
 
-	async function addLastAction(force) {
+	async function addLastAction(force: boolean) {
 		if (isOwnFaction && !force) return;
 		if (document.find(".tt-last-action")) return;
 
@@ -84,17 +84,17 @@
 			row.insertAdjacentElement("afterend", element);
 			if (hours > maxHours) maxHours = hours;
 		});
-		list.setAttribute("max-hours", maxHours);
+		list.setAttribute("max-hours", maxHours.toString());
 
-		async function loadMembers(id) {
+		async function loadMembers(id: number | "own") {
 			if (!_members) {
 				if (ttCache.hasValue("faction-members", id)) {
-					_members = ttCache.get("faction-members", id);
+					_members = ttCache.get<FactionMember[]>("faction-members", id);
 				} else {
 					_members = (
-						await fetchData("tornv2", {
+						await fetchData<FactionMembersResponse>("tornv2", {
 							section: "faction",
-							...(isNaN(id) ? {} : { id }),
+							...(isNaN(parseInt(id.toString())) ? {} : { id }),
 							selections: ["members"],
 							silent: true,
 							succeedOnError: true,

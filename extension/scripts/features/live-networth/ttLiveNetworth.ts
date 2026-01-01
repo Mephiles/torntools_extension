@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,6 +15,8 @@
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -30,7 +30,7 @@
 			compact: true,
 			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),
 		});
-		const networthRow = newRow("(Live) Networth", `${formatNumber(userdata.networth.total, { currency: true })}`);
+		const networthRow = newRow("(Live) Networth", formatNumber(userdata.networth.total, { currency: true }));
 
 		// Networth last updated info icon
 		const infoIcon = document.newElement({
@@ -51,7 +51,7 @@
 
 			if (!infoIcon.hasAttribute("aria-describedby"))
 				infoIcon.setAttribute("title", `Last updated: ${formatTime({ milliseconds: Date.now() - seconds * 1000 }, { type: "ago" })}`);
-			infoIcon.setAttribute("seconds", seconds);
+			infoIcon.setAttribute("seconds", seconds.toString());
 		}, 1000);
 
 		const table = document.newElement({
@@ -84,7 +84,7 @@
 			})
 		);
 
-		function newRow(name, value) {
+		function newRow(name: string, value: string) {
 			return document.newElement({
 				type: "li",
 				class: "networth-row",
@@ -115,11 +115,13 @@
 				"Item Market",
 				"Loan",
 				"Total",
-			];
+			] as const;
 		}
 
-		function addToTable(type) {
-			let current, previous;
+		type NetworthType = ReturnType<typeof getNetworthTypes>[number];
+
+		function addToTable(type: NetworthType) {
+			let current: number, previous: number;
 
 			let nameNetworth = type.toLowerCase().replaceAll(" ", "");
 			let nameStats = type.toLowerCase().replaceAll(" ", "_");
@@ -130,7 +132,6 @@
 			else if (type === "Items") nameStats = "inventory";
 			else if (type === "Properties") nameStats = "property";
 			else if (type === "Loan") nameStats = "loans";
-			else if (type === "Vault") nameStats = "vaults";
 
 			if (type.includes("Cash")) {
 				current = userdata.networth.wallet + userdata.networth.vault;

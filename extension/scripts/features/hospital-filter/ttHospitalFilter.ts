@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -24,7 +22,7 @@
 		});
 	}
 
-	const localFilters = {};
+	const localFilters: any = {};
 
 	async function addFilters() {
 		await requireElement(".userlist-wrapper.hospital-list-wrapper .users-list .time");
@@ -102,12 +100,12 @@
 		await filtering();
 	}
 
-	async function filtering(pageChange) {
+	async function filtering(pageChange: boolean = false) {
 		await requireElement(".users-list > li");
 		const content = findContainer("Hospital Filter").find("main");
-		const activity = localFilters["Activity"].getSelections(content);
-		const revivesOn = localFilters["Revives"].isChecked(content);
-		const faction = localFilters["Faction"].getSelected(content).trim();
+		const activity: string[] = localFilters["Activity"].getSelections(content);
+		const revivesOn: boolean = localFilters["Revives"].isChecked(content);
+		const faction: string = localFilters["Faction"].getSelected(content).trim();
 		const times = localFilters["Time Filter"].getStartEnd(content);
 		const timeStart = parseInt(times.start);
 		const timeEnd = parseInt(times.end);
@@ -158,7 +156,7 @@
 
 			// Faction
 
-			const rowFaction = li.find(".user.faction");
+			const rowFaction = li.find<HTMLAnchorElement>(".user.faction");
 			const hasFaction = !!rowFaction.href;
 			const factionName = rowFaction.hasAttribute("rel")
 				? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
@@ -202,11 +200,11 @@
 			}
 		}
 
-		function showRow(li) {
+		function showRow(li: Element) {
 			li.classList.remove("tt-hidden");
 		}
 
-		function hideRow(li) {
+		function hideRow(li: Element) {
 			li.classList.add("tt-hidden");
 		}
 

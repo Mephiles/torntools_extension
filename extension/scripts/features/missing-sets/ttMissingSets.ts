@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -17,6 +15,7 @@
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 
 			await checkDevice();
+			return true;
 		}
 	);
 	const featurePlushies = featureManager.registerFeature(
@@ -33,6 +32,7 @@
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 
 			await checkDevice();
+			return true;
 		}
 	);
 
@@ -71,7 +71,7 @@
 	}
 
 	async function showFlowers() {
-		await show("needed-flowers", "#flowers-items", "missingFlowers", SETS.FLOWERS);
+		await show("needed-flowers", "#flowers-items", SETS.FLOWERS);
 	}
 
 	function removeFlowers() {
@@ -79,20 +79,20 @@
 	}
 
 	async function showPlushies() {
-		await show("needed-plushies", "#plushies-items", "missingPlushies", SETS.PLUSHIES);
+		await show("needed-plushies", "#plushies-items", SETS.PLUSHIES);
 	}
 
 	function removePlushies() {
 		if (document.find("#needed-plushies")) document.find("#needed-plushies").remove();
 	}
 
-	async function show(id, selector, option, items) {
+	async function show(id: string, selector: string, items: SetItem[]) {
 		if (document.find(`#${id}`)) document.find(`#${id}`).remove();
 
-		let currentItems = document.findAll(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
-		if (!currentItems.length || currentItems.length === items.length) return;
+		const currentItemsElements = document.findAll(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
+		if (!currentItemsElements.length || currentItemsElements.length === items.length) return;
 
-		currentItems = [...currentItems].map((x) => parseInt(x.dataset.item));
+		const currentItems = Array.from(currentItemsElements).map((x) => parseInt(x.dataset.item));
 		const needed = items.filter((x) => !currentItems.some((y) => x.id === y)).sort((a, b) => a.name.localeCompare(b.name));
 		if (needed.length <= 0) return;
 
@@ -124,7 +124,7 @@
 		document.find(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
 	}
 
-	function addItemValue(missingItem) {
+	function addItemValue(missingItem: HTMLElement) {
 		if (!settings.pages.items.values) return;
 		if (!hasAPIData()) return;
 
@@ -144,7 +144,7 @@
 		}
 	}
 
-	async function addMarketIcon(missingItem, first, last) {
+	async function addMarketIcon(missingItem: HTMLElement, first: boolean, last: boolean) {
 		if (!settings.pages.items.marketLinks) return;
 		if (mobile) return;
 		if (missingItem.find(".market-link")) return;

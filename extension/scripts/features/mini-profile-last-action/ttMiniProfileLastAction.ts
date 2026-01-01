@@ -1,8 +1,4 @@
-"use strict";
-
 (async () => {
-	let mouseY;
-
 	const feature = featureManager.registerFeature(
 		"Mini Profile Last Action",
 		"global",
@@ -33,12 +29,9 @@
 
 			showInformation(json);
 		});
-		document.addEventListener("mousemove", (event) => {
-			mouseY = event.y;
-		});
 	}
 
-	async function showInformation(information) {
+	async function showInformation(information: any) {
 		if (isNaN(information.user.lastAction.seconds)) return;
 
 		const miniProfile = document.find("#profile-mini-root .mini-profile-wrapper");
