@@ -145,7 +145,6 @@
 
 		const upperLimit = parseInt(document.find(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
 
-		// noinspection JSIncompatibleTypesComparison
 		const lastActiveFilter = createFilterSection({
 			title: "Last Active Filter",
 			noTitle: true,
