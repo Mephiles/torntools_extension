@@ -5,14 +5,14 @@ const SETUP_PAGES = {
 	calculator: setupCalculator,
 	stocks: setupStocksOverview,
 	notifications: setupNotifications,
-} as const;
+} as const satisfies Record<string, () => Promise<void>>;
 const LOAD_PAGES = {
 	market: loadMarketSearch,
 	calculator: loadCalculator,
-} as const;
+} as const satisfies Record<string, () => Promise<void>>;
 
 // @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
-const initiatedPages = {};
+const initiatedPages: string[] = [];
 
 (async () => {
 	document.body.style.minWidth = `${Math.min(416, screen.availWidth * 0.8)}px`;
@@ -61,7 +61,7 @@ const initiatedPages = {};
 })();
 
 // @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
-async function showPage(name: string) {
+async function showPage(name: keyof typeof SETUP_PAGES) {
 	document.find(`#${name}`).classList.add("active");
 
 	for (const active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
@@ -69,9 +69,9 @@ async function showPage(name: string) {
 	if (document.find(`#pages li[to="${name}"]`)) document.find(`#pages li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
 
-	if ((name in SETUP_PAGES && !(name in initiatedPages)) || !initiatedPages[name]) {
+	if (name in SETUP_PAGES && !initiatedPages.includes(name)) {
 		await SETUP_PAGES[name]();
-		initiatedPages[name] = true;
+		initiatedPages.push(name);
 	}
 	if (name in LOAD_PAGES) {
 		await LOAD_PAGES[name]();
@@ -247,18 +247,21 @@ async function setupDashboard() {
 
 		// Bars
 		if (settings.apiUsage.user.bars) {
-			for (const bar of ["energy", "nerve", "happy", "life"]) {
-				updateBar(bar, userdata[bar]);
-			}
+			updateBar("energy", userdata.energy);
+			updateBar("nerve", userdata.nerve);
+			updateBar("happy", userdata.happy);
+			updateBar("life", userdata.life);
+
 			updateChainBar(userdata.chain);
 		}
 
 		if (settings.apiUsage.user.travel) updateTravelBar();
 		// Cooldowns
-		if (settings.apiUsage.user.cooldowns)
-			for (const cooldown of ["drug", "booster", "medical"]) {
-				updateCooldown(cooldown, userdata.cooldowns[cooldown]);
-			}
+		if (settings.apiUsage.user.cooldowns) {
+			updateCooldown("drug", userdata.cooldowns.drug);
+			updateCooldown("booster", userdata.cooldowns.booster);
+			updateCooldown("medical", userdata.cooldowns.medical);
+		}
 		// Extra information
 		updateExtra();
 		updateActions();
@@ -404,7 +407,7 @@ async function setupDashboard() {
 			updateBarTimer(dashboard.find("#traveling"));
 		}
 
-		function updateCooldown(name: string, cooldown) {
+		function updateCooldown(name: string, cooldown: number) {
 			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0).toString();
 
 			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
@@ -508,7 +511,7 @@ async function setupDashboard() {
 		dataset.tick = tick;
 	}
 
-	function updateCooldownTimer(cooldown) {
+	function updateCooldownTimer(cooldown: HTMLElement) {
 		const dataset = cooldown.dataset;
 		const current = Date.now();
 
@@ -791,8 +794,8 @@ async function setupMarketSearch() {
 		Promise.all([
 			// Torn market data
 			ttCache.hasValue("livePrice", id)
-				? Promise.resolve(ttCache.get("livePrice", id))
-				: fetchData("tornv2", {
+				? Promise.resolve(ttCache.get<MarketItemMarketResponse>("livePrice", id))
+				: fetchData<MarketItemMarketResponse>("tornv2", {
 						section: "market",
 						id,
 						selections: ["itemmarket"],
@@ -803,12 +806,12 @@ async function setupMarketSearch() {
 					}), // TornW3B market data - only fetch if both bazaar search is enabled and connection to TornW3B is allowed
 			settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b
 				? ttCache.hasValue("tornw3bPrice", id)
-					? Promise.resolve(ttCache.get("tornw3bPrice", id))
-					: fetchData("tornw3b", { section: `marketplace/${id}` }).then((result) => {
+					? Promise.resolve(ttCache.get<TornW3BResult>("tornw3bPrice", id))
+					: fetchData<TornW3BResult>("tornw3b", { section: `marketplace/${id}` }).then((result) => {
 							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
 							return result;
 						})
-				: Promise.resolve({ listings: [] }),
+				: Promise.resolve<TornW3BResult>({ listings: [] }),
 		])
 			.then(([tornResult, tornw3bResult]) => {
 				handleMarket(tornResult, tornw3bResult);
@@ -819,7 +822,7 @@ async function setupMarketSearch() {
 			})
 			.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
 
-		function handleMarket(tornResult, tornw3bResult) {
+		function handleMarket(tornResult: MarketItemMarketResponse, tornw3bResult: TornW3BResult) {
 			const list = viewItem.find(".market");
 			list.innerHTML = "";
 
@@ -1472,9 +1475,14 @@ async function setupStocksOverview() {
 async function setupNotifications() {
 	const notifications = document.find("#notifications ul");
 
-	notificationHistory.map(createEntry).forEach((entry) => notifications.appendChild(entry));
+	notificationHistory
+		.map(createEntry)
+		.filter((element) => element !== null)
+		.forEach((entry) => notifications.appendChild(entry));
 
-	function createEntry(notification) {
+	function createEntry(notification: TTNotification) {
+		if ("combined" in notification) return null;
+
 		const { message, date, url } = notification;
 		const title = notification.title.replace("TornTools - ", "");
 

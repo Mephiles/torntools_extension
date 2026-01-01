@@ -317,7 +317,13 @@ interface StoredFactionStakeouts {
 	date: number;
 	[id: string]:
 		| {
-				alerts: never;
+				alerts: {
+					chainReaches: number | null;
+					memberCountDrops: number | null;
+					rankedWarStarts: boolean;
+					inRaid: boolean;
+					inTerritoryWar: boolean;
+				};
 				info: {
 					name: string;
 					chain: number;
@@ -332,6 +338,8 @@ interface StoredFactionStakeouts {
 		  }
 		| number;
 }
+
+type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReaches: number } };
 
 type StoredFactiondataNoAccess = { access: "none"; error?: any; retry?: number };
 type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number };
@@ -497,7 +505,7 @@ const DEFAULT_STORAGE = {
 				cooldownDrug: new DefaultSetting<number[]>("array", []),
 				cooldownBooster: new DefaultSetting<number[]>("array", []),
 				cooldownMedical: new DefaultSetting<number[]>("array", []),
-				stocks: new DefaultSetting("object", {}),
+				stocks: new DefaultSetting<StoredStockNotifications>("object", {}),
 				missionsLimitEnabled: new DefaultSetting("boolean", false),
 				missionsLimit: new DefaultSetting("string", ""),
 				missionsExpireEnabled: new DefaultSetting("boolean", false),

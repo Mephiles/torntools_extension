@@ -29,7 +29,7 @@ class HTTPException {
 		return `HTTP ${this.code}: ${this.message}`;
 	}
 
-	static get codes() {
+	static get codes(): { [code: number]: string } {
 		return {
 			200: "OK",
 			201: "Created",

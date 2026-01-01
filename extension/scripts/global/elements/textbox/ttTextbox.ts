@@ -1,7 +1,7 @@
 interface TextboxOptions {
-	description: string | { before: string; after: string } | null;
+	description: string | { before?: string; after?: string } | null;
 	id: string;
-	type: "text";
+	type: "text" | "number";
 	attributes: { [key: string]: string };
 	style: { [key: string]: string };
 }

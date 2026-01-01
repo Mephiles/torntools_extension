@@ -43,8 +43,8 @@
 	let localFilters: any = {};
 
 	async function addFilter(section: string | null) {
-		if (!["weapons", "armour", "temporary"].includes(section)) return;
-		else if (section === "armour") section = "armor";
+		if (section === "armour") section = "armor";
+		if (section !== "weapons" && section !== "armor" && section !== "temporary") return;
 
 		const { options, content } = createContainer("Armory Filter", {
 			class: "mt10",

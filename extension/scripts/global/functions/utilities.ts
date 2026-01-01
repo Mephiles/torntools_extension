@@ -144,7 +144,7 @@ function findItemsInObject(object: any, attributes: any = {}, options: any = {})
 	return options.single ? false : items;
 }
 
-function findItemInObject<T>(object: { [key: string | number]: T }, attributes: object = {}): undefined | T {
+function findItemInObject<T>(object: { [key: string | number]: T }, attributes: object = {}): undefined | (T & { id: string }) {
 	if (!object || Object.keys(attributes).length === 0) return undefined;
 
 	for (const id in object) {
@@ -195,10 +195,10 @@ function findItemInList<T>(list: T[], attributes: object = {}): undefined | T {
 	return undefined;
 }
 
-function isIntNumber(number: string | null) {
+function isIntNumber(number: string | null): boolean {
 	if (number === null) return false;
 
-	const _number = parseFloat(number);
+	const _number = parseFloat(number.toString());
 	return !isNaN(_number) && isFinite(_number) && _number % 1 === 0;
 }
 

@@ -91,7 +91,7 @@
 		dispose: () => void;
 	}
 
-	function createBankInvestmentContainer(bankAprInfo, delimiter: HTMLElement): BankInvestmentContainer {
+	function createBankInvestmentContainer(bankAprInfo: any, delimiter: HTMLElement): BankInvestmentContainer {
 		const tableColumnsDefs: TableColumnDef<BankTableRowData>[] = [
 			{
 				id: "period",
