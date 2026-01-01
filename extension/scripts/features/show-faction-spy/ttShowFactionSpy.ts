@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { mobile } = await checkDevice();
 
@@ -31,6 +29,8 @@
 				settings.scripts.statsEstimate.rankedWars
 			)
 				return "Stats Estimate is not disabled for any of factions, wars or ranked wars.";
+
+			return true;
 		}
 	);
 
@@ -72,7 +72,7 @@
 			if (spyData) {
 				for (const stat of ["strength", "defense", "speed", "dexterity", "total"])
 					spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
-				spyData.timestamp = formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true });
+				spyData.timestamp = formatTime({ seconds: spyData.timestamp as number }, { type: "ago", short: true });
 
 				const allFields = [
 					`Strength: ${spyData.strength}`,
@@ -112,7 +112,7 @@
 			if (spyData) {
 				for (const stat of ["strength", "defense", "speed", "dexterity", "total"])
 					spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
-				spyData.timestamp = formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true });
+				spyData.timestamp = formatTime({ seconds: spyData.timestamp as number }, { type: "ago", short: true });
 
 				const allFields = [
 					`Strength: ${spyData.strength}`,
@@ -137,26 +137,35 @@
 		});
 	}
 
-	async function fetchSpies(factionID) {
-		let spies = {};
+	interface Spy {
+		strength: number;
+		defense: number;
+		speed: number;
+		dexterity: number;
+		total: number;
+		timestamp: number | string;
+	}
+
+	async function fetchSpies(factionID: number) {
+		let spies: Record<string, Spy> = {};
 
 		if (settings.external.tornstats) {
-			let data;
-			if (ttCache.hasValue("faction-spy-tornstats", factionID)) data = ttCache.get("faction-spy-tornstats", factionID);
+			let data: TornstatsFactionSpyResponse;
+			if (ttCache.hasValue("faction-spy-tornstats", factionID)) data = ttCache.get<TornstatsFactionSpyResponse>("faction-spy-tornstats", factionID);
 			else {
-				data = await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/faction", id: factionID });
-				ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-tornstats");
+				data = await fetchData<TornstatsFactionSpyResponse>(FETCH_PLATFORMS.tornstats, { section: "spy/faction", id: factionID });
+				void ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-tornstats");
 			}
 
 			if (data.status && data.faction.spies) {
 				for (const memberID of Object.keys(data.faction.members)) spies[memberID] = data.faction.members[memberID].spy;
 			}
 		} else if (settings.external.yata) {
-			let data;
-			if (ttCache.hasValue("faction-spy-yata", factionID)) data = ttCache.get("faction-spy-yata", factionID);
+			let data: YATASpyResponse;
+			if (ttCache.hasValue("faction-spy-yata", factionID)) data = ttCache.get<YATASpyResponse>("faction-spy-yata", factionID);
 			else {
-				data = await fetchData(FETCH_PLATFORMS.yata, { relay: true, section: "spies", includeKey: true, params: { faction: factionID } });
-				ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-yata");
+				data = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spies", includeKey: true, params: { faction: factionID } });
+				void ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-yata");
 			}
 
 			if (Object.keys(data.spies).length) {

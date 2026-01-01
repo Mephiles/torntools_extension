@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const currentPage = getPage();
 
@@ -30,8 +28,8 @@
 			const step = new URL(fetch.url).searchParams.get("step");
 			if (step !== "getUserNameContextMenu") return;
 
-			const miniProfile = await requireElement("#profile-mini-root .mini-profile-wrapper");
-			const attackButton = await requireElement(".profile-button-attack", { parent: miniProfile });
+			const miniProfile: Element = await requireElement("#profile-mini-root .mini-profile-wrapper");
+			const attackButton: Element = await requireElement(".profile-button-attack", { parent: miniProfile });
 			attackButton.classList.add("tt-mouse-block");
 			attackButton.appendChild(stackBlockSvg());
 
@@ -43,7 +41,7 @@
 		});
 	}
 
-	let hiddenDivs = [];
+	let hiddenDivs: Element[] = [];
 	async function disableUsage() {
 		// Disable hunting link in sidebar, when abroad
 		if (currentPage === "home" && document.body.dataset.country === "south-africa") {
@@ -62,11 +60,11 @@
 			await disableSection(".dump-main-page");
 		} else if (currentPage === "profiles") {
 			// Disable attacking on profile page
-			const attackBtn = await requireElement("#profileroot .profile-button-attack");
+			const attackBtn: Element = await requireElement("#profileroot .profile-button-attack");
 			attackBtn.classList.add("tt-mouse-block");
 			attackBtn.appendChild(stackBlockSvg());
 
-			const revBtn = await requireElement("#profileroot .profile-button-revive");
+			const revBtn: Element = await requireElement("#profileroot .profile-button-revive");
 			revBtn.classList.add("tt-mouse-block");
 			revBtn.appendChild(stackBlockSvg());
 		} else if (currentPage === "hospital") {
@@ -83,8 +81,8 @@
 			});
 		}
 
-		async function disableSection(selector) {
-			const section = await requireElement(selector);
+		async function disableSection(selector: string) {
+			const section: Element = await requireElement(selector);
 			hiddenDivs.push(section);
 			section.classList.add("tt-hidden");
 			section.insertAdjacentElement("beforebegin", createBlock());
@@ -107,7 +105,7 @@
 		});
 	}
 
-	function stackBlockSvg(customClass) {
+	function stackBlockSvg(customClass?: string) {
 		const svg = crossSvg();
 		svg.classList.add("tt-stacking");
 		if (customClass) svg.classList.add(customClass);

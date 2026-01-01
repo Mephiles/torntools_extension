@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -8,7 +6,7 @@
 		"faction",
 		() => settings.pages.faction.rankedWarFilter,
 		initialiseFilters,
-		addFilters,
+		() => addFilters(),
 		removeFilters,
 		{
 			storage: ["settings.pages.faction.rankedWarFilter"],
@@ -18,7 +16,7 @@
 
 	function initialiseFilters() {
 		document.addEventListener("click", async (event) => {
-			const rankedWarItem = event.target.closest("[class*='warListItem__']");
+			const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
 			if (rankedWarItem && rankedWarItem.find(":scope > [data-warid]")) {
 				addFilters(
 					(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war")
@@ -48,10 +46,10 @@
 		});
 	}
 
-	let interval;
+	let interval: number | undefined;
 	const localFilters = {};
 
-	async function addFilters(rankedWarList) {
+	async function addFilters(rankedWarList?: Element) {
 		if (interval) {
 			clearInterval(interval);
 			interval = null;
@@ -176,7 +174,17 @@
 		);
 	}
 
-	function filterRow(row, filters, individual) {
+	interface RankedWarFilters {
+		activity: string[];
+		status: string[];
+		level: {
+			start: number;
+			end: number;
+		};
+		statsEstimates: string[];
+	}
+
+	function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individual: boolean) {
 		if (filters.activity) {
 			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
@@ -230,7 +238,7 @@
 			}
 		}
 
-		function hide(reason) {
+		function hide(reason: string) {
 			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 

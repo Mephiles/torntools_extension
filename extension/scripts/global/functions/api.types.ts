@@ -34,6 +34,27 @@ interface YATAFactionMembers {
 	};
 }
 
+interface YATASpyResponse {
+	spies: {
+		[id: string]: {
+			strength: number; // -1 if unknown
+			speed: number; // -1 if unknown
+			defense: number; // -1 if unknown
+			dexterity: number; // -1 if unknown
+			total: number; // -1 if unknown
+			strength_timestamp: number; // 0 if unknown
+			speed_timestamp: number; // 0 if unknown
+			defense_timestamp: number; // 0 if unknown
+			dexterity_timestamp: number; // 0 if unknown
+			total_timestamp: number; // 0 if unknown
+			update: number; // max of all timestamps
+			target_name: string; // Player if unknown
+			target_faction_name: string; // 0 if unknown or not in a faction
+			target_faction_id: number; // None if unknown or not in a faction
+		};
+	};
+}
+
 interface TornstatsError {
 	status: false;
 	message: string;
@@ -106,6 +127,61 @@ interface TornstatsSpy {
 		| TornstatsError;
 	attacks: unknown | TornstatsError;
 }
+
+type TornstatsFactionSpyResponse =
+	| {
+			status: true;
+			message: string;
+			faction: {
+				ID: number;
+				name: string;
+				tag: string;
+				tag_image: string;
+				leader: number;
+				"co-leader": number;
+				respect: number;
+				age: number;
+				capacity: number;
+				best_chain: number;
+				ranked_wars: unknown[];
+				territory_wars: unknown[];
+				raid_wars: unknown[];
+				peace: unknown[];
+				rank: {
+					level: number;
+					name: string;
+					division: number;
+					position: number;
+					wins: number;
+				};
+				members: {
+					[id: string]: {
+						name: string;
+						level: number;
+						days_in_faction: number;
+						last_action: {
+							status: string;
+							timestamp: number;
+							relative: string;
+						};
+						status: unknown;
+						spy?: {
+							strength: number;
+							defense: number;
+							speed: number;
+							dexterity: number;
+							total: number;
+							timestamp: number;
+						};
+						position: string;
+						id: number;
+						personalstats: unknown;
+					};
+				};
+				spies: number[];
+			};
+	  }
+	| TornstatsError;
 
 interface LootRangersLoot {
 	time: {
