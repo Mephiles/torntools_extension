@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -57,7 +55,7 @@
 	}
 
 	async function showUpgrades() {
-		let parts = [];
+		let parts: string[] = [];
 		for (const item of document.findAll(".pm-items-wrap .d-wrap .pm-items .unlock")) {
 			parts.push(item.getAttribute("data-part"));
 
@@ -94,7 +92,7 @@
 			const color = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
 			needed.push(`<span class="tt-race-upgrade-needed" part="${part}" style="color: ${color};">${part}</span>`);
 
-			let category;
+			let category: string;
 			for (const item of document.findAll(`.pm-items .unlock[data-part="${part}"]`)) {
 				if (!category) category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
 
@@ -106,9 +104,9 @@
 					for (const item of document.findAll(".pm-items .unlock")) {
 						if (item.getAttribute("data-part") === part) {
 							item.find(".title").style["background-color"] = color;
-							item.style.opacity = 1;
+							item.style.opacity = "1";
 						} else {
-							item.style.opacity = 0.5;
+							item.style.opacity = "0.5";
 						}
 					}
 				};
@@ -117,14 +115,14 @@
 						if (item.getAttribute("data-part") === part) {
 							item.find(".title").style["background-color"] = "";
 						}
-						item.style.opacity = 1;
+						item.style.opacity = "1";
 					}
 				};
 			}
 
 			const elCategory = document.find(`.pm-categories > li[data-category="${category}"]`);
 			if (elCategory.find(".tt-race-need-icon")) {
-				elCategory.find(".tt-race-need-icon").textContent = parseInt(elCategory.find(".tt-race-need-icon").textContent) + 1;
+				elCategory.find(".tt-race-need-icon").textContent = (parseInt(elCategory.find(".tt-race-need-icon").textContent) + 1).toString();
 			} else {
 				elCategory.find(".bg-hover").appendChild(document.newElement({ type: "div", class: "tt-race-need-icon", text: 1 }));
 			}
@@ -154,11 +152,11 @@
 			const part = item.getAttribute("data-part");
 			if (!document.find(`.pm-items .bought[data-part="${part}"]`)) return;
 
-			cleanUpgrade(item);
+			cleanUpgrade(item, part);
 		}
 	}
 
-	function cleanUpgrade(unlockElement) {
+	function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 		unlockElement.classList.remove("tt-modified");
 		unlockElement.find(".status").style["background-color"] = "";
 		unlockElement.find(".status").classList.remove("tt-modified");
@@ -166,20 +164,20 @@
 		unlockElement.onmouseleave = () => {};
 
 		for (const item of document.findAll(".pm-items .unlock")) {
-			if (item.getAttribute("data-part") === part) {
+			if (item.getAttribute("data-part") === part || part === null) {
 				item.find(".title").style["background-color"] = "";
 				item.classList.remove("tt-modified");
 			}
-			item.style.opacity = 1;
+			item.style.opacity = "1";
 		}
 
 		const category = findParent(unlockElement, { class: "pm-items-wrap" }).getAttribute("category");
 		const counter = document.find(`.pm-categories > .unlock[data-category="${category}"] .tt-race-need-icon`);
-		counter.textContent = parseInt(counter.textContent) - 1;
+		counter.textContent = (parseInt(counter.textContent) - 1).toString();
 		if (counter.textContent === "0") counter.remove();
 
 		const totalCounter = document.find(".tt-race-upgrades .counter");
-		totalCounter.textContent = parseInt(totalCounter.textContent) - 1;
+		totalCounter.textContent = (parseInt(totalCounter.textContent) - 1).toString();
 		if (totalCounter.textContent === "0") {
 			document.find(".tt-race-upgrades").remove();
 		}
@@ -193,6 +191,6 @@
 
 	function removeUpgrades() {
 		document.findAll(".tt-race-need-icon, .tt-race-upgrades").forEach((element) => element.remove());
-		document.findAll(".pm-items-wrap .d-wrap .pm-items .unlock.tt-modified").forEach((upgrade) => cleanUpgrade(upgrade));
+		document.findAll(".pm-items-wrap .d-wrap .pm-items .unlock.tt-modified").forEach((upgrade) => cleanUpgrade(upgrade, null));
 	}
 })();

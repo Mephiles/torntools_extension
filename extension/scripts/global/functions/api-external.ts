@@ -183,6 +183,12 @@ const REVIVE_PROVIDERS: ReviveProvider[] = [
 	},
 ] as const;
 
+interface ReviveResponse {
+	response: unknown;
+	contract: unknown;
+	provider: ReviveProvider;
+}
+
 function doRequestRevive(id: string, name: string, country: string, faction: string) {
 	const source = `TornTools v${chrome.runtime.getManifest().version}`;
 
@@ -195,7 +201,7 @@ function doRequestRevive(id: string, name: string, country: string, faction: str
 		return Promise.reject({ response: { code: "COOLDOWN" }, provider });
 	}
 
-	return new Promise((resolve, reject) => {
+	return new Promise<ReviveResponse>((resolve, reject) => {
 		provider
 			.doRequest(id, name, country, faction, source)
 			.then(({ response, contract }) => {

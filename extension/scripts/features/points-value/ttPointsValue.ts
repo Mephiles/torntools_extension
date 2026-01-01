@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const devices = await checkDevice();
 	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
@@ -14,6 +12,8 @@
 		{ storage: ["settings.pages.sidebar.pointsValue"] },
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -35,7 +35,7 @@
 			XPathResult.FIRST_ORDERED_NODE_TYPE,
 			null
 		)?.singleNodeValue;
-		if (!block) {
+		if (!block || !isElement(block)) {
 			console.warn("Couldn't find your points block for some odd reason.");
 			return;
 		}
@@ -66,4 +66,6 @@
 		block.classList.remove("tt-points-value");
 		for (const elements of block.findAll(":scope > span")) elements.removeAttribute("title");
 	}
+
+	return true;
 })();

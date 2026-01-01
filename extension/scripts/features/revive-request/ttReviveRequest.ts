@@ -1,16 +1,14 @@
-"use strict";
-
 (async () => {
 	const devices = await checkDevice();
 	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
-	else if (isFlying()) return;
+	else if (isFlying()) return false;
 
 	const page = getPage();
 
 	const feature = featureManager.registerFeature(
 		"Revive Request",
 		"global",
-		() => settings.pages.global.reviveProvider,
+		() => !!settings.pages.global.reviveProvider,
 		initialiseListeners,
 		startFeature,
 		removeButton,
@@ -45,6 +43,7 @@
 					![...mutations]
 						.filter((mutation) => mutation.addedNodes.length)
 						.flatMap((mutation) => [...mutation.addedNodes])
+						.filter(isElement)
 						.map((node) => node.className)
 						.filter((name) => !!name)
 						.some((name) => name.includes("content-title"))
@@ -102,7 +101,7 @@
 			else if (country === "uae") country = "UAE";
 			else country = capitalizeText(country.replaceAll("-", " "), { everyWord: true });
 
-			doRequestRevive(id, name, country, faction)
+			doRequestRevive(id.toString(), name, country, faction)
 				.then(({ provider }) => displayMessage(`Revive requested for ${calculateRevivePrice(provider)}!`))
 				.catch(({ provider, response }) => {
 					if (response.code === "COOLDOWN") {
@@ -114,9 +113,10 @@
 						console.log(`TT - Failed to request a revive with ${provider.name}!`, response);
 					}
 				});
+			return true;
 		}
 
-		function displayMessage(message, error) {
+		function displayMessage(message: string, error: boolean = false) {
 			const element = button.find("span");
 			element.textContent = message;
 			if (!error) element.classList.add("tt-revive-success");
@@ -135,4 +135,6 @@
 	function removeButton() {
 		document.find(".tt-revive")?.remove();
 	}
+
+	return true;
 })();

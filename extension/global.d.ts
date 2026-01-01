@@ -1,4 +1,8 @@
 declare global {
+	interface Window {
+		initializeTooltip: (selector: string, additionalClass: string) => void;
+	}
+
 	interface NewElementOptions {
 		type: keyof HTMLElementTagNameMap;
 		id?: string;

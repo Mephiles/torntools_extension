@@ -34,6 +34,11 @@ interface YATAFactionMembers {
 	};
 }
 
+interface TornstatsError {
+	status: false;
+	message: string;
+}
+
 interface TornstatsLoot {
 	[id: string]: {
 		name: string;
@@ -50,10 +55,6 @@ interface TornstatsLoot {
 
 type TornstatsFactionCrimes =
 	| {
-			status: false;
-			message: string;
-	  }
-	| {
 			status: true;
 			message: string;
 			members: {
@@ -65,7 +66,46 @@ type TornstatsFactionCrimes =
 					verified: 1;
 				};
 			};
-	  };
+	  }
+	| TornstatsError;
+
+interface TornstatsSpy {
+	status: true;
+	message: string;
+	compare: unknown;
+	spy:
+		| {
+				type: string;
+				status: true;
+				message: string;
+				player_name: string;
+				player_id: string;
+				player_level: number;
+				player_faction: string;
+				target_score: number;
+				your_score: number;
+				fair_fight_bonus: number;
+				difference: string;
+				timestamp: number;
+				strength: number;
+				deltaStrength: number;
+				strength_timestamp: number;
+				defense: number;
+				deltaDefense: number;
+				defense_timestamp: number;
+				speed: number;
+				deltaSpeed: number;
+				speed_timestamp: number;
+				dexterity: number;
+				deltaDexterity: number;
+				dexterity_timestamp: number;
+				total: number;
+				deltaTotal: number;
+				total_timestamp: number;
+		  }
+		| TornstatsError;
+	attacks: unknown | TornstatsError;
+}
 
 interface LootRangersLoot {
 	time: {

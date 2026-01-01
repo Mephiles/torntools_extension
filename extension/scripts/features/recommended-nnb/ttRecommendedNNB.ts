@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -18,6 +16,7 @@
 		},
 		async () => {
 			await checkDevice();
+			return true;
 		}
 	);
 

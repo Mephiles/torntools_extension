@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,7 +14,8 @@
 		null
 	);
 
-	let movingElement, showCrimesAgainOnFirefoxObserver;
+	let movingElement: Element | undefined;
+	let showCrimesAgainOnFirefoxObserver: MutationObserver | undefined;
 
 	function initialise() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES_LOADED].push(() => {
@@ -120,7 +119,10 @@
 			}
 		}
 
-		function onDragStart(event) {
+		function onDragStart(event: DragEvent) {
+			if (!isElement(event.target)) return;
+			const target = event.target;
+
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
@@ -128,7 +130,7 @@
 				if (document.find("#quickCrimes .temp.quick-item")) return;
 
 				const form = document.find(".specials-cont-wrap form[name='crimes']");
-				const nerve = parseInt(form.find("input[name='nervetake']").value);
+				const nerve = parseInt(form.find<HTMLInputElement>("input[name='nervetake']").value);
 
 				const action = `${location.origin}/${form.getAttribute("action")}`;
 				const step = getSearchParameters(action).get("step");
@@ -136,9 +138,9 @@
 				const data = {
 					step,
 					nerve,
-					name: event.target.find(".choice-container input").value,
-					icon: event.target.find(".title img").src,
-					text: event.target.find(".bonus").textContent.trim(),
+					name: target.find<HTMLInputElement>(".choice-container input").value,
+					icon: target.find<HTMLImageElement>(".title img").src,
+					text: target.find(".bonus").textContent.trim(),
 				};
 
 				addQuickCrime(data, true);
@@ -155,13 +157,13 @@
 			await saveCrimes();
 		}
 
-		function addQuickCrime(data, temporary) {
+		function addQuickCrime(data: QuickCrime, temporary: boolean) {
 			const content = findContainer("Quick Crimes", { selector: ":scope > main" });
 			const innerContent = content.find(".inner-content");
 
 			const { step, nerve, name, icon, text } = data;
 
-			if (innerContent.find(`.quick-item[data-id='${name}']`)) return;
+			if (innerContent.find(`.quick-item[data-id='${name}']`)) return null;
 
 			const closeIcon = document.newElement({
 				type: "i",
@@ -203,9 +205,9 @@
 					},
 					dragstart(event) {
 						event.dataTransfer.effectAllowed = "move";
-						event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
+						event.dataTransfer.setDragImage(event.currentTarget as Element, 0, 0);
 
-						movingElement = event.currentTarget;
+						movingElement = event.currentTarget as Element;
 					},
 					async dragend() {
 						movingElement.classList.remove("temp");
@@ -217,7 +219,7 @@
 						event.preventDefault();
 					},
 					dragenter(event) {
-						if (movingElement !== event.currentTarget) {
+						if (movingElement !== event.currentTarget && isElement(event.currentTarget)) {
 							const children = [...innerContent.children];
 
 							if (children.indexOf(movingElement) > children.indexOf(event.currentTarget))
@@ -259,14 +261,16 @@
 			});
 		}
 
-		async function onCrimeClick(event) {
+		async function onCrimeClick(event: MouseEvent) {
 			event.stopPropagation();
 			event.preventDefault();
+
+			if (!isElement(event.target)) return;
 
 			const item = event.target.closest(".item");
 
 			const form = document.find(".specials-cont-wrap form[name='crimes']");
-			const nerve = parseInt(form.find("input[name='nervetake']").value);
+			const nerve = parseInt(form.find<HTMLInputElement>("input[name='nervetake']").value);
 
 			const action = `${location.origin}/${form.getAttribute("action")}`;
 			const step = getSearchParameters(action).get("step");
@@ -274,8 +278,8 @@
 			const data = {
 				step,
 				nerve,
-				name: item.find(".choice-container input").value,
-				icon: item.find(".title img").src,
+				name: item.find<HTMLInputElement>(".choice-container input").value,
+				icon: item.find<HTMLImageElement>(".title img").src,
 				text: item.find(".bonus").textContent.trim(),
 			};
 
@@ -288,7 +292,7 @@
 		}
 	}
 
-	function showCrimesAgainOnFirefox(containerId) {
+	function showCrimesAgainOnFirefox(containerId: string) {
 		if (!usingFirefox()) return;
 
 		if (showCrimesAgainOnFirefoxObserver) {
@@ -301,6 +305,7 @@
 			const hasRemovedQuickCrimes = ![...mutations]
 				.filter((mutation) => mutation.removedNodes.length)
 				.flatMap((mutation) => [...mutation.removedNodes])
+				.filter(isElement)
 				.map((node) => node.id)
 				.find((id) => id === containerId);
 			if (hasRemovedQuickCrimes) return;

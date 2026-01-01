@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -33,11 +31,13 @@
 			textarea.style.height = "17px";
 		}
 		content.appendChild(textarea);
-		textarea.addEventListener("input", (event) => saveNotes(event.target.value, event.target.style.height));
+		textarea.addEventListener("input", (event) => {
+			saveNotes((event.target as HTMLInputElement).value, (event.target as HTMLInputElement).style.height);
+		});
 
 		new MutationObserver(() => saveNotes(textarea.value, textarea.style.height)).observe(textarea, { attributes: true, attributeFilter: ["style"] });
 
-		function saveNotes(text, height) {
+		function saveNotes(text: string, height: string) {
 			ttStorage.change({ notes: { profile: { [userID]: { text, height } } } });
 		}
 	}

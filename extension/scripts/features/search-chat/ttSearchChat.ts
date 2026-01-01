@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Search Chat",
@@ -37,7 +35,7 @@
 
 			// Re-filter all chats after they refresh.
 			document.findAll("[class*='group-chat-box__chat-box-wrapper__'], #chatRoot [class*='item___'][style*='z-index']").forEach((chat) => {
-				const input = chat.find(".tt-chat-filter input");
+				const input = chat.find<HTMLInputElement>(".tt-chat-filter input");
 				if (!input) return;
 
 				const inputValue = input.value;
@@ -59,7 +57,7 @@
 		addPeopleSearch();
 	}
 
-	function addChatSearch(chat) {
+	function addChatSearch(chat: Element) {
 		if (chat.find(".tt-chat-filter")) return;
 
 		const chatFooter = chat.find("[class*='chat-box-footer__'], [class*='content___'] > [class*='root___']:nth-child(2)");
@@ -88,7 +86,7 @@
 		chatFooter.insertAdjacentElement("beforebegin", searchElement);
 	}
 
-	function addPeopleSearch(peopleMenu = null) {
+	function addPeopleSearch(peopleMenu: Element | null = null) {
 		if (!peopleMenu) peopleMenu = document.find("#chatRoot [class*='chat-app__panel__']");
 
 		if (!peopleMenu || peopleMenu.find(".tt-chat-filter")) return;
@@ -107,12 +105,12 @@
 								type: "input",
 								events: {
 									input: (event) => {
-										const keyword = event.target.value.toLowerCase();
-										const isUserID = !isNaN(keyword);
+										const keyword = (event.target as HTMLInputElement).value.toLowerCase();
+										const isUserID = !isNaN(parseInt(keyword));
 
 										if (peopleMenu.find("[class*='chat-list-header__tabs__'] [class*='chat-list-header__tab--active__']:first-child")) {
 											// "Chats" tab opened.
-											const list = peopleMenu.findAll(
+											const list = peopleMenu.findAll<HTMLAnchorElement>(
 												"#scrollableDiv .infinite-scroll-component > button [class*='detailed-chat-card__header__'] a"
 											);
 											list.forEach((chatEntry) => {
@@ -125,7 +123,7 @@
 											});
 										} else {
 											// Other tabs opened.
-											const list = peopleMenu.findAll("#scrollableDiv > [class*='member-card__'] a");
+											const list = peopleMenu.findAll<HTMLAnchorElement>("#scrollableDiv > [class*='member-card__'] a");
 											list.forEach((chatEntry) => {
 												const shouldHide =
 													keyword &&
@@ -145,8 +143,8 @@
 		);
 	}
 
-	function onChatSearch(event, chat) {
-		const keyword = event.target.value.toLowerCase();
+	function onChatSearch(event: { target: EventTarget }, chat: Element) {
+		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='list___'] [class*='box___']")) {
 			searchChat(message, keyword);
@@ -175,14 +173,14 @@
 		document.findAll("#chatRoot .tt-chat-filter").forEach((x) => x.remove());
 	}
 
-	function searchChat(message, keyword) {
+	function searchChat(message: Element, keyword: string) {
 		if (keyword.startsWith("by:") || keyword.startsWith("u:")) {
 			const splitInput = keyword.split(" ");
 			const target = splitInput.shift().split(":")[1];
 			keyword = splitInput.join(" ");
 
-			const sender = message.find("[class*='chat-box-message__sender__'], [class*='sender___']");
-			if (!sender.textContent.toLowerCase().includes(target) && (isNaN(target) || !sender.href.match(`XID=${target}$`))) {
+			const sender = message.find<HTMLAnchorElement>("[class*='chat-box-message__sender__'], [class*='sender___']");
+			if (!sender.textContent.toLowerCase().includes(target) && (isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
 				message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");
 				return;
 			}

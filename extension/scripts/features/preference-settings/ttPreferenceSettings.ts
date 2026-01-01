@@ -1,7 +1,5 @@
-"use strict";
-
 (async () => {
-	featureManager.registerFeature("Preference Settings", "preferences", true, null, executeFeature, dispose, null, null);
+	featureManager.registerFeature("Preference Settings", "preferences", () => true, null, executeFeature, dispose, null, null);
 
 	async function executeFeature() {
 		const searchParams = getSearchParameters();
@@ -41,7 +39,7 @@
 			return tab === "api" || tab === "api?";
 		}
 
-		function handleKeyView(connectButton) {
+		function handleKeyView(connectButton: HTMLAnchorElement) {
 			if (isViewingKeys()) {
 				requireElement("[class*='api___']").then(async (apiContainer) => {
 					await requireElement("li[class*='keyRow___']", { parent: apiContainer });
@@ -68,7 +66,7 @@
 			}
 		}
 
-		function updateKey(key) {
+		function updateKey(key: string) {
 			const connectButton = document.find("#connect-torntools");
 
 			changeAPIKey(key).then(() => {

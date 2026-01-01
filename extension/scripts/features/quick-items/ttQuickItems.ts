@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,12 +14,12 @@
 		null
 	);
 
-	let movingElement;
+	let movingElement: Element | undefined;
 	let isEditing = false;
 
 	function initialiseQuickItems() {
 		document.addEventListener("click", (event) => {
-			if (event.target.classList.contains("close-act")) {
+			if (isElement(event.target) && event.target.classList.contains("close-act")) {
 				const responseWrap = findParent(event.target, { class: "response-wrap" });
 
 				if (responseWrap) responseWrap.style.display = "none";
@@ -29,7 +27,7 @@
 		});
 		setInterval(() => {
 			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
-				let secondsLeft;
+				let secondsLeft: number;
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
 				secondsLeft--;
@@ -122,7 +120,7 @@
 		});
 	}
 
-	function addQuickItem(data, temporary = false) {
+	function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temporary = false) {
 		const content = findContainer("Quick Items", { selector: ":scope > main" });
 		const innerContent = content.find(".inner-content");
 		const responseWrap = content.find(".response-wrap");
@@ -130,9 +128,9 @@
 		const { id, xid } = data;
 
 		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
-		if (!allowQuickItem(id, getTornItemType(id))) return;
+		if (!allowQuickItem(id, getTornItemType(id))) return null;
 
-		let equipPosition;
+		let equipPosition: number | false | undefined;
 		if (isEquipable(id, getTornItemType(id))) {
 			equipPosition = getEquipPosition(id, getTornItemType(id));
 			data.equipPosition = equipPosition;
@@ -172,7 +170,7 @@
 
 					const body = new URLSearchParams();
 					Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
-						([key, value]) => body.set(key, value)
+						([key, value]) => body.set(key, value.toString())
 					);
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
@@ -266,6 +264,8 @@
 					});
 				},
 				dragstart(event) {
+					if (!isElement(event.currentTarget)) return;
+
 					event.dataTransfer.effectAllowed = "move";
 					event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
 
@@ -281,7 +281,7 @@
 					event.preventDefault();
 				},
 				dragenter(event) {
-					if (movingElement !== event.currentTarget) {
+					if (movingElement !== event.currentTarget && isElement(event.currentTarget)) {
 						const children = [...innerContent.children];
 
 						if (children.indexOf(movingElement) > children.indexOf(event.currentTarget))
@@ -342,14 +342,14 @@
 		return itemWrap;
 	}
 
-	async function onItemClickQuickEdit(event) {
+	async function onItemClickQuickEdit(event: MouseEvent) {
 		event.stopPropagation();
 		event.preventDefault();
 
-		const target = findParent(event.target, { hasAttribute: "data-item" });
+		const target = findParent(event.target as Element, { hasAttribute: "data-item" });
 		const id = parseInt(target.dataset.item);
 
-		const data = { id };
+		const data: QuickItem = { id };
 		if (isEquipable(id, target.dataset.category)) {
 			data.xid = parseInt(target.find(".actions[xid]").getAttribute("xid"));
 		}
@@ -366,8 +366,8 @@
 		await ttStorage.change({
 			quick: {
 				items: [...content.findAll(".item")].map((x) => {
-					const data = { id: parseInt(x.dataset.id) };
-					if (x.dataset.xid) data.xid = x.dataset.xid;
+					const data: QuickItem = { id: parseInt(x.dataset.id) };
+					if (x.dataset.xid) data.xid = parseInt(x.dataset.xid);
 
 					return data;
 				}),
@@ -390,18 +390,18 @@
 			titleWrap.addEventListener("dragend", onDragEnd);
 		}
 
-		function onDragStart(event) {
+		function onDragStart(event: DragEvent) {
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
 				document.find("#quickItems > main").classList.add("drag-progress");
-				if (document.find("#quickItems .temp.item")) return;
+				if (document.find("#quickItems .temp.item") || !isElement(event.target)) return;
 
-				const itemRow = event.target.closest("li[data-item]");
+				const itemRow = event.target.closest("li[data-item]") as HTMLElement;
 
 				const id = parseInt(itemRow.dataset.item);
 
-				const data = { id };
+				const data: QuickItem = { id };
 				if (isEquipable(id, itemRow.dataset.category)) {
 					data.xid = parseInt(itemRow.find(".actions[xid]").getAttribute("xid"));
 				}
@@ -421,7 +421,7 @@
 		}
 	}
 
-	function allowQuickItem(id, category) {
+	function allowQuickItem(id: number, category: string) {
 		return (
 			["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
 			[
@@ -435,11 +435,11 @@
 		);
 	}
 
-	function isEquipable(id, category) {
+	function isEquipable(_id: number, category: string) {
 		return ["Temporary"].includes(category);
 	}
 
-	function getEquipPosition(id, category) {
+	function getEquipPosition(_id: number, category: string) {
 		// 4 = Body Armor
 		// 6 = Helmet
 		// 7 = Pants
@@ -462,20 +462,20 @@
 		}
 	}
 
-	function updateItemAmount(id, change) {
+	function updateItemAmount(id: string, change: number) {
 		const quickQuantity = findContainer("Quick Items", { selector: `.item[data-id="${id}"] .quantity` });
 		if (quickQuantity) {
 			let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
 			if (newQuantity < 0) newQuantity = 0;
 
 			quickQuantity.textContent = newQuantity + "x";
-			quickQuantity.setAttribute("quantity", newQuantity);
+			quickQuantity.setAttribute("quantity", newQuantity.toString());
 		}
 	}
 
 	async function updateXIDs() {
 		const items = [...document.findAll("ul.items-cont > li .actions[xid]")].filter((x) => {
-			const itemid = parseInt(x.closest("li[data-item]").dataset.item);
+			const itemid = parseInt((x.closest("li[data-item]") as HTMLElement).dataset.item);
 			return quick.items.some((y) => y.id === itemid);
 		});
 		if (!items.length) return;
@@ -484,10 +484,10 @@
 		items.forEach((x) => {
 			try {
 				const itemid = parseInt(x.getAttribute("itemid"));
-				const xid = x.getAttribute("xid");
+				const xid = parseInt(x.getAttribute("xid"));
 
 				quick.items.find((y) => y.id === itemid).xid = xid;
-				quickContainer.find(`.item[data-id="${itemid}"]`).dataset.xid = xid;
+				quickContainer.find(`.item[data-id="${itemid}"]`).dataset.xid = xid.toString();
 			} catch (error) {
 				console.error("Couldn't update item ids!", error);
 			}
@@ -496,14 +496,14 @@
 		await ttStorage.change({ quick: { items: quick.items } });
 	}
 
-	function updateEquippedItem(id, isEquip) {
+	function updateEquippedItem(id: number, isEquip: boolean) {
 		const equipPosition = getEquipPosition(id, getTornItemType(id));
 		[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
 
 		if (isEquip && document.find(`.item[data-id="${id}"]`)) document.find(`.item[data-id="${id}"]`).classList.add("equipped");
 	}
 
-	function setupOverlayItems(tab) {
+	function setupOverlayItems(tab: Element) {
 		for (const item of tab.findAll("li[data-item][data-category]")) {
 			if (allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
@@ -511,7 +511,7 @@
 		}
 	}
 
-	function attachEditListeners(enabled) {
+	function attachEditListeners(enabled: boolean) {
 		if (enabled) {
 			for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
 				if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
