@@ -1,10 +1,16 @@
-"use strict";
-
 (async () => {
 	const page = getPage();
 	if (isAbroad()) return;
 
-	const COUNTRIES = {
+	interface CountryInformation {
+		name: string;
+		image: string;
+		tag: string;
+		cost: number;
+		time: number;
+	}
+
+	const COUNTRIES: { [name: string]: CountryInformation } = {
 		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: 167 },
 		can: { name: "Canada", image: "canada", tag: "canada", cost: 9000, time: 41 },
 		cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 10000, time: 35 },
@@ -35,6 +41,8 @@
 			if (!hasAPIData()) return "No API data!";
 			else if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
 			else if (isCaptcha()) return "Captcha present.";
+
+			return true;
 		}
 	);
 
@@ -42,7 +50,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(({ type }) => {
 			if (!feature.enabled()) return;
 
-			document.find("#travel-items").value = getTravelCount(type);
+			document.find<HTMLInputElement>("#travel-items").value = getTravelCount(type).toString();
 			updateValues();
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(({ country }) => {
@@ -220,7 +228,7 @@
 				);
 
 				content.find(".legend-icon").addEventListener("click", (event) => {
-					if (event.target.classList.contains("legend-icon")) return;
+					if ((event.target as Element).classList.contains("legend-icon")) return;
 
 					const isOpen = !content.find(".legend-content").classList.toggle("tt-hidden");
 
@@ -287,13 +295,13 @@
 					updateTable(content);
 				});
 
-				content.find("#travel-items").value = amount;
+				content.find<HTMLInputElement>("#travel-items").value = amount.toString();
 
-				if (filters.travel.hideOutOfStock) content.find("#hide-out-of-stock").checked = true;
-				if (filters.travel.applySalesTax) content.find("#apply-sales-tax").checked = true;
-				if (filters.travel.sellAnonymously) content.find("#sell-anonymously").checked = true;
+				if (filters.travel.hideOutOfStock) content.find<HTMLInputElement>("#hide-out-of-stock").checked = true;
+				if (filters.travel.applySalesTax) content.find<HTMLInputElement>("#apply-sales-tax").checked = true;
+				if (filters.travel.sellAnonymously) content.find<HTMLInputElement>("#sell-anonymously").checked = true;
 				for (const category of filters.travel.categories) {
-					const element = content.find(`.categories input[name="item"][category="${category}"]`);
+					const element = content.find<HTMLInputElement>(`.categories input[name="item"][category="${category}"]`);
 					if (element) element.checked = true;
 				}
 				for (const country of filters.travel.countries) {
@@ -304,17 +312,17 @@
 				// Check for legend changes
 				content.find("#travel-items").addEventListener("change", () => updateValues());
 				content.find("#hide-out-of-stock").addEventListener("change", (event) => {
-					ttStorage.change({ filters: { travel: { hideOutOfStock: event.target.checked } } });
+					ttStorage.change({ filters: { travel: { hideOutOfStock: (event.target as HTMLInputElement).checked } } });
 
 					updateTable(content);
 				});
 				content.find("#apply-sales-tax").addEventListener("change", (event) => {
-					ttStorage.change({ filters: { travel: { applySalesTax: event.target.checked } } });
+					ttStorage.change({ filters: { travel: { applySalesTax: (event.target as HTMLInputElement).checked } } });
 
 					setTimeout(updateValues);
 				});
 				content.find("#sell-anonymously").addEventListener("change", (event) => {
-					ttStorage.change({ filters: { travel: { sellAnonymously: event.target.checked } } });
+					ttStorage.change({ filters: { travel: { sellAnonymously: (event.target as HTMLInputElement).checked } } });
 
 					setTimeout(updateValues);
 				});
@@ -327,7 +335,7 @@
 				}
 				for (const item of content.findAll(".countries .flag")) {
 					item.addEventListener("click", (event) => {
-						event.target.classList.toggle("selected");
+						(event.target as Element).classList.toggle("selected");
 
 						ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
@@ -337,8 +345,8 @@
 			}
 
 			async function pullInformation() {
-				const fetchYata = () => fetchData("yata", { section: "travel/export/", relay: true });
-				const fetchPrometheus = () => fetchData("prometheus", { section: "travel", relay: true });
+				const fetchYata = () => fetchData<YATATravelResponse>("yata", { section: "travel/export/", relay: true });
+				const fetchPrometheus = () => fetchData<PrometheusTravelResponse>("prometheus", { section: "travel", relay: true });
 
 				if (settings.external.yata && settings.external.prometheus) return Promise.any([fetchYata(), fetchPrometheus()]);
 				else if (settings.external.yata) return fetchYata();
@@ -347,7 +355,9 @@
 				throw "No available data.";
 			}
 
-			function toRow(item, country, lastUpdate) {
+			type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
+
+			function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
 				let category = item.id in torndata.items ? torndata.items[item.id].type.toLowerCase() : "other";
 				switch (category) {
 					case "plushie":
@@ -374,16 +384,16 @@
 				if (getTravelType() === "standard") totalCost += country.cost;
 
 				const tornItem = torndata.items[item.id];
-				let value = tornItem?.market_value ?? 0;
+				let value: number | "N/A" = tornItem?.market_value ?? 0;
 				const time = country.time * getTimeModifier(getTravelType());
-				let profitItem, profitMinute, profit;
+				let profitItem: number | "N/A", profitMinute: number | "N/A", profit: number | "N/A";
 				if (value !== 0) {
 					const sales = value * amount;
 
-					const applySalesTax = content.find("#apply-sales-tax").checked;
+					const applySalesTax = content.find<HTMLInputElement>("#apply-sales-tax").checked;
 					const salesTax = applySalesTax ? Math.ceil((sales * SALES_TAX) / 100) : 0;
 
-					const sellAnonymously = content.find("#sell-anonymously").checked;
+					const sellAnonymously = content.find<HTMLInputElement>("#sell-anonymously").checked;
 					const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
 
 					profit = sales - (totalCost + salesTax + anonymousTax);
@@ -504,27 +514,27 @@
 		}
 	}
 
-	function getValueClass(value) {
+	function getValueClass(value: number | "N/A") {
 		if (value === "N/A") return "";
 
 		return value > 0 ? "positive" : "negative";
 	}
 
-	function getSelectedCategories(content) {
+	function getSelectedCategories(content: Element) {
 		return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
 	}
 
-	function getSelectedCountries(content) {
+	function getSelectedCountries(content: Element) {
 		return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
 	}
 
-	function updateTable(content) {
+	function updateTable(content: Element) {
 		const table = document.find("#tt-travel-table");
 		if (!table) return;
 
 		const categories = getSelectedCategories(content);
 		const countries = getSelectedCountries(content);
-		const hideOutOfStock = content.find("#hide-out-of-stock").checked;
+		const hideOutOfStock = content.find<HTMLInputElement>("#hide-out-of-stock").checked;
 
 		for (const row of table.findAll(".row:not(.header)")) {
 			const { country, category, stock } = row.dataset;
@@ -544,9 +554,9 @@
 		const table = content.find("#tt-travel-table");
 		if (!table) return;
 
-		const amount = parseInt(content.find("#travel-items").value);
-		const applySalesTax = content.find("#apply-sales-tax").checked;
-		const sellAnonymously = content.find("#sell-anonymously").checked;
+		const amount = parseInt(content.find<HTMLInputElement>("#travel-items").value);
+		const applySalesTax = content.find<HTMLInputElement>("#apply-sales-tax").checked;
+		const sellAnonymously = content.find<HTMLInputElement>("#sell-anonymously").checked;
 
 		for (const row of table.findAll(".row:not(.header)")) {
 			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
@@ -567,15 +577,17 @@
 				const elementProfitMinute = row.find(".profit-minute");
 				const elementProfit = row.find(".profit");
 
-				[
+				const allElements: [HTMLElement, number][] = [
 					[elementProfitItem, profitItem],
 					[elementProfitMinute, profitMinute],
 					[elementProfit, profit],
-				].forEach(([element, value]) => {
+				];
+
+				allElements.forEach(([element, value]) => {
 					element.classList.remove("positive", "negative");
 					element.classList.add(getValueClass(value));
 					element.textContent = formatNumber(value, { shorten: true, currency: true, forceOperation: true });
-					element.setAttribute("value", value);
+					element.setAttribute("value", value.toString());
 				});
 				resortTable(table);
 			}
@@ -584,7 +596,7 @@
 		}
 	}
 
-	function getTravelCount(type) {
+	function getTravelCount(type?: TravelType) {
 		if (!type) type = getTravelType();
 
 		let count = 5;
@@ -615,7 +627,7 @@
 		return count;
 	}
 
-	function getTimeModifier(type) {
+	function getTimeModifier(type: TravelType) {
 		switch (type) {
 			case "standard":
 				return 1;
@@ -627,12 +639,13 @@
 				return 0.3;
 			default:
 				console.error(`Unknown travel type '${type}'!`);
+				return 1;
 		}
 	}
 
 	function getTravelType() {
 		if (page === "travel") {
-			const element = document.find("input[name='travelType'][aria-checked='true']");
+			const element = document.find<HTMLInputElement>("input[name='travelType'][aria-checked='true']");
 
 			if (!element) return hasAPIData() ? getAPIType() : "standard";
 			else return toCorrectMethod(element.value);
@@ -646,12 +659,12 @@
 			return toCorrectMethod(userdata.travel.method.toLowerCase());
 		}
 
-		function toCorrectMethod(method) {
+		function toCorrectMethod(method: string) {
 			switch (method) {
 				case "standard":
 					return "standard";
 				case "airstrip":
-					return "private";
+					return "airstrip";
 				case "private":
 					return "private";
 				case "business":
@@ -662,6 +675,8 @@
 			}
 		}
 	}
+
+	type TravelType = ReturnType<typeof getTravelType>;
 
 	function removeTable() {
 		removeIcon();

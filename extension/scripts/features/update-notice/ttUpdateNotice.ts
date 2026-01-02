@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { hasSidebar } = await checkDevice();
 	if (!hasSidebar) return "Not supported on mobiles or tablets!";
@@ -57,4 +55,6 @@
 		const notice = document.find("#ttUpdateNotice");
 		if (notice) notice.remove();
 	}
+
+	return true;
 })();

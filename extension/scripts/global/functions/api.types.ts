@@ -55,6 +55,21 @@ interface YATASpyResponse {
 	};
 }
 
+interface YATATravelResponse {
+	stocks: {
+		[country: string]: {
+			update: number;
+			stocks: {
+				id: number;
+				name: string;
+				quantity: number;
+				cost: number;
+			}[];
+		};
+	};
+	timestamp: number;
+}
+
 interface TornstatsError {
 	status: false;
 	message: string;
@@ -227,3 +242,19 @@ type TornW3BResult = {
 };
 
 type TornDirectPostItemResult = { success: false; text: string };
+
+interface PrometheusTravelResponse {
+	stocks: {
+		[country: string]: {
+			update: number;
+			stocks: {
+				id: number;
+				name: string;
+				quantity: number;
+				cost: number;
+				nextRestock: string | null;
+			}[];
+		};
+	};
+	timestamp: number;
+}
