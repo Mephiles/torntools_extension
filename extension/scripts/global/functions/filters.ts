@@ -1,6 +1,15 @@
-"use strict";
+interface FilterOption {
+	value: string;
+	description: string;
+	disabled?: boolean;
+}
 
-const defaultFactionsItems = [
+interface StatisticsResult {
+	element: HTMLElement;
+	updateStatistics: (count: number, total: number, content: HTMLElement) => void;
+}
+
+const defaultFactionsItems: FilterOption[] = [
 	{
 		value: "",
 		description: "All",
@@ -32,12 +41,12 @@ const defaultFactionsItems = [
 	},
 ];
 
-const FILTER_REGEXES = {
+const FILTER_REGEXES: Record<string, RegExp> = {
 	activity: /Online|Idle|Offline/g,
 	activity_v2_svg: /online|idle|offline/,
 };
 
-function createFilterSection(options) {
+function createFilterSection(options: any): any {
 	options = {
 		type: "",
 		title: "",
@@ -47,7 +56,13 @@ function createFilterSection(options) {
 		ynCheckboxes: [],
 		select: [],
 		multiSelect: false,
-		slider: {},
+		slider: {
+			min: 0,
+			max: 100,
+			step: 1,
+			valueLow: 0,
+			valueHigh: 100,
+		},
 		callback: () => {},
 		default: false,
 		defaults: [],
@@ -102,9 +117,9 @@ function createFilterSection(options) {
 
 	if (options.text) {
 		const textbox = createTextbox({
-			type: typeof options.text === "string" ? options.text : "text",
+			type: (typeof options.text === "string" ? options.text : "text") as "text" | "number",
 		});
-		textbox.setValue(options.default);
+		textbox.setValue(options.default as string);
 		textbox.onChange(options.callback);
 
 		section.appendChild(textbox.element);
@@ -118,24 +133,25 @@ function createFilterSection(options) {
 	if (options.checkbox) {
 		const checkbox = createCheckbox({ description: options.checkbox });
 		checkbox.onChange(options.callback);
-		checkbox.setChecked(options.defaults);
+		checkbox.setChecked(!!options.defaults);
 		section.appendChild(checkbox.element);
 
 		return {
 			element: section,
-			isChecked: (content) => content.find(`.${ccTitle} input`).checked,
+			isChecked: (content) => (content.find(`.${ccTitle} input`) as HTMLInputElement)?.checked ?? false,
 		};
 	}
 
 	if (options.checkboxes.length) {
+		// @ts-ignore
 		const checkboxes = createCheckboxList({ items: options.checkboxes, orientation: options.orientation, useId: true });
 		checkboxes.onSelectionChange(options.callback);
-		checkboxes.setSelections(options.defaults);
+		checkboxes.setSelections((Array.isArray(options.defaults) ? options.defaults : []) as string[]);
 		section.appendChild(checkboxes.element);
 
 		return {
 			element: section,
-			getSelections: (content) => [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id").toLowerCase().trim()),
+			getSelections: (content) => [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? ""),
 		};
 	}
 
@@ -162,7 +178,7 @@ function createFilterSection(options) {
 			getSelections,
 		};
 
-		function getSelections(content) {
+		function getSelections(content: HTMLElement) {
 			const selections = {};
 			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
 				const checkboxes = specialDiv.findAll("input");
@@ -182,7 +198,7 @@ function createFilterSection(options) {
 		if (options.multiSelect) {
 			const multiSelect = createMultiSelect({
 				select: options.select.filter((opt) => opt.value !== ""),
-				defaults: options.defaults,
+				defaults: (Array.isArray(options.defaults) ? options.defaults : []) as string[],
 			});
 
 			multiSelect.onChange(options.callback);
@@ -194,14 +210,14 @@ function createFilterSection(options) {
 				updateOptions: (newOptions) => multiSelect.updateOptionsList(newOptions),
 			};
 		} else {
-			const select = createSelect(options.select, options.multiple);
-			select.setSelected(options.defaults);
+			const select = createSelect(options.select);
+			select.setSelected((Array.isArray(options.defaults) ? options.defaults[0] : "") as string);
 			select.onChange(options.callback);
 			section.appendChild(select.element);
 
 			return {
 				element: section,
-				getSelected: (content) => content.find(`.${ccTitle} select`).value,
+				getSelected: (content) => (content.find(`.${ccTitle} select`) as HTMLSelectElement)?.value ?? "",
 				updateOptions: (newOptions, content) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
 			};
 		}
@@ -273,14 +289,18 @@ function createFilterSection(options) {
 				[
 					[select1, value1],
 					[select2, value2],
-				].map(([s, v]) => ({ bonus: s.getSelected(), value: isNaN(v.getValue()) ? "" : parseInt(v.getValue()) })),
+				].map(
+					([s, v]) =>
+						// @ts-ignore
+						({ bonus: s.getSelected() as string, value: isNaN(v.getValue()) ? 0 : parseInt(v.getValue()) }) as { bonus: string; value: number }
+				),
 		};
 	}
 
 	return { element: section };
 }
 
-function createStatistics(name = "entries", addBrackets = false, lowercase = false) {
+function createStatistics(name = "entries", addBrackets = false, lowercase = false): StatisticsResult {
 	const statistics = document.newElement({
 		type: "div",
 		class: "statistics",
@@ -293,14 +313,14 @@ function createStatistics(name = "entries", addBrackets = false, lowercase = fal
 		],
 	});
 
-	function updateStatistics(count, total, content) {
-		content.find(".statistics .stat-count").textContent = count;
-		content.find(".statistics .stat-total").textContent = total;
+	function updateStatistics(count: number, total: number, content: HTMLElement) {
+		content.find(".statistics .stat-count").textContent = count.toString();
+		content.find(".statistics .stat-total").textContent = total.toString();
 	}
 
 	return { element: statistics, updateStatistics };
 }
 
-function getSpecialIcons(li) {
+function getSpecialIcons(li: HTMLElement): string[] {
 	return [...li.findAll(":scope li[id*='icon']")].map((x) => x.id.split("_")[0]);
 }
