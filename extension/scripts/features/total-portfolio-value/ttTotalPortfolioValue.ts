@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Total Portfolio Value and Profit",
@@ -13,6 +11,7 @@
 		},
 		async () => {
 			await checkDevice();
+			return true;
 		}
 	);
 
@@ -21,7 +20,7 @@
 
 		calculateAndShowProfits();
 
-		const observer = new MutationObserver(async (mutations) => {
+		const observer = new MutationObserver(async () => {
 			if (!feature.enabled()) return;
 
 			await sleep(0.5);
@@ -69,7 +68,7 @@
 	}
 
 	function getStockPrices() {
-		const data = {};
+		const data: Record<string, number> = {};
 		document.findAll("[class*='stockMarket__'] > ul[id]").forEach((stock) => {
 			data[stock.id] = parseFloat(stock.find("#priceTab > :first-child").textContent);
 		});

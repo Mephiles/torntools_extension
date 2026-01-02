@@ -1,12 +1,10 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature(
 		"Trade Timer",
 		"chat",
 		() => settings.pages.chat.tradeTimer,
 		initialise,
-		showTimer,
+		() => showTimer(),
 		cleanup,
 		{
 			storage: ["settings.pages.chat.tradeTimer", "localdata.tradeMessage"],
@@ -22,8 +20,9 @@
 		});
 	}
 
-	let timer;
-	async function showTimer(tradeChat = null) {
+	let timer: HTMLElement | undefined;
+
+	async function showTimer(tradeChat: Element | undefined | null = null) {
 		await requireChatsLoaded();
 
 		if (!tradeChat) tradeChat = getTradeChat();
@@ -61,36 +60,36 @@
 
 	function getTradeChat() {
 		const openChats = document.querySelectorAll("#chatRoot [class^='chat-box__'], div#public_trade");
-		if (!openChats.length) return;
+		if (!openChats.length) return null;
 
 		return [...openChats].filter((chat) => chat.find("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade")?.[0];
 	}
 
-	function listenTradeChatInput(tradeChat) {
+	function listenTradeChatInput(tradeChat: Element | null) {
 		if (!tradeChat) tradeChat = getTradeChat();
 		if (!tradeChat) return;
 
 		tradeChat.find("[class*='chat-box-footer__textarea__'], textarea").addEventListener("keyup", onKeyUp);
 	}
 
-	async function onKeyUp(event) {
+	async function onKeyUp(event: KeyboardEvent) {
 		if (event.key !== "Enter") return;
 
-		const tradeChat = event.target.closest("[class^='chat-box__'], [class*='root___']:has([class*='content___'])");
+		const tradeChat = (event.target as Element).closest("[class^='chat-box__'], [class*='root___']:has([class*='content___'])");
 		const chatBody = tradeChat.find("[class*='chat-box-body___'], [class*='list___']");
 
-		const message = await new Promise((resolve) => {
+		const message = await new Promise<Element>((resolve) => {
 			new MutationObserver((mutations, observer) => {
 				const mutation = mutations.filter((mutation) => mutation.addedNodes.length).last();
 				if (!mutation) return;
 
-				const node = mutation.addedNodes[0];
+				const node = mutation.addedNodes[0] as Element;
 
 				observer.disconnect();
 				resolve(node);
 			}).observe(chatBody, { childList: true });
 		});
-		if (event.target.value) return;
+		if ((event.target as HTMLInputElement).value) return;
 
 		if (message.className.includes("chat-box-body__block-message-wrapper__") && message.textContent === "Trade rooms allows one message per 60 seconds")
 			return;

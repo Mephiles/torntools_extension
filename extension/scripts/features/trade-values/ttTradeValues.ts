@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -15,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+
+			return true;
 		}
 	);
 
@@ -30,7 +30,7 @@
 	async function addItemValues() {
 		document.body.classList.add("tt-trade-values");
 		await requireElement(".cont .color1 .desc > li .name");
-		const localMappings = {};
+		const localMappings: Record<string, string> = {};
 
 		for (const log of document.findAll(".log li .msg:not(.tt-modified)")) {
 			log.classList.add("tt-modified");
@@ -97,8 +97,7 @@
 				}
 				if (marketValue === 0) continue;
 
-				// noinspection JSCheckFunctionSignatures
-				const worth = parseInt(marketValue * quantity);
+				const worth = parseInt((marketValue * quantity).toString());
 				totalValue += worth;
 
 				item.appendChild(document.newElement({ type: "span", class: "tt-item-value", text: formatNumber(worth, { currency: true }) }));

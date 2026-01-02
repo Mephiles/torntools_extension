@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -16,7 +14,8 @@
 		null
 	);
 
-	let filterSetupComplete;
+	let filterSetupComplete: boolean = false;
+
 	async function initialiseFilters() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
 			if (!feature.enabled()) return;
@@ -31,13 +30,13 @@
 		});
 
 		const listObserver = new MutationObserver((mutations) => {
-			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.matches("li[class*='tableRow__']")))) {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => isElement(node) && node.matches("li[class*='tableRow__']")))) {
 				if (filterSetupComplete && feature.enabled()) applyFilters();
 			}
 		});
 
 		const tableObserver = new MutationObserver((mutations) => {
-			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.tagName === "UL"))) {
+			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => isElement(node) && node.tagName === "UL"))) {
 				if (filterSetupComplete && feature.enabled()) {
 					applyFilters();
 					listObserver.observe(document.find(".tableWrapper > ul"), { childList: true });
@@ -49,7 +48,7 @@
 		listObserver.observe(await requireElement(".tableWrapper > ul"), { childList: true });
 	}
 
-	const localFilters = {};
+	const localFilters: any = {};
 
 	async function addFilters() {
 		const { content } = createContainer("Target Filter", {
@@ -152,7 +151,16 @@
 		);
 	}
 
-	function filterRow(row, filters, individual) {
+	interface TargetFilters {
+		activity: string[];
+		level: {
+			start: number | null;
+			end: number | null;
+		};
+		statsEstimates: string[];
+	}
+
+	function filterRow(row: HTMLElement, filters: Partial<TargetFilters>, individual: boolean) {
 		if (filters.activity) {
 			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
@@ -196,7 +204,7 @@
 			}
 		}
 
-		function hide(reason) {
+		function hide(reason: string) {
 			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 

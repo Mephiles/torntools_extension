@@ -134,7 +134,6 @@
 					{ value: "red", description: "Red" },
 				],
 				callback: applyFilters,
-				// @ts-ignore
 				defaults: filters.auction[itemType].quality,
 			});
 			filterContent.appendChild(qualityFilter.element);

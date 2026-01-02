@@ -1,6 +1,9 @@
 declare global {
 	interface Window {
 		initializeTooltip: (selector: string, additionalClass: string) => void;
+		chat?: {
+			r(id: string): void;
+		};
 	}
 
 	interface NewElementOptions {

@@ -143,7 +143,6 @@ function createFilterSection(options: any): any {
 	}
 
 	if (options.checkboxes.length) {
-		// @ts-ignore
 		const checkboxes = createCheckboxList({ items: options.checkboxes, orientation: options.orientation, useId: true });
 		checkboxes.onSelectionChange(options.callback);
 		checkboxes.setSelections((Array.isArray(options.defaults) ? options.defaults : []) as string[]);
@@ -291,7 +290,7 @@ function createFilterSection(options: any): any {
 					[select2, value2],
 				].map(
 					([s, v]) =>
-						// @ts-ignore
+						// @ts-expect-error Pre-migration shenanigans
 						({ bonus: s.getSelected() as string, value: isNaN(v.getValue()) ? 0 : parseInt(v.getValue()) }) as { bonus: string; value: number }
 				),
 		};
