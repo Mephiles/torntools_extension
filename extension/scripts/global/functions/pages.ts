@@ -27,7 +27,7 @@ function initializeInternalPage(partialOptions: Partial<InitializeInternalPageOp
 				const table = findParent(clickedElement, { tag: "TABLE" });
 				if (!table || !table.classList.contains("sortable")) return;
 
-				sortTable(table, [...table.findAll("th")].indexOf(clickedElement) + 1);
+				sortTable(table, [...table.findAll<HTMLElement>("th")].indexOf(clickedElement) + 1);
 			}
 		});
 	}

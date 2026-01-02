@@ -130,7 +130,7 @@ function getParams(body: string) {
 	return params;
 }
 
-function paramsToBody(params: { [key: string]: string }) {
+function paramsToBody(params: { [key: string]: string | number }) {
 	const _params = [];
 
 	for (const key in params) {

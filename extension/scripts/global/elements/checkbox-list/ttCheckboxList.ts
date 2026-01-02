@@ -2,7 +2,7 @@ interface CheckboxListOptions {
 	items: { id: string; description: string }[];
 	orientation: "column" | "row";
 	reverseLabel: boolean;
-	useId: string;
+	useId: boolean;
 }
 
 function createCheckboxList(partialOptions: Partial<CheckboxListOptions>) {
@@ -10,7 +10,7 @@ function createCheckboxList(partialOptions: Partial<CheckboxListOptions>) {
 		items: [],
 		orientation: "column",
 		reverseLabel: false,
-		useId: "",
+		useId: false,
 		...partialOptions,
 	};
 

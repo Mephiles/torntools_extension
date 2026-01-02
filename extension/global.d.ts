@@ -1,4 +1,11 @@
 declare global {
+	interface Window {
+		initializeTooltip: (selector: string, additionalClass: string) => void;
+		chat?: {
+			r(id: string): void;
+		};
+	}
+
 	interface NewElementOptions {
 		type: keyof HTMLElementTagNameMap;
 		id?: string;
@@ -31,6 +38,7 @@ declare global {
 	interface Element {
 		find<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): HTMLElementTagNameMap[K] | null;
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
+		findAll<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): NodeListOf<HTMLElementTagNameMap[K]>;
 		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
 		setClass(...classNames: string[]): void;
 	}

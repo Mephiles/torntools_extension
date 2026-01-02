@@ -6,20 +6,22 @@ type COLUMN_SORT_DIRECTION = (typeof COLUMN_SORT_DIRECTION)[keyof typeof COLUMN_
 
 type TableCellRenderer<TData> = (data: TData) => BaseElement<Node>;
 
+type ColumnDef<T, P extends keyof T = keyof T> = {
+	id: P;
+	title: string;
+	class?: string;
+	width: number;
+	sortable?: boolean;
+	sortComparator?: (a: T[P], b: T[P], direction: COLUMN_SORT_DIRECTION) => number;
+	cellRenderer?: TableCellRenderer<T[P]>;
+	/**
+	 * When provided {@link TableColumnDef.cellRenderer} is ignored
+	 */
+	cellRendererSelector?: (rowData: T) => TableCellRenderer<T[P]>;
+};
+
 type TableColumnDef<T, K extends keyof T = keyof T> = {
-	[P in K]: {
-		id: P;
-		title: string;
-		class?: string;
-		width: number;
-		sortable: boolean;
-		sortComparator?: (a: T[P], b: T[P], direction: COLUMN_SORT_DIRECTION) => number;
-		cellRenderer: TableCellRenderer<T[P]>;
-		/**
-		 * When provided {@link TableColumnDef.cellRenderer} is ignored
-		 */
-		cellRendererSelector?: (rowData: T) => TableCellRenderer<T[P]>;
-	};
+	[P in K]: ColumnDef<T, P>;
 }[K];
 
 type TableRowGroupInfo<T> = {
@@ -27,8 +29,8 @@ type TableRowGroupInfo<T> = {
 	cellRenderer: TableCellRenderer<string>;
 };
 
-function stringCellRenderer(value: string): BaseElement<Node> {
-	const element = document.createTextNode(value);
+function stringCellRenderer(value: string | number): BaseElement<Node> {
+	const element = document.createTextNode(value.toString());
 
 	return {
 		element,

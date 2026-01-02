@@ -159,7 +159,6 @@
 						text = `${count}x ${name}`;
 					} else text = name;
 
-					// noinspection JSUnusedGlobalSymbols
 					return document.newElement({
 						type: "span",
 						text,
