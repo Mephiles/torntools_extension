@@ -1,6 +1,8 @@
 (async () => {
 	if (isFlying() || isAbroad()) return;
 
+	if (!getPageStatus().access) return;
+
 	const { mobile, tablet } = await checkDevice();
 
 	if (mobile || tablet) {
