@@ -4,7 +4,9 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Apply sales tax on the values in the travel table.", "contributor": "aHunterGatherer" }],
+		    "features": [{ "message": "Apply sales tax on the items abroad table.", "contributor": "aHunterGatherer"},
+				 { "message": "Refactor SalesTax and AnonymousTax percentages for user-configuration.", "contributor": "aHunterGatherer"},
+				 { "message": "Apply sales tax on the values in the travel table.", "contributor": "aHunterGatherer" }],
 			"fixes": [
 				{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix profile box currency table cells not working", "contributor": "AllMight" },

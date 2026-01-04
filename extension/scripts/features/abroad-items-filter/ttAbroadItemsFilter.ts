@@ -2,6 +2,11 @@
 	if (!isAbroad()) return;
 	if (!getPageStatus().access) return;
 
+	// @ts-ignore  -- used for string interpolation but TS isn't brilliant
+	const SALES_TAX = settings.pages.itemmarket.salesTaxPercentage;
+	// @ts-ignore
+	const ANONYMOUS_TAX = settings.pages.itemmarket.sellAnonymouslyPercentage;
+
 	featureManager.registerFeature(
 		"Abroad Item Filter",
 		"travel",
@@ -10,7 +15,7 @@
 		addFilter,
 		removeFilter,
 		{
-			storage: ["settings.pages.travel.itemFilter"],
+		storage: ["settings.pages.travel.itemFilter", "settings.pages.itemmarket.salesTaxPercentage", "settings.pages.itemmarket.sellAnonymouslyPercentage",],
 		},
 		null
 	);
@@ -64,14 +69,26 @@
 		});
 		filterContent.appendChild(categoryFilter.element);
 
+		const taxesFilter = createFilterSection({
+			title: "Taxes",
+			checkboxes: [
+				{ id: "salestax", description: (SALES_TAX + "% Sales Tax") },
+				{ id: "anonymous", description: (ANONYMOUS_TAX + "% Anonymous Tax") },
+			],
+			defaults: filters.abroadItems.taxes,
+			callback: filtering,
+		});
+		filterContent.appendChild(taxesFilter.element);
+
 		content.appendChild(filterContent);
 
 		await filtering();
 
 		async function filtering() {
-			const profitOnly = settings.pages.travel.travelProfits && profitOnlyFilter.isChecked(content);
 			const outOfStock = outOfStockFilter.isChecked(content);
+			const profitOnly = settings.pages.travel.travelProfits && profitOnlyFilter.isChecked(content);
 			const categories = categoryFilter.getSelections(content) as string[];
+			const taxes = taxesFilter.getSelections(content) as string[];
 			if (profitOnly) await requireElement(".tt-travel-market-cell");
 
 			for (const li of document.findAll("[class*='stockTableWrapper___'] > li")) {
@@ -138,9 +155,10 @@
 			await ttStorage.change({
 				filters: {
 					abroadItems: {
-						profitOnly,
 						outOfStock,
+						profitOnly,
 						categories,
+						taxes,
 					},
 				},
 			});
