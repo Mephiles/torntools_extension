@@ -24,8 +24,8 @@
 		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 1800, time: 159 },
 	};
 
-	const SALES_TAX = 5;
-	const ANONYMOUS_TAX = 10;
+	const SALES_TAX = settings.pages.itemmarket.salesTaxPercentage;
+	const ANONYMOUS_TAX = settings.pages.itemmarket.sellAnonymouslyPercentage;
 
 	const feature = featureManager.registerFeature(
 		"Travel Table",
@@ -35,7 +35,7 @@
 		startTable,
 		removeTable,
 		{
-			storage: ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata", "settings.external.prometheus"],
+		    storage: ["settings.pages.travel.table", "settings.pages.itemmarket.salesTaxPercentage", "settings.pages.itemmarket.sellAnonymouslyPercentage", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata", "settings.external.prometheus"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API data!";
