@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!isOwnFaction) return;
 
@@ -69,7 +67,7 @@
 	}
 
 	async function disableButtons() {
-		const list = await requireElement(".tt-oc2-list");
+		const list: Element = await requireElement(".tt-oc2-list");
 		list.querySelectorAll("[class*='joinButton___']:not(.tt-warn-crime--processed)").forEach((button) => {
 			button.classList.add("tt-warn-crime--processed");
 
@@ -79,7 +77,7 @@
 			const scenarioName = scenarioElement.querySelector("[class*='panelTitle___']").textContent;
 			const position = slotElement.querySelector("[class*='title___']").textContent;
 
-			const blocked = [];
+			const blocked: string[] = [];
 
 			const information = scenarioInformation[scenarioName][position];
 			if (information.hasItem === false) blocked.push("item");

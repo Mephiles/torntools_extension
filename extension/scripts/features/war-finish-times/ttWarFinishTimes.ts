@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"War Finish Times",
