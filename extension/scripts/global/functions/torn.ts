@@ -306,7 +306,17 @@ const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 		}, {});
  */
 
-const COMPANY_INFORMATION = {
+interface CompanySpecial {
+	name: string;
+	cost: string;
+	effect: string;
+}
+
+type CompanyStars = 1 | 3 | 5 | 7 | 10;
+
+type CompanyInformation = Partial<Record<CompanyStars, CompanySpecial>>;
+
+const COMPANY_INFORMATION: { [name: string]: CompanyInformation } = {
 	"Adult Novelties": {
 		1: {
 			name: "Blackmail",
@@ -1347,6 +1357,12 @@ const COMPANY_INFORMATION = {
 	},
 } as const;
 
+interface SetItem {
+	name: string;
+	id: number;
+	category: "Flower" | "Plushie";
+}
+
 const SETS = {
 	FLOWERS: [
 		{ name: "Dahlia", id: 260, category: "Flower" },
@@ -1376,7 +1392,7 @@ const SETS = {
 		{ name: "Camel Plushie", id: 384, category: "Plushie" },
 		{ name: "Stingray Plushie", id: 618, category: "Plushie" },
 	],
-} as const;
+} as const satisfies Record<string, SetItem[]>;
 
 const SPECIAL_FILTER_ICONS = {
 	traveling: ["icon71"],

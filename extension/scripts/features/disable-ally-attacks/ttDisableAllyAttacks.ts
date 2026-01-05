@@ -16,7 +16,6 @@
 	);
 
 	async function startObserver() {
-		// noinspection JSCheckFunctionSignatures
 		new MutationObserver(() => {
 			if (feature.enabled()) disableAttackButton();
 		}).observe(await requireElement(".profile-container"), { childList: true });

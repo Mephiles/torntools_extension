@@ -1,7 +1,11 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
+
+	interface Bonus {
+		weapons: { id: number; name: string }[];
+		type: string;
+		description: string;
+	}
 
 	const TYPES = {
 		Debuff: "Enemy Debuff",
@@ -10,8 +14,8 @@
 		Happy: "Happy Bonus",
 		DamagePenalty: "Damage Penalty",
 		Passive: "Passive",
-	};
-	const BONUSES = {
+	} as const satisfies Record<string, string>;
+	const BONUSES: Record<string, Bonus> = {
 		Demoralized: {
 			weapons: [{ id: 382, name: "Gold Plated AK-47" }],
 			type: TYPES.Debuff,
@@ -132,7 +136,7 @@
 			const icon = log.find(".message-wrap span:first-child").classList[0];
 			const messageElement = log.find(".message");
 
-			let bonus;
+			let bonus: Bonus;
 			switch (icon) {
 				case "attacking-events-demoralized":
 					bonus = BONUSES.Demoralized;
