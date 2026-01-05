@@ -5,7 +5,34 @@
  * Licensed under the MIT license.
  */
 
-const DefaultConfiguration = {
+interface DragDropTouchConfiguration {
+	allowDragScroll: boolean;
+	contextMenuDelayMS: number;
+	dragImageOpacity: number;
+	dragScrollPercentage: number;
+	dragScrollSpeed: number;
+	dragThresholdPixels: number;
+	forceListen: boolean;
+	isPressHoldMode: boolean;
+	pressHoldDelayMS: number;
+	pressHoldMargin: number;
+	pressHoldThresholdPixels: number;
+}
+
+interface Point {
+	x: number;
+	y: number;
+}
+
+// Using the native TouchEvent interface instead of extending it
+type TouchEventWithTouches = TouchEvent & {
+	touches: TouchList;
+};
+
+type DropEffect = "none" | "copy" | "move" | "link" | "all";
+type EffectAllowed = "none" | "copy" | "copyLink" | "copyMove" | "link" | "linkMove" | "move" | "all";
+
+const DefaultConfiguration: DragDropTouchConfiguration = {
 	allowDragScroll: true,
 	contextMenuDelayMS: 900,
 	dragImageOpacity: 0.5,
@@ -30,34 +57,39 @@ const DefaultConfiguration = {
  * accessible through the @see:dataTransfer property of all drag events.
  */
 class DragDTO {
-	constructor(dragDropTouch) {
+	private _dropEffect: DropEffect;
+	private _effectAllowed: EffectAllowed;
+	private _data: Record<string, any>;
+	private _dragDropTouch: DragDropTouch;
+
+	constructor(dragDropTouch: DragDropTouch) {
 		this._dropEffect = "move";
 		this._effectAllowed = "all";
 		this._data = {};
 		this._dragDropTouch = dragDropTouch;
 	}
 
-	get dropEffect() {
+	get dropEffect(): DropEffect {
 		return this._dropEffect;
 	}
 
-	set dropEffect(value) {
+	set dropEffect(value: DropEffect) {
 		this._dropEffect = value;
 	}
 
-	get effectAllowed() {
+	get effectAllowed(): EffectAllowed {
 		return this._effectAllowed;
 	}
 
-	set effectAllowed(value) {
+	set effectAllowed(value: EffectAllowed) {
 		this._effectAllowed = value;
 	}
 
-	get types() {
+	get types(): string[] {
 		return Object.keys(this._data);
 	}
 
-	clearData(type) {
+	clearData(type: string | null): void {
 		if (type !== null) {
 			delete this._data[type.toLowerCase()];
 		} else {
@@ -65,7 +97,7 @@ class DragDTO {
 		}
 	}
 
-	getData(type) {
+	getData(type: string): any {
 		const lcType = type.toLowerCase();
 		let data = this._data[lcType];
 		if (lcType === "text" && data == null) {
@@ -74,16 +106,16 @@ class DragDTO {
 		return data; // @see https://github.com/Bernardo-Castilho/dragdroptouch/pull/61/files
 	}
 
-	setData(type, value) {
+	setData(type: string, value: any): void {
 		this._data[type.toLowerCase()] = value;
 	}
 
-	setDragImage(img, offsetX, offsetY) {
+	setDragImage(img: HTMLElement, offsetX: number, offsetY: number): void {
 		this._dragDropTouch.setDragImage(img, offsetX, offsetY);
 	}
 }
 
-function pointFrom(e, page = false) {
+function pointFrom(e: TouchEventWithTouches, page: boolean = false): Point {
 	const touch = e.touches[0];
 	return {
 		x: page ? touch.pageX : touch.clientX,
@@ -91,20 +123,24 @@ function pointFrom(e, page = false) {
 	};
 }
 
-function copyProps(dst, src, props) {
+function copyProps(dst: any, src: any, props: string[]): void {
 	for (let i = 0; i < props.length; i++) {
 		let p = props[i];
 		dst[p] = src[p];
 	}
 }
 
-function newForwardableEvent(type, srcEvent, target) {
+function newForwardableEvent(
+	type: string,
+	srcEvent: TouchEventWithTouches,
+	target: HTMLElement
+): Event & { button: number; which: number; buttons: number; dataTransfer?: DragDTO } {
 	const _kbdProps = ["altKey", "ctrlKey", "metaKey", "shiftKey"];
 	const _ptProps = ["pageX", "pageY", "clientX", "clientY", "screenX", "screenY", "offsetX", "offsetY"];
 	const evt = new Event(type, {
 		bubbles: true,
 		cancelable: true,
-	});
+	}) as Event & { button: number; which: number; buttons: number; dataTransfer?: DragDTO };
 	const touch = srcEvent.touches[0];
 	evt.button = 0;
 	evt.which = evt.buttons = 1;
@@ -114,7 +150,7 @@ function newForwardableEvent(type, srcEvent, target) {
 	return evt;
 }
 
-function setOffsetAndLayerProps(e, target) {
+function setOffsetAndLayerProps(e: any, target: HTMLElement): void {
 	const rect = target.getBoundingClientRect();
 	if (e.offsetX === undefined) {
 		e.offsetX = e.clientX - rect.x;
@@ -126,16 +162,16 @@ function setOffsetAndLayerProps(e, target) {
 	}
 }
 
-function copyStyle(src, dst) {
+function copyStyle(src: HTMLElement, dst: HTMLElement): void {
 	// remove potentially troublesome attributes
 	removeTroublesomeAttributes(dst);
 
 	// copy canvas content
 	if (src instanceof HTMLCanvasElement) {
-		let cDst = dst;
+		const cDst = dst as HTMLCanvasElement;
 		cDst.width = src.width;
 		cDst.height = src.height;
-		cDst.getContext("2d").drawImage(src, 0, 0);
+		cDst.getContext("2d")!.drawImage(src, 0, 0);
 	}
 
 	// copy style (without transitions)
@@ -144,20 +180,21 @@ function copyStyle(src, dst) {
 
 	// and repeat for all children
 	for (let i = 0; i < src.children.length; i++) {
-		copyStyle(src.children[i], dst.children[i]);
+		copyStyle(src.children[i] as HTMLElement, dst.children[i] as HTMLElement);
 	}
 }
 
-function copyComputedStyles(src, dst) {
+function copyComputedStyles(src: HTMLElement, dst: HTMLElement): void {
 	let cs = getComputedStyle(src);
-	for (let key of cs) {
+	for (let i = 0; i < cs.length; i++) {
+		const key = cs[i];
 		if (key.includes("transition")) continue;
 		dst.style[key] = cs[key];
 	}
 	Object.keys(dst.dataset).forEach((key) => delete dst.dataset[key]);
 }
 
-function removeTroublesomeAttributes(dst) {
+function removeTroublesomeAttributes(dst: HTMLElement): void {
 	["id", "class", "style", "draggable"].forEach(function (att) {
 		dst.removeAttribute(att);
 	});
@@ -182,6 +219,20 @@ function removeTroublesomeAttributes(dst) {
  * https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Drag_operations.
  */
 class DragDropTouch {
+	private readonly configuration: DragDropTouchConfiguration;
+	private _dragRoot: Document | HTMLElement;
+	private readonly _dropRoot: Document | HTMLElement | ShadowRoot;
+	private _dragSource: HTMLElement | null;
+	private _lastTouch: TouchEventWithTouches | null;
+	private _lastTarget: HTMLElement | null;
+	private _ptDown: Point | null;
+	private _isDragEnabled: boolean;
+	private _isDropZone: boolean;
+	private _dataTransfer: DragDTO;
+	private _img: HTMLElement | null;
+	private _imgCustom: HTMLElement | null;
+	private _imgOffset: Point;
+	private _pressHoldIntervalId: number | null;
 	/**
 	 * Deal with shadow DOM elements.
 	 *
@@ -199,11 +250,13 @@ class DragDropTouch {
 	 * @param dropRoot
 	 * @param options
 	 */
-	constructor(dragRoot = document, dropRoot = document, options) {
+	constructor(dragRoot: Document | HTMLElement = document, dropRoot: Document | HTMLElement = document, options?: Partial<DragDropTouchConfiguration>) {
 		this.configuration = { ...DefaultConfiguration, ...(options || {}) };
 		this._dragRoot = dragRoot;
 		this._dropRoot = dropRoot;
-		while (!this._dropRoot.elementFromPoint && this._dropRoot.parentNode) this._dropRoot = this._dropRoot.parentNode;
+		while (((this._dropRoot as any).elementFromPoint === undefined || !(this._dropRoot instanceof HTMLElement)) && this._dropRoot.parentNode) {
+			this._dropRoot = this._dropRoot.parentNode as Document | HTMLElement | ShadowRoot;
+		}
 		this._dragSource = null;
 		this._lastTouch = null;
 		this._lastTarget = null;
@@ -217,31 +270,35 @@ class DragDropTouch {
 		this.listen();
 	}
 
-	listen() {
+	listen(): void {
 		if (navigator.maxTouchPoints === 0 && !this.configuration.forceListen) {
 			return;
 		}
 
 		const opt = { passive: false, capture: false };
 
-		this._dragRoot.addEventListener(`touchstart`, this._touchstart.bind(this), opt);
-		this._dragRoot.addEventListener(`touchmove`, this._touchmove.bind(this), opt);
-		this._dragRoot.addEventListener(`touchend`, this._touchend.bind(this));
-		this._dragRoot.addEventListener(`touchcancel`, this._touchend.bind(this));
+		this._dragRoot.addEventListener(`touchstart`, this._touchstart.bind(this) as EventListener, opt);
+		this._dragRoot.addEventListener(`touchmove`, this._touchmove.bind(this) as EventListener, opt);
+		this._dragRoot.addEventListener(`touchend`, this._touchend.bind(this) as EventListener);
+		this._dragRoot.addEventListener(`touchcancel`, this._touchend.bind(this) as EventListener);
 	}
 
-	setDragImage(img, offsetX, offsetY) {
+	setDragImage(img: HTMLElement, offsetX: number, offsetY: number): void {
 		this._imgCustom = img;
 		this._imgOffset = { x: offsetX, y: offsetY };
 	}
 
-	_touchstart(e) {
+	private _touchstart(e: TouchEventWithTouches): void {
 		if (this._shouldHandle(e)) {
 			this._reset();
-			let src = this._closestDraggable(e.target);
+			let src = this._closestDraggable(e.target as HTMLElement);
 			if (src) {
 				// give caller a chance to handle the hover/move events
-				if (e.target && !this._dispatchEvent(e, `mousemove`, e.target) && !this._dispatchEvent(e, `mousedown`, e.target)) {
+				if (
+					e.target &&
+					!this._dispatchEvent(e, `mousemove`, e.target as HTMLElement) &&
+					!this._dispatchEvent(e, `mousedown`, e.target as HTMLElement)
+				) {
 					// get ready to start dragging
 					this._dragSource = src;
 					this._ptDown = pointFrom(e);
@@ -268,7 +325,7 @@ class DragDropTouch {
 					// turned into click events by the browser.
 					else if (!e.isTrusted) {
 						if (e.target !== this._lastTarget) {
-							this._lastTarget = e.target;
+							this._lastTarget = e.target as HTMLElement;
 						}
 					}
 				}
@@ -276,7 +333,7 @@ class DragDropTouch {
 		}
 	}
 
-	_touchmove(e) {
+	private _touchmove(e: TouchEventWithTouches): void {
 		if (this._shouldCancelPressHoldMove(e)) {
 			this._reset();
 			return;
@@ -285,7 +342,7 @@ class DragDropTouch {
 		if (this._shouldHandleMove(e) || this._shouldHandlePressHoldMove(e)) {
 			// see if target wants to handle move
 			let target = this._getTarget(e);
-			if (this._dispatchEvent(e, `mousemove`, target)) {
+			if (target && this._dispatchEvent(e, `mousemove`, target)) {
 				this._lastTouch = e;
 				e.preventDefault();
 				return;
@@ -324,14 +381,14 @@ class DragDropTouch {
 		}
 	}
 
-	_touchend(e) {
+	private _touchend(e: TouchEventWithTouches): void {
 		if (!(this._lastTouch && e.target && this._lastTarget)) {
 			this._reset();
 			return;
 		}
 
 		if (this._shouldHandle(e)) {
-			if (this._dispatchEvent(this._lastTouch, `mouseup`, e.target)) {
+			if (this._dispatchEvent(this._lastTouch!, `mouseup`, e.target as HTMLElement)) {
 				e.preventDefault();
 				return;
 			}
@@ -339,7 +396,7 @@ class DragDropTouch {
 			// user clicked the element but didn't drag, so clear the source and simulate a click
 			if (!this._img) {
 				this._dragSource = null;
-				this._dispatchEvent(this._lastTouch, `click`, e.target);
+				this._dispatchEvent(this._lastTouch!, `click`, e.target as HTMLElement);
 			}
 
 			// finish dragging
@@ -354,28 +411,28 @@ class DragDropTouch {
 		}
 	}
 
-	_shouldHandle(e) {
+	private _shouldHandle(e: TouchEventWithTouches): boolean {
 		// Force disable when touching the sidebar.
-		if (findParent(e.target, { id: "sidebar", maxAttempts: 6 })) {
+		if (findParent(e.target as Node, { id: "sidebar", maxAttempts: 6 })) {
 			return false;
 		}
 
 		return e && !e.defaultPrevented && e.touches && e.touches.length < 2;
 	}
 
-	_shouldHandleMove(e) {
+	private _shouldHandleMove(e: TouchEventWithTouches): boolean {
 		return !this.configuration.isPressHoldMode && this._shouldHandle(e);
 	}
 
-	_shouldHandlePressHoldMove(e) {
-		return this.configuration.isPressHoldMode && this._isDragEnabled && e && e.touches && e.touches.length;
+	private _shouldHandlePressHoldMove(e: TouchEventWithTouches): boolean {
+		return this.configuration.isPressHoldMode && this._isDragEnabled && e && e.touches && e.touches.length > 0;
 	}
 
-	_shouldCancelPressHoldMove(e) {
+	private _shouldCancelPressHoldMove(e: TouchEventWithTouches): boolean {
 		return this.configuration.isPressHoldMode && !this._isDragEnabled && this._getDelta(e) > this.configuration.pressHoldMargin;
 	}
 
-	_shouldStartDragging(e) {
+	private _shouldStartDragging(e: TouchEventWithTouches): boolean {
 		let delta = this._getDelta(e);
 		if (this.configuration.isPressHoldMode) {
 			return delta >= this.configuration.pressHoldThresholdPixels;
@@ -383,7 +440,7 @@ class DragDropTouch {
 		return delta > this.configuration.dragThresholdPixels;
 	}
 
-	_reset() {
+	private _reset(): void {
 		this._destroyImage();
 		this._dragSource = null;
 		this._lastTouch = null;
@@ -395,7 +452,7 @@ class DragDropTouch {
 		clearTimeout(this._pressHoldIntervalId);
 	}
 
-	_getDelta(e) {
+	private _getDelta(e: TouchEventWithTouches): number {
 		// if there is no active touch we don't need to calculate anything.
 		if (!this._ptDown) return 0;
 
@@ -406,7 +463,7 @@ class DragDropTouch {
 		return ((p.x - x) ** 2 + (p.y - y) ** 2) ** 0.5;
 	}
 
-	_getHotRegionDelta(e) {
+	private _getHotRegionDelta(e: TouchEventWithTouches): Point {
 		const { clientX: x, clientY: y } = e.touches[0];
 		const { innerWidth: w, innerHeight: h } = globalThis;
 		const { dragScrollPercentage, dragScrollSpeed } = this.configuration;
@@ -417,23 +474,23 @@ class DragDropTouch {
 		return { x: dx, y: dy };
 	}
 
-	_getTarget(e) {
+	private _getTarget(e: TouchEventWithTouches): HTMLElement | null {
 		let pt = pointFrom(e),
-			el = this._dropRoot.elementFromPoint(pt.x, pt.y);
+			el = (this._dropRoot as any).elementFromPoint(pt.x, pt.y);
 		while (el && getComputedStyle(el).pointerEvents === "none") {
 			el = el.parentElement;
 		}
 		return el;
 	}
 
-	_createImage(e) {
+	private _createImage(e: TouchEventWithTouches): void {
 		// just in case...
 		if (this._img) {
 			this._destroyImage();
 		}
 		// create drag image from custom element or drag source
 		let src = this._imgCustom || this._dragSource;
-		this._img = src.cloneNode(true);
+		this._img = src.cloneNode(true) as HTMLElement;
 		copyStyle(src, this._img);
 		this._img.style.top = this._img.style.left = `-9999px`;
 		// if creating from drag source, apply offset and opacity
@@ -448,7 +505,7 @@ class DragDropTouch {
 		document.body.appendChild(this._img);
 	}
 
-	_destroyImage() {
+	private _destroyImage(): void {
 		if (this._img && this._img.parentElement) {
 			this._img.parentElement.removeChild(this._img);
 		}
@@ -456,7 +513,7 @@ class DragDropTouch {
 		this._imgCustom = null;
 	}
 
-	_moveImage(e) {
+	private _moveImage(e: TouchEventWithTouches): void {
 		requestAnimationFrame(() => {
 			if (this._img) {
 				let pt = pointFrom(e, true),
@@ -470,7 +527,7 @@ class DragDropTouch {
 		});
 	}
 
-	_dispatchEvent(srcEvent, type, target) {
+	private _dispatchEvent(srcEvent: TouchEventWithTouches, type: string, target: HTMLElement): boolean {
 		if (!(srcEvent && target)) return false;
 		const evt = newForwardableEvent(type, srcEvent, target);
 
@@ -480,7 +537,7 @@ class DragDropTouch {
 		return evt.defaultPrevented;
 	}
 
-	_closestDraggable(element) {
+	private _closestDraggable(element: HTMLElement): HTMLElement | null {
 		for (let e = element; e !== null; e = e.parentElement) {
 			if (e.draggable) {
 				return e;
@@ -497,8 +554,8 @@ class DragDropTouch {
  * @param dropRoot
  * @param options
  */
-function enableDragDropTouch(dragRoot, dropRoot, options) {
-	new DragDropTouch(dragRoot, dropRoot, options);
+function enableDragDropTouch(dragRoot: Document | HTMLElement, dropRoot: Document | HTMLElement, options?: Partial<DragDropTouchConfiguration>): DragDropTouch {
+	return new DragDropTouch(dragRoot, dropRoot, options);
 }
 
 enableDragDropTouch(document, document, {
