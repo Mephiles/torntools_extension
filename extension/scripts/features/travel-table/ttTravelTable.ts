@@ -50,7 +50,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(({ type }) => {
 			if (!feature.enabled()) return;
 
-			document.find<HTMLInputElement>("#travel-items").value = getTravelCount(type).toString();
+			document.find<HTMLInputElement>("#travel-items").value = getTravelCount(type as any).toString();
 			updateValues();
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(({ country }) => {

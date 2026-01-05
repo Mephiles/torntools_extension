@@ -462,7 +462,7 @@
 		}
 	}
 
-	function updateItemAmount(id: string, change: number) {
+	function updateItemAmount(id: number, change: number) {
 		const quickQuantity = findContainer("Quick Items", { selector: `.item[data-id="${id}"] .quantity` });
 		if (quickQuantity) {
 			let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;

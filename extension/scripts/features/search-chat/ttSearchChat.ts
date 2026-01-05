@@ -24,7 +24,7 @@
 			const parent = message.closest("[class*='chat-box__'], [class*='item___']");
 			if (!parent) return;
 
-			const input = parent.find(".tt-chat-filter input");
+			const input = parent.find<HTMLInputElement>(".tt-chat-filter input");
 			if (!input) return;
 
 			const inputValue = input.value;

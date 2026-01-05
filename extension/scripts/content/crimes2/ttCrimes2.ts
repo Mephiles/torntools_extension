@@ -14,7 +14,7 @@
 
 				// If Crimes 2 home page is loaded, trigger that.
 				if (page === "page" && sid === "crimesData" && step === "hub") {
-					triggerCustomListener(EVENT_CHANNELS.CRIMES2_HOME_LOADED, null);
+					triggerCustomListener(EVENT_CHANNELS.CRIMES2_HOME_LOADED);
 					return;
 				}
 

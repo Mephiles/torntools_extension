@@ -301,7 +301,7 @@
 		}
 	}
 
-	function updateItemAmount(id: string, change: number) {
+	function updateItemAmount(id: number, change: number) {
 		for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
 			const priceElement = item.find(".tt-item-price");
 			if (!priceElement) continue;
