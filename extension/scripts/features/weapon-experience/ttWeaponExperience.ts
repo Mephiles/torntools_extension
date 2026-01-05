@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const { mobile, tablet } = await checkDevice();
 
@@ -19,7 +17,7 @@
 		}
 	);
 
-	let observers = [];
+	const observers: MutationObserver[] = [];
 
 	async function initialiseListeners() {
 		if (mobile || tablet) {
@@ -30,7 +28,7 @@
 	}
 
 	async function showExperience() {
-		const attacker = (await requireElement("[class*='green___']")).parentElement;
+		const attacker = ((await requireElement("[class*='green___']")) as Element).parentElement;
 
 		for (const weapon of attacker.findAll("#weapon_main, #weapon_second, #weapon_melee, #weapon_temp")) {
 			if (weapon.className.includes("defender")) continue;
