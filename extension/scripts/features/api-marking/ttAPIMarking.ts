@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	await loadDatabase();
 
@@ -16,7 +14,7 @@
 		for (const field of document.findAll(".panel-body > p[class*='_fields']")) {
 			const type = getSection(field.classList[0].substring(0, 1));
 
-			new MutationObserver((mutations, observer) => {
+			new MutationObserver((_mutations, observer) => {
 				observer.disconnect();
 
 				toSpan(field);
@@ -30,7 +28,7 @@
 			}).observe(field, { childList: true });
 		}
 
-		function toSpan(field) {
+		function toSpan(field: HTMLElement) {
 			if (field.classList.contains("tt-modified")) return;
 
 			field.classList.add("tt-modified");
@@ -86,7 +84,7 @@
 					loadResponse(response, API_USAGE[type], 1);
 					modifiedPre.appendChild(document.newElement({ type: "span", text: "}" }));
 
-					function loadResponse(response, marking, indent) {
+					function loadResponse(response: any, marking: any, indent: number) {
 						for (const [key, value] of Object.entries(response)) {
 							if (typeof value === "object") {
 								if (Array.isArray(value)) {
@@ -115,7 +113,7 @@
 												);
 											}
 										} else {
-											displayValue(false, item, indent + 1, marking[key]);
+											displayValue(null, item, indent + 1, marking[key]);
 										}
 										modifiedPre.appendChild(document.newElement("br"));
 									}
@@ -141,12 +139,12 @@
 							modifiedPre.appendChild(document.newElement("br"));
 						}
 
-						function displayValue(key, value, indent, marking) {
+						function displayValue(key: string | null, value: any, indent: number, marking: any) {
 							const marks = typeof value === "string";
 
 							if (typeof value === "object") value = String(value);
 
-							let display, shouldMark;
+							let display: Element, shouldMark: boolean;
 							if (key) {
 								display = document.newElement({ type: "span", text: `${getIndent(indent)}"${key}": ${marks ? `"${value}"` : value},` });
 								shouldMark = marking === true || key in marking || "*" in marking;
@@ -178,7 +176,7 @@
 			}).observe(result, { childList: true });
 		}
 
-		function getIndent(level) {
+		function getIndent(level: number) {
 			let indent = "";
 
 			for (let i = 0; i < level; i++) {
@@ -189,7 +187,7 @@
 		}
 	}
 
-	function getSection(char) {
+	function getSection(char: string) {
 		switch (char) {
 			case "u":
 				return "user";
