@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 
@@ -33,7 +31,7 @@
 		});
 	}
 
-	const localFilters = {};
+	const localFilters: any = {};
 	async function addFilters() {
 		await requireElement(".userlist-wrapper .user-info-list-wrap");
 
@@ -133,13 +131,13 @@
 		);
 
 		const content = findContainer("Userlist Filter", { selector: "main" });
-		const activity = localFilters["Activity"].getSelections(content);
-		const special = localFilters["Special"].getSelections(content);
-		const hospReason = localFilters["Hosp Reason"].getSelections(content);
+		const activity: string[] = localFilters["Activity"].getSelections(content);
+		const special: Record<string, SpecialFilterValue> = localFilters["Special"].getSelections(content);
+		const hospReason: Record<string, SpecialFilterValue> = localFilters["Hosp Reason"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
-		const statsEstimates =
+		const statsEstimates: string[] =
 			hasStatsEstimatesLoaded("Userlist") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
 				? localFilters["Stats Estimate"]?.getSelections(content)
 				: undefined;
@@ -175,7 +173,18 @@
 		);
 	}
 
-	function filterRow(row, filters, individual) {
+	interface UserlistFilters {
+		activity: string[];
+		special: Record<string, SpecialFilterValue>;
+		hospReason: Record<string, SpecialFilterValue>;
+		level: {
+			start: number;
+			end: number;
+		};
+		statsEstimates: string[];
+	}
+
+	function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individual: boolean) {
 		if (row.find(".ajax-preloader")) return;
 
 		if (filters.activity) {
@@ -222,7 +231,7 @@
 					const isHospitalized = row.querySelector("li[title*='Hospital']");
 
 					if (isHospitalized) {
-						const hospitalizationReason = isHospitalized.title.split("<br>")[1];
+						const hospitalizationReason = isHospitalized.getAttribute("title").split("<br>")[1];
 
 						if (key === "other") {
 							return (
@@ -236,6 +245,8 @@
 							);
 						}
 					}
+
+					return false;
 				});
 
 			if (match) {
@@ -281,7 +292,7 @@
 			}
 		}
 
-		function hide(reason) {
+		function hide(reason: string) {
 			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 

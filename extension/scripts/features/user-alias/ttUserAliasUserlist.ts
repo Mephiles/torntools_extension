@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	const scopesList = {
 		factions: "faction",
@@ -11,7 +9,7 @@
 	const feature = featureManager.registerFeature(
 		"User Alias",
 		scopesList[getPage()],
-		() => Object.keys(settings.userAlias).length,
+		() => Object.keys(settings.userAlias).length > 0,
 		addListeners,
 		addAlias,
 		removeAlias,
@@ -21,7 +19,7 @@
 		null
 	);
 
-	const SELECTORS = {
+	const SELECTORS: Record<string, { items: string }> = {
 		UserList: { items: ".user-info-list-wrap > li[class*='user'] .user.name" },
 		factions: { items: ".members-list .table-body > li .user.name" },
 		hospital: { items: ".user-info-list-wrap > li .user.name" },
@@ -30,7 +28,7 @@
 
 	function addListeners() {
 		document.addEventListener("click", (event) => {
-			if (feature.enabled() && event.target.closest(".pagination-wrap a[href]")) addAlias();
+			if (feature.enabled() && isElement(event.target) && event.target.closest(".pagination-wrap a[href]")) addAlias();
 		});
 		if (typeof isOwnFaction !== "undefined" && isOwnFaction) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
@@ -42,9 +40,9 @@
 	async function addAlias() {
 		removeAlias();
 
-		const currentSelector = SELECTORS[getPage()];
+		const currentSelector = SELECTORS[getPage() as keyof typeof SELECTORS];
 		await requireElement(currentSelector.items);
-		const list = document.findAll(currentSelector.items);
+		const list = document.findAll<HTMLAnchorElement>(currentSelector.items);
 		list.forEach((li) => {
 			const liID = li.href.split("?XID=")[1].getNumber();
 			if (!settings.userAlias[liID]) return;

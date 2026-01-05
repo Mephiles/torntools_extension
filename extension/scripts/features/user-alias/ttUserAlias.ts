@@ -1,10 +1,8 @@
-"use strict";
-
 (async () => {
 	const feature = featureManager.registerFeature(
 		"User Alias - Chat",
 		"chat",
-		() => Object.keys(settings.userAlias).length,
+		() => Object.keys(settings.userAlias).length > 0,
 		addListeners,
 		liveReloadFunction,
 		removeAlias,
@@ -44,7 +42,7 @@
 		});
 	}
 
-	function liveReloadFunction(liveReload) {
+	function liveReloadFunction(liveReload: boolean) {
 		if (liveReload) {
 			removeAlias();
 			addAliasTitle();
@@ -79,7 +77,7 @@
 		});
 	}
 
-	function addAliasMessage(message = "") {
+	function addAliasMessage(message: Element | null = null) {
 		if (!message) {
 			for (const [userID, alias] of Object.entries(settings.userAlias)) {
 				document.findAll(`#chatRoot a[class*="chat-box-message__sender__"][href*='/profiles.php?XID=${userID}']`).forEach((profileLink) => {
@@ -88,7 +86,7 @@
 				});
 			}
 		} else {
-			const profileLink = message.find("a[href*='/profiles.php?XID=']");
+			const profileLink = message.find<HTMLAnchorElement>("a[href*='/profiles.php?XID=']");
 			const messageUserID = profileLink.href.split("=")[1];
 			if (messageUserID in settings.userAlias) {
 				profileLink.dataset.original = profileLink.textContent;

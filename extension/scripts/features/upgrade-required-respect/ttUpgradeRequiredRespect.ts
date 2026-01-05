@@ -1,5 +1,3 @@
-"use strict";
-
 (async () => {
 	if (!getPageStatus().access) return;
 	if (!isOwnFaction) return;
@@ -24,7 +22,7 @@
 		});
 	}
 
-	async function showRequiredRespect(force) {
+	async function showRequiredRespect(force: boolean) {
 		if (!force) return;
 		await requireElement("#faction-upgrades #stu-confirmation div[role] > :nth-child(3)");
 
@@ -36,7 +34,8 @@
 		);
 		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] .required .text");
 		if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;
-		let diff;
+
+		let diff: number;
 		if (requiredNode.parentElement.classList.contains("completed")) {
 			diff = 0;
 		} else {

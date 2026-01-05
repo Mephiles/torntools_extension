@@ -1,10 +1,8 @@
-"use strict";
-
 (async () => {
 	featureManager.registerFeature(
 		"User Alias - Profile",
 		"profile",
-		() => Object.keys(settings.userAlias).length,
+		() => Object.keys(settings.userAlias).length > 0,
 		null,
 		addAlias,
 		removeAlias,
@@ -17,7 +15,7 @@
 	async function addAlias() {
 		removeAlias();
 
-		const nameLi = await requireElement(".profile-container.basic-info .info-table > :first-child");
+		const nameLi: Element = await requireElement(".profile-container.basic-info .info-table > :first-child");
 		const userID = nameLi.find(".user-info-value .bold").textContent.split("[")[1].getNumber();
 		if (!settings.userAlias[userID]) return;
 
@@ -25,7 +23,7 @@
 		const aliasSpan = document.newElement({ type: "span", class: "tt-user-alias", text: settings.userAlias[userID].alias });
 		profileImg.insertAdjacentElement("afterend", aliasSpan);
 
-		const cloneLi = nameLi.cloneNode(true);
+		const cloneLi = nameLi.cloneNode(true) as Element;
 		cloneLi.classList.add("tt-alias");
 		cloneLi.find(".user-information-section .bold").textContent = "Alias";
 		cloneLi.find(".user-info-value .bold").textContent = settings.userAlias[userID].alias;
