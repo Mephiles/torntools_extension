@@ -18,7 +18,8 @@
 				{ "message": "Fix 'Auction House Filter' not saving the armor bonus and weapon quality values.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'NPC Loot Times' failing when the data is not yet available.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Gym Progress' no longer showing up.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix errors while in the travel agency.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix errors while in the travel agency.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix education completed detection being wrong in a lot of cases.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
