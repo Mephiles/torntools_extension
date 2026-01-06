@@ -52,7 +52,7 @@ const pendingActions: { [key: string]: ActionItem } = {};
 				else {
 					delete pendingActions[actionId];
 
-					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item, amount: -amount, reason: "sending" });
+					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item), amount: -amount, reason: "sending" });
 				}
 			} else if (json && ["getCategoryList", "getNotAllItemsListWithoutGroups", "getItemsListByItemId", "getSearchList"].includes(step)) {
 				const tab = getCurrentTab();
@@ -84,7 +84,7 @@ const pendingActions: { [key: string]: ActionItem } = {};
 						const item = findItemInObject(torndata.items, { name: itemName });
 						if (!item) return;
 
-						triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: item.id });
+						triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: parseInt(item.id) });
 					}
 				}
 			}

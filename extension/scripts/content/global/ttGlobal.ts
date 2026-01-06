@@ -34,7 +34,7 @@
 
 		if (isChatV3()) {
 			const chatRefreshObserver = new MutationObserver((mutations) => {
-				triggerCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, { chat: mutations[0].target });
+				triggerCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, { chat: mutations[0].target as Element });
 			});
 			new MutationObserver((mutations) => {
 				if (mutations.every((mutation) => mutation.removedNodes.length === 0)) return;
@@ -48,17 +48,17 @@
 					Array.from(mutation.addedNodes)
 						.filter(isElement)
 						.forEach((node) => {
-							if (node.tagName === "svg") return;
+							if (node.tagName === "svg" || !isHTMLElement(node)) return;
 
 							if (node.className?.includes("item___")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
 								chatRefreshObserver.observe(node.find("[class*='scrollContainer___'] > [class*='list___']"), { childList: true });
 							} else if (node.id === "settings_panel") {
-								const panel = (mutation.target as Element).querySelector(":scope > [class*='root___']");
+								const panel = (mutation.target as Element).find(":scope > [class*='root___']");
 
 								triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: panel });
 							} else if (node.id === "people_panel") {
-								const panel = (mutation.target as Element).querySelector(":scope > [class*='root___']");
+								const panel = (mutation.target as Element).find(":scope > [class*='root___']");
 
 								triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: panel });
 							} else if (
@@ -100,7 +100,7 @@
 					Array.from(mutation.addedNodes)
 						.filter(isElement)
 						.forEach((node) => {
-							if (node.tagName === "svg") return;
+							if (node.tagName === "svg" || !isHTMLElement(node)) return;
 
 							if (node.className?.includes("group-chat-box__")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
@@ -110,7 +110,7 @@
 								triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
 							} else if (node.className?.includes("chat-app__panel__")) {
 								if (node.children[0].className.includes("sett`ings-panel__"))
-									triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node.children[0] });
+									triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: node.children[0] as HTMLElement });
 								else triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: node });
 							}
 						});
