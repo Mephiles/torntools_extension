@@ -50,7 +50,7 @@ interface InternalTornTravelDataShop {
 		triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, {
 			country,
 			items,
-		} satisfies TravelAbroadShopLoadDetails);
+		});
 	});
 })();
 
@@ -66,6 +66,11 @@ interface TravelAbroadShopLoadDetails {
 }
 
 function markTravelTableColumns() {
+	document.addEventListener("click", (event) => {
+		if (isElement(event.target) && event.target.className.includes("yesNoButton")) {
+			triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH);
+		}
+	});
 	document.findAll("[class*='itemsHeader___'] > *:not([data-tt-content-type])").forEach((header) => {
 		let contentType: string;
 		if (header.textContent === "Item") contentType = "item";
