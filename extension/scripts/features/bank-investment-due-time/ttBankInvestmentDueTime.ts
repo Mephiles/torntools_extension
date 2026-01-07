@@ -19,8 +19,8 @@
 		}
 	);
 
-	function createBankInvestmentFacade(node: Element) {
-		const investmentTimeLeftElement = node;
+	function createBankInvestmentFacade(investmentTimeLeftElement: Element) {
+		if (userdata.money.city_bank === null) return { dispose: () => {} };
 
 		const dueDate = new Date(userdata.money.city_bank.until * 1000);
 		const formattedDate = formatDate(dueDate, { showYear: true });

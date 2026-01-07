@@ -27,7 +27,8 @@
 				{ "message": "Fix 'Jail Filter' not saving the bail cost.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Travel Item Profits' not showing the profit after buying an item or canceling.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors when buying an abroad item or canceling.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors while in the abroad item shop.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors while in the abroad item shop.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Bank Investment Due Time' giving errors when there isn't an investment going on.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Improve element instance checking to avoid potential errors.", "contributor": "DeKleineKobini" }],
 			"removed": [],
