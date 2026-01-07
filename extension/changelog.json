@@ -33,7 +33,8 @@
 			"removed": [],
 			"technical": [
 				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" },
-				{ "message": "Migrate specialist gyms to typescript", "contributor": "AllMight" }
+				{ "message": "Migrate specialist gyms to typescript", "contributor": "AllMight" },
+				{ "message": "Continue work on TypeScript migration.", "contributor": "TheFoxMan" }
 			]
 		}
 	},
