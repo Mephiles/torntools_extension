@@ -6,7 +6,8 @@
 		"logs": {
 			"features": [
 				{ "message": "Apply sales tax on the items abroad table.", "contributor": "aHunterGatherer" },
-				{ "message": "Apply sales tax on the values in the travel table.", "contributor": "aHunterGatherer" }
+				{ "message": "Apply sales tax on the values in the travel table.", "contributor": "aHunterGatherer" },
+				{ "message": "Show market values in the sell list of the city shops.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Fix 'Cooldown End Times' not being correct for all icons.", "contributor": "DeKleineKobini" },
