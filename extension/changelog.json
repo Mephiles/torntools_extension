@@ -6,7 +6,6 @@
 		"logs": {
 			"features": [
 				{ "message": "Apply sales tax on the items abroad table.", "contributor": "aHunterGatherer" },
-				{ "message": "Refactor SalesTax and AnonymousTax percentages for user-configuration.", "contributor": "aHunterGatherer" },
 				{ "message": "Apply sales tax on the values in the travel table.", "contributor": "aHunterGatherer" }
 			],
 			"fixes": [
