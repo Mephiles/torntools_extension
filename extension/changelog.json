@@ -35,7 +35,8 @@
 			"technical": [
 				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate specialist gyms to typescript", "contributor": "AllMight" },
-				{ "message": "Continue work on TypeScript migration.", "contributor": "TheFoxMan" }
+				{ "message": "Continue work on TypeScript migration.", "contributor": "TheFoxMan" },
+				{ "message": "Make it easier to work with getting all elements.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

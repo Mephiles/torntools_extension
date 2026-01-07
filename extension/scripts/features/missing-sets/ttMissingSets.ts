@@ -92,7 +92,7 @@
 		const currentItemsElements = document.findAll(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
 		if (!currentItemsElements.length || currentItemsElements.length === items.length) return;
 
-		const currentItems = Array.from(currentItemsElements).map((x) => parseInt(x.dataset.item));
+		const currentItems = currentItemsElements.map((x) => parseInt(x.dataset.item));
 		const needed = items.filter((x) => !currentItems.some((y) => x.id === y)).sort((a, b) => a.name.localeCompare(b.name));
 		if (needed.length <= 0) return;
 

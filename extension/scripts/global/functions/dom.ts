@@ -151,14 +151,14 @@ Object.defineProperty(Element.prototype, "find", {
 });
 
 Object.defineProperty(Document.prototype, "findAll", {
-	value(this: Document, selector: string): NodeListOf<Element> {
-		return this.querySelectorAll(selector);
+	value(this: Document, selector: string): Element[] {
+		return Array.from(this.querySelectorAll(selector));
 	},
 	enumerable: false,
 });
 Object.defineProperty(Element.prototype, "findAll", {
-	value(this: Document, selector: string): NodeListOf<Element> {
-		return this.querySelectorAll(selector);
+	value(this: Document, selector: string): Element[] {
+		return Array.from(this.querySelectorAll(selector));
 	},
 	enumerable: false,
 });

@@ -31,7 +31,7 @@ declare global {
 		newElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
 		newElement<K extends keyof HTMLElementTagNameMap>(options: Omit<NewElementOptions, "type"> & { type: K }): HTMLElementTagNameMap[K];
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
-		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
+		findAll<T extends Element = HTMLElement>(selector: string): T[];
 		setClass(...classNames: string[]): void;
 	}
 
@@ -39,7 +39,7 @@ declare global {
 		find<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): HTMLElementTagNameMap[K] | null;
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 		findAll<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): NodeListOf<HTMLElementTagNameMap[K]>;
-		findAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>;
+		findAll<T extends Element = HTMLElement>(selector: string): T[];
 		setClass(...classNames: string[]): void;
 	}
 

@@ -91,6 +91,6 @@
 	}
 
 	function removeInformation() {
-		Array.from(document.querySelectorAll(".tt-efficient-rehab")).forEach((x) => x.remove());
+		document.findAll(".tt-efficient-rehab").forEach((x) => x.remove());
 	}
 })();
