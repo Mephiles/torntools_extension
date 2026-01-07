@@ -973,9 +973,10 @@ const DEFAULT_STORAGE = {
 			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		abroadItems: {
-			categories: new DefaultSetting<string[]>("array", []),
 			profitOnly: new DefaultSetting("boolean", false),
 			outOfStock: new DefaultSetting("boolean", false),
+			categories: new DefaultSetting<string[]>("array", []),
+			taxes: new DefaultSetting<string[]>("array", []),
 		},
 		trade: {
 			hideValues: new DefaultSetting("boolean", false),

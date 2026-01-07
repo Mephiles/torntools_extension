@@ -2,6 +2,9 @@
 	if (!getPageStatus().access) return;
 	if (!isAbroad()) return;
 
+	const SALES_TAX = TAX_RATES.salesTaxPercentage;
+	const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
+
 	const feature = featureManager.registerFeature(
 		"Travel Item Profits",
 		"travel",
@@ -52,11 +55,19 @@
 			}
 			await requireElement("[class*='stockTableWrapper___'] > li");
 			const rows = document.findAll("[class*='stockTableWrapper___'] > li:not(:has([data-tt-content-type='profit']))");
+			
+			const applySalesTax = filters.abroadItems.taxes.includes("salestax");
+			const sellAnonymously = filters.abroadItems.taxes.includes("anonymous");
+			
 			for (const row of rows) {
 				const id = row.find("[data-tt-content-type='item'] img").getAttribute("srcset").split(" ")[0].getNumber();
 				const marketPrice = torndata.items[id].market_value;
 				const buyPrice = row.find("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent.getNumber();
-				const profit = marketPrice - buyPrice;
+
+				const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;
+				const anonymousTax = sellAnonymously ? Math.ceil((marketPrice * ANONYMOUS_TAX) / 100) : 0;
+				
+				const profit = marketPrice - (buyPrice + salesTax + anonymousTax);
 
 				const span = document.newElement({
 					type: "span",
