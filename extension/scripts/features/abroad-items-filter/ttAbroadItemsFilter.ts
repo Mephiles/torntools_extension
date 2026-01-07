@@ -4,7 +4,7 @@
 
 	const SALES_TAX = TAX_RATES.salesTaxPercentage;
 	const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
-	
+
 	featureManager.registerFeature(
 		"Abroad Item Filter",
 		"travel",
@@ -13,7 +13,7 @@
 		addFilter,
 		removeFilter,
 		{
-		storage: ["settings.pages.travel.itemFilter",],
+			storage: ["settings.pages.travel.itemFilter"],
 		},
 		null
 	);
@@ -70,8 +70,8 @@
 		const taxesFilter = createFilterSection({
 			title: "Taxes",
 			checkboxes: [
-				{ id: "salestax", description: (SALES_TAX + "% Sales Tax") },
-				{ id: "anonymous", description: (ANONYMOUS_TAX + "% Anonymous Tax") },
+				{ id: "salestax", description: SALES_TAX + "% Sales Tax" },
+				{ id: "anonymous", description: ANONYMOUS_TAX + "% Anonymous Tax" },
 			],
 			defaults: filters.abroadItems.taxes,
 			callback: filtering,

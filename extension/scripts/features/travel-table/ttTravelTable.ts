@@ -35,7 +35,7 @@
 		startTable,
 		removeTable,
 		{
-		    storage: ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata", "settings.external.prometheus"],
+			storage: ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata", "settings.external.prometheus"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API data!";
