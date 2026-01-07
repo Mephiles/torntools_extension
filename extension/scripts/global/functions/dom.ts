@@ -504,7 +504,7 @@ function showInformationSection() {
 }
 
 function isElement(node: Node | EventTarget | null): node is Element {
-	return node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE;
+	return node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && typeof (node as Element).className === "string";
 }
 
 function isTextNode(node: Node): node is Text {
@@ -512,5 +512,5 @@ function isTextNode(node: Node): node is Text {
 }
 
 function isHTMLElement(node: Node | EventTarget): node is HTMLElement {
-	return isElement(node) && "dataset" in node;
+	return isElement(node) && "dataset" in node && "title" in node;
 }

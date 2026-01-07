@@ -29,7 +29,7 @@
 				{ "message": "Avoid errors when buying an abroad item or canceling.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors while in the abroad item shop.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Improve element instance checking to avoid potential errors.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [
 				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" },
