@@ -1972,6 +1972,7 @@ function getPageStatus() {
 		const message = infoMessage.textContent;
 
 		if (message.includes("items in your inventory")) return { access: true };
+		else if (findParent(infoMessage, { class: "no-parcel-wrap" })?.style?.display === "none") return { access: true };
 
 		return { access: false, message: infoMessage.textContent };
 	}
