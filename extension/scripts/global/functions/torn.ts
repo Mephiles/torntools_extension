@@ -2307,3 +2307,8 @@ function getSidebarArea(): Node | null {
 
 	return areasTitle;
 }
+
+const TAX_RATES = {
+	salesTaxPercentage: 5,
+	sellAnonymouslyPercentage: 10,
+} as const;

@@ -842,8 +842,6 @@ const DEFAULT_STORAGE = {
 				highlightCheapItems: new DefaultSetting<number | "">("number|empty", ""), // TODO - Rework this one.
 				leftBar: new DefaultSetting("boolean", false),
 				fillMax: new DefaultSetting("boolean", true),
-				salesTaxPercentage: new DefaultSetting("number", 5),
-				sellAnonymouslyPercentage: new DefaultSetting("number", 10),
 			},
 			competition: {
 				filter: new DefaultSetting("boolean", true),

@@ -2,8 +2,8 @@
 	if (!getPageStatus().access) return;
 	if (!isAbroad()) return;
 
-	const SALES_TAX = settings.pages.itemmarket.salesTaxPercentage;
-	const ANONYMOUS_TAX = settings.pages.itemmarket.sellAnonymouslyPercentage;
+	const SALES_TAX = TAX_RATES.salesTaxPercentage;
+	const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
 	const feature = featureManager.registerFeature(
 		"Travel Item Profits",

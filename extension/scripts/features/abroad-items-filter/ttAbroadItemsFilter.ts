@@ -2,11 +2,9 @@
 	if (!isAbroad()) return;
 	if (!getPageStatus().access) return;
 
-	// @ts-ignore  -- used for string interpolation but TS isn't brilliant
-	const SALES_TAX = settings.pages.itemmarket.salesTaxPercentage;
-	// @ts-ignore
-	const ANONYMOUS_TAX = settings.pages.itemmarket.sellAnonymouslyPercentage;
-
+	const SALES_TAX = TAX_RATES.salesTaxPercentage;
+	const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
+	
 	featureManager.registerFeature(
 		"Abroad Item Filter",
 		"travel",
@@ -15,7 +13,7 @@
 		addFilter,
 		removeFilter,
 		{
-		storage: ["settings.pages.travel.itemFilter", "settings.pages.itemmarket.salesTaxPercentage", "settings.pages.itemmarket.sellAnonymouslyPercentage",],
+		storage: ["settings.pages.travel.itemFilter",],
 		},
 		null
 	);
