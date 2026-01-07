@@ -84,7 +84,7 @@ function markTravelTableColumns() {
 
 		header.dataset.ttContentType = contentType;
 	});
-	requireElement("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").then(() => {
+	requireElement("[class*='stockTableWrapper___'] [class*='row___']").then(() => {
 		document.findAll("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").forEach((row) => {
 			let contentType: string;
 			if (row.className.includes("imageCell___")) contentType = "item";

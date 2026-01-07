@@ -26,7 +26,8 @@
 				{ "message": "Fix education completed detection being wrong in a lot of cases.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Jail Filter' not saving the bail cost.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Travel Item Profits' not showing the profit after buying an item or canceling.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors when buying an abroad item or canceling.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors when buying an abroad item or canceling.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors while in the abroad item shop.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
