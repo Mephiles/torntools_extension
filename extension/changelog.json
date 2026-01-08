@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 8, "minor": 0, "build": 3 },
+		"version": { "major": 8, "minor": 0, "build": 4 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 8, "minor": 0, "build": 3 },
+		"date": "2026/01/08",
 		"logs": {
 			"features": [
 				{ "message": "Apply sales tax on the items abroad table.", "contributor": "aHunterGatherer" },
@@ -32,7 +37,6 @@
 				{ "message": "Fix shop features not working correctly on the post office shop.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Improve element instance checking to avoid potential errors.", "contributor": "DeKleineKobini" }],
-			"removed": [],
 			"technical": [
 				{ "message": "Continue work on TypeScript migration.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate specialist gyms to typescript", "contributor": "AllMight" },
