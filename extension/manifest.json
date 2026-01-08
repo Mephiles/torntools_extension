@@ -543,7 +543,10 @@
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=attack&*"],
 			"css": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css"],
-			"js": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js", "scripts/features/hide-attack-buttons/ttHideAttackButtons.js"],
+			"js": [
+				"scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js",
+				"scripts/features/hide-attack-buttons/ttHideAttackButtons.entry.js"
+			],
 			"run_at": "document_start"
 		},
 		{
