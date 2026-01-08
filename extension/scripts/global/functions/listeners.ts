@@ -40,6 +40,7 @@ enum EVENT_CHANNELS {
 	FEATURE_ENABLED = "feature-enabled",
 	FEATURE_DISABLED = "feature-disabled",
 	STATE_CHANGED = "state-changed",
+	SHOP__LOAD = "SHOP__LOAD",
 	GYM_LOAD = "gym-load",
 	GYM_TRAIN = "gym-train",
 	CRIMES_LOADED = "crimes-loaded",
@@ -101,6 +102,7 @@ type EventPayloads = {
 	[EVENT_CHANNELS.FEATURE_ENABLED]: { name: string };
 	[EVENT_CHANNELS.FEATURE_DISABLED]: { name: string };
 	[EVENT_CHANNELS.STATE_CHANGED]: { oldState: string | null; newState: string | undefined };
+	[EVENT_CHANNELS.SHOP__LOAD]: never;
 	[EVENT_CHANNELS.GYM_LOAD]: { stats: Record<string, number> };
 	[EVENT_CHANNELS.GYM_TRAIN]: { stats: Record<string, number> };
 	[EVENT_CHANNELS.CRIMES_LOADED]: never;

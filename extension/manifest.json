@@ -662,12 +662,14 @@
 			"css": [
 				"scripts/features/shops-fill-max/ttShopsFillMax.css",
 				"scripts/features/shop-profits/ttShopProfits.css",
-				"scripts/features/shop-filters/ttShopFilters.css"
+				"scripts/features/shop-filters/ttShopFilters.css",
+				"scripts/features/shop-values/ttShopValues.css"
 			],
 			"js": [
 				"scripts/features/shops-fill-max/ttShopsFillMax.js",
 				"scripts/features/shop-profits/ttShopProfits.js",
-				"scripts/features/shop-filters/ttShopFilters.js"
+				"scripts/features/shop-filters/ttShopFilters.js",
+				"scripts/features/shop-values/ttShopValues.js"
 			],
 			"run_at": "document_end"
 		},

@@ -760,6 +760,7 @@ const DEFAULT_STORAGE = {
 				maxBuyIgnoreCash: new DefaultSetting("boolean", false),
 				profit: new DefaultSetting("boolean", true),
 				filters: new DefaultSetting("boolean", true),
+				values: new DefaultSetting("boolean", true),
 			},
 			casino: {
 				netTotal: new DefaultSetting("boolean", true),
