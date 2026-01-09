@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix Weapon Bonus filters being completely broken and breaking the full filter with it.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix Weapon Bonus filters being completely broken and breaking the full filter with it.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix incorrect default value for bail cost in the jail filter.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": []

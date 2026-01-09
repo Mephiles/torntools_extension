@@ -357,6 +357,11 @@ async function migrateDatabase(force = false) {
 
 			updated = true;
 		}
+		if (version < toNumericVersion("8.0.4")) {
+			if (storage?.filters?.jail?.bailCost === 5000) newStorage.filters.jail.bailCost = -1;
+
+			updated = true;
+		}
 
 		if (updated) {
 			console.log(`Upgraded database from ${storedVersion} to ${loadedVersion}`);

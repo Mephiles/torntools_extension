@@ -103,7 +103,7 @@
 		localFilters["Score Filter"] = { getStartEnd: scoreFilter.getStartEnd, updateCounter: scoreFilter.updateCounter };
 
 		const bailCostFilter = createTextbox({ type: "number", description: "Maximum Bail Cost" });
-		bailCostFilter.setValue(filters.jail.bailCost?.toString() || "");
+		bailCostFilter.setValue(filters.jail.bailCost === -1 ? "" : filters.jail.bailCost?.toString() || "");
 		bailCostFilter.onChange(filtering);
 
 		filterContent.appendChild(bailCostFilter.element);
@@ -178,7 +178,7 @@
 					levelEnd: levelEnd,
 					scoreStart: scoreStart,
 					scoreEnd: scoreEnd,
-					bailCost: bailCost,
+					bailCost: bailCost !== undefined && !isNaN(bailCost) ? bailCost : -1,
 				},
 			},
 		});

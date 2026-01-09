@@ -935,7 +935,7 @@ const DEFAULT_STORAGE = {
 			levelEnd: new DefaultSetting("number", 100),
 			scoreStart: new DefaultSetting("number", 0),
 			scoreEnd: new DefaultSetting("number", 5000),
-			bailCost: new DefaultSetting("number", 5000),
+			bailCost: new DefaultSetting("number", -1),
 		},
 		racing: {
 			hideRaces: new DefaultSetting<string[]>("array", []),
