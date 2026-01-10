@@ -12,7 +12,10 @@
 				{ "message": "Fix faction quick items not being able to be added.", "contributor": "DeKleineKobini" },
 				{ "message": "Better error handling on the gym graph for when the external service is too slow.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Block the bail cost field in the jail filter from going below 0.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Block the bail cost field in the jail filter from going below 0.", "contributor": "DeKleineKobini" },
+				{ "message": "Change 'Travel Table' external service order (prefer Prometheus over YATA).", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": [{ "message": "Better type checks for background messages.", "contributor": "DeKleineKobini" }]
 		}
