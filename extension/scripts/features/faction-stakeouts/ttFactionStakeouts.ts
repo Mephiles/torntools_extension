@@ -45,7 +45,7 @@
 				.getAttribute("href")
 				.split("&ID=")[1]
 		);
-		const hasStakeout = factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "object" && typeof factionStakeouts[factionId] !== "number";
+		const hasStakeout = factionId in factionStakeouts && typeof factionStakeouts[factionId] === "object" && typeof factionStakeouts[factionId] !== "number";
 
 		const checkbox = createCheckbox({ description: "Stakeout this faction." });
 		checkbox.setChecked(hasStakeout);
@@ -54,7 +54,7 @@
 				ttStorage.change({
 					// @ts-expect-error Pre-migration shenanigans
 					factionStakeouts: {
-						[factionId]: { alerts: { chainReaches: null, memberCountDrops: null, rankedWarStarts: false, inRaid: false, inTerritoryWar: false } },
+						[factionId]: { alerts: { chainReaches: false, memberCountDrops: false, rankedWarStarts: false, inRaid: false, inTerritoryWar: false } },
 					},
 				});
 
@@ -73,8 +73,8 @@
 		chainReaches.onChange(() => {
 			if (!(factionId in factionStakeouts)) return;
 
-			let value: number | null = parseInt(chainReaches.getValue());
-			if (isNaN(value) || value < 0) value = null;
+			let value: number | false = parseInt(chainReaches.getValue());
+			if (isNaN(value) || value < 0) value = false;
 
 			// @ts-expect-error Pre-migration shenanigans
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { chainReaches: value } } } });
@@ -89,7 +89,7 @@
 			if (!(factionId in factionStakeouts)) return;
 
 			// @ts-expect-error Pre-migration shenanigans
-			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { memberCountDrops: parseInt(memberCountDrops.getValue()) || null } } } });
+			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { memberCountDrops: parseInt(memberCountDrops.getValue()) || false } } } });
 		});
 
 		const rankedWarStarts = createCheckbox({ description: "ranked war" });
@@ -126,8 +126,8 @@
 		});
 
 		if (factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "number") {
-			chainReaches.setNumberValue(factionStakeouts[factionId].alerts.chainReaches);
-			memberCountDrops.setNumberValue(factionStakeouts[factionId].alerts.memberCountDrops);
+			chainReaches.setNumberValue(factionStakeouts[factionId].alerts.chainReaches || "");
+			memberCountDrops.setNumberValue(factionStakeouts[factionId].alerts.memberCountDrops || "");
 			rankedWarStarts.setChecked(factionStakeouts[factionId].alerts.rankedWarStarts);
 			inRaid.setChecked(factionStakeouts[factionId].alerts.inRaid);
 			inTerritoryWar.setChecked(factionStakeouts[factionId].alerts.inTerritoryWar);

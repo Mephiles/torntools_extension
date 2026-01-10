@@ -359,6 +359,25 @@ async function migrateDatabase(force = false) {
 		}
 		if (version < toNumericVersion("8.0.4")) {
 			if (storage?.filters?.jail?.bailCost === 5000) newStorage.filters.jail.bailCost = -1;
+			if (storage?.factionStakeouts)
+				newStorage.factionStakeouts = Object.entries(storage.factionStakeouts).reduce((map, [id, value]) => {
+					if (typeof value === "object" && "alerts" in value && typeof value.alerts === "object") {
+						const oldAlerts: any = value.alerts;
+
+						map[id] = {
+							...value,
+							alerts: {
+								...oldAlerts,
+								chainReaches: oldAlerts.chainReaches || false,
+								memberCountDrops: oldAlerts.memberCountDrops || false,
+							},
+						};
+					} else {
+						map[id] = value;
+					}
+
+					return map;
+				}, {});
 
 			updated = true;
 		}

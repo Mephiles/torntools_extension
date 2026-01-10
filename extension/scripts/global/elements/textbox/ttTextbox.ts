@@ -46,8 +46,8 @@ function createTextbox(partialOptions: Partial<TextboxOptions> = {}) {
 		textbox.value = value;
 	}
 
-	function setNumberValue(value: string | number) {
-		if (isNaN(parseInt(value.toString())) || !["string", "number"].includes(typeof value)) value = "";
+	function setNumberValue(value: string | number | null) {
+		if (value === null || isNaN(parseInt(value.toString())) || !["string", "number"].includes(typeof value)) value = "";
 
 		textbox.value = value.toString();
 	}

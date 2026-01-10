@@ -1335,7 +1335,12 @@ async function updateFactionStakeouts(forceUpdate = false) {
 					}
 				} else {
 					const key = `faction_${factionId}_chainReaches`;
-					if (chainCount >= chainReaches && (!oldChainCount || oldChainCount < chainCount) && !notifications.stakeouts[key]) {
+					if (
+						chainReaches !== false &&
+						chainCount >= chainReaches &&
+						(!oldChainCount || oldChainCount < chainCount) &&
+						!notifications.stakeouts[key]
+					) {
 						if (settings.notifications.types.global)
 							notifications.stakeouts[key] = newNotification(
 								"Faction Stakeouts",
