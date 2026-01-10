@@ -66,7 +66,7 @@
 					title: "Attack Timeout",
 					message: `Your attack is about to timeout in ${seconds} seconds!`,
 					url: location.href,
-				});
+				} satisfies BackgroundMessage);
 			} else if (seconds >= 30) return;
 
 			audio.play().catch(() => {});

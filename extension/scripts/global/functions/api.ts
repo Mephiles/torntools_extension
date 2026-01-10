@@ -68,7 +68,7 @@ async function fetchData<R = any>(l: FetchLocation, partialOptions: Partial<Fetc
 	};
 
 	if (options.relay && SCRIPT_TYPE !== "BACKGROUND") {
-		return chrome.runtime.sendMessage({ action: "fetchRelay", location: l, options: { ...options, relay: false } });
+		return chrome.runtime.sendMessage({ action: "fetchRelay", location: l, options: { ...options, relay: false } } satisfies BackgroundMessage);
 	}
 
 	return new Promise(async (resolve, reject) => {
@@ -327,7 +327,7 @@ async function changeAPIKey(key: string): Promise<void> {
 		await fetchData("tornv2", { section: "user", selections: ["basic"], key, silent: true });
 		await ttStorage.change({ api: { torn: { key } } });
 
-		await chrome.runtime.sendMessage({ action: "initialize" });
+		await chrome.runtime.sendMessage({ action: "initialize" } satisfies BackgroundMessage);
 	} catch (error) {
 		throw error.error;
 	}

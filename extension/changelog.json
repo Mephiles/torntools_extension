@@ -12,7 +12,7 @@
 			],
 			"changes": [{ "message": "Block the bail cost field in the jail filter from going below 0.", "contributor": "DeKleineKobini" }],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Better type checks for background messages.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

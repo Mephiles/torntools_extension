@@ -315,7 +315,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			.then(async () => {
 				await ttStorage.reset();
 
-				await chrome.runtime.sendMessage({ action: "initialize" });
+				await chrome.runtime.sendMessage({ action: "initialize" } satisfies BackgroundMessage);
 				sendMessage("Settings reset.", true, { reload: true });
 			})
 			.catch(() => {});
@@ -355,10 +355,10 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			action: "play-notification-sound",
 			sound: _preferences.find<HTMLInputElement>("#notification-sound").value,
 			volume: parseInt(_preferences.find<HTMLInputElement>("#notification-volume").value),
-		});
+		} satisfies BackgroundMessage);
 	});
 	_preferences.find("#notification-sound-stop").addEventListener("click", () => {
-		chrome.runtime.sendMessage({ action: "stop-notification-sound" });
+		chrome.runtime.sendMessage({ action: "stop-notification-sound" } satisfies BackgroundMessage);
 	});
 	_preferences.find("#notification-sound-upload").addEventListener("change", (event) => {
 		const target = event.target as HTMLInputElement;
@@ -1523,22 +1523,22 @@ async function setupAPIInfo() {
 	});
 	await ttUsage.refresh();
 
-	["userdata", "torndata", "stocks", "factiondata"].forEach((section) => {
+	(["userdata", "torndata", "stocks", "factiondata"] as const).forEach((section) => {
 		document.find(`#update-${section}`).addEventListener("click", () =>
-			chrome.runtime.sendMessage({ action: "forceUpdate", update: section }).then((result) => {
+			chrome.runtime.sendMessage({ action: "forceUpdate", update: section } satisfies BackgroundMessage).then((result) => {
 				console.log(`Manually fetched ${section}.`, result);
 				sendMessage(`Fetched ${section}.`, true);
 			})
 		);
 	});
 	document.find("#reinitialize-timers").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "reinitialize-timers" }).then((result) => {
+		chrome.runtime.sendMessage({ action: "reinitialize-timers" } satisfies BackgroundMessage).then((result) => {
 			console.log("Manually reset background timers.", result);
 			sendMessage("Reset background timers.", true);
 		})
 	);
 	document.find("#clear-cache").addEventListener("click", () =>
-		chrome.runtime.sendMessage({ action: "clear-cache" }).then((result) => {
+		chrome.runtime.sendMessage({ action: "clear-cache" } satisfies BackgroundMessage).then((result) => {
 			console.log("Manually cleared your cache.", result);
 			sendMessage("Cleared cache.", true);
 		})
