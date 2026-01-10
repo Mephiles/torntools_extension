@@ -19,13 +19,18 @@
 	);
 
 	function addListener() {
-		document.addEventListener("click", (event) => {
-			if (isElement(event.target) && event.target.classList.contains("close-act")) {
-				const responseWrap = findParent(event.target, { class: "response-wrap" });
+		document.addEventListener(
+			"click",
+			(event) => {
+				console.log("DKK FQI click", event.target, isElement(event.target), (event.target as Element).classList.contains("close-act"));
+				if (isElement(event.target) && event.target.classList.contains("close-act")) {
+					const responseWrap = findParent(event.target, { class: "response-wrap" });
 
-				if (responseWrap) responseWrap.style.display = "none";
-			}
-		});
+					if (responseWrap) responseWrap.style.display = "none";
+				}
+			},
+			{ passive: true }
+		);
 		setInterval(() => {
 			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
 				let secondsLeft: number;
@@ -170,7 +175,8 @@
 				document.find("#factionQuickItems > main").classList.add("drag-progress");
 				if (document.find("#factionQuickItems .temp.item")) return;
 
-				const id = (event.target as Element).find(".img-wrap").dataset.itemid;
+				const _id = (event.target as Element).find(".img-wrap").dataset.itemid;
+				const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 				addQuickItem({ id }, true);
 			}, 10);
@@ -188,14 +194,19 @@
 	}
 
 	function addQuickItem(data: { id: string | number }, temporary = false) {
+		console.log("DKK addQuickItem 1", data, temporary);
 		const content = findContainer("Faction Quick Items", { selector: ":scope > main" });
 		const innerContent = content.find(".inner-content");
 		const responseWrap = content.find(".response-wrap");
+		console.log("DKK addQuickItem 2", content, innerContent, responseWrap);
 
 		const { id } = data;
 
+		console.log("DKK addQuickItem 3");
 		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
+		console.log("DKK addQuickItem 4", id, typeof id === "number" ? getTornItemType(id) : null);
 		if (!allowQuickItem(id, typeof id === "number" ? getTornItemType(id) : null)) return null;
+		console.log("DKK addQuickItem 5");
 
 		const itemWrap = document.newElement({
 			type: "div",
@@ -475,17 +486,27 @@
 	}
 
 	async function onItemClickQuickEdit(event: MouseEvent) {
+		console.log("DKK onItemClickQuickEdit 1", event);
 		event.stopPropagation();
+		console.log("DKK onItemClickQuickEdit 2");
 		event.preventDefault();
+		console.log("DKK onItemClickQuickEdit 3");
 
 		const _target = event.target as HTMLElement;
+		console.log("DKK onItemClickQuickEdit 4", _target);
 		const target = _target.dataset.type === "tt-points" ? _target : findParent(_target, { tag: "LI" });
-		const id = target.find(".img-wrap").dataset.itemid;
+		console.log("DKK onItemClickQuickEdit 5", target);
+		let _id = target.find(".img-wrap").dataset.itemid;
+		const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
+		console.log("DKK onItemClickQuickEdit 6", { id, _id });
 
 		const item = addQuickItem({ id }, false);
+		console.log("DKK onItemClickQuickEdit 7", item);
 		if (item) item.classList.add("tt-overlay-item", "removable");
 
+		console.log("DKK onItemClickQuickEdit 8");
 		await saveQuickItems();
+		console.log("DKK onItemClickQuickEdit 9");
 	}
 
 	function setupOverlayItems(tab: Document | Element) {

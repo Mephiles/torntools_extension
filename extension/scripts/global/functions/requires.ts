@@ -79,11 +79,11 @@ function requireContent(): Promise<any> {
 	return requireElement(".content-wrapper");
 }
 
-function requireItemsLoaded(): Promise<any> {
+function requireItemsLoaded(): Promise<void> {
 	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
 }
 
-function requireChatsLoaded(): Promise<any> {
+function requireChatsLoaded(): Promise<void> {
 	return requireElement("#chatRoot [class*='chat-list-button__'], #notes_settings_button");
 }
 
