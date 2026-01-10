@@ -40,6 +40,8 @@ class AudioPlayer {
 			audio.volume = this._volume;
 			void audio.play();
 
+			this._audio = audio;
+
 			return;
 		}
 
@@ -48,10 +50,10 @@ class AudioPlayer {
 		if (!this._src) throw Error("No sound src set.");
 
 		await chrome.runtime.sendMessage({
-			offscreen: "play-audio",
+			offscreen: "audio",
 			src: this._src,
 			volume: this._volume,
-		});
+		} satisfies OffscreenMessage);
 	}
 
 	async pause() {
@@ -60,8 +62,6 @@ class AudioPlayer {
 
 			return;
 		}
-
-		await chrome.runtime.sendMessage({ offscreen: "pause-audio" });
 	}
 }
 
@@ -1953,7 +1953,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 				offscreen: "tts",
 				text: text,
 				volume: settings.notifications.volume / 100,
-			});
+			} satisfies OffscreenMessage);
 		}
 	}
 }
@@ -2053,28 +2053,23 @@ function getNotificationSound(type: string) {
 	}
 }
 
+let creatingOffscreen: Promise<void> | null = null;
+
 async function setupAudioPlayerDocument() {
-	// Setup of offscreen document for playing audio.
-	const offscreenURL = chrome.runtime.getURL("/scripts/offscreen/offscreen.html");
-	const existingContexts = await chrome.runtime.getContexts({
-		contextTypes: ["OFFSCREEN_DOCUMENT"],
-	});
+	const existingContexts = await chrome.runtime.getContexts({ contextTypes: ["OFFSCREEN_DOCUMENT"] });
 	if (existingContexts.length > 0) return;
 
-	try {
-		await chrome.offscreen.createDocument({
-			url: offscreenURL,
+	if (!creatingOffscreen) {
+		creatingOffscreen = chrome.offscreen.createDocument({
+			url: "/scripts/offscreen/offscreen.html",
 			reasons: ["AUDIO_PLAYBACK"],
-			justification: "To play notification alert sound.",
+			justification: "To play notification alert sound and TTS.",
 		});
-	} catch (err) {
-		console.log(
-			"Race condition.",
-			existingContexts,
-			await chrome.runtime.getContexts({
-				contextTypes: ["OFFSCREEN_DOCUMENT"],
-			})
-		);
+
+		await creatingOffscreen;
+		creatingOffscreen = null;
+	} else {
+		await creatingOffscreen;
 	}
 }
 

@@ -1,8 +1,8 @@
-type OffscreenMessage = ({ offscreen: "notification" } & PlayAudioOptions) | ({ offscreen: "tts" } & PlayTTSOptions);
+type OffscreenMessage = ({ offscreen: "audio" } & PlayAudioOptions) | ({ offscreen: "tts" } & PlayTTSOptions);
 
-chrome.runtime.onMessage.addListener((msg: OffscreenMessage) => {
-	if (msg.offscreen === "notification") playAudio(msg);
-	else if (msg.offscreen === "tts") playTTS(msg);
+chrome.runtime.onMessage.addListener((message: OffscreenMessage) => {
+	if (message.offscreen === "audio") playAudio(message);
+	else if (message.offscreen === "tts") playTTS(message);
 
 	return undefined;
 });
