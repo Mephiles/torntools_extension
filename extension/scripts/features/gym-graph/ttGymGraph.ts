@@ -42,7 +42,16 @@
 
 				const { message, status } = await fetchData("tornstats", { section: "battlestats/record", relay: true })
 					.then((response) => {
-						if (!response.status) {
+						if ("error" in response && typeof response.error === "string") {
+							let message: string;
+							if (response.error === "Request cancelled because it took too long.") {
+								message = "TornStats was too slow to respond. Try again in a few minutes.";
+							} else {
+								message = response.error;
+							}
+
+							return { message, status: false };
+						} else if (!response.status) {
 							let message = response.message;
 
 							if (message.includes("User not found")) {
@@ -113,7 +122,18 @@
 				}
 			}
 
-			if (!result.status) {
+			if ("error" in result && typeof result.error === "string") {
+				let message: string;
+				if (result.error === "Request cancelled because it took too long.") {
+					message = "TornStats was too slow to respond.";
+				} else {
+					message = result.error;
+				}
+
+				showError(message);
+				return;
+			} else if (!result.status) {
+				console.log("DKK TS graph", result);
 				let message = result.message;
 
 				if (message.includes("Not enough data found")) {
@@ -232,6 +252,7 @@
 			return error.error.message;
 		}
 
+		console.log("DKK error handling", error);
 		if ("code" in error.error) {
 			const code = error.error.code;
 

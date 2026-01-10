@@ -9,7 +9,8 @@
 				{ "message": "Fix Weapon Bonus filters being completely broken and breaking the full filter with it.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix incorrect default value for bail cost in the jail filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix sound notifications.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix faction quick items not being able to be added.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix faction quick items not being able to be added.", "contributor": "DeKleineKobini" },
+				{ "message": "Better error handling on the gym graph for when the external service is too slow.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Block the bail cost field in the jail filter from going below 0.", "contributor": "DeKleineKobini" }],
 			"removed": [],
