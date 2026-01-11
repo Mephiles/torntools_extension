@@ -378,6 +378,7 @@ async function migrateDatabase(force = false) {
 
 					return map;
 				}, {});
+			newStorage.notificationHistory = storage.notificationHistory.filter((notification: any) => !!notification.title && !!notification.message);
 
 			updated = true;
 		}

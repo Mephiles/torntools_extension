@@ -2079,6 +2079,15 @@ async function setupAudioPlayerDocument() {
 }
 
 async function storeNotification(notification: TTNotification) {
+	if ("combined" in notification) {
+		console.warn("Trying to save a combined notification.", notification);
+		return;
+	}
+	if (!notification.title || !notification.message || !notification.date) {
+		console.warn("Trying to save a notification without title, message or date.", notification);
+		return;
+	}
+
 	notificationHistory.insertAt(0, notification);
 	notificationHistory = notificationHistory.slice(0, 100);
 
