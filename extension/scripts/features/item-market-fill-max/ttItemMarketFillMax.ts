@@ -1,4 +1,5 @@
 (async () => {
+	if (!getPageStatus().access) return;
 	const { mobile, tablet } = await checkDevice();
 
 	const feature = featureManager.registerFeature(

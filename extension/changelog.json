@@ -17,6 +17,10 @@
 				{
 					"message": "Switching travel type in the travel agency caused significant lag and even resulted in freezing in some cases.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Avoid errors for the Item Market Fill Max by not running when you can't access the item market.",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"changes": [
