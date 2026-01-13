@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix job points tooltip not always showing up.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix job points tooltip not always showing up.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Forum Menu' not working on the thread list.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [{ "message": "Only load 'Computer Link' on the travel pages.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []

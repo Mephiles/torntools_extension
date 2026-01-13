@@ -40,7 +40,10 @@
 			}
 
 			const userId = getUsername(thread).id;
-			const threadId = new URL(thread.find<HTMLAnchorElement>("a.thread-name").href).searchParams.get("t").getNumber();
+
+			const threadLink = new URL(thread.find<HTMLAnchorElement>("a.thread-name").href);
+			const threadField = getHashParameters(threadLink.hash).get("t") ?? threadLink.searchParams.get("t");
+			const threadId = threadField.getNumber();
 
 			const shouldHideThreads = settings.pages.forums.hideThreads[userId] || settings.pages.forums.ignoredThreads[threadId];
 			if (shouldHideThreads) {
