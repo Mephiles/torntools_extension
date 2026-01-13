@@ -47,7 +47,7 @@
 
 		await sleep(200); // Tooltip transition duration from one icon's tooltip information to another icon's tooltip information
 
-		const tooltipEl = (await requireElement("body > div[id][data-floating-ui-portal]")).find("[class*='tooltip__']");
+		const tooltipEl = await requireElement("body > div[id][data-floating-ui-portal] [class*='tooltip__']");
 		const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
 		const tooltipBodyText = tooltipBodyEl.textContent;
 

@@ -3,7 +3,13 @@
 		"version": { "major": 8, "minor": 0, "build": 5 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix job points tooltip not always showing up.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 8, "minor": 0, "build": 4 },
