@@ -589,11 +589,12 @@
 					element.textContent = formatNumber(value, { shorten: true, currency: true, forceOperation: true });
 					element.setAttribute("value", value.toString());
 				});
-				resortTable(table);
 			}
 
 			row.find(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
 		}
+
+		resortTable(table);
 	}
 
 	function getTravelCount(type?: TravelType) {

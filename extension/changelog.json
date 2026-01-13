@@ -13,7 +13,11 @@
 				{ "message": "Better error handling on the gym graph for when the external service is too slow.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction stakeouts triggering unnecessary.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction stakeouts not being saved properly.", "contributor": "DeKleineKobini" },
-				{ "message": "Notifications in the popup weren't loading.", "contributor": "DeKleineKobini" }
+				{ "message": "Notifications in the popup weren't loading.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Switching travel type in the travel agency caused significant lag and even resulted in freezing in some cases.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Block the bail cost field in the jail filter from going below 0.", "contributor": "DeKleineKobini" },
