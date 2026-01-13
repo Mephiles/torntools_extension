@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix job points tooltip not always showing up.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Only load 'Computer Link' on the travel pages.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}

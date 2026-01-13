@@ -186,7 +186,6 @@
 				"scripts/features/custom-links/ttCustomLinks.css",
 				"scripts/features/update-notice/ttUpdateNotice.css",
 				"scripts/features/sidebar-notes/ttSidebarNotes.css",
-				"scripts/features/computer-link/ttComputerLink.css",
 				"scripts/features/hide-gym-highlight/ttHideGymHighlight.css",
 				"scripts/features/highlight-properties/ttHighlightProperties.css",
 				"scripts/features/settings-link/ttSettingsLink.css",
@@ -205,7 +204,6 @@
 				"scripts/features/custom-links/ttCustomLinks.js",
 				"scripts/features/update-notice/ttUpdateNotice.js",
 				"scripts/features/sidebar-notes/ttSidebarNotes.js",
-				"scripts/features/computer-link/ttComputerLink.js",
 				"scripts/features/hide-gym-highlight/ttHideGymHighlight.js",
 				"scripts/features/highlight-properties/ttHighlightProperties.js",
 				"scripts/features/settings-link/ttSettingsLink.js",
@@ -705,7 +703,8 @@
 				"scripts/features/landing-time/ttLandingTime.css",
 				"scripts/features/travel-item-profits/ttTravelItemProfits.css",
 				"scripts/features/travel-fill-max/ttTravelFillMax.css",
-				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css"
+				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css",
+				"scripts/features/computer-link/ttComputerLink.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -725,7 +724,8 @@
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
 				"scripts/features/abroad-auto-fill-max/ttAbroadAutoFillMax.js",
 				"scripts/features/no-confirm/ttAbroadBuyNoConfirm.js",
-				"scripts/features/travel-tab-title-timer/ttTravelTabTitleTimer.js"
+				"scripts/features/travel-tab-title-timer/ttTravelTabTitleTimer.js",
+				"scripts/features/computer-link/ttComputerLink.js"
 			],
 			"run_at": "document_end"
 		},

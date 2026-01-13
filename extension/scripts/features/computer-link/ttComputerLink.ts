@@ -1,8 +1,6 @@
 (async () => {
 	if (!isFlying() && !isAbroad()) return;
 
-	const page = getPage();
-
 	featureManager.registerFeature(
 		"Computer Link",
 		"global",
@@ -14,8 +12,7 @@
 			storage: ["settings.pages.travel.computer"],
 		},
 		async () => {
-			if (!document.find("#top-page-links-list") && !["travel"].includes(page)) return "No icon bar present.";
-			else if (hasAPIData() && settings.apiUsage.user.inventory && !hasComputer()) return "No computer found!";
+			if (hasAPIData() && settings.apiUsage.user.inventory && !hasComputer()) return "No computer found!";
 
 			await checkDevice();
 			return true;
@@ -60,8 +57,7 @@
 	}
 
 	function removeComputer() {
-		const link = document.find(".tt-computer");
-		if (link) link.remove();
+		document.find(".tt-computer")?.remove();
 	}
 
 	function hasComputer() {
