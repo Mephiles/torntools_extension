@@ -1,10 +1,14 @@
 [
 	{
-		"version": { "major": 8, "minor": 0, "build": 4 },
+		"version": { "major": 8, "minor": 0, "build": 5 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 8, "minor": 0, "build": 4 },
+		"date": "2026/01/13",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix Weapon Bonus filters being completely broken and breaking the full filter with it.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix incorrect default value for bail cost in the jail filter.", "contributor": "DeKleineKobini" },
@@ -27,7 +31,6 @@
 				{ "message": "Block the bail cost field in the jail filter from going below 0.", "contributor": "DeKleineKobini" },
 				{ "message": "Change 'Travel Table' external service order (prefer Prometheus over YATA).", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [{ "message": "Better type checks for background messages.", "contributor": "DeKleineKobini" }]
 		}
 	},
