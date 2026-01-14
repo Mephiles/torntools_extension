@@ -14,7 +14,7 @@
 				{ "message": "Use MutationObserver for Cooldown End Times.", "contributor": "TheFoxMan" },
 				{
 					"message": "Only send travel data to YATA and Prometheus while the tab is active, to comply with new rule interprations.",
-					"contributor": "TheFoxMan"
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"removed": [],
