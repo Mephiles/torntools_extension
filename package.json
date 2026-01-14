@@ -8,15 +8,15 @@
 	"devDependencies": {
 		"@jgoz/esbuild-plugin-typecheck": "^4.0.4",
 		"@types/jquery": "^3.5.33",
-		"chrome-types": "^0.1.396",
+		"chrome-types": "^0.1.410",
 		"esbuild": "^0.27.2",
 		"jest-chrome": "^0.8.0",
-		"jsdom": "^27.3.0",
+		"jsdom": "^27.4.0",
 		"prettier": "^3.7.4",
 		"tornapi-types": "^0.0.10",
 		"typescript": "^5.9.3",
 		"user-agent-data-types": "^0.4.2",
-		"vitest": "^4.0.16",
+		"vitest": "^4.0.17",
 		"vitest-chrome": "^0.1.0"
 	}
 }
