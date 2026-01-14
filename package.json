@@ -6,6 +6,7 @@
 		"test:watch": "vitest"
 	},
 	"devDependencies": {
+		"@jgoz/esbuild-plugin-typecheck": "^4.0.4",
 		"@types/jquery": "^3.5.33",
 		"chrome-types": "^0.1.396",
 		"esbuild": "^0.27.2",
