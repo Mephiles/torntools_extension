@@ -1,5 +1,5 @@
 import * as esbuild from "esbuild";
-import { typecheckPlugin } from '@jgoz/esbuild-plugin-typecheck';
+import { typecheckPlugin } from "@jgoz/esbuild-plugin-typecheck";
 
 const srcDir = "extension";
 const outDir = "dist";
@@ -11,10 +11,12 @@ const buildOptions = {
 	target: ["chrome109", "firefox128", "edge109"],
 	minify: false,
 	metafile: true,
-  plugins: [typecheckPlugin({
-    buildMode: "write-output",
-    watch: isWatch
-  })],
+	plugins: [
+		typecheckPlugin({
+			buildMode: "write-output",
+			watch: isWatch,
+		}),
+	],
 	loader: {
 		".html": "copy",
 		".wav": "copy",
@@ -32,15 +34,14 @@ const buildOptions = {
 };
 
 if (isWatch) {
-  const ctx = await esbuild.context(buildOptions);
-  await ctx.watch();
+	const ctx = await esbuild.context(buildOptions);
+	await ctx.watch();
 } else {
-  const result = await esbuild.build(buildOptions);
-  if (result.warnings) {
-    console.log(esbuild.formatMessagesSync(result.warnings, {kind: "warning"}).join("\n"));
-  }
-  if (result.errors) {
-    console.log(esbuild.formatMessagesSync(result.errors, { kind: "error" }).join("\n"));
-  }
+	const result = await esbuild.build(buildOptions);
+	if (result.warnings) {
+		console.log(esbuild.formatMessagesSync(result.warnings, { kind: "warning" }).join("\n"));
+	}
+	if (result.errors) {
+		console.log(esbuild.formatMessagesSync(result.errors, { kind: "error" }).join("\n"));
+	}
 }
-
