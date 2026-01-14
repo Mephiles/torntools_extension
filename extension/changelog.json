@@ -9,7 +9,10 @@
 				{ "message": "Fix job points tooltip not always showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Forum Menu' not working on the thread list.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Only load 'Computer Link' on the travel pages.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Only load 'Computer Link' on the travel pages.", "contributor": "DeKleineKobini" },
+				{ "message": "Use MutationObserver for Cooldown End Times, extend it to bars.", "contributor": "TheFoxMan" }
+			],
 			"removed": [],
 			"technical": []
 		}
