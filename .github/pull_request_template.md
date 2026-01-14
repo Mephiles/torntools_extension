@@ -1,17 +1,14 @@
 **Torn username and ID:**
 
+- [ ] Read `CONTRIBUTING.md`.
+- [ ] Added your name in `extension/scripts/global/team.ts` file.
 
-[ ] Read `CONTRIBUTING.md`.
-[ ] Added your name in `extension/scripts/global/team.ts` file.
-
-This is <select>
-  <option>a feature</option>
-  <option>an issue fix</option>
-</select> PR.
+Is this PR:
+- [ ] for a new feature ?
+- [ ] an issue fix ?
+- [ ] a developer QoL PR ?
 
 **Purpose of PR:**
 
-
 **Linked issues:**
-
-
+None
