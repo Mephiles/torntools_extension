@@ -128,6 +128,8 @@ type EventPayloads = {
 
 type CustomEventListener<T extends keyof EventPayloads> = (payload: EventPayloads[T]) => void;
 
+const ANTI_SCRAPE_EVENTS = [EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD];
+
 const CUSTOM_LISTENERS: { [K in keyof EventPayloads]: CustomEventListener<K>[] } = (() => {
 	const listeners: Partial<{ [K in keyof EventPayloads]: CustomEventListener<K>[] }> = {};
 
@@ -167,6 +169,8 @@ function addXHRListener(callback: (event: CustomEventInit<XHRDetails>) => void) 
 }
 
 function triggerCustomListener<T extends keyof EventPayloads>(channel: T, payload?: EventPayloads[T]): void {
+	if (channel in ANTI_SCRAPE_EVENTS && !document.hasFocus()) return;
+
 	for (const listener of CUSTOM_LISTENERS[channel]) {
 		listener(payload);
 	}
