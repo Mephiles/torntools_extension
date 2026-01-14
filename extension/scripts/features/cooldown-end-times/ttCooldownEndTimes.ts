@@ -39,8 +39,8 @@
 
 				const timeElement =
 					tooltipElement.find("[class*='static-width___']")?.firstChild ?? // For cooldown icon tooltips.
-					tooltipElement.find("p:not([class])") ??
-					tooltipElement.find("p").lastChild; // For energy, nerve, happy, and life bar tooltips.
+					tooltipElement.find("p[class*='bar-descr__']")?.lastChild ?? // For energy, nerve, happy, and life bar tooltips.
+					tooltipElement.find("p:not([class])");
 				if (!timeElement) return;
 
 				[...tooltipElement.getElementsByClassName("tt-tooltip-end-times")].forEach((x) => x.remove());
