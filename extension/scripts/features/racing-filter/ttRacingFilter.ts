@@ -123,7 +123,7 @@
 		// Track
 		const trackFilter = createFilterSection({
 			title: "Track",
-			multiSelect: 6,
+			multiSelect: true,
 			select: [
 				...[
 					"Uptown",

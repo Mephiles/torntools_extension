@@ -65,7 +65,7 @@
 				...defaultFactionsItems,
 				...onPageFactions,
 			],
-			defaults: filters.abroadPeople.faction,
+			default: filters.abroadPeople.faction,
 			callback: () => applyFilters(),
 		});
 		filterContent.appendChild(factionFilter.element);
