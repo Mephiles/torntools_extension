@@ -220,7 +220,10 @@ function createFilterSection(
 
 		return {
 			element: section,
-			getSelections: (content: Element) => [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? ""),
+			getSelections: (content: Element) => {
+				if (!content) console.log("DKK checkboxes", content, options);
+				return [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? "");
+			},
 		};
 	}
 
@@ -248,6 +251,7 @@ function createFilterSection(
 		};
 
 		function getSelections(content: HTMLElement) {
+			if (!content) console.log("DKK yncheckboxes", content);
 			const selections = {};
 			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
 				const checkboxes = specialDiv.findAll("input");
@@ -287,7 +291,10 @@ function createFilterSection(
 
 		return {
 			element: section,
-			getSelected: (content: Element) => (content.find(`.${ccTitle} select`) as HTMLSelectElement)?.value ?? "",
+			getSelected: (content: Element) => {
+				if (!content) console.log("DKK select", content, options);
+				return (content.find(`.${ccTitle} select`) as HTMLSelectElement)?.value ?? "";
+			},
 			updateOptions: (newOptions: SelectOption[], content: Element) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
 		};
 	}
