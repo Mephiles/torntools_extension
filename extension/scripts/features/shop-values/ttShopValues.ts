@@ -1,5 +1,4 @@
 (async () => {
-	console.log("DKK values", getPageStatus());
 	if (!getPageStatus().access) return;
 
 	const feature = featureManager.registerFeature(
