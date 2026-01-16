@@ -133,7 +133,6 @@
 				showError(message);
 				return;
 			} else if (!result.status) {
-				console.log("DKK TS graph", result);
 				let message = result.message;
 
 				if (message.includes("Not enough data found")) {
@@ -252,7 +251,6 @@
 			return error.error.message;
 		}
 
-		console.log("DKK error handling", error);
 		if ("code" in error.error) {
 			const code = error.error.code;
 
