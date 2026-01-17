@@ -24,19 +24,6 @@
 	},
 	"permissions": ["storage", "notifications", "background", "offscreen", "alarms"],
 	"host_permissions": ["https://torn.com/"],
-	"optional_permissions": [
-		"https://www.tornstats.com/*",
-		"https://yata.yt/*",
-		"https://nuke.family/*",
-		"https://tornuhc.eu/*",
-		"https://api.no1irishstig.co.uk/*",
-		"https://prombot.co.uk:8443/*",
-		"https://api.lzpt.io/*",
-		"https://what-the-f.de/*",
-		"https://weav3r.dev/*",
-		"https://ffscouter.com/",
-		"https://laekna-revive-bot.onrender.com/"
-	],
 	"optional_host_permissions": [
 		"https://www.tornstats.com/",
 		"https://yata.yt/",
