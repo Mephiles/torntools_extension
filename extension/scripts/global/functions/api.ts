@@ -335,7 +335,7 @@ async function changeAPIKey(key: string): Promise<void> {
 
 function hasAPIData(): boolean {
 	const hasKey = !!api?.torn?.key;
-	const hasError = !!api?.torn?.error && !api.torn.error.includes("Backend error");
+	const hasError = !!api?.torn?.error && !api.torn.error.includes("Backend error") && api.torn.error !== "Network issues";
 	const hasUserdata = !!(userdata && Object.keys(userdata).length);
 
 	return hasKey && !hasError && hasUserdata;
