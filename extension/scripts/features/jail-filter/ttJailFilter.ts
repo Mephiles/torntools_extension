@@ -55,7 +55,7 @@
 		const factionFilter = createFilterSection({
 			title: "Faction",
 			select: [...defaultFactionsItems, ...getFactions()],
-			defaults: "",
+			default: "",
 			callback: filtering,
 		});
 		filterContent.appendChild(factionFilter.element);

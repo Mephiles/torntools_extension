@@ -7,7 +7,8 @@
 			"features": [{ "message": "Extend Cooldown End Times to bars.", "contributor": "TheFoxMan" }],
 			"fixes": [
 				{ "message": "Fix job points tooltip not always showing up.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix 'Forum Menu' not working on the thread list.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix 'Forum Menu' not working on the thread list.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix various issues with filters.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Only load 'Computer Link' on the travel pages.", "contributor": "DeKleineKobini" },
@@ -15,7 +16,8 @@
 				{
 					"message": "Only send travel data to YATA and Prometheus while the tab is active, to comply with new rule interprations.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Multiple improvements to filters.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []

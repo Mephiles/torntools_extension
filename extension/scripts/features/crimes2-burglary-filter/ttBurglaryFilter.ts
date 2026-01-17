@@ -67,7 +67,6 @@
 
 		const targetTypeFilter = createFilterSection({
 			title: "Target Type",
-			type: "Target Type",
 			checkboxes: [
 				{ description: "Residential Targets", id: "residential-targets" },
 				{ description: "Commercial Targets", id: "commercial-targets" },

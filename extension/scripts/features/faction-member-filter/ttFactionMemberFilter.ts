@@ -93,7 +93,7 @@
 		const positionFilter = createFilterSection({
 			title: "Position",
 			select: getPositions(),
-			defaults: "",
+			default: "",
 			callback: applyFilter,
 		});
 		filterContent.appendChild(positionFilter.element);

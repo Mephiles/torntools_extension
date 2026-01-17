@@ -83,7 +83,7 @@
 					{ value: "", description: "All" },
 					...["Melee", "Secondary", "Primary"].sort().map((type) => ({ value: type.toLowerCase(), description: type })),
 				],
-				defaults: filters.factionArmory[itemType].category,
+				default: filters.factionArmory[itemType].category,
 				callback: applyFilters,
 			});
 			filterContent.appendChild(categoryFilter.element);
@@ -97,7 +97,7 @@
 						(type) => ({ value: type.toLowerCase(), description: type })
 					),
 				],
-				defaults: filters.factionArmory[itemType].weaponType,
+				default: filters.factionArmory[itemType].weaponType,
 				callback: applyFilters,
 			});
 			filterContent.appendChild(weaponTypeFilter.element);
@@ -123,8 +123,7 @@
 			filterContent.appendChild(accuracyFilter.element);
 			localFilters.accuracy = { getValue: accuracyFilter.getValue };
 
-			const bonusFilter = createFilterSection({
-				type: "Weapon Bonus",
+			const bonusFilter = createWeaponBonusSection({
 				callback: applyFilters,
 				defaults: filters.factionArmory[itemType].weaponBonus,
 				configuration: {
@@ -151,7 +150,7 @@
 					{ value: "any", description: "Any (ranked)" },
 					...ARMOR_SETS.map((type) => ({ value: type.toLowerCase(), description: type })),
 				],
-				defaults: filters.factionArmory[itemType].set,
+				default: filters.factionArmory[itemType].set,
 				callback: applyFilters,
 			});
 			filterContent.appendChild(setFilter.element);

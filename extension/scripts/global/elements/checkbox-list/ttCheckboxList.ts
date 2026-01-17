@@ -1,5 +1,5 @@
 interface CheckboxListOptions {
-	items: { id: string; description: string }[];
+	items: { id: string | number; description: string }[];
 	orientation: "column" | "row";
 	reverseLabel: boolean;
 	useId: boolean;
@@ -20,7 +20,7 @@ function createCheckboxList(partialOptions: Partial<CheckboxListOptions>) {
 
 	for (const item of options.items) {
 		const checkbox = options.useId
-			? createCheckbox({ description: item.description, reverseLabel: options.reverseLabel, id: item.id })
+			? createCheckbox({ description: item.description, reverseLabel: options.reverseLabel, id: item.id.toString() })
 			: createCheckbox({ description: item.description, reverseLabel: options.reverseLabel });
 
 		checkbox.onChange(() => {

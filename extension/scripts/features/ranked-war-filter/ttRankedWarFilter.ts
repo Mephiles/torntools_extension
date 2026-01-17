@@ -33,6 +33,8 @@
 			}
 
 			const content = findContainer("Ranked War Filter", { selector: "main" });
+			if (!content) return;
+
 			const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
 			if (!statsEstimates?.length) return;
 
@@ -134,6 +136,8 @@
 		const membersWrap = await requireElement(".faction-war[class*='membersWrap__']");
 
 		const content = findContainer("Ranked War Filter");
+		if (!content) return;
+
 		const activity = localFilters["Activity"].getSelections(content);
 		const status = localFilters["Status"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
