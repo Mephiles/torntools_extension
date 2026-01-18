@@ -824,7 +824,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/city.php*"],
-			"css": ["scripts/features/city-items/ttCityItems.css"],
+			"css": ["scripts/content/city/ttCity.css", "scripts/features/city-items/ttCityItems.css"],
 			"js": ["scripts/global/functions/torn-items.js", "scripts/features/city-items/ttCityItems.js"],
 			"run_at": "document_end"
 		},
