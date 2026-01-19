@@ -45,10 +45,6 @@ jobs:
           cd dist-chrome
           zip -q -r ../torntools-chrome.zip .
 
-      - name: Upload Chrome Beta
-        run: |
-          curl --fail -X POST -H "X-API-TOKEN: test-token" -F "branch=$SAFE_BRANCH" -F "edition=chrome" -F "file=@torntools-chrome.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
-
       - name: Package Firefox
         run: |
           # Remove background.service_worker for Firefox
@@ -58,6 +54,6 @@ jobs:
           cd dist-firefox
           zip -q -r ../torntools-firefox.zip .
 
-      - name: Upload Firefox Beta
+      - name: Upload Betas
         run: |
-          curl --fail -X POST -H "X-API-TOKEN: test-token" -F "branch=$SAFE_BRANCH" -F "edition=firefox" -F "file=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
+          curl --fail -X POST -H "X-API-TOKEN: test-token" -F "branch=$SAFE_BRANCH" -F "editions=chrome" -F "files=@torntools-chrome.zip;type=application/zip" -F "editions=firefox" -F "files=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
