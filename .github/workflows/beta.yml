@@ -1,0 +1,67 @@
+name: Create and Upload Beta
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.repository }}-beta
+
+jobs:
+  beta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          npm ci
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Set Environment Variables
+        run: |
+          echo "SAFE_BRANCH=$(echo "${{ github.ref_name }}" | tr '/' '-')" >> $GITHUB_ENV
+          echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+          echo "TIME=$(date +%H%M%S)" >> $GITHUB_ENV
+
+      - name: Prepare Build Directories
+        run: |
+          cp -r dist dist-chrome
+          cp -r dist dist-firefox
+
+      - name: Package Chrome
+        run: |
+          # Remove background.scripts for Chrome (Manifest V3 prefers service_worker)
+          jq 'del(.background.scripts)' dist-chrome/manifest.json > dist-chrome/manifest.json.tmp
+          mv dist-chrome/manifest.json.tmp dist-chrome/manifest.json
+          
+          cd dist-chrome
+          zip -q -r ../torntools-chrome.zip .
+
+      - name: Upload Chrome Beta
+        run: |
+          NAME="torntools-beta-${{ env.SAFE_BRANCH }}-chrome-${{ env.DATE }}-${{ env.TIME }}"
+          echo "Uploading $NAME..."
+          curl -X POST -F "file=@torntools-chrome.zip" -F "name=$NAME" https://torntools.tornplayground.eu/api/beta-versions
+
+      - name: Package Firefox
+        run: |
+          # Remove background.service_worker for Firefox
+          jq 'del(.background.service_worker)' dist-firefox/manifest.json > dist-firefox/manifest.json.tmp
+          mv dist-firefox/manifest.json.tmp dist-firefox/manifest.json
+          
+          cd dist-firefox
+          zip -q -r ../torntools-firefox.zip .
+
+      - name: Upload Firefox Beta
+        run: |
+          NAME="torntools-beta-${{ env.SAFE_BRANCH }}-firefox-${{ env.DATE }}-${{ env.TIME }}"
+          echo "Uploading $NAME..."
+          curl -X POST -F "file=@torntools-firefox.zip" -F "name=$NAME" https://torntools.tornplayground.eu/api/beta-versions
