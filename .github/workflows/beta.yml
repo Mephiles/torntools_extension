@@ -47,9 +47,7 @@ jobs:
 
       - name: Upload Chrome Beta
         run: |
-          NAME="torntools-beta-$SAFE_BRANCH-chrome-$DATE-$TIME"
-          echo "Uploading $NAME..."
-          curl --fail -X POST -F "name=$NAME" -F "file=@torntools-chrome.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
+          curl --fail -X POST -F "branch=$SAFE_BRANCH" -F "edition=chrome" -F "file=@torntools-chrome.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
 
       - name: Package Firefox
         run: |
@@ -62,6 +60,4 @@ jobs:
 
       - name: Upload Firefox Beta
         run: |
-          NAME="torntools-beta-$SAFE_BRANCH-firefox-$DATE-$TIME"
-          echo "Uploading $NAME..."
-          curl --fail -X POST -F "name=$NAME" -F "file=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
+          curl --fail -X POST -F "branch=$SAFE_BRANCH" -F "edition=firefox" -F "file=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
