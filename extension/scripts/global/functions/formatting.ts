@@ -360,7 +360,7 @@ function formatNumber(number: number | string, partialOptions: Partial<FormatNum
 	const options: FormatNumberOptions = {
 		shorten: false,
 		formatter: undefined,
-		decimals: undefined,
+		decimals: 0,
 		currency: false,
 		forceOperation: false,
 		roman: false,

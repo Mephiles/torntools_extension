@@ -171,7 +171,6 @@
 		setTimeout(() => {
 			if (list.find(".tt-item-price.price-total")) {
 				list.find(".tt-item-price.price-total").textContent = `Total Value: ${formatNumber(total, {
-					decimals: 0,
 					currency: true,
 				})}`;
 			} else {
@@ -181,7 +180,7 @@
 					children: [
 						document.newElement({
 							type: "li",
-							text: `Total Value: ${formatNumber(total, { decimals: 0, currency: true })}`,
+							text: `Total Value: ${formatNumber(total, { currency: true })}`,
 							class: "tt-item-price price-total",
 						}),
 					],
