@@ -1,0 +1,7 @@
+/* Overwriting this class because Torn applies this class somewhere on the city map (without any reason....),
+   while FontAwesome icons applies styles on it. This results in a weird look. */
+.fa-sm {
+	font-size: unset !important;
+	line-height: unset !important;
+	vertical-align: unset !important;
+}

@@ -93,7 +93,7 @@
 								children: [
 									document.newElement({
 										type: "span",
-										text: formatNumber(totalValue / points, { decimals: 0, currency: true }),
+										text: formatNumber(totalValue / points, { currency: true }),
 									}),
 								],
 							}),

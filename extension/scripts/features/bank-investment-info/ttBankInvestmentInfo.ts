@@ -70,12 +70,12 @@
 				document.newElement({
 					type: "div",
 					class: "bank-investment-money-cell-total",
-					text: formatNumber(bankMoneyData.total, { currency: true, decimals: 0 }),
+					text: formatNumber(bankMoneyData.total, { currency: true }),
 				}),
 				document.newElement({
 					type: "div",
 					class: "bank-investment-money-cell-per-day",
-					text: formatNumber(bankMoneyData.daily, { currency: true, decimals: 0 }),
+					text: formatNumber(bankMoneyData.daily, { currency: true }),
 					attributes: { title: "Profit per day." },
 				}),
 			],

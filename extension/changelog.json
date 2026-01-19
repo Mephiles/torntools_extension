@@ -8,6 +8,8 @@
 			"fixes": [
 				{ "message": "Fix job points tooltip not always showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Forum Menu' not working on the thread list.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve a lot of features blocking after network issues (like a laptop in sleep mode).", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve styling conflicts between Torn and FontAwesome (which we inject).", "contributor": "DeKleineKobini" },
 				{ "message": "Fix various issues with filters.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
@@ -17,6 +19,7 @@
 					"message": "Only send travel data to YATA and Prometheus while the tab is active, to comply with new rule interprations.",
 					"contributor": "DeKleineKobini"
 				},
+				{ "message": "Change the number formatting to round the number by default, to avoid issues with decimals.", "contributor": "DeKleineKobini" },
 				{ "message": "Multiple improvements to filters.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],

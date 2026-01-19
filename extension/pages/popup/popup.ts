@@ -1015,7 +1015,7 @@ async function setupCalculator() {
 						document.newElement({
 							type: "span",
 							class: "price",
-							text: formatNumber(price, { currency: true, decimals: 0 }),
+							text: formatNumber(price, { currency: true }),
 						}),
 					],
 				})
@@ -1029,7 +1029,7 @@ async function setupCalculator() {
 			document.newElement({
 				type: "div",
 				class: "total",
-				text: `Total: ${formatNumber(totalValue, { currency: true, decimals: 0 })}`,
+				text: `Total: ${formatNumber(totalValue, { currency: true })}`,
 			})
 		);
 
@@ -1449,13 +1449,10 @@ async function setupStocksOverview() {
 						class: ["increment", level <= ownedLevel ? (level <= activeLevel ? "completed" : "awaiting") : ""],
 						children: [
 							document.newElement({ type: "td", text: level }),
+							document.newElement({ type: "td", text: formatNumber(stocks) }),
 							document.newElement({
 								type: "td",
-								text: formatNumber(stocks),
-							}),
-							document.newElement({
-								type: "td",
-								text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }),
+								text: formatNumber(stocks * stock.current_price, { currency: true }),
 							}),
 							document.newElement({ type: "td", text: reward }),
 							document.newElement({
