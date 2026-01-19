@@ -35,7 +35,7 @@
 						const totalPrice = parseInt(matches[1].replaceAll(",", ""));
 						const quantity = parseInt(matches[0].replaceAll(",", ""));
 
-						target.setAttribute("title", `(worth ${formatNumber(totalPrice / quantity, { currency: true, decimals: 0 })} each)`);
+						target.setAttribute("title", `(worth ${formatNumber(totalPrice / quantity, { currency: true })} each)`);
 						target.classList.add("tt-modified");
 					}
 				});

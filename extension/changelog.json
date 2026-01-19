@@ -17,7 +17,8 @@
 				{
 					"message": "Only send travel data to YATA and Prometheus while the tab is active, to comply with new rule interprations.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Change the number formatting to round the number by default, to avoid issues with decimals.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []

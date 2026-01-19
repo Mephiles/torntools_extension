@@ -43,9 +43,10 @@ describe("formatNumber", () => {
 		expect(formatNumber(123456789)).toBe("123,456,789");
 	});
 
-	it("should format decimals without inserting commas into the fractional part", () => {
-		expect(formatNumber(1234.56)).toBe("1,234.56");
-		expect(formatNumber(1234567.89)).toBe("1,234,567.89");
+	it("should format number by rounding", () => {
+		expect(formatNumber(1234.45)).toBe("1,234");
+		expect(formatNumber(1234.56)).toBe("1,235");
+		expect(formatNumber(1234567.89)).toBe("1,234,568");
 	});
 
 	it("should passthrough non-numeric strings", () => {
@@ -56,7 +57,7 @@ describe("formatNumber", () => {
 	it("should parse numeric strings", () => {
 		expect(formatNumber("1000")).toBe("1,000");
 		expect(formatNumber("-1000")).toBe("-1,000");
-		expect(formatNumber("1234.5")).toBe("1,234.5");
+		expect(formatNumber("1234.5")).toBe("1,235");
 	});
 
 	it("should return infinity symbol for positive infinity", () => {
@@ -65,6 +66,7 @@ describe("formatNumber", () => {
 
 	it("should apply decimals rounding when decimals is provided", () => {
 		expect(formatNumber(1234.567, { decimals: 2 })).toBe("1,234.57");
+		expect(formatNumber("1234.567", { decimals: 2 })).toBe("1,234.57");
 		expect(formatNumber(1234.567, { decimals: 0 })).toBe("1,235");
 	});
 

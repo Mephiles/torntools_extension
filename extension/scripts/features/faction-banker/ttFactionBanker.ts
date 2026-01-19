@@ -59,7 +59,7 @@
 		const balance =
 			parseInt(document.find(`.depositor .user.name[href='/profiles.php?XID=${user[2]}']`).parentElement.find(".amount .money").dataset.value) || 0;
 
-		label.textContent = `${name} has a balance of $${formatNumber(balance, { decimals: 0 })}`;
+		label.textContent = `${name} has a balance of $${formatNumber(balance)}`;
 	}
 
 	function removeHelper() {

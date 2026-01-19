@@ -10,7 +10,7 @@
 			const actualValue = isRelative ? value.relative : value.value;
 			const forceOperation = isRelative;
 
-			const options = { decimals: 0, forceOperation };
+			const options = { forceOperation };
 			node = document.newElement({
 				type: "span",
 				class: "relative-field",
@@ -18,7 +18,7 @@
 				dataset: { value: value.value, relative: value.relative, options },
 			});
 		} else {
-			node = document.createTextNode(formatNumber(value, { decimals: 0 }));
+			node = document.createTextNode(formatNumber(value));
 		}
 
 		return {
@@ -35,7 +35,7 @@
 			const value = isRelative ? data.relative : data.value;
 			const forceOperation = isRelative;
 
-			const options = { decimals: 0, currency: true, forceOperation };
+			const options = { currency: true, forceOperation };
 			node = document.newElement({
 				type: "span",
 				class: "relative-field",
@@ -43,7 +43,7 @@
 				dataset: { value: data.value, relative: data.relative, options },
 			});
 		} else {
-			node = document.createTextNode(formatNumber(data, { decimals: 0, currency: true }));
+			node = document.createTextNode(formatNumber(data, { currency: true }));
 		}
 
 		return {
@@ -534,7 +534,7 @@
 				for (const field of content.findAll<HTMLElement>(".relative-field")) {
 					const value = isRelative ? field.dataset.relative : field.dataset.value;
 
-					const options = { ...(JSON.parse(field.dataset.options ?? "false") || { decimals: 0 }), forceOperation: isRelative };
+					const options = { ...(JSON.parse(field.dataset.options ?? "false") || {}), forceOperation: isRelative };
 
 					field.textContent = formatNumber(value, options);
 				}
