@@ -54,7 +54,7 @@
 		const reviveFilter = createFilterSection({
 			title: "Revives",
 			checkbox: "Enabled",
-			defaults: filters.hospital.revivesOn,
+			default: filters.hospital.revivesOn,
 			callback: filtering,
 		});
 		filterContent.appendChild(reviveFilter.element);
@@ -63,7 +63,7 @@
 		const factionFilter = createFilterSection({
 			title: "Faction",
 			select: [...defaultFactionsItems, ...getFactions()],
-			defaults: "",
+			default: "",
 			callback: filtering,
 		});
 		filterContent.appendChild(factionFilter.element);

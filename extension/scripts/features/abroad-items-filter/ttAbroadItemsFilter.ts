@@ -39,7 +39,7 @@
 		const profitOnlyFilter = createFilterSection({
 			title: "Profit",
 			checkbox: "Only Profit",
-			defaults: filters.abroadItems.profitOnly,
+			default: filters.abroadItems.profitOnly,
 			callback: filtering,
 		});
 		filterContent.appendChild(profitOnlyFilter.element);
@@ -47,7 +47,7 @@
 		const outOfStockFilter = createFilterSection({
 			title: "Out of stock",
 			checkbox: "Hide out of stock",
-			defaults: filters.abroadItems.outOfStock,
+			default: filters.abroadItems.outOfStock,
 			callback: filtering,
 		});
 		filterContent.appendChild(outOfStockFilter.element);

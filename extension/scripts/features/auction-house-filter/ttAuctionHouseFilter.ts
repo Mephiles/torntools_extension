@@ -75,7 +75,7 @@
 			const categoryFilter = createFilterSection({
 				title: "Category",
 				select: [{ value: "", description: "All" }, ...getCategories(itemType)],
-				defaults: filters.auction[itemType].category,
+				default: filters.auction[itemType].category,
 				callback: applyFilters,
 			});
 			filterContent.appendChild(categoryFilter.element);
@@ -91,7 +91,7 @@
 						(type) => ({ value: type.toLowerCase(), description: type })
 					),
 				],
-				defaults: filters.auction[itemType].weaponType,
+				default: filters.auction[itemType].weaponType,
 				callback: applyFilters,
 			});
 			filterContent.appendChild(weaponTypeFilter.element);
@@ -117,8 +117,7 @@
 			filterContent.appendChild(accuracyFilter.element);
 			localFilters.accuracy = { getValue: accuracyFilter.getValue };
 
-			const bonusFilter = createFilterSection({
-				type: "Weapon Bonus",
+			const bonusFilter = createWeaponBonusSection({
 				callback: applyFilters,
 				defaults: filters.auction[itemType].weaponBonus,
 			});
@@ -134,7 +133,7 @@
 					{ value: "red", description: "Red" },
 				],
 				callback: applyFilters,
-				defaults: filters.auction[itemType].quality,
+				default: filters.auction[itemType].quality,
 			});
 			filterContent.appendChild(qualityFilter.element);
 			localFilters.quality = { getSelected: qualityFilter.getSelected };
@@ -160,7 +159,7 @@
 						description: type,
 					})),
 				],
-				defaults: filters.auction[itemType].set,
+				default: filters.auction[itemType].set,
 				callback: applyFilters,
 			});
 			filterContent.appendChild(setFilter.element);
@@ -210,6 +209,7 @@
 			filters.armorBonus = localFilters.armorBonus.getValue();
 		}
 
+		console.log("DKK auction filter", filters);
 		// Save filters
 		await ttStorage.change({ filters: { auction: { [itemType]: filters } } });
 
