@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 8, "minor": 0, "build": 5 },
+		"version": { "major": 8, "minor": 0, "build": 6 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 8, "minor": 0, "build": 5 },
+		"date": "2026/01/21",
 		"logs": {
 			"features": [{ "message": "Extend Cooldown End Times to bars.", "contributor": "TheFoxMan" }],
 			"fixes": [
@@ -21,9 +26,7 @@
 				},
 				{ "message": "Change the number formatting to round the number by default, to avoid issues with decimals.", "contributor": "DeKleineKobini" },
 				{ "message": "Multiple improvements to filters.", "contributor": "DeKleineKobini" }
-			],
-			"removed": [],
-			"technical": []
+			]
 		}
 	},
 	{
