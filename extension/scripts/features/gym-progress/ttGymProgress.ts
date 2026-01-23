@@ -45,7 +45,7 @@
 				type: "p",
 				class: "tt-gym-energy-progress",
 				text: "Estimated Energy progress: ",
-				children: [document.newElement({ type: "span", text: `${formatNumber(stat)})}/${formatNumber(goal)}E.` })],
+				children: [document.newElement({ type: "span", text: `${formatNumber(stat)}/${formatNumber(goal)}E.` })],
 			})
 		);
 	}

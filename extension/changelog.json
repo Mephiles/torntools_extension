@@ -3,7 +3,13 @@
 		"version": { "major": 8, "minor": 0, "build": 6 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix gym progress showing some weird characters.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 8, "minor": 0, "build": 5 },
