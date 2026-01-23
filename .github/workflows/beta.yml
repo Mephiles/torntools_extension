@@ -55,5 +55,7 @@ jobs:
           zip -q -r ../torntools-firefox.zip .
 
       - name: Upload Betas
+        env:
+          PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
         run: |
-          curl --fail -X POST -H "X-API-TOKEN: test-token" -F "branch=$SAFE_BRANCH" -F "editions=chrome" -F "files=@torntools-chrome.zip;type=application/zip" -F "editions=firefox" -F "files=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
+          curl --fail -X POST -H "X-API-TOKEN: $PG_TT_TOKEN" -F "branch=$SAFE_BRANCH" -F "editions=chrome" -F "files=@torntools-chrome.zip;type=application/zip" -F "editions=firefox" -F "files=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
