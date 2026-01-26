@@ -94,7 +94,10 @@
 		if (!highlights?.length) return;
 
 		const sender = simplify(message.find("[class*='chat-box-message__sender__']").textContent.replace(":", ""));
-		const words = message.lastElementChild.textContent.split(" ").map(simplify);
+		const words = message.lastElementChild.textContent
+			.split(" ")
+			.map(simplify)
+			.flatMap((text) => [text, withoutEndPunctuation(text)]);
 
 		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
 		if (senderHighlights.length) {
@@ -135,7 +138,11 @@
 		}
 		sender = simplify(sender);
 
-		const words = message.find("[class*='message___']").textContent.split(" ").map(simplify);
+		const words = message
+			.find("[class*='message___']")
+			.textContent.split(" ")
+			.map(simplify)
+			.flatMap((text) => [text, withoutEndPunctuation(text)]);
 
 		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
 		if (senderHighlights.length) {

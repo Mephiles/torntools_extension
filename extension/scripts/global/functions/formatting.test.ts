@@ -119,3 +119,24 @@ describe("formatNumber", () => {
 		expect(() => formatNumber(-1, { roman: true })).toThrow();
 	});
 });
+
+describe("withoutEndPunctuation", () => {
+	it("should remove punctuation at the end", () => {
+		expect(withoutEndPunctuation("word!")).toBe("word");
+		expect(withoutEndPunctuation("word.")).toBe("word");
+		expect(withoutEndPunctuation("word?")).toBe("word");
+		expect(withoutEndPunctuation("word,")).toBe("word");
+		expect(withoutEndPunctuation("word;")).toBe("word");
+	});
+
+	it("should keep punctuation within", () => {
+		expect(withoutEndPunctuation("wo.rd")).toBe("wo.rd");
+		expect(withoutEndPunctuation("wo!rd")).toBe("wo!rd");
+		expect(withoutEndPunctuation("wo?rd")).toBe("wo?rd");
+	});
+
+	it("should keep words without punctuation intact", () => {
+		expect(withoutEndPunctuation("word")).toBe("word");
+		expect(withoutEndPunctuation("1234")).toBe("1234");
+	});
+});

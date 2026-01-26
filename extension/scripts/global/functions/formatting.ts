@@ -508,3 +508,7 @@ function daySuffix(number: number): string {
 	else if (last === 3 && double !== 13) return number + "rd";
 	else return number + "th";
 }
+
+function withoutEndPunctuation(text: string): string {
+	return text.replace(/[.,!?;:]+$/, "");
+}

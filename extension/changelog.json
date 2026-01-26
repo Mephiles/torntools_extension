@@ -9,7 +9,7 @@
 				{ "message": "Fix gym progress showing some weird characters.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction armory features no longer showing up.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Highlight words even if there is punctuation at the end of the word.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
