@@ -28,7 +28,9 @@
 				break;
 			case "factions":
 				setupXHR({
-					react: () => document.find("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls") === "armoury-donate",
+					react: () =>
+						extractArmorySubcategory(document.find("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls")) ===
+						"donate",
 				});
 				break;
 			case "bazaar":

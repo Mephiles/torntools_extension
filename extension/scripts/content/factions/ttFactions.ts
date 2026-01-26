@@ -95,9 +95,9 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 		async function loadArmory() {
 			const tab = await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
-			await requireElement(`#${tab.getAttribute("aria-controls")} > .ajax-preloader`, { invert: true });
+			await requireElement(":scope > .ajax-preloader", { invert: true, parent: document.getElementById(tab.getAttribute("aria-controls")) });
 
-			triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
+			triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection()! });
 			new MutationObserver((mutations) => {
 				if (
 					!mutations.some((mutation) => {
@@ -115,14 +115,16 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				)
 					return;
 
-				const mutation = mutations.find((mutation) => (mutation.target as Element).id.includes("armoury-"));
+				const mutation = mutations.find((mutation) => extractArmorySubcategory((mutation.target as Element).id) !== null);
 				if (!mutation) return;
 
-				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: (mutation.target as Element).id.replace("armoury-", "") });
+				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: extractArmorySubcategory((mutation.target as Element).id) });
 			}).observe(document.find("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 			function getCurrentSection() {
-				return document.find("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+				const controls = document.find("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls");
+
+				return extractArmorySubcategory(controls);
 			}
 		}
 
@@ -304,4 +306,18 @@ function getFactionSubpage() {
 	}
 
 	return "";
+}
+
+function extractArmorySubcategory(controls: string): string | null {
+	const params = new URLSearchParams(controls);
+
+	if (params.has("sub")) {
+		return params.get("sub")!;
+	}
+
+	if (controls.startsWith("armoury-")) {
+		return controls.replace("armoury-", "");
+	}
+
+	return null;
 }
