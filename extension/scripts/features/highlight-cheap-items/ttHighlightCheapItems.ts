@@ -9,7 +9,7 @@
 		highlightEverything,
 		removeHighlights,
 		{
-			storage: ["settings.pages.itemmarket.highlightCheapItems"],
+			storage: ["settings.pages.itemmarket.highlightCheapItems", "settings.pages.itemmarket.highlightCheapItemsSound"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
@@ -122,14 +122,18 @@
 	}
 
 	function handleCategoryItems(items: ItemEntry[]) {
+		let triggered = false;
 		items.forEach(({ id, price, element }) => {
 			if (shouldHighlight(id, price)) {
 				element.classList.add("tt-highlight-item", "tt-highlight-modified");
+				triggered = true;
 			} else {
 				element.classList.remove("tt-highlight-item");
 				element.classList.add("tt-highlight-modified");
 			}
 		});
+
+		if (triggered) playSound();
 	}
 
 	function handleItemSellers(id: number, items: ItemEntry[]) {
@@ -146,5 +150,23 @@
 	function removeHighlights() {
 		document.findAll(".tt-highlight-item").forEach((item) => item.classList.remove("tt-highlight-item"));
 		document.findAll(".tt-highlight-modified").forEach((item) => item.classList.remove("tt-highlight-modified"));
+	}
+
+	function playSound() {
+		if (!settings.pages.itemmarket.highlightCheapItemsSound) return;
+
+		const type = settings.notifications.sound;
+		let src: string;
+		if (["1", "2", "3", "4", "5"].includes(type)) {
+			src = chrome.runtime.getURL(`resources/audio/notification${type}.wav`);
+		} else if (type === "custom") {
+			src = settings.notifications.soundCustom;
+		} else {
+			src = chrome.runtime.getURL("resources/audio/notification1.wav");
+		}
+
+		const audio = new Audio(src);
+		audio.volume = settings.notifications.volume / 100;
+		audio.play().catch(() => {});
 	}
 })();

@@ -841,6 +841,7 @@ const DEFAULT_STORAGE = {
 			},
 			itemmarket: {
 				highlightCheapItems: new DefaultSetting<number | "">("number|empty", ""), // TODO - Rework this one.
+				highlightCheapItemsSound: new DefaultSetting("boolean", false),
 				leftBar: new DefaultSetting("boolean", false),
 				fillMax: new DefaultSetting("boolean", true),
 			},
