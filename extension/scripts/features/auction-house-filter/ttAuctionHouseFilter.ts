@@ -209,7 +209,6 @@
 			filters.armorBonus = localFilters.armorBonus.getValue();
 		}
 
-		console.log("DKK auction filter", filters);
 		// Save filters
 		await ttStorage.change({ filters: { auction: { [itemType]: filters } } });
 
