@@ -48,7 +48,8 @@
 				"scripts/*.inject.js",
 				"scripts/features/no-confirm/*.inject.js",
 				"vendor/*",
-				"scripts/features/points-value/ttPointsValue.inject.js"
+				"scripts/features/points-value/ttPointsValue.inject.js",
+				"data:audio*"
 			],
 			"matches": ["https://*.torn.com/*"]
 		}

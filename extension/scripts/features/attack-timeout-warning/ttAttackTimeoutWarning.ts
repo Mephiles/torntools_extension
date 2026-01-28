@@ -15,39 +15,23 @@
 	);
 
 	let observer: MutationObserver | undefined;
+	let hasSentNotification = false;
 
 	async function addListener() {
 		stopListener();
 
-		const dialogButtons = await requireElement("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']");
-		if (dialogButtons.childElementCount === 0) return;
+		await requireElement("[class*='playerArea__'] [class*='playerWindow__']");
 
-		await new Promise<void>(async (resolve) => {
-			dialogButtons.children[0].addEventListener("click", () => {
-				resolve();
+		const dialogButtons = document.find("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']");
+		if (dialogButtons) {
+			if (dialogButtons.childElementCount === 0) return;
+
+			await new Promise<void>(async (resolve) => {
+				dialogButtons.children[0].addEventListener("click", () => resolve(), { once: true });
 			});
-		});
+		}
 
-		const timeoutValue = await requireElement("span[id^='timeout-value']");
-
-		const soundSource = await new Promise<string>((resolve) => {
-			const type = settings.notifications.sound;
-			switch (type) {
-				case "1":
-				case "2":
-				case "3":
-				case "4":
-				case "5":
-					return resolve(`resources/audio/notification${type}.wav`);
-				case "custom":
-					return resolve(settings.notifications.soundCustom);
-				default:
-					return resolve("resources/audio/notification1.wav");
-			}
-		});
-
-		const audio = new Audio(chrome.runtime.getURL(soundSource));
-		audio.volume = settings.notifications.volume / 100;
+		const timeoutValue = await requireElement("span[id^='timeout-value'], [class*='labelContainer___']:nth-child(2) [class*='labelTitle___']");
 
 		observer = new MutationObserver((mutations) => {
 			if (document.find("div[class^='dialogButtons_']")) {
@@ -56,22 +40,28 @@
 				return;
 			}
 
+			if (!isTabFocused()) return;
+
 			const seconds = textToTime(mutations[0].target.textContent, { short: true }) / TO_MILLIS.SECONDS;
 			if (seconds <= 0 || seconds >= 30) return;
 
-			if (seconds <= 0) return;
-			else if (seconds === 29 && settings.notifications.types.global) {
+			if (!hasSentNotification && settings.notifications.types.global) {
 				chrome.runtime.sendMessage({
 					action: "notification",
 					title: "Attack Timeout",
 					message: `Your attack is about to timeout in ${seconds} seconds!`,
 					url: location.href,
 				} satisfies BackgroundMessage);
-			} else if (seconds >= 30) return;
-
-			audio.play().catch(() => {});
+				hasSentNotification = true;
+			} else {
+				chrome.runtime.sendMessage({
+					action: "play-notification-sound",
+					sound: settings.notifications.sound,
+					volume: settings.notifications.volume,
+				} satisfies BackgroundMessage);
+			}
 		});
-		observer.observe(timeoutValue.firstChild, { characterData: true });
+		observer.observe(timeoutValue.firstChild, { characterData: true, subtree: true });
 	}
 
 	function stopListener() {
