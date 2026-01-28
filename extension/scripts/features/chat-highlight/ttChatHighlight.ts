@@ -61,6 +61,11 @@
 				applyV3Highlights(message);
 			}
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(() => {
+			if (!feature.enabled()) return;
+
+			applyAllHighlights();
+		});
 	}
 
 	function readSettings() {
@@ -77,6 +82,10 @@
 			return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
 		});
 
+		applyAllHighlights();
+	}
+
+	function applyAllHighlights() {
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 

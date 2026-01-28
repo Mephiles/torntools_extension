@@ -5,6 +5,7 @@
 	observeBody().catch(console.error);
 
 	setInterval(decreaseCountdown, 1000);
+	handleFocus();
 
 	async function handleTheme() {
 		await loadDatabase();
@@ -162,6 +163,20 @@
 			const seconds = parseInt(countdown.dataset.seconds);
 
 			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+		});
+	}
+
+	function handleFocus() {
+		let focusTimeout: number | null = null;
+
+		window.addEventListener("focus", () => {
+			if (focusTimeout) return;
+
+			focusTimeout = setTimeout(() => {
+				focusTimeout = null;
+
+				triggerCustomListener(EVENT_CHANNELS.WINDOW__FOCUS);
+			}, 50);
 		});
 	}
 })();

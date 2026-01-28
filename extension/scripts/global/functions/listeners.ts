@@ -61,6 +61,7 @@ enum EVENT_CHANNELS {
 	ITEMMARKET_ITEMS = "itemmarket-items",
 	ITEMMARKET_ITEMS_UPDATE = "itemmarket-items-update",
 	ITEMMARKET_ITEM_DETAILS = "itemmarket-item-details",
+	WINDOW__FOCUS = "WINDOW__FOCUS",
 }
 
 type EventPayloads = {
@@ -124,11 +125,23 @@ type EventPayloads = {
 	[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE]: { item: Element };
 	[EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE]: { item: number; list: Element };
 	[EVENT_CHANNELS.ITEMMARKET_ITEMS]: { item: number; list: Element };
+	[EVENT_CHANNELS.WINDOW__FOCUS]: never;
 };
 
 type CustomEventListener<T extends keyof EventPayloads> = (payload: EventPayloads[T]) => void;
 
-const ANTI_SCRAPE_EVENTS = [EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD];
+const ANTI_SCRAPE_EVENTS = [
+	EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD,
+	EVENT_CHANNELS.CHAT_MESSAGE,
+	EVENT_CHANNELS.CHAT_OPENED,
+	EVENT_CHANNELS.CHAT_CLOSED,
+	EVENT_CHANNELS.CHAT_REFRESHED,
+	EVENT_CHANNELS.CHAT_RECONNECTED,
+	EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS,
+	EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE,
+	EVENT_CHANNELS.ITEMMARKET_ITEMS,
+	EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE,
+];
 
 const CUSTOM_LISTENERS: { [K in keyof EventPayloads]: CustomEventListener<K>[] } = (() => {
 	const listeners: Partial<{ [K in keyof EventPayloads]: CustomEventListener<K>[] }> = {};
@@ -169,7 +182,7 @@ function addXHRListener(callback: (event: CustomEventInit<XHRDetails>) => void) 
 }
 
 function triggerCustomListener<T extends keyof EventPayloads>(channel: T, payload?: EventPayloads[T]): void {
-	if (channel in ANTI_SCRAPE_EVENTS && !document.hasFocus()) return;
+	if (ANTI_SCRAPE_EVENTS.includes(channel) && !isTabFocused()) return;
 
 	for (const listener of CUSTOM_LISTENERS[channel]) {
 		listener(payload);

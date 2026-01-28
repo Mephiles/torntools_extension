@@ -39,6 +39,12 @@
 
 			highlightSellers(item, list, true);
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(() => {
+			if (!feature.enabled()) return;
+
+			removeHighlights();
+			highlightEverything();
+		});
 	}
 
 	function highlightEverything() {
@@ -57,7 +63,27 @@
 
 		handleCategoryItems(categoryItems);
 
+		let id: number | undefined;
 		const params = getHashParameters();
+		if (params.has("itemID")) {
+			id = parseInt(params.get("itemID"));
+		} else if (document.find("[class*='sellerListWrapper___']")) {
+			const image = document.find("[class*='sellerListWrapper___']").previousElementSibling.find<HTMLImageElement>("img.torn-item");
+			if (!image) return null;
+
+			id = image.src.getNumber();
+		}
+
+		if (id !== undefined) {
+			const itemSellers = [...document.findAll("[class*='rowWrapper___']:not(.tt-highlight-modified)")].map<ItemEntry>((element) => ({
+				element,
+				price: element.find("[class*='price___']").textContent.getNumber(),
+				id,
+			}));
+
+			handleItemSellers(id, itemSellers);
+		}
+
 		if (params.has("itemID")) {
 			const id = parseInt(params.get("itemID"));
 			const itemSellers = [...document.findAll("[class*='rowWrapper___']:not(.tt-highlight-modified)")].map<ItemEntry>((element) => ({

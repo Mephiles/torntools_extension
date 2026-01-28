@@ -24,6 +24,7 @@ interface ColoredChatOption {
 
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(reColorChats);
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_CLOSED].push(reColorChats);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(reColorChats);
 
 		function reColorChats() {
 			if (!feature.enabled()) return;

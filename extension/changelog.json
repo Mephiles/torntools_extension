@@ -14,9 +14,12 @@
 			"changes": [
 				{ "message": "Highlight words even if there is punctuation at the end of the word.", "contributor": "DeKleineKobini" },
 				{
-					"message": "Only play sounds and send a notification when your attack is going to timeout when the tab is focused, to be be rule compliant.",
+					"message": "Only play sounds and send a notification when your attack is going to timeout when the tab is focused, to be rule compliant.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Only highlight chat messages when the tab is focused, to be rule compliant.", "contributor": "DeKleineKobini" },
+				{ "message": "Only highlight chat boxes when the tab is focused, to be rule compliant.", "contributor": "DeKleineKobini" },
+				{ "message": "Only highlight cheap item market items when the tab is focused, to be rule compliant.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []
