@@ -113,17 +113,6 @@ const REVIVE_PROVIDERS: ReviveProvider[] = [
 		},
 	},
 	{
-		// Original Script: https://greasyfork.org/en/scripts/452523-hela-revives
-		provider: "hela",
-		name: "HeLa",
-		origin: FETCH_PLATFORMS.stig,
-		doRequest: __requestStigFormat("HeLa"),
-		price: {
-			money: 1_800_000,
-			xanax: 2,
-		},
-	},
-	{
 		// Original Script: https://greasyfork.org/en/scripts/452524-shadow-healers-revive-requests
 		provider: "shadow_healers",
 		name: "Shadow Healers",

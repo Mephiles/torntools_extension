@@ -21,7 +21,12 @@
 				{ "message": "Only highlight chat boxes when the tab is focused, to be rule compliant.", "contributor": "DeKleineKobini" },
 				{ "message": "Only highlight cheap item market items when the tab is focused, to be rule compliant.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
+			"removed": [
+				{
+					"message": "Remove HeLa revives, since they no longer do those. By default 'Midnight X' will be the new provider if you had HeLa selected.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"technical": []
 		}
 	},

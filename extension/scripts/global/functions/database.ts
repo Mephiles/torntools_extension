@@ -382,6 +382,13 @@ async function migrateDatabase(force = false) {
 
 			updated = true;
 		}
+		if (version < toNumericVersion("8.1.0")) {
+			if (storage?.settings?.pages?.global?.reviveProvider === "hela") {
+				newStorage.settings.pages.global.reviveProvider = "midnight_x";
+			}
+
+			updated = true;
+		}
 
 		if (updated) {
 			console.log(`Upgraded database from ${storedVersion} to ${loadedVersion}`);
