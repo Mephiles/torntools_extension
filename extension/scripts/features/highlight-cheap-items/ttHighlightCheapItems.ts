@@ -155,18 +155,10 @@
 	function playSound() {
 		if (!settings.pages.itemmarket.highlightCheapItemsSound) return;
 
-		const type = settings.notifications.sound;
-		let src: string;
-		if (["1", "2", "3", "4", "5"].includes(type)) {
-			src = chrome.runtime.getURL(`resources/audio/notification${type}.wav`);
-		} else if (type === "custom") {
-			src = settings.notifications.soundCustom;
-		} else {
-			src = chrome.runtime.getURL("resources/audio/notification1.wav");
-		}
-
-		const audio = new Audio(src);
-		audio.volume = settings.notifications.volume / 100;
-		audio.play().catch(() => {});
+		chrome.runtime.sendMessage({
+			action: "play-notification-sound",
+			sound: settings.notifications.sound,
+			volume: settings.notifications.volume,
+		} satisfies BackgroundMessage);
 	}
 })();
