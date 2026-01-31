@@ -9,7 +9,7 @@
 		highlightEverything,
 		removeHighlights,
 		{
-			storage: ["settings.pages.itemmarket.highlightCheapItems"],
+			storage: ["settings.pages.itemmarket.highlightCheapItems", "settings.pages.itemmarket.highlightCheapItemsSound"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
@@ -148,14 +148,18 @@
 	}
 
 	function handleCategoryItems(items: ItemEntry[]) {
+		let triggered = false;
 		items.forEach(({ id, price, element }) => {
 			if (shouldHighlight(id, price)) {
 				element.classList.add("tt-highlight-item", "tt-highlight-modified");
+				triggered = true;
 			} else {
 				element.classList.remove("tt-highlight-item");
 				element.classList.add("tt-highlight-modified");
 			}
 		});
+
+		if (triggered) playSound();
 	}
 
 	function handleItemSellers(id: number, items: ItemEntry[]) {
@@ -172,5 +176,15 @@
 	function removeHighlights() {
 		document.findAll(".tt-highlight-item").forEach((item) => item.classList.remove("tt-highlight-item"));
 		document.findAll(".tt-highlight-modified").forEach((item) => item.classList.remove("tt-highlight-modified"));
+	}
+
+	function playSound() {
+		if (!settings.pages.itemmarket.highlightCheapItemsSound) return;
+
+		chrome.runtime.sendMessage({
+			action: "play-notification-sound",
+			sound: settings.notifications.sound,
+			volume: settings.notifications.volume,
+		} satisfies BackgroundMessage);
 	}
 })();

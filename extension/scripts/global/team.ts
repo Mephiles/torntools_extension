@@ -323,6 +323,13 @@ const TEAM: TeamMember[] = [
 		torn: 2657909,
 		color: "#a0ec6d",
 	},
+	{
+		name: "Will",
+		title: "Developer",
+		core: false,
+		torn: 2057823,
+		color: "#a6279b",
+	},
 ];
 
 interface Contributor {
