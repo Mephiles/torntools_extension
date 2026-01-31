@@ -12,15 +12,13 @@
 		{
 			storage: ["settings.pages.travel.flyingTime"],
 		},
-		async () => {
-			await checkDevice();
-
-			return true;
-		}
+		null
 	);
 
+	const { mobile, tabletVertical } = await checkDevice();
+
 	function initialise() {
-		if (mobile || tablet) {
+		if (mobile || tabletVertical) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(() => {
 				if (!feature.enabled()) return;
 
@@ -42,7 +40,7 @@
 
 	async function showTime() {
 		const container = await requireElement(
-			mobile || tablet ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
+			mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
 		);
 		if (!container) return;
 

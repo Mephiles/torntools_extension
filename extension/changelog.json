@@ -9,7 +9,9 @@
 				{ "message": "Fix gym progress showing some weird characters.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction armory features no longer showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix attack timeout warning not working after a reload.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix attack timeout warning sound not playing for custom sounds.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix attack timeout warning sound not playing for custom sounds.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Travel Cooldowns' on horizontal tablet views'.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Flying Time' on horizontal tablet views'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Highlight words even if there is punctuation at the end of the word.", "contributor": "DeKleineKobini" },

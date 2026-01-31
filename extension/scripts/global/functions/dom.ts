@@ -176,10 +176,16 @@ Object.defineProperty(Element.prototype, "setClass", {
 	enumerable: false,
 });
 
-function checkDevice() {
-	return new Promise<{ mobile: boolean; tablet: boolean; hasSidebar: boolean }>((resolve) => {
-		if ([typeof mobile, typeof tablet, typeof hasSidebar].every((t) => t === "boolean")) return resolve({ mobile, tablet, hasSidebar });
+interface DeviceInformation {
+	mobile: boolean;
+	tablet: boolean;
+	tabletHorizontal: boolean;
+	tabletVertical: boolean;
+	hasSidebar: boolean;
+}
 
+function checkDevice() {
+	return new Promise<DeviceInformation>((resolve) => {
 		if (document.readyState === "complete" || document.readyState === "interactive") check();
 		else window.addEventListener("DOMContentLoaded", check);
 
@@ -188,8 +194,9 @@ function checkDevice() {
 			mobile = innerWidth <= 600;
 			tablet = innerWidth <= 1000 && innerWidth >= 600;
 			hasSidebar = innerWidth > 1000;
+			const tabletHorizontal = tablet && innerWidth >= 784;
 
-			resolve({ mobile, tablet, hasSidebar });
+			resolve({ mobile, tablet, tabletHorizontal, tabletVertical: tablet && !tabletHorizontal, hasSidebar });
 		}
 	});
 }

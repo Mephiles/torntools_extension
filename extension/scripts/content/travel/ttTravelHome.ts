@@ -3,9 +3,9 @@
 
 	if (!getPageStatus().access) return;
 
-	const { mobile, tablet } = await checkDevice();
+	const { mobile, tabletVertical } = await checkDevice();
 
-	if (mobile || tablet) {
+	if (mobile || tabletVertical) {
 		requireElement("[class*='destinationList___'] > div:not([class])").then((list: HTMLElement) => {
 			list.addEventListener("click", async (event) => {
 				const destinationElement = (event.target as Element).closest("[class*='destination___']");

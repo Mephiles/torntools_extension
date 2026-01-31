@@ -12,7 +12,7 @@
 		{
 			storage: ["settings.pages.travel.cooldownWarnings"],
 		},
-		async () => {
+		() => {
 			if (
 				!hasAPIData() ||
 				!settings.apiUsage.user.bars ||
@@ -22,10 +22,11 @@
 			)
 				return "No API access.";
 
-			await checkDevice();
 			return true;
 		}
 	);
+
+	const { mobile, tabletVertical } = await checkDevice();
 
 	function initialiseListeners() {
 		const handler = () => {
@@ -34,7 +35,7 @@
 			showWarnings();
 		};
 
-		if (mobile || tablet) {
+		if (mobile || tabletVertical) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(handler);
 			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(handler);
 		} else {
@@ -44,7 +45,7 @@
 
 	async function showWarnings() {
 		const container = await requireElement(
-			mobile || tablet ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
+			mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
 		);
 		if (!container) return;
 
@@ -120,7 +121,7 @@
 			handleClass(cooldowns.parentElement.find(".investment"), userdata.money.city_bank.until - userdata.date);
 		}
 
-		if (!mobile && !tablet) container.insertAdjacentElement("beforebegin", cooldowns);
+		if (!mobile && !tabletVertical) container.insertAdjacentElement("beforebegin", cooldowns);
 		else {
 			container.find("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
 		}
