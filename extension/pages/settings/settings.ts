@@ -355,6 +355,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			action: "play-notification-sound",
 			sound: _preferences.find<HTMLInputElement>("#notification-sound").value,
 			volume: parseInt(_preferences.find<HTMLInputElement>("#notification-volume").value),
+			allowDefault: false,
 		} satisfies BackgroundMessage);
 	});
 	_preferences.find("#notification-sound-stop").addEventListener("click", () => {

@@ -1967,7 +1967,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 
 type BackgroundMessage =
 	| { action: "initialize" }
-	| { action: "play-notification-sound"; sound: string; volume: number }
+	| { action: "play-notification-sound"; sound: string; volume: number; allowDefault?: boolean }
 	| { action: "stop-notification-sound" }
 	| { action: "notification"; title: string; message: string; url?: string }
 	| { action: "fetchRelay"; location: FetchLocation; options: Partial<FetchOptions> }
@@ -1983,7 +1983,7 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _sender, sendR
 			sendResponse({ success: true });
 			break;
 		case "play-notification-sound":
-			const sound = getNotificationSound(message.sound);
+			const sound = getNotificationSound(message.sound, message.allowDefault ?? true);
 			if (sound) {
 				notificationTestPlayer.volume = message.volume / 100;
 				notificationTestPlayer.src = sound;
@@ -2043,7 +2043,7 @@ chrome.notifications.onClicked.addListener((id) => {
 	}
 });
 
-function getNotificationSound(type: string) {
+function getNotificationSound(type: string, allowDefault = false) {
 	switch (type) {
 		case "1":
 		case "2":
@@ -2054,7 +2054,7 @@ function getNotificationSound(type: string) {
 		case "custom":
 			return settings.notifications.soundCustom;
 		default:
-			return false;
+			return allowDefault ? getNotificationSound("1") : false;
 	}
 }
 
