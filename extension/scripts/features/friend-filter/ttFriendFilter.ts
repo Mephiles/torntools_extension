@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.friends.filter"],
 		},
-		null
+		() => "Disabled until further notice."
 	);
 
 	let filterSetupComplete: boolean = false;

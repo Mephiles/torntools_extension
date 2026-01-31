@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.enemies.filter"],
 		},
-		null
+		() => "Disabled until further notice."
 	);
 
 	let filterSetupComplete: boolean = false;

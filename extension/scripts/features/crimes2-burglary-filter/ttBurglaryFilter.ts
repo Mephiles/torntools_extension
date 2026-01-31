@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.crimes2.burglaryFilter"],
 		},
-		null
+		() => "Disabled until further notice."
 	);
 
 	let CRIMES2_ROWS_START_Y = 64;

@@ -25,6 +25,26 @@
 				{
 					"message": "Remove HeLa revives, since they no longer do those. By default 'Midnight X' will be the new provider if you had HeLa selected.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Temporary disable 'Enemy Filter' until we can find a compliant way to keep it or remove it.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Temporary disable 'Friend Filter' until we can find a compliant way to keep it or remove it.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Temporary disable 'Target Filter' until we can find a compliant way to keep it or remove it.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Temporary disable 'OC2 Filter' until we can find a compliant way to keep it or remove it.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Temporary disable 'Burglary Filter' until we can find a compliant way to keep it or remove it.",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"technical": []

@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.targets.filter"],
 		},
-		null
+		() => "Disabled until further notice."
 	);
 
 	let filterSetupComplete: boolean = false;

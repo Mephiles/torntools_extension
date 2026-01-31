@@ -14,7 +14,7 @@
 		() => {
 			if (hasOC1Data()) return "Still on OC1.";
 
-			return true;
+			return "Disabled until further notice.";
 		}
 	);
 
