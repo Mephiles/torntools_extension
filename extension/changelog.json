@@ -1,10 +1,14 @@
 [
 	{
-		"version": { "major": 8, "minor": 1, "build": 0 },
+		"version": { "major": 8, "minor": 1, "build": 1 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 8, "minor": 1, "build": 0 },
+		"date": "2026/01/31",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix gym progress showing some weird characters.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction armory features no longer showing up.", "contributor": "DeKleineKobini" },
@@ -28,28 +32,12 @@
 					"message": "Remove HeLa revives, since they no longer do those. By default 'Midnight X' will be the new provider if you had HeLa selected.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "Temporary disable 'Enemy Filter' until we can find a compliant way to keep it or remove it.",
-					"contributor": "DeKleineKobini"
-				},
-				{
-					"message": "Temporary disable 'Friend Filter' until we can find a compliant way to keep it or remove it.",
-					"contributor": "DeKleineKobini"
-				},
-				{
-					"message": "Temporary disable 'Target Filter' until we can find a compliant way to keep it or remove it.",
-					"contributor": "DeKleineKobini"
-				},
-				{
-					"message": "Temporary disable 'OC2 Filter' until we can find a compliant way to keep it or remove it.",
-					"contributor": "DeKleineKobini"
-				},
-				{
-					"message": "Temporary disable 'Burglary Filter' until we can find a compliant way to keep it or remove it.",
-					"contributor": "DeKleineKobini"
-				}
-			],
-			"technical": []
+				{ "message": "Temporary disable 'Enemy Filter' until we can find a compliant way to keep it or remove it.", "contributor": "DeKleineKobini" },
+				{ "message": "Temporary disable 'Friend Filter' until we can find a compliant way to keep it or remove it.", "contributor": "DeKleineKobini" },
+				{ "message": "Temporary disable 'Target Filter' until we can find a compliant way to keep it or remove it.", "contributor": "DeKleineKobini" },
+				{ "message": "Temporary disable 'OC2 Filter' until we can find a compliant way to keep it or remove it.", "contributor": "DeKleineKobini" },
+				{ "message": "Temporary disable 'Burglary Filter' until we can find a compliant way to keep it or remove it.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
