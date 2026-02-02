@@ -16,14 +16,26 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				}
 			}
 		});
+		addFetchListener(({ detail: { page, fetch } }) => {
+			if (page === "page") {
+				const params = new URL(fetch.url).searchParams;
+				const sid = params.get("sid");
+
+				if (sid === "factionsProfile") {
+					loadInfo().then(() => {});
+				} else if (sid === "factionsNews") {
+					loadMain().then(() => {});
+				} else if (sid === "factionsControlMembers") {
+					loadArmory().then(() => {});
+				}
+			}
+		});
 
 		await requireElement(".faction-tabs");
 
-		document.find(".faction-tabs li[data-case=mainTabContent]").addEventListener("click", loadMain);
-		document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
-		// document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
+		// document.find(".faction-tabs li[data-case=mainTabContent]").addEventListener("click", loadMain);
 		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
-		document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
+		// document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 
 		switch (getFactionSubpage()) {
 			case "main":
