@@ -61,7 +61,7 @@
 
 		const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
 
-		for (const stat of properties.findAll(":scope > li:not([class*='locked___']):not(.tt-modified)")) {
+		for (const stat of findAllElements(":scope > li:not([class*='locked___']):not(.tt-modified)", properties)) {
 			stat.classList.add("tt-modified");
 			stat.appendChild(
 				elementBuilder({
@@ -100,8 +100,8 @@
 	}
 
 	function dispose() {
-		for (const checkbox of document.findAll(".tt-stat-checkbox")) checkbox.remove();
-		for (const stat of document.findAll(".tt-gym-locked, #gymroot ul[class*='properties___'] > li.tt-modified"))
+		for (const checkbox of findAllElements(".tt-stat-checkbox")) checkbox.remove();
+		for (const stat of findAllElements(".tt-gym-locked, #gymroot ul[class*='properties___'] > li.tt-modified"))
 			stat.classList.remove(".tt-gym-locked", "tt-modified");
 	}
 })();

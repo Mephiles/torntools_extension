@@ -40,7 +40,7 @@
 
 		const list: Element = await requireElement(".employee-list");
 
-		for (const row of list.findAll(".effectiveness[data-multipliers]")) {
+		for (const row of findAllElements(".effectiveness[data-multipliers]", list)) {
 			const multipliers = JSON.parse(row.dataset.multipliers) || [];
 			const reduction = multipliers.filter((multiplier: any) => multiplier < 0).totalSum() * -1;
 
@@ -56,7 +56,7 @@
 	}
 
 	function removeEffectiveness() {
-		for (const effectiveness of document.findAll(".tt-employee-effectiveness")) effectiveness.classList.remove("tt-employee-effectiveness");
+		for (const effectiveness of findAllElements(".tt-employee-effectiveness")) effectiveness.classList.remove("tt-employee-effectiveness");
 		observer?.disconnect();
 		observer = null;
 	}

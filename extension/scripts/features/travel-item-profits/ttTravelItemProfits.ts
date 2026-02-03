@@ -41,7 +41,7 @@
 
 		document.body.classList.add("tt-travel-profits");
 		const market = document.find("#travel-root");
-		for (const headings of market.findAll("[class*='stockTableWrapper__'] [class*='itemsHeader__']")) {
+		for (const headings of findAllElements("[class*='stockTableWrapper__'] [class*='itemsHeader__']", market)) {
 			if (!headings.find(".tt-travel-market-heading")) {
 				const profitHeading = elementBuilder({
 					type: "div",
@@ -54,7 +54,7 @@
 				headings.insertBefore(profitHeading, headings.find("[class*='tabletColC__']"));
 			}
 			await requireElement("[class*='stockTableWrapper___'] > li");
-			const rows = document.findAll("[class*='stockTableWrapper___'] > li:not(:has([data-tt-content-type='profit']))");
+			const rows = findAllElements("[class*='stockTableWrapper___'] > li:not(:has([data-tt-content-type='profit']))");
 
 			const applySalesTax = filters.abroadItems.taxes.includes("salestax");
 			const sellAnonymously = filters.abroadItems.taxes.includes("anonymous");
@@ -98,6 +98,6 @@
 	function removeProfitsColumn() {
 		document.documentElement.classList.remove("tt-travel-profits");
 		document.find(".travel-agency-market.tt-travel-profits-table")?.classList.remove("tt-travel-profits-table");
-		document.findAll(".tt-travel-market-heading, .tt-travel-market-cell").forEach((x) => x.remove());
+		findAllElements(".tt-travel-market-heading, .tt-travel-market-cell").forEach((x) => x.remove());
 	}
 })();

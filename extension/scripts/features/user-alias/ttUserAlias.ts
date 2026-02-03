@@ -51,7 +51,7 @@
 	}
 
 	function addAliasTitle() {
-		document.findAll("[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']").forEach((chatHeader) => {
+		findAllElements("[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']").forEach((chatHeader) => {
 			const chatPlayerTitle = chatHeader.textContent;
 			if (!chatPlayerTitle || (chatPlayerTitle && ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle))) return;
 
@@ -63,7 +63,7 @@
 				}
 			}
 		});
-		document.findAll("[class*='chat-box__'] > [class*='chat-box-header__']").forEach((chatHeader) => {
+		findAllElements("[class*='chat-box__'] > [class*='chat-box-header__']").forEach((chatHeader) => {
 			const chatPlayerTitle = chatHeader.textContent;
 			if (!chatPlayerTitle || (chatPlayerTitle && ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle))) return;
 
@@ -80,7 +80,7 @@
 	function addAliasMessage(message: Element | null = null) {
 		if (!message) {
 			for (const [userID, alias] of Object.entries(settings.userAlias)) {
-				document.findAll(`#chatRoot a[class*="chat-box-message__sender__"][href*='/profiles.php?XID=${userID}']`).forEach((profileLink) => {
+				findAllElements(`#chatRoot a[class*="chat-box-message__sender__"][href*='/profiles.php?XID=${userID}']`).forEach((profileLink) => {
 					profileLink.dataset.original = profileLink.textContent;
 					profileLink.firstChild.textContent = alias.alias;
 				});
@@ -96,13 +96,11 @@
 	}
 
 	function removeAlias() {
-		document
-			.findAll(
-				"#chatRoot [class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__'] [class*='minimized-chat-box__username-text__'], #chatRoot [class*='chat-box__'] > [class*='chat-box-header__'] [class*='chat-box-header__name__']"
-			)
-			.forEach((x) => {
-				if (x.dataset.original) x.firstChild.textContent = x.dataset.original;
-				delete x.dataset.original;
-			});
+		findAllElements(
+			"#chatRoot [class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__'] [class*='minimized-chat-box__username-text__'], #chatRoot [class*='chat-box__'] > [class*='chat-box-header__'] [class*='chat-box-header__name__']"
+		).forEach((x) => {
+			if (x.dataset.original) x.firstChild.textContent = x.dataset.original;
+			delete x.dataset.original;
+		});
 	}
 })();

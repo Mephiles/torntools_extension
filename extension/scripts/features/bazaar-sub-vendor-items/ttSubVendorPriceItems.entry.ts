@@ -36,7 +36,7 @@
 	}
 
 	function highlightEverything() {
-		const items = [...document.findAll("[class*='item__'] > [class*='itemDescription__']")]
+		const items = findAllElements("[class*='item__'] > [class*='itemDescription__']")
 			// filter out $1 items that you can't buy
 			.filter((element) => !element.find("[class*='isBlockedForBuying___'"))
 			.map<HighlightableItem>((element) => {
@@ -68,6 +68,6 @@
 
 	function removeHighlights() {
 		observer?.disconnect();
-		document.findAll(`.${CLASS_NAME}`).forEach((item) => item.classList.remove(CLASS_NAME));
+		findAllElements(`.${CLASS_NAME}`).forEach((item) => item.classList.remove(CLASS_NAME));
 	}
 })();

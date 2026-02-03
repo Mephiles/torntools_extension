@@ -22,7 +22,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS].push(({ list }) => {
 			if (!feature.enabled()) return;
 
-			highlightItems([...list.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]);
+			highlightItems(findAllElements("[class*='itemList___'] > li:not(.tt-highlight-modified)", list));
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE].push(({ item }) => {
 			if (!feature.enabled()) return;
@@ -48,7 +48,7 @@
 	}
 
 	function highlightEverything() {
-		const categoryItems = [...document.findAll("[class*='itemList___'] > li:not(.tt-highlight-modified)")]
+		const categoryItems = findAllElements("[class*='itemList___'] > li:not(.tt-highlight-modified)")
 			.map<ItemEntry | null>((element) => {
 				const image = element.find<HTMLImageElement>("img.torn-item");
 				if (!image) return null;
@@ -75,7 +75,7 @@
 		}
 
 		if (id !== undefined) {
-			const itemSellers = [...document.findAll("[class*='rowWrapper___']:not(.tt-highlight-modified)")].map<ItemEntry>((element) => ({
+			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
 				element,
 				price: element.find("[class*='price___']").textContent.getNumber(),
 				id,
@@ -86,7 +86,7 @@
 
 		if (params.has("itemID")) {
 			const id = parseInt(params.get("itemID"));
-			const itemSellers = [...document.findAll("[class*='rowWrapper___']:not(.tt-highlight-modified)")].map<ItemEntry>((element) => ({
+			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
 				element,
 				price: element.find("[class*='price___']").textContent.getNumber(),
 				id,
@@ -120,11 +120,10 @@
 	}
 
 	function highlightSellers(item: number, list: Element, includeModified: boolean) {
-		const itemEntries = [
-			...list.findAll(
-				`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"},[class*='sellerRow___']:not(:first-child)${includeModified ? "" : ":not(.tt-highlight-modified)"}`
-			),
-		]
+		const itemEntries = findAllElements(
+			`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"},[class*='sellerRow___']:not(:first-child)${includeModified ? "" : ":not(.tt-highlight-modified)"}`,
+			list
+		)
 			.filter((element) => !!element.find("[class*='price___']"))
 			.map<ItemEntry>((element) => ({
 				element,
@@ -174,8 +173,8 @@
 	}
 
 	function removeHighlights() {
-		document.findAll(".tt-highlight-item").forEach((item) => item.classList.remove("tt-highlight-item"));
-		document.findAll(".tt-highlight-modified").forEach((item) => item.classList.remove("tt-highlight-modified"));
+		findAllElements(".tt-highlight-item").forEach((item) => item.classList.remove("tt-highlight-item"));
+		findAllElements(".tt-highlight-modified").forEach((item) => item.classList.remove("tt-highlight-modified"));
 	}
 
 	function playSound() {

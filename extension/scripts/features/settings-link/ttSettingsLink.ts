@@ -131,7 +131,7 @@
 	}
 
 	function removeLink() {
-		document.findAll(".tt-back, .tt-settings, #tt-settings-iframe, #saveSettingsBar").forEach((x) => x.remove());
+		findAllElements(".tt-back, .tt-settings, #tt-settings-iframe, #saveSettingsBar").forEach((x) => x.remove());
 
 		const tornContent = document.find(".content-wrapper[role*='main']");
 		if (tornContent.style.display === "none") tornContent.style.display = "block";

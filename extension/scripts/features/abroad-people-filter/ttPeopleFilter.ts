@@ -159,15 +159,15 @@
 		});
 
 		// Actual Filtering
-		for (const row of document.findAll(".users-list > li")) {
+		for (const row of findAllElements(".users-list > li")) {
 			filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "People Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".users-list > li:not(.tt-hidden)").length,
-			document.findAll(".users-list > li").length,
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
 			content
 		);
 	}
@@ -296,8 +296,8 @@
 				const content = findContainer("People Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".users-list > li:not(.tt-hidden)").length,
-					document.findAll(".users-list > li").length,
+					findAllElements(".users-list > li:not(.tt-hidden)").length,
+					findAllElements(".users-list > li").length,
 					content
 				);
 			}
@@ -315,8 +315,8 @@
 				const content = findContainer("People Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".users-list > li:not(.tt-hidden)").length,
-					document.findAll(".users-list > li").length,
+					findAllElements(".users-list > li:not(.tt-hidden)").length,
+					findAllElements(".users-list > li").length,
 					content
 				);
 			}
@@ -324,7 +324,7 @@
 	}
 
 	function getFactions() {
-		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const rows = findAllElements(".users-list > li .user.faction");
 		const _factions = new Set(
 			rows[0].find("img")
 				? rows
@@ -344,6 +344,6 @@
 
 	function removeFilters() {
 		removeContainer("People Filter");
-		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

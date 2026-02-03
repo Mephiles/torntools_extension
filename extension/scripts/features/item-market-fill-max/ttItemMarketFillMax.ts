@@ -41,6 +41,6 @@
 	}
 
 	function removeButton() {
-		document.findAll(".tt-show-fill-max").forEach((x) => x.classList.remove("tt-show-fill-max"));
+		findAllElements(".tt-show-fill-max").forEach((x) => x.classList.remove("tt-show-fill-max"));
 	}
 })();

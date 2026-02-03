@@ -23,7 +23,7 @@
 	async function addPropertyValues() {
 		await requireElement("#properties-page-wrap .properties-list .title");
 
-		for (const property of document.findAll(".properties-list > *:not(.clear)")) {
+		for (const property of findAllElements(".properties-list > *:not(.clear)")) {
 			if (property.find(".tt-property-value")) return;
 
 			const info = property.find(".info > li:nth-child(2)");
@@ -41,6 +41,6 @@
 	}
 
 	function removeValues() {
-		document.findAll(".tt-property-value").forEach((x) => x.remove());
+		findAllElements(".tt-property-value").forEach((x) => x.remove());
 	}
 })();

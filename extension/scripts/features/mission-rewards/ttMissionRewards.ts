@@ -31,7 +31,7 @@
 
 		const credits = parseInt(document.find(".total-mission-points").textContent.replace(",", ""));
 
-		for (const reward of document.findAll(".rewards-list li")) {
+		for (const reward of findAllElements(".rewards-list li")) {
 			const information = JSON.parse(reward.dataset.ammoInfo);
 			const { points, basicType: type } = information;
 

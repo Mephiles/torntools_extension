@@ -79,7 +79,7 @@
 			return;
 		}
 
-		document.findAll(".members-list .table-body > li").forEach((li) => {
+		findAllElements(".members-list .table-body > li").forEach((li) => {
 			const userID = getUsername(li).id;
 			const userBalance = balance.members.find((m) => m.id === userID);
 			if (!userBalance || (!userBalance.points && !userBalance.money)) return;
@@ -120,7 +120,7 @@
 	}
 
 	function removeInfo() {
-		document.findAll(".tt-member-info, .tt-points-balance, .tt-money-balance").forEach((x) => x.remove());
-		document.findAll(".tt-last-action.tt-modified").forEach((x) => x.classList.remove("modified"));
+		findAllElements(".tt-member-info, .tt-points-balance, .tt-money-balance").forEach((x) => x.remove());
+		findAllElements(".tt-last-action.tt-modified").forEach((x) => x.classList.remove("modified"));
 	}
 })();

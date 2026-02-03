@@ -38,6 +38,6 @@
 	}
 
 	function removeID() {
-		document.findAll("#tt-company-id").forEach((element) => element.remove());
+		findAllElements("#tt-company-id").forEach((element) => element.remove());
 	}
 })();

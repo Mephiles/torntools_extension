@@ -52,6 +52,6 @@
 	}
 
 	function removeWarning() {
-		document.findAll(".tt-disable-ally-attack").forEach((x) => x.remove());
+		findAllElements(".tt-disable-ally-attack").forEach((x) => x.remove());
 	}
 })();

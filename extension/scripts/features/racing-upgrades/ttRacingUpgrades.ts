@@ -27,7 +27,7 @@
 
 				await requireElement(".enlist-list");
 
-				for (const car of document.findAll("[step-value='selectParts']:not(.tt-modified)")) {
+				for (const car of findAllElements("[step-value='selectParts']:not(.tt-modified)")) {
 					car.classList.add("tt-modified");
 					car.addEventListener("click", () => requireElement(".pm-categories-wrap").then(showUpgrades));
 				}
@@ -56,10 +56,10 @@
 
 	async function showUpgrades() {
 		let parts: string[] = [];
-		for (const item of document.findAll(".pm-items-wrap .d-wrap .pm-items .unlock")) {
+		for (const item of findAllElements(".pm-items-wrap .d-wrap .pm-items .unlock")) {
 			parts.push(item.getAttribute("data-part"));
 
-			for (const property of item.findAll(".properties")) {
+			for (const property of findAllElements(".properties", item)) {
 				const statNew = parseFloat(property.find(".progressbar.progress-light-green, .progressbar.progress-red").style.width) / 100;
 				const statOld = (statNew * parseFloat(property.find(".progressbar.progress-light-gray").style.width)) / 100;
 				const difference = Math.round((statNew - statOld) * 100);
@@ -93,7 +93,7 @@
 			needed.push(`<span class="tt-race-upgrade-needed" part="${part}" style="color: ${color};">${part}</span>`);
 
 			let category: string;
-			for (const item of document.findAll(`.pm-items .unlock[data-part="${part}"]`)) {
+			for (const item of findAllElements(`.pm-items .unlock[data-part="${part}"]`)) {
 				if (!category) category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
 
 				item.classList.add("tt-modified");
@@ -101,7 +101,7 @@
 				item.find(".status").classList.add("tt-modified");
 
 				item.onmouseenter = () => {
-					for (const item of document.findAll(".pm-items .unlock")) {
+					for (const item of findAllElements(".pm-items .unlock")) {
 						if (item.getAttribute("data-part") === part) {
 							item.find(".title").style["background-color"] = color;
 							item.style.opacity = "1";
@@ -111,7 +111,7 @@
 					}
 				};
 				item.onmouseleave = () => {
-					for (const item of document.findAll(".pm-items .unlock")) {
+					for (const item of findAllElements(".pm-items .unlock")) {
 						if (item.getAttribute("data-part") === part) {
 							item.find(".title").style["background-color"] = "";
 						}
@@ -148,7 +148,7 @@
 	}
 
 	function resetUpgrades() {
-		for (const item of document.findAll(".pm-items-wrap .d-wrap .pm-items .unlock.tt-modified")) {
+		for (const item of findAllElements(".pm-items-wrap .d-wrap .pm-items .unlock.tt-modified")) {
 			const part = item.getAttribute("data-part");
 			if (!document.find(`.pm-items .bought[data-part="${part}"]`)) return;
 
@@ -163,7 +163,7 @@
 		unlockElement.onmouseenter = () => {};
 		unlockElement.onmouseleave = () => {};
 
-		for (const item of document.findAll(".pm-items .unlock")) {
+		for (const item of findAllElements(".pm-items .unlock")) {
 			if (item.getAttribute("data-part") === part || part === null) {
 				item.find(".title").style["background-color"] = "";
 				item.classList.remove("tt-modified");
@@ -190,7 +190,7 @@
 	}
 
 	function removeUpgrades() {
-		document.findAll(".tt-race-need-icon, .tt-race-upgrades").forEach((element) => element.remove());
-		document.findAll(".pm-items-wrap .d-wrap .pm-items .unlock.tt-modified").forEach((upgrade) => cleanUpgrade(upgrade, null));
+		findAllElements(".tt-race-need-icon, .tt-race-upgrades").forEach((element) => element.remove());
+		findAllElements(".pm-items-wrap .d-wrap .pm-items .unlock.tt-modified").forEach((upgrade) => cleanUpgrade(upgrade, null));
 	}
 })();

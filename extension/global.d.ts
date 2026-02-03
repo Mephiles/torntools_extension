@@ -12,15 +12,12 @@ declare global {
 
 	interface Document {
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
-		findAll<T extends Element = HTMLElement>(selector: string): T[];
 		setClass(...classNames: string[]): void;
 	}
 
 	interface Element {
 		find<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): HTMLElementTagNameMap[K] | null;
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
-		findAll<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): NodeListOf<HTMLElementTagNameMap[K]>;
-		findAll<T extends Element = HTMLElement>(selector: string): T[];
 		setClass(...classNames: string[]): void;
 	}
 

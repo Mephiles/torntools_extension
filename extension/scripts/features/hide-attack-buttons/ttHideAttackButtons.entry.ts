@@ -25,7 +25,7 @@
 					if (mutation.addedNodes?.length && [...mutation.addedNodes]?.some((node) => isElement(node) && node.matches("[class*='defender__']"))) {
 						removeObserver();
 
-						defenderDiv.findAll("button").forEach((button) => {
+						findAllElements("button", defenderDiv).forEach((button) => {
 							if (settings.pages.attack.hideAttackButtons.includes(button.textContent.trim())) button.classList.add("tt-hidden");
 						});
 					}
@@ -39,6 +39,6 @@
 			observer.disconnect();
 			observer = undefined;
 		}
-		document.findAll("#defender [class*='defender__'] button.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements("#defender [class*='defender__'] button.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

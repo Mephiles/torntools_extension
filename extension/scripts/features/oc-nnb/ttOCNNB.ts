@@ -138,8 +138,8 @@
 		}
 
 		function populateCrimes() {
-			for (const row of document.findAll(".organize-wrap .crimes-list .details-list > li > ul")) {
-				row.findAll(`.level${mobile ? ", .member, .stat" : ""}`).forEach((element) => element.classList.add("tt-modified"));
+			for (const row of findAllElements(".organize-wrap .crimes-list .details-list > li > ul")) {
+				findAllElements(`.level${mobile ? ", .member, .stat" : ""}`, row).forEach((element) => element.classList.add("tt-modified"));
 
 				const stat = row.find(".stat");
 				if (row.classList.contains("title")) {
@@ -167,8 +167,8 @@
 		}
 
 		function populateSelection() {
-			for (const row of document.findAll(".plans-list .item")) {
-				row.findAll(`.offences${mobile ? ", .member, .level, .act" : ""}`).forEach((element) => element.classList.add("tt-modified"));
+			for (const row of findAllElements(".plans-list .item")) {
+				findAllElements(`.offences${mobile ? ", .member, .level, .act" : ""}`, row).forEach((element) => element.classList.add("tt-modified"));
 
 				const act = row.find(".act");
 				if (row.classList.contains("title")) {
@@ -197,7 +197,7 @@
 	}
 
 	function removeNNBs() {
-		for (const nnb of document.findAll(".tt-nnb")) nnb.remove();
-		for (const nnb of document.findAll(".crimes-list ul.plans-list .tt-modified")) nnb.remove();
+		for (const nnb of findAllElements(".tt-nnb")) nnb.remove();
+		for (const nnb of findAllElements(".crimes-list ul.plans-list .tt-modified")) nnb.remove();
 	}
 })();

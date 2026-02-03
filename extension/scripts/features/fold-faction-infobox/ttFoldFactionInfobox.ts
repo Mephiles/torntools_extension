@@ -97,8 +97,8 @@
 	}
 
 	function removeFull() {
-		for (const arrow of document.findAll(".tt-collapse-infobox")) arrow.remove();
-		for (const title of document.findAll(".tt-foldable-infobox")) title.classList.remove("tt-foldable-infobox");
-		for (const foldable of document.findAll(".tt-foldable, .folded")) foldable.classList.remove("tt-foldable", "folded");
+		for (const arrow of findAllElements(".tt-collapse-infobox")) arrow.remove();
+		for (const title of findAllElements(".tt-foldable-infobox")) title.classList.remove("tt-foldable-infobox");
+		for (const foldable of findAllElements(".tt-foldable, .folded")) foldable.classList.remove("tt-foldable", "folded");
 	}
 })();

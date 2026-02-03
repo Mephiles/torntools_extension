@@ -136,7 +136,7 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".users-list > li")) {
+		for (const li of findAllElements(".users-list > li")) {
 			showRow(li);
 
 			// Activity
@@ -209,16 +209,16 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".users-list > li:not(.tt-hidden)").length,
-			document.findAll(".users-list > li").length,
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
 			content
 		);
 	}
 
 	function getFactions() {
-		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const rows = findAllElements(".users-list > li .user.faction");
 		const _factions = new Set(
-			document.findAll(".users-list > li .user.faction img").length
+			findAllElements(".users-list > li .user.faction img").length
 				? rows
 						.map((row) => row.find("img"))
 						.filter((img) => !!img)
@@ -236,6 +236,6 @@
 
 	function removeFilters() {
 		removeContainer("Hospital Filter");
-		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

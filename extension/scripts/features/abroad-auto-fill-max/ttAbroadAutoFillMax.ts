@@ -34,7 +34,7 @@
 		const leftCapacity = travelCapacity - boughtItems;
 		if (leftCapacity === 0) return;
 
-		document.findAll("[class*='stockTableWrapper___'] [class*='row___']").forEach((item) => {
+		findAllElements("[class*='stockTableWrapper___'] [class*='row___']").forEach((item) => {
 			const stock = item.find("[data-tt-content-type='stock']").textContent.getNumber();
 			if (stock === 0) return;
 
@@ -45,7 +45,7 @@
 
 			const max = Math.min(stock, affordableStock, leftCapacity).toString();
 
-			item.findAll<HTMLInputElement>("input[placeholder='Qty']").forEach((input) => {
+			findAllElements<HTMLInputElement>("input[placeholder='Qty']", item).forEach((input) => {
 				updateReactInput(input, max);
 			});
 		});

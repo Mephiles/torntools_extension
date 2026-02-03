@@ -503,7 +503,7 @@
 							if (finished === 1) {
 								section.remove();
 							} else if (finished === 2) {
-								for (const section of [...content.findAll(".section[order]")].sort(
+								for (const section of findAllElements(".section[order]", content).sort(
 									(a, b) => parseInt(a.getAttribute("order")!) - parseInt(b.getAttribute("order")!)
 								))
 									section.parentElement!.appendChild(section);
@@ -531,7 +531,7 @@
 			relativeValue.onChange(() => {
 				const isRelative = relativeValue.isChecked();
 
-				for (const field of content.findAll<HTMLElement>(".relative-field")) {
+				for (const field of findAllElements<HTMLElement>(".relative-field", content)) {
 					const value = isRelative ? field.dataset.relative : field.dataset.value;
 
 					const options = { ...(JSON.parse(field.dataset.options ?? "false") || {}), forceOperation: isRelative };
@@ -592,13 +592,13 @@
 							if (moveButton.classList.toggle("active")) {
 								// Enable movement.
 								section.find(".other-stats-button")!.setAttribute("disabled", "");
-								section.findAll(".custom-stats .tt-table-row").forEach((row) => row.classList.add("tt-sortable"));
+								findAllElements(".custom-stats .tt-table-row", section).forEach((row) => row.classList.add("tt-sortable"));
 
 								sortable.option("disabled", false);
 							} else {
 								// Disable movement.
 								section.find(".other-stats-button")!.removeAttribute("disabled");
-								section.findAll(".custom-stats .tt-table-row").forEach((row) => row.classList.remove("tt-sortable"));
+								findAllElements(".custom-stats .tt-table-row", section).forEach((row) => row.classList.remove("tt-sortable"));
 
 								sortable.option("disabled", true);
 							}
@@ -644,12 +644,16 @@
 							if (overlay.classList.toggle("tt-hidden")) {
 								// Overlay is now hidden.
 								[button, otherStatsButton, customStats, otherStats].forEach((element) => element.classList.remove("tt-overlay-item"));
-								section.findAll(".tt-table-row:not(.tt-table-row-header)").forEach((row) => row.removeEventListener("click", onStatClick));
+								findAllElements(".tt-table-row:not(.tt-table-row-header)", section).forEach((row) =>
+									row.removeEventListener("click", onStatClick)
+								);
 								overlayStatus = false;
 							} else {
 								// Overlay is now shown.
 								[button, otherStatsButton, customStats, otherStats].forEach((element) => element.classList.add("tt-overlay-item"));
-								section.findAll(".tt-table-row:not(.tt-table-row-header)").forEach((row) => row.addEventListener("click", onStatClick));
+								findAllElements(".tt-table-row:not(.tt-table-row-header)", section).forEach((row) =>
+									row.addEventListener("click", onStatClick)
+								);
 								overlayStatus = true;
 							}
 						},
@@ -683,7 +687,7 @@
 			}
 
 			function saveStats() {
-				const stats = [...section.findAll(".custom-stats .tt-table-row")].map((row) => row.children[0]!.textContent!);
+				const stats = findAllElements(".custom-stats .tt-table-row", section).map((row) => row.children[0]!.textContent!);
 
 				return ttStorage.change({ filters: { profile: { stats } } });
 			}
@@ -772,7 +776,9 @@
 
 					if (overlayStatus) {
 						table.element.classList.add("tt-overlay-item");
-						table.element.findAll(".tt-table-row:not(.tt-table-row-header)").forEach((row) => row.removeEventListener("click", onStatClick));
+						findAllElements(".tt-table-row:not(.tt-table-row-header)", table.element).forEach((row) =>
+							row.removeEventListener("click", onStatClick)
+						);
 					}
 
 					const actions = section.find(".stat-actions")!;
@@ -1055,8 +1061,8 @@
 					ttStorage.set({ stakeouts });
 
 					alerts.classList.add("tt-hidden");
-					content.findAll<HTMLInputElement>("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
-					content.findAll<HTMLInputElement>("input[type='checkbox']").forEach((input) => (input.checked = false));
+					findAllElements<HTMLInputElement>("input[type='text'], input[type='number']", content).forEach((input) => (input.value = ""));
+					findAllElements<HTMLInputElement>("input[type='checkbox']", content).forEach((input) => (input.checked = false));
 				}
 			});
 

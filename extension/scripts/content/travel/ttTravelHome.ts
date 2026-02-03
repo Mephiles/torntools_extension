@@ -53,7 +53,7 @@
 	}
 
 	requireElement("fieldset[class*='travelTypeSelector___']").then((typeList) => {
-		for (const input of typeList.findAll("input[name='travelType']")) {
+		for (const input of findAllElements<HTMLInputElement>("input[name='travelType']", typeList)) {
 			input.addEventListener("change", async () => {
 				triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, { type: input.value });
 			});

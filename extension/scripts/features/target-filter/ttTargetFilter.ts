@@ -138,15 +138,15 @@
 		});
 
 		// Actual Filtering
-		for (const row of document.findAll(".tableWrapper ul > li")) {
+		for (const row of findAllElements(".tableWrapper ul > li")) {
 			filterRow(row, { activity, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Target Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".tableWrapper ul > li:not(.tt-hidden)").length,
-			document.findAll(".tableWrapper ul > li").length,
+			findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
+			findAllElements(".tableWrapper ul > li").length,
 			content
 		);
 	}
@@ -197,8 +197,8 @@
 				const content = findContainer("Target Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-					document.findAll("ul.user-info-blacklist-wrap > li").length,
+					findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
+					findAllElements("ul.user-info-blacklist-wrap > li").length,
 					content
 				);
 			}
@@ -216,8 +216,8 @@
 				const content = findContainer("Target Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-					document.findAll("ul.user-info-blacklist-wrap> li").length,
+					findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
+					findAllElements("ul.user-info-blacklist-wrap> li").length,
 					content
 				);
 			}
@@ -226,6 +226,6 @@
 
 	function removeFilters() {
 		removeContainer("Target Filter");
-		document.findAll("ul.user-info-blacklist-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements("ul.user-info-blacklist-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

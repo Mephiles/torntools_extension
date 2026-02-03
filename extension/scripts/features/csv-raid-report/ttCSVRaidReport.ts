@@ -37,7 +37,7 @@
 				csv.append(document.find(`.faction-war .${selector} div[class*="text___"]`).textContent);
 				csv.append("Members", "Level", "Attacks", "Damage");
 
-				const members = document.findAll(`.${selector}-faction .members-list > *[class]`);
+				const members = findAllElements(`.${selector}-faction .members-list > *[class]`);
 				if (members.length) {
 					for (const row of members) {
 						csv.append(getUsername(row).combined, row.find(".level").textContent, row.find(".points").textContent, row.find(".status").textContent);

@@ -89,7 +89,7 @@
 			const taxes = taxesFilter.getSelections(content) as string[];
 			if (profitOnly) await requireElement(".tt-travel-market-cell");
 
-			for (const li of document.findAll("[class*='stockTableWrapper___'] > li")) {
+			for (const li of findAllElements("[class*='stockTableWrapper___'] > li")) {
 				showRow(li);
 
 				if (profitOnly && li.find(".tt-travel-market-cell").dataset.ttValue.getNumber() < 0) {
@@ -162,8 +162,8 @@
 			});
 
 			statistics.updateStatistics(
-				document.findAll("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
-				document.findAll("[class*='stockTableWrapper___'] > li").length,
+				findAllElements("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
+				findAllElements("[class*='stockTableWrapper___'] > li").length,
 				content
 			);
 		}
@@ -179,6 +179,6 @@
 
 	function removeFilter() {
 		removeContainer("Abroad Item Filter");
-		document.findAll("[class*='stockTableWrapper___'] li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements("[class*='stockTableWrapper___'] li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

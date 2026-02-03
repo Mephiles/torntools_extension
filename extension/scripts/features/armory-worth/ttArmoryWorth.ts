@@ -110,7 +110,7 @@
 	}
 
 	function removeWorth() {
-		document.findAll(".tt-armory-worth").forEach((x) => {
+		findAllElements(".tt-armory-worth").forEach((x) => {
 			x.parentElement.classList.remove("tt-modified");
 			x.remove();
 		});

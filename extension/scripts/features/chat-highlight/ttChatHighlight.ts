@@ -33,10 +33,10 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
+			for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__']", chat)) {
 				applyV2Highlights(message);
 			}
-			for (const message of chat.findAll("[class*='list__'] > [class*='root__']")) {
+			for (const message of findAllElements("[class*='list__'] > [class*='root__']", chat)) {
 				applyV3Highlights(message);
 			}
 		});
@@ -45,11 +45,11 @@
 
 			if (information) {
 				const { chat } = information;
-				for (const message of chat.findAll("[class*='list__'] > [class*='root__']")) {
+				for (const message of findAllElements("[class*='list__'] > [class*='root__']", chat)) {
 					applyV3Highlights(message);
 				}
 			} else {
-				for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
+				for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
 					applyV2Highlights(message);
 				}
 			}
@@ -57,7 +57,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(() => {
 			if (!feature.enabled()) return;
 
-			for (const message of document.findAll("[class*='list__'] > [class*='root__']")) {
+			for (const message of findAllElements("[class*='list__'] > [class*='root__']")) {
 				applyV3Highlights(message);
 			}
 		});
@@ -89,10 +89,10 @@
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 
-			for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
+			for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
 				applyV2Highlights(message);
 			}
-			for (const message of document.findAll("[class*='list__'] > [class*='root__']")) {
+			for (const message of findAllElements("[class*='list__'] > [class*='root__']")) {
 				applyV3Highlights(message);
 			}
 		});
@@ -173,7 +173,7 @@
 	}
 
 	function removeHighlights() {
-		for (const message of document.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'][style]")) {
+		for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__'][style]")) {
 			message.style = "";
 		}
 	}

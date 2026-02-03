@@ -220,7 +220,8 @@ function createFilterSection(
 
 		return {
 			element: section,
-			getSelections: (content: Element) => [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? ""),
+			getSelections: (content: Element) =>
+				findAllElements(`.${ccTitle} input:checked`, content).map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? ""),
 		};
 	}
 
@@ -249,8 +250,8 @@ function createFilterSection(
 
 		function getSelections(content: HTMLElement) {
 			const selections = {};
-			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
-				const checkboxes = specialDiv.findAll("input");
+			for (const specialDiv of findAllElements(`.${ccTitle} > div`, content)) {
+				const checkboxes = findAllElements("input", specialDiv);
 				const yChecked = checkboxes[0].checked;
 				const nChecked = checkboxes[1].checked;
 				const key = specialDiv.className.split("__")[0];
@@ -428,5 +429,5 @@ function createStatistics(name = "entries", addBrackets = false, lowercase = fal
 }
 
 function getSpecialIcons(li: HTMLElement): string[] {
-	return [...li.findAll(":scope li[id*='icon']")].map((x) => x.id.split("_")[0]);
+	return findAllElements(":scope li[id*='icon']", li).map((x) => x.id.split("_")[0]);
 }

@@ -50,7 +50,7 @@
 
 		const allowedBlood: number[] = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
-		for (const item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #armoury-medical .item-list > li")) {
+		for (const item of findAllElements("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #armoury-medical .item-list > li")) {
 			if (!item.find(".name-wrap, .name")) continue;
 			item.find(".name-wrap, .name").classList.remove("good-blood", "bad-blood");
 
@@ -84,7 +84,7 @@
 	}
 
 	async function removeHighlights() {
-		for (const highlight of document.findAll(".good-blood, .bad-blood")) {
+		for (const highlight of findAllElements(".good-blood, .bad-blood")) {
 			highlight.classList.remove("good-blood", "bad-blood");
 
 			const price = highlight.find(".tt-item-price");

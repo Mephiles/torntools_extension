@@ -32,7 +32,7 @@
 		await requireElement(".cont .color1 .desc > li .name");
 		const localMappings: Record<string, string> = {};
 
-		for (const log of document.findAll(".log li .msg:not(.tt-modified)")) {
+		for (const log of findAllElements(".log li .msg:not(.tt-modified)")) {
 			log.classList.add("tt-modified");
 			const text = log.textContent;
 			let totalValue = 0;
@@ -70,7 +70,7 @@
 			}
 		}
 
-		for (const side of document.findAll(".user.left:not(.tt-modified), .user.right:not(.tt-modified)")) {
+		for (const side of findAllElements(".user.left:not(.tt-modified), .user.right:not(.tt-modified)")) {
 			side.classList.add("tt-modified");
 			let totalValue = 0;
 
@@ -78,7 +78,7 @@
 			if (cashInTrade && cashInTrade.textContent.trim() !== "No money in trade")
 				totalValue += parseInt(cashInTrade.textContent.match(/\$([\d,]*)/i)[1].replaceAll(",", ""));
 
-			for (const item of side.findAll(".cont .color2 .desc > li .name")) {
+			for (const item of findAllElements(".cont .color2 .desc > li .name", side)) {
 				if (item.textContent === "No items in trade") continue;
 
 				const name = item.textContent.split(" x")[0].trim();
@@ -117,7 +117,7 @@
 			const checkbox = elementBuilder({ type: "input", attributes: { type: "checkbox" } });
 			if (filters.trade.hideValues) {
 				checkbox.checked = true;
-				for (const item of side.findAll(".tt-item-value")) {
+				for (const item of findAllElements(".tt-item-value", side)) {
 					item.style.display = "none";
 				}
 			}
@@ -127,7 +127,7 @@
 				await ttStorage.change({ filters: { trade: { hideValues: filterSetting } } });
 				filters.trade.hideValues = filterSetting;
 
-				for (const item of side.findAll(".tt-item-value")) {
+				for (const item of findAllElements(".tt-item-value", side)) {
 					item.style.display = style;
 				}
 			});
@@ -144,7 +144,7 @@
 
 	function removeItemValues() {
 		document.body.classList.remove("tt-trade-values");
-		document.findAll(".tt-item-value, .tt-log-value, .tt-total-value, .tt-hide-values").forEach((x) => x.remove());
-		document.findAll(".tt-modified").forEach((x) => x.classList.remove("tt-modified"));
+		findAllElements(".tt-item-value, .tt-log-value, .tt-total-value, .tt-hide-values").forEach((x) => x.remove());
+		findAllElements(".tt-modified").forEach((x) => x.classList.remove("tt-modified"));
 	}
 })();

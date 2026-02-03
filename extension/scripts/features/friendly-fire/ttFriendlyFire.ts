@@ -40,6 +40,6 @@
 	}
 
 	function removeWarning() {
-		document.findAll(".tt-ally-warning").forEach((x) => x.remove());
+		findAllElements(".tt-ally-warning").forEach((x) => x.remove());
 	}
 })();

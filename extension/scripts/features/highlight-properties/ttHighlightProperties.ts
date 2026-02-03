@@ -32,6 +32,6 @@
 	}
 
 	function removeHighlight() {
-		document.findAll(".tt-upkeep").forEach((x) => x.classList.remove("tt-upkeep"));
+		findAllElements(".tt-upkeep").forEach((x) => x.classList.remove("tt-upkeep"));
 	}
 })();

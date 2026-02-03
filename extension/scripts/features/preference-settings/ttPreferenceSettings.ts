@@ -29,7 +29,7 @@
 				connectButton.textContent = "Connected!";
 			} else {
 				handleKeyView(connectButton);
-				[...document.findAll("#prefs-tab-menu .headers > li")].forEach((item) => item.addEventListener("click", () => handleKeyView(connectButton)));
+				findAllElements("#prefs-tab-menu .headers > li").forEach((item) => item.addEventListener("click", () => handleKeyView(connectButton)));
 			}
 		}
 
@@ -44,7 +44,7 @@
 				requireElement("[class*='api___']").then(async (apiContainer) => {
 					await requireElement("li[class*='keyRow___']", { parent: apiContainer });
 
-					const defaultKey = [...apiContainer.findAll("li[class*='keyRow___']")]
+					const defaultKey = findAllElements("li[class*='keyRow___']", apiContainer)
 						.find((element) => !element.find("[class*='name___']").textContent)
 						?.find("input").value;
 

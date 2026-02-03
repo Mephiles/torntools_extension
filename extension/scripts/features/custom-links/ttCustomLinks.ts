@@ -84,7 +84,7 @@
 	}
 
 	function showInside() {
-		for (const link of document.findAll(".custom-link")) link.remove();
+		for (const link of findAllElements(".custom-link")) link.remove();
 
 		const areas = findParent(getSidebarArea(), { class: "^=sidebar-block_" });
 		for (const link of settings.customLinks.filter((link) => link.location !== "above" && link.location !== "under")) {
@@ -120,6 +120,6 @@
 			removeContainer("Custom Links", { id: "customLinksUnder" });
 		}
 
-		for (const link of document.findAll(".custom-link")) link.remove();
+		for (const link of findAllElements(".custom-link")) link.remove();
 	}
 })();

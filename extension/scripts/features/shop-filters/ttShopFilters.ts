@@ -65,7 +65,7 @@
 
 		await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
 
-		for (const element of document.findAll(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
+		for (const element of findAllElements(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
 			const itemElement = element.find(".item");
 			const itemIdAttr = itemElement.getAttribute("itemid");
 			if (!itemIdAttr) continue;
@@ -93,7 +93,7 @@
 	}
 
 	function removeFilters() {
-		document.findAll(".tt-shop-filters").forEach((x) => x.remove());
-		document.findAll(".buy-items-wrap .items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".tt-shop-filters").forEach((x) => x.remove());
+		findAllElements(".buy-items-wrap .items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

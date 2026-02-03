@@ -109,11 +109,11 @@
 		// Save the filters
 		await ttStorage.change({ filters: { oc2: filters } });
 
-		document.findAll(".tt-oc2-list > [class*='wrapper___']").forEach((li) => filterRow(li, filters));
+		findAllElements(".tt-oc2-list > [class*='wrapper___']").forEach((li) => filterRow(li, filters));
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".tt-oc2-list > [class*='wrapper___']:not(.tt-hidden)").length,
-			document.findAll(".tt-oc2-list > [class*='wrapper___']").length,
+			findAllElements(".tt-oc2-list > [class*='wrapper___']:not(.tt-hidden)").length,
+			findAllElements(".tt-oc2-list > [class*='wrapper___']").length,
 			content
 		);
 	}
@@ -149,7 +149,7 @@
 
 	function removeFilter() {
 		removeContainer("OC Filter");
-		document.findAll(".tt-oc2-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".tt-oc2-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 
 	// Helper function to determine if we're on the completed crimes tab

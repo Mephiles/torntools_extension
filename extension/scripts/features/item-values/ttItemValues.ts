@@ -144,7 +144,7 @@
 				});
 			}
 		} else {
-			for (const price of document.findAll(".tt-item-price, #category-wrap .tt-ignore")) {
+			for (const price of findAllElements(".tt-item-price, #category-wrap .tt-ignore")) {
 				price.remove();
 			}
 		}
@@ -239,7 +239,7 @@
 		// TODO: API Inventory Block.
 		// showTotal(list, list.dataset.info);
 
-		for (const item of list.findAll(":scope > li[data-item]")) {
+		for (const item of findAllElements(":scope > li[data-item]", list)) {
 			const id = item.dataset.item;
 			const price = torndata.items[id].market_value;
 
@@ -301,7 +301,7 @@
 	}
 
 	function updateItemAmount(id: number, change: number) {
-		for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
+		for (const item of findAllElements(`.items-cont > li[data-item="${id}"]`)) {
 			const priceElement = item.find(".tt-item-price");
 			if (!priceElement) continue;
 
@@ -335,7 +335,7 @@
 	}
 
 	function removeValues() {
-		for (const value of document.findAll(".tt-item-price")) {
+		for (const value of findAllElements(".tt-item-price")) {
 			if (value.classList.contains("price-total")) value.parentElement.remove();
 			else value.remove();
 		}

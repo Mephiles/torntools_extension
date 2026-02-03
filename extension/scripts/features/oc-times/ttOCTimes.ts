@@ -39,7 +39,7 @@
 	function showTimes() {
 		let oldDate: boolean | string = false;
 
-		for (const crime of document.findAll(".organize-wrap .crimes-list > .item-wrap")) {
+		for (const crime of findAllElements(".organize-wrap .crimes-list > .item-wrap")) {
 			const details = crime.find(".details-wrap");
 			if (!details) continue;
 
@@ -65,6 +65,6 @@
 	}
 
 	function removeTimes() {
-		for (const timer of document.findAll(".tt-oc-time")) timer.remove();
+		for (const timer of findAllElements(".tt-oc-time")) timer.remove();
 	}
 })();

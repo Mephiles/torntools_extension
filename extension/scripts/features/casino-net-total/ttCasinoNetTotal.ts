@@ -84,6 +84,6 @@
 	}
 
 	function removeTotal() {
-		document.findAll(".tt-net-total").forEach((x) => x.remove());
+		findAllElements(".tt-net-total").forEach((x) => x.remove());
 	}
 })();

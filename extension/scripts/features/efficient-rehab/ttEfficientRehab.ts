@@ -87,6 +87,6 @@
 	}
 
 	function removeInformation() {
-		document.findAll(".tt-efficient-rehab").forEach((x) => x.remove());
+		findAllElements(".tt-efficient-rehab").forEach((x) => x.remove());
 	}
 })();

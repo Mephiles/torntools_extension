@@ -50,7 +50,7 @@
 
 		await requireElement(".tt-last-action");
 
-		for (const row of document.findAll(".members-list .table-body > li")) {
+		for (const row of findAllElements(".members-list .table-body > li")) {
 			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 			// Skip users that are confirmed to be dead IRL.
 			if (row.find("[id*='icon77___']")) continue;
@@ -67,7 +67,7 @@
 	}
 
 	function removeWarning() {
-		document.findAll(".tt-inactive").forEach((inactive) => {
+		findAllElements(".tt-inactive").forEach((inactive) => {
 			inactive.style.removeProperty("--tt-inactive-background");
 			inactive.classList.remove("tt-inactive");
 		});

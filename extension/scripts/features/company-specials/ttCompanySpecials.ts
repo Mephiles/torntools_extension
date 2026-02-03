@@ -120,13 +120,13 @@
 				.map(([stat, value]) => (stat === "total" || missingStat === "total" ? value : -value))
 				.totalSum();
 
-			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.textContent.toLowerCase().startsWith(missingStat));
+			const element = findAllElements("ul.job-info > li", specialContext).find((element) => element.textContent.toLowerCase().startsWith(missingStat));
 
 			element.classList.add("missing");
 			element.textContent = `${element.textContent.split(" ")[0]} ${formatNumber(result[missingStat])}`;
 		}
 		for (const stat of remembered) {
-			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.textContent.toLowerCase().startsWith(stat));
+			const element = findAllElements("ul.job-info > li", specialContext).find((element) => element.textContent.toLowerCase().startsWith(stat));
 
 			element.classList.add("remembered");
 			element.textContent = `${element.textContent.split(" ")[0]} ${formatNumber(result[stat])}`;

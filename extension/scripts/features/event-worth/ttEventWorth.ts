@@ -45,7 +45,7 @@
 	}
 
 	function removeWorth() {
-		document.findAll("[class*='eventsList__'] [class*='eventItem___'] [class*='message__']").forEach((x) => {
+		findAllElements("[class*='eventsList__'] [class*='eventItem___'] [class*='message__']").forEach((x) => {
 			x.removeAttribute("title");
 			x.classList.remove("tt-modified");
 		});

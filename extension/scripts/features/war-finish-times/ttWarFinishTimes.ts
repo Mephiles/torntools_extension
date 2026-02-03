@@ -23,7 +23,7 @@
 	async function addFinishTimes() {
 		await requireElement("#react-root .f-war-list");
 
-		for (const timer of document.findAll(".status-wrap .timer:not(.tt-modified)")) {
+		for (const timer of findAllElements(".status-wrap .timer:not(.tt-modified)")) {
 			const millis = Date.now() + textToTime(timer.textContent);
 
 			timer.insertAdjacentElement("afterend", elementBuilder({ type: "div", class: "tt-timer", text: `${formatTime(millis)} ${formatDate(millis)}` }));
@@ -32,6 +32,6 @@
 	}
 
 	async function removeFunction() {
-		document.findAll(".f-war-list.war-new .status-wrap .tt-timer").forEach((timer) => timer.remove());
+		findAllElements(".f-war-list.war-new .status-wrap .tt-timer").forEach((timer) => timer.remove());
 	}
 })();

@@ -34,7 +34,7 @@
 	}
 
 	function removePrice() {
-		document.findAll("#tt-total-cost").forEach((x) => x.remove());
+		findAllElements("#tt-total-cost").forEach((x) => x.remove());
 	}
 
 	function changeTotalPrice(amount: number) {

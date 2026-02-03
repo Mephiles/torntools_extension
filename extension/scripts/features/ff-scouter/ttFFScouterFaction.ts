@@ -38,7 +38,7 @@
 
 		const list = document.find(".members-list .table-body");
 
-		const memberIds = [...list.findAll<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']")].map((link) =>
+		const memberIds = findAllElements<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']", list).map((link) =>
 			parseInt(new URL(link.href).searchParams.get("XID"))
 		);
 
@@ -62,7 +62,7 @@
 	}
 
 	function fillFF(list: Element, results: ScouterResult[]) {
-		list.findAll(":scope > li.table-row").forEach((row) => {
+		findAllElements(":scope > li.table-row", list).forEach((row) => {
 			// Don't show this for fallen players.
 			if (row.find(".icons li[id*='icon77___']")) {
 				row.dataset.ffScout = "N/A";
@@ -107,6 +107,6 @@
 
 	function removeFF() {
 		document.find(".tt-ff-scouter-faction-list-header")?.remove();
-		document.findAll(".tt-ff-scouter-faction-list-value").forEach((e) => e.remove());
+		findAllElements(".tt-ff-scouter-faction-list-value").forEach((e) => e.remove());
 	}
 })();

@@ -130,7 +130,7 @@
 		// TODO - Toxin // wither		Poison Umbrella			Debuff
 		// TODO - Sleep (unreleased)	Tranquilizer Gun		Debuff
 
-		for (const log of document.findAll(".log-list > li:not(.tt-modified)")) {
+		for (const log of findAllElements(".log-list > li:not(.tt-modified)")) {
 			log.classList.add("tt-modified");
 
 			const icon = log.find(".message-wrap span:first-child").classList[0];

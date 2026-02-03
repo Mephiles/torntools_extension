@@ -90,7 +90,7 @@
 
 		async function disableAttacking() {
 			await requireElement(".users-list > li .attack");
-			document.findAll(".users-list > li .attack").forEach((btn) => {
+			findAllElements(".users-list > li .attack").forEach((btn) => {
 				btn.classList.add("tt-mouse-block");
 				btn.appendChild(stackBlockSvg("tt-attack-block"));
 			});
@@ -99,7 +99,7 @@
 
 	async function disableReviving() {
 		await requireElement(".user-info-list-wrap > li .user.name");
-		document.findAll("a.revive:not(.reviveNotAvailable)").forEach((btn) => {
+		findAllElements("a.revive:not(.reviveNotAvailable)").forEach((btn) => {
 			btn.classList.add("tt-mouse-block");
 			btn.appendChild(stackBlockSvg("tt-revive-block"));
 		});
@@ -116,7 +116,7 @@
 		hiddenDivs.forEach((x) => x.classList.remove("tt-hidden"));
 		hiddenDivs = [];
 
-		document.findAll(".tt-mouse-block").forEach((x) => x.classList.remove("tt-mouse-block"));
-		document.findAll("#profile-mini-root .tt-cross, .tt-stacking, .tt-stack-block").forEach((x) => x.remove());
+		findAllElements(".tt-mouse-block").forEach((x) => x.classList.remove("tt-mouse-block"));
+		findAllElements("#profile-mini-root .tt-cross, .tt-stacking, .tt-stack-block").forEach((x) => x.remove());
 	}
 })();

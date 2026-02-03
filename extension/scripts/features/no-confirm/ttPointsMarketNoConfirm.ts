@@ -29,7 +29,7 @@
 	}
 
 	function removeConfirmation() {
-		for (const item of document.findAll(".users-point-sell > li:not(.yes) > span[href]")) {
+		for (const item of findAllElements(".users-point-sell > li:not(.yes) > span[href]")) {
 			const url = item.getAttribute("href");
 			if (settings.scripts.noConfirm.pointsMarketRemove && url.includes("ajax_action=remove")) {
 				item.classList.add("yes");

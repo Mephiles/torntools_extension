@@ -515,10 +515,10 @@ class FeatureManager {
 	hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
 
-		this.container.findAll(".tt-features-list > div[scope]").forEach((scopeDiv) => {
+		findAllElements(".tt-features-list > div[scope]", this.container).forEach((scopeDiv) => {
 			let hideScope = false;
-			if (settings.featureDisplayOnlyFailed && scopeDiv.findAll(":scope > .tt-feature[status*='failed']").length === 0) hideScope = true;
-			if (settings.featureDisplayHideDisabled && scopeDiv.findAll(":scope > .tt-feature:not([status*='disabled'])").length === 0) hideScope = true;
+			if (settings.featureDisplayOnlyFailed && findAllElements(":scope > .tt-feature[status*='failed']", scopeDiv).length === 0) hideScope = true;
+			if (settings.featureDisplayHideDisabled && findAllElements(":scope > .tt-feature:not([status*='disabled'])", scopeDiv).length === 0) hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
 		if (!this.container.find(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");

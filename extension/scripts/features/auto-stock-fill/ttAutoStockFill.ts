@@ -8,7 +8,7 @@
 		() => settings.pages.companies.autoStockFill,
 		addListener,
 		addFillStockButton,
-		() => document.findAll(".tt-fill-stock").forEach((x) => x.remove()),
+		() => findAllElements(".tt-fill-stock").forEach((x) => x.remove()),
 		{
 			storage: ["settings.pages.companies.autoStockFill"],
 		},
@@ -39,12 +39,12 @@
 
 	async function fillStock() {
 		const stockForm: Element = await requireElement("form[action*='stock']");
-		const storageCapacity = [...stockForm.findAll(".storage-capacity > *")].map((x) => x.dataset.initial.getNumber());
+		const storageCapacity = findAllElements(".storage-capacity > *", stockForm).map((x) => x.dataset.initial.getNumber());
 		const usableCapacity = storageCapacity[1] - storageCapacity[0];
 		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
 		console.log(storageCapacity, usableCapacity, totalSoldDaily);
 
-		stockForm.findAll(".stock-list > li:not(.total):not(.quantity)").forEach((stockItem) => {
+		findAllElements(".stock-list > li:not(.total):not(.quantity)", stockForm).forEach((stockItem) => {
 			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
 
 			// Original

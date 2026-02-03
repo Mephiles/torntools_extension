@@ -32,9 +32,11 @@
 	function calculateAndShowProfits() {
 		removeProfitAndValue();
 
-		const totalValue = [...document.findAll("[class*='stockOwned__'] [class*='value__']")].map((x) => x.textContent.getNumber()).totalSum();
+		const totalValue = findAllElements("[class*='stockOwned__'] [class*='value__']")
+			.map((x) => x.textContent.getNumber())
+			.totalSum();
 		const stockPrices = getStockPrices();
-		const profits = [...document.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")]
+		const profits = findAllElements("#stockmarketroot [class*='stockMarket__'] > ul[id]")
 			.map((x) => {
 				const stockID = x.id;
 				const userStockData = userdata.stocks[stockID];
@@ -69,7 +71,7 @@
 
 	function getStockPrices() {
 		const data: Record<string, number> = {};
-		document.findAll("[class*='stockMarket__'] > ul[id]").forEach((stock) => {
+		findAllElements("[class*='stockMarket__'] > ul[id]").forEach((stock) => {
 			data[stock.id] = parseFloat(stock.find("#priceTab > :first-child").textContent);
 		});
 		return data;

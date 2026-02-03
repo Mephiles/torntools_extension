@@ -11,7 +11,7 @@
 	}
 
 	function markSelections() {
-		for (const field of document.findAll(".panel-body > p[class*='_fields']")) {
+		for (const field of findAllElements(".panel-body > p[class*='_fields']")) {
 			const type = getSection(field.classList[0].substring(0, 1));
 
 			new MutationObserver((_mutations, observer) => {
@@ -56,7 +56,7 @@
 	}
 
 	function markResponses() {
-		for (const result of document.findAll(".panel-body > div[class*='_result']")) {
+		for (const result of findAllElements(".panel-body > div[class*='_result']")) {
 			const type = getSection(result.classList[0].substring(0, 1));
 
 			new MutationObserver(() => {

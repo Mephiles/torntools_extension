@@ -31,7 +31,7 @@
 			{ passive: true }
 		);
 		setInterval(() => {
-			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
+			for (const timer of findAllElements(".counter-wrap.tt-modified")) {
 				let secondsLeft: number;
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
@@ -87,7 +87,7 @@
 						isEditing = enabled;
 
 						const content = findContainer("Faction Quick Items", { selector: ":scope > main" });
-						for (const quick of content.findAll(".item")) {
+						for (const quick of findAllElements(".item", content)) {
 							if (enabled) {
 								quick.classList.add("tt-overlay-item");
 								quick.classList.add("removable");
@@ -97,7 +97,7 @@
 							}
 						}
 
-						for (const category of document.findAll("#faction-armoury-tabs .torn-tabs > li")) {
+						for (const category of findAllElements("#faction-armoury-tabs .torn-tabs > li")) {
 							if (
 								!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(
 									category.find("a.ui-tabs-anchor").textContent.trim()
@@ -108,7 +108,7 @@
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
 						}
-						for (const item of document.findAll("#armoury-medical, #armoury-drugs, #armoury-boosters, #armoury-points, #armoury-consumables")) {
+						for (const item of findAllElements("#armoury-medical, #armoury-drugs, #armoury-boosters, #armoury-points, #armoury-consumables")) {
 							if (enabled) item.classList.add("tt-overlay-item-notbroken");
 							else item.classList.remove("tt-overlay-item-notbroken");
 						}
@@ -134,7 +134,7 @@
 		const tab = document.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
 
 		if (tab.id === "armoury-points") {
-			for (const item of tab.findAll(".give[data-role]")) {
+			for (const item of findAllElements(".give[data-role]", tab)) {
 				const type = item.textContent.trim().split(" ")[1].toLowerCase();
 
 				item.dataset.type = "tt-points";
@@ -154,7 +154,7 @@
 				);
 			}
 		} else {
-			for (const item of tab.findAll(".item-list > li")) {
+			for (const item of findAllElements(".item-list > li", tab)) {
 				const imgWrap = item.find(".img-wrap");
 
 				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
@@ -332,7 +332,7 @@
 								})
 							);
 
-							for (const count of responseWrap.findAll(".counter-wrap")) {
+							for (const count of findAllElements(".counter-wrap", responseWrap)) {
 								count.classList.add("tt-modified");
 								count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 							}
@@ -437,7 +437,7 @@
 
 		await ttStorage.change({
 			quick: {
-				factionItems: [...content.findAll(".item")]
+				factionItems: findAllElements(".item", content)
 					.map((x) => x.dataset.id)
 					.map((x) => (isNaN(parseInt(x)) ? (x as QuickFactionItem["id"]) : parseInt(x)))
 					.map((x) => ({ id: x })),
@@ -455,25 +455,25 @@
 
 	function attachEditListeners(enabled: boolean) {
 		if (enabled) {
-			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
+			for (const item of findAllElements(".armoury-tabs .item-list > li")) {
 				const imgWrap = item.find(".img-wrap");
 
 				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
-			for (const refill of document.findAll("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
+			for (const refill of findAllElements("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
 				refill.addEventListener("click", onItemClickQuickEdit);
 			}
 		} else {
-			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
+			for (const item of findAllElements(".armoury-tabs .item-list > li")) {
 				const imgWrap = item.find(".img-wrap");
 
 				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
 
 				item.removeEventListener("click", onItemClickQuickEdit);
 			}
-			for (const refill of document.findAll("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
+			for (const refill of findAllElements("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
 				refill.removeEventListener("click", onItemClickQuickEdit);
 			}
 		}
@@ -495,7 +495,7 @@
 	}
 
 	function setupOverlayItems(tab: Document | Element) {
-		for (const item of tab.findAll(".item-list > li")) {
+		for (const item of findAllElements(".item-list > li", tab)) {
 			const imgWrap = item.find(".img-wrap");
 
 			if (allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;

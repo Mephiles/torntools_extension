@@ -30,7 +30,7 @@
 		const factionPerk = parseInt(userdata.faction_perks.filter((x) => /alcohol/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 		const companyPerk = parseInt(userdata.job_perks.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 
-		document.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
+		findAllElements("[data-category='Alcohol']").forEach((alcoholicDrink) => {
 			if (alcoholicDrink.find(".tt-alcohol-gains")) return;
 
 			const id = parseInt(alcoholicDrink.dataset.item);
@@ -62,6 +62,6 @@
 	}
 
 	function removeNerveGains() {
-		document.findAll(".tt-alcohol-gains").forEach((x) => x.remove());
+		findAllElements(".tt-alcohol-gains").forEach((x) => x.remove());
 	}
 })();

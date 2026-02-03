@@ -36,7 +36,7 @@
 	}
 
 	function moveIcons() {
-		for (const icon of document.findAll("#sidebarroot ul[class*='status-icons_'] > li")) {
+		for (const icon of findAllElements("#sidebarroot ul[class*='status-icons_'] > li")) {
 			if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
 
 			icon.parentElement.appendChild(icon);

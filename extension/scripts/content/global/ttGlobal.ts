@@ -76,7 +76,7 @@
 				triggerCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED);
 			}).observe(document.find("#chatRoot"), { childList: true });
 
-			for (const chat of document.findAll("#chatRoot > [class*='root___'] > [class*='root___'] > [class*='item___']")) {
+			for (const chat of findAllElements("#chatRoot > [class*='root___'] > [class*='root___'] > [class*='item___']")) {
 				const chatPanel = chat.find(":scope > [class*='root___']");
 				if (!chatPanel) continue; // No content in the panel.
 
@@ -116,7 +116,7 @@
 							}
 						});
 
-					const openedChats = document.findAll("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
+					const openedChats = findAllElements("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
 					if (openedChats.length) chatRefreshObserver.observe(openedChats[0].find("[class*='chat-box-body__']"), { childList: true });
 					else chatRefreshObserver.disconnect();
 				}

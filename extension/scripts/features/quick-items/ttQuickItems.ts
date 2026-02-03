@@ -26,7 +26,7 @@
 			}
 		});
 		setInterval(() => {
-			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
+			for (const timer of findAllElements(".counter-wrap.tt-modified")) {
 				let secondsLeft: number;
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
@@ -80,7 +80,7 @@
 						isEditing = enabled;
 
 						const content = findContainer("Quick Items", { selector: ":scope > main" });
-						for (const quick of content.findAll(".item")) {
+						for (const quick of findAllElements(".item", content)) {
 							if (enabled) {
 								quick.classList.add("tt-overlay-item");
 								quick.classList.add("removable");
@@ -90,14 +90,14 @@
 							}
 						}
 
-						for (const category of document.findAll("#categoriesItem:not(.no-items)")) {
+						for (const category of findAllElements("#categoriesItem:not(.no-items)")) {
 							if (!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
 								continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
 						}
-						for (const item of document.findAll("ul.items-cont:not(.no-items)")) {
+						for (const item of findAllElements("ul.items-cont:not(.no-items)")) {
 							if (enabled) item.classList.add("tt-overlay-item");
 							else item.classList.remove("tt-overlay-item");
 						}
@@ -216,7 +216,7 @@
 								})
 							);
 
-							for (const count of responseWrap.findAll(".counter-wrap")) {
+							for (const count of findAllElements(".counter-wrap", responseWrap)) {
 								count.classList.add("tt-modified");
 								count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 							}
@@ -249,15 +249,17 @@
 							responseWrap.style.display = "block";
 							responseWrap.innerHTML = result;
 
-							[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
+								x.classList.remove("equipped")
+							);
 
 							if (result.includes(" equipped ")) {
-								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
+								findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
 									x.classList.remove("equipped")
 								);
 								itemWrap.classList.add("equipped");
 							} else if (result.includes(" unequipped "))
-								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
+								findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
 									x.classList.remove("equipped")
 								);
 						}
@@ -363,7 +365,7 @@
 
 		await ttStorage.change({
 			quick: {
-				items: [...content.findAll(".item")].map((x) => {
+				items: findAllElements(".item", content).map((x) => {
 					const data: QuickItem = { id: parseInt(x.dataset.id) };
 					if (x.dataset.xid) data.xid = parseInt(x.dataset.xid);
 
@@ -377,7 +379,7 @@
 		const enableDrag = !mobile && !tablet;
 		if (!enableDrag) return;
 
-		for (const item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
+		for (const item of findAllElements(".items-cont[aria-expanded=true] > li[data-item]")) {
 			if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 			const titleWrap = item.find(".title-wrap");
@@ -472,7 +474,7 @@
 	}
 
 	async function updateXIDs() {
-		const items = [...document.findAll("ul.items-cont > li .actions[xid]")].filter((x) => {
+		const items = findAllElements("ul.items-cont > li .actions[xid]").filter((x) => {
 			const itemid = parseInt((x.closest("li[data-item]") as HTMLElement).dataset.item);
 			return quick.items.some((y) => y.id === itemid);
 		});
@@ -496,13 +498,13 @@
 
 	function updateEquippedItem(id: number, isEquip: boolean) {
 		const equipPosition = getEquipPosition(id, getTornItemType(id));
-		[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+		findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`).forEach((x) => x.classList.remove("equipped"));
 
 		if (isEquip && document.find(`.item[data-id="${id}"]`)) document.find(`.item[data-id="${id}"]`).classList.add("equipped");
 	}
 
 	function setupOverlayItems(tab: Element) {
-		for (const item of tab.findAll("li[data-item][data-category]")) {
+		for (const item of findAllElements("li[data-item][data-category]", tab)) {
 			if (allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 			item.classList.add("tt-overlay-ignore");
@@ -511,13 +513,13 @@
 
 	function attachEditListeners(enabled: boolean) {
 		if (enabled) {
-			for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+			for (const item of findAllElements("ul.items-cont[aria-expanded='true'] > li")) {
 				if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
 		} else {
-			for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+			for (const item of findAllElements("ul.items-cont[aria-expanded='true'] > li")) {
 				if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 				item.removeEventListener("click", onItemClickQuickEdit);

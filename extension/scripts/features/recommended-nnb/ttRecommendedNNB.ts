@@ -53,7 +53,7 @@
 		const heading = parent.find(".plan-crimes[role=heading]");
 		heading.appendChild(elementBuilder({ type: "span", class: "tt-recommended-nnb", text: mobile ? "NNB" : "Recommended NNB" }));
 
-		for (const crime of parent.findAll(".crimes-list .item-wrap .plan-crimes")) {
+		for (const crime of findAllElements(".crimes-list .item-wrap .plan-crimes", parent)) {
 			crime.appendChild(elementBuilder({ type: "span", class: "tt-recommended-nnb", text: ORGANIZED_CRIMES[crime.textContent] }));
 		}
 	}
@@ -61,7 +61,7 @@
 	function removeRecommendedNNB() {
 		document.find(".faction-crimes-wrap .begin-wrap")?.classList.remove("tt-modified");
 
-		for (const nnb of document.findAll(".tt-recommended-nnb")) {
+		for (const nnb of findAllElements(".tt-recommended-nnb")) {
 			nnb.remove();
 		}
 	}

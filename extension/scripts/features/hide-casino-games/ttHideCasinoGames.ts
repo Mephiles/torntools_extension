@@ -30,7 +30,7 @@
 				})
 			);
 		}
-		document.findAll(".games-list .tt-hidden").forEach((game) => {
+		findAllElements(".games-list .tt-hidden").forEach((game) => {
 			game.parentElement.classList.remove("tt-hidden-parent");
 			game.classList.remove("tt-hidden");
 			game.parentElement.find(".tt-hidden").remove();
@@ -58,6 +58,6 @@
 		document.find(".msg .tt-msg").remove();
 		document.find(".tt-hidden-parent").classList.remove("tt-hidden-parent");
 		document.find(".tt-hidden").remove();
-		document.findAll(".games-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".games-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

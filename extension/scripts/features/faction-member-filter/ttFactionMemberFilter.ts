@@ -1,4 +1,4 @@
-(async () => {
+(() => {
 	const feature = featureManager.registerFeature(
 		"Faction Member Filter",
 		"faction",
@@ -171,7 +171,7 @@
 		if (!lastActionState && localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element) {
 			lastActionState = false;
 			localFilters["Last Active Filter"].element.remove();
-			document.findAll(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
+			findAllElements(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
 				x.classList.remove("tt-hidden");
 				x.classList.remove("last-action");
 			});
@@ -223,7 +223,7 @@
 			},
 		});
 
-		for (const li of document.findAll(".members-list .table-body > li")) {
+		for (const li of findAllElements(".members-list .table-body > li")) {
 			// Activity
 			if (activity.length) {
 				const userActivity = li.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
@@ -334,15 +334,15 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".members-list .table-body > li:not(.tt-hidden)").length,
-			document.findAll(".members-list .table-body > li").length,
+			findAllElements(".members-list .table-body > li:not(.tt-hidden)").length,
+			findAllElements(".members-list .table-body > li").length,
 			content
 		);
 	}
 
 	function getPositions() {
 		const _positions = [];
-		document.findAll(".members-list .table-body > li > .position .ellipsis").forEach((x) => {
+		findAllElements(".members-list .table-body > li > .position .ellipsis").forEach((x) => {
 			const position = x.textContent.trim();
 			if (!_positions.includes(position)) _positions.push(position);
 		});
@@ -365,6 +365,6 @@
 		localFilters = {};
 		filterContent = undefined;
 		removeContainer("Member Filter");
-		document.findAll(".members-list .table-body > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".members-list .table-body > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

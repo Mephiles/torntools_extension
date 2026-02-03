@@ -12,7 +12,7 @@ const initiatedPages = {};
 		document.body.classList.add(getPageTheme());
 	});
 
-	for (const navigation of document.findAll("header nav.on-page > ul > li")) {
+	for (const navigation of findAllElements("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -23,10 +23,10 @@ const initiatedPages = {};
 async function showPage(name: string) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
-	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
+	for (const active of findAllElements("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (const active of document.findAll("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
+	for (const active of findAllElements("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
 	document.find(`#${name}`).classList.remove("tt-hidden");
 
 	const setup = {
@@ -61,7 +61,7 @@ async function setupAttackHistory() {
 
 				sendMessage("Attack history reset.", true);
 
-				for (const row of _attackHistory.findAll("tr.row")) {
+				for (const row of findAllElements("tr.row", _attackHistory)) {
 					row.remove();
 				}
 			})
@@ -188,7 +188,7 @@ async function setupStakeouts() {
 
 				sendMessage("Stakeouts reset.", true);
 
-				for (const row of document.findAll("#stakeoutList tr.row")) {
+				for (const row of findAllElements("#stakeoutList tr.row")) {
 					row.remove();
 				}
 			})
@@ -378,7 +378,7 @@ async function setupStakeouts() {
 	}
 
 	function updateStakeouts() {
-		[...stakeoutList.findAll("tr:not(.header)")]
+		findAllElements("tr:not(.header)", stakeoutList)
 			.filter((row) => !(parseInt(row.dataset.id) in stakeouts))
 			.filter((row) => !row.classList.contains("new"))
 			.forEach((row) => row.remove());
@@ -431,11 +431,11 @@ async function setupStakeouts() {
 
 	async function saveStakeouts() {
 		const newStakeouts: StoredStakeouts = {
-			order: [...stakeoutList.findAll("tr.row")].map((row) => row.dataset.id),
+			order: findAllElements("tr.row", stakeoutList).map((row) => row.dataset.id),
 			date: 0,
 		};
 
-		for (const row of stakeoutList.findAll("tr.row")) {
+		for (const row of findAllElements("tr.row", stakeoutList)) {
 			const id = parseInt(row.dataset.id);
 
 			const alertsSection = row.find(".alerts-wrap");
@@ -454,7 +454,7 @@ async function setupStakeouts() {
 			};
 		}
 
-		newStakeouts.order = [...stakeoutList.findAll("tr.row")].map((row) => row.dataset.id);
+		newStakeouts.order = findAllElements("tr.row", stakeoutList).map((row) => row.dataset.id);
 
 		await ttStorage.set({ stakeouts: newStakeouts });
 		console.log("Stakeouts updated!", newStakeouts);

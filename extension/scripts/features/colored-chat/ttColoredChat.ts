@@ -40,23 +40,20 @@ interface ColoredChatOption {
 
 		if (!settings.pages.chat.titleHighlights.length) return;
 
-		document
-			.findAll(
-				[
-					"[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']", // Chat 2.0 - minimized chats
-					"[class*='chat-box__'] > [class*='chat-box-header__']", // Chat 2.0 - chat headers
-					"[class*='root___']:has(> button[id*='channel_panel_button:private'])", // Chat 3.0 - minimized private chats
-					"[class*='root___'] > [class*='root___']:has(> button[class*='header___'])", // Chat 3.0 - chat headers
-				].join(", ")
-			)
-			.forEach((chatHeader) => {
-				const chatPlayer = chatHeader.textContent;
-				const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);
+		findAllElements(
+			[
+				"[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']", // Chat 2.0 - minimized chats
+				"[class*='chat-box__'] > [class*='chat-box-header__']", // Chat 2.0 - chat headers
+				"[class*='root___']:has(> button[id*='channel_panel_button:private'])", // Chat 3.0 - minimized private chats
+				"[class*='root___'] > [class*='root___']:has(> button[class*='header___'])", // Chat 3.0 - chat headers
+			].join(", ")
+		).forEach((chatHeader) => {
+			const chatPlayer = chatHeader.textContent;
+			const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);
 
-				applyColor(highlights, chatHeader);
-			});
-		document
-			.findAll("[class*='root___']:has(> button[id*='channel_panel_button:'][title])") // Chat 3.0 - minimized group chats
+			applyColor(highlights, chatHeader);
+		});
+		findAllElements("[class*='root___']:has(> button[id*='channel_panel_button:'][title])") // Chat 3.0 - minimized group chats
 			.forEach((chatHeader) => {
 				const chatPlayer = chatHeader.find("button[title]").getAttribute("title");
 				const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);
@@ -75,6 +72,6 @@ interface ColoredChatOption {
 	}
 
 	function removeColoredChats() {
-		[...document.findAll(".tt-chat-colored")].forEach((chat) => chat.classList.remove("tt-chat-colored"));
+		findAllElements(".tt-chat-colored").forEach((chat) => chat.classList.remove("tt-chat-colored"));
 	}
 })();

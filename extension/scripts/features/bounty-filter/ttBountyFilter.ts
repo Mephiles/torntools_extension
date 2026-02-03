@@ -77,7 +77,7 @@
 			});
 
 			const list = document.find(".bounties-list");
-			for (const bounty of [...list.findAll(":scope > li[data-id]")]) {
+			for (const bounty of findAllElements(":scope > li[data-id]", list)) {
 				if (maxLevel > 0 && parseInt(bounty.find(".level").lastChild.textContent) > maxLevel) {
 					hideBounty(bounty);
 					continue;
@@ -92,8 +92,8 @@
 			list.classList.add("tt-filtered");
 			if (!device.mobile && !device.tablet)
 				statistics.updateStatistics(
-					document.findAll(".bounties-list > li[data-id]:not(.tt-hidden)").length,
-					document.findAll(".bounties-list > li[data-id]").length,
+					findAllElements(".bounties-list > li[data-id]:not(.tt-hidden)").length,
+					findAllElements(".bounties-list > li[data-id]").length,
 					options.parentElement.find(".title .text")
 				);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
@@ -117,7 +117,7 @@
 	}
 
 	function removeFilter() {
-		document.findAll(".bounties-list > .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".bounties-list > .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 		removeContainer("Bounty Filter");
 	}
 })();

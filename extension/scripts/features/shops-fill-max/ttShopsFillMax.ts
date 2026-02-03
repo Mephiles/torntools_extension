@@ -17,7 +17,7 @@
 	async function addFillMax() {
 		await requireElement(".item-desc");
 
-		document.findAll(".item-desc").forEach((item) => {
+		findAllElements(".item-desc").forEach((item) => {
 			item.classList.add("tt-buy");
 
 			const fillMaxButton = elementBuilder({ type: "span", text: "fill max", class: "tt-max-buy" });
@@ -50,7 +50,7 @@
 	}
 
 	function removeFillMax() {
-		document.findAll(".tt-buy").forEach((ttBuy) => {
+		findAllElements(".tt-buy").forEach((ttBuy) => {
 			ttBuy.classList.remove("tt-buy");
 			ttBuy.find(".tt-max-buy").remove();
 			ttBuy.find(".tt-max-buy-overlay").remove();

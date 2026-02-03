@@ -33,7 +33,7 @@
 	}
 
 	function showMessage() {
-		document.findAll(".tt-hidden[data-type='recycle-message']").forEach((hidden) => {
+		findAllElements(".tt-hidden[data-type='recycle-message']").forEach((hidden) => {
 			hidden.classList.remove("tt-hidden");
 		});
 	}

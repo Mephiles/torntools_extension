@@ -4,7 +4,7 @@
 	async function hideUpgrade() {
 		await requireContent();
 
-		for (const li of document.findAll(".info-msg li")) {
+		for (const li of findAllElements(".info-msg li")) {
 			if (li.textContent.includes("Congratulations! You have enough experience to go up to level")) {
 				if (li.parentElement.childElementCount > 1) li.classList.add("tt-level-upgrade");
 				else li.closest(".info-msg").classList.add("tt-level-upgrade");
@@ -14,7 +14,7 @@
 	}
 
 	function showUpgrade() {
-		for (const info of document.findAll(".tt-level-upgrade")) {
+		for (const info of findAllElements(".tt-level-upgrade")) {
 			info.classList.remove("tt-level-upgrade");
 		}
 	}

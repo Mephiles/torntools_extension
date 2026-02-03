@@ -37,7 +37,7 @@
 	function removeWords() {
 		const ageDiv = document.find(".box-info.age");
 		ageDiv.find(".box-name").classList.remove("tt-hidden");
-		ageDiv.findAll(".block-value + br").forEach((x) => x.remove());
-		document.findAll(".tt-age-text").forEach((x) => x.remove());
+		findAllElements(".block-value + br", ageDiv).forEach((x) => x.remove());
+		findAllElements(".tt-age-text").forEach((x) => x.remove());
 	}
 })();

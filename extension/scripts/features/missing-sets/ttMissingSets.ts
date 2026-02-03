@@ -89,7 +89,7 @@
 	async function show(id: string, selector: string, items: SetItem[]) {
 		if (document.find(`#${id}`)) document.find(`#${id}`).remove();
 
-		const currentItemsElements = document.findAll(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
+		const currentItemsElements = findAllElements(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
 		if (!currentItemsElements.length || currentItemsElements.length === items.length) return;
 
 		const currentItems = currentItemsElements.map((x) => parseInt(x.dataset.item));
@@ -139,7 +139,7 @@
 	}
 
 	function showMarketValues() {
-		for (const missingItem of document.findAll(".needed-item")) {
+		for (const missingItem of findAllElements(".needed-item")) {
 			addItemValue(missingItem);
 		}
 	}
@@ -175,7 +175,7 @@
 	}
 
 	function showMarketIcons() {
-		const items = [...document.findAll(".needed-item")];
+		const items = findAllElements(".needed-item");
 		let isFirst = true;
 		for (const missingItem of items) {
 			const isLast = items.indexOf(missingItem) === items.length - 1;

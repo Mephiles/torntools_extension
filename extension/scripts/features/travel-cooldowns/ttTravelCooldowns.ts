@@ -140,6 +140,6 @@
 	}
 
 	function removeWarnings() {
-		document.findAll(".tt-cooldowns, .tt-cooldowns ~ .cooldown").forEach((cooldown) => cooldown.remove());
+		findAllElements(".tt-cooldowns, .tt-cooldowns ~ .cooldown").forEach((cooldown) => cooldown.remove());
 	}
 })();

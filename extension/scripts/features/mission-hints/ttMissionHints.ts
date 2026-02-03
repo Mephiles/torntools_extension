@@ -341,7 +341,7 @@
 			},
 		};
 
-		for (const context of document.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
+		for (const context of findAllElements(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
 			const title = (context.find(".title-black").childNodes[0] as Text).wholeText.replace(/\n/g, "").trim();
 
 			const key = transformTitle(title);
@@ -379,7 +379,7 @@
 	}
 
 	function removeHints() {
-		for (const context of document.findAll(".giver-cont-wrap > div[id^=mission].tt-modified")) context.classList.remove(".tt-modified");
-		for (const information of document.findAll(".tt-mission-information")) information.remove();
+		for (const context of findAllElements(".giver-cont-wrap > div[id^=mission].tt-modified")) context.classList.remove(".tt-modified");
+		for (const information of findAllElements(".tt-mission-information")) information.remove();
 	}
 })();

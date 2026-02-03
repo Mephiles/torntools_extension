@@ -46,7 +46,7 @@
 		if (scoutLock) return;
 		scoutLock = true;
 
-		const honorBars = [...document.findAll<HTMLAnchorElement>(".honor-text-wrap")];
+		const honorBars = findAllElements<HTMLAnchorElement>(".honor-text-wrap");
 		if (honorBars.length > 0) {
 			applyGauge(honorBars)
 				.catch((reason) => {
@@ -94,7 +94,7 @@
 					return;
 			}
 
-			applyGauge([...document.findAll<HTMLAnchorElement>(selector)])
+			applyGauge(findAllElements<HTMLAnchorElement>(selector))
 				.catch((reason) => {
 					if (!reason) return;
 
@@ -215,7 +215,7 @@
 	}
 
 	function removeGauge() {
-		document.findAll(".tt-ff-scouter-indicator").forEach((element) => element.classList.remove("tt-ff-scouter-indicator"));
-		document.findAll(".tt-ff-scouter-arrow").forEach((element) => element.remove());
+		findAllElements(".tt-ff-scouter-indicator").forEach((element) => element.classList.remove("tt-ff-scouter-indicator"));
+		findAllElements(".tt-ff-scouter-arrow").forEach((element) => element.remove());
 	}
 })();

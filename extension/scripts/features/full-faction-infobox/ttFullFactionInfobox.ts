@@ -80,8 +80,8 @@
 	}
 
 	function removeFull() {
-		for (const infobox of document.findAll(".tt-full-infobox")) infobox.remove();
-		for (const title of document.findAll(".tt-infobox-title")) title.classList.remove("tt-infobox-title");
-		for (const overflow of document.findAll(".prevent-overflow")) overflow.classList.remove("prevent-overflow");
+		for (const infobox of findAllElements(".tt-full-infobox")) infobox.remove();
+		for (const title of findAllElements(".tt-infobox-title")) title.classList.remove("tt-infobox-title");
+		for (const overflow of findAllElements(".prevent-overflow")) overflow.classList.remove("prevent-overflow");
 	}
 })();

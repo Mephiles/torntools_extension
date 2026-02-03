@@ -61,6 +61,6 @@
 	}
 
 	function removeHighlight() {
-		for (const highlight of document.findAll(".tt-oc-highlight")) highlight.classList.remove(".tt-oc-highlight");
+		for (const highlight of findAllElements(".tt-oc-highlight")) highlight.classList.remove(".tt-oc-highlight");
 	}
 })();

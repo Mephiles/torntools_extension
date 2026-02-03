@@ -166,18 +166,12 @@ Object.defineProperty(Element.prototype, "find", {
 	enumerable: false,
 });
 
-Object.defineProperty(Document.prototype, "findAll", {
-	value(this: Document, selector: string): Element[] {
-		return Array.from(this.querySelectorAll(selector));
-	},
-	enumerable: false,
-});
-Object.defineProperty(Element.prototype, "findAll", {
-	value(this: Document, selector: string): Element[] {
-		return Array.from(this.querySelectorAll(selector));
-	},
-	enumerable: false,
-});
+function findAllElements<K extends keyof HTMLElementTagNameMap>(tagName: K, parent?: ParentNode): HTMLElementTagNameMap[K][];
+function findAllElements<T extends Element = HTMLElement>(selector: string, parent?: ParentNode): T[];
+
+function findAllElements(selector: string, parent: ParentNode = document): Element[] {
+	return Array.from(parent.querySelectorAll(selector));
+}
 
 Object.defineProperty(Document.prototype, "setClass", {
 	value(this: Element, ...classNames: string[]) {
@@ -361,7 +355,7 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 	table.dataset.ttSortColumn = columnPlace.toString();
 	table.dataset.ttSortOrder = order;
 
-	for (const h of table.findAll("th, .row.header > *")) {
+	for (const h of findAllElements("th, .row.header > *", table)) {
 		if (h === header) continue;
 
 		if (h.find("i")) h.find("i").remove();
@@ -370,7 +364,7 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 	let rows: HTMLElement[];
 	if (!table.find("tr:not(.heading), .row:not(.header)")) rows = [];
 	else {
-		rows = [...table.findAll<HTMLElement>("tr:not(.header), .row:not(.header)")];
+		rows = findAllElements<HTMLElement>("tr:not(.header), .row:not(.header)", table);
 		rows = sortRows(rows);
 	}
 
@@ -536,4 +530,7 @@ function isTextNode(node: Node): node is Text {
 
 function isHTMLElement(node: Node | EventTarget): node is HTMLElement {
 	return isElement(node) && "dataset" in node && "title" in node;
+}
+function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node | EventTarget, tag: K): node is HTMLElementTagNameMap[K] {
+	return isHTMLElement(node) && node.tagName.toLowerCase() === tag;
 }

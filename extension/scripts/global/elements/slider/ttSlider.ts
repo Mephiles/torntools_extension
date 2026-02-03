@@ -47,7 +47,7 @@ class DualRangeSlider {
 				</div>
 			`,
 		});
-		this.handles = [...this.slider.findAll(".handle")];
+		this.handles = findAllElements(".handle", this.slider);
 
 		this.handles.forEach((handle) => {
 			const input = this.slider.find(`#${handle.getAttribute("for")}`);

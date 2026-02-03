@@ -197,11 +197,11 @@
 			// Save the filters
 			await ttStorage.change({ filters: { factionArmory: { hideUnavailable, [itemType]: filters } } });
 
-			document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").forEach((li) => filterRow(li, { hideUnavailable, ...filters }));
+			findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").forEach((li) => filterRow(li, { hideUnavailable, ...filters }));
 
 			localFilters["Statistics"].updateStatistics(
-				document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
-				document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
+				findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
+				findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
 				content
 			);
 		}
@@ -282,7 +282,7 @@
 		}
 		const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
 		if (toFilterBonus && toFilterBonus.length) {
-			const foundBonuses = [...row.findAll(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)")]
+			const foundBonuses = findAllElements(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)", row)
 				.map((icon) => icon.getAttribute("title"))
 				.map((title) => title.split("<br/>"))
 				.filter((values) => values.length >= 2)
@@ -327,6 +327,6 @@
 	function removeFilter() {
 		cbHideUnavailable = undefined;
 		removeContainer("Armory Filter");
-		document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

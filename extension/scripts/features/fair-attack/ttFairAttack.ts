@@ -39,6 +39,6 @@
 	}
 
 	function removeFF() {
-		document.findAll(".tt-fair-attack").forEach((ff) => ff.remove());
+		findAllElements(".tt-fair-attack").forEach((ff) => ff.remove());
 	}
 })();

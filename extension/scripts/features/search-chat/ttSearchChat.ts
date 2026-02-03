@@ -34,7 +34,7 @@
 			if (!feature.enabled()) return;
 
 			// Re-filter all chats after they refresh.
-			document.findAll("[class*='group-chat-box__chat-box-wrapper__'], #chatRoot [class*='item___'][style*='z-index']").forEach((chat) => {
+			findAllElements("[class*='group-chat-box__chat-box-wrapper__'], #chatRoot [class*='item___'][style*='z-index']").forEach((chat) => {
 				const input = chat.find<HTMLInputElement>(".tt-chat-filter input");
 				if (!input) return;
 
@@ -49,7 +49,7 @@
 
 	async function showSearch() {
 		await requireChatsLoaded();
-		for (const chat of document.findAll(
+		for (const chat of findAllElements(
 			"#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__'], #chatRoot [class*='item___'][style*='z-index']:not(:has(#people_panel))"
 		)) {
 			addChatSearch(chat);
@@ -110,8 +110,9 @@
 
 										if (peopleMenu.find("[class*='chat-list-header__tabs__'] [class*='chat-list-header__tab--active__']:first-child")) {
 											// "Chats" tab opened.
-											const list = peopleMenu.findAll<HTMLAnchorElement>(
-												"#scrollableDiv .infinite-scroll-component > button [class*='detailed-chat-card__header__'] a"
+											const list = findAllElements<HTMLAnchorElement>(
+												"#scrollableDiv .infinite-scroll-component > button [class*='detailed-chat-card__header__'] a",
+												peopleMenu
 											);
 											list.forEach((chatEntry) => {
 												const shouldHide =
@@ -123,7 +124,7 @@
 											});
 										} else {
 											// Other tabs opened.
-											const list = peopleMenu.findAll<HTMLAnchorElement>("#scrollableDiv > [class*='member-card__'] a");
+											const list = findAllElements<HTMLAnchorElement>("#scrollableDiv > [class*='member-card__'] a", peopleMenu);
 											list.forEach((chatEntry) => {
 												const shouldHide =
 													keyword &&
@@ -146,7 +147,7 @@
 	function onChatSearch(event: { target: EventTarget }, chat: Element) {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
-		for (const message of chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='list___'] [class*='box___']")) {
+		for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='list___'] [class*='box___']", chat)) {
 			searchChat(message, keyword);
 		}
 
@@ -157,11 +158,12 @@
 	}
 
 	function removeSearch() {
-		for (const chat of document.findAll(
+		for (const chat of findAllElements(
 			"#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__'], [class*='list___'] [class*='item___']"
 		)) {
-			for (const message of chat.findAll(
-				"[class*='chat-box-body__'] [class*='chat-box-message__box__'] div[class='tt-hidden'], div[class*='root___'][class*='tt-hidden']"
+			for (const message of findAllElements(
+				"[class*='chat-box-body__'] [class*='chat-box-message__box__'] div[class='tt-hidden'], div[class*='root___'][class*='tt-hidden']",
+				chat
 			)) {
 				message.classList.remove("tt-hidden");
 			}
@@ -170,7 +172,7 @@
 
 			chat.find(".tt-chat-filter").remove();
 		}
-		document.findAll("#chatRoot .tt-chat-filter").forEach((x) => x.remove());
+		findAllElements("#chatRoot .tt-chat-filter").forEach((x) => x.remove());
 	}
 
 	function searchChat(message: Element, keyword: string) {

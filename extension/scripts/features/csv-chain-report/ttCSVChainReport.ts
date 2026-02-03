@@ -33,9 +33,9 @@
 			csv.append(document.find(".report-title-faction-name").textContent);
 			csv.append("Members", "Respect", "Best", "Avg", "Attacks", "Leave", "Mug", "Hosp", "War", "Assist", "Retal", "Overseas", "Draw", "Escape", "Loss");
 
-			const info = document.findAll(".members-stats-rows > *");
-			document.findAll(".members-names-rows > *").forEach((member, index) => {
-				csv.append(getUsername(member).combined, ...[...info[index].findAll(".members-stats-cols > *")].map((info) => info.textContent));
+			const info = findAllElements(".members-stats-rows > *");
+			findAllElements(".members-names-rows > *").forEach((member, index) => {
+				csv.append(getUsername(member).combined, ...findAllElements(".members-stats-cols > *", info[index]).map((info) => info.textContent));
 			});
 
 			csv.download();

@@ -160,15 +160,15 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".user-info-list-wrap > li")) {
+		for (const li of findAllElements(".user-info-list-wrap > li")) {
 			filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Userlist Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-			document.findAll(".user-info-list-wrap > li").length,
+			findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
+			findAllElements(".user-info-list-wrap > li").length,
 			content
 		);
 	}
@@ -285,8 +285,8 @@
 				const content = findContainer("Userlist Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-					document.findAll(".user-info-list-wrap > li").length,
+					findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
+					findAllElements(".user-info-list-wrap > li").length,
 					content
 				);
 			}
@@ -304,8 +304,8 @@
 				const content = findContainer("Userlist Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-					document.findAll(".user-info-list-wrap > li").length,
+					findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
+					findAllElements(".user-info-list-wrap > li").length,
 					content
 				);
 			}
@@ -314,6 +314,6 @@
 
 	function removeFilters() {
 		removeContainer("Userlist Filter");
-		document.findAll(".user-info-list-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".user-info-list-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

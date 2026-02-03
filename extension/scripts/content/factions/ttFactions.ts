@@ -214,7 +214,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		async function handleSorting() {
 			await requireElement(".members-list .table-header .c-pointer");
 
-			for (const header of document.findAll(".members-list .table-header .c-pointer")) {
+			for (const header of findAllElements(".members-list .table-header .c-pointer")) {
 				header.addEventListener("click", sortListener);
 			}
 
@@ -222,7 +222,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				const isFilter = (event.target as Element).closest("button, input");
 				if (isFilter) return;
 
-				const rows = document.findAll(".members-list .table-body .table-row");
+				const rows = findAllElements(".members-list .table-body .table-row");
 				if (!rows.length) return;
 
 				new MutationObserver((_mutations, observer) => {

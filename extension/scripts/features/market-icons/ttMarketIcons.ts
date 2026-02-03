@@ -27,7 +27,7 @@
 
 		let isFirst = true;
 		let lastItem: Element | undefined;
-		for (const item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]:not(.tt-ignore):not(.ajax-placeholder)")) {
+		for (const item of findAllElements(".items-cont[aria-expanded=true] > li[data-item]:not(.tt-ignore):not(.ajax-placeholder)")) {
 			if (item.find(".market-link")) continue;
 
 			if (item.classList.contains("item-group")) item.classList.add("tt-modified");
@@ -66,7 +66,7 @@
 	}
 
 	function removeMarketIcons() {
-		for (const link of document.findAll(".market-link")) {
+		for (const link of findAllElements(".market-link")) {
 			link.remove();
 		}
 	}

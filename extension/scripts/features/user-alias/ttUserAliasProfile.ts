@@ -31,6 +31,6 @@
 	}
 
 	function removeAlias() {
-		document.findAll(".tt-alias, .tt-user-alias").forEach((x) => x.remove());
+		findAllElements(".tt-alias, .tt-user-alias").forEach((x) => x.remove());
 	}
 })();

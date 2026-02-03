@@ -23,7 +23,7 @@
 	}
 
 	function addEffects() {
-		document.findAll("[data-category='Book']").forEach((book) => {
+		findAllElements("[data-category='Book']").forEach((book) => {
 			if (book.find(".tt-book-effect")) return;
 
 			book.find(".name-wrap .qty.t-hide").insertAdjacentElement(
@@ -34,6 +34,6 @@
 	}
 
 	function removeEffects() {
-		document.findAll(".tt-book-effect").forEach((x) => x.remove());
+		findAllElements(".tt-book-effect").forEach((x) => x.remove());
 	}
 })();

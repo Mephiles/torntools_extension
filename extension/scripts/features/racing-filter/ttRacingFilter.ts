@@ -204,7 +204,7 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".events-list > li")) {
+		for (const li of findAllElements(".events-list > li")) {
 			if (li.className === "clear") {
 				continue;
 			}
@@ -358,6 +358,6 @@
 
 	function removeFilters() {
 		removeContainer("Racing Filter");
-		document.findAll(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

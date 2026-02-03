@@ -27,7 +27,7 @@ const initiatedPages: string[] = [];
 	handleAPIError();
 	storageListeners.api.push(handleAPIError);
 
-	for (const navigation of document.findAll("#pages .main-nav li")) {
+	for (const navigation of findAllElements("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -64,7 +64,7 @@ const initiatedPages: string[] = [];
 async function showPage(name: keyof typeof SETUP_PAGES) {
 	document.find(`#${name}`).classList.add("active");
 
-	for (const active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
+	for (const active of findAllElements("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
 
 	if (document.find(`#pages li[to="${name}"]`)) document.find(`#pages li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
@@ -186,17 +186,17 @@ async function setupDashboard() {
 
 	setInterval(() => {
 		if (settings.apiUsage.user.bars)
-			for (const bar of dashboard.findAll(".bar")) {
+			for (const bar of findAllElements(".bar", dashboard)) {
 				updateBarTimer(bar);
 			}
 		if (settings.apiUsage.user.cooldowns)
-			for (const cooldown of dashboard.findAll(".cooldowns .cooldown")) {
+			for (const cooldown of findAllElements(".cooldowns .cooldown", dashboard)) {
 				updateCooldownTimer(cooldown);
 			}
 		updateUpdateTimer();
 		updateStatusTimer();
 
-		for (const countdown of document.findAll(".countdown.automatic[data-seconds]")) {
+		for (const countdown of findAllElements(".countdown.automatic[data-seconds]")) {
 			const seconds = parseInt(countdown.dataset.seconds) - 1;
 
 			if (seconds <= 0) {
@@ -292,7 +292,7 @@ async function setupDashboard() {
 		function updateIcons() {
 			if (!settings.pages.popup.showIcons) {
 				iconsWrap.classList.add("tt-hidden");
-				iconsWrap.findAll(".countdown.automatic").forEach((x) => x.classList.remove("countdown"));
+				findAllElements(".countdown.automatic").forEach((x) => x.classList.remove("countdown"));
 				return;
 			}
 
@@ -758,7 +758,7 @@ async function setupMarketSearch() {
 		let id: number | undefined;
 		if (!isNaN(parseInt(keyword))) id = parseInt(keyword);
 
-		for (const item of document.findAll("#market .item-list li")) {
+		for (const item of findAllElements("#market .item-list li")) {
 			if (item.textContent.toLowerCase().includes(keyword) || (id && parseInt(item.dataset.id) === id)) {
 				item.classList.remove("tt-hidden");
 				itemSelection.classList.remove("tt-hidden");
@@ -955,7 +955,7 @@ async function setupCalculator() {
 			return;
 		}
 
-		for (const item of calculator.findAll(".item-list > li")) {
+		for (const item of findAllElements(".item-list > li", calculator)) {
 			if (item.textContent.toLowerCase().includes(keyword)) {
 				item.classList.remove("tt-hidden");
 				itemSelection.classList.remove("tt-hidden");
@@ -1056,16 +1056,16 @@ async function setupStocksOverview() {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
-			for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+			for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
 				item.classList.add("tt-hidden");
 			}
-			for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
+			for (const item of findAllElements(".stock-wrap[data-user='true']", allStocks)) {
 				item.classList.remove("tt-hidden");
 			}
 			return;
 		}
 
-		for (const item of allStocks.findAll(".stock-wrap")) {
+		for (const item of findAllElements(".stock-wrap", allStocks)) {
 			if (keyword === "*" || item.dataset.name.includes(keyword)) {
 				item.classList.remove("tt-hidden");
 			} else {
@@ -1076,15 +1076,15 @@ async function setupStocksOverview() {
 	stocksOverview.find("#stock-search-bar").addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
-		for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+		for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
 			item.classList.add("tt-hidden");
 		}
-		for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
+		for (const item of findAllElements(".stock-wrap[data-user='true']", allStocks)) {
 			item.classList.remove("tt-hidden");
 		}
 	});
 
-	for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+	for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
 		item.classList.add("tt-hidden");
 	}
 

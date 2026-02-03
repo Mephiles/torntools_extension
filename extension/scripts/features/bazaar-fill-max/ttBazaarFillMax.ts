@@ -36,10 +36,10 @@
 	async function removeFillMax() {
 		if (!mobile) {
 			document.removeEventListener("click", maxBuyListener);
-			document.findAll(".tt-max-buy").forEach((x) => x.remove());
+			findAllElements(".tt-max-buy").forEach((x) => x.remove());
 		} else {
 			await requireElement("[class*='buyForm___']");
-			document.findAll("[class*='buyForm___']").forEach((x) => {
+			findAllElements("[class*='buyForm___']").forEach((x) => {
 				x.classList.remove("tt-fill-max");
 				x.find(".tt-max-buy").remove();
 			});
@@ -53,7 +53,7 @@
 			requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.find("[class*='buyMenu__']")));
 		} else {
 			await requireElement(".ReactVirtualized__Grid__innerScrollContainer [class*='buyForm___']");
-			document.findAll(".ReactVirtualized__Grid__innerScrollContainer [class*='itemDescription__']:not(.tt-fill-max)").forEach((buyForm) => {
+			findAllElements(".ReactVirtualized__Grid__innerScrollContainer [class*='itemDescription__']:not(.tt-fill-max)").forEach((buyForm) => {
 				buyForm.classList.add("tt-fill-max");
 				addButtonAndListener(buyForm);
 			});

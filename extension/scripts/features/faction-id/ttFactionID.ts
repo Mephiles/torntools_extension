@@ -38,6 +38,6 @@
 	}
 
 	function removeID() {
-		document.findAll("#tt-faction-id").forEach((element) => element.remove());
+		findAllElements("#tt-faction-id").forEach((element) => element.remove());
 	}
 })();

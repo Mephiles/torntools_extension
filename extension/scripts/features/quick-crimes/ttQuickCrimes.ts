@@ -55,7 +55,7 @@
 
 						const enabled = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
 
-						for (const crime of content.findAll(".quick-item")) {
+						for (const crime of findAllElements(".quick-item", content)) {
 							const item = crime.find(".forced-item");
 							if (enabled) {
 								crime.classList.add("tt-overlay-item", "removable");
@@ -69,7 +69,7 @@
 						if (enabled) {
 							document.find(".tt-overlay").classList.remove("tt-hidden");
 
-							const draggableCrimes = document.findAll(".specials-cont-wrap form[name='crimes'] .item[draggable='true']");
+							const draggableCrimes = findAllElements(".specials-cont-wrap form[name='crimes'] .item[draggable='true']");
 							if (draggableCrimes.length) {
 								draggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']").classList.add("tt-overlay-item");
 
@@ -81,7 +81,7 @@
 						} else {
 							document.find(".tt-overlay").classList.add("tt-hidden");
 
-							const nonDraggableCrimes = document.findAll(".specials-cont-wrap form[name='crimes'] .item[draggable='false']");
+							const nonDraggableCrimes = findAllElements(".specials-cont-wrap form[name='crimes'] .item[draggable='false']");
 							nonDraggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']").classList.remove("tt-overlay-item");
 
 							for (const crime of nonDraggableCrimes) {
@@ -108,7 +108,7 @@
 			const step = getSearchParameters(action).get("step");
 			if (!["docrime2", "docrime4"].includes(step)) return;
 
-			for (const crime of form.findAll("ul.item")) {
+			for (const crime of findAllElements("ul.item", form)) {
 				if (crime.hasAttribute("draggable")) continue;
 
 				crime.setAttribute("draggable", "true");
@@ -250,7 +250,7 @@
 
 			await ttStorage.change({
 				quick: {
-					crimes: [...content.findAll(".quick-item")].map((crime) => ({
+					crimes: findAllElements(".quick-item", content).map((crime) => ({
 						step: crime.dataset.step,
 						nerve: parseInt(crime.dataset.nerve),
 						name: crime.dataset.name,

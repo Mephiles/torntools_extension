@@ -116,7 +116,7 @@
 		// Burglary targets are absolutely positioned on the page, using translateY style.
 		// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
-		for (const targetEl of document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
+		for (const targetEl of findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
 			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent;
 			if (targetName && !rowTargetName.includes(targetName)) {
 				hideRow(targetEl);
@@ -135,8 +135,8 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
-			document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
+			findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
+			findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
 			content
 		);
 
@@ -157,7 +157,7 @@
 
 		CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
-		document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").forEach((li) => {
+		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").forEach((li) => {
 			li.classList.remove("tt-filter-hidden");
 			li.style.transform = `translateY(${targetRowHeightsSum}px)`;
 			targetRowHeightsSum += li.style.height.getNumber();

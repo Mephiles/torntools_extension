@@ -35,7 +35,7 @@
 	async function addWarning(item: HTMLElement) {
 		if (!item) return;
 
-		item.findAll(".tt-energy-warning").forEach((x) => x.remove());
+		findAllElements(".tt-energy-warning", item).forEach((x) => x.remove());
 
 		const message: Element = await requireElement(".confirm-wrap, .use-act", { parent: item });
 		if (!message) return;
@@ -66,7 +66,7 @@
 	}
 
 	function removeWarning() {
-		document.findAll(".tt-energy-warning").forEach((x) => x.remove());
-		document.findAll("a.next-act").forEach((x) => x.removeEventListener("click", clickListener, { capture: true }));
+		findAllElements(".tt-energy-warning").forEach((x) => x.remove());
+		findAllElements("a.next-act").forEach((x) => x.removeEventListener("click", clickListener, { capture: true }));
 	}
 })();

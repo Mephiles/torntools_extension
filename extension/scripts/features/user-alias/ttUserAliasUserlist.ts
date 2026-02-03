@@ -42,7 +42,7 @@
 
 		const currentSelector = SELECTORS[getPage() as keyof typeof SELECTORS];
 		await requireElement(currentSelector.items);
-		const list = document.findAll<HTMLAnchorElement>(currentSelector.items);
+		const list = findAllElements<HTMLAnchorElement>(currentSelector.items);
 		list.forEach((li) => {
 			const liID = li.href.split("?XID=")[1].getNumber();
 			if (!settings.userAlias[liID]) return;
@@ -53,6 +53,6 @@
 	}
 
 	function removeAlias() {
-		document.findAll(".tt-user-alias-list").forEach((x) => x.remove());
+		findAllElements(".tt-user-alias-list").forEach((x) => x.remove());
 	}
 })();

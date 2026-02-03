@@ -40,15 +40,15 @@
 				displayAvailable(-1).then(() => {});
 				return;
 			}
-			const members = list.findAll(".item").length;
+			const members = findAllElements(".item", list).length;
 
 			displayAvailable(members).then(() => {});
 		}
 
-		async function displayAvailable(amount) {
+		async function displayAvailable(amount: number) {
 			const crimes = document.find("#faction-crimes");
 
-			let message;
+			let message: string;
 			if (amount === -1) {
 				message = "You don't have OC permissions.";
 			} else {
@@ -60,6 +60,6 @@
 	}
 
 	function removeAvailable() {
-		for (const available of document.findAll(".tt-available-players")) available.remove();
+		for (const available of findAllElements(".tt-available-players")) available.remove();
 	}
 })();

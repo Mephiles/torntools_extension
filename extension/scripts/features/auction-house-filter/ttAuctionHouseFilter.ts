@@ -213,15 +213,15 @@
 		await ttStorage.change({ filters: { auction: { [itemType]: filters } } });
 
 		// Actual Filtering
-		for (const row of document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]")) {
+		for (const row of findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]")) {
 			filterRow(row, filters);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Auction House Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
-			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
+			findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
+			findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
 			content
 		);
 	}
@@ -326,7 +326,7 @@
 		}
 		const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
 		if (toFilterBonus && toFilterBonus.length) {
-			const foundBonuses = [...row.findAll(".iconsbonuses .bonus-attachment-icons")]
+			const foundBonuses = findAllElements(".iconsbonuses .bonus-attachment-icons", row)
 				.map((icon) => icon.getAttribute("title"))
 				.map((title) => title.split("<br/>"))
 				.filter((values) => values.length >= 2)
@@ -360,7 +360,7 @@
 
 	function removeFilters() {
 		removeContainer("Auction House Filter");
-		document.findAll(".items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 
 	function getCategories(itemType: string) {

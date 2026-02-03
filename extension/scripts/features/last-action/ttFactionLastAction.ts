@@ -62,7 +62,7 @@
 		list.classList.add("tt-modified");
 		const nowDate = Date.now();
 		let maxHours = 0;
-		list.findAll(":scope > li.table-row").forEach((row) => {
+		findAllElements(":scope > li.table-row", list).forEach((row) => {
 			// Don't show this for fallen players.
 			if (row.find(".icons li[id*='icon77___']")) return;
 
@@ -112,7 +112,7 @@
 	function removeLastAction() {
 		const list = document.find(".members-list .table-body.tt-modified");
 		if (list) {
-			list.findAll(":scope > div.tt-last-action").forEach((x) => x.remove());
+			findAllElements(":scope > div.tt-last-action", list).forEach((x) => x.remove());
 			list.classList.remove("tt-modified");
 		}
 	}

@@ -184,7 +184,7 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".users-list > li")) {
+		for (const li of findAllElements(".users-list > li")) {
 			// Activity
 			if (activity.length && !activity.includes(li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())) {
 				hideRow(li);
@@ -269,8 +269,8 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".users-list > li:not(.tt-hidden)").length,
-			document.findAll(".users-list > li").length,
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
 			content
 		);
 
@@ -293,7 +293,7 @@
 			},
 		});
 
-		document.findAll(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
+		findAllElements(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
 		if (quickBust || quickBail) {
 			if (document.find(".users-list > li:not(.tt-hidden)")) {
 				if (!document.find(".users-list-title .tt-quick-refresh")) {
@@ -310,7 +310,7 @@
 			}
 		}
 
-		document.findAll(".users-list > li").forEach((li) => {
+		findAllElements(".users-list > li").forEach((li) => {
 			if (quickBust) addQAndHref(li.find(":scope > [href*='breakout']"));
 			else removeQAndHref(li.find(":scope > [href*='breakout']"));
 			if (quickBail) addQAndHref(li.find(":scope > [href*='buy']"));
@@ -341,9 +341,9 @@
 	}
 
 	function getFactions() {
-		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const rows = findAllElements(".users-list > li .user.faction");
 		const _factions = new Set(
-			document.findAll(".users-list > li .user.faction img").length
+			findAllElements(".users-list > li .user.faction img").length
 				? rows
 						.map((row) => row.find("img"))
 						.filter((img) => !!img)
@@ -361,6 +361,6 @@
 
 	function removeFilters() {
 		removeContainer("Jail Filter");
-		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

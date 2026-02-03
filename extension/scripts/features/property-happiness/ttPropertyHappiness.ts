@@ -23,7 +23,7 @@
 	async function addPropertyHappiness() {
 		await requireElement("#properties-page-wrap .properties-list .title");
 
-		for (const property of document.findAll(".properties-list > li:not(.clear)")) {
+		for (const property of findAllElements(".properties-list > li:not(.clear)")) {
 			if (property.classList.contains("tt-modified")) return;
 
 			const propertyID = parseInt(property.find(".image-place").dataset.id);
@@ -40,7 +40,7 @@
 	}
 
 	function removeValues() {
-		document.findAll(".tt-property-happiness").forEach((x) => x.remove());
-		document.findAll(".properties-list > li.tt-modified").forEach((x) => x.classList.remove("tt-modified"));
+		findAllElements(".tt-property-happiness").forEach((x) => x.remove());
+		findAllElements(".properties-list > li.tt-modified").forEach((x) => x.classList.remove("tt-modified"));
 	}
 })();

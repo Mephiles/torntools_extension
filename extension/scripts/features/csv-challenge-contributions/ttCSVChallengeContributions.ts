@@ -50,8 +50,8 @@
 			csv.append(upgradeName);
 			csv.append("Number", "Name", "Profile Link", "Ex Member", "Contributions");
 
-			for (const row of contributionsWrap.findAll(".flexslides li:not(.slide)")) {
-				const link = row.find(".player a");
+			for (const row of findAllElements(".flexslides li:not(.slide)", contributionsWrap)) {
+				const link = row.find<HTMLAnchorElement>(".player a");
 				const name = link.getAttribute("aria-label");
 
 				csv.append(

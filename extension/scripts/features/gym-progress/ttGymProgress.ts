@@ -51,7 +51,7 @@
 	}
 
 	function removeDiv() {
-		document.findAll(".tt-gym-energy-progress").forEach((x) => {
+		findAllElements(".tt-gym-energy-progress").forEach((x) => {
 			x.closest("[class*='notification__']").classList.remove("tt-modified");
 			x.remove();
 		});

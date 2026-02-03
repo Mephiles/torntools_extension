@@ -17,7 +17,7 @@
 	async function addAcronyms() {
 		await requireElement("[class*='stockMarket__'] ul[class*='stock__'] [class*='nameContainer__']");
 
-		for (const stockName of document.findAll("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
+		for (const stockName of findAllElements("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
 			const container = stockName.find("[class*='nameContainer__']");
 
 			const id = stockName.closest("[class*='stock___']").id;
@@ -31,6 +31,6 @@
 	}
 
 	function removeAcronyms() {
-		document.findAll(".tt-acronym").forEach((x) => x.remove());
+		findAllElements(".tt-acronym").forEach((x) => x.remove());
 	}
 })();

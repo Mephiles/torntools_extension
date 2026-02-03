@@ -92,7 +92,7 @@ const pendingActions: { [key: string]: ActionItem } = {};
 	});
 
 	requireItemsLoaded().then(() => {
-		for (const icon of document.findAll("#categoriesList > li:not(.no-items):not(.m-show):not(.hide)")) {
+		for (const icon of findAllElements("#categoriesList > li:not(.no-items):not(.m-show):not(.hide)")) {
 			icon.addEventListener("click", async () => {
 				await requireItemsLoaded();
 

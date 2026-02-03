@@ -124,6 +124,6 @@
 	}
 
 	function removeSteadfast() {
-		for (const steadfast of document.findAll(".tt-gym-steadfast")) steadfast.remove();
+		for (const steadfast of findAllElements(".tt-gym-steadfast")) steadfast.remove();
 	}
 })();

@@ -46,7 +46,7 @@
 		const points = block.find("span[class*='value___']").textContent.getNumber();
 
 		block.addEventListener("mouseover", () => {
-			for (const elements of block.findAll(":scope > span"))
+			for (const elements of findAllElements(":scope > span", block))
 				elements.setAttribute(
 					"title",
 					`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
@@ -64,7 +64,7 @@
 		if (!block) return;
 
 		block.classList.remove("tt-points-value");
-		for (const elements of block.findAll(":scope > span")) elements.removeAttribute("title");
+		for (const elements of findAllElements(":scope > span", block)) elements.removeAttribute("title");
 	}
 
 	return true;

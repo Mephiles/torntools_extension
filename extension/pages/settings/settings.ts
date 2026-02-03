@@ -8,7 +8,7 @@ const initiatedPages = {};
 
 	document.body.classList.add(getPageTheme());
 
-	for (const navigation of document.findAll("header nav.on-page > ul > li")) {
+	for (const navigation of findAllElements("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -24,10 +24,10 @@ async function showPage(name: string) {
 	if (name !== "preferences") params.delete("section");
 	window.history.replaceState("", "Title", `?${params.toString()}`);
 
-	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
+	for (const active of findAllElements("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (const active of document.findAll("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
+	for (const active of findAllElements("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
 	document.find(`#${name}`).classList.remove("tt-hidden");
 
 	const setup = {
@@ -196,18 +196,17 @@ async function setupChangelog() {
 function cleanupPreferences() {
 	const preferences = document.find("#preferences");
 
-	preferences
-		.findAll(
-			[
-				".hide-items > *",
-				"#customLink > li:not(.input)",
-				"#allyFactions > li:not(.input)",
-				"#userAlias > li:not(.input)",
-				"#chatHighlight > li:not(.input)",
-				"#chatTitleHighlight> li:not(.input)",
-			].join(", ")
-		)
-		.forEach((element) => element.remove());
+	findAllElements(
+		[
+			".hide-items > *",
+			"#customLink > li:not(.input)",
+			"#allyFactions > li:not(.input)",
+			"#userAlias > li:not(.input)",
+			"#chatHighlight > li:not(.input)",
+			"#chatTitleHighlight> li:not(.input)",
+		].join(", "),
+		preferences
+	).forEach((element) => element.remove());
 }
 
 interface CustomLink {
@@ -273,7 +272,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	if (getSearchParameters().has("section"))
 		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
 
-	for (const link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
+	for (const link of findAllElements(":scope > section > nav ul > li[name]", _preferences)) {
 		link.addEventListener("click", () => switchSection(link));
 	}
 
@@ -966,7 +965,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
 		_preferences.find("#userAlias li:last-child").insertAdjacentElement("beforebegin", newRow);
-		_preferences.findAll<HTMLInputElement>("#userAlias li:last-child input").forEach((x) => (x.value = ""));
+		findAllElements<HTMLInputElement>("#userAlias li:last-child input", _preferences).forEach((x) => (x.value = ""));
 	}
 
 	function getCustomLinkOptions() {
@@ -1058,7 +1057,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			}
 		}
 
-		settings.customLinks = [..._preferences.findAll("#customLinks > li:not(.input)")].map((link) => {
+		settings.customLinks = findAllElements("#customLinks > li:not(.input)", _preferences).map((link) => {
 			return {
 				newTab: link.find<HTMLInputElement>(".newTab").checked,
 				preset: link.find<HTMLInputElement>(".preset").value,
@@ -1067,19 +1066,19 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				href: link.find<HTMLInputElement>(".href").value,
 			};
 		});
-		settings.pages.chat.highlights = [..._preferences.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
+		settings.pages.chat.highlights = findAllElements("#chatHighlight > li:not(.input)", _preferences).map((highlight) => {
 			return {
 				name: highlight.find<HTMLInputElement>(".name").value,
 				color: highlight.find<HTMLInputElement>(".color").value,
 			};
 		});
-		settings.pages.chat.titleHighlights = [..._preferences.findAll("#chatTitleHighlight > li:not(.input)")].map((highlight) => {
+		settings.pages.chat.titleHighlights = findAllElements("#chatTitleHighlight > li:not(.input)", _preferences).map((highlight) => {
 			return {
 				title: highlight.find<HTMLInputElement>(".title").value,
 				color: highlight.find<HTMLInputElement>(".color").value,
 			};
 		});
-		settings.alliedFactions = [..._preferences.findAll<HTMLInputElement>("#allyFactions input")]
+		settings.alliedFactions = findAllElements<HTMLInputElement>("#allyFactions input")
 			.map((input) => {
 				if (isNaN(parseInt(input.value))) return input.value.trim();
 				else return parseInt(input.value.trim());
@@ -1089,7 +1088,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				else return x;
 			});
 		settings.userAlias = {};
-		for (const aliasRow of _preferences.findAll<HTMLInputElement>("#userAlias > li")) {
+		for (const aliasRow of findAllElements<HTMLInputElement>("#userAlias > li", _preferences)) {
 			if (aliasRow.find<HTMLInputElement>(".userID").value) {
 				settings.userAlias[aliasRow.find<HTMLInputElement>(".userID").value] = {
 					name: aliasRow.find<HTMLInputElement>(".name").value,
@@ -1098,10 +1097,10 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			}
 		}
 
-		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
-		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
-		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
-		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed")]
+		settings.hideIcons = findAllElements("#hide-icons .icon.disabled > div", _preferences).map((icon) => icon.getAttribute("class"));
+		settings.hideCasinoGames = findAllElements("#hide-casino-games span.disabled", _preferences).map((game) => game.getAttribute("name"));
+		settings.hideStocks = findAllElements("#hide-stocks span.disabled", _preferences).map((stock) => stock.getAttribute("id"));
+		settings.employeeInactivityWarning = findAllElements("#employeeInactivityWarning > .tabbed", _preferences)
 			.map((warning) => {
 				const days = warning.find<HTMLInputElement>("input[type='number']").value;
 
@@ -1111,7 +1110,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
-		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed")]
+		settings.factionInactivityWarning = findAllElements("#factionInactivityWarning > .tabbed", _preferences)
 			.map((warning) => {
 				const days = warning.find<HTMLInputElement>("input[type='number']").value;
 
@@ -1121,7 +1120,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
-		settings.pages.attack.hideAttackButtons = [..._preferences.findAll("#hide-attack-options span.disabled")].map((x) => x.getAttribute("value"));
+		settings.pages.attack.hideAttackButtons = findAllElements("#hide-attack-options span.disabled", _preferences).map((x) => x.getAttribute("value"));
 
 		settings.apiUsage.comment = _preferences.find<HTMLInputElement>("#api_usage-comment").value;
 		settings.apiUsage.delayEssential = parseInt(_preferences.find<HTMLInputElement>("#api_usage-essential").value);
@@ -1151,7 +1150,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			}
 			settings.notifications.types[notificationType] = newValue;
 		}
-		settings.notifications.types.npcs = [..._preferences.findAll("#npc-alerts > li")]
+		settings.notifications.types.npcs = findAllElements("#npc-alerts > li", _preferences)
 			.map((row) => {
 				const level = row.find<HTMLInputElement>(".level").value;
 				const minutes = row.find<HTMLInputElement>(".minutes").value;
@@ -1230,7 +1229,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		async function search() {
 			const searchFor = searchOverlayInput.value.toLowerCase().trim();
 			if (!searchFor) return;
-			document.findAll(".searched").forEach((option) => option.classList.remove("searched"));
+			findAllElements(".searched").forEach((option) => option.classList.remove("searched"));
 			let searchResults = document.evaluate(
 				`//main[@id='preferences']
 					//section
@@ -1298,7 +1297,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 					document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
 					optionFound.parentElement.classList.add("searched");
 				} else if (nameAttr) {
-					for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
+					for (const x of findAllElements(`#preferences [name="${nameAttr}"] .header`)) {
 						if (x.textContent.trim() === (event.target as Element).textContent.trim()) {
 							x.classList.add("searched");
 							document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
@@ -1373,8 +1372,10 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function revertSettings() {
-		_preferences.findAll("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled").forEach((x) => x.classList.remove("disabled"));
-		_preferences.findAll("button.remove-icon-wrap").forEach((x) => x.closest("li").remove());
+		findAllElements("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled", _preferences).forEach((x) =>
+			x.classList.remove("disabled")
+		);
+		findAllElements("button.remove-icon-wrap", _preferences).forEach((x) => x.closest("li").remove());
 		fillSettings();
 	}
 
@@ -1455,13 +1456,13 @@ async function setupAPIInfo() {
 		perHourUsage[location].count = perHourUsage[location].hours.size;
 		delete perHourUsage[location].hours;
 	}
-	document.findAll(".current-usage .averages > div.per-minute").forEach((usageDiv, index) => {
+	findAllElements(".current-usage .averages > div.per-minute").forEach((usageDiv, index) => {
 		const key = apiUsageLocations[index];
 		usageDiv.textContent = `Average calls per minute: ${
 			perMinuteUsage[key].count ? (perMinuteUsage[key].usage / perMinuteUsage[key].count).dropDecimals() : 0
 		}`;
 	});
-	document.findAll(".current-usage .averages > div.per-hour").forEach((usageDiv, index) => {
+	findAllElements(".current-usage .averages > div.per-hour").forEach((usageDiv, index) => {
 		const key = apiUsageLocations[index];
 		usageDiv.innerText = `Average calls per hour: ${perHourUsage[key].count ? (perMinuteUsage[key].usage / perHourUsage[key].count).dropDecimals() : 0}`;
 	});

@@ -189,8 +189,8 @@
 	function removeSpies(onlyRWSpies = false) {
 		if (!onlyRWSpies) {
 			document.find(".tt-modified-faction-spy")?.classList.remove("tt-modified-faction-spy");
-			document.findAll(".tt-faction-spy").forEach((x) => x.remove());
+			findAllElements(".tt-faction-spy").forEach((x) => x.remove());
 		}
-		document.findAll(".tt-faction-rw-spy").forEach((x) => x.remove());
+		findAllElements(".tt-faction-rw-spy").forEach((x) => x.remove());
 	}
 })();

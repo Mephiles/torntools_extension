@@ -26,7 +26,7 @@
 	async function readSettings() {
 		await requireChatsLoaded();
 
-		for (const chat of document.findAll(
+		for (const chat of findAllElements(
 			"[class*='group-chat-box__chat-box-wrapper__'] [class*='chat-box__'], #chatRoot [class*='item___'][style*='z-index']"
 		)) {
 			addAutocomplete(chat);
@@ -34,7 +34,10 @@
 	}
 
 	function addAutocomplete(chat: HTMLElement) {
-		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='scrollContainer___'] [class*='box___']");
+		const messages = findAllElements(
+			"[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='scrollContainer___'] [class*='box___']",
+			chat
+		);
 		if (!messages.length) return;
 
 		const textarea = chat.find<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
@@ -55,7 +58,7 @@
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = [...chat.findAll("[class*='chat-box-message__sender__'], [class*='sender___']")]
+			const matchedUsernames = findAllElements("[class*='chat-box-message__sender__'], [class*='sender___']", chat)
 				.map((message) => message.textContent.split(":")[0])
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
 				.sort();

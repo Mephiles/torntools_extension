@@ -41,7 +41,7 @@
 		function getAllItems() {
 			const items: CityItem[] = [];
 
-			for (const marker of document.findAll<HTMLImageElement>("#map .leaflet-marker-icon[src*='/images/items/']")) {
+			for (const marker of findAllElements<HTMLImageElement>("#map .leaflet-marker-icon[src*='/images/items/']")) {
 				const id = marker.src.split("items/")[1].split("/")[0];
 
 				marker.classList.add("city-item");
@@ -164,12 +164,12 @@
 						text,
 						events: {
 							mouseenter() {
-								for (const item of document.findAll(`.city-item[data-id="${id}"]`)) {
+								for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
 									item.classList.add("force-hover");
 								}
 							},
 							mouseleave() {
-								for (const item of document.findAll(`.city-item[data-id="${id}"].force-hover`)) {
+								for (const item of findAllElements(`.city-item[data-id="${id}"].force-hover`)) {
 									item.classList.remove("force-hover");
 								}
 							},
@@ -193,7 +193,7 @@
 						events: {
 							input: (e) => {
 								const query = (e.target as HTMLInputElement).value.toLowerCase();
-								for (const item of document.findAll(`.city-item.force-hover`)) {
+								for (const item of findAllElements(`.city-item.force-hover`)) {
 									item.classList.remove("force-hover");
 								}
 								if (content.previousElementSibling.find(".tt-checkbox-wrapper input:checked"))
@@ -203,7 +203,7 @@
 
 								const matchedItemIds = items.filter((item) => item.name.toLowerCase().includes(query)).map((item) => item.id);
 								for (const id of matchedItemIds)
-									for (const item of document.findAll(`.city-item[data-id="${id}"]`)) {
+									for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
 										item.classList.add("force-hover");
 									}
 								document.find("#map").classList.remove("highlight-items");
@@ -220,7 +220,7 @@
 	function removeHighlight() {
 		removeContainer("City Items");
 
-		for (const item of document.findAll(".city-item")) {
+		for (const item of findAllElements(".city-item")) {
 			item.classList.remove("city-item");
 
 			delete item.dataset.id;

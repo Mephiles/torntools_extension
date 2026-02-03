@@ -32,8 +32,8 @@
 
 		const REGEX = /(Races won:) (\d)*|(Races entered:) (\d)*/;
 
-		document.findAll(".enlist-info").forEach((stat) => {
-			const values = [...stat.findAll(".enlisted-stat > li")]
+		findAllElements(".enlist-info").forEach((stat) => {
+			const values = findAllElements(".enlisted-stat > li", stat)
 				.map((item) => item.textContent.replace(/[^\w :]/g, "").trim())
 				.filter((text) => REGEX.test(text))
 				.map((text) => text.getNumber());
@@ -47,6 +47,6 @@
 	}
 
 	function removePercentage() {
-		document.findAll(".tt-win-percentage").forEach((x) => x.remove());
+		findAllElements(".tt-win-percentage").forEach((x) => x.remove());
 	}
 })();

@@ -63,8 +63,8 @@
 				ttStorage.change({ factionStakeouts: { [factionId]: undefined } });
 
 				alertsWrap.classList.add("tt-hidden");
-				content.findAll<HTMLInputElement>("input[type='text'], input[type='number']").forEach((input) => (input.value = ""));
-				content.findAll<HTMLInputElement>("input[type='checkbox']").forEach((input) => (input.checked = false));
+				findAllElements<HTMLInputElement>("input[type='text'], input[type='number']", content).forEach((input) => (input.value = ""));
+				findAllElements<HTMLInputElement>("input[type='checkbox']", content).forEach((input) => (input.checked = false));
 			}
 		});
 		content.appendChild(checkbox.element);

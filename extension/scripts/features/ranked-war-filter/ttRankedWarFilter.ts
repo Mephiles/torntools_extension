@@ -165,15 +165,15 @@
 		});
 
 		// Actual Filtering
-		for (const li of membersWrap.findAll(".members-list > li")) {
+		for (const li of findAllElements(".members-list > li", membersWrap)) {
 			filterRow(li, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Ranked War Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			membersWrap.findAll(".members-list > li:not(.tt-hidden)").length,
-			membersWrap.findAll(".members-list > li").length,
+			findAllElements(".members-list > li:not(.tt-hidden)", membersWrap).length,
+			findAllElements(".members-list > li", membersWrap).length,
 			content
 		);
 	}
@@ -235,8 +235,8 @@
 				const content = findContainer("Ranked War Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
 					content
 				);
 			}
@@ -254,8 +254,8 @@
 				const content = findContainer("Ranked War Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
 					content
 				);
 			}
@@ -264,6 +264,6 @@
 
 	function removeFilters() {
 		removeContainer("Ranked War Filter");
-		document.findAll(".faction-war[class*='membersWrap__'] .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".faction-war[class*='membersWrap__'] .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

@@ -21,7 +21,7 @@
 	async function showProfits() {
 		await requireElement(".item-desc");
 
-		for (const item of document.findAll(".item-desc")) {
+		for (const item of findAllElements(".item-desc")) {
 			const priceElement = item.find(".price");
 			if (priceElement.classList.contains("tt-modified")) continue;
 			priceElement.classList.add("tt-modified");

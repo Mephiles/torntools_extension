@@ -30,7 +30,7 @@
 		let countHiddenThread = 0;
 		let firstHiddenThread: HTMLElement;
 
-		const threads = document.findAll(".threads-list > li");
+		const threads = findAllElements(".threads-list > li");
 		for (let i = 0; i < threads.length; i++) {
 			const thread = threads[i];
 
@@ -91,7 +91,7 @@
 
 		const threadId = getHashParameters().get("t").getNumber();
 
-		const posts = document.findAll(".thread-list > li");
+		const posts = findAllElements(".thread-list > li");
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 
@@ -181,7 +181,7 @@
 
 											let quotesContent = "";
 											let prefix = "> ";
-											for (const quote of post.findAll(".post-quote")) {
+											for (const quote of findAllElements(".post-quote", post)) {
 												const author = quote.find(":scope > .author-quote a").innerText;
 												const content = quote.find(":scope > .quote-post > .quote-post-content").innerText;
 

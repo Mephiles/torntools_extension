@@ -58,7 +58,7 @@
 
 			const content = findContainer("Travel Destinations", { selector: ":scope > main" });
 
-			content.findAll(".countries .flag.selected").forEach((flag) => flag.classList.remove("selected"));
+			findAllElements(".countries .flag.selected", content).forEach((flag) => flag.classList.remove("selected"));
 			content.find(`.countries .flag[country*="${country}"]`).classList.add("selected");
 			updateTable(content);
 		});
@@ -110,17 +110,17 @@
 
 			if (filters.travel.type === "basic") {
 				table.classList.add("basic");
-				for (const advanced of table.findAll(".advanced:not(.tt-hidden)")) {
+				for (const advanced of findAllElements(".advanced:not(.tt-hidden)", table)) {
 					advanced.classList.add("tt-hidden");
 				}
 			} else {
 				table.classList.add("advanced");
-				for (const basic of table.findAll(".basic:not(.tt-hidden)")) {
+				for (const basic of findAllElements(".basic:not(.tt-hidden)", table)) {
 					basic.classList.add("tt-hidden");
 				}
 			}
 
-			table.findAll(".row.header > div").forEach((item, index) => {
+			findAllElements(".row.header > div", table).forEach((item, index) => {
 				item.addEventListener("click", () => {
 					sortTable(table, index + 1);
 				});
@@ -254,10 +254,10 @@
 					table.classList.add("basic");
 					table.classList.remove("advanced");
 
-					for (const basic of table.findAll(".basic.tt-hidden")) {
+					for (const basic of findAllElements(".basic.tt-hidden", table)) {
 						basic.classList.remove("tt-hidden");
 					}
-					for (const advanced of table.findAll(".advanced:not(.tt-hidden)")) {
+					for (const advanced of findAllElements(".advanced:not(.tt-hidden)", table)) {
 						advanced.classList.add("tt-hidden");
 					}
 
@@ -270,10 +270,10 @@
 					table.classList.add("advanced");
 					table.classList.remove("basic");
 
-					for (const advanced of table.findAll(".advanced.tt-hidden")) {
+					for (const advanced of findAllElements(".advanced.tt-hidden", table)) {
 						advanced.classList.remove("tt-hidden");
 					}
-					for (const basic of table.findAll(".basic:not(.tt-hidden)")) {
+					for (const basic of findAllElements(".basic:not(.tt-hidden)", table)) {
 						basic.classList.add("tt-hidden");
 					}
 
@@ -281,14 +281,14 @@
 				});
 
 				content.find(".countries-select-all").addEventListener("click", () => {
-					for (const country of content.findAll(".countries .flag")) country.classList.add("selected");
+					for (const country of findAllElements(".countries .flag", content)) country.classList.add("selected");
 
 					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
 					updateTable(content);
 				});
 				content.find(".countries-select-none").addEventListener("click", () => {
-					for (const country of content.findAll(".countries .flag")) country.classList.remove("selected");
+					for (const country of findAllElements(".countries .flag", content)) country.classList.remove("selected");
 
 					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
@@ -326,14 +326,14 @@
 
 					setTimeout(updateValues);
 				});
-				for (const item of content.findAll(".categories input[name='item']")) {
+				for (const item of findAllElements(".categories input[name='item']", content)) {
 					item.addEventListener("change", () => {
 						ttStorage.change({ filters: { travel: { categories: getSelectedCategories(content) } } });
 
 						updateTable(content);
 					});
 				}
-				for (const item of content.findAll(".countries .flag")) {
+				for (const item of findAllElements(".countries .flag", content)) {
 					item.addEventListener("click", (event) => {
 						(event.target as Element).classList.toggle("selected");
 
@@ -521,11 +521,11 @@
 	}
 
 	function getSelectedCategories(content: Element) {
-		return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
+		return findAllElements(".categories input[name='item']:checked", content).map((el) => el.getAttribute("category"));
 	}
 
 	function getSelectedCountries(content: Element) {
-		return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
+		return findAllElements(".countries .flag.selected", content).map((el) => el.getAttribute("country"));
 	}
 
 	function updateTable(content: Element) {
@@ -536,7 +536,7 @@
 		const countries = getSelectedCountries(content);
 		const hideOutOfStock = content.find<HTMLInputElement>("#hide-out-of-stock").checked;
 
-		for (const row of table.findAll(".row:not(.header)")) {
+		for (const row of findAllElements(".row:not(.header)", table)) {
 			const { country, category, stock } = row.dataset;
 
 			if (
@@ -558,7 +558,7 @@
 		const applySalesTax = content.find<HTMLInputElement>("#apply-sales-tax").checked;
 		const sellAnonymously = content.find<HTMLInputElement>("#sell-anonymously").checked;
 
-		for (const row of table.findAll(".row:not(.header)")) {
+		for (const row of findAllElements(".row:not(.header)", table)) {
 			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
 			if (!cost) continue;
 

@@ -181,7 +181,7 @@
 	function show(parent: Element, details: DrugDetail) {
 		// Remove current info
 		parent.classList.add("tt-modified");
-		[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());
+		findAllElements(".item-effect", parent).forEach((effect) => effect.remove());
 
 		// Pros
 		if (details.pros) {

@@ -61,7 +61,7 @@ class StatsEstimate {
 		hasFilter: boolean = false,
 		placement?: (row: HTMLElement) => HTMLElement
 	) {
-		for (const row of document.findAll(selector)) {
+		for (const row of findAllElements(selector)) {
 			if ((row.classList.contains("tt-hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
 
 			const request = handler(row);

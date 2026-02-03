@@ -33,7 +33,7 @@
 			.map((x) => 1 + parseInt(x) / 100)
 			.reduce((totalMultiplier, perkMultiplier) => totalMultiplier * perkMultiplier, 1);
 
-		document.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
+		findAllElements("[data-category='Energy Drink']").forEach((eCanElement) => {
 			if (eCanElement.find(".tt-e-gains")) return;
 
 			const baseEnergy = parseInt(
@@ -54,6 +54,6 @@
 	}
 
 	function removeEnergyGains() {
-		document.findAll(".tt-e-gains").forEach((x) => x.remove());
+		findAllElements(".tt-e-gains").forEach((x) => x.remove());
 	}
 })();

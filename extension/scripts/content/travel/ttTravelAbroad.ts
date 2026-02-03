@@ -71,7 +71,7 @@ interface TravelAbroadShopLoadDetails {
 }
 
 function markTravelTableColumns() {
-	document.findAll("[class*='itemsHeader___'] > *:not([data-tt-content-type])").forEach((header) => {
+	findAllElements("[class*='itemsHeader___'] > *:not([data-tt-content-type])").forEach((header) => {
 		let contentType: string;
 		if (header.textContent === "Item") contentType = "item";
 		else if (header.textContent === "Name") contentType = "name";
@@ -85,7 +85,7 @@ function markTravelTableColumns() {
 		header.dataset.ttContentType = contentType;
 	});
 	requireElement("[class*='stockTableWrapper___'] [class*='row___']").then(() => {
-		document.findAll("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").forEach((row) => {
+		findAllElements("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").forEach((row) => {
 			let contentType: string;
 			if (row.className.includes("imageCell___")) contentType = "item";
 			else if (row.className.includes("itemName___")) contentType = "name";

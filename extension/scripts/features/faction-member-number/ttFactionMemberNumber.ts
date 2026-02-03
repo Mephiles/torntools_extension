@@ -40,7 +40,7 @@
 		list.classList.add("tt-modified");
 
 		let reduced = 0;
-		list.findAll(".table-body > .table-row").forEach((row, index) => {
+		findAllElements(".table-body > .table-row", list).forEach((row, index) => {
 			let text: string;
 			if (row.find(".icons li[id*='icon77___']")) {
 				text = "-";
@@ -54,7 +54,7 @@
 	}
 
 	function removeNumbers() {
-		document.findAll(".tt-member-index").forEach((element) => element.remove());
+		findAllElements(".tt-member-index").forEach((element) => element.remove());
 		document.find(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
 	}
 })();

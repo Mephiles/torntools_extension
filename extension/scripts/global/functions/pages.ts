@@ -20,14 +20,14 @@ function initializeInternalPage(partialOptions: Partial<InitializeInternalPageOp
 	// Add sorting functionality to tables.
 	if (options.sortTables) {
 		document.addEventListener("click", (event) => {
-			const clickedElement = event.target as HTMLElement;
-			if (clickedElement.tagName === "TH") {
+			const clickedElement = event.target;
+			if (isElementOfTag(clickedElement, "th")) {
 				if (clickedElement.getAttribute("class") && clickedElement.getAttribute("class").split(" ").includes("no-sorting")) return;
 
 				const table = findParent(clickedElement, { tag: "TABLE" });
 				if (!table || !table.classList.contains("sortable")) return;
 
-				sortTable(table, [...table.findAll<HTMLElement>("th")].indexOf(clickedElement) + 1);
+				sortTable(table, findAllElements("th", table).indexOf(clickedElement) + 1);
 			}
 		});
 	}
@@ -70,7 +70,7 @@ function loadConfirmationPopup(partialOptions: Partial<ConfirmationPopupOptions>
 			document.body.classList.remove("tt-unscrollable");
 
 			const data: { [key: string]: any } = {};
-			for (const input of message.findAll<HTMLInputElement | HTMLTextAreaElement>("textarea, input")) {
+			for (const input of findAllElements<HTMLInputElement | HTMLTextAreaElement>("textarea, input", message)) {
 				let type = "value";
 				if (input.tagName === "INPUT") {
 					if (input.type === "checkbox") type = "checked";

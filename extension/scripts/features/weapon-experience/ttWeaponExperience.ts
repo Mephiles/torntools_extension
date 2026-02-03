@@ -30,7 +30,7 @@
 	async function showExperience() {
 		const attacker = ((await requireElement("[class*='green___']")) as Element).parentElement;
 
-		for (const weapon of attacker.findAll("#weapon_main, #weapon_second, #weapon_melee, #weapon_temp")) {
+		for (const weapon of findAllElements("#weapon_main, #weapon_second, #weapon_melee, #weapon_temp", attacker)) {
 			if (weapon.className.includes("defender")) continue;
 
 			const name = weapon.find("figure > img[alt]")?.getAttribute("alt");
@@ -58,7 +58,7 @@
 	function removeExperience() {
 		while (observers.length) observers.pop().disconnect();
 
-		document.findAll(".tt-weapon").forEach((weapon) => weapon.classList.remove("tt-weapon"));
-		document.findAll(".tt-weapon-experience").forEach((experience) => experience.remove());
+		findAllElements(".tt-weapon").forEach((weapon) => weapon.classList.remove("tt-weapon"));
+		findAllElements(".tt-weapon-experience").forEach((experience) => experience.remove());
 	}
 })();

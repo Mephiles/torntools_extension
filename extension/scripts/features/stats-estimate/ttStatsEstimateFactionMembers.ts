@@ -80,7 +80,7 @@
 
 	function removeEstimates() {
 		statsEstimate.clearQueue();
-		document.findAll(".tt-stats-estimate").forEach((estimate) => estimate.remove());
-		document.findAll(".tt-estimated").forEach((row) => row.classList.remove("tt-estimated"));
+		findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
+		findAllElements(".tt-estimated").forEach((row) => row.classList.remove("tt-estimated"));
 	}
 })();

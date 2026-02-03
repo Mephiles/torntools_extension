@@ -55,7 +55,7 @@
 
 		const now = Date.now();
 		const list = document.find(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
-		for (const row of list.findAll(":scope > li")) {
+		for (const row of findAllElements(":scope > li", list)) {
 			const { id } = getUsername(row);
 			const days = ((now - employees[id].last_action.timestamp * 1000) / TO_MILLIS.DAYS).dropDecimals();
 
@@ -102,7 +102,7 @@
 	function removeLastAction() {
 		const list = document.find(".employee-list-wrap .employee-list.tt-modified, .employees-wrap .employees-list.tt-modified");
 		if (list) {
-			list.findAll(":scope > div.tt-last-action").forEach((x) => x.remove());
+			findAllElements(":scope > div.tt-last-action", list).forEach((x) => x.remove());
 			list.classList.remove("tt-modified");
 		}
 	}

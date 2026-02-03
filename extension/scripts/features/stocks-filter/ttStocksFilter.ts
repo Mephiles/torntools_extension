@@ -116,7 +116,7 @@
 		await ttStorage.change({ filters: { stocks: { name, investment: { owned, benefit, passive }, price: { price, profit } } } });
 
 		// Actual Filtering
-		for (const row of document.findAll("#stockmarketroot ul[class*='stock___']")) {
+		for (const row of findAllElements("#stockmarketroot ul[class*='stock___']")) {
 			const id = parseInt(row.getAttribute("id"));
 
 			// Name
@@ -202,8 +202,8 @@
 		}
 
 		localFilters.statistics.updateStatistics(
-			document.findAll("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
-			document.findAll("#stockmarketroot ul[class*='stock___']").length,
+			findAllElements("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
+			findAllElements("#stockmarketroot ul[class*='stock___']").length,
 			content
 		);
 	}
@@ -212,6 +212,6 @@
 		localFilters = undefined;
 
 		removeContainer("Stocks Filter");
-		document.findAll("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
+		findAllElements("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
 	}
 })();

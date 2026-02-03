@@ -53,7 +53,7 @@
 		if (!isValidEntry(list)) return;
 
 		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, { list });
-		[...list.findAll("[class*='itemList___'] > li")].forEach((itemElement) => {
+		findAllElements("[class*='itemList___'] > li", list).forEach((itemElement) => {
 			const priceElement = itemElement.find("[class*='priceAndTotal___'] span:first-child");
 			if (!priceElement) return;
 

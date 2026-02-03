@@ -111,6 +111,6 @@
 		observer = undefined;
 
 		statsEstimate.clearQueue();
-		document.findAll(".tt-stats-estimate").forEach((estimate) => estimate.remove());
+		findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
 	}
 })();

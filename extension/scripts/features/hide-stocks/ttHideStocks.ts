@@ -17,7 +17,7 @@
 	async function hideStocks() {
 		await requireElement("#stockmarketroot [class*='stock___'][id]");
 		unhideStocks();
-		document.findAll("#stockmarketroot [class*='stock___'][id]").forEach((stockNode) => {
+		findAllElements("#stockmarketroot [class*='stock___'][id]").forEach((stockNode) => {
 			if (settings.hideStocks.some((x) => x === stockNode.getAttribute("id"))) stockNode.classList.add("tt-hidden");
 		});
 		document
@@ -26,7 +26,7 @@
 	}
 
 	function unhideStocks() {
-		document.findAll("#stockmarketroot .tt-hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove("tt-hidden"));
+		findAllElements("#stockmarketroot .tt-hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove("tt-hidden"));
 		const ttMessage = document.find(".tt-stocks-hidden");
 		if (ttMessage) ttMessage.remove();
 	}
