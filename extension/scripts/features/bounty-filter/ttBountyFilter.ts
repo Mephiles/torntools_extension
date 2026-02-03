@@ -28,7 +28,7 @@
 			onlyHeader: true,
 			applyRounding: false,
 		});
-		const maxLevelInput = document.newElement({
+		const maxLevelInput = elementBuilder({
 			type: "input",
 			attributes: {
 				type: "number",
@@ -40,7 +40,7 @@
 		options.appendChild(cbHideUnavailable.element);
 		options.appendChild(maxLevelInput);
 		options.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "span",
 				text: "Max Level",
 			})

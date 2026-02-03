@@ -52,7 +52,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({ type: "div", class: "content" });
+		const filterContent = elementBuilder({ type: "div", class: "content" });
 		content.appendChild(filterContent);
 
 		const difficultyFilter = createFilterSection({

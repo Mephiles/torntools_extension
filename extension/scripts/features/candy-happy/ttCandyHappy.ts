@@ -48,7 +48,7 @@
 				totalHappy *= 2;
 			}
 
-			candy.find(".name-wrap").insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
+			candy.find(".name-wrap").insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
 		});
 	}
 

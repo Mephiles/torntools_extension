@@ -31,7 +31,7 @@
 
 			property.find(".title").insertAdjacentElement(
 				"beforeend",
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					class: "tt-property-value",
 					text: ` (${formatNumber(info.textContent.getNumber(), { currency: true })})`,

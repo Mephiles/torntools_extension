@@ -17,10 +17,10 @@
 
 		document.find(".content-wrapper .content-title").insertAdjacentElement(
 			"afterend",
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-creator",
-				children: [ttSvg(), document.newElement({ type: "span", text: title })],
+				children: [ttSvg(), elementBuilder({ type: "span", text: title })],
 			})
 		);
 	}

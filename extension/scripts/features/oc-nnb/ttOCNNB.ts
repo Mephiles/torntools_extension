@@ -144,11 +144,11 @@
 				const stat = row.find(".stat");
 				if (row.classList.contains("title")) {
 					stat.parentElement.insertBefore(
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							class: "tt-nnb",
 							text: "NNB",
-							children: [document.newElement({ type: "div", class: "t-delimiter" })],
+							children: [elementBuilder({ type: "div", class: "t-delimiter" })],
 						}),
 						stat
 					);
@@ -159,9 +159,9 @@
 				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 
-					stat.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb", text: `${verified ? "" : "*"}${nnb}` }));
+					stat.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb", text: `${verified ? "" : "*"}${nnb}` }));
 				} else {
-					stat.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb", text: "N/A" }));
+					stat.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb", text: "N/A" }));
 				}
 			}
 		}
@@ -173,11 +173,11 @@
 				const act = row.find(".act");
 				if (row.classList.contains("title")) {
 					act.parentElement.insertBefore(
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							class: "tt-nnb short",
 							text: "NNB",
-							children: [document.newElement({ type: "div", class: "t-delimiter" })],
+							children: [elementBuilder({ type: "div", class: "t-delimiter" })],
 						}),
 						act
 					);
@@ -188,9 +188,9 @@
 				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 
-					act.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb short", text: `${verified ? "" : "*"}${nnb}` }));
+					act.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb short", text: `${verified ? "" : "*"}${nnb}` }));
 				} else {
-					act.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb short", text: "N/A" }));
+					act.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb short", text: "N/A" }));
 				}
 			}
 		}

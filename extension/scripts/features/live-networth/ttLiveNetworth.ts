@@ -33,7 +33,7 @@
 		const networthRow = newRow("(Live) Networth", formatNumber(userdata.networth.total, { currency: true }));
 
 		// Networth last updated info icon
-		const infoIcon = document.newElement({
+		const infoIcon = elementBuilder({
 			type: "i",
 			class: "networth-info-icon",
 			attributes: {
@@ -54,13 +54,13 @@
 			infoIcon.setAttribute("seconds", seconds.toString());
 		}, 1000);
 
-		const table = document.newElement({
+		const table = elementBuilder({
 			type: "table",
 			class: "tt-networth-comparison",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "tr",
-					children: ["Type", "Value", "Change"].map((value) => document.newElement({ type: "th", text: value })),
+					children: ["Type", "Value", "Change"].map((value) => elementBuilder({ type: "th", text: value })),
 				}),
 			],
 		});
@@ -70,12 +70,12 @@
 		}
 
 		content.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "li",
 				class: "comparison",
 				children: [
 					table,
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-networth-footer",
 						text: `Networth change compared to Torn's last known Networth (updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })})`,
@@ -85,12 +85,12 @@
 		);
 
 		function newRow(name: string, value: string) {
-			return document.newElement({
+			return elementBuilder({
 				type: "li",
 				class: "networth-row",
 				children: [
-					document.newElement({ type: "div", class: "divider", children: [document.newElement({ type: "span", text: name })] }),
-					document.newElement({ type: "div", class: "desc", children: [document.newElement({ type: "span", text: value })] }),
+					elementBuilder({ type: "div", class: "divider", children: [elementBuilder({ type: "span", text: name })] }),
+					elementBuilder({ type: "div", class: "desc", children: [elementBuilder({ type: "span", text: value })] }),
 				],
 			});
 		}
@@ -145,12 +145,12 @@
 			const isPositive = current > previous;
 
 			table.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "tr",
 					children: [
-						document.newElement({ type: "td", text: type }),
-						document.newElement({ type: "td", text: `${formatNumber(current, { shorten: true, currency: true })}` }),
-						document.newElement({
+						elementBuilder({ type: "td", text: type }),
+						elementBuilder({ type: "td", text: `${formatNumber(current, { shorten: true, currency: true })}` }),
+						elementBuilder({
 							type: "td",
 							text: `${formatNumber(current - previous, { shorten: true, currency: true, forceOperation: true })}`,
 							class: isPositive ? "positive" : "negative",

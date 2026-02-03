@@ -29,7 +29,7 @@
 
 		// Next available OC timer
 		if (factiondata && "crimes" in factiondata) {
-			const factionOCElement = document.newElement({ type: "span", class: "countdown" });
+			const factionOCElement = elementBuilder({ type: "span", class: "countdown" });
 			const ocArray = Object.values(factiondata.crimes)
 				.filter((oc) => !oc.time_completed)
 				.sort((a, b) => a.time_left - b.time_left);
@@ -57,10 +57,10 @@
 			}
 
 			document.find(".tt-sidebar-information").appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "section",
 					id: "factionOCTimer",
-					children: [document.newElement({ type: "a", class: "title", text: "Faction OC: ", href: LINKS.organizedCrimes }), factionOCElement],
+					children: [elementBuilder({ type: "a", class: "title", text: "Faction OC: ", href: LINKS.organizedCrimes }), factionOCElement],
 					style: { order: "2" },
 				})
 			);

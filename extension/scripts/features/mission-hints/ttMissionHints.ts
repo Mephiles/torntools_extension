@@ -350,7 +350,7 @@
 				const mission = MISSION_HINTS[key];
 
 				task = mission.task;
-				hint = mission.hint ? document.newElement({ type: "span", html: mission.hint }) : null;
+				hint = mission.hint ? elementBuilder({ type: "span", html: mission.hint }) : null;
 			} else {
 				if (title.includes("{name}")) {
 					task = "You are using a conflicting script.";
@@ -362,17 +362,14 @@
 			}
 
 			let children = [
-				document.newElement({ type: "h6", class: "tt-mission-title", text: "TornTools Mission Information" }),
-				document.newElement({ type: "span", children: [document.newElement({ type: "b", text: "Task: " }), task] }),
+				elementBuilder({ type: "h6", class: "tt-mission-title", text: "TornTools Mission Information" }),
+				elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Task: " }), task] }),
 			];
 			if (hint) {
-				children.push(
-					document.newElement("br"),
-					document.newElement({ type: "span", children: [document.newElement({ type: "b", text: "Hint: " }), hint] })
-				);
+				children.push(elementBuilder("br"), elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Hint: " }), hint] }));
 			}
 
-			context.find(".max-height-fix").appendChild(document.newElement({ type: "div", class: "tt-mission-information", children }));
+			context.find(".max-height-fix").appendChild(elementBuilder({ type: "div", class: "tt-mission-information", children }));
 			context.classList.add("tt-modified");
 		}
 

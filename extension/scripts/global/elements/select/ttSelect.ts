@@ -9,7 +9,7 @@ function createSelect<TValue extends string = string>(options: SelectOption<TVal
 	let shownOptions = options;
 	let onChangeCallback: () => void | undefined;
 
-	const select = document.newElement({
+	const select = elementBuilder({
 		type: "select",
 		children: _createOptionsElements(shownOptions),
 	});
@@ -71,7 +71,7 @@ function createSelect<TValue extends string = string>(options: SelectOption<TVal
 
 	function _createOptionsElements(optionsLst: SelectOption[]) {
 		return optionsLst.map((option) =>
-			document.newElement({
+			elementBuilder({
 				type: "option",
 				attributes: {
 					value: option.value,
@@ -112,7 +112,7 @@ function createMultiSelect(options: MultiSelectOptions) {
 	let onChangeCallback: () => void;
 
 	// Container for checkboxes
-	const container = document.newElement({
+	const container = elementBuilder({
 		type: "div",
 		class: "tt-multi-select",
 	});
@@ -121,10 +121,10 @@ function createMultiSelect(options: MultiSelectOptions) {
 		container.innerHTML = "";
 
 		shownOptions.forEach((opt) => {
-			const wrapper = document.newElement({ type: "label" });
+			const wrapper = elementBuilder({ type: "label" });
 			if (opt.disabled) wrapper.setAttribute("disabled", "true");
 
-			const checkbox = document.newElement({
+			const checkbox = elementBuilder({
 				type: "input",
 				value: opt.value,
 				attributes: { type: "checkbox" },
@@ -142,7 +142,7 @@ function createMultiSelect(options: MultiSelectOptions) {
 			checkbox.checked = selectedValues.includes(opt.value);
 			checkbox.disabled = !!opt.disabled;
 
-			const text = document.newElement({ type: "span", text: opt.description });
+			const text = elementBuilder({ type: "span", text: opt.description });
 
 			wrapper.appendChild(checkbox);
 			wrapper.appendChild(text);

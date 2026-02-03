@@ -27,14 +27,14 @@
 		await loadGraph();
 
 		function addButton() {
-			const wrapper = document.newElement({ type: "div", class: "tornstats-update" });
+			const wrapper = elementBuilder({ type: "div", class: "tornstats-update" });
 
-			const button = document.newElement({ type: "button", text: "Update TornStats", class: "tt-btn tornstats-button" });
+			const button = elementBuilder({ type: "button", text: "Update TornStats", class: "tt-btn tornstats-button" });
 
 			button.addEventListener("click", async () => {
 				if (wrapper.find(".tornstats-response")) wrapper.find(".tornstats-response").remove();
 
-				const responseElement = document.newElement({ type: "div", class: "tornstats-response" });
+				const responseElement = elementBuilder({ type: "div", class: "tornstats-response" });
 				wrapper.appendChild(responseElement);
 
 				button.setAttribute("disabled", "");
@@ -100,7 +100,7 @@
 		}
 
 		async function loadGraph() {
-			const wrapper = document.newElement("div");
+			const wrapper = elementBuilder("div");
 			content.appendChild(wrapper);
 
 			showLoadingPlaceholder(wrapper, true);
@@ -149,7 +149,7 @@
 
 			const width = mobile ? "312" : "784";
 			const height = mobile ? "200" : "250";
-			const canvas = document.newElement({ type: "canvas", attributes: { width, height } });
+			const canvas = elementBuilder({ type: "canvas", attributes: { width, height } });
 			wrapper.appendChild(canvas);
 
 			const context = canvas.getContext("2d");
@@ -170,7 +170,7 @@
 			showLoadingPlaceholder(wrapper, false);
 
 			function showError(message: string) {
-				wrapper.appendChild(document.newElement({ type: "div", class: "tornstats-response error", text: message }));
+				wrapper.appendChild(elementBuilder({ type: "div", class: "tornstats-response error", text: message }));
 
 				showLoadingPlaceholder(wrapper, false);
 			}

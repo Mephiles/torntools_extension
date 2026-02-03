@@ -57,42 +57,42 @@
 		const duration = textToTime(durationText) * 2;
 		let cooldowns = container.parentElement.find(".tt-cooldowns");
 		if (!cooldowns) {
-			cooldowns = document.newElement({
+			cooldowns = elementBuilder({
 				type: "div",
 				class: "tt-cooldowns",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "travel-wrap",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: ["cooldown", "energy", getDurationClass(userdata.energy.fulltime)],
 								text: "Energy",
 							}),
-							document.newElement({ type: "div", class: ["cooldown", "nerve", getDurationClass(userdata.nerve.fulltime)], text: "Nerve" }),
-							document.newElement({ type: "div", class: ["cooldown", "drug", getDurationClass(userdata.cooldowns.drug)], text: "Drug" }),
-							document.newElement({
+							elementBuilder({ type: "div", class: ["cooldown", "nerve", getDurationClass(userdata.nerve.fulltime)], text: "Nerve" }),
+							elementBuilder({ type: "div", class: ["cooldown", "drug", getDurationClass(userdata.cooldowns.drug)], text: "Drug" }),
+							elementBuilder({
 								type: "div",
 								class: ["cooldown", "booster", getDurationClass(userdata.cooldowns.booster)],
 								text: "Booster",
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: ["cooldown", "medical", getDurationClass(userdata.cooldowns.medical)],
 								text: "Medical",
 							}),
 						],
 					}),
-					document.newElement({ type: "div", class: "patter-right" }),
-					document.newElement({ type: "div", class: "clear" }),
+					elementBuilder({ type: "div", class: "patter-right" }),
+					elementBuilder({ type: "div", class: "clear" }),
 				],
 			});
 
 			if (!hasFinishedEducation() || userdata.education_current > 0)
 				cooldowns.insertAdjacentElement(
 					"afterend",
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: ["cooldown", "education", getDurationClass(userdata.education_timeleft)],
 						text: "Your education course will end before you return!",
@@ -105,7 +105,7 @@
 					: "You have no bank investment going on.";
 			cooldowns.insertAdjacentElement(
 				"afterend",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank.until - userdata.date)],
 					text: investmentMessage,

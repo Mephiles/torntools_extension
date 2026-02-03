@@ -31,7 +31,7 @@
 		const statistics = createStatistics("items");
 		content.appendChild(statistics.element);
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});

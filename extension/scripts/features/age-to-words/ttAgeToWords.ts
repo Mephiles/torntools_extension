@@ -30,8 +30,8 @@
 			days > 0 ? `${days} day${applyPlural(days)}` : "",
 		];
 
-		ageDiv.find(".block-value").insertAdjacentElement("afterend", document.newElement({ type: "div", text: parts.join(" "), class: "tt-age-text" }));
-		ageDiv.find(".block-value").insertAdjacentElement("afterend", document.newElement("br"));
+		ageDiv.find(".block-value").insertAdjacentElement("afterend", elementBuilder({ type: "div", text: parts.join(" "), class: "tt-age-text" }));
+		ageDiv.find(".block-value").insertAdjacentElement("afterend", elementBuilder("br"));
 	}
 
 	function removeWords() {

@@ -64,14 +64,14 @@
 			allowDragging: true,
 			compact: true,
 		});
-		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
-		content.appendChild(document.newElement({ type: "div", class: "response-wrap" }));
+		content.appendChild(elementBuilder({ type: "div", class: "inner-content" }));
+		content.appendChild(elementBuilder({ type: "div", class: "response-wrap" }));
 		options.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "option",
 				id: "edit-items-button",
-				children: [document.newElement({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
+				children: [elementBuilder({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
 				events: {
 					click: (event) => {
 						event.stopPropagation();
@@ -136,7 +136,7 @@
 			data.equipPosition = equipPosition;
 		}
 
-		const itemWrap = document.newElement({
+		const itemWrap = elementBuilder({
 			type: "div",
 			class: temporary ? "temp item" : "item",
 			dataset: data,
@@ -154,7 +154,7 @@
 					// TODO: API Inventory Block.
 					/*if (equipItem) {
 						responseWrap.textContent = "";
-						responseWrap.appendChild(document.newElement({ type: "div", text: "Due to a change in Torn API's policies, we are no" }));
+						responseWrap.appendChild(elementBuilder({ type: "div", text: "Due to a change in Torn API's policies, we are no" }));
 						return;
 					}*/
 
@@ -175,11 +175,11 @@
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 						if (typeof result === "object") {
-							const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
+							const links = [elementBuilder({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
 							if (result.links) {
 								for (const link of result.links) {
 									links.push(
-										document.newElement({
+										elementBuilder({
 											type: "a",
 											class: `t-blue h m-left10 ${link.class}`,
 											href: link.url,
@@ -198,18 +198,18 @@
 							responseWrap.style.display = "block";
 							responseWrap.textContent = "";
 							responseWrap.appendChild(
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "action-wrap use-act use-action",
 									children: [
-										document.newElement({
+										elementBuilder({
 											type: "form",
 											dataset: { action: "useItem" },
 											attributes: { method: "post" },
 											children: [
-												document.newElement({ type: "p", html: result.text }),
-												document.newElement({ type: "p", children: links }),
-												document.newElement({ type: "div", class: "clear" }),
+												elementBuilder({ type: "p", html: result.text }),
+												elementBuilder({ type: "p", children: links }),
+												elementBuilder({ type: "div", class: "clear" }),
 											],
 										}),
 									],
@@ -299,30 +299,28 @@
 				draggable: true,
 			},
 		});
-		itemWrap.appendChild(
-			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
-		);
+		itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
 		if (hasAPIData()) {
 			itemWrap.setAttribute("title", torndata.items[id].name);
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
+			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: torndata.items[id].name }));
 
 			// TODO: API Inventory Block.
 			/*if (settings.apiUsage.user.inventory) {
 				const inventoryItem = findItemsInList(userdata.inventory, { ID: id }, { single: true });
 				const amount = inventoryItem ? inventoryItem.quantity : 0;
 
-				itemWrap.appendChild(document.newElement({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" }));
+				itemWrap.appendChild(elementBuilder({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" }));
 
 				if (inventoryItem.equipped) itemWrap.classList.add("equipped");
 			}*/
 		} else if (id in TORN_ITEMS) {
 			itemWrap.setAttribute("title", TORN_ITEMS[id].name);
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
+			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
 		} else {
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
+			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: id }));
 		}
 
-		const closeIcon = document.newElement({
+		const closeIcon = elementBuilder({
 			type: "i",
 			class: "fa-solid fa-xmark tt-close-icon",
 			attributes: { title: "Remove quick access." },

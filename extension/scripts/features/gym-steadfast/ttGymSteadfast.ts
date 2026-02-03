@@ -93,7 +93,7 @@
 			const box = properties.find(`[class*='${stat}___']`);
 			if (box.find(".tt-gym-steadfast")) continue;
 
-			const parent = document.newElement({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
+			const parent = elementBuilder({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
 			box.insertBefore(parent, box.firstElementChild);
 
 			for (const perk of perks) {
@@ -110,7 +110,7 @@
 						continue;
 				}
 
-				parent.appendChild(document.newElement({ type: "span", text: `${title}: ${perk.value}%` }));
+				parent.appendChild(elementBuilder({ type: "span", text: `${title}: ${perk.value}%` }));
 			}
 
 			if (perks.length > 1) {

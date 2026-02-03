@@ -41,14 +41,14 @@
 		});
 		showCrimesAgainOnFirefox(container.id);
 
-		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
+		content.appendChild(elementBuilder({ type: "div", class: "inner-content" }));
 
 		options.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "option",
 				id: "edit-items-button",
-				children: [document.newElement({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
+				children: [elementBuilder({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
 				events: {
 					click: (event) => {
 						event.stopPropagation();
@@ -165,7 +165,7 @@
 
 			if (innerContent.find(`.quick-item[data-id='${name}']`)) return null;
 
-			const closeIcon = document.newElement({
+			const closeIcon = elementBuilder({
 				type: "i",
 				class: "fa-solid fa-xmark tt-close-icon",
 				attributes: { title: "Remove quick access. " },
@@ -179,19 +179,19 @@
 				},
 			});
 
-			const itemWrap = document.newElement({
+			const itemWrap = elementBuilder({
 				type: "form",
 				class: `quick-item ${temporary ? "temp" : ""}`,
 				dataset: data,
 				children: [
-					document.newElement({ type: "input", attributes: { name: "nervetake", type: "hidden", value: nerve } }),
-					document.newElement({ type: "input", attributes: { name: "crime", type: "hidden", value: name } }),
-					document.newElement({
+					elementBuilder({ type: "input", attributes: { name: "nervetake", type: "hidden", value: nerve } }),
+					elementBuilder({ type: "input", attributes: { name: "crime", type: "hidden", value: name } }),
+					elementBuilder({
 						type: "ul",
 						class: "item forced-item",
 						children: [
-							document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(${icon})` } }),
-							document.newElement({ type: "div", class: "text", text: `${text} (-${nerve} nerve)` }),
+							elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(${icon})` } }),
+							elementBuilder({ type: "div", class: "text", text: `${text} (-${nerve} nerve)` }),
 						],
 					}),
 					closeIcon,

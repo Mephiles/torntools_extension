@@ -71,7 +71,7 @@
 			if (!member) return;
 			const hours = ((nowDate - member.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
-			const element = document.newElement({
+			const element = elementBuilder({
 				type: "div",
 				class: "tt-last-action",
 				text: `Last action: ${member.last_action.relative}`,

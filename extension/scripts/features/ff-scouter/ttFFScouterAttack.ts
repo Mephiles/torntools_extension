@@ -28,7 +28,7 @@
 		const scout = await SCOUTER_SERVICE.scoutSingle(id);
 		const { message, className, detailMessage } = buildScoutInformation(scout);
 
-		const element = document.newElement({
+		const element = elementBuilder({
 			type: "span",
 			class: ["tt-ff-scouter-attack", className],
 			text: detailMessage ? `${message}: ${detailMessage}` : message,

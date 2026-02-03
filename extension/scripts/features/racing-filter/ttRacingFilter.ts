@@ -53,7 +53,7 @@
 			compact: true,
 		});
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});

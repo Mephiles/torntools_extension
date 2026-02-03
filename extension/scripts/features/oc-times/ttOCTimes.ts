@@ -51,7 +51,7 @@
 
 				const date = formatDate(finish);
 				if (oldDate !== date) {
-					crime.insertAdjacentElement("beforebegin", document.newElement({ type: "div", class: "tt-oc-time-date", text: date }));
+					crime.insertAdjacentElement("beforebegin", elementBuilder({ type: "div", class: "tt-oc-time-date", text: date }));
 					oldDate = date;
 				}
 
@@ -60,7 +60,7 @@
 				text = "N/A";
 			}
 
-			crime.find(".status").appendChild(document.newElement({ type: "span", class: "tt-oc-time", text }));
+			crime.find(".status").appendChild(elementBuilder({ type: "span", class: "tt-oc-time", text }));
 		}
 	}
 

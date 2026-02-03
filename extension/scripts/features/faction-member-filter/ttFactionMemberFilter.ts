@@ -68,7 +68,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		filterContent = document.newElement({
+		filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});

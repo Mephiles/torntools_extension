@@ -46,7 +46,7 @@
 			.then((scouts) => {
 				list.classList.add("tt-modified-ff-scouter");
 
-				const header = document.newElement({
+				const header = elementBuilder({
 					type: "li",
 					class: ["table-cell", "lvl", "torn-divider", "divider-vertical", "tt-ff-scouter-faction-list-header"],
 					text: "FF",
@@ -75,7 +75,7 @@
 				row.dataset.ffScout = "N/A";
 				row.find(".table-cell.lvl").insertAdjacentElement(
 					"afterend",
-					document.newElement({
+					elementBuilder({
 						type: "li",
 						class: ["table-cell", "lvl", "tt-ff-scouter-faction-list-value"],
 						text: "N/A",
@@ -92,7 +92,7 @@
 
 			row.find(".table-cell.lvl").insertAdjacentElement(
 				"afterend",
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					class: ["table-cell", "lvl", "tt-ff-scouter-faction-list-value"],
 					text: ff.toFixed(2),

@@ -34,7 +34,7 @@
 		const details = await readCompanyDetails();
 		if (!details) throw new Error("Company ID could not be found.");
 
-		container.appendChild(document.newElement({ type: "span", text: ` [${details.id}]`, id: "tt-company-id" }));
+		container.appendChild(elementBuilder({ type: "span", text: ` [${details.id}]`, id: "tt-company-id" }));
 	}
 
 	function removeID() {

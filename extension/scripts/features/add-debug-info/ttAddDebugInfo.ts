@@ -21,7 +21,7 @@
 		if (!viewingTTForumThread()) return;
 		if (document.find("#tt-debug-info-btn")) return;
 
-		const addDebugInfoBtn = document.newElement({
+		const addDebugInfoBtn = elementBuilder({
 			type: "button",
 			text: "Add TornTools Debug Info",
 			id: "tt-debug-info-btn",

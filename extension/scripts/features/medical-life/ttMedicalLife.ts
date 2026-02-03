@@ -83,7 +83,7 @@
 		if (actionWrap.find(".tt-medical-life")) {
 			actionWrap.find(".tt-medical-life").textContent = text;
 		} else {
-			actionWrap.appendChild(document.newElement({ type: "strong", class: ["tt-medical-life", page], text }));
+			actionWrap.appendChild(elementBuilder({ type: "strong", class: ["tt-medical-life", page], text }));
 		}
 	}
 })();

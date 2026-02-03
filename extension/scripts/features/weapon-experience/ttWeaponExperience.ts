@@ -45,13 +45,13 @@
 
 				if (!target.classList.contains("tt-weapon")) weapon.classList.add("tt-weapon");
 				if (!target.find(".tt-weapon-experience"))
-					weapon.appendChild(document.newElement({ type: "div", class: "tt-weapon-experience", text: `XP: ${experience}%` }));
+					weapon.appendChild(elementBuilder({ type: "div", class: "tt-weapon-experience", text: `XP: ${experience}%` }));
 			});
 			observer.observe(weapon, { childList: true, attributes: true });
 			observers.push(observer);
 
 			weapon.classList.add("tt-weapon");
-			weapon.appendChild(document.newElement({ type: "div", class: "tt-weapon-experience", text: `XP: ${experience}%` }));
+			weapon.appendChild(elementBuilder({ type: "div", class: "tt-weapon-experience", text: `XP: ${experience}%` }));
 		}
 	}
 

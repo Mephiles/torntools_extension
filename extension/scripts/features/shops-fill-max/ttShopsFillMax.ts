@@ -20,14 +20,14 @@
 		document.findAll(".item-desc").forEach((item) => {
 			item.classList.add("tt-buy");
 
-			const fillMaxButton = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
+			const fillMaxButton = elementBuilder({ type: "span", text: "fill max", class: "tt-max-buy" });
 			fillMaxButton.addEventListener("click", fillMax);
 
 			const buyButton = item.find(".buy-act-wrap .buy-act button");
-			buyButton.appendChild(document.newElement("br"));
+			buyButton.appendChild(elementBuilder("br"));
 			buyButton.appendChild(fillMaxButton);
 
-			const fillMaxOverlay = document.newElement({ type: "div", class: "tt-max-buy-overlay" });
+			const fillMaxOverlay = elementBuilder({ type: "div", class: "tt-max-buy-overlay" });
 			fillMaxOverlay.addEventListener("click", fillMax);
 
 			item.find(".buy-act").appendChild(fillMaxOverlay);

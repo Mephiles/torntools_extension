@@ -63,15 +63,15 @@
 		const chatFooter = chat.find("[class*='chat-box-footer__'], [class*='content___'] > [class*='root___']:nth-child(2)");
 		if (!chatFooter) return;
 
-		const searchElement = document.newElement({
+		const searchElement = elementBuilder({
 			type: "div",
 			class: "tt-chat-filter",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "label",
 					text: "Search:",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							events: { input: (event) => onChatSearch(event, chat) },
 						}),
@@ -93,15 +93,15 @@
 
 		peopleMenu.find("[class*='chat-list-header__tabs__']")?.insertAdjacentElement(
 			"beforebegin",
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-chat-filter",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "label",
 						text: "Search:",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "input",
 								events: {
 									input: (event) => {

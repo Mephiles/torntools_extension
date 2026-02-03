@@ -11,7 +11,7 @@
 			const forceOperation = isRelative;
 
 			const options = { forceOperation };
-			node = document.newElement({
+			node = elementBuilder({
 				type: "span",
 				class: "relative-field",
 				text: formatNumber(actualValue, options),
@@ -36,7 +36,7 @@
 			const forceOperation = isRelative;
 
 			const options = { currency: true, forceOperation };
-			node = document.newElement({
+			node = elementBuilder({
 				type: "span",
 				class: "relative-field",
 				text: formatNumber(value, options),
@@ -478,7 +478,7 @@
 			buildStats().catch((error) => console.log("TT - Couldn't build the stats part of the profile box.", error));
 			buildSpy(false).catch((error) => console.log("TT - Couldn't build the spy part of the profile box.", error));
 		} else {
-			const button = document.newElement({
+			const button = elementBuilder({
 				type: "button",
 				class: "tt-btn",
 				text: "Fetch data from the API.",
@@ -513,7 +513,7 @@
 				},
 			});
 
-			const section = document.newElement({
+			const section = elementBuilder({
 				type: "div",
 				class: "manually-fetch",
 				children: [button],
@@ -547,7 +547,7 @@
 		async function buildStats() {
 			if (!settings.pages.profile.boxStats || !settings.apiUsage.user.personalstats || !settings.apiUsage.user.crimes) return;
 
-			const section = document.newElement({ type: "div", class: "section user-stats" });
+			const section = elementBuilder({ type: "div", class: "section user-stats" });
 			content.appendChild(section);
 
 			showLoadingPlaceholder(section, true);
@@ -583,10 +583,10 @@
 					onEnd: () => saveStats(),
 				});
 
-				const moveButton = document.newElement({
+				const moveButton = elementBuilder({
 					type: "button",
 					class: "move-stats",
-					children: [document.newElement({ type: "i", class: "fa-solid fa-up-down-left-right" })],
+					children: [elementBuilder({ type: "i", class: "fa-solid fa-up-down-left-right" })],
 					events: {
 						click() {
 							if (moveButton.classList.toggle("active")) {
@@ -606,7 +606,7 @@
 					},
 				});
 
-				const otherList = document.newElement({
+				const otherList = elementBuilder({
 					type: "button",
 					class: "tt-btn other-stats-button",
 					text: "View other stats.",
@@ -627,10 +627,10 @@
 					},
 				});
 
-				const editButton = document.newElement({
+				const editButton = elementBuilder({
 					type: "button",
 					class: "edit-stats",
-					children: [document.newElement({ type: "i", class: "fa-solid fa-gear" })],
+					children: [elementBuilder({ type: "i", class: "fa-solid fa-gear" })],
 					events: {
 						click() {
 							const overlay = document.find(".tt-overlay")!;
@@ -656,10 +656,10 @@
 					},
 				});
 
-				const actions = document.newElement({ type: "div", class: "stat-actions", children: [moveButton, otherList, editButton] });
+				const actions = elementBuilder({ type: "div", class: "stat-actions", children: [moveButton, otherList, editButton] });
 				section.appendChild(actions);
 			} else {
-				section.appendChild(document.newElement({ type: "div", class: "stats-error-message", text: "Failed to fetch data." }));
+				section.appendChild(elementBuilder({ type: "div", class: "stats-error-message", text: "Failed to fetch data." }));
 			}
 
 			showLoadingPlaceholder(section as HTMLElement, false);
@@ -798,7 +798,7 @@
 		async function buildSpy(ignoreCache: boolean) {
 			if (!settings.pages.profile.boxSpy || !settings.apiUsage.user.battlestats) return;
 
-			const section = document.newElement({ type: "div", class: "section spy-information" });
+			const section = elementBuilder({ type: "div", class: "section spy-information" });
 			content.appendChild(section);
 
 			showLoadingPlaceholder(section, true);
@@ -971,11 +971,11 @@
 					sourceText += `, ${spy.updated}`;
 				}
 
-				const footer = document.newElement({ type: "div", class: "spy-footer" });
+				const footer = elementBuilder({ type: "div", class: "spy-footer" });
 
-				if (sourceText) footer.appendChild(document.newElement({ type: "p", class: "spy-source", html: sourceText }));
+				if (sourceText) footer.appendChild(elementBuilder({ type: "p", class: "spy-source", html: sourceText }));
 				footer.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "i",
 						class: "fa-solid fa-arrow-rotate-right",
 						events: {
@@ -989,11 +989,11 @@
 
 				section.appendChild(footer);
 			} else {
-				const footer = document.newElement({ type: "div", class: "spy-footer" });
+				const footer = elementBuilder({ type: "div", class: "spy-footer" });
 
-				footer.appendChild(document.newElement({ type: "span", class: "no-spy", text: "There is no spy report." }));
+				footer.appendChild(elementBuilder({ type: "span", class: "no-spy", text: "There is no spy report." }));
 				footer.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "i",
 						class: "fa-solid fa-arrow-rotate-right",
 						events: {
@@ -1007,7 +1007,7 @@
 				section.appendChild(footer);
 				if (errors.length) {
 					section.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "p",
 							class: "no-spy-errors",
 							html: errors.map(({ service, message }) => `${service} - ${message}`).join("<br>"),
@@ -1116,7 +1116,7 @@
 				ttStorage.change({ stakeouts: { [id]: { alerts: { revivable: isRevivable.isChecked() } } } });
 			});
 
-			const alerts = document.newElement({
+			const alerts = elementBuilder({
 				type: "div",
 				class: "alerts",
 				children: [
@@ -1143,13 +1143,13 @@
 				alerts.classList.add("tt-hidden");
 			}
 
-			content.appendChild(document.newElement({ type: "div", class: "section stakeout", children: [checkbox.element, alerts] }));
+			content.appendChild(elementBuilder({ type: "div", class: "section stakeout", children: [checkbox.element, alerts] }));
 		}
 
 		async function buildAttackHistory() {
 			if (!settings.pages.profile.boxAttackHistory || !settings.pages.global.keepAttackHistory) return;
 
-			const section = document.newElement({ type: "div", class: "section attack-history" });
+			const section = elementBuilder({ type: "div", class: "section attack-history" });
 
 			if (id in attackHistory.history) {
 				const history = attackHistory.history[id]!;
@@ -1195,7 +1195,7 @@
 
 				section.appendChild(table.element);
 			} else {
-				section.appendChild(document.newElement({ type: "span", class: "no-history", text: "There is no attack history." }));
+				section.appendChild(elementBuilder({ type: "span", class: "no-history", text: "There is no attack history." }));
 			}
 
 			content.appendChild(section);

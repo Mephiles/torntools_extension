@@ -26,7 +26,7 @@
 			const oldCustomLinksContainer = document.find(".tt-custom-links-container");
 			if (oldCustomLinksContainer) oldCustomLinksContainer.remove();
 
-			const customLinksContainer = document.newElement({
+			const customLinksContainer = elementBuilder({
 				type: "div",
 				class: "tt-custom-links-container",
 			});
@@ -34,16 +34,16 @@
 			settings.customLinks.forEach((link) => {
 				customLinksContainer.insertAdjacentElement(
 					"beforeend",
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-slide",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "a",
 								href: link.href,
 								class: "tt-mobile-link",
 								attributes: { target: link.newTab ? "_blank" : "" },
-								children: [document.newElement({ type: "span", text: link.name })],
+								children: [elementBuilder({ type: "span", text: link.name })],
 							}),
 						],
 					})
@@ -51,7 +51,7 @@
 			});
 
 			document.find("#sidebar [class*='content_'] [class*='user-information-mobile_']").insertAdjacentElement("beforebegin", customLinksContainer);
-			document.find(".content-wrapper[role='main']").insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "dummy-div" }));
+			document.find(".content-wrapper[role='main']").insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "dummy-div" }));
 		}
 	}
 
@@ -72,7 +72,7 @@
 
 		for (const link of settings.customLinks.filter((link) => link.location === filter)) {
 			content.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "a",
 					class: "pill",
 					href: link.href,
@@ -98,7 +98,7 @@
 
 			if (locationSplit[0] === "under") target = target.nextSibling as HTMLElement;
 
-			const pill = document.newElement({
+			const pill = elementBuilder({
 				type: "a",
 				class: "pill custom-link",
 				href: link.href,

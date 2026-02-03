@@ -60,7 +60,7 @@
 		let timer = document.find(".tt-flying-time");
 		if (timer) timer.textContent = text;
 		else {
-			document.find("#travel-root").appendChild(document.newElement({ type: "span", class: "tt-flying-time", text }));
+			document.find("#travel-root").appendChild(elementBuilder({ type: "span", class: "tt-flying-time", text }));
 		}
 		function format(date: Date) {
 			if (date.getDate() === now.getDate()) return formatTime(date, { hideSeconds: true });

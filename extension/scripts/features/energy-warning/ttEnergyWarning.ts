@@ -45,7 +45,7 @@
 
 		const [current, max] = getUserEnergy();
 		if (current > max && received + current > 1000) {
-			const warning = document.newElement({
+			const warning = elementBuilder({
 				type: "div",
 				class: "tt-energy-warning",
 				text: "Warning! Using this item increases your energy to over 1000!",

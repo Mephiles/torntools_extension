@@ -46,14 +46,14 @@
 				const owned = found ? found.quantity : 0;
 
 				actionsWrap.insertBefore(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "tt-mission-reward-owned",
 								text: "Owned: ",
-								children: [document.newElement({ type: "span", text: formatNumber(owned) })],
+								children: [elementBuilder({ type: "span", text: formatNumber(owned) })],
 							}),
 						],
 					}),
@@ -69,29 +69,29 @@
 
 				reward
 					.find(".img-wrap")
-					.appendChild(document.newElement({ type: "span", class: "tt-mission-reward-individual", text: formatNumber(value, { currency: true }) }));
+					.appendChild(elementBuilder({ type: "span", class: "tt-mission-reward-individual", text: formatNumber(value, { currency: true }) }));
 
 				actionsWrap.insertBefore(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								text: "Total value: ",
 								class: "tt-mission-reward-total",
 								children: [
-									document.newElement({
+									elementBuilder({
 										type: "span",
 										text: formatNumber(totalValue, { shorten: totalValue > 10e6 ? 2 : true, currency: true }),
 									}),
 								],
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								text: "Point value: ",
 								class: "tt-mission-reward-points",
 								children: [
-									document.newElement({
+									elementBuilder({
 										type: "span",
 										text: formatNumber(totalValue / points, { currency: true }),
 									}),

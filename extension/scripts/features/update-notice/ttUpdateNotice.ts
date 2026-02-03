@@ -29,19 +29,19 @@
 
 		const parent = document.find("h2=Areas").parentElement.nextElementSibling;
 		parent.insertBefore(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-sidebar-area",
 				id: "ttUpdateNotice",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "a",
 								href: chrome.runtime.getURL("/pages/settings/settings.html") + "?page=changelog",
 								attributes: { target: "_blank" },
-								children: [document.newElement({ type: "span", text: `TornTools updated: ${currentVersion}` })],
+								children: [elementBuilder({ type: "span", text: `TornTools updated: ${currentVersion}` })],
 							}),
 						],
 					}),

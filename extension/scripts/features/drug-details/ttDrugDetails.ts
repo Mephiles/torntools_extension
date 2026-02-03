@@ -185,11 +185,11 @@
 
 		// Pros
 		if (details.pros) {
-			parent.appendChild(document.newElement({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
+			parent.appendChild(elementBuilder({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
 
 			for (const effect of details.pros) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect pro tabbed",
 						text: effect,
@@ -200,11 +200,11 @@
 
 		// Cons
 		if (details.cons) {
-			parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Cons:" }));
+			parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Cons:" }));
 
 			for (const effect of details.cons) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: effect,
@@ -216,7 +216,7 @@
 		// Cooldown
 		if (details.cooldown) {
 			parent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "item-effect con",
 					text: `Cooldown: ${details.cooldown}`,
@@ -226,12 +226,12 @@
 
 		// Overdose
 		if (details.overdose) {
-			parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Overdose:" }));
+			parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Overdose:" }));
 
 			// bars
 			if (details.overdose.bars) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: "Bars",
@@ -240,7 +240,7 @@
 
 				for (const effect of details.overdose.bars) {
 					parent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "item-effect con double-tabbed",
 							text: effect,
@@ -252,7 +252,7 @@
 			// stats
 			if (details.overdose.stats) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: `Stats: ${details.overdose.stats}`,
@@ -263,7 +263,7 @@
 			// hospital time
 			if (details.overdose.hosp_time) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: `Hospital: ${details.overdose.hosp_time}`,
@@ -274,7 +274,7 @@
 			// extra
 			if (details.overdose.extra) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: `Extra: ${details.overdose.extra}`,

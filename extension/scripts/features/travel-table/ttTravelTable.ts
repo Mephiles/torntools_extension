@@ -76,23 +76,23 @@
 
 			addLegend();
 
-			const table = document.newElement({
+			const table = elementBuilder({
 				type: "div",
 				id: "tt-travel-table",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "row header",
 						children: [
-							document.newElement({ type: "div", class: "country", text: "Country" }),
-							document.newElement({ type: "div", class: "item", text: "Item" }),
-							document.newElement({ type: "div", class: "stock", text: "Stock" }),
-							document.newElement({ type: "div", class: "buy-price advanced", text: "Buy Price" }),
-							document.newElement({ type: "div", class: "market-value advanced", text: "Market Value" }),
-							document.newElement({ type: "div", class: "profit-item advanced", text: "Profit / Item" }),
-							document.newElement({ type: "div", class: "profit-minute", text: "Profit / Minute" }),
-							document.newElement({ type: "div", class: "profit advanced", text: "Total Profit" }),
-							document.newElement({ type: "div", class: "money advanced", text: "Cash Needed" }),
+							elementBuilder({ type: "div", class: "country", text: "Country" }),
+							elementBuilder({ type: "div", class: "item", text: "Item" }),
+							elementBuilder({ type: "div", class: "stock", text: "Stock" }),
+							elementBuilder({ type: "div", class: "buy-price advanced", text: "Buy Price" }),
+							elementBuilder({ type: "div", class: "market-value advanced", text: "Market Value" }),
+							elementBuilder({ type: "div", class: "profit-item advanced", text: "Profit / Item" }),
+							elementBuilder({ type: "div", class: "profit-minute", text: "Profit / Minute" }),
+							elementBuilder({ type: "div", class: "profit advanced", text: "Total Profit" }),
+							elementBuilder({ type: "div", class: "money advanced", text: "Cash Needed" }),
 						],
 					}),
 				],
@@ -126,7 +126,7 @@
 				});
 			});
 
-			content.appendChild(document.newElement({ type: "div", class: "table-wrap", children: [table] }));
+			content.appendChild(elementBuilder({ type: "div", class: "table-wrap", children: [table] }));
 			updateTable(content);
 			sortTable(table, 7, "desc");
 
@@ -134,7 +134,7 @@
 				let isOpen = filters.travel.open;
 
 				content.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "legend",
 						html: `
@@ -406,7 +406,7 @@
 					profit = "N/A";
 				}
 
-				return document.newElement({
+				return elementBuilder({
 					type: "div",
 					class: "row",
 					html: `
@@ -469,15 +469,15 @@
 				const ttTopLinks = await createTTTopLinks();
 
 				ttTopLinks.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-travel-wrapper",
 						attributes: {
 							"aria-labelledby": "travel-table",
 						},
 						children: [
-							document.newElement({ type: "i", class: "tt-travel-icon fa-solid fa-plane" }),
-							mobile ? null : document.newElement({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
+							elementBuilder({ type: "i", class: "tt-travel-icon fa-solid fa-plane" }),
+							mobile ? null : elementBuilder({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
 						],
 						events: {
 							click: changeState,

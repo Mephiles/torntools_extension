@@ -63,7 +63,7 @@
 				})
 				.catch((error) => {
 					document.find(".info-msg-cont .msg").appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "tt-bazaar-text",
 							text: "TORN API returned error:" + error.toString(),
@@ -93,11 +93,11 @@
 
 				observerText(message, bazaar);
 				message.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-bazaar-text",
 						text: "This bazaar is worth ",
-						children: [document.newElement({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
+						children: [elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
 					})
 				);
 			}

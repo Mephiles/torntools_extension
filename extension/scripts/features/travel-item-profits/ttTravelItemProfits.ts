@@ -43,7 +43,7 @@
 		const market = document.find("#travel-root");
 		for (const headings of market.findAll("[class*='stockTableWrapper__'] [class*='itemsHeader__']")) {
 			if (!headings.find(".tt-travel-market-heading")) {
-				const profitHeading = document.newElement({
+				const profitHeading = elementBuilder({
 					type: "div",
 					text: "Profit",
 					class: `tt-travel-market-heading tt-title-${settings.themes.containers}`,
@@ -72,7 +72,7 @@
 
 				const profit = marketPrice - (buyPrice + salesTax + anonymousTax);
 
-				const span = document.newElement({
+				const span = elementBuilder({
 					type: "span",
 					class: "tt-travel-market-cell",
 					dataset: {
@@ -80,7 +80,7 @@
 						ttContentType: "profit",
 					},
 				});
-				const innerSpan = document.newElement({
+				const innerSpan = elementBuilder({
 					type: "span",
 					text: `${profit < 0 ? "-$" : "+$"}${formatNumber(Math.abs(profit))}`,
 				});

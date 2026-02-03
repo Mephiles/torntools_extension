@@ -1741,20 +1741,20 @@ function createMessageBox(content: string, partialOptions: Partial<MessageBoxOpt
 		...partialOptions,
 	};
 
-	return document.newElement({
+	return elementBuilder({
 		type: "div",
 		class: `tt-message-box ${options.class}`,
 		children: [
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-message-icon-wrap",
-				children: [document.newElement({ type: "div", class: "tt-message-icon", children: [ttSvg()] })],
+				children: [elementBuilder({ type: "div", class: "tt-message-icon", children: [ttSvg()] })],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-message-wrap",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-message",
 						[options.isHTML ? "html" : "text"]: content,
@@ -2097,7 +2097,7 @@ async function createTTTopLinks() {
 	}
 
 	ttTopLinksCreating = true;
-	ttTopLinks = document.newElement({ type: "div", class: "tt-top-icons" });
+	ttTopLinks = elementBuilder({ type: "div", class: "tt-top-icons" });
 	await requireElement("[class*='titleContainer___']").then((title) => {
 		title.appendChild(ttTopLinks);
 		ttTopLinksCreating = false;

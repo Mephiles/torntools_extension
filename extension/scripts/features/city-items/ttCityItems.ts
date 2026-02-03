@@ -93,19 +93,19 @@
 			const itemCount = items.map(({ count }) => count).totalSum();
 
 			content.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-city-total",
 					children: [
-						document.newElement({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
-						document.newElement({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
+						elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
+						elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
 					],
 				})
 			);
 		}
 
 		function showItemList() {
-			const listElement = document.newElement({ type: "div", class: "tt-city-items hide-collapse" });
+			const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
 
 			const type = "text";
 			switch (type) {
@@ -120,12 +120,12 @@
 				let element: HTMLElement;
 				if (items.length > 0) {
 					const totalCount = items.map(({ count }) => count).totalSum();
-					element = document.newElement({
+					element = elementBuilder({
 						type: "p",
 						children: [
 							"There",
 							totalCount === 1 ? " is " : " are ",
-							document.newElement({ type: "strong", text: totalCount }),
+							elementBuilder({ type: "strong", text: totalCount }),
 							totalCount === 1 ? " item " : " items ",
 							"in the city: ",
 						],
@@ -149,7 +149,7 @@
 
 					element.appendChild(document.createTextNode("."));
 				} else {
-					element = document.newElement({ type: "p", text: "There are no items in the city." });
+					element = elementBuilder({ type: "p", text: "There are no items in the city." });
 				}
 				listElement.appendChild(element);
 
@@ -159,7 +159,7 @@
 						text = `${count}x ${name}`;
 					} else text = name;
 
-					return document.newElement({
+					return elementBuilder({
 						type: "span",
 						text,
 						events: {
@@ -180,11 +180,11 @@
 		}
 
 		function handleSearchBox() {
-			const searchBox = document.newElement({
+			const searchBox = elementBuilder({
 				type: "label",
 				text: "Search:",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "input",
 						attributes: {
 							type: "text",

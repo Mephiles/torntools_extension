@@ -48,7 +48,7 @@
 		void filtering();
 
 		title.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-shop-filters tt-theme",
 				children: [shopFilters.element],

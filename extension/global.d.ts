@@ -6,30 +6,11 @@ declare global {
 		};
 	}
 
-	interface NewElementOptions {
-		type: keyof HTMLElementTagNameMap;
-		id?: string;
-		class?: string | string[];
-		text?: string | number;
-		html?: string;
-		value?: any | (() => any);
-		href?: string;
-		children?: (string | Node)[];
-		attributes?: Record<string, string | number | boolean> | (() => Record<string, string | number | boolean>);
-		events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
-		style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
-		dataset?: {
-			[name: string]: string | object | boolean | number;
-		};
-	}
-
 	interface FindOptions {
 		text: string;
 	}
 
 	interface Document {
-		newElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
-		newElement<K extends keyof HTMLElementTagNameMap>(options: Omit<NewElementOptions, "type"> & { type: K }): HTMLElementTagNameMap[K];
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 		findAll<T extends Element = HTMLElement>(selector: string): T[];
 		setClass(...classNames: string[]): void;

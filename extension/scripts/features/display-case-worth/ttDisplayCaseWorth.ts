@@ -36,12 +36,12 @@
 					}
 
 					document.find(".info-msg-cont .msg").appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "tt-display-worth",
 							text: "This display cabinet is worth ",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "span",
 									text: formatNumber(total, { currency: true }) + ".",
 								}),
@@ -51,7 +51,7 @@
 				})
 				.catch((error) => {
 					document.find(".info-msg-cont .msg").appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "tt-display-worth",
 							text: "TORN API returned error:" + error.toString(),

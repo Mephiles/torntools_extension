@@ -19,7 +19,7 @@
 
 		document.find("#skip-to-content").insertAdjacentElement(
 			"beforebegin",
-			document.newElement({
+			elementBuilder({
 				type: "ul",
 				class: "big tt-profile-icon",
 				children: [basicInfo.cloneNode(true)],

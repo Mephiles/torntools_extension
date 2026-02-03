@@ -46,7 +46,7 @@
 				[...tooltipElement.getElementsByClassName("tt-tooltip-end-times")].forEach((x) => x.remove());
 				const time = Date.now() + textToTime(timeElement.textContent);
 				tooltipTitleElement.parentElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-tooltip-end-times",
 						text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,

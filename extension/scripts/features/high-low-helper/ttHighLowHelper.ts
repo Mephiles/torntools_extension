@@ -95,7 +95,7 @@
 		} else {
 			const element = actions.find(".tt-high-low");
 			if (element) element.textContent = outcome;
-			else actions.appendChild(document.newElement({ type: "span", class: "tt-high-low", text: capitalizeText(outcome) }));
+			else actions.appendChild(elementBuilder({ type: "span", class: "tt-high-low", text: capitalizeText(outcome) }));
 		}
 	}
 

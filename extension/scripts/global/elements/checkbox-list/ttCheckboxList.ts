@@ -37,7 +37,7 @@ function createCheckboxList(partialOptions: Partial<CheckboxListOptions>) {
 		checkboxes[item.id] = checkbox;
 	}
 
-	const checkboxWrapper = document.newElement({
+	const checkboxWrapper = elementBuilder({
 		type: "div",
 		class: ["tt-checkbox-list-wrapper", options.orientation === "row" ? "tt-checkbox-list-row" : "tt-checkbox-list-column"].join(" "),
 		children: Object.values(checkboxes).map((checkbox) => checkbox.element),

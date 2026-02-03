@@ -39,7 +39,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -301,7 +301,7 @@
 				}
 			} else {
 				document.find(".users-list").appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-quick-refresh-wrap",
 						children: [...(quickBail ? [newRefreshButton("tt-bail")] : []), ...(quickBust ? [newRefreshButton("tt-bust")] : [])],
@@ -318,7 +318,7 @@
 		});
 
 		function newRefreshButton(customClass = "") {
-			return document.newElement({
+			return elementBuilder({
 				type: "i",
 				class: `fa-solid fa-arrow-rotate-right tt-quick-refresh ${customClass}`,
 				events: {
@@ -329,7 +329,7 @@
 
 		function addQAndHref(iconNode: HTMLAnchorElement) {
 			if (iconNode.find(":scope > .tt-quick-q")) return;
-			iconNode.appendChild(document.newElement({ type: "span", class: "tt-quick-q", text: "Q" }));
+			iconNode.appendChild(elementBuilder({ type: "span", class: "tt-quick-q", text: "Q" }));
 			iconNode.href = iconNode.getAttribute("href") + "1";
 		}
 

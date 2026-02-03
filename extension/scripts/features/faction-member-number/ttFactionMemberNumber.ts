@@ -49,7 +49,7 @@
 				text = (index + 1 - reduced).toString();
 			}
 
-			row.insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "tt-member-index", text }));
+			row.insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "tt-member-index", text }));
 		});
 	}
 

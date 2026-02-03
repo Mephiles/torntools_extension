@@ -36,7 +36,7 @@
 			let timer: HTMLElement;
 			if (npcs.planned) {
 				const left = npcs.planned - now;
-				timer = document.newElement({
+				timer = elementBuilder({
 					type: "span",
 					class: "timer",
 					text: formatTime(left, timerSettings),
@@ -47,18 +47,18 @@
 				});
 				countdownTimers.push(timer);
 			} else if (npcs.reason) {
-				timer = document.newElement({ type: "span", class: "timer", text: `After ${npcs.reason}` });
+				timer = elementBuilder({ type: "span", class: "timer", text: `After ${npcs.reason}` });
 			} else {
-				timer = document.newElement({ type: "span", class: "timer", text: "Not Scheduled" });
+				timer = elementBuilder({ type: "span", class: "timer", text: "Not Scheduled" });
 			}
 
 			content.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-npc",
 					children: [
-						document.newElement({ type: "span", class: "npc-name", text: "Planned Attack" }),
-						document.newElement({ type: "div", class: "npc-information", children: [timer] }),
+						elementBuilder({ type: "span", class: "npc-name", text: "Planned Attack" }),
+						elementBuilder({ type: "div", class: "npc-information", children: [timer] }),
 					],
 				})
 			);
@@ -73,7 +73,7 @@
 			if (next) {
 				const left = npc.levels[next] - now;
 
-				timer = document.newElement({
+				timer = elementBuilder({
 					type: "span",
 					class: "timer",
 					text: formatTime(left, timerSettings),
@@ -84,12 +84,12 @@
 				});
 
 				countdownTimers.push(timer);
-			} else timer = document.newElement({ type: "span", class: "timer", text: "max level" });
+			} else timer = elementBuilder({ type: "span", class: "timer", text: "max level" });
 
 			if (!hasNotScheduled && npc.scheduled === false) {
 				hasNotScheduled = true;
 				content.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-npc-divider",
 						text: "-- not scheduled --",
@@ -98,15 +98,15 @@
 			}
 
 			content.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-npc",
 					children: [
-						document.newElement({ type: "a", class: "npc-name", href: `https://www.torn.com/profiles.php?XID=${id}`, text: `${npc.name} [${id}]` }),
-						document.newElement({
+						elementBuilder({ type: "a", class: "npc-name", href: `https://www.torn.com/profiles.php?XID=${id}`, text: `${npc.name} [${id}]` }),
+						elementBuilder({
 							type: "div",
 							class: "npc-information",
-							children: [document.newElement({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }), timer],
+							children: [elementBuilder({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }), timer],
 						}),
 					],
 				})
@@ -114,7 +114,7 @@
 		}
 
 		options.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "i",
 				class: `npc-notifications fa-solid ${settings.notifications.types.npcsGlobal ? "fa-bell" : "fa-bell-slash"}`,
 				events: {

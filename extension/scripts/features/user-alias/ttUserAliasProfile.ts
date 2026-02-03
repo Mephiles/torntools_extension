@@ -20,7 +20,7 @@
 		if (!settings.userAlias[userID]) return;
 
 		const profileImg = document.find(".user.name");
-		const aliasSpan = document.newElement({ type: "span", class: "tt-user-alias", text: settings.userAlias[userID].alias });
+		const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias", text: settings.userAlias[userID].alias });
 		profileImg.insertAdjacentElement("afterend", aliasSpan);
 
 		const cloneLi = nameLi.cloneNode(true) as Element;

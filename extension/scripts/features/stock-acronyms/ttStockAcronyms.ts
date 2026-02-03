@@ -26,10 +26,7 @@
 			const acronym = stockdata[id].acronym;
 
 			container.classList.add("tt-acronym-container");
-			container.insertAdjacentElement(
-				"afterbegin",
-				document.newElement({ type: "span", class: "tt-acronym", text: `(${acronym}) `, dataset: { acronym } })
-			);
+			container.insertAdjacentElement("afterbegin", elementBuilder({ type: "span", class: "tt-acronym", text: `(${acronym}) `, dataset: { acronym } }));
 		}
 	}
 

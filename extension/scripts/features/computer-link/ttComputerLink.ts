@@ -26,7 +26,7 @@
 		const ttTopLinks = await createTTTopLinks();
 
 		ttTopLinks.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "a",
 				class: "tt-custom-computer",
 				html: `

@@ -73,7 +73,7 @@ class StatsEstimate {
 
 			row.classList.add("tt-estimated");
 
-			const section = document.newElement({ type: "div", class: "tt-stats-estimate" });
+			const section = elementBuilder({ type: "div", class: "tt-stats-estimate" });
 			const parent = placement ? (placement(row) ?? row) : row;
 			new Promise<void>((resolve) => {
 				parent.insertAdjacentElement("afterend", section);

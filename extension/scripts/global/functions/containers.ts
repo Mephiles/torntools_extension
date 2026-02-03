@@ -76,7 +76,7 @@ function createContainer(title: string, partialOptions: Partial<ContainerOptions
 		if (options.flexContainer) mainClasses.push("t-flex");
 
 		containerClasses.push("tt-theme-background");
-		const container = document.newElement({ type: "div", class: containerClasses.join(" "), id: options.id });
+		const container = elementBuilder({ type: "div", class: containerClasses.join(" "), id: options.id });
 
 		const collapsed: boolean = options.onlyHeader || (options.collapsible && (options.id in filters.containers ? filters.containers[options.id] : false));
 

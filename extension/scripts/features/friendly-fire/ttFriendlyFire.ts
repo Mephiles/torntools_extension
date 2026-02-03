@@ -31,7 +31,7 @@
 		)
 			warning = "This user is an ally!";
 		document.find(".profile-left-wrapper .title-black").appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "span",
 				class: "tt-ally-warning",
 				text: warning,

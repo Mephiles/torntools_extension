@@ -61,7 +61,7 @@
 
 			row.insertAdjacentElement(
 				"afterend",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: `tt-last-action ${isOwnCompany ? "" : "joblist"}`,
 					text: `Last action: ${employees[id].last_action.relative}`,

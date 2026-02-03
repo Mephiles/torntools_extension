@@ -74,10 +74,10 @@
 		}
 
 		function createBlock() {
-			return document.newElement({
+			return elementBuilder({
 				type: "div",
 				class: "tt-stack-block",
-				children: [document.newElement({ type: "span", text: "TornTools - You've enabled stacking mode." })],
+				children: [elementBuilder({ type: "span", text: "TornTools - You've enabled stacking mode." })],
 			});
 		}
 

@@ -55,31 +55,31 @@
 
 			if (!mobile) {
 				content.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-company-info-wrap",
 						children: [
-							document.newElement({ type: "div", class: "heading", text: `${name} (${stars}★)` }),
-							document.newElement({ type: "hr", class: "first-hr" }),
-							document.newElement({ type: "div", text: costText }),
-							document.newElement({ type: "hr", class: "second-hr" }),
-							document.newElement({ type: "div", text: effect }),
+							elementBuilder({ type: "div", class: "heading", text: `${name} (${stars}★)` }),
+							elementBuilder({ type: "hr", class: "first-hr" }),
+							elementBuilder({ type: "div", text: costText }),
+							elementBuilder({ type: "hr", class: "second-hr" }),
+							elementBuilder({ type: "div", text: effect }),
 						],
 					})
 				);
 			} else {
 				content.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "tr",
 						class: "tt-company-info-wrap",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "heading",
-								children: [document.newElement({ type: "div", text: name }), document.newElement({ type: "div", text: `(${stars}★)` })],
+								children: [elementBuilder({ type: "div", text: name }), elementBuilder({ type: "div", text: `(${stars}★)` })],
 							}),
-							document.newElement({ type: "div", text: costText }),
-							document.newElement({ type: "div", text: effect }),
+							elementBuilder({ type: "div", text: costText }),
+							elementBuilder({ type: "div", text: effect }),
 						],
 					})
 				);

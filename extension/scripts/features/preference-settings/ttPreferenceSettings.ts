@@ -11,7 +11,7 @@
 			const { options } = createContainer("TornTools - Settings", { id: "tt-settings-container", onlyHeader: true, class: "mt10" });
 
 			options.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "a",
 					class: "preference-button",
 					text: "Settings",
@@ -20,7 +20,7 @@
 				})
 			);
 
-			const connectButton = document.newElement({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });
+			const connectButton = elementBuilder({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });
 			options.appendChild(connectButton);
 
 			if (api.torn.key) {

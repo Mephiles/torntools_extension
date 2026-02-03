@@ -66,7 +66,7 @@
 						}
 					}
 				}
-				log.appendChild(document.newElement({ type: "span", class: "tt-log-value", text: formatNumber(totalValue, { currency: true }) }));
+				log.appendChild(elementBuilder({ type: "span", class: "tt-log-value", text: formatNumber(totalValue, { currency: true }) }));
 			}
 		}
 
@@ -100,21 +100,21 @@
 				const worth = parseInt((marketValue * quantity).toString());
 				totalValue += worth;
 
-				item.appendChild(document.newElement({ type: "span", class: "tt-item-value", text: formatNumber(worth, { currency: true }) }));
+				item.appendChild(elementBuilder({ type: "span", class: "tt-item-value", text: formatNumber(worth, { currency: true }) }));
 			}
 
 			if (totalValue !== 0) {
 				side.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-total-value",
 						text: "Total value: ",
-						children: [document.newElement({ type: "span", text: formatNumber(totalValue, { currency: true }) })],
+						children: [elementBuilder({ type: "span", text: formatNumber(totalValue, { currency: true }) })],
 					})
 				);
 			}
 
-			const checkbox = document.newElement({ type: "input", attributes: { type: "checkbox" } });
+			const checkbox = elementBuilder({ type: "input", attributes: { type: "checkbox" } });
 			if (filters.trade.hideValues) {
 				checkbox.checked = true;
 				for (const item of side.findAll(".tt-item-value")) {
@@ -131,7 +131,7 @@
 					item.style.display = style;
 				}
 			});
-			const wrap = document.newElement({
+			const wrap = elementBuilder({
 				type: "label",
 				class: "tt-hide-values",
 				text: "Hide item values",

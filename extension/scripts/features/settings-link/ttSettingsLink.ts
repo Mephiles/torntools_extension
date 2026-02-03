@@ -33,11 +33,11 @@
 	async function addLink() {
 		await requireSidebar();
 
-		const settingsSpan = document.newElement({
+		const settingsSpan = elementBuilder({
 			type: "span",
 			text: "TornTools Settings",
 		});
-		const ttSettingsDiv = document.newElement({
+		const ttSettingsDiv = elementBuilder({
 			type: "div",
 			class: "tt-settings pill",
 			children: [settingsSpan],
@@ -46,7 +46,7 @@
 		ttSettingsDiv.insertAdjacentElement("afterbegin", ttSvg());
 		ttSettingsDiv.addEventListener("click", () => {
 			if (document.getElementById("tt-settings-iframe")) return;
-			const ttSettingsIframe = document.newElement({
+			const ttSettingsIframe = elementBuilder({
 				type: "iframe",
 				id: "tt-settings-iframe",
 				attributes: {
@@ -57,13 +57,13 @@
 				window.addEventListener("message", messageListener);
 				addedMessageListener = true;
 			}
-			const returnToTorn = document.newElement({
+			const returnToTorn = elementBuilder({
 				type: "div",
 				class: "tt-back",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
-						children: [backSvg(), document.newElement({ type: "span", id: "back", text: "Back to TORN" })],
+						children: [backSvg(), elementBuilder({ type: "span", id: "back", text: "Back to TORN" })],
 					}),
 				],
 			});
@@ -87,16 +87,16 @@
 	function messageListener(event: MessageEvent) {
 		let saveSettingsBar = document.getElementById("saveSettingsBar");
 		if (!saveSettingsBar) {
-			saveSettingsBar = document.newElement({
+			saveSettingsBar = elementBuilder({
 				type: "div",
 				id: "saveSettingsBar",
 				class: "tt-hidden",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						children: [
-							document.newElement({ type: "span", text: "You have unsaved changes." }),
-							document.newElement({
+							elementBuilder({ type: "span", text: "You have unsaved changes." }),
+							elementBuilder({
 								type: "button",
 								id: "revertSettings",
 								text: "Revert",
@@ -107,7 +107,7 @@
 									},
 								},
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "button",
 								id: "saveSettings",
 								text: "Save",

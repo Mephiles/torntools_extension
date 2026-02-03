@@ -49,12 +49,12 @@
 		content.appendChild(newRow("Total", formatNumber(effectiveTotal)));
 
 		function newRow(name: string, value: string) {
-			return document.newElement({
+			return elementBuilder({
 				type: "li",
 				class: "stats-row",
 				children: [
-					document.newElement({ type: "div", class: "divider", children: [document.newElement({ type: "span", text: name })] }),
-					document.newElement({ type: "div", class: "desc", children: [document.newElement({ type: "span", text: value })] }),
+					elementBuilder({ type: "div", class: "divider", children: [elementBuilder({ type: "span", text: name })] }),
+					elementBuilder({ type: "div", class: "desc", children: [elementBuilder({ type: "span", text: value })] }),
 				],
 			});
 		}

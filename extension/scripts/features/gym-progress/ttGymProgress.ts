@@ -41,11 +41,11 @@
 
 		gymNotification.closest("[class*='notification__']").classList.add("tt-modified");
 		gymNotification.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "p",
 				class: "tt-gym-energy-progress",
 				text: "Estimated Energy progress: ",
-				children: [document.newElement({ type: "span", text: `${formatNumber(stat)}/${formatNumber(goal)}E.` })],
+				children: [elementBuilder({ type: "span", text: `${formatNumber(stat)}/${formatNumber(goal)}E.` })],
 			})
 		);
 	}

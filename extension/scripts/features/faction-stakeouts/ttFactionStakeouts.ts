@@ -116,7 +116,7 @@
 			ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inTerritoryWar: inTerritoryWar.isChecked() } } } });
 		});
 
-		const alertsWrap = document.newElement({
+		const alertsWrap = elementBuilder({
 			type: "div",
 			class: "alerts-wrap",
 			children: [
@@ -138,10 +138,10 @@
 		content.appendChild(alertsWrap);
 
 		function createAlertSection(title: string, elements: Element[]) {
-			return document.newElement({
+			return elementBuilder({
 				type: "div",
 				class: "alerts",
-				children: [document.newElement({ type: "strong", text: title }), ...elements],
+				children: [elementBuilder({ type: "strong", text: title }), ...elements],
 			});
 		}
 	}

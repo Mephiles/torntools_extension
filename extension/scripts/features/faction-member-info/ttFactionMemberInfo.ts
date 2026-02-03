@@ -89,12 +89,12 @@
 
 			const nextSibling = li.nextSibling as HTMLElement | undefined;
 
-			const memberInfo = document.newElement({ type: "div", class: "tt-member-info" });
+			const memberInfo = elementBuilder({ type: "div", class: "tt-member-info" });
 			const parent = lastActionState && nextSibling?.className?.includes("tt-last-action") ? li.nextSibling : memberInfo;
 
 			if (userBalance.points) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-points-balance",
 						text: `Point Balance: ${formatNumber(userBalance.points)}`,
@@ -103,7 +103,7 @@
 			}
 			if (userBalance.money) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-money-balance",
 						text: `Money Balance: ${formatNumber(userBalance.money, { currency: true })}`,

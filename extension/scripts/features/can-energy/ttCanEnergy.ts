@@ -49,9 +49,7 @@
 				totalEnergy *= 2;
 			}
 
-			eCanElement
-				.find(".name-wrap")
-				.insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-e-gains", text: `${totalEnergy}E` }));
+			eCanElement.find(".name-wrap").insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-e-gains", text: `${totalEnergy}E` }));
 		});
 	}
 

@@ -67,7 +67,7 @@
 			description.classList.add("prevent-overflow");
 		}
 
-		title.appendChild(document.newElement({ type: "div", class: "tt-options tt-full-infobox", children: [checkbox.element] }));
+		title.appendChild(elementBuilder({ type: "div", class: "tt-options tt-full-infobox", children: [checkbox.element] }));
 
 		checkbox.onChange(() => {
 			const isChecked = checkbox.isChecked();

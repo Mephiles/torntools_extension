@@ -61,7 +61,7 @@
 			if (countHiddenThread && (!shouldHideThreads || i === threads.length - 1)) {
 				firstHiddenThread.insertAdjacentElement(
 					"beforebegin",
-					document.newElement({
+					elementBuilder({
 						type: "li",
 						class: "tt-forums-hidden",
 						text: `${countHiddenThread} hidden thread${applyPlural(countHiddenThread)}`,
@@ -127,7 +127,7 @@
 			if (countHiddenPost && (!shouldHidePosts || i === posts.length - 1)) {
 				firstHiddenPost.insertAdjacentElement(
 					"beforebegin",
-					document.newElement({
+					elementBuilder({
 						type: "li",
 						class: "tt-forums-hidden",
 						text: `${countHiddenPost} hidden post${applyPlural(countHiddenPost)}`,
@@ -150,16 +150,16 @@
 			const name = `${userName}'${userName.endsWith("s") ? "" : "s"}`;
 			post.find(".action-wrap .right-part").insertAdjacentElement(
 				"beforebegin",
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					class: "tt-forums-button",
 					children: [
 						ttSvg(),
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "tt-forums-button-dropdown",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: "Copy post for Discord",
 									events: {
@@ -263,7 +263,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.hideThreads[userId] ? "Show" : "Hide"} ${name} threads`,
 									events: {
@@ -279,7 +279,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${shouldHidePosts ? "Show" : "Hide"} ${name} posts`,
 									events: {
@@ -295,7 +295,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.highlightThreads[userId] ? "Unhighlight" : "Highlight"} ${name} threads`,
 									events: {
@@ -311,7 +311,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.highlightPosts[userId] ? "Unhighlight" : "Highlight"} ${name} posts`,
 									events: {
@@ -327,7 +327,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.ignoredThreads[threadId] ? "Unignore" : "Ignore"} this entire thread`,
 									events: {

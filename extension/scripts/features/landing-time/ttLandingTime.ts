@@ -25,10 +25,10 @@
 		const arrival = Date.now() + duration;
 
 		destinationTitle.parentElement.insertBefore(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-landing-time",
-				children: [document.newElement({ type: "span", class: "description", text: `Landing at ${formatTime(arrival)}.` })],
+				children: [elementBuilder({ type: "span", class: "description", text: `Landing at ${formatTime(arrival)}.` })],
 			}),
 			destinationTitle.nextElementSibling
 		);

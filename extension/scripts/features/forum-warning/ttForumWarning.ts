@@ -48,13 +48,13 @@
 
 		parent.insertAdjacentElement(
 			position,
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				id: "ttBugWarning",
 				children: [
-					document.newElement({ type: "span", text: "Please try disabling TornTools to make sure if the issue persists." }),
-					document.newElement("br"),
-					document.newElement({
+					elementBuilder({ type: "span", text: "Please try disabling TornTools to make sure if the issue persists." }),
+					elementBuilder("br"),
+					elementBuilder({
 						type: "span",
 						class: "bug-help",
 						text: "If the issues are caused by TornTools, contact the team: here.",
@@ -70,15 +70,15 @@
 			overlay.classList.remove("tt-hidden");
 			overlay.addEventListener("click", closePopup);
 
-			const popup = document.newElement({
+			const popup = elementBuilder({
 				type: "div",
 				id: "tt-help-popup",
 				class: "tt-overlay-item",
 				children: [
-					document.newElement({ type: "span", text: "Support is provided in multiple ways!" }),
-					document.newElement("br"),
-					document.newElement("br"),
-					document.newElement({
+					elementBuilder({ type: "span", text: "Support is provided in multiple ways!" }),
+					elementBuilder("br"),
+					elementBuilder("br"),
+					elementBuilder({
 						type: "a",
 						text: "- Join our Discord and report the issue there.",
 						attributes: {
@@ -86,8 +86,8 @@
 							target: "_blank",
 						},
 					}),
-					document.newElement("br"),
-					document.newElement({
+					elementBuilder("br"),
+					elementBuilder({
 						type: "a",
 						text: "- Post it in our forum thread.",
 						attributes: {
@@ -95,9 +95,9 @@
 							target: "_blank",
 						},
 					}),
-					document.newElement("br"),
-					document.newElement("br"),
-					document.newElement({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
+					elementBuilder("br"),
+					elementBuilder("br"),
+					elementBuilder({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
 				],
 			});
 
@@ -122,22 +122,22 @@
 		overlay.classList.remove("tt-hidden");
 		overlay.addEventListener("click", closePopup);
 
-		const popup = document.newElement({
+		const popup = elementBuilder({
 			type: "div",
 			id: "tt-help-popup",
 			class: "tt-overlay-item",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					class: "warning-text",
 					text: "Please make sure this issue is not caused by TornTools before posting in this forum.",
 				}),
-				document.newElement("br"),
-				document.newElement("br"),
-				document.newElement({ type: "span", text: "If you can not replicate it without TornTools enabled, please report it to us instead of Torn!" }),
-				document.newElement("br"),
-				document.newElement("br"),
-				document.newElement({
+				elementBuilder("br"),
+				elementBuilder("br"),
+				elementBuilder({ type: "span", text: "If you can not replicate it without TornTools enabled, please report it to us instead of Torn!" }),
+				elementBuilder("br"),
+				elementBuilder("br"),
+				elementBuilder({
 					type: "a",
 					text: "- Join our Discord and report the issue there.",
 					attributes: {
@@ -145,8 +145,8 @@
 						target: "_blank",
 					},
 				}),
-				document.newElement("br"),
-				document.newElement({
+				elementBuilder("br"),
+				elementBuilder({
 					type: "a",
 					text: "- Post it in our forum thread.",
 					attributes: {
@@ -154,9 +154,9 @@
 						target: "_blank",
 					},
 				}),
-				document.newElement("br"),
-				document.newElement("br"),
-				document.newElement({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
+				elementBuilder("br"),
+				elementBuilder("br"),
+				elementBuilder({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
 			],
 		});
 

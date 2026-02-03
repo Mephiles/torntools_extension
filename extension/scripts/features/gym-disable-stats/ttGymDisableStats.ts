@@ -64,7 +64,7 @@
 		for (const stat of properties.findAll(":scope > li:not([class*='locked___']):not(.tt-modified)")) {
 			stat.classList.add("tt-modified");
 			stat.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: "tt-stat-checkbox",
 					attributes: { type: "checkbox" },

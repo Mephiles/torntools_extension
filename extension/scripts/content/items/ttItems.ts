@@ -70,7 +70,7 @@ const pendingActions: { [key: string]: ActionItem } = {};
 			const action = params.get("action");
 
 			if (action === "equip" && hasAPIData()) {
-				const responseElement = document.newElement({ type: "div", html: xhr.response });
+				const responseElement = elementBuilder({ type: "div", html: xhr.response });
 				const textElement = responseElement.find("h5, [data-status]");
 
 				if (textElement) {

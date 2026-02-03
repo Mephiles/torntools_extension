@@ -33,7 +33,7 @@
 		sendButton.parentElement.classList.add("tt-modified");
 
 		if (!timer) {
-			timer = document.newElement({
+			timer = elementBuilder({
 				type: "div",
 				id: "tt-trade-timer",
 				dataset: {

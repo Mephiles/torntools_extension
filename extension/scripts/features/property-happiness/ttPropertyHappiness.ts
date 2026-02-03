@@ -30,7 +30,7 @@
 			property.classList.add("tt-modified");
 			property.find(".image-description").insertAdjacentElement(
 				"beforeend",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-property-happiness",
 					text: `Happy: ${formatNumber(userdata.properties[propertyID]?.happy ?? 100)}`,

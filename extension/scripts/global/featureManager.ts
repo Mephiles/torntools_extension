@@ -145,20 +145,20 @@ class FeatureManager {
 
 		let errorElement: HTMLElement;
 		if (error != null && typeof error === "object") {
-			errorElement = document.newElement({
+			errorElement = elementBuilder({
 				type: "div",
 				class: "error",
 				children: [
-					document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
-					document.newElement({ type: "pre", class: "stack", text: error.stack }),
+					elementBuilder({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+					elementBuilder({ type: "pre", class: "stack", text: error.stack }),
 				],
 			});
 		} else {
-			errorElement = document.newElement({
+			errorElement = elementBuilder({
 				type: "pre",
 				class: "error",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "name",
 						text: `Unknown error message: ${error}`,
@@ -381,26 +381,26 @@ class FeatureManager {
 				if (options.message) statusIcon.setAttribute("title", options.message);
 				else statusIcon.removeAttribute("title");
 			} else {
-				row = document.newElement({
+				row = elementBuilder({
 					type: "div",
 					class: "tt-feature",
 					attributes: { "feature-name": feature.name, status: status },
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "i",
 							class: getIconClass(status),
 							...(options.message ? { attributes: { title: options.message } } : {}),
 						}),
-						document.newElement({ type: "span", text: feature.name }),
+						elementBuilder({ type: "span", text: feature.name }),
 					],
 				});
 
 				let scopeEl = this.container.find(`[scope*="${feature.scope}"]`);
 				if (!scopeEl) {
-					scopeEl = document.newElement({
+					scopeEl = elementBuilder({
 						type: "div",
 						attributes: { scope: feature.scope },
-						children: [document.newElement({ type: "div", text: `— ${feature.scope} —` })],
+						children: [elementBuilder({ type: "div", text: `— ${feature.scope} —` })],
 					});
 					this.container.find(".tt-features-list").appendChild(scopeEl);
 				}
@@ -448,7 +448,7 @@ class FeatureManager {
 	async createPopup() {
 		await loadDatabase();
 
-		const popup = document.newElement({
+		const popup = elementBuilder({
 			type: "div",
 			id: this.containerID,
 			attributes: {
@@ -456,10 +456,10 @@ class FeatureManager {
 				"error-count": "0",
 			},
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "button",
 							style: { backgroundImage: `url(${chrome.runtime.getURL("resources/images/icon_128.png")})` },
 							events: {
@@ -474,20 +474,20 @@ class FeatureManager {
 						}),
 					],
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-features-list",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "error-messages",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "heading",
 									text: "Errors",
 									attributes: { title: "Click or touch to copy all errors" },
-									children: [document.newElement({ type: "i", class: "fa-solid fa-copy" })],
+									children: [elementBuilder({ type: "i", class: "fa-solid fa-copy" })],
 									events: {
 										click: () => {
 											toClipboard("TornTools " + document.find("#tt-page-status .error-messages").innerText);

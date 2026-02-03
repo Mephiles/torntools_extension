@@ -63,16 +63,16 @@
 	let investmentTable: TableElement<BankTableRowData>, bestPeriod: string;
 
 	function bankMoneyCellRenderer(bankMoneyData: MoneyInfo): BaseElement {
-		const element = document.newElement({
+		const element = elementBuilder({
 			type: "div",
 			class: "bank-investment-money-cell-wrapper",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "bank-investment-money-cell-total",
 					text: formatNumber(bankMoneyData.total, { currency: true }),
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "bank-investment-money-cell-per-day",
 					text: formatNumber(bankMoneyData.daily, { currency: true }),
@@ -137,15 +137,15 @@
 			stretchColumns: true,
 		});
 
-		const moneyInput = document.newElement({
+		const moneyInput = elementBuilder({
 			type: "div",
 			class: "tt-bank-investment-balance-input",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "label",
 					text: "Amount: ",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							attributes: { type: "number", value: balance.toString() },
 							events: {

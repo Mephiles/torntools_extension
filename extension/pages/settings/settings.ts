@@ -65,14 +65,14 @@ async function setupChangelog() {
 		if (typeof entry.date === "string") entry.date = new Date(entry.date);
 		else if (typeof entry.date === "object") entry.date = false;
 
-		const log = document.newElement({ type: "div", class: "version-log" });
-		const heading = document.newElement({ type: "div", class: "title", text: getTitle() });
-		const icon = document.newElement({ type: "i", class: "fa-solid  fa-chevron-down" });
+		const log = elementBuilder({ type: "div", class: "version-log" });
+		const heading = elementBuilder({ type: "div", class: "title", text: getTitle() });
+		const icon = elementBuilder({ type: "i", class: "fa-solid  fa-chevron-down" });
 		heading.appendChild(icon);
 		log.appendChild(heading);
 
 		// Closeable
-		const closeable = document.newElement({ type: "div", class: "closable tt-hidden" });
+		const closeable = elementBuilder({ type: "div", class: "closable tt-hidden" });
 		heading.addEventListener("click", () => {
 			closeable.classList.toggle("tt-hidden");
 
@@ -97,27 +97,27 @@ async function setupChangelog() {
 				}
 			});
 
-		const contributorsWrap = document.newElement({
+		const contributorsWrap = elementBuilder({
 			type: "div",
 			class: "list contributors",
-			children: [document.newElement({ type: "div", class: "subheader", text: "Contributors" })],
+			children: [elementBuilder({ type: "div", class: "subheader", text: "Contributors" })],
 		});
 		contributors.forEach((contributor) => {
-			const child = document.newElement({
+			const child = elementBuilder({
 				type: "div",
 				class: "contributor",
 			});
 
 			if ("id" in contributor)
 				child.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "a",
 						text: `${contributor.name} [${contributor.id}]`,
 						href: `https://www.torn.com/profiles.php?XID=${contributor.id}`,
 						attributes: { target: "_blank" },
 					})
 				);
-			else child.appendChild(document.newElement({ type: "span", text: contributor.name }));
+			else child.appendChild(elementBuilder({ type: "span", text: contributor.name }));
 
 			if ("color" in contributor) child.style.setProperty("--contributor-color", contributor.color);
 
@@ -126,10 +126,10 @@ async function setupChangelog() {
 		closeable.appendChild(contributorsWrap);
 
 		for (const title in entry.logs) {
-			const parent = document.newElement({
+			const parent = elementBuilder({
 				type: "div",
 				class: "list",
-				children: [document.newElement({ type: "div", class: "subheader", text: capitalizeText(title) })],
+				children: [elementBuilder({ type: "div", class: "subheader", text: capitalizeText(title) })],
 			});
 
 			for (const log of entry.logs[title]) {
@@ -137,10 +137,10 @@ async function setupChangelog() {
 				if (typeof log.message === "string") message = log.message;
 				else if (typeof log.message === "object" && Array.isArray(log.message)) message = log.message.join("<br>");
 
-				const child = document.newElement({
+				const child = elementBuilder({
 					type: "div",
 					class: "contributor",
-					children: [document.newElement({ type: "span", html: message })],
+					children: [elementBuilder({ type: "span", html: message })],
 				});
 
 				const contributor = contributors.filter((x) => x.key === log.contributor);
@@ -155,7 +155,7 @@ async function setupChangelog() {
 		}
 
 		// Bottom border on last element
-		if (index + 1 === allEntries.length) closeable.appendChild(document.newElement("hr"));
+		if (index + 1 === allEntries.length) closeable.appendChild(elementBuilder("hr"));
 		if (index === 0) {
 			closeable.classList.remove("tt-hidden");
 			log.classList.add("current");
@@ -188,7 +188,7 @@ async function setupChangelog() {
 	});
 
 	// Ending words
-	content.appendChild(document.newElement({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
+	content.appendChild(elementBuilder({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
 
 	await ttStorage.change({ version: { showNotice: false } });
 }
@@ -252,7 +252,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	const reviveProviderSelectElement = _preferences.find("#global-reviveProvider");
 	for (const provider of REVIVE_PROVIDERS) {
 		reviveProviderSelectElement.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "option",
 				text: `${provider.name} (${calculateRevivePrice(provider)})`,
 				attributes: { value: provider.provider },
@@ -449,7 +449,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	const chatSection = _preferences.find(".sections section[name='chat']");
 	for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
 		chatSection.insertBefore(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tabbed note",
 				text: `${placeholder.name} - ${placeholder.description}`,
@@ -460,12 +460,12 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 	const hideIconsParent = _preferences.find("#hide-icons");
 	for (const { icon, id, description } of ALL_ICONS) {
-		const iconsWrap = document.newElement({
+		const iconsWrap = elementBuilder({
 			type: "div",
 			class: ["icon", "hover_tooltip"],
 			children: [
-				document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
-				document.newElement({ type: "span", class: "hover_tooltip_text", text: description }),
+				elementBuilder({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
+				elementBuilder({ type: "span", class: "hover_tooltip_text", text: description }),
 			],
 		});
 
@@ -478,7 +478,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 	const hideCasinoGamesParent = _preferences.find("#hide-casino-games");
 	for (const game of CASINO_GAMES) {
-		const casinoGame = document.newElement({ type: "span", text: capitalizeText(game), attributes: { name: game } });
+		const casinoGame = elementBuilder({ type: "span", text: capitalizeText(game), attributes: { name: game } });
 
 		hideCasinoGamesParent.appendChild(casinoGame);
 		if (CASINO_GAMES.indexOf(game) + 1 !== CASINO_GAMES.length) hideCasinoGamesParent.appendChild(document.createTextNode("\n"));
@@ -493,7 +493,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 			const stockName = stockdata[stock].name;
 			hideStocksParent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					id: stock,
 					text: capitalizeText(stockName),
@@ -514,18 +514,18 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 		for (const [id, npc] of Object.entries(npcs.targets)) {
 			alerts.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					children: [
-						document.newElement({ type: "input", value: npc.name, attributes: { disabled: "" } }),
-						document.newElement({
+						elementBuilder({ type: "input", value: npc.name, attributes: { disabled: "" } }),
+						elementBuilder({
 							type: "input",
 							class: "level",
 							// value: notification.level,
 							attributes: { placeholder: "Level", type: "number", min: 1, max: 5 },
 							events: { input: enforceInputLimits },
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							class: "minutes",
 							// value: notification.minutes,
@@ -541,7 +541,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 	const hideAttackOptionsParent = _preferences.find("#hide-attack-options");
 	["leave", "mug", "hospitalize"].forEach((option) => {
-		const optionNode = document.newElement({ type: "span", text: capitalizeText(option), attributes: { value: option } });
+		const optionNode = elementBuilder({ type: "span", text: capitalizeText(option), attributes: { value: option } });
 		hideAttackOptionsParent.appendChild(optionNode);
 		optionNode.addEventListener("click", (event) => (event.target as Element).classList.toggle("disabled"));
 	});
@@ -797,16 +797,16 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addChatHighlightRow(name: string, color: string) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
-				document.newElement({ type: "input", class: "color", value: color, attributes: { type: "color" } }),
+				elementBuilder({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
+				elementBuilder({ type: "input", class: "color", value: color, attributes: { type: "color" } }),
 				deleteIcon,
 			],
 		});
@@ -817,16 +817,16 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addChatTitleHighlightRow(title: string, color: string) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "title", value: title, attributes: { type: "text", placeholder: "Title.." } }),
-				document.newElement({
+				elementBuilder({ type: "input", class: "title", value: title, attributes: { type: "text", placeholder: "Title.." } }),
+				elementBuilder({
 					type: "select",
 					class: "color",
 					value: color,
@@ -853,10 +853,10 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addCustomLink(data: CustomLink) {
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: "newTab",
 					attributes: {
@@ -868,7 +868,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 							: {}),
 					},
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "select",
 					class: "preset",
 					value: data.preset,
@@ -893,36 +893,36 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						},
 					},
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "select",
 					class: "location",
 					value: data.location,
 					html: getCustomLinkLocations(),
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: `name ${data.preset === "custom" ? "" : "tt-hidden"}`,
 					value: data.name,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: `href ${data.preset === "custom" ? "" : "tt-hidden"}`,
 					value: data.href,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "button",
 					class: "remove-icon-wrap",
-					children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+					children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 					events: {
 						click: () => newRow.remove(),
 					},
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "move-icon-wrap",
-					children: [document.newElement({ type: "i", class: "move-icon fa-solid fa-bars" })],
+					children: [elementBuilder({ type: "i", class: "move-icon fa-solid fa-bars" })],
 				}),
 			],
 		});
@@ -931,14 +931,14 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addAllyFaction(ally: string | number) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
-			children: [document.newElement({ type: "input", class: "faction", value: ally }), deleteIcon],
+			children: [elementBuilder({ type: "input", class: "faction", value: ally }), deleteIcon],
 		});
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
@@ -948,17 +948,17 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addUserAlias(userID: string, name: string, alias: string) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "userID", value: userID, attributes: { type: "text", placeholder: "User ID.." } }),
-				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
-				document.newElement({ type: "input", class: "alias", value: alias, attributes: { type: "text", placeholder: "Alias.." } }),
+				elementBuilder({ type: "input", class: "userID", value: userID, attributes: { type: "text", placeholder: "User ID.." } }),
+				elementBuilder({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
+				elementBuilder({ type: "input", class: "alias", value: alias, attributes: { type: "text", placeholder: "Alias.." } }),
 				deleteIcon,
 			],
 		});
@@ -1266,18 +1266,18 @@ async function setupPreferences(requireCleanup: boolean = false) {
 					}
 
 					searchList.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							text: name,
 							attributes: { [keyword]: section },
-							children: [document.newElement("br")],
+							children: [elementBuilder("br")],
 						})
 					);
-					searchList.appendChild(document.newElement("hr"));
+					searchList.appendChild(elementBuilder("hr"));
 				}
 			} else {
 				searchList.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						id: "no-result",
 						text: "No Results",
@@ -1624,11 +1624,11 @@ async function setupExport() {
 
 				if (api)
 					popup.find(".export-keys").appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							children: [
-								document.newElement({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
-								document.newElement({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
+								elementBuilder({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
+								elementBuilder({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
 							],
 						})
 					);
@@ -1653,7 +1653,7 @@ async function setupExport() {
 					...variables,
 				};
 
-				if (api) popup.find(".export-keys").appendChild(document.newElement({ type: "li", text: "api key" }));
+				if (api) popup.find(".export-keys").appendChild(elementBuilder({ type: "li", text: "api key" }));
 			},
 		},
 		IMPORT_MANUAL: {
@@ -1727,13 +1727,11 @@ async function setupExport() {
 			.then(async ({ api_key: exportApi }) => {
 				const data = JSON.stringify(await getExportData(exportApi), null, 4);
 
-				document
-					.newElement({
-						type: "a",
-						href: window.URL.createObjectURL(new Blob([data], { type: "octet/stream" })),
-						attributes: { download: "torntools.json" },
-					})
-					.click();
+				elementBuilder({
+					type: "a",
+					href: window.URL.createObjectURL(new Blob([data], { type: "octet/stream" })),
+					attributes: { download: "torntools.json" },
+				}).click();
 			})
 			.catch(() => {});
 	});
@@ -1922,27 +1920,27 @@ function setupAbout() {
 		for (const member of TEAM.filter((member) => member.core)) {
 			const title = Array.isArray(member.title) ? member.title.join(" + ") : member.title;
 
-			const card = document.newElement({
+			const card = elementBuilder({
 				type: "div",
 				class: "member-card",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "a",
 						class: "name",
 						text: member.name,
 						href: `https://www.torn.com/profiles.php?XID=${member.torn}`,
 						attributes: { target: "_blank" },
 					}),
-					document.newElement({ type: "span", class: "title", text: title }),
+					elementBuilder({ type: "span", class: "title", text: title }),
 				],
 			});
 
 			if ("donations" in member) {
-				const donations = document.newElement({ type: "div", class: "donations" });
+				const donations = elementBuilder({ type: "div", class: "donations" });
 
 				for (const method of member.donations) {
 					donations.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "a",
 							text: method.name,
 							href: method.link,
@@ -1951,7 +1949,7 @@ function setupAbout() {
 					);
 				}
 
-				card.appendChild(document.newElement("hr"));
+				card.appendChild(elementBuilder("hr"));
 				card.appendChild(donations);
 			}
 

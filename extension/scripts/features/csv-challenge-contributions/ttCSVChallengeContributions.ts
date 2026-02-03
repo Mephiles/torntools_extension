@@ -28,13 +28,13 @@
 		const contributionsWrap = descriptionWrap.find(".contributions-wrap");
 		if (!contributionsWrap) return;
 
-		const exportButtonDiv = document.newElement({
+		const exportButtonDiv = elementBuilder({
 			type: "div",
 			id: "ttExportButton",
 			children: [
-				document.newElement({ type: "i", class: "fa-solid fa-table" }),
-				document.newElement({ type: "span", class: "text", text: "CSV" }),
-				document.newElement({ type: "a", id: "ttExportLink" }),
+				elementBuilder({ type: "i", class: "fa-solid fa-table" }),
+				elementBuilder({ type: "span", class: "text", text: "CSV" }),
+				elementBuilder({ type: "a", id: "ttExportLink" }),
 			],
 		});
 		createContainer("Export Challenge Contributions", {

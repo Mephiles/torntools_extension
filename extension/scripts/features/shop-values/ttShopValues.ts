@@ -42,7 +42,7 @@
 			const { market_value } = torndata.items[id];
 
 			row.find(".desc")!.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					class: "tt-market-value",
 					text: formatNumber(market_value, { currency: true }),

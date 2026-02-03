@@ -18,10 +18,10 @@
 		const msg = document.find(".msg.right-round");
 		if (!msg.find(".tt-msg")) {
 			msg.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "tt-msg",
 							text: "Some games have been removed by TornTools. They can be re-enabled in TornTools' settings.",
@@ -43,10 +43,10 @@
 			game.classList.add("tt-hidden");
 			game.insertAdjacentElement(
 				"beforebegin",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-hidden",
-					children: [document.newElement({ type: "b", text: "• REMOVED •" })],
+					children: [elementBuilder({ type: "b", text: "• REMOVED •" })],
 				})
 			);
 		}

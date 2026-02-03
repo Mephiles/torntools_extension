@@ -37,7 +37,7 @@
 
 			let parent = item.find(".outside-actions");
 			if (!parent) {
-				parent = document.newElement({ type: "div", class: `outside-actions ${isFirst ? "first-action" : ""}` });
+				parent = elementBuilder({ type: "div", class: `outside-actions ${isFirst ? "first-action" : ""}` });
 
 				item.appendChild(parent);
 			}
@@ -46,14 +46,14 @@
 			const category = item.dataset.category;
 
 			parent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "market-link",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "a",
 							href: `https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${name}&itemType=${category}`,
-							children: [document.newElement({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
+							children: [elementBuilder({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
 						}),
 					],
 				})

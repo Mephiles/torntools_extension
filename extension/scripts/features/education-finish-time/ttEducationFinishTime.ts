@@ -26,7 +26,7 @@
 
 		msg.insertAdjacentElement(
 			"afterend",
-			document.newElement({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` })
+			elementBuilder({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` })
 		);
 	}
 

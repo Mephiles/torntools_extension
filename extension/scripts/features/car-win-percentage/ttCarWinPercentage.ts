@@ -42,7 +42,7 @@
 			if (values[0] === 0) text = "• Win Percentage: 0%";
 			else text = `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%`;
 
-			stat.find(".enlisted-stat").insertAdjacentElement("beforeend", document.newElement({ type: "li", class: "tt-win-percentage", text: text }));
+			stat.find(".enlisted-stat").insertAdjacentElement("beforeend", elementBuilder({ type: "li", class: "tt-win-percentage", text: text }));
 		});
 	}
 

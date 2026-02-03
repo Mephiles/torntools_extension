@@ -126,12 +126,12 @@
 					} else if (valueWrap && valueWrap.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
 						valueWrap.style.setProperty("position", "relative");
 
-						const priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+						const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
 						addValue(priceElement, quantity, price);
 
 						valueWrap.appendChild(priceElement);
 					} else {
-						const priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+						const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
 						if (item.groupItem && quantity !== 1) priceElement.style.setProperty("padding-right", "98px", "important");
 
 						addValue(priceElement, quantity, price);
@@ -174,11 +174,11 @@
 					currency: true,
 				})}`;
 			} else {
-				const wrapper = document.newElement({
+				const wrapper = elementBuilder({
 					type: "li",
 					class: "tt-ignore tt-overlay-ignore tt-item-price-wrap",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							text: `Total Value: ${formatNumber(total, { currency: true })}`,
 							class: "tt-item-price price-total",
@@ -207,13 +207,13 @@
 		if (totalPrice) {
 			if (quantity > 1) {
 				priceElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })} | `,
 					})
 				);
 				priceElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `${quantity}x = `,
 						class: "tt-item-quantity",
@@ -221,7 +221,7 @@
 				);
 			}
 			priceElement.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					text: `${formatNumber(totalPrice, { currency: true })}`,
 				})
@@ -252,9 +252,9 @@
 
 			let priceElement: HTMLElement;
 			if (item.find(".bonuses-wrap")) {
-				priceElement = document.newElement({ type: "li", class: "tt-item-price fl" });
+				priceElement = elementBuilder({ type: "li", class: "tt-item-price fl" });
 			} else {
-				priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+				priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
 
 				if (item.find("button.group-arrow")) {
 					priceElement.style.setProperty("padding-right", "30px", "important");
@@ -264,27 +264,27 @@
 			if (totalPrice) {
 				if (quantity === 1) {
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${formatNumber(price, { currency: true })}`,
 						})
 					);
 				} else {
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${formatNumber(price, { currency: true })} | `,
 						})
 					);
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${quantity}x = `,
 							class: "tt-item-quantity",
 						})
 					);
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${formatNumber(totalPrice, { currency: true })}`,
 						})
@@ -314,7 +314,7 @@
 			if (newQuantity === 1) {
 				priceElement.innerHTML = "";
 				priceElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })}`,
 					})

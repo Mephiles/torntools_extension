@@ -61,7 +61,7 @@
 		title.classList.add("tt-foldable-infobox");
 		description.classList.add("tt-foldable");
 
-		const arrow = document.newElement({ type: "i", class: "tt-collapse-infobox fa-solid" });
+		const arrow = elementBuilder({ type: "i", class: "tt-collapse-infobox fa-solid" });
 
 		title.appendChild(arrow);
 

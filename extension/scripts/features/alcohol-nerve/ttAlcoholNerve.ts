@@ -57,7 +57,7 @@
 			const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
 			alcoholicDrink
 				.find(".name-wrap")
-				.insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }));
+				.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }));
 		});
 	}
 

@@ -26,10 +26,7 @@
 		for (const timer of document.findAll(".status-wrap .timer:not(.tt-modified)")) {
 			const millis = Date.now() + textToTime(timer.textContent);
 
-			timer.insertAdjacentElement(
-				"afterend",
-				document.newElement({ type: "div", class: "tt-timer", text: `${formatTime(millis)} ${formatDate(millis)}` })
-			);
+			timer.insertAdjacentElement("afterend", elementBuilder({ type: "div", class: "tt-timer", text: `${formatTime(millis)} ${formatDate(millis)}` }));
 			timer.classList.add("tt-modified");
 		}
 	}

@@ -181,9 +181,9 @@ function createFilterSection(
 	}
 
 	const ccTitle = options.title.camelCase(true) + "__section-class";
-	const section = document.newElement({ type: "div", class: ccTitle, style: options.style });
+	const section = elementBuilder({ type: "div", class: ccTitle, style: options.style });
 
-	if (!options.noTitle) section.appendChild(document.newElement({ type: "strong", text: options.title }));
+	if (!options.noTitle) section.appendChild(elementBuilder({ type: "strong", text: options.title }));
 
 	if (isTextOptions(options)) {
 		const textbox = createTextbox({
@@ -227,7 +227,7 @@ function createFilterSection(
 	if (isYNCheckboxesOptions(options)) {
 		options.ynCheckboxes.forEach((key) => {
 			const ccKey = key.camelCase(true);
-			const checkboxesDiv = document.newElement({ type: "div", class: ccKey });
+			const checkboxesDiv = elementBuilder({ type: "div", class: ccKey });
 			const yCheckbox = createCheckbox({ description: "Y:", reverseLabel: true });
 			const nCheckbox = createCheckbox({ description: "N:", reverseLabel: true });
 			const value = options.defaults[ccKey];
@@ -237,7 +237,7 @@ function createFilterSection(
 			nCheckbox.onChange(options.callback);
 			checkboxesDiv.appendChild(yCheckbox.element);
 			checkboxesDiv.appendChild(nCheckbox.element);
-			checkboxesDiv.appendChild(document.newElement({ type: "label", text: key }));
+			checkboxesDiv.appendChild(elementBuilder({ type: "label", text: key }));
 			section.appendChild(checkboxesDiv);
 		});
 		section.classList.add("tt-yn-checkboxes");
@@ -295,7 +295,7 @@ function createFilterSection(
 	if (isSliderOptions(options)) {
 		const rangeSlider = new DualRangeSlider(options.slider);
 		section.appendChild(rangeSlider.slider);
-		section.appendChild(document.newElement({ type: "div", class: "slider-counter", text: "" }));
+		section.appendChild(elementBuilder({ type: "div", class: "slider-counter", text: "" }));
 		section.classList.add("tt-slider");
 
 		new MutationObserver(options.callback).observe(rangeSlider.slider, { attributes: true });
@@ -360,7 +360,7 @@ interface WeaponBonusOptions {
 
 function createWeaponBonusSection(options: WeaponBonusOptions) {
 	const ccTitle = "weaponBonus__section-class";
-	const section = document.newElement({ type: "div", class: ccTitle });
+	const section = elementBuilder({ type: "div", class: ccTitle });
 
 	const selectOptions = [
 		{ value: "", description: "None" },
@@ -407,14 +407,14 @@ function createWeaponBonusSection(options: WeaponBonusOptions) {
 }
 
 function createStatistics(name = "entries", addBrackets = false, lowercase = false): StatisticsResult {
-	const statistics = document.newElement({
+	const statistics = elementBuilder({
 		type: "div",
 		class: "statistics",
 		children: [
 			(addBrackets ? "(" : "") + `${lowercase ? "s" : "S"}howing `,
-			document.newElement({ type: "strong", class: "stat-count", text: "X" }),
+			elementBuilder({ type: "strong", class: "stat-count", text: "X" }),
 			" of ",
-			document.newElement({ type: "strong", class: "stat-total", text: "Y" }),
+			elementBuilder({ type: "strong", class: "stat-total", text: "Y" }),
 			` ${name}` + (addBrackets ? ")" : "."),
 		],
 	});

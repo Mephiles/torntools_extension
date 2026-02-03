@@ -33,14 +33,14 @@
 
 		const title = document.find(".profile-right-wrapper > .profile-action .title-black");
 
-		title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
+		title.appendChild(elementBuilder({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
 
 		observer?.disconnect();
 		observer = new MutationObserver((mutations) => {
 			if (![...mutations].some((mutation) => [...mutation.addedNodes].every(isTextNode))) return;
 			if (title.find(".tt-stats-estimate-profile")) return;
 
-			title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
+			title.appendChild(elementBuilder({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
 		});
 		observer.observe(title, { childList: true });
 

@@ -18,13 +18,13 @@
 			previousElement: document.find(".content-wrapper .content-title"),
 			onlyHeader: true,
 		});
-		const ttExportButton = document.newElement({
+		const ttExportButton = elementBuilder({
 			type: "div",
 			id: "ttExportButton",
 			children: [
-				document.newElement({ type: "i", class: "fa-solid fa-table" }),
-				document.newElement({ type: "span", class: "text", text: "CSV" }),
-				document.newElement({ type: "a", id: "ttExportLink" }),
+				elementBuilder({ type: "i", class: "fa-solid fa-table" }),
+				elementBuilder({ type: "span", class: "text", text: "CSV" }),
+				elementBuilder({ type: "a", id: "ttExportLink" }),
 			],
 		});
 		ttExportButton.addEventListener("click", () => {

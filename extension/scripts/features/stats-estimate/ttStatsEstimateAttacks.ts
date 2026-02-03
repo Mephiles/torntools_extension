@@ -81,7 +81,7 @@
 			}
 
 			entries.classList.add("tt-stats-estimate-attacks-wrapper");
-			entries.insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "tt-stats-estimate-attacks", text }));
+			entries.insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "tt-stats-estimate-attacks", text }));
 		}
 	}
 

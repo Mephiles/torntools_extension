@@ -83,11 +83,11 @@
 					`⏱: ${spyData.timestamp}`,
 				];
 
-				statFields = allFields.slice(mobile ? 4 : 0).map((text) => document.newElement({ type: "div", text: text }));
+				statFields = allFields.slice(mobile ? 4 : 0).map((text) => elementBuilder({ type: "div", text: text }));
 				title = allFields.join("\n");
-			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
+			} else statFields.push(elementBuilder({ type: "div", text: "No spy found." }));
 
-			const spyElement = document.newElement({
+			const spyElement = elementBuilder({
 				type: "div",
 				class: "tt-faction-spy",
 				children: statFields,
@@ -123,11 +123,11 @@
 					`⏱: ${spyData.timestamp}`,
 				];
 
-				statFields = allFields.slice(4).map((text) => document.newElement({ type: "div", text: text }));
+				statFields = allFields.slice(4).map((text) => elementBuilder({ type: "div", text: text }));
 				title = allFields.join("<br>");
-			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
+			} else statFields.push(elementBuilder({ type: "div", text: "No spy found." }));
 
-			const spyElement = document.newElement({
+			const spyElement = elementBuilder({
 				type: "div",
 				class: "tt-faction-rw-spy",
 				children: statFields,

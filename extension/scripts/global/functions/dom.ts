@@ -1,71 +1,87 @@
 const rotatingElements: Record<string, { interval: number; totalDegrees: number }> = {};
 let mobile: boolean, tablet: boolean, hasSidebar: boolean;
 
-Object.defineProperty(Document.prototype, "newElement", {
-	value(this: Document, options: string | Partial<NewElementOptions> = {}): HTMLElement {
-		if (typeof options === "string") {
-			return this.createElement(options);
-		} else if (typeof options === "object") {
-			options = {
-				type: "div",
-				id: undefined,
-				class: undefined,
-				text: undefined,
-				html: undefined,
-				value: undefined,
-				href: undefined,
-				children: [],
-				attributes: {},
-				events: {},
-				style: {},
-				dataset: {},
-				...options,
-			};
+interface ElementBuilderOptions {
+	id?: string;
+	class?: string | string[];
+	text?: string | number;
+	html?: string;
+	value?: any | (() => any);
+	href?: string;
+	children?: (string | Node)[];
+	attributes?: Record<string, string | number | boolean> | (() => Record<string, string | number | boolean>);
+	events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
+	style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
+	dataset?: {
+		[name: string]: string | object | boolean | number;
+	};
+}
 
-			const newElement = this.createElement(options.type);
+function elementBuilder<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
+function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: ElementBuilderOptions & { type: K }): HTMLElementTagNameMap[K];
 
-			if (options.id) newElement.id = options.id;
-			if (options.class) {
-				if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
-				else newElement.setClass(options.class.trim());
-			}
-			if (options.text !== undefined) newElement.textContent = options.text.toString();
-			if (options.html) newElement.innerHTML = options.html;
-			if (options.value && "value" in newElement) {
-				if (typeof options.value === "function") newElement.value = options.value();
-				else newElement.value = options.value;
-			}
-			if (options.href && "href" in newElement) newElement.href = options.href;
+function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K | (ElementBuilderOptions & { type: K })): HTMLElementTagNameMap[K] {
+	if (typeof options === "string") {
+		return document.createElement(options);
+	} else if (typeof options === "object") {
+		options = {
+			type: "div",
+			id: undefined,
+			class: undefined,
+			text: undefined,
+			html: undefined,
+			value: undefined,
+			href: undefined,
+			children: [],
+			attributes: {},
+			events: {},
+			style: {},
+			dataset: {},
+			...options,
+		};
 
-			for (const child of options.children.filter((child) => !!child) || []) {
-				if (typeof child === "string") {
-					newElement.appendChild(document.createTextNode(child));
-				} else {
-					newElement.appendChild(child);
-				}
-			}
+		const newElement = document.createElement(options.type);
 
-			if (options.attributes) {
-				let attributes = options.attributes;
-				if (typeof attributes === "function") attributes = attributes();
-
-				for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute].toString());
-			}
-			for (const event in options.events) newElement.addEventListener(event, options.events[event]);
-
-			for (const key in options.style) newElement.style[key] = options.style[key];
-			for (const key in options.dataset) {
-				if (typeof options.dataset[key] === "object") newElement.dataset[key] = JSON.stringify(options.dataset[key]);
-				else newElement.dataset[key] = options.dataset[key].toString();
-			}
-
-			return newElement;
-		} else {
-			throw new Error("Invalid options provided to newElement.");
+		if (options.id) newElement.id = options.id;
+		if (options.class) {
+			if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
+			else newElement.setClass(options.class.trim());
 		}
-	},
-	enumerable: false,
-});
+		if (options.text !== undefined) newElement.textContent = options.text.toString();
+		if (options.html) newElement.innerHTML = options.html;
+		if (options.value && "value" in newElement) {
+			if (typeof options.value === "function") newElement.value = options.value();
+			else newElement.value = options.value;
+		}
+		if (options.href && "href" in newElement) newElement.href = options.href;
+
+		for (const child of options.children.filter((child) => !!child) || []) {
+			if (typeof child === "string") {
+				newElement.appendChild(document.createTextNode(child));
+			} else {
+				newElement.appendChild(child);
+			}
+		}
+
+		if (options.attributes) {
+			let attributes = options.attributes;
+			if (typeof attributes === "function") attributes = attributes();
+
+			for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute].toString());
+		}
+		for (const event in options.events) newElement.addEventListener(event, options.events[event]);
+
+		for (const key in options.style) newElement.style[key] = options.style[key];
+		for (const key in options.dataset) {
+			if (typeof options.dataset[key] === "object") newElement.dataset[key] = JSON.stringify(options.dataset[key]);
+			else newElement.dataset[key] = options.dataset[key].toString();
+		}
+
+		return newElement;
+	} else {
+		throw new Error("Invalid options provided to newElement.");
+	}
+}
 
 Object.defineProperty(DOMTokenList.prototype, "contains", {
 	value(this: DOMTokenList, className: string): boolean {
@@ -317,10 +333,10 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 		} else {
 			switch (order) {
 				case "asc":
-					header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-up" }));
+					header.appendChild(elementBuilder({ type: "i", class: "fa-solid fa-caret-up" }));
 					break;
 				case "desc":
-					header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-down" }));
+					header.appendChild(elementBuilder({ type: "i", class: "fa-solid fa-caret-down" }));
 					break;
 			}
 		}
@@ -337,7 +353,7 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 			order = "desc";
 		}
 	} else {
-		header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-up" }));
+		header.appendChild(elementBuilder({ type: "i", class: "fa-solid fa-caret-up" }));
 
 		order = "asc";
 	}
@@ -453,7 +469,7 @@ function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
 			placeholder.classList.add("active");
 		} else {
 			element.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-loading-placeholder active",
 				})
@@ -465,7 +481,7 @@ function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
 }
 
 function executeScript(filename: string, remove = true) {
-	const script = document.newElement({
+	const script = elementBuilder({
 		type: "script",
 		attributes: {
 			type: "text/javascript",
@@ -497,12 +513,12 @@ async function addInformationSection() {
 	const parent = await requireElement("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']");
 
 	parent.appendChild(
-		document.newElement({
+		elementBuilder({
 			type: "hr",
 			class: "tt-sidebar-information-divider tt-delimiter tt-hidden",
 		})
 	);
-	parent.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information tt-hidden" }));
+	parent.appendChild(elementBuilder({ type: "div", class: "tt-sidebar-information tt-hidden" }));
 }
 
 function showInformationSection() {

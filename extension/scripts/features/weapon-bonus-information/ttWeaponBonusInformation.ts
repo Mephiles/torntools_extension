@@ -172,10 +172,10 @@
 			}
 
 			messageElement.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-bonus-information",
-					children: [document.newElement({ type: "i", class: "fa-solid fa-circle-info", attributes: { title: bonus.description } })],
+					children: [elementBuilder({ type: "i", class: "fa-solid fa-circle-info", attributes: { title: bonus.description } })],
 				})
 			);
 		}

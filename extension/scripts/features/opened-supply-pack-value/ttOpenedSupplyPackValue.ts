@@ -55,7 +55,7 @@
 
 		removeTotalValueElement();
 
-		const openedValueTextElement = document.newElement({
+		const openedValueTextElement = elementBuilder({
 			id: "ttOpenedValueText",
 			type: "strong",
 			class: "tt-opened-supply-pack-value-text",

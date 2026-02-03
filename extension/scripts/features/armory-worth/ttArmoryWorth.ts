@@ -63,12 +63,12 @@
 					console.log("Error fetching armory data: ", err);
 					moneyLi.classList.add("tt-modified");
 					moneyLi.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							class: "tt-armory-worth",
 							children: [
-								document.newElement({ type: "span", text: "Armory value: ", class: "bold" }),
-								document.newElement({
+								elementBuilder({ type: "span", text: "Armory value: ", class: "bold" }),
+								elementBuilder({
 									type: "span",
 									text: err.error === "Incorrect ID-entity relation" ? "No faction API access." : "Error during fetching API data.",
 								}),
@@ -97,12 +97,12 @@
 
 			moneyLi.classList.add("tt-modified");
 			moneyLi.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					class: "tt-armory-worth",
 					children: [
-						document.newElement({ type: "span", text: "Armory value: " }),
-						document.newElement({ type: "span", text: formatNumber(total, { currency: true }) }),
+						elementBuilder({ type: "span", text: "Armory value: " }),
+						elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }),
 					],
 				})
 			);

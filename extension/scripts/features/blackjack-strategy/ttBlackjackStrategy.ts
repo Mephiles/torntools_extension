@@ -546,7 +546,7 @@
 		let element = document.find(".tt-blackjack-suggestion");
 		if (element) element.textContent = suggestion;
 		else {
-			document.find(".player-cards").appendChild(document.newElement({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
+			document.find(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
 		}
 
 		function getWorth(card: any) {

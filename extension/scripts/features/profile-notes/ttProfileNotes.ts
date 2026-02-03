@@ -22,7 +22,7 @@
 			previousElement: document.find(".profile-wrapper"),
 			class: "mt10",
 		});
-		const textarea = document.newElement({ type: "textarea" });
+		const textarea = elementBuilder({ type: "textarea" });
 		if (userID in notes.profile) {
 			textarea.value = notes.profile[userID].text || "";
 			textarea.style.height = notes.profile[userID].height || "17px";

@@ -27,7 +27,7 @@
 	}
 
 	function createOverlay() {
-		document.body.appendChild(document.newElement({ type: "div", class: "tt-overlay tt-hidden" }));
+		document.body.appendChild(elementBuilder({ type: "div", class: "tt-overlay tt-hidden" }));
 	}
 
 	async function observeChat() {

@@ -136,11 +136,11 @@
 			});
 			showTimer();
 
-			const tooltipContent = document.newElement({ type: "div", class: "tt-achievement-tooltip-content" });
-			const tooltip = document.newElement({
+			const tooltipContent = elementBuilder({ type: "div", class: "tt-achievement-tooltip-content" });
+			const tooltip = elementBuilder({
 				type: "div",
 				class: "tt-achievement-tooltip",
-				children: [document.newElement({ type: "div", class: "tt-achievement-tooltip-arrow" }), tooltipContent],
+				children: [elementBuilder({ type: "div", class: "tt-achievement-tooltip-arrow" }), tooltipContent],
 			});
 			document.body.appendChild(tooltip);
 
@@ -158,7 +158,7 @@
 
 				if (hasGoals) dataset.goals = achievement.goals.map(({ score, completed }) => ({ score, completed }));
 
-				const pill = document.newElement({
+				const pill = elementBuilder({
 					type: "div",
 					class: `pill tt-award ${achievement.completed ? "completed" : ""}`,
 					text: `${achievement.name}: ${text}`,
@@ -180,7 +180,7 @@
 			}
 
 			function showTimer() {
-				const timer = document.newElement({
+				const timer = elementBuilder({
 					type: "span",
 					class: "tt-awards-time-ago",
 					text: formatTime({ milliseconds: userdata.dateBasic }, { type: "ago", short: true }),
@@ -209,7 +209,7 @@
 				tooltip.style.display = "block";
 				tooltipContent.innerHTML = "";
 
-				const progress = document.newElement({ type: "ol", class: "awards-progress" });
+				const progress = elementBuilder({ type: "ol", class: "awards-progress" });
 
 				const score = parseInt(target.dataset.score);
 				const goals = JSON.parse(target.dataset.goals);
@@ -232,10 +232,10 @@
 				tooltipContent.appendChild(progress);
 
 				function getNode(score: number, isCompleted: boolean, isActive: boolean) {
-					return document.newElement({
+					return elementBuilder({
 						type: "li",
 						class: `${isCompleted ? "is-completed" : ""} ${isActive ? "is-current" : ""}`,
-						children: [document.newElement({ type: "span", text: formatNumber(score, { shorten: 3, decimals: 1 }) })],
+						children: [elementBuilder({ type: "span", text: formatNumber(score, { shorten: 3, decimals: 1 }) })],
 					});
 				}
 			}

@@ -32,7 +32,7 @@
 		if ((hasAPIData() && userdata.faction?.id === factionID) || settings.alliedFactions.some((ally) => ally === factionID)) {
 			const node = await requireElement(selector);
 
-			const warning = document.newElement({
+			const warning = elementBuilder({
 				type: "div",
 				class: "tt-disable-ally-attack",
 				text: "Blocked by TornTools. This player is an ally. Click here if you are sure to attack.",

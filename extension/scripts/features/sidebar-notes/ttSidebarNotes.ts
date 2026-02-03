@@ -27,7 +27,7 @@
 		});
 
 		content.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "textarea",
 				class: "notes",
 				value: notes.sidebar.text,

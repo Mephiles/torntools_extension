@@ -96,20 +96,20 @@
 		const needed = items.filter((x) => !currentItems.some((y) => x.id === y)).sort((a, b) => a.name.localeCompare(b.name));
 		if (needed.length <= 0) return;
 
-		const wrapper = document.newElement({ type: "div", id: id });
+		const wrapper = elementBuilder({ type: "div", id: id });
 		let isFirst = true;
 		for (const item of needed) {
 			const isLast = needed.indexOf(item) === needed.length - 1;
 
-			const missingItem = document.newElement({
+			const missingItem = elementBuilder({
 				type: "div",
 				class: "needed-item",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "img",
 						attributes: { src: `https://www.torn.com/images/items/${item.id}/large.png`, alt: item.name },
 					}),
-					document.newElement({ type: "span", text: item.name }),
+					elementBuilder({ type: "span", text: item.name }),
 				],
 				dataset: { id: item.id, name: item.name, category: item.category },
 			});
@@ -130,7 +130,7 @@
 
 		missingItem.find(":scope > span").insertAdjacentElement(
 			"afterend",
-			document.newElement({
+			elementBuilder({
 				type: "span",
 				class: "tt-item-price",
 				text: `${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value, { currency: true })}`,
@@ -151,7 +151,7 @@
 
 		let parent = missingItem.find(".outside-actions");
 		if (!parent) {
-			parent = document.newElement({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
+			parent = elementBuilder({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
 
 			missingItem.appendChild(parent);
 		}
@@ -160,14 +160,14 @@
 		const { name, category } = missingItem.dataset;
 
 		parent.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "market-link",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "a",
 						href: `https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${name}&itemType=${category}`,
-						children: [document.newElement({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
+						children: [elementBuilder({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
 					}),
 				],
 			})

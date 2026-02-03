@@ -26,9 +26,7 @@
 	function addPrice() {
 		requireElement("[class*='buyMenu_'] [class*='price_']").then(() => {
 			if (document.find("#tt-total-cost")) return;
-			document
-				.find("[class*='buyMenu_'] [class*='amount_']")
-				.insertAdjacentElement("beforeend", document.newElement({ type: "span", id: "tt-total-cost" }));
+			document.find("[class*='buyMenu_'] [class*='amount_']").insertAdjacentElement("beforeend", elementBuilder({ type: "span", id: "tt-total-cost" }));
 			const inputElement = document.find<HTMLInputElement>("[class*='buyMenu_'] [class*='buyForm_'] input[class*='numberInput_']");
 			changeTotalPrice(parseInt(inputElement.value));
 			inputElement.addEventListener("input", (event) => changeTotalPrice(parseInt((event.target as HTMLInputElement).value)));

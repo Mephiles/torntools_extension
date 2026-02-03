@@ -28,7 +28,7 @@
 
 			book.find(".name-wrap .qty.t-hide").insertAdjacentElement(
 				"afterend",
-				document.newElement({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
+				elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
 			);
 		});
 	}

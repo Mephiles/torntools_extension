@@ -142,12 +142,12 @@ async function setupDashboard() {
 		let url = "url" in r ? r.url : null;
 
 		iconsWrap.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: url ? "a" : "div",
 				class: ["icon", "tt-hidden", "hover_tooltip"],
 				children: [
-					document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
-					document.newElement({ type: "span", class: "hover_tooltip_text", text: description }),
+					elementBuilder({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
+					elementBuilder({ type: "span", class: "hover_tooltip_text", text: description }),
 				],
 				attributes: url ? { href: url, target: "_blank" } : {},
 			})
@@ -564,10 +564,10 @@ async function setupDashboard() {
 					stateColor = "gray";
 				}
 
-				const removeStakeoutButton = document.newElement({
+				const removeStakeoutButton = elementBuilder({
 					type: "div",
 					class: "delete-stakeout-wrap",
-					children: [document.newElement({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
+					children: [elementBuilder({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
 				});
 				removeStakeoutButton.addEventListener("click", () => {
 					delete stakeouts[id];
@@ -576,15 +576,15 @@ async function setupDashboard() {
 					ttStorage.set({ stakeouts });
 				});
 
-				const lifeBar = document.newElement({
+				const lifeBar = elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({ type: "span", text: "Life: " }),
-						document.newElement({
+						elementBuilder({ type: "span", text: "Life: " }),
+						elementBuilder({
 							type: "div",
 							class: "progress",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "value",
 									style: { width: `${((lifeCurrent / lifeMaximum) * 100).toFixed(0)}%` },
@@ -595,23 +595,23 @@ async function setupDashboard() {
 				});
 
 				stakeoutList.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "user",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "row information",
 								children: [
-									document.newElement({
+									elementBuilder({
 										type: "div",
 										class: "activity",
 										children: [
-											document.newElement({
+											elementBuilder({
 												type: "span",
 												class: `status ${activity.toLowerCase()}`,
 											}),
-											document.newElement({
+											elementBuilder({
 												type: "a",
 												href: `https://www.torn.com/profiles.php?XID=${id}`,
 												text: name,
@@ -622,22 +622,22 @@ async function setupDashboard() {
 									removeStakeoutButton,
 								],
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "row detailed",
 								children: [
 									lifeBar,
-									document.newElement({
+									elementBuilder({
 										type: "span",
 										class: "lastAction",
 										text: `Last action: ${lastAction}`,
 									}),
 								],
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: `row state ${stateColor}`,
-								children: [document.newElement({ type: "span", class: "state ", text: state })],
+								children: [elementBuilder({ type: "span", class: "state ", text: state })],
 							}),
 						],
 					})
@@ -674,10 +674,10 @@ async function setupDashboard() {
 					maxMembers = "N/A";
 				}
 
-				const removeStakeoutButton = document.newElement({
+				const removeStakeoutButton = elementBuilder({
 					type: "div",
 					class: "delete-stakeout-wrap",
-					children: [document.newElement({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
+					children: [elementBuilder({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
 				});
 				removeStakeoutButton.addEventListener("click", () => {
 					delete factionStakeouts[factionId];
@@ -686,26 +686,26 @@ async function setupDashboard() {
 				});
 
 				stakeoutList.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "faction",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "row information",
 								children: [
-									document.newElement({
+									elementBuilder({
 										type: "a",
 										href: `https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 										text: name,
 										attributes: { target: "_blank" },
 									}),
-									document.newElement({
+									elementBuilder({
 										type: "div",
 										class: "members",
 										text: members !== "N/A" ? `${members} of ${maxMembers} members` : "unknown members",
 									}),
-									document.newElement({
+									elementBuilder({
 										type: "div",
 										class: "chain",
 										text: chain ? `${chain} chain` : "no chain",
@@ -728,7 +728,7 @@ async function setupMarketSearch() {
 	for (const id in torndata.items) {
 		const name = torndata.items[id].name;
 
-		const div = document.newElement({
+		const div = elementBuilder({
 			type: "li",
 			class: "item",
 			id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
@@ -831,12 +831,12 @@ async function setupMarketSearch() {
 				list.innerHTML = "Item is not sellable!";
 			} else {
 				// Item market listings.
-				const itemMarketWrap = document.newElement({ type: "div" });
-				itemMarketWrap.appendChild(document.newElement({ type: "h4", text: "Item Market" }));
+				const itemMarketWrap = elementBuilder({ type: "div" });
+				itemMarketWrap.appendChild(elementBuilder({ type: "h4", text: "Item Market" }));
 				if (tornResult.itemmarket?.listings?.length) {
 					for (const item of tornResult.itemmarket.listings) {
 						itemMarketWrap.appendChild(
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "price",
 								text: `${item.amount}x | $${formatNumber(item.price)}`,
@@ -845,7 +845,7 @@ async function setupMarketSearch() {
 					}
 				} else {
 					itemMarketWrap.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
@@ -855,12 +855,12 @@ async function setupMarketSearch() {
 				list.appendChild(itemMarketWrap);
 
 				// TornW3B market listings
-				const bazaarWrap = document.newElement({ type: "div" });
-				bazaarWrap.appendChild(document.newElement({ type: "h4", text: "Bazaars" }));
+				const bazaarWrap = elementBuilder({ type: "div" });
+				bazaarWrap.appendChild(elementBuilder({ type: "h4", text: "Bazaars" }));
 				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b && tornw3bResult?.listings?.length) {
 					for (const item of tornw3bResult.listings.slice(0, 3)) {
 						bazaarWrap.appendChild(
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "price",
 								text: `${item.quantity}x | $${formatNumber(item.price)}`,
@@ -869,7 +869,7 @@ async function setupMarketSearch() {
 					}
 				} else {
 					bazaarWrap.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
@@ -903,17 +903,17 @@ async function setupCalculator() {
 		const identifier = `calculator-${id}`;
 
 		itemSelection.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "li",
 				class: "item",
 				id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "label",
 						text: name,
 						attributes: { for: identifier },
 					}),
-					document.newElement({
+					elementBuilder({
 						type: "input",
 						id: identifier,
 						attributes: { type: "number" },
@@ -990,7 +990,7 @@ async function setupCalculator() {
 		}
 		clear.classList.remove("tt-hidden");
 
-		const items = document.newElement({ type: "ul" });
+		const items = elementBuilder({ type: "ul" });
 
 		let totalValue = 0;
 		for (const { id, amount } of selectedItems) {
@@ -998,21 +998,21 @@ async function setupCalculator() {
 			const price = amount * value;
 
 			items.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "amount",
 							text: `${formatNumber(amount)}x`,
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "item",
 							text: name,
 						}),
 						document.createTextNode("="),
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "price",
 							text: formatNumber(price, { currency: true }),
@@ -1026,7 +1026,7 @@ async function setupCalculator() {
 
 		receipt.appendChild(items);
 		receipt.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "total",
 				text: `Total: ${formatNumber(totalValue, { currency: true })}`,
@@ -1094,11 +1094,11 @@ async function setupStocksOverview() {
 
 		const userStock: UserV1Stock | null = settings.apiUsage.user.stocks ? (userdata.stocks[id] ?? null) : null;
 
-		const wrapper = document.newElement({
+		const wrapper = elementBuilder({
 			type: "div",
 			class: "stock-wrap",
 			dataset: { name: `${stock.name} (${stock.acronym})`.toLowerCase(), user: !!userStock },
-			children: [document.newElement("hr")],
+			children: [elementBuilder("hr")],
 		});
 
 		let boughtPrice: number, profit: number;
@@ -1115,32 +1115,32 @@ async function setupStocksOverview() {
 		return wrapper;
 
 		function createHeading() {
-			const heading = document.newElement({
+			const heading = elementBuilder({
 				type: "a",
 				class: "heading",
 				href: `https://www.torn.com/stockexchange.php?stock=${stock.acronym}`,
 				attributes: { target: "_blank" },
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						class: "name",
 						text: `${stock[stock.name.length > 35 ? "acronym" : "name"]}`,
 					}),
-					document.newElement("br"),
+					elementBuilder("br"),
 				],
 			});
 			wrapper.appendChild(heading);
 
 			if (userStock) {
 				heading.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						class: "quantity",
 						text: `(${formatNumber(userStock.total_shares, { shorten: 2 })} share${applyPlural(userStock.total_shares)})`,
 					})
 				);
 				heading.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: `profit ${getProfitClass(profit)}`,
 						text: `${getProfitIndicator(profit)}${formatNumber(Math.abs(profit), { currency: true })}`,
@@ -1158,22 +1158,22 @@ async function setupStocksOverview() {
 		}
 
 		function createPriceInformation() {
-			const priceContent = document.newElement({
+			const priceContent = elementBuilder({
 				type: "div",
 				class: "content price tt-hidden",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `Current price: ${formatNumber(stock.current_price, { decimals: 3, currency: true })}`,
 					}),
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `Total shares: ${formatNumber(stock.total_shares)}`,
 					}),
 				],
 			});
 			wrapper.append(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Price Information", priceContent), priceContent],
@@ -1181,9 +1181,9 @@ async function setupStocksOverview() {
 			);
 
 			if (userStock) {
-				priceContent.appendChild(document.newElement({ type: "div", class: "flex-break" }));
+				priceContent.appendChild(elementBuilder({ type: "div", class: "flex-break" }));
 				priceContent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `Bought at: ${formatNumber(boughtPrice, { decimals: 3, currency: true })}`,
 					})
@@ -1192,13 +1192,13 @@ async function setupStocksOverview() {
 		}
 
 		function createBenefitInformation() {
-			const benefitContent = document.newElement({
+			const benefitContent = elementBuilder({
 				type: "div",
 				class: "content benefit tt-hidden",
 				children: [],
 			});
 			wrapper.append(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Benefit Information", benefitContent), benefitContent],
@@ -1208,7 +1208,7 @@ async function setupStocksOverview() {
 			if (userStock) {
 				if (isDividendStock(id)) {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: userStock.dividend
 								? userStock.dividend.ready
@@ -1221,12 +1221,12 @@ async function setupStocksOverview() {
 					benefitContent.appendChild(createRoiTable(stock, userStock));
 				} else {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(userStock.total_shares)}/${formatNumber(stock.benefit.requirement)}`,
 						})
 					);
-					benefitContent.appendChild(document.newElement("br"));
+					benefitContent.appendChild(elementBuilder("br"));
 
 					let color: string;
 					let duration: string;
@@ -1244,7 +1244,7 @@ async function setupStocksOverview() {
 					}
 
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: `description ${color}`,
 							text: `${stock.benefit.description}`,
@@ -1252,7 +1252,7 @@ async function setupStocksOverview() {
 					);
 					if (duration)
 						benefitContent.appendChild(
-							document.newElement({
+							elementBuilder({
 								type: "span",
 								class: "duration",
 								text: duration,
@@ -1262,7 +1262,7 @@ async function setupStocksOverview() {
 			} else {
 				if (isDividendStock(id)) {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `Available every ${stock.benefit.frequency} days.`,
 						})
@@ -1271,21 +1271,21 @@ async function setupStocksOverview() {
 					benefitContent.appendChild(createRoiTable(stock, undefined));
 				} else {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(stock.benefit.requirement)}`,
 						})
 					);
-					benefitContent.appendChild(document.newElement("br"));
+					benefitContent.appendChild(elementBuilder("br"));
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "description not-completed",
 							text: `${stock.benefit.description}`,
 						})
 					);
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "duration",
 							text: `after ${stock.benefit.frequency} days.`,
@@ -1296,30 +1296,30 @@ async function setupStocksOverview() {
 		}
 
 		function createAlertsSection() {
-			const alertsContent = document.newElement({
+			const alertsContent = elementBuilder({
 				type: "div",
 				class: "content alerts tt-hidden",
 				children: [],
 			});
 			wrapper.append(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Alerts", alertsContent), alertsContent],
 				})
 			);
 
-			alertsContent.appendChild(document.newElement({ type: "span", class: "title", text: "Price" }));
+			alertsContent.appendChild(elementBuilder({ type: "span", class: "title", text: "Price" }));
 			alertsContent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "label",
 							attributes: { for: `stock-${id}-alert__reaches` },
 							text: "reaches",
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							id: `stock-${id}-alert__reaches`,
 							attributes: { type: "number", min: 0 },
@@ -1344,15 +1344,15 @@ async function setupStocksOverview() {
 				})
 			);
 			alertsContent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "label",
 							attributes: { for: `stock-${id}-alert__falls` },
 							text: "falls to",
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							id: `stock-${id}-alert__falls`,
 							attributes: { type: "number", min: 0 },
@@ -1379,16 +1379,16 @@ async function setupStocksOverview() {
 		}
 
 		function getHeadingElement(title: string, content: Element) {
-			return document.newElement({
+			return elementBuilder({
 				type: "div",
 				class: "heading",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						class: "title",
 						text: title,
 					}),
-					document.newElement({ type: "i", class: "fa-solid  fa-chevron-down" }),
+					elementBuilder({ type: "i", class: "fa-solid  fa-chevron-down" }),
 				],
 				events: {
 					click: (event) => {
@@ -1402,23 +1402,23 @@ async function setupStocksOverview() {
 		}
 
 		function createRoiTable(stock: TornV1Stock, userStock: UserV1Stock | undefined) {
-			const benefitTable = document.newElement({
+			const benefitTable = elementBuilder({
 				type: "table",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "tr",
 						children: [
-							document.newElement({ type: "th", text: "Increment" }),
-							document.newElement({
+							elementBuilder({ type: "th", text: "Increment" }),
+							elementBuilder({
 								type: "th",
 								text: "Stocks",
 							}),
-							document.newElement({ type: "th", text: "Cost" }),
-							document.newElement({
+							elementBuilder({ type: "th", text: "Cost" }),
+							elementBuilder({
 								type: "th",
 								text: "Reward",
 							}),
-							document.newElement({ type: "th", text: "ROI" }),
+							elementBuilder({ type: "th", text: "ROI" }),
 						],
 					}),
 				],
@@ -1444,18 +1444,18 @@ async function setupStocksOverview() {
 				const roi = (yearlyValue / ((stocks - previousStocks) * stock.current_price)) * 100;
 
 				benefitTable.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "tr",
 						class: ["increment", level <= ownedLevel ? (level <= activeLevel ? "completed" : "awaiting") : ""],
 						children: [
-							document.newElement({ type: "td", text: level }),
-							document.newElement({ type: "td", text: formatNumber(stocks) }),
-							document.newElement({
+							elementBuilder({ type: "td", text: level }),
+							elementBuilder({ type: "td", text: formatNumber(stocks) }),
+							elementBuilder({
 								type: "td",
 								text: formatNumber(stocks * stock.current_price, { currency: true }),
 							}),
-							document.newElement({ type: "td", text: reward }),
-							document.newElement({
+							elementBuilder({ type: "td", text: reward }),
+							elementBuilder({
 								type: "td",
 								text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A",
 							}),
@@ -1485,25 +1485,25 @@ async function setupNotifications() {
 
 		const period = isToday(date) ? formatTime(date) : `${formatDate(date)} ${formatTime(date)}`;
 
-		return document.newElement({
+		return elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "a",
 					href: url,
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "title",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "span",
 									text: title,
 								}),
-								document.newElement({ type: "span", text: period }),
+								elementBuilder({ type: "span", text: period }),
 							],
 						}),
-						document.newElement({ type: "span", text: message }),
+						elementBuilder({ type: "span", text: message }),
 					],
 					attributes: { target: "_blank" },
 				}),

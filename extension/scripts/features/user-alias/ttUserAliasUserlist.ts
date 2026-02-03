@@ -47,7 +47,7 @@
 			const liID = li.href.split("?XID=")[1].getNumber();
 			if (!settings.userAlias[liID]) return;
 
-			const aliasSpan = document.newElement({ type: "span", class: "tt-user-alias-list", text: settings.userAlias[liID].alias });
+			const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias-list", text: settings.userAlias[liID].alias });
 			li.insertAdjacentElement("afterend", aliasSpan);
 		});
 	}

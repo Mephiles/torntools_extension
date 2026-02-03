@@ -47,7 +47,7 @@
 
 			row.insertAdjacentElement(
 				"afterend",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-oc-last-action",
 					text: `Last action: ${lastAction.relative}`,

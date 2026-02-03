@@ -68,7 +68,7 @@
 
 				if (hasAPIData() && !item.find(".tt-blood-price")) {
 					item.find(".name").appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "tt-blood-price",
 							text: `${formatNumber(torndata.items[itemId].market_value, { currency: true })}`,

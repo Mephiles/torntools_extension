@@ -34,7 +34,7 @@ class DualRangeSlider {
 	}
 
 	_createElement() {
-		this.slider = document.newElement({
+		this.slider = elementBuilder({
 			type: "div",
 			class: "tt-dual-range",
 			html: `	

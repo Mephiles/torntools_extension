@@ -60,7 +60,7 @@
 		}
 
 		function addButtonAndListener(parent: Element) {
-			const fillMax = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
+			const fillMax = elementBuilder({ type: "span", text: "fill max", class: "tt-max-buy" });
 			const buyButton = parent.find("[class*='buy_']");
 			buyButton.classList.add("tt-buy");
 			buyButton.parentElement.appendChild(fillMax);

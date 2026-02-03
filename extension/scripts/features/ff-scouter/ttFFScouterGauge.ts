@@ -146,7 +146,7 @@
 							}
 
 							element.appendChild(
-								document.newElement({
+								elementBuilder({
 									type: "img",
 									class: "tt-ff-scouter-arrow",
 									attributes: { src: arrow },

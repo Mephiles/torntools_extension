@@ -66,7 +66,7 @@
 
 				if (isNaN(difference)) continue;
 
-				const bar = document.newElement("span");
+				const bar = elementBuilder("span");
 
 				if (difference !== 0) {
 					if (property.find(".bar-tpl-wrap").classList.contains("negative")) {
@@ -124,12 +124,12 @@
 			if (elCategory.find(".tt-race-need-icon")) {
 				elCategory.find(".tt-race-need-icon").textContent = (parseInt(elCategory.find(".tt-race-need-icon").textContent) + 1).toString();
 			} else {
-				elCategory.find(".bg-hover").appendChild(document.newElement({ type: "div", class: "tt-race-need-icon", text: 1 }));
+				elCategory.find(".bg-hover").appendChild(elementBuilder({ type: "div", class: "tt-race-need-icon", text: 1 }));
 			}
 		});
 
 		document.find("#racingAdditionalContainer > .info-msg-cont .msg").appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "p",
 				class: "tt-race-upgrades",
 				html: `
