@@ -34,14 +34,16 @@
 			if (params.get("action") !== "use") return;
 			if (!isUseItem(params.get("step"), json) || !json.success) return;
 
-			itemID = params.get("id")?.getNumber() ?? itemID;
+			itemID = convertToNumber(params.get("id")) ?? itemID;
 			if (isXIDRequestSupplyPack(itemID)) {
 				reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
 			}
 
 			if ((params.get("XID") === reqXID || isDrugPackUseRequest(params)) && json.items?.itemAppear) {
 				const totalOpenedValue = json.items.itemAppear
-					.map((item) => ("isMoney" in item ? item.moneyGain.substring(1).getNumber() : torndata.items[item.ID].market_value * parseInt(item.qty)))
+					.map((item) =>
+						"isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.items[item.ID].market_value * parseInt(item.qty)
+					)
 					.reduce((totalValue, value) => totalValue + value, 0);
 
 				await showTotalValue(totalOpenedValue, itemID);
@@ -74,7 +76,7 @@
 	}
 
 	function isDrugPackUseRequest(params: URLSearchParams) {
-		return params.get("item")?.getNumber() === 370 || params.get("itemID")?.getNumber() === 370;
+		return convertToNumber(params.get("item")) === 370 || convertToNumber(params.get("itemID")) === 370;
 	}
 
 	function removeTotalValueElement() {

@@ -266,7 +266,7 @@
 			}
 		}
 		if (filters.level?.start || filters.level?.end) {
-			const level = row.find(".level").textContent.getNumber();
+			const level = convertToNumber(row.find(".level").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;

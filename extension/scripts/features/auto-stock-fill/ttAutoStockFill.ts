@@ -39,13 +39,13 @@
 
 	async function fillStock() {
 		const stockForm: Element = await requireElement("form[action*='stock']");
-		const storageCapacity = findAllElements(".storage-capacity > *", stockForm).map((x) => x.dataset.initial.getNumber());
+		const storageCapacity = findAllElements(".storage-capacity > *", stockForm).map((x) => convertToNumber(x.dataset.initial));
 		const usableCapacity = storageCapacity[1] - storageCapacity[0];
-		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
+		const totalSoldDaily = convertToNumber(stockForm.find(".stock-list > li.total .sold-daily").textContent);
 		console.log(storageCapacity, usableCapacity, totalSoldDaily);
 
 		findAllElements(".stock-list > li:not(.total):not(.quantity)", stockForm).forEach((stockItem) => {
-			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
+			const soldDaily = convertToNumber(stockItem.find(".sold-daily").lastChild.textContent);
 
 			let neededStock = dropDecimals((soldDaily / totalSoldDaily) * usableCapacity);
 			neededStock = Math.max(0, neededStock);

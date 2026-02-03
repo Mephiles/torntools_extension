@@ -55,8 +55,8 @@
 
 				return {
 					element,
-					id: image.src.getNumber(),
-					price: element.find("[class*='priceAndTotal'] > span").textContent.getNumber(),
+					id: convertToNumber(image.src),
+					price: convertToNumber(element.find("[class*='priceAndTotal'] > span").textContent),
 				};
 			})
 			.filter((item) => item?.element);
@@ -71,13 +71,13 @@
 			const image = document.find("[class*='sellerListWrapper___']").previousElementSibling.find<HTMLImageElement>("img.torn-item");
 			if (!image) return null;
 
-			id = image.src.getNumber();
+			id = convertToNumber(image.src);
 		}
 
 		if (id !== undefined) {
 			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
 				element,
-				price: element.find("[class*='price___']").textContent.getNumber(),
+				price: convertToNumber(element.find("[class*='price___']").textContent),
 				id,
 			}));
 
@@ -88,7 +88,7 @@
 			const id = parseInt(params.get("itemID"));
 			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
 				element,
-				price: element.find("[class*='price___']").textContent.getNumber(),
+				price: convertToNumber(element.find("[class*='price___']").textContent),
 				id,
 			}));
 
@@ -110,8 +110,8 @@
 
 				return {
 					element,
-					id: image.src.getNumber(),
-					price: element.find("[class*='priceAndTotal'] > span").textContent.getNumber(),
+					id: convertToNumber(image.src),
+					price: convertToNumber(element.find("[class*='priceAndTotal'] > span").textContent),
 				};
 			})
 			.filter((item) => item?.element);
@@ -127,7 +127,7 @@
 			.filter((element) => !!element.find("[class*='price___']"))
 			.map<ItemEntry>((element) => ({
 				element,
-				price: element.find("[class*='price___']").textContent.getNumber(),
+				price: convertToNumber(element.find("[class*='price___']").textContent),
 				id: item,
 			}));
 

@@ -51,12 +51,12 @@
 		Object.entries(bonus).forEach(([stat, values]) => {
 			const factionPerk = factionPerks.find((perk) => perk.includes(stat));
 			if (factionPerk) {
-				values.push({ source: "faction", value: factionPerk.getNumber() });
+				values.push({ source: "faction", value: convertToNumber(factionPerk) });
 			}
 
 			const jobPerk = jobPerks.filter((perk) => perk.includes(stat) || perk.match(/\+ [0-9]+% gym gains?/));
 			if (jobPerk.length) {
-				let totalJob = jobPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
+				let totalJob = jobPerk.map((perk) => 1 + convertToNumber(perk) / 100).reduce((total, value) => total * value, 1);
 				totalJob -= 1;
 				totalJob *= 100;
 				totalJob = dropDecimals(totalJob);
@@ -65,12 +65,12 @@
 			}
 
 			if (propertyPerk) {
-				values.push({ source: "property", value: propertyPerk.getNumber() });
+				values.push({ source: "property", value: convertToNumber(propertyPerk) });
 			}
 
 			const eductionPerk = eductionPerks.filter((perk) => perk.includes(stat) || perk.match(/\+ [0-9]+% gym gains?/));
 			if (eductionPerk.length) {
-				let totalEducation = eductionPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
+				let totalEducation = eductionPerk.map((perk) => 1 + convertToNumber(perk) / 100).reduce((total, value) => total * value, 1);
 				totalEducation -= 1;
 				totalEducation *= 100;
 				totalEducation = dropDecimals(totalEducation);
@@ -79,7 +79,7 @@
 			}
 
 			if (bookPerk && (bookPerk.includes(" all ") || bookPerk.includes(stat))) {
-				values.push({ source: "book", value: bookPerk.getNumber() });
+				values.push({ source: "book", value: convertToNumber(bookPerk) });
 			}
 		});
 

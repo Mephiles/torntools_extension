@@ -34,7 +34,7 @@
 				const params = new URLSearchParams(xhr.requestBody);
 				if (params.get("action") !== "use") return;
 
-				const id = params.get("id").getNumber();
+				const id = convertToNumber(params.get("id"));
 				if (!doesRestoreLife(id)) return;
 
 				showInformation(id);
@@ -45,7 +45,7 @@
 
 				if (!isElement(event.target) || !event.target.classList.contains("use")) return;
 
-				const id = event.target.closest(".item-use-act").find(".use-cont").dataset.itemid.getNumber();
+				const id = convertToNumber(event.target.closest(".item-use-act").find(".use-cont").dataset.itemid);
 				if (!doesRestoreLife(id)) return;
 
 				showInformation(id);

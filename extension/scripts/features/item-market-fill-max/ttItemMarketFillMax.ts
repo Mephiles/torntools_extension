@@ -24,9 +24,9 @@
 			// the Buy icon is clicked. Hence exit early.
 			if ((mobile || tablet) && !listing.children[0].matches("[class*='sellerRow__'][class*='expanded__']")) return;
 
-			const quantityAvailable = listing.find("[class*='available__']").textContent.getNumber();
-			const moneyOnHand = document.find("#user-money").dataset.money.getNumber();
-			const itemPrice = listing.find("[class*='price__']").textContent.getNumber();
+			const quantityAvailable = convertToNumber(listing.find("[class*='available__']").textContent);
+			const moneyOnHand = convertToNumber(document.find("#user-money").dataset.money);
+			const itemPrice = convertToNumber(listing.find("[class*='price__']").textContent);
 			const purchasableQuantity = Math.min(quantityAvailable, Math.floor(moneyOnHand / itemPrice));
 
 			const quantityInput = listing.find<HTMLInputElement>(".input-money-group input:not([type])");

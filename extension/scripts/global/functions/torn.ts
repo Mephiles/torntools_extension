@@ -2054,7 +2054,7 @@ function getUsername(row: Element) {
 			id = parseInt(regex[2]);
 		} else {
 			name = element.textContent;
-			id = element.href.getNumber();
+			id = convertToNumber(element.href);
 
 			combined = `${name} [${id}]`;
 		}
@@ -2062,12 +2062,12 @@ function getUsername(row: Element) {
 		const link = row.find<HTMLLinkElement>("a[href*='profiles']");
 		if (link.getAttribute("id")) {
 			name = link.find("span").textContent || "";
-			id = link.getAttribute("id").split("-")[0].getNumber();
+			id = convertToNumber(link.getAttribute("id").split("-")[0]);
 
 			combined = name ? `${name} [${id}]` : id.toString();
 		} else {
 			name = link.textContent;
-			id = link.href.match(/XID=(\d*)/i)[1].getNumber();
+			id = convertToNumber(link.href.match(/XID=(\d*)/i)[1]);
 
 			combined = `${name} [${id}]`;
 		}

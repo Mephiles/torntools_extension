@@ -319,7 +319,7 @@
 		if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
 			const bonus = parseFloat(filters.armorBonus);
 
-			if (row.find(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title").getNumber() < bonus) {
+			if (convertToNumber(row.find(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title")) < bonus) {
 				hide("bonus");
 				return;
 			}
@@ -332,7 +332,7 @@
 				.filter((values) => values.length >= 2)
 				.map(([bonus, description]) => ({
 					bonus: bonus.substring(3, bonus.length - 4).toLowerCase(),
-					value: description.getNumber(),
+					value: convertToNumber(description),
 				}));
 
 			const hasBonuses = toFilterBonus.every(

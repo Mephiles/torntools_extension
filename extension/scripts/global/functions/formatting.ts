@@ -1,5 +1,5 @@
 const REGEXES = {
-	getNumber: /-?[\d,]+(\.\d+)?/,
+	convertToNumber: /-?[\d,]+(\.\d+)?/,
 	formatNumber: /\B(?=(\d{3})+(?!\d))/g,
 };
 
@@ -17,18 +17,19 @@ Number.prototype.roundNearest = function (multiple: number) {
 
 interface String {
 	camelCase(lowerCamelCase: boolean): string;
-	getNumber(): number;
 }
 
 String.prototype.camelCase = function (lowerCamelCase) {
 	return (this.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + this.slice(1)).trim().replaceAll(" ", "");
 };
 
-String.prototype.getNumber = function () {
-	const match = this.match(REGEXES.getNumber);
+function convertToNumber(string: string | undefined | null): number {
+	if (!string) return NaN;
+
+	const match = string.match(REGEXES.convertToNumber);
 
 	return match ? Number(match[0].replaceAll(",", "")) : NaN;
-};
+}
 
 function toSeconds(milliseconds: any) {
 	if (!milliseconds) return toSeconds(Date.now());

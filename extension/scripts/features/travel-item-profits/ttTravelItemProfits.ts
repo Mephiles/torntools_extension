@@ -63,9 +63,9 @@
 				const imageElement = row.find<HTMLImageElement>("[data-tt-content-type='item'] img");
 				if (!imageElement) continue;
 
-				const id = imageElement.srcset.split(" ")[0].getNumber();
+				const id = convertToNumber(imageElement.srcset.split(" ")[0]);
 				const marketPrice = torndata.items[id].market_value;
-				const buyPrice = row.find("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent.getNumber();
+				const buyPrice = convertToNumber(row.find("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent);
 
 				const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;
 				const anonymousTax = sellAnonymously ? Math.ceil((marketPrice * ANONYMOUS_TAX) / 100) : 0;

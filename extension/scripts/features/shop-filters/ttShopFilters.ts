@@ -70,12 +70,12 @@
 			const itemIdAttr = itemElement.getAttribute("itemid");
 			if (!itemIdAttr) continue;
 
-			const id = itemIdAttr.getNumber();
+			const id = convertToNumber(itemIdAttr);
 			const item = torndata.items[id];
 			if (!item) continue;
 
 			const priceText = element.find(".price").firstChild?.textContent ?? "";
-			const price = priceText.getNumber();
+			const price = convertToNumber(priceText);
 
 			const profitable = item.market_value - price > 0;
 			if (hideLoss && !profitable) {
@@ -83,7 +83,7 @@
 				continue;
 			}
 
-			if (hideUnder100 && element.find(".instock").textContent.getNumber() < 100) {
+			if (hideUnder100 && convertToNumber(element.find(".instock").textContent) < 100) {
 				element.classList.add("tt-hidden");
 				continue;
 			}

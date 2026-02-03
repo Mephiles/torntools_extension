@@ -17,7 +17,7 @@
 
 		const ageDiv = document.find(".box-info.age");
 		ageDiv.find(".box-name").classList.add("tt-hidden");
-		const age = boxValue.textContent.getNumber();
+		const age = convertToNumber(boxValue.textContent);
 
 		const now = new Date();
 		const signupDate = new Date(now.getTime() - age * TO_MILLIS.DAYS);

@@ -35,10 +35,10 @@
 			function fillMax(event: MouseEvent) {
 				event.stopPropagation();
 
-				let max = item.find(".instock").textContent.getNumber();
+				let max = convertToNumber(item.find(".instock").textContent);
 				if (!settings.pages.shops.maxBuyIgnoreCash) {
-					const price = item.find(".price").firstChild.textContent.getNumber();
-					const money = document.find("#user-money").dataset.money.getNumber();
+					const price = convertToNumber(item.find(".price").firstChild.textContent);
+					const money = convertToNumber(document.find("#user-money").dataset.money);
 
 					if (Math.floor(money / price) < max) max = Math.floor(money / price);
 				}

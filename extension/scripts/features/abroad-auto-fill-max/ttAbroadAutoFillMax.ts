@@ -17,12 +17,12 @@
 	async function autoFillInputs() {
 		await requireElement("[class*='stockTableWrapper___'] [class*='row___'] [data-tt-content-type]");
 
-		const money = (await requireElement(".info-msg-cont .msg strong:nth-of-type(2)")).textContent.getNumber();
+		const money = convertToNumber((await requireElement(".info-msg-cont .msg strong:nth-of-type(2)")).textContent);
 		if (money === 0) return;
 
 		const capacityText = document.find(".info-msg-cont .msg strong:nth-of-type(3)").textContent.split(" / ");
-		const boughtItems = capacityText[0].getNumber();
-		let travelCapacity = capacityText[1].getNumber();
+		const boughtItems = convertToNumber(capacityText[0]);
+		let travelCapacity = convertToNumber(capacityText[1]);
 		if (
 			hasAPIData() &&
 			settings.apiUsage.user.perks &&
@@ -35,10 +35,10 @@
 		if (leftCapacity === 0) return;
 
 		findAllElements("[class*='stockTableWrapper___'] [class*='row___']").forEach((item) => {
-			const stock = item.find("[data-tt-content-type='stock']").textContent.getNumber();
+			const stock = convertToNumber(item.find("[data-tt-content-type='stock']").textContent);
 			if (stock === 0) return;
 
-			const price = item.find("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent.getNumber();
+			const price = convertToNumber(item.find("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent);
 
 			const affordableStock = dropDecimals(money / price);
 			if (affordableStock === 0 || affordableStock === 1) return;

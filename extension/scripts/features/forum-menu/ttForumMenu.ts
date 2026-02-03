@@ -43,7 +43,7 @@
 
 			const threadLink = new URL(thread.find<HTMLAnchorElement>("a.thread-name").href);
 			const threadField = getHashParameters(threadLink.hash).get("t") ?? threadLink.searchParams.get("t");
-			const threadId = threadField.getNumber();
+			const threadId = convertToNumber(threadField);
 
 			const shouldHideThreads = settings.pages.forums.hideThreads[userId] || settings.pages.forums.ignoredThreads[threadId];
 			if (shouldHideThreads) {
@@ -89,7 +89,7 @@
 		let countHiddenPost = 0;
 		let firstHiddenPost: HTMLElement;
 
-		const threadId = getHashParameters().get("t").getNumber();
+		const threadId = convertToNumber(getHashParameters().get("t"));
 
 		const posts = findAllElements(".thread-list > li");
 		for (let i = 0; i < posts.length; i++) {
@@ -101,7 +101,7 @@
 			}
 			post.find(".tt-forums-button")?.remove();
 
-			const userId = post.find(".poster-id").textContent.getNumber();
+			const userId = convertToNumber(post.find(".poster-id").textContent);
 			const userName = post.find(".poster-name").textContent;
 
 			const shouldHidePosts = settings.pages.forums.hidePosts[userId];

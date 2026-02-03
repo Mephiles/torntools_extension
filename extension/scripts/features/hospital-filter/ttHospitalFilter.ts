@@ -192,7 +192,7 @@
 				continue;
 			}
 			// Level
-			const level = li.find(".info-wrap .level").textContent.getNumber();
+			const level = convertToNumber(li.find(".info-wrap .level").textContent);
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				// noinspection UnnecessaryContinueJS

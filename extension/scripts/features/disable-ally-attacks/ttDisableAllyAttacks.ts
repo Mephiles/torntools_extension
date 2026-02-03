@@ -34,7 +34,7 @@
 
 		enableButton();
 
-		const factionID = new URLSearchParams(factionLink.href).get("ID").getNumber();
+		const factionID = convertToNumber(new URLSearchParams(factionLink.href).get("ID"));
 		const factionName = factionLink.textContent.trim();
 		if (
 			(hasAPIData() && factionID === userdata.faction?.id) ||

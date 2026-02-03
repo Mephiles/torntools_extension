@@ -34,7 +34,7 @@
 		let effectiveTotal = 0;
 		const stats = ["Strength", "Defense", "Speed", "Dexterity"];
 		for (let i = 0; i < stats.length; i++) {
-			const base = statsContainer.find(`li:nth-child(${i + 1}) .desc`).textContent.getNumber();
+			const base = convertToNumber(statsContainer.find(`li:nth-child(${i + 1}) .desc`).textContent);
 
 			const modifierText = statsContainer.find(`li:nth-child(${i + 1}) .mod`).textContent.trim();
 			let modifier: number;

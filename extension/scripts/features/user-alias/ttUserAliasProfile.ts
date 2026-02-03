@@ -16,7 +16,7 @@
 		removeAlias();
 
 		const nameLi: Element = await requireElement(".profile-container.basic-info .info-table > :first-child");
-		const userID = nameLi.find(".user-info-value .bold").textContent.split("[")[1].getNumber();
+		const userID = convertToNumber(nameLi.find(".user-info-value .bold").textContent.split("[")[1]);
 		if (!settings.userAlias[userID]) return;
 
 		const profileImg = document.find(".user.name");

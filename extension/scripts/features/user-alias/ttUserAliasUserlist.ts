@@ -44,7 +44,7 @@
 		await requireElement(currentSelector.items);
 		const list = findAllElements<HTMLAnchorElement>(currentSelector.items);
 		list.forEach((li) => {
-			const liID = li.href.split("?XID=")[1].getNumber();
+			const liID = convertToNumber(li.href.split("?XID=")[1]);
 			if (!settings.userAlias[liID]) return;
 
 			const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias-list", text: settings.userAlias[liID].alias });

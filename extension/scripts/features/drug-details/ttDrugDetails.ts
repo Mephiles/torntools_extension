@@ -85,7 +85,7 @@
 						const image = target.find("img");
 
 						if (image) {
-							id = image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1].getNumber();
+							id = convertToNumber(image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1]);
 						} else {
 							throw new Error("No id found for this item!");
 						}

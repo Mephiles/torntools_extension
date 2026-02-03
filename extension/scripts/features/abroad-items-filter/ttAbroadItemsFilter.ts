@@ -92,12 +92,12 @@
 			for (const li of findAllElements("[class*='stockTableWrapper___'] > li")) {
 				showRow(li);
 
-				if (profitOnly && li.find(".tt-travel-market-cell").dataset.ttValue.getNumber() < 0) {
+				if (profitOnly && convertToNumber(li.find(".tt-travel-market-cell").dataset.ttValue) < 0) {
 					hideRow(li);
 					continue;
 				}
 
-				if (outOfStock && li.find("[data-tt-content-type='stock']").textContent.getNumber() <= 0) {
+				if (outOfStock && convertToNumber(li.find("[data-tt-content-type='stock']").textContent) <= 0) {
 					hideRow(li);
 					continue;
 				}

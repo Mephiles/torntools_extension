@@ -34,7 +34,7 @@
 				elementBuilder({
 					type: "span",
 					class: "tt-property-value",
-					text: ` (${formatNumber(info.textContent.getNumber(), { currency: true })})`,
+					text: ` (${formatNumber(convertToNumber(info.textContent), { currency: true })})`,
 				})
 			);
 		}

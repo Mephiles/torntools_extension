@@ -33,7 +33,7 @@
 		removeProfitAndValue();
 
 		const totalValue = findAllElements("[class*='stockOwned__'] [class*='value__']")
-			.map((x) => x.textContent.getNumber())
+			.map((x) => convertToNumber(x.textContent))
 			.totalSum();
 		const stockPrices = getStockPrices();
 		const profits = findAllElements("#stockmarketroot [class*='stockMarket__'] > ul[id]")

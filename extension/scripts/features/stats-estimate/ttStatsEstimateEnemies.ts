@@ -47,7 +47,7 @@
 			".tableWrapper ul > li",
 			(row) => ({
 				id: parseInt(row.find<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-				level: row.find("[class*='level__']").textContent.getNumber(),
+				level: convertToNumber(row.find("[class*='level__']").textContent),
 			}),
 			true
 		);

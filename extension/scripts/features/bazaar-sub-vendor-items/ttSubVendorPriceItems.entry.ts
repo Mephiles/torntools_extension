@@ -42,8 +42,8 @@
 			.map<HighlightableItem>((element) => {
 				return {
 					element,
-					id: element.find("img").src.getNumber(),
-					price: element.find("[class*='price___']").textContent.getNumber(),
+					id: convertToNumber(element.find("img").src),
+					price: convertToNumber(element.find("[class*='price___']").textContent),
 				};
 			})
 			.filter((item) => item.element);

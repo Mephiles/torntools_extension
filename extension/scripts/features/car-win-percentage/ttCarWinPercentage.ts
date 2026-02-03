@@ -36,7 +36,7 @@
 			const values = findAllElements(".enlisted-stat > li", stat)
 				.map((item) => item.textContent.replace(/[^\w :]/g, "").trim())
 				.filter((text) => REGEX.test(text))
-				.map((text) => text.getNumber());
+				.map((text) => convertToNumber(text));
 
 			let text: string;
 			if (values[0] === 0) text = "• Win Percentage: 0%";

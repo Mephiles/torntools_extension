@@ -126,7 +126,7 @@
 			}
 		}
 		if (filters.level?.start || filters.level?.end) {
-			const level = row.find("[class*='level__']").textContent.getNumber();
+			const level = convertToNumber(row.find("[class*='level__']").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;

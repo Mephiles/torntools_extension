@@ -119,7 +119,7 @@
 	}
 
 	function filterRow(row, filters) {
-		const level = row.querySelector("[class*='levelValue___']").textContent.getNumber();
+		const level = convertToNumber(row.querySelector("[class*='levelValue___']").textContent);
 		if (filters.difficulty.length && !filters.difficulty.includes(level)) {
 			hide("difficulty");
 			return;
