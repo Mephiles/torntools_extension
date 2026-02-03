@@ -397,8 +397,8 @@
 					const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
 
 					profit = sales - (totalCost + salesTax + anonymousTax);
-					profitItem = (profit / amount).dropDecimals();
-					profitMinute = (profit / (time * 2)).dropDecimals();
+					profitItem = dropDecimals(profit / amount);
+					profitMinute = dropDecimals(profit / (time * 2));
 				} else {
 					value = "N/A";
 					profitItem = "N/A";
@@ -570,8 +570,8 @@
 				const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
 
 				const profit = sales - (totalCost + salesTax + anonymousTax);
-				const profitItem = (profit / amount).dropDecimals();
-				const profitMinute = (profit / (modifiedTime * 2)).dropDecimals();
+				const profitItem = dropDecimals(profit / amount);
+				const profitMinute = dropDecimals(profit / (modifiedTime * 2));
 
 				const elementProfitItem = row.find(".profit-item");
 				const elementProfitMinute = row.find(".profit-minute");

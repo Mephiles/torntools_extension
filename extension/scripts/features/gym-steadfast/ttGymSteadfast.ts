@@ -59,7 +59,7 @@
 				let totalJob = jobPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
 				totalJob -= 1;
 				totalJob *= 100;
-				totalJob = totalJob.dropDecimals();
+				totalJob = dropDecimals(totalJob);
 
 				values.push({ source: "company", value: totalJob });
 			}
@@ -73,7 +73,7 @@
 				let totalEducation = eductionPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
 				totalEducation -= 1;
 				totalEducation *= 100;
-				totalEducation = totalEducation.dropDecimals();
+				totalEducation = dropDecimals(totalEducation);
 
 				values.push({ source: "education", value: totalEducation });
 			}

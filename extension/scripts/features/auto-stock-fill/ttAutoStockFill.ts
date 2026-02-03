@@ -47,10 +47,7 @@
 		findAllElements(".stock-list > li:not(.total):not(.quantity)", stockForm).forEach((stockItem) => {
 			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
 
-			// Original
-			// let neededStock = (((soldDaily / totalSoldDaily) * totalCapacity) - stock - ordered).dropDecimals();
-
-			let neededStock = ((soldDaily / totalSoldDaily) * usableCapacity).dropDecimals();
+			let neededStock = dropDecimals((soldDaily / totalSoldDaily) * usableCapacity);
 			neededStock = Math.max(0, neededStock);
 
 			console.log(soldDaily, neededStock);

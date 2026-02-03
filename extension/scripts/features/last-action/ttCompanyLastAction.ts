@@ -57,7 +57,7 @@
 		const list = document.find(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
 		for (const row of findAllElements(":scope > li", list)) {
 			const { id } = getUsername(row);
-			const days = ((now - employees[id].last_action.timestamp * 1000) / TO_MILLIS.DAYS).dropDecimals();
+			const days = dropDecimals((now - employees[id].last_action.timestamp * 1000) / TO_MILLIS.DAYS);
 
 			row.insertAdjacentElement(
 				"afterend",

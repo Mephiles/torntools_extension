@@ -40,7 +40,7 @@
 
 			const price = item.find("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent.getNumber();
 
-			const affordableStock = (money / price).dropDecimals();
+			const affordableStock = dropDecimals(money / price);
 			if (affordableStock === 0 || affordableStock === 1) return;
 
 			const max = Math.min(stock, affordableStock, leftCapacity).toString();

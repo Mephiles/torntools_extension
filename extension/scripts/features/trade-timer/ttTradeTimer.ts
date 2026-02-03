@@ -48,7 +48,7 @@
 		const now = Date.now();
 		if (localdata.tradeMessage > now) {
 			timer.textContent = formatTime({ milliseconds: localdata.tradeMessage - now }, { type: "wordTimer", extraShort: true });
-			timer.dataset.seconds = ((localdata.tradeMessage - now) / TO_MILLIS.SECONDS).dropDecimals().toString();
+			timer.dataset.seconds = dropDecimals((localdata.tradeMessage - now) / TO_MILLIS.SECONDS).toString();
 		} else {
 			timer.textContent = "OK";
 		}

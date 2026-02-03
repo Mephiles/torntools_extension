@@ -1104,7 +1104,7 @@ async function setupStocksOverview() {
 		let boughtPrice: number, profit: number;
 		if (userStock) {
 			boughtPrice = getStockBoughtPrice(userStock).boughtPrice;
-			profit = ((stock.current_price - boughtPrice) * userStock.total_shares).dropDecimals();
+			profit = dropDecimals((stock.current_price - boughtPrice) * userStock.total_shares);
 		}
 
 		createHeading();

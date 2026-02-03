@@ -4,13 +4,13 @@ const REGEXES = {
 };
 
 interface Number {
-	dropDecimals(): number;
 	roundNearest(multiple: number): number;
 }
 
-Number.prototype.dropDecimals = function () {
-	return parseInt(this.toString());
-};
+function dropDecimals(number: number): number {
+	return parseInt(number.toString());
+}
+
 Number.prototype.roundNearest = function (multiple: number) {
 	return Math.round((this as number) / multiple) * multiple;
 };
@@ -256,7 +256,7 @@ function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions) {
 	let hasShownHours = false;
 
 	const parts: string[] = [];
-	if (options.showDays && (date.getTime() / TO_MILLIS.DAYS).dropDecimals() > 0) {
+	if (options.showDays && dropDecimals(date.getTime() / TO_MILLIS.DAYS) > 0) {
 		hasShownDays = true;
 		parts.push(formatUnit(Math.floor(date.getTime() / TO_MILLIS.DAYS), { normal: "day", short: "day", extraShort: "d" }));
 	}

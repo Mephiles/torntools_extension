@@ -40,7 +40,7 @@
 			let modifier: number;
 			if (modifierText.charAt(0) === "+") modifier = parseInt(modifierText.slice(1, -1)) / 100 + 1;
 			else modifier = 1 - parseInt(modifierText.slice(1, -1)) / 100;
-			const effective = (base * modifier).dropDecimals();
+			const effective = dropDecimals(base * modifier);
 
 			effectiveTotal += effective;
 			content.appendChild(newRow(stats[i], formatNumber(effective)));

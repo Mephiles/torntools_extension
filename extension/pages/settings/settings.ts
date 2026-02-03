@@ -1443,7 +1443,7 @@ async function setupAPIInfo() {
 	};
 
 	Object.entries(ttUsage.usage).forEach(([minute, localUsage]) => {
-		const hourOfMinute = (parseInt(minute) / 60).dropDecimals();
+		const hourOfMinute = dropDecimals(parseInt(minute) / 60);
 		for (const location of apiUsageLocations) {
 			if (localUsage[location] !== undefined && localUsage[location] !== null) {
 				perMinuteUsage[location].usage += localUsage[location];
@@ -1459,12 +1459,12 @@ async function setupAPIInfo() {
 	findAllElements(".current-usage .averages > div.per-minute").forEach((usageDiv, index) => {
 		const key = apiUsageLocations[index];
 		usageDiv.textContent = `Average calls per minute: ${
-			perMinuteUsage[key].count ? (perMinuteUsage[key].usage / perMinuteUsage[key].count).dropDecimals() : 0
+			perMinuteUsage[key].count ? dropDecimals(perMinuteUsage[key].usage / perMinuteUsage[key].count) : 0
 		}`;
 	});
 	findAllElements(".current-usage .averages > div.per-hour").forEach((usageDiv, index) => {
 		const key = apiUsageLocations[index];
-		usageDiv.innerText = `Average calls per hour: ${perHourUsage[key].count ? (perMinuteUsage[key].usage / perHourUsage[key].count).dropDecimals() : 0}`;
+		usageDiv.innerText = `Average calls per hour: ${perHourUsage[key].count ? dropDecimals(perMinuteUsage[key].usage / perHourUsage[key].count) : 0}`;
 	});
 
 	const canvas = document.find("#current-usage-chart");
@@ -1576,8 +1576,8 @@ async function setupAPIInfo() {
 		}
 		for (const minute of minutesArray) {
 			const seconds = (parseInt(minute) - offset) * 60;
-			const hour = ((seconds % 86400) / 3600).dropDecimals();
-			usageChart.data.labels.push(`${toMultipleDigits(hour)}:${toMultipleDigits(((seconds % 3600) / 60).dropDecimals())}`);
+			const hour = dropDecimals((seconds % 86400) / 3600);
+			usageChart.data.labels.push(`${toMultipleDigits(hour)}:${toMultipleDigits(dropDecimals((seconds % 3600) / 60))}`);
 			usageChart.data.datasets[0].data[i] = ttUsage.usage[minute].torn ?? 0;
 			usageChart.data.datasets[1].data[i] = ttUsage.usage[minute].tornstats ?? 0;
 			usageChart.data.datasets[2].data[i] = ttUsage.usage[minute].yata ?? 0;

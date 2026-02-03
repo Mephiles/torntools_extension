@@ -55,7 +55,7 @@
 			// Skip users that are confirmed to be dead IRL.
 			if (row.find("[id*='icon77___']")) continue;
 
-			const days = (row.nextElementSibling.getAttribute("hours").getNumber() / 24).dropDecimals();
+			const days = dropDecimals(row.nextElementSibling.getAttribute("hours").getNumber() / 24);
 
 			for (const warning of settings.factionInactivityWarning) {
 				if (warning.days === null || days < warning.days) continue;

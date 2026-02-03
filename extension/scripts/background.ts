@@ -1216,8 +1216,8 @@ async function updateStakeouts(forceUpdate = false) {
 				}
 			}
 			if (offline) {
-				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : null;
-				const offlineHours = ((now - data.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
+				const oldOfflineHours = oldData ? dropDecimals((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS) : null;
+				const offlineHours = dropDecimals((now - data.profile.last_action.timestamp * 1000) / TO_MILLIS.HOURS);
 
 				const key = `${id}_offline`;
 				if (offlineHours >= offline && (!oldOfflineHours || oldOfflineHours < offlineHours) && !notifications.stakeouts[key]) {

@@ -41,7 +41,7 @@
 					class: "timer",
 					text: formatTime(left, timerSettings),
 					dataset: {
-						seconds: (left / TO_MILLIS.SECONDS).dropDecimals(),
+						seconds: dropDecimals(left / TO_MILLIS.SECONDS),
 						timeSettings: timerSettings,
 					},
 				});
@@ -78,7 +78,7 @@
 					class: "timer",
 					text: formatTime(left, timerSettings),
 					dataset: {
-						seconds: (left / TO_MILLIS.SECONDS).dropDecimals(),
+						seconds: dropDecimals(left / TO_MILLIS.SECONDS),
 						timeSettings: timerSettings,
 					},
 				});

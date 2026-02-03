@@ -43,7 +43,7 @@
 			const id = new URL(row.find<HTMLAnchorElement>(".member a").href).searchParams.get("XID");
 
 			const lastAction = (factiondata as StoredFactiondataFullAccess).members[id].last_action;
-			const hours = ((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
+			const hours = dropDecimals((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS);
 
 			row.insertAdjacentElement(
 				"afterend",

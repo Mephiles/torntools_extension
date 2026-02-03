@@ -255,7 +255,7 @@ class TornToolsUsage {
 	}
 
 	async add(location: string) {
-		const minute = (Date.now() / TO_MILLIS.MINUTES).dropDecimals();
+		const minute = dropDecimals(Date.now() / TO_MILLIS.MINUTES);
 		if (!(minute in this.usage)) this.usage[minute] = {};
 		if (!(location in this.usage[minute])) this.usage[minute][location] = 0;
 
@@ -264,7 +264,7 @@ class TornToolsUsage {
 	}
 
 	async refresh() {
-		const last24HrsMinute = ((Date.now() - 24 * TO_MILLIS.HOURS) / TO_MILLIS.MINUTES).dropDecimals();
+		const last24HrsMinute = dropDecimals((Date.now() - 24 * TO_MILLIS.HOURS) / TO_MILLIS.MINUTES);
 
 		Object.keys(this.usage).forEach((minute) => {
 			if (parseInt(minute) < last24HrsMinute) delete this.usage[minute];

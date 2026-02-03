@@ -36,7 +36,7 @@
 		let goal = gymGoals[index];
 		if (hasAPIData() && userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
 
-		const stat = (goal * (percentage / 100)).dropDecimals();
+		const stat = dropDecimals(goal * (percentage / 100));
 		if (!stat || !goal) return;
 
 		gymNotification.closest("[class*='notification__']").classList.add("tt-modified");
