@@ -376,7 +376,7 @@ class FeatureManager {
 				row.setAttribute("status", status);
 
 				const statusIcon = row.find("i");
-				statusIcon.setClass(getIconClass(status));
+				statusIcon.className = getIconClass(status);
 
 				if (options.message) statusIcon.setAttribute("title", options.message);
 				else statusIcon.removeAttribute("title");
@@ -435,12 +435,14 @@ class FeatureManager {
 	display() {
 		if (!this.container) return;
 
-		this.container.setClass(
+		this.container.className = [
 			settings.featureDisplay ? "" : "tt-hidden",
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : "",
-			settings.featureDisplayHideEmpty ? "hide-empty" : ""
-		);
+			settings.featureDisplayHideEmpty ? "hide-empty" : "",
+		]
+			.filter((c) => !!c)
+			.join(" ");
 		this.hideEmptyScopes();
 		this.clearEarlyErrors();
 	}
@@ -518,7 +520,8 @@ class FeatureManager {
 		findAllElements(".tt-features-list > div[scope]", this.container).forEach((scopeDiv) => {
 			let hideScope = false;
 			if (settings.featureDisplayOnlyFailed && findAllElements(":scope > .tt-feature[status*='failed']", scopeDiv).length === 0) hideScope = true;
-			if (settings.featureDisplayHideDisabled && findAllElements(":scope > .tt-feature:not([status*='disabled'])", scopeDiv).length === 0) hideScope = true;
+			if (settings.featureDisplayHideDisabled && findAllElements(":scope > .tt-feature:not([status*='disabled'])", scopeDiv).length === 0)
+				hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
 		if (!this.container.find(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");

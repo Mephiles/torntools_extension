@@ -44,8 +44,7 @@ function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K | (Ele
 
 		if (options.id) newElement.id = options.id;
 		if (options.class) {
-			if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
-			else newElement.setClass(options.class.trim());
+			newElement.className = Array.isArray(options.class) ? options.class.filter((name) => !!name).join(" ") : options.class.trim();
 		}
 		if (options.text !== undefined) newElement.textContent = options.text.toString();
 		if (options.html) newElement.innerHTML = options.html;
@@ -172,19 +171,6 @@ function findAllElements<T extends Element = HTMLElement>(selector: string, pare
 function findAllElements(selector: string, parent: ParentNode = document): Element[] {
 	return Array.from(parent.querySelectorAll(selector));
 }
-
-Object.defineProperty(Document.prototype, "setClass", {
-	value(this: Element, ...classNames: string[]) {
-		this.setAttribute("class", classNames.join(" "));
-	},
-	enumerable: false,
-});
-Object.defineProperty(Element.prototype, "setClass", {
-	value(this: Element, ...classNames: string[]) {
-		this.setAttribute("class", classNames.join(" "));
-	},
-	enumerable: false,
-});
 
 interface DeviceInformation {
 	mobile: boolean;

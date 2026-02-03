@@ -163,7 +163,7 @@
 
 								if (response.status) {
 									if (responseElement) {
-										responseElement.setClass(`external-response ${!response.status ? "error" : ""}`);
+										responseElement.className = `external-response ${!response.status ? "error" : ""}`;
 										responseElement.textContent = response.message;
 									}
 									button.setAttribute("disabled", "");
