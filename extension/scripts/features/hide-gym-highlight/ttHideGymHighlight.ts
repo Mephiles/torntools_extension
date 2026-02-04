@@ -23,7 +23,7 @@
 		const navGym = document.find("#nav-gym, #nav-jail_gym");
 		if (!navGym) return;
 
-		hadHighlight = navGym.classList.contains("^=available___");
+		hadHighlight = Array.from(navGym.classList).some((c) => c.startsWith("available___"));
 		if (!hadHighlight) return;
 
 		const svg = navGym.find("svg");

@@ -82,25 +82,6 @@ function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K | (Ele
 	}
 }
 
-Object.defineProperty(DOMTokenList.prototype, "contains", {
-	value(this: DOMTokenList, className: string): boolean {
-		const classes = [...this];
-		if (className.startsWith("^=")) {
-			className = className.substring(2, className.length);
-
-			for (const name of classes) {
-				if (!name.startsWith(className)) continue;
-
-				return true;
-			}
-			return false;
-		} else {
-			return classes.includes(className);
-		}
-	},
-	enumerable: false,
-});
-
 function _find(element: ParentNode, selector: string, options: Partial<FindOptions> = {}): Element {
 	options = {
 		text: undefined,

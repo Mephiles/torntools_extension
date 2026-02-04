@@ -16,8 +16,11 @@
 
 	function initialiseListeners() {
 		document.addEventListener("click", (event) => {
-			const target = event.target as Element;
-			if (target.classList.contains("^=controlPanelButton__") && target.ariaLabel.includes("Buy")) {
+			if (
+				isElement(event.target) &&
+				Array.from(event.target.classList).some((c) => c.startsWith("controlPanelButton__")) &&
+				event.target.ariaLabel.includes("Buy")
+			) {
 				if (feature.enabled()) addPrice();
 			}
 		});

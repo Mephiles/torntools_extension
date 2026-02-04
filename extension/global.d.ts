@@ -19,10 +19,6 @@ declare global {
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 	}
 
-	interface DOMTokenList {
-		contains(className: string): boolean;
-	}
-
 	interface Number {
 		roundNearest(multiple: number): number;
 	}

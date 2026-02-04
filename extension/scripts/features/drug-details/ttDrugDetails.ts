@@ -60,7 +60,7 @@
 			requireElement(selector).then(() => {
 				new MutationObserver(async (mutations) => {
 					const viewMutations = mutations.filter((mutation) =>
-						[...mutation.addedNodes].some((node) => isElement(node) && node.classList?.contains("^=view_"))
+						[...mutation.addedNodes].some((node) => isElement(node) && Array.from(node.classList).some((c) => c.startsWith("view_")))
 					);
 					if (!viewMutations.length) return;
 
