@@ -68,6 +68,9 @@ class FeatureManager {
 			if (e.error) {
 				this.logError("Uncaught window error:", e.error);
 			} else {
+				// For some reason we are getting an error from Torn here (while scrolling in the chats).
+				if (e.message === "ResizeObserver loop completed with undelivered notifications." && e.filename.includes("torn.com/")) return;
+
 				this.logError("Uncaught window error:", e);
 			}
 		});
