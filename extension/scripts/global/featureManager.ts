@@ -65,7 +65,11 @@ class FeatureManager {
 		// }, 12000);
 		window.addEventListener("error", (e) => {
 			// debugger;
-			this.logError("Uncaught window error:", e.error ?? e.message);
+			if (e.error) {
+				this.logError("Uncaught window error:", e.error);
+			} else {
+				this.logError("Uncaught window error:", e);
+			}
 		});
 		window.addEventListener("unhandledrejection", (e) => {
 			const error = e.reason instanceof Error ? e.reason : new Error(e.reason);
@@ -145,14 +149,25 @@ class FeatureManager {
 
 		let errorElement: HTMLElement;
 		if (error != null && typeof error === "object") {
-			errorElement = document.newElement({
-				type: "div",
-				class: "error",
-				children: [
-					document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
-					document.newElement({ type: "pre", class: "stack", text: error.stack }),
-				],
-			});
+			if (error instanceof Error) {
+				errorElement = document.newElement({
+					type: "div",
+					class: "error",
+					children: [
+						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+						document.newElement({ type: "pre", class: "stack", text: error.stack }),
+					],
+				});
+			} else if (error instanceof ErrorEvent) {
+				errorElement = document.newElement({
+					type: "div",
+					class: "error",
+					children: [
+						document.newElement({ type: "div", class: "name", text: error.message }),
+						document.newElement({ type: "pre", class: "stack", text: `${error.filename}:${error.lineno}` }),
+					],
+				});
+			}
 		} else {
 			errorElement = document.newElement({
 				type: "pre",
