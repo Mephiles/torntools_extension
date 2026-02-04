@@ -32,17 +32,6 @@ Object.defineProperty(Array.prototype, "equals", {
 	enumerable: false,
 });
 
-if (!Array.prototype.flat)
-	Object.defineProperty(Array.prototype, "flat", {
-		value(depth = 1) {
-			return this.reduce(
-				(flat: unknown[], toFlatten: any) => flat.concat(Array.isArray(toFlatten) && depth > 1 ? toFlatten.flat(depth - 1) : toFlatten),
-				[]
-			);
-		},
-		enumerable: false,
-	});
-
 Object.defineProperty(Object.prototype, "equals", {
 	value(other: object) {
 		for (const property in this) {
