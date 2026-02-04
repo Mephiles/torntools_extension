@@ -34,7 +34,7 @@
 
 		const totalValue = findAllElements("[class*='stockOwned__'] [class*='value__']")
 			.map((x) => convertToNumber(x.textContent))
-			.totalSum();
+			.reduce((a, b) => a + b, 0);
 		const stockPrices = getStockPrices();
 		const profits = findAllElements("#stockmarketroot [class*='stockMarket__'] > ul[id]")
 			.map((x) => {
@@ -47,7 +47,7 @@
 
 				return Math.floor((stockPrices[stockID] - boughtPrice) * userStockData.total_shares);
 			})
-			.totalSum();
+			.reduce((a, b) => a + b, 0);
 
 		const shorten = mobile ? 2 : true;
 		document.find("#stockmarketroot h4").appendChild(

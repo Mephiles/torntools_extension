@@ -89,8 +89,8 @@
 				.filter((item) => !!item)
 				.map(({ market_value: value, count }) => value * count)
 				.filter((value) => !!value)
-				.totalSum();
-			const itemCount = items.map(({ count }) => count).totalSum();
+				.reduce((a, b) => a + b, 0);
+			const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
 
 			content.appendChild(
 				elementBuilder({
@@ -119,7 +119,7 @@
 			function generateText() {
 				let element: HTMLElement;
 				if (items.length > 0) {
-					const totalCount = items.map(({ count }) => count).totalSum();
+					const totalCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
 					element = elementBuilder({
 						type: "p",
 						children: [

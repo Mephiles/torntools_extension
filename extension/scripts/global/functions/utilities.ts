@@ -24,12 +24,6 @@ Object.defineProperty(Array.prototype, "insertAt", {
 	},
 	enumerable: false,
 });
-Object.defineProperty(Array.prototype, "totalSum", {
-	value() {
-		return this.reduce((a: any, b: any) => a + b, 0);
-	},
-	enumerable: false,
-});
 Object.defineProperty(Array.prototype, "equals", {
 	value(other: unknown[]) {
 		if (!other) return false;

@@ -140,11 +140,11 @@ async function setupAttackHistory() {
 		}
 
 		if (data.respect_base.length) {
-			const respect = parseFloat((data.respect_base.totalSum() / data.respect_base.length || 0).toFixed(2));
+			const respect = parseFloat((data.respect_base.reduce((a, b) => a + b, 0) / data.respect_base.length || 0).toFixed(2));
 
 			row.appendChild(elementBuilder({ type: "td", class: "data respect", text: respect.toString(), attributes: { value: respect } }));
 		} else if (data.respect.length) {
-			const respect = parseFloat((data.respect.totalSum() / data.respect.length || 0).toFixed(2));
+			const respect = parseFloat((data.respect.reduce((a, b) => a + b, 0) / data.respect.length || 0).toFixed(2));
 
 			row.appendChild(elementBuilder({ type: "td", class: "data respect", text: `${respect}*`, attributes: { value: respect } }));
 		} else {

@@ -1890,7 +1890,7 @@ function getRewardValue(reward: string) {
 					break;
 			}
 
-			if (prices !== undefined) value = prices.totalSum() / prices.length;
+			if (prices !== undefined) value = prices.reduce((a, b) => a + b, 0) / prices.length;
 		}
 	} else {
 		value = -1;

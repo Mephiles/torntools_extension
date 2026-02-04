@@ -61,7 +61,7 @@
 		const perks = userdata.education_perks
 			.filter((perk) => perk.includes("Medical item effectiveness"))
 			.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
-			.totalSum();
+			.reduce((a, b) => a + b, 0);
 		const percentage = (1 + perks / 100) * MEDICAL_ITEMS[id];
 
 		const lifeValues = document.find("[class*='bar__'][class*='life__'] [class*='bar-value___']").textContent.split("/");

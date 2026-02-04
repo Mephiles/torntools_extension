@@ -1161,7 +1161,7 @@
 				const history = attackHistory.history[id]!;
 
 				function respectCellRenderer(respectArray: number[]) {
-					let respect: string | number = respectArray.length ? respectArray.totalSum() / respectArray.length : 0;
+					let respect: string | number = respectArray.length ? respectArray.reduce((a, b) => a + b, 0) / respectArray.length : 0;
 					if (respect > 0) respect = formatNumber(respect, { decimals: 2 });
 					else respect = "-";
 

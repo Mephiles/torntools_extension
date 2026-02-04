@@ -114,7 +114,7 @@
 		let newMainStat1 = mainStat1;
 		let newMainStat2 = mainStat2;
 
-		const otherStatsSum = otherStats.totalSum();
+		const otherStatsSum = otherStats.reduce((a, b) => a + b, 0);
 
 		if (otherStatsSum * 1.25 > newMainStat1 + newMainStat2) {
 			const extra = otherStatsSum * 1.25 - newMainStat1 - newMainStat2;

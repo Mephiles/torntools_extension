@@ -161,12 +161,12 @@
 		if (list.find(".tt-item-price.price-total")) list.find(".tt-item-price.price-total").parentElement.remove();
 
 		let total;
-		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).totalSum();
+		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).reduce((a, b) => a + b, 0);
 		else
 			total = userdata.inventory
 				.filter((x) => x.type === type)
 				.map((x) => x.quantity * x.market_price)
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 
 		setTimeout(() => {
 			if (list.find(".tt-item-price.price-total")) {

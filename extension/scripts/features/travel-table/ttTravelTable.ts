@@ -607,20 +607,20 @@
 				.map((perk) => perk.match(/\+ (\d+) Travel items \(.* Suitcase\)/i))
 				.filter((result) => !!result)
 				.map((result) => parseInt(result[1]))
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 			count += userdata.job_perks
 				.filter((perk) => perk.includes("travel") && (perk.includes("item") || perk.includes("capacity")))
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 			count += userdata.faction_perks
 				.filter((perk) => perk.includes("travel") && perk.includes("capacity"))
 				.map((result) => convertToNumber(result))
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 			// CHECK - Improve book perk checking.
 			count += userdata.book_perks
 				.filter((perk) => perk.includes("travel capacity"))
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 		}
 
 		if (type !== "standard") count += 10;

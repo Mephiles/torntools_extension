@@ -31,7 +31,6 @@ declare global {
 	interface Array<T> {
 		last(): T;
 		insertAt(index: number, ...values: T[]): void;
-		totalSum(): number;
 		equals(other: T[]): boolean;
 	}
 

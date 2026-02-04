@@ -180,7 +180,7 @@
 				const currentPrice = stockdata[id].current_price * userdata.stocks[id].total_shares;
 				const boughtPrice = Object.values(userdata.stocks[id].transactions)
 					.map((transaction) => transaction.shares * transaction.bought_price)
-					.totalSum();
+					.reduce((a, b) => a + b, 0);
 
 				const hasProfit = currentPrice > boughtPrice;
 

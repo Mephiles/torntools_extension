@@ -42,7 +42,7 @@
 
 		for (const row of findAllElements(".effectiveness[data-multipliers]", list)) {
 			const multipliers = JSON.parse(row.dataset.multipliers) || [];
-			const reduction = multipliers.filter((multiplier: any) => multiplier < 0).totalSum() * -1;
+			const reduction = multipliers.filter((multiplier: any) => multiplier < 0).reduce((a, b) => a + b, 0) * -1;
 
 			const element = row.find(".effectiveness-value");
 
