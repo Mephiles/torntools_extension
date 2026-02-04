@@ -3,17 +3,13 @@ const REGEXES = {
 	formatNumber: /\B(?=(\d{3})+(?!\d))/g,
 };
 
-interface Number {
-	roundNearest(multiple: number): number;
-}
-
 function dropDecimals(number: number): number {
 	return parseInt(number.toString());
 }
 
-Number.prototype.roundNearest = function (multiple: number) {
-	return Math.round((this as number) / multiple) * multiple;
-};
+function roundNearest(number: number, multiple: number): number {
+	return Math.round(number / multiple) * multiple;
+}
 
 function camelCase(text: string, lowerCamelCase: boolean = true): string {
 	return (text.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + text.slice(1)).trim().replaceAll(" ", "");

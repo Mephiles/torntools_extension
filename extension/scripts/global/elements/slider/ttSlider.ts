@@ -116,7 +116,7 @@ class DualRangeSlider {
 	}
 
 	updateValue(handle: HTMLElement, value: number) {
-		value = Math.max(Math.min(value, this.options.max), this.options.min).roundNearest(this.options.step);
+		value = roundNearest(Math.max(Math.min(value, this.options.max), this.options.min), this.options.step);
 		handle.dataset.value = value.toString();
 
 		this.updateValues();

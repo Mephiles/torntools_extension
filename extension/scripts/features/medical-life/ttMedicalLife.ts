@@ -78,7 +78,7 @@
 			actionWrap = await requireElement(`.action-cont[data-itemid='${id}'] .confirm`);
 		}
 
-		const text = `Your life total will be ${newLife.roundNearest(1)}/${maximumLife.roundNearest(1)}.`;
+		const text = `Your life total will be ${roundNearest(newLife, 1)}/${roundNearest(maximumLife, 1)}.`;
 
 		if (actionWrap.find(".tt-medical-life")) {
 			actionWrap.find(".tt-medical-life").textContent = text;

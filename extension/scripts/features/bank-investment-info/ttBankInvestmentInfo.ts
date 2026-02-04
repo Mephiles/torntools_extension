@@ -186,7 +186,7 @@
 			const aprWithBonus = aprPercent * totalBonusRatio;
 			const profitPerDayRatio = (aprWithBonus / DAYS_IN_YEAR) * DAYS[period];
 
-			const total = (+profitPerDayRatio.toFixed(4) * balance).roundNearest(1);
+			const total = roundNearest(+profitPerDayRatio.toFixed(4) * balance, 1);
 			const daily = +(total / DAYS[period]).toFixed();
 
 			return {
