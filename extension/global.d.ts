@@ -27,14 +27,6 @@ declare global {
 		roundNearest(multiple: number): number;
 	}
 
-	interface Array<T> {
-		equals(other: T[]): boolean;
-	}
-
-	interface Object {
-		equals(other: object): boolean;
-	}
-
 	interface JSON {
 		isValid(str: string): boolean;
 	}

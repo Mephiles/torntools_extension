@@ -324,8 +324,8 @@ class FeatureManager {
 							const newValue = rec(getter(), path);
 							const oldValue = rec(oldSettings, path);
 
-							if (Array.isArray(newValue) && Array.isArray(oldValue)) return !newValue.equals(oldValue);
-							else if (newValue instanceof Object && oldValue instanceof Object) return !newValue.equals(oldValue);
+							if (Array.isArray(newValue) && Array.isArray(oldValue)) return !arraysEquals(newValue, oldValue);
+							else if (newValue instanceof Object && oldValue instanceof Object) return !objectsEquals(newValue, oldValue);
 
 							return newValue !== oldValue;
 						})

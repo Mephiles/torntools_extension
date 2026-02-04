@@ -12,49 +12,46 @@ const SCRIPT_TYPE = (() => {
 	}
 })();
 
-Object.defineProperty(Array.prototype, "equals", {
-	value(other: unknown[]) {
-		if (!other) return false;
+function arraysEquals(a1: unknown[], a2: unknown[]) {
+	if (a1.length !== a2.length) return false;
 
-		if (this.length !== other.length) return false;
-
-		for (let i = 0; i < this.length; i++) {
-			if (Array.isArray(this[i]) && Array.isArray(other[i])) {
-				if (!this[i].equals(other[i])) return false;
-			} else if (this[i] instanceof Object && other[i] instanceof Object) {
-				if (!this[i].equals(other[i])) return false;
-			} else if (this[i] !== other[i]) {
-				return false;
-			}
+	for (let i = 0; i < a1.length; i++) {
+		const x1 = a1[i];
+		const x2 = a2[i];
+		if (Array.isArray(x1) && Array.isArray(x2)) {
+			if (!arraysEquals(x1, x2)) return false;
+		} else if (typeof x1 === "object" && typeof x2 === "object") {
+			if (!objectsEquals(x1 as object, x2 as object)) return false;
+		} else if (x1 !== x2) {
+			return false;
 		}
-		return true;
-	},
-	enumerable: false,
-});
+	}
+	return true;
+}
 
-Object.defineProperty(Object.prototype, "equals", {
-	value(other: object) {
-		for (const property in this) {
-			if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
-			else if (typeof this[property] !== typeof other[property]) return false;
-		}
-		for (const property in other) {
-			if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
-			else if (typeof this[property] !== typeof other[property]) return false;
+function objectsEquals(o1: object, o2: object) {
+	for (const property in o1) {
+		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		else if (typeof o1[property] !== typeof o2[property]) return false;
+	}
+	for (const property in o2) {
+		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		else if (typeof o1[property] !== typeof o2[property]) return false;
 
-			if (!this.hasOwnProperty(property)) continue;
+		if (!o1.hasOwnProperty(property)) continue;
 
-			if (Array.isArray(this[property]) && Array.isArray(other[property])) {
-				if (!this[property].equals(other[property])) return false;
-			} else if (this[property] instanceof Object && this[property] instanceof Object) {
-				if (!this[property].equals(other[property])) return false;
-			} else if (this[property] !== other[property]) return false;
-		}
+		const x1 = o1[property];
+		const x2 = o2[property];
 
-		return true;
-	},
-	enumerable: false,
-});
+		if (Array.isArray(x1) && Array.isArray(x2)) {
+			if (!arraysEquals(x1, x2)) return false;
+		} else if (typeof x1 === "object" && typeof x2 === "object") {
+			if (!objectsEquals(x1, x2)) return false;
+		} else if (x1 !== x2) return false;
+	}
+
+	return true;
+}
 
 JSON.isValid = (str) => {
 	try {
