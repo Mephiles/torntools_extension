@@ -145,6 +145,7 @@ function getHashParameters(hash?: string) {
 interface FindParentOptions {
 	tag: string;
 	class: string;
+	partialClass: string;
 	id: string;
 	hasAttribute: string;
 	maxAttempts: number;
@@ -155,6 +156,7 @@ function findParent(element: Node, options: Partial<FindParentOptions> = {}) {
 	options = {
 		tag: undefined,
 		class: undefined,
+		partialClass: undefined,
 		id: undefined,
 		hasAttribute: undefined,
 		maxAttempts: -1,
@@ -173,6 +175,7 @@ function findParent(element: Node, options: Partial<FindParentOptions> = {}) {
 			(!Array.isArray(options.class) && element.parentElement.classList.contains(options.class)))
 	)
 		return element.parentElement;
+	if (options.partialClass && Array.from(element.parentElement.classList).some((c) => c.startsWith(options.partialClass))) return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, { ...options, currentAttempt: options.currentAttempt + 1 });
