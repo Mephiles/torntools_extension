@@ -116,8 +116,12 @@ class FeatureManager {
 		} else {
 			info = [this.logPadding + info];
 		}
-		if (error && typeof error === "object" && "stack" in error) {
-			info.push(error.stack);
+		if (error && typeof error === "object") {
+			if (error instanceof Error) {
+				info.push(error.stack);
+			} else if (error instanceof ErrorEvent) {
+				info.push(`${error.message} @ ${error.filename}:${error.lineno}`);
+			}
 		}
 		console.error(...info);
 		// this.container.find(".error-messages")
