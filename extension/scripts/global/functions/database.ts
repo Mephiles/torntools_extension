@@ -1,3 +1,8 @@
+type RecursivePartial<T> = {
+	[P in keyof T]?: T[P] extends (infer U)[] ? RecursivePartial<U>[] : T[P] extends object | undefined ? RecursivePartial<T[P]> : T[P];
+};
+type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
+
 type DatabaseSettings = Writable<DefaultStorageType["settings"]>;
 type DatabaseFilters = Writable<DefaultStorageType["filters"]>;
 type DatabaseVersion = Writable<DefaultStorageType["version"]>;
