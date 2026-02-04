@@ -19,10 +19,6 @@ declare global {
 		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
 	}
 
-	interface JSON {
-		isValid(str: string): boolean;
-	}
-
 	type RecursivePartial<T> = {
 		[P in keyof T]?: T[P] extends (infer U)[] ? RecursivePartial<U>[] : T[P] extends object | undefined ? RecursivePartial<T[P]> : T[P];
 	};

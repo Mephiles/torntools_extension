@@ -53,15 +53,6 @@ function objectsEquals(o1: object, o2: object) {
 	return true;
 }
 
-JSON.isValid = (str) => {
-	try {
-		JSON.parse(str);
-		return true;
-	} catch {
-		return false;
-	}
-};
-
 function sleep(millis: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, millis));
 }
