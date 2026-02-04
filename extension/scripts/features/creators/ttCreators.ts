@@ -15,7 +15,7 @@
 
 		const title = Array.isArray(creator.title) ? creator.title[0] : creator.title;
 
-		document.find(".content-wrapper .content-title").insertAdjacentElement(
+		document.querySelector(".content-wrapper .content-title").insertAdjacentElement(
 			"afterend",
 			elementBuilder({
 				type: "div",

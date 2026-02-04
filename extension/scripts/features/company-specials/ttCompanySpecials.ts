@@ -110,7 +110,7 @@
 
 		await requireElement(".specials-confirm-cont ul.job-info > li");
 
-		const specialContext = document.find(".specials-confirm-cont");
+		const specialContext = document.querySelector(".specials-confirm-cont");
 
 		if (missing.length === 1) {
 			const missingStat = missing[0];
@@ -138,7 +138,7 @@
 		if (settings.external.tornstats) {
 			specialContext.classList.add("tt-modified");
 
-			const backWrap = specialContext.find(".back");
+			const backWrap = specialContext.querySelector(".back");
 			const button = elementBuilder({
 				type: "button",
 				class: "external-service tt-btn",
@@ -159,7 +159,7 @@
 							relay: true,
 						})
 							.then((response) => {
-								const responseElement = specialContext.find(".external-response");
+								const responseElement = specialContext.querySelector(".external-response");
 
 								if (response.status) {
 									if (responseElement) {

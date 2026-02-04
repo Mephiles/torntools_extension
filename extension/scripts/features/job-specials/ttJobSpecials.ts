@@ -30,11 +30,11 @@
 		await requireElement(".content-wrapper .company-details");
 
 		const { content } = createContainer("Job Specials", {
-			previousElement: document.find(".company-details-wrap"),
+			previousElement: document.querySelector(".company-details-wrap"),
 			spacer: true,
 		});
 
-		const companyType = document.find(".details-wrap ul.info .m-title .m-show:not(.arrow-left)").textContent.trim();
+		const companyType = document.querySelector(".details-wrap ul.info .m-title .m-show:not(.arrow-left)").textContent.trim();
 		const companyInfo = COMPANY_INFORMATION[companyType];
 
 		for (const stars of [1, 3, 5, 7, 10] as const) {

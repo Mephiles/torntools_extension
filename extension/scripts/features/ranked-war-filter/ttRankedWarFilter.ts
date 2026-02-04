@@ -17,7 +17,7 @@
 	function initialiseFilters() {
 		document.addEventListener("click", async (event) => {
 			const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
-			if (rankedWarItem && rankedWarItem.find(":scope > [data-warid]")) {
+			if (rankedWarItem && rankedWarItem.querySelector(":scope > [data-warid]")) {
 				addFilters(
 					(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war")
 				).catch(console.error);
@@ -190,14 +190,14 @@
 
 	function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individual: boolean) {
 		if (filters.activity) {
-			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+			const activity = row.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 				hide("activity");
 				return;
 			}
 		}
 		if (filters.status?.length) {
-			const statusElement = row.find(".status");
+			const statusElement = row.querySelector(".status");
 
 			if (!filters.status.some((s) => statusElement.classList.contains(s))) {
 				hide("status");
@@ -205,7 +205,7 @@
 			}
 		}
 		if (filters.level) {
-			const level = parseInt(row.find(".level").textContent);
+			const level = parseInt(row.querySelector(".level").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;

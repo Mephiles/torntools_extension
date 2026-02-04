@@ -41,7 +41,7 @@
 		await requireElement(".players-list > li");
 		await requireElement(".players-list > li .ajax-preloader", { invert: true });
 
-		const hofType = document.find(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList[1];
+		const hofType = document.querySelector(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList[1];
 		if (["battle", "respect", "factionchains", "factionrank"].includes(hofType)) return;
 
 		const levelIndex = [...document.querySelector(".table-titles").children].findIndex((title) => title.textContent === "Level");
@@ -49,8 +49,8 @@
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(".players-list > li:not(.empty)", (row) => ({
-			id: parseInt(row.find<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-			level: parseInt(row.find(`.player-info > li:nth-child(${levelIndex + 1})`).textContent),
+			id: parseInt(row.querySelector<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+			level: parseInt(row.querySelector(`.player-info > li:nth-child(${levelIndex + 1})`).textContent),
 		}));
 	}
 

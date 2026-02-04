@@ -19,7 +19,7 @@
 			if (mutations[0].removedNodes.length > 1) return;
 
 			startFeature();
-		}).observe(document.find(".users-point-sell"), { childList: true });
+		}).observe(document.querySelector(".users-point-sell"), { childList: true });
 	}
 
 	async function startFeature() {

@@ -18,7 +18,7 @@
 		await requireElement("[class*='stockMarket__'] ul[class*='stock__'] [class*='nameContainer__']");
 
 		for (const stockName of findAllElements("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
-			const container = stockName.find("[class*='nameContainer__']");
+			const container = stockName.querySelector("[class*='nameContainer__']");
 
 			const id = stockName.closest("[class*='stock___']").id;
 			if (typeof stockdata[id] === "number") continue;

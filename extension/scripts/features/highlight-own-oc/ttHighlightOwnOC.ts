@@ -40,14 +40,14 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		if (userdata.organizedCrime) highlightCrime2();
 		else highlightCrime1();
 	}
 
 	function highlightCrime1() {
-		const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.profile.id}"]`);
+		const member = document.querySelector(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.profile.id}"]`);
 		if (!member) return;
 
 		member.closest(".item-wrap").classList.add("tt-oc-highlight");

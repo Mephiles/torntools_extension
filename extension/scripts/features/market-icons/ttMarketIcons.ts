@@ -28,21 +28,21 @@
 		let isFirst = true;
 		let lastItem: Element | undefined;
 		for (const item of findAllElements(".items-cont[aria-expanded=true] > li[data-item]:not(.tt-ignore):not(.ajax-placeholder)")) {
-			if (item.find(".market-link")) continue;
+			if (item.querySelector(".market-link")) continue;
 
 			if (item.classList.contains("item-group")) item.classList.add("tt-modified");
 
 			const id = parseInt(item.dataset.item);
 			if (!isSellable(id)) continue;
 
-			let parent = item.find(".outside-actions");
+			let parent = item.querySelector(".outside-actions");
 			if (!parent) {
 				parent = elementBuilder({ type: "div", class: `outside-actions ${isFirst ? "first-action" : ""}` });
 
 				item.appendChild(parent);
 			}
 
-			const name = item.find(".thumbnail-wrap").getAttribute("aria-label");
+			const name = item.querySelector(".thumbnail-wrap").getAttribute("aria-label");
 			const category = item.dataset.category;
 
 			parent.appendChild(
@@ -62,7 +62,7 @@
 			isFirst = false;
 			lastItem = item;
 		}
-		if (lastItem && lastItem.find(".outside-actions")) lastItem.find(".outside-actions").classList.add("last-action");
+		if (lastItem && lastItem.querySelector(".outside-actions")) lastItem.querySelector(".outside-actions").classList.add("last-action");
 	}
 
 	function removeMarketIcons() {

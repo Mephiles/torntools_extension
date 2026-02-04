@@ -132,7 +132,7 @@
 				applyRounding: false,
 				contentBackground: false,
 				compact: true,
-				previousElement: document.find("h2=Areas").closest("[class*='sidebar-block_']"),
+				previousElement: findElementWithText<Element>("h2", "Areas").closest("[class*='sidebar-block_']"),
 			});
 			showTimer();
 
@@ -197,7 +197,7 @@
 				const target = event.target as HTMLElement;
 				if (target.classList.contains("active")) return;
 
-				const active = document.find(".tt-award.active");
+				const active = document.querySelector(".tt-award.active");
 				if (active) active.classList.remove("active");
 
 				target.classList.add("active");

@@ -208,7 +208,7 @@ function createFilterSection(
 
 		return {
 			element: section,
-			isChecked: (content: Element) => (content.find(`.${ccTitle} input`) as HTMLInputElement)?.checked ?? false,
+			isChecked: (content: Element) => content.querySelector<HTMLInputElement>(`.${ccTitle} input`)?.checked ?? false,
 		};
 	}
 
@@ -288,8 +288,8 @@ function createFilterSection(
 
 		return {
 			element: section,
-			getSelected: (content: Element) => (content.find(`.${ccTitle} select`) as HTMLSelectElement)?.value ?? "",
-			updateOptions: (newOptions: SelectOption[], content: Element) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
+			getSelected: (content: Element) => content.querySelector<HTMLSelectElement>(`.${ccTitle} select`)?.value ?? "",
+			updateOptions: (newOptions: SelectOption[], content: Element) => select.updateOptionsList(newOptions, content.querySelector(`.${ccTitle} select`)),
 		};
 	}
 
@@ -304,7 +304,7 @@ function createFilterSection(
 		return { element: section, getStartEnd, updateCounter };
 
 		function getStartEnd(content: Element) {
-			const rangeElement = content.find(`.${ccTitle} .tt-dual-range`);
+			const rangeElement = content.querySelector<HTMLElement>(`.${ccTitle} .tt-dual-range`);
 			if (!rangeElement) {
 				return { start: (options as SliderOptions).slider.valueLow, end: (options as SliderOptions).slider.valueHigh };
 			}
@@ -313,7 +313,7 @@ function createFilterSection(
 		}
 
 		function updateCounter(string: string, content: Element) {
-			const counter = content.find(`.${ccTitle} .slider-counter`);
+			const counter = content.querySelector(`.${ccTitle} .slider-counter`);
 			if (!counter) return;
 
 			counter.textContent = string;
@@ -421,8 +421,8 @@ function createStatistics(name = "entries", addBrackets = false, lowercase = fal
 	});
 
 	function updateStatistics(count: number, total: number, content: HTMLElement) {
-		content.find(".statistics .stat-count").textContent = count.toString();
-		content.find(".statistics .stat-total").textContent = total.toString();
+		content.querySelector(".statistics .stat-count").textContent = count.toString();
+		content.querySelector(".statistics .stat-total").textContent = total.toString();
 	}
 
 	return { element: statistics, updateStatistics };

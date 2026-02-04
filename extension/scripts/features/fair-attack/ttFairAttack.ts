@@ -25,7 +25,7 @@
 		const ff = attackHistory.history[id]?.latestFairFightModifier;
 		if (!ff) return;
 
-		const entries = document.find("div[class*='headerWrapper___'][class*='rose___'] div[class*='textEntries___']");
+		const entries = document.querySelector("div[class*='headerWrapper___'][class*='rose___'] div[class*='textEntries___']");
 
 		entries.classList.add("tt-fair-attack");
 		entries.insertAdjacentElement(

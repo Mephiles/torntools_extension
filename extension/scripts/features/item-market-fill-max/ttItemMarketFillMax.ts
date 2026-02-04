@@ -24,12 +24,12 @@
 			// the Buy icon is clicked. Hence exit early.
 			if ((mobile || tablet) && !listing.children[0].matches("[class*='sellerRow__'][class*='expanded__']")) return;
 
-			const quantityAvailable = convertToNumber(listing.find("[class*='available__']").textContent);
-			const moneyOnHand = convertToNumber(document.find("#user-money").dataset.money);
-			const itemPrice = convertToNumber(listing.find("[class*='price__']").textContent);
+			const quantityAvailable = convertToNumber(listing.querySelector("[class*='available__']").textContent);
+			const moneyOnHand = convertToNumber(document.querySelector<HTMLElement>("#user-money").dataset.money);
+			const itemPrice = convertToNumber(listing.querySelector("[class*='price__']").textContent);
 			const purchasableQuantity = Math.min(quantityAvailable, Math.floor(moneyOnHand / itemPrice));
 
-			const quantityInput = listing.find<HTMLInputElement>(".input-money-group input:not([type])");
+			const quantityInput = listing.querySelector<HTMLInputElement>(".input-money-group input:not([type])");
 			updateReactInput(quantityInput, purchasableQuantity);
 		});
 	}

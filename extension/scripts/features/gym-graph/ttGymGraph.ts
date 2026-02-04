@@ -32,7 +32,7 @@
 			const button = elementBuilder({ type: "button", text: "Update TornStats", class: "tt-btn tornstats-button" });
 
 			button.addEventListener("click", async () => {
-				if (wrapper.find(".tornstats-response")) wrapper.find(".tornstats-response").remove();
+				if (wrapper.querySelector(".tornstats-response")) wrapper.querySelector(".tornstats-response").remove();
 
 				const responseElement = elementBuilder({ type: "div", class: "tornstats-response" });
 				wrapper.appendChild(responseElement);

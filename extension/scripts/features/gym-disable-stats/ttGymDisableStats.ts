@@ -26,7 +26,7 @@
 
 			for (const mutation of mutations) {
 				const target = mutation.target as Element;
-				const checkbox = target.find<HTMLInputElement>(".tt-stat-checkbox");
+				const checkbox = target.querySelector<HTMLInputElement>(".tt-stat-checkbox");
 				if (!checkbox) continue;
 
 				const classList = target.classList;
@@ -76,14 +76,14 @@
 				})
 			);
 
-			const name = stat.find("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
+			const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
 
 			if (filters.gym[name]) toggleStat(stat, false);
 		}
 
 		function toggleStat(stat: Element, save = true) {
-			const checkbox = stat.find<HTMLInputElement>(".tt-stat-checkbox");
-			const button = stat.find<HTMLButtonElement>(".torn-btn");
+			const checkbox = stat.querySelector<HTMLInputElement>(".tt-stat-checkbox");
+			const button = stat.querySelector<HTMLButtonElement>(".torn-btn");
 
 			const isLocked = stat.classList.toggle("tt-gym-locked");
 
@@ -92,7 +92,7 @@
 			checkbox.checked = isLocked;
 
 			if (save) {
-				const name = stat.find("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
+				const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
 
 				ttStorage.change({ filters: { gym: { [name]: isLocked } } });
 			}

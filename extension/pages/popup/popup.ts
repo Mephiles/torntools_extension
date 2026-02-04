@@ -32,13 +32,13 @@ const initiatedPages: string[] = [];
 			await showPage(navigation.getAttribute("to"));
 		});
 	}
-	document.find("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
+	document.querySelector("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
 
-	if (!settings.pages.popup.dashboard) document.find("#pages li[to='dashboard']").classList.add("tt-hidden");
-	if (!settings.pages.popup.marketSearch) document.find("#pages li[to='market']").classList.add("tt-hidden");
-	if (!settings.pages.popup.calculator) document.find("#pages li[to='calculator']").classList.add("tt-hidden");
-	if (!settings.pages.popup.stocksOverview) document.find("#pages li[to='stocks']").classList.add("tt-hidden");
-	if (!settings.pages.popup.notifications) document.find("#pages li[to='notifications']").classList.add("tt-hidden");
+	if (!settings.pages.popup.dashboard) document.querySelector("#pages li[to='dashboard']").classList.add("tt-hidden");
+	if (!settings.pages.popup.marketSearch) document.querySelector("#pages li[to='market']").classList.add("tt-hidden");
+	if (!settings.pages.popup.calculator) document.querySelector("#pages li[to='calculator']").classList.add("tt-hidden");
+	if (!settings.pages.popup.stocksOverview) document.querySelector("#pages li[to='stocks']").classList.add("tt-hidden");
+	if (!settings.pages.popup.notifications) document.querySelector("#pages li[to='notifications']").classList.add("tt-hidden");
 
 	if (!api.torn.key) {
 		await showPage("initialize");
@@ -51,23 +51,23 @@ const initiatedPages: string[] = [];
 
 	function handleAPIError() {
 		if (api.torn.error) {
-			document.find(".error").classList.remove("tt-hidden");
-			document.find(".error").textContent = api.torn.error;
+			document.querySelector(".error").classList.remove("tt-hidden");
+			document.querySelector(".error").textContent = api.torn.error;
 		} else {
-			document.find(".error").classList.add("tt-hidden");
-			document.find(".error").textContent = "";
+			document.querySelector(".error").classList.add("tt-hidden");
+			document.querySelector(".error").textContent = "";
 		}
 	}
 })();
 
 // @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 async function showPage(name: keyof typeof SETUP_PAGES) {
-	document.find(`#${name}`).classList.add("active");
+	document.querySelector(`#${name}`).classList.add("active");
 
 	for (const active of findAllElements("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
 
-	if (document.find(`#pages li[to="${name}"]`)) document.find(`#pages li[to="${name}"]`).classList.add("active");
-	document.find(`#${name}`).classList.add("active");
+	if (document.querySelector(`#pages li[to="${name}"]`)) document.querySelector(`#pages li[to="${name}"]`).classList.add("active");
+	document.querySelector(`#${name}`).classList.add("active");
 
 	if (name in SETUP_PAGES && !initiatedPages.includes(name)) {
 		await SETUP_PAGES[name]();
@@ -79,18 +79,20 @@ async function showPage(name: keyof typeof SETUP_PAGES) {
 }
 
 async function setupInitialize() {
-	document.find("#pages").classList.add("tt-hidden");
-	document.find<HTMLAnchorElement>("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
+	document.querySelector("#pages").classList.add("tt-hidden");
+	document.querySelector<HTMLAnchorElement>("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
 
-	document.find("#import-previous-settings").addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
+	document
+		.querySelector("#import-previous-settings")
+		.addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
 
-	document.find("#set_api_key").addEventListener("click", () => {
-		const key = document.find<HTMLInputElement>("#api_key").value;
+	document.querySelector("#set_api_key").addEventListener("click", () => {
+		const key = document.querySelector<HTMLInputElement>("#api_key").value;
 
 		checkAPIPermission(key)
 			.then(({ access }) => {
 				if (!access) {
-					const permissionError = document.find(".permission-error");
+					const permissionError = document.querySelector(".permission-error");
 					permissionError.classList.remove("tt-hidden");
 					permissionError.textContent =
 						"TornTools needs a limited access key. Your API key is not the correct API level. This will affect a lot of features.";
@@ -105,7 +107,7 @@ async function setupInitialize() {
 
 				changeAPIKey(key)
 					.then(async () => {
-						document.find("#pages").classList.remove("tt-hidden");
+						document.querySelector("#pages").classList.remove("tt-hidden");
 
 						console.log("TT just got initialised, initial popup data load.");
 						// Wait till userdata loads for the first time.
@@ -122,22 +124,22 @@ async function setupInitialize() {
 			.catch((error) => showError(error.error));
 	});
 
-	document.find("#api_quicklink").addEventListener("click", () => {
+	document.querySelector("#api_quicklink").addEventListener("click", () => {
 		chrome.tabs.update({
 			url: "https://www.torn.com/preferences.php#tab=api",
 		});
 	});
 
 	function showError(message: string) {
-		document.find(".error").classList.remove("tt-hidden");
-		document.find(".error").textContent = message;
+		document.querySelector(".error").classList.remove("tt-hidden");
+		document.querySelector(".error").textContent = message;
 	}
 }
 
 async function setupDashboard() {
-	const dashboard = document.find("#dashboard");
+	const dashboard = document.querySelector("#dashboard");
 
-	const iconsWrap = dashboard.find(".icons-wrap");
+	const iconsWrap = dashboard.querySelector(".icons-wrap");
 	for (const { icon, id, description, ...r } of ALL_ICONS) {
 		let url = "url" in r ? r.url : null;
 
@@ -154,26 +156,26 @@ async function setupDashboard() {
 		);
 	}
 
-	dashboard.find("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
-	dashboard.find("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
-	dashboard.find("#mute-notifications span").textContent = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
-	dashboard.find("#mute-notifications").addEventListener("click", () => {
+	dashboard.querySelector("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
+	dashboard.querySelector("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
+	dashboard.querySelector("#mute-notifications span").textContent = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
+	dashboard.querySelector("#mute-notifications").addEventListener("click", () => {
 		const newStatus = !settings.notifications.types.global;
 
 		ttStorage.change({ settings: { notifications: { types: { global: newStatus } } } });
 
 		if (newStatus) {
-			dashboard.find("#mute-notifications").classList.add("enabled");
-			dashboard.find("#mute-notifications").classList.remove("disabled");
-			dashboard.find("#mute-notifications i").classList.add("fa-bell");
-			dashboard.find("#mute-notifications i").classList.remove("fa-bell-slash");
-			dashboard.find("#mute-notifications span").textContent = "Notifications enabled";
+			dashboard.querySelector("#mute-notifications").classList.add("enabled");
+			dashboard.querySelector("#mute-notifications").classList.remove("disabled");
+			dashboard.querySelector("#mute-notifications i").classList.add("fa-bell");
+			dashboard.querySelector("#mute-notifications i").classList.remove("fa-bell-slash");
+			dashboard.querySelector("#mute-notifications span").textContent = "Notifications enabled";
 		} else {
-			dashboard.find("#mute-notifications").classList.remove("enabled");
-			dashboard.find("#mute-notifications").classList.add("disabled");
-			dashboard.find("#mute-notifications i").classList.remove("fa-bell");
-			dashboard.find("#mute-notifications i").classList.add("fa-bell-slash");
-			dashboard.find("#mute-notifications span").textContent = "Notifications disabled";
+			dashboard.querySelector("#mute-notifications").classList.remove("enabled");
+			dashboard.querySelector("#mute-notifications").classList.add("disabled");
+			dashboard.querySelector("#mute-notifications i").classList.remove("fa-bell");
+			dashboard.querySelector("#mute-notifications i").classList.add("fa-bell-slash");
+			dashboard.querySelector("#mute-notifications span").textContent = "Notifications disabled";
 		}
 	});
 
@@ -210,31 +212,31 @@ async function setupDashboard() {
 		}
 	}, 1000);
 
-	dashboard.find<HTMLAnchorElement>(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
-	dashboard.find(".stakeouts .heading i").addEventListener("click", () => {
-		const stakeoutSection = dashboard.find(".stakeouts .stakeout-list");
+	dashboard.querySelector<HTMLAnchorElement>(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
+	dashboard.querySelector(".stakeouts .heading i").addEventListener("click", () => {
+		const stakeoutSection = dashboard.querySelector(".stakeouts .stakeout-list");
 
 		if (stakeoutSection.classList.contains("tt-hidden")) {
 			stakeoutSection.classList.remove("tt-hidden");
-			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-down");
-			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-right");
+			dashboard.querySelector(".stakeouts .heading i").classList.add("fa-caret-down");
+			dashboard.querySelector(".stakeouts .heading i").classList.remove("fa-caret-right");
 		} else {
 			stakeoutSection.classList.add("tt-hidden");
-			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-down");
-			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-right");
+			dashboard.querySelector(".stakeouts .heading i").classList.remove("fa-caret-down");
+			dashboard.querySelector(".stakeouts .heading i").classList.add("fa-caret-right");
 		}
 	});
-	dashboard.find(".faction-stakeouts .heading i").addEventListener("click", () => {
-		const factionStakeoutSection = dashboard.find(".faction-stakeouts .stakeout-list");
+	dashboard.querySelector(".faction-stakeouts .heading i").addEventListener("click", () => {
+		const factionStakeoutSection = dashboard.querySelector(".faction-stakeouts .stakeout-list");
 
 		if (factionStakeoutSection.classList.contains("tt-hidden")) {
 			factionStakeoutSection.classList.remove("tt-hidden");
-			dashboard.find(".faction-stakeouts .heading i").classList.add("fa-caret-down");
-			dashboard.find(".faction-stakeouts .heading i").classList.remove("fa-caret-right");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.add("fa-caret-down");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.remove("fa-caret-right");
 		} else {
 			factionStakeoutSection.classList.add("tt-hidden");
-			dashboard.find(".faction-stakeouts .heading i").classList.remove("fa-caret-down");
-			dashboard.find(".faction-stakeouts .heading i").classList.add("fa-caret-right");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.remove("fa-caret-down");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.add("fa-caret-right");
 		}
 	});
 
@@ -270,20 +272,20 @@ async function setupDashboard() {
 
 		function updateStatus() {
 			if (userdata.travel.time_left) {
-				dashboard.find("#country").textContent = `Traveling to ${userdata.travel.destination}`;
-				dashboard.find(".status-wrap").classList.add("tt-hidden");
+				dashboard.querySelector("#country").textContent = `Traveling to ${userdata.travel.destination}`;
+				dashboard.querySelector(".status-wrap").classList.add("tt-hidden");
 			} else {
-				dashboard.find("#country").textContent = userdata.travel.destination;
+				dashboard.querySelector("#country").textContent = userdata.travel.destination;
 
 				const status = userdata.profile.status.state.toLowerCase() === "abroad" ? "okay" : userdata.profile.status.state.toLowerCase();
 
-				dashboard.find("#status").textContent = capitalizeText(status);
-				dashboard.find("#status").setAttribute("class", status);
-				dashboard.find(".status-wrap").classList.remove("tt-hidden");
+				dashboard.querySelector("#status").textContent = capitalizeText(status);
+				dashboard.querySelector("#status").setAttribute("class", status);
+				dashboard.querySelector(".status-wrap").classList.remove("tt-hidden");
 
 				if (userdata.profile.status.until) {
-					dashboard.find("#status").dataset.until = (userdata.profile.status.until * 1000).toString();
-				} else delete dashboard.find("#status").dataset.until;
+					dashboard.querySelector<HTMLElement>("#status").dataset.until = (userdata.profile.status.until * 1000).toString();
+				} else delete dashboard.querySelector<HTMLElement>("#status").dataset.until;
 
 				updateStatusTimer();
 			}
@@ -343,26 +345,26 @@ async function setupDashboard() {
 			if (current === maximum) fullAt = "full";
 			else if (current > maximum) fullAt = "over";
 
-			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
-			dashboard.find(`#${name} .bar-info .bar-label`).textContent = `${current}/${maximum}`;
+			dashboard.querySelector<HTMLElement>(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
+			dashboard.querySelector(`#${name} .bar-info .bar-label`).textContent = `${current}/${maximum}`;
 
-			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt.toString();
-			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt.toString();
+			dashboard.querySelector<HTMLElement>(`#${name} .bar-info`).dataset.full_at = fullAt.toString();
+			dashboard.querySelector<HTMLElement>(`#${name} .bar-info`).dataset.tick_at = tickAt.toString();
 			if (bar.interval) {
-				dashboard.find(`#${name} .bar-info`).dataset.tick_time = (bar.interval * 1000).toString();
+				dashboard.querySelector<HTMLElement>(`#${name} .bar-info`).dataset.tick_time = (bar.interval * 1000).toString();
 			}
 
-			updateBarTimer(dashboard.find(`#${name}`));
+			updateBarTimer(dashboard.querySelector(`#${name}`));
 		}
 
 		function updateChainBar(bar: UserV1ChainBar) {
 			const current = bar ? bar.current : 0;
 
 			if (current === 0) {
-				dashboard.find("#chain").classList.add("tt-hidden");
+				dashboard.querySelector("#chain").classList.add("tt-hidden");
 				return;
 			}
-			dashboard.find("#chain").classList.remove("tt-hidden");
+			dashboard.querySelector("#chain").classList.remove("tt-hidden");
 
 			let maximum = bar ? bar.maximum : 100;
 			if (current !== maximum) maximum = getNextChainBonus(current);
@@ -370,60 +372,62 @@ async function setupDashboard() {
 			let tickAt: string | number;
 			let fullAt: string | number;
 			if (bar.cooldown !== 0) {
-				dashboard.find("#chain").classList.add("cooldown");
+				dashboard.querySelector("#chain").classList.add("cooldown");
 				fullAt = (userdata.server_time + bar.cooldown) * 1000;
 				tickAt = (userdata.server_time + bar.cooldown) * 1000;
 			} else {
-				dashboard.find("#chain").classList.remove("cooldown");
+				dashboard.querySelector("#chain").classList.remove("cooldown");
 				fullAt = (userdata.server_time + bar.timeout) * 1000;
 				tickAt = (userdata.server_time + bar.timeout) * 1000;
 			}
 
-			dashboard.find(`#chain .progress .value`).style.width = `${(current / maximum) * 100}%`;
-			dashboard.find(`#chain .bar-info .bar-label`).textContent = `${current}/${maximum}`;
+			dashboard.querySelector<HTMLElement>(`#chain .progress .value`).style.width = `${(current / maximum) * 100}%`;
+			dashboard.querySelector(`#chain .bar-info .bar-label`).textContent = `${current}/${maximum}`;
 
-			dashboard.find(`#chain .bar-info`).dataset.full_at = fullAt.toString();
-			dashboard.find(`#chain .bar-info`).dataset.tick_at = tickAt.toString();
+			dashboard.querySelector<HTMLElement>(`#chain .bar-info`).dataset.full_at = fullAt.toString();
+			dashboard.querySelector<HTMLElement>(`#chain .bar-info`).dataset.tick_at = tickAt.toString();
 
-			updateBarTimer(dashboard.find("#chain"));
+			updateBarTimer(dashboard.querySelector("#chain"));
 		}
 
 		function updateTravelBar() {
 			if (!userdata.travel.time_left) {
-				dashboard.find("#traveling").classList.add("tt-hidden");
+				dashboard.querySelector("#traveling").classList.add("tt-hidden");
 				return;
 			}
-			dashboard.find("#traveling").classList.remove("tt-hidden");
+			dashboard.querySelector("#traveling").classList.remove("tt-hidden");
 
 			const maximum = userdata.travel.timestamp - userdata.travel.departed;
 			const current = maximum - userdata.travel.time_left;
 
-			dashboard.find("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
-			dashboard.find("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.timestamp * 1000);
+			dashboard.querySelector<HTMLElement>("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
+			dashboard.querySelector("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.timestamp * 1000);
 
-			dashboard.find("#traveling .bar-info").dataset.tick_at = (userdata.travel.timestamp * 1000).toString();
-			dashboard.find("#traveling .bar-info").dataset.full_at = (userdata.travel.timestamp * 1000).toString();
+			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.tick_at = (userdata.travel.timestamp * 1000).toString();
+			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.full_at = (userdata.travel.timestamp * 1000).toString();
 
-			updateBarTimer(dashboard.find("#traveling"));
+			updateBarTimer(dashboard.querySelector("#traveling"));
 		}
 
 		function updateCooldown(name: string, cooldown: number) {
-			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0).toString();
+			dashboard.querySelector<HTMLElement>(`#${name}-cooldown`).dataset.completed_at = (
+				userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0
+			).toString();
 
-			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
+			updateCooldownTimer(dashboard.querySelector(`#${name}-cooldown`));
 		}
 
 		function updateExtra() {
-			if (settings.apiUsage.user.newevents) dashboard.find(".extra .events .count").textContent = userdata.notifications.events.toString();
+			if (settings.apiUsage.user.newevents) dashboard.querySelector(".extra .events .count").textContent = userdata.notifications.events.toString();
 			if (settings.apiUsage.user.newmessages)
-				dashboard.find(".extra .messages .count").textContent = Object.values(userdata.messages)
+				dashboard.querySelector(".extra .messages .count").textContent = Object.values(userdata.messages)
 					.filter((message) => !message.seen)
 					.length.toString();
-			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").textContent = `$${formatNumber(userdata.money.wallet)}`;
+			if (settings.apiUsage.user.money) dashboard.querySelector(".extra .wallet .count").textContent = `$${formatNumber(userdata.money.wallet)}`;
 		}
 
 		function updateActions() {
-			dashboard.find("#last-update").dataset.updated_at = userdata.date.toString();
+			dashboard.querySelector<HTMLElement>("#last-update").dataset.updated_at = userdata.date.toString();
 
 			updateUpdateTimer();
 		}
@@ -434,8 +438,8 @@ async function setupDashboard() {
 				Object.keys(stakeouts).length &&
 				!(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)
 			)
-				dashboard.find(".stakeouts").classList.remove("tt-hidden");
-			else dashboard.find(".stakeouts").classList.add("tt-hidden");
+				dashboard.querySelector(".stakeouts").classList.remove("tt-hidden");
+			else dashboard.querySelector(".stakeouts").classList.add("tt-hidden");
 		}
 
 		function setupFactionStakeouts() {
@@ -444,14 +448,14 @@ async function setupDashboard() {
 				Object.keys(factionStakeouts).length &&
 				!(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)
 			)
-				dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
-			else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
+				dashboard.querySelector(".faction-stakeouts").classList.remove("tt-hidden");
+			else dashboard.querySelector(".faction-stakeouts").classList.add("tt-hidden");
 		}
 	}
 
 	function updateStatusTimer() {
 		const current = Date.now();
-		const status = dashboard.find("#status");
+		const status = dashboard.querySelector<HTMLElement>("#status");
 		if (!status.dataset.until) return;
 
 		if (status.classList.contains("jail")) {
@@ -467,7 +471,7 @@ async function setupDashboard() {
 		const name = bar.id;
 		const current = Date.now();
 
-		const barInfo = bar.find(".bar-info");
+		const barInfo = bar.querySelector<HTMLElement>(".bar-info");
 		const dataset = barInfo.dataset;
 
 		let full_at = parseInt(dataset.full_at) || dataset.full_at;
@@ -517,16 +521,16 @@ async function setupDashboard() {
 
 		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
-		cooldown.find(".cooldown-label").textContent = formatTime(
+		cooldown.querySelector(".cooldown-label").textContent = formatTime(
 			{ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 },
 			{ type: "timer", daysToHours: true }
 		);
 	}
 
 	function updateUpdateTimer() {
-		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
+		const updatedAt = parseInt(dashboard.querySelector<HTMLElement>("#last-update").dataset.updated_at);
 
-		dashboard.find("#last-update").textContent = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
+		dashboard.querySelector("#last-update").textContent = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
 	}
 
 	function updateStakeouts() {
@@ -535,9 +539,9 @@ async function setupDashboard() {
 			Object.keys(stakeouts).length &&
 			!(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)
 		) {
-			dashboard.find(".stakeouts").classList.remove("tt-hidden");
+			dashboard.querySelector(".stakeouts").classList.remove("tt-hidden");
 
-			const stakeoutList = dashboard.find(".stakeouts .stakeout-list");
+			const stakeoutList = dashboard.querySelector(".stakeouts .stakeout-list");
 			stakeoutList.innerHTML = "";
 
 			for (const id of stakeouts.order) {
@@ -643,7 +647,7 @@ async function setupDashboard() {
 					})
 				);
 			}
-		} else dashboard.find(".stakeouts").classList.add("tt-hidden");
+		} else dashboard.querySelector(".stakeouts").classList.add("tt-hidden");
 	}
 
 	function updateFactionStakeouts() {
@@ -652,9 +656,9 @@ async function setupDashboard() {
 			Object.keys(factionStakeouts).length &&
 			!(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)
 		) {
-			dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
+			dashboard.querySelector(".faction-stakeouts").classList.remove("tt-hidden");
 
-			const stakeoutList = dashboard.find(".faction-stakeouts .stakeout-list");
+			const stakeoutList = dashboard.querySelector(".faction-stakeouts .stakeout-list");
 			stakeoutList.innerHTML = "";
 
 			for (const factionId in factionStakeouts) {
@@ -717,13 +721,13 @@ async function setupDashboard() {
 					})
 				);
 			}
-		} else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
+		} else dashboard.querySelector(".faction-stakeouts").classList.add("tt-hidden");
 	}
 }
 
 async function setupMarketSearch() {
 	// setup itemlist
-	const itemSelection = document.find("#market .item-list");
+	const itemSelection = document.querySelector("#market .item-list");
 
 	for (const id in torndata.items) {
 		const name = torndata.items[id].name;
@@ -747,7 +751,7 @@ async function setupMarketSearch() {
 	}
 
 	// setup searchbar
-	document.find("#market #search-bar").addEventListener("keyup", (event) => {
+	document.querySelector("#market #search-bar").addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
@@ -767,28 +771,28 @@ async function setupMarketSearch() {
 			}
 		}
 	});
-	document.find("#market #search-bar").addEventListener("click", (event) => {
+	document.querySelector("#market #search-bar").addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
-		document.find("#market .item-list").classList.add("tt-hidden");
-		document.find("#market #item-information").classList.add("tt-hidden");
+		document.querySelector("#market .item-list").classList.add("tt-hidden");
+		document.querySelector("#market #item-information").classList.add("tt-hidden");
 	});
 
 	function showMarketInfo(id: string) {
-		const viewItem = document.find("#market #item-information");
-		viewItem.find(".market").classList.add("tt-hidden");
+		const viewItem = document.querySelector("#market #item-information");
+		viewItem.querySelector(".market").classList.add("tt-hidden");
 
 		const item = torndata.items[id];
-		viewItem.find(".circulation").textContent = formatNumber(item.circulation);
-		viewItem.find(".value").textContent = `$${formatNumber(item.market_value)}`;
-		viewItem.find(".name").textContent = item.name;
-		viewItem.find<HTMLAnchorElement>(".name").href =
+		viewItem.querySelector(".circulation").textContent = formatNumber(item.circulation);
+		viewItem.querySelector(".value").textContent = `$${formatNumber(item.market_value)}`;
+		viewItem.querySelector(".name").textContent = item.name;
+		viewItem.querySelector<HTMLAnchorElement>(".name").href =
 			`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${item.name}&itemType=${item.type}`;
-		viewItem.find<HTMLImageElement>(".image").src = item.image;
+		viewItem.querySelector<HTMLImageElement>(".image").src = item.image;
 
 		viewItem.classList.remove("tt-hidden");
 
-		showLoadingPlaceholder(viewItem.find(".market").parentElement, true);
+		showLoadingPlaceholder(viewItem.querySelector(".market").parentElement, true);
 
 		// Make both API calls in parallel
 		Promise.all([
@@ -817,13 +821,13 @@ async function setupMarketSearch() {
 				handleMarket(tornResult, tornw3bResult);
 			})
 			.catch((error) => {
-				document.find(".error").classList.remove("tt-hidden");
-				document.find(".error").textContent = error.message;
+				document.querySelector(".error").classList.remove("tt-hidden");
+				document.querySelector(".error").textContent = error.message;
 			})
-			.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
+			.finally(() => showLoadingPlaceholder(viewItem.querySelector(".market").parentElement, false));
 
 		function handleMarket(tornResult: MarketItemMarketResponse, tornw3bResult: TornW3BResult) {
-			const list = viewItem.find(".market");
+			const list = viewItem.querySelector(".market");
 			list.innerHTML = "";
 
 			if (!isSellable(id) && !tornResult.itemmarket.listings.length) {
@@ -880,20 +884,20 @@ async function setupMarketSearch() {
 					list.appendChild(bazaarWrap);
 				}
 			}
-			viewItem.find(".market").classList.remove("tt-hidden");
+			viewItem.querySelector(".market").classList.remove("tt-hidden");
 		}
 	}
 }
 
 async function loadMarketSearch() {
-	document.find("#market #search-bar").focus();
+	document.querySelector<HTMLElement>("#market #search-bar").focus();
 }
 
 async function setupCalculator() {
-	const calculator = document.find("#calculator");
+	const calculator = document.querySelector("#calculator");
 
 	// setup itemlist
-	const itemSelection = calculator.find(".item-list");
+	const itemSelection = calculator.querySelector(".item-list");
 
 	let selectedItems = localdata.popup.calculatorItems;
 
@@ -946,7 +950,7 @@ async function setupCalculator() {
 	}
 
 	// setup searchbar
-	const search = calculator.find(".search");
+	const search = calculator.querySelector(".search");
 	search.addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
@@ -967,10 +971,10 @@ async function setupCalculator() {
 	search.addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
-		calculator.find(".item-list").classList.add("tt-hidden");
+		calculator.querySelector(".item-list").classList.add("tt-hidden");
 	});
 
-	const clear = calculator.find(".clear");
+	const clear = calculator.querySelector(".clear");
 	clear.addEventListener("click", () => {
 		selectedItems = [];
 
@@ -980,7 +984,7 @@ async function setupCalculator() {
 	updateSelection();
 
 	function updateSelection() {
-		const receipt = calculator.find(".receipt");
+		const receipt = calculator.querySelector(".receipt");
 		receipt.innerHTML = "";
 
 		if (!selectedItems.length) {
@@ -1038,12 +1042,12 @@ async function setupCalculator() {
 }
 
 async function loadCalculator() {
-	document.find("#calculator .search").focus();
+	document.querySelector<HTMLElement>("#calculator .search").focus();
 }
 
 async function setupStocksOverview() {
-	const stocksOverview = document.find("#stocks");
-	const allStocks = stocksOverview.find("#all-stocks");
+	const stocksOverview = document.querySelector("#stocks");
+	const allStocks = stocksOverview.querySelector("#all-stocks");
 
 	for (let id in stockdata) {
 		if (id === "date") continue;
@@ -1052,7 +1056,7 @@ async function setupStocksOverview() {
 	}
 
 	// setup searchbar
-	stocksOverview.find("#stock-search-bar").addEventListener("keyup", (event) => {
+	stocksOverview.querySelector("#stock-search-bar").addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
@@ -1073,7 +1077,7 @@ async function setupStocksOverview() {
 			}
 		}
 	});
-	stocksOverview.find("#stock-search-bar").addEventListener("click", (event) => {
+	stocksOverview.querySelector("#stock-search-bar").addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
 		for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
@@ -1395,7 +1399,7 @@ async function setupStocksOverview() {
 						content.classList[content.classList.contains("tt-hidden") ? "remove" : "add"]("tt-hidden");
 
 						const target = event.target as HTMLElement;
-						rotateElement((target.classList.contains("heading") ? target : target.parentElement).find("i"), 180);
+						rotateElement((target.classList.contains("heading") ? target : target.parentElement).querySelector("i"), 180);
 					},
 				},
 			});
@@ -1470,7 +1474,7 @@ async function setupStocksOverview() {
 }
 
 async function setupNotifications() {
-	const notifications = document.find("#notifications ul");
+	const notifications = document.querySelector("#notifications ul");
 
 	notificationHistory
 		.map(createEntry)

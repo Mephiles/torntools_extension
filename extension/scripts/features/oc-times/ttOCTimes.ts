@@ -31,7 +31,7 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showTimes();
 	}
@@ -40,7 +40,7 @@
 		let oldDate: boolean | string = false;
 
 		for (const crime of findAllElements(".organize-wrap .crimes-list > .item-wrap")) {
-			const details = crime.find(".details-wrap");
+			const details = crime.querySelector<HTMLElement>(".details-wrap");
 			if (!details) continue;
 
 			const id = details.dataset.crime;
@@ -60,7 +60,7 @@
 				text = "N/A";
 			}
 
-			crime.find(".status").appendChild(elementBuilder({ type: "span", class: "tt-oc-time", text }));
+			crime.querySelector(".status").appendChild(elementBuilder({ type: "span", class: "tt-oc-time", text }));
 		}
 	}
 

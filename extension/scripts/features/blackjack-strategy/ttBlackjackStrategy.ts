@@ -543,10 +543,10 @@
 		}
 		const suggestion = getSuggestion(playerValue);
 
-		let element = document.find(".tt-blackjack-suggestion");
+		let element = document.querySelector(".tt-blackjack-suggestion");
 		if (element) element.textContent = suggestion;
 		else {
-			document.find(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
+			document.querySelector(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
 		}
 
 		function getWorth(card: any) {
@@ -608,7 +608,7 @@
 	}
 
 	function removeSuggestion() {
-		const suggestion = document.find(".tt-blackjack-suggestion");
+		const suggestion = document.querySelector(".tt-blackjack-suggestion");
 		if (suggestion) suggestion.remove();
 	}
 })();

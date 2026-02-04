@@ -28,7 +28,7 @@
 	async function addPercentage() {
 		await requireElement(".enlisted-stat");
 
-		if (document.find(".tt-win-percentage")) return;
+		if (document.querySelector(".tt-win-percentage")) return;
 
 		const REGEX = /(Races won:) (\d)*|(Races entered:) (\d)*/;
 
@@ -42,7 +42,7 @@
 			if (values[0] === 0) text = "• Win Percentage: 0%";
 			else text = `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%`;
 
-			stat.find(".enlisted-stat").insertAdjacentElement("beforeend", elementBuilder({ type: "li", class: "tt-win-percentage", text: text }));
+			stat.querySelector(".enlisted-stat").insertAdjacentElement("beforeend", elementBuilder({ type: "li", class: "tt-win-percentage", text: text }));
 		});
 	}
 

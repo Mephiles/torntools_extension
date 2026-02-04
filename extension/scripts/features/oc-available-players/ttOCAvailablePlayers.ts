@@ -26,16 +26,16 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showAvailable();
 	}
 
 	function showAvailable() {
-		if (document.find("div.plans-list.p10")) {
+		if (document.querySelector("div.plans-list.p10")) {
 			displayAvailable(0).then(() => {});
 		} else {
-			const list = document.find("ul.plans-list");
+			const list = document.querySelector("ul.plans-list");
 			if (!list) {
 				displayAvailable(-1).then(() => {});
 				return;
@@ -46,7 +46,7 @@
 		}
 
 		async function displayAvailable(amount: number) {
-			const crimes = document.find("#faction-crimes");
+			const crimes = document.querySelector("#faction-crimes");
 
 			let message: string;
 			if (amount === -1) {

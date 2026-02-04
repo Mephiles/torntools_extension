@@ -15,7 +15,7 @@
 	async function addCSVContainer() {
 		await requireElement(".members-stats-col.respect");
 		const { options } = createContainer("Chain Report", {
-			previousElement: document.find(".content-wrapper .content-title"),
+			previousElement: document.querySelector(".content-wrapper .content-title"),
 			onlyHeader: true,
 		});
 		const ttExportButton = elementBuilder({
@@ -29,8 +29,8 @@
 		});
 		ttExportButton.addEventListener("click", () => {
 			const chainID = getSearchParameters().get("chainID");
-			const csv = new CSVExport(`Chain Report [${chainID}]`, options.find("#ttExportLink"));
-			csv.append(document.find(".report-title-faction-name").textContent);
+			const csv = new CSVExport(`Chain Report [${chainID}]`, options.querySelector("#ttExportLink"));
+			csv.append(document.querySelector(".report-title-faction-name").textContent);
 			csv.append("Members", "Respect", "Best", "Avg", "Attacks", "Leave", "Mug", "Hosp", "War", "Assist", "Retal", "Overseas", "Draw", "Escape", "Loss");
 
 			const info = findAllElements(".members-stats-rows > *");

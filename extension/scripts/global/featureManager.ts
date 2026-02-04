@@ -104,7 +104,7 @@ class FeatureManager {
 		this.errorCount = this.errorCount + 1;
 		if (this.errorCount === 1) {
 			// Show error messages from first error.
-			document.find("#tt-page-status .error-messages").classList.add("show");
+			document.querySelector("#tt-page-status .error-messages").classList.add("show");
 		}
 
 		if (Array.isArray(info)) {
@@ -116,7 +116,7 @@ class FeatureManager {
 			info.push(error.stack);
 		}
 		console.error(...info);
-		// this.container.find(".error-messages")
+		// this.container.querySelector(".error-messages")
 		/*
 		<div class="error-messages">
 			<div class="error">
@@ -166,7 +166,7 @@ class FeatureManager {
 				],
 			});
 		}
-		this.container.find(".error-messages").appendChild(errorElement);
+		this.container.querySelector(".error-messages").appendChild(errorElement);
 	}
 
 	private clearEarlyErrors() {
@@ -371,11 +371,11 @@ class FeatureManager {
 		}
 
 		new Promise(async () => {
-			let row = this.container.find(`[feature-name*="${feature.name}"]`);
+			let row = this.container.querySelector(`[feature-name*="${feature.name}"]`);
 			if (row) {
 				row.setAttribute("status", status);
 
-				const statusIcon = row.find("i");
+				const statusIcon = row.querySelector("i");
 				statusIcon.className = getIconClass(status);
 
 				if (options.message) statusIcon.setAttribute("title", options.message);
@@ -395,14 +395,14 @@ class FeatureManager {
 					],
 				});
 
-				let scopeEl = this.container.find(`[scope*="${feature.scope}"]`);
+				let scopeEl = this.container.querySelector(`[scope*="${feature.scope}"]`);
 				if (!scopeEl) {
 					scopeEl = elementBuilder({
 						type: "div",
 						attributes: { scope: feature.scope },
 						children: [elementBuilder({ type: "div", text: `— ${feature.scope} —` })],
 					});
-					this.container.find(".tt-features-list").appendChild(scopeEl);
+					this.container.querySelector(".tt-features-list").appendChild(scopeEl);
 				}
 				scopeEl.appendChild(row);
 			}
@@ -468,9 +468,10 @@ class FeatureManager {
 								click: (e) => {
 									const target = e.target as Element;
 									const title = target.matches(`#${this.containerID}`) ? target : target.closest(`#${this.containerID}`);
-									if (title.classList.toggle("open"))
-										title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/svg-icons/cross.svg")})`;
-									else title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/icon_128.png")})`;
+
+									title.querySelector("button").style.backgroundImage = title.classList.toggle("open")
+										? `url(${chrome.runtime.getURL("resources/images/svg-icons/cross.svg")})`
+										: `url(${chrome.runtime.getURL("resources/images/icon_128.png")})`;
 								},
 							},
 						}),
@@ -492,7 +493,7 @@ class FeatureManager {
 									children: [elementBuilder({ type: "i", class: "fa-solid fa-copy" })],
 									events: {
 										click: () => {
-											toClipboard("TornTools " + document.find("#tt-page-status .error-messages").innerText);
+											toClipboard("TornTools " + document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText);
 										},
 									},
 								}),
@@ -524,7 +525,7 @@ class FeatureManager {
 				hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
-		if (!this.container.find(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");
+		if (!this.container.querySelector(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");
 		else this.container.classList.remove("no-content");
 	}
 }

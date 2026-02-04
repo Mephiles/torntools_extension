@@ -40,17 +40,17 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showRecommendedNNB();
 	}
 
 	async function showRecommendedNNB() {
-		const parent = document.find(".faction-crimes-wrap .begin-wrap");
+		const parent = document.querySelector(".faction-crimes-wrap .begin-wrap");
 		if (!parent) return;
 		parent.classList.add("tt-modified");
 
-		const heading = parent.find(".plan-crimes[role=heading]");
+		const heading = parent.querySelector(".plan-crimes[role=heading]");
 		heading.appendChild(elementBuilder({ type: "span", class: "tt-recommended-nnb", text: mobile ? "NNB" : "Recommended NNB" }));
 
 		for (const crime of findAllElements(".crimes-list .item-wrap .plan-crimes", parent)) {
@@ -59,7 +59,7 @@
 	}
 
 	function removeRecommendedNNB() {
-		document.find(".faction-crimes-wrap .begin-wrap")?.classList.remove("tt-modified");
+		document.querySelector(".faction-crimes-wrap .begin-wrap")?.classList.remove("tt-modified");
 
 		for (const nnb of findAllElements(".tt-recommended-nnb")) {
 			nnb.remove();

@@ -15,7 +15,7 @@
 	);
 
 	async function addWarning() {
-		if (document.find(".tt-ally-warning")) document.find(".tt-ally-warning").remove();
+		if (document.querySelector(".tt-ally-warning")) document.querySelector(".tt-ally-warning").remove();
 
 		const factionNode = await requireElement(".user-info-value [href*='/factions.php']");
 		const factionID = parseInt(new URLSearchParams(factionNode.href).get("ID"));
@@ -30,7 +30,7 @@
 			})
 		)
 			warning = "This user is an ally!";
-		document.find(".profile-left-wrapper .title-black").appendChild(
+		document.querySelector(".profile-left-wrapper .title-black").appendChild(
 			elementBuilder({
 				type: "span",
 				class: "tt-ally-warning",

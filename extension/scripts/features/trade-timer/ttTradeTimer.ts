@@ -14,7 +14,7 @@
 
 	function initialise() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
-			if (chat.find("[class*='chat-box-header__info__'], [class*='title___']").textContent !== "Trade") return;
+			if (chat.querySelector("[class*='chat-box-header__info__'], [class*='title___']").textContent !== "Trade") return;
 
 			showTimer(chat);
 		});
@@ -29,7 +29,7 @@
 
 		if (!tradeChat) return;
 
-		const sendButton = tradeChat.find("[class*='chat-box-footer__send-icon-wrapper__'], [class*='content___'] button");
+		const sendButton = tradeChat.querySelector("[class*='chat-box-footer__send-icon-wrapper__'], [class*='content___'] button");
 		sendButton.parentElement.classList.add("tt-modified");
 
 		if (!timer) {
@@ -62,21 +62,21 @@
 		const openChats = document.querySelectorAll("#chatRoot [class^='chat-box__'], div#public_trade");
 		if (!openChats.length) return null;
 
-		return [...openChats].filter((chat) => chat.find("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade")?.[0];
+		return [...openChats].filter((chat) => chat.querySelector("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade")?.[0];
 	}
 
 	function listenTradeChatInput(tradeChat: Element | null) {
 		if (!tradeChat) tradeChat = getTradeChat();
 		if (!tradeChat) return;
 
-		tradeChat.find("[class*='chat-box-footer__textarea__'], textarea").addEventListener("keyup", onKeyUp);
+		tradeChat.querySelector<HTMLElement>("[class*='chat-box-footer__textarea__'], textarea").addEventListener("keyup", onKeyUp);
 	}
 
 	async function onKeyUp(event: KeyboardEvent) {
 		if (event.key !== "Enter") return;
 
 		const tradeChat = (event.target as Element).closest("[class^='chat-box__'], [class*='root___']:has([class*='content___'])");
-		const chatBody = tradeChat.find("[class*='chat-box-body___'], [class*='list___']");
+		const chatBody = tradeChat.querySelector("[class*='chat-box-body___'], [class*='list___']");
 
 		const message = await new Promise<Element>((resolve) => {
 			new MutationObserver((mutations, observer) => {
@@ -104,8 +104,8 @@
 		const tradeChat = getTradeChat();
 		if (!tradeChat) return;
 
-		tradeChat.find("[class*='chat-box-footer__send-icon-wrapper__'], [class*='content___'] button").parentElement.classList.remove("tt-modified");
+		tradeChat.querySelector("[class*='chat-box-footer__send-icon-wrapper__'], [class*='content___'] button").parentElement.classList.remove("tt-modified");
 
-		tradeChat.find("textarea").removeEventListener("keypress", onKeyUp);
+		tradeChat.querySelector("textarea").removeEventListener("keypress", onKeyUp);
 	}
 })();

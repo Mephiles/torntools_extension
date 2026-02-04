@@ -49,7 +49,7 @@
 
 	async function addLastAction(force: boolean) {
 		if (isOwnFaction && !force) return;
-		if (document.find(".tt-last-action")) return;
+		if (document.querySelector(".tt-last-action")) return;
 
 		await requireElement(".members-list .table-body > li");
 
@@ -58,13 +58,13 @@
 
 		const members = await loadMembers(id);
 
-		const list = document.find(".members-list .table-body");
+		const list = document.querySelector(".members-list .table-body");
 		list.classList.add("tt-modified");
 		const nowDate = Date.now();
 		let maxHours = 0;
 		findAllElements(":scope > li.table-row", list).forEach((row) => {
 			// Don't show this for fallen players.
-			if (row.find(".icons li[id*='icon77___']")) return;
+			if (row.querySelector(".icons li[id*='icon77___']")) return;
 
 			const userID = getUsername(row).id;
 			const member = members.find((m) => m.id === userID);
@@ -110,7 +110,7 @@
 	}
 
 	function removeLastAction() {
-		const list = document.find(".members-list .table-body.tt-modified");
+		const list = document.querySelector(".members-list .table-body.tt-modified");
 		if (list) {
 			findAllElements(":scope > div.tt-last-action", list).forEach((x) => x.remove());
 			list.classList.remove("tt-modified");

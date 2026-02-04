@@ -45,17 +45,19 @@
 			element.setAttribute("title", detailMessage);
 		}
 
-		const title = document.find(".profile-right-wrapper > .profile-action .title-black");
+		const title = document.querySelector(".profile-right-wrapper > .profile-action .title-black");
 		title.appendChild(element);
 	}
 
 	function removeFF() {
-		document.find(".tt-ff-scouter-profile")?.remove();
+		document.querySelector(".tt-ff-scouter-profile")?.remove();
 	}
 
 	function getUserID() {
 		return parseInt(
-			document.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0]
+			document
+				.querySelector(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")
+				.textContent.match(/(?<=\[)\d*(?=])/i)[0]
 		);
 	}
 })();

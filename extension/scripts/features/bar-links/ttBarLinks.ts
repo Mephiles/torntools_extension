@@ -24,7 +24,7 @@
 		await requireSidebar();
 
 		for (const selector of Object.keys(LINKS)) {
-			const barLink = document.find(selector);
+			const barLink = document.querySelector<HTMLElement>(selector);
 			if (!barLink) continue;
 
 			barLink.removeAttribute("href");
@@ -54,7 +54,7 @@
 
 	function removeLinks() {
 		for (const selector of Object.keys(LINKS)) {
-			const barName = document.find(selector);
+			const barName = document.querySelector<HTMLElement>(selector);
 			if (!barName) continue;
 
 			barName.removeEventListener("click", onClick);

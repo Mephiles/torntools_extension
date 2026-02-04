@@ -37,7 +37,7 @@
 	async function addWorth(force: boolean) {
 		if (!force) return;
 
-		document.find(".tt-armory-worth")?.remove();
+		document.querySelector(".tt-armory-worth")?.remove();
 
 		const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement;
 		// TODO - Migrate to V2 (faction/weapons).

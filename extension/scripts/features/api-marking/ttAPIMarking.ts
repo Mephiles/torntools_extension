@@ -20,7 +20,7 @@
 				toSpan(field);
 
 				for (const selection of API_SELECTIONS[type]) {
-					const span = field.find(`.selection[data-selection="${selection}"]`);
+					const span = field.querySelector(`.selection[data-selection="${selection}"]`);
 					if (!span) continue;
 
 					span.classList.add("used");
@@ -62,7 +62,7 @@
 			new MutationObserver(() => {
 				const responseElement = result.firstElementChild;
 
-				const originalPre = responseElement.find("pre");
+				const originalPre = responseElement.querySelector("pre");
 				originalPre.classList.add("original");
 
 				const modifiedPre = elementBuilder({ type: "pre", class: "modified active" });

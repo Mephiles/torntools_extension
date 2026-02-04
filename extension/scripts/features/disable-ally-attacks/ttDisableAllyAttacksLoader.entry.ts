@@ -26,7 +26,7 @@
 
 	async function disableAttackButton(factionID: number | null) {
 		if (!factionID) return;
-		if (document.find(".tt-disable-ally-attack")) return;
+		if (document.querySelector(".tt-disable-ally-attack")) return;
 
 		const selector = mobile || tablet ? "[class*='playerArea__'] [class*='modal__']" : "[class*='players__'] #defender [class*='modal__']";
 		if ((hasAPIData() && userdata.faction?.id === factionID) || settings.alliedFactions.some((ally) => ally === factionID)) {

@@ -33,7 +33,7 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showNNB();
 	}
@@ -141,7 +141,7 @@
 			for (const row of findAllElements(".organize-wrap .crimes-list .details-list > li > ul")) {
 				findAllElements(`.level${mobile ? ", .member, .stat" : ""}`, row).forEach((element) => element.classList.add("tt-modified"));
 
-				const stat = row.find(".stat");
+				const stat = row.querySelector(".stat");
 				if (row.classList.contains("title")) {
 					stat.parentElement.insertBefore(
 						elementBuilder({
@@ -155,7 +155,7 @@
 					continue;
 				}
 
-				const id = row.find(".h").getAttribute("href").split("XID=")[1];
+				const id = row.querySelector(".h").getAttribute("href").split("XID=")[1];
 				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 
@@ -170,7 +170,7 @@
 			for (const row of findAllElements(".plans-list .item")) {
 				findAllElements(`.offences${mobile ? ", .member, .level, .act" : ""}`, row).forEach((element) => element.classList.add("tt-modified"));
 
-				const act = row.find(".act");
+				const act = row.querySelector(".act");
 				if (row.classList.contains("title")) {
 					act.parentElement.insertBefore(
 						elementBuilder({
@@ -184,7 +184,7 @@
 					continue;
 				}
 
-				const id = row.find(".h").getAttribute("href").split("XID=")[1];
+				const id = row.querySelector(".h").getAttribute("href").split("XID=")[1];
 				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 

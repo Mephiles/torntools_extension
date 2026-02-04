@@ -17,7 +17,7 @@
 	async function addCSVContainer() {
 		await requireElement(".faction-war");
 		const { options } = createContainer("Ranked War Report", {
-			previousElement: document.find(".content-wrapper .content-title"),
+			previousElement: document.querySelector(".content-wrapper .content-title"),
 			onlyHeader: true,
 		});
 		const ttExportButton = elementBuilder({
@@ -31,16 +31,21 @@
 		});
 		ttExportButton.addEventListener("click", () => {
 			const rankID = getSearchParameters().get("rankID");
-			const csv = new CSVExport(`Ranked War Report [${rankID}]`, options.find("#ttExportLink"));
+			const csv = new CSVExport(`Ranked War Report [${rankID}]`, options.querySelector("#ttExportLink"));
 
 			for (const selector of ["enemy", "your"]) {
-				csv.append(document.find(`.faction-war .${selector} div[class*="text___"]`).textContent);
+				csv.append(document.querySelector(`.faction-war .${selector} div[class*="text___"]`).textContent);
 				csv.append("Members", "Level", "Attacks", "Score");
 
 				const members = findAllElements(`.${selector}-faction .members-list > *[class]`);
 				if (members.length) {
 					for (const row of members) {
-						csv.append(getUsername(row).combined, row.find(".level").textContent, row.find(".points").textContent, row.find(".status").textContent);
+						csv.append(
+							getUsername(row).combined,
+							row.querySelector(".level").textContent,
+							row.querySelector(".points").textContent,
+							row.querySelector(".status").textContent
+						);
 					}
 				} else csv.append("None");
 			}

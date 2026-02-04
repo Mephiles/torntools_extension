@@ -85,7 +85,7 @@
 			if (!userBalance || (!userBalance.points && !userBalance.money)) return;
 
 			// Don't show this for fallen players.
-			if (li.find(".icons li[id*='icon77___']")) return;
+			if (li.querySelector(".icons li[id*='icon77___']")) return;
 
 			const nextSibling = li.nextSibling as HTMLElement | undefined;
 

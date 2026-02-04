@@ -34,12 +34,12 @@
 			text: detailMessage ? `${message}: ${detailMessage}` : message,
 		});
 
-		const title = document.find("[class*='topSection___']");
+		const title = document.querySelector("[class*='topSection___']");
 		title.insertAdjacentElement("afterend", element);
 	}
 
 	function removeFF() {
-		document.find(".tt-ff-scouter-attack")?.remove();
+		document.querySelector(".tt-ff-scouter-attack")?.remove();
 	}
 
 	function getUserID() {

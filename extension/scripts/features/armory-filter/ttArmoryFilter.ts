@@ -48,7 +48,7 @@
 
 		const { options, content } = createContainer("Armory Filter", {
 			class: "mt10",
-			nextElement: document.find("#faction-armoury > hr"),
+			nextElement: document.querySelector("#faction-armoury > hr"),
 			filter: true,
 		});
 
@@ -208,16 +208,16 @@
 	}
 
 	function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
-		const id = row.find(".img-wrap").dataset.itemid;
+		const id = row.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 
 		if (filters.hideUnavailable) {
-			if (row.find(":scope > .loaned a")) {
+			if (row.querySelector(":scope > .loaned a")) {
 				hide("unavailable");
 				return;
 			}
 		}
 		if (filters.name) {
-			if (!row.find(".name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
+			if (!row.querySelector(".name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
 				hide("name");
 				return;
 			}
@@ -237,7 +237,7 @@
 		if (filters.damage && !isNaN(parseFloat(filters.damage))) {
 			const damage = parseFloat(filters.damage);
 
-			if (parseFloat(row.find(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
+			if (parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
 				hide("damage");
 				return;
 			}
@@ -245,7 +245,7 @@
 		if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
 			const accuracy = parseFloat(filters.accuracy);
 
-			if (parseFloat(row.find(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
+			if (parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
 				hide("accuracy");
 				return;
 			}
@@ -253,13 +253,13 @@
 		if (filters.defence && !isNaN(parseFloat(filters.defence))) {
 			const defence = parseFloat(filters.defence);
 
-			if (parseFloat(row.find(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
+			if (parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
 				hide("defence");
 				return;
 			}
 		}
 		if (filters.set) {
-			const set = row.find(".name").textContent.split(" ")[0].toLowerCase();
+			const set = row.querySelector(".name").textContent.split(" ")[0].toLowerCase();
 			if (filters.set === "any") {
 				if (!ARMOR_SETS.map((x) => x.toLowerCase()).includes(set)) {
 					hide("set");
@@ -275,7 +275,7 @@
 		if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
 			const bonus = parseFloat(filters.armorBonus);
 
-			if (convertToNumber(row.find(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title")) < bonus) {
+			if (convertToNumber(row.querySelector(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title")) < bonus) {
 				hide("bonus");
 				return;
 			}

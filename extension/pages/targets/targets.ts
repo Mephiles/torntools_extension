@@ -24,10 +24,10 @@ async function showPage(name: string) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
 	for (const active of findAllElements("header nav.on-page > ul > li.active")) active.classList.remove("active");
-	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
+	document.querySelector(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
 	for (const active of findAllElements("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
-	document.find(`#${name}`).classList.remove("tt-hidden");
+	document.querySelector(`#${name}`).classList.remove("tt-hidden");
 
 	const setup = {
 		attackHistory: setupAttackHistory,
@@ -41,17 +41,17 @@ async function showPage(name: string) {
 }
 
 async function setupAttackHistory() {
-	const _attackHistory = document.find("#attackHistory");
-	const historyList = _attackHistory.find("#attacksList");
+	const _attackHistory = document.querySelector("#attackHistory");
+	const historyList = _attackHistory.querySelector<HTMLElement>("#attacksList");
 
 	fillHistory();
 	sortTable(historyList, 3, "desc");
 
-	_attackHistory.find("#percentageHistory").addEventListener("click", (event) => {
-		_attackHistory.find("#attacksList").classList[(event.target as HTMLInputElement).checked ? "add" : "remove"]("switched");
+	_attackHistory.querySelector("#percentageHistory").addEventListener("click", (event) => {
+		_attackHistory.querySelector("#attacksList").classList[(event.target as HTMLInputElement).checked ? "add" : "remove"]("switched");
 	});
 
-	_attackHistory.find("#resetHistory").addEventListener("click", () => {
+	_attackHistory.querySelector("#resetHistory").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset attack history",
 			message: "<h3>Are you sure you want to delete the attack history?</h3>",
@@ -169,16 +169,16 @@ async function setupAttackHistory() {
 }
 
 async function setupStakeouts() {
-	const _stakeouts = document.find("#stakeouts");
-	const stakeoutList = _stakeouts.find("#stakeoutList");
+	const _stakeouts = document.querySelector("#stakeouts");
+	const stakeoutList = _stakeouts.querySelector<HTMLElement>("#stakeoutList");
 
 	fillStakeouts();
 	storageListeners.stakeouts.push(updateStakeouts);
 
 	new Sortable(stakeoutList, { animation: 150 });
 
-	_stakeouts.find("#saveStakeouts").addEventListener("click", async () => await saveStakeouts());
-	_stakeouts.find("#resetStakeouts").addEventListener("click", () => {
+	_stakeouts.querySelector("#saveStakeouts").addEventListener("click", async () => await saveStakeouts());
+	_stakeouts.querySelector("#resetStakeouts").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset stakeouts",
 			message: "<h3>Are you sure you want to delete all stakeouts?</h3>",
@@ -195,17 +195,17 @@ async function setupStakeouts() {
 			.catch(() => {});
 	});
 
-	document.find("#addStakeout").addEventListener("click", async () => {
-		const id = document.find<HTMLInputElement>("#stakeoutId").value;
+	document.querySelector("#addStakeout").addEventListener("click", async () => {
+		const id = document.querySelector<HTMLInputElement>("#stakeoutId").value;
 		if (!id) return;
 
-		if (document.find(`#stakeout_${id}`)) {
+		if (document.querySelector(`#stakeout_${id}`)) {
 			sendMessage("This id already has a stakeout.", false);
 		} else {
 			addStakeout(parseInt(id));
 		}
 
-		document.find<HTMLInputElement>("#stakeoutId").value = "";
+		document.querySelector<HTMLInputElement>("#stakeoutId").value = "";
 	});
 
 	function fillStakeouts() {
@@ -359,7 +359,7 @@ async function setupStakeouts() {
 			for (const key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
-				const element = alertsWrap.find<HTMLInputElement>(`.${key}`);
+				const element = alertsWrap.querySelector<HTMLInputElement>(`.${key}`);
 				if (!element) continue;
 
 				switch (typeof data.alerts[key]) {
@@ -386,7 +386,7 @@ async function setupStakeouts() {
 		for (const id of stakeouts.order) {
 			if (isNaN(parseInt(id))) continue;
 
-			const row = stakeoutList.find(`tr[data-id="${id}"]`);
+			const row = stakeoutList.querySelector(`tr[data-id="${id}"]`);
 			if (!row) {
 				addStakeout(parseInt(id), null, false);
 				continue;
@@ -394,14 +394,14 @@ async function setupStakeouts() {
 
 			row.classList.remove("new");
 
-			row.find(".status").classList.remove("offline", "idle", "online");
+			row.querySelector(".status").classList.remove("offline", "idle", "online");
 			const stakeout = stakeouts[id];
 			if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
 			if (Object.keys(stakeout.info).length) {
-				if (row.find(".name a")) row.find(".name a").textContent = stakeout.info.name;
+				if (row.querySelector(".name a")) row.querySelector(".name a").textContent = stakeout.info.name;
 				else
-					row.find(".name").appendChild(
+					row.querySelector(".name").appendChild(
 						elementBuilder({
 							type: "a",
 							text: stakeout.info.name,
@@ -409,23 +409,23 @@ async function setupStakeouts() {
 							attributes: { target: "_blank" },
 						})
 					);
-				row.find(".status").textContent = stakeout.info.last_action.status;
-				row.find(".status").classList.add(stakeout.info.last_action.status.toLowerCase());
-				row.find(".last-action").textContent = stakeout.info.last_action.relative;
+				row.querySelector(".status").textContent = stakeout.info.last_action.status;
+				row.querySelector(".status").classList.add(stakeout.info.last_action.status.toLowerCase());
+				row.querySelector(".last-action").textContent = stakeout.info.last_action.relative;
 			} else {
-				row.find(".name").innerHTML = "";
-				row.find(".status").textContent = "";
-				row.find(".last-action").textContent = "";
+				row.querySelector(".name").innerHTML = "";
+				row.querySelector(".status").textContent = "";
+				row.querySelector(".last-action").textContent = "";
 			}
 
-			const alerts = row.find(".alerts-wrap");
-			alerts.find<HTMLInputElement>(".okay").checked = stakeout.alerts.okay;
-			alerts.find<HTMLInputElement>(".hospital").checked = stakeout.alerts.hospital;
-			alerts.find<HTMLInputElement>(".landing").checked = stakeout.alerts.landing;
-			alerts.find<HTMLInputElement>(".online").checked = stakeout.alerts.online;
-			alerts.find<HTMLInputElement>(".life").value = stakeout.alerts.life.toString() || "";
-			alerts.find<HTMLInputElement>(".offline").value = stakeout.alerts.offline.toString() || "";
-			alerts.find<HTMLInputElement>(".revivable").checked = stakeout.alerts.revivable;
+			const alerts = row.querySelector(".alerts-wrap");
+			alerts.querySelector<HTMLInputElement>(".okay").checked = stakeout.alerts.okay;
+			alerts.querySelector<HTMLInputElement>(".hospital").checked = stakeout.alerts.hospital;
+			alerts.querySelector<HTMLInputElement>(".landing").checked = stakeout.alerts.landing;
+			alerts.querySelector<HTMLInputElement>(".online").checked = stakeout.alerts.online;
+			alerts.querySelector<HTMLInputElement>(".life").value = stakeout.alerts.life.toString() || "";
+			alerts.querySelector<HTMLInputElement>(".offline").value = stakeout.alerts.offline.toString() || "";
+			alerts.querySelector<HTMLInputElement>(".revivable").checked = stakeout.alerts.revivable;
 		}
 	}
 
@@ -438,18 +438,18 @@ async function setupStakeouts() {
 		for (const row of findAllElements("tr.row", stakeoutList)) {
 			const id = parseInt(row.dataset.id);
 
-			const alertsSection = row.find(".alerts-wrap");
+			const alertsSection = row.querySelector(".alerts-wrap");
 
 			newStakeouts[id] = {
 				info: id in stakeouts && typeof stakeouts[id] === "object" && !Array.isArray(stakeouts[id]) ? stakeouts[id].info : null,
 				alerts: {
-					okay: alertsSection.find<HTMLInputElement>(".okay").checked,
-					hospital: alertsSection.find<HTMLInputElement>(".hospital").checked,
-					landing: alertsSection.find<HTMLInputElement>(".landing").checked,
-					online: alertsSection.find<HTMLInputElement>(".online").checked,
-					life: parseInt(alertsSection.find<HTMLInputElement>(".life").value) || false,
-					offline: parseInt(alertsSection.find<HTMLInputElement>(".offline").value) || false,
-					revivable: alertsSection.find<HTMLInputElement>(".revivable").checked,
+					okay: alertsSection.querySelector<HTMLInputElement>(".okay").checked,
+					hospital: alertsSection.querySelector<HTMLInputElement>(".hospital").checked,
+					landing: alertsSection.querySelector<HTMLInputElement>(".landing").checked,
+					online: alertsSection.querySelector<HTMLInputElement>(".online").checked,
+					life: parseInt(alertsSection.querySelector<HTMLInputElement>(".life").value) || false,
+					offline: parseInt(alertsSection.querySelector<HTMLInputElement>(".offline").value) || false,
+					revivable: alertsSection.querySelector<HTMLInputElement>(".revivable").checked,
 				},
 			};
 		}

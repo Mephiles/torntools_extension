@@ -57,7 +57,7 @@
 
 			for (const alias of Object.values(settings.userAlias)) {
 				if (chatPlayerTitle === alias.name.trim()) {
-					const nameNode = chatHeader.find("[class*='minimized-chat-box__username-text__']");
+					const nameNode = chatHeader.querySelector<HTMLElement>("[class*='minimized-chat-box__username-text__']");
 					nameNode.dataset.original = nameNode.textContent;
 					nameNode.firstChild.textContent = alias.alias;
 				}
@@ -69,7 +69,7 @@
 
 			for (const alias of Object.values(settings.userAlias)) {
 				if (chatPlayerTitle === alias.name.trim()) {
-					const nameNode = chatHeader.find("[class*='chat-box-header__name__']");
+					const nameNode = chatHeader.querySelector<HTMLElement>("[class*='chat-box-header__name__']");
 					nameNode.dataset.original = nameNode.textContent;
 					nameNode.firstChild.textContent = alias.alias;
 				}
@@ -86,7 +86,7 @@
 				});
 			}
 		} else {
-			const profileLink = message.find<HTMLAnchorElement>("a[href*='/profiles.php?XID=']");
+			const profileLink = message.querySelector<HTMLAnchorElement>("a[href*='/profiles.php?XID=']");
 			const messageUserID = profileLink.href.split("=")[1];
 			if (messageUserID in settings.userAlias) {
 				profileLink.dataset.original = profileLink.textContent;

@@ -32,7 +32,7 @@
 	}
 
 	function startFeature() {
-		if (isInternal && !document.find(".faction-description, .members-list, .announcement")) return;
+		if (isInternal && !document.querySelector(".faction-description, .members-list, .announcement")) return;
 
 		foldInfobox();
 	}
@@ -43,7 +43,7 @@
 		if (isInternal) {
 			if (getFactionSubpage() === "info") {
 				title = await requireElement(".faction-title");
-				description = document.find(".faction-description");
+				description = document.querySelector(".faction-description");
 				key = "faction_description_fold";
 			} else {
 				title = await requireElement("#faction-main [data-title='announcement'][role='heading']");
@@ -52,7 +52,7 @@
 			}
 		} else {
 			title = await requireElement(".faction-title");
-			description = document.find(".faction-description");
+			description = document.querySelector(".faction-description");
 			key = "faction_description_fold";
 		}
 		if (!title || !description || !key) return;

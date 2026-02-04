@@ -40,12 +40,12 @@
 				showInformation(id);
 			});
 		} else if (page === "factions") {
-			document.find("#faction-armoury").addEventListener("click", (event) => {
+			document.querySelector("#faction-armoury").addEventListener("click", (event) => {
 				if (!feature.enabled()) return;
 
 				if (!isElement(event.target) || !event.target.classList.contains("use")) return;
 
-				const id = convertToNumber(event.target.closest(".item-use-act").find(".use-cont").dataset.itemid);
+				const id = convertToNumber(event.target.closest(".item-use-act").querySelector(".use-cont").dataset.itemid);
 				if (!doesRestoreLife(id)) return;
 
 				showInformation(id);
@@ -64,7 +64,7 @@
 			.reduce((a, b) => a + b, 0);
 		const percentage = (1 + perks / 100) * MEDICAL_ITEMS[id];
 
-		const lifeValues = document.find("[class*='bar__'][class*='life__'] [class*='bar-value___']").textContent.split("/");
+		const lifeValues = document.querySelector("[class*='bar__'][class*='life__'] [class*='bar-value___']").textContent.split("/");
 		const currentLife = parseInt(lifeValues[0]);
 		const maximumLife = parseInt(lifeValues[1]);
 
@@ -80,8 +80,8 @@
 
 		const text = `Your life total will be ${roundNearest(newLife, 1)}/${roundNearest(maximumLife, 1)}.`;
 
-		if (actionWrap.find(".tt-medical-life")) {
-			actionWrap.find(".tt-medical-life").textContent = text;
+		if (actionWrap.querySelector(".tt-medical-life")) {
+			actionWrap.querySelector(".tt-medical-life").textContent = text;
 		} else {
 			actionWrap.appendChild(elementBuilder({ type: "strong", class: ["tt-medical-life", page], text }));
 		}

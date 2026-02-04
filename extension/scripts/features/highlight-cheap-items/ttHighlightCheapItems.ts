@@ -50,13 +50,13 @@
 	function highlightEverything() {
 		const categoryItems = findAllElements("[class*='itemList___'] > li:not(.tt-highlight-modified)")
 			.map<ItemEntry | null>((element) => {
-				const image = element.find<HTMLImageElement>("img.torn-item");
+				const image = element.querySelector<HTMLImageElement>("img.torn-item");
 				if (!image) return null;
 
 				return {
 					element,
 					id: convertToNumber(image.src),
-					price: convertToNumber(element.find("[class*='priceAndTotal'] > span").textContent),
+					price: convertToNumber(element.querySelector("[class*='priceAndTotal'] > span").textContent),
 				};
 			})
 			.filter((item) => item?.element);
@@ -67,8 +67,8 @@
 		const params = getHashParameters();
 		if (params.has("itemID")) {
 			id = parseInt(params.get("itemID"));
-		} else if (document.find("[class*='sellerListWrapper___']")) {
-			const image = document.find("[class*='sellerListWrapper___']").previousElementSibling.find<HTMLImageElement>("img.torn-item");
+		} else if (document.querySelector("[class*='sellerListWrapper___']")) {
+			const image = document.querySelector("[class*='sellerListWrapper___']").previousElementSibling.querySelector<HTMLImageElement>("img.torn-item");
 			if (!image) return null;
 
 			id = convertToNumber(image.src);
@@ -77,7 +77,7 @@
 		if (id !== undefined) {
 			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
 				element,
-				price: convertToNumber(element.find("[class*='price___']").textContent),
+				price: convertToNumber(element.querySelector("[class*='price___']").textContent),
 				id,
 			}));
 
@@ -88,7 +88,7 @@
 			const id = parseInt(params.get("itemID"));
 			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
 				element,
-				price: convertToNumber(element.find("[class*='price___']").textContent),
+				price: convertToNumber(element.querySelector("[class*='price___']").textContent),
 				id,
 			}));
 
@@ -105,13 +105,13 @@
 	function highlightItems(items: Element[]) {
 		const itemEntries = items
 			.map<ItemEntry | null>((element) => {
-				const image = element.find<HTMLImageElement>("img.torn-item");
+				const image = element.querySelector<HTMLImageElement>("img.torn-item");
 				if (!image) return null;
 
 				return {
 					element,
 					id: convertToNumber(image.src),
-					price: convertToNumber(element.find("[class*='priceAndTotal'] > span").textContent),
+					price: convertToNumber(element.querySelector("[class*='priceAndTotal'] > span").textContent),
 				};
 			})
 			.filter((item) => item?.element);
@@ -124,10 +124,10 @@
 			`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"},[class*='sellerRow___']:not(:first-child)${includeModified ? "" : ":not(.tt-highlight-modified)"}`,
 			list
 		)
-			.filter((element) => !!element.find("[class*='price___']"))
+			.filter((element) => !!element.querySelector("[class*='price___']"))
 			.map<ItemEntry>((element) => ({
 				element,
-				price: convertToNumber(element.find("[class*='price___']").textContent),
+				price: convertToNumber(element.querySelector("[class*='price___']").textContent),
 				id: item,
 			}));
 

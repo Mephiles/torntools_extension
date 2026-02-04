@@ -25,7 +25,7 @@
 				if (searchParams.get("step") === "attempt") {
 					await requireElement(".virtual-item.outcome-expanded button.commit-button");
 
-					const height = document.find(".virtual-item:first-child")?.style?.height;
+					const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
 					CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 				}
 
@@ -102,10 +102,10 @@
 	async function filtering() {
 		await requireElement(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']");
 
-		const height = document.find(".virtual-item:first-child")?.style?.height;
+		const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
 		CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 
-		const content = findContainer("Burglary Filter").find("main");
+		const content = findContainer("Burglary Filter").querySelector("main");
 		const targetName = localFilters["Target Name"].getValue(content).trim();
 		const targetType = localFilters["Target Type"].getSelections(content);
 
@@ -119,13 +119,13 @@
 		// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 		for (const targetEl of findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
-			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent;
+			const rowTargetName = targetEl.querySelector("[class*='crimeOptionSection__']").textContent;
 			if (targetName && !rowTargetName.includes(targetName)) {
 				hideRow(targetEl);
 				continue;
 			}
 
-			const targetImageSource = targetEl.find<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
+			const targetImageSource = targetEl.querySelector<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
 			const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
 			const rowTargetType = matchedImageSource && matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
 			if (targetType.length && (rowTargetType === null || !targetType.includes(rowTargetType))) {
@@ -157,7 +157,7 @@
 		document.body.classList.remove("torntools-burglary-filter");
 		removeContainer("Burglary Filter");
 
-		const height = document.find(".virtual-item:first-child")?.style?.height;
+		const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
 		CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").forEach((li) => {

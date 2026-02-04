@@ -37,8 +37,8 @@
 
 	async function startFeature() {
 		if (settings.pages.userlist.filter) {
-			const list = document.find(".user-info-list-wrap");
-			if (!list || list.find(".ajax-placeholder, .ajax-preloader")) return;
+			const list = document.querySelector(".user-info-list-wrap");
+			if (!list || list.querySelector(".ajax-placeholder, .ajax-preloader")) return;
 		}
 
 		await showEstimates();
@@ -52,8 +52,8 @@
 		statsEstimate.showEstimates(
 			".user-info-list-wrap > li",
 			(row) => ({
-				id: parseInt(row.find<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
+				id: parseInt(row.querySelector<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+				level: parseInt(row.querySelector(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 			}),
 			true
 		);

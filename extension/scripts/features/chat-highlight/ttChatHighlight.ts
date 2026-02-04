@@ -26,7 +26,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			const messageBox = message.find("[class*='chat-box-message__box__']");
+			const messageBox = message.querySelector<HTMLElement>("[class*='chat-box-message__box__']");
 			if (messageBox) applyV2Highlights(messageBox);
 			else applyV3Highlights(message);
 		});
@@ -102,7 +102,7 @@
 		if (!message) return;
 		if (!highlights?.length) return;
 
-		const sender = simplify(message.find("[class*='chat-box-message__sender__']").textContent.replace(":", ""));
+		const sender = simplify(message.querySelector("[class*='chat-box-message__sender__']").textContent.replace(":", ""));
 		const words = message.lastElementChild.textContent
 			.split(" ")
 			.map(simplify)
@@ -132,7 +132,7 @@
 		if (!highlights?.length) return;
 
 		let sender: string;
-		const senderElement = message.find("[class*='sender___']");
+		const senderElement = message.querySelector("[class*='sender___']");
 		if (senderElement) {
 			sender = senderElement.textContent.replace(":", "");
 		} else {
@@ -148,7 +148,7 @@
 		sender = simplify(sender);
 
 		const words = message
-			.find("[class*='message___']")
+			.querySelector("[class*='message___']")
 			.textContent.split(" ")
 			.map(simplify)
 			.flatMap((text) => [text, withoutEndPunctuation(text)]);

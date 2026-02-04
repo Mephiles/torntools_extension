@@ -469,7 +469,7 @@
 		const id = parseInt(match[1]);
 
 		const { content, options } = createContainer("User Information", {
-			nextElement: document.find(".medals-wrapper") || document.find(".basic-information")?.closest(".profile-wrapper") || undefined,
+			nextElement: document.querySelector(".medals-wrapper") || document.querySelector(".basic-information")?.closest(".profile-wrapper") || undefined,
 			class: "mt10",
 		});
 
@@ -577,7 +577,7 @@
 				buildCustom();
 				buildOthers();
 
-				const sortable = new Sortable(section.find(".custom-stats .tt-table-body")!, {
+				const sortable = new Sortable(section.querySelector(".custom-stats .tt-table-body")!, {
 					animation: 150,
 					disabled: true,
 					onEnd: () => saveStats(),
@@ -591,13 +591,13 @@
 						click() {
 							if (moveButton.classList.toggle("active")) {
 								// Enable movement.
-								section.find(".other-stats-button")!.setAttribute("disabled", "");
+								section.querySelector(".other-stats-button")!.setAttribute("disabled", "");
 								findAllElements(".custom-stats .tt-table-row", section).forEach((row) => row.classList.add("tt-sortable"));
 
 								sortable.option("disabled", false);
 							} else {
 								// Disable movement.
-								section.find(".other-stats-button")!.removeAttribute("disabled");
+								section.querySelector(".other-stats-button")!.removeAttribute("disabled");
 								findAllElements(".custom-stats .tt-table-row", section).forEach((row) => row.classList.remove("tt-sortable"));
 
 								sortable.option("disabled", true);
@@ -612,15 +612,15 @@
 					text: "View other stats.",
 					events: {
 						click() {
-							const isCustom = !content.find(".custom-stats")!.classList.toggle("tt-hidden");
+							const isCustom = !content.querySelector(".custom-stats")!.classList.toggle("tt-hidden");
 
 							if (isCustom) {
-								content.find(".other-stats")!.classList.add("tt-hidden");
-								content.find(".move-stats")!.classList.remove("tt-hidden");
+								content.querySelector(".other-stats")!.classList.add("tt-hidden");
+								content.querySelector(".move-stats")!.classList.remove("tt-hidden");
 								otherList.textContent = "View other stats.";
 							} else {
-								content.find(".other-stats")!.classList.remove("tt-hidden");
-								content.find(".move-stats")!.classList.add("tt-hidden");
+								content.querySelector(".other-stats")!.classList.remove("tt-hidden");
+								content.querySelector(".move-stats")!.classList.add("tt-hidden");
 								otherList.textContent = "View custom list.";
 							}
 						},
@@ -633,13 +633,13 @@
 					children: [elementBuilder({ type: "i", class: "fa-solid fa-gear" })],
 					events: {
 						click() {
-							const overlay = document.find(".tt-overlay")!;
+							const overlay = document.querySelector(".tt-overlay")!;
 
-							const button = section.find(".edit-stats")!;
-							const otherStatsButton = section.find(".other-stats-button")!;
+							const button = section.querySelector(".edit-stats")!;
+							const otherStatsButton = section.querySelector(".other-stats-button")!;
 
-							const customStats = section.find(".custom-stats")!;
-							const otherStats = section.find(".other-stats")!;
+							const customStats = section.querySelector(".custom-stats")!;
+							const otherStats = section.querySelector(".other-stats")!;
 
 							if (overlay.classList.toggle("tt-hidden")) {
 								// Overlay is now hidden.
@@ -679,7 +679,7 @@
 					await saveStats();
 					buildOthers(true);
 				} else {
-					const otherTable = table.previousElementSibling!.find(".tt-table-body")!;
+					const otherTable = table.previousElementSibling!.querySelector(".tt-table-body")!;
 
 					otherTable.appendChild(row);
 					await saveStats();
@@ -772,7 +772,7 @@
 				const table = createStatsTable("other-stats", _stats, true, true);
 
 				if (requireCleanup) {
-					section.find(".other-stats")?.remove();
+					section.querySelector(".other-stats")?.remove();
 
 					if (overlayStatus) {
 						table.element.classList.add("tt-overlay-item");
@@ -781,7 +781,7 @@
 						);
 					}
 
-					const actions = section.find(".stat-actions")!;
+					const actions = section.querySelector(".stat-actions")!;
 					actions.parentElement!.insertBefore(table.element, actions);
 				} else {
 					section.appendChild(table.element);

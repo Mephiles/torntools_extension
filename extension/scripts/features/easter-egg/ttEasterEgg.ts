@@ -63,15 +63,15 @@
 	const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
 
 	function initialiseDetector() {
-		const container = document.find("#mainContainer");
+		const container = document.querySelector("#mainContainer");
 
 		if (container) {
 			new MutationObserver((mutations, observer) => {
 				for (const node of mutations.flatMap((mutation) => [...mutation.addedNodes])) {
 					if (!isElement(node)) continue;
 
-					if (node.matches(EGG_SELECTOR) || node.find(EGG_SELECTOR)) {
-						highlightEgg(node.matches(EGG_SELECTOR) ? node : node.find(EGG_SELECTOR));
+					if (node.matches(EGG_SELECTOR) || node.querySelector(EGG_SELECTOR)) {
+						highlightEgg(node.matches(EGG_SELECTOR) ? node : node.querySelector(EGG_SELECTOR));
 						observer.disconnect();
 						break;
 					}
@@ -95,8 +95,8 @@
 
 		const locationText = calculateLocation(await requireElement(EGG_SELECTOR + " img"));
 
-		document.find(".tt-overlay").classList.remove("tt-hidden");
-		document.find(".tt-overlay").style.zIndex = "999";
+		document.querySelector(".tt-overlay").classList.remove("tt-hidden");
+		document.querySelector<HTMLElement>(".tt-overlay").style.zIndex = "999";
 
 		const popup = elementBuilder({
 			type: "div",
@@ -124,8 +124,8 @@
 		});
 
 		function removePopup() {
-			document.find(".tt-overlay").classList.add("tt-hidden");
-			document.find(".tt-overlay").style = "";
+			document.querySelector(".tt-overlay").classList.add("tt-hidden");
+			document.querySelector<HTMLElement>(".tt-overlay").style = "";
 			popup.remove();
 		}
 	}

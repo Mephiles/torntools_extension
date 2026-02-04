@@ -33,7 +33,7 @@
 				if (!isHospitalised()) return;
 
 				showButton();
-			}).observe(document.find("#react-root"), { childList: true });
+			}).observe(document.querySelector("#react-root"), { childList: true });
 		} else if (page === "forums") {
 			await requireElement("#forums-page-wrap");
 
@@ -51,7 +51,7 @@
 					return;
 
 				showButton();
-			}).observe(document.find("#forums-page-wrap"), { childList: true });
+			}).observe(document.querySelector("#forums-page-wrap"), { childList: true });
 		}
 	}
 
@@ -81,9 +81,9 @@
 
 		function getParent() {
 			return (
-				(page === "item" && document.find("#top-page-links-list")) ||
-				document.find(".links-footer, .content-title .clear, .forums-main-wrap, [class*='linksContainer___']") ||
-				document.find(".links-top-wrap")
+				(page === "item" && document.querySelector("#top-page-links-list")) ||
+				document.querySelector(".links-footer, .content-title .clear, .forums-main-wrap, [class*='linksContainer___']") ||
+				document.querySelector(".links-top-wrap")
 			);
 		}
 
@@ -117,7 +117,7 @@
 		}
 
 		function displayMessage(message: string, error: boolean = false) {
-			const element = button.find("span");
+			const element = button.querySelector("span");
 			element.textContent = message;
 			if (!error) element.classList.add("tt-revive-success");
 
@@ -133,7 +133,7 @@
 	}
 
 	function removeButton() {
-		document.find(".tt-revive")?.remove();
+		document.querySelector(".tt-revive")?.remove();
 	}
 
 	return true;

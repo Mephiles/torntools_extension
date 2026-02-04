@@ -11,7 +11,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				} else if (step === "getMoneyDepositors") {
 					triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
 				} else if (step === "upgradeConfirm") {
-					if (document.find(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
+					if (document.querySelector<HTMLElement>(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
 					triggerCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO);
 				}
 			}
@@ -33,9 +33,9 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 		await requireElement(".faction-tabs");
 
-		// document.find(".faction-tabs li[data-case=mainTabContent]").addEventListener("click", loadMain);
-		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
-		// document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
+		// document.querySelector(".faction-tabs li[data-case=mainTabContent]").addEventListener("click", loadMain);
+		document.querySelector(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+		// document.querySelector(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 
 		switch (getFactionSubpage()) {
 			case "main":
@@ -131,10 +131,10 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				if (!mutation) return;
 
 				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: extractArmorySubcategory((mutation.target as Element).id) });
-			}).observe(document.find("#faction-armoury-tabs"), { childList: true, subtree: true });
+			}).observe(document.querySelector("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 			function getCurrentSection() {
-				const controls = document.find("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls");
+				const controls = document.querySelector("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls");
 
 				return extractArmorySubcategory(controls);
 			}
@@ -143,7 +143,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		async function loadControls() {
 			await requireElement(".control-tabs");
 
-			const giveToUser = document.find(".control-tabs > li[aria-controls='option-give-to-user']");
+			const giveToUser = document.querySelector(".control-tabs > li[aria-controls='option-give-to-user']");
 
 			if (giveToUser) {
 				checkGiveToUser();
@@ -151,7 +151,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 			}
 
 			function checkGiveToUser() {
-				if (document.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+				if (document.querySelector(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
 					triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
 				}
 			}
@@ -163,7 +163,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 	let observer: MutationObserver | undefined;
 
 	function loadMemberTable() {
-		const table = document.find(".members-list .table-body");
+		const table = document.querySelector(".members-list .table-body");
 
 		handleFilter();
 		handleSorting();
@@ -228,7 +228,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 				new MutationObserver((_mutations, observer) => {
 					triggerCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT);
 					observer.disconnect();
-				}).observe(document.find(".members-list .table-body"), { childList: true });
+				}).observe(document.querySelector(".members-list .table-body"), { childList: true });
 			}
 		}
 

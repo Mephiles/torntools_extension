@@ -27,7 +27,7 @@
 
 	async function addLastAction(force: boolean) {
 		if (isOwnCompany && getHashParameters().get("option") !== "employees" && !force) return;
-		if (document.find(".tt-last-action")) return;
+		if (document.querySelector(".tt-last-action")) return;
 		if (isOwnCompany && !settings.scripts.lastAction.companyOwn) return;
 		if (!isOwnCompany && !settings.scripts.lastAction.companyOther) return;
 
@@ -54,7 +54,7 @@
 		}
 
 		const now = Date.now();
-		const list = document.find(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
+		const list = document.querySelector(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
 		for (const row of findAllElements(":scope > li", list)) {
 			const { id } = getUsername(row);
 			const days = dropDecimals((now - employees[id].last_action.timestamp * 1000) / TO_MILLIS.DAYS);
@@ -82,11 +82,11 @@
 			return id;
 		}
 
-		const companyName = document.find(".company-details").dataset.name;
+		const companyName = document.querySelector<HTMLElement>(".company-details").dataset.name;
 		if (ttCache.hasValue("company-ids", companyName)) {
 			return ttCache.get<number>("company-ids", companyName);
 		} else {
-			const directorID = document.find<HTMLAnchorElement>(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
+			const directorID = document.querySelector<HTMLAnchorElement>(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
 			const directorData = await fetchData<UserJobResponse>("tornv2", { section: "user", selections: ["job"], id: directorID });
 
 			if (directorData.job && directorData.job.type === "company") {
@@ -100,7 +100,7 @@
 	}
 
 	function removeLastAction() {
-		const list = document.find(".employee-list-wrap .employee-list.tt-modified, .employees-wrap .employees-list.tt-modified");
+		const list = document.querySelector(".employee-list-wrap .employee-list.tt-modified, .employees-wrap .employees-list.tt-modified");
 		if (list) {
 			findAllElements(":scope > div.tt-last-action", list).forEach((x) => x.remove());
 			list.classList.remove("tt-modified");

@@ -19,7 +19,7 @@
 
 		const userID = getUserID();
 		const { content } = createContainer("Profile Notes", {
-			previousElement: document.find(".profile-wrapper"),
+			previousElement: document.querySelector(".profile-wrapper"),
 			class: "mt10",
 		});
 		const textarea = elementBuilder({ type: "textarea" });
@@ -47,6 +47,6 @@
 	}
 
 	function getUserID() {
-		return document.find(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
+		return document.querySelector(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
 	}
 })();

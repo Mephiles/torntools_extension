@@ -63,11 +63,11 @@
 			".faction-info-wrap .table-body > .table-row",
 			(row) => {
 				// Don't show this for fallen players.
-				if (row.find(".icons li[id*='icon77___']")) return null;
+				if (row.querySelector(".icons li[id*='icon77___']")) return null;
 
 				return {
 					id: getUsername(row).id,
-					level: parseInt(row.find(".lvl").textContent.trim()),
+					level: parseInt(row.querySelector(".lvl").textContent.trim()),
 				};
 			},
 			true,

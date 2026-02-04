@@ -90,8 +90,8 @@
 		for (const [stat, perks] of Object.entries(bonus)) {
 			if (perks.length < 1) continue;
 
-			const box = properties.find(`[class*='${stat}___']`);
-			if (box.find(".tt-gym-steadfast")) continue;
+			const box = properties.querySelector(`[class*='${stat}___']`);
+			if (box.querySelector(".tt-gym-steadfast")) continue;
 
 			const parent = elementBuilder({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
 			box.insertBefore(parent, box.firstElementChild);

@@ -32,7 +32,7 @@
 		const currentGymIndex = Array.from(currentGym.parentElement.children).indexOf(currentGym);
 		const index = categoryElementIndex * 8 + currentGymIndex - 1;
 
-		const percentage = convertToNumber(currentGym.find("[class*='percentage_']").textContent);
+		const percentage = convertToNumber(currentGym.querySelector("[class*='percentage_']").textContent);
 		let goal = gymGoals[index];
 		if (hasAPIData() && userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
 

@@ -35,7 +35,7 @@
 						total += item.market_price * item.quantity;
 					}
 
-					document.find(".info-msg-cont .msg").appendChild(
+					document.querySelector(".info-msg-cont .msg").appendChild(
 						elementBuilder({
 							type: "div",
 							class: "tt-display-worth",
@@ -50,7 +50,7 @@
 					);
 				})
 				.catch((error) => {
-					document.find(".info-msg-cont .msg").appendChild(
+					document.querySelector(".info-msg-cont .msg").appendChild(
 						elementBuilder({
 							type: "div",
 							class: "tt-display-worth",
@@ -69,7 +69,7 @@
 						total += item.market_price * item.quantity;
 					}
 
-					document.find(".display-cabinet").insertAdjacentElement(
+					document.querySelector(".display-cabinet").insertAdjacentElement(
 						"beforebegin",
 						createMessageBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
 							class: "tt-display-worth",
@@ -79,7 +79,7 @@
 				})
 				.catch(async (error) => {
 					document
-						.find(".display-cabinet")
+						.querySelector(".display-cabinet")
 						.insertAdjacentElement("beforebegin", createMessageBox(`TORN API returned error: ${error.toString()}.`, { class: "tt-display-worth" }));
 					console.log("TT - Display Cabinet Worth API Error:", error);
 				});
@@ -87,6 +87,6 @@
 	}
 
 	function removeWorth() {
-		document.find(".tt-display-worth").remove();
+		document.querySelector(".tt-display-worth").remove();
 	}
 })();

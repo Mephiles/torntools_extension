@@ -35,7 +35,7 @@
 
 		companyAddictionElement.textContent = addiction.toString();
 
-		document.find(".tt-sidebar-information").appendChild(
+		document.querySelector(".tt-sidebar-information").appendChild(
 			elementBuilder({
 				type: "section",
 				id: "companyAddictionLevel",
@@ -78,7 +78,7 @@
 	}
 
 	function removeCompanyAddictionLevel() {
-		const addictionLevel = document.find("#companyAddictionLevel");
+		const addictionLevel = document.querySelector("#companyAddictionLevel");
 		if (addictionLevel) addictionLevel.remove();
 	}
 

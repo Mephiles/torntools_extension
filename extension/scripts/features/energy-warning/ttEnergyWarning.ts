@@ -40,7 +40,7 @@
 		const message: Element = await requireElement(".confirm-wrap, .use-act", { parent: item });
 		if (!message) return;
 
-		const received = getItemEnergy(factionPage ? item.find(".img-wrap").dataset.itemid : item.dataset.item);
+		const received = getItemEnergy(factionPage ? item.querySelector<HTMLElement>(".img-wrap").dataset.itemid : item.dataset.item);
 		if (!received) return;
 
 		const [current, max] = getUserEnergy();
@@ -51,10 +51,10 @@
 				text: "Warning! Using this item increases your energy to over 1000!",
 			});
 
-			if (factionPage) message.find(".confirm").insertAdjacentElement("afterend", warning);
-			else message.find("#wai-action-desc").appendChild(warning);
+			if (factionPage) message.querySelector(".confirm").insertAdjacentElement("afterend", warning);
+			else message.querySelector("#wai-action-desc").appendChild(warning);
 
-			message.find("a.next-act").addEventListener("click", clickListener, { capture: true, once: true });
+			message.querySelector<HTMLElement>("a.next-act").addEventListener("click", clickListener, { capture: true, once: true });
 		}
 	}
 

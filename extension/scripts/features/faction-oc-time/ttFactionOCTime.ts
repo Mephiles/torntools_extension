@@ -56,7 +56,7 @@
 				factionOCElement.textContent = "No OCs planned.";
 			}
 
-			document.find(".tt-sidebar-information").appendChild(
+			document.querySelector(".tt-sidebar-information").appendChild(
 				elementBuilder({
 					type: "section",
 					id: "factionOCTimer",
@@ -69,7 +69,7 @@
 
 	function removeTimer() {
 		// Timer for the next available *faction* OC
-		const secondTimer = document.find("#factionOCTimer");
+		const secondTimer = document.querySelector("#factionOCTimer");
 		if (secondTimer) secondTimer.remove();
 	}
 

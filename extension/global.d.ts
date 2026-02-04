@@ -6,19 +6,6 @@ declare global {
 		};
 	}
 
-	interface FindOptions {
-		text: string;
-	}
-
-	interface Document {
-		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
-	}
-
-	interface Element {
-		find<K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Partial<FindOptions>): HTMLElementTagNameMap[K] | null;
-		find<T extends Element = HTMLElement>(selector: string, options?: Partial<FindOptions>): T | null;
-	}
-
 	type RecursivePartial<T> = {
 		[P in keyof T]?: T[P] extends (infer U)[] ? RecursivePartial<U>[] : T[P] extends object | undefined ? RecursivePartial<T[P]> : T[P];
 	};

@@ -12,12 +12,12 @@
 				new MutationObserver((_mutations, observer) => {
 					triggerCustomListener(EVENT_CHANNELS.MISSION_REWARDS);
 					observer.disconnect();
-				}).observe(document.find("#viewMissionsRewardsContainer"), { childList: true });
+				}).observe(document.querySelector("#viewMissionsRewardsContainer"), { childList: true });
 			} else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") {
 				new MutationObserver((_mutations, observer) => {
 					triggerCustomListener(EVENT_CHANNELS.MISSION_LOAD);
 					observer.disconnect();
-				}).observe(document.find("#missionsMainContainer"), { childList: true });
+				}).observe(document.querySelector("#missionsMainContainer"), { childList: true });
 			}
 		}
 	});

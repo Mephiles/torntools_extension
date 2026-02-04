@@ -55,7 +55,7 @@ interface ColoredChatOption {
 		});
 		findAllElements("[class*='root___']:has(> button[id*='channel_panel_button:'][title])") // Chat 3.0 - minimized group chats
 			.forEach((chatHeader) => {
-				const chatPlayer = chatHeader.find("button[title]").getAttribute("title");
+				const chatPlayer = chatHeader.querySelector("button[title]").getAttribute("title");
 				const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);
 
 				applyColor(highlights, chatHeader);

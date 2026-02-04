@@ -18,7 +18,7 @@
 		findAllElements("[aria-hidden*='false'] .item-amount.qty").forEach((qty) => quantities.push(convertToNumber(qty.textContent) || 0));
 		const leastQuantity = !quantities.includes(0) ? quantities.sort((a, b) => a - b)[0] : false;
 		if (leastQuantity !== false) {
-			const input = document.find<HTMLInputElement>("[aria-hidden*='false'] .set-description input[type*='tel']");
+			const input = document.querySelector<HTMLInputElement>("[aria-hidden*='false'] .set-description input[type*='tel']");
 			if (!input.disabled) {
 				input.value = leastQuantity;
 				input.dispatchEvent(new Event("keyup"));

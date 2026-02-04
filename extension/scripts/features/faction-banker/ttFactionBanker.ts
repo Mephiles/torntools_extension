@@ -28,7 +28,7 @@
 	}
 
 	async function showHelper() {
-		const controlsPanel = document.find("#faction-controls");
+		const controlsPanel = document.querySelector("#faction-controls");
 		if (controlsPanel.getAttribute("aria-expanded") !== "true") return;
 
 		const input = await requireElement("#money-user");
@@ -37,14 +37,14 @@
 		input.classList.add("tt-modified");
 
 		["change", "paste", "keyup", "select", "focus", "input"].forEach((event) => input.addEventListener(event, showBalance));
-		document.find("#money-user-cont").addEventListener("click", showBalance);
+		document.querySelector("#money-user-cont").addEventListener("click", showBalance);
 	}
 
 	function showBalance() {
-		const input = document.find<HTMLInputElement>("#money-user");
+		const input = document.querySelector<HTMLInputElement>("#money-user");
 		if (!input) return;
 
-		const label = document.find(".select-wrap .placeholder");
+		const label = document.querySelector(".select-wrap .placeholder");
 		if (typeof originalText === "undefined" && !label.textContent.includes("balance of")) {
 			originalText = label.textContent;
 		}
@@ -57,19 +57,22 @@
 
 		const name = user[1];
 		const balance =
-			parseInt(document.find(`.depositor .user.name[href='/profiles.php?XID=${user[2]}']`).parentElement.find(".amount .money").dataset.value) || 0;
+			parseInt(
+				document.querySelector(`.depositor .user.name[href='/profiles.php?XID=${user[2]}']`).parentElement.querySelector<HTMLElement>(".amount .money")
+					.dataset.value
+			) || 0;
 
 		label.textContent = `${name} has a balance of $${formatNumber(balance)}`;
 	}
 
 	function removeHelper() {
-		const input = document.find("#money-user.tt-modified");
+		const input = document.querySelector("#money-user.tt-modified");
 		if (!input) return;
 
 		["change", "paste", "keyup", "select", "focus", "input"].forEach((event) => input.removeEventListener(event, showBalance));
-		document.find("#money-user-cont").removeEventListener("click", showBalance);
+		document.querySelector("#money-user-cont").removeEventListener("click", showBalance);
 		if (typeof originalText === "string") {
-			document.find(".select-wrap .placeholder").textContent = originalText;
+			document.querySelector(".select-wrap .placeholder").textContent = originalText;
 		}
 	}
 })();

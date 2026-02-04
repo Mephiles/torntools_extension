@@ -26,7 +26,7 @@
 			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => isElement(node) && node.tagName === "UL"))) {
 				if (filterSetupComplete && feature.enabled()) {
 					applyFilters();
-					listObserver.observe(document.find(".tableWrapper > ul"), { childList: true });
+					listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 				}
 			}
 		});
@@ -119,14 +119,14 @@
 
 	function filterRow(row: HTMLElement, filters: Partial<FriendFilters>, individual: boolean) {
 		if (filters.activity) {
-			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+			const activity = row.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 				hide("activity");
 				return;
 			}
 		}
 		if (filters.level?.start || filters.level?.end) {
-			const level = convertToNumber(row.find("[class*='level__']").textContent);
+			const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;

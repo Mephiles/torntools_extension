@@ -17,19 +17,19 @@
 	function initialiseListener() {
 		new MutationObserver(() => {
 			if (feature.enabled()) addPropertyValues();
-		}).observe(document.find("#properties-page-wrap"), { childList: true });
+		}).observe(document.querySelector("#properties-page-wrap"), { childList: true });
 	}
 
 	async function addPropertyValues() {
 		await requireElement("#properties-page-wrap .properties-list .title");
 
 		for (const property of findAllElements(".properties-list > *:not(.clear)")) {
-			if (property.find(".tt-property-value")) return;
+			if (property.querySelector(".tt-property-value")) return;
 
-			const info = property.find(".info > li:nth-child(2)");
+			const info = property.querySelector(".info > li:nth-child(2)");
 			if (!info) return;
 
-			property.find(".title").insertAdjacentElement(
+			property.querySelector(".title").insertAdjacentElement(
 				"beforeend",
 				elementBuilder({
 					type: "span",

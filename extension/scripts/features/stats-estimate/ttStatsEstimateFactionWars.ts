@@ -49,7 +49,7 @@
 				if (
 					![...mutations].some((mutation) =>
 						[...(mutation.addedNodes ?? [])].some(
-							(node) => isElement(node) && node.classList.contains("descriptions") && node.find(".enemy-faction")
+							(node) => isElement(node) && node.classList.contains("descriptions") && node.querySelector(".enemy-faction")
 						)
 					)
 				)
@@ -96,8 +96,8 @@
 				".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 				(row) => {
 					return {
-						id: parseInt(row.find(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.at(-1)),
-						level: parseInt(row.find(".level").textContent.trim()),
+						id: parseInt(row.querySelector(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.at(-1)),
+						level: parseInt(row.querySelector(".level").textContent.trim()),
 					};
 				},
 				false,

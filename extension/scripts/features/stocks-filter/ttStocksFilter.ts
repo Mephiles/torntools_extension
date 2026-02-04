@@ -120,19 +120,21 @@
 			const id = parseInt(row.getAttribute("id"));
 
 			// Name
-			const acronym = row.find(".tt-acronym")?.dataset.acronym?.toLowerCase();
+			const acronym = row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym?.toLowerCase();
 			if (
 				name &&
 				!name
 					.split(",")
-					.some((name) => row.find(`li[class*="stockName___"][aria-label*="${name}" i]`) || (acronym && acronym.includes(name.toLowerCase())))
+					.some(
+						(name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || (acronym && acronym.includes(name.toLowerCase()))
+					)
 			) {
 				hideRow(row);
 				continue;
 			}
 
 			if (owned === "yes" || owned === "no") {
-				const isOwned = row.find("p[class*='count___']").textContent !== "None";
+				const isOwned = row.querySelector("p[class*='count___']").textContent !== "None";
 
 				if ((isOwned && owned === "no") || (!isOwned && owned === "yes")) {
 					hideRow(row);
@@ -141,7 +143,7 @@
 			}
 
 			if (benefit === "yes" || benefit === "no") {
-				const hasBenefit = !!row.find(".increment.filled");
+				const hasBenefit = !!row.querySelector(".increment.filled");
 
 				if ((hasBenefit && benefit === "no") || (!hasBenefit && benefit === "yes")) {
 					hideRow(row);
@@ -150,7 +152,7 @@
 			}
 
 			if (passive === "yes" || passive === "no") {
-				const isPassive = !!row.find("[class*='dividendInfo___'] [class*='passive___']");
+				const isPassive = !!row.querySelector("[class*='dividendInfo___'] [class*='passive___']");
 
 				if ((isPassive && passive === "no") || (!isPassive && passive === "yes")) {
 					hideRow(row);
@@ -159,7 +161,7 @@
 			}
 
 			if (price === "yes" || price === "no") {
-				const isUp = !!row.find("[class*='changePrice___'] [class*='up___']");
+				const isUp = !!row.querySelector("[class*='changePrice___'] [class*='up___']");
 
 				if ((isUp && price === "no") || (!isUp && price === "yes")) {
 					hideRow(row);

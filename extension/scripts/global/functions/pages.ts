@@ -50,21 +50,21 @@ function loadConfirmationPopup(partialOptions: Partial<ConfirmationPopupOptions>
 	};
 
 	return new Promise((resolve, reject) => {
-		const popup = document.find("#tt-confirmation-popup");
-		const message = popup.find(".message");
+		const popup = document.querySelector("#tt-confirmation-popup");
+		const message = popup.querySelector(".message");
 
-		document.find("#tt-black-overlay").classList.remove("tt-hidden");
+		document.querySelector("#tt-black-overlay").classList.remove("tt-hidden");
 		popup.classList.remove("tt-hidden");
 
 		document.body.classList.add("tt-unscrollable");
 
-		popup.find(".title").textContent = options.title;
+		popup.querySelector(".title").textContent = options.title;
 		message.innerHTML = options.message;
 
 		if (options.execute) options.execute(message, options.variables);
 
-		popup.find("#popupConfirm").addEventListener("click", () => {
-			document.find("#tt-black-overlay").classList.add("tt-hidden");
+		popup.querySelector("#popupConfirm").addEventListener("click", () => {
+			document.querySelector("#tt-black-overlay").classList.add("tt-hidden");
 			popup.classList.add("tt-hidden");
 
 			document.body.classList.remove("tt-unscrollable");
@@ -81,8 +81,8 @@ function loadConfirmationPopup(partialOptions: Partial<ConfirmationPopupOptions>
 
 			resolve(data);
 		});
-		popup.find("#popupCancel").addEventListener("click", () => {
-			document.find("#tt-black-overlay").classList.add("tt-hidden");
+		popup.querySelector("#popupCancel").addEventListener("click", () => {
+			document.querySelector("#tt-black-overlay").classList.add("tt-hidden");
 			popup.classList.add("tt-hidden");
 
 			document.body.classList.remove("tt-unscrollable");
@@ -102,7 +102,7 @@ function sendMessage(text: string, good: boolean, partialOptions: Partial<Messag
 		...partialOptions,
 	};
 
-	const message = document.find("#message");
+	const message = document.querySelector<HTMLElement>("#message");
 	if (!message) return;
 
 	message.classList.remove("tt-hidden");

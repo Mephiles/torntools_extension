@@ -17,7 +17,7 @@
 	function initialiseListener() {
 		new MutationObserver(() => {
 			if (feature.enabled()) addPropertyHappiness();
-		}).observe(document.find("#properties-page-wrap"), { childList: true });
+		}).observe(document.querySelector("#properties-page-wrap"), { childList: true });
 	}
 
 	async function addPropertyHappiness() {
@@ -26,9 +26,9 @@
 		for (const property of findAllElements(".properties-list > li:not(.clear)")) {
 			if (property.classList.contains("tt-modified")) return;
 
-			const propertyID = parseInt(property.find(".image-place").dataset.id);
+			const propertyID = parseInt(property.querySelector<HTMLElement>(".image-place").dataset.id);
 			property.classList.add("tt-modified");
-			property.find(".image-description").insertAdjacentElement(
+			property.querySelector(".image-description").insertAdjacentElement(
 				"beforeend",
 				elementBuilder({
 					type: "div",

@@ -66,7 +66,7 @@
 		await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
 
 		for (const element of findAllElements(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
-			const itemElement = element.find(".item");
+			const itemElement = element.querySelector(".item");
 			const itemIdAttr = itemElement.getAttribute("itemid");
 			if (!itemIdAttr) continue;
 
@@ -74,7 +74,7 @@
 			const item = torndata.items[id];
 			if (!item) continue;
 
-			const priceText = element.find(".price").firstChild?.textContent ?? "";
+			const priceText = element.querySelector(".price").firstChild?.textContent ?? "";
 			const price = convertToNumber(priceText);
 
 			const profitable = item.market_value - price > 0;
@@ -83,7 +83,7 @@
 				continue;
 			}
 
-			if (hideUnder100 && convertToNumber(element.find(".instock").textContent) < 100) {
+			if (hideUnder100 && convertToNumber(element.querySelector(".instock").textContent) < 100) {
 				element.classList.add("tt-hidden");
 				continue;
 			}

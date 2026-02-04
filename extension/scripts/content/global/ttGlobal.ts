@@ -41,7 +41,7 @@
 				if (mutations.every((mutation) => mutation.removedNodes.length === 0)) return;
 
 				triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
-			}).observe(document.find("#chatRoot > [class*='root___'] > [class*='root___']:first-child"), {
+			}).observe(document.querySelector("#chatRoot > [class*='root___'] > [class*='root___']:first-child"), {
 				childList: true,
 			});
 			new MutationObserver((mutations) => {
@@ -53,13 +53,13 @@
 
 							if (node.className?.includes("item___")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
-								chatRefreshObserver.observe(node.find("[class*='scrollContainer___'] > [class*='list___']"), { childList: true });
+								chatRefreshObserver.observe(node.querySelector("[class*='scrollContainer___'] > [class*='list___']"), { childList: true });
 							} else if (node.id === "settings_panel") {
-								const panel = (mutation.target as Element).find(":scope > [class*='root___']");
+								const panel = (mutation.target as Element).querySelector<HTMLElement>(":scope > [class*='root___']");
 
 								triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: panel });
 							} else if (node.id === "people_panel") {
-								const panel = (mutation.target as Element).find(":scope > [class*='root___']");
+								const panel = (mutation.target as Element).querySelector<HTMLElement>(":scope > [class*='root___']");
 
 								triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: panel });
 							} else if (
@@ -71,13 +71,13 @@
 							}
 						});
 				}
-			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
+			}).observe(document.querySelector("#chatRoot"), { childList: true, subtree: true });
 			new MutationObserver(() => {
 				triggerCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED);
-			}).observe(document.find("#chatRoot"), { childList: true });
+			}).observe(document.querySelector("#chatRoot"), { childList: true });
 
 			for (const chat of findAllElements("#chatRoot > [class*='root___'] > [class*='root___'] > [class*='item___']")) {
-				const chatPanel = chat.find(":scope > [class*='root___']");
+				const chatPanel = chat.querySelector(":scope > [class*='root___']");
 				if (!chatPanel) continue; // No content in the panel.
 
 				if (chatPanel.id === "people_panel") {
@@ -95,7 +95,7 @@
 			});
 			new MutationObserver(() => {
 				triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
-			}).observe(document.find("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
+			}).observe(document.querySelector("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
 			new MutationObserver((mutations) => {
 				for (const mutation of mutations) {
 					Array.from(mutation.addedNodes)
@@ -106,7 +106,7 @@
 							if (node.className?.includes("group-chat-box__")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
 
-								chatRefreshObserver.observe(node.find("[class*='chat-box-body__']"), { childList: true });
+								chatRefreshObserver.observe(node.querySelector("[class*='chat-box-body__']"), { childList: true });
 							} else if (!node.className && node.parentElement?.className.includes("chat-box-body__")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
 							} else if (node.className?.includes("chat-app__panel__")) {
@@ -117,10 +117,10 @@
 						});
 
 					const openedChats = findAllElements("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
-					if (openedChats.length) chatRefreshObserver.observe(openedChats[0].find("[class*='chat-box-body__']"), { childList: true });
+					if (openedChats.length) chatRefreshObserver.observe(openedChats[0].querySelector("[class*='chat-box-body__']"), { childList: true });
 					else chatRefreshObserver.disconnect();
 				}
-			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
+			}).observe(document.querySelector("#chatRoot"), { childList: true, subtree: true });
 		}
 	}
 

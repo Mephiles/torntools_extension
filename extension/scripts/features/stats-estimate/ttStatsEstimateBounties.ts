@@ -34,7 +34,7 @@
 
 	async function startFeature() {
 		if (settings.pages.bounties.filter) {
-			const list = document.find(".bounties-list");
+			const list = document.querySelector(".bounties-list");
 			if (!list || !list.classList.contains("tt-filtered")) return;
 		}
 
@@ -45,15 +45,15 @@
 		await requireElement(".bounties-list");
 
 		const startParam = parseInt(getHashParameters().get("start")) || 0;
-		const start = parseInt(getHashParameters(document.find<HTMLAnchorElement>(".claim a").href.split("#!")[1] ?? "").get("start")) || 0;
+		const start = parseInt(getHashParameters(document.querySelector<HTMLAnchorElement>(".claim a").href.split("#!")[1] ?? "").get("start")) || 0;
 		if (start !== startParam) return;
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(
 			".bounties-list > li[data-id]",
 			(row) => ({
-				id: parseInt(row.find<HTMLAnchorElement>(".target a").href.match(/(\d+)/g)?.at(-1)),
-				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
+				id: parseInt(row.querySelector<HTMLAnchorElement>(".target a").href.match(/(\d+)/g)?.at(-1)),
+				level: parseInt(row.querySelector(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 			}),
 			true
 		);

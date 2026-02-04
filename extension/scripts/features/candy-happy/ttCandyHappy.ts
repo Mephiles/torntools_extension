@@ -30,7 +30,7 @@
 		const factionPerk = parseInt(userdata.faction_perks.filter((x) => /candy/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 		const companyPerk = parseInt(userdata.job_perks.filter((x) => /consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 		findAllElements("[data-category='Candy']").forEach((candy) => {
-			if (candy.find(".tt-candy-gains")) return;
+			if (candy.querySelector(".tt-candy-gains")) return;
 
 			// noinspection DuplicatedCode
 			const baseHappy = parseInt(
@@ -48,7 +48,9 @@
 				totalHappy *= 2;
 			}
 
-			candy.find(".name-wrap").insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
+			candy
+				.querySelector(".name-wrap")
+				.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
 		});
 	}
 

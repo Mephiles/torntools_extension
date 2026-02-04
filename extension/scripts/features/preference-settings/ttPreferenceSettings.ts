@@ -45,8 +45,8 @@
 					await requireElement("li[class*='keyRow___']", { parent: apiContainer });
 
 					const defaultKey = findAllElements("li[class*='keyRow___']", apiContainer)
-						.find((element) => !element.find("[class*='name___']").textContent)
-						?.find("input").value;
+						.find((element) => !element.querySelector("[class*='name___']").textContent)
+						?.querySelector("input").value;
 
 					connectButton.textContent = "Connect";
 					connectButton.classList.remove("tt-hidden");
@@ -67,7 +67,7 @@
 		}
 
 		function updateKey(key: string) {
-			const connectButton = document.find("#connect-torntools");
+			const connectButton = document.querySelector("#connect-torntools");
 
 			changeAPIKey(key).then(() => {
 				connectButton.setAttribute("disabled", "");

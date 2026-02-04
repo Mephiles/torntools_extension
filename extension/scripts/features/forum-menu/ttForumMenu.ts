@@ -41,7 +41,7 @@
 
 			const userId = getUsername(thread).id;
 
-			const threadLink = new URL(thread.find<HTMLAnchorElement>("a.thread-name").href);
+			const threadLink = new URL(thread.querySelector<HTMLAnchorElement>("a.thread-name").href);
 			const threadField = getHashParameters(threadLink.hash).get("t") ?? threadLink.searchParams.get("t");
 			const threadId = convertToNumber(threadField);
 
@@ -99,10 +99,10 @@
 				post.remove();
 				continue;
 			}
-			post.find(".tt-forums-button")?.remove();
+			post.querySelector(".tt-forums-button")?.remove();
 
-			const userId = convertToNumber(post.find(".poster-id").textContent);
-			const userName = post.find(".poster-name").textContent;
+			const userId = convertToNumber(post.querySelector(".poster-id").textContent);
+			const userName = post.querySelector(".poster-name").textContent;
 
 			const shouldHidePosts = settings.pages.forums.hidePosts[userId];
 			if (shouldHidePosts) {
@@ -148,7 +148,7 @@
 			}
 
 			const name = `${userName}'${userName.endsWith("s") ? "" : "s"}`;
-			post.find(".action-wrap .right-part").insertAdjacentElement(
+			post.querySelector(".action-wrap .right-part").insertAdjacentElement(
 				"beforebegin",
 				elementBuilder({
 					type: "li",
@@ -164,16 +164,16 @@
 									text: "Copy post for Discord",
 									events: {
 										click(event) {
-											const threadTitle = document.find("#topic-title").textContent.replaceAll("\u200B", "").trim();
-											const threadId = document.find(".subscribe").dataset.thread;
+											const threadTitle = document.querySelector("#topic-title").textContent.replaceAll("\u200B", "").trim();
+											const threadId = document.querySelector<HTMLElement>(".subscribe").dataset.thread;
 
 											const postId = post.dataset.id;
-											const date = post.find(".time-wrap > .created, .time-wrap > .posted").textContent;
+											const date = post.querySelector(".time-wrap > .created, .time-wrap > .posted").textContent;
 
 											let likes: string, dislikes: string;
-											if (!post.find(".rating-results-pending")) {
-												likes = post.find(".like > .value").textContent.trim();
-												dislikes = post.find(".dislike > .value").textContent.trim();
+											if (!post.querySelector(".rating-results-pending")) {
+												likes = post.querySelector(".like > .value").textContent.trim();
+												dislikes = post.querySelector(".dislike > .value").textContent.trim();
 											} else {
 												likes = "N/A";
 												dislikes = "N/A";
@@ -182,14 +182,14 @@
 											let quotesContent = "";
 											let prefix = "> ";
 											for (const quote of findAllElements(".post-quote", post)) {
-												const author = quote.find(":scope > .author-quote a").innerText;
-												const content = quote.find(":scope > .quote-post > .quote-post-content").innerText;
+												const author = quote.querySelector<HTMLElement>(":scope > .author-quote a").innerText;
+												const content = quote.querySelector<HTMLElement>(":scope > .quote-post > .quote-post-content").innerText;
 
 												quotesContent = `${prefix} ${author}:\n${content.replace(/^/gm, prefix)}\n${quotesContent}`;
 												prefix = `> ${prefix}`;
 											}
 
-											let postContent = post.find(".post-container .post").textContent;
+											let postContent = post.querySelector(".post-container .post").textContent;
 
 											// Replace emoticons
 											const emoticonRegex = /\[img].*?emotions\/(\w+).*?\[\/img]/gs;

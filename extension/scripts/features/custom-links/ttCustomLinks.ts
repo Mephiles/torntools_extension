@@ -23,7 +23,7 @@
 			showOutside("under", "customLinksUnder");
 			showInside();
 		} else {
-			const oldCustomLinksContainer = document.find(".tt-custom-links-container");
+			const oldCustomLinksContainer = document.querySelector(".tt-custom-links-container");
 			if (oldCustomLinksContainer) oldCustomLinksContainer.remove();
 
 			const customLinksContainer = elementBuilder({
@@ -50,8 +50,10 @@
 				);
 			});
 
-			document.find("#sidebar [class*='content_'] [class*='user-information-mobile_']").insertAdjacentElement("beforebegin", customLinksContainer);
-			document.find(".content-wrapper[role='main']").insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "dummy-div" }));
+			document
+				.querySelector("#sidebar [class*='content_'] [class*='user-information-mobile_']")
+				.insertAdjacentElement("beforebegin", customLinksContainer);
+			document.querySelector(".content-wrapper[role='main']").insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "dummy-div" }));
 		}
 	}
 
@@ -93,7 +95,7 @@
 			const location = locationSplit.splice(1).join("_");
 			const area = ALL_AREAS.filter((area) => area.class === location);
 			if (!area) continue;
-			let target = areas.find(`#nav-${area[0].class}`);
+			let target = areas.querySelector(`#nav-${area[0].class}`);
 			if (!target) continue;
 
 			if (locationSplit[0] === "under") target = target.nextSibling as HTMLElement;
@@ -105,7 +107,7 @@
 				text: link.name,
 				attributes: { target: link.newTab ? "_blank" : "_self" },
 			});
-			const parent = areas.find("div[class*='toggle-content_']");
+			const parent = areas.querySelector("div[class*='toggle-content_']");
 			if (target) parent.insertBefore(pill, target);
 			else parent.appendChild(pill);
 		}
@@ -113,7 +115,7 @@
 
 	function removeLinks() {
 		if (mobile) {
-			const customLinksContainer = document.find(".tt-custom-links-container");
+			const customLinksContainer = document.querySelector(".tt-custom-links-container");
 			if (customLinksContainer) customLinksContainer.remove();
 		} else {
 			removeContainer("Custom Links", { id: "customLinksAbove" });

@@ -53,7 +53,7 @@
 		for (const row of findAllElements(".members-list .table-body > li")) {
 			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 			// Skip users that are confirmed to be dead IRL.
-			if (row.find("[id*='icon77___']")) continue;
+			if (row.querySelector("[id*='icon77___']")) continue;
 
 			const days = dropDecimals(convertToNumber(row.nextElementSibling.getAttribute("hours")) / 24);
 

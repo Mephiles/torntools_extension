@@ -33,18 +33,18 @@
 		for (const weapon of findAllElements("#weapon_main, #weapon_second, #weapon_melee, #weapon_temp", attacker)) {
 			if (weapon.className.includes("defender")) continue;
 
-			const name = weapon.find("figure > img[alt]")?.getAttribute("alt");
+			const name = weapon.querySelector("figure > img[alt]")?.getAttribute("alt");
 			if (!name) continue;
 
 			const experience = userdata.weaponexp.find((item) => item.name === name)?.exp;
 			if (!experience) continue;
 
 			const observer = new MutationObserver(() => {
-				const target = attacker.find(`#${weapon.id}`);
+				const target = attacker.querySelector(`#${weapon.id}`);
 				if (!target) return;
 
 				if (!target.classList.contains("tt-weapon")) weapon.classList.add("tt-weapon");
-				if (!target.find(".tt-weapon-experience"))
+				if (!target.querySelector(".tt-weapon-experience"))
 					weapon.appendChild(elementBuilder({ type: "div", class: "tt-weapon-experience", text: `XP: ${experience}%` }));
 			});
 			observer.observe(weapon, { childList: true, attributes: true });

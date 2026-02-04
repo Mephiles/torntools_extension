@@ -31,6 +31,6 @@
 	}
 
 	function removeTime() {
-		document.find(".tt-time")?.remove();
+		document.querySelector(".tt-time")?.remove();
 	}
 })();

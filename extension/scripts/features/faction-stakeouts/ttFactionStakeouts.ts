@@ -27,7 +27,7 @@
 	}
 
 	function startFeature() {
-		if (isInternal && !document.find(".faction-description")) return;
+		if (isInternal && !document.querySelector(".faction-description")) return;
 
 		displayBox();
 	}

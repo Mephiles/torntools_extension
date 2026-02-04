@@ -75,7 +75,7 @@
 	}
 
 	function removeFlowers() {
-		if (document.find("#needed-flowers")) document.find("#needed-flowers").remove();
+		if (document.querySelector("#needed-flowers")) document.querySelector("#needed-flowers").remove();
 	}
 
 	async function showPlushies() {
@@ -83,11 +83,11 @@
 	}
 
 	function removePlushies() {
-		if (document.find("#needed-plushies")) document.find("#needed-plushies").remove();
+		if (document.querySelector("#needed-plushies")) document.querySelector("#needed-plushies").remove();
 	}
 
 	async function show(id: string, selector: string, items: SetItem[]) {
-		if (document.find(`#${id}`)) document.find(`#${id}`).remove();
+		if (document.querySelector(`#${id}`)) document.querySelector(`#${id}`).remove();
 
 		const currentItemsElements = findAllElements(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
 		if (!currentItemsElements.length || currentItemsElements.length === items.length) return;
@@ -121,14 +121,14 @@
 
 			isFirst = false;
 		}
-		document.find(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
+		document.querySelector(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
 	}
 
 	function addItemValue(missingItem: HTMLElement) {
 		if (!settings.pages.items.values) return;
 		if (!hasAPIData()) return;
 
-		missingItem.find(":scope > span").insertAdjacentElement(
+		missingItem.querySelector(":scope > span").insertAdjacentElement(
 			"afterend",
 			elementBuilder({
 				type: "span",
@@ -147,9 +147,9 @@
 	async function addMarketIcon(missingItem: HTMLElement, first: boolean, last: boolean) {
 		if (!settings.pages.items.marketLinks) return;
 		if (mobile) return;
-		if (missingItem.find(".market-link")) return;
+		if (missingItem.querySelector(".market-link")) return;
 
-		let parent = missingItem.find(".outside-actions");
+		let parent = missingItem.querySelector(".outside-actions");
 		if (!parent) {
 			parent = elementBuilder({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
 

@@ -26,7 +26,7 @@
 			await sleep(0.5);
 			calculateAndShowProfits();
 		});
-		observer.observe(document.find("#priceTab"), { attributeOldValue: true });
+		observer.observe(document.querySelector("#priceTab"), { attributeOldValue: true });
 	}
 
 	function calculateAndShowProfits() {
@@ -50,7 +50,7 @@
 			.reduce((a, b) => a + b, 0);
 
 		const shorten = mobile ? 2 : true;
-		document.find("#stockmarketroot h4").appendChild(
+		document.querySelector("#stockmarketroot h4").appendChild(
 			elementBuilder({
 				type: "span",
 				class: "tt-total-stock-value",
@@ -66,20 +66,20 @@
 				],
 			})
 		);
-		if (mobile) document.find("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
+		if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
 	}
 
 	function getStockPrices() {
 		const data: Record<string, number> = {};
 		findAllElements("[class*='stockMarket__'] > ul[id]").forEach((stock) => {
-			data[stock.id] = parseFloat(stock.find("#priceTab > :first-child").textContent);
+			data[stock.id] = parseFloat(stock.querySelector("#priceTab > :first-child").textContent);
 		});
 		return data;
 	}
 
 	function removeProfitAndValue() {
-		const ttTotalStockValue = document.find("#stockmarketroot .tt-total-stock-value");
+		const ttTotalStockValue = document.querySelector("#stockmarketroot .tt-total-stock-value");
 		if (ttTotalStockValue) ttTotalStockValue.remove();
-		if (mobile) document.find("#stockmarketroot [class*='topSection__']").classList.remove("tt-total-stock-value-wrap");
+		if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.remove("tt-total-stock-value-wrap");
 	}
 })();

@@ -23,7 +23,7 @@
 		await requireSidebar();
 
 		if (Math.abs(userdata.networth.unpaidfees) >= settings.pages.sidebar.upkeepPropHighlight) {
-			const navProperties = document.find("#nav-properties");
+			const navProperties = document.querySelector("#nav-properties");
 
 			if (!navProperties) return;
 

@@ -22,11 +22,11 @@
 		await requireElement(".item-desc");
 
 		for (const item of findAllElements(".item-desc")) {
-			const priceElement = item.find(".price");
+			const priceElement = item.querySelector(".price");
 			if (priceElement.classList.contains("tt-modified")) continue;
 			priceElement.classList.add("tt-modified");
 
-			const id = parseInt(item.find(".item").getAttribute("itemid"));
+			const id = parseInt(item.querySelector(".item").getAttribute("itemid"));
 
 			const price = parseInt(priceElement.firstChild.textContent.replace(/[$,]/g, ""));
 			const value = torndata.items[id].market_value;

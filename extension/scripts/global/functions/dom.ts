@@ -82,51 +82,12 @@ function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K | (Ele
 	}
 }
 
-function _find(element: ParentNode, selector: string, options: Partial<FindOptions> = {}): Element {
-	options = {
-		text: undefined,
-		...options,
-	};
+function findElementWithText<T = Node>(tag: string, text: string): T {
+	const node = document.evaluate(`//${tag}[contains(text(), '${text}')]`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	if (!node) return null;
 
-	if (options.text) {
-		for (const element of document.querySelectorAll(selector)) {
-			if (element.textContent === options.text) {
-				return element;
-			}
-		}
-	}
-
-	if (selector.includes("=") && !selector.includes("[")) {
-		const key = selector.split("=")[0];
-		const value = selector.split("=")[1];
-
-		for (const element of document.querySelectorAll(key)) {
-			if (element.textContent.trim() === value.trim()) {
-				return element;
-			}
-		}
-
-		try {
-			element.querySelector(selector);
-		} catch (err) {
-			return undefined;
-		}
-	}
-	return element.querySelector(selector);
+	return node as T;
 }
-
-Object.defineProperty(Document.prototype, "find", {
-	value(this: Document, selector: string, options: Partial<FindOptions> = {}): Element {
-		return _find(this, selector, options);
-	},
-	enumerable: false,
-});
-Object.defineProperty(Element.prototype, "find", {
-	value(this: Element, selector: string, options: Partial<FindOptions> = {}): Element {
-		return _find(this, selector, options);
-	},
-	enumerable: false,
-});
 
 function findAllElements<K extends keyof HTMLElementTagNameMap>(tagName: K, parent?: ParentNode): HTMLElementTagNameMap[K][];
 function findAllElements<T extends Element = HTMLElement>(selector: string, parent?: ParentNode): T[];
@@ -255,8 +216,8 @@ function rotateElement(element: HTMLElement, degrees: number) {
 type TableSortOrder = "asc" | "desc" | "none";
 
 function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrder) {
-	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
-	const icon = header.find("i");
+	const header = table.querySelector(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
+	const icon = header.querySelector("i");
 	if (order) {
 		if (icon) {
 			switch (order) {
@@ -307,11 +268,11 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 	for (const h of findAllElements("th, .row.header > *", table)) {
 		if (h === header) continue;
 
-		if (h.find("i")) h.find("i").remove();
+		h.querySelector("i")?.remove();
 	}
 
 	let rows: HTMLElement[];
-	if (!table.find("tr:not(.heading), .row:not(.header)")) rows = [];
+	if (!table.querySelector("tr:not(.heading), .row:not(.header)")) rows = [];
 	else {
 		rows = findAllElements<HTMLElement>("tr:not(.header), .row:not(.header)", table);
 		rows = sortRows(rows);
@@ -337,8 +298,8 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 		return rows;
 
 		function sortHelper(elementA: HTMLElement, elementB: HTMLElement) {
-			elementA = elementA.find(`:scope > *:nth-child(${columnPlace})`);
-			elementB = elementB.find(`:scope > *:nth-child(${columnPlace})`);
+			elementA = elementA.querySelector(`:scope > *:nth-child(${columnPlace})`);
+			elementB = elementB.querySelector(`:scope > *:nth-child(${columnPlace})`);
 
 			let valueA: string, valueB: string;
 			if (elementA.hasAttribute("sort-type")) {
@@ -405,7 +366,7 @@ function resortTable(table: HTMLElement) {
 }
 
 function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
-	const placeholder = element.find(".tt-loading-placeholder");
+	const placeholder = element.querySelector(".tt-loading-placeholder");
 
 	if (show) {
 		if (placeholder) {
@@ -451,7 +412,7 @@ function updateQuery(key: string, value: string) {
 }
 
 async function addInformationSection() {
-	if (document.find(".tt-sidebar-information")) return;
+	if (document.querySelector(".tt-sidebar-information")) return;
 
 	const parent = await requireElement("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']");
 
@@ -465,8 +426,8 @@ async function addInformationSection() {
 }
 
 function showInformationSection() {
-	document.find(".tt-sidebar-information-divider")?.classList.remove("tt-hidden");
-	document.find(".tt-sidebar-information")?.classList.remove("tt-hidden");
+	document.querySelector(".tt-sidebar-information-divider")?.classList.remove("tt-hidden");
+	document.querySelector(".tt-sidebar-information")?.classList.remove("tt-hidden");
 }
 
 function isElement(node: Node | EventTarget | null): node is Element {

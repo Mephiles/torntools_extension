@@ -13,9 +13,9 @@
 
 	function showWarning() {
 		// Ignore when there is no correct element.
-		if (!document.find(".forums-committee-wrap, .forums-create-new")) return;
+		if (!document.querySelector(".forums-committee-wrap, .forums-create-new")) return;
 		// Ignore when there already is a warning present.
-		if (document.find("#ttBugWarning")) return;
+		if (document.querySelector("#ttBugWarning")) return;
 
 		const hash = getHashParameters();
 
@@ -28,10 +28,10 @@
 
 		let parent: Element, position: "afterend" | "beforebegin";
 		if (page === "forums") {
-			parent = document.find("ul.title");
+			parent = document.querySelector("ul.title");
 			position = "afterend";
 		} else if (page === "newthread") {
-			parent = document.find("#editor-wrapper");
+			parent = document.querySelector("#editor-wrapper");
 			position = "beforebegin";
 
 			requireElement("[class*='actionButtonsWrapper__'] button", { parent }).then((button) =>
@@ -65,7 +65,7 @@
 		);
 
 		function showPopup() {
-			const overlay = document.find(".tt-overlay");
+			const overlay = document.querySelector(".tt-overlay");
 
 			overlay.classList.remove("tt-hidden");
 			overlay.addEventListener("click", closePopup);
@@ -117,7 +117,7 @@
 		event.stopPropagation();
 		event.stopImmediatePropagation();
 
-		const overlay = document.find(".tt-overlay");
+		const overlay = document.querySelector(".tt-overlay");
 
 		overlay.classList.remove("tt-hidden");
 		overlay.addEventListener("click", closePopup);
@@ -160,7 +160,7 @@
 			],
 		});
 
-		document.find("#editor-form").appendChild(popup);
+		document.querySelector("#editor-form").appendChild(popup);
 
 		function closePopup() {
 			overlay.removeEventListener("click", closePopup);
@@ -172,11 +172,11 @@
 	}
 
 	function removeWarning() {
-		document.find("#ttBugWarning")?.remove();
+		document.querySelector("#ttBugWarning")?.remove();
 
-		const actions = document.find("#bbc-editor .actions");
+		const actions = document.querySelector("#bbc-editor .actions");
 		if (actions) {
-			actions.find("button[type='submit']")?.removeEventListener("click", handleDisabledPost);
+			actions.querySelector<HTMLElement>("button[type='submit']")?.removeEventListener("click", handleDisabledPost);
 		}
 	}
 })();

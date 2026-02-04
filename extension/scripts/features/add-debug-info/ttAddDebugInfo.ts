@@ -19,7 +19,7 @@
 	async function addDebugInfo() {
 		if (!feature.enabled()) return;
 		if (!viewingTTForumThread()) return;
-		if (document.find("#tt-debug-info-btn")) return;
+		if (document.querySelector("#tt-debug-info-btn")) return;
 
 		const addDebugInfoBtn = elementBuilder({
 			type: "button",
@@ -28,7 +28,7 @@
 			class: "tt-btn",
 			events: {
 				click: async () => {
-					const bbcEditor = document.find("#editor-wrapper .editor-content.mce-content-body");
+					const bbcEditor = document.querySelector("#editor-wrapper .editor-content.mce-content-body");
 					if (!bbcEditor) return;
 					if (bbcEditor.innerHTML.startsWith("Debug Information:")) return;
 
@@ -74,7 +74,7 @@
 	}
 
 	function removeButton() {
-		document.find("#tt-debug-info-btn")?.remove();
+		document.querySelector("#tt-debug-info-btn")?.remove();
 	}
 
 	function viewingTTForumThread() {

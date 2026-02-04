@@ -38,7 +38,7 @@
 
 		button.addEventListener("click", () => executeScript(chrome.runtime.getURL("scripts/features/trade-open-chat/ttTradeOpenChat.inject.js")));
 
-		document.find("#trade-container > .title-black").appendChild(
+		document.querySelector("#trade-container > .title-black").appendChild(
 			elementBuilder({
 				type: "div",
 				children: [button],
@@ -47,6 +47,6 @@
 	}
 
 	function removeButton() {
-		document.find(".tt-open-chat")?.remove();
+		document.querySelector(".tt-open-chat")?.remove();
 	}
 })();

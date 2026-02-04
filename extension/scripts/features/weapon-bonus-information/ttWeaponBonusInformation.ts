@@ -133,8 +133,8 @@
 		for (const log of findAllElements(".log-list > li:not(.tt-modified)")) {
 			log.classList.add("tt-modified");
 
-			const icon = log.find(".message-wrap span:first-child").classList[0];
-			const messageElement = log.find(".message");
+			const icon = log.querySelector(".message-wrap span:first-child").classList[0];
+			const messageElement = log.querySelector(".message");
 
 			let bonus: Bonus;
 			switch (icon) {

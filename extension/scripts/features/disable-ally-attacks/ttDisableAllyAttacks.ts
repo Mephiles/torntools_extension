@@ -25,7 +25,7 @@
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		if (confirm("Are you sure you want to attack this ally?")) {
-			window.open(document.find<HTMLAnchorElement>(".profile-buttons .profile-button-attack").href, "_self");
+			window.open(document.querySelector<HTMLAnchorElement>(".profile-buttons .profile-button-attack").href, "_self");
 		}
 	}
 
@@ -43,7 +43,7 @@
 				else return ally.trim() === factionName;
 			})
 		) {
-			const attackButton = document.find(".profile-buttons .profile-button-attack");
+			const attackButton = document.querySelector(".profile-buttons .profile-button-attack");
 			if (attackButton.classList.contains("cross")) return;
 
 			const crossSvgNode = crossSvg();

@@ -342,7 +342,7 @@
 		};
 
 		for (const context of findAllElements(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
-			const title = (context.find(".title-black").childNodes[0] as Text).wholeText.replace(/\n/g, "").trim();
+			const title = (context.querySelector(".title-black").childNodes[0] as Text).wholeText.replace(/\n/g, "").trim();
 
 			const key = transformTitle(title);
 			let task: string, hint: HTMLElement | string | null;
@@ -369,7 +369,7 @@
 				children.push(elementBuilder("br"), elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Hint: " }), hint] }));
 			}
 
-			context.find(".max-height-fix").appendChild(elementBuilder({ type: "div", class: "tt-mission-information", children }));
+			context.querySelector(".max-height-fix").appendChild(elementBuilder({ type: "div", class: "tt-mission-information", children }));
 			context.classList.add("tt-modified");
 		}
 

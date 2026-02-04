@@ -30,7 +30,7 @@
 		hasContainer = true;
 
 		// Show container
-		const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.find("#tab-menu") });
+		const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
 
 		const items = getAllItems();
 		handleHighlight();
@@ -76,7 +76,7 @@
 			options.appendChild(checkbox.element);
 
 			function highlight(state: boolean) {
-				const map = document.find("#map");
+				const map = document.querySelector("#map");
 
 				if (state) map.classList.add("highlight-items");
 				else map.classList.remove("highlight-items");
@@ -196,8 +196,8 @@
 								for (const item of findAllElements(`.city-item.force-hover`)) {
 									item.classList.remove("force-hover");
 								}
-								if (content.previousElementSibling.find(".tt-checkbox-wrapper input:checked"))
-									document.find("#map").classList.add("highlight-items");
+								if (content.previousElementSibling.querySelector(".tt-checkbox-wrapper input:checked"))
+									document.querySelector("#map").classList.add("highlight-items");
 
 								if (!query.length) return;
 
@@ -206,7 +206,7 @@
 									for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
 										item.classList.add("force-hover");
 									}
-								document.find("#map").classList.remove("highlight-items");
+								document.querySelector("#map").classList.remove("highlight-items");
 							},
 						},
 					}),
@@ -226,7 +226,7 @@
 			delete item.dataset.id;
 		}
 
-		const map = document.find("#map");
+		const map = document.querySelector("#map");
 		if (map) map.classList.remove("highlight-items");
 
 		hasContainer = false;

@@ -50,7 +50,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(({ type }) => {
 			if (!feature.enabled()) return;
 
-			document.find<HTMLInputElement>("#travel-items").value = getTravelCount(type as any).toString();
+			document.querySelector<HTMLInputElement>("#travel-items").value = getTravelCount(type as any).toString();
 			updateValues();
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(({ country }) => {
@@ -59,7 +59,7 @@
 			const content = findContainer("Travel Destinations", { selector: ":scope > main" });
 
 			findAllElements(".countries .flag.selected", content).forEach((flag) => flag.classList.remove("selected"));
-			content.find(`.countries .flag[country*="${country}"]`).classList.add("selected");
+			content.querySelector(`.countries .flag[country*="${country}"]`).classList.add("selected");
 			updateTable(content);
 		});
 	}
@@ -227,12 +227,12 @@
 					})
 				);
 
-				content.find(".legend-icon").addEventListener("click", (event) => {
+				content.querySelector(".legend-icon").addEventListener("click", (event) => {
 					if ((event.target as Element).classList.contains("legend-icon")) return;
 
-					const isOpen = !content.find(".legend-content").classList.toggle("tt-hidden");
+					const isOpen = !content.querySelector(".legend-content").classList.toggle("tt-hidden");
 
-					const iconClasses = content.find(".legend-icon i").classList;
+					const iconClasses = content.querySelector(".legend-icon i").classList;
 					if (isOpen) {
 						iconClasses.remove("fa-chevron-right");
 						iconClasses.add("fa-chevron-down");
@@ -243,9 +243,9 @@
 					ttStorage.change({ filters: { travel: { open: isOpen } } });
 				});
 
-				content.find(`.table-type[type=${filters.travel.type}]`).classList.add("active");
-				const typeBasic = content.find(".table-type[type='basic']");
-				const typeAdvanced = content.find(".table-type[type='advanced']");
+				content.querySelector(`.table-type[type=${filters.travel.type}]`).classList.add("active");
+				const typeBasic = content.querySelector(".table-type[type='basic']");
+				const typeAdvanced = content.querySelector(".table-type[type='advanced']");
 
 				typeBasic.addEventListener("click", () => {
 					typeBasic.classList.add("active");
@@ -280,14 +280,14 @@
 					ttStorage.change({ filters: { travel: { type: "advanced" } } });
 				});
 
-				content.find(".countries-select-all").addEventListener("click", () => {
+				content.querySelector(".countries-select-all").addEventListener("click", () => {
 					for (const country of findAllElements(".countries .flag", content)) country.classList.add("selected");
 
 					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
 					updateTable(content);
 				});
-				content.find(".countries-select-none").addEventListener("click", () => {
+				content.querySelector(".countries-select-none").addEventListener("click", () => {
 					for (const country of findAllElements(".countries .flag", content)) country.classList.remove("selected");
 
 					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
@@ -295,33 +295,33 @@
 					updateTable(content);
 				});
 
-				content.find<HTMLInputElement>("#travel-items").value = amount.toString();
+				content.querySelector<HTMLInputElement>("#travel-items").value = amount.toString();
 
-				if (filters.travel.hideOutOfStock) content.find<HTMLInputElement>("#hide-out-of-stock").checked = true;
-				if (filters.travel.applySalesTax) content.find<HTMLInputElement>("#apply-sales-tax").checked = true;
-				if (filters.travel.sellAnonymously) content.find<HTMLInputElement>("#sell-anonymously").checked = true;
+				if (filters.travel.hideOutOfStock) content.querySelector<HTMLInputElement>("#hide-out-of-stock").checked = true;
+				if (filters.travel.applySalesTax) content.querySelector<HTMLInputElement>("#apply-sales-tax").checked = true;
+				if (filters.travel.sellAnonymously) content.querySelector<HTMLInputElement>("#sell-anonymously").checked = true;
 				for (const category of filters.travel.categories) {
-					const element = content.find<HTMLInputElement>(`.categories input[name="item"][category="${category}"]`);
+					const element = content.querySelector<HTMLInputElement>(`.categories input[name="item"][category="${category}"]`);
 					if (element) element.checked = true;
 				}
 				for (const country of filters.travel.countries) {
-					const element = content.find(`.countries .flag[country="${country}"]`);
+					const element = content.querySelector(`.countries .flag[country="${country}"]`);
 					if (element) element.classList.add("selected");
 				}
 
 				// Check for legend changes
-				content.find("#travel-items").addEventListener("change", () => updateValues());
-				content.find("#hide-out-of-stock").addEventListener("change", (event) => {
+				content.querySelector("#travel-items").addEventListener("change", () => updateValues());
+				content.querySelector("#hide-out-of-stock").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { hideOutOfStock: (event.target as HTMLInputElement).checked } } });
 
 					updateTable(content);
 				});
-				content.find("#apply-sales-tax").addEventListener("change", (event) => {
+				content.querySelector("#apply-sales-tax").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { applySalesTax: (event.target as HTMLInputElement).checked } } });
 
 					setTimeout(updateValues);
 				});
-				content.find("#sell-anonymously").addEventListener("change", (event) => {
+				content.querySelector("#sell-anonymously").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { sellAnonymously: (event.target as HTMLInputElement).checked } } });
 
 					setTimeout(updateValues);
@@ -390,10 +390,10 @@
 				if (value !== 0) {
 					const sales = value * amount;
 
-					const applySalesTax = content.find<HTMLInputElement>("#apply-sales-tax").checked;
+					const applySalesTax = content.querySelector<HTMLInputElement>("#apply-sales-tax").checked;
 					const salesTax = applySalesTax ? Math.ceil((sales * SALES_TAX) / 100) : 0;
 
-					const sellAnonymously = content.find<HTMLInputElement>("#sell-anonymously").checked;
+					const sellAnonymously = content.querySelector<HTMLInputElement>("#sell-anonymously").checked;
 					const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
 
 					profit = sales - (totalCost + salesTax + anonymousTax);
@@ -492,7 +492,7 @@
 					searchParams.set("travel", `${isOpened}`);
 					history.pushState(null, "", `${location.pathname}?${searchParams.toString()}`);
 
-					const travelText = document.find(".tt-travel span");
+					const travelText = document.querySelector(".tt-travel span");
 					if (travelText) travelText.textContent = isOpened ? "Home" : "Travel Table";
 
 					if (isOpened) showTable();
@@ -529,12 +529,12 @@
 	}
 
 	function updateTable(content: Element) {
-		const table = document.find("#tt-travel-table");
+		const table = document.querySelector("#tt-travel-table");
 		if (!table) return;
 
 		const categories = getSelectedCategories(content);
 		const countries = getSelectedCountries(content);
-		const hideOutOfStock = content.find<HTMLInputElement>("#hide-out-of-stock").checked;
+		const hideOutOfStock = content.querySelector<HTMLInputElement>("#hide-out-of-stock").checked;
 
 		for (const row of findAllElements(".row:not(.header)", table)) {
 			const { country, category, stock } = row.dataset;
@@ -551,12 +551,12 @@
 
 	function updateValues() {
 		const content = findContainer("Travel Destinations", { selector: ":scope > main" });
-		const table = content.find("#tt-travel-table");
+		const table = content.querySelector<HTMLElement>("#tt-travel-table");
 		if (!table) return;
 
-		const amount = parseInt(content.find<HTMLInputElement>("#travel-items").value);
-		const applySalesTax = content.find<HTMLInputElement>("#apply-sales-tax").checked;
-		const sellAnonymously = content.find<HTMLInputElement>("#sell-anonymously").checked;
+		const amount = parseInt(content.querySelector<HTMLInputElement>("#travel-items").value);
+		const applySalesTax = content.querySelector<HTMLInputElement>("#apply-sales-tax").checked;
+		const sellAnonymously = content.querySelector<HTMLInputElement>("#sell-anonymously").checked;
 
 		for (const row of findAllElements(".row:not(.header)", table)) {
 			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
@@ -573,11 +573,11 @@
 				const profitItem = dropDecimals(profit / amount);
 				const profitMinute = dropDecimals(profit / (modifiedTime * 2));
 
-				const elementProfitItem = row.find(".profit-item");
-				const elementProfitMinute = row.find(".profit-minute");
-				const elementProfit = row.find(".profit");
+				const elementProfitItem = row.querySelector(".profit-item");
+				const elementProfitMinute = row.querySelector(".profit-minute");
+				const elementProfit = row.querySelector(".profit");
 
-				const allElements: [HTMLElement, number][] = [
+				const allElements: [Element, number][] = [
 					[elementProfitItem, profitItem],
 					[elementProfitMinute, profitMinute],
 					[elementProfit, profit],
@@ -591,7 +591,7 @@
 				});
 			}
 
-			row.find(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
+			row.querySelector(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
 		}
 
 		resortTable(table);
@@ -646,7 +646,7 @@
 
 	function getTravelType() {
 		if (page === "travel") {
-			const element = document.find<HTMLInputElement>("input[name='travelType'][aria-checked='true']");
+			const element = document.querySelector<HTMLInputElement>("input[name='travelType'][aria-checked='true']");
 
 			if (!element) return hasAPIData() ? getAPIType() : "standard";
 			else return toCorrectMethod(element.value);
@@ -684,7 +684,7 @@
 		removeContainer("Travel Destinations");
 
 		function removeIcon() {
-			const icon = document.find(".tt-travel");
+			const icon = document.querySelector(".tt-travel");
 			if (icon) icon.remove();
 		}
 	}

@@ -15,8 +15,8 @@
 	);
 
 	function hideCasinoGames() {
-		const msg = document.find(".msg.right-round");
-		if (!msg.find(".tt-msg")) {
+		const msg = document.querySelector(".msg.right-round");
+		if (!msg.querySelector(".tt-msg")) {
 			msg.appendChild(
 				elementBuilder({
 					type: "div",
@@ -33,11 +33,11 @@
 		findAllElements(".games-list .tt-hidden").forEach((game) => {
 			game.parentElement.classList.remove("tt-hidden-parent");
 			game.classList.remove("tt-hidden");
-			game.parentElement.find(".tt-hidden").remove();
+			game.parentElement.querySelector(".tt-hidden").remove();
 		});
 
 		for (const gameClass of settings.hideCasinoGames) {
-			const game = document.find(`.${gameClass}`);
+			const game = document.querySelector(`.${gameClass}`);
 
 			game.parentElement.classList.add("tt-hidden-parent");
 			game.classList.add("tt-hidden");
@@ -55,9 +55,9 @@
 	async function unhideCasinoGames() {
 		await requireElement(".games-list");
 
-		document.find(".msg .tt-msg").remove();
-		document.find(".tt-hidden-parent").classList.remove("tt-hidden-parent");
-		document.find(".tt-hidden").remove();
+		document.querySelector(".msg .tt-msg").remove();
+		document.querySelector(".tt-hidden-parent").classList.remove("tt-hidden-parent");
+		document.querySelector(".tt-hidden").remove();
 		findAllElements(".games-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

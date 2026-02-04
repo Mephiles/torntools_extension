@@ -40,7 +40,7 @@
 		);
 		if (!messages.length) return;
 
-		const textarea = chat.find<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
+		const textarea = chat.querySelector<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
 		if (!textarea) return;
 		textarea.classList.add("tt-chat-autocomplete");
 

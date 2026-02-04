@@ -31,7 +31,7 @@
 		const companyPerk = parseInt(userdata.job_perks.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 
 		findAllElements("[data-category='Alcohol']").forEach((alcoholicDrink) => {
-			if (alcoholicDrink.find(".tt-alcohol-gains")) return;
+			if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;
 
 			const id = parseInt(alcoholicDrink.dataset.item);
 			let totalNerve = parseInt(
@@ -56,7 +56,7 @@
 
 			const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
 			alcoholicDrink
-				.find(".name-wrap")
+				.querySelector(".name-wrap")
 				.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }));
 		});
 	}

@@ -26,7 +26,7 @@
 		const { content, options } = createContainer("NPCs", {
 			id: "npc-loot-times",
 			applyRounding: false,
-			previousElement: findParent(document.find("h2=Information"), { class: "^=sidebar-block_" }),
+			previousElement: findParent(findElementWithText("h2", "Information"), { class: "^=sidebar-block_" }),
 		});
 
 		const now = Date.now();

@@ -41,7 +41,7 @@
 			const id = parseInt(row.dataset.item);
 			const { market_value } = torndata.items[id];
 
-			row.find(".desc")!.appendChild(
+			row.querySelector(".desc")!.appendChild(
 				elementBuilder({
 					type: "span",
 					class: "tt-market-value",

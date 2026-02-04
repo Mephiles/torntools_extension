@@ -22,7 +22,7 @@
 		await requireElement("[class*='stockTableWrapper___']");
 		const { content } = createContainer("Abroad Item Filter", {
 			class: "mb10",
-			nextElement: document.find("[class*='shops__']"),
+			nextElement: document.querySelector("[class*='shops__']"),
 			filter: true,
 		});
 
@@ -92,18 +92,18 @@
 			for (const li of findAllElements("[class*='stockTableWrapper___'] > li")) {
 				showRow(li);
 
-				if (profitOnly && convertToNumber(li.find(".tt-travel-market-cell").dataset.ttValue) < 0) {
+				if (profitOnly && convertToNumber(li.querySelector<HTMLElement>(".tt-travel-market-cell").dataset.ttValue) < 0) {
 					hideRow(li);
 					continue;
 				}
 
-				if (outOfStock && convertToNumber(li.find("[data-tt-content-type='stock']").textContent) <= 0) {
+				if (outOfStock && convertToNumber(li.querySelector("[data-tt-content-type='stock']").textContent) <= 0) {
 					hideRow(li);
 					continue;
 				}
 
 				if (categories.length) {
-					const itemCategory = li.find("[data-tt-content-type='type']").textContent.split(" ")[1].toLowerCase();
+					const itemCategory = li.querySelector("[data-tt-content-type='type']").textContent.split(" ")[1].toLowerCase();
 					switch (itemCategory) {
 						case "plushie":
 							if (!categories.includes("plushie")) {

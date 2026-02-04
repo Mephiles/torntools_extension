@@ -17,7 +17,7 @@
 	async function addIndicator() {
 		const basicInfo = await requireElement(".profile-container .row.basic-info > *:first-child");
 
-		document.find("#skip-to-content").insertAdjacentElement(
+		document.querySelector("#skip-to-content").insertAdjacentElement(
 			"beforebegin",
 			elementBuilder({
 				type: "ul",
@@ -28,7 +28,7 @@
 	}
 
 	function removeIndicator() {
-		const addedIcon = document.find("#skip-to-content").parentElement.find(".tt-profile-icon");
+		const addedIcon = document.querySelector("#skip-to-content").parentElement.querySelector(".tt-profile-icon");
 		if (addedIcon) addedIcon.remove();
 	}
 })();

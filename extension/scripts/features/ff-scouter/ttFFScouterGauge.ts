@@ -134,7 +134,7 @@
 							const percent = convertFFToPercentage(ff);
 							element.style.setProperty("--band-percent", percent.toString());
 
-							element.find(".tt-ff-scouter-arrow")?.remove();
+							element.querySelector(".tt-ff-scouter-arrow")?.remove();
 
 							let arrow: string;
 							if (percent < 33) {

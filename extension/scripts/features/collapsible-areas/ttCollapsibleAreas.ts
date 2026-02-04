@@ -21,8 +21,8 @@
 	let observer: MutationObserver | undefined;
 
 	async function addCollapseIcon() {
-		const title = document.find("h2=Areas");
-		if (title.classList.contains("tt-title-torn")) return;
+		const title = findElementWithText("h2", "Areas");
+		if (!isElement(title) || title.classList.contains("tt-title-torn")) return;
 
 		const header = title.parentElement;
 
@@ -43,17 +43,17 @@
 	async function removeCollapseIcon() {
 		if (observer) observer.disconnect();
 
-		const header = document.find("h2=Areas");
-		if (!header) return;
+		const header = findElementWithText("h2", "Areas");
+		if (!isElement(header)) return;
 
 		header.classList.remove("tt-title-torn", "collapsed");
 		header.removeEventListener("click", clickListener);
 
-		if (header.find(".icon")) header.find(".icon").remove();
+		if (header.querySelector(".icon")) header.querySelector(".icon").remove();
 	}
 
 	async function clickListener() {
-		const header = document.find("h2=Areas").parentElement;
+		const header = findElementWithText("h2", "Areas").parentElement;
 		const collapsed = header.classList.toggle("collapsed");
 
 		await ttStorage.change({ filters: { containers: { collapseAreas: collapsed } } });

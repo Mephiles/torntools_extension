@@ -18,7 +18,7 @@
 		await requireElement("#education-root [class*='categoryItem__']");
 
 		for (const category of findAllElements("#education-root [class*='categoryItem__']")) {
-			if (category.find("[class*='progressCounter__'] [class*='checkIconContainer__']")) category.classList.add("tt-grey");
+			if (category.querySelector("[class*='progressCounter__'] [class*='checkIconContainer__']")) category.classList.add("tt-grey");
 		}
 	}
 

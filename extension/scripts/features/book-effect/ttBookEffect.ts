@@ -24,9 +24,9 @@
 
 	function addEffects() {
 		findAllElements("[data-category='Book']").forEach((book) => {
-			if (book.find(".tt-book-effect")) return;
+			if (book.querySelector(".tt-book-effect")) return;
 
-			book.find(".name-wrap .qty.t-hide").insertAdjacentElement(
+			book.querySelector(".name-wrap .qty.t-hide").insertAdjacentElement(
 				"afterend",
 				elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
 			);

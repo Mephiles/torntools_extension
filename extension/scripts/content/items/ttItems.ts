@@ -59,7 +59,7 @@ const pendingActions: { [key: string]: ActionItem } = {};
 				if (!tab) return;
 
 				new MutationObserver((_mutations, observer) => {
-					if (document.find("li.ajax-item-loader")) return;
+					if (document.querySelector("li.ajax-item-loader")) return;
 
 					triggerCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab, initial: false });
 
@@ -71,7 +71,7 @@ const pendingActions: { [key: string]: ActionItem } = {};
 
 			if (action === "equip" && hasAPIData()) {
 				const responseElement = elementBuilder({ type: "div", html: xhr.response });
-				const textElement = responseElement.find("h5, [data-status]");
+				const textElement = responseElement.querySelector("h5, [data-status]");
 
 				if (textElement) {
 					const text = textElement.textContent.trim();
@@ -104,7 +104,7 @@ const pendingActions: { [key: string]: ActionItem } = {};
 	});
 
 	function getCurrentTab() {
-		return document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
+		return document.querySelector<HTMLElement>("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
 	}
 })();
 

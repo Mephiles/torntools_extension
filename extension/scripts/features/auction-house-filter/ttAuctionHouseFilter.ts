@@ -46,7 +46,7 @@
 
 		const { content } = createContainer("Auction House Filter", {
 			class: "mt10",
-			nextElement: document.find("#auction-house-tabs"),
+			nextElement: document.querySelector("#auction-house-tabs"),
 			filter: true,
 		});
 
@@ -240,10 +240,10 @@
 	};
 
 	function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
-		const id = row.find<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1];
+		const id = row.querySelector<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1];
 
 		if (filters.name) {
-			if (!row.find(".item-name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
+			if (!row.querySelector(".item-name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
 				hide("name");
 				return;
 			}
@@ -263,7 +263,7 @@
 		if (filters.damage && !isNaN(parseFloat(filters.damage))) {
 			const damage = parseFloat(filters.damage);
 
-			const weaponDamageLabel = row.find(".bonus-attachment-item-damage-bonus + .label-value");
+			const weaponDamageLabel = row.querySelector(".bonus-attachment-item-damage-bonus + .label-value");
 			if (!weaponDamageLabel) {
 				hide("damage");
 				return;
@@ -277,7 +277,7 @@
 		if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
 			const accuracy = parseFloat(filters.accuracy);
 
-			const weaponAccuracyLabel = row.find(".bonus-attachment-item-accuracy-bonus + .label-value");
+			const weaponAccuracyLabel = row.querySelector(".bonus-attachment-item-accuracy-bonus + .label-value");
 			if (!weaponAccuracyLabel) {
 				hide("accuracy");
 				return;
@@ -291,7 +291,7 @@
 		if (filters.defence && !isNaN(parseFloat(filters.defence))) {
 			const defence = parseFloat(filters.defence);
 
-			const armorDefenceLabel = row.find(".bonus-attachment-item-defence-bonus + .label-value");
+			const armorDefenceLabel = row.querySelector(".bonus-attachment-item-defence-bonus + .label-value");
 			if (!armorDefenceLabel) {
 				hide("defence");
 				return;
@@ -303,13 +303,13 @@
 			}
 		}
 		if (filters.set) {
-			if (row.find(".item-cont-wrap .item-name").textContent.split(" ")[0].toLowerCase() !== filters.set) {
+			if (row.querySelector(".item-cont-wrap .item-name").textContent.split(" ")[0].toLowerCase() !== filters.set) {
 				hide("set");
 				return;
 			}
 		}
 		if (filters.quality && filters.quality !== "all") {
-			const weaponQualityMatch = row.find(".item-plate").className.match(/yellow|orange|red/);
+			const weaponQualityMatch = row.querySelector(".item-plate").className.match(/yellow|orange|red/);
 			const weaponQuality = weaponQualityMatch ? weaponQualityMatch[0] : "none";
 			if (weaponQuality !== filters.quality) {
 				hide("quality");
@@ -319,7 +319,7 @@
 		if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
 			const bonus = parseFloat(filters.armorBonus);
 
-			if (convertToNumber(row.find(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title")) < bonus) {
+			if (convertToNumber(row.querySelector(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title")) < bonus) {
 				hide("bonus");
 				return;
 			}

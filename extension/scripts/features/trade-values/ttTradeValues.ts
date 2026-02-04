@@ -74,7 +74,7 @@
 			side.classList.add("tt-modified");
 			let totalValue = 0;
 
-			const cashInTrade = side.find(".cont .color1 .desc > li .name");
+			const cashInTrade = side.querySelector(".cont .color1 .desc > li .name");
 			if (cashInTrade && cashInTrade.textContent.trim() !== "No money in trade")
 				totalValue += parseInt(cashInTrade.textContent.match(/\$([\d,]*)/i)[1].replaceAll(",", ""));
 
@@ -138,7 +138,7 @@
 				children: [checkbox],
 			});
 
-			side.find(".title-black").appendChild(wrap);
+			side.querySelector(".title-black").appendChild(wrap);
 		}
 	}
 

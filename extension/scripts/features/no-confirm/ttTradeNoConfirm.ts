@@ -23,7 +23,7 @@
 	async function removeConfirmation() {
 		await requireElement("#trade-container .trade-cont");
 
-		const link = document.find(".trade-cancel a.accept");
+		const link = document.querySelector(".trade-cancel a.accept");
 		if (!link) return;
 
 		let url = link.getAttribute("href");

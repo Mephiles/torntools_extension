@@ -40,9 +40,9 @@
 		markTravelTableColumns();
 
 		document.body.classList.add("tt-travel-profits");
-		const market = document.find("#travel-root");
+		const market = document.querySelector("#travel-root");
 		for (const headings of findAllElements("[class*='stockTableWrapper__'] [class*='itemsHeader__']", market)) {
-			if (!headings.find(".tt-travel-market-heading")) {
+			if (!headings.querySelector(".tt-travel-market-heading")) {
 				const profitHeading = elementBuilder({
 					type: "div",
 					text: "Profit",
@@ -51,7 +51,7 @@
 						ttContentType: "profit",
 					},
 				});
-				headings.insertBefore(profitHeading, headings.find("[class*='tabletColC__']"));
+				headings.insertBefore(profitHeading, headings.querySelector("[class*='tabletColC__']"));
 			}
 			await requireElement("[class*='stockTableWrapper___'] > li");
 			const rows = findAllElements("[class*='stockTableWrapper___'] > li:not(:has([data-tt-content-type='profit']))");
@@ -60,12 +60,12 @@
 			const sellAnonymously = filters.abroadItems.taxes.includes("anonymous");
 
 			for (const row of rows) {
-				const imageElement = row.find<HTMLImageElement>("[data-tt-content-type='item'] img");
+				const imageElement = row.querySelector<HTMLImageElement>("[data-tt-content-type='item'] img");
 				if (!imageElement) continue;
 
 				const id = convertToNumber(imageElement.srcset.split(" ")[0]);
 				const marketPrice = torndata.items[id].market_value;
-				const buyPrice = convertToNumber(row.find("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent);
+				const buyPrice = convertToNumber(row.querySelector("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent);
 
 				const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;
 				const anonymousTax = sellAnonymously ? Math.ceil((marketPrice * ANONYMOUS_TAX) / 100) : 0;
@@ -90,14 +90,14 @@
 				else if (buyPrice < marketPrice) span.classList.add("tt-color-green");
 
 				span.appendChild(innerSpan);
-				row.find(":scope > div[class*='row__']").insertBefore(span, row.find("[data-tt-content-type='stock']"));
+				row.querySelector(":scope > div[class*='row__']").insertBefore(span, row.querySelector("[data-tt-content-type='stock']"));
 			}
 		}
 	}
 
 	function removeProfitsColumn() {
 		document.documentElement.classList.remove("tt-travel-profits");
-		document.find(".travel-agency-market.tt-travel-profits-table")?.classList.remove("tt-travel-profits-table");
+		document.querySelector(".travel-agency-market.tt-travel-profits-table")?.classList.remove("tt-travel-profits-table");
 		findAllElements(".tt-travel-market-heading, .tt-travel-market-cell").forEach((x) => x.remove());
 	}
 })();

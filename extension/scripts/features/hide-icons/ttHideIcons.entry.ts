@@ -19,12 +19,12 @@
 
 	function initialiseHideIcons() {
 		const selector = "#sidebarroot ul[class*='status-icons_']";
-		if (document.find(selector)) {
+		if (document.querySelector(selector)) {
 			new MutationObserver((_mutations, observer) => {
 				observer.disconnect();
 				moveIcons();
-				observer.observe(document.find(selector), { childList: true, attributes: true });
-			}).observe(document.find(selector), { childList: true, attributes: true });
+				observer.observe(document.querySelector(selector), { childList: true, attributes: true });
+			}).observe(document.querySelector(selector), { childList: true, attributes: true });
 		}
 	}
 

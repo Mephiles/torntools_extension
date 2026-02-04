@@ -19,7 +19,7 @@
 	}
 
 	async function showZalgo() {
-		const root = document.find("#chatRoot");
+		const root = document.querySelector("#chatRoot");
 		if (!root) return;
 
 		root.classList.remove("no-zalgo");

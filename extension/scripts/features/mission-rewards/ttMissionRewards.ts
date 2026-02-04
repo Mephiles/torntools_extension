@@ -29,14 +29,14 @@
 	async function showRewards() {
 		await requireElement("ul.rewards-list li");
 
-		const credits = parseInt(document.find(".total-mission-points").textContent.replace(",", ""));
+		const credits = parseInt(document.querySelector(".total-mission-points").textContent.replace(",", ""));
 
 		for (const reward of findAllElements(".rewards-list li")) {
 			const information = JSON.parse(reward.dataset.ammoInfo);
 			const { points, basicType: type } = information;
 
 			// Show if you can afford it.
-			const actionsWrap = reward.find(".act-wrap");
+			const actionsWrap = reward.querySelector(".act-wrap");
 			actionsWrap.classList.add("tt-mission-reward", credits < points ? "not-affordable" : "affordable");
 
 			if (type === "Ammo") {
@@ -57,7 +57,7 @@
 							}),
 						],
 					}),
-					actionsWrap.find(".actions")
+					actionsWrap.querySelector(".actions")
 				);
 				reward.classList.add("tt-modified");
 			} else if (type === "Item") {
@@ -68,7 +68,7 @@
 				const totalValue = amount * value;
 
 				reward
-					.find(".img-wrap")
+					.querySelector(".img-wrap")
 					.appendChild(elementBuilder({ type: "span", class: "tt-mission-reward-individual", text: formatNumber(value, { currency: true }) }));
 
 				actionsWrap.insertBefore(
@@ -99,7 +99,7 @@
 							}),
 						],
 					}),
-					actionsWrap.find(".actions")
+					actionsWrap.querySelector(".actions")
 				);
 				reward.classList.add("tt-modified");
 			}

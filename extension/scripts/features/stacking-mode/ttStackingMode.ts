@@ -33,7 +33,7 @@
 			attackButton.classList.add("tt-mouse-block");
 			attackButton.appendChild(stackBlockSvg());
 
-			if (miniProfile.find(".profile-container").classList.contains("hospital")) {
+			if (miniProfile.querySelector(".profile-container").classList.contains("hospital")) {
 				const reviveButton = await requireElement(".profile-button-revive", { parent: miniProfile });
 				reviveButton.classList.add("tt-mouse-block");
 				reviveButton.appendChild(stackBlockSvg());

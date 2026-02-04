@@ -41,18 +41,18 @@
 		const stockForm: Element = await requireElement("form[action*='stock']");
 		const storageCapacity = findAllElements(".storage-capacity > *", stockForm).map((x) => convertToNumber(x.dataset.initial));
 		const usableCapacity = storageCapacity[1] - storageCapacity[0];
-		const totalSoldDaily = convertToNumber(stockForm.find(".stock-list > li.total .sold-daily").textContent);
+		const totalSoldDaily = convertToNumber(stockForm.querySelector(".stock-list > li.total .sold-daily").textContent);
 		console.log(storageCapacity, usableCapacity, totalSoldDaily);
 
 		findAllElements(".stock-list > li:not(.total):not(.quantity)", stockForm).forEach((stockItem) => {
-			const soldDaily = convertToNumber(stockItem.find(".sold-daily").lastChild.textContent);
+			const soldDaily = convertToNumber(stockItem.querySelector(".sold-daily").lastChild.textContent);
 
 			let neededStock = dropDecimals((soldDaily / totalSoldDaily) * usableCapacity);
 			neededStock = Math.max(0, neededStock);
 
 			console.log(soldDaily, neededStock);
 
-			updateReactInput(stockItem.find("input"), neededStock, { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
+			updateReactInput(stockItem.querySelector("input"), neededStock, { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
 		});
 	}
 })();

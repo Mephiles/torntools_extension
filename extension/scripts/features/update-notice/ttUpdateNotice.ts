@@ -23,11 +23,11 @@
 			return;
 		}
 
-		if (document.find("#ttUpdateNotice")) return;
+		if (document.querySelector("#ttUpdateNotice")) return;
 
 		const currentVersion = chrome.runtime.getManifest().version;
 
-		const parent = document.find("h2=Areas").parentElement.nextElementSibling;
+		const parent = findElementWithText("h2", "Areas").parentElement.nextElementSibling;
 		parent.insertBefore(
 			elementBuilder({
 				type: "div",
@@ -52,7 +52,7 @@
 	}
 
 	function removeNotice() {
-		const notice = document.find("#ttUpdateNotice");
+		const notice = document.querySelector("#ttUpdateNotice");
 		if (notice) notice.remove();
 	}
 

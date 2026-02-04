@@ -18,6 +18,6 @@ window.addEventListener("tt-efficient-rehab", (event: CustomEventInit<EfficientR
 		: (+$slider.get(0).clientWidth / (100 - rehabPercentages[1])) * (percentage - rehabPercentages[1]) || 0;
 
 	$slider.slider("value", percentage).slider("option", "slide")({}, { value: $slider.slider("value") });
-	$slider.find(".range-slider-track").css("left", sliderWidth);
+	$slider.querySelector(".range-slider-track").css("left", sliderWidth);
 });
 window.dispatchEvent(new CustomEvent("tt-injected--efficient-rehab"));

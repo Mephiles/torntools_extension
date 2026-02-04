@@ -19,7 +19,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.STATE_CHANGED].push(() => {
 			if (!feature.enabled()) return;
 
-			const setting = document.find(".tt-settings");
+			const setting = document.querySelector(".tt-settings");
 			if (!setting) return;
 
 			new MutationObserver((_mutations, observer) => {
@@ -67,7 +67,7 @@
 					}),
 				],
 			});
-			const tornContent = document.find(".content-wrapper[role*='main']");
+			const tornContent = document.querySelector<HTMLElement>(".content-wrapper[role*='main']");
 
 			tornContent.style.visibility = "hidden";
 			tornContent.insertAdjacentElement("afterend", returnToTorn);
@@ -81,7 +81,7 @@
 				document.body.classList.remove("tt-align-left");
 			});
 		});
-		document.find(".areasWrapper [class*='toggle-content__']").appendChild(ttSettingsDiv);
+		document.querySelector(".areasWrapper [class*='toggle-content__']").appendChild(ttSettingsDiv);
 	}
 
 	function messageListener(event: MessageEvent) {
@@ -103,7 +103,9 @@
 								events: {
 									click: () => {
 										document.getElementById("saveSettingsBar").classList.add("tt-hidden");
-										document.find<HTMLIFrameElement>("#tt-settings-iframe").contentWindow.postMessage({ torntools: 1, revert: 1 }, "*");
+										document
+											.querySelector<HTMLIFrameElement>("#tt-settings-iframe")
+											.contentWindow.postMessage({ torntools: 1, revert: 1 }, "*");
 									},
 								},
 							}),
@@ -114,7 +116,9 @@
 								events: {
 									click: () => {
 										document.getElementById("saveSettingsBar").classList.add("tt-hidden");
-										document.find<HTMLIFrameElement>("#tt-settings-iframe").contentWindow.postMessage({ torntools: 1, save: 1 }, "*");
+										document
+											.querySelector<HTMLIFrameElement>("#tt-settings-iframe")
+											.contentWindow.postMessage({ torntools: 1, save: 1 }, "*");
 									},
 								},
 							}),
@@ -133,7 +137,7 @@
 	function removeLink() {
 		findAllElements(".tt-back, .tt-settings, #tt-settings-iframe, #saveSettingsBar").forEach((x) => x.remove());
 
-		const tornContent = document.find(".content-wrapper[role*='main']");
+		const tornContent = document.querySelector<HTMLElement>(".content-wrapper[role*='main']");
 		if (tornContent.style.display === "none") tornContent.style.display = "block";
 
 		document.body.classList.remove("tt-align-left");

@@ -22,14 +22,14 @@
 			const selection = range.toString().replaceAll(",", "").trim();
 
 			const panel = (event.target as Element).closest("div.panel-group");
-			const selectionsInput = panel.find<HTMLInputElement>("input[id*=selections]");
+			const selectionsInput = panel.querySelector<HTMLInputElement>("input[id*=selections]");
 
 			if (event.ctrlKey) {
 				if (selectionsInput.value.trim() === "") selectionsInput.value = selection;
 				else if (!selectionsInput.value.includes(selection)) selectionsInput.value += "," + selection;
 			} else {
 				selectionsInput.value = selection;
-				panel.find("button").click();
+				panel.querySelector("button").click();
 			}
 		});
 	});

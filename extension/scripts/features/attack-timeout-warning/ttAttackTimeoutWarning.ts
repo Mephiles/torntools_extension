@@ -22,7 +22,7 @@
 
 		await requireElement("[class*='playerArea__'] [class*='playerWindow__']");
 
-		const dialogButtons = document.find("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']");
+		const dialogButtons = document.querySelector("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']");
 		if (dialogButtons) {
 			if (dialogButtons.childElementCount === 0) return;
 
@@ -34,7 +34,7 @@
 		const timeoutValue = await requireElement("span[id^='timeout-value'], [class*='labelContainer___']:nth-child(2) [class*='labelTitle___']");
 
 		observer = new MutationObserver((mutations) => {
-			if (document.find("div[class^='dialogButtons_']")) {
+			if (document.querySelector("div[class^='dialogButtons_']")) {
 				observer.disconnect();
 				observer = undefined;
 				return;

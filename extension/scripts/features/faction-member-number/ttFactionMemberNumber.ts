@@ -32,17 +32,17 @@
 	async function addNumbers(force: boolean) {
 		if (!force && isOwnFaction && getFactionSubpage() !== "info") return;
 
-		if (document.find(".tt-member-index")) return;
+		if (document.querySelector(".tt-member-index")) return;
 		await requireElement(".faction-info-wrap .table-body > .table-row");
 
-		const list = document.find(".faction-info-wrap .members-list");
+		const list = document.querySelector(".faction-info-wrap .members-list");
 		if (list.classList.contains("tt-modified")) return;
 		list.classList.add("tt-modified");
 
 		let reduced = 0;
 		findAllElements(".table-body > .table-row", list).forEach((row, index) => {
 			let text: string;
-			if (row.find(".icons li[id*='icon77___']")) {
+			if (row.querySelector(".icons li[id*='icon77___']")) {
 				text = "-";
 				reduced++;
 			} else {
@@ -55,6 +55,6 @@
 
 	function removeNumbers() {
 		findAllElements(".tt-member-index").forEach((element) => element.remove());
-		document.find(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
+		document.querySelector(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
 	}
 })();

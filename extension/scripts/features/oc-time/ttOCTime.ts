@@ -49,7 +49,7 @@
 			}
 		}
 
-		document.find(".tt-sidebar-information").appendChild(
+		document.querySelector(".tt-sidebar-information").appendChild(
 			elementBuilder({
 				type: "section",
 				id: "ocTimer",
@@ -60,7 +60,7 @@
 	}
 
 	function removeTimer() {
-		const timer = document.find("#ocTimer");
+		const timer = document.querySelector("#ocTimer");
 		if (timer) timer.remove();
 	}
 

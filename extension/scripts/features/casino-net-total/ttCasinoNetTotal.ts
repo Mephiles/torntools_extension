@@ -54,7 +54,7 @@
 
 			const totalLost = parseInt(totalLostElement.textContent.replace(/[$, ]/g, ""));
 
-			if (document.find(`.${statsType}-stats-wrap .tt-net-total`)) return;
+			if (document.querySelector(`.${statsType}-stats-wrap .tt-net-total`)) return;
 
 			await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
 			totalLostElement.closest("li:not(.stat-value)").insertAdjacentElement(

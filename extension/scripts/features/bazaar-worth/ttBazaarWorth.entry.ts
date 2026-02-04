@@ -62,7 +62,7 @@
 					ttCache.set({ [bazaarUserId]: result.bazaar }, TO_MILLIS.SECONDS * 30, "bazaar");
 				})
 				.catch((error) => {
-					document.find(".info-msg-cont .msg").appendChild(
+					document.querySelector(".info-msg-cont .msg").appendChild(
 						elementBuilder({
 							type: "div",
 							class: "tt-bazaar-text",
@@ -85,10 +85,10 @@
 			}
 
 			await requireElement("[class*='preloader___']:not(.undefined)", { invert: true });
-			const text = document.find(".tt-bazaar-text span");
+			const text = document.querySelector(".tt-bazaar-text span");
 			if (text) text.textContent = formatNumber(total, { currency: true });
 			else {
-				const message = document.find(".info-msg-cont .msg");
+				const message = document.querySelector(".info-msg-cont .msg");
 				if (!message) return;
 
 				observerText(message, bazaar);
@@ -103,7 +103,7 @@
 			}
 		}
 
-		function observerText(message: HTMLElement, items: (UserV1BazaarItem | BazaarFetchItem)[]) {
+		function observerText(message: Element, items: (UserV1BazaarItem | BazaarFetchItem)[]) {
 			const observer = new MutationObserver((mutations) => {
 				if (mutations.every((m) => m.removedNodes.length === 0)) return;
 
@@ -118,6 +118,6 @@
 	}
 
 	function removeWorth() {
-		document.find(".tt-bazaar-text")?.remove();
+		document.querySelector(".tt-bazaar-text")?.remove();
 	}
 })();

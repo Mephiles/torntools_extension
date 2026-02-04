@@ -67,7 +67,7 @@
 
 		const { content, options } = createContainer("Faction Quick Items", {
 			class: "mt10",
-			nextElement: document.find("#faction-armoury > hr"),
+			nextElement: document.querySelector("#faction-armoury > hr"),
 			allowDragging: true,
 			compact: true,
 		});
@@ -83,7 +83,7 @@
 					click: (event) => {
 						event.stopPropagation();
 
-						const enabled = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+						const enabled = options.querySelector("#edit-items-button").classList.toggle("tt-overlay-item");
 						isEditing = enabled;
 
 						const content = findContainer("Faction Quick Items", { selector: ":scope > main" });
@@ -100,7 +100,7 @@
 						for (const category of findAllElements("#faction-armoury-tabs .torn-tabs > li")) {
 							if (
 								!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(
-									category.find("a.ui-tabs-anchor").textContent.trim()
+									category.querySelector("a.ui-tabs-anchor").textContent.trim()
 								)
 							)
 								continue;
@@ -113,8 +113,8 @@
 							else item.classList.remove("tt-overlay-item-notbroken");
 						}
 
-						if (enabled) document.find(".tt-overlay").classList.remove("tt-hidden");
-						else document.find(".tt-overlay").classList.add("tt-hidden");
+						if (enabled) document.querySelector(".tt-overlay").classList.remove("tt-hidden");
+						else document.querySelector(".tt-overlay").classList.add("tt-hidden");
 
 						attachEditListeners(enabled);
 					},
@@ -131,7 +131,7 @@
 
 	function setupQuickDragListeners() {
 		const enableDrag = !mobile && !tablet;
-		const tab = document.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
+		const tab = document.querySelector("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
 
 		if (tab.id === "armoury-points") {
 			for (const item of findAllElements(".give[data-role]", tab)) {
@@ -155,9 +155,9 @@
 			}
 		} else {
 			for (const item of findAllElements(".item-list > li", tab)) {
-				const imgWrap = item.find(".img-wrap");
+				const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
+				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.querySelector(".type")?.textContent)) continue;
 
 				if (enableDrag) {
 					item.setAttribute("draggable", "true");
@@ -171,10 +171,10 @@
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
-				document.find("#factionQuickItems > main").classList.add("drag-progress");
-				if (document.find("#factionQuickItems .temp.item")) return;
+				document.querySelector("#factionQuickItems > main").classList.add("drag-progress");
+				if (document.querySelector("#factionQuickItems .temp.item")) return;
 
-				const _id = (event.target as Element).find(".img-wrap").dataset.itemid;
+				const _id = (event.target as Element).querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 				const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 				addQuickItem({ id }, true);
@@ -182,11 +182,11 @@
 		}
 
 		async function onDragEnd() {
-			if (document.find("#factionQuickItems .temp.item")) {
-				document.find("#factionQuickItems .temp.item").remove();
+			if (document.querySelector("#factionQuickItems .temp.item")) {
+				document.querySelector("#factionQuickItems .temp.item").remove();
 			}
 
-			document.find("#factionQuickItems > main").classList.remove("drag-progress");
+			document.querySelector("#factionQuickItems > main").classList.remove("drag-progress");
 
 			await saveQuickItems();
 		}
@@ -194,12 +194,12 @@
 
 	function addQuickItem(data: { id: string | number }, temporary = false) {
 		const content = findContainer("Faction Quick Items", { selector: ":scope > main" });
-		const innerContent = content.find(".inner-content");
-		const responseWrap = content.find(".response-wrap");
+		const innerContent = content.querySelector(".inner-content");
+		const responseWrap = content.querySelector<HTMLElement>(".response-wrap");
 
 		const { id } = data;
 
-		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
+		if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
 		if (!allowQuickItem(id, typeof id === "number" ? getTornItemType(id) : null)) return null;
 
 		const itemWrap = elementBuilder({
@@ -456,9 +456,9 @@
 	function attachEditListeners(enabled: boolean) {
 		if (enabled) {
 			for (const item of findAllElements(".armoury-tabs .item-list > li")) {
-				const imgWrap = item.find(".img-wrap");
+				const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
+				if (!allowQuickItem(imgWrap.dataset.itemid, item.querySelector(".type")?.textContent)) continue;
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
@@ -467,9 +467,9 @@
 			}
 		} else {
 			for (const item of findAllElements(".armoury-tabs .item-list > li")) {
-				const imgWrap = item.find(".img-wrap");
+				const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
+				if (!allowQuickItem(imgWrap.dataset.itemid, item.querySelector(".type")?.textContent)) continue;
 
 				item.removeEventListener("click", onItemClickQuickEdit);
 			}
@@ -485,7 +485,7 @@
 
 		const _target = event.target as HTMLElement;
 		const target = _target.dataset.type === "tt-points" ? _target : findParent(_target, { tag: "LI" });
-		let _id = target.find(".img-wrap").dataset.itemid;
+		let _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 		const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 		const item = addQuickItem({ id }, false);
@@ -496,9 +496,9 @@
 
 	function setupOverlayItems(tab: Document | Element) {
 		for (const item of findAllElements(".item-list > li", tab)) {
-			const imgWrap = item.find(".img-wrap");
+			const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-			if (allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
+			if (allowQuickItem(parseInt(imgWrap.dataset.itemid), item.querySelector(".type")?.textContent)) continue;
 
 			item.classList.add("tt-overlay-ignore");
 		}

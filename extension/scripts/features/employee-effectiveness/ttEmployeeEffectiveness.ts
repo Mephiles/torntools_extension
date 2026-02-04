@@ -44,7 +44,7 @@
 			const multipliers = JSON.parse(row.dataset.multipliers) || [];
 			const reduction = multipliers.filter((multiplier: any) => multiplier < 0).reduce((a, b) => a + b, 0) * -1;
 
-			const element = row.find(".effectiveness-value");
+			const element = row.querySelector(".effectiveness-value");
 
 			if (reduction < settings.pages.companies.employeeEffectiveness) {
 				element.classList.remove("tt-employee-effectiveness"); // Live reload

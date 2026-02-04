@@ -34,7 +34,7 @@
 			.reduce((totalMultiplier, perkMultiplier) => totalMultiplier * perkMultiplier, 1);
 
 		findAllElements("[data-category='Energy Drink']").forEach((eCanElement) => {
-			if (eCanElement.find(".tt-e-gains")) return;
+			if (eCanElement.querySelector(".tt-e-gains")) return;
 
 			const baseEnergy = parseInt(
 				torndata.items[eCanElement.dataset.item].effect
@@ -49,7 +49,9 @@
 				totalEnergy *= 2;
 			}
 
-			eCanElement.find(".name-wrap").insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-e-gains", text: `${totalEnergy}E` }));
+			eCanElement
+				.querySelector(".name-wrap")
+				.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-e-gains", text: `${totalEnergy}E` }));
 		});
 	}
 

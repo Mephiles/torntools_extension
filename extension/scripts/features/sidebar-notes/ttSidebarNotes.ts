@@ -23,7 +23,7 @@
 			applyRounding: false,
 			contentBackground: false,
 			compact: true,
-			previousElement: findParent(document.find("h2=Information"), { class: "^=sidebar-block_" }),
+			previousElement: findParent(findElementWithText("h2", "Information"), { class: "^=sidebar-block_" }),
 		});
 
 		content.appendChild(

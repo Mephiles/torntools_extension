@@ -50,7 +50,7 @@ class DualRangeSlider {
 		this.handles = findAllElements(".handle", this.slider);
 
 		this.handles.forEach((handle) => {
-			const input = this.slider.find(`#${handle.getAttribute("for")}`);
+			const input = this.slider.querySelector<HTMLElement>(`#${handle.getAttribute("for")}`);
 
 			handle.addEventListener("mousedown", this.startMove.bind(this));
 			handle.addEventListener("touchstart", this.startMoveTouch.bind(this));
@@ -87,7 +87,7 @@ class DualRangeSlider {
 	moveKeyboard(event: KeyboardEvent) {
 		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
-		const handle = this.slider.find(`.handle[for="${(event.target as Element).id}"]`);
+		const handle = this.slider.querySelector<HTMLElement>(`.handle[for="${(event.target as Element).id}"]`);
 		if (!handle) return;
 
 		let value = parseInt(handle.dataset.value);

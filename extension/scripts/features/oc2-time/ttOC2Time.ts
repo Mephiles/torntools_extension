@@ -48,7 +48,7 @@
 			elements.push(elementBuilder({ type: "span", class: "countdown", text: "No crime joined." }));
 		}
 
-		document.find(".tt-sidebar-information").appendChild(
+		document.querySelector(".tt-sidebar-information").appendChild(
 			elementBuilder({
 				type: "section",
 				id: "oc2Timer",
@@ -118,7 +118,7 @@
 	}
 
 	function removeTimer() {
-		document.find("#oc2Timer")?.remove();
+		document.querySelector("#oc2Timer")?.remove();
 	}
 
 	return true;

@@ -38,12 +38,12 @@
 	function highlightEverything() {
 		const items = findAllElements("[class*='item__'] > [class*='itemDescription__']")
 			// filter out $1 items that you can't buy
-			.filter((element) => !element.find("[class*='isBlockedForBuying___'"))
+			.filter((element) => !element.querySelector("[class*='isBlockedForBuying___']"))
 			.map<HighlightableItem>((element) => {
 				return {
 					element,
-					id: convertToNumber(element.find("img").src),
-					price: convertToNumber(element.find("[class*='price___']").textContent),
+					id: convertToNumber(element.querySelector("img").src),
+					price: convertToNumber(element.querySelector("[class*='price___']").textContent),
 				};
 			})
 			.filter((item) => item.element);

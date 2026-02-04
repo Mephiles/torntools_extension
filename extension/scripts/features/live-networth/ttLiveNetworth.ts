@@ -28,7 +28,7 @@
 			showHeader: false,
 			applyRounding: false,
 			compact: true,
-			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),
+			parentElement: findElementWithText("h5", "General Information").parentElement.nextElementSibling.querySelector("ul.info-cont-wrap"),
 		});
 		const networthRow = newRow("(Live) Networth", formatNumber(userdata.networth.total, { currency: true }));
 
@@ -42,7 +42,7 @@
 				style: "margin-left: 9px;",
 			},
 		});
-		networthRow.find(".desc").appendChild(infoIcon);
+		networthRow.querySelector(".desc").appendChild(infoIcon);
 		content.appendChild(networthRow);
 
 		// Update 'last updated'

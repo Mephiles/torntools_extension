@@ -3,6 +3,6 @@
 
 	if (!settings.pages.api.autoDemo) return;
 
-	document.find("#documentation").style.setProperty("display", "none");
-	document.find("#demo").style.removeProperty("display");
+	document.querySelector<HTMLElement>("#documentation").style.setProperty("display", "none");
+	document.querySelector<HTMLElement>("#demo").style.removeProperty("display");
 })();

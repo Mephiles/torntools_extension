@@ -43,7 +43,7 @@
 		block.classList.add("tt-points-value");
 
 		const value = torndata.stats.points_averagecost;
-		const points = convertToNumber(block.find("span[class*='value___']").textContent);
+		const points = convertToNumber(block.querySelector("span[class*='value___']").textContent);
 
 		block.addEventListener("mouseover", () => {
 			for (const elements of findAllElements(":scope > span", block))
@@ -60,7 +60,7 @@
 	}
 
 	function removeValue() {
-		const block = document.find(".tt-points-value");
+		const block = document.querySelector(".tt-points-value");
 		if (!block) return;
 
 		block.classList.remove("tt-points-value");
