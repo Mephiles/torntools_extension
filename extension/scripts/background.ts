@@ -2088,7 +2088,7 @@ async function storeNotification(notification: TTNotification) {
 		return;
 	}
 
-	notificationHistory.insertAt(0, notification);
+	notificationHistory.splice(0, 0, notification);
 	notificationHistory = notificationHistory.slice(0, 100);
 
 	await ttStorage.set({ notificationHistory });

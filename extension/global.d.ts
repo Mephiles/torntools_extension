@@ -28,7 +28,6 @@ declare global {
 	}
 
 	interface Array<T> {
-		insertAt(index: number, ...values: T[]): void;
 		equals(other: T[]): boolean;
 	}
 

@@ -1789,7 +1789,7 @@ async function setupExport() {
 
 	async function getExportData(api: boolean): Promise<ExportData> {
 		const exportedKeys = ["version", "settings", "filters", "stakeouts", "notes", "quick"];
-		if (api) exportedKeys.insertAt(0, "api");
+		if (api) exportedKeys.splice(0, 0, "api");
 
 		const data: ExportData = {
 			user: false,

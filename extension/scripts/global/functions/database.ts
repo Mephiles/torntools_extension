@@ -401,7 +401,7 @@ async function migrateDatabase(force = false) {
 			if (index === -1) return stats;
 
 			const newStats = stats.filter((stat) => stat !== oldStat);
-			newStats.insertAt(index, newStat);
+			newStats.splice(index, 0, newStat);
 
 			return newStats;
 		}

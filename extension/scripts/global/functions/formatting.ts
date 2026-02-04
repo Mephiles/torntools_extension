@@ -271,7 +271,7 @@ function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions) {
 		parts.push(formatUnit(date.getUTCSeconds(), { normal: "second", short: "sec", extraShort: "s" }));
 
 	if (parts.length > 1 && !options.extraShort) {
-		parts.insertAt(parts.length - 1, "and");
+		parts.splice(parts.length - 1, 0, "and");
 	}
 
 	function formatUnit(amount: number, unit: FormattableUnit) {
