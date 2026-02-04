@@ -65,7 +65,7 @@ class FeatureManager {
 		// }, 12000);
 		window.addEventListener("error", (e) => {
 			// debugger;
-			this.logError("Uncaught window error:", e.error);
+			this.logError("Uncaught window error:", e.error ?? e.message);
 		});
 		window.addEventListener("unhandledrejection", (e) => {
 			const error = e.reason instanceof Error ? e.reason : new Error(e.reason);
@@ -104,7 +104,7 @@ class FeatureManager {
 		this.errorCount = this.errorCount + 1;
 		if (this.errorCount === 1) {
 			// Show error messages from first error.
-			document.find("#tt-page-status .error-messages").classList.add("show");
+			requireElement("#tt-page-status .error-messages").then((m) => m.classList.add("show"));
 		}
 
 		if (Array.isArray(info)) {
@@ -112,7 +112,7 @@ class FeatureManager {
 		} else {
 			info = [this.logPadding + info];
 		}
-		if (error && "stack" in error) {
+		if (error && typeof error === "object" && "stack" in error) {
 			info.push(error.stack);
 		}
 		console.error(...info);
