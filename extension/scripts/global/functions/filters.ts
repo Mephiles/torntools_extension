@@ -180,7 +180,7 @@ function createFilterSection(
 		return null;
 	}
 
-	const ccTitle = options.title.camelCase(true) + "__section-class";
+	const ccTitle = camelCase(options.title) + "__section-class";
 	const section = elementBuilder({ type: "div", class: ccTitle, style: options.style });
 
 	if (!options.noTitle) section.appendChild(elementBuilder({ type: "strong", text: options.title }));
@@ -227,7 +227,7 @@ function createFilterSection(
 
 	if (isYNCheckboxesOptions(options)) {
 		options.ynCheckboxes.forEach((key) => {
-			const ccKey = key.camelCase(true);
+			const ccKey = camelCase(key);
 			const checkboxesDiv = elementBuilder({ type: "div", class: ccKey });
 			const yCheckbox = createCheckbox({ description: "Y:", reverseLabel: true });
 			const nCheckbox = createCheckbox({ description: "N:", reverseLabel: true });

@@ -26,7 +26,7 @@ interface Container {
 
 function createContainer(title: string, partialOptions: Partial<ContainerOptions> & ContainerPosition): Container {
 	const options: ContainerOptions = {
-		id: title.camelCase(true),
+		id: camelCase(title),
 		class: undefined,
 		showHeader: true,
 		onlyHeader: false,
@@ -121,7 +121,7 @@ interface FindContainerOptions {
 
 function findContainer(title: string, partialOptions: Partial<FindContainerOptions> = {}): HTMLElement | null {
 	const options: FindContainerOptions = {
-		id: title.camelCase(true),
+		id: camelCase(title),
 		selector: undefined,
 		...partialOptions,
 	};

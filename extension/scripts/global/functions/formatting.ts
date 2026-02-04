@@ -15,13 +15,9 @@ Number.prototype.roundNearest = function (multiple: number) {
 	return Math.round((this as number) / multiple) * multiple;
 };
 
-interface String {
-	camelCase(lowerCamelCase: boolean): string;
+function camelCase(text: string, lowerCamelCase: boolean = true): string {
+	return (text.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + text.slice(1)).trim().replaceAll(" ", "");
 }
-
-String.prototype.camelCase = function (lowerCamelCase) {
-	return (this.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + this.slice(1)).trim().replaceAll(" ", "");
-};
 
 function convertToNumber(string: string | undefined | null): number {
 	if (!string) return NaN;
