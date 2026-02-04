@@ -44,7 +44,8 @@
 			}
 		}
 
-		navGym.classList.removeSpecial("^=available___");
+		const availableClass = Array.from(navGym.classList).find((className) => className.startsWith("available___"));
+		if (availableClass) navGym.classList.remove(availableClass);
 	}
 
 	function removeHiddenHighlight() {

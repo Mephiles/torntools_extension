@@ -100,24 +100,6 @@ Object.defineProperty(DOMTokenList.prototype, "contains", {
 	},
 	enumerable: false,
 });
-Object.defineProperty(DOMTokenList.prototype, "removeSpecial", {
-	value(this: DOMTokenList, className: string): void {
-		const classes = [...this];
-		if (className.startsWith("^=")) {
-			className = className.substring(2, className.length);
-
-			for (const name of classes) {
-				if (!name.startsWith(className)) continue;
-
-				this.remove(name);
-				break;
-			}
-		} else {
-			this.remove(className);
-		}
-	},
-	enumerable: false,
-});
 
 function _find(element: ParentNode, selector: string, options: Partial<FindOptions> = {}): Element {
 	options = {

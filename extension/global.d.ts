@@ -21,7 +21,6 @@ declare global {
 
 	interface DOMTokenList {
 		contains(className: string): boolean;
-		removeSpecial(className: string): void;
 	}
 
 	interface Number {
