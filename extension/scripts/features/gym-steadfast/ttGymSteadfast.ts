@@ -85,7 +85,7 @@
 
 		const maxBonus = Object.values(bonus)
 			.map((x) => x.filter((y) => ["company", "faction"].includes(y.source)).length)
-			.findHighest();
+			.reduce((a, b) => Math.max(a, b), 0);
 
 		for (const [stat, perks] of Object.entries(bonus)) {
 			if (perks.length < 1) continue;

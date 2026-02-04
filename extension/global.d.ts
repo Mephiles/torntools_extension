@@ -32,8 +32,6 @@ declare global {
 		last(): T;
 		insertAt(index: number, ...values: T[]): void;
 		totalSum(): number;
-		findHighest(): number;
-		findLowest(): number;
 		equals(other: T[]): boolean;
 	}
 
