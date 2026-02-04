@@ -609,7 +609,7 @@ async function updateUserdata(forceUpdate = false) {
 	async function processUserdata() {
 		if ("icons" in userdata) {
 			userdata.userCrime = userdata.icons.icon85
-				? userdata.timestamp * TO_MILLIS.SECONDS + textToTime(userdata.icons.icon85.split("-").last().trim())
+				? userdata.timestamp * TO_MILLIS.SECONDS + textToTime(userdata.icons.icon85.split("-").at(-1)!.trim())
 				: userdata.icons.icon86
 					? userdata.timestamp * TO_MILLIS.SECONDS
 					: -1;
@@ -633,7 +633,7 @@ async function updateUserdata(forceUpdate = false) {
 			}
 			if (events.length) {
 				// Remove profile links from event message
-				let message = events.last().event.replace(/<\/?[^>]+(>|$)/g, "");
+				let message = events.at(-1)!.event.replace(/<\/?[^>]+(>|$)/g, "");
 				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""})`;
 
 				notifications.events.combined = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
@@ -655,7 +655,7 @@ async function updateUserdata(forceUpdate = false) {
 				messageCount++;
 			}
 			if (messages.length) {
-				let message = `${messages.last().title} - by ${messages.last().name}`;
+				let message = `${messages.at(-1)!.title} - by ${messages.at(-1)!.name}`;
 				if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
 
 				notifications.messages.combined = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
@@ -1755,7 +1755,7 @@ async function updateNPCs() {
 			Object.entries(npc.levels)
 				.filter(([, time]) => time <= now)
 				.map(([level, time]) => ({ level: parseInt(level), time }))
-				?.last()?.level ?? 0
+				?.at(-1)?.level ?? 0
 		);
 	}
 

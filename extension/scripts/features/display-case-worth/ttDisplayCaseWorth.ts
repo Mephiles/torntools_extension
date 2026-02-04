@@ -23,7 +23,7 @@
 	}
 
 	async function addWorth() {
-		const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").last() : "";
+		const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
 		if (displayCaseUserId && !isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
 			await requireElement(".info-msg-cont .msg");
 			// TODO - Migrate to V2 (user/display).

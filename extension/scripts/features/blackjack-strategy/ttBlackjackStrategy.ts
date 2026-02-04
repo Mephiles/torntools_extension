@@ -551,7 +551,7 @@
 
 		function getWorth(card: any) {
 			let symbol: any;
-			if (typeof card === "string") symbol = card.split("-").last();
+			if (typeof card === "string") symbol = card.split("-").at(-1);
 			else symbol = card;
 
 			return isNaN(symbol) ? (symbol === "A" ? "A" : 10) : parseInt(symbol);

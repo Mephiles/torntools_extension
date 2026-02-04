@@ -12,12 +12,6 @@ const SCRIPT_TYPE = (() => {
 	}
 })();
 
-Object.defineProperty(Array.prototype, "last", {
-	value() {
-		return this[this.length - 1];
-	},
-	enumerable: false,
-});
 Object.defineProperty(Array.prototype, "insertAt", {
 	value(index: number, ...elements: any[]) {
 		this.splice(index, 0, ...elements);

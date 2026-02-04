@@ -53,7 +53,7 @@
 			".user-info-list-wrap > li",
 			(row) => ({
 				id: parseInt(row.find<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").last().trim()),
+				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 			}),
 			true
 		);

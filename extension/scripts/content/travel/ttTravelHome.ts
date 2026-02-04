@@ -31,7 +31,7 @@
 				)
 					return;
 
-				let country = (event.target as Element).parentElement.querySelector("img").src.replace(".png", "").split("/").last();
+				let country = (event.target as Element).parentElement.querySelector("img").src.replace(".png", "").split("/").at(-1);
 				if (country === "uk") country = "united_kingdom";
 
 				triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country });

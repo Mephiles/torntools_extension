@@ -80,7 +80,7 @@
 
 		const message = await new Promise<Element>((resolve) => {
 			new MutationObserver((mutations, observer) => {
-				const mutation = mutations.filter((mutation) => mutation.addedNodes.length).last();
+				const mutation = mutations.filter((mutation) => mutation.addedNodes.length).at(-1);
 				if (!mutation) return;
 
 				const node = mutation.addedNodes[0] as Element;

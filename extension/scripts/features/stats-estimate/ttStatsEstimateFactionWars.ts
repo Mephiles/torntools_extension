@@ -96,7 +96,7 @@
 				".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 				(row) => {
 					return {
-						id: parseInt(row.find(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.last()),
+						id: parseInt(row.find(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.at(-1)),
 						level: parseInt(row.find(".level").textContent.trim()),
 					};
 				},
