@@ -99,6 +99,7 @@
 				"scripts/global/elements/slider/ttSlider.js",
 				"scripts/global/elements/textbox/ttTextbox.js",
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.js",
+				"scripts/global/selectors/chatSelectors.js",
 				"resources/images/svg-icons/icon_128.js",
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/align-left/ttAlignLeft.entry.js",
@@ -124,6 +125,7 @@
 			],
 			"js": [
 				"resources/images/svg-icons/cross.js",
+				"scripts/content/global/ttGlobal.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/features/colored-chat/ttColoredChat.js",
 				"scripts/features/search-chat/ttSearchChat.js",
