@@ -73,7 +73,6 @@
 				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.css",
 				"scripts/features/align-left/ttAlignLeft.css",
 				"scripts/features/font-size/ttFontSize.css",
-				"scripts/features/block-zalgo/ttBlockZalgo.css",
 				"scripts/features/hide-chat/ttHideChat.css"
 			],
 			"js": [
@@ -104,7 +103,6 @@
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/align-left/ttAlignLeft.entry.js",
 				"scripts/features/font-size/ttFontSize.entry.js",
-				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
 				"scripts/features/hide-chat/ttHideChat.entry.js",
 				"scripts/features/ff-scouter/ff-scouter.js"
 			],
