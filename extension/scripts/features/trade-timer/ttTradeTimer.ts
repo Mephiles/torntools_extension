@@ -28,8 +28,9 @@
 		if (!tradeChat) tradeChat = getTradeChat();
 
 		if (!tradeChat) return;
+		await requireElement("[class*='loader___']", { parent: tradeChat, invert: true });
 
-		const sendButton = tradeChat.find("[class*='chat-box-footer__send-icon-wrapper__'], [class*='content___'] button");
+		const sendButton = tradeChat.find(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`);
 		sendButton.parentElement.classList.add("tt-modified");
 
 		if (!timer) {
@@ -59,10 +60,10 @@
 	}
 
 	function getTradeChat() {
-		const openChats = document.querySelectorAll("#chatRoot [class^='chat-box__'], div#public_trade");
+		const openChats = document.findAll(`#chatRoot [class^='chat-box__'], ${SELECTOR_CHAT_V3__TRADE_CHAT}`);
 		if (!openChats.length) return null;
 
-		return [...openChats].filter((chat) => chat.find("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade")?.[0];
+		return openChats.filter((chat) => chat.find("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade")?.[0];
 	}
 
 	function listenTradeChatInput(tradeChat: Element | null) {
@@ -73,10 +74,10 @@
 	}
 
 	async function onKeyUp(event: KeyboardEvent) {
-		if (event.key !== "Enter") return;
+		if (event.key !== "Enter" || !isElement(event.target)) return;
 
-		const tradeChat = (event.target as Element).closest("[class^='chat-box__'], [class*='root___']:has([class*='content___'])");
-		const chatBody = tradeChat.find("[class*='chat-box-body___'], [class*='list___']");
+		const tradeChat = event.target.closest(`[class^='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
+		const chatBody = tradeChat.find(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_LIST}`);
 
 		const message = await new Promise<Element>((resolve) => {
 			new MutationObserver((mutations, observer) => {
@@ -104,7 +105,7 @@
 		const tradeChat = getTradeChat();
 		if (!tradeChat) return;
 
-		tradeChat.find("[class*='chat-box-footer__send-icon-wrapper__'], [class*='content___'] button").parentElement.classList.remove("tt-modified");
+		tradeChat.find(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`).parentElement.classList.remove("tt-modified");
 
 		tradeChat.find("textarea").removeEventListener("keypress", onKeyUp);
 	}

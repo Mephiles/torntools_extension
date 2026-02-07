@@ -108,7 +108,9 @@
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
 						}
-						for (const item of document.findAll("#armoury-medical, #armoury-drugs, #armoury-boosters, #armoury-points, #armoury-consumables")) {
+						for (const item of document.findAll(
+							".armoury-medical-wrap, .armoury-drugs-wrap, .armoury-boosters-wrap, .armoury-points-wrap, .armoury-consumables-wrap, .armoury-temporary-wrap"
+						)) {
 							if (enabled) item.classList.add("tt-overlay-item-notbroken");
 							else item.classList.remove("tt-overlay-item-notbroken");
 						}
@@ -133,7 +135,7 @@
 		const enableDrag = !mobile && !tablet;
 		const tab = document.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
 
-		if (tab.id === "armoury-points") {
+		if (tab.id === "tab=armoury&sub=points") {
 			for (const item of tab.findAll(".give[data-role]")) {
 				const type = item.textContent.trim().split(" ")[1].toLowerCase();
 

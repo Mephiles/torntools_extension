@@ -7,13 +7,16 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Don't show the FF column more than once on the faction info tab.", "contributor": "DeKleineKobini" },
-				{ "message": "Reduce false positive errors from showing up.", "contributor": "DeKleineKobini" }
+				{ "message": "Reduce false positive errors from showing up.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix supply pack value not always showing up.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix faction quick items not being modifiable in the edit view.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt to the most recent chat v3 version, which broke all chat features.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve faction tab detection to avoid running listeners twice.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve error showing in the feature manager.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
+			"removed": [{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" }],
 			"technical": []
 		}
 	},
