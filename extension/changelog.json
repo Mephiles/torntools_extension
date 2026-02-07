@@ -14,7 +14,8 @@
 			],
 			"changes": [
 				{ "message": "Improve faction tab detection to avoid running listeners twice.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve error showing in the feature manager.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve error showing in the feature manager.", "contributor": "DeKleineKobini" },
+				{ "message": "Write a hint for the 'Inside Job' mission.", "contributor": "Taznister" }
 			],
 			"removed": [{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" }],
 			"technical": []
