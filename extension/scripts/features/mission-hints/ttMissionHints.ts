@@ -181,6 +181,7 @@
 			},
 			inside_job: {
 				task: "Attack (P) and secrete an item on them.",
+				hint: "Duke will send you the item upon accepting the contract. The Secrete option will appear after defeating (P), along with the other standard options to Leave, Mug and Hospitalize."
 			},
 			introduction_duke: {
 				task: "Complete 10 Duke contracts.",
