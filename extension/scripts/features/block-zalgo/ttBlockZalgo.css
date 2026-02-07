@@ -1,4 +1,0 @@
-.no-zalgo [class*="chat-box-message__box__"] p,
-.no-zalgo [class*="message___"] span {
-	overflow: hidden;
-}

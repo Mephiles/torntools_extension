@@ -33,8 +33,12 @@
 		}
 	}
 
-	function addAutocomplete(chat: HTMLElement) {
-		const messages = chat.findAll("[class*='chat-box-body__'] [class*='chat-box-message__box__'], [class*='scrollContainer___'] [class*='box___']");
+	async function addAutocomplete(chat: HTMLElement) {
+		await requireElement("[class*='loader___']", { parent: chat, invert: true });
+
+		const messages = chat.findAll(
+			`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`
+		);
 		if (!messages.length) return;
 
 		const textarea = chat.find<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
@@ -55,7 +59,7 @@
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = [...chat.findAll("[class*='chat-box-message__sender__'], [class*='sender___']")]
+			const matchedUsernames = [...chat.findAll(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`)]
 				.map((message) => message.textContent.split(":")[0])
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
 				.sort();
