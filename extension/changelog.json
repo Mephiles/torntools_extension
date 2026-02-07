@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Don't show the FF column more than once on the faction info tab.", "contributor": "DeKleineKobini" },
-				{ "message": "Reduce false positive errors from showing up.", "contributor": "DeKleineKobini" }
+				{ "message": "Reduce false positive errors from showing up.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix supply pack value not always showing up.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve faction tab detection to avoid running listeners twice.", "contributor": "DeKleineKobini" },
