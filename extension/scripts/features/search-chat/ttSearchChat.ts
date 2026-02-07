@@ -193,7 +193,6 @@
 			}
 		}
 
-		console.log("DKK search chat", message, keyword);
 		const messageText = message.find(`p, ${SELECTOR_CHAT_V3__MESSAGE_CONTENT}`).textContent.toLowerCase();
 		if (keyword && !messageText.includes(keyword)) {
 			message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");

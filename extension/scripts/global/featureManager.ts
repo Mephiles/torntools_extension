@@ -75,7 +75,6 @@ class FeatureManager {
 				)
 					return;
 
-				console.log("DKK error", e);
 				this.logError("Uncaught window error:", e);
 			}
 		});
