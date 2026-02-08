@@ -170,12 +170,12 @@ class FeatureManager {
 					],
 				});
 			} else if (error instanceof ErrorEvent) {
-				errorElement = document.newElement({
+				errorElement = elementBuilder({
 					type: "div",
 					class: "error",
 					children: [
-						document.newElement({ type: "div", class: "name", text: error.message }),
-						document.newElement({ type: "pre", class: "stack", text: `${error.filename}:${error.lineno}` }),
+						elementBuilder({ type: "div", class: "name", text: error.message }),
+						elementBuilder({ type: "pre", class: "stack", text: `${error.filename}:${error.lineno}` }),
 					],
 				});
 			}

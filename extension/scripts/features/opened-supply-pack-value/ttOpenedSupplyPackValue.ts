@@ -34,7 +34,9 @@
 			if (!isUseItem(params.get("step"), json) || !json.success) return;
 
 			if (json && json.itemID) itemID = parseInt(json.itemID);
-			else itemID = convertToNumber(params.get("id")) ?? params.get("itemID")?.getNumber() ?? itemID;
+			else if (params.has("id")) itemID = convertToNumber(params.get("id"));
+			else if (params.has("itemID")) itemID = convertToNumber(params.get("itemID"));
+
 			if (isXIDRequestSupplyPack(itemID)) {
 				reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
 			}
