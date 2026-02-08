@@ -1502,7 +1502,7 @@ async function updateStocks() {
 	}
 }
 
-type FetchedFactiondataBasic = FactionV1BasicResponse;
+type FetchedFactiondataBasic = FactionBasicResponse & FactionRankedWarResponse;
 type FetchedFactiondataWithAccess = FetchedFactiondataBasic & FactionV1CrimesResponse;
 
 async function updateFactiondata() {
@@ -1525,12 +1525,11 @@ async function updateFactiondata() {
 
 	async function updateAccess(): Promise<StoredFactiondata> {
 		try {
-			// FIXME - Migrate to V2 (faction/basic).
 			// FIXME - Migrate to V2 (faction/crimes).
 			const data = await fetchData<FetchedFactiondataWithAccess>("tornv2", {
 				section: "faction",
-				selections: ["crimes", "basic"],
-				legacySelections: ["crimes", "basic"],
+				selections: ["crimes", "basic", "rankedwars"],
+				legacySelections: ["crimes"],
 				silent: true,
 			});
 
@@ -1567,17 +1566,17 @@ async function updateFactiondata() {
 
 	async function updateBasic(): Promise<StoredFactiondataBasic | StoredFactiondataNoAccess> {
 		try {
-			// FIXME - Migrate to V2 (faction/basic).
-			const data = await fetchData("tornv2", {
+			const data = await fetchData<FetchedFactiondataBasic>("tornv2", {
 				section: "faction",
-				selections: ["basic"],
-				legacySelections: ["basic"],
+				selections: ["basic", "rankedwars"],
 				silent: true,
 			});
-			data.access = FACTION_ACCESS.basic;
-			data.date = Date.now();
 
-			return data;
+			return {
+				...data,
+				access: FACTION_ACCESS.basic,
+				date: Date.now(),
+			};
 		} catch (error) {
 			return { error, access: FACTION_ACCESS.none };
 		}
