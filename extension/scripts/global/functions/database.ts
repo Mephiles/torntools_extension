@@ -389,6 +389,22 @@ async function migrateDatabase(force = false) {
 
 			updated = true;
 		}
+		if (version < toNumericVersion("8.1.1")) {
+			if (storage?.settings?.employeeInactivityWarning?.length) {
+				newStorage.settings.employeeInactivityWarning = storage.settings.employeeInactivityWarning.map((warning) => {
+					if (warning.days === false || warning.days === undefined) warning.days = null;
+					return warning;
+				});
+			}
+			if (storage?.settings?.factionInactivityWarning?.length) {
+				newStorage.settings.factionInactivityWarning = storage.settings.factionInactivityWarning.map((warning) => {
+					if (warning.days === false || warning.days === undefined) warning.days = null;
+					return warning;
+				});
+			}
+
+			updated = true;
+		}
 
 		if (updated) {
 			console.log(`Upgraded database from ${storedVersion} to ${loadedVersion}`);
