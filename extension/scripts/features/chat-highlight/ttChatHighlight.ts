@@ -26,17 +26,17 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			const messageBox = message.querySelector<HTMLElement>("[class*='chat-box-message__box__']");
+			const messageBox = message.querySelector<HTMLElement>(SELECTOR_CHAT_V2__MESSAGE_BOX);
 			if (messageBox) applyV2Highlights(messageBox);
 			else applyV3Highlights(message);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__']", chat)) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`, chat)) {
 				applyV2Highlights(message);
 			}
-			for (const message of findAllElements("[class*='list__'] > [class*='root__']", chat)) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
 				applyV3Highlights(message);
 			}
 		});
@@ -45,11 +45,11 @@
 
 			if (information) {
 				const { chat } = information;
-				for (const message of findAllElements("[class*='list__'] > [class*='root__']", chat)) {
+				for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
 					applyV3Highlights(message);
 				}
 			} else {
-				for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
+				for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
 					applyV2Highlights(message);
 				}
 			}
@@ -57,7 +57,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(() => {
 			if (!feature.enabled()) return;
 
-			for (const message of findAllElements("[class*='list__'] > [class*='root__']")) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
 				applyV3Highlights(message);
 			}
 		});
@@ -89,10 +89,10 @@
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 
-			for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__']")) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
 				applyV2Highlights(message);
 			}
-			for (const message of findAllElements("[class*='list__'] > [class*='root__']")) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
 				applyV3Highlights(message);
 			}
 		});
@@ -102,7 +102,7 @@
 		if (!message) return;
 		if (!highlights?.length) return;
 
-		const sender = simplify(message.querySelector("[class*='chat-box-message__sender__']").textContent.replace(":", ""));
+		const sender = simplify(message.querySelector(SELECTOR_CHAT_V2__MESSAGE_SENDER).textContent.replace(":", ""));
 		const words = message.lastElementChild.textContent
 			.split(" ")
 			.map(simplify)
@@ -132,14 +132,14 @@
 		if (!highlights?.length) return;
 
 		let sender: string;
-		const senderElement = message.querySelector("[class*='sender___']");
+		const senderElement = message.querySelector(SELECTOR_CHAT_V3__MESSAGE_SENDER);
 		if (senderElement) {
 			sender = senderElement.textContent.replace(":", "");
 		} else {
 			const hasBox = message.querySelector("[class*='box___']");
-			if (hasBox && message.matches("[class*='self___']")) {
+			if (hasBox && message.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
 				sender = getUserDetails().name;
-			} else if (hasBox && !message.matches("[class*='self___']")) {
+			} else if (hasBox && !message.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
 				const chatItem = message.closest("[class*='item___']");
 				const title = chatItem.querySelector("[class*='title___']");
 				sender = title.textContent;
@@ -173,7 +173,7 @@
 	}
 
 	function removeHighlights() {
-		for (const message of findAllElements("[class*='chat-box-body__'] [class*='chat-box-message__box__'][style]")) {
+		for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}[style]`)) {
 			message.style = "";
 		}
 	}

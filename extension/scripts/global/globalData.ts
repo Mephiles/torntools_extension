@@ -596,7 +596,6 @@ const DEFAULT_STORAGE = {
 			chat: {
 				fontSize: new DefaultSetting("number", 12),
 				searchChat: new DefaultSetting("boolean", true),
-				blockZalgo: new DefaultSetting("boolean", true),
 				completeUsernames: new DefaultSetting("boolean", true),
 				highlights: new DefaultSetting("array", [{ name: "$player", color: "#7ca900" }]),
 				titleHighlights: new DefaultSetting<ColoredChatOption[]>("array", []),

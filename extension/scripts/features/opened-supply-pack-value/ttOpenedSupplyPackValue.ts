@@ -31,15 +31,15 @@
 			if (!feature.enabled()) return;
 
 			const params = new URLSearchParams(xhr.requestBody);
-			if (params.get("action") !== "use") return;
 			if (!isUseItem(params.get("step"), json) || !json.success) return;
 
-			itemID = convertToNumber(params.get("id")) ?? itemID;
+			if (json && json.itemID) itemID = parseInt(json.itemID);
+			else itemID = convertToNumber(params.get("id")) ?? params.get("itemID")?.getNumber() ?? itemID;
 			if (isXIDRequestSupplyPack(itemID)) {
 				reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
 			}
 
-			if ((params.get("XID") === reqXID || isDrugPackUseRequest(params)) && json.items?.itemAppear) {
+			if ((params.get("XID") === reqXID || isDrugPackUseRequest(params) || SUPPLY_PACK_ITEMS.includes(itemID)) && json.items?.itemAppear) {
 				const totalOpenedValue = json.items.itemAppear
 					.map((item) =>
 						"isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.items[item.ID].market_value * parseInt(item.qty)

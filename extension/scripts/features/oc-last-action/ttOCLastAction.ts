@@ -37,12 +37,14 @@
 	}
 
 	function showLastAction() {
+		if (factiondata.access !== "full_access") return;
+
 		const nowDate = Date.now();
 
 		for (const row of findAllElements(".organize-wrap .crimes-list .details-list > li:not(:first-child) > ul")) {
 			const id = new URL(row.querySelector<HTMLAnchorElement>(".member a").href).searchParams.get("XID");
 
-			const lastAction = (factiondata as StoredFactiondataFullAccess).members[id].last_action;
+			const lastAction = factiondata.basic.members[id].last_action;
 			const hours = dropDecimals((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS);
 
 			row.insertAdjacentElement(

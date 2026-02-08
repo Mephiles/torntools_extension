@@ -181,6 +181,7 @@
 			},
 			inside_job: {
 				task: "Attack (P) and secrete an item on them.",
+				hint: "Duke will send you the item. The Secrete option will appear after defeating (P).",
 			},
 			introduction_duke: {
 				task: "Complete 10 Duke contracts.",

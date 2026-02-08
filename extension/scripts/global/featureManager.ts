@@ -65,7 +65,18 @@ class FeatureManager {
 		// }, 12000);
 		window.addEventListener("error", (e) => {
 			// debugger;
-			this.logError("Uncaught window error:", e.error ?? e.message);
+			if (e.error) {
+				this.logError("Uncaught window error:", e.error);
+			} else {
+				// For some reason we are getting an error from Torn here (while scrolling in the chats).
+				if (
+					e.message === "ResizeObserver loop completed with undelivered notifications." &&
+					(e.filename.includes("torn.com/") || e.filename === "") // Firefox has no filename for some reason.
+				)
+					return;
+
+				this.logError("Uncaught window error:", e);
+			}
 		});
 		window.addEventListener("unhandledrejection", (e) => {
 			const error = e.reason instanceof Error ? e.reason : new Error(e.reason);
@@ -112,8 +123,12 @@ class FeatureManager {
 		} else {
 			info = [this.logPadding + info];
 		}
-		if (error && typeof error === "object" && "stack" in error) {
-			info.push(error.stack);
+		if (error && typeof error === "object") {
+			if (error instanceof Error) {
+				info.push(error.stack);
+			} else if (error instanceof ErrorEvent) {
+				info.push(`${error.message} @ ${error.filename}:${error.lineno}`);
+			}
 		}
 		console.error(...info);
 		// this.container.querySelector(".error-messages")
@@ -145,14 +160,25 @@ class FeatureManager {
 
 		let errorElement: HTMLElement;
 		if (error != null && typeof error === "object") {
-			errorElement = elementBuilder({
-				type: "div",
-				class: "error",
-				children: [
-					elementBuilder({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
-					elementBuilder({ type: "pre", class: "stack", text: error.stack }),
-				],
-			});
+			if (error instanceof Error) {
+				errorElement = elementBuilder({
+					type: "div",
+					class: "error",
+					children: [
+						elementBuilder({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+						elementBuilder({ type: "pre", class: "stack", text: error.stack }),
+					],
+				});
+			} else if (error instanceof ErrorEvent) {
+				errorElement = document.newElement({
+					type: "div",
+					class: "error",
+					children: [
+						document.newElement({ type: "div", class: "name", text: error.message }),
+						document.newElement({ type: "pre", class: "stack", text: `${error.filename}:${error.lineno}` }),
+					],
+				});
+			}
 		} else {
 			errorElement = elementBuilder({
 				type: "pre",
