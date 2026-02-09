@@ -13,6 +13,7 @@ const LINKS = {
 	education: "https://www.torn.com/page.php?sid=education",
 	events: "https://www.torn.com/events.php#/step=all",
 	faction: "https://www.torn.com/factions.php",
+	faction__ranked_war: "https://www.torn.com/factions.php?step=your&type=1#/war/rank",
 	faction_oc: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 	gym: "https://www.torn.com/gym.php",
 	home: "https://www.torn.com/index.php",

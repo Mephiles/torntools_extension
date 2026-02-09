@@ -342,7 +342,7 @@ interface StoredFactionStakeouts {
 type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReaches: number } };
 
 type StoredFactiondataNoAccess = { access: "none"; error?: any; retry?: number };
-type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number };
+type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number } & FetchedFactiondataBasic;
 type StoredFactiondataFullAccess = { access: "full_access"; date: number; userCrime: number } & FetchedFactiondataWithAccess;
 type StoredFactiondata = StoredFactiondataNoAccess | StoredFactiondataBasic | StoredFactiondataFullAccess;
 
@@ -624,6 +624,7 @@ const DEFAULT_STORAGE = {
 				cooldownEndTimes: new DefaultSetting("boolean", true),
 				companyAddictionLevel: new DefaultSetting("boolean", true),
 				showJobPointsToolTip: new DefaultSetting("boolean", true),
+				rwTimer: new DefaultSetting("boolean", true),
 			},
 			popup: {
 				dashboard: new DefaultSetting("boolean", true),

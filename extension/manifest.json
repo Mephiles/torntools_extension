@@ -199,7 +199,8 @@
 				"scripts/features/collapsible-areas/ttCollapsibleAreas.js",
 				"scripts/features/points-value/ttPointsValue.js",
 				"scripts/features/npc-loot-times/ttNPCLootTimes.js",
-				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js"
+				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js",
+				"scripts/features/rw-timer/ttRWTimer.js"
 			],
 			"run_at": "document_end"
 		},
