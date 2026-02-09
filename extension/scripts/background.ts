@@ -288,7 +288,7 @@ type FetchedUserdata = UserProfileResponse &
 	UserV1NotificationsResponse &
 	UserV1BarsResponse &
 	UserCooldownsResponse &
-	UserV1TravelResponse &
+	UserTravelResponse &
 	UserV1NewmessagesResponse &
 	UserV1RefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
 	UserV1StocksResponse &
@@ -340,15 +340,14 @@ async function updateUserdata(forceUpdate = false) {
 		selections.push("notifications");
 
 		// TODO - Migrate to V2 (user/bars).
-		// TODO - Migrate to V2 (user/travel).
 		// TODO - Migrate to V2 (user/newmessages).
 		// TODO - Migrate to V2 (user/refills).
-		for (const selection of ["bars", "travel", "newmessages", "refills"]) {
+		for (const selection of ["bars", "newmessages", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
 		}
-		for (const selection of ["cooldowns", "icons", "money"]) {
+		for (const selection of ["cooldowns", "icons", "money", "travel"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -912,7 +911,7 @@ async function updateUserdata(forceUpdate = false) {
 
 		if (settings.notifications.types.landingEnabled && settings.notifications.types.landing.length && userdata.travel.time_left) {
 			for (const checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
-				const timeLeft = userdata.travel.timestamp * 1000 - now;
+				const timeLeft = userdata.travel.arrival_at * 1000 - now;
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
@@ -1074,7 +1073,7 @@ async function showIconBars() {
 
 			let current: number, maximum: number;
 			if (key === "travel") {
-				const totalTrip = userdata[key].timestamp - userdata[key].departed;
+				const totalTrip = userdata[key].arrival_at - userdata[key].departed_at;
 
 				current = totalTrip - userdata[key].time_left;
 				maximum = totalTrip;

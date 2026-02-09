@@ -397,14 +397,14 @@ async function setupDashboard() {
 			}
 			dashboard.querySelector("#traveling").classList.remove("tt-hidden");
 
-			const maximum = userdata.travel.timestamp - userdata.travel.departed;
+			const maximum = userdata.travel.arrival_at - userdata.travel.departed_at;
 			const current = maximum - userdata.travel.time_left;
 
 			dashboard.querySelector<HTMLElement>("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
-			dashboard.querySelector("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.timestamp * 1000);
+			dashboard.querySelector("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.arrival_at * 1000);
 
-			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.tick_at = (userdata.travel.timestamp * 1000).toString();
-			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.full_at = (userdata.travel.timestamp * 1000).toString();
+			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.tick_at = (userdata.travel.arrival_at * 1000).toString();
+			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.full_at = (userdata.travel.arrival_at * 1000).toString();
 
 			updateBarTimer(dashboard.querySelector("#traveling"));
 		}
