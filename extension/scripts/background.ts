@@ -287,7 +287,7 @@ type FetchedUserdata = UserProfileResponse &
 	TimestampResponse &
 	UserV1NotificationsResponse &
 	UserV1BarsResponse &
-	UserV1CooldownsResponse &
+	UserCooldownsResponse &
 	UserV1TravelResponse &
 	UserV1NewmessagesResponse &
 	UserV1RefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
@@ -340,16 +340,15 @@ async function updateUserdata(forceUpdate = false) {
 		selections.push("notifications");
 
 		// TODO - Migrate to V2 (user/bars).
-		// TODO - Migrate to V2 (user/cooldowns).
 		// TODO - Migrate to V2 (user/travel).
 		// TODO - Migrate to V2 (user/newmessages).
 		// TODO - Migrate to V2 (user/refills).
-		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "refills"]) {
+		for (const selection of ["bars", "travel", "newmessages", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
 		}
-		for (const selection of ["icons", "money"]) {
+		for (const selection of ["cooldowns", "icons", "money"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
