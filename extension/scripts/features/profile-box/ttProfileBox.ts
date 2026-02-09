@@ -946,15 +946,31 @@
 						{ id: "you", title: "You", class: "your-stat", width: 80, cellRenderer: numberCellRenderer },
 					],
 					[
-						{ stat: "Strength", them: spy.strength, you: { value: userdata.strength, relative: getRelative(spy.strength, userdata.strength) } },
-						{ stat: "Defense", them: spy.defense, you: { value: userdata.defense, relative: getRelative(spy.defense, userdata.defense) } },
-						{ stat: "Speed", them: spy.speed, you: { value: userdata.speed, relative: getRelative(spy.speed, userdata.speed) } },
+						{
+							stat: "Strength",
+							them: spy.strength,
+							you: { value: userdata.battlestats.strength.value, relative: getRelative(spy.strength, userdata.battlestats.strength.value) },
+						},
+						{
+							stat: "Defense",
+							them: spy.defense,
+							you: { value: userdata.battlestats.defense.value, relative: getRelative(spy.defense, userdata.battlestats.defense.value) },
+						},
+						{
+							stat: "Speed",
+							them: spy.speed,
+							you: { value: userdata.battlestats.speed.value, relative: getRelative(spy.speed, userdata.battlestats.speed.value) },
+						},
 						{
 							stat: "Dexterity",
 							them: spy.dexterity,
-							you: { value: userdata.dexterity, relative: getRelative(spy.dexterity, userdata.dexterity) },
+							you: { value: userdata.battlestats.dexterity.value, relative: getRelative(spy.dexterity, userdata.battlestats.dexterity.value) },
 						},
-						{ stat: "Total", them: spy.total, you: { value: userdata.total, relative: getRelative(spy.total, userdata.total) } },
+						{
+							stat: "Total",
+							them: spy.total,
+							you: { value: userdata.battlestats.total, relative: getRelative(spy.total, userdata.battlestats.total) },
+						},
 					],
 					{
 						rowClass: (rowData) => {

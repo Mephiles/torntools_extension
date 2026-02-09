@@ -38,7 +38,7 @@
 
 		function handleAttacker() {
 			if (settings.apiUsage.user.battlestats) {
-				createElement(userdata.total, false, "attacker");
+				createElement(userdata.battlestats.total, false, "attacker");
 			} else if (settings.apiUsage.user.personalstats && settings.apiUsage.user.crimes) {
 				const {
 					profile: {
