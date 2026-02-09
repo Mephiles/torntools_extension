@@ -34,7 +34,7 @@
 			text: detailMessage ? `${message}: ${detailMessage}` : message,
 		});
 
-		const title = document.querySelector("[class*='topSection___']");
+		const title: Element = await requireElement("[class*='topSection___']");
 		title.insertAdjacentElement("afterend", element);
 	}
 
