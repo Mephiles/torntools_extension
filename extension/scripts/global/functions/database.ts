@@ -407,6 +407,10 @@ async function migrateDatabase(force = false) {
 					return warning;
 				});
 			}
+			newStorage.cache = {};
+			newStorage.userdata = {};
+			newStorage.factiondata = {};
+			newStorage.torndata = {};
 
 			updated = true;
 		}
