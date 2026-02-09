@@ -290,9 +290,7 @@ type FetchedUserdata = UserProfileResponse &
 	UserV1CooldownsResponse &
 	UserV1TravelResponse &
 	UserV1NewmessagesResponse &
-	UserV1RefillsResponse &
-	UserV1IconsResponse &
-	UserMoneyResponse &
+	UserV1RefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
 	UserV1StocksResponse &
 	UserV1MeritsResponse &
 	UserV1PerksResponse &
@@ -346,13 +344,12 @@ async function updateUserdata(forceUpdate = false) {
 		// TODO - Migrate to V2 (user/travel).
 		// TODO - Migrate to V2 (user/newmessages).
 		// TODO - Migrate to V2 (user/refills).
-		// FIXME - Migrate to V2 (user/icons).
-		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "refills", "icons"]) {
+		for (const selection of ["bars", "cooldowns", "travel", "newmessages", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
 		}
-		for (const selection of ["money"]) {
+		for (const selection of ["icons", "money"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -609,11 +606,14 @@ async function updateUserdata(forceUpdate = false) {
 
 	async function processUserdata() {
 		if ("icons" in userdata) {
-			userdata.userCrime = userdata.icons.icon85
-				? userdata.timestamp * TO_MILLIS.SECONDS + textToTime(userdata.icons.icon85.split("-").at(-1)!.trim())
-				: userdata.icons.icon86
-					? userdata.timestamp * TO_MILLIS.SECONDS
-					: -1;
+			const icon85 = userdata.icons.find(({ id }) => id === 85);
+			if (icon85) {
+				userdata.userCrime = userdata.timestamp * TO_MILLIS.SECONDS + textToTime(icon85.description.split("-").at(-1)!.trim());
+			} else if (userdata.icons.some(({ id }) => id === 86)) {
+				userdata.userCrime = userdata.timestamp * TO_MILLIS.SECONDS;
+			} else {
+				userdata.userCrime = -1;
+			}
 		}
 	}
 
