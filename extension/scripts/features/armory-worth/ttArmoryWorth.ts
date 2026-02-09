@@ -83,7 +83,7 @@
 			for (const type of selections) {
 				if (data[type]) {
 					for (const item of data[type]) {
-						total += torndata.items[item.ID].market_value * item.quantity;
+						total += torndata.itemsMap[item.ID].value.market_price * item.quantity;
 					}
 				}
 			}

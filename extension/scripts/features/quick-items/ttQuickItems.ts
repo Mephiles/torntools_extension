@@ -303,8 +303,8 @@
 		});
 		itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
 		if (hasAPIData()) {
-			itemWrap.setAttribute("title", torndata.items[id].name);
-			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: torndata.items[id].name }));
+			itemWrap.setAttribute("title", torndata.itemsMap[id].name);
+			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: torndata.itemsMap[id].name }));
 
 			// TODO: API Inventory Block.
 			/*if (settings.apiUsage.user.inventory) {

@@ -346,7 +346,7 @@ type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number } 
 type StoredFactiondataFullAccess = { access: "full_access"; date: number; userCrime: number } & FetchedFactiondataWithAccess;
 type StoredFactiondata = StoredFactiondataNoAccess | StoredFactiondataBasic | StoredFactiondataFullAccess;
 
-type StoredTorndata = FetchedTorndata & { date: number };
+type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | string, TornItem>; date: number };
 
 // type StoredStockdata = FetchedStockdata["stocks"] & { date: number };
 type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };

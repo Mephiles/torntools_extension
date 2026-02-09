@@ -249,13 +249,13 @@
 			}
 		}
 		if (filters.category) {
-			if (torndata.items[id].type.toLowerCase() !== filters.category) {
+			if (torndata.itemsMap[id].type.toLowerCase() !== filters.category) {
 				hide("category");
 				return;
 			}
 		}
 		if (filters.weaponType) {
-			if (torndata.items[id].weapon_type?.toLowerCase() !== filters.weaponType) {
+			if (torndata.itemsMap[id].sub_type?.toLowerCase() !== filters.weaponType) {
 				hide("weapon_type");
 				return;
 			}

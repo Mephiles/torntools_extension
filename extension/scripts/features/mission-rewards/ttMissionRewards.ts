@@ -64,7 +64,7 @@
 				const { image: id, amount } = information;
 				if (!id || typeof id !== "number") continue;
 
-				const value = torndata.items[id].market_value;
+				const value = torndata.itemsMap[id].value.market_price;
 				const totalValue = amount * value;
 
 				reward

@@ -1425,22 +1425,25 @@ type FetchedTorndata = TornEducationResponse &
 	TornProperties &
 	TornHonorsResponse &
 	TornMedalsResponse &
-	TornV1ItemsResponse &
+	TornItemsResponse &
 	TornV1PawnshopResponse &
 	TornV1StatsResponse;
 
 async function updateTorndata() {
-	// FIXME - Migrate to V2 (torn/items).
 	// TODO - Migrate to V2 (torn/pawnshop).
 	// TODO - Migrate to V2 (torn/stats).
 	const data = await fetchData<FetchedTorndata>("tornv2", {
 		section: "torn",
 		selections: ["education", "calendar", "properties", "honors", "medals", "items", "pawnshop", "stats"],
-		legacySelections: ["items", "pawnshop", "stats"],
+		legacySelections: ["pawnshop", "stats"],
 	});
 
 	const newData = {
 		...data,
+		itemsMap: data.items.reduce((map, item) => {
+			map[item.id] = item;
+			return map;
+		}, {}),
 		date: Date.now(),
 	};
 

@@ -241,7 +241,7 @@
 
 		for (const item of findAllElements(":scope > li[data-item]", list)) {
 			const id = item.dataset.item;
-			const price = torndata.items[id].market_value;
+			const price = torndata.itemsMap[id].value.market_price;
 
 			const parent = mobile || tablet ? item.querySelector(".name-wrap") : item.querySelector(".bonuses-wrap") || item.querySelector(".name-wrap");
 
@@ -308,7 +308,7 @@
 			const quantityElement = priceElement.querySelector(".tt-item-quantity");
 			if (!quantityElement) continue;
 
-			const price = torndata.items[id].market_value;
+			const price = torndata.itemsMap[id].value.market_price;
 			const newQuantity = parseInt(quantityElement.textContent.match(/(\d*)x = /i)[1]) + change;
 
 			if (newQuantity === 1) {

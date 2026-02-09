@@ -55,7 +55,7 @@
 	 * Should highlight the given item based on the price?
 	 */
 	function shouldHighlight(id: number | string, price: number) {
-		return price < torndata.items[id]?.sell_price;
+		return price < torndata.itemsMap[id]?.value.sell_price;
 	}
 
 	function handleItem(item: HighlightableItem) {

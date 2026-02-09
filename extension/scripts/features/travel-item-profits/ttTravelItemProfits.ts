@@ -64,7 +64,7 @@
 				if (!imageElement) continue;
 
 				const id = convertToNumber(imageElement.srcset.split(" ")[0]);
-				const marketPrice = torndata.items[id].market_value;
+				const marketPrice = torndata.itemsMap[id].value.market_price;
 				const buyPrice = convertToNumber(row.querySelector("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent);
 
 				const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;

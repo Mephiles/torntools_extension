@@ -34,7 +34,7 @@
 
 			// noinspection DuplicatedCode
 			const baseHappy = parseInt(
-				torndata.items[candy.dataset.item].effect
+				torndata.itemsMap[candy.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]

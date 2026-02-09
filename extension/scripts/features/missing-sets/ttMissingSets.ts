@@ -133,7 +133,7 @@
 			elementBuilder({
 				type: "span",
 				class: "tt-item-price",
-				text: `${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value, { currency: true })}`,
+				text: `${formatNumber(torndata.itemsMap[parseInt(missingItem.dataset.id)].value.market_price, { currency: true })}`,
 			})
 		);
 	}

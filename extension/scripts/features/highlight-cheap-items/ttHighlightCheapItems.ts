@@ -140,7 +140,7 @@
 	function shouldHighlight(id: number, price: number) {
 		const percentage = 1 - (settings.pages.itemmarket.highlightCheapItems as number) / 100;
 
-		const value = torndata.items[id]?.market_value;
+		const value = torndata.itemsMap[id]?.value?.market_price;
 		if (!value) return false;
 
 		return value * percentage >= price;

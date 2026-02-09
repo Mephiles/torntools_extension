@@ -35,7 +35,7 @@
 
 			const id = parseInt(alcoholicDrink.dataset.item);
 			let totalNerve = parseInt(
-				torndata.items[alcoholicDrink.dataset.item].effect
+				torndata.itemsMap[alcoholicDrink.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]

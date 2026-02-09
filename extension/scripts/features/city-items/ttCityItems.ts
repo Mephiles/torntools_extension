@@ -47,7 +47,7 @@
 				marker.classList.add("city-item");
 				marker.dataset.id = id;
 
-				const itemName = hasAPIData() ? torndata.items[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
+				const itemName = hasAPIData() ? torndata.itemsMap[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
 
 				if (settings.pages.city.combineDuplicates) {
 					const duplicate = items.find((item) => item.id === id);
@@ -85,9 +85,9 @@
 
 		function showValue() {
 			const totalValue = items
-				.map(({ id, count }) => ({ ...torndata.items[id], count }))
+				.map(({ id, count }): TornItem & { count: number } => ({ ...torndata.itemsMap[id], count }))
 				.filter((item) => !!item)
-				.map(({ market_value: value, count }) => value * count)
+				.map(({ value: { market_price: value }, count }) => value * count)
 				.filter((value) => !!value)
 				.reduce((a, b) => a + b, 0);
 			const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);

@@ -71,7 +71,7 @@
 						elementBuilder({
 							type: "span",
 							class: "tt-blood-price",
-							text: `${formatNumber(torndata.items[itemId].market_value, { currency: true })}`,
+							text: `${formatNumber(torndata.itemsMap[itemId].value.market_price, { currency: true })}`,
 						})
 					);
 				}

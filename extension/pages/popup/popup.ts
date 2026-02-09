@@ -729,15 +729,15 @@ async function setupMarketSearch() {
 	// setup itemlist
 	const itemSelection = document.querySelector("#market .item-list");
 
-	for (const id in torndata.items) {
-		const name = torndata.items[id].name;
+	torndata.items.forEach((item) => {
+		const name = item.name;
 
 		const div = elementBuilder({
 			type: "li",
 			class: "item",
 			id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
 			text: name,
-			dataset: { id },
+			dataset: { id: item.id.toString() },
 		});
 
 		itemSelection.appendChild(div);
@@ -746,9 +746,9 @@ async function setupMarketSearch() {
 		div.addEventListener("click", async () => {
 			itemSelection.classList.add("tt-hidden");
 
-			showMarketInfo(id);
+			showMarketInfo(item);
 		});
-	}
+	});
 
 	// setup searchbar
 	document.querySelector("#market #search-bar").addEventListener("keyup", (event) => {
@@ -778,16 +778,15 @@ async function setupMarketSearch() {
 		document.querySelector("#market #item-information").classList.add("tt-hidden");
 	});
 
-	function showMarketInfo(id: string) {
+	function showMarketInfo(item: TornItem) {
 		const viewItem = document.querySelector("#market #item-information");
 		viewItem.querySelector(".market").classList.add("tt-hidden");
 
-		const item = torndata.items[id];
 		viewItem.querySelector(".circulation").textContent = formatNumber(item.circulation);
-		viewItem.querySelector(".value").textContent = `$${formatNumber(item.market_value)}`;
+		viewItem.querySelector(".value").textContent = `$${formatNumber(item.value.market_price)}`;
 		viewItem.querySelector(".name").textContent = item.name;
 		viewItem.querySelector<HTMLAnchorElement>(".name").href =
-			`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${item.name}&itemType=${item.type}`;
+			`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${item.id}&itemName=${item.name}&itemType=${item.type}`;
 		viewItem.querySelector<HTMLImageElement>(".image").src = item.image;
 
 		viewItem.classList.remove("tt-hidden");
@@ -797,22 +796,22 @@ async function setupMarketSearch() {
 		// Make both API calls in parallel
 		Promise.all([
 			// Torn market data
-			ttCache.hasValue("livePrice", id)
-				? Promise.resolve(ttCache.get<MarketItemMarketResponse>("livePrice", id))
+			ttCache.hasValue("livePrice", item.id)
+				? Promise.resolve(ttCache.get<MarketItemMarketResponse>("livePrice", item.id))
 				: fetchData<MarketItemMarketResponse>("tornv2", {
 						section: "market",
-						id,
+						id: item.id,
 						selections: ["itemmarket"],
 						params: { limit: 3 },
 					}).then((result) => {
-						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
+						ttCache.set({ [item.id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
 						return result;
 					}), // TornW3B market data - only fetch if both bazaar search is enabled and connection to TornW3B is allowed
 			settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b
-				? ttCache.hasValue("tornw3bPrice", id)
-					? Promise.resolve(ttCache.get<TornW3BResult>("tornw3bPrice", id))
-					: fetchData<TornW3BResult>("tornw3b", { section: `marketplace/${id}` }).then((result) => {
-							ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
+				? ttCache.hasValue("tornw3bPrice", item.id)
+					? Promise.resolve(ttCache.get<TornW3BResult>("tornw3bPrice", item.id))
+					: fetchData<TornW3BResult>("tornw3b", { section: `marketplace/${item.id}` }).then((result) => {
+							ttCache.set({ [item.id]: result }, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
 							return result;
 						})
 				: Promise.resolve<TornW3BResult>({ listings: [] }),
@@ -830,7 +829,7 @@ async function setupMarketSearch() {
 			const list = viewItem.querySelector(".market");
 			list.innerHTML = "";
 
-			if (!isSellable(id) && !tornResult.itemmarket.listings.length) {
+			if (!isSellable(item.id) && !tornResult.itemmarket.listings.length) {
 				list.classList.add("untradable");
 				list.innerHTML = "Item is not sellable!";
 			} else {
@@ -901,9 +900,7 @@ async function setupCalculator() {
 
 	let selectedItems = localdata.popup.calculatorItems;
 
-	for (const id in torndata.items) {
-		const name = torndata.items[id].name;
-
+	torndata.items.forEach(({ id, name }) => {
 		const identifier = `calculator-${id}`;
 
 		itemSelection.appendChild(
@@ -923,12 +920,12 @@ async function setupCalculator() {
 						attributes: { type: "number" },
 						events: {
 							input(event) {
-								let item = selectedItems.find((i) => i.id === id);
+								let item = selectedItems.find((i) => i.id === id.toString());
 
 								const amount = (event.target as HTMLInputElement).value;
 								if (amount === "") {
 									if (item) {
-										selectedItems = selectedItems.filter((i) => i.id !== id);
+										selectedItems = selectedItems.filter((i) => i.id !== id.toString());
 										updateSelection();
 									}
 
@@ -936,7 +933,7 @@ async function setupCalculator() {
 								}
 
 								if (!item) {
-									item = { id, amount: -1 };
+									item = { id: id.toString(), amount: -1 };
 									selectedItems.push(item);
 								}
 								item.amount = parseInt(amount);
@@ -947,7 +944,7 @@ async function setupCalculator() {
 				],
 			})
 		);
-	}
+	});
 
 	// setup searchbar
 	const search = calculator.querySelector(".search");
@@ -998,7 +995,10 @@ async function setupCalculator() {
 
 		let totalValue = 0;
 		for (const { id, amount } of selectedItems) {
-			const { market_value: value, name } = torndata.items[id];
+			const {
+				value: { market_price: value },
+				name,
+			} = torndata.itemsMap[id];
 			const price = amount * value;
 
 			items.appendChild(

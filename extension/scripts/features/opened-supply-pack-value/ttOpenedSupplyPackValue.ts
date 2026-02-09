@@ -44,7 +44,7 @@
 			if ((params.get("XID") === reqXID || isDrugPackUseRequest(params) || SUPPLY_PACK_ITEMS.includes(itemID)) && json.items?.itemAppear) {
 				const totalOpenedValue = json.items.itemAppear
 					.map((item) =>
-						"isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.items[item.ID].market_value * parseInt(item.qty)
+						"isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.itemsMap[item.ID].value.market_price * parseInt(item.qty)
 					)
 					.reduce((totalValue, value) => totalValue + value, 0);
 

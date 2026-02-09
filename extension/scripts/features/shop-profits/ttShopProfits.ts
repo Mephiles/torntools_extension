@@ -29,7 +29,7 @@
 			const id = parseInt(item.querySelector(".item").getAttribute("itemid"));
 
 			const price = parseInt(priceElement.firstChild.textContent.replace(/[$,]/g, ""));
-			const value = torndata.items[id].market_value;
+			const value = torndata.itemsMap[id].value.market_price;
 
 			const profit = value - price;
 

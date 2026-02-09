@@ -39,13 +39,13 @@
 			row.classList.add("tt-value-modified");
 
 			const id = parseInt(row.dataset.item);
-			const { market_value } = torndata.items[id];
+			const value = torndata.itemsMap[id].value.market_price;
 
 			row.querySelector(".desc")!.appendChild(
 				elementBuilder({
 					type: "span",
 					class: "tt-market-value",
-					text: formatNumber(market_value, { currency: true }),
+					text: formatNumber(value, { currency: true }),
 				})
 			);
 		});

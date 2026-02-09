@@ -358,7 +358,7 @@
 			type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
 
 			function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
-				let category = item.id in torndata.items ? torndata.items[item.id].type.toLowerCase() : "other";
+				let category = item.id in torndata.itemsMap ? torndata.itemsMap[item.id].type.toLowerCase() : "other";
 				switch (category) {
 					case "plushie":
 					case "flower":
@@ -383,8 +383,8 @@
 
 				if (getTravelType() === "standard") totalCost += country.cost;
 
-				const tornItem = torndata.items[item.id];
-				let value: number | "N/A" = tornItem?.market_value ?? 0;
+				const tornItem = torndata.itemsMap[item.id];
+				let value: number | "N/A" = tornItem?.value.market_price ?? 0;
 				const time = country.time * getTimeModifier(getTravelType());
 				let profitItem: number | "N/A", profitMinute: number | "N/A", profit: number | "N/A";
 				if (value !== 0) {

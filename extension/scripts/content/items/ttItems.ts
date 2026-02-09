@@ -81,10 +81,10 @@ const pendingActions: { [key: string]: ActionItem } = {};
 						const itemName = regexResult[2];
 						const equipAction = regexResult[1];
 
-						const item = findItemInObject(torndata.items, { name: itemName });
+						const item = torndata.items.find((item) => item.name === itemName);
 						if (!item) return;
 
-						triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: parseInt(item.id) });
+						triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: item.id });
 					}
 				}
 			}

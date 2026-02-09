@@ -6,8 +6,13 @@ function getTornItemType(id: number): string | null {
 	return getTornItem(id)?.type ?? null;
 }
 
-function getTornItem(id: number): TornV1Item | null {
-	return hasAPIData() && id in torndata.items ? torndata.items[id] : id in TORN_ITEMS ? TORN_ITEMS[id] : null;
+interface MinimalItem {
+	name: string;
+	type: string;
+}
+
+function getTornItem(id: number): MinimalItem | null {
+	return hasAPIData() && id in torndata.itemsMap ? torndata.itemsMap[id] : id in TORN_ITEMS ? TORN_ITEMS[id] : null;
 }
 
 const TORN_ITEMS: TornV1Items = {

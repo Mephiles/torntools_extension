@@ -37,7 +37,7 @@
 			if (eCanElement.querySelector(".tt-e-gains")) return;
 
 			const baseEnergy = parseInt(
-				torndata.items[eCanElement.dataset.item].effect
+				torndata.itemsMap[eCanElement.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]

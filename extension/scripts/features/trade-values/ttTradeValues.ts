@@ -59,12 +59,12 @@
 						quantityMap[name] = parseInt(quantityRegex[0]);
 					}
 
-					for (const itemId in torndata.items) {
-						if (quantityMap.hasOwnProperty(torndata.items[itemId].name)) {
-							localMappings[torndata.items[itemId].name] = itemId;
-							totalValue += quantityMap[torndata.items[itemId].name] * torndata.items[itemId].market_value;
-						}
-					}
+					torndata.items
+						.filter((i) => quantityMap.hasOwnProperty(i.name))
+						.forEach((i) => {
+							localMappings[i.name] = i.id.toString();
+							totalValue += quantityMap[i.name] * i.value.market_price;
+						});
 				}
 				log.appendChild(elementBuilder({ type: "span", class: "tt-log-value", text: formatNumber(totalValue, { currency: true }) }));
 			}
@@ -86,14 +86,9 @@
 
 				let marketValue = 0;
 				if (localMappings.hasOwnProperty(name)) {
-					marketValue = torndata.items[localMappings[name]].market_value;
+					marketValue = torndata.itemsMap[localMappings[name]].value.market_price;
 				} else {
-					for (const itemId in torndata.items) {
-						if (torndata.items[itemId].name === name) {
-							marketValue = torndata.items[itemId].market_value;
-							break;
-						}
-					}
+					marketValue = torndata.items.find((i) => i.name === name)?.value?.market_price ?? 0;
 				}
 				if (marketValue === 0) continue;
 

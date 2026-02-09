@@ -1637,9 +1637,9 @@ function getNextChainBonus(current: number) {
 }
 
 function isSellable(id: number | string) {
-	if (!torndata || !torndata.items) return true;
+	if (!torndata || !torndata.itemsMap) return true;
 
-	const item = torndata.items[id];
+	const item = torndata.itemsMap[id];
 
 	return (
 		item &&
@@ -1862,9 +1862,9 @@ function getRewardValue(reward: string) {
 	} else if (reward.match(/^\d+x? /i)) {
 		const rewardItem = reward.split(" ").slice(1).join(" ");
 
-		const item = findItemInObject<TornV1Item>(torndata.items, { name: rewardItem });
+		const item = torndata.items.find(({ name }) => name === rewardItem);
 
-		if (item) value = item ? item.market_value : -1;
+		if (item) value = item ? item.value.market_price : -1;
 		else {
 			let prices: number[] | undefined = undefined;
 
@@ -1872,7 +1872,7 @@ function getRewardValue(reward: string) {
 				case "Ammunition Pack":
 					break;
 				case "Clothing Cache":
-					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => torndata.items[id].market_value);
+					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => torndata.itemsMap[id].value.market_price);
 					break;
 				case "Random Property":
 					prices = torndata.properties
@@ -2031,7 +2031,7 @@ function getUserEnergy() {
 }
 
 function getItemEnergy(id: number | string) {
-	const effect = torndata.items[id]?.effect;
+	const effect = torndata.itemsMap[id]?.effect;
 	if (!effect) return false;
 
 	const energy = effect.match(/(?<=Increases energy by )\d+/);

@@ -71,13 +71,13 @@
 			if (!itemIdAttr) continue;
 
 			const id = convertToNumber(itemIdAttr);
-			const item = torndata.items[id];
+			const item = torndata.itemsMap[id];
 			if (!item) continue;
 
 			const priceText = element.querySelector(".price").firstChild?.textContent ?? "";
 			const price = convertToNumber(priceText);
 
-			const profitable = item.market_value - price > 0;
+			const profitable = item.value.market_price - price > 0;
 			if (hideLoss && !profitable) {
 				element.classList.add("tt-hidden");
 				continue;
