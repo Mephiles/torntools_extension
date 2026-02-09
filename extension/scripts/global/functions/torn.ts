@@ -31,6 +31,7 @@ const LINKS = {
 	messages: "https://www.torn.com/messages.php",
 	missions: "https://www.torn.com/loader.php?sid=missions",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
+	pc: "https://www.torn.com/pc.php",
 	pointsmarket: "https://www.torn.com/pmarket.php",
 	property_upkeep: "https://www.torn.com/properties.php#/p=options&tab=upkeep",
 	property_vault: "https://www.torn.com/properties.php#/p=options&tab=vault",

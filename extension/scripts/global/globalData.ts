@@ -551,6 +551,7 @@ const DEFAULT_STORAGE = {
 				money: new DefaultSetting("boolean", true),
 				honors: new DefaultSetting("boolean", true),
 				medals: new DefaultSetting("boolean", true),
+				virus: new DefaultSetting("boolean", true),
 			},
 		},
 		themes: {
@@ -625,6 +626,7 @@ const DEFAULT_STORAGE = {
 				companyAddictionLevel: new DefaultSetting("boolean", true),
 				showJobPointsToolTip: new DefaultSetting("boolean", true),
 				rwTimer: new DefaultSetting("boolean", true),
+				virusTimer: new DefaultSetting("boolean", false),
 			},
 			popup: {
 				dashboard: new DefaultSetting("boolean", true),

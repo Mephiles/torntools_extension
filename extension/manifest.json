@@ -200,7 +200,8 @@
 				"scripts/features/points-value/ttPointsValue.js",
 				"scripts/features/npc-loot-times/ttNPCLootTimes.js",
 				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js",
-				"scripts/features/rw-timer/ttRWTimer.js"
+				"scripts/features/rw-timer/ttRWTimer.js",
+				"scripts/features/virus-timer/ttVirusTimer.js"
 			],
 			"run_at": "document_end"
 		},

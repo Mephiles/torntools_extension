@@ -312,7 +312,8 @@ type FetchedUserdata = UserProfileResponse &
 	UserMissionsResponse &
 	UserV1EducationResponse &
 	FactionAttacksResponse &
-	(UserEventsResponse | UserNewEventsResponse);
+	(UserEventsResponse | UserNewEventsResponse) &
+	UserVirusResponse;
 
 async function updateUserdata(forceUpdate = false) {
 	const now = Date.now();
@@ -389,7 +390,7 @@ async function updateUserdata(forceUpdate = false) {
 
 			selections.push(selection);
 		}
-		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals", "missions"]) {
+		for (const selection of ["calendar", "organizedcrime", "personalstats", "honors", "medals", "missions", "virus"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
