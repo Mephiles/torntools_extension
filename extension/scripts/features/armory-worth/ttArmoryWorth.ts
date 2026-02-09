@@ -47,7 +47,7 @@
 		// TODO - Migrate to V2 (faction/drugs).
 		// TODO - Migrate to V2 (faction/boosters).
 		// TODO - Migrate to V2 (faction/cesium).
-		// FIXME - Migrate to V2 (faction/currency -> faction/balance).
+		// TODO - Migrate to V2 (faction/currency -> faction/balance).
 		const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
 
 		if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {

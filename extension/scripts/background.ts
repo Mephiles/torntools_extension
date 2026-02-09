@@ -357,7 +357,7 @@ async function updateUserdata(forceUpdate = false) {
 		// TODO - Migrate to V2 (user/perks).
 		// TODO - Migrate to V2 (user/networth).
 		// TODO - Migrate to V2 (user/ammo).
-		// FIXME - Migrate to V2 (user/properties).
+		// TODO - Migrate to V2 (user/properties).
 		for (const selection of [
 			"stocks",
 			// "inventory",
@@ -389,7 +389,7 @@ async function updateUserdata(forceUpdate = false) {
 			selectionsV2.push(selection);
 		}
 
-		// FIXME - Migrate to V2 (user/education).
+		// TODO - Migrate to V2 (user/education).
 		if (settings.apiUsage.user.education && !hasFinishedEducation()) selections.push("education");
 
 		updatedTypes.push("basic");
@@ -1525,7 +1525,7 @@ async function updateFactiondata() {
 
 	async function updateAccess(): Promise<StoredFactiondata> {
 		try {
-			// FIXME - Migrate to V2 (faction/crimes).
+			// TODO - Migrate to V2 (faction/crimes).
 			const data = await fetchData<FetchedFactiondataWithAccess>("tornv2", {
 				section: "faction",
 				selections: ["crimes", "basic", "rankedwars"],
