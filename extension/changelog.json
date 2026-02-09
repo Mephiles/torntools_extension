@@ -19,7 +19,10 @@
 				{ "message": "Write a hint for the 'Inside Job' mission.", "contributor": "Taznister" },
 				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" }],
+			"removed": [
+				{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" },
+				{ "message": "Remove API markings because it's no longer very relevant due to API V2.", "contributor": "DeKleineKobini" }
+			],
 			"technical": [{ "message": "No longer use any custom prototype functions.", "contributor": "DeKleineKobini" }]
 		}
 	},

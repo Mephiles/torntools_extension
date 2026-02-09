@@ -221,17 +221,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/api.html*"],
-			"css": [
-				"scripts/global/globalVariables.css",
-				"scripts/features/api-selections/ttAPISelections.css",
-				"scripts/features/api-marking/ttAPIMarking.css"
-			],
+			"css": ["scripts/global/globalVariables.css", "scripts/features/api-selections/ttAPISelections.css"],
 			"js": [
 				"scripts/features/api-demo/ttAPIDemo.js",
 				"scripts/features/auto-api-fill/ttAutoAPIFill.js",
 				"scripts/features/auto-pretty/ttAutoPretty.js",
-				"scripts/features/api-selections/ttAPISelections.js",
-				"scripts/features/api-marking/ttAPIMarking.js"
+				"scripts/features/api-selections/ttAPISelections.js"
 			],
 			"run_at": "document_end"
 		},
