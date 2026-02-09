@@ -730,55 +730,58 @@ const ACHIEVEMENTS: Achievement[] = [
 		requirements: { pages: ["home"] },
 	},
 
-	// Both Crimes versions
-	{ name: "Total crimes", stats: () => userdata.criminalrecord.total, detection: { keyword: "criminal offenses" }, requirements: { pages: ["crimes"] } },
-
 	// Crimes 1.0
 	{
+		name: "Total crimes",
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).total,
+		detection: { keyword: "criminal offenses" },
+		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
+	},
+	{
 		name: "Illegal products",
-		stats: () => userdata.criminalrecord.selling_illegal_products,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).sell_illegal_goods,
 		detection: { keyword: "bootlegging", include: ["crimes"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
 	{
 		name: "Theft",
-		stats: () => userdata.criminalrecord.theft,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).theft,
 		detection: { keyword: "theft", exclude: ["auto"], include: ["crimes"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
 	{
 		name: "Drug dealing",
-		stats: () => userdata.criminalrecord.drug_deals,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).drug_deals,
 		detection: { keyword: "drug dealing", include: ["crimes"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
 	{
 		name: "Computer",
-		stats: () => userdata.criminalrecord.computer_crimes,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).computer,
 		detection: { keyword: "computer", include: ["crimes"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
 	{
 		name: "Murder",
-		stats: () => userdata.criminalrecord.murder,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).murder,
 		detection: { keyword: "murder", include: ["crimes"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
 	{
 		name: "Auto theft",
-		stats: () => userdata.criminalrecord.auto_theft,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).auto_theft,
 		detection: { keyword: "theft", include: ["auto", "crimes"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
 	{
 		name: "Fraud",
-		stats: () => userdata.criminalrecord.fraud_crimes,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).fraud,
 		detection: { keyword: "fraud", include: ["crimes"] },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
 	{
 		name: "Other crimes",
-		stats: () => userdata.criminalrecord.other,
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV1).other,
 		detection: { keyword: "other crimes" },
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v1" },
 	},
@@ -790,6 +793,12 @@ const ACHIEVEMENTS: Achievement[] = [
 	},
 
 	// Crimes 2.0
+	{
+		name: "Total crimes",
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.total,
+		detection: { keyword: "criminal offenses" },
+		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
+	},
 	{
 		name: "Fraud",
 		group: "crime total",

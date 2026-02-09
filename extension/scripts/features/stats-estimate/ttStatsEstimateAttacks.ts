@@ -47,11 +47,15 @@
 						last_action: { timestamp: lastAction },
 						id,
 					},
-					criminalrecord: { total: crimes },
 					personalstats: {
 						networth: { total: networth },
+						crimes: crimesStats,
 					},
 				} = userdata;
+
+				let crimes: number;
+				if (crimesStats.version === "v1") crimes = (crimesStats as PersonalStatsCrimesV1).total;
+				else if (crimesStats.version === "v1") crimes = (crimesStats as PersonalStatsCrimesV2).offenses.total;
 
 				const estimate = statsEstimate.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 

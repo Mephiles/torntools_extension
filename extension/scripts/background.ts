@@ -297,7 +297,6 @@ type FetchedUserdata = UserProfileResponse &
 	UserV1NetworthResponse &
 	UserV1AmmoResponse &
 	UserBattleStatsResponse &
-	UserV1CrimesResponse &
 	UserWorkStatsResponse &
 	UserSkillsResponse &
 	UserWeaponExpResponse &
@@ -359,7 +358,6 @@ async function updateUserdata(forceUpdate = false) {
 		// TODO - Migrate to V2 (user/perks).
 		// TODO - Migrate to V2 (user/networth).
 		// TODO - Migrate to V2 (user/ammo).
-		// FIXME - Migrate to V2 (user/crimes).
 		// FIXME - Migrate to V2 (user/properties).
 		for (const selection of [
 			"stocks",
@@ -368,7 +366,6 @@ async function updateUserdata(forceUpdate = false) {
 			"perks",
 			"networth",
 			"ammo",
-			"crimes",
 			"properties",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
