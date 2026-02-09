@@ -21,12 +21,12 @@
 
 	async function showComputer() {
 		await requireContent();
-		if (document.find(".tt-computer")) return;
+		if (document.querySelector(".tt-computer")) return;
 
 		const ttTopLinks = await createTTTopLinks();
 
 		ttTopLinks.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "a",
 				class: "tt-custom-computer",
 				html: `
@@ -57,7 +57,7 @@
 	}
 
 	function removeComputer() {
-		document.find(".tt-computer")?.remove();
+		document.querySelector(".tt-computer")?.remove();
 	}
 
 	function hasComputer() {

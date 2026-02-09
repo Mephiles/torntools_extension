@@ -29,7 +29,7 @@
 
 		const { content } = createContainer("Hospital Filter", {
 			class: "mt10",
-			nextElement: document.find(".users-list-title"),
+			nextElement: document.querySelector(".users-list-title"),
 			compact: true,
 			filter: true,
 		});
@@ -38,7 +38,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -102,7 +102,7 @@
 
 	async function filtering(pageChange: boolean = false) {
 		await requireElement(".users-list > li");
-		const content = findContainer("Hospital Filter").find("main");
+		const content = findContainer("Hospital Filter").querySelector("main");
 		const activity: string[] = localFilters["Activity"].getSelections(content);
 		const revivesOn: boolean = localFilters["Revives"].isChecked(content);
 		const faction: string = localFilters["Faction"].getSelected(content).trim();
@@ -136,30 +136,32 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".users-list > li")) {
+		for (const li of findAllElements(".users-list > li")) {
 			showRow(li);
 
 			// Activity
 			if (
 				activity.length &&
-				!activity.some((x) => x.trim() === li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())
+				!activity.some(
+					(x) => x.trim() === li.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim()
+				)
 			) {
 				hideRow(li);
 				continue;
 			}
 
 			// Revives On
-			if (revivesOn && li.find(".revive")?.classList?.contains("reviveNotAvailable")) {
+			if (revivesOn && li.querySelector(".revive")?.classList?.contains("reviveNotAvailable")) {
 				hideRow(li);
 				continue;
 			}
 
 			// Faction
 
-			const rowFaction = li.find<HTMLAnchorElement>(".user.faction");
+			const rowFaction = li.querySelector<HTMLAnchorElement>(".user.faction");
 			const hasFaction = !!rowFaction.href;
 			const factionName = rowFaction.hasAttribute("rel")
-				? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
+				? rowFaction.querySelector(":scope > img").getAttribute("title").trim() || "N/A"
 				: rowFaction.textContent.trim();
 
 			if (faction && faction !== "No faction" && faction !== "Unknown faction" && faction !== "In a faction") {
@@ -186,13 +188,13 @@
 			}
 
 			// Time
-			const timeLeftHrs = parseInt(li.find(".info-wrap .time").lastChild.textContent?.match(/(\d*)h/)?.[1]) || 0;
+			const timeLeftHrs = parseInt(li.querySelector(".info-wrap .time").lastChild.textContent?.match(/(\d*)h/)?.[1]) || 0;
 			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs >= timeEnd)) {
 				hideRow(li);
 				continue;
 			}
 			// Level
-			const level = li.find(".info-wrap .level").textContent.getNumber();
+			const level = convertToNumber(li.querySelector(".info-wrap .level").textContent);
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				// noinspection UnnecessaryContinueJS
@@ -209,18 +211,18 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".users-list > li:not(.tt-hidden)").length,
-			document.findAll(".users-list > li").length,
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
 			content
 		);
 	}
 
 	function getFactions() {
-		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const rows = findAllElements(".users-list > li .user.faction");
 		const _factions = new Set(
-			document.findAll(".users-list > li .user.faction img").length
+			findAllElements(".users-list > li .user.faction img").length
 				? rows
-						.map((row) => row.find("img"))
+						.map((row) => row.querySelector("img"))
 						.filter((img) => !!img)
 						.map((img) => img.getAttribute("title").trim())
 						.filter((tag) => !!tag)
@@ -236,6 +238,6 @@
 
 	function removeFilters() {
 		removeContainer("Hospital Filter");
-		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

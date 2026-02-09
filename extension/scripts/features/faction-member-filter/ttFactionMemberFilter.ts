@@ -1,4 +1,4 @@
-(async () => {
+(() => {
 	const feature = featureManager.registerFeature(
 		"Faction Member Filter",
 		"faction",
@@ -59,7 +59,7 @@
 
 		const { content } = createContainer("Member Filter", {
 			class: "mt10",
-			nextElement: document.find(".faction-info-wrap > .members-list"),
+			nextElement: document.querySelector(".faction-info-wrap > .members-list"),
 			compact: true,
 			filter: true,
 		});
@@ -68,7 +68,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		filterContent = document.newElement({
+		filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -139,11 +139,11 @@
 
 		await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
 
-		if (!filterContent || filterContent.find(".lastActiveFilter__section-class")) return;
+		if (!filterContent || filterContent.querySelector(".lastActiveFilter__section-class")) return;
 
 		lastActionState = true;
 
-		const upperLimit = parseInt(document.find(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
+		const upperLimit = parseInt(document.querySelector(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
 
 		const lastActiveFilter = createFilterSection({
 			title: "Last Active Filter",
@@ -171,7 +171,7 @@
 		if (!lastActionState && localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element) {
 			lastActionState = false;
 			localFilters["Last Active Filter"].element.remove();
-			document.findAll(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
+			findAllElements(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
 				x.classList.remove("tt-hidden");
 				x.classList.remove("last-action");
 			});
@@ -183,7 +183,7 @@
 	async function applyFilter() {
 		await requireElement(".members-list .table-body > li");
 
-		const content = findContainer("Member Filter").find("main");
+		const content = findContainer("Member Filter").querySelector("main");
 		const activity: string[] = localFilters["Activity"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
@@ -223,10 +223,10 @@
 			},
 		});
 
-		for (const li of document.findAll(".members-list .table-body > li")) {
+		for (const li of findAllElements(".members-list .table-body > li")) {
 			// Activity
 			if (activity.length) {
-				const userActivity = li.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+				const userActivity = li.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 
 				if (!activity.some((x) => x.trim() === userActivity)) {
 					hideRow(li);
@@ -235,7 +235,7 @@
 			}
 
 			// Level
-			const level = parseInt(li.find(".lvl").textContent);
+			const level = parseInt(li.querySelector(".lvl").textContent);
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				continue;
@@ -243,7 +243,7 @@
 
 			// Position
 			if (position) {
-				const liPosition = li.find(".position .ellipsis").textContent.trim();
+				const liPosition = li.querySelector(".position .ellipsis").textContent.trim();
 				if (liPosition !== position) {
 					hideRow(li);
 					continue;
@@ -252,7 +252,7 @@
 
 			// Status
 			if (status && status.length > 0 && status.length !== 5) {
-				const liStatus = li.find(".status .ellipsis").textContent.trim().toLowerCase();
+				const liStatus = li.querySelector(".status .ellipsis").textContent.trim().toLowerCase();
 				if (!status.includes(liStatus)) {
 					hideRow(li);
 					continue;
@@ -334,15 +334,15 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".members-list .table-body > li:not(.tt-hidden)").length,
-			document.findAll(".members-list .table-body > li").length,
+			findAllElements(".members-list .table-body > li:not(.tt-hidden)").length,
+			findAllElements(".members-list .table-body > li").length,
 			content
 		);
 	}
 
 	function getPositions() {
 		const _positions = [];
-		document.findAll(".members-list .table-body > li > .position .ellipsis").forEach((x) => {
+		findAllElements(".members-list .table-body > li > .position .ellipsis").forEach((x) => {
 			const position = x.textContent.trim();
 			if (!_positions.includes(position)) _positions.push(position);
 		});
@@ -365,6 +365,6 @@
 		localFilters = {};
 		filterContent = undefined;
 		removeContainer("Member Filter");
-		document.findAll(".members-list .table-body > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".members-list .table-body > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

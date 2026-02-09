@@ -17,7 +17,7 @@
 		if (!settingsPanel) {
 			await requireChatsLoaded();
 
-			settingsPanel = document.find("#chatRoot [class*='settings-panel__'], #settings_panel");
+			settingsPanel = document.querySelector("#chatRoot [class*='settings-panel__'], #settings_panel");
 		}
 
 		if (!settingsPanel) return;
@@ -36,7 +36,7 @@
 		if (!settingsPanel.id) {
 			settingsPanel.children[1].insertAdjacentElement("afterbegin", checkbox.element);
 		} else {
-			settingsPanel.find("[class*='content___']").insertAdjacentElement("afterbegin", checkbox.element);
+			settingsPanel.querySelector("[class*='content___']").insertAdjacentElement("afterbegin", checkbox.element);
 		}
 	}
 
@@ -49,6 +49,6 @@
 	}
 
 	function removeButton() {
-		document.find(".tt-hide-chat-option")?.remove();
+		document.querySelector(".tt-hide-chat-option")?.remove();
 	}
 })();

@@ -44,19 +44,19 @@ function createTableHeaderCell<T>(
 ) {
 	let currentDirection: COLUMN_SORT_DIRECTION;
 
-	const sortIcon = document.newElement({
+	const sortIcon = elementBuilder({
 		type: "i",
 		class: "fa-solid tt-table-header-cell-sort-icon tt-hidden",
 	});
 
-	const headerCellElement = document.newElement({
+	const headerCellElement = elementBuilder({
 		type: "div",
 		class: ["tt-table-header-cell", ...(columnDef.class ? [columnDef.class] : [])],
 		style: {
 			...(options.stretchColumns ? { minWidth: `${columnDef.width}px`, flex: "1" } : { width: `${columnDef.width}px` }),
 		},
 		children: [
-			document.newElement({
+			elementBuilder({
 				type: "span",
 				text: columnDef.title,
 				class: "tt-table-header-cell-title",
@@ -120,7 +120,7 @@ type TableHeaderCell<T> = ReturnType<typeof createTableHeaderCell<T>>;
 function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef: TableColumnDef<T, K>, options: { stretchCell: boolean }) {
 	const cellRenderer = columnDef.cellRendererSelector ? columnDef.cellRendererSelector(rowData) : columnDef.cellRenderer;
 	const cell = cellRenderer(data);
-	const cellElement = document.newElement({
+	const cellElement = elementBuilder({
 		type: "div",
 		class: ["tt-table-row-cell", ...(columnDef.class ? [columnDef.class] : [])],
 		style: {
@@ -148,7 +148,7 @@ function createTableRow<T extends Record<string, any>>(
 ) {
 	const rowCells = tableColumnsDefs.map((columnDef) => createTableCell(rowData, rowData[columnDef.id], columnDef, { stretchCell: options.stretchColumns }));
 
-	const rowElement = document.newElement({
+	const rowElement = elementBuilder({
 		type: "div",
 		class: ["tt-table-row", ...(options.rowClass ? [options.rowClass(rowData)] : [])],
 		children: rowCells.map((cell) => cell.element),
@@ -169,7 +169,7 @@ type TableRow<T> = ReturnType<typeof createTableRow<T>>;
 
 function _createRowGroup<T>(groupKey: string, rowGroupInfo: TableRowGroupInfo<T>): BaseElement {
 	const rowGroupCell = rowGroupInfo.cellRenderer(groupKey);
-	const groupHeader = document.newElement({
+	const groupHeader = elementBuilder({
 		type: "div",
 		class: ["tt-table-row-header"],
 		children: [rowGroupCell.element],
@@ -211,16 +211,16 @@ function createTable<T>(
 		return headerCell;
 	});
 
-	const tableBodyElem = document.newElement({
+	const tableBodyElem = elementBuilder({
 		type: "div",
 		class: "tt-table-body",
 		children: tableRows.map((row) => row.element),
 	});
-	const tableElem = document.newElement({
+	const tableElem = elementBuilder({
 		type: "div",
 		class: ["tt-table", ...(options.tableClass ? [options.tableClass] : [])],
 		children: [
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-table-header",
 				children: tableHeaders.map((header) => header.element),

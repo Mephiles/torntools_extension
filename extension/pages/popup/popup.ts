@@ -27,18 +27,18 @@ const initiatedPages: string[] = [];
 	handleAPIError();
 	storageListeners.api.push(handleAPIError);
 
-	for (const navigation of document.findAll("#pages .main-nav li")) {
+	for (const navigation of findAllElements("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
 	}
-	document.find("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
+	document.querySelector("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
 
-	if (!settings.pages.popup.dashboard) document.find("#pages li[to='dashboard']").classList.add("tt-hidden");
-	if (!settings.pages.popup.marketSearch) document.find("#pages li[to='market']").classList.add("tt-hidden");
-	if (!settings.pages.popup.calculator) document.find("#pages li[to='calculator']").classList.add("tt-hidden");
-	if (!settings.pages.popup.stocksOverview) document.find("#pages li[to='stocks']").classList.add("tt-hidden");
-	if (!settings.pages.popup.notifications) document.find("#pages li[to='notifications']").classList.add("tt-hidden");
+	if (!settings.pages.popup.dashboard) document.querySelector("#pages li[to='dashboard']").classList.add("tt-hidden");
+	if (!settings.pages.popup.marketSearch) document.querySelector("#pages li[to='market']").classList.add("tt-hidden");
+	if (!settings.pages.popup.calculator) document.querySelector("#pages li[to='calculator']").classList.add("tt-hidden");
+	if (!settings.pages.popup.stocksOverview) document.querySelector("#pages li[to='stocks']").classList.add("tt-hidden");
+	if (!settings.pages.popup.notifications) document.querySelector("#pages li[to='notifications']").classList.add("tt-hidden");
 
 	if (!api.torn.key) {
 		await showPage("initialize");
@@ -51,23 +51,23 @@ const initiatedPages: string[] = [];
 
 	function handleAPIError() {
 		if (api.torn.error) {
-			document.find(".error").classList.remove("tt-hidden");
-			document.find(".error").textContent = api.torn.error;
+			document.querySelector(".error").classList.remove("tt-hidden");
+			document.querySelector(".error").textContent = api.torn.error;
 		} else {
-			document.find(".error").classList.add("tt-hidden");
-			document.find(".error").textContent = "";
+			document.querySelector(".error").classList.add("tt-hidden");
+			document.querySelector(".error").textContent = "";
 		}
 	}
 })();
 
 // @ts-ignore Detects reassignment, but those pages are never loaded in the same context.
 async function showPage(name: keyof typeof SETUP_PAGES) {
-	document.find(`#${name}`).classList.add("active");
+	document.querySelector(`#${name}`).classList.add("active");
 
-	for (const active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
+	for (const active of findAllElements("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
 
-	if (document.find(`#pages li[to="${name}"]`)) document.find(`#pages li[to="${name}"]`).classList.add("active");
-	document.find(`#${name}`).classList.add("active");
+	if (document.querySelector(`#pages li[to="${name}"]`)) document.querySelector(`#pages li[to="${name}"]`).classList.add("active");
+	document.querySelector(`#${name}`).classList.add("active");
 
 	if (name in SETUP_PAGES && !initiatedPages.includes(name)) {
 		await SETUP_PAGES[name]();
@@ -79,18 +79,20 @@ async function showPage(name: keyof typeof SETUP_PAGES) {
 }
 
 async function setupInitialize() {
-	document.find("#pages").classList.add("tt-hidden");
-	document.find<HTMLAnchorElement>("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
+	document.querySelector("#pages").classList.add("tt-hidden");
+	document.querySelector<HTMLAnchorElement>("#tos").href = chrome.runtime.getURL("pages/tos/tos.html");
 
-	document.find("#import-previous-settings").addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
+	document
+		.querySelector("#import-previous-settings")
+		.addEventListener("click", () => window.open(chrome.runtime.getURL("pages/settings/settings.html?page=export")));
 
-	document.find("#set_api_key").addEventListener("click", () => {
-		const key = document.find<HTMLInputElement>("#api_key").value;
+	document.querySelector("#set_api_key").addEventListener("click", () => {
+		const key = document.querySelector<HTMLInputElement>("#api_key").value;
 
 		checkAPIPermission(key)
 			.then(({ access }) => {
 				if (!access) {
-					const permissionError = document.find(".permission-error");
+					const permissionError = document.querySelector(".permission-error");
 					permissionError.classList.remove("tt-hidden");
 					permissionError.textContent =
 						"TornTools needs a limited access key. Your API key is not the correct API level. This will affect a lot of features.";
@@ -105,7 +107,7 @@ async function setupInitialize() {
 
 				changeAPIKey(key)
 					.then(async () => {
-						document.find("#pages").classList.remove("tt-hidden");
+						document.querySelector("#pages").classList.remove("tt-hidden");
 
 						console.log("TT just got initialised, initial popup data load.");
 						// Wait till userdata loads for the first time.
@@ -122,58 +124,58 @@ async function setupInitialize() {
 			.catch((error) => showError(error.error));
 	});
 
-	document.find("#api_quicklink").addEventListener("click", () => {
+	document.querySelector("#api_quicklink").addEventListener("click", () => {
 		chrome.tabs.update({
 			url: "https://www.torn.com/preferences.php#tab=api",
 		});
 	});
 
 	function showError(message: string) {
-		document.find(".error").classList.remove("tt-hidden");
-		document.find(".error").textContent = message;
+		document.querySelector(".error").classList.remove("tt-hidden");
+		document.querySelector(".error").textContent = message;
 	}
 }
 
 async function setupDashboard() {
-	const dashboard = document.find("#dashboard");
+	const dashboard = document.querySelector("#dashboard");
 
-	const iconsWrap = dashboard.find(".icons-wrap");
+	const iconsWrap = dashboard.querySelector(".icons-wrap");
 	for (const { icon, id, description, ...r } of ALL_ICONS) {
 		let url = "url" in r ? r.url : null;
 
 		iconsWrap.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: url ? "a" : "div",
 				class: ["icon", "tt-hidden", "hover_tooltip"],
 				children: [
-					document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
-					document.newElement({ type: "span", class: "hover_tooltip_text", text: description }),
+					elementBuilder({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
+					elementBuilder({ type: "span", class: "hover_tooltip_text", text: description }),
 				],
 				attributes: url ? { href: url, target: "_blank" } : {},
 			})
 		);
 	}
 
-	dashboard.find("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
-	dashboard.find("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
-	dashboard.find("#mute-notifications span").textContent = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
-	dashboard.find("#mute-notifications").addEventListener("click", () => {
+	dashboard.querySelector("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
+	dashboard.querySelector("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
+	dashboard.querySelector("#mute-notifications span").textContent = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
+	dashboard.querySelector("#mute-notifications").addEventListener("click", () => {
 		const newStatus = !settings.notifications.types.global;
 
 		ttStorage.change({ settings: { notifications: { types: { global: newStatus } } } });
 
 		if (newStatus) {
-			dashboard.find("#mute-notifications").classList.add("enabled");
-			dashboard.find("#mute-notifications").classList.remove("disabled");
-			dashboard.find("#mute-notifications i").classList.add("fa-bell");
-			dashboard.find("#mute-notifications i").classList.remove("fa-bell-slash");
-			dashboard.find("#mute-notifications span").textContent = "Notifications enabled";
+			dashboard.querySelector("#mute-notifications").classList.add("enabled");
+			dashboard.querySelector("#mute-notifications").classList.remove("disabled");
+			dashboard.querySelector("#mute-notifications i").classList.add("fa-bell");
+			dashboard.querySelector("#mute-notifications i").classList.remove("fa-bell-slash");
+			dashboard.querySelector("#mute-notifications span").textContent = "Notifications enabled";
 		} else {
-			dashboard.find("#mute-notifications").classList.remove("enabled");
-			dashboard.find("#mute-notifications").classList.add("disabled");
-			dashboard.find("#mute-notifications i").classList.remove("fa-bell");
-			dashboard.find("#mute-notifications i").classList.add("fa-bell-slash");
-			dashboard.find("#mute-notifications span").textContent = "Notifications disabled";
+			dashboard.querySelector("#mute-notifications").classList.remove("enabled");
+			dashboard.querySelector("#mute-notifications").classList.add("disabled");
+			dashboard.querySelector("#mute-notifications i").classList.remove("fa-bell");
+			dashboard.querySelector("#mute-notifications i").classList.add("fa-bell-slash");
+			dashboard.querySelector("#mute-notifications span").textContent = "Notifications disabled";
 		}
 	});
 
@@ -186,17 +188,17 @@ async function setupDashboard() {
 
 	setInterval(() => {
 		if (settings.apiUsage.user.bars)
-			for (const bar of dashboard.findAll(".bar")) {
+			for (const bar of findAllElements(".bar", dashboard)) {
 				updateBarTimer(bar);
 			}
 		if (settings.apiUsage.user.cooldowns)
-			for (const cooldown of dashboard.findAll(".cooldowns .cooldown")) {
+			for (const cooldown of findAllElements(".cooldowns .cooldown", dashboard)) {
 				updateCooldownTimer(cooldown);
 			}
 		updateUpdateTimer();
 		updateStatusTimer();
 
-		for (const countdown of document.findAll(".countdown.automatic[data-seconds]")) {
+		for (const countdown of findAllElements(".countdown.automatic[data-seconds]")) {
 			const seconds = parseInt(countdown.dataset.seconds) - 1;
 
 			if (seconds <= 0) {
@@ -210,31 +212,31 @@ async function setupDashboard() {
 		}
 	}, 1000);
 
-	dashboard.find<HTMLAnchorElement>(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
-	dashboard.find(".stakeouts .heading i").addEventListener("click", () => {
-		const stakeoutSection = dashboard.find(".stakeouts .stakeout-list");
+	dashboard.querySelector<HTMLAnchorElement>(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
+	dashboard.querySelector(".stakeouts .heading i").addEventListener("click", () => {
+		const stakeoutSection = dashboard.querySelector(".stakeouts .stakeout-list");
 
 		if (stakeoutSection.classList.contains("tt-hidden")) {
 			stakeoutSection.classList.remove("tt-hidden");
-			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-down");
-			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-right");
+			dashboard.querySelector(".stakeouts .heading i").classList.add("fa-caret-down");
+			dashboard.querySelector(".stakeouts .heading i").classList.remove("fa-caret-right");
 		} else {
 			stakeoutSection.classList.add("tt-hidden");
-			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-down");
-			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-right");
+			dashboard.querySelector(".stakeouts .heading i").classList.remove("fa-caret-down");
+			dashboard.querySelector(".stakeouts .heading i").classList.add("fa-caret-right");
 		}
 	});
-	dashboard.find(".faction-stakeouts .heading i").addEventListener("click", () => {
-		const factionStakeoutSection = dashboard.find(".faction-stakeouts .stakeout-list");
+	dashboard.querySelector(".faction-stakeouts .heading i").addEventListener("click", () => {
+		const factionStakeoutSection = dashboard.querySelector(".faction-stakeouts .stakeout-list");
 
 		if (factionStakeoutSection.classList.contains("tt-hidden")) {
 			factionStakeoutSection.classList.remove("tt-hidden");
-			dashboard.find(".faction-stakeouts .heading i").classList.add("fa-caret-down");
-			dashboard.find(".faction-stakeouts .heading i").classList.remove("fa-caret-right");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.add("fa-caret-down");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.remove("fa-caret-right");
 		} else {
 			factionStakeoutSection.classList.add("tt-hidden");
-			dashboard.find(".faction-stakeouts .heading i").classList.remove("fa-caret-down");
-			dashboard.find(".faction-stakeouts .heading i").classList.add("fa-caret-right");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.remove("fa-caret-down");
+			dashboard.querySelector(".faction-stakeouts .heading i").classList.add("fa-caret-right");
 		}
 	});
 
@@ -270,20 +272,20 @@ async function setupDashboard() {
 
 		function updateStatus() {
 			if (userdata.travel.time_left) {
-				dashboard.find("#country").textContent = `Traveling to ${userdata.travel.destination}`;
-				dashboard.find(".status-wrap").classList.add("tt-hidden");
+				dashboard.querySelector("#country").textContent = `Traveling to ${userdata.travel.destination}`;
+				dashboard.querySelector(".status-wrap").classList.add("tt-hidden");
 			} else {
-				dashboard.find("#country").textContent = userdata.travel.destination;
+				dashboard.querySelector("#country").textContent = userdata.travel.destination;
 
 				const status = userdata.profile.status.state.toLowerCase() === "abroad" ? "okay" : userdata.profile.status.state.toLowerCase();
 
-				dashboard.find("#status").textContent = capitalizeText(status);
-				dashboard.find("#status").setAttribute("class", status);
-				dashboard.find(".status-wrap").classList.remove("tt-hidden");
+				dashboard.querySelector("#status").textContent = capitalizeText(status);
+				dashboard.querySelector("#status").setAttribute("class", status);
+				dashboard.querySelector(".status-wrap").classList.remove("tt-hidden");
 
 				if (userdata.profile.status.until) {
-					dashboard.find("#status").dataset.until = (userdata.profile.status.until * 1000).toString();
-				} else delete dashboard.find("#status").dataset.until;
+					dashboard.querySelector<HTMLElement>("#status").dataset.until = (userdata.profile.status.until * 1000).toString();
+				} else delete dashboard.querySelector<HTMLElement>("#status").dataset.until;
 
 				updateStatusTimer();
 			}
@@ -292,7 +294,7 @@ async function setupDashboard() {
 		function updateIcons() {
 			if (!settings.pages.popup.showIcons) {
 				iconsWrap.classList.add("tt-hidden");
-				iconsWrap.findAll(".countdown.automatic").forEach((x) => x.classList.remove("countdown"));
+				findAllElements(".countdown.automatic").forEach((x) => x.classList.remove("countdown"));
 				return;
 			}
 
@@ -343,26 +345,26 @@ async function setupDashboard() {
 			if (current === maximum) fullAt = "full";
 			else if (current > maximum) fullAt = "over";
 
-			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
-			dashboard.find(`#${name} .bar-info .bar-label`).textContent = `${current}/${maximum}`;
+			dashboard.querySelector<HTMLElement>(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
+			dashboard.querySelector(`#${name} .bar-info .bar-label`).textContent = `${current}/${maximum}`;
 
-			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt.toString();
-			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt.toString();
+			dashboard.querySelector<HTMLElement>(`#${name} .bar-info`).dataset.full_at = fullAt.toString();
+			dashboard.querySelector<HTMLElement>(`#${name} .bar-info`).dataset.tick_at = tickAt.toString();
 			if (bar.interval) {
-				dashboard.find(`#${name} .bar-info`).dataset.tick_time = (bar.interval * 1000).toString();
+				dashboard.querySelector<HTMLElement>(`#${name} .bar-info`).dataset.tick_time = (bar.interval * 1000).toString();
 			}
 
-			updateBarTimer(dashboard.find(`#${name}`));
+			updateBarTimer(dashboard.querySelector(`#${name}`));
 		}
 
 		function updateChainBar(bar: UserV1ChainBar) {
 			const current = bar ? bar.current : 0;
 
 			if (current === 0) {
-				dashboard.find("#chain").classList.add("tt-hidden");
+				dashboard.querySelector("#chain").classList.add("tt-hidden");
 				return;
 			}
-			dashboard.find("#chain").classList.remove("tt-hidden");
+			dashboard.querySelector("#chain").classList.remove("tt-hidden");
 
 			let maximum = bar ? bar.maximum : 100;
 			if (current !== maximum) maximum = getNextChainBonus(current);
@@ -370,60 +372,62 @@ async function setupDashboard() {
 			let tickAt: string | number;
 			let fullAt: string | number;
 			if (bar.cooldown !== 0) {
-				dashboard.find("#chain").classList.add("cooldown");
+				dashboard.querySelector("#chain").classList.add("cooldown");
 				fullAt = (userdata.server_time + bar.cooldown) * 1000;
 				tickAt = (userdata.server_time + bar.cooldown) * 1000;
 			} else {
-				dashboard.find("#chain").classList.remove("cooldown");
+				dashboard.querySelector("#chain").classList.remove("cooldown");
 				fullAt = (userdata.server_time + bar.timeout) * 1000;
 				tickAt = (userdata.server_time + bar.timeout) * 1000;
 			}
 
-			dashboard.find(`#chain .progress .value`).style.width = `${(current / maximum) * 100}%`;
-			dashboard.find(`#chain .bar-info .bar-label`).textContent = `${current}/${maximum}`;
+			dashboard.querySelector<HTMLElement>(`#chain .progress .value`).style.width = `${(current / maximum) * 100}%`;
+			dashboard.querySelector(`#chain .bar-info .bar-label`).textContent = `${current}/${maximum}`;
 
-			dashboard.find(`#chain .bar-info`).dataset.full_at = fullAt.toString();
-			dashboard.find(`#chain .bar-info`).dataset.tick_at = tickAt.toString();
+			dashboard.querySelector<HTMLElement>(`#chain .bar-info`).dataset.full_at = fullAt.toString();
+			dashboard.querySelector<HTMLElement>(`#chain .bar-info`).dataset.tick_at = tickAt.toString();
 
-			updateBarTimer(dashboard.find("#chain"));
+			updateBarTimer(dashboard.querySelector("#chain"));
 		}
 
 		function updateTravelBar() {
 			if (!userdata.travel.time_left) {
-				dashboard.find("#traveling").classList.add("tt-hidden");
+				dashboard.querySelector("#traveling").classList.add("tt-hidden");
 				return;
 			}
-			dashboard.find("#traveling").classList.remove("tt-hidden");
+			dashboard.querySelector("#traveling").classList.remove("tt-hidden");
 
 			const maximum = userdata.travel.timestamp - userdata.travel.departed;
 			const current = maximum - userdata.travel.time_left;
 
-			dashboard.find("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
-			dashboard.find("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.timestamp * 1000);
+			dashboard.querySelector<HTMLElement>("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
+			dashboard.querySelector("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.timestamp * 1000);
 
-			dashboard.find("#traveling .bar-info").dataset.tick_at = (userdata.travel.timestamp * 1000).toString();
-			dashboard.find("#traveling .bar-info").dataset.full_at = (userdata.travel.timestamp * 1000).toString();
+			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.tick_at = (userdata.travel.timestamp * 1000).toString();
+			dashboard.querySelector<HTMLElement>("#traveling .bar-info").dataset.full_at = (userdata.travel.timestamp * 1000).toString();
 
-			updateBarTimer(dashboard.find("#traveling"));
+			updateBarTimer(dashboard.querySelector("#traveling"));
 		}
 
 		function updateCooldown(name: string, cooldown: number) {
-			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0).toString();
+			dashboard.querySelector<HTMLElement>(`#${name}-cooldown`).dataset.completed_at = (
+				userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0
+			).toString();
 
-			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
+			updateCooldownTimer(dashboard.querySelector(`#${name}-cooldown`));
 		}
 
 		function updateExtra() {
-			if (settings.apiUsage.user.newevents) dashboard.find(".extra .events .count").textContent = userdata.notifications.events.toString();
+			if (settings.apiUsage.user.newevents) dashboard.querySelector(".extra .events .count").textContent = userdata.notifications.events.toString();
 			if (settings.apiUsage.user.newmessages)
-				dashboard.find(".extra .messages .count").textContent = Object.values(userdata.messages)
+				dashboard.querySelector(".extra .messages .count").textContent = Object.values(userdata.messages)
 					.filter((message) => !message.seen)
 					.length.toString();
-			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").textContent = `$${formatNumber(userdata.money.wallet)}`;
+			if (settings.apiUsage.user.money) dashboard.querySelector(".extra .wallet .count").textContent = `$${formatNumber(userdata.money.wallet)}`;
 		}
 
 		function updateActions() {
-			dashboard.find("#last-update").dataset.updated_at = userdata.date.toString();
+			dashboard.querySelector<HTMLElement>("#last-update").dataset.updated_at = userdata.date.toString();
 
 			updateUpdateTimer();
 		}
@@ -434,8 +438,8 @@ async function setupDashboard() {
 				Object.keys(stakeouts).length &&
 				!(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)
 			)
-				dashboard.find(".stakeouts").classList.remove("tt-hidden");
-			else dashboard.find(".stakeouts").classList.add("tt-hidden");
+				dashboard.querySelector(".stakeouts").classList.remove("tt-hidden");
+			else dashboard.querySelector(".stakeouts").classList.add("tt-hidden");
 		}
 
 		function setupFactionStakeouts() {
@@ -444,14 +448,14 @@ async function setupDashboard() {
 				Object.keys(factionStakeouts).length &&
 				!(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)
 			)
-				dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
-			else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
+				dashboard.querySelector(".faction-stakeouts").classList.remove("tt-hidden");
+			else dashboard.querySelector(".faction-stakeouts").classList.add("tt-hidden");
 		}
 	}
 
 	function updateStatusTimer() {
 		const current = Date.now();
-		const status = dashboard.find("#status");
+		const status = dashboard.querySelector<HTMLElement>("#status");
 		if (!status.dataset.until) return;
 
 		if (status.classList.contains("jail")) {
@@ -467,7 +471,7 @@ async function setupDashboard() {
 		const name = bar.id;
 		const current = Date.now();
 
-		const barInfo = bar.find(".bar-info");
+		const barInfo = bar.querySelector<HTMLElement>(".bar-info");
 		const dataset = barInfo.dataset;
 
 		let full_at = parseInt(dataset.full_at) || dataset.full_at;
@@ -517,16 +521,16 @@ async function setupDashboard() {
 
 		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
-		cooldown.find(".cooldown-label").textContent = formatTime(
+		cooldown.querySelector(".cooldown-label").textContent = formatTime(
 			{ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 },
 			{ type: "timer", daysToHours: true }
 		);
 	}
 
 	function updateUpdateTimer() {
-		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
+		const updatedAt = parseInt(dashboard.querySelector<HTMLElement>("#last-update").dataset.updated_at);
 
-		dashboard.find("#last-update").textContent = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
+		dashboard.querySelector("#last-update").textContent = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
 	}
 
 	function updateStakeouts() {
@@ -535,9 +539,9 @@ async function setupDashboard() {
 			Object.keys(stakeouts).length &&
 			!(Object.keys(stakeouts).length === 2 && stakeouts.date && stakeouts.order)
 		) {
-			dashboard.find(".stakeouts").classList.remove("tt-hidden");
+			dashboard.querySelector(".stakeouts").classList.remove("tt-hidden");
 
-			const stakeoutList = dashboard.find(".stakeouts .stakeout-list");
+			const stakeoutList = dashboard.querySelector(".stakeouts .stakeout-list");
 			stakeoutList.innerHTML = "";
 
 			for (const id of stakeouts.order) {
@@ -564,10 +568,10 @@ async function setupDashboard() {
 					stateColor = "gray";
 				}
 
-				const removeStakeoutButton = document.newElement({
+				const removeStakeoutButton = elementBuilder({
 					type: "div",
 					class: "delete-stakeout-wrap",
-					children: [document.newElement({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
+					children: [elementBuilder({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
 				});
 				removeStakeoutButton.addEventListener("click", () => {
 					delete stakeouts[id];
@@ -576,15 +580,15 @@ async function setupDashboard() {
 					ttStorage.set({ stakeouts });
 				});
 
-				const lifeBar = document.newElement({
+				const lifeBar = elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({ type: "span", text: "Life: " }),
-						document.newElement({
+						elementBuilder({ type: "span", text: "Life: " }),
+						elementBuilder({
 							type: "div",
 							class: "progress",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "value",
 									style: { width: `${((lifeCurrent / lifeMaximum) * 100).toFixed(0)}%` },
@@ -595,23 +599,23 @@ async function setupDashboard() {
 				});
 
 				stakeoutList.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "user",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "row information",
 								children: [
-									document.newElement({
+									elementBuilder({
 										type: "div",
 										class: "activity",
 										children: [
-											document.newElement({
+											elementBuilder({
 												type: "span",
 												class: `status ${activity.toLowerCase()}`,
 											}),
-											document.newElement({
+											elementBuilder({
 												type: "a",
 												href: `https://www.torn.com/profiles.php?XID=${id}`,
 												text: name,
@@ -622,28 +626,28 @@ async function setupDashboard() {
 									removeStakeoutButton,
 								],
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "row detailed",
 								children: [
 									lifeBar,
-									document.newElement({
+									elementBuilder({
 										type: "span",
 										class: "lastAction",
 										text: `Last action: ${lastAction}`,
 									}),
 								],
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: `row state ${stateColor}`,
-								children: [document.newElement({ type: "span", class: "state ", text: state })],
+								children: [elementBuilder({ type: "span", class: "state ", text: state })],
 							}),
 						],
 					})
 				);
 			}
-		} else dashboard.find(".stakeouts").classList.add("tt-hidden");
+		} else dashboard.querySelector(".stakeouts").classList.add("tt-hidden");
 	}
 
 	function updateFactionStakeouts() {
@@ -652,9 +656,9 @@ async function setupDashboard() {
 			Object.keys(factionStakeouts).length &&
 			!(Object.keys(factionStakeouts).length === 1 && factionStakeouts.date)
 		) {
-			dashboard.find(".faction-stakeouts").classList.remove("tt-hidden");
+			dashboard.querySelector(".faction-stakeouts").classList.remove("tt-hidden");
 
-			const stakeoutList = dashboard.find(".faction-stakeouts .stakeout-list");
+			const stakeoutList = dashboard.querySelector(".faction-stakeouts .stakeout-list");
 			stakeoutList.innerHTML = "";
 
 			for (const factionId in factionStakeouts) {
@@ -674,10 +678,10 @@ async function setupDashboard() {
 					maxMembers = "N/A";
 				}
 
-				const removeStakeoutButton = document.newElement({
+				const removeStakeoutButton = elementBuilder({
 					type: "div",
 					class: "delete-stakeout-wrap",
-					children: [document.newElement({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
+					children: [elementBuilder({ type: "i", class: "delete-stakeout fa-solid fa-trash-can" })],
 				});
 				removeStakeoutButton.addEventListener("click", () => {
 					delete factionStakeouts[factionId];
@@ -686,26 +690,26 @@ async function setupDashboard() {
 				});
 
 				stakeoutList.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "faction",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "row information",
 								children: [
-									document.newElement({
+									elementBuilder({
 										type: "a",
 										href: `https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 										text: name,
 										attributes: { target: "_blank" },
 									}),
-									document.newElement({
+									elementBuilder({
 										type: "div",
 										class: "members",
 										text: members !== "N/A" ? `${members} of ${maxMembers} members` : "unknown members",
 									}),
-									document.newElement({
+									elementBuilder({
 										type: "div",
 										class: "chain",
 										text: chain ? `${chain} chain` : "no chain",
@@ -717,18 +721,18 @@ async function setupDashboard() {
 					})
 				);
 			}
-		} else dashboard.find(".faction-stakeouts").classList.add("tt-hidden");
+		} else dashboard.querySelector(".faction-stakeouts").classList.add("tt-hidden");
 	}
 }
 
 async function setupMarketSearch() {
 	// setup itemlist
-	const itemSelection = document.find("#market .item-list");
+	const itemSelection = document.querySelector("#market .item-list");
 
 	for (const id in torndata.items) {
 		const name = torndata.items[id].name;
 
-		const div = document.newElement({
+		const div = elementBuilder({
 			type: "li",
 			class: "item",
 			id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
@@ -747,7 +751,7 @@ async function setupMarketSearch() {
 	}
 
 	// setup searchbar
-	document.find("#market #search-bar").addEventListener("keyup", (event) => {
+	document.querySelector("#market #search-bar").addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
@@ -758,7 +762,7 @@ async function setupMarketSearch() {
 		let id: number | undefined;
 		if (!isNaN(parseInt(keyword))) id = parseInt(keyword);
 
-		for (const item of document.findAll("#market .item-list li")) {
+		for (const item of findAllElements("#market .item-list li")) {
 			if (item.textContent.toLowerCase().includes(keyword) || (id && parseInt(item.dataset.id) === id)) {
 				item.classList.remove("tt-hidden");
 				itemSelection.classList.remove("tt-hidden");
@@ -767,28 +771,28 @@ async function setupMarketSearch() {
 			}
 		}
 	});
-	document.find("#market #search-bar").addEventListener("click", (event) => {
+	document.querySelector("#market #search-bar").addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
-		document.find("#market .item-list").classList.add("tt-hidden");
-		document.find("#market #item-information").classList.add("tt-hidden");
+		document.querySelector("#market .item-list").classList.add("tt-hidden");
+		document.querySelector("#market #item-information").classList.add("tt-hidden");
 	});
 
 	function showMarketInfo(id: string) {
-		const viewItem = document.find("#market #item-information");
-		viewItem.find(".market").classList.add("tt-hidden");
+		const viewItem = document.querySelector("#market #item-information");
+		viewItem.querySelector(".market").classList.add("tt-hidden");
 
 		const item = torndata.items[id];
-		viewItem.find(".circulation").textContent = formatNumber(item.circulation);
-		viewItem.find(".value").textContent = `$${formatNumber(item.market_value)}`;
-		viewItem.find(".name").textContent = item.name;
-		viewItem.find<HTMLAnchorElement>(".name").href =
+		viewItem.querySelector(".circulation").textContent = formatNumber(item.circulation);
+		viewItem.querySelector(".value").textContent = `$${formatNumber(item.market_value)}`;
+		viewItem.querySelector(".name").textContent = item.name;
+		viewItem.querySelector<HTMLAnchorElement>(".name").href =
 			`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${item.name}&itemType=${item.type}`;
-		viewItem.find<HTMLImageElement>(".image").src = item.image;
+		viewItem.querySelector<HTMLImageElement>(".image").src = item.image;
 
 		viewItem.classList.remove("tt-hidden");
 
-		showLoadingPlaceholder(viewItem.find(".market").parentElement, true);
+		showLoadingPlaceholder(viewItem.querySelector(".market").parentElement, true);
 
 		// Make both API calls in parallel
 		Promise.all([
@@ -817,13 +821,13 @@ async function setupMarketSearch() {
 				handleMarket(tornResult, tornw3bResult);
 			})
 			.catch((error) => {
-				document.find(".error").classList.remove("tt-hidden");
-				document.find(".error").textContent = error.message;
+				document.querySelector(".error").classList.remove("tt-hidden");
+				document.querySelector(".error").textContent = error.message;
 			})
-			.finally(() => showLoadingPlaceholder(viewItem.find(".market").parentElement, false));
+			.finally(() => showLoadingPlaceholder(viewItem.querySelector(".market").parentElement, false));
 
 		function handleMarket(tornResult: MarketItemMarketResponse, tornw3bResult: TornW3BResult) {
-			const list = viewItem.find(".market");
+			const list = viewItem.querySelector(".market");
 			list.innerHTML = "";
 
 			if (!isSellable(id) && !tornResult.itemmarket.listings.length) {
@@ -831,12 +835,12 @@ async function setupMarketSearch() {
 				list.innerHTML = "Item is not sellable!";
 			} else {
 				// Item market listings.
-				const itemMarketWrap = document.newElement({ type: "div" });
-				itemMarketWrap.appendChild(document.newElement({ type: "h4", text: "Item Market" }));
+				const itemMarketWrap = elementBuilder({ type: "div" });
+				itemMarketWrap.appendChild(elementBuilder({ type: "h4", text: "Item Market" }));
 				if (tornResult.itemmarket?.listings?.length) {
 					for (const item of tornResult.itemmarket.listings) {
 						itemMarketWrap.appendChild(
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "price",
 								text: `${item.amount}x | $${formatNumber(item.price)}`,
@@ -845,7 +849,7 @@ async function setupMarketSearch() {
 					}
 				} else {
 					itemMarketWrap.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
@@ -855,12 +859,12 @@ async function setupMarketSearch() {
 				list.appendChild(itemMarketWrap);
 
 				// TornW3B market listings
-				const bazaarWrap = document.newElement({ type: "div" });
-				bazaarWrap.appendChild(document.newElement({ type: "h4", text: "Bazaars" }));
+				const bazaarWrap = elementBuilder({ type: "div" });
+				bazaarWrap.appendChild(elementBuilder({ type: "h4", text: "Bazaars" }));
 				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b && tornw3bResult?.listings?.length) {
 					for (const item of tornw3bResult.listings.slice(0, 3)) {
 						bazaarWrap.appendChild(
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: "price",
 								text: `${item.quantity}x | $${formatNumber(item.price)}`,
@@ -869,7 +873,7 @@ async function setupMarketSearch() {
 					}
 				} else {
 					bazaarWrap.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
@@ -880,20 +884,20 @@ async function setupMarketSearch() {
 					list.appendChild(bazaarWrap);
 				}
 			}
-			viewItem.find(".market").classList.remove("tt-hidden");
+			viewItem.querySelector(".market").classList.remove("tt-hidden");
 		}
 	}
 }
 
 async function loadMarketSearch() {
-	document.find("#market #search-bar").focus();
+	document.querySelector<HTMLElement>("#market #search-bar").focus();
 }
 
 async function setupCalculator() {
-	const calculator = document.find("#calculator");
+	const calculator = document.querySelector("#calculator");
 
 	// setup itemlist
-	const itemSelection = calculator.find(".item-list");
+	const itemSelection = calculator.querySelector(".item-list");
 
 	let selectedItems = localdata.popup.calculatorItems;
 
@@ -903,17 +907,17 @@ async function setupCalculator() {
 		const identifier = `calculator-${id}`;
 
 		itemSelection.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "li",
 				class: "item",
 				id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "label",
 						text: name,
 						attributes: { for: identifier },
 					}),
-					document.newElement({
+					elementBuilder({
 						type: "input",
 						id: identifier,
 						attributes: { type: "number" },
@@ -946,7 +950,7 @@ async function setupCalculator() {
 	}
 
 	// setup searchbar
-	const search = calculator.find(".search");
+	const search = calculator.querySelector(".search");
 	search.addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
@@ -955,7 +959,7 @@ async function setupCalculator() {
 			return;
 		}
 
-		for (const item of calculator.findAll(".item-list > li")) {
+		for (const item of findAllElements(".item-list > li", calculator)) {
 			if (item.textContent.toLowerCase().includes(keyword)) {
 				item.classList.remove("tt-hidden");
 				itemSelection.classList.remove("tt-hidden");
@@ -967,10 +971,10 @@ async function setupCalculator() {
 	search.addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
-		calculator.find(".item-list").classList.add("tt-hidden");
+		calculator.querySelector(".item-list").classList.add("tt-hidden");
 	});
 
-	const clear = calculator.find(".clear");
+	const clear = calculator.querySelector(".clear");
 	clear.addEventListener("click", () => {
 		selectedItems = [];
 
@@ -980,7 +984,7 @@ async function setupCalculator() {
 	updateSelection();
 
 	function updateSelection() {
-		const receipt = calculator.find(".receipt");
+		const receipt = calculator.querySelector(".receipt");
 		receipt.innerHTML = "";
 
 		if (!selectedItems.length) {
@@ -990,7 +994,7 @@ async function setupCalculator() {
 		}
 		clear.classList.remove("tt-hidden");
 
-		const items = document.newElement({ type: "ul" });
+		const items = elementBuilder({ type: "ul" });
 
 		let totalValue = 0;
 		for (const { id, amount } of selectedItems) {
@@ -998,21 +1002,21 @@ async function setupCalculator() {
 			const price = amount * value;
 
 			items.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "amount",
 							text: `${formatNumber(amount)}x`,
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "item",
 							text: name,
 						}),
 						document.createTextNode("="),
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "price",
 							text: formatNumber(price, { currency: true }),
@@ -1026,7 +1030,7 @@ async function setupCalculator() {
 
 		receipt.appendChild(items);
 		receipt.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "total",
 				text: `Total: ${formatNumber(totalValue, { currency: true })}`,
@@ -1038,12 +1042,12 @@ async function setupCalculator() {
 }
 
 async function loadCalculator() {
-	document.find("#calculator .search").focus();
+	document.querySelector<HTMLElement>("#calculator .search").focus();
 }
 
 async function setupStocksOverview() {
-	const stocksOverview = document.find("#stocks");
-	const allStocks = stocksOverview.find("#all-stocks");
+	const stocksOverview = document.querySelector("#stocks");
+	const allStocks = stocksOverview.querySelector("#all-stocks");
 
 	for (let id in stockdata) {
 		if (id === "date") continue;
@@ -1052,20 +1056,20 @@ async function setupStocksOverview() {
 	}
 
 	// setup searchbar
-	stocksOverview.find("#stock-search-bar").addEventListener("keyup", (event) => {
+	stocksOverview.querySelector("#stock-search-bar").addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
-			for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+			for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
 				item.classList.add("tt-hidden");
 			}
-			for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
+			for (const item of findAllElements(".stock-wrap[data-user='true']", allStocks)) {
 				item.classList.remove("tt-hidden");
 			}
 			return;
 		}
 
-		for (const item of allStocks.findAll(".stock-wrap")) {
+		for (const item of findAllElements(".stock-wrap", allStocks)) {
 			if (keyword === "*" || item.dataset.name.includes(keyword)) {
 				item.classList.remove("tt-hidden");
 			} else {
@@ -1073,18 +1077,18 @@ async function setupStocksOverview() {
 			}
 		}
 	});
-	stocksOverview.find("#stock-search-bar").addEventListener("click", (event) => {
+	stocksOverview.querySelector("#stock-search-bar").addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
-		for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+		for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
 			item.classList.add("tt-hidden");
 		}
-		for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
+		for (const item of findAllElements(".stock-wrap[data-user='true']", allStocks)) {
 			item.classList.remove("tt-hidden");
 		}
 	});
 
-	for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+	for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
 		item.classList.add("tt-hidden");
 	}
 
@@ -1094,17 +1098,17 @@ async function setupStocksOverview() {
 
 		const userStock: UserV1Stock | null = settings.apiUsage.user.stocks ? (userdata.stocks[id] ?? null) : null;
 
-		const wrapper = document.newElement({
+		const wrapper = elementBuilder({
 			type: "div",
 			class: "stock-wrap",
 			dataset: { name: `${stock.name} (${stock.acronym})`.toLowerCase(), user: !!userStock },
-			children: [document.newElement("hr")],
+			children: [elementBuilder("hr")],
 		});
 
 		let boughtPrice: number, profit: number;
 		if (userStock) {
 			boughtPrice = getStockBoughtPrice(userStock).boughtPrice;
-			profit = ((stock.current_price - boughtPrice) * userStock.total_shares).dropDecimals();
+			profit = dropDecimals((stock.current_price - boughtPrice) * userStock.total_shares);
 		}
 
 		createHeading();
@@ -1115,32 +1119,32 @@ async function setupStocksOverview() {
 		return wrapper;
 
 		function createHeading() {
-			const heading = document.newElement({
+			const heading = elementBuilder({
 				type: "a",
 				class: "heading",
 				href: `https://www.torn.com/stockexchange.php?stock=${stock.acronym}`,
 				attributes: { target: "_blank" },
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						class: "name",
 						text: `${stock[stock.name.length > 35 ? "acronym" : "name"]}`,
 					}),
-					document.newElement("br"),
+					elementBuilder("br"),
 				],
 			});
 			wrapper.appendChild(heading);
 
 			if (userStock) {
 				heading.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						class: "quantity",
 						text: `(${formatNumber(userStock.total_shares, { shorten: 2 })} share${applyPlural(userStock.total_shares)})`,
 					})
 				);
 				heading.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: `profit ${getProfitClass(profit)}`,
 						text: `${getProfitIndicator(profit)}${formatNumber(Math.abs(profit), { currency: true })}`,
@@ -1158,22 +1162,22 @@ async function setupStocksOverview() {
 		}
 
 		function createPriceInformation() {
-			const priceContent = document.newElement({
+			const priceContent = elementBuilder({
 				type: "div",
 				class: "content price tt-hidden",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `Current price: ${formatNumber(stock.current_price, { decimals: 3, currency: true })}`,
 					}),
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `Total shares: ${formatNumber(stock.total_shares)}`,
 					}),
 				],
 			});
 			wrapper.append(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Price Information", priceContent), priceContent],
@@ -1181,9 +1185,9 @@ async function setupStocksOverview() {
 			);
 
 			if (userStock) {
-				priceContent.appendChild(document.newElement({ type: "div", class: "flex-break" }));
+				priceContent.appendChild(elementBuilder({ type: "div", class: "flex-break" }));
 				priceContent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `Bought at: ${formatNumber(boughtPrice, { decimals: 3, currency: true })}`,
 					})
@@ -1192,13 +1196,13 @@ async function setupStocksOverview() {
 		}
 
 		function createBenefitInformation() {
-			const benefitContent = document.newElement({
+			const benefitContent = elementBuilder({
 				type: "div",
 				class: "content benefit tt-hidden",
 				children: [],
 			});
 			wrapper.append(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Benefit Information", benefitContent), benefitContent],
@@ -1208,7 +1212,7 @@ async function setupStocksOverview() {
 			if (userStock) {
 				if (isDividendStock(id)) {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: userStock.dividend
 								? userStock.dividend.ready
@@ -1221,12 +1225,12 @@ async function setupStocksOverview() {
 					benefitContent.appendChild(createRoiTable(stock, userStock));
 				} else {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(userStock.total_shares)}/${formatNumber(stock.benefit.requirement)}`,
 						})
 					);
-					benefitContent.appendChild(document.newElement("br"));
+					benefitContent.appendChild(elementBuilder("br"));
 
 					let color: string;
 					let duration: string;
@@ -1244,7 +1248,7 @@ async function setupStocksOverview() {
 					}
 
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: `description ${color}`,
 							text: `${stock.benefit.description}`,
@@ -1252,7 +1256,7 @@ async function setupStocksOverview() {
 					);
 					if (duration)
 						benefitContent.appendChild(
-							document.newElement({
+							elementBuilder({
 								type: "span",
 								class: "duration",
 								text: duration,
@@ -1262,7 +1266,7 @@ async function setupStocksOverview() {
 			} else {
 				if (isDividendStock(id)) {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `Available every ${stock.benefit.frequency} days.`,
 						})
@@ -1271,21 +1275,21 @@ async function setupStocksOverview() {
 					benefitContent.appendChild(createRoiTable(stock, undefined));
 				} else {
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(stock.benefit.requirement)}`,
 						})
 					);
-					benefitContent.appendChild(document.newElement("br"));
+					benefitContent.appendChild(elementBuilder("br"));
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "description not-completed",
 							text: `${stock.benefit.description}`,
 						})
 					);
 					benefitContent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "duration",
 							text: `after ${stock.benefit.frequency} days.`,
@@ -1296,30 +1300,30 @@ async function setupStocksOverview() {
 		}
 
 		function createAlertsSection() {
-			const alertsContent = document.newElement({
+			const alertsContent = elementBuilder({
 				type: "div",
 				class: "content alerts tt-hidden",
 				children: [],
 			});
 			wrapper.append(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Alerts", alertsContent), alertsContent],
 				})
 			);
 
-			alertsContent.appendChild(document.newElement({ type: "span", class: "title", text: "Price" }));
+			alertsContent.appendChild(elementBuilder({ type: "span", class: "title", text: "Price" }));
 			alertsContent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "label",
 							attributes: { for: `stock-${id}-alert__reaches` },
 							text: "reaches",
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							id: `stock-${id}-alert__reaches`,
 							attributes: { type: "number", min: 0 },
@@ -1344,15 +1348,15 @@ async function setupStocksOverview() {
 				})
 			);
 			alertsContent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "label",
 							attributes: { for: `stock-${id}-alert__falls` },
 							text: "falls to",
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							id: `stock-${id}-alert__falls`,
 							attributes: { type: "number", min: 0 },
@@ -1379,46 +1383,46 @@ async function setupStocksOverview() {
 		}
 
 		function getHeadingElement(title: string, content: Element) {
-			return document.newElement({
+			return elementBuilder({
 				type: "div",
 				class: "heading",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						class: "title",
 						text: title,
 					}),
-					document.newElement({ type: "i", class: "fa-solid  fa-chevron-down" }),
+					elementBuilder({ type: "i", class: "fa-solid  fa-chevron-down" }),
 				],
 				events: {
 					click: (event) => {
 						content.classList[content.classList.contains("tt-hidden") ? "remove" : "add"]("tt-hidden");
 
 						const target = event.target as HTMLElement;
-						rotateElement((target.classList.contains("heading") ? target : target.parentElement).find("i"), 180);
+						rotateElement((target.classList.contains("heading") ? target : target.parentElement).querySelector("i"), 180);
 					},
 				},
 			});
 		}
 
 		function createRoiTable(stock: TornV1Stock, userStock: UserV1Stock | undefined) {
-			const benefitTable = document.newElement({
+			const benefitTable = elementBuilder({
 				type: "table",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "tr",
 						children: [
-							document.newElement({ type: "th", text: "Increment" }),
-							document.newElement({
+							elementBuilder({ type: "th", text: "Increment" }),
+							elementBuilder({
 								type: "th",
 								text: "Stocks",
 							}),
-							document.newElement({ type: "th", text: "Cost" }),
-							document.newElement({
+							elementBuilder({ type: "th", text: "Cost" }),
+							elementBuilder({
 								type: "th",
 								text: "Reward",
 							}),
-							document.newElement({ type: "th", text: "ROI" }),
+							elementBuilder({ type: "th", text: "ROI" }),
 						],
 					}),
 				],
@@ -1444,18 +1448,18 @@ async function setupStocksOverview() {
 				const roi = (yearlyValue / ((stocks - previousStocks) * stock.current_price)) * 100;
 
 				benefitTable.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "tr",
 						class: ["increment", level <= ownedLevel ? (level <= activeLevel ? "completed" : "awaiting") : ""],
 						children: [
-							document.newElement({ type: "td", text: level }),
-							document.newElement({ type: "td", text: formatNumber(stocks) }),
-							document.newElement({
+							elementBuilder({ type: "td", text: level }),
+							elementBuilder({ type: "td", text: formatNumber(stocks) }),
+							elementBuilder({
 								type: "td",
 								text: formatNumber(stocks * stock.current_price, { currency: true }),
 							}),
-							document.newElement({ type: "td", text: reward }),
-							document.newElement({
+							elementBuilder({ type: "td", text: reward }),
+							elementBuilder({
 								type: "td",
 								text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A",
 							}),
@@ -1470,7 +1474,7 @@ async function setupStocksOverview() {
 }
 
 async function setupNotifications() {
-	const notifications = document.find("#notifications ul");
+	const notifications = document.querySelector("#notifications ul");
 
 	notificationHistory
 		.map(createEntry)
@@ -1485,25 +1489,25 @@ async function setupNotifications() {
 
 		const period = isToday(date) ? formatTime(date) : `${formatDate(date)} ${formatTime(date)}`;
 
-		return document.newElement({
+		return elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "a",
 					href: url,
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "title",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "span",
 									text: title,
 								}),
-								document.newElement({ type: "span", text: period }),
+								elementBuilder({ type: "span", text: period }),
 							],
 						}),
-						document.newElement({ type: "span", text: message }),
+						elementBuilder({ type: "span", text: message }),
 					],
 					attributes: { target: "_blank" },
 				}),

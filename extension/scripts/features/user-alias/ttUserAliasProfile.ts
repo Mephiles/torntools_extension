@@ -16,21 +16,21 @@
 		removeAlias();
 
 		const nameLi: Element = await requireElement(".profile-container.basic-info .info-table > :first-child");
-		const userID = nameLi.find(".user-info-value .bold").textContent.split("[")[1].getNumber();
+		const userID = convertToNumber(nameLi.querySelector(".user-info-value .bold").textContent.split("[")[1]);
 		if (!settings.userAlias[userID]) return;
 
-		const profileImg = document.find(".user.name");
-		const aliasSpan = document.newElement({ type: "span", class: "tt-user-alias", text: settings.userAlias[userID].alias });
+		const profileImg = document.querySelector(".user.name");
+		const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias", text: settings.userAlias[userID].alias });
 		profileImg.insertAdjacentElement("afterend", aliasSpan);
 
 		const cloneLi = nameLi.cloneNode(true) as Element;
 		cloneLi.classList.add("tt-alias");
-		cloneLi.find(".user-information-section .bold").textContent = "Alias";
-		cloneLi.find(".user-info-value .bold").textContent = settings.userAlias[userID].alias;
+		cloneLi.querySelector(".user-information-section .bold").textContent = "Alias";
+		cloneLi.querySelector(".user-info-value .bold").textContent = settings.userAlias[userID].alias;
 		nameLi.insertAdjacentElement("afterend", cloneLi);
 	}
 
 	function removeAlias() {
-		document.findAll(".tt-alias, .tt-user-alias").forEach((x) => x.remove());
+		findAllElements(".tt-alias, .tt-user-alias").forEach((x) => x.remove());
 	}
 })();

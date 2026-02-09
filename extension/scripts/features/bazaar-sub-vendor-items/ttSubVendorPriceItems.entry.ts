@@ -36,14 +36,14 @@
 	}
 
 	function highlightEverything() {
-		const items = [...document.findAll("[class*='item__'] > [class*='itemDescription__']")]
+		const items = findAllElements("[class*='item__'] > [class*='itemDescription__']")
 			// filter out $1 items that you can't buy
-			.filter((element) => !element.find("[class*='isBlockedForBuying___'"))
+			.filter((element) => !element.querySelector("[class*='isBlockedForBuying___']"))
 			.map<HighlightableItem>((element) => {
 				return {
 					element,
-					id: element.find("img").src.getNumber(),
-					price: element.find("[class*='price___']").textContent.getNumber(),
+					id: convertToNumber(element.querySelector("img").src),
+					price: convertToNumber(element.querySelector("[class*='price___']").textContent),
 				};
 			})
 			.filter((item) => item.element);
@@ -68,6 +68,6 @@
 
 	function removeHighlights() {
 		observer?.disconnect();
-		document.findAll(`.${CLASS_NAME}`).forEach((item) => item.classList.remove(CLASS_NAME));
+		findAllElements(`.${CLASS_NAME}`).forEach((item) => item.classList.remove(CLASS_NAME));
 	}
 })();

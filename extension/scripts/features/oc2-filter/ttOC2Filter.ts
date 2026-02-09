@@ -52,7 +52,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({ type: "div", class: "content" });
+		const filterContent = elementBuilder({ type: "div", class: "content" });
 		content.appendChild(filterContent);
 
 		const difficultyFilter = createFilterSection({
@@ -109,17 +109,17 @@
 		// Save the filters
 		await ttStorage.change({ filters: { oc2: filters } });
 
-		document.findAll(".tt-oc2-list > [class*='wrapper___']").forEach((li) => filterRow(li, filters));
+		findAllElements(".tt-oc2-list > [class*='wrapper___']").forEach((li) => filterRow(li, filters));
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".tt-oc2-list > [class*='wrapper___']:not(.tt-hidden)").length,
-			document.findAll(".tt-oc2-list > [class*='wrapper___']").length,
+			findAllElements(".tt-oc2-list > [class*='wrapper___']:not(.tt-hidden)").length,
+			findAllElements(".tt-oc2-list > [class*='wrapper___']").length,
 			content
 		);
 	}
 
 	function filterRow(row, filters) {
-		const level = row.querySelector("[class*='levelValue___']").textContent.getNumber();
+		const level = convertToNumber(row.querySelector("[class*='levelValue___']").textContent);
 		if (filters.difficulty.length && !filters.difficulty.includes(level)) {
 			hide("difficulty");
 			return;
@@ -149,7 +149,7 @@
 
 	function removeFilter() {
 		removeContainer("OC Filter");
-		document.findAll(".tt-oc2-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".tt-oc2-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 
 	// Helper function to determine if we're on the completed crimes tab

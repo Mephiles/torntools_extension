@@ -30,7 +30,7 @@
 		if (trader) id = parseInt(trader.href.match(/XID=(\d*)/i)[1]);
 		if (!id) return;
 
-		const button = document.newElement({
+		const button = elementBuilder({
 			type: "span",
 			text: "Open Chat",
 			class: "tt-open-chat",
@@ -38,8 +38,8 @@
 
 		button.addEventListener("click", () => executeScript(chrome.runtime.getURL("scripts/features/trade-open-chat/ttTradeOpenChat.inject.js")));
 
-		document.find("#trade-container > .title-black").appendChild(
-			document.newElement({
+		document.querySelector("#trade-container > .title-black").appendChild(
+			elementBuilder({
 				type: "div",
 				children: [button],
 			})
@@ -47,6 +47,6 @@
 	}
 
 	function removeButton() {
-		document.find(".tt-open-chat")?.remove();
+		document.querySelector(".tt-open-chat")?.remove();
 	}
 })();

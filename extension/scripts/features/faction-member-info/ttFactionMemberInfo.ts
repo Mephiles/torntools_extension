@@ -79,22 +79,22 @@
 			return;
 		}
 
-		document.findAll(".members-list .table-body > li").forEach((li) => {
+		findAllElements(".members-list .table-body > li").forEach((li) => {
 			const userID = getUsername(li).id;
 			const userBalance = balance.members.find((m) => m.id === userID);
 			if (!userBalance || (!userBalance.points && !userBalance.money)) return;
 
 			// Don't show this for fallen players.
-			if (li.find(".icons li[id*='icon77___']")) return;
+			if (li.querySelector(".icons li[id*='icon77___']")) return;
 
 			const nextSibling = li.nextSibling as HTMLElement | undefined;
 
-			const memberInfo = document.newElement({ type: "div", class: "tt-member-info" });
+			const memberInfo = elementBuilder({ type: "div", class: "tt-member-info" });
 			const parent = lastActionState && nextSibling?.className?.includes("tt-last-action") ? li.nextSibling : memberInfo;
 
 			if (userBalance.points) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-points-balance",
 						text: `Point Balance: ${formatNumber(userBalance.points)}`,
@@ -103,7 +103,7 @@
 			}
 			if (userBalance.money) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-money-balance",
 						text: `Money Balance: ${formatNumber(userBalance.money, { currency: true })}`,
@@ -120,7 +120,7 @@
 	}
 
 	function removeInfo() {
-		document.findAll(".tt-member-info, .tt-points-balance, .tt-money-balance").forEach((x) => x.remove());
-		document.findAll(".tt-last-action.tt-modified").forEach((x) => x.classList.remove("modified"));
+		findAllElements(".tt-member-info, .tt-points-balance, .tt-money-balance").forEach((x) => x.remove());
+		findAllElements(".tt-last-action.tt-modified").forEach((x) => x.classList.remove("modified"));
 	}
 })();

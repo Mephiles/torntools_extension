@@ -23,7 +23,7 @@
 	async function showEffectiveBattleStats() {
 		await requireContent();
 
-		const statsContainer = document.find("h5=Battle Stats").parentElement.nextElementSibling.find("ul.info-cont-wrap");
+		const statsContainer = findElementWithText("h5", "Battle Stats").parentElement.nextElementSibling.querySelector("ul.info-cont-wrap");
 		const { content } = createContainer("Effective Battle Stats", {
 			collapsible: false,
 			applyRounding: false,
@@ -34,13 +34,13 @@
 		let effectiveTotal = 0;
 		const stats = ["Strength", "Defense", "Speed", "Dexterity"];
 		for (let i = 0; i < stats.length; i++) {
-			const base = statsContainer.find(`li:nth-child(${i + 1}) .desc`).textContent.getNumber();
+			const base = convertToNumber(statsContainer.querySelector(`li:nth-child(${i + 1}) .desc`).textContent);
 
-			const modifierText = statsContainer.find(`li:nth-child(${i + 1}) .mod`).textContent.trim();
+			const modifierText = statsContainer.querySelector(`li:nth-child(${i + 1}) .mod`).textContent.trim();
 			let modifier: number;
 			if (modifierText.charAt(0) === "+") modifier = parseInt(modifierText.slice(1, -1)) / 100 + 1;
 			else modifier = 1 - parseInt(modifierText.slice(1, -1)) / 100;
-			const effective = (base * modifier).dropDecimals();
+			const effective = dropDecimals(base * modifier);
 
 			effectiveTotal += effective;
 			content.appendChild(newRow(stats[i], formatNumber(effective)));
@@ -49,12 +49,12 @@
 		content.appendChild(newRow("Total", formatNumber(effectiveTotal)));
 
 		function newRow(name: string, value: string) {
-			return document.newElement({
+			return elementBuilder({
 				type: "li",
 				class: "stats-row",
 				children: [
-					document.newElement({ type: "div", class: "divider", children: [document.newElement({ type: "span", text: name })] }),
-					document.newElement({ type: "div", class: "desc", children: [document.newElement({ type: "span", text: value })] }),
+					elementBuilder({ type: "div", class: "divider", children: [elementBuilder({ type: "span", text: name })] }),
+					elementBuilder({ type: "div", class: "desc", children: [elementBuilder({ type: "span", text: value })] }),
 				],
 			});
 		}

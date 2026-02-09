@@ -26,15 +26,17 @@
 			await sleep(0.5);
 			calculateAndShowProfits();
 		});
-		observer.observe(document.find("#priceTab"), { attributeOldValue: true });
+		observer.observe(document.querySelector("#priceTab"), { attributeOldValue: true });
 	}
 
 	function calculateAndShowProfits() {
 		removeProfitAndValue();
 
-		const totalValue = [...document.findAll("[class*='stockOwned__'] [class*='value__']")].map((x) => x.textContent.getNumber()).totalSum();
+		const totalValue = findAllElements("[class*='stockOwned__'] [class*='value__']")
+			.map((x) => convertToNumber(x.textContent))
+			.reduce((a, b) => a + b, 0);
 		const stockPrices = getStockPrices();
-		const profits = [...document.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")]
+		const profits = findAllElements("#stockmarketroot [class*='stockMarket__'] > ul[id]")
 			.map((x) => {
 				const stockID = x.id;
 				const userStockData = userdata.stocks[stockID];
@@ -45,18 +47,18 @@
 
 				return Math.floor((stockPrices[stockID] - boughtPrice) * userStockData.total_shares);
 			})
-			.totalSum();
+			.reduce((a, b) => a + b, 0);
 
 		const shorten = mobile ? 2 : true;
-		document.find("#stockmarketroot h4").appendChild(
-			document.newElement({
+		document.querySelector("#stockmarketroot h4").appendChild(
+			elementBuilder({
 				type: "span",
 				class: "tt-total-stock-value",
 				children: [
 					"Value: ",
-					document.newElement({ type: "span", class: "value", text: formatNumber(totalValue, { currency: true, shorten }) }),
+					elementBuilder({ type: "span", class: "value", text: formatNumber(totalValue, { currency: true, shorten }) }),
 					" | Profit: ",
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						class: profits >= 0 ? "profit" : "loss",
 						text: formatNumber(profits, { currency: true, shorten }),
@@ -64,20 +66,20 @@
 				],
 			})
 		);
-		if (mobile) document.find("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
+		if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
 	}
 
 	function getStockPrices() {
 		const data: Record<string, number> = {};
-		document.findAll("[class*='stockMarket__'] > ul[id]").forEach((stock) => {
-			data[stock.id] = parseFloat(stock.find("#priceTab > :first-child").textContent);
+		findAllElements("[class*='stockMarket__'] > ul[id]").forEach((stock) => {
+			data[stock.id] = parseFloat(stock.querySelector("#priceTab > :first-child").textContent);
 		});
 		return data;
 	}
 
 	function removeProfitAndValue() {
-		const ttTotalStockValue = document.find("#stockmarketroot .tt-total-stock-value");
+		const ttTotalStockValue = document.querySelector("#stockmarketroot .tt-total-stock-value");
 		if (ttTotalStockValue) ttTotalStockValue.remove();
-		if (mobile) document.find("#stockmarketroot [class*='topSection__']").classList.remove("tt-total-stock-value-wrap");
+		if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.remove("tt-total-stock-value-wrap");
 	}
 })();

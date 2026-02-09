@@ -8,7 +8,7 @@
 		() => settings.pages.companies.autoStockFill,
 		addListener,
 		addFillStockButton,
-		() => document.findAll(".tt-fill-stock").forEach((x) => x.remove()),
+		() => findAllElements(".tt-fill-stock").forEach((x) => x.remove()),
 		{
 			storage: ["settings.pages.companies.autoStockFill"],
 		},
@@ -29,33 +29,30 @@
 
 		(await requireElement("form[action*='stock'] .order ~ a")).insertAdjacentElement(
 			"afterend",
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-fill-stock-wrapper",
-				children: [document.newElement({ type: "button", class: "tt-btn tt-fill-stock", text: "FILL STOCK", events: { click: fillStock } })],
+				children: [elementBuilder({ type: "button", class: "tt-btn tt-fill-stock", text: "FILL STOCK", events: { click: fillStock } })],
 			})
 		);
 	}
 
 	async function fillStock() {
 		const stockForm: Element = await requireElement("form[action*='stock']");
-		const storageCapacity = [...stockForm.findAll(".storage-capacity > *")].map((x) => x.dataset.initial.getNumber());
+		const storageCapacity = findAllElements(".storage-capacity > *", stockForm).map((x) => convertToNumber(x.dataset.initial));
 		const usableCapacity = storageCapacity[1] - storageCapacity[0];
-		const totalSoldDaily = stockForm.find(".stock-list > li.total .sold-daily").textContent.getNumber();
+		const totalSoldDaily = convertToNumber(stockForm.querySelector(".stock-list > li.total .sold-daily").textContent);
 		console.log(storageCapacity, usableCapacity, totalSoldDaily);
 
-		stockForm.findAll(".stock-list > li:not(.total):not(.quantity)").forEach((stockItem) => {
-			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
+		findAllElements(".stock-list > li:not(.total):not(.quantity)", stockForm).forEach((stockItem) => {
+			const soldDaily = convertToNumber(stockItem.querySelector(".sold-daily").lastChild.textContent);
 
-			// Original
-			// let neededStock = (((soldDaily / totalSoldDaily) * totalCapacity) - stock - ordered).dropDecimals();
-
-			let neededStock = ((soldDaily / totalSoldDaily) * usableCapacity).dropDecimals();
+			let neededStock = dropDecimals((soldDaily / totalSoldDaily) * usableCapacity);
 			neededStock = Math.max(0, neededStock);
 
 			console.log(soldDaily, neededStock);
 
-			updateReactInput(stockItem.find("input"), neededStock, { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
+			updateReactInput(stockItem.querySelector("input"), neededStock, { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
 		});
 	}
 })();

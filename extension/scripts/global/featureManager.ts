@@ -131,7 +131,7 @@ class FeatureManager {
 			}
 		}
 		console.error(...info);
-		// this.container.find(".error-messages")
+		// this.container.querySelector(".error-messages")
 		/*
 		<div class="error-messages">
 			<div class="error">
@@ -161,30 +161,30 @@ class FeatureManager {
 		let errorElement: HTMLElement;
 		if (error != null && typeof error === "object") {
 			if (error instanceof Error) {
-				errorElement = document.newElement({
+				errorElement = elementBuilder({
 					type: "div",
 					class: "error",
 					children: [
-						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
-						document.newElement({ type: "pre", class: "stack", text: error.stack }),
+						elementBuilder({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+						elementBuilder({ type: "pre", class: "stack", text: error.stack }),
 					],
 				});
 			} else if (error instanceof ErrorEvent) {
-				errorElement = document.newElement({
+				errorElement = elementBuilder({
 					type: "div",
 					class: "error",
 					children: [
-						document.newElement({ type: "div", class: "name", text: error.message }),
-						document.newElement({ type: "pre", class: "stack", text: `${error.filename}:${error.lineno}` }),
+						elementBuilder({ type: "div", class: "name", text: error.message }),
+						elementBuilder({ type: "pre", class: "stack", text: `${error.filename}:${error.lineno}` }),
 					],
 				});
 			}
 		} else {
-			errorElement = document.newElement({
+			errorElement = elementBuilder({
 				type: "pre",
 				class: "error",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "name",
 						text: `Unknown error message: ${error}`,
@@ -192,7 +192,7 @@ class FeatureManager {
 				],
 			});
 		}
-		this.container.find(".error-messages").appendChild(errorElement);
+		this.container.querySelector(".error-messages").appendChild(errorElement);
 	}
 
 	private clearEarlyErrors() {
@@ -350,8 +350,8 @@ class FeatureManager {
 							const newValue = rec(getter(), path);
 							const oldValue = rec(oldSettings, path);
 
-							if (Array.isArray(newValue) && Array.isArray(oldValue)) return !newValue.equals(oldValue);
-							else if (newValue instanceof Object && oldValue instanceof Object) return !newValue.equals(oldValue);
+							if (Array.isArray(newValue) && Array.isArray(oldValue)) return !arraysEquals(newValue, oldValue);
+							else if (newValue instanceof Object && oldValue instanceof Object) return !objectsEquals(newValue, oldValue);
 
 							return newValue !== oldValue;
 						})
@@ -397,38 +397,38 @@ class FeatureManager {
 		}
 
 		new Promise(async () => {
-			let row = this.container.find(`[feature-name*="${feature.name}"]`);
+			let row = this.container.querySelector(`[feature-name*="${feature.name}"]`);
 			if (row) {
 				row.setAttribute("status", status);
 
-				const statusIcon = row.find("i");
-				statusIcon.setClass(getIconClass(status));
+				const statusIcon = row.querySelector("i");
+				statusIcon.className = getIconClass(status);
 
 				if (options.message) statusIcon.setAttribute("title", options.message);
 				else statusIcon.removeAttribute("title");
 			} else {
-				row = document.newElement({
+				row = elementBuilder({
 					type: "div",
 					class: "tt-feature",
 					attributes: { "feature-name": feature.name, status: status },
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "i",
 							class: getIconClass(status),
 							...(options.message ? { attributes: { title: options.message } } : {}),
 						}),
-						document.newElement({ type: "span", text: feature.name }),
+						elementBuilder({ type: "span", text: feature.name }),
 					],
 				});
 
-				let scopeEl = this.container.find(`[scope*="${feature.scope}"]`);
+				let scopeEl = this.container.querySelector(`[scope*="${feature.scope}"]`);
 				if (!scopeEl) {
-					scopeEl = document.newElement({
+					scopeEl = elementBuilder({
 						type: "div",
 						attributes: { scope: feature.scope },
-						children: [document.newElement({ type: "div", text: `— ${feature.scope} —` })],
+						children: [elementBuilder({ type: "div", text: `— ${feature.scope} —` })],
 					});
-					this.container.find(".tt-features-list").appendChild(scopeEl);
+					this.container.querySelector(".tt-features-list").appendChild(scopeEl);
 				}
 				scopeEl.appendChild(row);
 			}
@@ -461,12 +461,14 @@ class FeatureManager {
 	display() {
 		if (!this.container) return;
 
-		this.container.setClass(
+		this.container.className = [
 			settings.featureDisplay ? "" : "tt-hidden",
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : "",
-			settings.featureDisplayHideEmpty ? "hide-empty" : ""
-		);
+			settings.featureDisplayHideEmpty ? "hide-empty" : "",
+		]
+			.filter((c) => !!c)
+			.join(" ");
 		this.hideEmptyScopes();
 		this.clearEarlyErrors();
 	}
@@ -474,7 +476,7 @@ class FeatureManager {
 	async createPopup() {
 		await loadDatabase();
 
-		const popup = document.newElement({
+		const popup = elementBuilder({
 			type: "div",
 			id: this.containerID,
 			attributes: {
@@ -482,41 +484,42 @@ class FeatureManager {
 				"error-count": "0",
 			},
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "button",
 							style: { backgroundImage: `url(${chrome.runtime.getURL("resources/images/icon_128.png")})` },
 							events: {
 								click: (e) => {
 									const target = e.target as Element;
 									const title = target.matches(`#${this.containerID}`) ? target : target.closest(`#${this.containerID}`);
-									if (title.classList.toggle("open"))
-										title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/svg-icons/cross.svg")})`;
-									else title.find("button").style.backgroundImage = `url(${chrome.runtime.getURL("resources/images/icon_128.png")})`;
+
+									title.querySelector("button").style.backgroundImage = title.classList.toggle("open")
+										? `url(${chrome.runtime.getURL("resources/images/svg-icons/cross.svg")})`
+										: `url(${chrome.runtime.getURL("resources/images/icon_128.png")})`;
 								},
 							},
 						}),
 					],
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-features-list",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "error-messages",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "heading",
 									text: "Errors",
 									attributes: { title: "Click or touch to copy all errors" },
-									children: [document.newElement({ type: "i", class: "fa-solid fa-copy" })],
+									children: [elementBuilder({ type: "i", class: "fa-solid fa-copy" })],
 									events: {
 										click: () => {
-											toClipboard("TornTools " + document.find("#tt-page-status .error-messages").innerText);
+											toClipboard("TornTools " + document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText);
 										},
 									},
 								}),
@@ -541,13 +544,14 @@ class FeatureManager {
 	hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
 
-		this.container.findAll(".tt-features-list > div[scope]").forEach((scopeDiv) => {
+		findAllElements(".tt-features-list > div[scope]", this.container).forEach((scopeDiv) => {
 			let hideScope = false;
-			if (settings.featureDisplayOnlyFailed && scopeDiv.findAll(":scope > .tt-feature[status*='failed']").length === 0) hideScope = true;
-			if (settings.featureDisplayHideDisabled && scopeDiv.findAll(":scope > .tt-feature:not([status*='disabled'])").length === 0) hideScope = true;
+			if (settings.featureDisplayOnlyFailed && findAllElements(":scope > .tt-feature[status*='failed']", scopeDiv).length === 0) hideScope = true;
+			if (settings.featureDisplayHideDisabled && findAllElements(":scope > .tt-feature:not([status*='disabled'])", scopeDiv).length === 0)
+				hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
-		if (!this.container.find(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");
+		if (!this.container.querySelector(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");
 		else this.container.classList.remove("no-content");
 	}
 }

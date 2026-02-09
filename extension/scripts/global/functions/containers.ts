@@ -26,7 +26,7 @@ interface Container {
 
 function createContainer(title: string, partialOptions: Partial<ContainerOptions> & ContainerPosition): Container {
 	const options: ContainerOptions = {
-		id: title.camelCase(true),
+		id: camelCase(title),
 		class: undefined,
 		showHeader: true,
 		onlyHeader: false,
@@ -50,16 +50,16 @@ function createContainer(title: string, partialOptions: Partial<ContainerOptions
 	if ("parentElement" in options) parentElement = options.parentElement;
 	else if ("nextElement" in options) parentElement = options.nextElement.parentElement;
 	else if ("previousElement" in options) parentElement = options.previousElement.parentElement;
-	else parentElement = document.find(".content-wrapper");
+	else parentElement = document.querySelector(".content-wrapper");
 
 	if ("nextElement" in options) parentElement.insertBefore(container, options.nextElement);
 	else if ("previousElement" in options) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	return { container, content: container.find(":scope > main"), options: container.find(".options"), collapsed };
+	return { container, content: container.querySelector(":scope > main"), options: container.querySelector(".options"), collapsed };
 
 	function _createContainer(title: string, options: ContainerOptions) {
-		if (document.find(`#${options.id}`)) document.find(`#${options.id}`).remove();
+		if (document.querySelector(`#${options.id}`)) document.querySelector(`#${options.id}`).remove();
 
 		const containerClasses = ["tt-container"];
 		if (options.collapsible) containerClasses.push("collapsible");
@@ -76,7 +76,7 @@ function createContainer(title: string, partialOptions: Partial<ContainerOptions
 		if (options.flexContainer) mainClasses.push("t-flex");
 
 		containerClasses.push("tt-theme-background");
-		const container = document.newElement({ type: "div", class: containerClasses.join(" "), id: options.id });
+		const container = elementBuilder({ type: "div", class: containerClasses.join(" "), id: options.id });
 
 		const collapsed: boolean = options.onlyHeader || (options.collapsible && (options.id in filters.containers ? filters.containers[options.id] : false));
 
@@ -92,17 +92,17 @@ function createContainer(title: string, partialOptions: Partial<ContainerOptions
 		container.innerHTML = html;
 
 		if (options.collapsible) {
-			container.find(".title").addEventListener("click", async () => {
-				container.find(".title").classList.toggle("collapsed");
+			container.querySelector(".title").addEventListener("click", async () => {
+				container.querySelector(".title").classList.toggle("collapsed");
 
-				await ttStorage.change({ filters: { containers: { [options.id]: container.find(".title").classList.contains("collapsed") } } });
+				await ttStorage.change({ filters: { containers: { [options.id]: container.querySelector(".title").classList.contains("collapsed") } } });
 			});
 		}
 		if (options.allowDragging) {
-			const content = container.find(":scope > main");
+			const content = container.querySelector(":scope > main");
 			content.addEventListener("dragover", (event) => event.preventDefault());
 			content.addEventListener("drop", (event) => {
-				if (content.find(".temp.item, .temp.quick-item")) content.find(".temp.item, .temp.quick-item").classList.remove("temp");
+				if (content.querySelector(".temp.item, .temp.quick-item")) content.querySelector(".temp.item, .temp.quick-item").classList.remove("temp");
 
 				// Firefox opens new tab when dropping item
 				event.preventDefault();
@@ -121,17 +121,17 @@ interface FindContainerOptions {
 
 function findContainer(title: string, partialOptions: Partial<FindContainerOptions> = {}): HTMLElement | null {
 	const options: FindContainerOptions = {
-		id: title.camelCase(true),
+		id: camelCase(title),
 		selector: undefined,
 		...partialOptions,
 	};
 
 	if (!options.id) return null;
 
-	const container = document.find(`#${options.id}`);
+	const container = document.querySelector<HTMLElement>(`#${options.id}`);
 	if (!container) return null;
 
-	if (options.selector) return container.find(options.selector);
+	if (options.selector) return container.querySelector(options.selector);
 	else return container;
 }
 

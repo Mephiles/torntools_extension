@@ -31,26 +31,26 @@
 
 		const estimate = await statsEstimate.fetchEstimate(id);
 
-		const title = document.find(".profile-right-wrapper > .profile-action .title-black");
+		const title = document.querySelector(".profile-right-wrapper > .profile-action .title-black");
 
-		title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
+		title.appendChild(elementBuilder({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
 
 		observer?.disconnect();
 		observer = new MutationObserver((mutations) => {
 			if (![...mutations].some((mutation) => [...mutation.addedNodes].every(isTextNode))) return;
-			if (title.find(".tt-stats-estimate-profile")) return;
+			if (title.querySelector(".tt-stats-estimate-profile")) return;
 
-			title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
+			title.appendChild(elementBuilder({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
 		});
 		observer.observe(title, { childList: true });
 
 		function getLevel() {
-			const levelWrap = document.find(".box-info .box-value");
+			const levelWrap = document.querySelector(".box-info .box-value");
 
 			return (
-				(parseInt(levelWrap.find(".digit-r .digit").textContent) || 0) * 100 +
-				(parseInt(levelWrap.find(".digit-m .digit").textContent) || 0) * 10 +
-				parseInt(levelWrap.find(".digit-l .digit").textContent)
+				(parseInt(levelWrap.querySelector(".digit-r .digit").textContent) || 0) * 100 +
+				(parseInt(levelWrap.querySelector(".digit-m .digit").textContent) || 0) * 10 +
+				parseInt(levelWrap.querySelector(".digit-l .digit").textContent)
 			);
 		}
 	}
@@ -59,6 +59,6 @@
 		observer?.disconnect();
 		observer = undefined;
 
-		document.find(".tt-stats-estimate-profile")?.remove();
+		document.querySelector(".tt-stats-estimate-profile")?.remove();
 	}
 })();

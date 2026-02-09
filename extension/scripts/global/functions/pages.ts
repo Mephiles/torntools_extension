@@ -20,14 +20,14 @@ function initializeInternalPage(partialOptions: Partial<InitializeInternalPageOp
 	// Add sorting functionality to tables.
 	if (options.sortTables) {
 		document.addEventListener("click", (event) => {
-			const clickedElement = event.target as HTMLElement;
-			if (clickedElement.tagName === "TH") {
+			const clickedElement = event.target;
+			if (isElementOfTag(clickedElement, "th")) {
 				if (clickedElement.getAttribute("class") && clickedElement.getAttribute("class").split(" ").includes("no-sorting")) return;
 
 				const table = findParent(clickedElement, { tag: "TABLE" });
 				if (!table || !table.classList.contains("sortable")) return;
 
-				sortTable(table, [...table.findAll<HTMLElement>("th")].indexOf(clickedElement) + 1);
+				sortTable(table, findAllElements("th", table).indexOf(clickedElement) + 1);
 			}
 		});
 	}
@@ -50,27 +50,27 @@ function loadConfirmationPopup(partialOptions: Partial<ConfirmationPopupOptions>
 	};
 
 	return new Promise((resolve, reject) => {
-		const popup = document.find("#tt-confirmation-popup");
-		const message = popup.find(".message");
+		const popup = document.querySelector("#tt-confirmation-popup");
+		const message = popup.querySelector(".message");
 
-		document.find("#tt-black-overlay").classList.remove("tt-hidden");
+		document.querySelector("#tt-black-overlay").classList.remove("tt-hidden");
 		popup.classList.remove("tt-hidden");
 
 		document.body.classList.add("tt-unscrollable");
 
-		popup.find(".title").textContent = options.title;
+		popup.querySelector(".title").textContent = options.title;
 		message.innerHTML = options.message;
 
 		if (options.execute) options.execute(message, options.variables);
 
-		popup.find("#popupConfirm").addEventListener("click", () => {
-			document.find("#tt-black-overlay").classList.add("tt-hidden");
+		popup.querySelector("#popupConfirm").addEventListener("click", () => {
+			document.querySelector("#tt-black-overlay").classList.add("tt-hidden");
 			popup.classList.add("tt-hidden");
 
 			document.body.classList.remove("tt-unscrollable");
 
 			const data: { [key: string]: any } = {};
-			for (const input of message.findAll<HTMLInputElement | HTMLTextAreaElement>("textarea, input")) {
+			for (const input of findAllElements<HTMLInputElement | HTMLTextAreaElement>("textarea, input", message)) {
 				let type = "value";
 				if (input.tagName === "INPUT") {
 					if (input.type === "checkbox") type = "checked";
@@ -81,8 +81,8 @@ function loadConfirmationPopup(partialOptions: Partial<ConfirmationPopupOptions>
 
 			resolve(data);
 		});
-		popup.find("#popupCancel").addEventListener("click", () => {
-			document.find("#tt-black-overlay").classList.add("tt-hidden");
+		popup.querySelector("#popupCancel").addEventListener("click", () => {
+			document.querySelector("#tt-black-overlay").classList.add("tt-hidden");
 			popup.classList.add("tt-hidden");
 
 			document.body.classList.remove("tt-unscrollable");
@@ -102,7 +102,7 @@ function sendMessage(text: string, good: boolean, partialOptions: Partial<Messag
 		...partialOptions,
 	};
 
-	const message = document.find("#message");
+	const message = document.querySelector<HTMLElement>("#message");
 	if (!message) return;
 
 	message.classList.remove("tt-hidden");

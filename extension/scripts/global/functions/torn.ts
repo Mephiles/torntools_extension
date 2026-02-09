@@ -1722,7 +1722,7 @@ function getPage() {
 }
 
 function isCaptcha() {
-	return !!document.find(".captcha");
+	return !!document.querySelector(".captcha");
 }
 
 function hasDarkMode() {
@@ -1741,20 +1741,20 @@ function createMessageBox(content: string, partialOptions: Partial<MessageBoxOpt
 		...partialOptions,
 	};
 
-	return document.newElement({
+	return elementBuilder({
 		type: "div",
 		class: `tt-message-box ${options.class}`,
 		children: [
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-message-icon-wrap",
-				children: [document.newElement({ type: "div", class: "tt-message-icon", children: [ttSvg()] })],
+				children: [elementBuilder({ type: "div", class: "tt-message-icon", children: [ttSvg()] })],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-message-wrap",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-message",
 						[options.isHTML ? "html" : "text"]: content,
@@ -1890,7 +1890,7 @@ function getRewardValue(reward: string) {
 					break;
 			}
 
-			if (prices !== undefined) value = prices.totalSum() / prices.length;
+			if (prices !== undefined) value = prices.reduce((a, b) => a + b, 0) / prices.length;
 		}
 	} else {
 		value = -1;
@@ -1906,7 +1906,7 @@ function getStockBoughtPrice(stock: UserV1Stock) {
 }
 
 function is2FACheckPage() {
-	return !!document.find(".content-wrapper.logged-out .two-factor-auth-container");
+	return !!document.querySelector(".content-wrapper.logged-out .two-factor-auth-container");
 }
 
 /*
@@ -1967,7 +1967,7 @@ Resend
 </div>*/
 
 function getPageStatus() {
-	const infoMessage = document.find(".content-wrapper .info-msg-cont");
+	const infoMessage = document.querySelector(".content-wrapper .info-msg-cont");
 	if (infoMessage && infoMessage.classList.contains("red")) {
 		const message = infoMessage.textContent;
 
@@ -1977,8 +1977,8 @@ function getPageStatus() {
 		return { access: false, message: infoMessage.textContent };
 	}
 
-	if (document.find(".captcha")) return { access: false, message: "Captcha required" };
-	else if (document.find(".dirty-bomb")) return { access: false, message: "Dirty bomb screen" };
+	if (document.querySelector(".captcha")) return { access: false, message: "Captcha required" };
+	else if (document.querySelector(".dirty-bomb")) return { access: false, message: "Dirty bomb screen" };
 	else if (is2FACheckPage()) return { access: false, message: "2 Factor Authentication" };
 
 	return { access: true };
@@ -1997,7 +1997,7 @@ function getUserDetails() {
 	let id: number, name: string;
 
 	if (!hasAPIData()) {
-		const script = document.find("script[uid][name]");
+		const script = document.querySelector("script[uid][name]");
 		if (!script) return { error: "Couldn't get details" };
 
 		id = parseInt(script.getAttribute("uid"));
@@ -2023,7 +2023,7 @@ function isOwnProfile() {
 
 function getUserEnergy() {
 	return document
-		.find("[class*='bar__'][class*='energy__'] [class*='bar-value___']")
+		.querySelector("[class*='bar__'][class*='energy__'] [class*='bar-value___']")
 		.textContent.split("/")
 		.map((x) => parseInt(x));
 }
@@ -2043,9 +2043,9 @@ function getItemEnergy(id: number | string) {
 function getUsername(row: Element) {
 	let name: string, id: number, combined: string;
 
-	const element = row.find<HTMLLinkElement>(".user.name");
+	const element = row.querySelector<HTMLLinkElement>(".user.name");
 	if (element) {
-		const title = element.find(":scope > [title]");
+		const title = element.querySelector(":scope > [title]");
 		if (title) {
 			combined = title.getAttribute("title");
 
@@ -2054,20 +2054,20 @@ function getUsername(row: Element) {
 			id = parseInt(regex[2]);
 		} else {
 			name = element.textContent;
-			id = element.href.getNumber();
+			id = convertToNumber(element.href);
 
 			combined = `${name} [${id}]`;
 		}
 	} else {
-		const link = row.find<HTMLLinkElement>("a[href*='profiles']");
+		const link = row.querySelector<HTMLLinkElement>("a[href*='profiles']");
 		if (link.getAttribute("id")) {
-			name = link.find("span").textContent || "";
-			id = link.getAttribute("id").split("-")[0].getNumber();
+			name = link.querySelector("span").textContent || "";
+			id = convertToNumber(link.getAttribute("id").split("-")[0]);
 
 			combined = name ? `${name} [${id}]` : id.toString();
 		} else {
 			name = link.textContent;
-			id = link.href.match(/XID=(\d*)/i)[1].getNumber();
+			id = convertToNumber(link.href.match(/XID=(\d*)/i)[1]);
 
 			combined = `${name} [${id}]`;
 		}
@@ -2097,7 +2097,7 @@ async function createTTTopLinks() {
 	}
 
 	ttTopLinksCreating = true;
-	ttTopLinks = document.newElement({ type: "div", class: "tt-top-icons" });
+	ttTopLinks = elementBuilder({ type: "div", class: "tt-top-icons" });
 	await requireElement("[class*='titleContainer___']").then((title) => {
 		title.appendChild(ttTopLinks);
 		ttTopLinksCreating = false;
@@ -2303,7 +2303,7 @@ const MAX_MISSIONS = {
 } as const;
 
 function getSidebarArea(): Node | null {
-	const areasTitle = document.evaluate("//h2[contains(text(), 'Areas')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	const areasTitle = findElementWithText("h2", "Areas");
 	if (!areasTitle) return null;
 
 	return areasTitle;

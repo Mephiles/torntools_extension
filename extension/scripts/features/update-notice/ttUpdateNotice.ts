@@ -23,25 +23,25 @@
 			return;
 		}
 
-		if (document.find("#ttUpdateNotice")) return;
+		if (document.querySelector("#ttUpdateNotice")) return;
 
 		const currentVersion = chrome.runtime.getManifest().version;
 
-		const parent = document.find("h2=Areas").parentElement.nextElementSibling;
+		const parent = findElementWithText("h2", "Areas").parentElement.nextElementSibling;
 		parent.insertBefore(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-sidebar-area",
 				id: "ttUpdateNotice",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "a",
 								href: chrome.runtime.getURL("/pages/settings/settings.html") + "?page=changelog",
 								attributes: { target: "_blank" },
-								children: [document.newElement({ type: "span", text: `TornTools updated: ${currentVersion}` })],
+								children: [elementBuilder({ type: "span", text: `TornTools updated: ${currentVersion}` })],
 							}),
 						],
 					}),
@@ -52,7 +52,7 @@
 	}
 
 	function removeNotice() {
-		const notice = document.find("#ttUpdateNotice");
+		const notice = document.querySelector("#ttUpdateNotice");
 		if (notice) notice.remove();
 	}
 

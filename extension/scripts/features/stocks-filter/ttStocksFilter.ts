@@ -43,7 +43,7 @@
 		content.appendChild(statistics.element);
 		localFilters.statistics = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({ type: "div", class: "content" });
+		const filterContent = elementBuilder({ type: "div", class: "content" });
 
 		const nameFilter = createFilterSection({
 			title: "Name",
@@ -116,23 +116,25 @@
 		await ttStorage.change({ filters: { stocks: { name, investment: { owned, benefit, passive }, price: { price, profit } } } });
 
 		// Actual Filtering
-		for (const row of document.findAll("#stockmarketroot ul[class*='stock___']")) {
+		for (const row of findAllElements("#stockmarketroot ul[class*='stock___']")) {
 			const id = parseInt(row.getAttribute("id"));
 
 			// Name
-			const acronym = row.find(".tt-acronym")?.dataset.acronym?.toLowerCase();
+			const acronym = row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym?.toLowerCase();
 			if (
 				name &&
 				!name
 					.split(",")
-					.some((name) => row.find(`li[class*="stockName___"][aria-label*="${name}" i]`) || (acronym && acronym.includes(name.toLowerCase())))
+					.some(
+						(name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || (acronym && acronym.includes(name.toLowerCase()))
+					)
 			) {
 				hideRow(row);
 				continue;
 			}
 
 			if (owned === "yes" || owned === "no") {
-				const isOwned = row.find("p[class*='count___']").textContent !== "None";
+				const isOwned = row.querySelector("p[class*='count___']").textContent !== "None";
 
 				if ((isOwned && owned === "no") || (!isOwned && owned === "yes")) {
 					hideRow(row);
@@ -141,7 +143,7 @@
 			}
 
 			if (benefit === "yes" || benefit === "no") {
-				const hasBenefit = !!row.find(".increment.filled");
+				const hasBenefit = !!row.querySelector(".increment.filled");
 
 				if ((hasBenefit && benefit === "no") || (!hasBenefit && benefit === "yes")) {
 					hideRow(row);
@@ -150,7 +152,7 @@
 			}
 
 			if (passive === "yes" || passive === "no") {
-				const isPassive = !!row.find("[class*='dividendInfo___'] [class*='passive___']");
+				const isPassive = !!row.querySelector("[class*='dividendInfo___'] [class*='passive___']");
 
 				if ((isPassive && passive === "no") || (!isPassive && passive === "yes")) {
 					hideRow(row);
@@ -159,7 +161,7 @@
 			}
 
 			if (price === "yes" || price === "no") {
-				const isUp = !!row.find("[class*='changePrice___'] [class*='up___']");
+				const isUp = !!row.querySelector("[class*='changePrice___'] [class*='up___']");
 
 				if ((isUp && price === "no") || (!isUp && price === "yes")) {
 					hideRow(row);
@@ -180,7 +182,7 @@
 				const currentPrice = stockdata[id].current_price * userdata.stocks[id].total_shares;
 				const boughtPrice = Object.values(userdata.stocks[id].transactions)
 					.map((transaction) => transaction.shares * transaction.bought_price)
-					.totalSum();
+					.reduce((a, b) => a + b, 0);
 
 				const hasProfit = currentPrice > boughtPrice;
 
@@ -202,8 +204,8 @@
 		}
 
 		localFilters.statistics.updateStatistics(
-			document.findAll("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
-			document.findAll("#stockmarketroot ul[class*='stock___']").length,
+			findAllElements("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
+			findAllElements("#stockmarketroot ul[class*='stock___']").length,
 			content
 		);
 	}
@@ -212,6 +214,6 @@
 		localFilters = undefined;
 
 		removeContainer("Stocks Filter");
-		document.findAll("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
+		findAllElements("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
 	}
 })();

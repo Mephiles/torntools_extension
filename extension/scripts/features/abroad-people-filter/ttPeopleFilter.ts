@@ -33,7 +33,7 @@
 
 		const { content } = createContainer("People Filter", {
 			class: "mt10",
-			nextElement: document.find(".users-list-title"),
+			nextElement: document.querySelector(".users-list-title"),
 			filter: true,
 		});
 
@@ -41,7 +41,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -159,15 +159,15 @@
 		});
 
 		// Actual Filtering
-		for (const row of document.findAll(".users-list > li")) {
+		for (const row of findAllElements(".users-list > li")) {
 			filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "People Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".users-list > li:not(.tt-hidden)").length,
-			document.findAll(".users-list > li").length,
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
 			content
 		);
 	}
@@ -194,7 +194,7 @@
 		if (filters.activity?.length) {
 			if (
 				!filters.activity.some(
-					(x) => x.trim() === row.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim()
+					(x) => x.trim() === row.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim()
 				)
 			) {
 				hide("activity");
@@ -202,12 +202,12 @@
 			}
 		}
 		if (filters.faction) {
-			const factionElement = row.find<HTMLAnchorElement>(".user.faction");
+			const factionElement = row.querySelector<HTMLAnchorElement>(".user.faction");
 
 			const hasFaction = !!factionElement.href;
 			const factionName = hasFaction
 				? factionElement.hasAttribute("rel")
-					? factionElement.find(":scope > img").getAttribute("title").trim() || "N/A"
+					? factionElement.querySelector(":scope > img").getAttribute("title").trim() || "N/A"
 					: factionElement.textContent.trim()
 				: false;
 			const isUnknownFaction = hasFaction && factionName === "N/A";
@@ -258,7 +258,7 @@
 			}
 		}
 		if (filters.status?.length && filters.status.length !== 2) {
-			const status = row.find(".status :last-child").textContent.toLowerCase().trim();
+			const status = row.querySelector(".status :last-child").textContent.toLowerCase().trim();
 
 			if (!filters.status.includes(status)) {
 				hide("status");
@@ -266,7 +266,7 @@
 			}
 		}
 		if (filters.level?.start || filters.level?.end) {
-			const level = row.find(".level").textContent.getNumber();
+			const level = convertToNumber(row.querySelector(".level").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;
@@ -296,8 +296,8 @@
 				const content = findContainer("People Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".users-list > li:not(.tt-hidden)").length,
-					document.findAll(".users-list > li").length,
+					findAllElements(".users-list > li:not(.tt-hidden)").length,
+					findAllElements(".users-list > li").length,
 					content
 				);
 			}
@@ -315,8 +315,8 @@
 				const content = findContainer("People Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".users-list > li:not(.tt-hidden)").length,
-					document.findAll(".users-list > li").length,
+					findAllElements(".users-list > li:not(.tt-hidden)").length,
+					findAllElements(".users-list > li").length,
 					content
 				);
 			}
@@ -324,11 +324,11 @@
 	}
 
 	function getFactions() {
-		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const rows = findAllElements(".users-list > li .user.faction");
 		const _factions = new Set(
-			rows[0].find("img")
+			rows[0].querySelector("img")
 				? rows
-						.map((row) => row.find("img"))
+						.map((row) => row.querySelector("img"))
 						.filter((img) => !!img)
 						.map((img) => img.getAttribute("title").trim())
 						.filter((tag) => !!tag)
@@ -344,6 +344,6 @@
 
 	function removeFilters() {
 		removeContainer("People Filter");
-		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

@@ -533,8 +533,8 @@
 			}
 		} else {
 			if (cards.player.includes("A") && data.player.score !== data.player.lowestScore) {
-				const leftOver = cards.player.filter((card) => card !== "A").map(getWorth);
-				const leftOverWorth = leftOver.totalSum() + (cards.player.length - 1 - leftOver.length);
+				const leftOver = cards.player.filter((card) => card !== "A").map(getWorth) as number[];
+				const leftOverWorth = leftOver.reduce((a, b) => a + b, 0) + (cards.player.length - 1 - leftOver.length);
 
 				playerValue = `A,${leftOverWorth}`;
 			} else {
@@ -543,15 +543,15 @@
 		}
 		const suggestion = getSuggestion(playerValue);
 
-		let element = document.find(".tt-blackjack-suggestion");
+		let element = document.querySelector(".tt-blackjack-suggestion");
 		if (element) element.textContent = suggestion;
 		else {
-			document.find(".player-cards").appendChild(document.newElement({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
+			document.querySelector(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
 		}
 
 		function getWorth(card: any) {
 			let symbol: any;
-			if (typeof card === "string") symbol = card.split("-").last();
+			if (typeof card === "string") symbol = card.split("-").at(-1);
 			else symbol = card;
 
 			return isNaN(symbol) ? (symbol === "A" ? "A" : 10) : parseInt(symbol);
@@ -608,7 +608,7 @@
 	}
 
 	function removeSuggestion() {
-		const suggestion = document.find(".tt-blackjack-suggestion");
+		const suggestion = document.querySelector(".tt-blackjack-suggestion");
 		if (suggestion) suggestion.remove();
 	}
 })();

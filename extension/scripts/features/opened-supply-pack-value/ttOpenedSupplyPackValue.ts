@@ -34,7 +34,8 @@
 			if (!isUseItem(params.get("step"), json) || !json.success) return;
 
 			if (json && json.itemID) itemID = parseInt(json.itemID);
-			else itemID = params.get("id")?.getNumber() ?? params.get("itemID")?.getNumber() ?? itemID;
+			else if (params.has("id")) itemID = convertToNumber(params.get("id"));
+			else if (params.has("itemID")) itemID = convertToNumber(params.get("itemID"));
 
 			if (isXIDRequestSupplyPack(itemID)) {
 				reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
@@ -42,7 +43,9 @@
 
 			if ((params.get("XID") === reqXID || isDrugPackUseRequest(params) || SUPPLY_PACK_ITEMS.includes(itemID)) && json.items?.itemAppear) {
 				const totalOpenedValue = json.items.itemAppear
-					.map((item) => ("isMoney" in item ? item.moneyGain.substring(1).getNumber() : torndata.items[item.ID].market_value * parseInt(item.qty)))
+					.map((item) =>
+						"isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.items[item.ID].market_value * parseInt(item.qty)
+					)
 					.reduce((totalValue, value) => totalValue + value, 0);
 
 				await showTotalValue(totalOpenedValue, itemID);
@@ -56,7 +59,7 @@
 
 		removeTotalValueElement();
 
-		const openedValueTextElement = document.newElement({
+		const openedValueTextElement = elementBuilder({
 			id: "ttOpenedValueText",
 			type: "strong",
 			class: "tt-opened-supply-pack-value-text",
@@ -75,7 +78,7 @@
 	}
 
 	function isDrugPackUseRequest(params: URLSearchParams) {
-		return params.get("item")?.getNumber() === 370 || params.get("itemID")?.getNumber() === 370;
+		return convertToNumber(params.get("item")) === 370 || convertToNumber(params.get("itemID")) === 370;
 	}
 
 	function removeTotalValueElement() {

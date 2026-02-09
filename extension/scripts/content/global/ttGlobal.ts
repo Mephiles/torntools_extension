@@ -27,7 +27,7 @@
 	}
 
 	function createOverlay() {
-		document.body.appendChild(document.newElement({ type: "div", class: "tt-overlay tt-hidden" }));
+		document.body.appendChild(elementBuilder({ type: "div", class: "tt-overlay tt-hidden" }));
 	}
 
 	async function observeChat() {
@@ -41,7 +41,7 @@
 				if (mutations.every((mutation) => mutation.removedNodes.length === 0)) return;
 
 				triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
-			}).observe(document.find("#chatRoot > [class*='root___'] > [class*='root___']:first-child"), {
+			}).observe(document.querySelector("#chatRoot > [class*='root___'] > [class*='root___']:first-child"), {
 				childList: true,
 			});
 			new MutationObserver((mutations) => {
@@ -53,13 +53,13 @@
 
 							if (node.className?.includes("item___")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
-								chatRefreshObserver.observe(node.find(`${SELECTOR_CHAT_V3__BOX_SCROLLER} > div`), { childList: true });
+								chatRefreshObserver.observe(node.querySelector(`${SELECTOR_CHAT_V3__BOX_SCROLLER} > div`), { childList: true });
 							} else if (node.id === "settings_panel") {
-								const panel = (mutation.target as Element).find(":scope > [class*='root___']");
+								const panel = (mutation.target as Element).querySelector<HTMLElement>(":scope > [class*='root___']");
 
 								triggerCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, { settingsPanel: panel });
 							} else if (node.id === "people_panel") {
-								const panel = (mutation.target as Element).find(":scope > [class*='root___']");
+								const panel = (mutation.target as Element).querySelector<HTMLElement>(":scope > [class*='root___']");
 
 								triggerCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, { peopleMenu: panel });
 							} else if (
@@ -71,13 +71,13 @@
 							}
 						});
 				}
-			}).observe(document.find(SELECTOR_CHAT_ROOT), { childList: true, subtree: true });
+			}).observe(document.querySelector(SELECTOR_CHAT_ROOT), { childList: true, subtree: true });
 			new MutationObserver(() => {
 				triggerCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED);
-			}).observe(document.find(SELECTOR_CHAT_ROOT), { childList: true });
+			}).observe(document.querySelector(SELECTOR_CHAT_ROOT), { childList: true });
 
-			for (const chat of document.findAll(`${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}`)) {
-				const chatPanel = chat.find(`:scope > ${SELECTOR_CHAT_V3__VARIOUS_ROOT}`);
+			for (const chat of findAllElements(`${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}`)) {
+				const chatPanel = chat.querySelector(`:scope > ${SELECTOR_CHAT_V3__VARIOUS_ROOT}`);
 				if (!chatPanel) continue; // No content in the panel.
 
 				if (chatPanel.id === "people_panel") {
@@ -95,7 +95,7 @@
 			});
 			new MutationObserver(() => {
 				triggerCustomListener(EVENT_CHANNELS.CHAT_CLOSED);
-			}).observe(document.find("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
+			}).observe(document.querySelector("#chatRoot [class*='group-minimized-chat-box__']"), { childList: true });
 			new MutationObserver((mutations) => {
 				for (const mutation of mutations) {
 					Array.from(mutation.addedNodes)
@@ -106,7 +106,7 @@
 							if (node.className?.includes("group-chat-box__")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
 
-								chatRefreshObserver.observe(node.find(SELECTOR_CHAT_V2__CHAT_BOX_BODY), { childList: true });
+								chatRefreshObserver.observe(node.querySelector(SELECTOR_CHAT_V2__CHAT_BOX_BODY), { childList: true });
 							} else if (!node.className && node.parentElement?.className.includes("chat-box-body__")) {
 								triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: node });
 							} else if (node.className?.includes("chat-app__panel__")) {
@@ -116,11 +116,11 @@
 							}
 						});
 
-					const openedChats = document.findAll("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
-					if (openedChats.length) chatRefreshObserver.observe(openedChats[0].find(SELECTOR_CHAT_V2__CHAT_BOX_BODY), { childList: true });
+					const openedChats = findAllElements("#chatRoot [class*='group-chat-box__chat-box-wrapper__']");
+					if (openedChats.length) chatRefreshObserver.observe(openedChats[0].querySelector(SELECTOR_CHAT_V2__CHAT_BOX_BODY), { childList: true });
 					else chatRefreshObserver.disconnect();
 				}
-			}).observe(document.find(SELECTOR_CHAT_ROOT), { childList: true, subtree: true });
+			}).observe(document.querySelector(SELECTOR_CHAT_ROOT), { childList: true, subtree: true });
 		}
 	}
 

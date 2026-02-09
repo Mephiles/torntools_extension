@@ -17,30 +17,30 @@
 	function initialiseListener() {
 		new MutationObserver(() => {
 			if (feature.enabled()) addPropertyValues();
-		}).observe(document.find("#properties-page-wrap"), { childList: true });
+		}).observe(document.querySelector("#properties-page-wrap"), { childList: true });
 	}
 
 	async function addPropertyValues() {
 		await requireElement("#properties-page-wrap .properties-list .title");
 
-		for (const property of document.findAll(".properties-list > *:not(.clear)")) {
-			if (property.find(".tt-property-value")) return;
+		for (const property of findAllElements(".properties-list > *:not(.clear)")) {
+			if (property.querySelector(".tt-property-value")) return;
 
-			const info = property.find(".info > li:nth-child(2)");
+			const info = property.querySelector(".info > li:nth-child(2)");
 			if (!info) return;
 
-			property.find(".title").insertAdjacentElement(
+			property.querySelector(".title").insertAdjacentElement(
 				"beforeend",
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					class: "tt-property-value",
-					text: ` (${formatNumber(info.textContent.getNumber(), { currency: true })})`,
+					text: ` (${formatNumber(convertToNumber(info.textContent), { currency: true })})`,
 				})
 			);
 		}
 	}
 
 	function removeValues() {
-		document.findAll(".tt-property-value").forEach((x) => x.remove());
+		findAllElements(".tt-property-value").forEach((x) => x.remove());
 	}
 })();

@@ -32,7 +32,7 @@
 	}
 
 	function startFeature() {
-		if (isInternal && !document.find(".faction-description, .members-list, .announcement")) return;
+		if (isInternal && !document.querySelector(".faction-description, .members-list, .announcement")) return;
 
 		showFull();
 	}
@@ -42,17 +42,17 @@
 
 		if (isInternal) {
 			if (getFactionSubpage() === "info") {
-				title = document.find(".faction-title");
-				description = document.find(".faction-description");
+				title = document.querySelector(".faction-title");
+				description = document.querySelector(".faction-description");
 				key = "faction_description_full";
 			} else {
-				title = document.find("#faction-main [data-title='announcement'][role='heading']");
+				title = document.querySelector("#faction-main [data-title='announcement'][role='heading']");
 				description = title?.nextElementSibling;
 				key = "faction_announcement_full";
 			}
 		} else {
 			title = await requireElement(".faction-title");
-			description = document.find(".faction-description");
+			description = document.querySelector(".faction-description");
 			key = "faction_description_full";
 		}
 		if (!title || !description || !key) return;
@@ -67,7 +67,7 @@
 			description.classList.add("prevent-overflow");
 		}
 
-		title.appendChild(document.newElement({ type: "div", class: "tt-options tt-full-infobox", children: [checkbox.element] }));
+		title.appendChild(elementBuilder({ type: "div", class: "tt-options tt-full-infobox", children: [checkbox.element] }));
 
 		checkbox.onChange(() => {
 			const isChecked = checkbox.isChecked();
@@ -80,8 +80,8 @@
 	}
 
 	function removeFull() {
-		for (const infobox of document.findAll(".tt-full-infobox")) infobox.remove();
-		for (const title of document.findAll(".tt-infobox-title")) title.classList.remove("tt-infobox-title");
-		for (const overflow of document.findAll(".prevent-overflow")) overflow.classList.remove("prevent-overflow");
+		for (const infobox of findAllElements(".tt-full-infobox")) infobox.remove();
+		for (const title of findAllElements(".tt-infobox-title")) title.classList.remove("tt-infobox-title");
+		for (const overflow of findAllElements(".prevent-overflow")) overflow.classList.remove("prevent-overflow");
 	}
 })();

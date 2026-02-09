@@ -8,7 +8,7 @@ const initiatedPages = {};
 
 	document.body.classList.add(getPageTheme());
 
-	for (const navigation of document.findAll("header nav.on-page > ul > li")) {
+	for (const navigation of findAllElements("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -24,11 +24,11 @@ async function showPage(name: string) {
 	if (name !== "preferences") params.delete("section");
 	window.history.replaceState("", "Title", `?${params.toString()}`);
 
-	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
-	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
+	for (const active of findAllElements("header nav.on-page > ul > li.active")) active.classList.remove("active");
+	document.querySelector(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (const active of document.findAll("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
-	document.find(`#${name}`).classList.remove("tt-hidden");
+	for (const active of findAllElements("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
+	document.querySelector(`#${name}`).classList.remove("tt-hidden");
 
 	const setup = {
 		changelog: setupChangelog,
@@ -59,20 +59,20 @@ type Changelog = {
 
 async function setupChangelog() {
 	const changelog: Changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
-	const content = document.find("#changelog > section");
+	const content = document.querySelector("#changelog > section");
 
 	changelog.forEach((entry, index, allEntries) => {
 		if (typeof entry.date === "string") entry.date = new Date(entry.date);
 		else if (typeof entry.date === "object") entry.date = false;
 
-		const log = document.newElement({ type: "div", class: "version-log" });
-		const heading = document.newElement({ type: "div", class: "title", text: getTitle() });
-		const icon = document.newElement({ type: "i", class: "fa-solid  fa-chevron-down" });
+		const log = elementBuilder({ type: "div", class: "version-log" });
+		const heading = elementBuilder({ type: "div", class: "title", text: getTitle() });
+		const icon = elementBuilder({ type: "i", class: "fa-solid  fa-chevron-down" });
 		heading.appendChild(icon);
 		log.appendChild(heading);
 
 		// Closeable
-		const closeable = document.newElement({ type: "div", class: "closable tt-hidden" });
+		const closeable = elementBuilder({ type: "div", class: "closable tt-hidden" });
 		heading.addEventListener("click", () => {
 			closeable.classList.toggle("tt-hidden");
 
@@ -97,27 +97,27 @@ async function setupChangelog() {
 				}
 			});
 
-		const contributorsWrap = document.newElement({
+		const contributorsWrap = elementBuilder({
 			type: "div",
 			class: "list contributors",
-			children: [document.newElement({ type: "div", class: "subheader", text: "Contributors" })],
+			children: [elementBuilder({ type: "div", class: "subheader", text: "Contributors" })],
 		});
 		contributors.forEach((contributor) => {
-			const child = document.newElement({
+			const child = elementBuilder({
 				type: "div",
 				class: "contributor",
 			});
 
 			if ("id" in contributor)
 				child.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "a",
 						text: `${contributor.name} [${contributor.id}]`,
 						href: `https://www.torn.com/profiles.php?XID=${contributor.id}`,
 						attributes: { target: "_blank" },
 					})
 				);
-			else child.appendChild(document.newElement({ type: "span", text: contributor.name }));
+			else child.appendChild(elementBuilder({ type: "span", text: contributor.name }));
 
 			if ("color" in contributor) child.style.setProperty("--contributor-color", contributor.color);
 
@@ -126,10 +126,10 @@ async function setupChangelog() {
 		closeable.appendChild(contributorsWrap);
 
 		for (const title in entry.logs) {
-			const parent = document.newElement({
+			const parent = elementBuilder({
 				type: "div",
 				class: "list",
-				children: [document.newElement({ type: "div", class: "subheader", text: capitalizeText(title) })],
+				children: [elementBuilder({ type: "div", class: "subheader", text: capitalizeText(title) })],
 			});
 
 			for (const log of entry.logs[title]) {
@@ -137,10 +137,10 @@ async function setupChangelog() {
 				if (typeof log.message === "string") message = log.message;
 				else if (typeof log.message === "object" && Array.isArray(log.message)) message = log.message.join("<br>");
 
-				const child = document.newElement({
+				const child = elementBuilder({
 					type: "div",
 					class: "contributor",
-					children: [document.newElement({ type: "span", html: message })],
+					children: [elementBuilder({ type: "span", html: message })],
 				});
 
 				const contributor = contributors.filter((x) => x.key === log.contributor);
@@ -155,7 +155,7 @@ async function setupChangelog() {
 		}
 
 		// Bottom border on last element
-		if (index + 1 === allEntries.length) closeable.appendChild(document.newElement("hr"));
+		if (index + 1 === allEntries.length) closeable.appendChild(elementBuilder("hr"));
 		if (index === 0) {
 			closeable.classList.remove("tt-hidden");
 			log.classList.add("current");
@@ -188,26 +188,25 @@ async function setupChangelog() {
 	});
 
 	// Ending words
-	content.appendChild(document.newElement({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
+	content.appendChild(elementBuilder({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
 
 	await ttStorage.change({ version: { showNotice: false } });
 }
 
 function cleanupPreferences() {
-	const preferences = document.find("#preferences");
+	const preferences = document.querySelector("#preferences");
 
-	preferences
-		.findAll(
-			[
-				".hide-items > *",
-				"#customLink > li:not(.input)",
-				"#allyFactions > li:not(.input)",
-				"#userAlias > li:not(.input)",
-				"#chatHighlight > li:not(.input)",
-				"#chatTitleHighlight> li:not(.input)",
-			].join(", ")
-		)
-		.forEach((element) => element.remove());
+	findAllElements(
+		[
+			".hide-items > *",
+			"#customLink > li:not(.input)",
+			"#allyFactions > li:not(.input)",
+			"#userAlias > li:not(.input)",
+			"#chatHighlight > li:not(.input)",
+			"#chatTitleHighlight> li:not(.input)",
+		].join(", "),
+		preferences
+	).forEach((element) => element.remove());
 }
 
 interface CustomLink {
@@ -227,7 +226,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	if (requireCleanup) cleanupPreferences();
 	searchPreferences();
 
-	const _preferences = document.find("#preferences");
+	const _preferences = document.querySelector("#preferences");
 	_preferences.addEventListener("click", (event) => {
 		if (!(event.target as Element).closest("button.remove-icon-wrap, #hide-icons, #hide-casino-games, #hide-stocks, #hide-attack-options")) return;
 
@@ -249,10 +248,10 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		addSaveDialog();
 	});
 
-	const reviveProviderSelectElement = _preferences.find("#global-reviveProvider");
+	const reviveProviderSelectElement = _preferences.querySelector("#global-reviveProvider");
 	for (const provider of REVIVE_PROVIDERS) {
 		reviveProviderSelectElement.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "option",
 				text: `${provider.name} (${calculateRevivePrice(provider)})`,
 				attributes: { value: provider.provider },
@@ -271,43 +270,43 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	});
 
 	if (getSearchParameters().has("section"))
-		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
+		switchSection(_preferences.querySelector(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
 
-	for (const link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
+	for (const link of findAllElements(":scope > section > nav ul > li[name]", _preferences)) {
 		link.addEventListener("click", () => switchSection(link));
 	}
 
-	_preferences.find("#addChatHighlight").addEventListener("click", () => {
-		const inputRow = document.find("#chatHighlight .input");
+	_preferences.querySelector("#addChatHighlight").addEventListener("click", () => {
+		const inputRow = document.querySelector("#chatHighlight .input");
 
-		addChatHighlightRow(inputRow.find<HTMLInputElement>(".name").value, inputRow.find<HTMLInputElement>(".color").value);
+		addChatHighlightRow(inputRow.querySelector<HTMLInputElement>(".name").value, inputRow.querySelector<HTMLInputElement>(".color").value);
 
-		inputRow.find<HTMLInputElement>(".name").value = "";
-		inputRow.find<HTMLInputElement>(".color").value = "#7ca900";
+		inputRow.querySelector<HTMLInputElement>(".name").value = "";
+		inputRow.querySelector<HTMLInputElement>(".color").value = "#7ca900";
 	});
-	_preferences.find("#addChatTitleHighlight").addEventListener("click", () => {
-		const inputRow = document.find("#chatTitleHighlight .input");
+	_preferences.querySelector("#addChatTitleHighlight").addEventListener("click", () => {
+		const inputRow = document.querySelector("#chatTitleHighlight .input");
 
-		addChatTitleHighlightRow(inputRow.find<HTMLInputElement>(".title").value, inputRow.find<HTMLInputElement>(".color").value);
+		addChatTitleHighlightRow(inputRow.querySelector<HTMLInputElement>(".title").value, inputRow.querySelector<HTMLInputElement>(".color").value);
 
-		inputRow.find<HTMLInputElement>(".title").value = "";
-		inputRow.find<HTMLSelectElement>(".color").selectedIndex = 0;
+		inputRow.querySelector<HTMLInputElement>(".title").value = "";
+		inputRow.querySelector<HTMLSelectElement>(".color").selectedIndex = 0;
 	});
-	_preferences.find("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
+	_preferences.querySelector("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
 
-	_preferences.find("#saveSettingsTemporary").addEventListener("click", async () => {
-		_preferences.find("#saveSettingsBar").classList.add("tt-hidden");
+	_preferences.querySelector("#saveSettingsTemporary").addEventListener("click", async () => {
+		_preferences.querySelector("#saveSettingsBar").classList.add("tt-hidden");
 		await saveSettings();
 	});
-	_preferences.find("#saveSettings").addEventListener("click", async () => {
-		_preferences.find("#saveSettingsBar").classList.add("tt-hidden");
+	_preferences.querySelector("#saveSettings").addEventListener("click", async () => {
+		_preferences.querySelector("#saveSettingsBar").classList.add("tt-hidden");
 		await saveSettings();
 	});
-	_preferences.find("#revertSettings").addEventListener("click", () => {
-		_preferences.find("#saveSettingsBar").classList.add("tt-hidden");
+	_preferences.querySelector("#revertSettings").addEventListener("click", () => {
+		_preferences.querySelector("#saveSettingsBar").classList.add("tt-hidden");
 		revertSettings();
 	});
-	_preferences.find("#resetSettings").addEventListener("click", () => {
+	_preferences.querySelector("#resetSettings").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset settings",
 			message: "<h3>Are you sure you want to delete ALL data except your API key?</h3>",
@@ -321,47 +320,47 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			.catch(() => {});
 	});
 
-	_preferences.find("#notification_type-global").addEventListener("click", (event) => {
+	_preferences.querySelector("#notification_type-global").addEventListener("click", (event) => {
 		const disable = !(event.target as HTMLInputElement).checked;
 
 		for (const notificationType in settings.notifications.types) {
 			if (["global", "stocks", "npcs"].includes(notificationType)) continue;
 
-			if (disable) _preferences.find(`#notification_type-${notificationType}`).setAttribute("disabled", "true");
-			else _preferences.find(`#notification_type-${notificationType}`).removeAttribute("disabled");
+			if (disable) _preferences.querySelector(`#notification_type-${notificationType}`).setAttribute("disabled", "true");
+			else _preferences.querySelector(`#notification_type-${notificationType}`).removeAttribute("disabled");
 		}
 	});
-	_preferences.find("#notification-sound").addEventListener("change", (event) => {
+	_preferences.querySelector("#notification-sound").addEventListener("change", (event) => {
 		const value = (event.target as HTMLInputElement).value;
 
 		if (value === "custom") {
-			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
+			_preferences.querySelector("#notification-sound-upload").classList.remove("tt-hidden");
 		} else {
-			_preferences.find("#notification-sound-upload").classList.add("tt-hidden");
+			_preferences.querySelector("#notification-sound-upload").classList.add("tt-hidden");
 		}
 
 		if (value === "mute" || value === "default") {
-			_preferences.find("#notification-volume").classList.add("tt-hidden");
-			_preferences.find("#notification-sound-play").classList.add("tt-hidden");
-			_preferences.find("#notification-sound-stop").classList.add("tt-hidden");
+			_preferences.querySelector("#notification-volume").classList.add("tt-hidden");
+			_preferences.querySelector("#notification-sound-play").classList.add("tt-hidden");
+			_preferences.querySelector("#notification-sound-stop").classList.add("tt-hidden");
 		} else {
-			_preferences.find("#notification-volume").classList.remove("tt-hidden");
-			_preferences.find("#notification-sound-play").classList.remove("tt-hidden");
-			_preferences.find("#notification-sound-stop").classList.remove("tt-hidden");
+			_preferences.querySelector("#notification-volume").classList.remove("tt-hidden");
+			_preferences.querySelector("#notification-sound-play").classList.remove("tt-hidden");
+			_preferences.querySelector("#notification-sound-stop").classList.remove("tt-hidden");
 		}
 	});
-	_preferences.find("#notification-sound-play").addEventListener("click", () => {
+	_preferences.querySelector("#notification-sound-play").addEventListener("click", () => {
 		chrome.runtime.sendMessage({
 			action: "play-notification-sound",
-			sound: _preferences.find<HTMLInputElement>("#notification-sound").value,
-			volume: parseInt(_preferences.find<HTMLInputElement>("#notification-volume").value),
+			sound: _preferences.querySelector<HTMLInputElement>("#notification-sound").value,
+			volume: parseInt(_preferences.querySelector<HTMLInputElement>("#notification-volume").value),
 			allowDefault: false,
 		} satisfies BackgroundMessage);
 	});
-	_preferences.find("#notification-sound-stop").addEventListener("click", () => {
+	_preferences.querySelector("#notification-sound-stop").addEventListener("click", () => {
 		chrome.runtime.sendMessage({ action: "stop-notification-sound" } satisfies BackgroundMessage);
 	});
-	_preferences.find("#notification-sound-upload").addEventListener("change", (event) => {
+	_preferences.querySelector("#notification-sound-upload").addEventListener("change", (event) => {
 		const target = event.target as HTMLInputElement;
 		if (!target.files.length) return;
 
@@ -382,17 +381,17 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		reader.readAsDataURL(target.files[0]);
 	});
 
-	new Sortable(_preferences.find("#customLinks"), {
+	new Sortable(_preferences.querySelector("#customLinks"), {
 		draggable: "li:not(.input)",
 		handle: ".move-icon-wrap",
 		ghostClass: "dragging",
 	});
-	_preferences.find("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
-	_preferences.find<HTMLSelectElement>("#customLinks .input select.preset").value = "custom";
-	_preferences.find("#customLinks .input select.preset").addEventListener("change", (event) => {
+	_preferences.querySelector("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
+	_preferences.querySelector<HTMLSelectElement>("#customLinks .input select.preset").value = "custom";
+	_preferences.querySelector("#customLinks .input select.preset").addEventListener("change", (event) => {
 		const target = event.target as HTMLSelectElement;
-		const hrefInput = _preferences.find<HTMLInputElement>("#customLinks .input .href");
-		const nameInput = _preferences.find<HTMLInputElement>("#customLinks .input .name");
+		const hrefInput = _preferences.querySelector<HTMLInputElement>("#customLinks .input .href");
+		const nameInput = _preferences.querySelector<HTMLInputElement>("#customLinks .input .name");
 
 		// noinspection DuplicatedCode
 		if (target.value === "custom") {
@@ -408,64 +407,64 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			nameInput.value = target.value.replaceAll("_", " ");
 		}
 	});
-	_preferences.find("#customLinks .input select.location").innerHTML = getCustomLinkLocations();
-	_preferences.find<HTMLSelectElement>("#customLinks .input select.location").value = "above";
-	_preferences.find("#addCustomLink").addEventListener("click", () => {
-		const inputRow = document.find("#customLinks .input");
+	_preferences.querySelector("#customLinks .input select.location").innerHTML = getCustomLinkLocations();
+	_preferences.querySelector<HTMLSelectElement>("#customLinks .input select.location").value = "above";
+	_preferences.querySelector("#addCustomLink").addEventListener("click", () => {
+		const inputRow = document.querySelector("#customLinks .input");
 
 		addCustomLink({
-			newTab: inputRow.find<HTMLInputElement>(".newTab").checked,
-			preset: inputRow.find<HTMLInputElement>(".preset").value,
-			location: inputRow.find<HTMLInputElement>(".location").value,
-			name: inputRow.find<HTMLInputElement>(".name").value,
-			href: inputRow.find<HTMLInputElement>(".href").value,
+			newTab: inputRow.querySelector<HTMLInputElement>(".newTab").checked,
+			preset: inputRow.querySelector<HTMLInputElement>(".preset").value,
+			location: inputRow.querySelector<HTMLInputElement>(".location").value,
+			name: inputRow.querySelector<HTMLInputElement>(".name").value,
+			href: inputRow.querySelector<HTMLInputElement>(".href").value,
 		});
 
-		inputRow.find<HTMLInputElement>(".newTab").checked = false;
-		inputRow.find<HTMLInputElement>(".preset").value = "custom";
-		inputRow.find<HTMLInputElement>(".location").value = "above";
-		inputRow.find<HTMLInputElement>(".name").value = "";
-		inputRow.find(".name").classList.remove("tt-hidden");
-		inputRow.find<HTMLInputElement>(".href").value = "";
-		inputRow.find(".href").classList.remove("tt-hidden");
+		inputRow.querySelector<HTMLInputElement>(".newTab").checked = false;
+		inputRow.querySelector<HTMLInputElement>(".preset").value = "custom";
+		inputRow.querySelector<HTMLInputElement>(".location").value = "above";
+		inputRow.querySelector<HTMLInputElement>(".name").value = "";
+		inputRow.querySelector(".name").classList.remove("tt-hidden");
+		inputRow.querySelector<HTMLInputElement>(".href").value = "";
+		inputRow.querySelector(".href").classList.remove("tt-hidden");
 	});
 
-	_preferences.find("#addAllyFaction").addEventListener("click", () => {
-		const inputRow = document.find("#allyFactions .input");
+	_preferences.querySelector("#addAllyFaction").addEventListener("click", () => {
+		const inputRow = document.querySelector("#allyFactions .input");
 
-		addAllyFaction(inputRow.find<HTMLInputElement>(".faction").value);
+		addAllyFaction(inputRow.querySelector<HTMLInputElement>(".faction").value);
 	});
 
-	_preferences.find("#addUserAlias").addEventListener("click", () => {
-		const inputRow = document.find("#userAlias li:last-child");
+	_preferences.querySelector("#addUserAlias").addEventListener("click", () => {
+		const inputRow = document.querySelector("#userAlias li:last-child");
 
 		addUserAlias(
-			inputRow.find<HTMLInputElement>(".userID").value,
-			inputRow.find<HTMLInputElement>(".name").value,
-			inputRow.find<HTMLInputElement>(".alias").value
+			inputRow.querySelector<HTMLInputElement>(".userID").value,
+			inputRow.querySelector<HTMLInputElement>(".name").value,
+			inputRow.querySelector<HTMLInputElement>(".alias").value
 		);
 	});
 
-	const chatSection = _preferences.find(".sections section[name='chat']");
+	const chatSection = _preferences.querySelector(".sections section[name='chat']");
 	for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
 		chatSection.insertBefore(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tabbed note",
 				text: `${placeholder.name} - ${placeholder.description}`,
 			}),
-			chatSection.find("#chatHighlight+.note").nextElementSibling
+			chatSection.querySelector("#chatHighlight+.note").nextElementSibling
 		);
 	}
 
-	const hideIconsParent = _preferences.find("#hide-icons");
+	const hideIconsParent = _preferences.querySelector("#hide-icons");
 	for (const { icon, id, description } of ALL_ICONS) {
-		const iconsWrap = document.newElement({
+		const iconsWrap = elementBuilder({
 			type: "div",
 			class: ["icon", "hover_tooltip"],
 			children: [
-				document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
-				document.newElement({ type: "span", class: "hover_tooltip_text", text: description }),
+				elementBuilder({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } }),
+				elementBuilder({ type: "span", class: "hover_tooltip_text", text: description }),
 			],
 		});
 
@@ -476,9 +475,9 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		});
 	}
 
-	const hideCasinoGamesParent = _preferences.find("#hide-casino-games");
+	const hideCasinoGamesParent = _preferences.querySelector("#hide-casino-games");
 	for (const game of CASINO_GAMES) {
-		const casinoGame = document.newElement({ type: "span", text: capitalizeText(game), attributes: { name: game } });
+		const casinoGame = elementBuilder({ type: "span", text: capitalizeText(game), attributes: { name: game } });
 
 		hideCasinoGamesParent.appendChild(casinoGame);
 		if (CASINO_GAMES.indexOf(game) + 1 !== CASINO_GAMES.length) hideCasinoGamesParent.appendChild(document.createTextNode("\n"));
@@ -486,14 +485,14 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		casinoGame.addEventListener("click", (event) => (event.target as Element).classList.toggle("disabled"));
 	}
 
-	const hideStocksParent = _preferences.find("#hide-stocks");
+	const hideStocksParent = _preferences.querySelector("#hide-stocks");
 	if (hasAPIData() && stockdata) {
 		for (const stock in stockdata) {
 			if (typeof stockdata[stock] === "number") continue;
 
 			const stockName = stockdata[stock].name;
 			hideStocksParent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					id: stock,
 					text: capitalizeText(stockName),
@@ -510,22 +509,22 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	if (npcs.targets) {
-		const alerts = _preferences.find("#npc-alerts");
+		const alerts = _preferences.querySelector("#npc-alerts");
 
 		for (const [id, npc] of Object.entries(npcs.targets)) {
 			alerts.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					children: [
-						document.newElement({ type: "input", value: npc.name, attributes: { disabled: "" } }),
-						document.newElement({
+						elementBuilder({ type: "input", value: npc.name, attributes: { disabled: "" } }),
+						elementBuilder({
 							type: "input",
 							class: "level",
 							// value: notification.level,
 							attributes: { placeholder: "Level", type: "number", min: 1, max: 5 },
 							events: { input: enforceInputLimits },
 						}),
-						document.newElement({
+						elementBuilder({
 							type: "input",
 							class: "minutes",
 							// value: notification.minutes,
@@ -539,21 +538,21 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		}
 	}
 
-	const hideAttackOptionsParent = _preferences.find("#hide-attack-options");
+	const hideAttackOptionsParent = _preferences.querySelector("#hide-attack-options");
 	["leave", "mug", "hospitalize"].forEach((option) => {
-		const optionNode = document.newElement({ type: "span", text: capitalizeText(option), attributes: { value: option } });
+		const optionNode = elementBuilder({ type: "span", text: capitalizeText(option), attributes: { value: option } });
 		hideAttackOptionsParent.appendChild(optionNode);
 		optionNode.addEventListener("click", (event) => (event.target as Element).classList.toggle("disabled"));
 	});
 
-	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
-	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
-	_preferences.find("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
-	_preferences.find("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
-	_preferences.find("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
-	_preferences.find("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
+	_preferences.querySelector("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
+	_preferences.querySelector("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
+	_preferences.querySelector("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
+	_preferences.querySelector("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
+	_preferences.querySelector("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
+	_preferences.querySelector("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
 
-	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
+	_preferences.querySelector("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = (event.target as HTMLInputElement).value;
 		if (!provider) return;
 
@@ -592,11 +591,11 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		params.set("section", link.getAttribute("name"));
 		window.history.replaceState("", "Title", `?${params.toString()}`);
 
-		_preferences.find(":scope > section > nav ul li[name].active").classList.remove("active");
-		_preferences.find(":scope > section > .sections > section.active").classList.remove("active");
+		_preferences.querySelector(":scope > section > nav ul li[name].active").classList.remove("active");
+		_preferences.querySelector(":scope > section > .sections > section.active").classList.remove("active");
 
 		link.classList.add("active");
-		_preferences.find(`:scope > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
+		_preferences.querySelector(`:scope > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
 
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	}
@@ -610,30 +609,30 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			"featureDisplayHideDisabled",
 			"featureDisplayHideEmpty",
 		]) {
-			const checkbox = _preferences.find<HTMLInputElement>(`#${setting}`);
+			const checkbox = _preferences.querySelector<HTMLInputElement>(`#${setting}`);
 			if (!checkbox) continue;
 
 			checkbox.checked = settings[setting];
 		}
 
-		_preferences.find<HTMLInputElement>("#formatting-tct").checked = settings.formatting.tct;
-		_preferences.find<HTMLInputElement>(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
-		_preferences.find<HTMLInputElement>(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
-		_preferences.find<HTMLInputElement>(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
-		_preferences.find<HTMLInputElement>(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
+		_preferences.querySelector<HTMLInputElement>("#formatting-tct").checked = settings.formatting.tct;
+		_preferences.querySelector<HTMLInputElement>(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
+		_preferences.querySelector<HTMLInputElement>(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
+		_preferences.querySelector<HTMLInputElement>(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
+		_preferences.querySelector<HTMLInputElement>(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
 		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b", "ffScouter"]) {
-			_preferences.find<HTMLInputElement>(`#external-${service}`).checked = settings.external[service];
+			_preferences.querySelector<HTMLInputElement>(`#external-${service}`).checked = settings.external[service];
 		}
 
-		_preferences.find<HTMLInputElement>("#csvDelimiter").value = settings.csvDelimiter;
+		_preferences.querySelector<HTMLInputElement>("#csvDelimiter").value = settings.csvDelimiter;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
 				const isGlobalDisabled = settings[type][page].global === false;
 
 				for (const setting in settings[type][page]) {
-					const input = _preferences.find<HTMLInputElement>(
+					const input = _preferences.querySelector<HTMLInputElement>(
 						`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`
 					);
 					if (!input) continue;
@@ -645,7 +644,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 							for (const setting in settings[type][page]) {
 								if (setting === "global") continue;
 
-								const input = _preferences.find(`#${page}-${setting}`);
+								const input = _preferences.querySelector(`#${page}-${setting}`);
 								if (!input) continue;
 
 								if (isGlobalDisabled) input.setAttribute("disabled", "true");
@@ -669,20 +668,20 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			}
 		}
 
-		_preferences.find<HTMLInputElement>("#api_usage-comment").value = settings.apiUsage.comment;
-		_preferences.find<HTMLInputElement>("#api_usage-essential").value = settings.apiUsage.delayEssential.toString();
-		_preferences.find<HTMLInputElement>("#api_usage-basic").value = settings.apiUsage.delayBasic.toString();
-		_preferences.find<HTMLInputElement>("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts.toString();
+		_preferences.querySelector<HTMLInputElement>("#api_usage-comment").value = settings.apiUsage.comment;
+		_preferences.querySelector<HTMLInputElement>("#api_usage-essential").value = settings.apiUsage.delayEssential.toString();
+		_preferences.querySelector<HTMLInputElement>("#api_usage-basic").value = settings.apiUsage.delayBasic.toString();
+		_preferences.querySelector<HTMLInputElement>("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts.toString();
 		for (const type of ["user"]) {
 			for (const selection in settings.apiUsage[type]) {
-				if (_preferences.find(`#api_usage-${type}_${selection}`))
-					_preferences.find<HTMLInputElement>(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
+				if (_preferences.querySelector(`#api_usage-${type}_${selection}`))
+					_preferences.querySelector<HTMLInputElement>(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
 			}
 		}
 
-		if (api.tornstats.key) _preferences.find<HTMLInputElement>("#external-tornstats-key").value = api.tornstats.key;
-		if (api.yata.key) _preferences.find<HTMLInputElement>("#external-yata-key").value = api.yata.key;
-		if (api.ffScouter.key) _preferences.find<HTMLInputElement>("#external-ffScouter-key").value = api.ffScouter.key;
+		if (api.tornstats.key) _preferences.querySelector<HTMLInputElement>("#external-tornstats-key").value = api.tornstats.key;
+		if (api.yata.key) _preferences.querySelector<HTMLInputElement>("#external-yata-key").value = api.yata.key;
+		if (api.ffScouter.key) _preferences.querySelector<HTMLInputElement>("#external-ffScouter-key").value = api.ffScouter.key;
 
 		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
@@ -697,15 +696,15 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			let option: any;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
-				option = _preferences.find(`#notification_type-${notificationType}[type="text"]`);
+				option = _preferences.querySelector(`#notification_type-${notificationType}[type="text"]`);
 				if (!option) continue;
 				option.value = settings.notifications.types[notificationType].join(",");
 			} else if (typeof settings.notifications.types[notificationType] === "boolean") {
-				option = _preferences.find(`#notification_type-${notificationType}`);
+				option = _preferences.querySelector(`#notification_type-${notificationType}`);
 				if (!option) continue;
 				option.checked = settings.notifications.types[notificationType];
 			} else {
-				option = _preferences.find(`#notification_type-${notificationType}`);
+				option = _preferences.querySelector(`#notification_type-${notificationType}`);
 				if (!option) continue;
 				option.value = settings.notifications.types[notificationType];
 			}
@@ -714,62 +713,62 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			else option.removeAttribute("disabled");
 		}
 
-		_preferences.find<HTMLInputElement>("#notification-sound").value = settings.notifications.sound;
-		_preferences.find<HTMLInputElement>("#notification-tts").checked = settings.notifications.tts;
-		_preferences.find<HTMLInputElement>("#notification-link").checked = settings.notifications.link;
-		_preferences.find<HTMLInputElement>("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
-		_preferences.find<HTMLInputElement>("#notification-volume").value = settings.notifications.volume.toString();
+		_preferences.querySelector<HTMLInputElement>("#notification-sound").value = settings.notifications.sound;
+		_preferences.querySelector<HTMLInputElement>("#notification-tts").checked = settings.notifications.tts;
+		_preferences.querySelector<HTMLInputElement>("#notification-link").checked = settings.notifications.link;
+		_preferences.querySelector<HTMLInputElement>("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
+		_preferences.querySelector<HTMLInputElement>("#notification-volume").value = settings.notifications.volume.toString();
 		if (settings.notifications.sound === "custom") {
-			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
+			_preferences.querySelector("#notification-sound-upload").classList.remove("tt-hidden");
 		} else {
 			if (settings.notifications.sound === "mute" || settings.notifications.sound === "default") {
-				_preferences.find("#notification-volume").classList.add("tt-hidden");
-				_preferences.find("#notification-sound-play").classList.add("tt-hidden");
-				_preferences.find("#notification-sound-stop").classList.add("tt-hidden");
+				_preferences.querySelector("#notification-volume").classList.add("tt-hidden");
+				_preferences.querySelector("#notification-sound-play").classList.add("tt-hidden");
+				_preferences.querySelector("#notification-sound-stop").classList.add("tt-hidden");
 			} else {
-				_preferences.find("#notification-volume").classList.remove("tt-hidden");
-				_preferences.find("#notification-sound-play").classList.remove("tt-hidden");
-				_preferences.find("#notification-sound-stop").classList.remove("tt-hidden");
+				_preferences.querySelector("#notification-volume").classList.remove("tt-hidden");
+				_preferences.querySelector("#notification-sound-play").classList.remove("tt-hidden");
+				_preferences.querySelector("#notification-sound-stop").classList.remove("tt-hidden");
 			}
 		}
 
 		for (const icon of settings.hideIcons) {
-			_preferences.find(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
+			_preferences.querySelector(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
 		}
 		for (const game of settings.hideCasinoGames) {
-			_preferences.find(`#hide-casino-games span[name="${game}"]`).classList.add("disabled");
+			_preferences.querySelector(`#hide-casino-games span[name="${game}"]`).classList.add("disabled");
 		}
 		for (const stockName of settings.hideStocks) {
-			_preferences.find(`#hide-stocks span[id="${stockName}"]`).classList.add("disabled");
+			_preferences.querySelector(`#hide-stocks span[id="${stockName}"]`).classList.add("disabled");
 		}
 		for (const link of settings.customLinks) {
 			addCustomLink(link);
 		}
 		settings.employeeInactivityWarning.forEach((warning, index) => {
-			const row = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
+			const row = _preferences.querySelector(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
-			row.find<HTMLInputElement>("input[type='color']").value = warning.color;
+			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
+			row.querySelector<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.factionInactivityWarning.forEach((warning, index) => {
-			const row = _preferences.find(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
+			const row = _preferences.querySelector(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
-			row.find<HTMLInputElement>("input[type='color']").value = warning.color;
+			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
+			row.querySelector<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
 		for (const userID in settings.userAlias) {
 			addUserAlias(userID, settings.userAlias[userID].name, settings.userAlias[userID].alias);
 		}
 		for (const { id, level, minutes } of settings.notifications.types.npcs) {
-			const row = _preferences.find(`#npc-alerts > li[data-id='${id}']`);
+			const row = _preferences.querySelector(`#npc-alerts > li[data-id='${id}']`);
 			if (!row) continue;
 
-			row.find<HTMLInputElement>(".level").value = level.toString();
-			row.find<HTMLInputElement>(".minutes").value = minutes.toString();
+			row.querySelector<HTMLInputElement>(".level").value = level.toString();
+			row.querySelector<HTMLInputElement>(".minutes").value = minutes.toString();
 		}
 		for (const option of settings.pages.attack.hideAttackButtons) {
-			hideAttackOptionsParent.find(`[value*="${option}"]`).classList.add("disabled");
+			hideAttackOptionsParent.querySelector(`[value*="${option}"]`).classList.add("disabled");
 		}
 	}
 
@@ -783,7 +782,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 			for (const type in settings.notifications.types) {
 				if (type === "stocks") continue;
-				const option = _preferences.find<HTMLInputElement>(`#notification_type-${type}`);
+				const option = _preferences.querySelector<HTMLInputElement>(`#notification_type-${type}`);
 				if (!option) continue;
 
 				if (type === "global") {
@@ -797,36 +796,36 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addChatHighlightRow(name: string, color: string) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
-				document.newElement({ type: "input", class: "color", value: color, attributes: { type: "color" } }),
+				elementBuilder({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
+				elementBuilder({ type: "input", class: "color", value: color, attributes: { type: "color" } }),
 				deleteIcon,
 			],
 		});
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
-		_preferences.find("#chatHighlight").insertBefore(newRow, _preferences.find("#chatHighlight .input"));
+		_preferences.querySelector("#chatHighlight").insertBefore(newRow, _preferences.querySelector("#chatHighlight .input"));
 	}
 
 	function addChatTitleHighlightRow(title: string, color: string) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "title", value: title, attributes: { type: "text", placeholder: "Title.." } }),
-				document.newElement({
+				elementBuilder({ type: "input", class: "title", value: title, attributes: { type: "text", placeholder: "Title.." } }),
+				elementBuilder({
 					type: "select",
 					class: "color",
 					value: color,
@@ -839,7 +838,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
-		_preferences.find("#chatTitleHighlight").insertBefore(newRow, _preferences.find("#chatTitleHighlight .input"));
+		_preferences.querySelector("#chatTitleHighlight").insertBefore(newRow, _preferences.querySelector("#chatTitleHighlight .input"));
 	}
 
 	function getChatTitleColorOptions() {
@@ -853,10 +852,10 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addCustomLink(data: CustomLink) {
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: "newTab",
 					attributes: {
@@ -868,7 +867,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 							: {}),
 					},
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "select",
 					class: "preset",
 					value: data.preset,
@@ -876,8 +875,8 @@ async function setupPreferences(requireCleanup: boolean = false) {
 					events: {
 						change: (event) => {
 							const target = event.target as HTMLInputElement;
-							const hrefInput = newRow.find<HTMLInputElement>(".href");
-							const nameInput = newRow.find<HTMLInputElement>(".name");
+							const hrefInput = newRow.querySelector<HTMLInputElement>(".href");
+							const nameInput = newRow.querySelector<HTMLInputElement>(".name");
 
 							// noinspection DuplicatedCode
 							if (target.value === "custom") {
@@ -893,80 +892,80 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						},
 					},
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "select",
 					class: "location",
 					value: data.location,
 					html: getCustomLinkLocations(),
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: `name ${data.preset === "custom" ? "" : "tt-hidden"}`,
 					value: data.name,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: `href ${data.preset === "custom" ? "" : "tt-hidden"}`,
 					value: data.href,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "button",
 					class: "remove-icon-wrap",
-					children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+					children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 					events: {
 						click: () => newRow.remove(),
 					},
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "move-icon-wrap",
-					children: [document.newElement({ type: "i", class: "move-icon fa-solid fa-bars" })],
+					children: [elementBuilder({ type: "i", class: "move-icon fa-solid fa-bars" })],
 				}),
 			],
 		});
 
-		_preferences.find("#customLinks").insertBefore(newRow, _preferences.find("#customLinks .input"));
+		_preferences.querySelector("#customLinks").insertBefore(newRow, _preferences.querySelector("#customLinks .input"));
 	}
 
 	function addAllyFaction(ally: string | number) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
-			children: [document.newElement({ type: "input", class: "faction", value: ally }), deleteIcon],
+			children: [elementBuilder({ type: "input", class: "faction", value: ally }), deleteIcon],
 		});
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
-		_preferences.find("#allyFactions li:last-child").insertAdjacentElement("beforebegin", newRow);
-		_preferences.find<HTMLInputElement>("#allyFactions li:last-child input").value = "";
+		_preferences.querySelector("#allyFactions li:last-child").insertAdjacentElement("beforebegin", newRow);
+		_preferences.querySelector<HTMLInputElement>("#allyFactions li:last-child input").value = "";
 	}
 
 	function addUserAlias(userID: string, name: string, alias: string) {
-		const deleteIcon = document.newElement({
+		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
-		const newRow = document.newElement({
+		const newRow = elementBuilder({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "userID", value: userID, attributes: { type: "text", placeholder: "User ID.." } }),
-				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
-				document.newElement({ type: "input", class: "alias", value: alias, attributes: { type: "text", placeholder: "Alias.." } }),
+				elementBuilder({ type: "input", class: "userID", value: userID, attributes: { type: "text", placeholder: "User ID.." } }),
+				elementBuilder({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
+				elementBuilder({ type: "input", class: "alias", value: alias, attributes: { type: "text", placeholder: "Alias.." } }),
 				deleteIcon,
 			],
 		});
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
-		_preferences.find("#userAlias li:last-child").insertAdjacentElement("beforebegin", newRow);
-		_preferences.findAll<HTMLInputElement>("#userAlias li:last-child input").forEach((x) => (x.value = ""));
+		_preferences.querySelector("#userAlias li:last-child").insertAdjacentElement("beforebegin", newRow);
+		findAllElements<HTMLInputElement>("#userAlias li:last-child input", _preferences).forEach((x) => (x.value = ""));
 	}
 
 	function getCustomLinkOptions() {
@@ -1005,31 +1004,31 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			"featureDisplayHideDisabled",
 			"featureDisplayHideEmpty",
 		]) {
-			const checkbox = _preferences.find<HTMLInputElement>(`#${setting}`);
+			const checkbox = _preferences.querySelector<HTMLInputElement>(`#${setting}`);
 			if (!checkbox) continue;
 
 			settings[setting] = checkbox.checked;
 		}
 
-		settings.formatting.tct = _preferences.find<HTMLInputElement>("#formatting-tct").checked;
-		settings.formatting.date = _preferences.find<HTMLInputElement>("input[name='formatDate']:checked").value;
-		settings.formatting.time = _preferences.find<HTMLInputElement>("input[name='formatTime']:checked").value;
-		settings.themes.pages = _preferences.find<HTMLInputElement>("input[name='themePage']:checked").value as InternalPageTheme;
-		settings.themes.containers = _preferences.find<HTMLInputElement>("input[name='themeContainers']:checked").value;
+		settings.formatting.tct = _preferences.querySelector<HTMLInputElement>("#formatting-tct").checked;
+		settings.formatting.date = _preferences.querySelector<HTMLInputElement>("input[name='formatDate']:checked").value;
+		settings.formatting.time = _preferences.querySelector<HTMLInputElement>("input[name='formatTime']:checked").value;
+		settings.themes.pages = _preferences.querySelector<HTMLInputElement>("input[name='themePage']:checked").value as InternalPageTheme;
+		settings.themes.containers = _preferences.querySelector<HTMLInputElement>("input[name='themeContainers']:checked").value;
 
-		settings.csvDelimiter = _preferences.find<HTMLInputElement>("#csvDelimiter").value;
+		settings.csvDelimiter = _preferences.querySelector<HTMLInputElement>("#csvDelimiter").value;
 
-		settings.external.tornstats = _preferences.find<HTMLInputElement>("#external-tornstats").checked;
-		settings.external.yata = _preferences.find<HTMLInputElement>("#external-yata").checked;
-		settings.external.prometheus = _preferences.find<HTMLInputElement>("#external-prometheus").checked;
-		settings.external.lzpt = _preferences.find<HTMLInputElement>("#external-lzpt").checked;
-		settings.external.tornw3b = _preferences.find<HTMLInputElement>("#external-tornw3b").checked;
-		settings.external.ffScouter = _preferences.find<HTMLInputElement>("#external-ffScouter").checked;
+		settings.external.tornstats = _preferences.querySelector<HTMLInputElement>("#external-tornstats").checked;
+		settings.external.yata = _preferences.querySelector<HTMLInputElement>("#external-yata").checked;
+		settings.external.prometheus = _preferences.querySelector<HTMLInputElement>("#external-prometheus").checked;
+		settings.external.lzpt = _preferences.querySelector<HTMLInputElement>("#external-lzpt").checked;
+		settings.external.tornw3b = _preferences.querySelector<HTMLInputElement>("#external-tornw3b").checked;
+		settings.external.ffScouter = _preferences.querySelector<HTMLInputElement>("#external-ffScouter").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
 				for (const setting in settings[type][page]) {
-					const input = _preferences.find<HTMLInputElement>(`#${page}-${setting}, input[name="${setting}"]:checked`);
+					const input = _preferences.querySelector<HTMLInputElement>(`#${page}-${setting}, input[name="${setting}"]:checked`);
 					if (!input) continue;
 
 					if (input.tagName === "INPUT") {
@@ -1058,28 +1057,28 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			}
 		}
 
-		settings.customLinks = [..._preferences.findAll("#customLinks > li:not(.input)")].map((link) => {
+		settings.customLinks = findAllElements("#customLinks > li:not(.input)", _preferences).map((link) => {
 			return {
-				newTab: link.find<HTMLInputElement>(".newTab").checked,
-				preset: link.find<HTMLInputElement>(".preset").value,
-				location: link.find<HTMLInputElement>(".location").value,
-				name: link.find<HTMLInputElement>(".name").value,
-				href: link.find<HTMLInputElement>(".href").value,
+				newTab: link.querySelector<HTMLInputElement>(".newTab").checked,
+				preset: link.querySelector<HTMLInputElement>(".preset").value,
+				location: link.querySelector<HTMLInputElement>(".location").value,
+				name: link.querySelector<HTMLInputElement>(".name").value,
+				href: link.querySelector<HTMLInputElement>(".href").value,
 			};
 		});
-		settings.pages.chat.highlights = [..._preferences.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
+		settings.pages.chat.highlights = findAllElements("#chatHighlight > li:not(.input)", _preferences).map((highlight) => {
 			return {
-				name: highlight.find<HTMLInputElement>(".name").value,
-				color: highlight.find<HTMLInputElement>(".color").value,
+				name: highlight.querySelector<HTMLInputElement>(".name").value,
+				color: highlight.querySelector<HTMLInputElement>(".color").value,
 			};
 		});
-		settings.pages.chat.titleHighlights = [..._preferences.findAll("#chatTitleHighlight > li:not(.input)")].map((highlight) => {
+		settings.pages.chat.titleHighlights = findAllElements("#chatTitleHighlight > li:not(.input)", _preferences).map((highlight) => {
 			return {
-				title: highlight.find<HTMLInputElement>(".title").value,
-				color: highlight.find<HTMLInputElement>(".color").value,
+				title: highlight.querySelector<HTMLInputElement>(".title").value,
+				color: highlight.querySelector<HTMLInputElement>(".color").value,
 			};
 		});
-		settings.alliedFactions = [..._preferences.findAll<HTMLInputElement>("#allyFactions input")]
+		settings.alliedFactions = findAllElements<HTMLInputElement>("#allyFactions input")
 			.map((input) => {
 				if (isNaN(parseInt(input.value))) return input.value.trim();
 				else return parseInt(input.value.trim());
@@ -1089,48 +1088,48 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				else return x;
 			});
 		settings.userAlias = {};
-		for (const aliasRow of _preferences.findAll<HTMLInputElement>("#userAlias > li")) {
-			if (aliasRow.find<HTMLInputElement>(".userID").value) {
-				settings.userAlias[aliasRow.find<HTMLInputElement>(".userID").value] = {
-					name: aliasRow.find<HTMLInputElement>(".name").value,
-					alias: aliasRow.find<HTMLInputElement>(".alias").value,
+		for (const aliasRow of findAllElements<HTMLInputElement>("#userAlias > li", _preferences)) {
+			if (aliasRow.querySelector<HTMLInputElement>(".userID").value) {
+				settings.userAlias[aliasRow.querySelector<HTMLInputElement>(".userID").value] = {
+					name: aliasRow.querySelector<HTMLInputElement>(".name").value,
+					alias: aliasRow.querySelector<HTMLInputElement>(".alias").value,
 				};
 			}
 		}
 
-		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
-		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
-		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
-		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed")]
+		settings.hideIcons = findAllElements("#hide-icons .icon.disabled > div", _preferences).map((icon) => icon.getAttribute("class"));
+		settings.hideCasinoGames = findAllElements("#hide-casino-games span.disabled", _preferences).map((game) => game.getAttribute("name"));
+		settings.hideStocks = findAllElements("#hide-stocks span.disabled", _preferences).map((stock) => stock.getAttribute("id"));
+		settings.employeeInactivityWarning = findAllElements("#employeeInactivityWarning > .tabbed", _preferences)
 			.map((warning) => {
-				const days = warning.find<HTMLInputElement>("input[type='number']").value;
+				const days = warning.querySelector<HTMLInputElement>("input[type='number']").value;
 
 				return {
-					color: warning.find<HTMLInputElement>("input[type='color']").value,
+					color: warning.querySelector<HTMLInputElement>("input[type='color']").value,
 					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
-		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed")]
+		settings.factionInactivityWarning = findAllElements("#factionInactivityWarning > .tabbed", _preferences)
 			.map((warning) => {
-				const days = warning.find<HTMLInputElement>("input[type='number']").value;
+				const days = warning.querySelector<HTMLInputElement>("input[type='number']").value;
 
 				return {
-					color: warning.find<HTMLInputElement>("input[type='color']").value,
+					color: warning.querySelector<HTMLInputElement>("input[type='color']").value,
 					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
-		settings.pages.attack.hideAttackButtons = [..._preferences.findAll("#hide-attack-options span.disabled")].map((x) => x.getAttribute("value"));
+		settings.pages.attack.hideAttackButtons = findAllElements("#hide-attack-options span.disabled", _preferences).map((x) => x.getAttribute("value"));
 
-		settings.apiUsage.comment = _preferences.find<HTMLInputElement>("#api_usage-comment").value;
-		settings.apiUsage.delayEssential = parseInt(_preferences.find<HTMLInputElement>("#api_usage-essential").value);
-		settings.apiUsage.delayBasic = parseInt(_preferences.find<HTMLInputElement>("#api_usage-basic").value);
-		settings.apiUsage.delayStakeouts = parseInt(_preferences.find<HTMLInputElement>("#api_usage-stakeouts").value);
+		settings.apiUsage.comment = _preferences.querySelector<HTMLInputElement>("#api_usage-comment").value;
+		settings.apiUsage.delayEssential = parseInt(_preferences.querySelector<HTMLInputElement>("#api_usage-essential").value);
+		settings.apiUsage.delayBasic = parseInt(_preferences.querySelector<HTMLInputElement>("#api_usage-basic").value);
+		settings.apiUsage.delayStakeouts = parseInt(_preferences.querySelector<HTMLInputElement>("#api_usage-stakeouts").value);
 		for (const type of ["user"]) {
 			for (const selection in settings.apiUsage[type]) {
-				if (_preferences.find(`#api_usage-${type}_${selection}`))
-					settings.apiUsage[type][selection] = (_preferences.find(`#api_usage-${type}_${selection}`) as HTMLInputElement).checked;
+				if (_preferences.querySelector(`#api_usage-${type}_${selection}`))
+					settings.apiUsage[type][selection] = (_preferences.querySelector(`#api_usage-${type}_${selection}`) as HTMLInputElement).checked;
 			}
 		}
 
@@ -1140,21 +1139,21 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			let newValue: any;
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				newValue = _preferences
-					.find<HTMLInputElement>(`#notification_type-${notificationType}[type="text"]`)
+					.querySelector<HTMLInputElement>(`#notification_type-${notificationType}[type="text"]`)
 					.value.split(",")
 					.filter((x) => x)
 					.map((x) => (parseFloat(x).toString() === x ? parseFloat(x) : x));
 			} else if (typeof settings.notifications.types[notificationType] === "boolean") {
-				newValue = _preferences.find<HTMLInputElement>(`#notification_type-${notificationType}`).checked;
+				newValue = _preferences.querySelector<HTMLInputElement>(`#notification_type-${notificationType}`).checked;
 			} else {
-				newValue = _preferences.find<HTMLInputElement>(`#notification_type-${notificationType}`).value;
+				newValue = _preferences.querySelector<HTMLInputElement>(`#notification_type-${notificationType}`).value;
 			}
 			settings.notifications.types[notificationType] = newValue;
 		}
-		settings.notifications.types.npcs = [..._preferences.findAll("#npc-alerts > li")]
+		settings.notifications.types.npcs = findAllElements("#npc-alerts > li", _preferences)
 			.map((row) => {
-				const level = row.find<HTMLInputElement>(".level").value;
-				const minutes = row.find<HTMLInputElement>(".minutes").value;
+				const level = row.querySelector<HTMLInputElement>(".level").value;
+				const minutes = row.querySelector<HTMLInputElement>(".minutes").value;
 
 				return {
 					id: parseInt(row.dataset.id),
@@ -1164,11 +1163,11 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			})
 			.filter(({ level, minutes }) => level !== "" || minutes !== "");
 
-		settings.notifications.tts = _preferences.find<HTMLInputElement>("#notification-tts").checked;
-		settings.notifications.link = _preferences.find<HTMLInputElement>("#notification-link").checked;
-		settings.notifications.requireInteraction = _preferences.find<HTMLInputElement>("#notification-requireInteraction").checked;
-		settings.notifications.volume = parseInt(_preferences.find<HTMLInputElement>("#notification-volume").value);
-		settings.notifications.sound = _preferences.find<HTMLInputElement>("#notification-sound").value;
+		settings.notifications.tts = _preferences.querySelector<HTMLInputElement>("#notification-tts").checked;
+		settings.notifications.link = _preferences.querySelector<HTMLInputElement>("#notification-link").checked;
+		settings.notifications.requireInteraction = _preferences.querySelector<HTMLInputElement>("#notification-requireInteraction").checked;
+		settings.notifications.volume = parseInt(_preferences.querySelector<HTMLInputElement>("#notification-volume").value);
+		settings.notifications.sound = _preferences.querySelector<HTMLInputElement>("#notification-sound").value;
 
 		const newStorage = { settings };
 		await ttStorage.set(newStorage);
@@ -1176,9 +1175,9 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 		await ttStorage.change({
 			api: {
-				tornstats: { key: document.find<HTMLInputElement>("#external-tornstats-key").value },
-				yata: { key: document.find<HTMLInputElement>("#external-yata-key").value },
-				ffScouter: { key: document.find<HTMLInputElement>("#external-ffScouter-key").value },
+				tornstats: { key: document.querySelector<HTMLInputElement>("#external-tornstats-key").value },
+				yata: { key: document.querySelector<HTMLInputElement>("#external-yata-key").value },
+				ffScouter: { key: document.querySelector<HTMLInputElement>("#external-ffScouter-key").value },
 			},
 		});
 
@@ -1207,30 +1206,30 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function searchPreferences() {
-		const searchOverlay = document.find("#tt-search-overlay");
-		document.find("#preferences-search").addEventListener("click", () => {
+		const searchOverlay = document.querySelector("#tt-search-overlay");
+		document.querySelector("#preferences-search").addEventListener("click", () => {
 			searchOverlay.classList.remove("tt-hidden");
 			searchOverlayInput.focus();
 			search();
 		});
 
-		searchOverlay.find(".circle").addEventListener("click", () => {
-			searchOverlay.find("#tt-search-list").innerHTML = "";
+		searchOverlay.querySelector(".circle").addEventListener("click", () => {
+			searchOverlay.querySelector("#tt-search-list").innerHTML = "";
 			searchOverlay.classList.add("tt-hidden");
 		});
-		const searchOverlayInput = searchOverlay.find<HTMLInputElement>("input");
-		searchOverlay.find("#tt-search-button").addEventListener("click", search);
+		const searchOverlayInput = searchOverlay.querySelector<HTMLInputElement>("input");
+		searchOverlay.querySelector("#tt-search-button").addEventListener("click", search);
 		searchOverlayInput.addEventListener("input", search);
 		searchOverlayInput.addEventListener("keydown", (event) => {
 			if (event.keyCode === 13) search();
 		});
 
-		const searchList = searchOverlay.find("#tt-search-list");
+		const searchList = searchOverlay.querySelector("#tt-search-list");
 
 		async function search() {
 			const searchFor = searchOverlayInput.value.toLowerCase().trim();
 			if (!searchFor) return;
-			document.findAll(".searched").forEach((option) => option.classList.remove("searched"));
+			findAllElements(".searched").forEach((option) => option.classList.remove("searched"));
 			let searchResults = document.evaluate(
 				`//main[@id='preferences']
 					//section
@@ -1266,18 +1265,18 @@ async function setupPreferences(requireCleanup: boolean = false) {
 					}
 
 					searchList.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							text: name,
 							attributes: { [keyword]: section },
-							children: [document.newElement("br")],
+							children: [elementBuilder("br")],
 						})
 					);
-					searchList.appendChild(document.newElement("hr"));
+					searchList.appendChild(elementBuilder("hr"));
 				}
 			} else {
 				searchList.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						id: "no-result",
 						text: "No Results",
@@ -1294,14 +1293,14 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				const nameAttr = (event.target as Element).getAttribute("name");
 				const forAttr = (event.target as Element).getAttribute("for");
 				if (forAttr) {
-					const optionFound = document.find(`#preferences [for="${forAttr}"]`);
-					document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
+					const optionFound = document.querySelector(`#preferences [for="${forAttr}"]`);
+					document.querySelector<HTMLElement>(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
 					optionFound.parentElement.classList.add("searched");
 				} else if (nameAttr) {
-					for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
+					for (const x of findAllElements(`#preferences [name="${nameAttr}"] .header`)) {
 						if (x.textContent.trim() === (event.target as Element).textContent.trim()) {
 							x.classList.add("searched");
-							document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
+							document.querySelector<HTMLElement>(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
 							break;
 						}
 					}
@@ -1335,12 +1334,12 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			{ id: "external-tornw3b", origin: FETCH_PLATFORMS.tornw3b },
 			{ id: "external-ffScouter", origin: FETCH_PLATFORMS.ffscouter },
 		]) {
-			if (!_preferences.find<HTMLInputElement>(`#${id}`)?.checked) continue;
+			if (!_preferences.querySelector<HTMLInputElement>(`#${id}`)?.checked) continue;
 
 			origins.push(origin);
 		}
 
-		const reviveProvider = _preferences.find<HTMLSelectElement>("#global-reviveProvider").value;
+		const reviveProvider = _preferences.querySelector<HTMLSelectElement>("#global-reviveProvider").value;
 		if (reviveProvider) {
 			const origin = REVIVE_PROVIDERS.find((p) => p.provider === reviveProvider)?.origin;
 
@@ -1369,12 +1368,14 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 	function addSaveDialog() {
 		if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
-		else document.find("#saveSettingsBar").classList.remove("tt-hidden");
+		else document.querySelector("#saveSettingsBar").classList.remove("tt-hidden");
 	}
 
 	function revertSettings() {
-		_preferences.findAll("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled").forEach((x) => x.classList.remove("disabled"));
-		_preferences.findAll("button.remove-icon-wrap").forEach((x) => x.closest("li").remove());
+		findAllElements("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled", _preferences).forEach((x) =>
+			x.classList.remove("disabled")
+		);
+		findAllElements("button.remove-icon-wrap", _preferences).forEach((x) => x.closest("li").remove());
 		fillSettings();
 	}
 
@@ -1399,12 +1400,12 @@ async function setupPreferences(requireCleanup: boolean = false) {
 }
 
 async function setupAPIInfo() {
-	const _api = document.find("#api");
+	const _api = document.querySelector("#api");
 
-	if (api.torn.key) _api.find<HTMLInputElement>("#api_key").value = api.torn.key;
+	if (api.torn.key) _api.querySelector<HTMLInputElement>("#api_key").value = api.torn.key;
 
-	document.find("#update_api_key").addEventListener("click", async () => {
-		const key = document.find<HTMLInputElement>("#api_key").value;
+	document.querySelector("#update_api_key").addEventListener("click", async () => {
+		const key = document.querySelector<HTMLInputElement>("#api_key").value;
 
 		checkAPIPermission(key)
 			.then(({ access }) => {
@@ -1417,17 +1418,17 @@ async function setupAPIInfo() {
 					.catch((error) => {
 						sendMessage(error, false);
 						console.log("TT - Couldn't update API key!", error);
-						document.find<HTMLInputElement>("#api_key").value = api.torn.key || "";
+						document.querySelector<HTMLInputElement>("#api_key").value = api.torn.key || "";
 					});
 			})
 			.catch((error) => {
 				sendMessage(error, false);
 				console.log("TT - Couldn't update API key!", error);
-				document.find<HTMLInputElement>("#api_key").value = api.torn.key || "";
+				document.querySelector<HTMLInputElement>("#api_key").value = api.torn.key || "";
 			});
 	});
 
-	document.find(".current-usage .yata .icon").innerHTML = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/yata.svg"))).text();
+	document.querySelector(".current-usage .yata .icon").innerHTML = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/yata.svg"))).text();
 
 	const apiUsageLocations = ["torn", "tornstats", "yata"];
 	const perMinuteUsage = {
@@ -1442,7 +1443,7 @@ async function setupAPIInfo() {
 	};
 
 	Object.entries(ttUsage.usage).forEach(([minute, localUsage]) => {
-		const hourOfMinute = (parseInt(minute) / 60).dropDecimals();
+		const hourOfMinute = dropDecimals(parseInt(minute) / 60);
 		for (const location of apiUsageLocations) {
 			if (localUsage[location] !== undefined && localUsage[location] !== null) {
 				perMinuteUsage[location].usage += localUsage[location];
@@ -1455,19 +1456,19 @@ async function setupAPIInfo() {
 		perHourUsage[location].count = perHourUsage[location].hours.size;
 		delete perHourUsage[location].hours;
 	}
-	document.findAll(".current-usage .averages > div.per-minute").forEach((usageDiv, index) => {
+	findAllElements(".current-usage .averages > div.per-minute").forEach((usageDiv, index) => {
 		const key = apiUsageLocations[index];
 		usageDiv.textContent = `Average calls per minute: ${
-			perMinuteUsage[key].count ? (perMinuteUsage[key].usage / perMinuteUsage[key].count).dropDecimals() : 0
+			perMinuteUsage[key].count ? dropDecimals(perMinuteUsage[key].usage / perMinuteUsage[key].count) : 0
 		}`;
 	});
-	document.findAll(".current-usage .averages > div.per-hour").forEach((usageDiv, index) => {
+	findAllElements(".current-usage .averages > div.per-hour").forEach((usageDiv, index) => {
 		const key = apiUsageLocations[index];
-		usageDiv.innerText = `Average calls per hour: ${perHourUsage[key].count ? (perMinuteUsage[key].usage / perHourUsage[key].count).dropDecimals() : 0}`;
+		usageDiv.innerText = `Average calls per hour: ${perHourUsage[key].count ? dropDecimals(perMinuteUsage[key].usage / perHourUsage[key].count) : 0}`;
 	});
 
-	const canvas = document.find("#current-usage-chart");
-	document.find(".current-usage").appendChild(canvas);
+	const canvas = document.querySelector("#current-usage-chart");
+	document.querySelector(".current-usage").appendChild(canvas);
 
 	const darkMode = hasDarkMode();
 	const usageChart = new Chart(canvas, {
@@ -1525,20 +1526,20 @@ async function setupAPIInfo() {
 	await ttUsage.refresh();
 
 	(["userdata", "torndata", "stocks", "factiondata"] as const).forEach((section) => {
-		document.find(`#update-${section}`).addEventListener("click", () =>
+		document.querySelector(`#update-${section}`).addEventListener("click", () =>
 			chrome.runtime.sendMessage({ action: "forceUpdate", update: section } satisfies BackgroundMessage).then((result) => {
 				console.log(`Manually fetched ${section}.`, result);
 				sendMessage(`Fetched ${section}.`, true);
 			})
 		);
 	});
-	document.find("#reinitialize-timers").addEventListener("click", () =>
+	document.querySelector("#reinitialize-timers").addEventListener("click", () =>
 		chrome.runtime.sendMessage({ action: "reinitialize-timers" } satisfies BackgroundMessage).then((result) => {
 			console.log("Manually reset background timers.", result);
 			sendMessage("Reset background timers.", true);
 		})
 	);
-	document.find("#clear-cache").addEventListener("click", () =>
+	document.querySelector("#clear-cache").addEventListener("click", () =>
 		chrome.runtime.sendMessage({ action: "clear-cache" } satisfies BackgroundMessage).then((result) => {
 			console.log("Manually cleared your cache.", result);
 			sendMessage("Cleared cache.", true);
@@ -1546,9 +1547,9 @@ async function setupAPIInfo() {
 	);
 
 	updateUsage(usageChart, "Last 5");
-	document.find(".current-usage .buttons .last-5").addEventListener("click", () => updateUsage(usageChart, "Last 5"));
-	document.find(".current-usage .buttons .last-1hr").addEventListener("click", () => updateUsage(usageChart, "Last 1hr"));
-	document.find(".current-usage .buttons .last-24hrs").addEventListener("click", () => updateUsage(usageChart, "Last 24hrs"));
+	document.querySelector(".current-usage .buttons .last-5").addEventListener("click", () => updateUsage(usageChart, "Last 5"));
+	document.querySelector(".current-usage .buttons .last-1hr").addEventListener("click", () => updateUsage(usageChart, "Last 1hr"));
+	document.querySelector(".current-usage .buttons .last-24hrs").addEventListener("click", () => updateUsage(usageChart, "Last 24hrs"));
 
 	function updateUsage(usageChart: Chart, position: string) {
 		let maxIndex: number, barThickness: number;
@@ -1575,8 +1576,8 @@ async function setupAPIInfo() {
 		}
 		for (const minute of minutesArray) {
 			const seconds = (parseInt(minute) - offset) * 60;
-			const hour = ((seconds % 86400) / 3600).dropDecimals();
-			usageChart.data.labels.push(`${toMultipleDigits(hour)}:${toMultipleDigits(((seconds % 3600) / 60).dropDecimals())}`);
+			const hour = dropDecimals((seconds % 86400) / 3600);
+			usageChart.data.labels.push(`${toMultipleDigits(hour)}:${toMultipleDigits(dropDecimals((seconds % 3600) / 60))}`);
 			usageChart.data.datasets[0].data[i] = ttUsage.usage[minute].torn ?? 0;
 			usageChart.data.datasets[1].data[i] = ttUsage.usage[minute].tornstats ?? 0;
 			usageChart.data.datasets[2].data[i] = ttUsage.usage[minute].yata ?? 0;
@@ -1623,12 +1624,12 @@ async function setupExport() {
 				};
 
 				if (api)
-					popup.find(".export-keys").appendChild(
-						document.newElement({
+					popup.querySelector(".export-keys").appendChild(
+						elementBuilder({
 							type: "li",
 							children: [
-								document.newElement({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
-								document.newElement({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
+								elementBuilder({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
+								elementBuilder({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
 							],
 						})
 					);
@@ -1653,7 +1654,7 @@ async function setupExport() {
 					...variables,
 				};
 
-				if (api) popup.find(".export-keys").appendChild(document.newElement({ type: "li", text: "api key" }));
+				if (api) popup.querySelector(".export-keys").appendChild(elementBuilder({ type: "li", text: "api key" }));
 			},
 		},
 		IMPORT_MANUAL: {
@@ -1680,10 +1681,10 @@ async function setupExport() {
 		},
 	} satisfies { [template: string]: PopupTemplate };
 
-	const exportSection = document.find("#export");
+	const exportSection = document.querySelector("#export");
 
 	// Local Text
-	exportSection.find("#export-local-text").addEventListener("click", async () => {
+	exportSection.querySelector("#export-local-text").addEventListener("click", async () => {
 		loadConfirmationPopup({
 			...POPUP_TEMPLATES.EXPORT,
 			variables: { api: true },
@@ -1696,7 +1697,7 @@ async function setupExport() {
 			})
 			.catch(() => {});
 	});
-	exportSection.find("#import-local-text").addEventListener("click", () => {
+	exportSection.querySelector("#import-local-text").addEventListener("click", () => {
 		loadConfirmationPopup(POPUP_TEMPLATES.IMPORT_MANUAL)
 			.then(async ({ importtext }) => {
 				if (importtext > 5242880) {
@@ -1719,7 +1720,7 @@ async function setupExport() {
 	});
 
 	// Local File
-	exportSection.find("#export-local-file").addEventListener("click", () => {
+	exportSection.querySelector("#export-local-file").addEventListener("click", () => {
 		loadConfirmationPopup({
 			...POPUP_TEMPLATES.EXPORT,
 			variables: { api: true },
@@ -1727,25 +1728,23 @@ async function setupExport() {
 			.then(async ({ api_key: exportApi }) => {
 				const data = JSON.stringify(await getExportData(exportApi), null, 4);
 
-				document
-					.newElement({
-						type: "a",
-						href: window.URL.createObjectURL(new Blob([data], { type: "octet/stream" })),
-						attributes: { download: "torntools.json" },
-					})
-					.click();
+				elementBuilder({
+					type: "a",
+					href: window.URL.createObjectURL(new Blob([data], { type: "octet/stream" })),
+					attributes: { download: "torntools.json" },
+				}).click();
 			})
 			.catch(() => {});
 	});
-	exportSection.find("#import-local-file").addEventListener("click", () => {
+	exportSection.querySelector("#import-local-file").addEventListener("click", () => {
 		loadConfirmationPopup({
 			...POPUP_TEMPLATES.IMPORT,
 			variables: { api: true },
 		})
-			.then(() => document.find("#import-local-file-origin").click())
+			.then(() => document.querySelector<HTMLElement>("#import-local-file-origin").click())
 			.catch(() => {});
 	});
-	exportSection.find("#import-local-file-origin").addEventListener("change", (event) => {
+	exportSection.querySelector("#import-local-file-origin").addEventListener("change", (event) => {
 		const reader = new FileReader();
 		reader.addEventListener("load", async (event) => {
 			const result = event.target.result;
@@ -1790,7 +1789,7 @@ async function setupExport() {
 
 	async function getExportData(api: boolean): Promise<ExportData> {
 		const exportedKeys = ["version", "settings", "filters", "stakeouts", "notes", "quick"];
-		if (api) exportedKeys.insertAt(0, "api");
+		if (api) exportedKeys.splice(0, 0, "api");
 
 		const data: ExportData = {
 			user: false,
@@ -1825,13 +1824,13 @@ async function setupExport() {
 	}
 
 	function loadSync() {
-		const importRemoteSync = exportSection.find("#import-remote-sync");
-		const clearRemoteSync = exportSection.find("#clear-remote-sync");
+		const importRemoteSync = exportSection.querySelector("#import-remote-sync");
+		const clearRemoteSync = exportSection.querySelector("#clear-remote-sync");
 
-		const lastUpdate = exportSection.find(".sync .last-update");
-		const version = exportSection.find(".sync .version");
+		const lastUpdate = exportSection.querySelector(".sync .last-update");
+		const version = exportSection.querySelector(".sync .version");
 
-		exportSection.find("#export-remote-sync").addEventListener("click", async () => {
+		exportSection.querySelector("#export-remote-sync").addEventListener("click", async () => {
 			loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
 				.then(async () => {
 					const data = await getExportData(false);
@@ -1876,7 +1875,7 @@ async function setupExport() {
 			if (!("error" in data)) {
 				importRemoteSync.removeAttribute("disabled");
 				importRemoteSync.classList.remove("tooltip");
-				importRemoteSync.find(".tooltip-text").textContent = "";
+				importRemoteSync.querySelector(".tooltip-text").textContent = "";
 				clearRemoteSync.removeAttribute("disabled");
 
 				const updated = new Date(data.date);
@@ -1887,7 +1886,7 @@ async function setupExport() {
 			} else {
 				importRemoteSync.setAttribute("disabled", "");
 				importRemoteSync.classList.add("tooltip");
-				importRemoteSync.find(".tooltip-text").textContent = data.message;
+				importRemoteSync.querySelector(".tooltip-text").textContent = data.message;
 				clearRemoteSync.setAttribute("disabled", "");
 
 				lastUpdate.textContent = "";
@@ -1900,10 +1899,10 @@ async function setupExport() {
 }
 
 function setupAbout() {
-	const about = document.find("#about");
+	const about = document.querySelector("#about");
 
 	// version
-	about.find(".version").textContent = chrome.runtime.getManifest().version;
+	about.querySelector(".version").textContent = chrome.runtime.getManifest().version;
 
 	// data corruption
 	showCorruption("userdata-corruption", () => typeof userdata === "object" && Object.keys(userdata).length > 5);
@@ -1912,37 +1911,37 @@ function setupAbout() {
 	showCorruption("factiondata-corruption", () => typeof factiondata === "object" && typeof factiondata.access === "string");
 
 	// disk space
-	ttStorage.getSize().then((size) => (about.find(".disk-space").textContent = formatBytes(size)));
+	ttStorage.getSize().then((size) => (about.querySelector(".disk-space").textContent = formatBytes(size)));
 
 	showTeam();
 
 	function showTeam() {
-		const ourTeam = about.find(".our-team");
+		const ourTeam = about.querySelector(".our-team");
 
 		for (const member of TEAM.filter((member) => member.core)) {
 			const title = Array.isArray(member.title) ? member.title.join(" + ") : member.title;
 
-			const card = document.newElement({
+			const card = elementBuilder({
 				type: "div",
 				class: "member-card",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "a",
 						class: "name",
 						text: member.name,
 						href: `https://www.torn.com/profiles.php?XID=${member.torn}`,
 						attributes: { target: "_blank" },
 					}),
-					document.newElement({ type: "span", class: "title", text: title }),
+					elementBuilder({ type: "span", class: "title", text: title }),
 				],
 			});
 
 			if ("donations" in member) {
-				const donations = document.newElement({ type: "div", class: "donations" });
+				const donations = elementBuilder({ type: "div", class: "donations" });
 
 				for (const method of member.donations) {
 					donations.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "a",
 							text: method.name,
 							href: method.link,
@@ -1951,7 +1950,7 @@ function setupAbout() {
 					);
 				}
 
-				card.appendChild(document.newElement("hr"));
+				card.appendChild(elementBuilder("hr"));
 				card.appendChild(donations);
 			}
 
@@ -1960,7 +1959,7 @@ function setupAbout() {
 	}
 
 	function showCorruption(id: string, checkFunction: () => boolean) {
-		const element = about.find(`#${id}`);
+		const element = about.querySelector(`#${id}`);
 		if (!element) return;
 
 		const status = checkFunction();

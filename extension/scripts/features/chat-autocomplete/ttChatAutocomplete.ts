@@ -26,7 +26,7 @@
 	async function readSettings() {
 		await requireChatsLoaded();
 
-		for (const chat of document.findAll(
+		for (const chat of findAllElements(
 			"[class*='group-chat-box__chat-box-wrapper__'] [class*='chat-box__'], #chatRoot [class*='item___'][style*='z-index']"
 		)) {
 			addAutocomplete(chat);
@@ -36,12 +36,13 @@
 	async function addAutocomplete(chat: HTMLElement) {
 		await requireElement("[class*='loader___']", { parent: chat, invert: true });
 
-		const messages = chat.findAll(
-			`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`
+		const messages = findAllElements(
+			`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`,
+			chat
 		);
 		if (!messages.length) return;
 
-		const textarea = chat.find<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
+		const textarea = chat.querySelector<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
 		if (!textarea) return;
 		textarea.classList.add("tt-chat-autocomplete");
 
@@ -59,7 +60,7 @@
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = [...chat.findAll(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`)]
+			const matchedUsernames = findAllElements(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`, chat)
 				.map((message) => message.textContent.split(":")[0])
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
 				.sort();

@@ -24,14 +24,14 @@ function createCheckbox(partialOptions: Partial<CheckboxOptions> = {}): Checkbox
 		...partialOptions,
 	};
 
-	const checkbox = document.newElement({ type: "input", id: options.id, attributes: { type: "checkbox" } });
-	const label = document.newElement({
+	const checkbox = elementBuilder({ type: "input", id: options.id, attributes: { type: "checkbox" } });
+	const label = elementBuilder({
 		type: "label",
 		[options.isHTML ? "html" : "text"]: options.description,
 	});
 	label.insertAdjacentElement("afterbegin", checkbox);
 
-	const checkboxWrapper = document.newElement({
+	const checkboxWrapper = elementBuilder({
 		type: "div",
 		class: `tt-checkbox-wrapper ${options.reverseLabel ? "reverse-label" : ""} ${options.class}`,
 		children: [label],

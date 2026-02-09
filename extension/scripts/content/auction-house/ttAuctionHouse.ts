@@ -1,7 +1,7 @@
 (() => {
 	let previousType = "";
 
-	for (const list of document.findAll(".items-list")) {
+	for (const list of findAllElements(".items-list")) {
 		new MutationObserver((mutations) => {
 			if ([...mutations].every((mutation) => mutation.addedNodes.length === 2)) {
 				return;

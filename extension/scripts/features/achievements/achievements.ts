@@ -108,7 +108,7 @@ const ACHIEVEMENTS: Achievement[] = [
 	{
 		name: "Donations",
 		stats: () => {
-			const description = document.find("#church-donate .desc > p:first-child > span");
+			const description = document.querySelector("#church-donate .desc > p:first-child > span");
 			if (!description) return -1;
 			return parseInt(description.textContent.substring(1).replaceAll(",", ""));
 		},

@@ -17,12 +17,12 @@
 	async function autoFillInputs() {
 		await requireElement("[class*='stockTableWrapper___'] [class*='row___'] [data-tt-content-type]");
 
-		const money = (await requireElement(".info-msg-cont .msg strong:nth-of-type(2)")).textContent.getNumber();
+		const money = convertToNumber((await requireElement(".info-msg-cont .msg strong:nth-of-type(2)")).textContent);
 		if (money === 0) return;
 
-		const capacityText = document.find(".info-msg-cont .msg strong:nth-of-type(3)").textContent.split(" / ");
-		const boughtItems = capacityText[0].getNumber();
-		let travelCapacity = capacityText[1].getNumber();
+		const capacityText = document.querySelector(".info-msg-cont .msg strong:nth-of-type(3)").textContent.split(" / ");
+		const boughtItems = convertToNumber(capacityText[0]);
+		let travelCapacity = convertToNumber(capacityText[1]);
 		if (
 			hasAPIData() &&
 			settings.apiUsage.user.perks &&
@@ -34,18 +34,18 @@
 		const leftCapacity = travelCapacity - boughtItems;
 		if (leftCapacity === 0) return;
 
-		document.findAll("[class*='stockTableWrapper___'] [class*='row___']").forEach((item) => {
-			const stock = item.find("[data-tt-content-type='stock']").textContent.getNumber();
+		findAllElements("[class*='stockTableWrapper___'] [class*='row___']").forEach((item) => {
+			const stock = convertToNumber(item.querySelector("[data-tt-content-type='stock']").textContent);
 			if (stock === 0) return;
 
-			const price = item.find("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent.getNumber();
+			const price = convertToNumber(item.querySelector("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent);
 
-			const affordableStock = (money / price).dropDecimals();
+			const affordableStock = dropDecimals(money / price);
 			if (affordableStock === 0 || affordableStock === 1) return;
 
 			const max = Math.min(stock, affordableStock, leftCapacity).toString();
 
-			item.findAll<HTMLInputElement>("input[placeholder='Qty']").forEach((input) => {
+			findAllElements<HTMLInputElement>("input[placeholder='Qty']", item).forEach((input) => {
 				updateReactInput(input, max);
 			});
 		});

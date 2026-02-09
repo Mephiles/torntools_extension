@@ -1,4 +1,4 @@
-(async () => {
+(() => {
 	const feature = featureManager.registerFeature(
 		"Employee Inactivity Warning",
 		"companies",
@@ -42,7 +42,7 @@
 
 		await requireElement(".employee-list-wrap .employee-list > li + .tt-last-action, .employees-wrap .employees-list > li + .tt-last-action");
 
-		for (const row of document.findAll(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li")) {
+		for (const row of findAllElements(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li")) {
 			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 
 			const days = parseInt((row.nextElementSibling as HTMLElement).dataset.days);
@@ -57,7 +57,7 @@
 	}
 
 	function removeWarning() {
-		document.findAll(".tt-inactive").forEach((inactive) => {
+		findAllElements(".tt-inactive").forEach((inactive) => {
 			inactive.style.removeProperty("--tt-inactive-background");
 			inactive.classList.remove("tt-inactive");
 		});

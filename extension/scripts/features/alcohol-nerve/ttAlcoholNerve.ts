@@ -30,8 +30,8 @@
 		const factionPerk = parseInt(userdata.faction_perks.filter((x) => /alcohol/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 		const companyPerk = parseInt(userdata.job_perks.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 
-		document.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
-			if (alcoholicDrink.find(".tt-alcohol-gains")) return;
+		findAllElements("[data-category='Alcohol']").forEach((alcoholicDrink) => {
+			if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;
 
 			const id = parseInt(alcoholicDrink.dataset.item);
 			let totalNerve = parseInt(
@@ -56,12 +56,12 @@
 
 			const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
 			alcoholicDrink
-				.find(".name-wrap")
-				.insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }));
+				.querySelector(".name-wrap")
+				.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }));
 		});
 	}
 
 	function removeNerveGains() {
-		document.findAll(".tt-alcohol-gains").forEach((x) => x.remove());
+		findAllElements(".tt-alcohol-gains").forEach((x) => x.remove());
 	}
 })();

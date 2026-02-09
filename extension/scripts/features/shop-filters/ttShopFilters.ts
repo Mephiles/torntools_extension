@@ -48,7 +48,7 @@
 		void filtering();
 
 		title.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-shop-filters tt-theme",
 				children: [shopFilters.element],
@@ -65,17 +65,17 @@
 
 		await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
 
-		for (const element of document.findAll(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
-			const itemElement = element.find(".item");
+		for (const element of findAllElements(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
+			const itemElement = element.querySelector(".item");
 			const itemIdAttr = itemElement.getAttribute("itemid");
 			if (!itemIdAttr) continue;
 
-			const id = itemIdAttr.getNumber();
+			const id = convertToNumber(itemIdAttr);
 			const item = torndata.items[id];
 			if (!item) continue;
 
-			const priceText = element.find(".price").firstChild?.textContent ?? "";
-			const price = priceText.getNumber();
+			const priceText = element.querySelector(".price").firstChild?.textContent ?? "";
+			const price = convertToNumber(priceText);
 
 			const profitable = item.market_value - price > 0;
 			if (hideLoss && !profitable) {
@@ -83,7 +83,7 @@
 				continue;
 			}
 
-			if (hideUnder100 && element.find(".instock").textContent.getNumber() < 100) {
+			if (hideUnder100 && convertToNumber(element.querySelector(".instock").textContent) < 100) {
 				element.classList.add("tt-hidden");
 				continue;
 			}
@@ -93,7 +93,7 @@
 	}
 
 	function removeFilters() {
-		document.findAll(".tt-shop-filters").forEach((x) => x.remove());
-		document.findAll(".buy-items-wrap .items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".tt-shop-filters").forEach((x) => x.remove());
+		findAllElements(".buy-items-wrap .items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

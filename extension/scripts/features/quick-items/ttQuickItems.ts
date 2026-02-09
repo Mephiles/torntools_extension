@@ -26,7 +26,7 @@
 			}
 		});
 		setInterval(() => {
-			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
+			for (const timer of findAllElements(".counter-wrap.tt-modified")) {
 				let secondsLeft: number;
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
@@ -59,28 +59,28 @@
 		await requireContent();
 
 		const { content, options } = createContainer("Quick Items", {
-			nextElement: document.find(".equipped-items-wrap"),
+			nextElement: document.querySelector(".equipped-items-wrap"),
 			spacer: true,
 			allowDragging: true,
 			compact: true,
 		});
-		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
-		content.appendChild(document.newElement({ type: "div", class: "response-wrap" }));
+		content.appendChild(elementBuilder({ type: "div", class: "inner-content" }));
+		content.appendChild(elementBuilder({ type: "div", class: "response-wrap" }));
 		options.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "option",
 				id: "edit-items-button",
-				children: [document.newElement({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
+				children: [elementBuilder({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
 				events: {
 					click: (event) => {
 						event.stopPropagation();
 
-						const enabled = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+						const enabled = options.querySelector("#edit-items-button").classList.toggle("tt-overlay-item");
 						isEditing = enabled;
 
 						const content = findContainer("Quick Items", { selector: ":scope > main" });
-						for (const quick of content.findAll(".item")) {
+						for (const quick of findAllElements(".item", content)) {
 							if (enabled) {
 								quick.classList.add("tt-overlay-item");
 								quick.classList.add("removable");
@@ -90,20 +90,20 @@
 							}
 						}
 
-						for (const category of document.findAll("#categoriesItem:not(.no-items)")) {
+						for (const category of findAllElements("#categoriesItem:not(.no-items)")) {
 							if (!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
 								continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
 						}
-						for (const item of document.findAll("ul.items-cont:not(.no-items)")) {
+						for (const item of findAllElements("ul.items-cont:not(.no-items)")) {
 							if (enabled) item.classList.add("tt-overlay-item");
 							else item.classList.remove("tt-overlay-item");
 						}
 
-						if (enabled) document.find(".tt-overlay").classList.remove("tt-hidden");
-						else document.find(".tt-overlay").classList.add("tt-hidden");
+						if (enabled) document.querySelector(".tt-overlay").classList.remove("tt-hidden");
+						else document.querySelector(".tt-overlay").classList.add("tt-hidden");
 
 						attachEditListeners(enabled);
 					},
@@ -122,12 +122,12 @@
 
 	function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temporary = false) {
 		const content = findContainer("Quick Items", { selector: ":scope > main" });
-		const innerContent = content.find(".inner-content");
-		const responseWrap = content.find(".response-wrap");
+		const innerContent = content.querySelector(".inner-content");
+		const responseWrap = content.querySelector<HTMLElement>(".response-wrap");
 
 		const { id, xid } = data;
 
-		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
+		if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
 		if (!allowQuickItem(id, getTornItemType(id))) return null;
 
 		let equipPosition: number | false | undefined;
@@ -136,7 +136,7 @@
 			data.equipPosition = equipPosition;
 		}
 
-		const itemWrap = document.newElement({
+		const itemWrap = elementBuilder({
 			type: "div",
 			class: temporary ? "temp item" : "item",
 			dataset: data,
@@ -154,7 +154,7 @@
 					// TODO: API Inventory Block.
 					/*if (equipItem) {
 						responseWrap.textContent = "";
-						responseWrap.appendChild(document.newElement({ type: "div", text: "Due to a change in Torn API's policies, we are no" }));
+						responseWrap.appendChild(elementBuilder({ type: "div", text: "Due to a change in Torn API's policies, we are no" }));
 						return;
 					}*/
 
@@ -175,11 +175,11 @@
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 						if (typeof result === "object") {
-							const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
+							const links = [elementBuilder({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
 							if (result.links) {
 								for (const link of result.links) {
 									links.push(
-										document.newElement({
+										elementBuilder({
 											type: "a",
 											class: `t-blue h m-left10 ${link.class}`,
 											href: link.url,
@@ -198,25 +198,25 @@
 							responseWrap.style.display = "block";
 							responseWrap.textContent = "";
 							responseWrap.appendChild(
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "action-wrap use-act use-action",
 									children: [
-										document.newElement({
+										elementBuilder({
 											type: "form",
 											dataset: { action: "useItem" },
 											attributes: { method: "post" },
 											children: [
-												document.newElement({ type: "p", html: result.text }),
-												document.newElement({ type: "p", children: links }),
-												document.newElement({ type: "div", class: "clear" }),
+												elementBuilder({ type: "p", html: result.text }),
+												elementBuilder({ type: "p", children: links }),
+												elementBuilder({ type: "div", class: "clear" }),
 											],
 										}),
 									],
 								})
 							);
 
-							for (const count of responseWrap.findAll(".counter-wrap")) {
+							for (const count of findAllElements(".counter-wrap", responseWrap)) {
 								count.classList.add("tt-modified");
 								count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 							}
@@ -249,15 +249,17 @@
 							responseWrap.style.display = "block";
 							responseWrap.innerHTML = result;
 
-							[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
+								x.classList.remove("equipped")
+							);
 
 							if (result.includes(" equipped ")) {
-								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
+								findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
 									x.classList.remove("equipped")
 								);
 								itemWrap.classList.add("equipped");
 							} else if (result.includes(" unequipped "))
-								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
+								findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
 									x.classList.remove("equipped")
 								);
 						}
@@ -299,30 +301,28 @@
 				draggable: true,
 			},
 		});
-		itemWrap.appendChild(
-			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
-		);
+		itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
 		if (hasAPIData()) {
 			itemWrap.setAttribute("title", torndata.items[id].name);
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
+			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: torndata.items[id].name }));
 
 			// TODO: API Inventory Block.
 			/*if (settings.apiUsage.user.inventory) {
 				const inventoryItem = findItemsInList(userdata.inventory, { ID: id }, { single: true });
 				const amount = inventoryItem ? inventoryItem.quantity : 0;
 
-				itemWrap.appendChild(document.newElement({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" }));
+				itemWrap.appendChild(elementBuilder({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" }));
 
 				if (inventoryItem.equipped) itemWrap.classList.add("equipped");
 			}*/
 		} else if (id in TORN_ITEMS) {
 			itemWrap.setAttribute("title", TORN_ITEMS[id].name);
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
+			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
 		} else {
-			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
+			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: id }));
 		}
 
-		const closeIcon = document.newElement({
+		const closeIcon = elementBuilder({
 			type: "i",
 			class: "fa-solid fa-xmark tt-close-icon",
 			attributes: { title: "Remove quick access." },
@@ -351,7 +351,7 @@
 
 		const data: QuickItem = { id };
 		if (isEquipable(id, target.dataset.category)) {
-			data.xid = parseInt(target.find(".actions[xid]").getAttribute("xid"));
+			data.xid = parseInt(target.querySelector(".actions[xid]").getAttribute("xid"));
 		}
 
 		const item = addQuickItem(data, false);
@@ -365,7 +365,7 @@
 
 		await ttStorage.change({
 			quick: {
-				items: [...content.findAll(".item")].map((x) => {
+				items: findAllElements(".item", content).map((x) => {
 					const data: QuickItem = { id: parseInt(x.dataset.id) };
 					if (x.dataset.xid) data.xid = parseInt(x.dataset.xid);
 
@@ -379,10 +379,10 @@
 		const enableDrag = !mobile && !tablet;
 		if (!enableDrag) return;
 
-		for (const item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
+		for (const item of findAllElements(".items-cont[aria-expanded=true] > li[data-item]")) {
 			if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
-			const titleWrap = item.find(".title-wrap");
+			const titleWrap = item.querySelector<HTMLElement>(".title-wrap");
 			if (titleWrap.hasAttribute("draggable")) continue;
 
 			titleWrap.setAttribute("draggable", "true");
@@ -394,8 +394,8 @@
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
-				document.find("#quickItems > main").classList.add("drag-progress");
-				if (document.find("#quickItems .temp.item") || !isElement(event.target)) return;
+				document.querySelector("#quickItems > main").classList.add("drag-progress");
+				if (document.querySelector("#quickItems .temp.item") || !isElement(event.target)) return;
 
 				const itemRow = event.target.closest("li[data-item]") as HTMLElement;
 
@@ -403,7 +403,7 @@
 
 				const data: QuickItem = { id };
 				if (isEquipable(id, itemRow.dataset.category)) {
-					data.xid = parseInt(itemRow.find(".actions[xid]").getAttribute("xid"));
+					data.xid = parseInt(itemRow.querySelector(".actions[xid]").getAttribute("xid"));
 				}
 
 				addQuickItem(data, true);
@@ -411,11 +411,11 @@
 		}
 
 		async function onDragEnd() {
-			if (document.find("#quickItems .temp.item")) {
-				document.find("#quickItems .temp.item").remove();
+			if (document.querySelector("#quickItems .temp.item")) {
+				document.querySelector("#quickItems .temp.item").remove();
 			}
 
-			document.find("#quickItems > main").classList.remove("drag-progress");
+			document.querySelector("#quickItems > main").classList.remove("drag-progress");
 
 			await saveQuickItems();
 		}
@@ -474,7 +474,7 @@
 	}
 
 	async function updateXIDs() {
-		const items = [...document.findAll("ul.items-cont > li .actions[xid]")].filter((x) => {
+		const items = findAllElements("ul.items-cont > li .actions[xid]").filter((x) => {
 			const itemid = parseInt((x.closest("li[data-item]") as HTMLElement).dataset.item);
 			return quick.items.some((y) => y.id === itemid);
 		});
@@ -487,7 +487,7 @@
 				const xid = parseInt(x.getAttribute("xid"));
 
 				quick.items.find((y) => y.id === itemid).xid = xid;
-				quickContainer.find(`.item[data-id="${itemid}"]`).dataset.xid = xid.toString();
+				quickContainer.querySelector<HTMLElement>(`.item[data-id="${itemid}"]`).dataset.xid = xid.toString();
 			} catch (error) {
 				console.error("Couldn't update item ids!", error);
 			}
@@ -498,13 +498,13 @@
 
 	function updateEquippedItem(id: number, isEquip: boolean) {
 		const equipPosition = getEquipPosition(id, getTornItemType(id));
-		[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+		findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`).forEach((x) => x.classList.remove("equipped"));
 
-		if (isEquip && document.find(`.item[data-id="${id}"]`)) document.find(`.item[data-id="${id}"]`).classList.add("equipped");
+		if (isEquip && document.querySelector(`.item[data-id="${id}"]`)) document.querySelector(`.item[data-id="${id}"]`).classList.add("equipped");
 	}
 
 	function setupOverlayItems(tab: Element) {
-		for (const item of tab.findAll("li[data-item][data-category]")) {
+		for (const item of findAllElements("li[data-item][data-category]", tab)) {
 			if (allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 			item.classList.add("tt-overlay-ignore");
@@ -513,13 +513,13 @@
 
 	function attachEditListeners(enabled: boolean) {
 		if (enabled) {
-			for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+			for (const item of findAllElements("ul.items-cont[aria-expanded='true'] > li")) {
 				if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
 		} else {
-			for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+			for (const item of findAllElements("ul.items-cont[aria-expanded='true'] > li")) {
 				if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 				item.removeEventListener("click", onItemClickQuickEdit);

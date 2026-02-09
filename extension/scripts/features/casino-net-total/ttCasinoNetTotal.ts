@@ -54,17 +54,17 @@
 
 			const totalLost = parseInt(totalLostElement.textContent.replace(/[$, ]/g, ""));
 
-			if (document.find(`.${statsType}-stats-wrap .tt-net-total`)) return;
+			if (document.querySelector(`.${statsType}-stats-wrap .tt-net-total`)) return;
 
 			await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
 			totalLostElement.closest("li:not(.stat-value)").insertAdjacentElement(
 				"afterend",
-				document.newElement({
+				elementBuilder({
 					type: "ul",
 					class: ["tt-net-total", isBookie() ? "bookie" : null, isPoker() ? "poker" : null],
 					children: [
-						document.newElement({ type: "li", class: "name", text: "Net total" }),
-						document.newElement({ type: "li", class: "value", text: formatNumber(totalWon - totalLost, { currency: true }) }),
+						elementBuilder({ type: "li", class: "name", text: "Net total" }),
+						elementBuilder({ type: "li", class: "value", text: formatNumber(totalWon - totalLost, { currency: true }) }),
 					],
 				})
 			);
@@ -84,6 +84,6 @@
 	}
 
 	function removeTotal() {
-		document.findAll(".tt-net-total").forEach((x) => x.remove());
+		findAllElements(".tt-net-total").forEach((x) => x.remove());
 	}
 })();

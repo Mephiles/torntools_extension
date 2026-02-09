@@ -63,15 +63,15 @@
 	const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
 
 	function initialiseDetector() {
-		const container = document.find("#mainContainer");
+		const container = document.querySelector("#mainContainer");
 
 		if (container) {
 			new MutationObserver((mutations, observer) => {
 				for (const node of mutations.flatMap((mutation) => [...mutation.addedNodes])) {
 					if (!isElement(node)) continue;
 
-					if (node.matches(EGG_SELECTOR) || node.find(EGG_SELECTOR)) {
-						highlightEgg(node.matches(EGG_SELECTOR) ? node : node.find(EGG_SELECTOR));
+					if (node.matches(EGG_SELECTOR) || node.querySelector(EGG_SELECTOR)) {
+						highlightEgg(node.matches(EGG_SELECTOR) ? node : node.querySelector(EGG_SELECTOR));
 						observer.disconnect();
 						break;
 					}
@@ -83,7 +83,7 @@
 	function enableDetector() {
 		document.body.classList.add("tt-easter-highlight");
 
-		for (const egg of document.findAll(EGG_SELECTOR)) {
+		for (const egg of findAllElements(EGG_SELECTOR)) {
 			highlightEgg(egg);
 		}
 	}
@@ -95,22 +95,22 @@
 
 		const locationText = calculateLocation(await requireElement(EGG_SELECTOR + " img"));
 
-		document.find(".tt-overlay").classList.remove("tt-hidden");
-		document.find(".tt-overlay").style.zIndex = "999";
+		document.querySelector(".tt-overlay").classList.remove("tt-hidden");
+		document.querySelector<HTMLElement>(".tt-overlay").style.zIndex = "999";
 
-		const popup = document.newElement({
+		const popup = elementBuilder({
 			type: "div",
 			id: "tt-easter-popup",
 			class: "tt-overlay-item",
 			events: { click: removePopup },
 			children: [
-				document.newElement({ type: "div", text: "Detected an easter egg!" }),
-				document.newElement({ type: "div", text: `It's located near the ${locationText} of your screen.` }),
-				document.newElement({
+				elementBuilder({ type: "div", text: "Detected an easter egg!" }),
+				elementBuilder({ type: "div", text: `It's located near the ${locationText} of your screen.` }),
+				elementBuilder({
 					type: "div",
 					text: "NOTE: Clicking on invisible eggs is a bad idea. It will decrease your spawn rates going forward. We try to detect and ignore them, occasionally one might still be highlighted.",
 				}),
-				document.newElement({ type: "button", class: "tt-button-link", text: "Close" }),
+				elementBuilder({ type: "button", class: "tt-button-link", text: "Close" }),
 			],
 		});
 
@@ -124,8 +124,8 @@
 		});
 
 		function removePopup() {
-			document.find(".tt-overlay").classList.add("tt-hidden");
-			document.find(".tt-overlay").style = "";
+			document.querySelector(".tt-overlay").classList.add("tt-hidden");
+			document.querySelector<HTMLElement>(".tt-overlay").style = "";
 			popup.remove();
 		}
 	}

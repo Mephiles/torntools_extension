@@ -20,7 +20,7 @@
 				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" }],
-			"technical": []
+			"technical": [{ "message": "No longer use any custom prototype functions.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

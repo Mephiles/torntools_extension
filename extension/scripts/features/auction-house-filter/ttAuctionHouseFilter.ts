@@ -46,7 +46,7 @@
 
 		const { content } = createContainer("Auction House Filter", {
 			class: "mt10",
-			nextElement: document.find("#auction-house-tabs"),
+			nextElement: document.querySelector("#auction-house-tabs"),
 			filter: true,
 		});
 
@@ -57,7 +57,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -213,15 +213,15 @@
 		await ttStorage.change({ filters: { auction: { [itemType]: filters } } });
 
 		// Actual Filtering
-		for (const row of document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]")) {
+		for (const row of findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]")) {
 			filterRow(row, filters);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Auction House Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
-			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
+			findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
+			findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
 			content
 		);
 	}
@@ -240,10 +240,10 @@
 	};
 
 	function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
-		const id = row.find<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1];
+		const id = row.querySelector<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1];
 
 		if (filters.name) {
-			if (!row.find(".item-name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
+			if (!row.querySelector(".item-name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
 				hide("name");
 				return;
 			}
@@ -263,7 +263,7 @@
 		if (filters.damage && !isNaN(parseFloat(filters.damage))) {
 			const damage = parseFloat(filters.damage);
 
-			const weaponDamageLabel = row.find(".bonus-attachment-item-damage-bonus + .label-value");
+			const weaponDamageLabel = row.querySelector(".bonus-attachment-item-damage-bonus + .label-value");
 			if (!weaponDamageLabel) {
 				hide("damage");
 				return;
@@ -277,7 +277,7 @@
 		if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
 			const accuracy = parseFloat(filters.accuracy);
 
-			const weaponAccuracyLabel = row.find(".bonus-attachment-item-accuracy-bonus + .label-value");
+			const weaponAccuracyLabel = row.querySelector(".bonus-attachment-item-accuracy-bonus + .label-value");
 			if (!weaponAccuracyLabel) {
 				hide("accuracy");
 				return;
@@ -291,7 +291,7 @@
 		if (filters.defence && !isNaN(parseFloat(filters.defence))) {
 			const defence = parseFloat(filters.defence);
 
-			const armorDefenceLabel = row.find(".bonus-attachment-item-defence-bonus + .label-value");
+			const armorDefenceLabel = row.querySelector(".bonus-attachment-item-defence-bonus + .label-value");
 			if (!armorDefenceLabel) {
 				hide("defence");
 				return;
@@ -303,13 +303,13 @@
 			}
 		}
 		if (filters.set) {
-			if (row.find(".item-cont-wrap .item-name").textContent.split(" ")[0].toLowerCase() !== filters.set) {
+			if (row.querySelector(".item-cont-wrap .item-name").textContent.split(" ")[0].toLowerCase() !== filters.set) {
 				hide("set");
 				return;
 			}
 		}
 		if (filters.quality && filters.quality !== "all") {
-			const weaponQualityMatch = row.find(".item-plate").className.match(/yellow|orange|red/);
+			const weaponQualityMatch = row.querySelector(".item-plate").className.match(/yellow|orange|red/);
 			const weaponQuality = weaponQualityMatch ? weaponQualityMatch[0] : "none";
 			if (weaponQuality !== filters.quality) {
 				hide("quality");
@@ -319,20 +319,20 @@
 		if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
 			const bonus = parseFloat(filters.armorBonus);
 
-			if (row.find(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title").getNumber() < bonus) {
+			if (convertToNumber(row.querySelector(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title")) < bonus) {
 				hide("bonus");
 				return;
 			}
 		}
 		const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
 		if (toFilterBonus && toFilterBonus.length) {
-			const foundBonuses = [...row.findAll(".iconsbonuses .bonus-attachment-icons")]
+			const foundBonuses = findAllElements(".iconsbonuses .bonus-attachment-icons", row)
 				.map((icon) => icon.getAttribute("title"))
 				.map((title) => title.split("<br/>"))
 				.filter((values) => values.length >= 2)
 				.map(([bonus, description]) => ({
 					bonus: bonus.substring(3, bonus.length - 4).toLowerCase(),
-					value: description.getNumber(),
+					value: convertToNumber(description),
 				}));
 
 			const hasBonuses = toFilterBonus.every(
@@ -360,7 +360,7 @@
 
 	function removeFilters() {
 		removeContainer("Auction House Filter");
-		document.findAll(".items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 
 	function getCategories(itemType: string) {

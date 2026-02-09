@@ -11,7 +11,7 @@
 			const { options } = createContainer("TornTools - Settings", { id: "tt-settings-container", onlyHeader: true, class: "mt10" });
 
 			options.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "a",
 					class: "preference-button",
 					text: "Settings",
@@ -20,7 +20,7 @@
 				})
 			);
 
-			const connectButton = document.newElement({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });
+			const connectButton = elementBuilder({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });
 			options.appendChild(connectButton);
 
 			if (api.torn.key) {
@@ -29,7 +29,7 @@
 				connectButton.textContent = "Connected!";
 			} else {
 				handleKeyView(connectButton);
-				[...document.findAll("#prefs-tab-menu .headers > li")].forEach((item) => item.addEventListener("click", () => handleKeyView(connectButton)));
+				findAllElements("#prefs-tab-menu .headers > li").forEach((item) => item.addEventListener("click", () => handleKeyView(connectButton)));
 			}
 		}
 
@@ -44,9 +44,9 @@
 				requireElement("[class*='api___']").then(async (apiContainer) => {
 					await requireElement("li[class*='keyRow___']", { parent: apiContainer });
 
-					const defaultKey = [...apiContainer.findAll("li[class*='keyRow___']")]
-						.find((element) => !element.find("[class*='name___']").textContent)
-						?.find("input").value;
+					const defaultKey = findAllElements("li[class*='keyRow___']", apiContainer)
+						.find((element) => !element.querySelector("[class*='name___']").textContent)
+						?.querySelector("input").value;
 
 					connectButton.textContent = "Connect";
 					connectButton.classList.remove("tt-hidden");
@@ -67,7 +67,7 @@
 		}
 
 		function updateKey(key: string) {
-			const connectButton = document.find("#connect-torntools");
+			const connectButton = document.querySelector("#connect-torntools");
 
 			changeAPIKey(key).then(() => {
 				connectButton.setAttribute("disabled", "");

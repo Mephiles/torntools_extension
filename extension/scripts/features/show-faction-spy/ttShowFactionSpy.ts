@@ -59,11 +59,11 @@
 
 		await requireElement(".members-list .table-body > li .status");
 
-		const tableBody = document.find(".members-list .table-body");
+		const tableBody = document.querySelector(".members-list .table-body");
 		tableBody.classList.add("tt-modified-faction-spy");
 
 		[...tableBody.children].forEach((row) => {
-			const memberID = row.find(".member.icons [href*='/profiles.php']")?.getAttribute("href").split("XID=")[1];
+			const memberID = row.querySelector(".member.icons [href*='/profiles.php']")?.getAttribute("href").split("XID=")[1];
 			if (!memberID) return;
 			let spyData = spies[memberID];
 
@@ -83,11 +83,11 @@
 					`⏱: ${spyData.timestamp}`,
 				];
 
-				statFields = allFields.slice(mobile ? 4 : 0).map((text) => document.newElement({ type: "div", text: text }));
+				statFields = allFields.slice(mobile ? 4 : 0).map((text) => elementBuilder({ type: "div", text: text }));
 				title = allFields.join("\n");
-			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
+			} else statFields.push(elementBuilder({ type: "div", text: "No spy found." }));
 
-			const spyElement = document.newElement({
+			const spyElement = elementBuilder({
 				type: "div",
 				class: "tt-faction-spy",
 				children: statFields,
@@ -99,12 +99,12 @@
 
 	async function showRWSpies() {
 		const enemiesMembersList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war .enemy-faction.left .members-list");
-		const enemyFactionID = enemiesMembersList.find("a[href*='/factions.php?step=profile&ID=']").getAttribute("href").split("ID=")[1];
+		const enemyFactionID = enemiesMembersList.querySelector("a[href*='/factions.php?step=profile&ID=']").getAttribute("href").split("ID=")[1];
 
 		const spies = await fetchSpies(enemyFactionID);
 
 		[...enemiesMembersList.children].forEach((row) => {
-			const memberID = row.find("a[href*='/profiles.php']").getAttribute("href").split("XID=")[1];
+			const memberID = row.querySelector("a[href*='/profiles.php']").getAttribute("href").split("XID=")[1];
 			let spyData = spies[memberID];
 
 			let statFields = [];
@@ -123,11 +123,11 @@
 					`⏱: ${spyData.timestamp}`,
 				];
 
-				statFields = allFields.slice(4).map((text) => document.newElement({ type: "div", text: text }));
+				statFields = allFields.slice(4).map((text) => elementBuilder({ type: "div", text: text }));
 				title = allFields.join("<br>");
-			} else statFields.push(document.newElement({ type: "div", text: "No spy found." }));
+			} else statFields.push(elementBuilder({ type: "div", text: "No spy found." }));
 
-			const spyElement = document.newElement({
+			const spyElement = elementBuilder({
 				type: "div",
 				class: "tt-faction-rw-spy",
 				children: statFields,
@@ -188,9 +188,9 @@
 
 	function removeSpies(onlyRWSpies = false) {
 		if (!onlyRWSpies) {
-			document.find(".tt-modified-faction-spy")?.classList.remove("tt-modified-faction-spy");
-			document.findAll(".tt-faction-spy").forEach((x) => x.remove());
+			document.querySelector(".tt-modified-faction-spy")?.classList.remove("tt-modified-faction-spy");
+			findAllElements(".tt-faction-spy").forEach((x) => x.remove());
 		}
-		document.findAll(".tt-faction-rw-spy").forEach((x) => x.remove());
+		findAllElements(".tt-faction-rw-spy").forEach((x) => x.remove());
 	}
 })();

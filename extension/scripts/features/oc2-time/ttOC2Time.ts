@@ -38,22 +38,22 @@
 		if (inCrime) {
 			elements.push(buildTimeLeftElement());
 			if (settings.pages.sidebar.oc2TimerPosition) {
-				elements.push(document.newElement({ type: "span", text: " - " }));
+				elements.push(elementBuilder({ type: "span", text: " - " }));
 				elements.push(buildPositionElement());
 			}
 			if (settings.pages.sidebar.oc2TimerLevel) {
 				elements.push(buildLevelElement());
 			}
 		} else {
-			elements.push(document.newElement({ type: "span", class: "countdown", text: "No crime joined." }));
+			elements.push(elementBuilder({ type: "span", class: "countdown", text: "No crime joined." }));
 		}
 
-		document.find(".tt-sidebar-information").appendChild(
-			document.newElement({
+		document.querySelector(".tt-sidebar-information").appendChild(
+			elementBuilder({
 				type: "section",
 				id: "oc2Timer",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "a",
 						class: "title",
 						text: "OC: ",
@@ -67,7 +67,7 @@
 	}
 
 	function buildTimeLeftElement() {
-		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
+		const timeLeftElement = elementBuilder({ type: "span", class: "countdown" });
 		const now = Date.now();
 		let readyAt: number;
 		// Torn's ready_at value corresponds to the planning finish time for currently joined members
@@ -108,17 +108,17 @@
 		const position = (userdata.organizedCrime as FactionCrime).slots.find(({ user }) => user?.id === userdata.profile.id)?.position ?? "???";
 		const name = (userdata.organizedCrime as FactionCrime).name;
 
-		return document.newElement({ type: "span", class: "position", text: `${position} in ${name}` });
+		return elementBuilder({ type: "span", class: "position", text: `${position} in ${name}` });
 	}
 
 	function buildLevelElement() {
 		const level = (userdata.organizedCrime as FactionCrime).difficulty;
 
-		return document.newElement({ type: "span", class: "position", text: ` (Lvl ${level})` });
+		return elementBuilder({ type: "span", class: "position", text: ` (Lvl ${level})` });
 	}
 
 	function removeTimer() {
-		document.find("#oc2Timer")?.remove();
+		document.querySelector("#oc2Timer")?.remove();
 	}
 
 	return true;

@@ -50,25 +50,25 @@
 
 		const allowedBlood: number[] = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
-		for (const item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #armoury-medical .item-list > li")) {
-			if (!item.find(".name-wrap, .name")) continue;
-			item.find(".name-wrap, .name").classList.remove("good-blood", "bad-blood");
+		for (const item of findAllElements("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #armoury-medical .item-list > li")) {
+			if (!item.querySelector(".name-wrap, .name")) continue;
+			item.querySelector(".name-wrap, .name").classList.remove("good-blood", "bad-blood");
 
 			// Filter out items that aren't blood bags.
 			if (page === "item" && !item.dataset.sort.includes("Blood Bag : ")) continue;
-			else if (page === "factions" && !item.find(".name").textContent.split(" x")[0].includes("Blood Bag : ")) continue;
+			else if (page === "factions" && !item.querySelector(".name").textContent.split(" x")[0].includes("Blood Bag : ")) continue;
 
-			const itemId = parseInt(item.dataset.item || item.find(".img-wrap").dataset.itemid);
+			const itemId = parseInt(item.dataset.item || item.querySelector<HTMLElement>(".img-wrap").dataset.itemid);
 			if (itemId === 1012) continue; // is an irradiated blood bag
 
-			item.find(".name-wrap, .name").classList.add(allowedBlood.includes(itemId) ? "good-blood" : "bad-blood");
+			item.querySelector(".name-wrap, .name").classList.add(allowedBlood.includes(itemId) ? "good-blood" : "bad-blood");
 
 			if (page === "factions") {
-				if (item.find(".tt-item-price")) item.find(".tt-item-price").remove();
+				if (item.querySelector(".tt-item-price")) item.querySelector(".tt-item-price").remove();
 
-				if (hasAPIData() && !item.find(".tt-blood-price")) {
-					item.find(".name").appendChild(
-						document.newElement({
+				if (hasAPIData() && !item.querySelector(".tt-blood-price")) {
+					item.querySelector(".name").appendChild(
+						elementBuilder({
 							type: "span",
 							class: "tt-blood-price",
 							text: `${formatNumber(torndata.items[itemId].market_value, { currency: true })}`,
@@ -80,14 +80,14 @@
 	}
 
 	function getCurrentTab() {
-		return document.find("#factions > ul.faction-tabs > li[aria-selected='true']").getAttribute("data-case").replace("faction-", "");
+		return document.querySelector("#factions > ul.faction-tabs > li[aria-selected='true']").getAttribute("data-case").replace("faction-", "");
 	}
 
 	async function removeHighlights() {
-		for (const highlight of document.findAll(".good-blood, .bad-blood")) {
+		for (const highlight of findAllElements(".good-blood, .bad-blood")) {
 			highlight.classList.remove("good-blood", "bad-blood");
 
-			const price = highlight.find(".tt-item-price");
+			const price = highlight.querySelector(".tt-item-price");
 			if (price) price.remove();
 		}
 	}

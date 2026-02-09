@@ -39,7 +39,7 @@
 			if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => isElement(node) && node.tagName === "UL"))) {
 				if (filterSetupComplete && feature.enabled()) {
 					applyFilters();
-					listObserver.observe(document.find(".tableWrapper > ul"), { childList: true });
+					listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 				}
 			}
 		});
@@ -62,7 +62,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -138,15 +138,15 @@
 		});
 
 		// Actual Filtering
-		for (const row of document.findAll(".tableWrapper ul > li")) {
+		for (const row of findAllElements(".tableWrapper ul > li")) {
 			filterRow(row, { activity, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Enemy Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".tableWrapper ul > li:not(.tt-hidden)").length,
-			document.findAll(".tableWrapper ul > li").length,
+			findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
+			findAllElements(".tableWrapper ul > li").length,
 			content
 		);
 	}
@@ -162,14 +162,14 @@
 
 	function filterRow(row: HTMLElement, filters: Partial<EnemyFilters>, individual: boolean) {
 		if (filters.activity) {
-			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+			const activity = row.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 				hide("activity");
 				return;
 			}
 		}
 		if (filters.level?.start || filters.level?.end) {
-			const level = row.find("[class*='level__']").textContent.getNumber();
+			const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;
@@ -198,8 +198,8 @@
 				const content = findContainer("Enemy Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-					document.findAll("ul.user-info-blacklist-wrap > li").length,
+					findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
+					findAllElements("ul.user-info-blacklist-wrap > li").length,
 					content
 				);
 			}
@@ -217,8 +217,8 @@
 				const content = findContainer("Enemy Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-					document.findAll("ul.user-info-blacklist-wrap> li").length,
+					findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
+					findAllElements("ul.user-info-blacklist-wrap> li").length,
 					content
 				);
 			}
@@ -227,6 +227,6 @@
 
 	function removeFilters() {
 		removeContainer("Enemy Filter");
-		document.findAll("ul.user-info-blacklist-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements("ul.user-info-blacklist-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

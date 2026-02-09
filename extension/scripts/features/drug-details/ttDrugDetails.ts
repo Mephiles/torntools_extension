@@ -29,8 +29,9 @@
 			case "factions":
 				setupXHR({
 					react: () =>
-						extractArmorySubcategory(document.find("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls")) ===
-						"donate",
+						extractArmorySubcategory(
+							document.querySelector("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls")
+						) === "donate",
 				});
 				break;
 			case "bazaar":
@@ -40,7 +41,7 @@
 				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS].push(({ item, element }) => {
 					if (!feature.enabled()) return;
 
-					display(item, element.find("[class*='description___']"));
+					display(item, element.querySelector("[class*='description___']"));
 				});
 				break;
 		}
@@ -60,13 +61,13 @@
 			requireElement(selector).then(() => {
 				new MutationObserver(async (mutations) => {
 					const viewMutations = mutations.filter((mutation) =>
-						[...mutation.addedNodes].some((node) => isElement(node) && node.classList?.contains("^=view_"))
+						[...mutation.addedNodes].some((node) => isElement(node) && Array.from(node.classList).some((c) => c.startsWith("view_")))
 					);
 					if (!viewMutations.length) return;
 
 					const newNodes = viewMutations[0].addedNodes;
 					let target: Element;
-					if ([...newNodes].some((node) => isElement(node) && node.find(":scope > [class*='preloader_']"))) {
+					if ([...newNodes].some((node) => isElement(node) && node.querySelector(":scope > [class*='preloader_']"))) {
 						target = await new Promise((resolve) => {
 							new MutationObserver((mutations1, observer) => {
 								observer.disconnect();
@@ -78,21 +79,21 @@
 					}
 
 					let id: number;
-					const armoryInfo = target.find("[aria-labelledby*='armory-info-']");
+					const armoryInfo = target.querySelector("[aria-labelledby*='armory-info-']");
 					if (armoryInfo) {
 						id = parseInt(armoryInfo.getAttribute("aria-labelledby").match(/armory-info-(\d*)/i)[1]);
 					} else {
-						const image = target.find("img");
+						const image = target.querySelector("img");
 
 						if (image) {
-							id = image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1].getNumber();
+							id = convertToNumber(image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1]);
 						} else {
 							throw new Error("No id found for this item!");
 						}
 					}
 
 					showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
-				}).observe(document.find(selector), { subtree: true, childList: true });
+				}).observe(document.querySelector(selector), { subtree: true, childList: true });
 			});
 		}
 	}
@@ -117,12 +118,16 @@
 
 		let element: Element;
 
-		if (options.react && (typeof options.react !== "function" || options.react()) && options.target.find(".info-active .show-item-info[data-reactid]")) {
-			const reactid = options.target.find(".info-active .show-item-info").dataset.reactid;
+		if (
+			options.react &&
+			(typeof options.react !== "function" || options.react()) &&
+			options.target.querySelector(".info-active .show-item-info[data-reactid]")
+		) {
+			const reactid = options.target.querySelector<HTMLElement>(".info-active .show-item-info").dataset.reactid;
 
 			await requireElement(`[data-reactid="${reactid}"] .ajax-placeholder, [data-reactid="${reactid}"] .ajax-preloader`, { invert: true });
 
-			element = options.target.find(`[data-reactid="${reactid}"]`);
+			element = options.target.querySelector(`[data-reactid="${reactid}"]`);
 		} else {
 			element = findElement();
 			await requireElement(".ajax-placeholder, .ajax-preloader", { invert: true, parent: element });
@@ -131,7 +136,7 @@
 		const details = DRUG_INFORMATION[id];
 		if (!details) return;
 
-		[element.find(".info-msg, [class*='description___']"), document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`)]
+		[element.querySelector(".info-msg, [class*='description___']"), document.querySelector(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`)]
 			.filter((info) => !!info)
 			.forEach((info) => {
 				show(info, details);
@@ -140,8 +145,8 @@
 
 		function findElement() {
 			return (
-				options.target.find(`li[itemid="${id}"] .view-item-info`) ||
-				options.target.find(
+				options.target.querySelector(`li[itemid="${id}"] .view-item-info`) ||
+				options.target.querySelector(
 					[
 						page === "imarket" ? ".details-wrap[style*='display: block;'], #drugs .m-items-list > .show-item-info" : "",
 						["item", "bazaar", "displaycase"].includes(page) ? ".show-item-info" : "",
@@ -163,7 +168,7 @@
 				if (!filteredMutations.length) return;
 
 				const newElement = findElement();
-				show(newElement.find(".info-msg"), details);
+				show(newElement.querySelector(".info-msg"), details);
 				observer.disconnect();
 				watchChanges(newElement, details);
 			});
@@ -181,15 +186,15 @@
 	function show(parent: Element, details: DrugDetail) {
 		// Remove current info
 		parent.classList.add("tt-modified");
-		[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());
+		findAllElements(".item-effect", parent).forEach((effect) => effect.remove());
 
 		// Pros
 		if (details.pros) {
-			parent.appendChild(document.newElement({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
+			parent.appendChild(elementBuilder({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
 
 			for (const effect of details.pros) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect pro tabbed",
 						text: effect,
@@ -200,11 +205,11 @@
 
 		// Cons
 		if (details.cons) {
-			parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Cons:" }));
+			parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Cons:" }));
 
 			for (const effect of details.cons) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: effect,
@@ -216,7 +221,7 @@
 		// Cooldown
 		if (details.cooldown) {
 			parent.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "item-effect con",
 					text: `Cooldown: ${details.cooldown}`,
@@ -226,12 +231,12 @@
 
 		// Overdose
 		if (details.overdose) {
-			parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Overdose:" }));
+			parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Overdose:" }));
 
 			// bars
 			if (details.overdose.bars) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: "Bars",
@@ -240,7 +245,7 @@
 
 				for (const effect of details.overdose.bars) {
 					parent.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "item-effect con double-tabbed",
 							text: effect,
@@ -252,7 +257,7 @@
 			// stats
 			if (details.overdose.stats) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: `Stats: ${details.overdose.stats}`,
@@ -263,7 +268,7 @@
 			// hospital time
 			if (details.overdose.hosp_time) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: `Hospital: ${details.overdose.hosp_time}`,
@@ -274,7 +279,7 @@
 			// extra
 			if (details.overdose.extra) {
 				parent.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "item-effect con tabbed",
 						text: `Extra: ${details.overdose.extra}`,

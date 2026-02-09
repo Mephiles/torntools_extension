@@ -31,7 +31,7 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showLastAction();
 	}
@@ -41,15 +41,15 @@
 
 		const nowDate = Date.now();
 
-		for (const row of document.findAll(".organize-wrap .crimes-list .details-list > li:not(:first-child) > ul")) {
-			const id = new URL(row.find<HTMLAnchorElement>(".member a").href).searchParams.get("XID");
+		for (const row of findAllElements(".organize-wrap .crimes-list .details-list > li:not(:first-child) > ul")) {
+			const id = new URL(row.querySelector<HTMLAnchorElement>(".member a").href).searchParams.get("XID");
 
 			const lastAction = factiondata.basic.members[id].last_action;
-			const hours = ((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
+			const hours = dropDecimals((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS);
 
 			row.insertAdjacentElement(
 				"afterend",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-oc-last-action",
 					text: `Last action: ${lastAction.relative}`,
@@ -60,6 +60,6 @@
 	}
 
 	function removeLastAction() {
-		for (const lastAction of document.findAll(".tt-oc-last-action")) lastAction.remove();
+		for (const lastAction of findAllElements(".tt-oc-last-action")) lastAction.remove();
 	}
 })();

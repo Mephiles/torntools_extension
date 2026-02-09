@@ -34,7 +34,7 @@ class DualRangeSlider {
 	}
 
 	_createElement() {
-		this.slider = document.newElement({
+		this.slider = elementBuilder({
 			type: "div",
 			class: "tt-dual-range",
 			html: `	
@@ -47,10 +47,10 @@ class DualRangeSlider {
 				</div>
 			`,
 		});
-		this.handles = [...this.slider.findAll(".handle")];
+		this.handles = findAllElements(".handle", this.slider);
 
 		this.handles.forEach((handle) => {
-			const input = this.slider.find(`#${handle.getAttribute("for")}`);
+			const input = this.slider.querySelector<HTMLElement>(`#${handle.getAttribute("for")}`);
 
 			handle.addEventListener("mousedown", this.startMove.bind(this));
 			handle.addEventListener("touchstart", this.startMoveTouch.bind(this));
@@ -87,7 +87,7 @@ class DualRangeSlider {
 	moveKeyboard(event: KeyboardEvent) {
 		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
-		const handle = this.slider.find(`.handle[for="${(event.target as Element).id}"]`);
+		const handle = this.slider.querySelector<HTMLElement>(`.handle[for="${(event.target as Element).id}"]`);
 		if (!handle) return;
 
 		let value = parseInt(handle.dataset.value);
@@ -116,7 +116,7 @@ class DualRangeSlider {
 	}
 
 	updateValue(handle: HTMLElement, value: number) {
-		value = Math.max(Math.min(value, this.options.max), this.options.min).roundNearest(this.options.step);
+		value = roundNearest(Math.max(Math.min(value, this.options.max), this.options.min), this.options.step);
 		handle.dataset.value = value.toString();
 
 		this.updateValues();

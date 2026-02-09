@@ -50,24 +50,20 @@
 		const maxRehabs = parseInt(Object.keys(percentages).reverse()[0]);
 		const { safe } = calculateSafeRehabs();
 
-		const informationElement = document.newElement({
+		const informationElement = elementBuilder({
 			type: "div",
 			class: "tt-efficient-rehab",
-			children: [
-				"For full efficiency, leave at least ",
-				document.newElement({ type: "span", class: "tt-efficient-rehab--amount", text: safe }),
-				" rehabs. ",
-			],
+			children: ["For full efficiency, leave at least ", elementBuilder({ type: "span", class: "tt-efficient-rehab--amount", text: safe }), " rehabs. "],
 		});
 		if (safe >= maxRehabs) {
 			informationElement.appendChild(document.createTextNode("This means that you "));
 			informationElement.appendChild(
-				document.newElement({ type: "span", class: "tt-efficient-rehab--amount tt-efficient-rehab--too-much", text: "shouldn't" })
+				elementBuilder({ type: "span", class: "tt-efficient-rehab--amount tt-efficient-rehab--too-much", text: "shouldn't" })
 			);
 			informationElement.appendChild(document.createTextNode(" rehab at all."));
 		} else {
 			informationElement.appendChild(document.createTextNode("This means that you should rehab up to "));
-			informationElement.appendChild(document.newElement({ type: "span", class: "tt-efficient-rehab--amount", text: maxRehabs - safe }));
+			informationElement.appendChild(elementBuilder({ type: "span", class: "tt-efficient-rehab--amount", text: maxRehabs - safe }));
 			informationElement.appendChild(document.createTextNode(` time${applyPlural(maxRehabs - safe)}.`));
 		}
 
@@ -91,6 +87,6 @@
 	}
 
 	function removeInformation() {
-		document.findAll(".tt-efficient-rehab").forEach((x) => x.remove());
+		findAllElements(".tt-efficient-rehab").forEach((x) => x.remove());
 	}
 })();

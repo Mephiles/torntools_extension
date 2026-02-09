@@ -1,34 +1,27 @@
 const REGEXES = {
-	getNumber: /-?[\d,]+(\.\d+)?/,
+	convertToNumber: /-?[\d,]+(\.\d+)?/,
 	formatNumber: /\B(?=(\d{3})+(?!\d))/g,
 };
 
-interface Number {
-	dropDecimals(): number;
-	roundNearest(multiple: number): number;
+function dropDecimals(number: number): number {
+	return parseInt(number.toString());
 }
 
-Number.prototype.dropDecimals = function () {
-	return parseInt(this.toString());
-};
-Number.prototype.roundNearest = function (multiple: number) {
-	return Math.round((this as number) / multiple) * multiple;
-};
-
-interface String {
-	camelCase(lowerCamelCase: boolean): string;
-	getNumber(): number;
+function roundNearest(number: number, multiple: number): number {
+	return Math.round(number / multiple) * multiple;
 }
 
-String.prototype.camelCase = function (lowerCamelCase) {
-	return (this.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + this.slice(1)).trim().replaceAll(" ", "");
-};
+function camelCase(text: string, lowerCamelCase: boolean = true): string {
+	return (text.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + text.slice(1)).trim().replaceAll(" ", "");
+}
 
-String.prototype.getNumber = function () {
-	const match = this.match(REGEXES.getNumber);
+function convertToNumber(string: string | undefined | null): number {
+	if (!string) return NaN;
+
+	const match = string.match(REGEXES.convertToNumber);
 
 	return match ? Number(match[0].replaceAll(",", "")) : NaN;
-};
+}
 
 function toSeconds(milliseconds: any) {
 	if (!milliseconds) return toSeconds(Date.now());
@@ -256,7 +249,7 @@ function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions) {
 	let hasShownHours = false;
 
 	const parts: string[] = [];
-	if (options.showDays && (date.getTime() / TO_MILLIS.DAYS).dropDecimals() > 0) {
+	if (options.showDays && dropDecimals(date.getTime() / TO_MILLIS.DAYS) > 0) {
 		hasShownDays = true;
 		parts.push(formatUnit(Math.floor(date.getTime() / TO_MILLIS.DAYS), { normal: "day", short: "day", extraShort: "d" }));
 	}
@@ -270,7 +263,7 @@ function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions) {
 		parts.push(formatUnit(date.getUTCSeconds(), { normal: "second", short: "sec", extraShort: "s" }));
 
 	if (parts.length > 1 && !options.extraShort) {
-		parts.insertAt(parts.length - 1, "and");
+		parts.splice(parts.length - 1, 0, "and");
 	}
 
 	function formatUnit(amount: number, unit: FormattableUnit) {

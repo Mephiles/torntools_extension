@@ -30,10 +30,10 @@ function createCheckboxDuo(partialOptions: Partial<CheckboxDuoOptions> = {}) {
 	const yesCheckbox = createCheckbox({ description: descriptionYes, isHTML, reverseLabel: true, class: "duo-yes" });
 	const noCheckbox = createCheckbox({ description: descriptionNo, isHTML, reverseLabel: true, class: "duo-no" });
 
-	const checkboxWrapper = document.newElement({
+	const checkboxWrapper = elementBuilder({
 		type: "div",
 		class: "tt-checkbox-duo",
-		children: [yesCheckbox.element, noCheckbox.element, document.newElement({ type: "label", text: options.description })],
+		children: [yesCheckbox.element, noCheckbox.element, elementBuilder({ type: "label", text: options.description })],
 		events: {
 			click(event) {
 				event.stopPropagation();

@@ -15,13 +15,13 @@
 	);
 
 	function hideCasinoGames() {
-		const msg = document.find(".msg.right-round");
-		if (!msg.find(".tt-msg")) {
+		const msg = document.querySelector(".msg.right-round");
+		if (!msg.querySelector(".tt-msg")) {
 			msg.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							class: "tt-msg",
 							text: "Some games have been removed by TornTools. They can be re-enabled in TornTools' settings.",
@@ -30,23 +30,23 @@
 				})
 			);
 		}
-		document.findAll(".games-list .tt-hidden").forEach((game) => {
+		findAllElements(".games-list .tt-hidden").forEach((game) => {
 			game.parentElement.classList.remove("tt-hidden-parent");
 			game.classList.remove("tt-hidden");
-			game.parentElement.find(".tt-hidden").remove();
+			game.parentElement.querySelector(".tt-hidden").remove();
 		});
 
 		for (const gameClass of settings.hideCasinoGames) {
-			const game = document.find(`.${gameClass}`);
+			const game = document.querySelector(`.${gameClass}`);
 
 			game.parentElement.classList.add("tt-hidden-parent");
 			game.classList.add("tt-hidden");
 			game.insertAdjacentElement(
 				"beforebegin",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-hidden",
-					children: [document.newElement({ type: "b", text: "• REMOVED •" })],
+					children: [elementBuilder({ type: "b", text: "• REMOVED •" })],
 				})
 			);
 		}
@@ -55,9 +55,9 @@
 	async function unhideCasinoGames() {
 		await requireElement(".games-list");
 
-		document.find(".msg .tt-msg").remove();
-		document.find(".tt-hidden-parent").classList.remove("tt-hidden-parent");
-		document.find(".tt-hidden").remove();
-		document.findAll(".games-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.querySelector(".msg .tt-msg").remove();
+		document.querySelector(".tt-hidden-parent").classList.remove("tt-hidden-parent");
+		document.querySelector(".tt-hidden").remove();
+		findAllElements(".games-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

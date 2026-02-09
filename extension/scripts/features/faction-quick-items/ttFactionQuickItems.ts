@@ -31,7 +31,7 @@
 			{ passive: true }
 		);
 		setInterval(() => {
-			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
+			for (const timer of findAllElements(".counter-wrap.tt-modified")) {
 				let secondsLeft: number;
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
@@ -67,27 +67,27 @@
 
 		const { content, options } = createContainer("Faction Quick Items", {
 			class: "mt10",
-			nextElement: document.find("#faction-armoury > hr"),
+			nextElement: document.querySelector("#faction-armoury > hr"),
 			allowDragging: true,
 			compact: true,
 		});
-		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
-		content.appendChild(document.newElement({ type: "div", class: "response-wrap" }));
+		content.appendChild(elementBuilder({ type: "div", class: "inner-content" }));
+		content.appendChild(elementBuilder({ type: "div", class: "response-wrap" }));
 		options.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "option",
 				id: "edit-items-button",
-				children: [document.newElement({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
+				children: [elementBuilder({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
 				events: {
 					click: (event) => {
 						event.stopPropagation();
 
-						const enabled = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+						const enabled = options.querySelector("#edit-items-button").classList.toggle("tt-overlay-item");
 						isEditing = enabled;
 
 						const content = findContainer("Faction Quick Items", { selector: ":scope > main" });
-						for (const quick of content.findAll(".item")) {
+						for (const quick of findAllElements(".item", content)) {
 							if (enabled) {
 								quick.classList.add("tt-overlay-item");
 								quick.classList.add("removable");
@@ -97,10 +97,10 @@
 							}
 						}
 
-						for (const category of document.findAll("#faction-armoury-tabs .torn-tabs > li")) {
+						for (const category of findAllElements("#faction-armoury-tabs .torn-tabs > li")) {
 							if (
 								!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(
-									category.find("a.ui-tabs-anchor").textContent.trim()
+									category.querySelector("a.ui-tabs-anchor").textContent.trim()
 								)
 							)
 								continue;
@@ -108,15 +108,15 @@
 							if (enabled) category.classList.add("tt-overlay-item");
 							else category.classList.remove("tt-overlay-item");
 						}
-						for (const item of document.findAll(
+						for (const item of findAllElements(
 							".armoury-medical-wrap, .armoury-drugs-wrap, .armoury-boosters-wrap, .armoury-points-wrap, .armoury-consumables-wrap, .armoury-temporary-wrap"
 						)) {
 							if (enabled) item.classList.add("tt-overlay-item-notbroken");
 							else item.classList.remove("tt-overlay-item-notbroken");
 						}
 
-						if (enabled) document.find(".tt-overlay").classList.remove("tt-hidden");
-						else document.find(".tt-overlay").classList.add("tt-hidden");
+						if (enabled) document.querySelector(".tt-overlay").classList.remove("tt-hidden");
+						else document.querySelector(".tt-overlay").classList.add("tt-hidden");
 
 						attachEditListeners(enabled);
 					},
@@ -133,10 +133,10 @@
 
 	function setupQuickDragListeners() {
 		const enableDrag = !mobile && !tablet;
-		const tab = document.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
+		const tab = document.querySelector("#faction-armoury-tabs .armoury-tabs[aria-expanded='true']");
 
 		if (tab.id === "tab=armoury&sub=points") {
-			for (const item of tab.findAll(".give[data-role]")) {
+			for (const item of findAllElements(".give[data-role]", tab)) {
 				const type = item.textContent.trim().split(" ")[1].toLowerCase();
 
 				item.dataset.type = "tt-points";
@@ -147,7 +147,7 @@
 				}
 
 				item.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "img-wrap tt-lazy-magic",
 						dataset: { itemid: `points-${type}` },
@@ -156,10 +156,10 @@
 				);
 			}
 		} else {
-			for (const item of tab.findAll(".item-list > li")) {
-				const imgWrap = item.find(".img-wrap");
+			for (const item of findAllElements(".item-list > li", tab)) {
+				const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
+				if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), item.querySelector(".type")?.textContent)) continue;
 
 				if (enableDrag) {
 					item.setAttribute("draggable", "true");
@@ -173,10 +173,10 @@
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
-				document.find("#factionQuickItems > main").classList.add("drag-progress");
-				if (document.find("#factionQuickItems .temp.item")) return;
+				document.querySelector("#factionQuickItems > main").classList.add("drag-progress");
+				if (document.querySelector("#factionQuickItems .temp.item")) return;
 
-				const _id = (event.target as Element).find(".img-wrap").dataset.itemid;
+				const _id = (event.target as Element).querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 				const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 				addQuickItem({ id }, true);
@@ -184,11 +184,11 @@
 		}
 
 		async function onDragEnd() {
-			if (document.find("#factionQuickItems .temp.item")) {
-				document.find("#factionQuickItems .temp.item").remove();
+			if (document.querySelector("#factionQuickItems .temp.item")) {
+				document.querySelector("#factionQuickItems .temp.item").remove();
 			}
 
-			document.find("#factionQuickItems > main").classList.remove("drag-progress");
+			document.querySelector("#factionQuickItems > main").classList.remove("drag-progress");
 
 			await saveQuickItems();
 		}
@@ -196,15 +196,15 @@
 
 	function addQuickItem(data: { id: string | number }, temporary = false) {
 		const content = findContainer("Faction Quick Items", { selector: ":scope > main" });
-		const innerContent = content.find(".inner-content");
-		const responseWrap = content.find(".response-wrap");
+		const innerContent = content.querySelector(".inner-content");
+		const responseWrap = content.querySelector<HTMLElement>(".response-wrap");
 
 		const { id } = data;
 
-		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
+		if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
 		if (!allowQuickItem(id, typeof id === "number" ? getTornItemType(id) : null)) return null;
 
-		const itemWrap = document.newElement({
+		const itemWrap = elementBuilder({
 			type: "div",
 			class: temporary ? "temp item" : "item",
 			dataset: data,
@@ -245,13 +245,13 @@
 							responseWrap.innerHTML = "";
 
 							responseWrap.appendChild(
-								document.newElement({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, html: result.message })
+								elementBuilder({ type: "span", class: `t-${result.success ? "green" : "red"} bold`, html: result.message })
 							);
 							responseWrap.appendChild(
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									style: { display: "block" },
-									children: [document.newElement({ type: "a", href: "#", class: "close-act t-blue bold c-pointer", text: "Okay" })],
+									children: [elementBuilder({ type: "a", href: "#", class: "close-act t-blue bold c-pointer", text: "Okay" })],
 								})
 							);
 						});
@@ -261,11 +261,11 @@
 						fetchData<TornInternalUseItem>("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 							if (typeof result !== "object") return;
 
-							const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
+							const links = [elementBuilder({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
 							if ("links" in result) {
 								for (const link of result.links) {
 									links.push(
-										document.newElement({
+										elementBuilder({
 											type: "a",
 											class: `t-blue h m-left10 ${link.class}`,
 											href: link.url,
@@ -284,39 +284,39 @@
 							responseWrap.style.display = "block";
 							responseWrap.innerHTML = "";
 							responseWrap.appendChild(
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "armoury-tabs",
 									children: [
-										document.newElement({
+										elementBuilder({
 											type: "ul",
 											class: "item-list",
 											children: [
-												document.newElement({
+												elementBuilder({
 													type: "li",
 													class: "item-use-act",
 													children: [
-														document.newElement({
+														elementBuilder({
 															type: "div",
 															class: "name",
-															children: [document.newElement({ type: "span", class: "qty", text: "10000" })],
+															children: [elementBuilder({ type: "span", class: "qty", text: "10000" })],
 														}),
-														document.newElement({
+														elementBuilder({
 															type: "div",
 															class: "use-cont action-cont",
 															children: [
-																document.newElement({
+																elementBuilder({
 																	type: "div",
 																	class: "use-wrap",
 																	children: [
-																		document.newElement({
+																		elementBuilder({
 																			type: "form",
 																			dataset: { action: "useItem" },
 																			attributes: { method: "post" },
 																			children: [
-																				document.newElement({ type: "p", html: result.text }),
-																				document.newElement({ type: "p", children: links }),
-																				document.newElement({ type: "div", class: "clear" }),
+																				elementBuilder({ type: "p", html: result.text }),
+																				elementBuilder({ type: "p", children: links }),
+																				elementBuilder({ type: "div", class: "clear" }),
 																			],
 																		}),
 																	],
@@ -325,7 +325,7 @@
 															],
 															dataset: { itemid: id },
 														}),
-														document.newElement({ type: "div", class: "clear" }),
+														elementBuilder({ type: "div", class: "clear" }),
 													],
 												}),
 											],
@@ -334,7 +334,7 @@
 								})
 							);
 
-							for (const count of responseWrap.findAll(".counter-wrap")) {
+							for (const count of findAllElements(".counter-wrap", responseWrap)) {
 								count.classList.add("tt-modified");
 								count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 							}
@@ -378,43 +378,43 @@
 		switch (id) {
 			case "points-energy":
 				itemWrap.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "pic icon-refill",
-						children: [document.newElement({ type: "i", class: "currency-points" })],
+						children: [elementBuilder({ type: "i", class: "currency-points" })],
 					})
 				);
 				itemWrap.setAttribute("title", "Energy Refill");
-				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Energy Refill" }));
+				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: "Energy Refill" }));
 				break;
 			case "points-nerve":
 				itemWrap.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "pic icon-refill",
-						children: [document.newElement({ type: "i", class: "currency-points" })],
+						children: [elementBuilder({ type: "i", class: "currency-points" })],
 					})
 				);
 				itemWrap.setAttribute("title", "Nerve Refill");
-				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: "Nerve Refill" }));
+				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: "Nerve Refill" }));
 				break;
 			default:
 				itemWrap.appendChild(
-					document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
+					elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
 				);
 				if (hasAPIData()) {
 					itemWrap.setAttribute("title", torndata.items[id].name);
-					itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
+					itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: torndata.items[id].name }));
 				} else if (id in TORN_ITEMS) {
 					itemWrap.setAttribute("title", TORN_ITEMS[id].name);
-					itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
+					itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
 				} else {
-					itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
+					itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: id }));
 				}
 				break;
 		}
 
-		const closeIcon = document.newElement({
+		const closeIcon = elementBuilder({
 			type: "i",
 			class: "fa-solid fa-xmark tt-close-icon",
 			attributes: { title: "Remove quick access." },
@@ -439,7 +439,7 @@
 
 		await ttStorage.change({
 			quick: {
-				factionItems: [...content.findAll(".item")]
+				factionItems: findAllElements(".item", content)
 					.map((x) => x.dataset.id)
 					.map((x) => (isNaN(parseInt(x)) ? (x as QuickFactionItem["id"]) : parseInt(x)))
 					.map((x) => ({ id: x })),
@@ -457,25 +457,25 @@
 
 	function attachEditListeners(enabled: boolean) {
 		if (enabled) {
-			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
-				const imgWrap = item.find(".img-wrap");
+			for (const item of findAllElements(".armoury-tabs .item-list > li")) {
+				const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
+				if (!allowQuickItem(imgWrap.dataset.itemid, item.querySelector(".type")?.textContent)) continue;
 
 				item.addEventListener("click", onItemClickQuickEdit);
 			}
-			for (const refill of document.findAll("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
+			for (const refill of findAllElements("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
 				refill.addEventListener("click", onItemClickQuickEdit);
 			}
 		} else {
-			for (const item of document.findAll(".armoury-tabs .item-list > li")) {
-				const imgWrap = item.find(".img-wrap");
+			for (const item of findAllElements(".armoury-tabs .item-list > li")) {
+				const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-				if (!allowQuickItem(imgWrap.dataset.itemid, item.find(".type")?.textContent)) continue;
+				if (!allowQuickItem(imgWrap.dataset.itemid, item.querySelector(".type")?.textContent)) continue;
 
 				item.removeEventListener("click", onItemClickQuickEdit);
 			}
-			for (const refill of document.findAll("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
+			for (const refill of findAllElements("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']")) {
 				refill.removeEventListener("click", onItemClickQuickEdit);
 			}
 		}
@@ -487,7 +487,7 @@
 
 		const _target = event.target as HTMLElement;
 		const target = _target.dataset.type === "tt-points" ? _target : findParent(_target, { tag: "LI" });
-		let _id = target.find(".img-wrap").dataset.itemid;
+		let _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 		const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 		const item = addQuickItem({ id }, false);
@@ -497,10 +497,10 @@
 	}
 
 	function setupOverlayItems(tab: Document | Element) {
-		for (const item of tab.findAll(".item-list > li")) {
-			const imgWrap = item.find(".img-wrap");
+		for (const item of findAllElements(".item-list > li", tab)) {
+			const imgWrap = item.querySelector<HTMLElement>(".img-wrap");
 
-			if (allowQuickItem(parseInt(imgWrap.dataset.itemid), item.find(".type")?.textContent)) continue;
+			if (allowQuickItem(parseInt(imgWrap.dataset.itemid), item.querySelector(".type")?.textContent)) continue;
 
 			item.classList.add("tt-overlay-ignore");
 		}

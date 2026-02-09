@@ -32,26 +32,26 @@
 		const currentGymIndex = Array.from(currentGym.parentElement.children).indexOf(currentGym);
 		const index = categoryElementIndex * 8 + currentGymIndex - 1;
 
-		const percentage = currentGym.find("[class*='percentage_']").textContent.getNumber();
+		const percentage = convertToNumber(currentGym.querySelector("[class*='percentage_']").textContent);
 		let goal = gymGoals[index];
 		if (hasAPIData() && userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
 
-		const stat = (goal * (percentage / 100)).dropDecimals();
+		const stat = dropDecimals(goal * (percentage / 100));
 		if (!stat || !goal) return;
 
 		gymNotification.closest("[class*='notification__']").classList.add("tt-modified");
 		gymNotification.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "p",
 				class: "tt-gym-energy-progress",
 				text: "Estimated Energy progress: ",
-				children: [document.newElement({ type: "span", text: `${formatNumber(stat)}/${formatNumber(goal)}E.` })],
+				children: [elementBuilder({ type: "span", text: `${formatNumber(stat)}/${formatNumber(goal)}E.` })],
 			})
 		);
 	}
 
 	function removeDiv() {
-		document.findAll(".tt-gym-energy-progress").forEach((x) => {
+		findAllElements(".tt-gym-energy-progress").forEach((x) => {
 			x.closest("[class*='notification__']").classList.remove("tt-modified");
 			x.remove();
 		});

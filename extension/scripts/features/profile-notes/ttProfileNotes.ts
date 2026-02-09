@@ -19,10 +19,10 @@
 
 		const userID = getUserID();
 		const { content } = createContainer("Profile Notes", {
-			previousElement: document.find(".profile-wrapper"),
+			previousElement: document.querySelector(".profile-wrapper"),
 			class: "mt10",
 		});
-		const textarea = document.newElement({ type: "textarea" });
+		const textarea = elementBuilder({ type: "textarea" });
 		if (userID in notes.profile) {
 			textarea.value = notes.profile[userID].text || "";
 			textarea.style.height = notes.profile[userID].height || "17px";
@@ -47,6 +47,6 @@
 	}
 
 	function getUserID() {
-		return document.find(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
+		return document.querySelector(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
 	}
 })();

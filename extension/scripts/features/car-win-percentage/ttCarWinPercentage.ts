@@ -28,25 +28,25 @@
 	async function addPercentage() {
 		await requireElement(".enlisted-stat");
 
-		if (document.find(".tt-win-percentage")) return;
+		if (document.querySelector(".tt-win-percentage")) return;
 
 		const REGEX = /(Races won:) (\d)*|(Races entered:) (\d)*/;
 
-		document.findAll(".enlist-info").forEach((stat) => {
-			const values = [...stat.findAll(".enlisted-stat > li")]
+		findAllElements(".enlist-info").forEach((stat) => {
+			const values = findAllElements(".enlisted-stat > li", stat)
 				.map((item) => item.textContent.replace(/[^\w :]/g, "").trim())
 				.filter((text) => REGEX.test(text))
-				.map((text) => text.getNumber());
+				.map((text) => convertToNumber(text));
 
 			let text: string;
 			if (values[0] === 0) text = "• Win Percentage: 0%";
 			else text = `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%`;
 
-			stat.find(".enlisted-stat").insertAdjacentElement("beforeend", document.newElement({ type: "li", class: "tt-win-percentage", text: text }));
+			stat.querySelector(".enlisted-stat").insertAdjacentElement("beforeend", elementBuilder({ type: "li", class: "tt-win-percentage", text: text }));
 		});
 	}
 
 	function removePercentage() {
-		document.findAll(".tt-win-percentage").forEach((x) => x.remove());
+		findAllElements(".tt-win-percentage").forEach((x) => x.remove());
 	}
 })();

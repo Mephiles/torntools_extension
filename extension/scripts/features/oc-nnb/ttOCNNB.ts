@@ -33,7 +33,7 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showNNB();
 	}
@@ -138,66 +138,66 @@
 		}
 
 		function populateCrimes() {
-			for (const row of document.findAll(".organize-wrap .crimes-list .details-list > li > ul")) {
-				row.findAll(`.level${mobile ? ", .member, .stat" : ""}`).forEach((element) => element.classList.add("tt-modified"));
+			for (const row of findAllElements(".organize-wrap .crimes-list .details-list > li > ul")) {
+				findAllElements(`.level${mobile ? ", .member, .stat" : ""}`, row).forEach((element) => element.classList.add("tt-modified"));
 
-				const stat = row.find(".stat");
+				const stat = row.querySelector(".stat");
 				if (row.classList.contains("title")) {
 					stat.parentElement.insertBefore(
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							class: "tt-nnb",
 							text: "NNB",
-							children: [document.newElement({ type: "div", class: "t-delimiter" })],
+							children: [elementBuilder({ type: "div", class: "t-delimiter" })],
 						}),
 						stat
 					);
 					continue;
 				}
 
-				const id = row.find(".h").getAttribute("href").split("XID=")[1];
+				const id = row.querySelector(".h").getAttribute("href").split("XID=")[1];
 				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 
-					stat.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb", text: `${verified ? "" : "*"}${nnb}` }));
+					stat.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb", text: `${verified ? "" : "*"}${nnb}` }));
 				} else {
-					stat.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb", text: "N/A" }));
+					stat.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb", text: "N/A" }));
 				}
 			}
 		}
 
 		function populateSelection() {
-			for (const row of document.findAll(".plans-list .item")) {
-				row.findAll(`.offences${mobile ? ", .member, .level, .act" : ""}`).forEach((element) => element.classList.add("tt-modified"));
+			for (const row of findAllElements(".plans-list .item")) {
+				findAllElements(`.offences${mobile ? ", .member, .level, .act" : ""}`, row).forEach((element) => element.classList.add("tt-modified"));
 
-				const act = row.find(".act");
+				const act = row.querySelector(".act");
 				if (row.classList.contains("title")) {
 					act.parentElement.insertBefore(
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							class: "tt-nnb short",
 							text: "NNB",
-							children: [document.newElement({ type: "div", class: "t-delimiter" })],
+							children: [elementBuilder({ type: "div", class: "t-delimiter" })],
 						}),
 						act
 					);
 					continue;
 				}
 
-				const id = row.find(".h").getAttribute("href").split("XID=")[1];
+				const id = row.querySelector(".h").getAttribute("href").split("XID=")[1];
 				if (typeof data === "object" && id in data) {
 					const { nnb, verified } = data[id];
 
-					act.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb short", text: `${verified ? "" : "*"}${nnb}` }));
+					act.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb short", text: `${verified ? "" : "*"}${nnb}` }));
 				} else {
-					act.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb short", text: "N/A" }));
+					act.insertAdjacentElement("beforebegin", elementBuilder({ type: "li", class: "tt-nnb short", text: "N/A" }));
 				}
 			}
 		}
 	}
 
 	function removeNNBs() {
-		for (const nnb of document.findAll(".tt-nnb")) nnb.remove();
-		for (const nnb of document.findAll(".crimes-list ul.plans-list .tt-modified")) nnb.remove();
+		for (const nnb of findAllElements(".tt-nnb")) nnb.remove();
+		for (const nnb of findAllElements(".crimes-list ul.plans-list .tt-modified")) nnb.remove();
 	}
 })();

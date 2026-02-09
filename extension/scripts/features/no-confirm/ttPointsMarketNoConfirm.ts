@@ -19,7 +19,7 @@
 			if (mutations[0].removedNodes.length > 1) return;
 
 			startFeature();
-		}).observe(document.find(".users-point-sell"), { childList: true });
+		}).observe(document.querySelector(".users-point-sell"), { childList: true });
 	}
 
 	async function startFeature() {
@@ -29,7 +29,7 @@
 	}
 
 	function removeConfirmation() {
-		for (const item of document.findAll(".users-point-sell > li:not(.yes) > span[href]")) {
+		for (const item of findAllElements(".users-point-sell > li:not(.yes) > span[href]")) {
 			const url = item.getAttribute("href");
 			if (settings.scripts.noConfirm.pointsMarketRemove && url.includes("ajax_action=remove")) {
 				item.classList.add("yes");

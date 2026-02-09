@@ -65,9 +65,9 @@ function requireElement(selector: string, attributes: Partial<RequireElementOpti
 		...attributes,
 	};
 	if (attributes.invert) {
-		return requireCondition(() => !options.parent.find(selector), attributes);
+		return requireCondition(() => !options.parent.querySelector(selector), attributes);
 	} else {
-		return requireCondition(() => options.parent.find(selector), attributes);
+		return requireCondition(() => options.parent.querySelector(selector), attributes);
 	}
 }
 

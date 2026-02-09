@@ -130,11 +130,11 @@
 		// TODO - Toxin // wither		Poison Umbrella			Debuff
 		// TODO - Sleep (unreleased)	Tranquilizer Gun		Debuff
 
-		for (const log of document.findAll(".log-list > li:not(.tt-modified)")) {
+		for (const log of findAllElements(".log-list > li:not(.tt-modified)")) {
 			log.classList.add("tt-modified");
 
-			const icon = log.find(".message-wrap span:first-child").classList[0];
-			const messageElement = log.find(".message");
+			const icon = log.querySelector(".message-wrap span:first-child").classList[0];
+			const messageElement = log.querySelector(".message");
 
 			let bonus: Bonus;
 			switch (icon) {
@@ -172,10 +172,10 @@
 			}
 
 			messageElement.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-bonus-information",
-					children: [document.newElement({ type: "i", class: "fa-solid fa-circle-info", attributes: { title: bonus.description } })],
+					children: [elementBuilder({ type: "i", class: "fa-solid fa-circle-info", attributes: { title: bonus.description } })],
 				})
 			);
 		}

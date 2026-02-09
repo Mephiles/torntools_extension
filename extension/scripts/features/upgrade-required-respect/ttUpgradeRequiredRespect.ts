@@ -28,11 +28,11 @@
 
 		const availableRespect = parseInt(
 			document
-				.find("#faction-upgrades .skill-tree .residue-respect")
+				.querySelector("#faction-upgrades .skill-tree .residue-respect")
 				.textContent.replace(/[\n, ]/g, "")
 				.trim()
 		);
-		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] .required .text");
+		const requiredNode = document.querySelector("#faction-upgrades #stu-confirmation div[role] .required .text");
 		if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;
 
 		let diff: number;
@@ -48,7 +48,7 @@
 	}
 
 	function removeRequiredRespect() {
-		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] > .tt-modified > .text");
+		const requiredNode = document.querySelector("#faction-upgrades #stu-confirmation div[role] > .tt-modified > .text");
 		if (requiredNode) {
 			requiredNode.textContent = requiredNode.textContent.replace(/ \(.*\)/, "");
 			requiredNode.parentElement.classList.remove("tt-modified");

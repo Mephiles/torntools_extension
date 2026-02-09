@@ -70,7 +70,7 @@
 
 		const jobInfo = await requireElement(".job-info");
 		jobInfo.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "li",
 				text: `Potential mug${api ? "" : "*"}: ${formatNumber(cash * (percentageMin / 100), { currency: true })} - ${formatNumber(
 					cash * (percentageMax / 100),
@@ -78,7 +78,7 @@
 				)}`,
 			})
 		);
-		if (!api) jobInfo.appendChild(document.newElement({ type: "li", text: "* Might not be entirely accurate due to missing API information." }));
+		if (!api) jobInfo.appendChild(elementBuilder({ type: "li", text: "* Might not be entirely accurate due to missing API information." }));
 	}
 
 	async function calculateSpies(json: any) {
@@ -110,23 +110,23 @@
 
 		await requireElement(".specials-confirm-cont ul.job-info > li");
 
-		const specialContext = document.find(".specials-confirm-cont");
+		const specialContext = document.querySelector(".specials-confirm-cont");
 
 		if (missing.length === 1) {
 			const missingStat = missing[0];
 
 			result[missingStat] = Object.entries(result)
 				.filter(([stat]) => missingStat !== stat)
-				.map(([stat, value]) => (stat === "total" || missingStat === "total" ? value : -value))
-				.totalSum();
+				.map(([stat, value]) => (stat === "total" || missingStat === "total" ? value : -value) as number)
+				.reduce((a, b) => a + b, 0);
 
-			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.textContent.toLowerCase().startsWith(missingStat));
+			const element = findAllElements("ul.job-info > li", specialContext).find((element) => element.textContent.toLowerCase().startsWith(missingStat));
 
 			element.classList.add("missing");
 			element.textContent = `${element.textContent.split(" ")[0]} ${formatNumber(result[missingStat])}`;
 		}
 		for (const stat of remembered) {
-			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.textContent.toLowerCase().startsWith(stat));
+			const element = findAllElements("ul.job-info > li", specialContext).find((element) => element.textContent.toLowerCase().startsWith(stat));
 
 			element.classList.add("remembered");
 			element.textContent = `${element.textContent.split(" ")[0]} ${formatNumber(result[stat])}`;
@@ -138,8 +138,8 @@
 		if (settings.external.tornstats) {
 			specialContext.classList.add("tt-modified");
 
-			const backWrap = specialContext.find(".back");
-			const button = document.newElement({
+			const backWrap = specialContext.querySelector(".back");
+			const button = elementBuilder({
 				type: "button",
 				class: "external-service tt-btn",
 				text: "Save to TornStats",
@@ -159,11 +159,11 @@
 							relay: true,
 						})
 							.then((response) => {
-								const responseElement = specialContext.find(".external-response");
+								const responseElement = specialContext.querySelector(".external-response");
 
 								if (response.status) {
 									if (responseElement) {
-										responseElement.setClass(`external-response ${!response.status ? "error" : ""}`);
+										responseElement.className = `external-response ${!response.status ? "error" : ""}`;
 										responseElement.textContent = response.message;
 									}
 									button.setAttribute("disabled", "");
@@ -175,11 +175,11 @@
 
 								if (!responseElement) {
 									specialContext.appendChild(
-										document.newElement({
+										elementBuilder({
 											type: "div",
 											class: "external-response-wrap",
 											children: [
-												document.newElement({
+												elementBuilder({
 													type: "span",
 													class: `external-response ${!response.status ? "error" : ""}`,
 													text: response.message,
@@ -192,10 +192,10 @@
 							.catch((error) => {
 								console.error("Couldn't store your spy to TornStats.", error);
 								specialContext.appendChild(
-									document.newElement({
+									elementBuilder({
 										type: "div",
 										class: "external-response-wrap",
-										children: [document.newElement({ type: "span", class: "external-response error", text: "Something went wrong!" })],
+										children: [elementBuilder({ type: "span", class: "external-response error", text: "Something went wrong!" })],
 									})
 								);
 							});

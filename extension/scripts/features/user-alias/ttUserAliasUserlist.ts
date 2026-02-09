@@ -42,17 +42,17 @@
 
 		const currentSelector = SELECTORS[getPage() as keyof typeof SELECTORS];
 		await requireElement(currentSelector.items);
-		const list = document.findAll<HTMLAnchorElement>(currentSelector.items);
+		const list = findAllElements<HTMLAnchorElement>(currentSelector.items);
 		list.forEach((li) => {
-			const liID = li.href.split("?XID=")[1].getNumber();
+			const liID = convertToNumber(li.href.split("?XID=")[1]);
 			if (!settings.userAlias[liID]) return;
 
-			const aliasSpan = document.newElement({ type: "span", class: "tt-user-alias-list", text: settings.userAlias[liID].alias });
+			const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias-list", text: settings.userAlias[liID].alias });
 			li.insertAdjacentElement("afterend", aliasSpan);
 		});
 	}
 
 	function removeAlias() {
-		document.findAll(".tt-user-alias-list").forEach((x) => x.remove());
+		findAllElements(".tt-user-alias-list").forEach((x) => x.remove());
 	}
 })();

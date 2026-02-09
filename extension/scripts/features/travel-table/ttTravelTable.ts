@@ -50,7 +50,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(({ type }) => {
 			if (!feature.enabled()) return;
 
-			document.find<HTMLInputElement>("#travel-items").value = getTravelCount(type as any).toString();
+			document.querySelector<HTMLInputElement>("#travel-items").value = getTravelCount(type as any).toString();
 			updateValues();
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(({ country }) => {
@@ -58,8 +58,8 @@
 
 			const content = findContainer("Travel Destinations", { selector: ":scope > main" });
 
-			content.findAll(".countries .flag.selected").forEach((flag) => flag.classList.remove("selected"));
-			content.find(`.countries .flag[country*="${country}"]`).classList.add("selected");
+			findAllElements(".countries .flag.selected", content).forEach((flag) => flag.classList.remove("selected"));
+			content.querySelector(`.countries .flag[country*="${country}"]`).classList.add("selected");
 			updateTable(content);
 		});
 	}
@@ -76,23 +76,23 @@
 
 			addLegend();
 
-			const table = document.newElement({
+			const table = elementBuilder({
 				type: "div",
 				id: "tt-travel-table",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "row header",
 						children: [
-							document.newElement({ type: "div", class: "country", text: "Country" }),
-							document.newElement({ type: "div", class: "item", text: "Item" }),
-							document.newElement({ type: "div", class: "stock", text: "Stock" }),
-							document.newElement({ type: "div", class: "buy-price advanced", text: "Buy Price" }),
-							document.newElement({ type: "div", class: "market-value advanced", text: "Market Value" }),
-							document.newElement({ type: "div", class: "profit-item advanced", text: "Profit / Item" }),
-							document.newElement({ type: "div", class: "profit-minute", text: "Profit / Minute" }),
-							document.newElement({ type: "div", class: "profit advanced", text: "Total Profit" }),
-							document.newElement({ type: "div", class: "money advanced", text: "Cash Needed" }),
+							elementBuilder({ type: "div", class: "country", text: "Country" }),
+							elementBuilder({ type: "div", class: "item", text: "Item" }),
+							elementBuilder({ type: "div", class: "stock", text: "Stock" }),
+							elementBuilder({ type: "div", class: "buy-price advanced", text: "Buy Price" }),
+							elementBuilder({ type: "div", class: "market-value advanced", text: "Market Value" }),
+							elementBuilder({ type: "div", class: "profit-item advanced", text: "Profit / Item" }),
+							elementBuilder({ type: "div", class: "profit-minute", text: "Profit / Minute" }),
+							elementBuilder({ type: "div", class: "profit advanced", text: "Total Profit" }),
+							elementBuilder({ type: "div", class: "money advanced", text: "Cash Needed" }),
 						],
 					}),
 				],
@@ -110,23 +110,23 @@
 
 			if (filters.travel.type === "basic") {
 				table.classList.add("basic");
-				for (const advanced of table.findAll(".advanced:not(.tt-hidden)")) {
+				for (const advanced of findAllElements(".advanced:not(.tt-hidden)", table)) {
 					advanced.classList.add("tt-hidden");
 				}
 			} else {
 				table.classList.add("advanced");
-				for (const basic of table.findAll(".basic:not(.tt-hidden)")) {
+				for (const basic of findAllElements(".basic:not(.tt-hidden)", table)) {
 					basic.classList.add("tt-hidden");
 				}
 			}
 
-			table.findAll(".row.header > div").forEach((item, index) => {
+			findAllElements(".row.header > div", table).forEach((item, index) => {
 				item.addEventListener("click", () => {
 					sortTable(table, index + 1);
 				});
 			});
 
-			content.appendChild(document.newElement({ type: "div", class: "table-wrap", children: [table] }));
+			content.appendChild(elementBuilder({ type: "div", class: "table-wrap", children: [table] }));
 			updateTable(content);
 			sortTable(table, 7, "desc");
 
@@ -134,7 +134,7 @@
 				let isOpen = filters.travel.open;
 
 				content.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "legend",
 						html: `
@@ -227,12 +227,12 @@
 					})
 				);
 
-				content.find(".legend-icon").addEventListener("click", (event) => {
+				content.querySelector(".legend-icon").addEventListener("click", (event) => {
 					if ((event.target as Element).classList.contains("legend-icon")) return;
 
-					const isOpen = !content.find(".legend-content").classList.toggle("tt-hidden");
+					const isOpen = !content.querySelector(".legend-content").classList.toggle("tt-hidden");
 
-					const iconClasses = content.find(".legend-icon i").classList;
+					const iconClasses = content.querySelector(".legend-icon i").classList;
 					if (isOpen) {
 						iconClasses.remove("fa-chevron-right");
 						iconClasses.add("fa-chevron-down");
@@ -243,9 +243,9 @@
 					ttStorage.change({ filters: { travel: { open: isOpen } } });
 				});
 
-				content.find(`.table-type[type=${filters.travel.type}]`).classList.add("active");
-				const typeBasic = content.find(".table-type[type='basic']");
-				const typeAdvanced = content.find(".table-type[type='advanced']");
+				content.querySelector(`.table-type[type=${filters.travel.type}]`).classList.add("active");
+				const typeBasic = content.querySelector(".table-type[type='basic']");
+				const typeAdvanced = content.querySelector(".table-type[type='advanced']");
 
 				typeBasic.addEventListener("click", () => {
 					typeBasic.classList.add("active");
@@ -254,10 +254,10 @@
 					table.classList.add("basic");
 					table.classList.remove("advanced");
 
-					for (const basic of table.findAll(".basic.tt-hidden")) {
+					for (const basic of findAllElements(".basic.tt-hidden", table)) {
 						basic.classList.remove("tt-hidden");
 					}
-					for (const advanced of table.findAll(".advanced:not(.tt-hidden)")) {
+					for (const advanced of findAllElements(".advanced:not(.tt-hidden)", table)) {
 						advanced.classList.add("tt-hidden");
 					}
 
@@ -270,70 +270,70 @@
 					table.classList.add("advanced");
 					table.classList.remove("basic");
 
-					for (const advanced of table.findAll(".advanced.tt-hidden")) {
+					for (const advanced of findAllElements(".advanced.tt-hidden", table)) {
 						advanced.classList.remove("tt-hidden");
 					}
-					for (const basic of table.findAll(".basic:not(.tt-hidden)")) {
+					for (const basic of findAllElements(".basic:not(.tt-hidden)", table)) {
 						basic.classList.add("tt-hidden");
 					}
 
 					ttStorage.change({ filters: { travel: { type: "advanced" } } });
 				});
 
-				content.find(".countries-select-all").addEventListener("click", () => {
-					for (const country of content.findAll(".countries .flag")) country.classList.add("selected");
+				content.querySelector(".countries-select-all").addEventListener("click", () => {
+					for (const country of findAllElements(".countries .flag", content)) country.classList.add("selected");
 
 					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
 					updateTable(content);
 				});
-				content.find(".countries-select-none").addEventListener("click", () => {
-					for (const country of content.findAll(".countries .flag")) country.classList.remove("selected");
+				content.querySelector(".countries-select-none").addEventListener("click", () => {
+					for (const country of findAllElements(".countries .flag", content)) country.classList.remove("selected");
 
 					ttStorage.change({ filters: { travel: { countries: getSelectedCountries(content) } } });
 
 					updateTable(content);
 				});
 
-				content.find<HTMLInputElement>("#travel-items").value = amount.toString();
+				content.querySelector<HTMLInputElement>("#travel-items").value = amount.toString();
 
-				if (filters.travel.hideOutOfStock) content.find<HTMLInputElement>("#hide-out-of-stock").checked = true;
-				if (filters.travel.applySalesTax) content.find<HTMLInputElement>("#apply-sales-tax").checked = true;
-				if (filters.travel.sellAnonymously) content.find<HTMLInputElement>("#sell-anonymously").checked = true;
+				if (filters.travel.hideOutOfStock) content.querySelector<HTMLInputElement>("#hide-out-of-stock").checked = true;
+				if (filters.travel.applySalesTax) content.querySelector<HTMLInputElement>("#apply-sales-tax").checked = true;
+				if (filters.travel.sellAnonymously) content.querySelector<HTMLInputElement>("#sell-anonymously").checked = true;
 				for (const category of filters.travel.categories) {
-					const element = content.find<HTMLInputElement>(`.categories input[name="item"][category="${category}"]`);
+					const element = content.querySelector<HTMLInputElement>(`.categories input[name="item"][category="${category}"]`);
 					if (element) element.checked = true;
 				}
 				for (const country of filters.travel.countries) {
-					const element = content.find(`.countries .flag[country="${country}"]`);
+					const element = content.querySelector(`.countries .flag[country="${country}"]`);
 					if (element) element.classList.add("selected");
 				}
 
 				// Check for legend changes
-				content.find("#travel-items").addEventListener("change", () => updateValues());
-				content.find("#hide-out-of-stock").addEventListener("change", (event) => {
+				content.querySelector("#travel-items").addEventListener("change", () => updateValues());
+				content.querySelector("#hide-out-of-stock").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { hideOutOfStock: (event.target as HTMLInputElement).checked } } });
 
 					updateTable(content);
 				});
-				content.find("#apply-sales-tax").addEventListener("change", (event) => {
+				content.querySelector("#apply-sales-tax").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { applySalesTax: (event.target as HTMLInputElement).checked } } });
 
 					setTimeout(updateValues);
 				});
-				content.find("#sell-anonymously").addEventListener("change", (event) => {
+				content.querySelector("#sell-anonymously").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { sellAnonymously: (event.target as HTMLInputElement).checked } } });
 
 					setTimeout(updateValues);
 				});
-				for (const item of content.findAll(".categories input[name='item']")) {
+				for (const item of findAllElements(".categories input[name='item']", content)) {
 					item.addEventListener("change", () => {
 						ttStorage.change({ filters: { travel: { categories: getSelectedCategories(content) } } });
 
 						updateTable(content);
 					});
 				}
-				for (const item of content.findAll(".countries .flag")) {
+				for (const item of findAllElements(".countries .flag", content)) {
 					item.addEventListener("click", (event) => {
 						(event.target as Element).classList.toggle("selected");
 
@@ -390,15 +390,15 @@
 				if (value !== 0) {
 					const sales = value * amount;
 
-					const applySalesTax = content.find<HTMLInputElement>("#apply-sales-tax").checked;
+					const applySalesTax = content.querySelector<HTMLInputElement>("#apply-sales-tax").checked;
 					const salesTax = applySalesTax ? Math.ceil((sales * SALES_TAX) / 100) : 0;
 
-					const sellAnonymously = content.find<HTMLInputElement>("#sell-anonymously").checked;
+					const sellAnonymously = content.querySelector<HTMLInputElement>("#sell-anonymously").checked;
 					const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
 
 					profit = sales - (totalCost + salesTax + anonymousTax);
-					profitItem = (profit / amount).dropDecimals();
-					profitMinute = (profit / (time * 2)).dropDecimals();
+					profitItem = dropDecimals(profit / amount);
+					profitMinute = dropDecimals(profit / (time * 2));
 				} else {
 					value = "N/A";
 					profitItem = "N/A";
@@ -406,7 +406,7 @@
 					profit = "N/A";
 				}
 
-				return document.newElement({
+				return elementBuilder({
 					type: "div",
 					class: "row",
 					html: `
@@ -469,15 +469,15 @@
 				const ttTopLinks = await createTTTopLinks();
 
 				ttTopLinks.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-travel-wrapper",
 						attributes: {
 							"aria-labelledby": "travel-table",
 						},
 						children: [
-							document.newElement({ type: "i", class: "tt-travel-icon fa-solid fa-plane" }),
-							mobile ? null : document.newElement({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
+							elementBuilder({ type: "i", class: "tt-travel-icon fa-solid fa-plane" }),
+							mobile ? null : elementBuilder({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
 						],
 						events: {
 							click: changeState,
@@ -492,7 +492,7 @@
 					searchParams.set("travel", `${isOpened}`);
 					history.pushState(null, "", `${location.pathname}?${searchParams.toString()}`);
 
-					const travelText = document.find(".tt-travel span");
+					const travelText = document.querySelector(".tt-travel span");
 					if (travelText) travelText.textContent = isOpened ? "Home" : "Travel Table";
 
 					if (isOpened) showTable();
@@ -521,22 +521,22 @@
 	}
 
 	function getSelectedCategories(content: Element) {
-		return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
+		return findAllElements(".categories input[name='item']:checked", content).map((el) => el.getAttribute("category"));
 	}
 
 	function getSelectedCountries(content: Element) {
-		return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
+		return findAllElements(".countries .flag.selected", content).map((el) => el.getAttribute("country"));
 	}
 
 	function updateTable(content: Element) {
-		const table = document.find("#tt-travel-table");
+		const table = document.querySelector("#tt-travel-table");
 		if (!table) return;
 
 		const categories = getSelectedCategories(content);
 		const countries = getSelectedCountries(content);
-		const hideOutOfStock = content.find<HTMLInputElement>("#hide-out-of-stock").checked;
+		const hideOutOfStock = content.querySelector<HTMLInputElement>("#hide-out-of-stock").checked;
 
-		for (const row of table.findAll(".row:not(.header)")) {
+		for (const row of findAllElements(".row:not(.header)", table)) {
 			const { country, category, stock } = row.dataset;
 
 			if (
@@ -551,14 +551,14 @@
 
 	function updateValues() {
 		const content = findContainer("Travel Destinations", { selector: ":scope > main" });
-		const table = content.find("#tt-travel-table");
+		const table = content.querySelector<HTMLElement>("#tt-travel-table");
 		if (!table) return;
 
-		const amount = parseInt(content.find<HTMLInputElement>("#travel-items").value);
-		const applySalesTax = content.find<HTMLInputElement>("#apply-sales-tax").checked;
-		const sellAnonymously = content.find<HTMLInputElement>("#sell-anonymously").checked;
+		const amount = parseInt(content.querySelector<HTMLInputElement>("#travel-items").value);
+		const applySalesTax = content.querySelector<HTMLInputElement>("#apply-sales-tax").checked;
+		const sellAnonymously = content.querySelector<HTMLInputElement>("#sell-anonymously").checked;
 
-		for (const row of table.findAll(".row:not(.header)")) {
+		for (const row of findAllElements(".row:not(.header)", table)) {
 			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
 			if (!cost) continue;
 
@@ -570,14 +570,14 @@
 				const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
 
 				const profit = sales - (totalCost + salesTax + anonymousTax);
-				const profitItem = (profit / amount).dropDecimals();
-				const profitMinute = (profit / (modifiedTime * 2)).dropDecimals();
+				const profitItem = dropDecimals(profit / amount);
+				const profitMinute = dropDecimals(profit / (modifiedTime * 2));
 
-				const elementProfitItem = row.find(".profit-item");
-				const elementProfitMinute = row.find(".profit-minute");
-				const elementProfit = row.find(".profit");
+				const elementProfitItem = row.querySelector(".profit-item");
+				const elementProfitMinute = row.querySelector(".profit-minute");
+				const elementProfit = row.querySelector(".profit");
 
-				const allElements: [HTMLElement, number][] = [
+				const allElements: [Element, number][] = [
 					[elementProfitItem, profitItem],
 					[elementProfitMinute, profitMinute],
 					[elementProfit, profit],
@@ -591,7 +591,7 @@
 				});
 			}
 
-			row.find(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
+			row.querySelector(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
 		}
 
 		resortTable(table);
@@ -607,20 +607,20 @@
 				.map((perk) => perk.match(/\+ (\d+) Travel items \(.* Suitcase\)/i))
 				.filter((result) => !!result)
 				.map((result) => parseInt(result[1]))
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 			count += userdata.job_perks
 				.filter((perk) => perk.includes("travel") && (perk.includes("item") || perk.includes("capacity")))
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 			count += userdata.faction_perks
 				.filter((perk) => perk.includes("travel") && perk.includes("capacity"))
-				.map((result) => result.getNumber())
-				.totalSum();
+				.map((result) => convertToNumber(result))
+				.reduce((a, b) => a + b, 0);
 			// CHECK - Improve book perk checking.
 			count += userdata.book_perks
 				.filter((perk) => perk.includes("travel capacity"))
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 		}
 
 		if (type !== "standard") count += 10;
@@ -646,7 +646,7 @@
 
 	function getTravelType() {
 		if (page === "travel") {
-			const element = document.find<HTMLInputElement>("input[name='travelType'][aria-checked='true']");
+			const element = document.querySelector<HTMLInputElement>("input[name='travelType'][aria-checked='true']");
 
 			if (!element) return hasAPIData() ? getAPIType() : "standard";
 			else return toCorrectMethod(element.value);
@@ -684,7 +684,7 @@
 		removeContainer("Travel Destinations");
 
 		function removeIcon() {
-			const icon = document.find(".tt-travel");
+			const icon = document.querySelector(".tt-travel");
 			if (icon) icon.remove();
 		}
 	}

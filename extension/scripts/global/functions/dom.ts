@@ -1,180 +1,100 @@
 const rotatingElements: Record<string, { interval: number; totalDegrees: number }> = {};
 let mobile: boolean, tablet: boolean, hasSidebar: boolean;
 
-Object.defineProperty(Document.prototype, "newElement", {
-	value(this: Document, options: string | Partial<NewElementOptions> = {}): HTMLElement {
-		if (typeof options === "string") {
-			return this.createElement(options);
-		} else if (typeof options === "object") {
-			options = {
-				type: "div",
-				id: undefined,
-				class: undefined,
-				text: undefined,
-				html: undefined,
-				value: undefined,
-				href: undefined,
-				children: [],
-				attributes: {},
-				events: {},
-				style: {},
-				dataset: {},
-				...options,
-			};
-
-			const newElement = this.createElement(options.type);
-
-			if (options.id) newElement.id = options.id;
-			if (options.class) {
-				if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
-				else newElement.setClass(options.class.trim());
-			}
-			if (options.text !== undefined) newElement.textContent = options.text.toString();
-			if (options.html) newElement.innerHTML = options.html;
-			if (options.value && "value" in newElement) {
-				if (typeof options.value === "function") newElement.value = options.value();
-				else newElement.value = options.value;
-			}
-			if (options.href && "href" in newElement) newElement.href = options.href;
-
-			for (const child of options.children.filter((child) => !!child) || []) {
-				if (typeof child === "string") {
-					newElement.appendChild(document.createTextNode(child));
-				} else {
-					newElement.appendChild(child);
-				}
-			}
-
-			if (options.attributes) {
-				let attributes = options.attributes;
-				if (typeof attributes === "function") attributes = attributes();
-
-				for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute].toString());
-			}
-			for (const event in options.events) newElement.addEventListener(event, options.events[event]);
-
-			for (const key in options.style) newElement.style[key] = options.style[key];
-			for (const key in options.dataset) {
-				if (typeof options.dataset[key] === "object") newElement.dataset[key] = JSON.stringify(options.dataset[key]);
-				else newElement.dataset[key] = options.dataset[key].toString();
-			}
-
-			return newElement;
-		} else {
-			throw new Error("Invalid options provided to newElement.");
-		}
-	},
-	enumerable: false,
-});
-
-Object.defineProperty(DOMTokenList.prototype, "contains", {
-	value(this: DOMTokenList, className: string): boolean {
-		const classes = [...this];
-		if (className.startsWith("^=")) {
-			className = className.substring(2, className.length);
-
-			for (const name of classes) {
-				if (!name.startsWith(className)) continue;
-
-				return true;
-			}
-			return false;
-		} else {
-			return classes.includes(className);
-		}
-	},
-	enumerable: false,
-});
-Object.defineProperty(DOMTokenList.prototype, "removeSpecial", {
-	value(this: DOMTokenList, className: string): void {
-		const classes = [...this];
-		if (className.startsWith("^=")) {
-			className = className.substring(2, className.length);
-
-			for (const name of classes) {
-				if (!name.startsWith(className)) continue;
-
-				this.remove(name);
-				break;
-			}
-		} else {
-			this.remove(className);
-		}
-	},
-	enumerable: false,
-});
-
-function _find(element: ParentNode, selector: string, options: Partial<FindOptions> = {}): Element {
-	options = {
-		text: undefined,
-		...options,
+interface ElementBuilderOptions {
+	id?: string;
+	class?: string | string[];
+	text?: string | number;
+	html?: string;
+	value?: any | (() => any);
+	href?: string;
+	children?: (string | Node)[];
+	attributes?: Record<string, string | number | boolean> | (() => Record<string, string | number | boolean>);
+	events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
+	style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
+	dataset?: {
+		[name: string]: string | object | boolean | number;
 	};
-
-	if (options.text) {
-		for (const element of document.querySelectorAll(selector)) {
-			if (element.textContent === options.text) {
-				return element;
-			}
-		}
-	}
-
-	if (selector.includes("=") && !selector.includes("[")) {
-		const key = selector.split("=")[0];
-		const value = selector.split("=")[1];
-
-		for (const element of document.querySelectorAll(key)) {
-			if (element.textContent.trim() === value.trim()) {
-				return element;
-			}
-		}
-
-		try {
-			element.querySelector(selector);
-		} catch (err) {
-			return undefined;
-		}
-	}
-	return element.querySelector(selector);
 }
 
-Object.defineProperty(Document.prototype, "find", {
-	value(this: Document, selector: string, options: Partial<FindOptions> = {}): Element {
-		return _find(this, selector, options);
-	},
-	enumerable: false,
-});
-Object.defineProperty(Element.prototype, "find", {
-	value(this: Element, selector: string, options: Partial<FindOptions> = {}): Element {
-		return _find(this, selector, options);
-	},
-	enumerable: false,
-});
+function elementBuilder<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
+function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: ElementBuilderOptions & { type: K }): HTMLElementTagNameMap[K];
 
-Object.defineProperty(Document.prototype, "findAll", {
-	value(this: Document, selector: string): Element[] {
-		return Array.from(this.querySelectorAll(selector));
-	},
-	enumerable: false,
-});
-Object.defineProperty(Element.prototype, "findAll", {
-	value(this: Document, selector: string): Element[] {
-		return Array.from(this.querySelectorAll(selector));
-	},
-	enumerable: false,
-});
+function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K | (ElementBuilderOptions & { type: K })): HTMLElementTagNameMap[K] {
+	if (typeof options === "string") {
+		return document.createElement(options);
+	} else if (typeof options === "object") {
+		options = {
+			type: "div",
+			id: undefined,
+			class: undefined,
+			text: undefined,
+			html: undefined,
+			value: undefined,
+			href: undefined,
+			children: [],
+			attributes: {},
+			events: {},
+			style: {},
+			dataset: {},
+			...options,
+		};
 
-Object.defineProperty(Document.prototype, "setClass", {
-	value(this: Element, ...classNames: string[]) {
-		this.setAttribute("class", classNames.join(" "));
-	},
-	enumerable: false,
-});
-Object.defineProperty(Element.prototype, "setClass", {
-	value(this: Element, ...classNames: string[]) {
-		this.setAttribute("class", classNames.join(" "));
-	},
-	enumerable: false,
-});
+		const newElement = document.createElement(options.type);
+
+		if (options.id) newElement.id = options.id;
+		if (options.class) {
+			newElement.className = Array.isArray(options.class) ? options.class.filter((name) => !!name).join(" ") : options.class.trim();
+		}
+		if (options.text !== undefined) newElement.textContent = options.text.toString();
+		if (options.html) newElement.innerHTML = options.html;
+		if (options.value && "value" in newElement) {
+			if (typeof options.value === "function") newElement.value = options.value();
+			else newElement.value = options.value;
+		}
+		if (options.href && "href" in newElement) newElement.href = options.href;
+
+		for (const child of options.children.filter((child) => !!child) || []) {
+			if (typeof child === "string") {
+				newElement.appendChild(document.createTextNode(child));
+			} else {
+				newElement.appendChild(child);
+			}
+		}
+
+		if (options.attributes) {
+			let attributes = options.attributes;
+			if (typeof attributes === "function") attributes = attributes();
+
+			for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute].toString());
+		}
+		for (const event in options.events) newElement.addEventListener(event, options.events[event]);
+
+		for (const key in options.style) newElement.style[key] = options.style[key];
+		for (const key in options.dataset) {
+			if (typeof options.dataset[key] === "object") newElement.dataset[key] = JSON.stringify(options.dataset[key]);
+			else newElement.dataset[key] = options.dataset[key].toString();
+		}
+
+		return newElement;
+	} else {
+		throw new Error("Invalid options provided to newElement.");
+	}
+}
+
+function findElementWithText<T = Node>(tag: string, text: string): T {
+	const node = document.evaluate(`//${tag}[contains(text(), '${text}')]`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	if (!node) return null;
+
+	return node as T;
+}
+
+function findAllElements<K extends keyof HTMLElementTagNameMap>(tagName: K, parent?: ParentNode): HTMLElementTagNameMap[K][];
+function findAllElements<T extends Element = HTMLElement>(selector: string, parent?: ParentNode): T[];
+
+function findAllElements(selector: string, parent: ParentNode = document): Element[] {
+	return Array.from(parent.querySelectorAll(selector));
+}
 
 interface DeviceInformation {
 	mobile: boolean;
@@ -225,6 +145,7 @@ function getHashParameters(hash?: string) {
 interface FindParentOptions {
 	tag: string;
 	class: string;
+	partialClass: string;
 	id: string;
 	hasAttribute: string;
 	maxAttempts: number;
@@ -235,6 +156,7 @@ function findParent(element: Node, options: Partial<FindParentOptions> = {}) {
 	options = {
 		tag: undefined,
 		class: undefined,
+		partialClass: undefined,
 		id: undefined,
 		hasAttribute: undefined,
 		maxAttempts: -1,
@@ -253,6 +175,7 @@ function findParent(element: Node, options: Partial<FindParentOptions> = {}) {
 			(!Array.isArray(options.class) && element.parentElement.classList.contains(options.class)))
 	)
 		return element.parentElement;
+	if (options.partialClass && Array.from(element.parentElement.classList).some((c) => c.startsWith(options.partialClass))) return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, { ...options, currentAttempt: options.currentAttempt + 1 });
@@ -296,8 +219,8 @@ function rotateElement(element: HTMLElement, degrees: number) {
 type TableSortOrder = "asc" | "desc" | "none";
 
 function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrder) {
-	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
-	const icon = header.find("i");
+	const header = table.querySelector(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
+	const icon = header.querySelector("i");
 	if (order) {
 		if (icon) {
 			switch (order) {
@@ -317,10 +240,10 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 		} else {
 			switch (order) {
 				case "asc":
-					header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-up" }));
+					header.appendChild(elementBuilder({ type: "i", class: "fa-solid fa-caret-up" }));
 					break;
 				case "desc":
-					header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-down" }));
+					header.appendChild(elementBuilder({ type: "i", class: "fa-solid fa-caret-down" }));
 					break;
 			}
 		}
@@ -337,7 +260,7 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 			order = "desc";
 		}
 	} else {
-		header.appendChild(document.newElement({ type: "i", class: "fa-solid fa-caret-up" }));
+		header.appendChild(elementBuilder({ type: "i", class: "fa-solid fa-caret-up" }));
 
 		order = "asc";
 	}
@@ -345,16 +268,16 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 	table.dataset.ttSortColumn = columnPlace.toString();
 	table.dataset.ttSortOrder = order;
 
-	for (const h of table.findAll("th, .row.header > *")) {
+	for (const h of findAllElements("th, .row.header > *", table)) {
 		if (h === header) continue;
 
-		if (h.find("i")) h.find("i").remove();
+		h.querySelector("i")?.remove();
 	}
 
 	let rows: HTMLElement[];
-	if (!table.find("tr:not(.heading), .row:not(.header)")) rows = [];
+	if (!table.querySelector("tr:not(.heading), .row:not(.header)")) rows = [];
 	else {
-		rows = [...table.findAll<HTMLElement>("tr:not(.header), .row:not(.header)")];
+		rows = findAllElements<HTMLElement>("tr:not(.header), .row:not(.header)", table);
 		rows = sortRows(rows);
 	}
 
@@ -378,8 +301,8 @@ function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrd
 		return rows;
 
 		function sortHelper(elementA: HTMLElement, elementB: HTMLElement) {
-			elementA = elementA.find(`:scope > *:nth-child(${columnPlace})`);
-			elementB = elementB.find(`:scope > *:nth-child(${columnPlace})`);
+			elementA = elementA.querySelector(`:scope > *:nth-child(${columnPlace})`);
+			elementB = elementB.querySelector(`:scope > *:nth-child(${columnPlace})`);
 
 			let valueA: string, valueB: string;
 			if (elementA.hasAttribute("sort-type")) {
@@ -446,14 +369,14 @@ function resortTable(table: HTMLElement) {
 }
 
 function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
-	const placeholder = element.find(".tt-loading-placeholder");
+	const placeholder = element.querySelector(".tt-loading-placeholder");
 
 	if (show) {
 		if (placeholder) {
 			placeholder.classList.add("active");
 		} else {
 			element.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-loading-placeholder active",
 				})
@@ -465,7 +388,7 @@ function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
 }
 
 function executeScript(filename: string, remove = true) {
-	const script = document.newElement({
+	const script = elementBuilder({
 		type: "script",
 		attributes: {
 			type: "text/javascript",
@@ -492,22 +415,22 @@ function updateQuery(key: string, value: string) {
 }
 
 async function addInformationSection() {
-	if (document.find(".tt-sidebar-information")) return;
+	if (document.querySelector(".tt-sidebar-information")) return;
 
 	const parent = await requireElement("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']");
 
 	parent.appendChild(
-		document.newElement({
+		elementBuilder({
 			type: "hr",
 			class: "tt-sidebar-information-divider tt-delimiter tt-hidden",
 		})
 	);
-	parent.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information tt-hidden" }));
+	parent.appendChild(elementBuilder({ type: "div", class: "tt-sidebar-information tt-hidden" }));
 }
 
 function showInformationSection() {
-	document.find(".tt-sidebar-information-divider")?.classList.remove("tt-hidden");
-	document.find(".tt-sidebar-information")?.classList.remove("tt-hidden");
+	document.querySelector(".tt-sidebar-information-divider")?.classList.remove("tt-hidden");
+	document.querySelector(".tt-sidebar-information")?.classList.remove("tt-hidden");
 }
 
 function isElement(node: Node | EventTarget | null): node is Element {
@@ -520,4 +443,7 @@ function isTextNode(node: Node): node is Text {
 
 function isHTMLElement(node: Node | EventTarget): node is HTMLElement {
 	return isElement(node) && "dataset" in node && "title" in node;
+}
+function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node | EventTarget, tag: K): node is HTMLElementTagNameMap[K] {
+	return isHTMLElement(node) && node.tagName.toLowerCase() === tag;
 }

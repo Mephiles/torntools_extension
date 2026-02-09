@@ -38,15 +38,15 @@
 					return;
 
 				const timeElement =
-					tooltipElement.find("[class*='static-width___']")?.firstChild ?? // For cooldown icon tooltips.
-					tooltipElement.find("p[class*='bar-descr__']")?.lastChild ?? // For energy, nerve, happy, and life bar tooltips.
-					tooltipElement.find("p:not([class])");
+					tooltipElement.querySelector("[class*='static-width___']")?.firstChild ?? // For cooldown icon tooltips.
+					tooltipElement.querySelector("p[class*='bar-descr__']")?.lastChild ?? // For energy, nerve, happy, and life bar tooltips.
+					tooltipElement.querySelector("p:not([class])");
 				if (!timeElement) return;
 
 				[...tooltipElement.getElementsByClassName("tt-tooltip-end-times")].forEach((x) => x.remove());
 				const time = Date.now() + textToTime(timeElement.textContent);
 				tooltipTitleElement.parentElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-tooltip-end-times",
 						text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,

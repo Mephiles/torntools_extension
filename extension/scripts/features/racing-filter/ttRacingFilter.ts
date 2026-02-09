@@ -48,12 +48,12 @@
 
 		const { content } = createContainer("Racing Filter", {
 			class: "mt10",
-			nextElement: document.find(".custom-events-wrap"),
+			nextElement: document.querySelector(".custom-events-wrap"),
 			filter: true,
 			compact: true,
 		});
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -167,7 +167,7 @@
 
 	async function applyFilters() {
 		await requireElement(".events-list > li");
-		const content = findContainer("Racing Filter").find("main");
+		const content = findContainer("Racing Filter").querySelector("main");
 		const hideRacesFilter = localFilters["HideRaces"].getSelections(content);
 		const startTimeFilter = localFilters["Start Time Filter"].getStartEnd(content);
 		const timeStart = parseInt(startTimeFilter.start);
@@ -204,7 +204,7 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".events-list > li")) {
+		for (const li of findAllElements(".events-list > li")) {
 			if (li.className === "clear") {
 				continue;
 			}
@@ -252,7 +252,7 @@
 			const laps = parseInt(li.querySelector(".laps").textContent.match(/\d+/)[0], 10);
 
 			// Start time
-			const timeText = li.find(".event-wrap .startTime").textContent.trim(); // Format can be : "waiting", "26 m", "10 h 30 m"
+			const timeText = li.querySelector(".event-wrap .startTime").textContent.trim(); // Format can be : "waiting", "26 m", "10 h 30 m"
 
 			let totalHours = 0;
 			if (!timeText || timeText.toLowerCase() === "waiting") {
@@ -281,7 +281,7 @@
 				.trim();
 
 			// Race name
-			const raceName = li.find(".event-wrap .name").textContent;
+			const raceName = li.querySelector(".event-wrap .name").textContent;
 
 			/*************************************************/
 			/**    Apply filters and update race list       **/
@@ -358,6 +358,6 @@
 
 	function removeFilters() {
 		removeContainer("Racing Filter");
-		document.findAll(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

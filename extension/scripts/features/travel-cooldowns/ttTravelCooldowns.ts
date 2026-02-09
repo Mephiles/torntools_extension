@@ -55,44 +55,44 @@
 		if (!durationText) return;
 
 		const duration = textToTime(durationText) * 2;
-		let cooldowns = container.parentElement.find(".tt-cooldowns");
+		let cooldowns = container.parentElement.querySelector(".tt-cooldowns");
 		if (!cooldowns) {
-			cooldowns = document.newElement({
+			cooldowns = elementBuilder({
 				type: "div",
 				class: "tt-cooldowns",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "travel-wrap",
 						children: [
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: ["cooldown", "energy", getDurationClass(userdata.energy.fulltime)],
 								text: "Energy",
 							}),
-							document.newElement({ type: "div", class: ["cooldown", "nerve", getDurationClass(userdata.nerve.fulltime)], text: "Nerve" }),
-							document.newElement({ type: "div", class: ["cooldown", "drug", getDurationClass(userdata.cooldowns.drug)], text: "Drug" }),
-							document.newElement({
+							elementBuilder({ type: "div", class: ["cooldown", "nerve", getDurationClass(userdata.nerve.fulltime)], text: "Nerve" }),
+							elementBuilder({ type: "div", class: ["cooldown", "drug", getDurationClass(userdata.cooldowns.drug)], text: "Drug" }),
+							elementBuilder({
 								type: "div",
 								class: ["cooldown", "booster", getDurationClass(userdata.cooldowns.booster)],
 								text: "Booster",
 							}),
-							document.newElement({
+							elementBuilder({
 								type: "div",
 								class: ["cooldown", "medical", getDurationClass(userdata.cooldowns.medical)],
 								text: "Medical",
 							}),
 						],
 					}),
-					document.newElement({ type: "div", class: "patter-right" }),
-					document.newElement({ type: "div", class: "clear" }),
+					elementBuilder({ type: "div", class: "patter-right" }),
+					elementBuilder({ type: "div", class: "clear" }),
 				],
 			});
 
 			if (!hasFinishedEducation() || userdata.education_current > 0)
 				cooldowns.insertAdjacentElement(
 					"afterend",
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: ["cooldown", "education", getDurationClass(userdata.education_timeleft)],
 						text: "Your education course will end before you return!",
@@ -105,25 +105,25 @@
 					: "You have no bank investment going on.";
 			cooldowns.insertAdjacentElement(
 				"afterend",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank.until - userdata.date)],
 					text: investmentMessage,
 				})
 			);
 		} else {
-			handleClass(cooldowns.find(".energy"), userdata.energy.fulltime);
-			handleClass(cooldowns.find(".nerve"), userdata.nerve.fulltime);
-			handleClass(cooldowns.find(".drug"), userdata.cooldowns.drug);
-			handleClass(cooldowns.find(".booster"), userdata.cooldowns.booster);
-			handleClass(cooldowns.find(".medical"), userdata.cooldowns.medical);
-			if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.find(".education"), userdata.education_timeleft);
-			handleClass(cooldowns.parentElement.find(".investment"), userdata.money.city_bank.until - userdata.date);
+			handleClass(cooldowns.querySelector(".energy"), userdata.energy.fulltime);
+			handleClass(cooldowns.querySelector(".nerve"), userdata.nerve.fulltime);
+			handleClass(cooldowns.querySelector(".drug"), userdata.cooldowns.drug);
+			handleClass(cooldowns.querySelector(".booster"), userdata.cooldowns.booster);
+			handleClass(cooldowns.querySelector(".medical"), userdata.cooldowns.medical);
+			if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.querySelector(".education"), userdata.education_timeleft);
+			handleClass(cooldowns.parentElement.querySelector(".investment"), userdata.money.city_bank.until - userdata.date);
 		}
 
 		if (!mobile && !tabletVertical) container.insertAdjacentElement("beforebegin", cooldowns);
 		else {
-			container.find("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
+			container.querySelector("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
 		}
 
 		function getDurationClass(time: number) {
@@ -140,6 +140,6 @@
 	}
 
 	function removeWarnings() {
-		document.findAll(".tt-cooldowns, .tt-cooldowns ~ .cooldown").forEach((cooldown) => cooldown.remove());
+		findAllElements(".tt-cooldowns, .tt-cooldowns ~ .cooldown").forEach((cooldown) => cooldown.remove());
 	}
 })();

@@ -15,7 +15,7 @@ if (!isOwnCompany) {
 				return;
 
 			triggerCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE);
-		}).observe(document.find(".content #mainContainer .content-wrapper"), { childList: true });
+		}).observe(document.querySelector(".content #mainContainer .content-wrapper"), { childList: true });
 	});
 } else {
 	window.addEventListener("hashchange", () => {

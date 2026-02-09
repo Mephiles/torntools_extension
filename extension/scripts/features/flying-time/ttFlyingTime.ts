@@ -57,10 +57,10 @@
 
 		const text = `Landing at ${format(arrivalTime)} | Return at ${format(returnTime)}`;
 
-		let timer = document.find(".tt-flying-time");
+		let timer = document.querySelector(".tt-flying-time");
 		if (timer) timer.textContent = text;
 		else {
-			document.find("#travel-root").appendChild(document.newElement({ type: "span", class: "tt-flying-time", text }));
+			document.querySelector("#travel-root").appendChild(elementBuilder({ type: "span", class: "tt-flying-time", text }));
 		}
 		function format(date: Date) {
 			if (date.getDate() === now.getDate()) return formatTime(date, { hideSeconds: true });
@@ -69,7 +69,7 @@
 	}
 
 	function removeTime() {
-		const timer = document.find(".tt-flying-time");
+		const timer = document.querySelector(".tt-flying-time");
 		if (timer) timer.remove();
 	}
 })();

@@ -31,18 +31,15 @@
 
 		const addiction = await getCompanyAddiction();
 
-		const companyAddictionElement = document.newElement({ type: "span", dataset: { addiction } });
+		const companyAddictionElement = elementBuilder({ type: "span", dataset: { addiction } });
 
 		companyAddictionElement.textContent = addiction.toString();
 
-		document.find(".tt-sidebar-information").appendChild(
-			document.newElement({
+		document.querySelector(".tt-sidebar-information").appendChild(
+			elementBuilder({
 				type: "section",
 				id: "companyAddictionLevel",
-				children: [
-					document.newElement({ type: "a", class: "title", text: "Company Addiction: ", href: LINKS.companyEmployees }),
-					companyAddictionElement,
-				],
+				children: [elementBuilder({ type: "a", class: "title", text: "Company Addiction: ", href: LINKS.companyEmployees }), companyAddictionElement],
 				style: { order: "3" },
 			})
 		);
@@ -81,7 +78,7 @@
 	}
 
 	function removeCompanyAddictionLevel() {
-		const addictionLevel = document.find("#companyAddictionLevel");
+		const addictionLevel = document.querySelector("#companyAddictionLevel");
 		if (addictionLevel) addictionLevel.remove();
 	}
 

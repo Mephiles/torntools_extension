@@ -55,7 +55,7 @@
 	async function showResult(scout: ScouterResult) {
 		const { message, className, detailMessage } = buildScoutInformation(scout);
 
-		const element = document.newElement({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });
+		const element = elementBuilder({ type: "span", class: ["tt-ff-scouter-mini-profile", className], text: message });
 		if (detailMessage) {
 			element.setAttribute("title", detailMessage);
 		}

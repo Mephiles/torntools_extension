@@ -25,7 +25,8 @@
 				if (searchParams.get("step") === "attempt") {
 					await requireElement(".virtual-item.outcome-expanded button.commit-button");
 
-					CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+					const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
+					CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 				}
 
 				await addFilter(crimeRoot);
@@ -51,7 +52,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -101,9 +102,10 @@
 	async function filtering() {
 		await requireElement(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']");
 
-		CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+		const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
+		CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 
-		const content = findContainer("Burglary Filter").find("main");
+		const content = findContainer("Burglary Filter").querySelector("main");
 		const targetName = localFilters["Target Name"].getValue(content).trim();
 		const targetType = localFilters["Target Type"].getSelections(content);
 
@@ -116,14 +118,14 @@
 		// Burglary targets are absolutely positioned on the page, using translateY style.
 		// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
-		for (const targetEl of document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
-			const rowTargetName = targetEl.find("[class*='crimeOptionSection__']").textContent;
+		for (const targetEl of findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
+			const rowTargetName = targetEl.querySelector("[class*='crimeOptionSection__']").textContent;
 			if (targetName && !rowTargetName.includes(targetName)) {
 				hideRow(targetEl);
 				continue;
 			}
 
-			const targetImageSource = targetEl.find<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
+			const targetImageSource = targetEl.querySelector<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
 			const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
 			const rowTargetType = matchedImageSource && matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
 			if (targetType.length && (rowTargetType === null || !targetType.includes(rowTargetType))) {
@@ -131,12 +133,12 @@
 				continue;
 			}
 			showRow(targetEl, targetRowHeightsSum);
-			targetRowHeightsSum += targetEl.style.height.getNumber();
+			targetRowHeightsSum += convertToNumber(targetEl.style.height);
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
-			document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
+			findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
+			findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
 			content
 		);
 
@@ -155,12 +157,13 @@
 		document.body.classList.remove("torntools-burglary-filter");
 		removeContainer("Burglary Filter");
 
-		CRIMES2_ROWS_START_Y = document.find(".virtual-item:first-child")?.style?.height?.getNumber() ?? 64;
+		const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
+		CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 		let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
-		document.findAll(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").forEach((li) => {
+		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").forEach((li) => {
 			li.classList.remove("tt-filter-hidden");
 			li.style.transform = `translateY(${targetRowHeightsSum}px)`;
-			targetRowHeightsSum += li.style.height.getNumber();
+			targetRowHeightsSum += convertToNumber(li.style.height);
 		});
 	}
 })();

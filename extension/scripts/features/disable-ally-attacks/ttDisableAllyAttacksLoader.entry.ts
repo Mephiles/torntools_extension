@@ -26,13 +26,13 @@
 
 	async function disableAttackButton(factionID: number | null) {
 		if (!factionID) return;
-		if (document.find(".tt-disable-ally-attack")) return;
+		if (document.querySelector(".tt-disable-ally-attack")) return;
 
 		const selector = mobile || tablet ? "[class*='playerArea__'] [class*='modal__']" : "[class*='players__'] #defender [class*='modal__']";
 		if ((hasAPIData() && userdata.faction?.id === factionID) || settings.alliedFactions.some((ally) => ally === factionID)) {
 			const node = await requireElement(selector);
 
-			const warning = document.newElement({
+			const warning = elementBuilder({
 				type: "div",
 				class: "tt-disable-ally-attack",
 				text: "Blocked by TornTools. This player is an ally. Click here if you are sure to attack.",
@@ -52,6 +52,6 @@
 	}
 
 	function removeWarning() {
-		document.findAll(".tt-disable-ally-attack").forEach((x) => x.remove());
+		findAllElements(".tt-disable-ally-attack").forEach((x) => x.remove());
 	}
 })();

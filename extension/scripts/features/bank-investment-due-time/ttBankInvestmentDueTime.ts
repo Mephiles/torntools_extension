@@ -27,11 +27,11 @@
 		const formattedTime = formatTime(dueDate);
 		const formatted = `${formattedDate} ${formattedTime}`;
 
-		const investmentDueTimeElement = document.newElement({
+		const investmentDueTimeElement = elementBuilder({
 			type: "span",
 			children: [
 				document.createTextNode("Investment will be completed on "),
-				document.newElement({
+				elementBuilder({
 					type: "b",
 					text: formatted,
 				}),

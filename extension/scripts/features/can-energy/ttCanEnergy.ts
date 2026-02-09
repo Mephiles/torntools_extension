@@ -33,8 +33,8 @@
 			.map((x) => 1 + parseInt(x) / 100)
 			.reduce((totalMultiplier, perkMultiplier) => totalMultiplier * perkMultiplier, 1);
 
-		document.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
-			if (eCanElement.find(".tt-e-gains")) return;
+		findAllElements("[data-category='Energy Drink']").forEach((eCanElement) => {
+			if (eCanElement.querySelector(".tt-e-gains")) return;
 
 			const baseEnergy = parseInt(
 				torndata.items[eCanElement.dataset.item].effect
@@ -50,12 +50,12 @@
 			}
 
 			eCanElement
-				.find(".name-wrap")
-				.insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-e-gains", text: `${totalEnergy}E` }));
+				.querySelector(".name-wrap")
+				.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-e-gains", text: `${totalEnergy}E` }));
 		});
 	}
 
 	function removeEnergyGains() {
-		document.findAll(".tt-e-gains").forEach((x) => x.remove());
+		findAllElements(".tt-e-gains").forEach((x) => x.remove());
 	}
 })();

@@ -30,7 +30,7 @@
 
 		const { content, options } = createContainer("Jail Filter", {
 			class: "mt10",
-			nextElement: document.find(".users-list-title"),
+			nextElement: document.querySelector(".users-list-title"),
 			compact: true,
 			filter: true,
 		});
@@ -39,7 +39,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -128,7 +128,7 @@
 
 	async function filtering(pageChange: boolean = false) {
 		await requireElement(".users-list > li");
-		const content = findContainer("Jail Filter").find("main");
+		const content = findContainer("Jail Filter").querySelector("main");
 		const activity: string[] = localFilters["Activity"].getSelections(content);
 		const faction: string = localFilters["Faction"].getSelected(content).trim();
 		const times = localFilters["Time Filter"].getStartEnd(content);
@@ -184,18 +184,21 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".users-list > li")) {
+		for (const li of findAllElements(".users-list > li")) {
 			// Activity
-			if (activity.length && !activity.includes(li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())) {
+			if (
+				activity.length &&
+				!activity.includes(li.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())
+			) {
 				hideRow(li);
 				continue;
 			}
 
 			// Faction
-			const rowFaction = li.find<HTMLAnchorElement>(".user.faction");
+			const rowFaction = li.querySelector<HTMLAnchorElement>(".user.faction");
 			const hasFaction = !!rowFaction.href;
 			const factionName = rowFaction.hasAttribute("rel")
-				? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
+				? rowFaction.querySelector(":scope > img").getAttribute("title").trim() || "N/A"
 				: rowFaction.textContent.trim();
 
 			if (faction && faction !== "No faction" && faction !== "Unknown faction" && faction !== "In a faction") {
@@ -222,7 +225,7 @@
 			}
 
 			// Time
-			const timeText = li.find(".info-wrap .time").textContent;
+			const timeText = li.querySelector(".info-wrap .time").textContent;
 			const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
 
 			const timeLeftHrs = timeLeft.length > 1 ? parseInt(timeLeft[0]) : 0;
@@ -233,7 +236,7 @@
 			}
 
 			// Level
-			const level = li.find(".info-wrap .level").textContent.getNumber();
+			const level = convertToNumber(li.querySelector(".info-wrap .level").textContent);
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				continue;
@@ -269,8 +272,8 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".users-list > li:not(.tt-hidden)").length,
-			document.findAll(".users-list > li").length,
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
 			content
 		);
 
@@ -293,15 +296,15 @@
 			},
 		});
 
-		document.findAll(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
+		findAllElements(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
 		if (quickBust || quickBail) {
-			if (document.find(".users-list > li:not(.tt-hidden)")) {
-				if (!document.find(".users-list-title .tt-quick-refresh")) {
-					document.find(".users-list-title").appendChild(newRefreshButton());
+			if (document.querySelector(".users-list > li:not(.tt-hidden)")) {
+				if (!document.querySelector(".users-list-title .tt-quick-refresh")) {
+					document.querySelector(".users-list-title").appendChild(newRefreshButton());
 				}
 			} else {
-				document.find(".users-list").appendChild(
-					document.newElement({
+				document.querySelector(".users-list").appendChild(
+					elementBuilder({
 						type: "div",
 						class: "tt-quick-refresh-wrap",
 						children: [...(quickBail ? [newRefreshButton("tt-bail")] : []), ...(quickBust ? [newRefreshButton("tt-bust")] : [])],
@@ -310,15 +313,15 @@
 			}
 		}
 
-		document.findAll(".users-list > li").forEach((li) => {
-			if (quickBust) addQAndHref(li.find(":scope > [href*='breakout']"));
-			else removeQAndHref(li.find(":scope > [href*='breakout']"));
-			if (quickBail) addQAndHref(li.find(":scope > [href*='buy']"));
-			else removeQAndHref(li.find(":scope > [href*='buy']"));
+		findAllElements(".users-list > li").forEach((li) => {
+			if (quickBust) addQAndHref(li.querySelector(":scope > [href*='breakout']"));
+			else removeQAndHref(li.querySelector(":scope > [href*='breakout']"));
+			if (quickBail) addQAndHref(li.querySelector(":scope > [href*='buy']"));
+			else removeQAndHref(li.querySelector(":scope > [href*='buy']"));
 		});
 
 		function newRefreshButton(customClass = "") {
-			return document.newElement({
+			return elementBuilder({
 				type: "i",
 				class: `fa-solid fa-arrow-rotate-right tt-quick-refresh ${customClass}`,
 				events: {
@@ -328,24 +331,24 @@
 		}
 
 		function addQAndHref(iconNode: HTMLAnchorElement) {
-			if (iconNode.find(":scope > .tt-quick-q")) return;
-			iconNode.appendChild(document.newElement({ type: "span", class: "tt-quick-q", text: "Q" }));
+			if (iconNode.querySelector(":scope > .tt-quick-q")) return;
+			iconNode.appendChild(elementBuilder({ type: "span", class: "tt-quick-q", text: "Q" }));
 			iconNode.href = iconNode.getAttribute("href") + "1";
 		}
 
 		function removeQAndHref(iconNode: HTMLAnchorElement) {
-			const quickQ = iconNode.find(":scope > .tt-quick-q");
+			const quickQ = iconNode.querySelector(":scope > .tt-quick-q");
 			if (quickQ) quickQ.remove();
 			if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.getAttribute("href").slice(0, -1);
 		}
 	}
 
 	function getFactions() {
-		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const rows = findAllElements(".users-list > li .user.faction");
 		const _factions = new Set(
-			document.findAll(".users-list > li .user.faction img").length
+			findAllElements(".users-list > li .user.faction img").length
 				? rows
-						.map((row) => row.find("img"))
+						.map((row) => row.querySelector("img"))
 						.filter((img) => !!img)
 						.map((img) => img.getAttribute("title").trim())
 						.filter((tag) => !!tag)
@@ -361,6 +364,6 @@
 
 	function removeFilters() {
 		removeContainer("Jail Filter");
-		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

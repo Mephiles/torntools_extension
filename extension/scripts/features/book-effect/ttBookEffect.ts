@@ -23,17 +23,17 @@
 	}
 
 	function addEffects() {
-		document.findAll("[data-category='Book']").forEach((book) => {
-			if (book.find(".tt-book-effect")) return;
+		findAllElements("[data-category='Book']").forEach((book) => {
+			if (book.querySelector(".tt-book-effect")) return;
 
-			book.find(".name-wrap .qty.t-hide").insertAdjacentElement(
+			book.querySelector(".name-wrap .qty.t-hide").insertAdjacentElement(
 				"afterend",
-				document.newElement({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
+				elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
 			);
 		});
 	}
 
 	function removeEffects() {
-		document.findAll(".tt-book-effect").forEach((x) => x.remove());
+		findAllElements(".tt-book-effect").forEach((x) => x.remove());
 	}
 })();

@@ -25,12 +25,12 @@
 		const ff = attackHistory.history[id]?.latestFairFightModifier;
 		if (!ff) return;
 
-		const entries = document.find("div[class*='headerWrapper___'][class*='rose___'] div[class*='textEntries___']");
+		const entries = document.querySelector("div[class*='headerWrapper___'][class*='rose___'] div[class*='textEntries___']");
 
 		entries.classList.add("tt-fair-attack");
 		entries.insertAdjacentElement(
 			"afterbegin",
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "tt-fair-attack",
 				text: `FF: ${formatNumber(ff, { decimals: 2 })}`,
@@ -39,6 +39,6 @@
 	}
 
 	function removeFF() {
-		document.findAll(".tt-fair-attack").forEach((ff) => ff.remove());
+		findAllElements(".tt-fair-attack").forEach((ff) => ff.remove());
 	}
 })();

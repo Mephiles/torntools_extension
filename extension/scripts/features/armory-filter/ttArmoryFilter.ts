@@ -48,7 +48,7 @@
 
 		const { options, content } = createContainer("Armory Filter", {
 			class: "mt10",
-			nextElement: document.find("#faction-armoury > hr"),
+			nextElement: document.querySelector("#faction-armoury > hr"),
 			filter: true,
 		});
 
@@ -65,7 +65,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({ type: "div", class: "content" });
+		const filterContent = elementBuilder({ type: "div", class: "content" });
 
 		const nameFilter = createFilterSection({
 			title: "Name",
@@ -197,27 +197,27 @@
 			// Save the filters
 			await ttStorage.change({ filters: { factionArmory: { hideUnavailable, [itemType]: filters } } });
 
-			document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").forEach((li) => filterRow(li, { hideUnavailable, ...filters }));
+			findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").forEach((li) => filterRow(li, { hideUnavailable, ...filters }));
 
 			localFilters["Statistics"].updateStatistics(
-				document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
-				document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
+				findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
+				findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
 				content
 			);
 		}
 	}
 
 	function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
-		const id = row.find(".img-wrap").dataset.itemid;
+		const id = row.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 
 		if (filters.hideUnavailable) {
-			if (row.find(":scope > .loaned a")) {
+			if (row.querySelector(":scope > .loaned a")) {
 				hide("unavailable");
 				return;
 			}
 		}
 		if (filters.name) {
-			if (!row.find(".name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
+			if (!row.querySelector(".name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
 				hide("name");
 				return;
 			}
@@ -237,7 +237,7 @@
 		if (filters.damage && !isNaN(parseFloat(filters.damage))) {
 			const damage = parseFloat(filters.damage);
 
-			if (parseFloat(row.find(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
+			if (parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
 				hide("damage");
 				return;
 			}
@@ -245,7 +245,7 @@
 		if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
 			const accuracy = parseFloat(filters.accuracy);
 
-			if (parseFloat(row.find(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
+			if (parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
 				hide("accuracy");
 				return;
 			}
@@ -253,13 +253,13 @@
 		if (filters.defence && !isNaN(parseFloat(filters.defence))) {
 			const defence = parseFloat(filters.defence);
 
-			if (parseFloat(row.find(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
+			if (parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
 				hide("defence");
 				return;
 			}
 		}
 		if (filters.set) {
-			const set = row.find(".name").textContent.split(" ")[0].toLowerCase();
+			const set = row.querySelector(".name").textContent.split(" ")[0].toLowerCase();
 			if (filters.set === "any") {
 				if (!ARMOR_SETS.map((x) => x.toLowerCase()).includes(set)) {
 					hide("set");
@@ -275,20 +275,20 @@
 		if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
 			const bonus = parseFloat(filters.armorBonus);
 
-			if (row.find(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title").getNumber() < bonus) {
+			if (convertToNumber(row.querySelector(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title")) < bonus) {
 				hide("bonus");
 				return;
 			}
 		}
 		const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
 		if (toFilterBonus && toFilterBonus.length) {
-			const foundBonuses = [...row.findAll(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)")]
+			const foundBonuses = findAllElements(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)", row)
 				.map((icon) => icon.getAttribute("title"))
 				.map((title) => title.split("<br/>"))
 				.filter((values) => values.length >= 2)
 				.map(([bonus, description]) => ({
 					bonus: bonus.substring(3, bonus.length - 4).toLowerCase(),
-					value: description.getNumber(),
+					value: convertToNumber(description),
 				}));
 
 			let hasBonuses: boolean;
@@ -327,6 +327,6 @@
 	function removeFilter() {
 		cbHideUnavailable = undefined;
 		removeContainer("Armory Filter");
-		document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

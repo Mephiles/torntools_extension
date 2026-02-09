@@ -22,7 +22,7 @@
 		await requireElement("[class*='stockTableWrapper___']");
 		const { content } = createContainer("Abroad Item Filter", {
 			class: "mb10",
-			nextElement: document.find("[class*='shops__']"),
+			nextElement: document.querySelector("[class*='shops__']"),
 			filter: true,
 		});
 
@@ -31,7 +31,7 @@
 		const statistics = createStatistics("items");
 		content.appendChild(statistics.element);
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -89,21 +89,21 @@
 			const taxes = taxesFilter.getSelections(content) as string[];
 			if (profitOnly) await requireElement(".tt-travel-market-cell");
 
-			for (const li of document.findAll("[class*='stockTableWrapper___'] > li")) {
+			for (const li of findAllElements("[class*='stockTableWrapper___'] > li")) {
 				showRow(li);
 
-				if (profitOnly && li.find(".tt-travel-market-cell").dataset.ttValue.getNumber() < 0) {
+				if (profitOnly && convertToNumber(li.querySelector<HTMLElement>(".tt-travel-market-cell").dataset.ttValue) < 0) {
 					hideRow(li);
 					continue;
 				}
 
-				if (outOfStock && li.find("[data-tt-content-type='stock']").textContent.getNumber() <= 0) {
+				if (outOfStock && convertToNumber(li.querySelector("[data-tt-content-type='stock']").textContent) <= 0) {
 					hideRow(li);
 					continue;
 				}
 
 				if (categories.length) {
-					const itemCategory = li.find("[data-tt-content-type='type']").textContent.split(" ")[1].toLowerCase();
+					const itemCategory = li.querySelector("[data-tt-content-type='type']").textContent.split(" ")[1].toLowerCase();
 					switch (itemCategory) {
 						case "plushie":
 							if (!categories.includes("plushie")) {
@@ -162,8 +162,8 @@
 			});
 
 			statistics.updateStatistics(
-				document.findAll("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
-				document.findAll("[class*='stockTableWrapper___'] > li").length,
+				findAllElements("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
+				findAllElements("[class*='stockTableWrapper___'] > li").length,
 				content
 			);
 		}
@@ -179,6 +179,6 @@
 
 	function removeFilter() {
 		removeContainer("Abroad Item Filter");
-		document.findAll("[class*='stockTableWrapper___'] li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements("[class*='stockTableWrapper___'] li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

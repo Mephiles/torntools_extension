@@ -104,12 +104,12 @@
 
 				requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list }).then(async () => {
 					await sleep(0);
-					const itemRow = list.find(`li[data-reactid*='$${item.armoryID}']`);
+					const itemRow = list.querySelector(`li[data-reactid*='$${item.armoryID}']`);
 
-					const parent = itemRow.find(".name-wrap");
-					if (parent.find(".tt-item-price")) {
+					const parent = itemRow.querySelector(".name-wrap");
+					if (parent.querySelector(".tt-item-price")) {
 						if (type) return;
-						else parent.find(".tt-item-price").remove();
+						else parent.querySelector(".tt-item-price").remove();
 					}
 
 					if (options.addRelative) parent.parentElement.classList.add("relative");
@@ -117,7 +117,7 @@
 					const price = parseInt(item.averageprice) || 0;
 					const quantity = parseInt(item.Qty) || 1;
 
-					const valueWrap = itemRow.find(".info-wrap");
+					const valueWrap = itemRow.querySelector<HTMLElement>(".info-wrap");
 
 					if (valueWrap && valueWrap.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
 						valueWrap.innerHTML = "";
@@ -126,12 +126,12 @@
 					} else if (valueWrap && valueWrap.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
 						valueWrap.style.setProperty("position", "relative");
 
-						const priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+						const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
 						addValue(priceElement, quantity, price);
 
 						valueWrap.appendChild(priceElement);
 					} else {
-						const priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+						const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
 						if (item.groupItem && quantity !== 1) priceElement.style.setProperty("padding-right", "98px", "important");
 
 						addValue(priceElement, quantity, price);
@@ -144,13 +144,13 @@
 				});
 			}
 		} else {
-			for (const price of document.findAll(".tt-item-price, #category-wrap .tt-ignore")) {
+			for (const price of findAllElements(".tt-item-price, #category-wrap .tt-ignore")) {
 				price.remove();
 			}
 		}
 
 		function getCurrentList() {
-			return document.find(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']");
+			return document.querySelector(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']");
 		}
 	}
 
@@ -158,27 +158,27 @@
 	/*function showTotal(list, type) {
 		if (!hasAPIData() || !settings.apiUsage.user.inventory) return;
 
-		if (list.find(".tt-item-price.price-total")) list.find(".tt-item-price.price-total").parentElement.remove();
+		if (list.querySelector(".tt-item-price.price-total")) list.querySelector(".tt-item-price.price-total").parentElement.remove();
 
 		let total;
-		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).totalSum();
+		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).reduce((a, b) => a + b, 0);
 		else
 			total = userdata.inventory
 				.filter((x) => x.type === type)
 				.map((x) => x.quantity * x.market_price)
-				.totalSum();
+				.reduce((a, b) => a + b, 0);
 
 		setTimeout(() => {
-			if (list.find(".tt-item-price.price-total")) {
-				list.find(".tt-item-price.price-total").textContent = `Total Value: ${formatNumber(total, {
+			if (list.querySelector(".tt-item-price.price-total")) {
+				list.querySelector(".tt-item-price.price-total").textContent = `Total Value: ${formatNumber(total, {
 					currency: true,
 				})}`;
 			} else {
-				const wrapper = document.newElement({
+				const wrapper = elementBuilder({
 					type: "li",
 					class: "tt-ignore tt-overlay-ignore tt-item-price-wrap",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "li",
 							text: `Total Value: ${formatNumber(total, { currency: true })}`,
 							class: "tt-item-price price-total",
@@ -199,7 +199,7 @@
 	}
 
 	function removeTotal(list) {
-		list.find(".tt-ignore .tt-item-price")?.parentElement.remove();
+		list.querySelector(".tt-ignore .tt-item-price")?.parentElement.remove();
 	}*/
 
 	function addValue(priceElement: Element, quantity: number, price: number) {
@@ -207,13 +207,13 @@
 		if (totalPrice) {
 			if (quantity > 1) {
 				priceElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })} | `,
 					})
 				);
 				priceElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `${quantity}x = `,
 						class: "tt-item-quantity",
@@ -221,7 +221,7 @@
 				);
 			}
 			priceElement.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					text: `${formatNumber(totalPrice, { currency: true })}`,
 				})
@@ -239,24 +239,24 @@
 		// TODO: API Inventory Block.
 		// showTotal(list, list.dataset.info);
 
-		for (const item of list.findAll(":scope > li[data-item]")) {
+		for (const item of findAllElements(":scope > li[data-item]", list)) {
 			const id = item.dataset.item;
 			const price = torndata.items[id].market_value;
 
-			const parent = mobile || tablet ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
+			const parent = mobile || tablet ? item.querySelector(".name-wrap") : item.querySelector(".bonuses-wrap") || item.querySelector(".name-wrap");
 
-			const quantity = parseInt(item.find(".item-amount.qty").textContent) || 1;
+			const quantity = parseInt(item.querySelector(".item-amount.qty").textContent) || 1;
 			const totalPrice = quantity * price;
 
-			if (parent.find(".tt-item-price")) continue;
+			if (parent.querySelector(".tt-item-price")) continue;
 
 			let priceElement: HTMLElement;
-			if (item.find(".bonuses-wrap")) {
-				priceElement = document.newElement({ type: "li", class: "tt-item-price fl" });
+			if (item.querySelector(".bonuses-wrap")) {
+				priceElement = elementBuilder({ type: "li", class: "tt-item-price fl" });
 			} else {
-				priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+				priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
 
-				if (item.find("button.group-arrow")) {
+				if (item.querySelector("button.group-arrow")) {
 					priceElement.style.setProperty("padding-right", "30px", "important");
 				}
 			}
@@ -264,27 +264,27 @@
 			if (totalPrice) {
 				if (quantity === 1) {
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${formatNumber(price, { currency: true })}`,
 						})
 					);
 				} else {
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${formatNumber(price, { currency: true })} | `,
 						})
 					);
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${quantity}x = `,
 							class: "tt-item-quantity",
 						})
 					);
 					priceElement.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "span",
 							text: `${formatNumber(totalPrice, { currency: true })}`,
 						})
@@ -301,11 +301,11 @@
 	}
 
 	function updateItemAmount(id: number, change: number) {
-		for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
-			const priceElement = item.find(".tt-item-price");
+		for (const item of findAllElements(`.items-cont > li[data-item="${id}"]`)) {
+			const priceElement = item.querySelector(".tt-item-price");
 			if (!priceElement) continue;
 
-			const quantityElement = priceElement.find(".tt-item-quantity");
+			const quantityElement = priceElement.querySelector(".tt-item-quantity");
 			if (!quantityElement) continue;
 
 			const price = torndata.items[id].market_value;
@@ -314,14 +314,14 @@
 			if (newQuantity === 1) {
 				priceElement.innerHTML = "";
 				priceElement.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })}`,
 					})
 				);
 			} else {
 				quantityElement.textContent = `${newQuantity}x = `;
-				priceElement.find("span:last-child").textContent = `${formatNumber(price * newQuantity, { currency: true })}`;
+				priceElement.querySelector("span:last-child").textContent = `${formatNumber(price * newQuantity, { currency: true })}`;
 			}
 		}
 	}
@@ -330,12 +330,12 @@
 		if (page === "item") {
 			await requireItemsLoaded();
 
-			showItemValues(document.find(".itemsList[aria-expanded='true']"));
+			showItemValues(document.querySelector(".itemsList[aria-expanded='true']"));
 		}
 	}
 
 	function removeValues() {
-		for (const value of document.findAll(".tt-item-price")) {
+		for (const value of findAllElements(".tt-item-price")) {
 			if (value.classList.contains("price-total")) value.parentElement.remove();
 			else value.remove();
 		}

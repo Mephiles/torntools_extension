@@ -30,7 +30,7 @@
 			if (mutations.some((mutation) => [...mutation.addedNodes].filter(isElement).some((node) => node.tagName === "UL"))) {
 				if (feature.enabled()) {
 					showEstimates();
-					listObserver.observe(document.find(".tableWrapper > ul"), { childList: true });
+					listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 				}
 			}
 		});
@@ -47,8 +47,8 @@
 		statsEstimate.showEstimates(
 			".tableWrapper ul > li",
 			(row) => ({
-				id: parseInt(row.find<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-				level: row.find("[class*='level__']").textContent.getNumber(),
+				id: parseInt(row.querySelector<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+				level: convertToNumber(row.querySelector("[class*='level__']").textContent),
 			}),
 			true
 		);
@@ -56,6 +56,6 @@
 
 	function removeEstimates() {
 		statsEstimate.clearQueue();
-		document.findAll(".tt-stats-estimate").forEach((estimate) => estimate.remove());
+		findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
 	}
 })();

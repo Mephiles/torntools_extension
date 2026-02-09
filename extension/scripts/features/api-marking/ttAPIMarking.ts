@@ -11,7 +11,7 @@
 	}
 
 	function markSelections() {
-		for (const field of document.findAll(".panel-body > p[class*='_fields']")) {
+		for (const field of findAllElements(".panel-body > p[class*='_fields']")) {
 			const type = getSection(field.classList[0].substring(0, 1));
 
 			new MutationObserver((_mutations, observer) => {
@@ -20,7 +20,7 @@
 				toSpan(field);
 
 				for (const selection of API_SELECTIONS[type]) {
-					const span = field.find(`.selection[data-selection="${selection}"]`);
+					const span = field.querySelector(`.selection[data-selection="${selection}"]`);
 					if (!span) continue;
 
 					span.classList.add("used");
@@ -43,10 +43,10 @@
 			const small = field.firstElementChild;
 
 			small.innerHTML = "";
-			small.appendChild(document.newElement({ type: "strong", text: "Available fields: " }));
+			small.appendChild(elementBuilder({ type: "strong", text: "Available fields: " }));
 
 			for (const selection of selections) {
-				small.appendChild(document.newElement({ type: "span", text: selection, class: "selection", dataset: { selection } }));
+				small.appendChild(elementBuilder({ type: "span", text: selection, class: "selection", dataset: { selection } }));
 
 				if (selections.indexOf(selection) !== selections.length - 1) {
 					small.appendChild(document.createTextNode(", "));
@@ -56,16 +56,16 @@
 	}
 
 	function markResponses() {
-		for (const result of document.findAll(".panel-body > div[class*='_result']")) {
+		for (const result of findAllElements(".panel-body > div[class*='_result']")) {
 			const type = getSection(result.classList[0].substring(0, 1));
 
 			new MutationObserver(() => {
 				const responseElement = result.firstElementChild;
 
-				const originalPre = responseElement.find("pre");
+				const originalPre = responseElement.querySelector("pre");
 				originalPre.classList.add("original");
 
-				const modifiedPre = document.newElement({ type: "pre", class: "modified active" });
+				const modifiedPre = elementBuilder({ type: "pre", class: "modified active" });
 				responseElement.insertBefore(modifiedPre, originalPre);
 
 				try {
@@ -79,19 +79,19 @@
 				function populateResponse() {
 					const response = JSON.parse(originalPre.textContent);
 
-					modifiedPre.appendChild(document.newElement({ type: "span", text: "{" }));
-					modifiedPre.appendChild(document.newElement("br"));
+					modifiedPre.appendChild(elementBuilder({ type: "span", text: "{" }));
+					modifiedPre.appendChild(elementBuilder("br"));
 					loadResponse(response, API_USAGE[type], 1);
-					modifiedPre.appendChild(document.newElement({ type: "span", text: "}" }));
+					modifiedPre.appendChild(elementBuilder({ type: "span", text: "}" }));
 
 					function loadResponse(response: any, marking: any, indent: number) {
 						for (const [key, value] of Object.entries(response)) {
 							if (typeof value === "object") {
 								if (Array.isArray(value)) {
 									modifiedPre.appendChild(
-										document.newElement({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}"${key}": [` })
+										elementBuilder({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}"${key}": [` })
 									);
-									modifiedPre.appendChild(document.newElement("br"));
+									modifiedPre.appendChild(elementBuilder("br"));
 
 									for (const item of value) {
 										if (typeof item === "object") {
@@ -104,22 +104,22 @@
 												const _marking = marking === true || marking[key] === true || (key in marking ? marking[key]["*"] || {} : {});
 
 												modifiedPre.appendChild(
-													document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}{` })
+													elementBuilder({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}{` })
 												);
-												modifiedPre.appendChild(document.newElement("br"));
+												modifiedPre.appendChild(elementBuilder("br"));
 												loadResponse(item, _marking || {}, indent + 2);
 												modifiedPre.appendChild(
-													document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}},` })
+													elementBuilder({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent + 1)}},` })
 												);
 											}
 										} else {
 											displayValue(null, item, indent + 1, marking[key]);
 										}
-										modifiedPre.appendChild(document.newElement("br"));
+										modifiedPre.appendChild(elementBuilder("br"));
 									}
 
 									modifiedPre.appendChild(
-										document.newElement({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}],` })
+										elementBuilder({ type: "span", class: key in marking ? "used" : "", text: `${getIndent(indent)}],` })
 									);
 								} else if (value === null) {
 									displayValue(key, null, indent, marking);
@@ -127,16 +127,16 @@
 									const toMark = marking === true || key in marking || "*" in marking;
 
 									modifiedPre.appendChild(
-										document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent)}"${key}": {` })
+										elementBuilder({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent)}"${key}": {` })
 									);
-									modifiedPre.appendChild(document.newElement("br"));
+									modifiedPre.appendChild(elementBuilder("br"));
 									loadResponse(value, marking[key] || marking["*"] || {}, indent + 1);
-									modifiedPre.appendChild(document.newElement({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent)}},` }));
+									modifiedPre.appendChild(elementBuilder({ type: "span", class: toMark ? "used" : "", text: `${getIndent(indent)}},` }));
 								}
 							} else {
 								displayValue(key, value, indent, marking);
 							}
-							modifiedPre.appendChild(document.newElement("br"));
+							modifiedPre.appendChild(elementBuilder("br"));
 						}
 
 						function displayValue(key: string | null, value: any, indent: number, marking: any) {
@@ -146,10 +146,10 @@
 
 							let display: Element, shouldMark: boolean;
 							if (key) {
-								display = document.newElement({ type: "span", text: `${getIndent(indent)}"${key}": ${marks ? `"${value}"` : value},` });
+								display = elementBuilder({ type: "span", text: `${getIndent(indent)}"${key}": ${marks ? `"${value}"` : value},` });
 								shouldMark = marking === true || key in marking || "*" in marking;
 							} else {
-								display = document.newElement({ type: "span", text: `${getIndent(indent)}${marks ? `"${value}"` : value},` });
+								display = elementBuilder({ type: "span", text: `${getIndent(indent)}${marks ? `"${value}"` : value},` });
 								shouldMark = marking;
 							}
 							if (shouldMark) display.classList.add("used");
@@ -159,8 +159,8 @@
 				}
 
 				function createTabs() {
-					const original = document.newElement({ type: "div", class: "response-tab", text: "Original" });
-					const modified = document.newElement({ type: "div", class: "response-tab active", text: "Modified" });
+					const original = elementBuilder({ type: "div", class: "response-tab", text: "Original" });
+					const modified = elementBuilder({ type: "div", class: "response-tab active", text: "Modified" });
 
 					original.addEventListener("click", () => {
 						[original, originalPre].forEach((x) => x.classList.add("active"));
@@ -171,7 +171,7 @@
 						[original, originalPre].forEach((x) => x.classList.remove("active"));
 					});
 
-					responseElement.insertBefore(document.newElement({ type: "div", class: "response-tabs", children: [original, modified] }), modifiedPre);
+					responseElement.insertBefore(elementBuilder({ type: "div", class: "response-tabs", children: [original, modified] }), modifiedPre);
 				}
 			}).observe(result, { childList: true });
 		}

@@ -15,7 +15,7 @@
 	function initialiseListener() {
 		new MutationObserver(() => {
 			if (feature.enabled()) addFilter();
-		}).observe(document.find(".content-wrapper"), { childList: true });
+		}).observe(document.querySelector(".content-wrapper"), { childList: true });
 	}
 
 	async function addFilter() {
@@ -24,11 +24,11 @@
 		if (findContainer("Bounty Filter")) return;
 		await requireElement(".bounties-list > li > ul > li .reward");
 		const { options } = createContainer("Bounty Filter", {
-			previousElement: document.find(".bounties-wrap .bounties-total"),
+			previousElement: document.querySelector(".bounties-wrap .bounties-total"),
 			onlyHeader: true,
 			applyRounding: false,
 		});
-		const maxLevelInput = document.newElement({
+		const maxLevelInput = elementBuilder({
 			type: "input",
 			attributes: {
 				type: "number",
@@ -40,7 +40,7 @@
 		options.appendChild(cbHideUnavailable.element);
 		options.appendChild(maxLevelInput);
 		options.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "span",
 				text: "Max Level",
 			})
@@ -48,7 +48,7 @@
 		let statistics;
 		if (!device.mobile && !device.tablet) {
 			statistics = createStatistics("rows", true, true);
-			options.parentElement.find(".title .text").appendChild(statistics.element);
+			options.parentElement.querySelector(".title .text").appendChild(statistics.element);
 		}
 
 		// Setup saved filters
@@ -76,13 +76,13 @@
 				},
 			});
 
-			const list = document.find(".bounties-list");
-			for (const bounty of [...list.findAll(":scope > li[data-id]")]) {
-				if (maxLevel > 0 && parseInt(bounty.find(".level").lastChild.textContent) > maxLevel) {
+			const list = document.querySelector(".bounties-list");
+			for (const bounty of findAllElements(":scope > li[data-id]", list)) {
+				if (maxLevel > 0 && parseInt(bounty.querySelector(".level").lastChild.textContent) > maxLevel) {
 					hideBounty(bounty);
 					continue;
 				} else showBounty(bounty);
-				if (hideUnavailable && bounty.find(".user-red-status, .user-blue-status")) {
+				if (hideUnavailable && bounty.querySelector(".user-red-status, .user-blue-status")) {
 					hideBounty(bounty);
 					// noinspection UnnecessaryContinueJS
 					continue;
@@ -92,9 +92,9 @@
 			list.classList.add("tt-filtered");
 			if (!device.mobile && !device.tablet)
 				statistics.updateStatistics(
-					document.findAll(".bounties-list > li[data-id]:not(.tt-hidden)").length,
-					document.findAll(".bounties-list > li[data-id]").length,
-					options.parentElement.find(".title .text")
+					findAllElements(".bounties-list > li[data-id]:not(.tt-hidden)").length,
+					findAllElements(".bounties-list > li[data-id]").length,
+					options.parentElement.querySelector(".title .text")
 				);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 
@@ -117,7 +117,7 @@
 	}
 
 	function removeFilter() {
-		document.findAll(".bounties-list > .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".bounties-list > .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 		removeContainer("Bounty Filter");
 	}
 })();

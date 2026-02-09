@@ -84,18 +84,18 @@
 		else if (higher > lower) outcome = "higher";
 		else outcome = "50/50";
 
-		const actions = document.find(".actions-wrap");
+		const actions = document.querySelector<HTMLElement>(".actions-wrap");
 		if (settings.pages.casino.highlowMovement) {
 			let action: string;
 			if (outcome === "lower" || outcome === "higher") action = outcome;
 			else if (outcome === "50/50") action = Math.random() < 0.5 ? "higher" : "lower";
 
 			actions.dataset.outcome = action;
-			document.find(".startGame").style.display = "none";
+			document.querySelector<HTMLElement>(".startGame").style.display = "none";
 		} else {
-			const element = actions.find(".tt-high-low");
+			const element = actions.querySelector(".tt-high-low");
 			if (element) element.textContent = outcome;
-			else actions.appendChild(document.newElement({ type: "span", class: "tt-high-low", text: capitalizeText(outcome) }));
+			else actions.appendChild(elementBuilder({ type: "span", class: "tt-high-low", text: capitalizeText(outcome) }));
 		}
 	}
 
@@ -116,12 +116,12 @@
 	function moveStart() {
 		if (!settings.pages.casino.highlowMovement) return;
 
-		const actionsWrap = document.find(".actions-wrap");
-		const actions = document.find(".actions");
-		const startButton = document.find(".startGame");
-		const lowButton = document.find(".low");
-		const highButton = document.find(".high");
-		const continueButton = document.find(".continue");
+		const actionsWrap = document.querySelector<HTMLElement>(".actions-wrap");
+		const actions = document.querySelector(".actions");
+		const startButton = document.querySelector<HTMLElement>(".startGame");
+		const lowButton = document.querySelector<HTMLElement>(".low");
+		const highButton = document.querySelector<HTMLElement>(".high");
+		const continueButton = document.querySelector<HTMLElement>(".continue");
 
 		actionsWrap.style.display = "block";
 		actions.appendChild(startButton);
@@ -145,11 +145,11 @@
 	}
 
 	function removeHelper() {
-		const actions = document.find(".actions-wrap");
+		const actions = document.querySelector<HTMLElement>(".actions-wrap");
 
 		if (actions) {
 			delete actions.dataset.outcome;
-			actions.find(".tt-high-low")?.remove();
+			actions.querySelector(".tt-high-low")?.remove();
 		}
 	}
 })();

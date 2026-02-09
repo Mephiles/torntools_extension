@@ -26,7 +26,7 @@
 
 			for (const mutation of mutations) {
 				const target = mutation.target as Element;
-				const checkbox = target.find<HTMLInputElement>(".tt-stat-checkbox");
+				const checkbox = target.querySelector<HTMLInputElement>(".tt-stat-checkbox");
 				if (!checkbox) continue;
 
 				const classList = target.classList;
@@ -61,10 +61,10 @@
 
 		const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
 
-		for (const stat of properties.findAll(":scope > li:not([class*='locked___']):not(.tt-modified)")) {
+		for (const stat of findAllElements(":scope > li:not([class*='locked___']):not(.tt-modified)", properties)) {
 			stat.classList.add("tt-modified");
 			stat.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "input",
 					class: "tt-stat-checkbox",
 					attributes: { type: "checkbox" },
@@ -76,14 +76,14 @@
 				})
 			);
 
-			const name = stat.find("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
+			const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
 
 			if (filters.gym[name]) toggleStat(stat, false);
 		}
 
 		function toggleStat(stat: Element, save = true) {
-			const checkbox = stat.find<HTMLInputElement>(".tt-stat-checkbox");
-			const button = stat.find<HTMLButtonElement>(".torn-btn");
+			const checkbox = stat.querySelector<HTMLInputElement>(".tt-stat-checkbox");
+			const button = stat.querySelector<HTMLButtonElement>(".torn-btn");
 
 			const isLocked = stat.classList.toggle("tt-gym-locked");
 
@@ -92,7 +92,7 @@
 			checkbox.checked = isLocked;
 
 			if (save) {
-				const name = stat.find("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
+				const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
 
 				ttStorage.change({ filters: { gym: { [name]: isLocked } } });
 			}
@@ -100,8 +100,8 @@
 	}
 
 	function dispose() {
-		for (const checkbox of document.findAll(".tt-stat-checkbox")) checkbox.remove();
-		for (const stat of document.findAll(".tt-gym-locked, #gymroot ul[class*='properties___'] > li.tt-modified"))
+		for (const checkbox of findAllElements(".tt-stat-checkbox")) checkbox.remove();
+		for (const stat of findAllElements(".tt-gym-locked, #gymroot ul[class*='properties___'] > li.tt-modified"))
 			stat.classList.remove(".tt-gym-locked", "tt-modified");
 	}
 })();

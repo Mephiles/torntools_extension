@@ -12,99 +12,46 @@ const SCRIPT_TYPE = (() => {
 	}
 })();
 
-Object.defineProperty(Array.prototype, "last", {
-	value() {
-		return this[this.length - 1];
-	},
-	enumerable: false,
-});
-Object.defineProperty(Array.prototype, "insertAt", {
-	value(index: number, ...elements: any[]) {
-		this.splice(index, 0, ...elements);
-	},
-	enumerable: false,
-});
-Object.defineProperty(Array.prototype, "totalSum", {
-	value() {
-		return this.reduce((a: any, b: any) => a + b, 0);
-	},
-	enumerable: false,
-});
-Object.defineProperty(Array.prototype, "findHighest", {
-	value() {
-		return this.reduce((a: any, b: any) => Math.max(a, b), 0);
-	},
-	enumerable: false,
-});
-Object.defineProperty(Array.prototype, "findLowest", {
-	value() {
-		return this.reduce((a: any, b: any) => Math.min(a, b));
-	},
-	enumerable: false,
-});
-Object.defineProperty(Array.prototype, "equals", {
-	value(other: unknown[]) {
-		if (!other) return false;
+function arraysEquals(a1: unknown[], a2: unknown[]) {
+	if (a1.length !== a2.length) return false;
 
-		if (this.length !== other.length) return false;
-
-		for (let i = 0; i < this.length; i++) {
-			if (Array.isArray(this[i]) && Array.isArray(other[i])) {
-				if (!this[i].equals(other[i])) return false;
-			} else if (this[i] instanceof Object && other[i] instanceof Object) {
-				if (!this[i].equals(other[i])) return false;
-			} else if (this[i] !== other[i]) {
-				return false;
-			}
+	for (let i = 0; i < a1.length; i++) {
+		const x1 = a1[i];
+		const x2 = a2[i];
+		if (Array.isArray(x1) && Array.isArray(x2)) {
+			if (!arraysEquals(x1, x2)) return false;
+		} else if (typeof x1 === "object" && typeof x2 === "object") {
+			if (!objectsEquals(x1 as object, x2 as object)) return false;
+		} else if (x1 !== x2) {
+			return false;
 		}
-		return true;
-	},
-	enumerable: false,
-});
-
-if (!Array.prototype.flat)
-	Object.defineProperty(Array.prototype, "flat", {
-		value(depth = 1) {
-			return this.reduce(
-				(flat: unknown[], toFlatten: any) => flat.concat(Array.isArray(toFlatten) && depth > 1 ? toFlatten.flat(depth - 1) : toFlatten),
-				[]
-			);
-		},
-		enumerable: false,
-	});
-
-Object.defineProperty(Object.prototype, "equals", {
-	value(other: object) {
-		for (const property in this) {
-			if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
-			else if (typeof this[property] !== typeof other[property]) return false;
-		}
-		for (const property in other) {
-			if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
-			else if (typeof this[property] !== typeof other[property]) return false;
-
-			if (!this.hasOwnProperty(property)) continue;
-
-			if (Array.isArray(this[property]) && Array.isArray(other[property])) {
-				if (!this[property].equals(other[property])) return false;
-			} else if (this[property] instanceof Object && this[property] instanceof Object) {
-				if (!this[property].equals(other[property])) return false;
-			} else if (this[property] !== other[property]) return false;
-		}
-
-		return true;
-	},
-	enumerable: false,
-});
-
-JSON.isValid = (str) => {
-	try {
-		JSON.parse(str);
-		return true;
-	} catch {
-		return false;
 	}
-};
+	return true;
+}
+
+function objectsEquals(o1: object, o2: object) {
+	for (const property in o1) {
+		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		else if (typeof o1[property] !== typeof o2[property]) return false;
+	}
+	for (const property in o2) {
+		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		else if (typeof o1[property] !== typeof o2[property]) return false;
+
+		if (!o1.hasOwnProperty(property)) continue;
+
+		const x1 = o1[property];
+		const x2 = o2[property];
+
+		if (Array.isArray(x1) && Array.isArray(x2)) {
+			if (!arraysEquals(x1, x2)) return false;
+		} else if (typeof x1 === "object" && typeof x2 === "object") {
+			if (!objectsEquals(x1, x2)) return false;
+		} else if (x1 !== x2) return false;
+	}
+
+	return true;
+}
 
 function sleep(millis: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, millis));
@@ -272,7 +219,7 @@ function toClipboard(text: string) {
 	if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 		navigator.clipboard.writeText(text).then(() => {});
 	} else {
-		const textarea = document.newElement({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });
+		const textarea = elementBuilder({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });
 		document.body.appendChild(textarea);
 
 		textarea.select();

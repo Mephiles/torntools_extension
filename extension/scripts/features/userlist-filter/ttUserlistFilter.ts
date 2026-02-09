@@ -37,7 +37,7 @@
 
 		const { content } = createContainer("Userlist Filter", {
 			class: "mt10",
-			nextElement: document.find(".users-list-title"),
+			nextElement: document.querySelector(".users-list-title"),
 			compact: true,
 			filter: true,
 		});
@@ -46,7 +46,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -123,12 +123,18 @@
 
 	async function filtering() {
 		await requireElement(".user-info-list-wrap");
-		await requireCondition(
-			() =>
-				!document.find(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader") ||
-				document.find(".userlist-wrapper div=No users found"),
-			{}
-		);
+		await requireCondition(() => {
+			return (
+				!document.querySelector(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader") ||
+				document.evaluate(
+					"//*[contains(@class, 'userlist-wrapper')][.//*[contains(text(), 'No users found')]]",
+					document,
+					null,
+					XPathResult.FIRST_ORDERED_NODE_TYPE,
+					null
+				).singleNodeValue
+			);
+		}, {});
 
 		const content = findContainer("Userlist Filter", { selector: "main" });
 		const activity: string[] = localFilters["Activity"].getSelections(content);
@@ -160,15 +166,15 @@
 		});
 
 		// Actual Filtering
-		for (const li of document.findAll(".user-info-list-wrap > li")) {
+		for (const li of findAllElements(".user-info-list-wrap > li")) {
 			filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Userlist Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-			document.findAll(".user-info-list-wrap > li").length,
+			findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
+			findAllElements(".user-info-list-wrap > li").length,
 			content
 		);
 	}
@@ -185,7 +191,7 @@
 	}
 
 	function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individual: boolean) {
-		if (row.find(".ajax-preloader")) return;
+		if (row.querySelector(".ajax-preloader")) return;
 
 		if (filters.activity) {
 			if (
@@ -194,7 +200,7 @@
 					(x) =>
 						x.trim() ===
 						row
-							.find("#iconTray li")
+							.querySelector("#iconTray li")
 							.getAttribute("title")
 							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
 							.toLowerCase()
@@ -255,7 +261,7 @@
 			}
 		}
 		if (filters.level) {
-			const level = parseInt(row.find(".level .value").textContent);
+			const level = parseInt(row.querySelector(".level .value").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;
@@ -285,8 +291,8 @@
 				const content = findContainer("Userlist Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-					document.findAll(".user-info-list-wrap > li").length,
+					findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
+					findAllElements(".user-info-list-wrap > li").length,
 					content
 				);
 			}
@@ -304,8 +310,8 @@
 				const content = findContainer("Userlist Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-					document.findAll(".user-info-list-wrap > li").length,
+					findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
+					findAllElements(".user-info-list-wrap > li").length,
 					content
 				);
 			}
@@ -314,6 +320,6 @@
 
 	function removeFilters() {
 		removeContainer("Userlist Filter");
-		document.findAll(".user-info-list-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".user-info-list-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

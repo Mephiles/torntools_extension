@@ -17,20 +17,20 @@
 	function initialiseListener() {
 		new MutationObserver(() => {
 			if (feature.enabled()) addPropertyHappiness();
-		}).observe(document.find("#properties-page-wrap"), { childList: true });
+		}).observe(document.querySelector("#properties-page-wrap"), { childList: true });
 	}
 
 	async function addPropertyHappiness() {
 		await requireElement("#properties-page-wrap .properties-list .title");
 
-		for (const property of document.findAll(".properties-list > li:not(.clear)")) {
+		for (const property of findAllElements(".properties-list > li:not(.clear)")) {
 			if (property.classList.contains("tt-modified")) return;
 
-			const propertyID = parseInt(property.find(".image-place").dataset.id);
+			const propertyID = parseInt(property.querySelector<HTMLElement>(".image-place").dataset.id);
 			property.classList.add("tt-modified");
-			property.find(".image-description").insertAdjacentElement(
+			property.querySelector(".image-description").insertAdjacentElement(
 				"beforeend",
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-property-happiness",
 					text: `Happy: ${formatNumber(userdata.properties[propertyID]?.happy ?? 100)}`,
@@ -40,7 +40,7 @@
 	}
 
 	function removeValues() {
-		document.findAll(".tt-property-happiness").forEach((x) => x.remove());
-		document.findAll(".properties-list > li.tt-modified").forEach((x) => x.classList.remove("tt-modified"));
+		findAllElements(".tt-property-happiness").forEach((x) => x.remove());
+		findAllElements(".properties-list > li.tt-modified").forEach((x) => x.classList.remove("tt-modified"));
 	}
 })();

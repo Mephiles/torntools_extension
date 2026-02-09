@@ -32,7 +32,7 @@
 	}
 
 	function startFeature() {
-		if (isInternal && !document.find(".faction-description, .members-list, .announcement")) return;
+		if (isInternal && !document.querySelector(".faction-description, .members-list, .announcement")) return;
 
 		foldInfobox();
 	}
@@ -43,7 +43,7 @@
 		if (isInternal) {
 			if (getFactionSubpage() === "info") {
 				title = await requireElement(".faction-title");
-				description = document.find(".faction-description");
+				description = document.querySelector(".faction-description");
 				key = "faction_description_fold";
 			} else {
 				title = await requireElement("#faction-main [data-title='announcement'][role='heading']");
@@ -52,7 +52,7 @@
 			}
 		} else {
 			title = await requireElement(".faction-title");
-			description = document.find(".faction-description");
+			description = document.querySelector(".faction-description");
 			key = "faction_description_fold";
 		}
 		if (!title || !description || !key) return;
@@ -61,7 +61,7 @@
 		title.classList.add("tt-foldable-infobox");
 		description.classList.add("tt-foldable");
 
-		const arrow = document.newElement({ type: "i", class: "tt-collapse-infobox fa-solid" });
+		const arrow = elementBuilder({ type: "i", class: "tt-collapse-infobox fa-solid" });
 
 		title.appendChild(arrow);
 
@@ -97,8 +97,8 @@
 	}
 
 	function removeFull() {
-		for (const arrow of document.findAll(".tt-collapse-infobox")) arrow.remove();
-		for (const title of document.findAll(".tt-foldable-infobox")) title.classList.remove("tt-foldable-infobox");
-		for (const foldable of document.findAll(".tt-foldable, .folded")) foldable.classList.remove("tt-foldable", "folded");
+		for (const arrow of findAllElements(".tt-collapse-infobox")) arrow.remove();
+		for (const title of findAllElements(".tt-foldable-infobox")) title.classList.remove("tt-foldable-infobox");
+		for (const foldable of findAllElements(".tt-foldable, .folded")) foldable.classList.remove("tt-foldable", "folded");
 	}
 })();

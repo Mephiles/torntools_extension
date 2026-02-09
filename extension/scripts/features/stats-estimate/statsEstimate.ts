@@ -61,7 +61,7 @@ class StatsEstimate {
 		hasFilter: boolean = false,
 		placement?: (row: HTMLElement) => HTMLElement
 	) {
-		for (const row of document.findAll(selector)) {
+		for (const row of findAllElements(selector)) {
 			if ((row.classList.contains("tt-hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
 
 			const request = handler(row);
@@ -73,7 +73,7 @@ class StatsEstimate {
 
 			row.classList.add("tt-estimated");
 
-			const section = document.newElement({ type: "div", class: "tt-stats-estimate" });
+			const section = elementBuilder({ type: "div", class: "tt-stats-estimate" });
 			const parent = placement ? (placement(row) ?? row) : row;
 			new Promise<void>((resolve) => {
 				parent.insertAdjacentElement("afterend", section);
@@ -222,7 +222,7 @@ class StatsEstimate {
 	cacheResult(id: number, estimate: string, lastAction: number) {
 		let days = 7;
 
-		if (estimate === (RANK_TRIGGERS.stats as unknown as string[]).last()) days = 31;
+		if (estimate === (RANK_TRIGGERS.stats as unknown as string[]).at(-1)) days = 31;
 		else if (lastAction && lastAction <= Date.now() - TO_MILLIS.DAYS * 180) days = 31;
 		else if (estimate === "N/A") days = 1;
 

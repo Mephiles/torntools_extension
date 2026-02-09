@@ -342,8 +342,8 @@
 			},
 		};
 
-		for (const context of document.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
-			const title = (context.find(".title-black").childNodes[0] as Text).wholeText.replace(/\n/g, "").trim();
+		for (const context of findAllElements(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
+			const title = (context.querySelector(".title-black").childNodes[0] as Text).wholeText.replace(/\n/g, "").trim();
 
 			const key = transformTitle(title);
 			let task: string, hint: HTMLElement | string | null;
@@ -351,7 +351,7 @@
 				const mission = MISSION_HINTS[key];
 
 				task = mission.task;
-				hint = mission.hint ? document.newElement({ type: "span", html: mission.hint }) : null;
+				hint = mission.hint ? elementBuilder({ type: "span", html: mission.hint }) : null;
 			} else {
 				if (title.includes("{name}")) {
 					task = "You are using a conflicting script.";
@@ -363,17 +363,14 @@
 			}
 
 			let children = [
-				document.newElement({ type: "h6", class: "tt-mission-title", text: "TornTools Mission Information" }),
-				document.newElement({ type: "span", children: [document.newElement({ type: "b", text: "Task: " }), task] }),
+				elementBuilder({ type: "h6", class: "tt-mission-title", text: "TornTools Mission Information" }),
+				elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Task: " }), task] }),
 			];
 			if (hint) {
-				children.push(
-					document.newElement("br"),
-					document.newElement({ type: "span", children: [document.newElement({ type: "b", text: "Hint: " }), hint] })
-				);
+				children.push(elementBuilder("br"), elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Hint: " }), hint] }));
 			}
 
-			context.find(".max-height-fix").appendChild(document.newElement({ type: "div", class: "tt-mission-information", children }));
+			context.querySelector(".max-height-fix").appendChild(elementBuilder({ type: "div", class: "tt-mission-information", children }));
 			context.classList.add("tt-modified");
 		}
 
@@ -383,7 +380,7 @@
 	}
 
 	function removeHints() {
-		for (const context of document.findAll(".giver-cont-wrap > div[id^=mission].tt-modified")) context.classList.remove(".tt-modified");
-		for (const information of document.findAll(".tt-mission-information")) information.remove();
+		for (const context of findAllElements(".giver-cont-wrap > div[id^=mission].tt-modified")) context.classList.remove(".tt-modified");
+		for (const information of findAllElements(".tt-mission-information")) information.remove();
 	}
 })();

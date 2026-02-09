@@ -72,21 +72,23 @@
 			let entries: HTMLElement;
 			if (mobile || tablet) {
 				const sideColor = side === "attacker" ? "green___" : "rose___";
-				entries = document.find(`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`);
+				entries = document.querySelector(
+					`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`
+				);
 			} else {
 				if (side === "attacker")
-					entries = document.find("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']");
+					entries = document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']");
 				else if (side === "defender")
-					entries = document.find("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']");
+					entries = document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']");
 			}
 
 			entries.classList.add("tt-stats-estimate-attacks-wrapper");
-			entries.insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "tt-stats-estimate-attacks", text }));
+			entries.insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "tt-stats-estimate-attacks", text }));
 		}
 	}
 
 	function removeEstimate() {
-		document.findAll(".tt-stats-estimate-attacks").forEach((estimate) => estimate.remove());
-		document.findAll(".tt-stats-estimate-attacks-wrapper").forEach((wrapper) => wrapper.classList.remove("tt-stats-estimate-attacks-wrapper"));
+		findAllElements(".tt-stats-estimate-attacks").forEach((estimate) => estimate.remove());
+		findAllElements(".tt-stats-estimate-attacks-wrapper").forEach((wrapper) => wrapper.classList.remove("tt-stats-estimate-attacks-wrapper"));
 	}
 })();

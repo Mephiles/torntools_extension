@@ -34,10 +34,10 @@
 		const details = await readFactionDetails();
 		if (!details) throw new Error("Faction ID could not be found.");
 
-		container.appendChild(document.newElement({ type: "span", text: ` [${details.id}]`, id: "tt-faction-id" }));
+		container.appendChild(elementBuilder({ type: "span", text: ` [${details.id}]`, id: "tt-faction-id" }));
 	}
 
 	function removeID() {
-		document.findAll("#tt-faction-id").forEach((element) => element.remove());
+		findAllElements("#tt-faction-id").forEach((element) => element.remove());
 	}
 })();

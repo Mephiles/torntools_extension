@@ -16,7 +16,7 @@ function createTextbox(partialOptions: Partial<TextboxOptions> = {}) {
 		...partialOptions,
 	};
 
-	const textbox = document.newElement({
+	const textbox = elementBuilder({
 		type: "input",
 		class: "tt-textbox",
 		id: options.id,
@@ -26,15 +26,15 @@ function createTextbox(partialOptions: Partial<TextboxOptions> = {}) {
 
 	let element: HTMLElement;
 	if (options.description) {
-		element = document.newElement({ type: "div", class: "tt-textbox-wrapper" });
+		element = elementBuilder({ type: "div", class: "tt-textbox-wrapper" });
 
 		if (typeof options.description === "string") {
-			element.appendChild(document.newElement({ type: "label", text: options.description, attributes: { for: options.id } }));
+			element.appendChild(elementBuilder({ type: "label", text: options.description, attributes: { for: options.id } }));
 			element.appendChild(textbox);
 		} else {
-			element.appendChild(document.newElement({ type: "label", text: options.description.before, attributes: { for: options.id } }));
+			element.appendChild(elementBuilder({ type: "label", text: options.description.before, attributes: { for: options.id } }));
 			element.appendChild(textbox);
-			element.appendChild(document.newElement({ type: "label", text: options.description.after, attributes: { for: options.id } }));
+			element.appendChild(elementBuilder({ type: "label", text: options.description.after, attributes: { for: options.id } }));
 		}
 	} else {
 		element = textbox;

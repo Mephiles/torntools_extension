@@ -114,7 +114,7 @@
 		let newMainStat1 = mainStat1;
 		let newMainStat2 = mainStat2;
 
-		const otherStatsSum = otherStats.totalSum();
+		const otherStatsSum = otherStats.reduce((a, b) => a + b, 0);
 
 		if (otherStatsSum * 1.25 > newMainStat1 + newMainStat2) {
 			const extra = otherStatsSum * 1.25 - newMainStat1 - newMainStat2;
@@ -430,15 +430,15 @@
 	type StatsWatcher = ReturnType<typeof createStatsWatcher>;
 
 	function createStatAllowedElement(result: SuccessSpecialGymsCalcResult, statName: BATTLE_STAT) {
-		return document.newElement({
+		return elementBuilder({
 			type: "div",
 			class: "tt-specialist-stat-allowed",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					text: "Allowed: ",
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					text: formatNumber(result.missing[statName] + result.available[statName]),
 				}),
@@ -447,15 +447,15 @@
 	}
 
 	function createStatRequiredElement(result: SuccessSpecialGymsCalcResult, statName: BATTLE_STAT) {
-		return document.newElement({
+		return elementBuilder({
 			type: "div",
 			class: "tt-specialist-stat-required",
 			children: [
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					text: "Required: ",
 				}),
-				document.newElement({
+				elementBuilder({
 					type: "span",
 					text: formatNumber(result.missing[statName]),
 				}),
@@ -490,13 +490,13 @@
 		const specialGymSelectTwo = createSelect(specialGymOptions);
 		specialGymSelectTwo.setSelected(filters.gym.specialist2);
 
-		const selectsContainer = document.newElement({
+		const selectsContainer = elementBuilder({
 			type: "div",
 			class: "tt-specialist-gym-selects-container",
 			children: [specialGymSelectOne.element, specialGymSelectTwo.element],
 		});
 
-		const infoContainer = document.newElement({
+		const infoContainer = elementBuilder({
 			type: "div",
 			class: "tt-specialist-gym-info-container",
 		});
@@ -508,21 +508,21 @@
 			infoContainer.innerHTML = "";
 
 			if (result.type === NONE) {
-				const resultDesc = document.newElement({
+				const resultDesc = elementBuilder({
 					type: "div",
 					class: "tt-specialist-gyms-message",
 					text: "No special gyms were selected.",
 				});
 				infoContainer.appendChild(resultDesc);
 			} else if (result.type === "impossible") {
-				const resultDesc = document.newElement({
+				const resultDesc = elementBuilder({
 					type: "div",
 					class: "tt-specialist-gyms-message",
 					text: "This combination of specialist gyms is impossible.",
 				});
 				infoContainer.appendChild(resultDesc);
 			} else {
-				const statsInfo = document.newElement({
+				const statsInfo = elementBuilder({
 					type: "div",
 					class: "tt-specialist-stats-info",
 				});
@@ -532,16 +532,16 @@
 					const statValue = stats[statName] + result.missing[statName];
 
 					statsInfo.appendChild(
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "tt-specialist-stat-info",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "tt-specialist-stat-header",
 									text: statName,
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									class: "tt-specialist-stat-value",
 									text: formatNumber(statValue),

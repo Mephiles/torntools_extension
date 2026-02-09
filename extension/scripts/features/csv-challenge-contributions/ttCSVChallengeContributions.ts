@@ -25,16 +25,16 @@
 		if (!location.hash.includes("tab=upgrades")) return;
 
 		const descriptionWrap = await requireElement("#factions #faction-upgrades .body #stu-confirmation .description-wrap");
-		const contributionsWrap = descriptionWrap.find(".contributions-wrap");
+		const contributionsWrap = descriptionWrap.querySelector(".contributions-wrap");
 		if (!contributionsWrap) return;
 
-		const exportButtonDiv = document.newElement({
+		const exportButtonDiv = elementBuilder({
 			type: "div",
 			id: "ttExportButton",
 			children: [
-				document.newElement({ type: "i", class: "fa-solid fa-table" }),
-				document.newElement({ type: "span", class: "text", text: "CSV" }),
-				document.newElement({ type: "a", id: "ttExportLink" }),
+				elementBuilder({ type: "i", class: "fa-solid fa-table" }),
+				elementBuilder({ type: "span", class: "text", text: "CSV" }),
+				elementBuilder({ type: "a", id: "ttExportLink" }),
 			],
 		});
 		createContainer("Export Challenge Contributions", {
@@ -43,19 +43,19 @@
 			applyRounding: false,
 			collapsible: false,
 		}).options.appendChild(exportButtonDiv);
-		descriptionWrap.find("#ttExportButton").addEventListener("click", () => {
-			const upgradeName = descriptionWrap.find("[role='alert'] .name").textContent;
+		descriptionWrap.querySelector("#ttExportButton").addEventListener("click", () => {
+			const upgradeName = descriptionWrap.querySelector("[role='alert'] .name").textContent;
 
-			const csv = new CSVExport(`${upgradeName} Contributors`, descriptionWrap.find("#ttExportButton #ttExportLink"));
+			const csv = new CSVExport(`${upgradeName} Contributors`, descriptionWrap.querySelector("#ttExportButton #ttExportLink"));
 			csv.append(upgradeName);
 			csv.append("Number", "Name", "Profile Link", "Ex Member", "Contributions");
 
-			for (const row of contributionsWrap.findAll(".flexslides li:not(.slide)")) {
-				const link = row.find(".player a");
+			for (const row of findAllElements(".flexslides li:not(.slide)", contributionsWrap)) {
+				const link = row.querySelector<HTMLAnchorElement>(".player a");
 				const name = link.getAttribute("aria-label");
 
 				csv.append(
-					row.find(".numb").textContent,
+					row.querySelector(".numb").textContent,
 					name.match(/.*(?= \()/)[0],
 					link.href,
 					row.classList.contains("ex-member") ? "Yes" : "No",

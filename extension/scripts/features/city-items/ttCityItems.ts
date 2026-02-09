@@ -30,7 +30,7 @@
 		hasContainer = true;
 
 		// Show container
-		const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.find("#tab-menu") });
+		const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
 
 		const items = getAllItems();
 		handleHighlight();
@@ -41,7 +41,7 @@
 		function getAllItems() {
 			const items: CityItem[] = [];
 
-			for (const marker of document.findAll<HTMLImageElement>("#map .leaflet-marker-icon[src*='/images/items/']")) {
+			for (const marker of findAllElements<HTMLImageElement>("#map .leaflet-marker-icon[src*='/images/items/']")) {
 				const id = marker.src.split("items/")[1].split("/")[0];
 
 				marker.classList.add("city-item");
@@ -76,7 +76,7 @@
 			options.appendChild(checkbox.element);
 
 			function highlight(state: boolean) {
-				const map = document.find("#map");
+				const map = document.querySelector("#map");
 
 				if (state) map.classList.add("highlight-items");
 				else map.classList.remove("highlight-items");
@@ -89,23 +89,23 @@
 				.filter((item) => !!item)
 				.map(({ market_value: value, count }) => value * count)
 				.filter((value) => !!value)
-				.totalSum();
-			const itemCount = items.map(({ count }) => count).totalSum();
+				.reduce((a, b) => a + b, 0);
+			const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
 
 			content.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "div",
 					class: "tt-city-total",
 					children: [
-						document.newElement({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
-						document.newElement({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
+						elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
+						elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
 					],
 				})
 			);
 		}
 
 		function showItemList() {
-			const listElement = document.newElement({ type: "div", class: "tt-city-items hide-collapse" });
+			const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
 
 			const type = "text";
 			switch (type) {
@@ -119,13 +119,13 @@
 			function generateText() {
 				let element: HTMLElement;
 				if (items.length > 0) {
-					const totalCount = items.map(({ count }) => count).totalSum();
-					element = document.newElement({
+					const totalCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
+					element = elementBuilder({
 						type: "p",
 						children: [
 							"There",
 							totalCount === 1 ? " is " : " are ",
-							document.newElement({ type: "strong", text: totalCount }),
+							elementBuilder({ type: "strong", text: totalCount }),
 							totalCount === 1 ? " item " : " items ",
 							"in the city: ",
 						],
@@ -149,7 +149,7 @@
 
 					element.appendChild(document.createTextNode("."));
 				} else {
-					element = document.newElement({ type: "p", text: "There are no items in the city." });
+					element = elementBuilder({ type: "p", text: "There are no items in the city." });
 				}
 				listElement.appendChild(element);
 
@@ -159,17 +159,17 @@
 						text = `${count}x ${name}`;
 					} else text = name;
 
-					return document.newElement({
+					return elementBuilder({
 						type: "span",
 						text,
 						events: {
 							mouseenter() {
-								for (const item of document.findAll(`.city-item[data-id="${id}"]`)) {
+								for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
 									item.classList.add("force-hover");
 								}
 							},
 							mouseleave() {
-								for (const item of document.findAll(`.city-item[data-id="${id}"].force-hover`)) {
+								for (const item of findAllElements(`.city-item[data-id="${id}"].force-hover`)) {
 									item.classList.remove("force-hover");
 								}
 							},
@@ -180,11 +180,11 @@
 		}
 
 		function handleSearchBox() {
-			const searchBox = document.newElement({
+			const searchBox = elementBuilder({
 				type: "label",
 				text: "Search:",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "input",
 						attributes: {
 							type: "text",
@@ -193,20 +193,20 @@
 						events: {
 							input: (e) => {
 								const query = (e.target as HTMLInputElement).value.toLowerCase();
-								for (const item of document.findAll(`.city-item.force-hover`)) {
+								for (const item of findAllElements(`.city-item.force-hover`)) {
 									item.classList.remove("force-hover");
 								}
-								if (content.previousElementSibling.find(".tt-checkbox-wrapper input:checked"))
-									document.find("#map").classList.add("highlight-items");
+								if (content.previousElementSibling.querySelector(".tt-checkbox-wrapper input:checked"))
+									document.querySelector("#map").classList.add("highlight-items");
 
 								if (!query.length) return;
 
 								const matchedItemIds = items.filter((item) => item.name.toLowerCase().includes(query)).map((item) => item.id);
 								for (const id of matchedItemIds)
-									for (const item of document.findAll(`.city-item[data-id="${id}"]`)) {
+									for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
 										item.classList.add("force-hover");
 									}
-								document.find("#map").classList.remove("highlight-items");
+								document.querySelector("#map").classList.remove("highlight-items");
 							},
 						},
 					}),
@@ -220,13 +220,13 @@
 	function removeHighlight() {
 		removeContainer("City Items");
 
-		for (const item of document.findAll(".city-item")) {
+		for (const item of findAllElements(".city-item")) {
 			item.classList.remove("city-item");
 
 			delete item.dataset.id;
 		}
 
-		const map = document.find("#map");
+		const map = document.querySelector("#map");
 		if (map) map.classList.remove("highlight-items");
 
 		hasContainer = false;

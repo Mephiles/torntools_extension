@@ -32,29 +32,29 @@
 	async function addNumbers(force: boolean) {
 		if (!force && isOwnFaction && getFactionSubpage() !== "info") return;
 
-		if (document.find(".tt-member-index")) return;
+		if (document.querySelector(".tt-member-index")) return;
 		await requireElement(".faction-info-wrap .table-body > .table-row");
 
-		const list = document.find(".faction-info-wrap .members-list");
+		const list = document.querySelector(".faction-info-wrap .members-list");
 		if (list.classList.contains("tt-modified")) return;
 		list.classList.add("tt-modified");
 
 		let reduced = 0;
-		list.findAll(".table-body > .table-row").forEach((row, index) => {
+		findAllElements(".table-body > .table-row", list).forEach((row, index) => {
 			let text: string;
-			if (row.find(".icons li[id*='icon77___']")) {
+			if (row.querySelector(".icons li[id*='icon77___']")) {
 				text = "-";
 				reduced++;
 			} else {
 				text = (index + 1 - reduced).toString();
 			}
 
-			row.insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "tt-member-index", text }));
+			row.insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "tt-member-index", text }));
 		});
 	}
 
 	function removeNumbers() {
-		document.findAll(".tt-member-index").forEach((element) => element.remove());
-		document.find(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
+		findAllElements(".tt-member-index").forEach((element) => element.remove());
+		document.querySelector(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
 	}
 })();

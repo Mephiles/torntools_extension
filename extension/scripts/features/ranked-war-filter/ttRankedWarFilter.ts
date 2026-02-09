@@ -17,7 +17,7 @@
 	function initialiseFilters() {
 		document.addEventListener("click", async (event) => {
 			const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
-			if (rankedWarItem && rankedWarItem.find(":scope > [data-warid]")) {
+			if (rankedWarItem && rankedWarItem.querySelector(":scope > [data-warid]")) {
 				addFilters(
 					(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war")
 				).catch(console.error);
@@ -73,7 +73,7 @@
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
-		const filterContent = document.newElement({
+		const filterContent = elementBuilder({
 			type: "div",
 			class: "content",
 		});
@@ -165,15 +165,15 @@
 		});
 
 		// Actual Filtering
-		for (const li of membersWrap.findAll(".members-list > li")) {
+		for (const li of findAllElements(".members-list > li", membersWrap)) {
 			filterRow(li, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Ranked War Filter" });
 
 		localFilters["Statistics"].updateStatistics(
-			membersWrap.findAll(".members-list > li:not(.tt-hidden)").length,
-			membersWrap.findAll(".members-list > li").length,
+			findAllElements(".members-list > li:not(.tt-hidden)", membersWrap).length,
+			findAllElements(".members-list > li", membersWrap).length,
 			content
 		);
 	}
@@ -190,14 +190,14 @@
 
 	function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individual: boolean) {
 		if (filters.activity) {
-			const activity = row.find("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+			const activity = row.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 				hide("activity");
 				return;
 			}
 		}
 		if (filters.status?.length) {
-			const statusElement = row.find(".status");
+			const statusElement = row.querySelector(".status");
 
 			if (!filters.status.some((s) => statusElement.classList.contains(s))) {
 				hide("status");
@@ -205,7 +205,7 @@
 			}
 		}
 		if (filters.level) {
-			const level = parseInt(row.find(".level").textContent);
+			const level = parseInt(row.querySelector(".level").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;
@@ -235,8 +235,8 @@
 				const content = findContainer("Ranked War Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
 					content
 				);
 			}
@@ -254,8 +254,8 @@
 				const content = findContainer("Ranked War Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
-					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
+					findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
 					content
 				);
 			}
@@ -264,6 +264,6 @@
 
 	function removeFilters() {
 		removeContainer("Ranked War Filter");
-		document.findAll(".faction-war[class*='membersWrap__'] .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		findAllElements(".faction-war[class*='membersWrap__'] .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

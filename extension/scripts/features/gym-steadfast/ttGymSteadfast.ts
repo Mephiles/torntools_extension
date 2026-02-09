@@ -51,49 +51,49 @@
 		Object.entries(bonus).forEach(([stat, values]) => {
 			const factionPerk = factionPerks.find((perk) => perk.includes(stat));
 			if (factionPerk) {
-				values.push({ source: "faction", value: factionPerk.getNumber() });
+				values.push({ source: "faction", value: convertToNumber(factionPerk) });
 			}
 
 			const jobPerk = jobPerks.filter((perk) => perk.includes(stat) || perk.match(/\+ [0-9]+% gym gains?/));
 			if (jobPerk.length) {
-				let totalJob = jobPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
+				let totalJob = jobPerk.map((perk) => 1 + convertToNumber(perk) / 100).reduce((total, value) => total * value, 1);
 				totalJob -= 1;
 				totalJob *= 100;
-				totalJob = totalJob.dropDecimals();
+				totalJob = dropDecimals(totalJob);
 
 				values.push({ source: "company", value: totalJob });
 			}
 
 			if (propertyPerk) {
-				values.push({ source: "property", value: propertyPerk.getNumber() });
+				values.push({ source: "property", value: convertToNumber(propertyPerk) });
 			}
 
 			const eductionPerk = eductionPerks.filter((perk) => perk.includes(stat) || perk.match(/\+ [0-9]+% gym gains?/));
 			if (eductionPerk.length) {
-				let totalEducation = eductionPerk.map((perk) => 1 + perk.getNumber() / 100).reduce((total, value) => total * value, 1);
+				let totalEducation = eductionPerk.map((perk) => 1 + convertToNumber(perk) / 100).reduce((total, value) => total * value, 1);
 				totalEducation -= 1;
 				totalEducation *= 100;
-				totalEducation = totalEducation.dropDecimals();
+				totalEducation = dropDecimals(totalEducation);
 
 				values.push({ source: "education", value: totalEducation });
 			}
 
 			if (bookPerk && (bookPerk.includes(" all ") || bookPerk.includes(stat))) {
-				values.push({ source: "book", value: bookPerk.getNumber() });
+				values.push({ source: "book", value: convertToNumber(bookPerk) });
 			}
 		});
 
 		const maxBonus = Object.values(bonus)
 			.map((x) => x.filter((y) => ["company", "faction"].includes(y.source)).length)
-			.findHighest();
+			.reduce((a, b) => Math.max(a, b), 0);
 
 		for (const [stat, perks] of Object.entries(bonus)) {
 			if (perks.length < 1) continue;
 
-			const box = properties.find(`[class*='${stat}___']`);
-			if (box.find(".tt-gym-steadfast")) continue;
+			const box = properties.querySelector(`[class*='${stat}___']`);
+			if (box.querySelector(".tt-gym-steadfast")) continue;
 
-			const parent = document.newElement({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
+			const parent = elementBuilder({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
 			box.insertBefore(parent, box.firstElementChild);
 
 			for (const perk of perks) {
@@ -110,7 +110,7 @@
 						continue;
 				}
 
-				parent.appendChild(document.newElement({ type: "span", text: `${title}: ${perk.value}%` }));
+				parent.appendChild(elementBuilder({ type: "span", text: `${title}: ${perk.value}%` }));
 			}
 
 			if (perks.length > 1) {
@@ -124,6 +124,6 @@
 	}
 
 	function removeSteadfast() {
-		for (const steadfast of document.findAll(".tt-gym-steadfast")) steadfast.remove();
+		for (const steadfast of findAllElements(".tt-gym-steadfast")) steadfast.remove();
 	}
 })();

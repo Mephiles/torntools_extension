@@ -31,7 +31,7 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showTimes();
 	}
@@ -39,8 +39,8 @@
 	function showTimes() {
 		let oldDate: boolean | string = false;
 
-		for (const crime of document.findAll(".organize-wrap .crimes-list > .item-wrap")) {
-			const details = crime.find(".details-wrap");
+		for (const crime of findAllElements(".organize-wrap .crimes-list > .item-wrap")) {
+			const details = crime.querySelector<HTMLElement>(".details-wrap");
 			if (!details) continue;
 
 			const id = details.dataset.crime;
@@ -51,7 +51,7 @@
 
 				const date = formatDate(finish);
 				if (oldDate !== date) {
-					crime.insertAdjacentElement("beforebegin", document.newElement({ type: "div", class: "tt-oc-time-date", text: date }));
+					crime.insertAdjacentElement("beforebegin", elementBuilder({ type: "div", class: "tt-oc-time-date", text: date }));
 					oldDate = date;
 				}
 
@@ -60,11 +60,11 @@
 				text = "N/A";
 			}
 
-			crime.find(".status").appendChild(document.newElement({ type: "span", class: "tt-oc-time", text }));
+			crime.querySelector(".status").appendChild(elementBuilder({ type: "span", class: "tt-oc-time", text }));
 		}
 	}
 
 	function removeTimes() {
-		for (const timer of document.findAll(".tt-oc-time")) timer.remove();
+		for (const timer of findAllElements(".tt-oc-time")) timer.remove();
 	}
 })();

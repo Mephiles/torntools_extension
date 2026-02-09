@@ -26,29 +26,29 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		showAvailable();
 	}
 
 	function showAvailable() {
-		if (document.find("div.plans-list.p10")) {
+		if (document.querySelector("div.plans-list.p10")) {
 			displayAvailable(0).then(() => {});
 		} else {
-			const list = document.find("ul.plans-list");
+			const list = document.querySelector("ul.plans-list");
 			if (!list) {
 				displayAvailable(-1).then(() => {});
 				return;
 			}
-			const members = list.findAll(".item").length;
+			const members = findAllElements(".item", list).length;
 
 			displayAvailable(members).then(() => {});
 		}
 
-		async function displayAvailable(amount) {
-			const crimes = document.find("#faction-crimes");
+		async function displayAvailable(amount: number) {
+			const crimes = document.querySelector("#faction-crimes");
 
-			let message;
+			let message: string;
 			if (amount === -1) {
 				message = "You don't have OC permissions.";
 			} else {
@@ -60,6 +60,6 @@
 	}
 
 	function removeAvailable() {
-		for (const available of document.findAll(".tt-available-players")) available.remove();
+		for (const available of findAllElements(".tt-available-players")) available.remove();
 	}
 })();

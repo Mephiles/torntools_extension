@@ -30,7 +30,7 @@
 		let countHiddenThread = 0;
 		let firstHiddenThread: HTMLElement;
 
-		const threads = document.findAll(".threads-list > li");
+		const threads = findAllElements(".threads-list > li");
 		for (let i = 0; i < threads.length; i++) {
 			const thread = threads[i];
 
@@ -41,9 +41,9 @@
 
 			const userId = getUsername(thread).id;
 
-			const threadLink = new URL(thread.find<HTMLAnchorElement>("a.thread-name").href);
+			const threadLink = new URL(thread.querySelector<HTMLAnchorElement>("a.thread-name").href);
 			const threadField = getHashParameters(threadLink.hash).get("t") ?? threadLink.searchParams.get("t");
-			const threadId = threadField.getNumber();
+			const threadId = convertToNumber(threadField);
 
 			const shouldHideThreads = settings.pages.forums.hideThreads[userId] || settings.pages.forums.ignoredThreads[threadId];
 			if (shouldHideThreads) {
@@ -61,7 +61,7 @@
 			if (countHiddenThread && (!shouldHideThreads || i === threads.length - 1)) {
 				firstHiddenThread.insertAdjacentElement(
 					"beforebegin",
-					document.newElement({
+					elementBuilder({
 						type: "li",
 						class: "tt-forums-hidden",
 						text: `${countHiddenThread} hidden thread${applyPlural(countHiddenThread)}`,
@@ -89,9 +89,9 @@
 		let countHiddenPost = 0;
 		let firstHiddenPost: HTMLElement;
 
-		const threadId = getHashParameters().get("t").getNumber();
+		const threadId = convertToNumber(getHashParameters().get("t"));
 
-		const posts = document.findAll(".thread-list > li");
+		const posts = findAllElements(".thread-list > li");
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 
@@ -99,10 +99,10 @@
 				post.remove();
 				continue;
 			}
-			post.find(".tt-forums-button")?.remove();
+			post.querySelector(".tt-forums-button")?.remove();
 
-			const userId = post.find(".poster-id").textContent.getNumber();
-			const userName = post.find(".poster-name").textContent;
+			const userId = convertToNumber(post.querySelector(".poster-id").textContent);
+			const userName = post.querySelector(".poster-name").textContent;
 
 			const shouldHidePosts = settings.pages.forums.hidePosts[userId];
 			if (shouldHidePosts) {
@@ -127,7 +127,7 @@
 			if (countHiddenPost && (!shouldHidePosts || i === posts.length - 1)) {
 				firstHiddenPost.insertAdjacentElement(
 					"beforebegin",
-					document.newElement({
+					elementBuilder({
 						type: "li",
 						class: "tt-forums-hidden",
 						text: `${countHiddenPost} hidden post${applyPlural(countHiddenPost)}`,
@@ -148,32 +148,32 @@
 			}
 
 			const name = `${userName}'${userName.endsWith("s") ? "" : "s"}`;
-			post.find(".action-wrap .right-part").insertAdjacentElement(
+			post.querySelector(".action-wrap .right-part").insertAdjacentElement(
 				"beforebegin",
-				document.newElement({
+				elementBuilder({
 					type: "li",
 					class: "tt-forums-button",
 					children: [
 						ttSvg(),
-						document.newElement({
+						elementBuilder({
 							type: "div",
 							class: "tt-forums-button-dropdown",
 							children: [
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: "Copy post for Discord",
 									events: {
 										click(event) {
-											const threadTitle = document.find("#topic-title").textContent.replaceAll("\u200B", "").trim();
-											const threadId = document.find(".subscribe").dataset.thread;
+											const threadTitle = document.querySelector("#topic-title").textContent.replaceAll("\u200B", "").trim();
+											const threadId = document.querySelector<HTMLElement>(".subscribe").dataset.thread;
 
 											const postId = post.dataset.id;
-											const date = post.find(".time-wrap > .created, .time-wrap > .posted").textContent;
+											const date = post.querySelector(".time-wrap > .created, .time-wrap > .posted").textContent;
 
 											let likes: string, dislikes: string;
-											if (!post.find(".rating-results-pending")) {
-												likes = post.find(".like > .value").textContent.trim();
-												dislikes = post.find(".dislike > .value").textContent.trim();
+											if (!post.querySelector(".rating-results-pending")) {
+												likes = post.querySelector(".like > .value").textContent.trim();
+												dislikes = post.querySelector(".dislike > .value").textContent.trim();
 											} else {
 												likes = "N/A";
 												dislikes = "N/A";
@@ -181,15 +181,15 @@
 
 											let quotesContent = "";
 											let prefix = "> ";
-											for (const quote of post.findAll(".post-quote")) {
-												const author = quote.find(":scope > .author-quote a").innerText;
-												const content = quote.find(":scope > .quote-post > .quote-post-content").innerText;
+											for (const quote of findAllElements(".post-quote", post)) {
+												const author = quote.querySelector<HTMLElement>(":scope > .author-quote a").innerText;
+												const content = quote.querySelector<HTMLElement>(":scope > .quote-post > .quote-post-content").innerText;
 
 												quotesContent = `${prefix} ${author}:\n${content.replace(/^/gm, prefix)}\n${quotesContent}`;
 												prefix = `> ${prefix}`;
 											}
 
-											let postContent = post.find(".post-container .post").textContent;
+											let postContent = post.querySelector(".post-container .post").textContent;
 
 											// Replace emoticons
 											const emoticonRegex = /\[img].*?emotions\/(\w+).*?\[\/img]/gs;
@@ -263,7 +263,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.hideThreads[userId] ? "Show" : "Hide"} ${name} threads`,
 									events: {
@@ -279,7 +279,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${shouldHidePosts ? "Show" : "Hide"} ${name} posts`,
 									events: {
@@ -295,7 +295,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.highlightThreads[userId] ? "Unhighlight" : "Highlight"} ${name} threads`,
 									events: {
@@ -311,7 +311,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.highlightPosts[userId] ? "Unhighlight" : "Highlight"} ${name} posts`,
 									events: {
@@ -327,7 +327,7 @@
 										},
 									},
 								}),
-								document.newElement({
+								elementBuilder({
 									type: "div",
 									text: `${settings.pages.forums.ignoredThreads[threadId] ? "Unignore" : "Ignore"} this entire thread`,
 									events: {

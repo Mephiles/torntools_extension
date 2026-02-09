@@ -30,7 +30,7 @@
 		const userCrime = "userCrime" in factiondata ? factiondata.userCrime : userdata.userCrime;
 		const timeLeft = userCrime - Date.now();
 
-		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
+		const timeLeftElement = elementBuilder({ type: "span", class: "countdown" });
 		if (userCrime === -1) {
 			timeLeftElement.textContent = "No active OC.";
 		} else {
@@ -49,18 +49,18 @@
 			}
 		}
 
-		document.find(".tt-sidebar-information").appendChild(
-			document.newElement({
+		document.querySelector(".tt-sidebar-information").appendChild(
+			elementBuilder({
 				type: "section",
 				id: "ocTimer",
-				children: [document.newElement({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), timeLeftElement],
+				children: [elementBuilder({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), timeLeftElement],
 				style: { order: "1" },
 			})
 		);
 	}
 
 	function removeTimer() {
-		const timer = document.find("#ocTimer");
+		const timer = document.querySelector("#ocTimer");
 		if (timer) timer.remove();
 	}
 

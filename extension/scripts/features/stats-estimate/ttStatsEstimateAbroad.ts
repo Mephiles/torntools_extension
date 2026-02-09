@@ -33,7 +33,7 @@
 
 	async function startFeature() {
 		if (settings.pages.travel.peopleFilter) {
-			const list = document.find(".user-info-list-wrap");
+			const list = document.querySelector(".user-info-list-wrap");
 			if (!list) return;
 		}
 
@@ -47,8 +47,8 @@
 		statsEstimate.showEstimates(
 			".users-list > li",
 			(row) => ({
-				id: parseInt(row.find<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-				level: parseInt(row.find(".level").textContent),
+				id: parseInt(row.querySelector<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+				level: parseInt(row.querySelector(".level").textContent),
 			}),
 			true
 		);
@@ -56,6 +56,6 @@
 
 	function removeEstimates() {
 		statsEstimate.clearQueue();
-		document.findAll(".tt-stats-estimate").forEach((estimate) => estimate.remove());
+		findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
 	}
 })();

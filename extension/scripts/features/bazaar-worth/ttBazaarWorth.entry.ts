@@ -62,8 +62,8 @@
 					ttCache.set({ [bazaarUserId]: result.bazaar }, TO_MILLIS.SECONDS * 30, "bazaar");
 				})
 				.catch((error) => {
-					document.find(".info-msg-cont .msg").appendChild(
-						document.newElement({
+					document.querySelector(".info-msg-cont .msg").appendChild(
+						elementBuilder({
 							type: "div",
 							class: "tt-bazaar-text",
 							text: "TORN API returned error:" + error.toString(),
@@ -85,25 +85,25 @@
 			}
 
 			await requireElement("[class*='preloader___']:not(.undefined)", { invert: true });
-			const text = document.find(".tt-bazaar-text span");
+			const text = document.querySelector(".tt-bazaar-text span");
 			if (text) text.textContent = formatNumber(total, { currency: true });
 			else {
-				const message = document.find(".info-msg-cont .msg");
+				const message = document.querySelector(".info-msg-cont .msg");
 				if (!message) return;
 
 				observerText(message, bazaar);
 				message.appendChild(
-					document.newElement({
+					elementBuilder({
 						type: "div",
 						class: "tt-bazaar-text",
 						text: "This bazaar is worth ",
-						children: [document.newElement({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
+						children: [elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
 					})
 				);
 			}
 		}
 
-		function observerText(message: HTMLElement, items: (UserV1BazaarItem | BazaarFetchItem)[]) {
+		function observerText(message: Element, items: (UserV1BazaarItem | BazaarFetchItem)[]) {
 			const observer = new MutationObserver((mutations) => {
 				if (mutations.every((m) => m.removedNodes.length === 0)) return;
 
@@ -118,6 +118,6 @@
 	}
 
 	function removeWorth() {
-		document.find(".tt-bazaar-text")?.remove();
+		document.querySelector(".tt-bazaar-text")?.remove();
 	}
 })();

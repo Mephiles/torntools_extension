@@ -53,7 +53,7 @@
 
 				showEstimates();
 			});
-			observer.observe(document.find("ul.f-war-list"), { childList: true });
+			observer.observe(document.querySelector("ul.f-war-list"), { childList: true });
 		});
 	}
 
@@ -64,12 +64,12 @@
 				".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 				(row) => {
 					return {
-						id: parseInt(row.find<HTMLAnchorElement>("[class*='honorWrap__'] > a").href.split("XID=")[1]),
-						level: parseInt(row.find(".level").textContent.trim()),
+						id: parseInt(row.querySelector<HTMLAnchorElement>("[class*='honorWrap__'] > a").href.split("XID=")[1]),
+						level: parseInt(row.querySelector(".level").textContent.trim()),
 					};
 				},
 				true,
-				(row) => row.find(".clear")
+				(row) => row.querySelector(".clear")
 			);
 		});
 	}
@@ -79,6 +79,6 @@
 		observer = undefined;
 
 		statsEstimate.clearQueue();
-		document.findAll(".tt-stats-estimate").forEach((estimate) => estimate.remove());
+		findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
 	}
 })();

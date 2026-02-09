@@ -19,7 +19,7 @@
 		}
 	});
 
-	const root = document.find("#item-market-root");
+	const root = document.querySelector("#item-market-root");
 
 	const hash = getHashParameters();
 	const view = hash.get("market/view");
@@ -53,8 +53,8 @@
 		if (!isValidEntry(list)) return;
 
 		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, { list });
-		[...list.findAll("[class*='itemList___'] > li")].forEach((itemElement) => {
-			const priceElement = itemElement.find("[class*='priceAndTotal___'] span:first-child");
+		findAllElements("[class*='itemList___'] > li", list).forEach((itemElement) => {
+			const priceElement = itemElement.querySelector("[class*='priceAndTotal___'] span:first-child");
 			if (!priceElement) return;
 
 			new MutationObserver(() => {
@@ -71,7 +71,9 @@
 
 				await requireElement(".tornPreloader", { invert: true });
 
-				const item = parseInt(infoWrapper.find<HTMLImageElement>("img").src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)[1]);
+				const item = parseInt(
+					infoWrapper.querySelector<HTMLImageElement>("img").src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)[1]
+				);
 
 				triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, { item, element: infoWrapper });
 			}).observe(list, { childList: true });

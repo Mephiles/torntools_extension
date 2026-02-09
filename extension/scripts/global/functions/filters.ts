@@ -180,10 +180,10 @@ function createFilterSection(
 		return null;
 	}
 
-	const ccTitle = options.title.camelCase(true) + "__section-class";
-	const section = document.newElement({ type: "div", class: ccTitle, style: options.style });
+	const ccTitle = camelCase(options.title) + "__section-class";
+	const section = elementBuilder({ type: "div", class: ccTitle, style: options.style });
 
-	if (!options.noTitle) section.appendChild(document.newElement({ type: "strong", text: options.title }));
+	if (!options.noTitle) section.appendChild(elementBuilder({ type: "strong", text: options.title }));
 
 	if (isTextOptions(options)) {
 		const textbox = createTextbox({
@@ -208,7 +208,7 @@ function createFilterSection(
 
 		return {
 			element: section,
-			isChecked: (content: Element) => (content.find(`.${ccTitle} input`) as HTMLInputElement)?.checked ?? false,
+			isChecked: (content: Element) => content.querySelector<HTMLInputElement>(`.${ccTitle} input`)?.checked ?? false,
 		};
 	}
 
@@ -220,14 +220,15 @@ function createFilterSection(
 
 		return {
 			element: section,
-			getSelections: (content: Element) => [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? ""),
+			getSelections: (content: Element) =>
+				findAllElements(`.${ccTitle} input:checked`, content).map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? ""),
 		};
 	}
 
 	if (isYNCheckboxesOptions(options)) {
 		options.ynCheckboxes.forEach((key) => {
-			const ccKey = key.camelCase(true);
-			const checkboxesDiv = document.newElement({ type: "div", class: ccKey });
+			const ccKey = camelCase(key);
+			const checkboxesDiv = elementBuilder({ type: "div", class: ccKey });
 			const yCheckbox = createCheckbox({ description: "Y:", reverseLabel: true });
 			const nCheckbox = createCheckbox({ description: "N:", reverseLabel: true });
 			const value = options.defaults[ccKey];
@@ -237,7 +238,7 @@ function createFilterSection(
 			nCheckbox.onChange(options.callback);
 			checkboxesDiv.appendChild(yCheckbox.element);
 			checkboxesDiv.appendChild(nCheckbox.element);
-			checkboxesDiv.appendChild(document.newElement({ type: "label", text: key }));
+			checkboxesDiv.appendChild(elementBuilder({ type: "label", text: key }));
 			section.appendChild(checkboxesDiv);
 		});
 		section.classList.add("tt-yn-checkboxes");
@@ -249,8 +250,8 @@ function createFilterSection(
 
 		function getSelections(content: HTMLElement) {
 			const selections = {};
-			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
-				const checkboxes = specialDiv.findAll("input");
+			for (const specialDiv of findAllElements(`.${ccTitle} > div`, content)) {
+				const checkboxes = findAllElements("input", specialDiv);
 				const yChecked = checkboxes[0].checked;
 				const nChecked = checkboxes[1].checked;
 				const key = specialDiv.className.split("__")[0];
@@ -287,15 +288,15 @@ function createFilterSection(
 
 		return {
 			element: section,
-			getSelected: (content: Element) => (content.find(`.${ccTitle} select`) as HTMLSelectElement)?.value ?? "",
-			updateOptions: (newOptions: SelectOption[], content: Element) => select.updateOptionsList(newOptions, content.find(`.${ccTitle} select`)),
+			getSelected: (content: Element) => content.querySelector<HTMLSelectElement>(`.${ccTitle} select`)?.value ?? "",
+			updateOptions: (newOptions: SelectOption[], content: Element) => select.updateOptionsList(newOptions, content.querySelector(`.${ccTitle} select`)),
 		};
 	}
 
 	if (isSliderOptions(options)) {
 		const rangeSlider = new DualRangeSlider(options.slider);
 		section.appendChild(rangeSlider.slider);
-		section.appendChild(document.newElement({ type: "div", class: "slider-counter", text: "" }));
+		section.appendChild(elementBuilder({ type: "div", class: "slider-counter", text: "" }));
 		section.classList.add("tt-slider");
 
 		new MutationObserver(options.callback).observe(rangeSlider.slider, { attributes: true });
@@ -303,7 +304,7 @@ function createFilterSection(
 		return { element: section, getStartEnd, updateCounter };
 
 		function getStartEnd(content: Element) {
-			const rangeElement = content.find(`.${ccTitle} .tt-dual-range`);
+			const rangeElement = content.querySelector<HTMLElement>(`.${ccTitle} .tt-dual-range`);
 			if (!rangeElement) {
 				return { start: (options as SliderOptions).slider.valueLow, end: (options as SliderOptions).slider.valueHigh };
 			}
@@ -312,7 +313,7 @@ function createFilterSection(
 		}
 
 		function updateCounter(string: string, content: Element) {
-			const counter = content.find(`.${ccTitle} .slider-counter`);
+			const counter = content.querySelector(`.${ccTitle} .slider-counter`);
 			if (!counter) return;
 
 			counter.textContent = string;
@@ -360,7 +361,7 @@ interface WeaponBonusOptions {
 
 function createWeaponBonusSection(options: WeaponBonusOptions) {
 	const ccTitle = "weaponBonus__section-class";
-	const section = document.newElement({ type: "div", class: ccTitle });
+	const section = elementBuilder({ type: "div", class: ccTitle });
 
 	const selectOptions = [
 		{ value: "", description: "None" },
@@ -407,26 +408,26 @@ function createWeaponBonusSection(options: WeaponBonusOptions) {
 }
 
 function createStatistics(name = "entries", addBrackets = false, lowercase = false): StatisticsResult {
-	const statistics = document.newElement({
+	const statistics = elementBuilder({
 		type: "div",
 		class: "statistics",
 		children: [
 			(addBrackets ? "(" : "") + `${lowercase ? "s" : "S"}howing `,
-			document.newElement({ type: "strong", class: "stat-count", text: "X" }),
+			elementBuilder({ type: "strong", class: "stat-count", text: "X" }),
 			" of ",
-			document.newElement({ type: "strong", class: "stat-total", text: "Y" }),
+			elementBuilder({ type: "strong", class: "stat-total", text: "Y" }),
 			` ${name}` + (addBrackets ? ")" : "."),
 		],
 	});
 
 	function updateStatistics(count: number, total: number, content: HTMLElement) {
-		content.find(".statistics .stat-count").textContent = count.toString();
-		content.find(".statistics .stat-total").textContent = total.toString();
+		content.querySelector(".statistics .stat-count").textContent = count.toString();
+		content.querySelector(".statistics .stat-total").textContent = total.toString();
 	}
 
 	return { element: statistics, updateStatistics };
 }
 
 function getSpecialIcons(li: HTMLElement): string[] {
-	return [...li.findAll(":scope li[id*='icon']")].map((x) => x.id.split("_")[0]);
+	return findAllElements(":scope li[id*='icon']", li).map((x) => x.id.split("_")[0]);
 }

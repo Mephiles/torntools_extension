@@ -26,17 +26,17 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-crimes-wrap")) return;
+		if (!document.querySelector(".faction-crimes-wrap")) return;
 
 		openCrimes();
 	}
 
 	async function openCrimes() {
-		for (const crime of document.findAll(".organize-wrap .crimes-list > li")) {
-			const status = crime.find(".status .bold");
+		for (const crime of findAllElements(".organize-wrap .crimes-list > li")) {
+			const status = crime.querySelector(".status .bold");
 			if (!status || status.textContent.trim() !== "Ready") continue;
 
-			const allReady = [...crime.findAll(".details-list > li:not(:first-child) .stat")].every((row) => row.textContent === "Okay");
+			const allReady = findAllElements(".details-list > li:not(:first-child) .stat", crime).every((row) => row.textContent === "Okay");
 			if (allReady) crime.classList.add("active");
 		}
 	}

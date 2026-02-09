@@ -25,7 +25,7 @@
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		if (confirm("Are you sure you want to attack this ally?")) {
-			window.open(document.find<HTMLAnchorElement>(".profile-buttons .profile-button-attack").href, "_self");
+			window.open(document.querySelector<HTMLAnchorElement>(".profile-buttons .profile-button-attack").href, "_self");
 		}
 	}
 
@@ -34,7 +34,7 @@
 
 		enableButton();
 
-		const factionID = new URLSearchParams(factionLink.href).get("ID").getNumber();
+		const factionID = convertToNumber(new URLSearchParams(factionLink.href).get("ID"));
 		const factionName = factionLink.textContent.trim();
 		if (
 			(hasAPIData() && factionID === userdata.faction?.id) ||
@@ -43,7 +43,7 @@
 				else return ally.trim() === factionName;
 			})
 		) {
-			const attackButton = document.find(".profile-buttons .profile-button-attack");
+			const attackButton = document.querySelector(".profile-buttons .profile-button-attack");
 			if (attackButton.classList.contains("cross")) return;
 
 			const crossSvgNode = crossSvg();
@@ -54,6 +54,6 @@
 	}
 
 	function enableButton() {
-		document.findAll("#profileroot .tt-disable-ally.tt-cross").forEach((x) => x.remove());
+		findAllElements("#profileroot .tt-disable-ally.tt-cross").forEach((x) => x.remove());
 	}
 })();

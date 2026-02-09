@@ -75,7 +75,7 @@
 	}
 
 	function removeFlowers() {
-		if (document.find("#needed-flowers")) document.find("#needed-flowers").remove();
+		if (document.querySelector("#needed-flowers")) document.querySelector("#needed-flowers").remove();
 	}
 
 	async function showPlushies() {
@@ -83,33 +83,33 @@
 	}
 
 	function removePlushies() {
-		if (document.find("#needed-plushies")) document.find("#needed-plushies").remove();
+		if (document.querySelector("#needed-plushies")) document.querySelector("#needed-plushies").remove();
 	}
 
 	async function show(id: string, selector: string, items: SetItem[]) {
-		if (document.find(`#${id}`)) document.find(`#${id}`).remove();
+		if (document.querySelector(`#${id}`)) document.querySelector(`#${id}`).remove();
 
-		const currentItemsElements = document.findAll(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
+		const currentItemsElements = findAllElements(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
 		if (!currentItemsElements.length || currentItemsElements.length === items.length) return;
 
 		const currentItems = currentItemsElements.map((x) => parseInt(x.dataset.item));
 		const needed = items.filter((x) => !currentItems.some((y) => x.id === y)).sort((a, b) => a.name.localeCompare(b.name));
 		if (needed.length <= 0) return;
 
-		const wrapper = document.newElement({ type: "div", id: id });
+		const wrapper = elementBuilder({ type: "div", id: id });
 		let isFirst = true;
 		for (const item of needed) {
 			const isLast = needed.indexOf(item) === needed.length - 1;
 
-			const missingItem = document.newElement({
+			const missingItem = elementBuilder({
 				type: "div",
 				class: "needed-item",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "img",
 						attributes: { src: `https://www.torn.com/images/items/${item.id}/large.png`, alt: item.name },
 					}),
-					document.newElement({ type: "span", text: item.name }),
+					elementBuilder({ type: "span", text: item.name }),
 				],
 				dataset: { id: item.id, name: item.name, category: item.category },
 			});
@@ -121,16 +121,16 @@
 
 			isFirst = false;
 		}
-		document.find(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
+		document.querySelector(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
 	}
 
 	function addItemValue(missingItem: HTMLElement) {
 		if (!settings.pages.items.values) return;
 		if (!hasAPIData()) return;
 
-		missingItem.find(":scope > span").insertAdjacentElement(
+		missingItem.querySelector(":scope > span").insertAdjacentElement(
 			"afterend",
-			document.newElement({
+			elementBuilder({
 				type: "span",
 				class: "tt-item-price",
 				text: `${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value, { currency: true })}`,
@@ -139,7 +139,7 @@
 	}
 
 	function showMarketValues() {
-		for (const missingItem of document.findAll(".needed-item")) {
+		for (const missingItem of findAllElements(".needed-item")) {
 			addItemValue(missingItem);
 		}
 	}
@@ -147,11 +147,11 @@
 	async function addMarketIcon(missingItem: HTMLElement, first: boolean, last: boolean) {
 		if (!settings.pages.items.marketLinks) return;
 		if (mobile) return;
-		if (missingItem.find(".market-link")) return;
+		if (missingItem.querySelector(".market-link")) return;
 
-		let parent = missingItem.find(".outside-actions");
+		let parent = missingItem.querySelector(".outside-actions");
 		if (!parent) {
-			parent = document.newElement({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
+			parent = elementBuilder({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
 
 			missingItem.appendChild(parent);
 		}
@@ -160,14 +160,14 @@
 		const { name, category } = missingItem.dataset;
 
 		parent.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				class: "market-link",
 				children: [
-					document.newElement({
+					elementBuilder({
 						type: "a",
 						href: `https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${id}&itemName=${name}&itemType=${category}`,
-						children: [document.newElement({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
+						children: [elementBuilder({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
 					}),
 				],
 			})
@@ -175,7 +175,7 @@
 	}
 
 	function showMarketIcons() {
-		const items = [...document.findAll(".needed-item")];
+		const items = findAllElements(".needed-item");
 		let isFirst = true;
 		for (const missingItem of items) {
 			const isLast = items.indexOf(missingItem) === items.length - 1;

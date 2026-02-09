@@ -26,17 +26,17 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			const messageBox = message.find(SELECTOR_CHAT_V2__MESSAGE_BOX);
+			const messageBox = message.querySelector<HTMLElement>(SELECTOR_CHAT_V2__MESSAGE_BOX);
 			if (messageBox) applyV2Highlights(messageBox);
 			else applyV3Highlights(message);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			for (const message of chat.findAll(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`, chat)) {
 				applyV2Highlights(message);
 			}
-			for (const message of chat.findAll(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
 				applyV3Highlights(message);
 			}
 		});
@@ -45,11 +45,11 @@
 
 			if (information) {
 				const { chat } = information;
-				for (const message of chat.findAll(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
+				for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
 					applyV3Highlights(message);
 				}
 			} else {
-				for (const message of document.findAll(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
+				for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
 					applyV2Highlights(message);
 				}
 			}
@@ -57,7 +57,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(() => {
 			if (!feature.enabled()) return;
 
-			for (const message of document.findAll(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
 				applyV3Highlights(message);
 			}
 		});
@@ -89,10 +89,10 @@
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 
-			for (const message of document.findAll(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
 				applyV2Highlights(message);
 			}
-			for (const message of document.findAll(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
+			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
 				applyV3Highlights(message);
 			}
 		});
@@ -102,7 +102,7 @@
 		if (!message) return;
 		if (!highlights?.length) return;
 
-		const sender = simplify(message.find(SELECTOR_CHAT_V2__MESSAGE_SENDER).textContent.replace(":", ""));
+		const sender = simplify(message.querySelector(SELECTOR_CHAT_V2__MESSAGE_SENDER).textContent.replace(":", ""));
 		const words = message.lastElementChild.textContent
 			.split(" ")
 			.map(simplify)
@@ -132,7 +132,7 @@
 		if (!highlights?.length) return;
 
 		let sender: string;
-		const senderElement = message.find(SELECTOR_CHAT_V3__MESSAGE_SENDER);
+		const senderElement = message.querySelector(SELECTOR_CHAT_V3__MESSAGE_SENDER);
 		if (senderElement) {
 			sender = senderElement.textContent.replace(":", "");
 		} else {
@@ -148,7 +148,7 @@
 		sender = simplify(sender);
 
 		const words = message
-			.find("[class*='message___']")
+			.querySelector("[class*='message___']")
 			.textContent.split(" ")
 			.map(simplify)
 			.flatMap((text) => [text, withoutEndPunctuation(text)]);
@@ -173,7 +173,7 @@
 	}
 
 	function removeHighlights() {
-		for (const message of document.findAll(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}[style]`)) {
+		for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}[style]`)) {
 			message.style = "";
 		}
 	}

@@ -20,13 +20,13 @@
 	async function hideGymHighlight() {
 		await requireSidebar();
 
-		const navGym = document.find("#nav-gym, #nav-jail_gym");
+		const navGym = document.querySelector("#nav-gym, #nav-jail_gym");
 		if (!navGym) return;
 
-		hadHighlight = navGym.classList.contains("^=available___");
+		hadHighlight = Array.from(navGym.classList).some((c) => c.startsWith("available___"));
 		if (!hadHighlight) return;
 
-		const svg = navGym.find("svg");
+		const svg = navGym.querySelector("svg");
 		if (hasDarkMode()) {
 			if (!hasSidebar) {
 				svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
@@ -44,16 +44,17 @@
 			}
 		}
 
-		navGym.classList.removeSpecial("^=available___");
+		const availableClass = Array.from(navGym.classList).find((className) => className.startsWith("available___"));
+		if (availableClass) navGym.classList.remove(availableClass);
 	}
 
 	function removeHiddenHighlight() {
 		if (!hadHighlight) return;
 
-		const navGym = document.find("#nav-gym, #nav-jail_gym");
+		const navGym = document.querySelector("#nav-gym, #nav-jail_gym");
 		if (!navGym) return;
 
-		const svg = navGym.find("svg");
+		const svg = navGym.querySelector("svg");
 
 		if (hasDarkMode()) {
 			if (mobile || tablet) {
@@ -72,6 +73,6 @@
 			}
 		}
 
-		navGym.find("[class*='area-row___']").classList.add("tt-available");
+		navGym.querySelector("[class*='area-row___']").classList.add("tt-available");
 	}
 })();

@@ -36,12 +36,12 @@
 	async function removeFillMax() {
 		if (!mobile) {
 			document.removeEventListener("click", maxBuyListener);
-			document.findAll(".tt-max-buy").forEach((x) => x.remove());
+			findAllElements(".tt-max-buy").forEach((x) => x.remove());
 		} else {
 			await requireElement("[class*='buyForm___']");
-			document.findAll("[class*='buyForm___']").forEach((x) => {
+			findAllElements("[class*='buyForm___']").forEach((x) => {
 				x.classList.remove("tt-fill-max");
-				x.find(".tt-max-buy").remove();
+				x.querySelector(".tt-max-buy").remove();
 			});
 			reactObserver.disconnect();
 		}
@@ -50,34 +50,34 @@
 	async function maxBuyListener(clickEvent: any | null = null) {
 		if (!mobile) {
 			if (!clickEvent || !clickEvent.target.closest("[class*='controlPanelButton___']")) return;
-			requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.find("[class*='buyMenu__']")));
+			requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.querySelector("[class*='buyMenu__']")));
 		} else {
 			await requireElement(".ReactVirtualized__Grid__innerScrollContainer [class*='buyForm___']");
-			document.findAll(".ReactVirtualized__Grid__innerScrollContainer [class*='itemDescription__']:not(.tt-fill-max)").forEach((buyForm) => {
+			findAllElements(".ReactVirtualized__Grid__innerScrollContainer [class*='itemDescription__']:not(.tt-fill-max)").forEach((buyForm) => {
 				buyForm.classList.add("tt-fill-max");
 				addButtonAndListener(buyForm);
 			});
 		}
 
 		function addButtonAndListener(parent: Element) {
-			const fillMax = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
-			const buyButton = parent.find("[class*='buy_']");
+			const fillMax = elementBuilder({ type: "span", text: "fill max", class: "tt-max-buy" });
+			const buyButton = parent.querySelector("[class*='buy_']");
 			buyButton.classList.add("tt-buy");
 			buyButton.parentElement.appendChild(fillMax);
 			fillMax.addEventListener("click", (event) => {
 				event.stopPropagation();
 				let max = mobile
-					? parseInt(parent.find("[class*='amount__']").firstElementChild.textContent)
-					: parseInt(parent.find("[class*='amount__']").childNodes[1].textContent);
+					? parseInt(parent.querySelector("[class*='amount__']").firstElementChild.textContent)
+					: parseInt(parent.querySelector("[class*='amount__']").childNodes[1].textContent);
 				if (!settings.pages.bazaar.maxBuyIgnoreCash) {
-					const price = parseInt(parent.find("[class*='price_']").textContent.replace(/[,$]/g, ""));
-					const money = parseInt(document.find("#user-money").dataset.money);
+					const price = parseInt(parent.querySelector("[class*='price_']").textContent.replace(/[,$]/g, ""));
+					const money = parseInt(document.querySelector<HTMLElement>("#user-money").dataset.money);
 					if (Math.floor(money / price) < max) max = Math.floor(money / price);
 				}
 				if (max > 10000) max = 10000;
 
-				parent.find<HTMLInputElement>("[class*='buyAmountInput_']").value = max.toString();
-				parent.find("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
+				parent.querySelector<HTMLInputElement>("[class*='buyAmountInput_']").value = max.toString();
+				parent.querySelector("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
 			});
 		}
 	}

@@ -12,7 +12,7 @@ const initiatedPages = {};
 		document.body.classList.add(getPageTheme());
 	});
 
-	for (const navigation of document.findAll("header nav.on-page > ul > li")) {
+	for (const navigation of findAllElements("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -23,11 +23,11 @@ const initiatedPages = {};
 async function showPage(name: string) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
-	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
-	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
+	for (const active of findAllElements("header nav.on-page > ul > li.active")) active.classList.remove("active");
+	document.querySelector(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (const active of document.findAll("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
-	document.find(`#${name}`).classList.remove("tt-hidden");
+	for (const active of findAllElements("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
+	document.querySelector(`#${name}`).classList.remove("tt-hidden");
 
 	const setup = {
 		attackHistory: setupAttackHistory,
@@ -41,17 +41,17 @@ async function showPage(name: string) {
 }
 
 async function setupAttackHistory() {
-	const _attackHistory = document.find("#attackHistory");
-	const historyList = _attackHistory.find("#attacksList");
+	const _attackHistory = document.querySelector("#attackHistory");
+	const historyList = _attackHistory.querySelector<HTMLElement>("#attacksList");
 
 	fillHistory();
 	sortTable(historyList, 3, "desc");
 
-	_attackHistory.find("#percentageHistory").addEventListener("click", (event) => {
-		_attackHistory.find("#attacksList").classList[(event.target as HTMLInputElement).checked ? "add" : "remove"]("switched");
+	_attackHistory.querySelector("#percentageHistory").addEventListener("click", (event) => {
+		_attackHistory.querySelector("#attacksList").classList[(event.target as HTMLInputElement).checked ? "add" : "remove"]("switched");
 	});
 
-	_attackHistory.find("#resetHistory").addEventListener("click", () => {
+	_attackHistory.querySelector("#resetHistory").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset attack history",
 			message: "<h3>Are you sure you want to delete the attack history?</h3>",
@@ -61,7 +61,7 @@ async function setupAttackHistory() {
 
 				sendMessage("Attack history reset.", true);
 
-				for (const row of _attackHistory.findAll("tr.row")) {
+				for (const row of findAllElements("tr.row", _attackHistory)) {
 					row.remove();
 				}
 			})
@@ -75,21 +75,21 @@ async function setupAttackHistory() {
 	}
 
 	function addHistoryRow(id: string, data: AttackHistory) {
-		const row = document.newElement({ type: "tr", class: "row" });
+		const row = elementBuilder({ type: "tr", class: "row" });
 
 		row.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "td",
 				class: "id",
-				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
+				children: [elementBuilder({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
 			})
 		);
 		row.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "td",
 				class: "name",
 				children: [
-					document.newElement({ type: "a", text: data.name, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } }),
+					elementBuilder({ type: "a", text: data.name, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } }),
 				],
 			})
 		);
@@ -97,12 +97,12 @@ async function setupAttackHistory() {
 		const lastAttackText = `${formatDate({ milliseconds: data.lastAttack }, { showYear: true })}, ${formatTime({ milliseconds: data.lastAttack })}`;
 		if (data.lastAttackCode) {
 			row.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "td",
 					class: "last-attack",
 					attributes: { value: data.lastAttack },
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "a",
 							text: lastAttackText,
 							href: `https://www.torn.com/loader.php?sid=attackLog&ID=${data.lastAttackCode}`,
@@ -113,7 +113,7 @@ async function setupAttackHistory() {
 			);
 		} else {
 			row.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "td",
 					class: "last-attack",
 					text: lastAttackText,
@@ -122,9 +122,9 @@ async function setupAttackHistory() {
 			);
 		}
 		const totalWins = data.win;
-		row.appendChild(document.newElement({ type: "td", class: "data win", text: totalWins.toString(), attributes: { value: totalWins } }));
+		row.appendChild(elementBuilder({ type: "td", class: "data win", text: totalWins.toString(), attributes: { value: totalWins } }));
 		for (const type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {
-			const element = document.newElement({ type: "td", class: `data switchable ${type}`, attributes: { "sort-type": "css-dataset" } });
+			const element = elementBuilder({ type: "td", class: `data switchable ${type}`, attributes: { "sort-type": "css-dataset" } });
 
 			const percentage = Math.round((data[type] / totalWins) * 100) || 0;
 
@@ -133,27 +133,27 @@ async function setupAttackHistory() {
 
 			row.appendChild(element);
 		}
-		row.appendChild(document.newElement({ type: "td", class: "data assist", text: data.assist.toString(), attributes: { value: data.assist } }));
-		row.appendChild(document.newElement({ type: "td", class: "data defend", text: data.defend.toString(), attributes: { value: data.defend } }));
+		row.appendChild(elementBuilder({ type: "td", class: "data assist", text: data.assist.toString(), attributes: { value: data.assist } }));
+		row.appendChild(elementBuilder({ type: "td", class: "data defend", text: data.defend.toString(), attributes: { value: data.defend } }));
 		for (const type of ["lose", "stalemate", "escapes", "defend_lost"]) {
-			row.appendChild(document.newElement({ type: "td", class: `data ${type}`, text: data[type].toString(), attributes: { value: data[type] } }));
+			row.appendChild(elementBuilder({ type: "td", class: `data ${type}`, text: data[type].toString(), attributes: { value: data[type] } }));
 		}
 
 		if (data.respect_base.length) {
-			const respect = parseFloat((data.respect_base.totalSum() / data.respect_base.length || 0).toFixed(2));
+			const respect = parseFloat((data.respect_base.reduce((a, b) => a + b, 0) / data.respect_base.length || 0).toFixed(2));
 
-			row.appendChild(document.newElement({ type: "td", class: "data respect", text: respect.toString(), attributes: { value: respect } }));
+			row.appendChild(elementBuilder({ type: "td", class: "data respect", text: respect.toString(), attributes: { value: respect } }));
 		} else if (data.respect.length) {
-			const respect = parseFloat((data.respect.totalSum() / data.respect.length || 0).toFixed(2));
+			const respect = parseFloat((data.respect.reduce((a, b) => a + b, 0) / data.respect.length || 0).toFixed(2));
 
-			row.appendChild(document.newElement({ type: "td", class: "data respect", text: `${respect}*`, attributes: { value: respect } }));
+			row.appendChild(elementBuilder({ type: "td", class: "data respect", text: `${respect}*`, attributes: { value: respect } }));
 		} else {
-			row.appendChild(document.newElement({ type: "td", class: "data respect", text: "-", attributes: { value: -1 } }));
+			row.appendChild(elementBuilder({ type: "td", class: "data respect", text: "-", attributes: { value: -1 } }));
 		}
 
 		if (data.latestFairFightModifier) {
 			row.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "td",
 					class: "data fair_fight",
 					text: data.latestFairFightModifier,
@@ -161,7 +161,7 @@ async function setupAttackHistory() {
 				})
 			);
 		} else {
-			row.appendChild(document.newElement({ type: "td", class: "data fair_fight", text: "-", attributes: { value: -1 } }));
+			row.appendChild(elementBuilder({ type: "td", class: "data fair_fight", text: "-", attributes: { value: -1 } }));
 		}
 
 		historyList.appendChild(row);
@@ -169,16 +169,16 @@ async function setupAttackHistory() {
 }
 
 async function setupStakeouts() {
-	const _stakeouts = document.find("#stakeouts");
-	const stakeoutList = _stakeouts.find("#stakeoutList");
+	const _stakeouts = document.querySelector("#stakeouts");
+	const stakeoutList = _stakeouts.querySelector<HTMLElement>("#stakeoutList");
 
 	fillStakeouts();
 	storageListeners.stakeouts.push(updateStakeouts);
 
 	new Sortable(stakeoutList, { animation: 150 });
 
-	_stakeouts.find("#saveStakeouts").addEventListener("click", async () => await saveStakeouts());
-	_stakeouts.find("#resetStakeouts").addEventListener("click", () => {
+	_stakeouts.querySelector("#saveStakeouts").addEventListener("click", async () => await saveStakeouts());
+	_stakeouts.querySelector("#resetStakeouts").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset stakeouts",
 			message: "<h3>Are you sure you want to delete all stakeouts?</h3>",
@@ -188,24 +188,24 @@ async function setupStakeouts() {
 
 				sendMessage("Stakeouts reset.", true);
 
-				for (const row of document.findAll("#stakeoutList tr.row")) {
+				for (const row of findAllElements("#stakeoutList tr.row")) {
 					row.remove();
 				}
 			})
 			.catch(() => {});
 	});
 
-	document.find("#addStakeout").addEventListener("click", async () => {
-		const id = document.find<HTMLInputElement>("#stakeoutId").value;
+	document.querySelector("#addStakeout").addEventListener("click", async () => {
+		const id = document.querySelector<HTMLInputElement>("#stakeoutId").value;
 		if (!id) return;
 
-		if (document.find(`#stakeout_${id}`)) {
+		if (document.querySelector(`#stakeout_${id}`)) {
 			sendMessage("This id already has a stakeout.", false);
 		} else {
 			addStakeout(parseInt(id));
 		}
 
-		document.find<HTMLInputElement>("#stakeoutId").value = "";
+		document.querySelector<HTMLInputElement>("#stakeoutId").value = "";
 	});
 
 	function fillStakeouts() {
@@ -218,13 +218,13 @@ async function setupStakeouts() {
 	}
 
 	function addStakeout(id: number, data: StakeoutData | null = null, showStatus = true) {
-		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}`, dataset: { id } });
+		const row = elementBuilder({ type: "tr", class: "row", id: `stakeout_${id}`, dataset: { id } });
 
 		row.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "td",
 				class: "id",
-				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
+				children: [elementBuilder({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
 			})
 		);
 		if (data && data.info !== null) {
@@ -245,11 +245,11 @@ async function setupStakeouts() {
 			}
 
 			row.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "td",
 					class: "name",
 					children: [
-						document.newElement({
+						elementBuilder({
 							type: "a",
 							text: data.info.name,
 							href: `https://www.torn.com/profiles.php?XID=${id}`,
@@ -259,7 +259,7 @@ async function setupStakeouts() {
 				})
 			);
 			row.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "td",
 					class: `status ${data.info.last_action.status.toLowerCase()}`,
 					text: data.info.last_action.status,
@@ -267,7 +267,7 @@ async function setupStakeouts() {
 				})
 			);
 			row.appendChild(
-				document.newElement({
+				elementBuilder({
 					type: "td",
 					class: "last-action",
 					text: data.info.last_action.relative,
@@ -276,20 +276,20 @@ async function setupStakeouts() {
 			);
 		} else {
 			if (showStatus) row.classList.add("new");
-			row.appendChild(document.newElement({ type: "td", class: "name", text: "" }));
-			row.appendChild(document.newElement({ type: "td", class: "status", text: "", attributes: { value: 0 } }));
-			row.appendChild(document.newElement({ type: "td", class: "last-action", text: "", attributes: { value: 0 } }));
+			row.appendChild(elementBuilder({ type: "td", class: "name", text: "" }));
+			row.appendChild(elementBuilder({ type: "td", class: "status", text: "", attributes: { value: 0 } }));
+			row.appendChild(elementBuilder({ type: "td", class: "last-action", text: "", attributes: { value: 0 } }));
 		}
 
-		const deleteButton = document.newElement({
+		const deleteButton = elementBuilder({
 			type: "button",
 			class: "delete",
-			children: [document.newElement({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
+			children: [elementBuilder({ type: "i", class: "remove-icon fa-solid fa-trash-can" })],
 		});
 		deleteButton.addEventListener("click", () => row.remove());
 
 		row.appendChild(
-			document.newElement({
+			elementBuilder({
 				type: "td",
 				class: "delete-wrap",
 				children: [deleteButton],
@@ -299,67 +299,67 @@ async function setupStakeouts() {
 		const alerts = [];
 
 		alerts.push(
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				children: [
-					document.newElement({ type: "input", id: `okay-${id}`, class: "okay", attributes: { type: "checkbox" } }),
-					document.newElement({ type: "label", attributes: { for: `okay-${id}` }, text: "is okay" }),
+					elementBuilder({ type: "input", id: `okay-${id}`, class: "okay", attributes: { type: "checkbox" } }),
+					elementBuilder({ type: "label", attributes: { for: `okay-${id}` }, text: "is okay" }),
 				],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				children: [
-					document.newElement({ type: "input", id: `hospital-${id}`, class: "hospital", attributes: { type: "checkbox" } }),
-					document.newElement({ type: "label", attributes: { for: `hospital-${id}` }, text: "is in hospital" }),
+					elementBuilder({ type: "input", id: `hospital-${id}`, class: "hospital", attributes: { type: "checkbox" } }),
+					elementBuilder({ type: "label", attributes: { for: `hospital-${id}` }, text: "is in hospital" }),
 				],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				children: [
-					document.newElement({ type: "input", id: `landing-${id}`, class: "landing", attributes: { type: "checkbox" } }),
-					document.newElement({ type: "label", attributes: { for: `landing-${id}` }, text: "lands" }),
+					elementBuilder({ type: "input", id: `landing-${id}`, class: "landing", attributes: { type: "checkbox" } }),
+					elementBuilder({ type: "label", attributes: { for: `landing-${id}` }, text: "lands" }),
 				],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				children: [
-					document.newElement({ type: "input", id: `online-${id}`, class: "online", attributes: { type: "checkbox" } }),
-					document.newElement({ type: "label", attributes: { for: `online-${id}` }, text: "comes online" }),
+					elementBuilder({ type: "input", id: `online-${id}`, class: "online", attributes: { type: "checkbox" } }),
+					elementBuilder({ type: "label", attributes: { for: `online-${id}` }, text: "comes online" }),
 				],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				children: [
-					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "life drops below " }),
-					document.newElement({ type: "input", id: `life-${id}`, class: "life short-input", attributes: { type: "number", min: 1, max: 100 } }),
-					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: " %" }),
+					elementBuilder({ type: "label", attributes: { for: `life-${id}` }, text: "life drops below " }),
+					elementBuilder({ type: "input", id: `life-${id}`, class: "life short-input", attributes: { type: "number", min: 1, max: 100 } }),
+					elementBuilder({ type: "label", attributes: { for: `life-${id}` }, text: " %" }),
 				],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				children: [
-					document.newElement({ type: "label", attributes: { for: `offline-${id}` }, text: "offline for over " }),
-					document.newElement({ type: "input", id: `offline-${id}`, class: "offline short-input", attributes: { type: "number", min: 1 } }),
-					document.newElement({ type: "label", attributes: { for: `offline-${id}` }, text: " hours" }),
+					elementBuilder({ type: "label", attributes: { for: `offline-${id}` }, text: "offline for over " }),
+					elementBuilder({ type: "input", id: `offline-${id}`, class: "offline short-input", attributes: { type: "number", min: 1 } }),
+					elementBuilder({ type: "label", attributes: { for: `offline-${id}` }, text: " hours" }),
 				],
 			}),
-			document.newElement({
+			elementBuilder({
 				type: "div",
 				children: [
-					document.newElement({ type: "input", id: `revivable-${id}`, class: "revivable", attributes: { type: "checkbox" } }),
-					document.newElement({ type: "label", attributes: { for: `revivable-${id}` }, text: "is revivable" }),
+					elementBuilder({ type: "input", id: `revivable-${id}`, class: "revivable", attributes: { type: "checkbox" } }),
+					elementBuilder({ type: "label", attributes: { for: `revivable-${id}` }, text: "is revivable" }),
 				],
 			})
 		);
 
-		const alertsWrap = document.newElement({ type: "td", class: "alerts-wrap", children: alerts });
+		const alertsWrap = elementBuilder({ type: "td", class: "alerts-wrap", children: alerts });
 		row.appendChild(alertsWrap);
 
 		if (data && data.alerts) {
 			for (const key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
-				const element = alertsWrap.find<HTMLInputElement>(`.${key}`);
+				const element = alertsWrap.querySelector<HTMLInputElement>(`.${key}`);
 				if (!element) continue;
 
 				switch (typeof data.alerts[key]) {
@@ -378,7 +378,7 @@ async function setupStakeouts() {
 	}
 
 	function updateStakeouts() {
-		[...stakeoutList.findAll("tr:not(.header)")]
+		findAllElements("tr:not(.header)", stakeoutList)
 			.filter((row) => !(parseInt(row.dataset.id) in stakeouts))
 			.filter((row) => !row.classList.contains("new"))
 			.forEach((row) => row.remove());
@@ -386,7 +386,7 @@ async function setupStakeouts() {
 		for (const id of stakeouts.order) {
 			if (isNaN(parseInt(id))) continue;
 
-			const row = stakeoutList.find(`tr[data-id="${id}"]`);
+			const row = stakeoutList.querySelector(`tr[data-id="${id}"]`);
 			if (!row) {
 				addStakeout(parseInt(id), null, false);
 				continue;
@@ -394,67 +394,67 @@ async function setupStakeouts() {
 
 			row.classList.remove("new");
 
-			row.find(".status").classList.remove("offline", "idle", "online");
+			row.querySelector(".status").classList.remove("offline", "idle", "online");
 			const stakeout = stakeouts[id];
 			if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
 			if (Object.keys(stakeout.info).length) {
-				if (row.find(".name a")) row.find(".name a").textContent = stakeout.info.name;
+				if (row.querySelector(".name a")) row.querySelector(".name a").textContent = stakeout.info.name;
 				else
-					row.find(".name").appendChild(
-						document.newElement({
+					row.querySelector(".name").appendChild(
+						elementBuilder({
 							type: "a",
 							text: stakeout.info.name,
 							href: `https://www.torn.com/profiles.php?XID=${id}`,
 							attributes: { target: "_blank" },
 						})
 					);
-				row.find(".status").textContent = stakeout.info.last_action.status;
-				row.find(".status").classList.add(stakeout.info.last_action.status.toLowerCase());
-				row.find(".last-action").textContent = stakeout.info.last_action.relative;
+				row.querySelector(".status").textContent = stakeout.info.last_action.status;
+				row.querySelector(".status").classList.add(stakeout.info.last_action.status.toLowerCase());
+				row.querySelector(".last-action").textContent = stakeout.info.last_action.relative;
 			} else {
-				row.find(".name").innerHTML = "";
-				row.find(".status").textContent = "";
-				row.find(".last-action").textContent = "";
+				row.querySelector(".name").innerHTML = "";
+				row.querySelector(".status").textContent = "";
+				row.querySelector(".last-action").textContent = "";
 			}
 
-			const alerts = row.find(".alerts-wrap");
-			alerts.find<HTMLInputElement>(".okay").checked = stakeout.alerts.okay;
-			alerts.find<HTMLInputElement>(".hospital").checked = stakeout.alerts.hospital;
-			alerts.find<HTMLInputElement>(".landing").checked = stakeout.alerts.landing;
-			alerts.find<HTMLInputElement>(".online").checked = stakeout.alerts.online;
-			alerts.find<HTMLInputElement>(".life").value = stakeout.alerts.life.toString() || "";
-			alerts.find<HTMLInputElement>(".offline").value = stakeout.alerts.offline.toString() || "";
-			alerts.find<HTMLInputElement>(".revivable").checked = stakeout.alerts.revivable;
+			const alerts = row.querySelector(".alerts-wrap");
+			alerts.querySelector<HTMLInputElement>(".okay").checked = stakeout.alerts.okay;
+			alerts.querySelector<HTMLInputElement>(".hospital").checked = stakeout.alerts.hospital;
+			alerts.querySelector<HTMLInputElement>(".landing").checked = stakeout.alerts.landing;
+			alerts.querySelector<HTMLInputElement>(".online").checked = stakeout.alerts.online;
+			alerts.querySelector<HTMLInputElement>(".life").value = stakeout.alerts.life.toString() || "";
+			alerts.querySelector<HTMLInputElement>(".offline").value = stakeout.alerts.offline.toString() || "";
+			alerts.querySelector<HTMLInputElement>(".revivable").checked = stakeout.alerts.revivable;
 		}
 	}
 
 	async function saveStakeouts() {
 		const newStakeouts: StoredStakeouts = {
-			order: [...stakeoutList.findAll("tr.row")].map((row) => row.dataset.id),
+			order: findAllElements("tr.row", stakeoutList).map((row) => row.dataset.id),
 			date: 0,
 		};
 
-		for (const row of stakeoutList.findAll("tr.row")) {
+		for (const row of findAllElements("tr.row", stakeoutList)) {
 			const id = parseInt(row.dataset.id);
 
-			const alertsSection = row.find(".alerts-wrap");
+			const alertsSection = row.querySelector(".alerts-wrap");
 
 			newStakeouts[id] = {
 				info: id in stakeouts && typeof stakeouts[id] === "object" && !Array.isArray(stakeouts[id]) ? stakeouts[id].info : null,
 				alerts: {
-					okay: alertsSection.find<HTMLInputElement>(".okay").checked,
-					hospital: alertsSection.find<HTMLInputElement>(".hospital").checked,
-					landing: alertsSection.find<HTMLInputElement>(".landing").checked,
-					online: alertsSection.find<HTMLInputElement>(".online").checked,
-					life: parseInt(alertsSection.find<HTMLInputElement>(".life").value) || false,
-					offline: parseInt(alertsSection.find<HTMLInputElement>(".offline").value) || false,
-					revivable: alertsSection.find<HTMLInputElement>(".revivable").checked,
+					okay: alertsSection.querySelector<HTMLInputElement>(".okay").checked,
+					hospital: alertsSection.querySelector<HTMLInputElement>(".hospital").checked,
+					landing: alertsSection.querySelector<HTMLInputElement>(".landing").checked,
+					online: alertsSection.querySelector<HTMLInputElement>(".online").checked,
+					life: parseInt(alertsSection.querySelector<HTMLInputElement>(".life").value) || false,
+					offline: parseInt(alertsSection.querySelector<HTMLInputElement>(".offline").value) || false,
+					revivable: alertsSection.querySelector<HTMLInputElement>(".revivable").checked,
 				},
 			};
 		}
 
-		newStakeouts.order = [...stakeoutList.findAll("tr.row")].map((row) => row.dataset.id);
+		newStakeouts.order = findAllElements("tr.row", stakeoutList).map((row) => row.dataset.id);
 
 		await ttStorage.set({ stakeouts: newStakeouts });
 		console.log("Stakeouts updated!", newStakeouts);

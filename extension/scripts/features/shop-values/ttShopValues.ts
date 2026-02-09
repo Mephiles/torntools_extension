@@ -35,14 +35,14 @@
 	async function showValues() {
 		await requireElement(".sell-items-list > li:not(.tt-value-modified)");
 
-		document.findAll(".sell-items-list > li:not(.tt-value-modified)").forEach((row) => {
+		findAllElements(".sell-items-list > li:not(.tt-value-modified)").forEach((row) => {
 			row.classList.add("tt-value-modified");
 
 			const id = parseInt(row.dataset.item);
 			const { market_value } = torndata.items[id];
 
-			row.find(".desc")!.appendChild(
-				document.newElement({
+			row.querySelector(".desc")!.appendChild(
+				elementBuilder({
 					type: "span",
 					class: "tt-market-value",
 					text: formatNumber(market_value, { currency: true }),
@@ -52,7 +52,7 @@
 	}
 
 	function removeValues() {
-		document.findAll(".tt-value-modified").forEach((element) => element.classList.remove("tt-value-modified"));
-		document.findAll(".tt-market-value").forEach((element) => element.remove());
+		findAllElements(".tt-value-modified").forEach((element) => element.classList.remove("tt-value-modified"));
+		findAllElements(".tt-market-value").forEach((element) => element.remove());
 	}
 })();
