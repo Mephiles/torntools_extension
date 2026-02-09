@@ -292,7 +292,7 @@ type FetchedUserdata = UserProfileResponse &
 	UserNewMessagesResponse &
 	UserV1RefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
 	UserV1StocksResponse &
-	UserV1MeritsResponse &
+	UserMeritsResponse &
 	UserV1PerksResponse &
 	UserV1NetworthResponse &
 	UserV1AmmoResponse &
@@ -354,7 +354,6 @@ async function updateUserdata(forceUpdate = false) {
 	}
 	if (updateBasic) {
 		// TODO - Migrate to V2 (user/stocks).
-		// FIXME - Migrate to V2 (user/merits).
 		// TODO - Migrate to V2 (user/perks).
 		// TODO - Migrate to V2 (user/networth).
 		// TODO - Migrate to V2 (user/ammo).
@@ -362,7 +361,6 @@ async function updateUserdata(forceUpdate = false) {
 		for (const selection of [
 			"stocks",
 			// "inventory",
-			"merits",
 			"perks",
 			"networth",
 			"ammo",
@@ -384,6 +382,7 @@ async function updateUserdata(forceUpdate = false) {
 			"missions",
 			"workstats",
 			"virus",
+			"merits",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 

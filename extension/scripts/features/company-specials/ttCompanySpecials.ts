@@ -38,7 +38,8 @@
 		let percentageMax = 10;
 
 		if (api) {
-			const merits = 1 + userdata.merits["Masterful Looting"] * 0.05;
+			const masterfulLooting = userdata.merits.upgrades.find(({ id }) => id === 5)?.level ?? 0;
+			const merits = 1 + masterfulLooting * 0.05;
 			percentageMin *= merits;
 			percentageMax *= merits;
 
