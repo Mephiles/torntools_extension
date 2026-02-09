@@ -34,14 +34,15 @@
 			if (!feature.enabled()) return;
 
 			// Re-filter all chats after they refresh.
-			findAllElements(`[class*='group-chat-box__chat-box-wrapper__'], ${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']`)
-				.forEach((chat) => {
+			findAllElements(`[class*='group-chat-box__chat-box-wrapper__'], ${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']`).forEach(
+				(chat) => {
 					const input = chat.querySelector<HTMLInputElement>(".tt-chat-filter input");
 					if (!input) return;
 
 					const inputValue = input.value;
 					if (inputValue) onChatSearch({ target: input }, chat);
-				});
+				}
+			);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED].push(({ peopleMenu }) => {
 			addPeopleSearch(peopleMenu);

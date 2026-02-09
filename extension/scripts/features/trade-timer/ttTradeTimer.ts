@@ -105,7 +105,9 @@
 		const tradeChat = getTradeChat();
 		if (!tradeChat) return;
 
-		tradeChat.querySelector(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`).parentElement.classList.remove("tt-modified");
+		tradeChat
+			.querySelector(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`)
+			.parentElement.classList.remove("tt-modified");
 
 		tradeChat.querySelector("textarea").removeEventListener("keypress", onKeyUp);
 	}
