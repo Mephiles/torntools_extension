@@ -285,7 +285,7 @@ type FetchedUserdata = UserProfileResponse &
 	UserFactionResponse &
 	UserJobResponse &
 	TimestampResponse &
-	UserV1NotificationsResponse &
+	UserNotificationsResponse &
 	UserV1BarsResponse &
 	UserCooldownsResponse &
 	UserTravelResponse &
@@ -333,11 +333,10 @@ async function updateUserdata(forceUpdate = false) {
 	const selectionsV2 = [];
 	if (updateEssential) {
 		// TODO - Move some of those behind a setting.
-		selectionsV2.push("profile", "faction", "job", "timestamp");
+		selectionsV2.push("profile", "faction", "job", "timestamp", "notifications");
 		// Notifications have a 100K count limit from being fetched via the Torn API
 		// Use "newevents" selection only when the old events count > new events count
 		// Fetch the notifications count always, to avoid additional API calls
-		selections.push("notifications");
 
 		// TODO - Migrate to V2 (user/bars).
 		// TODO - Migrate to V2 (user/newmessages).
