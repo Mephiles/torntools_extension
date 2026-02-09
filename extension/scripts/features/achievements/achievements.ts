@@ -654,7 +654,7 @@ const ACHIEVEMENTS: Achievement[] = [
 	},
 	{
 		name: "Hunting skill",
-		stats: () => parseInt(userdata.hunting),
+		stats: () => userdata.skills.find(({ slug }) => slug === "hunting")?.level ?? 0,
 		detection: { keyword: "hunting", include: ["skill"] },
 		requirements: { pages: ["home", "travel"] },
 	},

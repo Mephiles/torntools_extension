@@ -299,7 +299,7 @@ type FetchedUserdata = UserProfileResponse &
 	UserBattleStatsResponse &
 	UserV1CrimesResponse &
 	UserV1WorkstatsResponse &
-	UserV1SkillsResponse &
+	UserSkillsResponse &
 	UserV1WeaponexpResponse &
 	UserV1PropertiesResponse &
 	UserCalendarResponse &
@@ -361,7 +361,6 @@ async function updateUserdata(forceUpdate = false) {
 		// TODO - Migrate to V2 (user/ammo).
 		// FIXME - Migrate to V2 (user/crimes).
 		// TODO - Migrate to V2 (user/workstats).
-		// FIXME - Migrate to V2 (user/skills).
 		// TODO - Migrate to V2 (user/weaponexp).
 		// FIXME - Migrate to V2 (user/properties).
 		for (const selection of [
@@ -373,7 +372,6 @@ async function updateUserdata(forceUpdate = false) {
 			"ammo",
 			"crimes",
 			"workstats",
-			"skills",
 			"weaponexp",
 			"properties",
 		]) {
@@ -381,7 +379,7 @@ async function updateUserdata(forceUpdate = false) {
 
 			selections.push(selection);
 		}
-		for (const selection of ["battlestats", "calendar", "organizedcrime", "personalstats", "honors", "medals", "missions", "virus"]) {
+		for (const selection of ["battlestats", "skills", "calendar", "organizedcrime", "personalstats", "honors", "medals", "missions", "virus"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
