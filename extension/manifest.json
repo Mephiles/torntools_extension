@@ -59,7 +59,7 @@
 	"content_scripts": [
 		{
 			"matches": ["https://www.torn.com/*.php*"],
-			"exclude_matches": ["https://www.torn.com/logout.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/swagger.php", "https://www.torn.com/joblisting.php"],
 			"css": [
 				"scripts/global/globalVariables.css",
 				"scripts/global/globalStyle.css",

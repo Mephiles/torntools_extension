@@ -11,7 +11,8 @@
 				{ "message": "Fix supply pack value not always showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction quick items not being modifiable in the edit view.", "contributor": "DeKleineKobini" },
 				{ "message": "Adapt to the most recent chat v3 version, which broke all chat features.", "contributor": "DeKleineKobini" },
-				{ "message": "Hopefully fix both inactivity warnings showing a lot of false positives.", "contributor": "DeKleineKobini" }
+				{ "message": "Hopefully fix both inactivity warnings showing a lot of false positives.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't run on the job listing and swagger pages.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve faction tab detection to avoid running listeners twice.", "contributor": "DeKleineKobini" },
