@@ -1906,7 +1906,7 @@ function setupAbout() {
 
 	// data corruption
 	showCorruption("userdata-corruption", () => typeof userdata === "object" && Object.keys(userdata).length > 5);
-	showCorruption("torndata-corruption", () => typeof torndata === "object" && typeof torndata.items === "object" && Object.keys(torndata.items).length > 5);
+	showCorruption("torndata-corruption", () => typeof torndata === "object" && typeof torndata.items === "object" && torndata.items.length > 5);
 	showCorruption("stockdata-corruption", () => typeof stockdata === "object" && Object.keys(stockdata).length > 5);
 	showCorruption("factiondata-corruption", () => typeof factiondata === "object" && typeof factiondata.access === "string");
 

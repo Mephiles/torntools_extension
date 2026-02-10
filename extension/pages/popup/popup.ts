@@ -152,6 +152,7 @@ async function setupDashboard() {
 					elementBuilder({ type: "span", class: "hover_tooltip_text", text: description }),
 				],
 				attributes: url ? { href: url, target: "_blank" } : {},
+				dataset: { id },
 			})
 		);
 	}
@@ -299,41 +300,44 @@ async function setupDashboard() {
 			}
 
 			iconsWrap.classList.remove("tt-hidden");
-			[...iconsWrap.children].forEach((icon) => {
-				if (settings.hideIcons.includes(icon.children[0].className)) {
-					icon.classList.add("tt-hidden");
-					return;
-				}
+			Array.from(iconsWrap.children)
+				.filter(isHTMLElement)
+				.forEach((icon) => {
+					if (settings.hideIcons.includes(icon.children[0].className)) {
+						icon.classList.add("tt-hidden");
+						return;
+					}
 
-				if (Object.keys(userdata.icons).includes(icon.children[0].className)) {
-					icon.classList.remove("tt-hidden");
+					const userdataIcon = userdata.icons.find((i) => i.id === parseInt(icon.dataset.id));
+					if (userdataIcon) {
+						icon.classList.remove("tt-hidden");
 
-					let iconText = userdata.icons[icon.children[0].className];
-					let iconHTML: string;
+						let iconText = `${userdataIcon.title} - ${userdataIcon.description}`;
+						let iconHTML: string;
 
-					if (iconText.includes(" - ") && iconText.includes(" seconds")) {
-						let timeSplits = iconText.split(" - ");
-						let time: string, text: string;
+						if (iconText.includes(" - ") && iconText.includes(" seconds")) {
+							let timeSplits = iconText.split(" - ");
+							let time: string, text: string;
 
-						if (timeSplits.length > 2) {
-							time = timeSplits[timeSplits.length - 1];
-							text = timeSplits.slice(0, -1).join(" - ");
-						} else {
-							text = timeSplits[0];
-							time = timeSplits[1];
-						}
+							if (timeSplits.length > 2) {
+								time = timeSplits[timeSplits.length - 1];
+								text = timeSplits.slice(0, -1).join(" - ");
+							} else {
+								text = timeSplits[0];
+								time = timeSplits[1];
+							}
 
-						iconHTML =
-							text +
-							" - " +
-							`<span class="countdown automatic" data-seconds="${(textToTime(time) - (Date.now() - userdata.timestamp * 1000)) / 1000}" data-time-settings='{ "type": "wordTimer", "showDays": true }'>
+							iconHTML =
+								text +
+								" - " +
+								`<span class="countdown automatic" data-seconds="${(textToTime(time) - (Date.now() - userdata.timestamp * 1000)) / 1000}" data-time-settings='{ "type": "wordTimer", "showDays": true }'>
 							${time}
 							</span>`;
-					} else iconHTML = iconText;
+						} else iconHTML = iconText;
 
-					icon.children[1].innerHTML = iconHTML;
-				} else icon.classList.add("tt-hidden");
-			});
+						icon.children[1].innerHTML = iconHTML;
+					} else icon.classList.add("tt-hidden");
+				});
 		}
 
 		function updateBar(name: string, bar: UserV1Bar) {
@@ -420,9 +424,7 @@ async function setupDashboard() {
 		function updateExtra() {
 			if (settings.apiUsage.user.newevents) dashboard.querySelector(".extra .events .count").textContent = userdata.notifications.events.toString();
 			if (settings.apiUsage.user.newmessages)
-				dashboard.querySelector(".extra .messages .count").textContent = Object.values(userdata.messages)
-					.filter((message) => !message.seen)
-					.length.toString();
+				dashboard.querySelector(".extra .messages .count").textContent = userdata.messages.filter((message) => !message.seen).length.toString();
 			if (settings.apiUsage.user.money) dashboard.querySelector(".extra .wallet .count").textContent = `$${formatNumber(userdata.money.wallet)}`;
 		}
 

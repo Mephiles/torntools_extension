@@ -616,18 +616,15 @@ async function updateUserdata(forceUpdate = false) {
 	async function notifyEventMessages() {
 		let eventCount = 0;
 		if (settings.apiUsage.user.newevents) {
-			const events = [];
-			for (const key of Object.keys(userdata.events).reverse()) {
-				const event = userdata.events[key];
-				if (event.seen) break;
-
-				if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[key]) {
-					events.push({ id: key, event: event.event });
-					notifications.events[key] = { combined: true };
+			const events: { id: string; event: string }[] = [];
+			userdata.events.forEach((event) => {
+				if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[event.id]) {
+					events.push({ id: event.id, event: event.event });
+					notifications.events[event.id] = { combined: true };
 				}
 
 				eventCount++;
-			}
+			});
 			if (events.length) {
 				// Remove profile links from event message
 				let message = events.at(-1)!.event.replace(/<\/?[^>]+(>|$)/g, "");
@@ -639,20 +636,20 @@ async function updateUserdata(forceUpdate = false) {
 
 		let messageCount = 0;
 		if (settings.apiUsage.user.newmessages) {
-			const messages = [];
-			for (const key of Object.keys(userdata.messages).reverse()) {
-				const message = userdata.messages[key];
-				if (message.seen) break;
+			const messages: { id: number; title: string; sender: string }[] = [];
+			userdata.messages
+				.filter(({ seen }) => !seen)
+				.forEach((message) => {
+					if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[message.id]) {
+						messages.push({ id: message.id, title: message.topic, sender: message.sender.name });
+						notifications.messages[message.id] = { combined: true };
+					}
 
-				if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[key]) {
-					messages.push({ id: key, title: message.title, name: message.name });
-					notifications.messages[key] = { combined: true };
-				}
+					messageCount++;
+				});
 
-				messageCount++;
-			}
 			if (messages.length) {
-				let message = `${messages.at(-1)!.title} - by ${messages.at(-1)!.name}`;
+				let message = `${messages.at(-1)!.title} - by ${messages.at(-1)!.sender}`;
 				if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
 
 				notifications.messages.combined = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
