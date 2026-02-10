@@ -56,12 +56,12 @@
 
 		const war = data.rankedwars[0];
 
+		const startAt = war.start * TO_MILLIS.SECONDS;
 		if (war.end !== 0) {
 			// Filtered out before we call this function.
 			timeLeftElement.textContent = `Unexpected, please report!`;
-		} else if (war.start > now) {
-			const readyAt = war.start * TO_MILLIS.SECONDS;
-			const timeLeft = readyAt - now;
+		} else if (startAt > now) {
+			const timeLeft = startAt - now;
 
 			if (timeLeft <= TO_MILLIS.HOURS) timeLeftElement.classList.add("short");
 			else if (timeLeft <= TO_MILLIS.HOURS * 6) timeLeftElement.classList.add("medium");
@@ -69,7 +69,7 @@
 			const formatOptions: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
 			timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
 
-			timeLeftElement.dataset.end = readyAt.toString();
+			timeLeftElement.dataset.end = startAt.toString();
 			timeLeftElement.dataset.timeSettings = JSON.stringify(formatOptions);
 			timeLeftElement.dataset.doneText = "Ongoing";
 			countdownTimers.push(timeLeftElement);
