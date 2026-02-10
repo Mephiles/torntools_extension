@@ -13,13 +13,15 @@
 				{ "message": "Adapt to the most recent chat v3 version, which broke all chat features.", "contributor": "DeKleineKobini" },
 				{ "message": "Hopefully fix both inactivity warnings showing a lot of false positives.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't run on the job listing and swagger pages.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix errors on the attack loader page.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix errors on the attack loader page.", "contributor": "DeKleineKobini" },
+				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve faction tab detection to avoid running listeners twice.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve error showing in the feature manager.", "contributor": "DeKleineKobini" },
 				{ "message": "Write a hint for the 'Inside Job' mission.", "contributor": "Taznister" },
-				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" }
+				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" },
+				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" },

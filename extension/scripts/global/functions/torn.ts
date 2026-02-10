@@ -166,6 +166,20 @@ const ALLOWED_BLOOD = {
 
 const CASINO_GAMES = ["slots", "roulette", "high-low", "keno", "craps", "bookie", "lottery", "blackjack", "poker", "r-roulete", "spin-the-wheel"] as const;
 
+const NON_ATTACKABLE_ACCOUNTS: { id: number; reason: "Admin" | "NPC" }[] = [
+	{ id: 1, reason: "Admin" },
+	{ id: 4, reason: "NPC" },
+	{ id: 7, reason: "NPC" },
+	{ id: 9, reason: "NPC" },
+	{ id: 10, reason: "NPC" },
+	{ id: 15, reason: "NPC" },
+	{ id: 17, reason: "NPC" },
+	{ id: 19, reason: "NPC" },
+	{ id: 20, reason: "NPC" },
+	{ id: 21, reason: "NPC" },
+];
+const NON_ATTACKABLE_ACCOUNT_IDS = NON_ATTACKABLE_ACCOUNTS.map(({ id }) => id);
+
 interface DrugDetail {
 	pros: string[];
 	cons?: string[];

@@ -33,6 +33,10 @@ class ScouterService {
 	}
 
 	scoutSingle(target: number): Promise<ScouterResult> {
+		if (NON_ATTACKABLE_ACCOUNT_IDS.includes(target)) {
+			return Promise.resolve({ player_id: target, message: "", message_short: "", isError: true });
+		}
+
 		if (this.inCache(target)) {
 			return Promise.resolve(this.fromCache(target));
 		}
@@ -48,7 +52,7 @@ class ScouterService {
 		const uniqueTargets = Array.from(new Set(targets.map((id) => parseInt(id.toString()))));
 
 		const cachedTargets = uniqueTargets.filter((target) => this.inCache(target));
-		const missingTargets = uniqueTargets.filter((target) => !this.inCache(target));
+		const missingTargets = uniqueTargets.filter((target) => !this.inCache(target)).filter((target) => !NON_ATTACKABLE_ACCOUNT_IDS.includes(target));
 
 		const results = {};
 
@@ -101,6 +105,16 @@ class FFScouterService extends ScouterService {
 
 	async __fetch(targets: number[]): Promise<ScouterResult[]> {
 		const data = await fetchData<FFScouterResult>("ffscouter", { section: "get-stats", includeKey: true, relay: true, params: { targets } });
+		if ("error" in data) {
+			console.error("TT - Failed to scout FF for the following players:", targets, data.error);
+			return targets.map<ScouterResult>((target) => ({
+				player_id: target,
+				message: `Failed to scout: ${data.error}`,
+				message_short: data.error,
+				isError: true,
+			}));
+		}
+
 		const mappedData = data.map<ScouterResult>((result) => {
 			if (result.fair_fight === null) {
 				return {
