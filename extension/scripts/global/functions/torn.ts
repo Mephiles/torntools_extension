@@ -291,7 +291,7 @@ const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Love Juice
 	870: {
-		pros: ["Cost of attacking and reviving reduced by 10 energy.", "+50% Speed", "+25% Dexterity"],
+		pros: ["Cost of attacking and reviving reduced by 15 energy.", "+50% Speed", "+25% Dexterity"],
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5-8 hours",
 	},

@@ -21,7 +21,8 @@
 				{ "message": "Improve error showing in the feature manager.", "contributor": "DeKleineKobini" },
 				{ "message": "Write a hint for the 'Inside Job' mission.", "contributor": "Taznister" },
 				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" },
-				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" }
+				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" },
+				{ "message": "Update Love Juice effects to reflect the changes.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" },
