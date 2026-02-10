@@ -423,23 +423,18 @@ async function updateUserdata(forceUpdate = false) {
 
 		if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
-			userdata.events =
-				// TODO - Migrate to V2 (user/events).
-				// TODO - Migrate to V2 (user/newevents).
-				(
-					await fetchData<UserEventsResponse | UserNewEventsResponse>("tornv2", {
-						section: "user",
-						selections: [category],
-						legacySelections: [category],
-						params: { limit: newEventsCount },
-					})
-				).events;
+			userdata.events = (
+				await fetchData<UserEventsResponse | UserNewEventsResponse>("tornv2", {
+					section: "user",
+					selections: [category],
+					params: { limit: newEventsCount },
+				})
+			).events;
 			selections.push(category);
 		}
 	}
 	if (!("events" in userdata) || userdata?.notifications?.events === 0) {
-		// @ts-expect-error pre-migration shit
-		userdata.events = {};
+		userdata.events = [];
 	}
 
 	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
