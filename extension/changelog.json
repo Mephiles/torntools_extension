@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Ranked War timer in sidebar.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Ranked War timer in sidebar.", "contributor": "DeKleineKobini" },
+				{ "message": "Virus timer in sidebar.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Don't show the FF column more than once on the faction info tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Reduce false positive errors from showing up.", "contributor": "DeKleineKobini" },
