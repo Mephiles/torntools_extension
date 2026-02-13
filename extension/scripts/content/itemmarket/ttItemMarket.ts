@@ -78,6 +78,13 @@
 				triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, { item, element: infoWrapper });
 			}).observe(list, { childList: true });
 		}
+		new MutationObserver((mutations) => {
+			mutations
+				.map((mutation) => mutation.target.parentNode)
+				.filter(isElement)
+				.map((target) => target.closest("li"))
+				.forEach((item) => triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE, { item }));
+		}).observe(list, { characterData: true, subtree: true });
 	}
 
 	function handleSellerList(list: Element, item: number) {

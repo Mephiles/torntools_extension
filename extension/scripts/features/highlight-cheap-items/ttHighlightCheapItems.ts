@@ -75,22 +75,36 @@
 		}
 
 		if (id !== undefined) {
-			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
-				element,
-				price: convertToNumber(element.querySelector("[class*='price___']").textContent),
-				id,
-			}));
+			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)")
+				.map<ItemEntry>((element) => {
+					const priceElement = element.querySelector("[class*='price___']");
+					if (!priceElement) return null;
+
+					return {
+						element,
+						price: convertToNumber(priceElement.textContent),
+						id,
+					};
+				})
+				.filter((item) => !!item);
 
 			handleItemSellers(id, itemSellers);
 		}
 
 		if (params.has("itemID")) {
 			const id = parseInt(params.get("itemID"));
-			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)").map<ItemEntry>((element) => ({
-				element,
-				price: convertToNumber(element.querySelector("[class*='price___']").textContent),
-				id,
-			}));
+			const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)")
+				.map<ItemEntry>((element) => {
+					const priceElement = element.querySelector("[class*='price___']");
+					if (!priceElement) return null;
+
+					return {
+						element,
+						price: convertToNumber(priceElement.textContent),
+						id,
+					};
+				})
+				.filter((item) => !!item);
 
 			handleItemSellers(id, itemSellers);
 		}
@@ -108,10 +122,13 @@
 				const image = element.querySelector<HTMLImageElement>("img.torn-item");
 				if (!image) return null;
 
+				const priceElement = element.querySelector("[class*='priceAndTotal'] > span");
+				if (!priceElement) return null;
+
 				return {
 					element,
 					id: convertToNumber(image.src),
-					price: convertToNumber(element.querySelector("[class*='priceAndTotal'] > span").textContent),
+					price: convertToNumber(priceElement.textContent),
 				};
 			})
 			.filter((item) => item?.element);

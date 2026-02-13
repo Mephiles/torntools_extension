@@ -19,7 +19,11 @@
 				{ "message": "Fix errors on the attack loader page.", "contributor": "DeKleineKobini" },
 				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" },
 				{
-					"message": "Fix multiple revive providers no longer working properly, after they broke it by unilateraly changing their API without letting us known: Nuke, UHC, Laekna.",
+					"message": "Fix multiple revive providers no longer working properly, after they broke it by unilaterally changing their API without letting us known: Nuke, UHC, Laekna.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Fix cheap highlighted items to not be unhighlighted.",
 					"contributor": "DeKleineKobini"
 				}
 			],
