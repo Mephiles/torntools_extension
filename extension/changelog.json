@@ -17,7 +17,11 @@
 				{ "message": "Hopefully fix both inactivity warnings showing a lot of false positives.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't run on the job listing and swagger pages.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix errors on the attack loader page.", "contributor": "DeKleineKobini" },
-				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" }
+				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Fix multiple revive providers no longer working properly, after they broke it by unilateraly changing their API without letting us known: Nuke, UHC, Laekna.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Improve faction tab detection to avoid running listeners twice.", "contributor": "DeKleineKobini" },

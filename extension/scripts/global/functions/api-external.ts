@@ -57,7 +57,7 @@ const REVIVE_PROVIDERS: ReviveProvider[] = [
 					},
 				})
 					.then((response) => {
-						if (response.success) resolve({ response });
+						if (response.success || response.data) resolve({ response });
 						else reject(response);
 					})
 					.catch((reason) => reject(reason));
@@ -77,10 +77,10 @@ const REVIVE_PROVIDERS: ReviveProvider[] = [
 				fetchData("uhc", {
 					...__DEFAULT_REVIVE_REQUEST,
 					section: "api/request",
-					body: { userID: id, userName: name, factionName: faction, source },
+					body: { userID: parseInt(id), userName: name, factionName: faction, source },
 				})
 					.then((response) => {
-						if (response.success) resolve({ response });
+						if (response.success || !response.error) resolve({ response });
 						else reject(response);
 					})
 					.catch((reason) => reject(reason));
@@ -158,7 +158,7 @@ const REVIVE_PROVIDERS: ReviveProvider[] = [
 					body: { userID: id, userName: name, factionName: faction, travelLocation: country, source },
 				})
 					.then((response) => {
-						if (response === "Posted") resolve({ response: {} });
+						if (response === "Posted" || response === "OK") resolve({ response: {} });
 						else reject(response);
 					})
 					.catch((reason) => reject(reason));
