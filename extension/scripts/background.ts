@@ -1429,6 +1429,9 @@ async function updateTorndata() {
 		selections: ["education", "calendar", "properties", "honors", "medals", "items", "pawnshop", "stats"],
 		legacySelections: ["pawnshop", "stats"],
 	});
+	if (data.stats.points_averagecost === null || data.stats.points_averagecost <= 0) {
+		throw new Error("Aborted updating due to an unexpected/corrupted response.");
+	}
 
 	const newData = {
 		...data,

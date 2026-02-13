@@ -22,7 +22,8 @@
 				{ "message": "Write a hint for the 'Inside Job' mission.", "contributor": "Taznister" },
 				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" },
 				{ "message": "Proper error handling for FFScouter error responses.", "contributor": "DeKleineKobini" },
-				{ "message": "Update Love Juice effects to reflect the changes.", "contributor": "DeKleineKobini" }
+				{ "message": "Update Love Juice effects to reflect the changes.", "contributor": "DeKleineKobini" },
+				{ "message": "Reject the update of torndata if Torns response is corrupted.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Remove block zalgo because it's no longer relevant.", "contributor": "DeKleineKobini" },
