@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 8, "minor": 1, "build": 1 },
+		"version": { "major": 8, "minor": 1, "build": 2 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 8, "minor": 1, "build": 1 },
+		"date": "2026/02/14",
 		"logs": {
 			"features": [
 				{ "message": "Ranked War timer in sidebar.", "contributor": "DeKleineKobini" },
@@ -22,10 +27,7 @@
 					"message": "Fix multiple revive providers no longer working properly, after they broke it by unilaterally changing their API without letting us known: Nuke, UHC, Laekna.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "Fix cheap highlighted items to not be unhighlighted.",
-					"contributor": "DeKleineKobini"
-				}
+				{ "message": "Fix cheap highlighted items to not be unhighlighted.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve faction tab detection to avoid running listeners twice.", "contributor": "DeKleineKobini" },
