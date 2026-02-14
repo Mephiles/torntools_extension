@@ -46,6 +46,8 @@
 		}
 
 		async function displayAvailable(amount: number) {
+			if (document.querySelector("[class*='manualSpawnerContainer___']")) return;
+
 			const crimes = document.querySelector("#faction-crimes");
 
 			let message: string;
