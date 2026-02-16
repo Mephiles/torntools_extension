@@ -3,7 +3,13 @@
 		"version": { "major": 8, "minor": 1, "build": 2 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [{ "message": "Show crime item values in crimes 2.0.", "contributor": "DeKleineKobini" }],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 8, "minor": 1, "build": 1 },

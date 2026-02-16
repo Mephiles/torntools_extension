@@ -863,6 +863,7 @@ const DEFAULT_STORAGE = {
 			},
 			crimes2: {
 				burglaryFilter: new DefaultSetting("boolean", true),
+				value: new DefaultSetting("boolean", true),
 			},
 		},
 		scripts: {
