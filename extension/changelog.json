@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix the weapon and temporary weapon filters on the travel table.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the weapon category filter on the armory filter.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the weapon category filter on the armory filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the weapon category filter on the auction house filter.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
