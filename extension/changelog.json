@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix the weapon and temporary weapon filters on the travel table.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix the weapon and temporary weapon filters on the travel table.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the weapon category filter on the armory filter.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": []
