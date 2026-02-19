@@ -603,7 +603,7 @@ async function updateUserdata(forceUpdate = false) {
 		if ("icons" in userdata) {
 			const icon85 = userdata.icons.find(({ id }) => id === 85);
 			if (icon85) {
-				userdata.userCrime = userdata.timestamp * TO_MILLIS.SECONDS + textToTime(icon85.description.split("-").at(-1)!.trim());
+				userdata.userCrime = icon85.until * 1000;
 			} else if (userdata.icons.some(({ id }) => id === 86)) {
 				userdata.userCrime = userdata.timestamp * TO_MILLIS.SECONDS;
 			} else {

@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix the weapon and temporary weapon filters on the travel table.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the weapon category filter on the armory filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the weapon category filter on the auction house filter.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the weapon category filter on the auction house filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix oc1 timer if it's based on your icons.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change torndata update rules to make sure we get up-to-date point stats.", "contributor": "DeKleineKobini" },
