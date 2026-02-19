@@ -218,7 +218,11 @@ function timedUpdates() {
 				.catch((error) => logError("updating faction stakeouts", error))
 		);
 
-		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
+		if (
+			!torndata ||
+			!isSameUTCDay(new Date(torndata.date), new Date()) ||
+			(!isSameUTCDay(new Date(torndata.stats.timestamp * 1000), new Date(torndata.date)) && hasTimePassed(torndata.date, TO_MILLIS.MINUTES * 10))
+		) {
 			// Update once every torn day.
 			updatePromises.push(
 				updateTorndata()
@@ -1433,7 +1437,7 @@ async function updateTorndata() {
 		throw new Error("Aborted updating due to an unexpected/corrupted response.");
 	}
 
-	const newData = {
+	const newData: StoredTorndata = {
 		...data,
 		itemsMap: data.items.reduce((map, item) => {
 			map[item.id] = item;

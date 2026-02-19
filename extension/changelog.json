@@ -10,7 +10,7 @@
 				{ "message": "Fix the weapon category filter on the armory filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the weapon category filter on the auction house filter.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Change torndata update rules to make sure we get up-to-date point stats.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
