@@ -796,11 +796,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=crimes*", "https://www.torn.com/page.php?sid=crimes*"],
-			"css": ["scripts/global/functions/filters.css", "scripts/features/crimes2-burglary-filter/ttBurglaryFilter.css"],
+			"css": [
+				"scripts/global/functions/filters.css",
+				"scripts/features/crimes2-burglary-filter/ttBurglaryFilter.css",
+				"scripts/features/crime-value/ttCrimeValue.css"
+			],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/crimes2/ttCrimes2.js",
-				"scripts/features/crimes2-burglary-filter/ttBurglaryFilter.js"
+				"scripts/features/crimes2-burglary-filter/ttBurglaryFilter.js",
+				"scripts/features/crime-value/ttCrimeValue.js"
 			],
 			"run_at": "document_end"
 		},

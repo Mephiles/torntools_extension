@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Show crime item values in crimes 2.0.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix the weapon and temporary weapon filters on the travel table.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the weapon category filter on the armory filter.", "contributor": "DeKleineKobini" },
