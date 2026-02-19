@@ -308,7 +308,7 @@ type FetchedUserdata = UserProfileResponse &
 	UserMedalsResponse &
 	UserMissionsResponse &
 	UserV1EducationResponse &
-	FactionAttacksResponse &
+	AttacksResponse &
 	(UserEventsResponse | UserNewEventsResponse) &
 	UserVirusResponse;
 

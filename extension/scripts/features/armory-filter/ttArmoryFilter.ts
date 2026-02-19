@@ -223,7 +223,10 @@
 			}
 		}
 		if (filters.category) {
-			if (torndata.itemsMap[id].type.toLowerCase() !== filters.category) {
+			const details = id in torndata.itemsMap && torndata.itemsMap[id].details;
+			const itemCategory = details && "category" in details ? details.category.toLowerCase() : torndata.itemsMap[id].type;
+
+			if (itemCategory !== filters.category) {
 				hide("category");
 				return;
 			}

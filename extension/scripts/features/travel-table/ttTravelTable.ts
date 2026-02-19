@@ -10,6 +10,8 @@
 		time: number;
 	}
 
+	type TableCategory = "plushie" | "flower" | "drug" | "temporary" | "weapon" | "other";
+
 	const COUNTRIES: { [name: string]: CountryInformation } = {
 		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: 167 },
 		can: { name: "Canada", image: "canada", tag: "canada", cost: 9000, time: 41 },
@@ -358,17 +360,22 @@
 			type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
 
 			function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
-				let category = item.id in torndata.itemsMap ? torndata.itemsMap[item.id].type.toLowerCase() : "other";
-				switch (category) {
+				const itemType: Lowercase<TornItemTypeEnum> =
+					item.id in torndata.itemsMap ? (torndata.itemsMap[item.id].type.toLowerCase() as Lowercase<TornItemTypeEnum>) : "other";
+				const subType: Lowercase<TornItemWeaponTypeEnum> | null =
+					item.id in torndata.itemsMap && torndata.itemsMap[item.id].sub_type
+						? (torndata.itemsMap[item.id].sub_type.toLowerCase() as Lowercase<TornItemWeaponTypeEnum>)
+						: null;
+
+				let category: TableCategory;
+				switch (itemType) {
 					case "plushie":
 					case "flower":
 					case "drug":
-					case "temporary":
+						category = itemType;
 						break;
-					case "melee":
-					case "primary":
-					case "secondary":
-						category = "weapon";
+					case "weapon":
+						category = subType === "temporary" ? "temporary" : "weapon";
 						break;
 					case "alcohol":
 					case "clothing":
