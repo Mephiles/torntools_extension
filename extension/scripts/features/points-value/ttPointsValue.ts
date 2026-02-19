@@ -41,22 +41,25 @@
 		}
 
 		block.classList.add("tt-points-value");
-
-		const value = torndata.stats.points_averagecost;
-		const points = convertToNumber(block.querySelector("span[class*='value___']").textContent);
-
-		block.addEventListener("mouseover", () => {
-			for (const elements of findAllElements(":scope > span", block))
-				elements.setAttribute(
-					"title",
-					`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
-						currency: true,
-						shorten: 2,
-					})}`
-				);
-		});
+		block.addEventListener("mouseover", setTitleAttributes);
+		setTitleAttributes();
 
 		executeScript(chrome.runtime.getURL("scripts/features/points-value/ttPointsValue.inject.js"));
+	}
+
+	function setTitleAttributes() {
+		findAllElements(".tt-points-value > span").forEach((element) => {
+			const value = torndata.stats.points_averagecost;
+			const points = convertToNumber(element.parentElement.querySelector("span[class*='value___']").textContent);
+
+			element.setAttribute(
+				"title",
+				`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
+					currency: true,
+					shorten: 2,
+				})}`
+			);
+		});
 	}
 
 	function removeValue() {
@@ -64,6 +67,7 @@
 		if (!block) return;
 
 		block.classList.remove("tt-points-value");
+		block.removeEventListener("mouseover", setTitleAttributes);
 		for (const elements of findAllElements(":scope > span", block)) elements.removeAttribute("title");
 	}
 
