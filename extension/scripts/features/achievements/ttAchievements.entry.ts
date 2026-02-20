@@ -37,97 +37,103 @@
 	async function showAchievements() {
 		await requireSidebar();
 
-		const page = getPage();
-		let achievements = ACHIEVEMENTS.filter(
-			(achievement) =>
-				(!achievement.requirements.pages || achievement.requirements.pages.includes(page)) &&
-				(!achievement.requirements.condition || achievement.requirements.condition())
-		).sort((a, b) => {
-			let upperA = a.group ? a.group.toUpperCase() : a.name.toUpperCase();
-			let upperB = b.group ? b.group.toUpperCase() : b.name.toUpperCase();
-
-			if (upperA > upperB) return 1;
-			else if (upperA < upperB) return -1;
-			else {
-				upperA = a.name.toUpperCase();
-				upperB = b.name.toUpperCase();
-
-				if (upperA > upperB) return 1;
-				else if (upperA < upperB) return -1;
-				else return 0;
-			}
-		});
-		if (!achievements.length) return;
-
-		fillGoals();
+		let achievements = getRelevantAchievements(getPage());
 
 		if (!settings.scripts.achievements.completed) {
 			achievements = achievements.filter((achievement) => !achievement.completed);
-
-			if (!achievements.length) {
-				removeAchievements();
-				return;
-			}
 		}
 
-		displayContainer();
+		if (!achievements.length) {
+			removeAchievements();
+			return;
+		}
 
-		function fillGoals() {
-			ACHIEVEMENTS.forEach((achievement) => {
-				achievement.current = achievement.stats();
+		displayContainer(achievements);
 
-				if (achievement.detection) {
-					achievement.goals = [];
+		function getRelevantAchievements(page: string): EnrichedAchievement[] {
+			return ACHIEVEMENTS.filter(
+				(achievement) =>
+					(!achievement.requirements.pages || achievement.requirements.pages.includes(page)) &&
+					(!achievement.requirements.condition || achievement.requirements.condition())
+			)
+				.map<EnrichedAchievement>((achievement) => {
+					const goals: EnrichedGoal[] = [];
+					let current: number;
+					let completed: boolean;
 
-					let { keyword, include, exclude, goals } = achievement.detection;
-					if (!include) include = [];
-					if (!exclude) exclude = [];
+					try {
+						current = achievement.stats();
+					} catch (error) {
+						console.error(`Achievement "${achievement.name}" failed to calculate its score.`, error);
+						current = -1;
+					}
 
-					if (keyword) {
-						for (const type of ["honors", "medals"]) {
-							const merits: TornMedal[] | TornHonor[] = torndata[type];
+					if (achievement.detection) {
+						let { keyword, include, exclude, goals: detectedGoals } = achievement.detection;
+						if (!include) include = [];
+						if (!exclude) exclude = [];
 
-							for (const merit of merits) {
-								const description = merit.description.toLowerCase();
-								if (!description.includes(keyword)) continue;
+						if (keyword) {
+							for (const type of ["honors", "medals"] as ("honors" | "medals")[]) {
+								const merits = torndata[type];
 
-								if (include.length && !include.every((incl) => description.includes(incl))) continue;
-								if (exclude.length && exclude.some((excl) => description.includes(excl))) continue;
+								for (const merit of merits) {
+									const description = merit.description.toLowerCase();
+									if (!description.includes(keyword)) continue;
 
-								let desc = description;
-								desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
-								desc = desc.replace(/\D|\d+%/g, ""); // replace all non-numbers and percentages
+									if (include.length && !include.every((incl) => description.includes(incl))) continue;
+									if (exclude.length && exclude.some((excl) => description.includes(excl))) continue;
 
-								const score = parseInt(desc) || null;
-								if (score === null || isNaN(score)) continue;
+									let desc = description;
+									desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
+									desc = desc.replace(/\D|\d+%/g, ""); // replace all non-numbers and percentages
 
-								// Remove duplicates.
-								const duplicate = achievement.goals.find((goal) => goal.score === score);
-								if (duplicate) {
-									duplicate.count = duplicate.count ? duplicate.count + 1 : 2;
-									continue;
+									const score = parseInt(desc) || null;
+									if (score === null || isNaN(score)) continue;
+
+									// Remove duplicates.
+									const duplicate = goals.find((goal) => goal.score === score);
+									if (duplicate) {
+										duplicate.count++;
+										continue;
+									}
+
+									goals.push({
+										score,
+										completed: !!userdata[type].find((a: any) => a.id === merit.id),
+										count: 1,
+									});
 								}
-
-								achievement.goals.push({ score, completed: !!userdata[type].find((a: TornHonor | TornMedal) => a.id === merit.id) });
 							}
 						}
-					}
-					if (goals)
-						achievement.goals.push(...goals.map(({ score, type, id }) => ({ score: score, completed: !!userdata[type].find((a) => a.id === id) })));
 
-					achievement.goals = achievement.goals.sort((a, b) => {
-						if (a.score > b.score) return 1;
-						else if (a.score < b.score) return -1;
-						else return 0;
-					});
-					achievement.completed = achievement.goals.every((goal) => goal.completed);
-				} else {
-					achievement.completed = false;
-				}
-			});
+						if (detectedGoals) {
+							goals.push(
+								...detectedGoals.map(({ score, type, id }) => ({ score, completed: !!userdata[type].find((a) => a.id === id), count: 1 }))
+							);
+						}
+
+						goals.sort((a, b) => a.score - b.score);
+						completed = goals.every((goal) => goal.completed);
+					}
+
+					return {
+						...achievement,
+						goals,
+						current,
+						completed,
+					};
+				})
+				.sort((a, b) => {
+					const groupA = (a.group ?? a.name).toUpperCase();
+					const groupB = (b.group ?? b.name).toUpperCase();
+
+					if (groupA !== groupB) return groupA.localeCompare(groupB);
+					return a.name.toUpperCase().localeCompare(b.name.toUpperCase());
+				});
 		}
 
-		function displayContainer() {
+		function displayContainer(achievements: EnrichedAchievement[]) {
 			const { content, options } = createContainer("Awards", {
 				applyRounding: false,
 				contentBackground: false,
@@ -145,16 +151,17 @@
 			document.body.appendChild(tooltip);
 
 			for (const achievement of achievements) {
-				const hasGoals = !!achievement.goals;
+				const hasGoals = achievement.goals && achievement.goals.length > 0;
 
 				const dataset: { [key: string]: any } = { score: achievement.current };
 				let text: string;
 				if (achievement.completed) text = "Completed!";
-				else if (achievement.goals)
-					text = `${formatNumber(achievement.current, { shorten: true })}/${formatNumber(achievement.goals.find((goal) => !goal.completed).score, {
-						shorten: true,
-					})}`;
-				else text = formatNumber(achievement.current, { shorten: true });
+				else if (hasGoals) {
+					const nextGoal = achievement.goals.find((goal) => !goal.completed);
+					text = `${formatNumber(achievement.current, { shorten: true })}/${formatNumber(nextGoal?.score || achievement.current, { shorten: true })}`;
+				} else {
+					text = formatNumber(achievement.current, { shorten: true });
+				}
 
 				if (hasGoals) dataset.goals = achievement.goals.map(({ score, completed }) => ({ score, completed }));
 

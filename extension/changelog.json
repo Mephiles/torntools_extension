@@ -3,7 +3,17 @@
 		"version": { "major": 8, "minor": 1, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [
+				{ "message": "Track arson skill for the achievements.", "contributor": "DeKleineKobini" },
+				{ "message": "Track stock investment for the achievements.", "contributor": "DeKleineKobini" },
+				{ "message": "General improvements to the achievements feature.", "contributor": "DeKleineKobini" }
+			],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 8, "minor": 1, "build": 2 },

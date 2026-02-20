@@ -10,7 +10,14 @@ type Achievement = {
 		goals?: { score: number; type: "honors" | "medals"; id: number }[];
 	};
 	requirements: { pages: string[]; condition?: () => boolean };
-} & { goals?: { score: number; completed: boolean; count?: number }[]; current?: number; completed?: boolean };
+};
+
+interface EnrichedGoal {
+	score: number;
+	completed: boolean;
+	count: number;
+}
+type EnrichedAchievement = Achievement & { goals: EnrichedGoal[]; current: number; completed: boolean };
 
 const ACHIEVEMENTS: Achievement[] = [
 	{
@@ -677,6 +684,15 @@ const ACHIEVEMENTS: Achievement[] = [
 		requirements: { pages: ["stocks"] },
 	},
 	{
+		name: "Stock investment",
+		stats: () =>
+			Object.entries(userdata.stocks)
+				.map(([id, stock]) => stock.total_shares * (stockdata[id] as TornV1Stock).current_price)
+				.reduce((total, value) => total + value, 0),
+		detection: { keyword: "stock market", include: ["invest"] },
+		requirements: { pages: ["stocks"] },
+	},
+	{
 		name: "Age",
 		stats: () => userdata.profile.age,
 		detection: {
@@ -940,6 +956,13 @@ const ACHIEVEMENTS: Achievement[] = [
 		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
 	},
 	{
+		name: "Arson Skill",
+		group: "crime skill",
+		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).skills.arson,
+		detection: { keyword: "arson", include: ["skill"] },
+		requirements: { pages: ["crimes"], condition: () => userdata.personalstats.crimes.version === "v2" },
+	},
+	{
 		name: "Org. crimes",
 		stats: () => (userdata.personalstats.crimes as PersonalStatsCrimesV2).offenses.organized_crimes,
 		detection: { keyword: "organized crimes" },
@@ -951,12 +974,12 @@ const ACHIEVEMENTS: Achievement[] = [
 function validateAchievements() {
 	const EXPLICITLY_IGNORED_MEDALS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
 	const EXPLICITLY_IGNORED_HONORS = [
-		3, 5, 8, 9, 10, 12, 14, 19, 21, 26, 156, 167, 212, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 228, 230, 231, 233, 234, 235, 237,
-		246, 253, 254, 255, 256, 257, 258, 263, 269, 274, 275, 276, 277, 278, 279, 280, 281, 283, 284, 288, 294, 297, 298, 306, 308, 309, 311, 312, 313, 315,
-		316, 317, 318, 321, 322, 326, 327, 330, 338, 367, 371, 375, 380, 395, 406, 414, 417, 427, 431, 437, 443, 459, 475, 476, 477, 478, 481, 488, 491, 500,
+		5, 8, 9, 10, 12, 14, 19, 21, 26, 156, 167, 212, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 228, 230, 231, 233, 234, 235, 237, 246,
+		253, 254, 255, 256, 257, 258, 263, 269, 274, 275, 276, 277, 278, 279, 280, 281, 283, 284, 288, 294, 297, 298, 306, 308, 309, 311, 312, 313, 315, 316,
+		317, 318, 321, 322, 326, 327, 328, 330, 338, 367, 371, 375, 380, 395, 406, 414, 417, 427, 431, 437, 443, 459, 475, 476, 477, 478, 481, 488, 491, 500,
 		513, 519, 527, 544, 545, 548, 605, 608, 611, 615, 617, 627, 631, 641, 665, 670, 676, 678, 699, 700, 716, 717, 719, 729, 730, 731, 734, 739, 743, 781,
-		827, 828, 838, 839, 843, 845, 851, 853, 860, 863, 869, 870, 871, 882, 888, 896, 902, 916, 951, 955, 964, 966, 969, 1007, 1012, 1031, 1032, 1038, 1054,
-		1076, 1097, 1106, 1129, 1136, 1166,
+		827, 828, 838, 839, 843, 845, 851, 853, 860, 863, 869, 870, 871, 882, 888, 896, 902, 916, 951, 955, 964, 966, 969, 1007, 1012, 1028, 1031, 1032, 1038,
+		1054, 1076, 1097, 1106, 1129, 1136, 1166, 1218, 1229, 1241, 1243, 1271, 1284, 1326, 1328, 1349, 1360, 1371, 1387,
 	];
 
 	const nonMatchingMedals = torndata.medals
