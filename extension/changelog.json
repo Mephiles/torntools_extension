@@ -13,7 +13,8 @@
 			],
 			"changes": [
 				{ "message": "Change torndata update rules to make sure we get up-to-date point stats.", "contributor": "DeKleineKobini" },
-				{ "message": "Make the points value hover text change when the value changes.", "contributor": "DeKleineKobini" }
+				{ "message": "Make the points value hover text change when the value changes.", "contributor": "DeKleineKobini" },
+				{ "message": "General improvements to the energy warning feature.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []

@@ -22,19 +22,17 @@
 
 	function initialiseListener() {
 		document.addEventListener("click", (event) => {
-			if (!feature.enabled()) return;
+			if (!feature.enabled() || !isElement(event.target)) return;
 
 			let item: HTMLElement | undefined;
-			if (factionPage) item = (event.target as Element).closest("li");
-			else item = (event.target as Element).closest("li[data-category*='Drug'], li[data-category*='Energy Drink']");
+			if (factionPage) item = event.target.closest("li");
+			else item = event.target.closest("li[data-category]");
 
 			if (item) addWarning(item);
 		});
 	}
 
 	async function addWarning(item: HTMLElement) {
-		if (!item) return;
-
 		findAllElements(".tt-energy-warning", item).forEach((x) => x.remove());
 
 		const message: Element = await requireElement(".confirm-wrap, .use-act", { parent: item });
@@ -43,19 +41,19 @@
 		const received = getItemEnergy(factionPage ? item.querySelector<HTMLElement>(".img-wrap").dataset.itemid : item.dataset.item);
 		if (!received) return;
 
-		const [current, max] = getUserEnergy();
-		if (current > max && received + current > 1000) {
-			const warning = elementBuilder({
-				type: "div",
-				class: "tt-energy-warning",
-				text: "Warning! Using this item increases your energy to over 1000!",
-			});
+		const [current] = getUserEnergy();
+		if (received + current <= 1000) return;
 
-			if (factionPage) message.querySelector(".confirm").insertAdjacentElement("afterend", warning);
-			else message.querySelector("#wai-action-desc").appendChild(warning);
+		const warning = elementBuilder({
+			type: "div",
+			class: "tt-energy-warning",
+			text: "Warning! Using this item increases your energy to over 1000!",
+		});
 
-			message.querySelector<HTMLElement>("a.next-act").addEventListener("click", clickListener, { capture: true, once: true });
-		}
+		if (factionPage) message.querySelector(".confirm").insertAdjacentElement("afterend", warning);
+		else message.querySelector(".act #wai-action-desc").appendChild(warning);
+
+		message.querySelector<HTMLElement>("a.next-act").addEventListener("click", clickListener, { capture: true, once: true });
 	}
 
 	function clickListener(event: MouseEvent) {
