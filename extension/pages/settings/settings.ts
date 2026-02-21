@@ -1814,6 +1814,9 @@ async function setupExport() {
 	async function importData(data: ExportData) {
 		try {
 			await ttStorage.change(data.database);
+			if ("api" in data.database) {
+				await chrome.runtime.sendMessage({ action: "initialize" } satisfies BackgroundMessage);
+			}
 		} catch (error) {
 			sendMessage("Couldn't save the imported database.", false);
 			return;
