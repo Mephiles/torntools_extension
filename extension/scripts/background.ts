@@ -185,7 +185,7 @@ async function sendNotifications() {
 }
 
 function timedUpdates() {
-	const updatePromises = [];
+	const updatePromises: Promise<unknown>[] = [];
 	if (api.torn.key) {
 		updatePromises.push(
 			updateUserdata()
@@ -2105,4 +2105,15 @@ async function verifyTime() {
 	}
 
 	await ttStorage.set({ time: now });
+}
+
+if ("connection" in navigator) {
+	// @ts-expect-error Not part of the standard, only available on Chromium-based browsers.
+	navigator.connection.addEventListener("change", () => {
+		if (navigator.onLine) timedUpdates();
+	});
+} else if (typeof window !== "undefined") {
+	window.addEventListener("online", timedUpdates);
+} else {
+	self.addEventListener("online", timedUpdates);
 }
