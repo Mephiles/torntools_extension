@@ -764,6 +764,7 @@
 			"js": [
 				"scripts/global/elements/table/ttTable.js",
 				"scripts/features/bank-investment-info/ttBankInvestmentInfo.js",
+				"scripts/features/bank-investment-info/reactivity.js",
 				"scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"
 			],
 			"run_at": "document_end"
