@@ -9,7 +9,8 @@
 			"changes": [
 				{ "message": "Track arson skill for the achievements.", "contributor": "DeKleineKobini" },
 				{ "message": "Track stock investment for the achievements.", "contributor": "DeKleineKobini" },
-				{ "message": "General improvements to the achievements feature.", "contributor": "DeKleineKobini" }
+				{ "message": "General improvements to the achievements feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Reload the extension to get the available update faster.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []

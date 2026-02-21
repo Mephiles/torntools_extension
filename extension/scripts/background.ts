@@ -2041,6 +2041,8 @@ chrome.notifications.onClicked.addListener((id) => {
 	}
 });
 
+chrome.runtime.onUpdateAvailable.addListener(() => chrome.runtime.reload());
+
 function getNotificationSound(type: string, allowDefault = false) {
 	switch (type) {
 		case "1":
