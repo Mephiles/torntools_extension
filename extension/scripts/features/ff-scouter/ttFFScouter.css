@@ -23,11 +23,11 @@
 		 */
 		max-width: min(180px, calc(100vw - 20px - 63px - 75px - 1px));
 		height: 30px;
-        text-align: end;
+		text-align: end;
 
 		& > span {
-            font-size: 8px;
-	    }
+			font-size: 8px;
+		}
 	}
 }
 
