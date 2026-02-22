@@ -11,6 +11,24 @@
 	float: right;
 	padding-right: 10px;
 	color: var(--tt-color-light-green);
+
+	&.tt-ff-scouter-error {
+		display: flex;
+		flex-direction: column;
+		line-height: normal;
+		/*
+		 * 2 x 10px for the margins
+		 * 63px for the actions text
+		 * 75px for the stats estimates
+		 */
+		max-width: min(180px, calc(100vw - 20px - 63px - 75px - 1px));
+		height: 30px;
+        text-align: end;
+
+		& > span {
+            font-size: 8px;
+	    }
+	}
 }
 
 .tt-ff-scouter-mini-profile {

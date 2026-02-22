@@ -43,6 +43,8 @@
 		const element = elementBuilder({ type: "span", class: ["tt-ff-scouter-profile", className], text: message });
 		if (detailMessage) {
 			element.setAttribute("title", detailMessage);
+			element.textContent = "Failed to scout";
+			element.appendChild(elementBuilder({ type: "span", text: message }));
 		}
 
 		const title = document.querySelector(".profile-right-wrapper > .profile-action .title-black");

@@ -146,8 +146,8 @@ function scouterService() {
 	return selectedService.service;
 }
 
-function buildScoutInformation(scout: ScouterResult): { message: string; className: string; detailMessage: string } {
-	let message: string, className: string, detailMessage: string;
+function buildScoutInformation(scout: ScouterResult): { message: string; className: string | null; detailMessage: string | null } {
+	let message: string, className: string | null, detailMessage: string | null;
 	if (!("message" in scout)) {
 		const now = Date.now();
 		const age = now - scout.last_updated * 1000;
