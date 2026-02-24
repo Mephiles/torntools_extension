@@ -87,17 +87,6 @@ function requireChatsLoaded(): Promise<void> {
 	return requireElement("#chatRoot [class*='chat-list-button__'], #notes_settings_button");
 }
 
-function requireFeatureManager(): Promise<void> {
-	return new Promise((resolve) => {
-		const featureManagerIntervalID = setInterval(() => {
-			while (typeof featureManager === "undefined") {}
-
-			clearInterval(featureManagerIntervalID);
-			resolve();
-		}, 100);
-	});
-}
-
 interface ChainedObserver {
 	observer: MutationObserver;
 	selectorResult: Element;

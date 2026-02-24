@@ -1,5 +1,12 @@
 (async () => {
-	await requireFeatureManager();
+	await new Promise<void>((resolve) => {
+		const featureManagerIntervalID = setInterval(() => {
+			while (typeof featureManager === "undefined") {}
+
+			clearInterval(featureManagerIntervalID);
+			resolve();
+		}, 100);
+	});
 
 	featureManager.registerFeature(
 		"Hide Leave Buttons",

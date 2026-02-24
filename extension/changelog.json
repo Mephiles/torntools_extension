@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Resolve ff scouter errors on the profile blocking all actions.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Resolve ff scouter errors on the profile blocking all actions.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Track arson skill for the achievements.", "contributor": "DeKleineKobini" },
 				{ "message": "Track stock investment for the achievements.", "contributor": "DeKleineKobini" },
