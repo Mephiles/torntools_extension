@@ -116,8 +116,7 @@
 			"matches": ["https://www.torn.com/*.php*"],
 			"exclude_matches": [
 				"https://www.torn.com/logout.php*",
-				"https://www.torn.com/swagger.php*",
-				"https://www.torn.com/joblisting.php*"
+				"https://www.torn.com/swagger.php*"
 			],
 			"css": [
 				"scripts/features/colored-chat/ttColoredChat.css",
@@ -154,8 +153,7 @@
 			"exclude_matches": [
 				"https://www.torn.com/logout.php*",
 				"https://www.torn.com/loader.php?sid=attack&*",
-				"https://www.torn.com/swagger.php*",
-				"https://www.torn.com/joblisting.php*"
+				"https://www.torn.com/swagger.php*"
 			],
 			"css": [
 				"scripts/features/hide-leave/ttHideLeave.css",
@@ -185,8 +183,7 @@
 			"exclude_matches": [
 				"https://www.torn.com/logout.php*",
 				"https://www.torn.com/loader.php?sid=attack&*",
-				"https://www.torn.com/swagger.php*",
-				"https://www.torn.com/joblisting.php*"
+				"https://www.torn.com/swagger.php*"
 			],
 			"css": [
 				"scripts/features/custom-links/ttCustomLinks.css",
