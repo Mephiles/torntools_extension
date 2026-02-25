@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Add FF Score filter to the user list filter.", "contributor": "jensim" }],
+			"features": [
+				{ "message": "Add FF Score filter to the user list filter.", "contributor": "jensim" },
+				{ "message": "Add FF Score filter to the abroad user filter.", "contributor": "jensim" }
+			],
 			"fixes": [],
 			"changes": [],
 			"removed": [],
