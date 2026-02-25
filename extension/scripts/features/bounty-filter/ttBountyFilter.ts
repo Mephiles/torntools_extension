@@ -45,7 +45,7 @@
 		content.appendChild(cbHideUnavailable.element);
 		const maxLevelConstainer = elementBuilder({
 			type: "div",
-		})
+		});
 		maxLevelConstainer.appendChild(maxLevelInput);
 		content.appendChild(maxLevelConstainer);
 		maxLevelConstainer.appendChild(
@@ -58,7 +58,7 @@
 		if (settings.scripts.ffScouter.gauge && settings.external.ffScouter) {
 			const maxFfScoreContainer = elementBuilder({
 				type: "div",
-			})
+			});
 			content.appendChild(maxFfScoreContainer);
 			maxFfScoreInput = elementBuilder({
 				type: "input",
@@ -104,7 +104,6 @@
 			if (!feature.enabled()) return;
 			filterListing();
 		});
-		
 
 		async function filterListing() {
 			console.log("filterListing");

@@ -999,7 +999,7 @@ const DEFAULT_STORAGE = {
 		bounties: {
 			maxLevel: new DefaultSetting("number", 100),
 			hideUnavailable: new DefaultSetting("boolean", false),
-			maxFfScore: new DefaultSetting("number", 3.50),
+			maxFfScore: new DefaultSetting("number", 3.5),
 		},
 		userlist: {
 			activity: new DefaultSetting<string[]>("array", []),
@@ -1025,7 +1025,7 @@ const DEFAULT_STORAGE = {
 				other: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
-			ffScore: new DefaultSetting("number", 3.50),
+			ffScore: new DefaultSetting("number", 3.5),
 		},
 		stocks: {
 			name: new DefaultSetting("string", ""),

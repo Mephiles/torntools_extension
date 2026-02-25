@@ -128,8 +128,8 @@
 				default: filters.userlist.ffScore?.toString(),
 				callback: () => filtering(),
 			});
-			const input = ffScoreFilter.element.querySelector("input")
-			if (input) input.step = 0.10;
+			const input = ffScoreFilter.element.querySelector("input");
+			if (input) input.step = 0.1;
 
 			filterContent.appendChild(ffScoreFilter.element);
 			localFilters["FF Score"] = { getValue: ffScoreFilter.getValue };
@@ -169,12 +169,12 @@
 
 		// Update level and time slider counters
 		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
-		
+
 		let ffScore: number | undefined;
 		try {
-			const ffValue = localFilters["FF Score"].getValue()
+			const ffValue = localFilters["FF Score"].getValue();
 			ffScore = parseFloat(ffValue);
-		} catch(error) {
+		} catch (error) {
 			console.error("TT - Failed to get FF Score.", error);
 		}
 
@@ -315,7 +315,7 @@
 						return;
 					}
 				}
-			} catch(error) {
+			} catch (error) {
 				console.error("TT - Failed to filter row by FF Score.", error);
 			}
 		}

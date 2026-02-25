@@ -144,7 +144,7 @@
 							} else {
 								arrow = RED_ARROW;
 							}
-							
+
 							element.appendChild(
 								elementBuilder({
 									type: "img",
