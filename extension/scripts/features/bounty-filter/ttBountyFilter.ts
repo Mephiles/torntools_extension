@@ -23,7 +23,7 @@
 
 		if (findContainer("Bounty Filter")) return;
 		await requireElement(".bounties-list > li > ul > li .reward");
-		const { content } = createContainer("Bounty Filter", {
+		const { options, content } = createContainer("Bounty Filter", {
 			previousElement: document.querySelector(".bounties-wrap .bounties-total"),
 			showHeader: true,
 			onlyHeader: false,
@@ -85,7 +85,7 @@
 		let statistics;
 		if (!device.mobile && !device.tablet) {
 			statistics = createStatistics("rows", true, true);
-			content.parentElement.querySelector(".title .text").appendChild(statistics.element);
+			options.parentElement.querySelector(".title .text").appendChild(statistics.element);
 		}
 
 		// Setup saved filters
@@ -150,7 +150,7 @@
 				statistics.updateStatistics(
 					findAllElements(".bounties-list > li[data-id]:not(.tt-hidden)").length,
 					findAllElements(".bounties-list > li[data-id]").length,
-					content.parentElement.querySelector(".title .text")
+					options.parentElement.querySelector(".title .text")
 				);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 
