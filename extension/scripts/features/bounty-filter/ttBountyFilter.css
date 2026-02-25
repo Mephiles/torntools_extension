@@ -7,10 +7,20 @@
 	margin-left: 5px;
 }
 
-#bountyFilter .options input[type="number"] {
+#bountyFilter input[type="number"] {
 	height: 20px;
 	margin: 0 6px;
 	padding-left: 5px;
 	width: 50px;
 	border-radius: 5px;
+}
+
+#bountyFilter main {
+	padding-left: 5px;
+	padding-top: 5px;
+}
+
+#bountyFilter .tt-container main > div {
+	margin-left: 10px;
+	align-items: center;
 }

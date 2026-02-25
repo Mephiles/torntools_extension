@@ -128,14 +128,14 @@
 							element.classList.add("indicator-lines");
 							element.style.setProperty("--arrow-width", "20px");
 						}
-
+						
 						const ff = id in scouts && "fair_fight" in scouts[id] ? scouts[id].fair_fight : null;
 						if (ff) {
 							const percent = convertFFToPercentage(ff);
 							element.style.setProperty("--band-percent", percent.toString());
-
+							
 							element.querySelector(".tt-ff-scouter-arrow")?.remove();
-
+							
 							let arrow: string;
 							if (percent < 33) {
 								arrow = BLUE_ARROW;
@@ -144,7 +144,7 @@
 							} else {
 								arrow = RED_ARROW;
 							}
-
+							
 							element.appendChild(
 								elementBuilder({
 									type: "img",
@@ -152,11 +152,13 @@
 									attributes: { src: arrow },
 								})
 							);
+							element.dataset.ffScout = ff.toString();
 						}
 					}
 
 					resolve();
 				})
+				.then(() => triggerCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE))
 				.catch((reason) => {
 					lockFailure = true;
 					reject(reason);

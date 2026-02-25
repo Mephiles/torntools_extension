@@ -29,6 +29,12 @@
 
 			filterRow(row, { statsEstimates }, true);
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(() => {
+			if (!feature.enabled()) return;
+			if (!localFilters["FF Score"].getValue()) return;
+			console.log("filtering after gauage loaded");
+			filtering();
+		});
 	}
 
 	const localFilters: any = {};
@@ -115,6 +121,19 @@
 
 			localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
 		}
+		if (settings.scripts.ffScouter.gauge && hasAPIData()) {
+			const ffScoreFilter = createFilterSection({
+				title: "FF Score",
+				text: "number",
+				default: filters.userlist.ffScore?.toString(),
+				callback: () => filtering(),
+			});
+			const input = ffScoreFilter.element.querySelector("input")
+			if (input) input.step = 0.10;
+
+			filterContent.appendChild(ffScoreFilter.element);
+			localFilters["FF Score"] = { getValue: ffScoreFilter.getValue };
+		}
 
 		content.appendChild(filterContent);
 
@@ -150,6 +169,14 @@
 
 		// Update level and time slider counters
 		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
+		
+		let ffScore: number | undefined;
+		try {
+			const ffValue = localFilters["FF Score"].getValue()
+			ffScore = parseFloat(ffValue);
+		} catch(error) {
+			console.error("TT - Failed to get FF Score.", error);
+		}
 
 		// Save filters
 		await ttStorage.change({
@@ -161,13 +188,14 @@
 					special: special,
 					hospReason: hospReason,
 					estimates: statsEstimates ?? filters.userlist.estimates,
+					ffScore,
 				},
 			},
 		});
 
 		// Actual Filtering
 		for (const li of findAllElements(".user-info-list-wrap > li")) {
-			filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+			filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScore }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Userlist Filter" });
@@ -180,6 +208,7 @@
 	}
 
 	interface UserlistFilters {
+		ffScore: number;
 		activity: string[];
 		special: Record<string, SpecialFilterValue>;
 		hospReason: Record<string, SpecialFilterValue>;
@@ -274,6 +303,20 @@
 					hide("stats-estimate");
 					return;
 				}
+			}
+		}
+		if (filters.ffScore) {
+			try {
+				const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
+				if (gauge) {
+					const ffScore = gauge.getAttribute("data-ff-scout");
+					if (ffScore && parseFloat(ffScore) > filters.ffScore) {
+						hide("ff-score");
+						return;
+					}
+				}
+			} catch(error) {
+				console.error("TT - Failed to filter row by FF Score.", error);
 			}
 		}
 

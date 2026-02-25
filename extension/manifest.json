@@ -86,6 +86,7 @@
 				"scripts/global/functions/database.js",
 				"scripts/global/functions/formatting.js",
 				"scripts/global/functions/listeners.js",
+				"scripts/global/functions/lock.js",
 				"scripts/global/functions/utilities.js",
 				"scripts/global/functions/torn.js",
 				"scripts/global/functions/extension.js",
@@ -639,7 +640,8 @@
 				"scripts/features/userlist-filter/ttUserlistFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateUserlist.js",
-				"scripts/features/user-alias/ttUserAliasUserlist.js"
+				"scripts/features/user-alias/ttUserAliasUserlist.js",
+				"scripts/features/ff-scouter/ttFFScouterUserlist.js"
 			],
 			"run_at": "document_end"
 		},

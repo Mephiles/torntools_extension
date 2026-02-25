@@ -37,8 +37,8 @@
 		await requireElement(".members-list .table-body > li");
 
 		const list = document.querySelector(".members-list .table-body");
-
-		const memberIds = findAllElements<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']", list).map((link) =>
+		const elements = findAllElements<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']", list);
+		const memberIds = elements.map((link) =>
 			parseInt(new URL(link.href).searchParams.get("XID"))
 		);
 
@@ -102,6 +102,7 @@
 					},
 				})
 			);
+			triggerCustomListener(EVENT_CHANNELS.FF_SCOUTER_RESULTS, { row: row });
 		});
 	}
 
