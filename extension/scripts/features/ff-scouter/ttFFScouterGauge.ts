@@ -128,14 +128,14 @@
 							element.classList.add("indicator-lines");
 							element.style.setProperty("--arrow-width", "20px");
 						}
-						
+
 						const ff = id in scouts && "fair_fight" in scouts[id] ? scouts[id].fair_fight : null;
 						if (ff) {
 							const percent = convertFFToPercentage(ff);
 							element.style.setProperty("--band-percent", percent.toString());
-							
+
 							element.querySelector(".tt-ff-scouter-arrow")?.remove();
-							
+
 							let arrow: string;
 							if (percent < 33) {
 								arrow = BLUE_ARROW;

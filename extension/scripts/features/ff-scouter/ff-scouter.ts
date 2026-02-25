@@ -36,7 +36,12 @@ class ScouterService {
 		if (NON_ATTACKABLE_ACCOUNT_IDS.includes(target)) {
 			return Promise.resolve({ player_id: target, message: "", message_short: "", isError: true });
 		}
-		return this.scoutGroup([target]).then((results) => results[target]);
+
+		if (this.inCache(target)) {
+			return Promise.resolve(this.fromCache(target));
+		}
+
+		return this._fetchSingle(target);
 	}
 
 	_fetchSingle(_target: number): Promise<ScouterResult> {
@@ -48,14 +53,14 @@ class ScouterService {
 
 		const cachedTargets = uniqueTargets.filter((target) => this.inCache(target));
 		const missingTargets = uniqueTargets.filter((target) => !this.inCache(target)).filter((target) => !NON_ATTACKABLE_ACCOUNT_IDS.includes(target));
-			
+
 		const results = {};
-		
+
 		cachedTargets.map((target) => this.fromCache(target)).forEach((result) => (results[result.player_id] = result));
-		
+
 		const resultList = await this._fetchGroup(missingTargets);
 		resultList.forEach((result) => (results[result.player_id] = result));
-		
+
 		return results;
 	}
 
@@ -73,6 +78,7 @@ class FFScouterService extends ScouterService {
 
 	override async _fetchSingle(target: number): Promise<ScouterResult> {
 		const result = await this._fetchGroup([target]);
+
 		return result[0];
 	}
 

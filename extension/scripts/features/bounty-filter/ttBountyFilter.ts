@@ -23,7 +23,7 @@
 
 		if (findContainer("Bounty Filter")) return;
 		await requireElement(".bounties-list > li > ul > li .reward");
-		const { content: options } = createContainer("Bounty Filter", {
+		const { content } = createContainer("Bounty Filter", {
 			previousElement: document.querySelector(".bounties-wrap .bounties-total"),
 			showHeader: true,
 			onlyHeader: false,
@@ -42,12 +42,12 @@
 			},
 		});
 		const cbHideUnavailable = createCheckbox({ description: "Hide Unavailable" });
-		options.appendChild(cbHideUnavailable.element);
+		content.appendChild(cbHideUnavailable.element);
 		const maxLevelConstainer = elementBuilder({
 			type: "div",
 		})
 		maxLevelConstainer.appendChild(maxLevelInput);
-		options.appendChild(maxLevelConstainer);
+		content.appendChild(maxLevelConstainer);
 		maxLevelConstainer.appendChild(
 			elementBuilder({
 				type: "label",
@@ -59,7 +59,7 @@
 			const maxFfScoreContainer = elementBuilder({
 				type: "div",
 			})
-			options.appendChild(maxFfScoreContainer);
+			content.appendChild(maxFfScoreContainer);
 			maxFfScoreInput = elementBuilder({
 				type: "input",
 				attributes: {
@@ -85,7 +85,7 @@
 		let statistics;
 		if (!device.mobile && !device.tablet) {
 			statistics = createStatistics("rows", true, true);
-			options.parentElement.querySelector(".title .text").appendChild(statistics.element);
+			content.parentElement.querySelector(".title .text").appendChild(statistics.element);
 		}
 
 		// Setup saved filters
@@ -151,7 +151,7 @@
 				statistics.updateStatistics(
 					findAllElements(".bounties-list > li[data-id]:not(.tt-hidden)").length,
 					findAllElements(".bounties-list > li[data-id]").length,
-					options.parentElement.querySelector(".title .text")
+					content.parentElement.querySelector(".title .text")
 				);
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 
