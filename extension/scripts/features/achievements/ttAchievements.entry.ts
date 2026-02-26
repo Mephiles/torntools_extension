@@ -1,12 +1,8 @@
 (async () => {
-	await new Promise<void>((resolve) => {
-		const featureManagerIntervalID = setInterval(() => {
-			while (typeof featureManager === "undefined") {}
-
-			clearInterval(featureManagerIntervalID);
-			resolve();
-		}, 100);
-	});
+	if ((await featureManagerLoaded()) !== true) {
+		// @ts-ignore
+		return;
+	}
 
 	await requireElement("body");
 	const devices = await checkDevice();
