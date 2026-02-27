@@ -59,7 +59,7 @@
 	"content_scripts": [
 		{
 			"matches": ["https://www.torn.com/*.php*"],
-			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/swagger.php", "https://www.torn.com/joblisting.php"],
+			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/swagger.php*", "https://www.torn.com/joblisting.php*"],
 			"css": [
 				"scripts/global/globalVariables.css",
 				"scripts/global/globalStyle.css",
@@ -110,7 +110,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*.php*"],
-			"exclude_matches": ["https://www.torn.com/logout.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/swagger.php*", "https://www.torn.com/joblisting.php*"],
 			"css": [
 				"scripts/features/colored-chat/ttColoredChat.css",
 				"scripts/features/search-chat/ttSearchChat.css",
@@ -143,7 +143,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*.php*"],
-			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack&*"],
+			"exclude_matches": [
+				"https://www.torn.com/logout.php*",
+				"https://www.torn.com/swagger.php*",
+				"https://www.torn.com/joblisting.php*",
+				"https://www.torn.com/loader.php?sid=attack&*"
+			],
 			"css": [
 				"scripts/features/hide-leave/ttHideLeave.css",
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.css",
@@ -169,7 +174,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*.php*"],
-			"exclude_matches": ["https://www.torn.com/logout.php*", "https://www.torn.com/loader.php?sid=attack&*"],
+			"exclude_matches": [
+				"https://www.torn.com/logout.php*",
+				"https://www.torn.com/swagger.php*",
+				"https://www.torn.com/joblisting.php*",
+				"https://www.torn.com/loader.php?sid=attack&*"
+			],
 			"css": [
 				"scripts/features/custom-links/ttCustomLinks.css",
 				"scripts/features/update-notice/ttUpdateNotice.css",
