@@ -3,7 +3,8 @@
 		"build": "node build.mjs",
 		"watch": "node build.mjs --watch",
 		"test": "vitest run",
-		"test:watch": "vitest"
+		"test:watch": "vitest",
+		"format:fix": "prettier --config .prettierrc --write . --list-different"
 	},
 	"devDependencies": {
 		"@jgoz/esbuild-plugin-typecheck": "^4.0.4",
