@@ -5,7 +5,7 @@
 
 			clearInterval(featureManagerIntervalID);
 			resolve();
-		});
+		}, 25);
 	});
 
 	await requireElement("body");

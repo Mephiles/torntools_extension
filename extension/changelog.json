@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Resolve ff scouter errors on the profile blocking all actions.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix a problem with features looking for the feaureManager state in a while-loop.", "contributor": "jensim" }
 			],
 			"changes": [
 				{ "message": "Track arson skill for the achievements.", "contributor": "DeKleineKobini" },
