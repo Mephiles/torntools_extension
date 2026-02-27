@@ -1,11 +1,11 @@
 (async () => {
 	await new Promise<void>((resolve) => {
 		const featureManagerIntervalID = setInterval(() => {
-			while (typeof featureManager === "undefined") {}
+			if (typeof featureManager === "undefined") return;
 
 			clearInterval(featureManagerIntervalID);
 			resolve();
-		}, 100);
+		});
 	});
 
 	featureManager.registerFeature(
