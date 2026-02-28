@@ -3,15 +3,16 @@
 		"build": "node build.mjs",
 		"watch": "node build.mjs --watch",
 		"test": "vitest run",
-		"test:watch": "vitest"
+		"test:watch": "vitest",
+		"format:fix": "prettier --config .prettierrc --write . --list-different"
 	},
 	"devDependencies": {
 		"@jgoz/esbuild-plugin-typecheck": "^4.0.4",
-		"@types/jquery": "^3.5.33",
-		"chrome-types": "^0.1.415",
-		"esbuild": "^0.27.2",
+		"@types/jquery": "^4.0.0",
+		"chrome-types": "^0.1.419",
+		"esbuild": "^0.27.3",
 		"jest-chrome": "^0.8.0",
-		"jsdom": "^28.0.0",
+		"jsdom": "^28.1.0",
 		"prettier": "^3.8.1",
 		"tornapi-types": "^0.0.11",
 		"typescript": "^5.9.3",
