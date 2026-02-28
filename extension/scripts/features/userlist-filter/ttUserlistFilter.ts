@@ -31,8 +31,7 @@
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(() => {
 			if (!feature.enabled()) return;
-			if (!localFilters["FF Score"].getValue()) return;
-			console.log("filtering after gauage loaded");
+			if (!localFilters["FF Score Max"].getValue() && !localFilters["FF Score Min"].getValue()) return;
 			filtering();
 		});
 	}
@@ -122,17 +121,26 @@
 			localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
 		}
 		if (settings.scripts.ffScouter.gauge && hasAPIData()) {
-			const ffScoreFilter = createFilterSection({
-				title: "FF Score",
+			const ffScoreFilterMin = createFilterSection({
+				title: "FF Score Min",
 				text: "number",
-				default: filters.userlist.ffScore?.toString(),
+				default: filters.userlist.ffScoreMin?.toString(),
 				callback: () => filtering(),
 			});
-			const input = ffScoreFilter.element.querySelector("input");
-			if (input) input.step = 0.1;
+			ffScoreFilterMin.element.querySelector("input").step = 0.1;
+			filterContent.appendChild(ffScoreFilterMin.element);
+			localFilters["FF Score Min"] = { getValue: ffScoreFilterMin.getValue };
 
-			filterContent.appendChild(ffScoreFilter.element);
-			localFilters["FF Score"] = { getValue: ffScoreFilter.getValue };
+			const ffScoreFilterMax = createTextbox({
+				type: "number",
+			});
+			ffScoreFilterMax.setValue(filters.userlist.ffScoreMax?.toString());
+			ffScoreFilterMax.onChange(filtering);
+			(ffScoreFilterMax.element as any).step = 0.1;
+
+			ffScoreFilterMin.element.appendChild(elementBuilder({ type: "strong", text: "FF Score Max" }));
+			ffScoreFilterMin.element.append(ffScoreFilterMax.element);
+			localFilters["FF Score Max"] = { getValue: ffScoreFilterMax.getValue };
 		}
 
 		content.appendChild(filterContent);
@@ -170,13 +178,8 @@
 		// Update level and time slider counters
 		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
 
-		let ffScore: number | undefined;
-		try {
-			const ffValue = localFilters["FF Score"].getValue();
-			ffScore = parseFloat(ffValue);
-		} catch (error) {
-			console.error("TT - Failed to get FF Score.", error);
-		}
+		const ffScoreMin = parseFloat(localFilters["FF Score Min"].getValue()) || null;
+		const ffScoreMax = parseFloat(localFilters["FF Score Max"].getValue()) || null;
 
 		// Save filters
 		await ttStorage.change({
@@ -188,14 +191,15 @@
 					special: special,
 					hospReason: hospReason,
 					estimates: statsEstimates ?? filters.userlist.estimates,
-					ffScore,
+					ffScoreMax,
+					ffScoreMin,
 				},
 			},
 		});
 
 		// Actual Filtering
 		for (const li of findAllElements(".user-info-list-wrap > li")) {
-			filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScore }, false);
+			filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScoreMin, ffScoreMax }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Userlist Filter" });
@@ -208,7 +212,6 @@
 	}
 
 	interface UserlistFilters {
-		ffScore: number;
 		activity: string[];
 		special: Record<string, SpecialFilterValue>;
 		hospReason: Record<string, SpecialFilterValue>;
@@ -217,6 +220,8 @@
 			end: number;
 		};
 		statsEstimates: string[];
+		ffScoreMin: number;
+		ffScoreMax: number;
 	}
 
 	function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individual: boolean) {
@@ -305,14 +310,20 @@
 				}
 			}
 		}
-		if (filters.ffScore) {
+		if (filters.ffScoreMax || filters.ffScoreMin) {
 			try {
 				const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
 				if (gauge) {
-					const ffScore = gauge.getAttribute("data-ff-scout");
-					if (ffScore && parseFloat(ffScore) > filters.ffScore) {
-						hide("ff-score");
-						return;
+					const ffFloat: number = parseFloat(gauge.getAttribute("data-ff-scout"));
+					if (!isNaN(ffFloat)) {
+						if (filters.ffScoreMax && !isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
+							hide("ff-score");
+							return;
+						}
+						if (filters.ffScoreMin && !isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
+							hide("ff-score");
+							return;
+						}
 					}
 				}
 			} catch (error) {

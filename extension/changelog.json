@@ -4,9 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [
-				{ "message": "Add FF Score filter to the userlist and bounty filter.", "contributor": "jensim" }
-			],
+			"features": [{ "message": "Add FF Score filter to the userlist and bounty filter.", "contributor": "jensim" }],
 			"fixes": [
 				{ "message": "Resolve ff scouter errors on the profile blocking all actions.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" }
