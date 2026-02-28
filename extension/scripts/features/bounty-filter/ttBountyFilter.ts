@@ -23,15 +23,10 @@
 
 		if (findContainer("Bounty Filter")) return;
 		await requireElement(".bounties-list > li > ul > li .reward");
-		const { options, content } = createContainer("Bounty Filter", {
+		const { options } = createContainer("Bounty Filter", {
 			previousElement: document.querySelector(".bounties-wrap .bounties-total"),
-			showHeader: true,
-			onlyHeader: false,
-			spacer: true,
-			collapsible: true,
+			onlyHeader: true,
 			applyRounding: false,
-			compact: true,
-			flexContainer: true,
 		});
 		const maxLevelInput = elementBuilder({
 			type: "input",
@@ -42,46 +37,14 @@
 			},
 		});
 		const cbHideUnavailable = createCheckbox({ description: "Hide Unavailable" });
-		content.appendChild(cbHideUnavailable.element);
-		const maxLevelConstainer = elementBuilder({
-			type: "div",
-		});
-		maxLevelConstainer.appendChild(maxLevelInput);
-		content.appendChild(maxLevelConstainer);
-		maxLevelConstainer.appendChild(
+		options.appendChild(cbHideUnavailable.element);
+		options.appendChild(maxLevelInput);
+		options.appendChild(
 			elementBuilder({
-				type: "label",
+				type: "span",
 				text: "Max Level",
 			})
 		);
-		let maxFfScoreInput: HTMLInputElement;
-		if (settings.scripts.ffScouter.gauge && settings.external.ffScouter) {
-			const maxFfScoreContainer = elementBuilder({
-				type: "div",
-			});
-			content.appendChild(maxFfScoreContainer);
-			maxFfScoreInput = elementBuilder({
-				type: "input",
-				attributes: {
-					id: "maxFfScoreInput",
-					type: "number",
-					min: "0",
-					color: "#000",
-					fontColor: "#000",
-				},
-			});
-			maxFfScoreContainer.appendChild(maxFfScoreInput);
-			maxFfScoreContainer.appendChild(
-				elementBuilder({
-					type: "label",
-					text: "Max FF Score",
-					attributes: {
-						for: "maxFfScoreInput",
-					},
-				})
-			);
-		}
-
 		let statistics;
 		if (!device.mobile && !device.tablet) {
 			statistics = createStatistics("rows", true, true);
@@ -90,20 +53,11 @@
 
 		// Setup saved filters
 		maxLevelInput.value = filters.bounties.maxLevel.toString();
-		maxLevelInput.addEventListener("input", filterListing);
 		cbHideUnavailable.setChecked(filters.bounties.hideUnavailable);
+
+		maxLevelInput.addEventListener("input", filterListing);
 		cbHideUnavailable.onChange(filterListing);
-		if (settings.scripts.ffScouter.gauge && maxFfScoreInput) {
-			maxFfScoreInput.value = filters.bounties.maxFfScore.toString();
-			maxFfScoreInput.addEventListener("input", filterListing);
-		}
-
 		await filterListing();
-
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(() => {
-			if (!feature.enabled()) return;
-			filterListing();
-		});
 
 		async function filterListing() {
 			// Get the set filters
@@ -118,7 +72,6 @@
 					bounties: {
 						maxLevel,
 						hideUnavailable,
-						maxFfScore: maxFfScoreInput.value ? parseFloat(maxFfScoreInput.value) : undefined,
 					},
 				},
 			});
@@ -134,13 +87,6 @@
 					// noinspection UnnecessaryContinueJS
 					continue;
 				} else showBounty(bounty);
-				if (settings.scripts.ffScouter.gauge && maxFfScoreInput) {
-					const ffScore = bounty.querySelector(".tt-ff-scouter-indicator.indicator-lines")?.getAttribute("data-ff-scout");
-					if (ffScore && parseFloat(ffScore) > parseFloat(maxFfScoreInput.value)) {
-						hideBounty(bounty);
-						continue;
-					} else showBounty(bounty);
-				}
 			}
 
 			list.classList.add("tt-filtered");
