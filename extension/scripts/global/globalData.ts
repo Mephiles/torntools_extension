@@ -908,6 +908,7 @@ const DEFAULT_STORAGE = {
 				attack: new DefaultSetting("boolean", true),
 				factionList: new DefaultSetting("boolean", true),
 				gauge: new DefaultSetting("boolean", true),
+				cacheTimeHours: new DefaultSetting("number", 2),
 			},
 		},
 		external: {

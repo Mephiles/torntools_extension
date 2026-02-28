@@ -15,9 +15,11 @@ type ScouterResult =
 
 class ScouterService {
 	private readonly cacheKey: string;
+	private readonly cacheTimeTtl: number;
 
-	constructor(cacheKey: string) {
+	constructor(cacheKey: string, cacheTimeTtl: number) {
 		this.cacheKey = cacheKey;
+		this.cacheTimeTtl = cacheTimeTtl;
 	}
 
 	inCache(target: number) {
@@ -29,7 +31,11 @@ class ScouterService {
 	}
 
 	toCache(result: ScouterResult) {
-		void ttCache.set({ [result.player_id]: result }, "fair_fight" in result && result.fair_fight ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, this.cacheKey);
+		void ttCache.set(
+			{ [result.player_id]: result },
+			"fair_fight" in result && result.fair_fight ? this.cacheTimeTtl : TO_MILLIS.MINUTES * 5,
+			this.cacheKey
+		);
 	}
 
 	scoutSingle(target: number): Promise<ScouterResult> {
@@ -73,7 +79,7 @@ class FFScouterService extends ScouterService {
 	MAX_TARGET_AMOUNT = 104 as const;
 
 	constructor() {
-		super("ff-scouter-v3");
+		super("ff-scouter-v3", settings.scripts.ffScouter.cacheTimeHours);
 	}
 
 	override async _fetchSingle(target: number): Promise<ScouterResult> {
