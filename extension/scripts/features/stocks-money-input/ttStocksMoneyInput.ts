@@ -38,6 +38,8 @@
 									money = parseFloat(input.substring(0, input.length)) * 1000;
 								} else if (input.endsWith("m") || input.endsWith("M")) {
 									money = parseFloat(input.substring(0, input.length)) * 1000 * 1000;
+								} else if (input.endsWith("b") || input.endsWith("B")) {
+									money = parseFloat(input.substring(0, input.length)) * 1000 * 1000 * 1000;
 								} else {
 									money = parseFloat(input);
 								}
