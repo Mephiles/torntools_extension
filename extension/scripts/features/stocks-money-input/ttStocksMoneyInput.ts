@@ -25,7 +25,7 @@
 				type: "div",
 				class: "tt-money-input",
 				children: [
-					elementBuilder({ type: "div", text: "TornTools Money Input" }),
+					elementBuilder({ type: "span", text: "TornTools money input:" }),
 					elementBuilder({
 						type: "input",
 						events: {
