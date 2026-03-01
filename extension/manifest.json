@@ -629,14 +629,16 @@
 				"scripts/features/stocks-filter/ttStocksFilter.css",
 				"scripts/features/stock-acronyms/ttStockAcronyms.css",
 				"scripts/features/total-portfolio-value/ttTotalPortfolioValue.css",
-				"scripts/features/hide-stocks/ttHideStocks.css"
+				"scripts/features/hide-stocks/ttHideStocks.css",
+				"scripts/features/stocks-money-input/ttStocksMoneyInput.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/features/stocks-filter/ttStocksFilter.js",
 				"scripts/features/stock-acronyms/ttStockAcronyms.js",
 				"scripts/features/total-portfolio-value/ttTotalPortfolioValue.js",
-				"scripts/features/hide-stocks/ttHideStocks.js"
+				"scripts/features/hide-stocks/ttHideStocks.js",
+				"scripts/features/stocks-money-input/ttStocksMoneyInput.js"
 			],
 			"run_at": "document_end"
 		},

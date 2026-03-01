@@ -713,6 +713,7 @@ const DEFAULT_STORAGE = {
 				filter: new DefaultSetting("boolean", true),
 				acronyms: new DefaultSetting("boolean", true),
 				valueAndProfit: new DefaultSetting("boolean", true),
+				moneyInput: new DefaultSetting("boolean", true),
 			},
 			competitions: {
 				easterEggs: new DefaultSetting("boolean", false),

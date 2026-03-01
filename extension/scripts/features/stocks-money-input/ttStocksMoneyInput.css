@@ -1,0 +1,8 @@
+.tt-money-input {
+	margin-top: 10px;
+}
+
+body.dark-mode .tt-money-input input {
+	color: #fff;
+	background-color: #000;
+}
