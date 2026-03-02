@@ -17,7 +17,8 @@
 				{ "message": "General improvements to the achievements feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Reload the extension to get the available update faster.", "contributor": "DeKleineKobini" },
 				{ "message": "Fetch required data immediately after importing your settings.", "contributor": "DeKleineKobini" },
-				{ "message": "Fetch data immediately after gaining connection again.", "contributor": "DeKleineKobini" }
+				{ "message": "Fetch data immediately after gaining connection again.", "contributor": "DeKleineKobini" },
+				{ "message": "Increase cache time for FF-scouter results from 1 hour to 1 day", "contributor": "jensim" }
 			],
 			"removed": [],
 			"technical": []

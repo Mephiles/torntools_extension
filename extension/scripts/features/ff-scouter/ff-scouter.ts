@@ -29,7 +29,7 @@ class ScouterService {
 	}
 
 	toCache(result: ScouterResult) {
-		void ttCache.set({ [result.player_id]: result }, "fair_fight" in result && result.fair_fight ? TO_MILLIS.HOURS : TO_MILLIS.MINUTES * 5, this.cacheKey);
+		void ttCache.set({ [result.player_id]: result }, "fair_fight" in result && result.fair_fight ? TO_MILLIS.DAYS : TO_MILLIS.MINUTES * 5, this.cacheKey);
 	}
 
 	scoutSingle(target: number): Promise<ScouterResult> {
