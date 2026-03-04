@@ -1,13 +1,28 @@
 [
 	{
-		"version": { "major": 8, "minor": 1, "build": 3 },
+		"version": { "major": 8, "minor": 1, "build": 4 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Add FF Score filter to the userlist and bounty filter.", "contributor": "jensim" }],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
+	},
+	{
+		"version": { "major": 8, "minor": 1, "build": 3 },
+		"date": "2026/03/04",
+		"logs": {
+			"features": [{ "message": "Add FF Score filter to the userlist and bounty filter.", "contributor": "jensim" }],
 			"fixes": [
 				{ "message": "Resolve ff scouter errors on the profile blocking all actions.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix faction features appearing more than once on page load.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix job points on icon hover after using them.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix loading of FF_SCOUTER_SERVICE.", "contributor": "jensim" },
+				{ "message": "Fix an issue with the torndata update cycle running way too often.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Track arson skill for the achievements.", "contributor": "DeKleineKobini" },
@@ -15,10 +30,9 @@
 				{ "message": "General improvements to the achievements feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Reload the extension to get the available update faster.", "contributor": "DeKleineKobini" },
 				{ "message": "Fetch required data immediately after importing your settings.", "contributor": "DeKleineKobini" },
-				{ "message": "Fetch data immediately after gaining connection again.", "contributor": "DeKleineKobini" }
-			],
-			"removed": [],
-			"technical": []
+				{ "message": "Fetch data immediately after gaining connection again.", "contributor": "DeKleineKobini" },
+				{ "message": "Increase cache time for FF-scouter results from 1 hour to 1 day", "contributor": "jensim" }
+			]
 		}
 	},
 	{

@@ -155,8 +155,9 @@
 
 		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
 		if (senderHighlights.length) {
-			// When message sender is in highlights.
+			// When the message sender is in highlights.
 			message.style.outline = `1px solid ${senderHighlights[0].senderColor}`;
+			writeDebugData(message, "sender", senderHighlights.map((h) => h.name).join(" | "));
 		}
 
 		for (const { name, color } of highlights) {
@@ -164,12 +165,28 @@
 			if (!words.includes(name)) continue;
 
 			message.style.backgroundColor = color;
+			writeDebugData(message, "word", name);
 			break;
 		}
 
 		function simplify(text: string) {
 			return text.toLowerCase().trim();
 		}
+	}
+
+	interface HighlightDebugData {
+		type: string;
+		match: string;
+	}
+
+	function writeDebugData(message: HTMLElement, type: string, match: string) {
+		const debugData = (message.dataset.ttHighlightDebug ? (JSON.parse(message.dataset.ttHighlightDebug) as HighlightDebugData[]) : []).filter(
+			(n) => n.type !== type
+		);
+
+		debugData.push({ type, match });
+
+		message.dataset.ttHighlightDebug = JSON.stringify(debugData, null, 2);
 	}
 
 	function removeHighlights() {

@@ -64,6 +64,11 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		}
 
 		async function loadInfo() {
+			const root: HTMLElement = await requireElement("#react-root-faction-info");
+			if (root.classList.contains("tt-handled")) return;
+
+			root.classList.add("tt-handled");
+
 			await requireElement(".faction-description, .members-list");
 
 			triggerCustomListener(EVENT_CHANNELS.FACTION_INFO);

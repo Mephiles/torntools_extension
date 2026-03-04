@@ -14,7 +14,7 @@
 	let scoutLock = false;
 	let lockFailure = false;
 
-	const SCOUTER_SERVICE = scouterService();
+	const SCOUTER_SERVICE = await scouterService();
 
 	const feature = featureManager.registerFeature(
 		"FF Scouter Gauge",

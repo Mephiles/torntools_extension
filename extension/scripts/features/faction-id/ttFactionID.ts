@@ -34,6 +34,8 @@
 		const details = await readFactionDetails();
 		if (!details) throw new Error("Faction ID could not be found.");
 
+		if (document.getElementById("tt-faction-id")) return;
+
 		container.appendChild(elementBuilder({ type: "span", text: ` [${details.id}]`, id: "tt-faction-id" }));
 	}
 
