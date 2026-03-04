@@ -1024,6 +1024,8 @@ const DEFAULT_STORAGE = {
 				other: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
+			ffScoreMax: new DefaultSetting("number", null),
+			ffScoreMin: new DefaultSetting("number", null),
 		},
 		stocks: {
 			name: new DefaultSetting("string", ""),

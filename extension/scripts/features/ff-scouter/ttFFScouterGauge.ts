@@ -152,11 +152,13 @@
 									attributes: { src: arrow },
 								})
 							);
+							element.dataset.ffScout = ff.toString();
 						}
 					}
 
 					resolve();
 				})
+				.then(() => triggerCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE))
 				.catch((reason) => {
 					lockFailure = true;
 					reject(reason);
