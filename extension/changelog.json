@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Add FF Score filter to the user list filter.", "contributor": "jensim" }],
-			"fixes": [],
+			"fixes": [{ "message": "Join left and right nav of extension popup to make it work on mobile.", "contributor": "jensim" }],
 			"changes": [],
 			"removed": [],
 			"technical": []
