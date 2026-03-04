@@ -9,7 +9,8 @@
 				{ "message": "Resolve ff scouter errors on the profile blocking all actions.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction features appearing more than once on page load.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix job points on icon hover after using them.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix job points on icon hover after using them.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix loading of FF_SCOUTER_SERVICE.", "contributor": "jensim" }
 			],
 			"changes": [
 				{ "message": "Track arson skill for the achievements.", "contributor": "DeKleineKobini" },
