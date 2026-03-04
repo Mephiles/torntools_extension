@@ -975,6 +975,8 @@ const DEFAULT_STORAGE = {
 				hasBounties: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
+			ffScoreMax: new DefaultSetting("number", null),
+			ffScoreMin: new DefaultSetting("number", null),
 		},
 		abroadItems: {
 			profitOnly: new DefaultSetting("boolean", false),

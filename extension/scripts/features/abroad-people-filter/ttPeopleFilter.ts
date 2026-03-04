@@ -24,6 +24,11 @@
 
 			filterRow(row, { statsEstimates }, true);
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(() => {
+			if (!feature.enabled()) return;
+			if (!localFilters["FF Score Max"].getValue() && !localFilters["FF Score Min"].getValue()) return;
+			applyFilters();
+		});
 	}
 
 	const localFilters = {};
@@ -120,6 +125,29 @@
 			localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
 		}
 
+		if (settings.scripts.ffScouter.gauge && hasAPIData()) {
+			const ffScoreFilterMin = createFilterSection({
+				title: "FF Score Min",
+				text: "number",
+				default: filters.userlist.ffScoreMin?.toString(),
+				callback: () => applyFilters(),
+			});
+			ffScoreFilterMin.element.querySelector("input").step = 0.1;
+			filterContent.appendChild(ffScoreFilterMin.element);
+			localFilters["FF Score Min"] = { getValue: ffScoreFilterMin.getValue };
+
+			const ffScoreFilterMax = createTextbox({
+				type: "number",
+			});
+			ffScoreFilterMax.setValue(filters.userlist.ffScoreMax?.toString());
+			ffScoreFilterMax.onChange(applyFilters);
+			(ffScoreFilterMax.element as any).step = 0.1;
+
+			ffScoreFilterMin.element.appendChild(elementBuilder({ type: "strong", text: "FF Score Max" }));
+			ffScoreFilterMin.element.append(ffScoreFilterMax.element);
+			localFilters["FF Score Max"] = { getValue: ffScoreFilterMax.getValue };
+		}
+
 		await applyFilters();
 	}
 
@@ -143,6 +171,9 @@
 		// Update level slider counter
 		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
 
+		const ffScoreMin = parseFloat(localFilters["FF Score Min"].getValue()) || null;
+		const ffScoreMax = parseFloat(localFilters["FF Score Max"].getValue()) || null;
+
 		// Save filters
 		await ttStorage.change({
 			filters: {
@@ -154,13 +185,15 @@
 					levelStart,
 					levelEnd,
 					estimates: statsEstimates ?? filters.abroadPeople.estimates,
+					ffScoreMax,
+					ffScoreMin,
 				},
 			},
 		});
 
 		// Actual Filtering
 		for (const row of findAllElements(".users-list > li")) {
-			filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+			filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScoreMin, ffScoreMax }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "People Filter" });
@@ -188,6 +221,8 @@
 			hasBounties: SpecialFilterValue;
 		};
 		statsEstimates: string[];
+		ffScoreMax: number;
+		ffScoreMin: number;
 	};
 
 	function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, individual: boolean) {
@@ -279,6 +314,26 @@
 					hide("stats-estimate");
 					return;
 				}
+			}
+		}
+		if (filters.ffScoreMax || filters.ffScoreMin) {
+			try {
+				const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
+				if (gauge) {
+					const ffFloat: number = parseFloat(gauge.getAttribute("data-ff-scout"));
+					if (!isNaN(ffFloat)) {
+						if (filters.ffScoreMax && !isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
+							hide("ff-score");
+							return;
+						}
+						if (filters.ffScoreMin && !isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
+							hide("ff-score");
+							return;
+						}
+					}
+				}
+			} catch (error) {
+				console.error("TT - Failed to filter row by FF Score.", error);
 			}
 		}
 
