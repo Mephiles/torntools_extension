@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Add FF Score filter to the userlist and bounty filter.", "contributor": "jensim" }],
+			"features": [{ "message": "Add FF Score filter to the user list filter.", "contributor": "jensim" }],
 			"fixes": [],
 			"changes": [],
 			"removed": [],
