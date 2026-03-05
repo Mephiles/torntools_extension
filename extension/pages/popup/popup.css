@@ -74,10 +74,7 @@ body.dark button {
 #pages {
 	display: flex;
 	margin: -6px 0;
-}
-
-#pages .right-nav {
-	justify-content: flex-end;
+	overflow-inline: scroll;
 }
 
 #pages ul {
