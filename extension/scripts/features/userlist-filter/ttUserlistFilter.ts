@@ -136,7 +136,7 @@
 			});
 			ffScoreFilterMax.setValue(filters.userlist.ffScoreMax?.toString());
 			ffScoreFilterMax.onChange(filtering);
-			(ffScoreFilterMax.element as any).step = 0.1;
+			ffScoreFilterMax.element.step = "0.1";
 
 			ffScoreFilterMin.element.appendChild(elementBuilder({ type: "strong", text: "FF Score Max" }));
 			ffScoreFilterMin.element.append(ffScoreFilterMax.element);
