@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Add FF Score filter to the user list filter.", "contributor": "jensim" }],
-			"fixes": [],
+			"fixes": [{ "message": "Fix the stats estimate for the faction wars.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": [],
 			"technical": []
