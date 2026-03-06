@@ -95,8 +95,10 @@
 			statsEstimate.showEstimates(
 				".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 				(row) => {
+					const anchorMatch = row.querySelector<HTMLAnchorElement>("[class*='honorWrap___']").href.match(/.*XID=(?<id>\d+)/);
+
 					return {
-						id: parseInt(row.querySelector(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.at(-1)),
+						id: parseInt(anchorMatch.groups.id),
 						level: parseInt(row.querySelector(".level").textContent.trim()),
 					};
 				},
