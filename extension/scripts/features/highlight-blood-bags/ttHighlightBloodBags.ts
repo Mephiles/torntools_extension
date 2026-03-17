@@ -43,6 +43,7 @@
 		if (page === "item") {
 			await requireItemsLoaded();
 		} else if (page === "factions") {
+			await requireElement("#factions > ul.faction-tabs > li[aria-selected='true']");
 			if (getCurrentTab() === "armoury") {
 				await requireElement("#armoury-medical > .p10 > .ajax-placeholder", { invert: true });
 			} else return;
