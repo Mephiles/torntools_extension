@@ -12,7 +12,7 @@
 				{ "message": "Fix the stats estimate for the faction wars.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix blood bag highlighting not working on the factions page.", "contributor": "jensim" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Improve popup on smaller devices.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}

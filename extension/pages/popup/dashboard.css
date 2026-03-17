@@ -39,6 +39,7 @@ a#dashboard > header #country:hover {
 .icons-wrap {
 	display: flex;
 	margin-top: 5px;
+	overflow-inline: scroll;
 }
 
 .icon {

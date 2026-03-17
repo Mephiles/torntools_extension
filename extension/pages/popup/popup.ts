@@ -32,7 +32,7 @@ const initiatedPages: string[] = [];
 			await showPage(navigation.getAttribute("to"));
 		});
 	}
-	document.querySelector("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
+	document.querySelector("#pages li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
 
 	if (!settings.pages.popup.dashboard) document.querySelector("#pages li[to='dashboard']").classList.add("tt-hidden");
 	if (!settings.pages.popup.marketSearch) document.querySelector("#pages li[to='market']").classList.add("tt-hidden");
