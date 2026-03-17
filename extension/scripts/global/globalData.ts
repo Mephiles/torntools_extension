@@ -975,6 +975,8 @@ const DEFAULT_STORAGE = {
 				hasBounties: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
+			ffScoreMax: new DefaultSetting("number", null),
+			ffScoreMin: new DefaultSetting("number", null),
 		},
 		abroadItems: {
 			profitOnly: new DefaultSetting("boolean", false),
@@ -1236,49 +1238,6 @@ const CUSTOM_LINKS_PRESET = {
 } as const;
 
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata?.profile?.name || "", description: "Your player name." }] as const;
-
-const API_SELECTIONS = {
-	user: [
-		"ammo",
-		"attacks",
-		"bars",
-		"battlestats",
-		"bazaar", // target
-		"cooldowns",
-		"crimes",
-		"display", // target
-		"education",
-		"icons",
-		"inventory",
-		"merits",
-		"money",
-		"networth",
-		"newevents",
-		"newmessages",
-		"perks",
-		"personalstats",
-		"profile",
-		"refills",
-		"stocks",
-		"timestamp",
-		"travel",
-		"weaponexp",
-		"workstats",
-		"properties",
-	],
-	properties: [],
-	faction: [
-		"basic", // target
-		"crimes",
-		"positions",
-	],
-	company: [
-		"profile", // target
-		"employees",
-	],
-	item_market: ["bazaar", "itemmarket"],
-	torn: ["bank", "education", "honors", "items", "medals", "pawnshop", "properties", "stocks", "stats"],
-} as const;
 
 const CHAT_TITLE_COLORS = {
 	blue: ["rgb(10,60,173)", "rgb(22,109,236)"],
