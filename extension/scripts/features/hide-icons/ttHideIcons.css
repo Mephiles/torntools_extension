@@ -357,3 +357,7 @@
 #sidebarroot ul[class*="status-icons_"] > li[class*="icon90_"] {
 	display: var(--torntools-hide-icons-icon90, inline-block);
 }
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon91_"] {
+	display: var(--torntools-hide-icons-icon91, inline-block);
+}
