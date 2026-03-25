@@ -1,27 +1,12 @@
 {
+	"extends": "./.wxt/tsconfig.json",
 	"compilerOptions": {
-		"lib": ["DOM", "DOM.Iterable", "ES2024", "WebWorker"],
-		"module": "None",
-		"outDir": "dist",
-		"target": "esnext",
-		"allowJs": true,
-		"checkJs": false,
-		"skipLibCheck": true,
-		"types": ["chrome-types", "user-agent-data-types", "tornapi-types", "@types/jquery"],
-		"forceConsistentCasingInFileNames": true,
-		"noImplicitReturns": true,
-		"strictBuiltinIteratorReturn": true,
-		"strictFunctionTypes": true,
-		"strictBindCallApply": true,
-		"alwaysStrict": true,
-		"noImplicitOverride": true,
-		"noImplicitThis": true,
-		"noUncheckedIndexedAccess": true,
-		"noUnusedLocals": true,
-		"allowUnreachableCode": false,
-		"noFallthroughCasesInSwitch": true,
-		"noUnusedParameters": true
+		"strictNullChecks": false,
+		"noImplicitAny": false,
+		"strictPropertyInitialization": false,
+		"noPropertyAccessFromIndexSignature": false,
+		"noUncheckedIndexedAccess": false,
+		"useUnknownInCatchVariables": false
 	},
-	"include": ["extension/**/*.ts", "extension/**/*.js"],
-	"exclude": ["node_modules", "dist", "extension/**/*.test.ts", "extension/**/*.test.js", "vitest.*.ts"]
+	"references": [{ "path": "./tsconfig.webworker.json" }]
 }

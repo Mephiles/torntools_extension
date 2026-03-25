@@ -1,9 +1,0 @@
-#pointsLevel,
-#sidebarroot a[href*="level2.php"],
-.tt-level-upgrade {
-	display: var(--torntools-hide-upgrade-button, block) !important;
-}
-
-.tt-level-upgrade + hr {
-	display: var(--torntools-hide-upgrade-button, block) !important;
-}

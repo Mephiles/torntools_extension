@@ -1,0 +1,101 @@
+import { Feature } from "@features/feature-manager";
+import { settings, userdata } from "@/utils/common/data/database";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
+import { requireSidebar } from "@/utils/common/functions/requires";
+import { ttCache } from "@/utils/common/data/cache";
+import { getTimeUntilNextJobUpdate } from "@/utils/common/functions/utilities";
+import { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
+import { UserCompany } from "tornapi-typescript";
+
+async function showCompanyAddictionLevel() {
+	await requireSidebar();
+
+	removeCompanyAddictionLevel();
+	await addInformationSection();
+	showInformationSection();
+
+	const addiction = await getCompanyAddiction();
+
+	const companyAddictionElement = elementBuilder({ type: "span", dataset: { addiction } });
+
+	companyAddictionElement.textContent = addiction.toString();
+
+	document.querySelector(".tt-sidebar-information").appendChild(
+		elementBuilder({
+			type: "section",
+			id: "companyAddictionLevel",
+			children: [elementBuilder({ type: "a", class: "title", text: "Company Addiction: " }), companyAddictionElement],
+			style: { order: "4" },
+		})
+	);
+}
+
+async function getCompanyAddiction() {
+	if (ttCache.hasValue("company", "addiction")) {
+		return ttCache.get<number>("company", "addiction");
+	} else {
+		const id = userdata.profile.id;
+		const company_id = (userdata.job as UserCompany).id;
+
+		try {
+			const response = // TODO - Migrate to V2 (company/employees).
+				(
+					await fetchData<CompanyV1EmployeesResponse>("tornv2", {
+						section: "company",
+						id: company_id,
+						selections: ["employees"],
+						legacySelections: ["employees"],
+						silent: true,
+						succeedOnError: true,
+					})
+				).company_employees;
+
+			const addiction = response[id].effectiveness.addiction ?? 0;
+
+			ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company").then(() => {});
+
+			return addiction;
+		} catch (error) {
+			console.error("TT - An error occurred when fetching company employees data, Error: " + error);
+			throw new Error("An error occurred when fetching company employees data, Error: " + error);
+		}
+	}
+}
+
+function removeCompanyAddictionLevel() {
+	document.querySelector("#companyAddictionLevel")?.remove();
+}
+
+export default class CompanyAddictionFeature extends Feature {
+	constructor() {
+		super("Company Addiction Level", "sidebar");
+	}
+
+	async requirements() {
+		const { hasSidebar } = await checkDevice();
+		if (!hasSidebar) return "Not supported on mobiles or tablets!";
+		if (!hasAPIData()) return "No API access.";
+		else if (userdata.job === null) return "You need to have a company job.";
+		else if ((userdata.job as any).type === "job") return "City jobs do not have addiction effects.";
+		else if ((userdata.job as any).position === "Director") return "Company directors do not have addiction.";
+
+		return true;
+	}
+
+	isEnabled() {
+		return settings.pages.sidebar.companyAddictionLevel;
+	}
+
+	async execute() {
+		await showCompanyAddictionLevel();
+	}
+
+	cleanup() {
+		removeCompanyAddictionLevel();
+	}
+
+	storageKeys() {
+		return ["settings.pages.sidebar.companyAddictionLevel", "userdata.job.id"];
+	}
+}

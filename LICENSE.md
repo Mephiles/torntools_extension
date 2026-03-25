@@ -57,7 +57,7 @@ The precise terms and conditions for copying, distribution and modification foll
 
 "Copyright" also means copyright-like laws that apply to other kinds of works, such as semiconductor masks.
 
-"The Program" refers to any copyrightable work licensed under this License. Each licensee is addressed as "you".  "
+"The Program" refers to any copyrightable work licensed under this License. Each licensee is addressed as "you". "
 Licensees" and
 "recipients" may be individuals or organizations.
 
@@ -84,7 +84,7 @@ list of user commands or options, such as a menu, a prominent item in the list m
 
 1. Source Code.
 
-The "source code" for a work means the preferred form of the work for making modifications to it.  "Object code" means
+The "source code" for a work means the preferred form of the work for making modifications to it. "Object code" means
 any non-source form of a work.
 
 A "Standard Interface" means an interface that either is an official standard defined by a recognized standards body,
@@ -273,8 +273,8 @@ to part of the Program, that part may be used separately under those permissions
 governed by this License without regard to the additional permissions.
 
 When you convey a copy of a covered work, you may at your option remove any additional permissions from that copy, or
-from any part of it.  (Additional permissions may be written to require their own removal in certain cases when you
-modify the work.)  You may place additional permissions on material, added by you to a covered work, for which you have
+from any part of it. (Additional permissions may be written to require their own removal in certain cases when you
+modify the work.) You may place additional permissions on material, added by you to a covered work, for which you have
 or can give appropriate copyright permission.
 
 Notwithstanding any other provision of this License, for material you add to a covered work, you may (if authorized by
@@ -387,7 +387,7 @@ If you convey a covered work, knowingly relying on a patent license, and the Cor
 available for anyone to copy, free of charge and under the terms of this License, through a publicly available network
 server or other readily accessible means, then you must either (1) cause the Corresponding Source to be so available,
 or (2) arrange to deprive yourself of the benefit of the patent license for this particular work, or (3) arrange, in a
-manner consistent with the requirements of this License, to extend the patent license to downstream recipients.  "
+manner consistent with the requirements of this License, to extend the patent license to downstream recipients. "
 Knowingly relying" means you have actual knowledge that, but for the patent license, your conveying the covered work in
 a country, or your recipient's use of the covered work in a country, would infringe one or more identifiable patents in
 that country that you have reason to believe are valid.

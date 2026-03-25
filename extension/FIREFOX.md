@@ -1,13 +1,13 @@
-# TornTools
+# Playground Sandbox
 
 ## Building the extension for Firefox from source code
 
 ### Prerequisites
 
-- Node.js and NPM installed on your system
+- Bun installed on your system.
 
 ### Building
 
-- Install dependencies with `npm install`.
-- Build extension with pnpm build`.
-- Result can be found in `dist`.
+- Install dependencies with `bun install`.
+- Build extension with `bun run build:firefox`.
+- Result can be found in `.output/firefox-mv3/`.

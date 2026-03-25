@@ -1,0 +1,94 @@
+.key-perms-note span {
+	color: #fbc02d;
+}
+
+body.dark .key-perms-note span {
+	color: yellow;
+}
+
+.current-usage .usages {
+	display: flex;
+}
+
+body.tt-mobile .current-usage .usages {
+	flex-direction: column;
+	align-items: center;
+}
+
+.current-usage .usages > div {
+	flex: 1;
+	text-align: center;
+}
+
+.current-usage .buttons {
+	margin: 0 0 5px 40px;
+}
+
+.current-usage .buttons > button {
+	padding: 6px;
+	border-radius: 6px;
+}
+
+body.light .current-usage .buttons > button {
+	background-color: #fff;
+	color: #000;
+}
+
+body.dark .current-usage .buttons > button {
+	background-color: #333;
+	color: #fff;
+}
+
+.current-usage .torn .icon > div {
+	width: 172px;
+	margin: auto;
+}
+
+body.light .current-usage .torn .icon {
+	background-image: url(/images/torn_light.png);
+}
+
+body.dark .current-usage .torn .icon {
+	background-image: url(/images/torn_dark.png);
+}
+
+body.light .yata svg .yata-stroke,
+body.light .yata svg .yata-fill {
+	stroke: #414c51;
+}
+
+body.light .yata svg .yata-stroke-letters {
+	stroke: #adadad;
+}
+
+body.light .yata svg .yata-stroke-other {
+	stroke: #455258;
+}
+
+body.dark .yata svg .yata-stroke,
+body.dark .yata svg .yata-stroke-letters,
+body.dark .yata svg .yata-stroke-other {
+	stroke: #fff;
+}
+
+body.dark .yata svg .yata-fill {
+	fill: #fff;
+}
+
+.current-usage .tornstats .icon {
+	background: url(/images/svg-icons/tornstats.svg) no-repeat center;
+}
+
+.current-usage .icon {
+	width: 172px;
+	height: 76px;
+	margin: auto auto 10px auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: unset;
+}
+
+.additional-actions {
+	margin-top: 6px;
+}

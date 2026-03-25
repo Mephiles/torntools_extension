@@ -1,0 +1,58 @@
+#awards {
+	margin-bottom: 2px;
+}
+
+.tt-awards-time-ago {
+	margin-right: 0;
+	font-size: 10px;
+	color: #bfbfbf;
+}
+
+.tt-award.completed {
+	color: var(--tt-color-green);
+}
+
+.tt-achievement-tooltip {
+	position: absolute;
+	display: none;
+	z-index: 999999;
+}
+
+.tt-achievement-tooltip-arrow {
+	float: left;
+	position: relative;
+	left: -5px;
+	top: 1px;
+	width: 0;
+	height: 0;
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-right: 7px solid var(--default-bg-panel-color);
+}
+
+.tt-achievement-tooltip-content {
+	background-color: var(--default-bg-panel-color);
+	border: 1px solid var(--default-border-color);
+	border-radius: 5px;
+	padding: 5px 10px;
+	margin-left: 7px;
+	float: left;
+}
+
+.tt-achievement-tooltip-content .awards-progress {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.tt-achievement-tooltip-content .awards-progress li {
+	padding: 2px 0;
+}
+
+.tt-achievement-tooltip-content .awards-progress li.is-completed {
+	color: var(--tt-color-green);
+}
+
+.tt-achievement-tooltip-content .awards-progress li.is-current {
+	color: var(--tt-color-orange);
+}

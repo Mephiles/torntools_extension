@@ -1,23 +1,38 @@
 {
+	"name": "torntools-extension",
+	"version": "9.0.0",
+	"type": "module",
 	"scripts": {
-		"build": "node build.mjs",
-		"watch": "node build.mjs --watch",
+		"dev:chrome": "bunx wxt",
+		"dev:firefox": "bunx wxt -b firefox --mv3",
+		"build": "bun run build:chrome && bun run build:firefox",
+		"build:chrome": "bunx wxt build",
+		"build:firefox": "bunx wxt build -b firefox --mv3",
+		"zip": "bun run zip:chrome && bun run zip:firefox",
+		"zip:chrome": "bunx wxt zip",
+		"zip:firefox": "bunx wxt zip -b firefox --mv3",
+		"postinstall": "bunx wxt prepare",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"format:fix": "prettier --config .prettierrc --write . --list-different"
 	},
-	"devDependencies": {
-		"@jgoz/esbuild-plugin-typecheck": "^4.0.4",
-		"@types/jquery": "^4.0.0",
-		"chrome-types": "^0.1.423",
-		"esbuild": "^0.27.4",
-		"jest-chrome": "^0.8.0",
-		"jsdom": "^29.0.0",
-		"prettier": "^3.8.1",
-		"tornapi-types": "^0.0.11",
-		"typescript": "^5.9.3",
-		"user-agent-data-types": "^0.4.2",
-		"vitest": "^4.1.0",
+	"dependencies": {
+		"@phosphor-icons/web": "^2.1.2",
+		"@webext-core/proxy-service": "^2.0.0",
+		"chart.js": "^4.5.1",
+		"sortablejs": "^1.15.7",
+		"source-map": "^0.7.6",
+		"tornapi-typescript": "^5.5.3",
 		"vitest-chrome": "^0.1.0"
+	},
+	"devDependencies": {
+		"@types/sortablejs": "^1.15.9",
+		"@wxt-dev/auto-icons": "^1.1.1",
+		"prettier": "^3.8.1",
+		"vitest": "^4.1.1",
+		"wxt": "^0.20.20"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
 	}
 }

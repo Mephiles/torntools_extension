@@ -1,0 +1,180 @@
+#tt-page-status {
+	top: 5px;
+	right: calc((100vw - 976px) / 2 - 50px);
+	position: absolute;
+	z-index: 111;
+	overflow: hidden;
+}
+
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status {
+	pointer-events: none; /* Used to prevent sticky on mobiles & tablets */
+	top: 0;
+	left: 33vw;
+	right: unset;
+	z-index: 99999;
+}
+
+.tt-align-left #tt-page-status {
+	right: calc(100vw - 996px - 50px);
+}
+
+#tt-page-status button {
+	cursor: pointer;
+}
+
+#tt-page-status > div:first-child {
+	text-align: right;
+}
+
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status > div:first-child {
+	text-align: left;
+}
+
+/* Used to prevent sticky on mobiles & tablets */
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status > div > * {
+	pointer-events: all;
+}
+
+#tt-page-status button {
+	width: 38px;
+	height: 38px;
+	background-size: contain;
+}
+
+#tt-page-status .tt-features-list {
+	min-height: fit-content;
+	max-height: 82vh;
+	width: fit-content;
+	padding: 0 12.5px 12.5px 12.5px;
+	border-radius: 15px 0 15px 15px;
+	background-color: #fff;
+	border: 1px solid lightgray;
+	display: none;
+	overflow: hidden auto;
+}
+
+body.dark-mode #tt-page-status .tt-features-list {
+	background-color: #333;
+	border: 1px solid #444;
+}
+
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status .tt-features-list {
+	height: fit-content;
+	border-radius: 0 15px 15px 15px;
+}
+
+/* Show error count, if any */
+#tt-page-status:not([error-count="0"])::before {
+	top: 3px;
+	right: 1px;
+	position: absolute;
+	padding: 2px 4px;
+	background-color: #d90000;
+	content: attr(error-count);
+	border-radius: 100%;
+}
+
+/* Hide disabled && Show failed only */
+#tt-page-status.hide-disabled .tt-features-list .tt-feature[status="disabled"],
+#tt-page-status.only-fails .tt-features-list .tt-feature:not([status="failed"]) {
+	display: none;
+}
+
+/* When all scopes are hidden */
+#tt-page-status.no-content.hide-empty {
+	display: none;
+}
+
+#tt-page-status.no-content .tt-features-list::before {
+	display: inline-block;
+	padding: 15px 15px 5px 15px;
+	font-size: 14px;
+	content: "No features to show.";
+}
+
+/* Open features list when focused(PC) or hover(mobiles & tablets) */
+#tt-page-status.open .tt-features-list {
+	display: block;
+	border-top: none;
+}
+
+#tt-page-status.open button {
+	background-color: #333;
+	background-repeat: no-repeat;
+	background-size: 25px;
+	background-position: center;
+}
+
+/* Error messages styles */
+#tt-page-status .error-messages {
+	display: none;
+	margin: 10px 0;
+	padding: 10px 5px;
+	border: 2px solid red;
+	border-radius: 5px;
+
+	&.show {
+		display: block;
+	}
+
+	.heading {
+		font-size: 16px;
+		text-align: center;
+		font-weight: bold;
+
+		i {
+			float: right;
+			cursor: pointer;
+		}
+	}
+
+	.error {
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+
+		.name {
+			margin-top: 5px;
+			font-weight: bold;
+			border-bottom: 2.5px solid #fff;
+			margin-bottom: 5px;
+		}
+	}
+}
+
+/* General padding for icons & features  */
+#tt-page-status .tt-features-list div[scope] > div:first-child {
+	border-bottom: 2px solid lightgray;
+	font-weight: bold;
+	padding-bottom: 2.5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-align: center;
+	font-style: italic;
+}
+
+#tt-page-status .tt-features-list .tt-feature {
+	margin-bottom: 1px;
+	display: flex;
+	gap: 3px;
+
+	&[status="disabled"] i {
+		color: var(--tt-color-orange);
+	}
+
+	&[status="failed"] i {
+		color: var(--tt-color-red);
+	}
+
+	&[status="loaded"] i {
+		color: var(--tt-color-green);
+	}
+
+	&[status="information"] i {
+		color: var(--tt-color-blue);
+	}
+}
+
+#tt-page-status div[scope].no-content {
+	display: none;
+}

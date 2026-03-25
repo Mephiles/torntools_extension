@@ -1,11 +1,11 @@
 <div style="display:inline-block;vertical-align:top;">
-    <img align="left" alt="icon" src="extension/resources/images/icon_48.png">
+    <img align="left" alt="icon" src="public/images/icon_48.png">
 </div>
 <div style="display:inline-block;">
     <h2>TornTools</h2>
 </div>
 
-*A browser extension for Torn.com*
+_A browser extension for Torn.com_
 
 [![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAflBMVEVHcEzl5+FIukL21TCqq6zc3d7k5ebj5OPp6utEop8oidz02U7j5OXe3+C0tbbj5tl4uYf/1ADMzX/j5eXg4eLj1NPlSD7hbWXeJyXjOzDcXFw+luJyruD/1ADwrgtmmz/jv8CCyYHgkIy+rrfCd2Kv27CSipORXyzv2JPetG5jb+x1AAAAE3RSTlMADPEbgDaNf4Ab4/nlro9o5OPx1PlRvgAAAItJREFUGNNtz1kOwiAUQNGCtKDYEbCAlo5O+9+gD4o1Rs8HgcuQkCR/pQSknzXKC0KKHMVdxrJjRmkY/CkmNlLSryDXQP1cASm2oKYWTOp9ZbDmBIwdxBoWraEYo61iPlx7rdt5fjrnHiGM+G4vgHcdD4+OuL+dQRNDWWFcHUBT17z0H9lHO4B+P/4CzO0MLhNljXoAAAAASUVORK5CYII=)](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)
 [![Edge Extension Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fjpjcipoihjdechmeakebibhfhnmgflhj&query=%24.version&prefix=v&style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMyAyMyI%2BPHBhdGggZmlsbD0iI2YzZjNmMyIgZD0iTTAgMGgyM3YyM0gweiIvPjxwYXRoIGZpbGw9IiNmMzUzMjUiIGQ9Ik0xIDFoMTB2MTBIMXoiLz48cGF0aCBmaWxsPSIjODFiYzA2IiBkPSJNMTIgMWgxMHYxMEgxMnoiLz48cGF0aCBmaWxsPSIjMDVhNmYwIiBkPSJNMSAxMmgxMHYxMEgxeiIvPjxwYXRoIGZpbGw9IiNmZmJhMDgiIGQ9Ik0xMiAxMmgxMHYxMEgxMnoiLz48L3N2Zz4%3D&label=edge%20add-on)](https://microsoftedge.microsoft.com/addons/detail/arxivutils/jpjcipoihjdechmeakebibhfhnmgflhj)
@@ -13,7 +13,7 @@
 [![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE&message=March%2C%204th.%202026&color=%23acea00&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->
 
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20USERS&style=for-the-badge)](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)
-[![Microsoft Edge Add-on Users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fjpjcipoihjdechmeakebibhfhnmgflhj&query=%24.activeInstallCount&style=for-the-badge&label=edge%20users)](https://microsoftedge.microsoft.com/addons/detail/arxivutils/jpjcipoihjdechmeakebibhfhnmgflhj) 
+[![Microsoft Edge Add-on Users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fjpjcipoihjdechmeakebibhfhnmgflhj&query=%24.activeInstallCount&style=for-the-badge&label=edge%20users)](https://microsoftedge.microsoft.com/addons/detail/arxivutils/jpjcipoihjdechmeakebibhfhnmgflhj)
 [![Firefox Add-on Users](https://img.shields.io/amo/users/%257B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%257D?label=FIREFOX%20USERS&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)
 [![Github License](https://img.shields.io/github/license/Mephiles/torntools_extension?style=for-the-badge)](https://github.com/Mephiles/torntools_extension/blob/master/LICENSE.md)
 [![GitHub Build](https://img.shields.io/github/actions/workflow/status/Mephiles/torntools_extension/run-prettier.yml?branch=master&style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURQAAAAAAAAAAAAAAAAAAAAAAAAAAAEdwTHO38yIAAAAIdFJOU/k2D9Nrt5MA1Sk7ugAAAHZJREFUCNcljrEKg0AQRAc8U59KuD6itl7EPkljLQq24h+cKPP7mdNp9rHD7Cwo7Q2JCE8vCDkDNkFlWCXROuBsyt2Bhbf41W8wdCvSdlHKQpLFj+aoOwfwyBqBFt33isMUiSPKGcMJL+gNQ2vUNQ1qjanX/ccfxlQhprAciDYAAAAASUVORK5CYII=)](https://github.com/Mephiles/torntools_extension/actions/workflows/run-prettier.yml)
@@ -38,10 +38,10 @@
 <a href="https://discord.gg/ukyK6f6">
     <img src="https://img.shields.io/discord/726572303286009978?label=DISCORD&logo=Discord&style=for-the-badge" alt="Discord Server">
 </a>
-<br>  
-
+<br>
 
 **Wiki**
+
 - [Features](https://github.com/Mephiles/torntools_extension/wiki/Features)
 - [API Usage](https://github.com/Mephiles/torntools_extension/wiki/API-usage) - WIP
 - [FAQ](https://github.com/Mephiles/torntools_extension/wiki/FAQ)
