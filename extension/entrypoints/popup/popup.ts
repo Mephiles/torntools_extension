@@ -502,11 +502,12 @@ async function setupDashboard() {
 		const status = dashboard.querySelector<HTMLElement>("#status");
 		if (!status.dataset.until) return;
 
+		const until: number = parseInt(status.dataset.until);
+		if (until < current) return;
+
 		if (status.classList.contains("jail")) {
-			const until: number = parseInt(status.dataset.until);
 			status.textContent = `Jailed for ${formatTime({ milliseconds: until - current }, { type: "timer", showDays: true, short: true })}`;
 		} else if (status.classList.contains("hospital")) {
-			const until: number = parseInt(status.dataset.until);
 			status.textContent = `Hospitalized for ${formatTime({ milliseconds: until - current }, { type: "timer", showDays: true, short: true })}`;
 		}
 	}

@@ -29,7 +29,8 @@
 			],
 			"changes": [
 				{ "message": "Improve popup on smaller devices.", "contributor": "DeKleineKobini" },
-				{ "message": "Hide the radiation hospital icon.", "contributor": "DeKleineKobini" }
+				{ "message": "Hide the radiation hospital icon.", "contributor": "DeKleineKobini" },
+				{ "message": "Stop the popup status timer for counting into the negative.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []
