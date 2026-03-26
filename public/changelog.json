@@ -30,6 +30,7 @@
 			"changes": [
 				{ "message": "Improve popup on smaller devices.", "contributor": "DeKleineKobini" },
 				{ "message": "Hide the radiation hospital icon.", "contributor": "DeKleineKobini" },
+				{ "message": "Update 'Motivator' mission hint to no longer state that timing out fails the mission.", "contributor": "DeKleineKobini" },
 				{ "message": "Stop the popup status timer for counting into the negative.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
@@ -40,7 +41,6 @@
 		"version": { "major": 8, "minor": 1, "build": 3 },
 		"date": "2026/03/04",
 		"logs": {
-			"features": [{ "message": "Add FF Score filter to the userlist and bounty filter.", "contributor": "jensim" }],
 			"fixes": [
 				{ "message": "Resolve ff scouter errors on the profile blocking all actions.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix features that load before page load often failing.", "contributor": "DeKleineKobini" },
