@@ -4,6 +4,7 @@ import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireItemsLoaded } from "@/utils/common/functions/requires";
 import { torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { isInfiniteUsageItem } from "@/utils/common/functions/torn";
 
 interface ActionItem {
 	item: string;
@@ -46,7 +47,11 @@ export function setupItemPage() {
 						}
 					}
 				} else {
-					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" });
+					const itemId = parseInt(params.get("itemID"));
+
+					if (!isInfiniteUsageItem(itemId)) {
+						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" });
+					}
 				}
 			} else if (isSendItemAction(step, json)) {
 				if (!json.success) return;

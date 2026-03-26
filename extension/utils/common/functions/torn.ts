@@ -2448,3 +2448,12 @@ export const HOSPITALIZATION_REASONS = {
 	hospitalizedBy: "Hospitalized by",
 	other: ["Attacked by", "Mugged by", "Hospitalized by"],
 } as const;
+
+export function isInfiniteUsageItem(id: number): boolean {
+	return [
+		42, // MP3 Player
+		43, // CD Player
+		65, // Television
+		104, // Game Console
+	].includes(id);
+}
