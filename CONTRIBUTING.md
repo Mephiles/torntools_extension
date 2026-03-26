@@ -23,7 +23,7 @@ We have prettier formatting to help you follow our coding conventions.
 
 - All have to be written in **TypeScript**.
 - We follow a certain pattern for our files.
-    - Each feature has its own file, and those are placed in the `extension/utils/features` folder, in a folder based
+    - Each feature has its own file, and those are placed in the `extension/features` folder, in a folder based
       on the name of it.
     - Both the feature's CSS and JS scripts should reside in the same directory.
         - Don't include empty CSS files.

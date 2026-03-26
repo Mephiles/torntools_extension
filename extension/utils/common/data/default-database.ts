@@ -6,7 +6,7 @@ import { TornV1Stock } from "@/utils/common/functions/api-v1.types";
 import { SpecialFilterValue } from "@/utils/common/functions/filters";
 import { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
 import { InternalPageTheme } from "@/utils/common/functions/pages";
-import { ColoredChatOption } from "@features/colored-chat/colored-chat";
+import { ColoredChatOption } from "@/features/colored-chat/colored-chat";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
