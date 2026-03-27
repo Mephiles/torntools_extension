@@ -125,7 +125,7 @@ export default class FFScouterFactionFeature extends Feature {
 	}
 
 	async execute() {
-		await showFF(true);
+		await showFF(false);
 	}
 
 	cleanup() {
