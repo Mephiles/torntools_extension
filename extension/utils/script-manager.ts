@@ -74,7 +74,6 @@ import CrimeValueFeature from "@/features/crime-value/crime-value";
 import Crimes2BurglaryFilterFeature from "@/features/crimes2-burglary-filter/crimes2-burglary-filter";
 import { getSearchParameters } from "@/utils/common/functions/dom";
 import CSVChainReportFeature from "@/features/csv-chain-report/csv-chain-report";
-import CSVChallengeContributionsFeature from "@/features/csv-challenge-contributions/csv-challenge-contributions";
 import CSVRaidReportFeature from "@/features/csv-raid-report/csv-raid-report";
 import CSVRankedWarReportFeature from "@/features/csv-ranked-war-report/csv-ranked-war-report";
 import CSVWarReportFeature from "@/features/csv-war-report/csv-war-report";
@@ -85,9 +84,6 @@ import EventWorthFeature from "@/features/event-worth/event-worth";
 import EnemyFilterFeature from "@/features/enemy-filter/enemy-filter";
 import EnergyWarningFeature from "@/features/energy-warning/energy-warning";
 import EmployeeEffectivenessFeature from "@/features/employee-effectiveness/employee-effectiveness";
-import FactionBankerFeature from "@/features/faction-banker/faction-banker";
-import FactionIDFeature from "@/features/faction-id/faction-id";
-import FactionMemberNumberFeature from "@/features/faction-member-number/faction-member-number";
 import FairAttackFeature from "@/features/fair-attack/fair-attack";
 import ChatFontSizeFeature from "@/features/chat-font-size/chat-font-size";
 import FlyingTimeFeature from "@/features/flying-time/flying-time";
@@ -112,6 +108,26 @@ import GymDisableStatsFeature from "@/features/gym-disable-stats/gym-disable-sta
 import GymGraphFeature from "@/features/gym-graph/gym-graph";
 import GymProgressFeature from "@/features/gym-progress/gym-progress";
 import GymSteadfastFeature from "@/features/gym-steadfast/gym-steadfast";
+import HideAttackButtonsFeature from "@/features/hide-attack-buttons/hide-attack-buttons";
+import HideCasinoGamesFeature from "@/features/hide-casino-games/hide-casino-games";
+import HideChatFeature from "@/features/hide-chat/hide-chat";
+import HideGymHighlightFeature from "@/features/hide-gym-highlight/hide-gym-highlight";
+import HideIconsFeature from "@/features/hide-icons/hide-icons";
+import HideLeaveFeature from "@/features/hide-leave/hide-leave";
+import HideLevelUpgradeFeature from "@/features/hide-level-upgrade/hide-level-upgrade";
+import HideNewspaperHighlightFeature from "@/features/hide-newspaper-highlight/hide-newspaper-highlight";
+import HideRecycleMessageFeature from "@/features/hide-recycle-message/hide-recycle-message";
+import HideStocksFeature from "@/features/hide-stocks/hide-stocks";
+import HideTooManyItemsWarningFeature from "@/features/hide-too-many-items-warning/hide-too-many-items-warning";
+import HideTutorialsFeature from "@/features/hide-tutorials/hide-tutorials";
+import HighlightBloodBagsFeature from "@/features/highlight-blood-bags/highlight-blood-bags";
+import HighlightCheapItemsFeature from "@/features/highlight-cheap-items/highlight-cheap-items";
+import HighlightEnergyRefillFeature from "@/features/highlight-energy-refill/highlight-energy-refill";
+import HighlightNerveRefillFeature from "@/features/highlight-nerve-refill/highlight-nerve-refill";
+import HighlightOwnOCFeature from "@/features/highlight-own-oc/highlight-own-oc";
+import HighlightPropertiesFeature from "@/features/highlight-properties/highlight-properties";
+import HighLowHelperFeature from "@/features/high-low-helper/high-low-helper";
+import HospitalFilterFeature from "@/features/hospital-filter/hospital-filter";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -127,6 +143,16 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new CollapsibleAreasFeature());
 	FEATURE_MANAGER.registerFeature(new ComputerLinkFeature());
 	FEATURE_MANAGER.registerFeature(new AlignLeftFeature());
+	FEATURE_MANAGER.registerFeature(new HideLeaveFeature());
+	FEATURE_MANAGER.registerFeature(new HideLevelUpgradeFeature());
+	FEATURE_MANAGER.registerFeature(new HideTutorialsFeature());
+	FEATURE_MANAGER.registerFeature(new HideChatFeature());
+	FEATURE_MANAGER.registerFeature(new HideIconsFeature());
+	FEATURE_MANAGER.registerFeature(new HideGymHighlightFeature());
+	FEATURE_MANAGER.registerFeature(new HideNewspaperHighlightFeature());
+	FEATURE_MANAGER.registerFeature(new HighlightEnergyRefillFeature());
+	FEATURE_MANAGER.registerFeature(new HighlightNerveRefillFeature());
+	FEATURE_MANAGER.registerFeature(new HighlightPropertiesFeature());
 	FEATURE_MANAGER.registerFeature(new AchievementsFeature());
 	FEATURE_MANAGER.registerFeature(new ChatAutocompleteFeature());
 	FEATURE_MANAGER.registerFeature(new ChatHighlightFeature());
@@ -142,7 +168,7 @@ export function scriptManager() {
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
 		FEATURE_MANAGER.registerFeature(new BankInvestmentDueTimeFeature());
-	}else if (page === "displaycase") {
+	} else if (page === "displaycase") {
 		FEATURE_MANAGER.registerFeature(new DisplayCaseWorthFeature());
 	} else if (page === "education") {
 		FEATURE_MANAGER.registerFeature(new EducationFinishTimeFeature());
@@ -164,6 +190,9 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new EfficientRehabFeature());
 	} else if (page === "item") {
 		setupItemPage();
+		FEATURE_MANAGER.registerFeature(new HideRecycleMessageFeature());
+		FEATURE_MANAGER.registerFeature(new HideTooManyItemsWarningFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightBloodBagsFeature());
 		FEATURE_MANAGER.registerFeature(new QuickItemsFeature());
 		FEATURE_MANAGER.registerFeature(new AlcoholNerveFeature());
 		FEATURE_MANAGER.registerFeature(new BookEffectFeature());
@@ -201,10 +230,8 @@ export function scriptManager() {
 		setupFactionsPage().then(() => {});
 		FEATURE_MANAGER.registerFeature(new ArmoryWorthFeature());
 		FEATURE_MANAGER.registerFeature(new ArmoryFilterFeature());
-		FEATURE_MANAGER.registerFeature(new CSVChallengeContributionsFeature());
-		FEATURE_MANAGER.registerFeature(new FactionBankerFeature());
-		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
-		FEATURE_MANAGER.registerFeature(new FactionMemberNumberFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightBloodBagsFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightOwnOCFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberFilterFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberInfoFeature());
 		FEATURE_MANAGER.registerFeature(new FactionStakeoutsFeature());
@@ -224,8 +251,10 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new GymSteadfastFeature());
 	} else if (page === "hospital") {
 		setupHospitalPage();
+		FEATURE_MANAGER.registerFeature(new HospitalFilterFeature());
 	} else if (page === "itemmarket") {
 		setupItemMarketPage().then(() => {});
+		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
 	} else if (page === "jail") {
 		setupJailPage();
 	} else if (page === "missions") {
@@ -247,6 +276,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
 		FEATURE_MANAGER.registerFeature(new FfScouterProfileFeature());
 	} else if (page === "attack") {
+		FEATURE_MANAGER.registerFeature(new HideAttackButtonsFeature());
 		FEATURE_MANAGER.registerFeature(new AttackTimeoutWarningFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksLoaderFeature());
 		FEATURE_MANAGER.registerFeature(new FairAttackFeature());
@@ -254,7 +284,9 @@ export function scriptManager() {
 	} else if (page === "api") {
 		// TODO - Handle API page features.
 	} else if (page === "casino") {
-		FEATURE_MANAGER.registerFeature(new BlackjackStrategyFeature());
+		FEATURE_MANAGER.registerFeature(new HideCasinoGamesFeature());
+	} else if (page === "stockexchange") {
+		FEATURE_MANAGER.registerFeature(new HideStocksFeature());
 	} else if (page === "personalstats") {
 		FEATURE_MANAGER.registerFeature(new AveragePersonalStatFeature());
 	} else if (page === "racing") {
@@ -270,6 +302,10 @@ export function scriptManager() {
 		} else if (step === "warreport") {
 			FEATURE_MANAGER.registerFeature(new CSVWarReportFeature());
 		}
+	} else if (page === "highlow") {
+		FEATURE_MANAGER.registerFeature(new HighLowHelperFeature());
+	} else if (page === "blackjack") {
+		FEATURE_MANAGER.registerFeature(new BlackjackStrategyFeature());
 	}
 
 	if (isPageWithItems(page)) {

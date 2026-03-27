@@ -1,0 +1,3 @@
+.quit-job {
+	display: var(--torntools-hide-leave-button, flex) !important;
+}

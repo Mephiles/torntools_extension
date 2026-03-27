@@ -1,0 +1,3 @@
+.tt-highlight-energy-refill [class*="bar__"][class*="energy__"] p[class*="bar-name_"] {
+	color: var(--default-green-color) !important;
+}
