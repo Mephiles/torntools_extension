@@ -1,0 +1,7 @@
+[class*="notification__"].tt-modified {
+	height: 75px !important;
+}
+
+.tt-gym-energy-progress > span {
+	color: var(--default-green-color);
+}

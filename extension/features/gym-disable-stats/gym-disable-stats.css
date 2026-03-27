@@ -1,0 +1,32 @@
+ul[class*="properties_"] > li.tt-modified {
+	position: relative;
+}
+
+.tt-stat-checkbox {
+	position: absolute;
+	left: 4px;
+	bottom: 4px;
+	z-index: 999;
+}
+
+.tt-gym-locked {
+	position: relative;
+}
+
+.tt-gym-locked:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: hsla(0, 0%, 90.2%, 0.5);
+}
+
+.tt-gym-locked [class*="propertyValue_"] {
+	z-index: 1;
+	position: relative;
+	text-shadow: none;
+	color: #eee;
+}

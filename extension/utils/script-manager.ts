@@ -107,6 +107,11 @@ import FFScouterMiniProfileFeature from "@/features/ff-scouter/ff-scouter-mini-p
 import FFScouterAttackFeature from "@/features/ff-scouter/ff-scouter-attack";
 import FFScouterFactionFeature from "@/features/ff-scouter/ff-scouter-faction";
 import FfScouterProfileFeature from "@/features/ff-scouter/ff-scouter-profile";
+import GreyCompletedCoursesFeature from "@/features/grey-completed-courses/grey-completed-courses";
+import GymDisableStatsFeature from "@/features/gym-disable-stats/gym-disable-stats";
+import GymGraphFeature from "@/features/gym-graph/gym-graph";
+import GymProgressFeature from "@/features/gym-progress/gym-progress";
+import GymSteadfastFeature from "@/features/gym-steadfast/gym-steadfast";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -141,6 +146,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new DisplayCaseWorthFeature());
 	} else if (page === "education") {
 		FEATURE_MANAGER.registerFeature(new EducationFinishTimeFeature());
+		FEATURE_MANAGER.registerFeature(new GreyCompletedCoursesFeature());
 	} else if (page === "home") {
 		FEATURE_MANAGER.registerFeature(new EffectiveStatsFeature());
 	} else if (page === "travel") {
@@ -212,6 +218,10 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new ForumWarningFeature());
 	} else if (page === "gym") {
 		setupGymPage().then(() => {});
+		FEATURE_MANAGER.registerFeature(new GymDisableStatsFeature());
+		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
+		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
+		FEATURE_MANAGER.registerFeature(new GymSteadfastFeature());
 	} else if (page === "hospital") {
 		setupHospitalPage();
 	} else if (page === "itemmarket") {
