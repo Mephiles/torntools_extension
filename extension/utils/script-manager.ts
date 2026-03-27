@@ -92,8 +92,10 @@ import FairAttackFeature from "@/features/fair-attack/fair-attack";
 import ChatFontSizeFeature from "@/features/chat-font-size/chat-font-size";
 import FlyingTimeFeature from "@/features/flying-time/flying-time";
 import FactionMemberFilterFeature from "@/features/faction-member-filter/faction-member-filter";
+import FactionMemberInfoFeature from "@/features/faction-member-info/faction-member-info";
 import FactionOCTimeFeature from "@/features/faction-oc-time/faction-oc-time";
 import FactionStakeoutsFeature from "@/features/faction-stakeouts/faction-stakeouts";
+import FactionQuickItemsFeature from "@/features/faction-quick-items/faction-quick-items";
 import FoldFactionInfoboxFeature from "@/features/fold-faction-infobox/fold-faction-infobox";
 import ForumMenuFeature from "@/features/forum-menu/forum-menu";
 import ForumWarningFeature from "@/features/forum-warning/forum-warning";
@@ -191,7 +193,9 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberNumberFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberFilterFeature());
+		FEATURE_MANAGER.registerFeature(new FactionMemberInfoFeature());
 		FEATURE_MANAGER.registerFeature(new FactionStakeoutsFeature());
+		FEATURE_MANAGER.registerFeature(new FactionQuickItemsFeature());
 		FEATURE_MANAGER.registerFeature(new FoldFactionInfoboxFeature());
 		FEATURE_MANAGER.registerFeature(new FullFactionInfoboxFeature());
 	} else if (page === "forums") {
