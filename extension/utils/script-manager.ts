@@ -140,6 +140,9 @@ import HighlightPropertiesFeature from "@/features/highlight-properties/highligh
 import HighLowHelperFeature from "@/features/high-low-helper/high-low-helper";
 import HospitalFilterFeature from "@/features/hospital-filter/hospital-filter";
 import MissionHintsFeature from "@/features/mission-hints/mission-hints";
+import JailFilterFeature from "@/features/jail-filter/jail-filter";
+import LiveNetworthFeature from "@/features/live-networth/live-networth";
+import ItemValuesFeature from "@/features/item-values/item-values";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -189,6 +192,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new GreyCompletedCoursesFeature());
 	} else if (page === "home") {
 		FEATURE_MANAGER.registerFeature(new EffectiveStatsFeature());
+		FEATURE_MANAGER.registerFeature(new LiveNetworthFeature());
 	} else if (page === "travel") {
 		setupTravelAbroadPage().then(() => {});
 		setupTravelHomePage().then(() => {});
@@ -220,6 +224,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new MissingPlushiesFeature());
 		FEATURE_MANAGER.registerFeature(new MissingFlowersFeature());
 		FEATURE_MANAGER.registerFeature(new MarketIconsFeature());
+		FEATURE_MANAGER.registerFeature(new ItemValuesFeature());
 	} else if (page === "auction") {
 		setupAuctionHousePage().then(() => {});
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());
@@ -281,6 +286,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new ItemMarketLeftBarFeature());
 	} else if (page === "jail") {
 		setupJailPage();
+		FEATURE_MANAGER.registerFeature(new JailFilterFeature());
 	} else if (page === "missions") {
 		setupMissionsPage();
 		FEATURE_MANAGER.registerFeature(new MissionHintsFeature());

@@ -1,0 +1,56 @@
+.tt-quick-refresh {
+	float: right;
+	margin: 6px 10px 0 0;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+body.tt-mobile .tt-quick-refresh-wrap .tt-quick-refresh,
+body.tt-tablet .tt-quick-refresh-wrap .tt-quick-refresh {
+	margin: 0;
+}
+
+body.tt-mobile .users-list-title .tt-quick-refresh,
+body.tt-tablet .users-list-title .tt-quick-refresh {
+	position: absolute;
+	right: 0;
+}
+
+.tt-quick-q {
+	color: #acea00;
+	font-size: 10px;
+	position: absolute;
+	margin: 10px 0 0 2px;
+}
+
+body.tt-mobile .tt-quick-q {
+	margin: 15px 0 0 -5px;
+}
+
+.tt-quick-refresh-wrap {
+	height: 33px;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.tt-quick-refresh-wrap > * {
+	width: 48px;
+	text-align: center;
+}
+
+body.tt-mobile .tt-quick-refresh-wrap > *,
+body.tt-tablet .tt-quick-refresh-wrap > * {
+	width: 41px;
+}
+
+.tt-quick-refresh.tt-bail {
+	position: absolute;
+	margin-right: 48px;
+}
+
+body.tt-mobile .tt-quick-refresh.tt-bail,
+body.tt-tablet .tt-quick-refresh.tt-bail {
+	margin-right: 41px;
+}

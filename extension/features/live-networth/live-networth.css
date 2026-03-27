@@ -1,0 +1,37 @@
+#liveNetworth .comparison {
+	margin: 5px;
+}
+
+#liveNetworth table {
+	width: 100%;
+}
+
+#liveNetworth table tr > * {
+	padding-bottom: 4px;
+	color: var(--default-font-color);
+}
+
+#liveNetworth table th {
+	font-weight: bold;
+	text-align: center;
+}
+
+#liveNetworth table .positive {
+	color: var(--tt-color-green);
+}
+
+#liveNetworth table .negative {
+	color: var(--tt-color-red);
+}
+
+.networth-row {
+	background-color: #65c90069;
+}
+
+.networth-row .divider span {
+	background-color: transparent !important;
+}
+
+.networth-row .desc span {
+	padding-left: 3px !important;
+}

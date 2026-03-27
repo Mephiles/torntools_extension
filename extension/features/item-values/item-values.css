@@ -1,0 +1,96 @@
+body.tt-mobile .tt-item-price-wrap {
+	height: 30px !important;
+}
+
+body.tt-tablet .tt-item-price-wrap {
+	height: 34px !important;
+}
+
+.tt-item-price-color,
+.tt-item-price {
+	color: var(--tt-color-item-text);
+}
+
+.tt-item-price {
+	width: unset !important;
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+	white-space: pre;
+	font-weight: normal;
+}
+
+span.tt-item-price {
+	float: right;
+	position: absolute;
+	right: 0;
+	line-height: 34px;
+}
+
+.tt-item-quantity {
+	font-weight: bold;
+	color: var(--tt-color-item-quantity);
+}
+
+body.tt-mobile .tt-item-price {
+	position: absolute;
+	right: -10px;
+	top: 10px;
+	float: unset;
+	font-size: 11px;
+}
+
+body.tt-tablet .tt-item-price {
+	margin-top: -1px;
+	padding-right: 5px !important;
+	float: right;
+	font-size: 12px;
+}
+
+body.tt-tablet li[data-category="Primary"] .tt-item-price,
+body.tt-tablet li[data-category="Secondary"] .tt-item-price,
+body.tt-tablet li[data-category="Melee"] .tt-item-price {
+	transform: translateX(-225px);
+}
+
+body.tt-tablet li[data-category="Defensive"]:not([data-group]) .tt-item-price,
+body.tt-tablet li[data-category="Defensive"][data-group="item"] .tt-item-price {
+	transform: translateX(-155px);
+}
+
+body.tt-mobile li[data-equipped] .name-wrap {
+	margin-top: -4px;
+}
+
+body.tt-mobile .needed-item .tt-item-price,
+body.tt-tablet .needed-item .tt-item-price {
+	right: 0;
+}
+
+body.tt-mobile .tt-item-price.price-total,
+body.tt-tablet .tt-item-price.price-total {
+	position: relative;
+	top: 0;
+	left: 0 !important;
+	float: left;
+	font-size: 12px;
+}
+
+body.tt-mobile .items-cont .name,
+body.tt-tablet .items-cont .name,
+body.tt-mobile .items-cont .qty,
+body.tt-tablet .items-cont .qty {
+	position: relative;
+	top: -3px;
+}
+
+.thumbnails .tt-item-price-wrap {
+	display: block !important;
+}
+
+body.tt-mobile #bazaarRoot .tt-item-price-wrap {
+	margin-bottom: 1px;
+}
+
+body.tt-mobile .items-wrap .tt-item-price-wrap {
+	margin-bottom: 4px;
+}
