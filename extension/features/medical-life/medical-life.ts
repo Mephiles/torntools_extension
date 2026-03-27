@@ -1,0 +1,114 @@
+import "./medical-life.css";
+import { Feature } from "@/features/feature-manager";
+import { getPage } from "@/utils/common/functions/torn";
+import { settings, userdata } from "@/utils/common/data/database";
+import { addXHRListener } from "@/utils/common/functions/listeners";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { elementBuilder, getSearchParameters } from "@/utils/common/functions/dom";
+
+const page = getPage();
+
+const MEDICAL_ITEMS = {
+	66: 15,
+	67: 10,
+	68: 5,
+	732: 30,
+	733: 30,
+	734: 30,
+	735: 30,
+	736: 30,
+	737: 30,
+	738: 30,
+	739: 30,
+};
+
+function addListener() {
+	if (page === "item") {
+		addXHRListener(async ({ detail: { page: xhrPage, xhr } }) => {
+			if (!settings.pages.items.medicalLife) return;
+
+			if (xhrPage !== "item") return;
+
+			const params = new URLSearchParams(xhr.requestBody);
+			if (params.get("action") !== "use") return;
+
+			const id = convertToNumber(params.get("id"));
+			if (!doesRestoreLife(id)) return;
+
+			await showInformation(id);
+		});
+	} else if (page === "factions") {
+		document.getElementById("faction-armoury").addEventListener("click", async (event) => {
+			if (!settings.pages.items.medicalLife) return;
+
+			const target = event.target as Element;
+			if (!target || !target.classList.contains("use")) return;
+
+			const id = convertToNumber((target.closest(".item-use-act").querySelector(".use-cont") as HTMLElement).dataset.itemid);
+			if (!doesRestoreLife(id)) return;
+
+			await showInformation(id);
+		});
+	}
+}
+
+function doesRestoreLife(id: number) {
+	return id in MEDICAL_ITEMS;
+}
+
+async function showInformation(id: number) {
+	const perks = userdata.education_perks
+		.filter((perk) => perk.includes("Medical item effectiveness"))
+		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
+		.reduce((a, b) => a + b, 0);
+	const percentage = (1 + perks / 100) * MEDICAL_ITEMS[id];
+
+	const lifeValues = document.querySelector("[class*='bar__'][class*='life__'] [class*='bar-value___']").textContent.split("/");
+	const currentLife = parseInt(lifeValues[0]);
+	const maximumLife = parseInt(lifeValues[1]);
+
+	const replenish = Math.max(Math.min(maximumLife * (percentage / 100), maximumLife - currentLife), 0);
+	const newLife = currentLife + replenish;
+
+	let actionWrap: Element;
+	if (page === "item") {
+		actionWrap = await requireElement(".use-action[style*='display: block;'] #wai-action-desc, .use-action:not([style]) #wai-action-desc");
+	} else if (page === "factions") {
+		actionWrap = await requireElement(`.action-cont[data-itemid='${id}'] .confirm`);
+	}
+
+	const text = `Your life total will be ${newLife.toFixed(1)}/${maximumLife.toFixed(1)}.`;
+
+	if (actionWrap.querySelector(".tt-medical-life")) {
+		actionWrap.querySelector(".tt-medical-life").textContent = text;
+	} else {
+		actionWrap.appendChild(elementBuilder({ type: "strong", class: ["tt-medical-life", page], text }));
+	}
+}
+
+export default class MedicalLifeFeature extends Feature {
+	constructor() {
+		super("Medical Life", "items");
+	}
+
+	precondition() {
+		if (page === "factions") {
+			const params = getSearchParameters();
+			if (params.get("step") !== "your") return false;
+		}
+		return true;
+	}
+
+	isEnabled() {
+		return settings.pages.items.medicalLife;
+	}
+
+	initialise() {
+		addListener();
+	}
+
+	storageKeys() {
+		return ["settings.pages.items.medicalLife"];
+	}
+}

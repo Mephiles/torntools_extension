@@ -1,0 +1,19 @@
+.tt-show-fill-max [class*="rowWrapper__"] [class*="available__"] {
+	align-items: flex-start;
+	padding-top: 5px;
+}
+
+.tt-show-fill-max [class*="rowWrapper__"] [class*="available__"]::after {
+	content: "Fill Max";
+	position: absolute;
+	top: 20px;
+	color: var(--tt-color-green);
+	cursor: pointer;
+	width: calc(100px - 2 * 7px);
+	text-align: right;
+}
+
+body:not(.tt-mobile):not(.tt-tablet) .tt-show-fill-max [class*="rowWrapper__"] [class*="available__"]:hover::after {
+	color: #fff;
+	background-color: var(--tt-color-green);
+}

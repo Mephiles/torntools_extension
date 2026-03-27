@@ -1,0 +1,47 @@
+/*
+ * Missing plushies and flowers
+ */
+
+.needed-item {
+	position: relative;
+	background-color: var(--default-bg-panel-color, #f2f2f2);
+	opacity: 0.4;
+	border-bottom: 1px solid var(--default-panel-divider-outer-side-color, #ccc);
+}
+
+.needed-item:last-child {
+	border-radius: 0 0 5px 5px;
+}
+
+.needed-item > img {
+	line-height: 32px;
+	width: 58px;
+	height: 30px;
+	vertical-align: bottom;
+	border-right: 2px solid #ccc;
+}
+
+.needed-item > span {
+	line-height: 32px;
+	padding-left: 10px;
+}
+
+.tt-missing-set {
+	background-color: var(--tt-color-orange);
+	color: white;
+	padding: 5px 10px;
+	margin: 5px;
+	border-radius: 3px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.tt-set-name {
+	font-size: 14px;
+	margin-bottom: 3px;
+}
+
+.tt-set-info {
+	font-size: 12px;
+	opacity: 0.9;
+}

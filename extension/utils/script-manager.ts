@@ -118,6 +118,17 @@ import HideLevelUpgradeFeature from "@/features/hide-level-upgrade/hide-level-up
 import HideNewspaperHighlightFeature from "@/features/hide-newspaper-highlight/hide-newspaper-highlight";
 import HideRecycleMessageFeature from "@/features/hide-recycle-message/hide-recycle-message";
 import HideStocksFeature from "@/features/hide-stocks/hide-stocks";
+import ItemMarketFillMaxFeature from "@/features/item-market-fill-max/item-market-fill-max";
+import ItemMarketLeftBarFeature from "@/features/item-market-left-bar/item-market-left-bar";
+import JobSpecialsFeature from "@/features/job-specials/job-specials";
+import JobPointsTooltipFeature from "@/features/jobpoints-tooltip/jobpoints-tooltip";
+import LandingTimeFeature from "@/features/landing-time/landing-time";
+import MarketIconsFeature from "@/features/market-icons/market-icons";
+import MedicalLifeFeature from "@/features/medical-life/medical-life";
+import MiniProfileLastActionFeature from "@/features/mini-profile-last-action/mini-profile-last-action";
+import MissionRewardsFeature from "@/features/mission-rewards/mission-rewards";
+import MuseumAutoFillFeature from "@/features/museum-auto-fill/museum-auto-fill";
+import { MissingFlowersFeature, MissingPlushiesFeature } from "@/features/missing-sets/missing-sets";
 import HideTooManyItemsWarningFeature from "@/features/hide-too-many-items-warning/hide-too-many-items-warning";
 import HideTutorialsFeature from "@/features/hide-tutorials/hide-tutorials";
 import HighlightBloodBagsFeature from "@/features/highlight-blood-bags/highlight-blood-bags";
@@ -128,6 +139,7 @@ import HighlightOwnOCFeature from "@/features/highlight-own-oc/highlight-own-oc"
 import HighlightPropertiesFeature from "@/features/highlight-properties/highlight-properties";
 import HighLowHelperFeature from "@/features/high-low-helper/high-low-helper";
 import HospitalFilterFeature from "@/features/hospital-filter/hospital-filter";
+import MissionHintsFeature from "@/features/mission-hints/mission-hints";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -153,6 +165,8 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new HighlightEnergyRefillFeature());
 	FEATURE_MANAGER.registerFeature(new HighlightNerveRefillFeature());
 	FEATURE_MANAGER.registerFeature(new HighlightPropertiesFeature());
+	FEATURE_MANAGER.registerFeature(new MiniProfileLastActionFeature());
+	FEATURE_MANAGER.registerFeature(new JobPointsTooltipFeature());
 	FEATURE_MANAGER.registerFeature(new AchievementsFeature());
 	FEATURE_MANAGER.registerFeature(new ChatAutocompleteFeature());
 	FEATURE_MANAGER.registerFeature(new ChatHighlightFeature());
@@ -186,8 +200,11 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new AbroadPeopleFilterFeature());
 		FEATURE_MANAGER.registerFeature(new CleanFlightFeature());
 		FEATURE_MANAGER.registerFeature(new FlyingTimeFeature());
+		FEATURE_MANAGER.registerFeature(new LandingTimeFeature());
 	} else if (page === "rehab") {
 		FEATURE_MANAGER.registerFeature(new EfficientRehabFeature());
+	} else if (page === "museum") {
+		FEATURE_MANAGER.registerFeature(new MuseumAutoFillFeature());
 	} else if (page === "item") {
 		setupItemPage();
 		FEATURE_MANAGER.registerFeature(new HideRecycleMessageFeature());
@@ -199,6 +216,10 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CanEnergyFeature());
 		FEATURE_MANAGER.registerFeature(new CandyHappyFeature());
 		FEATURE_MANAGER.registerFeature(new EnergyWarningFeature());
+		FEATURE_MANAGER.registerFeature(new MedicalLifeFeature());
+		FEATURE_MANAGER.registerFeature(new MissingPlushiesFeature());
+		FEATURE_MANAGER.registerFeature(new MissingFlowersFeature());
+		FEATURE_MANAGER.registerFeature(new MarketIconsFeature());
 	} else if (page === "auction") {
 		setupAuctionHousePage().then(() => {});
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());
@@ -220,6 +241,7 @@ export function scriptManager() {
 	} else if (page === "joblist") {
 		setupCompanyPage();
 		FEATURE_MANAGER.registerFeature(new CompanyIDFeature());
+		FEATURE_MANAGER.registerFeature(new JobSpecialsFeature());
 	} else if (page === "crimes-v1") {
 		setupCrimesV1Page();
 	} else if (page === "crimes-v2") {
@@ -255,10 +277,14 @@ export function scriptManager() {
 	} else if (page === "itemmarket") {
 		setupItemMarketPage().then(() => {});
 		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
+		FEATURE_MANAGER.registerFeature(new ItemMarketFillMaxFeature());
+		FEATURE_MANAGER.registerFeature(new ItemMarketLeftBarFeature());
 	} else if (page === "jail") {
 		setupJailPage();
 	} else if (page === "missions") {
 		setupMissionsPage();
+		FEATURE_MANAGER.registerFeature(new MissionHintsFeature());
+		FEATURE_MANAGER.registerFeature(new MissionRewardsFeature());
 	} else if (page === "events") {
 		FEATURE_MANAGER.registerFeature(new EventWorthFeature());
 	} else if (page === "enemies") {

@@ -1396,7 +1396,7 @@ export const COMPANY_INFORMATION: { [name: string]: CompanyInformation } = {
 	},
 } as const;
 
-interface SetItem {
+export interface SetItem {
 	name: string;
 	id: number;
 	category: "Flower" | "Plushie";
@@ -1686,6 +1686,16 @@ export function isSellable(id: number | string) {
 			374, // Present
 			375, // Present
 			376, // Present
+			472, // Easter Egg (Blue)
+			473, // Easter Egg (Green)
+			474, // Easter Egg (Red)
+			475, // Easter Egg (Yellow)
+			476, // Easter Egg (White)
+			477, // Easter Egg (Black)
+			478, // Easter Egg (Gold)
+			583, // Easter Egg (Brown)
+			584, // Easter Egg (Orange)
+			585, // Easter Egg (Pink)
 			820, // Piggy Bank
 			920, // Halloween Basket
 			1003, // Halloween Basket
@@ -1697,6 +1707,7 @@ export function isSellable(id: number | string) {
 			1009, // Halloween Basket
 			1010, // Halloween Basket
 			1011, // Halloween Basket
+			1149, // Easter Egg (Purple)
 		].includes(parseInt(id.toString()))
 	);
 }
