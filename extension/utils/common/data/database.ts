@@ -4,9 +4,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { DEFAULT_STORAGE, DefaultSetting, DefaultStorageType } from "@/utils/common/data/default-database";
 import { sleep, toNumericVersion } from "@/utils/common/functions/utilities";
 
-export type RecursivePartial<T> = {
-	[P in keyof T]?: T[P] extends (infer U)[] ? RecursivePartial<U>[] : T[P] extends object | undefined ? RecursivePartial<T[P]> : T[P];
-};
+export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
 export type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
 
 type DatabaseSettings = Writable<DefaultStorageType["settings"]>;

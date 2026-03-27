@@ -16,13 +16,13 @@ const localFilters: Record<string, any> = {};
 
 async function initialiseFilters() {
 	listObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => isElement(node) && node.matches("li[class*='tableRow__']")))) {
+		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.matches("li[class*='tableRow__']")))) {
 			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(FriendFilterFeature)) applyFilters();
 		}
 	});
 
 	tableObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => isElement(node) && node.tagName === "UL"))) {
+		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.tagName === "UL"))) {
 			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(FriendFilterFeature)) {
 				applyFilters();
 				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });

@@ -8,5 +8,5 @@
 		"noUncheckedIndexedAccess": false,
 		"useUnknownInCatchVariables": false
 	},
-	"references": [{ "path": "./tsconfig.webworker.json" }]
+	"exclude": ["to-migrate/**/*", "skip/**/*"]
 }

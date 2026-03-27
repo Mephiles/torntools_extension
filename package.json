@@ -3,9 +3,10 @@
 	"version": "9.0.0",
 	"type": "module",
 	"scripts": {
-		"dev:chrome": "bunx wxt",
-		"dev:firefox": "bunx wxt -b firefox --mv3",
-		"build": "bun run build:chrome && bun run build:firefox",
+		"types:watch": "tsc --noEmit --watch --pretty",
+		"dev:chrome": "concurrently --names TSC,WXT \"bun run types:watch\" \"bunx wxt\"",
+		"dev:firefox": "concurrently --names TSC,WXT \"bun run types:watch\" \"bunx wxt -b firefox --mv3\"",
+		"build": "tsc && bun run build:chrome && bun run build:firefox",
 		"build:chrome": "bunx wxt build",
 		"build:firefox": "bunx wxt build -b firefox --mv3",
 		"zip": "bun run zip:chrome && bun run zip:firefox",
@@ -28,6 +29,7 @@
 	"devDependencies": {
 		"@types/sortablejs": "^1.15.9",
 		"@wxt-dev/auto-icons": "^1.1.1",
+		"concurrently": "^8.2.2",
 		"prettier": "^3.8.1",
 		"vitest": "^4.1.1",
 		"wxt": "^0.20.20"

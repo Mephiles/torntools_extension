@@ -1,3 +1,5 @@
+/// <reference lib="webworker" />
+
 export default defineUnlistedScript(() => {
 	const worker = self as unknown as ServiceWorkerGlobalScope;
 

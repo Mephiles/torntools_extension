@@ -118,7 +118,7 @@ export function createContainer(title: string, partialOptions: Partial<Container
 
 				// Firefox opens new tab when dropping item
 				event.preventDefault();
-				event.dataTransfer.clearData();
+				(event as DragEvent).dataTransfer?.clearData();
 			});
 		}
 
