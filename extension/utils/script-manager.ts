@@ -93,6 +93,13 @@ import ChatFontSizeFeature from "@/features/chat-font-size/chat-font-size";
 import FlyingTimeFeature from "@/features/flying-time/flying-time";
 import FactionMemberFilterFeature from "@/features/faction-member-filter/faction-member-filter";
 import FactionOCTimeFeature from "@/features/faction-oc-time/faction-oc-time";
+import FactionStakeoutsFeature from "@/features/faction-stakeouts/faction-stakeouts";
+import FoldFactionInfoboxFeature from "@/features/fold-faction-infobox/fold-faction-infobox";
+import ForumMenuFeature from "@/features/forum-menu/forum-menu";
+import ForumWarningFeature from "@/features/forum-warning/forum-warning";
+import FriendFilterFeature from "@/features/friend-filter/friend-filter";
+import FullFactionInfoboxFeature from "@/features/full-faction-infobox/full-faction-infobox";
+import FriendlyFireFeature from "@/features/friendly-fire/friendly-fire";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -121,9 +128,7 @@ export function scriptManager() {
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
 		FEATURE_MANAGER.registerFeature(new BankInvestmentDueTimeFeature());
-	} else if (page === "profiles") {
-		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
-	} else if (page === "displaycase") {
+	}else if (page === "displaycase") {
 		FEATURE_MANAGER.registerFeature(new DisplayCaseWorthFeature());
 	} else if (page === "education") {
 		FEATURE_MANAGER.registerFeature(new EducationFinishTimeFeature());
@@ -162,7 +167,6 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new BountyFilterFeature());
 	} else if (page === "city") {
 		FEATURE_MANAGER.registerFeature(new CityItemsFeature());
-		// Placeholder
 	} else if (page === "companies") {
 		setupCompanyPage();
 		FEATURE_MANAGER.registerFeature(new AutoStockFillFeature());
@@ -187,8 +191,13 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberNumberFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberFilterFeature());
+		FEATURE_MANAGER.registerFeature(new FactionStakeoutsFeature());
+		FEATURE_MANAGER.registerFeature(new FoldFactionInfoboxFeature());
+		FEATURE_MANAGER.registerFeature(new FullFactionInfoboxFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
+		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
+		FEATURE_MANAGER.registerFeature(new ForumWarningFeature());
 	} else if (page === "gym") {
 		setupGymPage().then(() => {});
 	} else if (page === "hospital") {
@@ -203,6 +212,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new EventWorthFeature());
 	} else if (page === "enemies") {
 		FEATURE_MANAGER.registerFeature(new EnemyFilterFeature());
+	} else if (page === "friends") {
+		FEATURE_MANAGER.registerFeature(new FriendFilterFeature());
 	} else if (page === "trade") {
 		setupTradePage();
 	} else if (page === "userlist") {
@@ -210,6 +221,8 @@ export function scriptManager() {
 	} else if (page === "profiles") {
 		FEATURE_MANAGER.registerFeature(new CreatorsFeature());
 		FEATURE_MANAGER.registerFeature(new AgeToWordsFeature());
+		FEATURE_MANAGER.registerFeature(new FriendlyFireFeature());
+		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
 	} else if (page === "attack") {
 		FEATURE_MANAGER.registerFeature(new AttackTimeoutWarningFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksLoaderFeature());

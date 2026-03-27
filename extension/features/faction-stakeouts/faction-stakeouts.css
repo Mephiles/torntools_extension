@@ -1,0 +1,20 @@
+#factionStakeout .alerts-wrap {
+	margin-left: 20px;
+	display: flex;
+	flex-direction: row;
+	gap: 8px;
+}
+
+#factionStakeout .alerts {
+	display: flex;
+	flex-direction: column;
+}
+
+#factionStakeout .alerts strong {
+	text-align: center;
+}
+
+#factionStakeout .alerts .tt-textbox {
+	width: 40px;
+	margin-left: 2px;
+}

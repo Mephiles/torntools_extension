@@ -919,7 +919,7 @@ export type StoredStakeouts = {
 };
 
 export type QuickItem = { id: number; xid?: number };
-type QuickFactionItem = { id: number | "points-energy" | "points-nerve" };
+export type QuickFactionItem = { id: number | "points-energy" | "points-nerve" };
 type QuickCrime = {
 	step: string;
 	nerve: number;

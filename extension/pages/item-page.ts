@@ -120,7 +120,7 @@ function getCurrentTab() {
 	return document.querySelector<HTMLElement>("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
 }
 
-type TornInternalUseItem =
+export type TornInternalUseItem =
 	| {
 			success: false;
 			text: string;

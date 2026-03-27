@@ -2457,3 +2457,6 @@ export function isInfiniteUsageItem(id: number): boolean {
 		104, // Game Console
 	].includes(id);
 }
+
+export const TORNTOOLS_FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16243863";
+

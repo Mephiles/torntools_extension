@@ -1,0 +1,16 @@
+.tt-infobox-title {
+	display: flex;
+}
+
+.tt-infobox-title .tt-options {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: row-reverse;
+	color: var(--tt-color-light-green);
+	padding-right: 10px;
+}
+
+.prevent-overflow {
+	overflow-y: unset !important;
+	max-height: unset !important;
+}
