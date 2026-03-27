@@ -91,6 +91,8 @@ import FactionMemberNumberFeature from "@/features/faction-member-number/faction
 import FairAttackFeature from "@/features/fair-attack/fair-attack";
 import ChatFontSizeFeature from "@/features/chat-font-size/chat-font-size";
 import FlyingTimeFeature from "@/features/flying-time/flying-time";
+import FactionMemberFilterFeature from "@/features/faction-member-filter/faction-member-filter";
+import FactionOCTimeFeature from "@/features/faction-oc-time/faction-oc-time";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -114,6 +116,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new CooldownEndTimesFeature());
 	FEATURE_MANAGER.registerFeature(new EasterEggFeature());
 	FEATURE_MANAGER.registerFeature(new ChatFontSizeFeature());
+	FEATURE_MANAGER.registerFeature(new FactionOCTimeFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
@@ -183,6 +186,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionBankerFeature());
 		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberNumberFeature());
+		FEATURE_MANAGER.registerFeature(new FactionMemberFilterFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 	} else if (page === "gym") {

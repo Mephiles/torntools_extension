@@ -94,7 +94,7 @@ export function toMultipleDigits(number: undefined | number | string, digits: nu
 
 type DateObject = number | Date | { milliseconds: number } | { seconds: number };
 
-interface FormatTimeOptions {
+export interface FormatTimeOptions {
 	type: "normal" | "timer" | "wordTimer" | "ago";
 	showDays: boolean;
 	hideHours: boolean;
