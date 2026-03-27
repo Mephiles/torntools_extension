@@ -120,26 +120,4 @@ export default defineUnlistedScript(() => {
 			return true;
 		}
 	}
-
-	function getParams(body: string) {
-		const params: { [key: string]: string } = {};
-
-		for (const param of body.split("&")) {
-			const split = param.split("=");
-
-			params[split[0]] = split[1];
-		}
-
-		return params;
-	}
-
-	function paramsToBody(params: { [key: string]: string | number }) {
-		const _params = [];
-
-		for (const key in params) {
-			_params.push(key + "=" + params[key]);
-		}
-
-		return _params.join("&");
-	}
 });

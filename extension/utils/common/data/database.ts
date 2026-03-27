@@ -157,7 +157,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 		}
 
 		const storedVersion = loadedStorage?.version?.current || "5.0.0";
-		const currentVersion = chrome.runtime.getManifest().version;
+		const currentVersion = browser.runtime.getManifest().version;
 
 		console.log(`TT - Migration check: ${storedVersion} -> ${currentVersion}`);
 

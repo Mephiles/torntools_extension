@@ -1,4 +1,4 @@
-import { addXHRListener, triggerCustomListener } from "../utils/common/functions/listeners";
+import { addXHRListener, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireItemsLoaded } from "@/utils/common/functions/requires";
@@ -141,7 +141,7 @@ export type TornInternalUseItem =
 			};
 	  };
 
-function isUseItem(step: string, _json: any): _json is TornInternalUseItem {
+export function isUseItem(step: string, _json: any): _json is TornInternalUseItem {
 	return step === "useItem";
 }
 

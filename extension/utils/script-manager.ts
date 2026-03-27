@@ -149,6 +149,14 @@ import CSVChallengeContributionsFeature from "@/features/csv-challenge-contribut
 import FactionBankerFeature from "@/features/faction-banker/faction-banker";
 import FactionMemberNumberFeature from "@/features/faction-member-number/faction-member-number";
 import FactionIDFeature from "@/features/faction-id/faction-id";
+import NoConfirmItemsFeature from "@/features/no-confirm/no-confirm-items";
+import NoConfirmTradeFeature from "@/features/no-confirm/no-confirm-trade";
+import NPCLootTimesFeature from "@/features/npc-loot-times/npc-loot-times";
+import OCAvailablePlayersFeature from "@/features/oc-available-players/oc-available-players";
+import OCLastActionFeature from "@/features/oc-last-action/oc-last-action";
+import OpenOCFeature from "@/features/open-oc/open-oc";
+import OpenedSupplyPackValueFeature from "@/features/opened-supply-pack-value/opened-supply-pack-value";
+import NoConfirmPointsMarketFeature from "@/features/no-confirm/no-confirm-points-market";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -186,6 +194,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new FactionOCTimeFeature());
 	FEATURE_MANAGER.registerFeature(new FFScouterGaugeFeature());
 	FEATURE_MANAGER.registerFeature(new FFScouterMiniProfileFeature());
+	FEATURE_MANAGER.registerFeature(new NPCLootTimesFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
@@ -221,6 +230,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HideTooManyItemsWarningFeature());
 		FEATURE_MANAGER.registerFeature(new HighlightBloodBagsFeature());
 		FEATURE_MANAGER.registerFeature(new QuickItemsFeature());
+		FEATURE_MANAGER.registerFeature(new NoConfirmItemsFeature());
+		FEATURE_MANAGER.registerFeature(new OpenedSupplyPackValueFeature());
 		FEATURE_MANAGER.registerFeature(new AlcoholNerveFeature());
 		FEATURE_MANAGER.registerFeature(new BookEffectFeature());
 		FEATURE_MANAGER.registerFeature(new CanEnergyFeature());
@@ -281,6 +292,9 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FullFactionInfoboxFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterFactionFeature());
 		FEATURE_MANAGER.registerFeature(new LastActionFactionFeature());
+		FEATURE_MANAGER.registerFeature(new OCAvailablePlayersFeature());
+		FEATURE_MANAGER.registerFeature(new OCLastActionFeature());
+		FEATURE_MANAGER.registerFeature(new OpenOCFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
@@ -314,6 +328,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FriendFilterFeature());
 	} else if (page === "trade") {
 		setupTradePage();
+		FEATURE_MANAGER.registerFeature(new NoConfirmTradeFeature());
 	} else if (page === "userlist") {
 		setupUserlistPage();
 	} else if (page === "profiles") {
@@ -353,6 +368,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HighLowHelperFeature());
 	} else if (page === "blackjack") {
 		FEATURE_MANAGER.registerFeature(new BlackjackStrategyFeature());
+	} else if (page === "points-market") {
+		FEATURE_MANAGER.registerFeature(new NoConfirmPointsMarketFeature())
 	}
 
 	if (isPageWithDrugItems(page)) {

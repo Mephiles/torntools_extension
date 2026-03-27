@@ -165,7 +165,7 @@ export const CUSTOM_LISTENERS: { [K in keyof EventPayloads]: CustomEventListener
 
 let injectedXHR: boolean, injectedFetch: boolean;
 
-function injectFetch() {
+export function injectFetch() {
 	if (injectedFetch) return;
 
 	executeScript(browser.runtime.getURL("/fetch--inject.js"), false);
@@ -178,7 +178,7 @@ export function addFetchListener(callback: (event: CustomEventInit<FetchDetails>
 	window.addEventListener(EVENT_CHANNELS.FETCH, callback);
 }
 
-function injectXHR() {
+export function injectXHR() {
 	if (injectedXHR) return;
 
 	executeScript(browser.runtime.getURL("/xhr--inject.js"), false);
