@@ -157,6 +157,12 @@ import OCLastActionFeature from "@/features/oc-last-action/oc-last-action";
 import OpenOCFeature from "@/features/open-oc/open-oc";
 import OpenedSupplyPackValueFeature from "@/features/opened-supply-pack-value/opened-supply-pack-value";
 import NoConfirmPointsMarketFeature from "@/features/no-confirm/no-confirm-points-market";
+import OCNNBFeature from "@/features/oc-nnb/oc-nnb";
+import OCTimeFeature from "@/features/oc-time/oc-time";
+import OCTimesFeature from "@/features/oc-times/oc-times";
+import OC2FilterFeature from "@/features/oc2-filter/oc2-filter";
+import OC2TimeFeature from "@/features/oc2-time/oc2-time";
+import NoConfirmAbroadBuyFeature from "@/features/no-confirm/no-confirm-abroad-buy";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -195,6 +201,8 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new FFScouterGaugeFeature());
 	FEATURE_MANAGER.registerFeature(new FFScouterMiniProfileFeature());
 	FEATURE_MANAGER.registerFeature(new NPCLootTimesFeature());
+	FEATURE_MANAGER.registerFeature(new OCTimeFeature());
+	FEATURE_MANAGER.registerFeature(new OC2TimeFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
@@ -220,6 +228,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FlyingTimeFeature());
 		FEATURE_MANAGER.registerFeature(new LandingTimeFeature());
 		FEATURE_MANAGER.registerFeature(new ComputerLinkFeature());
+		FEATURE_MANAGER.registerFeature(new NoConfirmAbroadBuyFeature());
 	} else if (page === "rehab") {
 		FEATURE_MANAGER.registerFeature(new EfficientRehabFeature());
 	} else if (page === "museum") {
@@ -295,6 +304,9 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new OCAvailablePlayersFeature());
 		FEATURE_MANAGER.registerFeature(new OCLastActionFeature());
 		FEATURE_MANAGER.registerFeature(new OpenOCFeature());
+		FEATURE_MANAGER.registerFeature(new OCNNBFeature());
+		FEATURE_MANAGER.registerFeature(new OCTimesFeature());
+		FEATURE_MANAGER.registerFeature(new OC2FilterFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
