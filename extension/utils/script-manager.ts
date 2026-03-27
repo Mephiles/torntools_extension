@@ -102,6 +102,11 @@ import ForumWarningFeature from "@/features/forum-warning/forum-warning";
 import FriendFilterFeature from "@/features/friend-filter/friend-filter";
 import FullFactionInfoboxFeature from "@/features/full-faction-infobox/full-faction-infobox";
 import FriendlyFireFeature from "@/features/friendly-fire/friendly-fire";
+import FFScouterGaugeFeature from "@/features/ff-scouter/ff-scouter-gauge";
+import FFScouterMiniProfileFeature from "@/features/ff-scouter/ff-scouter-mini-profile";
+import FFScouterAttackFeature from "@/features/ff-scouter/ff-scouter-attack";
+import FFScouterFactionFeature from "@/features/ff-scouter/ff-scouter-faction";
+import FfScouterProfileFeature from "@/features/ff-scouter/ff-scouter-profile";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -126,6 +131,8 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new EasterEggFeature());
 	FEATURE_MANAGER.registerFeature(new ChatFontSizeFeature());
 	FEATURE_MANAGER.registerFeature(new FactionOCTimeFeature());
+	FEATURE_MANAGER.registerFeature(new FFScouterGaugeFeature());
+	FEATURE_MANAGER.registerFeature(new FFScouterMiniProfileFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
@@ -198,6 +205,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionQuickItemsFeature());
 		FEATURE_MANAGER.registerFeature(new FoldFactionInfoboxFeature());
 		FEATURE_MANAGER.registerFeature(new FullFactionInfoboxFeature());
+		FEATURE_MANAGER.registerFeature(new FFScouterFactionFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
@@ -227,10 +235,12 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new AgeToWordsFeature());
 		FEATURE_MANAGER.registerFeature(new FriendlyFireFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
+		FEATURE_MANAGER.registerFeature(new FfScouterProfileFeature());
 	} else if (page === "attack") {
 		FEATURE_MANAGER.registerFeature(new AttackTimeoutWarningFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksLoaderFeature());
 		FEATURE_MANAGER.registerFeature(new FairAttackFeature());
+		FEATURE_MANAGER.registerFeature(new FFScouterAttackFeature());
 	} else if (page === "api") {
 		// TODO - Handle API page features.
 	} else if (page === "casino") {
