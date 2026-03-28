@@ -5,8 +5,8 @@
 		"Stocks Money Input",
 		"stocks",
 		() => settings.pages.stocks.moneyInput,
-		addMoneyInputListeners,
 		null,
+		addMoneyInputListeners,
 		removeMoneyInputListeners,
 		{
 			storage: ["settings.pages.stocks.moneyInput"],
@@ -14,7 +14,7 @@
 		null
 	);
 
-	async function addMoneyInputs(e: Event) {
+	async function addMoneyInputs(e: { target: EventTarget }) {
 		if (!isHTMLElement(e.target)) return;
 
 		const stockOwnedElement = e.target.closest("li[class*='stockOwned__']");
@@ -43,6 +43,8 @@
 								} else {
 									money = parseFloat(input);
 								}
+								if (isNaN(money)) return;
+
 								const stockRow = document.querySelector("[class*='stockOwned__'][class*='active__']")?.parentElement;
 								if (!stockRow) return;
 
@@ -68,10 +70,13 @@
 		await requireElement("[class*='stockMarket__'] ul[class*='stock__'] li[class*='stockOwned__']");
 		const stockMarketRoot = document.querySelector("[class*='stockMarket__']");
 		stockMarketRoot.addEventListener("click", addMoneyInputs);
+
+		if (location.href.includes("&tab=owned")) addMoneyInputs({ target: findAllElements("li[class*='stockOwned__'][class*='active__']")[0] });
 	}
 
 	async function removeMoneyInputListeners() {
 		const stockMarketRoot = await requireElement("[class*='stockMarket__']");
 		stockMarketRoot?.removeEventListener("click", addMoneyInputs);
+		findAllElements(".tt-money-input").forEach((x) => x.remove());
 	}
 })();
