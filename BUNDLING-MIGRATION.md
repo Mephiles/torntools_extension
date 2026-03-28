@@ -1,3 +1,4 @@
 - Handle database migrations.
 - Migrate remaining features.
 - Update workflows.
+- Stricter type checking.
