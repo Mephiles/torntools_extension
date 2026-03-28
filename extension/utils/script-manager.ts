@@ -173,6 +173,7 @@ import PropertyHappinessFeature from "@/features/property-happiness/property-hap
 import QuickCrimesFeature from "@/features/quick-crimes/quick-crimes";
 import RecommendedNNBFeature from "@/features/recommended-nnb/recommended-nnb";
 import ReviveRequestFeature from "@/features/revive-request/revive-request";
+import ProfileBoxFeature from "@/features/profile-box/profile-box";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -365,6 +366,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FriendlyFireFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterProfileFeature());
+		FEATURE_MANAGER.registerFeature(new ProfileBoxFeature());
 	} else if (page === "attack") {
 		FEATURE_MANAGER.registerFeature(new HideAttackButtonsFeature());
 		FEATURE_MANAGER.registerFeature(new AttackTimeoutWarningFeature());
