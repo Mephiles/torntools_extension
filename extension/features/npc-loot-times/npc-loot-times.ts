@@ -105,16 +105,16 @@ async function showNPCs() {
 	options.appendChild(
 		elementBuilder({
 			type: "i",
-			class: `npc-notifications fa-solid ${settings.notifications.types.npcsGlobal ? "fa-bell" : "fa-bell-slash"}`,
+			class: `npc-notifications ph-fill ${settings.notifications.types.npcsGlobal ? "ph-bell" : "ph-bell-slash"}`,
 			events: {
 				click(event) {
 					const target = event.target as HTMLElement;
 					if (!isElement(target)) return;
 
-					const notifications = target.classList.toggle("fa-bell");
+					const notifications = target.classList.toggle("ph-bell");
 
-					if (notifications) target.classList.remove("fa-bell-slash");
-					else target.classList.add("fa-bell-slash");
+					if (notifications) target.classList.remove("ph-bell-slash");
+					else target.classList.add("ph-bell-slash");
 
 					event.stopPropagation();
 

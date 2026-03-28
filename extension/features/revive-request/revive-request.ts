@@ -60,7 +60,7 @@ function showButton() {
 	const button = elementBuilder({
 		type: "button",
 		class: "tt-revive",
-		children: [elementBuilder({ type: "i", class: "fa-solid fa-stethoscope" }), elementBuilder({ type: "span", text: "Request Revive" })],
+		children: [elementBuilder({ type: "i", class: "ph-fill ph-stethoscope" }), elementBuilder({ type: "span", text: "Request Revive" })],
 		events: { click: requestRevive },
 	});
 

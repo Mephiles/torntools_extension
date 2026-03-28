@@ -77,7 +77,7 @@ async function showQuickItems(section: string) {
 			type: "div",
 			class: "option",
 			id: "edit-items-button",
-			children: [elementBuilder({ type: "i", class: "fa-solid fa-plus" }), "Edit"],
+			children: [elementBuilder({ type: "i", class: "ph-fill ph-plus" }), "Edit"],
 			events: {
 				click: (event) => {
 					event.stopPropagation();
@@ -406,7 +406,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 
 	const closeIcon = elementBuilder({
 		type: "i",
-		class: "fa-solid fa-xmark tt-close-icon",
+		class: "ph ph-x tt-close-icon",
 		attributes: { title: "Remove quick access." },
 		events: {
 			click: async (event) => {

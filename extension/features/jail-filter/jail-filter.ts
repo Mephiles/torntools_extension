@@ -322,7 +322,7 @@ async function applyQuickBustAndBail() {
 	function newRefreshButton(customClass = "") {
 		return elementBuilder({
 			type: "i",
-			class: `fa-solid fa-arrow-rotate-right tt-quick-refresh ${customClass}`,
+			class: `ph ph-arrow-clockwise tt-quick-refresh ${customClass}`,
 			events: {
 				click: () => location.reload(),
 			},

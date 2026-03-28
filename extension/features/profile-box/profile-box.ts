@@ -578,7 +578,7 @@ async function showBox() {
 			const moveButton = elementBuilder({
 				type: "button",
 				class: "move-stats",
-				children: [elementBuilder({ type: "i", class: "fa-solid fa-up-down-left-right" })],
+				children: [elementBuilder({ type: "i", class: "ph-fill ph-arrows-out-cardinal" })],
 				events: {
 					click() {
 						if (moveButton.classList.toggle("active")) {
@@ -622,7 +622,7 @@ async function showBox() {
 			const editButton = elementBuilder({
 				type: "button",
 				class: "edit-stats",
-				children: [elementBuilder({ type: "i", class: "fa-solid fa-gear" })],
+				children: [elementBuilder({ type: "i", class: "ph-fill ph-gear" })],
 				events: {
 					click() {
 						const overlay = document.querySelector(".tt-overlay")!;
@@ -985,7 +985,7 @@ async function showBox() {
 			footer.appendChild(
 				elementBuilder({
 					type: "i",
-					class: "fa-solid fa-arrow-rotate-right",
+					class: "ph-fill ph-arrow-rotate-right",
 					events: {
 						click: () => {
 							section.remove();
@@ -1003,7 +1003,7 @@ async function showBox() {
 			footer.appendChild(
 				elementBuilder({
 					type: "i",
-					class: "fa-solid fa-arrow-rotate-right",
+					class: "ph-fill ph-arrow-rotate-right",
 					events: {
 						click: () => {
 							section.remove();
