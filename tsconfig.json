@@ -6,7 +6,8 @@
 		"strictPropertyInitialization": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"noUncheckedIndexedAccess": false,
-		"useUnknownInCatchVariables": false
+		"useUnknownInCatchVariables": false,
+		"types": ["bun"]
 	},
 	"exclude": ["to-migrate/**/*", "skip/**/*"]
 }

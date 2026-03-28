@@ -13,10 +13,9 @@ export interface FetchDetails {
 
 function interceptFetch(channel: string) {
 	const oldFetch = window.fetch;
-	window.fetch = function () {
+	(window.fetch as any) = function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
 		return new Promise((resolve, reject) => {
-			oldFetch
-				.apply(this, arguments as any)
+			oldFetch(input, init)
 				.then(async (response: Response) => {
 					const page = response.url.substring(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
 					let json = {};
@@ -25,8 +24,8 @@ function interceptFetch(channel: string) {
 					} catch {}
 
 					let body = null;
-					if (arguments.length >= 2) {
-						body = arguments[1].body;
+					if (init) {
+						body = init.body;
 						if (body !== null && typeof body === "object" && body?.constructor?.name === "FormData") {
 							const newBody: { [key: string]: any } = {};
 

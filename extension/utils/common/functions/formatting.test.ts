@@ -1,13 +1,7 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import { convertToNumber, formatNumber, withoutEndPunctuation } from "./formatting";
-import { fakeBrowser } from "wxt/testing";
 
 describe("formatting", () => {
-	beforeEach(() => {
-		// Reset the in-memory state, including storage
-		fakeBrowser.reset();
-	});
-
 	describe("convertToNumber", () => {
 		it("should extract integers", () => {
 			expect(convertToNumber("123")).toBe(123);
