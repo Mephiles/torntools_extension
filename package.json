@@ -29,12 +29,10 @@
 	"devDependencies": {
 		"@types/sortablejs": "^1.15.9",
 		"@wxt-dev/auto-icons": "^1.1.1",
-		"concurrently": "^8.2.2",
+		"concurrently": "^9.2.1",
 		"prettier": "^3.8.1",
-		"vitest": "^4.1.1",
+		"typescript": "^6.0.2",
+		"vitest": "^4.1.2",
 		"wxt": "^0.20.20"
-	},
-	"peerDependencies": {
-		"typescript": "^5"
 	}
 }
