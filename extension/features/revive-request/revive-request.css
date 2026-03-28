@@ -1,0 +1,21 @@
+.tt-revive {
+	color: red;
+	font-size: 14px;
+	line-height: 22px;
+	float: right;
+	cursor: pointer;
+	font-weight: normal;
+}
+
+.tt-revive[disabled] {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+.tt-revive i {
+	margin-right: 2px;
+}
+
+.tt-revive-success {
+	color: green;
+}

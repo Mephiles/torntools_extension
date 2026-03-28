@@ -1,7 +1,6 @@
 import { getPage } from "@/utils/common/functions/torn";
 import BankInvestmentInfoFeature from "@/features/bank-investment-info/bank-investment-info";
 import BankInvestmentDueTimeFeature from "@/features/bank-investment-due-time/bank-investment-due-time";
-import BarLinksFeature from "@/features/bar-links/bar-links";
 import BazaarFillMaxFeature from "@/features/bazaar-fill-max/bazaar-fill-max";
 import BazaarSubVendorItemsFeature from "@/features/bazaar-sub-vendor-items/bazaar-sub-vendor-items";
 import BazaarWorthFeature from "@/features/bazaar-worth/bazaar-worth";
@@ -168,6 +167,12 @@ import PointsValueFeature from "@/features/points-value/points-value";
 import ProfileIDFeature from "@/features/profile-id/profile-id";
 import PropertyValuesFeature from "@/features/property-values/property-values";
 import RWTimerFeature from "@/features/rw-timer/rw-timer";
+import PreferenceSettingsFeature from "@/features/preference-settings/preference-settings";
+import ProfileNotesFeature from "@/features/profile-notes/profile-notes";
+import PropertyHappinessFeature from "@/features/property-happiness/property-happiness";
+import QuickCrimesFeature from "@/features/quick-crimes/quick-crimes";
+import RecommendedNNBFeature from "@/features/recommended-nnb/recommended-nnb";
+import ReviveRequestFeature from "@/features/revive-request/revive-request";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -178,11 +183,10 @@ export function scriptManager() {
 	 * Feature Management
 	 */
 	runGlobalPageScripts();
-	FEATURE_MANAGER.registerFeature(new PageTitleFeature());
 	FEATURE_MANAGER.registerFeature(new PointsValueFeature());
 	FEATURE_MANAGER.registerFeature(new RWTimerFeature());
+	FEATURE_MANAGER.registerFeature(new ReviveRequestFeature());
 	FEATURE_MANAGER.registerFeature(new CustomLinksFeature());
-	FEATURE_MANAGER.registerFeature(new BarLinksFeature());
 	FEATURE_MANAGER.registerFeature(new CollapsibleAreasFeature());
 	FEATURE_MANAGER.registerFeature(new AlignLeftFeature());
 	FEATURE_MANAGER.registerFeature(new HideLeaveFeature());
@@ -284,6 +288,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new LastActionCompanyFeature());
 	} else if (page === "crimes-v1") {
 		setupCrimesV1Page();
+		FEATURE_MANAGER.registerFeature(new QuickCrimesFeature());
 	} else if (page === "crimes-v2") {
 		setupCrimesV2Page();
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
@@ -315,6 +320,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new OCNNBFeature());
 		FEATURE_MANAGER.registerFeature(new OCTimesFeature());
 		FEATURE_MANAGER.registerFeature(new OC2FilterFeature());
+		FEATURE_MANAGER.registerFeature(new RecommendedNNBFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
@@ -355,6 +361,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CreatorsFeature());
 		FEATURE_MANAGER.registerFeature(new AgeToWordsFeature());
 		FEATURE_MANAGER.registerFeature(new ProfileIDFeature());
+		FEATURE_MANAGER.registerFeature(new ProfileNotesFeature());
 		FEATURE_MANAGER.registerFeature(new FriendlyFireFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterProfileFeature());
@@ -364,6 +371,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksLoaderFeature());
 		FEATURE_MANAGER.registerFeature(new FairAttackFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterAttackFeature());
+		FEATURE_MANAGER.registerFeature(new PageTitleFeature());
 	} else if (page === "api") {
 		// TODO - Handle API page features.
 	} else if (page === "casino") {
@@ -390,9 +398,12 @@ export function scriptManager() {
 	} else if (page === "blackjack") {
 		FEATURE_MANAGER.registerFeature(new BlackjackStrategyFeature());
 	} else if (page === "points-market") {
-		FEATURE_MANAGER.registerFeature(new NoConfirmPointsMarketFeature())
+		FEATURE_MANAGER.registerFeature(new NoConfirmPointsMarketFeature());
 	} else if (page === "properties") {
 		FEATURE_MANAGER.registerFeature(new PropertyValuesFeature());
+		FEATURE_MANAGER.registerFeature(new PropertyHappinessFeature());
+	} else if (page === "preferences") {
+		FEATURE_MANAGER.registerFeature(new PreferenceSettingsFeature());
 	}
 
 	if (isPageWithDrugItems(page)) {

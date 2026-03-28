@@ -350,7 +350,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 			},
 			dragenter(event) {
 				if (movingElement !== event.currentTarget) {
-					const children = [...innerContent.children];
+					const children = Array.from(innerContent.children);
 
 					const currentTarget = event.currentTarget as Element;
 					if (children.indexOf(movingElement) > children.indexOf(currentTarget)) innerContent.insertBefore(movingElement, currentTarget);
