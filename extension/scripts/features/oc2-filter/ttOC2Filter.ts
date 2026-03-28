@@ -14,7 +14,7 @@
 		() => {
 			if (hasOC1Data()) return "Still on OC1.";
 
-			return "Disabled until further notice.";
+			return null;
 		}
 	);
 
@@ -137,12 +137,12 @@
 		show();
 
 		function show() {
-			row.classList.remove("tt-hidden");
+			row.classList.remove("tt-filter-hidden");
 			row.removeAttribute("data-hide-reason");
 		}
 
 		function hide(reason) {
-			row.classList.add("tt-hidden");
+			row.classList.add("tt-filter-hidden");
 			row.dataset.hideReason = reason;
 		}
 	}
