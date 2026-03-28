@@ -18,7 +18,10 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build and package extension
-        run: bun run zip
+        run: |
+          bun run zip
+          mv .output/torntools-extension-*-chrome.zip torntools-chrome.zip
+          mv .output/torntools-extension-*-firefox.zip torntools-firefox.zip
 
       - name: Set Environment Variables
         run: |
@@ -28,6 +31,4 @@ jobs:
         env:
           PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
         run: |
-          cp .output/torntools-extension-*-chrome.zip torntools-chrome.zip
-          cp .output/torntools-extension-*-firefox.zip torntools-firefox.zip
           curl --fail -X POST -H "X-API-TOKEN: $PG_TT_TOKEN" -F "branch=$SAFE_BRANCH" -F "editions=chrome" -F "files=@torntools-chrome.zip;type=application/zip" -F "editions=firefox" -F "files=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
