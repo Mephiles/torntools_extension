@@ -221,7 +221,7 @@ function timedUpdates() {
 		if (
 			!torndata ||
 			!isSameUTCDay(new Date(torndata.date), new Date()) ||
-			(!isSameUTCDay(new Date(torndata.stats.timestamp * 1000), new Date(torndata.date)) && hasTimePassed(torndata.date, TO_MILLIS.MINUTES * 10))
+			(hasOutdatedTornStats() && hasTimePassed(torndata.date, TO_MILLIS.MINUTES * 10))
 		) {
 			// Update once every torn day.
 			updatePromises.push(
@@ -1450,6 +1450,12 @@ async function updateTorndata() {
 	await ttStorage.set({ torndata: newData });
 }
 
+function hasOutdatedTornStats(): boolean {
+	const alteredStatsTimestamp = torndata.stats.timestamp * 1000 + TO_MILLIS.DAYS;
+
+	return !isSameUTCDay(alteredStatsTimestamp, torndata.date) && torndata.date > alteredStatsTimestamp;
+}
+
 type FetchedStockdata = TornV1StocksResponse;
 
 async function updateStocks() {
@@ -2024,9 +2030,12 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _sender, sendR
 
 			return true;
 		case "clear-cache":
-			ttCache.clear();
+			(async () => {
+				await ttCache.clear();
 
-			sendResponse({ success: true });
+				sendResponse({ success: true });
+			})();
+
 			return true;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });
@@ -2100,7 +2109,7 @@ async function verifyTime() {
 	const now = Date.now();
 	if (savedTime != null && savedTime > Date.now()) {
 		console.warn("Detected a desynchronized time! Resetting timed data.");
-		ttCache.clear();
+		await ttCache.clear();
 		await Promise.all([updateUserdata(true), updateFactiondata(), updateTorndata(), updateStocks(), updateStakeouts(true), updateFactionStakeouts(true)]);
 	}
 

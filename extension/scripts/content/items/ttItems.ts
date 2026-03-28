@@ -39,7 +39,11 @@ const pendingActions: { [key: string]: ActionItem } = {};
 						}
 					}
 				} else {
-					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" });
+					const itemId = parseInt(params.get("itemID"));
+
+					if (!isInfiniteUsageItem(itemId)) {
+						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" });
+					}
 				}
 			} else if (isSendItemAction(step, json)) {
 				if (!json.success) return;

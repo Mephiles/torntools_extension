@@ -6,7 +6,20 @@ interface TextboxOptions {
 	style: { [key: string]: string };
 }
 
-function createTextbox(partialOptions: Partial<TextboxOptions> = {}) {
+type TextboxFilter = {
+	setValue: (value: string) => void;
+	setNumberValue: (value: string | number | null) => void;
+	getValue: () => string;
+	onChange: (callback: () => void) => void;
+	dispose: () => void;
+};
+type TextboxWithDescriptionFilter = TextboxFilter & { element: HTMLElement };
+type TextboxWithoutDescriptionFilter = TextboxFilter & { element: HTMLInputElement };
+
+function createTextbox(partialOptions: Partial<Omit<TextboxOptions, "description">>): TextboxWithoutDescriptionFilter;
+function createTextbox(partialOptions: Partial<TextboxOptions>): TextboxWithDescriptionFilter;
+
+function createTextbox(partialOptions: Partial<TextboxOptions>): TextboxWithDescriptionFilter | TextboxWithoutDescriptionFilter {
 	const options: TextboxOptions = {
 		description: null,
 		id: getUUID(),

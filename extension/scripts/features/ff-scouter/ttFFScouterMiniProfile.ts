@@ -1,5 +1,5 @@
 (async () => {
-	const SCOUTER_SERVICE = scouterService();
+	const SCOUTER_SERVICE = await scouterService();
 
 	const feature = featureManager.registerFeature(
 		"FF Scouter Mini Profile",

@@ -3,6 +3,7 @@ type XHRDetails = {
 	xhr: {
 		requestBody: string;
 		response: any;
+		responseText: string;
 		responseURL: string;
 	};
 } & ({ json: any; uri: undefined } | { uri: { [key: string]: string }; json: undefined });

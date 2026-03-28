@@ -56,6 +56,7 @@ function interceptXHR(channel: string) {
 								// https://issues.chromium.org/issues/40091619
 								requestBody: this["requestBody"],
 								response: this.response,
+								responseText: this.responseText,
 								responseURL: this.responseURL,
 							},
 						},

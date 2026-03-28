@@ -108,7 +108,7 @@ async function setupChangelog() {
 				class: "contributor",
 			});
 
-			if ("id" in contributor)
+			if ("id" in contributor && contributor.id)
 				child.appendChild(
 					elementBuilder({
 						type: "a",

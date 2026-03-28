@@ -1,7 +1,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const SCOUTER_SERVICE = scouterService();
+	const SCOUTER_SERVICE = await scouterService();
 
 	featureManager.registerFeature(
 		"FF Scouter Profile",

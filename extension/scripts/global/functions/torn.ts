@@ -99,6 +99,7 @@ const ALL_ICONS = [
 	{ id: 56, icon: "icon56", description: "Auction outbid", url: LINKS.auction },
 	{ id: 15, icon: "icon15", description: "Hospital", url: LINKS.hospital },
 	{ id: 82, icon: "icon82", description: "Hospital early discharge", url: LINKS.hospital },
+	{ id: 91, icon: "icon91", description: "Hospital radiation poisoning", url: LINKS.hospital },
 	{ id: 16, icon: "icon16", description: "Jail", url: LINKS.jailview },
 	{ id: 70, icon: "icon70", description: "Federal jail" },
 	{ id: 12, icon: "icon12", description: "Low life", url: LINKS.hospital },
@@ -2329,3 +2330,12 @@ const TAX_RATES = {
 	salesTaxPercentage: 5,
 	sellAnonymouslyPercentage: 10,
 } as const;
+
+function isInfiniteUsageItem(id: number): boolean {
+	return [
+		42, // MP3 Player
+		43, // CD Player
+		65, // Television
+		104, // Game Console
+	].includes(id);
+}

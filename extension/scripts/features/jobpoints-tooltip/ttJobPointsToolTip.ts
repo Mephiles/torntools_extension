@@ -25,7 +25,10 @@
 			const { page, json } = event.detail;
 
 			if (page === "companies" && json && json.pointsLeft) {
-				await ttCache.set({ points: json.pointsLeft }, getTimeUntilNextJobUpdate(), "job");
+				const allJobPoints = await getAllJobPoints();
+				const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
+
+				await ttCache.set({ points: { ...allJobPoints, [jobId]: json.pointsLeft } }, getTimeUntilNextJobUpdate(), "job");
 			}
 		});
 	}

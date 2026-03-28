@@ -14,7 +14,7 @@
 	let scoutLock = false;
 	let lockFailure = false;
 
-	const SCOUTER_SERVICE = scouterService();
+	const SCOUTER_SERVICE = await scouterService();
 
 	const feature = featureManager.registerFeature(
 		"FF Scouter Gauge",
@@ -152,11 +152,13 @@
 									attributes: { src: arrow },
 								})
 							);
+							element.dataset.ffScout = ff.toString();
 						}
 					}
 
 					resolve();
 				})
+				.then(() => triggerCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE))
 				.catch((reason) => {
 					lockFailure = true;
 					reject(reason);

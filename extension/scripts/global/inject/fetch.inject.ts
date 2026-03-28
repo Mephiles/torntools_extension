@@ -35,6 +35,7 @@ function interceptFetch(channel: string) {
 					const detail: FetchDetails = {
 						page,
 						json,
+						text: await response.clone().text(),
 						fetch: {
 							url: response.url,
 							body,

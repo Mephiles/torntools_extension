@@ -76,16 +76,17 @@ body.dark button {
 	margin: -6px 0;
 }
 
-#pages .right-nav {
-	justify-content: flex-end;
-}
-
 #pages ul {
 	list-style: none;
 	display: flex;
 	padding: 0;
 	margin: 6px 0;
 	flex: 1;
+	overflow-inline: scroll;
+
+	li[to="settings"] {
+		margin-left: auto;
+	}
 }
 
 #pages ul li {

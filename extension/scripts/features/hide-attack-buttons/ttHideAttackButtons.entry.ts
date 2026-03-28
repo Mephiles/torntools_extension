@@ -1,4 +1,13 @@
 (async () => {
+	await new Promise<void>((resolve) => {
+		const featureManagerIntervalID = setInterval(() => {
+			if (typeof featureManager === "undefined") return;
+
+			clearInterval(featureManagerIntervalID);
+			resolve();
+		});
+	});
+
 	if (!getPageStatus().access) return;
 
 	featureManager.registerFeature(
