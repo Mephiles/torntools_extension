@@ -45,7 +45,6 @@ export default class FriendlyFireFeature extends Feature {
 	}
 
 	precondition() {
-		console.log("DKK friendly fire")
 		return getPageStatus().access;
 	}
 

@@ -150,13 +150,10 @@ async function setupInitialize() {
 						console.log("TT just got initialised, initial popup data load.");
 						// Wait till userdata loads for the first time.
 						new Promise(async () => {
-							console.log("xxx 1.");
 							while (!(await loadDatabase()).userdata.timestamp) {
 								await sleep(TO_MILLIS.SECONDS);
-								console.log("xxx 2.");
 							}
 
-							console.log("xxx 3");
 							// @ts-expect-error Bundling Migration
 							await showPage(settings.pages.popup.defaultTab);
 						});

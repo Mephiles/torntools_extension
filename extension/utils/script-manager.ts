@@ -163,6 +163,11 @@ import OCTimesFeature from "@/features/oc-times/oc-times";
 import OC2FilterFeature from "@/features/oc2-filter/oc2-filter";
 import OC2TimeFeature from "@/features/oc2-time/oc2-time";
 import NoConfirmAbroadBuyFeature from "@/features/no-confirm/no-confirm-abroad-buy";
+import PageTitleFeature from "@/features/page-title/page-title";
+import PointsValueFeature from "@/features/points-value/points-value";
+import ProfileIDFeature from "@/features/profile-id/profile-id";
+import PropertyValuesFeature from "@/features/property-values/property-values";
+import RWTimerFeature from "@/features/rw-timer/rw-timer";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -173,6 +178,9 @@ export function scriptManager() {
 	 * Feature Management
 	 */
 	runGlobalPageScripts();
+	FEATURE_MANAGER.registerFeature(new PageTitleFeature());
+	FEATURE_MANAGER.registerFeature(new PointsValueFeature());
+	FEATURE_MANAGER.registerFeature(new RWTimerFeature());
 	FEATURE_MANAGER.registerFeature(new CustomLinksFeature());
 	FEATURE_MANAGER.registerFeature(new BarLinksFeature());
 	FEATURE_MANAGER.registerFeature(new CollapsibleAreasFeature());
@@ -346,6 +354,7 @@ export function scriptManager() {
 	} else if (page === "profiles") {
 		FEATURE_MANAGER.registerFeature(new CreatorsFeature());
 		FEATURE_MANAGER.registerFeature(new AgeToWordsFeature());
+		FEATURE_MANAGER.registerFeature(new ProfileIDFeature());
 		FEATURE_MANAGER.registerFeature(new FriendlyFireFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterProfileFeature());
@@ -382,6 +391,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new BlackjackStrategyFeature());
 	} else if (page === "points-market") {
 		FEATURE_MANAGER.registerFeature(new NoConfirmPointsMarketFeature())
+	} else if (page === "properties") {
+		FEATURE_MANAGER.registerFeature(new PropertyValuesFeature());
 	}
 
 	if (isPageWithDrugItems(page)) {
