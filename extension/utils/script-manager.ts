@@ -192,6 +192,7 @@ import StocksFilterFeature from "@/features/stocks-filter/stocks-filter";
 import StockAcronymsFeature from "@/features/stock-acronyms/stock-acronyms";
 import StatusIndicatorFeature from "@/features/status-indicator/status-indicator";
 import StackingModeFeature from "@/features/stacking-mode/stacking-mode";
+import UpdateNoticeFeature from "@/features/update-notice/update-notice";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -238,6 +239,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
 	FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
 	FEATURE_MANAGER.registerFeature(new StackingModeFeature());
+	FEATURE_MANAGER.registerFeature(new UpdateNoticeFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
