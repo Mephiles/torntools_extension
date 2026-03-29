@@ -7,6 +7,7 @@ import { ttCache } from "@/utils/common/data/cache";
 import { getTimeUntilNextJobUpdate } from "@/utils/common/functions/utilities";
 import { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
 import { UserCompany } from "tornapi-typescript";
+import { LINKS } from "@/utils/common/functions/torn";
 
 async function showCompanyAddictionLevel() {
 	await requireSidebar();
@@ -25,7 +26,7 @@ async function showCompanyAddictionLevel() {
 		elementBuilder({
 			type: "section",
 			id: "companyAddictionLevel",
-			children: [elementBuilder({ type: "a", class: "title", text: "Company Addiction: " }), companyAddictionElement],
+			children: [elementBuilder({ type: "a", class: "title", text: "Company Addiction: ", href: LINKS.companyEmployees }), companyAddictionElement],
 			style: { order: "4" },
 		})
 	);
