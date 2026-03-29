@@ -21,8 +21,8 @@ export function createCheckboxDuo(partialOptions: Partial<CheckboxDuoOptions> = 
 	switch (options.indicator) {
 		case "icon":
 			isHTML = true;
-			descriptionYes = "<i class='ph ph-arrow-up'></i>";
-			descriptionNo = "<i class='ph ph-arrow-down'></i>";
+			descriptionYes = "<i class='icon ph-bold ph-arrow-up'></i>";
+			descriptionNo = "<i class='icon ph-bold ph-arrow-down'></i>";
 			break;
 		case "text":
 		default:
