@@ -76,7 +76,11 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 	};
 
 	if (options.relay && SCRIPT_TYPE !== "BACKGROUND") {
-		return await BACKGROUND_SERVICE.fetchRelay(l, { ...options, relay: false }) as Promise<R>;
+		return new Promise((resolve, reject) => {
+			(BACKGROUND_SERVICE.fetchRelay(l, { ...options, relay: false }) as Promise<R>)
+				.then((response) => resolve(response))
+				.catch((error) => reject(new Error(error)));
+		});
 	}
 
 	return new Promise(async (resolve, reject) => {
