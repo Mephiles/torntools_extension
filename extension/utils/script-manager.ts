@@ -193,6 +193,7 @@ import StockAcronymsFeature from "@/features/stock-acronyms/stock-acronyms";
 import StatusIndicatorFeature from "@/features/status-indicator/status-indicator";
 import StackingModeFeature from "@/features/stacking-mode/stacking-mode";
 import UpdateNoticeFeature from "@/features/update-notice/update-notice";
+import VirusTimerFeature from "@/features/virus-timer/virus-timer";
 import BarLinksFeature from "@/features/bar-links/bar-links";
 
 export function scriptManager() {
@@ -242,6 +243,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
 	FEATURE_MANAGER.registerFeature(new StackingModeFeature());
 	FEATURE_MANAGER.registerFeature(new UpdateNoticeFeature());
+	FEATURE_MANAGER.registerFeature(new VirusTimerFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
