@@ -551,7 +551,18 @@ async function startTable() {
 		}
 
 		async function pullInformation() {
-			const fetchYata = () => fetchData<YATATravelResponse>("yata", { section: "travel/export/", relay: true });
+			const fetchYata = () => {
+				return new Promise<YATATravelResponse>((resolve, reject) => {
+					fetchData<YATATravelResponse>("yata", { section: "travel/export/", relay: true })
+						.then(response => {
+							if ("stocks" in response) resolve(response)
+							else reject(new Error(`Unexpected response from YATA: ${JSON.stringify(response)}`))
+						})
+						.catch(reject);
+				})
+
+
+			}
 			const fetchPrometheus = () => fetchData<PrometheusTravelResponse>("prometheus", { section: "travel", relay: true });
 
 			if (settings.external.yata && settings.external.prometheus) return Promise.any([fetchPrometheus(), fetchYata()]);
