@@ -1,0 +1,120 @@
+import { getPageStatus } from "@/utils/common/functions/torn";
+import "./shop-filters.css";
+import { Feature } from "@/features/feature-manager";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { filters, settings, torndata } from "@/utils/common/data/database";
+import { requireElement } from "@/utils/common/functions/requires";
+import { createCheckboxList } from "@/utils/common/elements/checkbox-list/checkbox-list";
+import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { ttStorage } from "@/utils/common/data/storage";
+
+type ShopFilterId = "hideLoss" | "hideUnder100";
+
+type LocalFilters = {
+	filters?: {
+		getSelections: () => ShopFilterId[];
+	};
+};
+
+const localFilters: LocalFilters = {};
+
+async function addFilters() {
+	const title = (await requireElement(".buy-items-wrap > [role*='heading']")) as HTMLElement;
+
+	const shopFilters = createCheckboxList({
+		items: [
+			{ id: "hideLoss", description: mobile || tablet ? "Only profit" : "Hide items with loss" },
+			{ id: "hideUnder100", description: mobile || tablet ? "Enough stock" : "Hide items under 100 stock" },
+		],
+		orientation: "row",
+	});
+
+	shopFilters.setSelections([...(filters.shops.hideLoss ? ["hideLoss"] : []), ...(filters.shops.hideUnder100 ? ["hideUnder100"] : [])]);
+
+	shopFilters.onSelectionChange(filtering);
+	localFilters.filters = { getSelections: shopFilters.getSelections as () => ShopFilterId[] };
+
+	void filtering();
+
+	title.appendChild(
+		elementBuilder({
+			type: "div",
+			class: "tt-shop-filters tt-theme",
+			children: [shopFilters.element],
+		})
+	);
+}
+
+async function filtering() {
+	await requireElement(".item-desc");
+
+	const checkboxes = localFilters.filters?.getSelections() ?? [];
+	const hideLoss = checkboxes.includes("hideLoss");
+	const hideUnder100 = checkboxes.includes("hideUnder100");
+
+	await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
+
+	for (const element of findAllElements(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
+		const itemElement = element.querySelector(".item");
+		const itemIdAttr = itemElement.getAttribute("itemid");
+		if (!itemIdAttr) continue;
+
+		const id = convertToNumber(itemIdAttr);
+		const item = torndata.itemsMap[id];
+		if (!item) continue;
+
+		const priceText = element.querySelector(".price").firstChild?.textContent ?? "";
+		const price = convertToNumber(priceText);
+
+		const profitable = item.value.market_price - price > 0;
+		if (hideLoss && !profitable) {
+			element.classList.add("tt-hidden");
+			continue;
+		}
+
+		if (hideUnder100 && convertToNumber(element.querySelector(".instock").textContent) < 100) {
+			element.classList.add("tt-hidden");
+			continue;
+		}
+
+		element.classList.remove("tt-hidden");
+	}
+}
+
+function removeFilters() {
+	findAllElements(".tt-shop-filters").forEach((x) => x.remove());
+	findAllElements(".buy-items-wrap .items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+}
+
+export default class ShopFiltersFeature extends Feature {
+	constructor() {
+		super("Shop Filters", "shops");
+	}
+
+	precondition() {
+		return getPageStatus().access;
+	}
+
+	requirements() {
+		if (!hasAPIData()) return "No API access.";
+
+		return true;
+	}
+
+	isEnabled() {
+		return settings.pages.shops.filters;
+	}
+
+	async execute() {
+		await addFilters();
+	}
+
+	cleanup() {
+		removeFilters();
+	}
+
+	storageKeys() {
+		return ["settings.pages.shops.filters"];
+	}
+}

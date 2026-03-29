@@ -25,7 +25,7 @@ export abstract class Feature {
 		this.executionTiming = executionTiming;
 	}
 
-	precondition() {
+	precondition(): boolean | Promise<boolean> {
 		return true;
 	}
 
@@ -232,7 +232,10 @@ class FeatureManager {
 			await requireDOMContentLoaded();
 		}
 
-		if (!feature.precondition()) {
+		if (
+			(feature.precondition.constructor.name === "AsyncFunction" && !(await feature.precondition())) ||
+			(feature.precondition.constructor.name === "AsyncFunction" && !feature.precondition())
+		) {
 			return;
 		}
 

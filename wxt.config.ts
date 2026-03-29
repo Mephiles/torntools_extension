@@ -35,6 +35,11 @@ export default defineConfig({
 				lie: "false",
 			},
 		},
+		css: {
+			modules: {
+				localsConvention: "camelCaseOnly"
+			}
+		}
 	}),
 	hooks: {
 		"build:manifestGenerated": (wxt, manifest) => {
@@ -66,7 +71,7 @@ export default defineConfig({
 			permissions: ["storage", "notifications", "background", "offscreen", "alarms"],
 			web_accessible_resources: [
 				{
-					resources: ["images/*", "*--inject.js", "*/*.js.map"],
+					resources: ["images/*", "*--inject.js", "*/*.js.map", "options.html"],
 					matches: ["https://*.torn.com/*"],
 				},
 			],

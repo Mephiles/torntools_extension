@@ -179,6 +179,15 @@ import FactionInactivityWarningFeature from "@/features/faction-inactivity-warni
 import RacingFilterFeature from "@/features/racing-filter/racing-filter";
 import RacingUpgradesFeature from "@/features/racing-upgrades/racing-upgrades";
 import RankedWarFilterFeature from "@/features/ranked-war-filter/ranked-war-filter";
+import SearchChatFeature from "@/features/search-chat/search-chat";
+import SettingsLinkFeature from "@/features/settings-link/settings-link";
+import ShopFiltersFeature from "@/features/shop-filters/shop-filters";
+import ShopProfitsFeature from "@/features/shop-profits/shop-profits";
+import ShopValuesFeature from "@/features/shop-values/shop-values";
+import ShopsFillMaxFeature from "@/features/shops-fill-max/shops-fill-max";
+import ShowFactionSpyFeature from "@/features/show-faction-spy/show-faction-spy";
+import SidebarNotesFeature from "@/features/sidebar-notes/sidebar-notes";
+import SpecialistGymsFeature from "@/features/specialist-gyms/specialist-gyms";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -221,6 +230,9 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new NPCLootTimesFeature());
 	FEATURE_MANAGER.registerFeature(new OCTimeFeature());
 	FEATURE_MANAGER.registerFeature(new OC2TimeFeature());
+	FEATURE_MANAGER.registerFeature(new SearchChatFeature());
+	FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
+	FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
@@ -331,6 +343,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new RecommendedNNBFeature());
 		FEATURE_MANAGER.registerFeature(new FactionInactivityWarningFeature());
 		FEATURE_MANAGER.registerFeature(new RankedWarFilterFeature());
+		FEATURE_MANAGER.registerFeature(new ShowFactionSpyFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
@@ -341,6 +354,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
 		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
 		FEATURE_MANAGER.registerFeature(new GymSteadfastFeature());
+		FEATURE_MANAGER.registerFeature(new SpecialistGymsFeature());
 	} else if (page === "hospital") {
 		setupHospitalPage();
 		FEATURE_MANAGER.registerFeature(new HospitalFilterFeature());
@@ -427,6 +441,12 @@ export function scriptManager() {
 	}
 	if (isCasinoStatisticsPage(page)) {
 		FEATURE_MANAGER.registerFeature(new CasinoNetTotalFeature());
+	}
+	if (["shops", "bigalgunshop"].includes(page)) {
+		FEATURE_MANAGER.registerFeature(new ShopFiltersFeature());
+		FEATURE_MANAGER.registerFeature(new ShopProfitsFeature());
+		FEATURE_MANAGER.registerFeature(new ShopValuesFeature());
+		FEATURE_MANAGER.registerFeature(new ShopsFillMaxFeature());
 	}
 }
 

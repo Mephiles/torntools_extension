@@ -1,0 +1,39 @@
+.tt-chat-filter label {
+	display: flex;
+	padding-left: 4px;
+	padding-top: 2px;
+	align-items: center;
+	background-color: var(--chat-box-bg);
+	color: var(--chat-box-label-info);
+	border-top: var(--chat-box-input-border);
+}
+
+.tt-chat-filter input {
+	margin-left: 4px;
+	margin-right: 4px;
+	border-radius: 5px;
+	width: -webkit-fill-available;
+	width: -moz-available;
+	border: var(--chat-box-input-border);
+	background-color: var(--chat-box-bg);
+	color: var(--chat-box-label-info);
+}
+
+/* For filling the SVGs in People Search */
+[class*="member-card__"] svg path[fill*="url(#"] {
+	fill: #ccc;
+}
+
+/*
+ * Chat 3.0
+ */
+
+[class*="root___"] .tt-chat-filter {
+	border-top: 1px solid var(--chat-color-border-secondary, #ccc);
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+
+[class*="root___"] .tt-chat-filter input {
+	background-color: rgba(0, 0, 0, 0.05);
+}
