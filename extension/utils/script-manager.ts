@@ -195,6 +195,8 @@ import StackingModeFeature from "@/features/stacking-mode/stacking-mode";
 import UpdateNoticeFeature from "@/features/update-notice/update-notice";
 import VirusTimerFeature from "@/features/virus-timer/virus-timer";
 import BarLinksFeature from "@/features/bar-links/bar-links";
+import UserlistFilterFeature from "@/features/userlist-filter/userlist-filter";
+import WeaponExperienceFeature from "@/features/weapon-experience/weapon-experience";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -392,6 +394,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new NoConfirmTradeFeature());
 	} else if (page === "userlist") {
 		setupUserlistPage();
+		FEATURE_MANAGER.registerFeature(new UserlistFilterFeature());
 	} else if (page === "profiles") {
 		FEATURE_MANAGER.registerFeature(new CreatorsFeature());
 		FEATURE_MANAGER.registerFeature(new AgeToWordsFeature());
@@ -409,6 +412,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FairAttackFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterAttackFeature());
 		FEATURE_MANAGER.registerFeature(new PageTitleFeature());
+		FEATURE_MANAGER.registerFeature(new WeaponExperienceFeature());
 	} else if (page === "api") {
 		// TODO - Handle API page features.
 	} else if (page === "casino") {

@@ -1,0 +1,11 @@
+.tt-weapon {
+	position: relative;
+}
+
+.tt-weapon-experience {
+	position: absolute;
+	top: 16px;
+	left: 9px;
+	font-size: 10px;
+	color: var(--tt-color-green);
+}
