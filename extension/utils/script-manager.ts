@@ -193,6 +193,7 @@ import StockAcronymsFeature from "@/features/stock-acronyms/stock-acronyms";
 import StatusIndicatorFeature from "@/features/status-indicator/status-indicator";
 import StackingModeFeature from "@/features/stacking-mode/stacking-mode";
 import UpdateNoticeFeature from "@/features/update-notice/update-notice";
+import BarLinksFeature from "@/features/bar-links/bar-links";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -235,6 +236,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new NPCLootTimesFeature());
 	FEATURE_MANAGER.registerFeature(new OCTimeFeature());
 	FEATURE_MANAGER.registerFeature(new OC2TimeFeature());
+	FEATURE_MANAGER.registerFeature(new BarLinksFeature());
 	FEATURE_MANAGER.registerFeature(new SearchChatFeature());
 	FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
 	FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
