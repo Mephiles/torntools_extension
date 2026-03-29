@@ -1,4 +1,4 @@
-import { ExecutionTiming, Feature } from "@/features/feature-manager";
+import { ExecutionTiming, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus, isAbroad } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -15,7 +15,7 @@ let nextUpdate = 0;
 
 function initialise() {
 	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, ({ items, country }) => {
-		// if (!feature.enabled()) return;
+		if (!FEATURE_MANAGER.isEnabled(TravelSyncFeature)) return;
 
 		syncData(items, country);
 	});

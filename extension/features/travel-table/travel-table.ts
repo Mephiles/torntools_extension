@@ -1,4 +1,4 @@
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import "./travel-table.css";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@/utils/common/functions/torn";
 import { filters, settings, torndata, userdata } from "@/utils/common/data/database";
@@ -41,13 +41,13 @@ const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
 function initialise() {
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, ({ type }) => {
-		// if (!feature.enabled()) return;
+		if (!FEATURE_MANAGER.isEnabled(TravelTableFeature)) return;
 
 		document.querySelector<HTMLInputElement>("#travel-items").value = getTravelCount(type as any).toString();
 		updateValues();
 	});
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, ({ country }) => {
-		// if (!feature.enabled() || !settings.pages.travel.autoTravelTableCountry) return;
+		if (!FEATURE_MANAGER.isEnabled(TravelTableFeature) || !settings.pages.travel.autoTravelTableCountry) return;
 		if (!settings.pages.travel.autoTravelTableCountry) return;
 
 		const content = findContainer("Travel Destinations", { selector: ":scope > main" });
