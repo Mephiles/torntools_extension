@@ -1,0 +1,7 @@
+.tt-profile-icon > li {
+	margin: 2px;
+}
+
+.tt-profile-icon > li::marker {
+	content: none;
+}

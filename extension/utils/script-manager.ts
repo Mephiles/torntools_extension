@@ -188,6 +188,10 @@ import ShopsFillMaxFeature from "@/features/shops-fill-max/shops-fill-max";
 import ShowFactionSpyFeature from "@/features/show-faction-spy/show-faction-spy";
 import SidebarNotesFeature from "@/features/sidebar-notes/sidebar-notes";
 import SpecialistGymsFeature from "@/features/specialist-gyms/specialist-gyms";
+import StocksFilterFeature from "@/features/stocks-filter/stocks-filter";
+import StockAcronymsFeature from "@/features/stock-acronyms/stock-acronyms";
+import StatusIndicatorFeature from "@/features/status-indicator/status-indicator";
+import StackingModeFeature from "@/features/stacking-mode/stacking-mode";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -233,6 +237,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new SearchChatFeature());
 	FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
 	FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
+	FEATURE_MANAGER.registerFeature(new StackingModeFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
@@ -390,6 +395,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterProfileFeature());
 		FEATURE_MANAGER.registerFeature(new ProfileBoxFeature());
+		FEATURE_MANAGER.registerFeature(new StatusIndicatorFeature());
 	} else if (page === "attack") {
 		FEATURE_MANAGER.registerFeature(new HideAttackButtonsFeature());
 		FEATURE_MANAGER.registerFeature(new AttackTimeoutWarningFeature());
@@ -403,6 +409,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HideCasinoGamesFeature());
 	} else if (page === "stocks") {
 		FEATURE_MANAGER.registerFeature(new HideStocksFeature());
+		FEATURE_MANAGER.registerFeature(new StockAcronymsFeature());
+		FEATURE_MANAGER.registerFeature(new StocksFilterFeature());
 	} else if (page === "personalstats") {
 		FEATURE_MANAGER.registerFeature(new AveragePersonalStatFeature());
 	} else if (page === "racing") {
