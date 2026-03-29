@@ -1,5 +1,5 @@
 import "./crimes2-burglary-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { filters, settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -168,7 +168,7 @@ function removeFilter() {
 	});
 }
 
-export default class Crimes2BurglaryFilterFeature extends Feature {
+export default class Crimes2BurglaryFilterFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Burglary Filter", "crimes2");
 	}
@@ -191,9 +191,5 @@ export default class Crimes2BurglaryFilterFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.crimes2.burglaryFilter"];
-	}
-
-	requirements() {
-		return "Disabled until further notice.";
 	}
 }

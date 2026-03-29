@@ -1,4 +1,4 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
@@ -170,17 +170,13 @@ function removeFilters() {
 	filterSetupComplete = false;
 }
 
-export default class FriendFilterFeature extends Feature {
+export default class FriendFilterFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Friend Filter", "friends");
 	}
 
 	precondition() {
 		return getPageStatus().access;
-	}
-
-	requirements() {
-		return "Disabled until further notice.";
 	}
 
 	isEnabled() {

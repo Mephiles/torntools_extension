@@ -1,9 +1,9 @@
 import "./abroad-energy-warning.css";
-import { Feature } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { getPageStatus, isAbroad } from "@/utils/common/functions/torn";
 
-export default class AbroadEnergyWarningFeature extends Feature {
+export default class AbroadEnergyWarningFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Abroad Energy Warning", "travel");
 	}
@@ -18,9 +18,5 @@ export default class AbroadEnergyWarningFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.travel.energyWarning"];
-	}
-
-	requirements() {
-		return "Disabled until further notice.";
 	}
 }

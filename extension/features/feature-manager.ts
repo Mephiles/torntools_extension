@@ -51,6 +51,12 @@ export abstract class Feature {
 	}
 }
 
+export abstract class DisabledUntilNoticeFeature extends Feature {
+	requirements() {
+		return "Disabled until further notice.";
+	}
+}
+
 type FeatureFn = FeatureSingleFn;
 
 type FeatureStatus = "disabled" | "failed" | "loaded" | "registered" | "information";

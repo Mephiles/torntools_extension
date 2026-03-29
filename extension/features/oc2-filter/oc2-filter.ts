@@ -1,4 +1,4 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { hasOC1Data } from "@/utils/common/functions/api";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
@@ -196,7 +196,7 @@ function getCrimeStatus(row) {
 	return null;
 }
 
-export default class OC2FilterFeature extends Feature {
+export default class OC2FilterFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("OC2 Filter", "faction");
 	}
@@ -228,6 +228,6 @@ export default class OC2FilterFeature extends Feature {
 	requirements() {
 		if (hasOC1Data()) return "Still on OC1.";
 
-		return "Disabled until further notice.";
+		return super.requirements();
 	}
 }

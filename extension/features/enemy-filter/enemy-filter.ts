@@ -1,5 +1,5 @@
 import "./enemy-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
 import { filters, settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
@@ -227,7 +227,7 @@ function removeFilters() {
 	findAllElements("ul.user-info-blacklist-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 }
 
-export default class EnemyFilterFeature extends Feature {
+export default class EnemyFilterFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Enemy Filter", "enemies");
 	}
@@ -254,9 +254,5 @@ export default class EnemyFilterFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.enemies.filter"];
-	}
-
-	requirements() {
-		return "Disabled until further notice.";
 	}
 }
