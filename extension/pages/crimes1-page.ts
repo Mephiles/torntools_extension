@@ -1,8 +1,6 @@
 import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 
 export function setupCrimesV1Page() {
-	// await requireDOMContentLoaded();
-
 	addXHRListener(({ detail: { page, ...detail } }) => {
 		if (page === "crimes" && "uri" in detail) {
 			const step = detail.uri.step;

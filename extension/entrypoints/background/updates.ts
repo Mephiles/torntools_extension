@@ -1171,7 +1171,7 @@ async function updateStakeouts(forceUpdate = false) {
 	}
 	stakeouts.date = now;
 
-	// await ttStorage.change({stakeouts, notifications});
+	await ttStorage.change({stakeouts, notifications});
 	return { updated: true, success, failed };
 }
 

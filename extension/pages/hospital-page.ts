@@ -3,8 +3,6 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/
 import { getHashParameters } from "@/utils/common/functions/dom";
 
 export function setupHospitalPage() {
-	// await requireDOMContentLoaded();
-
 	window.addEventListener("hashchange", (e) => {
 		const oldHash = new URL(e.oldURL).hash || "#";
 		const newHash = new URL(e.newURL).hash || "#";

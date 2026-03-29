@@ -9,8 +9,6 @@ import { userdata } from "@/utils/common/data/database";
 export const isOwnCompany = location.pathname === "/companies.php";
 
 export function setupCompanyPage() {
-	// await requireDOMContentLoaded();
-
 	if (!isOwnCompany) {
 		requireElement(".content #mainContainer .employees-wrap").then(() => {
 			new MutationObserver(async (mutations) => {

@@ -2,8 +2,6 @@ import { addFetchListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils
 import { requireElement } from "@/utils/common/functions/requires";
 
 export function setupCrimesV2Page() {
-	// await requireDOMContentLoaded();
-
 	addFetchListener(
 		async ({
 			detail: {

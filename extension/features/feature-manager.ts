@@ -247,29 +247,6 @@ class FeatureManager {
 		this.startLoadListeners(feature);
 	}
 
-	// adjustFeature(name: FeatureName, initialise: FeatureSingleFn, execute: FeatureSingleFn, cleanup: FeatureSingleFn) {
-	// 	const feature = this.findFeature(name);
-	// 	if (!feature) throw "Feature not found.";
-	//
-	// 	for (const [key, func] of [
-	// 		["initialise", initialise],
-	// 		["execute", execute],
-	// 		["cleanup", cleanup],
-	// 	] as const) {
-	// 		if (!feature[key]) feature[key] = [func];
-	// 		else if (Array.isArray(feature[key])) feature[key].push(func);
-	// 		else feature[key] = [feature[key], func];
-	// 	}
-	//
-	// 	if (feature.hasLoaded && getValue(feature.enabled)) {
-	// 		this.executeFunction(initialise).catch((error) => this.logError(`Failed to (adjust)initialise "${name}".`, error));
-	// 		this.executeFunction(execute).catch((error) => this.logError(`Failed to (adjust)start "${name}".`, error));
-	// 	}
-	//
-	// 	this.logInfo("Adjusted feature.", feature).then(() => {});
-	// 	return feature;
-	// }
-
 	findFeature(name: string): Feature | null {
 		return this.features.find((feature) => feature.name === name) ?? null;
 	}

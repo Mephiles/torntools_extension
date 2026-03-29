@@ -92,7 +92,6 @@ describe("formatting", () => {
 			expect(formatNumber(1000, { shorten: true })).toBe("1k");
 			expect(formatNumber(1_000_000, { shorten: true })).toBe("1mil");
 			expect(formatNumber(1_000_000_000, { shorten: true })).toBe("1bill");
-			// v1 only shortens some non-exact values (e.g. >= 1e6 and >= 1e9)
 			expect(formatNumber(1_234_567, { shorten: true })).toBe("1.235mil");
 		});
 
