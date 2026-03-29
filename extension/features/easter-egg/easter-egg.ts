@@ -11,12 +11,12 @@ function initialiseDetector() {
 	const container = document.querySelector("#mainContainer");
 
 	if (container) {
-		new MutationObserver((mutations, observer) => {
+		new MutationObserver(async (mutations, observer) => {
 			for (const node of mutations.flatMap((mutation) => Array.from(mutation.addedNodes))) {
 				if (!(node instanceof Element)) continue;
 
 				if (node.matches(EGG_SELECTOR) || node.querySelector(EGG_SELECTOR)) {
-					highlightEgg(node.matches(EGG_SELECTOR) ? node : node.querySelector(EGG_SELECTOR));
+					await highlightEgg(node.matches(EGG_SELECTOR) ? node : node.querySelector(EGG_SELECTOR));
 					observer.disconnect();
 					break;
 				}
@@ -25,11 +25,11 @@ function initialiseDetector() {
 	}
 }
 
-function enableDetector() {
+async function enableDetector() {
 	document.body.classList.add("tt-easter-highlight");
 
 	for (const egg of findAllElements(EGG_SELECTOR)) {
-		highlightEgg(egg);
+		await highlightEgg(egg);
 	}
 }
 
@@ -123,8 +123,8 @@ export default class EasterEggFeature extends Feature {
 		initialiseDetector();
 	}
 
-	execute() {
-		enableDetector();
+	async execute() {
+		await enableDetector();
 	}
 
 	cleanup() {

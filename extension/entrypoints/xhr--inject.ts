@@ -8,6 +8,7 @@ export type XHRDetails = {
 	};
 } & ({ json: any; uri: undefined } | { uri: { [key: string]: string }; json: undefined });
 
+// noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
 	interceptXHR("tt-xhr");
 

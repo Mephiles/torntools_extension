@@ -57,8 +57,8 @@ export default class ItemMarketFillMaxFeature extends Feature {
 		addListener();
 	}
 
-	execute() {
-		addButton();
+	async execute() {
+		await addButton();
 	}
 
 	cleanup() {

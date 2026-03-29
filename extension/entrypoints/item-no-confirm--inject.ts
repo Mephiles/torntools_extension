@@ -1,3 +1,4 @@
+// noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
 	if (typeof window.xhrSendAdjustments === "undefined") window.xhrSendAdjustments = {};
 

@@ -151,7 +151,7 @@ function showMarketIcons() {
 	for (const missingItem of items) {
 		const isLast = items.indexOf(missingItem) === items.length - 1;
 
-		addMarketIcon(missingItem, isFirst, isLast);
+		void addMarketIcon(missingItem, isFirst, isLast);
 	}
 }
 

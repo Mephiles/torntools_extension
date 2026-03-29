@@ -45,8 +45,8 @@ export default class HideIconsFeature extends Feature {
 		return settings.hideIcons.length > 0;
 	}
 
-	initialise() {
-		initialiseHideIcons();
+	async initialise() {
+		await initialiseHideIcons();
 	}
 
 	execute() {

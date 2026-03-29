@@ -2,16 +2,16 @@ import "./faction-member-number.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { findAllElements, elementBuilder } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
-import { isOwnFaction, getFactionSubpage } from "@/pages/factions-page";
+import { getFactionSubpage, isOwnFaction } from "@/pages/factions-page";
 
 function addListener() {
 	if (isOwnFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (!FEATURE_MANAGER.isEnabled(FactionMemberNumberFeature)) return;
 
-			addNumbers(true);
+			await addNumbers(true);
 		});
 	}
 

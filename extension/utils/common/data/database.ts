@@ -253,78 +253,61 @@ export function initializeDatabase() {
 			for (const key in changes) {
 				switch (key) {
 					case "settings":
-						// @ts-expect-error Bundling Migration
-						settings = changes.settings.newValue;
+						settings = changes.settings.newValue as DatabaseSettings;
 						break;
 					case "filters":
-						// @ts-expect-error Bundling Migration
-						filters = changes.filters.newValue;
+						filters = changes.filters.newValue as DatabaseFilters;
 						break;
 					case "version":
-						// @ts-expect-error Bundling Migration
-						version = changes.version.newValue;
+						version = changes.version.newValue as DatabaseVersion;
 						break;
 					case "userdata":
-						// @ts-expect-error Bundling Migration
-						userdata = changes.userdata.newValue;
+						userdata = changes.userdata.newValue as DatabaseUserdata;
 						break;
 					case "api":
-						// @ts-expect-error Bundling Migration
-						api = changes.api.newValue;
+						api = changes.api.newValue as DatabaseApi;
 						break;
 					case "torndata":
-						// @ts-expect-error Bundling Migration
-						torndata = changes.torndata.newValue;
+						torndata = changes.torndata.newValue as DatabaseTorndata;
 						break;
 					case "stakeouts":
-						// @ts-expect-error Bundling Migration
-						stakeouts = changes.stakeouts.newValue;
+						stakeouts = changes.stakeouts.newValue as DatabaseStakeouts;
 						break;
 					case "attackHistory":
-						// @ts-expect-error Bundling Migration
-						attackHistory = changes.attackHistory.newValue;
+						attackHistory = changes.attackHistory.newValue as DatabaseAttackHistory;
 						break;
 					case "notes":
-						// @ts-expect-error Bundling Migration
-						notes = changes.notes.newValue;
+						notes = changes.notes.newValue as DatabaseNotes;
 						break;
 					case "factiondata":
-						// @ts-expect-error Bundling Migration
-						factiondata = changes.factiondata.newValue;
+						factiondata = changes.factiondata.newValue as DatabaseFactiondata;
 						break;
 					case "quick":
-						// @ts-expect-error Bundling Migration
-						quick = changes.quick.newValue;
+						quick = changes.quick.newValue as DatabaseQuick;
 						break;
 					case "localdata":
-						// @ts-expect-error Bundling Migration
-						localdata = changes.localdata.newValue;
+						localdata = changes.localdata.newValue as DatabaseLocaldata;
 						break;
 					case "cache":
-						ttCache.cache = changes.cache.newValue;
+						ttCache.cache = changes.cache.newValue as DatabaseCache;
 						break;
 					case "usage":
-						// @ts-expect-error Bundling Migration
-						ttUsage.usage = changes.usage.newValue;
+						ttUsage.usage = changes.usage.newValue as DatabaseUsage;
 						break;
 					case "npcs":
-						// @ts-expect-error Bundling Migration
-						npcs = changes.npcs.newValue;
+						npcs = changes.npcs.newValue as DatabaseNpcs;
 						break;
 					case "stockdata":
-						// @ts-expect-error Bundling Migration
-						stockdata = changes.stockdata.newValue;
+						stockdata = changes.stockdata.newValue as DatabaseStockdata;
 						break;
 					case "notificationHistory":
-						// @ts-expect-error Bundling Migration
-						if (typeof notificationHistory !== "undefined") notificationHistory = changes.notificationHistory.newValue;
+						 notificationHistory = changes.notificationHistory.newValue as DatabaseNotificationHistory;
 						break;
 					case "factionStakeouts":
-						// @ts-expect-error Bundling Migration
-						factionStakeouts = changes.factionStakeouts.newValue;
+						factionStakeouts = changes.factionStakeouts.newValue as DatabaseFactionStakeouts;
 						break;
 				}
-				if (storageListeners[key]) storageListeners[key].forEach((listener) => listener(changes[key].oldValue));
+				if (storageListeners[key]) storageListeners[key].forEach((listener: StorageListener<any>) => listener(changes[key].oldValue));
 			}
 		}
 	});

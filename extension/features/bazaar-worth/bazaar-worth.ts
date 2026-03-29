@@ -15,14 +15,14 @@ interface BazaarFetchItem {
 }
 
 function addListener() {
-	addFetchListener(({ detail: { page, json, fetch } }) => {
+	addFetchListener(async ({ detail: { page, json, fetch } }) => {
 		if (page === "bazaar" && json) {
 			if (json.list) {
-				if (json.list.length === 0) addWorth(true, []);
-				else if (json.list.length === json.total) addWorth(true, json.list as BazaarFetchItem[]);
-				else if (json.list.length < json.total) addWorth(true, null);
+				if (json.list.length === 0) await addWorth(true, []);
+				else if (json.list.length === json.total) await addWorth(true, json.list as BazaarFetchItem[]);
+				else if (json.list.length < json.total) await addWorth(true, null);
 			} else if (new URLSearchParams(fetch.url).get("step") === "getBazaarItems") {
-				addWorth(true, null);
+				await addWorth(true, null);
 			}
 		}
 	});

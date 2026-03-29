@@ -17,12 +17,12 @@ export class SourceService {
 
 	private async initializeSourceMap() {
 		// Initialize the WASM module first
-		// @ts-ignore
+		// @ts-expect-error For some reason this isn't properly types.
 		SourceMapConsumer.initialize({
-			"lib/mappings.wasm": "https://unpkg.com/source-map@0.7.3/lib/mappings.wasm",
+			"lib/mappings.wasm": "https://unpkg.com/source-map@0.7.6/lib/mappings.wasm",
 		});
 
-		// @ts-ignore
+		// @ts-expect-error SourceMaps aren't included in the automatic typing
 		const name = browser.runtime.getURL("/content-scripts/extension.js.map");
 		const content: RawSourceMap = await fetch(name).then((res) => res.json());
 

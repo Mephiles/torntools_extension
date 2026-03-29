@@ -2,6 +2,7 @@ export interface EfficientRehabDetails {
 	ticks: number;
 }
 
+// noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
 	window.addEventListener("tt-efficient-rehab", (event: CustomEventInit<EfficientRehabDetails>) => {
 		// @ts-expect-error Bundling Migration

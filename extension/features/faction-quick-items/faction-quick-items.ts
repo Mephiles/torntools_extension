@@ -43,11 +43,11 @@ function addListener() {
 		}
 	}, 1000);
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(({ section }) => {
+	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(async ({ section }) => {
 		if (!FEATURE_MANAGER.isEnabled(FactionQuickItemsFeature)) return;
 
 		if (["medical", "drugs", "boosters", "points", "donate", "consumables", "loot", "utilities"].includes(section)) {
-			showQuickItems(section);
+			await showQuickItems(section);
 			setupQuickDragListeners();
 			setupOverlayItems(document);
 			attachEditListeners(isEditing);

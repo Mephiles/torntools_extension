@@ -60,6 +60,7 @@ function interceptFetch(channel: string) {
 	};
 }
 
+// noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
 	interceptFetch("tt-fetch");
 

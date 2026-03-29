@@ -8,10 +8,10 @@ import { isOwnFaction, readFactionDetails } from "@/pages/factions-page";
 
 function initialise() {
 	if (isOwnFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (!FEATURE_MANAGER.isEnabled(FactionIDFeature) || !settings.pages.faction.idBesideFactionName) return;
 
-			addID();
+			await addID();
 		});
 	}
 }
