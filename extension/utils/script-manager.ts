@@ -174,6 +174,11 @@ import QuickCrimesFeature from "@/features/quick-crimes/quick-crimes";
 import RecommendedNNBFeature from "@/features/recommended-nnb/recommended-nnb";
 import ReviveRequestFeature from "@/features/revive-request/revive-request";
 import ProfileBoxFeature from "@/features/profile-box/profile-box";
+import EmployeeInactivityWarningFeature from "@/features/employee-inactivity-warning/employee-inactivity-warning";
+import FactionInactivityWarningFeature from "@/features/faction-inactivity-warning/faction-inactivity-warning";
+import RacingFilterFeature from "@/features/racing-filter/racing-filter";
+import RacingUpgradesFeature from "@/features/racing-upgrades/racing-upgrades";
+import RankedWarFilterFeature from "@/features/ranked-war-filter/ranked-war-filter";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -282,11 +287,13 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CompanySpecialsFeature());
 		FEATURE_MANAGER.registerFeature(new EmployeeEffectivenessFeature());
 		FEATURE_MANAGER.registerFeature(new LastActionCompanyFeature());
+		FEATURE_MANAGER.registerFeature(new EmployeeInactivityWarningFeature());
 	} else if (page === "joblist") {
 		setupCompanyPage();
 		FEATURE_MANAGER.registerFeature(new CompanyIDFeature());
 		FEATURE_MANAGER.registerFeature(new JobSpecialsFeature());
 		FEATURE_MANAGER.registerFeature(new LastActionCompanyFeature());
+		FEATURE_MANAGER.registerFeature(new EmployeeInactivityWarningFeature());
 	} else if (page === "crimes-v1") {
 		setupCrimesV1Page();
 		FEATURE_MANAGER.registerFeature(new QuickCrimesFeature());
@@ -322,6 +329,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new OCTimesFeature());
 		FEATURE_MANAGER.registerFeature(new OC2FilterFeature());
 		FEATURE_MANAGER.registerFeature(new RecommendedNNBFeature());
+		FEATURE_MANAGER.registerFeature(new FactionInactivityWarningFeature());
+		FEATURE_MANAGER.registerFeature(new RankedWarFilterFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
@@ -384,6 +393,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new AveragePersonalStatFeature());
 	} else if (page === "racing") {
 		FEATURE_MANAGER.registerFeature(new CarWinPercentageFeature());
+		FEATURE_MANAGER.registerFeature(new RacingFilterFeature());
+		FEATURE_MANAGER.registerFeature(new RacingUpgradesFeature());
 	} else if (page === "war") {
 		const step = getSearchParameters().get("step");
 		if (step === "chainreport") {
