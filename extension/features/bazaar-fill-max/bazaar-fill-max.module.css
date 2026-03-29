@@ -13,6 +13,6 @@
 	cursor: pointer;
 }
 
-.tt-mobile .tt-max-buy {
+:global(.tt-mobile) .tt-max-buy {
 	border: none !important;
 }

@@ -1,9 +1,12 @@
-import "./bazaar-fill-max.css";
+import styles from "./bazaar-fill-max.module.css";
 import { Feature } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+
+const CLASS_TT_BUY = styles.ttBuy;
+const CLASS_TT_MAX_BUY = styles.ttMaxBuy;
 
 let reactObserver: MutationObserver | undefined;
 
@@ -48,9 +51,9 @@ async function maxBuyListener(clickEvent: any | null = null) {
 	}
 
 	function addButtonAndListener(parent: Element) {
-		const fillMax = elementBuilder({ type: "span", text: "fill max", class: "tt-max-buy" });
+		const fillMax = elementBuilder({ type: "span", text: "fill max", class: CLASS_TT_MAX_BUY });
 		const buyButton = parent.querySelector("[class*='buy_']");
-		buyButton.classList.add("tt-buy");
+		buyButton.classList.add(CLASS_TT_BUY);
 		buyButton.parentElement.appendChild(fillMax);
 		fillMax.addEventListener("click", (event) => {
 			event.stopPropagation();
