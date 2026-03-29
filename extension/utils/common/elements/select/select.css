@@ -28,7 +28,7 @@ body.dark-mode .tt-multi-select {
 }
 
 .tt-multi-select input {
-	cursor: not-allowed;
+	cursor: pointer;
 }
 
 .tt-multi-select span {

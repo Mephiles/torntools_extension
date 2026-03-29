@@ -7,6 +7,7 @@ import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatti
 import { FetchedFactiondataBasic } from "@/entrypoints/background/updates";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { countdownTimers } from "@/utils/common/functions/timers";
+import { LINKS } from "@/utils/common/functions/torn";
 
 function hasOC2Data(): boolean {
 	return !!(factiondata && Object.keys(factiondata).length);
@@ -33,7 +34,7 @@ async function showTimer() {
 					type: "a",
 					class: "title",
 					text: "RW: ",
-					href: "/faction.php#rankedwars",
+					href: LINKS.faction__ranked_war,
 				}),
 				buildTimeLeftElement(factiondata),
 			],
