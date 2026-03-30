@@ -2471,3 +2471,31 @@ export function isInfiniteUsageItem(id: number): boolean {
 
 export const TORNTOOLS_FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16243863";
 
+export const RANKS = {
+	"Absolute beginner": 1,
+	Beginner: 2,
+	Inexperienced: 3,
+	Rookie: 4,
+	Novice: 5,
+	"Below average": 6,
+	Average: 7,
+	Reasonable: 8,
+	"Above average": 9,
+	Competent: 10,
+	"Highly competent": 11,
+	Veteran: 12,
+	Distinguished: 13,
+	"Highly distinguished": 14,
+	Professional: 15,
+	Star: 16,
+	Master: 17,
+	Outstanding: 18,
+	Celebrity: 19,
+	Supreme: 20,
+	Idolized: 21,
+	Champion: 22,
+	Heroic: 23,
+	Legendary: 24,
+	Elite: 25,
+	Invincible: 26,
+} as const;

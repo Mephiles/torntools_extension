@@ -202,6 +202,29 @@ import UserlistFilterFeature from "@/features/userlist-filter/userlist-filter";
 import WeaponExperienceFeature from "@/features/weapon-experience/weapon-experience";
 import TargetFilterFeature from "@/features/target-filter/target-filter";
 import TravelTabTitleTimerFeature from "@/features/travel-tab-title-timer/travel-tab-title-timer";
+import TradeOpenChatFeature from "@/features/trade-open-chat/trade-open-chat";
+import TradeValuesFeature from "@/features/trade-values/trade-values";
+import TradeTimerFeature from "@/features/trade-timer/trade-timer";
+import TotalPortfolioValueFeature from "@/features/total-portfolio-value/total-portfolio-value";
+import TotalItemCostFeature from "@/features/total-item-cost/total-item-cost";
+import UpgradeRequiredRespectFeature from "@/features/upgrade-required-respect/upgrade-required-respect";
+import UserAliasChatFeature from "@/features/user-alias/user-alias-chat";
+import UserAliasUserlistFeature from "@/features/user-alias/user-alias-userlist";
+import UserAliasProfileFeature from "@/features/user-alias/user-alias-profile";
+import WarFinishTimesFeature from "@/features/war-finish-times/war-finish-times";
+import WarnCrimeFeature from "@/features/warn-crime/warn-crime";
+import WeaponBonusInformationFeature from "@/features/weapon-bonus-information/weapon-bonus-information";
+import StatsEstimateProfileFeature from "@/features/stats-estimate/stats-estimate-profile";
+import StatsEstimateAbroadFeature from "@/features/stats-estimate/stats-estimate-abroad";
+import StatsEstimateAttacksFeature from "@/features/stats-estimate/stats-estimate-attacks";
+import StatsEstimateBountiesFeature from "@/features/stats-estimate/stats-estimate-bounties";
+import StatsEstimateEnemiesFeature from "@/features/stats-estimate/stats-estimate-enemies";
+import StatsEstimateFactionMembersFeature from "@/features/stats-estimate/stats-estimate-faction-members";
+import StatsEstimateFactionRankedWarsFeature from "@/features/stats-estimate/stats-estimate-faction-ranked-wars";
+import StatsEstimateFactionWarsFeature from "@/features/stats-estimate/stats-estimate-faction-wars";
+import StatsEstimateHOFFeature from "@/features/stats-estimate/stats-estimate-hof";
+import StatsEstimateTargetsFeature from "@/features/stats-estimate/stats-estimate-targets";
+import StatsEstimateUserlistFeature from "@/features/stats-estimate/stats-estimate-userlist";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -251,6 +274,8 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new StackingModeFeature());
 	FEATURE_MANAGER.registerFeature(new UpdateNoticeFeature());
 	FEATURE_MANAGER.registerFeature(new VirusTimerFeature());
+	FEATURE_MANAGER.registerFeature(new TradeTimerFeature());
+	FEATURE_MANAGER.registerFeature(new UserAliasChatFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
@@ -271,6 +296,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new AbroadItemsFilterFeature());
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());
 		FEATURE_MANAGER.registerFeature(new AbroadAutoFillMaxFeature());
+		FEATURE_MANAGER.registerFeature(new StatsEstimateAbroadFeature());
 		FEATURE_MANAGER.registerFeature(new CleanFlightFeature());
 		FEATURE_MANAGER.registerFeature(new FlyingTimeFeature());
 		FEATURE_MANAGER.registerFeature(new LandingTimeFeature());
@@ -310,8 +336,10 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new BazaarFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarSubVendorItemsFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarWorthFeature());
+		FEATURE_MANAGER.registerFeature(new TotalItemCostFeature());
 	} else if (page === "bounties") {
 		setupBountiesPage().then(() => {});
+		FEATURE_MANAGER.registerFeature(new StatsEstimateBountiesFeature());
 		FEATURE_MANAGER.registerFeature(new BountyFilterFeature());
 	} else if (page === "city") {
 		FEATURE_MANAGER.registerFeature(new CityItemsFeature());
@@ -366,7 +394,14 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new RecommendedNNBFeature());
 		FEATURE_MANAGER.registerFeature(new FactionInactivityWarningFeature());
 		FEATURE_MANAGER.registerFeature(new RankedWarFilterFeature());
+		FEATURE_MANAGER.registerFeature(new StatsEstimateFactionMembersFeature());
+		FEATURE_MANAGER.registerFeature(new StatsEstimateFactionRankedWarsFeature());
+		FEATURE_MANAGER.registerFeature(new StatsEstimateFactionWarsFeature());
 		FEATURE_MANAGER.registerFeature(new ShowFactionSpyFeature());
+		FEATURE_MANAGER.registerFeature(new UpgradeRequiredRespectFeature());
+		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
+		FEATURE_MANAGER.registerFeature(new WarFinishTimesFeature());
+		FEATURE_MANAGER.registerFeature(new WarnCrimeFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
@@ -381,6 +416,7 @@ export function scriptManager() {
 	} else if (page === "hospital") {
 		setupHospitalPage();
 		FEATURE_MANAGER.registerFeature(new HospitalFilterFeature());
+		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
 	} else if (page === "itemmarket") {
 		setupItemMarketPage().then(() => {});
 		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
@@ -389,6 +425,7 @@ export function scriptManager() {
 	} else if (page === "jail") {
 		setupJailPage();
 		FEATURE_MANAGER.registerFeature(new JailFilterFeature());
+		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
 	} else if (page === "missions") {
 		setupMissionsPage();
 		FEATURE_MANAGER.registerFeature(new MissionHintsFeature());
@@ -396,16 +433,23 @@ export function scriptManager() {
 	} else if (page === "events") {
 		FEATURE_MANAGER.registerFeature(new EventWorthFeature());
 	} else if (page === "enemies") {
+		FEATURE_MANAGER.registerFeature(new StatsEstimateEnemiesFeature());
 		FEATURE_MANAGER.registerFeature(new EnemyFilterFeature());
 	} else if (page === "friends") {
 		FEATURE_MANAGER.registerFeature(new FriendFilterFeature());
 	} else if (page === "trade") {
 		setupTradePage();
 		FEATURE_MANAGER.registerFeature(new NoConfirmTradeFeature());
+		FEATURE_MANAGER.registerFeature(new TradeOpenChatFeature());
+		FEATURE_MANAGER.registerFeature(new TradeValuesFeature());
+		FEATURE_MANAGER.registerFeature(new NoConfirmTradeFeature());
 	} else if (page === "userlist") {
 		setupUserlistPage();
 		FEATURE_MANAGER.registerFeature(new UserlistFilterFeature());
+		FEATURE_MANAGER.registerFeature(new StatsEstimateUserlistFeature());
+		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
 	} else if (page === "profiles") {
+		FEATURE_MANAGER.registerFeature(new StatsEstimateProfileFeature());
 		FEATURE_MANAGER.registerFeature(new CreatorsFeature());
 		FEATURE_MANAGER.registerFeature(new AgeToWordsFeature());
 		FEATURE_MANAGER.registerFeature(new ProfileIDFeature());
@@ -415,7 +459,9 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FFScouterProfileFeature());
 		FEATURE_MANAGER.registerFeature(new ProfileBoxFeature());
 		FEATURE_MANAGER.registerFeature(new StatusIndicatorFeature());
+		FEATURE_MANAGER.registerFeature(new UserAliasProfileFeature());
 	} else if (page === "attack") {
+		FEATURE_MANAGER.registerFeature(new StatsEstimateAttacksFeature());
 		FEATURE_MANAGER.registerFeature(new HideAttackButtonsFeature());
 		FEATURE_MANAGER.registerFeature(new AttackTimeoutWarningFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksLoaderFeature());
@@ -423,6 +469,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FFScouterAttackFeature());
 		FEATURE_MANAGER.registerFeature(new PageTitleFeature());
 		FEATURE_MANAGER.registerFeature(new WeaponExperienceFeature());
+	}  else if (page === "attacklog") {
+		FEATURE_MANAGER.registerFeature(new WeaponBonusInformationFeature());
 	} else if (page === "api") {
 		// TODO - Handle API page features.
 	} else if (page === "casino") {
@@ -431,6 +479,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HideStocksFeature());
 		FEATURE_MANAGER.registerFeature(new StockAcronymsFeature());
 		FEATURE_MANAGER.registerFeature(new StocksFilterFeature());
+		FEATURE_MANAGER.registerFeature(new TotalPortfolioValueFeature());
 	} else if (page === "personalstats") {
 		FEATURE_MANAGER.registerFeature(new AveragePersonalStatFeature());
 	} else if (page === "racing") {
@@ -460,7 +509,10 @@ export function scriptManager() {
 	} else if (page === "preferences") {
 		FEATURE_MANAGER.registerFeature(new PreferenceSettingsFeature());
 	} else if (page === "targets") {
+		FEATURE_MANAGER.registerFeature(new StatsEstimateTargetsFeature());
 		FEATURE_MANAGER.registerFeature(new TargetFilterFeature());
+	} else if (page === "halloffame") {
+		FEATURE_MANAGER.registerFeature(new StatsEstimateHOFFeature());
 	}
 
 	if (isPageWithDrugItems(page)) {

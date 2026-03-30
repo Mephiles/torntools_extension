@@ -36,7 +36,7 @@ async function initialiseListeners() {
 				!isHospitalised() ||
 				!mutations
 					.filter((mutation) => mutation.addedNodes.length)
-					.flatMap((mutation) => [...mutation.addedNodes])
+					.flatMap((mutation) => Array.from(mutation.addedNodes))
 					.filter(isElement)
 					.map((node) => node.className)
 					.filter((name) => !!name)

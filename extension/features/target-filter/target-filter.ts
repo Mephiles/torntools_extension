@@ -9,6 +9,7 @@ import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/c
 import { hasAPIData } from "@/utils/common/functions/api";
 import { ttStorage } from "@/utils/common/data/storage";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 
 let filterSetupComplete: boolean = false;
 
@@ -32,7 +33,7 @@ async function initialiseFilters() {
 	});
 
 	const tableObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => isElement(node) && node.tagName === "UL"))) {
+		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.tagName === "UL"))) {
 			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(TargetFilterFeature)) {
 				applyFilters();
 				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });

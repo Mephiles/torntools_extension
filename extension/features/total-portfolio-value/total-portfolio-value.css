@@ -1,0 +1,34 @@
+.tt-total-stock-value {
+	margin: 0 0 0 9px;
+	font-size: 17px;
+	font-weight: normal;
+}
+
+body.tt-tablet .tt-total-stock-value {
+	font-size: 14px;
+}
+
+body.tt-mobile .tt-total-stock-value {
+	font-size: 14px;
+	margin: 16px 0 0 -86px;
+	position: absolute;
+	font-weight: bold;
+}
+
+.tt-total-stock-value .value,
+.tt-total-stock-value .profit {
+	color: var(--stockmarket-green-color);
+}
+
+.tt-total-stock-value .loss {
+	color: var(--stockmarket-red-color);
+}
+
+body.tt-mobile .tt-total-stock-value-wrap {
+	height: 55px;
+}
+
+body.tt-mobile .tt-total-stock-value-wrap h4 {
+	height: 41px;
+	width: 100%;
+}

@@ -13,7 +13,7 @@ async function addObserver() {
 	if (!observer)
 		observer = new MutationObserver((mutations) => {
 			mutations.forEach((mutation) => {
-				if (mutation.addedNodes?.length && [...mutation.addedNodes]?.some((node) => isElement(node) && node.matches("[class*='defender__']"))) {
+				if (mutation.addedNodes?.length && Array.from(mutation.addedNodes)?.some((node) => isElement(node) && node.matches("[class*='defender__']"))) {
 					removeObserver().catch(console.error);
 
 					findAllElements("button", defenderDiv).forEach((button) => {

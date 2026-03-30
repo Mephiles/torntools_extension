@@ -9,6 +9,7 @@ import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
 import { ttStorage } from "@/utils/common/data/storage";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(async () => {

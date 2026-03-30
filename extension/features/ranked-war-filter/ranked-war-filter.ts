@@ -8,7 +8,7 @@ import { createContainer, findContainer, removeContainer } from "@/utils/common/
 import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { hasStatsEstimatesLoaded } from "@/utils/temporary-placeholders";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 import { ttStorage } from "@/utils/common/data/storage";
 
 function initialiseFilters() {
@@ -288,7 +288,7 @@ export default class RankedWarFilterFeature extends Feature {
 	}
 
 	cleanup() {
-		removeFilters()
+		removeFilters();
 	}
 
 	storageKeys(): string[] {

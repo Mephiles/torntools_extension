@@ -1,6 +1,6 @@
 import { formatTime } from "@/utils/common/functions/formatting";
 
-export const countdownTimers: HTMLElement[] = [];
+export let countdownTimers: HTMLElement[] = [];
 export const countTimers: HTMLElement[] = [];
 
 export function updateTimers() {
@@ -31,4 +31,8 @@ export function updateTimers() {
 
 		countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
 	});
+}
+
+export function removeCountdownTimer(predicate: (timer: HTMLElement) => boolean) {
+	countdownTimers = countdownTimers.filter((timer) => predicate(timer));
 }

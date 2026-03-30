@@ -1,0 +1,8 @@
+.tt-open-chat {
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 0;
+	color: var(--tt-color-light-green);
+	font-size: 12px;
+}

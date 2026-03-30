@@ -4,7 +4,7 @@
 		"title": "Another Rework: WXT",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "'User Alias' for chat V3.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },
 				{ "message": "'Efficient Rehab' didn't always properly update the slider color.", "contributor": "DeKleineKobini" }
