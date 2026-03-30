@@ -240,7 +240,7 @@ class FeatureManager {
 
 		if (
 			(feature.precondition.constructor.name === "AsyncFunction" && !(await feature.precondition())) ||
-			(feature.precondition.constructor.name === "AsyncFunction" && !feature.precondition())
+			(feature.precondition.constructor.name !== "AsyncFunction" && !feature.precondition())
 		) {
 			return;
 		}
