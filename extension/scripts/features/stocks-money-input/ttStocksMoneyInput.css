@@ -17,3 +17,7 @@ body.dark-mode .tt-money-input input {
 	color: #fff;
 	background-color: #000;
 }
+
+body.tt-stock-money-input [class*="manageContainer__"] {
+	min-height: 140px;
+}

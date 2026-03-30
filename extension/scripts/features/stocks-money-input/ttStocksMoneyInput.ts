@@ -49,7 +49,7 @@
 								if (!stockRow) return;
 
 								const stockPrice = parseFloat(stockRow.querySelector("li[class*='stockPrice__'] [class*='price__']").textContent);
-								const quantityToPurchase = Math.floor(money / stockPrice);
+								const quantityToPurchase = Math.ceil(money / stockPrice);
 								if (quantityToPurchase <= 0) return;
 
 								const stockBuyInput = document.querySelector(
@@ -72,11 +72,14 @@
 		stockMarketRoot.addEventListener("click", addMoneyInputs);
 
 		if (location.href.includes("&tab=owned")) addMoneyInputs({ target: findAllElements("li[class*='stockOwned__'][class*='active__']")[0] });
+
+		document.body.classList.add("tt-stock-money-input");
 	}
 
 	async function removeMoneyInputListeners() {
 		const stockMarketRoot = await requireElement("[class*='stockMarket__']");
 		stockMarketRoot?.removeEventListener("click", addMoneyInputs);
 		findAllElements(".tt-money-input").forEach((x) => x.remove());
+		document.body.classList.remove("tt-stock-money-input");
 	}
 })();
