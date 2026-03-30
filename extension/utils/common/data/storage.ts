@@ -41,6 +41,7 @@ class TornToolsStorage {
 			for (const key of keys) {
 				const data = this.recursive(await this.get(key), object[key]);
 
+				console.log("DKK new value", object, key, data);
 				await this.set({ [key]: data });
 			}
 			resolve();
@@ -55,14 +56,12 @@ class TornToolsStorage {
 				!Array.isArray(parent[key]) &&
 				key in parent &&
 				typeof toChange[key] === "object" &&
-				!Array.isArray(toChange[key])
+				!Array.isArray(toChange[key]) &&
+				toChange[key] !== null
 			) {
 				parent[key] = this.recursive(parent[key], toChange[key]);
 			} else if (parent && typeof parent === "object") {
-				const value = toChange[key];
-
-				if (value === undefined || value === null) delete parent[key];
-				else parent[key] = value;
+				parent[key] = toChange[key];
 			} else {
 				parent = { [key]: toChange[key] };
 			}
