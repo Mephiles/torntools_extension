@@ -195,8 +195,13 @@ import StackingModeFeature from "@/features/stacking-mode/stacking-mode";
 import UpdateNoticeFeature from "@/features/update-notice/update-notice";
 import VirusTimerFeature from "@/features/virus-timer/virus-timer";
 import BarLinksFeature from "@/features/bar-links/bar-links";
+import TravelCooldownsFeature from "@/features/travel-cooldowns/travel-cooldowns";
+import TravelItemProfitsFeature from "@/features/travel-item-profits/travel-item-profits";
+import TravelFillMaxFeature from "@/features/travel-fill-max/travel-fill-max";
 import UserlistFilterFeature from "@/features/userlist-filter/userlist-filter";
 import WeaponExperienceFeature from "@/features/weapon-experience/weapon-experience";
+import TargetFilterFeature from "@/features/target-filter/target-filter";
+import TravelTabTitleTimerFeature from "@/features/travel-tab-title-timer/travel-tab-title-timer";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -272,6 +277,10 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new LandingTimeFeature());
 		FEATURE_MANAGER.registerFeature(new ComputerLinkFeature());
 		FEATURE_MANAGER.registerFeature(new NoConfirmAbroadBuyFeature());
+		FEATURE_MANAGER.registerFeature(new TravelCooldownsFeature());
+		FEATURE_MANAGER.registerFeature(new TravelFillMaxFeature());
+		FEATURE_MANAGER.registerFeature(new TravelItemProfitsFeature());
+		FEATURE_MANAGER.registerFeature(new TravelTabTitleTimerFeature());
 	} else if (page === "rehab") {
 		FEATURE_MANAGER.registerFeature(new EfficientRehabFeature());
 	} else if (page === "museum") {
@@ -449,6 +458,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new PropertyHappinessFeature());
 	} else if (page === "preferences") {
 		FEATURE_MANAGER.registerFeature(new PreferenceSettingsFeature());
+	}else if (page === "targets") {
+		FEATURE_MANAGER.registerFeature(new TargetFilterFeature());
 	}
 
 	if (isPageWithDrugItems(page)) {
