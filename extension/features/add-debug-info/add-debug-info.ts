@@ -6,13 +6,6 @@ import { requireElement } from "@/utils/common/functions/requires";
 
 let debugInfo: string | undefined;
 
-function viewingTTForumThread() {
-	// https://www.torn.com/forums.php#/p=threads&f=67&t=16243863
-
-	const hashParams = getHashParameters();
-	return hashParams.get("p") === "threads" && parseInt(hashParams.get("f")) === 67 && parseInt(hashParams.get("t")) === 16243863;
-}
-
 async function addDebugInfo() {
 	if (!viewingTTForumThread()) return;
 	if (document.querySelector("#tt-debug-info-btn")) return;
@@ -32,9 +25,9 @@ async function addDebugInfo() {
 				if (!debugInfo) {
 					const ttVersion = "TornTools version: " + version.current;
 
-					if ((navigator as any).userAgentData) {
+					if (navigator.userAgentData) {
 						// Chrome and others
-						const uaData = await (navigator as any).userAgentData.getHighEntropyValues([
+						const uaData = await navigator.userAgentData.getHighEntropyValues([
 							"fullVersionList",
 							"model",
 							"platform",
@@ -43,8 +36,8 @@ async function addDebugInfo() {
 						]);
 						const platformInfo = uaData.platform + " " + uaData.platformVersion;
 						const browserInfo = uaData.brands
-							.filter((b: any) => !b.brand.includes("Brand"))
-							.map((b: any) => `${b.brand} v${b.version}`)
+							.filter((b) => !b.brand.includes("Brand"))
+							.map((b) => `${b.brand} v${b.version}`)
 							.join(" - ");
 
 						debugInfo = platformInfo + "<br>" + browserInfo;
@@ -71,6 +64,13 @@ async function addDebugInfo() {
 
 function removeButton() {
 	document.querySelector("#tt-debug-info-btn")?.remove();
+}
+
+function viewingTTForumThread() {
+	// https://www.torn.com/forums.php#/p=threads&f=67&t=16243863
+
+	const hashParams = getHashParameters();
+	return hashParams.get("p") === "threads" && parseInt(hashParams.get("f")) === 67 && parseInt(hashParams.get("t")) === 16243863;
 }
 
 export default class AddDebugInfoFeature extends Feature {

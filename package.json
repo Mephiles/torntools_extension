@@ -32,6 +32,7 @@
 		"concurrently": "^9.2.1",
 		"prettier": "^3.8.1",
 		"typescript": "^6.0.2",
+		"user-agent-data-types": "^0.4.3",
 		"wxt": "^0.20.20"
 	}
 }

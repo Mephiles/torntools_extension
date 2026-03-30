@@ -7,7 +7,7 @@
 		"noPropertyAccessFromIndexSignature": false,
 		"noUncheckedIndexedAccess": false,
 		"useUnknownInCatchVariables": false,
-		"types": ["bun"]
+		"types": ["bun", "user-agent-data-types"]
 	},
 	"exclude": ["to-migrate/**/*", "skip/**/*"]
 }
