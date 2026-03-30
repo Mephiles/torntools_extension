@@ -225,6 +225,7 @@ import StatsEstimateFactionWarsFeature from "@/features/stats-estimate/stats-est
 import StatsEstimateHOFFeature from "@/features/stats-estimate/stats-estimate-hof";
 import StatsEstimateTargetsFeature from "@/features/stats-estimate/stats-estimate-targets";
 import StatsEstimateUserlistFeature from "@/features/stats-estimate/stats-estimate-userlist";
+import StocksMoneyInputFeature from "@/features/stocks-money-input/stocks-money-input";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -480,6 +481,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new StockAcronymsFeature());
 		FEATURE_MANAGER.registerFeature(new StocksFilterFeature());
 		FEATURE_MANAGER.registerFeature(new TotalPortfolioValueFeature());
+		FEATURE_MANAGER.registerFeature(new StocksMoneyInputFeature());
 	} else if (page === "personalstats") {
 		FEATURE_MANAGER.registerFeature(new AveragePersonalStatFeature());
 	} else if (page === "racing") {
