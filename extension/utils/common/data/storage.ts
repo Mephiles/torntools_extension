@@ -41,7 +41,6 @@ class TornToolsStorage {
 			for (const key of keys) {
 				const data = this.recursive(await this.get(key), object[key]);
 
-				console.log("DKK new value", object, key, data);
 				await this.set({ [key]: data });
 			}
 			resolve();

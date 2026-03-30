@@ -130,7 +130,6 @@ async function showInformation() {
 		const icon = log.querySelector(".message-wrap span:first-child").classList[0];
 		const messageElement = log.querySelector(".message");
 
-		console.log("DKK message", icon, messageElement.textContent)
 		let bonus: Bonus;
 		switch (icon) {
 			case "attacking-events-demoralized":

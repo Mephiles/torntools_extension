@@ -69,7 +69,6 @@ function addAliasTitle() {
 				});
 		});
 	} else {
-		console.log("DKK alias title V2");
 		findAllElements(`${SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX_WRAPPER} > ${SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX}`).forEach((chatHeader) => {
 			const chatPlayerTitle = chatHeader.textContent;
 			if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
