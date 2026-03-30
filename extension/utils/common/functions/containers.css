@@ -109,3 +109,7 @@ body.tt-tablet #sidebarroot .tt-container .title {
 	color: var(--default-color) !important;
 	letter-spacing: 0;
 }
+
+.tt-container input[type="checkbox"] {
+	accent-color: #6e8820;
+}
