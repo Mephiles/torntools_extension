@@ -105,19 +105,6 @@ body.tt-tablet #sidebarroot .tt-container .title {
 	letter-spacing: 0;
 }
 
-.tt-container input[type="checkbox"]:checked {
-	appearance: none;
-}
-
-.tt-container input[type="checkbox"]:checked::before {
-	content: "";
-	display: block;
-	border-radius: 2px;
-	width: 13px;
-	height: 13px;
-	background: var(--tt-green-tick-url);
-}
-
-.tt-container input[type="checkbox"]:checked:hover::before {
-	opacity: 0.9;
+.tt-container input[type="checkbox"] {
+	accent-color: #6e8820;
 }
