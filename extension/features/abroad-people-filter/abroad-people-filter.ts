@@ -17,6 +17,7 @@ import {
 } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 
 const localFilters = {};
 
@@ -166,7 +167,7 @@ async function applyFilters() {
 	const levelStart = parseInt(levels.start);
 	const levelEnd = parseInt(levels.end);
 	const statsEstimates =
-		settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
+		hasStatsEstimatesLoaded("Abroad People") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
 			? localFilters["Stats Estimate"]?.getSelections(content)
 			: undefined;
 

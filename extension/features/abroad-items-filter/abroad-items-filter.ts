@@ -97,7 +97,7 @@ async function addFilter() {
 			}
 
 			if (categories.length) {
-				const itemCategory = li.querySelector("[data-tt-content-type='type']").textContent.split("\u00a0")[1].toLowerCase();
+				const itemCategory = li.querySelector("[data-tt-content-type='type']").textContent.split(" ")[1].toLowerCase();
 				switch (itemCategory) {
 					case "plushie":
 						if (!categories.includes("plushie")) {
@@ -140,23 +140,6 @@ async function addFilter() {
 							continue;
 						}
 						break;
-				}
-			}
-
-			if (taxes.length) {
-				const taxCell = li.querySelector<HTMLElement>(".tt-travel-tax-cell");
-				if (taxCell) {
-					const value = convertToNumber(taxCell.dataset.ttValue);
-					const includeSales = taxes.includes("salestax");
-					const includeAnon = taxes.includes("anonymous");
-					if (value === SALES_TAX && !includeSales) {
-						hideRow(li);
-						continue;
-					}
-					if (value === ANONYMOUS_TAX && !includeAnon) {
-						hideRow(li);
-						continue;
-					}
 				}
 			}
 		}

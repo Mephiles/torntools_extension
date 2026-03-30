@@ -52,8 +52,6 @@ export class BackgroundService {
 		}
 
 		await updateFunction(true);
-		// .then((result: any) => sendResponse(result))
-		// .catch((error: any) => sendResponse(error));
 		return { success: true };
 	}
 

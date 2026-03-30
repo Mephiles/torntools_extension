@@ -3,7 +3,7 @@ import { filters, settings, torndata } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
-import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { ttStorage } from "@/utils/common/data/storage";
@@ -24,7 +24,7 @@ type ArmoryFilters = {
 	armorBonus: string;
 };
 
-let cbHideUnavailable: any | undefined;
+let cbHideUnavailable: CheckboxObject | undefined;
 let localFilters: any = {};
 
 function addListener() {
@@ -170,7 +170,7 @@ async function addFilter(section: string | null) {
 async function applyFilters() {
 	await requireElement(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.last");
 
-	// Get set filters
+	// Get the set filters
 	const content = findContainer("Armory Filter", { selector: "main" });
 	const itemType = localFilters.itemType;
 
@@ -190,7 +190,7 @@ async function applyFilters() {
 		filters.armorBonus = localFilters.armorBonus.getValue();
 	}
 
-	// Save filters
+	// Save the filters
 	await ttStorage.change({ filters: { factionArmory: { hideUnavailable, [itemType]: filters } } });
 
 	findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").forEach((li) => filterRow(li, { hideUnavailable, ...filters }));
