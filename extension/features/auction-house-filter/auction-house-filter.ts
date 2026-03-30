@@ -1,4 +1,4 @@
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { filters, settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
@@ -13,11 +13,15 @@ import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 
 let localFilters: any = {};
 
-function initialiseListeners() {
+function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.AUCTION_SWITCH_TYPE].push(async ({ type }) => {
+		if (!FEATURE_MANAGER.isEnabled(AuctionHouseFilterFeature)) return;
+
 		await addFilters(type);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.SWITCH_PAGE].push(async () => {
+		if (!FEATURE_MANAGER.isEnabled(AuctionHouseFilterFeature)) return;
+
 		await applyFilters();
 	});
 }
@@ -386,7 +390,7 @@ export default class AuctionHouseFilterFeature extends Feature {
 	}
 
 	initialise() {
-		initialiseListeners();
+		initialiseFilters();
 	}
 
 	async execute() {

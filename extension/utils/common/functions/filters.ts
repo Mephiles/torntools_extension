@@ -19,7 +19,7 @@ interface FilterOption {
 	disabled?: boolean;
 }
 
-interface StatisticsResult {
+export interface StatisticsResult {
 	element: HTMLElement;
 	updateStatistics: (count: number, total: number, content: HTMLElement) => void;
 }

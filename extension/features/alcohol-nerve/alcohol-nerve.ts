@@ -6,6 +6,16 @@ import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 
+function initialiseAddGains() {
+	const listener = () => {
+		if (!FEATURE_MANAGER.isEnabled(AlcoholNerveFeature)) return;
+
+		addNerveGains();
+	};
+	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, listener);
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, listener);
+}
+
 function addNerveGains() {
 	const factionPerk = parseInt(userdata.faction_perks.filter((x) => /alcohol/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 	const companyPerk = parseInt(userdata.job_perks.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
@@ -59,13 +69,7 @@ export default class AlcoholNerveFeature extends Feature {
 	}
 
 	initialise() {
-		const listener = () => {
-			if (!FEATURE_MANAGER.isEnabled(AlcoholNerveFeature)) return;
-
-			addNerveGains();
-		};
-		addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, listener);
-		addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, listener);
+		initialiseAddGains();
 	}
 
 	async execute() {

@@ -30,7 +30,7 @@ function highlightEverything() {
 			return {
 				element,
 				id: convertToNumber(element.querySelector("img").src),
-				price: convertToNumber(element.querySelector("[class*='price___']").childNodes[0].textContent),
+				price: convertToNumber(element.querySelector("[class*='price___']").textContent),
 			};
 		})
 		.filter((item) => item.element);

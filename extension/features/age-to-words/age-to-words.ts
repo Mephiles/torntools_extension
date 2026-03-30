@@ -3,9 +3,8 @@ import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
-import { convertToNumber, applyPlural } from "@/utils/common/functions/formatting";
-import { calculateDatePeriod } from "@/utils/common/functions/utilities";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { applyPlural, convertToNumber } from "@/utils/common/functions/formatting";
+import { calculateDatePeriod, TO_MILLIS } from "@/utils/common/functions/utilities";
 
 async function addWords() {
 	const boxValue = await requireElement(".box-info.age .box-value");

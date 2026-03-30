@@ -1,5 +1,5 @@
 import "./blackjack-strategy.css";
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder } from "@/utils/common/functions/dom";
@@ -467,7 +467,7 @@ const SUGGESTIONS = {
 
 function initialiseStrategy() {
 	addXHRListener(({ detail: { page, xhr, ...detail } }) => {
-		if (!settings.pages.casino.blackjack || !("json" in detail)) return;
+		if (!FEATURE_MANAGER.isEnabled(BlackjackStrategyFeature) || !("json" in detail)) return;
 		const { json } = detail;
 
 		if (page === "page") {

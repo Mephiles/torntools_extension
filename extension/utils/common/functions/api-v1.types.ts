@@ -2,6 +2,7 @@ import { CompanyV1, FactionV1, TornV1, UserV1 } from "tornapi-typescript";
 
 export type UserV1AmmoResponse = UserV1["selections"]["ammo"]["response"];
 export type UserV1BarsResponse = UserV1["selections"]["bars"]["response"];
+export type UserV1BazaarResponse = UserV1["selections"]["bazaar"]["response"];
 export type UserV1EducationResponse = UserV1["selections"]["education"]["response"];
 export type UserV1PerksResponse = UserV1["selections"]["perks"]["response"];
 export type UserV1NetworthResponse = UserV1["selections"]["networth"]["response"];
@@ -28,6 +29,7 @@ export type TornV1StatsResponse = TornV1["selections"]["stats"]["response"];
 export type TornV1StocksResponse = TornV1["selections"]["stocks"]["response"];
 
 export type UserV1Bar = UserV1BarsResponse["nerve"];
+export type UserV1BazaarItem = UserV1BazaarResponse["bazaar"];
 export type UserV1ChainBar = UserV1BarsResponse["chain"];
 export type UserV1Stock = UserV1StocksResponse["stocks"][number];
 

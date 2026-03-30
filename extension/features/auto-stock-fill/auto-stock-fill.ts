@@ -65,8 +65,8 @@ export default class AutoStockFillFeature extends Feature {
 		addListener();
 	}
 
-	async execute() {
-		await addFillStockButton(false);
+	async execute(liveReload?: boolean) {
+		await addFillStockButton(liveReload);
 	}
 
 	cleanup() {
@@ -75,5 +75,9 @@ export default class AutoStockFillFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.companies.autoStockFill"];
+	}
+
+	shouldLiveReload(): boolean {
+		return true;
 	}
 }

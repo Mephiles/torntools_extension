@@ -8,6 +8,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addFetchListener } from "@/utils/common/functions/listeners";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { UserV1BazaarItem, UserV1BazaarResponse } from "@/utils/common/functions/api-v1.types";
 
 interface BazaarFetchItem {
 	amount: number;
@@ -45,8 +46,9 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 		handleBazaar(ttCache.get("bazaar", bazaarUserId)).catch(console.error);
 	} else {
 		// TODO - Migrate to V2 (user/bazaar).
-		fetchData("tornv2", { section: "user", id: bazaarUserId, selections: ["bazaar"], legacySelections: ["bazaar"] })
+		fetchData<UserV1BazaarResponse>("tornv2", { section: "user", id: bazaarUserId, selections: ["bazaar"], legacySelections: ["bazaar"] })
 			.then((result) => {
+				// @ts-expect-error Bundling Migration
 				handleBazaar(result.bazaar);
 
 				ttCache.set({ [bazaarUserId]: result.bazaar }, TO_MILLIS.SECONDS * 30, "bazaar");
@@ -63,7 +65,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 			});
 	}
 
-	async function handleBazaar(bazaar: any[]) {
+	async function handleBazaar(bazaar: (UserV1BazaarItem | BazaarFetchItem)[]) {
 		let total = 0;
 
 		for (const item of bazaar) {
@@ -86,17 +88,14 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 				elementBuilder({
 					type: "div",
 					class: "tt-bazaar-text",
-					children: [
-						document.createTextNode("This bazaar is worth "),
-						elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }),
-						document.createTextNode("."),
-					],
+					text: "This bazaar is worth ",
+					children: [elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
 				})
 			);
 		}
 	}
 
-	function observerText(message: Element, items: any[]) {
+	function observerText(message: Element, items: (UserV1BazaarItem | BazaarFetchItem)[]) {
 		const observer = new MutationObserver((mutations) => {
 			if (mutations.every((m) => m.removedNodes.length === 0)) return;
 

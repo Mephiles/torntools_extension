@@ -10,6 +10,7 @@ import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { ttStorage } from "@/utils/common/data/storage";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { TORN_ITEMS } from "@/utils/common/functions/torn-items";
+import { TornItem } from "tornapi-typescript";
 
 interface CityItem {
 	id: string;
@@ -18,7 +19,6 @@ interface CityItem {
 }
 
 let hasContainer = false;
-let items: CityItem[];
 
 async function showHighlight() {
 	if (hasContainer) return;
@@ -30,7 +30,7 @@ async function showHighlight() {
 	// Show container
 	const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
 
-	items = getAllItems();
+	const items = getAllItems();
 	handleHighlight();
 	handleSearchBox();
 	if (hasAPIData()) showValue();
@@ -83,7 +83,7 @@ async function showHighlight() {
 
 	function showValue() {
 		const totalValue = items
-			.map(({ id, count }): any => ({ ...torndata.itemsMap[id], count }))
+			.map(({ id, count }): TornItem & { count: number } => ({ ...torndata.itemsMap[id], count }))
 			.filter((item) => !!item)
 			.map(({ value: { market_price: value }, count }) => value * count)
 			.filter((value) => !!value)

@@ -4,12 +4,10 @@ import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer } from "@/utils/common/functions/containers";
-import { createStatistics } from "@/utils/common/functions/filters";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { createStatistics, StatisticsResult } from "@/utils/common/functions/filters";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-
-let statistics: any;
 
 function initialiseListener() {
 	new MutationObserver(async () => {
@@ -22,7 +20,7 @@ function initialiseListener() {
 async function addFilter() {
 	const device = await checkDevice();
 
-	if (document.querySelector("[data-container='Bounty Filter']")) return;
+	if (findContainer("Bounty Filter")) return;
 	await requireElement(".bounties-list > li > ul > li .reward");
 	const { options } = createContainer("Bounty Filter", {
 		previousElement: document.querySelector(".bounties-wrap .bounties-total"),
@@ -46,7 +44,7 @@ async function addFilter() {
 			text: "Max Level",
 		})
 	);
-
+	let statistics: StatisticsResult;
 	if (!device.mobile && !device.tablet) {
 		statistics = createStatistics("rows", true, true);
 		options.parentElement.querySelector(".title .text").appendChild(statistics.element);
@@ -67,7 +65,7 @@ async function addFilter() {
 		maxLevelInput.value = maxLevelInput.value === "" ? "" : maxLevel.toString();
 		const hideUnavailable = cbHideUnavailable.isChecked();
 
-		// Save filters
+		// Save the filters
 		await ttStorage.change({
 			filters: {
 				bounties: {
@@ -119,7 +117,7 @@ async function addFilter() {
 
 function removeFilter() {
 	findAllElements(".bounties-list > .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
-	document.querySelector("[data-container='Bounty Filter']")?.remove();
+	removeContainer("Bounty Filter");
 }
 
 export default class BountyFilterFeature extends Feature {

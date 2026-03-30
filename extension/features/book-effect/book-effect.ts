@@ -17,12 +17,10 @@ function addEffects() {
 	findAllElements("[data-category='Book']").forEach((book) => {
 		if (book.querySelector(".tt-book-effect")) return;
 
-		const bookId = parseInt(book.dataset.item);
-		const description = BOOK_DESCRIPTIONS[bookId];
-		if (description) {
-			const effectElement = elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${description}` });
-			book.querySelector(".name-wrap .qty.t-hide").insertAdjacentElement("afterend", effectElement);
-		}
+		book.querySelector(".name-wrap .qty.t-hide").insertAdjacentElement(
+			"afterend",
+			elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
+		);
 	});
 }
 

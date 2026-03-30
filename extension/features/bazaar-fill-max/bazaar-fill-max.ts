@@ -32,9 +32,9 @@ async function removeFillMax() {
 		await requireElement("[class*='buyForm___']");
 		findAllElements("[class*='buyForm___']").forEach((x) => {
 			x.classList.remove("tt-fill-max");
-			x.querySelector(".tt-max-buy")?.remove();
+			x.querySelector(CLASS_TT_MAX_BUY).remove();
 		});
-		reactObserver?.disconnect();
+		reactObserver.disconnect();
 	}
 }
 
