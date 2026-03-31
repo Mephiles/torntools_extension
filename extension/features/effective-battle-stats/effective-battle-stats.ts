@@ -1,4 +1,4 @@
-import "./effective-stats.css";
+import "./effective-battle-stats.css";
 import { Feature } from "@/features/feature-manager";
 import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
@@ -47,7 +47,7 @@ async function showEffectiveBattleStats() {
 	}
 }
 
-export default class EffectiveStatsFeature extends Feature {
+export default class EffectiveBattleStatsFeature extends Feature {
 	constructor() {
 		super("Effective Battle Stats", "home");
 	}

@@ -9,14 +9,11 @@ import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { ttStorage } from "@/utils/common/data/storage";
 import { requireElement } from "@/utils/common/functions/requires";
+import { CRIMES2 } from "@/pages/crimes2-page";
 
 let CRIMES2_ROWS_START_Y = 64;
 
 const localFilters: Record<string, any> = {};
-
-const CRIMES2 = {
-	BURGLARY: "burglary",
-} as const;
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_CRIME_LOADED].push(async ({ crime, crimeRoot, url }) => {
@@ -96,6 +93,7 @@ async function addFilter(crimeRoot: Element | null) {
 	}
 
 	if (!findContainer("Burglary Filter")) await createFilter(crimeRoot);
+
 	await filtering();
 }
 
@@ -116,7 +114,7 @@ async function filtering() {
 
 	// Actual Filtering
 	// Burglary targets are absolutely positioned on the page, using translateY style.
-	// Changing translateY ourselves to remove holes in the targets list. This also preserves Torn's animation.
+	// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
 	let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 	for (const targetEl of findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
 		const rowTargetName = targetEl.querySelector("[class*='crimeOptionSection__']").textContent;

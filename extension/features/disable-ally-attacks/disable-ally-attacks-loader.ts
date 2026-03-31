@@ -2,7 +2,7 @@ import "./disable-ally-attacks.css";
 import { ExecutionTiming, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
 import { settings, userdata } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements, isElement, mobile, tablet } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { requireElement } from "@/utils/common/functions/requires";
 import { addFetchListener } from "@/utils/common/functions/listeners";
@@ -25,16 +25,18 @@ async function startListener() {
 	});
 }
 
-async function disableAttackButton(factionID: number) {
+async function disableAttackButton(factionID: number | null) {
+	if (!factionID) return;
 	if (document.querySelector(".tt-disable-ally-attack")) return;
 
-	const selector = mobile || tablet ? "[class*='playerArea__'] [class*='modal__']" : "[class*='players__'] :has([class*='rose___']) [class*='modal__']";
+	const selector = mobile || tablet ? "[class*='playerArea__'] [class*='modal__']" : "[class*='players__'] #defender [class*='modal__']";
 
 	if (!((hasAPIData() && userdata.faction?.id === factionID) || settings.alliedFactions.some((ally) => ally === factionID))) {
 		return;
 	}
 
 	const node = await requireElement(selector);
+
 	const warning = elementBuilder({
 		type: "div",
 		class: "tt-disable-ally-attack",
@@ -44,11 +46,12 @@ async function disableAttackButton(factionID: number) {
 		event.preventDefault();
 		event.stopImmediatePropagation();
 
-		if (isElement(event.target) && confirm("Are you sure you want to attack this ally?")) {
-			event.target.remove();
+		if (confirm("Are you sure you want to attack this ally?")) {
+			(event.target as Element).remove();
 			closedOption = true;
 		}
 	});
+
 	node.insertAdjacentElement("afterbegin", warning);
 }
 
@@ -71,6 +74,10 @@ export default class DisableAllyAttacksLoaderFeature extends Feature {
 
 	async initialise() {
 		await startListener();
+	}
+
+	async execute() {
+		await disableAttackButton(null);
 	}
 
 	cleanup() {

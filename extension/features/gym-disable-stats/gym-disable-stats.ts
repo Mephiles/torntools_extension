@@ -1,14 +1,12 @@
 import "./gym-disable-stats.css";
 import { Feature } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { settings, filters } from "@/utils/common/data/database";
+import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { requireElement } from "@/utils/common/functions/requires";
-import { findAllElements, elementBuilder, isElement } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { sleep } from "@/utils/common/functions/utilities";
-
-let gymTrainObserver: MutationObserver;
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.GYM_LOAD].push(async () => {
@@ -17,7 +15,7 @@ function initialiseListeners() {
 		await showCheckboxes();
 	});
 
-	gymTrainObserver = new MutationObserver((mutations) => {
+	const gymTrainObserver = new MutationObserver((mutations) => {
 		if (!settings.pages.gym.disableStats) return;
 
 		for (const mutation of mutations) {
@@ -40,7 +38,9 @@ function initialiseListeners() {
 			if (!settings.pages.gym.disableStats) return;
 
 			if (
-				mutations.some((mutation) => [...mutation?.addedNodes].some((node) => isElement(node) && node.className?.includes?.("gymContentWrapper__")))
+				mutations.some((mutation) =>
+					Array.from(mutation.addedNodes).some((node) => isElement(node) && node.className?.includes?.("gymContentWrapper__"))
+				)
 			) {
 				void showCheckboxes();
 
@@ -99,10 +99,6 @@ function dispose() {
 	for (const checkbox of findAllElements(".tt-stat-checkbox")) checkbox.remove();
 	for (const stat of findAllElements(".tt-gym-locked, #gymroot ul[class*='properties___'] > li.tt-modified"))
 		stat.classList.remove(".tt-gym-locked", "tt-modified");
-	
-	if (gymTrainObserver) {
-		gymTrainObserver.disconnect();
-	}
 }
 
 export default class GymDisableStatsFeature extends Feature {

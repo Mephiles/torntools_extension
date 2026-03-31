@@ -8,6 +8,17 @@ import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { createMessageBox } from "@/utils/common/functions/torn";
 
+function xhrListener() {
+	addXHRListener(async ({ detail: { page, xhr } }) => {
+		if (
+			FEATURE_MANAGER.isEnabled(DisplayCaseWorthFeature) &&
+			page === "displaycase" &&
+			(xhr.requestBody === "step=display" || xhr.requestBody.startsWith("userID="))
+		)
+			await addWorth();
+	});
+}
+
 async function addWorth() {
 	const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
 	if (displayCaseUserId && !isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
@@ -73,7 +84,7 @@ async function addWorth() {
 }
 
 function removeWorth() {
-	document.querySelector(".tt-display-worth")?.remove();
+	document.querySelector(".tt-display-worth").remove();
 }
 
 export default class DisplayCaseWorthFeature extends Feature {
@@ -91,14 +102,7 @@ export default class DisplayCaseWorthFeature extends Feature {
 	}
 
 	initialise() {
-		addXHRListener(async ({ detail: { page, xhr } }) => {
-			if (
-				FEATURE_MANAGER.isEnabled(DisplayCaseWorthFeature) &&
-				page === "displaycase" &&
-				(xhr.requestBody === "step=display" || xhr.requestBody.startsWith("userID="))
-			)
-				await addWorth();
-		});
+		xhrListener();
 	}
 
 	async execute() {

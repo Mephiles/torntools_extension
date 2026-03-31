@@ -52,7 +52,7 @@ const tooltipObserver = new MutationObserver((mutations: MutationRecord[]) => {
 
 async function addEndTimes() {
 	await requireElement("#sidebarroot [class*='status-icons__']");
-	tooltipObserver.observe(document.body, { childList: true, subtree: true });
+	tooltipObserver.observe(document.body, { childList: true });
 }
 
 async function removeEndTimes() {

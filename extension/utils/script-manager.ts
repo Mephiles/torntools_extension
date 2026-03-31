@@ -25,7 +25,7 @@ import DisableAllyAttacksFeature from "@/features/disable-ally-attacks/disable-a
 import DisplayCaseWorthFeature from "@/features/display-case-worth/display-case-worth";
 import EasterEggFeature from "@/features/easter-egg/easter-egg";
 import EducationFinishTimeFeature from "@/features/education-finish-time/education-finish-time";
-import EffectiveStatsFeature from "@/features/effective-stats/effective-stats";
+import EffectiveBattleStatsFeature from "@/features/effective-battle-stats/effective-battle-stats";
 import EfficientRehabFeature from "@/features/efficient-rehab/efficient-rehab";
 import AbroadPeopleFilterFeature from "@/features/abroad-people-filter/abroad-people-filter";
 import AlignLeftFeature from "@/features/align-left/align-left";
@@ -287,7 +287,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new EducationFinishTimeFeature());
 		FEATURE_MANAGER.registerFeature(new GreyCompletedCoursesFeature());
 	} else if (page === "home") {
-		FEATURE_MANAGER.registerFeature(new EffectiveStatsFeature());
+		FEATURE_MANAGER.registerFeature(new EffectiveBattleStatsFeature());
 		FEATURE_MANAGER.registerFeature(new LiveNetworthFeature());
 	} else if (page === "travel") {
 		setupTravelAbroadPage().then(() => {});
@@ -470,7 +470,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FFScouterAttackFeature());
 		FEATURE_MANAGER.registerFeature(new PageTitleFeature());
 		FEATURE_MANAGER.registerFeature(new WeaponExperienceFeature());
-	}  else if (page === "attacklog") {
+	} else if (page === "attacklog") {
 		FEATURE_MANAGER.registerFeature(new WeaponBonusInformationFeature());
 	} else if (page === "api") {
 		// TODO - Handle API page features.

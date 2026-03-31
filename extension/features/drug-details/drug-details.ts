@@ -1,6 +1,6 @@
 import "./drug-details.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { DRUG_INFORMATION, getPage, getPageStatus } from "@/utils/common/functions/torn";
+import { DRUG_INFORMATION, DrugDetail, getPage, getPageStatus } from "@/utils/common/functions/torn";
 import { elementBuilder, findAllElements, getSearchParameters, isElement } from "@/utils/common/functions/dom";
 import { extractArmorySubcategory } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
@@ -12,18 +12,6 @@ interface DrugDetailsOptions {
 	react: boolean | (() => boolean);
 	target: Document | Element;
 	changeListener: boolean;
-}
-
-interface DrugDetail {
-	pros?: string[];
-	cons?: string[];
-	cooldown?: string;
-	overdose?: {
-		bars?: string[];
-		stats?: string;
-		hosp_time?: string;
-		extra?: string;
-	};
 }
 
 let observer: MutationObserver | undefined;

@@ -3,7 +3,7 @@ import { Feature } from "@/features/feature-manager";
 import { isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 
 const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
 
@@ -13,7 +13,7 @@ function initialiseDetector() {
 	if (container) {
 		new MutationObserver(async (mutations, observer) => {
 			for (const node of mutations.flatMap((mutation) => Array.from(mutation.addedNodes))) {
-				if (!(node instanceof Element)) continue;
+				if (!isElement(node)) continue;
 
 				if (node.matches(EGG_SELECTOR) || node.querySelector(EGG_SELECTOR)) {
 					await highlightEgg(node.matches(EGG_SELECTOR) ? node : node.querySelector(EGG_SELECTOR));
@@ -25,11 +25,11 @@ function initialiseDetector() {
 	}
 }
 
-async function enableDetector() {
+function enableDetector() {
 	document.body.classList.add("tt-easter-highlight");
 
 	for (const egg of findAllElements(EGG_SELECTOR)) {
-		await highlightEgg(egg);
+		highlightEgg(egg);
 	}
 }
 

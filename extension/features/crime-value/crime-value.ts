@@ -28,12 +28,10 @@ function addListener() {
 }
 
 function hasItemOutcome(response: TornInternalAttemptCrime): boolean {
-	return response.DB && response.DB.outcome && response.DB.outcome.rewards && response.DB.outcome.rewards.some((x) => x.type === "items");
+	return response.DB.outcome.rewards.some((x) => x.type === "items");
 }
 
 function calculateValue(response: TornInternalAttemptCrime): number {
-	if (!response.DB || !response.DB.outcome || !response.DB.outcome.rewards) return 0;
-
 	return response.DB.outcome.rewards
 		.filter(({ type }) => type === "items" || type === "money")
 		.map((reward) => {
@@ -43,7 +41,7 @@ function calculateValue(response: TornInternalAttemptCrime): number {
 					.map(({ id, amount }) => torndata.itemsMap[id].value.market_price * amount)
 					.reduce((a, b) => a + b, 0);
 			} else if (reward.type === "money") {
-				return reward.value || 0;
+				return reward.value;
 			} else {
 				return 0;
 			}
