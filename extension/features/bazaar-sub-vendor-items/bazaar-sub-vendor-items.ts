@@ -4,6 +4,7 @@ import { settings, torndata } from "@/utils/common/data/database";
 import { findAllElements } from "@/utils/common/functions/dom";
 import { requireContent } from "@/utils/common/functions/requires";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { hasAPIData } from "@/utils/common/functions/api";
 
 const CLASS_NAME = "tt-sub-vendor-highlight";
 let observer: MutationObserver | undefined;
@@ -64,7 +65,7 @@ export default class BazaarSubVendorItemsFeature extends Feature {
 	}
 
 	requirements() {
-		// if (!hasAPIData()) return "No API access.";
+		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}

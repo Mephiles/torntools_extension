@@ -75,7 +75,7 @@ async function maxBuyListener(clickEvent: any | null = null) {
 
 export default class BazaarFillMaxFeature extends Feature {
 	constructor() {
-		super("Fill Max", "bazaar");
+		super("Bazaar Fill Max", "bazaar");
 	}
 
 	precondition() {

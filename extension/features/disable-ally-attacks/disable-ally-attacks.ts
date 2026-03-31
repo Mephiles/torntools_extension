@@ -53,7 +53,7 @@ function enableButton() {
 
 export default class DisableAllyAttacksFeature extends Feature {
 	constructor() {
-		super("Disable Ally Attacks", "profile");
+		super("Disable Ally Attacks Profile", "profile");
 	}
 
 	precondition() {
