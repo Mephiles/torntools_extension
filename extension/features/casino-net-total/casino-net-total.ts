@@ -2,7 +2,7 @@ import "./casino-net-total.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPage, getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 
@@ -41,15 +41,15 @@ async function addTotal() {
 		);
 		if (moneyElementsList.snapshotLength !== 2) continue;
 		const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replace(/[$, ]/g, ""));
-		const totalLostElement = moneyElementsList.snapshotItem(1) as Element;
-		if (!totalLostElement) return;
+		const totalLostElement = moneyElementsList.snapshotItem(1);
+		if (!isElement(totalLostElement)) return;
 
 		const totalLost = parseInt(totalLostElement.textContent.replace(/[$, ]/g, ""));
 
 		if (document.querySelector(`.${statsType}-stats-wrap .tt-net-total`)) return;
 
 		await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
-		(totalLostElement.closest("li:not(.stat-value)") as Element).insertAdjacentElement(
+		totalLostElement.closest("li:not(.stat-value)").insertAdjacentElement(
 			"afterend",
 			elementBuilder({
 				type: "ul",

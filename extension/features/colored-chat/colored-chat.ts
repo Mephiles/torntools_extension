@@ -6,18 +6,18 @@ import { findAllElements } from "@/utils/common/functions/dom";
 import { requireChatsLoaded } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 
-function initialiseColoredChats() {
-	requireChatsLoaded().then(() => {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(reColorChats);
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_CLOSED].push(reColorChats);
-		CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(reColorChats);
+async function initialiseColoredChats() {
+	await requireChatsLoaded();
 
-		async function reColorChats() {
-			if (!FEATURE_MANAGER.isEnabled(ColoredChatFeature)) return;
+	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(reColorChats);
+	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_CLOSED].push(reColorChats);
+	CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(reColorChats);
 
-			await showColoredChats(true);
-		}
-	});
+	async function reColorChats() {
+		if (!FEATURE_MANAGER.isEnabled(ColoredChatFeature)) return;
+
+		await showColoredChats(true);
+	}
 }
 
 async function showColoredChats(loaded = false) {

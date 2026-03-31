@@ -1,10 +1,9 @@
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { getUserDetails, is2FACheckPage } from "@/utils/common/functions/torn";
+import { getUserDetails, HIGHLIGHT_PLACEHOLDERS, is2FACheckPage } from "@/utils/common/functions/torn";
 import { findAllElements } from "@/utils/common/functions/dom";
 import { requireChatsLoaded } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { sleep } from "@/utils/common/functions/utilities";
 import {
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
 	SELECTOR_CHAT_V2__MESSAGE_BOX,
@@ -14,21 +13,15 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SELF,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@/utils/common/global/selectors/chatSelectors";
+import { withoutEndPunctuation } from "@/utils/common/functions/formatting";
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => getUserDetails().name ?? "", description: "Your player name." }] as const;
+let highlights: HighlightColor[];
 
 interface HighlightColor {
 	name: string;
 	color: string;
 	senderColor: string;
 }
-
-interface HighlightDebugData {
-	type: string;
-	match: string;
-}
-
-let highlights: HighlightColor[];
 
 function initialiseHighlights() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
@@ -62,6 +55,13 @@ function initialiseHighlights() {
 			}
 		}
 	});
+	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(() => {
+		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
+
+		for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
+			applyV3Highlights(message);
+		}
+	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(() => {
 		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
 
@@ -70,8 +70,6 @@ function initialiseHighlights() {
 }
 
 function readSettings() {
-	if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
-
 	highlights = settings.pages.chat.highlights.map<HighlightColor>((highlight) => {
 		let { name, color } = highlight;
 
@@ -89,18 +87,16 @@ function readSettings() {
 }
 
 function applyAllHighlights() {
-	requireChatsLoaded()
-		.then(() => sleep(100))
-		.then(() => {
-			removeHighlights();
+	requireChatsLoaded().then(() => {
+		removeHighlights();
 
-			for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
-				applyV2Highlights(message);
-			}
-			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
-				applyV3Highlights(message);
-			}
-		});
+		for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
+			applyV2Highlights(message);
+		}
+		for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
+			applyV3Highlights(message);
+		}
+	});
 }
 
 function applyV2Highlights(message: HTMLElement) {
@@ -138,23 +134,10 @@ function applyV3Highlights(message: HTMLElement) {
 
 	let sender: string;
 	const senderElement = message.querySelector(SELECTOR_CHAT_V3__MESSAGE_SENDER);
-
 	if (senderElement) {
 		sender = senderElement.textContent.replace(":", "");
 	} else {
-		const hasBox = !!message.querySelector("[class*='box___']");
-		if (hasBox) {
-			if (message.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
-				sender = getUserDetails().name;
-			} else {
-				const chatItem = message.closest("[class*='item___']");
-				const title = chatItem.querySelector("[class*='title___']");
-				sender = title.textContent;
-			}
-		} else {
-			return;
-		}
-
+		const hasBox = message.querySelector("[class*='box___']");
 		if (hasBox && message.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
 			sender = getUserDetails().name;
 		} else if (hasBox && !message.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
@@ -179,7 +162,7 @@ function applyV3Highlights(message: HTMLElement) {
 	}
 
 	for (const { name, color } of highlights) {
-		// When a word includes a name in highlights.
+		// When word includes a name in highlights.
 		if (!words.includes(name)) continue;
 
 		message.style.backgroundColor = color;
@@ -192,8 +175,9 @@ function applyV3Highlights(message: HTMLElement) {
 	}
 }
 
-function withoutEndPunctuation(text: string) {
-	return text.replace(/[.,!?]+$/, "");
+interface HighlightDebugData {
+	type: string;
+	match: string;
 }
 
 function writeDebugData(message: HTMLElement, type: string, match: string) {

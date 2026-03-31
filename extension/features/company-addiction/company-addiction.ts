@@ -73,13 +73,15 @@ export default class CompanyAddictionFeature extends Feature {
 		super("Company Addiction Level", "sidebar");
 	}
 
+	async precondition() {
+		return (await checkDevice()).hasSidebar;
+	}
+
 	async requirements() {
-		const { hasSidebar } = await checkDevice();
-		if (!hasSidebar) return "Not supported on mobiles or tablets!";
 		if (!hasAPIData()) return "No API access.";
 		else if (userdata.job === null) return "You need to have a company job.";
-		else if ((userdata.job as any).type === "job") return "City jobs do not have addiction effects.";
-		else if ((userdata.job as any).position === "Director") return "Company directors do not have addiction.";
+		else if (userdata.job.type === "job") return "City jobs do not have addiction effects.";
+		else if (userdata.job.position === "Director") return "Company directors do not have addiction.";
 
 		return true;
 	}
