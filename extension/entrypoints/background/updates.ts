@@ -1378,7 +1378,7 @@ export async function updateStocks() {
 
 	if (oldStocks && settings.notifications.types.global) {
 		for (const id in settings.notifications.types.stocks) {
-			if (typeof oldStocks[id] === "number") continue;
+			if (!oldStocks[id] || typeof oldStocks[id] === "number") continue;
 
 			const alerts = settings.notifications.types.stocks[id];
 
