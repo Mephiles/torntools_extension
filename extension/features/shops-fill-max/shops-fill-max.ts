@@ -14,16 +14,16 @@ async function addFillMax() {
 	await requireElement(".item-desc");
 
 	findAllElements(".item-desc").forEach((item) => {
-		item.classList.add(CLASS_TT_BUY);
+		item.classList.add("tt-buy");
 
-		const fillMaxButton = elementBuilder({ type: "span", text: "fill max", class: CLASS_TT_MAX_BUY });
+		const fillMaxButton = elementBuilder({ type: "span", text: "fill max", class: "tt-max-buy" });
 		fillMaxButton.addEventListener("click", fillMax);
 
 		const buyButton = item.querySelector(".buy-act-wrap .buy-act button");
 		buyButton.appendChild(elementBuilder("br"));
 		buyButton.appendChild(fillMaxButton);
 
-		const fillMaxOverlay = elementBuilder({ type: "div", class: CLASS_TT_MAX_BUY_OVERLAY });
+		const fillMaxOverlay = elementBuilder({ type: "div", class: "tt-max-buy-overlay" });
 		fillMaxOverlay.addEventListener("click", fillMax);
 
 		item.querySelector(".buy-act").appendChild(fillMaxOverlay);
@@ -46,18 +46,18 @@ async function addFillMax() {
 }
 
 function removeFillMax() {
-	findAllElements(`.${CLASS_TT_BUY}`).forEach((ttBuy) => {
-		ttBuy.classList.remove(CLASS_TT_BUY);
-		ttBuy.querySelector(CLASS_TT_MAX_BUY).remove();
-		ttBuy.querySelector(CLASS_TT_MAX_BUY_OVERLAY).remove();
+	findAllElements(".tt-buy").forEach((ttBuy) => {
+		ttBuy.classList.remove("tt-buy");
+		ttBuy.querySelector(".tt-max-buy").remove();
+		ttBuy.querySelector(".tt-max-buy-overlay").remove();
 	});
 }
 
 export default class ShopsFillMaxFeature extends Feature {
 	constructor() {
-		super("Fill Max", "shops");
+		super("Shops Fill Max", "shops");
 	}
-	
+
 	precondition() {
 		return getPageStatus().access;
 	}
@@ -65,15 +65,15 @@ export default class ShopsFillMaxFeature extends Feature {
 	isEnabled() {
 		return settings.pages.shops.fillMax;
 	}
-	
+
 	async execute() {
 		await addFillMax();
 	}
-	
+
 	cleanup() {
 		removeFillMax();
 	}
-	
+
 	storageKeys() {
 		return ["settings.pages.shops.fillMax"];
 	}

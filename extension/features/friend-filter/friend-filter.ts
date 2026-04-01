@@ -1,4 +1,4 @@
-import { DisabledUntilNoticeFeature, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
@@ -114,17 +114,17 @@ interface FriendFilters {
 	};
 }
 
-function filterRow(row: HTMLElement, filterSettings: Partial<FriendFilters>, individual: boolean) {
-	if (filterSettings.activity) {
-		const activity = row.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)?.[0];
-		if (activity && filterSettings.activity.length && !filterSettings.activity.some((x) => x.trim() === activity)) {
+function filterRow(row: HTMLElement, filters: Partial<FriendFilters>, individual: boolean) {
+	if (filters.activity) {
+		const activity = row.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+		if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 			hide("activity");
 			return;
 		}
 	}
-	if (filterSettings.level?.start || filterSettings.level?.end) {
+	if (filters.level?.start || filters.level?.end) {
 		const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
-		if ((filterSettings.level.start && level < filterSettings.level.start) || (filterSettings.level.end !== 100 && level > filterSettings.level.end)) {
+		if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 			hide("level");
 			return;
 		}

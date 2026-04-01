@@ -22,6 +22,12 @@ function initialiseListeners() {
 	});
 }
 
+async function startFeature() {
+	if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
+
+	await showFull();
+}
+
 async function showFull() {
 	let title: Element, description: Element, key: string;
 
@@ -90,8 +96,7 @@ export default class FullFactionInfoboxFeature extends Feature {
 	}
 
 	async execute() {
-		if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
-		await showFull();
+		await startFeature();
 	}
 
 	cleanup() {
@@ -99,6 +104,6 @@ export default class FullFactionInfoboxFeature extends Feature {
 	}
 
 	storageKeys() {
-		return ["settings.pages.faction.showFullDescription"];
+		return ["settings.pages.faction.showFullInfobox"];
 	}
 }

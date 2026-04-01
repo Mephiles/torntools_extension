@@ -21,6 +21,12 @@ function initialiseListeners() {
 	});
 }
 
+async function startFeature() {
+	if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
+
+	await foldInfobox();
+}
+
 async function foldInfobox() {
 	let title: Element, description: Element, key: string;
 
@@ -106,8 +112,7 @@ export default class FoldFactionInfoboxFeature extends Feature {
 	}
 
 	async execute() {
-		if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
-		await foldInfobox();
+		await startFeature();
 	}
 
 	cleanup() {

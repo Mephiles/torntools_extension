@@ -169,7 +169,7 @@ async function showPosts() {
 								events: {
 									click(event) {
 										const threadTitle = document.querySelector("#topic-title").textContent.replaceAll("\u200B", "").trim();
-										const threadIdEl = document.querySelector<HTMLElement>(".subscribe").dataset.thread;
+										const threadId = document.querySelector<HTMLElement>(".subscribe").dataset.thread;
 
 										const postId = post.dataset.id;
 										const date = post.querySelector(".time-wrap > .created, .time-wrap > .posted").textContent;
@@ -229,7 +229,7 @@ async function showPosts() {
 											`# ${likes} upvotes, ${dislikes} downvotes\n# ${date}\n` +
 											"```\n```md\n$$$TEXT_CONTENT$$$\n```\n" +
 											"$$$URLS$$$\nSource: <" +
-											`https://www.torn.com/forums.php#/p=threads&t=${threadIdEl}&to=${postId}` +
+											`https://www.torn.com/forums.php#/p=threads&t=${threadId}&to=${postId}` +
 											">";
 
 										text = text.replace("$$$URLS$$$", urls.map((url, idx) => `[${idx + 1}]: <${url}>`).join("\n"));
@@ -244,6 +244,7 @@ async function showPosts() {
 										postContent = postContent.replace(newlineRegex, "\n\n");
 										quotesContent = quotesContent.replace(newlineRegex, "\n\n");
 
+										// Discord max length = 2000 + 18 = Placeholder, Subtract current length & newline count, to avoid problems with LF <> CRLF
 										const maxLength =
 											2018 - text.length - (postContent.match(/\n/g) || []).length - (quotesContent.match(/\n/g) || []).length;
 
