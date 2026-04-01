@@ -1,6 +1,6 @@
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -51,7 +51,7 @@ export default class UpgradeRequiredRespectFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && isOwnFaction;
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

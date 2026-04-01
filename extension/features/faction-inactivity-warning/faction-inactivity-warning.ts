@@ -1,7 +1,7 @@
 import "./faction-inactivity-warning.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
 import { findAllElements } from "@/utils/common/functions/dom";
@@ -10,7 +10,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 let lastActionState: boolean;
 
 function addListener() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature)) return;
 

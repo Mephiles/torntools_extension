@@ -10,7 +10,7 @@ import { formatTime } from "@/utils/common/functions/formatting";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { ttStorage } from "@/utils/common/data/storage";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { TornInternalUseItem } from "@/pages/item-page";
 import { QuickFactionItem } from "@/utils/common/data/default-database";
 
@@ -399,7 +399,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 				itemWrap.setAttribute("title", TORN_ITEMS[id].name);
 				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
 			} else {
-				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: String(id) }));
+				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: id }));
 			}
 			break;
 	}
@@ -502,7 +502,7 @@ export default class FactionQuickItemsFeature extends Feature {
 	}
 
 	precondition() {
-		return isOwnFaction && getPageStatus().access;
+		return isInternalFaction && getPageStatus().access;
 	}
 
 	isEnabled() {

@@ -9,7 +9,7 @@ import { getUsername } from "@/utils/common/functions/torn";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { ttCache } from "@/utils/common/data/cache";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { FactionBalance, FactionBalanceResponse } from "tornapi-typescript";
 
 let lastActionState: boolean;
@@ -122,7 +122,7 @@ export default class FactionMemberInfoFeature extends Feature {
 	}
 
 	precondition() {
-		return isOwnFaction;
+		return isInternalFaction;
 	}
 
 	isEnabled() {

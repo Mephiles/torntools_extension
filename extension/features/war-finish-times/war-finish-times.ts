@@ -2,13 +2,13 @@ import "./war-finish-times.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { formatDate, formatTime, textToTime } from "@/utils/common/functions/formatting";
 
 function startListeners() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_MAIN].push(async () => {
 			if (FEATURE_MANAGER.isEnabled(WarFinishTimesFeature)) await addFinishTimes();
 		});

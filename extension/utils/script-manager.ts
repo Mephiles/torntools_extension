@@ -146,7 +146,7 @@ import LastActionFactionFeature from "@/features/last-action/last-action-faction
 import LastActionCompanyFeature from "@/features/last-action/last-action-company";
 import CSVChallengeContributionsFeature from "@/features/csv-challenge-contributions/csv-challenge-contributions";
 import FactionBankerFeature from "@/features/faction-banker/faction-banker";
-import FactionMemberNumberFeature from "@/features/faction-member-number/faction-member-number";
+import MemberRankFeature from "@/features/member-rank/member-rank";
 import FactionIDFeature from "@/features/faction-id/faction-id";
 import NoConfirmItemsFeature from "@/features/no-confirm/no-confirm-items";
 import NoConfirmTradeFeature from "@/features/no-confirm/no-confirm-trade";
@@ -382,7 +382,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionBankerFeature());
 		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
 		FEATURE_MANAGER.registerFeature(new CSVChallengeContributionsFeature());
-		FEATURE_MANAGER.registerFeature(new FactionMemberNumberFeature());
+		FEATURE_MANAGER.registerFeature(new MemberRankFeature());
 		FEATURE_MANAGER.registerFeature(new FullFactionInfoboxFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterFactionFeature());
 		FEATURE_MANAGER.registerFeature(new LastActionFactionFeature());

@@ -7,7 +7,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 
 const page = getPage();
 
@@ -109,7 +109,7 @@ export default class HighlightBloodBagsFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && !(page === "factions" && !isOwnFaction);
+		return getPageStatus().access && !(page === "factions" && !isInternalFaction);
 	}
 
 	isEnabled() {

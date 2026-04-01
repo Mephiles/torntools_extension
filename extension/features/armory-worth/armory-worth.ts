@@ -18,7 +18,7 @@ import {
 } from "@/utils/common/functions/api-v1.types";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 
 type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionV1ArmorResponse &
@@ -125,7 +125,7 @@ export default class ArmoryWorthFeature extends Feature {
 	}
 
 	precondition() {
-		return isOwnFaction;
+		return isInternalFaction;
 	}
 
 	isEnabled() {

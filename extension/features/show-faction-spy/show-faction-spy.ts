@@ -2,7 +2,7 @@ import { settings } from "@/utils/common/data/database";
 import "./show-faction-spy.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
-import { isOwnFaction, readFactionDetails } from "@/pages/factions-page";
+import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
 import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { ttCache } from "@/utils/common/data/cache";
@@ -25,7 +25,7 @@ async function fetchAndAddSpies() {
 	if (location.hash.includes("#/war/rank")) await showRWSpies();
 
 	// No need for member spies of user's faction.
-	if (isOwnFaction) return;
+	if (isInternalFaction) return;
 
 	// Add spy data to member list.
 	const factionDetails = await readFactionDetails();

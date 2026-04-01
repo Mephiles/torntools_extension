@@ -5,7 +5,7 @@ import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListener() {
 	document.addEventListener("click", async (event) => {
@@ -63,7 +63,7 @@ export default class EnergyWarningFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && (getPage() !== "factions" || isOwnFaction);
+		return getPageStatus().access && (getPage() !== "factions" || isInternalFaction);
 	}
 
 	isEnabled() {

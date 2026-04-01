@@ -1,8 +1,7 @@
 import { Feature } from "@/features/feature-manager";
-import { settings, factiondata } from "@/utils/common/data/database";
+import { factiondata, settings } from "@/utils/common/data/database";
 import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
-import { addInformationSection, checkDevice, showInformationSection } from "@/utils/common/functions/dom";
-import { elementBuilder } from "@/utils/common/functions/dom";
+import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
 import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
 import { LINKS } from "@/utils/common/functions/torn";
 import { requireSidebar } from "@/utils/common/functions/requires";
@@ -67,10 +66,11 @@ export default class FactionOCTimeFeature extends Feature {
 		super("Faction OC Timer", "sidebar");
 	}
 
+	async precondition() {
+		return (await checkDevice()).hasSidebar;
+	}
+
 	async requirements() {
-		const { hasSidebar } = await checkDevice();
-		if (!hasSidebar) return "Not supported on mobiles or tablets!";
-		
 		if (!hasAPIData() || !("crimes" in factiondata) || !factiondata.crimes) return "No API access.";
 		else if (!hasOC1Data()) return "No OC 1 data.";
 

@@ -1,4 +1,4 @@
-import "./employee-inactivity-warning.css"
+import "./employee-inactivity-warning.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -39,6 +39,7 @@ async function addWarning(force: boolean | undefined) {
 		if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 
 		const days = parseInt((row.nextElementSibling as HTMLElement).dataset.days);
+
 		for (const warning of settings.employeeInactivityWarning) {
 			if (warning.days === null || days < warning.days) continue;
 

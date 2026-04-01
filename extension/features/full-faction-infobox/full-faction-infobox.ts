@@ -7,7 +7,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
-import { getFactionSubpage, isOwnFaction } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
@@ -25,7 +25,7 @@ function initialiseListeners() {
 async function showFull() {
 	let title: Element, description: Element, key: string;
 
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		if (getFactionSubpage() === "info") {
 			title = document.querySelector(".faction-title");
 			description = document.querySelector(".faction-description");
@@ -76,7 +76,7 @@ export default class FullFactionInfoboxFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && (isOwnFaction || getSearchParameters().get("step") === "profile");
+		return getPageStatus().access && (isInternalFaction || getSearchParameters().get("step") === "profile");
 	}
 
 	isEnabled() {
@@ -84,13 +84,13 @@ export default class FullFactionInfoboxFeature extends Feature {
 	}
 
 	initialise() {
-		if (isOwnFaction) {
+		if (isInternalFaction) {
 			initialiseListeners();
 		}
 	}
 
 	async execute() {
-		if (isOwnFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
+		if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
 		await showFull();
 	}
 

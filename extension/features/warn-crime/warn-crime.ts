@@ -1,7 +1,7 @@
 import "./warn-crime.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getUserDetails } from "@/utils/common/functions/torn";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -87,7 +87,7 @@ export default class WarnCrimeFeature extends Feature {
 	}
 
 	precondition() {
-		return isOwnFaction;
+		return isInternalFaction;
 	}
 
 	isEnabled() {

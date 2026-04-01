@@ -7,7 +7,7 @@ import { requireElement, requireItemsLoaded } from "@/utils/common/functions/req
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { sleep } from "@/utils/common/functions/utilities";
 
@@ -338,7 +338,7 @@ export default class ItemValuesFeature extends Feature {
 			const userId = parseInt(getSearchParameters().get("userId"));
 
 			if (userId && hasAPIData() && userId !== userdata.profile.id) return false;
-		} else if (page === "faction" && !isOwnFaction) return false;
+		} else if (page === "faction" && !isInternalFaction) return false;
 
 		return true;
 	}

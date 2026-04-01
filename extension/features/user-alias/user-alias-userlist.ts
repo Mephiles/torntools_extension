@@ -3,7 +3,7 @@ import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPage } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -27,7 +27,7 @@ function addListeners() {
 		if (FEATURE_MANAGER.isEnabled(UserAliasUserlistFeature) && isElement(event.target) && event.target.closest(".pagination-wrap a[href]"))
 			await addAlias();
 	});
-	if (typeof isOwnFaction !== "undefined" && isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (FEATURE_MANAGER.isEnabled(UserAliasUserlistFeature)) await addAlias();
 		});

@@ -10,6 +10,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { ttStorage } from "@/utils/common/data/storage";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 
 let filterSetupComplete: boolean = false;
 
@@ -115,7 +116,7 @@ async function applyFilters() {
 	const levelStart = parseInt(levels.start);
 	const levelEnd = parseInt(levels.end);
 	const statsEstimates: string[] | undefined =
-		settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.enemies && hasAPIData()
+		hasStatsEstimatesLoaded("Enemies") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.enemies && hasAPIData()
 			? localFilters["Stats Estimate"]?.getSelections(content)
 			: undefined;
 

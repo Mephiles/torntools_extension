@@ -1,13 +1,12 @@
 import "./fold-faction-infobox.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { settings, filters } from "@/utils/common/data/database";
+import { filters, settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
-import { getFactionSubpage, isOwnFaction } from "@/pages/factions-page";
-
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
@@ -25,7 +24,7 @@ function initialiseListeners() {
 async function foldInfobox() {
 	let title: Element, description: Element, key: string;
 
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		if (getFactionSubpage() === "info") {
 			title = await requireElement(".faction-title");
 			description = document.querySelector(".faction-description");
@@ -93,7 +92,7 @@ export default class FoldFactionInfoboxFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && (isOwnFaction || getSearchParameters().get("step") === "profile");
+		return getPageStatus().access && (isInternalFaction || getSearchParameters().get("step") === "profile");
 	}
 
 	isEnabled() {
@@ -101,13 +100,13 @@ export default class FoldFactionInfoboxFeature extends Feature {
 	}
 
 	initialise() {
-		if (isOwnFaction) {
+		if (isInternalFaction) {
 			initialiseListeners();
 		}
 	}
 
 	async execute() {
-		if (isOwnFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
+		if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
 		await foldInfobox();
 	}
 

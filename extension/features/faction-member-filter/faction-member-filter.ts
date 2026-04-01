@@ -8,13 +8,13 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { createFilterSection, createStatistics, FILTER_REGEXES, getSpecialIcons } from "@/utils/common/functions/filters";
 import { SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
-import { isOwnFaction, getFactionSubpage } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 
 let filterContent: Element, lastActionState: boolean;
 let localFilters = {};
 
 function addListener() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
@@ -23,7 +23,8 @@ function addListener() {
 		});
 	}
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || (localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element)) return;
+		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || (localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element))
+			return;
 
 		if (name === "Last Action") {
 			await showLastAction();
@@ -50,7 +51,7 @@ function addListener() {
 }
 
 async function addFilter() {
-	if (isOwnFaction && getFactionSubpage() !== "info") return;
+	if (isInternalFaction && getFactionSubpage() !== "info") return;
 
 	await requireElement(".faction-info-wrap .members-list .table-row");
 
@@ -282,13 +283,7 @@ async function applyFilter() {
 		}
 
 		// Last Action
-		if (
-			lastActionState &&
-			li.nextSibling &&
-			isElement(li.nextSibling) &&
-			li.nextSibling.className &&
-			li.nextSibling.className.includes("tt-last-action")
-		) {
+		if (lastActionState && isElement(li.nextSibling) && li.nextSibling.className.includes("tt-last-action")) {
 			const liLastAction = parseInt(li.nextElementSibling.getAttribute("hours"));
 			if ((lastActionStart && liLastAction < lastActionStart) || (lastActionEnd !== -1 && liLastAction > lastActionEnd)) {
 				hideRow(li, "last-action");

@@ -1,6 +1,6 @@
 import "./faction-stakeouts.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { settings, factionStakeouts } from "@/utils/common/data/database";
+import { factionStakeouts, settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
@@ -9,7 +9,7 @@ import { getPageStatus } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { getFactionSubpage, isOwnFaction } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
@@ -20,7 +20,7 @@ function initialiseListeners() {
 }
 
 async function displayBox() {
-	if (isOwnFaction && getFactionSubpage() !== "info") return;
+	if (isInternalFaction && getFactionSubpage() !== "info") return;
 
 	const { content } = createContainer("Faction Stakeout", {
 		class: "mt10",
@@ -36,8 +36,6 @@ async function displayBox() {
 
 	const checkbox = createCheckbox({ description: "Stakeout this faction." });
 	checkbox.setChecked(hasStakeout);
-	const alertsWrap = elementBuilder({ type: "div", class: "alerts-wrap" });
-	
 	checkbox.onChange(() => {
 		if (checkbox.isChecked()) {
 			ttStorage.change({
@@ -99,20 +97,14 @@ async function displayBox() {
 		ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inTerritoryWar: inTerritoryWar.isChecked() } } } });
 	});
 
-	alertsWrap.appendChild(
-		elementBuilder({
-			type: "div",
-			class: "alerts",
-			children: [elementBuilder({ type: "strong", text: "General" }), chainReaches.element, memberCountDrops.element],
-		})
-	);
-	alertsWrap.appendChild(
-		elementBuilder({
-			type: "div",
-			class: "alerts",
-			children: [elementBuilder({ type: "strong", text: "Wars" }), rankedWarStarts.element, inRaid.element, inTerritoryWar.element],
-		})
-	);
+	const alertsWrap = elementBuilder({
+		type: "div",
+		class: "alerts-wrap",
+		children: [
+			createAlertSection("General", [chainReaches.element, memberCountDrops.element]),
+			createAlertSection("Wars", [rankedWarStarts.element, inRaid.element, inTerritoryWar.element]),
+		],
+	});
 
 	if (factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "number") {
 		chainReaches.setNumberValue(factionStakeouts[factionId].alerts.chainReaches || "");
@@ -125,6 +117,14 @@ async function displayBox() {
 	}
 
 	content.appendChild(alertsWrap);
+
+	function createAlertSection(title: string, elements: Element[]) {
+		return elementBuilder({
+			type: "div",
+			class: "alerts",
+			children: [elementBuilder({ type: "strong", text: title }), ...elements],
+		});
+	}
 }
 
 function removeBox() {
@@ -137,7 +137,7 @@ export default class FactionStakeoutsFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && (isOwnFaction || getSearchParameters().get("step") === "profile");
+		return getPageStatus().access && (isInternalFaction || getSearchParameters().get("step") === "profile");
 	}
 
 	isEnabled() {
@@ -145,13 +145,14 @@ export default class FactionStakeoutsFeature extends Feature {
 	}
 
 	initialise() {
-		if (isOwnFaction) {
+		if (isInternalFaction) {
 			initialiseListeners();
 		}
 	}
 
 	async execute() {
-		if (isOwnFaction && !document.querySelector(".faction-description")) return;
+		if (isInternalFaction && !document.querySelector(".faction-description")) return;
+
 		await displayBox();
 	}
 

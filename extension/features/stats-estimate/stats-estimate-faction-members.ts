@@ -5,13 +5,13 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { getFactionSubpage, isOwnFaction } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { StatsEstimate } from "./stats-estimate";
 
 const statsEstimate = new StatsEstimate("Faction Members", true);
 
 function registerListeners() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature) || settings.pages.faction.memberFilter) return;
 
@@ -39,7 +39,7 @@ function registerListeners() {
 }
 
 async function startFeature(forced: boolean) {
-	if (isOwnFaction && getFactionSubpage() !== "info") return;
+	if (isInternalFaction && getFactionSubpage() !== "info") return;
 	if (settings.pages.faction.memberFilter && !forced) return;
 
 	await showEstimates();

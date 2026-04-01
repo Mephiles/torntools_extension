@@ -8,7 +8,7 @@ import { createFilterSection, createStatistics } from "@/utils/common/functions/
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 
 function addListener() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2].push(async () => {
@@ -202,7 +202,7 @@ export default class OC2FilterFeature extends DisabledUntilNoticeFeature {
 	}
 
 	precondition() {
-		return isOwnFaction;
+		return isInternalFaction;
 	}
 
 	isEnabled() {

@@ -6,7 +6,7 @@ import { findAllElements, isElement } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { getHashParameters } from "@/utils/common/functions/dom";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { StatsEstimate } from "./stats-estimate";
 
 const statsEstimate = new StatsEstimate("Faction Wars", true);
@@ -14,7 +14,7 @@ const statsEstimate = new StatsEstimate("Faction Wars", true);
 let observer: MutationObserver | undefined;
 
 function registerListeners() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_MAIN].push(() => {
 			if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionWarsFeature)) return;
 
@@ -24,7 +24,7 @@ function registerListeners() {
 }
 
 async function startFeature() {
-	if (isOwnFaction && getHashParameters().has("tab")) return;
+	if (isInternalFaction && getHashParameters().has("tab")) return;
 
 	observeWars();
 }

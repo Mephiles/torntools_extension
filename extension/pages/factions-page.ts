@@ -7,12 +7,12 @@ import { ttCache } from "@/utils/common/data/cache";
 import { userdata } from "@/utils/common/data/database";
 import { UserFactionResponse } from "tornapi-typescript";
 
-export const isOwnFaction = getSearchParameters().get("step") === "your";
+export const isInternalFaction = getSearchParameters().get("step") === "your";
 
 export async function setupFactionsPage() {
 	await requireDOMContentLoaded();
 
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		addXHRListener(({ detail: { page, xhr } }) => {
 			if (page === "factions") {
 				const params = new URLSearchParams(xhr.requestBody);
@@ -287,7 +287,7 @@ export async function readFactionDetails() {
 		}
 	}
 
-	if (isOwnFaction && hasAPIData()) {
+	if (isInternalFaction && hasAPIData()) {
 		if (userdata.faction) return { id: userdata.faction.id };
 
 		const userID = userdata.profile.id;

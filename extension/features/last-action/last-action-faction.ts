@@ -3,7 +3,7 @@ import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { FactionMember, FactionMembersResponse } from "tornapi-typescript";
-import { isOwnFaction, readFactionDetails } from "@/pages/factions-page";
+import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
@@ -15,7 +15,7 @@ import { ttCache } from "@/utils/common/data/cache";
 let _members: FactionMember[] | undefined;
 
 function addListener() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
 
@@ -43,12 +43,12 @@ function addListener() {
 }
 
 async function addLastAction(force: boolean) {
-	if (isOwnFaction && !force) return;
+	if (isInternalFaction && !force) return;
 	if (document.querySelector(".tt-last-action")) return;
 
 	await requireElement(".members-list .table-body > li");
 
-	const id = isOwnFaction ? "own" : (await readFactionDetails()).id;
+	const id = isInternalFaction ? "own" : (await readFactionDetails()).id;
 	if (!id) return;
 
 	const members = await loadMembers(id);

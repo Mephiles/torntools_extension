@@ -4,14 +4,14 @@ import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { isOwnFaction } from "@/pages/factions-page";
+import { isInternalFaction } from "@/pages/factions-page";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 
 let SCOUTER_SERVICE: ScouterService;
 
 function initialise() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 			if (!FEATURE_MANAGER.isEnabled(FFScouterFactionFeature)) return;
 
@@ -21,7 +21,7 @@ function initialise() {
 }
 
 async function showFF(force: boolean) {
-	if (isOwnFaction && !force) return;
+	if (isInternalFaction && !force) return;
 
 	await requireElement(".members-list .table-body > li");
 
@@ -136,4 +136,3 @@ export default class FFScouterFactionFeature extends Feature {
 		return ["settings.scripts.ffScouter.factionList", "settings.external.ffScouter"];
 	}
 }
-

@@ -1,22 +1,22 @@
-import "./faction-member-number.css";
+import "./member-rank.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
-import { getFactionSubpage, isOwnFaction } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 
 function addListener() {
-	if (isOwnFaction) {
+	if (isInternalFaction) {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
-			if (!FEATURE_MANAGER.isEnabled(FactionMemberNumberFeature)) return;
+			if (!FEATURE_MANAGER.isEnabled(MemberRankFeature)) return;
 
 			await addNumbers(true);
 		});
 	}
 
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberNumberFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(MemberRankFeature)) return;
 
 		removeNumbers();
 		await addNumbers(true);
@@ -24,7 +24,7 @@ function addListener() {
 }
 
 async function addNumbers(force: boolean) {
-	if (!force && isOwnFaction && getFactionSubpage() !== "info") return;
+	if (!force && isInternalFaction && getFactionSubpage() !== "info") return;
 
 	if (document.querySelector(".tt-member-index")) return;
 	await requireElement(".faction-info-wrap .table-body > .table-row");
@@ -52,9 +52,9 @@ function removeNumbers() {
 	document.querySelector(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
 }
 
-export default class FactionMemberNumberFeature extends Feature {
+export default class MemberRankFeature extends Feature {
 	constructor() {
-		super("Member rank", "faction");
+		super("Member Rank", "faction");
 	}
 
 	isEnabled() {
