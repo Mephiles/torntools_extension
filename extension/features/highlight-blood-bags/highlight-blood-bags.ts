@@ -1,9 +1,9 @@
 import "./highlight-blood-bags.css";
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { ALLOWED_BLOOD, getPage, getPageStatus } from "@/utils/common/functions/torn";
 import { settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { requireElement } from "@/utils/common/functions/requires";
+import { requireContent, requireElement, requireItemsLoaded } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -14,7 +14,7 @@ const page = getPage();
 function initialiseBloodBags() {
 	if (page === "item") {
 		const listener = async () => {
-			if (!settings.pages.items.highlightBloodBags || settings.pages.items.highlightBloodBags === "none") return;
+			if (!FEATURE_MANAGER.isEnabled(HighlightBloodBagsFeature)) return;
 
 			await highlightBloodBags();
 		};
@@ -23,14 +23,16 @@ function initialiseBloodBags() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
 	} else if (page === "factions") {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(async ({ section }) => {
-			if (!settings.pages.items.highlightBloodBags || settings.pages.items.highlightBloodBags === "none" || section !== "medical") return;
+			if (!FEATURE_MANAGER.isEnabled(HighlightBloodBagsFeature) || section !== "medical") return;
 
 			await highlightBloodBags();
 		});
 	}
 }
 
-async function requireContent() {
+async function highlightBloodBags() {
+	await requireContent();
+
 	if (page === "item") {
 		await requireItemsLoaded();
 	} else if (page === "factions") {
@@ -39,25 +41,6 @@ async function requireContent() {
 			await requireElement("#armoury-medical > .p10 > .ajax-placeholder", { invert: true });
 		} else return;
 	}
-}
-
-async function requireItemsLoaded() {
-	await requireElement(".items-cont");
-	if (document.querySelector(".items-cont > .ajax-placeholder")) {
-		await new Promise((resolve) => {
-			const observer = new MutationObserver(() => {
-				if (!document.querySelector(".items-cont > .ajax-placeholder")) {
-					observer.disconnect();
-					resolve(void 0);
-				}
-			});
-			observer.observe(document.querySelector(".items-cont"), { childList: true });
-		});
-	}
-}
-
-async function highlightBloodBags() {
-	await requireContent();
 
 	const allowedBlood: number[] = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 

@@ -1,26 +1,25 @@
-import "./highlight-own-oc.css";
-import { Feature } from "@/features/feature-manager";
+import "./highlight-oc.css";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-
-const params = getSearchParameters();
+import { isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {
-		if (!settings.pages.faction.highlightOwn) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
 
 		highlightCrime1();
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2].push(() => {
-		if (!settings.pages.faction.highlightOwn) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
 
 		highlightCrime2();
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2_REFRESH].push(() => {
-		if (!settings.pages.faction.highlightOwn) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
 
 		highlightCrime2();
 	});
@@ -51,13 +50,13 @@ function removeHighlight() {
 	for (const highlight of findAllElements(".tt-oc-highlight")) highlight.classList.remove("tt-oc-highlight");
 }
 
-export default class HighlightOwnOCFeature extends Feature {
+export default class HighlightOCFeature extends Feature {
 	constructor() {
 		super("Highlight OC", "faction");
 	}
 
 	precondition() {
-		return getPageStatus().access && params.get("step") === "your";
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

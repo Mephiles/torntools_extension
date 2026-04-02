@@ -18,8 +18,7 @@ async function hideStocks() {
 
 function unhideStocks() {
 	findAllElements("#stockmarketroot .tt-hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove("tt-hidden"));
-	const ttMessage = document.querySelector(".tt-stocks-hidden");
-	if (ttMessage) ttMessage.remove();
+	document.querySelector(".tt-stocks-hidden")?.remove();
 }
 
 export default class HideStocksFeature extends Feature {

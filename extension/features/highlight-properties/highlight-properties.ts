@@ -24,7 +24,7 @@ function removeHighlight() {
 
 export default class HighlightPropertiesFeature extends Feature {
 	constructor() {
-		super("Highlight Property", "sidebar");
+		super("Highlight Properties", "sidebar");
 	}
 
 	precondition() {

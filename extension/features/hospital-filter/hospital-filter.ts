@@ -1,4 +1,4 @@
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { filters, settings } from "@/utils/common/data/database";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -13,7 +13,7 @@ const localFilters: any = {};
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(async () => {
-		if (!settings.pages.hospital.filter) return;
+		if (!FEATURE_MANAGER.isEnabled(HospitalFilterFeature)) return;
 
 		await filtering(true);
 	});

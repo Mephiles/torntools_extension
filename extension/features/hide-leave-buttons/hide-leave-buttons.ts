@@ -1,4 +1,4 @@
-import "./hide-leave.css";
+import "./hide-leave-buttons.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 
@@ -6,7 +6,7 @@ function applyStyle() {
 	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "flex");
 }
 
-export default class HideLeaveFeature extends Feature {
+export default class HideLeaveButtonsFeature extends Feature {
 	constructor() {
 		super("Hide Leave Buttons", "global", ExecutionTiming.IMMEDIATELY);
 	}

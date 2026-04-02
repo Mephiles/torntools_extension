@@ -112,7 +112,7 @@ import HideCasinoGamesFeature from "@/features/hide-casino-games/hide-casino-gam
 import HideChatFeature from "@/features/hide-chat/hide-chat";
 import HideGymHighlightFeature from "@/features/hide-gym-highlight/hide-gym-highlight";
 import HideIconsFeature from "@/features/hide-icons/hide-icons";
-import HideLeaveFeature from "@/features/hide-leave/hide-leave";
+import HideLeaveButtonsFeature from "@/features/hide-leave-buttons/hide-leave-buttons";
 import HideLevelUpgradeFeature from "@/features/hide-level-upgrade/hide-level-upgrade";
 import HideNewspaperHighlightFeature from "@/features/hide-newspaper-highlight/hide-newspaper-highlight";
 import HideRecycleMessageFeature from "@/features/hide-recycle-message/hide-recycle-message";
@@ -134,7 +134,7 @@ import HighlightBloodBagsFeature from "@/features/highlight-blood-bags/highlight
 import HighlightCheapItemsFeature from "@/features/highlight-cheap-items/highlight-cheap-items";
 import HighlightEnergyRefillFeature from "@/features/highlight-energy-refill/highlight-energy-refill";
 import HighlightNerveRefillFeature from "@/features/highlight-nerve-refill/highlight-nerve-refill";
-import HighlightOwnOCFeature from "@/features/highlight-own-oc/highlight-own-oc";
+import HighlightOCFeature from "@/features/highlight-oc/highlight-oc";
 import HighlightPropertiesFeature from "@/features/highlight-properties/highlight-properties";
 import HighLowHelperFeature from "@/features/high-low-helper/high-low-helper";
 import HospitalFilterFeature from "@/features/hospital-filter/hospital-filter";
@@ -242,7 +242,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new CustomLinksFeature());
 	FEATURE_MANAGER.registerFeature(new CollapsibleAreasFeature());
 	FEATURE_MANAGER.registerFeature(new AlignLeftFeature());
-	FEATURE_MANAGER.registerFeature(new HideLeaveFeature());
+	FEATURE_MANAGER.registerFeature(new HideLeaveButtonsFeature());
 	FEATURE_MANAGER.registerFeature(new HideLevelUpgradeFeature());
 	FEATURE_MANAGER.registerFeature(new HideTutorialsFeature());
 	FEATURE_MANAGER.registerFeature(new HideChatFeature());
@@ -373,7 +373,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new ArmoryWorthFeature());
 		FEATURE_MANAGER.registerFeature(new ArmoryFilterFeature());
 		FEATURE_MANAGER.registerFeature(new HighlightBloodBagsFeature());
-		FEATURE_MANAGER.registerFeature(new HighlightOwnOCFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightOCFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberFilterFeature());
 		FEATURE_MANAGER.registerFeature(new FactionMemberInfoFeature());
 		FEATURE_MANAGER.registerFeature(new FactionStakeoutsFeature());

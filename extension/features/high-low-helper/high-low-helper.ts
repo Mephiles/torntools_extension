@@ -1,5 +1,5 @@
 import "./high-low-helper.css";
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder } from "@/utils/common/functions/dom";
@@ -18,7 +18,7 @@ shuffleDeck();
 
 function initialiseHelper() {
 	addXHRListener(({ detail: { page, xhr, json } }) => {
-		if (!settings.pages.casino.highlow) return;
+		if (!FEATURE_MANAGER.isEnabled(HighLowHelperFeature)) return;
 
 		if (page === "page") {
 			const params = new URL(xhr.responseURL).searchParams;

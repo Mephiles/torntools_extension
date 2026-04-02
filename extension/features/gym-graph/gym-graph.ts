@@ -264,7 +264,7 @@ function filterData(data: any[]) {
 
 export default class GymGraphFeature extends Feature {
 	constructor() {
-		super("Graph", "gym");
+		super("Gym Graph", "gym");
 	}
 
 	precondition() {
@@ -291,7 +291,6 @@ export default class GymGraphFeature extends Feature {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.tornstats) return "TornStats not enabled";
 
-		await checkDevice();
 		return true;
 	}
 }
