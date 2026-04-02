@@ -1,6 +1,6 @@
 import "./item-market-fill-max.css";
-import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { getPageStatus, updateReactInput } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
@@ -11,7 +11,7 @@ function addListener() {
 		const target = event.target as Element;
 		if (!target || !target.matches("[class*='rowWrapper__'] [class*='available__']")) return;
 
-		if (!settings.pages.itemmarket.fillMax) return;
+		if (!FEATURE_MANAGER.isEnabled(ItemMarketFillMaxFeature)) return;
 
 		const listing = target.closest("li");
 		// The purchase amount input is not visible in mobiles and tablets until
@@ -24,9 +24,7 @@ function addListener() {
 		const purchasableQuantity = Math.min(quantityAvailable, Math.floor(moneyOnHand / itemPrice));
 
 		const quantityInput = listing.querySelector<HTMLInputElement>(".input-money-group input:not([type])");
-		if (quantityInput) {
-			quantityInput.value = purchasableQuantity.toString();
-		}
+		updateReactInput(quantityInput, purchasableQuantity);
 	});
 }
 
