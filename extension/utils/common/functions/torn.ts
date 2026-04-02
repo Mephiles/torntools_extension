@@ -2221,7 +2221,7 @@ export function isEventActive(calendarEvent: TornEvent, useLocalStart = true) {
 	const start = new Date(tornEvent.start * 1000 - TO_MILLIS.DAYS);
 	const end = new Date(tornEvent.end * 1000 + TO_MILLIS.DAYS);
 
-	if (useLocalStart && hasAPIData()) {
+	if (useLocalStart && hasAPIData() && userdata.calendar?.start_time) {
 		const timeParts = userdata.calendar.start_time.split(" ")[0].split(":");
 		const hours = parseInt(timeParts[0]);
 		const minutes = parseInt(timeParts[1]);
