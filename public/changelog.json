@@ -4,7 +4,10 @@
 		"title": "Another Rework: WXT",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "'User Alias' for chat V3.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "'User Alias' for chat V3.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow more supply packs as 'quick items'.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },
 				{ "message": "'Efficient Rehab' didn't always properly update the slider color.", "contributor": "DeKleineKobini" },
