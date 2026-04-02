@@ -1,4 +1,4 @@
-import "./easter-egg.css";
+import "./easter-eggs.css";
 import { Feature } from "@/features/feature-manager";
 import { isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
@@ -25,12 +25,10 @@ function initialiseDetector() {
 	}
 }
 
-function enableDetector() {
+async function enableDetector() {
 	document.body.classList.add("tt-easter-highlight");
 
-	for (const egg of findAllElements(EGG_SELECTOR)) {
-		highlightEgg(egg);
-	}
+	await Promise.all(findAllElements(EGG_SELECTOR).map(highlightEgg));
 }
 
 async function highlightEgg(egg: Element) {
@@ -106,7 +104,7 @@ function calculateLocation(element: Element) {
 	return text;
 }
 
-export default class EasterEggFeature extends Feature {
+export default class EasterEggsFeature extends Feature {
 	constructor() {
 		super("Easter Eggs", "event");
 	}

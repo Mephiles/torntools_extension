@@ -23,7 +23,7 @@ import CompanySpecialsFeature from "@/features/company-specials/company-specials
 import ComputerLinkFeature from "@/features/computer-link/computer-link";
 import DisableAllyAttacksFeature from "@/features/disable-ally-attacks/disable-ally-attacks";
 import DisplayCaseWorthFeature from "@/features/display-case-worth/display-case-worth";
-import EasterEggFeature from "@/features/easter-egg/easter-egg";
+import EasterEggsFeature from "@/features/easter-eggs/easter-eggs";
 import EducationFinishTimeFeature from "@/features/education-finish-time/education-finish-time";
 import EffectiveBattleStatsFeature from "@/features/effective-battle-stats/effective-battle-stats";
 import EfficientRehabFeature from "@/features/efficient-rehab/efficient-rehab";
@@ -260,7 +260,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new ColoredChatFeature());
 	FEATURE_MANAGER.registerFeature(new CompanyAddictionFeature());
 	FEATURE_MANAGER.registerFeature(new CooldownEndTimesFeature());
-	FEATURE_MANAGER.registerFeature(new EasterEggFeature());
+	FEATURE_MANAGER.registerFeature(new EasterEggsFeature());
 	FEATURE_MANAGER.registerFeature(new ChatFontSizeFeature());
 	FEATURE_MANAGER.registerFeature(new FactionOCTimeFeature());
 	FEATURE_MANAGER.registerFeature(new FFScouterGaugeFeature());
