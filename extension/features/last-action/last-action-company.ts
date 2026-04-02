@@ -105,7 +105,7 @@ function removeLastAction() {
 
 export default class LastActionCompanyFeature extends Feature {
 	constructor() {
-		super("Last Action", "last action");
+		super("Last Action Company", "last action");
 	}
 
 	isEnabled(): boolean {

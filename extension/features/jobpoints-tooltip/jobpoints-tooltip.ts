@@ -1,13 +1,12 @@
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { addXHRListener } from "@/utils/common/functions/listeners";
-import { requireSidebar } from "@/utils/common/functions/requires";
-import { requireElement } from "@/utils/common/functions/requires";
+import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { ttCache } from "@/utils/common/data/cache";
 import { fetchData } from "@/utils/common/functions/api";
 import { UserJobPointsResponse } from "tornapi-typescript";
-import { getTimeUntilNextJobUpdate } from "@/utils/common/functions/utilities";
+import { getTimeUntilNextJobUpdate, sleep } from "@/utils/common/functions/utilities";
 
 function jobPointsUseListener() {
 	addXHRListener(async (event) => {
@@ -19,8 +18,7 @@ function jobPointsUseListener() {
 			const allJobPoints = await getAllJobPoints();
 			const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
 
-			// Store updated points (simplified cache logic)
-			allJobPoints[jobId] = json.pointsLeft;
+			await ttCache.set({ points: { ...allJobPoints, [jobId]: json.pointsLeft } }, getTimeUntilNextJobUpdate(), "job");
 		}
 	});
 }
@@ -40,13 +38,14 @@ async function tooltipListener() {
 
 	const jobPoints = jobId in allJobPoints ? allJobPoints[jobId] : 0;
 
-	await sleep(200); // Tooltip transition duration
+	await sleep(200); // Tooltip transition duration from one icon's tooltip information to another icon's tooltip information
 
 	const tooltipEl = await requireElement("body > div[id][data-floating-ui-portal] [class*='tooltip__']");
 	const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
 	const tooltipBodyText = tooltipBodyEl.textContent;
 
-	// Race condition check
+	// Race condition
+	// Check if the tooltip is still of Company or City Job
 	if (tooltipBodyEl.previousElementSibling.textContent !== "Company" && tooltipBodyEl.previousElementSibling.textContent !== "Job") return;
 
 	const lastParenthesisIndex = tooltipBodyText.lastIndexOf(")");
@@ -88,11 +87,6 @@ async function getAllJobPoints(): Promise<AllJobPoints> {
 			throw new Error("An error occurred when fetching job points data, Error: " + error);
 		}
 	}
-}
-
-
-function sleep(ms: number): Promise<void> {
-	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export default class JobPointsTooltipFeature extends Feature {

@@ -114,7 +114,7 @@ function removeLastAction() {
 
 export default class LastActionFactionFeature extends Feature {
 	constructor() {
-		super("Last Action", "last action");
+		super("Last Action Faction", "last action");
 	}
 
 	isEnabled(): boolean {

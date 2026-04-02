@@ -17,13 +17,13 @@ async function showTime() {
 	const arrival = Date.now() + duration;
 
 	destinationTitle.parentElement.insertBefore(
-			elementBuilder({
-				type: "div",
-				class: "tt-landing-time",
-				children: [elementBuilder({ type: "span", class: "description", text: `Landing at ${formatTime(arrival)}.` })],
-			}),
-			destinationTitle.nextElementSibling
-		);
+		elementBuilder({
+			type: "div",
+			class: "tt-landing-time",
+			children: [elementBuilder({ type: "span", class: "description", text: `Landing at ${formatTime(arrival)}.` })],
+		}),
+		destinationTitle.nextElementSibling
+	);
 }
 
 function removeTime() {
