@@ -4,7 +4,7 @@ import { settings } from "@/utils/common/data/database";
 
 export default class ItemMarketLeftBarFeature extends Feature {
 	constructor() {
-		super("Market Left Bar", "item market", ExecutionTiming.IMMEDIATELY);
+		super("Item Market Left Bar", "item market", ExecutionTiming.IMMEDIATELY);
 	}
 
 	isEnabled() {

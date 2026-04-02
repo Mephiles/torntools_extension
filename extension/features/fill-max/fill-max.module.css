@@ -1,0 +1,50 @@
+/**
+ * Global
+ */
+:global(.tt-mobile) .tt-max-buy {
+    border: none !important;
+}
+
+/**
+ * Bazaar
+ */
+.tt-buy-bazaar {
+    height: 27px !important;
+}
+
+.tt-max-buy-bazaar {
+    color: var(--tt-color-item-text);
+    position: absolute;
+    height: 15px;
+    line-height: 15px;
+    bottom: 0;
+    left: 7px;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+/**
+ * Shops
+ */
+
+.tt-buy-shops :global(.buy-act) {
+    position: relative;
+}
+
+.tt-buy-shops :global(.buy-act) button {
+    transform: translateY(-5px);
+}
+
+.tt-max-buy-shops {
+    color: var(--tt-color-item-text);
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.tt-max-buy-overlay-shops {
+    position: absolute;
+    top: 50%;
+    height: 50%;
+    left: 0;
+    width: 100%;
+}
