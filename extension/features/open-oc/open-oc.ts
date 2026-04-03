@@ -1,4 +1,4 @@
-import { ExecutionTiming, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
@@ -30,7 +30,7 @@ async function openCrimes() {
 
 export default class OpenOCFeature extends Feature {
 	constructor() {
-		super("Open OC", "faction", ExecutionTiming.CONTENT_LOADED);
+		super("Open OC", "faction");
 	}
 
 	precondition() {

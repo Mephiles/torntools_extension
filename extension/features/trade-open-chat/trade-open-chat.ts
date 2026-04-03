@@ -45,7 +45,7 @@ function removeButton() {
 
 export default class TradeOpenChatFeature extends Feature {
 	constructor() {
-		super("Open Chat", "trade");
+		super("Trade Open Chat", "trade");
 	}
 
 	precondition() {

@@ -1,4 +1,4 @@
-import { ExecutionTiming, Feature } from "@/features/feature-manager";
+import { Feature } from "@/features/feature-manager";
 import { hasAPIData, hasOC2Data } from "@/utils/common/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
 import { settings, userdata } from "@/utils/common/data/database";
@@ -55,7 +55,7 @@ function buildTimeLeftElement() {
 	const now = Date.now();
 	let readyAt: number;
 	// Torn's ready_at value corresponds to the planning finish time for currently joined members
-	// If the OC is partially filled, it will not provide an accurate end time (i.e., when it will initiate)
+	// If the OC is partially filled it will not provide an accurate end time (i.e. when it will initiate)
 
 	// Count the missing members
 	const missingMembers = (userdata.organizedCrime as FactionCrime).slots.filter(({ user }) => user === null).length;
@@ -107,13 +107,14 @@ function removeTimer() {
 
 export default class OC2TimeFeature extends Feature {
 	constructor() {
-		super("OC2 Time", "sidebar", ExecutionTiming.IMMEDIATELY);
+		super("OC2 Time", "sidebar");
+	}
+
+	async precondition() {
+		return (await checkDevice()).hasSidebar;
 	}
 
 	async requirements() {
-		const { hasSidebar } = await checkDevice();
-		if (!hasSidebar) return "Not supported on mobiles or tablets!";
-
 		if (!hasAPIData()) return "No API access.";
 		else if (!hasOC2Data()) return "No OC 2 data.";
 

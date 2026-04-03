@@ -1,21 +1,25 @@
-import { ExecutionTiming, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 
-function initialiseListeners() {
+function initialise() {
 	new MutationObserver(async (mutations) => {
 		if (!FEATURE_MANAGER.isEnabled(NoConfirmPointsMarketFeature)) return;
 
 		if (mutations[0].removedNodes.length > 1) return;
 
-		await removeConfirmation();
+		await startFeature();
 	}).observe(document.querySelector(".users-point-sell"), { childList: true });
 }
 
-async function removeConfirmation() {
+async function startFeature() {
 	await requireElement(".users-point-sell");
 
+	removeConfirmation();
+}
+
+function removeConfirmation() {
 	for (const item of findAllElements(".users-point-sell > li:not(.yes) > span[href]")) {
 		const url = item.getAttribute("href");
 		if (settings.scripts.noConfirm.pointsMarketRemove && url.includes("ajax_action=remove")) {
@@ -30,7 +34,7 @@ async function removeConfirmation() {
 
 export default class NoConfirmPointsMarketFeature extends Feature {
 	constructor() {
-		super("Points Market No Confirm", "points", ExecutionTiming.CONTENT_LOADED);
+		super("Points Market No Confirm", "points");
 	}
 
 	isEnabled() {
@@ -38,11 +42,11 @@ export default class NoConfirmPointsMarketFeature extends Feature {
 	}
 
 	initialise() {
-		initialiseListeners();
+		initialise();
 	}
 
 	async execute() {
-		await removeConfirmation();
+		await startFeature();
 	}
 
 	storageKeys() {

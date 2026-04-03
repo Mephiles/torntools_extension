@@ -1,4 +1,4 @@
-import { ExecutionTiming, Feature } from "@/features/feature-manager";
+import { Feature } from "@/features/feature-manager";
 import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
 import { factiondata, settings, userdata } from "@/utils/common/data/database";
@@ -54,13 +54,14 @@ function removeTimer() {
 
 export default class OCTimeFeature extends Feature {
 	constructor() {
-		super("OC Time", "sidebar", ExecutionTiming.IMMEDIATELY);
+		super("OC Time", "sidebar");
+	}
+
+	async precondition() {
+		return (await checkDevice()).hasSidebar;
 	}
 
 	async requirements() {
-		const { hasSidebar } = await checkDevice();
-		if (!hasSidebar) return "Not supported on mobiles or tablets!";
-
 		if (!hasAPIData() || !((settings.apiUsage.user.icons && userdata.userCrime) || "userCrime" in factiondata)) return "No API access.";
 		else if (!hasOC1Data()) return "No OC 1 data.";
 

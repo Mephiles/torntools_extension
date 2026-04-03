@@ -1,4 +1,4 @@
-import { ExecutionTiming, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { factiondata, settings } from "@/utils/common/data/database";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
@@ -50,7 +50,7 @@ function removeLastAction() {
 
 export default class OCLastActionFeature extends Feature {
 	constructor() {
-		super("OC Last Action", "faction", ExecutionTiming.CONTENT_LOADED);
+		super("OC Last Action", "faction");
 	}
 
 	precondition() {

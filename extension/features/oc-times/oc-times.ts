@@ -1,11 +1,12 @@
 import "./oc-times.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
 import { factiondata, settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { formatDate, formatTime } from "@/utils/common/functions/formatting";
+import { isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {
@@ -59,8 +60,7 @@ export default class OCTimesFeature extends Feature {
 	}
 
 	precondition() {
-		const params = getSearchParameters();
-		return getPageStatus().access && params.get("step") === "your";
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

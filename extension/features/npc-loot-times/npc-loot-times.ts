@@ -1,5 +1,5 @@
 import "./npc-loot-times.css";
-import { ExecutionTiming, Feature } from "@/features/feature-manager";
+import { Feature } from "@/features/feature-manager";
 import { npcs, settings } from "@/utils/common/data/database";
 import { checkDevice, elementBuilder, findElementWithText, findParent, isElement } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
@@ -108,13 +108,12 @@ async function showNPCs() {
 			class: `npc-notifications ph-fill ${settings.notifications.types.npcsGlobal ? "ph-bell" : "ph-bell-slash"}`,
 			events: {
 				click(event) {
-					const target = event.target as HTMLElement;
-					if (!isElement(target)) return;
+					if (!isElement(event.target)) return;
 
-					const notifications = target.classList.toggle("ph-bell");
+					const notifications = event.target.classList.toggle("ph-bell");
 
-					if (notifications) target.classList.remove("ph-bell-slash");
-					else target.classList.add("ph-bell-slash");
+					if (notifications) event.target.classList.remove("ph-bell-slash");
+					else event.target.classList.add("ph-bell-slash");
 
 					event.stopPropagation();
 
@@ -131,7 +130,7 @@ function removeNPCs() {
 
 export default class NPCLootTimesFeature extends Feature {
 	constructor() {
-		super("NPC Loot Times", "sidebar", ExecutionTiming.CONTENT_LOADED);
+		super("NPC Loot Times", "sidebar");
 	}
 
 	isEnabled() {

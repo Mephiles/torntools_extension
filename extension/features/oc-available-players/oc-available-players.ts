@@ -1,4 +1,4 @@
-import { ExecutionTiming, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { createMessageBox, getPageStatus } from "@/utils/common/functions/torn";
 import { findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
@@ -55,7 +55,7 @@ function removeAvailable() {
 
 export default class OCAvailablePlayersFeature extends Feature {
 	constructor() {
-		super("OC Available Players", "faction", ExecutionTiming.CONTENT_LOADED);
+		super("OC Available Players", "faction");
 	}
 
 	precondition() {
