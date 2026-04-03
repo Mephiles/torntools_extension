@@ -1,4 +1,4 @@
-import "./faction-inactivity-warning.css";
+import "./member-inactivity-warning.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { isInternalFaction } from "@/pages/factions-page";

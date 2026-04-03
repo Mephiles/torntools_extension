@@ -1,11 +1,11 @@
 import "./medical-life.css";
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPage } from "@/utils/common/functions/torn";
 import { settings, userdata } from "@/utils/common/data/database";
 import { addXHRListener } from "@/utils/common/functions/listeners";
-import { convertToNumber } from "@/utils/common/functions/formatting";
+import { convertToNumber, roundNearest } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, getSearchParameters } from "@/utils/common/functions/dom";
+import { elementBuilder, getSearchParameters, isElement } from "@/utils/common/functions/dom";
 
 const page = getPage();
 
@@ -25,10 +25,10 @@ const MEDICAL_ITEMS = {
 
 function addListener() {
 	if (page === "item") {
-		addXHRListener(async ({ detail: { page: xhrPage, xhr } }) => {
-			if (!settings.pages.items.medicalLife) return;
+		addXHRListener(async ({ detail: { page, xhr } }) => {
+			if (!FEATURE_MANAGER.isEnabled(MedicalLifeFeature)) return;
 
-			if (xhrPage !== "item") return;
+			if (page !== "item") return;
 
 			const params = new URLSearchParams(xhr.requestBody);
 			if (params.get("action") !== "use") return;
@@ -40,12 +40,11 @@ function addListener() {
 		});
 	} else if (page === "factions") {
 		document.getElementById("faction-armoury").addEventListener("click", async (event) => {
-			if (!settings.pages.items.medicalLife) return;
+			if (!FEATURE_MANAGER.isEnabled(MedicalLifeFeature)) return;
 
-			const target = event.target as Element;
-			if (!target || !target.classList.contains("use")) return;
+			if (!isElement(event.target) || !event.target.classList.contains("use")) return;
 
-			const id = convertToNumber((target.closest(".item-use-act").querySelector(".use-cont") as HTMLElement).dataset.itemid);
+			const id = convertToNumber(event.target.closest(".item-use-act").querySelector<HTMLElement>(".use-cont").dataset.itemid);
 			if (!doesRestoreLife(id)) return;
 
 			await showInformation(id);
@@ -78,7 +77,7 @@ async function showInformation(id: number) {
 		actionWrap = await requireElement(`.action-cont[data-itemid='${id}'] .confirm`);
 	}
 
-	const text = `Your life total will be ${newLife.toFixed(1)}/${maximumLife.toFixed(1)}.`;
+	const text = `Your life total will be ${roundNearest(newLife, 1)}/${roundNearest(maximumLife, 1)}.`;
 
 	if (actionWrap.querySelector(".tt-medical-life")) {
 		actionWrap.querySelector(".tt-medical-life").textContent = text;

@@ -1,4 +1,4 @@
-import "./faction-member-info.css";
+import "./member-info.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -16,12 +16,12 @@ let lastActionState: boolean;
 
 function addListener() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberInfoFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		await addInfo(true);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberInfoFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		if (name === "Last Action") {
 			lastActionState = true;
@@ -29,7 +29,7 @@ function addListener() {
 		}
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_DISABLED].push(async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberInfoFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		if (name === "Last Action") {
 			lastActionState = false;
@@ -37,13 +37,13 @@ function addListener() {
 		}
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async ({ hasResults }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberInfoFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		removeInfo();
 		if (hasResults) await addInfo(true);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_SORT].push(async () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberInfoFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		removeInfo();
 		await addInfo(true);
@@ -61,7 +61,8 @@ async function addInfo(force: boolean) {
 	if (ttCache.hasValue("faction-members-balance", userdata.faction.id)) {
 		balance = ttCache.get<FactionBalance>("faction-members-balance", userdata.faction.id);
 	} else {
-		balance = (await fetchData<FactionBalanceResponse>("tornv2", { section: "faction", selections: ["balance"], silent: true, succeedOnError: true })).balance;
+		balance = (await fetchData<FactionBalanceResponse>("tornv2", { section: "faction", selections: ["balance"], silent: true, succeedOnError: true }))
+			.balance;
 
 		ttCache.set({ [userdata.faction.id]: balance }, TO_MILLIS.SECONDS * 60, "faction-members-balance").then(() => {});
 	}
@@ -116,7 +117,7 @@ function removeInfo() {
 	findAllElements(".tt-last-action.tt-modified").forEach((x) => x.classList.remove("modified"));
 }
 
-export default class FactionMemberInfoFeature extends Feature {
+export default class MemberInfoFeature extends Feature {
 	constructor() {
 		super("Member Info", "faction");
 	}
