@@ -168,6 +168,8 @@ export function timedUpdates() {
 			console.warn(`You disabled our permission to call the API!`);
 		} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
 			console.warn(`Error due to no internet while ${message}.`);
+		} else if (error.code === CUSTOM_API_ERROR.CANCELLED) {
+			console.warn(`Error due to requests taking too long while ${message}.`);
 		} else {
 			console.error(`Error while ${message}.`, error);
 		}
