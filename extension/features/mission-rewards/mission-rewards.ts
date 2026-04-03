@@ -1,18 +1,20 @@
 import "./mission-rewards.css";
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { settings, userdata, torndata } from "@/utils/common/data/database";
+import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { findItemInList } from "@/utils/common/functions/utilities";
+import { UserV1Ammo } from "@/utils/common/functions/api-v1.types";
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.MISSION_REWARDS].push(async () => {
-		if (!settings.pages.missions.rewards) return;
+		if (!FEATURE_MANAGER.isEnabled(MissionRewardsFeature)) return;
 
-	await	showRewards();
+		await showRewards();
 	});
 }
 
@@ -32,10 +34,9 @@ async function showRewards() {
 		if (type === "Ammo") {
 			const { title: size, ammoType } = information;
 
-			// Simplified find logic
-			const found = userdata.ammo && Array.isArray(userdata.ammo) 
-				? userdata.ammo.find((item: any) => item.size === size && item.type === ammoType)
-				: null;
+			// @ts-expect-error Bundling Migration; wrong type in tornapi-typescript
+			const ammo: UserV1Ammo[] = userdata.ammo;
+			const found = findItemInList<UserV1Ammo>(ammo, { size, type: ammoType });
 			const owned = found ? found.quantity : 0;
 
 			actionsWrap.insertBefore(

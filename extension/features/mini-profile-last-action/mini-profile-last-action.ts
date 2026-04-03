@@ -1,4 +1,4 @@
-import { Feature } from "@/features/feature-manager";
+import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { addFetchListener } from "@/utils/common/functions/listeners";
 import { formatTime } from "@/utils/common/functions/formatting";
@@ -6,7 +6,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 
 function initialiseMiniProfile() {
 	addFetchListener(async (event) => {
-		if (!settings.pages.global.miniProfileLastAction) return;
+		if (!FEATURE_MANAGER.isEnabled(MiniProfileLastActionFeature)) return;
 
 		const {
 			page,
