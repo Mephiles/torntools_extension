@@ -16,9 +16,7 @@ interface ElementBuilderOptions {
 	attributes?: Record<string, string | number | boolean> | (() => Record<string, string | number | boolean>);
 	events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
 	style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
-	dataset?: {
-		[name: string]: string | object | boolean | number;
-	};
+	dataset?: object;
 }
 
 export function elementBuilder<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];

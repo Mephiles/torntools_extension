@@ -1,11 +1,10 @@
 import "./quick-crimes.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { settings, quick } from "@/utils/common/data/database";
+import { quick, settings } from "@/utils/common/data/database";
 import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, removeContainer, findContainer } from "@/utils/common/functions/containers";
-import { elementBuilder, findAllElements, isElement, mobile, tablet } from "@/utils/common/functions/dom";
-import { getSearchParameters } from "@/utils/common/functions/dom";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { ttStorage } from "@/utils/common/data/storage";
 import { usingFirefox } from "@/utils/common/functions/browser";
@@ -188,7 +187,7 @@ async function loadCrimes() {
 		const itemWrap = elementBuilder({
 			type: "form",
 			class: `quick-item ${temporary ? "temp" : ""}`,
-			dataset: data as unknown as Record<string, string>,
+			dataset: data,
 			children: [
 				elementBuilder({ type: "input", attributes: { name: "nervetake", type: "hidden", value: nerve } }),
 				elementBuilder({ type: "input", attributes: { name: "crime", type: "hidden", value: name } }),
@@ -226,7 +225,7 @@ async function loadCrimes() {
 				},
 				dragenter(event) {
 					if (movingElement !== event.currentTarget && isElement(event.currentTarget)) {
-						const children = Array.from(innerContent.children);
+						const children = [...innerContent.children];
 
 						if (children.indexOf(movingElement) > children.indexOf(event.currentTarget))
 							innerContent.insertBefore(movingElement, event.currentTarget);
@@ -316,7 +315,7 @@ function showCrimesAgainOnFirefox(containerId: string) {
 			.find((id) => id === containerId);
 		if (hasRemovedQuickCrimes) return;
 
-	await 	loadCrimes();
+		await loadCrimes();
 	});
 	showCrimesAgainOnFirefoxObserver.observe(document.querySelector(".content-wrapper"), { childList: true, attributes: true, subtree: true });
 }

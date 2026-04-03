@@ -7,6 +7,15 @@ import { convertToNumber, formatNumber } from "@/utils/common/functions/formatti
 
 let observer: MutationObserver;
 
+function initialiseListener() {
+	observer = new MutationObserver(async () => {
+		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature)) return;
+
+		await addPropertyValues();
+	});
+	observer.observe(document.querySelector("#properties-page-wrap"), { childList: true });
+}
+
 async function addPropertyValues() {
 	await requireElement("#properties-page-wrap .properties-list .title");
 
@@ -29,15 +38,6 @@ async function addPropertyValues() {
 
 function removeValues() {
 	findAllElements(".tt-property-value").forEach((x) => x.remove());
-}
-
-function initialiseListener() {
-	observer = new MutationObserver(async () => {
-		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature)) return;
-
-		await addPropertyValues();
-	});
-	observer.observe(document.querySelector("#properties-page-wrap"), { childList: true });
 }
 
 export default class PropertyValuesFeature extends Feature {

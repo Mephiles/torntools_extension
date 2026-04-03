@@ -7,10 +7,6 @@ import { createContainer, removeContainer } from "@/utils/common/functions/conta
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { ttStorage } from "@/utils/common/data/storage";
 
-function getUserID() {
-	return document.querySelector(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
-}
-
 async function addNotes() {
 	await requireElement(".profile-information-wrapper .box-value");
 
@@ -41,6 +37,10 @@ async function addNotes() {
 
 function removeNotes() {
 	removeContainer("Profile Notes");
+}
+
+function getUserID() {
+	return document.querySelector(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
 }
 
 export default class ProfileNotesFeature extends Feature {

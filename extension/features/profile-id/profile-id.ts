@@ -4,16 +4,6 @@ import { settings } from "@/utils/common/data/database";
 import { requireElement } from "@/utils/common/functions/requires";
 import { toClipboard } from "@/utils/common/functions/utilities";
 
-function copyID() {
-	toClipboard(document.querySelector("h4#skip-to-content").textContent);
-}
-
-function getUserID() {
-	return parseInt(
-		document.querySelector(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0]
-	);
-}
-
 async function addID() {
 	await requireElement(".basic-info .info-table > *:first-child");
 
@@ -30,6 +20,16 @@ function removeID() {
 	title.textContent = `${name}'${name.endsWith("s") ? "" : "s"} Profile`;
 	title.removeAttribute("title");
 	title.removeEventListener("click", copyID);
+}
+
+function copyID() {
+	toClipboard(document.querySelector("h4#skip-to-content").textContent);
+}
+
+function getUserID() {
+	return parseInt(
+		document.querySelector(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0]
+	);
 }
 
 export default class ProfileIDFeature extends Feature {

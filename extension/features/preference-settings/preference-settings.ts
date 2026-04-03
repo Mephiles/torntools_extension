@@ -1,8 +1,7 @@
 import "./preference-settings.css";
 import { Feature } from "@/features/feature-manager";
-import { getSearchParameters, getHashParameters } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@/utils/common/functions/dom";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { api } from "@/utils/common/data/database";
 import { changeAPIKey } from "@/utils/common/functions/api";
