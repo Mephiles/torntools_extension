@@ -35,7 +35,7 @@ function observeWars() {
 
 	requireElement("ul.f-war-list").then(() => {
 		observer = new MutationObserver((mutations) => {
-			if (![...mutations].some((mutation) => [...(mutation.addedNodes ?? [])].some((node) => isElement(node) && node.classList.contains("descriptions"))))
+			if (!mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.classList.contains("descriptions"))))
 				return;
 
 			showEstimates();

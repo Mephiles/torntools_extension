@@ -1,8 +1,9 @@
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(async () => {
@@ -34,7 +35,7 @@ export default class OpenOCFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && getSearchParameters().get("step") === "your";
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

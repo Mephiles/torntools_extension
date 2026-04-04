@@ -1,11 +1,14 @@
+import type { JQuery } from "@/utils/common/type-helper";
+
 export interface EfficientRehabDetails {
 	ticks: number;
 }
 
+declare const $: (selector: string) => JQuery;
+
 // noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
 	window.addEventListener("tt-efficient-rehab", (event: CustomEventInit<EfficientRehabDetails>) => {
-		// @ts-expect-error Bundling Migration
 		const $slider = $("#rehub-progress .ui-slider");
 		const rehabPercentages = JSON.parse($slider.attr("data-percentages")) || [];
 

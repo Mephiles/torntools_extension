@@ -76,7 +76,7 @@ function removeProfitAndValue() {
 
 export default class TotalPortfolioValueFeature extends Feature {
 	constructor() {
-		super("Total Portfolio Value and Profit", "stocks");
+		super("Total Portfolio Value", "stocks");
 	}
 
 	isEnabled() {

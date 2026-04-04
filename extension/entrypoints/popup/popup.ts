@@ -68,8 +68,7 @@ const initiatedPages: string[] = [];
 
 	for (const navigation of findAllElements("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
-			// @ts-expect-error Bundling Migration
-			await showPage(navigation.getAttribute("to"));
+			await showPage(navigation.getAttribute("to") as keyof typeof SETUP_PAGES);
 		});
 	}
 	document.querySelector("#pages li[to='settings']").addEventListener("click", () => browser.runtime.openOptionsPage());
@@ -83,8 +82,7 @@ const initiatedPages: string[] = [];
 	if (!api.torn.key) {
 		await showPage("initialize");
 	} else {
-		// @ts-expect-error Bundling Migration
-		await showPage(settings.pages.popup.defaultTab);
+		await showPage(settings.pages.popup.defaultTab as keyof typeof SETUP_PAGES);
 	}
 
 	showLoadingPlaceholder(document.body, false);
@@ -154,8 +152,7 @@ async function setupInitialize() {
 								await sleep(TO_MILLIS.SECONDS);
 							}
 
-							// @ts-expect-error Bundling Migration
-							await showPage(settings.pages.popup.defaultTab);
+							await showPage(settings.pages.popup.defaultTab as keyof typeof SETUP_PAGES);
 						});
 					})
 					.catch((error) => showError(error.error));

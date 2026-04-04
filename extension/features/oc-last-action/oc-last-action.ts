@@ -1,11 +1,12 @@
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { factiondata, settings } from "@/utils/common/data/database";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
 import { dropDecimals } from "@/utils/common/functions/formatting";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { isInternalFaction } from "@/pages/factions-page";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {
@@ -54,7 +55,7 @@ export default class OCLastActionFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && getSearchParameters().get("step") !== "your";
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

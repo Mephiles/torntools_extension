@@ -53,7 +53,7 @@ describe("formatting", () => {
 
 		it("should passthrough non-numeric strings", () => {
 			expect(formatNumber("abc")).toBe("abc");
-			expect(formatNumber("" as any)).toBe("");
+			expect(formatNumber("")).toBe("");
 		});
 
 		it("should parse numeric strings", () => {

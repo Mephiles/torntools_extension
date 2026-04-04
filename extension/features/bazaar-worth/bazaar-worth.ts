@@ -48,7 +48,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 		// TODO - Migrate to V2 (user/bazaar).
 		fetchData<UserV1BazaarResponse>("tornv2", { section: "user", id: bazaarUserId, selections: ["bazaar"], legacySelections: ["bazaar"] })
 			.then((result) => {
-				// @ts-expect-error Bundling Migration
+				// @ts-expect-error Bundling Migration; wrong type in tornapi-typescript
 				handleBazaar(result.bazaar);
 
 				ttCache.set({ [bazaarUserId]: result.bazaar }, TO_MILLIS.SECONDS * 30, "bazaar");

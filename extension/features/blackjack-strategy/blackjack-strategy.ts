@@ -509,7 +509,7 @@ function executeStrategy(data: any) {
 		cards.player.push(worth);
 	}
 
-	let playerValue: any;
+	let playerValue: string | number;
 	if (cards.player.length === 2) {
 		if (cards.player.includes("A")) {
 			const other = cards.player.find((worth) => worth !== "A");
@@ -539,12 +539,12 @@ function executeStrategy(data: any) {
 		document.querySelector(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
 	}
 
-	function getWorth(card: any) {
-		let symbol: any;
+	function getWorth(card: string | number) {
+		let symbol: string | number;
 		if (typeof card === "string") symbol = card.split("-").at(-1);
 		else symbol = card;
 
-		return isNaN(symbol) ? (symbol === "A" ? "A" : 10) : parseInt(symbol);
+		return isNaN(parseInt(symbol.toString())) ? (symbol === "A" ? "A" : 10) : parseInt(symbol.toString());
 	}
 
 	function getSuggestion(player: any) {

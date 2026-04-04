@@ -1,8 +1,8 @@
 import "./drug-details.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { DRUG_INFORMATION, DrugDetail, getPage, getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements, getSearchParameters, isElement } from "@/utils/common/functions/dom";
-import { extractArmorySubcategory } from "@/pages/factions-page";
+import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
+import { extractArmorySubcategory, isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { requireElement } from "@/utils/common/functions/requires";
 import { convertToNumber } from "@/utils/common/functions/formatting";
@@ -285,7 +285,7 @@ export default class DrugDetailsFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && !(getPage() === "factions" && getSearchParameters().get("step") !== "your");
+		return getPageStatus().access && !(getPage() === "factions" && !isInternalFaction);
 	}
 
 	isEnabled() {

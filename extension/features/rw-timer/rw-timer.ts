@@ -1,6 +1,6 @@
 import { Feature } from "@/features/feature-manager";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData, hasOC2Data } from "@/utils/common/functions/api";
 import { factiondata, settings, userdata } from "@/utils/common/data/database";
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
@@ -8,10 +8,6 @@ import { FetchedFactiondataBasic } from "@/entrypoints/background/updates";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { countdownTimers } from "@/utils/common/functions/timers";
 import { LINKS } from "@/utils/common/functions/torn";
-
-function hasOC2Data(): boolean {
-	return !!(factiondata && Object.keys(factiondata).length);
-}
 
 async function showTimer() {
 	if (factiondata.access === "none") return;
@@ -83,10 +79,11 @@ export default class RWTimerFeature extends Feature {
 		super("RW Timer", "sidebar");
 	}
 
-	async requirements() {
-		const { hasSidebar } = await checkDevice();
-		if (!hasSidebar) return "Not supported on mobiles or tablets!";
+	async precondition() {
+		return (await checkDevice()).hasSidebar;
+	}
 
+	async requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!hasOC2Data()) return "No OC 2 data.";
 

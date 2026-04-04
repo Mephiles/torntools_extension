@@ -312,7 +312,7 @@ async function applyFilters() {
 		}
 
 		// Track
-		if (trackFilter != "" && !trackFilter.includes(trackName)) {
+		if (trackFilter !== "" && !trackFilter.includes(trackName)) {
 			hideRow(li);
 			continue;
 		}

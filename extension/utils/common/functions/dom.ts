@@ -207,8 +207,7 @@ export function rotateElement(element: HTMLElement, degrees: number) {
 	const step = 1000 / degrees;
 
 	rotatingElements[uuid] = {
-		// @ts-expect-error Bundling Migration
-		interval: setInterval(function () {
+		interval: window.setInterval(function () {
 			const currentRotation = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
 			let newRotation = currentRotation + step;
 

@@ -3,7 +3,7 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { userdata } from "@/utils/common/data/database";
 import { camelCase } from "@/utils/common/functions/formatting";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createTextbox } from "@/utils/common/elements/textbox/textbox";
+import { createTextbox, TextboxWithoutDescriptionFilter } from "@/utils/common/elements/textbox/textbox";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createCheckboxList } from "@/utils/common/elements/checkbox-list/checkbox-list";
 import { createMultiSelect, createSelect, SelectOption } from "@/utils/common/elements/select/select";
@@ -410,15 +410,17 @@ export function createWeaponBonusSection(options: WeaponBonusOptions) {
 
 	return {
 		element: section,
-		getValues: () =>
-			[
+		getValues: (): { bonus: string; value: number }[] => {
+			const s: [ReturnType<typeof createSelect>, TextboxWithoutDescriptionFilter][] = [
 				[select1, value1],
 				[select2, value2],
-			].map(
-				([s, v]) =>
-					// @ts-expect-error Pre-migration shenanigans
-					({ bonus: s.getSelected() as string, value: isNaN(v.getValue()) ? 0 : parseInt(v.getValue()) }) as { bonus: string; value: number }
-			),
+			];
+
+			return s.map(([select, textbox]) => ({
+				bonus: select.getSelected(),
+				value: isNaN(parseInt(textbox.getValue())) ? 0 : parseInt(textbox.getValue()),
+			}));
+		},
 	};
 }
 

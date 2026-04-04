@@ -35,6 +35,7 @@ async function showProfits() {
 		priceElement.appendChild(profitElement);
 	}
 }
+
 export default class ShopProfitsFeature extends Feature {
 	constructor() {
 		super("Shop Profits", "shops");

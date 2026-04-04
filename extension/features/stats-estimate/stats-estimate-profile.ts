@@ -25,7 +25,7 @@ async function showEstimate() {
 
 	observer?.disconnect();
 	observer = new MutationObserver((mutations) => {
-		if (![...mutations].some((mutation) => Array.from(mutation.addedNodes).every(isTextNode))) return;
+		if (!mutations.some((mutation) => Array.from(mutation.addedNodes).every(isTextNode))) return;
 		if (title.querySelector(".tt-stats-estimate-profile")) return;
 
 		title.appendChild(elementBuilder({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));

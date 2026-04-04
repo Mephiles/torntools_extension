@@ -2,10 +2,9 @@ import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { findAllElements, isElement } from "@/utils/common/functions/dom";
+import { findAllElements, getHashParameters, isElement } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { getHashParameters } from "@/utils/common/functions/dom";
 import { isInternalFaction } from "@/pages/factions-page";
 import { StatsEstimate } from "./stats-estimate";
 
@@ -39,7 +38,7 @@ function observeWars() {
 	requireElement("ul.f-war-list").then((warList) => {
 		observer = new MutationObserver((mutations) => {
 			if (
-				![...mutations].some((mutation) =>
+				!mutations.some((mutation) =>
 					[...(mutation.addedNodes ?? [])].some(
 						(node) => isElement(node) && node.classList.contains("descriptions") && node.querySelector(".enemy-faction")
 					)
@@ -87,8 +86,10 @@ function showEstimates() {
 		statsEstimate.showEstimates(
 			".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 			(row) => {
+				const anchorMatch = row.querySelector<HTMLAnchorElement>("[class*='honorWrap___']").href.match(/.*XID=(?<id>\d+)/);
+
 				return {
-					id: parseInt(row.querySelector(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.at(-1)),
+					id: parseInt(anchorMatch.groups.id),
 					level: parseInt(row.querySelector(".level").textContent.trim()),
 				};
 			},

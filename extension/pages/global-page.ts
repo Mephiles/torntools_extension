@@ -161,8 +161,7 @@ function handleFocus() {
 	window.addEventListener("focus", () => {
 		if (focusTimeout) return;
 
-		// @ts-expect-error Bundling Migration
-		focusTimeout = setTimeout(() => {
+		focusTimeout = window.setTimeout(() => {
 			focusTimeout = null;
 
 			triggerCustomListener(EVENT_CHANNELS.WINDOW__FOCUS);

@@ -35,13 +35,13 @@ async function registerListeners() {
 		) {
 			if (FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)) {
 				showEstimates();
-				listObserver?.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
+				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 			}
 		}
 	});
 
 	tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });
-	listObserver?.observe(await requireElement(".tableWrapper > ul"), { childList: true });
+	listObserver.observe(await requireElement(".tableWrapper > ul"), { childList: true });
 }
 
 async function showEstimates() {

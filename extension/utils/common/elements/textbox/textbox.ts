@@ -18,7 +18,7 @@ type TextboxFilter = {
 	dispose: () => void;
 };
 type TextboxWithDescriptionFilter = TextboxFilter & { element: HTMLElement };
-type TextboxWithoutDescriptionFilter = TextboxFilter & { element: HTMLInputElement };
+export type TextboxWithoutDescriptionFilter = TextboxFilter & { element: HTMLInputElement };
 
 export function createTextbox(partialOptions: Partial<Omit<TextboxOptions, "description">>): TextboxWithoutDescriptionFilter;
 export function createTextbox(partialOptions: Partial<TextboxOptions>): TextboxWithDescriptionFilter;

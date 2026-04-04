@@ -1,5 +1,6 @@
 import {
 	api,
+	Database,
 	DatabaseKey,
 	factiondata,
 	initializeDatabase,
@@ -721,7 +722,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		const notificationsDisabled = !settings.notifications.types.global;
 		for (const notificationType in settings.notifications.types) {
 			if (notificationType === "stocks") continue;
-			let option: any;
+			let option: HTMLInputElement;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				option = _preferences.querySelector(`#notification_type-${notificationType}[type="text"]`);
@@ -737,7 +738,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				option.value = settings.notifications.types[notificationType];
 			}
 
-			if (notificationsDisabled && notificationType !== "global") option.setAttribute("disabled", true);
+			if (notificationsDisabled && notificationType !== "global") option.setAttribute("disabled", "true");
 			else option.removeAttribute("disabled");
 		}
 
@@ -1772,7 +1773,7 @@ async function setupExport() {
 				return;
 			}
 
-			let data: any;
+			let data: ExportData;
 			try {
 				data = JSON.parse(result);
 			} catch (error) {

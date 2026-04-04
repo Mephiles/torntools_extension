@@ -4,9 +4,10 @@ import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { CSVExport } from "@/utils/common/functions/csv";
+import { isInternalFaction } from "@/pages/factions-page";
 
 async function addCSVContainer() {
 	if (!location.hash.includes("tab=upgrades")) return;
@@ -64,7 +65,7 @@ export default class CSVChallengeContributionsFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && getSearchParameters().get("step") === "your";
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

@@ -1,10 +1,10 @@
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { getSearchParameters } from "@/utils/common/functions/dom";
 import { settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
+import { isInternalFaction } from "@/pages/factions-page";
 
 let originalText: string | undefined;
 
@@ -71,7 +71,7 @@ export default class FactionBankerFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access && getSearchParameters().get("step") === "your";
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

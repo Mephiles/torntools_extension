@@ -1,13 +1,14 @@
 import "./oc-nnb.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements, getSearchParameters, mobile } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
 import { FETCH_PLATFORMS, fetchData, hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
 import { settings } from "@/utils/common/data/database";
 import { ttCache } from "@/utils/common/data/cache";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import type { TornstatsFactionCrimes, YATAFactionMembers } from "@/utils/common/functions/api.types";
+import { isInternalFaction } from "@/pages/factions-page";
 
 interface NNBMap {
 	[id: string]: NNBInformation;
@@ -192,8 +193,7 @@ export default class OCNNBFeature extends Feature {
 	}
 
 	precondition() {
-		const params = getSearchParameters();
-		return getPageStatus().access && params.get("step") === "your";
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

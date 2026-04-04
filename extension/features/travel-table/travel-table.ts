@@ -43,7 +43,7 @@ function initialise() {
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, ({ type }) => {
 		if (!FEATURE_MANAGER.isEnabled(TravelTableFeature)) return;
 
-		document.querySelector<HTMLInputElement>("#travel-items").value = getTravelCount(type as any).toString();
+		document.querySelector<HTMLInputElement>("#travel-items").value = getTravelCount(type as TravelType).toString();
 		updateValues();
 	});
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, ({ country }) => {

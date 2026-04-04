@@ -1,9 +1,10 @@
 import "./recommended-nnb.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { checkDevice, elementBuilder, findAllElements, getSearchParameters, mobile } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
 import { settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { isInternalFaction } from "@/pages/factions-page";
 
 const ORGANIZED_CRIMES = {
 	Blackmail: "anyone",
@@ -57,15 +58,7 @@ export default class RecommendedNNBFeature extends Feature {
 	}
 
 	precondition() {
-		if (!getPageStatus().access) return false;
-
-		const params = getSearchParameters();
-		return params.get("step") === "your";
-	}
-
-	async requirements() {
-		await checkDevice();
-		return true;
+		return getPageStatus().access && isInternalFaction;
 	}
 
 	isEnabled() {

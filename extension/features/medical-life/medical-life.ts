@@ -5,7 +5,8 @@ import { settings, userdata } from "@/utils/common/data/database";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { convertToNumber, roundNearest } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, getSearchParameters, isElement } from "@/utils/common/functions/dom";
+import { elementBuilder, isElement } from "@/utils/common/functions/dom";
+import { isInternalFaction } from "@/pages/factions-page";
 
 const page = getPage();
 
@@ -92,11 +93,7 @@ export default class MedicalLifeFeature extends Feature {
 	}
 
 	precondition() {
-		if (page === "factions") {
-			const params = getSearchParameters();
-			if (params.get("step") !== "your") return false;
-		}
-		return true;
+		return page !== "factions" || isInternalFaction;
 	}
 
 	isEnabled() {

@@ -1752,8 +1752,7 @@ async function updateNPCs() {
 		if (!shortest) return;
 
 		if (npcUpdater) clearTimeout(npcUpdater);
-		// @ts-expect-error Bundling Migration
-		npcUpdater = setTimeout(() => {
+		npcUpdater = window.setTimeout(() => {
 			updateLevels();
 
 			npcUpdater = undefined;

@@ -135,7 +135,7 @@ function removeLink() {
 
 export default class SettingsLinkFeature extends Feature {
 	constructor() {
-		super("TT Settings Link", "sidebar");
+		super("Settings Link", "sidebar");
 	}
 
 	async precondition() {

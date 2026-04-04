@@ -26,7 +26,7 @@ function removeTabTimer() {
 
 export default class TravelTabTitleTimerFeature extends Feature {
 	constructor() {
-		super("Tab Title Timer", "travel");
+		super("Travel Tab Title Timer", "travel");
 	}
 
 	precondition() {

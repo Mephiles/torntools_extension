@@ -196,7 +196,7 @@ export default class WeaponBonusInformationFeature extends Feature {
 		initialiseListeners();
 	}
 
-	execute() {
-		showInformation();
+	async execute() {
+		await showInformation();
 	}
 }
