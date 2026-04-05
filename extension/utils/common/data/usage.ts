@@ -24,7 +24,7 @@ export class TornToolsUsage {
 		const last24HrsMinute = dropDecimals((Date.now() - 24 * TO_MILLIS.HOURS) / TO_MILLIS.MINUTES);
 
 		Object.keys(this.usage).forEach((minute) => {
-			if (parseInt(minute) < last24HrsMinute) delete this.usage[minute];
+			if (parseInt(minute) < last24HrsMinute) delete this.usage[parseInt(minute)];
 		});
 
 		await ttStorage.set({ usage: this.usage });

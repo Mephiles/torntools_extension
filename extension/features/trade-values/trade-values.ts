@@ -37,7 +37,7 @@ async function addItemValues() {
 					.replace(" to the trade", "")
 					.split(",")
 					.map((x) => x.trim());
-				const quantityMap = {};
+				const quantityMap: { [name: string]: number } = {};
 				for (const entry of itemEntries) {
 					const nameRegex = entry.match(/(?<=x ).*/);
 					const quantityRegex = entry.match(/\d+(?=x)/g);

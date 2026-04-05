@@ -264,7 +264,7 @@ export function createFilterSection(
 		};
 
 		function getSelections(content: HTMLElement) {
-			const selections = {};
+			const selections: { [key: string]: string } = {};
 			for (const specialDiv of findAllElements(`.${ccTitle} > div`, content)) {
 				const checkboxes = findAllElements("input", specialDiv);
 				const yChecked = checkboxes[0].checked;
