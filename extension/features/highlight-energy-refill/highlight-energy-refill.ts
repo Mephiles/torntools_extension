@@ -5,7 +5,7 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { requireElement } from "@/utils/common/functions/requires";
 
 function applyStyle() {
-	if (!userdata?.refills?.energy_refill_used && settings.pages.sidebar.highlightEnergy) document.documentElement.classList.add("tt-highlight-energy-refill");
+	if (!userdata.refills.energy && settings.pages.sidebar.highlightEnergy) document.documentElement.classList.add("tt-highlight-energy-refill");
 	else document.documentElement.classList.remove("tt-highlight-energy-refill");
 }
 
@@ -28,7 +28,7 @@ export default class HighlightEnergyRefillFeature extends Feature {
 	}
 
 	storageKeys() {
-		return ["settings.pages.sidebar.highlightEnergy", "userdata.refills.energy_refill_used"];
+		return ["settings.pages.sidebar.highlightEnergy", "userdata.refills.energy"];
 	}
 
 	async requirements() {

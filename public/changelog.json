@@ -16,7 +16,8 @@
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
 				{ "message": "Improved error handling for YATA in the travel table.", "contributor": "DeKleineKobini" },
-				{ "message": "Completely different migration system for our storage", "contributor": "DeKleineKobini" }
+				{ "message": "Completely different migration system for our storage", "contributor": "DeKleineKobini" },
+				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]

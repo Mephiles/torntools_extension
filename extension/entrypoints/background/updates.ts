@@ -64,6 +64,7 @@ import {
 	UserOrganizedCrimeResponse,
 	UserPersonalStatsFull,
 	UserProfileResponse,
+	UserRefillsResponse,
 	UserSkillsResponse,
 	UserTravelResponse,
 	UserVirusResponse,
@@ -83,7 +84,6 @@ import {
 	UserV1NetworthResponse,
 	UserV1PerksResponse,
 	UserV1PropertiesResponse,
-	UserV1RefillsResponse,
 	UserV1StocksResponse,
 } from "@/utils/common/functions/api-v1.types";
 
@@ -198,7 +198,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserCooldownsResponse &
 	UserTravelResponse &
 	UserNewMessagesResponse &
-	UserV1RefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
+	UserRefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
 	UserV1StocksResponse &
 	UserMeritsResponse &
 	UserV1PerksResponse &
@@ -246,13 +246,12 @@ export async function updateUserdata(forceUpdate = false) {
 		// Fetch the notifications count always, to avoid additional API calls
 
 		// TODO - Migrate to V2 (user/bars).
-		// TODO - Migrate to V2 (user/refills).
-		for (const selection of ["bars", "refills"]) {
+		for (const selection of ["bars"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
 		}
-		for (const selection of ["cooldowns", "icons", "newmessages", "money", "travel"]) {
+		for (const selection of ["cooldowns", "icons", "newmessages", "money", "travel", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);

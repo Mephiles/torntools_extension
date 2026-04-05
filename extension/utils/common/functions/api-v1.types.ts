@@ -6,7 +6,6 @@ export type UserV1BazaarResponse = UserV1["selections"]["bazaar"]["response"];
 export type UserV1EducationResponse = UserV1["selections"]["education"]["response"];
 export type UserV1PerksResponse = UserV1["selections"]["perks"]["response"];
 export type UserV1NetworthResponse = UserV1["selections"]["networth"]["response"];
-export type UserV1RefillsResponse = UserV1["selections"]["refills"]["response"];
 export type UserV1PropertiesResponse = UserV1["selections"]["properties"]["response"];
 export type UserV1StocksResponse = UserV1["selections"]["stocks"]["response"];
 

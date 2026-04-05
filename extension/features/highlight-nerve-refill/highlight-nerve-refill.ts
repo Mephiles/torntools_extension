@@ -5,7 +5,7 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { requireElement } from "@/utils/common/functions/requires";
 
 function applyStyle() {
-	if (!userdata.refills.nerve_refill_used && settings.pages.sidebar.highlightNerve) document.documentElement.classList.add("tt-highlight-nerve-refill");
+	if (!userdata.refills.nerve && settings.pages.sidebar.highlightNerve) document.documentElement.classList.add("tt-highlight-nerve-refill");
 	else document.documentElement.classList.remove("tt-highlight-nerve-refill");
 }
 
@@ -28,7 +28,7 @@ export default class HighlightNerveRefillFeature extends Feature {
 	}
 
 	storageKeys() {
-		return ["settings.pages.sidebar.highlightNerve", "userdata.refills.nerve_refill_used"];
+		return ["settings.pages.sidebar.highlightNerve", "userdata.refills.nerve"];
 	}
 
 	async requirements() {
