@@ -788,7 +788,7 @@ async function setupMarketSearch() {
 	});
 
 	// setup searchbar
-	document.querySelector("#market #search-bar").addEventListener("keyup", (event) => {
+	document.querySelector<HTMLElement>("#market #search-bar").addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
@@ -808,7 +808,7 @@ async function setupMarketSearch() {
 			}
 		}
 	});
-	document.querySelector("#market #search-bar").addEventListener("click", (event) => {
+	document.querySelector<HTMLElement>("#market #search-bar").addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
 		document.querySelector("#market .item-list").classList.add("tt-hidden");
@@ -984,7 +984,7 @@ async function setupCalculator() {
 	});
 
 	// setup searchbar
-	const search = calculator.querySelector(".search");
+	const search = calculator.querySelector<HTMLElement>(".search");
 	search.addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
@@ -1093,7 +1093,7 @@ async function setupStocksOverview() {
 	}
 
 	// setup searchbar
-	stocksOverview.querySelector("#stock-search-bar").addEventListener("keyup", (event) => {
+	stocksOverview.querySelector<HTMLElement>("#stock-search-bar").addEventListener("keyup", (event) => {
 		const keyword = (event.target as HTMLInputElement).value.toLowerCase();
 
 		if (!keyword) {
@@ -1114,7 +1114,7 @@ async function setupStocksOverview() {
 			}
 		}
 	});
-	stocksOverview.querySelector("#stock-search-bar").addEventListener("click", (event) => {
+	stocksOverview.querySelector<HTMLElement>("#stock-search-bar").addEventListener("click", (event) => {
 		(event.target as HTMLInputElement).value = "";
 
 		for (const item of findAllElements(".stock-wrap[data-user='false']", allStocks)) {
