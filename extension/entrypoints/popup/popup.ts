@@ -27,9 +27,9 @@ import {
 } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
 import { applyPlural, capitalizeText, dropDecimals, formatDate, formatNumber, formatTime, textToTime, toSeconds } from "@/utils/common/functions/formatting";
-import { TornV1Stock, UserV1Bar, UserV1ChainBar, UserV1Stock } from "@/utils/common/functions/api-v1.types";
+import { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
 import { TornW3BResult } from "@/utils/common/functions/api.types";
-import { MarketItemMarketResponse, TornItem } from "tornapi-typescript";
+import { MarketItemMarketResponse, TornItem, UserStock } from "tornapi-typescript";
 import { ttCache } from "@/utils/common/data/cache";
 import { TTNotification } from "@/utils/common/data/default-database";
 import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/functions/api";
@@ -1133,7 +1133,7 @@ async function setupStocksOverview() {
 		const stock = typeof stockdata[id] === "number" ? null : stockdata[id];
 		if (stock === null) return null;
 
-		const userStock: UserV1Stock | null = settings.apiUsage.user.stocks ? (userdata.stocks[id] ?? null) : null;
+		const userStock: UserStock | null = settings.apiUsage.user.stocks ? (userdata.stocks.find((s) => s.id === id) ?? null) : null;
 
 		const wrapper = elementBuilder({
 			type: "div",
@@ -1145,7 +1145,7 @@ async function setupStocksOverview() {
 		let boughtPrice: number, profit: number;
 		if (userStock) {
 			boughtPrice = getStockBoughtPrice(userStock).boughtPrice;
-			profit = dropDecimals((stock.current_price - boughtPrice) * userStock.total_shares);
+			profit = dropDecimals((stock.current_price - boughtPrice) * userStock.shares);
 		}
 
 		createHeading();
@@ -1177,7 +1177,7 @@ async function setupStocksOverview() {
 					elementBuilder({
 						type: "span",
 						class: "quantity",
-						text: `(${formatNumber(userStock.total_shares, { shorten: 2 })} share${applyPlural(userStock.total_shares)})`,
+						text: `(${formatNumber(userStock.shares, { shorten: 2 })} share${applyPlural(userStock.shares)})`,
 					})
 				);
 				heading.appendChild(
@@ -1251,10 +1251,10 @@ async function setupStocksOverview() {
 					benefitContent.appendChild(
 						elementBuilder({
 							type: "span",
-							text: userStock.dividend
-								? userStock.dividend.ready
+							text: userStock.bonus
+								? userStock.bonus.available
 									? "Ready now!"
-									: `Available in ${stock.benefit.frequency - userStock.dividend.progress}/${stock.benefit.frequency} days.`
+									: `Available in ${stock.benefit.frequency - userStock.bonus.progress}/${stock.benefit.frequency} days.`
 								: `Available every ${stock.benefit.frequency} days.`,
 						})
 					);
@@ -1264,7 +1264,7 @@ async function setupStocksOverview() {
 					benefitContent.appendChild(
 						elementBuilder({
 							type: "span",
-							text: `Required stocks: ${formatNumber(userStock.total_shares)}/${formatNumber(stock.benefit.requirement)}`,
+							text: `Required stocks: ${formatNumber(userStock.shares)}/${formatNumber(stock.benefit.requirement)}`,
 						})
 					);
 					benefitContent.appendChild(elementBuilder("br"));
@@ -1272,12 +1272,12 @@ async function setupStocksOverview() {
 					let color: string;
 					let duration: string;
 
-					if (userStock.benefit) {
-						if (userStock.benefit.ready) {
+					if (userStock.bonus) {
+						if (userStock.bonus.available) {
 							color = "completed";
 						} else {
 							color = "awaiting";
-							duration = `in ${userStock.benefit.progress}/${stock.benefit.frequency} days.`;
+							duration = `in ${userStock.bonus.progress}/${stock.benefit.frequency} days.`;
 						}
 					} else {
 						color = "not-completed";
@@ -1442,7 +1442,7 @@ async function setupStocksOverview() {
 			});
 		}
 
-		function createRoiTable(stock: TornV1Stock, userStock: UserV1Stock | undefined) {
+		function createRoiTable(stock: TornV1Stock, userStock: UserStock | undefined) {
 			const benefitTable = elementBuilder({
 				type: "table",
 				children: [
@@ -1467,8 +1467,8 @@ async function setupStocksOverview() {
 
 			let ownedLevel: number, activeLevel: number;
 			if (userStock) {
-				ownedLevel = getStockIncrement(stock.benefit.requirement, userStock.total_shares);
-				activeLevel = userStock.dividend ? userStock.dividend.increment : 0;
+				ownedLevel = getStockIncrement(stock.benefit.requirement, userStock.shares);
+				activeLevel = userStock.bonus.increment ? userStock.bonus.increment : 0;
 			} else {
 				ownedLevel = 0;
 				activeLevel = 0;

@@ -29,14 +29,14 @@ function calculateAndShowProfits() {
 	const stockPrices = getStockPrices();
 	const profits = findAllElements("#stockmarketroot [class*='stockMarket__'] > ul[id]")
 		.map((x) => {
-			const stockID = x.id;
-			const userStockData = userdata.stocks[stockID];
+			const stockID = parseInt(x.id);
+			const userStockData = userdata.stocks.find(({ id }) => stockID === id);
 			if (!userStockData) return 0;
 
-			const boughtTotal = Object.values(userStockData.transactions).reduce((prev, trans) => prev + trans.bought_price * trans.shares, 0);
-			const boughtPrice = boughtTotal / userStockData.total_shares;
+			const boughtTotal = Object.values(userStockData.transactions).reduce((prev, trans) => prev + trans.price * trans.shares, 0);
+			const boughtPrice = boughtTotal / userStockData.shares;
 
-			return Math.floor((stockPrices[stockID] - boughtPrice) * userStockData.total_shares);
+			return Math.floor((stockPrices[stockID] - boughtPrice) * userStockData.shares);
 		})
 		.reduce((a, b) => a + b, 0);
 

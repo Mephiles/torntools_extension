@@ -66,6 +66,7 @@ import {
 	UserProfileResponse,
 	UserRefillsResponse,
 	UserSkillsResponse,
+	UserStocksResponse,
 	UserTravelResponse,
 	UserVirusResponse,
 	UserWeaponExpResponse,
@@ -84,7 +85,6 @@ import {
 	UserV1NetworthResponse,
 	UserV1PerksResponse,
 	UserV1PropertiesResponse,
-	UserV1StocksResponse,
 } from "@/utils/common/functions/api-v1.types";
 
 export function timedUpdates() {
@@ -199,7 +199,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserTravelResponse &
 	UserNewMessagesResponse &
 	UserRefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
-	UserV1StocksResponse &
+	UserStocksResponse &
 	UserMeritsResponse &
 	UserV1PerksResponse &
 	UserV1NetworthResponse &
@@ -260,13 +260,11 @@ export async function updateUserdata(forceUpdate = false) {
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
-		// TODO - Migrate to V2 (user/stocks).
 		// TODO - Migrate to V2 (user/perks).
 		// TODO - Migrate to V2 (user/networth).
 		// TODO - Migrate to V2 (user/ammo).
 		// TODO - Migrate to V2 (user/properties).
 		for (const selection of [
-			"stocks",
 			// "inventory",
 			"perks",
 			"networth",
@@ -290,6 +288,7 @@ export async function updateUserdata(forceUpdate = false) {
 			"workstats",
 			"virus",
 			"merits",
+			"stocks",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 

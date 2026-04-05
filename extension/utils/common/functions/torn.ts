@@ -4,8 +4,7 @@ import { requireCondition, requireElement } from "@/utils/common/functions/requi
 import { getCookie, isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { convertToNumber, formatNumber } from "./formatting";
-import { TornCalendarActivity, TornCalendarResponse } from "tornapi-typescript";
-import { UserV1Stock } from "@/utils/common/functions/api-v1.types";
+import { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { torntools } from "@/utils/common/icons/torntools";
 
 export const LINKS = {
@@ -1960,10 +1959,10 @@ export function getRewardValue(reward: string) {
 	return value;
 }
 
-export function getStockBoughtPrice(stock: UserV1Stock) {
-	const boughtTotal = Object.values(stock.transactions).reduce((prev, trans) => prev + trans.bought_price * trans.shares, 0);
+export function getStockBoughtPrice(stock: UserStock) {
+	const boughtTotal = Object.values(stock.transactions).reduce((prev, trans) => prev + trans.price * trans.shares, 0);
 
-	return { boughtTotal, boughtPrice: boughtTotal / stock.total_shares };
+	return { boughtTotal, boughtPrice: boughtTotal / stock.shares };
 }
 
 export function is2FACheckPage() {

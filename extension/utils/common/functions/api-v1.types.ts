@@ -7,7 +7,6 @@ export type UserV1EducationResponse = UserV1["selections"]["education"]["respons
 export type UserV1PerksResponse = UserV1["selections"]["perks"]["response"];
 export type UserV1NetworthResponse = UserV1["selections"]["networth"]["response"];
 export type UserV1PropertiesResponse = UserV1["selections"]["properties"]["response"];
-export type UserV1StocksResponse = UserV1["selections"]["stocks"]["response"];
 
 export type FactionV1ArmorResponse = FactionV1["selections"]["armor"]["response"];
 export type FactionV1BoostersResponse = FactionV1["selections"]["boosters"]["response"];
@@ -31,7 +30,6 @@ export type UserV1Ammo = UserV1AmmoResponse["ammo"];
 export type UserV1Bar = UserV1BarsResponse["nerve"];
 export type UserV1BazaarItem = UserV1BazaarResponse["bazaar"];
 export type UserV1ChainBar = UserV1BarsResponse["chain"];
-export type UserV1Stock = UserV1StocksResponse["stocks"][number];
 
 export type FactionV1Crimes = FactionV1CrimesResponse["crimes"];
 

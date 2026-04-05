@@ -699,9 +699,8 @@ const ACHIEVEMENTS: Achievement[] = [
 	{
 		name: "Stock investment",
 		stats: () =>
-			Object.entries(userdata.stocks)
-				.map(([id, stock]) => stock.total_shares * (stockdata[id] as TornV1Stock).current_price)
-				.reduce((total, value) => total + value, 0),
+			userdata.stocks
+				.map(stock => stock.shares * (stockdata[stock.id] as TornV1Stock).current_price).reduce((total, value) => total + value, 0),
 		detection: { keyword: "stock market", include: ["invest"] },
 		requirements: { pages: ["stocks"] },
 	},
