@@ -1,4 +1,5 @@
 import type { Database } from "@/utils/common/data/database";
+import { toNumericVersion } from "@/utils/common/functions/utilities";
 
 export interface StoredMigration {
 	id: string;
@@ -12,6 +13,9 @@ export interface MigrationScript {
 
 export interface MigrationFlags {
 	updateUserdata: boolean;
+	updateFactiondata: boolean;
+	updateTorndata: boolean;
+	clearCache: boolean;
 }
 
 export const MIGRATIONS: MigrationScript[] = [
@@ -23,3 +27,26 @@ export const MIGRATIONS: MigrationScript[] = [
 		},
 	},
 ];
+
+export async function executeMigrationScripts(storage: Database, oldStorage: any) {
+	const migrations = MIGRATIONS.filter(({ version }) => toNumericVersion(version) >= toNumericVersion(storage.version.initial)).filter(
+		({ id }) => !storage.migrations.map(({ id }) => id).includes(id)
+	);
+
+	const flags: MigrationFlags = {
+		updateUserdata: false,
+		updateFactiondata: false,
+		updateTorndata: false,
+		clearCache: false,
+	};
+
+	migrations.reverse().filter((migration) => {
+		migration.execute(storage, flags, oldStorage);
+		storage.migrations.push({ id: migration.id });
+	});
+
+	if (flags.updateUserdata) storage.userdata.date = 0;
+	if (flags.updateFactiondata) storage.factiondata.date = 0;
+	if (flags.updateTorndata) storage.torndata.date = 0;
+	if (flags.clearCache) storage.cache = {};
+}

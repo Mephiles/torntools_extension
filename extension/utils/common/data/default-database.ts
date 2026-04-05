@@ -881,7 +881,7 @@ type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReach
 export type StoredFactiondataNoAccess = { access: "none"; error?: any; retry?: number };
 export type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number } & FetchedFactiondataBasic;
 type StoredFactiondataFullAccess = { access: "full_access"; date: number; userCrime: number } & FetchedFactiondataWithAccess;
-export type StoredFactiondata = StoredFactiondataNoAccess | StoredFactiondataBasic | StoredFactiondataFullAccess;
+export type StoredFactiondata = (StoredFactiondataNoAccess | StoredFactiondataBasic | StoredFactiondataFullAccess) & { date: number };
 
 export type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | string, TornItem>; date: number };
 

@@ -1170,7 +1170,7 @@ async function updateStakeouts(forceUpdate = false) {
 	}
 	stakeouts.date = now;
 
-	await ttStorage.change({stakeouts, notifications});
+	await ttStorage.change({ stakeouts, notifications });
 	return { updated: true, success, failed };
 }
 
@@ -1415,7 +1415,7 @@ export type FetchedFactiondataWithAccess = FetchedFactiondataBasic & FactionV1Cr
 
 export async function updateFactiondata() {
 	if (!userdata?.faction) {
-		setFactiondata({ access: FACTION_ACCESS.none });
+		setFactiondata({ access: FACTION_ACCESS.none, date: 0 });
 	} else {
 		const hasFactiondata = !factiondata || typeof factiondata !== "object" || factiondata.access !== FACTION_ACCESS.none;
 
@@ -1454,7 +1454,7 @@ export async function updateFactiondata() {
 				return { ...data, retry: Date.now() };
 			}
 
-			return { error, access: FACTION_ACCESS.none };
+			return { error, access: FACTION_ACCESS.none, date: 0 };
 		}
 
 		function calculateOC(crimes: FactionV1Crimes) {
@@ -1478,7 +1478,7 @@ export async function updateFactiondata() {
 		}
 	}
 
-	async function updateBasic(): Promise<StoredFactiondataBasic | StoredFactiondataNoAccess> {
+	async function updateBasic(): Promise<(StoredFactiondataBasic | StoredFactiondataNoAccess) & { date: number }> {
 		try {
 			const data = await fetchData<FetchedFactiondataBasic>("tornv2", {
 				section: "faction",
@@ -1492,7 +1492,7 @@ export async function updateFactiondata() {
 				date: Date.now(),
 			};
 		} catch (error) {
-			return { error, access: FACTION_ACCESS.none };
+			return { error, access: FACTION_ACCESS.none, date: 0 };
 		}
 	}
 }

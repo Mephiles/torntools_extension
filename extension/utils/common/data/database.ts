@@ -3,7 +3,7 @@ import { DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
 import { ttStorage } from "@/utils/common/data/storage";
 import { DEFAULT_STORAGE, DefaultSetting, DefaultStorageType } from "@/utils/common/data/default-database";
 import { sleep, toNumericVersion } from "@/utils/common/functions/utilities";
-import { MigrationFlags, MIGRATIONS } from "@/utils/common/data/migrations";
+import { executeMigrationScripts, MigrationFlags, MIGRATIONS } from "@/utils/common/data/migrations";
 import { browser } from "wxt/browser";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
@@ -230,26 +230,6 @@ function isValidSettingValue(value: any, setting: DefaultSetting<any>): boolean 
 
 	const validTypes = setting.type.split("|");
 	return validTypes.some((type) => (type === "empty" && value === "") || typeof value === type);
-}
-
-async function executeMigrationScripts(storage: Database, oldStorage: any) {
-	const migrations = MIGRATIONS.filter(({ version }) => toNumericVersion(version) >= toNumericVersion(storage.version.initial)).filter(
-		({ id }) => !storage.migrations.map(({ id }) => id).includes(id)
-	);
-
-	const flags: MigrationFlags = {
-		updateUserdata: false,
-	};
-
-	migrations.reverse().filter((migration) => {
-		migration.execute(storage, flags, oldStorage);
-		// storage.migrations.push({ id: migration.id });
-	});
-
-	if (flags.updateUserdata) storage.torndata.date = 0;
-
-	// FIXME - Implement
-	console.log("DKK migrations", migrations, flags);
 }
 
 function populateDatabaseVariables(database: Database) {
