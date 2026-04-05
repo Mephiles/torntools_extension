@@ -161,7 +161,7 @@ function handleFocus() {
 	window.addEventListener("focus", () => {
 		if (focusTimeout) return;
 
-		focusTimeout = window.setTimeout(() => {
+		focusTimeout = setTimeout(() => {
 			focusTimeout = null;
 
 			triggerCustomListener(EVENT_CHANNELS.WINDOW__FOCUS);

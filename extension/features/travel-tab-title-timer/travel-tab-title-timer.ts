@@ -5,9 +5,7 @@ import { settings } from "@/utils/common/data/database";
 let timerUpdateInterval: number | undefined = undefined;
 
 async function showTabTimer() {
-	timerUpdateInterval = window.setInterval(() => {
-		updateTabTimer();
-	}, 1000);
+	timerUpdateInterval = setInterval(() => updateTabTimer(), 1000);
 
 	updateTabTimer();
 }

@@ -15,7 +15,7 @@ function registerListeners() {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateAbroadFeature)) return;
 
 		if (triggerFilter) clearTimeout(triggerFilter);
-		triggerFilter = window.setTimeout(showEstimates, 500);
+		triggerFilter = setTimeout(showEstimates, 500);
 	});
 }
 

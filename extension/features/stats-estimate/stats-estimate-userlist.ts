@@ -21,7 +21,7 @@ function registerListeners() {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateUserlistFeature)) return;
 
 		if (triggerFilter) clearTimeout(triggerFilter);
-		triggerFilter = window.setTimeout(showEstimates, 500);
+		triggerFilter = setTimeout(showEstimates, 500);
 	});
 }
 

@@ -1752,7 +1752,7 @@ async function updateNPCs() {
 		if (!shortest) return;
 
 		if (npcUpdater) clearTimeout(npcUpdater);
-		npcUpdater = window.setTimeout(() => {
+		npcUpdater = setTimeout(() => {
 			updateLevels();
 
 			npcUpdater = undefined;
