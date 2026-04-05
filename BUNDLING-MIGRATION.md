@@ -1,1 +1,0 @@
-- Stricter type checking.
