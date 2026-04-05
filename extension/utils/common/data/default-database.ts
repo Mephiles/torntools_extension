@@ -7,6 +7,7 @@ import { SpecialFilterValue } from "@/utils/common/functions/filters";
 import { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
 import { InternalPageTheme } from "@/utils/common/functions/pages";
 import { ColoredChatOption } from "@/features/colored-chat/colored-chat";
+import { StoredMigration } from "@/utils/common/data/migrations";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
@@ -23,6 +24,7 @@ export class DefaultSetting<T = never> {
 export const DEFAULT_STORAGE = {
 	version: {
 		current: new DefaultSetting<string>("string", () => browser.runtime.getManifest().version),
+		initial: new DefaultSetting<string>("string", () => browser.runtime.getManifest().version),
 		oldVersion: new DefaultSetting<string | null>("string"),
 		showNotice: new DefaultSetting("boolean", true),
 	},
@@ -810,6 +812,7 @@ export const DEFAULT_STORAGE = {
 		missionsLimit: new DefaultSetting<NotificationMap>("object", {}),
 		missionsExpire: new DefaultSetting<NotificationMap>("object", {}),
 	},
+	migrations: new DefaultSetting<StoredMigration[]>("array", []),
 } as const;
 
 type ExtractDefaultSettingType<T> = T extends DefaultSetting<infer U> ? U : T extends object ? { [K in keyof T]: ExtractDefaultSettingType<T[K]> } : T;

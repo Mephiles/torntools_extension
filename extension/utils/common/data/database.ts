@@ -3,6 +3,8 @@ import { DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
 import { ttStorage } from "@/utils/common/data/storage";
 import { DEFAULT_STORAGE, DefaultSetting, DefaultStorageType } from "@/utils/common/data/default-database";
 import { sleep, toNumericVersion } from "@/utils/common/functions/utilities";
+import { MigrationFlags, MIGRATIONS } from "@/utils/common/data/migrations";
+import { browser } from "wxt/browser";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
 export type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
@@ -24,6 +26,7 @@ type DatabaseNotificationHistory = Writable<DefaultStorageType["notificationHist
 type DatabaseStockdata = Writable<DefaultStorageType["stockdata"]>;
 type DatabaseFactionStakeouts = Writable<DefaultStorageType["factionStakeouts"]>;
 type DatabaseNotifications = Writable<DefaultStorageType["notifications"]>;
+type DatabaseMigrations = Writable<DefaultStorageType["migrations"]>;
 
 export interface Database {
 	settings: DatabaseSettings;
@@ -45,6 +48,7 @@ export interface Database {
 	notifications: DatabaseNotifications;
 	cache: DatabaseCache;
 	usage: DatabaseUsage;
+	migrations: DatabaseMigrations;
 	time: number | null;
 }
 
@@ -67,6 +71,7 @@ export let notificationHistory: DatabaseNotificationHistory;
 export let stockdata: DatabaseStockdata;
 export let factionStakeouts: DatabaseFactionStakeouts;
 export let notifications: DatabaseNotifications;
+export let migrations: DatabaseMigrations;
 
 export let databaseLoaded = false;
 export let databaseLoading = false;
@@ -128,6 +133,7 @@ export async function loadDatabase(): Promise<Omit<Database, "time">> {
 			stockdata,
 			usage: ttUsage.usage,
 			notifications,
+			migrations,
 		};
 	} else if ((databaseLoaded && !settings) || databaseLoading) {
 		await sleep(75);
@@ -167,7 +173,10 @@ export async function migrateDatabase(force = false): Promise<void> {
 			return;
 		}
 
-		const migratedStorage = convertStorage(loadedStorage, DEFAULT_STORAGE);
+		const migratedStorage = convertStorage<Database>(loadedStorage, DEFAULT_STORAGE);
+		await executeMigrationScripts(migratedStorage, loadedStorage);
+
+		migratedStorage.version.current = currentVersion;
 
 		await ttStorage.set(migratedStorage);
 
@@ -180,7 +189,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 	}
 }
 
-function convertStorage(oldStorage: any, defaultStorage: any): any {
+function convertStorage<T = any>(oldStorage: any, defaultStorage: any): T {
 	const newStorage: any = {};
 
 	for (const key in defaultStorage) {
@@ -223,6 +232,26 @@ function isValidSettingValue(value: any, setting: DefaultSetting<any>): boolean 
 	return validTypes.some((type) => (type === "empty" && value === "") || typeof value === type);
 }
 
+async function executeMigrationScripts(storage: Database, oldStorage: any) {
+	const migrations = MIGRATIONS.filter(({ version }) => toNumericVersion(version) >= toNumericVersion(storage.version.initial)).filter(
+		({ id }) => !storage.migrations.map(({ id }) => id).includes(id)
+	);
+
+	const flags: MigrationFlags = {
+		updateUserdata: false,
+	};
+
+	migrations.reverse().filter((migration) => {
+		migration.execute(storage, flags, oldStorage);
+		// storage.migrations.push({ id: migration.id });
+	});
+
+	if (flags.updateUserdata) storage.torndata.date = 0;
+
+	// FIXME - Implement
+	console.log("DKK migrations", migrations, flags);
+}
+
 function populateDatabaseVariables(database: Database) {
 	settings = database.settings;
 	filters = database.filters;
@@ -241,6 +270,7 @@ function populateDatabaseVariables(database: Database) {
 	factionStakeouts = database.factionStakeouts;
 	notificationHistory = database.notificationHistory;
 	notifications = database.notifications;
+	migrations = database.migrations;
 
 	ttCache.cache = database.cache;
 	ttUsage.usage = database.usage;
@@ -301,7 +331,7 @@ export function initializeDatabase() {
 						stockdata = changes.stockdata.newValue as DatabaseStockdata;
 						break;
 					case "notificationHistory":
-						 notificationHistory = changes.notificationHistory.newValue as DatabaseNotificationHistory;
+						notificationHistory = changes.notificationHistory.newValue as DatabaseNotificationHistory;
 						break;
 					case "factionStakeouts":
 						factionStakeouts = changes.factionStakeouts.newValue as DatabaseFactionStakeouts;

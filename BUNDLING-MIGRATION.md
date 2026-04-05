@@ -1,3 +1,2 @@
-- Handle database migrations.
 - Migrate remaining features.
 - Stricter type checking.
