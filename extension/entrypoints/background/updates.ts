@@ -64,6 +64,7 @@ import {
 	UserOrganizedCrimeResponse,
 	UserPersonalStatsFull,
 	UserProfileResponse,
+	UserPropertiesResponse,
 	UserRefillsResponse,
 	UserSkillsResponse,
 	UserStocksResponse,
@@ -84,7 +85,6 @@ import {
 	UserV1EducationResponse,
 	UserV1NetworthResponse,
 	UserV1PerksResponse,
-	UserV1PropertiesResponse,
 } from "@/utils/common/functions/api-v1.types";
 
 export function timedUpdates() {
@@ -208,7 +208,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserWorkStatsResponse &
 	UserSkillsResponse &
 	UserWeaponExpResponse &
-	UserV1PropertiesResponse &
+	UserPropertiesResponse &
 	UserCalendarResponse &
 	UserOrganizedCrimeResponse &
 	UserPersonalStatsFull &
@@ -263,13 +263,11 @@ export async function updateUserdata(forceUpdate = false) {
 		// TODO - Migrate to V2 (user/perks).
 		// TODO - Migrate to V2 (user/networth).
 		// TODO - Migrate to V2 (user/ammo).
-		// TODO - Migrate to V2 (user/properties).
 		for (const selection of [
 			// "inventory",
 			"perks",
 			"networth",
 			"ammo",
-			"properties",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
@@ -284,6 +282,7 @@ export async function updateUserdata(forceUpdate = false) {
 			"honors",
 			"weaponexp",
 			"medals",
+			"properties",
 			"missions",
 			"workstats",
 			"virus",

@@ -24,13 +24,15 @@ async function addPropertyHappiness() {
 		if (property.classList.contains("tt-modified")) return;
 
 		const propertyID = parseInt(property.querySelector<HTMLElement>(".image-place").dataset.id);
+		const apiProperty = userdata.properties.find((p) => p.id === propertyID);
+
 		property.classList.add("tt-modified");
 		property.querySelector(".image-description").insertAdjacentElement(
 			"beforeend",
 			elementBuilder({
 				type: "div",
 				class: "tt-property-happiness",
-				text: `Happy: ${formatNumber(userdata.properties[propertyID]?.happy ?? 100)}`,
+				text: `Happy: ${formatNumber(apiProperty?.happy ?? 100)}`,
 			})
 		);
 	}
