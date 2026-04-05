@@ -3,7 +3,7 @@ import { DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
 import { ttStorage } from "@/utils/common/data/storage";
 import { DEFAULT_STORAGE, DefaultSetting, DefaultStorageType } from "@/utils/common/data/default-database";
 import { sleep, toNumericVersion } from "@/utils/common/functions/utilities";
-import { executeMigrationScripts, MigrationFlags, MIGRATIONS } from "@/utils/common/data/migrations";
+import { executeMigrationScripts } from "@/utils/common/data/migrations";
 import { browser } from "wxt/browser";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
