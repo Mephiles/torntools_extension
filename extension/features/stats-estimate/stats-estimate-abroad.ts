@@ -49,7 +49,7 @@ function removeEstimates() {
 
 export default class StatsEstimateAbroadFeature extends Feature {
 	constructor() {
-		super("Stats Estimate Abroad", "abroad");
+		super("Stats Estimate Abroad", "travel");
 	}
 
 	precondition() {
