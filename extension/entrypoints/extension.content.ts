@@ -1,8 +1,9 @@
 import { scriptManager } from "@/utils/script-manager";
 
+// noinspection JSUnusedGlobalSymbols
 export default defineContentScript({
 	matches: ["https://*.torn.com/*"],
-	exclude: [
+	excludeMatches: [
 		"https://*.torn.com/logout.php*",
 		"https://*.torn.com/api.html*",
 		"https://*.torn.com/swagger.php*",

@@ -297,7 +297,6 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new AbroadItemsFilterFeature());
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());
 		FEATURE_MANAGER.registerFeature(new AbroadAutoFillMaxFeature());
-		FEATURE_MANAGER.registerFeature(new StatsEstimateAbroadFeature());
 		FEATURE_MANAGER.registerFeature(new CleanFlightFeature());
 		FEATURE_MANAGER.registerFeature(new FlyingTimeFeature());
 		FEATURE_MANAGER.registerFeature(new LandingTimeFeature());
@@ -311,6 +310,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new EfficientRehabFeature());
 	} else if (page === "abroad-people") {
 		FEATURE_MANAGER.registerFeature(new AbroadPeopleFilterFeature());
+		FEATURE_MANAGER.registerFeature(new StatsEstimateAbroadFeature());
 	} else if (page === "museum") {
 		FEATURE_MANAGER.registerFeature(new MuseumAutoFillFeature());
 	} else if (page === "item") {
