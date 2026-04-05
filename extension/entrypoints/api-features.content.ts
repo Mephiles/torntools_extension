@@ -1,5 +1,8 @@
 import { loadDatabase } from "@/utils/common/data/database";
 import { loadAPISelections } from "@/features/api-selections/api-selections";
+import { loadAutoAPIFill } from "@/features/auto-api-fill/auto-api-fill";
+import { loadAPIDemo } from "@/features/api-demo/api-demo";
+import { loadAPIPretty } from "@/features/auto-pretty/auto-pretty";
 
 // noinspection JSUnusedGlobalSymbols
 export default defineContentScript({
@@ -10,6 +13,9 @@ export default defineContentScript({
 	async main() {
 		await loadDatabase();
 
-		loadAPISelections().then(() => console.log("[TornTools] Loaded API Selections."));
+		loadAPISelections().then(() => {});
+		loadAutoAPIFill();
+		loadAPIDemo();
+		loadAPIPretty();
 	},
 });

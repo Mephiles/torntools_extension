@@ -1,2 +1,1 @@
-- Migrate remaining features.
 - Stricter type checking.
