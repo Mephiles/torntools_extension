@@ -18,7 +18,8 @@
 				{ "message": "Improved error handling for YATA in the travel table.", "contributor": "DeKleineKobini" },
 				{ "message": "Completely different migration system for our storage", "contributor": "DeKleineKobini" },
 				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" },
-				{ "message": "Make a distinction in error handling for no internet vs YATA taking too long.", "contributor": "DeKleineKobini" }
+				{ "message": "Make a distinction in error handling for no internet vs YATA taking too long.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow requests to YATA to take longer (30s, from 10s).", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]

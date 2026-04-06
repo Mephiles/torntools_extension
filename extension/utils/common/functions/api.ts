@@ -12,8 +12,6 @@ export const CUSTOM_API_ERROR = {
 	CANCELLED: "tt-cancelled",
 } as const;
 
-const FETCH_TIMEOUT = 10 * TO_MILLIS.SECONDS;
-
 export const FETCH_PLATFORMS = {
 	tornv2: "https://api.torn.com/v2/",
 	torn_direct: "https://www.torn.com/",
@@ -197,7 +195,7 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 		}
 
 		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+		const timeoutId = setTimeout(() => controller.abort(), decideTimeoutTimer(l));
 
 		fetch(fullUrl, { ...parameters, headers, signal: controller.signal })
 			.then(async (response) => {
@@ -319,6 +317,15 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 			}
 		}
 	});
+}
+
+function decideTimeoutTimer(location: FetchLocation): number {
+	switch (location) {
+		case "yata":
+			return 30 * TO_MILLIS.SECONDS;
+		default:
+			return 10 * TO_MILLIS.SECONDS;
+	}
 }
 
 export function isTornAPICall(location: FetchLocation) {
