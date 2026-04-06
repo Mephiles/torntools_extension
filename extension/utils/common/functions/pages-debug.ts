@@ -2,21 +2,28 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { Database } from "@/utils/common/data/database";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
+import { ttCache } from "@/utils/common/data/cache";
 
 declare global {
 	interface Window {
-		DebugObjects: any;
+		DebugFunctions: any;
+		InternalObjects: any;
 	}
 }
 
 export function exposeDebugObjects() {
 	// noinspection JSUnusedGlobalSymbols
-	window.DebugObjects = {
+	window.DebugFunctions = {
 		fullDataDump,
 		forceUpdateUserdata: () => BACKGROUND_SERVICE.forceUpdate("userdata"),
 		forceUpdateTorndata: () => BACKGROUND_SERVICE.forceUpdate("torndata"),
 		forceUpdateAll,
 		reinitializeTimers: () => BACKGROUND_SERVICE.reinitializeTimers(),
+	};
+	// noinspection JSUnusedGlobalSymbols
+	window.InternalObjects = {
+		ttStorage,
+		ttCache,
 	};
 }
 
