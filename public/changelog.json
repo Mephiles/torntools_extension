@@ -11,7 +11,8 @@
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },
 				{ "message": "'Efficient Rehab' didn't always properly update the slider color.", "contributor": "DeKleineKobini" },
-				{ "message": "Use broader safety check for event start time checks.", "contributor": "DeKleineKobini" }
+				{ "message": "Use broader safety check for event start time checks.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix popup not opening for a little bit after adding a new stakeout.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
@@ -19,7 +20,8 @@
 				{ "message": "Completely different migration system for our storage", "contributor": "DeKleineKobini" },
 				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" },
 				{ "message": "Make a distinction in error handling for no internet vs YATA taking too long.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow requests to YATA to take longer (30s, from 10s).", "contributor": "DeKleineKobini" }
+				{ "message": "Allow requests to YATA to take longer (30s, from 10s).", "contributor": "DeKleineKobini" },
+				{ "message": "Use the profile information for initial stakeout data.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]

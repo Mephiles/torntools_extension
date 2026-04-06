@@ -2,9 +2,9 @@ import "./profile-box.css";
 import { Feature } from "@/features/feature-manager";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
 import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
-import { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserPersonalStatsFull } from "tornapi-typescript";
+import { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
-import { elementBuilder, findAllElements, showLoadingPlaceholder } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, isElement, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { ttCache } from "@/utils/common/data/cache";
@@ -842,7 +842,7 @@ async function showBox() {
 					else errors.push({ service: "YATA", message: `Unknown (${code}) - ${message}` });
 				} else if (error.code === 502) {
 					errors.push({ service: "YATA", message: "YATA appears to be down." });
-				} else if ( error.code === CUSTOM_API_ERROR.CANCELLED) {
+				} else if (error.code === CUSTOM_API_ERROR.CANCELLED) {
 					errors.push({ service: "YATA", message: "Request took too long, YATA is probably taking too long to respond." });
 				} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
 					errors.push({ service: "YATA", message: "Network issues. You likely have no internet at this moment." });
@@ -1052,7 +1052,7 @@ async function showBox() {
 		checkbox.onChange(() => {
 			if (checkbox.isChecked()) {
 				stakeouts[id] = {
-					info: null,
+					info: readStakeoutDataFromProfilePage(),
 					alerts: { okay: false, hospital: false, landing: false, online: false, life: false, offline: false, revivable: false },
 				};
 				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
@@ -1208,6 +1208,96 @@ function crimesStats(c1Getter: (data: PersonalStatsCrimesV1) => number, c2Getter
 		else if (cVersion === "v2") return c2Getter(data.personalstats.crimes as PersonalStatsCrimesV2);
 		else throw new Error(`Unsupported crimes version '${cVersion}'!`);
 	};
+}
+
+function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
+	let name: string;
+	let lastActionStatus: UserLastActionStatusEnum;
+	let lastActionRelative: string;
+	let lifeCurrent: number;
+	let lifeMaximum: number;
+	let statusState: UserStatusStateEnum | string;
+	let statusColor: string;
+	let statusDescription: string;
+
+	const nameElement = document.querySelector<HTMLElement>(".user.name[data-placeholder]");
+	if (nameElement) name = nameElement.dataset.placeholder!;
+	else name = "Unknown";
+
+	if (document.querySelector("li[id*='icon2']")) lastActionStatus = "Offline";
+	else if (document.querySelector("li[id*='icon62']")) lastActionStatus = "Idle";
+	else if (document.querySelector("li[id*='icon1']")) lastActionStatus = "Online";
+	else lastActionStatus = "Offline";
+
+	const lastActionElement = extractInformationProfileInformationTable("Last action");
+	lastActionRelative = lastActionElement? lastActionElement.textContent : "N/A";
+
+	const lifeElement = extractInformationProfileInformationTable("Lie");
+	if (lifeElement) {
+		const lifeText = lifeElement.textContent.split(" / ");
+
+		lifeCurrent = parseInt(lifeText[0]);
+		lifeMaximum = parseInt(lifeText[1]);
+	} else {
+		lifeCurrent = 0;
+		lifeMaximum = 100;
+	}
+
+	if (document.querySelector("li[id*='icon15']")) {
+		statusState = "Hospital";
+		statusColor = "red";
+	}
+	else if (document.querySelector("li[id*='icon16']")) {
+		statusState = "Jail";
+		statusColor = "red";
+	}
+	else if (document.querySelector("li[id*='icon71']")) {
+		statusState = "Traveling";
+		statusColor = "blue";
+	}
+	else if (document.querySelector("li[id*='icon77']")) {
+		statusState = "Fallen";
+		statusColor = "red";
+	}
+	else {
+		statusState = "Okay"
+		statusColor = "green";
+	}
+
+	const statusDescriptionElement = document.querySelector(".main-desc");
+	statusDescription = statusDescriptionElement ? statusDescriptionElement.textContent : "Unknown";
+
+	return {
+		name,
+		last_action: {
+			status: lastActionStatus,
+			relative: lastActionRelative,
+			timestamp: -1,
+		},
+		life: {
+			current: lifeCurrent,
+			maximum: lifeMaximum,
+		},
+		status: {
+			state: statusState,
+			color: statusColor,
+			until: null,
+			description: statusDescription,
+		},
+		isRevivable: false,
+	};
+}
+
+function extractInformationProfileInformationTable(title: string): HTMLElement | null {
+	const node = document.evaluate(
+		`//li[.//div[@class='user-information-section']//span[text()='${title}']]//div[@class='user-info-value']/span`,
+		document,
+		null,
+		XPathResult.FIRST_ORDERED_NODE_TYPE,
+		null
+	).singleNodeValue;
+
+	return isHTMLElement(node) ? node : null;
 }
 
 export default class ProfileBoxFeature extends Feature {

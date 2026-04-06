@@ -585,11 +585,11 @@ async function setupDashboard() {
 
 		for (const id of stakeouts.order) {
 			const stakeout = stakeouts[id];
-			if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
+			if (!stakeout || typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
 			let activity: string, name: string, lastAction: string, lifeCurrent: number, lifeMaximum: number, state: string, stateColor: string;
 
-			if (stakeout && Object.keys(stakeout).length) {
+			if (stakeout.info) {
 				activity = stakeout.info.last_action.status;
 				name = stakeout.info.name;
 				lastAction = stakeout.info.last_action.relative;
