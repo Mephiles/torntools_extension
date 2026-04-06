@@ -79,7 +79,13 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 		return new Promise((resolve, reject) => {
 			(BACKGROUND_SERVICE.fetchRelay(l, { ...options, relay: false }) as Promise<R>)
 				.then((response) => resolve(response))
-				.catch((error) => reject(new Error(error)));
+				.catch((error) => {
+					if (error.name === "NonError") {
+						reject(JSON.parse(error.message))
+					} else {
+						reject(new Error(error));
+					}
+				});
 		});
 	}
 
