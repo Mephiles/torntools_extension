@@ -842,7 +842,9 @@ async function showBox() {
 					else errors.push({ service: "YATA", message: `Unknown (${code}) - ${message}` });
 				} else if (error.code === 502) {
 					errors.push({ service: "YATA", message: "YATA appears to be down." });
-				} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK || error.code === CUSTOM_API_ERROR.CANCELLED) {
+				} else if ( error.code === CUSTOM_API_ERROR.CANCELLED) {
+					errors.push({ service: "YATA", message: "Request took too long, YATA is probably taking too long to respond." });
+				} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
 					errors.push({ service: "YATA", message: "Network issues. You likely have no internet at this moment." });
 				} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
 					errors.push({ service: "YATA", message: "Permission not granted. Please make sure YATA has permission to run." });
