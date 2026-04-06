@@ -4,16 +4,16 @@ import { Database } from "@/utils/common/data/database";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 import { ttCache } from "@/utils/common/data/cache";
 
-declare global {
-	interface Window {
-		DebugFunctions: any;
-		InternalObjects: any;
-	}
-}
+// declare global {
+// 	interface Window {
+// 		DebugFunctions: any;
+// 		InternalObjects: any;
+// 	}
+// }
 
 export function exposeDebugObjects() {
 	// noinspection JSUnusedGlobalSymbols
-	window.DebugFunctions = {
+	globalThis.DebugFunctions = {
 		fullDataDump,
 		forceUpdateUserdata: () => BACKGROUND_SERVICE.forceUpdate("userdata"),
 		forceUpdateTorndata: () => BACKGROUND_SERVICE.forceUpdate("torndata"),
@@ -21,7 +21,7 @@ export function exposeDebugObjects() {
 		reinitializeTimers: () => BACKGROUND_SERVICE.reinitializeTimers(),
 	};
 	// noinspection JSUnusedGlobalSymbols
-	window.InternalObjects = {
+	globalThis.InternalObjects = {
 		ttStorage,
 		ttCache,
 	};

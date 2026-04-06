@@ -18,6 +18,7 @@ import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/utils/services/pro
 import { registerService } from "@webext-core/proxy-service";
 import { SourceService } from "@/utils/services/SourceService";
 import { BackgroundService } from "@/utils/services/BackgroundService";
+import { exposeDebugObjects } from "@/utils/common/functions/pages-debug";
 
 type Alarm = Browser.alarms.Alarm;
 
@@ -152,5 +153,6 @@ export default defineBackground(() => {
 	} else {
 		self.addEventListener("online", timedUpdates);
 	}
+	exposeDebugObjects();
 	console.log("Background script loaded");
 });
