@@ -2498,3 +2498,7 @@ export const RANKS = {
 	Elite: 25,
 	Invincible: 26,
 } as const;
+
+export function isDarkTheme() {
+	return document.body.classList.contains("dark-mode");
+}

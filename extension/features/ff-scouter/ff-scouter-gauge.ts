@@ -11,6 +11,7 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { type ScouterService, scouterService } from "@/features/ff-scouter/ff-scouter";
+import { displayAlert } from "@/utils/common/functions/alerts";
 
 let scoutLock = false;
 let lockFailure = false;
@@ -40,6 +41,14 @@ async function triggerGauge() {
 		applyGauge(honorBars)
 			.catch((reason) => {
 				if (!reason) return;
+
+				if ("error" in reason) {
+					displayAlert({
+						title: "FFScouter Failure",
+						text: reason.error,
+						type: "error",
+					});
+				}
 
 				console.error("TT - Failed to scout ff for the honor bars.", reason);
 			})
@@ -235,7 +244,7 @@ export default class FFScouterGaugeFeature extends Feature {
 	}
 
 	cleanup() {
-		removeGauge()
+		removeGauge();
 	}
 
 	storageKeys(): string[] {

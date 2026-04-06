@@ -21,7 +21,8 @@
 				{ "message": "Move more stuff to the V2 API.", "contributor": "DeKleineKobini" },
 				{ "message": "Make a distinction in error handling for no internet vs YATA taking too long.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow requests to YATA to take longer (30s, from 10s).", "contributor": "DeKleineKobini" },
-				{ "message": "Use the profile information for initial stakeout data.", "contributor": "DeKleineKobini" }
+				{ "message": "Use the profile information for initial stakeout data.", "contributor": "DeKleineKobini" },
+				{ "message": "Make errors from FFScouter visible in the 'Gauge' feature.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]
