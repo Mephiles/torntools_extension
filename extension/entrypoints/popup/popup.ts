@@ -14,6 +14,7 @@ import {
 } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, isHTMLElement, rotateElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
 import { isToday, sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
+import { PHCaretDown, PHFillBell, PHFillBellSlash, PHFillCaretDown, PHFillCaretRight, PHTrash } from "@/utils/common/icons/phosphor-icons";
 import {
 	ALL_ICONS,
 	getNextChainBonus,
@@ -34,7 +35,6 @@ import { ttCache } from "@/utils/common/data/cache";
 import { TTNotification } from "@/utils/common/data/default-database";
 import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/functions/api";
 import { getPageTheme } from "@/utils/common/functions/pages";
-import "@vendor/phosphor-icons";
 
 const SETUP_PAGES = {
 	initialize: setupInitialize,
@@ -194,7 +194,8 @@ async function setupDashboard() {
 	}
 
 	dashboard.querySelector("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
-	dashboard.querySelector("#mute-notifications i").classList.add(settings.notifications.types.global ? "ph-bell" : "ph-bell-slash");
+	const muteIcon = settings.notifications.types.global ? PHFillBell() : PHFillBellSlash();
+	dashboard.querySelector("#mute-notifications .icon-placeholder").replaceWith(muteIcon);
 	dashboard.querySelector("#mute-notifications span").textContent = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
 	dashboard.querySelector("#mute-notifications").addEventListener("click", () => {
 		const newStatus = !settings.notifications.types.global;
@@ -204,14 +205,12 @@ async function setupDashboard() {
 		if (newStatus) {
 			dashboard.querySelector("#mute-notifications").classList.add("enabled");
 			dashboard.querySelector("#mute-notifications").classList.remove("disabled");
-			dashboard.querySelector("#mute-notifications i").classList.add("ph-bell");
-			dashboard.querySelector("#mute-notifications i").classList.remove("ph-bell-slash");
+			dashboard.querySelector("#mute-notifications svg")?.replaceWith(PHFillBell());
 			dashboard.querySelector("#mute-notifications span").textContent = "Notifications enabled";
 		} else {
 			dashboard.querySelector("#mute-notifications").classList.remove("enabled");
 			dashboard.querySelector("#mute-notifications").classList.add("disabled");
-			dashboard.querySelector("#mute-notifications i").classList.remove("ph-bell");
-			dashboard.querySelector("#mute-notifications i").classList.add("ph-bell-slash");
+			dashboard.querySelector("#mute-notifications svg")?.replaceWith(PHFillBellSlash());
 			dashboard.querySelector("#mute-notifications span").textContent = "Notifications disabled";
 		}
 	});
@@ -250,30 +249,29 @@ async function setupDashboard() {
 	}, 1000);
 
 	dashboard.querySelector<HTMLAnchorElement>(".stakeouts .heading a").href = `${browser.runtime.getURL("/targets.html")}?page=stakeouts`;
-	dashboard.querySelector(".stakeouts .heading i").addEventListener("click", () => {
+	dashboard.querySelector(".stakeouts .heading .icon-placeholder").replaceWith(PHFillCaretDown());
+	dashboard.querySelector(".stakeouts .heading .icon-wrapper").addEventListener("click", () => {
 		const stakeoutSection = dashboard.querySelector(".stakeouts .stakeout-list");
 
 		if (stakeoutSection.classList.contains("tt-hidden")) {
 			stakeoutSection.classList.remove("tt-hidden");
-			dashboard.querySelector(".stakeouts .heading i").classList.add("ph-caret-down");
-			dashboard.querySelector(".stakeouts .heading i").classList.remove("ph-caret-right");
+			dashboard.querySelector(".stakeouts .heading svg").innerHTML = PHFillCaretDown().innerHTML;
 		} else {
 			stakeoutSection.classList.add("tt-hidden");
-			dashboard.querySelector(".stakeouts .heading i").classList.remove("ph-caret-down");
-			dashboard.querySelector(".stakeouts .heading i").classList.add("ph-caret-right");
+			dashboard.querySelector(".stakeouts .heading svg").innerHTML = PHFillCaretRight().innerHTML;
 		}
 	});
-	dashboard.querySelector(".faction-stakeouts .heading i").addEventListener("click", () => {
+
+	dashboard.querySelector(".faction-stakeouts .heading .icon-placeholder").replaceWith(PHFillCaretDown());
+	dashboard.querySelector(".faction-stakeouts .heading .icon-wrapper").addEventListener("click", () => {
 		const factionStakeoutSection = dashboard.querySelector(".faction-stakeouts .stakeout-list");
 
 		if (factionStakeoutSection.classList.contains("tt-hidden")) {
 			factionStakeoutSection.classList.remove("tt-hidden");
-			dashboard.querySelector(".faction-stakeouts .heading i").classList.add("ph-caret-down");
-			dashboard.querySelector(".faction-stakeouts .heading i").classList.remove("ph-caret-right");
+			dashboard.querySelector(".faction-stakeouts .heading svg").replaceWith(PHFillCaretDown());
 		} else {
 			factionStakeoutSection.classList.add("tt-hidden");
-			dashboard.querySelector(".faction-stakeouts .heading i").classList.remove("ph-caret-down");
-			dashboard.querySelector(".faction-stakeouts .heading i").classList.add("ph-caret-right");
+			dashboard.querySelector(".faction-stakeouts .heading svg").replaceWith(PHFillCaretRight());
 		}
 	});
 
@@ -610,7 +608,7 @@ async function setupDashboard() {
 			const removeStakeoutButton = elementBuilder({
 				type: "div",
 				class: "delete-stakeout-wrap",
-				children: [elementBuilder({ type: "i", class: "delete-stakeout ph ph-trash" })],
+				children: [PHTrash({ class: "delete-stakeout" })],
 			});
 			removeStakeoutButton.addEventListener("click", () => {
 				delete stakeouts[id];
@@ -719,7 +717,7 @@ async function setupDashboard() {
 			const removeStakeoutButton = elementBuilder({
 				type: "div",
 				class: "delete-stakeout-wrap",
-				children: [elementBuilder({ type: "i", class: "delete-stakeout ph ph-trash" })],
+				children: [PHTrash({ class: "delete-stakeout" })],
 			});
 			removeStakeoutButton.addEventListener("click", () => {
 				delete factionStakeouts[factionId];
@@ -1429,14 +1427,14 @@ async function setupStocksOverview() {
 						class: "title",
 						text: title,
 					}),
-					elementBuilder({ type: "i", class: "ph ph-caret-down" }),
+					PHCaretDown(),
 				],
 				events: {
 					click: (event) => {
 						content.classList[content.classList.contains("tt-hidden") ? "remove" : "add"]("tt-hidden");
 
 						const target = event.target as HTMLElement;
-						rotateElement((target.classList.contains("heading") ? target : target.parentElement).querySelector("i"), 180);
+						rotateElement((target.classList.contains("heading") ? target : target.parentElement).querySelector("svg"), 180);
 					},
 				},
 			});

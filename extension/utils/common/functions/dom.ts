@@ -1,6 +1,7 @@
 import "./dom.css";
 import { requireCondition, requireElement } from "@/utils/common/functions/requires";
 import { getUUID } from "@/utils/common/functions/utilities";
+import { PHFillCaretDown, PHFillCaretUp } from "@/utils/common/icons/phosphor-icons";
 
 export const rotatingElements: Record<string, { interval: number; totalDegrees: number }> = {};
 export let mobile: boolean, tablet: boolean, hasSidebar: boolean, tabletHorizontal: boolean, tabletVertical: boolean;
@@ -21,6 +22,8 @@ interface ElementBuilderOptions {
 
 export function elementBuilder<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K];
 export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: ElementBuilderOptions & { type: K }): HTMLElementTagNameMap[K];
+export function elementBuilder<K extends keyof SVGElementTagNameMap>(tagName: K): SVGElementTagNameMap[K];
+export function elementBuilder<K extends keyof SVGElementTagNameMap>(options: ElementBuilderOptions & { type: K }): SVGElementTagNameMap[K];
 
 export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K | (ElementBuilderOptions & { type: K })): HTMLElementTagNameMap[K] {
 	if (typeof options === "string") {
@@ -187,7 +190,7 @@ export function findParent(element: Node, options: Partial<FindParentOptions> = 
 	return findParent(element.parentElement, { ...options, currentAttempt: options.currentAttempt + 1 });
 }
 
-export function rotateElement(element: HTMLElement, degrees: number) {
+export function rotateElement(element: HTMLElement | SVGElement, degrees: number) {
 	let uuid: string;
 	if (element.hasAttribute("rotate-id")) uuid = element.getAttribute("rotate-id");
 	else {
@@ -226,17 +229,15 @@ type TableSortOrder = "asc" | "desc" | "none";
 
 export function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrder) {
 	const header = table.querySelector(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
-	const icon = header.querySelector("i");
+	let icon = header.querySelector<SVGElement>("svg");
 	if (order) {
 		if (icon) {
 			switch (order) {
 				case "asc":
-					icon.classList.add("ph-caret-up");
-					icon.classList.remove("ph-caret-down");
+					icon.innerHTML = PHFillCaretUp().innerHTML;
 					break;
 				case "desc":
-					icon.classList.add("ph-caret-down");
-					icon.classList.remove("ph-caret-up");
+					icon.innerHTML = PHFillCaretDown().innerHTML;
 					break;
 				case "none":
 				default:
@@ -246,30 +247,32 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 		} else {
 			switch (order) {
 				case "asc":
-					header.appendChild(elementBuilder({ type: "i", class: "ph-fill ph-caret-up" }));
+					icon = PHFillCaretUp();
+					header.appendChild(icon);
 					break;
 				case "desc":
-					header.appendChild(elementBuilder({ type: "i", class: "ph-fill ph-caret-down" }));
+					icon = PHFillCaretDown();
+					header.appendChild(icon);
 					break;
 			}
 		}
 	} else if (icon) {
-		if (icon.classList.contains("ph-caret-down")) {
-			icon.classList.add("ph-caret-up");
-			icon.classList.remove("ph-caret-down");
+		if (icon.dataset.order === "desc") {
+			icon.innerHTML = PHFillCaretUp().innerHTML;
 
 			order = "asc";
-		} else if (icon.classList.contains("ph-caret-up")) {
-			icon.classList.add("ph-caret-down");
-			icon.classList.remove("ph-caret-up");
+		} else if (icon.dataset.order === "asc") {
+			icon.innerHTML = PHFillCaretDown().innerHTML;
 
 			order = "desc";
 		}
 	} else {
-		header.appendChild(elementBuilder({ type: "i", class: "ph-fill ph-caret-up" }));
+		icon = PHFillCaretUp();
+		header.appendChild(icon);
 
 		order = "asc";
 	}
+	icon.dataset.order = order;
 
 	table.dataset.ttSortColumn = columnPlace.toString();
 	table.dataset.ttSortOrder = order;
@@ -450,6 +453,11 @@ export function isTextNode(node: Node): node is Text {
 export function isHTMLElement(node: Node | EventTarget): node is HTMLElement {
 	return isElement(node) && "dataset" in node && "title" in node;
 }
+
 export function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node | EventTarget, tag: K): node is HTMLElementTagNameMap[K] {
 	return isHTMLElement(node) && node.tagName.toLowerCase() === tag;
+}
+
+export function isSVGElement(node: Node | EventTarget | null): node is SVGElement {
+	return node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && "ownerSVGElement" in node;
 }

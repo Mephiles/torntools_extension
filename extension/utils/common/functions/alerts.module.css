@@ -46,8 +46,8 @@
 				height: 24px;
 				margin-top: 2px;
 
-				i {
-					font-size: 20px;
+				svg {
+					font-size: 24px;
 					line-height: 1;
 				}
 			}
@@ -95,7 +95,7 @@
 				color: #374151;
 			}
 
-			i {
+			svg {
 				font-size: 16px;
 			}
 		}
@@ -124,19 +124,19 @@
 			}
 		}
 
-		&[data-toast-type="success"] .toast-icon i {
+		&[data-toast-type="success"] .toast-icon svg {
 			color: #10b981;
 		}
 
-		&[data-toast-type="error"] .toast-icon i {
+		&[data-toast-type="error"] .toast-icon svg {
 			color: #ef4444;
 		}
 
-		&[data-toast-type="warning"] .toast-icon i {
+		&[data-toast-type="warning"] .toast-icon svg {
 			color: #f59e0b;
 		}
 
-		&[data-toast-type="info"] .toast-icon i {
+		&[data-toast-type="info"] .toast-icon svg {
 			color: #3b82f6;
 		}
 	}

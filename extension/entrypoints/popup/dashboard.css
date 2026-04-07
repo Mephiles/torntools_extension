@@ -219,19 +219,19 @@ body.dark #dashboard .extra {
 #dashboard .actions #mute-notifications {
 	float: right;
 	cursor: pointer;
-}
+	display: flex;
 
-#dashboard .actions #mute-notifications.enabled {
-	color: green;
-}
+	&.enabled {
+		color: green;
+	}
 
-#dashboard .actions #mute-notifications.disabled {
-	color: red;
-}
+	&.disabled {
+		color: red;
+	}
 
-#dashboard .actions #mute-notifications i {
-	width: 15px;
-	text-align: center;
+	svg {
+		width: 15px;
+	}
 }
 
 /* Stakeouts */
@@ -277,12 +277,16 @@ body.dark #dashboard .faction-stakeouts .faction:nth-child(even) {
 	color: inherit;
 }
 
-#dashboard .stakeouts i,
-#dashboard .faction-stakeouts i {
+#dashboard .stakeouts .icon-wrapper,
+#dashboard .faction-stakeouts .icon-wrapper {
 	cursor: pointer;
 	font-size: 16px;
 	flex: 1;
 	text-align: end;
+}
+
+.icon-placeholder {
+	display: none;
 }
 
 #dashboard .stakeouts .row,

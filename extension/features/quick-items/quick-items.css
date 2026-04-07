@@ -98,7 +98,7 @@ body.dark-mode #quickItems .inner-content .item .sub-text {
 	left: 0 !important;
 }
 
-#quickItems #edit-items-button i {
+#quickItems #edit-items-button svg {
 	margin-right: 4px;
 }
 

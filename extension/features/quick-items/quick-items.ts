@@ -11,6 +11,7 @@ import { requireContent, requireItemsLoaded } from "@/utils/common/functions/req
 import { QuickItem } from "@/utils/common/data/default-database";
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { ttStorage } from "@/utils/common/data/storage";
+import { PHPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 
 let movingElement: Element | undefined;
 let isEditing = false;
@@ -69,7 +70,7 @@ async function loadQuickItems() {
 			type: "div",
 			class: "option",
 			id: "edit-items-button",
-			children: [elementBuilder({ type: "i", class: "ph ph-plus" }), "Edit"],
+			children: [PHPlus(), "Edit"],
 			events: {
 				click: (event) => {
 					event.stopPropagation();
@@ -317,8 +318,9 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 	}
 
 	const closeIcon = elementBuilder({
-		type: "i",
-		class: "ph ph-x tt-close-icon",
+		type: "div",
+		class: "tt-close-icon",
+		children: [PHX()],
 		attributes: { title: "Remove quick access." },
 		events: {
 			click: async (event) => {

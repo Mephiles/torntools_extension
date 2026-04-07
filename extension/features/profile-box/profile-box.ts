@@ -4,7 +4,7 @@ import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/func
 import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
 import { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
-import { elementBuilder, findAllElements, isElement, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { ttCache } from "@/utils/common/data/cache";
@@ -18,6 +18,7 @@ import { TornstatsSpy, YATASpyResponse } from "@/utils/common/functions/api.type
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
 import { StakeoutData } from "@/utils/common/data/default-database";
+import { PHArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {
 	let node: Node;
@@ -578,7 +579,7 @@ async function showBox() {
 			const moveButton = elementBuilder({
 				type: "button",
 				class: "move-stats",
-				children: [elementBuilder({ type: "i", class: "ph-fill ph-arrows-out-cardinal" })],
+				children: [PHFillArrowsOutCardinal()],
 				events: {
 					click() {
 						if (moveButton.classList.toggle("active")) {
@@ -622,7 +623,7 @@ async function showBox() {
 			const editButton = elementBuilder({
 				type: "button",
 				class: "edit-stats",
-				children: [elementBuilder({ type: "i", class: "ph-fill ph-gear" })],
+				children: [PHFillGear()],
 				events: {
 					click() {
 						const overlay = document.querySelector(".tt-overlay")!;
@@ -986,8 +987,8 @@ async function showBox() {
 			if (sourceText) footer.appendChild(elementBuilder({ type: "p", class: "spy-source", html: sourceText }));
 			footer.appendChild(
 				elementBuilder({
-					type: "i",
-					class: "ph-fill ph-arrow-rotate-right",
+					type: "div",
+					children: [PHArrowClockwise()],
 					events: {
 						click: () => {
 							section.remove();
@@ -1004,8 +1005,8 @@ async function showBox() {
 			footer.appendChild(elementBuilder({ type: "span", class: "no-spy", text: "There is no spy report." }));
 			footer.appendChild(
 				elementBuilder({
-					type: "i",
-					class: "ph-fill ph-arrow-rotate-right",
+					type: "div",
+					children: [PHArrowClockwise()],
 					events: {
 						click: () => {
 							section.remove();
@@ -1230,7 +1231,7 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	else lastActionStatus = "Offline";
 
 	const lastActionElement = extractInformationProfileInformationTable("Last action");
-	lastActionRelative = lastActionElement? lastActionElement.textContent : "N/A";
+	lastActionRelative = lastActionElement ? lastActionElement.textContent : "N/A";
 
 	const lifeElement = extractInformationProfileInformationTable("Lie");
 	if (lifeElement) {
@@ -1246,21 +1247,17 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	if (document.querySelector("li[id*='icon15']")) {
 		statusState = "Hospital";
 		statusColor = "red";
-	}
-	else if (document.querySelector("li[id*='icon16']")) {
+	} else if (document.querySelector("li[id*='icon16']")) {
 		statusState = "Jail";
 		statusColor = "red";
-	}
-	else if (document.querySelector("li[id*='icon71']")) {
+	} else if (document.querySelector("li[id*='icon71']")) {
 		statusState = "Traveling";
 		statusColor = "blue";
-	}
-	else if (document.querySelector("li[id*='icon77']")) {
+	} else if (document.querySelector("li[id*='icon77']")) {
 		statusState = "Fallen";
 		statusColor = "red";
-	}
-	else {
-		statusState = "Okay"
+	} else {
+		statusState = "Okay";
 		statusColor = "green";
 	}
 

@@ -1,0 +1,8 @@
+.export-button {
+	cursor: pointer;
+	gap: 2px;
+
+	svg {
+		font-size: 22px;
+	}
+}

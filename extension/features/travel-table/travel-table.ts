@@ -11,6 +11,7 @@ import { PrometheusTravelResponse, YATATravelResponse } from "@/utils/common/fun
 import { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { toCorrectType } from "@/utils/common/functions/utilities";
+import { PHFillCaretDown, PHFillCaretRight, PHFillAirplane } from "@/utils/common/icons/phosphor-icons";
 
 interface CountryInformation {
 	name: string;
@@ -140,7 +141,7 @@ async function startTable() {
 									type: "div",
 									class: "legend-icon",
 									children: [
-										elementBuilder({ type: "i", class: ["ph-bold", isOpen ? "ph-caret-down" : "ph-caret-right"] }),
+										isOpen ? PHFillCaretDown() : PHFillCaretRight(),
 										elementBuilder({ type: "span", text: "Filters" }),
 									],
 								}),
@@ -438,14 +439,6 @@ async function startTable() {
 
 				const isOpen = !content.querySelector(".legend-content").classList.toggle("tt-hidden");
 
-				const iconClasses = content.querySelector(".legend-icon i").classList;
-				if (isOpen) {
-					iconClasses.remove("ph-caret-right");
-					iconClasses.add("ph-caret-down");
-				} else {
-					iconClasses.remove("ph-caret-right");
-					iconClasses.add("ph-caret-down");
-				}
 				ttStorage.change({ filters: { travel: { open: isOpen } } });
 			});
 
@@ -698,7 +691,7 @@ async function startTable() {
 						"aria-labelledby": "travel-table",
 					},
 					children: [
-						elementBuilder({ type: "i", class: "tt-travel-icon ph-fill ph-airplane" }),
+						PHFillAirplane(),
 						mobile ? null : elementBuilder({ type: "span", text: isOpened ? "Home" : "Travel Table" }),
 					],
 					events: {

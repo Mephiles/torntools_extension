@@ -1,6 +1,5 @@
 import {
 	api,
-	Database,
 	DatabaseKey,
 	factiondata,
 	initializeDatabase,
@@ -26,6 +25,7 @@ import { Chart, registerables } from "chart.js";
 import Sortable from "sortablejs";
 import "@vendor/phosphor-icons";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
+import { PHCaretDown, PHDotsSix, PHTrash } from "@/utils/common/icons/phosphor-icons";
 
 Chart.register(...registerables);
 
@@ -97,7 +97,7 @@ async function setupChangelog() {
 
 		const log = elementBuilder({ type: "div", class: "version-log" });
 		const heading = elementBuilder({ type: "div", class: "title", text: getTitle() });
-		const icon = elementBuilder({ type: "i", class: "ph ph-caret-down" });
+		const icon = PHCaretDown();
 		heading.appendChild(icon);
 		log.appendChild(heading);
 
@@ -828,7 +828,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [elementBuilder({ type: "i", class: "remove-icon ph ph-trash" })],
+			children: [PHTrash({ class: "remove-icon" })],
 		});
 		const newRow = elementBuilder({
 			type: "li",
@@ -848,7 +848,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [elementBuilder({ type: "i", class: "remove-icon ph ph-trash" })],
+			children: [PHTrash({ class: "remove-icon" })],
 		});
 		const newRow = elementBuilder({
 			type: "li",
@@ -942,7 +942,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				elementBuilder({
 					type: "button",
 					class: "remove-icon-wrap",
-					children: [elementBuilder({ type: "i", class: "remove-icon ph ph-trash" })],
+					children: [PHTrash({ class: "remove-icon" })],
 					events: {
 						click: () => newRow.remove(),
 					},
@@ -950,7 +950,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				elementBuilder({
 					type: "div",
 					class: "move-icon-wrap",
-					children: [elementBuilder({ type: "i", class: "move-icon ph ph-dots-six" })],
+					children: [PHDotsSix({ class: "move-icon" })],
 				}),
 			],
 		});
@@ -962,7 +962,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [elementBuilder({ type: "i", class: "remove-icon ph ph-trash" })],
+			children: [PHTrash({ class: "remove-icon" })],
 		});
 		const newRow = elementBuilder({
 			type: "li",
@@ -979,7 +979,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
-			children: [elementBuilder({ type: "i", class: "remove-icon ph ph-trash" })],
+			children: [PHTrash({ class: "remove-icon" })],
 		});
 		const newRow = elementBuilder({
 			type: "li",

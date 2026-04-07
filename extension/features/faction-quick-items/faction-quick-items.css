@@ -79,7 +79,7 @@ body.dark-mode #factionQuickItems .inner-content .item {
 	left: 0 !important;
 }
 
-#factionQuickItems #edit-items-button i {
+#factionQuickItems #edit-items-button svg {
 	margin-right: 4px;
 }
 

@@ -2,6 +2,7 @@ import "./checkbox-duo.css";
 import { getUUID } from "@/utils/common/functions/utilities";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { elementBuilder } from "@/utils/common/functions/dom";
+import { PHBoldArrowDown, PHBoldArrowUp } from "@/utils/common/icons/phosphor-icons";
 
 interface CheckboxDuoOptions {
 	description: string;
@@ -17,12 +18,12 @@ export function createCheckboxDuo(partialOptions: Partial<CheckboxDuoOptions> = 
 		...partialOptions,
 	};
 
-	let isHTML: boolean, descriptionYes: string, descriptionNo: string;
+	let isHTML: boolean, descriptionYes: string | Node, descriptionNo: string | Node;
 	switch (options.indicator) {
 		case "icon":
 			isHTML = true;
-			descriptionYes = "<i class='icon ph-bold ph-arrow-up'></i>";
-			descriptionNo = "<i class='icon ph-bold ph-arrow-down'></i>";
+			descriptionYes = PHBoldArrowUp();
+			descriptionNo = PHBoldArrowDown();
 			break;
 		case "text":
 		default:

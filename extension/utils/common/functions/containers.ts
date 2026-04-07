@@ -3,6 +3,7 @@ import { camelCase } from "@/utils/common/functions/formatting";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { filters } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
+import { PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
 type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | {};
 
@@ -94,7 +95,7 @@ export function createContainer(title: string, partialOptions: Partial<Container
 					children: [
 						elementBuilder({ type: "div", class: "text", text: title }),
 						elementBuilder({ type: "div", class: "options" }),
-						options.collapsible ? elementBuilder({ type: "i", class: "icon ph-fill ph-caret-down" }) : null,
+						options.collapsible ? PHFillCaretDown({ class: "icon" }) : null,
 					],
 				})
 			);

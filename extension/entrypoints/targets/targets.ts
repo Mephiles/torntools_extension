@@ -5,6 +5,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { AttackHistory, StakeoutData, StoredStakeouts } from "@/utils/common/data/default-database";
 import Sortable from "sortablejs";
 import { formatDate, formatTime } from "@/utils/common/functions/formatting";
+import { PHTrash } from "@/utils/common/icons/phosphor-icons";
 
 const initiatedPages = {};
 
@@ -291,7 +292,7 @@ async function setupStakeouts() {
 		const deleteButton = elementBuilder({
 			type: "button",
 			class: "delete",
-			children: [elementBuilder({ type: "i", class: "remove-icon ph ph-trash" })],
+			children: [PHTrash({ class: "remove-icon" })],
 		});
 		deleteButton.addEventListener("click", () => row.remove());
 

@@ -2,6 +2,7 @@ import { BaseElement } from "@/utils/common/elements/base-element";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { getTypedKeyOf, groupBy, TypedKeyOf } from "@/utils/common/functions/utilities";
 import "./table.css";
+import { PHFillCaretDown, PHFillCaretUp } from "@/utils/common/icons/phosphor-icons";
 
 const COLUMN_SORT_DIRECTION = {
 	Asc: "asc",
@@ -50,8 +51,8 @@ function createTableHeaderCell<T>(
 	let currentDirection: COLUMN_SORT_DIRECTION;
 
 	const sortIcon = elementBuilder({
-		type: "i",
-		class: "ph-fill tt-table-header-cell-sort-icon tt-hidden",
+		type: "svg",
+		class: "tt-table-header-cell-sort-icon tt-hidden",
 	});
 
 	const headerCellElement = elementBuilder({
@@ -84,11 +85,9 @@ function createTableHeaderCell<T>(
 		sortIcon.classList.remove("tt-hidden");
 
 		if (direction === COLUMN_SORT_DIRECTION.Asc) {
-			sortIcon.classList.remove("ph-caret-up");
-			sortIcon.classList.add("ph-caret-down");
+			sortIcon.innerHTML = PHFillCaretDown().innerHTML;
 		} else {
-			sortIcon.classList.remove("ph-caret-down");
-			sortIcon.classList.add("ph-caret-up");
+			sortIcon.innerHTML = PHFillCaretUp().innerHTML;
 		}
 	}
 

@@ -32,7 +32,7 @@ body.dark #stocks .stock-list .information-section .heading {
 	font-weight: bold;
 }
 
-#stocks .stock-list .information-section .heading i {
+#stocks .stock-list .information-section .heading svg {
 	float: right;
 }
 

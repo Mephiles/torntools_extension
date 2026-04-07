@@ -7,6 +7,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { calculateRevivePrice, doRequestRevive } from "@/utils/common/functions/api-external-revives";
 import { capitalizeText } from "@/utils/common/functions/formatting";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { PHFillStethoscope } from "@/utils/common/icons/phosphor-icons";
 
 let observer: MutationObserver;
 let page: string;
@@ -60,7 +61,7 @@ function showButton() {
 	const button = elementBuilder({
 		type: "button",
 		class: "tt-revive",
-		children: [elementBuilder({ type: "i", class: "ph-fill ph-stethoscope" }), elementBuilder({ type: "span", text: "Request Revive" })],
+		children: [PHFillStethoscope(), elementBuilder({ type: "span", text: "Request Revive" })],
 		events: { click: requestRevive },
 	});
 

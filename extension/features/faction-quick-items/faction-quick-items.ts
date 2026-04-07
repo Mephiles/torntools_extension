@@ -13,6 +13,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { isInternalFaction } from "@/pages/factions-page";
 import { TornInternalUseItem } from "@/pages/item-page";
 import { QuickFactionItem } from "@/utils/common/data/default-database";
+import { PHFillPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 
 let movingElement: Element | undefined;
 let isEditing = false;
@@ -77,7 +78,7 @@ async function showQuickItems(section: string) {
 			type: "div",
 			class: "option",
 			id: "edit-items-button",
-			children: [elementBuilder({ type: "i", class: "ph-fill ph-plus" }), "Edit"],
+			children: [PHFillPlus(), "Edit"],
 			events: {
 				click: (event) => {
 					event.stopPropagation();
@@ -405,8 +406,9 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 	}
 
 	const closeIcon = elementBuilder({
-		type: "i",
-		class: "ph ph-x tt-close-icon",
+		type: "svg",
+		class: "tt-close-icon",
+		children: [PHX()],
 		attributes: { title: "Remove quick access." },
 		events: {
 			click: async (event) => {

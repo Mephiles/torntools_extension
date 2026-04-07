@@ -37,7 +37,6 @@ import TravelSyncFeature from "@/features/travel-table/travel-table-sync";
 import { setupTravelAbroadPage } from "@/pages/travel-abroad-page";
 import "../utils/common/global/globalStyle.css";
 import "../utils/common/global/globalVariables.css";
-import "@vendor/phosphor-icons";
 import { initializeDatabase } from "@/utils/common/data/database";
 import { setupItemPage } from "@/pages/item-page";
 import QuickItemsFeature from "@/features/quick-items/quick-items";
@@ -226,6 +225,8 @@ import StatsEstimateHOFFeature from "@/features/stats-estimate/stats-estimate-ho
 import StatsEstimateTargetsFeature from "@/features/stats-estimate/stats-estimate-targets";
 import StatsEstimateUserlistFeature from "@/features/stats-estimate/stats-estimate-userlist";
 import StocksMoneyInputFeature from "@/features/stocks-money-input/stocks-money-input";
+import { displayAlert } from "@/utils/common/functions/alerts";
+import { requireDOMContentLoaded } from "@/utils/common/functions/requires";
 
 export function scriptManager() {
 	initializeDatabase();

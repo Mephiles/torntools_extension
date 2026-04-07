@@ -158,19 +158,19 @@ body.dark-mode #tt-page-status .tt-features-list {
 	display: flex;
 	gap: 3px;
 
-	&[status="disabled"] i {
+	&[status="disabled"] svg {
 		color: var(--tt-color-orange);
 	}
 
-	&[status="failed"] i {
+	&[status="failed"] svg {
 		color: var(--tt-color-red);
 	}
 
-	&[status="loaded"] i {
+	&[status="loaded"] svg {
 		color: var(--tt-color-green);
 	}
 
-	&[status="information"] i {
+	&[status="information"] svg {
 		color: var(--tt-color-blue);
 	}
 }

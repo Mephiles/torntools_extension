@@ -6,6 +6,7 @@ import { settings, torndata } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { PHFillCaretUp, PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
 async function showProfits() {
 	await requireElement(".item-desc");
@@ -25,10 +26,10 @@ async function showProfits() {
 		const profitElement = elementBuilder({ type: "span", class: "tt-profit" });
 		if (profit > 0) {
 			profitElement.classList.add("positive");
-			profitElement.appendChild(elementBuilder({ type: "i", class: "ph-fill ph-caret-up" }));
+			profitElement.appendChild(PHFillCaretUp({ class: "profit-icon" }));
 		} else if (profit < 0) {
 			profitElement.classList.add("negative");
-			profitElement.appendChild(elementBuilder({ type: "i", class: "ph-fill ph-caret-down" }));
+			profitElement.appendChild(PHFillCaretDown({ class: "profit-icon" }));
 		}
 		profitElement.appendChild(document.createTextNode(formatNumber(profit, { currency: true })));
 

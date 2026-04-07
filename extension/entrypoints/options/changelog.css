@@ -15,7 +15,7 @@
 	color: red;
 }
 
-#changelog .title i {
+#changelog .title svg {
 	float: right;
 	position: relative;
 	top: 7px;

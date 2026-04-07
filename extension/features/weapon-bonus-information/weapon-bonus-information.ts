@@ -5,6 +5,7 @@ import { settings } from "@/utils/common/data/database";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+import { PHFillInfo } from "@/utils/common/icons/phosphor-icons";
 
 interface Bonus {
 	weapons: { id: number; name: string }[];
@@ -169,7 +170,8 @@ async function showInformation() {
 			elementBuilder({
 				type: "div",
 				class: "tt-bonus-information",
-				children: [elementBuilder({ type: "i", class: "ph-fill ph-info", attributes: { title: bonus.description } })],
+				children: [PHFillInfo()],
+				attributes: { title: bonus.description },
 			})
 		);
 	}

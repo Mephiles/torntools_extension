@@ -3,7 +3,7 @@ import { getUUID } from "@/utils/common/functions/utilities";
 import { elementBuilder } from "@/utils/common/functions/dom";
 
 interface CheckboxOptions {
-	description: string;
+	description: string | Node;
 	isHTML: boolean;
 	reverseLabel: boolean;
 	id: string;
@@ -29,10 +29,19 @@ export function createCheckbox(partialOptions: Partial<CheckboxOptions> = {}): C
 	};
 
 	const checkbox = elementBuilder({ type: "input", id: options.id, attributes: { type: "checkbox" } });
-	const label = elementBuilder({
-		type: "label",
-		[options.isHTML ? "html" : "text"]: options.description,
-	});
+	let label: HTMLElement;
+	if (typeof options.description === "object") {
+		label = elementBuilder({
+			type: "label",
+			children: [options.description],
+		});
+	} else {
+		label = elementBuilder({
+			type: "label",
+			[options.isHTML ? "html" : "text"]: options.description,
+		});
+	}
+
 	label.insertAdjacentElement("afterbegin", checkbox);
 
 	const checkboxWrapper = elementBuilder({

@@ -1,0 +1,12 @@
+:global(#exportChallengeContributions .title) {
+	font-family: Arial, sans-serif !important;
+}
+
+.export-button {
+	cursor: pointer;
+	gap: 2px;
+
+	svg {
+		font-size: 16px;
+	}
+}

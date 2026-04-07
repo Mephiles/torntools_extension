@@ -5,6 +5,7 @@ import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@/utils
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import "./feature-manager.css";
 import { SOURCE_SERVICE } from "@/utils/services/proxy-services";
+import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@/utils/common/icons/phosphor-icons";
 
 type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
 
@@ -380,24 +381,18 @@ class FeatureManager {
 			if (row) {
 				row.setAttribute("status", status);
 
-				const statusIcon = row.querySelector("i");
-				statusIcon.className = getIconClass(status);
+				const statusIcon = row.querySelector("svg");
+				const newIcon = getIconElement(status);
+				statusIcon.replaceWith(newIcon);
 
-				if (options.message) statusIcon.setAttribute("title", options.message);
-				else statusIcon.removeAttribute("title");
+				if (options.message) row.setAttribute("title", options.message);
+				else row.removeAttribute("title");
 			} else {
 				row = elementBuilder({
 					type: "div",
 					class: "tt-feature",
 					attributes: { "feature-name": feature.name, status: status },
-					children: [
-						elementBuilder({
-							type: "i",
-							class: getIconClass(status),
-							...(options.message ? { attributes: { title: options.message } } : {}),
-						}),
-						elementBuilder({ type: "span", text: feature.name }),
-					],
+					children: [getIconElement(status), elementBuilder({ type: "span", text: feature.name })],
 				});
 
 				let scopeEl = this.container.querySelector(`[scope*="${feature.scope}"]`);
@@ -416,18 +411,18 @@ class FeatureManager {
 			this.logError(`Couldn't log result for ${feature.name}: ${JSON.stringify(options)}`, error);
 		});
 
-		function getIconClass(status: FeatureStatus) {
+		function getIconElement(status: FeatureStatus) {
 			switch (status) {
 				case "disabled":
 				case "failed":
-					return "ph ph-x-circle";
+					return PHXCircle();
 				case "loaded":
-					return "ph-bold ph-check";
+					return PHBoldCheck();
 				case "registered":
-					return "ph-bold ph-spinner-gap";
+					return PHBoldSpinnerGap();
 				case "information":
 				default:
-					return "ph ph-question";
+					return PHQuestion();
 			}
 		}
 	}
@@ -490,7 +485,7 @@ class FeatureManager {
 									class: "heading",
 									text: "Errors",
 									attributes: { title: "Click to copy all errors" },
-									children: [elementBuilder({ type: "i", class: "ph-bold ph-copy" })],
+									children: [PHBoldCopy()],
 									events: {
 										click: () => {
 											toClipboard("TornTools " + document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText);

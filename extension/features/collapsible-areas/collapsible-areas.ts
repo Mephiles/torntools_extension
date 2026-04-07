@@ -1,10 +1,10 @@
 import "./collapsible-areas.css";
 import { Feature } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
-import { checkDevice, elementBuilder, findElementWithText, isElement } from "@/utils/common/functions/dom";
+import { checkDevice, findElementWithText, isElement } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { ttStorage } from "@/utils/common/data/storage";
-import "@vendor/phosphor-icons";
+import { PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
 let observer: MutationObserver | undefined;
 
@@ -19,7 +19,7 @@ async function addCollapseIcon() {
 	if (filters.containers.collapseAreas) header.classList.add("collapsed");
 	title.addEventListener("click", clickListener);
 
-	const icon = elementBuilder({ type: "i", class: "icon ph-fill ph-caret-down" });
+	const icon = PHFillCaretDown({ class: "icon" });
 	title.appendChild(icon);
 
 	observer = new MutationObserver(() => {

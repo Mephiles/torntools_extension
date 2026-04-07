@@ -349,6 +349,9 @@ body.dark #preferences .sections {
 #preferences .add-icon-wrap {
 	width: 25px;
 	min-width: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #preferences .remove-icon {

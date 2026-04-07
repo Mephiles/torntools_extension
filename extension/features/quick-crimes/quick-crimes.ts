@@ -8,6 +8,7 @@ import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { ttStorage } from "@/utils/common/data/storage";
 import { usingFirefox } from "@/utils/common/functions/browser";
+import { PHFillPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 
 interface QuickCrime {
 	step: string;
@@ -51,7 +52,7 @@ async function loadCrimes() {
 			type: "div",
 			class: "option",
 			id: "edit-items-button",
-			children: [elementBuilder({ type: "i", class: "ph-fill ph-plus" }), "Edit"],
+			children: [PHFillPlus(), "Edit"],
 			events: {
 				click: (event) => {
 					event.stopPropagation();
@@ -171,8 +172,9 @@ async function loadCrimes() {
 		if (innerContent.querySelector(`.quick-item[data-id='${name}']`)) return null;
 
 		const closeIcon = elementBuilder({
-			type: "i",
-			class: "ph ph-x tt-close-icon",
+			type: "svg",
+			class: "tt-close-icon",
+			children: [PHX()],
 			attributes: { title: "Remove quick access. " },
 			events: {
 				click: async (event) => {

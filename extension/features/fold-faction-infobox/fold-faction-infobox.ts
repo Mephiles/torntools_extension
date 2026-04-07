@@ -7,6 +7,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
 import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
+import { PHFillCaretDown, PHFillCaretRight } from "@/utils/common/icons/phosphor-icons";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
@@ -51,7 +52,7 @@ async function foldInfobox() {
 	title.classList.add("tt-foldable-infobox");
 	description.classList.add("tt-foldable");
 
-	const arrow = elementBuilder({ type: "i", class: "tt-collapse-infobox ph-fill" });
+	const arrow = elementBuilder({ type: "svg", class: "tt-collapse-infobox" });
 
 	title.appendChild(arrow);
 
@@ -73,12 +74,10 @@ async function foldInfobox() {
 		}
 
 		if (state) {
-			arrow.classList.remove("ph-caret-down");
-			arrow.classList.add("ph-caret-right");
+			arrow.innerHTML = PHFillCaretRight().innerHTML;
 			title.classList.add("folded");
 		} else {
-			arrow.classList.add("ph-caret-down");
-			arrow.classList.remove("ph-caret-right");
+			arrow.innerHTML = PHFillCaretDown().innerHTML;
 			title.classList.remove("folded");
 		}
 

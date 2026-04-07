@@ -8,6 +8,7 @@ import { dropDecimals, formatTime, FormatTimeOptions } from "@/utils/common/func
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { ttStorage } from "@/utils/common/data/storage";
 import { countdownTimers } from "@/utils/common/functions/timers";
+import { PHFillBell, PHFillBellSlash } from "@/utils/common/icons/phosphor-icons";
 
 async function showNPCs() {
 	await requireSidebar();
@@ -104,20 +105,20 @@ async function showNPCs() {
 
 	options.appendChild(
 		elementBuilder({
-			type: "i",
-			class: `npc-notifications ph-fill ${settings.notifications.types.npcsGlobal ? "ph-bell" : "ph-bell-slash"}`,
+			type: "div",
+			class: "npc-notifications",
+			children: [
+				settings.notifications.types.npcsGlobal ? PHFillBell() : PHFillBellSlash()
+			],
 			events: {
 				click(event) {
 					if (!isElement(event.target)) return;
 
-					const notifications = event.target.classList.toggle("ph-bell");
-
-					if (notifications) event.target.classList.remove("ph-bell-slash");
-					else event.target.classList.add("ph-bell-slash");
-
+					const newStatus = !settings.notifications.types.npcsGlobal;
+					
 					event.stopPropagation();
 
-					ttStorage.change({ settings: { notifications: { types: { npcsGlobal: notifications } } } });
+					ttStorage.change({ settings: { notifications: { types: { npcsGlobal: newStatus } } } });
 				},
 			},
 		})

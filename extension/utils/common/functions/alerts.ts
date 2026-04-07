@@ -1,5 +1,6 @@
 import styles from "./alerts.module.css";
 import { elementBuilder } from "./dom";
+import { PHBoldCheckCircle, PHBoldInfo, PHBoldWarningCircle, PHX, PHBoldXCircle } from "@/utils/common/icons/phosphor-icons";
 
 interface AlertOptions {
 	title: string;
@@ -23,7 +24,7 @@ export function displayAlert(options: AlertOptions): void {
 					elementBuilder({
 						type: "div",
 						class: styles.toastIcon,
-						children: [elementBuilder({ type: "i", class: getIconForType(options.type) })],
+						children: [getIconForType(options.type)],
 					}),
 					elementBuilder({
 						type: "div",
@@ -51,7 +52,7 @@ export function displayAlert(options: AlertOptions): void {
 				type: "button",
 				class: styles.toastClose,
 				attributes: { "aria-label": "Close toast" },
-				children: [elementBuilder({ type: "i", class: "ph ph-x" })],
+				children: [PHX()],
 				events: {
 					click: () => removeToast(toast),
 				},
@@ -125,17 +126,17 @@ function setupProgressBar(toast: HTMLElement, duration: number): void {
 	timeoutId = setTimeout(() => removeToast(toast), duration);
 }
 
-function getIconForType(type: AlertOptions["type"]): string {
+function getIconForType(type: AlertOptions["type"]): Element {
 	switch (type) {
 		case "success":
-			return "ph-bold ph-check-circle";
+			return PHBoldCheckCircle();
 		case "error":
-			return "ph-bold ph-x-circle";
+			return PHBoldXCircle();
 		case "warning":
-			return "ph-bold ph-warning-circle";
+			return PHBoldWarningCircle();
 		case "info":
 		default:
-			return "ph-bold ph-info";
+			return PHBoldInfo();
 	}
 }
 

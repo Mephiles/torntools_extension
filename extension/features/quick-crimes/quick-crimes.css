@@ -81,7 +81,7 @@ body.dark-mode #quickCrimes .inner-content .quick-item {
 	color: gray;
 }
 
-#quickCrimes #edit-items-button i {
+#quickCrimes #edit-items-button svg {
 	margin-right: 4px;
 }
 

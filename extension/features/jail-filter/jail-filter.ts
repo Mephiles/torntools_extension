@@ -12,6 +12,7 @@ import { createTextbox } from "@/utils/common/elements/textbox/textbox";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { PHArrowClockwise } from "@/utils/common/icons/phosphor-icons";
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.JAIL_SWITCH_PAGE].push(async () => {
@@ -321,8 +322,9 @@ async function applyQuickBustAndBail() {
 
 	function newRefreshButton(customClass = "") {
 		return elementBuilder({
-			type: "i",
-			class: `ph ph-arrow-clockwise tt-quick-refresh ${customClass}`,
+			type: "div",
+			class: `tt-quick-refresh ${customClass}`,
+			children: [PHArrowClockwise()],
 			events: {
 				click: () => location.reload(),
 			},

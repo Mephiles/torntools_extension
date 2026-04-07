@@ -1,13 +1,12 @@
 import { settings } from "@/utils/common/data/database";
+import { elementBuilder } from "@/utils/common/functions/dom";
 
 export class CSVExport {
 	private readonly title: string;
-	private readonly link: HTMLElement;
 	private readonly rows: string[][];
 
-	constructor(title: string, link: HTMLElement) {
+	constructor(title: string) {
 		this.title = title;
-		this.link = link;
 
 		this.rows = [];
 	}
@@ -26,8 +25,9 @@ export class CSVExport {
 	}
 
 	download() {
-		this.link.setAttribute("href", encodeURI(this.data));
-		this.link.setAttribute("download", `${this.title}.csv`);
-		this.link.click();
+		const link = elementBuilder({ type: "a" });
+		link.setAttribute("href", encodeURI(this.data));
+		link.setAttribute("download", `${this.title}.csv`);
+		link.click();
 	}
 }
