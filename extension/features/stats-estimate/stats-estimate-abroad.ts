@@ -38,7 +38,7 @@ async function showEstimates() {
 			id: parseInt(row.querySelector<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
 			level: parseInt(row.querySelector(".level").textContent),
 		}),
-		true
+		{ hasFilter: true }
 	);
 }
 

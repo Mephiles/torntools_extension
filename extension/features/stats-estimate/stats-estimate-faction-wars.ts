@@ -83,19 +83,14 @@ function observeDescription() {
 function showEstimates() {
 	requireElement(".faction-war .members-list").then(() => {
 		statsEstimate.clearQueue();
-		statsEstimate.showEstimates(
-			".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
-			(row) => {
-				const anchorMatch = row.querySelector<HTMLAnchorElement>("[class*='honorWrap___']").href.match(/.*XID=(?<id>\d+)/);
+		statsEstimate.showEstimates(".faction-war .members-list > li.enemy, .faction-war .members-list > li.your", (row) => {
+			const anchorMatch = row.querySelector<HTMLAnchorElement>("[class*='honorWrap___']").href.match(/.*XID=(?<id>\d+)/);
 
-				return {
-					id: parseInt(anchorMatch.groups.id),
-					level: parseInt(row.querySelector(".level").textContent.trim()),
-				};
-			},
-			false,
-			undefined
-		);
+			return {
+				id: parseInt(anchorMatch.groups.id),
+				level: parseInt(row.querySelector(".level").textContent.trim()),
+			};
+		});
 	});
 }
 

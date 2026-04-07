@@ -45,7 +45,7 @@ async function showEstimates() {
 			id: parseInt(row.querySelector<HTMLAnchorElement>(".target a").href.match(/(\d+)/g)?.at(-1)),
 			level: parseInt(row.querySelector(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 		}),
-		true
+		{ hasFilter: true }
 	);
 }
 

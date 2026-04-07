@@ -22,6 +22,17 @@ interface EstimationRequest {
 	level: number;
 }
 
+interface ElementPlaceholder {
+	section: HTMLElement;
+	field: HTMLElement;
+}
+
+interface ShowEstimatesOptions {
+	generator: () => ElementPlaceholder;
+	hasFilter: boolean;
+	placement: (row: HTMLElement) => HTMLElement;
+}
+
 export class StatsEstimate {
 	private queue: EstimateQueue[];
 	running: boolean;
@@ -36,58 +47,59 @@ export class StatsEstimate {
 		ESTIMATE_INSTANCES[name] = this;
 	}
 
-	showEstimates(
-		selector: string,
-		handler: (row: HTMLElement) => EstimationRequest | null,
-		hasFilter: boolean = false,
-		placement?: (row: HTMLElement) => HTMLElement
-	) {
-		for (const row of findAllElements(selector)) {
-			if ((row.classList.contains("tt-hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
+	showEstimates(selector: string, handler: (row: HTMLElement) => EstimationRequest | null, partialOptions: Partial<ShowEstimatesOptions> = {}) {
+		const options: ShowEstimatesOptions = {
+			generator: (): ElementPlaceholder => {
+				const element = elementBuilder({ type: "div", class: "tt-stats-estimate" });
 
-			const request = handler(row);
-			if (!request) continue;
+				return { section: element, field: element };
+			},
+			hasFilter: false,
+			placement: (row) => row,
+			...partialOptions,
+		};
 
-			const { id, level } = request;
+		findAllElements(selector)
+			.filter((row) => !((row.dataset.hideReason !== "stats-estimate" && row.classList.contains("tt-hidden")) || row.classList.contains("tt-estimated")))
+			.forEach((row) => {
+				const request = handler(row);
+				if (!request) return;
 
-			if (level && settings.scripts.statsEstimate.maxLevel && settings.scripts.statsEstimate.maxLevel < level) continue;
+				const { id, level } = request;
+				if (level && settings.scripts.statsEstimate.maxLevel && settings.scripts.statsEstimate.maxLevel < level) return;
 
-			row.classList.add("tt-estimated");
+				const { section, field } = options.generator();
 
-			const section = elementBuilder({ type: "div", class: "tt-stats-estimate" });
-			const parent = placement ? (placement(row) ?? row) : row;
-			new Promise<void>((resolve) => {
-				parent.insertAdjacentElement("afterend", section);
-				resolve();
-			}).then(() => {});
+				row.classList.add("tt-estimated");
+				options.placement(row).insertAdjacentElement("afterend", section);
 
-			showLoadingPlaceholder(section, true);
+				showLoadingPlaceholder(field, true);
 
-			let estimate: string;
-			if (ttCache.hasValue("stats-estimate", id)) {
-				estimate = ttCache.get<string>("stats-estimate", id);
-			}
-
-			if (estimate) {
-				section.textContent = `Stats Estimate: ${estimate}`;
-				if (hasFilter) row.dataset.estimate = estimate;
-
-				showLoadingPlaceholder(section, false);
-				if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
-			} else if (settings.scripts.statsEstimate.cachedOnly) {
-				if (settings.scripts.statsEstimate.displayNoResult) section.textContent = "No cached result found!";
-				else {
-					row.classList.remove("tt-estimated");
-					section.remove();
-				}
-				if (hasFilter) {
-					row.dataset.estimate = "none";
-					triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
+				let estimate: string;
+				if (ttCache.hasValue("stats-estimate", id)) {
+					estimate = ttCache.get<string>("stats-estimate", id);
 				}
 
-				showLoadingPlaceholder(section, false);
-			} else this.queue.push({ row, section, id, hasFilter });
-		}
+				if (estimate) {
+					field.textContent = `Stats Estimate: ${estimate}`;
+					if (options.hasFilter) row.dataset.estimate = estimate;
+
+					showLoadingPlaceholder(field, false);
+					if (options.hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
+				} else if (settings.scripts.statsEstimate.cachedOnly) {
+					if (settings.scripts.statsEstimate.displayNoResult) field.textContent = "No cached result found!";
+					else {
+						row.classList.remove("tt-estimated");
+						section.remove();
+					}
+					if (options.hasFilter) {
+						row.dataset.estimate = "none";
+						triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
+					}
+
+					showLoadingPlaceholder(field, false);
+				} else this.queue.push({ row, section: field, id, hasFilter: options.hasFilter });
+			});
 
 		this.runQueue().then(() => {});
 	}

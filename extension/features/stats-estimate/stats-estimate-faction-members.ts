@@ -60,11 +60,13 @@ async function showEstimates() {
 				level: parseInt(row.querySelector(".lvl").textContent.trim()),
 			};
 		},
-		true,
-		(row) =>
-			row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-member-info")
-				? (row.nextElementSibling as HTMLElement)
-				: row
+		{
+			hasFilter: true,
+			placement: (row) =>
+				row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-member-info")
+					? (row.nextElementSibling as HTMLElement)
+					: row,
+		}
 	);
 }
 

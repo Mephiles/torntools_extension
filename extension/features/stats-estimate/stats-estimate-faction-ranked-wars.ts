@@ -55,8 +55,10 @@ function showEstimates() {
 					level: parseInt(row.querySelector(".level").textContent.trim()),
 				};
 			},
-			true,
-			(row) => row.querySelector(".clear")
+			{
+				hasFilter: true,
+				placement: (row) => row.querySelector(".clear"),
+			}
 		);
 	});
 }

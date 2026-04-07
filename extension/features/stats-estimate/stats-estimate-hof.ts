@@ -2,7 +2,7 @@ import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { findAllElements } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { StatsEstimate } from "./stats-estimate";
@@ -28,20 +28,37 @@ function registerListeners() {
 }
 
 async function showEstimates() {
-	await requireElement(".players-list > li");
-	await requireElement(".players-list > li .ajax-preloader", { invert: true });
+	await requireElement("[class*='tableBody___'] > [class*='tableRow___']");
 
-	const hofType = document.querySelector(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList[1];
-	if (["battle", "respect", "factionchains", "factionrank"].includes(hofType)) return;
+	const hofType = document.querySelector("[class*='buttonWrapper___'][class*='selected___'] [class*='title___']").textContent.toLowerCase();
+	if (["battle stats", "faction respect", "faction chains", "faction rank"].includes(hofType)) return;
 
-	const levelIndex = [...document.querySelector(".table-titles").children].findIndex((title) => title.textContent === "Level");
+	const levelIndex = Array.from(document.querySelector("[class*='tableHead___'] [class*='tableRow___']").children).findIndex(
+		(title) => title.textContent === "level"
+	);
 	if (levelIndex === -1) return;
 
 	statsEstimate.clearQueue();
-	statsEstimate.showEstimates(".players-list > li:not(.empty)", (row) => ({
-		id: parseInt(row.querySelector<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-		level: parseInt(row.querySelector(`.player-info > li:nth-child(${levelIndex + 1})`).textContent),
-	}));
+	statsEstimate.showEstimates(
+		"[class*='tableBody___'] > [class*='tableRow___']",
+		(row) => ({
+			id: parseInt(row.querySelector<HTMLAnchorElement>("a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
+			level: parseInt(row.querySelector(`td:nth-child(${levelIndex + 1})`).textContent),
+		}),
+		{
+			generator: () => {
+				const field = elementBuilder({ type: "div", class: "tt-stats-estimate" });
+
+				return {
+					field,
+					section: elementBuilder({
+						type: "tr",
+						children: [elementBuilder({ type: "td", attributes: { colspan: 5 }, children: [field] })],
+					}),
+				};
+			},
+		}
+	);
 }
 
 function removeEstimates() {

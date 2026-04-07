@@ -472,8 +472,6 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new WeaponExperienceFeature());
 	} else if (page === "attacklog") {
 		FEATURE_MANAGER.registerFeature(new WeaponBonusInformationFeature());
-	} else if (page === "api") {
-		// TODO - Handle API page features.
 	} else if (page === "casino") {
 		FEATURE_MANAGER.registerFeature(new HideCasinoGamesFeature());
 	} else if (page === "stocks") {
@@ -513,7 +511,7 @@ export function scriptManager() {
 	} else if (page === "targets") {
 		FEATURE_MANAGER.registerFeature(new StatsEstimateTargetsFeature());
 		FEATURE_MANAGER.registerFeature(new TargetFilterFeature());
-	} else if (page === "halloffame") {
+	} else if (page === "hof") {
 		FEATURE_MANAGER.registerFeature(new StatsEstimateHOFFeature());
 	}
 
