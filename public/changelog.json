@@ -12,7 +12,8 @@
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },
 				{ "message": "'Efficient Rehab' didn't always properly update the slider color.", "contributor": "DeKleineKobini" },
 				{ "message": "Use broader safety check for event start time checks.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix popup not opening for a little bit after adding a new stakeout.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix popup not opening for a little bit after adding a new stakeout.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve incompatibility between 'Stock Filer' and 'Hide Stocks'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },

@@ -1,4 +1,4 @@
-import "./hide-stocks.css";
+import styles from "./hide-stocks.module.css";
 import { Feature } from "@/features/feature-manager";
 import { createMessageBox, getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
@@ -9,15 +9,17 @@ async function hideStocks() {
 	await requireElement("#stockmarketroot [class*='stock___'][id]");
 	unhideStocks();
 	findAllElements("#stockmarketroot [class*='stock___'][id]").forEach((stockNode) => {
-		if (settings.hideStocks.some((x) => x === stockNode.getAttribute("id"))) stockNode.classList.add("tt-hidden");
+		if (settings.hideStocks.some((x) => x === stockNode.getAttribute("id"))) {
+			stockNode.classList.add(styles.hiddenStock);
+		}
 	});
 	document
 		.querySelector("#stockmarketroot [class*='appHeaderWrapper__']")
-		.insertAdjacentElement("afterend", createMessageBox("Some stocks have been hidden.", { class: "tt-stocks-hidden" }));
+		.insertAdjacentElement("afterend", createMessageBox("Some stocks have been hidden.", { class: styles.ttStocksHidden }));
 }
 
 function unhideStocks() {
-	findAllElements("#stockmarketroot .tt-hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove("tt-hidden"));
+	findAllElements("#stockmarketroot .tt-hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove(styles.hiddenStock));
 	document.querySelector(".tt-stocks-hidden")?.remove();
 }
 
