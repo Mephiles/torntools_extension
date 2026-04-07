@@ -12,7 +12,7 @@ import { ttCache } from "@/utils/common/data/cache";
 import { ttUsage } from "@/utils/common/data/usage";
 import { ttStorage } from "@/utils/common/data/storage";
 import { showIconBars, timedUpdates } from "@/entrypoints/background/updates";
-import { sendNotifications } from "@/entrypoints/background/notifications";
+import { notificationRelations, sendNotifications } from "@/entrypoints/background/notifications";
 import type { Browser } from "wxt/browser";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/utils/services/proxy-service-keys";
 import { registerService } from "@webext-core/proxy-service";
@@ -122,8 +122,6 @@ export async function resetAlarms() {
 	void browser.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
 	void browser.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 }
-
-const notificationRelations: { [id: string]: string } = {};
 
 function onNotificationClicked(id: string) {
 	if (id in notificationRelations) {

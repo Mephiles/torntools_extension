@@ -73,7 +73,7 @@ const notificationPlayer = new AudioPlayer();
 export const notificationTestPlayer = new AudioPlayer();
 
 let notificationSound: string | undefined, notificationWorker: ServiceWorkerRegistration | undefined;
-const notificationRelations: { [id: string]: string } = {};
+export const notificationRelations: { [id: string]: string } = {};
 
 export async function sendNotifications() {
 	for (const type in notifications) {
