@@ -15,6 +15,7 @@
 				{ "message": "Fix popup not opening for a little bit after adding a new stakeout.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve incompatibility between 'Stock Filer' and 'Hide Stocks'.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix Stats Estimates not showing on the HOF page.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix bar link no longer working.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },

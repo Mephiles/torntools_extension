@@ -13,7 +13,7 @@ const BAR_LINKS: Record<string, () => string> = {
 };
 
 function onClick(event: MouseEvent) {
-	const bar = (event.target as Element).closest("a[class*='bar___']");
+	const bar = (event.target as Element).closest("div[class*='bar___']");
 	if (!bar) return;
 
 	const linkValue = Object.entries(BAR_LINKS).find(([selector]) => bar.matches(selector));
