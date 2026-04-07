@@ -12,7 +12,7 @@ function showChats() {
 
 export default class HideNewspaperHighlightFeature extends Feature {
 	constructor() {
-		super("Hide Newspaper Highlight", "chat", ExecutionTiming.IMMEDIATELY);
+		super("Hide Newspaper Highlight", "sidebar", ExecutionTiming.IMMEDIATELY);
 	}
 
 	isEnabled() {

@@ -1,4 +1,4 @@
-import { DisabledUntilNoticeFeature, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { hasOC1Data } from "@/utils/common/functions/api";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
