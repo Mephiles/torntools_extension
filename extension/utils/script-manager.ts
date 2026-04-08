@@ -226,6 +226,7 @@ import StatsEstimateTargetsFeature from "@/features/stats-estimate/stats-estimat
 import StatsEstimateUserlistFeature from "@/features/stats-estimate/stats-estimate-userlist";
 import StocksMoneyInputFeature from "@/features/stocks-money-input/stocks-money-input";
 import ResizableChatFeature from "@/features/resizable-chat/resizable-chat";
+import NoOutsideLinkAlertFeature from "@/features/no-outside-link-alert/no-outside-link-alert";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -278,6 +279,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new TradeTimerFeature());
 	FEATURE_MANAGER.registerFeature(new UserAliasChatFeature());
 	FEATURE_MANAGER.registerFeature(new ResizableChatFeature());
+	FEATURE_MANAGER.registerFeature(new NoOutsideLinkAlertFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());

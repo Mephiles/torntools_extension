@@ -172,6 +172,7 @@ export const DEFAULT_STORAGE = {
 				reviveProvider: new DefaultSetting("string", ""),
 				pageTitles: new DefaultSetting("boolean", true),
 				stackingMode: new DefaultSetting("boolean", false),
+				noOutsideLinkAlert: new DefaultSetting("boolean", false),
 			},
 			profile: {
 				avgpersonalstats: new DefaultSetting("boolean", false),
