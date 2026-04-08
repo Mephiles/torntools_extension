@@ -40,6 +40,13 @@ async function addListeners() {
 		addAliasTitle();
 		addAliasMessage();
 	});
+	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(async () => {
+		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
+
+		removeAlias();
+		addAliasTitle();
+		addAliasMessage();
+	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_CLOSED].push(() => {
 		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
 

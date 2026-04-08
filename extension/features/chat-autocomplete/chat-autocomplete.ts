@@ -19,6 +19,11 @@ function initialiseAutocomplete() {
 
 		await addAutocomplete(chat);
 	});
+	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(async () => {
+		if (!FEATURE_MANAGER.isEnabled(ChatAutocompleteFeature)) return;
+
+		await readSettings();
+	});
 }
 
 async function readSettings() {
