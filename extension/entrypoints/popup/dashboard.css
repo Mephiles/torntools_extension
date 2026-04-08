@@ -47,7 +47,7 @@ a#dashboard > header #country:hover {
 	height: 16px;
 	display: inline-block;
 	margin-right: 5px;
-	position: relative;
+	/*position: relative;*/
 }
 
 a.icon {

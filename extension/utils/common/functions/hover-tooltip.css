@@ -1,6 +1,6 @@
 /* Tooltip container */
 .hover_tooltip {
-	position: relative;
+	/*position: relative;*/
 	display: inline-block;
 }
 
