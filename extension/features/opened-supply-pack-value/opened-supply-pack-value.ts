@@ -6,7 +6,7 @@ import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { isUseItem } from "@/pages/item-page";
+import { isUseItem, TornInternalUseItemSuccess } from "@/pages/item-page";
 import { sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { getPage } from "@/utils/common/functions/torn";
 
@@ -36,15 +36,21 @@ function addListener() {
 		}
 
 		if ((params.get("XID") === reqXID || isDrugPackUseRequest(params) || SUPPLY_PACK_ITEMS.includes(itemID)) && json.items?.itemAppear) {
-			const totalOpenedValue = json.items.itemAppear
-				.map((item) =>
-					"isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.itemsMap[item.ID].value.market_price * parseInt(item.qty)
-				)
-				.reduce((totalValue, value) => totalValue + value, 0);
+			const totalOpenedValue = calculateValueFromResponse(json);
 
 			await showTotalValue(totalOpenedValue, itemID);
 		}
 	});
+}
+
+function calculateValueFromResponse(response: TornInternalUseItemSuccess) : number | null {
+	if (!response.items?.itemAppear) return null
+
+	return response.items.itemAppear
+		.map((item) =>
+			"isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.itemsMap[item.ID].value.market_price * parseInt(item.qty)
+		)
+		.reduce((totalValue, value) => totalValue + value, 0)
 }
 
 async function showTotalValue(totalOpenedValue: number, itemID: number) {
@@ -61,6 +67,22 @@ async function showTotalValue(totalOpenedValue: number, itemID: number) {
 	});
 
 	greenMsg.insertAdjacentElement("beforeend", openedValueTextElement);
+}
+
+export function calculateAndShowTotalValueInQuickItems(response: TornInternalUseItemSuccess, responseWrap: HTMLElement) {
+	if (!FEATURE_MANAGER.isEnabled(OpenedSupplyPackValueFeature)) return;
+
+	const totalOpenedValue = calculateValueFromResponse(response);
+	if (!totalOpenedValue) return;
+
+	const openedValueTextElement = elementBuilder({
+		id: "ttOpenedValueText",
+		type: "strong",
+		class: "tt-opened-supply-pack-value-text",
+		text: `TornTools total value: ${formatNumber(totalOpenedValue, { currency: true })}`,
+	});
+
+	responseWrap.appendChild(openedValueTextElement)
 }
 
 function isXIDRequestSupplyPack(itemID: number) {

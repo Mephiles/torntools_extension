@@ -12,6 +12,8 @@ import { QuickItem } from "@/utils/common/data/default-database";
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { ttStorage } from "@/utils/common/data/storage";
 import { PHPlus, PHX } from "@/utils/common/icons/phosphor-icons";
+import { isUseItem } from "@/pages/item-page";
+import { calculateAndShowTotalValueInQuickItems } from "@/features/opened-supply-pack-value/opened-supply-pack-value";
 
 let movingElement: Element | undefined;
 let isEditing = false;
@@ -90,7 +92,12 @@ async function loadQuickItems() {
 					}
 
 					for (const category of findAllElements("#categoriesItem:not(.no-items)")) {
-						if (!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type)) continue;
+						if (
+							!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other", "Supply Pack"].includes(
+								category.dataset.type
+							)
+						)
+							continue;
 
 						if (enabled) category.classList.add("tt-overlay-item");
 						else category.classList.remove("tt-overlay-item");
@@ -172,24 +179,27 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 				);
 
 				fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
-					if (typeof result === "object") {
+					if (typeof result === "object" && isUseItem(body.get("step"), result)) {
 						const links = [elementBuilder({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
-						if (result.links) {
-							for (const link of result.links) {
-								links.push(
-									elementBuilder({
-										type: "a",
-										class: `t-blue h m-left10 ${link.class}`,
-										href: link.url,
-										text: link.title,
-										attributes: Object.fromEntries(
-											link.attr
-												.split(" ")
-												.filter((x) => !!x)
-												.map((x) => x.split("="))
-										),
-									})
-								);
+
+						if (result.success) {
+							if (result.links) {
+								for (const link of result.links) {
+									links.push(
+										elementBuilder({
+											type: "a",
+											class: `t-blue h m-left10 ${link.class}`,
+											href: link.url,
+											text: link.title,
+											attributes: Object.fromEntries(
+												link.attr
+													.split(" ")
+													.filter((x) => !!x)
+													.map((x) => x.split("="))
+											),
+										})
+									);
+								}
 							}
 						}
 
@@ -214,21 +224,20 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 							})
 						);
 
-						for (const count of findAllElements(".counter-wrap", responseWrap)) {
-							count.classList.add("tt-modified");
-							count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
-						}
-
 						if (result.success) {
+							calculateAndShowTotalValueInQuickItems(result, responseWrap);
+
 							if (result.items) {
 								if (result.items.itemAppear) {
-									for (const item of result.items.itemAppear) {
-										triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
-											item: parseInt(item.ID),
-											amount: parseInt(item.qty),
-											reason: "usage",
+									result.items.itemAppear
+										.filter((item) => "ID" in item)
+										.forEach((item) => {
+											triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+												item: parseInt(item.ID),
+												amount: parseInt(item.qty),
+												reason: "usage",
+											});
 										});
-									}
 								}
 								if (result.items.itemDisappear) {
 									for (const item of result.items.itemDisappear) {
@@ -242,6 +251,11 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 							} else {
 								triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: id, amount: -1, reason: "usage" });
 							}
+						}
+
+						for (const count of findAllElements(".counter-wrap", responseWrap)) {
+							count.classList.add("tt-modified");
+							count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 						}
 					} else {
 						responseWrap.style.display = "block";

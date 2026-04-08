@@ -8,7 +8,8 @@
 				{ "message": "'User Alias' for chat V3.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow more supply packs as 'quick items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow chat v3 text areas to be resized.", "contributor": "DeKleineKobini" },
-				{ "message": "Include an option to disable the outside link alert.", "contributor": "DeKleineKobini" }
+				{ "message": "Include an option to disable the outside link alert.", "contributor": "DeKleineKobini" },
+				{ "message": "Show supply pack total value when opening them through 'Quick Items'.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },

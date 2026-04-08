@@ -1,5 +1,4 @@
-import { addXHRListener, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireItemsLoaded } from "@/utils/common/functions/requires";
 import { torndata } from "@/utils/common/data/database";
@@ -120,26 +119,26 @@ function getCurrentTab() {
 	return document.querySelector<HTMLElement>("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
 }
 
+export type TornInternalUseItemSuccess = {
+	action?: "useItem";
+	inputs?: [];
+	links: { title: string; url: string; class: string; attr: string }[];
+	success: true;
+	text: string;
+	itemBloodBag?: string;
+	itemCreate?: true;
+	itemID?: string;
+	items?: {
+		itemAppear: ({ ID: string; qty: string; type: string } | { moneyGain: string; isMoney: true })[];
+		itemDisappear: { ID: string; qty: string; type: string }[];
+	};
+};
 export type TornInternalUseItem =
 	| {
 			success: false;
 			text: string;
 	  }
-	| {
-			action?: "useItem";
-			inputs?: [];
-			links: { title: string; url: string; class: string; attr: string }[];
-			success: true;
-			text: string;
-
-			itemBloodBag?: string;
-			itemCreate?: true;
-			itemID?: string;
-			items?: {
-				itemAppear: ({ ID: string; qty: string; type: string } | { moneyGain: string; isMoney: true })[];
-				itemDisappear: { ID: string; qty: string; type: string }[];
-			};
-	  };
+	| TornInternalUseItemSuccess;
 
 export function isUseItem(step: string, _json: any): _json is TornInternalUseItem {
 	return step === "useItem";
