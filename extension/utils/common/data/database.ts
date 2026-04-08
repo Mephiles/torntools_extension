@@ -167,11 +167,11 @@ export async function migrateDatabase(force = false): Promise<void> {
 
 		console.log(`TT - Migration check: ${storedVersion} -> ${currentVersion}`);
 
-		if (!force && toNumericVersion(storedVersion) >= toNumericVersion(currentVersion)) {
-			console.log("TT - No migration needed, using existing storage.");
-			populateDatabaseVariables(loadedStorage);
-			return;
-		}
+		// if (!force && toNumericVersion(storedVersion) >= toNumericVersion(currentVersion)) {
+		// 	console.log("TT - No migration needed, using existing storage.");
+		// 	populateDatabaseVariables(loadedStorage);
+		// 	return;
+		// }
 
 		const migratedStorage = convertStorage<Database>(loadedStorage, DEFAULT_STORAGE);
 		await executeMigrationScripts(migratedStorage, loadedStorage);
