@@ -13,7 +13,7 @@ const BAR_LINKS: Record<string, () => string> = {
 };
 
 function onClick(event: MouseEvent) {
-	const bar = (event.target as Element).closest("div[class*='bar___']");
+	const bar = (event.target as Element).closest("[class*='bar___']");
 	if (!bar) return;
 
 	const linkValue = Object.entries(BAR_LINKS).find(([selector]) => bar.matches(selector));
@@ -21,11 +21,19 @@ function onClick(event: MouseEvent) {
 
 	const link = linkValue[1]();
 
-	let target: string;
-	if (event.button === 1) target = "_blank";
-	else target = "_self";
+	let target: string, features: string | undefined;
+	if (event.ctrlKey || event.metaKey) {
+		// new window
+		target = "_blank";
+		features = "width=1200,height=800";
+	} else if (event.button === 1 || event.shiftKey) {
+		// new tab
+		target = "_blank";
+	} else {
+		target = "_self";
+	}
 
-	window.open(link, target);
+	window.open(link, target, features);
 }
 
 async function addLinks() {

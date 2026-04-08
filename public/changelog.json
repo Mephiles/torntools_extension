@@ -28,7 +28,8 @@
 				{ "message": "Use the profile information for initial stakeout data.", "contributor": "DeKleineKobini" },
 				{ "message": "Make errors from FFScouter visible in the 'Gauge' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Reapply user aliases in the chat on a reconnect.", "contributor": "DeKleineKobini" },
-				{ "message": "Check for autocomplete in the chat again on a reconnect.", "contributor": "DeKleineKobini" }
+				{ "message": "Check for autocomplete in the chat again on a reconnect.", "contributor": "DeKleineKobini" },
+				{ "message": "Update bar links to open in new window on control click and new tab with shift.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]
