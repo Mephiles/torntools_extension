@@ -23,7 +23,7 @@ import { calculateRevivePrice, REVIVE_PROVIDERS } from "@/utils/common/functions
 import { CONTRIBUTORS, TEAM } from "@/utils/common/team";
 import { Chart, registerables } from "chart.js";
 import Sortable from "sortablejs";
-import "@vendor/phosphor-icons";
+import "@phosphor-icons/web/regular/style.css";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 import { PHCaretDown, PHDotsSix, PHTrash } from "@/utils/common/icons/phosphor-icons";
 
