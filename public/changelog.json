@@ -43,7 +43,9 @@
 			"fixes": [
 				{ "message": "Fix the stats estimate for the faction wars.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix blood bag highlighting not working on the factions page.", "contributor": "jensim" },
-				{ "message": "Don't reduce the item value count for 'infinite use items' when using them.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't reduce the item value count for 'infinite use items' when using them.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix mission features no longer loading.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix bar link no longer working.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve popup on smaller devices.", "contributor": "DeKleineKobini" },
