@@ -225,8 +225,7 @@ import StatsEstimateHOFFeature from "@/features/stats-estimate/stats-estimate-ho
 import StatsEstimateTargetsFeature from "@/features/stats-estimate/stats-estimate-targets";
 import StatsEstimateUserlistFeature from "@/features/stats-estimate/stats-estimate-userlist";
 import StocksMoneyInputFeature from "@/features/stocks-money-input/stocks-money-input";
-import { displayAlert } from "@/utils/common/functions/alerts";
-import { requireDOMContentLoaded } from "@/utils/common/functions/requires";
+import ResizableChatFeature from "@/features/resizable-chat/resizable-chat";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -278,6 +277,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new VirusTimerFeature());
 	FEATURE_MANAGER.registerFeature(new TradeTimerFeature());
 	FEATURE_MANAGER.registerFeature(new UserAliasChatFeature());
+	FEATURE_MANAGER.registerFeature(new ResizableChatFeature());
 
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());

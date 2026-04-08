@@ -1,0 +1,4 @@
+.resizable-chat {
+    resize: vertical !important;
+    max-height: 48px;
+}

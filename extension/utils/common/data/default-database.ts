@@ -8,6 +8,7 @@ import { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
 import { InternalPageTheme } from "@/utils/common/functions/pages";
 import { ColoredChatOption } from "@/features/colored-chat/colored-chat";
 import { StoredMigration } from "@/utils/common/data/migrations";
+import { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
@@ -194,6 +195,7 @@ export const DEFAULT_STORAGE = {
 				highlights: new DefaultSetting("array", [{ name: "$player", color: "#7ca900" }]),
 				titleHighlights: new DefaultSetting<ColoredChatOption[]>("array", []),
 				tradeTimer: new DefaultSetting("boolean", true),
+				resizable: new DefaultSetting("boolean", true),
 				hideChatButton: new DefaultSetting("boolean", true),
 				hideChat: new DefaultSetting("boolean", false),
 			},
@@ -766,6 +768,7 @@ export const DEFAULT_STORAGE = {
 				current: new DefaultSetting("number", 0),
 			},
 		},
+		chatResize: new DefaultSetting<StoredResizableChats>("object", {}),
 	},
 	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
 	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
