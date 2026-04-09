@@ -50,6 +50,13 @@ async function addLinks() {
 
 				onClick(event);
 			});
+			barLink.addEventListener("mousedown", (event) => {
+				if (event.button !== 1) return; // 1 is middle click
+
+				// Stop scrolling when middle-clicking this.
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			});
 			barLink.classList.add("bar-link");
 		});
 }
