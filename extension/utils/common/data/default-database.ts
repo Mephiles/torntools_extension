@@ -401,6 +401,7 @@ export const DEFAULT_STORAGE = {
 				showFactionSpy: new DefaultSetting("boolean", true),
 				oc2Filter: new DefaultSetting("boolean", true),
 				warnCrime: new DefaultSetting("boolean", false),
+				rankedWarValue: new DefaultSetting("boolean", true),
 			},
 			property: {
 				value: new DefaultSetting("boolean", true),

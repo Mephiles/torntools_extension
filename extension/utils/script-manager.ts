@@ -227,6 +227,7 @@ import StatsEstimateUserlistFeature from "@/features/stats-estimate/stats-estima
 import StocksMoneyInputFeature from "@/features/stocks-money-input/stocks-money-input";
 import ResizableChatFeature from "@/features/resizable-chat/resizable-chat";
 import NoOutsideLinkAlertFeature from "@/features/no-outside-link-alert/no-outside-link-alert";
+import RankedWarValueFeature from "@/features/ranked-war-value/ranked-war-value";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -497,6 +498,7 @@ export function scriptManager() {
 			FEATURE_MANAGER.registerFeature(new CSVRaidReportFeature());
 		} else if (step === "rankreport") {
 			FEATURE_MANAGER.registerFeature(new CSVRankedWarReportFeature());
+			FEATURE_MANAGER.registerFeature(new RankedWarValueFeature());
 		} else if (step === "warreport") {
 			FEATURE_MANAGER.registerFeature(new CSVWarReportFeature());
 		}
