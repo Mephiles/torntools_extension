@@ -13,7 +13,7 @@ import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items
 import { ttStorage } from "@/utils/common/data/storage";
 import { PHPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 import { isUseItem } from "@/pages/item-page";
-import { calculateAndShowTotalValueInQuickItems } from "@/features/opened-supply-pack-value/opened-supply-pack-value";
+import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@/features/opened-supply-pack-value/opened-supply-pack-value";
 
 let movingElement: Element | undefined;
 let isEditing = false;
@@ -225,7 +225,9 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 						);
 
 						if (result.success) {
-							calculateAndShowTotalValueInQuickItems(result, responseWrap);
+							if (shouldDisplayOpenedValue(id)) {
+								calculateAndShowTotalValueInQuickItems(result, responseWrap);
+							}
 
 							if (result.items) {
 								if (result.items.itemAppear) {

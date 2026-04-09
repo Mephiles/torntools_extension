@@ -31,7 +31,7 @@ function addListener() {
 		else if (params.has("id")) itemID = convertToNumber(params.get("id"));
 		else if (params.has("itemID")) itemID = convertToNumber(params.get("itemID"));
 
-		if (isXIDRequestSupplyPack(itemID)) {
+		if (shouldDisplayOpenedValue(itemID)) {
 			reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
 		}
 
@@ -85,7 +85,7 @@ export function calculateAndShowTotalValueInQuickItems(response: TornInternalUse
 	responseWrap.appendChild(openedValueTextElement)
 }
 
-function isXIDRequestSupplyPack(itemID: number) {
+export function shouldDisplayOpenedValue(itemID: number) {
 	return SUPPLY_PACK_ITEMS.includes(itemID) && !isDrugPack(itemID);
 }
 
