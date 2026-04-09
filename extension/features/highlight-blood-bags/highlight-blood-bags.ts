@@ -44,7 +44,7 @@ async function highlightBloodBags() {
 
 	const allowedBlood: number[] = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
-	for (const item of findAllElements("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #armoury-medical .item-list > li")) {
+	for (const item of findAllElements("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], [id='tab=armoury&sub=medical'] .item-list > li")) {
 		if (!item.querySelector(".name-wrap, .name")) continue;
 		item.querySelector(".name-wrap, .name").classList.remove("good-blood", "bad-blood");
 

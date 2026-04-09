@@ -18,7 +18,8 @@
 				{ "message": "Fix popup not opening for a little bit after adding a new stakeout.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve incompatibility between 'Stock Filer' and 'Hide Stocks'.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix Stats Estimates not showing on the HOF page.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix popup icons scrolling being available unnecessarily.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix popup icons scrolling being available unnecessarily.", "contributor": "DeKleineKobini" },
+				{ "message": "Highlight blood bags in the faction armory again.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
