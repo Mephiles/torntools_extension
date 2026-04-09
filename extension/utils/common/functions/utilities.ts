@@ -5,7 +5,7 @@ export const MONTHS = ["January", "February", "March", "April", "May", "June", "
 export const SCRIPT_TYPE = (() => {
 	if (typeof window === "undefined" || window.location.href.endsWith("/_generated_background_page.html")) {
 		return "BACKGROUND";
-	} else if (browser.action) {
+	} else if (typeof browser === "object" && browser.action) {
 		return "POPUP";
 		// } else if (!chrome?.runtime?.onMessage) {
 		// return "WEB";
