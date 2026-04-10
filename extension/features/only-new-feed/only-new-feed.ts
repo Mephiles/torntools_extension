@@ -77,9 +77,7 @@ async function toggleFeed(id: string, hideButton: HTMLElement, feedElement: Elem
 }
 
 function handleHiddenElements(feedElement: Element) {
-	feedElement.querySelector(`.${styles.nothingToShow}`)?.remove();
-
-	if (findAllElements("li.new", feedElement).length) return;
+	if (feedElement.querySelector(`.${styles.nothingToShow}`)) return;
 
 	feedElement.querySelector(".panel-scrollbar").appendChild(
 		elementBuilder({

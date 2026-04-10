@@ -12,11 +12,16 @@
 }
 
 :global(.title-black:not(.active)) .onlyNewFeedButton {
+    /* Very specific margin to make sure the button doesn't move when the icon rotates. */
     margin-right: 2.8px;
 }
 
 .onlyShowNewPosts :global(li:not(.new)) {
     display: none !important;
+}
+
+:global(.panel-scrollbar:has(li.new)) .nothingToShow {
+    display: none;
 }
 
 .nothingToShow {
