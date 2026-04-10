@@ -1,0 +1,24 @@
+.onlyNewFeedButton {
+    display: flex;
+    align-items: center;
+    float: right;
+    height: 100%;
+    color: currentColor;
+    cursor: pointer;
+
+    &:hover {
+        outline: 1px solid gold;
+    }
+}
+
+:global(.title-black:not(.active)) .onlyNewFeedButton {
+    margin-right: 2.8px;
+}
+
+.onlyShowNewPosts :global(li:not(.new)) {
+    display: none !important;
+}
+
+.nothingToShow {
+    padding: 10px;
+}

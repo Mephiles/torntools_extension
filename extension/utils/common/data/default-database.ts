@@ -9,6 +9,7 @@ import { InternalPageTheme } from "@/utils/common/functions/pages";
 import { ColoredChatOption } from "@/features/colored-chat/colored-chat";
 import { StoredMigration } from "@/utils/common/data/migrations";
 import { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
+import { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
@@ -338,6 +339,7 @@ export const DEFAULT_STORAGE = {
 				highlightThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
 				ignoredThreads: new DefaultSetting<Record<number, boolean>>("object", {}),
 				debugInfoBtn: new DefaultSetting("boolean", true),
+				onlyNewFeedButton: new DefaultSetting("boolean", true),
 			},
 			bazaar: {
 				itemsCost: new DefaultSetting("boolean", true),
@@ -771,6 +773,7 @@ export const DEFAULT_STORAGE = {
 			},
 		},
 		chatResize: new DefaultSetting<StoredResizableChats>("object", {}),
+		feedHidden: new DefaultSetting<StoredHiddenFeeds>("object", {}),
 	},
 	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
 	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),

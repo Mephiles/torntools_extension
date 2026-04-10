@@ -228,6 +228,7 @@ import StocksMoneyInputFeature from "@/features/stocks-money-input/stocks-money-
 import ResizableChatFeature from "@/features/resizable-chat/resizable-chat";
 import NoOutsideLinkAlertFeature from "@/features/no-outside-link-alert/no-outside-link-alert";
 import RankedWarValueFeature from "@/features/ranked-war-value/ranked-war-value";
+import OnlyNewFeedFeature from "@/features/only-new-feed/only-new-feed";
 
 export function scriptManager() {
 	initializeDatabase();
@@ -411,6 +412,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
 		FEATURE_MANAGER.registerFeature(new ForumWarningFeature());
+		FEATURE_MANAGER.registerFeature(new OnlyNewFeedFeature());
 	} else if (page === "gym") {
 		setupGymPage().then(() => {});
 		FEATURE_MANAGER.registerFeature(new GymDisableStatsFeature());
