@@ -774,6 +774,7 @@ export const DEFAULT_STORAGE = {
 		},
 		chatResize: new DefaultSetting<StoredResizableChats>("object", {}),
 		feedHidden: new DefaultSetting<StoredHiddenFeeds>("object", {}),
+		threadsHiddenInFeed: new DefaultSetting<number[]>("array", []),
 	},
 	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
 	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
