@@ -930,7 +930,7 @@ export type StoredStakeouts = {
 	date: number;
 };
 
-export type QuickItem = { id: number; xid?: number };
+export type QuickItem = { id: number };
 export type QuickFactionItem = { id: number | "points-energy" | "points-nerve" };
 type QuickCrime = {
 	step: string;

@@ -182,7 +182,7 @@ async function verifyTime() {
 	const now = Date.now();
 	if (savedTime != null && savedTime > Date.now()) {
 		console.warn("Detected a desynchronized time! Resetting timed data.");
-		ttCache.clear();
+		await ttCache.clear();
 		await Promise.all([updateUserdata(true), updateFactiondata(), updateTorndata(), updateStocks(), updateStakeouts(true), updateFactionStakeouts(true)]);
 	}
 

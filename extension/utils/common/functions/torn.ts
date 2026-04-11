@@ -4,7 +4,7 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { requireCondition, requireElement } from "@/utils/common/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { torntools } from "@/utils/common/icons/torntools";
-import { elementBuilder, findElementWithText, findParent, getSearchParameters } from "./dom";
+import { elementBuilder, findAllElements, findElementWithText, findParent, getSearchParameters, isElement } from "./dom";
 import { convertToNumber, formatNumber } from "./formatting";
 
 export const LINKS = {
@@ -2389,7 +2389,13 @@ export const CUSTOM_LINKS_PRESET = {
 	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 } as const;
 
-export const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata?.profile?.name || "", description: "Your player name." }] as const;
+export const HIGHLIGHT_PLACEHOLDERS = [
+	{
+		name: "$player",
+		value: () => userdata?.profile?.name || "",
+		description: "Your player name.",
+	},
+] as const;
 
 export const CHAT_TITLE_COLORS = {
 	blue: ["rgb(10,60,173)", "rgb(22,109,236)"],
@@ -2503,4 +2509,102 @@ export const RANKS = {
 
 export function isDarkTheme() {
 	return document.body.classList.contains("dark-mode");
+}
+
+/*
+ * XID extraction
+ */
+export interface ExtractedXID {
+	item: number;
+	xid: number;
+}
+
+/**
+ * Credits to TornPDA for the following code, which this is based on:
+ * https://github.com/Manuito83/torn-pda/blob/master/lib/utils/js_snippets/js_quick_items.dart
+ */
+export function extractXIDFromDOM(root: ParentNode): ExtractedXID[] {
+	const nodes = findAllElements("li[data-item][data-category='Temporary'], li[data-item][data-category='Temporary'] *", root);
+	if (!nodes.length) return [];
+
+	const itemNodes = nodes.map((node) => node.closest<HTMLLIElement>("li[data-item]")).filter((row) => row !== null);
+	const uniqueItemNodes = Array.from(new Set(itemNodes));
+
+	return uniqueItemNodes
+		.map((node) => {
+			const itemString = node.getAttribute("data-item") || node.getAttribute("data-itemid");
+			if (!itemString) return null;
+
+			const equipButton = node.querySelector<HTMLElement>('[data-action="equip"], [data-action="unequip"], button[name="equip"], button[name="unequip"]');
+			const xidString =
+				node.dataset.armoryid ||
+				node.getAttribute("data-armoryid") ||
+				node.dataset.id ||
+				node.getAttribute("data-id") ||
+				equipButton.dataset.id ||
+				equipButton.getAttribute("data-id") ||
+				equipButton.dataset.armoryid ||
+				equipButton.getAttribute("data-armoryid");
+			if (!xidString) return null;
+
+			if (itemString === xidString) return null;
+
+			return { item: parseInt(itemString), xid: parseInt(xidString) };
+		})
+		.filter((row) => row !== null);
+}
+
+export function extractXIDFromMutations(mutations: MutationRecord[]) {
+	return Array.from(new Set(mutations.flatMap((m) => Array.from(m.addedNodes))))
+		.filter(isElement)
+		.flatMap(extractXIDFromDOM)
+		.filter((x) => x !== null);
+}
+
+export function extractXIDFromJson(json: any): ExtractedXID[] {
+	if (!json) return [];
+
+	const items = json.items || json.list || json.data || json;
+	if (!items) return [];
+
+	if (Array.isArray(items)) {
+		return items
+			.filter((x) => !!x)
+			.filter((item) => (item.type2 || item.type || item.category || item.itemType) === "Temporary")
+			.map<ExtractedXID>((id) => {
+				const itemId = id.ID || id.id || id.itemID || id.itemId || id.number || id.item;
+				if (!itemId) return null;
+
+				const xid = id.UID || id.uid || id.instanceId || id.instance_id || id.armoryID || id.armoryId || id.equip_id || id.equipId || id.id || id.ID;
+				if (!xid) return null;
+
+				return { item: parseInt(itemId), xid: parseInt(xid) };
+			});
+	} else if (typeof items === "object") {
+		return Object.values(items).flatMap((x) => extractXIDFromJson(x));
+	}
+
+	return [];
+}
+
+export function extractXIDFromHTML(html: string): ExtractedXID[] {
+	const parser = new DOMParser();
+	const parsedDocument = parser.parseFromString(html, "text/html");
+	const nodes = findAllElements('li[data-item][data-category="Temporary"]', parsedDocument);
+	if (!nodes.length) return [];
+
+	return nodes
+		.map<ExtractedXID>((li) => {
+			const itemId = li.getAttribute("data-item") || li.getAttribute("data-itemid");
+			if (!itemId) return null;
+
+			const armoryId =
+				li.getAttribute("data-armoryid") ||
+				li.getAttribute("data-id") ||
+				li.querySelector<HTMLElement>(`[data-id]:not([data-id='${itemId}'])`)?.dataset?.id;
+			if (!armoryId) return null;
+
+			return { item: parseInt(itemId), xid: parseInt(armoryId) };
+		})
+		.filter((x) => !!x);
 }

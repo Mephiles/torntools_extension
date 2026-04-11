@@ -4,6 +4,8 @@ export type DatabaseCache = { [key: string]: any };
 
 type CacheKey = string | number;
 
+type CacheValue = { value: any } & ({ timeout: number } | { indefinite: true });
+
 class TornToolsCache {
 	private _cache: DatabaseCache;
 
@@ -20,13 +22,7 @@ class TornToolsCache {
 	}
 
 	get<T = any>(section: string, key?: CacheKey): T | undefined {
-		if (!key) {
-			key = section;
-			section = null;
-		}
-
-		if (section) return this.hasValue(section, key) ? this.cache[section][key].value : undefined;
-		else return this.hasValue(key.toString()) ? this.cache[key].value : undefined;
+		return this.getCacheValue(section, key)?.value;
 	}
 
 	async remove(section: string, key?: CacheKey) {
@@ -47,34 +43,69 @@ class TornToolsCache {
 	}
 
 	hasValue(section: string, key?: CacheKey) {
+		return this.getCacheValue(section, key) !== null;
+	}
+
+	private getCacheValue(section: string, key?: CacheKey): CacheValue | null {
 		if (!key) {
 			key = section;
 			section = null;
 		}
 
-		if (section) return section in this.cache && key in this.cache[section] && this.cache[section][key].timeout > Date.now();
-		else return key in this.cache && this.cache[key].timeout > Date.now();
+		let value: CacheValue | null = null;
+		if (section) {
+			if (section in this.cache && key in this.cache[section]) {
+				value = this.cache[section][key];
+			}
+		} else {
+			if (key in this.cache) {
+				value = this.cache[key];
+			}
+		}
+
+		if (value === null || !("value" in value)) return null;
+
+		if ("indefinite" in value) return value;
+		else return value.timeout > Date.now() ? value : null;
 	}
 
 	async set(object: DatabaseCache, ttl: number, section?: string) {
-		const timeout = Date.now() + ttl;
+		return this._set(object, ttl, section);
+	}
+
+	setIndefinite(object: DatabaseCache, section?: string) {
+		return this._set(object, null, section);
+	}
+
+	private async _set(object: DatabaseCache, ttl: number | null, section?: string) {
+		const timeout = ttl === null ? null : Date.now() + ttl;
 		if (section) {
 			if (!(section in this.cache)) this.cache[section] = {};
 
 			for (const [key, value] of Object.entries(object)) {
-				this.cache[section][key] = { value, timeout };
+				this.cache[section][key] = this.createCacheValue(value, timeout);
 			}
 		} else {
 			for (const [key, value] of Object.entries(object)) {
-				this.cache[key] = { value, timeout };
+				this.cache[key] = this.createCacheValue(value, timeout);
 			}
 		}
 
 		await ttStorage.set({ cache: this.cache });
 	}
 
-	clear() {
-		ttStorage.set({ cache: {} }).then(() => (this.cache = {}));
+	private createCacheValue(value: any, timeout: number | null): CacheValue {
+		if (timeout === null) return { value, indefinite: true };
+		else return { value, timeout };
+	}
+
+	async clear(section?: string) {
+		if (section) {
+			delete this.cache[section];
+			await ttStorage.set({ cache: this.cache });
+		} else {
+			ttStorage.set({ cache: {} }).then(() => (this.cache = {}));
+		}
 	}
 
 	async refresh() {
@@ -93,8 +124,9 @@ class TornToolsCache {
 			for (const key in object) {
 				const value = object[key];
 
-				if ("timeout" in value) {
-					if (value.timeout > now) continue;
+				if ("value" in value) {
+					const cacheValue = value as CacheValue;
+					if ("indefinite" in cacheValue || cacheValue.timeout > now) continue;
 
 					hasChanged = true;
 					delete object[key];

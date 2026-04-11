@@ -60,8 +60,8 @@ export class BackgroundService {
 		return browser.alarms.getAll();
 	}
 
-	clearCache(): ActionResponse {
-		ttCache.clear();
+	async clearCache(): Promise<ActionResponse> {
+		await ttCache.clear();
 		return { success: true };
 	}
 }
