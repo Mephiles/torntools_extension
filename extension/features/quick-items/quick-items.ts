@@ -185,7 +185,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 					return;
 				}*/
 				const xid: number | null = getXID(id);
-				if (xid === null) {
+				if (equipItem && xid === null) {
 					getXIDWithDirectCall(id)
 						.then((result) => {
 							responseWrap.style.display = "block";
