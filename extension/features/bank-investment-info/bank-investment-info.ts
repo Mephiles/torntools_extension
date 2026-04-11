@@ -7,9 +7,9 @@ import { elementBuilder } from "@/utils/common/functions/dom";
 import { formatNumber, roundNearest } from "@/utils/common/functions/formatting";
 import { fetchData } from "@/utils/common/functions/api";
 import { createContainer } from "@/utils/common/functions/containers";
-import { BaseElement } from "@/utils/common/elements/base-element";
+import type { BaseElement } from "@/utils/common/elements/base-element";
 import { Feature } from "@/features/feature-manager";
-import { createTable, stringCellRenderer, TableColumnDef, TableElement } from "@/utils/common/elements/table/table";
+import { createTable, stringCellRenderer, type TableColumnDef, type TableElement } from "@/utils/common/elements/table/table";
 
 interface MoneyInfo {
 	total: number;

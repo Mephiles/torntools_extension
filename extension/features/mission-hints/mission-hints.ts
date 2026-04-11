@@ -353,7 +353,7 @@ async function showHints() {
 			}
 		}
 
-		let children = [
+		const children = [
 			elementBuilder({ type: "h6", class: "tt-mission-title", text: "TornTools Mission Information" }),
 			elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Task: " }), task] }),
 		];

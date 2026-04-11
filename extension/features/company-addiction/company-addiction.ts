@@ -5,8 +5,8 @@ import { addInformationSection, checkDevice, elementBuilder, showInformationSect
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { ttCache } from "@/utils/common/data/cache";
 import { getTimeUntilNextJobUpdate } from "@/utils/common/functions/utilities";
-import { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
-import { UserCompany } from "tornapi-typescript";
+import type { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
+import type { UserCompany } from "tornapi-typescript";
 import { LINKS } from "@/utils/common/functions/torn";
 
 async function showCompanyAddictionLevel() {

@@ -1,7 +1,7 @@
-import { DatabaseCache, ttCache } from "@/utils/common/data/cache";
-import { DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
+import { type DatabaseCache, ttCache } from "@/utils/common/data/cache";
+import { type DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
 import { ttStorage } from "@/utils/common/data/storage";
-import { DEFAULT_STORAGE, DefaultSetting, DefaultStorageType } from "@/utils/common/data/default-database";
+import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@/utils/common/data/default-database";
 import { sleep, toNumericVersion } from "@/utils/common/functions/utilities";
 import { executeMigrationScripts } from "@/utils/common/data/migrations";
 import { browser } from "wxt/browser";

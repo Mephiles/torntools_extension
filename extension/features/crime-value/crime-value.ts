@@ -6,7 +6,7 @@ import { addFetchListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { isAttemptCrime, TornInternalAttemptCrime } from "@/pages/crimes2-page";
+import { isAttemptCrime, type TornInternalAttemptCrime } from "@/pages/crimes2-page";
 
 function addListener() {
 	addFetchListener(async ({ detail: { page, json, fetch } }) => {

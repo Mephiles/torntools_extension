@@ -10,7 +10,7 @@ import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { ttStorage } from "@/utils/common/data/storage";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { TORN_ITEMS } from "@/utils/common/functions/torn-items";
-import { TornItem } from "tornapi-typescript";
+import type { TornItem } from "tornapi-typescript";
 
 interface CityItem {
 	id: string;

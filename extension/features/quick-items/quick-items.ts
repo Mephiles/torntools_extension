@@ -8,7 +8,7 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils
 import { formatTime } from "@/utils/common/functions/formatting";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@/utils/common/functions/dom";
 import { requireContent, requireItemsLoaded } from "@/utils/common/functions/requires";
-import { QuickItem } from "@/utils/common/data/default-database";
+import type { QuickItem } from "@/utils/common/data/default-database";
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { ttStorage } from "@/utils/common/data/storage";
 import { PHPlus, PHX } from "@/utils/common/icons/phosphor-icons";

@@ -1,6 +1,6 @@
-import { BaseElement } from "@/utils/common/elements/base-element";
+import type { BaseElement } from "@/utils/common/elements/base-element";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { getTypedKeyOf, groupBy, TypedKeyOf } from "@/utils/common/functions/utilities";
+import { getTypedKeyOf, groupBy, type TypedKeyOf } from "@/utils/common/functions/utilities";
 import "./table.css";
 import { PHFillCaretDown, PHFillCaretUp } from "@/utils/common/icons/phosphor-icons";
 
@@ -201,7 +201,7 @@ export function createTable<T>(
 		stretchColumns: false,
 		...options,
 	};
-	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION } = undefined;
+	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION } ;
 	let tableRows = _createTableRows(tableRowsData);
 
 	const tableHeaders = tableColumnsDefs.map((columnDef) => {

@@ -18,7 +18,7 @@ async function removeConfirmation() {
 	const link = document.querySelector(".trade-cancel a.accept");
 	if (!link) return;
 
-	let url = link.getAttribute("href");
+	const url = link.getAttribute("href");
 	if (!url.includes("accept") || url.includes("accept2")) return;
 
 	link.setAttribute("href", url.replace("accept", "accept2"));

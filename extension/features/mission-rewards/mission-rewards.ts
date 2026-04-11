@@ -8,7 +8,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { findItemInList } from "@/utils/common/functions/utilities";
-import { UserV1Ammo } from "@/utils/common/functions/api-v1.types";
+import type { UserV1Ammo } from "@/utils/common/functions/api-v1.types";
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.MISSION_REWARDS].push(async () => {

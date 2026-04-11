@@ -5,7 +5,7 @@ import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { ttCache } from "@/utils/common/data/cache";
 import { userdata } from "@/utils/common/data/database";
-import { UserFactionResponse } from "tornapi-typescript";
+import type { UserFactionResponse } from "tornapi-typescript";
 
 export const isInternalFaction = getSearchParameters().get("step") === "your";
 

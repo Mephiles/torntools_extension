@@ -2,7 +2,7 @@ import { findAllElements, isElement } from "@/utils/common/functions/dom";
 import { requireDOMContentLoaded, requireElement } from "@/utils/common/functions/requires";
 import { isAbroad } from "@/utils/common/functions/torn";
 import { addFetchListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { SyncItem } from "@/features/travel-table/travel-table-sync";
+import type { SyncItem } from "@/features/travel-table/travel-table-sync";
 
 interface InternalTornTravelDataShop {
 	country: string;

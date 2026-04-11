@@ -1,12 +1,12 @@
 import {
-	Database,
+	type Database,
 	initializeDatabase,
 	loadDatabase,
 	migrateDatabase,
-	RecursivePartial,
+	type RecursivePartial,
 	storageListeners,
 	version,
-	Writable,
+	type Writable,
 } from "@/utils/common/data/database";
 import { ttCache } from "@/utils/common/data/cache";
 import { ttUsage } from "@/utils/common/data/usage";

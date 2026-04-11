@@ -6,7 +6,7 @@ import { elementBuilder, findAllElements, getSearchParameters, mobile, tablet } 
 import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { StatsEstimate } from "./stats-estimate";
-import { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
+import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
 
 const statsEstimate = new StatsEstimate("Attacks", false);
 

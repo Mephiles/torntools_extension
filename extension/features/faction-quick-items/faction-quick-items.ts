@@ -11,8 +11,8 @@ import { getItemEnergy, getPageStatus, getUserEnergy } from "@/utils/common/func
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { ttStorage } from "@/utils/common/data/storage";
 import { isInternalFaction } from "@/pages/factions-page";
-import { TornInternalUseItem } from "@/pages/item-page";
-import { QuickFactionItem } from "@/utils/common/data/default-database";
+import type { TornInternalUseItem } from "@/pages/item-page";
+import type { QuickFactionItem } from "@/utils/common/data/default-database";
 import { PHFillPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 
 let movingElement: Element | undefined;
@@ -479,7 +479,7 @@ async function onItemClickQuickEdit(event: MouseEvent) {
 
 	const _target = event.target as HTMLElement;
 	const target = _target.dataset.type === "tt-points" ? _target : findParent(_target, { tag: "LI" });
-	let _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
+	const _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 	const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 	const item = addQuickItem({ id }, false);

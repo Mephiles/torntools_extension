@@ -3,7 +3,7 @@ import { getNotificationSound, notificationTestPlayer, notifyUser } from "@/entr
 import { fetchData, type FetchLocation, type FetchOptions } from "@/utils/common/functions/api";
 import { ttCache } from "@/utils/common/data/cache";
 import { resetAlarms } from "@/entrypoints/background";
-import { type Browser } from "@wxt-dev/browser";
+import type { Browser } from "@wxt-dev/browser";
 
 type Alarm = Browser.alarms.Alarm;
 

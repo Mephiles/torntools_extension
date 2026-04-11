@@ -4,7 +4,7 @@ import { npcs, settings } from "@/utils/common/data/database";
 import { checkDevice, elementBuilder, findElementWithText, findParent, isElement } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { dropDecimals, formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
+import { dropDecimals, formatTime, type FormatTimeOptions } from "@/utils/common/functions/formatting";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { ttStorage } from "@/utils/common/data/storage";
 import { countdownTimers } from "@/utils/common/functions/timers";

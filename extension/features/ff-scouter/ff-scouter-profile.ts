@@ -1,4 +1,4 @@
-import { buildScoutInformation, ScouterResult, scouterService, ScouterService } from "@/features/ff-scouter/ff-scouter";
+import { buildScoutInformation, type ScouterResult, scouterService, type ScouterService } from "@/features/ff-scouter/ff-scouter";
 import { Feature } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { hasAPIData } from "@/utils/common/functions/api";

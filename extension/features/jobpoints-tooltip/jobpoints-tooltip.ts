@@ -5,7 +5,7 @@ import { requireElement, requireSidebar } from "@/utils/common/functions/require
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { ttCache } from "@/utils/common/data/cache";
 import { fetchData } from "@/utils/common/functions/api";
-import { UserJobPointsResponse } from "tornapi-typescript";
+import type { UserJobPointsResponse } from "tornapi-typescript";
 import { getTimeUntilNextJobUpdate, sleep } from "@/utils/common/functions/utilities";
 
 function jobPointsUseListener() {

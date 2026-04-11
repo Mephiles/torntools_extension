@@ -1,6 +1,6 @@
 import "./missing-sets.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, SetItem, SETS } from "@/utils/common/functions/torn";
+import { getPageStatus, type SetItem, SETS } from "@/utils/common/functions/torn";
 import { settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
@@ -147,7 +147,7 @@ async function addMarketIcon(missingItem: HTMLElement, first: boolean, last: boo
 
 function showMarketIcons() {
 	const items = findAllElements(".needed-item");
-	let isFirst = true;
+	const isFirst = true;
 	for (const missingItem of items) {
 		const isLast = items.indexOf(missingItem) === items.length - 1;
 

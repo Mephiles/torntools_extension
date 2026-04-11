@@ -2,7 +2,7 @@ import "./item-values.css";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@/utils/common/functions/dom";
 import { getPage, getPageStatus } from "@/utils/common/functions/torn";
 import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { XHRDetails } from "@/entrypoints/xhr--inject";
+import type { XHRDetails } from "@/entrypoints/xhr--inject";
 import { requireElement, requireItemsLoaded } from "@/utils/common/functions/requires";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings, torndata, userdata } from "@/utils/common/data/database";

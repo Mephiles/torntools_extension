@@ -28,11 +28,11 @@ import {
 } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
 import { applyPlural, capitalizeText, dropDecimals, formatDate, formatNumber, formatTime, textToTime, toSeconds } from "@/utils/common/functions/formatting";
-import { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
-import { TornW3BResult } from "@/utils/common/functions/api.types";
-import { MarketItemMarketResponse, TornItem, UserStock } from "tornapi-typescript";
+import type { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
+import type { TornW3BResult } from "@/utils/common/functions/api.types";
+import type { MarketItemMarketResponse, TornItem, UserStock } from "tornapi-typescript";
 import { ttCache } from "@/utils/common/data/cache";
-import { TTNotification } from "@/utils/common/data/default-database";
+import type { TTNotification } from "@/utils/common/data/default-database";
 import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/functions/api";
 import { getPageTheme } from "@/utils/common/functions/pages";
 
@@ -177,7 +177,7 @@ async function setupDashboard() {
 
 	const iconsWrap = dashboard.querySelector(".icons-wrap");
 	for (const { icon, id, description, ...r } of ALL_ICONS) {
-		let url = "url" in r ? r.url : null;
+		const url = "url" in r ? r.url : null;
 
 		iconsWrap.appendChild(
 			elementBuilder({
@@ -346,11 +346,11 @@ async function setupDashboard() {
 					if (userdataIcon) {
 						icon.classList.remove("tt-hidden");
 
-						let iconText = `${userdataIcon.title} - ${userdataIcon.description}`;
+						const iconText = `${userdataIcon.title} - ${userdataIcon.description}`;
 						let iconHTML: string;
 
 						if (iconText.includes(" - ") && iconText.includes(" seconds")) {
-							let timeSplits = iconText.split(" - ");
+							const timeSplits = iconText.split(" - ");
 							let time: string, text: string;
 
 							if (timeSplits.length > 2) {
@@ -376,8 +376,8 @@ async function setupDashboard() {
 
 		function updateBar(name: string, bar: UserV1Bar) {
 			const current = bar ? bar.current : 0;
-			let maximum = bar ? bar.maximum : 100;
-			let tickAt: string | number = (userdata.server_time + (bar ? bar.ticktime : 0)) * 1000;
+			const maximum = bar ? bar.maximum : 100;
+			const tickAt: string | number = (userdata.server_time + (bar ? bar.ticktime : 0)) * 1000;
 			let fullAt: string | number = (userdata.server_time + bar.fulltime) * 1000;
 
 			if (current === maximum) fullAt = "full";
@@ -1084,7 +1084,7 @@ async function setupStocksOverview() {
 	const stocksOverview = document.querySelector("#stocks");
 	const allStocks = stocksOverview.querySelector("#all-stocks");
 
-	for (let id in stockdata) {
+	for (const id in stockdata) {
 		if (id === "date") continue;
 
 		allStocks.appendChild(buildSection(parseInt(id)));

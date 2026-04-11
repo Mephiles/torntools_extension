@@ -1,6 +1,6 @@
 import "./drug-details.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { DRUG_INFORMATION, DrugDetail, getPage, getPageStatus } from "@/utils/common/functions/torn";
+import { DRUG_INFORMATION, type DrugDetail, getPage, getPageStatus } from "@/utils/common/functions/torn";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { extractArmorySubcategory, isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";

@@ -4,7 +4,7 @@ import { filters, settings } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { requireCondition, requireElement } from "@/utils/common/functions/requires";
-import { createFilterSection, createStatistics, getSpecialIcons, SpecialFilterValue } from "@/utils/common/functions/filters";
+import { createFilterSection, createStatistics, getSpecialIcons, type SpecialFilterValue } from "@/utils/common/functions/filters";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";

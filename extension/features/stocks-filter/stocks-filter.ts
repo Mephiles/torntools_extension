@@ -2,7 +2,7 @@ import "./stocks-filter.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { requireElement } from "@/utils/common/functions/requires";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics, SpecialFilterValue } from "@/utils/common/functions/filters";
+import { createFilterSection, createStatistics, type SpecialFilterValue } from "@/utils/common/functions/filters";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { filters, settings, stockdata, userdata } from "@/utils/common/data/database";
 import { createCheckboxDuo } from "@/utils/common/elements/checkbox-duo/checkbox-duo";

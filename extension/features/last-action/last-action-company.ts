@@ -5,11 +5,11 @@ import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { isOwnCompany } from "@/pages/company-page";
 import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { ttCache } from "@/utils/common/data/cache";
-import { UserJobResponse } from "tornapi-typescript";
+import type { UserJobResponse } from "tornapi-typescript";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { CompanyV1Employees, CompanyV1ProfileResponse } from "@/utils/common/functions/api-v1.types";
+import type { CompanyV1Employees, CompanyV1ProfileResponse } from "@/utils/common/functions/api-v1.types";
 import { getUsername } from "@/utils/common/functions/torn";
 import { dropDecimals } from "@/utils/common/functions/formatting";
 

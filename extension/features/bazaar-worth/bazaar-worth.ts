@@ -8,7 +8,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addFetchListener } from "@/utils/common/functions/listeners";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { UserV1BazaarItem, UserV1BazaarResponse } from "@/utils/common/functions/api-v1.types";
+import type { UserV1BazaarItem, UserV1BazaarResponse } from "@/utils/common/functions/api-v1.types";
 
 interface BazaarFetchItem {
 	amount: number;

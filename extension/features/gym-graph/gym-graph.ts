@@ -56,7 +56,7 @@ async function showGraph() {
 					}
 
 					let total = 0;
-					let gains = [];
+					const gains = [];
 					for (const stat of ["Strength", "Defense", "Speed", "Dexterity"]) {
 						const value = response[`delta${stat}`];
 						if (!value) continue;

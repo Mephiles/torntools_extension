@@ -2,7 +2,7 @@ import { getPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessag
 import { attackHistory, initializeDatabase, loadDatabase, stakeouts, storageListeners } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, getSearchParameters, sortTable } from "@/utils/common/functions/dom";
 import { ttStorage } from "@/utils/common/data/storage";
-import { AttackHistory, StakeoutData, StoredStakeouts } from "@/utils/common/data/default-database";
+import type { AttackHistory, StakeoutData, StoredStakeouts } from "@/utils/common/data/default-database";
 import Sortable from "sortablejs";
 import { formatDate, formatTime } from "@/utils/common/functions/formatting";
 import { PHTrash } from "@/utils/common/icons/phosphor-icons";

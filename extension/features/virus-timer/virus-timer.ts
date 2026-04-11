@@ -3,7 +3,7 @@ import { addInformationSection, checkDevice, elementBuilder, showInformationSect
 import { hasAPIData } from "@/utils/common/functions/api";
 import { settings, userdata } from "@/utils/common/data/database";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
+import { formatTime, type FormatTimeOptions } from "@/utils/common/functions/formatting";
 import { countdownTimers } from "@/utils/common/functions/timers";
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { LINKS } from "@/utils/common/functions/torn";

@@ -6,7 +6,7 @@ import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { ttCache } from "@/utils/common/data/cache";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import {
+import type {
 	FactionV1ArmorResponse,
 	FactionV1BoostersResponse,
 	FactionV1CesiumResponse,

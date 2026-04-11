@@ -1,4 +1,4 @@
-import { buildScoutInformation, scouterService, ScouterService } from "@/features/ff-scouter/ff-scouter";
+import { buildScoutInformation, scouterService, type ScouterService } from "@/features/ff-scouter/ff-scouter";
 import { Feature } from "@/features/feature-manager";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { settings } from "@/utils/common/data/database";

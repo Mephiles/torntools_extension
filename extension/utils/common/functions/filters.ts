@@ -3,12 +3,12 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { userdata } from "@/utils/common/data/database";
 import { camelCase } from "@/utils/common/functions/formatting";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createTextbox, TextboxWithoutDescriptionFilter } from "@/utils/common/elements/textbox/textbox";
+import { createTextbox, type TextboxWithoutDescriptionFilter } from "@/utils/common/elements/textbox/textbox";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createCheckboxList } from "@/utils/common/elements/checkbox-list/checkbox-list";
-import { createMultiSelect, createSelect, SelectOption } from "@/utils/common/elements/select/select";
+import { createMultiSelect, createSelect, type SelectOption } from "@/utils/common/elements/select/select";
 import { WEAPON_BONUSES } from "@/utils/common/functions/torn";
-import { WeaponBonusFilter } from "@/utils/common/data/default-database";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 import { DualRangeSlider } from "@/utils/common/elements/slider/slider";
 
 export type SpecialFilterValue = "both" | "yes" | "no" | "none";

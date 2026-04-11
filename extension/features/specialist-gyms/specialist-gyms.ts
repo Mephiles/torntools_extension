@@ -137,8 +137,8 @@ function calculateTwoStatsGym(mainStat1: number, mainStat2: number, otherStats: 
 function calculateSingleStatAndTwoStatsOverlappingGyms(mainStat: number, secondaryStat: number, neglectedStat1: number, neglectedStat2: number) {
 	let newMainStat = mainStat;
 	let newSecondaryStat = secondaryStat;
-	let newNeglectedStat1 = neglectedStat1;
-	let newNeglectedStat2 = neglectedStat2;
+	const newNeglectedStat1 = neglectedStat1;
+	const newNeglectedStat2 = neglectedStat2;
 
 	while (true) {
 		const highestNonMainStat = Math.max(newSecondaryStat, newNeglectedStat1, newNeglectedStat2);
@@ -190,7 +190,7 @@ function calculateSingleStatAndTwoStatsGyms(mainStat: number, secondaryStat1: nu
 	let newMainStat = mainStat;
 	let newSecondaryStat1 = secondaryStat1;
 	let newSecondaryStat2 = secondaryStat2;
-	let newNeglectedStat = neglectedStat;
+	const newNeglectedStat = neglectedStat;
 
 	while (true) {
 		const highestNonMainStat = Math.max(newSecondaryStat1, newSecondaryStat2, newNeglectedStat);

@@ -5,7 +5,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createStatistics, StatisticsResult } from "@/utils/common/functions/filters";
+import { createStatistics, type StatisticsResult } from "@/utils/common/functions/filters";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 
@@ -83,8 +83,6 @@ async function addFilter() {
 			} else showBounty(bounty);
 			if (hideUnavailable && bounty.querySelector(".user-red-status, .user-blue-status")) {
 				hideBounty(bounty);
-				// noinspection UnnecessaryContinueJS
-				continue;
 			} else showBounty(bounty);
 		}
 

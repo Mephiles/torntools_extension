@@ -1,4 +1,4 @@
-import { CompanyV1, FactionV1, TornV1, UserV1 } from "tornapi-typescript";
+import type { CompanyV1, FactionV1, TornV1, UserV1 } from "tornapi-typescript";
 
 export type UserV1AmmoResponse = UserV1["selections"]["ammo"]["response"];
 export type UserV1BarsResponse = UserV1["selections"]["bars"]["response"];

@@ -9,7 +9,7 @@ import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { ttCache } from "@/utils/common/data/cache";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
+import type { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
 
 const data: Record<number, any> = {};
 

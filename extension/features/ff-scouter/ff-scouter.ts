@@ -3,7 +3,7 @@ import { ttCache } from "@/utils/common/data/cache";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { NON_ATTACKABLE_ACCOUNT_IDS } from "@/utils/common/functions/torn";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { FFScouterResult } from "@/utils/common/functions/api.types";
+import type { FFScouterResult } from "@/utils/common/functions/api.types";
 import { settings } from "@/utils/common/data/database";
 
 export type ScouterResult =

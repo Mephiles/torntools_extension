@@ -1,6 +1,6 @@
 import {
 	api,
-	DatabaseKey,
+	type DatabaseKey,
 	factiondata,
 	initializeDatabase,
 	loadDatabase,
@@ -16,7 +16,7 @@ import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRE
 import { ttStorage } from "@/utils/common/data/storage";
 import { capitalizeText, daySuffix, dropDecimals, formatDate, formatNumber, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
 import { changeAPIKey, checkAPIPermission, FETCH_PLATFORMS, hasAPIData } from "@/utils/common/functions/api";
-import { getPageTheme, initializeInternalPage, InternalPageTheme, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
+import { getPageTheme, initializeInternalPage, type InternalPageTheme, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
 import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { ttUsage } from "@/utils/common/data/usage";
 import { calculateRevivePrice, REVIVE_PROVIDERS } from "@/utils/common/functions/api-external-revives";
@@ -2016,7 +2016,7 @@ function formatBytes(bytes: number, partialOptions: Partial<FormatBytesOptions> 
 
 	const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
 
-	const xBytes = bytes / Math.pow(unitExponent, effectiveUnit);
+	const xBytes = bytes / unitExponent ** effectiveUnit;
 
 	return `${formatNumber(xBytes, { decimals: options.decimals })} ${units[effectiveUnit]}`;
 }

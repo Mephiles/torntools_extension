@@ -533,7 +533,7 @@ function executeStrategy(data: any) {
 	}
 	const suggestion = getSuggestion(playerValue);
 
-	let element = document.querySelector(".tt-blackjack-suggestion");
+	const element = document.querySelector(".tt-blackjack-suggestion");
 	if (element) element.textContent = suggestion;
 	else {
 		document.querySelector(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));

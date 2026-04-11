@@ -129,7 +129,7 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 
 	let date: Date, parts: number[];
 	switch (options.type) {
-		case "normal":
+		case "normal": {
 			date = new Date(millis);
 
 			let seconds: string | number | undefined, minutes: string | number, hours: string | number;
@@ -148,18 +148,20 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 			let hoursText = toMultipleDigits(hours);
 
 			switch (settings.formatting.time) {
-				case "us":
+				case "us": {
 					const afternoon = hours >= 12;
 					hoursText = toMultipleDigits(hours % 12 || 12);
 
 					return secondsText
 						? `${hoursText}:${minutesText}:${secondsText} ${afternoon ? "PM" : "AM"}`
 						: `${hoursText}:${minutesText} ${afternoon ? "PM" : "AM"}`;
+				}
 				case "eu":
 				default:
 					return secondsText ? `${hoursText}:${minutesText}:${secondsText}` : `${hoursText}:${minutesText}`;
 			}
-		case "timer":
+		}
+		case "timer": {
 			date = new Date(millis);
 
 			parts = [];
@@ -172,9 +174,10 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 			if (options.short && options.showDays && timerText.startsWith("00:")) timerText = timerText.slice(3);
 
 			return timerText;
+		}
 		case "wordTimer":
 			return formatTimeAsWordTimer(millis, options);
-		case "ago":
+		case "ago": {
 			let timeAgo = Math.floor(Date.now() - millis);
 
 			let token = "ago";
@@ -234,6 +237,7 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 			}
 
 			return timeAgo.toString();
+		}
 		default:
 			throw new Error("Invalid formatTime type.");
 	}

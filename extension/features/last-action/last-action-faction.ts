@@ -2,7 +2,7 @@ import "./last-action.css";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { FactionMember, FactionMembersResponse } from "tornapi-typescript";
+import type { FactionMember, FactionMembersResponse } from "tornapi-typescript";
 import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";

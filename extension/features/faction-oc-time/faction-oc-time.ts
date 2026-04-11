@@ -2,7 +2,7 @@ import { Feature } from "@/features/feature-manager";
 import { factiondata, settings } from "@/utils/common/data/database";
 import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
-import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
+import { formatTime, type FormatTimeOptions } from "@/utils/common/functions/formatting";
 import { LINKS } from "@/utils/common/functions/torn";
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";

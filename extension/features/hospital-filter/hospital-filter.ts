@@ -190,8 +190,6 @@ async function filtering(pageChange: boolean = false) {
 		const level = convertToNumber(li.querySelector(".info-wrap .level").textContent);
 		if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 			hideRow(li);
-			// noinspection UnnecessaryContinueJS
-			continue;
 		}
 	}
 

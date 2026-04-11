@@ -2,7 +2,7 @@ import "./profile-box.css";
 import { Feature } from "@/features/feature-manager";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
 import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
-import { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
+import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -14,10 +14,10 @@ import Sortable from "sortablejs";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createTable, stringCellRenderer } from "@/utils/common/elements/table/table";
-import { TornstatsSpy, YATASpyResponse } from "@/utils/common/functions/api.types";
+import type { TornstatsSpy, YATASpyResponse } from "@/utils/common/functions/api.types";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { StakeoutData } from "@/utils/common/data/default-database";
+import type { StakeoutData } from "@/utils/common/data/default-database";
 import { PHArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {

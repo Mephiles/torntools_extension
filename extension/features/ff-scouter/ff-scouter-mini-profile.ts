@@ -1,7 +1,7 @@
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { settings } from "@/utils/common/data/database";
-import { buildScoutInformation, ScouterResult, scouterService, ScouterService } from "@/features/ff-scouter/ff-scouter";
+import { buildScoutInformation, type ScouterResult, scouterService, type ScouterService } from "@/features/ff-scouter/ff-scouter";
 import { addFetchListener } from "@/utils/common/functions/listeners";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";

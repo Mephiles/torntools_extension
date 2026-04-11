@@ -1,4 +1,4 @@
-import { FETCH_PLATFORMS, fetchData, FetchOptions } from "@/utils/common/functions/api";
+import { FETCH_PLATFORMS, fetchData, type FetchOptions } from "@/utils/common/functions/api";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { settings } from "@/utils/common/data/database";
 import { ttCache } from "@/utils/common/data/cache";
@@ -20,7 +20,7 @@ function __requestStigFormat(vendor: string): ReviveProviderRequester {
 				body: { tornid: id.toString(), username: name, source: source, vendor, type: "revive" },
 			})
 				.then((response) => {
-					if (response.hasOwnProperty("contract")) {
+					if (Object.hasOwn(response, "contract")) {
 						resolve({ response, contract: response["contract"] });
 					} else {
 						reject(response);

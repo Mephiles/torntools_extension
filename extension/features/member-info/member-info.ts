@@ -10,7 +10,7 @@ import { formatNumber } from "@/utils/common/functions/formatting";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { ttCache } from "@/utils/common/data/cache";
 import { isInternalFaction } from "@/pages/factions-page";
-import { FactionBalance, FactionBalanceResponse } from "tornapi-typescript";
+import type { FactionBalance, FactionBalanceResponse } from "tornapi-typescript";
 
 let lastActionState: boolean;
 

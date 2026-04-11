@@ -1,4 +1,4 @@
-import { contrastFFColor, ffColor, ScouterResult, scouterService, ScouterService } from "@/features/ff-scouter/ff-scouter";
+import { contrastFFColor, ffColor, type ScouterResult, scouterService, type ScouterService } from "@/features/ff-scouter/ff-scouter";
 import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
 import { hasAPIData } from "@/utils/common/functions/api";

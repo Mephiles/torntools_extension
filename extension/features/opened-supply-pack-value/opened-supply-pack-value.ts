@@ -6,7 +6,7 @@ import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { isUseItem, TornInternalUseItemSuccess } from "@/pages/item-page";
+import { isUseItem, type TornInternalUseItemSuccess } from "@/pages/item-page";
 import { sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { getPage } from "@/utils/common/functions/torn";
 

@@ -4,7 +4,7 @@ import { requireCondition, requireElement } from "@/utils/common/functions/requi
 import { getCookie, isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { convertToNumber, formatNumber } from "./formatting";
-import { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
+import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { torntools } from "@/utils/common/icons/torntools";
 
 export const LINKS = {
@@ -1744,7 +1744,7 @@ export function getPage() {
 	else if (page.endsWith(".html")) page = page.substring(0, page.length - 3);
 
 	switch (page) {
-		case "index":
+		case "index": {
 			const _page = getSearchParameters().get("page");
 
 			if (_page === "hunting") page = "hunting";
@@ -1753,14 +1753,16 @@ export function getPage() {
 			else page = "home";
 
 			break;
+		}
 		case "loader":
-		case "page":
+		case "page": {
 			const sid = getSearchParameters().get("sid").toLowerCase();
 
 			if (sid === "list") page = getSearchParameters().get("type");
 			else if (sid === "crimes") page = "crimes-v2";
 			else page = sid;
 			break;
+		}
 		case "hospitalview":
 			page = "hospital";
 			break;
@@ -1857,12 +1859,13 @@ export function updateReactInput(input: HTMLInputElement | HTMLTextAreaElement, 
 		// 	console.log("TT DEBUG - Updating react input.", { input, value, lastValue, tracker });
 		// 	input.dispatchEvent(event);
 		// 	break;
-		case REACT_UPDATE_VERSIONS.NATIVE_SETTER:
+		case REACT_UPDATE_VERSIONS.NATIVE_SETTER: {
 			const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
 			nativeSetter.call(input, valueString);
 
 			input.dispatchEvent(new Event("input", { bubbles: true }));
 			break;
+		}
 		case REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT:
 			input.value = valueString;
 			input.dispatchEvent(new Event("input", { bubbles: true }));
@@ -1886,7 +1889,7 @@ export function isDividendStock(id: string | number) {
 }
 
 export function getRequiredStocks(required: number, increment: number) {
-	return (Math.pow(2, increment) - 1) * required;
+	return (2 ** increment - 1) * required;
 }
 
 export function getStockIncrement(required: number, stocks: number) {
@@ -1924,7 +1927,7 @@ export function getRewardValue(reward: string) {
 
 		if (item) value = item ? item.value.market_price : -1;
 		else {
-			let prices: number[] | undefined = undefined;
+			let prices: number[] | undefined ;
 
 			switch (rewardItem) {
 				case "Ammunition Pack":

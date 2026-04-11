@@ -1,7 +1,7 @@
 import {
 	api,
 	attackHistory,
-	DatabaseUserdata,
+	type DatabaseUserdata,
 	factiondata,
 	factionStakeouts,
 	loadDatabase,
@@ -19,7 +19,7 @@ import {
 } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { getUTCTodayAtTime, hasTimePassed, isSameUTCDay, TO_MILLIS } from "@/utils/common/functions/utilities";
-import {
+import type {
 	StoredFactiondata,
 	StoredFactiondataBasic,
 	StoredFactiondataNoAccess,
@@ -33,7 +33,7 @@ import { newNotification, notifyUser, storeNotification } from "./notifications"
 import { applyPlural, capitalizeText, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { setBadge } from "@/utils/common/functions/extension";
 import { ttCache } from "@/utils/common/data/cache";
-import {
+import type {
 	AttacksResponse,
 	FactionBasicResponse,
 	FactionOngoingChainResponse,
@@ -73,8 +73,8 @@ import {
 	UserWeaponExpResponse,
 	UserWorkStatsResponse,
 } from "tornapi-typescript";
-import { LootRangersLoot, TornstatsLoot, YATALoot } from "@/utils/common/functions/api.types";
-import {
+import type { LootRangersLoot, TornstatsLoot, YATALoot } from "@/utils/common/functions/api.types";
+import type {
 	FactionV1Crimes,
 	FactionV1CrimesResponse,
 	TornV1PawnshopResponse,

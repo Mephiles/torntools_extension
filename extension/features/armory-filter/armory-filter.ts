@@ -3,13 +3,13 @@ import { filters, settings, torndata } from "@/utils/common/data/database";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
-import { CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { type CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { ttStorage } from "@/utils/common/data/storage";
 import { requireElement } from "@/utils/common/functions/requires";
 import { ARMOR_SETS } from "@/utils/common/functions/torn";
-import { WeaponBonusFilter } from "@/utils/common/data/default-database";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 import { isInternalFaction } from "@/pages/factions-page";
 
 type ArmoryFilters = {

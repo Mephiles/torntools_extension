@@ -11,7 +11,7 @@ export async function loadAPISelections() {
 	findAllElements("p[class*='_fields']").forEach((fields) => {
 		fields.addEventListener("click", (event) => {
 			const s = window.getSelection();
-			let range = s.getRangeAt(0);
+			const range = s.getRangeAt(0);
 			const node = s.anchorNode;
 
 			while (range.startOffset !== 0 && range.toString().indexOf(",") !== 0 && range.toString().indexOf(":") === -1) {

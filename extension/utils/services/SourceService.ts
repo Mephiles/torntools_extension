@@ -1,4 +1,4 @@
-import { BasicSourceMapConsumer, NullableMappedPosition, RawSourceMap, SourceMapConsumer } from "source-map";
+import { type BasicSourceMapConsumer, type NullableMappedPosition, type RawSourceMap, SourceMapConsumer } from "source-map";
 
 export interface SourceLocation {
 	rawPath: string;

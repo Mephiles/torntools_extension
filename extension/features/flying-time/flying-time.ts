@@ -47,7 +47,7 @@ async function showTime() {
 
 	const text = `Landing at ${format(arrivalTime)} | Return at ${format(returnTime)}`;
 
-	let timer = document.querySelector(".tt-flying-time");
+	const timer = document.querySelector(".tt-flying-time");
 	if (timer) timer.textContent = text;
 	else {
 		document.querySelector("#travel-root").appendChild(elementBuilder({ type: "span", class: "tt-flying-time", text }));

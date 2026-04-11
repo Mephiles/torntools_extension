@@ -25,7 +25,7 @@ async function initialise() {
 	GREEN_ARROW = browser.runtime.getURL("/images/svg-icons/green-arrow.svg");
 	RED_ARROW = browser.runtime.getURL("/images/svg-icons/red-arrow.svg");
 
-	new MutationObserver(function () {
+	new MutationObserver(() => {
 		if (!FEATURE_MANAGER.isEnabled(FFScouterGaugeFeature)) return;
 
 		setTimeout(triggerGauge);

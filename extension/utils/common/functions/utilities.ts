@@ -33,14 +33,14 @@ export function arraysEquals(a1: unknown[], a2: unknown[]) {
 
 export function objectsEquals(o1: object, o2: object) {
 	for (const property in o1) {
-		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		if (Object.hasOwn(o1, property) !== Object.hasOwn(o2, property)) return false;
 		else if (typeof o1[property] !== typeof o2[property]) return false;
 	}
 	for (const property in o2) {
-		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		if (Object.hasOwn(o1, property) !== Object.hasOwn(o2, property)) return false;
 		else if (typeof o1[property] !== typeof o2[property]) return false;
 
-		if (!o1.hasOwnProperty(property)) continue;
+		if (!Object.hasOwn(o1, property)) continue;
 
 		const x1 = o1[property];
 		const x2 = o2[property];
@@ -241,7 +241,7 @@ export function calculateDatePeriod(startDate: Date, endDate: Date) {
 	// Increment months until adding another month would exceed the end date
 	let months = 0;
 	while (currentStartDate.getMonth() < 11 || currentStartDate.getFullYear() < currentEndDate.getFullYear()) {
-		let testDate = new Date(currentStartDate.getTime());
+		const testDate = new Date(currentStartDate.getTime());
 		testDate.setMonth(testDate.getMonth() + 1);
 
 		if (testDate > currentEndDate) {

@@ -7,8 +7,8 @@ import { createContainer, findContainer, removeContainer } from "@/utils/common/
 import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@/utils/common/functions/dom";
 import { ttStorage } from "@/utils/common/data/storage";
-import { PrometheusTravelResponse, YATATravelResponse } from "@/utils/common/functions/api.types";
-import { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
+import type { PrometheusTravelResponse, YATATravelResponse } from "@/utils/common/functions/api.types";
+import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { toCorrectType } from "@/utils/common/functions/utilities";
 import { PHFillCaretDown, PHFillCaretRight, PHFillAirplane } from "@/utils/common/icons/phosphor-icons";
@@ -126,7 +126,7 @@ async function startTable() {
 		sortTable(table, 7, "desc");
 
 		function addLegend() {
-			let isOpen = filters.travel.open;
+			const isOpen = filters.travel.open;
 
 			content.appendChild(
 				elementBuilder({

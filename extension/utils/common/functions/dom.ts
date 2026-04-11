@@ -210,7 +210,7 @@ export function rotateElement(element: HTMLElement | SVGElement, degrees: number
 	const step = 1000 / degrees;
 
 	rotatingElements[uuid] = {
-		interval: setInterval(function () {
+		interval: setInterval(() => {
 			const currentRotation = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
 			let newRotation = currentRotation + step;
 

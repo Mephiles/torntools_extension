@@ -82,7 +82,7 @@ function setupProgressBar(toast: HTMLElement, duration: number): void {
 		progressElement.style.setProperty("--progress-color", computedColor);
 	}
 
-	let startTime = Date.now();
+	const startTime = Date.now();
 	let isPaused = false;
 	let animationId: number;
 	let timeoutId: number;

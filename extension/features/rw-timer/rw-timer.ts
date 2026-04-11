@@ -3,8 +3,8 @@ import { addInformationSection, checkDevice, elementBuilder, showInformationSect
 import { hasAPIData, hasOC2Data } from "@/utils/common/functions/api";
 import { factiondata, settings, userdata } from "@/utils/common/data/database";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
-import { FetchedFactiondataBasic } from "@/entrypoints/background/updates";
+import { formatTime, type FormatTimeOptions } from "@/utils/common/functions/formatting";
+import type { FetchedFactiondataBasic } from "@/entrypoints/background/updates";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { countdownTimers } from "@/utils/common/functions/timers";
 import { LINKS } from "@/utils/common/functions/torn";
