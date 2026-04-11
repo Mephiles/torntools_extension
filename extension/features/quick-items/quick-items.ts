@@ -24,8 +24,6 @@ import {
 } from "@/utils/common/functions/torn";
 import { getTornItemName, getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { PHPlus, PHX } from "@/utils/common/icons/phosphor-icons";
-import { isUseItem } from "@/pages/item-page";
-import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@/features/opened-supply-pack-value/opened-supply-pack-value";
 
 let movingElement: Element | undefined;
 let isEditing = false;
@@ -199,7 +197,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 										type: "div",
 										class: "custom-error",
 										text: "We were missing information for this item, we got that now. Try again.",
-									})
+									}),
 								);
 							} else {
 								responseWrap.appendChild(
@@ -207,7 +205,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 										type: "div",
 										class: "custom-error",
 										text: "Could't get the missing information. You might not have this item anymore.",
-									})
+									}),
 								);
 							}
 						})
@@ -218,7 +216,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 									type: "div",
 									class: "custom-error",
 									text: "We were missing information for this item, but something went wrong when getting that information. Try again.",
-								})
+								}),
 							);
 							console.error(cause);
 						});
@@ -339,7 +337,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 									type: "div",
 									class: "custom-error",
 									text: "We are missing information for this item. Use the item again to fetch that information, and then another time to use the item.",
-								})
+								}),
 							);
 							return;
 						}
@@ -594,7 +592,7 @@ function cacheXID(xids: ExtractedXID[]) {
 			if (!(c.item in map)) map[c.item] = c.xid;
 			return map;
 		},
-		{} as Record<number, number>
+		{} as Record<number, number>,
 	);
 
 	void ttCache.setIndefinite(cacheObject, "xid--temp");
