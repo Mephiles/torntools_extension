@@ -1,213 +1,210 @@
 name: Pack new version
 
 on:
-  workflow_dispatch:
-    inputs:
-      release_github:
-        type: boolean
-        description: Release on Github
-        default: true
-      dry_run:
-        type: boolean
-        description: Run without actually releasing
-        default: false
-      publish_cws:
-        type: boolean
-        description: Publish to Chrome Web Store
-        default: true
-      publish_amo:
-        type: boolean
-        description: Publish to Firefox Browser Add-ons
-        default: true
-      publish_mea:
-        type: boolean
-        description: Publish to Microsoft Edge Add-ons
-        default: true
-      pre_release:
-        type: boolean
-        description: Make a beta release
-        default: false
-      commit_beta_changes:
-        type: boolean
-        description: Commit beta versions
-        default: true
+    workflow_dispatch:
+        inputs:
+            release_github:
+                type: boolean
+                description: Release on Github
+                default: true
+            dry_run:
+                type: boolean
+                description: Run without actually releasing
+                default: false
+            publish_cws:
+                type: boolean
+                description: Publish to Chrome Web Store
+                default: true
+            publish_amo:
+                type: boolean
+                description: Publish to Firefox Browser Add-ons
+                default: true
+            publish_mea:
+                type: boolean
+                description: Publish to Microsoft Edge Add-ons
+                default: true
+            pre_release:
+                type: boolean
+                description: Make a beta release
+                default: false
+            commit_beta_changes:
+                type: boolean
+                description: Commit beta versions
+                default: true
 
 concurrency:
-  group: ${{ github.repository }}
-  cancel-in-progress: true
+    group: ${{ github.repository }}
+    cancel-in-progress: true
 
 jobs:
-  publish:
-    environment: Release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: oven-sh/setup-bun@v2
+    publish:
+        environment: Release
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+            - uses: oven-sh/setup-bun@v2
 
-      - name: Update the changelog.json
-        run: |
-          # Install jq
-          sudo apt-get install jq moreutils
+            - name: Setup Biome
+              uses: biomejs/setup-biome@v2
 
-          # Setup variables
-          changelogPath="./public/changelog.json"
-          releaseBodyFile="./releaseBody.md"
-          tmpFile="tmp.tmp"
-          firstEntry="$(jq -j ".[0]" "${changelogPath}")"
-          version="$(echo "$firstEntry" | jq -j "[ .version | to_entries[] | .value ] | join(\".\")")"
-          packageVersion="$(jq -j ".version" < ./package.json)"
-          [ $version != $packageVersion ] && echo "Package version and changelog version are not same. Please verify again." && exit 1
+            - name: Update the changelog.json
+              run: |
+                  # Install jq
+                  sudo apt-get install jq moreutils
+                  
+                  # Setup variables
+                  changelogPath="./public/changelog.json"
+                  releaseBodyFile="./releaseBody.md"
+                  tmpFile="tmp.tmp"
+                  firstEntry="$(jq -j ".[0]" "${changelogPath}")"
+                  version="$(echo "$firstEntry" | jq -j "[ .version | to_entries[] | .value ] | join(\".\")")"
+                  packageVersion="$(jq -j ".version" < ./package.json)"
+                  [ $version != $packageVersion ] && echo "Package version and changelog version are not same. Please verify again." && exit 1
+                  
+                  # Export version for future tasks
+                  export version
+                  echo "version=$version" >> "$GITHUB_ENV"
+                  
+                  # Create release body
+                  echo "$firstEntry" | jq -j '
+                  def process_category($keyAndTitle):
+                        . as $logs |
+                        $keyAndTitle | split(";")[0] as $key |
+                        $keyAndTitle | split(";")[1] as $title |
+                        if ($logs[$key] | length) > 0 then
+                            ($logs[$key] |
+                            map("* " +
+                                (if .message | type == "string" then .message
+                                 elif .message | type == "array" then .message | join(" ")
+                                 else .message | tostring
+                                 end
+                                ) +
+                                "\n") |
+                            . |= [$title] + . |
+                            . |= . + ["\n"] |
+                            join(""))
+                        else ("")
+                        end;
+                  .logs |
+                  process_category("features;### Features\n"),
+                  process_category("fixes;### Fixes\n"),
+                  process_category("changes;### Changes\n"),
+                  process_category("removed;### Removed\n"),
+                  process_category("technical;### Technical\n")
+                  ' >> "$releaseBodyFile"
+                  
+                  # Update changelog.json date and remove empty features, fixes and changes entries
+                  jq -j 'del(.[].title | select(. == "Beta"))' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+                  jq -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+                  jq -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
 
-          # Export version for future tasks
-          export version
-          echo "version=$version" >> "$GITHUB_ENV"
+            - name: Run Biome with write
+              run: biome check --write
 
-          # Create release body
-          echo "$firstEntry" | jq -j '
-          def process_category($keyAndTitle):
-                . as $logs |
-                $keyAndTitle | split(";")[0] as $key |
-                $keyAndTitle | split(";")[1] as $title |
-                if ($logs[$key] | length) > 0 then
-                    ($logs[$key] |
-                    map("* " +
-                        (if .message | type == "string" then .message
-                         elif .message | type == "array" then .message | join(" ")
-                         else .message | tostring
-                         end
-                        ) +
-                        "\n") |
-                    . |= [$title] + . |
-                    . |= . + ["\n"] |
-                    join(""))
-                else ("")
-                end;
-          .logs |
-          process_category("features;### Features\n"),
-          process_category("fixes;### Fixes\n"),
-          process_category("changes;### Changes\n"),
-          process_category("removed;### Removed\n"),
-          process_category("technical;### Technical\n")
-          ' >> "$releaseBodyFile"
+            - name: Install dependencies
+              run: bun install --frozen-lockfile
 
-          # Update changelog.json date and remove empty features, fixes and changes entries
-          jq -j 'del(.[].title | select(. == "Beta"))' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          jq -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          jq -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+            - name: Run tests
+              run: bun test
 
-      - name: Format with prettier
-        uses: creyD/prettier_action@v4.6
-        with:
-          prettier_options: --config .prettierrc --write . --list-different
-          no_commit: true
+            - name: Build extension
+              run: bun run zip
 
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+            - name: Github Release
+              uses: ncipollo/release-action@v1
+              if: ${{ inputs.release_github }}
+              with:
+                  artifacts: ".output/*.zip"
+                  name: "Release: v${{ env.version }}"
+                  tag: "${{ env.version }}"
+                  bodyFile: "./releaseBody.md"
+                  prerelease: ${{ inputs.pre_release }}
+                  draft: ${{ inputs.dry_run }}
 
-      - name: Run tests
-        run: bun test
+            - name: Release on Chrome Web Store
+              run:  bunx wxt submit --chrome-zip .output/*-chrome.zip
+              if: ${{ inputs.publish_cws }}
+              env:
+                  DRY_RUN: ${{ inputs.dry_run }}
+                  CHROME_EXTENSION_ID: "hjpaapdjcgbmeikfnahipphknonhlhib"
+                  CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+                  CHROME_CLIENT_SECRET: ${{ secrets.CHROME_SECRET }}
+                  CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-      - name: Build extension
-        run: bun run zip
+            - name: Release on Firefox Browser Add-ons
+              run: bunx wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
+              if: ${{ inputs.publish_amo }}
+              env:
+                  DRY_RUN: ${{ inputs.dry_run }}
+                  FIREFOX_EXTENSION_ID: "%7B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%7D"
+                  FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+                  FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+                  approval-notes: Build instructions can be found in FIREFOX.md in the source zip.
 
-      - name: Github Release
-        uses: ncipollo/release-action@v1
-        if: ${{ inputs.release_github }}
-        with:
-          artifacts: ".output/*.zip"
-          name: "Release: v${{ env.version }}"
-          tag: "${{ env.version }}"
-          bodyFile: "./releaseBody.md"
-          prerelease: ${{ inputs.pre_release }}
-          draft: ${{ inputs.dry_run }}
+            - name: Release on Microsoft Edge Add-ons
+              run: bunx wxt submit --edge-zip .output/*-chrome.zip
+              env:
+                  DRY_RUN: ${{ inputs.dry_run }}
+                  EDGE_PRODUCT_ID: ${{ secrets.MICROSOFT_PRODUCT_ID }}
+                  EDGE_CLIENT_ID: ${{ secrets.MICROSOFT_CLIENT_ID }}
+                  EDGE_API_KEY: ${{ secrets.MICROSOFT_API_KEY }}
 
-      - name: Release on Chrome Web Store
-        run:  bunx wxt submit --chrome-zip .output/*-chrome.zip
-        if: ${{ inputs.publish_cws }}
-        env:
-          DRY_RUN: ${{ inputs.dry_run }}
-          CHROME_EXTENSION_ID: "hjpaapdjcgbmeikfnahipphknonhlhib"
-          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
-          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_SECRET }}
-          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+            - name: Delete temporary files
+              run: rm -f ./releaseBody.md
 
-      - name: Release on Firefox Browser Add-ons
-        run: bunx wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
-        if: ${{ inputs.publish_amo }}
-        env:
-          DRY_RUN: ${{ inputs.dry_run }}
-          FIREFOX_EXTENSION_ID: "%7B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%7D"
-          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
-          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
-          approval-notes: Build instructions can be found in FIREFOX.md in the source zip.
-
-      - name: Release on Microsoft Edge Add-ons
-        run: bunx wxt submit --edge-zip .output/*-chrome.zip
-        env:
-          DRY_RUN: ${{ inputs.dry_run }}
-          EDGE_PRODUCT_ID: ${{ secrets.MICROSOFT_PRODUCT_ID }}
-          EDGE_CLIENT_ID: ${{ secrets.MICROSOFT_CLIENT_ID }}
-          EDGE_API_KEY: ${{ secrets.MICROSOFT_API_KEY }}
-
-      - name: Delete temporary files
-        run: rm -f ./releaseBody.md
-
-      - name: Change package and changelog to beta version
-        run: |
-          # Setup variables again
-          DaySuffix() {
-            case $(date +%-d) in
-            1|21|31) echo "st";;
-            2|22)    echo "nd";;
-            3|23)    echo "rd";;
-            *)       echo "th";;
-            esac
-          }
-          tmpFile="tmp.tmp"
-          readmePath="README.md"
-          packagePath="./package.json"
-          changelogPath="./public/changelog.json"
-          newVersionMajor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[0] | tonumber | .")"
-          newVersionMinor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[1] | tonumber | .")"
-          newVersionBuild="$(echo -n "\"${version}\"" | jq -j "split(\".\")[2] | tonumber | . + 1")"
-          newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
-          newVersionTitle="Beta"
-
-          export newVersion
-          echo "newVersion=$newVersion" >> "$GITHUB_ENV"
-
-          # Add beta changelog entry
-          jq -r --indent 0 "
-            . |= 
-              [{
-                  \"version\": { \"major\": ${newVersionMajor}, \"minor\": ${newVersionMinor}, \"build\": ${newVersionBuild} },
-                  \"title\": \"${newVersionTitle}\",
-                  \"date\": false,
-                  \"logs\": {
-                      \"features\": [],
-                      \"fixes\": [],
-                      \"changes\": [],
-                      \"removed\": [],
-                      \"technical\": []
+            - name: Change package and changelog to beta version
+              run: |
+                  # Setup variables again
+                  DaySuffix() {
+                    case $(date +%-d) in
+                    1|21|31) echo "st";;
+                    2|22)    echo "nd";;
+                    3|23)    echo "rd";;
+                    *)       echo "th";;
+                    esac
                   }
-              }] +
-              ." "${changelogPath}" | sponge "${changelogPath}"
+                  tmpFile="tmp.tmp"
+                  readmePath="README.md"
+                  packagePath="./package.json"
+                  changelogPath="./public/changelog.json"
+                  newVersionMajor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[0] | tonumber | .")"
+                  newVersionMinor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[1] | tonumber | .")"
+                  newVersionBuild="$(echo -n "\"${version}\"" | jq -j "split(\".\")[2] | tonumber | . + 1")"
+                  newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
+                  newVersionTitle="Beta"
+                  
+                  export newVersion
+                  echo "newVersion=$newVersion" >> "$GITHUB_ENV"
+                  
+                  # Add beta changelog entry
+                  jq -r --indent 0 "
+                    . |= 
+                      [{
+                          \"version\": { \"major\": ${newVersionMajor}, \"minor\": ${newVersionMinor}, \"build\": ${newVersionBuild} },
+                          \"title\": \"${newVersionTitle}\",
+                          \"date\": false,
+                          \"logs\": {
+                              \"features\": [],
+                              \"fixes\": [],
+                              \"changes\": [],
+                              \"removed\": [],
+                              \"technical\": []
+                          }
+                      }] +
+                      ." "${changelogPath}" | sponge "${changelogPath}"
+                  
+                  # Change package to next version
+                  jq '.version = "${newVersion}"' "${packagePath}" --tab | sponge "${packagePath}"
+                  
+                  # Update README.md with new version packaged date (today, the day the action is run)
+                  ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | jq --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
+                  awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
 
-          # Change package to next version
-          jq '.version = "${newVersion}"' "${packagePath}" --tab | sponge "${packagePath}"
+            - name: Run Biome with write
+              run: biome check --write
 
-          # Update README.md with new version packaged date (today, the day the action is run)
-          ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | jq --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
-          awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
-
-      - name: Format with prettier
-        uses: creyD/prettier_action@v4.6
-        with:
-          prettier_options: --config .prettierrc --write . --list-different
-          no_commit: true
-
-      - name: Add & Commit
-        uses: EndBug/add-and-commit@v9.1.4
-        if: ${{ inputs.commit_beta_changes }}
-        with:
-          message: "Pack v${{ env.version }} and update to v${{ env.newVersion }}"
+            - name: Add & Commit
+              uses: EndBug/add-and-commit@v9.1.4
+              if: ${{ inputs.commit_beta_changes }}
+              with:
+                  message: "Pack v${{ env.version }} and update to v${{ env.newVersion }}"

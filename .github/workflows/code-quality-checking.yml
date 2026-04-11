@@ -1,0 +1,29 @@
+---
+name: Code Quality Checking
+
+on:
+    workflow_dispatch:
+    pull_request:
+
+jobs:
+    run-lint:
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+            packages: read
+            statuses: write
+
+        steps:
+            - uses: actions/checkout@v6
+
+            - uses: oven-sh/setup-bun@v2
+
+            - name: Install dependencies
+              run: bun install
+
+            - name: Setup Biome
+              uses: biomejs/setup-biome@v2
+
+            - name: Run Biome
+              run: bun biome ci .
