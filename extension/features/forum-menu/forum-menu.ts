@@ -400,7 +400,7 @@ async function hideSubscriptions() {
 			if (newReduced) {
 				console.log("DKK hide subscriptions with some new reduced", feed, newReduced);
 			}
-		})
+		}),
 	);
 }
 
