@@ -1,15 +1,15 @@
-import { DatabaseCache } from "@/utils/common/data/cache";
-import { DatabaseUsage } from "@/utils/common/data/usage";
-import { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
-import { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
-import { TornV1Stock } from "@/utils/common/functions/api-v1.types";
-import { SpecialFilterValue } from "@/utils/common/functions/filters";
-import { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
-import { InternalPageTheme } from "@/utils/common/functions/pages";
-import { ColoredChatOption } from "@/features/colored-chat/colored-chat";
-import { StoredMigration } from "@/utils/common/data/migrations";
-import { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
-import { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
+import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
+import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
+import type { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
+import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
+import type { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
+import type { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
+import type { DatabaseCache } from "@/utils/common/data/cache";
+import type { StoredMigration } from "@/utils/common/data/migrations";
+import type { DatabaseUsage } from "@/utils/common/data/usage";
+import type { TornV1Stock } from "@/utils/common/functions/api-v1.types";
+import type { SpecialFilterValue } from "@/utils/common/functions/filters";
+import type { InternalPageTheme } from "@/utils/common/functions/pages";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
@@ -930,7 +930,7 @@ export type StoredStakeouts = {
 	date: number;
 };
 
-export type QuickItem = { id: number; xid?: number };
+export type QuickItem = { id: number };
 export type QuickFactionItem = { id: number | "points-energy" | "points-nerve" };
 type QuickCrime = {
 	step: string;

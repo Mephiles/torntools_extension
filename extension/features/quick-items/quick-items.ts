@@ -2,6 +2,7 @@ import "./quick-items.css";
 import { Feature } from "@/features/feature-manager";
 import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@/features/opened-supply-pack-value/opened-supply-pack-value";
 import { isUseItem } from "@/pages/item-page";
+import { type DatabaseCache, ttCache } from "@/utils/common/data/cache";
 import { quick, settings, torndata } from "@/utils/common/data/database";
 import type { QuickItem } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
@@ -9,10 +10,19 @@ import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@/utils/common/functions/dom";
 import { formatTime } from "@/utils/common/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { addFetchListener, addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireContent, requireItemsLoaded } from "@/utils/common/functions/requires";
-import { getItemEnergy, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
-import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
+import {
+	type ExtractedXID,
+	extractXIDFromDOM,
+	extractXIDFromHTML,
+	extractXIDFromJson,
+	extractXIDFromMutations,
+	getItemEnergy,
+	getPageStatus,
+	getUserEnergy,
+} from "@/utils/common/functions/torn";
+import { getTornItemName, getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { PHPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 
 let movingElement: Element | undefined;
@@ -47,12 +57,24 @@ function initialiseQuickItems() {
 		setupQuickDragListeners();
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(({ tab }) => {
-		updateXIDs().catch(() => {});
 		setupOverlayItems(tab);
 		attachEditListeners(isEditing);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_EQUIPPED].push(({ item, equip }) => {
 		updateEquippedItem(item, equip);
+	});
+
+	cacheXID(extractXIDFromDOM(document));
+	new MutationObserver((mutations) => {
+		cacheXID(extractXIDFromMutations(mutations));
+	}).observe(document, { childList: true, subtree: true });
+	addFetchListener(({ detail: { json, text } }) => {
+		if (json) cacheXID(extractXIDFromJson(json));
+		else cacheXID(extractXIDFromHTML(text));
+	});
+	addXHRListener(({ detail: { xhr, json } }) => {
+		if (json) cacheXID(extractXIDFromJson(json));
+		cacheXID(extractXIDFromHTML(xhr.responseText));
 	});
 }
 
@@ -94,7 +116,7 @@ async function loadQuickItems() {
 					for (const category of findAllElements("#categoriesItem:not(.no-items)")) {
 						if (
 							!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other", "Supply Pack"].includes(
-								category.dataset.type
+								category.dataset.type,
 							)
 						)
 							continue;
@@ -113,7 +135,7 @@ async function loadQuickItems() {
 					attachEditListeners(enabled);
 				},
 			},
-		})
+		}),
 	);
 
 	for (const quickItem of quick.items) {
@@ -130,7 +152,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 	const innerContent = content.querySelector(".inner-content");
 	const responseWrap = content.querySelector<HTMLElement>(".response-wrap");
 
-	const { id, xid } = data;
+	const { id } = data;
 
 	if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
 	if (!allowQuickItem(id, getTornItemType(id))) return null;
@@ -162,6 +184,44 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 					responseWrap.appendChild(elementBuilder({ type: "div", text: "Due to a change in Torn API's policies, we are no" }));
 					return;
 				}*/
+				const xid: number | null = getXID(id);
+				if (xid === null) {
+					getXIDWithDirectCall(id)
+						.then((result) => {
+							responseWrap.style.display = "block";
+							responseWrap.textContent = "";
+
+							if (result) {
+								responseWrap.appendChild(
+									elementBuilder({
+										type: "div",
+										class: "custom-error",
+										text: "We were missing information for this item, we got that now. Try again.",
+									}),
+								);
+							} else {
+								responseWrap.appendChild(
+									elementBuilder({
+										type: "div",
+										class: "custom-error",
+										text: "Could't get the missing information. You might not have this item anymore.",
+									}),
+								);
+							}
+						})
+						.catch((cause) => {
+							responseWrap.textContent = "";
+							responseWrap.appendChild(
+								elementBuilder({
+									type: "div",
+									class: "custom-error",
+									text: "We were missing information for this item, but something went wrong when getting that information. Try again.",
+								}),
+							);
+							console.error(cause);
+						});
+					return;
+				}
 
 				if (settings.pages.items.energyWarning && !equipItem && hasAPIData() && ["Drug", "Energy Drink"].includes(getTornItemType(id))) {
 					const received = getItemEnergy(id);
@@ -174,9 +234,16 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 				}
 
 				const body = new URLSearchParams();
-				Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
-					([key, value]) => body.set(key, value.toString())
-				);
+				if (equipItem) {
+					body.set("step", "actionForm");
+					body.set("confirm", "1");
+					body.set("action", "equip");
+					body.set("id", xid.toString());
+				} else {
+					body.set("step", "useItem");
+					body.set("id", id.toString());
+					body.set("itemID", id.toString());
+				}
 
 				fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 					if (typeof result === "object" && isUseItem(body.get("step"), result)) {
@@ -195,9 +262,9 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 												link.attr
 													.split(" ")
 													.filter((x) => !!x)
-													.map((x) => x.split("="))
+													.map((x) => x.split("=")),
 											),
-										})
+										}),
 									);
 								}
 							}
@@ -221,7 +288,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 										],
 									}),
 								],
-							})
+							}),
 						);
 
 						if (result.success) {
@@ -260,6 +327,21 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 							count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 						}
 					} else {
+						if (result.includes("Wrong itemID")) {
+							await removeXIDFromCache(id);
+
+							responseWrap.style.display = "block";
+							responseWrap.textContent = "";
+							responseWrap.appendChild(
+								elementBuilder({
+									type: "div",
+									class: "custom-error",
+									text: "We are missing information for this item. Use the item again to fetch that information, and then another time to use the item.",
+								}),
+							);
+							return;
+						}
+
 						responseWrap.style.display = "block";
 						responseWrap.innerHTML = result;
 
@@ -267,12 +349,12 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 
 						if (result.includes(" equipped ")) {
 							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
-								x.classList.remove("equipped")
+								x.classList.remove("equipped"),
 							);
 							itemWrap.classList.add("equipped");
 						} else if (result.includes(" unequipped "))
 							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
-								x.classList.remove("equipped")
+								x.classList.remove("equipped"),
 							);
 					}
 				});
@@ -361,12 +443,7 @@ async function onItemClickQuickEdit(event: MouseEvent) {
 	const target = findParent(event.target as Element, { hasAttribute: "data-item" });
 	const id = parseInt(target.dataset.item);
 
-	const data: QuickItem = { id };
-	if (isEquipable(id, target.dataset.category)) {
-		data.xid = parseInt(target.querySelector(".actions[xid]").getAttribute("xid"));
-	}
-
-	const item = addQuickItem(data, false);
+	const item = addQuickItem({ id }, false);
 	if (item) item.classList.add("tt-overlay-item", "removable");
 
 	await saveQuickItems();
@@ -377,12 +454,7 @@ async function saveQuickItems() {
 
 	await ttStorage.change({
 		quick: {
-			items: findAllElements(".item", content).map((x) => {
-				const data: QuickItem = { id: parseInt(x.dataset.id) };
-				if (x.dataset.xid) data.xid = parseInt(x.dataset.xid);
-
-				return data;
-			}),
+			items: findAllElements(".item", content).map<QuickItem>((x) => ({ id: parseInt(x.dataset.id) })),
 		},
 	});
 }
@@ -413,12 +485,7 @@ function setupQuickDragListeners() {
 
 			const id = parseInt(itemRow.dataset.item);
 
-			const data: QuickItem = { id };
-			if (isEquipable(id, itemRow.dataset.category)) {
-				data.xid = parseInt(itemRow.querySelector(".actions[xid]").getAttribute("xid"));
-			}
-
-			addQuickItem(data, true);
+			addQuickItem({ id }, true);
 		}, 10);
 	}
 
@@ -438,7 +505,7 @@ function allowQuickItem(id: number, category: string) {
 		["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
 		[
 			// Temporary Items
-			220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042, 1205,
+			220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 463, 464, 465, 611, 616, 742, 814, 833, 840, 1042, 1205,
 			// Supply Packs
 			283, 364, 365, 369, 370, 588, 817, 818, 1057, 1078, 1079, 1080, 1081, 1082, 1083, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122,
 			1239, 1293, 1298,
@@ -486,29 +553,6 @@ function updateItemAmount(id: number, change: number) {
 	}
 }
 
-async function updateXIDs() {
-	const items = findAllElements("ul.items-cont > li .actions[xid]").filter((x) => {
-		const itemid = parseInt((x.closest("li[data-item]") as HTMLElement).dataset.item);
-		return quick.items.some((y) => y.id === itemid);
-	});
-	if (!items.length) return;
-
-	const quickContainer = findContainer("Quick Items", { selector: "main" });
-	items.forEach((x) => {
-		try {
-			const itemid = parseInt(x.getAttribute("itemid"));
-			const xid = parseInt(x.getAttribute("xid"));
-
-			quick.items.find((y) => y.id === itemid).xid = xid;
-			quickContainer.querySelector<HTMLElement>(`.item[data-id="${itemid}"]`).dataset.xid = xid.toString();
-		} catch (error) {
-			console.error("Couldn't update item ids!", error);
-		}
-	});
-
-	await ttStorage.change({ quick: { items: quick.items } });
-}
-
 function updateEquippedItem(id: number, isEquip: boolean) {
 	const equipPosition = getEquipPosition(id, getTornItemType(id));
 	findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`).forEach((x) => x.classList.remove("equipped"));
@@ -538,6 +582,48 @@ function attachEditListeners(enabled: boolean) {
 			item.removeEventListener("click", onItemClickQuickEdit);
 		}
 	}
+}
+
+function cacheXID(xids: ExtractedXID[]) {
+	if (!xids.length) return;
+
+	const cacheObject: DatabaseCache = xids.reduce(
+		(map, c) => {
+			if (!(c.item in map)) map[c.item] = c.xid;
+			return map;
+		},
+		{} as Record<number, number>,
+	);
+
+	void ttCache.setIndefinite(cacheObject, "xid--temp");
+}
+
+function getXID(item: number): number | null {
+	const fromDOM: ExtractedXID | undefined = extractXIDFromDOM(document).find((e) => e.item === item);
+	if (fromDOM) return fromDOM.xid;
+
+	if (ttCache.hasValue("xid--temp", item)) {
+		return ttCache.get("xid--temp", item);
+	}
+
+	return null;
+}
+
+async function getXIDWithDirectCall(item: number): Promise<boolean> {
+	const body = new URLSearchParams();
+	body.set("step", "getSearchList");
+	body.set("q", getTornItemName(item));
+
+	const result = await fetchData("torn_direct", { action: "item.php", method: "POST", body });
+
+	const extracted = extractXIDFromHTML(result.html);
+	cacheXID(extracted);
+
+	return extracted.length > 0;
+}
+
+async function removeXIDFromCache(item: number) {
+	await ttCache.remove("xid--temp", item);
 }
 
 export default class QuickItemsFeature extends Feature {
