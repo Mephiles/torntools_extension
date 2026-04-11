@@ -19,7 +19,7 @@ should contain more information about the changes.
 ### Coding conventions
 
 Start reading our code and you'll get the hang of it. We optimize for readability:
-We have prettier formatting to help you follow our coding conventions.
+We have biome formatting to help you follow our coding conventions.
 
 - All have to be written in **TypeScript**.
 - We follow a certain pattern for our files.
@@ -40,7 +40,7 @@ We have prettier formatting to help you follow our coding conventions.
     - Any setting for a new feature should be defined in `extension/utils/common/data/default-database.js` in `DEFAULT_STORAGE`.
     - We have some preset color variables set inside `extension/utils/common/global/globalVariables.css`. These should be
       used where possible.
-- All code should be formatted using Prettier.
+- All code should be formatted using Biome.
     - We indent using tabs with a width of 4.
     - Spaces follow operators (= + - \* /) and commas.
     - Statements end with a semicolon.
