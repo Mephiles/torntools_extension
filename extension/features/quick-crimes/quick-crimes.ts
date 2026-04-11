@@ -97,7 +97,7 @@ async function loadCrimes() {
 					}
 				},
 			},
-		})
+		}),
 	);
 
 	for (const quickCrime of quick.crimes) {

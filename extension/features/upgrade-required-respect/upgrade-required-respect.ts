@@ -20,7 +20,7 @@ async function showRequiredRespect(force: boolean) {
 		document
 			.querySelector("#faction-upgrades .skill-tree .residue-respect")
 			.textContent.replace(/[\n, ]/g, "")
-			.trim()
+			.trim(),
 	);
 	const requiredNode = document.querySelector("#faction-upgrades #stu-confirmation div[role] .required .text");
 	if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;

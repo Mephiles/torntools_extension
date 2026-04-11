@@ -156,7 +156,7 @@ async function filtering() {
 				document,
 				null,
 				XPathResult.FIRST_ORDERED_NODE_TYPE,
-				null
+				null,
 			).singleNodeValue
 		);
 	}, {});
@@ -205,7 +205,7 @@ async function filtering() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
 		findAllElements(".user-info-list-wrap > li").length,
-		content
+		content,
 	);
 }
 
@@ -236,7 +236,7 @@ function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individu
 						.getAttribute("title")
 						.match(/(?<=<b>).*(?=<\/b>)/g)[0]
 						.toLowerCase()
-						.trim()
+						.trim(),
 			)
 		) {
 			hide("activity");
@@ -345,7 +345,7 @@ function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individu
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
 				findAllElements(".user-info-list-wrap > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -364,7 +364,7 @@ function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individu
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
 				findAllElements(".user-info-list-wrap > li").length,
-				content
+				content,
 			);
 		}
 	}

@@ -110,7 +110,7 @@ function addAliasMessage(message: Element | null = null) {
 				[
 					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V2__MESSAGE_SENDER}[href*='/profiles.php?XID=${userID}']`,
 					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userID}']`,
-				].join(", ")
+				].join(", "),
 			).forEach((profileLink) => {
 				profileLink.dataset.original = profileLink.textContent;
 				profileLink.firstChild.textContent = alias.alias;

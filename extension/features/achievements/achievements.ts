@@ -778,7 +778,7 @@ async function showAchievements() {
 		return ACHIEVEMENTS.filter(
 			(achievement) =>
 				(!achievement.requirements.pages || achievement.requirements.pages.includes(page)) &&
-				(!achievement.requirements.condition || achievement.requirements.condition())
+				(!achievement.requirements.condition || achievement.requirements.condition()),
 		)
 			.map<EnrichedAchievement>((achievement) => {
 				const goals: EnrichedGoal[] = [];

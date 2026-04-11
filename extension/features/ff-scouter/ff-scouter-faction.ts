@@ -28,7 +28,7 @@ async function showFF(force: boolean) {
 	const list = document.querySelector(".members-list .table-body");
 
 	const memberIds = findAllElements<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']", list).map((link) =>
-		parseInt(new URL(link.href).searchParams.get("XID"))
+		parseInt(new URL(link.href).searchParams.get("XID")),
 	);
 
 	SCOUTER_SERVICE.scoutGroup(memberIds)
@@ -68,7 +68,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 					type: "li",
 					class: ["table-cell", "lvl", "tt-ff-scouter-faction-list-value"],
 					text: "N/A",
-				})
+				}),
 			);
 			return;
 		}
@@ -89,7 +89,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 					backgroundColor: backgroundColor,
 					color: textColor,
 				},
-			})
+			}),
 		);
 	});
 }

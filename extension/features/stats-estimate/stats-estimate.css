@@ -58,6 +58,6 @@ body.dark-mode .bounties-list .tt-stats-estimate {
 	background-color: var(--default-bg-panel-color);
 }
 
-body[data-page='enemies'] .tt-stats-estimate {
+body[data-page="enemies"] .tt-stats-estimate {
 	background: var(--default-bg-panel-color);
 }

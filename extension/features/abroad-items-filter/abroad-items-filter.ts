@@ -158,7 +158,7 @@ async function addFilter() {
 		statistics.updateStatistics(
 			findAllElements("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
 			findAllElements("[class*='stockTableWrapper___'] > li").length,
-			content
+			content,
 		);
 	}
 

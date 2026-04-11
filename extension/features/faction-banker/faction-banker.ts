@@ -48,7 +48,7 @@ function showBalance() {
 	const balance =
 		parseInt(
 			document.querySelector(`.depositor .user.name[href='/profiles.php?XID=${user[2]}']`).parentElement.querySelector<HTMLElement>(".amount .money")
-				.dataset.value
+				.dataset.value,
 		) || 0;
 
 	label.textContent = `${name} has a balance of $${formatNumber(balance)}`;

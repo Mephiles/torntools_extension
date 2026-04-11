@@ -37,7 +37,7 @@ async function addCSVContainer() {
 								row.querySelector(".lvl").textContent,
 								row.querySelector(".points").textContent,
 								row.querySelector(".joins").textContent,
-								row.querySelector(".knock-off").textContent
+								row.querySelector(".knock-off").textContent,
 							);
 						}
 					} else csv.append("None");

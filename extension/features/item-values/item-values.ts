@@ -191,21 +191,21 @@ function addValue(priceElement: Element, quantity: number, price: number) {
 				elementBuilder({
 					type: "span",
 					text: `${formatNumber(price, { currency: true })} | `,
-				})
+				}),
 			);
 			priceElement.appendChild(
 				elementBuilder({
 					type: "span",
 					text: `${quantity}x = `,
 					class: "tt-item-quantity",
-				})
+				}),
 			);
 		}
 		priceElement.appendChild(
 			elementBuilder({
 				type: "span",
 				text: `${formatNumber(totalPrice, { currency: true })}`,
-			})
+			}),
 		);
 	} else if (price === 0) {
 		priceElement.textContent = "N/A";
@@ -248,27 +248,27 @@ function showItemValues(list: HTMLElement) {
 					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })}`,
-					})
+					}),
 				);
 			} else {
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })} | `,
-					})
+					}),
 				);
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
 						text: `${quantity}x = `,
 						class: "tt-item-quantity",
-					})
+					}),
 				);
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
 						text: `${formatNumber(totalPrice, { currency: true })}`,
-					})
+					}),
 				);
 			}
 		} else if (price === 0) {
@@ -298,7 +298,7 @@ function updateItemAmount(id: number, change: number) {
 				elementBuilder({
 					type: "span",
 					text: `${formatNumber(price, { currency: true })}`,
-				})
+				}),
 			);
 		} else {
 			quantityElement.textContent = `${newQuantity}x = `;

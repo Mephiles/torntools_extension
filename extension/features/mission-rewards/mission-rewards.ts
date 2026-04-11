@@ -51,7 +51,7 @@ async function showRewards() {
 						}),
 					],
 				}),
-				actionsWrap.querySelector(".actions")
+				actionsWrap.querySelector(".actions"),
 			);
 			reward.classList.add("tt-modified");
 		} else if (type === "Item") {
@@ -93,7 +93,7 @@ async function showRewards() {
 						}),
 					],
 				}),
-				actionsWrap.querySelector(".actions")
+				actionsWrap.querySelector(".actions"),
 			);
 			reward.classList.add("tt-modified");
 		}

@@ -33,7 +33,7 @@ async function showColoredChats(loaded = false) {
 			"[class*='chat-box__'] > [class*='chat-box-header__']", // Chat 2.0 - chat headers
 			"[class*='root___']:has(> button[id*='channel_panel_button:private'])", // Chat 3.0 - minimized private chats
 			"[class*='root___'] > [class*='root___']:has(> button[class*='header___'])", // Chat 3.0 - chat headers
-		].join(", ")
+		].join(", "),
 	).forEach((chatHeader) => {
 		const chatPlayer = chatHeader.textContent;
 		const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);

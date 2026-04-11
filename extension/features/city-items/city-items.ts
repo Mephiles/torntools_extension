@@ -98,7 +98,7 @@ async function showHighlight() {
 					elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
 					elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
 				],
-			})
+			}),
 		);
 	}
 

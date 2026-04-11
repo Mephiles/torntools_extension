@@ -45,7 +45,7 @@ async function addCSVContainer() {
 						name.match(/.*(?= \()/)[0],
 						link.href,
 						row.classList.contains("ex-member") ? "Yes" : "No",
-						name.match(/(?<= \().*(?=\))/)[0]
+						name.match(/(?<= \().*(?=\))/)[0],
 					);
 				}
 

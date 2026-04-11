@@ -14,7 +14,7 @@ async function showEducationFinishTime() {
 
 	msg.insertAdjacentElement(
 		"afterend",
-		elementBuilder({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` })
+		elementBuilder({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` }),
 	);
 }
 

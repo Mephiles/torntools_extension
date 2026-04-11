@@ -57,7 +57,7 @@ async function showSearch() {
 		[
 			`${SELECTOR_CHAT_ROOT} [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__']`,
 			`${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']:not(:has(#people_panel))`,
-		].join(", ")
+		].join(", "),
 	)) {
 		addChatSearch(chat);
 	}
@@ -121,7 +121,7 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 										// "Chats" tab opened.
 										const list = findAllElements<HTMLAnchorElement>(
 											"#scrollableDiv .infinite-scroll-component > button [class*='detailed-chat-card__header__'] a",
-											peopleMenu
+											peopleMenu,
 										);
 										list.forEach((chatEntry) => {
 											const shouldHide =
@@ -149,7 +149,7 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 					],
 				}),
 			],
-		})
+		}),
 	);
 }
 
@@ -168,11 +168,11 @@ function onChatSearch(event: { target: EventTarget }, chat: Element) {
 
 function removeSearch() {
 	for (const chat of findAllElements(
-		"#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__'], [class*='list___'] [class*='item___']"
+		"#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__'], [class*='list___'] [class*='item___']",
 	)) {
 		for (const message of findAllElements(
 			`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX} div[class='tt-hidden'], div[class*='root___'][class*='tt-hidden']`,
-			chat
+			chat,
 		)) {
 			message.classList.remove("tt-hidden");
 		}

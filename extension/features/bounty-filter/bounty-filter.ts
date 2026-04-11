@@ -42,7 +42,7 @@ async function addFilter() {
 		elementBuilder({
 			type: "span",
 			text: "Max Level",
-		})
+		}),
 	);
 	let statistics: StatisticsResult;
 	if (!device.mobile && !device.tablet) {
@@ -93,7 +93,7 @@ async function addFilter() {
 			statistics.updateStatistics(
 				findAllElements(".bounties-list > li[data-id]:not(.tt-hidden)").length,
 				findAllElements(".bounties-list > li[data-id]").length,
-				options.parentElement.querySelector(".title .text")
+				options.parentElement.querySelector(".title .text"),
 			);
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 

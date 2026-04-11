@@ -199,7 +199,7 @@ async function applyFilter() {
 	localFilters.statistics.updateStatistics(
 		findAllElements("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
 		findAllElements("#stockmarketroot ul[class*='stock___']").length,
-		content
+		content,
 	);
 }
 

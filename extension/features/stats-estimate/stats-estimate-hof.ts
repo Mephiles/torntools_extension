@@ -34,7 +34,7 @@ async function showEstimates() {
 	if (["battle stats", "faction respect", "faction chains", "faction rank"].includes(hofType)) return;
 
 	const levelIndex = Array.from(document.querySelector("[class*='tableHead___'] [class*='tableRow___']").children).findIndex(
-		(title) => title.textContent === "level"
+		(title) => title.textContent === "level",
 	);
 	if (levelIndex === -1) return;
 
@@ -57,7 +57,7 @@ async function showEstimates() {
 					}),
 				};
 			},
-		}
+		},
 	);
 }
 

@@ -46,7 +46,7 @@ export function stringCellRenderer(value: string | number): BaseElement<Node> {
 
 function createTableHeaderCell<T>(
 	columnDef: TableColumnDef<T>,
-	options: { stretchColumns: boolean; onColumnSorted?: (direction: COLUMN_SORT_DIRECTION) => void }
+	options: { stretchColumns: boolean; onColumnSorted?: (direction: COLUMN_SORT_DIRECTION) => void },
 ) {
 	let currentDirection: COLUMN_SORT_DIRECTION;
 
@@ -148,7 +148,7 @@ type TableCell<T, K extends keyof T = keyof T> = ReturnType<typeof createTableCe
 function createTableRow<T extends Record<string, any>>(
 	rowData: T,
 	tableColumnsDefs: TableColumnDef<T>[],
-	options: { rowClass?: (rowData: T) => string; stretchColumns: boolean }
+	options: { rowClass?: (rowData: T) => string; stretchColumns: boolean },
 ) {
 	const rowCells = tableColumnsDefs.map((columnDef) => createTableCell(rowData, rowData[columnDef.id], columnDef, { stretchCell: options.stretchColumns }));
 
@@ -195,7 +195,7 @@ export function createTable<T>(
 		rowClass?: (data: T) => string;
 		stretchColumns: boolean;
 		rowGroupInfo?: TableRowGroupInfo<T>;
-	}
+	},
 ) {
 	options = {
 		stretchColumns: false,
@@ -236,7 +236,7 @@ export function createTable<T>(
 			createTableRow(rowData, tableColumnsDefs, {
 				rowClass: options.rowClass,
 				stretchColumns: options.stretchColumns,
-			})
+			}),
 		);
 
 		if (!options.rowGroupInfo) {

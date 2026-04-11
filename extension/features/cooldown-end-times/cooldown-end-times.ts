@@ -44,7 +44,7 @@ const tooltipObserver = new MutationObserver((mutations: MutationRecord[]) => {
 					type: "div",
 					class: "tt-tooltip-end-times",
 					text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
-				})
+				}),
 			);
 		});
 	}

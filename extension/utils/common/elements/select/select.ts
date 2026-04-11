@@ -82,7 +82,7 @@ export function createSelect<TValue extends string = string>(options: SelectOpti
 					...(option.disabled ? { disabled: "true" } : {}),
 				},
 				text: option.description,
-			})
+			}),
 		);
 	}
 

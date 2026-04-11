@@ -97,7 +97,7 @@ export function createContainer(title: string, partialOptions: Partial<Container
 						elementBuilder({ type: "div", class: "options" }),
 						options.collapsible ? PHFillCaretDown({ class: "icon" }) : null,
 					],
-				})
+				}),
 			);
 		}
 		if (!options.onlyHeader) {

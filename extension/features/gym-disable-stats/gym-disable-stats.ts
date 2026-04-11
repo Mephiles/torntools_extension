@@ -39,7 +39,7 @@ function initialiseListeners() {
 
 			if (
 				mutations.some((mutation) =>
-					Array.from(mutation.addedNodes).some((node) => isElement(node) && node.className?.includes?.("gymContentWrapper__"))
+					Array.from(mutation.addedNodes).some((node) => isElement(node) && node.className?.includes?.("gymContentWrapper__")),
 				)
 			) {
 				void showCheckboxes();
@@ -69,7 +69,7 @@ async function showCheckboxes() {
 						toggleStat(stat);
 					},
 				},
-			})
+			}),
 		);
 
 		const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();

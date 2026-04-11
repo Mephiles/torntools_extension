@@ -22,7 +22,7 @@ async function executeFeature() {
 				text: "Settings",
 				href: browser.runtime.getURL("/options.html"),
 				attributes: { target: "_blank" },
-			})
+			}),
 		);
 
 		const connectButton = elementBuilder({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });

@@ -40,8 +40,8 @@ function observeWars() {
 			if (
 				!mutations.some((mutation) =>
 					[...(mutation.addedNodes ?? [])].some(
-						(node) => isElement(node) && node.classList.contains("descriptions") && node.querySelector(".enemy-faction")
-					)
+						(node) => isElement(node) && node.classList.contains("descriptions") && node.querySelector(".enemy-faction"),
+					),
 				)
 			)
 				return;

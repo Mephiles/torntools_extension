@@ -33,7 +33,7 @@ async function addPropertyHappiness() {
 				type: "div",
 				class: "tt-property-happiness",
 				text: `Happy: ${formatNumber(apiProperty?.happy ?? 100)}`,
-			})
+			}),
 		);
 	}
 }

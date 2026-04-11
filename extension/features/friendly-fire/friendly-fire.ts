@@ -30,7 +30,7 @@ async function addWarning() {
 				type: "span",
 				class: "tt-ally-warning",
 				text: warning,
-			})
+			}),
 		);
 	}
 }

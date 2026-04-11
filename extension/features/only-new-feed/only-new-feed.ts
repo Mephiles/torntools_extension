@@ -83,7 +83,7 @@ function handleHiddenElements(feedElement: Element) {
 			type: "div",
 			class: styles.nothingToShow,
 			text: "Nothing left to show here.",
-		})
+		}),
 	);
 }
 

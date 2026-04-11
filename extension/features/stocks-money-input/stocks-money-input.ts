@@ -44,7 +44,7 @@ async function addMoneyInputs(e: { target: EventTarget }) {
 							if (quantityToPurchase <= 0) return;
 
 							const stockBuyInput = document.querySelector(
-								"[class*='stockDropdown__'] " + blockType + " input.input-money:not([type='hidden'])"
+								"[class*='stockDropdown__'] " + blockType + " input.input-money:not([type='hidden'])",
 							) as HTMLInputElement;
 							updateReactInput(stockBuyInput, quantityToPurchase.toString());
 						},

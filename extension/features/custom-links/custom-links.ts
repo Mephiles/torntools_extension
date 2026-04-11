@@ -37,7 +37,7 @@ async function showLinks() {
 							children: [elementBuilder({ type: "span", text: link.name })],
 						}),
 					],
-				})
+				}),
 			);
 		});
 
@@ -69,7 +69,7 @@ function showOutside(filter: "above" | "under", id: string) {
 				href: link.href,
 				text: link.name,
 				attributes: { target: link.newTab ? "_blank" : "_self" },
-			})
+			}),
 		);
 	}
 }

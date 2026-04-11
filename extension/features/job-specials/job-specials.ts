@@ -56,7 +56,7 @@ async function showSpecials() {
 						elementBuilder({ type: "hr", class: "second-hr" }),
 						elementBuilder({ type: "div", text: effect }),
 					],
-				})
+				}),
 			);
 		} else {
 			content.appendChild(
@@ -72,7 +72,7 @@ async function showSpecials() {
 						elementBuilder({ type: "div", text: costText }),
 						elementBuilder({ type: "div", text: effect }),
 					],
-				})
+				}),
 			);
 		}
 	}

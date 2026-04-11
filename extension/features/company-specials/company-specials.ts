@@ -72,9 +72,9 @@ async function showMuggableCash(json: any) {
 			type: "li",
 			text: `Potential mug${api ? "" : "*"}: ${formatNumber(cash * (percentageMin / 100), { currency: true })} - ${formatNumber(
 				cash * (percentageMax / 100),
-				{ currency: true }
+				{ currency: true },
 			)}`,
-		})
+		}),
 	);
 	if (!api) jobInfo.appendChild(elementBuilder({ type: "li", text: "* Might not be entirely accurate due to missing API information." }));
 }
@@ -188,7 +188,7 @@ async function calculateSpies(json: any) {
 													text: response.message,
 												}),
 											],
-										})
+										}),
 									);
 								}
 							})
@@ -199,7 +199,7 @@ async function calculateSpies(json: any) {
 										type: "div",
 										class: "external-response-wrap",
 										children: [elementBuilder({ type: "span", class: "external-response error", text: "Something went wrong!" })],
-									})
+									}),
 								);
 							});
 					},

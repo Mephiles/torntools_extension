@@ -204,7 +204,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".users-list > li:not(.tt-hidden)").length,
 		findAllElements(".users-list > li").length,
-		content
+		content,
 	);
 }
 
@@ -232,7 +232,7 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 	if (filters.activity?.length) {
 		if (
 			!filters.activity.some(
-				(x) => x.trim() === row.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim()
+				(x) => x.trim() === row.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim(),
 			)
 		) {
 			hide("activity");
@@ -356,7 +356,7 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".users-list > li:not(.tt-hidden)").length,
 				findAllElements(".users-list > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -375,7 +375,7 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".users-list > li:not(.tt-hidden)").length,
 				findAllElements(".users-list > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -390,7 +390,7 @@ function getFactions() {
 					.filter((img) => !!img)
 					.map((img) => img.getAttribute("title").trim())
 					.filter((tag) => !!tag)
-			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
+			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
 	);
 
 	const factions = [];

@@ -29,7 +29,7 @@ function addNerveGains() {
 				.split(" ")
 				.map((x) => parseInt(x))
 				.filter((x) => !isNaN(x))[0]
-				.toString()
+				.toString(),
 		);
 		if (!isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;
 		if (!isNaN(companyPerk)) totalNerve *= 1 + companyPerk / 100;

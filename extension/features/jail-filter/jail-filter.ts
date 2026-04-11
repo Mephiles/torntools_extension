@@ -274,7 +274,7 @@ async function filtering(pageChange: boolean = false) {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".users-list > li:not(.tt-hidden)").length,
 		findAllElements(".users-list > li").length,
-		content
+		content,
 	);
 
 	await applyQuickBustAndBail();
@@ -308,7 +308,7 @@ async function applyQuickBustAndBail() {
 					type: "div",
 					class: "tt-quick-refresh-wrap",
 					children: [...(quickBail ? [newRefreshButton("tt-bail")] : []), ...(quickBust ? [newRefreshButton("tt-bust")] : [])],
-				})
+				}),
 			);
 		}
 	}
@@ -353,7 +353,7 @@ function getFactions() {
 					.filter((img) => !!img)
 					.map((img) => img.getAttribute("title").trim())
 					.filter((tag) => !!tag)
-			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
+			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
 	);
 
 	const factions = [];

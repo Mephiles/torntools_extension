@@ -129,7 +129,7 @@ function highlightItems(items: Element[]) {
 function highlightSellers(item: number, list: Element, includeModified: boolean) {
 	const itemEntries = findAllElements(
 		`[class*='rowWrapper___']${includeModified ? "" : ":not(.tt-highlight-modified)"},[class*='sellerRow___']:not(:first-child)${includeModified ? "" : ":not(.tt-highlight-modified)"}`,
-		list
+		list,
 	)
 		.filter((element) => !!element.querySelector("[class*='price___']"))
 		.map<ItemEntry>((element) => ({

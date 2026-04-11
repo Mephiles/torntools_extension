@@ -39,7 +39,7 @@ async function showRWValue() {
 				type: "div",
 				class: styles.rankedWarValue,
 				text: `Total Value: ${formatNumber(value, { currency: true })}`,
-			})
+			}),
 		);
 	});
 }

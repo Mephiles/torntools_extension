@@ -32,7 +32,7 @@ async function addWorth() {
 				}
 			});
 		},
-		{ capture: true }
+		{ capture: true },
 	);
 }
 

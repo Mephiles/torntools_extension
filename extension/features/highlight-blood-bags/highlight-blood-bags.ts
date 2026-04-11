@@ -66,7 +66,7 @@ async function highlightBloodBags() {
 						type: "span",
 						class: "tt-blood-price",
 						text: `${formatNumber(torndata.itemsMap[itemId].value.market_price, { currency: true })}`,
-					})
+					}),
 				);
 			}
 		}

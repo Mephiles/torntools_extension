@@ -42,7 +42,7 @@ async function addFilters() {
 			type: "div",
 			class: "tt-shop-filters tt-theme",
 			children: [shopFilters.element],
-		})
+		}),
 	);
 }
 

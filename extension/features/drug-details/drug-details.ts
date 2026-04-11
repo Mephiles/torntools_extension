@@ -60,7 +60,7 @@ function addMutationObserver(selector: string) {
 	requireElement(selector).then(() => {
 		new MutationObserver(async (mutations) => {
 			const viewMutations = mutations.filter((mutation) =>
-				Array.from(mutation.addedNodes).some((node) => isElement(node) && Array.from(node.classList).some((c) => c.startsWith("view_")))
+				Array.from(mutation.addedNodes).some((node) => isElement(node) && Array.from(node.classList).some((c) => c.startsWith("view_"))),
 			);
 			if (!viewMutations.length) return;
 
@@ -143,7 +143,7 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 					getPage() === "factions" ? ".view-item-info[style*='display: block;']" : "",
 				]
 					.filter((x) => x)
-					.join(", ")
+					.join(", "),
 			)
 		);
 	}
@@ -153,7 +153,7 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 
 		observer = new MutationObserver((mutations, observer) => {
 			const filteredMutations = mutations.filter((mutation) =>
-				Array.from(mutation.addedNodes).some((node) => isElement(node) && node.classList.contains("info-wrap"))
+				Array.from(mutation.addedNodes).some((node) => isElement(node) && node.classList.contains("info-wrap")),
 			);
 			if (!filteredMutations.length) return;
 
@@ -188,7 +188,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect pro tabbed",
 					text: effect,
-				})
+				}),
 			);
 		}
 	}
@@ -203,7 +203,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: effect,
-				})
+				}),
 			);
 		}
 	}
@@ -215,7 +215,7 @@ function show(parent: Element, details: DrugDetail) {
 				type: "div",
 				class: "item-effect con",
 				text: `Cooldown: ${details.cooldown}`,
-			})
+			}),
 		);
 	}
 
@@ -230,7 +230,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: "Bars",
-				})
+				}),
 			);
 
 			for (const effect of details.overdose.bars) {
@@ -239,7 +239,7 @@ function show(parent: Element, details: DrugDetail) {
 						type: "div",
 						class: "item-effect con double-tabbed",
 						text: effect,
-					})
+					}),
 				);
 			}
 		}
@@ -251,7 +251,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: `Stats: ${details.overdose.stats}`,
-				})
+				}),
 			);
 		}
 
@@ -262,7 +262,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: `Hospital: ${details.overdose.hosp_time}`,
-				})
+				}),
 			);
 		}
 
@@ -273,7 +273,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: `Extra: ${details.overdose.extra}`,
-				})
+				}),
 			);
 		}
 	}

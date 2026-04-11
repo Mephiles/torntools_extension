@@ -25,7 +25,7 @@ async function addFillStockButton(add: boolean) {
 			type: "div",
 			class: "tt-fill-stock-wrapper",
 			children: [elementBuilder({ type: "button", class: "tt-btn tt-fill-stock", text: "FILL STOCK", events: { click: fillStock } })],
-		})
+		}),
 	);
 }
 

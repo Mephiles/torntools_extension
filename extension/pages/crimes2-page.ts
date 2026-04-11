@@ -45,7 +45,7 @@ export function setupCrimesV2Page() {
 			} catch (err) {
 				console.log("[TornTools] error during Crimes 2.0 listener trigger:", err);
 			}
-		}
+		},
 	);
 }
 

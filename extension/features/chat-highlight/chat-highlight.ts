@@ -182,7 +182,7 @@ interface HighlightDebugData {
 
 function writeDebugData(message: HTMLElement, type: string, match: string) {
 	const debugData = (message.dataset.ttHighlightDebug ? (JSON.parse(message.dataset.ttHighlightDebug) as HighlightDebugData[]) : []).filter(
-		(n) => n.type !== type
+		(n) => n.type !== type,
 	);
 
 	debugData.push({ type, match });

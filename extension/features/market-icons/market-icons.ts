@@ -45,7 +45,7 @@ async function showMarketIcons() {
 						children: [elementBuilder({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
 					}),
 				],
-			})
+			}),
 		);
 
 		isFirst = false;

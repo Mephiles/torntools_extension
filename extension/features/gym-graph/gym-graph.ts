@@ -157,7 +157,7 @@ async function showGraph() {
 				gymChart.options.scales.y.ticks.color = color;
 				gymChart.options.plugins.legend.labels.color = color;
 				gymChart.update();
-			})
+			}),
 		);
 
 		showLoadingPlaceholder(wrapper, false);

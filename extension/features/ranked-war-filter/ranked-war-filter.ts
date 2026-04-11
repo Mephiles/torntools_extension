@@ -16,7 +16,7 @@ function initialiseFilters() {
 		const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
 		if (rankedWarItem && rankedWarItem.querySelector(":scope > [data-warid]")) {
 			addFilters(
-				(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war")
+				(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war"),
 			).catch(console.error);
 		}
 	});
@@ -173,7 +173,7 @@ async function filtering() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".members-list > li:not(.tt-hidden)", membersWrap).length,
 		findAllElements(".members-list > li", membersWrap).length,
-		content
+		content,
 	);
 }
 
@@ -236,7 +236,7 @@ function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individ
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -255,7 +255,7 @@ function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individ
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
-				content
+				content,
 			);
 		}
 	}

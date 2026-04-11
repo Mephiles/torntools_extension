@@ -79,7 +79,7 @@ function handleItemList(list: Element) {
 			await requireElement(".tornPreloader", { invert: true });
 
 			const item = parseInt(
-				infoWrapper.querySelector<HTMLImageElement>("img").src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)[1]
+				infoWrapper.querySelector<HTMLImageElement>("img").src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)[1],
 			);
 
 			triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, { item, element: infoWrapper });

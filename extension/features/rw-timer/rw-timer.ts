@@ -35,7 +35,7 @@ async function showTimer() {
 				buildTimeLeftElement(factiondata),
 			],
 			style: { order: "3" },
-		})
+		}),
 	);
 }
 

@@ -66,7 +66,7 @@ async function showEstimate() {
 		if (mobile || tablet) {
 			const sideColor = side === "attacker" ? "green___" : "rose___";
 			entries = document.querySelector(
-				`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`
+				`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`,
 			);
 		} else {
 			if (side === "attacker")

@@ -189,7 +189,7 @@ async function setupDashboard() {
 				],
 				attributes: url ? { href: url, target: "_blank" } : {},
 				dataset: { id },
-			})
+			}),
 		);
 	}
 
@@ -560,7 +560,7 @@ async function setupDashboard() {
 
 		cooldown.querySelector(".cooldown-label").textContent = formatTime(
 			{ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 },
-			{ type: "timer", daysToHours: true }
+			{ type: "timer", daysToHours: true },
 		);
 	}
 
@@ -681,7 +681,7 @@ async function setupDashboard() {
 							children: [elementBuilder({ type: "span", class: "state ", text: state })],
 						}),
 					],
-				})
+				}),
 			);
 		}
 	}
@@ -754,7 +754,7 @@ async function setupDashboard() {
 							],
 						}),
 					],
-				})
+				}),
 			);
 		}
 	}
@@ -878,7 +878,7 @@ async function setupMarketSearch() {
 								type: "div",
 								class: "price",
 								text: `${item.amount}x | $${formatNumber(item.price)}`,
-							})
+							}),
 						);
 					}
 				} else {
@@ -887,7 +887,7 @@ async function setupMarketSearch() {
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
-						})
+						}),
 					);
 				}
 				list.appendChild(itemMarketWrap);
@@ -902,7 +902,7 @@ async function setupMarketSearch() {
 								type: "div",
 								class: "price",
 								text: `${item.quantity}x | $${formatNumber(item.price)}`,
-							})
+							}),
 						);
 					}
 				} else {
@@ -911,7 +911,7 @@ async function setupMarketSearch() {
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
-						})
+						}),
 					);
 				}
 				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b) {
@@ -977,7 +977,7 @@ async function setupCalculator() {
 						},
 					}),
 				],
-			})
+			}),
 		);
 	});
 
@@ -1057,7 +1057,7 @@ async function setupCalculator() {
 							text: formatNumber(price, { currency: true }),
 						}),
 					],
-				})
+				}),
 			);
 
 			totalValue += price;
@@ -1069,7 +1069,7 @@ async function setupCalculator() {
 				type: "div",
 				class: "total",
 				text: `Total: ${formatNumber(totalValue, { currency: true })}`,
-			})
+			}),
 		);
 
 		ttStorage.change({ localdata: { popup: { calculatorItems: selectedItems } } });
@@ -1176,14 +1176,14 @@ async function setupStocksOverview() {
 						type: "span",
 						class: "quantity",
 						text: `(${formatNumber(userStock.shares, { shorten: 2 })} share${applyPlural(userStock.shares)})`,
-					})
+					}),
 				);
 				heading.appendChild(
 					elementBuilder({
 						type: "div",
 						class: `profit ${getProfitClass(profit)}`,
 						text: `${getProfitIndicator(profit)}${formatNumber(Math.abs(profit), { currency: true })}`,
-					})
+					}),
 				);
 			}
 
@@ -1216,7 +1216,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Price Information", priceContent), priceContent],
-				})
+				}),
 			);
 
 			if (userStock) {
@@ -1225,7 +1225,7 @@ async function setupStocksOverview() {
 					elementBuilder({
 						type: "span",
 						text: `Bought at: ${formatNumber(boughtPrice, { decimals: 3, currency: true })}`,
-					})
+					}),
 				);
 			}
 		}
@@ -1241,7 +1241,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Benefit Information", benefitContent), benefitContent],
-				})
+				}),
 			);
 
 			if (userStock) {
@@ -1254,7 +1254,7 @@ async function setupStocksOverview() {
 									? "Ready now!"
 									: `Available in ${stock.benefit.frequency - userStock.bonus.progress}/${stock.benefit.frequency} days.`
 								: `Available every ${stock.benefit.frequency} days.`,
-						})
+						}),
 					);
 
 					benefitContent.appendChild(createRoiTable(stock, userStock));
@@ -1263,7 +1263,7 @@ async function setupStocksOverview() {
 						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(userStock.shares)}/${formatNumber(stock.benefit.requirement)}`,
-						})
+						}),
 					);
 					benefitContent.appendChild(elementBuilder("br"));
 
@@ -1287,7 +1287,7 @@ async function setupStocksOverview() {
 							type: "span",
 							class: `description ${color}`,
 							text: `${stock.benefit.description}`,
-						})
+						}),
 					);
 					if (duration)
 						benefitContent.appendChild(
@@ -1295,7 +1295,7 @@ async function setupStocksOverview() {
 								type: "span",
 								class: "duration",
 								text: duration,
-							})
+							}),
 						);
 				}
 			} else {
@@ -1304,7 +1304,7 @@ async function setupStocksOverview() {
 						elementBuilder({
 							type: "span",
 							text: `Available every ${stock.benefit.frequency} days.`,
-						})
+						}),
 					);
 
 					benefitContent.appendChild(createRoiTable(stock, undefined));
@@ -1313,7 +1313,7 @@ async function setupStocksOverview() {
 						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(stock.benefit.requirement)}`,
-						})
+						}),
 					);
 					benefitContent.appendChild(elementBuilder("br"));
 					benefitContent.appendChild(
@@ -1321,14 +1321,14 @@ async function setupStocksOverview() {
 							type: "span",
 							class: "description not-completed",
 							text: `${stock.benefit.description}`,
-						})
+						}),
 					);
 					benefitContent.appendChild(
 						elementBuilder({
 							type: "span",
 							class: "duration",
 							text: `after ${stock.benefit.frequency} days.`,
-						})
+						}),
 					);
 				}
 			}
@@ -1345,7 +1345,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Alerts", alertsContent), alertsContent],
-				})
+				}),
 			);
 
 			alertsContent.appendChild(elementBuilder({ type: "span", class: "title", text: "Price" }));
@@ -1380,7 +1380,7 @@ async function setupStocksOverview() {
 							},
 						}),
 					],
-				})
+				}),
 			);
 			alertsContent.appendChild(
 				elementBuilder({
@@ -1413,7 +1413,7 @@ async function setupStocksOverview() {
 							},
 						}),
 					],
-				})
+				}),
 			);
 		}
 
@@ -1499,7 +1499,7 @@ async function setupStocksOverview() {
 								text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A",
 							}),
 						],
-					})
+					}),
 				);
 			}
 

@@ -40,7 +40,7 @@ function showLastAction() {
 				class: "tt-oc-last-action",
 				text: `Last action: ${lastAction.relative}`,
 				attributes: { hours: hours },
-			})
+			}),
 		);
 	}
 }

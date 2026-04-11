@@ -28,7 +28,7 @@ async function showCompanyAddictionLevel() {
 			id: "companyAddictionLevel",
 			children: [elementBuilder({ type: "a", class: "title", text: "Company Addiction: ", href: LINKS.companyEmployees }), companyAddictionElement],
 			style: { order: "4" },
-		})
+		}),
 	);
 }
 

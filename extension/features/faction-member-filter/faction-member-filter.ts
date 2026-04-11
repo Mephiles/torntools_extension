@@ -328,7 +328,7 @@ async function applyFilter() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".members-list .table-body > li:not(.tt-hidden)").length,
 		findAllElements(".members-list .table-body > li").length,
-		content
+		content,
 	);
 }
 

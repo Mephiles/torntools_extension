@@ -43,7 +43,7 @@ async function addWorth() {
 								text: formatNumber(total, { currency: true }) + ".",
 							}),
 						],
-					})
+					}),
 				);
 			})
 			.catch((error) => {
@@ -52,7 +52,7 @@ async function addWorth() {
 						type: "div",
 						class: "tt-display-worth",
 						text: "TORN API returned error:" + error.toString(),
-					})
+					}),
 				);
 				console.log("TT - Display Cabinet Worth API Error:", error);
 			});
@@ -71,7 +71,7 @@ async function addWorth() {
 					createMessageBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
 						class: "tt-display-worth",
 						isHTML: true,
-					})
+					}),
 				);
 			})
 			.catch(async (error) => {

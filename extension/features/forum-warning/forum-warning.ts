@@ -39,7 +39,7 @@ function showWarning() {
 		position = "beforebegin";
 
 		requireElement("[class*='actionButtonsWrapper__'] button", { parent }).then((button) =>
-			button.addEventListener("click", handleDisabledPost, { capture: true, once: true })
+			button.addEventListener("click", handleDisabledPost, { capture: true, once: true }),
 		);
 
 		requireElement(".editor-content.mce-content-body", { parent }).then((input) => {
@@ -65,7 +65,7 @@ function showWarning() {
 					events: { click: showPopup },
 				}),
 			],
-		})
+		}),
 	);
 
 	function showPopup() {

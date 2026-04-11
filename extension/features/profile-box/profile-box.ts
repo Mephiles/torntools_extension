@@ -194,7 +194,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			(crimes) => crimes.total,
-			(crimes) => crimes.offenses.total
+			(crimes) => crimes.offenses.total,
 		),
 	},
 	{
@@ -202,7 +202,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.vandalism
+			(crimes) => crimes.offenses.vandalism,
 		),
 	},
 	{
@@ -210,7 +210,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.theft
+			(crimes) => crimes.offenses.theft,
 		),
 	},
 	{
@@ -218,7 +218,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.counterfeiting
+			(crimes) => crimes.offenses.counterfeiting,
 		),
 	},
 	{
@@ -226,7 +226,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.fraud
+			(crimes) => crimes.offenses.fraud,
 		),
 	},
 	{
@@ -234,7 +234,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.illicit_services
+			(crimes) => crimes.offenses.illicit_services,
 		),
 	},
 	{
@@ -242,7 +242,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.cybercrime
+			(crimes) => crimes.offenses.cybercrime,
 		),
 	},
 	{
@@ -250,7 +250,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.extortion
+			(crimes) => crimes.offenses.extortion,
 		),
 	},
 	{
@@ -258,7 +258,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.illegal_production
+			(crimes) => crimes.offenses.illegal_production,
 		),
 	},
 	{
@@ -266,7 +266,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			(crimes) => crimes.organized_crimes,
-			(crimes) => crimes.offenses.organized_crimes
+			(crimes) => crimes.offenses.organized_crimes,
 		),
 	},
 	{
@@ -274,7 +274,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.search_for_cash
+			(crimes) => crimes.skills.search_for_cash,
 		),
 	},
 	{
@@ -282,7 +282,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.bootlegging
+			(crimes) => crimes.skills.bootlegging,
 		),
 	},
 	{
@@ -290,7 +290,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.graffiti
+			(crimes) => crimes.skills.graffiti,
 		),
 	},
 	{
@@ -298,7 +298,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.shoplifting
+			(crimes) => crimes.skills.shoplifting,
 		),
 	},
 	{
@@ -306,7 +306,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.pickpocketing
+			(crimes) => crimes.skills.pickpocketing,
 		),
 	},
 	{
@@ -314,7 +314,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.card_skimming
+			(crimes) => crimes.skills.card_skimming,
 		),
 	},
 	{
@@ -322,7 +322,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.burglary
+			(crimes) => crimes.skills.burglary,
 		),
 	},
 	{
@@ -330,7 +330,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.hustling
+			(crimes) => crimes.skills.hustling,
 		),
 	},
 	{
@@ -338,7 +338,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.disposal
+			(crimes) => crimes.skills.disposal,
 		),
 	},
 	{
@@ -346,7 +346,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.cracking
+			(crimes) => crimes.skills.cracking,
 		),
 	},
 	{
@@ -354,7 +354,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.forgery
+			(crimes) => crimes.skills.forgery,
 		),
 	},
 	{
@@ -362,7 +362,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.scamming
+			(crimes) => crimes.skills.scamming,
 		),
 	},
 
@@ -497,7 +497,7 @@ async function showBox() {
 							section.remove();
 						} else if (finished === 2) {
 							for (const section of findAllElements(".section[order]", content).sort(
-								(a, b) => parseInt(a.getAttribute("order")!) - parseInt(b.getAttribute("order")!)
+								(a, b) => parseInt(a.getAttribute("order")!) - parseInt(b.getAttribute("order")!),
 							))
 								section.parentElement!.appendChild(section);
 						}
@@ -711,7 +711,7 @@ async function showBox() {
 								cellRenderer: stringCellRenderer,
 							}
 						: undefined,
-				}
+				},
 			);
 		}
 
@@ -873,7 +873,7 @@ async function showBox() {
 						.set(
 							{ [id]: result },
 							getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
-							"tornstats-spy"
+							"tornstats-spy",
 						)
 						.then(() => {});
 					isCached = false;
@@ -968,7 +968,7 @@ async function showBox() {
 						return rowData.them > rowData.you.value ? "superior-them" : "superior-you";
 					},
 					stretchColumns: true,
-				}
+				},
 			);
 			section.appendChild(table.element);
 
@@ -995,7 +995,7 @@ async function showBox() {
 							buildSpy(true);
 						},
 					},
-				})
+				}),
 			);
 
 			section.appendChild(footer);
@@ -1013,7 +1013,7 @@ async function showBox() {
 							buildSpy(true);
 						},
 					},
-				})
+				}),
 			);
 			section.appendChild(footer);
 			if (errors.length) {
@@ -1022,7 +1022,7 @@ async function showBox() {
 						type: "p",
 						class: "no-spy-errors",
 						html: errors.map(({ service, message }) => `${service} - ${message}`).join("<br>"),
-					})
+					}),
 				);
 			}
 		}
@@ -1186,7 +1186,7 @@ async function showBox() {
 				[history],
 				{
 					stretchColumns: true,
-				}
+				},
 			);
 
 			section.appendChild(table.element);
@@ -1291,7 +1291,7 @@ function extractInformationProfileInformationTable(title: string): HTMLElement |
 		document,
 		null,
 		XPathResult.FIRST_ORDERED_NODE_TYPE,
-		null
+		null,
 	).singleNodeValue;
 
 	return isHTMLElement(node) ? node : null;

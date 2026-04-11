@@ -50,7 +50,7 @@ async function showTimer() {
 				id: "factionOCTimer",
 				children: [elementBuilder({ type: "a", class: "title", text: "Faction OC: ", href: LINKS.organizedCrimes }), factionOCElement],
 				style: { order: "2" },
-			})
+			}),
 		);
 	}
 }

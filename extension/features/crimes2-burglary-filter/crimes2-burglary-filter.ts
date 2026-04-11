@@ -138,7 +138,7 @@ async function filtering() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
 		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
-		content
+		content,
 	);
 }
 

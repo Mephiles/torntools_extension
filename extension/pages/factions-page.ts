@@ -136,7 +136,7 @@ export async function setupFactionsPage() {
 								(node) =>
 									node.classList.contains("item-list") ||
 									(node.tagName === "DIV" && node.classList.contains("p10")) ||
-									node.id === "inventory-container"
+									node.id === "inventory-container",
 							);
 					})
 				)
@@ -203,7 +203,7 @@ export async function setupFactionsPage() {
 						if (handled) return;
 
 						const reduced = Array.from(mutations).filter((mutation) =>
-							Array.from(mutation.addedNodes).every((node) => !isElement(node) || !node.classList.contains(".tt-last-action"))
+							Array.from(mutation.addedNodes).every((node) => !isElement(node) || !node.classList.contains(".tt-last-action")),
 						);
 						if (!reduced.length) return;
 

@@ -428,7 +428,7 @@ async function startTable() {
 							],
 						}),
 					],
-				})
+				}),
 			);
 
 			content.querySelector<HTMLElement>(".legend-icon").addEventListener("click", (event) => {
@@ -689,7 +689,7 @@ async function startTable() {
 					events: {
 						click: changeState,
 					},
-				})
+				}),
 			);
 
 			function changeState() {

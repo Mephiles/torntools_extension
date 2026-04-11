@@ -148,7 +148,7 @@ function applyGauge(e: HTMLAnchorElement[]) {
 								type: "img",
 								class: "tt-ff-scouter-arrow",
 								attributes: { src: arrow },
-							})
+							}),
 						);
 						element.dataset.ffScout = ff.toString();
 					}

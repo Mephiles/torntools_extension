@@ -62,7 +62,7 @@ async function addLastAction(force: boolean) {
 				class: `tt-last-action ${isOwnCompany ? "" : "joblist"}`,
 				text: `Last action: ${employees[id].last_action.relative}`,
 				dataset: { days },
-			})
+			}),
 		);
 	}
 	list.classList.add("tt-modified");

@@ -172,7 +172,7 @@ async function showInformation() {
 				class: "tt-bonus-information",
 				children: [PHFillInfo()],
 				attributes: { title: bonus.description },
-			})
+			}),
 		);
 	}
 }

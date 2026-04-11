@@ -50,7 +50,7 @@ async function showNPCs() {
 					elementBuilder({ type: "span", class: "npc-name", text: "Planned Attack" }),
 					elementBuilder({ type: "div", class: "npc-information", children: [timer] }),
 				],
-			})
+			}),
 		);
 	}
 
@@ -83,7 +83,7 @@ async function showNPCs() {
 					type: "div",
 					class: "tt-npc-divider",
 					text: "-- not scheduled --",
-				})
+				}),
 			);
 		}
 
@@ -99,7 +99,7 @@ async function showNPCs() {
 						children: [elementBuilder({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }), timer],
 					}),
 				],
-			})
+			}),
 		);
 	}
 
@@ -119,7 +119,7 @@ async function showNPCs() {
 					ttStorage.change({ settings: { notifications: { types: { npcsGlobal: newStatus } } } });
 				},
 			},
-		})
+		}),
 	);
 }
 

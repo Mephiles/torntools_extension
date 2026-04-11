@@ -36,7 +36,7 @@ async function showNotes() {
 					await ttStorage.change({ notes: { sidebar: { text: (event.target as HTMLInputElement).value } } });
 				},
 			},
-		})
+		}),
 	);
 }
 

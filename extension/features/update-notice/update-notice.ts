@@ -36,7 +36,7 @@ async function showNotice() {
 				}),
 			],
 		}),
-		parent.firstElementChild
+		parent.firstElementChild,
 	);
 }
 

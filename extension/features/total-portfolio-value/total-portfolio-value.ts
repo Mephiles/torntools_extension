@@ -55,7 +55,7 @@ function calculateAndShowProfits() {
 					text: formatNumber(profits, { currency: true, shorten }),
 				}),
 			],
-		})
+		}),
 	);
 	if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
 }

@@ -39,7 +39,7 @@ async function showComputer() {
 				"aria-labelledby": "computer",
 				href: "pc.php",
 			},
-		})
+		}),
 	);
 }
 

@@ -76,7 +76,7 @@ async function addWorth(force: boolean) {
 								text: err.error === "Incorrect ID-entity relation" ? "No faction API access." : "Error during fetching API data.",
 							}),
 						],
-					})
+					}),
 				);
 			});
 	}
@@ -107,7 +107,7 @@ async function addWorth(force: boolean) {
 					elementBuilder({ type: "span", text: "Armory value: " }),
 					elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }),
 				],
-			})
+			}),
 		);
 	}
 }

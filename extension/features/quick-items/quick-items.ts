@@ -94,7 +94,7 @@ async function loadQuickItems() {
 					for (const category of findAllElements("#categoriesItem:not(.no-items)")) {
 						if (
 							!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other", "Supply Pack"].includes(
-								category.dataset.type
+								category.dataset.type,
 							)
 						)
 							continue;
@@ -113,7 +113,7 @@ async function loadQuickItems() {
 					attachEditListeners(enabled);
 				},
 			},
-		})
+		}),
 	);
 
 	for (const quickItem of quick.items) {
@@ -175,7 +175,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 
 				const body = new URLSearchParams();
 				Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
-					([key, value]) => body.set(key, value.toString())
+					([key, value]) => body.set(key, value.toString()),
 				);
 
 				fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
@@ -195,9 +195,9 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 												link.attr
 													.split(" ")
 													.filter((x) => !!x)
-													.map((x) => x.split("="))
+													.map((x) => x.split("=")),
 											),
-										})
+										}),
 									);
 								}
 							}
@@ -221,7 +221,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 										],
 									}),
 								],
-							})
+							}),
 						);
 
 						if (result.success) {
@@ -267,12 +267,12 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 
 						if (result.includes(" equipped ")) {
 							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
-								x.classList.remove("equipped")
+								x.classList.remove("equipped"),
 							);
 							itemWrap.classList.add("equipped");
 						} else if (result.includes(" unequipped "))
 							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
-								x.classList.remove("equipped")
+								x.classList.remove("equipped"),
 							);
 					}
 				});

@@ -46,7 +46,7 @@ async function showTimer() {
 				...elements,
 			],
 			style: { order: "1" },
-		})
+		}),
 	);
 }
 

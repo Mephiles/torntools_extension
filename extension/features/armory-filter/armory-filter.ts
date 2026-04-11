@@ -199,7 +199,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
 		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
-		content
+		content,
 	);
 }
 
@@ -295,7 +295,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			hasBonuses = !!foundBonuses.length;
 		} else {
 			hasBonuses = toFilterBonus.every(
-				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
+				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0,
 			);
 		}
 

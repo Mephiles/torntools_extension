@@ -144,7 +144,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
 		findAllElements(".tableWrapper ul > li").length,
-		content
+		content,
 	);
 }
 
@@ -196,7 +196,7 @@ function filterRow(row: HTMLElement, filters: Partial<TargetFilters>, individual
 			localFilters["Statistics"].updateStatistics(
 				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 				findAllElements("ul.user-info-blacklist-wrap > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -215,7 +215,7 @@ function filterRow(row: HTMLElement, filters: Partial<TargetFilters>, individual
 			localFilters["Statistics"].updateStatistics(
 				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 				findAllElements("ul.user-info-blacklist-wrap> li").length,
-				content
+				content,
 			);
 		}
 	}

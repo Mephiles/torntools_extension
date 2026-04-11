@@ -19,7 +19,7 @@ function addEffects() {
 
 		book.querySelector(".name-wrap .qty.t-hide").insertAdjacentElement(
 			"afterend",
-			elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
+			elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` }),
 		);
 	});
 }

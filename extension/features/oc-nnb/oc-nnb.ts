@@ -136,7 +136,7 @@ async function showNNB() {
 						text: "NNB",
 						children: [elementBuilder({ type: "div", class: "t-delimiter" })],
 					}),
-					stat
+					stat,
 				);
 				continue;
 			}
@@ -165,7 +165,7 @@ async function showNNB() {
 						text: "NNB",
 						children: [elementBuilder({ type: "div", class: "t-delimiter" })],
 					}),
-					act
+					act,
 				);
 				continue;
 			}

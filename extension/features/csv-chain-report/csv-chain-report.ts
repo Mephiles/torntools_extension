@@ -39,7 +39,7 @@ async function addCSVContainer() {
 					"Overseas",
 					"Draw",
 					"Escape",
-					"Loss"
+					"Loss",
 				);
 
 				const info = findAllElements(".members-stats-rows > *");

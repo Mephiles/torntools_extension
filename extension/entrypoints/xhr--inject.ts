@@ -63,7 +63,7 @@ export default defineUnlistedScript(() => {
 									responseURL: this.responseURL,
 								},
 							},
-						})
+						}),
 					);
 				}
 			});

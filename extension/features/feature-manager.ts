@@ -117,7 +117,7 @@ class FeatureManager {
 				"%cTorn%cTools %cis running.",
 				"font-size: 30px; font-weight: 600; color: green;",
 				"font-size: 30px; font-weight: 600; color: #000;",
-				"font-size: 30px;"
+				"font-size: 30px;",
 			);
 		});
 	}
@@ -268,7 +268,7 @@ class FeatureManager {
 				const requirements = await getValueAsync(feature.requirements);
 				if (typeof requirements === "string") {
 					await this.executeFunction(feature.cleanup).catch((error) =>
-						this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error)
+						this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error),
 					);
 
 					this.showResult(feature, "information", { message: requirements });

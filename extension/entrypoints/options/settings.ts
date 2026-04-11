@@ -145,7 +145,7 @@ async function setupChangelog() {
 						text: `${contributor.name} [${contributor.id}]`,
 						href: `https://www.torn.com/profiles.php?XID=${contributor.id}`,
 						attributes: { target: "_blank" },
-					})
+					}),
 				);
 			else child.appendChild(elementBuilder({ type: "span", text: contributor.name }));
 
@@ -235,7 +235,7 @@ function cleanupPreferences() {
 			"#chatHighlight > li:not(.input)",
 			"#chatTitleHighlight> li:not(.input)",
 		].join(", "),
-		preferences
+		preferences,
 	).forEach((element) => element.remove());
 }
 
@@ -285,7 +285,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				type: "option",
 				text: `${provider.name} (${calculateRevivePrice(provider)})`,
 				attributes: { value: provider.provider },
-			})
+			}),
 		);
 	}
 
@@ -383,7 +383,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		BACKGROUND_SERVICE.playNotificationSound(
 			_preferences.querySelector<HTMLInputElement>("#notification-sound").value,
 			parseInt(_preferences.querySelector<HTMLInputElement>("#notification-volume").value),
-			false
+			false,
 		);
 	});
 	_preferences.querySelector("#notification-sound-stop").addEventListener("click", () => {
@@ -470,7 +470,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		addUserAlias(
 			inputRow.querySelector<HTMLInputElement>(".userID").value,
 			inputRow.querySelector<HTMLInputElement>(".name").value,
-			inputRow.querySelector<HTMLInputElement>(".alias").value
+			inputRow.querySelector<HTMLInputElement>(".alias").value,
 		);
 	});
 
@@ -482,7 +482,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				class: "tabbed note",
 				text: `${placeholder.name} - ${placeholder.description}`,
 			}),
-			chatSection.querySelector("#chatHighlight+.note").nextElementSibling
+			chatSection.querySelector("#chatHighlight+.note").nextElementSibling,
 		);
 	}
 
@@ -525,7 +525,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 					type: "span",
 					id: stock,
 					text: capitalizeText(stockName),
-				})
+				}),
 			);
 		}
 		hideStocksParent.addEventListener("click", (event) => {
@@ -562,7 +562,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						}),
 					],
 					dataset: { id },
-				})
+				}),
 			);
 		}
 	}
@@ -662,7 +662,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				for (const setting in settings[type][page]) {
 					const input = _preferences.querySelector<HTMLInputElement>(
-						`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`
+						`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`,
 					);
 					if (!input) continue;
 
@@ -1276,7 +1276,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				document,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-				null
+				null,
 			);
 			searchList.innerHTML = "";
 			if (searchResults.snapshotLength > 0) {
@@ -1299,7 +1299,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 							text: name,
 							attributes: { [keyword]: section },
 							children: [elementBuilder("br")],
-						})
+						}),
 					);
 					searchList.appendChild(elementBuilder("hr"));
 				}
@@ -1309,7 +1309,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						type: "span",
 						id: "no-result",
 						text: "No Results",
-					})
+					}),
 				);
 			}
 			searchResults = null;
@@ -1402,7 +1402,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 	function revertSettings() {
 		findAllElements("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled", _preferences).forEach((x) =>
-			x.classList.remove("disabled")
+			x.classList.remove("disabled"),
 		);
 		findAllElements("button.remove-icon-wrap", _preferences).forEach((x) => x.closest("li").remove());
 		fillSettings();
@@ -1547,20 +1547,20 @@ async function setupAPIInfo() {
 			BACKGROUND_SERVICE.forceUpdate(section).then((result) => {
 				console.log(`Manually fetched ${section}.`, result);
 				sendMessage(`Fetched ${section}.`, true);
-			})
+			}),
 		);
 	});
 	document.querySelector("#reinitialize-timers").addEventListener("click", () =>
 		BACKGROUND_SERVICE.reinitializeTimers().then((result) => {
 			console.log("Manually reset background timers.", result);
 			sendMessage("Reset background timers.", true);
-		})
+		}),
 	);
 	document.querySelector("#clear-cache").addEventListener("click", () =>
 		BACKGROUND_SERVICE.clearCache().then((result) => {
 			console.log("Manually cleared your cache.", result);
 			sendMessage("Cleared cache.", true);
-		})
+		}),
 	);
 
 	updateUsage(usageChart, "Last 5");
@@ -1649,7 +1649,7 @@ async function setupExport() {
 								elementBuilder({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
 								elementBuilder({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
 							],
-						})
+						}),
 					);
 			},
 		},
@@ -1969,7 +1969,7 @@ function setupAbout() {
 							text: method.name,
 							href: method.link,
 							attributes: { target: "_blank" },
-						})
+						}),
 					);
 				}
 

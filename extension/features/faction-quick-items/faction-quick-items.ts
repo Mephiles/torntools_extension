@@ -28,7 +28,7 @@ function addListener() {
 				if (responseWrap) responseWrap.style.display = "none";
 			}
 		},
-		{ passive: true }
+		{ passive: true },
 	);
 	setInterval(() => {
 		for (const timer of findAllElements(".counter-wrap.tt-modified")) {
@@ -100,7 +100,7 @@ async function showQuickItems(section: string) {
 					for (const category of findAllElements("#faction-armoury-tabs .torn-tabs > li")) {
 						if (
 							!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(
-								category.querySelector("a.ui-tabs-anchor").textContent.trim()
+								category.querySelector("a.ui-tabs-anchor").textContent.trim(),
 							)
 						)
 							continue;
@@ -109,7 +109,7 @@ async function showQuickItems(section: string) {
 						else category.classList.remove("tt-overlay-item");
 					}
 					for (const item of findAllElements(
-						".armoury-medical-wrap, .armoury-drugs-wrap, .armoury-boosters-wrap, .armoury-points-wrap, .armoury-consumables-wrap, .armoury-temporary-wrap"
+						".armoury-medical-wrap, .armoury-drugs-wrap, .armoury-boosters-wrap, .armoury-points-wrap, .armoury-consumables-wrap, .armoury-temporary-wrap",
 					)) {
 						if (enabled) item.classList.add("tt-overlay-item-notbroken");
 						else item.classList.remove("tt-overlay-item-notbroken");
@@ -121,7 +121,7 @@ async function showQuickItems(section: string) {
 					attachEditListeners(enabled);
 				},
 			},
-		})
+		}),
 	);
 
 	for (const quickItem of quick.factionItems) {
@@ -152,7 +152,7 @@ function setupQuickDragListeners() {
 					class: "img-wrap tt-lazy-magic",
 					dataset: { itemid: `points-${type}` },
 					style: { display: "none" },
-				})
+				}),
 			);
 		}
 	} else {
@@ -245,7 +245,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 								type: "div",
 								style: { display: "block" },
 								children: [elementBuilder({ type: "a", href: "#", class: "close-act t-blue bold c-pointer", text: "Okay" })],
-							})
+							}),
 						);
 					});
 				} else {
@@ -267,9 +267,9 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 											link.attr
 												.split(" ")
 												.filter((x) => !!x)
-												.map((x) => x.split("="))
+												.map((x) => x.split("=")),
 										),
-									})
+									}),
 								);
 							}
 						}
@@ -324,7 +324,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 										],
 									}),
 								],
-							})
+							}),
 						);
 
 						for (const count of findAllElements(".counter-wrap", responseWrap)) {
@@ -375,7 +375,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 					type: "div",
 					class: "pic icon-refill",
 					children: [elementBuilder({ type: "i", class: "currency-points" })],
-				})
+				}),
 			);
 			itemWrap.setAttribute("title", "Energy Refill");
 			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: "Energy Refill" }));
@@ -386,7 +386,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 					type: "div",
 					class: "pic icon-refill",
 					children: [elementBuilder({ type: "i", class: "currency-points" })],
-				})
+				}),
 			);
 			itemWrap.setAttribute("title", "Nerve Refill");
 			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: "Nerve Refill" }));

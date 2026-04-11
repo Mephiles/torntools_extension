@@ -105,7 +105,7 @@ function addItemValue(missingItem: HTMLElement) {
 			type: "span",
 			class: "tt-item-price",
 			text: `${formatNumber(torndata.itemsMap[parseInt(missingItem.dataset.id)].value.market_price, { currency: true })}`,
-		})
+		}),
 	);
 }
 
@@ -141,7 +141,7 @@ async function addMarketIcon(missingItem: HTMLElement, first: boolean, last: boo
 					children: [elementBuilder({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
 				}),
 			],
-		})
+		}),
 	);
 }
 

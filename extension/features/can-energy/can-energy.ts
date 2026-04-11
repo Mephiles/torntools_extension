@@ -29,7 +29,7 @@ function addEnergyGains() {
 				.split(" ")
 				.map((x) => parseInt(x))
 				.filter((x) => !isNaN(x))[0]
-				.toString()
+				.toString(),
 		);
 		let totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);
 		// Apply the doubling effect of the energy can event here. It only applies the doubling after the initial perk multiplier + rounding.

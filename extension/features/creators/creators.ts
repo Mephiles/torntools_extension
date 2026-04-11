@@ -8,7 +8,7 @@ import { torntools } from "@/utils/common/icons/torntools";
 
 async function showCreators() {
 	const id = parseInt(
-		(await requireElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")).textContent.match(/(?<=\[)\d*(?=])/i)[0]
+		(await requireElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")).textContent.match(/(?<=\[)\d*(?=])/i)[0],
 	);
 
 	const creator = TEAM.find(({ torn }) => torn === id);
@@ -22,7 +22,7 @@ async function showCreators() {
 			type: "div",
 			class: "tt-creator",
 			children: [torntools(), elementBuilder({ type: "span", text: title })],
-		})
+		}),
 	);
 }
 

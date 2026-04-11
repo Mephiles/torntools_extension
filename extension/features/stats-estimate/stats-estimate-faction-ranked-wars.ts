@@ -58,7 +58,7 @@ function showEstimates() {
 			{
 				hasFilter: true,
 				placement: (row) => row.querySelector(".clear"),
-			}
+			},
 		);
 	});
 }

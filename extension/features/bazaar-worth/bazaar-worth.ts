@@ -59,7 +59,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 						type: "div",
 						class: "tt-bazaar-text",
 						text: "TORN API returned error:" + error.toString(),
-					})
+					}),
 				);
 				console.log("TT - Bazaar Worth API Error:", error);
 			});
@@ -90,7 +90,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 					class: "tt-bazaar-text",
 					text: "This bazaar is worth ",
 					children: [elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
-				})
+				}),
 			);
 		}
 	}

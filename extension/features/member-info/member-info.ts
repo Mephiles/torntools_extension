@@ -91,7 +91,7 @@ async function addInfo(force: boolean) {
 					type: "div",
 					class: "tt-points-balance",
 					text: `Point Balance: ${formatNumber(userBalance.points)}`,
-				})
+				}),
 			);
 		}
 		if (userBalance.money) {
@@ -100,7 +100,7 @@ async function addInfo(force: boolean) {
 					type: "div",
 					class: "tt-money-balance",
 					text: `Money Balance: ${formatNumber(userBalance.money, { currency: true })}`,
-				})
+				}),
 			);
 		}
 

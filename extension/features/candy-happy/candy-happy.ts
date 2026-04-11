@@ -28,7 +28,7 @@ function addGains() {
 				.split(" ")
 				.map((x) => parseInt(x))
 				.filter((x) => !isNaN(x))[0]
-				.toString()
+				.toString(),
 		);
 		let totalHappy = baseHappy;
 		if (!isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;

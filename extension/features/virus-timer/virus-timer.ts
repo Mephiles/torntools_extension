@@ -29,7 +29,7 @@ async function showTimer() {
 				buildTimeLeftElement(),
 			],
 			style: { order: "5" },
-		})
+		}),
 	);
 }
 

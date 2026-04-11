@@ -18,7 +18,7 @@ export function setupCompanyPage() {
 					!mutations.some((mutation) =>
 						Array.from(mutation.addedNodes)
 							.filter((node: any) => node.nodeType === Node.ELEMENT_NODE)
-							.some((node: any) => node.classList && node.classList.contains("employees-wrap"))
+							.some((node: any) => node.classList && node.classList.contains("employees-wrap")),
 					)
 				)
 					return;

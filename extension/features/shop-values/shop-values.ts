@@ -36,7 +36,7 @@ async function showValues() {
 				type: "span",
 				class: "tt-market-value",
 				text: formatNumber(value, { currency: true }),
-			})
+			}),
 		);
 	});
 }

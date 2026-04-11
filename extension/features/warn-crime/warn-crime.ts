@@ -43,7 +43,7 @@ function addListener() {
 					name: slot.name,
 					successChance: slot.successChance,
 					hasItem: slot.requirement?.doesExist ?? null,
-				}))
+				})),
 		);
 
 		slots.forEach(({ scenario: { name: scenarioName }, ...slot }) => {

@@ -206,7 +206,7 @@ export function toNumericVersion(version: string) {
 			.split(".")
 			.map((part) => part.padStart(3, "0"))
 			.join("")
-			.padEnd(9, "9")
+			.padEnd(9, "9"),
 	);
 }
 
@@ -262,7 +262,7 @@ export function calculateDatePeriod(startDate: Date, endDate: Date) {
 
 export function toRecord<TItem, TValue, TKey extends string = string>(
 	array: TItem[],
-	fn: (item: TItem, index: number) => [TKey, TValue]
+	fn: (item: TItem, index: number) => [TKey, TValue],
 ): Record<TKey, TValue> {
 	return array.reduce<Record<TKey, TValue>>(
 		(record, item, index) => {
@@ -271,7 +271,7 @@ export function toRecord<TItem, TValue, TKey extends string = string>(
 
 			return record;
 		},
-		{} as Record<TKey, TValue>
+		{} as Record<TKey, TValue>,
 	);
 }
 

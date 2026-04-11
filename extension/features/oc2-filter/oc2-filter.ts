@@ -106,7 +106,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".tt-oc2-list > [class*='wrapper___']:not(.tt-hidden)").length,
 		findAllElements(".tt-oc2-list > [class*='wrapper___']").length,
-		content
+		content,
 	);
 }
 

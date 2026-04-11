@@ -24,7 +24,7 @@ async function showFF() {
 			type: "div",
 			class: "tt-fair-attack",
 			text: `FF: ${formatNumber(ff, { decimals: 2 })}`,
-		})
+		}),
 	);
 }
 

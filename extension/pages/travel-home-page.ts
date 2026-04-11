@@ -24,7 +24,7 @@ export async function setupTravelHomePage() {
 				const country = countryElement.textContent.trim().toLowerCase().replaceAll(" ", "_");
 
 				requireCondition(() => destinationElement.classList.contains("expanded")).then(() =>
-					triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country })
+					triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country }),
 				);
 			});
 		});

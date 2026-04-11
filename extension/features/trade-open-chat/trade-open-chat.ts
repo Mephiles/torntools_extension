@@ -35,7 +35,7 @@ async function addButton() {
 		elementBuilder({
 			type: "div",
 			children: [button],
-		})
+		}),
 	);
 }
 

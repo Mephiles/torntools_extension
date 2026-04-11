@@ -18,7 +18,7 @@ async function registerListeners() {
 			mutations.some((mutation) =>
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
-					.some((node) => node.matches("li[class*='tableRow__']"))
+					.some((node) => node.matches("li[class*='tableRow__']")),
 			)
 		) {
 			if (FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)) showEstimates();
@@ -30,7 +30,7 @@ async function registerListeners() {
 			mutations.some((mutation) =>
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
-					.some((node) => node.tagName === "UL")
+					.some((node) => node.tagName === "UL"),
 			)
 		) {
 			if (FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)) {
@@ -55,7 +55,7 @@ async function showEstimates() {
 			id: parseInt(row.querySelector<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
 			level: convertToNumber(row.querySelector("[class*='level__']").textContent),
 		}),
-		{ hasFilter: true }
+		{ hasFilter: true },
 	);
 }
 

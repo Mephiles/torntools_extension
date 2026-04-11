@@ -23,7 +23,7 @@ function initialiseListeners() {
 
 async function showSteadfast() {
 	const properties = ((await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")) as Element).closest(
-		"#gymroot ul[class*='properties___']"
+		"#gymroot ul[class*='properties___']",
 	);
 
 	const factionPerks = userdata.faction_perks.filter((perk) => perk.includes("gym gains"));

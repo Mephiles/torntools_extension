@@ -339,7 +339,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		[...allRaces].filter((li) => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
 		[...allRaces].filter((li) => li.className !== "clear").length,
-		content
+		content,
 	);
 }
 

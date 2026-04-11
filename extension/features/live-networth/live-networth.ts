@@ -69,7 +69,7 @@ async function showNetworth() {
 					text: `Networth change compared to Torn's last known Networth (updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })})`,
 				}),
 			],
-		})
+		}),
 	);
 
 	function newRow(name: string, value: string) {
@@ -144,7 +144,7 @@ async function showNetworth() {
 						class: isPositive ? "positive" : "negative",
 					}),
 				],
-			})
+			}),
 		);
 	}
 }

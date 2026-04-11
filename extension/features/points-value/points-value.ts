@@ -16,7 +16,7 @@ function setTitleAttributes() {
 			`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
 				currency: true,
 				shorten: 2,
-			})}`
+			})}`,
 		);
 	});
 }
@@ -37,7 +37,7 @@ async function showValue() {
 		document,
 		null,
 		XPathResult.FIRST_ORDERED_NODE_TYPE,
-		null
+		null,
 	)?.singleNodeValue;
 	if (!block || !isElement(block)) {
 		console.warn("Couldn't find your points block for some odd reason.");

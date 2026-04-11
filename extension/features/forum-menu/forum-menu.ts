@@ -81,7 +81,7 @@ async function showThreads() {
 							}
 						},
 					},
-				})
+				}),
 			);
 
 			countHiddenThread = 0;
@@ -144,7 +144,7 @@ async function showPosts() {
 							}
 						},
 					},
-				})
+				}),
 			);
 
 			countHiddenPost = 0;
@@ -349,7 +349,7 @@ async function showPosts() {
 						],
 					}),
 				],
-			})
+			}),
 		);
 	}
 }

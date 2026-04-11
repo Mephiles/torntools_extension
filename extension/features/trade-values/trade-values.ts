@@ -96,7 +96,7 @@ async function addItemValues() {
 					class: "tt-total-value",
 					text: "Total value: ",
 					children: [elementBuilder({ type: "span", text: formatNumber(totalValue, { currency: true }) })],
-				})
+				}),
 			);
 		}
 

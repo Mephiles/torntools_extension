@@ -40,7 +40,7 @@ async function addProgress() {
 			class: "tt-gym-energy-progress",
 			text: "Estimated Energy progress: ",
 			children: [elementBuilder({ type: "span", text: `${formatNumber(stat)}/${formatNumber(goal)}E.` })],
-		})
+		}),
 	);
 }
 

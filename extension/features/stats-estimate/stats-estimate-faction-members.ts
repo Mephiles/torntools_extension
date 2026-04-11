@@ -66,7 +66,7 @@ async function showEstimates() {
 				row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-member-info")
 					? (row.nextElementSibling as HTMLElement)
 					: row,
-		}
+		},
 	);
 }
 

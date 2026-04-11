@@ -36,7 +36,7 @@ async function addCSVContainer() {
 								getUsername(row).combined,
 								row.querySelector(".level").textContent,
 								row.querySelector(".points").textContent,
-								row.querySelector(".status").textContent
+								row.querySelector(".status").textContent,
 							);
 						}
 					} else csv.append("None");

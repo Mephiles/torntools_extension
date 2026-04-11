@@ -218,7 +218,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
 		findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
-		content
+		content,
 	);
 }
 
@@ -335,7 +335,7 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			}));
 
 		const hasBonuses = toFilterBonus.every(
-			({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
+			({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0,
 		);
 
 		if (!hasBonuses) {

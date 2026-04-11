@@ -138,7 +138,7 @@ export function createFilterSection(
 		| CheckboxesOptions
 		| YNCheckboxesOptions
 		| SliderOptions
-		| TextOptions
+		| TextOptions,
 ): any {
 	if ("type" in options) {
 		// Handle PresetOptions

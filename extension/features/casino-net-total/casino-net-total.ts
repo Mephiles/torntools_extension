@@ -37,7 +37,7 @@ async function addTotal() {
 			document,
 			null,
 			XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-			null
+			null,
 		);
 		if (moneyElementsList.snapshotLength !== 2) continue;
 		const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replace(/[$, ]/g, ""));
@@ -58,7 +58,7 @@ async function addTotal() {
 					elementBuilder({ type: "li", class: "name", text: "Net total" }),
 					elementBuilder({ type: "li", class: "value", text: formatNumber(totalWon - totalLost, { currency: true }) }),
 				],
-			})
+			}),
 		);
 	}
 

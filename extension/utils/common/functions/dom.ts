@@ -388,7 +388,7 @@ export function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
 				elementBuilder({
 					type: "div",
 					class: "tt-loading-placeholder active",
-				})
+				}),
 			);
 		}
 	} else if (placeholder) {
@@ -432,7 +432,7 @@ export async function addInformationSection() {
 		elementBuilder({
 			type: "hr",
 			class: "tt-sidebar-information-divider tt-delimiter tt-hidden",
-		})
+		}),
 	);
 	parent.appendChild(elementBuilder({ type: "div", class: "tt-sidebar-information tt-hidden" }));
 }

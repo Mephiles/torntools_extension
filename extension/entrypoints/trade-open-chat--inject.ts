@@ -20,13 +20,13 @@ export default defineUnlistedScript(async () => {
 	if (window.chat && typeof window.chat === "object")
 		// For Chat 2.0.
 		window.chat.r(traderID);
+	// For Chat 3.0, copied from Torn's mini profiles code.
 	else
-		// For Chat 3.0, copied from Torn's mini profiles code.
 		window.dispatchEvent(
 			new CustomEvent("chat.openChannel", {
 				detail: {
 					userId: String(traderID),
 				},
-			})
+			}),
 		);
 });
