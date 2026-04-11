@@ -1,4 +1,4 @@
-.tt-hidden {
+.tt-hidden-game {
 	width: fit-content;
 	margin: auto;
 	font-weight: bold;
@@ -12,8 +12,8 @@
 	align-items: center;
 }
 
-.tt-hidden + a {
-	display: none;
+.tt-hidden-game + a {
+	display: none !important;
 }
 
 .tt-msg {

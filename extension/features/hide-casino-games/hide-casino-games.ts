@@ -1,42 +1,40 @@
-import "./hide-casino-games.css";
+import styles from "./hide-casino-games.module.css";
 import { Feature } from "@/features/feature-manager";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 
 function hideCasinoGames() {
 	const msg = document.querySelector(".msg.right-round");
-	if (!msg.querySelector(".tt-msg")) {
+	if (!msg.querySelector(`.${styles.ttMsg}`)) {
 		msg.appendChild(
 			elementBuilder({
 				type: "div",
 				children: [
 					elementBuilder({
 						type: "span",
-						class: "tt-msg",
+						class: styles.ttMsg,
 						text: "Some games have been removed by TornTools. They can be re-enabled in TornTools' settings.",
 					}),
 				],
 			})
 		);
 	}
-	findAllElements(".games-list .tt-hidden").forEach((game) => {
-		game.parentElement.classList.remove("tt-hidden-parent");
-		game.classList.remove("tt-hidden");
-		game.parentElement.querySelector(".tt-hidden").remove();
+	findAllElements(`.games-list .${styles.ttHiddenGame}`).forEach((game) => {
+		game.parentElement.classList.remove(styles.ttHiddenParent);
+		game.remove();
 	});
 
 	for (const gameClass of settings.hideCasinoGames) {
 		const game = document.querySelector(`.${gameClass}`);
 
-		game.parentElement.classList.add("tt-hidden-parent");
-		game.classList.add("tt-hidden");
+		game.parentElement.classList.add(styles.ttHiddenParent);
+		game.classList.add(styles.ttHiddenGame);
 		game.insertAdjacentElement(
 			"beforebegin",
 			elementBuilder({
 				type: "div",
-				class: "tt-hidden",
+				class: styles.ttHiddenGame,
 				children: [elementBuilder({ type: "b", text: "• REMOVED •" })],
 			})
 		);
@@ -44,12 +42,9 @@ function hideCasinoGames() {
 }
 
 async function unhideCasinoGames() {
-	await requireElement(".games-list");
-
-	document.querySelector(".msg .tt-msg").remove();
-	document.querySelector(".tt-hidden-parent").classList.remove("tt-hidden-parent");
-	document.querySelector(".tt-hidden").remove();
-	findAllElements(".games-list .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+	document.querySelector(`.${styles.ttMsg}`)?.remove();
+	document.querySelector(`.${styles.ttHiddenParent}`).classList.remove(styles.ttHiddenParent);
+	findAllElements(`.${styles.ttHiddenGame}`).forEach((x) => x.remove());
 }
 
 export default class HideCasinoGamesFeature extends Feature {

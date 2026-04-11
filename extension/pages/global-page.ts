@@ -1,7 +1,7 @@
 import { checkDevice, elementBuilder, findAllElements, getSearchParameters, isElement, isHTMLElement } from "@/utils/common/functions/dom";
 import { loadDatabase, settings, storageListeners } from "@/utils/common/data/database";
 import { requireChatsLoaded, requireCondition, requireContent } from "@/utils/common/functions/requires";
-import { isChatV3 } from "@/utils/common/functions/torn";
+import { getPage, isChatV3 } from "@/utils/common/functions/torn";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import {
 	SELECTOR_CHAT_ROOT,
@@ -169,6 +169,10 @@ function handleFocus() {
 	});
 }
 
+function handlePage() {
+	document.body.dataset.page = getPage();
+}
+
 export function runGlobalPageScripts() {
 	handleDeviceSizeClasses();
 	handlePopoutClass();
@@ -178,6 +182,7 @@ export function runGlobalPageScripts() {
 		createOverlay();
 		observeChat().catch(console.error);
 		observeBody().catch(console.error);
+		handlePage();
 
 		setInterval(updateTimers, 1000);
 		handleFocus();

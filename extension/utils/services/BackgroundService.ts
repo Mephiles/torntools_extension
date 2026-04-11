@@ -1,9 +1,9 @@
-import { timedUpdates, updateFactiondata, updateStocks, updateTorndata, updateUserdata } from "@/entrypoints/background/updates";
-import { getNotificationSound, notificationTestPlayer, notifyUser } from "@/entrypoints/background/notifications";
-import { fetchData, type FetchLocation, type FetchOptions } from "@/utils/common/functions/api";
-import { ttCache } from "@/utils/common/data/cache";
+import type { Browser } from "@wxt-dev/browser";
 import { resetAlarms } from "@/entrypoints/background";
-import { type Browser } from "@wxt-dev/browser";
+import { getNotificationSound, notificationTestPlayer, notifyUser } from "@/entrypoints/background/notifications";
+import { timedUpdates, updateFactiondata, updateStocks, updateTorndata, updateUserdata } from "@/entrypoints/background/updates";
+import { ttCache } from "@/utils/common/data/cache";
+import { type FetchLocation, type FetchOptions, fetchData } from "@/utils/common/functions/api";
 
 type Alarm = Browser.alarms.Alarm;
 
@@ -60,8 +60,8 @@ export class BackgroundService {
 		return browser.alarms.getAll();
 	}
 
-	clearCache(): ActionResponse {
-		ttCache.clear();
+	async clearCache(): Promise<ActionResponse> {
+		await ttCache.clear();
 		return { success: true };
 	}
 }

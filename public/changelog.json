@@ -10,7 +10,8 @@
 				{ "message": "Allow chat v3 text areas to be resized.", "contributor": "DeKleineKobini" },
 				{ "message": "Include an option to disable the outside link alert.", "contributor": "DeKleineKobini" },
 				{ "message": "Show supply pack total value when opening them through 'Quick Items'.", "contributor": "DeKleineKobini" },
-				{ "message": "Show ranked war reward value per faction", "contributor": "DeKleineKobini" },
+				{ "message": "Show ranked war reward value per faction.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow needle boosters as quick items.", "contributor": "DeKleineKobini" },
 				{ "message": "Hide threads from your different forum feeds.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
@@ -21,7 +22,10 @@
 				{ "message": "Resolve incompatibility between 'Stock Filer' and 'Hide Stocks'.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix Stats Estimates not showing on the HOF page.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix popup icons scrolling being available unnecessarily.", "contributor": "DeKleineKobini" },
-				{ "message": "Highlight blood bags in the faction armory again.", "contributor": "DeKleineKobini" }
+				{ "message": "Highlight blood bags in the faction armory again.", "contributor": "DeKleineKobini" },
+				{ "message": "Hide completed education courses again.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix stats estimate styling on the enemies page.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix temporary items no working in quick items anymore.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },

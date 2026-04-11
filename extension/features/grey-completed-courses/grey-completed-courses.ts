@@ -7,6 +7,7 @@ import { findAllElements } from "@/utils/common/functions/dom";
 
 async function greyOut() {
 	await requireElement("#education-root [class*='categoryItem__']");
+	await requireElement("#education-root [class*='categoryItem__'] .react-loading-skeleton", { invert: true });
 
 	for (const category of findAllElements("#education-root [class*='categoryItem__']")) {
 		if (category.querySelector("[class*='progressCounter__'] [class*='checkIconContainer__']")) category.classList.add("tt-grey");
