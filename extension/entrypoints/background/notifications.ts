@@ -184,6 +184,11 @@ export async function notifyUser(title: string, message: string, url?: string) {
 		if (typeof SpeechSynthesisUtterance !== "undefined") {
 			const ttsMessage = new SpeechSynthesisUtterance(text);
 			ttsMessage.volume = settings.notifications.volume / 100;
+			if (settings.notifications.ttsVoice !== "default") {
+				const matchedVoice = window.speechSynthesis.getVoices().find(({ name, lang }) => `${name} (${lang})` === settings.notifications.ttsVoice);
+
+				if (matchedVoice) ttsMessage.voice = matchedVoice;
+			}
 			window.speechSynthesis.speak(ttsMessage);
 		} else {
 			// Offscreen documents
@@ -193,6 +198,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 				offscreen: "tts",
 				text: text,
 				volume: settings.notifications.volume / 100,
+				voice: settings.notifications.ttsVoice,
 			} satisfies OffscreenMessage);
 		}
 	}

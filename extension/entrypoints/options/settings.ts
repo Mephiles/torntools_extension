@@ -602,6 +602,29 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		});
 	});
 
+	const allVoices: { id: string; name: string; language: string }[] = [
+		{ id: "default", name: "System Default", language: "" },
+		...window.speechSynthesis.getVoices().map((voice) => ({
+			id: `${voice.name} (${voice.lang})`,
+			name: voice.name,
+			language: voice.lang,
+		})),
+	];
+
+	_preferences.querySelector("#notification-tts").parentElement.appendChild(
+		elementBuilder({
+			type: "select",
+			id: "tts-voice",
+			children: allVoices.map(({ id, name, language }) =>
+				elementBuilder({
+					type: "option",
+					text: language ? `${name} (${language})` : name,
+					attributes: { value: id },
+				}),
+			),
+		}),
+	);
+
 	fillSettings();
 	requestPermissions();
 	storageListeners.settings.push(updateSettings);
@@ -1193,6 +1216,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			.filter(({ level, minutes }) => level !== "" || minutes !== "");
 
 		settings.notifications.tts = _preferences.querySelector<HTMLInputElement>("#notification-tts").checked;
+		settings.notifications.ttsVoice = _preferences.querySelector<HTMLInputElement>("#tts-voice").value;
 		settings.notifications.link = _preferences.querySelector<HTMLInputElement>("#notification-link").checked;
 		settings.notifications.requireInteraction = _preferences.querySelector<HTMLInputElement>("#notification-requireInteraction").checked;
 		settings.notifications.volume = parseInt(_preferences.querySelector<HTMLInputElement>("#notification-volume").value);

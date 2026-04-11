@@ -15,11 +15,17 @@ function playAudio({ src, volume }: PlayAudioOptions) {
 interface PlayTTSOptions {
 	text: string;
 	volume: number;
+	voice: string;
 }
 
-function playTTS({ text, volume }: PlayTTSOptions) {
+function playTTS({ text, volume, voice }: PlayTTSOptions) {
 	const ttsMessage = new SpeechSynthesisUtterance(text);
 	ttsMessage.volume = volume;
+	if (voice !== "default") {
+		const matchedVoice = window.speechSynthesis.getVoices().find(({ name, lang }) => `${name} (${lang})` === voice);
+
+		if (matchedVoice) ttsMessage.voice = matchedVoice;
+	}
 	window.speechSynthesis.speak(ttsMessage);
 }
 
