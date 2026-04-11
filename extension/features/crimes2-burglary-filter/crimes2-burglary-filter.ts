@@ -1,15 +1,15 @@
 import "./crimes2-burglary-filter.css";
 import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { filters, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { convertToNumber } from "@/utils/common/functions/formatting";
-import { ttStorage } from "@/utils/common/data/storage";
-import { requireElement } from "@/utils/common/functions/requires";
 import { CRIMES2 } from "@/pages/crimes2-page";
+import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 let CRIMES2_ROWS_START_Y = 64;
 

@@ -1,13 +1,13 @@
 import { settings } from "@/utils/common/data/database";
 import "./show-faction-spy.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
-import { requireElement } from "@/utils/common/functions/requires";
-import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { ttCache } from "@/utils/common/data/cache";
-import type { TornstatsFactionSpyResponse, YATASpyResponse } from "@/utils/common/functions/api.types";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { TornstatsFactionSpyResponse, YATASpyResponse } from "@/utils/common/functions/api.types";
+import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
+import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 function registerListeners() {

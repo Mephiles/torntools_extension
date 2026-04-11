@@ -1,9 +1,9 @@
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, isTextNode } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
 import { StatsEstimate } from "./stats-estimate";
 
 const statsEstimate = new StatsEstimate("Profile", false);

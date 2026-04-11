@@ -1,15 +1,15 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings, torndata } from "@/utils/common/data/database";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { ttStorage } from "@/utils/common/data/storage";
 import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
-import { ARMOR_SETS, ITEM_TYPES } from "@/utils/common/functions/torn";
 import { convertToNumber } from "@/utils/common/functions/formatting";
-import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { ARMOR_SETS, ITEM_TYPES } from "@/utils/common/functions/torn";
 
 let localFilters: any = {};
 

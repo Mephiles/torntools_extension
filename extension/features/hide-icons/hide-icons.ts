@@ -2,8 +2,8 @@ import "./hide-icons.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { findAllElements } from "@/utils/common/functions/dom";
-import { ALL_ICONS } from "@/utils/common/functions/torn";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { ALL_ICONS } from "@/utils/common/functions/torn";
 
 let observer: MutationObserver;
 

@@ -1,11 +1,11 @@
 import "./highlight-cheap-items.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
 interface ItemEntry {

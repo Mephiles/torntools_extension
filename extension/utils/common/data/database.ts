@@ -1,10 +1,10 @@
-import { type DatabaseCache, ttCache } from "@/utils/common/data/cache";
-import { type DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
-import { ttStorage } from "@/utils/common/data/storage";
-import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@/utils/common/data/default-database";
-import { sleep, toNumericVersion } from "@/utils/common/functions/utilities";
-import { executeMigrationScripts } from "@/utils/common/data/migrations";
 import { browser } from "wxt/browser";
+import { type DatabaseCache, ttCache } from "@/utils/common/data/cache";
+import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@/utils/common/data/default-database";
+import { executeMigrationScripts } from "@/utils/common/data/migrations";
+import { ttStorage } from "@/utils/common/data/storage";
+import { type DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
+import { sleep } from "@/utils/common/functions/utilities";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
 export type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;

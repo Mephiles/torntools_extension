@@ -1,5 +1,5 @@
-import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { getHashParameters } from "@/utils/common/functions/dom";
+import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 
 export function setupTradePage() {
 	addXHRListener(({ detail: { page, xhr } }) => {

@@ -1,13 +1,13 @@
 import "./stocks-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics, type SpecialFilterValue } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings, stockdata, userdata } from "@/utils/common/data/database";
-import { createCheckboxDuo } from "@/utils/common/elements/checkbox-duo/checkbox-duo";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createCheckboxDuo } from "@/utils/common/elements/checkbox-duo/checkbox-duo";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, type SpecialFilterValue } from "@/utils/common/functions/filters";
+import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
 
 async function initialiseFilters() {

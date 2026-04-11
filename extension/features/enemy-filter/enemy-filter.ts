@@ -1,16 +1,16 @@
 import "./enemy-filter.css";
 import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
-import { ttStorage } from "@/utils/common/data/storage";
-import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
 
 let filterSetupComplete: boolean = false;
 

@@ -1,19 +1,19 @@
 import "./quick-items.css";
 import { Feature } from "@/features/feature-manager";
-import { getItemEnergy, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
+import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@/features/opened-supply-pack-value/opened-supply-pack-value";
+import { isUseItem } from "@/pages/item-page";
 import { quick, settings, torndata } from "@/utils/common/data/database";
+import type { QuickItem } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { formatTime } from "@/utils/common/functions/formatting";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@/utils/common/functions/dom";
+import { formatTime } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireContent, requireItemsLoaded } from "@/utils/common/functions/requires";
-import type { QuickItem } from "@/utils/common/data/default-database";
+import { getItemEnergy, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
-import { ttStorage } from "@/utils/common/data/storage";
 import { PHPlus, PHX } from "@/utils/common/icons/phosphor-icons";
-import { isUseItem } from "@/pages/item-page";
-import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@/features/opened-supply-pack-value/opened-supply-pack-value";
 
 let movingElement: Element | undefined;
 let isEditing = false;

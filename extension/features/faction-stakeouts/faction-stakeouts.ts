@@ -1,15 +1,15 @@
 import "./faction-stakeouts.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { factionStakeouts, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {

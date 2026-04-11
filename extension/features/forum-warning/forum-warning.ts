@@ -1,8 +1,8 @@
 import "./forum-warning.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, TORNTOOLS_FORUM_POST } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { elementBuilder, getHashParameters } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, TORNTOOLS_FORUM_POST } from "@/utils/common/functions/torn";
 
 let observer: MutationObserver | null = null;
 

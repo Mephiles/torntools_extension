@@ -1,10 +1,10 @@
 import "./stacking-mode.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPage } from "@/utils/common/functions/torn";
-import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { requireElement } from "@/utils/common/functions/requires";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPage } from "@/utils/common/functions/torn";
 import { crossSvg } from "@/utils/common/icons/cross";
 
 let currentPage: string;

@@ -1,17 +1,17 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import "./travel-table.css";
-import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@/utils/common/functions/torn";
-import { filters, settings, torndata, userdata } from "@/utils/common/data/database";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@/utils/common/functions/dom";
-import { ttStorage } from "@/utils/common/data/storage";
-import type { PrometheusTravelResponse, YATATravelResponse } from "@/utils/common/functions/api.types";
 import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
+import { filters, settings, torndata, userdata } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { PrometheusTravelResponse, YATATravelResponse } from "@/utils/common/functions/api.types";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@/utils/common/functions/dom";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@/utils/common/functions/torn";
 import { toCorrectType } from "@/utils/common/functions/utilities";
-import { PHFillCaretDown, PHFillCaretRight, PHFillAirplane } from "@/utils/common/icons/phosphor-icons";
+import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@/utils/common/icons/phosphor-icons";
 
 interface CountryInformation {
 	name: string;

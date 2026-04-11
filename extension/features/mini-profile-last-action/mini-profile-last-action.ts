@@ -1,7 +1,7 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { addFetchListener } from "@/utils/common/functions/listeners";
 import { formatTime } from "@/utils/common/functions/formatting";
+import { addFetchListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 
 function initialiseMiniProfile() {

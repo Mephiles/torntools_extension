@@ -2,14 +2,14 @@ import "./achievements.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings, stockdata, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
+import type { TornV1Stock } from "@/utils/common/functions/api-v1.types";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText, mobile, tablet } from "@/utils/common/functions/dom";
-import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
 import { countTimers } from "@/utils/common/functions/timers";
-import type { TornV1Stock } from "@/utils/common/functions/api-v1.types";
 import { getPage } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 type Achievement = {
 	name: string;

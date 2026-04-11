@@ -1,3 +1,5 @@
+import { Chart, registerables } from "chart.js";
+import Sortable from "sortablejs";
 import {
 	api,
 	type DatabaseKey,
@@ -11,21 +13,19 @@ import {
 	torndata,
 	userdata,
 } from "@/utils/common/data/database";
-import { checkDevice, elementBuilder, findAllElements, getSearchParameters, rotateElement } from "@/utils/common/functions/dom";
-import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRESET, hasDarkMode, HIGHLIGHT_PLACEHOLDERS } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
-import { capitalizeText, daySuffix, dropDecimals, formatDate, formatNumber, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
-import { changeAPIKey, checkAPIPermission, FETCH_PLATFORMS, hasAPIData } from "@/utils/common/functions/api";
-import { getPageTheme, initializeInternalPage, type InternalPageTheme, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
-import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { ttUsage } from "@/utils/common/data/usage";
+import { changeAPIKey, checkAPIPermission, FETCH_PLATFORMS, hasAPIData } from "@/utils/common/functions/api";
 import { calculateRevivePrice, REVIVE_PROVIDERS } from "@/utils/common/functions/api-external-revives";
+import { checkDevice, elementBuilder, findAllElements, getSearchParameters, rotateElement } from "@/utils/common/functions/dom";
+import { capitalizeText, daySuffix, dropDecimals, formatDate, formatNumber, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
+import { getPageTheme, type InternalPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
+import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRESET, HIGHLIGHT_PLACEHOLDERS, hasDarkMode } from "@/utils/common/functions/torn";
+import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { CONTRIBUTORS, TEAM } from "@/utils/common/team";
-import { Chart, registerables } from "chart.js";
-import Sortable from "sortablejs";
 import "@phosphor-icons/web/regular/style.css";
-import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 import { PHCaretDown, PHDotsSix, PHTrash } from "@/utils/common/icons/phosphor-icons";
+import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
 Chart.register(...registerables);
 

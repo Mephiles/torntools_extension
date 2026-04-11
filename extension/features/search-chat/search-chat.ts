@@ -1,7 +1,9 @@
 import "./search-chat.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireChatsLoaded } from "@/utils/common/functions/requires";
 import {
 	SELECTOR_CHAT_ROOT,
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
@@ -13,8 +15,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_CONTENT,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@/utils/common/global/selectors/chatSelectors";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireChatsLoaded } from "@/utils/common/functions/requires";
 
 function initialiseSearchChat() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {

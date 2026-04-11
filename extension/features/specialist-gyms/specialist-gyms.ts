@@ -1,14 +1,14 @@
 import "./specialist-gyms.css";
 import { Feature } from "@/features/feature-manager";
-import { toRecord } from "@/utils/common/functions/utilities";
-import { elementBuilder } from "@/utils/common/functions/dom";
-import { observeChain } from "@/utils/common/functions/requires";
-import { formatNumber } from "@/utils/common/functions/formatting";
-import { createSelect } from "@/utils/common/elements/select/select";
 import { filters, settings } from "@/utils/common/data/database";
-import { createContainer } from "@/utils/common/functions/containers";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createSelect } from "@/utils/common/elements/select/select";
+import { createContainer } from "@/utils/common/functions/containers";
+import { elementBuilder } from "@/utils/common/functions/dom";
+import { formatNumber } from "@/utils/common/functions/formatting";
+import { observeChain } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
+import { toRecord } from "@/utils/common/functions/utilities";
 
 const NONE = "none";
 type NONE = typeof NONE;

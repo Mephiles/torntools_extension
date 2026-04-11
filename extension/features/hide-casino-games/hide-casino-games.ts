@@ -1,8 +1,8 @@
-import styles from "./hide-casino-games.module.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import styles from "./hide-casino-games.module.css";
 
 function hideCasinoGames() {
 	const msg = document.querySelector(".msg.right-round");

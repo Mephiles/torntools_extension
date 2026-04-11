@@ -1,16 +1,16 @@
 import "./city-items.css";
-import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { filters, settings, torndata } from "@/utils/common/data/database";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
-import { ttStorage } from "@/utils/common/data/storage";
-import { formatNumber } from "@/utils/common/functions/formatting";
-import { TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import type { TornItem } from "tornapi-typescript";
+import { Feature } from "@/features/feature-manager";
+import { filters, settings, torndata } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import { TORN_ITEMS } from "@/utils/common/functions/torn-items";
 
 interface CityItem {
 	id: string;

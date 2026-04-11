@@ -1,12 +1,12 @@
 import "./live-networth.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { settings, userdata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { requireContent } from "@/utils/common/functions/requires";
 import { elementBuilder, findElementWithText } from "@/utils/common/functions/dom";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { requireContent } from "@/utils/common/functions/requires";
+import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
 
 async function showNetworth() {
 	await requireContent();

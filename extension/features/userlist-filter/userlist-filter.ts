@@ -1,15 +1,15 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, HOSPITALIZATION_REASONS, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
-import { filters, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { requireCondition, requireElement } from "@/utils/common/functions/requires";
-import { createFilterSection, createStatistics, getSpecialIcons, type SpecialFilterValue } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { ttStorage } from "@/utils/common/data/storage";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
+import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createTextbox } from "@/utils/common/elements/textbox/textbox";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, getSpecialIcons, type SpecialFilterValue } from "@/utils/common/functions/filters";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireCondition, requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, HOSPITALIZATION_REASONS, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(async () => {

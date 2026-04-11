@@ -1,11 +1,11 @@
 import "./employee-effectiveness.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { settings } from "@/utils/common/data/database";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isOwnCompany } from "@/pages/company-page";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { settings } from "@/utils/common/data/database";
 import { findAllElements, getHashParameters } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 let observer: MutationObserver | undefined;
 

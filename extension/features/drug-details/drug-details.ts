@@ -1,12 +1,12 @@
 import "./drug-details.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { DRUG_INFORMATION, type DrugDetail, getPage, getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { extractArmorySubcategory, isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { DRUG_INFORMATION, type DrugDetail, getPage, getPageStatus } from "@/utils/common/functions/torn";
 
 interface DrugDetailsOptions {
 	react: boolean | (() => boolean);

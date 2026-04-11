@@ -1,12 +1,12 @@
 import "./gym-steadfast.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 interface SteadfastBonus {
 	source: "faction" | "company" | "property" | "education" | "book";

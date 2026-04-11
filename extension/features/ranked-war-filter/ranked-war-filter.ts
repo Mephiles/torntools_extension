@@ -1,15 +1,15 @@
 import { filters, settings } from "@/utils/common/data/database";
 import "./ranked-war-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
-import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 import { ttStorage } from "@/utils/common/data/storage";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
+import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
 
 function initialiseFilters() {
 	document.addEventListener("click", async (event) => {

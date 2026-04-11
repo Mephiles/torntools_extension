@@ -1,13 +1,13 @@
+import type { UserCompany } from "tornapi-typescript";
 import { Feature } from "@/features/feature-manager";
+import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { ttCache } from "@/utils/common/data/cache";
-import { getTimeUntilNextJobUpdate } from "@/utils/common/functions/utilities";
-import type { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
-import type { UserCompany } from "tornapi-typescript";
 import { LINKS } from "@/utils/common/functions/torn";
+import { getTimeUntilNextJobUpdate } from "@/utils/common/functions/utilities";
 
 async function showCompanyAddictionLevel() {
 	await requireSidebar();

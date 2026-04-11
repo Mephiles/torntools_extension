@@ -1,9 +1,9 @@
 import "./high-low-helper.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { capitalizeText } from "@/utils/common/functions/formatting";
+import { addXHRListener } from "@/utils/common/functions/listeners";
 
 interface CardDeck {
 	hearts: number[];

@@ -1,9 +1,9 @@
-import { settings } from "@/utils/common/data/database";
 import { Feature } from "@/features/feature-manager";
-import { elementBuilder, findAllElements, findParent, hasSidebar, mobile } from "@/utils/common/functions/dom";
-import { ALL_AREAS, getSidebarArea } from "@/utils/common/functions/torn";
+import { settings } from "@/utils/common/data/database";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements, findParent, hasSidebar, mobile } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { ALL_AREAS, getSidebarArea } from "@/utils/common/functions/torn";
 import "./custom-links.css";
 
 async function showLinks() {

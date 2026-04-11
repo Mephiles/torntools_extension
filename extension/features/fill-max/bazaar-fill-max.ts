@@ -1,9 +1,9 @@
-import styles from "./fill-max.module.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import styles from "./fill-max.module.css";
 
 let reactObserver: MutationObserver | undefined;
 

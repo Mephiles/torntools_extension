@@ -1,11 +1,11 @@
 import { factiondata, loadDatabase, localdata, npcs, settings, storageListeners, userdata, version } from "@/utils/common/data/database";
-import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@/utils/common/functions/requires";
 import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@/utils/common/functions/utilities";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@/utils/common/functions/requires";
+import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@/utils/common/functions/utilities";
 import "./feature-manager.css";
-import { SOURCE_SERVICE } from "@/utils/services/proxy-services";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@/utils/common/icons/phosphor-icons";
+import { SOURCE_SERVICE } from "@/utils/services/proxy-services";
 
 type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
 

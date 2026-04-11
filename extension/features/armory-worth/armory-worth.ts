@@ -1,11 +1,9 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import "./armory-worth.css";
-import { fetchData, hasFactionAPIAccess } from "@/utils/common/functions/api";
-import { settings, torndata, userdata } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
+import { isInternalFaction } from "@/pages/factions-page";
 import { ttCache } from "@/utils/common/data/cache";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { settings, torndata, userdata } from "@/utils/common/data/database";
+import { fetchData, hasFactionAPIAccess } from "@/utils/common/functions/api";
 import type {
 	FactionV1ArmorResponse,
 	FactionV1BoostersResponse,
@@ -16,9 +14,11 @@ import type {
 	FactionV1TemporaryResponse,
 	FactionV1WeaponsResponse,
 } from "@/utils/common/functions/api-v1.types";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { isInternalFaction } from "@/pages/factions-page";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionV1ArmorResponse &

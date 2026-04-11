@@ -1,7 +1,7 @@
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { addFetchListener } from "@/utils/common/functions/listeners";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function init() {
 	addFetchListener((event) => {

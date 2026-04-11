@@ -1,7 +1,7 @@
 import { registerService } from "@webext-core/proxy-service";
 import type { Browser } from "wxt/browser";
 import { notificationRelations, sendNotifications } from "@/entrypoints/background/notifications";
-import showIconBars, { timedUpdates } from "@/entrypoints/background/updates";
+import { showIconBars, timedUpdates } from "@/entrypoints/background/updates";
 import { ttCache } from "@/utils/common/data/cache";
 import {
 	type Database,
@@ -13,17 +13,12 @@ import {
 	version,
 	type Writable,
 } from "@/utils/common/data/database";
-import { ttCache } from "@/utils/common/data/cache";
-import { ttUsage } from "@/utils/common/data/usage";
 import { ttStorage } from "@/utils/common/data/storage";
-import { showIconBars, timedUpdates } from "@/entrypoints/background/updates";
-import { notificationRelations, sendNotifications } from "@/entrypoints/background/notifications";
-import type { Browser } from "wxt/browser";
-import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/utils/services/proxy-service-keys";
-import { registerService } from "@webext-core/proxy-service";
-import { SourceService } from "@/utils/services/SourceService";
-import { BackgroundService } from "@/utils/services/BackgroundService";
+import { ttUsage } from "@/utils/common/data/usage";
 import { exposeDebugObjects } from "@/utils/common/functions/pages-debug";
+import { BackgroundService } from "@/utils/services/BackgroundService";
+import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/utils/services/proxy-service-keys";
+import { SourceService } from "@/utils/services/SourceService";
 
 type Alarm = Browser.alarms.Alarm;
 

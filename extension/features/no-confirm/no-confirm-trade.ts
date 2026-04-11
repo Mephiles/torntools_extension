@@ -1,7 +1,7 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ active }) => {

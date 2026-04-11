@@ -1,9 +1,9 @@
-import styles from "./hide-stocks.module.css";
 import { Feature } from "@/features/feature-manager";
-import { createMessageBox, getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { findAllElements } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { createMessageBox, getPageStatus } from "@/utils/common/functions/torn";
+import styles from "./hide-stocks.module.css";
 
 async function hideStocks() {
 	await requireElement("#stockmarketroot [class*='stock___'][id]");

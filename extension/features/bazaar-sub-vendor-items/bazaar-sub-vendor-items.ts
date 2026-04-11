@@ -1,10 +1,10 @@
 import "./bazaar-sub-vendor-items.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings, torndata } from "@/utils/common/data/database";
-import { findAllElements } from "@/utils/common/functions/dom";
-import { requireContent } from "@/utils/common/functions/requires";
-import { convertToNumber } from "@/utils/common/functions/formatting";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { findAllElements } from "@/utils/common/functions/dom";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { requireContent } from "@/utils/common/functions/requires";
 
 const CLASS_NAME = "tt-sub-vendor-highlight";
 let observer: MutationObserver | undefined;

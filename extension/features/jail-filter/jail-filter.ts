@@ -1,17 +1,17 @@
 import "./jail-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, quick, settings, userdata } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { createTextbox } from "@/utils/common/elements/textbox/textbox";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { ttStorage } from "@/utils/common/data/storage";
-import { requireElement } from "@/utils/common/functions/requires";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@/utils/common/functions/filters";
-import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { PHArrowClockwise } from "@/utils/common/icons/phosphor-icons";
 
 function initialiseFilters() {

@@ -1,10 +1,10 @@
 import "./can-energy.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus, isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 
 function initialiseAddEGains() {
 	const listener = () => {

@@ -1,9 +1,9 @@
 import "./easter-eggs.css";
 import { Feature } from "@/features/feature-manager";
-import { isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 
 const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
 

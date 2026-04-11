@@ -1,7 +1,7 @@
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { toClipboard } from "@/utils/common/functions/utilities";
 
 async function addID() {

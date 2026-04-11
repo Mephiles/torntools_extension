@@ -1,10 +1,10 @@
-import { getPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
-import { attackHistory, initializeDatabase, loadDatabase, stakeouts, storageListeners } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements, getSearchParameters, sortTable } from "@/utils/common/functions/dom";
-import { ttStorage } from "@/utils/common/data/storage";
-import type { AttackHistory, StakeoutData, StoredStakeouts } from "@/utils/common/data/default-database";
 import Sortable from "sortablejs";
+import { attackHistory, initializeDatabase, loadDatabase, stakeouts, storageListeners } from "@/utils/common/data/database";
+import type { AttackHistory, StakeoutData, StoredStakeouts } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { elementBuilder, findAllElements, getSearchParameters, sortTable } from "@/utils/common/functions/dom";
 import { formatDate, formatTime } from "@/utils/common/functions/formatting";
+import { getPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
 import { PHTrash } from "@/utils/common/icons/phosphor-icons";
 
 const initiatedPages = {};

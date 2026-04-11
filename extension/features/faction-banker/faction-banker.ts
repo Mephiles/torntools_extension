@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { formatNumber } from "@/utils/common/functions/formatting";
-import { requireElement } from "@/utils/common/functions/requires";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
+import { settings } from "@/utils/common/data/database";
+import { formatNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 let originalText: string | undefined;
 

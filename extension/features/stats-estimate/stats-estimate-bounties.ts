@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements, getHashParameters } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { StatsEstimate } from "./stats-estimate";
 
 const statsEstimate = new StatsEstimate("Bounties", true);

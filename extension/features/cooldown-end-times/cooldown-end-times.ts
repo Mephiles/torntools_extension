@@ -1,8 +1,8 @@
 import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatDate, formatTime, textToTime } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 
 const REQUIRED_TOOLTIP_TITLES = [
 	"Education",

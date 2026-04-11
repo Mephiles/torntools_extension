@@ -201,7 +201,7 @@ export function createTable<T>(
 		stretchColumns: false,
 		...options,
 	};
-	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION } ;
+	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION };
 	let tableRows = _createTableRows(tableRowsData);
 
 	const tableHeaders = tableColumnsDefs.map((columnDef) => {

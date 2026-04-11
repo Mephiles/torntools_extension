@@ -1,15 +1,15 @@
-import type { DatabaseCache } from "@/utils/common/data/cache";
-import type { DatabaseUsage } from "@/utils/common/data/usage";
-import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
 import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
+import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
+import type { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
+import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
+import type { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
+import type { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
+import type { DatabaseCache } from "@/utils/common/data/cache";
+import type { StoredMigration } from "@/utils/common/data/migrations";
+import type { DatabaseUsage } from "@/utils/common/data/usage";
 import type { TornV1Stock } from "@/utils/common/functions/api-v1.types";
 import type { SpecialFilterValue } from "@/utils/common/functions/filters";
-import type { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
 import type { InternalPageTheme } from "@/utils/common/functions/pages";
-import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
-import type { StoredMigration } from "@/utils/common/data/migrations";
-import type { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
-import type { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 

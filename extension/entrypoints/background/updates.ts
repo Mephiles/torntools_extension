@@ -1,38 +1,3 @@
-import {
-	api,
-	attackHistory,
-	type DatabaseUserdata,
-	factiondata,
-	factionStakeouts,
-	loadDatabase,
-	notifications,
-	npcs,
-	setFactiondata,
-	setFactionStakeouts,
-	settings,
-	setTorndata,
-	setUserdata,
-	stakeouts,
-	stockdata,
-	torndata,
-	userdata,
-} from "@/utils/common/data/database";
-import { ttStorage } from "@/utils/common/data/storage";
-import { getUTCTodayAtTime, hasTimePassed, isSameUTCDay, TO_MILLIS } from "@/utils/common/functions/utilities";
-import type {
-	StoredFactiondata,
-	StoredFactiondataBasic,
-	StoredFactiondataNoAccess,
-	StoredNpc,
-	StoredNpcs,
-	StoredTorndata,
-} from "@/utils/common/data/default-database";
-import { CUSTOM_API_ERROR, FACTION_ACCESS, fetchData, hasAPIData, hasFactionAPIAccess } from "@/utils/common/functions/api";
-import { getHospitalizationReason, getNextChainBonus, hasFinishedEducation, LINKS, MAX_MISSIONS } from "@/utils/common/functions/torn";
-import { newNotification, notifyUser, storeNotification } from "./notifications";
-import { applyPlural, capitalizeText, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
-import { setBadge } from "@/utils/common/functions/extension";
-import { ttCache } from "@/utils/common/data/cache";
 import type {
 	AttacksResponse,
 	FactionBasicResponse,
@@ -73,6 +38,36 @@ import type {
 	UserWeaponExpResponse,
 	UserWorkStatsResponse,
 } from "tornapi-typescript";
+import { ttCache } from "@/utils/common/data/cache";
+import {
+	api,
+	attackHistory,
+	type DatabaseUserdata,
+	factiondata,
+	factionStakeouts,
+	loadDatabase,
+	notifications,
+	npcs,
+	setFactiondata,
+	setFactionStakeouts,
+	setTorndata,
+	settings,
+	setUserdata,
+	stakeouts,
+	stockdata,
+	torndata,
+	userdata,
+} from "@/utils/common/data/database";
+import type {
+	StoredFactiondata,
+	StoredFactiondataBasic,
+	StoredFactiondataNoAccess,
+	StoredNpc,
+	StoredNpcs,
+	StoredTorndata,
+} from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { CUSTOM_API_ERROR, FACTION_ACCESS, fetchData, hasAPIData, hasFactionAPIAccess } from "@/utils/common/functions/api";
 import type { LootRangersLoot, TornstatsLoot, YATALoot } from "@/utils/common/functions/api.types";
 import type {
 	FactionV1Crimes,
@@ -86,6 +81,11 @@ import type {
 	UserV1NetworthResponse,
 	UserV1PerksResponse,
 } from "@/utils/common/functions/api-v1.types";
+import { setBadge } from "@/utils/common/functions/extension";
+import { applyPlural, capitalizeText, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { getHospitalizationReason, getNextChainBonus, hasFinishedEducation, LINKS, MAX_MISSIONS } from "@/utils/common/functions/torn";
+import { getUTCTodayAtTime, hasTimePassed, isSameUTCDay, TO_MILLIS } from "@/utils/common/functions/utilities";
+import { newNotification, notifyUser, storeNotification } from "./notifications";
 
 export function timedUpdates() {
 	const updatePromises: Promise<unknown>[] = [];
@@ -925,7 +925,7 @@ export async function updateUserdata(forceUpdate = false) {
 	}
 }
 
-async function showIconBars() {
+export async function showIconBars() {
 	if (!settings.apiUsage.user.bars || !hasAPIData() || !settings.pages.icon.global) {
 		await browser.action.setIcon({ path: browser.runtime.getURL("/images/icon_128.png") });
 	} else {

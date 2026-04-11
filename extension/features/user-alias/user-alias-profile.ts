@@ -2,8 +2,8 @@ import "./user-alias.css";
 import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 
 async function addAlias() {
 	removeAlias();

@@ -1,6 +1,6 @@
+import { PHBoldCheckCircle, PHBoldInfo, PHBoldWarningCircle, PHBoldXCircle, PHX } from "@/utils/common/icons/phosphor-icons";
 import styles from "./alerts.module.css";
 import { elementBuilder } from "./dom";
-import { PHBoldCheckCircle, PHBoldInfo, PHBoldWarningCircle, PHX, PHBoldXCircle } from "@/utils/common/icons/phosphor-icons";
 
 interface AlertOptions {
 	title: string;

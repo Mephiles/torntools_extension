@@ -1,12 +1,12 @@
-import { contrastFFColor, ffColor, type ScouterResult, scouterService, type ScouterService } from "@/features/ff-scouter/ff-scouter";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { settings } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { contrastFFColor, ffColor, type ScouterResult, type ScouterService, scouterService } from "@/features/ff-scouter/ff-scouter";
 import { isInternalFaction } from "@/pages/factions-page";
+import { settings } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
 
 let SCOUTER_SERVICE: ScouterService;
 

@@ -1,12 +1,12 @@
-import styles from "./resizable-chat.module.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { localdata, settings } from "@/utils/common/data/database";
-import { findAllElements } from "@/utils/common/functions/dom";
-import { requireChatsLoaded, requireElement } from "@/utils/common/functions/requires";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { SELECTOR_CHAT_ROOT, SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@/utils/common/global/selectors/chatSelectors";
 import { ttStorage } from "@/utils/common/data/storage";
+import { findAllElements } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireChatsLoaded, requireElement } from "@/utils/common/functions/requires";
 import { isChatV3 } from "@/utils/common/functions/torn";
+import { SELECTOR_CHAT_ROOT, SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@/utils/common/global/selectors/chatSelectors";
+import styles from "./resizable-chat.module.css";
 
 const MAX_HEIGHT = 48;
 

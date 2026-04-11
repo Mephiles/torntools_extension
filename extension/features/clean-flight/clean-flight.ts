@@ -1,7 +1,7 @@
 import "./clean-flight.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isFlying } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
+import { getPageStatus, isFlying } from "@/utils/common/functions/torn";
 
 async function addCleanFlight() {
 	document.querySelector("#travel-root")?.classList.add("tt-clean-flight");

@@ -1,11 +1,11 @@
+import type { UserFactionResponse } from "tornapi-typescript";
+import { ttCache } from "@/utils/common/data/cache";
+import { userdata } from "@/utils/common/data/database";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements, getHashParameters, getSearchParameters, isElement } from "@/utils/common/functions/dom";
 import { addFetchListener, addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@/utils/common/functions/requires";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
-import { ttCache } from "@/utils/common/data/cache";
-import { userdata } from "@/utils/common/data/database";
-import type { UserFactionResponse } from "tornapi-typescript";
 
 export const isInternalFaction = getSearchParameters().get("step") === "your";
 

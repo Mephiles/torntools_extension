@@ -1,10 +1,10 @@
 import "./weapon-bonus-information.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { PHFillInfo } from "@/utils/common/icons/phosphor-icons";
 
 interface Bonus {

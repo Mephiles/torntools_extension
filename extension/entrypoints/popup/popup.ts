@@ -1,3 +1,5 @@
+import type { MarketItemMarketResponse, TornItem, UserStock } from "tornapi-typescript";
+import { ttCache } from "@/utils/common/data/cache";
 import {
 	api,
 	factionStakeouts,
@@ -12,9 +14,14 @@ import {
 	torndata,
 	userdata,
 } from "@/utils/common/data/database";
+import type { TTNotification } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/functions/api";
+import type { TornW3BResult } from "@/utils/common/functions/api.types";
+import type { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, findAllElements, isHTMLElement, rotateElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
-import { isToday, sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
-import { PHCaretDown, PHFillBell, PHFillBellSlash, PHFillCaretDown, PHFillCaretRight, PHTrash } from "@/utils/common/icons/phosphor-icons";
+import { applyPlural, capitalizeText, dropDecimals, formatDate, formatNumber, formatTime, textToTime, toSeconds } from "@/utils/common/functions/formatting";
+import { getPageTheme } from "@/utils/common/functions/pages";
 import {
 	ALL_ICONS,
 	getNextChainBonus,
@@ -26,15 +33,8 @@ import {
 	isDividendStock,
 	isSellable,
 } from "@/utils/common/functions/torn";
-import { ttStorage } from "@/utils/common/data/storage";
-import { applyPlural, capitalizeText, dropDecimals, formatDate, formatNumber, formatTime, textToTime, toSeconds } from "@/utils/common/functions/formatting";
-import type { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
-import type { TornW3BResult } from "@/utils/common/functions/api.types";
-import type { MarketItemMarketResponse, TornItem, UserStock } from "tornapi-typescript";
-import { ttCache } from "@/utils/common/data/cache";
-import type { TTNotification } from "@/utils/common/data/default-database";
-import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/functions/api";
-import { getPageTheme } from "@/utils/common/functions/pages";
+import { isToday, sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
+import { PHCaretDown, PHFillBell, PHFillBellSlash, PHFillCaretDown, PHFillCaretRight, PHTrash } from "@/utils/common/icons/phosphor-icons";
 
 const SETUP_PAGES = {
 	initialize: setupInitialize,

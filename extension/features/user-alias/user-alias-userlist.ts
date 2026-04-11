@@ -1,12 +1,12 @@
 import "./user-alias.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPage } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { isInternalFaction } from "@/pages/factions-page";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPage } from "@/utils/common/functions/torn";
 
 const SCOPES_LIST = {
 	factions: "faction",

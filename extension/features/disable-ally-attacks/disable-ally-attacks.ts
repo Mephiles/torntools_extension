@@ -1,11 +1,11 @@
 import "./disable-ally-attacks.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
 import { isIntNumber } from "@/utils/common/functions/utilities";
 import { crossSvg } from "@/utils/common/icons/cross";
 

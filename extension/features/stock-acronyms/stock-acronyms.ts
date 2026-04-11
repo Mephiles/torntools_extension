@@ -1,9 +1,9 @@
 import "./stock-acronyms.css";
 import { Feature } from "@/features/feature-manager";
-import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, stockdata } from "@/utils/common/data/database";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 async function addAcronyms() {
 	await requireElement("[class*='stockMarket__'] ul[class*='stock__'] [class*='nameContainer__']");

@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { addXHRListener } from "@/utils/common/functions/listeners";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { addXHRListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseListener() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {

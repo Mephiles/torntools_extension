@@ -1,14 +1,14 @@
 import "./faction-member-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { filters, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { createFilterSection, createStatistics, FILTER_REGEXES, getSpecialIcons } from "@/utils/common/functions/filters";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
-import { ttStorage } from "@/utils/common/data/storage";
-import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 
 let filterContent: Element, lastActionState: boolean;
 let localFilters = {};

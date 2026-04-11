@@ -1,10 +1,10 @@
 import "./landing-time.css";
 import { Feature } from "@/features/feature-manager";
-import { isFlying } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { textToTime, formatTime } from "@/utils/common/functions/formatting";
+import { formatTime, textToTime } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { isFlying } from "@/utils/common/functions/torn";
 
 async function showTime() {
 	const destinationTitle = await requireElement("#travel-root [class*='progressTextLineBreaker___']");

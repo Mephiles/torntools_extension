@@ -1,10 +1,10 @@
 import "./points-value.css";
 import { Feature } from "@/features/feature-manager";
-import { checkDevice, executeScript, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { settings, torndata } from "@/utils/common/data/database";
-import { requireSidebar } from "@/utils/common/functions/requires";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { checkDevice, executeScript, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
+import { requireSidebar } from "@/utils/common/functions/requires";
 
 function setTitleAttributes() {
 	findAllElements(".tt-points-value > span").forEach((element) => {

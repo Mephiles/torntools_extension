@@ -1,13 +1,13 @@
-import { Feature } from "@/features/feature-manager";
-import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
-import { hasAPIData, hasOC2Data } from "@/utils/common/functions/api";
-import { factiondata, settings, userdata } from "@/utils/common/data/database";
-import { requireSidebar } from "@/utils/common/functions/requires";
-import { formatTime, type FormatTimeOptions } from "@/utils/common/functions/formatting";
 import type { FetchedFactiondataBasic } from "@/entrypoints/background/updates";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { Feature } from "@/features/feature-manager";
+import { factiondata, settings, userdata } from "@/utils/common/data/database";
+import { hasAPIData, hasOC2Data } from "@/utils/common/functions/api";
+import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
+import { type FormatTimeOptions, formatTime } from "@/utils/common/functions/formatting";
+import { requireSidebar } from "@/utils/common/functions/requires";
 import { countdownTimers } from "@/utils/common/functions/timers";
 import { LINKS } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 async function showTimer() {
 	if (factiondata.access === "none") return;

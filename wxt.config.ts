@@ -1,5 +1,5 @@
-import { defineConfig, type UserManifest } from "wxt";
 import { resolve } from "node:path";
+import { defineConfig, type UserManifest } from "wxt";
 
 // See https://wxt.dev/api/config.html
 // noinspection JSUnusedGlobalSymbols

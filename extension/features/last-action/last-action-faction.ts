@@ -1,16 +1,16 @@
 import "./last-action.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import type { FactionMember, FactionMembersResponse } from "tornapi-typescript";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
+import { ttCache } from "@/utils/common/data/cache";
 import { settings } from "@/utils/common/data/database";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import type { FactionMember, FactionMembersResponse } from "tornapi-typescript";
-import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { dropDecimals } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { getUsername } from "@/utils/common/functions/torn";
-import { dropDecimals } from "@/utils/common/functions/formatting";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { ttCache } from "@/utils/common/data/cache";
 
 let _members: FactionMember[] | undefined;
 

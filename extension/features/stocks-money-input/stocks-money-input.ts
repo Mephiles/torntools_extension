@@ -1,9 +1,9 @@
 import "./stocks-money-input.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, updateReactInput } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements, isHTMLElement } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, updateReactInput } from "@/utils/common/functions/torn";
 
 async function addMoneyInputs(e: { target: EventTarget }) {
 	if (!isHTMLElement(e.target)) return;

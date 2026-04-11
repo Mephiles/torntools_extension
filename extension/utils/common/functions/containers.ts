@@ -1,8 +1,8 @@
 import "./containers.css";
-import { camelCase } from "@/utils/common/functions/formatting";
-import { elementBuilder } from "@/utils/common/functions/dom";
 import { filters } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
+import { elementBuilder } from "@/utils/common/functions/dom";
+import { camelCase } from "@/utils/common/functions/formatting";
 import { PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
 type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | { defaultPosition: true };

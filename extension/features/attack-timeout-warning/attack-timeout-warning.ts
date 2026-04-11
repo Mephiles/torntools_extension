@@ -1,8 +1,8 @@
 import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
+import { textToTime } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { textToTime } from "@/utils/common/functions/formatting";
 import { isTabFocused, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 

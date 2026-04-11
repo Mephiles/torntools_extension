@@ -1,10 +1,10 @@
 import "./creators.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { TEAM } from "@/utils/common/team";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { torntools } from "@/utils/common/icons/torntools";
+import { TEAM } from "@/utils/common/team";
 
 async function showCreators() {
 	const id = parseInt(

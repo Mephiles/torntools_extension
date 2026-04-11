@@ -1,12 +1,12 @@
 import "./travel-cooldowns.css";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile, tabletVertical } from "@/utils/common/functions/dom";
+import { textToTime } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { textToTime } from "@/utils/common/functions/formatting";
+import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	const handler = async () => {

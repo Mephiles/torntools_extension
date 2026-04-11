@@ -1,11 +1,11 @@
 import "./missing-sets.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, type SetItem, SETS } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus, SETS, type SetItem } from "@/utils/common/functions/torn";
 
 function initialiseFlowers() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(async ({ tab }) => {

@@ -1,9 +1,9 @@
 import "./weapon-experience.css";
 import { Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
-import { hasAPIData } from "@/utils/common/functions/api";
 
 const observers: MutationObserver[] = [];
 

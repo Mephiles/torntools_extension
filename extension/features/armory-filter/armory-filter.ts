@@ -1,16 +1,16 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { filters, settings, torndata } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
-import { type CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { convertToNumber } from "@/utils/common/functions/formatting";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
+import { type CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { ARMOR_SETS } from "@/utils/common/functions/torn";
-import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
-import { isInternalFaction } from "@/pages/factions-page";
 
 type ArmoryFilters = {
 	hideUnavailable: boolean;

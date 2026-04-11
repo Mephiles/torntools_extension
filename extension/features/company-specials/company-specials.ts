@@ -1,15 +1,15 @@
 import "./company-specials.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import type { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
 import { FETCH_PLATFORMS, fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
-import { ttCache } from "@/utils/common/data/cache";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import type { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
 
 const data: Record<number, any> = {};
 

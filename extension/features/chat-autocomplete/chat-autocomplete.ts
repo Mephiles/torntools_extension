@@ -1,9 +1,9 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { checkDevice, findAllElements } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireChatsLoaded, requireElement } from "@/utils/common/functions/requires";
 import { REACT_UPDATE_VERSIONS, updateReactInput } from "@/utils/common/functions/torn";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import {
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
 	SELECTOR_CHAT_V2__MESSAGE_BOX,

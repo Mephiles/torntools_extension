@@ -1,6 +1,6 @@
 import "./textbox.css";
-import { getUUID } from "@/utils/common/functions/utilities";
 import { elementBuilder } from "@/utils/common/functions/dom";
+import { getUUID } from "@/utils/common/functions/utilities";
 
 interface TextboxOptions {
 	description: string | { before?: string; after?: string } | null;

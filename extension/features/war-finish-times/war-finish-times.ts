@@ -1,11 +1,11 @@
 import "./war-finish-times.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { isInternalFaction } from "@/pages/factions-page";
+import { formatDate, formatTime, textToTime } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { formatDate, formatTime, textToTime } from "@/utils/common/functions/formatting";
 
 function startListeners() {
 	if (isInternalFaction) {

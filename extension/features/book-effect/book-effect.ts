@@ -1,9 +1,9 @@
 import "./book-effect.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { BOOK_DESCRIPTIONS, getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { BOOK_DESCRIPTIONS, getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseAddEffects() {
 	const listener = () => {

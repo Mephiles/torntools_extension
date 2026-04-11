@@ -1,10 +1,10 @@
 import "./market-icons.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isSellable } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireItemsLoaded } from "@/utils/common/functions/requires";
+import { getPageStatus, isSellable } from "@/utils/common/functions/torn";
 
 function initialiseMarketIcons() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(showMarketIcons);

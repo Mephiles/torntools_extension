@@ -1,11 +1,11 @@
 import "./display-case-worth.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { addXHRListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 import { createMessageBox } from "@/utils/common/functions/torn";
 
 function xhrListener() {

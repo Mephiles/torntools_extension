@@ -4,12 +4,7 @@ import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { getHashParameters, isElement } from "@/utils/common/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { getHashParameters } from "@/utils/common/functions/dom";
 import { isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { ttCache } from "@/utils/common/data/cache";
-import { userdata } from "@/utils/common/data/database";
 
 export const isOwnCompany = location.pathname === "/companies.php";
 

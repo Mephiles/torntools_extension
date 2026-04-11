@@ -1,23 +1,23 @@
 import "./profile-box.css";
-import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
-import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
-import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
-import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
-import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { ttCache } from "@/utils/common/data/cache";
-import { CUSTOM_API_ERROR, fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import Sortable from "sortablejs";
+import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
+import { Feature } from "@/features/feature-manager";
+import { ttCache } from "@/utils/common/data/cache";
+import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
+import type { StakeoutData } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createTable, stringCellRenderer } from "@/utils/common/elements/table/table";
-import type { TornstatsSpy, YATASpyResponse } from "@/utils/common/functions/api.types";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import type { StakeoutData } from "@/utils/common/data/default-database";
+import { CUSTOM_API_ERROR, fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { TornstatsSpy, YATASpyResponse } from "@/utils/common/functions/api.types";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
+import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { PHArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {

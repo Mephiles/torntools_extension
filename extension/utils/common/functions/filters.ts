@@ -1,15 +1,15 @@
 import "./filters.css";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { userdata } from "@/utils/common/data/database";
-import { camelCase } from "@/utils/common/functions/formatting";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createTextbox, type TextboxWithoutDescriptionFilter } from "@/utils/common/elements/textbox/textbox";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createCheckboxList } from "@/utils/common/elements/checkbox-list/checkbox-list";
 import { createMultiSelect, createSelect, type SelectOption } from "@/utils/common/elements/select/select";
-import { WEAPON_BONUSES } from "@/utils/common/functions/torn";
-import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 import { DualRangeSlider } from "@/utils/common/elements/slider/slider";
+import { createTextbox, type TextboxWithoutDescriptionFilter } from "@/utils/common/elements/textbox/textbox";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { camelCase } from "@/utils/common/functions/formatting";
+import { WEAPON_BONUSES } from "@/utils/common/functions/torn";
 
 export type SpecialFilterValue = "both" | "yes" | "no" | "none";
 

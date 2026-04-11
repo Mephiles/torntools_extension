@@ -1,9 +1,9 @@
 import { api, factiondata, settings, userdata } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { SCRIPT_TYPE, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { ttUsage } from "@/utils/common/data/usage";
-import { getRFC } from "@/utils/common/functions/torn";
 import { getBadgeText, setBadge } from "@/utils/common/functions/extension";
+import { getRFC } from "@/utils/common/functions/torn";
+import { SCRIPT_TYPE, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
 export const CUSTOM_API_ERROR = {
@@ -273,7 +273,7 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 			} else if (result.constructor.name === "TypeError") {
 				let error = result.message;
 				let isLocal = false;
-				let code: string | undefined ;
+				let code: string | undefined;
 
 				if (error === "Failed to fetch") {
 					isLocal = true;

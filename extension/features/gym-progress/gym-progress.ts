@@ -2,9 +2,9 @@ import "./gym-progress.css";
 import { Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { convertToNumber, dropDecimals, formatNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
-import { findAllElements, elementBuilder } from "@/utils/common/functions/dom";
-import { convertToNumber, formatNumber, dropDecimals } from "@/utils/common/functions/formatting";
 
 async function addProgress() {
 	const gymNotification = await requireElement("#gymroot [class*='notificationText__']");

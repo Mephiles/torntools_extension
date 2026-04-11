@@ -1,11 +1,11 @@
+import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { torndata, userdata } from "@/utils/common/data/database";
-import { elementBuilder, findElementWithText, findParent, getSearchParameters } from "./dom";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { requireCondition, requireElement } from "@/utils/common/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { convertToNumber, formatNumber } from "./formatting";
-import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { torntools } from "@/utils/common/icons/torntools";
+import { elementBuilder, findElementWithText, findParent, getSearchParameters } from "./dom";
+import { convertToNumber, formatNumber } from "./formatting";
 
 export const LINKS = {
 	auction: "https://www.torn.com/amarket.php",
@@ -1926,7 +1926,7 @@ export function getRewardValue(reward: string) {
 
 		if (item) value = item ? item.value.market_price : -1;
 		else {
-			let prices: number[] | undefined ;
+			let prices: number[] | undefined;
 
 			switch (rewardItem) {
 				case "Ammunition Pack":

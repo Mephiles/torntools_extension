@@ -1,8 +1,8 @@
 import "./blackjack-strategy.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder } from "@/utils/common/functions/dom";
+import { addXHRListener } from "@/utils/common/functions/listeners";
 
 const ACTIONS = {
 	H: "Hit",
