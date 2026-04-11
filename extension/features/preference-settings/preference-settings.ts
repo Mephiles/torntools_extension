@@ -13,7 +13,7 @@ async function executeFeature() {
 	showContainer();
 
 	function showContainer() {
-		const { options } = createContainer("TornTools - Settings", { id: "tt-settings-container", onlyHeader: true, class: "mt10" });
+		const { options } = createContainer("TornTools - Settings", { id: "tt-settings-container", defaultPosition: true, onlyHeader: true, class: "mt10" });
 
 		options.appendChild(
 			elementBuilder({

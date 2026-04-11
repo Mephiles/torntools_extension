@@ -159,7 +159,7 @@ async function showInformation() {
 			case "attacking-events-slowed":
 			case "attacking-events-weakened":
 			case "attacking-events-crippled":
-				if (log.nextElementSibling && log.nextElementSibling.textContent.includes("Poison Umbrella")) bonus = BONUSES.Toxin;
+				if (log.nextElementSibling?.textContent.includes("Poison Umbrella")) bonus = BONUSES.Toxin;
 				else continue;
 				break;
 			default:

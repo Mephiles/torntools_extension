@@ -57,7 +57,7 @@ async function showUpgrades() {
 			const statOld = (statNew * parseFloat(property.querySelector<HTMLElement>(".progressbar.progress-light-gray").style.width)) / 100;
 			const difference = Math.round((statNew - statOld) * 100);
 
-			if (isNaN(difference)) continue;
+			if (Number.isNaN(difference)) continue;
 
 			const bar = elementBuilder("span");
 
@@ -177,7 +177,7 @@ function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 
 	const neededUpgrade = document.querySelector(`.tt-race-upgrade-needed[part="${part}"]`);
 	if (neededUpgrade) {
-		if (neededUpgrade.nextElementSibling && neededUpgrade.nextElementSibling.classList.contains("separator")) neededUpgrade.nextElementSibling.remove();
+		if (neededUpgrade.nextElementSibling?.classList.contains("separator")) neededUpgrade.nextElementSibling.remove();
 		neededUpgrade.remove();
 	}
 }

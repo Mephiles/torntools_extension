@@ -1673,7 +1673,7 @@ export function getNextChainBonus(current: number) {
 }
 
 export function isSellable(id: number | string) {
-	if (!torndata || !torndata.itemsMap) return true;
+	if (!torndata?.itemsMap) return true;
 
 	const item = torndata.itemsMap[id];
 
@@ -1871,7 +1871,6 @@ export function updateReactInput(input: HTMLInputElement | HTMLTextAreaElement, 
 			input.dispatchEvent(new Event("input", { bubbles: true }));
 			input.dispatchEvent(new Event("change", { bubbles: true }));
 			break;
-		case REACT_UPDATE_VERSIONS.DEFAULT:
 		default:
 			input.value = valueString;
 			input.dispatchEvent(new Event("input", { bubbles: true }));
@@ -2031,7 +2030,7 @@ Resend
 
 export function getPageStatus() {
 	const infoMessage = document.querySelector(".content-wrapper .info-msg-cont");
-	if (infoMessage && infoMessage.classList.contains("red")) {
+	if (infoMessage?.classList.contains("red")) {
 		const message = infoMessage.textContent;
 
 		if (message.includes("items in your inventory")) return { access: true };
@@ -2100,7 +2099,7 @@ export function getItemEnergy(id: number | string) {
 
 	const value = energy[0];
 
-	return !isNaN(parseInt(value)) ? parseInt(value) : false;
+	return !Number.isNaN(parseInt(value)) ? parseInt(value) : false;
 }
 
 export function getUsername(row: Element) {

@@ -24,7 +24,7 @@ function initialiseMiniProfile() {
 }
 
 async function showInformation(information: any) {
-	if (isNaN(information.user.lastAction.seconds)) return;
+	if (Number.isNaN(information.user.lastAction.seconds)) return;
 
 	const miniProfile = document.querySelector("#profile-mini-root .mini-profile-wrapper");
 	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });

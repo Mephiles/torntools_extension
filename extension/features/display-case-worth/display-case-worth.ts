@@ -21,7 +21,7 @@ function xhrListener() {
 
 async function addWorth() {
 	const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
-	if (displayCaseUserId && !isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
+	if (displayCaseUserId && !Number.isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
 		await requireElement(".info-msg-cont .msg");
 		// TODO - Migrate to V2 (user/display).
 		fetchData("tornv2", { section: "user", id: displayCaseUserId, selections: ["display"], legacySelections: ["display"] })
@@ -40,7 +40,7 @@ async function addWorth() {
 						children: [
 							elementBuilder({
 								type: "span",
-								text: formatNumber(total, { currency: true }) + ".",
+								text: `${formatNumber(total, { currency: true })}.`,
 							}),
 						],
 					}),
@@ -51,7 +51,7 @@ async function addWorth() {
 					elementBuilder({
 						type: "div",
 						class: "tt-display-worth",
-						text: "TORN API returned error:" + error.toString(),
+						text: `TORN API returned error: ${error.toString()}`,
 					}),
 				);
 				console.log("TT - Display Cabinet Worth API Error:", error);

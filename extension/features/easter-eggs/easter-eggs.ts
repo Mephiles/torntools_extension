@@ -36,7 +36,7 @@ async function highlightEgg(egg: Element) {
 		alert("TornTools detected an easter egg on this page.");
 	}
 
-	const locationText = calculateLocation(await requireElement(EGG_SELECTOR + " img"));
+	const locationText = calculateLocation(await requireElement(`${EGG_SELECTOR} img`));
 
 	document.querySelector(".tt-overlay").classList.remove("tt-hidden");
 	document.querySelector<HTMLElement>(".tt-overlay").style.zIndex = "999";

@@ -58,8 +58,8 @@ async function getCompanyAddiction() {
 
 			return addiction;
 		} catch (error) {
-			console.error("TT - An error occurred when fetching company employees data, Error: " + error);
-			throw new Error("An error occurred when fetching company employees data, Error: " + error);
+			console.error(`TT - An error occurred when fetching company employees data, Error: ${error}`);
+			throw new Error(`An error occurred when fetching company employees data, Error: ${error}`);
 		}
 	}
 }

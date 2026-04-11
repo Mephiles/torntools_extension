@@ -324,12 +324,12 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 			const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
 			if (gauge) {
 				const ffFloat: number = parseFloat(gauge.getAttribute("data-ff-scout"));
-				if (!isNaN(ffFloat)) {
-					if (filters.ffScoreMax && !isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
+				if (!Number.isNaN(ffFloat)) {
+					if (filters.ffScoreMax && !Number.isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
 						hide("ff-score");
 						return;
 					}
-					if (filters.ffScoreMin && !isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
+					if (filters.ffScoreMin && !Number.isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
 						hide("ff-score");
 						return;
 					}

@@ -87,7 +87,7 @@ async function addFilter(crimeRoot: Element | null) {
 	if (!crimeRoot) {
 		try {
 			crimeRoot = await requireElement(".crime-root.burglary-root");
-		} catch (error) {
+		} catch {
 			return;
 		}
 	}
@@ -125,7 +125,7 @@ async function filtering() {
 
 		const targetImageSource = targetEl.querySelector<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
 		const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
-		const rowTargetType = matchedImageSource && matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
+		const rowTargetType = matchedImageSource?.length ? `${matchedImageSource[0]}-targets` : null;
 		if (targetType.length && (rowTargetType === null || !targetType.includes(rowTargetType))) {
 			hideRow(targetEl);
 			continue;

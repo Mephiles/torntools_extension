@@ -9,7 +9,7 @@ import { requireElement } from "@/utils/common/functions/requires";
 function addListener() {
 	document.addEventListener("click", (event) => {
 		const target = event.target as Element;
-		if (!target || !target.matches("[class*='rowWrapper__'] [class*='available__']")) return;
+		if (!target?.matches("[class*='rowWrapper__'] [class*='available__']")) return;
 
 		if (!FEATURE_MANAGER.isEnabled(ItemMarketFillMaxFeature)) return;
 

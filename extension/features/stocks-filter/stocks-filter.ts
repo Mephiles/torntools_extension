@@ -119,9 +119,7 @@ async function applyFilter() {
 		const acronym = row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym?.toLowerCase();
 		if (
 			name &&
-			!name
-				.split(",")
-				.some((name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || (acronym && acronym.includes(name.toLowerCase())))
+			!name.split(",").some((name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || acronym?.includes(name.toLowerCase()))
 		) {
 			hideRow(row);
 			continue;

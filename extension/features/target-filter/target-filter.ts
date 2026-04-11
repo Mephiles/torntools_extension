@@ -172,7 +172,7 @@ function filterRow(row: HTMLElement, filters: Partial<TargetFilters>, individual
 			return;
 		}
 	}
-	if (filters.statsEstimates && filters.statsEstimates.length) {
+	if (filters.statsEstimates?.length) {
 		const estimate = row.dataset.estimate?.toLowerCase();
 		if ((estimate || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
 			hide("stats-estimate");

@@ -151,6 +151,7 @@ export async function loadDatabase(): Promise<Omit<Database, "time">> {
 	return database;
 }
 
+// biome-ignore lint/correctness/noUnusedFunctionParameters: Might only be temporary unused.
 export async function migrateDatabase(force = false): Promise<void> {
 	try {
 		const loadedStorage = await ttStorage.get();

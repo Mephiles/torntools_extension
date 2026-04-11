@@ -25,7 +25,6 @@ export function createCheckboxDuo(partialOptions: Partial<CheckboxDuoOptions> = 
 			descriptionYes = PHBoldArrowUp();
 			descriptionNo = PHBoldArrowDown();
 			break;
-		case "text":
 		default:
 			isHTML = false;
 			descriptionYes = "Y:";

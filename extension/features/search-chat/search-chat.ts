@@ -113,7 +113,7 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 							events: {
 								input: (event) => {
 									const keyword = (event.target as HTMLInputElement).value.toLowerCase();
-									const isUserID = !isNaN(parseInt(keyword));
+									const isUserID = !Number.isNaN(parseInt(keyword));
 
 									if (
 										peopleMenu.querySelector("[class*='chat-list-header__tabs__'] [class*='chat-list-header__tab--active__']:first-child")
@@ -193,7 +193,7 @@ function searchChat(message: Element | null, keyword: string) {
 		keyword = splitInput.join(" ");
 
 		const sender = message.querySelector<HTMLAnchorElement>(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`);
-		if (!sender.textContent.toLowerCase().includes(target) && (isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
+		if (!sender.textContent.toLowerCase().includes(target) && (Number.isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
 			message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");
 			return;
 		}

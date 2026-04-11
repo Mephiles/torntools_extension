@@ -134,7 +134,7 @@ export function timedUpdates() {
 			);
 		}
 
-		if (!stockdata || !stockdata.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5)) {
+		if (!stockdata?.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5)) {
 			updatePromises.push(
 				updateStocks()
 					.then(() => console.log("Updated stocks."))
@@ -516,7 +516,6 @@ export async function updateUserdata(forceUpdate = false) {
 	}
 
 	async function notifyEventMessages() {
-		let eventCount = 0;
 		if (settings.apiUsage.user.newevents) {
 			const events: { id: string; event: string }[] = [];
 			userdata.events.forEach((event) => {
@@ -524,8 +523,6 @@ export async function updateUserdata(forceUpdate = false) {
 					events.push({ id: event.id, event: event.event });
 					notifications.events[event.id] = { combined: true };
 				}
-
-				eventCount++;
 			});
 			if (events.length) {
 				// Remove profile links from event message
@@ -536,7 +533,6 @@ export async function updateUserdata(forceUpdate = false) {
 			}
 		}
 
-		let messageCount = 0;
 		if (settings.apiUsage.user.newmessages) {
 			const messages: { id: number; title: string; sender: string }[] = [];
 			userdata.messages
@@ -546,8 +542,6 @@ export async function updateUserdata(forceUpdate = false) {
 						messages.push({ id: message.id, title: message.topic, sender: message.sender.name });
 						notifications.messages[message.id] = { combined: true };
 					}
-
-					messageCount++;
 				});
 
 			if (messages.length) {
@@ -931,8 +925,8 @@ export async function updateUserdata(forceUpdate = false) {
 	}
 }
 
-export async function showIconBars() {
-	if (!settings.apiUsage.user.bars || !hasAPIData() || !settings || !settings.pages.icon.global) {
+async function showIconBars() {
+	if (!settings.apiUsage.user.bars || !hasAPIData() || !settings.pages.icon.global) {
 		await browser.action.setIcon({ path: browser.runtime.getURL("/images/icon_128.png") });
 	} else {
 		let barCount = 0;
@@ -997,6 +991,8 @@ export async function showIconBars() {
 	}
 }
 
+export default showIconBars;
+
 async function updateStakeouts(forceUpdate = false) {
 	const now = Date.now();
 
@@ -1054,9 +1050,9 @@ async function updateStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global) {
 						let reasonText = "";
 						const reason = getHospitalizationReason(data.profile.status.details);
-						if (reason && reason.important) {
+						if (reason?.important) {
 							reasonText = reason.display_sentence ?? reason.display ?? reason.name;
-							reasonText = " " + reasonText;
+							reasonText = ` ${reasonText}`;
 						}
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
@@ -1186,7 +1182,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 	let success = 0;
 	let failed = 0;
 	for (const factionId in factionStakeouts) {
-		if (isNaN(parseInt(factionId))) continue;
+		if (Number.isNaN(parseInt(factionId))) continue;
 
 		const oldData = typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null ? factionStakeouts[factionId].info : null;
 		let data: FetchedFactionStakeout;
@@ -1634,7 +1630,7 @@ async function updateNPCs() {
 				},
 				name: npc.name || (NPCS[id] ?? "Unknown"),
 				scheduled: npc.next ?? true,
-				order: data.order.findIndex((o) => o === id) + (npc.next ? 0 : 10),
+				order: data.order.indexOf(id) + (npc.next ? 0 : 10),
 			};
 
 			newNpcs.targets[id].current = getCurrentLevel(newNpcs.targets[id]);

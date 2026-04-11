@@ -97,7 +97,7 @@ interface ChainedObserver {
  */
 export function observeChain(root: ParentNode, selectorsChain: string[], onReached: (lastChainElement: Element) => () => void) {
 	let activeObservers: ChainedObserver[] = [];
-	let cleanupFn: () => void | undefined ;
+	let cleanupFn: () => void;
 
 	function observe(target: ParentNode, index: number) {
 		const selector = selectorsChain[index];

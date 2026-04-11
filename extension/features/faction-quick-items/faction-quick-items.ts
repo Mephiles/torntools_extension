@@ -177,7 +177,7 @@ function setupQuickDragListeners() {
 			if (document.querySelector("#factionQuickItems .temp.item")) return;
 
 			const _id = (event.target as Element).querySelector<HTMLElement>(".img-wrap").dataset.itemid;
-			const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
+			const id = Number.isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 			addQuickItem({ id }, true);
 		}, 10);
@@ -433,7 +433,7 @@ async function saveQuickItems() {
 		quick: {
 			factionItems: findAllElements(".item", content)
 				.map((x) => x.dataset.id)
-				.map((x) => (isNaN(parseInt(x)) ? (x as QuickFactionItem["id"]) : parseInt(x)))
+				.map((x) => (Number.isNaN(parseInt(x)) ? (x as QuickFactionItem["id"]) : parseInt(x)))
 				.map((x) => ({ id: x })),
 		},
 	});
@@ -480,7 +480,7 @@ async function onItemClickQuickEdit(event: MouseEvent) {
 	const _target = event.target as HTMLElement;
 	const target = _target.dataset.type === "tt-points" ? _target : findParent(_target, { tag: "LI" });
 	const _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
-	const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
+	const id = Number.isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 	const item = addQuickItem({ id }, false);
 	if (item) item.classList.add("tt-overlay-item", "removable");

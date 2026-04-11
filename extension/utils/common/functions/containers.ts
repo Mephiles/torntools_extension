@@ -5,7 +5,7 @@ import { filters } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
-type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | {};
+type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | { defaultPosition: true };
 
 type ContainerOptions = {
 	id: string;

@@ -556,7 +556,7 @@ async function setupDashboard() {
 		const dataset = cooldown.dataset;
 		const current = Date.now();
 
-		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
+		const completed_at = !Number.isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
 		cooldown.querySelector(".cooldown-label").textContent = formatTime(
 			{ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 },
@@ -612,7 +612,7 @@ async function setupDashboard() {
 			});
 			removeStakeoutButton.addEventListener("click", () => {
 				delete stakeouts[id];
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
 
 				ttStorage.set({ stakeouts });
 			});
@@ -698,7 +698,7 @@ async function setupDashboard() {
 		stakeoutList.innerHTML = "";
 
 		for (const factionId in factionStakeouts) {
-			if (isNaN(parseInt(factionId)) || typeof factionStakeouts[factionId] === "number") continue;
+			if (Number.isNaN(parseInt(factionId)) || typeof factionStakeouts[factionId] === "number") continue;
 
 			let name: string, chain: number | string, members: number | string, maxMembers: number | string;
 
@@ -795,7 +795,7 @@ async function setupMarketSearch() {
 		}
 
 		let id: number | undefined;
-		if (!isNaN(parseInt(keyword))) id = parseInt(keyword);
+		if (!Number.isNaN(parseInt(keyword))) id = parseInt(keyword);
 
 		for (const item of findAllElements("#market .item-list li")) {
 			if (item.textContent.toLowerCase().includes(keyword) || (id && parseInt(item.dataset.id) === id)) {

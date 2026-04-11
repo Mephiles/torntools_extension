@@ -813,7 +813,7 @@ async function showAchievements() {
 								desc = desc.replace(/\D|\d+%/g, ""); // replace all non-numbers and percentages
 
 								const score = parseInt(desc) || null;
-								if (score === null || isNaN(score)) continue;
+								if (score === null || Number.isNaN(score)) continue;
 
 								// Remove duplicates.
 								const duplicate = goals.find((goal) => goal.score === score);

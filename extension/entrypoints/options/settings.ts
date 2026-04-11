@@ -530,7 +530,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		}
 		hideStocksParent.addEventListener("click", (event) => {
 			const target = event.target as Element;
-			if (!isNaN(parseInt(target.getAttribute("id")))) target.classList.toggle("disabled");
+			if (!Number.isNaN(parseInt(target.getAttribute("id")))) target.classList.toggle("disabled");
 		});
 	} else {
 		hideStocksParent.classList.add("warning");
@@ -776,13 +776,13 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		settings.employeeInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.querySelector(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
+			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !Number.isNaN(warning.days) ? warning.days.toString() : "";
 			row.querySelector<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.factionInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.querySelector(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
+			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !Number.isNaN(warning.days) ? warning.days.toString() : "";
 			row.querySelector<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
@@ -1064,7 +1064,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						switch (input.getAttribute("type")) {
 							case "number":
 								settings[type][page][setting] =
-									!isNaN(parseInt(input.value)) && input.value !== ""
+									!Number.isNaN(parseInt(input.value)) && input.value !== ""
 										? parseInt(input.value)
 										: input.hasAttribute("save-empty") && input.value === ""
 											? ""
@@ -1109,7 +1109,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		});
 		settings.alliedFactions = findAllElements<HTMLInputElement>("#allyFactions input")
 			.map((input) => {
-				if (isNaN(parseInt(input.value))) return input.value.trim();
+				if (Number.isNaN(parseInt(input.value))) return input.value.trim();
 				else return parseInt(input.value.trim());
 			})
 			.filter((x) => {
@@ -1135,7 +1135,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				return {
 					color: warning.querySelector<HTMLInputElement>("input[type='color']").value,
-					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
+					days: !Number.isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
@@ -1145,7 +1145,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				return {
 					color: warning.querySelector<HTMLInputElement>("input[type='color']").value,
-					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
+					days: !Number.isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
@@ -1186,8 +1186,8 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				return {
 					id: parseInt(row.dataset.id),
-					level: !level || isNaN(parseInt(level)) ? ("" as const) : parseInt(level),
-					minutes: !minutes || isNaN(parseInt(minutes)) ? ("" as const) : parseInt(minutes),
+					level: !level || Number.isNaN(parseInt(level)) ? ("" as const) : parseInt(level),
+					minutes: !minutes || Number.isNaN(parseInt(minutes)) ? ("" as const) : parseInt(minutes),
 				};
 			})
 			.filter(({ level, minutes }) => level !== "" || minutes !== "");
@@ -1342,7 +1342,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	function enforceInputLimits(event: Event) {
 		const target = event.target as HTMLInputElement;
 		const value = parseInt(target.value);
-		if (isNaN(value)) return;
+		if (Number.isNaN(value)) return;
 
 		const newValue = Math.min(Math.max(parseInt(target.value), parseInt(target.min)), parseInt(target.max));
 		if (value === newValue) return;
@@ -1837,7 +1837,7 @@ async function setupExport() {
 			if ("api" in data.database) {
 				await BACKGROUND_SERVICE.initialize();
 			}
-		} catch (error) {
+		} catch {
 			sendMessage("Couldn't save the imported database.", false);
 			return;
 		}

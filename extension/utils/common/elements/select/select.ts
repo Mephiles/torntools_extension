@@ -10,7 +10,7 @@ export interface SelectOption<TValue extends string = string> {
 export function createSelect<TValue extends string = string>(options: SelectOption<TValue>[]) {
 	let selectedOptionValue = options[0].value;
 	let shownOptions = options;
-	let onChangeCallback: () => void | undefined;
+	let onChangeCallback: () => void;
 
 	const select = elementBuilder({
 		type: "select",

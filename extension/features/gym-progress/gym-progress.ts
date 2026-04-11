@@ -15,7 +15,7 @@ async function addProgress() {
 	let currentGym: Element;
 	try {
 		currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']");
-	} catch (error) {
+	} catch {
 		console.log("TornTools: No gym progress bar found. User probably unlocked all gyms.");
 	}
 	if (!currentGym) return;

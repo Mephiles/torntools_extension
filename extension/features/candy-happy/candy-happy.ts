@@ -27,12 +27,12 @@ function addGains() {
 			torndata.itemsMap[candy.dataset.item].effect
 				.split(" ")
 				.map((x) => parseInt(x))
-				.filter((x) => !isNaN(x))[0]
+				.filter((x) => !Number.isNaN(x))[0]
 				.toString(),
 		);
 		let totalHappy = baseHappy;
-		if (!isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;
-		if (!isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
+		if (!Number.isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;
+		if (!Number.isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
 
 		if (isEventActive(TORN_EVENTS.WORLD_DIABETES_DAY, true)) {
 			totalHappy *= 2;

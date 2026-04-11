@@ -152,6 +152,6 @@ export class DualRangeSlider {
 
 		const percentage = (value - this.options.min) / (this.options.max - this.options.min);
 
-		this.slider.style.setProperty(`--${side}`, percentage * rangeWidth - handleWidth / 2 + "px");
+		this.slider.style.setProperty(`--${side}`, `${percentage * rangeWidth - handleWidth / 2}px`);
 	}
 }

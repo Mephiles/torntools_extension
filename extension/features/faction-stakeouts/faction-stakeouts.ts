@@ -60,7 +60,7 @@ async function displayBox() {
 		if (!(factionId in factionStakeouts)) return;
 
 		let value: number | false = parseInt(chainReaches.getValue());
-		if (isNaN(value) || value < 0) value = false;
+		if (Number.isNaN(value) || value < 0) value = false;
 
 		ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { chainReaches: value } } } });
 	});

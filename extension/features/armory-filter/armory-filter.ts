@@ -233,7 +233,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			return;
 		}
 	}
-	if (filters.damage && !isNaN(parseFloat(filters.damage))) {
+	if (filters.damage && !Number.isNaN(parseFloat(filters.damage))) {
 		const damage = parseFloat(filters.damage);
 
 		if (parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
@@ -241,7 +241,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			return;
 		}
 	}
-	if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
+	if (filters.accuracy && !Number.isNaN(parseFloat(filters.accuracy))) {
 		const accuracy = parseFloat(filters.accuracy);
 
 		if (parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
@@ -249,7 +249,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			return;
 		}
 	}
-	if (filters.defence && !isNaN(parseFloat(filters.defence))) {
+	if (filters.defence && !Number.isNaN(parseFloat(filters.defence))) {
 		const defence = parseFloat(filters.defence);
 
 		if (parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
@@ -271,7 +271,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			}
 		}
 	}
-	if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
+	if (filters.armorBonus && !Number.isNaN(parseFloat(filters.armorBonus))) {
 		const bonus = parseFloat(filters.armorBonus);
 
 		if (convertToNumber(row.querySelector(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title")) < bonus) {
@@ -280,7 +280,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 		}
 	}
 	const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
-	if (toFilterBonus && toFilterBonus.length) {
+	if (toFilterBonus?.length) {
 		const foundBonuses = findAllElements(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)", row)
 			.map((icon) => icon.getAttribute("title"))
 			.map((title) => title.split("<br/>"))

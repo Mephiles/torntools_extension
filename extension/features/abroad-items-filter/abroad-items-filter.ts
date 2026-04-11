@@ -64,8 +64,8 @@ async function addFilter() {
 	const taxesFilter = createFilterSection({
 		title: "Taxes",
 		checkboxes: [
-			{ id: "salestax", description: SALES_TAX + "% Sales Tax" },
-			{ id: "anonymous", description: ANONYMOUS_TAX + "% Anonymous Tax" },
+			{ id: "salestax", description: `${SALES_TAX}% Sales Tax` },
+			{ id: "anonymous", description: `${ANONYMOUS_TAX}% Anonymous Tax` },
 		],
 		defaults: filters.abroadItems.taxes,
 		callback: filtering,
@@ -131,9 +131,6 @@ async function addFilter() {
 							continue;
 						}
 						break;
-					case "alcohol":
-					case "clothing":
-					case "other":
 					default:
 						if (!categories.includes("other")) {
 							hideRow(li);

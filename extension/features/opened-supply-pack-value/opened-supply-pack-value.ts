@@ -27,7 +27,7 @@ function addListener() {
 		const params = new URLSearchParams(xhr.requestBody);
 		if (!isUseItem(params.get("step"), json) || !json.success) return;
 
-		if (json && json.itemID) itemID = parseInt(json.itemID);
+		if (json?.itemID) itemID = parseInt(json.itemID);
 		else if (params.has("id")) itemID = convertToNumber(params.get("id"));
 		else if (params.has("itemID")) itemID = convertToNumber(params.get("itemID"));
 

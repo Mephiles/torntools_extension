@@ -29,7 +29,7 @@ const initiatedPages = {};
 })();
 
 async function showPage(name: string) {
-	window.history.replaceState("", "Title", "?page=" + name);
+	window.history.replaceState("", "Title", `?page=${name}`);
 
 	for (const active of findAllElements("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.querySelector(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
@@ -363,7 +363,7 @@ async function setupStakeouts() {
 		const alertsWrap = elementBuilder({ type: "td", class: "alerts-wrap", children: alerts });
 		row.appendChild(alertsWrap);
 
-		if (data && data.alerts) {
+		if (data?.alerts) {
 			for (const key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
@@ -392,7 +392,7 @@ async function setupStakeouts() {
 			.forEach((row) => row.remove());
 
 		for (const id of stakeouts.order) {
-			if (isNaN(parseInt(id))) continue;
+			if (Number.isNaN(parseInt(id))) continue;
 
 			const row = stakeoutList.querySelector(`tr[data-id="${id}"]`);
 			if (!row) {

@@ -176,7 +176,7 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 			}
 		}
 
-		const fullUrl = `${url}${path}${params.toString() ? "?" + params : ""}`;
+		const fullUrl = `${url}${path}${params.toString() ? `?${params}` : ""}`;
 		let parameters = {};
 
 		if (options.method.toUpperCase() === "POST") {

@@ -195,7 +195,7 @@ export function createFilterSection(
 		return null;
 	}
 
-	const ccTitle = camelCase(options.title) + "__section-class";
+	const ccTitle = `${camelCase(options.title)}__section-class`;
 	const section = elementBuilder({ type: "div", class: ccTitle, style: options.style });
 
 	if (!options.noTitle) section.appendChild(elementBuilder({ type: "strong", text: options.title }));
@@ -418,7 +418,7 @@ export function createWeaponBonusSection(options: WeaponBonusOptions) {
 
 			return s.map(([select, textbox]) => ({
 				bonus: select.getSelected(),
-				value: isNaN(parseInt(textbox.getValue())) ? 0 : parseInt(textbox.getValue()),
+				value: Number.isNaN(parseInt(textbox.getValue())) ? 0 : parseInt(textbox.getValue()),
 			}));
 		},
 	};
@@ -429,11 +429,11 @@ export function createStatistics(name = "entries", addBrackets = false, lowercas
 		type: "div",
 		class: "statistics",
 		children: [
-			(addBrackets ? "(" : "") + `${lowercase ? "s" : "S"}howing `,
+			`${addBrackets ? "(" : ""}${lowercase ? "s" : "S"}howing `,
 			elementBuilder({ type: "strong", class: "stat-count", text: "X" }),
 			" of ",
 			elementBuilder({ type: "strong", class: "stat-total", text: "Y" }),
-			` ${name}` + (addBrackets ? ")" : "."),
+			` ${name}${addBrackets ? ")" : "."}`,
 		],
 	});
 

@@ -20,7 +20,7 @@ function initialiseCompanySpecials() {
 		const { page, json } = detail;
 
 		if (page === "companies" && json) {
-			if (json.result && json.result.msg) {
+			if (json.result?.msg) {
 				if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
 				if (json.result.msg.total) calculateSpies(json).catch((error) => console.error("Couldn't help with the spies.", error));
 			}

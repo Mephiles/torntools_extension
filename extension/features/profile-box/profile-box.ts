@@ -725,7 +725,7 @@ async function showBox() {
 
 					const them = stat.v2Getter(data);
 					const you = stat.v2Getter(userdata);
-					if (isNaN(them) || isNaN(you)) return false;
+					if (Number.isNaN(them) || Number.isNaN(you)) return false;
 
 					return {
 						stat: stat.name,
@@ -747,7 +747,7 @@ async function showBox() {
 				.map((stat): StatRow | false => {
 					const them = stat.v2Getter(data);
 					const you = stat.v2Getter(userdata);
-					if (isNaN(them) || isNaN(you)) return false;
+					if (Number.isNaN(them) || Number.isNaN(you)) return false;
 
 					return {
 						stat: stat.name,
@@ -1056,13 +1056,13 @@ async function showBox() {
 					info: readStakeoutDataFromProfilePage(),
 					alerts: { okay: false, hospital: false, landing: false, online: false, life: false, offline: false, revivable: false },
 				};
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
 				ttStorage.set({ stakeouts });
 
 				alerts.classList.remove("tt-hidden");
 			} else {
 				delete stakeouts[id];
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
 				ttStorage.set({ stakeouts });
 
 				alerts.classList.add("tt-hidden");
@@ -1213,26 +1213,21 @@ function crimesStats(c1Getter: (data: PersonalStatsCrimesV1) => number, c2Getter
 
 function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	let name: string;
-	let lastActionStatus: UserLastActionStatusEnum;
-	let lastActionRelative: string;
-	let lifeCurrent: number;
-	let lifeMaximum: number;
-	let statusState: UserStatusStateEnum | string;
-	let statusColor: string;
-	let statusDescription: string;
-
 	const nameElement = document.querySelector<HTMLElement>(".user.name[data-placeholder]");
 	if (nameElement) name = nameElement.dataset.placeholder!;
 	else name = "Unknown";
 
+	let lastActionStatus: UserLastActionStatusEnum;
 	if (document.querySelector("li[id*='icon2']")) lastActionStatus = "Offline";
 	else if (document.querySelector("li[id*='icon62']")) lastActionStatus = "Idle";
 	else if (document.querySelector("li[id*='icon1']")) lastActionStatus = "Online";
 	else lastActionStatus = "Offline";
 
 	const lastActionElement = extractInformationProfileInformationTable("Last action");
-	lastActionRelative = lastActionElement ? lastActionElement.textContent : "N/A";
+	const lastActionRelative = lastActionElement ? lastActionElement.textContent : "N/A";
 
+	let lifeCurrent: number;
+	let lifeMaximum: number;
 	const lifeElement = extractInformationProfileInformationTable("Lie");
 	if (lifeElement) {
 		const lifeText = lifeElement.textContent.split(" / ");
@@ -1244,6 +1239,8 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 		lifeMaximum = 100;
 	}
 
+	let statusState: UserStatusStateEnum | string;
+	let statusColor: string;
 	if (document.querySelector("li[id*='icon15']")) {
 		statusState = "Hospital";
 		statusColor = "red";
@@ -1262,7 +1259,7 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	}
 
 	const statusDescriptionElement = document.querySelector(".main-desc");
-	statusDescription = statusDescriptionElement ? statusDescriptionElement.textContent : "Unknown";
+	const statusDescription = statusDescriptionElement ? statusDescriptionElement.textContent : "Unknown";
 
 	return {
 		name,

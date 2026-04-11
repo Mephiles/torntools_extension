@@ -100,11 +100,11 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 
 				const valueWrap = itemRow.querySelector<HTMLElement>(".info-wrap");
 
-				if (valueWrap && valueWrap.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
+				if (valueWrap?.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
 					valueWrap.innerHTML = "";
 					valueWrap.classList.add("tt-item-price-color");
 					addValue(valueWrap, quantity, price);
-				} else if (valueWrap && valueWrap.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
+				} else if (valueWrap?.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
 					valueWrap.style.setProperty("position", "relative");
 
 					const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });

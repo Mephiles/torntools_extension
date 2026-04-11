@@ -119,7 +119,7 @@ function createTableHeaderCell<T>(
 	};
 }
 
-type TableHeaderCell<T> = ReturnType<typeof createTableHeaderCell<T>>;
+// type TableHeaderCell<T> = ReturnType<typeof createTableHeaderCell<T>>;
 
 function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef: TableColumnDef<T, K>, options: { stretchCell: boolean }) {
 	const cellRenderer = columnDef.cellRendererSelector ? columnDef.cellRendererSelector(rowData) : columnDef.cellRenderer;
@@ -143,7 +143,7 @@ function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef
 	};
 }
 
-type TableCell<T, K extends keyof T = keyof T> = ReturnType<typeof createTableCell<T, K>>;
+// type TableCell<T, K extends keyof T = keyof T> = ReturnType<typeof createTableCell<T, K>>;
 
 function createTableRow<T extends Record<string, any>>(
 	rowData: T,
@@ -169,7 +169,7 @@ function createTableRow<T extends Record<string, any>>(
 	};
 }
 
-type TableRow<T> = ReturnType<typeof createTableRow<T>>;
+// type TableRow<T> = ReturnType<typeof createTableRow<T>>;
 
 function _createRowGroup<T>(groupKey: string, rowGroupInfo: TableRowGroupInfo<T>): BaseElement {
 	const rowGroupCell = rowGroupInfo.cellRenderer(groupKey);

@@ -25,7 +25,7 @@ function registerListeners() {
 async function startFeature() {
 	if (settings.pages.bounties.filter) {
 		const list = document.querySelector(".bounties-list");
-		if (!list || !list.classList.contains("tt-filtered")) return;
+		if (!list?.classList.contains("tt-filtered")) return;
 	}
 
 	await showEstimates();

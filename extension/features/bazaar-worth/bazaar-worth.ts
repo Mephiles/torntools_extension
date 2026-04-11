@@ -58,7 +58,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 					elementBuilder({
 						type: "div",
 						class: "tt-bazaar-text",
-						text: "TORN API returned error:" + error.toString(),
+						text: `TORN API returned error: ${error.toString()}`,
 					}),
 				);
 				console.log("TT - Bazaar Worth API Error:", error);

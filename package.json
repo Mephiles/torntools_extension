@@ -15,9 +15,10 @@
 		"postinstall": "bunx wxt prepare",
 		"test": "bun test",
 		"test:watch": "bun test --watch",
-		"format": "bunx biome format",
-		"format:fix": "bunx biome format --write",
-		"lint:fix": "bunx biome lint --write"
+		"format": "biome format",
+		"format:fix": "biome format --write",
+		"lint:fix": "biome lint --write",
+		"check:fix": "biome check --write"
 	},
 	"dependencies": {
 		"@phosphor-icons/core": "^2.1.1",

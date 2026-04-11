@@ -28,7 +28,7 @@ function addEnergyGains() {
 			torndata.itemsMap[eCanElement.dataset.item].effect
 				.split(" ")
 				.map((x) => parseInt(x))
-				.filter((x) => !isNaN(x))[0]
+				.filter((x) => !Number.isNaN(x))[0]
 				.toString(),
 		);
 		let totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);

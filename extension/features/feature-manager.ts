@@ -32,6 +32,7 @@ export abstract class Feature {
 
 	abstract isEnabled(): boolean;
 	initialise(): void {}
+	// biome-ignore lint/correctness/noUnusedFunctionParameters: Meant to be overridden, so here as a placeholder.
 	execute(liveReload?: boolean): void | Promise<void> {}
 	cleanup(): void {}
 
@@ -420,7 +421,6 @@ class FeatureManager {
 					return PHBoldCheck();
 				case "registered":
 					return PHBoldSpinnerGap();
-				case "information":
 				default:
 					return PHQuestion();
 			}
@@ -488,7 +488,7 @@ class FeatureManager {
 									children: [PHBoldCopy()],
 									events: {
 										click: () => {
-											toClipboard("TornTools " + document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText);
+											toClipboard(`TornTools ${document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText}`);
 										},
 									},
 								}),
@@ -503,7 +503,7 @@ class FeatureManager {
 
 		try {
 			document.body.appendChild(popup);
-		} catch (error) {
+		} catch {
 			return;
 		}
 
@@ -532,7 +532,7 @@ class FeatureManager {
 		else this.container.classList.remove("no-content");
 	}
 
-	isEnabled(featureConstructor: Function): boolean {
+	isEnabled<T extends Feature>(featureConstructor: new () => T): boolean {
 		const feature = this.features.find((f) => f instanceof featureConstructor);
 		if (!feature) return false;
 

@@ -66,7 +66,7 @@ async function startTable() {
 	}
 
 	async function createTable() {
-		const { content } = createContainer("Travel Destinations", { class: "mt10" });
+		const { content } = createContainer("Travel Destinations", { defaultPosition: true, class: "mt10" });
 		const amount = getTravelCount();
 
 		addLegend();
@@ -580,9 +580,6 @@ async function startTable() {
 				case "weapon":
 					category = subType === "temporary" ? "temporary" : "weapon";
 					break;
-				case "alcohol":
-				case "clothing":
-				case "other":
 				default:
 					category = "other";
 					break;

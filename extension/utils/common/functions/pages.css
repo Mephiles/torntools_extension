@@ -154,9 +154,6 @@ button.fancy-button[disabled] {
 	cursor: not-allowed;
 }
 
-body.light button.fancy-button[disabled] {
-}
-
 body.dark button.fancy-button[disabled] {
 	background: #616161;
 	color: #7a7a7a;

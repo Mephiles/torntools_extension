@@ -26,7 +26,7 @@ async function showNetworth() {
 		class: "networth-info-icon",
 		attributes: {
 			seconds: (Date.now() - userdata.date) / 1000,
-			title: "Last updated " + formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" }),
+			title: `Last updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })}`,
 			style: "margin-left: 9px;",
 		},
 	});

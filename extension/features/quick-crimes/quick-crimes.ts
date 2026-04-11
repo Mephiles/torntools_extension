@@ -108,7 +108,7 @@ async function loadCrimes() {
 
 	function makeDraggable() {
 		const form = document.querySelector(".specials-cont-wrap form[name='crimes']");
-		if (!form || !form.hasAttribute("action")) return;
+		if (!form?.hasAttribute("action")) return;
 
 		const action = `${location.origin}/${form.getAttribute("action")}`;
 		const step = getSearchParameters(action).get("step");

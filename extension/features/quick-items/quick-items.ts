@@ -481,7 +481,7 @@ function updateItemAmount(id: number, change: number) {
 		let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
 		if (newQuantity < 0) newQuantity = 0;
 
-		quickQuantity.textContent = newQuantity + "x";
+		quickQuantity.textContent = `${newQuantity}x`;
 		quickQuantity.setAttribute("quantity", newQuantity.toString());
 	}
 }

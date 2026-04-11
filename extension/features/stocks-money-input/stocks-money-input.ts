@@ -34,7 +34,7 @@ async function addMoneyInputs(e: { target: EventTarget }) {
 							} else {
 								money = parseFloat(input);
 							}
-							if (isNaN(money)) return;
+							if (Number.isNaN(money)) return;
 
 							const stockRow = document.querySelector("[class*='stockOwned__'][class*='active__']")?.parentElement;
 							if (!stockRow) return;
@@ -44,7 +44,7 @@ async function addMoneyInputs(e: { target: EventTarget }) {
 							if (quantityToPurchase <= 0) return;
 
 							const stockBuyInput = document.querySelector(
-								"[class*='stockDropdown__'] " + blockType + " input.input-money:not([type='hidden'])",
+								`[class*='stockDropdown__'] ${blockType} input.input-money:not([type='hidden'])`,
 							) as HTMLInputElement;
 							updateReactInput(stockBuyInput, quantityToPurchase.toString());
 						},
@@ -53,7 +53,7 @@ async function addMoneyInputs(e: { target: EventTarget }) {
 			],
 		});
 
-		(await requireElement("[class*='stockDropdown__'] " + blockType + " [class*='manageBlock__']")).appendChild(moneyInputElement);
+		(await requireElement(`[class*='stockDropdown__'] ${blockType} [class*='manageBlock__']`)).appendChild(moneyInputElement);
 	}
 }
 

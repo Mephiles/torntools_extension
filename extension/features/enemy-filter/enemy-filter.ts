@@ -173,7 +173,7 @@ function filterRow(row: HTMLElement, filters: Partial<EnemyFilters>, individual:
 			return;
 		}
 	}
-	if (filters.statsEstimates && filters.statsEstimates.length) {
+	if (filters.statsEstimates?.length) {
 		// TODO - Implement for the enemy filter. Make sure to put the required data on the dataset first.
 		const estimate = row.dataset.estimate?.toLowerCase();
 		if ((estimate || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {

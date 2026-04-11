@@ -1,4 +1,4 @@
-import { DisabledUntilNoticeFeature, Feature } from "@/features/feature-manager";
+import { DisabledUntilNoticeFeature } from "@/features/feature-manager";
 import { isAbroad } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 

@@ -37,7 +37,7 @@ async function removeFillMax() {
 
 async function maxBuyListener(clickEvent: any | null = null) {
 	if (!mobile) {
-		if (!clickEvent || !clickEvent.target.closest("[class*='controlPanelButton___']")) return;
+		if (!clickEvent?.target.closest("[class*='controlPanelButton___']")) return;
 		requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.querySelector("[class*='buyMenu__']")));
 	} else {
 		await requireElement(".ReactVirtualized__Grid__innerScrollContainer [class*='buyForm___']");

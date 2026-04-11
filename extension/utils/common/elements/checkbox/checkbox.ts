@@ -55,7 +55,7 @@ export function createCheckbox(partialOptions: Partial<CheckboxOptions> = {}): C
 		},
 	});
 
-	let onChangeCallback: () => void | undefined;
+	let onChangeCallback: () => void;
 
 	function setChecked(isChecked: boolean) {
 		checkbox.checked = isChecked;

@@ -83,8 +83,8 @@ async function getAllJobPoints(): Promise<AllJobPoints> {
 
 			return jobPoints;
 		} catch (error) {
-			console.error("TT - An error occurred when fetching job points data, Error: " + error);
-			throw new Error("An error occurred when fetching job points data, Error: " + error);
+			console.error(`TT - An error occurred when fetching job points data, Error: ${error}`);
+			throw new Error(`An error occurred when fetching job points data, Error: ${error}`);
 		}
 	}
 }

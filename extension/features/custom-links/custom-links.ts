@@ -54,6 +54,7 @@ function showOutside(filter: "above" | "under", id: string) {
 
 	const { content } = createContainer("Custom Links", {
 		id,
+		defaultPosition: true,
 		class: "tt-custom-link-container",
 		applyRounding: false,
 		contentBackground: false,

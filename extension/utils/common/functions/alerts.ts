@@ -134,7 +134,6 @@ function getIconForType(type: AlertOptions["type"]): Element {
 			return PHBoldXCircle();
 		case "warning":
 			return PHBoldWarningCircle();
-		case "info":
 		default:
 			return PHBoldInfo();
 	}

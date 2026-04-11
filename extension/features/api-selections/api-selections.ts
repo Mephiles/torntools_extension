@@ -29,7 +29,7 @@ export async function loadAPISelections() {
 
 			if (event.ctrlKey) {
 				if (selectionsInput.value.trim() === "") selectionsInput.value = selection;
-				else if (!selectionsInput.value.includes(selection)) selectionsInput.value += "," + selection;
+				else if (!selectionsInput.value.includes(selection)) selectionsInput.value += `,${selection}`;
 			} else {
 				selectionsInput.value = selection;
 				panel.querySelector("button").click();

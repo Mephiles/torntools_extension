@@ -51,7 +51,7 @@ async function showMarketIcons() {
 		isFirst = false;
 		lastItem = item;
 	}
-	if (lastItem && lastItem.querySelector(".outside-actions")) lastItem.querySelector(".outside-actions").classList.add("last-action");
+	if (lastItem?.querySelector(".outside-actions")) lastItem.querySelector(".outside-actions").classList.add("last-action");
 }
 
 function removeMarketIcons() {

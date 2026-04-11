@@ -1,3 +1,8 @@
+import { registerService } from "@webext-core/proxy-service";
+import type { Browser } from "wxt/browser";
+import { notificationRelations, sendNotifications } from "@/entrypoints/background/notifications";
+import showIconBars, { timedUpdates } from "@/entrypoints/background/updates";
+import { ttCache } from "@/utils/common/data/cache";
 import {
 	type Database,
 	initializeDatabase,
@@ -102,7 +107,7 @@ async function onAlarm(alarm: Alarm) {
 			await sendNotifications();
 			break;
 		default:
-			throw new Error("Undefined alarm name: " + alarm.name);
+			throw new Error(`Undefined alarm name: ${alarm.name}`);
 	}
 }
 

@@ -1,14 +1,14 @@
 import "./forum-menu.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { getUsername } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
-import { torntools } from "@/utils/common/icons/torntools";
+import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { applyPlural, convertToNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getUsername } from "@/utils/common/functions/torn";
 import { toClipboard } from "@/utils/common/functions/utilities";
+import { torntools } from "@/utils/common/icons/torntools";
 
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
@@ -75,7 +75,7 @@ async function showThreads() {
 					events: {
 						click(event) {
 							let thread = (event.target as Element).nextElementSibling;
-							while (thread && thread.classList.contains("tt-forums-hide")) {
+							while (thread?.classList.contains("tt-forums-hide")) {
 								thread.classList.toggle("tt-forums-hide-show");
 								thread = thread.nextElementSibling;
 							}
@@ -138,7 +138,7 @@ async function showPosts() {
 					events: {
 						click(event) {
 							let post = (event.target as Element).nextElementSibling;
-							while (post && post.classList.contains("tt-forums-hide")) {
+							while (post?.classList.contains("tt-forums-hide")) {
 								post.classList.toggle("tt-forums-hide-show");
 								post = post.nextElementSibling;
 							}
@@ -236,8 +236,10 @@ async function showPosts() {
 
 										// Remove bbcode
 										const bbcodeRegex = /\[(\w+)(?:\s?\w*=[^\]]*)*](.*?)\[\/\1]/gs;
-										while (postContent !== (postContent = postContent.replace(bbcodeRegex, "$2"))) {} // eslint-disable-line no-empty
-										while (quotesContent !== (quotesContent = quotesContent.replace(bbcodeRegex, "$2"))) {} // eslint-disable-line no-empty
+										// biome-ignore lint/suspicious/noAssignInExpressions: pre migration
+										while (postContent !== (postContent = postContent.replace(bbcodeRegex, "$2"))) {}
+										// biome-ignore lint/suspicious/noAssignInExpressions: pre migration
+										while (quotesContent !== (quotesContent = quotesContent.replace(bbcodeRegex, "$2"))) {}
 
 										// Remove 3+ newlines
 										const newlineRegex = /\n{3,}/gs;
@@ -250,15 +252,15 @@ async function showPosts() {
 
 										if (quotesContent.length > 0) {
 											if (quotesContent.length > maxLength / 2) {
-												quotesContent = quotesContent.substring(0, maxLength / 2 - 5) + "[...]";
+												quotesContent = `${quotesContent.substring(0, maxLength / 2 - 5)}[...]`;
 											}
 
 											postContent = `${quotesContent}\n\n${postContent}`;
 										}
 
-										if (postContent.length > maxLength)
-											text = text.replace("$$$TEXT_CONTENT$$$", postContent.substring(0, maxLength - 5) + "[...]");
-										else text = text.replace("$$$TEXT_CONTENT$$$", postContent);
+										if (postContent.length > maxLength) {
+											text = text.replace("$$$TEXT_CONTENT$$$", `${postContent.substring(0, maxLength - 5)}[...]`);
+										} else text = text.replace("$$$TEXT_CONTENT$$$", postContent);
 
 										toClipboard(text);
 

@@ -45,7 +45,7 @@ function showWarning() {
 		requireElement(".editor-content.mce-content-body", { parent }).then((input) => {
 			const text = "I'm currently posting this with TornTools enabled.";
 			if (!input.innerText.includes(text)) {
-				input.innerHTML = text + "<br>" + input.innerHTML;
+				input.innerHTML = `${text}<br>${input.innerHTML}`;
 			}
 		});
 	}

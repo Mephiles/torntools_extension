@@ -98,7 +98,7 @@ export function isIntNumber(number: string | null): boolean {
 	if (number === null) return false;
 
 	const _number = parseFloat(number.toString());
-	return !isNaN(_number) && isFinite(_number) && _number % 1 === 0;
+	return !Number.isNaN(_number) && Number.isFinite(_number) && _number % 1 === 0;
 }
 
 export function isSameUTCDay(date1: number | string | Date, date2: number | string | Date) {
@@ -126,11 +126,11 @@ export function hasTimePassed(timestamp: number, time: number) {
 }
 
 export function getUUID() {
-	return "_" + Math.random().toString(36).substr(2, 9);
+	return `_${Math.random().toString(36).substr(2, 9)}`;
 }
 
 export function getCookie(cname: string) {
-	const name = cname + "=";
+	const name = `${cname}=`;
 
 	for (let cookie of decodeURIComponent(document.cookie).split(";")) {
 		cookie = cookie.trimStart();
@@ -161,7 +161,7 @@ export function toCorrectType(object: { [key: string]: any }) {
 
 	for (const key in object) {
 		const value = object[key];
-		if (!isNaN(value)) object[key] = parseFloat(value);
+		if (!Number.isNaN(value)) object[key] = parseFloat(value);
 		else if (value === "true") object[key] = true;
 		else if (value === "false") object[key] = false;
 	}
@@ -170,7 +170,7 @@ export function toCorrectType(object: { [key: string]: any }) {
 }
 
 export function toClipboard(text: string) {
-	if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+	if (navigator?.clipboard?.writeText) {
 		navigator.clipboard.writeText(text).then(() => {});
 	} else {
 		const textarea = elementBuilder({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });
@@ -184,7 +184,7 @@ export function toClipboard(text: string) {
 }
 
 export function getTimeUntilNextJobUpdate() {
-	const now = new Date().getTime();
+	const now = Date.now();
 
 	const nextJobUpdate = new Date();
 	nextJobUpdate.setUTCHours(18);

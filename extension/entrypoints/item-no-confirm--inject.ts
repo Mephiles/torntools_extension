@@ -18,7 +18,7 @@ export default defineUnlistedScript(() => {
 		const _params = [];
 
 		for (const key in params) {
-			_params.push(key + "=" + params[key]);
+			_params.push(`${key}=${params[key]}`);
 		}
 
 		return _params.join("&");

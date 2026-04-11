@@ -89,7 +89,7 @@ async function addLastAction(force: boolean) {
 				_members = (
 					await fetchData<FactionMembersResponse>("tornv2", {
 						section: "faction",
-						...(isNaN(parseInt(id.toString())) ? {} : { id }),
+						...(Number.isNaN(parseInt(id.toString())) ? {} : { id }),
 						selections: ["members"],
 						silent: true,
 						succeedOnError: true,

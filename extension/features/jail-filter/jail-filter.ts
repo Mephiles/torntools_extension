@@ -178,7 +178,7 @@ async function filtering(pageChange: boolean = false) {
 				levelEnd: levelEnd,
 				scoreStart: scoreStart,
 				scoreEnd: scoreEnd,
-				bailCost: bailCost !== undefined && !isNaN(bailCost) ? bailCost : -1,
+				bailCost: bailCost !== undefined && !Number.isNaN(bailCost) ? bailCost : -1,
 			},
 		},
 	});
@@ -334,7 +334,7 @@ async function applyQuickBustAndBail() {
 	function addQAndHref(iconNode: HTMLAnchorElement) {
 		if (iconNode.querySelector(":scope > .tt-quick-q")) return;
 		iconNode.appendChild(elementBuilder({ type: "span", class: "tt-quick-q", text: "Q" }));
-		iconNode.href = iconNode.getAttribute("href") + "1";
+		iconNode.href = `${iconNode.getAttribute("href")}1`;
 	}
 
 	function removeQAndHref(iconNode: HTMLAnchorElement) {

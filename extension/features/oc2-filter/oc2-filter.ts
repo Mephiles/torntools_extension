@@ -180,7 +180,7 @@ function getCrimeStatus(row) {
 
 		// Check for unpaid crimes - look for button with class containing "payoutBtn" and text "PayOut"
 		const payoutButton = row.querySelector('button[class*="payoutBtn"]');
-		if (payoutButton && payoutButton.textContent.includes("PayOut")) {
+		if (payoutButton?.textContent.includes("PayOut")) {
 			return "unpaid";
 		}
 

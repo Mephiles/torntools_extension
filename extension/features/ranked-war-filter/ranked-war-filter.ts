@@ -14,7 +14,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 function initialiseFilters() {
 	document.addEventListener("click", async (event) => {
 		const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
-		if (rankedWarItem && rankedWarItem.querySelector(":scope > [data-warid]")) {
+		if (rankedWarItem?.querySelector(":scope > [data-warid]")) {
 			addFilters(
 				(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war"),
 			).catch(console.error);

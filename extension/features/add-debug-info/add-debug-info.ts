@@ -23,7 +23,7 @@ async function addDebugInfo() {
 
 				// Get browser info.
 				if (!debugInfo) {
-					const ttVersion = "TornTools version: " + version.current;
+					const ttVersion = `TornTools version: ${version.current}`;
 
 					if (navigator.userAgentData) {
 						// Chrome and others
@@ -34,23 +34,23 @@ async function addDebugInfo() {
 							"platformVersion",
 							"uaFullVersion",
 						]);
-						const platformInfo = uaData.platform + " " + uaData.platformVersion;
+						const platformInfo = `${uaData.platform} ${uaData.platformVersion}`;
 						const browserInfo = uaData.brands
 							.filter((b) => !b.brand.includes("Brand"))
 							.map((b) => `${b.brand} v${b.version}`)
 							.join(" - ");
 
-						debugInfo = platformInfo + "<br>" + browserInfo;
+						debugInfo = `${platformInfo}<br>${browserInfo}`;
 					} else {
 						// Firefox
-						debugInfo = "User Agent: " + navigator.userAgent;
+						debugInfo = `User Agent: ${navigator.userAgent}`;
 					}
 
-					debugInfo = "Debug Information:" + "<br>" + debugInfo + "<br>" + ttVersion;
+					debugInfo = `Debug Information:<br>${debugInfo}<br>${ttVersion}`;
 				}
 
 				// Add debug info to BBCode input.
-				bbcEditor.innerHTML = debugInfo + "<br>" + bbcEditor.innerHTML;
+				bbcEditor.innerHTML = `${debugInfo}<br>${bbcEditor.innerHTML}`;
 
 				// Add the browser information to BBCode input.
 				// Need jQuery as dispatchEvent is not working.

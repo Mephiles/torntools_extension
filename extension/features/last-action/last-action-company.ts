@@ -74,7 +74,7 @@ async function extractCompanyId(): Promise<number> {
 	}
 
 	const id = parseInt(getHashParameters().get("ID"));
-	if (!isNaN(id)) {
+	if (!Number.isNaN(id)) {
 		return id;
 	}
 
