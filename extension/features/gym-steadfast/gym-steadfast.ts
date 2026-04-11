@@ -1,12 +1,12 @@
 import "./gym-steadfast.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 interface SteadfastBonus {
 	source: "faction" | "company" | "property" | "education" | "book";
@@ -23,7 +23,7 @@ function initialiseListeners() {
 
 async function showSteadfast() {
 	const properties = ((await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")) as Element).closest(
-		"#gymroot ul[class*='properties___']"
+		"#gymroot ul[class*='properties___']",
 	);
 
 	const factionPerks = userdata.faction_perks.filter((perk) => perk.includes("gym gains"));

@@ -1,9 +1,9 @@
-import { TTNotification } from "@/utils/common/data/default-database";
+import type { OffscreenMessage } from "@/entrypoints/offscreen/offscreen";
 import { notificationHistory, notifications, setNotificationHistory, settings } from "@/utils/common/data/database";
+import type { TTNotification } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { hasInteractionSupport, hasSilentSupport } from "@/utils/common/functions/browser";
-import { OffscreenMessage } from "@/entrypoints/offscreen/offscreen";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 class AudioPlayer {
 	private _src: string;

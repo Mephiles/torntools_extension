@@ -1,15 +1,15 @@
 import "./filters.css";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { userdata } from "@/utils/common/data/database";
-import { camelCase } from "@/utils/common/functions/formatting";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createTextbox, TextboxWithoutDescriptionFilter } from "@/utils/common/elements/textbox/textbox";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createCheckboxList } from "@/utils/common/elements/checkbox-list/checkbox-list";
-import { createMultiSelect, createSelect, SelectOption } from "@/utils/common/elements/select/select";
-import { WEAPON_BONUSES } from "@/utils/common/functions/torn";
-import { WeaponBonusFilter } from "@/utils/common/data/default-database";
+import { createMultiSelect, createSelect, type SelectOption } from "@/utils/common/elements/select/select";
 import { DualRangeSlider } from "@/utils/common/elements/slider/slider";
+import { createTextbox, type TextboxWithoutDescriptionFilter } from "@/utils/common/elements/textbox/textbox";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { camelCase } from "@/utils/common/functions/formatting";
+import { WEAPON_BONUSES } from "@/utils/common/functions/torn";
 
 export type SpecialFilterValue = "both" | "yes" | "no" | "none";
 
@@ -138,7 +138,7 @@ export function createFilterSection(
 		| CheckboxesOptions
 		| YNCheckboxesOptions
 		| SliderOptions
-		| TextOptions
+		| TextOptions,
 ): any {
 	if ("type" in options) {
 		// Handle PresetOptions
@@ -195,7 +195,7 @@ export function createFilterSection(
 		return null;
 	}
 
-	const ccTitle = camelCase(options.title) + "__section-class";
+	const ccTitle = `${camelCase(options.title)}__section-class`;
 	const section = elementBuilder({ type: "div", class: ccTitle, style: options.style });
 
 	if (!options.noTitle) section.appendChild(elementBuilder({ type: "strong", text: options.title }));
@@ -418,7 +418,7 @@ export function createWeaponBonusSection(options: WeaponBonusOptions) {
 
 			return s.map(([select, textbox]) => ({
 				bonus: select.getSelected(),
-				value: isNaN(parseInt(textbox.getValue())) ? 0 : parseInt(textbox.getValue()),
+				value: Number.isNaN(parseInt(textbox.getValue())) ? 0 : parseInt(textbox.getValue()),
 			}));
 		},
 	};
@@ -429,11 +429,11 @@ export function createStatistics(name = "entries", addBrackets = false, lowercas
 		type: "div",
 		class: "statistics",
 		children: [
-			(addBrackets ? "(" : "") + `${lowercase ? "s" : "S"}howing `,
+			`${addBrackets ? "(" : ""}${lowercase ? "s" : "S"}howing `,
 			elementBuilder({ type: "strong", class: "stat-count", text: "X" }),
 			" of ",
 			elementBuilder({ type: "strong", class: "stat-total", text: "Y" }),
-			` ${name}` + (addBrackets ? ")" : "."),
+			` ${name}${addBrackets ? ")" : "."}`,
 		],
 	});
 

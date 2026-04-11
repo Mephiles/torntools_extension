@@ -1,12 +1,12 @@
 import "./oc-times.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
-import { factiondata, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { formatDate, formatTime } from "@/utils/common/functions/formatting";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
+import { factiondata, settings } from "@/utils/common/data/database";
+import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { formatDate, formatTime } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {

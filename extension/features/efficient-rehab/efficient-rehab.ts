@@ -1,12 +1,12 @@
 import "./efficient-rehab.css";
+import type { EfficientRehabDetails } from "@/entrypoints/efficient-rehab--inject";
 import { Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, executeScript, findAllElements } from "@/utils/common/functions/dom";
 import { applyPlural } from "@/utils/common/functions/formatting";
+import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireCondition, requireElement } from "@/utils/common/functions/requires";
-import type { EfficientRehabDetails } from "@/entrypoints/efficient-rehab--inject";
 
 let isInjected = false;
 let knownPercentages: any;

@@ -1,9 +1,9 @@
-import styles from "./fill-max.module.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import styles from "./fill-max.module.css";
 
 let reactObserver: MutationObserver | undefined;
 
@@ -37,7 +37,7 @@ async function removeFillMax() {
 
 async function maxBuyListener(clickEvent: any | null = null) {
 	if (!mobile) {
-		if (!clickEvent || !clickEvent.target.closest("[class*='controlPanelButton___']")) return;
+		if (!clickEvent?.target.closest("[class*='controlPanelButton___']")) return;
 		requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.querySelector("[class*='buyMenu__']")));
 	} else {
 		await requireElement(".ReactVirtualized__Grid__innerScrollContainer [class*='buyForm___']");

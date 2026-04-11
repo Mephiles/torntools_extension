@@ -1,13 +1,13 @@
 import "./bounty-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createStatistics, StatisticsResult } from "@/utils/common/functions/filters";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createStatistics, type StatisticsResult } from "@/utils/common/functions/filters";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 
 function initialiseListener() {
 	new MutationObserver(async () => {
@@ -42,7 +42,7 @@ async function addFilter() {
 		elementBuilder({
 			type: "span",
 			text: "Max Level",
-		})
+		}),
 	);
 	let statistics: StatisticsResult;
 	if (!device.mobile && !device.tablet) {
@@ -83,8 +83,6 @@ async function addFilter() {
 			} else showBounty(bounty);
 			if (hideUnavailable && bounty.querySelector(".user-red-status, .user-blue-status")) {
 				hideBounty(bounty);
-				// noinspection UnnecessaryContinueJS
-				continue;
 			} else showBounty(bounty);
 		}
 
@@ -93,7 +91,7 @@ async function addFilter() {
 			statistics.updateStatistics(
 				findAllElements(".bounties-list > li[data-id]:not(.tt-hidden)").length,
 				findAllElements(".bounties-list > li[data-id]").length,
-				options.parentElement.querySelector(".title .text")
+				options.parentElement.querySelector(".title .text"),
 			);
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 

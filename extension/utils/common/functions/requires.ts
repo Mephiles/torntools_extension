@@ -31,7 +31,7 @@ export function requireCondition(condition: RequireConditionFn, partialOptions: 
 				if (response) resolve(true);
 				else reject();
 			} else if (typeof response === "object") {
-				if (response.hasOwnProperty("success")) {
+				if (Object.hasOwn(response, "success")) {
 					if (response.success === true) resolve(response.value);
 					else reject(response.value);
 				} else {
@@ -97,7 +97,7 @@ interface ChainedObserver {
  */
 export function observeChain(root: ParentNode, selectorsChain: string[], onReached: (lastChainElement: Element) => () => void) {
 	let activeObservers: ChainedObserver[] = [];
-	let cleanupFn: () => void | undefined = undefined;
+	let cleanupFn: () => void;
 
 	function observe(target: ParentNode, index: number) {
 		const selector = selectorsChain[index];

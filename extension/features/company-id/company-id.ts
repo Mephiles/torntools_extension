@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isOwnCompany, readCompanyDetails } from "@/pages/company-page";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { isOwnCompany, readCompanyDetails } from "@/pages/company-page";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialise() {
 	if (!isOwnCompany) {
@@ -20,7 +20,7 @@ async function addID() {
 	if (document.getElementById("tt-company-id")) return; // Element has already been added - second check in-case feature reinjects
 
 	const container: HTMLElement = await requireElement(
-		isOwnCompany ? "div.company-wrap > div.title-black" : "div.company-details-wrap > div.company-details > div.title-black"
+		isOwnCompany ? "div.company-wrap > div.title-black" : "div.company-details-wrap > div.company-details > div.title-black",
 	);
 
 	const details = await readCompanyDetails();

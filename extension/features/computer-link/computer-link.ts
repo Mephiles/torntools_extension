@@ -1,10 +1,10 @@
 import "./computer-link.css";
 import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { createTTTopLinks, isAbroad, isFlying } from "@/utils/common/functions/torn";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { checkDevice, elementBuilder, mobile } from "@/utils/common/functions/dom";
 import { requireContent } from "@/utils/common/functions/requires";
+import { createTTTopLinks, isAbroad, isFlying } from "@/utils/common/functions/torn";
 
 async function showComputer() {
 	await requireContent();
@@ -39,7 +39,7 @@ async function showComputer() {
 				"aria-labelledby": "computer",
 				href: "pc.php",
 			},
-		})
+		}),
 	);
 }
 

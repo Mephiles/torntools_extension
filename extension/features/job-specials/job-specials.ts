@@ -1,12 +1,12 @@
 import "./job-specials.css";
 import { Feature } from "@/features/feature-manager";
-import { COMPANY_INFORMATION, getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { elementBuilder, mobile } from "@/utils/common/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, mobile } from "@/utils/common/functions/dom";
 import { applyPlural } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
+import { COMPANY_INFORMATION, getPageStatus } from "@/utils/common/functions/torn";
 
 async function addListener() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(async () => {
@@ -56,7 +56,7 @@ async function showSpecials() {
 						elementBuilder({ type: "hr", class: "second-hr" }),
 						elementBuilder({ type: "div", text: effect }),
 					],
-				})
+				}),
 			);
 		} else {
 			content.appendChild(
@@ -72,7 +72,7 @@ async function showSpecials() {
 						elementBuilder({ type: "div", text: costText }),
 						elementBuilder({ type: "div", text: effect }),
 					],
-				})
+				}),
 			);
 		}
 	}

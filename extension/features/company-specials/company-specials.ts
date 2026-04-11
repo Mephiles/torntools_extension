@@ -1,15 +1,15 @@
 import "./company-specials.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import type { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
 import { FETCH_PLATFORMS, fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
-import { ttCache } from "@/utils/common/data/cache";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
 
 const data: Record<number, any> = {};
 
@@ -20,7 +20,7 @@ function initialiseCompanySpecials() {
 		const { page, json } = detail;
 
 		if (page === "companies" && json) {
-			if (json.result && json.result.msg) {
+			if (json.result?.msg) {
 				if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
 				if (json.result.msg.total) calculateSpies(json).catch((error) => console.error("Couldn't help with the spies.", error));
 			}
@@ -72,9 +72,9 @@ async function showMuggableCash(json: any) {
 			type: "li",
 			text: `Potential mug${api ? "" : "*"}: ${formatNumber(cash * (percentageMin / 100), { currency: true })} - ${formatNumber(
 				cash * (percentageMax / 100),
-				{ currency: true }
+				{ currency: true },
 			)}`,
-		})
+		}),
 	);
 	if (!api) jobInfo.appendChild(elementBuilder({ type: "li", text: "* Might not be entirely accurate due to missing API information." }));
 }
@@ -188,7 +188,7 @@ async function calculateSpies(json: any) {
 													text: response.message,
 												}),
 											],
-										})
+										}),
 									);
 								}
 							})
@@ -199,7 +199,7 @@ async function calculateSpies(json: any) {
 										type: "div",
 										class: "external-response-wrap",
 										children: [elementBuilder({ type: "span", class: "external-response error", text: "Something went wrong!" })],
-									})
+									}),
 								);
 							});
 					},

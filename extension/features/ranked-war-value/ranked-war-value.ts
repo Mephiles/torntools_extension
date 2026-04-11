@@ -1,11 +1,11 @@
-import styles from "./ranked-war-value.module.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, torndata } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import styles from "./ranked-war-value.module.css";
 
 const REGEX_REWARD_LINE = /.*received .* bonus respect, (.*)/;
 const REGEX_ITEM_ENTRY = /(\d+)x (.*)/;
@@ -39,7 +39,7 @@ async function showRWValue() {
 				type: "div",
 				class: styles.rankedWarValue,
 				text: `Total Value: ${formatNumber(value, { currency: true })}`,
-			})
+			}),
 		);
 	});
 }

@@ -1,16 +1,16 @@
 import "./enemy-filter.css";
 import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
-import { ttStorage } from "@/utils/common/data/storage";
-import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
 
 let filterSetupComplete: boolean = false;
 
@@ -145,7 +145,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
 		findAllElements(".tableWrapper ul > li").length,
-		content
+		content,
 	);
 }
 
@@ -173,7 +173,7 @@ function filterRow(row: HTMLElement, filters: Partial<EnemyFilters>, individual:
 			return;
 		}
 	}
-	if (filters.statsEstimates && filters.statsEstimates.length) {
+	if (filters.statsEstimates?.length) {
 		// TODO - Implement for the enemy filter. Make sure to put the required data on the dataset first.
 		const estimate = row.dataset.estimate?.toLowerCase();
 		if ((estimate || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
@@ -198,7 +198,7 @@ function filterRow(row: HTMLElement, filters: Partial<EnemyFilters>, individual:
 			localFilters["Statistics"].updateStatistics(
 				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 				findAllElements("ul.user-info-blacklist-wrap > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -217,7 +217,7 @@ function filterRow(row: HTMLElement, filters: Partial<EnemyFilters>, individual:
 			localFilters["Statistics"].updateStatistics(
 				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 				findAllElements("ul.user-info-blacklist-wrap> li").length,
-				content
+				content,
 			);
 		}
 	}

@@ -1,13 +1,13 @@
 import "./quick-crimes.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { quick, settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { ttStorage } from "@/utils/common/data/storage";
+import { usingFirefox } from "@/utils/common/functions/browser";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { ttStorage } from "@/utils/common/data/storage";
-import { usingFirefox } from "@/utils/common/functions/browser";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { PHFillPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 
 interface QuickCrime {
@@ -97,7 +97,7 @@ async function loadCrimes() {
 					}
 				},
 			},
-		})
+		}),
 	);
 
 	for (const quickCrime of quick.crimes) {
@@ -108,7 +108,7 @@ async function loadCrimes() {
 
 	function makeDraggable() {
 		const form = document.querySelector(".specials-cont-wrap form[name='crimes']");
-		if (!form || !form.hasAttribute("action")) return;
+		if (!form?.hasAttribute("action")) return;
 
 		const action = `${location.origin}/${form.getAttribute("action")}`;
 		const step = getSearchParameters(action).get("step");

@@ -1,11 +1,11 @@
 import "./revive-request.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { checkDevice, elementBuilder, isElement } from "@/utils/common/functions/dom";
-import { getPage, getSidebarData, getUserDetails, isFlying } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { calculateRevivePrice, doRequestRevive } from "@/utils/common/functions/api-external-revives";
+import { checkDevice, elementBuilder, isElement } from "@/utils/common/functions/dom";
 import { capitalizeText } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPage, getSidebarData, getUserDetails, isFlying } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { PHFillStethoscope } from "@/utils/common/icons/phosphor-icons";
 

@@ -1,12 +1,11 @@
 import { Feature } from "@/features/feature-manager";
-import { isAbroad, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
+import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createTextbox } from "@/utils/common/elements/textbox/textbox";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { ttStorage } from "@/utils/common/data/storage";
 import {
 	createFilterSection,
 	createStatistics,
@@ -16,8 +15,9 @@ import {
 	type SpecialFilterValue,
 } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
-import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { isAbroad, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
 
 const localFilters = {};
 
@@ -204,7 +204,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".users-list > li:not(.tt-hidden)").length,
 		findAllElements(".users-list > li").length,
-		content
+		content,
 	);
 }
 
@@ -232,7 +232,7 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 	if (filters.activity?.length) {
 		if (
 			!filters.activity.some(
-				(x) => x.trim() === row.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim()
+				(x) => x.trim() === row.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim(),
 			)
 		) {
 			hide("activity");
@@ -324,12 +324,12 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 			const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
 			if (gauge) {
 				const ffFloat: number = parseFloat(gauge.getAttribute("data-ff-scout"));
-				if (!isNaN(ffFloat)) {
-					if (filters.ffScoreMax && !isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
+				if (!Number.isNaN(ffFloat)) {
+					if (filters.ffScoreMax && !Number.isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
 						hide("ff-score");
 						return;
 					}
-					if (filters.ffScoreMin && !isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
+					if (filters.ffScoreMin && !Number.isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
 						hide("ff-score");
 						return;
 					}
@@ -356,7 +356,7 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".users-list > li:not(.tt-hidden)").length,
 				findAllElements(".users-list > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -375,7 +375,7 @@ function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, indi
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".users-list > li:not(.tt-hidden)").length,
 				findAllElements(".users-list > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -390,7 +390,7 @@ function getFactions() {
 					.filter((img) => !!img)
 					.map((img) => img.getAttribute("title").trim())
 					.filter((tag) => !!tag)
-			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
+			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
 	);
 
 	const factions = [];

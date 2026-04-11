@@ -1,14 +1,14 @@
 import "./bazaar-worth.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
-import { settings, userdata } from "@/utils/common/data/database";
 import { ttCache } from "@/utils/common/data/cache";
+import { settings, userdata } from "@/utils/common/data/database";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { UserV1BazaarItem, UserV1BazaarResponse } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, getSearchParameters } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addFetchListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { UserV1BazaarItem, UserV1BazaarResponse } from "@/utils/common/functions/api-v1.types";
 
 interface BazaarFetchItem {
 	amount: number;
@@ -58,8 +58,8 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 					elementBuilder({
 						type: "div",
 						class: "tt-bazaar-text",
-						text: "TORN API returned error:" + error.toString(),
-					})
+						text: `TORN API returned error: ${error.toString()}`,
+					}),
 				);
 				console.log("TT - Bazaar Worth API Error:", error);
 			});
@@ -90,7 +90,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 					class: "tt-bazaar-text",
 					text: "This bazaar is worth ",
 					children: [elementBuilder({ type: "span", text: formatNumber(total, { currency: true }) }), "."],
-				})
+				}),
 			);
 		}
 	}

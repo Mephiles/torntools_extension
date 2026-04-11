@@ -1,8 +1,8 @@
+import { settings } from "@/utils/common/data/database";
+import { checkDevice, findAllElements } from "@/utils/common/functions/dom";
+import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireCondition, requireDOMContentLoaded, requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { checkDevice, findAllElements } from "@/utils/common/functions/dom";
-import { settings } from "@/utils/common/data/database";
 
 export async function setupTravelHomePage() {
 	await requireDOMContentLoaded();
@@ -24,7 +24,7 @@ export async function setupTravelHomePage() {
 				const country = countryElement.textContent.trim().toLowerCase().replaceAll(" ", "_");
 
 				requireCondition(() => destinationElement.classList.contains("expanded")).then(() =>
-					triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country })
+					triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country }),
 				);
 			});
 		});

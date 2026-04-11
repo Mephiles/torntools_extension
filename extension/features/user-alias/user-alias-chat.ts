@@ -1,9 +1,10 @@
 import "./user-alias.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { requireChatsLoaded } from "@/utils/common/functions/requires";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { findAllElements } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireChatsLoaded } from "@/utils/common/functions/requires";
+import { isChatV3 } from "@/utils/common/functions/torn";
 import {
 	SELECTOR_CHAT_ROOT,
 	SELECTOR_CHAT_V2__CHAT_BOX,
@@ -16,7 +17,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 	SELECTOR_CHAT_V3__MINIMIZED_NAME,
 } from "@/utils/common/global/selectors/chatSelectors";
-import { isChatV3 } from "@/utils/common/functions/torn";
 
 async function addListeners() {
 	await requireChatsLoaded();
@@ -110,7 +110,7 @@ function addAliasMessage(message: Element | null = null) {
 				[
 					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V2__MESSAGE_SENDER}[href*='/profiles.php?XID=${userID}']`,
 					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userID}']`,
-				].join(", ")
+				].join(", "),
 			).forEach((profileLink) => {
 				profileLink.dataset.original = profileLink.textContent;
 				profileLink.firstChild.textContent = alias.alias;

@@ -1,12 +1,12 @@
 import "./travel-cooldowns.css";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile, tabletVertical } from "@/utils/common/functions/dom";
+import { textToTime } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { textToTime } from "@/utils/common/functions/formatting";
+import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	const handler = async () => {
@@ -25,12 +25,12 @@ function initialiseListeners() {
 
 async function showWarnings() {
 	const container = await requireElement(
-		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
+		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']",
 	);
 	if (!container) return;
 
 	const durationText = container.querySelector(
-		["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", ")
+		["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", "),
 	)?.textContent;
 	if (!durationText) return;
 
@@ -76,7 +76,7 @@ async function showWarnings() {
 					type: "div",
 					class: ["cooldown", "education", getDurationClass(userdata.education_timeleft)],
 					text: "Your education course will end before you return!",
-				})
+				}),
 			);
 
 		const investmentMessage =
@@ -89,7 +89,7 @@ async function showWarnings() {
 				type: "div",
 				class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank.until - userdata.date)],
 				text: investmentMessage,
-			})
+			}),
 		);
 	} else {
 		handleClass(cooldowns.querySelector(".energy"), userdata.energy.fulltime);

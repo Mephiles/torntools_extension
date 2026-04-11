@@ -1,9 +1,9 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 let observer: MutationObserver;
 
@@ -31,7 +31,7 @@ async function addPropertyValues() {
 				type: "span",
 				class: "tt-property-value",
 				text: ` (${formatNumber(convertToNumber(info.textContent), { currency: true })})`,
-			})
+			}),
 		);
 	}
 }

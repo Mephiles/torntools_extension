@@ -1,10 +1,10 @@
 import "./casino-net-total.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPage, getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPage, getPageStatus } from "@/utils/common/functions/torn";
 
 const page = getPage();
 
@@ -37,7 +37,7 @@ async function addTotal() {
 			document,
 			null,
 			XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-			null
+			null,
 		);
 		if (moneyElementsList.snapshotLength !== 2) continue;
 		const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replace(/[$, ]/g, ""));
@@ -58,7 +58,7 @@ async function addTotal() {
 					elementBuilder({ type: "li", class: "name", text: "Net total" }),
 					elementBuilder({ type: "li", class: "value", text: formatNumber(totalWon - totalLost, { currency: true }) }),
 				],
-			})
+			}),
 		);
 	}
 

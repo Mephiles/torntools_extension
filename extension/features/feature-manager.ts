@@ -1,11 +1,11 @@
 import { factiondata, loadDatabase, localdata, npcs, settings, storageListeners, userdata, version } from "@/utils/common/data/database";
-import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@/utils/common/functions/requires";
 import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@/utils/common/functions/utilities";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@/utils/common/functions/requires";
+import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@/utils/common/functions/utilities";
 import "./feature-manager.css";
-import { SOURCE_SERVICE } from "@/utils/services/proxy-services";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@/utils/common/icons/phosphor-icons";
+import { SOURCE_SERVICE } from "@/utils/services/proxy-services";
 
 type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
 
@@ -32,6 +32,7 @@ export abstract class Feature {
 
 	abstract isEnabled(): boolean;
 	initialise(): void {}
+	// biome-ignore lint/correctness/noUnusedFunctionParameters: Meant to be overridden, so here as a placeholder.
 	execute(liveReload?: boolean): void | Promise<void> {}
 	cleanup(): void {}
 
@@ -117,7 +118,7 @@ class FeatureManager {
 				"%cTorn%cTools %cis running.",
 				"font-size: 30px; font-weight: 600; color: green;",
 				"font-size: 30px; font-weight: 600; color: #000;",
-				"font-size: 30px;"
+				"font-size: 30px;",
 			);
 		});
 	}
@@ -268,7 +269,7 @@ class FeatureManager {
 				const requirements = await getValueAsync(feature.requirements);
 				if (typeof requirements === "string") {
 					await this.executeFunction(feature.cleanup).catch((error) =>
-						this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error)
+						this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error),
 					);
 
 					this.showResult(feature, "information", { message: requirements });
@@ -420,7 +421,6 @@ class FeatureManager {
 					return PHBoldCheck();
 				case "registered":
 					return PHBoldSpinnerGap();
-				case "information":
 				default:
 					return PHQuestion();
 			}
@@ -488,7 +488,7 @@ class FeatureManager {
 									children: [PHBoldCopy()],
 									events: {
 										click: () => {
-											toClipboard("TornTools " + document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText);
+											toClipboard(`TornTools ${document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText}`);
 										},
 									},
 								}),
@@ -503,7 +503,7 @@ class FeatureManager {
 
 		try {
 			document.body.appendChild(popup);
-		} catch (error) {
+		} catch {
 			return;
 		}
 
@@ -532,7 +532,7 @@ class FeatureManager {
 		else this.container.classList.remove("no-content");
 	}
 
-	isEnabled(featureConstructor: Function): boolean {
+	isEnabled<T extends Feature>(featureConstructor: new () => T): boolean {
 		const feature = this.features.find((f) => f instanceof featureConstructor);
 		if (!feature) return false;
 

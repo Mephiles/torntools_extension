@@ -1,6 +1,6 @@
-import { hasAPIData } from "@/utils/common/functions/api";
 import { torndata } from "@/utils/common/data/database";
-import { TornV1Items } from "@/utils/common/functions/api-v1.types";
+import { hasAPIData } from "@/utils/common/functions/api";
+import type { TornV1Items } from "@/utils/common/functions/api-v1.types";
 
 export function getTornItemName(id: number): string | null {
 	return getTornItem(id)?.name ?? null;

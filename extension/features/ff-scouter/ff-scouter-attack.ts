@@ -1,10 +1,10 @@
-import { buildScoutInformation, scouterService, ScouterService } from "@/features/ff-scouter/ff-scouter";
 import { Feature } from "@/features/feature-manager";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { buildScoutInformation, type ScouterService, scouterService } from "@/features/ff-scouter/ff-scouter";
 import { settings } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { requireElement } from "@/utils/common/functions/requires";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 let SCOUTER_SERVICE: ScouterService;
 

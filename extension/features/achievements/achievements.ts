@@ -2,14 +2,14 @@ import "./achievements.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings, stockdata, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
+import type { TornV1Stock } from "@/utils/common/functions/api-v1.types";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText, mobile, tablet } from "@/utils/common/functions/dom";
-import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
 import { countTimers } from "@/utils/common/functions/timers";
-import type { TornV1Stock } from "@/utils/common/functions/api-v1.types";
 import { getPage } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 type Achievement = {
 	name: string;
@@ -778,7 +778,7 @@ async function showAchievements() {
 		return ACHIEVEMENTS.filter(
 			(achievement) =>
 				(!achievement.requirements.pages || achievement.requirements.pages.includes(page)) &&
-				(!achievement.requirements.condition || achievement.requirements.condition())
+				(!achievement.requirements.condition || achievement.requirements.condition()),
 		)
 			.map<EnrichedAchievement>((achievement) => {
 				const goals: EnrichedGoal[] = [];
@@ -813,7 +813,7 @@ async function showAchievements() {
 								desc = desc.replace(/\D|\d+%/g, ""); // replace all non-numbers and percentages
 
 								const score = parseInt(desc) || null;
-								if (score === null || isNaN(score)) continue;
+								if (score === null || Number.isNaN(score)) continue;
 
 								// Remove duplicates.
 								const duplicate = goals.find((goal) => goal.score === score);

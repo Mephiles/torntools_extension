@@ -1,13 +1,13 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@/utils/common/functions/filters";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { ttStorage } from "@/utils/common/data/storage";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 const localFilters: any = {};
 
@@ -190,8 +190,6 @@ async function filtering(pageChange: boolean = false) {
 		const level = convertToNumber(li.querySelector(".info-wrap .level").textContent);
 		if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 			hideRow(li);
-			// noinspection UnnecessaryContinueJS
-			continue;
 		}
 	}
 
@@ -206,7 +204,7 @@ async function filtering(pageChange: boolean = false) {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".users-list > li:not(.tt-hidden)").length,
 		findAllElements(".users-list > li").length,
-		content
+		content,
 	);
 }
 
@@ -219,7 +217,7 @@ function getFactions() {
 					.filter((img) => !!img)
 					.map((img) => img.getAttribute("title").trim())
 					.filter((tag) => !!tag)
-			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
+			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
 	);
 
 	const factions = [];

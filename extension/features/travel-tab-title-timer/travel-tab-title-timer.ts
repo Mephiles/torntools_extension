@@ -1,8 +1,8 @@
 import { Feature } from "@/features/feature-manager";
-import { isFlying } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
+import { isFlying } from "@/utils/common/functions/torn";
 
-let timerUpdateInterval: number | undefined = undefined;
+let timerUpdateInterval: number | undefined;
 
 async function showTabTimer() {
 	timerUpdateInterval = setInterval(() => updateTabTimer(), 1000);

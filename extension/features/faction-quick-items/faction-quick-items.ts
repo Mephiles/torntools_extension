@@ -1,18 +1,18 @@
 import "./faction-quick-items.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
+import type { TornInternalUseItem } from "@/pages/item-page";
 import { quick, settings, torndata } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import type { QuickFactionItem } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@/utils/common/functions/dom";
-import { requireItemsLoaded } from "@/utils/common/functions/requires";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { formatTime } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireItemsLoaded } from "@/utils/common/functions/requires";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
-import { ttStorage } from "@/utils/common/data/storage";
-import { isInternalFaction } from "@/pages/factions-page";
-import { TornInternalUseItem } from "@/pages/item-page";
-import { QuickFactionItem } from "@/utils/common/data/default-database";
 import { PHFillPlus, PHX } from "@/utils/common/icons/phosphor-icons";
 
 let movingElement: Element | undefined;
@@ -28,7 +28,7 @@ function addListener() {
 				if (responseWrap) responseWrap.style.display = "none";
 			}
 		},
-		{ passive: true }
+		{ passive: true },
 	);
 	setInterval(() => {
 		for (const timer of findAllElements(".counter-wrap.tt-modified")) {
@@ -100,7 +100,7 @@ async function showQuickItems(section: string) {
 					for (const category of findAllElements("#faction-armoury-tabs .torn-tabs > li")) {
 						if (
 							!["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(
-								category.querySelector("a.ui-tabs-anchor").textContent.trim()
+								category.querySelector("a.ui-tabs-anchor").textContent.trim(),
 							)
 						)
 							continue;
@@ -109,7 +109,7 @@ async function showQuickItems(section: string) {
 						else category.classList.remove("tt-overlay-item");
 					}
 					for (const item of findAllElements(
-						".armoury-medical-wrap, .armoury-drugs-wrap, .armoury-boosters-wrap, .armoury-points-wrap, .armoury-consumables-wrap, .armoury-temporary-wrap"
+						".armoury-medical-wrap, .armoury-drugs-wrap, .armoury-boosters-wrap, .armoury-points-wrap, .armoury-consumables-wrap, .armoury-temporary-wrap",
 					)) {
 						if (enabled) item.classList.add("tt-overlay-item-notbroken");
 						else item.classList.remove("tt-overlay-item-notbroken");
@@ -121,7 +121,7 @@ async function showQuickItems(section: string) {
 					attachEditListeners(enabled);
 				},
 			},
-		})
+		}),
 	);
 
 	for (const quickItem of quick.factionItems) {
@@ -152,7 +152,7 @@ function setupQuickDragListeners() {
 					class: "img-wrap tt-lazy-magic",
 					dataset: { itemid: `points-${type}` },
 					style: { display: "none" },
-				})
+				}),
 			);
 		}
 	} else {
@@ -177,7 +177,7 @@ function setupQuickDragListeners() {
 			if (document.querySelector("#factionQuickItems .temp.item")) return;
 
 			const _id = (event.target as Element).querySelector<HTMLElement>(".img-wrap").dataset.itemid;
-			const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
+			const id = Number.isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 			addQuickItem({ id }, true);
 		}, 10);
@@ -245,7 +245,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 								type: "div",
 								style: { display: "block" },
 								children: [elementBuilder({ type: "a", href: "#", class: "close-act t-blue bold c-pointer", text: "Okay" })],
-							})
+							}),
 						);
 					});
 				} else {
@@ -267,9 +267,9 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 											link.attr
 												.split(" ")
 												.filter((x) => !!x)
-												.map((x) => x.split("="))
+												.map((x) => x.split("=")),
 										),
-									})
+									}),
 								);
 							}
 						}
@@ -324,7 +324,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 										],
 									}),
 								],
-							})
+							}),
 						);
 
 						for (const count of findAllElements(".counter-wrap", responseWrap)) {
@@ -375,7 +375,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 					type: "div",
 					class: "pic icon-refill",
 					children: [elementBuilder({ type: "i", class: "currency-points" })],
-				})
+				}),
 			);
 			itemWrap.setAttribute("title", "Energy Refill");
 			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: "Energy Refill" }));
@@ -386,7 +386,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 					type: "div",
 					class: "pic icon-refill",
 					children: [elementBuilder({ type: "i", class: "currency-points" })],
-				})
+				}),
 			);
 			itemWrap.setAttribute("title", "Nerve Refill");
 			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: "Nerve Refill" }));
@@ -433,7 +433,7 @@ async function saveQuickItems() {
 		quick: {
 			factionItems: findAllElements(".item", content)
 				.map((x) => x.dataset.id)
-				.map((x) => (isNaN(parseInt(x)) ? (x as QuickFactionItem["id"]) : parseInt(x)))
+				.map((x) => (Number.isNaN(parseInt(x)) ? (x as QuickFactionItem["id"]) : parseInt(x)))
 				.map((x) => ({ id: x })),
 		},
 	});
@@ -479,8 +479,8 @@ async function onItemClickQuickEdit(event: MouseEvent) {
 
 	const _target = event.target as HTMLElement;
 	const target = _target.dataset.type === "tt-points" ? _target : findParent(_target, { tag: "LI" });
-	let _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
-	const id = isNaN(parseInt(_id)) ? _id : parseInt(_id);
+	const _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
+	const id = Number.isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 	const item = addQuickItem({ id }, false);
 	if (item) item.classList.add("tt-overlay-item", "removable");

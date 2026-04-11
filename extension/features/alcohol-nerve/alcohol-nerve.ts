@@ -1,10 +1,10 @@
 import "./alcohol-nerve.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { getPageStatus, isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus, isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 
 function initialiseAddGains() {
 	const listener = () => {
@@ -28,11 +28,11 @@ function addNerveGains() {
 			torndata.itemsMap[alcoholicDrink.dataset.item].effect
 				.split(" ")
 				.map((x) => parseInt(x))
-				.filter((x) => !isNaN(x))[0]
-				.toString()
+				.filter((x) => !Number.isNaN(x))[0]
+				.toString(),
 		);
-		if (!isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;
-		if (!isNaN(companyPerk)) totalNerve *= 1 + companyPerk / 100;
+		if (!Number.isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;
+		if (!Number.isNaN(companyPerk)) totalNerve *= 1 + companyPerk / 100;
 
 		if (isEventActive(TORN_EVENTS.ST_PATRICKS_DAY, true)) {
 			totalNerve *= 2;

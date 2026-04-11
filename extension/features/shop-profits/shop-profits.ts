@@ -1,12 +1,12 @@
 import "./shop-profits.css";
 import { Feature } from "@/features/feature-manager";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, torndata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { PHFillCaretUp, PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import { PHFillCaretDown, PHFillCaretUp } from "@/utils/common/icons/phosphor-icons";
 
 async function showProfits() {
 	await requireElement(".item-desc");

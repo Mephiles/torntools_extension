@@ -1,9 +1,9 @@
 import "./stocks-money-input.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, updateReactInput } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements, isHTMLElement } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, updateReactInput } from "@/utils/common/functions/torn";
 
 async function addMoneyInputs(e: { target: EventTarget }) {
 	if (!isHTMLElement(e.target)) return;
@@ -34,7 +34,7 @@ async function addMoneyInputs(e: { target: EventTarget }) {
 							} else {
 								money = parseFloat(input);
 							}
-							if (isNaN(money)) return;
+							if (Number.isNaN(money)) return;
 
 							const stockRow = document.querySelector("[class*='stockOwned__'][class*='active__']")?.parentElement;
 							if (!stockRow) return;
@@ -44,7 +44,7 @@ async function addMoneyInputs(e: { target: EventTarget }) {
 							if (quantityToPurchase <= 0) return;
 
 							const stockBuyInput = document.querySelector(
-								"[class*='stockDropdown__'] " + blockType + " input.input-money:not([type='hidden'])"
+								`[class*='stockDropdown__'] ${blockType} input.input-money:not([type='hidden'])`,
 							) as HTMLInputElement;
 							updateReactInput(stockBuyInput, quantityToPurchase.toString());
 						},
@@ -53,7 +53,7 @@ async function addMoneyInputs(e: { target: EventTarget }) {
 			],
 		});
 
-		(await requireElement("[class*='stockDropdown__'] " + blockType + " [class*='manageBlock__']")).appendChild(moneyInputElement);
+		(await requireElement(`[class*='stockDropdown__'] ${blockType} [class*='manageBlock__']`)).appendChild(moneyInputElement);
 	}
 }
 

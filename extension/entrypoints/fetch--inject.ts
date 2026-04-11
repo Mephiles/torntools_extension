@@ -13,8 +13,8 @@ export interface FetchDetails {
 
 function interceptFetch(channel: string) {
 	const oldFetch = window.fetch;
-	(window.fetch as any) = function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-		return new Promise((resolve, reject) => {
+	(window.fetch as any) = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>
+		new Promise((resolve, reject) => {
 			oldFetch(input, init)
 				.then(async (response: Response) => {
 					const page = response.url.substring(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
@@ -57,7 +57,6 @@ function interceptFetch(channel: string) {
 					reject(error);
 				});
 		});
-	};
 }
 
 // noinspection JSUnusedGlobalSymbols

@@ -1,11 +1,11 @@
-import styles from "./only-new-feed.module.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { localdata, settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { PHEye, PHEyeSlash } from "@/utils/common/icons/phosphor-icons";
 import { ttStorage } from "@/utils/common/data/storage";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { addXHRListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { PHEye, PHEyeSlash } from "@/utils/common/icons/phosphor-icons";
+import styles from "./only-new-feed.module.css";
 
 export interface StoredHiddenFeeds {
 	[key: string]: boolean;
@@ -83,7 +83,7 @@ function handleHiddenElements(feedElement: Element) {
 			type: "div",
 			class: styles.nothingToShow,
 			text: "Nothing left to show here.",
-		})
+		}),
 	);
 }
 

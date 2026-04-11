@@ -1,4 +1,4 @@
-import { api, Database, DatabaseKey, RecursivePartial, Writable } from "@/utils/common/data/database";
+import { api, type Database, type DatabaseKey, type RecursivePartial, type Writable } from "@/utils/common/data/database";
 import { DEFAULT_STORAGE, DefaultSetting } from "@/utils/common/data/default-database";
 
 class TornToolsStorage {

@@ -1,10 +1,10 @@
 import "./sidebar-notes.css";
 import { Feature } from "@/features/feature-manager";
-import { requireSidebar } from "@/utils/common/functions/requires";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { checkDevice, elementBuilder, findElementWithText, findParent, isHTMLElement } from "@/utils/common/functions/dom";
 import { notes, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { checkDevice, elementBuilder, findElementWithText, findParent, isHTMLElement } from "@/utils/common/functions/dom";
+import { requireSidebar } from "@/utils/common/functions/requires";
 
 async function showNotes() {
 	await requireSidebar();
@@ -36,7 +36,7 @@ async function showNotes() {
 					await ttStorage.change({ notes: { sidebar: { text: (event.target as HTMLInputElement).value } } });
 				},
 			},
-		})
+		}),
 	);
 }
 

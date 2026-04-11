@@ -1,9 +1,9 @@
 import "./collapsible-areas.css";
 import { Feature } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { checkDevice, findElementWithText, isElement } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { ttStorage } from "@/utils/common/data/storage";
 import { PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
 let observer: MutationObserver | undefined;

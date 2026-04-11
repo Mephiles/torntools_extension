@@ -1,13 +1,13 @@
 import "./npc-loot-times.css";
 import { Feature } from "@/features/feature-manager";
 import { npcs, settings } from "@/utils/common/data/database";
-import { checkDevice, elementBuilder, findElementWithText, findParent, isElement } from "@/utils/common/functions/dom";
-import { requireSidebar } from "@/utils/common/functions/requires";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { dropDecimals, formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { checkDevice, elementBuilder, findElementWithText, findParent, isElement } from "@/utils/common/functions/dom";
+import { dropDecimals, type FormatTimeOptions, formatTime } from "@/utils/common/functions/formatting";
+import { requireSidebar } from "@/utils/common/functions/requires";
 import { countdownTimers } from "@/utils/common/functions/timers";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { PHFillBell, PHFillBellSlash } from "@/utils/common/icons/phosphor-icons";
 
 async function showNPCs() {
@@ -50,7 +50,7 @@ async function showNPCs() {
 					elementBuilder({ type: "span", class: "npc-name", text: "Planned Attack" }),
 					elementBuilder({ type: "div", class: "npc-information", children: [timer] }),
 				],
-			})
+			}),
 		);
 	}
 
@@ -83,7 +83,7 @@ async function showNPCs() {
 					type: "div",
 					class: "tt-npc-divider",
 					text: "-- not scheduled --",
-				})
+				}),
 			);
 		}
 
@@ -99,7 +99,7 @@ async function showNPCs() {
 						children: [elementBuilder({ type: "span", class: npc.current === 0 ? "status hospital" : "status", text: status }), timer],
 					}),
 				],
-			})
+			}),
 		);
 	}
 
@@ -119,7 +119,7 @@ async function showNPCs() {
 					ttStorage.change({ settings: { notifications: { types: { npcsGlobal: newStatus } } } });
 				},
 			},
-		})
+		}),
 	);
 }
 

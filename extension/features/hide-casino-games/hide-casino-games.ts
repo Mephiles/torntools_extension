@@ -1,8 +1,8 @@
-import styles from "./hide-casino-games.module.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import styles from "./hide-casino-games.module.css";
 
 function hideCasinoGames() {
 	const msg = document.querySelector(".msg.right-round");
@@ -17,7 +17,7 @@ function hideCasinoGames() {
 						text: "Some games have been removed by TornTools. They can be re-enabled in TornTools' settings.",
 					}),
 				],
-			})
+			}),
 		);
 	}
 	findAllElements(`.games-list .${styles.ttHiddenGame}`).forEach((game) => {
@@ -36,7 +36,7 @@ function hideCasinoGames() {
 				type: "div",
 				class: styles.ttHiddenGame,
 				children: [elementBuilder({ type: "b", text: "• REMOVED •" })],
-			})
+			}),
 		);
 	}
 }

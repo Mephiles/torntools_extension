@@ -2,11 +2,11 @@ import { Feature } from "@/features/feature-manager";
 import { factiondata, settings } from "@/utils/common/data/database";
 import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
-import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
-import { LINKS } from "@/utils/common/functions/torn";
+import { type FormatTimeOptions, formatTime } from "@/utils/common/functions/formatting";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { countdownTimers } from "@/utils/common/functions/timers";
+import { LINKS } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 async function showTimer() {
 	await requireSidebar();
@@ -50,7 +50,7 @@ async function showTimer() {
 				id: "factionOCTimer",
 				children: [elementBuilder({ type: "a", class: "title", text: "Faction OC: ", href: LINKS.organizedCrimes }), factionOCElement],
 				style: { order: "2" },
-			})
+			}),
 		);
 	}
 }

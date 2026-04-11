@@ -1,10 +1,10 @@
 import "./colored-chat.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { CHAT_TITLE_COLORS, is2FACheckPage } from "@/utils/common/functions/torn";
 import { findAllElements } from "@/utils/common/functions/dom";
-import { requireChatsLoaded } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireChatsLoaded } from "@/utils/common/functions/requires";
+import { CHAT_TITLE_COLORS, is2FACheckPage } from "@/utils/common/functions/torn";
 
 async function initialiseColoredChats() {
 	await requireChatsLoaded();
@@ -33,7 +33,7 @@ async function showColoredChats(loaded = false) {
 			"[class*='chat-box__'] > [class*='chat-box-header__']", // Chat 2.0 - chat headers
 			"[class*='root___']:has(> button[id*='channel_panel_button:private'])", // Chat 3.0 - minimized private chats
 			"[class*='root___'] > [class*='root___']:has(> button[class*='header___'])", // Chat 3.0 - chat headers
-		].join(", ")
+		].join(", "),
 	).forEach((chatHeader) => {
 		const chatPlayer = chatHeader.textContent;
 		const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);

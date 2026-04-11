@@ -1,5 +1,5 @@
 import "./checkbox-list.css";
-import { CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { type CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { elementBuilder } from "@/utils/common/functions/dom";
 
 interface CheckboxListOptions {
@@ -48,7 +48,10 @@ export function createCheckboxList(partialOptions: Partial<CheckboxListOptions>)
 	});
 
 	function setSelections(selectedItemIds: string[]) {
-		selectedIds = selectedItemIds.reduce((object: { [key: string]: boolean }, id) => ({ ...object, [id]: true }), {});
+		selectedIds = selectedItemIds.reduce((object: { [key: string]: boolean }, id) => {
+			object[id] = true;
+			return object;
+		}, {});
 
 		for (const id in checkboxes) {
 			checkboxes[id].setChecked(selectedIds[id] || false);

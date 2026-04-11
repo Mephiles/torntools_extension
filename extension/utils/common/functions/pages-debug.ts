@@ -1,8 +1,8 @@
+import { ttCache } from "@/utils/common/data/cache";
+import type { Database } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { Database } from "@/utils/common/data/database";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
-import { ttCache } from "@/utils/common/data/cache";
 
 // declare global {
 // 	interface Window {

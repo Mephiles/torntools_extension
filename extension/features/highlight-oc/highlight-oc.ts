@@ -1,11 +1,11 @@
 import "./highlight-oc.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { isInternalFaction } from "@/pages/factions-page";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {

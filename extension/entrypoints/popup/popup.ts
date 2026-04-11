@@ -1,3 +1,5 @@
+import type { MarketItemMarketResponse, TornItem, UserStock } from "tornapi-typescript";
+import { ttCache } from "@/utils/common/data/cache";
 import {
 	api,
 	factionStakeouts,
@@ -12,9 +14,14 @@ import {
 	torndata,
 	userdata,
 } from "@/utils/common/data/database";
+import type { TTNotification } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/functions/api";
+import type { TornW3BResult } from "@/utils/common/functions/api.types";
+import type { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, findAllElements, isHTMLElement, rotateElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
-import { isToday, sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
-import { PHCaretDown, PHFillBell, PHFillBellSlash, PHFillCaretDown, PHFillCaretRight, PHTrash } from "@/utils/common/icons/phosphor-icons";
+import { applyPlural, capitalizeText, dropDecimals, formatDate, formatNumber, formatTime, textToTime, toSeconds } from "@/utils/common/functions/formatting";
+import { getPageTheme } from "@/utils/common/functions/pages";
 import {
 	ALL_ICONS,
 	getNextChainBonus,
@@ -26,15 +33,8 @@ import {
 	isDividendStock,
 	isSellable,
 } from "@/utils/common/functions/torn";
-import { ttStorage } from "@/utils/common/data/storage";
-import { applyPlural, capitalizeText, dropDecimals, formatDate, formatNumber, formatTime, textToTime, toSeconds } from "@/utils/common/functions/formatting";
-import { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
-import { TornW3BResult } from "@/utils/common/functions/api.types";
-import { MarketItemMarketResponse, TornItem, UserStock } from "tornapi-typescript";
-import { ttCache } from "@/utils/common/data/cache";
-import { TTNotification } from "@/utils/common/data/default-database";
-import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/functions/api";
-import { getPageTheme } from "@/utils/common/functions/pages";
+import { isToday, sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
+import { PHCaretDown, PHFillBell, PHFillBellSlash, PHFillCaretDown, PHFillCaretRight, PHTrash } from "@/utils/common/icons/phosphor-icons";
 
 const SETUP_PAGES = {
 	initialize: setupInitialize,
@@ -177,7 +177,7 @@ async function setupDashboard() {
 
 	const iconsWrap = dashboard.querySelector(".icons-wrap");
 	for (const { icon, id, description, ...r } of ALL_ICONS) {
-		let url = "url" in r ? r.url : null;
+		const url = "url" in r ? r.url : null;
 
 		iconsWrap.appendChild(
 			elementBuilder({
@@ -189,7 +189,7 @@ async function setupDashboard() {
 				],
 				attributes: url ? { href: url, target: "_blank" } : {},
 				dataset: { id },
-			})
+			}),
 		);
 	}
 
@@ -346,11 +346,11 @@ async function setupDashboard() {
 					if (userdataIcon) {
 						icon.classList.remove("tt-hidden");
 
-						let iconText = `${userdataIcon.title} - ${userdataIcon.description}`;
+						const iconText = `${userdataIcon.title} - ${userdataIcon.description}`;
 						let iconHTML: string;
 
 						if (iconText.includes(" - ") && iconText.includes(" seconds")) {
-							let timeSplits = iconText.split(" - ");
+							const timeSplits = iconText.split(" - ");
 							let time: string, text: string;
 
 							if (timeSplits.length > 2) {
@@ -376,8 +376,8 @@ async function setupDashboard() {
 
 		function updateBar(name: string, bar: UserV1Bar) {
 			const current = bar ? bar.current : 0;
-			let maximum = bar ? bar.maximum : 100;
-			let tickAt: string | number = (userdata.server_time + (bar ? bar.ticktime : 0)) * 1000;
+			const maximum = bar ? bar.maximum : 100;
+			const tickAt: string | number = (userdata.server_time + (bar ? bar.ticktime : 0)) * 1000;
 			let fullAt: string | number = (userdata.server_time + bar.fulltime) * 1000;
 
 			if (current === maximum) fullAt = "full";
@@ -556,11 +556,11 @@ async function setupDashboard() {
 		const dataset = cooldown.dataset;
 		const current = Date.now();
 
-		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
+		const completed_at = !Number.isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
 		cooldown.querySelector(".cooldown-label").textContent = formatTime(
 			{ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 },
-			{ type: "timer", daysToHours: true }
+			{ type: "timer", daysToHours: true },
 		);
 	}
 
@@ -612,7 +612,7 @@ async function setupDashboard() {
 			});
 			removeStakeoutButton.addEventListener("click", () => {
 				delete stakeouts[id];
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
 
 				ttStorage.set({ stakeouts });
 			});
@@ -681,7 +681,7 @@ async function setupDashboard() {
 							children: [elementBuilder({ type: "span", class: "state ", text: state })],
 						}),
 					],
-				})
+				}),
 			);
 		}
 	}
@@ -698,7 +698,7 @@ async function setupDashboard() {
 		stakeoutList.innerHTML = "";
 
 		for (const factionId in factionStakeouts) {
-			if (isNaN(parseInt(factionId)) || typeof factionStakeouts[factionId] === "number") continue;
+			if (Number.isNaN(parseInt(factionId)) || typeof factionStakeouts[factionId] === "number") continue;
 
 			let name: string, chain: number | string, members: number | string, maxMembers: number | string;
 
@@ -754,7 +754,7 @@ async function setupDashboard() {
 							],
 						}),
 					],
-				})
+				}),
 			);
 		}
 	}
@@ -795,7 +795,7 @@ async function setupMarketSearch() {
 		}
 
 		let id: number | undefined;
-		if (!isNaN(parseInt(keyword))) id = parseInt(keyword);
+		if (!Number.isNaN(parseInt(keyword))) id = parseInt(keyword);
 
 		for (const item of findAllElements("#market .item-list li")) {
 			if (item.textContent.toLowerCase().includes(keyword) || (id && parseInt(item.dataset.id) === id)) {
@@ -878,7 +878,7 @@ async function setupMarketSearch() {
 								type: "div",
 								class: "price",
 								text: `${item.amount}x | $${formatNumber(item.price)}`,
-							})
+							}),
 						);
 					}
 				} else {
@@ -887,7 +887,7 @@ async function setupMarketSearch() {
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
-						})
+						}),
 					);
 				}
 				list.appendChild(itemMarketWrap);
@@ -902,7 +902,7 @@ async function setupMarketSearch() {
 								type: "div",
 								class: "price",
 								text: `${item.quantity}x | $${formatNumber(item.price)}`,
-							})
+							}),
 						);
 					}
 				} else {
@@ -911,7 +911,7 @@ async function setupMarketSearch() {
 							type: "div",
 							class: "price no-price",
 							text: "No listings found.",
-						})
+						}),
 					);
 				}
 				if (settings.pages.popup.bazaarUsingExternal && settings.external.tornw3b) {
@@ -977,7 +977,7 @@ async function setupCalculator() {
 						},
 					}),
 				],
-			})
+			}),
 		);
 	});
 
@@ -1057,7 +1057,7 @@ async function setupCalculator() {
 							text: formatNumber(price, { currency: true }),
 						}),
 					],
-				})
+				}),
 			);
 
 			totalValue += price;
@@ -1069,7 +1069,7 @@ async function setupCalculator() {
 				type: "div",
 				class: "total",
 				text: `Total: ${formatNumber(totalValue, { currency: true })}`,
-			})
+			}),
 		);
 
 		ttStorage.change({ localdata: { popup: { calculatorItems: selectedItems } } });
@@ -1084,7 +1084,7 @@ async function setupStocksOverview() {
 	const stocksOverview = document.querySelector("#stocks");
 	const allStocks = stocksOverview.querySelector("#all-stocks");
 
-	for (let id in stockdata) {
+	for (const id in stockdata) {
 		if (id === "date") continue;
 
 		allStocks.appendChild(buildSection(parseInt(id)));
@@ -1176,14 +1176,14 @@ async function setupStocksOverview() {
 						type: "span",
 						class: "quantity",
 						text: `(${formatNumber(userStock.shares, { shorten: 2 })} share${applyPlural(userStock.shares)})`,
-					})
+					}),
 				);
 				heading.appendChild(
 					elementBuilder({
 						type: "div",
 						class: `profit ${getProfitClass(profit)}`,
 						text: `${getProfitIndicator(profit)}${formatNumber(Math.abs(profit), { currency: true })}`,
-					})
+					}),
 				);
 			}
 
@@ -1216,7 +1216,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Price Information", priceContent), priceContent],
-				})
+				}),
 			);
 
 			if (userStock) {
@@ -1225,7 +1225,7 @@ async function setupStocksOverview() {
 					elementBuilder({
 						type: "span",
 						text: `Bought at: ${formatNumber(boughtPrice, { decimals: 3, currency: true })}`,
-					})
+					}),
 				);
 			}
 		}
@@ -1241,7 +1241,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Benefit Information", benefitContent), benefitContent],
-				})
+				}),
 			);
 
 			if (userStock) {
@@ -1254,7 +1254,7 @@ async function setupStocksOverview() {
 									? "Ready now!"
 									: `Available in ${stock.benefit.frequency - userStock.bonus.progress}/${stock.benefit.frequency} days.`
 								: `Available every ${stock.benefit.frequency} days.`,
-						})
+						}),
 					);
 
 					benefitContent.appendChild(createRoiTable(stock, userStock));
@@ -1263,7 +1263,7 @@ async function setupStocksOverview() {
 						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(userStock.shares)}/${formatNumber(stock.benefit.requirement)}`,
-						})
+						}),
 					);
 					benefitContent.appendChild(elementBuilder("br"));
 
@@ -1287,7 +1287,7 @@ async function setupStocksOverview() {
 							type: "span",
 							class: `description ${color}`,
 							text: `${stock.benefit.description}`,
-						})
+						}),
 					);
 					if (duration)
 						benefitContent.appendChild(
@@ -1295,7 +1295,7 @@ async function setupStocksOverview() {
 								type: "span",
 								class: "duration",
 								text: duration,
-							})
+							}),
 						);
 				}
 			} else {
@@ -1304,7 +1304,7 @@ async function setupStocksOverview() {
 						elementBuilder({
 							type: "span",
 							text: `Available every ${stock.benefit.frequency} days.`,
-						})
+						}),
 					);
 
 					benefitContent.appendChild(createRoiTable(stock, undefined));
@@ -1313,7 +1313,7 @@ async function setupStocksOverview() {
 						elementBuilder({
 							type: "span",
 							text: `Required stocks: ${formatNumber(stock.benefit.requirement)}`,
-						})
+						}),
 					);
 					benefitContent.appendChild(elementBuilder("br"));
 					benefitContent.appendChild(
@@ -1321,14 +1321,14 @@ async function setupStocksOverview() {
 							type: "span",
 							class: "description not-completed",
 							text: `${stock.benefit.description}`,
-						})
+						}),
 					);
 					benefitContent.appendChild(
 						elementBuilder({
 							type: "span",
 							class: "duration",
 							text: `after ${stock.benefit.frequency} days.`,
-						})
+						}),
 					);
 				}
 			}
@@ -1345,7 +1345,7 @@ async function setupStocksOverview() {
 					type: "div",
 					class: "information-section",
 					children: [getHeadingElement("Alerts", alertsContent), alertsContent],
-				})
+				}),
 			);
 
 			alertsContent.appendChild(elementBuilder({ type: "span", class: "title", text: "Price" }));
@@ -1380,7 +1380,7 @@ async function setupStocksOverview() {
 							},
 						}),
 					],
-				})
+				}),
 			);
 			alertsContent.appendChild(
 				elementBuilder({
@@ -1413,7 +1413,7 @@ async function setupStocksOverview() {
 							},
 						}),
 					],
-				})
+				}),
 			);
 		}
 
@@ -1499,7 +1499,7 @@ async function setupStocksOverview() {
 								text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A",
 							}),
 						],
-					})
+					}),
 				);
 			}
 

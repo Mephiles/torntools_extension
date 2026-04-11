@@ -2,8 +2,8 @@ import "./age-to-words.css";
 import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { applyPlural, convertToNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 import { calculateDatePeriod, TO_MILLIS } from "@/utils/common/functions/utilities";
 
 async function addWords() {

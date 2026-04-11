@@ -1,4 +1,4 @@
-import { BasicSourceMapConsumer, NullableMappedPosition, RawSourceMap, SourceMapConsumer } from "source-map";
+import { type BasicSourceMapConsumer, type NullableMappedPosition, type RawSourceMap, SourceMapConsumer } from "source-map";
 
 export interface SourceLocation {
 	rawPath: string;
@@ -63,7 +63,7 @@ export class SourceService {
 		if (raw.source === null || raw.line === null || raw.column === null) return null;
 
 		const splitPath = raw.source.split("/");
-		const cleanedPath = "/" + splitPath.filter((p) => p !== "..").join("/");
+		const cleanedPath = `/${splitPath.filter((p) => p !== "..").join("/")}`;
 
 		return {
 			rawPath: raw.source,

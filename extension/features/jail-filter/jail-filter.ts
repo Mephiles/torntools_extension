@@ -1,17 +1,17 @@
 import "./jail-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, quick, settings, userdata } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { createTextbox } from "@/utils/common/elements/textbox/textbox";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { ttStorage } from "@/utils/common/data/storage";
-import { requireElement } from "@/utils/common/functions/requires";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@/utils/common/functions/filters";
-import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { PHArrowClockwise } from "@/utils/common/icons/phosphor-icons";
 
 function initialiseFilters() {
@@ -178,7 +178,7 @@ async function filtering(pageChange: boolean = false) {
 				levelEnd: levelEnd,
 				scoreStart: scoreStart,
 				scoreEnd: scoreEnd,
-				bailCost: bailCost !== undefined && !isNaN(bailCost) ? bailCost : -1,
+				bailCost: bailCost !== undefined && !Number.isNaN(bailCost) ? bailCost : -1,
 			},
 		},
 	});
@@ -274,7 +274,7 @@ async function filtering(pageChange: boolean = false) {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".users-list > li:not(.tt-hidden)").length,
 		findAllElements(".users-list > li").length,
-		content
+		content,
 	);
 
 	await applyQuickBustAndBail();
@@ -308,7 +308,7 @@ async function applyQuickBustAndBail() {
 					type: "div",
 					class: "tt-quick-refresh-wrap",
 					children: [...(quickBail ? [newRefreshButton("tt-bail")] : []), ...(quickBust ? [newRefreshButton("tt-bust")] : [])],
-				})
+				}),
 			);
 		}
 	}
@@ -334,7 +334,7 @@ async function applyQuickBustAndBail() {
 	function addQAndHref(iconNode: HTMLAnchorElement) {
 		if (iconNode.querySelector(":scope > .tt-quick-q")) return;
 		iconNode.appendChild(elementBuilder({ type: "span", class: "tt-quick-q", text: "Q" }));
-		iconNode.href = iconNode.getAttribute("href") + "1";
+		iconNode.href = `${iconNode.getAttribute("href")}1`;
 	}
 
 	function removeQAndHref(iconNode: HTMLAnchorElement) {
@@ -353,7 +353,7 @@ function getFactions() {
 					.filter((img) => !!img)
 					.map((img) => img.getAttribute("title").trim())
 					.filter((tag) => !!tag)
-			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
+			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
 	);
 
 	const factions = [];

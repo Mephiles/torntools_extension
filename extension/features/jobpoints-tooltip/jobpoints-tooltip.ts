@@ -1,11 +1,11 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import type { UserJobPointsResponse } from "tornapi-typescript";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
+import { fetchData } from "@/utils/common/functions/api";
+import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
-import { formatNumber } from "@/utils/common/functions/formatting";
-import { ttCache } from "@/utils/common/data/cache";
-import { fetchData } from "@/utils/common/functions/api";
-import { UserJobPointsResponse } from "tornapi-typescript";
 import { getTimeUntilNextJobUpdate, sleep } from "@/utils/common/functions/utilities";
 
 function jobPointsUseListener() {
@@ -83,8 +83,8 @@ async function getAllJobPoints(): Promise<AllJobPoints> {
 
 			return jobPoints;
 		} catch (error) {
-			console.error("TT - An error occurred when fetching job points data, Error: " + error);
-			throw new Error("An error occurred when fetching job points data, Error: " + error);
+			console.error(`TT - An error occurred when fetching job points data, Error: ${error}`);
+			throw new Error(`An error occurred when fetching job points data, Error: ${error}`);
 		}
 	}
 }

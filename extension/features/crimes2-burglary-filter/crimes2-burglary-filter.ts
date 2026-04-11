@@ -1,15 +1,15 @@
 import "./crimes2-burglary-filter.css";
 import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { filters, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { convertToNumber } from "@/utils/common/functions/formatting";
-import { ttStorage } from "@/utils/common/data/storage";
-import { requireElement } from "@/utils/common/functions/requires";
 import { CRIMES2 } from "@/pages/crimes2-page";
+import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 let CRIMES2_ROWS_START_Y = 64;
 
@@ -87,7 +87,7 @@ async function addFilter(crimeRoot: Element | null) {
 	if (!crimeRoot) {
 		try {
 			crimeRoot = await requireElement(".crime-root.burglary-root");
-		} catch (error) {
+		} catch {
 			return;
 		}
 	}
@@ -125,7 +125,7 @@ async function filtering() {
 
 		const targetImageSource = targetEl.querySelector<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
 		const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
-		const rowTargetType = matchedImageSource && matchedImageSource.length ? matchedImageSource[0] + "-targets" : null;
+		const rowTargetType = matchedImageSource?.length ? `${matchedImageSource[0]}-targets` : null;
 		if (targetType.length && (rowTargetType === null || !targetType.includes(rowTargetType))) {
 			hideRow(targetEl);
 			continue;
@@ -138,7 +138,7 @@ async function filtering() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
 		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
-		content
+		content,
 	);
 }
 

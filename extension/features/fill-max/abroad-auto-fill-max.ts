@@ -2,8 +2,8 @@ import { Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 import { isAbroad, updateReactInput } from "@/utils/common/functions/torn";
 
 async function autoFillInputs() {

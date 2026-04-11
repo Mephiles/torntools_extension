@@ -1,12 +1,12 @@
-import { contrastFFColor, ffColor, ScouterResult, scouterService, ScouterService } from "@/features/ff-scouter/ff-scouter";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { settings } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { contrastFFColor, ffColor, type ScouterResult, type ScouterService, scouterService } from "@/features/ff-scouter/ff-scouter";
 import { isInternalFaction } from "@/pages/factions-page";
+import { settings } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
 
 let SCOUTER_SERVICE: ScouterService;
 
@@ -28,7 +28,7 @@ async function showFF(force: boolean) {
 	const list = document.querySelector(".members-list .table-body");
 
 	const memberIds = findAllElements<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']", list).map((link) =>
-		parseInt(new URL(link.href).searchParams.get("XID"))
+		parseInt(new URL(link.href).searchParams.get("XID")),
 	);
 
 	SCOUTER_SERVICE.scoutGroup(memberIds)
@@ -68,7 +68,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 					type: "li",
 					class: ["table-cell", "lvl", "tt-ff-scouter-faction-list-value"],
 					text: "N/A",
-				})
+				}),
 			);
 			return;
 		}
@@ -89,7 +89,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 					backgroundColor: backgroundColor,
 					color: textColor,
 				},
-			})
+			}),
 		);
 	});
 }

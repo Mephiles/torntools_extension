@@ -1,14 +1,14 @@
 import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { hasOC1Data } from "@/utils/common/functions/api";
+import { isInternalFaction } from "@/pages/factions-page";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { hasOC1Data } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { isInternalFaction } from "@/pages/factions-page";
 
 function addListener() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2].push(async () => {
@@ -106,7 +106,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".tt-oc2-list > [class*='wrapper___']:not(.tt-hidden)").length,
 		findAllElements(".tt-oc2-list > [class*='wrapper___']").length,
-		content
+		content,
 	);
 }
 
@@ -180,7 +180,7 @@ function getCrimeStatus(row) {
 
 		// Check for unpaid crimes - look for button with class containing "payoutBtn" and text "PayOut"
 		const payoutButton = row.querySelector('button[class*="payoutBtn"]');
-		if (payoutButton && payoutButton.textContent.includes("PayOut")) {
+		if (payoutButton?.textContent.includes("PayOut")) {
 			return "unpaid";
 		}
 

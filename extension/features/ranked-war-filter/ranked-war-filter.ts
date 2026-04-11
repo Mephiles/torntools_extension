@@ -1,22 +1,22 @@
 import { filters, settings } from "@/utils/common/data/database";
 import "./ranked-war-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
-import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 import { ttStorage } from "@/utils/common/data/storage";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
+import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
 
 function initialiseFilters() {
 	document.addEventListener("click", async (event) => {
 		const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
-		if (rankedWarItem && rankedWarItem.querySelector(":scope > [data-warid]")) {
+		if (rankedWarItem?.querySelector(":scope > [data-warid]")) {
 			addFilters(
-				(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war")
+				(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war"),
 			).catch(console.error);
 		}
 	});
@@ -173,7 +173,7 @@ async function filtering() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".members-list > li:not(.tt-hidden)", membersWrap).length,
 		findAllElements(".members-list > li", membersWrap).length,
-		content
+		content,
 	);
 }
 
@@ -236,7 +236,7 @@ function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individ
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -255,7 +255,7 @@ function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individ
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
 				findAllElements(".faction-war[class*='membersWrap__'] .members-list > li").length,
-				content
+				content,
 			);
 		}
 	}

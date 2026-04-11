@@ -1,8 +1,8 @@
-import { loadDatabase } from "@/utils/common/data/database";
+import { loadAPIDemo } from "@/features/api-demo/api-demo";
 import { loadAPISelections } from "@/features/api-selections/api-selections";
 import { loadAutoAPIFill } from "@/features/auto-api-fill/auto-api-fill";
-import { loadAPIDemo } from "@/features/api-demo/api-demo";
 import { loadAPIPretty } from "@/features/auto-pretty/auto-pretty";
+import { loadDatabase } from "@/utils/common/data/database";
 
 // noinspection JSUnusedGlobalSymbols
 export default defineContentScript({

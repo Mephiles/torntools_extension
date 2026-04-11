@@ -1,14 +1,14 @@
 import "./faction-member-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { filters, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { createFilterSection, createStatistics, FILTER_REGEXES, getSpecialIcons } from "@/utils/common/functions/filters";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
-import { ttStorage } from "@/utils/common/data/storage";
-import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 
 let filterContent: Element, lastActionState: boolean;
 let localFilters = {};
@@ -23,8 +23,7 @@ function addListener() {
 		});
 	}
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || (localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element))
-			return;
+		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || localFilters["Last Active Filter"]?.element) return;
 
 		if (name === "Last Action") {
 			await showLastAction();
@@ -133,7 +132,7 @@ async function addFilter() {
 }
 
 async function showLastAction() {
-	if (lastActionState || (localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element)) return;
+	if (lastActionState || localFilters["Last Active Filter"]?.element) return;
 
 	await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
 
@@ -328,7 +327,7 @@ async function applyFilter() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".members-list .table-body > li:not(.tt-hidden)").length,
 		findAllElements(".members-list .table-body > li").length,
-		content
+		content,
 	);
 }
 

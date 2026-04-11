@@ -1,7 +1,7 @@
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { findAllElements, isHTMLElement } from "@/utils/common/functions/dom";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function hideMessage() {
 	const recycleMessageElement = document.evaluate(
@@ -9,7 +9,7 @@ function hideMessage() {
 		document,
 		null,
 		XPathResult.FIRST_ORDERED_NODE_TYPE,
-		null
+		null,
 	).singleNodeValue;
 	if (!recycleMessageElement || !isHTMLElement(recycleMessageElement)) return;
 

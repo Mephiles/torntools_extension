@@ -1,12 +1,12 @@
 import "./stats-estimate.css";
-import { RANK_TRIGGERS, RANKS } from "@/utils/common/functions/torn";
+import type { UserPersonalStatsPopular, UserProfileResponse } from "tornapi-typescript";
+import { ttCache } from "@/utils/common/data/cache";
 import { settings } from "@/utils/common/data/database";
 import { fetchData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, showLoadingPlaceholder } from "@/utils/common/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { ttCache } from "@/utils/common/data/cache";
+import { RANK_TRIGGERS, RANKS } from "@/utils/common/functions/torn";
 import { sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
-import type { UserPersonalStatsPopular, UserProfileResponse } from "tornapi-typescript";
 
 const ESTIMATE_INSTANCES: { [name: string]: StatsEstimate } = {};
 

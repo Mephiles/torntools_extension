@@ -1,17 +1,17 @@
 import "./last-action.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import type { UserJobResponse } from "tornapi-typescript";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isOwnCompany } from "@/pages/company-page";
+import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { isOwnCompany } from "@/pages/company-page";
+import type { CompanyV1Employees, CompanyV1ProfileResponse } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
-import { ttCache } from "@/utils/common/data/cache";
-import { UserJobResponse } from "tornapi-typescript";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
+import { dropDecimals } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { CompanyV1Employees, CompanyV1ProfileResponse } from "@/utils/common/functions/api-v1.types";
 import { getUsername } from "@/utils/common/functions/torn";
-import { dropDecimals } from "@/utils/common/functions/formatting";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 function addListener() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(async () => {
@@ -62,7 +62,7 @@ async function addLastAction(force: boolean) {
 				class: `tt-last-action ${isOwnCompany ? "" : "joblist"}`,
 				text: `Last action: ${employees[id].last_action.relative}`,
 				dataset: { days },
-			})
+			}),
 		);
 	}
 	list.classList.add("tt-modified");
@@ -74,7 +74,7 @@ async function extractCompanyId(): Promise<number> {
 	}
 
 	const id = parseInt(getHashParameters().get("ID"));
-	if (!isNaN(id)) {
+	if (!Number.isNaN(id)) {
 		return id;
 	}
 

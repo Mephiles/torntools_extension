@@ -1,10 +1,10 @@
 import "./ff-scouter.css";
 import { ttCache } from "@/utils/common/data/cache";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { NON_ATTACKABLE_ACCOUNT_IDS } from "@/utils/common/functions/torn";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { FFScouterResult } from "@/utils/common/functions/api.types";
 import { settings } from "@/utils/common/data/database";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { FFScouterResult } from "@/utils/common/functions/api.types";
+import { NON_ATTACKABLE_ACCOUNT_IDS } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 export type ScouterResult =
 	| {
@@ -100,7 +100,7 @@ class FFScouterService extends ScouterService {
 			return new Promise((resolve, reject) => {
 				Promise.all([this._fetchGroup(first), this._fetchGroup(second)])
 					.then((combined) => {
-						const combinedResults = combined.flatMap((x) => x);
+						const combinedResults = combined.flat();
 
 						resolve(combinedResults);
 					})
@@ -244,7 +244,7 @@ export function ffColor(value: number) {
  * Credits to rDacted [2670953] (https://www.torn.com/profiles.php?XID=2670953).
  */
 function rgbToHex(r: number, g: number, b: number) {
-	return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+	return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
 }
 
 /*

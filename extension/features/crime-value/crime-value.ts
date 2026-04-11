@@ -1,12 +1,12 @@
 import "./crime-value.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isAttemptCrime, type TornInternalAttemptCrime } from "@/pages/crimes2-page";
 import { settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { addFetchListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { isAttemptCrime, TornInternalAttemptCrime } from "@/pages/crimes2-page";
+import { addFetchListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 
 function addListener() {
 	addFetchListener(async ({ detail: { page, json, fetch } }) => {

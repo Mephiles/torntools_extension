@@ -1,7 +1,7 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { addFetchListener } from "@/utils/common/functions/listeners";
 import { formatTime } from "@/utils/common/functions/formatting";
+import { addFetchListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 
 function initialiseMiniProfile() {
@@ -24,7 +24,7 @@ function initialiseMiniProfile() {
 }
 
 async function showInformation(information: any) {
-	if (isNaN(information.user.lastAction.seconds)) return;
+	if (Number.isNaN(information.user.lastAction.seconds)) return;
 
 	const miniProfile = document.querySelector("#profile-mini-root .mini-profile-wrapper");
 	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });

@@ -1,23 +1,23 @@
 import "./profile-box.css";
-import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
-import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
-import { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
-import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
-import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { ttCache } from "@/utils/common/data/cache";
-import { CUSTOM_API_ERROR, fetchData, hasAPIData } from "@/utils/common/functions/api";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import Sortable from "sortablejs";
+import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
+import { Feature } from "@/features/feature-manager";
+import { ttCache } from "@/utils/common/data/cache";
+import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
+import type { StakeoutData } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createTable, stringCellRenderer } from "@/utils/common/elements/table/table";
-import { TornstatsSpy, YATASpyResponse } from "@/utils/common/functions/api.types";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { StakeoutData } from "@/utils/common/data/default-database";
+import { CUSTOM_API_ERROR, fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { TornstatsSpy, YATASpyResponse } from "@/utils/common/functions/api.types";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
+import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { PHArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {
@@ -194,7 +194,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			(crimes) => crimes.total,
-			(crimes) => crimes.offenses.total
+			(crimes) => crimes.offenses.total,
 		),
 	},
 	{
@@ -202,7 +202,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.vandalism
+			(crimes) => crimes.offenses.vandalism,
 		),
 	},
 	{
@@ -210,7 +210,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.theft
+			(crimes) => crimes.offenses.theft,
 		),
 	},
 	{
@@ -218,7 +218,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.counterfeiting
+			(crimes) => crimes.offenses.counterfeiting,
 		),
 	},
 	{
@@ -226,7 +226,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.fraud
+			(crimes) => crimes.offenses.fraud,
 		),
 	},
 	{
@@ -234,7 +234,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.illicit_services
+			(crimes) => crimes.offenses.illicit_services,
 		),
 	},
 	{
@@ -242,7 +242,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.cybercrime
+			(crimes) => crimes.offenses.cybercrime,
 		),
 	},
 	{
@@ -250,7 +250,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.extortion
+			(crimes) => crimes.offenses.extortion,
 		),
 	},
 	{
@@ -258,7 +258,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.offenses.illegal_production
+			(crimes) => crimes.offenses.illegal_production,
 		),
 	},
 	{
@@ -266,7 +266,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			(crimes) => crimes.organized_crimes,
-			(crimes) => crimes.offenses.organized_crimes
+			(crimes) => crimes.offenses.organized_crimes,
 		),
 	},
 	{
@@ -274,7 +274,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.search_for_cash
+			(crimes) => crimes.skills.search_for_cash,
 		),
 	},
 	{
@@ -282,7 +282,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.bootlegging
+			(crimes) => crimes.skills.bootlegging,
 		),
 	},
 	{
@@ -290,7 +290,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.graffiti
+			(crimes) => crimes.skills.graffiti,
 		),
 	},
 	{
@@ -298,7 +298,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.shoplifting
+			(crimes) => crimes.skills.shoplifting,
 		),
 	},
 	{
@@ -306,7 +306,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.pickpocketing
+			(crimes) => crimes.skills.pickpocketing,
 		),
 	},
 	{
@@ -314,7 +314,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.card_skimming
+			(crimes) => crimes.skills.card_skimming,
 		),
 	},
 	{
@@ -322,7 +322,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.burglary
+			(crimes) => crimes.skills.burglary,
 		),
 	},
 	{
@@ -330,7 +330,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.hustling
+			(crimes) => crimes.skills.hustling,
 		),
 	},
 	{
@@ -338,7 +338,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.disposal
+			(crimes) => crimes.skills.disposal,
 		),
 	},
 	{
@@ -346,7 +346,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.cracking
+			(crimes) => crimes.skills.cracking,
 		),
 	},
 	{
@@ -354,7 +354,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.forgery
+			(crimes) => crimes.skills.forgery,
 		),
 	},
 	{
@@ -362,7 +362,7 @@ const STATS: StatDef[] = [
 		type: "criminal offenses",
 		v2Getter: crimesStats(
 			() => 0,
-			(crimes) => crimes.skills.scamming
+			(crimes) => crimes.skills.scamming,
 		),
 	},
 
@@ -497,7 +497,7 @@ async function showBox() {
 							section.remove();
 						} else if (finished === 2) {
 							for (const section of findAllElements(".section[order]", content).sort(
-								(a, b) => parseInt(a.getAttribute("order")!) - parseInt(b.getAttribute("order")!)
+								(a, b) => parseInt(a.getAttribute("order")!) - parseInt(b.getAttribute("order")!),
 							))
 								section.parentElement!.appendChild(section);
 						}
@@ -711,7 +711,7 @@ async function showBox() {
 								cellRenderer: stringCellRenderer,
 							}
 						: undefined,
-				}
+				},
 			);
 		}
 
@@ -725,7 +725,7 @@ async function showBox() {
 
 					const them = stat.v2Getter(data);
 					const you = stat.v2Getter(userdata);
-					if (isNaN(them) || isNaN(you)) return false;
+					if (Number.isNaN(them) || Number.isNaN(you)) return false;
 
 					return {
 						stat: stat.name,
@@ -747,7 +747,7 @@ async function showBox() {
 				.map((stat): StatRow | false => {
 					const them = stat.v2Getter(data);
 					const you = stat.v2Getter(userdata);
-					if (isNaN(them) || isNaN(you)) return false;
+					if (Number.isNaN(them) || Number.isNaN(you)) return false;
 
 					return {
 						stat: stat.name,
@@ -873,7 +873,7 @@ async function showBox() {
 						.set(
 							{ [id]: result },
 							getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
-							"tornstats-spy"
+							"tornstats-spy",
 						)
 						.then(() => {});
 					isCached = false;
@@ -968,7 +968,7 @@ async function showBox() {
 						return rowData.them > rowData.you.value ? "superior-them" : "superior-you";
 					},
 					stretchColumns: true,
-				}
+				},
 			);
 			section.appendChild(table.element);
 
@@ -995,7 +995,7 @@ async function showBox() {
 							buildSpy(true);
 						},
 					},
-				})
+				}),
 			);
 
 			section.appendChild(footer);
@@ -1013,7 +1013,7 @@ async function showBox() {
 							buildSpy(true);
 						},
 					},
-				})
+				}),
 			);
 			section.appendChild(footer);
 			if (errors.length) {
@@ -1022,7 +1022,7 @@ async function showBox() {
 						type: "p",
 						class: "no-spy-errors",
 						html: errors.map(({ service, message }) => `${service} - ${message}`).join("<br>"),
-					})
+					}),
 				);
 			}
 		}
@@ -1056,13 +1056,13 @@ async function showBox() {
 					info: readStakeoutDataFromProfilePage(),
 					alerts: { okay: false, hospital: false, landing: false, online: false, life: false, offline: false, revivable: false },
 				};
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
 				ttStorage.set({ stakeouts });
 
 				alerts.classList.remove("tt-hidden");
 			} else {
 				delete stakeouts[id];
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !isNaN(parseInt(stakeoutID)));
+				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
 				ttStorage.set({ stakeouts });
 
 				alerts.classList.add("tt-hidden");
@@ -1186,7 +1186,7 @@ async function showBox() {
 				[history],
 				{
 					stretchColumns: true,
-				}
+				},
 			);
 
 			section.appendChild(table.element);
@@ -1213,26 +1213,21 @@ function crimesStats(c1Getter: (data: PersonalStatsCrimesV1) => number, c2Getter
 
 function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	let name: string;
-	let lastActionStatus: UserLastActionStatusEnum;
-	let lastActionRelative: string;
-	let lifeCurrent: number;
-	let lifeMaximum: number;
-	let statusState: UserStatusStateEnum | string;
-	let statusColor: string;
-	let statusDescription: string;
-
 	const nameElement = document.querySelector<HTMLElement>(".user.name[data-placeholder]");
 	if (nameElement) name = nameElement.dataset.placeholder!;
 	else name = "Unknown";
 
+	let lastActionStatus: UserLastActionStatusEnum;
 	if (document.querySelector("li[id*='icon2']")) lastActionStatus = "Offline";
 	else if (document.querySelector("li[id*='icon62']")) lastActionStatus = "Idle";
 	else if (document.querySelector("li[id*='icon1']")) lastActionStatus = "Online";
 	else lastActionStatus = "Offline";
 
 	const lastActionElement = extractInformationProfileInformationTable("Last action");
-	lastActionRelative = lastActionElement ? lastActionElement.textContent : "N/A";
+	const lastActionRelative = lastActionElement ? lastActionElement.textContent : "N/A";
 
+	let lifeCurrent: number;
+	let lifeMaximum: number;
 	const lifeElement = extractInformationProfileInformationTable("Lie");
 	if (lifeElement) {
 		const lifeText = lifeElement.textContent.split(" / ");
@@ -1244,6 +1239,8 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 		lifeMaximum = 100;
 	}
 
+	let statusState: UserStatusStateEnum | string;
+	let statusColor: string;
 	if (document.querySelector("li[id*='icon15']")) {
 		statusState = "Hospital";
 		statusColor = "red";
@@ -1262,7 +1259,7 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	}
 
 	const statusDescriptionElement = document.querySelector(".main-desc");
-	statusDescription = statusDescriptionElement ? statusDescriptionElement.textContent : "Unknown";
+	const statusDescription = statusDescriptionElement ? statusDescriptionElement.textContent : "Unknown";
 
 	return {
 		name,
@@ -1291,7 +1288,7 @@ function extractInformationProfileInformationTable(title: string): HTMLElement |
 		document,
 		null,
 		XPathResult.FIRST_ORDERED_NODE_TYPE,
-		null
+		null,
 	).singleNodeValue;
 
 	return isHTMLElement(node) ? node : null;

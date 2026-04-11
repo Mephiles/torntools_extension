@@ -1,7 +1,7 @@
 import "./slider.css";
-import { getUUID } from "@/utils/common/functions/utilities";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { roundNearest } from "@/utils/common/functions/formatting";
+import { getUUID } from "@/utils/common/functions/utilities";
 
 interface DualRangeSliderOptions {
 	min: number;
@@ -152,6 +152,6 @@ export class DualRangeSlider {
 
 		const percentage = (value - this.options.min) / (this.options.max - this.options.min);
 
-		this.slider.style.setProperty(`--${side}`, percentage * rangeWidth - handleWidth / 2 + "px");
+		this.slider.style.setProperty(`--${side}`, `${percentage * rangeWidth - handleWidth / 2}px`);
 	}
 }

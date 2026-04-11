@@ -1,11 +1,11 @@
+import type { UserFactionResponse } from "tornapi-typescript";
+import { ttCache } from "@/utils/common/data/cache";
+import { userdata } from "@/utils/common/data/database";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements, getHashParameters, getSearchParameters, isElement } from "@/utils/common/functions/dom";
 import { addFetchListener, addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@/utils/common/functions/requires";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
-import { ttCache } from "@/utils/common/data/cache";
-import { userdata } from "@/utils/common/data/database";
-import { UserFactionResponse } from "tornapi-typescript";
 
 export const isInternalFaction = getSearchParameters().get("step") === "your";
 
@@ -136,7 +136,7 @@ export async function setupFactionsPage() {
 								(node) =>
 									node.classList.contains("item-list") ||
 									(node.tagName === "DIV" && node.classList.contains("p10")) ||
-									node.id === "inventory-container"
+									node.id === "inventory-container",
 							);
 					})
 				)
@@ -203,7 +203,7 @@ export async function setupFactionsPage() {
 						if (handled) return;
 
 						const reduced = Array.from(mutations).filter((mutation) =>
-							Array.from(mutation.addedNodes).every((node) => !isElement(node) || !node.classList.contains(".tt-last-action"))
+							Array.from(mutation.addedNodes).every((node) => !isElement(node) || !node.classList.contains(".tt-last-action")),
 						);
 						if (!reduced.length) return;
 

@@ -3,7 +3,7 @@
 export default defineUnlistedScript(() => {
 	const worker = self as unknown as ServiceWorkerGlobalScope;
 
-	worker.addEventListener("notificationclick", function (event) {
+	worker.addEventListener("notificationclick", (event) => {
 		// Android doesn't close the notification when you click on it
 		// See: http://crbug.com/463146
 		event.notification.close();

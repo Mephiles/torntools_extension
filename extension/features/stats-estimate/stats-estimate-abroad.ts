@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, isAbroad } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isAbroad } from "@/utils/common/functions/torn";
 import { StatsEstimate } from "./stats-estimate";
 
 const statsEstimate = new StatsEstimate("Abroad People", true);
@@ -38,7 +38,7 @@ async function showEstimates() {
 			id: parseInt(row.querySelector<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
 			level: parseInt(row.querySelector(".level").textContent),
 		}),
-		{ hasFilter: true }
+		{ hasFilter: true },
 	);
 }
 

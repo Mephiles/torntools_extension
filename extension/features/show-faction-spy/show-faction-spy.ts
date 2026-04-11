@@ -1,13 +1,13 @@
 import { settings } from "@/utils/common/data/database";
 import "./show-faction-spy.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
-import { requireElement } from "@/utils/common/functions/requires";
-import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { ttCache } from "@/utils/common/data/cache";
-import { TornstatsFactionSpyResponse, YATASpyResponse } from "@/utils/common/functions/api.types";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { TornstatsFactionSpyResponse, YATASpyResponse } from "@/utils/common/functions/api.types";
+import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
+import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 function registerListeners() {
@@ -41,7 +41,7 @@ async function fetchAndAddSpies() {
 	[...tableBody.children].forEach((row) => {
 		const memberID = row.querySelector(".member.icons [href*='/profiles.php']")?.getAttribute("href").split("XID=")[1];
 		if (!memberID) return;
-		let spyData = spies[memberID];
+		const spyData = spies[memberID];
 
 		let statFields = [];
 		let title = "";
@@ -80,7 +80,7 @@ async function showRWSpies() {
 
 	[...enemiesMembersList.children].forEach((row) => {
 		const memberID = row.querySelector("a[href*='/profiles.php']").getAttribute("href").split("XID=")[1];
-		let spyData = spies[memberID];
+		const spyData = spies[memberID];
 
 		let statFields = [];
 		let title = "";
@@ -121,7 +121,7 @@ interface Spy {
 }
 
 async function fetchSpies(factionID: number) {
-	let spies: Record<string, Spy> = {};
+	const spies: Record<string, Spy> = {};
 
 	if (settings.external.tornstats) {
 		let data: TornstatsFactionSpyResponse;

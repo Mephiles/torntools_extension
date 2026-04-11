@@ -1,11 +1,11 @@
 import "./trade-open-chat.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { browser } from "wxt/browser";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { elementBuilder, executeScript } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, executeScript } from "@/utils/common/functions/dom";
-import { browser } from "wxt/browser";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ step }) => {
@@ -35,7 +35,7 @@ async function addButton() {
 		elementBuilder({
 			type: "div",
 			children: [button],
-		})
+		}),
 	);
 }
 

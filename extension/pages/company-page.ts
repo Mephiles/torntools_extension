@@ -1,10 +1,10 @@
-import { requireElement } from "@/utils/common/functions/requires";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { getHashParameters } from "@/utils/common/functions/dom";
-import { isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { ttCache } from "@/utils/common/data/cache";
 import { userdata } from "@/utils/common/data/database";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { getHashParameters, isElement } from "@/utils/common/functions/dom";
+import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { isIntNumber, TO_MILLIS } from "@/utils/common/functions/utilities";
 
 export const isOwnCompany = location.pathname === "/companies.php";
 
@@ -17,8 +17,8 @@ export function setupCompanyPage() {
 					(isOwnCompany && getHashParameters().get("option") !== "employees") ||
 					!mutations.some((mutation) =>
 						Array.from(mutation.addedNodes)
-							.filter((node: any) => node.nodeType === Node.ELEMENT_NODE)
-							.some((node: any) => node.classList && node.classList.contains("employees-wrap"))
+							.filter(isElement)
+							.some((node) => node.classList?.contains("employees-wrap")),
 					)
 				)
 					return;

@@ -1,15 +1,16 @@
 import "./bank-investment-info.css";
-import { settings } from "@/utils/common/data/database";
-import { getPageStatus, millisToNewDay } from "@/utils/common/functions/torn";
+import { Feature } from "@/features/feature-manager";
 import { ttCache } from "@/utils/common/data/cache";
-import { requireElement } from "@/utils/common/functions/requires";
+import { settings } from "@/utils/common/data/database";
+import type { BaseElement } from "@/utils/common/elements/base-element";
+import { createTable, stringCellRenderer, type TableColumnDef, type TableElement } from "@/utils/common/elements/table/table";
+import { fetchData } from "@/utils/common/functions/api";
+import type { TornV1Bank, TornV1BankResponse } from "@/utils/common/functions/api-v1.types";
+import { createContainer } from "@/utils/common/functions/containers";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { formatNumber, roundNearest } from "@/utils/common/functions/formatting";
-import { fetchData } from "@/utils/common/functions/api";
-import { createContainer } from "@/utils/common/functions/containers";
-import { BaseElement } from "@/utils/common/elements/base-element";
-import { Feature } from "@/features/feature-manager";
-import { createTable, stringCellRenderer, TableColumnDef, TableElement } from "@/utils/common/elements/table/table";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, millisToNewDay } from "@/utils/common/functions/torn";
 
 interface MoneyInfo {
 	total: number;
@@ -208,12 +209,12 @@ let bankInvestmentInfoContainer: BankInvestmentContainer;
 async function initialize() {
 	const delimiter = await requireElement(".content-wrapper > .delimiter-999");
 
-	let response;
+	let response: TornV1Bank;
 	if (ttCache.hasValue("bankInterest")) {
 		response = ttCache.get("bankInterest");
 	} else {
 		// TODO - Migrate to V2 (torn/bank).
-		response = (await fetchData("tornv2", { section: "torn", selections: ["bank"], legacySelections: ["bank"] })).bank;
+		response = (await fetchData<TornV1BankResponse>("tornv2", { section: "torn", selections: ["bank"], legacySelections: ["bank"] })).bank;
 
 		ttCache.set({ bankInterest: response }, millisToNewDay()).then(() => {});
 	}

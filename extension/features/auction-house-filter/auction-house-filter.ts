@@ -1,15 +1,15 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings, torndata } from "@/utils/common/data/database";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { ttStorage } from "@/utils/common/data/storage";
 import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
-import { ARMOR_SETS, ITEM_TYPES } from "@/utils/common/functions/torn";
 import { convertToNumber } from "@/utils/common/functions/formatting";
-import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { ARMOR_SETS, ITEM_TYPES } from "@/utils/common/functions/torn";
 
 let localFilters: any = {};
 
@@ -218,7 +218,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
 		findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
-		content
+		content,
 	);
 }
 
@@ -259,7 +259,7 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			return;
 		}
 	}
-	if (filters.damage && !isNaN(parseFloat(filters.damage))) {
+	if (filters.damage && !Number.isNaN(parseFloat(filters.damage))) {
 		const damage = parseFloat(filters.damage);
 
 		const weaponDamageLabel = row.querySelector(".bonus-attachment-item-damage-bonus + .label-value");
@@ -273,7 +273,7 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			return;
 		}
 	}
-	if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
+	if (filters.accuracy && !Number.isNaN(parseFloat(filters.accuracy))) {
 		const accuracy = parseFloat(filters.accuracy);
 
 		const weaponAccuracyLabel = row.querySelector(".bonus-attachment-item-accuracy-bonus + .label-value");
@@ -287,7 +287,7 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			return;
 		}
 	}
-	if (filters.defence && !isNaN(parseFloat(filters.defence))) {
+	if (filters.defence && !Number.isNaN(parseFloat(filters.defence))) {
 		const defence = parseFloat(filters.defence);
 
 		const armorDefenceLabel = row.querySelector(".bonus-attachment-item-defence-bonus + .label-value");
@@ -315,7 +315,7 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			return;
 		}
 	}
-	if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
+	if (filters.armorBonus && !Number.isNaN(parseFloat(filters.armorBonus))) {
 		const bonus = parseFloat(filters.armorBonus);
 
 		if (convertToNumber(row.querySelector(".iconsbonuses .bonus-attachment-icons")?.getAttribute("title")) < bonus) {
@@ -324,7 +324,7 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 		}
 	}
 	const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
-	if (toFilterBonus && toFilterBonus.length) {
+	if (toFilterBonus?.length) {
 		const foundBonuses = findAllElements(".iconsbonuses .bonus-attachment-icons", row)
 			.map((icon) => icon.getAttribute("title"))
 			.map((title) => title.split("<br/>"))
@@ -335,7 +335,7 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			}));
 
 		const hasBonuses = toFilterBonus.every(
-			({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
+			({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0,
 		);
 
 		if (!hasBonuses) {

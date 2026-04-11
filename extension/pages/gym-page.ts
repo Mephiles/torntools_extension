@@ -14,7 +14,7 @@ export async function setupGymPage() {
 			const step = params.get("step");
 
 			if (json && step === "getInitialGymInfo") {
-				for (let stat in json.stats) {
+				for (const stat in json.stats) {
 					STATS[stat] = parseInt(json.stats[stat].value.replaceAll(",", ""));
 				}
 
@@ -43,7 +43,7 @@ export async function setupGymPage() {
 
 function triggerGymLoadFromDOM() {
 	new Promise<void>(async (resolve) => {
-		for (let stat of ["strength", "defense", "speed", "dexterity"]) {
+		for (const stat of ["strength", "defense", "speed", "dexterity"]) {
 			const el = await requireElement(`div[class*='gymContent_'] li[class*='${stat}_'] span[class*='propertyValue_']`);
 
 			STATS[stat] = parseInt(el.textContent.replaceAll(",", ""));

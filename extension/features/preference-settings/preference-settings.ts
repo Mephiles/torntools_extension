@@ -1,10 +1,10 @@
 import "./preference-settings.css";
 import { Feature } from "@/features/feature-manager";
-import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@/utils/common/functions/dom";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { requireElement } from "@/utils/common/functions/requires";
 import { api } from "@/utils/common/data/database";
 import { changeAPIKey } from "@/utils/common/functions/api";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
 
 async function executeFeature() {
 	const searchParams = getSearchParameters();
@@ -13,7 +13,7 @@ async function executeFeature() {
 	showContainer();
 
 	function showContainer() {
-		const { options } = createContainer("TornTools - Settings", { id: "tt-settings-container", onlyHeader: true, class: "mt10" });
+		const { options } = createContainer("TornTools - Settings", { id: "tt-settings-container", defaultPosition: true, onlyHeader: true, class: "mt10" });
 
 		options.appendChild(
 			elementBuilder({
@@ -22,7 +22,7 @@ async function executeFeature() {
 				text: "Settings",
 				href: browser.runtime.getURL("/options.html"),
 				attributes: { target: "_blank" },
-			})
+			}),
 		);
 
 		const connectButton = elementBuilder({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });

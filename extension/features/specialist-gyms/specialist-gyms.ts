@@ -1,14 +1,14 @@
 import "./specialist-gyms.css";
 import { Feature } from "@/features/feature-manager";
-import { toRecord } from "@/utils/common/functions/utilities";
-import { elementBuilder } from "@/utils/common/functions/dom";
-import { observeChain } from "@/utils/common/functions/requires";
-import { formatNumber } from "@/utils/common/functions/formatting";
-import { createSelect } from "@/utils/common/elements/select/select";
 import { filters, settings } from "@/utils/common/data/database";
-import { createContainer } from "@/utils/common/functions/containers";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createSelect } from "@/utils/common/elements/select/select";
+import { createContainer } from "@/utils/common/functions/containers";
+import { elementBuilder } from "@/utils/common/functions/dom";
+import { formatNumber } from "@/utils/common/functions/formatting";
+import { observeChain } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
+import { toRecord } from "@/utils/common/functions/utilities";
 
 const NONE = "none";
 type NONE = typeof NONE;
@@ -137,8 +137,8 @@ function calculateTwoStatsGym(mainStat1: number, mainStat2: number, otherStats: 
 function calculateSingleStatAndTwoStatsOverlappingGyms(mainStat: number, secondaryStat: number, neglectedStat1: number, neglectedStat2: number) {
 	let newMainStat = mainStat;
 	let newSecondaryStat = secondaryStat;
-	let newNeglectedStat1 = neglectedStat1;
-	let newNeglectedStat2 = neglectedStat2;
+	const newNeglectedStat1 = neglectedStat1;
+	const newNeglectedStat2 = neglectedStat2;
 
 	while (true) {
 		const highestNonMainStat = Math.max(newSecondaryStat, newNeglectedStat1, newNeglectedStat2);
@@ -172,14 +172,14 @@ function calculateSingleStatAndTwoStatsOverlappingGyms(mainStat: number, seconda
 				neglectedStat1: Math.floor(
 					Math.max(
 						0,
-						Math.min((newMainStat + newSecondaryStat) / 1.25 - newNeglectedStat1 - newNeglectedStat2, newMainStat / 1.25 - newNeglectedStat1)
-					)
+						Math.min((newMainStat + newSecondaryStat) / 1.25 - newNeglectedStat1 - newNeglectedStat2, newMainStat / 1.25 - newNeglectedStat1),
+					),
 				),
 				neglectedStat2: Math.floor(
 					Math.max(
 						0,
-						Math.min((newMainStat + newSecondaryStat) / 1.25 - newNeglectedStat1 - newNeglectedStat2, newMainStat / 1.25 - newNeglectedStat2)
-					)
+						Math.min((newMainStat + newSecondaryStat) / 1.25 - newNeglectedStat1 - newNeglectedStat2, newMainStat / 1.25 - newNeglectedStat2),
+					),
 				),
 			},
 		};
@@ -190,7 +190,7 @@ function calculateSingleStatAndTwoStatsGyms(mainStat: number, secondaryStat1: nu
 	let newMainStat = mainStat;
 	let newSecondaryStat1 = secondaryStat1;
 	let newSecondaryStat2 = secondaryStat2;
-	let newNeglectedStat = neglectedStat;
+	const newNeglectedStat = neglectedStat;
 
 	while (true) {
 		const highestNonMainStat = Math.max(newSecondaryStat1, newSecondaryStat2, newNeglectedStat);
@@ -223,7 +223,7 @@ function calculateSingleStatAndTwoStatsGyms(mainStat: number, secondaryStat1: nu
 				secondaryStat1: Math.floor(Math.max(0, newMainStat / 1.25 - newSecondaryStat1)),
 				secondaryStat2: Math.floor(Math.max(0, newMainStat / 1.25 - newSecondaryStat2)),
 				neglectedStat: Math.floor(
-					Math.max(0, Math.min(newMainStat / 1.25, (newSecondaryStat1 + newSecondaryStat2) / 1.25 - newMainStat) - newNeglectedStat)
+					Math.max(0, Math.min(newMainStat / 1.25, (newSecondaryStat1 + newSecondaryStat2) / 1.25 - newMainStat) - newNeglectedStat),
 				),
 			},
 		};
@@ -249,7 +249,7 @@ type SpecialGymsCalcResult = NoneSpecialGymsCalcResult | ImpossibleSpecialGymsCa
 function calculateSpecialGymsData(
 	stats: Record<BATTLE_STAT, number>,
 	selectionOne: NONE | SPECIAL_GYM,
-	selectionTwo: NONE | SPECIAL_GYM
+	selectionTwo: NONE | SPECIAL_GYM,
 ): SpecialGymsCalcResult {
 	if (selectionOne === NONE && selectionTwo === NONE) {
 		return { type: NONE };
@@ -264,7 +264,7 @@ function calculateSpecialGymsData(
 
 			const result = calculateSingleStatGym(
 				stats[selectionSpecialGymInfo.statName],
-				otherStatNames.map((statName) => stats[statName])
+				otherStatNames.map((statName) => stats[statName]),
 			);
 
 			return {
@@ -280,13 +280,13 @@ function calculateSpecialGymsData(
 			};
 		} else {
 			const otherStatNames = Object.values(BATTLE_STAT).filter(
-				(statName) => statName !== selectionSpecialGymInfo.statOneName && statName !== selectionSpecialGymInfo.statTwoName
+				(statName) => statName !== selectionSpecialGymInfo.statOneName && statName !== selectionSpecialGymInfo.statTwoName,
 			);
 
 			const result = calculateTwoStatsGym(
 				stats[selectionSpecialGymInfo.statOneName],
 				stats[selectionSpecialGymInfo.statTwoName],
-				otherStatNames.map((statName) => stats[statName])
+				otherStatNames.map((statName) => stats[statName]),
 			);
 
 			return {
@@ -322,13 +322,13 @@ function calculateSpecialGymsData(
 	if (twoStatsConfig.statOneName === singleStatConfig.statName || twoStatsConfig.statTwoName === singleStatConfig.statName) {
 		const secondaryStatName = twoStatsConfig.statOneName === singleStatConfig.statName ? twoStatsConfig.statTwoName : twoStatsConfig.statOneName;
 		const neglectedStatsNames = Object.values(BATTLE_STAT).filter(
-			(statName) => statName !== twoStatsConfig.statOneName && statName !== twoStatsConfig.statTwoName
+			(statName) => statName !== twoStatsConfig.statOneName && statName !== twoStatsConfig.statTwoName,
 		);
 		const result = calculateSingleStatAndTwoStatsOverlappingGyms(
 			stats[singleStatConfig.statName],
 			stats[secondaryStatName],
 			stats[neglectedStatsNames[0]],
-			stats[neglectedStatsNames[1]]
+			stats[neglectedStatsNames[1]],
 		);
 
 		return {
@@ -349,14 +349,14 @@ function calculateSpecialGymsData(
 	}
 
 	const neglectedStatName = Object.values(BATTLE_STAT).find(
-		(statName) => statName !== singleStatConfig.statName && statName !== twoStatsConfig.statOneName && statName !== twoStatsConfig.statTwoName
+		(statName) => statName !== singleStatConfig.statName && statName !== twoStatsConfig.statOneName && statName !== twoStatsConfig.statTwoName,
 	);
 
 	const result = calculateSingleStatAndTwoStatsGyms(
 		stats[singleStatConfig.statName],
 		stats[twoStatsConfig.statOneName],
 		stats[twoStatsConfig.statTwoName],
-		stats[neglectedStatName]
+		stats[neglectedStatName],
 	);
 
 	return {
@@ -474,7 +474,7 @@ function createSpecialistGymsBoxElement(prevElement: Element, getStatsFn: () => 
 			(specialGym): SpecialGymOption => ({
 				value: specialGym,
 				description: specialGymDescMap[specialGym],
-			})
+			}),
 		),
 	];
 
@@ -543,7 +543,7 @@ function createSpecialistGymsBoxElement(prevElement: Element, getStatsFn: () => 
 							createStatRequiredElement(result, statName),
 							createStatAllowedElement(result, statName),
 						],
-					})
+					}),
 				);
 			});
 		}

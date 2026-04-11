@@ -1,15 +1,15 @@
 import "./item-market-fill-max.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, updateReactInput } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, updateReactInput } from "@/utils/common/functions/torn";
 
 function addListener() {
 	document.addEventListener("click", (event) => {
 		const target = event.target as Element;
-		if (!target || !target.matches("[class*='rowWrapper__'] [class*='available__']")) return;
+		if (!target?.matches("[class*='rowWrapper__'] [class*='available__']")) return;
 
 		if (!FEATURE_MANAGER.isEnabled(ItemMarketFillMaxFeature)) return;
 

@@ -116,7 +116,7 @@ async function loadQuickItems() {
 					for (const category of findAllElements("#categoriesItem:not(.no-items)")) {
 						if (
 							!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other", "Supply Pack"].includes(
-								category.dataset.type
+								category.dataset.type,
 							)
 						)
 							continue;
@@ -135,7 +135,7 @@ async function loadQuickItems() {
 					attachEditListeners(enabled);
 				},
 			},
-		})
+		}),
 	);
 
 	for (const quickItem of quick.items) {
@@ -197,7 +197,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 										type: "div",
 										class: "custom-error",
 										text: "We were missing information for this item, we got that now. Try again.",
-									})
+									}),
 								);
 							} else {
 								responseWrap.appendChild(
@@ -205,7 +205,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 										type: "div",
 										class: "custom-error",
 										text: "Could't get the missing information. You might not have this item anymore.",
-									})
+									}),
 								);
 							}
 						})
@@ -216,7 +216,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 									type: "div",
 									class: "custom-error",
 									text: "We were missing information for this item, but something went wrong when getting that information. Try again.",
-								})
+								}),
 							);
 							console.error(cause);
 						});
@@ -262,9 +262,9 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 												link.attr
 													.split(" ")
 													.filter((x) => !!x)
-													.map((x) => x.split("="))
+													.map((x) => x.split("=")),
 											),
-										})
+										}),
 									);
 								}
 							}
@@ -288,7 +288,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 										],
 									}),
 								],
-							})
+							}),
 						);
 
 						if (result.success) {
@@ -337,7 +337,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 									type: "div",
 									class: "custom-error",
 									text: "We are missing information for this item. Use the item again to fetch that information, and then another time to use the item.",
-								})
+								}),
 							);
 							return;
 						}
@@ -349,12 +349,12 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 
 						if (result.includes(" equipped ")) {
 							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
-								x.classList.remove("equipped")
+								x.classList.remove("equipped"),
 							);
 							itemWrap.classList.add("equipped");
 						} else if (result.includes(" unequipped "))
 							findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`, innerContent).forEach((x) =>
-								x.classList.remove("equipped")
+								x.classList.remove("equipped"),
 							);
 					}
 				});
@@ -548,7 +548,7 @@ function updateItemAmount(id: number, change: number) {
 		let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
 		if (newQuantity < 0) newQuantity = 0;
 
-		quickQuantity.textContent = newQuantity + "x";
+		quickQuantity.textContent = `${newQuantity}x`;
 		quickQuantity.setAttribute("quantity", newQuantity.toString());
 	}
 }
@@ -592,7 +592,7 @@ function cacheXID(xids: ExtractedXID[]) {
 			if (!(c.item in map)) map[c.item] = c.xid;
 			return map;
 		},
-		{} as Record<number, number>
+		{} as Record<number, number>,
 	);
 
 	void ttCache.setIndefinite(cacheObject, "xid--temp");

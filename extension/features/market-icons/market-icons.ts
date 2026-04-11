@@ -1,10 +1,10 @@
 import "./market-icons.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isSellable } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
 import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireItemsLoaded } from "@/utils/common/functions/requires";
+import { getPageStatus, isSellable } from "@/utils/common/functions/torn";
 
 function initialiseMarketIcons() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(showMarketIcons);
@@ -45,13 +45,13 @@ async function showMarketIcons() {
 						children: [elementBuilder({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } })],
 					}),
 				],
-			})
+			}),
 		);
 
 		isFirst = false;
 		lastItem = item;
 	}
-	if (lastItem && lastItem.querySelector(".outside-actions")) lastItem.querySelector(".outside-actions").classList.add("last-action");
+	if (lastItem?.querySelector(".outside-actions")) lastItem.querySelector(".outside-actions").classList.add("last-action");
 }
 
 function removeMarketIcons() {

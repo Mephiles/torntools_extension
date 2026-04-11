@@ -1,11 +1,11 @@
 import "./settings-link.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
+import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { torntools } from "@/utils/common/icons/torntools";
 import { backSvg } from "@/utils/common/icons/back";
+import { torntools } from "@/utils/common/icons/torntools";
 
 function initialiseLink() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.STATE_CHANGED].push(() => {

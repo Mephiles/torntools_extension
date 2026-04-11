@@ -1,7 +1,7 @@
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { injectXHR } from "@/utils/common/functions/listeners";
 import { executeScript } from "@/utils/common/functions/dom";
+import { injectXHR } from "@/utils/common/functions/listeners";
 
 declare global {
 	interface Window {

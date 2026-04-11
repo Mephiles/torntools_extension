@@ -1,9 +1,9 @@
 import "./high-low-helper.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { capitalizeText } from "@/utils/common/functions/formatting";
+import { addXHRListener } from "@/utils/common/functions/listeners";
 
 interface CardDeck {
 	hearts: number[];
@@ -96,7 +96,7 @@ function getCardWorth({ classCode, nameShort }: { classCode: string; nameShort: 
 	const suit = classCode.split("-")[0] as CardSuit;
 
 	let value: number;
-	if (!isNaN(parseInt(nameShort))) value = parseInt(nameShort);
+	if (!Number.isNaN(parseInt(nameShort))) value = parseInt(nameShort);
 	else if (nameShort === "J") value = 11;
 	else if (nameShort === "Q") value = 12;
 	else if (nameShort === "K") value = 13;

@@ -30,7 +30,7 @@ export const MIGRATIONS: MigrationScript[] = [
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
 	const migrations = MIGRATIONS.filter(({ version }) => toNumericVersion(version) >= toNumericVersion(storage.version.initial)).filter(
-		({ id }) => !storage.migrations.map(({ id }) => id).includes(id)
+		({ id }) => !storage.migrations.map(({ id }) => id).includes(id),
 	);
 
 	const flags: MigrationFlags = {

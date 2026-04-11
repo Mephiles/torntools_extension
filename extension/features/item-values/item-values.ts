@@ -1,14 +1,14 @@
 import "./item-values.css";
-import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@/utils/common/functions/dom";
-import { getPage, getPageStatus } from "@/utils/common/functions/torn";
-import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { XHRDetails } from "@/entrypoints/xhr--inject";
-import { requireElement, requireItemsLoaded } from "@/utils/common/functions/requires";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import type { XHRDetails } from "@/entrypoints/xhr--inject";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { isInternalFaction } from "@/pages/factions-page";
+import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement, requireItemsLoaded } from "@/utils/common/functions/requires";
+import { getPage, getPageStatus } from "@/utils/common/functions/torn";
 import { sleep } from "@/utils/common/functions/utilities";
 
 const page = getPage();
@@ -100,11 +100,11 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 
 				const valueWrap = itemRow.querySelector<HTMLElement>(".info-wrap");
 
-				if (valueWrap && valueWrap.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
+				if (valueWrap?.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
 					valueWrap.innerHTML = "";
 					valueWrap.classList.add("tt-item-price-color");
 					addValue(valueWrap, quantity, price);
-				} else if (valueWrap && valueWrap.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
+				} else if (valueWrap?.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
 					valueWrap.style.setProperty("position", "relative");
 
 					const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
@@ -191,21 +191,21 @@ function addValue(priceElement: Element, quantity: number, price: number) {
 				elementBuilder({
 					type: "span",
 					text: `${formatNumber(price, { currency: true })} | `,
-				})
+				}),
 			);
 			priceElement.appendChild(
 				elementBuilder({
 					type: "span",
 					text: `${quantity}x = `,
 					class: "tt-item-quantity",
-				})
+				}),
 			);
 		}
 		priceElement.appendChild(
 			elementBuilder({
 				type: "span",
 				text: `${formatNumber(totalPrice, { currency: true })}`,
-			})
+			}),
 		);
 	} else if (price === 0) {
 		priceElement.textContent = "N/A";
@@ -248,27 +248,27 @@ function showItemValues(list: HTMLElement) {
 					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })}`,
-					})
+					}),
 				);
 			} else {
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
 						text: `${formatNumber(price, { currency: true })} | `,
-					})
+					}),
 				);
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
 						text: `${quantity}x = `,
 						class: "tt-item-quantity",
-					})
+					}),
 				);
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
 						text: `${formatNumber(totalPrice, { currency: true })}`,
-					})
+					}),
 				);
 			}
 		} else if (price === 0) {
@@ -298,7 +298,7 @@ function updateItemAmount(id: number, change: number) {
 				elementBuilder({
 					type: "span",
 					text: `${formatNumber(price, { currency: true })}`,
-				})
+				}),
 			);
 		} else {
 			quantityElement.textContent = `${newQuantity}x = `;

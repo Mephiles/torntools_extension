@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { findAllElements, getHashParameters } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { StatsEstimate } from "./stats-estimate";
 
 const statsEstimate = new StatsEstimate("Bounties", true);
@@ -25,7 +25,7 @@ function registerListeners() {
 async function startFeature() {
 	if (settings.pages.bounties.filter) {
 		const list = document.querySelector(".bounties-list");
-		if (!list || !list.classList.contains("tt-filtered")) return;
+		if (!list?.classList.contains("tt-filtered")) return;
 	}
 
 	await showEstimates();
@@ -45,7 +45,7 @@ async function showEstimates() {
 			id: parseInt(row.querySelector<HTMLAnchorElement>(".target a").href.match(/(\d+)/g)?.at(-1)),
 			level: parseInt(row.querySelector(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 		}),
-		{ hasFilter: true }
+		{ hasFilter: true },
 	);
 }
 

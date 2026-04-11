@@ -1,10 +1,10 @@
 import "./total-portfolio-value.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
-import { sleep } from "@/utils/common/functions/utilities";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { sleep } from "@/utils/common/functions/utilities";
 
 async function addProfitAndValue() {
 	await requireElement("#stockmarketroot [class*='stock___']");
@@ -55,7 +55,7 @@ function calculateAndShowProfits() {
 					text: formatNumber(profits, { currency: true, shorten }),
 				}),
 			],
-		})
+		}),
 	);
 	if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
 }

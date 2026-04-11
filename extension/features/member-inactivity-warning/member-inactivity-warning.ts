@@ -1,10 +1,10 @@
 import "./member-inactivity-warning.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { settings } from "@/utils/common/data/database";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
+import { settings } from "@/utils/common/data/database";
 import { findAllElements } from "@/utils/common/functions/dom";
+import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 
 let lastActionState: boolean;

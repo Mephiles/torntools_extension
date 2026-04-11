@@ -60,7 +60,6 @@ body.dark-mode .tt-dual-range .handle {
 
 .tt-dual-range .dump * {
 	opacity: 0;
-	filter: alpha(opacity=0);
 }
 
 .tt-slider-wrapper {

@@ -1,0 +1,61 @@
+{
+	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+	"files": { "ignoreUnknown": false, "maxSize": 2500000, "includes": ["**"] },
+	"formatter": {
+		"indentStyle": "tab",
+		"indentWidth": 4,
+		"lineWidth": 160,
+		"includes": ["**", "!**/.github", "!**/bun.lock", "!**/*.md"]
+	},
+	"javascript": {
+		"formatter": {
+			"indentWidth": 4
+		}
+	},
+	"json": {
+		"formatter": {
+			"indentWidth": 4
+		}
+	},
+	"linter": {
+		"rules": {
+			"recommended": true,
+			"a11y": {
+				"noAutofocus": "off",
+				"noRedundantAlt": "off",
+				"noSvgWithoutTitle": "off",
+				"useAnchorContent": "off",
+				"useButtonType": "off",
+				"useGenericFontNames": "off"
+			},
+			"correctness": {
+				"useParseIntRadix": "off"
+			},
+			"complexity": {
+				"noArguments": "off",
+				"noImportantStyles": "off",
+				"useLiteralKeys": "off"
+			},
+			"style": {
+				"noDescendingSpecificity": "off",
+				"noNonNullAssertion": "off"
+			},
+			"suspicious": {
+				"noAsyncPromiseExecutor": "off",
+				"noDuplicateProperties": "off",
+				"noExplicitAny": "off",
+				"noShorthandPropertyOverrides": "off",
+				"useIterableCallbackReturn": "off"
+			}
+		},
+		"includes": ["**"]
+	},
+	"html": { "formatter": { "selfCloseVoidElements": "always" } },
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
+}

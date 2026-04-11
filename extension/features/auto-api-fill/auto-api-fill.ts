@@ -1,5 +1,5 @@
-import { hasAPIData } from "@/utils/common/functions/api";
 import { api, settings } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { executeScript } from "@/utils/common/functions/dom";
 
 export function loadAutoAPIFill() {

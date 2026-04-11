@@ -1,6 +1,6 @@
 import "./checkbox.css";
-import { getUUID } from "@/utils/common/functions/utilities";
 import { elementBuilder } from "@/utils/common/functions/dom";
+import { getUUID } from "@/utils/common/functions/utilities";
 
 interface CheckboxOptions {
 	description: string | Node;
@@ -55,7 +55,7 @@ export function createCheckbox(partialOptions: Partial<CheckboxOptions> = {}): C
 		},
 	});
 
-	let onChangeCallback: () => void | undefined;
+	let onChangeCallback: () => void;
 
 	function setChecked(isChecked: boolean) {
 		checkbox.checked = isChecked;

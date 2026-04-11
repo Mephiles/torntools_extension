@@ -1,14 +1,14 @@
 import "./mission-rewards.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { requireElement } from "@/utils/common/functions/requires";
+import type { UserV1Ammo } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { findItemInList } from "@/utils/common/functions/utilities";
-import { UserV1Ammo } from "@/utils/common/functions/api-v1.types";
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.MISSION_REWARDS].push(async () => {
@@ -51,7 +51,7 @@ async function showRewards() {
 						}),
 					],
 				}),
-				actionsWrap.querySelector(".actions")
+				actionsWrap.querySelector(".actions"),
 			);
 			reward.classList.add("tt-modified");
 		} else if (type === "Item") {
@@ -93,7 +93,7 @@ async function showRewards() {
 						}),
 					],
 				}),
-				actionsWrap.querySelector(".actions")
+				actionsWrap.querySelector(".actions"),
 			);
 			reward.classList.add("tt-modified");
 		}

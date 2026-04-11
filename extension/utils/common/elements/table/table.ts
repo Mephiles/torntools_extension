@@ -1,6 +1,6 @@
-import { BaseElement } from "@/utils/common/elements/base-element";
+import type { BaseElement } from "@/utils/common/elements/base-element";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { getTypedKeyOf, groupBy, TypedKeyOf } from "@/utils/common/functions/utilities";
+import { getTypedKeyOf, groupBy, type TypedKeyOf } from "@/utils/common/functions/utilities";
 import "./table.css";
 import { PHFillCaretDown, PHFillCaretUp } from "@/utils/common/icons/phosphor-icons";
 
@@ -46,7 +46,7 @@ export function stringCellRenderer(value: string | number): BaseElement<Node> {
 
 function createTableHeaderCell<T>(
 	columnDef: TableColumnDef<T>,
-	options: { stretchColumns: boolean; onColumnSorted?: (direction: COLUMN_SORT_DIRECTION) => void }
+	options: { stretchColumns: boolean; onColumnSorted?: (direction: COLUMN_SORT_DIRECTION) => void },
 ) {
 	let currentDirection: COLUMN_SORT_DIRECTION;
 
@@ -119,7 +119,7 @@ function createTableHeaderCell<T>(
 	};
 }
 
-type TableHeaderCell<T> = ReturnType<typeof createTableHeaderCell<T>>;
+// type TableHeaderCell<T> = ReturnType<typeof createTableHeaderCell<T>>;
 
 function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef: TableColumnDef<T, K>, options: { stretchCell: boolean }) {
 	const cellRenderer = columnDef.cellRendererSelector ? columnDef.cellRendererSelector(rowData) : columnDef.cellRenderer;
@@ -143,12 +143,12 @@ function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef
 	};
 }
 
-type TableCell<T, K extends keyof T = keyof T> = ReturnType<typeof createTableCell<T, K>>;
+// type TableCell<T, K extends keyof T = keyof T> = ReturnType<typeof createTableCell<T, K>>;
 
 function createTableRow<T extends Record<string, any>>(
 	rowData: T,
 	tableColumnsDefs: TableColumnDef<T>[],
-	options: { rowClass?: (rowData: T) => string; stretchColumns: boolean }
+	options: { rowClass?: (rowData: T) => string; stretchColumns: boolean },
 ) {
 	const rowCells = tableColumnsDefs.map((columnDef) => createTableCell(rowData, rowData[columnDef.id], columnDef, { stretchCell: options.stretchColumns }));
 
@@ -169,7 +169,7 @@ function createTableRow<T extends Record<string, any>>(
 	};
 }
 
-type TableRow<T> = ReturnType<typeof createTableRow<T>>;
+// type TableRow<T> = ReturnType<typeof createTableRow<T>>;
 
 function _createRowGroup<T>(groupKey: string, rowGroupInfo: TableRowGroupInfo<T>): BaseElement {
 	const rowGroupCell = rowGroupInfo.cellRenderer(groupKey);
@@ -195,13 +195,13 @@ export function createTable<T>(
 		rowClass?: (data: T) => string;
 		stretchColumns: boolean;
 		rowGroupInfo?: TableRowGroupInfo<T>;
-	}
+	},
 ) {
 	options = {
 		stretchColumns: false,
 		...options,
 	};
-	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION } = undefined;
+	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION };
 	let tableRows = _createTableRows(tableRowsData);
 
 	const tableHeaders = tableColumnsDefs.map((columnDef) => {
@@ -236,7 +236,7 @@ export function createTable<T>(
 			createTableRow(rowData, tableColumnsDefs, {
 				rowClass: options.rowClass,
 				stretchColumns: options.stretchColumns,
-			})
+			}),
 		);
 
 		if (!options.rowGroupInfo) {

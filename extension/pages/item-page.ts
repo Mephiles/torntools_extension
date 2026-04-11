@@ -1,8 +1,8 @@
-import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireItemsLoaded } from "@/utils/common/functions/requires";
 import { torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireItemsLoaded } from "@/utils/common/functions/requires";
 import { isInfiniteUsageItem } from "@/utils/common/functions/torn";
 
 interface ActionItem {

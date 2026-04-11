@@ -1,13 +1,13 @@
 import "./highlight-blood-bags.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { ALLOWED_BLOOD, getPage, getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { requireContent, requireElement, requireItemsLoaded } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { isInternalFaction } from "@/pages/factions-page";
+import { requireContent, requireElement, requireItemsLoaded } from "@/utils/common/functions/requires";
+import { ALLOWED_BLOOD, getPage, getPageStatus } from "@/utils/common/functions/torn";
 
 const page = getPage();
 
@@ -66,7 +66,7 @@ async function highlightBloodBags() {
 						type: "span",
 						class: "tt-blood-price",
 						text: `${formatNumber(torndata.itemsMap[itemId].value.market_price, { currency: true })}`,
-					})
+					}),
 				);
 			}
 		}

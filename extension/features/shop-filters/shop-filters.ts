@@ -1,13 +1,13 @@
 import { getPageStatus } from "@/utils/common/functions/torn";
 import "./shop-filters.css";
 import { Feature } from "@/features/feature-manager";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { filters, settings, torndata } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckboxList } from "@/utils/common/elements/checkbox-list/checkbox-list";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
-import { ttStorage } from "@/utils/common/data/storage";
+import { requireElement } from "@/utils/common/functions/requires";
 
 type ShopFilterId = "hideLoss" | "hideUnder100";
 
@@ -42,7 +42,7 @@ async function addFilters() {
 			type: "div",
 			class: "tt-shop-filters tt-theme",
 			children: [shopFilters.element],
-		})
+		}),
 	);
 }
 

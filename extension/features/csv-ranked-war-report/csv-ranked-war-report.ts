@@ -1,12 +1,12 @@
-import styles from "./csv-ranked-war-report.module.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
 import { CSVExport } from "@/utils/common/functions/csv";
+import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, getUsername } from "@/utils/common/functions/torn";
 import { PHFillTable } from "@/utils/common/icons/phosphor-icons";
+import styles from "./csv-ranked-war-report.module.css";
 
 async function addCSVContainer() {
 	await requireElement(".faction-war");
@@ -36,7 +36,7 @@ async function addCSVContainer() {
 								getUsername(row).combined,
 								row.querySelector(".level").textContent,
 								row.querySelector(".points").textContent,
-								row.querySelector(".status").textContent
+								row.querySelector(".status").textContent,
 							);
 						}
 					} else csv.append("None");

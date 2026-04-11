@@ -30,10 +30,10 @@ export function initializeInternalPage(partialOptions: Partial<InitializeInterna
 		document.addEventListener("click", (event) => {
 			const clickedElement = event.target;
 			if (isElementOfTag(clickedElement, "th")) {
-				if (clickedElement.getAttribute("class") && clickedElement.getAttribute("class").split(" ").includes("no-sorting")) return;
+				if (clickedElement.getAttribute("class")?.split(" ").includes("no-sorting")) return;
 
 				const table = findParent(clickedElement, { tag: "TABLE" });
-				if (!table || !table.classList.contains("sortable")) return;
+				if (!table?.classList.contains("sortable")) return;
 
 				sortTable(table, findAllElements("th", table).indexOf(clickedElement) + 1);
 			}
@@ -116,7 +116,7 @@ export function sendMessage(text: string, good: boolean, partialOptions: Partial
 	message.classList.remove("tt-hidden");
 	message.textContent = text;
 	message.style.backgroundColor = good ? "#30e202" : "#ff19199e";
-	message.style.maxHeight = message.scrollHeight + "px";
+	message.style.maxHeight = `${message.scrollHeight}px`;
 
 	if (options.reload) {
 		setTimeout(() => {

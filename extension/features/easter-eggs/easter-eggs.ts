@@ -1,9 +1,9 @@
 import "./easter-eggs.css";
 import { Feature } from "@/features/feature-manager";
-import { isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 
 const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
 
@@ -36,7 +36,7 @@ async function highlightEgg(egg: Element) {
 		alert("TornTools detected an easter egg on this page.");
 	}
 
-	const locationText = calculateLocation(await requireElement(EGG_SELECTOR + " img"));
+	const locationText = calculateLocation(await requireElement(`${EGG_SELECTOR} img`));
 
 	document.querySelector(".tt-overlay").classList.remove("tt-hidden");
 	document.querySelector<HTMLElement>(".tt-overlay").style.zIndex = "999";

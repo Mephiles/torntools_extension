@@ -1,10 +1,10 @@
 import "./total-item-cost.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	document.addEventListener("click", (event) => {
@@ -38,7 +38,7 @@ function changeTotalPrice(amount: number) {
 	const stock = parseInt(document.querySelector("[class*='buyMenu_'] [class*='amount_']").textContent.split(")")[0].replace(/\D+/g, ""));
 	const price = parseInt(document.querySelector("[class*='buyMenu_'] [class*='price_']").textContent.split("$")[1].replaceAll(",", ""));
 	if (amount > stock) amount = stock;
-	if (document.querySelector("#tt-total-cost")) document.querySelector("#tt-total-cost").innerHTML = "$" + formatNumber(price * amount);
+	if (document.querySelector("#tt-total-cost")) document.querySelector("#tt-total-cost").innerHTML = formatNumber(price * amount, { currency: true });
 }
 
 export default class TotalItemCostFeature extends Feature {

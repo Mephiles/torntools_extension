@@ -1,8 +1,13 @@
 import "./trade-timer.css";
 import { Feature } from "@/features/feature-manager";
 import { localdata, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
+import { dropDecimals, formatTime } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireChatsLoaded, requireElement } from "@/utils/common/functions/requires";
+import { countdownTimers, removeCountdownTimer } from "@/utils/common/functions/timers";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import {
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
 	SELECTOR_CHAT_V3__BOX,
@@ -10,11 +15,6 @@ import {
 	SELECTOR_CHAT_V3__SEND_BUTTON,
 	SELECTOR_CHAT_V3__TRADE_CHAT,
 } from "@/utils/common/global/selectors/chatSelectors";
-import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { countdownTimers, removeCountdownTimer } from "@/utils/common/functions/timers";
-import { dropDecimals, formatTime } from "@/utils/common/functions/formatting";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { ttStorage } from "@/utils/common/data/storage";
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(async ({ chat }) => {

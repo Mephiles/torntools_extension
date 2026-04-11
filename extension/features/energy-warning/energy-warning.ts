@@ -1,11 +1,11 @@
 import "./energy-warning.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getItemEnergy, getPage, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
-import { isInternalFaction } from "@/pages/factions-page";
+import { getItemEnergy, getPage, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
 
 function initialiseListener() {
 	document.addEventListener("click", async (event) => {

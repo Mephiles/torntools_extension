@@ -1,10 +1,10 @@
 import "./candy-happy.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus, isEventActive, TORN_EVENTS } from "@/utils/common/functions/torn";
 
 function initialiseAddGains() {
 	const listener = () => {
@@ -27,12 +27,12 @@ function addGains() {
 			torndata.itemsMap[candy.dataset.item].effect
 				.split(" ")
 				.map((x) => parseInt(x))
-				.filter((x) => !isNaN(x))[0]
-				.toString()
+				.filter((x) => !Number.isNaN(x))[0]
+				.toString(),
 		);
 		let totalHappy = baseHappy;
-		if (!isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;
-		if (!isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
+		if (!Number.isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;
+		if (!Number.isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
 
 		if (isEventActive(TORN_EVENTS.WORLD_DIABETES_DAY, true)) {
 			totalHappy *= 2;

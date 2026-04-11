@@ -1,8 +1,8 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 
 async function addWorth() {
 	const eventsListWrapper = await requireElement("[class*='eventsList__']");
@@ -32,7 +32,7 @@ async function addWorth() {
 				}
 			});
 		},
-		{ capture: true }
+		{ capture: true },
 	);
 }
 

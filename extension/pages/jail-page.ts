@@ -1,6 +1,6 @@
-import { requireElement } from "@/utils/common/functions/requires";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { getHashParameters } from "@/utils/common/functions/dom";
+import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 
 export function setupJailPage() {
 	window.addEventListener("hashchange", (e) => {

@@ -1,11 +1,11 @@
 import "./display-case-worth.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import { addXHRListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 import { createMessageBox } from "@/utils/common/functions/torn";
 
 function xhrListener() {
@@ -21,7 +21,7 @@ function xhrListener() {
 
 async function addWorth() {
 	const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
-	if (displayCaseUserId && !isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
+	if (displayCaseUserId && !Number.isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
 		await requireElement(".info-msg-cont .msg");
 		// TODO - Migrate to V2 (user/display).
 		fetchData("tornv2", { section: "user", id: displayCaseUserId, selections: ["display"], legacySelections: ["display"] })
@@ -40,10 +40,10 @@ async function addWorth() {
 						children: [
 							elementBuilder({
 								type: "span",
-								text: formatNumber(total, { currency: true }) + ".",
+								text: `${formatNumber(total, { currency: true })}.`,
 							}),
 						],
-					})
+					}),
 				);
 			})
 			.catch((error) => {
@@ -51,8 +51,8 @@ async function addWorth() {
 					elementBuilder({
 						type: "div",
 						class: "tt-display-worth",
-						text: "TORN API returned error:" + error.toString(),
-					})
+						text: `TORN API returned error: ${error.toString()}`,
+					}),
 				);
 				console.log("TT - Display Cabinet Worth API Error:", error);
 			});
@@ -71,7 +71,7 @@ async function addWorth() {
 					createMessageBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
 						class: "tt-display-worth",
 						isHTML: true,
-					})
+					}),
 				);
 			})
 			.catch(async (error) => {

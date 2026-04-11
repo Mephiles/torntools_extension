@@ -1,13 +1,13 @@
 import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { ttStorage } from "@/utils/common/data/storage";
-import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { convertToNumber } from "@/utils/common/functions/formatting";
 
 let filterSetupComplete: boolean = false;
 let listObserver: MutationObserver;
@@ -102,7 +102,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
 		findAllElements(".tableWrapper ul > li").length,
-		content
+		content,
 	);
 }
 
@@ -142,7 +142,7 @@ function filterRow(row: HTMLElement, filters: Partial<FriendFilters>, individual
 			localFilters["Statistics"].updateStatistics(
 				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 				findAllElements("ul.user-info-blacklist-wrap > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -156,7 +156,7 @@ function filterRow(row: HTMLElement, filters: Partial<FriendFilters>, individual
 			localFilters["Statistics"].updateStatistics(
 				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
 				findAllElements("ul.user-info-blacklist-wrap> li").length,
-				content
+				content,
 			);
 		}
 	}

@@ -1,11 +1,11 @@
 import "./racing-upgrades.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, findParent } from "@/utils/common/functions/dom";
+import { applyPlural } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { applyPlural } from "@/utils/common/functions/formatting";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialise() {
 	addXHRListener(async ({ detail: { page, xhr, uri } }) => {
@@ -57,7 +57,7 @@ async function showUpgrades() {
 			const statOld = (statNew * parseFloat(property.querySelector<HTMLElement>(".progressbar.progress-light-gray").style.width)) / 100;
 			const difference = Math.round((statNew - statOld) * 100);
 
-			if (isNaN(difference)) continue;
+			if (Number.isNaN(difference)) continue;
 
 			const bar = elementBuilder("span");
 
@@ -131,12 +131,12 @@ async function showUpgrades() {
 					${
 						needed.length
 							? `<strong class="counter">${needed.length}</strong> part${applyPlural(needed.length)} available to upgrade: <strong>${needed.join(
-									"<span class='separator'>, </span>"
+									"<span class='separator'>, </span>",
 								)}</strong>`
 							: "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>!"
 					}
 				`,
-		})
+		}),
 	);
 }
 
@@ -177,7 +177,7 @@ function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 
 	const neededUpgrade = document.querySelector(`.tt-race-upgrade-needed[part="${part}"]`);
 	if (neededUpgrade) {
-		if (neededUpgrade.nextElementSibling && neededUpgrade.nextElementSibling.classList.contains("separator")) neededUpgrade.nextElementSibling.remove();
+		if (neededUpgrade.nextElementSibling?.classList.contains("separator")) neededUpgrade.nextElementSibling.remove();
 		neededUpgrade.remove();
 	}
 }

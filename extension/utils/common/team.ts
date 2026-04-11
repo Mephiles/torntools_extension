@@ -348,6 +348,9 @@ interface Contributor {
 type ContributorMap = { [name: string]: Contributor };
 
 export const CONTRIBUTORS: ContributorMap = TEAM.filter(({ title, color }) => title.includes("Developer") || !!color).reduce<ContributorMap>(
-	(object, { name, torn, color }) => ({ ...object, [name]: { id: torn, name, color } }),
-	{}
+	(object, { name, torn, color }) => {
+		object[name] = { id: torn, name, color };
+		return object;
+	},
+	{},
 );

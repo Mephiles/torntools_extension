@@ -1,10 +1,10 @@
-import styles from "./fill-max.module.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import styles from "./fill-max.module.css";
 
 async function addFillMax() {
 	await requireElement(".item-desc");

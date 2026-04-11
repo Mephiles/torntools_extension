@@ -1,8 +1,10 @@
-import { checkDevice, elementBuilder, findAllElements, getSearchParameters, isElement, isHTMLElement } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER } from "@/features/feature-manager";
 import { loadDatabase, settings, storageListeners } from "@/utils/common/data/database";
-import { requireChatsLoaded, requireCondition, requireContent } from "@/utils/common/functions/requires";
-import { getPage, isChatV3 } from "@/utils/common/functions/torn";
+import { checkDevice, elementBuilder, findAllElements, getSearchParameters, isElement, isHTMLElement } from "@/utils/common/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireChatsLoaded, requireCondition, requireContent } from "@/utils/common/functions/requires";
+import { updateTimers } from "@/utils/common/functions/timers";
+import { getPage, isChatV3 } from "@/utils/common/functions/torn";
 import {
 	SELECTOR_CHAT_ROOT,
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
@@ -12,8 +14,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_CONTENT,
 	SELECTOR_CHAT_V3__VARIOUS_ROOT,
 } from "@/utils/common/global/selectors/chatSelectors";
-import { updateTimers } from "@/utils/common/functions/timers";
-import { FEATURE_MANAGER } from "@/features/feature-manager";
 
 function handleDeviceSizeClasses() {
 	checkDevice().then(({ mobile, tablet }) => {
@@ -36,14 +36,14 @@ async function handleTheme() {
 	document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");
 	document.documentElement.style.setProperty(
 		"--tt-theme-background",
-		settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)"
+		settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)",
 	);
 	storageListeners.settings.push((oldSettings) => {
-		if (!oldSettings || !oldSettings.themes || !settings || !settings.themes || oldSettings.themes.containers !== settings.themes.containers) {
+		if (!oldSettings?.themes || !settings?.themes || oldSettings.themes.containers !== settings.themes.containers) {
 			document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");
 			document.documentElement.style.setProperty(
 				"--tt-theme-background",
-				settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)"
+				settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)",
 			);
 		}
 	});

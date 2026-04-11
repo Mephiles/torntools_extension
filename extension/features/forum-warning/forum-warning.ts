@@ -1,8 +1,8 @@
 import "./forum-warning.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, TORNTOOLS_FORUM_POST } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { elementBuilder, getHashParameters } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, TORNTOOLS_FORUM_POST } from "@/utils/common/functions/torn";
 
 let observer: MutationObserver | null = null;
 
@@ -39,13 +39,13 @@ function showWarning() {
 		position = "beforebegin";
 
 		requireElement("[class*='actionButtonsWrapper__'] button", { parent }).then((button) =>
-			button.addEventListener("click", handleDisabledPost, { capture: true, once: true })
+			button.addEventListener("click", handleDisabledPost, { capture: true, once: true }),
 		);
 
 		requireElement(".editor-content.mce-content-body", { parent }).then((input) => {
 			const text = "I'm currently posting this with TornTools enabled.";
 			if (!input.innerText.includes(text)) {
-				input.innerHTML = text + "<br>" + input.innerHTML;
+				input.innerHTML = `${text}<br>${input.innerHTML}`;
 			}
 		});
 	}
@@ -65,7 +65,7 @@ function showWarning() {
 					events: { click: showPopup },
 				}),
 			],
-		})
+		}),
 	);
 
 	function showPopup() {

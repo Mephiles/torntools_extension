@@ -1,12 +1,12 @@
 import "./live-networth.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { settings, userdata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { requireContent } from "@/utils/common/functions/requires";
 import { elementBuilder, findElementWithText } from "@/utils/common/functions/dom";
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
+import { requireContent } from "@/utils/common/functions/requires";
+import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
 
 async function showNetworth() {
 	await requireContent();
@@ -26,7 +26,7 @@ async function showNetworth() {
 		class: "networth-info-icon",
 		attributes: {
 			seconds: (Date.now() - userdata.date) / 1000,
-			title: "Last updated " + formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" }),
+			title: `Last updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })}`,
 			style: "margin-left: 9px;",
 		},
 	});
@@ -69,7 +69,7 @@ async function showNetworth() {
 					text: `Networth change compared to Torn's last known Networth (updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })})`,
 				}),
 			],
-		})
+		}),
 	);
 
 	function newRow(name: string, value: string) {
@@ -144,7 +144,7 @@ async function showNetworth() {
 						class: isPositive ? "positive" : "negative",
 					}),
 				],
-			})
+			}),
 		);
 	}
 }

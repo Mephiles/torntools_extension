@@ -1,9 +1,9 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { checkDevice, findAllElements } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireChatsLoaded, requireElement } from "@/utils/common/functions/requires";
 import { REACT_UPDATE_VERSIONS, updateReactInput } from "@/utils/common/functions/torn";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import {
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
 	SELECTOR_CHAT_V2__MESSAGE_BOX,
@@ -31,8 +31,8 @@ async function readSettings() {
 
 	await Promise.all(
 		findAllElements("[class*='group-chat-box__chat-box-wrapper__'] [class*='chat-box__'], #chatRoot [class*='item___'][style*='z-index']").map((chat) =>
-			addAutocomplete(chat)
-		)
+			addAutocomplete(chat),
+		),
 	);
 }
 
@@ -41,7 +41,7 @@ async function addAutocomplete(chat: HTMLElement) {
 
 	const messages = findAllElements(
 		`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`,
-		chat
+		chat,
 	);
 	if (!messages.length) return;
 
@@ -78,7 +78,7 @@ async function addAutocomplete(chat: HTMLElement) {
 		updateReactInput(
 			textarea,
 			textarea.value.substring(0, valueStart) + currentUsername + textarea.value.substring(valueBeforeCursor.length, textarea.value.length),
-			{ version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT }
+			{ version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT },
 		);
 
 		const selectionIndex = valueStart + currentUsername.length;

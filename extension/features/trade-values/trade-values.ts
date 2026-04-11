@@ -1,13 +1,13 @@
 import "./trade-values.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings, torndata } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { ttStorage } from "@/utils/common/data/storage";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ step }) => {
@@ -51,7 +51,7 @@ async function addItemValues() {
 				}
 
 				torndata.items
-					.filter((i) => quantityMap.hasOwnProperty(i.name))
+					.filter((i) => Object.hasOwn(quantityMap, i.name))
 					.forEach((i) => {
 						localMappings[i.name] = i.id.toString();
 						totalValue += quantityMap[i.name] * i.value.market_price;
@@ -76,7 +76,7 @@ async function addItemValues() {
 			const quantity = parseInt(item.textContent.split(" x")[1]) || 1;
 
 			let marketValue = 0;
-			if (localMappings.hasOwnProperty(name)) {
+			if (Object.hasOwn(localMappings, name)) {
 				marketValue = torndata.itemsMap[localMappings[name]].value.market_price;
 			} else {
 				marketValue = torndata.items.find((i) => i.name === name)?.value?.market_price ?? 0;
@@ -96,7 +96,7 @@ async function addItemValues() {
 					class: "tt-total-value",
 					text: "Total value: ",
 					children: [elementBuilder({ type: "span", text: formatNumber(totalValue, { currency: true }) })],
-				})
+				}),
 			);
 		}
 

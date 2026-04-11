@@ -1,9 +1,9 @@
 import "./mission-hints.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.MISSION_LOAD].push(async () => {
@@ -353,7 +353,7 @@ async function showHints() {
 			}
 		}
 
-		let children = [
+		const children = [
 			elementBuilder({ type: "h6", class: "tt-mission-title", text: "TornTools Mission Information" }),
 			elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Task: " }), task] }),
 		];

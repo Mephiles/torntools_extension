@@ -1,13 +1,13 @@
 import { Feature } from "@/features/feature-manager";
+import { markTravelTableColumns } from "@/pages/travel-abroad-page";
 import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
-import { requireElement } from "@/utils/common/functions/requires";
 import { convertToNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@/utils/common/functions/torn";
-import { markTravelTableColumns } from "@/pages/travel-abroad-page";
-import { ttStorage } from "@/utils/common/data/storage";
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
@@ -64,8 +64,8 @@ async function addFilter() {
 	const taxesFilter = createFilterSection({
 		title: "Taxes",
 		checkboxes: [
-			{ id: "salestax", description: SALES_TAX + "% Sales Tax" },
-			{ id: "anonymous", description: ANONYMOUS_TAX + "% Anonymous Tax" },
+			{ id: "salestax", description: `${SALES_TAX}% Sales Tax` },
+			{ id: "anonymous", description: `${ANONYMOUS_TAX}% Anonymous Tax` },
 		],
 		defaults: filters.abroadItems.taxes,
 		callback: filtering,
@@ -131,9 +131,6 @@ async function addFilter() {
 							continue;
 						}
 						break;
-					case "alcohol":
-					case "clothing":
-					case "other":
 					default:
 						if (!categories.includes("other")) {
 							hideRow(li);
@@ -158,7 +155,7 @@ async function addFilter() {
 		statistics.updateStatistics(
 			findAllElements("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
 			findAllElements("[class*='stockTableWrapper___'] > li").length,
-			content
+			content,
 		);
 	}
 

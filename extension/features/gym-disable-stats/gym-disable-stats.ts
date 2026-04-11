@@ -1,11 +1,11 @@
 import "./gym-disable-stats.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { requireElement } from "@/utils/common/functions/requires";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { sleep } from "@/utils/common/functions/utilities";
 
 function initialiseListeners() {
@@ -39,7 +39,7 @@ function initialiseListeners() {
 
 			if (
 				mutations.some((mutation) =>
-					Array.from(mutation.addedNodes).some((node) => isElement(node) && node.className?.includes?.("gymContentWrapper__"))
+					Array.from(mutation.addedNodes).some((node) => isElement(node) && node.className?.includes?.("gymContentWrapper__")),
 				)
 			) {
 				void showCheckboxes();
@@ -69,7 +69,7 @@ async function showCheckboxes() {
 						toggleStat(stat);
 					},
 				},
-			})
+			}),
 		);
 
 		const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();

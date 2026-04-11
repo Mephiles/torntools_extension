@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { addXHRListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { StatsEstimate } from "./stats-estimate";
 
 const statsEstimate = new StatsEstimate("HOF", true);
@@ -34,7 +34,7 @@ async function showEstimates() {
 	if (["battle stats", "faction respect", "faction chains", "faction rank"].includes(hofType)) return;
 
 	const levelIndex = Array.from(document.querySelector("[class*='tableHead___'] [class*='tableRow___']").children).findIndex(
-		(title) => title.textContent === "level"
+		(title) => title.textContent === "level",
 	);
 	if (levelIndex === -1) return;
 
@@ -57,7 +57,7 @@ async function showEstimates() {
 					}),
 				};
 			},
-		}
+		},
 	);
 }
 

@@ -1,16 +1,16 @@
 import "./member-info.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { settings, userdata } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { fetchData, hasFactionAPIAccess } from "@/utils/common/functions/api";
-import { getUsername } from "@/utils/common/functions/torn";
-import { formatNumber } from "@/utils/common/functions/formatting";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { ttCache } from "@/utils/common/data/cache";
+import type { FactionBalance, FactionBalanceResponse } from "tornapi-typescript";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
-import { FactionBalance, FactionBalanceResponse } from "tornapi-typescript";
+import { ttCache } from "@/utils/common/data/cache";
+import { settings, userdata } from "@/utils/common/data/database";
+import { fetchData, hasFactionAPIAccess } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { formatNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getUsername } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 let lastActionState: boolean;
 
@@ -91,7 +91,7 @@ async function addInfo(force: boolean) {
 					type: "div",
 					class: "tt-points-balance",
 					text: `Point Balance: ${formatNumber(userBalance.points)}`,
-				})
+				}),
 			);
 		}
 		if (userBalance.money) {
@@ -100,7 +100,7 @@ async function addInfo(force: boolean) {
 					type: "div",
 					class: "tt-money-balance",
 					text: `Money Balance: ${formatNumber(userBalance.money, { currency: true })}`,
-				})
+				}),
 			);
 		}
 

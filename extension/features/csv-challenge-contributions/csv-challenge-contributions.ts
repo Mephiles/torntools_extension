@@ -1,14 +1,14 @@
-import styles from "./csv-challenge-contributions.module.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { CSVExport } from "@/utils/common/functions/csv";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
+import { settings } from "@/utils/common/data/database";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { CSVExport } from "@/utils/common/functions/csv";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { PHFillTable } from "@/utils/common/icons/phosphor-icons";
+import styles from "./csv-challenge-contributions.module.css";
 
 async function addCSVContainer() {
 	if (!location.hash.includes("tab=upgrades")) return;
@@ -45,7 +45,7 @@ async function addCSVContainer() {
 						name.match(/.*(?= \()/)[0],
 						link.href,
 						row.classList.contains("ex-member") ? "Yes" : "No",
-						name.match(/(?<= \().*(?=\))/)[0]
+						name.match(/(?<= \().*(?=\))/)[0],
 					);
 				}
 

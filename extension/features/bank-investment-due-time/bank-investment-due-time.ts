@@ -1,10 +1,10 @@
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { settings, userdata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatDate, formatTime } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function createBankInvestmentFacade(investmentTimeLeftElement: Element) {
 	if (userdata.money.city_bank === null) return { dispose: () => {} };

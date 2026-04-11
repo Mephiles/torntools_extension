@@ -1,10 +1,10 @@
 import "./warn-crime.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getUserDetails } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getUserDetails } from "@/utils/common/functions/torn";
 
 const scenarioInformation = {};
 
@@ -43,7 +43,7 @@ function addListener() {
 					name: slot.name,
 					successChance: slot.successChance,
 					hasItem: slot.requirement?.doesExist ?? null,
-				}))
+				})),
 		);
 
 		slots.forEach(({ scenario: { name: scenarioName }, ...slot }) => {

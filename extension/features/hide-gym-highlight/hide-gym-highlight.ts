@@ -1,9 +1,9 @@
 import "./hide-gym-highlight.css";
 import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { hasDarkMode } from "@/utils/common/functions/torn";
 import { hasSidebar, mobile, tablet } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { hasDarkMode } from "@/utils/common/functions/torn";
 
 let hadHighlight = false;
 

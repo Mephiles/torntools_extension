@@ -1,7 +1,7 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ active }) => {
@@ -18,7 +18,7 @@ async function removeConfirmation() {
 	const link = document.querySelector(".trade-cancel a.accept");
 	if (!link) return;
 
-	let url = link.getAttribute("href");
+	const url = link.getAttribute("href");
 	if (!url.includes("accept") || url.includes("accept2")) return;
 
 	link.setAttribute("href", url.replace("accept", "accept2"));

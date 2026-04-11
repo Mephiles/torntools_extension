@@ -1,8 +1,8 @@
 import "./blackjack-strategy.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { addXHRListener } from "@/utils/common/functions/listeners";
 import { elementBuilder } from "@/utils/common/functions/dom";
+import { addXHRListener } from "@/utils/common/functions/listeners";
 
 const ACTIONS = {
 	H: "Hit",
@@ -533,7 +533,7 @@ function executeStrategy(data: any) {
 	}
 	const suggestion = getSuggestion(playerValue);
 
-	let element = document.querySelector(".tt-blackjack-suggestion");
+	const element = document.querySelector(".tt-blackjack-suggestion");
 	if (element) element.textContent = suggestion;
 	else {
 		document.querySelector(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
@@ -544,7 +544,7 @@ function executeStrategy(data: any) {
 		if (typeof card === "string") symbol = card.split("-").at(-1);
 		else symbol = card;
 
-		return isNaN(parseInt(symbol.toString())) ? (symbol === "A" ? "A" : 10) : parseInt(symbol.toString());
+		return Number.isNaN(parseInt(symbol.toString())) ? (symbol === "A" ? "A" : 10) : parseInt(symbol.toString());
 	}
 
 	function getSuggestion(player: any) {
@@ -578,7 +578,7 @@ function executeStrategy(data: any) {
 					const hand = player.split(",");
 					if (hand[0] === hand[1]) {
 						let value: number;
-						if (isNaN(hand[0])) {
+						if (Number.isNaN(hand[0])) {
 							if (hand[0] === "A")
 								return "H"; // It's not in the suggestions array, but we should always hit A,A after split
 							else value = 20;

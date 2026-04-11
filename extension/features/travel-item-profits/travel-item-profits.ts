@@ -1,13 +1,13 @@
 import "./travel-item-profits.css";
-import { getPageStatus, isAbroad, TAX_RATES } from "@/utils/common/functions/torn";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { filters, settings, torndata } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { requireElement } from "@/utils/common/functions/requires";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { markTravelTableColumns } from "@/pages/travel-abroad-page";
+import { filters, settings, torndata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isAbroad, TAX_RATES } from "@/utils/common/functions/torn";
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;

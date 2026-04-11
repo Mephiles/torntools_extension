@@ -2,9 +2,9 @@ import "./gym-progress.css";
 import { Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { convertToNumber, dropDecimals, formatNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
-import { findAllElements, elementBuilder } from "@/utils/common/functions/dom";
-import { convertToNumber, formatNumber, dropDecimals } from "@/utils/common/functions/formatting";
 
 async function addProgress() {
 	const gymNotification = await requireElement("#gymroot [class*='notificationText__']");
@@ -15,7 +15,7 @@ async function addProgress() {
 	let currentGym: Element;
 	try {
 		currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']");
-	} catch (error) {
+	} catch {
 		console.log("TornTools: No gym progress bar found. User probably unlocked all gyms.");
 	}
 	if (!currentGym) return;
@@ -40,7 +40,7 @@ async function addProgress() {
 			class: "tt-gym-energy-progress",
 			text: "Estimated Energy progress: ",
 			children: [elementBuilder({ type: "span", text: `${formatNumber(stat)}/${formatNumber(goal)}E.` })],
-		})
+		}),
 	);
 }
 

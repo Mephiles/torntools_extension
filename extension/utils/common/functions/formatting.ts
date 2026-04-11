@@ -1,5 +1,5 @@
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { settings } from "@/utils/common/data/database";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 const REGEXES = {
 	convertToNumber: /-?[\d,]+(\.\d+)?/,
@@ -29,7 +29,7 @@ export function convertToNumber(string: string | undefined | null): number {
 export function toSeconds(milliseconds: any) {
 	if (!milliseconds) return toSeconds(Date.now());
 	else if (typeof milliseconds === "object" && milliseconds instanceof Date) return toSeconds(milliseconds.getTime());
-	else if (!isNaN(milliseconds)) return Math.trunc(milliseconds / 1000);
+	else if (!Number.isNaN(milliseconds)) return Math.trunc(milliseconds / 1000);
 	else return toSeconds(Date.now());
 }
 
@@ -67,17 +67,20 @@ export function textToTime(time: string, partialOptions: Partial<TimeTextOptions
 			millis += parseInt(parts[3]) * TO_MILLIS.SECONDS;
 		}
 	} else {
-		let group: RegExpMatchArray | null;
-		if ((group = time.match(/(\d+) ?d/i))) {
+		let group: RegExpMatchArray | null = time.match(/(\d+) ?d/i);
+		if (group) {
 			millis += parseInt(group[1]) * TO_MILLIS.DAYS;
 		}
-		if ((group = time.match(/(\d+) ?h/i))) {
+		group = time.match(/(\d+) ?h/i);
+		if (group) {
 			millis += parseInt(group[1]) * TO_MILLIS.HOURS;
 		}
-		if ((group = time.match(/(\d+) ?min/i))) {
+		group = time.match(/(\d+) ?min/i);
+		if (group) {
 			millis += parseInt(group[1]) * TO_MILLIS.MINUTES;
 		}
-		if ((group = time.match(/(\d+) ?s/i))) {
+		group = time.match(/(\d+) ?s/i);
+		if (group) {
 			millis += parseInt(group[1]) * TO_MILLIS.SECONDS;
 		}
 	}
@@ -129,7 +132,7 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 
 	let date: Date, parts: number[];
 	switch (options.type) {
-		case "normal":
+		case "normal": {
 			date = new Date(millis);
 
 			let seconds: string | number | undefined, minutes: string | number, hours: string | number;
@@ -148,18 +151,19 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 			let hoursText = toMultipleDigits(hours);
 
 			switch (settings.formatting.time) {
-				case "us":
+				case "us": {
 					const afternoon = hours >= 12;
 					hoursText = toMultipleDigits(hours % 12 || 12);
 
 					return secondsText
 						? `${hoursText}:${minutesText}:${secondsText} ${afternoon ? "PM" : "AM"}`
 						: `${hoursText}:${minutesText} ${afternoon ? "PM" : "AM"}`;
-				case "eu":
+				}
 				default:
 					return secondsText ? `${hoursText}:${minutesText}:${secondsText}` : `${hoursText}:${minutesText}`;
 			}
-		case "timer":
+		}
+		case "timer": {
 			date = new Date(millis);
 
 			parts = [];
@@ -172,9 +176,10 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 			if (options.short && options.showDays && timerText.startsWith("00:")) timerText = timerText.slice(3);
 
 			return timerText;
+		}
 		case "wordTimer":
 			return formatTimeAsWordTimer(millis, options);
-		case "ago":
+		case "ago": {
 			let timeAgo = Math.floor(Date.now() - millis);
 
 			let token = "ago";
@@ -234,6 +239,7 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 			}
 
 			return timeAgo.toString();
+		}
 		default:
 			throw new Error("Invalid formatTime type.");
 	}
@@ -332,7 +338,6 @@ export function formatDate(date: DateObject, partialOptions: Partial<FormatDateO
 			parts.push(month, day);
 			break;
 		case "eu":
-		default:
 			separator = ".";
 
 			parts.push(day, month);
@@ -363,7 +368,7 @@ export function formatNumber(number: number | string, partialOptions: Partial<Fo
 		...partialOptions,
 	};
 	if (typeof number !== "number") {
-		if (isNaN(parseInt(number))) return number;
+		if (Number.isNaN(parseInt(number))) return number;
 		else number = parseFloat(number);
 	}
 
@@ -423,7 +428,6 @@ export function formatNumber(number: number | string, partialOptions: Partial<Fo
 
 		const words = (() => {
 			switch (version) {
-				default:
 				case 1:
 					return {
 						thousand: "k",
@@ -499,10 +503,10 @@ export function daySuffix(number: number): string {
 	const last = number % 10,
 		double = number % 100;
 
-	if (last === 1 && double !== 11) return number + "st";
-	else if (last === 2 && double !== 12) return number + "nd";
-	else if (last === 3 && double !== 13) return number + "rd";
-	else return number + "th";
+	if (last === 1 && double !== 11) return `${number}st`;
+	else if (last === 2 && double !== 12) return `${number}nd`;
+	else if (last === 3 && double !== 13) return `${number}rd`;
+	else return `${number}th`;
 }
 
 export function withoutEndPunctuation(text: string): string {

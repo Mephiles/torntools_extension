@@ -1,11 +1,11 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { settings } from "@/utils/common/data/database";
-import { getPageStatus, REACT_UPDATE_VERSIONS, updateReactInput } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
-import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isOwnCompany } from "@/pages/company-page";
+import { settings } from "@/utils/common/data/database";
+import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
+import { convertToNumber, dropDecimals } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, REACT_UPDATE_VERSIONS, updateReactInput } from "@/utils/common/functions/torn";
 import "./auto-stock-fill.css";
 
 function addListener() {
@@ -25,7 +25,7 @@ async function addFillStockButton(add: boolean) {
 			type: "div",
 			class: "tt-fill-stock-wrapper",
 			children: [elementBuilder({ type: "button", class: "tt-btn tt-fill-stock", text: "FILL STOCK", events: { click: fillStock } })],
-		})
+		}),
 	);
 }
 

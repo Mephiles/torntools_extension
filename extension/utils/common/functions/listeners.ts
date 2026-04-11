@@ -1,10 +1,10 @@
-import { UserPersonalStatsFull } from "tornapi-typescript";
-import { executeScript } from "@/utils/common/functions/dom";
-import { isTabFocused } from "@/utils/common/functions/utilities";
+import type { UserPersonalStatsFull } from "tornapi-typescript";
 import type { FetchDetails } from "@/entrypoints/fetch--inject";
 import type { XHRDetails } from "@/entrypoints/xhr--inject";
-import { AbroadItem } from "@/pages/travel-abroad-page";
-import { CRIMES2 } from "@/pages/crimes2-page";
+import type { CRIMES2 } from "@/pages/crimes2-page";
+import type { AbroadItem } from "@/pages/travel-abroad-page";
+import { executeScript } from "@/utils/common/functions/dom";
+import { isTabFocused } from "@/utils/common/functions/utilities";
 
 export enum EVENT_CHANNELS {
 	// Using events on the window.

@@ -1,11 +1,11 @@
 import "./effective-battle-stats.css";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
-import { requireContent } from "@/utils/common/functions/requires";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText } from "@/utils/common/functions/dom";
 import { convertToNumber, dropDecimals, formatNumber } from "@/utils/common/functions/formatting";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { requireContent } from "@/utils/common/functions/requires";
+import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
 
 async function showEffectiveBattleStats() {
 	await requireContent();

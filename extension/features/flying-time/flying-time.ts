@@ -1,11 +1,11 @@
 import "./flying-time.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { elementBuilder, mobile, tabletVertical } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatDate, formatTime, textToTime } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isAbroad, isFlying } from "@/utils/common/functions/torn";
 
 async function initialise() {
 	if (mobile || tabletVertical) {
@@ -30,12 +30,12 @@ async function initialise() {
 
 async function showTime() {
 	const container = await requireElement(
-		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']"
+		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']",
 	);
 	if (!container) return;
 
 	const durationText = container.querySelector(
-		["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", ")
+		["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", "),
 	)?.textContent;
 	if (!durationText) return;
 
@@ -47,7 +47,7 @@ async function showTime() {
 
 	const text = `Landing at ${format(arrivalTime)} | Return at ${format(returnTime)}`;
 
-	let timer = document.querySelector(".tt-flying-time");
+	const timer = document.querySelector(".tt-flying-time");
 	if (timer) timer.textContent = text;
 	else {
 		document.querySelector("#travel-root").appendChild(elementBuilder({ type: "span", class: "tt-flying-time", text }));

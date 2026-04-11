@@ -1,7 +1,7 @@
 import "./update-notice.css";
 import { Feature } from "@/features/feature-manager";
-import { checkDevice, elementBuilder, findElementWithText } from "@/utils/common/functions/dom";
 import { settings, version } from "@/utils/common/data/database";
+import { checkDevice, elementBuilder, findElementWithText } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
 
 async function showNotice() {
@@ -36,7 +36,7 @@ async function showNotice() {
 				}),
 			],
 		}),
-		parent.firstElementChild
+		parent.firstElementChild,
 	);
 }
 

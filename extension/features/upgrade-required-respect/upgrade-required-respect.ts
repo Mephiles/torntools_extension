@@ -1,10 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
+import { formatNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { formatNumber } from "@/utils/common/functions/formatting";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 function addListener() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_UPGRADE_INFO].push(async () => {
@@ -20,7 +20,7 @@ async function showRequiredRespect(force: boolean) {
 		document
 			.querySelector("#faction-upgrades .skill-tree .residue-respect")
 			.textContent.replace(/[\n, ]/g, "")
-			.trim()
+			.trim(),
 	);
 	const requiredNode = document.querySelector("#faction-upgrades #stu-confirmation div[role] .required .text");
 	if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;

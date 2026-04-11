@@ -1,11 +1,11 @@
 import "./disable-ally-attacks.css";
-import { ExecutionTiming, Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
+import { ExecutionTiming, FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { requireElement } from "@/utils/common/functions/requires";
+import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { addFetchListener } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
 
 let closedOption = false;
 async function startListener() {

@@ -1,10 +1,10 @@
-import { getPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
-import { attackHistory, initializeDatabase, loadDatabase, stakeouts, storageListeners } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements, getSearchParameters, sortTable } from "@/utils/common/functions/dom";
-import { ttStorage } from "@/utils/common/data/storage";
-import { AttackHistory, StakeoutData, StoredStakeouts } from "@/utils/common/data/default-database";
 import Sortable from "sortablejs";
+import { attackHistory, initializeDatabase, loadDatabase, stakeouts, storageListeners } from "@/utils/common/data/database";
+import type { AttackHistory, StakeoutData, StoredStakeouts } from "@/utils/common/data/default-database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { elementBuilder, findAllElements, getSearchParameters, sortTable } from "@/utils/common/functions/dom";
 import { formatDate, formatTime } from "@/utils/common/functions/formatting";
+import { getPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
 import { PHTrash } from "@/utils/common/icons/phosphor-icons";
 
 const initiatedPages = {};
@@ -29,7 +29,7 @@ const initiatedPages = {};
 })();
 
 async function showPage(name: string) {
-	window.history.replaceState("", "Title", "?page=" + name);
+	window.history.replaceState("", "Title", `?page=${name}`);
 
 	for (const active of findAllElements("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.querySelector(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
@@ -90,7 +90,7 @@ async function setupAttackHistory() {
 				type: "td",
 				class: "id",
 				children: [elementBuilder({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
-			})
+			}),
 		);
 		row.appendChild(
 			elementBuilder({
@@ -99,7 +99,7 @@ async function setupAttackHistory() {
 				children: [
 					elementBuilder({ type: "a", text: data.name, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } }),
 				],
-			})
+			}),
 		);
 
 		const lastAttackText = `${formatDate({ milliseconds: data.lastAttack }, { showYear: true })}, ${formatTime({ milliseconds: data.lastAttack })}`;
@@ -117,7 +117,7 @@ async function setupAttackHistory() {
 							attributes: { target: "_blank" },
 						}),
 					],
-				})
+				}),
 			);
 		} else {
 			row.appendChild(
@@ -126,7 +126,7 @@ async function setupAttackHistory() {
 					class: "last-attack",
 					text: lastAttackText,
 					attributes: { value: data.lastAttack },
-				})
+				}),
 			);
 		}
 		const totalWins = data.win;
@@ -166,7 +166,7 @@ async function setupAttackHistory() {
 					class: "data fair_fight",
 					text: data.latestFairFightModifier,
 					attributes: { value: data.latestFairFightModifier },
-				})
+				}),
 			);
 		} else {
 			row.appendChild(elementBuilder({ type: "td", class: "data fair_fight", text: "-", attributes: { value: -1 } }));
@@ -233,7 +233,7 @@ async function setupStakeouts() {
 				type: "td",
 				class: "id",
 				children: [elementBuilder({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
-			})
+			}),
 		);
 		if (data && data.info !== null) {
 			let statusValue: number;
@@ -264,7 +264,7 @@ async function setupStakeouts() {
 							attributes: { target: "_blank" },
 						}),
 					],
-				})
+				}),
 			);
 			row.appendChild(
 				elementBuilder({
@@ -272,7 +272,7 @@ async function setupStakeouts() {
 					class: `status ${data.info.last_action.status.toLowerCase()}`,
 					text: data.info.last_action.status,
 					attributes: { value: statusValue },
-				})
+				}),
 			);
 			row.appendChild(
 				elementBuilder({
@@ -280,7 +280,7 @@ async function setupStakeouts() {
 					class: "last-action",
 					text: data.info.last_action.relative,
 					attributes: { value: Date.now() - data.info.last_action.timestamp },
-				})
+				}),
 			);
 		} else {
 			if (showStatus) row.classList.add("new");
@@ -301,7 +301,7 @@ async function setupStakeouts() {
 				type: "td",
 				class: "delete-wrap",
 				children: [deleteButton],
-			})
+			}),
 		);
 
 		const alerts = [];
@@ -357,13 +357,13 @@ async function setupStakeouts() {
 					elementBuilder({ type: "input", id: `revivable-${id}`, class: "revivable", attributes: { type: "checkbox" } }),
 					elementBuilder({ type: "label", attributes: { for: `revivable-${id}` }, text: "is revivable" }),
 				],
-			})
+			}),
 		);
 
 		const alertsWrap = elementBuilder({ type: "td", class: "alerts-wrap", children: alerts });
 		row.appendChild(alertsWrap);
 
-		if (data && data.alerts) {
+		if (data?.alerts) {
 			for (const key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
@@ -392,7 +392,7 @@ async function setupStakeouts() {
 			.forEach((row) => row.remove());
 
 		for (const id of stakeouts.order) {
-			if (isNaN(parseInt(id))) continue;
+			if (Number.isNaN(parseInt(id))) continue;
 
 			const row = stakeoutList.querySelector(`tr[data-id="${id}"]`);
 			if (!row) {
@@ -415,7 +415,7 @@ async function setupStakeouts() {
 							text: stakeout.info.name,
 							href: `https://www.torn.com/profiles.php?XID=${id}`,
 							attributes: { target: "_blank" },
-						})
+						}),
 					);
 				row.querySelector(".status").textContent = stakeout.info.last_action.status;
 				row.querySelector(".status").classList.add(stakeout.info.last_action.status.toLowerCase());

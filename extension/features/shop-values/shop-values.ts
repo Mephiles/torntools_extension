@@ -1,12 +1,12 @@
 import "./shop-values.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { settings, torndata } from "@/utils/common/data/database";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { settings, torndata } from "@/utils/common/data/database";
-import { formatNumber } from "@/utils/common/functions/formatting";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { hasAPIData } from "@/utils/common/functions/api";
 
 function initialiseListeners() {
 	addXHRListener(({ detail: { page, xhr } }) => {
@@ -36,7 +36,7 @@ async function showValues() {
 				type: "span",
 				class: "tt-market-value",
 				text: formatNumber(value, { currency: true }),
-			})
+			}),
 		);
 	});
 }

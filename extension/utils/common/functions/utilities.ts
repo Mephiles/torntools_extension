@@ -33,14 +33,14 @@ export function arraysEquals(a1: unknown[], a2: unknown[]) {
 
 export function objectsEquals(o1: object, o2: object) {
 	for (const property in o1) {
-		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		if (Object.hasOwn(o1, property) !== Object.hasOwn(o2, property)) return false;
 		else if (typeof o1[property] !== typeof o2[property]) return false;
 	}
 	for (const property in o2) {
-		if (o1.hasOwnProperty(property) !== o2.hasOwnProperty(property)) return false;
+		if (Object.hasOwn(o1, property) !== Object.hasOwn(o2, property)) return false;
 		else if (typeof o1[property] !== typeof o2[property]) return false;
 
-		if (!o1.hasOwnProperty(property)) continue;
+		if (!Object.hasOwn(o1, property)) continue;
 
 		const x1 = o1[property];
 		const x2 = o2[property];
@@ -98,7 +98,7 @@ export function isIntNumber(number: string | null): boolean {
 	if (number === null) return false;
 
 	const _number = parseFloat(number.toString());
-	return !isNaN(_number) && isFinite(_number) && _number % 1 === 0;
+	return !Number.isNaN(_number) && Number.isFinite(_number) && _number % 1 === 0;
 }
 
 export function isSameUTCDay(date1: number | string | Date, date2: number | string | Date) {
@@ -126,11 +126,11 @@ export function hasTimePassed(timestamp: number, time: number) {
 }
 
 export function getUUID() {
-	return "_" + Math.random().toString(36).substr(2, 9);
+	return `_${Math.random().toString(36).substr(2, 9)}`;
 }
 
 export function getCookie(cname: string) {
-	const name = cname + "=";
+	const name = `${cname}=`;
 
 	for (let cookie of decodeURIComponent(document.cookie).split(";")) {
 		cookie = cookie.trimStart();
@@ -161,7 +161,7 @@ export function toCorrectType(object: { [key: string]: any }) {
 
 	for (const key in object) {
 		const value = object[key];
-		if (!isNaN(value)) object[key] = parseFloat(value);
+		if (!Number.isNaN(value)) object[key] = parseFloat(value);
 		else if (value === "true") object[key] = true;
 		else if (value === "false") object[key] = false;
 	}
@@ -170,7 +170,7 @@ export function toCorrectType(object: { [key: string]: any }) {
 }
 
 export function toClipboard(text: string) {
-	if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+	if (navigator?.clipboard?.writeText) {
 		navigator.clipboard.writeText(text).then(() => {});
 	} else {
 		const textarea = elementBuilder({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });
@@ -184,7 +184,7 @@ export function toClipboard(text: string) {
 }
 
 export function getTimeUntilNextJobUpdate() {
-	const now = new Date().getTime();
+	const now = Date.now();
 
 	const nextJobUpdate = new Date();
 	nextJobUpdate.setUTCHours(18);
@@ -206,7 +206,7 @@ export function toNumericVersion(version: string) {
 			.split(".")
 			.map((part) => part.padStart(3, "0"))
 			.join("")
-			.padEnd(9, "9")
+			.padEnd(9, "9"),
 	);
 }
 
@@ -241,7 +241,7 @@ export function calculateDatePeriod(startDate: Date, endDate: Date) {
 	// Increment months until adding another month would exceed the end date
 	let months = 0;
 	while (currentStartDate.getMonth() < 11 || currentStartDate.getFullYear() < currentEndDate.getFullYear()) {
-		let testDate = new Date(currentStartDate.getTime());
+		const testDate = new Date(currentStartDate.getTime());
 		testDate.setMonth(testDate.getMonth() + 1);
 
 		if (testDate > currentEndDate) {
@@ -262,7 +262,7 @@ export function calculateDatePeriod(startDate: Date, endDate: Date) {
 
 export function toRecord<TItem, TValue, TKey extends string = string>(
 	array: TItem[],
-	fn: (item: TItem, index: number) => [TKey, TValue]
+	fn: (item: TItem, index: number) => [TKey, TValue],
 ): Record<TKey, TValue> {
 	return array.reduce<Record<TKey, TValue>>(
 		(record, item, index) => {
@@ -271,7 +271,7 @@ export function toRecord<TItem, TValue, TKey extends string = string>(
 
 			return record;
 		},
-		{} as Record<TKey, TValue>
+		{} as Record<TKey, TValue>,
 	);
 }
 

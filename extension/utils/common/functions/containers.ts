@@ -1,11 +1,11 @@
 import "./containers.css";
-import { camelCase } from "@/utils/common/functions/formatting";
-import { elementBuilder } from "@/utils/common/functions/dom";
 import { filters } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
+import { elementBuilder } from "@/utils/common/functions/dom";
+import { camelCase } from "@/utils/common/functions/formatting";
 import { PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
-type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | {};
+type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | { defaultPosition: true };
 
 type ContainerOptions = {
 	id: string;
@@ -97,7 +97,7 @@ export function createContainer(title: string, partialOptions: Partial<Container
 						elementBuilder({ type: "div", class: "options" }),
 						options.collapsible ? PHFillCaretDown({ class: "icon" }) : null,
 					],
-				})
+				}),
 			);
 		}
 		if (!options.onlyHeader) {

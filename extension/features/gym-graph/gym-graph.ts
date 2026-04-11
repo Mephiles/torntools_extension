@@ -1,20 +1,20 @@
 import "./gym-graph.css";
-import { Feature } from "@/features/feature-manager";
-import { getPageStatus, hasDarkMode } from "@/utils/common/functions/torn";
-import { settings } from "@/utils/common/data/database";
-import { createContainer, removeContainer } from "@/utils/common/functions/containers";
-import { fetchData, hasAPIData, HTTPException } from "@/utils/common/functions/api";
-import { elementBuilder, showLoadingPlaceholder, mobile, checkDevice } from "@/utils/common/functions/dom";
-import { formatNumber, formatDate } from "@/utils/common/functions/formatting";
-import { ttCache } from "@/utils/common/data/cache";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { requireElement } from "@/utils/common/functions/requires";
 import { Chart, registerables } from "chart.js";
+import { Feature } from "@/features/feature-manager";
+import { ttCache } from "@/utils/common/data/cache";
+import { settings } from "@/utils/common/data/database";
+import { fetchData, HTTPException, hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, mobile, showLoadingPlaceholder } from "@/utils/common/functions/dom";
+import { formatDate, formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, hasDarkMode } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 Chart.register(...registerables);
 
 async function showGraph() {
-	const { content } = createContainer("Graph", { class: "mt10" });
+	const { content } = createContainer("Graph", { defaultPosition: true, class: "mt10" });
 
 	addButton();
 	await loadGraph();
@@ -56,7 +56,7 @@ async function showGraph() {
 					}
 
 					let total = 0;
-					let gains = [];
+					const gains = [];
 					for (const stat of ["Strength", "Defense", "Speed", "Dexterity"]) {
 						const value = response[`delta${stat}`];
 						if (!value) continue;
@@ -157,7 +157,7 @@ async function showGraph() {
 				gymChart.options.scales.y.ticks.color = color;
 				gymChart.options.plugins.legend.labels.color = color;
 				gymChart.update();
-			})
+			}),
 		);
 
 		showLoadingPlaceholder(wrapper, false);

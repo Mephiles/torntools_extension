@@ -1,12 +1,12 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { factiondata, settings } from "@/utils/common/data/database";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
-import { dropDecimals } from "@/utils/common/functions/formatting";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
+import { factiondata, settings } from "@/utils/common/data/database";
+import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { dropDecimals } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {
@@ -40,7 +40,7 @@ function showLastAction() {
 				class: "tt-oc-last-action",
 				text: `Last action: ${lastAction.relative}`,
 				attributes: { hours: hours },
-			})
+			}),
 		);
 	}
 }

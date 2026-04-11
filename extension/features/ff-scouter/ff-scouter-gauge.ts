@@ -4,14 +4,14 @@
  * Applicable to almost everything beyond this point.
  */
 
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { getPage } from "@/utils/common/functions/torn";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { settings } from "@/utils/common/data/database";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { type ScouterService, scouterService } from "@/features/ff-scouter/ff-scouter";
+import { settings } from "@/utils/common/data/database";
 import { displayAlert } from "@/utils/common/functions/alerts";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { getPage } from "@/utils/common/functions/torn";
 
 let scoutLock = false;
 let lockFailure = false;
@@ -25,7 +25,7 @@ async function initialise() {
 	GREEN_ARROW = browser.runtime.getURL("/images/svg-icons/green-arrow.svg");
 	RED_ARROW = browser.runtime.getURL("/images/svg-icons/red-arrow.svg");
 
-	new MutationObserver(function () {
+	new MutationObserver(() => {
 		if (!FEATURE_MANAGER.isEnabled(FFScouterGaugeFeature)) return;
 
 		setTimeout(triggerGauge);
@@ -148,7 +148,7 @@ function applyGauge(e: HTMLAnchorElement[]) {
 								type: "img",
 								class: "tt-ff-scouter-arrow",
 								attributes: { src: arrow },
-							})
+							}),
 						);
 						element.dataset.ffScout = ff.toString();
 					}

@@ -1,9 +1,9 @@
 import "./status-indicator.css";
 import { Feature } from "@/features/feature-manager";
-import { requireElement } from "@/utils/common/functions/requires";
-import { elementBuilder } from "@/utils/common/functions/dom";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings } from "@/utils/common/data/database";
+import { elementBuilder } from "@/utils/common/functions/dom";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 async function addIndicator() {
 	const basicInfo = await requireElement(".profile-container .row.basic-info > *:first-child");
@@ -14,7 +14,7 @@ async function addIndicator() {
 			type: "ul",
 			class: "big tt-profile-icon",
 			children: [basicInfo.cloneNode(true)],
-		})
+		}),
 	);
 }
 

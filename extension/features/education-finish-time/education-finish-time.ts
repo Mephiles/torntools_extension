@@ -1,10 +1,10 @@
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, userdata } from "@/utils/common/data/database";
-import { requireElement } from "@/utils/common/functions/requires";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { formatDate, formatTime } from "@/utils/common/functions/formatting";
-import { hasAPIData } from "@/utils/common/functions/api";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 async function showEducationFinishTime() {
 	if (userdata.education_timeleft <= 0) return;
@@ -14,7 +14,7 @@ async function showEducationFinishTime() {
 
 	msg.insertAdjacentElement(
 		"afterend",
-		elementBuilder({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` })
+		elementBuilder({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` }),
 	);
 }
 

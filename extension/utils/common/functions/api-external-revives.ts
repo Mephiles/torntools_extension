@@ -1,8 +1,8 @@
-import { FETCH_PLATFORMS, fetchData, FetchOptions } from "@/utils/common/functions/api";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { settings } from "@/utils/common/data/database";
 import { ttCache } from "@/utils/common/data/cache";
+import { settings } from "@/utils/common/data/database";
+import { FETCH_PLATFORMS, type FetchOptions, fetchData } from "@/utils/common/functions/api";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 const __DEFAULT_REVIVE_REQUEST: Partial<FetchOptions> = {
 	method: "POST",
@@ -20,7 +20,7 @@ function __requestStigFormat(vendor: string): ReviveProviderRequester {
 				body: { tornid: id.toString(), username: name, source: source, vendor, type: "revive" },
 			})
 				.then((response) => {
-					if (response.hasOwnProperty("contract")) {
+					if (Object.hasOwn(response, "contract")) {
 						resolve({ response, contract: response["contract"] });
 					} else {
 						reject(response);

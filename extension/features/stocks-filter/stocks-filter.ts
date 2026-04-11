@@ -1,13 +1,13 @@
 import "./stocks-filter.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { requireElement } from "@/utils/common/functions/requires";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics, SpecialFilterValue } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings, stockdata, userdata } from "@/utils/common/data/database";
-import { createCheckboxDuo } from "@/utils/common/elements/checkbox-duo/checkbox-duo";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createCheckboxDuo } from "@/utils/common/elements/checkbox-duo/checkbox-duo";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, type SpecialFilterValue } from "@/utils/common/functions/filters";
+import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
 
 async function initialiseFilters() {
@@ -119,9 +119,7 @@ async function applyFilter() {
 		const acronym = row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym?.toLowerCase();
 		if (
 			name &&
-			!name
-				.split(",")
-				.some((name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || (acronym && acronym.includes(name.toLowerCase())))
+			!name.split(",").some((name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || acronym?.includes(name.toLowerCase()))
 		) {
 			hideRow(row);
 			continue;
@@ -199,7 +197,7 @@ async function applyFilter() {
 	localFilters.statistics.updateStatistics(
 		findAllElements("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
 		findAllElements("#stockmarketroot ul[class*='stock___']").length,
-		content
+		content,
 	);
 }
 

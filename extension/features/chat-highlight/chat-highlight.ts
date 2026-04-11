@@ -1,9 +1,10 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { getUserDetails, HIGHLIGHT_PLACEHOLDERS, is2FACheckPage } from "@/utils/common/functions/torn";
 import { findAllElements } from "@/utils/common/functions/dom";
-import { requireChatsLoaded } from "@/utils/common/functions/requires";
+import { withoutEndPunctuation } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireChatsLoaded } from "@/utils/common/functions/requires";
+import { getUserDetails, HIGHLIGHT_PLACEHOLDERS, is2FACheckPage } from "@/utils/common/functions/torn";
 import {
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
 	SELECTOR_CHAT_V2__MESSAGE_BOX,
@@ -13,7 +14,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SELF,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@/utils/common/global/selectors/chatSelectors";
-import { withoutEndPunctuation } from "@/utils/common/functions/formatting";
 
 let highlights: HighlightColor[];
 
@@ -182,7 +182,7 @@ interface HighlightDebugData {
 
 function writeDebugData(message: HTMLElement, type: string, match: string) {
 	const debugData = (message.dataset.ttHighlightDebug ? (JSON.parse(message.dataset.ttHighlightDebug) as HighlightDebugData[]) : []).filter(
-		(n) => n.type !== type
+		(n) => n.type !== type,
 	);
 
 	debugData.push({ type, match });

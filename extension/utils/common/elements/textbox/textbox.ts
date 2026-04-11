@@ -1,6 +1,6 @@
 import "./textbox.css";
-import { getUUID } from "@/utils/common/functions/utilities";
 import { elementBuilder } from "@/utils/common/functions/dom";
+import { getUUID } from "@/utils/common/functions/utilities";
 
 interface TextboxOptions {
 	description: string | { before?: string; after?: string } | null;
@@ -57,14 +57,14 @@ export function createTextbox(partialOptions: Partial<TextboxOptions>): TextboxW
 		element = textbox;
 	}
 
-	let onChangeCallback: () => void | undefined;
+	let onChangeCallback: () => void;
 
 	function setValue(value: string) {
 		textbox.value = value;
 	}
 
 	function setNumberValue(value: string | number | null) {
-		if (value === null || isNaN(parseInt(value.toString())) || !["string", "number"].includes(typeof value)) value = "";
+		if (value === null || Number.isNaN(parseInt(value.toString())) || !["string", "number"].includes(typeof value)) value = "";
 
 		textbox.value = value.toString();
 	}

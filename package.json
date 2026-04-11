@@ -15,7 +15,10 @@
 		"postinstall": "wxt prepare",
 		"test": "bun test",
 		"test:watch": "bun test --watch",
-		"format:fix": "prettier --config .prettierrc --write . --list-different"
+		"format": "biome format",
+		"format:fix": "biome format --write",
+		"lint:fix": "biome lint --write",
+		"check:fix": "biome check --write"
 	},
 	"dependencies": {
 		"@phosphor-icons/core": "^2.1.1",
@@ -27,12 +30,12 @@
 		"tornapi-typescript": "^5.5.4"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.4.11",
 		"@types/bun": "^1.3.12",
 		"@types/sortablejs": "^1.15.9",
 		"@wxt-dev/auto-icons": "^1.1.1",
 		"concurrently": "^9.2.1",
 		"drag-drop-touch": "^1.3.1",
-		"prettier": "^3.8.2",
 		"typescript": "^6.0.2",
 		"user-agent-data-types": "^0.4.3",
 		"wxt": "^0.20.20"

@@ -1,12 +1,12 @@
+import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, getSearchParameters, mobile, tablet } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
 import { formatNumber } from "@/utils/common/functions/formatting";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 import { StatsEstimate } from "./stats-estimate";
-import { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
 
 const statsEstimate = new StatsEstimate("Attacks", false);
 
@@ -44,7 +44,7 @@ async function showEstimate() {
 
 			let crimes: number;
 			if (crimesStats.version === "v1") crimes = (crimesStats as PersonalStatsCrimesV1).total;
-			else if (crimesStats.version === "v1") crimes = (crimesStats as PersonalStatsCrimesV2).offenses.total;
+			else if (crimesStats.version === "v2") crimes = (crimesStats as PersonalStatsCrimesV2).offenses.total;
 
 			const estimate = statsEstimate.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 
@@ -58,7 +58,7 @@ async function showEstimate() {
 		let text: string;
 		if (isEstimate && typeof estimate === "string") {
 			text = mobile ? `Estimate: ${estimate.replace("under ", "<").replace("over ", ">")}` : `Stats Estimate: ${estimate}`;
-		} else if (!isNaN(parseInt(estimate.toString()))) {
+		} else if (!Number.isNaN(parseInt(estimate.toString()))) {
 			text = mobile ? `Stats: ${formatNumber(estimate, { shorten: 3, decimals: 1 })}` : `Battle Stats: ${formatNumber(estimate, { shorten: true })}`;
 		} else throw "Not a correct estimate!";
 
@@ -66,7 +66,7 @@ async function showEstimate() {
 		if (mobile || tablet) {
 			const sideColor = side === "attacker" ? "green___" : "rose___";
 			entries = document.querySelector(
-				`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`
+				`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`,
 			);
 		} else {
 			if (side === "attacker")

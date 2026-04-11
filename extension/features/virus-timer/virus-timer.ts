@@ -1,12 +1,12 @@
 import { Feature } from "@/features/feature-manager";
-import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
-import { hasAPIData } from "@/utils/common/functions/api";
 import { settings, userdata } from "@/utils/common/data/database";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { formatTime, FormatTimeOptions } from "@/utils/common/functions/formatting";
-import { countdownTimers } from "@/utils/common/functions/timers";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
+import { type FormatTimeOptions, formatTime } from "@/utils/common/functions/formatting";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { countdownTimers } from "@/utils/common/functions/timers";
 import { LINKS } from "@/utils/common/functions/torn";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 async function showTimer() {
 	await requireSidebar();
@@ -29,7 +29,7 @@ async function showTimer() {
 				buildTimeLeftElement(),
 			],
 			style: { order: "5" },
-		})
+		}),
 	);
 }
 

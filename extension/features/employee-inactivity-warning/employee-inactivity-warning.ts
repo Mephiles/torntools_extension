@@ -1,10 +1,10 @@
 import "./employee-inactivity-warning.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isOwnCompany } from "@/pages/company-page";
+import { settings } from "@/utils/common/data/database";
+import { findAllElements } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 
 let lastActionState: boolean;
 

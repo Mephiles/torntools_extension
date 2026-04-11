@@ -1,16 +1,16 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isInternalFaction } from "@/pages/factions-page";
 import { filters, settings, torndata } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
-import { CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { convertToNumber } from "@/utils/common/functions/formatting";
+import type { WeaponBonusFilter } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
+import { type CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
+import { convertToNumber } from "@/utils/common/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { ARMOR_SETS } from "@/utils/common/functions/torn";
-import { WeaponBonusFilter } from "@/utils/common/data/default-database";
-import { isInternalFaction } from "@/pages/factions-page";
 
 type ArmoryFilters = {
 	hideUnavailable: boolean;
@@ -199,7 +199,7 @@ async function applyFilters() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
 		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
-		content
+		content,
 	);
 }
 
@@ -233,7 +233,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			return;
 		}
 	}
-	if (filters.damage && !isNaN(parseFloat(filters.damage))) {
+	if (filters.damage && !Number.isNaN(parseFloat(filters.damage))) {
 		const damage = parseFloat(filters.damage);
 
 		if (parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
@@ -241,7 +241,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			return;
 		}
 	}
-	if (filters.accuracy && !isNaN(parseFloat(filters.accuracy))) {
+	if (filters.accuracy && !Number.isNaN(parseFloat(filters.accuracy))) {
 		const accuracy = parseFloat(filters.accuracy);
 
 		if (parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
@@ -249,7 +249,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			return;
 		}
 	}
-	if (filters.defence && !isNaN(parseFloat(filters.defence))) {
+	if (filters.defence && !Number.isNaN(parseFloat(filters.defence))) {
 		const defence = parseFloat(filters.defence);
 
 		if (parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
@@ -271,7 +271,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			}
 		}
 	}
-	if (filters.armorBonus && !isNaN(parseFloat(filters.armorBonus))) {
+	if (filters.armorBonus && !Number.isNaN(parseFloat(filters.armorBonus))) {
 		const bonus = parseFloat(filters.armorBonus);
 
 		if (convertToNumber(row.querySelector(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title")) < bonus) {
@@ -280,7 +280,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 		}
 	}
 	const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
-	if (toFilterBonus && toFilterBonus.length) {
+	if (toFilterBonus?.length) {
 		const foundBonuses = findAllElements(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)", row)
 			.map((icon) => icon.getAttribute("title"))
 			.map((title) => title.split("<br/>"))
@@ -295,7 +295,7 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			hasBonuses = !!foundBonuses.length;
 		} else {
 			hasBonuses = toFilterBonus.every(
-				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
+				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0,
 			);
 		}
 

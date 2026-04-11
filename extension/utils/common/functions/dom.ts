@@ -135,7 +135,7 @@ export function getSearchParameters(input?: string) {
 
 	try {
 		return new URL(input).searchParams;
-	} catch (e) {
+	} catch {
 		return new URL(location.href).searchParams;
 	}
 }
@@ -146,7 +146,7 @@ export function getHashParameters(hash?: string) {
 	if (hash.startsWith("#/")) hash = hash.substring(2);
 	else if (hash.startsWith("#") || hash.startsWith("/")) hash = hash.substring(1);
 
-	if (!hash.startsWith("!")) hash = "?" + hash;
+	if (!hash.startsWith("!")) hash = `?${hash}`;
 
 	return new URLSearchParams(hash);
 }
@@ -173,7 +173,7 @@ export function findParent(element: Node, options: Partial<FindParentOptions> = 
 		...options,
 	};
 
-	if (!element || !element.parentElement) return undefined;
+	if (!element?.parentElement) return undefined;
 	if (options.maxAttempts !== -1 && options.currentAttempt > options.maxAttempts) return undefined;
 
 	if (options.tag && element.parentElement.tagName === options.tag) return element.parentElement;
@@ -210,7 +210,7 @@ export function rotateElement(element: HTMLElement | SVGElement, degrees: number
 	const step = 1000 / degrees;
 
 	rotatingElements[uuid] = {
-		interval: setInterval(function () {
+		interval: setInterval(() => {
 			const currentRotation = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
 			let newRotation = currentRotation + step;
 
@@ -239,7 +239,6 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 				case "desc":
 					icon.innerHTML = PHFillCaretDown().innerHTML;
 					break;
-				case "none":
 				default:
 					icon.remove();
 					break;
@@ -350,7 +349,7 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 			}
 
 			let a: number, b: number;
-			if (isNaN(parseFloat(valueA))) {
+			if (Number.isNaN(parseFloat(valueA))) {
 				if (valueA.includes("$")) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
 					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
@@ -388,7 +387,7 @@ export function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
 				elementBuilder({
 					type: "div",
 					class: "tt-loading-placeholder active",
-				})
+				}),
 			);
 		}
 	} else if (placeholder) {
@@ -432,7 +431,7 @@ export async function addInformationSection() {
 		elementBuilder({
 			type: "hr",
 			class: "tt-sidebar-information-divider tt-delimiter tt-hidden",
-		})
+		}),
 	);
 	parent.appendChild(elementBuilder({ type: "div", class: "tt-sidebar-information tt-hidden" }));
 }

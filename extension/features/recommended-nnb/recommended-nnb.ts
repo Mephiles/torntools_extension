@@ -1,10 +1,10 @@
 import "./recommended-nnb.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
-import { settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
+import { settings } from "@/utils/common/data/database";
+import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 const ORGANIZED_CRIMES = {
 	Blackmail: "anyone",

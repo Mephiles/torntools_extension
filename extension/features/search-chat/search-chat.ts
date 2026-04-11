@@ -1,7 +1,9 @@
 import "./search-chat.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireChatsLoaded } from "@/utils/common/functions/requires";
 import {
 	SELECTOR_CHAT_ROOT,
 	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
@@ -13,8 +15,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_CONTENT,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@/utils/common/global/selectors/chatSelectors";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { requireChatsLoaded } from "@/utils/common/functions/requires";
 
 function initialiseSearchChat() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
@@ -57,7 +57,7 @@ async function showSearch() {
 		[
 			`${SELECTOR_CHAT_ROOT} [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__']`,
 			`${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']:not(:has(#people_panel))`,
-		].join(", ")
+		].join(", "),
 	)) {
 		addChatSearch(chat);
 	}
@@ -113,7 +113,7 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 							events: {
 								input: (event) => {
 									const keyword = (event.target as HTMLInputElement).value.toLowerCase();
-									const isUserID = !isNaN(parseInt(keyword));
+									const isUserID = !Number.isNaN(parseInt(keyword));
 
 									if (
 										peopleMenu.querySelector("[class*='chat-list-header__tabs__'] [class*='chat-list-header__tab--active__']:first-child")
@@ -121,7 +121,7 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 										// "Chats" tab opened.
 										const list = findAllElements<HTMLAnchorElement>(
 											"#scrollableDiv .infinite-scroll-component > button [class*='detailed-chat-card__header__'] a",
-											peopleMenu
+											peopleMenu,
 										);
 										list.forEach((chatEntry) => {
 											const shouldHide =
@@ -149,7 +149,7 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 					],
 				}),
 			],
-		})
+		}),
 	);
 }
 
@@ -168,11 +168,11 @@ function onChatSearch(event: { target: EventTarget }, chat: Element) {
 
 function removeSearch() {
 	for (const chat of findAllElements(
-		"#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__'], [class*='list___'] [class*='item___']"
+		"#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__'], [class*='list___'] [class*='item___']",
 	)) {
 		for (const message of findAllElements(
 			`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX} div[class='tt-hidden'], div[class*='root___'][class*='tt-hidden']`,
-			chat
+			chat,
 		)) {
 			message.classList.remove("tt-hidden");
 		}
@@ -193,7 +193,7 @@ function searchChat(message: Element | null, keyword: string) {
 		keyword = splitInput.join(" ");
 
 		const sender = message.querySelector<HTMLAnchorElement>(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`);
-		if (!sender.textContent.toLowerCase().includes(target) && (isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
+		if (!sender.textContent.toLowerCase().includes(target) && (Number.isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
 			message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");
 			return;
 		}

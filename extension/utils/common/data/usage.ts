@@ -1,6 +1,6 @@
 import { ttStorage } from "@/utils/common/data/storage";
-import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { dropDecimals } from "@/utils/common/functions/formatting";
+import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 export type DatabaseUsage = { [minute: number]: { [location: string]: number } };
 

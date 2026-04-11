@@ -1,6 +1,8 @@
+import { Chart, registerables } from "chart.js";
+import Sortable from "sortablejs";
 import {
 	api,
-	DatabaseKey,
+	type DatabaseKey,
 	factiondata,
 	initializeDatabase,
 	loadDatabase,
@@ -11,21 +13,19 @@ import {
 	torndata,
 	userdata,
 } from "@/utils/common/data/database";
-import { checkDevice, elementBuilder, findAllElements, getSearchParameters, rotateElement } from "@/utils/common/functions/dom";
-import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRESET, hasDarkMode, HIGHLIGHT_PLACEHOLDERS } from "@/utils/common/functions/torn";
 import { ttStorage } from "@/utils/common/data/storage";
-import { capitalizeText, daySuffix, dropDecimals, formatDate, formatNumber, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
-import { changeAPIKey, checkAPIPermission, FETCH_PLATFORMS, hasAPIData } from "@/utils/common/functions/api";
-import { getPageTheme, initializeInternalPage, InternalPageTheme, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
-import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { ttUsage } from "@/utils/common/data/usage";
+import { changeAPIKey, checkAPIPermission, FETCH_PLATFORMS, hasAPIData } from "@/utils/common/functions/api";
 import { calculateRevivePrice, REVIVE_PROVIDERS } from "@/utils/common/functions/api-external-revives";
+import { checkDevice, elementBuilder, findAllElements, getSearchParameters, rotateElement } from "@/utils/common/functions/dom";
+import { capitalizeText, daySuffix, dropDecimals, formatDate, formatNumber, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
+import { getPageTheme, type InternalPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
+import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRESET, HIGHLIGHT_PLACEHOLDERS, hasDarkMode } from "@/utils/common/functions/torn";
+import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { CONTRIBUTORS, TEAM } from "@/utils/common/team";
-import { Chart, registerables } from "chart.js";
-import Sortable from "sortablejs";
 import "@phosphor-icons/web/regular/style.css";
-import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 import { PHCaretDown, PHDotsSix, PHTrash } from "@/utils/common/icons/phosphor-icons";
+import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
 Chart.register(...registerables);
 
@@ -145,7 +145,7 @@ async function setupChangelog() {
 						text: `${contributor.name} [${contributor.id}]`,
 						href: `https://www.torn.com/profiles.php?XID=${contributor.id}`,
 						attributes: { target: "_blank" },
-					})
+					}),
 				);
 			else child.appendChild(elementBuilder({ type: "span", text: contributor.name }));
 
@@ -235,7 +235,7 @@ function cleanupPreferences() {
 			"#chatHighlight > li:not(.input)",
 			"#chatTitleHighlight> li:not(.input)",
 		].join(", "),
-		preferences
+		preferences,
 	).forEach((element) => element.remove());
 }
 
@@ -285,7 +285,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				type: "option",
 				text: `${provider.name} (${calculateRevivePrice(provider)})`,
 				attributes: { value: provider.provider },
-			})
+			}),
 		);
 	}
 
@@ -383,7 +383,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		BACKGROUND_SERVICE.playNotificationSound(
 			_preferences.querySelector<HTMLInputElement>("#notification-sound").value,
 			parseInt(_preferences.querySelector<HTMLInputElement>("#notification-volume").value),
-			false
+			false,
 		);
 	});
 	_preferences.querySelector("#notification-sound-stop").addEventListener("click", () => {
@@ -470,7 +470,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		addUserAlias(
 			inputRow.querySelector<HTMLInputElement>(".userID").value,
 			inputRow.querySelector<HTMLInputElement>(".name").value,
-			inputRow.querySelector<HTMLInputElement>(".alias").value
+			inputRow.querySelector<HTMLInputElement>(".alias").value,
 		);
 	});
 
@@ -482,7 +482,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				class: "tabbed note",
 				text: `${placeholder.name} - ${placeholder.description}`,
 			}),
-			chatSection.querySelector("#chatHighlight+.note").nextElementSibling
+			chatSection.querySelector("#chatHighlight+.note").nextElementSibling,
 		);
 	}
 
@@ -525,12 +525,12 @@ async function setupPreferences(requireCleanup: boolean = false) {
 					type: "span",
 					id: stock,
 					text: capitalizeText(stockName),
-				})
+				}),
 			);
 		}
 		hideStocksParent.addEventListener("click", (event) => {
 			const target = event.target as Element;
-			if (!isNaN(parseInt(target.getAttribute("id")))) target.classList.toggle("disabled");
+			if (!Number.isNaN(parseInt(target.getAttribute("id")))) target.classList.toggle("disabled");
 		});
 	} else {
 		hideStocksParent.classList.add("warning");
@@ -562,7 +562,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						}),
 					],
 					dataset: { id },
-				})
+				}),
 			);
 		}
 	}
@@ -662,7 +662,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				for (const setting in settings[type][page]) {
 					const input = _preferences.querySelector<HTMLInputElement>(
-						`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`
+						`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`,
 					);
 					if (!input) continue;
 
@@ -776,13 +776,13 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		settings.employeeInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.querySelector(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
+			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !Number.isNaN(warning.days) ? warning.days.toString() : "";
 			row.querySelector<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.factionInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.querySelector(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !isNaN(warning.days) ? warning.days.toString() : "";
+			row.querySelector<HTMLInputElement>("input[type='number']").value = warning.days && !Number.isNaN(warning.days) ? warning.days.toString() : "";
 			row.querySelector<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
@@ -1064,7 +1064,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						switch (input.getAttribute("type")) {
 							case "number":
 								settings[type][page][setting] =
-									!isNaN(parseInt(input.value)) && input.value !== ""
+									!Number.isNaN(parseInt(input.value)) && input.value !== ""
 										? parseInt(input.value)
 										: input.hasAttribute("save-empty") && input.value === ""
 											? ""
@@ -1109,7 +1109,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		});
 		settings.alliedFactions = findAllElements<HTMLInputElement>("#allyFactions input")
 			.map((input) => {
-				if (isNaN(parseInt(input.value))) return input.value.trim();
+				if (Number.isNaN(parseInt(input.value))) return input.value.trim();
 				else return parseInt(input.value.trim());
 			})
 			.filter((x) => {
@@ -1135,7 +1135,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				return {
 					color: warning.querySelector<HTMLInputElement>("input[type='color']").value,
-					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
+					days: !Number.isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
@@ -1145,7 +1145,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				return {
 					color: warning.querySelector<HTMLInputElement>("input[type='color']").value,
-					days: !isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
+					days: !Number.isNaN(parseInt(days)) && days !== "" ? parseInt(days) : null,
 				};
 			})
 			.sort((first, second) => (first.days ?? 0) - (second.days ?? 0));
@@ -1186,8 +1186,8 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 				return {
 					id: parseInt(row.dataset.id),
-					level: !level || isNaN(parseInt(level)) ? ("" as const) : parseInt(level),
-					minutes: !minutes || isNaN(parseInt(minutes)) ? ("" as const) : parseInt(minutes),
+					level: !level || Number.isNaN(parseInt(level)) ? ("" as const) : parseInt(level),
+					minutes: !minutes || Number.isNaN(parseInt(minutes)) ? ("" as const) : parseInt(minutes),
 				};
 			})
 			.filter(({ level, minutes }) => level !== "" || minutes !== "");
@@ -1276,7 +1276,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				document,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-				null
+				null,
 			);
 			searchList.innerHTML = "";
 			if (searchResults.snapshotLength > 0) {
@@ -1299,7 +1299,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 							text: name,
 							attributes: { [keyword]: section },
 							children: [elementBuilder("br")],
-						})
+						}),
 					);
 					searchList.appendChild(elementBuilder("hr"));
 				}
@@ -1309,7 +1309,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 						type: "span",
 						id: "no-result",
 						text: "No Results",
-					})
+					}),
 				);
 			}
 			searchResults = null;
@@ -1342,7 +1342,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	function enforceInputLimits(event: Event) {
 		const target = event.target as HTMLInputElement;
 		const value = parseInt(target.value);
-		if (isNaN(value)) return;
+		if (Number.isNaN(value)) return;
 
 		const newValue = Math.min(Math.max(parseInt(target.value), parseInt(target.min)), parseInt(target.max));
 		if (value === newValue) return;
@@ -1402,7 +1402,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 	function revertSettings() {
 		findAllElements("#hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled", _preferences).forEach((x) =>
-			x.classList.remove("disabled")
+			x.classList.remove("disabled"),
 		);
 		findAllElements("button.remove-icon-wrap", _preferences).forEach((x) => x.closest("li").remove());
 		fillSettings();
@@ -1547,20 +1547,20 @@ async function setupAPIInfo() {
 			BACKGROUND_SERVICE.forceUpdate(section).then((result) => {
 				console.log(`Manually fetched ${section}.`, result);
 				sendMessage(`Fetched ${section}.`, true);
-			})
+			}),
 		);
 	});
 	document.querySelector("#reinitialize-timers").addEventListener("click", () =>
 		BACKGROUND_SERVICE.reinitializeTimers().then((result) => {
 			console.log("Manually reset background timers.", result);
 			sendMessage("Reset background timers.", true);
-		})
+		}),
 	);
 	document.querySelector("#clear-cache").addEventListener("click", () =>
 		BACKGROUND_SERVICE.clearCache().then((result) => {
 			console.log("Manually cleared your cache.", result);
 			sendMessage("Cleared cache.", true);
-		})
+		}),
 	);
 
 	updateUsage(usageChart, "Last 5");
@@ -1649,7 +1649,7 @@ async function setupExport() {
 								elementBuilder({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
 								elementBuilder({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
 							],
-						})
+						}),
 					);
 			},
 		},
@@ -1837,7 +1837,7 @@ async function setupExport() {
 			if ("api" in data.database) {
 				await BACKGROUND_SERVICE.initialize();
 			}
-		} catch (error) {
+		} catch {
 			sendMessage("Couldn't save the imported database.", false);
 			return;
 		}
@@ -1969,7 +1969,7 @@ function setupAbout() {
 							text: method.name,
 							href: method.link,
 							attributes: { target: "_blank" },
-						})
+						}),
 					);
 				}
 
@@ -2016,7 +2016,7 @@ function formatBytes(bytes: number, partialOptions: Partial<FormatBytesOptions> 
 
 	const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
 
-	const xBytes = bytes / Math.pow(unitExponent, effectiveUnit);
+	const xBytes = bytes / unitExponent ** effectiveUnit;
 
 	return `${formatNumber(xBytes, { decimals: options.decimals })} ${units[effectiveUnit]}`;
 }

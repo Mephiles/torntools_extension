@@ -1,15 +1,15 @@
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
-import { getPageStatus, HOSPITALIZATION_REASONS, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
-import { filters, settings } from "@/utils/common/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
-import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { requireCondition, requireElement } from "@/utils/common/functions/requires";
-import { createFilterSection, createStatistics, getSpecialIcons, SpecialFilterValue } from "@/utils/common/functions/filters";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { hasAPIData } from "@/utils/common/functions/api";
-import { createTextbox } from "@/utils/common/elements/textbox/textbox";
-import { ttStorage } from "@/utils/common/data/storage";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
+import { filters, settings } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
+import { createTextbox } from "@/utils/common/elements/textbox/textbox";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
+import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { createFilterSection, createStatistics, getSpecialIcons, type SpecialFilterValue } from "@/utils/common/functions/filters";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { requireCondition, requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus, HOSPITALIZATION_REASONS, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(async () => {
@@ -156,7 +156,7 @@ async function filtering() {
 				document,
 				null,
 				XPathResult.FIRST_ORDERED_NODE_TYPE,
-				null
+				null,
 			).singleNodeValue
 		);
 	}, {});
@@ -205,7 +205,7 @@ async function filtering() {
 	localFilters["Statistics"].updateStatistics(
 		findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
 		findAllElements(".user-info-list-wrap > li").length,
-		content
+		content,
 	);
 }
 
@@ -236,7 +236,7 @@ function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individu
 						.getAttribute("title")
 						.match(/(?<=<b>).*(?=<\/b>)/g)[0]
 						.toLowerCase()
-						.trim()
+						.trim(),
 			)
 		) {
 			hide("activity");
@@ -313,12 +313,12 @@ function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individu
 			const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
 			if (gauge) {
 				const ffFloat: number = parseFloat(gauge.getAttribute("data-ff-scout"));
-				if (!isNaN(ffFloat)) {
-					if (filters.ffScoreMax && !isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
+				if (!Number.isNaN(ffFloat)) {
+					if (filters.ffScoreMax && !Number.isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
 						hide("ff-score");
 						return;
 					}
-					if (filters.ffScoreMin && !isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
+					if (filters.ffScoreMin && !Number.isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
 						hide("ff-score");
 						return;
 					}
@@ -345,7 +345,7 @@ function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individu
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
 				findAllElements(".user-info-list-wrap > li").length,
-				content
+				content,
 			);
 		}
 	}
@@ -364,7 +364,7 @@ function filterRow(row: HTMLElement, filters: Partial<UserlistFilters>, individu
 			localFilters["Statistics"].updateStatistics(
 				findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
 				findAllElements(".user-info-list-wrap > li").length,
-				content
+				content,
 			);
 		}
 	}

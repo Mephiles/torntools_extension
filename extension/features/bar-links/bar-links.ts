@@ -2,8 +2,8 @@ import "./bar-links.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { checkDevice } from "@/utils/common/functions/dom";
-import { isInCountry } from "@/utils/common/functions/torn";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { isInCountry } from "@/utils/common/functions/torn";
 
 const BAR_LINKS: Record<string, () => string> = {
 	"[class*='bar__'][class*='energy__']": () => {

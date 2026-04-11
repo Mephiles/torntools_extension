@@ -1,12 +1,10 @@
 import { Feature } from "@/features/feature-manager";
-import { getPageStatus } from "@/utils/common/functions/torn";
-import { settings } from "@/utils/common/data/database";
+import { attackHistory, settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import { getSearchParameters, findAllElements } from "@/utils/common/functions/dom";
-import { requireElement } from "@/utils/common/functions/requires";
+import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
-import { elementBuilder } from "@/utils/common/functions/dom";
-import { attackHistory } from "@/utils/common/data/database";
+import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 async function showFF() {
 	await requireElement("div[class*='textEntries___']");
@@ -24,7 +22,7 @@ async function showFF() {
 			type: "div",
 			class: "tt-fair-attack",
 			text: `FF: ${formatNumber(ff, { decimals: 2 })}`,
-		})
+		}),
 	);
 }
 

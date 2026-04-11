@@ -1,6 +1,6 @@
+import { PHBoldCheckCircle, PHBoldInfo, PHBoldWarningCircle, PHBoldXCircle, PHX } from "@/utils/common/icons/phosphor-icons";
 import styles from "./alerts.module.css";
 import { elementBuilder } from "./dom";
-import { PHBoldCheckCircle, PHBoldInfo, PHBoldWarningCircle, PHX, PHBoldXCircle } from "@/utils/common/icons/phosphor-icons";
 
 interface AlertOptions {
 	title: string;
@@ -82,7 +82,7 @@ function setupProgressBar(toast: HTMLElement, duration: number): void {
 		progressElement.style.setProperty("--progress-color", computedColor);
 	}
 
-	let startTime = Date.now();
+	const startTime = Date.now();
 	let isPaused = false;
 	let animationId: number;
 	let timeoutId: number;
@@ -134,7 +134,6 @@ function getIconForType(type: AlertOptions["type"]): Element {
 			return PHBoldXCircle();
 		case "warning":
 			return PHBoldWarningCircle();
-		case "info":
 		default:
 			return PHBoldInfo();
 	}

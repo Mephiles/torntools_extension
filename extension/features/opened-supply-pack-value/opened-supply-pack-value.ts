@@ -1,14 +1,14 @@
 import "./opened-supply-pack-value.css";
-import { Feature, FEATURE_MANAGER } from "@/features/feature-manager";
+import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isUseItem, type TornInternalUseItemSuccess } from "@/pages/item-page";
 import { settings, torndata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
+import { elementBuilder } from "@/utils/common/functions/dom";
+import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
-import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
-import { elementBuilder } from "@/utils/common/functions/dom";
-import { isUseItem, TornInternalUseItemSuccess } from "@/pages/item-page";
-import { sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { getPage } from "@/utils/common/functions/torn";
+import { sleep, TO_MILLIS } from "@/utils/common/functions/utilities";
 
 const SUPPLY_PACK_ITEMS = [
 	364, 365, 370, 588, 815, 817, 818, 1035, 1057, 1078, 1079, 1080, 1081, 1082, 1083, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122, 1293,
@@ -27,7 +27,7 @@ function addListener() {
 		const params = new URLSearchParams(xhr.requestBody);
 		if (!isUseItem(params.get("step"), json) || !json.success) return;
 
-		if (json && json.itemID) itemID = parseInt(json.itemID);
+		if (json?.itemID) itemID = parseInt(json.itemID);
 		else if (params.has("id")) itemID = convertToNumber(params.get("id"));
 		else if (params.has("itemID")) itemID = convertToNumber(params.get("itemID"));
 
