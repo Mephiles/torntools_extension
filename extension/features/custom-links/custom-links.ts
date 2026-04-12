@@ -3,16 +3,27 @@ import { settings } from "@/utils/common/data/database";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, findParent, hasSidebar, mobile } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { ALL_AREAS, getSidebarArea } from "@/utils/common/functions/torn";
+import { ALL_AREAS, CUSTOM_LINKS_PRESET, getSidebarArea } from "@/utils/common/functions/torn";
 import "./custom-links.css";
+
+interface BaseCustomLink {
+	newTab: boolean;
+	location: string;
+	name: string;
+}
+
+export type SavedCustomLink = BaseCustomLink & ({ preset: string } | { href: string });
+
+type InternalCustomLink = BaseCustomLink & { href: string };
 
 async function showLinks() {
 	await requireSidebar();
 
+	const links = getPopulatedLinks();
 	if (hasSidebar) {
-		showOutside("above", "customLinksAbove");
-		showOutside("under", "customLinksUnder");
-		showInside();
+		showOutside("above", "customLinksAbove", links);
+		showOutside("under", "customLinksUnder", links);
+		showInside(links);
 	} else {
 		const oldCustomLinksContainer = document.querySelector(".tt-custom-links-container");
 		if (oldCustomLinksContainer) oldCustomLinksContainer.remove();
@@ -22,7 +33,7 @@ async function showLinks() {
 			class: "tt-custom-links-container",
 		});
 
-		settings.customLinks.forEach((link) => {
+		links.forEach((link) => {
 			customLinksContainer.insertAdjacentElement(
 				"beforeend",
 				elementBuilder({
@@ -42,12 +53,33 @@ async function showLinks() {
 		});
 
 		document.querySelector("#sidebar [class*='content_'] [class*='user-information-mobile_']").insertAdjacentElement("beforebegin", customLinksContainer);
-		document.querySelector(".content-wrapper[role='main']").insertAdjacentElement("afterbegin", elementBuilder({ type: "div", class: "dummy-div" }));
+		document.querySelector(".content-wrapper[role='main']").insertAdjacentElement(
+			"afterbegin",
+			elementBuilder({
+				type: "div",
+				class: "dummy-div",
+			}),
+		);
 	}
 }
 
-function showOutside(filter: "above" | "under", id: string) {
-	if (!settings.customLinks.filter((link) => link.location === filter).length) {
+function getPopulatedLinks(): InternalCustomLink[] {
+	return settings.customLinks.map((link) => {
+		if ("preset" in link) {
+			return {
+				newTab: link.newTab,
+				location: link.location,
+				name: link.name,
+				href: CUSTOM_LINKS_PRESET[link.preset].link,
+			};
+		} else {
+			return link;
+		}
+	});
+}
+
+function showOutside(filter: "above" | "under", id: string, links: InternalCustomLink[]) {
+	if (!getPopulatedLinks().filter((link) => link.location === filter).length) {
 		removeContainer("Custom Links", { id });
 		return;
 	}
@@ -62,7 +94,7 @@ function showOutside(filter: "above" | "under", id: string) {
 		[filter === "above" ? "nextElement" : "previousElement"]: findParent(getSidebarArea(), { partialClass: "sidebar-block_" }),
 	});
 
-	for (const link of settings.customLinks.filter((link) => link.location === filter)) {
+	for (const link of links.filter((link) => link.location === filter)) {
 		content.appendChild(
 			elementBuilder({
 				type: "a",
@@ -75,11 +107,11 @@ function showOutside(filter: "above" | "under", id: string) {
 	}
 }
 
-function showInside() {
+function showInside(links: InternalCustomLink[]) {
 	for (const link of findAllElements(".custom-link")) link.remove();
 
 	const areas = findParent(getSidebarArea(), { partialClass: "sidebar-block_" });
-	for (const link of settings.customLinks.filter((link) => link.location !== "above" && link.location !== "under")) {
+	for (const link of links.filter((link) => link.location !== "above" && link.location !== "under")) {
 		const locationSplit = link.location.split("_");
 
 		const location = locationSplit.splice(1).join("_");

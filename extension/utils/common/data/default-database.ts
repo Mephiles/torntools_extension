@@ -1,7 +1,8 @@
 import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
-import type { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
+import type { InactivityDisplay } from "@/entrypoints/options/settings";
 import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
+import type { SavedCustomLink } from "@/features/custom-links/custom-links";
 import type { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
 import type { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
 import type { DatabaseCache } from "@/utils/common/data/cache";
@@ -157,7 +158,7 @@ export const DEFAULT_STORAGE = {
 		hideCasinoGames: new DefaultSetting<string[]>("array", []),
 		hideStocks: new DefaultSetting<string[]>("array", []),
 		alliedFactions: new DefaultSetting<(string | number)[]>("array", []),
-		customLinks: new DefaultSetting<CustomLink[]>("array", []),
+		customLinks: new DefaultSetting<SavedCustomLink[]>("array", []),
 		employeeInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
 		factionInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
 		userAlias: new DefaultSetting<{ [alias: string]: { name: string; alias: string } }>("object", {}),

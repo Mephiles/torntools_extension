@@ -991,8 +991,6 @@ export async function showIconBars() {
 	}
 }
 
-export default showIconBars;
-
 async function updateStakeouts(forceUpdate = false) {
 	const now = Date.now();
 
