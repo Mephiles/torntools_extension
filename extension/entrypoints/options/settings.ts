@@ -24,6 +24,7 @@ import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRE
 import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { CONTRIBUTORS, TEAM } from "@/utils/common/team";
 import "@phosphor-icons/web/regular/style.css";
+import type { SavedCustomLink } from "@/features/custom-links/custom-links";
 import { PHCaretDown, PHDotsSix, PHTrash } from "@/utils/common/icons/phosphor-icons";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
@@ -239,14 +240,6 @@ function cleanupPreferences() {
 	).forEach((element) => element.remove());
 }
 
-export interface CustomLink {
-	newTab: boolean;
-	preset: string;
-	location: string;
-	name: string;
-	href: string;
-}
-
 export interface InactivityDisplay {
 	color: string;
 	days: number | null;
@@ -441,16 +434,26 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	_preferences.querySelector("#addCustomLink").addEventListener("click", () => {
 		const inputRow = document.querySelector("#customLinks .input");
 
-		addCustomLink({
-			newTab: inputRow.querySelector<HTMLInputElement>(".newTab").checked,
-			preset: inputRow.querySelector<HTMLInputElement>(".preset").value,
-			location: inputRow.querySelector<HTMLInputElement>(".location").value,
-			name: inputRow.querySelector<HTMLInputElement>(".name").value,
-			href: inputRow.querySelector<HTMLInputElement>(".href").value,
-		});
+		const presetElement = inputRow.querySelector<HTMLInputElement>(".preset");
+
+		if (presetElement.value === "custom") {
+			addCustomLink({
+				newTab: inputRow.querySelector<HTMLInputElement>(".newTab").checked,
+				location: inputRow.querySelector<HTMLInputElement>(".location").value,
+				name: inputRow.querySelector<HTMLInputElement>(".name").value,
+				href: inputRow.querySelector<HTMLInputElement>(".href").value,
+			});
+		} else {
+			addCustomLink({
+				newTab: inputRow.querySelector<HTMLInputElement>(".newTab").checked,
+				preset: inputRow.querySelector<HTMLInputElement>(".preset").value,
+				location: inputRow.querySelector<HTMLInputElement>(".location").value,
+				name: inputRow.querySelector<HTMLInputElement>(".name").value,
+			});
+		}
 
 		inputRow.querySelector<HTMLInputElement>(".newTab").checked = false;
-		inputRow.querySelector<HTMLInputElement>(".preset").value = "custom";
+		presetElement.value = "custom";
 		inputRow.querySelector<HTMLInputElement>(".location").value = "above";
 		inputRow.querySelector<HTMLInputElement>(".name").value = "";
 		inputRow.querySelector(".name").classList.remove("tt-hidden");
@@ -880,7 +883,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		return options.join("");
 	}
 
-	function addCustomLink(data: CustomLink) {
+	function addCustomLink(data: SavedCustomLink) {
 		const newRow = elementBuilder({
 			type: "li",
 			children: [
@@ -899,7 +902,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				elementBuilder({
 					type: "select",
 					class: "preset",
-					value: data.preset,
+					value: "preset" in data ? data.preset : "",
 					html: getCustomLinkOptions(),
 					events: {
 						change: (event) => {
@@ -929,14 +932,14 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				}),
 				elementBuilder({
 					type: "input",
-					class: `name ${data.preset === "custom" ? "" : "tt-hidden"}`,
+					class: `name ${"preset" in data ? "tt-hidden" : ""}`,
 					value: data.name,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
 				elementBuilder({
 					type: "input",
-					class: `href ${data.preset === "custom" ? "" : "tt-hidden"}`,
-					value: data.href,
+					class: `href ${"preset" in data ? "tt-hidden" : ""}`,
+					value: "preset" in data ? "" : data.href,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
 				elementBuilder({
@@ -1087,13 +1090,23 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		}
 
 		settings.customLinks = findAllElements("#customLinks > li:not(.input)", _preferences).map((link) => {
-			return {
-				newTab: link.querySelector<HTMLInputElement>(".newTab").checked,
-				preset: link.querySelector<HTMLInputElement>(".preset").value,
-				location: link.querySelector<HTMLInputElement>(".location").value,
-				name: link.querySelector<HTMLInputElement>(".name").value,
-				href: link.querySelector<HTMLInputElement>(".href").value,
-			};
+			const preset = link.querySelector<HTMLInputElement>(".preset").value;
+
+			if (preset === "custom") {
+				return {
+					newTab: link.querySelector<HTMLInputElement>(".newTab").checked,
+					location: link.querySelector<HTMLInputElement>(".location").value,
+					name: link.querySelector<HTMLInputElement>(".name").value,
+					href: link.querySelector<HTMLInputElement>(".href").value,
+				};
+			} else {
+				return {
+					newTab: link.querySelector<HTMLInputElement>(".newTab").checked,
+					preset,
+					location: link.querySelector<HTMLInputElement>(".location").value,
+					name: link.querySelector<HTMLInputElement>(".name").value,
+				};
+			}
 		});
 		settings.pages.chat.highlights = findAllElements("#chatHighlight > li:not(.input)", _preferences).map((highlight) => {
 			return {
