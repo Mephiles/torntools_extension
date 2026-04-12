@@ -11,7 +11,8 @@
 				{ "message": "Include an option to disable the outside link alert.", "contributor": "DeKleineKobini" },
 				{ "message": "Show supply pack total value when opening them through 'Quick Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Show ranked war reward value per faction.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow needle boosters as quick items.", "contributor": "DeKleineKobini" }
+				{ "message": "Allow needle boosters as quick items.", "contributor": "DeKleineKobini" },
+				{ "message": "Timed notifications if you haven't used your refills yet.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },

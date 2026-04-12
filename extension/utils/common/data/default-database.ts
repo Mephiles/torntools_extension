@@ -109,6 +109,10 @@ export const DEFAULT_STORAGE = {
 				npcs: new DefaultSetting<{ id: number; level: number | ""; minutes: number | "" }[]>("array", []),
 				npcPlannedEnabled: new DefaultSetting("boolean", true),
 				npcPlanned: new DefaultSetting<number[]>("array", []),
+				refillEnergyEnabled: new DefaultSetting("boolean", true),
+				refillEnergy: new DefaultSetting("string", ""),
+				refillNerveEnabled: new DefaultSetting("boolean", true),
+				refillNerve: new DefaultSetting("string", ""),
 			},
 		},
 		apiUsage: {
@@ -819,6 +823,8 @@ export const DEFAULT_STORAGE = {
 		offline: new DefaultSetting<NotificationMap>("object", {}),
 		missionsLimit: new DefaultSetting<NotificationMap>("object", {}),
 		missionsExpire: new DefaultSetting<NotificationMap>("object", {}),
+		refillEnergy: new DefaultSetting<NotificationMap>("object", {}),
+		refillNerve: new DefaultSetting<NotificationMap>("object", {}),
 	},
 	migrations: new DefaultSetting<StoredMigration[]>("array", []),
 } as const;

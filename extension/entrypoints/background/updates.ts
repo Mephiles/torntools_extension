@@ -358,6 +358,7 @@ export async function updateUserdata(forceUpdate = false) {
 		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
 		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 		await notifyMissions().catch((error) => console.error("Error while sending mission notifications.", error));
+		await notifyRefills().catch((error) => console.error("Error while sending refill notifications.", error));
 	}
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
@@ -921,6 +922,46 @@ export async function updateUserdata(forceUpdate = false) {
 			}
 		} else {
 			notifications.missionsExpire = {};
+		}
+	}
+
+	async function notifyRefills() {
+		if (!settings.apiUsage.user.refills || !settings.notifications.types.global) return;
+
+		if (settings.notifications.types.refillEnergyEnabled && settings.notifications.types.refillEnergy) {
+			const limitParts = settings.notifications.types.refillEnergy.split(":").map((part) => parseInt(part, 10));
+			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
+
+			if (new Date() >= cutoff) {
+				if (!userdata.refills.energy) {
+					const now = new Date();
+					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+
+					if (!(key in notifications.refillEnergy)) {
+						notifications.refillEnergy[key] = newNotification("Refill", `You have yet to use your energy refill today.`, LINKS.points);
+					}
+				}
+			}
+		} else {
+			notifications.refillEnergy = {};
+		}
+
+		if (settings.notifications.types.refillNerveEnabled && settings.notifications.types.refillNerve) {
+			const limitParts = settings.notifications.types.refillNerve.split(":").map((part) => parseInt(part, 10));
+			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
+
+			if (new Date() >= cutoff) {
+				if (!userdata.refills.nerve) {
+					const now = new Date();
+					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+
+					if (!(key in notifications.refillNerve)) {
+						notifications.refillNerve[key] = newNotification("Refill", `You have yet to use your nerve refill today.`, LINKS.points);
+					}
+				}
+			}
+		} else {
+			notifications.refillNerve = {};
 		}
 	}
 }
