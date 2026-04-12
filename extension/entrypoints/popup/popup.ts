@@ -66,7 +66,7 @@ const initiatedPages: string[] = [];
 
 	console.log("Popup - Settings available:", settings);
 
-	for (const navigation of findAllElements("#pages .main-nav li")) {
+	for (const navigation of findAllElements("#pages .main-nav li:not([to='settings'])")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to") as keyof typeof SETUP_PAGES);
 		});
