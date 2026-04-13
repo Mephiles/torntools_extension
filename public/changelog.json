@@ -45,7 +45,11 @@
 				{ "message": "Reapply user aliases in the chat on a reconnect.", "contributor": "DeKleineKobini" },
 				{ "message": "Check for autocomplete in the chat again on a reconnect.", "contributor": "DeKleineKobini" },
 				{ "message": "Update bar links to open in new window on control click and new tab with shift.", "contributor": "DeKleineKobini" },
-				{ "message": "Have custom links follow their configured preset when changed.", "contributor": "DeKleineKobini" }
+				{ "message": "Have custom links follow their configured preset when changed.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Rework the settings link to work better on the various screens, by having it take up the full screen.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]

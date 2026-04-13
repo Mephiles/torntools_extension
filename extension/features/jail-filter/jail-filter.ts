@@ -12,7 +12,7 @@ import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
-import { PHArrowClockwise } from "@/utils/common/icons/phosphor-icons";
+import { PHBoldArrowClockwise } from "@/utils/common/icons/phosphor-icons";
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.JAIL_SWITCH_PAGE].push(async () => {
@@ -324,7 +324,7 @@ async function applyQuickBustAndBail() {
 		return elementBuilder({
 			type: "div",
 			class: `tt-quick-refresh ${customClass}`,
-			children: [PHArrowClockwise()],
+			children: [PHBoldArrowClockwise()],
 			events: {
 				click: () => location.reload(),
 			},

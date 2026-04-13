@@ -1,4 +1,5 @@
-import PHArrowClockwiseData from "@phosphor-icons/core/bold/arrow-clockwise-bold.svg";
+import PHBoldArrowBendUpLeftData from "@phosphor-icons/core/bold/arrow-bend-up-left-bold.svg";
+import PHBoldArrowClockwiseData from "@phosphor-icons/core/bold/arrow-clockwise-bold.svg";
 import PHBoldArrowDownData from "@phosphor-icons/core/bold/arrow-down-bold.svg";
 import PHBoldArrowUpData from "@phosphor-icons/core/bold/arrow-up-bold.svg";
 import PHBoldCheckData from "@phosphor-icons/core/bold/check-bold.svg";
@@ -31,7 +32,6 @@ import PHXData from "@phosphor-icons/core/regular/x.svg";
 import PHXCircleData from "@phosphor-icons/core/regular/x-circle.svg";
 import { svgImport } from "@/utils/common/svg-helper";
 
-export const PHArrowClockwise = svgImport(PHArrowClockwiseData);
 export const PHCaretDown = svgImport(PHCaretDownData);
 export const PHDotsSix = svgImport(PHDotsSixData);
 export const PHEye = svgImport(PHEyeData);
@@ -42,6 +42,8 @@ export const PHQuestion = svgImport(PHQuestionData);
 export const PHX = svgImport(PHXData);
 export const PHXCircle = svgImport(PHXCircleData);
 
+export const PHBoldArrowBendUpLeft = svgImport(PHBoldArrowBendUpLeftData);
+export const PHBoldArrowClockwise = svgImport(PHBoldArrowClockwiseData);
 export const PHBoldArrowDown = svgImport(PHBoldArrowDownData);
 export const PHBoldArrowUp = svgImport(PHBoldArrowUpData);
 export const PHBoldCheck = svgImport(PHBoldCheckData);

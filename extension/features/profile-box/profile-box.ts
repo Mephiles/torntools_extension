@@ -18,7 +18,7 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { PHArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
+import { PHBoldArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {
 	let node: Node;
@@ -988,7 +988,7 @@ async function showBox() {
 			footer.appendChild(
 				elementBuilder({
 					type: "div",
-					children: [PHArrowClockwise()],
+					children: [PHBoldArrowClockwise()],
 					events: {
 						click: () => {
 							section.remove();
@@ -1006,7 +1006,7 @@ async function showBox() {
 			footer.appendChild(
 				elementBuilder({
 					type: "div",
-					children: [PHArrowClockwise()],
+					children: [PHBoldArrowClockwise()],
 					events: {
 						click: () => {
 							section.remove();
