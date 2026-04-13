@@ -14,7 +14,8 @@
 				{ "message": "Allow needle boosters as quick items.", "contributor": "DeKleineKobini" },
 				{ "message": "Timed notifications if you haven't used your refills yet.", "contributor": "DeKleineKobini" },
 				{ "message": "Hide threads from your different forum feeds.", "contributor": "DeKleineKobini" },
-				{ "message": "Add total working stats as personal stat in the profile box.", "contributor": "DeKleineKobini" }
+				{ "message": "Add total working stats as personal stat in the profile box.", "contributor": "DeKleineKobini" },
+				{ "message": "Show total challenge contributions.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },
