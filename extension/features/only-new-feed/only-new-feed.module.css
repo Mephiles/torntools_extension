@@ -21,7 +21,7 @@
 	display: none !important;
 }
 
-:global(.panel-scrollbar:has(li.new)) .nothingToShow {
+:global(.panel-scrollbar:has(li.new:not(.tt-hidden))) .nothingToShow {
 	display: none;
 }
 

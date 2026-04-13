@@ -13,7 +13,7 @@
 				{ "message": "Show ranked war reward value per faction.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow needle boosters as quick items.", "contributor": "DeKleineKobini" },
 				{ "message": "Timed notifications if you haven't used your refills yet.", "contributor": "DeKleineKobini" },
-                { "message": "Hide threads from your different forum feeds.", "contributor": "DeKleineKobini" }
+				{ "message": "Hide threads from your different forum feeds.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },
