@@ -386,7 +386,7 @@ async function hideSubscriptions() {
 
 			await requireElement(".ajax-preloader", { parent: feed, invert: true });
 
-			let newReduced = 0;
+			let hasReducedNew = false;
 			findAllElements(".panel > li", feed).forEach((post) => {
 				const params = getHashParameters(new URL(post.querySelector<HTMLAnchorElement>("a[href*='t=']").href).hash);
 				const threadId = parseInt(params.get("t"));
@@ -394,14 +394,21 @@ async function hideSubscriptions() {
 				if (!localdata.threadsHiddenInFeed.includes(threadId)) return;
 
 				post.classList.add("tt-hidden");
-				if (feed.classList.contains("new")) newReduced++;
+				if (post.classList.contains("new")) hasReducedNew = true;
 			});
 
-			if (newReduced) {
-				console.log("DKK hide subscriptions with some new reduced", feed, newReduced);
+			if (hasReducedNew) {
+				adjustNewCounter(feed);
 			}
 		}),
 	);
+}
+
+function adjustNewCounter(feed: Element) {
+	const qtyElement = feed.querySelector(".title-black .qty");
+	const newQuantity = findAllElements(".panel > li.new:not(.tt-hidden)", feed).length;
+
+	qtyElement.textContent = `(${newQuantity})`;
 }
 
 export default class ForumMenuFeature extends Feature {
