@@ -41,6 +41,7 @@ export const LINKS = {
 	missions: "https://www.torn.com/loader.php?sid=missions",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 	pc: "https://www.torn.com/pc.php",
+	points: "https://www.torn.com/page.php?sid=points",
 	pointsmarket: "https://www.torn.com/pmarket.php",
 	property_upkeep: "https://www.torn.com/properties.php#/p=options&tab=upkeep",
 	property_vault: "https://www.torn.com/properties.php#/p=options&tab=vault",
