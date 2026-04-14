@@ -1,25 +1,21 @@
+import type { ProxyService } from "@webext-core/proxy-service";
 import { ttCache } from "@/utils/common/data/cache";
 import type { Database } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { elementBuilder } from "@/utils/common/functions/dom";
-import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
+import type { BackgroundService } from "@/utils/services/BackgroundService";
 
-// declare global {
-// 	interface Window {
-// 		DebugFunctions: any;
-// 		InternalObjects: any;
-// 	}
-// }
+type BGService = BackgroundService | ProxyService<BackgroundService>;
 
-export function exposeDebugObjects() {
+export function exposeDebugObjects(backgroundService: BGService) {
 	// noinspection JSUnusedGlobalSymbols
 	globalThis.DebugFunctions = {
 		fullDataDump,
-		forceUpdateUserdata: () => BACKGROUND_SERVICE.forceUpdate("userdata"),
-		forceUpdateTorndata: () => BACKGROUND_SERVICE.forceUpdate("torndata"),
-		forceUpdateAll,
-		reinitializeTimers: () => BACKGROUND_SERVICE.reinitializeTimers(),
-		notification: (title: string, message: string) => BACKGROUND_SERVICE.notification(title, message),
+		forceUpdateUserdata: () => backgroundService.forceUpdate("userdata"),
+		forceUpdateTorndata: () => backgroundService.forceUpdate("torndata"),
+		forceUpdateAll: () => forceUpdateAll(backgroundService),
+		reinitializeTimers: () => backgroundService.reinitializeTimers(),
+		notification: (title: string, message: string) => backgroundService.notification(title, message),
 	};
 	// noinspection JSUnusedGlobalSymbols
 	globalThis.InternalObjects = {
@@ -47,11 +43,11 @@ function fullDataDump() {
 	});
 }
 
-function forceUpdateAll() {
+function forceUpdateAll(backgroundService: BGService) {
 	return Promise.all([
-		BACKGROUND_SERVICE.forceUpdate("torndata"),
-		BACKGROUND_SERVICE.forceUpdate("userdata"),
-		BACKGROUND_SERVICE.forceUpdate("stocks"),
-		BACKGROUND_SERVICE.forceUpdate("factiondata"),
+		backgroundService.forceUpdate("torndata"),
+		backgroundService.forceUpdate("userdata"),
+		backgroundService.forceUpdate("stocks"),
+		backgroundService.forceUpdate("factiondata"),
 	]);
 }

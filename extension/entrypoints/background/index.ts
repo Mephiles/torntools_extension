@@ -138,7 +138,8 @@ export default defineBackground(() => {
 	browser.notifications.onClicked.addListener(onNotificationClicked);
 	browser.runtime.onUpdateAvailable.addListener(() => browser.runtime.reload());
 
-	registerService(BACKGROUND_SERVICE_KEY, new BackgroundService());
+	const backgroundService = new BackgroundService();
+	registerService(BACKGROUND_SERVICE_KEY, backgroundService);
 	registerService(SOURCE_SERVICE_KEY, new SourceService());
 
 	if ("connection" in navigator) {
@@ -151,6 +152,6 @@ export default defineBackground(() => {
 	} else {
 		self.addEventListener("online", timedUpdates);
 	}
-	exposeDebugObjects();
+	exposeDebugObjects(backgroundService);
 	console.log("Background script loaded");
 });

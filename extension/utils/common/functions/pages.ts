@@ -1,6 +1,7 @@
 import { settings } from "@/utils/common/data/database";
 import { checkDevice, findAllElements, findParent, isElementOfTag, sortTable } from "@/utils/common/functions/dom";
 import { exposeDebugObjects } from "@/utils/common/functions/pages-debug";
+import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
 export type InternalPageTheme = "default" | "dark" | "light";
 
@@ -14,7 +15,7 @@ export function initializeInternalPage(partialOptions: Partial<InitializeInterna
 		...partialOptions,
 	};
 
-	exposeDebugObjects();
+	exposeDebugObjects(BACKGROUND_SERVICE);
 
 	// Check if the user is on mobile or tablet.
 	checkDevice().then(({ mobile, tablet }) => {
