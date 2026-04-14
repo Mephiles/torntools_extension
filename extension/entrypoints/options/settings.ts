@@ -678,6 +678,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		}
 
 		_preferences.querySelector<HTMLInputElement>("#csvDelimiter").value = settings.csvDelimiter;
+		_preferences.querySelector<HTMLInputElement>("#tts-voice").value = settings.notifications.ttsVoice;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
