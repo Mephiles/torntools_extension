@@ -28,7 +28,7 @@ function initialiseFilters() {
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(async () => {
 		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
-		if (!localFilters["FF Score Max"].getValue() && !localFilters["FF Score Min"].getValue()) return;
+		if (!localFilters["FF Score Max"]?.getValue() && !localFilters["FF Score Min"]?.getValue()) return;
 
 		await filtering();
 	});
@@ -176,8 +176,8 @@ async function filtering() {
 	// Update level and time slider counters
 	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
 
-	const ffScoreMin = parseFloat(localFilters["FF Score Min"].getValue()) || null;
-	const ffScoreMax = parseFloat(localFilters["FF Score Max"].getValue()) || null;
+	const ffScoreMin = parseFloat(localFilters["FF Score Min"]?.getValue()) || null;
+	const ffScoreMax = parseFloat(localFilters["FF Score Max"]?.getValue()) || null;
 
 	// Save filters
 	await ttStorage.change({

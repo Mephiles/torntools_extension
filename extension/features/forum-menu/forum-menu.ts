@@ -1,6 +1,6 @@
 import "./forum-menu.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
-import { settings } from "@/utils/common/data/database";
+import { localdata, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { applyPlural, convertToNumber } from "@/utils/common/functions/formatting";
@@ -21,6 +21,7 @@ function initialiseListeners() {
 
 		if (step === "forums") await showThreads();
 		else if (step === "threads") await showPosts();
+		else if (step === "updates") await hideSubscriptions();
 	});
 }
 
@@ -29,6 +30,7 @@ async function startFeature() {
 
 	if (wrap.classList.contains("forums-committee-wrap")) await showThreads();
 	else if (wrap.classList.contains("forums-thread")) await showPosts();
+	else if (wrap.classList.length === 1) await hideSubscriptions();
 }
 
 async function showThreads() {
@@ -348,12 +350,65 @@ async function showPosts() {
 									},
 								},
 							}),
+							elementBuilder({
+								type: "div",
+								text: `${localdata.threadsHiddenInFeed.includes(threadId) ? "Show" : "Hide"} this thread from your feeds`,
+								events: {
+									click(event) {
+										let threads = localdata.threadsHiddenInFeed;
+										const status = threads.includes(threadId);
+
+										if (status) threads = threads.filter((tid) => tid !== threadId);
+										else threads.push(threadId);
+
+										ttStorage.change({ localdata: { threadsHiddenInFeed: threads } });
+										(event.target as Element).textContent = `${!status ? "Show" : "Hide"} this thread from your feeds`;
+									},
+								},
+							}),
 						],
 					}),
 				],
 			}),
 		);
 	}
+}
+
+const FEEDS = ["#my-threads", "#subs-threads", "#feed-threads", "#friends-threads"];
+
+async function hideSubscriptions() {
+	await requireElement(FEEDS[0]);
+
+	await Promise.all(
+		FEEDS.map(async (f) => {
+			const feed = document.querySelector(f);
+			if (!feed) return;
+
+			await requireElement(".ajax-preloader", { parent: feed, invert: true });
+
+			let hasReducedNew = false;
+			findAllElements(".panel > li", feed).forEach((post) => {
+				const params = getHashParameters(new URL(post.querySelector<HTMLAnchorElement>("a[href*='t=']").href).hash);
+				const threadId = parseInt(params.get("t"));
+
+				if (!localdata.threadsHiddenInFeed.includes(threadId)) return;
+
+				post.classList.add("tt-hidden");
+				if (post.classList.contains("new")) hasReducedNew = true;
+			});
+
+			if (hasReducedNew) {
+				adjustNewCounter(feed);
+			}
+		}),
+	);
+}
+
+function adjustNewCounter(feed: Element) {
+	const qtyElement = feed.querySelector(".title-black .qty");
+	const newQuantity = findAllElements(".panel > li.new:not(.tt-hidden)", feed).length;
+
+	qtyElement.textContent = `(${newQuantity})`;
 }
 
 export default class ForumMenuFeature extends Feature {

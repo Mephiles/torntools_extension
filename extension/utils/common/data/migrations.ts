@@ -26,6 +26,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			flags.updateUserdata = true;
 		},
 	},
+	{
+		id: "43fae1f2-5568-4ae5-b12f-f3625e1e58c6",
+		version: "9.0.0",
+		execute(database, _flags, _oldStorage) {
+			database.cache["personal-stats"] = {};
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

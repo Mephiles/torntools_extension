@@ -193,6 +193,7 @@ import StockAcronymsFeature from "@/features/stock-acronyms/stock-acronyms";
 import StocksFilterFeature from "@/features/stocks-filter/stocks-filter";
 import StocksMoneyInputFeature from "@/features/stocks-money-input/stocks-money-input";
 import TargetFilterFeature from "@/features/target-filter/target-filter";
+import TotalChallengeContributionsFeature from "@/features/total-challenge-contributions/total-challenge-contributions";
 import TotalItemCostFeature from "@/features/total-item-cost/total-item-cost";
 import TotalPortfolioValueFeature from "@/features/total-portfolio-value/total-portfolio-value";
 import TradeOpenChatFeature from "@/features/trade-open-chat/trade-open-chat";
@@ -408,6 +409,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
 		FEATURE_MANAGER.registerFeature(new WarFinishTimesFeature());
 		FEATURE_MANAGER.registerFeature(new WarnCrimeFeature());
+		FEATURE_MANAGER.registerFeature(new TotalChallengeContributionsFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());

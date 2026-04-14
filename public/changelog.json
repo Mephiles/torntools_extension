@@ -12,6 +12,10 @@
 				{ "message": "Show supply pack total value when opening them through 'Quick Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Show ranked war reward value per faction.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow needle boosters as quick items.", "contributor": "DeKleineKobini" },
+				{ "message": "Timed notifications if you haven't used your refills yet.", "contributor": "DeKleineKobini" },
+				{ "message": "Hide threads from your different forum feeds.", "contributor": "DeKleineKobini" },
+				{ "message": "Add total working stats as personal stat in the profile box.", "contributor": "DeKleineKobini" },
+				{ "message": "Show total challenge contributions.", "contributor": "DeKleineKobini" },
 				{ "message": "Configurable TTS voice.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
@@ -26,7 +30,12 @@
 				{ "message": "Hide completed education courses again.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix stats estimate styling on the enemies page.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix temporary items no working in quick items anymore.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix stats estimate on the attack page for the attacker not working.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix stats estimate on the attack page for the attacker not working.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve error when clicking the settings link in the popup.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Travel Table' for first time travelers.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid sending out duplicate notification on startup.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid doing too many api calls on startup.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Abroad People Filter' and 'Userlist Filter' not working if FFScouter is disabled.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
@@ -39,7 +48,12 @@
 				{ "message": "Make errors from FFScouter visible in the 'Gauge' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Reapply user aliases in the chat on a reconnect.", "contributor": "DeKleineKobini" },
 				{ "message": "Check for autocomplete in the chat again on a reconnect.", "contributor": "DeKleineKobini" },
-				{ "message": "Update bar links to open in new window on control click and new tab with shift.", "contributor": "DeKleineKobini" }
+				{ "message": "Update bar links to open in new window on control click and new tab with shift.", "contributor": "DeKleineKobini" },
+				{ "message": "Have custom links follow their configured preset when changed.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Rework the settings link to work better on the various screens, by having it take up the full screen.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]

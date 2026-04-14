@@ -87,81 +87,93 @@ import { getHospitalizationReason, getNextChainBonus, hasFinishedEducation, LINK
 import { getUTCTodayAtTime, hasTimePassed, isSameUTCDay, TO_MILLIS } from "@/utils/common/functions/utilities";
 import { newNotification, notifyUser, storeNotification } from "./notifications";
 
-export function timedUpdates() {
+let lockTimedUpdates = false;
+
+export async function timedUpdates() {
+	if (lockTimedUpdates) return;
+
+	lockTimedUpdates = true;
+
 	const updatePromises: Promise<unknown>[] = [];
-	if (api.torn.key) {
-		updatePromises.push(
-			updateUserdata()
-				.then(({ updated, types, selections }) => {
-					if (updated) console.log(`Updated ${types.join("+")} userdata.`, selections);
-					else console.log("Skipped this userdata update.");
-				})
-				.catch((error) => logError("updating userdata", error)),
-		);
+	try {
+		await loadDatabase();
 
-		updatePromises.push(
-			updateStakeouts()
-				.then(({ updated, success, failed }) => {
-					if (updated) {
-						if (success || failed) console.log("Updated stakeouts.", { success, failed });
-						else console.log("No stakeouts to update.");
-					} else console.log("Skipped this stakeout update.");
-				})
-				.catch((error) => logError("updating stakeouts", error)),
-		);
-
-		updatePromises.push(
-			updateFactionStakeouts()
-				.then(({ updated, success, failed }) => {
-					if (updated) {
-						if (success || failed) console.log("Updated faction stakeouts.", { success, failed });
-						else console.log("No faction stakeouts to update.");
-					} else console.log("Skipped this faction stakeout update.");
-				})
-				.catch((error) => logError("updating faction stakeouts", error)),
-		);
-
-		if (
-			!torndata ||
-			!isSameUTCDay(new Date(torndata.date), new Date()) ||
-			(hasOutdatedTornStats() && hasTimePassed(torndata.date, TO_MILLIS.MINUTES * 10))
-		) {
-			// Update once every torn day.
+		if (api.torn.key) {
 			updatePromises.push(
-				updateTorndata()
-					.then(() => console.log("Updated torndata."))
-					.catch((error) => logError("updating torndata", error)),
+				updateUserdata()
+					.then(({ updated, types, selections }) => {
+						if (updated) console.log(`Updated ${types.join("+")} userdata.`, selections);
+						else console.log("Skipped this userdata update.");
+					})
+					.catch((error) => logError("updating userdata", error)),
 			);
+
+			updatePromises.push(
+				updateStakeouts()
+					.then(({ updated, success, failed }) => {
+						if (updated) {
+							if (success || failed) console.log("Updated stakeouts.", { success, failed });
+							else console.log("No stakeouts to update.");
+						} else console.log("Skipped this stakeout update.");
+					})
+					.catch((error) => logError("updating stakeouts", error)),
+			);
+
+			updatePromises.push(
+				updateFactionStakeouts()
+					.then(({ updated, success, failed }) => {
+						if (updated) {
+							if (success || failed) console.log("Updated faction stakeouts.", { success, failed });
+							else console.log("No faction stakeouts to update.");
+						} else console.log("Skipped this faction stakeout update.");
+					})
+					.catch((error) => logError("updating faction stakeouts", error)),
+			);
+
+			if (
+				!torndata ||
+				!isSameUTCDay(new Date(torndata.date), new Date()) ||
+				(hasOutdatedTornStats() && hasTimePassed(torndata.date, TO_MILLIS.MINUTES * 10))
+			) {
+				// Update once every torn day.
+				updatePromises.push(
+					updateTorndata()
+						.then(() => console.log("Updated torndata."))
+						.catch((error) => logError("updating torndata", error)),
+				);
+			}
+
+			if (!stockdata?.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5)) {
+				updatePromises.push(
+					updateStocks()
+						.then(() => console.log("Updated stocks."))
+						.catch((error) => logError("updating stocks", error)),
+				);
+			}
+
+			if (!factiondata || !("date" in factiondata) || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15))
+				updatePromises.push(
+					updateFactiondata()
+						.then(() => console.log("Updated factiondata."))
+						.catch((error) => logError("updating factiondata", error)),
+				);
 		}
 
-		if (!stockdata?.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5)) {
-			updatePromises.push(
-				updateStocks()
-					.then(() => console.log("Updated stocks."))
-					.catch((error) => logError("updating stocks", error)),
-			);
-		}
+		updatePromises.push(
+			updateNPCs()
+				.then(({ updated, alerts }) => {
+					if (updated) console.log("Updated npcs.");
+					if (alerts) console.log(`Sent out ${alerts} npc alerts.`);
+				})
+				.catch((error) => logError("updating npcs", error)),
+		);
 
-		if (!factiondata || !("date" in factiondata) || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15))
-			updatePromises.push(
-				updateFactiondata()
-					.then(() => console.log("Updated factiondata."))
-					.catch((error) => logError("updating factiondata", error)),
-			);
+		updatePromises.push(verifyTime().catch((error) => logError("Failed to verify your time to be synced.", error)));
+
+		await Promise.all(updatePromises);
+	} finally {
+		lockTimedUpdates = false;
 	}
-
-	updatePromises.push(
-		updateNPCs()
-			.then(({ updated, alerts }) => {
-				if (updated) console.log("Updated npcs.");
-				if (alerts) console.log(`Sent out ${alerts} npc alerts.`);
-			})
-			.catch((error) => logError("updating npcs", error)),
-	);
-
-	updatePromises.push(verifyTime().catch((error) => logError("Failed to verify your time to be synced.", error)));
-
-	return updatePromises;
 
 	function logError(message: any, error: any) {
 		if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
@@ -358,6 +370,7 @@ export async function updateUserdata(forceUpdate = false) {
 		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
 		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 		await notifyMissions().catch((error) => console.error("Error while sending mission notifications.", error));
+		await notifyRefills().catch((error) => console.error("Error while sending refill notifications.", error));
 	}
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
@@ -923,6 +936,46 @@ export async function updateUserdata(forceUpdate = false) {
 			notifications.missionsExpire = {};
 		}
 	}
+
+	async function notifyRefills() {
+		if (!settings.apiUsage.user.refills || !settings.notifications.types.global) return;
+
+		if (settings.notifications.types.refillEnergyEnabled && settings.notifications.types.refillEnergy) {
+			const limitParts = settings.notifications.types.refillEnergy.split(":").map((part) => parseInt(part, 10));
+			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
+
+			if (new Date() >= cutoff) {
+				if (!userdata.refills.energy) {
+					const now = new Date();
+					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+
+					if (!(key in notifications.refillEnergy)) {
+						notifications.refillEnergy[key] = newNotification("Refill", `You have yet to use your energy refill today.`, LINKS.points);
+					}
+				}
+			}
+		} else {
+			notifications.refillEnergy = {};
+		}
+
+		if (settings.notifications.types.refillNerveEnabled && settings.notifications.types.refillNerve) {
+			const limitParts = settings.notifications.types.refillNerve.split(":").map((part) => parseInt(part, 10));
+			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
+
+			if (new Date() >= cutoff) {
+				if (!userdata.refills.nerve) {
+					const now = new Date();
+					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+
+					if (!(key in notifications.refillNerve)) {
+						notifications.refillNerve[key] = newNotification("Refill", `You have yet to use your nerve refill today.`, LINKS.points);
+					}
+				}
+			}
+		} else {
+			notifications.refillNerve = {};
+		}
+	}
 }
 
 export async function showIconBars() {
@@ -990,8 +1043,6 @@ export async function showIconBars() {
 		await browser.action.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
 	}
 }
-
-export default showIconBars;
 
 async function updateStakeouts(forceUpdate = false) {
 	const now = Date.now();

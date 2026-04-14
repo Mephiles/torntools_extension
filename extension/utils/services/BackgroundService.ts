@@ -10,8 +10,8 @@ type Alarm = Browser.alarms.Alarm;
 type ActionResponse = { success: true } | { success: false; error: any } | { success: false; message: string };
 
 export class BackgroundService {
-	initialize(): ActionResponse {
-		timedUpdates();
+	async initialize(): Promise<ActionResponse> {
+		await timedUpdates();
 		return { success: true };
 	}
 

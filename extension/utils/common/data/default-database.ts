@@ -1,7 +1,8 @@
 import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
-import type { CustomLink, InactivityDisplay } from "@/entrypoints/options/settings";
+import type { InactivityDisplay } from "@/entrypoints/options/settings";
 import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
+import type { SavedCustomLink } from "@/features/custom-links/custom-links";
 import type { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
 import type { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
 import type { DatabaseCache } from "@/utils/common/data/cache";
@@ -110,6 +111,10 @@ export const DEFAULT_STORAGE = {
 				npcs: new DefaultSetting<{ id: number; level: number | ""; minutes: number | "" }[]>("array", []),
 				npcPlannedEnabled: new DefaultSetting("boolean", true),
 				npcPlanned: new DefaultSetting<number[]>("array", []),
+				refillEnergyEnabled: new DefaultSetting("boolean", true),
+				refillEnergy: new DefaultSetting("string", ""),
+				refillNerveEnabled: new DefaultSetting("boolean", true),
+				refillNerve: new DefaultSetting("string", ""),
 			},
 		},
 		apiUsage: {
@@ -158,7 +163,7 @@ export const DEFAULT_STORAGE = {
 		hideCasinoGames: new DefaultSetting<string[]>("array", []),
 		hideStocks: new DefaultSetting<string[]>("array", []),
 		alliedFactions: new DefaultSetting<(string | number)[]>("array", []),
-		customLinks: new DefaultSetting<CustomLink[]>("array", []),
+		customLinks: new DefaultSetting<SavedCustomLink[]>("array", []),
 		employeeInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
 		factionInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
 		userAlias: new DefaultSetting<{ [alias: string]: { name: string; alias: string } }>("object", {}),
@@ -405,6 +410,7 @@ export const DEFAULT_STORAGE = {
 				oc2Filter: new DefaultSetting("boolean", true),
 				warnCrime: new DefaultSetting("boolean", false),
 				rankedWarValue: new DefaultSetting("boolean", true),
+				totalChallengeContributions: new DefaultSetting("boolean", true),
 			},
 			property: {
 				value: new DefaultSetting("boolean", true),
@@ -775,6 +781,7 @@ export const DEFAULT_STORAGE = {
 		},
 		chatResize: new DefaultSetting<StoredResizableChats>("object", {}),
 		feedHidden: new DefaultSetting<StoredHiddenFeeds>("object", {}),
+		threadsHiddenInFeed: new DefaultSetting<number[]>("array", []),
 	},
 	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
 	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
@@ -820,6 +827,8 @@ export const DEFAULT_STORAGE = {
 		offline: new DefaultSetting<NotificationMap>("object", {}),
 		missionsLimit: new DefaultSetting<NotificationMap>("object", {}),
 		missionsExpire: new DefaultSetting<NotificationMap>("object", {}),
+		refillEnergy: new DefaultSetting<NotificationMap>("object", {}),
+		refillNerve: new DefaultSetting<NotificationMap>("object", {}),
 	},
 	migrations: new DefaultSetting<StoredMigration[]>("array", []),
 } as const;
@@ -852,7 +861,7 @@ export interface StoredNpc {
 	order?: number;
 }
 
-type StoredUserdata = FetchedUserdata & {
+export type StoredUserdata = FetchedUserdata & {
 	date: number;
 	dateBasic: number;
 	userCrime?: number;

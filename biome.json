@@ -29,6 +29,12 @@
 				"useGenericFontNames": "off"
 			},
 			"correctness": {
+				"noUnknownPseudoClass": {
+					"level": "error",
+					"options": {
+						"ignore": ["global"]
+					}
+				},
 				"useParseIntRadix": "off"
 			},
 			"complexity": {

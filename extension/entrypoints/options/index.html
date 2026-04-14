@@ -855,6 +855,18 @@
 							<input id="notification_type-missionsExpire" type="text" />
 							<label for="notification_type-missionsExpire">hours before a mission expires.</label>
 						</div>
+						<div class="option">
+							<input id="notification_type-refillEnergyEnabled" type="checkbox" />
+							<label for="notification_type-refillEnergy">Notify me at</label>
+							<input id="notification_type-refillEnergy" type="time" />
+							<label for="notification_type-refillEnergy">(TCT) if you still haven't used your energy refill.</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-refillNerveEnabled" type="checkbox" />
+							<label for="notification_type-refillNerve">Notify me at</label>
+							<input id="notification_type-refillNerve" type="time" />
+							<label for="notification_type-refillNerve">(TCT) if you still haven't used your nerve refill.</label>
+						</div>
 
 						<div class="option header">
 							<input id="notification_type-npcsGlobal" type="checkbox" />
@@ -1096,6 +1108,10 @@
 								This only works if Stats Estimate feature is turned off for factions, wars and ranked wars.<br />
 								You should also enable TornStats or YATA in the External Services tab.
 							</div>
+						</div>
+						<div class="option">
+							<input id="faction-totalChallengeContributions" type="checkbox" />
+							<label for="faction-totalChallengeContributions">Show total challenge contributions.</label>
 						</div>
 
 						<div class="header">OCs (both versions)</div>

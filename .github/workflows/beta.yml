@@ -1,34 +1,39 @@
 name: Create and Upload Beta
 
 on:
-  workflow_dispatch:
+    push:
+        branches:
+            - master
+        paths:
+            - 'extension/**'
+    workflow_dispatch:
 
 concurrency:
-  group: ${{ github.repository }}-beta
+    group: ${{ github.repository }}-beta
 
 jobs:
-  beta:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
+    beta:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
 
-      - uses: oven-sh/setup-bun@v2
+            - uses: oven-sh/setup-bun@v2
 
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+            - name: Install dependencies
+              run: bun install --frozen-lockfile
 
-      - name: Build and package extension
-        run: |
-          bun run zip
-          mv .output/torntools-extension-*-chrome.zip torntools-chrome.zip
-          mv .output/torntools-extension-*-firefox.zip torntools-firefox.zip
+            - name: Build and package extension
+              run: |
+                  bun run zip
+                  mv .output/torntools-extension-*-chrome.zip torntools-chrome.zip
+                  mv .output/torntools-extension-*-firefox.zip torntools-firefox.zip
 
-      - name: Set Environment Variables
-        run: |
-          echo "SAFE_BRANCH=$(echo "${{ github.ref_name }}" | tr '/' '-')" >> $GITHUB_ENV
+            - name: Set Environment Variables
+              run: |
+                  echo "SAFE_BRANCH=$(echo "${{ github.ref_name }}" | tr '/' '-')" >> $GITHUB_ENV
 
-      - name: Upload Betas
-        env:
-          PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
-        run: |
-          curl --fail -X POST -H "X-API-TOKEN: $PG_TT_TOKEN" -F "branch=$SAFE_BRANCH" -F "editions=chrome" -F "files=@torntools-chrome.zip;type=application/zip" -F "editions=firefox" -F "files=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions
+            - name: Upload Betas
+              env:
+                  PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
+              run: |
+                  curl --fail -X POST -H "X-API-TOKEN: $PG_TT_TOKEN" -F "branch=$SAFE_BRANCH" -F "editions=chrome" -F "files=@torntools-chrome.zip;type=application/zip" -F "editions=firefox" -F "files=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions

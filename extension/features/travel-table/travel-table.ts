@@ -861,10 +861,10 @@ function getTravelType() {
 	function getAPIType() {
 		if (!hasAPIData() || !settings.apiUsage.user.travel) return "standard";
 
-		return toCorrectMethod(userdata.travel.method.toLowerCase());
+		return toCorrectMethod(userdata.travel.method?.toLowerCase() ?? null);
 	}
 
-	function toCorrectMethod(method: string) {
+	function toCorrectMethod(method: string | null) {
 		switch (method) {
 			case "standard":
 				return "standard";

@@ -24,6 +24,7 @@ import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRE
 import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { CONTRIBUTORS, TEAM } from "@/utils/common/team";
 import "@phosphor-icons/web/regular/style.css";
+import type { SavedCustomLink } from "@/features/custom-links/custom-links";
 import { PHCaretDown, PHDotsSix, PHTrash } from "@/utils/common/icons/phosphor-icons";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
@@ -45,8 +46,6 @@ const initiatedPages = {};
 		});
 	}
 })();
-
-const isIframe = window.self !== window.top; // https://stackoverflow.com/a/326076
 
 async function showPage(name: string) {
 	const params = new URL(location.href).searchParams;
@@ -239,14 +238,6 @@ function cleanupPreferences() {
 	).forEach((element) => element.remove());
 }
 
-export interface CustomLink {
-	newTab: boolean;
-	preset: string;
-	location: string;
-	name: string;
-	href: string;
-}
-
 export interface InactivityDisplay {
 	color: string;
 	days: number | null;
@@ -256,7 +247,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	if (requireCleanup) cleanupPreferences();
 	searchPreferences();
 
-	const _preferences = document.querySelector("#preferences");
+	const _preferences = document.querySelector<HTMLElement>("#preferences");
 	_preferences.addEventListener("click", (event) => {
 		if (!(event.target as Element).closest("button.remove-icon-wrap, #hide-icons, #hide-casino-games, #hide-stocks, #hide-attack-options")) return;
 
@@ -278,7 +269,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		addSaveDialog();
 	});
 
-	const reviveProviderSelectElement = _preferences.querySelector("#global-reviveProvider");
+	const reviveProviderSelectElement = _preferences.querySelector<HTMLElement>("#global-reviveProvider");
 	for (const provider of REVIVE_PROVIDERS) {
 		reviveProviderSelectElement.appendChild(
 			elementBuilder({
@@ -350,7 +341,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			.catch(() => {});
 	});
 
-	_preferences.querySelector("#notification_type-global").addEventListener("click", (event) => {
+	_preferences.querySelector<HTMLElement>("#notification_type-global").addEventListener("click", (event) => {
 		const disable = !(event.target as HTMLInputElement).checked;
 
 		for (const notificationType in settings.notifications.types) {
@@ -360,7 +351,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			else _preferences.querySelector(`#notification_type-${notificationType}`).removeAttribute("disabled");
 		}
 	});
-	_preferences.querySelector("#notification-sound").addEventListener("change", (event) => {
+	_preferences.querySelector<HTMLElement>("#notification-sound").addEventListener("change", (event) => {
 		const value = (event.target as HTMLInputElement).value;
 
 		if (value === "custom") {
@@ -389,7 +380,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	_preferences.querySelector("#notification-sound-stop").addEventListener("click", () => {
 		BACKGROUND_SERVICE.stopNotificationSound();
 	});
-	_preferences.querySelector("#notification-sound-upload").addEventListener("change", (event) => {
+	_preferences.querySelector<HTMLElement>("#notification-sound-upload").addEventListener("change", (event) => {
 		const target = event.target as HTMLInputElement;
 		if (!target.files.length) return;
 
@@ -417,7 +408,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	});
 	_preferences.querySelector("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
 	_preferences.querySelector<HTMLSelectElement>("#customLinks .input select.preset").value = "custom";
-	_preferences.querySelector("#customLinks .input select.preset").addEventListener("change", (event) => {
+	_preferences.querySelector<HTMLElement>("#customLinks .input select.preset").addEventListener("change", (event) => {
 		const target = event.target as HTMLSelectElement;
 		const hrefInput = _preferences.querySelector<HTMLInputElement>("#customLinks .input .href");
 		const nameInput = _preferences.querySelector<HTMLInputElement>("#customLinks .input .name");
@@ -441,16 +432,26 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	_preferences.querySelector("#addCustomLink").addEventListener("click", () => {
 		const inputRow = document.querySelector("#customLinks .input");
 
-		addCustomLink({
-			newTab: inputRow.querySelector<HTMLInputElement>(".newTab").checked,
-			preset: inputRow.querySelector<HTMLInputElement>(".preset").value,
-			location: inputRow.querySelector<HTMLInputElement>(".location").value,
-			name: inputRow.querySelector<HTMLInputElement>(".name").value,
-			href: inputRow.querySelector<HTMLInputElement>(".href").value,
-		});
+		const presetElement = inputRow.querySelector<HTMLInputElement>(".preset");
+
+		if (presetElement.value === "custom") {
+			addCustomLink({
+				newTab: inputRow.querySelector<HTMLInputElement>(".newTab").checked,
+				location: inputRow.querySelector<HTMLInputElement>(".location").value,
+				name: inputRow.querySelector<HTMLInputElement>(".name").value,
+				href: inputRow.querySelector<HTMLInputElement>(".href").value,
+			});
+		} else {
+			addCustomLink({
+				newTab: inputRow.querySelector<HTMLInputElement>(".newTab").checked,
+				preset: inputRow.querySelector<HTMLInputElement>(".preset").value,
+				location: inputRow.querySelector<HTMLInputElement>(".location").value,
+				name: inputRow.querySelector<HTMLInputElement>(".name").value,
+			});
+		}
 
 		inputRow.querySelector<HTMLInputElement>(".newTab").checked = false;
-		inputRow.querySelector<HTMLInputElement>(".preset").value = "custom";
+		presetElement.value = "custom";
 		inputRow.querySelector<HTMLInputElement>(".location").value = "above";
 		inputRow.querySelector<HTMLInputElement>(".name").value = "";
 		inputRow.querySelector(".name").classList.remove("tt-hidden");
@@ -514,7 +515,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		casinoGame.addEventListener("click", (event) => (event.target as Element).classList.toggle("disabled"));
 	}
 
-	const hideStocksParent = _preferences.querySelector("#hide-stocks");
+	const hideStocksParent = _preferences.querySelector<HTMLElement>("#hide-stocks");
 	if (hasAPIData() && stockdata) {
 		for (const stock in stockdata) {
 			if (typeof stockdata[stock] === "number") continue;
@@ -574,14 +575,14 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		optionNode.addEventListener("click", (event) => (event.target as Element).classList.toggle("disabled"));
 	});
 
-	_preferences.querySelector("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
-	_preferences.querySelector("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
-	_preferences.querySelector("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
-	_preferences.querySelector("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
-	_preferences.querySelector("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
-	_preferences.querySelector("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
+	_preferences.querySelector<HTMLElement>("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
+	_preferences.querySelector<HTMLElement>("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
+	_preferences.querySelector<HTMLElement>("#external-prometheus").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.prometheus, event));
+	_preferences.querySelector<HTMLElement>("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
+	_preferences.querySelector<HTMLElement>("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
+	_preferences.querySelector<HTMLElement>("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
 
-	_preferences.querySelector("#global-reviveProvider").addEventListener("change", (event) => {
+	_preferences.querySelector<HTMLElement>("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = (event.target as HTMLInputElement).value;
 		if (!provider) return;
 
@@ -628,14 +629,6 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	fillSettings();
 	requestPermissions();
 	storageListeners.settings.push(updateSettings);
-	if (isIframe) {
-		window.addEventListener("message", async (event) => {
-			if (event.data !== null && typeof event.data === "object" && event.data.torntools) {
-				if (event.data.save) await saveSettings();
-				else if (event.data.revert) revertSettings();
-			}
-		});
-	}
 
 	function switchSection(link: HTMLElement) {
 		const params = new URL(location.href).searchParams;
@@ -904,7 +897,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		return options.join("");
 	}
 
-	function addCustomLink(data: CustomLink) {
+	function addCustomLink(data: SavedCustomLink) {
 		const newRow = elementBuilder({
 			type: "li",
 			children: [
@@ -923,7 +916,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				elementBuilder({
 					type: "select",
 					class: "preset",
-					value: data.preset,
+					value: "preset" in data ? data.preset : "",
 					html: getCustomLinkOptions(),
 					events: {
 						change: (event) => {
@@ -953,14 +946,14 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				}),
 				elementBuilder({
 					type: "input",
-					class: `name ${data.preset === "custom" ? "" : "tt-hidden"}`,
+					class: `name ${"preset" in data ? "tt-hidden" : ""}`,
 					value: data.name,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
 				elementBuilder({
 					type: "input",
-					class: `href ${data.preset === "custom" ? "" : "tt-hidden"}`,
-					value: data.href,
+					class: `href ${"preset" in data ? "tt-hidden" : ""}`,
+					value: "preset" in data ? "" : data.href,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
 				elementBuilder({
@@ -1111,13 +1104,23 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		}
 
 		settings.customLinks = findAllElements("#customLinks > li:not(.input)", _preferences).map((link) => {
-			return {
-				newTab: link.querySelector<HTMLInputElement>(".newTab").checked,
-				preset: link.querySelector<HTMLInputElement>(".preset").value,
-				location: link.querySelector<HTMLInputElement>(".location").value,
-				name: link.querySelector<HTMLInputElement>(".name").value,
-				href: link.querySelector<HTMLInputElement>(".href").value,
-			};
+			const preset = link.querySelector<HTMLInputElement>(".preset").value;
+
+			if (preset === "custom") {
+				return {
+					newTab: link.querySelector<HTMLInputElement>(".newTab").checked,
+					location: link.querySelector<HTMLInputElement>(".location").value,
+					name: link.querySelector<HTMLInputElement>(".name").value,
+					href: link.querySelector<HTMLInputElement>(".href").value,
+				};
+			} else {
+				return {
+					newTab: link.querySelector<HTMLInputElement>(".newTab").checked,
+					preset,
+					location: link.querySelector<HTMLInputElement>(".location").value,
+					name: link.querySelector<HTMLInputElement>(".name").value,
+				};
+			}
 		});
 		settings.pages.chat.highlights = findAllElements("#chatHighlight > li:not(.input)", _preferences).map((highlight) => {
 			return {
@@ -1278,7 +1281,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			if (event.keyCode === 13) search();
 		});
 
-		const searchList = searchOverlay.querySelector("#tt-search-list");
+		const searchList = searchOverlay.querySelector<HTMLElement>("#tt-search-list");
 
 		async function search() {
 			const searchFor = searchOverlayInput.value.toLowerCase().trim();
@@ -1421,8 +1424,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	}
 
 	function addSaveDialog() {
-		if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
-		else document.querySelector("#saveSettingsBar").classList.remove("tt-hidden");
+		document.querySelector("#saveSettingsBar").classList.remove("tt-hidden");
 	}
 
 	function revertSettings() {
@@ -1787,7 +1789,7 @@ async function setupExport() {
 			.then(() => document.querySelector<HTMLElement>("#import-local-file-origin").click())
 			.catch(() => {});
 	});
-	exportSection.querySelector("#import-local-file-origin").addEventListener("change", (event) => {
+	exportSection.querySelector<HTMLElement>("#import-local-file-origin").addEventListener("change", (event) => {
 		const reader = new FileReader();
 		reader.addEventListener("load", async (event) => {
 			const result = event.target.result;

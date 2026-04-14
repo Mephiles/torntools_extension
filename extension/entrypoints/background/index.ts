@@ -42,7 +42,7 @@ async function onInstall() {
 	clearCache();
 
 	// Initial call
-	timedUpdates();
+	await timedUpdates();
 
 	void showIconBars();
 	storageListeners.settings.push(showIconBars);
@@ -71,7 +71,7 @@ async function onStartup() {
 	clearCache();
 
 	// Initial call
-	timedUpdates();
+	await timedUpdates();
 
 	void showIconBars();
 	storageListeners.settings.push(showIconBars);
@@ -95,7 +95,7 @@ async function onAlarm(alarm: Alarm) {
 			clearUsage();
 			break;
 		case ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS:
-			await Promise.allSettled(timedUpdates());
+			await timedUpdates();
 			await sendNotifications();
 			break;
 		case ALARM_NAMES.NOTIFICATIONS:
@@ -143,8 +143,8 @@ export default defineBackground(() => {
 
 	if ("connection" in navigator) {
 		// @ts-expect-error Not part of the standard, only available on Chromium-based browsers.
-		navigator.connection.addEventListener("change", () => {
-			if (navigator.onLine) timedUpdates();
+		navigator.connection.addEventListener("change", async () => {
+			if (navigator.onLine) await timedUpdates();
 		});
 	} else if (typeof window !== "undefined") {
 		window.addEventListener("online", timedUpdates);

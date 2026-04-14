@@ -1,10 +1,17 @@
 import "./profile-box.css";
 import Sortable from "sortablejs";
-import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
+import type {
+	PersonalStatsCrimesV1,
+	PersonalStatsCrimesV2,
+	UserHofResponse,
+	UserLastActionStatusEnum,
+	UserPersonalStatsFull,
+	UserStatusStateEnum,
+} from "tornapi-typescript";
 import { Feature } from "@/features/feature-manager";
 import { ttCache } from "@/utils/common/data/cache";
 import { attackHistory, filters, settings, stakeouts, userdata } from "@/utils/common/data/database";
-import type { StakeoutData } from "@/utils/common/data/default-database";
+import type { StakeoutData, StoredUserdata } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createTable, stringCellRenderer } from "@/utils/common/elements/table/table";
@@ -18,7 +25,7 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
-import { PHArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
+import { PHBoldArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@/utils/common/icons/phosphor-icons";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {
 	let node: Node;
@@ -72,12 +79,15 @@ function currencyCellRenderer(data: StatValue | { relative: StatValue; value: St
 
 type StatFormat = "currency";
 
-interface StatDef {
+type StatDef = {
 	name: string;
 	type: string;
-	v2Getter: (data: UserPersonalStatsFull) => number;
+
 	format?: StatFormat;
-}
+} & (
+	| { v2Getter: (data: UserPersonalStatsFull) => number }
+	| { targetGetter: (data: UserPersonalStatsFull & UserHofResponse) => number; playerGetter: (data: StoredUserdata) => number }
+);
 
 type StatValue = number | "N/A";
 
@@ -130,6 +140,12 @@ const STATS: StatDef[] = [
 	{ name: "Territory wall time", type: "attacking", v2Getter: (data) => data.personalstats.attacking.faction.territory.wall_time },
 
 	// Jobs
+	{
+		name: "Total working stats",
+		type: "jobs",
+		playerGetter: (data) => data.workstats.total,
+		targetGetter: (data) => data.hof.working_stats.value,
+	},
 	{ name: "Job points used", type: "jobs", v2Getter: (data) => data.personalstats.jobs.job_points_used },
 	{ name: "Times trained by director", type: "jobs", v2Getter: (data) => data.personalstats.jobs.trains_received },
 
@@ -545,15 +561,15 @@ async function showBox() {
 
 		showLoadingPlaceholder(section, true);
 
-		let data: UserPersonalStatsFull;
+		let data: UserPersonalStatsFull & UserHofResponse;
 		if (ttCache.hasValue("personal-stats", id)) {
-			data = ttCache.get<UserPersonalStatsFull>("personal-stats", id);
+			data = ttCache.get<UserPersonalStatsFull & UserHofResponse>("personal-stats", id);
 		} else {
 			try {
-				data = await fetchData<UserPersonalStatsFull>("tornv2", {
+				data = await fetchData<UserPersonalStatsFull & UserHofResponse>("tornv2", {
 					section: "user",
 					id,
-					selections: ["personalstats"],
+					selections: ["personalstats", "hof"],
 					params: { cat: ["all"] },
 					silent: true,
 				});
@@ -723,8 +739,15 @@ async function showBox() {
 					const stat = STATS.find((_stat) => _stat.name === name);
 					if (!stat) return false;
 
-					const them = stat.v2Getter(data);
-					const you = stat.v2Getter(userdata);
+					let them: number, you: number;
+					if ("v2Getter" in stat) {
+						them = stat.v2Getter(data);
+						you = stat.v2Getter(userdata);
+					} else {
+						them = stat.targetGetter(data);
+						you = stat.playerGetter(userdata);
+					}
+
 					if (Number.isNaN(them) || Number.isNaN(you)) return false;
 
 					return {
@@ -745,8 +768,15 @@ async function showBox() {
 
 			const _stats: StatRow[] = STATS.filter((stat) => !stats.includes(stat.name))
 				.map((stat): StatRow | false => {
-					const them = stat.v2Getter(data);
-					const you = stat.v2Getter(userdata);
+					let them: number, you: number;
+					if ("v2Getter" in stat) {
+						them = stat.v2Getter(data);
+						you = stat.v2Getter(userdata);
+					} else {
+						them = stat.targetGetter(data);
+						you = stat.playerGetter(userdata);
+					}
+
 					if (Number.isNaN(them) || Number.isNaN(you)) return false;
 
 					return {
@@ -988,7 +1018,7 @@ async function showBox() {
 			footer.appendChild(
 				elementBuilder({
 					type: "div",
-					children: [PHArrowClockwise()],
+					children: [PHBoldArrowClockwise()],
 					events: {
 						click: () => {
 							section.remove();
@@ -1006,7 +1036,7 @@ async function showBox() {
 			footer.appendChild(
 				elementBuilder({
 					type: "div",
-					children: [PHArrowClockwise()],
+					children: [PHBoldArrowClockwise()],
 					events: {
 						click: () => {
 							section.remove();

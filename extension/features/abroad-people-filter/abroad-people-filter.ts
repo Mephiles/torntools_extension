@@ -30,7 +30,7 @@ function initialiseFilters() {
 		filterRow(row, { statsEstimates }, true);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(async () => {
-		if (!localFilters["FF Score Max"].getValue() && !localFilters["FF Score Min"].getValue()) return;
+		if (!localFilters["FF Score Max"]?.getValue() && !localFilters["FF Score Min"]?.getValue()) return;
 
 		await applyFilters();
 	});
@@ -174,8 +174,8 @@ async function applyFilters() {
 	// Update level slider counter
 	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
 
-	const ffScoreMin = parseFloat(localFilters["FF Score Min"].getValue()) || null;
-	const ffScoreMax = parseFloat(localFilters["FF Score Max"].getValue()) || null;
+	const ffScoreMin = parseFloat(localFilters["FF Score Min"]?.getValue()) ?? null;
+	const ffScoreMax = parseFloat(localFilters["FF Score Max"]?.getValue()) ?? null;
 
 	// Save filters
 	await ttStorage.change({
