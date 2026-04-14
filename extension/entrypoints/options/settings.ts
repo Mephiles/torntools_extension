@@ -603,28 +603,10 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		});
 	});
 
-	const allVoices: { id: string; name: string; language: string }[] = [
-		{ id: "default", name: "System Default", language: "" },
-		...window.speechSynthesis.getVoices().map((voice) => ({
-			id: `${voice.name} (${voice.lang})`,
-			name: voice.name,
-			language: voice.lang,
-		})),
-	];
-
-	_preferences.querySelector("#notification-tts").parentElement.appendChild(
-		elementBuilder({
-			type: "select",
-			id: "tts-voice",
-			children: allVoices.map(({ id, name, language }) =>
-				elementBuilder({
-					type: "option",
-					text: language ? `${name} (${language})` : name,
-					attributes: { value: id },
-				}),
-			),
-		}),
-	);
+	configureVoices();
+	if ("onvoiceschanged" in window.speechSynthesis) {
+		window.speechSynthesis.onvoiceschanged = configureVoices;
+	}
 
 	fillSettings();
 	requestPermissions();
@@ -1452,6 +1434,34 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				window.open(location.href, "_blank");
 			})
 			.catch(() => {});
+	}
+
+	function configureVoices() {
+		document.getElementById("tts-voice")?.remove();
+
+		const allVoices: { id: string; name: string; language: string }[] = [
+			{ id: "default", name: "System Default", language: "" },
+			...window.speechSynthesis.getVoices().map((voice) => ({
+				id: `${voice.name} (${voice.lang})`,
+				name: voice.name,
+				language: voice.lang,
+			})),
+		];
+
+		_preferences.querySelector("#notification-tts").parentElement.appendChild(
+			elementBuilder({
+				type: "select",
+				id: "tts-voice",
+				children: allVoices.map(({ id, name, language }) =>
+					elementBuilder({
+						type: "option",
+						text: language ? `${name} (${language})` : name,
+						attributes: { value: id },
+					}),
+				),
+			}),
+		);
+		_preferences.querySelector<HTMLInputElement>("#tts-voice").value = settings.notifications.ttsVoice;
 	}
 }
 
