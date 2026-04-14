@@ -19,6 +19,7 @@ export function exposeDebugObjects() {
 		forceUpdateTorndata: () => BACKGROUND_SERVICE.forceUpdate("torndata"),
 		forceUpdateAll,
 		reinitializeTimers: () => BACKGROUND_SERVICE.reinitializeTimers(),
+		notification: (title: string, message: string) => BACKGROUND_SERVICE.notification(title, message),
 	};
 	// noinspection JSUnusedGlobalSymbols
 	globalThis.InternalObjects = {
