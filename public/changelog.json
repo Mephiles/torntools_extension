@@ -37,7 +37,8 @@
 				{ "message": "Fix 'Abroad People Filter' and 'Userlist Filter' not working if FFScouter is disabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors in 'User Alias - Chat' in private chats when chat bubbles are enabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix performance issues with 'FFScouter Gauge'.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix styling issues with 'Stocks Money Input' on mobile devices.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix styling issues with 'Stocks Money Input' on mobile devices.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Stocks Money Input' disappearing after buying or selling a stock.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },

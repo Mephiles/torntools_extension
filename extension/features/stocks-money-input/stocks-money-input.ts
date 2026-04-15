@@ -60,6 +60,8 @@ function createMoneyInputHandler(blockType: string) {
 	};
 }
 
+const INPUT_OBSERVERS: Record<string, MutationObserver> = {};
+
 async function addMoneyInputs(event: { target: EventTarget }) {
 	if (!isHTMLElement(event.target)) return;
 
@@ -67,6 +69,10 @@ async function addMoneyInputs(event: { target: EventTarget }) {
 	if (!stockOwnedElement) return;
 
 	for (const blockSelector of ["[class*='buyBlock__']", "[class*='sellBlock__']"]) {
+		if (document.querySelector(`${blockSelector} .${styles.ttMoneyInput}`)) return;
+
+		clearInputObserver(blockSelector);
+
 		const moneyInputElement = elementBuilder({
 			type: "div",
 			class: styles.ttMoneyInput,
@@ -81,8 +87,21 @@ async function addMoneyInputs(event: { target: EventTarget }) {
 			],
 		});
 
-		(await requireElement(`[class*='stockDropdown__'] ${blockSelector} [class*='manageBlock__']`)).appendChild(moneyInputElement);
+		const blockElement = await requireElement(blockSelector);
+		blockElement.querySelector("[class*='manageBlock__']").appendChild(moneyInputElement);
+
+		const observer = new MutationObserver(() => addMoneyInputs({ target: event.target }));
+		observer.observe(blockElement, { childList: true });
+
+		INPUT_OBSERVERS[blockSelector] = observer;
 	}
+}
+
+function clearInputObserver(selector: string) {
+	if (!(selector in INPUT_OBSERVERS)) return;
+
+	INPUT_OBSERVERS[selector].disconnect();
+	delete INPUT_OBSERVERS[selector];
 }
 
 async function addMoneyInputListeners() {
