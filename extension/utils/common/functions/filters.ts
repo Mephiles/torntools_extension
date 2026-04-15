@@ -10,6 +10,8 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { camelCase } from "@/utils/common/functions/formatting";
 import { WEAPON_BONUSES } from "@/utils/common/functions/torn";
+import { getUUID } from "@/utils/common/functions/utilities";
+import { PHFillFunnel, PHFillFunnelX } from "@/utils/common/icons/phosphor-icons";
 
 export type SpecialFilterValue = "both" | "yes" | "no" | "none";
 
@@ -447,4 +449,79 @@ export function createStatistics(name = "entries", addBrackets = false, lowercas
 
 export function getSpecialIcons(li: HTMLElement): string[] {
 	return findAllElements(":scope li[id*='icon']", li).map((x) => x.id.split("_")[0]);
+}
+
+interface FilterEnabledFunnelOptions {
+	id: string;
+	class: string;
+}
+
+export interface FilterEnabledFunnelObject {
+	element: HTMLDivElement;
+	setEnabled: (isEnabled: boolean) => void;
+	isEnabled: () => boolean;
+	onChange: (callback: (enabled: boolean) => void) => void;
+	dispose: () => void;
+}
+
+export function createFilterEnabledFunnel(partialOptions: Partial<FilterEnabledFunnelOptions> = {}): FilterEnabledFunnelObject {
+	const options: FilterEnabledFunnelOptions = {
+		id: getUUID(),
+		class: "",
+		...partialOptions,
+	};
+
+	const iconWrapper = elementBuilder({
+		type: "div",
+		class: ["tt-filter-enabled-funnel", options.class],
+		attributes: { id: options.id, title: "Disable this filter." },
+	});
+
+	let onChangeCallback: (enabled: boolean) => void;
+	let enabled = false;
+
+	function updateIcon() {
+		iconWrapper.innerHTML = "";
+		iconWrapper.appendChild(enabled ? PHFillFunnel() : PHFillFunnelX());
+		iconWrapper.setAttribute("title", enabled ? "Disable this filter." : "Enable this filter.");
+	}
+
+	function setEnabled(isEnabled: boolean) {
+		enabled = isEnabled;
+		updateIcon();
+	}
+
+	function isEnabled() {
+		return enabled;
+	}
+
+	function onChange(callback: (enabled: boolean) => void) {
+		onChangeCallback = callback;
+		iconWrapper.addEventListener("click", _onClickListener);
+	}
+
+	function dispose() {
+		if (onChangeCallback) {
+			iconWrapper.removeEventListener("click", _onClickListener);
+			onChangeCallback = undefined;
+		}
+	}
+
+	function _onClickListener(event: PointerEvent) {
+		event.stopPropagation();
+
+		enabled = !enabled;
+		updateIcon();
+		onChangeCallback(enabled);
+	}
+
+	updateIcon();
+
+	return {
+		element: iconWrapper,
+		setEnabled,
+		isEnabled,
+		onChange,
+		dispose,
+	};
 }

@@ -166,3 +166,9 @@ body.tt-tablet .tt-filter .content > div {
 .weaponBonus__section-class strong {
 	grid-area: title;
 }
+
+.tt-filter-enabled-funnel {
+	cursor: pointer;
+	font-size: 16px;
+	margin-right: -4px !important;
+}

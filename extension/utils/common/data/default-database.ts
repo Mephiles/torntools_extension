@@ -536,6 +536,7 @@ export const DEFAULT_STORAGE = {
 			revivesOn: new DefaultSetting("boolean", false),
 		},
 		jail: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			faction: new DefaultSetting("string", "All"),
 			timeStart: new DefaultSetting("number", 0),
