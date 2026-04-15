@@ -6,7 +6,7 @@ import { createCheckboxDuo } from "@/utils/common/elements/checkbox-duo/checkbox
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, type SpecialFilterValue } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, type SpecialFilterValue } from "@/utils/common/functions/filters";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
 
@@ -28,7 +28,7 @@ async function addFilters() {
 
 	localFilters = {};
 
-	const { content } = createContainer("Stocks Filter", {
+	const { content, options } = createContainer("Stocks Filter", {
 		class: "mt10 mb10",
 		previousElement: stockMarketRoot.firstElementChild,
 		compact: true,
@@ -93,6 +93,12 @@ async function addFilters() {
 
 	content.appendChild(filterContent);
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(applyFilter);
+	enabledFunnel.setEnabled(filters.stocks.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
+
 	await applyFilter();
 }
 
@@ -109,9 +115,21 @@ async function applyFilter() {
 	const profit: SpecialFilterValue = localFilters.profit.getValue();
 
 	// Save filters
-	await ttStorage.change({ filters: { stocks: { name, investment: { owned, benefit, passive }, price: { price, profit } } } });
+	await ttStorage.change({
+		filters: { stocks: { enabled: localFilters.enabled.isEnabled(), name, investment: { owned, benefit, passive }, price: { price, profit } } },
+	});
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
+		localFilters.statistics.updateStatistics(
+			findAllElements("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
+			findAllElements("#stockmarketroot ul[class*='stock___']").length,
+			content,
+		);
+		return;
+	}
+
 	for (const row of findAllElements("#stockmarketroot ul[class*='stock___']")) {
 		const id = parseInt(row.getAttribute("id"));
 

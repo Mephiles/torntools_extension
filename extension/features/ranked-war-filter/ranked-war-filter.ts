@@ -6,7 +6,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, RANK_TRIGGERS } from "@/utils/common/functions/torn";
@@ -48,7 +48,7 @@ function initialiseFilters() {
 }
 
 let interval: number | undefined;
-const localFilters = {};
+const localFilters: any = {};
 
 async function addFilters(rankedWarList?: Element) {
 	if (interval) {
@@ -61,7 +61,7 @@ async function addFilters(rankedWarList?: Element) {
 
 	interval = setInterval(() => filtering(), 2500);
 
-	const { content } = createContainer("Ranked War Filter", {
+	const { content, options } = createContainer("Ranked War Filter", {
 		nextElement: rankedWarList,
 		compact: true,
 		filter: true,
@@ -128,6 +128,12 @@ async function addFilters(rankedWarList?: Element) {
 
 	content.appendChild(filterContent);
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(() => filtering());
+	enabledFunnel.setEnabled(filters.factionRankedWar.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
+
 	await filtering();
 }
 
@@ -154,6 +160,7 @@ async function filtering() {
 	await ttStorage.change({
 		filters: {
 			factionRankedWar: {
+				enabled: localFilters.enabled.isEnabled(),
 				activity: activity,
 				levelStart: levelStart,
 				levelEnd: levelEnd,
@@ -164,6 +171,19 @@ async function filtering() {
 	});
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".members-list > li.tt-hidden").forEach((row) => {
+			row.classList.remove("tt-hidden");
+			delete row.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".members-list > li:not(.tt-hidden)", membersWrap).length,
+			findAllElements(".members-list > li", membersWrap).length,
+			content,
+		);
+		return;
+	}
+
 	for (const li of findAllElements(".members-list > li", membersWrap)) {
 		filterRow(li, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 	}

@@ -3,7 +3,7 @@ import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -35,7 +35,7 @@ async function initialiseFilters() {
 }
 
 async function addFilters() {
-	const { content } = createContainer("Friend Filter", {
+	const { content, options } = createContainer("Friend Filter", {
 		class: "mt10",
 		nextElement: await requireElement(".wrapper[role='alert']"),
 		compact: true,
@@ -71,6 +71,12 @@ async function addFilters() {
 	content.appendChild(filterContent);
 	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(() => applyFilters());
+	enabledFunnel.setEnabled(filters.friends.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
+
 	await applyFilters();
 
 	filterSetupComplete = true;
@@ -90,9 +96,22 @@ async function applyFilters() {
 	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
 
 	// Save filters
-	await ttStorage.change({ filters: { friends: { activity, levelStart, levelEnd } } });
+	await ttStorage.change({ filters: { friends: { enabled: localFilters.enabled.isEnabled(), activity, levelStart, levelEnd } } });
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".tableWrapper ul > li.tt-hidden").forEach((row) => {
+			row.classList.remove("tt-hidden");
+			delete row.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
+			findAllElements(".tableWrapper ul > li").length,
+			content,
+		);
+		return;
+	}
+
 	for (const row of findAllElements(".tableWrapper ul > li")) {
 		filterRow(row, { activity, level: { start: levelStart, end: levelEnd } }, false);
 	}

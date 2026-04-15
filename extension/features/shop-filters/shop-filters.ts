@@ -1,4 +1,3 @@
-import { getPageStatus } from "@/utils/common/functions/torn";
 import "./shop-filters.css";
 import { Feature } from "@/features/feature-manager";
 import { filters, settings, torndata } from "@/utils/common/data/database";
@@ -8,6 +7,7 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
+import { getPageStatus } from "@/utils/common/functions/torn";
 
 type ShopFilterId = "hideLoss" | "hideUnder100";
 

@@ -4,7 +4,7 @@ import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@/utils/common/functions/torn";
@@ -14,7 +14,7 @@ const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
 async function addFilter() {
 	await requireElement("[class*='stockTableWrapper___']");
-	const { content } = createContainer("Abroad Item Filter", {
+	const { content, options } = createContainer("Abroad Item Filter", {
 		class: "mb10",
 		nextElement: document.querySelector("[class*='shops__']"),
 		filter: true,
@@ -74,6 +74,11 @@ async function addFilter() {
 
 	content.appendChild(filterContent);
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(filtering);
+	enabledFunnel.setEnabled(filters.abroadItems.enabled);
+	options.appendChild(enabledFunnel.element);
+
 	await filtering();
 
 	async function filtering() {
@@ -81,6 +86,16 @@ async function addFilter() {
 		const profitOnly = settings.pages.travel.travelProfits && profitOnlyFilter.isChecked(content);
 		const categories = categoryFilter.getSelections(content) as string[];
 		const taxes = taxesFilter.getSelections(content) as string[];
+
+		if (!enabledFunnel.isEnabled()) {
+			findAllElements("[class*='stockTableWrapper___'] > li.tt-hidden").forEach((row) => row.classList.remove("tt-hidden"));
+			statistics.updateStatistics(
+				findAllElements("[class*='stockTableWrapper___'] > li:not(.tt-hidden)").length,
+				findAllElements("[class*='stockTableWrapper___'] > li").length,
+				content,
+			);
+			return;
+		}
 		if (profitOnly) await requireElement(".tt-travel-market-cell");
 
 		for (const li of findAllElements("[class*='stockTableWrapper___'] > li")) {

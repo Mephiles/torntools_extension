@@ -7,6 +7,7 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import {
+	createFilterEnabledFunnel,
 	createFilterSection,
 	createStatistics,
 	defaultFactionsItems,
@@ -19,7 +20,7 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils
 import { requireElement } from "@/utils/common/functions/requires";
 import { isAbroad, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
 
-const localFilters = {};
+const localFilters: any = {};
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
@@ -39,7 +40,7 @@ function initialiseFilters() {
 async function addFilters() {
 	await requireElement(".users-list");
 
-	const { content } = createContainer("People Filter", {
+	const { content, options } = createContainer("People Filter", {
 		class: "mt10",
 		nextElement: document.querySelector(".users-list-title"),
 		filter: true,
@@ -151,6 +152,12 @@ async function addFilters() {
 		localFilters["FF Score Max"] = { getValue: ffScoreFilterMax.getValue };
 	}
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(() => applyFilters());
+	enabledFunnel.setEnabled(filters.abroadPeople.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
+
 	await applyFilters();
 }
 
@@ -159,6 +166,7 @@ async function applyFilters() {
 
 	// Get the set filters
 	const content = findContainer("People Filter", { selector: "main" });
+
 	const activity = localFilters["Activity"].getSelections(content);
 	const faction = localFilters["Faction"].getSelected(content).trim();
 	const special = localFilters["Special"].getSelections(content);
@@ -181,6 +189,7 @@ async function applyFilters() {
 	await ttStorage.change({
 		filters: {
 			abroadPeople: {
+				enabled: localFilters.enabled.isEnabled(),
 				activity,
 				faction,
 				special,
@@ -195,6 +204,19 @@ async function applyFilters() {
 	});
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".users-list > li.tt-hidden").forEach((row) => {
+			row.classList.remove("tt-hidden");
+			delete row.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
+			content,
+		);
+		return;
+	}
+
 	for (const row of findAllElements(".users-list > li")) {
 		filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScoreMin, ffScoreMax }, false);
 	}

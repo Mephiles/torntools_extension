@@ -527,6 +527,7 @@ export const DEFAULT_STORAGE = {
 	},
 	filters: {
 		hospital: {
+			enabled: new DefaultSetting("boolean", true),
 			timeStart: new DefaultSetting("number", 0),
 			timeEnd: new DefaultSetting("number", 100),
 			levelStart: new DefaultSetting("number", 0),
@@ -548,6 +549,7 @@ export const DEFAULT_STORAGE = {
 			bailCost: new DefaultSetting("number", -1),
 		},
 		racing: {
+			enabled: new DefaultSetting("boolean", true),
 			hideRaces: new DefaultSetting<string[]>("array", []),
 			timeStart: new DefaultSetting("number", 0),
 			timeEnd: new DefaultSetting("number", 48),
@@ -569,6 +571,7 @@ export const DEFAULT_STORAGE = {
 			sellAnonymously: new DefaultSetting("boolean", false),
 		},
 		abroadPeople: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			status: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
@@ -586,6 +589,7 @@ export const DEFAULT_STORAGE = {
 			ffScoreMin: new DefaultSetting("number", null),
 		},
 		abroadItems: {
+			enabled: new DefaultSetting("boolean", true),
 			profitOnly: new DefaultSetting("boolean", false),
 			outOfStock: new DefaultSetting("boolean", false),
 			categories: new DefaultSetting<string[]>("array", []),
@@ -610,6 +614,7 @@ export const DEFAULT_STORAGE = {
 			hideUnavailable: new DefaultSetting("boolean", false),
 		},
 		userlist: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
@@ -637,6 +642,7 @@ export const DEFAULT_STORAGE = {
 			ffScoreMin: new DefaultSetting("number", null),
 		},
 		stocks: {
+			enabled: new DefaultSetting("boolean", true),
 			name: new DefaultSetting("string", ""),
 			investment: {
 				owned: new DefaultSetting<SpecialFilterValue>("string", "both"),
@@ -649,6 +655,7 @@ export const DEFAULT_STORAGE = {
 			},
 		},
 		faction: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 1),
 			levelEnd: new DefaultSetting("number", 100),
@@ -666,6 +673,7 @@ export const DEFAULT_STORAGE = {
 			},
 		},
 		factionArmory: {
+			enabled: new DefaultSetting("boolean", true),
 			hideUnavailable: new DefaultSetting("boolean", false),
 			weapons: {
 				name: new DefaultSetting("string", ""),
@@ -688,6 +696,7 @@ export const DEFAULT_STORAGE = {
 			},
 		},
 		factionRankedWar: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			status: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 1),
@@ -708,6 +717,7 @@ export const DEFAULT_STORAGE = {
 			hideUnder100: new DefaultSetting("boolean", false),
 		},
 		auction: {
+			enabled: new DefaultSetting("boolean", true),
 			weapons: {
 				name: new DefaultSetting("string", ""),
 				category: new DefaultSetting("string", ""),
@@ -732,17 +742,20 @@ export const DEFAULT_STORAGE = {
 			},
 		},
 		enemies: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			estimates: new DefaultSetting<string[]>("array", []),
 		},
 		friends: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 		},
 		targets: {
+			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
@@ -753,6 +766,7 @@ export const DEFAULT_STORAGE = {
 			targetType: new DefaultSetting<string[]>("array", []),
 		},
 		oc2: {
+			enabled: new DefaultSetting("boolean", true),
 			difficulty: new DefaultSetting<number[]>("array", []),
 			status: new DefaultSetting<string[]>("array", []),
 		},

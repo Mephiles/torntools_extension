@@ -5,7 +5,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { hasOC1Data } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -34,7 +34,7 @@ async function addFilter() {
 	const list = await requireElement(".tt-oc2-list");
 	await requireElement("[class*='loader___']", { parent: list, invert: true });
 
-	const { content } = createContainer("OC Filter", {
+	const { content, options } = createContainer("OC Filter", {
 		class: "mt10 mb10",
 		previousElement: list.parentElement.querySelector(".page-head-delimiter"),
 		filter: true,
@@ -84,6 +84,12 @@ async function addFilter() {
 		localFilters.status = { getSelections: statusFilter.getSelections };
 	}
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(applyFilters);
+	enabledFunnel.setEnabled(filters.oc2.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
+
 	await applyFilters();
 }
 
@@ -99,7 +105,21 @@ async function applyFilters() {
 	const filters = { difficulty, status };
 
 	// Save the filters
-	await ttStorage.change({ filters: { oc2: filters } });
+	await ttStorage.change({ filters: { oc2: { enabled: localFilters.enabled.isEnabled(), ...filters } } });
+
+	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".tt-oc2-list > [class*='wrapper___'].tt-hidden").forEach((row) => {
+			row.classList.remove("tt-hidden");
+			delete row.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".tt-oc2-list > [class*='wrapper___']:not(.tt-hidden)").length,
+			findAllElements(".tt-oc2-list > [class*='wrapper___']").length,
+			content,
+		);
+		return;
+	}
 
 	findAllElements(".tt-oc2-list > [class*='wrapper___']").forEach((li) => filterRow(li, filters));
 
