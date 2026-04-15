@@ -36,7 +36,8 @@
 				{ "message": "Avoid doing too many api calls on startup.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Abroad People Filter' and 'Userlist Filter' not working if FFScouter is disabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors in 'User Alias - Chat' in private chats when chat bubbles are enabled.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix performance issues with 'FFScouter Gauge'.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix performance issues with 'FFScouter Gauge'.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix styling issues with 'Stocks Money Input' on mobile devices.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
@@ -54,7 +55,9 @@
 				{
 					"message": "Rework the settings link to work better on the various screens, by having it take up the full screen.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Hold the stock sales tax into account for the 'Stocks Money Input'.", "contributor": "DeKleineKobini" },
+				{ "message": "Round down the amount of stocks to buy with 'Stocks Money Input'.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]
