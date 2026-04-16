@@ -6,7 +6,7 @@ import { createTextbox } from "@/utils/common/elements/textbox/textbox";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, getSpecialIcons, type SpecialFilterValue } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, getSpecialIcons, type SpecialFilterValue } from "@/utils/common/functions/filters";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireCondition, requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, HOSPITALIZATION_REASONS, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
@@ -38,7 +38,7 @@ const localFilters: any = {};
 async function addFilters() {
 	await requireElement(".userlist-wrapper .user-info-list-wrap");
 
-	const { content } = createContainer("Userlist Filter", {
+	const { content, options } = createContainer("Userlist Filter", {
 		class: "mt10",
 		nextElement: document.querySelector(".users-list-title"),
 		compact: true,
@@ -143,6 +143,12 @@ async function addFilters() {
 
 	content.appendChild(filterContent);
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(() => filtering());
+	enabledFunnel.setEnabled(filters.userlist.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
+
 	await filtering();
 }
 
@@ -183,6 +189,7 @@ async function filtering() {
 	await ttStorage.change({
 		filters: {
 			userlist: {
+				enabled: localFilters.enabled.isEnabled(),
 				activity: activity,
 				levelStart: levelStart,
 				levelEnd: levelEnd,
@@ -196,6 +203,19 @@ async function filtering() {
 	});
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".user-info-list-wrap > li.tt-hidden").forEach((row) => {
+			row.classList.remove("tt-hidden");
+			delete row.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".user-info-list-wrap > li:not(.tt-hidden)").length,
+			findAllElements(".user-info-list-wrap > li").length,
+			content,
+		);
+		return;
+	}
+
 	for (const li of findAllElements(".user-info-list-wrap > li")) {
 		filterRow(li, { activity, special, hospReason, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScoreMin, ffScoreMax }, false);
 	}

@@ -34,9 +34,9 @@ export class SourceService {
 			.split("\n")
 			.map((line) => {
 				if (line.trimStart().startsWith("at")) {
-					const matched = line.match(/at (.*) \(chrome-extension:\/\/.*\/content-scripts\/extension.js:(\d+):(\d+)\)/);
-					if (matched) {
-						const [, method, lineString, columnString] = matched;
+					const methodMatched = line.match(/at (.*) \(chrome-extension:\/\/.*\/content-scripts\/extension.js:(\d+):(\d+)\)/);
+					if (methodMatched) {
+						const [, method, lineString, columnString] = methodMatched;
 						const line = parseInt(lineString);
 						const column = parseInt(columnString);
 
@@ -44,6 +44,19 @@ export class SourceService {
 
 						if (location) {
 							return `    at ${method} (${location.path}:${location.line}:${location.column})`;
+						}
+					}
+
+					const matched = line.match(/at chrome-extension:\/\/.*\/content-scripts\/extension.js:(\d+):(\d+)/);
+					if (matched) {
+						const [, lineString, columnString] = matched;
+						const line = parseInt(lineString);
+						const column = parseInt(columnString);
+
+						const location = this.fromSource(line, column);
+
+						if (location) {
+							return `    at ${location.path}:${location.line}:${location.column}`;
 						}
 					}
 				}

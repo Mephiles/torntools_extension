@@ -3,7 +3,7 @@ import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isTextNode } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@/utils/common/functions/filters";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
@@ -33,12 +33,12 @@ function initialise() {
 	});
 }
 
-const localFilters = {};
+const localFilters: any = {};
 
 async function addFilters() {
 	await requireElement(".custom-events-wrap");
 
-	const { content } = createContainer("Racing Filter", {
+	const { content, options } = createContainer("Racing Filter", {
 		class: "mt10",
 		nextElement: document.querySelector(".custom-events-wrap"),
 		filter: true,
@@ -154,6 +154,12 @@ async function addFilters() {
 
 	content.appendChild(filterContent);
 
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(applyFilters);
+	enabledFunnel.setEnabled(filters.racing.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
+
 	await applyFilters();
 }
 
@@ -178,6 +184,9 @@ async function applyFilters() {
 	localFilters["Laps"].updateCounter(`Laps ${minLaps} - ${maxLaps}`, content);
 	localFilters["Drivers"].updateCounter(`Maximum Drivers ${driversMin} - ${driversMax}`, content);
 
+	// Update statistics
+	const allRaces = Array.from(document.querySelectorAll(".events-list > li"));
+
 	// Save filters
 	await ttStorage.change({
 		filters: {
@@ -196,6 +205,16 @@ async function applyFilters() {
 	});
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		localFilters["Statistics"].updateStatistics(
+			allRaces.filter((li) => li.className !== "clear" && !li.classList.contains("tt-hidden")).length,
+			allRaces.filter((li) => li.className !== "clear").length,
+			content,
+		);
+		return;
+	}
+
 	for (const li of findAllElements(".events-list > li")) {
 		if (li.className === "clear") {
 			continue;
@@ -334,11 +353,9 @@ async function applyFilters() {
 		li.classList.add("tt-hidden");
 	}
 
-	// Update statistics
-	const allRaces = document.querySelectorAll(".events-list > li");
 	localFilters["Statistics"].updateStatistics(
-		[...allRaces].filter((li) => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
-		[...allRaces].filter((li) => li.className !== "clear").length,
+		allRaces.filter((li) => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
+		allRaces.filter((li) => li.className !== "clear").length,
 		content,
 	);
 }

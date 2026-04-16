@@ -5,13 +5,13 @@ import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, FILTER_REGEXES, getSpecialIcons } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, FILTER_REGEXES, getSpecialIcons } from "@/utils/common/functions/filters";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@/utils/common/functions/torn";
 
 let filterContent: Element, lastActionState: boolean;
-let localFilters = {};
+let localFilters: any = {};
 
 function addListener() {
 	if (isInternalFaction) {
@@ -54,7 +54,7 @@ async function addFilter() {
 
 	await requireElement(".faction-info-wrap .members-list .table-row");
 
-	const { content } = createContainer("Member Filter", {
+	const { content, options } = createContainer("Member Filter", {
 		class: "mt10",
 		nextElement: document.querySelector(".faction-info-wrap > .members-list"),
 		compact: true,
@@ -123,6 +123,12 @@ async function addFilter() {
 	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
 	content.appendChild(filterContent);
+
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(applyFilter);
+	enabledFunnel.setEnabled(filters.faction.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
 
 	applyFilter().then(() => {});
 
@@ -206,6 +212,7 @@ async function applyFilter() {
 	await ttStorage.change({
 		filters: {
 			faction: {
+				enabled: localFilters.enabled.isEnabled(),
 				activity,
 				status,
 				levelStart,
@@ -219,6 +226,20 @@ async function applyFilter() {
 			},
 		},
 	});
+
+	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".members-list .table-body > li.tt-hidden").forEach((x) => {
+			x.classList.remove("tt-hidden");
+			delete x.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".members-list .table-body > li:not(.tt-hidden)").length,
+			findAllElements(".members-list .table-body > li").length,
+			content,
+		);
+		return;
+	}
 
 	for (const li of findAllElements(".members-list .table-body > li")) {
 		// Activity

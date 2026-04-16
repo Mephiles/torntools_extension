@@ -6,7 +6,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { type CheckboxObject, createCheckbox } from "@/utils/common/elements/checkbox/checkbox";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -55,6 +55,12 @@ async function addFilter(section: string | null) {
 	options.appendChild(cbHideUnavailable.element);
 	cbHideUnavailable.setChecked(filters.factionArmory.hideUnavailable);
 	cbHideUnavailable.onChange(applyFilters);
+
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(applyFilters);
+	enabledFunnel.setEnabled(filters.factionArmory.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
 
 	const statistics = createStatistics("items");
 	content.appendChild(statistics.element);
@@ -177,6 +183,7 @@ async function applyFilters() {
 
 	const hideUnavailable = cbHideUnavailable.isChecked();
 	const name = localFilters.name.getValue();
+
 	const filters: Partial<ArmoryFilters> = { name };
 
 	if (itemType === "weapons") {
@@ -192,7 +199,21 @@ async function applyFilters() {
 	}
 
 	// Save the filters
-	await ttStorage.change({ filters: { factionArmory: { hideUnavailable, [itemType]: filters } } });
+	await ttStorage.change({ filters: { factionArmory: { enabled: localFilters.enabled.isEnabled(), hideUnavailable, [itemType]: filters } } });
+
+	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((row) => {
+			row.classList.remove("tt-hidden");
+			delete row.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
+			findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
+			content,
+		);
+		return;
+	}
 
 	findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").forEach((li) => filterRow(li, { hideUnavailable, ...filters }));
 

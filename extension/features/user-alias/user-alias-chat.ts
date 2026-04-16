@@ -116,14 +116,17 @@ function addAliasMessage(message: Element | null = null) {
 				profileLink.firstChild.textContent = alias.alias;
 			});
 		}
-	} else {
-		const profileLink = message.querySelector<HTMLAnchorElement>("a[href*='/profiles.php?XID=']");
-		const messageUserID = profileLink.href.split("=")[1];
-		if (messageUserID in settings.userAlias) {
-			profileLink.dataset.original = profileLink.textContent;
-			profileLink.firstChild.textContent = settings.userAlias[messageUserID].alias;
-		}
+		return;
 	}
+
+	const profileLink = message.querySelector<HTMLAnchorElement>("a[href*='/profiles.php?XID=']");
+	if (!profileLink) return;
+
+	const messageUserID = profileLink.href.split("=")[1];
+	if (!(messageUserID in settings.userAlias)) return;
+
+	profileLink.dataset.original = profileLink.textContent;
+	profileLink.firstChild.textContent = settings.userAlias[messageUserID].alias;
 }
 
 function removeAlias() {

@@ -26,9 +26,8 @@ export type TornV1PawnshopResponse = TornV1["selections"]["pawnshop"]["response"
 export type TornV1StatsResponse = TornV1["selections"]["stats"]["response"];
 export type TornV1StocksResponse = TornV1["selections"]["stocks"]["response"];
 
-export type UserV1Ammo = UserV1AmmoResponse["ammo"];
 export type UserV1Bar = UserV1BarsResponse["nerve"];
-export type UserV1BazaarItem = UserV1BazaarResponse["bazaar"];
+export type UserV1BazaarItem = UserV1BazaarResponse["bazaar"][number];
 export type UserV1ChainBar = UserV1BarsResponse["chain"];
 
 export type FactionV1Crimes = FactionV1CrimesResponse["crimes"];

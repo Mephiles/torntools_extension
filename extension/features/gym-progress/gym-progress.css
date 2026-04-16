@@ -1,5 +1,9 @@
 [class*="notification__"].tt-modified {
 	height: 75px !important;
+
+	body.tt-mobile & {
+		height: 85px !important;
+	}
 }
 
 .tt-gym-energy-progress > span {

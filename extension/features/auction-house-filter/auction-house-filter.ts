@@ -5,7 +5,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, createWeaponBonusSection } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -39,7 +39,7 @@ async function addFilters(itemType: string) {
 
 	await requireElement(".tabContent[aria-hidden='false'] .items-list");
 
-	const { content } = createContainer("Auction House Filter", {
+	const { content, options } = createContainer("Auction House Filter", {
 		class: "mt10",
 		nextElement: document.querySelector("#auction-house-tabs"),
 		filter: true,
@@ -47,6 +47,12 @@ async function addFilters(itemType: string) {
 
 	// Reset local filters as there are multiple filter types.
 	localFilters = { itemType };
+
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(applyFilters);
+	enabledFunnel.setEnabled(filters.auction.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
 
 	const statistics = createStatistics("items");
 	content.appendChild(statistics.element);
@@ -185,6 +191,7 @@ async function applyFilters() {
 	const itemType = localFilters.itemType;
 
 	const name = localFilters.name.getValue();
+
 	const filters: Partial<AuctionHouseFilters> = { name };
 
 	if (itemType === "items" || itemType === "weapons") {
@@ -206,9 +213,22 @@ async function applyFilters() {
 	}
 
 	// Save filters
-	await ttStorage.change({ filters: { auction: { [itemType]: filters } } });
+	await ttStorage.change({ filters: { auction: { enabled: localFilters.enabled.isEnabled(), [itemType]: filters } } });
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id].tt-hidden").forEach((row) => {
+			row.classList.remove("tt-hidden");
+			delete row.dataset.hideReason;
+		});
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
+			findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
+			content,
+		);
+		return;
+	}
+
 	for (const row of findAllElements(".tabContent[aria-hidden='false'] .items-list > li[id]")) {
 		filterRow(row, filters);
 	}

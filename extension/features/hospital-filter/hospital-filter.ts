@@ -3,7 +3,7 @@ import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -22,7 +22,7 @@ function initialiseFilters() {
 async function addFilters() {
 	await requireElement(".userlist-wrapper.hospital-list-wrapper .users-list .time");
 
-	const { content } = createContainer("Hospital Filter", {
+	const { content, options } = createContainer("Hospital Filter", {
 		class: "mt10",
 		nextElement: document.querySelector(".users-list-title"),
 		compact: true,
@@ -47,13 +47,19 @@ async function addFilters() {
 	localFilters["Activity"] = { getSelections: activityFilter.getSelections };
 
 	const reviveFilter = createFilterSection({
-		title: "Revives",
+		title: "Revives On",
 		checkbox: "Enabled",
 		default: filters.hospital.revivesOn,
 		callback: filtering,
 	});
 	filterContent.appendChild(reviveFilter.element);
-	localFilters["Revives"] = { isChecked: reviveFilter.isChecked };
+	localFilters["Revives On"] = { isChecked: reviveFilter.isChecked };
+
+	const enabledFunnel = createFilterEnabledFunnel();
+	enabledFunnel.onChange(filtering);
+	enabledFunnel.setEnabled(filters.hospital.enabled);
+	options.appendChild(enabledFunnel.element);
+	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
 
 	const factionFilter = createFilterSection({
 		title: "Faction",
@@ -99,7 +105,8 @@ async function filtering(pageChange: boolean = false) {
 	await requireElement(".users-list > li");
 	const content = findContainer("Hospital Filter").querySelector("main");
 	const activity: string[] = localFilters["Activity"].getSelections(content);
-	const revivesOn: boolean = localFilters["Revives"].isChecked(content);
+	const revivesOn = localFilters["Revives On"].isChecked(content);
+
 	const faction: string = localFilters["Faction"].getSelected(content).trim();
 	const times = localFilters["Time Filter"].getStartEnd(content);
 	const timeStart = parseInt(times.start);
@@ -119,6 +126,7 @@ async function filtering(pageChange: boolean = false) {
 	await ttStorage.change({
 		filters: {
 			hospital: {
+				enabled: localFilters.enabled.isEnabled(),
 				activity: activity,
 				revivesOn: revivesOn,
 				faction: faction,
@@ -131,6 +139,16 @@ async function filtering(pageChange: boolean = false) {
 	});
 
 	// Actual Filtering
+	if (!localFilters.enabled.isEnabled()) {
+		findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		localFilters["Statistics"].updateStatistics(
+			findAllElements(".users-list > li:not(.tt-hidden)").length,
+			findAllElements(".users-list > li").length,
+			content,
+		);
+		return;
+	}
+
 	for (const li of findAllElements(".users-list > li")) {
 		showRow(li);
 

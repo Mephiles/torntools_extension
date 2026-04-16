@@ -2,7 +2,6 @@ import "./mission-rewards.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
-import type { UserV1Ammo } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -34,9 +33,7 @@ async function showRewards() {
 		if (type === "Ammo") {
 			const { title: size, ammoType } = information;
 
-			// @ts-expect-error Bundling Migration; wrong type in tornapi-typescript
-			const ammo: UserV1Ammo[] = userdata.ammo;
-			const found = findItemInList<UserV1Ammo>(ammo, { size, type: ammoType });
+			const found = findItemInList(userdata.ammo, { size, type: ammoType });
 			const owned = found ? found.quantity : 0;
 
 			actionsWrap.insertBefore(
