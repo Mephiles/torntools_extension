@@ -2,6 +2,7 @@ import "./warn-crime.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
+import { hasOC1Data } from "@/utils/common/functions/api";
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getUserDetails } from "@/utils/common/functions/torn";
@@ -88,6 +89,12 @@ export default class WarnCrimeFeature extends Feature {
 
 	precondition() {
 		return isInternalFaction;
+	}
+
+	requirements() {
+		if (hasOC1Data()) return "Still on OC1.";
+
+		return true;
 	}
 
 	isEnabled() {
