@@ -21,7 +21,7 @@ import { checkDevice, elementBuilder, findAllElements, getSearchParameters, rota
 import { capitalizeText, daySuffix, dropDecimals, formatDate, formatNumber, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
 import { getPageTheme, type InternalPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
 import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRESET, HIGHLIGHT_PLACEHOLDERS, hasDarkMode } from "@/utils/common/functions/torn";
-import { isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
+import { isIntNumber, isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { CONTRIBUTORS, TEAM } from "@/utils/common/team";
 import "@phosphor-icons/web/regular/style.css";
 import type { SavedCustomLink } from "@/features/custom-links/custom-links";
@@ -1118,8 +1118,8 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		});
 		settings.alliedFactions = findAllElements<HTMLInputElement>("#allyFactions input")
 			.map((input) => {
-				if (input.value.match(/^\d+$/) && Number.isNaN(parseInt(input.value))) return input.value.trim();
-				else return parseInt(input.value.trim());
+				if (isIntNumber(input.value)) return parseInt(input.value.trim());
+				else return input.value.trim();
 			})
 			.filter((x) => typeof x !== "string" || !!x);
 		settings.userAlias = {};

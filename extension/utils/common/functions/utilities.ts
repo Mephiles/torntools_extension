@@ -96,6 +96,7 @@ export function findItemInList<T>(list: T[], attributes: object = {}): undefined
 
 export function isIntNumber(number: string | null): boolean {
 	if (number === null) return false;
+	if (number.match(/[a-zA-Z]/)) return false;
 
 	const _number = parseFloat(number.toString());
 	return !Number.isNaN(_number) && Number.isFinite(_number) && _number % 1 === 0;
