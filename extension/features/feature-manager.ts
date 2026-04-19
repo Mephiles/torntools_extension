@@ -125,7 +125,7 @@ class FeatureManager {
 
 	private async logInfo(...params: any[]) {
 		if (!settings) {
-			loadDatabase().then(() => this.logInfo(params));
+			loadDatabase().then(() => this.logInfo(...params));
 			return;
 		}
 		if (!settings.developer) return;
