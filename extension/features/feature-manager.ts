@@ -123,7 +123,7 @@ class FeatureManager {
 		});
 	}
 
-	private async logInfo(...params: any[]) {
+	private logInfo(...params: any[]) {
 		if (!settings) {
 			loadDatabase().then(() => this.logInfo(...params));
 			return;
@@ -247,7 +247,7 @@ class FeatureManager {
 			return;
 		}
 
-		this.logInfo("Registered new feature.", feature).then(() => {});
+		this.logInfo("Registered new feature.", feature);
 		this.features.push(feature);
 		this.showResult(feature, "registered", { message: "Loaded. Starting feature." });
 
@@ -264,7 +264,7 @@ class FeatureManager {
 		await checkDevice();
 		try {
 			if (feature.isEnabled()) {
-				this.logInfo("Starting feature.", feature).then(() => {});
+				this.logInfo("Starting feature.", feature);
 
 				const requirements = await getValueAsync(feature.requirements);
 				if (typeof requirements === "string") {
@@ -293,7 +293,7 @@ class FeatureManager {
 				}
 			} else {
 				if (this.loadedFeatures.includes(feature.name)) {
-					this.logInfo("Disabling feature.", feature).then(() => {});
+					this.logInfo("Disabling feature.", feature);
 					await this.executeFunction(feature.cleanup);
 					if (feature.shouldTriggerEvents()) {
 						triggerCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, { name: feature.name });
