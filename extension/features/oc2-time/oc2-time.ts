@@ -6,7 +6,7 @@ import { addInformationSection, checkDevice, elementBuilder, showInformationSect
 import { type FormatTimeOptions, formatTime } from "@/utils/common/functions/formatting";
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { countdownTimers } from "@/utils/common/functions/timers";
-import { LINKS } from "@/utils/common/functions/torn";
+import { isPageWithSidebar, LINKS } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 async function showTimer() {
@@ -110,13 +110,14 @@ export default class OC2TimeFeature extends Feature {
 		super("OC2 Time", "sidebar");
 	}
 
-	async precondition() {
-		return (await checkDevice()).hasSidebar;
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	async requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!hasOC2Data()) return "No OC 2 data.";
+		else if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
 
 		return true;
 	}

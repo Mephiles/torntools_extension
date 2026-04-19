@@ -1784,6 +1784,10 @@ export function getPage() {
 	return page;
 }
 
+export function isPageWithSidebar(): boolean {
+	return !["attack"].includes(getPage());
+}
+
 export function isCaptcha() {
 	return !!document.querySelector(".captcha");
 }

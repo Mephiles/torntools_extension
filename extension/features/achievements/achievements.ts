@@ -8,7 +8,7 @@ import { checkDevice, elementBuilder, findElementWithText, mobile, tablet } from
 import { formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
 import { countTimers } from "@/utils/common/functions/timers";
-import { getPage } from "@/utils/common/functions/torn";
+import { getPage, isPageWithSidebar } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 
 type Achievement = {
@@ -30,6 +30,7 @@ interface EnrichedGoal {
 	completed: boolean;
 	count: number;
 }
+
 type EnrichedAchievement = Achievement & { goals: EnrichedGoal[]; current: number; completed: boolean };
 
 const ACHIEVEMENTS: Achievement[] = [
@@ -985,6 +986,10 @@ function removeAchievements() {
 export default class AchievementsFeature extends Feature {
 	constructor() {
 		super("Achievements", "achievements", ExecutionTiming.IMMEDIATELY);
+	}
+
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	async requirements() {

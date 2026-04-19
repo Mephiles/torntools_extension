@@ -6,6 +6,7 @@ import { fetchData } from "@/utils/common/functions/api";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 import { getTimeUntilNextJobUpdate, sleep } from "@/utils/common/functions/utilities";
 
 function jobPointsUseListener() {
@@ -94,13 +95,18 @@ export default class JobPointsTooltipFeature extends Feature {
 		super("Job Points Tooltip", "sidebar");
 	}
 
-	isEnabled() {
-		return settings.pages.sidebar.showJobPointsToolTip;
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	async requirements() {
 		if (!userdata.job) return "Currently you don't have a job.";
+
 		return true;
+	}
+
+	isEnabled() {
+		return settings.pages.sidebar.showJobPointsToolTip;
 	}
 
 	initialise() {

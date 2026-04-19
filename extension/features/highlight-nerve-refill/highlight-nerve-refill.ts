@@ -3,6 +3,7 @@ import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { requireElement } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 
 function applyStyle() {
 	if (!userdata.refills.nerve && settings.pages.sidebar.highlightNerve) document.documentElement.classList.add("tt-highlight-nerve-refill");
@@ -12,6 +13,16 @@ function applyStyle() {
 export default class HighlightNerveRefillFeature extends Feature {
 	constructor() {
 		super("Highlight Nerve Refill", "sidebar", ExecutionTiming.IMMEDIATELY);
+	}
+
+	precondition() {
+		return isPageWithSidebar();
+	}
+
+	async requirements() {
+		if (!hasAPIData() || !settings.apiUsage.user.refills) return "No API access.";
+
+		return true;
 	}
 
 	isEnabled() {
@@ -29,11 +40,5 @@ export default class HighlightNerveRefillFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.sidebar.highlightNerve", "userdata.refills.nerve"];
-	}
-
-	async requirements() {
-		if (!hasAPIData() || !settings.apiUsage.user.refills) return "No API access.";
-
-		return true;
 	}
 }

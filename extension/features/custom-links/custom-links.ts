@@ -3,7 +3,7 @@ import { settings } from "@/utils/common/data/database";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, findParent, hasSidebar, mobile } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { ALL_AREAS, CUSTOM_LINKS_PRESET, getSidebarArea } from "@/utils/common/functions/torn";
+import { ALL_AREAS, CUSTOM_LINKS_PRESET, getSidebarArea, isPageWithSidebar } from "@/utils/common/functions/torn";
 import "./custom-links.css";
 
 interface BaseCustomLink {
@@ -150,6 +150,10 @@ function removeLinks() {
 export default class CustomLinksFeature extends Feature {
 	constructor() {
 		super("Custom Links", "sidebar");
+	}
+
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	isEnabled() {

@@ -4,6 +4,7 @@ import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { checkDevice, findElementWithText, isElement } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 import { PHFillCaretDown } from "@/utils/common/icons/phosphor-icons";
 
 let observer: MutationObserver | undefined;
@@ -50,6 +51,10 @@ async function clickListener() {
 export default class CollapsibleAreasFeature extends Feature {
 	constructor() {
 		super("Collapse Areas", "sidebar");
+	}
+
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	async requirements() {

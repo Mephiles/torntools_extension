@@ -5,6 +5,7 @@ import { checkDevice, elementBuilder, findAllElements } from "@/utils/common/fun
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { getPageTheme } from "@/utils/common/functions/pages";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 import { PHBoldArrowBendUpLeft } from "@/utils/common/icons/phosphor-icons";
 import { torntools } from "@/utils/common/icons/torntools";
 
@@ -78,8 +79,14 @@ export default class SettingsLinkFeature extends Feature {
 		super("Settings Link", "sidebar");
 	}
 
-	async precondition() {
-		return (await checkDevice()).hasSidebar;
+	precondition() {
+		return isPageWithSidebar();
+	}
+
+	async requirements() {
+		if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
+
+		return true;
 	}
 
 	isEnabled() {

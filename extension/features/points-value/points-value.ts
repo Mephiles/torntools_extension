@@ -5,6 +5,7 @@ import { hasAPIData } from "@/utils/common/functions/api";
 import { checkDevice, executeScript, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 
 function setTitleAttributes() {
 	findAllElements(".tt-points-value > span").forEach((element) => {
@@ -65,9 +66,13 @@ export default class PointsValueFeature extends Feature {
 		super("Points Value", "sidebar");
 	}
 
+	precondition() {
+		return isPageWithSidebar();
+	}
+
 	async requirements() {
-		const devices = await checkDevice();
-		if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
+		const { hasSidebar } = await checkDevice();
+		if (!hasSidebar) return "Not supported on mobiles or tablets, or page without sidebar!";
 
 		if (!hasAPIData()) return "No API access.";
 		return true;

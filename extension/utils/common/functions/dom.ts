@@ -1,5 +1,5 @@
 import "./dom.css";
-import { requireCondition, requireElement } from "@/utils/common/functions/requires";
+import { requireCondition, requireDOMInteractive, requireElement } from "@/utils/common/functions/requires";
 import { getUUID } from "@/utils/common/functions/utilities";
 import { PHFillCaretDown, PHFillCaretUp } from "@/utils/common/icons/phosphor-icons";
 
@@ -112,22 +112,17 @@ interface DeviceInformation {
 	hasSidebar: boolean;
 }
 
-export function checkDevice() {
-	return new Promise<DeviceInformation>((resolve) => {
-		if (document.readyState === "complete" || document.readyState === "interactive") check();
-		else window.addEventListener("DOMContentLoaded", check);
+export async function checkDevice(): Promise<DeviceInformation> {
+	await requireDOMInteractive();
 
-		function check() {
-			const innerWidth = window.innerWidth;
-			mobile = innerWidth <= 600;
-			tablet = innerWidth <= 1000 && innerWidth >= 600;
-			hasSidebar = innerWidth > 1000;
-			tabletHorizontal = tablet && innerWidth >= 784;
-			tabletVertical = tablet && !tabletHorizontal;
+	const innerWidth = window.innerWidth;
+	mobile = innerWidth <= 600;
+	tablet = innerWidth <= 1000 && innerWidth >= 600;
+	hasSidebar = innerWidth > 1000;
+	tabletHorizontal = tablet && innerWidth >= 784;
+	tabletVertical = tablet && !tabletHorizontal;
 
-			resolve({ mobile, tablet, tabletHorizontal, tabletVertical, hasSidebar });
-		}
-	});
+	return { mobile, tablet, tabletHorizontal, tabletVertical, hasSidebar };
 }
 
 export function getSearchParameters(input?: string) {

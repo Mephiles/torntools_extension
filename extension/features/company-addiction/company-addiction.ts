@@ -6,7 +6,7 @@ import { fetchData, hasAPIData } from "@/utils/common/functions/api";
 import type { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { LINKS } from "@/utils/common/functions/torn";
+import { isPageWithSidebar, LINKS } from "@/utils/common/functions/torn";
 import { getTimeUntilNextJobUpdate } from "@/utils/common/functions/utilities";
 
 async function showCompanyAddictionLevel() {
@@ -73,8 +73,8 @@ export default class CompanyAddictionFeature extends Feature {
 		super("Company Addiction Level", "sidebar");
 	}
 
-	async precondition() {
-		return (await checkDevice()).hasSidebar;
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	async requirements() {
@@ -82,6 +82,7 @@ export default class CompanyAddictionFeature extends Feature {
 		else if (userdata.job === null) return "You need to have a company job.";
 		else if (userdata.job.type === "job") return "City jobs do not have addiction effects.";
 		else if (userdata.job.position === "Director") return "Company directors do not have addiction.";
+		else if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
 
 		return true;
 	}

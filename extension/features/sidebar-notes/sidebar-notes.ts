@@ -5,6 +5,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, removeContainer } from "@/utils/common/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText, findParent, isHTMLElement } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 
 async function showNotes() {
 	await requireSidebar();
@@ -49,8 +50,14 @@ export default class SidebarNotesFeature extends Feature {
 		super("Sidebar Notes", "sidebar");
 	}
 
-	async precondition() {
-		return (await checkDevice()).hasSidebar;
+	precondition() {
+		return isPageWithSidebar();
+	}
+
+	async requirements() {
+		if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
+
+		return true;
 	}
 
 	isEnabled() {

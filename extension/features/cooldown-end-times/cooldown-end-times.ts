@@ -3,6 +3,7 @@ import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatDate, formatTime, textToTime } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 
 const REQUIRED_TOOLTIP_TITLES = [
 	"Education",
@@ -63,6 +64,10 @@ async function removeEndTimes() {
 export default class CooldownEndTimesFeature extends Feature {
 	constructor() {
 		super("Cooldown End Times", "sidebar");
+	}
+
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	isEnabled() {

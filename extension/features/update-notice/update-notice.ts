@@ -3,6 +3,7 @@ import { Feature } from "@/features/feature-manager";
 import { settings, version } from "@/utils/common/data/database";
 import { checkDevice, elementBuilder, findElementWithText } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 
 async function showNotice() {
 	await requireSidebar();
@@ -50,8 +51,14 @@ export default class UpdateNoticeFeature extends Feature {
 		super("Update Notice", "sidebar");
 	}
 
-	async precondition() {
-		return (await checkDevice()).hasSidebar;
+	precondition() {
+		return isPageWithSidebar();
+	}
+
+	async requirements() {
+		if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
+
+		return true;
 	}
 
 	isEnabled() {

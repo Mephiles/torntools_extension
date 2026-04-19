@@ -7,6 +7,7 @@ import { checkDevice, elementBuilder, findElementWithText, findParent, isElement
 import { dropDecimals, type FormatTimeOptions, formatTime } from "@/utils/common/functions/formatting";
 import { requireSidebar } from "@/utils/common/functions/requires";
 import { countdownTimers } from "@/utils/common/functions/timers";
+import { isPageWithSidebar } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";
 import { PHFillBell, PHFillBellSlash } from "@/utils/common/icons/phosphor-icons";
 
@@ -132,6 +133,20 @@ export default class NPCLootTimesFeature extends Feature {
 		super("NPC Loot Times", "sidebar");
 	}
 
+	precondition() {
+		return isPageWithSidebar();
+	}
+
+	async requirements() {
+		const { hasSidebar } = await checkDevice();
+		if (!hasSidebar) return "Not supported on mobiles or tablets!";
+
+		if (!settings.external.yata && !settings.external.tornstats && !settings.external.lzpt) return "YATA, TornStats or LZPT not enabled";
+		else if (npcs === null) return "NPC data is not yet available.";
+
+		return true;
+	}
+
 	isEnabled() {
 		return settings.pages.sidebar.npcLootTimes;
 	}
@@ -146,15 +161,5 @@ export default class NPCLootTimesFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.sidebar.npcLootTimes", "npcs.targets"];
-	}
-
-	async requirements() {
-		const { hasSidebar } = await checkDevice();
-		if (!hasSidebar) return "Not supported on mobiles or tablets!";
-
-		if (!settings.external.yata && !settings.external.tornstats && !settings.external.lzpt) return "YATA, TornStats or LZPT not enabled";
-		else if (npcs === null) return "NPC data is not yet available.";
-
-		return true;
 	}
 }

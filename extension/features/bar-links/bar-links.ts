@@ -3,7 +3,7 @@ import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { checkDevice } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { isInCountry } from "@/utils/common/functions/torn";
+import { isInCountry, isPageWithSidebar } from "@/utils/common/functions/torn";
 
 const BAR_LINKS: Record<string, () => string> = {
 	"[class*='bar__'][class*='energy__']": () => {
@@ -73,6 +73,10 @@ function removeLinks() {
 export default class BarLinksFeature extends Feature {
 	constructor() {
 		super("Bar Links", "sidebar", ExecutionTiming.IMMEDIATELY);
+	}
+
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	async requirements() {
