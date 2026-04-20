@@ -7,7 +7,7 @@ Here are some important resources:
 - [Discord](https://discord.com/invite/ukyK6f6) is where we all chat with each other.
 - [WXT Documentation](https://wxt.dev) is the official documentation for WXT, our used framework.
 
-### Submitting changes
+## Submitting changes
 
 Please send a [Pull Request to TornTools](https://github.com/Mephiles/torntools_extension/pull/new/master) with a clear
 list of what you've done. Please follow our coding conventions (below) and make sure all of your commits are atomic (one
@@ -16,7 +16,7 @@ feature per commit).
 Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes
 should contain more information about the changes.
 
-### Coding conventions
+## Coding conventions
 
 Start reading our code and you'll get the hang of it. We optimize for readability:
 We have biome formatting to help you follow our coding conventions.
@@ -63,3 +63,10 @@ We have biome formatting to help you follow our coding conventions.
 
 - Chrome: [load an unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
 - Firefox: [install a temporary extension](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)
+
+## Guidelines for external services
+
+External services are welcome to be introduced, but need to follow our guidelines:
+* Without any exceptions, it's opt-in.
+* While services are allowed to benefit from our users, there has to be a mutual benefit, in favor of our users.
+* Requiring authentication is fine (although preferable not, how fewer keys we need to share the better), but requiring an active paid subscription is not. Active paid subscriptions may enhance the experience, but the free version still needs to be sufficiently beneficial.
