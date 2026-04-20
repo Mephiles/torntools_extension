@@ -60,7 +60,7 @@ async function showInformation() {
 	}
 
 	if (settings.pages.travel.efficientRehabSelect) {
-		const selectRehabs = Math.max(maxRehabs - safe, 1);
+		const selectRehabs = Math.min(Math.max(maxRehabs - safe, 1), calculateMaximumAffordableRehabs() ?? maxRehabs);
 		window.dispatchEvent(new CustomEvent<EfficientRehabDetails>("tt-efficient-rehab", { detail: { ticks: selectRehabs } }));
 		adjustSlider(selectRehabs);
 	}
@@ -78,6 +78,16 @@ function calculateSafeRehabs() {
 		minimum: Math.ceil(20 / rehabAP),
 		safe: Math.ceil(19 / rehabAP + 1),
 	};
+}
+
+function calculateMaximumAffordableRehabs() {
+	const costPerRehabElement = document.querySelector<HTMLElement>(".money[data-cost]");
+	if (!costPerRehabElement) return null;
+
+	const costPerRehab = parseInt(costPerRehabElement.dataset.cost!);
+	const money = parseInt(document.querySelector<HTMLElement>("#user-money").dataset.money);
+
+	return Math.floor(money / costPerRehab);
 }
 
 function removeInformation() {
