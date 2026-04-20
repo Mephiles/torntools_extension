@@ -2403,7 +2403,9 @@ export const TAX_RATES = {
 } as const;
 
 export const CUSTOM_LINKS_PRESET = {
+	"Auction House": { link: "https://www.torn.com/amarket.php" },
 	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },
+	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 	"Faction : Armory": { link: "https://www.torn.com/factions.php?step=your#/tab=armoury" },
 	"Faction : Organized Crimes": { link: "https://www.torn.com/factions.php?step=your#/tab=crimes" },
 	"Item Market": { link: "https://www.torn.com/page.php?sid=ItemMarket" },
@@ -2412,7 +2414,6 @@ export const CUSTOM_LINKS_PRESET = {
 	"Points Market": { link: "https://www.torn.com/pmarket.php" },
 	Raceway: { link: "https://www.torn.com/page.php?sid=racing" },
 	"Travel Agency": { link: "https://www.torn.com/page.php?sid=travel" },
-	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 } as const;
 
 export const HIGHLIGHT_PLACEHOLDERS = [
