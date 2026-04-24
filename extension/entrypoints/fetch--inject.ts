@@ -38,12 +38,13 @@ function interceptFetch(channel: string) {
 						}
 					}
 
+					const url = response.url || (input as string);
 					const detail: FetchDetails = {
 						page,
 						json,
 						text: await response.clone().text(),
 						fetch: {
-							url: response.url,
+							url,
 							body,
 							status: response.status,
 						},
