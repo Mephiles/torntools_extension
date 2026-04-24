@@ -524,6 +524,7 @@ export const DEFAULT_STORAGE = {
 			lzpt: new DefaultSetting("boolean", false),
 			tornw3b: new DefaultSetting("boolean", false),
 			ffScouter: new DefaultSetting("boolean", false),
+			tornintel: new DefaultSetting("boolean", false),
 		},
 	},
 	filters: {

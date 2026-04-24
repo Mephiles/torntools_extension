@@ -260,3 +260,18 @@ export interface PrometheusTravelResponse {
 	};
 	timestamp: number;
 }
+
+export interface TornIntelTravelResponse {
+	stocks: {
+		[country: string]: {
+			update: number;
+			stocks: {
+				id: number;
+				name: string;
+				quantity: number;
+				cost: number;
+			}[];
+		};
+	};
+	timestamp: number;
+}

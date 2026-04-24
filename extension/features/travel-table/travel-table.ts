@@ -4,7 +4,7 @@ import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescrip
 import { filters, settings, torndata, userdata } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
-import type { PrometheusTravelResponse, YATATravelResponse } from "@/utils/common/functions/api.types";
+import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@/utils/common/functions/api.types";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@/utils/common/functions/dom";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
@@ -12,6 +12,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/list
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@/utils/common/functions/torn";
 import { toCorrectType } from "@/utils/common/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@/utils/common/icons/phosphor-icons";
+import { ENABLE_TORN_INTEL_TABLE } from "@/utils/feature-toggles";
 
 interface CountryInformation {
 	name: string;
@@ -552,12 +553,17 @@ async function startTable() {
 				});
 			};
 			const fetchPrometheus = () => fetchData<PrometheusTravelResponse>("prometheus", { section: "travel", relay: true });
+			const fetchTornIntel = () => fetchData<TornIntelTravelResponse>("tornintel", { section: "foreign-stock/travel-table", relay: true });
 
-			if (settings.external.yata && settings.external.prometheus) return Promise.any([fetchPrometheus(), fetchYata()]);
-			else if (settings.external.yata) return fetchYata();
-			else if (settings.external.prometheus) return fetchPrometheus();
+			const services: (Promise<YATATravelResponse> | Promise<PrometheusTravelResponse> | Promise<TornIntelTravelResponse>)[] = [];
 
-			throw "No available data.";
+			if (settings.external.prometheus) services.push(fetchPrometheus());
+			if (settings.external.tornintel && ENABLE_TORN_INTEL_TABLE) services.push(fetchTornIntel());
+			if (settings.external.yata) services.push(fetchYata());
+
+			if (services.length > 1) return Promise.any(services);
+			else if (services.length === 1) return services[0];
+			else throw "No available data.";
 		}
 
 		type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
@@ -924,6 +930,8 @@ export default class TravelTableFeature extends Feature {
 
 	requirements() {
 		if (!hasAPIData()) return "No API data!";
+		else if (ENABLE_TORN_INTEL_TABLE && !settings.external.yata && !settings.external.prometheus && !settings.external.tornintel)
+			return "Prometheus, Torn Intel and YATA not enabled";
 		else if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
 		else if (isCaptcha()) return "Captcha present.";
 
