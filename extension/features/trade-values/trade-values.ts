@@ -47,7 +47,9 @@ async function addItemValues() {
 					}
 
 					const name = nameRegex[0].replace(/\.$/, "");
-					quantityMap[name] = parseInt(quantityRegex[0]);
+
+					if (name in quantityMap) quantityMap[name] += parseInt(quantityRegex[0]);
+					else quantityMap[name] = parseInt(quantityRegex[0]);
 				}
 
 				torndata.items

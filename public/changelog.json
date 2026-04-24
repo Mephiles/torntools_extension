@@ -44,7 +44,11 @@
 				{ "message": "Fix 'Stocks Money Input' disappearing after buying or selling a stock.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Gym Progress' styling issues on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Ally Faction' options not properly saving faction names if they begin with a number.", "contributor": "DeKleineKobini" },
-				{ "message": "Fallback in the fetch interceptor to avoid errors with there not being a url.", "contributor": "DeKleineKobini" }
+				{ "message": "Fallback in the fetch interceptor to avoid errors with there not being a url.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Non-stackable items in a trade of the same type wouldn't be counted in 'Trade Value' in the log.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
