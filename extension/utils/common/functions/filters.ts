@@ -43,7 +43,7 @@ export const defaultFactionsItems: FilterOption[] = [
 		value: "In a faction",
 		description: "In a faction",
 	},
-	...(hasAPIData() && !!userdata.faction
+	...(hasAPIData() && userdata.faction
 		? [
 				{
 					value: userdata.faction.tag,

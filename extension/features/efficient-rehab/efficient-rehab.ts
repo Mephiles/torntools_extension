@@ -27,7 +27,7 @@ function addListener() {
 			if (step === "tryRehab") {
 				removeInformation();
 				void showInformation();
-			} else if (step === "checkAddiction" && !!json) {
+			} else if (step === "checkAddiction" && json) {
 				knownPercentages = json.percentages;
 				removeInformation();
 				void showInformation();
