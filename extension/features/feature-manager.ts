@@ -107,8 +107,7 @@ class FeatureManager {
 			}
 		});
 		window.addEventListener("unhandledrejection", (e) => {
-			const error = e.reason instanceof Error ? e.reason : new Error(e.reason);
-			this.logError("Uncaught promise rejection:", error);
+			this.logError("Uncaught promise rejection:", e.reason);
 		});
 
 		loadDatabase().then(() => {
@@ -164,12 +163,16 @@ class FeatureManager {
 		} else {
 			info = [this.logPadding + info];
 		}
-		if (error && typeof error === "object") {
-			if (error instanceof Error) {
-				info.push(await SOURCE_SERVICE.mappedStack(error.stack));
-			} else if (error instanceof ErrorEvent) {
-				const location = await SOURCE_SERVICE.fromSource(error.lineno, error.colno);
-				info.push(`${error.message} @ ${location.file}:${location.line}`);
+		if (error) {
+			if (typeof error === "object") {
+				if (error instanceof Error) {
+					info.push(await SOURCE_SERVICE.mappedStack(error.stack));
+				} else if (error instanceof ErrorEvent) {
+					const location = await SOURCE_SERVICE.fromSource(error.lineno, error.colno);
+					info.push(`${error.message} @ ${location.file}:${location.line}`);
+				}
+			} else {
+				info.push(error);
 			}
 		}
 
