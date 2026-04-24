@@ -28,7 +28,6 @@ async function showNotes() {
 				async mouseup(event) {
 					if (!isHTMLElement(event.target) || event.target.style.height === notes.sidebar.height) return;
 
-					console.log("Resized sidebar notes.", event.target.style.height);
 					await ttStorage.change({ notes: { sidebar: { height: event.target.style.height } } });
 				},
 				async change(event) {
