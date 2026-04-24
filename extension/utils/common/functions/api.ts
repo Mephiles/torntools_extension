@@ -27,6 +27,7 @@ export const FETCH_PLATFORMS = {
 	tornw3b: "https://weav3r.dev/",
 	ffscouter: "https://ffscouter.com/",
 	laekna: "https://laekna-revive-bot.onrender.com/",
+	tornintel: "https://torn-intel.com/",
 } as const;
 
 export const FACTION_ACCESS = {
@@ -159,6 +160,10 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 				url = FETCH_PLATFORMS.ffscouter;
 				path = ["api", "v1", options.section].join("/");
 				key = api.ffScouter.key;
+				break;
+			case "tornintel":
+				url = FETCH_PLATFORMS.tornintel;
+				path = ["api", options.section].join("/");
 				break;
 			default:
 				url = FETCH_PLATFORMS[location];

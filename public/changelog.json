@@ -17,7 +17,8 @@
 				{ "message": "Add total working stats as personal stat in the profile box.", "contributor": "DeKleineKobini" },
 				{ "message": "Show total challenge contributions.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow most filters to be disabled without losing the state of said filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Configurable TTS voice.", "contributor": "DeKleineKobini" }
+				{ "message": "Configurable TTS voice.", "contributor": "DeKleineKobini" },
+				{ "message": "Sync travel data to Torn Intel.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Items in bazaars with prices lower than the city sell prices were not always highlighted.", "contributor": "DeKleineKobini" },

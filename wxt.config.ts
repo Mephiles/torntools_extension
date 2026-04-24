@@ -67,6 +67,7 @@ export default defineConfig({
 				"https://weav3r.dev/*",
 				"https://ffscouter.com/",
 				"https://laekna-revive-bot.onrender.com/",
+				"https://torn-intel.com/",
 			],
 			permissions: ["storage", "notifications", "background", "offscreen", "alarms"],
 			web_accessible_resources: [

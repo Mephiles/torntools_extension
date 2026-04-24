@@ -581,6 +581,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 	_preferences.querySelector<HTMLElement>("#external-lzpt").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.lzpt, event));
 	_preferences.querySelector<HTMLElement>("#external-tornw3b").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornw3b, event));
 	_preferences.querySelector<HTMLElement>("#external-ffScouter").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.ffscouter, event));
+	_preferences.querySelector<HTMLElement>("#external-tornintel").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornintel, event));
 
 	_preferences.querySelector<HTMLElement>("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = (event.target as HTMLInputElement).value;
@@ -648,7 +649,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		_preferences.querySelector<HTMLInputElement>(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.querySelector<HTMLInputElement>(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 
-		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b", "ffScouter"]) {
+		for (const service of ["tornstats", "yata", "prometheus", "lzpt", "tornw3b", "ffScouter", "tornintel"]) {
 			_preferences.querySelector<HTMLInputElement>(`#external-${service}`).checked = settings.external[service];
 		}
 
@@ -1052,6 +1053,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		settings.external.lzpt = _preferences.querySelector<HTMLInputElement>("#external-lzpt").checked;
 		settings.external.tornw3b = _preferences.querySelector<HTMLInputElement>("#external-tornw3b").checked;
 		settings.external.ffScouter = _preferences.querySelector<HTMLInputElement>("#external-ffScouter").checked;
+		settings.external.tornintel = _preferences.querySelector<HTMLInputElement>("#external-tornintel").checked;
 
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
@@ -1369,6 +1371,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			{ id: "external-lzpt", origin: FETCH_PLATFORMS.lzpt },
 			{ id: "external-tornw3b", origin: FETCH_PLATFORMS.tornw3b },
 			{ id: "external-ffScouter", origin: FETCH_PLATFORMS.ffscouter },
+			{ id: "external-tornintel", origin: FETCH_PLATFORMS.tornintel },
 		]) {
 			if (!_preferences.querySelector<HTMLInputElement>(`#${id}`)?.checked) continue;
 

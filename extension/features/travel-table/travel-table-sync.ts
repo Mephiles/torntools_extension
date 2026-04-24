@@ -46,6 +46,11 @@ function syncData(items: SyncItem[], country: string) {
 			.then((response) => console.log("TT - Updated Prometheus abroad prices.", response))
 			.catch((error) => console.warn("TT - Failed to update Prometheus abroad prices.", error));
 	}
+	if (settings.external.tornintel) {
+		fetchData("tornintel", { section: "foreign-stock/upload", method: "POST", body: data, relay: true })
+			.then((response) => console.log("TT - Updated Torn Intel abroad prices.", response))
+			.catch((error) => console.warn("TT - Failed to update Torn Intel abroad prices.", error));
+	}
 }
 
 export default class TravelSyncFeature extends Feature {
@@ -66,11 +71,11 @@ export default class TravelSyncFeature extends Feature {
 	}
 
 	storageKeys() {
-		return ["settings.pages.travel.table", "settings.external.yata", "settings.external.prometheus"];
+		return ["settings.pages.travel.table", "settings.external.yata", "settings.external.prometheus", "settings.external.tornintel"];
 	}
 
 	requirements() {
-		if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
+		if (!settings.external.yata && !settings.external.prometheus && !settings.external.tornintel) return "Prometheus, Torn Intel and YATA not enabled";
 
 		return true;
 	}

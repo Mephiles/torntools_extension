@@ -988,6 +988,18 @@
 								<span class="tabbed note"> Only required if you use a different key for FFScouter. Will use known key otherwise. </span>
 							</div>
 						</div>
+						<div class="external-service">
+							<span>Torn Intel</span>
+							<div class="note">Your API key is NOT shared with this service.</div>
+							<div class="links">
+								<a href="https://torn-intel.com" target="_blank">Website<i class="ph ph-arrow-square-out"></i></a>
+								<a href="https://torn-intel.com/terms" target="_blank">Terms of Service<i class="ph ph-arrow-square-out"></i></a>
+							</div>
+							<div class="option">
+								<input id="external-tornintel" type="checkbox" />
+								<label for="external-tornintel">Allow Torn Intel integration.</label>
+							</div>
+						</div>
 					</section>
 					<section name="competition">
 						<div class="header">Competitions</div>
@@ -1646,7 +1658,7 @@
 						<div class="option">
 							<input id="travel-table" type="checkbox" />
 							<label for="travel-table">Show a table of all countries with their item and their stocks.</label>
-							<label class="note" for="travel-table">Requires YATA or Prometheus to be enabled as external service.</label>
+							<label class="note" for="travel-table">Requires Prometheus or YATA to be enabled as external service.</label>
 						</div>
 						<div class="option tabbed">
 							<input id="travel-autoTravelTableCountry" type="checkbox" />
