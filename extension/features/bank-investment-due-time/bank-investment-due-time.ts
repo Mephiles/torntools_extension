@@ -53,7 +53,7 @@ export default class BankInvestmentDueTimeFeature extends Feature {
 
 	requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.money) return "No API access.";
-		else if (!userdata.money.city_bank.until) return "No active investment.";
+		else if (!userdata.money.city_bank?.until) return "No active investment.";
 
 		return true;
 	}
