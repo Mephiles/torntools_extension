@@ -109,9 +109,9 @@ const BONUSES: Record<string, Bonus> = {
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, uri } }) => {
 		if (!FEATURE_MANAGER.isEnabled(WeaponBonusInformationFeature)) return;
-		if (page !== "loader") return;
+		if (page !== "page") return;
 
-		if (uri.sid === "getAttackLogSequence") await showInformation();
+		if (uri.sid === "attackLog") await showInformation();
 	});
 }
 

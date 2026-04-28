@@ -50,7 +50,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Fix 'Bank Investment Due Time' throwing an error when there is no active investment.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix 'Disable Ally Attacks Loader' no longer loading.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix 'Disable Ally Attacks Loader' no longer loading.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Weapon Bonus Information' not loading for longer attack logs.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
