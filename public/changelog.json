@@ -49,7 +49,8 @@
 					"message": "Non-stackable items in a trade of the same type wouldn't be counted in 'Trade Value' in the log.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Fix 'Bank Investment Due Time' throwing an error when there is no active investment.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix 'Bank Investment Due Time' throwing an error when there is no active investment.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Disable Ally Attacks Loader' no longer loading.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },

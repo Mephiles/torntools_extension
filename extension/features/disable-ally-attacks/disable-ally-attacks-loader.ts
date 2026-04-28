@@ -8,12 +8,13 @@ import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
 
 let closedOption = false;
+
 async function startListener() {
 	addFetchListener(({ detail: { page, json } }) => {
 		if (
 			closedOption ||
 			!FEATURE_MANAGER.isEnabled(DisableAllyAttacksLoaderFeature) ||
-			page !== "loader" ||
+			page !== "page" ||
 			!json ||
 			!json.DB ||
 			!json.DB.defenderUser ||
@@ -29,7 +30,10 @@ async function disableAttackButton(factionID: number | null) {
 	if (!factionID) return;
 	if (document.querySelector(".tt-disable-ally-attack")) return;
 
-	const selector = mobile || tablet ? "[class*='playerArea__'] [class*='modal__']" : "[class*='players__'] #defender [class*='modal__']";
+	const selector =
+		mobile || tablet
+			? "[class*='playerArea__'] [class*='modal__'][class*='defender___']"
+			: "[class*='player___']:has([class*='rose___']) [class*='modal__']";
 
 	if (!((hasAPIData() && userdata.faction?.id === factionID) || settings.alliedFactions.some((ally) => ally === factionID))) {
 		return;
@@ -61,7 +65,7 @@ function removeWarning() {
 
 export default class DisableAllyAttacksLoaderFeature extends Feature {
 	constructor() {
-		super("Disable Ally Attacks", "loader", ExecutionTiming.IMMEDIATELY);
+		super("Disable Ally Attacks", "attacks", ExecutionTiming.IMMEDIATELY);
 	}
 
 	precondition() {
@@ -74,10 +78,6 @@ export default class DisableAllyAttacksLoaderFeature extends Feature {
 
 	async initialise() {
 		await startListener();
-	}
-
-	async execute() {
-		await disableAttackButton(null);
 	}
 
 	cleanup() {
