@@ -13,7 +13,7 @@ function initialise() {
 		if (!FEATURE_MANAGER.isEnabled(RacingFilterFeature) || !("uri" in detail)) return;
 
 		const { uri } = detail;
-		if ((page === "page" || page === "loader") && uri) {
+		if (page === "page" && uri) {
 			const sid = uri.sid;
 			if (sid !== "racing" && sid !== "undefined") {
 				removeFilters();

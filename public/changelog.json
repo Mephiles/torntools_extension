@@ -75,7 +75,8 @@
 				{ "message": "Round down the amount of stocks to buy with 'Stocks Money Input'.", "contributor": "DeKleineKobini" },
 				{ "message": "Only show 'FF Scouter Gauge' on focused tabs, as part of performance fixes.", "contributor": "DeKleineKobini" },
 				{ "message": "As request by staff, disable 'Auto API Demo' by default and for all existing users.", "contributor": "DeKleineKobini" },
-				{ "message": "Only select as much rehabs as you can afford in 'Efficient Rehab'.", "contributor": "DeKleineKobini" }
+				{ "message": "Only select as much rehabs as you can afford in 'Efficient Rehab'.", "contributor": "DeKleineKobini" },
+				{ "message": "Cleanup last references to the old loader.php page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]

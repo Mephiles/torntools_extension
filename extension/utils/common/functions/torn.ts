@@ -1755,7 +1755,6 @@ export function getPage() {
 
 			break;
 		}
-		case "loader":
 		case "page": {
 			const sid = getSearchParameters().get("sid").toLowerCase();
 

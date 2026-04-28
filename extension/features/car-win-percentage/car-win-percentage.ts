@@ -10,7 +10,7 @@ function initialiseListener() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
 		if (
 			FEATURE_MANAGER.isEnabled(CarWinPercentageFeature) &&
-			(page === "loader" || page === "page") &&
+			page === "page" &&
 			(xhr.responseURL.includes("tab=parts") || xhr.responseURL.includes("tab=cars") || xhr.responseURL.includes("race_carlist.js"))
 		)
 			await addPercentage();

@@ -113,7 +113,7 @@ async function setupAttackHistory() {
 						elementBuilder({
 							type: "a",
 							text: lastAttackText,
-							href: `https://www.torn.com/loader.php?sid=attackLog&ID=${data.lastAttackCode}`,
+							href: `https://www.torn.com/page.php?sid=attackLog&ID=${data.lastAttackCode}`,
 							attributes: { target: "_blank" },
 						}),
 					],

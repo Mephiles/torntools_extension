@@ -10,8 +10,9 @@ import { getPageStatus } from "@/utils/common/functions/torn";
 function initialise() {
 	addXHRListener(async ({ detail: { page, xhr, uri } }) => {
 		if (!FEATURE_MANAGER.isEnabled(RacingUpgradesFeature)) return;
+		if (page !== "page") return;
 
-		if ((page === "page" || page === "loader") && uri) {
+		if (uri) {
 			const sid = uri.sid;
 			if (sid !== "racing") return;
 
@@ -24,7 +25,7 @@ function initialise() {
 				car.classList.add("tt-modified");
 				car.addEventListener("click", () => requireElement(".pm-categories-wrap").then(showUpgrades));
 			}
-		} else if (page === "page" || page === "loader2") {
+		} else {
 			const params = new URLSearchParams(xhr.requestBody);
 
 			const sid = params.get("sid");
