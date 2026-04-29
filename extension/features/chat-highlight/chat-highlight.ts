@@ -70,18 +70,22 @@ function initialiseHighlights() {
 }
 
 function readSettings() {
-	highlights = settings.pages.chat.highlights.map<HighlightColor>((highlight) => {
-		let { name, color } = highlight;
+	highlights = settings.pages.chat.highlights
+		.map<HighlightColor>((highlight) => {
+			let { name, color } = highlight;
 
-		for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
-			if (name !== placeholder.name) continue;
+			for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
+				if (name !== placeholder.name) continue;
 
-			name = placeholder.value();
-			break;
-		}
+				name = placeholder.value();
+				break;
+			}
 
-		return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
-	});
+			if (name === null || name.trim() === "") return null;
+
+			return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
+		})
+		.filter((h) => !!h);
 
 	applyAllHighlights();
 }

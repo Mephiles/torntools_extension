@@ -2418,7 +2418,7 @@ export const CUSTOM_LINKS_PRESET = {
 export const HIGHLIGHT_PLACEHOLDERS = [
 	{
 		name: "$player",
-		value: () => userdata?.profile?.name || "",
+		value: () => userdata?.profile?.name ?? null,
 		description: "Your player name.",
 	},
 ] as const;
