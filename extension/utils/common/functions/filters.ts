@@ -58,10 +58,9 @@ export const defaultFactionsItems: FilterOption[] = [
 	},
 ];
 
-export const FILTER_REGEXES: Record<string, RegExp> = {
+export const FILTER_REGEXES = {
 	activity: /Online|Idle|Offline/g,
-	activity_v2_svg: /online|idle|offline/,
-};
+} as const;
 
 type FilterCallback = (() => void) | (() => Promise<void>);
 interface CommonOptions {

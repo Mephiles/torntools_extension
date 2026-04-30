@@ -244,7 +244,7 @@ async function applyFilter() {
 	for (const li of findAllElements(".members-list .table-body > li")) {
 		// Activity
 		if (activity.length) {
-			const userActivity = li.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+			const userActivity = li.querySelector("[class*='userOnlineStatusIcon___']").getAttribute("alt");
 
 			if (!activity.some((x) => x.trim() === userActivity)) {
 				hideRow(li);

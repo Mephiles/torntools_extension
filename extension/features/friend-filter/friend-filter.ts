@@ -135,7 +135,7 @@ interface FriendFilters {
 
 function filterRow(row: HTMLElement, filters: Partial<FriendFilters>, individual: boolean) {
 	if (filters.activity) {
-		const activity = row.querySelector("[class*='userStatusWrap___'] svg").getAttribute("fill").match(FILTER_REGEXES.activity_v2_svg)[0];
+		const activity = row.querySelector("[class*='userOnlineStatusIcon___']").getAttribute("alt");
 		if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 			hide("activity");
 			return;

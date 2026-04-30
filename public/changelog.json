@@ -56,6 +56,10 @@
 				{
 					"message": "Avoid highlighting too much in the chat highlight when an highlight value is empty or non-existent.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "'Ranked War Filter' and 'Faction Member Filter' no longer worked with filtering on activity.",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"changes": [
