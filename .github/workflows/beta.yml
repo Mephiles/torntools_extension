@@ -6,6 +6,8 @@ on:
             - master
         paths:
             - 'extension/**'
+            - 'package.json'
+            - 'wxt.config.*'
     workflow_dispatch:
 
 concurrency:
