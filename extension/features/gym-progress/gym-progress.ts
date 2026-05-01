@@ -3,7 +3,7 @@ import { Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
-import { convertToNumber, dropDecimals, formatNumber } from "@/utils/common/functions/formatting";
+import { convertToNumber, dropDecimals, formatNumber, roundNearest } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
 
 async function addProgress() {
@@ -30,7 +30,7 @@ async function addProgress() {
 	let goal = gymGoals[index];
 	if (hasAPIData() && userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
 
-	const stat = dropDecimals(goal * (percentage / 100));
+	const stat = roundNearest(dropDecimals(goal * (percentage / 100)), 5);
 	if (!stat || !goal) return;
 
 	gymNotification.closest("[class*='notification__']").classList.add("tt-modified");

@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "When you 'Custom Links' contain links with custom links, they no longer showed up.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Round your 'Gym Progress' to the nearest multiple of 5.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
