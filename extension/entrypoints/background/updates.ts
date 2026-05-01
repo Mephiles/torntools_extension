@@ -38,6 +38,7 @@ import type {
 	UserWeaponExpResponse,
 	UserWorkStatsResponse,
 } from "tornapi-typescript";
+import { calculateOC } from "@/entrypoints/background/updates-helper";
 import { ttCache } from "@/utils/common/data/cache";
 import {
 	api,
@@ -1492,7 +1493,7 @@ export async function updateFactiondata() {
 				...data,
 				access: FACTION_ACCESS.full_access,
 				date: Date.now(),
-				userCrime: calculateOC(data.crimes), // FIXME - Look into OC2 not breaking this.
+				userCrime: calculateOC(data.crimes, userdata.profile.id), // FIXME - Look into OC2 not breaking this.
 			};
 		} catch (error) {
 			if (error?.code === 7) {
@@ -1502,26 +1503,6 @@ export async function updateFactiondata() {
 			}
 
 			return { error, access: FACTION_ACCESS.none, date: 0 };
-		}
-
-		function calculateOC(crimes: FactionV1Crimes) {
-			let oc = -1;
-
-			for (const id of Object.keys(crimes).reverse()) {
-				const crime = crimes[id];
-
-				if (
-					crime.initiated ||
-					!Object.keys(crime.participants)
-						.map((value) => parseInt(value))
-						.includes(userdata.profile.id)
-				)
-					continue;
-
-				oc = crime.time_ready * 1000;
-			}
-
-			return oc;
 		}
 	}
 
