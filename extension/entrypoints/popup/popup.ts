@@ -20,7 +20,16 @@ import { changeAPIKey, checkAPIPermission, fetchData } from "@/utils/common/func
 import type { TornW3BResult } from "@/utils/common/functions/api.types";
 import type { TornV1Stock, UserV1Bar, UserV1ChainBar } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, findAllElements, isHTMLElement, rotateElement, showLoadingPlaceholder } from "@/utils/common/functions/dom";
-import { applyPlural, capitalizeText, dropDecimals, formatDate, formatNumber, formatTime, textToTime, toSeconds } from "@/utils/common/functions/formatting";
+import {
+	applyPlural,
+	capitalizeText,
+	dropDecimals,
+	type FormatTimeOptions,
+	formatDate,
+	formatNumber,
+	formatTime,
+	toSeconds,
+} from "@/utils/common/functions/formatting";
 import { getPageTheme } from "@/utils/common/functions/pages";
 import {
 	ALL_ICONS,
@@ -234,17 +243,22 @@ async function setupDashboard() {
 		updateUpdateTimer();
 		updateStatusTimer();
 
-		for (const countdown of findAllElements(".countdown.automatic[data-seconds]")) {
-			const seconds = parseInt(countdown.dataset.seconds) - 1;
+		const now = Date.now();
+		for (const countdown of findAllElements(".countdown.automatic[data-seconds], .countdown.automatic[data-end]")) {
+			let seconds: number;
+			if (countdown.dataset.end) {
+				seconds = parseInt(((parseInt(countdown.dataset.end) - now) / 1000).toString());
+			} else {
+				seconds = parseInt(countdown.dataset.seconds) - 1;
+			}
 
 			if (seconds <= 0) {
 				countdown.textContent = countdown.dataset.doneText || "Ready";
-				// delete countdown.dataset.seconds;
-				continue;
+				delete countdown.dataset.seconds;
+			} else {
+				countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+				countdown.dataset.seconds = seconds.toString();
 			}
-
-			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
-			countdown.dataset.seconds = seconds.toString();
 		}
 	}, 1000);
 
@@ -343,34 +357,26 @@ async function setupDashboard() {
 					}
 
 					const userdataIcon = userdata.icons.find((i) => i.id === parseInt(icon.dataset.id));
-					if (userdataIcon) {
-						icon.classList.remove("tt-hidden");
+					if (!userdataIcon) {
+						icon.classList.add("tt-hidden");
+						return;
+					}
 
-						const iconText = `${userdataIcon.title} - ${userdataIcon.description}`;
-						let iconHTML: string;
+					icon.classList.remove("tt-hidden");
 
-						if (iconText.includes(" - ") && iconText.includes(" seconds")) {
-							const timeSplits = iconText.split(" - ");
-							let time: string, text: string;
+					const parts = [userdataIcon.title, userdataIcon.description];
+					if (userdataIcon.until) {
+						const time = userdataIcon.until * 1000;
+						const settings: Partial<FormatTimeOptions> = { type: "wordTimer", showDays: true };
 
-							if (timeSplits.length > 2) {
-								time = timeSplits[timeSplits.length - 1];
-								text = timeSplits.slice(0, -1).join(" - ");
-							} else {
-								text = timeSplits[0];
-								time = timeSplits[1];
-							}
+						parts.push(`
+							<span class="countdown automatic" data-end="${time}" data-time-settings='${JSON.stringify(settings)}'>
+								${formatTime(time - Date.now(), settings)}
+							</span>
+						`);
+					}
 
-							iconHTML =
-								text +
-								" - " +
-								`<span class="countdown automatic" data-seconds="${(textToTime(time) - (Date.now() - userdata.timestamp * 1000)) / 1000}" data-time-settings='{ "type": "wordTimer", "showDays": true }'>
-							${time}
-							</span>`;
-						} else iconHTML = iconText;
-
-						icon.children[1].innerHTML = iconHTML;
-					} else icon.classList.add("tt-hidden");
+					icon.children[1].innerHTML = parts.filter((x) => !!x).join(" - ");
 				});
 		}
 
