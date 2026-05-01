@@ -6,7 +6,7 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics, FILTER_REGEXES } from "@/utils/common/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@/utils/common/functions/filters";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
