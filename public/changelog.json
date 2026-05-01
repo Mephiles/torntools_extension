@@ -16,7 +16,10 @@
 			],
 			"changes": [],
 			"removed": [],
-			"technical": [{ "message": "Improved storage for 'Resizable Chat' when there hasn't been a resize yet.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Improved storage for 'Resizable Chat' when there hasn't been a resize yet.", "contributor": "DeKleineKobini" },
+				{ "message": "Apply a minimum size for 'Resizable Chat'.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{

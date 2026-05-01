@@ -8,6 +8,7 @@ import { isChatV3 } from "@/utils/common/functions/torn";
 import { SELECTOR_CHAT_ROOT, SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@/utils/common/global/selectors/chatSelectors";
 import styles from "./resizable-chat.module.css";
 
+const MIN_HEIGHT = 26;
 const MAX_HEIGHT = 48;
 
 export interface StoredResizableChats {
@@ -52,7 +53,7 @@ async function resizeInput(chat: HTMLElement) {
 
 	resizeObserver = new ResizeObserver(async () => {
 		const setHeight = parseInt(textarea.style.height);
-		const newHeight = Math.min(setHeight, MAX_HEIGHT);
+		const newHeight = Math.max(Math.min(setHeight, MAX_HEIGHT), MIN_HEIGHT);
 
 		await ttStorage.change({ localdata: { chatResize: { [id]: Number.isNaN(setHeight) ? undefined : `${newHeight}px` } } });
 	});
