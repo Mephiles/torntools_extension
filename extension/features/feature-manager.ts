@@ -381,7 +381,7 @@ class FeatureManager {
 		}
 
 		new Promise(async () => {
-			let row = this.container.querySelector(`[feature-name*="${feature.name}"]`);
+			let row = this.container.querySelector(`[feature-name="${feature.name}"]`);
 			if (row) {
 				row.setAttribute("status", status);
 

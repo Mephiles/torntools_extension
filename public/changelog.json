@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Show countdowns again for the popup icons.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Show countdowns again for the popup icons.", "contributor": "DeKleineKobini" },
+				{ "message": "The feature manager doesn't show all features if the name is too similar.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": []
