@@ -33,25 +33,31 @@ on:
                 default: true
 
 concurrency:
-    group: ${{ github.repository }}
+    group: release-${{ github.repository }}
     cancel-in-progress: true
 
 jobs:
     publish:
         environment: Release
         runs-on: ubuntu-latest
+
+        permissions:
+            contents: write
+
         steps:
             - uses: actions/checkout@v6
+
             - uses: oven-sh/setup-bun@v2
 
             - name: Setup Biome
               uses: biomejs/setup-biome@v2
 
-            - name: Update the changelog.json
+            - name: Prepare release metadata
               run: |
-                  # Install jq
-                  sudo apt-get install jq moreutils
-                  
+                  set -euo pipefail
+                  sudo apt-get update
+                  sudo apt-get install -y jq moreutils
+
                   # Setup variables
                   changelogPath="./public/changelog.json"
                   releaseBodyFile="./releaseBody.md"
@@ -59,8 +65,8 @@ jobs:
                   firstEntry="$(jq -j ".[0]" "${changelogPath}")"
                   version="$(echo "$firstEntry" | jq -j "[ .version | to_entries[] | .value ] | join(\".\")")"
                   packageVersion="$(jq -j ".version" < ./package.json)"
-                  [ $version != $packageVersion ] && echo "Package version and changelog version are not same. Please verify again." && exit 1
-                  
+                  [ "$version" != "$packageVersion" ] && echo "Package version and changelog version are not same. Please verify again." && exit 1
+
                   # Export version for future tasks
                   export version
                   echo "version=$version" >> "$GITHUB_ENV"
@@ -92,7 +98,7 @@ jobs:
                   process_category("removed;### Removed\n"),
                   process_category("technical;### Technical\n")
                   ' >> "$releaseBodyFile"
-                  
+
                   # Update changelog.json date and remove empty features, fixes and changes entries
                   jq -j 'del(.[].title | select(. == "Beta"))' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
                   jq -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
@@ -143,6 +149,7 @@ jobs:
 
             - name: Release on Microsoft Edge Add-ons
               run: bunx wxt submit --edge-zip .output/*-chrome.zip
+              if: ${{ inputs.publish_mea }}
               env:
                   DRY_RUN: ${{ inputs.dry_run }}
                   EDGE_PRODUCT_ID: ${{ secrets.MICROSOFT_PRODUCT_ID }}
@@ -153,7 +160,9 @@ jobs:
               run: rm -f ./releaseBody.md
 
             - name: Change package and changelog to beta version
+              if: ${{ inputs.commit_beta_changes }}
               run: |
+                  set -euo pipefail
                   # Setup variables again
                   DaySuffix() {
                     case $(date +%-d) in
@@ -201,6 +210,7 @@ jobs:
                   awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
 
             - name: Run Biome with write
+              if: ${{ inputs.commit_beta_changes }}
               run: biome check --write
 
             - name: Add & Commit

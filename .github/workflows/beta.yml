@@ -6,14 +6,21 @@ on:
             - master
         paths:
             - 'extension/**'
+            - 'package.json'
+            - 'wxt.config.*'
     workflow_dispatch:
 
 concurrency:
-    group: ${{ github.repository }}-beta
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
     beta:
         runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+
         steps:
             - uses: actions/checkout@v6
 
