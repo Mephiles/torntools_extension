@@ -51,11 +51,12 @@ jobs:
             - name: Setup Biome
               uses: biomejs/setup-biome@v2
 
-            - name: Update the changelog.json
+            - name: Prepare release metadata
               run: |
-                  # Install jq
-                  sudo apt-get install jq moreutils
-                  
+                  set -euo pipefail
+                  sudo apt-get update
+                  sudo apt-get install -y jq moreutils
+
                   # Setup variables
                   changelogPath="./public/changelog.json"
                   releaseBodyFile="./releaseBody.md"
@@ -158,6 +159,7 @@ jobs:
 
             - name: Change package and changelog to beta version
               run: |
+                  set -euo pipefail
                   # Setup variables again
                   DaySuffix() {
                     case $(date +%-d) in
