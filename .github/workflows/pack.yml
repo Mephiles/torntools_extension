@@ -194,7 +194,7 @@ jobs:
                       ." "${changelogPath}" | sponge "${changelogPath}"
                   
                   # Change package to next version
-                  jq '.version = "${newVersion}"' "${packagePath}" --tab | sponge "${packagePath}"
+                  jq -r '.version = "${newVersion}"' "${packagePath}" --tab | sponge "${packagePath}"
                   
                   # Update README.md with new version packaged date (today, the day the action is run)
                   ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | jq --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
