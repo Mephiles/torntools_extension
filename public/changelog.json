@@ -9,7 +9,8 @@
 				{ "message": "Show countdowns again for the popup icons.", "contributor": "DeKleineKobini" },
 				{ "message": "The feature manager doesn't show all features if the name is too similar.", "contributor": "DeKleineKobini" },
 				{ "message": "'OC Timer' doesn't show the proper OC Time for those still on OC1 and faction API Access.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'Only New Feed' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'Only New Feed' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Stats Estimate Faction Wars' no longer showing up.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
