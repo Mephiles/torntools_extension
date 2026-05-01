@@ -16,6 +16,8 @@ function startListeners() {
 }
 
 async function addFinishTimes() {
+	if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
+
 	await requireElement("#react-root .f-war-list");
 
 	for (const timer of findAllElements(".status-wrap .timer:not(.tt-modified)")) {
