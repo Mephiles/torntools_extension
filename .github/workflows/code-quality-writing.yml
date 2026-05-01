@@ -17,7 +17,6 @@ jobs:
 
         permissions:
             contents: write
-            statuses: write
 
         steps:
             - uses: actions/checkout@v6
