@@ -148,6 +148,7 @@ jobs:
 
             - name: Release on Microsoft Edge Add-ons
               run: bunx wxt submit --edge-zip .output/*-chrome.zip
+              if: ${{ inputs.publish_mea }}
               env:
                   DRY_RUN: ${{ inputs.dry_run }}
                   EDGE_PRODUCT_ID: ${{ secrets.MICROSOFT_PRODUCT_ID }}
@@ -158,6 +159,7 @@ jobs:
               run: rm -f ./releaseBody.md
 
             - name: Change package and changelog to beta version
+              if: ${{ inputs.commit_beta_changes }}
               run: |
                   set -euo pipefail
                   # Setup variables again
@@ -207,6 +209,7 @@ jobs:
                   awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
 
             - name: Run Biome with write
+              if: ${{ inputs.commit_beta_changes }}
               run: biome check --write
 
             - name: Add & Commit
