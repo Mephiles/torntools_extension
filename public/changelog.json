@@ -1,8 +1,14 @@
 [
 	{
+		"version": { "major": 9, "minor": 0, "build": 1 },
+		"title": "Beta",
+		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
 		"version": { "major": 9, "minor": 0, "build": 0 },
 		"title": "Another Rework: WXT",
-		"date": false,
+		"date": "2026/05/01",
 		"logs": {
 			"features": [
 				{ "message": "'User Alias' for chat V3.", "contributor": "DeKleineKobini" },
@@ -57,10 +63,7 @@
 					"message": "Avoid highlighting too much in the chat highlight when an highlight value is empty or non-existent.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "'Ranked War Filter' and 'Faction Member Filter' no longer worked with filtering on activity.",
-					"contributor": "DeKleineKobini"
-				}
+				{ "message": "'Ranked War Filter' and 'Faction Member Filter' no longer worked with filtering on activity.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Replace all FontAwesome icons with others, mainly from Phosphor Icons.", "contributor": "DeKleineKobini" },
@@ -86,7 +89,6 @@
 				{ "message": "Only select as much rehabs as you can afford in 'Efficient Rehab'.", "contributor": "DeKleineKobini" },
 				{ "message": "Cleanup last references to the old loader.php page.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [{ "message": "Migrate to a web-extension framework: WXT.", "contributor": "DeKleineKobini" }]
 		}
 	},
