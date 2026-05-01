@@ -16,7 +16,7 @@
 			],
 			"changes": [],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Improved storage for 'Resizable Chat' when there hasn't been a resize yet.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

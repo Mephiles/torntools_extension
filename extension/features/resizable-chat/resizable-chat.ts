@@ -54,7 +54,7 @@ async function resizeInput(chat: HTMLElement) {
 		const setHeight = parseInt(textarea.style.height);
 		const newHeight = Math.min(setHeight, MAX_HEIGHT);
 
-		await ttStorage.change({ localdata: { chatResize: { [id]: `${newHeight}px` } } });
+		await ttStorage.change({ localdata: { chatResize: { [id]: Number.isNaN(setHeight) ? undefined : `${newHeight}px` } } });
 	});
 	resizeObserver.observe(textarea);
 }
