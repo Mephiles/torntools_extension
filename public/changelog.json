@@ -3,7 +3,13 @@
 		"version": { "major": 9, "minor": 0, "build": 1 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "When you 'Custom Links' contain links with custom links, they no longer showed up.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 0, "build": 0 },
