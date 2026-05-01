@@ -46,6 +46,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v6
+
             - uses: oven-sh/setup-bun@v2
 
             - name: Setup Biome
@@ -64,8 +65,8 @@ jobs:
                   firstEntry="$(jq -j ".[0]" "${changelogPath}")"
                   version="$(echo "$firstEntry" | jq -j "[ .version | to_entries[] | .value ] | join(\".\")")"
                   packageVersion="$(jq -j ".version" < ./package.json)"
-                  [ $version != $packageVersion ] && echo "Package version and changelog version are not same. Please verify again." && exit 1
-                  
+                  [ "$version" != "$packageVersion" ] && echo "Package version and changelog version are not same. Please verify again." && exit 1
+
                   # Export version for future tasks
                   export version
                   echo "version=$version" >> "$GITHUB_ENV"
@@ -97,7 +98,7 @@ jobs:
                   process_category("removed;### Removed\n"),
                   process_category("technical;### Technical\n")
                   ' >> "$releaseBodyFile"
-                  
+
                   # Update changelog.json date and remove empty features, fixes and changes entries
                   jq -j 'del(.[].title | select(. == "Beta"))' "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
                   jq -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
