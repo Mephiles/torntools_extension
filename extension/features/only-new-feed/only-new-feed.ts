@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { localdata, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { PHEye, PHEyeSlash } from "@/utils/common/icons/phosphor-icons";
@@ -23,6 +23,13 @@ function initialise() {
 
 		await handleFeeds();
 	});
+}
+
+async function startFeature() {
+	const params = getHashParameters();
+	if (params.has("p") && params.get("p") !== "main") return;
+
+	await handleFeeds();
 }
 
 const FEEDS = [
@@ -111,7 +118,7 @@ export default class OnlyNewFeedFeature extends Feature {
 	}
 
 	async execute() {
-		await handleFeeds();
+		await startFeature();
 	}
 
 	cleanup() {
