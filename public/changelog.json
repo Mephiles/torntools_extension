@@ -11,7 +11,8 @@
 				{ "message": "'OC Timer' doesn't show the proper OC Time for those still on OC1 and faction API Access.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Only New Feed' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Stats Estimate Faction Wars' no longer showing up.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'War Finish Times' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'War Finish Times' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve visibility for the feature manager when chats would overlap.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
