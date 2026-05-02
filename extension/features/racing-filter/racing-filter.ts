@@ -2,7 +2,7 @@ import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
-import { elementBuilder, findAllElements, isTextNode } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, getSearchParameters, isTextNode } from "@/utils/common/functions/dom";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@/utils/common/functions/filters";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -387,7 +387,7 @@ export default class RacingFilterFeature extends Feature {
 	}
 
 	async execute() {
-		await addFilters();
+		if (getSearchParameters().get("tab") === "customrace") await addFilters();
 	}
 
 	cleanup(): void {

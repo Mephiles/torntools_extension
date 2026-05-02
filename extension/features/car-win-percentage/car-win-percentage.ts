@@ -1,6 +1,6 @@
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -60,7 +60,7 @@ export default class CarWinPercentageFeature extends Feature {
 	}
 
 	async execute() {
-		await addPercentage();
+		if (["cars", "parts"].includes(getSearchParameters().get("tab"))) await addPercentage();
 	}
 
 	cleanup() {

@@ -13,7 +13,8 @@
 				{ "message": "Fix 'Stats Estimate Faction Wars' no longer showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'War Finish Times' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve visibility for the feature manager when chats would overlap.", "contributor": "DeKleineKobini" },
-				{ "message": "Display achievements correctly again.", "contributor": "DeKleineKobini" }
+				{ "message": "Display achievements correctly again.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid issues with some racing features when opening the racing page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
