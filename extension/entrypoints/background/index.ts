@@ -136,7 +136,6 @@ export default defineBackground(() => {
 	browser.runtime.onStartup.addListener(onStartup);
 	browser.alarms.onAlarm.addListener(onAlarm);
 	browser.notifications.onClicked.addListener(onNotificationClicked);
-	browser.runtime.onUpdateAvailable.addListener(() => browser.runtime.reload());
 
 	const backgroundService = new BackgroundService();
 	registerService(BACKGROUND_SERVICE_KEY, backgroundService);

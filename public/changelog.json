@@ -18,7 +18,9 @@
 				{ "message": "Fix 'Racing Filter' not showing any races when all tracks are deselected.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
-			"removed": [],
+			"removed": [
+				{ "message": "Remove auto reload when an update is detected, as it might have caused the reload loop.", "contributor": "DeKleineKobini" }
+			],
 			"technical": [
 				{ "message": "Improved storage for 'Resizable Chat' when there hasn't been a resize yet.", "contributor": "DeKleineKobini" },
 				{ "message": "Apply a minimum size for 'Resizable Chat'.", "contributor": "DeKleineKobini" }
