@@ -31,28 +31,119 @@
 }
 
 .tt-achievement-tooltip-content {
-	background-color: var(--default-bg-panel-color);
-	border: 1px solid var(--default-border-color);
+	border: 1px solid var(--default-bg-panel-color);
 	border-radius: 5px;
-	padding: 5px 10px;
-	margin-left: 7px;
-	float: left;
+	background-color: var(--default-bg-panel-color);
+	padding: 5px;
+	line-height: 16px;
 }
 
-.tt-achievement-tooltip-content .awards-progress {
+/* region Progress Bar */
+
+body:not(.dark-mode) .awards-progress {
+	--color-dot: #e8e8e8;
+	--color-dot-border: #ddd;
+	--color-dot-active: #53a318;
+	--color-dot-active-border: #fff;
+	--color-dot-current: red;
+	--color-dot-current-border: #fff;
+	--color-line: #fff;
+	--color-line-active: #53a318;
+}
+
+body.dark-mode .awards-progress {
+	--color-dot: #e8e8e8;
+	--color-dot-border: #fff;
+	--color-dot-active: #53a318;
+	--color-dot-active-border: #fff;
+	--color-dot-current: red;
+	--color-dot-current-border: #fff;
+	--color-line: #fff;
+	--color-line-active: #53a318;
+}
+
+.awards-progress {
 	list-style: none;
-	margin: 0;
-	padding: 0;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 0 30px 0;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
-.tt-achievement-tooltip-content .awards-progress li {
-	padding: 2px 0;
+.awards-progress li {
+	flex: 1;
+	text-align: center;
+
+	position: relative;
+	padding: 0 1px 8px 1px;
+	line-height: 1.5;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: visible;
+	font-size: 13px;
+	min-width: fit-content;
 }
 
-.tt-achievement-tooltip-content .awards-progress li.is-completed {
-	color: var(--tt-color-green);
+.awards-progress li::before {
+	content: "";
+	display: block;
+	width: 8px;
+	height: 8px;
+	z-index: 2;
+	border-radius: 50%;
+	background-color: var(--color-dot);
+	border: 2px solid var(--color-dot-border);
+
+	position: absolute;
+	left: calc(50% - 6px);
+	bottom: -7px;
 }
 
-.tt-achievement-tooltip-content .awards-progress li.is-current {
-	color: var(--tt-color-orange);
+.awards-progress li::after {
+	content: "";
+	display: block;
+	width: 100%;
+	position: absolute;
+	bottom: -2px;
+	border-bottom: 2px solid transparent;
 }
+
+.awards-progress li:first-child::after {
+	left: calc(-50% - 6px);
+	z-index: 2;
+	border-bottom-color: var(--default-bg-panel-color);
+}
+
+.awards-progress li:not(:first-child)::after {
+	left: -50%;
+	z-index: 1;
+	border-bottom-color: var(--color-line);
+}
+
+.awards-progress .is-completed:not(:first-child)::after,
+.awards-progress .is-current:not(:first-child)::after {
+	border-bottom-color: var(--color-line-active);
+}
+
+.awards-progress .is-completed::before {
+	background-color: var(--color-dot-active);
+	border-color: var(--color-dot-active-border);
+}
+
+.awards-progress .is-current::before {
+	background-color: var(--color-dot-current);
+	border-color: var(--color-dot-current-border);
+}
+
+.awards-progress li span {
+	display: block;
+	min-width: 15px;
+}
+
+.awards-progress li:nth-child(even) span:first-child {
+	position: relative;
+	top: 38px;
+}
+
+/* endregion */
