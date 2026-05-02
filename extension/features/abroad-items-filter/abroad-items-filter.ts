@@ -98,6 +98,8 @@ async function addFilter() {
 		}
 		if (profitOnly) await requireElement(".tt-travel-market-cell");
 
+		markTravelTableColumns();
+
 		for (const li of findAllElements("[class*='stockTableWrapper___'] > li")) {
 			showRow(li);
 
