@@ -14,7 +14,8 @@
 				{ "message": "Avoid errors with the 'War Finish Times' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve visibility for the feature manager when chats would overlap.", "contributor": "DeKleineKobini" },
 				{ "message": "Display achievements correctly again.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid issues with some racing features when opening the racing page.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid issues with some racing features when opening the racing page.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Racing Filter' not showing any races when all tracks are deselected.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],

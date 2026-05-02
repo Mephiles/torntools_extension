@@ -176,7 +176,7 @@ async function applyFilters() {
 	const driversFilter = localFilters["Drivers"].getStartEnd(content);
 	const driversMin = parseInt(driversFilter.start);
 	const driversMax = parseInt(driversFilter.end);
-	const trackFilter = localFilters["Track"].getSelected(content);
+	const trackFilter: string[] = localFilters["Track"].getSelected(content);
 	const nameFilter = localFilters["Name"].getValue();
 
 	// Update level and time slider counters
@@ -331,7 +331,7 @@ async function applyFilters() {
 		}
 
 		// Track
-		if (trackFilter !== "" && !trackFilter.includes(trackName)) {
+		if (trackFilter.length && !trackFilter.includes(trackName)) {
 			hideRow(li);
 			continue;
 		}
