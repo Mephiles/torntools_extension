@@ -244,12 +244,6 @@ export default class CityItemsFeature extends Feature {
 	}
 
 	async execute() {
-		for (let i = 0; i < 5; i++) {
-			new Promise(() => {
-				throw new Error("XXX");
-			});
-		}
-
 		await showHighlight();
 	}
 
