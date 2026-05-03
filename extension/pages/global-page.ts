@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER } from "@/features/feature-manager";
 import { loadDatabase, settings, storageListeners } from "@/utils/common/data/database";
 import { checkDevice, elementBuilder, findAllElements, getSearchParameters, isElement, isHTMLElement } from "@/utils/common/functions/dom";
-import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
+import { EVENT_CHANNELS, injectFetch, injectXHR, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireChatsLoaded, requireCondition, requireContent } from "@/utils/common/functions/requires";
 import { updateTimers } from "@/utils/common/functions/timers";
 import { getPage, isChatV3 } from "@/utils/common/functions/torn";
@@ -177,6 +177,8 @@ export function runGlobalPageScripts() {
 	handleDeviceSizeClasses();
 	handlePopoutClass();
 
+	injectFetch();
+	injectXHR();
 	requireCondition(() => document.body).then(() => {
 		handleTheme().catch(() => {});
 		createOverlay();
