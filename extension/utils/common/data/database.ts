@@ -73,8 +73,8 @@ export let factionStakeouts: DatabaseFactionStakeouts;
 export let notifications: DatabaseNotifications;
 export let migrations: DatabaseMigrations;
 
-export let databaseLoaded = false;
-export let databaseLoading = false;
+let databaseLoaded = false;
+let databaseLoading = false;
 
 // Initialize database when module is loaded
 //
@@ -111,8 +111,8 @@ export const storageListeners: StorageListeners = {
 	npcs: [],
 } as const;
 
-export async function loadDatabase(): Promise<Omit<Database, "time">> {
-	if (databaseLoaded) {
+export async function loadDatabase(force = false): Promise<Omit<Database, "time">> {
+	if (databaseLoaded && !force) {
 		return {
 			settings,
 			filters,
@@ -148,6 +148,7 @@ export async function loadDatabase(): Promise<Omit<Database, "time">> {
 
 	console.log("TT - Database loaded.", database);
 	databaseLoaded = true;
+	databaseLoading = false;
 	return database;
 }
 

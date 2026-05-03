@@ -1045,6 +1045,10 @@ export async function showIconBars() {
 }
 
 async function updateStakeouts(forceUpdate = false) {
+	console.log("DKK update stakeouts 0", stakeouts);
+	await loadDatabase(true);
+	console.log("DKK update stakeouts 1", stakeouts);
+
 	const now = Date.now();
 
 	if (!forceUpdate && stakeouts.date && !hasTimePassed(stakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
@@ -1192,28 +1196,30 @@ async function updateStakeouts(forceUpdate = false) {
 			}
 		}
 
-		stakeouts[id] = {
-			...stakeout,
-			info: {
-				name: data.profile.name,
-				last_action: {
-					status: data.profile.last_action.status,
-					relative: data.profile.last_action.relative,
-					timestamp: data.profile.last_action.timestamp * 1000,
+		if (id in stakeouts) {
+			stakeouts[id] = {
+				...stakeout,
+				info: {
+					name: data.profile.name,
+					last_action: {
+						status: data.profile.last_action.status,
+						relative: data.profile.last_action.relative,
+						timestamp: data.profile.last_action.timestamp * 1000,
+					},
+					life: {
+						current: data.profile.life.current,
+						maximum: data.profile.life.maximum,
+					},
+					status: {
+						state: data.profile.status.state,
+						color: data.profile.status.color,
+						until: data.profile.status.until ? data.profile.status.until * 1000 : null,
+						description: data.profile.status.description,
+					},
+					isRevivable: data.profile.revivable,
 				},
-				life: {
-					current: data.profile.life.current,
-					maximum: data.profile.life.maximum,
-				},
-				status: {
-					state: data.profile.status.state,
-					color: data.profile.status.color,
-					until: data.profile.status.until ? data.profile.status.until * 1000 : null,
-					description: data.profile.status.description,
-				},
-				isRevivable: data.profile.revivable,
-			},
-		};
+			};
+		}
 	}
 	stakeouts.date = now;
 
@@ -1224,6 +1230,8 @@ async function updateStakeouts(forceUpdate = false) {
 type FetchedFactionStakeout = FactionBasicResponse & FactionOngoingChainResponse & FactionWarsResponse;
 
 async function updateFactionStakeouts(forceUpdate = false) {
+	await loadDatabase(true);
+
 	const now = Date.now();
 
 	if (!forceUpdate && "date" in factionStakeouts && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {

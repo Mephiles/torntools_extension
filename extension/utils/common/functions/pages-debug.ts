@@ -1,6 +1,5 @@
 import type { ProxyService } from "@webext-core/proxy-service";
 import { ttCache } from "@/utils/common/data/cache";
-import type { Database } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import type { BackgroundService } from "@/utils/services/BackgroundService";
@@ -25,7 +24,7 @@ export function exposeDebugObjects(backgroundService: BGService) {
 }
 
 function fullDataDump(reduction: boolean = true) {
-	ttStorage.get().then((storage: Database) => {
+	ttStorage.get().then((storage) => {
 		Object.values(storage.api).forEach((x) => {
 			if (!("key" in x) || !x.key) return;
 

@@ -2,7 +2,7 @@ import { api, type Database, type DatabaseKey, type RecursivePartial, type Writa
 import { DEFAULT_STORAGE, DefaultSetting } from "@/utils/common/data/default-database";
 
 class TornToolsStorage {
-	get(): Promise<any>;
+	get(): Promise<Database>;
 	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
 	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 	get(key?: DatabaseKey | DatabaseKey[]) {

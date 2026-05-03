@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Remove errors that were a debugging tool in 'City Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Remove a race condition in the 'Display Case Worth'.", "contributor": "DeKleineKobini" },
-				{ "message": "'Disable Ally Attacks' didn't disable the attack early enough.", "contributor": "DeKleineKobini" }
+				{ "message": "'Disable Ally Attacks' didn't disable the attack early enough.", "contributor": "DeKleineKobini" },
+				{ "message": "Hopefully remove a race condition with removing stakeouts.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
