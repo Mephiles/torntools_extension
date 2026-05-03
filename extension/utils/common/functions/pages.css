@@ -33,7 +33,6 @@ body.dark {
 	border-bottom-right-radius: 10px;
 	max-height: 0;
 	overflow: hidden;
-	/* transition: max-height 0.5s ease-out; */
 	z-index: 9;
 	color: black;
 }
