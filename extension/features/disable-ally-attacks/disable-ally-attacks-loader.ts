@@ -1,5 +1,6 @@
 import "./disable-ally-attacks.css";
 import { ExecutionTiming, FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { isAttackData } from "@/pages/attack-loader-page";
 import { settings, userdata } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@/utils/common/functions/dom";
@@ -10,19 +11,15 @@ import { getPageStatus, isOwnProfile } from "@/utils/common/functions/torn";
 let closedOption = false;
 
 async function startListener() {
-	addFetchListener(({ detail: { page, json } }) => {
-		if (
-			closedOption ||
-			!FEATURE_MANAGER.isEnabled(DisableAllyAttacksLoaderFeature) ||
-			page !== "page" ||
-			!json ||
-			!json.DB ||
-			!json.DB.defenderUser ||
-			!json.DB.defenderUser.factionID
-		)
-			return;
+	addFetchListener(({ detail: { page, json, fetch } }) => {
+		if (closedOption || !FEATURE_MANAGER.isEnabled(DisableAllyAttacksLoaderFeature) || page !== "page") return;
 
-		disableAttackButton(parseInt(json.DB.defenderUser.factionID));
+		const params = new URL(fetch.url).searchParams;
+		const step = params.get("step");
+
+		if (!isAttackData(step, json) || !json.DB.defenderUser.factionID || json.DB.attackStatus !== "notStarted") return;
+
+		disableAttackButton(json.DB.defenderUser.factionID);
 	});
 }
 
