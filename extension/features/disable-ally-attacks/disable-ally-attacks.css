@@ -20,4 +20,5 @@
 	/*noinspection CssInvalidFunction*/
 	text-shadow: 0 1px 0 hsl(0deg 0% 100% / 40%);
 	color: #333;
+	text-align: center;
 }

@@ -10,7 +10,10 @@
 				{ "message": "Remove a race condition in the 'Display Case Worth'.", "contributor": "DeKleineKobini" },
 				{ "message": "'Disable Ally Attacks' didn't disable the attack early enough.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
+				{ "message": "Center 'Disable Ally Attacks' display text.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": [{ "message": "Load the XHR and fetch script earlier, to catch more requests at the page load.", "contributor": "DeKleineKobini" }]
 		}
