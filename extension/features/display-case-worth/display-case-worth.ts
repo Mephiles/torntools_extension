@@ -2,6 +2,7 @@ import "./display-case-worth.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
 import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import type { UserV1DisplayCaseResponse } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
@@ -20,66 +21,76 @@ function xhrListener() {
 }
 
 async function addWorth() {
-	const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
-	if (displayCaseUserId && !Number.isNaN(parseInt(displayCaseUserId)) && parseInt(displayCaseUserId) !== userdata.profile.id) {
-		await requireElement(".info-msg-cont .msg");
-		// TODO - Migrate to V2 (user/display).
-		fetchData("tornv2", { section: "user", id: displayCaseUserId, selections: ["display"], legacySelections: ["display"] })
-			.then((result) => {
-				let total = 0;
+	const hashId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
 
-				for (const item of result.display) {
-					total += item.market_price * item.quantity;
-				}
+	let userId: number | null = null;
+	if (!hashId || (!Number.isNaN(hashId) && parseInt(hashId) !== userdata.profile.id)) userId = parseInt(hashId);
 
-				document.querySelector(".info-msg-cont .msg").appendChild(
-					elementBuilder({
-						type: "div",
-						class: "tt-display-worth",
-						text: "This display cabinet is worth ",
-						children: [
-							elementBuilder({
-								type: "span",
-								text: `${formatNumber(total, { currency: true })}.`,
-							}),
-						],
-					}),
-				);
-			})
-			.catch((error) => {
-				document.querySelector(".info-msg-cont .msg").appendChild(
-					elementBuilder({
-						type: "div",
-						class: "tt-display-worth",
-						text: `TORN API returned error: ${error.toString()}`,
-					}),
-				);
-				console.log("TT - Display Cabinet Worth API Error:", error);
-			});
+	let result: UserV1DisplayCaseResponse | undefined;
+	try {
+		result = await fetchData<UserV1DisplayCaseResponse>("tornv2", {
+			section: "user",
+			id: userId,
+			selections: ["display"],
+			legacySelections: ["display"],
+		});
+	} catch (error) {
+		await displayError(!!userId, error);
+		console.log("TT - Display Cabinet Worth API Error:", error);
+		return;
+	}
+
+	const totalValue = result.display.reduce((total, item) => total + item.market_price * item.quantity, 0);
+
+	await displayValue(!userId, totalValue);
+}
+
+async function displayValue(isOwn: boolean, value: number) {
+	let element: Element;
+	if (isOwn) {
+		element = createMessageBox(`This display cabinet is worth <span>${formatNumber(value, { currency: true })}</span>.`, {
+			class: "tt-display-worth",
+			isHTML: true,
+		});
 	} else {
-		// TODO - Migrate to V2 (user/display).
-		fetchData("tornv2", { section: "user", id: userdata.profile.id, selections: ["display"], legacySelections: ["display"] })
-			.then(async (result) => {
-				let total = 0;
+		element = elementBuilder({
+			type: "div",
+			class: "tt-display-worth",
+			text: "This display cabinet is worth ",
+			children: [
+				elementBuilder({
+					type: "span",
+					text: `${formatNumber(value, { currency: true })}.`,
+				}),
+			],
+		});
+	}
 
-				for (const item of result.display) {
-					total += item.market_price * item.quantity;
-				}
+	await displayElement(isOwn, element);
+}
 
-				document.querySelector(".display-cabinet").insertAdjacentElement(
-					"beforebegin",
-					createMessageBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
-						class: "tt-display-worth",
-						isHTML: true,
-					}),
-				);
-			})
-			.catch(async (error) => {
-				document
-					.querySelector(".display-cabinet")
-					.insertAdjacentElement("beforebegin", createMessageBox(`TORN API returned error: ${error.toString()}.`, { class: "tt-display-worth" }));
-				console.log("TT - Display Cabinet Worth API Error:", error);
-			});
+async function displayError(isOwn: boolean, error: any) {
+	let element: Element;
+	if (isOwn) {
+		element = createMessageBox(`TORN API returned error: ${error.toString()}.`, { class: "tt-display-worth" });
+	} else {
+		element = elementBuilder({
+			type: "div",
+			class: "tt-display-worth",
+			text: `TORN API returned error: ${error.toString()}`,
+		});
+	}
+
+	await displayElement(isOwn, element);
+}
+
+async function displayElement(isOwn: boolean, element: Element) {
+	if (isOwn) {
+		document.querySelector(".display-cabinet").insertAdjacentElement("beforebegin", element);
+	} else {
+		await requireElement(".info-msg-cont .ajax-preloader", { invert: true });
+
+		document.querySelector(".info-msg-cont .msg").appendChild(element);
 	}
 }
 

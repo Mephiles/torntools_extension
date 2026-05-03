@@ -71,7 +71,6 @@ import { ttStorage } from "@/utils/common/data/storage";
 import { CUSTOM_API_ERROR, FACTION_ACCESS, fetchData, hasAPIData, hasFactionAPIAccess } from "@/utils/common/functions/api";
 import type { LootRangersLoot, TornstatsLoot, YATALoot } from "@/utils/common/functions/api.types";
 import type {
-	FactionV1Crimes,
 	FactionV1CrimesResponse,
 	TornV1PawnshopResponse,
 	TornV1StatsResponse,

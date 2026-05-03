@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Remove errors that were a debugging tool in 'City Items'.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Remove errors that were a debugging tool in 'City Items'.", "contributor": "DeKleineKobini" },
+				{ "message": "Remove a race condition in the 'Display Case Worth'.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": []
