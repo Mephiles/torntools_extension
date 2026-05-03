@@ -15,9 +15,9 @@ async function startListener() {
 		if (closedOption || !FEATURE_MANAGER.isEnabled(DisableAllyAttacksLoaderFeature) || page !== "page") return;
 
 		const params = new URL(fetch.url).searchParams;
-		const step = params.get("step");
+		const sid = params.get("sid");
 
-		if (!isAttackData(step, json) || !json.DB.defenderUser.factionID || json.DB.attackStatus !== "notStarted") return;
+		if (!isAttackData(sid, json) || !json.DB.defenderUser.factionID) return;
 
 		disableAttackButton(json.DB.defenderUser.factionID);
 	});

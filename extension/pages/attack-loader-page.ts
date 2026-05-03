@@ -107,6 +107,6 @@ export interface TornInternalAttackData {
 	viewStyle: string;
 }
 
-export function isAttackData(step: string, _json: any): _json is TornInternalAttackData {
-	return step === "attackData";
+export function isAttackData(sid: string, _json: any): _json is TornInternalAttackData {
+	return sid === "attackData";
 }
