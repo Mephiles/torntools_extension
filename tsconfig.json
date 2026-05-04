@@ -1,6 +1,11 @@
 {
 	"extends": "./.wxt/tsconfig.json",
 	"compilerOptions": {
+		"paths": {
+			"@/*": ["./extension/*"],
+			"@features/*": ["./extension/utils/features/*"],
+			"@vendor/*": ["./extension/utils/vendor/*"]
+		},
 		"strictNullChecks": false,
 		"noImplicitAny": false,
 		"strictPropertyInitialization": false,
