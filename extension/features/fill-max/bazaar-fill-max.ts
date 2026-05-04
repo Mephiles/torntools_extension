@@ -1,50 +1,51 @@
 import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, mobile, tabletVertical } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
 import styles from "./fill-max.module.css";
 
+const SELECTOR_MOBILE_LIST = "[data-testid='bazaar-items']";
+
 let reactObserver: MutationObserver | undefined;
 
 function initialiseListeners() {
-	if (!mobile) return;
+	if (!mobile && !tabletVertical) return;
 
 	reactObserver = new MutationObserver(() => maxBuyListener(""));
 }
 
 async function addFillMax() {
-	if (!mobile) document.addEventListener("click", maxBuyListener);
-	else {
+	if (mobile || tabletVertical) {
 		await maxBuyListener();
-		reactObserver.observe(await requireElement(".ReactVirtualized__Grid__innerScrollContainer"), { childList: true });
-	}
+		reactObserver.observe(await requireElement(SELECTOR_MOBILE_LIST), { childList: true });
+	} else document.addEventListener("click", maxBuyListener);
 }
 
 async function removeFillMax() {
-	if (!mobile) {
-		document.removeEventListener("click", maxBuyListener);
-		findAllElements(".tt-max-buy").forEach((x) => x.remove());
-	} else {
+	if (mobile || tabletVertical) {
 		await requireElement("[class*='buyForm___']");
 		findAllElements("[class*='buyForm___']").forEach((x) => {
 			x.classList.remove("tt-fill-max");
 			x.querySelector(styles.ttMaxBuyBazaar).remove();
 		});
 		reactObserver.disconnect();
+	} else {
+		document.removeEventListener("click", maxBuyListener);
+		findAllElements(".tt-max-buy").forEach((x) => x.remove());
 	}
 }
 
 async function maxBuyListener(clickEvent: any | null = null) {
-	if (!mobile) {
-		if (!clickEvent?.target.closest("[class*='controlPanelButton___']")) return;
-		requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.querySelector("[class*='buyMenu__']")));
-	} else {
-		await requireElement(".ReactVirtualized__Grid__innerScrollContainer [class*='buyForm___']");
-		findAllElements(".ReactVirtualized__Grid__innerScrollContainer [class*='itemDescription__']:not(.tt-fill-max)").forEach((buyForm) => {
+	if (mobile || tabletVertical) {
+		await requireElement(`${SELECTOR_MOBILE_LIST} [class*='buyForm___']`);
+		findAllElements(`${SELECTOR_MOBILE_LIST} [class*='itemDescription__']:not(.tt-fill-max)`).forEach((buyForm) => {
 			buyForm.classList.add("tt-fill-max");
 			addButtonAndListener(buyForm);
 		});
+	} else {
+		if (!clickEvent?.target.closest("[class*='controlPanelButton___']")) return;
+		requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.querySelector("[class*='buyMenu__']")));
 	}
 
 	function addButtonAndListener(parent: Element) {

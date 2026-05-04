@@ -10,7 +10,8 @@
 				{ "message": "Remove a race condition in the 'Display Case Worth'.", "contributor": "DeKleineKobini" },
 				{ "message": "'Disable Ally Attacks' didn't disable the attack early enough.", "contributor": "DeKleineKobini" },
 				{ "message": "Hopefully remove a race condition with removing stakeouts.", "contributor": "DeKleineKobini" },
-				{ "message": "Reintroduce missing achievements on various pages, but primarily for crimes.", "contributor": "DeKleineKobini" }
+				{ "message": "Reintroduce missing achievements on various pages, but primarily for crimes.", "contributor": "DeKleineKobini" },
+				{ "message": "'Bazaar Fill Max' no longer showed up on smaller screens.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
