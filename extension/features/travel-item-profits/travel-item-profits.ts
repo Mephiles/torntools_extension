@@ -60,7 +60,7 @@ async function addProfitsColumn() {
 			const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;
 			const anonymousTax = sellAnonymously ? Math.ceil((marketPrice * ANONYMOUS_TAX) / 100) : 0;
 
-			const profit = marketPrice - (buyPrice + salesTax + anonymousTax);
+			const profit = Math.round(marketPrice - (buyPrice + salesTax + anonymousTax));
 
 			const span = elementBuilder({
 				type: "span",
@@ -76,8 +76,8 @@ async function addProfitsColumn() {
 			});
 
 			span.classList.remove("tt-color-green", "tt-color-red");
-			if (buyPrice > marketPrice) span.classList.add("tt-color-red");
-			else if (buyPrice < marketPrice) span.classList.add("tt-color-green");
+			if (profit > 0) span.classList.add("tt-color-green");
+			else if (profit < 0) span.classList.add("tt-color-red");
 
 			span.appendChild(innerSpan);
 			row.querySelector(":scope > div[class*='row__']").insertBefore(span, row.querySelector("[data-tt-content-type='stock']"));
