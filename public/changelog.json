@@ -15,7 +15,9 @@
 			],
 			"changes": [
 				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
-				{ "message": "Center 'Disable Ally Attacks' display text.", "contributor": "DeKleineKobini" }
+				{ "message": "Center 'Disable Ally Attacks' display text.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Clean Flight' for the new travel update.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Travel Table' for the new travel update.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Load the XHR and fetch script earlier, to catch more requests at the page load.", "contributor": "DeKleineKobini" }]

@@ -9,6 +9,7 @@ import { createContainer, findContainer, removeContainer } from "@/utils/common/
 import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@/utils/common/functions/dom";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@/utils/common/functions/formatting";
 import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
+import { requireElement } from "@/utils/common/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@/utils/common/functions/torn";
 import { toCorrectType } from "@/utils/common/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@/utils/common/icons/phosphor-icons";
@@ -61,13 +62,16 @@ function initialise() {
 }
 
 async function startTable() {
-	if (isFlying()) startFlyingTable();
-	else {
-		await createTable();
-	}
+	if (isFlying()) await startFlyingTable();
+	else await createTable();
 
 	async function createTable() {
-		const { content } = createContainer("Travel Destinations", { defaultPosition: true, class: "mt10" });
+		const { content } = createContainer(
+			"Travel Destinations",
+			isFlying()
+				? { parentElement: await requireElement("[class*='viewport___']"), class: ["mt10", "tt-hidden"] }
+				: { defaultPosition: true, class: "mt10" },
+		);
 		const amount = getTravelCount();
 
 		addLegend();
@@ -669,11 +673,11 @@ async function startTable() {
 		}
 	}
 
-	function startFlyingTable() {
+	async function startFlyingTable() {
 		let isOpened = new URLSearchParams(location.search).get("travel") === "true";
 
-		showIcon();
-		createTable();
+		void showIcon();
+		await createTable();
 
 		if (isOpened) showTable();
 		else hideTable();
@@ -702,7 +706,7 @@ async function startTable() {
 				searchParams.set("travel", `${isOpened}`);
 				history.pushState(null, "", `${location.pathname}?${searchParams.toString()}`);
 
-				const travelText = document.querySelector(".tt-travel span");
+				const travelText = document.querySelector(".tt-travel-wrapper span");
 				if (travelText) travelText.textContent = isOpened ? "Home" : "Travel Table";
 
 				if (isOpened) showTable();

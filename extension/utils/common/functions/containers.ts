@@ -9,7 +9,7 @@ type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { pre
 
 type ContainerOptions = {
 	id: string;
-	class: string;
+	class: string | (string | null)[];
 	showHeader: boolean;
 	onlyHeader: boolean;
 	collapsible: boolean;
@@ -74,7 +74,13 @@ export function createContainer(title: string, partialOptions: Partial<Container
 		if (options.spacer) containerClasses.push("spacer");
 		if (options.compact) containerClasses.push("compact");
 		if (options.alwaysContent) containerClasses.push("always-content");
-		if (options.class) containerClasses.push(...options.class.split(" "));
+		if (options.class) {
+			let classes: string[];
+			if (typeof options.class === "string") classes = options.class.split(" ").filter((c) => !!c);
+			else classes = options.class.filter((c) => !!c);
+
+			containerClasses.push(...classes);
+		}
 		if (options.filter) containerClasses.push("tt-filter");
 		if (options.resetStyles) containerClasses.push("reset-styles");
 
