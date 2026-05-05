@@ -20,6 +20,20 @@ async function showNPCs() {
 		previousElement: findParent(findElementWithText("h2", "Information"), { partialClass: "sidebar-block_" }),
 	});
 
+	if ("error" in npcs) {
+		content.appendChild(
+			elementBuilder({
+				type: "div",
+				class: "tt-npc",
+				children: [
+					elementBuilder({ type: "span", class: "npc-name", text: "Error" }),
+					elementBuilder({ type: "div", class: "npc-error", text: npcs.error }),
+				],
+			}),
+		);
+		return;
+	}
+
 	const now = Date.now();
 
 	const timerSettings: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true };

@@ -198,26 +198,28 @@ export type TornstatsFactionSpyResponse =
 	  }
 	| TornstatsError;
 
-export interface LootRangersLoot {
-	time: {
-		clear: number;
-		current: number;
-		attack: boolean;
-		reason: string;
-	};
-	npcs: {
-		[id: string]: {
-			name: string;
-			hosp_out: number;
-			next: true;
-			life: {
+export type LootRangersLoot =
+	| {
+			time: {
+				clear: number;
 				current: number;
-				max: number;
+				attack: boolean;
+				reason: string;
 			};
-		};
-	};
-	order: number[];
-}
+			npcs: {
+				[id: string]: {
+					name: string;
+					hosp_out: number;
+					next: true;
+					life: {
+						current: number;
+						max: number;
+					};
+				};
+			};
+			order: number[];
+	  }
+	| {};
 
 export type FFScouterResult =
 	| {

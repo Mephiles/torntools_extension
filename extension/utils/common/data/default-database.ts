@@ -856,12 +856,16 @@ export type DefaultStorageType = ExtractDefaultSettingType<typeof DEFAULT_STORAG
 export type StoredNpcs = {
 	next_update: number;
 	service: string;
-	targets: {
-		[id: string]: StoredNpc;
-	};
-	planned?: number | false;
-	reason?: string;
-};
+} & (
+	| {
+			targets: {
+				[id: string]: StoredNpc;
+			};
+			planned?: number | false;
+			reason?: string;
+	  }
+	| { error: string }
+);
 
 export interface StoredNpc {
 	name: string;

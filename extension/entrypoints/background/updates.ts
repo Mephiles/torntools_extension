@@ -1642,10 +1642,22 @@ async function updateNPCs() {
 	}
 
 	async function fetchLootRangers() {
+		const result = await fetchData<LootRangersLoot>("lzpt", { section: "loot" });
+		if (!("npcs" in result)) {
+			await ttStorage.set({
+				npcs: {
+					error: "No NPC results from Loot Rangers.",
+					next_update: now + TO_MILLIS.MINUTES * 5,
+					service: "Loot Rangers",
+				},
+			});
+			return;
+		}
+
 		const {
 			time: { clear: planned, reason, attack: ongoing },
 			...data
-		} = await fetchData<LootRangersLoot>("lzpt", { section: "loot" });
+		} = result;
 
 		const newNpcs: StoredNpcs = {
 			next_update: now + TO_MILLIS.MINUTES * (ongoing || (planned === 0 && !reason) ? 1 : 15),

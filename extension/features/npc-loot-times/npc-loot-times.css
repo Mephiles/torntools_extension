@@ -28,6 +28,11 @@
 	justify-content: space-between;
 }
 
+.npc-error {
+	color: var(--tt-color-red);
+	margin-top: 2px;
+}
+
 .npc-information .status {
 	display: inline-block;
 	width: 50px;
