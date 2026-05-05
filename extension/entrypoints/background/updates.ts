@@ -1045,9 +1045,7 @@ export async function showIconBars() {
 }
 
 async function updateStakeouts(forceUpdate = false) {
-	console.log("DKK update stakeouts 0", stakeouts);
 	await loadDatabase(true);
-	console.log("DKK update stakeouts 1", stakeouts);
 
 	const now = Date.now();
 
