@@ -538,7 +538,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		hideStocksParent.appendChild(document.createTextNode("Requires API data to be loaded."));
 	}
 
-	if (npcs.targets) {
+	if ("targets" in npcs) {
 		const alerts = _preferences.querySelector("#npc-alerts");
 
 		for (const [id, npc] of Object.entries(npcs.targets)) {
