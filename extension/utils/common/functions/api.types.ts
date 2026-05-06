@@ -219,6 +219,7 @@ export type LootRangersLoot =
 			};
 			order: number[];
 	  }
+	// biome-ignore lint/complexity/noBannedTypes: that's what we get from Loot Ranger
 	| {};
 
 export type FFScouterResult =
