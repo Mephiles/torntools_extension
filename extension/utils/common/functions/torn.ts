@@ -2558,26 +2558,31 @@ export function extractXIDFromDOM(root: ParentNode): ExtractedXID[] {
 
 	return uniqueItemNodes
 		.map((node) => {
-			const itemString = node.getAttribute("data-item") || node.getAttribute("data-itemid");
-			if (!itemString) return null;
+			try {
+				const itemString = node.getAttribute("data-item") || node.getAttribute("data-itemid");
+				if (!itemString) return null;
 
-			const equipButton = node.querySelector<HTMLElement>('[data-action="equip"], [data-action="unequip"], button[name="equip"], button[name="unequip"]');
-			const xidString =
-				node.dataset.armoryid ||
-				node.getAttribute("data-armoryid") ||
-				node.dataset.id ||
-				node.getAttribute("data-id") ||
-				equipButton.dataset.id ||
-				equipButton.getAttribute("data-id") ||
-				equipButton.dataset.armoryid ||
-				equipButton.getAttribute("data-armoryid");
-			if (!xidString) return null;
+				const equipButton = node.querySelector<HTMLElement>(
+					'[data-action="equip"], [data-action="unequip"], button[name="equip"], button[name="unequip"]',
+				);
+				const xidString = extractRawXIDFromDataset(node) || extractRawXIDFromDataset(equipButton);
+				if (!xidString) return null;
 
-			if (itemString === xidString) return null;
+				if (itemString === xidString) return null;
 
-			return { item: parseInt(itemString), xid: parseInt(xidString) };
+				return { item: parseInt(itemString), xid: parseInt(xidString) };
+			} catch (error) {
+				console.warn("[TornTools] Something went wrong when extracting XID's from the DOM.", error);
+				return null;
+			}
 		})
 		.filter((row) => row !== null);
+}
+
+function extractRawXIDFromDataset(element: HTMLElement | null): string | null {
+	if (!element) return null;
+
+	return (element.dataset.armoryid || element.getAttribute("data-armoryid") || element.dataset.id || element.getAttribute("data-id")) ?? null;
 }
 
 export function extractXIDFromMutations(mutations: MutationRecord[]) {
