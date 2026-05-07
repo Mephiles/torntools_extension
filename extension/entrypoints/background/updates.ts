@@ -1082,6 +1082,7 @@ async function updateStakeouts(forceUpdate = false) {
 		}
 
 		if (stakeout.alerts) {
+			const { label } = stakeout;
 			const { okay, hospital, landing, online, life, offline, revivable } = stakeout.alerts;
 
 			if (okay) {
@@ -1090,7 +1091,7 @@ async function updateStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.profile.name} is now okay.`,
+							label ? `${data.profile.name} (${label}) is now okay.` : `${data.profile.name} is now okay.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
 				} else if (data.profile.status.state !== "Okay") {
@@ -1109,7 +1110,9 @@ async function updateStakeouts(forceUpdate = false) {
 						}
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.profile.name} is now in the hospital${reasonText}.`,
+							label
+								? `${data.profile.name} (${label}) is now in the hospital${reasonText}.`
+								: `${data.profile.name} is now in the hospital${reasonText}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
 					}
@@ -1123,7 +1126,9 @@ async function updateStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.profile.name} is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`,
+							label
+								? `${data.profile.name} (${label}) is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`
+								: `${data.profile.name} is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
 				} else if (data.profile.status.state === "Traveling") {
@@ -1140,7 +1145,7 @@ async function updateStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.profile.name} is now online.`,
+							label ? `${data.profile.name} (${label}) is now online.` : `${data.profile.name} is now online.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
 				} else if (data.profile.last_action.status !== "Online") {
@@ -1153,7 +1158,9 @@ async function updateStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
+							label
+								? `${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} (${label}) life has dropped below ${life}%.`
+								: `${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
 				} else if (data.profile.life.current > data.profile.life.maximum * (life / 100)) {
@@ -1169,7 +1176,9 @@ async function updateStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.profile.name} has been offline for ${offlineHours} hours.`,
+							label
+								? `${data.profile.name} (${label}) has been offline for ${offlineHours} hours.`
+								: `${data.profile.name} has been offline for ${offlineHours} hours.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
 				} else if (offlineHours < offline) {
@@ -1185,7 +1194,7 @@ async function updateStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.profile.name} is now revivable.`,
+							label ? `${data.profile.name} (${label}) is now revivable.` : `${data.profile.name} is now revivable.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
 				} else if (!oldIsRevivable) {

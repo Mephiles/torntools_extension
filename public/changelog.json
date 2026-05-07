@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Remove errors that were a debugging tool in 'City Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Remove a race condition in the 'Display Case Worth'.", "contributor": "DeKleineKobini" },

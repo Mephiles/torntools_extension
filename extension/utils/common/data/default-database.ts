@@ -953,6 +953,7 @@ export type StakeoutData = {
 		offline: number | false;
 		revivable: boolean;
 	};
+	label: string;
 };
 export type StoredStakeouts = {
 	[name: string]: StakeoutData | any[] | number;

@@ -700,6 +700,7 @@ async function showBox() {
 				stakeouts[id] = {
 					info: readStakeoutDataFromProfilePage(),
 					alerts: { okay: false, hospital: false, landing: false, online: false, life: false, offline: false, revivable: false },
+					label: "",
 				};
 				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
 				ttStorage.set({ stakeouts });
@@ -714,6 +715,13 @@ async function showBox() {
 				findAllElements<HTMLInputElement>("input[type='text'], input[type='number']", content).forEach((input) => (input.value = ""));
 				findAllElements<HTMLInputElement>("input[type='checkbox']", content).forEach((input) => (input.checked = false));
 			}
+		});
+
+		const labelElement = createTextbox({ description: "label:", style: { width: "100px" } });
+		labelElement.onChange(() => {
+			if (!(id in stakeouts)) return;
+
+			ttStorage.change({ stakeouts: { [id]: { label: labelElement.getValue() } } });
 		});
 
 		const isOkay = createCheckbox({ description: "is okay" });
@@ -768,11 +776,21 @@ async function showBox() {
 		const alerts = elementBuilder({
 			type: "div",
 			class: "alerts",
-			children: [isOkay.element, isInHospital.element, lands.element, comesOnline.element, lifeDrops.element, offlineFor.element, isRevivable.element],
+			children: [
+				labelElement.element,
+				isOkay.element,
+				isInHospital.element,
+				lands.element,
+				comesOnline.element,
+				lifeDrops.element,
+				offlineFor.element,
+				isRevivable.element,
+			],
 		});
 
 		if (hasStakeout) {
 			const stakeout = stakeouts[id] as StakeoutData;
+			labelElement.setValue(stakeout.label ?? "");
 			isOkay.setChecked(stakeout.alerts.okay);
 			isInHospital.setChecked(stakeout.alerts.hospital);
 			lands.setChecked(stakeout.alerts.landing);
