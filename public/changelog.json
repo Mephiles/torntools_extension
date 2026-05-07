@@ -23,7 +23,10 @@
 				{ "message": "Handle empty NPC responses from Loot Ranger.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": [{ "message": "Load the XHR and fetch script earlier, to catch more requests at the page load.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Load the XHR and fetch script earlier, to catch more requests at the page load.", "contributor": "DeKleineKobini" },
+				{ "message": "Add explicit TypeScript path mappings so Bun test resolves the extension's @ imports.", "contributor": "Swervelord" }
+			]
 		}
 	},
 	{

@@ -331,6 +331,13 @@ export const TEAM: TeamMember[] = [
 		color: "#a6279b",
 	},
 	{
+		name: "Swervelord",
+		title: "Developer",
+		core: false,
+		torn: 3637232,
+		color: "#2E8B57",
+	},
+	{
 		name: "jensim",
 		title: "Developer",
 		core: false,
