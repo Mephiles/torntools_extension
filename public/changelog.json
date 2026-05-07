@@ -13,7 +13,8 @@
 				{ "message": "Reintroduce missing achievements on various pages, but primarily for crimes.", "contributor": "DeKleineKobini" },
 				{ "message": "'Bazaar Fill Max' no longer showed up on smaller screens.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Travel Item Profits' applying from colors when taxes would impact the color.", "contributor": "DeKleineKobini" },
-				{ "message": "More lenient handling of errors in the XID extraction from the DOM.", "contributor": "DeKleineKobini" }
+				{ "message": "More lenient handling of errors in the XID extraction from the DOM.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid adding infinite stocks money inputs.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
