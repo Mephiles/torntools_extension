@@ -1,10 +1,14 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 3 },
+		"version": { "major": 9, "minor": 0, "build": 4 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 3 },
+		"date": "2026/05/08",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Remove errors that were a debugging tool in 'City Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Remove a race condition in the 'Display Case Worth'.", "contributor": "DeKleineKobini" },
@@ -23,7 +27,6 @@
 				{ "message": "Adapt 'Travel Table' for the new travel update.", "contributor": "DeKleineKobini" },
 				{ "message": "Handle empty NPC responses from Loot Ranger.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [{ "message": "Load the XHR and fetch script earlier, to catch more requests at the page load.", "contributor": "DeKleineKobini" }]
 		}
 	},
