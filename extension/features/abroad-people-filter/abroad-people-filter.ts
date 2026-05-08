@@ -178,12 +178,11 @@ async function applyFilters() {
 		hasStatsEstimatesLoaded("Abroad People") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
 			? localFilters["Stats Estimate"]?.getSelections(content)
 			: undefined;
+	const ffScoreMin = parseFloat(localFilters["FF Score Min"]?.getValue()) ?? null;
+	const ffScoreMax = parseFloat(localFilters["FF Score Max"]?.getValue()) ?? null;
 
 	// Update level slider counter
 	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
-
-	const ffScoreMin = parseFloat(localFilters["FF Score Min"]?.getValue()) ?? null;
-	const ffScoreMax = parseFloat(localFilters["FF Score Max"]?.getValue()) ?? null;
 
 	// Save filters
 	await ttStorage.change({

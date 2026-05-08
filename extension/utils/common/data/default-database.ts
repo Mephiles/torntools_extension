@@ -704,6 +704,8 @@ export const DEFAULT_STORAGE = {
 			levelStart: new DefaultSetting("number", 1),
 			levelEnd: new DefaultSetting("number", 100),
 			estimates: new DefaultSetting<string[]>("array", []),
+			ffScoreMax: new DefaultSetting("number", null),
+			ffScoreMin: new DefaultSetting("number", null),
 		},
 		profile: {
 			relative: new DefaultSetting("boolean", false),

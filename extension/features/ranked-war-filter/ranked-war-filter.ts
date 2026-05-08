@@ -3,6 +3,7 @@ import "./ranked-war-filter.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { hasStatsEstimatesLoaded } from "@/features/stats-estimate/stats-estimate";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createTextbox } from "@/utils/common/elements/textbox/textbox";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
@@ -126,6 +127,29 @@ async function addFilters(rankedWarList?: Element) {
 		localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
 	}
 
+	if (settings.scripts.ffScouter.gauge && hasAPIData()) {
+		const ffScoreFilterMin = createFilterSection({
+			title: "FF Score Min",
+			text: "number",
+			default: filters.factionRankedWar.ffScoreMin?.toString(),
+			callback: () => filtering(),
+		});
+		ffScoreFilterMin.element.querySelector("input").step = 0.1;
+		filterContent.appendChild(ffScoreFilterMin.element);
+		localFilters["FF Score Min"] = { getValue: ffScoreFilterMin.getValue };
+
+		const ffScoreFilterMax = createTextbox({
+			type: "number",
+		});
+		ffScoreFilterMax.setValue(filters.factionRankedWar.ffScoreMax?.toString());
+		ffScoreFilterMax.onChange(filtering);
+		ffScoreFilterMax.element.step = "0.1";
+
+		ffScoreFilterMin.element.appendChild(elementBuilder({ type: "strong", text: "FF Score Max" }));
+		ffScoreFilterMin.element.append(ffScoreFilterMax.element);
+		localFilters["FF Score Max"] = { getValue: ffScoreFilterMax.getValue };
+	}
+
 	content.appendChild(filterContent);
 
 	const enabledFunnel = createFilterEnabledFunnel();
@@ -152,6 +176,8 @@ async function filtering() {
 		hasStatsEstimatesLoaded("Faction Ranked Wars") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.rankedWars && hasAPIData()
 			? localFilters["Stats Estimate"]?.getSelections(content)
 			: undefined;
+	const ffScoreMin = parseFloat(localFilters["FF Score Min"]?.getValue()) ?? null;
+	const ffScoreMax = parseFloat(localFilters["FF Score Max"]?.getValue()) ?? null;
 
 	// Update level slider counters
 	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
@@ -166,6 +192,8 @@ async function filtering() {
 				levelEnd: levelEnd,
 				status: status,
 				estimates: statsEstimates ?? filters.factionRankedWar.estimates,
+				ffScoreMax,
+				ffScoreMin,
 			},
 		},
 	});
@@ -185,7 +213,7 @@ async function filtering() {
 	}
 
 	for (const li of findAllElements(".members-list > li", membersWrap)) {
-		filterRow(li, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+		filterRow(li, { activity, status, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScoreMin, ffScoreMax }, false);
 	}
 
 	triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Ranked War Filter" });
@@ -205,6 +233,8 @@ interface RankedWarFilters {
 		end: number;
 	};
 	statsEstimates: string[];
+	ffScoreMax: number;
+	ffScoreMin: number;
 }
 
 function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individual: boolean) {
@@ -237,6 +267,26 @@ function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individ
 				hide("stats-estimate");
 				return;
 			}
+		}
+	}
+	if (filters.ffScoreMax || filters.ffScoreMin) {
+		try {
+			const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
+			if (gauge) {
+				const ffFloat: number = parseFloat(gauge.getAttribute("data-ff-scout"));
+				if (!Number.isNaN(ffFloat)) {
+					if (filters.ffScoreMax && !Number.isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
+						hide("ff-score");
+						return;
+					}
+					if (filters.ffScoreMin && !Number.isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
+						hide("ff-score");
+						return;
+					}
+				}
+			}
+		} catch (error) {
+			console.error("TT - Failed to filter row by FF Score.", error);
 		}
 	}
 
