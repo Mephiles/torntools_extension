@@ -591,10 +591,11 @@ async function setupDashboard() {
 			const stakeout = stakeouts[id];
 			if (!stakeout || typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
 
-			let activity: string, name: string, lastAction: string, lifeCurrent: number, lifeMaximum: number, state: string, stateColor: string;
+			let activity: string, label: string, name: string, lastAction: string, lifeCurrent: number, lifeMaximum: number, state: string, stateColor: string;
 
 			if (stakeout.info) {
 				activity = stakeout.info.last_action.status;
+				label = stakeout.label;
 				name = stakeout.info.name;
 				lastAction = stakeout.info.last_action.relative;
 				lifeCurrent = stakeout.info.life.current;
@@ -603,6 +604,7 @@ async function setupDashboard() {
 				stateColor = stakeout.info.status.color;
 			} else {
 				activity = "N/A";
+				label = "";
 				name = id;
 				lastAction = "N/A";
 				lifeCurrent = 0;
@@ -664,6 +666,7 @@ async function setupDashboard() {
 											text: name,
 											attributes: { target: "_blank" },
 										}),
+										label ? elementBuilder({ type: "span", text: ` (${label})` }) : null,
 									],
 								}),
 								removeStakeoutButton,

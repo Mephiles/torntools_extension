@@ -61,3 +61,7 @@ body.dark .row:hover {
 	text-decoration: none;
 	color: inherit;
 }
+
+.label input {
+	width: 100px;
+}

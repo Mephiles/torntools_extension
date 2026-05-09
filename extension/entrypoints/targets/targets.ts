@@ -269,6 +269,19 @@ async function setupStakeouts() {
 			row.appendChild(
 				elementBuilder({
 					type: "td",
+					class: "label",
+					children: [
+						elementBuilder({
+							type: "input",
+							value: data.label,
+							attributes: { placeholder: "label...", name: "label" },
+						}),
+					],
+				}),
+			);
+			row.appendChild(
+				elementBuilder({
+					type: "td",
 					class: `status ${data.info.last_action.status.toLowerCase()}`,
 					text: data.info.last_action.status,
 					attributes: { value: statusValue },
@@ -285,6 +298,19 @@ async function setupStakeouts() {
 		} else {
 			if (showStatus) row.classList.add("new");
 			row.appendChild(elementBuilder({ type: "td", class: "name", text: "" }));
+			row.appendChild(
+				elementBuilder({
+					type: "td",
+					class: "label",
+					children: [
+						elementBuilder({
+							type: "input",
+							value: data.label,
+							attributes: { placeholder: "label...", name: "label" },
+						}),
+					],
+				}),
+			);
 			row.appendChild(elementBuilder({ type: "td", class: "status", text: "", attributes: { value: 0 } }));
 			row.appendChild(elementBuilder({ type: "td", class: "last-action", text: "", attributes: { value: 0 } }));
 		}
@@ -459,6 +485,7 @@ async function setupStakeouts() {
 					offline: parseInt(alertsSection.querySelector<HTMLInputElement>(".offline").value) || false,
 					revivable: alertsSection.querySelector<HTMLInputElement>(".revivable").checked,
 				},
+				label: row.querySelector<HTMLInputElement>("input[name='label']").value,
 			};
 		}
 

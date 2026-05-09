@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "'FF Scouter' score filter for ranked wars.", "contributor": "DeKleineKobini" }],
+			"features": [{ "message": "'FF Scouter' score filter for ranked wars.", "contributor": "DeKleineKobini" },{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" }],
 			"fixes": [{ "message": "Filtering on profit in the 'Stocks Filter' gave errors for stocks you don't own.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": [],
