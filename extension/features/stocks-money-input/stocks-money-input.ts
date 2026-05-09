@@ -69,7 +69,7 @@ async function addMoneyInputs(event: { target: EventTarget }) {
 	if (!stockOwnedElement) return;
 
 	for (const blockSelector of ["[class*='buyBlock__']", "[class*='sellBlock__']"]) {
-		if (document.querySelector(`${blockSelector} .${styles.ttMoneyInput}`)) return;
+		if (document.querySelector(`${blockSelector} .${styles.ttMoneyInput}`)) continue;
 
 		clearInputObserver(blockSelector);
 
@@ -88,6 +88,8 @@ async function addMoneyInputs(event: { target: EventTarget }) {
 		});
 
 		const blockElement = await requireElement(blockSelector);
+		if (blockElement.querySelector(`.${styles.ttMoneyInput}`)) continue;
+
 		blockElement.querySelector("[class*='manageBlock__']").appendChild(moneyInputElement);
 
 		const observer = new MutationObserver(() => addMoneyInputs({ target: event.target }));

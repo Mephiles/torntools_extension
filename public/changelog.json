@@ -1,10 +1,20 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 3 },
+		"version": { "major": 9, "minor": 0, "build": 4 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" }],
+			"features": [{ "message": "'FF Scouter' score filter for ranked wars.", "contributor": "DeKleineKobini" },{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" }],
+			"fixes": [{ "message": "Filtering on profit in the 'Stocks Filter' gave errors for stocks you don't own.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 3 },
+		"date": "2026/05/08",
+		"logs": {
 			"fixes": [
 				{ "message": "Remove errors that were a debugging tool in 'City Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Remove a race condition in the 'Display Case Worth'.", "contributor": "DeKleineKobini" },
@@ -13,7 +23,8 @@
 				{ "message": "Reintroduce missing achievements on various pages, but primarily for crimes.", "contributor": "DeKleineKobini" },
 				{ "message": "'Bazaar Fill Max' no longer showed up on smaller screens.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Travel Item Profits' applying from colors when taxes would impact the color.", "contributor": "DeKleineKobini" },
-				{ "message": "More lenient handling of errors in the XID extraction from the DOM.", "contributor": "DeKleineKobini" }
+				{ "message": "More lenient handling of errors in the XID extraction from the DOM.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid adding infinite stocks money inputs.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
@@ -22,7 +33,6 @@
 				{ "message": "Adapt 'Travel Table' for the new travel update.", "contributor": "DeKleineKobini" },
 				{ "message": "Handle empty NPC responses from Loot Ranger.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [{ "message": "Load the XHR and fetch script earlier, to catch more requests at the page load.", "contributor": "DeKleineKobini" }]
 		}
 	},

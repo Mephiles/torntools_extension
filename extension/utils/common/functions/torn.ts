@@ -2550,13 +2550,10 @@ export interface ExtractedXID {
  * https://github.com/Manuito83/torn-pda/blob/master/lib/utils/js_snippets/js_quick_items.dart
  */
 export function extractXIDFromDOM(root: ParentNode): ExtractedXID[] {
-	const nodes = findAllElements("li[data-item][data-category='Temporary'], li[data-item][data-category='Temporary'] *", root);
+	const nodes = findAllElements("li[data-item][data-category='Temporary']", root);
 	if (!nodes.length) return [];
 
-	const itemNodes = nodes.map((node) => node.closest<HTMLLIElement>("li[data-item]")).filter((row) => row !== null);
-	const uniqueItemNodes = Array.from(new Set(itemNodes));
-
-	return uniqueItemNodes
+	return nodes
 		.map((node) => {
 			try {
 				const itemString = node.getAttribute("data-item") || node.getAttribute("data-itemid");

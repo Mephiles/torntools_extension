@@ -180,7 +180,8 @@ async function applyFilter() {
 		}
 
 		if (hasAPIData() && settings.apiUsage.user.stocks && (profit === "yes" || profit === "no")) {
-			if (!(id in userdata.stocks)) {
+			const userStock = userdata.stocks.find((stock) => stock.id === id);
+			if (!userStock) {
 				hideRow(row);
 				continue;
 			}
@@ -189,7 +190,6 @@ async function applyFilter() {
 				continue;
 			}
 
-			const userStock = userdata.stocks.find((stock) => stock.id === id);
 			const currentPrice = stockdata[id].current_price * userStock.shares;
 			const boughtPrice = userStock.transactions.map((transaction) => transaction.shares * transaction.price).reduce((a, b) => a + b, 0);
 
