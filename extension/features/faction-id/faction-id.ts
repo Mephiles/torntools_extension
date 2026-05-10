@@ -1,5 +1,5 @@
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
-import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction, readFactionDetails } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -17,6 +17,7 @@ function initialise() {
 }
 
 async function addID() {
+	if (isInternalFaction && getFactionSubpage() !== "info") return;
 	if (document.getElementById("tt-faction-id")) return;
 
 	const container = await requireElement(".faction-info-wrap > .title-black");

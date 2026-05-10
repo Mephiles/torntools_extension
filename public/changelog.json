@@ -21,7 +21,8 @@
 				{
 					"message": "Another attempt at maybe resolving the 'Abroad Items Filter' issue where it doesn't always work.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Avoid errors with the 'Faction ID' feature.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" }],
 			"removed": [],
