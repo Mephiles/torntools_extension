@@ -174,9 +174,16 @@ function setupQuickDragListeners() {
 
 		setTimeout(() => {
 			document.querySelector("#factionQuickItems > main").classList.add("drag-progress");
-			if (document.querySelector("#factionQuickItems .temp.item")) return;
+			if (document.querySelector("#factionQuickItems .temp.item") || !isElement(event.target)) return;
 
-			const _id = (event.target as Element).querySelector<HTMLElement>(".img-wrap").dataset.itemid;
+			let target = event.target;
+			if (!target.hasAttribute("draggable")) {
+				const actualTarget = target.closest("[draggable]");
+
+				if (actualTarget) target = actualTarget;
+			}
+
+			const _id = target.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
 			const id = Number.isNaN(parseInt(_id)) ? _id : parseInt(_id);
 
 			addQuickItem({ id }, true);
