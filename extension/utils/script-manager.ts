@@ -234,18 +234,18 @@ import { getSearchParameters } from "@/utils/common/functions/dom";
 export function scriptManager() {
 	initializeDatabase();
 
-	const page = getPage();
-
 	/*
 	 * Feature Management
 	 */
+	// Very time-sensitive scripts first
+	FEATURE_MANAGER.registerFeature(new AlignLeftFeature());
+
 	runGlobalPageScripts();
 	FEATURE_MANAGER.registerFeature(new PointsValueFeature());
 	FEATURE_MANAGER.registerFeature(new RWTimerFeature());
 	FEATURE_MANAGER.registerFeature(new ReviveRequestFeature());
 	FEATURE_MANAGER.registerFeature(new CustomLinksFeature());
 	FEATURE_MANAGER.registerFeature(new CollapsibleAreasFeature());
-	FEATURE_MANAGER.registerFeature(new AlignLeftFeature());
 	FEATURE_MANAGER.registerFeature(new HideLeaveButtonsFeature());
 	FEATURE_MANAGER.registerFeature(new HideLevelUpgradeFeature());
 	FEATURE_MANAGER.registerFeature(new HideTutorialsFeature());
@@ -284,6 +284,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new ResizableChatFeature());
 	FEATURE_MANAGER.registerFeature(new NoOutsideLinkAlertFeature());
 
+	const page = getPage();
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
 		FEATURE_MANAGER.registerFeature(new BankInvestmentDueTimeFeature());
