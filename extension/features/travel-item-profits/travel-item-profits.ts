@@ -27,7 +27,7 @@ function initialiseListeners() {
 
 async function addProfitsColumn() {
 	await requireElement("[class*='stockTableWrapper___']");
-	markTravelTableColumns();
+	void markTravelTableColumns();
 
 	document.body.classList.add("tt-travel-profits");
 	const market = document.querySelector("#travel-root");
