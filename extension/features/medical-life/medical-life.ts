@@ -45,7 +45,10 @@ function addListener() {
 
 			if (!isElement(event.target) || !event.target.classList.contains("use")) return;
 
-			const id = convertToNumber(event.target.closest(".item-use-act").querySelector<HTMLElement>(".use-cont").dataset.itemid);
+			const useElement = event.target.closest(".item-use-act");
+			if (!useElement) return;
+
+			const id = convertToNumber(useElement.querySelector<HTMLElement>(".use-cont").dataset.itemid);
 			if (!doesRestoreLife(id)) return;
 
 			await showInformation(id);
