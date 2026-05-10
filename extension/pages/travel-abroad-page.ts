@@ -78,7 +78,7 @@ export interface TravelAbroadShopLoadDetails {
 	country: string;
 }
 
-export function markTravelTableColumns() {
+export async function markTravelTableColumns() {
 	findAllElements("[class*='itemsHeader___'] > *:not([data-tt-content-type])").forEach((header) => {
 		let contentType: string;
 		if (header.textContent === "Item") contentType = "item";
@@ -92,19 +92,20 @@ export function markTravelTableColumns() {
 
 		header.dataset.ttContentType = contentType;
 	});
-	requireElement("[class*='stockTableWrapper___'] [class*='row___']").then(() => {
-		findAllElements("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").forEach((row) => {
-			let contentType: string;
-			if (row.className.includes("imageCell___")) contentType = "item";
-			else if (row.className.includes("itemName___")) contentType = "name";
-			else if (row.textContent.startsWith("type")) contentType = "type";
-			else if (row.textContent.startsWith("cost") || row.textContent.startsWith("$")) contentType = "cost";
-			else if (row.textContent.startsWith("stock")) contentType = "stock";
-			else if (row.tagName === "FORM") contentType = "amount";
-			else if (row.className.includes("buyCell___")) contentType = "buy";
-			else return;
 
-			row.dataset.ttContentType = contentType;
-		});
+	await requireElement("[class*='stockTableWrapper___'] [class*='row___']");
+
+	findAllElements("[class*='stockTableWrapper___'] [class*='row___'] > *:not([data-tt-content-type])").forEach((row) => {
+		let contentType: string;
+		if (row.className.includes("imageCell___")) contentType = "item";
+		else if (row.className.includes("itemName___")) contentType = "name";
+		else if (row.textContent.startsWith("type")) contentType = "type";
+		else if (row.textContent.startsWith("cost") || row.textContent.startsWith("$")) contentType = "cost";
+		else if (row.textContent.startsWith("stock")) contentType = "stock";
+		else if (row.tagName === "FORM") contentType = "amount";
+		else if (row.className.includes("buyCell___")) contentType = "buy";
+		else return;
+
+		row.dataset.ttContentType = contentType;
 	});
 }

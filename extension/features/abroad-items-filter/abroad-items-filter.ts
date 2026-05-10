@@ -21,7 +21,7 @@ async function addFilter() {
 	});
 
 	await requireElement("[class*='stockTableWrapper___'] > li");
-	markTravelTableColumns();
+
 	const statistics = createStatistics("items");
 	content.appendChild(statistics.element);
 
@@ -79,6 +79,7 @@ async function addFilter() {
 	enabledFunnel.setEnabled(filters.abroadItems.enabled);
 	options.appendChild(enabledFunnel.element);
 
+	await markTravelTableColumns();
 	await filtering();
 
 	async function filtering() {
@@ -97,8 +98,6 @@ async function addFilter() {
 			return;
 		}
 		if (profitOnly) await requireElement(".tt-travel-market-cell");
-
-		markTravelTableColumns();
 
 		for (const li of findAllElements("[class*='stockTableWrapper___'] > li")) {
 			showRow(li);
