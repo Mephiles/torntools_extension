@@ -1,3 +1,4 @@
+import type { ApiError } from "tornapi-typescript";
 import { api, factiondata, settings, userdata } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { ttUsage } from "@/utils/common/data/usage";
@@ -461,4 +462,8 @@ export class HTTPException {
 			505: "HTTP Version Not Supported",
 		};
 	}
+}
+
+export function isTornApiError(response: any): response is ApiError {
+	return !!response && typeof response === "object" && "error" in response && "code" in response;
 }

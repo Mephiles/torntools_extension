@@ -68,7 +68,7 @@ import type {
 	StoredTorndata,
 } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { CUSTOM_API_ERROR, FACTION_ACCESS, fetchData, hasAPIData, hasFactionAPIAccess } from "@/utils/common/functions/api";
+import { CUSTOM_API_ERROR, FACTION_ACCESS, fetchData, hasAPIData, hasFactionAPIAccess, isTornApiError } from "@/utils/common/functions/api";
 import type { LootRangersLoot, TornstatsLoot, YATALoot } from "@/utils/common/functions/api.types";
 import type {
 	FactionV1CrimesResponse,
@@ -182,6 +182,14 @@ export async function timedUpdates() {
 			console.warn(`Error due to no internet while ${message}.`);
 		} else if (error.code === CUSTOM_API_ERROR.CANCELLED) {
 			console.warn(`Error due to requests taking too long while ${message}.`);
+		} else if (isTornApiError(error)) {
+			if (error.code === 9) {
+				console.log(`Torn's API is temporary disabled while ${message}.`);
+			} else if (error.code === 17) {
+				console.log(`Torn's API is having backend issues while ${message}.`);
+			} else {
+				console.error(`Error while ${message}.`, error);
+			}
 		} else {
 			console.error(`Error while ${message}.`, error);
 		}

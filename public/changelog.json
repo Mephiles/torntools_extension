@@ -9,7 +9,7 @@
 				{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [{ "message": "Filtering on profit in the 'Stocks Filter' gave errors for stocks you don't own.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
