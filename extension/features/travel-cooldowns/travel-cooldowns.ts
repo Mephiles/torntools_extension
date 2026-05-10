@@ -24,7 +24,7 @@ function initialiseListeners() {
 }
 
 async function showWarnings() {
-	const container = await requireElement(
+	const container: HTMLElement = await requireElement(
 		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']",
 	);
 	if (!container) return;
@@ -69,6 +69,11 @@ async function showWarnings() {
 			],
 		});
 
+		if (!mobile && !tabletVertical) container.insertAdjacentElement("beforebegin", cooldowns);
+		else {
+			container.querySelector("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
+		}
+
 		if (!hasFinishedEducation() || userdata.education_current > 0)
 			cooldowns.insertAdjacentElement(
 				"afterend",
@@ -80,14 +85,14 @@ async function showWarnings() {
 			);
 
 		const investmentMessage =
-			userdata.money.city_bank.until * 1000 <= Date.now()
+			userdata.money.city_bank && userdata.money.city_bank.until * 1000 <= Date.now()
 				? "Your bank will be ready for investment before you return!"
 				: "You have no bank investment going on.";
 		cooldowns.insertAdjacentElement(
 			"afterend",
 			elementBuilder({
 				type: "div",
-				class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank.until - userdata.date)],
+				class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date : 0)],
 				text: investmentMessage,
 			}),
 		);
@@ -98,12 +103,7 @@ async function showWarnings() {
 		handleClass(cooldowns.querySelector(".booster"), userdata.cooldowns.booster);
 		handleClass(cooldowns.querySelector(".medical"), userdata.cooldowns.medical);
 		if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.querySelector(".education"), userdata.education_timeleft);
-		handleClass(cooldowns.parentElement.querySelector(".investment"), userdata.money.city_bank.until - userdata.date);
-	}
-
-	if (!mobile && !tabletVertical) container.insertAdjacentElement("beforebegin", cooldowns);
-	else {
-		container.querySelector("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
+		handleClass(cooldowns.parentElement.querySelector(".investment"), userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date : 0);
 	}
 
 	function getDurationClass(time: number) {

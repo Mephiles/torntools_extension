@@ -341,6 +341,7 @@ export async function updateUserdata(forceUpdate = false) {
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
+	userdata.money.city_bank = null;
 
 	// Notifications have a 100K count limit from being fetched via the Torn API
 	// Use "newevents" selection only when the old events count > new events count

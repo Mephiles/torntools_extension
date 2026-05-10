@@ -8,7 +8,17 @@
 				{ "message": "'FF Scouter' score filter for ranked wars.", "contributor": "DeKleineKobini" },
 				{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [{ "message": "Filtering on profit in the 'Stocks Filter' gave errors for stocks you don't own.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Filtering on profit in the 'Stocks Filter' gave errors for stocks you don't own.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Resolve an issue where 'Travel Cooldowns' doesn't work when you have don't have an active bank investment.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "'Travel Cooldowns' didn't show education or bank investment warnings.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"changes": [{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
