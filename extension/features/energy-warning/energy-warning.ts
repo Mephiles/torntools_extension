@@ -23,6 +23,10 @@ function initialiseListener() {
 async function addWarning(item: HTMLElement) {
 	findAllElements(".tt-energy-warning", item).forEach((x) => x.remove());
 
+	if (getPage() === "factions") {
+		if (item.classList.contains("ui-state-default")) return;
+	}
+
 	const message: Element = await requireElement(".confirm-wrap, .use-act", { parent: item });
 	if (!message) return;
 
