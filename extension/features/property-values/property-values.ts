@@ -1,6 +1,6 @@
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
+import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { convertToNumber, formatNumber } from "@/utils/common/functions/formatting";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
@@ -58,6 +58,9 @@ export default class PropertyValuesFeature extends Feature {
 	}
 
 	async execute() {
+		const params = getHashParameters();
+		if (params.has("p") && params.get("p") !== "properties") return;
+
 		await addPropertyValues();
 	}
 
