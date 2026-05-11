@@ -64,6 +64,7 @@ async function addLinks() {
 function removeLinks() {
 	Object.keys(BAR_LINKS)
 		.map((selector) => document.querySelector<HTMLElement>(selector))
+		.filter((e) => !!e)
 		.forEach((barName) => {
 			barName.removeEventListener("click", onClick);
 			barName.classList.remove("bar-link");

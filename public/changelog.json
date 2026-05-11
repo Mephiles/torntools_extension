@@ -26,7 +26,8 @@
 				{ "message": "Hopefully avoid the initial page jump with 'Align Left'.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Medical Life' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow dragging items to the 'Faction Quick Items' container from within the actions.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'Energy Warning' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'Energy Warning' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with the 'Bar Links' feature.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" }],
 			"removed": [],
