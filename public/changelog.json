@@ -6,7 +6,8 @@
 		"logs": {
 			"features": [
 				{ "message": "'FF Scouter' score filter for ranked wars.", "contributor": "DeKleineKobini" },
-				{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" }
+				{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" },
+				{ "message": "Modify TTS speaking rate for notifications.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Filtering on profit in the 'Stocks Filter' gave errors for stocks you don't own.", "contributor": "DeKleineKobini" },

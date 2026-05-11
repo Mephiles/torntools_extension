@@ -71,6 +71,7 @@ export const DEFAULT_STORAGE = {
 			soundCustom: new DefaultSetting("string", ""),
 			tts: new DefaultSetting("boolean", false),
 			ttsVoice: new DefaultSetting("string", "default"),
+			ttsRate: new DefaultSetting("number", 1),
 			link: new DefaultSetting("boolean", true),
 			volume: new DefaultSetting("number", 100),
 			requireInteraction: new DefaultSetting("boolean", false),

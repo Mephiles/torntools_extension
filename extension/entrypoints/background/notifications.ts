@@ -189,6 +189,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 
 				if (matchedVoice) ttsMessage.voice = matchedVoice;
 			}
+			ttsMessage.rate = settings.notifications.ttsRate;
 			window.speechSynthesis.speak(ttsMessage);
 		} else {
 			// Offscreen documents
@@ -199,6 +200,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 				text: text,
 				volume: settings.notifications.volume / 100,
 				voice: settings.notifications.ttsVoice,
+				rate: settings.notifications.ttsRate,
 			} satisfies OffscreenMessage);
 		}
 	}
