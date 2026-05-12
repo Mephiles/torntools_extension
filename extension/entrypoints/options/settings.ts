@@ -1845,6 +1845,49 @@ async function setupExport() {
 		message: string;
 	}
 
+	const REMOTE_SYNC_SOUND_CUSTOM_LIMIT = 64 * 1024;
+
+	function getSyncItemSize(key: string, value: unknown) {
+		return key.length + JSON.stringify(value).length;
+	}
+
+	function isPlainObject(value: unknown): value is Record<string, unknown> {
+		return !!value && typeof value === "object" && !Array.isArray(value);
+	}
+
+	function collectSizeBreakdownEntries(key: string, value: unknown, depth: number, maxDepth: number): [string, unknown][] {
+		const entries: [string, unknown][] = [[key, value]];
+		if (depth >= maxDepth || !isPlainObject(value)) return entries;
+
+		for (const [childKey, childValue] of Object.entries(value)) {
+			entries.push(...collectSizeBreakdownEntries(`${key}.${childKey}`, childValue, depth + 1, maxDepth));
+		}
+
+		return entries;
+	}
+
+	function formatSizeBreakdown(data: ExportData) {
+		const sections: [string, unknown][] = [
+			["user", data.user],
+			["client", data.client],
+			["date", data.date],
+			...Object.entries(data.database).flatMap(([key, value]) => {
+				if (key === "settings") {
+					return collectSizeBreakdownEntries(`database.${key}`, value, 0, 2);
+				}
+
+				return [[`database.${key}`, value] as [string, unknown]];
+			}),
+		];
+
+		return sections
+			.map(([key, value]) => ({ key, bytes: getSyncItemSize(key, value) }))
+			.sort((left, right) => right.bytes - left.bytes)
+			.slice(0, 5)
+			.map(({ key, bytes }) => `${key}: ${bytes} bytes`)
+			.join(", ");
+	}
+
 	async function getExportData(api: boolean): Promise<ExportData> {
 		const exportedKeys: DatabaseKey[] = ["version", "settings", "filters", "stakeouts", "notes", "quick", "localdata", "migrations"];
 		if (api) exportedKeys.splice(0, 0, "api");
@@ -1872,6 +1915,28 @@ async function setupExport() {
 		return data;
 	}
 
+	async function getRemoteSyncExportPreview(): Promise<{ data: ExportData; omittedSoundCustom: boolean }> {
+		const data = await getExportData(false);
+		const soundCustom = data.database.settings?.notifications?.soundCustom;
+
+		if (typeof soundCustom === "string" && soundCustom.length > REMOTE_SYNC_SOUND_CUSTOM_LIMIT) {
+			const database = structuredClone(data.database);
+			if (database.settings?.notifications) {
+				database.settings.notifications.soundCustom = "";
+			}
+
+			return {
+				data: {
+					...data,
+					database,
+				},
+				omittedSoundCustom: true,
+			};
+		}
+
+		return { data, omittedSoundCustom: false };
+	}
+
 	async function importData(data: ExportData) {
 		try {
 			await ttStorage.change(data.database);
@@ -1897,17 +1962,29 @@ async function setupExport() {
 		exportSection.querySelector("#export-remote-sync").addEventListener("click", async () => {
 			loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
 				.then(async () => {
-					const data = await getExportData(false);
+					const { data, omittedSoundCustom } = await getRemoteSyncExportPreview();
 
 					try {
 						await browser.storage.sync.set(data);
 					} catch (error) {
 						console.error("Failed to save data!", error);
-						sendMessage("Failed to save data!", false);
+						const payloadSize = JSON.stringify(data).length;
+						const totalLimit = browser.storage.sync.QUOTA_BYTES ?? 102400;
+						if (payloadSize > totalLimit) {
+							sendMessage(
+								`Sync export is ${payloadSize} bytes, exceeding the ${totalLimit} byte storage.sync limit. Largest sections: ${formatSizeBreakdown(data)}.`,
+								false,
+							);
+						} else {
+							sendMessage("Failed to save data!", false);
+						}
 						return;
 					}
 
 					sendMessage("Saved data in your browser synchronized storage.", true);
+					if (omittedSoundCustom) {
+						sendMessage("Custom notification audio was too large for browser sync and was excluded from the remote export.", false);
+					}
 					handleSyncData(data);
 				})
 				.catch(() => {});

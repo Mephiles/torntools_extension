@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 import type { Browser } from "@wxt-dev/browser";
 import { defineConfig, type UserManifest } from "wxt";
 
@@ -22,13 +23,14 @@ function appendCommitHashToVersion(manifest: Browser.runtime.Manifest) {
 // noinspection JSUnusedGlobalSymbols
 export default defineConfig({
 	srcDir: "extension",
-	modules: ["@wxt-dev/auto-icons"],
+	modules: ["@wxt-dev/auto-icons", "@wxt-dev/module-svelte"],
 	autoIcons: {
 		baseIconPath: "assets/icon.svg",
 	},
 	alias: {
 		"@features": resolve("./extension/utils/features"),
 		"@vendor": resolve("./extension/utils/vendor"),
+		"@svelte": resolve("./extension/svelte"),
 	},
 	dev: {
 		server: {
@@ -36,6 +38,7 @@ export default defineConfig({
 		},
 	},
 	vite: () => ({
+		plugins: [tailwindcss()],
 		build: {
 			sourcemap: true,
 			minify: false,

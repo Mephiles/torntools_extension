@@ -60,7 +60,8 @@ class TornToolsStorage {
 			) {
 				parent[key] = this.recursive(parent[key], toChange[key]);
 			} else if (parent && typeof parent === "object") {
-				parent[key] = toChange[key];
+				const value = toChange[key];
+				parent[key] = Array.isArray(value) ? Array.from(value) : value;
 			} else {
 				parent = { [key]: toChange[key] };
 			}

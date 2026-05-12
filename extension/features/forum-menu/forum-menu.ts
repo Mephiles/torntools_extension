@@ -238,9 +238,9 @@ async function showPosts() {
 
 										// Remove bbcode
 										const bbcodeRegex = /\[(\w+)(?:\s?\w*=[^\]]*)*](.*?)\[\/\1]/gs;
-										// biome-ignore lint/suspicious/noAssignInExpressions: pre migration
+										// biome-ignore lint/suspicious/noAssignInExpressions: pre-migration
 										while (postContent !== (postContent = postContent.replace(bbcodeRegex, "$2"))) {}
-										// biome-ignore lint/suspicious/noAssignInExpressions: pre migration
+										// biome-ignore lint/suspicious/noAssignInExpressions: pre-migration
 										while (quotesContent !== (quotesContent = quotesContent.replace(bbcodeRegex, "$2"))) {}
 
 										// Remove 3+ newlines

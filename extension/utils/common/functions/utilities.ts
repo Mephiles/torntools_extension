@@ -173,14 +173,16 @@ export function toCorrectType(object: { [key: string]: any }) {
 export function toClipboard(text: string) {
 	if (navigator?.clipboard?.writeText) {
 		navigator.clipboard.writeText(text).then(() => {});
+		return true;
 	} else {
 		const textarea = elementBuilder({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });
 		document.body.appendChild(textarea);
 
 		textarea.select();
-		document.execCommand("copy");
+		const copied = document.execCommand("copy");
 
 		document.body.removeChild(textarea);
+		return copied;
 	}
 }
 
