@@ -31,7 +31,8 @@
 				{ "message": "Avoid errors with the 'Property Happiness' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Property Values' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'Job Points Tooltip' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'Job Points Tooltip' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve issues in 'Trade Open Chat' when checking for elements.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" }],
 			"removed": [],

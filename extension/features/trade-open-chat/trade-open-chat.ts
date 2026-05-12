@@ -1,7 +1,7 @@
 import "./trade-open-chat.css";
 import { browser } from "wxt/browser";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
-import { settings, userdata } from "@/utils/common/data/database";
+import { settings } from "@/utils/common/data/database";
 import { elementBuilder, executeScript } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
@@ -17,11 +17,7 @@ function initialiseListeners() {
 }
 
 async function addButton() {
-	let id: number;
-
-	const trader: HTMLAnchorElement = await requireElement(`#trade-container .log > li .desc a:not([href*="${userdata.profile.id}"])`);
-	if (trader) id = parseInt(trader.href.match(/XID=(\d*)/i)[1]);
-	if (!id) return;
+	await requireElement(`#trade-container .log > li .desc a`);
 
 	const button = elementBuilder({
 		type: "span",
