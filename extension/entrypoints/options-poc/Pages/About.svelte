@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { ttStorage } from "@/utils/common/data/storage";
+	import { formatBytes } from "@/utils/common/functions/formatting";
 	import { TORNTOOLS_FORUM_POST } from "@/utils/common/functions/torn";
 	import { TEAM } from "@/utils/common/team";
 	import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
@@ -109,18 +110,6 @@
 		if (error instanceof Error && error.message) return error.message;
 		if (typeof message === "string" && message.length) return message;
 		return fallback;
-	}
-
-	function formatBytes(bytes: number) {
-		if (bytes === 0) return "0 bytes";
-		if (bytes < 0) throw new Error("Negative bytes are impossible");
-
-		const unitExponent = 1024;
-		const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-		const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
-		const converted = bytes / unitExponent ** effectiveUnit;
-
-		return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(converted)} ${units[effectiveUnit]}`;
 	}
 </script>
 

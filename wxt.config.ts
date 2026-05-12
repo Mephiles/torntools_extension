@@ -31,6 +31,7 @@ export default defineConfig({
 		"@features": resolve("./extension/utils/features"),
 		"@vendor": resolve("./extension/utils/vendor"),
 		"@svelte": resolve("./extension/svelte"),
+		"@public": resolve("./public"),
 	},
 	dev: {
 		server: {

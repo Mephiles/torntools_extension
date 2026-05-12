@@ -7,7 +7,7 @@ export type ChangelogEntry = {
 	title?: string;
 	date: false | Date;
 	logs: {
-		[section: string]: { message: string | string[]; contributor: string }[];
+		[section: string]: { message: string | string[]; contributor?: string }[];
 	};
 };
 
@@ -25,7 +25,7 @@ export type ImportedChangelogEntry = {
 	title?: string;
 	date?: false | string;
 	logs: {
-		[section: string]: { message: string | string[]; contributor: string }[];
+		[section: string]: { message: string | string[]; contributor?: string }[];
 	};
 };
 

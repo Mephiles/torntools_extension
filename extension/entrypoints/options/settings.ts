@@ -18,13 +18,14 @@ import { ttUsage } from "@/utils/common/data/usage";
 import { changeAPIKey, checkAPIPermission, FETCH_PLATFORMS, hasAPIData } from "@/utils/common/functions/api";
 import { calculateRevivePrice, REVIVE_PROVIDERS } from "@/utils/common/functions/api-external-revives";
 import { checkDevice, elementBuilder, findAllElements, getSearchParameters, rotateElement } from "@/utils/common/functions/dom";
-import { capitalizeText, daySuffix, dropDecimals, formatDate, formatNumber, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
+import { capitalizeText, daySuffix, dropDecimals, formatBytes, formatDate, formatTime, toMultipleDigits } from "@/utils/common/functions/formatting";
 import { getPageTheme, type InternalPageTheme, initializeInternalPage, loadConfirmationPopup, sendMessage } from "@/utils/common/functions/pages";
 import { ALL_AREAS, ALL_ICONS, CASINO_GAMES, CHAT_TITLE_COLORS, CUSTOM_LINKS_PRESET, HIGHLIGHT_PLACEHOLDERS, hasDarkMode } from "@/utils/common/functions/torn";
 import { isIntNumber, isNumber, MONTHS, toClipboard } from "@/utils/common/functions/utilities";
 import { CONTRIBUTORS, TEAM } from "@/utils/common/team";
 import "@phosphor-icons/web/regular/style.css";
 import type { SavedCustomLink } from "@/features/custom-links/custom-links";
+import { readableChangelog } from "@/utils/common/functions/changelog";
 import { PHCaretDown, PHDotsSix, PHTrash } from "@/utils/common/icons/phosphor-icons";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
@@ -77,23 +78,10 @@ async function showPage(name: string) {
 	}
 }
 
-type Changelog = {
-	version: { major: number; minor: number; build: number };
-	title?: string;
-	date?: false | string | Date;
-	logs: {
-		[section: string]: { message: string | string[]; contributor: string }[];
-	};
-}[];
-
 async function setupChangelog() {
-	const changelog: Changelog = await (await fetch(browser.runtime.getURL("/changelog.json"))).json();
 	const content = document.querySelector("#changelog > section");
 
-	changelog.forEach((entry, index, allEntries) => {
-		if (typeof entry.date === "string") entry.date = new Date(entry.date);
-		else if (typeof entry.date === "object") entry.date = false;
-
+	readableChangelog().forEach((entry, index, allEntries) => {
 		const log = elementBuilder({ type: "div", class: "version-log" });
 		const heading = elementBuilder({ type: "div", class: "title", text: getTitle() });
 		const icon = PHCaretDown();
@@ -2115,27 +2103,4 @@ function setupAbout() {
 			element.classList.add("corruption-error");
 		}
 	}
-}
-
-interface FormatBytesOptions {
-	decimals: number;
-}
-
-function formatBytes(bytes: number, partialOptions: Partial<FormatBytesOptions> = {}) {
-	const options: FormatBytesOptions = {
-		decimals: 2,
-		...partialOptions,
-	};
-
-	if (bytes === 0) return "0 bytes";
-	else if (bytes < 0) throw "Negative bytes are impossible";
-
-	const unitExponent = 1024;
-	const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-
-	const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
-
-	const xBytes = bytes / unitExponent ** effectiveUnit;
-
-	return `${formatNumber(xBytes, { decimals: options.decimals })} ${units[effectiveUnit]}`;
 }

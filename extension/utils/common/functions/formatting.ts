@@ -526,3 +526,26 @@ export function getDaySuffix(day: number): string {
 			return "th";
 	}
 }
+
+interface FormatBytesOptions {
+	decimals: number;
+}
+
+export function formatBytes(bytes: number, partialOptions: Partial<FormatBytesOptions> = {}) {
+	const options: FormatBytesOptions = {
+		decimals: 2,
+		...partialOptions,
+	};
+
+	if (bytes === 0) return "0 bytes";
+	else if (bytes < 0) throw "Negative bytes are impossible";
+
+	const unitExponent = 1024;
+	const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+	const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
+
+	const xBytes = bytes / unitExponent ** effectiveUnit;
+
+	return `${formatNumber(xBytes, { decimals: options.decimals })} ${units[effectiveUnit]}`;
+}

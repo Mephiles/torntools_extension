@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BadgeVariant, badgeVariants } from "@svelte/components/ui/badge/helper";
+	import { type BadgeVariant, badgeVariants } from "@svelte/components/ui/badge/helper";
 	import { cn, type WithElementRef } from "@svelte/utils.js";
 	import type { HTMLAnchorAttributes } from "svelte/elements";
 

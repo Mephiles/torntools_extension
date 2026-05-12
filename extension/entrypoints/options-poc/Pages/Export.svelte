@@ -4,7 +4,7 @@
 	import * as Dialog from "@svelte/components/ui/dialog";
 	import { Textarea } from "@svelte/components/ui/textarea";
 	import { onMount } from "svelte";
-	import { formatDate, formatNumber, formatTime } from "@/utils/common/functions/formatting";
+	import { formatBytes, formatDate, formatTime } from "@/utils/common/functions/formatting";
 	import { toClipboard } from "@/utils/common/functions/utilities";
 	import {
 		clearRemoteSyncData,
@@ -232,18 +232,6 @@
 
 	function getRemoteVersion() {
 		return remoteState.available ? remoteState.data.client.version : null;
-	}
-
-	function formatBytes(bytes: number) {
-		if (bytes === 0) return "0 bytes";
-		if (bytes < 0) throw new Error("Negative bytes are impossible");
-
-		const unitExponent = 1024;
-		const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-		const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
-		const converted = bytes / unitExponent ** effectiveUnit;
-
-		return `${formatNumber(converted, { decimals: 2 })} ${units[effectiveUnit]}`;
 	}
 </script>
 
