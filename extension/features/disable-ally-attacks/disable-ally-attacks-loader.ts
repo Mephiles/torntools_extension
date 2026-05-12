@@ -17,7 +17,8 @@ async function startListener() {
 		const params = new URL(fetch.url).searchParams;
 		const sid = params.get("sid");
 
-		if (!isAttackData(sid, json) || !json.DB.defenderUser.factionID) return;
+		if (!isAttackData(sid, json)) return;
+		if (!json.DB.defenderUser.factionID || json.viewStyle !== "nonAttack") return;
 
 		disableAttackButton(json.DB.defenderUser.factionID);
 	});
@@ -48,8 +49,8 @@ async function disableAttackButton(factionID: number | null) {
 		event.stopImmediatePropagation();
 
 		if (confirm("Are you sure you want to attack this ally?")) {
-			(event.target as Element).remove();
 			closedOption = true;
+			(event.currentTarget as Element).remove();
 		}
 	});
 

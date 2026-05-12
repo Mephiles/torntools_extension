@@ -29,7 +29,8 @@
 				{ "message": "Avoid errors with the 'Energy Warning' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Bar Links' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Property Happiness' feature.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'Property Values' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'Property Values' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" }],
 			"removed": [],
