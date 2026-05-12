@@ -34,7 +34,13 @@
 				{ "message": "Avoid errors with the 'Job Points Tooltip' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve issues in 'Trade Open Chat' when checking for elements.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" },
+				{
+					"message": "No longer round your 'Gym Progress' to the nearest multiple of 5, since company modifiers make that not accurate.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"removed": [],
 			"technical": []
 		}
