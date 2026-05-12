@@ -92,7 +92,7 @@ async function showWarnings() {
 			"afterend",
 			elementBuilder({
 				type: "div",
-				class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date : 0)],
+				class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank ? userdata.money.city_bank.until * 1000 - userdata.date : 0)],
 				text: investmentMessage,
 			}),
 		);
