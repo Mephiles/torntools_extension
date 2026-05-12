@@ -69,6 +69,23 @@ async function showNPCs() {
 		);
 	}
 
+	if (Object.keys(npcs).length === 0 || !npcs.targets) {
+		content.appendChild(
+			elementBuilder({
+				type: "div",
+				class: "tt-npc",
+				children: [
+					elementBuilder({
+						type: "div",
+						class: "npc-error",
+						text: "Waiting for the first NPC information to come in.",
+					}),
+				],
+			}),
+		);
+		return;
+	}
+
 	let hasNotScheduled = false;
 	for (const [id, npc] of Object.entries(npcs.targets).sort(([, a], [, b]) => a.order - b.order)) {
 		const status = npc.current === 0 ? "Hospital" : `Level ${npc.current}`;
