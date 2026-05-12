@@ -24,14 +24,14 @@
 	"dependencies": {
 		"@phosphor-icons/core": "^2.1.1",
 		"@phosphor-icons/web": "^2.1.2",
-		"@tailwindcss/vite": "^4.2.4",
+		"@tailwindcss/vite": "^4.3.0",
 		"@webext-core/proxy-service": "^2.0.0",
 		"@wxt-dev/module-svelte": "^2.0.5",
 		"chart.js": "^4.5.1",
 		"sortablejs": "^1.15.7",
 		"source-map": "^0.7.6",
 		"svelte-spa-router": "^5.1.0",
-		"tailwindcss": "^4.2.4",
+		"tailwindcss": "^4.3.0",
 		"tornapi-typescript": "^5.8.1"
 	},
 	"devDependencies": {

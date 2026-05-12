@@ -267,7 +267,7 @@ export function initializeDatabase() {
 	initializeDatabaseListener();
 }
 
-export function initializeDatabaseListener() {
+function initializeDatabaseListener() {
 	browser.storage.onChanged.addListener((changes, area) => {
 		if (area === "local") {
 			for (const key in changes) {

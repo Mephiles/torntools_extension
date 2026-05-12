@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { type Database, type DatabaseSettings, initializeDatabaseListener, storageListeners } from "@/utils/common/data/database";
+import { type Database, type DatabaseSettings, initializeDatabase, storageListeners } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 
 export const settingsStore = writable<DatabaseSettings>();
@@ -17,7 +17,7 @@ export function initializeDatabaseStore() {
 	}
 
 	initialized = true;
-	initializeDatabaseListener();
+	void initializeDatabase();
 
 	void loadDatabaseStores();
 
