@@ -1,5 +1,6 @@
 import { Feature } from "@/features/feature-manager";
 import { buildScoutInformation, type ScouterResult, type ScouterService, scouterService } from "@/features/ff-scouter/ff-scouter";
+import { appendToBuildProfileTitleBar } from "@/pages/profile-page";
 import { settings } from "@/utils/common/data/database";
 import { hasAPIData } from "@/utils/common/functions/api";
 import { elementBuilder } from "@/utils/common/functions/dom";
@@ -34,8 +35,7 @@ function showResult(scout: ScouterResult) {
 		element.appendChild(elementBuilder({ type: "span", text: message }));
 	}
 
-	const title = document.querySelector(".profile-right-wrapper > .profile-action .title-black");
-	title.appendChild(element);
+	appendToBuildProfileTitleBar(element);
 }
 
 function removeFF() {

@@ -43,7 +43,8 @@
 				{
 					"message": "No longer round your 'Gym Progress' to the nearest multiple of 5, since company modifiers make that not accurate.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Move the fair fight results to right under the profile title.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []
