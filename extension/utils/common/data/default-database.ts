@@ -585,6 +585,7 @@ export const DEFAULT_STORAGE = {
 				inFaction: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				isDonator: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				hasBounties: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				bazaarOpen: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
 			ffScoreMax: new DefaultSetting("number", null),

@@ -82,7 +82,7 @@ async function addFilters() {
 
 	const specialFilter = createFilterSection({
 		title: "Special",
-		ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties"],
+		ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties", "Bazaar Open"],
 		defaults: filters.abroadPeople.special,
 		callback: () => applyFilters(),
 	});
@@ -243,6 +243,7 @@ type AbroadPeopleFilters = {
 		inFaction: SpecialFilterValue;
 		isDonator: SpecialFilterValue;
 		hasBounties: SpecialFilterValue;
+		bazaarOpen: SpecialFilterValue;
 	};
 	statsEstimates: string[];
 	ffScoreMax: number;
