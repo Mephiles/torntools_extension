@@ -337,6 +337,13 @@ export const TEAM: TeamMember[] = [
 		torn: null,
 		color: "darkkhaki",
 	},
+	{
+		name: "mystify-321",
+		title: "Developer",
+		core: false,
+		torn: 3737350,
+		color: "darkkhaki",
+	},
 ];
 
 interface Contributor {
