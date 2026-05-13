@@ -76,6 +76,8 @@ async function addFilters() {
 			"In Hospital",
 			"In Jail",
 			"Early Discharge",
+			"Has Bounties",
+			"Bazaar Open",
 		],
 		defaults: filters.userlist.special,
 		callback: () => filtering(),

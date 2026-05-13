@@ -633,6 +633,8 @@ export const DEFAULT_STORAGE = {
 				inHospital: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				inJail: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				earlyDischarge: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				hasBounties: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				bazaarOpen: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			hospReason: {
 				attackedBy: new DefaultSetting<SpecialFilterValue>("string", "both"),
