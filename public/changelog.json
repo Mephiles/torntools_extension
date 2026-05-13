@@ -33,7 +33,8 @@
 				{ "message": "Only trigger 'Disable Ally Attacks' for attacks that have yet to start.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Job Points Tooltip' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve issues in 'Trade Open Chat' when checking for elements.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'NPC Loot Times' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'NPC Loot Times' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix ff-score filter setting on abroad filter", "contributor": "mystify-321" }
 			],
 			"changes": [
 				{ "message": "Changes to the logging of failure cases while updating in the background.", "contributor": "DeKleineKobini" },
