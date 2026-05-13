@@ -1,5 +1,5 @@
 import { browser } from "wxt/browser";
-import { loadDatabaseStores } from "@/entrypoints/options-v2/stores/database-store";
+import { loadDatabaseStores } from "@/entrypoints/options-v2/stores/database-store.svelte";
 import { type Database, userdata } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { hasAPIData } from "@/utils/common/functions/api";

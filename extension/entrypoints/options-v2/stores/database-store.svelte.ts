@@ -2,6 +2,7 @@ import { writable } from "svelte/store";
 import { type Database, type DatabaseSettings, initializeDatabase, storageListeners } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 
+let storesInitialized = $state(false);
 export const settingsStore = writable<DatabaseSettings>();
 export const apiStore = writable<Database["api"]>();
 export const userdataStore = writable<Database["userdata"]>();
@@ -9,17 +10,16 @@ export const torndataStore = writable<Database["torndata"]>();
 export const stockdataStore = writable<Database["stockdata"]>();
 export const factiondataStore = writable<Database["factiondata"]>();
 
-let initialized = false;
-
 export function initializeDatabaseStore() {
-	if (initialized) {
+	if (storesInitialized) {
 		return;
 	}
 
-	initialized = true;
+	// storesInitialized = true;
 	void initializeDatabase();
-
-	void loadDatabaseStores();
+	loadDatabaseStores().then(() => {
+		storesInitialized = true;
+	});
 
 	storageListeners.settings.push((_oldSettings, newSettings) => {
 		settingsStore.set(newSettings);
@@ -57,4 +57,8 @@ export async function loadDatabaseStores() {
 	torndataStore.set(torndata);
 	stockdataStore.set(stockdata);
 	factiondataStore.set(factiondata);
+}
+
+export function isStoresInitialized() {
+	return storesInitialized;
 }

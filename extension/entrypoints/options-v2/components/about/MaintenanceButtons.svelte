@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { apiStore } from "@/entrypoints/options-v2/stores/database-store";
+	import { apiStore } from "@/entrypoints/options-v2/stores/database-store.svelte";
 	import MaintenanceActionCard from "./MaintenanceActionButton.svelte";
 
 	const hasApiKey = $derived(!!$apiStore?.torn?.key);

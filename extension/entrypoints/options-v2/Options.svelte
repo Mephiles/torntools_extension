@@ -11,9 +11,9 @@
 		"/changelog": Changelog,
 		"/preferences": Preferences,
 		"/preferences/*": Preferences,
-		"/": PreferencesRedirect,
 		"/export": Export,
 		"/about": About,
+		"/": PreferencesRedirect,
 	};
 </script>
 

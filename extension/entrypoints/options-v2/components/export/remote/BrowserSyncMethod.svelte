@@ -14,7 +14,7 @@
 		type RemoteSyncState,
 		saveRemoteSyncData,
 	} from "@/entrypoints/options-v2/components/export/remote/remote-export";
-	import { settingsStore } from "@/entrypoints/options-v2/stores/database-store";
+	import { settingsStore } from "@/entrypoints/options-v2/stores/database-store.svelte";
 	import { formatBytes } from "@/utils/common/functions/formatting";
 
 	let busy = $state(false);

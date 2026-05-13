@@ -1,14 +1,15 @@
 <script>
 	import { Separator } from "@svelte/components/ui/separator/index.ts";
 	import { Toaster } from "@svelte/components/ui/sonner";
+	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { ModeWatcher, setMode } from "mode-watcher";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
-	import { initializeDatabaseStore, settingsStore } from "../stores/database-store.ts";
+	import { initializeDatabaseStore, settingsStore } from "../stores/database-store.svelte";
 
 	const navigation = [
 		{ name: "Changelog", path: "/changelog" },
-		{ name: "Preferences", path: "/preferences" },
+		{ name: "Preferences", path: "/preferences", activePath: /^\/preferences(?:\/.*)?$/ },
 		{ name: "Export", path: "/export" },
 		{ name: "About", path: "/about" },
 	];
@@ -31,6 +32,8 @@
 
 <ModeWatcher track={false} />
 <Toaster richColors />
+
+<Tooltip.Provider>
 <div class="flex flex-col min-h-screen">
 	<header class="px-5 py-2 flex items-center justify-center gap-5">
 		<nav>
@@ -71,3 +74,4 @@
 		<slot />
 	</main>
 </div>
+</Tooltip.Provider>

@@ -5,7 +5,7 @@
 		stockdataStore,
 		torndataStore,
 		userdataStore,
-	} from "@/entrypoints/options-v2/stores/database-store";
+	} from "@/entrypoints/options-v2/stores/database-store.svelte";
 	import DataHealthCheck from "./DataHealthCheck.svelte";
 	import {
 		getHealthStatus,

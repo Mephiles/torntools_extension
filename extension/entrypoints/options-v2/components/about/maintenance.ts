@@ -1,5 +1,5 @@
 import { toast } from "svelte-sonner";
-import { loadDatabaseStores } from "@/entrypoints/options-v2/stores/database-store";
+import { loadDatabaseStores } from "@/entrypoints/options-v2/stores/database-store.svelte";
 import { BACKGROUND_SERVICE } from "@/utils/services/proxy-services";
 
 export type ForceTarget = "userdata" | "torndata" | "stocks" | "factiondata";
