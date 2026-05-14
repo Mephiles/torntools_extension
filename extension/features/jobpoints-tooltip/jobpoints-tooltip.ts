@@ -42,12 +42,17 @@ async function tooltipListener() {
 	await sleep(200); // Tooltip transition duration from one icon's tooltip information to another icon's tooltip information
 
 	const tooltipEl = await requireElement("body > div[id][data-floating-ui-portal] [class*='tooltip__']");
+
 	const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
 	const tooltipBodyText = tooltipBodyEl.textContent;
 
 	// Race condition
 	// Check if the tooltip is still of Company or City Job
-	if (tooltipBodyEl.previousElementSibling.textContent !== "Company" && tooltipBodyEl.previousElementSibling.textContent !== "Job") return;
+	if (
+		!tooltipBodyEl.previousElementSibling ||
+		(tooltipBodyEl.previousElementSibling.textContent !== "Company" && tooltipBodyEl.previousElementSibling.textContent !== "Job")
+	)
+		return;
 
 	const lastParenthesisIndex = tooltipBodyText.lastIndexOf(")");
 	const pointsText = ` - ${formatNumber(jobPoints)} points`;

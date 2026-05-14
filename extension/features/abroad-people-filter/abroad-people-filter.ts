@@ -82,7 +82,7 @@ async function addFilters() {
 
 	const specialFilter = createFilterSection({
 		title: "Special",
-		ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties"],
+		ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties", "Bazaar Open"],
 		defaults: filters.abroadPeople.special,
 		callback: () => applyFilters(),
 	});
@@ -133,7 +133,7 @@ async function addFilters() {
 		const ffScoreFilterMin = createFilterSection({
 			title: "FF Score Min",
 			text: "number",
-			default: filters.userlist.ffScoreMin?.toString(),
+			default: filters.abroadPeople.ffScoreMin?.toString(),
 			callback: () => applyFilters(),
 		});
 		ffScoreFilterMin.element.querySelector("input").step = 0.1;
@@ -143,7 +143,7 @@ async function addFilters() {
 		const ffScoreFilterMax = createTextbox({
 			type: "number",
 		});
-		ffScoreFilterMax.setValue(filters.userlist.ffScoreMax?.toString());
+		ffScoreFilterMax.setValue(filters.abroadPeople.ffScoreMax?.toString());
 		ffScoreFilterMax.onChange(applyFilters);
 		ffScoreFilterMax.element.step = "0.1";
 
@@ -243,6 +243,7 @@ type AbroadPeopleFilters = {
 		inFaction: SpecialFilterValue;
 		isDonator: SpecialFilterValue;
 		hasBounties: SpecialFilterValue;
+		bazaarOpen: SpecialFilterValue;
 	};
 	statsEstimates: string[];
 	ffScoreMax: number;

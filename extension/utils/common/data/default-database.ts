@@ -586,6 +586,7 @@ export const DEFAULT_STORAGE = {
 				inFaction: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				isDonator: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				hasBounties: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				bazaarOpen: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
 			ffScoreMax: new DefaultSetting("number", null),
@@ -633,6 +634,8 @@ export const DEFAULT_STORAGE = {
 				inHospital: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				inJail: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				earlyDischarge: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				hasBounties: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				bazaarOpen: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			hospReason: {
 				attackedBy: new DefaultSetting<SpecialFilterValue>("string", "both"),
