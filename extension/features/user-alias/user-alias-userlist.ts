@@ -1,6 +1,6 @@
 import "./user-alias.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
-import { isInternalFaction } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { convertToNumber } from "@/utils/common/functions/formatting";
@@ -17,7 +17,7 @@ const SCOPES_LIST = {
 
 const SELECTORS: Record<keyof typeof SCOPES_LIST, { items: string }> = {
 	userlist: { items: ".user-info-list-wrap > li[class*='user'] .user.name" },
-	factions: { items: ".members-list .table-body > li .user.name" },
+	factions: { items: ".members-list .table-body > li [class*='linkWrap___'][href*='profiles']" },
 	hospital: { items: ".user-info-list-wrap > li .user.name" },
 	jail: { items: ".user-info-list-wrap > li .user.name" },
 };
@@ -67,6 +67,8 @@ export default class UserAliasUserlistFeature extends Feature {
 	}
 
 	async execute() {
+		if (getPage() === "factions" && isInternalFaction && getFactionSubpage() !== "info") return;
+
 		await addAlias();
 	}
 

@@ -10,7 +10,8 @@
 					"message": "Resolve an edge case with faction stakeouts not updating when there is no data yet, and you have specific alerts enabled.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Avoid errors with the 'Warn Crime' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'Warn Crime' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with the 'User Alias - Userlist' feature on the factions page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
