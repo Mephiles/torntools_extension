@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 4 },
+		"version": { "major": 9, "minor": 0, "build": 5 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 4 },
+		"date": "2026/05/14",
 		"logs": {
 			"features": [
 				{ "message": "'FF Scouter' score filter for ranked wars.", "contributor": "DeKleineKobini" },
@@ -17,10 +22,7 @@
 					"message": "Resolve an issue where 'Travel Cooldowns' doesn't work when you have don't have an active bank investment.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "'Travel Cooldowns' didn't show education or bank investment warnings.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "'Travel Cooldowns' didn't show education or bank investment warnings.", "contributor": "DeKleineKobini" },
 				{
 					"message": "Another attempt at maybe resolving the 'Abroad Items Filter' issue where it doesn't always work.",
 					"contributor": "DeKleineKobini"
@@ -46,9 +48,7 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Move the fair fight results to right under the profile title.", "contributor": "DeKleineKobini" }
-			],
-			"removed": [],
-			"technical": []
+			]
 		}
 	},
 	{
