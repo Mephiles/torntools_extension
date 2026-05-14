@@ -3,7 +3,7 @@ import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { elementBuilder, findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
+import { findAllElements, getSearchParameters } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { getPageStatus } from "@/utils/common/functions/torn";
@@ -52,7 +52,7 @@ async function foldInfobox() {
 	title.classList.add("tt-foldable-infobox");
 	description.classList.add("tt-foldable");
 
-	const arrow = elementBuilder({ type: "svg", class: "tt-collapse-infobox" });
+	const arrow = PHFillCaretRight({ class: "tt-collapse-infobox", size: "15px" });
 
 	title.appendChild(arrow);
 

@@ -11,7 +11,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Avoid errors with the 'Warn Crime' feature.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'User Alias - Userlist' feature on the factions page.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'User Alias - Userlist' feature on the factions page.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the 'Fold Faction Infobox' icon not visually showing up.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
