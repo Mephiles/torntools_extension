@@ -3,7 +3,18 @@
 		"version": { "major": 9, "minor": 0, "build": 5 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [
+				{
+					"message": "Resolve an edge case with faction stakeouts not updating when there is no data yet, and you have specific alerts enabled.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 0, "build": 4 },

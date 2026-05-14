@@ -1354,15 +1354,20 @@ async function updateFactionStakeouts(forceUpdate = false) {
 				}
 			};
 			if (rankedWarStarts) {
-				handleWarStakeout("rankedWarStarts", oldData.rankedWar, data.wars.ranked !== null, () => `${data.basic.name} is now in a ranked war.`);
+				handleWarStakeout(
+					"rankedWarStarts",
+					oldData ? oldData.rankedWar : false,
+					data.wars.ranked !== null,
+					() => `${data.basic.name} is now in a ranked war.`,
+				);
 			}
 			if (inRaid) {
-				handleWarStakeout("inRaid", oldData.raid, data.wars.raids.length > 0, () => `${data.basic.name} is now in a raid.`);
+				handleWarStakeout("inRaid", oldData ? oldData.raid : false, data.wars.raids.length > 0, () => `${data.basic.name} is now in a raid.`);
 			}
 			if (inTerritoryWar) {
 				handleWarStakeout(
 					"inTerritoryWar",
-					oldData.territoryWar,
+					oldData ? oldData.territoryWar : false,
 					data.wars.territory.length > 0,
 					() => `${data.basic.name} is now in a territory war.`,
 				);
