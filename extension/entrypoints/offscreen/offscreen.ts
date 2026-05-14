@@ -16,9 +16,10 @@ interface PlayTTSOptions {
 	text: string;
 	volume: number;
 	voice: string;
+	rate: number;
 }
 
-function playTTS({ text, volume, voice }: PlayTTSOptions) {
+function playTTS({ text, volume, voice, rate }: PlayTTSOptions) {
 	const ttsMessage = new SpeechSynthesisUtterance(text);
 	ttsMessage.volume = volume;
 	if (voice !== "default") {
@@ -26,6 +27,8 @@ function playTTS({ text, volume, voice }: PlayTTSOptions) {
 
 		if (matchedVoice) ttsMessage.voice = matchedVoice;
 	}
+	ttsMessage.rate = rate;
+
 	window.speechSynthesis.speak(ttsMessage);
 }
 

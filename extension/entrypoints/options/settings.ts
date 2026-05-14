@@ -744,6 +744,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 		_preferences.querySelector<HTMLInputElement>("#notification-sound").value = settings.notifications.sound;
 		_preferences.querySelector<HTMLInputElement>("#notification-tts").checked = settings.notifications.tts;
+		_preferences.querySelector<HTMLInputElement>("#notification-ttsRate").value = settings.notifications.ttsRate.toString();
 		_preferences.querySelector<HTMLInputElement>("#notification-link").checked = settings.notifications.link;
 		_preferences.querySelector<HTMLInputElement>("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
 		_preferences.querySelector<HTMLInputElement>("#notification-volume").value = settings.notifications.volume.toString();
@@ -1202,6 +1203,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 
 		settings.notifications.tts = _preferences.querySelector<HTMLInputElement>("#notification-tts").checked;
 		settings.notifications.ttsVoice = _preferences.querySelector<HTMLInputElement>("#tts-voice").value;
+		settings.notifications.ttsRate = parseFloat(_preferences.querySelector<HTMLInputElement>("#notification-ttsRate").value);
 		settings.notifications.link = _preferences.querySelector<HTMLInputElement>("#notification-link").checked;
 		settings.notifications.requireInteraction = _preferences.querySelector<HTMLInputElement>("#notification-requireInteraction").checked;
 		settings.notifications.volume = parseInt(_preferences.querySelector<HTMLInputElement>("#notification-volume").value);

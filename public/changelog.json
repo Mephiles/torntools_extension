@@ -8,7 +8,8 @@
 				{ "message": "'FF Scouter' score filter for ranked wars.", "contributor": "DeKleineKobini" },
 				{ "message": "Labels for stakeouts.", "contributor": "DeKleineKobini" },
 				{ "message": "Added bazaarOpen filter on abroad people page", "contributor": "mystify-321" },
-				{ "message": "More special filters to the 'Userlist Filter': has bounties and bazaar open", "contributor": "DeKleineKobini" }
+				{ "message": "More special filters to the 'Userlist Filter': has bounties and bazaar open", "contributor": "DeKleineKobini" },
+				{ "message": "Modify TTS speaking rate for notifications.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Filtering on profit in the 'Stocks Filter' gave errors for stocks you don't own.", "contributor": "DeKleineKobini" },
