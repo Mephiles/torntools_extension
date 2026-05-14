@@ -1,6 +1,6 @@
 import "./warn-crime.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
-import { isInternalFaction } from "@/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { hasOC1Data } from "@/utils/common/functions/api";
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -110,6 +110,8 @@ export default class WarnCrimeFeature extends Feature {
 	}
 
 	async execute() {
+		if (getFactionSubpage() !== "crimes") return;
+
 		await disableButtons();
 	}
 }
