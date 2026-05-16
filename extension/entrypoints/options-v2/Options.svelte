@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Router from "svelte-spa-router";
+	import MissingPermissions from "@/entrypoints/options-v2/MissingPermissions.svelte";
 	import About from "./components/about/About.svelte";
 	import Changelog from "./components/changelog/Changelog.svelte";
 	import Export from "./components/export/Export.svelte";
@@ -17,6 +18,7 @@
 	};
 </script>
 
+<MissingPermissions />
 <GlobalLayout>
 	<Router {routes} />
 </GlobalLayout>

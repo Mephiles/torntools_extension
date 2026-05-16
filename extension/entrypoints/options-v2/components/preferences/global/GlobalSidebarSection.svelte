@@ -43,6 +43,7 @@
 				<StorageSwitch path="settings.pages.sidebar.highlightEnergy" label="Highlight energy when refill is unused" />
 				<StorageSwitch path="settings.pages.sidebar.highlightNerve" label="Highlight nerve when refill is unused" />
 				<StorageSwitch path="settings.pages.sidebar.pointsValue" label="Points value" />
+				<StorageSwitch path="settings.updateNotice" label="Extension update notice" />
 			</PreferenceSettingGroup>
 
 			<PreferenceSettingGroup title="Timers">

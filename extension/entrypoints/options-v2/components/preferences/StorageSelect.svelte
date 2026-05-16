@@ -12,12 +12,19 @@
 		label: string;
 		description?: string;
 		id?: string;
+		beforeValueChange?: (value: string) => boolean | Promise<boolean>;
 	}
 
-	let { items, path, label, description, id = path.replaceAll(".", "-") }: StorageSelectProps = $props();
+	let { items, path, label, description, id = path.replaceAll(".", "-"), beforeValueChange }: StorageSelectProps = $props();
 
 	const storageSource = $derived({ settings: $settingsStore, api: $apiStore });
 	const value = $derived(String(getPreferenceValue(storageSource, path) ?? ""));
+
+	async function updateValue(nextValue: string) {
+		if (beforeValueChange && !(await beforeValueChange(nextValue))) return;
+
+		await updatePreferenceValue(path, nextValue);
+	}
 </script>
 
 <Field.Field orientation="responsive" class="rounded-md border border-border/70 bg-background/60 p-2">
@@ -32,6 +39,6 @@
 		{items}
 		placeholder="Select a value"
 		{value}
-		onValueChange={(nextValue) => void updatePreferenceValue(path, nextValue)}
+		onValueChange={(nextValue) => void updateValue(nextValue)}
 	/>
 </Field.Field>

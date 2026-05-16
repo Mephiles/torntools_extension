@@ -23,7 +23,11 @@ export const PREFERENCE_GROUPS = [
 	{
 		id: "global",
 		title: "Global",
-		sections: [{ id: "sidebar", title: "Sidebar" }],
+		sections: [
+			{ id: "global", title: "Global" },
+			{ id: "sidebar", title: "Sidebar" },
+			{ id: "chat", title: "Chat" },
+		],
 	},
 ] as const satisfies readonly PreferenceGroup[];
 export const DEFAULT_GROUP_ID: PreferenceGroupId = "internal";

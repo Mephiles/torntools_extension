@@ -1,6 +1,7 @@
 import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
 import type { InactivityDisplay } from "@/entrypoints/options/settings";
+import type { SavedHighlight } from "@/features/chat-highlight/chat-highlight";
 import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
 import type { SavedCustomLink } from "@/features/custom-links/custom-links";
 import type { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
@@ -203,7 +204,7 @@ export const DEFAULT_STORAGE = {
 				fontSize: new DefaultSetting("number", 12),
 				searchChat: new DefaultSetting("boolean", true),
 				completeUsernames: new DefaultSetting("boolean", true),
-				highlights: new DefaultSetting("array", [{ name: "$player", color: "#7ca900" }]),
+				highlights: new DefaultSetting<SavedHighlight[]>("array", [{ name: "$player", color: "#7ca900" }]),
 				titleHighlights: new DefaultSetting<ColoredChatOption[]>("array", []),
 				tradeTimer: new DefaultSetting("boolean", true),
 				resizable: new DefaultSetting("boolean", true),
