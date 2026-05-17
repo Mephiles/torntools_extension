@@ -33,6 +33,7 @@ export default defineConfig({
 		resolve: {
 			alias: {
 				lie: "false",
+				url: "data:text/javascript,export const URL = globalThis.URL;",
 			},
 		},
 		css: {
