@@ -17,7 +17,13 @@
 				{ "message": "Avoid errors with the 'Hide Icons' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Average Personal Stat' feature.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Define our data collection permissions for Firefox (which is 'none', as we don't do data collection).",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"removed": [],
 			"technical": []
 		}

@@ -86,6 +86,9 @@ export default defineConfig({
 				gecko: {
 					id: "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}",
 					strict_min_version: "128.0",
+					data_collection_permissions: {
+						required: ["none"],
+					},
 				},
 				gecko_android: {},
 			};
