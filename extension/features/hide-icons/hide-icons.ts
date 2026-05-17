@@ -11,14 +11,14 @@ async function initialiseHideIcons() {
 	await requireSidebar();
 
 	const selector = "#sidebarroot ul[class*='status-icons_']";
-	if (document.querySelector(selector)) {
-		observer = new MutationObserver((_mutations, observer) => {
-			observer.disconnect();
-			moveIcons();
-			observer.observe(document.querySelector(selector), { childList: true, attributes: true });
-		});
+	if (!document.querySelector(selector)) return;
+
+	observer = new MutationObserver((_mutations, observer) => {
+		observer.disconnect();
+		moveIcons();
 		observer.observe(document.querySelector(selector), { childList: true, attributes: true });
-	}
+	});
+	observer.observe(document.querySelector(selector), { childList: true, attributes: true });
 }
 
 function applyStyle() {
@@ -29,7 +29,7 @@ function applyStyle() {
 }
 
 function moveIcons() {
-	for (const icon of findAllElements("#sidebarroot ul[class*='status-icons_'] > li")) {
+	for (const icon of findAllElements("#sidebarroot ul[class*='status-icons_'] > li[class]")) {
 		if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
 
 		icon.parentElement.appendChild(icon);
