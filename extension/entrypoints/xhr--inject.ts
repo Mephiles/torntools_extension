@@ -3,6 +3,7 @@ export type XHRDetails = {
 	xhr: {
 		requestBody: string;
 		response: any;
+		responseType: XMLHttpRequest["responseType"];
 		responseText: string;
 		responseURL: string;
 	};
@@ -46,6 +47,9 @@ export default defineUnlistedScript(() => {
 					if (isJsonString(this.response)) json = JSON.parse(this.response);
 					else uri = getUrlParams(this.responseURL);
 
+					let text: string;
+					if (this.responseType === "" || this.responseType === "text") text = this.responseText;
+
 					window.dispatchEvent(
 						new CustomEvent<XHRDetails>(channel, {
 							detail: {
@@ -59,7 +63,8 @@ export default defineUnlistedScript(() => {
 									// https://issues.chromium.org/issues/40091619
 									requestBody: this["requestBody"],
 									response: this.response,
-									responseText: this.responseText,
+									responseType: this.responseType,
+									responseText: text,
 									responseURL: this.responseURL,
 								},
 							},
