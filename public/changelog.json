@@ -15,7 +15,7 @@
 				{ "message": "Fix the 'Fold Faction Infobox' icon not visually showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the XHR interceptor on Firefox.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
