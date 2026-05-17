@@ -169,7 +169,8 @@ class FeatureManager {
 					info.push(await SOURCE_SERVICE.mappedStack(error.stack));
 				} else if (error instanceof ErrorEvent) {
 					const location = await SOURCE_SERVICE.fromSource(error.lineno, error.colno);
-					info.push(`${error.message} @ ${location.file}:${location.line}`);
+					const formattedLocation = location ? `${location.file}:${location.line}` : `${error.filename}:${error.lineno}`;
+					info.push(`${error.message} @ ${formattedLocation}`);
 				}
 			} else {
 				info.push(error);
@@ -196,12 +197,15 @@ class FeatureManager {
 					],
 				});
 			} else if (error instanceof ErrorEvent) {
+				const location = await SOURCE_SERVICE.fromSource(error.lineno, error.colno);
+				const formattedLocation = location ? `${location.file}:${location.line}` : `${error.filename}:${error.lineno}`;
+
 				errorElement = elementBuilder({
 					type: "div",
 					class: "error",
 					children: [
 						elementBuilder({ type: "div", class: "name", text: error.message }),
-						elementBuilder({ type: "pre", class: "stack", text: `${error.filename}:${error.lineno}` }),
+						elementBuilder({ type: "pre", class: "stack", text: formattedLocation }),
 					],
 				});
 			}

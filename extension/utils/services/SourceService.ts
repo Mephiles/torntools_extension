@@ -9,6 +9,12 @@ export interface SourceLocation {
 }
 
 export class SourceService {
+	private static readonly CHROME_METHOD_STACK_LINE =
+		/^\s*at (?<method>.*) \(chrome-extension:\/\/.*\/content-scripts\/extension\.js:(?<line>\d+):(?<column>\d+)\)$/;
+	private static readonly CHROME_STACK_LINE = /^\s*at chrome-extension:\/\/.*\/content-scripts\/extension\.js:(?<line>\d+):(?<column>\d+)$/;
+	private static readonly FIREFOX_METHOD_STACK_LINE = /^(?<method>.+)@moz-extension:\/\/.*\/content-scripts\/extension\.js:(?<line>\d+):(?<column>\d+)$/;
+	private static readonly FIREFOX_STACK_LINE = /^@moz-extension:\/\/.*\/content-scripts\/extension\.js:(?<line>\d+):(?<column>\d+)$/;
+
 	private sourceMapConsumer: BasicSourceMapConsumer | null = null;
 
 	constructor() {
@@ -17,7 +23,7 @@ export class SourceService {
 
 	private async initializeSourceMap() {
 		// Initialize the WASM module first
-		// @ts-expect-error For some reason this isn't properly types.
+		// @ts-expect-error For some reason this isn't properly typed.
 		SourceMapConsumer.initialize({
 			"lib/mappings.wasm": "https://unpkg.com/source-map@0.7.6/lib/mappings.wasm",
 		});
@@ -29,53 +35,19 @@ export class SourceService {
 		this.sourceMapConsumer = await new SourceMapConsumer(content);
 	}
 
-	mappedStack(stack: string) {
+	mappedStack(stack?: string) {
+		if (!stack) return "";
+
 		return stack
 			.split("\n")
-			.map((line) => {
-				if (line.trimStart().startsWith("at")) {
-					// chrome extension
-					const methodMatched = line.match(/at (.*) \(chrome-extension:\/\/.*\/content-scripts\/extension.js:(\d+):(\d+)\)/);
-					if (methodMatched) {
-						const [, method, lineString, columnString] = methodMatched;
-						const line = parseInt(lineString);
-						const column = parseInt(columnString);
+			.map((stackLine) => {
+				const generatedFrame = SourceService.parseGeneratedSourceStackFrame(stackLine);
+				if (!generatedFrame) return stackLine;
 
-						const location = this.fromSource(line, column);
+				const location = this.fromSource(generatedFrame.line, generatedFrame.column);
+				if (!location) return stackLine;
 
-						if (location) {
-							return `    at ${method} (${location.path}:${location.line}:${location.column})`;
-						}
-					}
-
-					const matched = line.match(/at chrome-extension:\/\/.*\/content-scripts\/extension.js:(\d+):(\d+)/);
-					if (matched) {
-						const [, lineString, columnString] = matched;
-						const line = parseInt(lineString);
-						const column = parseInt(columnString);
-
-						const location = this.fromSource(line, column);
-
-						if (location) {
-							return `    at ${location.path}:${location.line}:${location.column}`;
-						}
-					}
-				} else if (line.includes("@") && line.includes("moz-extension")) {
-					const methodMatched = line.match(/(.*)@moz-extension:\/\/.*\/content-scripts\/extension.js:(\d+):(\d+)/);
-					if (methodMatched) {
-						const [, method, lineString, columnString] = methodMatched;
-						const line = parseInt(lineString);
-						const column = parseInt(columnString);
-
-						const location = this.fromSource(line, column);
-
-						if (location) {
-							return `    at ${method} (${location.path}:${location.line}:${location.column})`;
-						}
-					}
-				}
-
-				return line;
+				return SourceService.formatMappedStackFrame(generatedFrame, location);
 			})
 			.join("\n");
 	}
@@ -83,10 +55,51 @@ export class SourceService {
 	fromSource(line: number, column: number): SourceLocation {
 		const position = this.sourceMapConsumer.originalPositionFor({ line, column });
 
-		return this.convertLocation(position)!;
+		return SourceService.convertSourceLocation(position);
 	}
 
-	private convertLocation(raw: NullableMappedPosition): SourceLocation | null {
+	static parseGeneratedSourceStackFrame(stackLine: string): { method: string | null; line: number; column: number } | null {
+		const chromeMethodFrame = stackLine.match(SourceService.CHROME_METHOD_STACK_LINE);
+		if (chromeMethodFrame) {
+			return SourceService.convertStackFrameGroups(chromeMethodFrame.groups);
+		}
+
+		const chromeFrame = stackLine.match(SourceService.CHROME_STACK_LINE);
+		if (chromeFrame) {
+			return SourceService.convertStackFrameGroups(chromeFrame.groups);
+		}
+
+		const firefoxMethodFrame = stackLine.match(SourceService.FIREFOX_METHOD_STACK_LINE);
+		if (firefoxMethodFrame) {
+			return SourceService.convertStackFrameGroups(firefoxMethodFrame.groups);
+		}
+
+		const firefoxFrame = stackLine.match(SourceService.FIREFOX_STACK_LINE);
+		if (firefoxFrame) {
+			return SourceService.convertStackFrameGroups(firefoxFrame.groups);
+		}
+
+		return null;
+	}
+
+	private static convertStackFrameGroups(groups: Record<string, string>): { method: string | null; line: number; column: number } | null {
+		if (!groups.line || !groups.column) return null;
+
+		return {
+			method: groups.method ?? null,
+			line: parseInt(groups.line, 10),
+			column: parseInt(groups.column, 10),
+		};
+	}
+
+	static formatMappedStackFrame(frame: { method: string | null }, location: SourceLocation): string {
+		const mappedLocation = `${location.path}:${location.line}:${location.column}`;
+		if (frame.method) return `    at ${frame.method} (${mappedLocation})`;
+
+		return `    at ${mappedLocation}`;
+	}
+
+	static convertSourceLocation(raw: NullableMappedPosition): SourceLocation | null {
 		if (raw.source === null || raw.line === null || raw.column === null) return null;
 
 		const splitPath = raw.source.split("/");
