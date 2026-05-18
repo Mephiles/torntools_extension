@@ -29,7 +29,7 @@
 		</Dialog.Header>
 
 		<div class="space-y-3">
-			<div class="rounded-lg border border-border/70 bg-muted/30 p-3 text-sm">
+			<div class="rounded-lg border border-border bg-muted/30 p-3 text-sm">
 				<h3 class="font-medium">Includes:</h3>
 				<ul class="mt-2 list-disc space-y-0.5 pl-5 text-muted-foreground">
 					<li>User ID and username</li>
@@ -45,7 +45,7 @@
 			{@render warning?.()}
 
 			{#if allowApi}
-				<label class="flex items-start gap-2 rounded-lg border border-border/70 p-2 text-sm">
+				<label class="flex items-start gap-2 rounded-lg border border-border p-2 text-sm">
 					<Checkbox bind:checked={includeApi} id="include-api" />
 					<span>
 						<span class="block font-medium">Include API key</span>

@@ -35,15 +35,6 @@
 		updateHighlight(index, { ...highlight, [key]: value });
 	}
 
-	function moveHighlight(index: number, direction: -1 | 1) {
-		const newIndex = index + direction;
-		if (newIndex < 0 || newIndex >= $settingsStore.pages.chat.highlights.length) return;
-
-		const newHighlights = [...$settingsStore.pages.chat.highlights];
-		[newHighlights[index], newHighlights[newIndex]] = [newHighlights[newIndex], newHighlights[index]];
-		void updateHighlights(newHighlights);
-	}
-
 	function removeHighlight(index: number) {
 		void updateHighlights($settingsStore.pages.chat.highlights.filter((_, i) => i !== index));
 	}
@@ -69,7 +60,7 @@
 	{#if $settingsStore.pages.chat.highlights.length}
 		<div class="space-y-1">
 			{#each $settingsStore.pages.chat.highlights as highlight, index (index)}
-				<div class="rounded-md border border-border/70 bg-background/60 p-2">
+				<div class="rounded-md border border-border bg-background/60 p-2">
 					<div class="grid gap-2 md:grid-cols-[1fr_40px_28px]">
 						<Input
 							value={highlight.name}

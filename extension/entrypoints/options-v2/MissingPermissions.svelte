@@ -99,7 +99,7 @@
 		</Dialog.Header>
 
 		{#if missingOrigins.length > 0}
-			<div class="rounded-lg border border-border/70 bg-muted/30 p-2 text-sm">
+			<div class="rounded-lg border border-border bg-muted/30 p-2 text-sm">
 				<h3 class="font-medium">Missing permissions:</h3>
 				<ul class="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
 					{#each missingOrigins as { label, origin } (origin)}

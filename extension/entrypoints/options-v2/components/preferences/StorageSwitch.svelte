@@ -13,7 +13,9 @@
 		label: string;
 		description?: string;
 		id?: string;
+		class?: string;
 		compact?: boolean;
+		disabled?: boolean;
 		externalServices?: readonly ExternalService[];
 		titleAction?: Snippet;
 		children?: Snippet;
@@ -24,7 +26,9 @@
 		label,
 		description,
 		id = path.replaceAll(".", "-"),
+		class: className,
 		compact = false,
+		disabled: disabledProp = false,
 		externalServices = [],
 		titleAction,
 		children,
@@ -33,7 +37,7 @@
 	const storageSource = $derived({ settings: $settingsStore, api: $apiStore });
 	const checked = $derived(Boolean(getPreferenceValue(storageSource, path)));
 	const requirementMet = $derived(externalServices.length === 0 || externalServices.some((service) => Boolean($settingsStore.external[service])));
-	const disabled = $derived(!requirementMet);
+	const disabled = $derived(disabledProp || !requirementMet);
 
 	function updateChecked(value: boolean) {
 		if (disabled) return;
@@ -41,7 +45,7 @@
 	}
 </script>
 
-<div class={cn("rounded-md border", compact ? "border-border bg-card" : "border-border bg-background/60")}>
+<div class={cn("rounded-md border", compact ? "border-border bg-card" : "border-border bg-background/60", className)}>
 	<Field.Field orientation="horizontal" class="p-2">
 		<Field.Content>
 			<div class="flex flex-wrap items-center gap-2">

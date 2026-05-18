@@ -60,7 +60,7 @@
 	}
 </script>
 
-<article class="flex h-full flex-col rounded-lg border border-border/70 p-2">
+<article class="flex h-full flex-col rounded-lg border border-border p-2">
 	<div class="flex flex-wrap items-center gap-2">
 		<h3 class="text-sm font-bold">{title}</h3>
 		{#if recommended}

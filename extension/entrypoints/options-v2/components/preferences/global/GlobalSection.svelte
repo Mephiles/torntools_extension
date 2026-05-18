@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { toast } from "svelte-sonner";
 	import { browser } from "wxt/browser";
+	import UserAliases from "@/entrypoints/options-v2/components/preferences/global/UserAliases.svelte";
 	import PreferenceNote from "@/entrypoints/options-v2/components/preferences/PreferenceNote.svelte";
 	import StorageSelect from "@/entrypoints/options-v2/components/preferences/StorageSelect.svelte";
 	import StorageText from "@/entrypoints/options-v2/components/preferences/StorageText.svelte";
@@ -36,7 +37,6 @@
 
 <div class="space-y-2">
 	<PreferenceSectionCard title="Global">
-
 		<StorageSelect
 			items={[
 				{value: "default", label: "Default (green and black)" },
@@ -45,7 +45,6 @@
 			path="settings.themes.containers"
 			label="Container Theme"
 		/>
-
 
 		<PreferenceSettingGroup title="Formatting">
 			<StorageText path="settings.csvDelimiter" label="CSV Delimiter" />
@@ -80,6 +79,10 @@
 			<StorageSwitch path="settings.pages.global.stackingMode" label="Stacking mode" description="This disables gym, attacks, revives, dump searching and hunting." />
 			<StorageSwitch path="settings.pages.global.noOutsideLinkAlert" label="No outside link alert" description="This disables the outside link protection by Torn, be careful about clicking links." />
 			<StorageSwitch path="settings.pages.global.pageTitles" label="Clearer page titles" />
+			<StorageSwitch path="settings.pages.global.urlFill" label="URL Fill" description="Allow URLs to be prefilled for you with values."/>
+			<StorageSwitch path="settings.pages.competitions.easterEggs" label="Highlight Easter Eggs" description="During the Easter event, highlight eggs that appear on your screen.">
+				<StorageSwitch path="settings.pages.competitions.easterEggsAlert" label="with alert" />
+			</StorageSwitch>
 		</PreferenceSettingGroup>
 
 		<PreferenceSettingGroup title="Revives" contentClass="grid">
@@ -93,6 +96,8 @@
 			/>
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
+
+	<UserAliases />
 
 	<PreferenceSectionCard title="Debug Information">
 		<div class="grid gap-1">

@@ -41,15 +41,6 @@
 		updateColoredChat(index, { ...highlight, [key]: value });
 	}
 
-	function moveColoredChat(index: number, direction: -1 | 1) {
-		const nextIndex = index + direction;
-		if (nextIndex < 0 || nextIndex >= $settingsStore.pages.chat.titleHighlights.length) return;
-
-		const newColoredChats = [...$settingsStore.pages.chat.titleHighlights];
-		[newColoredChats[index], newColoredChats[nextIndex]] = [newColoredChats[nextIndex], newColoredChats[index]];
-		void updateColoredChats(newColoredChats);
-	}
-
 	function removeColoredChat(index: number) {
 		void updateColoredChats($settingsStore.pages.chat.titleHighlights.filter((_, i) => i !== index));
 	}
@@ -65,7 +56,7 @@
 	{#if $settingsStore.pages.chat.titleHighlights.length}
 		<div class="space-y-1">
 			{#each $settingsStore.pages.chat.titleHighlights as highlight, index (index)}
-				<div class="rounded-md border border-border/70 bg-background/60 p-2">
+				<div class="rounded-md border border-border bg-background/60 p-2">
 					<div class="grid gap-2 md:grid-cols-[repeat(2,1fr)_28px]">
 						<Input
 							value={highlight.title}

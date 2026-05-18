@@ -44,6 +44,10 @@
 				<StorageSwitch path="settings.pages.sidebar.highlightNerve" label="Highlight nerve when refill is unused" />
 				<StorageSwitch path="settings.pages.sidebar.pointsValue" label="Points value" />
 				<StorageSwitch path="settings.updateNotice" label="Extension update notice" />
+
+				<StorageSwitch path="settings.scripts.achievements.show" label="Display achievements">
+					<StorageSwitch path="settings.scripts.achievements.completed" label="show completed" />
+				</StorageSwitch>
 			</PreferenceSettingGroup>
 
 			<PreferenceSettingGroup title="Timers">

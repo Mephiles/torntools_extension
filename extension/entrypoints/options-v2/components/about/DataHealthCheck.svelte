@@ -22,7 +22,7 @@
 </script>
 
 <article aria-label={`${label} data health`}>
-	<p class="rounded-lg border border-border/70 p-2 text-sm">
+	<p class="rounded-lg border border-border p-2 text-sm">
 		<strong class="text-sm">{label}:</strong>
 		<span class={statusClass}>{statusText}</span>
 	</p>

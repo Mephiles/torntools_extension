@@ -18,6 +18,8 @@ export const PREFERENCE_GROUPS = [
 		sections: [
 			{ id: "internal", title: "Internal" },
 			{ id: "popup", title: "Popup" },
+			{ id: "notifications", title: "Notifications" },
+			{ id: "api", title: "API" },
 		],
 	},
 	{

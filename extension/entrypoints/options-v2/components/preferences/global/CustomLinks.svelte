@@ -106,7 +106,7 @@
 	{#if $settingsStore.customLinks.length}
 		<div class="space-y-1">
 			{#each $settingsStore.customLinks as link, index (index)}
-				<div class="rounded-md border border-border/70 bg-background/60 p-2">
+				<div class="rounded-md border border-border bg-background/60 p-2">
 					<div class="grid gap-2 lg:grid-cols-[12rem_15rem_1fr]">
 						<ItemSelect
 							items={locationOptions}

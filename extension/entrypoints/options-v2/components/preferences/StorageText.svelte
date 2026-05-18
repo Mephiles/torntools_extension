@@ -22,11 +22,11 @@
 	const value = $derived(String(getPreferenceValue(storageSource, path) ?? ""));
 
 	function updateValue(input: string) {
-		void updatePreferenceValue(path, input.trim() === "" ? 0 : Number(input));
+		void updatePreferenceValue(path, input);
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border bg-background60 p-2">
+<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}

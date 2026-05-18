@@ -12,6 +12,7 @@
 		min?: number;
 		max?: number;
 		step?: number;
+		disabled?: boolean;
 	}
 
 	let {
@@ -22,6 +23,7 @@
 		min = undefined,
 		max = undefined,
 		step = undefined,
+		disabled = false,
 	}: StorageNumberProps = $props();
 
 	const storageSource = $derived({ settings: $settingsStore, api: $apiStore });
@@ -32,7 +34,7 @@
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border bg-background60 p-2">
+<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
@@ -46,6 +48,7 @@
 		{min}
 		{max}
 		{step}
+		{disabled}
 		{value}
 		oninput={(event) => updateValue(event.currentTarget.value)}
 	/>

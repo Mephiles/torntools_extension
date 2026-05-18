@@ -27,7 +27,7 @@
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border/70 bg-background/60 p-2">
+<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
