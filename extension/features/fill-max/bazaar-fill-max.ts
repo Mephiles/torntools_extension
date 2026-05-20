@@ -49,25 +49,34 @@ async function maxBuyListener(clickEvent: any | null = null) {
 	}
 
 	function addButtonAndListener(parent: Element) {
-		const fillMax = elementBuilder({ type: "span", text: "fill max", class: [styles.ttMaxBuy, styles.ttMaxBuyBazaar] });
+		const fillMax = elementBuilder({
+			type: "span",
+			text: "fill max",
+			class: [styles.ttMaxBuy, styles.ttMaxBuyBazaar],
+			events: {
+				click(event) {
+					event.stopPropagation();
+					let max = mobile
+						? parseInt(parent.querySelector("[class*='amount__']").firstElementChild.textContent)
+						: parseInt(parent.querySelector("[class*='amount__']").childNodes[1].textContent);
+					if (!settings.pages.bazaar.maxBuyIgnoreCash) {
+						const price = mobile
+							? parseInt(parent.querySelector("[class*='price_']").childNodes[0].textContent.replace(/[,$]/g, ""))
+							: parseInt(parent.querySelector("[class*='price_']").textContent.replace(/[,$]/g, ""));
+						const money = parseInt(document.querySelector<HTMLElement>("#user-money").dataset.money);
+						if (Math.floor(money / price) < max) max = Math.floor(money / price);
+					}
+					if (max > 10000) max = 10000;
+
+					parent.querySelector<HTMLInputElement>("[class*='buyAmountInput_']").value = max.toString();
+					parent.querySelector("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
+				},
+			},
+		});
+
 		const buyButton = parent.querySelector("[class*='buy_']");
 		buyButton.classList.add(styles.ttBuyBazaar);
 		buyButton.parentElement.appendChild(fillMax);
-		fillMax.addEventListener("click", (event) => {
-			event.stopPropagation();
-			let max = mobile
-				? parseInt(parent.querySelector("[class*='amount__']").firstElementChild.textContent)
-				: parseInt(parent.querySelector("[class*='amount__']").childNodes[1].textContent);
-			if (!settings.pages.bazaar.maxBuyIgnoreCash) {
-				const price = parseInt(parent.querySelector("[class*='price_']").textContent.replace(/[,$]/g, ""));
-				const money = parseInt(document.querySelector<HTMLElement>("#user-money").dataset.money);
-				if (Math.floor(money / price) < max) max = Math.floor(money / price);
-			}
-			if (max > 10000) max = 10000;
-
-			parent.querySelector<HTMLInputElement>("[class*='buyAmountInput_']").value = max.toString();
-			parent.querySelector("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
-		});
 	}
 }
 
