@@ -469,7 +469,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		const inputRow = document.querySelector("#userAlias li:last-child");
 
 		addUserAlias(
-			inputRow.querySelector<HTMLInputElement>(".userID").value,
+			parseInt(inputRow.querySelector<HTMLInputElement>(".userID").value),
 			inputRow.querySelector<HTMLInputElement>(".name").value,
 			inputRow.querySelector<HTMLInputElement>(".alias").value,
 		);
@@ -787,9 +787,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 			row.querySelector<HTMLInputElement>("input[type='color']").value = warning.color;
 		});
 		settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
-		for (const userID in settings.userAlias) {
-			addUserAlias(userID, settings.userAlias[userID].name, settings.userAlias[userID].alias);
-		}
+		settings.userAlias.forEach(({ userId, userName, alias }) => addUserAlias(userId, userName, alias));
 		for (const { id, level, minutes } of settings.notifications.types.npcs) {
 			const row = _preferences.querySelector(`#npc-alerts > li[data-id='${id}']`);
 			if (!row) continue;
@@ -976,7 +974,7 @@ async function setupPreferences(requireCleanup: boolean = false) {
 		_preferences.querySelector<HTMLInputElement>("#allyFactions li:last-child input").value = "";
 	}
 
-	function addUserAlias(userID: string, name: string, alias: string) {
+	function addUserAlias(userID: number, name: string, alias: string) {
 		const deleteIcon = elementBuilder({
 			type: "button",
 			class: "remove-icon-wrap",
@@ -1125,15 +1123,16 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				else return input.value.trim();
 			})
 			.filter((x) => typeof x !== "string" || !!x);
-		settings.userAlias = {};
-		for (const aliasRow of findAllElements<HTMLInputElement>("#userAlias > li", _preferences)) {
-			if (aliasRow.querySelector<HTMLInputElement>(".userID").value) {
-				settings.userAlias[aliasRow.querySelector<HTMLInputElement>(".userID").value] = {
-					name: aliasRow.querySelector<HTMLInputElement>(".name").value,
-					alias: aliasRow.querySelector<HTMLInputElement>(".alias").value,
-				};
-			}
-		}
+		settings.userAlias = findAllElements<HTMLInputElement>("#userAlias > li", _preferences).map((row) => {
+			const idValue = row.querySelector<HTMLInputElement>(".userID").value;
+			if (!idValue) return;
+
+			return {
+				userId: parseInt(idValue),
+				userName: row.querySelector<HTMLInputElement>(".name").value,
+				alias: row.querySelector<HTMLInputElement>(".alias").value,
+			};
+		});
 
 		settings.hideIcons = findAllElements("#hide-icons .icon.disabled > div", _preferences).map((icon) => icon.getAttribute("class"));
 		settings.hideCasinoGames = findAllElements("#hide-casino-games span.disabled", _preferences).map((game) => game.getAttribute("name"));
