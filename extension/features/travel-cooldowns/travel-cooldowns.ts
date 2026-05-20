@@ -92,7 +92,7 @@ async function showWarnings() {
 			"afterend",
 			elementBuilder({
 				type: "div",
-				class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank ? userdata.money.city_bank.until * 1000 - userdata.date : 0)],
+				class: ["cooldown", "investment", getDurationClass(userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date / 1000 : 0)],
 				text: investmentMessage,
 			}),
 		);
@@ -103,7 +103,7 @@ async function showWarnings() {
 		handleClass(cooldowns.querySelector(".booster"), userdata.cooldowns.booster);
 		handleClass(cooldowns.querySelector(".medical"), userdata.cooldowns.medical);
 		if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.querySelector(".education"), userdata.education_timeleft);
-		handleClass(cooldowns.parentElement.querySelector(".investment"), userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date : 0);
+		handleClass(cooldowns.parentElement.querySelector(".investment"), userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date / 1000 : 0);
 	}
 
 	function getDurationClass(time: number) {
