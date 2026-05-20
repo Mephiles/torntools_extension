@@ -18,10 +18,7 @@
 				{ "message": "Avoid errors with the 'Average Personal Stat' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Travel Cooldowns' appearing the bank investment error when switching target country.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Bazaar Fill Max' using the wrong item price on mobile due to the market value offset.", "contributor": "DeKleineKobini" },
-				{
-					"message": "Fix an edge case with 'Blackjack Strategy'.",
-					"contributor": "DeKleineKobini"
-				}
+				{ "message": "Fix an edge case with 'Blackjack Strategy'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },
