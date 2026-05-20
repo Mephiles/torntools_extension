@@ -25,6 +25,10 @@
 				{
 					"message": "Define our data collection permissions for Firefox (which is 'none', as we don't do data collection).",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Export more data ('localdata' which includes resized chats and hidden forum feeds, and 'migrations' for internal logic).",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"removed": [],

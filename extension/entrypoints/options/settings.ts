@@ -1844,7 +1844,7 @@ async function setupExport() {
 	}
 
 	async function getExportData(api: boolean): Promise<ExportData> {
-		const exportedKeys: DatabaseKey[] = ["version", "settings", "filters", "stakeouts", "notes", "quick"];
+		const exportedKeys: DatabaseKey[] = ["version", "settings", "filters", "stakeouts", "notes", "quick", "localdata", "migrations"];
 		if (api) exportedKeys.splice(0, 0, "api");
 
 		const data: ExportData = {
