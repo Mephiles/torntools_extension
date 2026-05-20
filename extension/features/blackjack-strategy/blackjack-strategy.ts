@@ -578,7 +578,7 @@ function executeStrategy(data: any) {
 					const hand = player.split(",");
 					if (hand[0] === hand[1]) {
 						let value: number;
-						if (Number.isNaN(hand[0])) {
+						if (Number.isNaN(parseInt(hand[0]))) {
 							if (hand[0] === "A")
 								return "H"; // It's not in the suggestions array, but we should always hit A,A after split
 							else value = 20;
