@@ -181,6 +181,7 @@ export const DEFAULT_STORAGE = {
 				pageTitles: new DefaultSetting("boolean", true),
 				stackingMode: new DefaultSetting("boolean", false),
 				noOutsideLinkAlert: new DefaultSetting("boolean", false),
+				urlFill: new DefaultSetting("boolean", true),
 			},
 			profile: {
 				avgpersonalstats: new DefaultSetting("boolean", false),
