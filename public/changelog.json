@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Initial url that can be filled: profile send money.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{
 					"message": "Resolve an edge case with faction stakeouts not updating when there is no data yet, and you have specific alerts enabled.",

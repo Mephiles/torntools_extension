@@ -204,6 +204,7 @@ import TravelItemProfitsFeature from "@/features/travel-item-profits/travel-item
 import TravelTabTitleTimerFeature from "@/features/travel-tab-title-timer/travel-tab-title-timer";
 import UpdateNoticeFeature from "@/features/update-notice/update-notice";
 import UpgradeRequiredRespectFeature from "@/features/upgrade-required-respect/upgrade-required-respect";
+import UrlFillFeature from "@/features/url-fill/url-fill";
 import UserAliasChatFeature from "@/features/user-alias/user-alias-chat";
 import UserAliasProfileFeature from "@/features/user-alias/user-alias-profile";
 import UserAliasUserlistFeature from "@/features/user-alias/user-alias-userlist";
@@ -283,6 +284,7 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new UserAliasChatFeature());
 	FEATURE_MANAGER.registerFeature(new ResizableChatFeature());
 	FEATURE_MANAGER.registerFeature(new NoOutsideLinkAlertFeature());
+	FEATURE_MANAGER.registerFeature(new UrlFillFeature());
 
 	const page = getPage();
 	if (page === "bank") {
