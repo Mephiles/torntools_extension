@@ -1,5 +1,6 @@
 import "./user-alias.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { getUserAliasById } from "@/features/user-alias/alias";
 import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { settings } from "@/utils/common/data/database";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
@@ -42,9 +43,10 @@ async function addAlias() {
 	const list = findAllElements<HTMLAnchorElement>(currentSelector.items);
 	list.forEach((li) => {
 		const liID = convertToNumber(li.href.split("?XID=")[1]);
-		if (!settings.userAlias[liID]) return;
+		const alias = getUserAliasById(liID);
+		if (!alias) return;
 
-		const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias-list", text: settings.userAlias[liID].alias });
+		const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias-list", text: alias.alias });
 		li.insertAdjacentElement("afterend", aliasSpan);
 	});
 }
@@ -59,7 +61,7 @@ export default class UserAliasUserlistFeature extends Feature {
 	}
 
 	isEnabled() {
-		return Object.keys(settings.userAlias).length > 0;
+		return settings.userAlias.length > 0;
 	}
 
 	initialise() {

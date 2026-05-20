@@ -26,7 +26,7 @@
 				}
 			],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Change the structure for how we save 'User Alias' entries.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

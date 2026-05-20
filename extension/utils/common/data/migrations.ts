@@ -1,4 +1,5 @@
 import type { SavedCustomLink } from "@/features/custom-links/custom-links";
+import type { UserAlias } from "@/features/user-alias/alias";
 import type { Database } from "@/utils/common/data/database";
 import { toNumericVersion } from "@/utils/common/functions/utilities";
 
@@ -61,6 +62,21 @@ export const MIGRATIONS: MigrationScript[] = [
 							name: link.name,
 							href: link.href,
 						};
+			});
+		},
+	},
+	{
+		id: "360b1f70-c78b-44c1-b217-24bd6b398bac",
+		version: "9.0.5",
+		execute(database, _flags, oldStorage) {
+			if (!oldStorage?.settings?.userAlias || Array.isArray(oldStorage.settings.userAlias)) return;
+
+			const oldUserAliases: Record<string, { name: string; alias: string }> = oldStorage.settings.userAlias;
+
+			database.settings.userAlias = Object.entries(oldUserAliases).map<UserAlias>(([id, { alias, name }]) => {
+				const idMatch = id.match(/^(\d+)$/);
+
+				return idMatch ? { userId: parseInt(idMatch[0]), userName: name, alias: alias } : { userId: -1, userName: name, alias: alias, incorrectId: id };
 			});
 		},
 	},

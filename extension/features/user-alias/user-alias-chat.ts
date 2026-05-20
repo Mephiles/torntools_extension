@@ -1,5 +1,6 @@
 import "./user-alias.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { getUserAliasById, getUserAliasByName } from "@/features/user-alias/alias";
 import { settings } from "@/utils/common/data/database";
 import { findAllElements } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -68,65 +69,63 @@ function addAliasTitle() {
 			const chatPlayerTitle = chatHeader.textContent;
 			if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
 
-			Object.values(settings.userAlias)
-				.filter((alias) => alias.name.trim() === chatPlayerTitle)
-				.forEach((alias) => {
-					chatHeader.dataset.originalSelf = chatHeader.textContent;
-					chatHeader.textContent = alias.alias;
-				});
+			const alias = getUserAliasByName(chatPlayerTitle);
+			if (!alias) return;
+
+			chatHeader.dataset.originalSelf = chatHeader.textContent;
+			chatHeader.textContent = alias.alias;
 		});
 	} else {
 		findAllElements(`${SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX_WRAPPER} > ${SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX}`).forEach((chatHeader) => {
 			const chatPlayerTitle = chatHeader.textContent;
 			if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
 
-			for (const alias of Object.values(settings.userAlias)) {
-				if (chatPlayerTitle === alias.name.trim()) {
-					const nameNode = chatHeader.querySelector<HTMLElement>("[class*='minimized-chat-box__username-text__']");
-					nameNode.dataset.original = nameNode.textContent;
-					nameNode.firstChild.textContent = alias.alias;
-				}
-			}
+			const alias = getUserAliasByName(chatPlayerTitle);
+			if (!alias) return;
+
+			const nameNode = chatHeader.querySelector<HTMLElement>("[class*='minimized-chat-box__username-text__']");
+			nameNode.dataset.original = nameNode.textContent;
+			nameNode.firstChild.textContent = alias.alias;
 		});
 		findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX} > ${SELECTOR_CHAT_V2__CHAT_BOX_HEADER}`).forEach((chatHeader) => {
 			const chatPlayerTitle = chatHeader.textContent;
 			if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
 
-			for (const alias of Object.values(settings.userAlias)) {
-				if (chatPlayerTitle === alias.name.trim()) {
-					const nameNode = chatHeader.querySelector<HTMLElement>(SELECTOR_CHAT_V2__HEADER_NAME);
-					nameNode.dataset.original = nameNode.textContent;
-					nameNode.firstChild.textContent = alias.alias;
-				}
-			}
+			const alias = getUserAliasByName(chatPlayerTitle);
+			if (!alias) return;
+
+			const nameNode = chatHeader.querySelector<HTMLElement>(SELECTOR_CHAT_V2__HEADER_NAME);
+			nameNode.dataset.original = nameNode.textContent;
+			nameNode.firstChild.textContent = alias.alias;
 		});
 	}
 }
 
 function addAliasMessage(message: Element | null = null) {
 	if (!message) {
-		for (const [userID, alias] of Object.entries(settings.userAlias)) {
+		settings.userAlias.forEach(({ userId, alias }) => {
 			findAllElements(
 				[
-					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V2__MESSAGE_SENDER}[href*='/profiles.php?XID=${userID}']`,
-					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userID}']`,
+					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V2__MESSAGE_SENDER}[href*='/profiles.php?XID=${userId}']`,
+					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userId}']`,
 				].join(", "),
 			).forEach((profileLink) => {
 				profileLink.dataset.original = profileLink.textContent;
-				profileLink.firstChild.textContent = alias.alias;
+				profileLink.firstChild.textContent = alias;
 			});
-		}
+		});
 		return;
 	}
 
 	const profileLink = message.querySelector<HTMLAnchorElement>("a[href*='/profiles.php?XID=']");
 	if (!profileLink) return;
 
-	const messageUserID = profileLink.href.split("=")[1];
-	if (!(messageUserID in settings.userAlias)) return;
+	const messageUserID = parseInt(profileLink.href.split("=")[1]);
+	const alias = getUserAliasById(messageUserID);
+	if (!alias) return;
 
 	profileLink.dataset.original = profileLink.textContent;
-	profileLink.firstChild.textContent = settings.userAlias[messageUserID].alias;
+	profileLink.firstChild.textContent = alias.alias;
 }
 
 function removeAlias() {
@@ -146,7 +145,7 @@ export default class UserAliasChatFeature extends Feature {
 	}
 
 	isEnabled() {
-		return Object.keys(settings.userAlias).length > 0;
+		return settings.userAlias.length > 0;
 	}
 
 	async initialise() {

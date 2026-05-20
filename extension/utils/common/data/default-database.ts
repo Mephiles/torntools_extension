@@ -5,6 +5,7 @@ import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
 import type { SavedCustomLink } from "@/features/custom-links/custom-links";
 import type { StoredHiddenFeeds } from "@/features/only-new-feed/only-new-feed";
 import type { StoredResizableChats } from "@/features/resizable-chat/resizable-chat";
+import type { UserAlias } from "@/features/user-alias/alias";
 import type { DatabaseCache } from "@/utils/common/data/cache";
 import type { StoredMigration } from "@/utils/common/data/migrations";
 import type { DatabaseUsage } from "@/utils/common/data/usage";
@@ -167,7 +168,7 @@ export const DEFAULT_STORAGE = {
 		customLinks: new DefaultSetting<SavedCustomLink[]>("array", []),
 		employeeInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
 		factionInactivityWarning: new DefaultSetting<InactivityDisplay[]>("array", []),
-		userAlias: new DefaultSetting<{ [alias: string]: { name: string; alias: string } }>("object", {}),
+		userAlias: new DefaultSetting<UserAlias[]>("array", []),
 		csvDelimiter: new DefaultSetting("string", ";"),
 		pages: {
 			global: {
