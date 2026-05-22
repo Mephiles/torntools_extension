@@ -129,7 +129,7 @@ async function setupInitialize() {
 	document.querySelector("#pages").classList.add("tt-hidden");
 	document.querySelector<HTMLAnchorElement>("#tos").href = browser.runtime.getURL("/tos.html");
 
-	document.querySelector("#import-previous-settings").addEventListener("click", () => window.open(browser.runtime.getURL("/options.html?page=export")));
+	document.querySelector("#import-previous-settings").addEventListener("click", () => window.open(browser.runtime.getURL("/options.html#/export")));
 
 	document.querySelector("#set_api_key").addEventListener("click", () => {
 		const key = document.querySelector<HTMLInputElement>("#api_key").value;

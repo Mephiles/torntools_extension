@@ -29,7 +29,7 @@ async function showNotice() {
 					children: [
 						elementBuilder({
 							type: "a",
-							href: browser.runtime.getURL("/options.html?page=changelog"),
+							href: browser.runtime.getURL("/options.html#/changelog"),
 							attributes: { target: "_blank" },
 							children: [elementBuilder({ type: "span", text: `TornTools updated: ${currentVersion}` })],
 						}),
