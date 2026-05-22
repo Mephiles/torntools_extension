@@ -102,7 +102,7 @@
 					href="https://www.torn.com/forums.php#/p=threads&amp;f=61&amp;t=16192039"
 					target="_blank"
 					rel="noreferrer"
-					class="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+					class="flex items-center gap-1 text-xs text-primary hover:underline"
 				>
 					Score formula
 					<ArrowSquareOutIcon aria-hidden="true" />

@@ -9,7 +9,7 @@ export interface PreferenceGroup {
 	sections?: readonly PreferenceSection[];
 }
 
-export type PreferenceGroupId = "internal" | "global" | "financial" | "qol";
+export type PreferenceGroupId = "internal" | "global" | "financial" | "qol" | "connections";
 
 export const PREFERENCE_GROUPS = [
 	{
@@ -54,6 +54,11 @@ export const PREFERENCE_GROUPS = [
 			{ id: "gym", title: "Gym" },
 			{ id: "speed", title: "Speed" },
 		],
+	},
+	{
+		id: "connections",
+		title: "Connections",
+		sections: [{ id: "services", title: "Services" }],
 	},
 ] as const satisfies readonly PreferenceGroup[];
 export const DEFAULT_GROUP_ID: PreferenceGroupId = "internal";

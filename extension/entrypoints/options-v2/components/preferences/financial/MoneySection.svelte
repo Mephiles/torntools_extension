@@ -99,7 +99,7 @@
 						href="https://www.beatingbonuses.com/bjstrategy.php?decks=8&soft17=stand&doubleon=any2cards&peek=off&das=on&dsa=on&charlie=on&surrender=earlyf&opt=1&btn=Generate+Strategy"
 						target="_blank"
 						rel="noreferrer"
-						class="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+						class="flex items-center gap-1 text-xs text-primary hover:underline"
 					>
 						Strategy calculator
 						<ArrowSquareOutIcon aria-hidden="true" />
