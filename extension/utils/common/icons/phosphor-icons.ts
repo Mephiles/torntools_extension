@@ -24,7 +24,6 @@ import PHFillPlusData from "@phosphor-icons/core/fill/plus-fill.svg";
 import PHFillStethoscopeData from "@phosphor-icons/core/fill/stethoscope-fill.svg";
 import PHFillTableData from "@phosphor-icons/core/fill/table-fill.svg";
 import PHCaretDownData from "@phosphor-icons/core/regular/caret-down.svg";
-import PHDotsSixData from "@phosphor-icons/core/regular/dots-six.svg";
 import PHEyeData from "@phosphor-icons/core/regular/eye.svg";
 import PHEyeSlashData from "@phosphor-icons/core/regular/eye-slash.svg";
 import PHPlusData from "@phosphor-icons/core/regular/plus.svg";
@@ -35,7 +34,6 @@ import PHXCircleData from "@phosphor-icons/core/regular/x-circle.svg";
 import { svgImport } from "@/utils/common/svg-helper";
 
 export const PHCaretDown = svgImport(PHCaretDownData);
-export const PHDotsSix = svgImport(PHDotsSixData);
 export const PHEye = svgImport(PHEyeData);
 export const PHEyeSlash = svgImport(PHEyeSlashData);
 export const PHPlus = svgImport(PHPlusData);
