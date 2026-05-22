@@ -1,6 +1,5 @@
 import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@/entrypoints/background/updates";
-import type { InactivityDisplay } from "@/entrypoints/options/settings";
 import type { SavedHighlight } from "@/features/chat-highlight/chat-highlight";
 import type { ColoredChatOption } from "@/features/colored-chat/colored-chat";
 import type { SavedCustomLink } from "@/features/custom-links/custom-links";
@@ -15,6 +14,7 @@ import type { SpecialFilterValue } from "@/utils/common/functions/filters";
 import type { InternalPageTheme } from "@/utils/common/functions/pages";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
+type InactivityDisplay = { days: number | null; color: string };
 
 export class DefaultSetting<T = never> {
 	readonly type: SettingType;
