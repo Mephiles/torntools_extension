@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AdvancedSection from "@/entrypoints/options-v2/components/preferences/global/AdvancedSection.svelte";
 	import GlobalChatSection from "@/entrypoints/options-v2/components/preferences/global/GlobalChatSection.svelte";
 	import GlobalSection from "@/entrypoints/options-v2/components/preferences/global/GlobalSection.svelte";
 	import GlobalSidebarSection
@@ -18,6 +19,8 @@
 	<GlobalSidebarSection />
 {:else if sectionId === "chat"}
 	<GlobalChatSection />
+{:else if sectionId === "advanced"}
+	<AdvancedSection />
 {:else}
 	<SectionNotFound />
 {/if}

@@ -29,6 +29,16 @@
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 
+	<PreferenceSectionCard title="Shops">
+		<PreferenceSettingGroup>
+			<StorageSwitch path="settings.pages.shops.fillMax" label="Fill Max">
+				<StorageSwitch path="settings.pages.shops.maxBuyIgnoreCash" label="Ignore cash on hand" />
+			</StorageSwitch>
+			<StorageSwitch path="settings.pages.shops.profit" label="Item profits" />
+			<StorageSwitch path="settings.pages.shops.values" label="Item market values" />
+		</PreferenceSettingGroup>
+	</PreferenceSectionCard>
+
 	<PreferenceSectionCard title="Item Market">
 		<PreferenceSettingGroup>
 			<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
