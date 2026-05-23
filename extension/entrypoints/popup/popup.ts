@@ -262,7 +262,7 @@ async function setupDashboard() {
 		}
 	}, 1000);
 
-	dashboard.querySelector<HTMLAnchorElement>(".stakeouts .heading a").href = `${browser.runtime.getURL("/targets.html")}?page=stakeouts`;
+	dashboard.querySelector<HTMLAnchorElement>(".stakeouts .heading a").href = `${browser.runtime.getURL("/targets.html")}#/stakeouts`;
 	dashboard.querySelector(".stakeouts .heading .icon-placeholder").replaceWith(PHFillCaretDown());
 	dashboard.querySelector(".stakeouts .heading .icon-wrapper").addEventListener("click", () => {
 		const stakeoutSection = dashboard.querySelector(".stakeouts .stakeout-list");

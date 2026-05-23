@@ -16,7 +16,6 @@ export function initializeDatabaseStore() {
 		return;
 	}
 
-	// storesInitialized = true;
 	void initializeDatabase();
 	loadDatabaseStores().then(() => {
 		storesInitialized = true;

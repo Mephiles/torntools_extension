@@ -87,6 +87,7 @@ interface StorageListeners {
 	version: StorageListener<DatabaseVersion>[];
 	userdata: StorageListener<DatabaseUserdata>[];
 	torndata: StorageListener<DatabaseTorndata>[];
+	attackHistory: StorageListener<DatabaseAttackHistory>[];
 	stakeouts: StorageListener<DatabaseStakeouts>[];
 	factionStakeouts: StorageListener<DatabaseFactionStakeouts>[];
 	notes: StorageListener<DatabaseNotes>[];
@@ -104,6 +105,7 @@ export const storageListeners: StorageListeners = {
 	version: [],
 	userdata: [],
 	torndata: [],
+	attackHistory: [],
 	stakeouts: [],
 	factionStakeouts: [],
 	notes: [],
