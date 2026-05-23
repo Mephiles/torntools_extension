@@ -6,6 +6,8 @@
 
 	let storageSize = $state<string | null>(null);
 	let storageSizeError = $state<string | null>(null);
+	const manifest = browser.runtime.getManifest();
+	const displayVersion = manifest.version_name ?? manifest.version;
 
 	onMount(async () => {
 		storageSizeError = null;
@@ -25,7 +27,7 @@
 	<div class="mt-2 space-y-2 text-sm">
 		<p>
 			Version:
-			<span class="font-medium">{browser.runtime.getManifest().version}</span>
+			<span class="font-medium">{displayVersion}</span>
 		</p>
 		<p class="flex items-center gap-1">
 			Disk space used:
