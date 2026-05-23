@@ -1,6 +1,7 @@
 import "./add-debug-info.css";
+import { browser } from "wxt/browser";
 import { Feature } from "@/features/feature-manager";
-import { settings, version } from "@/utils/common/data/database";
+import { settings } from "@/utils/common/data/database";
 import { elementBuilder, executeScript, getHashParameters } from "@/utils/common/functions/dom";
 import { requireElement } from "@/utils/common/functions/requires";
 
@@ -23,7 +24,9 @@ async function addDebugInfo() {
 
 				// Get browser info.
 				if (!debugInfo) {
-					const ttVersion = `TornTools version: ${version.current}`;
+					const manifest = browser.runtime.getManifest();
+					const version = manifest.version_name ?? manifest.version;
+					const ttVersion = `TornTools version: ${version}`;
 
 					if (navigator.userAgentData) {
 						// Chrome and others

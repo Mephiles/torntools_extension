@@ -1,5 +1,22 @@
+import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
+import type { Browser } from "@wxt-dev/browser";
 import { defineConfig, type UserManifest } from "wxt";
+
+const APPEND_COMMIT_HASH_ENV = "APPEND_COMMIT_HASH";
+
+function shouldAppendCommitHash() {
+	return process.env[APPEND_COMMIT_HASH_ENV]?.toLowerCase() !== "false";
+}
+
+function appendCommitHashToVersion(manifest: Browser.runtime.Manifest) {
+	if (!shouldAppendCommitHash()) return;
+
+	const commitHash = spawnSync("git", ["rev-parse", "--short", "HEAD"], { encoding: "utf8" }).stdout.trim();
+	if (!commitHash) return;
+
+	manifest.version_name = `${manifest.version}+${commitHash}`;
+}
 
 // See https://wxt.dev/api/config.html
 // noinspection JSUnusedGlobalSymbols
@@ -47,6 +64,8 @@ export default defineConfig({
 			if (wxt.config.mode === "development") {
 				manifest.name += " (DEV)";
 			}
+
+			appendCommitHashToVersion(manifest);
 		},
 	},
 	manifest: ({ browser }): UserManifest => {
