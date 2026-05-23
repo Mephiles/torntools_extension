@@ -1847,10 +1847,11 @@ async function setupExport() {
 		const exportedKeys: DatabaseKey[] = ["version", "settings", "filters", "stakeouts", "notes", "quick", "localdata", "migrations"];
 		if (api) exportedKeys.splice(0, 0, "api");
 
+		const manifest = browser.runtime.getManifest();
 		const data: ExportData = {
 			user: false,
 			client: {
-				version: browser.runtime.getManifest().version,
+				version: manifest.version_name ?? manifest.version,
 				space: await ttStorage.getSize(),
 			},
 			date: new Date().toString(),
@@ -1963,7 +1964,8 @@ function setupAbout() {
 	const about = document.querySelector("#about");
 
 	// version
-	about.querySelector(".version").textContent = browser.runtime.getManifest().version;
+	const manifest = browser.runtime.getManifest();
+	about.querySelector(".version").textContent = manifest.version_name ?? manifest.version;
 
 	// data corruption
 	showCorruption("userdata-corruption", () => typeof userdata === "object" && Object.keys(userdata).length > 5);
