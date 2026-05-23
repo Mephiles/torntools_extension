@@ -22,7 +22,6 @@ function appendCommitHashToVersion(manifest: Browser.runtime.Manifest) {
 // noinspection JSUnusedGlobalSymbols
 export default defineConfig({
 	srcDir: "extension",
-	// modules: ["@wxt-dev/module-react"],
 	modules: ["@wxt-dev/auto-icons"],
 	autoIcons: {
 		baseIconPath: "assets/icon.svg",
