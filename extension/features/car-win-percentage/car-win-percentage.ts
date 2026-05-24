@@ -18,7 +18,7 @@ function initialiseListener() {
 }
 
 async function addPercentage() {
-	await requireElement(".enlisted-stat");
+	await requireElement(".enlisted-stat").catch(() => {});
 
 	if (document.querySelector(".tt-win-percentage")) return;
 
