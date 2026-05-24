@@ -128,7 +128,7 @@ async function showQuickItems(section: string) {
 		addQuickItem(quickItem, false);
 	}
 
-	requireElement(".armoury-tabs[aria-expanded=true] .name").then(setupQuickDragListeners);
+	requireElement(".armoury-tabs[aria-expanded=true] .name, .armoury-donate-wrap[aria-expanded=true]").then(setupQuickDragListeners);
 }
 
 function setupQuickDragListeners() {
