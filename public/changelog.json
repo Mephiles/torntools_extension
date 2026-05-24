@@ -21,7 +21,8 @@
 				{ "message": "Fix an edge case with 'Blackjack Strategy'.", "contributor": "DeKleineKobini" },
 				{ "message": "Hopefully avoid the initial page jump with 'Align Left' (and other features), attempt 2.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Energy Warning' feature.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix dragging items to your faction quick items after page load.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix dragging items to your faction quick items after page load.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with the 'Stats Estimate' feature for ranked wars.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },

@@ -45,6 +45,9 @@ function observeWars() {
 }
 
 function showEstimates() {
+	const list = document.querySelector(".f-war-list:has([class*='warListItem___'][class*='active___'] [class*='rankBox'])");
+	if (!list) return;
+
 	requireElement(".faction-war .members-list").then(() => {
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(
