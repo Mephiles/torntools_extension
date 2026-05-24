@@ -10,7 +10,7 @@ import { createContainer, findContainer, removeContainer } from "@/utils/common/
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@/utils/common/functions/dom";
 import { formatTime } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
-import { requireItemsLoaded } from "@/utils/common/functions/requires";
+import { requireElement } from "@/utils/common/functions/requires";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@/utils/common/functions/torn";
 import { getTornItemType, TORN_ITEMS } from "@/utils/common/functions/torn-items";
 import { PHFillPlus, PHX } from "@/utils/common/icons/phosphor-icons";
@@ -128,7 +128,7 @@ async function showQuickItems(section: string) {
 		addQuickItem(quickItem, false);
 	}
 
-	requireItemsLoaded().then(setupQuickDragListeners);
+	requireElement(".armoury-tabs[aria-expanded=true] .name").then(setupQuickDragListeners);
 }
 
 function setupQuickDragListeners() {
