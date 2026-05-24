@@ -8,7 +8,7 @@ interface RequireConditionOptions {
 export function requireCondition(condition: RequireConditionFn, partialOptions: Partial<RequireConditionOptions> = {}): Promise<any> {
 	const options: RequireConditionOptions = {
 		delay: 50,
-		maxCycles: 1000,
+		maxCycles: 100,
 		...partialOptions,
 	};
 

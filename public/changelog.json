@@ -30,7 +30,8 @@
 				{
 					"message": "Export more data ('localdata' which includes resized chats and hidden forum feeds, and 'migrations' for internal logic).",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Shorten the default timeout for 'requireElement'.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Change the structure for how we save 'User Alias' entries.", "contributor": "DeKleineKobini" }]
