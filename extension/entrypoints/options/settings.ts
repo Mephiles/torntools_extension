@@ -1123,16 +1123,18 @@ async function setupPreferences(requireCleanup: boolean = false) {
 				else return input.value.trim();
 			})
 			.filter((x) => typeof x !== "string" || !!x);
-		settings.userAlias = findAllElements<HTMLInputElement>("#userAlias > li", _preferences).map((row) => {
-			const idValue = row.querySelector<HTMLInputElement>(".userID").value;
-			if (!idValue) return;
+		settings.userAlias = findAllElements<HTMLInputElement>("#userAlias > li", _preferences)
+			.map((row) => {
+				const idValue = row.querySelector<HTMLInputElement>(".userID").value;
+				if (!idValue) return null;
 
-			return {
-				userId: parseInt(idValue),
-				userName: row.querySelector<HTMLInputElement>(".name").value,
-				alias: row.querySelector<HTMLInputElement>(".alias").value,
-			};
-		});
+				return {
+					userId: parseInt(idValue),
+					userName: row.querySelector<HTMLInputElement>(".name").value,
+					alias: row.querySelector<HTMLInputElement>(".alias").value,
+				};
+			})
+			.filter((entry) => !!entry);
 
 		settings.hideIcons = findAllElements("#hide-icons .icon.disabled > div", _preferences).map((icon) => icon.getAttribute("class"));
 		settings.hideCasinoGames = findAllElements("#hide-casino-games span.disabled", _preferences).map((game) => game.getAttribute("name"));
