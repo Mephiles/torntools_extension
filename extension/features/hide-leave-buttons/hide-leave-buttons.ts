@@ -26,4 +26,8 @@ export default class HideLeaveButtonsFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.global.hideQuitButtons"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

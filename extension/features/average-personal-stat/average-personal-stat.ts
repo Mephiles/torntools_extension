@@ -70,4 +70,8 @@ export default class AveragePersonalStatFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.profile.avgpersonalstats"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

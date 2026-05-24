@@ -41,4 +41,8 @@ export default class HighlightEnergyRefillFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.sidebar.highlightEnergy", "userdata.refills.energy"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

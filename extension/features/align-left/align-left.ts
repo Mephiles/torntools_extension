@@ -24,4 +24,8 @@ export default class AlignLeftFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.global.alignLeft"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

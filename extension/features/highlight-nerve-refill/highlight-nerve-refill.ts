@@ -41,4 +41,8 @@ export default class HighlightNerveRefillFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.sidebar.highlightNerve", "userdata.refills.nerve"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }
