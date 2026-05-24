@@ -22,4 +22,8 @@ export default class ItemMarketLeftBarFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.itemmarket.leftBar"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

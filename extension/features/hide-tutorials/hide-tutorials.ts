@@ -26,4 +26,8 @@ export default class HideTutorialsFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.global.hideTutorials"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

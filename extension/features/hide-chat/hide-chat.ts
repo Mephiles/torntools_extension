@@ -79,4 +79,8 @@ export default class HideChatFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.chat.hideChatButton"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

@@ -30,4 +30,8 @@ export default class HideNewspaperHighlightFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.sidebar.hideNewspaperHighlight"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

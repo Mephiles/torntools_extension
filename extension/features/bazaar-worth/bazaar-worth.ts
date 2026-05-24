@@ -146,4 +146,8 @@ export default class BazaarWorthFeature extends Feature {
 	shouldLiveReload(): boolean {
 		return true;
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

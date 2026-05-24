@@ -71,4 +71,8 @@ export default class HideIconsFeature extends Feature {
 		await requireSidebar();
 		return true;
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

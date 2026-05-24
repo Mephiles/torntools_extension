@@ -47,4 +47,8 @@ export default class HideLevelUpgradeFeature extends Feature {
 	storageKeys() {
 		return ["settings.pages.global.hideLevelUpgrade"];
 	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
 }

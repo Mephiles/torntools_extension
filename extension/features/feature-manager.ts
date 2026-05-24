@@ -51,6 +51,10 @@ export abstract class Feature {
 	shouldLiveReload(): boolean {
 		return false;
 	}
+
+	requiresScreenInformation() {
+		return true;
+	}
 }
 
 export abstract class DisabledUntilNoticeFeature extends Feature {
@@ -267,8 +271,7 @@ class FeatureManager {
 	}
 
 	private async startFeature(feature: Feature, liveReload?: boolean) {
-		await loadDatabase();
-		await checkDevice();
+		await Promise.all([loadDatabase(), feature.requiresScreenInformation() ? checkDevice() : Promise.resolve()]);
 		try {
 			if (feature.isEnabled()) {
 				this.logInfo("Starting feature.", feature);
