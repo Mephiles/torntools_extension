@@ -54,6 +54,8 @@ async function addLastAction(force: boolean) {
 	const members = await loadMembers(id);
 
 	const list = document.querySelector(".members-list .table-body");
+	if (!list) return;
+
 	list.classList.add("tt-modified");
 	const nowDate = Date.now();
 	let maxHours = 0;

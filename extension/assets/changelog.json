@@ -26,7 +26,8 @@
 				{ "message": "Avoid errors with the 'Car Win Percentage' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'War Finish Times' feature.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors on the factions page.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'Item Values' feature on the faction armory page.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'Item Values' feature on the faction armory page.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with the 'Last Action Faction' feature.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },
