@@ -22,19 +22,19 @@
 
 <ModeWatcher track={false} />
 
-{#snippet head(text: string)}
-	<Table.Head class="p-2 text-center">{text}</Table.Head>
+{#snippet head(_text: string)}
+	<Table.Head class="p-2 text-center">{_text}</Table.Head>
 {/snippet}
 
-{#snippet question(text: string)}
-	<Table.Cell class="p-2 align-top whitespace-normal">{text}</Table.Cell>
+{#snippet question(_text: string)}
+	<Table.Cell class="p-2 align-top whitespace-normal">{_text}</Table.Cell>
 {/snippet}
 
-{#snippet answer(text: string, subtext?: string)}
+{#snippet answer(_text: string, _subtext?: string)}
 	<Table.Cell class="p-2 align-top whitespace-normal">
-		<code class="block rounded bg-muted p-1 whitespace-normal wrap-break-word">{text}</code>
-		{#if subtext}
-			<p class="mt-1 text-muted-foreground">{subtext}</p>
+		<code class="block rounded bg-muted p-1 whitespace-normal wrap-break-word">{_text}</code>
+		{#if _subtext}
+			<p class="mt-1 text-muted-foreground">{_subtext}</p>
 		{/if}
 	</Table.Cell>
 {/snippet}
