@@ -126,6 +126,9 @@ export async function setupFactionsPage() {
 			const tab = await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
 			await requireElement(":scope > .ajax-preloader", { invert: true, parent: document.getElementById(tab.getAttribute("aria-controls")) });
 
+			const section = getCurrentSection();
+			if (!section) return;
+
 			triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection()! });
 			new MutationObserver((mutations) => {
 				if (
@@ -149,7 +152,8 @@ export async function setupFactionsPage() {
 			}).observe(document.querySelector("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 			function getCurrentSection() {
-				const controls = document.querySelector("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls");
+				const controls = document.querySelector("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']")?.getAttribute("aria-controls");
+				if (!controls) return null;
 
 				return extractArmorySubcategory(controls);
 			}
