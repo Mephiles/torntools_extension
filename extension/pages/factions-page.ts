@@ -70,14 +70,14 @@ export async function setupFactionsPage() {
 		}
 
 		async function loadMain() {
-			await requireElement(".announcement");
-
-			triggerCustomListener(EVENT_CHANNELS.FACTION_MAIN);
+			await requireElement(".announcement")
+				.then(() => triggerCustomListener(EVENT_CHANNELS.FACTION_MAIN))
+				.catch(() => {});
 		}
 
 		async function loadInfo() {
-			const root: HTMLElement = await requireElement("#react-root-faction-info");
-			if (root.classList.contains("tt-handled")) return;
+			const root: HTMLElement = await requireElement("#react-root-faction-info").catch(() => {});
+			if (!root || root.classList.contains("tt-handled")) return;
 
 			root.classList.add("tt-handled");
 

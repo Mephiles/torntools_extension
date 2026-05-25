@@ -24,7 +24,8 @@
 				{ "message": "Fix dragging items to your faction quick items after page load.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Stats Estimate' feature for ranked wars.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Car Win Percentage' feature.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'War Finish Times' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'War Finish Times' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors on the factions page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },
