@@ -20,8 +20,8 @@
 				href={getPreferenceSectionRoute(groupId, section.id)}
 				class={`rounded-md border px-3 py-2 text-sm transition-colors ${
 					section.id === activeSection
-						? "border-gray-900 bg-gray-900 text-white dark:border-gray-100 dark:bg-gray-100 dark:text-gray-950"
-						: "border-border text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-100"
+						? "border-gray-300 bg-gray-100 text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+						: "border-border text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
 				}`}
 			>
 				<span class="block font-medium">{section.title}</span>
