@@ -89,18 +89,11 @@ export async function setupFactionsPage() {
 		}
 
 		async function loadCrimes() {
-			let loaded = false;
-
-			requireElement("#faction-crimes .crimes-list", { maxCycles: 20 })
-				.then(() => {
-					loaded = true;
-					triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES);
-				})
-				.catch((cause) => loaded || console.error(cause));
+			requireElement("#faction-crimes .crimes-list")
+				.then(() => triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES))
+				.catch(() => {});
 			requireElement("#faction-crimes-root [class*='buttonsContainer___']", { maxCycles: 20 })
 				.then(async (buttonsContainer: Element) => {
-					loaded = true;
-
 					const list = await requireElement("#faction-crimes-root .page-head-delimiter + div:not([class])");
 					await requireElement("[class*='loader___']", { parent: list, invert: true });
 					list.classList.add("tt-oc2-list");
@@ -119,7 +112,7 @@ export async function setupFactionsPage() {
 						}).observe(button, { attributes: true, attributeFilter: ["class"] });
 					});
 				})
-				.catch((cause) => loaded || console.error(cause));
+				.catch(() => {});
 		}
 
 		async function loadArmory() {
