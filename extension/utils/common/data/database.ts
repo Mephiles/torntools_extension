@@ -9,21 +9,21 @@ import { sleep } from "@/utils/common/functions/utilities";
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
 export type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
 
-type DatabaseSettings = Writable<DefaultStorageType["settings"]>;
+export type DatabaseSettings = Writable<DefaultStorageType["settings"]>;
 type DatabaseFilters = Writable<DefaultStorageType["filters"]>;
 type DatabaseVersion = Writable<DefaultStorageType["version"]>;
 type DatabaseApi = Writable<DefaultStorageType["api"]>;
 export type DatabaseUserdata = Writable<DefaultStorageType["userdata"]>;
-type DatabaseTorndata = Writable<DefaultStorageType["torndata"]>;
+export type DatabaseTorndata = Writable<DefaultStorageType["torndata"]>;
 type DatabaseStakeouts = Writable<DefaultStorageType["stakeouts"]>;
 type DatabaseAttackHistory = Writable<DefaultStorageType["attackHistory"]>;
 type DatabaseNotes = Writable<DefaultStorageType["notes"]>;
-type DatabaseFactiondata = Writable<DefaultStorageType["factiondata"]>;
+export type DatabaseFactiondata = Writable<DefaultStorageType["factiondata"]>;
 type DatabaseQuick = Writable<DefaultStorageType["quick"]>;
 type DatabaseLocaldata = Writable<DefaultStorageType["localdata"]>;
 type DatabaseNpcs = Writable<DefaultStorageType["npcs"]>;
 type DatabaseNotificationHistory = Writable<DefaultStorageType["notificationHistory"]>;
-type DatabaseStockdata = Writable<DefaultStorageType["stockdata"]>;
+export type DatabaseStockdata = Writable<DefaultStorageType["stockdata"]>;
 type DatabaseFactionStakeouts = Writable<DefaultStorageType["factionStakeouts"]>;
 type DatabaseNotifications = Writable<DefaultStorageType["notifications"]>;
 type DatabaseMigrations = Writable<DefaultStorageType["migrations"]>;
@@ -79,13 +79,15 @@ let databaseLoading = false;
 // Initialize database when module is loaded
 //
 
-type StorageListener<T> = (oldValue: T) => void;
+type StorageListener<T> = (oldValue: T, newValue: T) => void;
 
 interface StorageListeners {
 	settings: StorageListener<DatabaseSettings>[];
 	filters: StorageListener<DatabaseFilters>[];
 	version: StorageListener<DatabaseVersion>[];
 	userdata: StorageListener<DatabaseUserdata>[];
+	torndata: StorageListener<DatabaseTorndata>[];
+	attackHistory: StorageListener<DatabaseAttackHistory>[];
 	stakeouts: StorageListener<DatabaseStakeouts>[];
 	factionStakeouts: StorageListener<DatabaseFactionStakeouts>[];
 	notes: StorageListener<DatabaseNotes>[];
@@ -94,6 +96,7 @@ interface StorageListeners {
 	cache: StorageListener<DatabaseCache>[];
 	api: StorageListener<DatabaseApi>[];
 	npcs: StorageListener<DatabaseNpcs>[];
+	stockdata: StorageListener<DatabaseStockdata>[];
 }
 
 export const storageListeners: StorageListeners = {
@@ -101,6 +104,8 @@ export const storageListeners: StorageListeners = {
 	filters: [],
 	version: [],
 	userdata: [],
+	torndata: [],
+	attackHistory: [],
 	stakeouts: [],
 	factionStakeouts: [],
 	notes: [],
@@ -109,6 +114,7 @@ export const storageListeners: StorageListeners = {
 	cache: [],
 	api: [],
 	npcs: [],
+	stockdata: [],
 } as const;
 
 export async function loadDatabase(force = false): Promise<Omit<Database, "time">> {
@@ -260,6 +266,10 @@ function populateDatabaseVariables(database: Database) {
 
 export function initializeDatabase() {
 	loadDatabase().catch(() => console.error("TT - Failed to load database."));
+	initializeDatabaseListener();
+}
+
+function initializeDatabaseListener() {
 	browser.storage.onChanged.addListener((changes, area) => {
 		if (area === "local") {
 			for (const key in changes) {
@@ -319,7 +329,8 @@ export function initializeDatabase() {
 						factionStakeouts = changes.factionStakeouts.newValue as DatabaseFactionStakeouts;
 						break;
 				}
-				if (storageListeners[key]) storageListeners[key].forEach((listener: StorageListener<any>) => listener(changes[key].oldValue));
+				if (storageListeners[key])
+					storageListeners[key].forEach((listener: StorageListener<any>) => listener(changes[key].oldValue, changes[key].newValue));
 			}
 		}
 	});

@@ -95,7 +95,7 @@ export function toMultipleDigits(number: undefined | number | string, digits: nu
 	return number.toString().length < digits ? toMultipleDigits(`0${number}`, digits) : number.toString();
 }
 
-type DateObject = number | Date | { milliseconds: number } | { seconds: number };
+type DateObject = number | string | Date | { milliseconds: number } | { seconds: number };
 
 export interface FormatTimeOptions {
 	type: "normal" | "timer" | "wordTimer" | "ago";
@@ -111,6 +111,7 @@ export interface FormatTimeOptions {
 
 export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeOptions> = {}): string {
 	if (typeof time === "number") return formatTime({ milliseconds: time }, partialOptions);
+	else if (typeof time === "string") return formatTime(new Date(time), partialOptions);
 	else if (time instanceof Date) return formatTime({ milliseconds: time.getTime() }, partialOptions);
 
 	const options: FormatTimeOptions = {
@@ -260,13 +261,26 @@ export function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions
 	const parts: string[] = [];
 	if (options.showDays && dropDecimals(date.getTime() / TO_MILLIS.DAYS) > 0) {
 		hasShownDays = true;
-		parts.push(formatUnit(Math.floor(date.getTime() / TO_MILLIS.DAYS), { normal: "day", short: "day", extraShort: "d" }));
+		parts.push(
+			formatUnit(Math.floor(date.getTime() / TO_MILLIS.DAYS), {
+				normal: "day",
+				short: "day",
+				extraShort: "d",
+			}),
+		);
 	}
 	if (!options.hideHours && date.getUTCHours()) {
 		hasShownHours = true;
 		parts.push(formatUnit(date.getUTCHours(), { normal: "hour", short: "hr", extraShort: "h" }));
 	}
-	if (date.getUTCMinutes()) parts.push(formatUnit(date.getUTCMinutes(), { normal: "minute", short: "min", extraShort: "m" }));
+	if (date.getUTCMinutes())
+		parts.push(
+			formatUnit(date.getUTCMinutes(), {
+				normal: "minute",
+				short: "min",
+				extraShort: "m",
+			}),
+		);
 
 	if (!options.hideSeconds && date.getUTCSeconds() && (!options.truncateSeconds || !(hasShownDays || hasShownHours)))
 		parts.push(formatUnit(date.getUTCSeconds(), { normal: "second", short: "sec", extraShort: "s" }));
@@ -298,6 +312,7 @@ interface FormatDateOptions {
 
 export function formatDate(date: DateObject, partialOptions: Partial<FormatDateOptions> = {}) {
 	if (typeof date === "number") return formatDate({ milliseconds: date }, partialOptions);
+	else if (typeof date === "string") return formatDate({ milliseconds: new Date(date).getTime() }, partialOptions);
 	else if (date instanceof Date) return formatDate({ milliseconds: date.getTime() }, partialOptions);
 
 	const options: FormatDateOptions = {
@@ -511,4 +526,41 @@ export function daySuffix(number: number): string {
 
 export function withoutEndPunctuation(text: string): string {
 	return text.replace(/[.,!?;:]+$/, "");
+}
+
+export function getDaySuffix(day: number): string {
+	if (day > 3 && day < 21) return "th";
+	switch (day % 10) {
+		case 1:
+			return "st";
+		case 2:
+			return "nd";
+		case 3:
+			return "rd";
+		default:
+			return "th";
+	}
+}
+
+interface FormatBytesOptions {
+	decimals: number;
+}
+
+export function formatBytes(bytes: number, partialOptions: Partial<FormatBytesOptions> = {}) {
+	const options: FormatBytesOptions = {
+		decimals: 2,
+		...partialOptions,
+	};
+
+	if (bytes === 0) return "0 bytes";
+	else if (bytes < 0) throw "Negative bytes are impossible";
+
+	const unitExponent = 1024;
+	const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+	const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
+
+	const xBytes = bytes / unitExponent ** effectiveUnit;
+
+	return `${formatNumber(xBytes, { decimals: options.decimals })} ${units[effectiveUnit]}`;
 }

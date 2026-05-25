@@ -17,6 +17,11 @@
 			"indentWidth": 4
 		}
 	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
 	"linter": {
 		"rules": {
 			"recommended": true,
@@ -46,6 +51,9 @@
 				"noDescendingSpecificity": "off",
 				"noNonNullAssertion": "off"
 			},
+			"nursery": {
+				"useSortedClasses": "warn"
+			},
 			"suspicious": {
 				"noAsyncPromiseExecutor": "off",
 				"noDuplicateProperties": "off",
@@ -54,9 +62,9 @@
 				"useIterableCallbackReturn": "off"
 			}
 		},
-		"includes": ["**"]
+		"includes": ["**", "!extension/svelte/components/ui/**/index.ts", "!extension/svelte/components/ui/**/*.svelte"]
 	},
-	"html": { "formatter": { "selfCloseVoidElements": "always" } },
+	"html": { "formatter": { "selfCloseVoidElements": "always" }, "experimentalFullSupportEnabled": true },
 	"assist": {
 		"actions": {
 			"source": {

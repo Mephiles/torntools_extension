@@ -15,6 +15,11 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@/utils/common/global/selectors/chatSelectors";
 
+export interface SavedHighlight {
+	name: string;
+	color: string;
+}
+
 let highlights: HighlightColor[];
 
 interface HighlightColor {
