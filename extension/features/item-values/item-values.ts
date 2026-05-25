@@ -83,46 +83,48 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 		for (const item of items) {
 			if (options.ignoreUntradable && parseInt(item.untradable)) continue;
 
-			requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list }).then(async () => {
-				await sleep(0);
-				const itemRow = list.querySelector(`li[data-reactid*='$${item.armoryID}']`);
+			requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list })
+				.then(async () => {
+					await sleep(0);
+					const itemRow = list.querySelector(`li[data-reactid*='$${item.armoryID}']`);
 
-				const parent = itemRow.querySelector(".name-wrap");
-				if (parent.querySelector(".tt-item-price")) {
-					if (type) return;
-					else parent.querySelector(".tt-item-price").remove();
-				}
+					const parent = itemRow.querySelector(".name-wrap");
+					if (parent.querySelector(".tt-item-price")) {
+						if (type) return;
+						else parent.querySelector(".tt-item-price").remove();
+					}
 
-				if (options.addRelative) parent.parentElement.classList.add("relative");
+					if (options.addRelative) parent.parentElement.classList.add("relative");
 
-				const price = parseInt(item.averageprice) || 0;
-				const quantity = parseInt(item.Qty) || 1;
+					const price = parseInt(item.averageprice) || 0;
+					const quantity = parseInt(item.Qty) || 1;
 
-				const valueWrap = itemRow.querySelector<HTMLElement>(".info-wrap");
+					const valueWrap = itemRow.querySelector<HTMLElement>(".info-wrap");
 
-				if (valueWrap?.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
-					valueWrap.innerHTML = "";
-					valueWrap.classList.add("tt-item-price-color");
-					addValue(valueWrap, quantity, price);
-				} else if (valueWrap?.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
-					valueWrap.style.setProperty("position", "relative");
+					if (valueWrap?.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
+						valueWrap.innerHTML = "";
+						valueWrap.classList.add("tt-item-price-color");
+						addValue(valueWrap, quantity, price);
+					} else if (valueWrap?.clientWidth && (!isElement(valueWrap.nextSibling) || !valueWrap.nextSibling.childElementCount)) {
+						valueWrap.style.setProperty("position", "relative");
 
-					const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
-					addValue(priceElement, quantity, price);
+						const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
+						addValue(priceElement, quantity, price);
 
-					valueWrap.appendChild(priceElement);
-				} else {
-					const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
-					if (item.groupItem && quantity !== 1) priceElement.style.setProperty("padding-right", "98px", "important");
+						valueWrap.appendChild(priceElement);
+					} else {
+						const priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
+						if (item.groupItem && quantity !== 1) priceElement.style.setProperty("padding-right", "98px", "important");
 
-					addValue(priceElement, quantity, price);
+						addValue(priceElement, quantity, price);
 
-					if (item.groupItem) {
-						if (quantity === 1) parent.insertAdjacentElement("afterend", priceElement);
-						else parent.appendChild(priceElement);
-					} else parent.insertAdjacentElement("afterend", priceElement);
-				}
-			});
+						if (item.groupItem) {
+							if (quantity === 1) parent.insertAdjacentElement("afterend", priceElement);
+							else parent.appendChild(priceElement);
+						} else parent.insertAdjacentElement("afterend", priceElement);
+					}
+				})
+				.catch(() => {});
 		}
 	} else {
 		for (const price of findAllElements(".tt-item-price, #category-wrap .tt-ignore")) {
