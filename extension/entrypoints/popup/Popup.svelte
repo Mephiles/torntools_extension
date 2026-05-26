@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import Router, { replace, router } from "svelte-spa-router";
+	import Calculator from "./components/calculator/Calculator.svelte";
     import GlobalLayout from "./components/GlobalLayout.svelte";
 	import Initialize from "./components/initialize/Initialize.svelte";
 	import Market from "./components/market/Market.svelte";
     import PopupRedirect from "./components/PopupRedirect.svelte";
-	import Calculator from "./routes/Calculator.svelte";
 	import Dashboard from "./routes/Dashboard.svelte";
 	import Notifications from "./routes/Notifications.svelte";
 	import Stocks from "./routes/Stocks.svelte";
