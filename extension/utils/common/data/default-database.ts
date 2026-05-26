@@ -680,6 +680,8 @@ export const DEFAULT_STORAGE = {
 				isDonator: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				isRecruit: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
+			ffScoreMax: new DefaultSetting("number", null),
+			ffScoreMin: new DefaultSetting("number", null),
 		},
 		factionArmory: {
 			enabled: new DefaultSetting("boolean", true),
