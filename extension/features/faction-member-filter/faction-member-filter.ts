@@ -3,6 +3,8 @@ import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { getFactionSubpage, isInternalFaction } from "@/pages/factions-page";
 import { filters, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
+import { createTextbox } from "@/utils/common/elements/textbox/textbox";
+import { hasAPIData } from "@/utils/common/functions/api";
 import { createContainer, findContainer, removeContainer } from "@/utils/common/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@/utils/common/functions/dom";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, getSpecialIcons } from "@/utils/common/functions/filters";
@@ -44,6 +46,12 @@ function addListener() {
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE].push(async () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
+
+		await applyFilter();
+	});
+	CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(async () => {
+		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
+		if (!localFilters["FF Score Max"]?.getValue() && !localFilters["FF Score Min"]?.getValue()) return;
 
 		await applyFilter();
 	});
@@ -121,6 +129,29 @@ async function addFilter() {
 	});
 	filterContent.appendChild(levelFilter.element);
 	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
+
+	if (settings.scripts.ffScouter.gauge && hasAPIData()) {
+		const ffScoreFilterMin = createFilterSection({
+			title: "FF Score Min",
+			text: "number",
+			default: filters.faction.ffScoreMin?.toString(),
+			callback: applyFilter,
+		});
+		ffScoreFilterMin.element.querySelector("input").step = 0.1;
+		filterContent.appendChild(ffScoreFilterMin.element);
+		localFilters["FF Score Min"] = { getValue: ffScoreFilterMin.getValue };
+
+		const ffScoreFilterMax = createTextbox({
+			type: "number",
+		});
+		ffScoreFilterMax.setValue(filters.faction.ffScoreMax?.toString());
+		ffScoreFilterMax.onChange(applyFilter);
+		ffScoreFilterMax.element.step = "0.1";
+
+		ffScoreFilterMin.element.appendChild(elementBuilder({ type: "strong", text: "FF Score Max" }));
+		ffScoreFilterMin.element.append(ffScoreFilterMax.element);
+		localFilters["FF Score Max"] = { getValue: ffScoreFilterMax.getValue };
+	}
 
 	content.appendChild(filterContent);
 
@@ -200,6 +231,8 @@ async function applyFilter() {
 	const position = localFilters["Position"].getSelected(content);
 	const status = localFilters["Status"].getSelections(content);
 	const special = localFilters["Special"].getSelections(content);
+	const ffScoreMin = parseFloat(localFilters["FF Score Min"]?.getValue()) ?? null;
+	const ffScoreMax = parseFloat(localFilters["FF Score Max"]?.getValue()) ?? null;
 
 	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
 	if (lastActionState && localFilters["Last Active Filter"]) {
@@ -223,6 +256,8 @@ async function applyFilter() {
 						? -1
 						: filters.faction.lastActionEnd,
 				special,
+				ffScoreMax,
+				ffScoreMin,
 			},
 		},
 	});
@@ -308,6 +343,28 @@ async function applyFilter() {
 			if ((lastActionStart && liLastAction < lastActionStart) || (lastActionEnd !== -1 && liLastAction > lastActionEnd)) {
 				hideRow(li, "last-action");
 				continue;
+			}
+		}
+
+		// FF Score
+		if (ffScoreMax || ffScoreMin) {
+			try {
+				const gauge = li.querySelector(".tt-ff-scouter-indicator.indicator-lines");
+				if (gauge) {
+					const ff = parseFloat(gauge.getAttribute("data-ff-scout"));
+					if (!Number.isNaN(ff)) {
+						if (ffScoreMax && !Number.isNaN(ffScoreMax) && ff > ffScoreMax) {
+							hideRow(li);
+							continue;
+						}
+						if (ffScoreMin && !Number.isNaN(ffScoreMin) && ff < ffScoreMin) {
+							hideRow(li);
+							continue;
+						}
+					}
+				}
+			} catch (error) {
+				console.error("TT - Failed to filter faction member row by FF Score.", error);
 			}
 		}
 

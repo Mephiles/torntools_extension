@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Initial url that can be filled: profile send money.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Initial url that can be filled: profile send money.", "contributor": "DeKleineKobini" },
+				{ "message": "'FF Scouter' score filter for the faction member list.", "contributor": "mystify-321" }
+			],
 			"fixes": [
 				{
 					"message": "Resolve an edge case with faction stakeouts not updating when there is no data yet, and you have specific alerts enabled.",
