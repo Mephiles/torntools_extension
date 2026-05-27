@@ -3,7 +3,7 @@ import { Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
 import { hasSidebar, mobile, tablet } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
-import { hasDarkMode } from "@/utils/common/functions/torn";
+import { hasDarkMode, isPageWithSidebar } from "@/utils/common/functions/torn";
 
 let hadHighlight = false;
 
@@ -69,6 +69,10 @@ function removeHiddenHighlight() {
 export default class HideGymHighlightFeature extends Feature {
 	constructor() {
 		super("Hide Gym Highlight", "sidebar");
+	}
+
+	precondition() {
+		return isPageWithSidebar();
 	}
 
 	isEnabled() {

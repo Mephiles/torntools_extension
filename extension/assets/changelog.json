@@ -34,7 +34,8 @@
 				{
 					"message": "Don't run sidebar features on the fullscreen poker page, causing a lot of errors since there is no sidebar there.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Don't run the 'Hide Gym Highlight' feature on pages without sidebar.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },
