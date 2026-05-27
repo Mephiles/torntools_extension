@@ -983,17 +983,16 @@ type QuickCrime = {
 };
 type QuickJail = "bust" | "bail";
 
-export type TTNotification =
-	| {
-			title: string;
-			message: string;
-			url?: string;
-			date: number;
-			type?: string;
-			key?: string | number;
-			seen?: boolean;
-	  }
-	| { combined: true };
+export type TTFullNotification = {
+	title: string;
+	message: string;
+	url?: string;
+	date: number;
+	type?: string;
+	key?: string | number;
+	seen?: boolean;
+};
+export type TTNotification = TTFullNotification | { combined: true };
 type NotificationMap = { [key: string]: TTNotification };
 type StoredProfileNotes = { [id: number]: { height: string; text: string } };
 export type AttackHistory = {

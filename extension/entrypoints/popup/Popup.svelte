@@ -5,10 +5,10 @@
     import GlobalLayout from "./components/GlobalLayout.svelte";
     import Initialize from "./components/initialize/Initialize.svelte";
     import Market from "./components/market/Market.svelte";
+    import Notifications from "./components/notifications/Notifications.svelte";
     import PopupRedirect from "./components/PopupRedirect.svelte";
     import Stocks from "./components/stocks/Stocks.svelte";
     import Dashboard from "./routes/Dashboard.svelte";
-    import Notifications from "./routes/Notifications.svelte";
     import { apiStore, initializeDatabaseStore, settingsStore } from "./stores/database-store.svelte.js";
     import { getStartupPath } from "./tabs";
 
