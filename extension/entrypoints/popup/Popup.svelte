@@ -6,11 +6,11 @@
 	import Initialize from "./components/initialize/Initialize.svelte";
 	import Market from "./components/market/Market.svelte";
     import PopupRedirect from "./components/PopupRedirect.svelte";
+	import Stocks from "./components/stocks/Stocks.svelte";
 	import Dashboard from "./routes/Dashboard.svelte";
 	import Notifications from "./routes/Notifications.svelte";
-	import Stocks from "./routes/Stocks.svelte";
-	import { apiStore, settingsStore } from "./stores/database-store.svelte.js";
-    import {getStartupPath} from "./tabs";
+    import { apiStore, initializeDatabaseStore, settingsStore } from "./stores/database-store.svelte.js";
+    import { getStartupPath } from "./tabs";
 
 	const routes = {
 		"/initialize": Initialize,
@@ -23,26 +23,25 @@
 	};
 
 	let initialized = $state(false);
+    const startupPath = $derived.by(() => {
+        if (!$settingsStore || !$apiStore) return null;
+
+        return getStartupPath($settingsStore, !!$apiStore?.torn?.key);
+    })
+
+    $effect(() => {
+        if (!startupPath || initialized) return;
+
+        const currentLocation = router.location;
+        if (currentLocation !== startupPath) {
+            void replace(startupPath);
+        }
+        initialized = true;
+    })
 
 	onMount(() => {
-		const unsubscribeStartup = apiStore.subscribe((api) => {
-			if (!$settingsStore || !api) return;
-
-			const currentLocation = router.location;
-			const startupPath = getStartupPath($settingsStore, !!api.torn.key);
-			if (!api.torn.key && currentLocation !== "/initialize") {
-				void replace("/initialize");
-			} else if (api.torn.key && (currentLocation === "/" || currentLocation === "/initialize")) {
-				void replace(startupPath);
-			}
-			initialized = true;
-		});
-
-		return () => {
-			unsubscribeStartup();
-		};
+        initializeDatabaseStore();
 	});
-
 </script>
 
 <GlobalLayout>

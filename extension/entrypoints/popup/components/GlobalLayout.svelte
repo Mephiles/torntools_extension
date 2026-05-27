@@ -6,7 +6,7 @@
 	import {link, router} from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { browser } from "wxt/browser";
-	import { apiStore, initializeDatabaseStore, settingsStore } from "../stores/database-store.svelte.ts";
+	import { apiStore, settingsStore } from "../stores/database-store.svelte.ts";
 	import { getEnabledPopupTabs } from "../tabs.ts";
 
 	let showNavigation = $derived(router.location !== "/initialize");
@@ -15,7 +15,6 @@
 
 	onMount(() => {
 		popupWidth = Math.min(432, screen.availWidth * 0.8);
-		initializeDatabaseStore();
 
 		const unsubscribeTheme = settingsStore.subscribe((settings) => {
 			const pageTheme = settings?.themes?.pages;
