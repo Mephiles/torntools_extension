@@ -1,17 +1,29 @@
 import { writable } from "svelte/store";
-import { type Database, type DatabaseSettings, initializeDatabase, storageListeners } from "@/utils/common/data/database";
+import {
+	type DatabaseApi,
+	type DatabaseFactionStakeouts,
+	type DatabaseLocaldata,
+	type DatabaseNotificationHistory,
+	type DatabaseSettings,
+	type DatabaseStakeouts,
+	type DatabaseStockdata,
+	type DatabaseTorndata,
+	type DatabaseUserdata,
+	initializeDatabase,
+	storageListeners,
+} from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 
 let storesInitialized = $state(false);
 export const settingsStore = writable<DatabaseSettings>();
-export const apiStore = writable<Database["api"]>();
-export const userdataStore = writable<Database["userdata"]>();
-export const torndataStore = writable<Database["torndata"]>();
-export const stockdataStore = writable<Database["stockdata"]>();
-export const stakeoutsStore = writable<Database["stakeouts"]>();
-export const factionStakeoutsStore = writable<Database["factionStakeouts"]>();
-export const localdataStore = writable<Database["localdata"]>();
-export const notificationHistoryStore = writable<Database["notificationHistory"]>();
+export const apiStore = writable<DatabaseApi>();
+export const userdataStore = writable<DatabaseUserdata>();
+export const torndataStore = writable<DatabaseTorndata>();
+export const stockdataStore = writable<DatabaseStockdata>();
+export const stakeoutsStore = writable<DatabaseStakeouts>();
+export const factionStakeoutsStore = writable<DatabaseFactionStakeouts>();
+export const localdataStore = writable<DatabaseLocaldata>();
+export const notificationHistoryStore = writable<DatabaseNotificationHistory>();
 
 export function initializeDatabaseStore() {
 	if (storesInitialized) return;

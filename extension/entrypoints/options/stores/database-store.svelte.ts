@@ -1,15 +1,25 @@
 import { writable } from "svelte/store";
-import { type Database, type DatabaseSettings, initializeDatabase, storageListeners } from "@/utils/common/data/database";
+import {
+	type DatabaseApi,
+	type DatabaseFactiondata,
+	type DatabaseNpcs,
+	type DatabaseSettings,
+	type DatabaseStockdata,
+	type DatabaseTorndata,
+	type DatabaseUserdata,
+	initializeDatabase,
+	storageListeners,
+} from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 
 let storesInitialized = $state(false);
 export const settingsStore = writable<DatabaseSettings>();
-export const apiStore = writable<Database["api"]>();
-export const userdataStore = writable<Database["userdata"]>();
-export const torndataStore = writable<Database["torndata"]>();
-export const stockdataStore = writable<Database["stockdata"]>();
-export const factiondataStore = writable<Database["factiondata"]>();
-export const npcsStore = writable<Database["npcs"]>();
+export const apiStore = writable<DatabaseApi>();
+export const userdataStore = writable<DatabaseUserdata>();
+export const torndataStore = writable<DatabaseTorndata>();
+export const stockdataStore = writable<DatabaseStockdata>();
+export const factiondataStore = writable<DatabaseFactiondata>();
+export const npcsStore = writable<DatabaseNpcs>();
 
 export function initializeDatabaseStore() {
 	if (storesInitialized) {
