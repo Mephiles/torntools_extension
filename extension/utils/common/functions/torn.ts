@@ -1786,7 +1786,6 @@ export function getPage() {
 }
 
 export function isPageWithSidebar(): boolean {
-	console.log("DKK isPageWithSidebar", getPage());
 	return !["attack", "poker-fullscreen"].includes(getPage());
 }
 
