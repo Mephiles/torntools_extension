@@ -1,11 +1,14 @@
-<script>
-	import { Separator } from "@svelte/components/ui/separator/index.ts";
+<script lang="ts">
+	import { Separator } from "@svelte/components/ui/separator";
 	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { ModeWatcher, setMode } from "mode-watcher";
+	import type { Snippet } from "svelte";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { initializeDatabaseStore, settingsStore } from "../stores/database-store.svelte";
+
+	const { children }: { children: Snippet } = $props();
 
 	const navigation = [
 		{ name: "Changelog", path: "/changelog" },
@@ -71,7 +74,7 @@
 	<Separator class="bg-gray-300 dark:bg-gray-600" />
 
 	<main class="p-8 max-w-5xl mx-auto w-full">
-		<slot />
+		{@render children()}
 	</main>
 </div>
 </Tooltip.Provider>

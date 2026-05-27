@@ -1,13 +1,16 @@
-<script>
-	import {Button} from "@svelte/components/ui/button/index.ts";
+<script lang="ts">
+	import { Button } from "@svelte/components/ui/button/index";
 	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { ModeWatcher, setMode } from "mode-watcher";
+	import type { Snippet } from "svelte";
 	import {link, router} from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { browser } from "wxt/browser";
-	import { apiStore, settingsStore } from "../stores/database-store.svelte.ts";
-	import { getEnabledPopupTabs } from "../tabs.ts";
+	import { apiStore, settingsStore } from "../stores/database-store.svelte";
+	import { getEnabledPopupTabs } from "../tabs";
+
+	const { children }: { children: Snippet } = $props();
 
 	let showNavigation = $derived(router.location !== "/initialize");
 	let enabledTabs = $derived(getEnabledPopupTabs($settingsStore));
@@ -61,7 +64,7 @@
 		{/if}
 
 		<main class="overflow-y-auto p-3">
-			<slot />
+			{@render children()}
 		</main>
 	</div>
 </Tooltip.Provider>
