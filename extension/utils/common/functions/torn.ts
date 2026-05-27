@@ -1761,6 +1761,7 @@ export function getPage() {
 
 			if (sid === "list") page = getSearchParameters().get("type");
 			else if (sid === "crimes") page = "crimes-v2";
+			else if (sid === "holdemfull") page = "poker-fullscreen";
 			else page = sid;
 			break;
 		}
@@ -1785,7 +1786,8 @@ export function getPage() {
 }
 
 export function isPageWithSidebar(): boolean {
-	return !["attack"].includes(getPage());
+	console.log("DKK isPageWithSidebar", getPage());
+	return !["attack", "poker-fullscreen"].includes(getPage());
 }
 
 export function isCaptcha() {
