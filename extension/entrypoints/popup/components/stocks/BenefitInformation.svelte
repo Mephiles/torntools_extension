@@ -14,7 +14,7 @@
 	type BenefitStatus = "completed" | "awaiting" | "not-completed";
 
 	function getNonDividendBenefitState(userStock: UserStock | null, frequency: number): { status: BenefitStatus; duration?: string } {
-		if (userStock?.bonus.increment !== null) {
+		if (userStock?.bonus?.increment) {
 			if (userStock.bonus.available) return { status: "completed" };
 			return { status: "awaiting", duration: `in ${userStock.bonus.progress}/${frequency} days.` };
 		}
@@ -51,7 +51,7 @@
 		<div>
 			<span class={nonDividendDescriptionClass}>{stock.benefit.description}</span>
 			{#if nonDividendBenefit.duration}
-				<span class="ml-1 text-muted-foreground">{nonDividendBenefit.duration}</span>
+				<span class="text-muted-foreground">{nonDividendBenefit.duration}</span>
 			{/if}
 		</div>
 	{/if}
