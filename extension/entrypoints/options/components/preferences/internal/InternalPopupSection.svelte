@@ -7,9 +7,9 @@
 
 	const dashboardOptions = $derived([
 		{ value: "dashboard", label: "Dashboard", disabled: !$settingsStore.pages.popup.dashboard },
-		{ value: "market", label: "Market search", disabled: !$settingsStore.pages.popup.marketSearch },
+		{ value: "marketSearch", label: "Market search", disabled: !$settingsStore.pages.popup.marketSearch },
 		{ value: "calculator", label: "Calculator", disabled: !$settingsStore.pages.popup.calculator },
-		{ value: "stocks", label: "Stocks overview", disabled: !$settingsStore.pages.popup.stocksOverview },
+		{ value: "stocksOverview", label: "Stocks overview", disabled: !$settingsStore.pages.popup.stocksOverview },
 		{ value: "notifications", label: "Notifications history", disabled: !$settingsStore.pages.popup.notifications },
 	]);
 </script>
