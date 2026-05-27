@@ -43,6 +43,7 @@ export const LINKS = {
 	pc: "https://www.torn.com/pc.php",
 	points: "https://www.torn.com/page.php?sid=points",
 	pointsmarket: "https://www.torn.com/pmarket.php",
+	properties: "https://www.torn.com/properties.php",
 	property_upkeep: "https://www.torn.com/properties.php#/p=options&tab=upkeep",
 	property_vault: "https://www.torn.com/properties.php#/p=options&tab=vault",
 	raceway: "https://www.torn.com/page.php?sid=racing",

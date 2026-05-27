@@ -243,9 +243,9 @@ export const DEFAULT_STORAGE = {
 				stocksOverview: new DefaultSetting("boolean", true),
 				notifications: new DefaultSetting("boolean", true),
 				defaultTab: new DefaultSetting("string", "dashboard"),
-				hoverBarTime: new DefaultSetting("boolean", false),
 				showStakeouts: new DefaultSetting("boolean", true),
 				showIcons: new DefaultSetting("boolean", true),
+				fullBarTime: new DefaultSetting("boolean", false),
 			},
 			icon: {
 				global: new DefaultSetting("boolean", true),

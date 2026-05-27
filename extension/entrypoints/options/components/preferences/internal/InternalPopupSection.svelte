@@ -28,7 +28,7 @@
 			<StorageSelect items={dashboardOptions} path="settings.pages.popup.defaultTab" label="Default tab" />
 			<StorageSwitch path="settings.pages.popup.showStakeouts" label="Show stakeouts" />
 			<StorageSwitch path="settings.pages.popup.showIcons" label="Show status icons" />
-			<StorageSwitch path="settings.pages.popup.hoverBarTime" label="Show bar time on hover" />
+			<StorageSwitch path="settings.pages.popup.fullBarTime" label="Show bar full time" />
 			<StorageSwitch
 				path="settings.pages.popup.bazaarUsingExternal"
 				label="Populate bazaar prices using external services."

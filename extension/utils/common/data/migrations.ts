@@ -93,6 +93,15 @@ export const MIGRATIONS: MigrationScript[] = [
 			}
 		},
 	},
+	{
+		id: "96356911-fecd-4b79-9825-ee5ad422c8fe",
+		version: "9.0.5",
+		execute(database, _flags, oldStorage) {
+			if (typeof oldStorage?.settings?.pages?.popup.hoverBarTime !== "boolean") return;
+
+			database.settings.pages.popup.fullBarTime = oldStorage.settings.pages.popup.hoverBarTime;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
