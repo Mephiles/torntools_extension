@@ -22,7 +22,7 @@ async function startFeature() {
 async function openCrimes() {
 	for (const crime of findAllElements(".organize-wrap .crimes-list > li")) {
 		const status = crime.querySelector(".status .bold");
-		if (!status || status.textContent.trim() !== "Ready") continue;
+		if (status?.textContent.trim() !== "Ready") continue;
 
 		const allReady = findAllElements(".details-list > li:not(:first-child) .stat", crime).every((row) => row.textContent === "Okay");
 		if (allReady) crime.classList.add("active");
