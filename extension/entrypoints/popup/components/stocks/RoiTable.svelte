@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@svelte/components/ui/table";
 	import type { UserStock } from "tornapi-typescript";
+	import type {TornV1Stock} from "@/utils/common/functions/api-v1.types";
 	import { formatNumber } from "@/utils/common/functions/formatting";
 	import {
 		getRequiredStocks,
@@ -9,7 +10,7 @@
 		getStockReward,
 	} from "@/utils/common/functions/torn";
 
-	const { stock, userStock }: { stock: any; userStock: UserStock | null } = $props();
+	const { stock, userStock }: { stock: TornV1Stock; userStock: UserStock | null } = $props();
 
 	const ownedLevel = $derived(userStock ? getStockIncrement(stock.benefit.requirement, userStock.shares) : 0);
 	const activeLevel = $derived(userStock?.bonus?.increment ?? 0);

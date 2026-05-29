@@ -45,7 +45,7 @@
 				Available every {stock.benefit.frequency} days.
 			{/if}
 		</div>
-		<RoiTable stock={stock} userStock={userStock} />
+		<RoiTable {stock} {userStock} />
 	{:else}
 		<div>Required stocks: {formatNumber(userStock?.shares ?? stock.benefit.requirement)}{userStock ? `/${formatNumber(stock.benefit.requirement)}` : ""}</div>
 		<div>

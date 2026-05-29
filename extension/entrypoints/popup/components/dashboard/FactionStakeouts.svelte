@@ -5,7 +5,7 @@
 	import CaretRightIcon from "phosphor-svelte/lib/CaretRightIcon";
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
 	import { factionStakeoutsStore, settingsStore } from "@/entrypoints/popup/stores/database-store.svelte.js";
-	import type { StoredFactiondata } from "@/utils/common/data/default-database";
+	import type { DatabaseFactionStakeouts, DatabaseSettings } from "@/utils/common/data/database";
 	import { ttStorage } from "@/utils/common/data/storage";
 
 	type FactionStakeoutRow = {
@@ -28,27 +28,19 @@
 		await ttStorage.set({ factionStakeouts: nextStakeouts });
 	}
 
-	function getFactionStakeoutRows(source: any, settings: any): FactionStakeoutRow[] {
+	function getFactionStakeoutRows(source: DatabaseFactionStakeouts, settings: DatabaseSettings): FactionStakeoutRow[] {
 		if (!settings?.pages?.popup?.showStakeouts || !source) return [];
 
 		return Object.entries(source).flatMap(([id, stakeout]) => {
-			if (Number.isNaN(Number.parseInt(id, 10)) || typeof stakeout !== "object" || stakeout === null) return [];
-
-			const data = stakeout as StoredFactiondata & {
-				info?: {
-					name?: string;
-					chain?: number;
-					members?: { current?: number; maximum?: number };
-				};
-			};
+			if (Number.isNaN(Number.parseInt(id, 10)) || typeof stakeout !== "object" || !stakeout) return [];
 
 			return [
 				{
 					id,
-					name: data.info?.name ?? id,
-					chain: data.info?.chain ?? "N/A",
-					members: data.info?.members?.current ?? "N/A",
-					maxMembers: data.info?.members?.maximum ?? "N/A",
+					name: stakeout.info?.name ?? id,
+					chain: stakeout.info?.chain ?? "N/A",
+					members: stakeout.info?.members?.current ?? "N/A",
+					maxMembers: stakeout.info?.members?.maximum ?? "N/A",
 				},
 			];
 		});
