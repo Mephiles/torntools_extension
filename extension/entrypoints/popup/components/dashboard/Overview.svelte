@@ -2,6 +2,7 @@
 	import { Card, CardContent, CardHeader, CardTitle } from "@svelte/components/ui/card";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { settingsStore, userdataStore } from "@/entrypoints/popup/stores/database-store.svelte.js";
+	import type {DatabaseSettings, DatabaseUserdata} from "@/utils/common/data/database";
 	import { capitalizeText, formatTime } from "@/utils/common/functions/formatting";
 	import { ALL_ICONS } from "@/utils/common/functions/torn";
 
@@ -16,7 +17,7 @@
 	const statusInformation = $derived(getStatusInformation($userdataStore, $settingsStore, now));
 	const visibleIcons = $derived(getVisibleIcons($userdataStore, $settingsStore, now));
 
-	function getStatusInformation(userdata: any, settings: any, currentTime: number) {
+	function getStatusInformation(userdata: DatabaseUserdata, settings: DatabaseSettings, currentTime: number) {
 		if (!settings?.apiUsage?.user?.travel || !userdata?.travel) {
 			return {
 				country: "Torn",
@@ -61,13 +62,13 @@
 		};
 	}
 
-	function getVisibleIcons(userdata: any, settings: any, currentTime: number): VisibleIcon[] {
+	function getVisibleIcons(userdata: DatabaseUserdata, settings: DatabaseSettings, currentTime: number): VisibleIcon[] {
 		if (!settings?.apiUsage?.user?.icons || !settings?.pages?.popup?.showIcons || !userdata?.icons) return [];
 
 		return ALL_ICONS.flatMap((icon) => {
 			if (settings.hideIcons?.includes(icon.icon)) return [];
 
-			const userdataIcon = userdata.icons.find((entry: any) => entry.id === icon.id);
+			const userdataIcon = userdata.icons.find((entry) => entry.id === icon.id);
 			if (!userdataIcon) return [];
 
 			const tooltipParts = [userdataIcon.title, userdataIcon.description].filter(Boolean);
@@ -89,23 +90,19 @@
 	}
 </script>
 
-<Card size="sm" class="rounded-lg">
+<Card size="sm" class="rounded-lg gap-2!">
 	<CardHeader>
-		<div class="flex items-start justify-between gap-2">
-			<div class="min-w-0 space-y-0.5">
-				<CardTitle class="truncate">
-					<a class="hover:underline" href={statusInformation.href} target="_blank" rel="noreferrer">
-						{statusInformation.country}
-					</a>
-				</CardTitle>
-				{#if statusInformation.status}
-					<div class={`text-xs font-medium ${statusInformation.status.className}`}>{statusInformation.status.label}</div>
-				{/if}
-			</div>
-		</div>
+		<CardTitle class="min-w-0 truncate flex flex-wrap items-center justify-between w-full">
+			<a class="hover:underline" href={statusInformation.href} target="_blank" rel="noreferrer">
+				{statusInformation.country}
+			</a>
+			{#if statusInformation.status}
+				<div class={`text-xs font-medium ${statusInformation.status.className}`}>{statusInformation.status.label}</div>
+			{/if}
+		</CardTitle>
 	</CardHeader>
 	{#if visibleIcons.length}
-		<CardContent class="flex gap-1 overflow-x-auto">
+		<CardContent class="flex flex-wrap gap-1">
 			{#each visibleIcons as icon (icon.id)}
 				<Tooltip.Root>
 					<Tooltip.Trigger>
