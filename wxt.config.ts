@@ -5,9 +5,13 @@ import type { Browser } from "@wxt-dev/browser";
 import { defineConfig, type UserManifest } from "wxt";
 
 const APPEND_COMMIT_HASH_ENV = "APPEND_COMMIT_HASH";
+const WXT_ZIP_COMMAND = "zip";
 
 function shouldAppendCommitHash() {
-	return process.env[APPEND_COMMIT_HASH_ENV]?.toLowerCase() !== "false";
+	const envValue = process.env[APPEND_COMMIT_HASH_ENV];
+	if (envValue !== undefined) return envValue.toLowerCase() !== "false";
+
+	return !process.argv.includes(WXT_ZIP_COMMAND);
 }
 
 function appendCommitHashToVersion(manifest: Browser.runtime.Manifest) {
