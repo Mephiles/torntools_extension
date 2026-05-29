@@ -48,12 +48,12 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Shorten the default timeout for 'requireElement'.", "contributor": "DeKleineKobini" },
-				{ "message": "Redesign our internal pages (excluding the popup).", "contributor": "DeKleineKobini" }
+				{ "message": "Redesign our internal pages.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
 				{ "message": "Change the structure for how we save 'User Alias' entries.", "contributor": "DeKleineKobini" },
-				{ "message": "Rewrote the internal pages (excluding the popup) in Svelte.", "contributor": "DeKleineKobini" }
+				{ "message": "Rewrote the internal pages in Svelte.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
