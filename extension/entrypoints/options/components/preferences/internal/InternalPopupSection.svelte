@@ -7,9 +7,9 @@
 
 	const dashboardOptions = $derived([
 		{ value: "dashboard", label: "Dashboard", disabled: !$settingsStore.pages.popup.dashboard },
-		{ value: "market", label: "Market search", disabled: !$settingsStore.pages.popup.marketSearch },
+		{ value: "marketSearch", label: "Market search", disabled: !$settingsStore.pages.popup.marketSearch },
 		{ value: "calculator", label: "Calculator", disabled: !$settingsStore.pages.popup.calculator },
-		{ value: "stocks", label: "Stocks overview", disabled: !$settingsStore.pages.popup.stocksOverview },
+		{ value: "stocksOverview", label: "Stocks overview", disabled: !$settingsStore.pages.popup.stocksOverview },
 		{ value: "notifications", label: "Notifications history", disabled: !$settingsStore.pages.popup.notifications },
 	]);
 </script>
@@ -28,7 +28,7 @@
 			<StorageSelect items={dashboardOptions} path="settings.pages.popup.defaultTab" label="Default tab" />
 			<StorageSwitch path="settings.pages.popup.showStakeouts" label="Show stakeouts" />
 			<StorageSwitch path="settings.pages.popup.showIcons" label="Show status icons" />
-			<StorageSwitch path="settings.pages.popup.hoverBarTime" label="Show bar time on hover" />
+			<StorageSwitch path="settings.pages.popup.fullBarTime" label="Show bar full time" />
 			<StorageSwitch
 				path="settings.pages.popup.bazaarUsingExternal"
 				label="Populate bazaar prices using external services."

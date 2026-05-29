@@ -1,11 +1,11 @@
 import { writable } from "svelte/store";
-import { type Database, type DatabaseSettings, initializeDatabase, storageListeners } from "@/utils/common/data/database";
+import { type DatabaseAttackHistory, type DatabaseSettings, type DatabaseStakeouts, initializeDatabase, storageListeners } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 
 let storesInitialized = $state(false);
 export const settingsStore = writable<DatabaseSettings>();
-export const attackHistoryStore = writable<Database["attackHistory"]>();
-export const stakeoutsStore = writable<Database["stakeouts"]>();
+export const attackHistoryStore = writable<DatabaseAttackHistory>();
+export const stakeoutsStore = writable<DatabaseStakeouts>();
 
 export function initializeDatabaseStore() {
 	if (storesInitialized) {
@@ -34,8 +34,4 @@ export async function loadDatabaseStores() {
 	settingsStore.set(settings);
 	attackHistoryStore.set(attackHistory);
 	stakeoutsStore.set(stakeouts);
-}
-
-export function isStoresInitialized() {
-	return storesInitialized;
 }

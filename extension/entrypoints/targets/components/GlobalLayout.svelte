@@ -1,11 +1,14 @@
-<script>
-	import { Separator } from "@svelte/components/ui/separator/index.ts";
-	import { Toaster } from "@svelte/components/ui/sonner/index.ts";
+<script lang="ts">
+	import { Separator } from "@svelte/components/ui/separator";
+	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { ModeWatcher, setMode } from "mode-watcher";
+	import type { Snippet } from "svelte";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
-	import { initializeDatabaseStore, settingsStore } from "@/entrypoints/targets/stores/database-store.svelte.ts";
+	import { initializeDatabaseStore, settingsStore } from "@/entrypoints/targets/stores/database-store.svelte";
+
+	const { children }: { children: Snippet } = $props();
 
 	const navigation = [
 		{ name: "Attack History", path: "/attackhistory" },
@@ -39,7 +42,7 @@
 				{#each navigation as item (item.path)}
 					<li>
 						<a use:link
-						   use:active={{path: item.activePath ?? item.path, className: "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-900"}}
+						   use:active={{path: item.path, className: "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-900"}}
 						   href={item.path}
 						   class="px-2 py-1 rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
 						>
@@ -69,7 +72,7 @@
 	<Separator class="bg-gray-300 dark:bg-gray-600" />
 
 	<main class="p-8 max-w-6xl mx-auto w-full">
-		<slot />
+		{@render children()}
 	</main>
 </div>
 </Tooltip.Provider>

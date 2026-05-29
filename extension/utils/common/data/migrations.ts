@@ -80,6 +80,28 @@ export const MIGRATIONS: MigrationScript[] = [
 			});
 		},
 	},
+	{
+		id: "95c020eb-2c75-4bbe-8fe9-64f96f108f48",
+		version: "9.0.5",
+		execute(database, _flags, oldStorage) {
+			if (!oldStorage?.settings?.pages?.popup?.defaultTab) return;
+
+			if (oldStorage.settings.pages.popup.defaultTab === "stocks") {
+				database.settings.pages.popup.defaultTab = "stocksOverview";
+			} else if (oldStorage.settings.pages.popup.defaultTab === "market") {
+				database.settings.pages.popup.defaultTab = "marketSearch";
+			}
+		},
+	},
+	{
+		id: "96356911-fecd-4b79-9825-ee5ad422c8fe",
+		version: "9.0.5",
+		execute(database, _flags, oldStorage) {
+			if (typeof oldStorage?.settings?.pages?.popup.hoverBarTime !== "boolean") return;
+
+			database.settings.pages.popup.fullBarTime = oldStorage.settings.pages.popup.hoverBarTime;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

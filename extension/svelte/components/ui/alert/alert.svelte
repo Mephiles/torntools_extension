@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AlertVariant, alertVariants } from "@svelte/components/ui/alert/helper";
+	import { type AlertVariant, alertVariants } from "@svelte/components/ui/alert/helper";
 	import { cn, type WithElementRef } from "@svelte/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 
