@@ -52,6 +52,9 @@ async function handleFeeds() {
 			handleHiddenElements(feedElement);
 		}
 
+		const parent = feedElement.querySelector(".title-toggle");
+		if (!parent || parent.querySelector(`.${styles.onlyNewFeedButton}`)) return;
+
 		const hideButton = elementBuilder({
 			type: "button",
 			class: [styles.onlyNewFeedButton],
@@ -64,7 +67,7 @@ async function handleFeeds() {
 				},
 			},
 		});
-		feedElement.querySelector(".title-toggle").appendChild(hideButton);
+		parent.appendChild(hideButton);
 	});
 }
 
