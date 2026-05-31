@@ -13,7 +13,7 @@
 </script>
 
 <div class="space-y-2">
-	{#each notifications as notification (notification.date + notification.title)}
+	{#each notifications as notification, index (index)}
 		<Notification {notification} />
 	{:else}
 		<div class="text-sm text-muted-foreground">No notification history.</div>
