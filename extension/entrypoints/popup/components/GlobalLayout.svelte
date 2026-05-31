@@ -7,6 +7,7 @@
 	import {link, router} from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { browser } from "wxt/browser";
+	import {registerExtensionContext} from "@/utils/extension-context";
 	import { apiStore, settingsStore } from "../stores/database-store.svelte";
 	import { getEnabledPopupTabs } from "../tabs";
 
@@ -17,6 +18,7 @@
 	let popupWidth = $state(432);
 
 	onMount(() => {
+		registerExtensionContext();
 		popupWidth = Math.min(432, screen.availWidth * 0.8);
 
 		const unsubscribeTheme = settingsStore.subscribe((settings) => {

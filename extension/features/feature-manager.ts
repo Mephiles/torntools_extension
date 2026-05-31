@@ -4,58 +4,11 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@/utils/common/functions/requires";
 import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@/utils/common/functions/utilities";
 import "./feature-manager.css";
+import { ExecutionTiming, Feature } from "@/features/feature";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@/utils/common/icons/phosphor-icons";
 import { SOURCE_SERVICE } from "@/utils/services/proxy-services";
 
 type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
-
-export enum ExecutionTiming {
-	IMMEDIATELY = "IMMEDIATELY",
-	DOM_INTERACTIVE = "DOM_INTERACTIVE",
-	CONTENT_LOADED = "CONTENT_LOADED",
-}
-
-export abstract class Feature {
-	readonly name: string;
-	readonly scope: string;
-	readonly executionTiming: ExecutionTiming;
-
-	protected constructor(name: string, scope: string, executionTiming: ExecutionTiming = ExecutionTiming.CONTENT_LOADED) {
-		this.name = name;
-		this.scope = scope;
-		this.executionTiming = executionTiming;
-	}
-
-	precondition(): boolean | Promise<boolean> {
-		return true;
-	}
-
-	abstract isEnabled(): boolean;
-	initialise(): void {}
-	// biome-ignore lint/correctness/noUnusedFunctionParameters: Meant to be overridden, so here as a placeholder.
-	execute(liveReload?: boolean): void | Promise<void> {}
-	cleanup(): void {}
-
-	storageKeys(): string[] {
-		return [];
-	}
-
-	requirements(): (boolean | string) | Promise<boolean | string> {
-		return true;
-	}
-
-	shouldTriggerEvents(): boolean {
-		return false;
-	}
-
-	shouldLiveReload(): boolean {
-		return false;
-	}
-
-	requiresScreenInformation() {
-		return true;
-	}
-}
 
 export abstract class DisabledUntilNoticeFeature extends Feature {
 	requirements(): (boolean | string) | Promise<boolean | string> {
@@ -71,7 +24,13 @@ interface ResultOptions {
 	message?: string;
 }
 
-class FeatureManager {
+export interface FeatureManager {
+	createPopup(): void;
+	registerFeature(feature: Feature): void;
+	isEnabled<T extends Feature>(featureConstructor: new () => T): boolean;
+}
+
+export class ExtensionFeatureManager implements FeatureManager {
 	private readonly logPadding: string;
 	private readonly containerID: string;
 	private container: null | HTMLElement;
@@ -266,7 +225,7 @@ class FeatureManager {
 		this.startLoadListeners(feature);
 	}
 
-	findFeature(name: string): Feature | null {
+	private findFeature(name: string): Feature | null {
 		return this.features.find((feature) => feature.name === name) ?? null;
 	}
 
@@ -321,7 +280,7 @@ class FeatureManager {
 		this.loadedFeatures.push(feature.name);
 	}
 
-	startLoadListeners(feature: Feature) {
+	private startLoadListeners(feature: Feature) {
 		const keys = feature.storageKeys();
 		if (keys.length === 0) return;
 
@@ -369,7 +328,7 @@ class FeatureManager {
 		}
 	}
 
-	async executeFunction(func: FeatureFn, liveReload?: boolean) {
+	private async executeFunction(func: FeatureFn, liveReload?: boolean) {
 		if (!func) return;
 
 		if (liveReload) {
@@ -381,7 +340,7 @@ class FeatureManager {
 		}
 	}
 
-	showResult(feature: Feature, status: FeatureStatus, options: ResultOptions = {}) {
+	private showResult(feature: Feature, status: FeatureStatus, options: ResultOptions = {}) {
 		if (!this.popupLoaded) {
 			this.resultQueue.push([feature, status, options]);
 			return;
@@ -528,7 +487,7 @@ class FeatureManager {
 		}
 	}
 
-	hideEmptyScopes() {
+	private hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
 
 		findAllElements(".tt-features-list > div[scope]", this.container).forEach((scopeDiv) => {
@@ -550,4 +509,5 @@ class FeatureManager {
 	}
 }
 
-export const FEATURE_MANAGER = new FeatureManager();
+export { FEATURE_MANAGER } from "@/utils/context";
+export { ExecutionTiming, Feature };
