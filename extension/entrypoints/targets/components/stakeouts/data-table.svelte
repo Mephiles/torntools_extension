@@ -6,7 +6,7 @@
 	import { cn } from "@svelte/utils";
 	import { type ColumnDef, getCoreRowModel } from "@tanstack/table-core";
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
-	import AlertCheckbox from "../todo/AlertCheckbox.svelte";
+	import AlertCheckbox from "./AlertCheckbox.svelte";
 	import type { BooleanAlertKey, NumberAlertKey, StakeoutInfo, StakeoutRow } from "./columns";
 
 	type DataTableProps = {
