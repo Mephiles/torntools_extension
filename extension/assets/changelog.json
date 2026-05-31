@@ -50,7 +50,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Shorten the default timeout for 'requireElement'.", "contributor": "DeKleineKobini" },
-				{ "message": "Redesign our internal pages.", "contributor": "DeKleineKobini" }
+				{ "message": "Redesign our internal pages.", "contributor": "DeKleineKobini" },
+				{ "message": "Rename the point value label to credit value in the mission rewards.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [

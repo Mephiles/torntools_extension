@@ -79,7 +79,7 @@ async function showRewards() {
 						}),
 						elementBuilder({
 							type: "div",
-							text: "Point value: ",
+							text: "Credit value: ",
 							class: "tt-mission-reward-points",
 							children: [
 								elementBuilder({
