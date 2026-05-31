@@ -1,39 +1,16 @@
 import { api, type Database, type DatabaseKey, type RecursivePartial, type Writable } from "@/utils/common/data/database";
-import { DEFAULT_STORAGE, DefaultSetting } from "@/utils/common/data/default-database";
+import { DEFAULT_STORAGE, getDefaultStorage } from "@/utils/common/data/default-database";
 
-class TornToolsStorage {
-	get(): Promise<Database>;
-	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
-	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
-	get(key?: DatabaseKey | DatabaseKey[]) {
-		return new Promise(async (resolve) => {
-			if (Array.isArray(key)) {
-				const data = await browser.storage.local.get(key);
+export abstract class TornToolsStorage {
+	abstract get(): Promise<Database>;
+	abstract get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	abstract get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 
-				resolve(key.map((i) => data[i]));
-			} else if (key) {
-				const data = await browser.storage.local.get([key]);
+	abstract set(object: { [key: string]: any }): Promise<void>;
 
-				resolve(data[key]);
-			} else {
-				const data = await browser.storage.local.get(null);
+	abstract remove(key: string | string[]): Promise<void>;
 
-				resolve(data);
-			}
-		});
-	}
-
-	set(object: { [key: string]: any }) {
-		return browser.storage.local.set(object);
-	}
-
-	remove(key: string | string[]) {
-		return browser.storage.local.remove(Array.isArray(key) ? key : [key]);
-	}
-
-	clear() {
-		return browser.storage.local.clear();
-	}
+	abstract clear(): Promise<void>;
 
 	change(object: RecursivePartial<Writable<Database>>): Promise<void> {
 		return new Promise(async (resolve) => {
@@ -69,8 +46,46 @@ class TornToolsStorage {
 		return parent;
 	}
 
-	reset(): Promise<void>;
-	reset(key: "attackHistory" | "stakeouts"): Promise<void>;
+	abstract reset(): Promise<void>;
+	abstract reset(key: "attackHistory" | "stakeouts"): Promise<void>;
+
+	abstract getSize(): Promise<number>;
+}
+
+export class TTExtensionStorage extends TornToolsStorage {
+	get(): Promise<Database>;
+	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
+	get(key?: DatabaseKey | DatabaseKey[]) {
+		return new Promise(async (resolve) => {
+			if (Array.isArray(key)) {
+				const data = await browser.storage.local.get(key);
+
+				resolve(key.map((i) => data[i]));
+			} else if (key) {
+				const data = await browser.storage.local.get([key]);
+
+				resolve(data[key]);
+			} else {
+				const data = await browser.storage.local.get(null);
+
+				resolve(data);
+			}
+		});
+	}
+
+	set(object: { [key: string]: any }) {
+		return browser.storage.local.set(object);
+	}
+
+	remove(key: string | string[]) {
+		return browser.storage.local.remove(Array.isArray(key) ? key : [key]);
+	}
+
+	clear() {
+		return browser.storage.local.clear();
+	}
+
 	reset(key?: "attackHistory" | "stakeouts"): Promise<void> {
 		return new Promise(async (resolve) => {
 			if (["attackHistory", "stakeouts"].includes(key)) {
@@ -89,38 +104,6 @@ class TornToolsStorage {
 
 				resolve();
 			}
-
-			function getDefaultStorage(defaultStorage: { [key: string]: any }) {
-				const newStorage: { [key: string]: any } = {};
-
-				for (const key in defaultStorage) {
-					if (typeof defaultStorage[key] === "object") {
-						const setting = defaultStorage[key];
-						if (setting instanceof DefaultSetting && "defaultValue" in setting) {
-							switch (typeof setting.defaultValue) {
-								case "function":
-									newStorage[key] = setting.defaultValue();
-									break;
-								case "boolean":
-								case "number":
-								case "string":
-								case "object":
-									newStorage[key] = setting.defaultValue;
-									break;
-								default:
-									newStorage[key] = setting.defaultValue;
-									break;
-							}
-						} else {
-							newStorage[key] = getDefaultStorage(defaultStorage[key]);
-						}
-					} else {
-						newStorage[key] = defaultStorage[key];
-					}
-				}
-
-				return newStorage;
-			}
 		});
 	}
 
@@ -134,4 +117,4 @@ class TornToolsStorage {
 	}
 }
 
-export const ttStorage = new TornToolsStorage();
+export { ttStorage } from "@/utils/context";

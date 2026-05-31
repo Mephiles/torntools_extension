@@ -6,6 +6,7 @@
 	import type { Snippet } from "svelte";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
+	import {registerExtensionContext} from "@/utils/extension-context";
 	import { initializeDatabaseStore, settingsStore } from "../stores/database-store.svelte";
 
 	const { children }: { children: Snippet } = $props();
@@ -18,6 +19,7 @@
 	];
 
 	onMount(() => {
+		registerExtensionContext();
 		initializeDatabaseStore();
 
 		const unsubscribeTheme = settingsStore.subscribe((settings) => {

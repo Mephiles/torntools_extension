@@ -16,6 +16,7 @@ import {
 import { ttStorage } from "@/utils/common/data/storage";
 import { ttUsage } from "@/utils/common/data/usage";
 import { exposeDebugObjects } from "@/utils/common/functions/pages-debug";
+import { registerExtensionContext } from "@/utils/extension-context";
 import { BackgroundService } from "@/utils/services/BackgroundService";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/utils/services/proxy-service-keys";
 import { SourceService } from "@/utils/services/SourceService";
@@ -23,6 +24,8 @@ import { SourceService } from "@/utils/services/SourceService";
 type Alarm = Browser.alarms.Alarm;
 
 function onInitialisation() {
+	registerExtensionContext();
+
 	browser.alarms.getAll().then((currentAlarms) => {
 		if (currentAlarms.length === 4) return;
 

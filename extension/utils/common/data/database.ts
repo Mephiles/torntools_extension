@@ -352,6 +352,10 @@ export function setTorndata(data: DatabaseTorndata) {
 	torndata = data;
 }
 
+export function setLocaldata(data: DatabaseLocaldata) {
+	localdata = data;
+}
+
 export function setNotificationHistory(data: DatabaseNotificationHistory) {
 	notificationHistory = data;
 }

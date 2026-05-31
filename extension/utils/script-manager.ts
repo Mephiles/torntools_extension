@@ -28,7 +28,6 @@ import EasterEggsFeature from "@/features/easter-eggs/easter-eggs";
 import EducationFinishTimeFeature from "@/features/education-finish-time/education-finish-time";
 import EffectiveBattleStatsFeature from "@/features/effective-battle-stats/effective-battle-stats";
 import EfficientRehabFeature from "@/features/efficient-rehab/efficient-rehab";
-import { FEATURE_MANAGER } from "@/features/feature-manager";
 import BazaarFillMaxFeature from "@/features/fill-max/bazaar-fill-max";
 import TravelTableFeature from "@/features/travel-table/travel-table";
 import TravelSyncFeature from "@/features/travel-table/travel-table-sync";
@@ -231,8 +230,12 @@ import { setupTravelHomePage } from "@/pages/travel-home-page";
 import { setupUserlistPage } from "@/pages/userlist-page";
 import { initializeDatabase } from "@/utils/common/data/database";
 import { getSearchParameters } from "@/utils/common/functions/dom";
+import { FEATURE_MANAGER } from "@/utils/context";
+import { registerExtensionContext } from "@/utils/extension-context";
 
 export function scriptManager() {
+	registerExtensionContext();
+
 	initializeDatabase();
 
 	/*

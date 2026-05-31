@@ -1,10 +1,11 @@
-import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
+import { Feature } from "@/features/feature";
 import { localdata, settings } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
 import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";
 import { PHEye, PHEyeSlash } from "@/utils/common/icons/phosphor-icons";
+import { FEATURE_MANAGER } from "@/utils/context";
 import styles from "./only-new-feed.module.css";
 
 export interface StoredHiddenFeeds {
@@ -21,6 +22,7 @@ function initialise() {
 		const step = params.get("step");
 		if (step !== "updates") return;
 
+		console.log("DKK XHR handle");
 		await handleFeeds();
 	});
 }

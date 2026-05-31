@@ -1,10 +1,11 @@
 import type { UserPersonalStatsFull } from "tornapi-typescript";
-import type { FetchDetails } from "@/entrypoints/fetch--inject";
-import type { XHRDetails } from "@/entrypoints/xhr--inject";
 import type { CRIMES2 } from "@/pages/crimes2-page";
 import type { AbroadItem } from "@/pages/travel-abroad-page";
 import { executeScript } from "@/utils/common/functions/dom";
+import type { FetchDetails, XHRDetails } from "@/utils/common/functions/request-listener-injector";
+import type { ScriptInjector } from "@/utils/common/functions/script-injector";
 import { isTabFocused } from "@/utils/common/functions/utilities";
+import { SCRIPT_INJECTOR } from "@/utils/context";
 
 export enum EVENT_CHANNELS {
 	// Using events on the window.
@@ -173,7 +174,7 @@ export function injectFetch() {
 }
 
 export function addFetchListener(callback: (event: CustomEventInit<FetchDetails>) => void) {
-	injectFetch();
+	SCRIPT_INJECTOR.injectFetch();
 
 	window.addEventListener(EVENT_CHANNELS.FETCH, callback);
 }
@@ -185,8 +186,23 @@ export function injectXHR() {
 	injectedXHR = true;
 }
 
+export const ExtensionScriptInjector: ScriptInjector = {
+	injectFetch() {
+		if (injectedFetch) return;
+
+		executeScript(browser.runtime.getURL("/fetch--inject.js"), false);
+		injectedFetch = true;
+	},
+	injectXHR() {
+		if (injectedXHR) return;
+
+		executeScript(browser.runtime.getURL("/xhr--inject.js"), false);
+		injectedXHR = true;
+	},
+};
+
 export function addXHRListener(callback: (event: CustomEventInit<XHRDetails>) => void) {
-	injectXHR();
+	SCRIPT_INJECTOR.injectXHR();
 
 	window.addEventListener(EVENT_CHANNELS.XHR, callback);
 }
