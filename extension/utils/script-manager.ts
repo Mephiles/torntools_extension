@@ -457,6 +457,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new NoConfirmTradeFeature());
 		FEATURE_MANAGER.registerFeature(new TradeOpenChatFeature());
 		FEATURE_MANAGER.registerFeature(new TradeValuesFeature());
+		FEATURE_MANAGER.registerFeature(new NoConfirmTradeFeature());
 	} else if (page === "userlist") {
 		setupUserlistPage();
 		FEATURE_MANAGER.registerFeature(new UserlistFilterFeature());

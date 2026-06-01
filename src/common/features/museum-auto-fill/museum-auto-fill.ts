@@ -1,0 +1,60 @@
+import { Feature } from "@features/feature";
+import { FEATURE_MANAGER } from "@utils/context";
+import { settings } from "@utils/data/database";
+import { findAllElements, isElement } from "@utils/functions/dom";
+import { convertToNumber } from "@utils/functions/formatting";
+import { requireElement } from "@utils/functions/requires";
+import { getPageStatus } from "@utils/functions/torn";
+
+function addListener() {
+	document.addEventListener("click", async (event) => {
+		if (
+			FEATURE_MANAGER.isEnabled(MuseumAutoFillFeature) &&
+			isElement(event.target) &&
+			event.target.closest(".museum-map > .pinpoint, .museum #tabs .boxes > .box")
+		) {
+			await autoFill();
+		}
+	});
+}
+
+async function autoFill() {
+	await requireElement("[aria-hidden*='false'] .item-amount.qty");
+
+	const quantities: number[] = [];
+	findAllElements("[aria-hidden*='false'] .item-amount.qty").forEach((qty) => quantities.push(convertToNumber(qty.textContent) || 0));
+	const leastQuantity = !quantities.includes(0) ? quantities.sort((a, b) => a - b)[0] : null;
+	if (!leastQuantity) return;
+
+	const input = document.querySelector<HTMLInputElement>("[aria-hidden*='false'] .set-description input[type*='tel']");
+	if (!input.disabled) {
+		input.value = leastQuantity.toString();
+		input.dispatchEvent(new Event("keyup"));
+	}
+}
+
+export default class MuseumAutoFillFeature extends Feature {
+	constructor() {
+		super("Museum Auto Fill", "museum");
+	}
+
+	precondition() {
+		return getPageStatus().access;
+	}
+
+	isEnabled() {
+		return settings.pages.museum.autoFill;
+	}
+
+	initialise() {
+		addListener();
+	}
+
+	async execute() {
+		await autoFill();
+	}
+
+	storageKeys() {
+		return ["settings.pages.museum.autoFill"];
+	}
+}

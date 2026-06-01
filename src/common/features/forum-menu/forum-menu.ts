@@ -1,0 +1,436 @@
+import { Feature } from "@features/feature";
+import { FEATURE_MANAGER, ttStorage } from "@utils/context";
+import "./forum-menu.css";
+
+import { localdata, settings } from "@utils/data/database";
+
+import { elementBuilder, findAllElements, getHashParameters } from "@utils/functions/dom";
+import { applyPlural, convertToNumber } from "@utils/functions/formatting";
+import { addXHRListener } from "@utils/functions/listeners";
+import { requireElement } from "@utils/functions/requires";
+import { getUsername } from "@utils/functions/torn";
+import { toClipboard } from "@utils/functions/utilities";
+import { torntools } from "@utils/icons/torntools";
+
+function initialiseListeners() {
+	addXHRListener(async ({ detail: { page, xhr } }) => {
+		if (!FEATURE_MANAGER.isEnabled(ForumMenuFeature)) return;
+
+		if (page !== "forums") return;
+
+		const params = new URLSearchParams(xhr.requestBody);
+		const step = params.get("step");
+
+		if (step === "forums") await showThreads();
+		else if (step === "threads") await showPosts();
+		else if (step === "updates") await hideSubscriptions();
+	});
+}
+
+async function startFeature() {
+	const wrap = await requireElement(".forums-wrap, .forums-committee-wrap, .forums-thread-wrap:not(.search-wrap) .forums-thread");
+
+	if (wrap.classList.contains("forums-committee-wrap")) await showThreads();
+	else if (wrap.classList.contains("forums-thread")) await showPosts();
+	else if (wrap.classList.length === 1) await hideSubscriptions();
+}
+
+async function showThreads() {
+	await requireElement(".forums-committee-wrap");
+
+	let countHiddenThread = 0;
+	let firstHiddenThread: HTMLElement;
+
+	const threads = findAllElements(".threads-list > li");
+	for (let i = 0; i < threads.length; i++) {
+		const thread = threads[i];
+
+		if (thread.classList.contains("tt-forums-hidden")) {
+			thread.remove();
+			continue;
+		}
+
+		const userId = getUsername(thread).id;
+
+		const threadLink = new URL(thread.querySelector<HTMLAnchorElement>("a.thread-name").href);
+		const threadField = getHashParameters(threadLink.hash).get("t") ?? threadLink.searchParams.get("t");
+		const threadId = convertToNumber(threadField);
+
+		const shouldHideThreads = settings.pages.forums.hideThreads[userId] || settings.pages.forums.ignoredThreads[threadId];
+		if (shouldHideThreads) {
+			thread.classList.add("tt-forums-hide");
+
+			if (!firstHiddenThread) firstHiddenThread = thread;
+			countHiddenThread++;
+		} else {
+			thread.classList.remove("tt-forums-hide", "tt-forums-hide-show");
+		}
+
+		if (settings.pages.forums.highlightThreads[userId]) thread.classList.add("tt-forums-highlight");
+		else thread.classList.remove("tt-forums-highlight");
+
+		if (countHiddenThread && (!shouldHideThreads || i === threads.length - 1)) {
+			firstHiddenThread.insertAdjacentElement(
+				"beforebegin",
+				elementBuilder({
+					type: "li",
+					class: "tt-forums-hidden",
+					text: `${countHiddenThread} hidden thread${applyPlural(countHiddenThread)}`,
+					events: {
+						click(event) {
+							let thread = (event.target as Element).nextElementSibling;
+							while (thread?.classList.contains("tt-forums-hide")) {
+								thread.classList.toggle("tt-forums-hide-show");
+								thread = thread.nextElementSibling;
+							}
+						},
+					},
+				}),
+			);
+
+			countHiddenThread = 0;
+			firstHiddenThread = undefined;
+		}
+	}
+}
+
+async function showPosts() {
+	await requireElement(".forums-thread");
+
+	let countHiddenPost = 0;
+	let firstHiddenPost: HTMLElement;
+
+	const threadId = convertToNumber(getHashParameters().get("t"));
+
+	const posts = findAllElements(".thread-list > li");
+	for (let i = 0; i < posts.length; i++) {
+		const post = posts[i];
+
+		if (post.classList.contains("tt-forums-hidden")) {
+			post.remove();
+			continue;
+		}
+		post.querySelector(".tt-forums-button")?.remove();
+
+		const userId = convertToNumber(post.querySelector(".poster-id").textContent);
+		const userName = post.querySelector(".poster-name").textContent;
+
+		const shouldHidePosts = settings.pages.forums.hidePosts[userId];
+		if (shouldHidePosts) {
+			post.classList.add("tt-forums-hide");
+
+			if (post.previousElementSibling?.classList.contains("tt-forums-hide-show") || post.nextElementSibling?.classList.contains("tt-forums-hide-show"))
+				post.classList.add("tt-forums-hide-show");
+			else post.classList.remove("tt-forums-hide-show");
+
+			if (!firstHiddenPost) firstHiddenPost = post;
+			countHiddenPost++;
+		} else {
+			post.classList.remove("tt-forums-hide", "tt-forums-hide-show");
+		}
+
+		if (settings.pages.forums.highlightPosts[userId]) post.classList.add("tt-forums-highlight");
+		else post.classList.remove("tt-forums-highlight");
+
+		if (countHiddenPost && (!shouldHidePosts || i === posts.length - 1)) {
+			firstHiddenPost.insertAdjacentElement(
+				"beforebegin",
+				elementBuilder({
+					type: "li",
+					class: "tt-forums-hidden",
+					text: `${countHiddenPost} hidden post${applyPlural(countHiddenPost)}`,
+					events: {
+						click(event) {
+							let post = (event.target as Element).nextElementSibling;
+							while (post?.classList.contains("tt-forums-hide")) {
+								post.classList.toggle("tt-forums-hide-show");
+								post = post.nextElementSibling;
+							}
+						},
+					},
+				}),
+			);
+
+			countHiddenPost = 0;
+			firstHiddenPost = undefined;
+		}
+
+		const name = `${userName}'${userName.endsWith("s") ? "" : "s"}`;
+		post.querySelector(".action-wrap .right-part").insertAdjacentElement(
+			"beforebegin",
+			elementBuilder({
+				type: "li",
+				class: "tt-forums-button",
+				children: [
+					torntools(),
+					elementBuilder({
+						type: "div",
+						class: "tt-forums-button-dropdown",
+						children: [
+							elementBuilder({
+								type: "div",
+								text: "Copy post for Discord",
+								events: {
+									click(event) {
+										const threadTitle = document.querySelector("#topic-title").textContent.replaceAll("\u200B", "").trim();
+										const threadId = document.querySelector<HTMLElement>(".subscribe").dataset.thread;
+
+										const postId = post.dataset.id;
+										const date = post.querySelector(".time-wrap > .created, .time-wrap > .posted").textContent;
+
+										let likes: string, dislikes: string;
+										if (!post.querySelector(".rating-results-pending")) {
+											likes = post.querySelector(".like > .value").textContent.trim();
+											dislikes = post.querySelector(".dislike > .value").textContent.trim();
+										} else {
+											likes = "N/A";
+											dislikes = "N/A";
+										}
+
+										let quotesContent = "";
+										let prefix = "> ";
+										for (const quote of findAllElements(".post-quote", post)) {
+											const author = quote.querySelector<HTMLElement>(":scope > .author-quote a").innerText;
+											const content = quote.querySelector<HTMLElement>(":scope > .quote-post > .quote-post-content").innerText;
+
+											quotesContent = `${prefix} ${author}:\n${content.replace(/^/gm, prefix)}\n${quotesContent}`;
+											prefix = `> ${prefix}`;
+										}
+
+										let postContent = post.querySelector(".post-container .post").textContent;
+
+										// Replace emoticons
+										const emoticonRegex = /\[img].*?emotions\/(\w+).*?\[\/img]/gs;
+										postContent = postContent.replace(emoticonRegex, ":$1:");
+										quotesContent = quotesContent.replace(emoticonRegex, ":$1:");
+
+										// Remove images
+										const imageRegex = /\[url=(.*?)]\[img(?:\s?\w*=[^\]]*)*]\1\[\/img]\[\/url]|\[img(?:\s?\w*=[^\]]*)*].*?\[\/img]/gs;
+										postContent = postContent.replace(imageRegex, "[img]");
+										quotesContent = quotesContent.replace(imageRegex, "[img]");
+
+										// Replace urls
+										const urls: string[] = [];
+										const urlRegex = /\[url=(.*?)](.*?)\[\/url]/gs;
+										const urlCallback = (_match: string, url: string, content: string) => {
+											let place: number;
+
+											if (urls.includes(url)) {
+												place = urls.indexOf(url) + 1;
+											} else {
+												urls.push(url);
+												place = urls.length;
+											}
+
+											return `[${content.trim()}][${place}]`;
+										};
+										quotesContent = quotesContent.replace(urlRegex, urlCallback);
+										postContent = postContent.replace(urlRegex, urlCallback);
+
+										let text =
+											`:speech_balloon: **${userName} [${userId}]** on thread **${threadTitle}**:\n` +
+											"```bash\n" +
+											`# ${likes} upvotes, ${dislikes} downvotes\n# ${date}\n` +
+											"```\n```md\n$$$TEXT_CONTENT$$$\n```\n" +
+											"$$$URLS$$$\nSource: <" +
+											`https://www.torn.com/forums.php#/p=threads&t=${threadId}&to=${postId}` +
+											">";
+
+										text = text.replace("$$$URLS$$$", urls.map((url, idx) => `[${idx + 1}]: <${url}>`).join("\n"));
+
+										// Remove bbcode
+										const bbcodeRegex = /\[(\w+)(?:\s?\w*=[^\]]*)*](.*?)\[\/\1]/gs;
+										// biome-ignore lint/suspicious/noAssignInExpressions: pre-migration
+										while (postContent !== (postContent = postContent.replace(bbcodeRegex, "$2"))) {}
+										// biome-ignore lint/suspicious/noAssignInExpressions: pre-migration
+										while (quotesContent !== (quotesContent = quotesContent.replace(bbcodeRegex, "$2"))) {}
+
+										// Remove 3+ newlines
+										const newlineRegex = /\n{3,}/gs;
+										postContent = postContent.replace(newlineRegex, "\n\n");
+										quotesContent = quotesContent.replace(newlineRegex, "\n\n");
+
+										// Discord max length = 2000 + 18 = Placeholder, Subtract current length & newline count, to avoid problems with LF <> CRLF
+										const maxLength =
+											2018 - text.length - (postContent.match(/\n/g) || []).length - (quotesContent.match(/\n/g) || []).length;
+
+										if (quotesContent.length > 0) {
+											if (quotesContent.length > maxLength / 2) {
+												quotesContent = `${quotesContent.substring(0, maxLength / 2 - 5)}[...]`;
+											}
+
+											postContent = `${quotesContent}\n\n${postContent}`;
+										}
+
+										if (postContent.length > maxLength) {
+											text = text.replace("$$$TEXT_CONTENT$$$", `${postContent.substring(0, maxLength - 5)}[...]`);
+										} else text = text.replace("$$$TEXT_CONTENT$$$", postContent);
+
+										toClipboard(text);
+
+										(event.target as Element).textContent = "Copied!";
+										setTimeout(() => ((event.target as Element).textContent = "Copy post for Discord"), 1000);
+									},
+								},
+							}),
+							elementBuilder({
+								type: "div",
+								text: `${settings.pages.forums.hideThreads[userId] ? "Show" : "Hide"} ${name} threads`,
+								events: {
+									click(event) {
+										const status = settings.pages.forums.hideThreads[userId];
+
+										if (status) delete settings.pages.forums.hideThreads[userId];
+										else settings.pages.forums.hideThreads[userId] = true;
+
+										ttStorage.set({ settings });
+
+										(event.target as Element).textContent = `${!status ? "Show" : "Hide"} ${name} threads`;
+									},
+								},
+							}),
+							elementBuilder({
+								type: "div",
+								text: `${shouldHidePosts ? "Show" : "Hide"} ${name} posts`,
+								events: {
+									click() {
+										const status = settings.pages.forums.hidePosts[userId];
+
+										if (status) delete settings.pages.forums.hidePosts[userId];
+										else settings.pages.forums.hidePosts[userId] = true;
+
+										ttStorage.set({ settings });
+
+										showPosts();
+									},
+								},
+							}),
+							elementBuilder({
+								type: "div",
+								text: `${settings.pages.forums.highlightThreads[userId] ? "Unhighlight" : "Highlight"} ${name} threads`,
+								events: {
+									click(event) {
+										const status = settings.pages.forums.highlightThreads[userId];
+
+										if (status) delete settings.pages.forums.highlightThreads[userId];
+										else settings.pages.forums.highlightThreads[userId] = true;
+
+										ttStorage.set({ settings });
+
+										(event.target as Element).textContent = `${!status ? "Unhighlight" : "Highlight"} ${name} threads`;
+									},
+								},
+							}),
+							elementBuilder({
+								type: "div",
+								text: `${settings.pages.forums.highlightPosts[userId] ? "Unhighlight" : "Highlight"} ${name} posts`,
+								events: {
+									click() {
+										const status = settings.pages.forums.highlightPosts[userId];
+
+										if (status) delete settings.pages.forums.highlightPosts[userId];
+										else settings.pages.forums.highlightPosts[userId] = true;
+
+										ttStorage.set({ settings });
+
+										showPosts();
+									},
+								},
+							}),
+							elementBuilder({
+								type: "div",
+								text: `${settings.pages.forums.ignoredThreads[threadId] ? "Unignore" : "Ignore"} this entire thread`,
+								events: {
+									click(event) {
+										const status = settings.pages.forums.ignoredThreads[threadId];
+
+										if (status) delete settings.pages.forums.ignoredThreads[threadId];
+										else settings.pages.forums.ignoredThreads[threadId] = true;
+
+										ttStorage.set({ settings });
+										(event.target as Element).textContent = `${!status ? "Unignore" : "Ignore"} this entire thread`;
+									},
+								},
+							}),
+							elementBuilder({
+								type: "div",
+								text: `${localdata.threadsHiddenInFeed.includes(threadId) ? "Show" : "Hide"} this thread from your feeds`,
+								events: {
+									click(event) {
+										let threads = localdata.threadsHiddenInFeed;
+										const status = threads.includes(threadId);
+
+										if (status) threads = threads.filter((tid) => tid !== threadId);
+										else threads.push(threadId);
+
+										ttStorage.change({ localdata: { threadsHiddenInFeed: threads } });
+										(event.target as Element).textContent = `${!status ? "Show" : "Hide"} this thread from your feeds`;
+									},
+								},
+							}),
+						],
+					}),
+				],
+			}),
+		);
+	}
+}
+
+const FEEDS = ["#my-threads", "#subs-threads", "#feed-threads", "#friends-threads"];
+
+async function hideSubscriptions() {
+	await requireElement(FEEDS[0]);
+
+	await Promise.all(
+		FEEDS.map(async (f) => {
+			const feed = document.querySelector(f);
+			if (!feed) return;
+
+			await requireElement(".ajax-preloader", { parent: feed, invert: true });
+
+			let hasReducedNew = false;
+			findAllElements(".panel > li", feed).forEach((post) => {
+				const params = getHashParameters(new URL(post.querySelector<HTMLAnchorElement>("a[href*='t=']").href).hash);
+				const threadId = parseInt(params.get("t"));
+
+				if (!localdata.threadsHiddenInFeed.includes(threadId)) return;
+
+				post.classList.add("tt-hidden");
+				if (post.classList.contains("new")) hasReducedNew = true;
+			});
+
+			if (hasReducedNew) {
+				adjustNewCounter(feed);
+			}
+		}),
+	);
+}
+
+function adjustNewCounter(feed: Element) {
+	const qtyElement = feed.querySelector(".title-black .qty");
+	const newQuantity = findAllElements(".panel > li.new:not(.tt-hidden)", feed).length;
+
+	qtyElement.textContent = `(${newQuantity})`;
+}
+
+export default class ForumMenuFeature extends Feature {
+	constructor() {
+		super("Forum Menu", "forums");
+	}
+
+	isEnabled() {
+		return settings.pages.forums.menu;
+	}
+
+	initialise() {
+		initialiseListeners();
+	}
+
+	async execute() {
+		await startFeature();
+	}
+
+	storageKeys() {
+		return ["settings.pages.forums.menu"];
+	}
+}

@@ -26,16 +26,20 @@ function appendCommitHashToVersion(manifest: Browser.runtime.Manifest) {
 // See https://wxt.dev/api/config.html
 // noinspection JSUnusedGlobalSymbols
 export default defineConfig({
-	srcDir: "extension",
+	srcDir: "src/extension",
 	modules: ["@wxt-dev/auto-icons", "@wxt-dev/module-svelte"],
 	autoIcons: {
 		baseIconPath: "assets/icon.svg",
 	},
 	alias: {
-		"@features": resolve("./extension/utils/features"),
-		"@vendor": resolve("./extension/utils/vendor"),
-		"@svelte": resolve("./extension/svelte"),
+		"@common": resolve("./src/common"),
+		"@extension": resolve("./src/extension"),
+		"@features": resolve("./src/common/features"),
 		"@public": resolve("./public"),
+		"@svelte": resolve("./src/extension/svelte"),
+		"@userscript": resolve("./src/userscript"),
+		"@utils": resolve("./src/common/utils"),
+		"@vendor": resolve("./src/common/utils/vendor"),
 	},
 	dev: {
 		server: {
