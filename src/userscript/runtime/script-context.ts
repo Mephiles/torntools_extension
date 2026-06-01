@@ -20,7 +20,6 @@ export async function registerUserscriptContext() {
 		setLocaldata(localdata);
 	} else {
 		const defaultLocaldata = getDefaultStorage(DEFAULT_STORAGE.localdata) as DatabaseLocaldata;
-		await ttStorage.set({ localdata: defaultLocaldata });
 		setLocaldata(defaultLocaldata);
 	}
 }
