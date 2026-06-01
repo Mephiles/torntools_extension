@@ -27,7 +27,7 @@ export function initializeDatabaseStore() {
 		return;
 	}
 
-    registerExtensionContext();
+	registerExtensionContext();
 	void initializeDatabase();
 	loadDatabaseStores().then(() => {
 		storesInitialized = true;
