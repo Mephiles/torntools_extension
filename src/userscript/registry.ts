@@ -12,8 +12,8 @@ export interface UserscriptDefinition {
 export const USERSCRIPTS: UserscriptDefinition[] = [
 	{
 		name: "Only New Feed",
-		description: "Adds Torn forum feed controls that hide already-read feed items.",
-		version: "0.0.1-DEV",
+		description: "Only show unread items in your forum feeds.",
+		version: "1.0.0",
 		matches: ["https://*.torn.com/forums.php*"],
 		runAt: "document-start",
 		grants: ["GM.getValue", "GM.getValues", "GM.setValue", "GM.setValues", "GM_addStyle", "unsafeWindow"],
