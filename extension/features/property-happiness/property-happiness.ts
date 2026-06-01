@@ -12,6 +12,9 @@ function initialiseListener() {
 	observer = new MutationObserver(async () => {
 		if (!FEATURE_MANAGER.isEnabled(PropertyHappinessFeature)) return;
 
+		const params = getHashParameters();
+		if (params.has("p") && params.get("p") !== "properties") return;
+
 		await addPropertyHappiness();
 	});
 	observer.observe(document.querySelector("#properties-page-wrap"), { childList: true });

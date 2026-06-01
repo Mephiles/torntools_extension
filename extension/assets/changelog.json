@@ -37,7 +37,9 @@
 				},
 				{ "message": "Don't run the 'Hide Gym Highlight' feature on pages without sidebar.", "contributor": "DeKleineKobini" },
 				{ "message": "'Total Challenge Contributions' can now handle individual contributions above 1 million.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't show the only new feed icon more than once per feed.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't show the only new feed icon more than once per feed.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with the 'Property Values' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with the 'Property Happiness' feature.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },

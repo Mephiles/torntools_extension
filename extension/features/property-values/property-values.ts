@@ -11,6 +11,9 @@ function initialiseListener() {
 	observer = new MutationObserver(async () => {
 		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature)) return;
 
+		const params = getHashParameters();
+		if (params.has("p") && params.get("p") !== "properties") return;
+
 		await addPropertyValues();
 	});
 	observer.observe(document.querySelector("#properties-page-wrap"), { childList: true });
