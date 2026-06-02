@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 5 },
+		"version": { "major": 9, "minor": 0, "build": 6 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 5 },
+		"date": "2026/06/02",
 		"logs": {
 			"features": [
 				{ "message": "Initial url that can be filled: profile send money.", "contributor": "DeKleineKobini" },
