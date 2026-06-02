@@ -53,7 +53,7 @@ We have biome formatting to help you follow our coding conventions.
         - If they are global constants, use UPPERCASE.
 - All code should work on as many browsers as possible.
     - Optional Chaining isn't supported by Kiwi Browser.
-- Any changes should be added in the `public/changelog.json` file under the first unreleased version.
+- Any changes should be added in the `extension/assets/changelog.json` file under the first unreleased version.
     - First contributions should also update `extension/utils/common/team.js` to add yourself as member and choose a
       color for in the changelog.
 
