@@ -55,7 +55,7 @@
 				{ "message": "Redesign our internal pages.", "contributor": "DeKleineKobini" },
 				{ "message": "Rename the point value label to credit value in the mission rewards.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
+			"removed": [{ "message": "No longer keep API usage records.", "contributor": "DeKleineKobini" }],
 			"technical": [
 				{ "message": "Change the structure for how we save 'User Alias' entries.", "contributor": "DeKleineKobini" },
 				{ "message": "Rewrote the internal pages in Svelte.", "contributor": "DeKleineKobini" }

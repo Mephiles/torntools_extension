@@ -1,7 +1,6 @@
 import type { ApiError } from "tornapi-typescript";
 import { api, factiondata, settings, userdata } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { ttUsage } from "@/utils/common/data/usage";
 import { getBadgeText, setBadge } from "@/utils/common/functions/extension";
 import { getRFC } from "@/utils/common/functions/torn";
 import { SCRIPT_TYPE, TO_MILLIS } from "@/utils/common/functions/utilities";
@@ -120,7 +119,6 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 					params.append("comment", settings.apiUsage.comment);
 				}
 
-				await ttUsage.add(location);
 				break;
 			case "torn_direct":
 				url = FETCH_PLATFORMS.torn_direct;
@@ -137,7 +135,6 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 				if (options.id) pathSections.push(options.id);
 
 				path = pathSections.join("/");
-				await ttUsage.add(location);
 				break;
 			case "yata":
 				url = FETCH_PLATFORMS.yata;
@@ -147,7 +144,6 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 				if (options.includeKey) key = api.yata.key;
 
 				path = pathSections.join("/");
-				await ttUsage.add(location);
 				break;
 			case "prometheus":
 				url = FETCH_PLATFORMS.prometheus;
@@ -262,7 +258,6 @@ export async function fetchData<R = any>(l: FetchLocation, partialOptions: Parti
 		async function handleError(result: any) {
 			if (options.succeedOnError) {
 				resolve(result);
-				await ttUsage.add(location);
 				return;
 			}
 
