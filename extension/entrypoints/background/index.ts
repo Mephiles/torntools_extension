@@ -14,7 +14,6 @@ import {
 	type Writable,
 } from "@/utils/common/data/database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { ttUsage } from "@/utils/common/data/usage";
 import { exposeDebugObjects } from "@/utils/common/functions/pages-debug";
 import { BackgroundService } from "@/utils/services/BackgroundService";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/utils/services/proxy-service-keys";
@@ -24,7 +23,7 @@ type Alarm = Browser.alarms.Alarm;
 
 function onInitialisation() {
 	browser.alarms.getAll().then((currentAlarms) => {
-		if (currentAlarms.length === 4) return;
+		if (currentAlarms.length === Object.keys(ALARM_NAMES).length) return;
 
 		void resetAlarms();
 	});
@@ -38,7 +37,6 @@ async function onInstall() {
 	void resetAlarms();
 
 	// These are refresh tasks, not clearing.
-	clearUsage();
 	clearCache();
 
 	// Initial call
@@ -67,7 +65,6 @@ async function onStartup() {
 	void checkUpdate();
 
 	// These are refresh tasks, not clearing.
-	clearUsage();
 	clearCache();
 
 	// Initial call
@@ -79,7 +76,6 @@ async function onStartup() {
 
 const ALARM_NAMES = {
 	CLEAR_CACHE: "clear-cache-alarm",
-	CLEAR_USAGE: "clear-usage-alarm",
 	DATA_UPDATE_AND_NOTIFICATIONS: "data-update-and-notifications-alarm",
 	NOTIFICATIONS: "notifications-alarm",
 } as const;
@@ -90,9 +86,6 @@ async function onAlarm(alarm: Alarm) {
 	switch (alarm.name) {
 		case ALARM_NAMES.CLEAR_CACHE:
 			clearCache();
-			break;
-		case ALARM_NAMES.CLEAR_USAGE:
-			clearUsage();
 			break;
 		case ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS:
 			await timedUpdates();
@@ -110,15 +103,10 @@ function clearCache() {
 	ttCache.refresh().catch((error) => console.error("Error while clearing cache.", error));
 }
 
-function clearUsage() {
-	ttUsage.refresh().catch((error) => console.error("Error while clearing API usage data.", error));
-}
-
 export async function resetAlarms() {
 	await browser.alarms.clearAll();
 
 	void browser.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-	void browser.alarms.create(ALARM_NAMES.CLEAR_USAGE, { periodInMinutes: 60 * 24 });
 	void browser.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
 	void browser.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
 }

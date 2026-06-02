@@ -3,7 +3,6 @@ import { type DatabaseCache, ttCache } from "@/utils/common/data/cache";
 import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@/utils/common/data/default-database";
 import { executeMigrationScripts } from "@/utils/common/data/migrations";
 import { ttStorage } from "@/utils/common/data/storage";
-import { type DatabaseUsage, ttUsage } from "@/utils/common/data/usage";
 import { sleep } from "@/utils/common/functions/utilities";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
@@ -47,7 +46,6 @@ export interface Database {
 	factionStakeouts: DatabaseFactionStakeouts;
 	notifications: DatabaseNotifications;
 	cache: DatabaseCache;
-	usage: DatabaseUsage;
 	migrations: DatabaseMigrations;
 	time: number | null;
 }
@@ -137,7 +135,6 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 			attackHistory,
 			quick,
 			stockdata,
-			usage: ttUsage.usage,
 			notifications,
 			migrations,
 		};
@@ -261,7 +258,6 @@ function populateDatabaseVariables(database: Database) {
 	migrations = database.migrations;
 
 	ttCache.cache = database.cache;
-	ttUsage.usage = database.usage;
 }
 
 export function initializeDatabase() {
@@ -312,9 +308,6 @@ function initializeDatabaseListener() {
 						break;
 					case "cache":
 						ttCache.cache = changes.cache.newValue as DatabaseCache;
-						break;
-					case "usage":
-						ttUsage.usage = changes.usage.newValue as DatabaseUsage;
 						break;
 					case "npcs":
 						npcs = changes.npcs.newValue as DatabaseNpcs;

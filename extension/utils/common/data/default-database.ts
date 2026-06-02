@@ -8,7 +8,6 @@ import type { StoredResizableChats } from "@/features/resizable-chat/resizable-c
 import type { UserAlias } from "@/features/user-alias/alias";
 import type { DatabaseCache } from "@/utils/common/data/cache";
 import type { StoredMigration } from "@/utils/common/data/migrations";
-import type { DatabaseUsage } from "@/utils/common/data/usage";
 import type { TornV1Stock } from "@/utils/common/functions/api-v1.types";
 import type { SpecialFilterValue } from "@/utils/common/functions/filters";
 import type { InternalPageTheme } from "@/utils/common/functions/pages";
@@ -831,7 +830,6 @@ export const DEFAULT_STORAGE = {
 		jail: new DefaultSetting<QuickJail[]>("array", []),
 	},
 	cache: new DefaultSetting<DatabaseCache>("object", {}),
-	usage: new DefaultSetting<DatabaseUsage>("object", {}),
 	npcs: new DefaultSetting<StoredNpcs>("object", {} as StoredNpcs),
 	notificationHistory: new DefaultSetting<TTNotification[]>("array", []),
 	notifications: {

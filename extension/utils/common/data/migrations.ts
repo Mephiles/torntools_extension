@@ -1,6 +1,7 @@
 import type { SavedCustomLink } from "@/features/custom-links/custom-links";
 import type { UserAlias } from "@/features/user-alias/alias";
 import type { Database } from "@/utils/common/data/database";
+import { ttStorage } from "@/utils/common/data/storage";
 import { toNumericVersion } from "@/utils/common/functions/utilities";
 
 export interface StoredMigration {
@@ -100,6 +101,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			if (typeof oldStorage?.settings?.pages?.popup.hoverBarTime !== "boolean") return;
 
 			database.settings.pages.popup.fullBarTime = oldStorage.settings.pages.popup.hoverBarTime;
+		},
+	},
+	{
+		id: "7396191c-35a9-4d92-905a-0e411f9a6823",
+		version: "9.0.5",
+		execute(_database, _flags, _oldStorage) {
+			void ttStorage.remove("usage");
 		},
 	},
 ];
