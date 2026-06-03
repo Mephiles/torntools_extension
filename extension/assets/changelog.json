@@ -8,7 +8,7 @@
 			"fixes": [],
 			"changes": [{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" }],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Refactor the data fetching function completely in preparation of future updates.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

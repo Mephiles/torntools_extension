@@ -4,7 +4,7 @@ import { ttCache } from "@/utils/common/data/cache";
 import { settings } from "@/utils/common/data/database";
 import type { BaseElement } from "@/utils/common/elements/base-element";
 import { createTable, stringCellRenderer, type TableColumnDef, type TableElement } from "@/utils/common/elements/table/table";
-import { fetchData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import type { TornV1Bank, TornV1BankResponse } from "@/utils/common/functions/api-v1.types";
 import { createContainer } from "@/utils/common/functions/containers";
 import { elementBuilder } from "@/utils/common/functions/dom";
@@ -214,7 +214,7 @@ async function initialize() {
 		response = ttCache.get("bankInterest");
 	} else {
 		// TODO - Migrate to V2 (torn/bank).
-		response = (await fetchData<TornV1BankResponse>("tornv2", { section: "torn", selections: ["bank"], legacySelections: ["bank"] })).bank;
+		response = (await fetchData<TornV1BankResponse>("tornv2", { section: "torn", legacySelections: ["bank"] })).bank;
 
 		ttCache.set({ bankInterest: response }, millisToNewDay()).then(() => {});
 	}

@@ -4,7 +4,8 @@ import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction, readFactionDetails } from "@/pages/factions-page";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings } from "@/utils/common/data/database";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { dropDecimals } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -94,7 +95,6 @@ async function addLastAction(force: boolean) {
 						...(Number.isNaN(parseInt(id.toString())) ? {} : { id }),
 						selections: ["members"],
 						silent: true,
-						succeedOnError: true,
 					})
 				).members;
 

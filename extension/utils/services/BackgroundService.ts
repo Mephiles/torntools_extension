@@ -3,7 +3,7 @@ import { resetAlarms } from "@/entrypoints/background";
 import { getNotificationSound, notificationTestPlayer, notifyUser } from "@/entrypoints/background/notifications";
 import { timedUpdates, updateFactiondata, updateStocks, updateTorndata, updateUserdata } from "@/entrypoints/background/updates";
 import { ttCache } from "@/utils/common/data/cache";
-import { type FetchLocation, type FetchOptions, fetchData } from "@/utils/common/functions/api";
+import { type FetchLocation, type FetchOptions, fetchData } from "@/utils/common/functions/api-fetcher";
 
 type Alarm = Browser.alarms.Alarm;
 

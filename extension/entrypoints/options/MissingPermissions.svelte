@@ -5,8 +5,8 @@
 	import { toast } from "svelte-sonner";
 	import { browser } from "wxt/browser";
 	import { loadDatabase } from "@/utils/common/data/database";
-	import { FETCH_PLATFORMS } from "@/utils/common/functions/api";
 	import { REVIVE_PROVIDERS } from "@/utils/common/functions/api-external-revives";
+	import { FETCH_PLATFORMS } from "@/utils/common/functions/api-fetcher";
 
 	type PermissionOrigin = {
 		label: string;

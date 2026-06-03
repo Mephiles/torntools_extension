@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FETCH_PLATFORMS } from "@/utils/common/functions/api";
+	import { FETCH_PLATFORMS } from "@/utils/common/functions/api-fetcher";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import ExternalServiceCard from "./ExternalServiceCard.svelte";
 </script>

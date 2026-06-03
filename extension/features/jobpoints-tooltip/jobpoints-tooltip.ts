@@ -2,7 +2,7 @@ import type { UserJobPointsResponse } from "tornapi-typescript";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
-import { fetchData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
 import { requireElement, requireSidebar } from "@/utils/common/functions/requires";
@@ -78,7 +78,6 @@ async function getAllJobPoints(): Promise<AllJobPoints> {
 					section: "user",
 					selections: ["jobpoints"],
 					silent: true,
-					succeedOnError: true,
 				})
 			).jobpoints;
 

@@ -2,7 +2,8 @@ import type { UserCompany } from "tornapi-typescript";
 import { Feature } from "@/features/feature-manager";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import type { CompanyV1EmployeesResponse } from "@/utils/common/functions/api-v1.types";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@/utils/common/functions/dom";
 import { requireSidebar } from "@/utils/common/functions/requires";
@@ -45,10 +46,8 @@ async function getCompanyAddiction() {
 					await fetchData<CompanyV1EmployeesResponse>("tornv2", {
 						section: "company",
 						id: company_id,
-						selections: ["employees"],
 						legacySelections: ["employees"],
 						silent: true,
-						succeedOnError: true,
 					})
 				).company_employees;
 

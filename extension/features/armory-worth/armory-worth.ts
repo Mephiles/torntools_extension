@@ -3,7 +3,8 @@ import "./armory-worth.css";
 import { isInternalFaction } from "@/pages/factions-page";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings, torndata, userdata } from "@/utils/common/data/database";
-import { fetchData, hasFactionAPIAccess } from "@/utils/common/functions/api";
+import { hasFactionAPIAccess } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import type {
 	FactionV1ArmorResponse,
 	FactionV1BoostersResponse,
@@ -56,7 +57,7 @@ async function addWorth(force: boolean) {
 	if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
 		handleData(ttCache.get("armory", userdata.faction.id));
 	} else {
-		fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", selections, legacySelections: selections })
+		fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", legacySelections: selections })
 			.then((data) => {
 				handleData(data);
 

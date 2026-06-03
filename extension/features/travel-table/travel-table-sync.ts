@@ -1,6 +1,6 @@
 import { ExecutionTiming, FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings } from "@/utils/common/data/database";
-import { fetchData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { addCustomListener, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { getPageStatus, isAbroad } from "@/utils/common/functions/torn";
 import { TO_MILLIS } from "@/utils/common/functions/utilities";

@@ -2,7 +2,7 @@ import "./stats-estimate.css";
 import type { UserPersonalStatsPopular, UserProfileResponse } from "tornapi-typescript";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings } from "@/utils/common/data/database";
-import { fetchData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { elementBuilder, findAllElements, showLoadingPlaceholder } from "@/utils/common/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { RANK_TRIGGERS, RANKS } from "@/utils/common/functions/torn";
