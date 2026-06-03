@@ -23,7 +23,7 @@ interface CountryInformation {
 	time: number;
 }
 
-type TableCategory = "plushie" | "flower" | "drug" | "temporary" | "weapon" | "other";
+type TableCategory = "plushie" | "flower" | "drug" | "temporary" | "weapon" | "defensive" | "other";
 
 const COUNTRIES: { [name: string]: CountryInformation } = {
 	arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: 167 },
@@ -271,6 +271,17 @@ async function startTable() {
 													attributes: { id: "travel-item-weapons", type: "checkbox", name: "item", category: "weapon" },
 												}),
 												elementBuilder({ type: "label", attributes: { for: "travel-item-weapons" }, text: "Weapons" }),
+											],
+										}),
+										elementBuilder({
+											type: "div",
+											class: "checkbox-item",
+											children: [
+												elementBuilder({
+													type: "input",
+													attributes: { id: "travel-item-defensive", type: "checkbox", name: "item", category: "defensive" },
+												}),
+												elementBuilder({ type: "label", attributes: { for: "travel-item-defensive" }, text: "Defensive" }),
 											],
 										}),
 										elementBuilder({
@@ -589,6 +600,9 @@ async function startTable() {
 					break;
 				case "weapon":
 					category = subType === "temporary" ? "temporary" : "weapon";
+					break;
+				case "armor":
+					category = "defensive";
 					break;
 				default:
 					category = "other";

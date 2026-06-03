@@ -110,6 +110,15 @@ export const MIGRATIONS: MigrationScript[] = [
 			void ttStorage.remove("usage");
 		},
 	},
+	{
+		id: "d3e6e03a-698d-4df4-9062-4d3c9ce9d479",
+		version: "9.0.5",
+		execute(database, _flags, oldStorage) {
+			if (!oldStorage?.filters?.travel?.categories?.includes("other")) return;
+
+			database.filters.travel.categories = [...oldStorage.filters.travel.categories, "defensive"];
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

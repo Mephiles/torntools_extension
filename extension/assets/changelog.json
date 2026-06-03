@@ -3,7 +3,13 @@
 		"version": { "major": 9, "minor": 0, "build": 6 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" }],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 0, "build": 5 },
