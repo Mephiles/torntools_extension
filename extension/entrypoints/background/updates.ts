@@ -68,8 +68,9 @@ import type {
 	StoredTorndata,
 } from "@/utils/common/data/default-database";
 import { ttStorage } from "@/utils/common/data/storage";
-import { CUSTOM_API_ERROR, FACTION_ACCESS, fetchData, hasAPIData, hasFactionAPIAccess, isTornApiError } from "@/utils/common/functions/api";
+import { FACTION_ACCESS, hasAPIData, hasFactionAPIAccess, isTornApiError } from "@/utils/common/functions/api";
 import type { LootRangersLoot, TornstatsLoot, YATALoot } from "@/utils/common/functions/api.types";
+import { CUSTOM_API_ERROR, fetchData } from "@/utils/common/functions/api-fetcher";
 import type {
 	FactionV1CrimesResponse,
 	TornV1PawnshopResponse,
@@ -1408,7 +1409,7 @@ export async function updateTorndata() {
 	// TODO - Migrate to V2 (torn/stats).
 	const data = await fetchData<FetchedTorndata>("tornv2", {
 		section: "torn",
-		selections: ["education", "calendar", "properties", "honors", "medals", "items", "pawnshop", "stats"],
+		selections: ["education", "calendar", "properties", "honors", "medals", "items"],
 		legacySelections: ["pawnshop", "stats"],
 	});
 	if (data.stats.points_averagecost === null || data.stats.points_averagecost <= 0) {
@@ -1439,13 +1440,7 @@ type FetchedStockdata = TornV1StocksResponse;
 export async function updateStocks() {
 	const oldStocks = { ...stockdata };
 	// TODO - Migrate to V2 (torn/stocks).
-	const stocks = (
-		await fetchData<FetchedStockdata>("tornv2", {
-			section: "torn",
-			selections: ["stocks"],
-			legacySelections: ["stocks"],
-		})
-	).stocks;
+	const stocks = (await fetchData<FetchedStockdata>("tornv2", { section: "torn", legacySelections: ["stocks"] })).stocks;
 	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
 
 	await ttStorage.change({ stockdata: { ...stocks, date: Date.now() } });
@@ -1511,7 +1506,7 @@ export async function updateFactiondata() {
 			// TODO - Migrate to V2 (faction/crimes).
 			const data = await fetchData<FetchedFactiondataWithAccess>("tornv2", {
 				section: "faction",
-				selections: ["crimes", "basic", "rankedwars"],
+				selections: ["basic", "rankedwars"],
 				legacySelections: ["crimes"],
 				silent: true,
 			});

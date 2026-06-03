@@ -2,7 +2,8 @@ import "./bazaar-worth.css";
 import { ExecutionTiming, Feature } from "@/features/feature-manager";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import type { UserV1BazaarItem, UserV1BazaarResponse } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, getSearchParameters } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
@@ -46,7 +47,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 		handleBazaar(ttCache.get("bazaar", bazaarUserId)).catch(console.error);
 	} else {
 		// TODO - Migrate to V2 (user/bazaar).
-		fetchData<UserV1BazaarResponse>("tornv2", { section: "user", id: bazaarUserId, selections: ["bazaar"], legacySelections: ["bazaar"] })
+		fetchData<UserV1BazaarResponse>("tornv2", { section: "user", id: bazaarUserId, legacySelections: ["bazaar"] })
 			.then((result) => {
 				handleBazaar(result.bazaar);
 

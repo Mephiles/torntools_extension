@@ -4,7 +4,8 @@ import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isOwnCompany } from "@/pages/company-page";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import type { CompanyV1Employees, CompanyV1ProfileResponse } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder, findAllElements, getHashParameters } from "@/utils/common/functions/dom";
 import { dropDecimals } from "@/utils/common/functions/formatting";
@@ -39,10 +40,8 @@ async function addLastAction(force: boolean) {
 			await fetchData<CompanyV1ProfileResponse>("tornv2", {
 				section: "company",
 				id: id,
-				selections: ["profile"],
 				legacySelections: ["profile"],
 				silent: true,
-				succeedOnError: true,
 			})
 		).company.employees;
 

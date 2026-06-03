@@ -8,8 +8,8 @@
 	import type { MarketItemMarketResponse, TornItem } from "tornapi-typescript";
 	import MarketPrice from "@/entrypoints/popup/components/market/MarketPrice.svelte";
 	import { ttCache } from "@/utils/common/data/cache";
-	import { fetchData } from "@/utils/common/functions/api";
 	import type { TornW3BResult } from "@/utils/common/functions/api.types";
+	import { fetchData } from "@/utils/common/functions/api-fetcher";
 	import { formatNumber } from "@/utils/common/functions/formatting";
 	import { isSellable } from "@/utils/common/functions/torn";
 	import { TO_MILLIS } from "@/utils/common/functions/utilities";

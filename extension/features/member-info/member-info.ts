@@ -4,7 +4,8 @@ import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
-import { fetchData, hasFactionAPIAccess } from "@/utils/common/functions/api";
+import { hasFactionAPIAccess } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
@@ -61,8 +62,7 @@ async function addInfo(force: boolean) {
 	if (ttCache.hasValue("faction-members-balance", userdata.faction.id)) {
 		balance = ttCache.get<FactionBalance>("faction-members-balance", userdata.faction.id);
 	} else {
-		balance = (await fetchData<FactionBalanceResponse>("tornv2", { section: "faction", selections: ["balance"], silent: true, succeedOnError: true }))
-			.balance;
+		balance = (await fetchData<FactionBalanceResponse>("tornv2", { section: "faction", selections: ["balance"], silent: true })).balance;
 
 		ttCache.set({ [userdata.faction.id]: balance }, TO_MILLIS.SECONDS * 60, "faction-members-balance").then(() => {});
 	}

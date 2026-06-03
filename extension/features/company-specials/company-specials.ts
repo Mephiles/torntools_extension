@@ -3,7 +3,8 @@ import type { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings, userdata } from "@/utils/common/data/database";
-import { FETCH_PLATFORMS, fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { elementBuilder, findAllElements } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
 import { addXHRListener } from "@/utils/common/functions/listeners";
@@ -51,7 +52,6 @@ async function showMuggableCash(json: any) {
 					id,
 					selections: ["job"],
 					silent: true,
-					succeedOnError: true,
 				})
 			).job;
 
@@ -150,7 +150,7 @@ async function calculateSpies(json: any) {
 					click() {
 						const id = parseInt(json.result.user.userID);
 
-						fetchData(FETCH_PLATFORMS.tornstats, {
+						fetchData("tornstats", {
 							section: "store/spy",
 							method: "POST",
 							params: {

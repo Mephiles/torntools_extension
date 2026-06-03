@@ -1,6 +1,7 @@
 import { ttCache } from "@/utils/common/data/cache";
 import { userdata } from "@/utils/common/data/database";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { getHashParameters, isElement } from "@/utils/common/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@/utils/common/functions/listeners";
 import { requireElement } from "@/utils/common/functions/requires";

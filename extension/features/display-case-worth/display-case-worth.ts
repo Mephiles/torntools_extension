@@ -1,7 +1,8 @@
 import "./display-case-worth.css";
 import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { settings, userdata } from "@/utils/common/data/database";
-import { fetchData, hasAPIData } from "@/utils/common/functions/api";
+import { hasAPIData } from "@/utils/common/functions/api";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import type { UserV1DisplayCaseResponse } from "@/utils/common/functions/api-v1.types";
 import { elementBuilder } from "@/utils/common/functions/dom";
 import { formatNumber } from "@/utils/common/functions/formatting";
@@ -31,7 +32,6 @@ async function addWorth() {
 		result = await fetchData<UserV1DisplayCaseResponse>("tornv2", {
 			section: "user",
 			id: userId,
-			selections: ["display"],
 			legacySelections: ["display"],
 		});
 	} catch (error) {

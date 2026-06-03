@@ -3,8 +3,9 @@ import { FEATURE_MANAGER, Feature } from "@/features/feature-manager";
 import { isInternalFaction } from "@/pages/factions-page";
 import { ttCache } from "@/utils/common/data/cache";
 import { settings } from "@/utils/common/data/database";
-import { FETCH_PLATFORMS, fetchData, hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
+import { hasAPIData, hasOC1Data } from "@/utils/common/functions/api";
 import type { TornstatsFactionCrimes, YATAFactionMembers } from "@/utils/common/functions/api.types";
+import { fetchData } from "@/utils/common/functions/api-fetcher";
 import { elementBuilder, findAllElements, mobile } from "@/utils/common/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@/utils/common/functions/listeners";
 import { getPageStatus } from "@/utils/common/functions/torn";
@@ -60,7 +61,7 @@ async function showNNB() {
 				result = ttCache.get<TornstatsFactionCrimes>("crimes", "tornstats");
 			} else {
 				try {
-					result = await fetchData<TornstatsFactionCrimes>(FETCH_PLATFORMS.tornstats, { section: "faction/crimes", relay: true });
+					result = await fetchData<TornstatsFactionCrimes>("tornstats", { section: "faction/crimes", relay: true });
 
 					if (result.status) {
 						ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
