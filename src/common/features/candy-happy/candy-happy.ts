@@ -1,0 +1,83 @@
+import "./candy-happy.css";
+import { settings, torndata, userdata } from "@common/utils/data/database";
+import { hasAPIData } from "@common/utils/functions/api";
+import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
+import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+
+function initialiseAddGains() {
+	const listener = () => {
+		if (!FEATURE_MANAGER.isEnabled(CandyHappyFeature)) return;
+
+		addGains();
+	};
+	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
+	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
+}
+
+function addGains() {
+	const factionPerk = parseInt(userdata.faction_perks.filter((x) => /candy/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	const companyPerk = parseInt(userdata.job_perks.filter((x) => /consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	findAllElements("[data-category='Candy']").forEach((candy) => {
+		if (candy.querySelector(".tt-candy-gains")) return;
+
+		// noinspection DuplicatedCode
+		const baseHappy = parseInt(
+			torndata.itemsMap[candy.dataset.item].effect
+				.split(" ")
+				.map((x) => parseInt(x))
+				.filter((x) => !Number.isNaN(x))[0]
+				.toString(),
+		);
+		let totalHappy = baseHappy;
+		if (!Number.isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;
+		if (!Number.isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
+
+		if (isEventActive(TORN_EVENTS.WORLD_DIABETES_DAY, true)) {
+			totalHappy *= 2;
+		}
+
+		candy.querySelector(".name-wrap").insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
+	});
+}
+
+function removeGains() {
+	findAllElements(".tt-candy-gains").forEach((x) => x.remove());
+}
+
+export default class CandyHappyFeature extends Feature {
+	constructor() {
+		super("Candy Happy", "items");
+	}
+
+	precondition() {
+		return getPageStatus().access;
+	}
+
+	isEnabled() {
+		return settings.pages.items.candyHappyGains;
+	}
+
+	requirements() {
+		if (!hasAPIData()) return "No API access.";
+
+		return true;
+	}
+
+	initialise() {
+		initialiseAddGains();
+	}
+
+	execute() {
+		addGains();
+	}
+
+	cleanup() {
+		removeGains();
+	}
+
+	storageKeys() {
+		return ["settings.pages.items.candyHappyGains"];
+	}
+}

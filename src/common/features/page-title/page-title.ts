@@ -1,0 +1,43 @@
+import { settings } from "@common/utils/data/database";
+import { requireElement } from "@common/utils/functions/requires";
+import { getPageStatus } from "@common/utils/functions/torn";
+import { Feature } from "@extension/context/feature-manager";
+
+let original = document.title;
+
+async function setTitle() {
+	const name: Element = await requireElement("[class*='headerWrapper__'][class*='rose__'] .user-name");
+
+	if (!original) original = document.title;
+	document.title = `${name.textContent} | Attack`;
+}
+
+function reset() {
+	document.title = original;
+}
+
+export default class PageTitleFeature extends Feature {
+	constructor() {
+		super("Page Title", "global");
+	}
+
+	precondition() {
+		return getPageStatus().access;
+	}
+
+	isEnabled() {
+		return settings.pages.global.pageTitles;
+	}
+
+	async execute() {
+		await setTitle();
+	}
+
+	cleanup() {
+		reset();
+	}
+
+	storageKeys() {
+		return ["settings.pages.global.pageTitles"];
+	}
+}

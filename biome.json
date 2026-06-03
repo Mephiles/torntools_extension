@@ -1,6 +1,6 @@
 {
 	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-	"files": { "ignoreUnknown": false, "maxSize": 2500000, "includes": ["**"] },
+	"files": { "ignoreUnknown": false, "maxSize": 2500000, "includes": ["**", "!**/.opencode"] },
 	"formatter": {
 		"indentStyle": "tab",
 		"indentWidth": 4,
@@ -62,7 +62,7 @@
 				"useIterableCallbackReturn": "off"
 			}
 		},
-		"includes": ["**", "!extension/svelte/components/ui/**/index.ts", "!extension/svelte/components/ui/**/*.svelte"]
+		"includes": ["**", "!src/extension/svelte/components/ui/**/index.ts", "!src/extension/svelte/components/ui/**/*.svelte"]
 	},
 	"html": { "formatter": { "selfCloseVoidElements": "always" }, "experimentalFullSupportEnabled": true },
 	"assist": {

@@ -1,0 +1,29 @@
+import "./chat-font-size.css";
+import { settings } from "@common/utils/data/database";
+import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+
+function applySize() {
+	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.chat.fontSize || 12}px`);
+}
+
+export default class ChatFontSizeFeature extends Feature {
+	constructor() {
+		super("Chat Font Size", "chat", ExecutionTiming.IMMEDIATELY);
+	}
+
+	isEnabled() {
+		return settings.pages.chat.fontSize !== 12;
+	}
+
+	execute() {
+		applySize();
+	}
+
+	cleanup() {
+		applySize();
+	}
+
+	storageKeys() {
+		return ["settings.pages.chat.fontSize"];
+	}
+}
