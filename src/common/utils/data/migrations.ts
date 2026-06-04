@@ -119,6 +119,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			database.filters.travel.categories = [...oldStorage.filters.travel.categories, "defensive"];
 		},
 	},
+	{
+		id: "700848e9-ee48-42ce-b8b1-893cb471cfe4",
+		version: "9.0.6",
+		execute(_database, flags, _oldStorage) {
+			flags.clearCache = true;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

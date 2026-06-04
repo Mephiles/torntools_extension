@@ -47,6 +47,7 @@
 		<StorageText path="settings.apiUsage.comment" label="API call comment" />
 		<StorageNumber path="settings.apiUsage.delayEssential" label="Essential userdata interval" min={30} />
 		<StorageNumber path="settings.apiUsage.delayBasic" label="Basic userdata interval" min={30} />
+		<StorageNumber path="settings.apiUsage.delayPassive" label="Passive userdata interval" min={30} />
 		<StorageNumber path="settings.apiUsage.delayStakeouts" label="Stakeout interval" min={30} />
 	</PreferenceSectionCard>
 

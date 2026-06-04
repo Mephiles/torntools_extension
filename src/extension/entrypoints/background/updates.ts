@@ -66,6 +66,7 @@ import type {
 	UserFactionResponse,
 	UserHonorsResponse,
 	UserIconPrivate,
+	UserJobPointsResponse,
 	UserJobResponse,
 	UserMedalsResponse,
 	UserMeritsResponse,
@@ -239,7 +240,8 @@ export type FetchedUserdata = UserProfileResponse &
 	UserV1EducationResponse &
 	AttacksResponse &
 	(UserEventsResponse | UserNewEventsResponse) &
-	UserVirusResponse;
+	UserVirusResponse &
+	UserJobPointsResponse;
 
 export async function updateUserdata(forceUpdate = false) {
 	const now = Date.now();
@@ -255,6 +257,12 @@ export async function updateUserdata(forceUpdate = false) {
 		(forceUpdate ||
 			!userdata?.dateBasic ||
 			(hasTimePassed(userdata?.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
+				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
+	const updatePassive =
+		updateEssential &&
+		(forceUpdate ||
+			!userdata?.datePassive ||
+			(hasTimePassed(userdata?.datePassive - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) &&
 				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
 	const selections = [];
@@ -320,6 +328,15 @@ export async function updateUserdata(forceUpdate = false) {
 
 		updatedTypes.push("basic");
 	}
+	if (updatePassive) {
+		for (const selection of ["jobpoints"]) {
+			if (!settings.apiUsage.user[selection]) continue;
+
+			selectionsV2.push(selection);
+		}
+
+		updatedTypes.push("passive");
+	}
 	if (attackHistory.fetchData && settings.apiUsage.user.attacks && settings.pages.global.keepAttackHistory) {
 		selectionsV2.push("attacks");
 
@@ -342,6 +359,7 @@ export async function updateUserdata(forceUpdate = false) {
 	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
+	userdata.datePassive = updatePassive ? now : (oldUserdata?.datePassive ?? now);
 
 	// Notifications have a 100K count limit from being fetched via the Torn API
 	// Use "newevents" selection only when the old events count > new events count

@@ -1,28 +1,10 @@
-import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
-import { fetchData } from "@common/utils/functions/api-fetcher";
+import { hasAPIData } from "@common/utils/functions/api";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement, requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
-import { getTimeUntilNextJobUpdate, sleep } from "@common/utils/functions/utilities";
+import { sleep } from "@common/utils/functions/utilities";
 import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
-import type { UserJobPointsResponse } from "tornapi-typescript";
-
-function jobPointsUseListener() {
-	addXHRListener(async (event) => {
-		if (!FEATURE_MANAGER.isEnabled(JobPointsTooltipFeature)) return;
-
-		const { page, json } = event.detail;
-
-		if (page === "companies" && json && json.pointsLeft) {
-			const allJobPoints = await getAllJobPoints();
-			const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
-
-			await ttCache.set({ points: { ...allJobPoints, [jobId]: json.pointsLeft } }, getTimeUntilNextJobUpdate(), "job");
-		}
-	});
-}
 
 async function addJobPointsTooltip() {
 	await requireSidebar();
@@ -35,7 +17,7 @@ async function tooltipListener() {
 	if (!FEATURE_MANAGER.isEnabled(JobPointsTooltipFeature)) return;
 
 	const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
-	const allJobPoints = await getAllJobPoints();
+	const allJobPoints = getAllJobPoints();
 
 	const jobPoints = jobId in allJobPoints ? allJobPoints[jobId] : 0;
 
@@ -68,30 +50,13 @@ interface AllJobPoints {
 	[jobOrCompanyId: string | number]: number;
 }
 
-async function getAllJobPoints(): Promise<AllJobPoints> {
-	if (ttCache.hasValue("job", "points")) {
-		return ttCache.get<AllJobPoints>("job", "points");
-	} else {
-		try {
-			const response = (
-				await fetchData<UserJobPointsResponse>("tornv2", {
-					section: "user",
-					selections: ["jobpoints"],
-					silent: true,
-				})
-			).jobpoints;
+function getAllJobPoints(): AllJobPoints {
+	const response = userdata.jobpoints;
 
-			const jobPoints: AllJobPoints = { ...response.jobs };
-			response.companies.forEach((c) => (jobPoints[c.company.id] = c.points));
+	const jobPoints: AllJobPoints = { ...response.jobs };
+	response.companies.forEach((c) => (jobPoints[c.company.id] = c.points));
 
-			await ttCache.set({ points: jobPoints }, getTimeUntilNextJobUpdate(), "job");
-
-			return jobPoints;
-		} catch (error) {
-			console.error(`TT - An error occurred when fetching job points data, Error: ${error}`);
-			throw new Error(`An error occurred when fetching job points data, Error: ${error}`);
-		}
-	}
+	return jobPoints;
 }
 
 export default class JobPointsTooltipFeature extends Feature {
@@ -104,17 +69,14 @@ export default class JobPointsTooltipFeature extends Feature {
 	}
 
 	async requirements() {
-		if (!userdata.job) return "Currently you don't have a job.";
+		if (!hasAPIData() || !settings.apiUsage.user.jobpoints) return "No API access.";
+		else if (!userdata.job) return "Currently you don't have a job.";
 
 		return true;
 	}
 
 	isEnabled() {
 		return settings.pages.sidebar.showJobPointsToolTip;
-	}
-
-	initialise() {
-		jobPointsUseListener();
 	}
 
 	async execute() {

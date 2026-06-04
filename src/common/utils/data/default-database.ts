@@ -122,6 +122,7 @@ export const DEFAULT_STORAGE = {
 			comment: new DefaultSetting("string", "TornTools"),
 			delayEssential: new DefaultSetting("number", 30),
 			delayBasic: new DefaultSetting("number", 120),
+			delayPassive: new DefaultSetting("number", 3_600),
 			delayStakeouts: new DefaultSetting("number", 30),
 			user: {
 				bars: new DefaultSetting("boolean", true),
@@ -892,6 +893,7 @@ export interface StoredNpc {
 export type StoredUserdata = FetchedUserdata & {
 	date: number;
 	dateBasic: number;
+	datePassive: number;
 	userCrime?: number;
 };
 
