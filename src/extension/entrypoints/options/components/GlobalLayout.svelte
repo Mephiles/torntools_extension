@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {exposeDebugObjects} from "@common/utils/functions/pages-debug";
+	import {BACKGROUND_SERVICE} from "@common/utils/services/proxy-services";
 	import { Separator } from "@svelte/components/ui/separator";
 	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
@@ -18,6 +20,7 @@
 	];
 
 	onMount(() => {
+		exposeDebugObjects(BACKGROUND_SERVICE);
 		initializeDatabaseStore();
 
 		const unsubscribeTheme = settingsStore.subscribe((settings) => {

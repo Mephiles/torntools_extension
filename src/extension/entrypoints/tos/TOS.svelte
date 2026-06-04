@@ -1,10 +1,13 @@
 <script lang="ts">
+	import {exposeDebugObjects} from "@common/utils/functions/pages-debug";
+	import {BACKGROUND_SERVICE} from "@common/utils/services/proxy-services";
 	import { initializeDatabaseStore, settingsStore } from "@extension/entrypoints/tos/stores/database-store.svelte";
 	import * as Table from "@svelte/components/ui/table";
 	import { ModeWatcher, setMode } from "mode-watcher";
 	import { onMount } from "svelte";
 
 	onMount(() => {
+		exposeDebugObjects(BACKGROUND_SERVICE);
 		initializeDatabaseStore();
 
 		const unsubscribeTheme = settingsStore.subscribe((settings) => {
