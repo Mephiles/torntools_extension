@@ -1,6 +1,6 @@
 import "./preference-settings.css";
 import { api } from "@common/utils/data/database";
-import { changeAPIKey } from "@common/utils/functions/api";
+import { changeAPIKey } from "@common/utils/functions/api-key";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";

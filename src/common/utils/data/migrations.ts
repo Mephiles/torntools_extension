@@ -1,4 +1,4 @@
-import { ttStorage } from "@common/utils/context";
+import { RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
 import type { Database } from "@common/utils/data/database";
 import { toNumericVersion } from "@common/utils/functions/utilities";
 import type { SavedCustomLink } from "@features/custom-links/custom-links";
@@ -129,6 +129,8 @@ export const MIGRATIONS: MigrationScript[] = [
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
+	if (RUNTIME_INFORMATION.isUserscript()) return;
+
 	const migrations = MIGRATIONS.filter(({ version }) => toNumericVersion(version) >= toNumericVersion(storage.version.initial)).filter(
 		({ id }) => !storage.migrations.map(({ id }) => id).includes(id),
 	);

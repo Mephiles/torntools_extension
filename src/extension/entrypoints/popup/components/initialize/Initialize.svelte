@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { loadDatabase } from "@common/utils/data/database";
-	import { changeAPIKey, checkAPIPermission } from "@common/utils/functions/api";
+	import { changeAPIKey, checkAPIPermission } from "@common/utils/functions/api-key";
 	import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
 	import { Button } from "@svelte/components/ui/button";
 	import { Card, CardContent, CardHeader, CardTitle } from "@svelte/components/ui/card";

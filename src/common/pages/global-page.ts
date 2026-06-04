@@ -30,7 +30,7 @@ function handlePopoutClass() {
 	else document.documentElement.classList.remove("tt-popout");
 }
 
-async function handleTheme() {
+export async function handleTheme() {
 	await loadDatabase();
 
 	document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");

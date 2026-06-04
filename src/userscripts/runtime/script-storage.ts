@@ -13,11 +13,12 @@ export class TTScriptStorage extends TornToolsStorage {
 		} else if (key) {
 			return await GM.getValue(key);
 		} else {
-			throw new Error("Method not implemented.");
+			return await GM.getValues();
 		}
 	}
 
 	set(object: { [p: string]: any }): Promise<void> {
+		console.log("DKK set", object);
 		return GM.setValues(object);
 	}
 

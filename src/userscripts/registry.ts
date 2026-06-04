@@ -18,4 +18,12 @@ export const USERSCRIPTS: UserscriptDefinition[] = [
 		runAt: "document-start",
 		grants: ["GM.getValue", "GM.getValues", "GM.setValue", "GM.setValues", "GM_addStyle", "unsafeWindow"],
 	},
+	{
+		name: "Specialist Gyms",
+		description: "Calculate your stat ratio for activating your specialist gyms.",
+		version: "1.0.0",
+		matches: ["https://*.torn.com/gym.php*"],
+		runAt: "document-end",
+		grants: ["GM.getValue", "GM.getValues", "GM.setValue", "GM.setValues", "GM_addStyle", "unsafeWindow"],
+	},
 ];

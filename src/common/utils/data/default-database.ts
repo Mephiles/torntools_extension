@@ -1,3 +1,4 @@
+import { RUNTIME_INFORMATION } from "@common/utils/context";
 import type { DatabaseCache } from "@common/utils/data/cache";
 import type { StoredMigration } from "@common/utils/data/migrations";
 import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
@@ -26,8 +27,8 @@ export class DefaultSetting<T = never> {
 
 export const DEFAULT_STORAGE = {
 	version: {
-		current: new DefaultSetting<string>("string", () => browser.runtime.getManifest().version),
-		initial: new DefaultSetting<string>("string", () => browser.runtime.getManifest().version),
+		current: new DefaultSetting<string>("string", () => RUNTIME_INFORMATION.getVersion()),
+		initial: new DefaultSetting<string>("string", () => RUNTIME_INFORMATION.getVersion()),
 		oldVersion: new DefaultSetting<string | null>("string"),
 		showNotice: new DefaultSetting("boolean", true),
 	},
