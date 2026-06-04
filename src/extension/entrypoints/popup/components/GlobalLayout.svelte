@@ -17,7 +17,7 @@
 	let popupWidth = $state(432);
 
 	onMount(() => {
-		popupWidth = Math.min(432, screen.availWidth * 0.8);
+		popupWidth = Math.min(432, screen.availWidth);
 
 		const unsubscribeTheme = settingsStore.subscribe((settings) => {
 			const pageTheme = settings?.themes?.pages;

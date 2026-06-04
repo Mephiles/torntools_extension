@@ -8,7 +8,8 @@
 			"fixes": [{ "message": "Resolve an edge-case while force loading the database with an update already going on.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" },
-				{ "message": "More storage update listeners to support more live updates.", "contributor": "DeKleineKobini" }
+				{ "message": "More storage update listeners to support more live updates.", "contributor": "DeKleineKobini" },
+				{ "message": "Have the popup take up the entire screen for smaller devices.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
