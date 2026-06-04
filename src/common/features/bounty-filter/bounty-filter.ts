@@ -1,13 +1,13 @@
 import "./bounty-filter.css";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { createStatistics, type StatisticsResult } from "@common/utils/functions/filters";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseListener() {
 	new MutationObserver(async () => {

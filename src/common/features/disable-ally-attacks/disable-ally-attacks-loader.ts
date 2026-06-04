@@ -1,12 +1,13 @@
 import "./disable-ally-attacks.css";
 import { isAttackData } from "@common/pages/attack-loader-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@common/utils/functions/dom";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile } from "@common/utils/functions/torn";
-import { ExecutionTiming, FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 let closedOption = false;
 

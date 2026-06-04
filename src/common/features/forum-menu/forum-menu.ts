@@ -1,6 +1,6 @@
 import "./forum-menu.css";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
 import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
@@ -8,7 +8,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { toClipboard } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {

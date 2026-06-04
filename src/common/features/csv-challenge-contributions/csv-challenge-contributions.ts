@@ -1,4 +1,5 @@
 import { isInternalFaction } from "@common/pages/factions-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
@@ -7,7 +8,7 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listen
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHFillTable } from "@common/utils/icons/phosphor-icons";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import styles from "./csv-challenge-contributions.module.css";
 
 async function addCSVContainer() {

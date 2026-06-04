@@ -1,5 +1,5 @@
+import { ttStorage } from "@common/utils/context";
 import { type DatabaseSettings, initializeDatabase, storageListeners } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { writable } from "svelte/store";
 
 let storesInitialized = $state(false);

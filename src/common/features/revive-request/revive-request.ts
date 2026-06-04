@@ -1,4 +1,5 @@
 import "./revive-request.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { calculateRevivePrice, doRequestRevive } from "@common/utils/functions/api-external-revives";
 import { checkDevice, elementBuilder, isElement } from "@common/utils/functions/dom";
@@ -7,7 +8,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getPage, getSidebarData, getUserDetails, isFlying } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { PHFillStethoscope } from "@common/utils/icons/phosphor-icons";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 let observer: MutationObserver;
 let page: string;

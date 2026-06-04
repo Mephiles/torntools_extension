@@ -1,9 +1,9 @@
 import "./faction-quick-items.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import type { TornInternalUseItem } from "@common/pages/item-page";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { quick, settings, torndata } from "@common/utils/data/database";
 import type { QuickFactionItem } from "@common/utils/data/default-database";
-import { ttStorage } from "@common/utils/data/storage";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -14,7 +14,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
 import { getTornItemType, TORN_ITEMS } from "@common/utils/functions/torn-items";
 import { PHFillPlus, PHX } from "@common/utils/icons/phosphor-icons";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 let movingElement: Element | undefined;
 let isEditing = false;

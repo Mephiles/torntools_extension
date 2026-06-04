@@ -1,13 +1,13 @@
 import "./full-faction-infobox.css";
 import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {

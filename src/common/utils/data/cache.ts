@@ -1,4 +1,4 @@
-import { ttStorage } from "@common/utils/data/storage";
+import { ttStorage } from "@common/utils/context";
 
 export type DatabaseCache = { [key: string]: any };
 

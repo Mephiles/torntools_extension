@@ -1,6 +1,6 @@
 import "./npc-loot-times.css";
+import { ttStorage } from "@common/utils/context";
 import { npcs, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText, findParent, isElement } from "@common/utils/functions/dom";
 import { dropDecimals, type FormatTimeOptions, formatTime } from "@common/utils/functions/formatting";
@@ -9,7 +9,7 @@ import { countdownTimers } from "@common/utils/functions/timers";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { PHFillBell, PHFillBellSlash } from "@common/utils/icons/phosphor-icons";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showNPCs() {
 	await requireSidebar();

@@ -1,7 +1,8 @@
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { FEATURE_MANAGER } from "@common/utils/context";
+import { Feature } from "@features/feature";
 import "./travel-table.css";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings, torndata, userdata } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { ENABLE_TORN_INTEL_TABLE } from "@common/utils/feature-toggles";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@common/utils/functions/api.types";

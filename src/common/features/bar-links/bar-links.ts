@@ -3,7 +3,7 @@ import { settings } from "@common/utils/data/database";
 import { checkDevice } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isInCountry, isPageWithSidebar } from "@common/utils/functions/torn";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 const BAR_LINKS: Record<string, () => string> = {
 	"[class*='bar__'][class*='energy__']": () => {

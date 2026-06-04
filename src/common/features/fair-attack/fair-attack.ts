@@ -4,7 +4,7 @@ import { elementBuilder, findAllElements, getSearchParameters } from "@common/ut
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showFF() {
 	await requireElement("div[class*='textEntries___']");

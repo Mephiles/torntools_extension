@@ -1,6 +1,6 @@
 import { settings } from "@common/utils/data/database";
 import { executeScript } from "@common/utils/functions/dom";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 export default class NoOutsideLinkAlertFeature extends Feature {
 	constructor() {

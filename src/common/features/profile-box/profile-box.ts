@@ -1,8 +1,8 @@
 import "./profile-box.css";
+import { ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { attackHistory, filters, settings, stakeouts, userdata } from "@common/utils/data/database";
 import type { StakeoutData } from "@common/utils/data/default-database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createTable, stringCellRenderer } from "@common/utils/elements/table/table";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
@@ -17,7 +17,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { PHBoldArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@common/utils/icons/phosphor-icons";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { STATS } from "@features/profile-box/stats-list";
 import Sortable from "sortablejs";
 import type { UserHofResponse, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";

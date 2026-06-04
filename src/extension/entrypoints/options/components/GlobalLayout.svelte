@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {exposeDebugObjects} from "@common/utils/functions/pages-debug";
+	import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
 	import { Separator } from "@svelte/components/ui/separator";
 	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
@@ -7,7 +7,8 @@
 	import type { Snippet } from "svelte";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
-	import {BACKGROUND_SERVICE} from "../../../services/proxy-services";
+	import { registerExtensionContext } from "@/runtime/extension-context";
+	import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 	import { initializeDatabaseStore, settingsStore } from "../stores/database-store.svelte";
 
 	const { children }: { children: Snippet } = $props();
@@ -20,6 +21,7 @@
 	];
 
 	onMount(() => {
+		registerExtensionContext();
 		exposeDebugObjects(BACKGROUND_SERVICE);
 		initializeDatabaseStore();
 

@@ -1,12 +1,12 @@
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getSearchParameters, isTextNode } from "@common/utils/functions/dom";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialise() {
 	addXHRListener(async ({ detail: { page, ...detail } }) => {

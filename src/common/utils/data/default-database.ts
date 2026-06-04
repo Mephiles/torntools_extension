@@ -858,6 +858,38 @@ export const DEFAULT_STORAGE = {
 	migrations: new DefaultSetting<StoredMigration[]>("array", []),
 } as const;
 
+export function getDefaultStorage(defaultStorage: { [key: string]: any }) {
+	const newStorage: { [key: string]: any } = {};
+
+	for (const key in defaultStorage) {
+		if (typeof defaultStorage[key] === "object") {
+			const setting = defaultStorage[key];
+			if (setting instanceof DefaultSetting && "defaultValue" in setting) {
+				switch (typeof setting.defaultValue) {
+					case "function":
+						newStorage[key] = setting.defaultValue();
+						break;
+					case "boolean":
+					case "number":
+					case "string":
+					case "object":
+						newStorage[key] = setting.defaultValue;
+						break;
+					default:
+						newStorage[key] = setting.defaultValue;
+						break;
+				}
+			} else {
+				newStorage[key] = getDefaultStorage(defaultStorage[key]);
+			}
+		} else {
+			newStorage[key] = defaultStorage[key];
+		}
+	}
+
+	return newStorage;
+}
+
 type ExtractDefaultSettingType<T> = T extends DefaultSetting<infer U> ? U : T extends object ? { [K in keyof T]: ExtractDefaultSettingType<T[K]> } : T;
 
 export type DefaultStorageType = ExtractDefaultSettingType<typeof DEFAULT_STORAGE>;

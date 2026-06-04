@@ -1,5 +1,5 @@
+import { ttStorage } from "@common/utils/context";
 import type { DatabaseSettings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 
 export type NotificationSettings = DatabaseSettings["notifications"];
 export type NotificationTypes = NotificationSettings["types"];

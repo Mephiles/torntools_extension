@@ -1,6 +1,6 @@
 import "./stocks-filter.css";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, stockdata, userdata } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckboxDuo } from "@common/utils/elements/checkbox-duo/checkbox-duo";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -8,7 +8,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, type SpecialFilterValue } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function initialiseFilters() {
 	new MutationObserver((mutations) => {

@@ -3,7 +3,7 @@ import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { getUserAliasById } from "@features/user-alias/alias";
 
 async function addAlias() {

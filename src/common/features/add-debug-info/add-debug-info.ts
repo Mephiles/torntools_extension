@@ -2,7 +2,7 @@ import "./add-debug-info.css";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, executeScript, getHashParameters } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { browser } from "wxt/browser";
 
 let debugInfo: string | undefined;

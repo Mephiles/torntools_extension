@@ -1,11 +1,11 @@
 import "./profile-notes.css";
+import { ttStorage } from "@common/utils/context";
 import { notes, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addNotes() {
 	await requireElement(".profile-information-wrapper .box-value");

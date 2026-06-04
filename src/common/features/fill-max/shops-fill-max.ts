@@ -3,7 +3,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import styles from "./fill-max.module.css";
 
 async function addFillMax() {

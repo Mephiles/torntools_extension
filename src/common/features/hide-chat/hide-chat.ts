@@ -1,10 +1,10 @@
 import "./hide-chat.css";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
-import { ExecutionTiming, FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 function initializeListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED].push(async ({ settingsPanel }) => {

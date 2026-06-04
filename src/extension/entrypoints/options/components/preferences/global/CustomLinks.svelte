@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { ALL_AREAS, CUSTOM_LINKS_PRESET } from "@common/utils/functions/torn";
 	import type { SavedCustomLink } from "@features/custom-links/custom-links";
 	import { Button } from "@svelte/components/ui/button";

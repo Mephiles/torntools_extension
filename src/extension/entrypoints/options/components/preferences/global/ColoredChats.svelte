@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { CHAT_TITLE_COLORS } from "@common/utils/functions/torn";
 	import type { ColoredChatOption } from "@features/colored-chat/colored-chat";
 	import { Button } from "@svelte/components/ui/button";

@@ -4,7 +4,7 @@ import { changeAPIKey } from "@common/utils/functions/api";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function executeFeature() {
 	const searchParams = getSearchParameters();

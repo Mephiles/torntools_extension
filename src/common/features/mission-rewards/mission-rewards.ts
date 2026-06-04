@@ -1,4 +1,5 @@
 import "./mission-rewards.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
@@ -7,7 +8,7 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listen
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { findItemInList } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.MISSION_REWARDS].push(async () => {

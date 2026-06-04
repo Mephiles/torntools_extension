@@ -1,6 +1,6 @@
 import { settings } from "@common/utils/data/database";
 import { isFlying } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 let timerUpdateInterval: number | undefined;
 

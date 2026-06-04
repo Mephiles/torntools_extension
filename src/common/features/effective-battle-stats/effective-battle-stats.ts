@@ -5,7 +5,7 @@ import { checkDevice, elementBuilder, findElementWithText } from "@common/utils/
 import { convertToNumber, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showEffectiveBattleStats() {
 	await requireContent();

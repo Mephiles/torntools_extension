@@ -1,6 +1,6 @@
 import "./specialist-gyms.css";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createSelect } from "@common/utils/elements/select/select";
 import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -8,7 +8,7 @@ import { formatNumber } from "@common/utils/functions/formatting";
 import { observeChain } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { toRecord } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const NONE = "none";
 type NONE = typeof NONE;

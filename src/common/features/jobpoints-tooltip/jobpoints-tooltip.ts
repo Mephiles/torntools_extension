@@ -1,10 +1,12 @@
+import { FEATURE_MANAGER } from "@common/utils/context";
+import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement, requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { sleep } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addJobPointsTooltip() {
 	await requireSidebar();

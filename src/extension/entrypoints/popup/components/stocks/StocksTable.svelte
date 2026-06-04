@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { ttStorage } from "@common/utils/context";
 	import type {DatabaseSettings, DatabaseStockdata, DatabaseUserdata} from "@common/utils/data/database";
-	import { ttStorage } from "@common/utils/data/storage";
 	import type {TornV1Stock} from "@common/utils/functions/api-v1.types";
 	import { applyPlural, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
 	import { getStockBoughtPrice } from "@common/utils/functions/torn";

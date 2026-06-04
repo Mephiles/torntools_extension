@@ -1,6 +1,6 @@
 import "./jail-filter.css";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, quick, settings, userdata } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -12,7 +12,7 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listen
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHBoldArrowClockwise } from "@common/utils/icons/phosphor-icons";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseFilters() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.JAIL_SWITCH_PAGE].push(async () => {

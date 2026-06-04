@@ -3,65 +3,13 @@ import { checkDevice, elementBuilder, findAllElements } from "@common/utils/func
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
 import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
-import "./feature-manager.css";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
 import { SOURCE_SERVICE } from "@extension/services/proxy-services";
+import type { FeatureManager } from "@features/feature-manager";
+import "./extension-feature-manager.css";
+import { ExecutionTiming, type Feature } from "@features/feature";
 
 type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
-
-export enum ExecutionTiming {
-	IMMEDIATELY = "IMMEDIATELY",
-	DOM_INTERACTIVE = "DOM_INTERACTIVE",
-	CONTENT_LOADED = "CONTENT_LOADED",
-}
-
-export abstract class Feature {
-	readonly name: string;
-	readonly scope: string;
-	readonly executionTiming: ExecutionTiming;
-
-	protected constructor(name: string, scope: string, executionTiming: ExecutionTiming = ExecutionTiming.CONTENT_LOADED) {
-		this.name = name;
-		this.scope = scope;
-		this.executionTiming = executionTiming;
-	}
-
-	precondition(): boolean | Promise<boolean> {
-		return true;
-	}
-
-	abstract isEnabled(): boolean;
-	initialise(): void {}
-	// biome-ignore lint/correctness/noUnusedFunctionParameters: Meant to be overridden, so here as a placeholder.
-	execute(liveReload?: boolean): void | Promise<void> {}
-	cleanup(): void {}
-
-	storageKeys(): string[] {
-		return [];
-	}
-
-	requirements(): (boolean | string) | Promise<boolean | string> {
-		return true;
-	}
-
-	shouldTriggerEvents(): boolean {
-		return false;
-	}
-
-	shouldLiveReload(): boolean {
-		return false;
-	}
-
-	requiresScreenInformation() {
-		return true;
-	}
-}
-
-export abstract class DisabledUntilNoticeFeature extends Feature {
-	requirements(): (boolean | string) | Promise<boolean | string> {
-		return "Disabled until further notice.";
-	}
-}
 
 type FeatureFn = FeatureSingleFn;
 
@@ -71,7 +19,7 @@ interface ResultOptions {
 	message?: string;
 }
 
-class FeatureManager {
+export class ExtensionFeatureManager implements FeatureManager {
 	private readonly logPadding: string;
 	private readonly containerID: string;
 	private container: null | HTMLElement;
@@ -549,5 +497,3 @@ class FeatureManager {
 		return feature.isEnabled();
 	}
 }
-
-export const FEATURE_MANAGER = new FeatureManager();

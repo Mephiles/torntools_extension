@@ -1,39 +1,15 @@
-import { api, type Database, type DatabaseKey, type RecursivePartial, type Writable } from "@common/utils/data/database";
-import { DEFAULT_STORAGE, DefaultSetting } from "@common/utils/data/default-database";
+import type { Database, DatabaseKey, RecursivePartial, Writable } from "@common/utils/data/database";
 
-class TornToolsStorage {
-	get(): Promise<Database>;
-	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
-	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
-	get(key?: DatabaseKey | DatabaseKey[]) {
-		return new Promise(async (resolve) => {
-			if (Array.isArray(key)) {
-				const data = await browser.storage.local.get(key);
+export abstract class TornToolsStorage {
+	abstract get(): Promise<Database>;
+	abstract get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	abstract get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 
-				resolve(key.map((i) => data[i]));
-			} else if (key) {
-				const data = await browser.storage.local.get([key]);
+	abstract set(object: { [key: string]: any }): Promise<void>;
 
-				resolve(data[key]);
-			} else {
-				const data = await browser.storage.local.get(null);
+	abstract remove(key: string | string[]): Promise<void>;
 
-				resolve(data);
-			}
-		});
-	}
-
-	set(object: { [key: string]: any }) {
-		return browser.storage.local.set(object);
-	}
-
-	remove(key: string | string[]) {
-		return browser.storage.local.remove(Array.isArray(key) ? key : [key]);
-	}
-
-	clear() {
-		return browser.storage.local.clear();
-	}
+	abstract clear(): Promise<void>;
 
 	change(object: RecursivePartial<Writable<Database>>): Promise<void> {
 		return new Promise(async (resolve) => {
@@ -69,69 +45,8 @@ class TornToolsStorage {
 		return parent;
 	}
 
-	reset(): Promise<void>;
-	reset(key: "attackHistory" | "stakeouts"): Promise<void>;
-	reset(key?: "attackHistory" | "stakeouts"): Promise<void> {
-		return new Promise(async (resolve) => {
-			if (["attackHistory", "stakeouts"].includes(key)) {
-				await this.set({ [key]: getDefaultStorage(DEFAULT_STORAGE)[key] });
+	abstract reset(): Promise<void>;
+	abstract reset(key: "attackHistory" | "stakeouts"): Promise<void>;
 
-				resolve();
-			} else {
-				const apiKey = api ? api.torn.key : undefined;
-
-				await this.clear();
-				await this.set(getDefaultStorage(DEFAULT_STORAGE));
-				await this.change({ api: { torn: { key: apiKey } } });
-
-				console.log("Storage cleared");
-				console.log("New storage", await this.get());
-
-				resolve();
-			}
-
-			function getDefaultStorage(defaultStorage: { [key: string]: any }) {
-				const newStorage: { [key: string]: any } = {};
-
-				for (const key in defaultStorage) {
-					if (typeof defaultStorage[key] === "object") {
-						const setting = defaultStorage[key];
-						if (setting instanceof DefaultSetting && "defaultValue" in setting) {
-							switch (typeof setting.defaultValue) {
-								case "function":
-									newStorage[key] = setting.defaultValue();
-									break;
-								case "boolean":
-								case "number":
-								case "string":
-								case "object":
-									newStorage[key] = setting.defaultValue;
-									break;
-								default:
-									newStorage[key] = setting.defaultValue;
-									break;
-							}
-						} else {
-							newStorage[key] = getDefaultStorage(defaultStorage[key]);
-						}
-					} else {
-						newStorage[key] = defaultStorage[key];
-					}
-				}
-
-				return newStorage;
-			}
-		});
-	}
-
-	async getSize() {
-		let size: number;
-
-		if (browser.storage.local.getBytesInUse) size = await browser.storage.local.getBytesInUse();
-		else size = JSON.stringify(await this.get(null)).length;
-
-		return size;
-	}
+	abstract getSize(): Promise<number>;
 }
-
-export const ttStorage = new TornToolsStorage();

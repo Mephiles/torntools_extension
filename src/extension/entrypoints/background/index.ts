@@ -1,3 +1,4 @@
+import { ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import {
 	type Database,
@@ -9,19 +10,20 @@ import {
 	version,
 	type Writable,
 } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
 import { notificationRelations, sendNotifications } from "@extension/entrypoints/background/notifications";
 import { showIconBars, timedUpdates } from "@extension/entrypoints/background/updates";
 import { registerService } from "@webext-core/proxy-service";
-import type { Browser } from "wxt/browser";
+import { type Browser, browser } from "wxt/browser";
+import { registerExtensionContext } from "@extension/runtime/extension-context";
 import { BackgroundService } from "@/services/BackgroundService";
-import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/services/proxy-service-keys";
-import { SourceService } from "@/services/SourceService";
+import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@extension/services/proxy-service-keys";
+import { SourceService } from "@extension/services/SourceService";
 
 type Alarm = Browser.alarms.Alarm;
 
 function onInitialisation() {
+	registerExtensionContext();
 	browser.alarms.getAll().then((currentAlarms) => {
 		if (currentAlarms.length === Object.keys(ALARM_NAMES).length) return;
 

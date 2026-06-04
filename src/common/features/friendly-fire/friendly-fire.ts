@@ -5,7 +5,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { isIntNumber } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addWarning() {
 	if (document.querySelector(".tt-ally-warning")) document.querySelector(".tt-ally-warning").remove();

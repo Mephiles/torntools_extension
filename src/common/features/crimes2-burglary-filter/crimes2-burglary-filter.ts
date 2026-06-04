@@ -1,7 +1,7 @@
 import "./crimes2-burglary-filter.css";
 import { CRIMES2 } from "@common/pages/crimes2-page";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { createFilterSection, createStatistics } from "@common/utils/functions/filters";
@@ -9,7 +9,7 @@ import { convertToNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@extension/context/feature-manager";
+import { DisabledUntilNoticeFeature } from "@features/feature";
 
 let CRIMES2_ROWS_START_Y = 64;
 

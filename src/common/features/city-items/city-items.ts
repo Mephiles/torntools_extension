@@ -1,6 +1,6 @@
 import "./city-items.css";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings, torndata } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
@@ -9,7 +9,7 @@ import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { TORN_ITEMS } from "@common/utils/functions/torn-items";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import type { TornItem } from "tornapi-typescript";
 
 interface CityItem {

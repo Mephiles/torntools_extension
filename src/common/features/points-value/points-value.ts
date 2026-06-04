@@ -5,7 +5,7 @@ import { checkDevice, executeScript, findAllElements, isElement } from "@common/
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function setTitleAttributes() {
 	findAllElements(".tt-points-value > span").forEach((element) => {

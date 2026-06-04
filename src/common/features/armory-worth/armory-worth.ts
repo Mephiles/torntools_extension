@@ -1,4 +1,5 @@
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { FEATURE_MANAGER } from "@common/utils/context";
+import { Feature } from "@features/feature";
 import "./armory-worth.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import { ttCache } from "@common/utils/data/cache";

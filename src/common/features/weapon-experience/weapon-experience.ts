@@ -3,7 +3,7 @@ import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const observers: MutationObserver[] = [];
 

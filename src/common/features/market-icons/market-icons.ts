@@ -4,7 +4,7 @@ import { checkDevice, elementBuilder, findAllElements } from "@common/utils/func
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireItemsLoaded } from "@common/utils/functions/requires";
 import { getPageStatus, isSellable } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseMarketIcons() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(showMarketIcons);

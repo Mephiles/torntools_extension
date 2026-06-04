@@ -8,8 +8,8 @@ import { requireElement, requireSidebar } from "@common/utils/functions/requires
 import { countTimers } from "@common/utils/functions/timers";
 import { getPage, isPageWithSidebar } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
 import { ACHIEVEMENTS, type Achievement } from "@features/achievements/achievement-list";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 interface EnrichedGoal {
 	score: number;

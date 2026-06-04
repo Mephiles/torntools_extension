@@ -2,7 +2,7 @@ import { settings } from "@common/utils/data/database";
 import { findAllElements, isElement } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 let observer: MutationObserver | undefined;
 

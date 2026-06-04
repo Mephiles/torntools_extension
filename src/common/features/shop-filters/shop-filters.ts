@@ -1,13 +1,13 @@
 import "./shop-filters.css";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings, torndata } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createCheckboxList } from "@common/utils/elements/checkbox-list/checkbox-list";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 type ShopFilterId = "hideLoss" | "hideUnder100";
 

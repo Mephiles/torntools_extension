@@ -1,6 +1,6 @@
 import "./trade-timer.css";
+import { ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
 import { dropDecimals, formatTime } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -14,7 +14,7 @@ import {
 	SELECTOR_CHAT_V3__SEND_BUTTON,
 	SELECTOR_CHAT_V3__TRADE_CHAT,
 } from "@common/utils/global/selectors/chatSelectors";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialise() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(async ({ chat }) => {

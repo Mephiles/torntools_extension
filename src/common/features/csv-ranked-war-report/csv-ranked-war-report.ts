@@ -5,7 +5,7 @@ import { elementBuilder, findAllElements, getSearchParameters } from "@common/ut
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { PHFillTable } from "@common/utils/icons/phosphor-icons";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import styles from "./csv-ranked-war-report.module.css";
 
 async function addCSVContainer() {

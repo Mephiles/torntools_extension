@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { Switch } from "@svelte/components/ui/switch";
 	import { toast } from "svelte-sonner";
 	import { attackHistoryStore } from "../../stores/database-store.svelte";

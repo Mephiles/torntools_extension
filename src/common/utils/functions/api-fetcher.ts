@@ -1,5 +1,5 @@
+import { ttStorage } from "@common/utils/context";
 import { api, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { getBadgeText, setBadge } from "@common/utils/functions/extension";
 import { getRFC } from "@common/utils/functions/torn";
 import { SCRIPT_TYPE, TO_MILLIS } from "@common/utils/functions/utilities";

@@ -1,11 +1,11 @@
 import "./sidebar-notes.css";
+import { ttStorage } from "@common/utils/context";
 import { notes, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText, findParent, isHTMLElement } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showNotes() {
 	await requireSidebar();

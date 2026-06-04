@@ -4,7 +4,7 @@ import { findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { isAbroad, updateReactInput } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function autoFillInputs() {
 	await requireElement("[class*='stockTableWrapper___'] [class*='row___'] [data-tt-content-type]");

@@ -1,9 +1,9 @@
 import "./quick-items.css";
 import { isUseItem } from "@common/pages/item-page";
+import { ttStorage } from "@common/utils/context";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import { quick, settings, torndata } from "@common/utils/data/database";
 import type { QuickItem } from "@common/utils/data/default-database";
-import { ttStorage } from "@common/utils/data/storage";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -23,7 +23,7 @@ import {
 } from "@common/utils/functions/torn";
 import { getTornItemName, getTornItemType, TORN_ITEMS } from "@common/utils/functions/torn-items";
 import { PHPlus, PHX } from "@common/utils/icons/phosphor-icons";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@features/opened-supply-pack-value/opened-supply-pack-value";
 
 let movingElement: Element | undefined;

@@ -4,6 +4,7 @@
  * Applicable to almost everything beyond this point.
  */
 
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -11,7 +12,7 @@ import { elementBuilder, findAllElements, isElement } from "@common/utils/functi
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { getPage } from "@common/utils/functions/torn";
 import { isTabFocused } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { type ScouterService, scouterService } from "@features/ff-scouter/ff-scouter";
 
 let SCOUTER_SERVICE: ScouterService;

@@ -3,7 +3,7 @@ import { settings, version } from "@common/utils/data/database";
 import { checkDevice, elementBuilder, findElementWithText } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showNotice() {
 	await requireSidebar();

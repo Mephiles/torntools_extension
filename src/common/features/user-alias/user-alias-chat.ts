@@ -1,4 +1,5 @@
 import "./user-alias.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -16,7 +17,7 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 	SELECTOR_CHAT_V3__MINIMIZED_NAME,
 } from "@common/utils/global/selectors/chatSelectors";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { getUserAliasById, getUserAliasByName } from "@features/user-alias/alias";
 
 async function addListeners() {

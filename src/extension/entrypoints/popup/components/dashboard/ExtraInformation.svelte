@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { DatabaseSettings, DatabaseUserdata } from "@common/utils/data/database";
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
+	import type {DatabaseSettings, DatabaseUserdata} from "@common/utils/data/database";
 	import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 	import { TO_MILLIS } from "@common/utils/functions/utilities";
 	import { settingsStore, userdataStore } from "@extension/entrypoints/popup/stores/database-store.svelte";

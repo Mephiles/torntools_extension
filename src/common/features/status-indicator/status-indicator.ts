@@ -3,7 +3,7 @@ import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addIndicator() {
 	const basicInfo = await requireElement(".profile-container .row.basic-info > *:first-child");

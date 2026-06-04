@@ -2,7 +2,7 @@ import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, mobile, tabletVertical } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import styles from "./fill-max.module.css";
 
 const SELECTOR_MOBILE_LIST = "[data-testid='bazaar-items']";

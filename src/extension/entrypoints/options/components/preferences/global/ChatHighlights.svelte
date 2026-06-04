@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { HIGHLIGHT_PLACEHOLDERS } from "@common/utils/functions/torn";
 	import type { SavedHighlight } from "@features/chat-highlight/chat-highlight";
 	import { Button } from "@svelte/components/ui/button";

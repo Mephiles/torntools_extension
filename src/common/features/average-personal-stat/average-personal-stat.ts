@@ -1,7 +1,7 @@
 import { settings } from "@common/utils/data/database";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 function init() {
 	addFetchListener((event) => {

@@ -1,3 +1,4 @@
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
 import { withoutEndPunctuation } from "@common/utils/functions/formatting";
@@ -13,7 +14,7 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SELF,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@common/utils/global/selectors/chatSelectors";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 export interface SavedHighlight {
 	name: string;

@@ -1,12 +1,12 @@
 import "./gym-disable-stats.css";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { sleep } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.GYM_LOAD].push(async () => {

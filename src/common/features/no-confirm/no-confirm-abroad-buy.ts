@@ -1,6 +1,6 @@
 import { settings } from "@common/utils/data/database";
 import { isAbroad } from "@common/utils/functions/torn";
-import { DisabledUntilNoticeFeature } from "@extension/context/feature-manager";
+import { DisabledUntilNoticeFeature } from "@features/feature";
 
 export default class NoConfirmAbroadBuyFeature extends DisabledUntilNoticeFeature {
 	constructor() {

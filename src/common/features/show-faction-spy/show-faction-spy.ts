@@ -1,6 +1,7 @@
 import { settings } from "@common/utils/data/database";
 import "./show-faction-spy.css";
 import { isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { TornstatsFactionSpyResponse, YATASpyResponse } from "@common/utils/functions/api.types";
@@ -9,7 +10,7 @@ import { elementBuilder, findAllElements, mobile } from "@common/utils/functions
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function registerListeners() {
 	window.addEventListener("hashchange", async (e) => {

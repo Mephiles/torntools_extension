@@ -6,7 +6,7 @@ import { requireSidebar } from "@common/utils/functions/requires";
 import { countdownTimers } from "@common/utils/functions/timers";
 import { isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showTimer() {
 	await requireSidebar();

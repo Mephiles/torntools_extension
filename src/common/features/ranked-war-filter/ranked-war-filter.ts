@@ -1,6 +1,6 @@
 import { filters, settings } from "@common/utils/data/database";
 import "./ranked-war-filter.css";
-import { ttStorage } from "@common/utils/data/storage";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -9,7 +9,7 @@ import { createFilterEnabledFunnel, createFilterSection, createStatistics } from
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, RANK_TRIGGERS } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { hasStatsEstimatesLoaded } from "@features/stats-estimate/stats-estimate";
 
 function initialiseFilters() {

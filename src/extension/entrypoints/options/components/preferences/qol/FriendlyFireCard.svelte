@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { Button } from "@svelte/components/ui/button";
 	import { Input } from "@svelte/components/ui/input";
 	import PlusIcon from "phosphor-svelte/lib/PlusIcon";

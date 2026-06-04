@@ -1,10 +1,10 @@
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { PHEye, PHEyeSlash } from "@common/utils/icons/phosphor-icons";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import styles from "./only-new-feed.module.css";
 
 export interface StoredHiddenFeeds {

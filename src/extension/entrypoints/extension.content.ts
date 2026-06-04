@@ -1,4 +1,5 @@
-import { scriptManager } from "@extension/context/script-manager";
+import { registerExtensionContext } from "@/runtime/extension-context";
+import { scriptManager } from "@/runtime/script-manager";
 
 // noinspection JSUnusedGlobalSymbols
 export default defineContentScript({
@@ -15,6 +16,7 @@ export default defineContentScript({
 	runAt: "document_start",
 
 	main() {
+		registerExtensionContext();
 		scriptManager();
 	},
 });

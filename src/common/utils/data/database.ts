@@ -1,7 +1,7 @@
+import { ttStorage } from "@common/utils/context";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@common/utils/data/default-database";
 import { executeMigrationScripts } from "@common/utils/data/migrations";
-import { ttStorage } from "@common/utils/data/storage";
 import { sleep } from "@common/utils/functions/utilities";
 import { browser } from "wxt/browser";
 
@@ -358,4 +358,8 @@ export function setTorndata(data: DatabaseTorndata) {
 
 export function setNotificationHistory(data: DatabaseNotificationHistory) {
 	notificationHistory = data;
+}
+
+export function setLocaldata(data: DatabaseLocaldata) {
+	localdata = data;
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { ttStorage } from "@common/utils/context";
 	import type { DatabaseFactionStakeouts, DatabaseSettings } from "@common/utils/data/database";
-	import { ttStorage } from "@common/utils/data/storage";
 	import { factionStakeoutsStore, settingsStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";
