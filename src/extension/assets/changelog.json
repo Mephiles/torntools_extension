@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [],
-			"changes": [{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" },
+				{ "message": "More storage update listeners to support more live updates.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": [
 				{ "message": "Refactor the data fetching function completely in preparation of future updates.", "contributor": "DeKleineKobini" },

@@ -95,6 +95,10 @@ interface StorageListeners {
 	api: StorageListener<DatabaseApi>[];
 	npcs: StorageListener<DatabaseNpcs>[];
 	stockdata: StorageListener<DatabaseStockdata>[];
+	notificationHistory: StorageListener<DatabaseNotificationHistory>[];
+	notifications: StorageListener<DatabaseNotifications>[];
+	quick: StorageListener<DatabaseQuick>[];
+	migrations: StorageListener<DatabaseMigrations>[];
 }
 
 export const storageListeners: StorageListeners = {
@@ -113,6 +117,10 @@ export const storageListeners: StorageListeners = {
 	api: [],
 	npcs: [],
 	stockdata: [],
+	notificationHistory: [],
+	notifications: [],
+	quick: [],
+	migrations: [],
 } as const;
 
 export async function loadDatabase(force = false): Promise<Omit<Database, "time">> {
@@ -317,6 +325,9 @@ function initializeDatabaseListener() {
 						break;
 					case "notificationHistory":
 						notificationHistory = changes.notificationHistory.newValue as DatabaseNotificationHistory;
+						break;
+					case "notifications":
+						notifications = changes.notifications.newValue as DatabaseNotifications;
 						break;
 					case "factionStakeouts":
 						factionStakeouts = changes.factionStakeouts.newValue as DatabaseFactionStakeouts;

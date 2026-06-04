@@ -41,6 +41,7 @@ export function initializeDatabaseStore() {
 	storageListeners.stakeouts.push((_oldStakeouts, newStakeouts) => stakeoutsStore.set(newStakeouts));
 	storageListeners.factionStakeouts.push((_oldStakeouts, newStakeouts) => factionStakeoutsStore.set(newStakeouts));
 	storageListeners.localdata.push((_oldLocaldata, newLocaldata) => localdataStore.set(newLocaldata));
+	storageListeners.notificationHistory.push((_oldNotificationHistory, newNotificationHistory) => notificationHistoryStore.set(newNotificationHistory));
 }
 
 export async function loadDatabaseStores() {
