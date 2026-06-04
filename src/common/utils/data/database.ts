@@ -148,7 +148,7 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 		};
 	} else if ((databaseLoaded && !settings) || databaseLoading) {
 		await sleep(75);
-		return await loadDatabase();
+		return await loadDatabase(force);
 	}
 
 	databaseLoading = true;
