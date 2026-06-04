@@ -2,7 +2,6 @@ import type { DatabaseCache } from "@common/utils/data/cache";
 import type { StoredMigration } from "@common/utils/data/migrations";
 import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
 import type { SpecialFilterValue } from "@common/utils/functions/filters";
-import type { InternalPageTheme } from "@common/utils/functions/pages";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@extension/entrypoints/background/updates";
 import type { SavedHighlight } from "@features/chat-highlight/chat-highlight";
 import type { ColoredChatOption } from "@features/colored-chat/colored-chat";
@@ -1022,3 +1021,5 @@ export interface WeaponBonusFilter {
 	bonus: string;
 	value: number;
 }
+
+export type InternalPageTheme = "default" | "dark" | "light";

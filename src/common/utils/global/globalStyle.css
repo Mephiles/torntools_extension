@@ -227,10 +227,6 @@
 	height: 34px;
 }
 
-.tt-message-box .tt-icon-info {
-	margin-top: 9px;
-}
-
 .tt-message-box .tt-message-wrap {
 	background-color: var(--default-bg-panel-active-color);
 	background: var(--info-msg-bg-gradient);
@@ -306,12 +302,6 @@ body[data-layout="hospital"] #sidebarroot .pill {
 
 #sidebarroot .pill:hover {
 	background-color: var(--default-bg-panel-active-color) !important;
-}
-
-.tt-icon-info {
-	height: 18px;
-	width: 10px;
-	background: url(https://www.torn.com/images/v2/main/info_msg/ordinary_importance.png) left top no-repeat;
 }
 
 /**

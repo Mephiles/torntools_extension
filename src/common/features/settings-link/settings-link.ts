@@ -2,7 +2,6 @@ import "./settings-link.css";
 import { settings } from "@common/utils/data/database";
 import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
-import { getPageTheme } from "@common/utils/functions/pages";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { PHBoldArrowBendUpLeft } from "@common/utils/icons/phosphor-icons";
@@ -42,6 +41,15 @@ async function addLink() {
 function generateFrame() {
 	if (document.getElementById("tt-settings-iframe")) return;
 
+	const theme =
+		settings.themes.pages === "default"
+			? window.matchMedia
+				? window.matchMedia("(prefers-color-scheme: dark)").matches
+					? "dark"
+					: "light"
+				: "light"
+			: settings.themes.pages;
+
 	const ttSettingsIframe = elementBuilder({
 		type: "iframe",
 		id: "tt-settings-iframe",
@@ -52,7 +60,7 @@ function generateFrame() {
 		type: "div",
 		class: "tt-back",
 		children: [PHBoldArrowBendUpLeft(), elementBuilder({ type: "span", id: "back", text: "Back to TORN" })],
-		dataset: { internalTheme: getPageTheme() },
+		dataset: { internalTheme: theme },
 	});
 
 	document.body.append(returnToTorn, ttSettingsIframe);
