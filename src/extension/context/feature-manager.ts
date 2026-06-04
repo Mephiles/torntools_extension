@@ -362,7 +362,7 @@ class FeatureManager {
 		}
 
 		function rec(parent: { [key: string]: any }, path: string[]) {
-			if (!parent) return false;
+			if (!parent) return undefined;
 			if (path.length > 1) return rec(parent[path[0]], path.slice(1));
 
 			return parent[path[0]];
