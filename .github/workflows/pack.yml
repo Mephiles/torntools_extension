@@ -59,7 +59,7 @@ jobs:
                   sudo apt-get install -y jq moreutils
 
                   # Setup variables
-                  changelogPath="./extension/assets/changelog.json"
+                  changelogPath="./src/extension/assets/changelog.json"
                   releaseBodyFile="./releaseBody.md"
                   tmpFile="tmp.tmp"
                   firstEntry="$(jq -j ".[0]" "${changelogPath}")"
@@ -175,7 +175,7 @@ jobs:
                   tmpFile="tmp.tmp"
                   readmePath="README.md"
                   packagePath="./package.json"
-                  changelogPath="./extension/assets/changelog.json"
+                  changelogPath="./src/extension/assets/changelog.json"
                   newVersionMajor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[0] | tonumber | .")"
                   newVersionMinor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[1] | tonumber | .")"
                   newVersionBuild="$(echo -n "\"${version}\"" | jq -j "split(\".\")[2] | tonumber | . + 1")"

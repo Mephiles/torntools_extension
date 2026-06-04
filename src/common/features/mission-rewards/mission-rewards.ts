@@ -1,0 +1,129 @@
+import "./mission-rewards.css";
+import { settings, torndata, userdata } from "@common/utils/data/database";
+import { hasAPIData } from "@common/utils/functions/api";
+import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { formatNumber } from "@common/utils/functions/formatting";
+import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { requireElement } from "@common/utils/functions/requires";
+import { getPageStatus } from "@common/utils/functions/torn";
+import { findItemInList } from "@common/utils/functions/utilities";
+import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+
+function initialise() {
+	CUSTOM_LISTENERS[EVENT_CHANNELS.MISSION_REWARDS].push(async () => {
+		if (!FEATURE_MANAGER.isEnabled(MissionRewardsFeature)) return;
+
+		await showRewards();
+	});
+}
+
+async function showRewards() {
+	await requireElement("ul.rewards-list li");
+
+	const credits = parseInt(document.querySelector(".total-mission-points").textContent.replace(",", ""));
+
+	for (const reward of findAllElements(".rewards-list li")) {
+		const information = JSON.parse(reward.dataset.ammoInfo);
+		const { points, basicType: type } = information;
+
+		// Show if you can afford it.
+		const actionsWrap = reward.querySelector(".act-wrap");
+		actionsWrap.classList.add("tt-mission-reward", credits < points ? "not-affordable" : "affordable");
+
+		if (type === "Ammo") {
+			const { title: size, ammoType } = information;
+
+			const found = findItemInList(userdata.ammo, { size, type: ammoType });
+			const owned = found ? found.quantity : 0;
+
+			actionsWrap.insertBefore(
+				elementBuilder({
+					type: "div",
+					children: [
+						elementBuilder({
+							type: "div",
+							class: "tt-mission-reward-owned",
+							text: "Owned: ",
+							children: [elementBuilder({ type: "span", text: formatNumber(owned) })],
+						}),
+					],
+				}),
+				actionsWrap.querySelector(".actions"),
+			);
+			reward.classList.add("tt-modified");
+		} else if (type === "Item") {
+			const { image: id, amount } = information;
+			if (!id || typeof id !== "number") continue;
+
+			const value = torndata.itemsMap[id].value.market_price;
+			const totalValue = amount * value;
+
+			reward
+				.querySelector(".img-wrap")
+				.appendChild(elementBuilder({ type: "span", class: "tt-mission-reward-individual", text: formatNumber(value, { currency: true }) }));
+
+			actionsWrap.insertBefore(
+				elementBuilder({
+					type: "div",
+					children: [
+						elementBuilder({
+							type: "div",
+							text: "Total value: ",
+							class: "tt-mission-reward-total",
+							children: [
+								elementBuilder({
+									type: "span",
+									text: formatNumber(totalValue, { shorten: totalValue > 10e6 ? 2 : true, currency: true }),
+								}),
+							],
+						}),
+						elementBuilder({
+							type: "div",
+							text: "Credit value: ",
+							class: "tt-mission-reward-points",
+							children: [
+								elementBuilder({
+									type: "span",
+									text: formatNumber(totalValue / points, { currency: true }),
+								}),
+							],
+						}),
+					],
+				}),
+				actionsWrap.querySelector(".actions"),
+			);
+			reward.classList.add("tt-modified");
+		}
+	}
+}
+
+export default class MissionRewardsFeature extends Feature {
+	constructor() {
+		super("Mission Rewards", "missions");
+	}
+
+	precondition() {
+		return getPageStatus().access;
+	}
+
+	isEnabled() {
+		return settings.pages.missions.rewards;
+	}
+
+	initialise() {
+		initialise();
+	}
+
+	async execute() {
+		await showRewards();
+	}
+
+	storageKeys() {
+		return ["settings.pages.missions.rewards"];
+	}
+
+	async requirements() {
+		if (!hasAPIData() || !settings.apiUsage.user.ammo) return "No API access.";
+		return true;
+	}
+}

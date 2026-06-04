@@ -1,0 +1,31 @@
+import { settings } from "@common/utils/data/database";
+import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import "./align-left.css";
+
+export default class AlignLeftFeature extends Feature {
+	constructor() {
+		super("Align Left", "global", ExecutionTiming.IMMEDIATELY);
+	}
+
+	isEnabled() {
+		return settings.pages.global.alignLeft;
+	}
+
+	execute() {
+		if (document.title !== "Torn - Just a moment...") {
+			document.documentElement.classList.add("tt-align-left");
+		}
+	}
+
+	cleanup() {
+		document.documentElement.classList.remove("tt-align-left");
+	}
+
+	storageKeys() {
+		return ["settings.pages.global.alignLeft"];
+	}
+
+	requiresScreenInformation(): boolean {
+		return false;
+	}
+}
