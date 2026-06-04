@@ -951,7 +951,7 @@ export default class TravelTableFeature extends Feature {
 		if (!hasAPIData()) return "No API data!";
 		else if (ENABLE_TORN_INTEL_TABLE && !settings.external.yata && !settings.external.prometheus && !settings.external.tornintel)
 			return "Prometheus, Torn Intel and YATA not enabled";
-		else if (!settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
+		else if (!ENABLE_TORN_INTEL_TABLE && !settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
 		else if (isCaptcha()) return "Captcha present.";
 
 		return true;
