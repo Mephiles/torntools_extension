@@ -1,12 +1,9 @@
-import type { MonkeyUserScript } from "vite-plugin-monkey";
-
 export interface UserscriptDefinition {
 	name: string;
 	description: string;
 	version: string;
 	matches: string[];
 	runAt: "document-start" | "document-body" | "document-end" | "document-idle";
-	grants?: MonkeyUserScript["grant"];
 }
 
 export const USERSCRIPTS: UserscriptDefinition[] = [
@@ -16,7 +13,6 @@ export const USERSCRIPTS: UserscriptDefinition[] = [
 		version: "1.0.0",
 		matches: ["https://*.torn.com/forums.php*"],
 		runAt: "document-start",
-		grants: ["GM.getValue", "GM.getValues", "GM.setValue", "GM.setValues", "GM_addStyle", "unsafeWindow"],
 	},
 	{
 		name: "Specialist Gyms",
@@ -24,6 +20,5 @@ export const USERSCRIPTS: UserscriptDefinition[] = [
 		version: "1.0.0",
 		matches: ["https://*.torn.com/gym.php*"],
 		runAt: "document-end",
-		grants: ["GM.getValue", "GM.getValues", "GM.setValue", "GM.setValues", "GM_addStyle", "unsafeWindow"],
 	},
 ];
