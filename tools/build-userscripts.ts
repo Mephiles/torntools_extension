@@ -4,10 +4,10 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { USERSCRIPTS } from "@userscripts/registry";
 import { build } from "vite";
-import monkey from "vite-plugin-monkey";
 import type { MonkeyUserScript } from "vite-plugin-monkey";
+import monkey from "vite-plugin-monkey";
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputDir = resolve(root, ".output/userscripts");
 const author = "DeKleineKobini [2114440] and the TornTools team";
 const icon = "https://www.google.com/s2/favicons?sz=64&domain=torn.com";

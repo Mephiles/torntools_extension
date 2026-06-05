@@ -9,7 +9,7 @@
 		"build": "tsc && bun run build:chrome && bun run build:firefox",
 		"build:chrome": "wxt build",
 		"build:firefox": "wxt build -b firefox --mv3",
-		"build:userscripts": "bun src/userscripts/build-userscripts.ts",
+		"build:userscripts": "bun tools/build-userscripts.ts",
 		"build:production": "APPEND_COMMIT_HASH=false bun run build",
 		"zip": "bun run zip:chrome && bun run zip:firefox",
 		"zip:chrome": "wxt zip",
