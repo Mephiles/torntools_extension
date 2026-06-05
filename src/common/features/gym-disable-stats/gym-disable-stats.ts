@@ -72,7 +72,8 @@ async function showCheckboxes() {
 			}),
 		);
 
-		const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
+		const name = ["strength", "speed", "dexterity", "defense"].find((s) => stat.className.includes(s));
+		if (!name) continue;
 
 		if (filters.gym[name]) toggleStat(stat, false);
 	}
@@ -88,9 +89,9 @@ async function showCheckboxes() {
 		checkbox.checked = isLocked;
 
 		if (save) {
-			const name = stat.querySelector("[class*='propertyValue___']").previousElementSibling.textContent.trim().toLowerCase();
+			const name = ["strength", "speed", "dexterity", "defense"].find((s) => stat.className.includes(s));
 
-			ttStorage.change({ filters: { gym: { [name]: isLocked } } });
+			if (name) ttStorage.change({ filters: { gym: { [name]: isLocked } } });
 		}
 	}
 }
