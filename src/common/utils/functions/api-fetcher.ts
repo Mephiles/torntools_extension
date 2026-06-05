@@ -3,7 +3,7 @@ import { api, settings } from "@common/utils/data/database";
 import { getBadgeText, setBadge } from "@common/utils/functions/extension";
 import { getRFC } from "@common/utils/functions/torn";
 import { SCRIPT_TYPE, TO_MILLIS } from "@common/utils/functions/utilities";
-import { BACKGROUND_SERVICE } from "@/services/proxy-services";
+import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 
 export const CUSTOM_API_ERROR = {
 	NO_NETWORK: "tt-no_network",

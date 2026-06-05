@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
-	import type { InternalPageTheme } from "@common/utils/functions/pages";
 	import type { InternalPageTheme } from "@common/utils/data/default-database";
-	import { ttStorage } from "@common/utils/data/storage";
 	import { Label } from "@svelte/components/ui/label";
 	import * as RadioGroup from "@svelte/components/ui/radio-group";
 	import { settingsStore } from "../../../stores/database-store.svelte";

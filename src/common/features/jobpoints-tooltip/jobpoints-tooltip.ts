@@ -1,5 +1,4 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
-import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { formatNumber } from "@common/utils/functions/formatting";

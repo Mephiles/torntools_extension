@@ -1,7 +1,5 @@
 import { api, factiondata, userdata } from "@common/utils/data/database";
-import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { ApiError } from "tornapi-typescript";
-import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
 export const FACTION_ACCESS = {
 	none: "none",

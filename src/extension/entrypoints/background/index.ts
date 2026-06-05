@@ -13,12 +13,12 @@ import {
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
 import { notificationRelations, sendNotifications } from "@extension/entrypoints/background/notifications";
 import { showIconBars, timedUpdates } from "@extension/entrypoints/background/updates";
-import { registerService } from "@webext-core/proxy-service";
-import { type Browser, browser } from "wxt/browser";
 import { registerExtensionContext } from "@extension/runtime/extension-context";
-import { BackgroundService } from "@/services/BackgroundService";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@extension/services/proxy-service-keys";
 import { SourceService } from "@extension/services/SourceService";
+import { registerService } from "@webext-core/proxy-service";
+import { type Browser, browser } from "wxt/browser";
+import { BackgroundService } from "@/services/BackgroundService";
 
 type Alarm = Browser.alarms.Alarm;
 

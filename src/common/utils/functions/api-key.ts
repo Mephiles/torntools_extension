@@ -1,6 +1,6 @@
 import { ttStorage } from "@common/utils/context";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { BACKGROUND_SERVICE } from "@common/utils/services/proxy-services";
+import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 
 export async function checkAPIPermission(key: string) {
 	try {
