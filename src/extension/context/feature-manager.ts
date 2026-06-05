@@ -5,7 +5,7 @@ import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requi
 import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import "./feature-manager.css";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
-import { SOURCE_SERVICE } from "@common/utils/services/proxy-services";
+import { SOURCE_SERVICE } from "@extension/services/proxy-services";
 
 type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
 

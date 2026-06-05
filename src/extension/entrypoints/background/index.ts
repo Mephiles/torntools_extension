@@ -11,13 +11,13 @@ import {
 } from "@common/utils/data/database";
 import { ttStorage } from "@common/utils/data/storage";
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
-import { BackgroundService } from "@common/utils/services/BackgroundService";
-import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@common/utils/services/proxy-service-keys";
-import { SourceService } from "@common/utils/services/SourceService";
 import { notificationRelations, sendNotifications } from "@extension/entrypoints/background/notifications";
 import { showIconBars, timedUpdates } from "@extension/entrypoints/background/updates";
 import { registerService } from "@webext-core/proxy-service";
 import type { Browser } from "wxt/browser";
+import { BackgroundService } from "@/services/BackgroundService";
+import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@/services/proxy-service-keys";
+import { SourceService } from "@/services/SourceService";
 
 type Alarm = Browser.alarms.Alarm;
 

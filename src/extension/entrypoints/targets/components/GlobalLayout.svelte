@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {exposeDebugObjects} from "@common/utils/functions/pages-debug";
-	import {BACKGROUND_SERVICE} from "@common/utils/services/proxy-services";
 	import { initializeDatabaseStore, settingsStore } from "@extension/entrypoints/targets/stores/database-store.svelte";
 	import { Separator } from "@svelte/components/ui/separator";
 	import { Toaster } from "@svelte/components/ui/sonner";
@@ -9,6 +8,7 @@
 	import type { Snippet } from "svelte";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
+	import {BACKGROUND_SERVICE} from "../../../services/proxy-services";
 
 	const { children }: { children: Snippet } = $props();
 

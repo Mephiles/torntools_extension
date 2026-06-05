@@ -1,8 +1,8 @@
 import { ttCache } from "@common/utils/data/cache";
 import { ttStorage } from "@common/utils/data/storage";
 import { elementBuilder } from "@common/utils/functions/dom";
-import type { BackgroundService } from "@common/utils/services/BackgroundService";
 import type { ProxyService } from "@webext-core/proxy-service";
+import type { BackgroundService } from "@/services/BackgroundService";
 
 type BGService = BackgroundService | ProxyService<BackgroundService>;
 

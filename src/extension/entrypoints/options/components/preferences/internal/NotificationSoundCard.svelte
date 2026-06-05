@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { BACKGROUND_SERVICE } from "@common/utils/services/proxy-services";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";
@@ -8,6 +7,7 @@
 	import StopIcon from "phosphor-svelte/lib/StopIcon";
 	import { onDestroy, onMount } from "svelte";
 	import { toast } from "svelte-sonner";
+	import { BACKGROUND_SERVICE } from "../../../../../services/proxy-services";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import ItemSelect from "../ItemSelect.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";

@@ -1,9 +1,9 @@
 import { daySuffix } from "@common/utils/functions/formatting";
 import { MONTHS } from "@common/utils/functions/utilities";
 import { CONTRIBUTORS } from "@common/utils/team";
-import changelog from "@extension/assets/changelog.json";
+import changelog from "@/assets/changelog.json";
 
-export type ChangelogEntry = {
+type ChangelogEntry = {
 	version: { major: number; minor: number; build: number };
 	title?: string;
 	date: false | Date;

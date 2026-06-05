@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/data/storage";
-	import { readableChangelog, toDisplayableChangelogEntry } from "@common/utils/functions/changelog";
+	import { readableChangelog, toDisplayableChangelogEntry } from "@extension/utils/changelog";
 	import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@svelte/components/ui/accordion";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { cn } from "@svelte/utils";

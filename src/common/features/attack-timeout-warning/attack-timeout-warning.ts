@@ -3,8 +3,8 @@ import { textToTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { isTabFocused, TO_MILLIS } from "@common/utils/functions/utilities";
-import { BACKGROUND_SERVICE } from "@common/utils/services/proxy-services";
 import { Feature } from "@extension/context/feature-manager";
+import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
 let observer: MutationObserver | undefined;
 let hasSentNotification = false;

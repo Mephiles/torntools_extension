@@ -1,6 +1,6 @@
-import { BACKGROUND_SERVICE } from "@common/utils/services/proxy-services";
 import { loadDatabaseStores } from "@extension/entrypoints/options/stores/database-store.svelte";
 import { toast } from "svelte-sonner";
+import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
 export type ForceTarget = "userdata" | "torndata" | "stocks" | "factiondata";
 export type MaintenanceAction = ForceTarget | "reinitialize-timers" | "clear-cache";

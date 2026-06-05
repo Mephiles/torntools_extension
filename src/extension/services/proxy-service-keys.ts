@@ -1,5 +1,5 @@
-import type { BackgroundService } from "@common/utils/services/BackgroundService";
 import type { ProxyServiceKey } from "@webext-core/proxy-service";
+import type { BackgroundService } from "./BackgroundService";
 import type { SourceService } from "./SourceService";
 
 export const SOURCE_SERVICE_KEY = "source-service" as ProxyServiceKey<SourceService>;

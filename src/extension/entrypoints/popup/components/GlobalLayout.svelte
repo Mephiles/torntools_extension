@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {exposeDebugObjects} from "@common/utils/functions/pages-debug";
-	import {BACKGROUND_SERVICE} from "@common/utils/services/proxy-services";
 	import { Button } from "@svelte/components/ui/button/index";
 	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
@@ -9,6 +8,7 @@
 	import {link, router} from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { browser } from "wxt/browser";
+	import {BACKGROUND_SERVICE} from "../../../services/proxy-services";
 	import { apiStore, settingsStore } from "../stores/database-store.svelte";
 	import { getEnabledPopupTabs } from "../tabs";
 

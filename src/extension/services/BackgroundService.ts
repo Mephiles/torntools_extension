@@ -1,9 +1,9 @@
 import { ttCache } from "@common/utils/data/cache";
 import { type FetchLocation, type FetchOptions, fetchData } from "@common/utils/functions/api-fetcher";
 import { resetAlarms } from "@extension/entrypoints/background";
-import { getNotificationSound, notificationTestPlayer, notifyUser } from "@extension/entrypoints/background/notifications";
-import { timedUpdates, updateFactiondata, updateStocks, updateTorndata, updateUserdata } from "@extension/entrypoints/background/updates";
 import type { Browser } from "@wxt-dev/browser";
+import { getNotificationSound, notificationTestPlayer, notifyUser } from "@/entrypoints/background/notifications";
+import { timedUpdates, updateFactiondata, updateStocks, updateTorndata, updateUserdata } from "@/entrypoints/background/updates";
 
 type Alarm = Browser.alarms.Alarm;
 

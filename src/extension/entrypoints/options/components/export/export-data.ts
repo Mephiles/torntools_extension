@@ -2,9 +2,9 @@ import { type Database, userdata } from "@common/utils/data/database";
 import { ttStorage } from "@common/utils/data/storage";
 import { hasAPIData } from "@common/utils/functions/api";
 import { isNumber } from "@common/utils/functions/utilities";
-import { BACKGROUND_SERVICE } from "@common/utils/services/proxy-services";
 import { loadDatabaseStores } from "@extension/entrypoints/options/stores/database-store.svelte";
 import { browser } from "wxt/browser";
+import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
 export const MAX_IMPORT_SIZE = 5 * 1024 * 1024;
 
