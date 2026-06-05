@@ -1,13 +1,10 @@
 <script lang="ts">
-	import type {DatabaseSettings, DatabaseUserdata} from "@common/utils/data/database";
+	import type { DatabaseSettings, DatabaseUserdata } from "@common/utils/data/database";
 	import { ttStorage } from "@common/utils/data/storage";
 	import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 	import { TO_MILLIS } from "@common/utils/functions/utilities";
 	import { settingsStore, userdataStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Button } from "@svelte/components/ui/button";
-	import { Card, CardContent } from "@svelte/components/ui/card";
-	import { Separator } from "@svelte/components/ui/separator";
-	import {cn} from "@svelte/utils";
 	import BellIcon from "phosphor-svelte/lib/BellIcon";
 	import BellSlashIcon from "phosphor-svelte/lib/BellSlashIcon";
 
@@ -52,12 +49,12 @@
 	{#each extraInformation as item (item.label)}
 		<a class="rounded-lg bg-card border border-border/70 p-1 text-center text-xs hover:bg-muted" href={item.href} target="_blank" rel="noreferrer">
 			<div class="font-medium">{item.label}</div>
-			<div class="text-muted-foreground">{item.value}</div>
+			<div class="text-foreground/80">{item.value}</div>
 		</a>
 	{/each}
 </div>
 
-<div class="flex items-center justify-between text-xs text-muted-foreground">
+<div class="flex items-center justify-between text-xs text-foreground/80">
 	<div class="flex items-center gap-1">
 		<span>Updated</span>
 		<span class="font-medium text-foreground">{lastUpdated}</span>
@@ -65,7 +62,7 @@
 	<Button
 			variant={notificationsEnabled ? "secondary" : "outline"}
 			size="icon-sm"
-			class={notificationsEnabled ? "text-primary" : "text-destructive"}
+			class={notificationsEnabled ? "text-sidebar-primary" : "text-destructive"}
 			onclick={toggleNotifications}
 			aria-label={notificationsEnabled ? "Disable notifications" : "Enable notifications"}
 			title={notificationsEnabled ? "Notifications enabled" : "Notifications disabled"}

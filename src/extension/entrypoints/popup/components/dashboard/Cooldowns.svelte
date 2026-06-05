@@ -20,7 +20,7 @@
 		if (!settings?.apiUsage?.user?.cooldowns || !userdata?.cooldowns) return [];
 
 		return [
-			getCooldown("drug", "Drugs", userdata.cooldowns.drug, "https://www.torn.com/item.php#drugs-items", "text-primary", userdata, currentTime),
+			getCooldown("drug", "Drugs", userdata.cooldowns.drug, "https://www.torn.com/item.php#drugs-items", "text-green-500", userdata, currentTime),
 			getCooldown("booster", "Boosters", userdata.cooldowns.booster, "https://www.torn.com/item.php#boosters-items", "text-orange-500", userdata, currentTime),
 			getCooldown("medical", "Medical", userdata.cooldowns.medical, "https://www.torn.com/item.php#medical-items", "text-blue-500", userdata, currentTime),
 		];
@@ -44,7 +44,7 @@
 		{#each cooldowns as cooldown (cooldown.id)}
 			<a class="rounded-lg bg-card border border-border/70 p-1 text-center text-xs hover:bg-muted" href={cooldown.href} target="_blank" rel="noreferrer">
 				<div class={cn("font-medium", cooldown.color)}>{cooldown.label}</div>
-				<div class="text-muted-foreground">{cooldown.value}</div>
+				<div class="text-foreground/80">{cooldown.value}</div>
 			</a>
 		{/each}
 	</div>

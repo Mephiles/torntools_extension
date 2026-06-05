@@ -163,19 +163,19 @@
 			{#each bars as bar (bar.id)}
 				<a class="block space-y-1" href={bar.href} target="_blank" rel="noreferrer" title={bar.fullLabel}>
 					<div class="flex items-center justify-between text-xs">
-						<span>{bar.label}</span>
-						<span class="text-muted-foreground">{bar.valueLabel}</span>
+						<span class="font-medium">{bar.label}</span>
+						<span class="text-foreground/80">{bar.valueLabel}</span>
 					</div>
 					<div class="h-1.5 overflow-hidden rounded-sm bg-muted">
 						<div class={`h-full max-w-full ${bar.color}`} style:width={`${bar.percent}%`}></div>
 					</div>
-					<div class="flex justify-between gap-2 text-xs leading-none text-muted-foreground">
+					<div class="flex justify-between gap-2 text-xs leading-none text-foreground/80">
 						<span>{bar.tickLabel}</span>
 						<span class="truncate text-right">{bar.fullLabel}</span>
 					</div>
 				</a>
 			{:else}
-				<div class="text-xs text-muted-foreground">No bar data available.</div>
+				<div class="text-xs text-foreground/80">No bar data available.</div>
 			{/each}
 		</CardContent>
 	</Card>
