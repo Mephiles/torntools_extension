@@ -18,7 +18,7 @@ export class TTScriptStorage extends TornToolsStorage {
 				}),
 			);
 		} else if (key) {
-			return await GM.getValue(key);
+			return await GM.getValue(`${this.prefix}_${key}`);
 		} else {
 			const storageKeys = Object.keys(DEFAULT_STORAGE) as DatabaseKey[];
 			const storageValues = await this.get(storageKeys);
