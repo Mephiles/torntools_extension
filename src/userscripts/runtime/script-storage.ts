@@ -18,7 +18,6 @@ export class TTScriptStorage extends TornToolsStorage {
 	}
 
 	set(object: { [p: string]: any }): Promise<void> {
-		console.log("DKK set", object);
 		return GM.setValues(object);
 	}
 
