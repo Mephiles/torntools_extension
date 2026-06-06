@@ -4,7 +4,7 @@ import OnlyNewFeedFeature from "@features/only-new-feed/only-new-feed";
 import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 
 (async () => {
-	await registerUserscriptContext();
+	await registerUserscriptContext("tt_onf");
 
 	const feature: Feature = new OnlyNewFeedFeature();
 

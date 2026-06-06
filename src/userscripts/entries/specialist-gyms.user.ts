@@ -4,7 +4,7 @@ import SpecialistGymsFeature from "@features/specialist-gyms/specialist-gyms";
 import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 
 (async () => {
-	await registerUserscriptContext();
+	await registerUserscriptContext("tt_sg");
 
 	const feature: Feature = new SpecialistGymsFeature();
 
