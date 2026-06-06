@@ -151,7 +151,7 @@ async function showGraph() {
 		const gymChart = createChart();
 
 		// If Torn dark mode is toggled.
-		await requireElement("#dark-mode-state").then((el: HTMLInputElement) =>
+		await requireElement<HTMLInputElement>("#dark-mode-state").then((el) =>
 			el.addEventListener("change", () => {
 				const color = el.checked ? "#fff" : "#000";
 				gymChart.options.scales.x.ticks.color = color;

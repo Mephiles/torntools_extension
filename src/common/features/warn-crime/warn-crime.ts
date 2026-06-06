@@ -61,7 +61,7 @@ function addListener() {
 }
 
 async function disableButtons() {
-	const list: Element = await requireElement(".tt-oc2-list");
+	const list = await requireElement(".tt-oc2-list");
 	list.querySelectorAll("[class*='joinButton___']:not(.tt-warn-crime--processed)").forEach((button) => {
 		button.classList.add("tt-warn-crime--processed");
 

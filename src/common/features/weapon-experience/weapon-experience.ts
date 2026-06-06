@@ -16,7 +16,7 @@ async function initialiseListeners() {
 }
 
 async function showExperience() {
-	const attacker = ((await requireElement("[class*='green___']")) as Element).parentElement;
+	const attacker = (await requireElement("[class*='green___']")).parentElement;
 
 	for (const weapon of findAllElements("#weapon_main, #weapon_second, #weapon_melee, #weapon_temp", attacker)) {
 		if (weapon.className.includes("defender")) continue;

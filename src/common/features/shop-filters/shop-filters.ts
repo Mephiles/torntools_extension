@@ -20,7 +20,7 @@ type LocalFilters = {
 const localFilters: LocalFilters = {};
 
 async function addFilters() {
-	const title = (await requireElement(".buy-items-wrap > [role*='heading']")) as HTMLElement;
+	const title = await requireElement(".buy-items-wrap > [role*='heading']");
 
 	const shopFilters = createCheckboxList({
 		items: [

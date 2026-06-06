@@ -41,7 +41,7 @@ async function resizeInput(chat: HTMLElement) {
 	if (!firstRoot || firstRoot.id) return;
 
 	await requireElement("[class*='loader___']", { parent: chat, invert: true });
-	const textarea: HTMLTextAreaElement = await requireElement("textarea", { parent: chat });
+	const textarea = await requireElement<HTMLTextAreaElement>("textarea", { parent: chat });
 
 	const id = chat.querySelector(`${SELECTOR_CHAT_V3__VARIOUS_ROOT}[id]`).id;
 

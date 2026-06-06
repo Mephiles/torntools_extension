@@ -21,7 +21,7 @@ async function showFF() {
 		text: detailMessage ? `${message}: ${detailMessage}` : message,
 	});
 
-	const title: Element = await requireElement("[class*='topSection___']");
+	const title = await requireElement("[class*='topSection___']");
 	title.insertAdjacentElement("afterend", element);
 }
 

@@ -76,7 +76,7 @@ async function fetchAndAddSpies() {
 
 async function showRWSpies() {
 	const enemiesMembersList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war .enemy-faction.left .members-list");
-	const enemyFactionID = enemiesMembersList.querySelector("a[href*='/factions.php?step=profile&ID=']").getAttribute("href").split("ID=")[1];
+	const enemyFactionID = parseInt(enemiesMembersList.querySelector("a[href*='/factions.php?step=profile&ID=']").getAttribute("href").split("ID=")[1]);
 
 	const spies = await fetchSpies(enemyFactionID);
 

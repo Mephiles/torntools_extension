@@ -33,7 +33,7 @@ async function startFeature() {
 async function showEffectiveness() {
 	if (getHashParameters().get("option") !== "employees") return;
 
-	const list: Element = await requireElement(".employee-list");
+	const list = await requireElement(".employee-list");
 
 	for (const row of findAllElements(".effectiveness[data-multipliers]", list)) {
 		const multipliers = JSON.parse(row.dataset.multipliers) || [];

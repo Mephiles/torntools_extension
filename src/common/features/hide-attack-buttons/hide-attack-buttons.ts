@@ -7,7 +7,7 @@ import { ExecutionTiming, Feature } from "@features/feature";
 let observer: MutationObserver | undefined;
 
 async function addObserver() {
-	const defenderDiv: Element = await requireElement("#defender");
+	const defenderDiv = await requireElement("#defender");
 	await removeObserver();
 
 	if (!observer)

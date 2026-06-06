@@ -77,7 +77,7 @@ export async function setupFactionsPage() {
 		}
 
 		async function loadInfo() {
-			const root: HTMLElement = await requireElement("#react-root-faction-info").catch(() => {});
+			const root = await requireElement("#react-root-faction-info").catch(() => {});
 			if (!root || root.classList.contains("tt-handled")) return;
 
 			root.classList.add("tt-handled");
@@ -93,8 +93,8 @@ export async function setupFactionsPage() {
 			requireElement("#faction-crimes .crimes-list")
 				.then(() => triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES))
 				.catch(() => {});
-			requireElement("#faction-crimes-root [class*='buttonsContainer___']", { maxCycles: 20 })
-				.then(async (buttonsContainer: Element) => {
+			requireElement("#faction-crimes-root [class*='buttonsContainer___']", { timeout: 1_000 })
+				.then(async (buttonsContainer) => {
 					const list = await requireElement("#faction-crimes-root .page-head-delimiter + div:not([class])");
 					await requireElement("[class*='loader___']", { parent: list, invert: true });
 					list.classList.add("tt-oc2-list");

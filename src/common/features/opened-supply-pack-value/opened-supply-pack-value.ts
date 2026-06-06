@@ -33,7 +33,7 @@ function addListener() {
 		else if (params.has("itemID")) itemID = convertToNumber(params.get("itemID"));
 
 		if (shouldDisplayOpenedValue(itemID)) {
-			reqXID = (await requireElement(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
+			reqXID = (await requireElement<HTMLInputElement>(`[data-item="${itemID}"] .pack-open-msg input[type="hidden"]`)).value;
 		}
 
 		if ((params.get("XID") === reqXID || isDrugPackUseRequest(params) || SUPPLY_PACK_ITEMS.includes(itemID)) && json.items?.itemAppear) {
@@ -54,7 +54,7 @@ function calculateValueFromResponse(response: TornInternalUseItemSuccess): numbe
 
 async function showTotalValue(totalOpenedValue: number, itemID: number) {
 	await sleep(0.5 * TO_MILLIS.SECONDS);
-	const greenMsg: Element = await requireElement(`[data-item="${itemID}"] .cont-wrap form p`);
+	const greenMsg = await requireElement(`[data-item="${itemID}"] .cont-wrap form p`);
 
 	removeTotalValueElement();
 

@@ -31,7 +31,7 @@ async function addFillStockButton(add: boolean) {
 }
 
 async function fillStock() {
-	const stockForm: Element = await requireElement("form[action*='stock']");
+	const stockForm = await requireElement("form[action*='stock']");
 	const storageCapacity = findAllElements(".storage-capacity > *", stockForm).map((x) => convertToNumber(x.dataset.initial));
 	const usableCapacity = storageCapacity[1] - storageCapacity[0];
 	const totalSoldDaily = convertToNumber(stockForm.querySelector(".stock-list > li.total .sold-daily").textContent);

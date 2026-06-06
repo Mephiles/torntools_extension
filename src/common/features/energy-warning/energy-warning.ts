@@ -28,7 +28,7 @@ async function addWarning(item: HTMLElement) {
 		if (item.classList.contains("ui-state-default")) return;
 	}
 
-	const message: Element = await requireElement(".confirm-wrap, .use-act", { parent: item }).catch(() => {});
+	const message = await requireElement(".confirm-wrap, .use-act", { parent: item }).catch(() => {});
 	if (!message) return;
 
 	const factionPage = getPage() === "factions";
