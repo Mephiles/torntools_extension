@@ -60,7 +60,7 @@ async function buildUserscript(userscript: (typeof USERSCRIPTS)[number], fileNam
 					version: userscript.version,
 					description: userscript.description,
 					author,
-					license: "GPL-3",
+					license: "GPL-3.0-or-later",
 					icon,
 					match: userscript.matches,
 					"run-at": userscript.runAt,
