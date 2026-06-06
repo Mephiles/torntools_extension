@@ -4,7 +4,7 @@ import { elementBuilder, findAllElements, getSearchParameters, mobile, tablet } 
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
 import { StatsEstimate } from "./stats-estimate";
 

@@ -1,10 +1,11 @@
 import "./candy-happy.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseAddGains() {
 	const listener = () => {

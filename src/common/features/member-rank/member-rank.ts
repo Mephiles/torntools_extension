@@ -1,10 +1,11 @@
 import "./member-rank.css";
 import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function addListener() {
 	if (isInternalFaction) {

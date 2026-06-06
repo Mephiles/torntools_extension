@@ -1,5 +1,6 @@
 import "./last-action.css";
 import { isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -10,7 +11,7 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listen
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import type { FactionMember, FactionMembersResponse } from "tornapi-typescript";
 
 let _members: FactionMember[] | undefined;

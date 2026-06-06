@@ -1,6 +1,6 @@
 import "./hide-newspaper-highlight.css";
 import { settings } from "@common/utils/data/database";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 function hideChats() {
 	document.documentElement.classList.add("tt-hide-newspaper-highlight");

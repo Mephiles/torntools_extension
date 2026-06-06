@@ -4,7 +4,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { calculateDatePeriod, TO_MILLIS } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addWords() {
 	const boxValue = await requireElement(".box-info.age .box-value");

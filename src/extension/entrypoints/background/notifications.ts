@@ -1,6 +1,6 @@
+import { ttStorage } from "@common/utils/context";
 import { notificationHistory, notifications, setNotificationHistory, settings } from "@common/utils/data/database";
 import type { TTNotification } from "@common/utils/data/default-database";
-import { ttStorage } from "@common/utils/data/storage";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscreen";

@@ -3,7 +3,7 @@ import { settings } from "@common/utils/data/database";
 import { hasSidebar, mobile, tablet } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { hasDarkMode, isPageWithSidebar } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 let hadHighlight = false;
 

@@ -4,7 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 const CLASS_NAME = "tt-sub-vendor-highlight";
 let observer: MutationObserver | undefined;

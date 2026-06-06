@@ -3,7 +3,7 @@ import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { requireElement } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 function applyStyle() {
 	if (!userdata.refills.energy && settings.pages.sidebar.highlightEnergy) document.documentElement.classList.add("tt-highlight-energy-refill");

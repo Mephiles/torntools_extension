@@ -1,6 +1,6 @@
 import "./quick-crimes.css";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { quick, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { usingFirefox } from "@common/utils/functions/browser";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
@@ -8,7 +8,7 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listen
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHFillPlus, PHX } from "@common/utils/icons/phosphor-icons";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 interface QuickCrime {
 	step: string;

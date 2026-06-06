@@ -1,3 +1,4 @@
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { checkDevice, findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -11,7 +12,7 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@common/utils/global/selectors/chatSelectors";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseAutocomplete() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(async ({ chat }) => {

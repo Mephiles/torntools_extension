@@ -5,8 +5,8 @@ import { elementBuilder, executeScript, findAllElements } from "@common/utils/fu
 import { applyPlural } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
-import { Feature } from "@extension/context/feature-manager";
 import type { EfficientRehabDetails } from "@extension/entrypoints/efficient-rehab--inject";
+import { Feature } from "@features/feature";
 
 let isInjected = false;
 let knownPercentages: any;

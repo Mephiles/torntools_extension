@@ -1,6 +1,6 @@
 import "./chat-font-size.css";
 import { settings } from "@common/utils/data/database";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 function applySize() {
 	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.chat.fontSize || 12}px`);

@@ -1,10 +1,11 @@
 import "./casino-net-total.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage, getPageStatus } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const page = getPage();
 

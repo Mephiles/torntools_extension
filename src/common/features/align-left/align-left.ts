@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 import "./align-left.css";
 
 export default class AlignLeftFeature extends Feature {

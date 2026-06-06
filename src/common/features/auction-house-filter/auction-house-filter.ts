@@ -1,6 +1,6 @@
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, torndata } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
-import { ttStorage } from "@common/utils/data/storage";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
@@ -9,7 +9,7 @@ import { convertToNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS, ITEM_TYPES } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 let localFilters: any = {};
 

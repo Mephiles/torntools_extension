@@ -1,12 +1,13 @@
 import "./medical-life.css";
 import { isInternalFaction } from "@common/pages/factions-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { convertToNumber, roundNearest } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const page = getPage();
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { isHTMLElement } from "@common/utils/functions/dom";
 	import type { CalculatorItem } from "@extension/entrypoints/popup/components/calculator/calculator";
 	import * as Command from "@svelte/components/ui/command";

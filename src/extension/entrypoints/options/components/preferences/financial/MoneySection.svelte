@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { capitalizeText } from "@common/utils/functions/formatting";
 	import { CASINO_GAMES } from "@common/utils/functions/torn";
 	import * as Field from "@svelte/components/ui/field";

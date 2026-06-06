@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { stakeoutsStore } from "@extension/entrypoints/targets/stores/database-store.svelte";
 	import { type BooleanAlertKey, columns, type NumberAlertKey, type StakeoutRow } from "./columns";
 	import DataTable from "./data-table.svelte";

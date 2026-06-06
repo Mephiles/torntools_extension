@@ -1,11 +1,12 @@
 import "./stacking-mode.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage } from "@common/utils/functions/torn";
 import { crossSvg } from "@common/utils/icons/cross";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 let currentPage: string;
 

@@ -1,10 +1,11 @@
 import "./total-portfolio-value.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { sleep } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addProfitAndValue() {
 	await requireElement("#stockmarketroot [class*='stock___']");

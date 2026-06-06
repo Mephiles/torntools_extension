@@ -2,7 +2,7 @@ import { settings } from "@common/utils/data/database";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { toClipboard } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addID() {
 	await requireElement(".basic-info .info-table > *:first-child");

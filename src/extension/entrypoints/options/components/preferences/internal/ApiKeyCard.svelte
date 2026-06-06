@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { changeAPIKey, checkAPIPermission } from "@common/utils/functions/api";
+	import { changeAPIKey, checkAPIPermission } from "@common/utils/functions/api-key";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";

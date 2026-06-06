@@ -1,6 +1,6 @@
 import "./hide-leave-buttons.css";
 import { settings } from "@common/utils/data/database";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 function applyStyle() {
 	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "flex");

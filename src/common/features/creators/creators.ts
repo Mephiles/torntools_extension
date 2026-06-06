@@ -4,7 +4,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { torntools } from "@common/utils/icons/torntools";
 import { TEAM } from "@common/utils/team";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showCreators() {
 	const id = parseInt(

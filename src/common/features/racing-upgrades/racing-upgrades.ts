@@ -1,11 +1,12 @@
 import "./racing-upgrades.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, findParent } from "@common/utils/functions/dom";
 import { applyPlural } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialise() {
 	addXHRListener(async ({ detail: { page, xhr, uri } }) => {

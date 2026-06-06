@@ -1,0 +1,51 @@
+name: Publish Userscripts
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: userscripts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build userscripts
+        run: bun run build:userscripts
+
+      - name: Upload userscripts
+        env:
+          PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
+        run: |
+          set -euo pipefail
+          
+          upload_args=()
+          for file in .output/userscripts/*.user.js; do
+              upload_args+=(-F "files=@${file};type=application/javascript")
+          done
+          
+          curl --fail -X POST -H "X-API-TOKEN: ${PG_TT_TOKEN}" "${upload_args[@]}" https://torntools.tornplayground.eu/api/userscripts
+
+      - name: Write upload summary
+        run: |
+          set -euo pipefail
+          
+          {
+              echo "## Uploaded userscripts"
+              echo
+              for file in .output/userscripts/*.user.js; do
+                  echo "- $(basename "${file}")"
+              done
+          } >> "${GITHUB_STEP_SUMMARY}"

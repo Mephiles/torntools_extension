@@ -1,10 +1,11 @@
 import "./colored-chat.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { CHAT_TITLE_COLORS, is2FACheckPage } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function initialiseColoredChats() {
 	await requireChatsLoaded();

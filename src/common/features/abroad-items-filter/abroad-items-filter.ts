@@ -1,13 +1,13 @@
 import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;

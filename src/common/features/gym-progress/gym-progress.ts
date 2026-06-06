@@ -4,7 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addProgress() {
 	const gymNotification = await requireElement("#gymroot [class*='notificationText__']");

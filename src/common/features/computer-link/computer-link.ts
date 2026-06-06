@@ -4,7 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { checkDevice, elementBuilder, mobile } from "@common/utils/functions/dom";
 import { requireContent } from "@common/utils/functions/requires";
 import { createTTTopLinks, isAbroad, isFlying } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function showComputer() {
 	await requireContent();

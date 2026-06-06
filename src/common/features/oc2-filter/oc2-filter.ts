@@ -1,6 +1,6 @@
 import { isInternalFaction } from "@common/pages/factions-page";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { hasOC1Data } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
@@ -8,7 +8,7 @@ import { createFilterEnabledFunnel, createFilterSection, createStatistics } from
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { DisabledUntilNoticeFeature, FEATURE_MANAGER } from "@extension/context/feature-manager";
+import { DisabledUntilNoticeFeature } from "@features/feature";
 
 function addListener() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2].push(async () => {

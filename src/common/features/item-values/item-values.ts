@@ -1,15 +1,16 @@
 import "./item-values.css";
 import { isInternalFaction } from "@common/pages/factions-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement, requireItemsLoaded } from "@common/utils/functions/requires";
+import type { XHRDetails } from "@common/utils/functions/script-injector";
 import { getPage, getPageStatus } from "@common/utils/functions/torn";
 import { sleep } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
-import type { XHRDetails } from "@extension/entrypoints/xhr--inject";
+import { Feature } from "@features/feature";
 
 const page = getPage();
 

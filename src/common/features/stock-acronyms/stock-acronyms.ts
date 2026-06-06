@@ -3,7 +3,7 @@ import { settings, stockdata } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function addAcronyms() {
 	await requireElement("[class*='stockMarket__'] ul[class*='stock__'] [class*='nameContainer__']");

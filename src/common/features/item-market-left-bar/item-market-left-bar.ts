@@ -1,6 +1,6 @@
 import "./item-market-left-bar.css";
 import { settings } from "@common/utils/data/database";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 export default class ItemMarketLeftBarFeature extends Feature {
 	constructor() {

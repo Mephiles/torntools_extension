@@ -3,7 +3,7 @@ import { createContainer, removeContainer } from "@common/utils/functions/contai
 import { elementBuilder, findAllElements, findParent, hasSidebar, mobile } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { ALL_AREAS, CUSTOM_LINKS_PRESET, getSidebarArea, isPageWithSidebar } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import "./custom-links.css";
 
 interface BaseCustomLink {

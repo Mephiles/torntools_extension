@@ -2,7 +2,7 @@ import { settings } from "@common/utils/data/database";
 import { getSearchParameters } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage, updateReactInput } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function handleFilledUrl() {
 	const page = getPage();

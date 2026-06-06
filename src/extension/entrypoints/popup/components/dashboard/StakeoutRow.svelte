@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { ttStorage } from "@common/utils/context";
 	import type { StoredStakeouts } from "@common/utils/data/default-database";
-	import { ttStorage } from "@common/utils/data/storage";
 	import type { StakeoutRow } from "@extension/entrypoints/popup/components/dashboard/dashboard.svelte";
 	import { stakeoutsStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Button } from "@svelte/components/ui/button";

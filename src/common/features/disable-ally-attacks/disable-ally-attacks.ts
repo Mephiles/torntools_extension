@@ -1,4 +1,5 @@
 import "./disable-ally-attacks.css";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
@@ -7,7 +8,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile } from "@common/utils/functions/torn";
 import { isIntNumber } from "@common/utils/functions/utilities";
 import { crossSvg } from "@common/utils/icons/cross";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 async function startObserver() {
 	new MutationObserver(() => {

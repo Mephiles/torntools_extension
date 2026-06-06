@@ -7,7 +7,7 @@ import { addInformationSection, checkDevice, elementBuilder, showInformationSect
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
 import { getTimeUntilNextJobUpdate } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import type { UserCompany } from "tornapi-typescript";
 
 async function showCompanyAddictionLevel() {

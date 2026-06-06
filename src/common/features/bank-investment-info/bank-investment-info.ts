@@ -10,7 +10,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { formatNumber, roundNearest } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, millisToNewDay } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 interface MoneyInfo {
 	total: number;

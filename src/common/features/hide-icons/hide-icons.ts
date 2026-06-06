@@ -3,7 +3,7 @@ import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { ALL_ICONS } from "@common/utils/functions/torn";
-import { ExecutionTiming, Feature } from "@extension/context/feature-manager";
+import { ExecutionTiming, Feature } from "@features/feature";
 
 let observer: MutationObserver;
 

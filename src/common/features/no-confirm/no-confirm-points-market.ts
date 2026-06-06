@@ -1,7 +1,8 @@
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialise() {
 	new MutationObserver(async (mutations) => {

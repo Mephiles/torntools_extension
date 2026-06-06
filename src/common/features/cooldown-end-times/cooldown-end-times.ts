@@ -3,7 +3,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatDate, formatTime, textToTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const REQUIRED_TOOLTIP_TITLES = [
 	"Education",

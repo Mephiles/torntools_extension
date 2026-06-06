@@ -5,8 +5,8 @@ import { findAllElements, getHashParameters } from "@common/utils/functions/dom"
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
-import { BACKGROUND_SERVICE } from "@/services/proxy-services";
+import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
+import { Feature } from "@features/feature";
 
 interface ItemEntry {
 	element: Element;

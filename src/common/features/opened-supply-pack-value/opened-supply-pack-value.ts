@@ -1,5 +1,6 @@
 import "./opened-supply-pack-value.css";
 import { isUseItem, type TornInternalUseItemSuccess } from "@common/pages/item-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -8,7 +9,7 @@ import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage } from "@common/utils/functions/torn";
 import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const SUPPLY_PACK_ITEMS = [
 	364, 365, 370, 588, 815, 817, 818, 1035, 1057, 1078, 1079, 1080, 1081, 1082, 1083, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122, 1293,

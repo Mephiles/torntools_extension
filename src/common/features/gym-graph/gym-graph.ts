@@ -9,7 +9,7 @@ import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, hasDarkMode } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);

@@ -1,11 +1,11 @@
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { isChatV3 } from "@common/utils/functions/torn";
 import { SELECTOR_CHAT_ROOT, SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@common/utils/global/selectors/chatSelectors";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import styles from "./resizable-chat.module.css";
 
 const MIN_HEIGHT = 26;

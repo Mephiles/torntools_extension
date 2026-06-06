@@ -1,3 +1,4 @@
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { loadDatabase, settings, storageListeners } from "@common/utils/data/database";
 import { checkDevice, elementBuilder, findAllElements, getSearchParameters, isElement, isHTMLElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, injectFetch, injectXHR, triggerCustomListener } from "@common/utils/functions/listeners";
@@ -13,7 +14,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_CONTENT,
 	SELECTOR_CHAT_V3__VARIOUS_ROOT,
 } from "@common/utils/global/selectors/chatSelectors";
-import { FEATURE_MANAGER } from "@extension/context/feature-manager";
 
 function handleDeviceSizeClasses() {
 	checkDevice().then(({ mobile, tablet }) => {
@@ -30,7 +30,7 @@ function handlePopoutClass() {
 	else document.documentElement.classList.remove("tt-popout");
 }
 
-async function handleTheme() {
+export async function handleTheme() {
 	await loadDatabase();
 
 	document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");

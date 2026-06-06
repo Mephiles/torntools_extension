@@ -1,7 +1,7 @@
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 import styles from "./hide-casino-games.module.css";
 
 function hideCasinoGames() {

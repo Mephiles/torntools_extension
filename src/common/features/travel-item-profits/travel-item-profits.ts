@@ -1,5 +1,6 @@
 import "./travel-item-profits.css";
 import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { filters, settings, torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
@@ -7,7 +8,7 @@ import { convertToNumber, formatNumber } from "@common/utils/functions/formattin
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;

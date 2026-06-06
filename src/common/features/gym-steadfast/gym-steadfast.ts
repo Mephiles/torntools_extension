@@ -6,7 +6,7 @@ import { convertToNumber, dropDecimals } from "@common/utils/functions/formattin
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 interface SteadfastBonus {
 	source: "faction" | "company" | "property" | "education" | "book";

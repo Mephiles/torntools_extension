@@ -1,15 +1,14 @@
+import { RUNTIME_INFORMATION, RUNTIME_STORAGE, ttStorage } from "@common/utils/context";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@common/utils/data/default-database";
 import { executeMigrationScripts } from "@common/utils/data/migrations";
-import { ttStorage } from "@common/utils/data/storage";
 import { sleep } from "@common/utils/functions/utilities";
-import { browser } from "wxt/browser";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
 export type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
 
 export type DatabaseSettings = Writable<DefaultStorageType["settings"]>;
-type DatabaseFilters = Writable<DefaultStorageType["filters"]>;
+export type DatabaseFilters = Writable<DefaultStorageType["filters"]>;
 type DatabaseVersion = Writable<DefaultStorageType["version"]>;
 export type DatabaseApi = Writable<DefaultStorageType["api"]>;
 export type DatabaseUserdata = Writable<DefaultStorageType["userdata"]>;
@@ -176,7 +175,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 		}
 
 		const storedVersion = loadedStorage?.version?.current || "5.0.0";
-		const currentVersion = browser.runtime.getManifest().version;
+		const currentVersion = RUNTIME_INFORMATION.getVersion();
 
 		console.log(`TT - Migration check: ${storedVersion} -> ${currentVersion}`);
 
@@ -274,7 +273,7 @@ export function initializeDatabase() {
 }
 
 function initializeDatabaseListener() {
-	browser.storage.onChanged.addListener((changes, area) => {
+	RUNTIME_STORAGE.addChangeListener((changes, area) => {
 		if (area === "local") {
 			for (const key in changes) {
 				switch (key) {
@@ -358,4 +357,12 @@ export function setTorndata(data: DatabaseTorndata) {
 
 export function setNotificationHistory(data: DatabaseNotificationHistory) {
 	notificationHistory = data;
+}
+
+export function setLocaldata(data: DatabaseLocaldata) {
+	localdata = data;
+}
+
+export function setFilters(data: DatabaseFilters) {
+	filters = data;
 }

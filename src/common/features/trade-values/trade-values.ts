@@ -1,13 +1,13 @@
 import "./trade-values.css";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, torndata } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { FEATURE_MANAGER, Feature } from "@extension/context/feature-manager";
+import { Feature } from "@features/feature";
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ step }) => {

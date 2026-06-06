@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ttStorage } from "@common/utils/data/storage";
+	import { ttStorage } from "@common/utils/context";
 	import { ALL_ICONS, } from "@common/utils/functions/torn";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";

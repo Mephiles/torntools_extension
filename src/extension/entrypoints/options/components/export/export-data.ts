@@ -1,5 +1,5 @@
+import { ttStorage } from "@common/utils/context";
 import { type Database, userdata } from "@common/utils/data/database";
-import { ttStorage } from "@common/utils/data/storage";
 import { hasAPIData } from "@common/utils/functions/api";
 import { isNumber } from "@common/utils/functions/utilities";
 import { loadDatabaseStores } from "@extension/entrypoints/options/stores/database-store.svelte";
