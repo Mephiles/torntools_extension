@@ -10,9 +10,9 @@ export const USERSCRIPTS: UserscriptDefinition[] = [
 	{
 		name: "Only New Feed",
 		description: "Only show unread items in your forum feeds.",
-		version: "1.0.2",
+		version: "1.0.3--dev",
 		matches: ["https://*.torn.com/forums.php*"],
-		runAt: "document-start",
+		runAt: "document-end",
 	},
 	{
 		name: "Specialist Gyms",
