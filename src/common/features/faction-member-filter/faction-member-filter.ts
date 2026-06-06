@@ -130,7 +130,7 @@ async function addFilter() {
 	filterContent.appendChild(levelFilter.element);
 	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
-	if (settings.scripts.ffScouter.gauge && hasAPIData()) {
+	if (settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData()) {
 		const ffScoreFilterMin = createFilterSection({
 			title: "FF Score Min",
 			text: "number",
