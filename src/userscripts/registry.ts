@@ -10,7 +10,7 @@ export const USERSCRIPTS: UserscriptDefinition[] = [
 	{
 		name: "Only New Feed",
 		description: "Only show unread items in your forum feeds.",
-		version: "1.0.3--dev",
+		version: "1.0.4",
 		matches: ["https://*.torn.com/forums.php*"],
 		runAt: "document-end",
 	},
