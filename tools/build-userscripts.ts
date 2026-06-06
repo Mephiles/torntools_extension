@@ -65,6 +65,8 @@ async function buildUserscript(userscript: (typeof USERSCRIPTS)[number], fileNam
 					match: userscript.matches,
 					"run-at": userscript.runAt,
 					grant: grants,
+					supportURL: "https://github.com/Mephiles/torntools_extension/issues",
+					contributionURL: "https://buymeacoffee.com/dekleinekobini",
 				},
 				build: {
 					fileName: fileName,
