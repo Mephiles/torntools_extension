@@ -10,7 +10,6 @@ import {
 	notifications,
 	npcs,
 	setFactiondata,
-	setFactionStakeouts,
 	setTorndata,
 	settings,
 	setUserdata,
@@ -1263,16 +1262,15 @@ async function updateFactionStakeouts(forceUpdate = false) {
 
 	const now = Date.now();
 
-	if (!forceUpdate && "date" in factionStakeouts && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
+	if (!forceUpdate && factionStakeouts.date && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
 		return { updated: false };
 	}
 
 	let success = 0;
 	let failed = 0;
-	for (const factionId in factionStakeouts) {
-		if (Number.isNaN(parseInt(factionId))) continue;
-
-		const oldData = typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null ? factionStakeouts[factionId].info : null;
+	for (const entry of factionStakeouts.list) {
+		const factionId = entry.id;
+		const oldData = entry.info ?? null;
 		let data: FetchedFactionStakeout;
 		try {
 			data = await fetchData<FetchedFactionStakeout>("tornv2", {
@@ -1294,8 +1292,8 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			continue;
 		}
 
-		if (typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null && factionStakeouts[factionId].alerts) {
-			const { chainReaches, memberCountDrops, rankedWarStarts, inRaid, inTerritoryWar } = factionStakeouts[factionId].alerts;
+		if (entry.alerts) {
+			const { chainReaches, memberCountDrops, rankedWarStarts, inRaid, inTerritoryWar } = entry.alerts;
 
 			if (chainReaches !== null) {
 				const oldChainCount = oldData ? oldData.chain : false;
@@ -1388,8 +1386,9 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			}
 		}
 
-		if (typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null) {
-			factionStakeouts[factionId].info = {
+		const existingIndex = factionStakeouts.list.findIndex((e) => e.id === factionId);
+		if (existingIndex !== -1) {
+			factionStakeouts.list[existingIndex].info = {
 				name: data.basic.name,
 				chain: data.chain.current,
 				members: {
@@ -1402,7 +1401,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			};
 		}
 	}
-	setFactionStakeouts({ ...factionStakeouts, date: now });
+	factionStakeouts.date = now;
 
 	await ttStorage.change({ factionStakeouts, notifications });
 	return { updated: true, success, failed };

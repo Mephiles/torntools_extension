@@ -9,7 +9,7 @@
 	import FactionStakeoutsTable from "./FactionStakeoutsTable.svelte";
 	import { getFactionStakeoutRow, getFactionStakeoutRows, getStoredFactionStakeouts } from "./helpers";
 
-	const amountOfRows = $derived(Object.keys($factionStakeoutsStore ?? {}).filter((k) => k !== "date").length);
+	const amountOfRows = $derived($factionStakeoutsStore?.list?.length ?? 0);
 	let factionId = $state<number>(null);
 
 	async function resetFactionStakeouts() {
@@ -24,13 +24,13 @@
 		}
 
 		const rows = getFactionStakeoutRows($factionStakeoutsStore);
-		if (rows.some((row) => row.id === String(factionId))) {
+		if (rows.some((row) => row.id === factionId)) {
 			toast.error("This faction already has a stakeout.");
 			return;
 		}
 
 		const nextStakeouts = getStoredFactionStakeouts(
-			[...rows, getFactionStakeoutRow(String(factionId), null, true)],
+			[...rows, getFactionStakeoutRow(factionId, null, true)],
 			$factionStakeoutsStore?.date ?? 0
 		);
 		ttStorage.set({ factionStakeouts: nextStakeouts }).catch(console.error);

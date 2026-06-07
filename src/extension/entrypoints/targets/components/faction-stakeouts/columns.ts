@@ -25,7 +25,7 @@ export type NumberAlertKey = "chainReaches" | "memberCountDrops";
 export type FactionStakeoutColumnId = "id" | "name" | "chain" | "members" | "remove" | "notifications";
 
 export type FactionStakeoutRow = {
-	id: string;
+	id: number;
 	info: FactionStakeoutInfo;
 	alerts: FactionStakeoutAlerts;
 	isNew: boolean;

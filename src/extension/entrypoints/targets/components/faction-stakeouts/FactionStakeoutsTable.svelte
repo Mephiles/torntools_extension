@@ -13,15 +13,15 @@
 		ttStorage.set({ factionStakeouts: nextStakeouts });
 	}
 
-	function removeFactionStakeout(id: string) {
+	function removeFactionStakeout(id: number) {
 		updateRows(rows.filter((row) => row.id !== id));
 	}
 
-	function updateBooleanAlert(id: string, key: BooleanAlertKey, value: boolean) {
+	function updateBooleanAlert(id: number, key: BooleanAlertKey, value: boolean) {
 		updateRows(rows.map((row) => (row.id === id ? { ...row, alerts: { ...row.alerts, [key]: value } } : row)));
 	}
 
-	function updateNumberAlert(id: string, key: NumberAlertKey, value: string) {
+	function updateNumberAlert(id: number, key: NumberAlertKey, value: string) {
 		const nextValue = Number.parseInt(value, 10);
 		updateRows(rows.map((row) => (row.id === id ? { ...row, alerts: { ...row.alerts, [key]: Number.isNaN(nextValue) ? false : nextValue } } : row)));
 	}

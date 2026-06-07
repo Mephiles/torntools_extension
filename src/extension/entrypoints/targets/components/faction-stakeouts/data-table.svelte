@@ -13,9 +13,9 @@
 	type DataTableProps = {
 		data: FactionStakeoutRow[];
 		columns: ColumnDef<FactionStakeoutRow>[];
-		onRemove: (id: string) => void;
-		onBooleanAlertChange: (id: string, key: BooleanAlertKey, value: boolean) => void;
-		onNumberAlertChange: (id: string, key: NumberAlertKey, value: string) => void;
+		onRemove: (id: number) => void;
+		onBooleanAlertChange: (id: number, key: BooleanAlertKey, value: boolean) => void;
+		onNumberAlertChange: (id: number, key: NumberAlertKey, value: string) => void;
 	};
 
 	let { data, columns, onRemove, onBooleanAlertChange, onNumberAlertChange }: DataTableProps = $props();
@@ -27,7 +27,7 @@
 		get columns() {
 			return columns;
 		},
-		getRowId: (row) => row.id,
+		getRowId: (row) => String(row.id),
 		getCoreRowModel: getCoreRowModel(),
 	});
 
