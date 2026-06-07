@@ -9,7 +9,7 @@
 	import { getStakeoutRow, getStakeoutRows, getStoredStakeouts } from "./helpers";
 	import StakeoutsTable from "./StakeoutsTable.svelte";
 
-	const amountOfRows = $derived($stakeoutsStore?.order?.length ?? 0);
+	const amountOfRows = $derived($stakeoutsStore?.list?.length ?? 0);
 	let stakeoutId = $state<number>(null);
 
 	async function resetStakeouts() {
@@ -24,12 +24,12 @@
 		}
 
 		const rows = getStakeoutRows($stakeoutsStore);
-		if (rows.some((row) => row.id === String(stakeoutId))) {
+		if (rows.some((row) => row.id === stakeoutId)) {
 			toast.error("This user already has a stakeout.");
 			return;
 		}
 
-		const nextStakeouts = getStoredStakeouts([...rows, getStakeoutRow(String(stakeoutId), null, true)], $stakeoutsStore?.date ?? 0);
+		const nextStakeouts = getStoredStakeouts([...rows, getStakeoutRow(stakeoutId, null, true)], $stakeoutsStore?.date ?? 0);
 		ttStorage.set({ stakeouts: nextStakeouts }).catch(console.error);
 		stakeoutId = null;
 	}

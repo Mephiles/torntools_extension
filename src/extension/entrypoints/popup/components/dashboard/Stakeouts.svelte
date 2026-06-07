@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { DatabaseSettings } from "@common/utils/data/database";
-	import type { StakeoutData, StoredStakeouts } from "@common/utils/data/default-database";
+	import type { StoredStakeouts } from "@common/utils/data/default-database";
 	import { settingsStore, stakeoutsStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Button } from "@svelte/components/ui/button";
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDownIcon";
@@ -15,26 +15,21 @@
 	const targetsUrl = $derived(`${browser.runtime.getURL("/targets.html")}#/stakeouts`);
 
 	function getStakeoutRows(source: StoredStakeouts | undefined, settings: DatabaseSettings): StakeoutRowType[] {
-		if (!settings?.pages?.popup?.showStakeouts || !source?.order?.length) return [];
+		if (!settings?.pages?.popup?.showStakeouts || !source?.list?.length) return [];
 
-		return source.order.flatMap((id) => {
-			const stakeout = source[id] as StakeoutData | undefined;
-			if (!stakeout || typeof stakeout !== "object" || Array.isArray(stakeout)) return [];
-
-			return [
-				{
-					id,
-					name: stakeout.info?.name ?? id,
-					label: stakeout.label ?? "",
-					activity: stakeout.info?.last_action?.status ?? "N/A",
-					lastAction: stakeout.info?.last_action?.relative ?? "N/A",
-					lifeCurrent: stakeout.info?.life?.current ?? 0,
-					lifeMaximum: stakeout.info?.life?.maximum ?? 100,
-					state: stakeout.info?.status?.description ?? "Unknown",
-					stateColor: stakeout.info?.status?.color ?? "gray",
-				},
-			];
-		});
+		return source.list
+			.toSorted((a, b) => a.order - b.order)
+			.map((stakeout) => ({
+				id: stakeout.id,
+				name: stakeout.info?.name ?? String(stakeout.id),
+				label: stakeout.label ?? "",
+				activity: stakeout.info?.last_action?.status ?? "N/A",
+				lastAction: stakeout.info?.last_action?.relative ?? "N/A",
+				lifeCurrent: stakeout.info?.life?.current ?? 0,
+				lifeMaximum: stakeout.info?.life?.maximum ?? 100,
+				state: stakeout.info?.status?.description ?? "Unknown",
+				stateColor: stakeout.info?.status?.color ?? "gray",
+			}));
 	}
 </script>
 

@@ -1,5 +1,6 @@
 import { RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
 import type { Database } from "@common/utils/data/database";
+import type { StakeoutData } from "@common/utils/data/default-database";
 import { toNumericVersion } from "@common/utils/functions/utilities";
 import type { SavedCustomLink } from "@features/custom-links/custom-links";
 import type { UserAlias } from "@features/user-alias/alias";
@@ -124,6 +125,28 @@ export const MIGRATIONS: MigrationScript[] = [
 		version: "9.0.6",
 		execute(_database, flags, _oldStorage) {
 			flags.clearCache = true;
+		},
+	},
+	{
+		id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		version: "9.0.6",
+		execute(database, _flags, oldStorage) {
+			const oldStakeouts = oldStorage?.stakeouts;
+			if (!oldStakeouts || typeof oldStakeouts !== "object") return;
+
+			const reservedKeys = new Set(["order", "date", "list"]);
+			const oldOrder: string[] = oldStakeouts.order ?? [];
+			const list: StakeoutData[] = [];
+
+			Object.entries(oldStakeouts)
+				.filter((entry): boolean => !reservedKeys.has(entry[0]))
+				.forEach(([id, data]) => {
+					const orderIndex = oldOrder.indexOf(id);
+					list.push({ ...(data as StakeoutData), id: parseInt(id), order: orderIndex !== -1 ? orderIndex : Date.now() });
+				});
+
+			database.stakeouts.list = list;
+			delete database["order"];
 		},
 	},
 ];

@@ -1082,19 +1082,13 @@ async function updateStakeouts(forceUpdate = false) {
 
 	let success = 0;
 	let failed = 0;
-	for (const id in stakeouts) {
-		const stakeout = stakeouts[id];
-		if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
+	for (const stakeout of stakeouts.list) {
+		const id = stakeout.id;
 
 		const oldData = stakeout?.info ?? null;
 		let data: UserProfileResponse;
 		try {
-			data = await fetchData<UserProfileResponse>("tornv2", {
-				section: "user",
-				selections: ["profile"],
-				id,
-				silent: true,
-			});
+			data = await fetchData<UserProfileResponse>("tornv2", { section: "user", selections: ["profile"], id, silent: true });
 			if (!data) {
 				console.log("Unexpected result during stakeout updating.");
 				failed++;
@@ -1230,8 +1224,9 @@ async function updateStakeouts(forceUpdate = false) {
 			}
 		}
 
-		if (id in stakeouts) {
-			stakeouts[id] = {
+		const existingIndex = stakeouts.list.findIndex((e) => e.id === id);
+		if (existingIndex !== -1) {
+			stakeouts.list[existingIndex] = {
 				...stakeout,
 				info: {
 					name: data.profile.name,

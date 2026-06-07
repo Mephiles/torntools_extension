@@ -8,14 +8,13 @@
 
 	const { row }: { row: StakeoutRow } = $props();
 
-	async function removeStakeout(id: string) {
+	async function removeStakeout(id: number) {
 		if (!$stakeoutsStore) return;
 
 		const nextStakeouts: StoredStakeouts = {
 			...$stakeoutsStore,
-			order: ($stakeoutsStore.order ?? []).filter((stakeoutId) => stakeoutId !== id),
+			list: ($stakeoutsStore.list ?? []).filter((e) => e.id !== id),
 		};
-		delete nextStakeouts[id];
 
 		await ttStorage.set({ stakeouts: nextStakeouts });
 	}
