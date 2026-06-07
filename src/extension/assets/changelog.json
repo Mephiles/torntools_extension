@@ -14,7 +14,8 @@
 				{ "message": "Fix the disabling of gym stats not saving persistently on very small devices.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't show the FF score filters when the external service isn't enabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors in a lot of faction page features when visiting a destroyed faction.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the faction id not showing up for a destroyed faction.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the faction id not showing up for a destroyed faction.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Faction Stakeouts' not working properly for a destroyed faction.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" },

@@ -1,5 +1,5 @@
 import "./faction-stakeouts.css";
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { factionStakeouts, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
@@ -22,16 +22,18 @@ function initialiseListeners() {
 async function displayBox() {
 	if (isInternalFaction && getFactionSubpage() !== "info") return;
 
-	const { content } = createContainer("Faction Stakeout", {
+	const { container, content } = createContainer("Faction Stakeout", {
 		class: "mt10",
 		nextElement: await requireElement(".faction-info-wrap"),
 	});
+	isDestroyed().then((destroyed) => {
+		if (destroyed) container.classList.add("mb10");
+	});
 
-	const factionId = parseInt(
-		(await requireElement(".faction-info-wrap .f-war-list .table-row [class*='factionWrap__'] a[href*='/factions.php']"))
-			.getAttribute("href")
-			.split("&ID=")[1],
-	);
+	const details = await readFactionDetails();
+	if (!details) throw new Error("Faction ID could not be found.");
+
+	const factionId = details.id;
 	const existingStakeout = factionStakeouts.list.find((e) => e.id === factionId);
 
 	const checkbox = createCheckbox({ description: "Stakeout this faction." });
