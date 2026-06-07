@@ -25,7 +25,8 @@
 			"technical": [
 				{ "message": "Refactor the data fetching function completely in preparation of future updates.", "contributor": "DeKleineKobini" },
 				{ "message": "Restructure the extension in preparation for another project.", "contributor": "DeKleineKobini" },
-				{ "message": "Restructure the stakeout data in our storage.", "contributor": "DeKleineKobini" }
+				{ "message": "Restructure the stakeout data in our storage.", "contributor": "DeKleineKobini" },
+				{ "message": "Restructure the faction stakeout data in our storage.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

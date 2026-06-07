@@ -32,21 +32,31 @@ async function displayBox() {
 			.getAttribute("href")
 			.split("&ID=")[1],
 	);
-	const hasStakeout = factionId in factionStakeouts && typeof factionStakeouts[factionId] === "object" && typeof factionStakeouts[factionId] !== "number";
+	const existingStakeout = factionStakeouts.list.find((e) => e.id === factionId);
 
 	const checkbox = createCheckbox({ description: "Stakeout this faction." });
-	checkbox.setChecked(hasStakeout);
+	checkbox.setChecked(!!existingStakeout);
 	checkbox.onChange(() => {
 		if (checkbox.isChecked()) {
-			ttStorage.change({
-				factionStakeouts: {
-					[factionId]: { alerts: { chainReaches: false, memberCountDrops: false, rankedWarStarts: false, inRaid: false, inTerritoryWar: false } },
+			factionStakeouts.list.push({
+				id: factionId,
+				order: Date.now(),
+				alerts: { chainReaches: false, memberCountDrops: false, rankedWarStarts: false, inRaid: false, inTerritoryWar: false },
+				info: {
+					name: "",
+					chain: 0,
+					members: { current: 0, maximum: 0 },
+					rankedWar: false,
+					raid: false,
+					territoryWar: false,
 				},
 			});
+			ttStorage.set({ factionStakeouts });
 
 			alertsWrap.classList.remove("tt-hidden");
 		} else {
-			ttStorage.change({ factionStakeouts: { [factionId]: undefined } });
+			factionStakeouts.list = factionStakeouts.list.filter((e) => e.id !== factionId);
+			ttStorage.set({ factionStakeouts });
 
 			alertsWrap.classList.add("tt-hidden");
 			findAllElements<HTMLInputElement>("input[type='text'], input[type='number']", content).forEach((input) => (input.value = ""));
@@ -57,12 +67,14 @@ async function displayBox() {
 
 	const chainReaches = createTextbox({ description: { before: "chain reaches" }, type: "text", attributes: { min: "1" }, style: { width: "100px" } });
 	chainReaches.onChange(() => {
-		if (!(factionId in factionStakeouts)) return;
+		const entry = factionStakeouts.list.find((e) => e.id === factionId);
+		if (!entry) return;
 
 		let value: number | false = parseInt(chainReaches.getValue());
 		if (Number.isNaN(value) || value < 0) value = false;
 
-		ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { chainReaches: value } } } });
+		entry.alerts.chainReaches = value;
+		ttStorage.set({ factionStakeouts });
 	});
 
 	const memberCountDrops = createTextbox({
@@ -71,30 +83,38 @@ async function displayBox() {
 		attributes: { min: "1" },
 	});
 	memberCountDrops.onChange(() => {
-		if (!(factionId in factionStakeouts)) return;
+		const entry = factionStakeouts.list.find((e) => e.id === factionId);
+		if (!entry) return;
 
-		ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { memberCountDrops: parseInt(memberCountDrops.getValue()) || false } } } });
+		entry.alerts.memberCountDrops = parseInt(memberCountDrops.getValue()) || false;
+		ttStorage.set({ factionStakeouts });
 	});
 
 	const rankedWarStarts = createCheckbox({ description: "ranked war" });
 	rankedWarStarts.onChange(() => {
-		if (!(factionId in factionStakeouts)) return;
+		const entry = factionStakeouts.list.find((e) => e.id === factionId);
+		if (!entry) return;
 
-		ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { rankedWarStarts: rankedWarStarts.isChecked() } } } });
+		entry.alerts.rankedWarStarts = rankedWarStarts.isChecked();
+		ttStorage.set({ factionStakeouts });
 	});
 
 	const inRaid = createCheckbox({ description: "raid" });
 	inRaid.onChange(() => {
-		if (!(factionId in factionStakeouts)) return;
+		const entry = factionStakeouts.list.find((e) => e.id === factionId);
+		if (!entry) return;
 
-		ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inRaid: inRaid.isChecked() } } } });
+		entry.alerts.inRaid = inRaid.isChecked();
+		ttStorage.set({ factionStakeouts });
 	});
 
 	const inTerritoryWar = createCheckbox({ description: "territory war" });
 	inTerritoryWar.onChange(() => {
-		if (!(factionId in factionStakeouts)) return;
+		const entry = factionStakeouts.list.find((e) => e.id === factionId);
+		if (!entry) return;
 
-		ttStorage.change({ factionStakeouts: { [factionId]: { alerts: { inTerritoryWar: inTerritoryWar.isChecked() } } } });
+		entry.alerts.inTerritoryWar = inTerritoryWar.isChecked();
+		ttStorage.set({ factionStakeouts });
 	});
 
 	const alertsWrap = elementBuilder({
@@ -106,12 +126,12 @@ async function displayBox() {
 		],
 	});
 
-	if (factionId in factionStakeouts && typeof factionStakeouts[factionId] !== "number") {
-		chainReaches.setNumberValue(factionStakeouts[factionId].alerts.chainReaches || "");
-		memberCountDrops.setNumberValue(factionStakeouts[factionId].alerts.memberCountDrops || "");
-		rankedWarStarts.setChecked(factionStakeouts[factionId].alerts.rankedWarStarts);
-		inRaid.setChecked(factionStakeouts[factionId].alerts.inRaid);
-		inTerritoryWar.setChecked(factionStakeouts[factionId].alerts.inTerritoryWar);
+	if (existingStakeout) {
+		chainReaches.setNumberValue(existingStakeout.alerts.chainReaches || "");
+		memberCountDrops.setNumberValue(existingStakeout.alerts.memberCountDrops || "");
+		rankedWarStarts.setChecked(existingStakeout.alerts.rankedWarStarts);
+		inRaid.setChecked(existingStakeout.alerts.inRaid);
+		inTerritoryWar.setChecked(existingStakeout.alerts.inTerritoryWar);
 	} else {
 		alertsWrap.classList.add("tt-hidden");
 	}

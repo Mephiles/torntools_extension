@@ -1,47 +1,30 @@
-import type { StoredFactionStakeouts } from "@common/utils/data/default-database";
+import type { FactionStakeoutEntry, StoredFactionStakeouts } from "@common/utils/data/default-database";
 import type { FactionStakeoutAlerts, FactionStakeoutRow } from "./columns";
 
 export function getFactionStakeoutRows(source: StoredFactionStakeouts | undefined): FactionStakeoutRow[] {
-	if (!source) return [];
-
-	return Object.entries(source)
-		.filter(([id]) => id !== "date")
-		.map(([id, stakeout]) => getFactionStakeoutRow(id, stakeout, false));
+	return (source?.list ?? []).toSorted((a, b) => a.order - b.order).map((entry) => getFactionStakeoutRow(entry.id, entry, false));
 }
 
-export function getFactionStakeoutRow(id: string, source: unknown, isNew: boolean): FactionStakeoutRow {
-	if (source && typeof source === "object" && !Array.isArray(source)) {
-		const stakeout = source as { info?: FactionStakeoutRow["info"]; alerts?: Partial<FactionStakeoutAlerts> };
-
-		return {
-			id,
-			info: stakeout.info ?? null,
-			alerts: getAlerts(stakeout.alerts),
-			isNew,
-		};
-	}
-
+export function getFactionStakeoutRow(id: number, entry: FactionStakeoutEntry, isNew: boolean): FactionStakeoutRow {
 	return {
-		id,
-		info: null,
-		alerts: getAlerts(),
+		id: id,
+		info: entry.info ?? null,
+		alerts: getAlerts(entry.alerts),
 		isNew,
 	};
 }
 
 export function getStoredFactionStakeouts(sourceRows: FactionStakeoutRow[], currentDate = 0): StoredFactionStakeouts {
-	const nextStakeouts: StoredFactionStakeouts = {
+	const now = Date.now();
+	return {
 		date: currentDate,
-	};
-
-	for (const row of sourceRows) {
-		nextStakeouts[row.id] = {
+		list: sourceRows.map((row) => ({
+			id: row.id,
+			order: now,
 			info: row.info,
 			alerts: row.alerts,
-		};
-	}
-
-	return nextStakeouts;
+		})),
+	};
 }
 
 export function getAlerts(alerts?: Partial<FactionStakeoutAlerts>): FactionStakeoutAlerts {

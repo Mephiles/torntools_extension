@@ -811,7 +811,7 @@ export const DEFAULT_STORAGE = {
 		threadsHiddenInFeed: new DefaultSetting<number[]>("array", []),
 	},
 	stakeouts: new DefaultSetting<StoredStakeouts>("object", { list: [] } as StoredStakeouts),
-	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
+	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", { list: [] } as StoredFactionStakeouts),
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),
 		lastAttack: new DefaultSetting("number", 0),
@@ -932,29 +932,30 @@ export type StoredUserdata = FetchedUserdata & {
 
 export interface StoredFactionStakeouts {
 	date: number;
+	list: FactionStakeoutEntry[];
+}
 
-	[id: string]:
-		| {
-				alerts: {
-					chainReaches: number | false;
-					memberCountDrops: number | false;
-					rankedWarStarts: boolean;
-					inRaid: boolean;
-					inTerritoryWar: boolean;
-				};
-				info: {
-					name: string;
-					chain: number;
-					members: {
-						current: number;
-						maximum: number;
-					};
-					rankedWar: boolean;
-					raid: boolean;
-					territoryWar: boolean;
-				};
-		  }
-		| number;
+export interface FactionStakeoutEntry {
+	id: number;
+	order: number;
+	alerts: {
+		chainReaches: number | false;
+		memberCountDrops: number | false;
+		rankedWarStarts: boolean;
+		inRaid: boolean;
+		inTerritoryWar: boolean;
+	};
+	info: {
+		name: string;
+		chain: number;
+		members: {
+			current: number;
+			maximum: number;
+		};
+		rankedWar: boolean;
+		raid: boolean;
+		territoryWar: boolean;
+	};
 }
 
 type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReaches: number } };
