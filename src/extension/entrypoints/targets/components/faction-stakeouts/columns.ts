@@ -11,6 +11,7 @@ export type FactionStakeoutAlerts = {
 export type FactionStakeoutInfo = {
 	name: string;
 	chain: number;
+	respect: number;
 	members: {
 		current: number;
 		maximum: number;
@@ -22,7 +23,7 @@ export type FactionStakeoutInfo = {
 
 export type BooleanAlertKey = "rankedWarStarts" | "inRaid" | "inTerritoryWar";
 export type NumberAlertKey = "chainReaches" | "memberCountDrops";
-export type FactionStakeoutColumnId = "id" | "name" | "chain" | "members" | "remove" | "notifications";
+export type FactionStakeoutColumnId = "id" | "name" | "chain" | "members" | "respect" | "remove" | "notifications";
 
 export type FactionStakeoutRow = {
 	id: number;
@@ -36,6 +37,7 @@ export const columns: ColumnDef<FactionStakeoutRow>[] = [
 	createColumn("name", "Name"),
 	createColumn("chain", "Chain"),
 	createColumn("members", "Members"),
+	createColumn("respect", "Respect"),
 	createColumn("remove", "Remove"),
 	createColumn("notifications", "Notifications"),
 ];

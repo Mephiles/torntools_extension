@@ -13,6 +13,7 @@
 		id: number;
 		name: string;
 		chain: number | string;
+		respect: number;
 		members: number | string;
 		maxMembers: number | string;
 	};
@@ -39,6 +40,7 @@
 				.map((stakeout) => ({
 					id: stakeout.id,
 					name: stakeout.info?.name ?? String(stakeout.id),
+					respect: stakeout.info?.respect ?? 1, // A default of 0 would result in it being detected as 'destroyed'
 					chain: stakeout.info?.chain ?? "N/A",
 					members: stakeout.info?.members?.current ?? "N/A",
 					maxMembers: stakeout.info?.members?.maximum ?? "N/A",
@@ -76,8 +78,13 @@
 									rel="noreferrer"
 							>
 								<span class="truncate font-medium">{row.name}</span>
-								<Badge variant="outline" class="shrink-0 whitespace-nowrap">{getMembersLabel(row)}</Badge>
-								<Badge variant="secondary" class="shrink-0 whitespace-nowrap">{getChainLabel(row.chain)}</Badge>
+
+								{#if row.respect > 0}
+									<Badge variant="outline" class="shrink-0 whitespace-nowrap">{getMembersLabel(row)}</Badge>
+									<Badge variant="secondary" class="shrink-0 whitespace-nowrap">{getChainLabel(row.chain)}</Badge>
+								{:else}
+									<Badge variant="destructive" class="uppercase">destroyed</Badge>
+								{/if}
 							</a>
 							<Button variant="ghost" size="icon-xs" class="text-destructive" onclick={() => removeFactionStakeout(row.id)} aria-label="Remove faction stakeout">
 								<TrashIcon />

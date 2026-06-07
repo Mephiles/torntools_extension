@@ -88,6 +88,14 @@
 								{:else}
 									<span class="text-muted-foreground">N/A</span>
 								{/if}
+							{:else if cell.column.id === "respect"}
+								{#if row.info && row.info.respect > 0}
+									<Badge variant="secondary">{row.info.respect}</Badge>
+								{:else if row.info}
+									<Badge variant="destructive" class="uppercase">destroyed</Badge>
+								{:else}
+									<span class="text-muted-foreground">N/A</span>
+								{/if}
 							{:else if cell.column.id === "remove"}
 								<Button variant="ghost" size="icon" aria-label={`Remove faction ${row.id}`} onclick={() => onRemove(row.id)}>
 									<TrashIcon class="size-4 text-destructive" aria-hidden="true" />

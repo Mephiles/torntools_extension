@@ -948,6 +948,7 @@ export interface FactionStakeoutEntry {
 	info: {
 		name: string;
 		chain: number;
+		respect: number;
 		members: {
 			current: number;
 			maximum: number;

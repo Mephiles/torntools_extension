@@ -1391,6 +1391,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			factionStakeouts.list[existingIndex].info = {
 				name: data.basic.name,
 				chain: data.chain.current,
+				respect: data.basic.respect,
 				members: {
 					current: data.basic.members,
 					maximum: data.basic.capacity,

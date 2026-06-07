@@ -45,8 +45,9 @@ async function displayBox() {
 				order: Date.now(),
 				alerts: { chainReaches: false, memberCountDrops: false, rankedWarStarts: false, inRaid: false, inTerritoryWar: false },
 				info: {
-					name: "",
+					name: String(factionId),
 					chain: 0,
+					respect: 1,
 					members: { current: 0, maximum: 0 },
 					rankedWar: false,
 					raid: false,
