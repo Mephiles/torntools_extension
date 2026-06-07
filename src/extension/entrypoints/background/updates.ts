@@ -1337,7 +1337,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 				const key = `faction_${factionId}_memberCountDrops`;
 				if (
 					typeof oldMemberCount === "number" &&
-					memberCount >= oldMemberCount &&
+					memberCount < memberCountDrops &&
 					(!oldMemberCount || oldMemberCount > memberCount) &&
 					!notifications.stakeouts[key]
 				) {
