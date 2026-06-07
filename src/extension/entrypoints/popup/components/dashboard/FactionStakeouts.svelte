@@ -26,14 +26,14 @@
 
 		const nextStakeouts: StoredFactionStakeouts = {
 			...$factionStakeoutsStore,
-			list: ($factionStakeoutsStore.list ?? []).filter((e) => e.id !== id),
+			list: ($factionStakeoutsStore?.list ?? []).filter((e) => e.id !== id),
 		};
 
 		await ttStorage.set({ factionStakeouts: nextStakeouts });
 	}
 
 	function getFactionStakeoutRows(source: DatabaseFactionStakeouts, settings: DatabaseSettings): FactionStakeoutRow[] {
-		if (!settings?.pages?.popup?.showStakeouts) return [];
+		if (!settings?.pages?.popup?.showStakeouts || !source?.list?.length) return [];
 
 		return source.list
 				.toSorted((a, b) => a.order - b.order)
