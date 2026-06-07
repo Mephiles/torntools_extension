@@ -17,7 +17,10 @@
 				{ "message": "Avoid errors in a lot of faction page features when visiting a destroyed faction.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the faction id not showing up for a destroyed faction.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Faction Stakeouts' not working properly for a destroyed faction.", "contributor": "DeKleineKobini" },
-				{ "message": "Notifications for the faction stakeout alert for when member count dropped would never trigger.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Notifications for the faction stakeout alert for when member count dropped would never trigger.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" },
