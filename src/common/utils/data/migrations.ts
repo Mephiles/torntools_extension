@@ -129,7 +129,7 @@ export const MIGRATIONS: MigrationScript[] = [
 	},
 	{
 		id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-		version: "9.0.7",
+		version: "9.0.6",
 		execute(database, _flags, oldStorage) {
 			const oldStakeouts = oldStorage?.stakeouts;
 			if (!oldStakeouts || typeof oldStakeouts !== "object") return;
@@ -150,7 +150,7 @@ export const MIGRATIONS: MigrationScript[] = [
 	},
 	{
 		id: "b2c3d4e5-f6a7-8901-bcde-f12345678901",
-		version: "9.0.7",
+		version: "9.0.6",
 		execute(database, _flags, oldStorage) {
 			const oldFactionStakeouts = oldStorage?.factionStakeouts;
 			if (!oldFactionStakeouts || typeof oldFactionStakeouts !== "object") return;
