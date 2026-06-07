@@ -8,7 +8,7 @@ export type NumberAlertKey = "life" | "offline";
 export type StakeoutColumnId = "id" | "name" | "label" | "status" | "lastAction" | "remove" | "notifications";
 
 export type StakeoutRow = {
-	id: string;
+	id: number;
 	info: StakeoutInfo | null;
 	label: string;
 	alerts: StakeoutAlerts;

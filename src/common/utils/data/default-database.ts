@@ -810,7 +810,7 @@ export const DEFAULT_STORAGE = {
 		feedHidden: new DefaultSetting<StoredHiddenFeeds>("object", {}),
 		threadsHiddenInFeed: new DefaultSetting<number[]>("array", []),
 	},
-	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
+	stakeouts: new DefaultSetting<StoredStakeouts>("object", { list: [] } as StoredStakeouts),
 	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),
@@ -968,6 +968,8 @@ export type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | strin
 
 export type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
 export type StakeoutData = {
+	id: number;
+	order: number;
 	info: {
 		name: string;
 		last_action: {
@@ -998,10 +1000,10 @@ export type StakeoutData = {
 	};
 	label: string;
 };
+
 export type StoredStakeouts = {
-	[name: string]: StakeoutData | any[] | number;
-	order: string[];
 	date: number;
+	list: StakeoutData[];
 };
 
 export type QuickItem = { id: number };

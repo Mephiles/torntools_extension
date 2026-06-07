@@ -692,24 +692,24 @@ async function showBox() {
 	async function buildStakeouts() {
 		if (!settings.pages.profile.boxStakeout) return;
 
-		const hasStakeout = id in stakeouts && typeof stakeouts[id] !== "undefined";
+		const existingStakeout = stakeouts.list.find((e) => e.id === id);
 
 		const checkbox = createCheckbox({ description: "Stakeout this user." });
-		checkbox.setChecked(hasStakeout);
+		checkbox.setChecked(!!existingStakeout);
 		checkbox.onChange(() => {
 			if (checkbox.isChecked()) {
-				stakeouts[id] = {
+				stakeouts.list.push({
+					id,
+					order: Date.now(),
 					info: readStakeoutDataFromProfilePage(),
 					alerts: { okay: false, hospital: false, landing: false, online: false, life: false, offline: false, revivable: false },
 					label: "",
-				};
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
+				});
 				ttStorage.set({ stakeouts });
 
 				alerts.classList.remove("tt-hidden");
 			} else {
-				delete stakeouts[id];
-				stakeouts.order = Object.keys(stakeouts).filter((stakeoutID) => !Number.isNaN(parseInt(stakeoutID)));
+				stakeouts.list = stakeouts.list.filter((e) => e.id !== id);
 				ttStorage.set({ stakeouts });
 
 				alerts.classList.add("tt-hidden");
@@ -720,58 +720,74 @@ async function showBox() {
 
 		const labelElement = createTextbox({ description: "label:", style: { width: "100px" } });
 		labelElement.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { label: labelElement.getValue() } } });
+			entry.label = labelElement.getValue();
+			ttStorage.set({ stakeouts });
 		});
 
 		const isOkay = createCheckbox({ description: "is okay" });
 		isOkay.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { alerts: { okay: isOkay.isChecked() } } } });
+			entry.alerts.okay = isOkay.isChecked();
+			ttStorage.set({ stakeouts });
 		});
 
 		const isInHospital = createCheckbox({ description: "is in hospital" });
 		isInHospital.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { alerts: { hospital: isInHospital.isChecked() } } } });
+			entry.alerts.hospital = isInHospital.isChecked();
+			ttStorage.set({ stakeouts });
 		});
 
 		const lands = createCheckbox({ description: "lands" });
 		lands.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { alerts: { landing: lands.isChecked() } } } });
+			entry.alerts.landing = lands.isChecked();
+			ttStorage.set({ stakeouts });
 		});
 
 		const comesOnline = createCheckbox({ description: "comes online" });
 		comesOnline.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { alerts: { online: comesOnline.isChecked() } } } });
+			entry.alerts.online = comesOnline.isChecked();
+			ttStorage.set({ stakeouts });
 		});
 
 		const lifeDrops = createTextbox({ description: { before: "life drops below", after: "%" }, type: "number", attributes: { min: "1", max: "100" } });
 		lifeDrops.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { alerts: { life: parseInt(lifeDrops.getValue()) || false } } } });
+			entry.alerts.life = parseInt(lifeDrops.getValue()) || false;
+			ttStorage.set({ stakeouts });
 		});
 
 		const offlineFor = createTextbox({ description: { before: "offline for over", after: "hours" }, type: "number", attributes: { min: "1" } });
 		offlineFor.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { alerts: { offline: parseInt(offlineFor.getValue()) || false } } } });
+			entry.alerts.offline = parseInt(offlineFor.getValue()) || false;
+			ttStorage.set({ stakeouts });
 		});
 
 		const isRevivable = createCheckbox({ description: "is revivable" });
 		isRevivable.onChange(() => {
-			if (!(id in stakeouts)) return;
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
 
-			ttStorage.change({ stakeouts: { [id]: { alerts: { revivable: isRevivable.isChecked() } } } });
+			entry.alerts.revivable = isRevivable.isChecked();
+			ttStorage.set({ stakeouts });
 		});
 
 		const alerts = elementBuilder({
@@ -789,16 +805,15 @@ async function showBox() {
 			],
 		});
 
-		if (hasStakeout) {
-			const stakeout = stakeouts[id] as StakeoutData;
-			labelElement.setValue(stakeout.label ?? "");
-			isOkay.setChecked(stakeout.alerts.okay);
-			isInHospital.setChecked(stakeout.alerts.hospital);
-			lands.setChecked(stakeout.alerts.landing);
-			comesOnline.setChecked(stakeout.alerts.online);
-			lifeDrops.setValue(stakeout.alerts.life === false ? "" : String(stakeout.alerts.life));
-			offlineFor.setValue(stakeout.alerts.offline === false ? "" : String(stakeout.alerts.offline));
-			isRevivable.setChecked(stakeout.alerts.revivable);
+		if (existingStakeout) {
+			labelElement.setValue(existingStakeout.label ?? "");
+			isOkay.setChecked(existingStakeout.alerts.okay);
+			isInHospital.setChecked(existingStakeout.alerts.hospital);
+			lands.setChecked(existingStakeout.alerts.landing);
+			comesOnline.setChecked(existingStakeout.alerts.online);
+			lifeDrops.setValue(existingStakeout.alerts.life === false ? "" : String(existingStakeout.alerts.life));
+			offlineFor.setValue(existingStakeout.alerts.offline === false ? "" : String(existingStakeout.alerts.offline));
+			isRevivable.setChecked(existingStakeout.alerts.revivable);
 		} else {
 			alerts.classList.add("tt-hidden");
 		}

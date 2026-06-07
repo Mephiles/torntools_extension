@@ -1,5 +1,5 @@
 export type StakeoutRow = {
-	id: string;
+	id: number;
 	name: string;
 	label: string;
 	activity: string;

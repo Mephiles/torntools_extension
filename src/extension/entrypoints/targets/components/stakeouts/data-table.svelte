@@ -12,10 +12,10 @@
 	type DataTableProps = {
 		data: StakeoutRow[];
 		columns: ColumnDef<StakeoutRow>[];
-		onRemove: (id: string) => void;
-		onLabelChange: (id: string, label: string) => void;
-		onBooleanAlertChange: (id: string, key: BooleanAlertKey, value: boolean) => void;
-		onNumberAlertChange: (id: string, key: NumberAlertKey, value: string) => void;
+		onRemove: (id: number) => void;
+		onLabelChange: (id: number, label: string) => void;
+		onBooleanAlertChange: (id: number, key: BooleanAlertKey, value: boolean) => void;
+		onNumberAlertChange: (id: number, key: NumberAlertKey, value: string) => void;
 	};
 
 	let { data, columns, onRemove, onLabelChange, onBooleanAlertChange, onNumberAlertChange }: DataTableProps = $props();
@@ -27,7 +27,7 @@
 		get columns() {
 			return columns;
 		},
-		getRowId: (row) => row.id,
+		getRowId: (row) => String(row.id),
 		getCoreRowModel: getCoreRowModel(),
 	});
 
