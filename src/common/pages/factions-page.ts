@@ -169,7 +169,7 @@ export async function setupFactionsPage() {
 				}
 			}
 		}
-	} else {
+	} else if (!(await isDestroyed())) {
 		loadMemberTable();
 	}
 
@@ -345,4 +345,10 @@ export function extractArmorySubcategory(controls: string): string | null {
 	}
 
 	return null;
+}
+
+export async function isDestroyed(): Promise<boolean> {
+	const info: Element = await requireElement(".faction-info");
+
+	return info.classList.contains("faction-destroyed");
 }

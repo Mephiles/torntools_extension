@@ -1,5 +1,5 @@
 import "./faction-member-filter.css";
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
@@ -59,6 +59,7 @@ function addListener() {
 
 async function addFilter() {
 	if (isInternalFaction && getFactionSubpage() !== "info") return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	await requireElement(".faction-info-wrap .members-list .table-row");
 

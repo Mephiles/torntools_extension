@@ -1,5 +1,5 @@
 import "./full-faction-infobox.css";
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
@@ -24,6 +24,7 @@ function initialiseListeners() {
 
 async function startFeature() {
 	if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	await showFull();
 }

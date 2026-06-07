@@ -1,5 +1,5 @@
 import "./last-action.css";
-import { isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
+import { isDestroyed, isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
@@ -46,6 +46,7 @@ function addListener() {
 
 async function addLastAction(force: boolean) {
 	if (isInternalFaction && !force) return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 	if (document.querySelector(".tt-last-action")) return;
 
 	await requireElement(".members-list .table-body > li");

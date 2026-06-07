@@ -1,5 +1,5 @@
 import "./member-rank.css";
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
@@ -26,6 +26,7 @@ function addListener() {
 
 async function addNumbers(force: boolean) {
 	if (!force && isInternalFaction && getFactionSubpage() !== "info") return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	if (document.querySelector(".tt-member-index")) return;
 	await requireElement(".faction-info-wrap .table-body > .table-row");

@@ -1,5 +1,5 @@
 import "./war-finish-times.css";
-import { isInternalFaction } from "@common/pages/factions-page";
+import { isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
@@ -18,6 +18,7 @@ function startListeners() {
 
 async function addFinishTimes() {
 	if (isInternalFaction && !document.querySelector(".faction-description")) return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	await requireElement("#react-root .f-war-list");
 

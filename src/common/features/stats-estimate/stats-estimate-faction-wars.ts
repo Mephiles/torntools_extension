@@ -1,4 +1,4 @@
-import { isInternalFaction } from "@common/pages/factions-page";
+import { isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -25,6 +25,7 @@ function registerListeners() {
 
 async function startFeature() {
 	if (isInternalFaction && getHashParameters().has("tab")) return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	observeWars();
 }
