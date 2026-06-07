@@ -36,9 +36,9 @@ export class TTExtensionStorage extends TornToolsStorage {
 		return browser.storage.local.clear();
 	}
 
-	reset(key?: "attackHistory" | "stakeouts"): Promise<void> {
+	reset(key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
 		return new Promise(async (resolve) => {
-			if (["attackHistory", "stakeouts"].includes(key)) {
+			if (["attackHistory", "stakeouts", "factionStakeouts"].includes(key)) {
 				await this.set({ [key]: getDefaultStorage(DEFAULT_STORAGE)[key] });
 
 				resolve();

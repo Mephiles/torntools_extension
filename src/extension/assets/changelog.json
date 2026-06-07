@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Use Torn Intel as (opt-in) source for the 'Travel Table'.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Use Torn Intel as (opt-in) source for the 'Travel Table'.", "contributor": "DeKleineKobini" },
+				{ "message": "Show faction stakeouts on the targets page.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Resolve an edge-case while force loading the database with an update already going on.", "contributor": "DeKleineKobini" },
 				{ "message": "Expose missing debug objects again.", "contributor": "DeKleineKobini" },

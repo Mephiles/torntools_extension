@@ -930,7 +930,7 @@ export type StoredUserdata = FetchedUserdata & {
 	userCrime?: number;
 };
 
-interface StoredFactionStakeouts {
+export interface StoredFactionStakeouts {
 	date: number;
 
 	[id: string]:

@@ -30,8 +30,8 @@ export class TTScriptStorage extends TornToolsStorage {
 	}
 
 	reset(): Promise<void>;
-	reset(key: "attackHistory" | "stakeouts"): Promise<void>;
-	reset(_key?: "attackHistory" | "stakeouts"): Promise<void> {
+	reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
+	reset(_key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 

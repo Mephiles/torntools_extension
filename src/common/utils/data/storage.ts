@@ -46,7 +46,7 @@ export abstract class TornToolsStorage {
 	}
 
 	abstract reset(): Promise<void>;
-	abstract reset(key: "attackHistory" | "stakeouts"): Promise<void>;
+	abstract reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
 
 	abstract getSize(): Promise<number>;
 }
