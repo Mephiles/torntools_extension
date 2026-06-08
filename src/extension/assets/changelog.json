@@ -27,7 +27,8 @@
 				{ "message": "More storage update listeners to support more live updates.", "contributor": "DeKleineKobini" },
 				{ "message": "Have the popup take up the entire screen for smaller devices.", "contributor": "DeKleineKobini" },
 				{ "message": "Pull job point information regular instead of on load with caching.", "contributor": "DeKleineKobini" },
-				{ "message": "Include faction stakeouts in the exports.", "contributor": "DeKleineKobini" }
+				{ "message": "Include faction stakeouts in the exports.", "contributor": "DeKleineKobini" },
+				{ "message": "Update our backup calendar to be up-to-date.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [

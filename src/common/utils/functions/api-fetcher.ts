@@ -1,9 +1,9 @@
-import { ttStorage } from "@common/utils/context";
+import type { FetchResponse } from "@common/utils/context";
+import { DATA_FETCHER, OFFLOAD_SERVICE, ttStorage } from "@common/utils/context";
 import { api, settings } from "@common/utils/data/database";
 import { getBadgeText, setBadge } from "@common/utils/functions/extension";
 import { getRFC } from "@common/utils/functions/torn";
 import { SCRIPT_TYPE, TO_MILLIS } from "@common/utils/functions/utilities";
-import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 
 export const CUSTOM_API_ERROR = {
 	NO_NETWORK: "tt-no_network",
@@ -58,24 +58,20 @@ export async function fetchData<R = any>(location: FetchLocation, partialOptions
 		return relayToBackground(location, options);
 	}
 
-	const controller = new AbortController();
-	const timeoutId = setTimeout(() => controller.abort(), decideTimeoutTimer(location));
+	const request = buildFetchRequest(location, options);
 
 	let result: ParsedResult;
 	try {
-		const request = buildFetchRequest(location, options);
-		const response = await fetch(request.url, {
+		const response = await DATA_FETCHER.fetch(request.url, {
 			method: request.method,
 			...(request.method === "POST" ? { body: request.body } : {}),
 			headers: request.headers,
-			signal: controller.signal,
+			timeout: decideTimeoutTimer(location),
 		});
 
-		result = await parseResponse(response, location, controller);
+		result = parseFetchResponse(response, location);
 	} catch (error) {
 		return await handleError(location, options, error);
-	} finally {
-		clearTimeout(timeoutId);
 	}
 
 	if (!result.success) {
@@ -107,17 +103,7 @@ function mergeOptions(partial: Partial<FetchOptions>): FetchOptions {
 }
 
 async function relayToBackground<R = any>(location: FetchLocation, options: FetchOptions): Promise<R> {
-	return new Promise((resolve, reject) => {
-		(BACKGROUND_SERVICE.fetchRelay(location, { ...options, relay: false }) as Promise<R>)
-			.then((response) => resolve(response))
-			.catch((error) => {
-				if (error.name === "NonError") {
-					reject(JSON.parse(error.message));
-				} else {
-					reject(new Error(error));
-				}
-			});
-	});
+	return OFFLOAD_SERVICE.fetchRelay(location, { ...options, relay: false });
 }
 
 function decideTimeoutTimer(location: FetchLocation): number {
@@ -235,16 +221,15 @@ function buildBody(options: FetchOptions) {
 
 type ParsedResult = { data?: any } & ({ success: true } | { success: false; error: any });
 
-async function parseResponse(response: Response, location: FetchLocation, controller: AbortController): Promise<ParsedResult> {
+function parseFetchResponse(response: FetchResponse, location: FetchLocation): ParsedResult {
 	try {
-		return { data: await response.clone().json(), success: true };
-	} catch (parseError) {
+		return { data: JSON.parse(response.text), success: true };
+	} catch {
 		if (TEXT_RESPONSE_PLATFORMS.includes(location)) {
-			return { data: await response.clone().text(), success: true };
+			return { data: response.text, success: true };
 		}
 
-		if (controller.signal.aborted) return { success: false, error: parseError };
-		else if (response.status === 200) return { success: true };
+		if (response.ok) return { success: true };
 		return { success: false, error: new HTTPException(response.status) };
 	}
 }
