@@ -1,4 +1,4 @@
-import type { UserscriptMetadata } from "@@/tools/userscript-metadata";
+import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
 
 const metadata: UserscriptMetadata = {
 	name: "Only New Feed",

@@ -2,10 +2,10 @@ import { readdirSync, readFileSync, unlink } from "node:fs";
 import { rm } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
 import { build } from "vite";
 import type { MonkeyUserScript } from "vite-plugin-monkey";
 import monkey from "vite-plugin-monkey";
-import type { UserscriptMetadata } from "./userscript-metadata";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputDir = resolve(root, ".output/userscripts");
