@@ -8,6 +8,23 @@ export let ttStorage: TornToolsStorage;
 export let SCRIPT_INJECTOR: ScriptInjector;
 export let RUNTIME_INFORMATION: RuntimeInformation;
 export let RUNTIME_STORAGE: RuntimeStorage;
+export let OFFLOAD_SERVICE: OffloadService;
+export let DATA_FETCHER: DataFetcher;
+
+export interface OffloadService {
+	fetchRelay<R = any>(location: string, options: Record<string, any>): Promise<R>;
+	initialize(): Promise<{ success: boolean; error?: any }>;
+}
+
+export interface FetchResponse {
+	text: string;
+	status: number;
+	ok: boolean;
+}
+
+export interface DataFetcher {
+	fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse>;
+}
 
 export function setFeatureManager(featureManager: FeatureManager) {
 	FEATURE_MANAGER = featureManager;
@@ -27,4 +44,12 @@ export function setRuntimeInformation(runtimeInformation: RuntimeInformation) {
 
 export function setRuntimeStorage(runtimeStorage: RuntimeStorage) {
 	RUNTIME_STORAGE = runtimeStorage;
+}
+
+export function setOffloadService(offloadService: OffloadService) {
+	OFFLOAD_SERVICE = offloadService;
+}
+
+export function setDataFetcher(dataFetcher: DataFetcher) {
+	DATA_FETCHER = dataFetcher;
 }

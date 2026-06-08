@@ -21,4 +21,11 @@ export const USERSCRIPTS: UserscriptDefinition[] = [
 		matches: ["https://*.torn.com/gym.php*"],
 		runAt: "document-end",
 	},
+	{
+		name: "Can Energy",
+		description: "Show the amount of energy a can would give.",
+		version: "1.0.0",
+		matches: ["https://*.torn.com/item.php*"],
+		runAt: "document-end",
+	},
 ];

@@ -7,18 +7,18 @@ export class TTScriptStorage extends TornToolsStorage {
 		super();
 	}
 
+	private storageKey(key: DatabaseKey | string): string {
+		return key === "cache" ? key : `${this.prefix}_${key}`;
+	}
+
 	get(): Promise<Database>;
 	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
 	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 	async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
-			return await Promise.all(
-				key.map(async (k) => {
-					return GM.getValue(`${this.prefix}_${k}`);
-				}),
-			);
+			return await Promise.all(key.map((k) => this.storageKey(k)).map((k) => GM.getValue(k)));
 		} else if (key) {
-			return await GM.getValue(`${this.prefix}_${key}`);
+			return await GM.getValue(this.storageKey(key));
 		} else {
 			const storageKeys = Object.keys(DEFAULT_STORAGE) as DatabaseKey[];
 			const storageValues = await this.get(storageKeys);
@@ -33,7 +33,7 @@ export class TTScriptStorage extends TornToolsStorage {
 	async set(object: { [p: string]: any }): Promise<void> {
 		await Promise.all(
 			Object.entries(object).map(([key, value]) => {
-				return GM.setValue(`${this.prefix}_${key}`, value);
+				return GM.setValue(this.storageKey(key), value);
 			}),
 		);
 	}
