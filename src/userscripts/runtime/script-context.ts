@@ -17,7 +17,6 @@ export async function registerUserscriptContext(storagePrefix: string) {
 	setRuntimeStorage(UserscriptRuntimeStorage);
 
 	await migrateDatabase(true);
-
 	const [localdata, filters] = await ttStorage.get(["localdata", "filters"]);
 
 	setLocaldata((localdata ? localdata : getDefaultStorage(DEFAULT_STORAGE.localdata)) as DatabaseLocaldata);
