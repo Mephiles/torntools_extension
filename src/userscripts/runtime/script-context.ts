@@ -9,8 +9,8 @@ import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
 
-export async function registerUserscriptContext() {
-	setTTStorage(new TTScriptStorage());
+export async function registerUserscriptContext(storagePrefix: string) {
+	setTTStorage(new TTScriptStorage(storagePrefix));
 	setFeatureManager(new ScriptFeatureManager());
 	setScriptInjector(UserscriptScriptInjector);
 	setRuntimeInformation(UserscriptRuntimeInformation);

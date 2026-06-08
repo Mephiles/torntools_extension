@@ -77,7 +77,7 @@ export const DEFAULT_STORAGE = {
 			volume: new DefaultSetting("number", 100),
 			requireInteraction: new DefaultSetting("boolean", false),
 			types: {
-				global: new DefaultSetting("boolean", () => Notification.permission === "granted"),
+				global: new DefaultSetting("boolean", () => typeof Notification !== "undefined" && Notification.permission === "granted"),
 				events: new DefaultSetting("boolean", true),
 				messages: new DefaultSetting("boolean", true),
 				status: new DefaultSetting("boolean", true),
