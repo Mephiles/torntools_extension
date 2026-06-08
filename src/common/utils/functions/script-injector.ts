@@ -171,7 +171,7 @@ export function injectXhrListeners() {
 
 		return oldXHROpen.apply(this, arguments as any);
 	};
-	window.XMLHttpRequest.prototype.send = function (body: XMLHttpRequestBodyInit | null) {
+	window.XMLHttpRequest.prototype.send = function (body) {
 		this["params"] = this["params"] ?? {};
 		if ("xhrSendAdjustments" in window && typeof window.xhrSendAdjustments === "object") {
 			for (const key in window.xhrSendAdjustments) {

@@ -5,7 +5,7 @@ import { ExecutionTiming, Feature } from "@features/feature";
 
 declare global {
 	interface Window {
-		xhrSendAdjustments?: { [key: string]: (xhr: any, body: XMLHttpRequestBodyInit | null) => string };
+		xhrSendAdjustments?: { [key: string]: (xhr: any, body: string) => string };
 	}
 }
 
