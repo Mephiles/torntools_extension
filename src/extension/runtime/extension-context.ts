@@ -29,6 +29,9 @@ export function registerExtensionContext() {
 }
 
 export const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean } = {
+	getWindow(): Window {
+		return window;
+	},
 	injectedFetch: false,
 	injectFetch() {
 		if (this.injectedFetch) return;

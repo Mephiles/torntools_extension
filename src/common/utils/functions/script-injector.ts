@@ -1,7 +1,9 @@
+import { SCRIPT_INJECTOR } from "@common/utils/context";
 import { capitalizeText } from "@common/utils/functions/formatting";
 import { isIntNumber } from "@common/utils/functions/utilities";
 
 export interface ScriptInjector {
+	getWindow(): Window;
 	injectFetch(): void;
 	injectXHR(): void;
 }
@@ -47,8 +49,8 @@ export interface FetchDetails {
 }
 
 export function injectFetchListeners() {
-	const oldFetch = window.fetch;
-	(window.fetch as any) = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>
+	const oldFetch = SCRIPT_INJECTOR.getWindow().fetch;
+	(SCRIPT_INJECTOR.getWindow().fetch as any) = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>
 		new Promise((resolve, reject) => {
 			oldFetch(input, init)
 				.then(async (response: Response) => {

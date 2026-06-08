@@ -61,6 +61,9 @@ const fetchListenerInjector = new RequestListenerInjector(injectFetchListeners);
 const xhrListenerInjector = new RequestListenerInjector(injectXhrListeners);
 
 export const UserscriptScriptInjector: ScriptInjector = {
+	getWindow(): Window {
+		return unsafeWindow;
+	},
 	injectFetch() {
 		fetchListenerInjector.inject();
 	},
