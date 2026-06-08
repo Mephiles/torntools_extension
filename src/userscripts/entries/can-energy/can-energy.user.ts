@@ -84,7 +84,7 @@ function writeCanItems() {
 			} as TornItem,
 			"987": {
 				name: "Can of Crocozade",
-				effect: "Increases energy by 5 and booster cooldown by 2 hours.",
+				effect: "Increases energy by 15 and booster cooldown by 2 hours.",
 			} as TornItem,
 		},
 	});
