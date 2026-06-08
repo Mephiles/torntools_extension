@@ -20,7 +20,8 @@
 				{
 					"message": "Notifications for the faction stakeout alert for when member count dropped would never trigger.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Fix 'Faction Member Filter' trying to wait on last action even if it's disabled.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" },

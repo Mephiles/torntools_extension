@@ -21,7 +21,9 @@ function addListener() {
 			if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
 			await addFilter();
-			await showLastAction();
+			if (settings.scripts.lastAction.factionMember) {
+				await showLastAction();
+			}
 		});
 	}
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
