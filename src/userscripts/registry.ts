@@ -28,4 +28,11 @@ export const USERSCRIPTS: UserscriptDefinition[] = [
 		matches: ["https://*.torn.com/item.php*"],
 		runAt: "document-end",
 	},
+	{
+		name: "Ranked War Filter",
+		description: "Filter the ranked war views.",
+		version: "1.0.0",
+		matches: ["https://*.torn.com/factions.php*"],
+		runAt: "document-end",
+	},
 ];
