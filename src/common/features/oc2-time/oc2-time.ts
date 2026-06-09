@@ -84,7 +84,6 @@ function buildTimeLeftElement() {
 		countdownTimers.push(timeLeftElement);
 	} else {
 		timeLeftElement.textContent = `Ready ${(userdata.organizedCrime as FactionCrime).status}`;
-		timeLeftElement.title = undefined;
 	}
 
 	return timeLeftElement;
