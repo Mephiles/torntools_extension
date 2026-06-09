@@ -272,7 +272,7 @@ export function initializeDatabase() {
 	initializeDatabaseListener();
 }
 
-function initializeDatabaseListener() {
+export function initializeDatabaseListener() {
 	RUNTIME_STORAGE.addChangeListener((changes, area) => {
 		if (area === "local") {
 			for (const key in changes) {

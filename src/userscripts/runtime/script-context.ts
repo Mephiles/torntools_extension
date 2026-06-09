@@ -9,7 +9,14 @@ import {
 	setTTStorage,
 	ttStorage,
 } from "@common/utils/context";
-import { type DatabaseFilters, type DatabaseLocaldata, migrateDatabase, setFilters, setLocaldata } from "@common/utils/data/database";
+import {
+	type DatabaseFilters,
+	type DatabaseLocaldata,
+	initializeDatabaseListener,
+	migrateDatabase,
+	setFilters,
+	setLocaldata,
+} from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import { injectFetchListeners, injectXhrListeners, RequestListenerInjector, type ScriptInjector } from "@common/utils/functions/script-injector";
 import type { Feature } from "@features/feature";
@@ -18,7 +25,7 @@ import { TTScriptStorage } from "@userscripts/runtime/script-storage";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
-import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
+import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
 
 export async function registerUserscriptContext(storagePrefix: string) {
 	setTTStorage(new TTScriptStorage(storagePrefix));
@@ -30,6 +37,7 @@ export async function registerUserscriptContext(storagePrefix: string) {
 	setDataFetcher(ScriptDataFetcher);
 
 	await migrateDatabase(true);
+	initializeDatabaseListener();
 	const [localdata, filters, cache] = await ttStorage.get(["localdata", "filters", "cache"]);
 
 	setLocaldata((localdata ? localdata : getDefaultStorage(DEFAULT_STORAGE.localdata)) as DatabaseLocaldata);
@@ -82,8 +90,11 @@ export const UserscriptRuntimeInformation: RuntimeInformation = {
 	},
 };
 
-export const UserscriptRuntimeStorage: RuntimeStorage = {
-	addChangeListener() {},
+export const UserscriptRuntimeStorage: RuntimeStorage & { callback: StorageChangeCallback } = {
+	callback: () => {},
+	addChangeListener(callback: StorageChangeCallback) {
+		this.callback = callback;
+	},
 };
 
 export const ScriptOffloadService: OffloadService = {

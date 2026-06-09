@@ -1,6 +1,7 @@
 import type { Database, DatabaseKey } from "@common/utils/data/database";
 import { DEFAULT_STORAGE } from "@common/utils/data/default-database";
 import { TornToolsStorage } from "@common/utils/data/storage";
+import { UserscriptRuntimeStorage } from "@userscripts/runtime/script-context";
 
 export class TTScriptStorage extends TornToolsStorage {
 	constructor(private readonly prefix: string) {
@@ -33,6 +34,7 @@ export class TTScriptStorage extends TornToolsStorage {
 	async set(object: { [p: string]: any }): Promise<void> {
 		await Promise.all(
 			Object.entries(object).map(([key, value]) => {
+				UserscriptRuntimeStorage.callback({ [key]: { newValue: value, oldValue: null } }, "local");
 				return GM.setValue(this.storageKey(key), value);
 			}),
 		);
