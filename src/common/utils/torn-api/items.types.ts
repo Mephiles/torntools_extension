@@ -55,30 +55,7 @@ export type AmmoName =
 	| "Liter of Fuel"
 	| ".45 ACP Round";
 
-export type Vendor =
-	| { country: "Torn"; name: "Big Al's Gun Shop" }
-	| { country: "Torn"; name: "Sally's Sweet Shop" }
-	| { country: "Torn"; name: "the Jewelry Store" }
-	| { country: "Torn"; name: "the Super Store" }
-	| { country: "Torn"; name: "the Pharmacy" }
-	| { country: "Torn"; name: "the Post Office" }
-	| { country: "Torn"; name: "Bits 'n' Bobs" }
-	| { country: "Torn"; name: "the Docks" }
-	| { country: "Torn"; name: "the Print Shop" }
-	| { country: "Torn"; name: "TC Clothing" }
-	| { country: "Torn"; name: "the Recycling Center" }
-	| { country: "Torn"; name: "Nikeh Sports" }
-	| { country: "Mexico"; name: "Ciudad Juarez Shop" }
-	| { country: "Canada"; name: "Toronto Shop" }
-	| { country: "Cayman Islands"; name: "George Town Shop" }
-	| { country: "Hawaii"; name: "Honolulu Shop" }
-	| { country: "Argentina"; name: "Buenos Aires Shop" }
-	| { country: "United Kingdom"; name: "London Shop" }
-	| { country: "Switzerland"; name: "Zurich Shop" }
-	| { country: "Japan"; name: "Tokyo Shop" }
-	| { country: "China"; name: "Beijing Shop" }
-	| { country: "UAE"; name: "Dubai Shop" }
-	| { country: "South Africa"; name: "Johannesburg Shop" };
+export type Vendor = { country: string; name: string };
 
 export type StaticItem = {
 	id: number;
