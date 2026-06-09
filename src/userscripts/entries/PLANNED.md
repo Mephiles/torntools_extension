@@ -2,7 +2,6 @@ Following scripts are still planned to be ported:
 * Abroad Items Filter
 * Armory Filter
   * Needs all items stored (can be outdated).
-* Bounty Filter
 * Jail Filter
 * Racing Filter
 * Shop Filters
