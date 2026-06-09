@@ -1,7 +1,7 @@
 import { setupBountiesPage } from "@common/pages/bounties-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
-import type { Feature } from "@features/feature";
 import BountyFilterFeature from "@features/bounty-filter/bounty-filter";
+import type { Feature } from "@features/feature";
 import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 
 (async () => {
