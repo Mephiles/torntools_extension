@@ -70,7 +70,9 @@ async function addFilters() {
 	const factionFilter = createFilterSection({
 		title: "Faction",
 		select: [
-			...(isPreviousFactionSelectionPresent ? [] : [{ value: filters.abroadPeople.faction, description: filters.abroadPeople.faction }]),
+			...(isPreviousFactionSelectionPresent || !filters.abroadPeople.faction
+				? []
+				: [{ value: filters.abroadPeople.faction, description: filters.abroadPeople.faction }]),
 			...defaultFactionsItems,
 			...onPageFactions,
 		],
