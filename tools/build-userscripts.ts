@@ -2,8 +2,11 @@ import { readdirSync, readFileSync, unlink } from "node:fs";
 import { rm } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
-import { build } from "vite";
+import type { RecursivePartial } from "@common/utils/data/database";
+import type { StaticItem } from "@common/utils/torn-api/items.types";
+import { STATIC_ITEMS } from "@common/utils/torn-api/static-items";
+import type { StaticItemScopeFilter, UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
+import { build, type Plugin } from "vite";
 import type { MonkeyUserScript } from "vite-plugin-monkey";
 import monkey from "vite-plugin-monkey";
 
@@ -45,13 +48,55 @@ const aliases = {
 	"@userscripts": resolve(root, "src/userscripts"),
 };
 
+const staticItemsModuleId = "src/common/utils/torn-api/static-items";
+const scopedStaticItemsModuleId = "\0torntools:filtered-static-items";
+
+function createFilteredStaticItemsPlugin(filter?: StaticItemScopeFilter): Plugin | null {
+	if (!filter) return null;
+
+	return {
+		name: "torntools-filtered-static-items",
+		enforce: "pre",
+		resolveId(source) {
+			if (source.endsWith(staticItemsModuleId)) return scopedStaticItemsModuleId;
+
+			return null;
+		},
+		load(id) {
+			if (id !== scopedStaticItemsModuleId) return null;
+
+			const scopedItems = STATIC_ITEMS.filter(filter).map(projectStaticItem);
+			const scopedItemMap = Object.fromEntries(scopedItems.map((item) => [item.id, item]));
+			const code = [
+				`export const STATIC_ITEMS = ${JSON.stringify(scopedItems)};`,
+				`export const STATIC_ITEM_MAP = ${JSON.stringify(scopedItemMap)};`,
+			].join("\n");
+
+			return { code, moduleSideEffects: true };
+		},
+	};
+}
+
+function projectStaticItem(item: StaticItem): RecursivePartial<StaticItem> {
+	return {
+		id: item.id,
+		name: item.name,
+		effect: item.effect,
+		value: { sell_price: item.value.sell_price },
+		details: item.type === "Weapon" ? { category: item.details.category } : undefined,
+	};
+}
+
 async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, grants?: MonkeyUserScript["grant"]) {
+	const scopedStaticItemsPlugin = createFilteredStaticItemsPlugin(userscript.staticItems);
+
 	await build({
 		root,
 		configFile: false,
 		publicDir: false,
 		resolve: { alias: aliases },
 		plugins: [
+			...(scopedStaticItemsPlugin ? [scopedStaticItemsPlugin] : []),
 			monkey({
 				entry: `src/userscripts/entries/${entryName}/${entryName}.user.ts`,
 				userscript: {

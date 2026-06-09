@@ -1,4 +1,4 @@
-import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
+import type { UserscriptMetadata } from "../userscript-metadata";
 
 const metadata: UserscriptMetadata = {
 	name: "Armory Filter",
@@ -6,6 +6,7 @@ const metadata: UserscriptMetadata = {
 	version: "1.0.0",
 	matches: ["https://*.torn.com/factions.php*"],
 	runAt: "document-end",
+	staticItems: (item) => item.type === "Weapon",
 };
 
 export default metadata;

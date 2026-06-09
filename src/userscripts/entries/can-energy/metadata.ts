@@ -6,6 +6,7 @@ const metadata: UserscriptMetadata = {
 	version: "1.0.2",
 	matches: ["https://*.torn.com/item.php*"],
 	runAt: "document-end",
+	staticItems: (item) => item.type === "Energy Drink",
 };
 
 export default metadata;
