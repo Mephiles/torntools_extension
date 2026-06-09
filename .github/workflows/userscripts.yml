@@ -49,5 +49,5 @@ jobs:
               echo
               echo "| Namespace | Version | Download | Status |"
               echo "|-----------|---------|----------|--------|"
-              echo "$response" | jq -r '.userscripts[] | "| \(.namespace) | \(.version) | [Download](https://torntools.tornplayground.eu/api/userscripts/\(.namespace)/download) | \(.status) |"'
+              echo "$response" | jq -r '.userscripts[] | "| \(.namespace) | \(.version) | https://torntools.tornplayground.eu/api/userscripts/\(.namespace)/download | \(.status) |"'
           } >> "${GITHUB_STEP_SUMMARY}"
