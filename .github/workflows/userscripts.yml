@@ -36,16 +36,16 @@ jobs:
               upload_args+=(-F "files=@${file};type=application/javascript")
           done
           
-          curl --fail -X POST -H "X-API-TOKEN: ${PG_TT_TOKEN}" "${upload_args[@]}" https://torntools.tornplayground.eu/api/userscripts
+          curl --fail -X POST -H "X-API-TOKEN: ${PG_TT_TOKEN}" "${upload_args[@]}" https://torntools.tornplayground.eu/api/userscripts -o /tmp/userscripts-response.json
 
       - name: Write upload summary
         run: |
           set -euo pipefail
-          
-          {
-              echo "## Uploaded userscripts"
-              echo
-              for file in .output/userscripts/*.user.js; do
-                  echo "- $(basename "${file}")"
-              done
-          } >> "${GITHUB_STEP_SUMMARY}"
+
+          response=$(cat /tmp/userscripts-response.json)
+
+          echo "## Uploaded userscripts" >> "${GITHUB_STEP_SUMMARY}"
+          echo "" >> "${GITHUB_STEP_SUMMARY}"
+          echo "| Namespace | Version | File | Status |" >> "${GITHUB_STEP_SUMMARY}"
+          echo "|-----------|---------|------|--------|" >> "${GITHUB_STEP_SUMMARY}"
+          echo "$response" | jq -r '.userscripts[] | "| \(.namespace) | \(.version) | \(.fileName) | \(.status) |"' >> "${GITHUB_STEP_SUMMARY}"
