@@ -8,7 +8,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { TORN_ITEMS } from "@common/utils/functions/torn-items";
+import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 import type { TornItem } from "tornapi-typescript";
 
@@ -45,7 +45,7 @@ async function showHighlight() {
 			marker.classList.add("city-item");
 			marker.dataset.id = id;
 
-			const itemName = hasAPIData() ? torndata.itemsMap[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
+			const itemName = loadItem(parseInt(id))?.name ?? id;
 
 			if (settings.pages.city.combineDuplicates) {
 				const duplicate = items.find((item) => item.id === id);

@@ -1,9 +1,10 @@
 import "./bazaar-sub-vendor-items.css";
-import { settings, torndata } from "@common/utils/data/database";
+import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
+import { loadItem } from "@common/utils/torn-api/items";
 import { ExecutionTiming, Feature } from "@features/feature";
 
 const CLASS_NAME = "tt-sub-vendor-highlight";
@@ -42,8 +43,8 @@ function highlightEverything() {
 /**
  * Should highlight the given item based on the price?
  */
-function shouldHighlight(id: number | string, price: number) {
-	return price < torndata.itemsMap[id]?.value.sell_price;
+function shouldHighlight(id: number, price: number) {
+	return price < loadItem(id)?.value.sell_price;
 }
 
 function handleItem(item: HighlightableItem) {
@@ -62,12 +63,6 @@ function removeHighlights() {
 export default class BazaarSubVendorItemsFeature extends Feature {
 	constructor() {
 		super("Highlight Cheap Items", "bazaar", ExecutionTiming.DOM_INTERACTIVE);
-	}
-
-	requirements() {
-		if (!hasAPIData()) return "No API access.";
-
-		return true;
 	}
 
 	isEnabled() {

@@ -21,6 +21,7 @@ import { formatNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
+import { loadItem } from "@common/utils/torn-api/items";
 
 type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionV1ArmorResponse &

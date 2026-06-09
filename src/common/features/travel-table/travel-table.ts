@@ -15,6 +15,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@common/utils/functions/torn";
 import { toCorrectType } from "@common/utils/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons";
+import { loadItem } from "@common/utils/torn-api/items";
 import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
 
 interface CountryInformation {
@@ -586,12 +587,9 @@ async function startTable() {
 		type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
 
 		function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
-			const itemType: Lowercase<TornItemTypeEnum> =
-				item.id in torndata.itemsMap ? (torndata.itemsMap[item.id].type.toLowerCase() as Lowercase<TornItemTypeEnum>) : "other";
-			const subType: Lowercase<TornItemWeaponTypeEnum> | null =
-				item.id in torndata.itemsMap && torndata.itemsMap[item.id].sub_type
-					? (torndata.itemsMap[item.id].sub_type.toLowerCase() as Lowercase<TornItemWeaponTypeEnum>)
-					: null;
+			const tornItem = torndata.itemsMap[item.id];
+			const itemType: Lowercase<TornItemTypeEnum> = (tornItem?.type.toLowerCase() as Lowercase<TornItemTypeEnum>) ?? "other";
+			const subType: Lowercase<TornItemWeaponTypeEnum> = (tornItem?.sub_type?.toLowerCase() as Lowercase<TornItemWeaponTypeEnum>) ?? null;
 
 			let category: TableCategory;
 			switch (itemType) {
@@ -616,7 +614,6 @@ async function startTable() {
 
 			if (getTravelType() === "standard") totalCost += country.cost;
 
-			const tornItem = torndata.itemsMap[item.id];
 			let value: number | "N/A" = tornItem?.value.market_price ?? 0;
 			const time = country.time * getTimeModifier(getTravelType());
 			let profitItem: number | "N/A", profitMinute: number | "N/A", profit: number | "N/A";

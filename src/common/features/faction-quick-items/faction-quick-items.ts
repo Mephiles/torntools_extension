@@ -2,9 +2,8 @@ import "./faction-quick-items.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import type { TornInternalUseItem } from "@common/pages/item-page";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
-import { quick, settings, torndata } from "@common/utils/data/database";
+import { quick, settings } from "@common/utils/data/database";
 import type { QuickFactionItem } from "@common/utils/data/default-database";
-import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@common/utils/functions/dom";
@@ -12,8 +11,8 @@ import { formatTime } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
-import { getTornItemType, TORN_ITEMS } from "@common/utils/functions/torn-items";
 import { PHFillPlus, PHX } from "@common/utils/icons/phosphor-icons";
+import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 
 let movingElement: Element | undefined;
@@ -210,7 +209,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 	const { id } = data;
 
 	if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
-	if (!allowQuickItem(id, typeof id === "number" ? getTornItemType(id) : null)) return null;
+	if (!allowQuickItem(id, typeof id === "number" ? loadItem(id)?.type : null)) return null;
 
 	const itemWrap = elementBuilder({
 		type: "div",
@@ -226,7 +225,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 					return;
 				}
 
-				if (settings.pages.items.energyWarning && hasAPIData() && typeof id === "number" && ["Drug", "Energy Drink"].includes(getTornItemType(id))) {
+				if (settings.pages.items.energyWarning && typeof id === "number" && ["Drug", "Energy Drink"].includes(loadItem(id)?.type)) {
 					const received = getItemEnergy(id);
 					if (received) {
 						const [current, max] = getUserEnergy();
@@ -399,18 +398,18 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 			itemWrap.setAttribute("title", "Nerve Refill");
 			itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: "Nerve Refill" }));
 			break;
-		default:
+		default: {
 			itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
-			if (hasAPIData()) {
-				itemWrap.setAttribute("title", torndata.itemsMap[id].name);
-				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: torndata.itemsMap[id].name }));
-			} else if (id in TORN_ITEMS) {
-				itemWrap.setAttribute("title", TORN_ITEMS[id].name);
-				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
+
+			const item = loadItem(parseInt(String(id)));
+			if (item) {
+				itemWrap.setAttribute("title", item.name);
+				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: item.name }));
 			} else {
 				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: id }));
 			}
 			break;
+		}
 	}
 
 	const closeIcon = elementBuilder({

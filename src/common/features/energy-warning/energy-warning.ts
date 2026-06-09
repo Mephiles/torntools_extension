@@ -32,7 +32,7 @@ async function addWarning(item: HTMLElement) {
 	if (!message) return;
 
 	const factionPage = getPage() === "factions";
-	const received = getItemEnergy(factionPage ? item.querySelector<HTMLElement>(".img-wrap").dataset.itemid : item.dataset.item);
+	const received = getItemEnergy(parseInt(factionPage ? item.querySelector<HTMLElement>(".img-wrap").dataset.itemid : item.dataset.item));
 	if (!received) return;
 
 	const [current] = getUserEnergy();
@@ -85,10 +85,5 @@ export default class EnergyWarningFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.items.energyWarning"];
-	}
-
-	requirements() {
-		if (!hasAPIData()) return "No API access.";
-		return true;
 	}
 }

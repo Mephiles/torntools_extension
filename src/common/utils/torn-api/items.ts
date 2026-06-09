@@ -1,22 +1,15 @@
 import { torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
 import type { TornV1Items } from "@common/utils/functions/api-v1.types";
+import type { StaticItem } from "@common/utils/torn-api/items.types";
+import { STATIC_ITEM_MAP } from "@common/utils/torn-api/static-items";
+import type { TornItem } from "tornapi-typescript";
 
-export function getTornItemName(id: number): string | null {
-	return getTornItem(id)?.name ?? null;
-}
+export function loadItem(id: number): StaticItem | TornItem | null {
+	if (torndata?.itemsMap && id in torndata.itemsMap) {
+		return torndata.itemsMap[id];
+	}
 
-export function getTornItemType(id: number): string | null {
-	return getTornItem(id)?.type ?? null;
-}
-
-interface MinimalItem {
-	name: string;
-	type: string;
-}
-
-export function getTornItem(id: number): MinimalItem | null {
-	return hasAPIData() && id in torndata.itemsMap ? torndata.itemsMap[id] : id in TORN_ITEMS ? TORN_ITEMS[id] : null;
+	return id in STATIC_ITEM_MAP ? STATIC_ITEM_MAP[id] : null;
 }
 
 export const TORN_ITEMS: TornV1Items = {

@@ -29,7 +29,14 @@
 				{ "message": "Have the popup take up the entire screen for smaller devices.", "contributor": "DeKleineKobini" },
 				{ "message": "Pull job point information regular instead of on load with caching.", "contributor": "DeKleineKobini" },
 				{ "message": "Include faction stakeouts in the exports.", "contributor": "DeKleineKobini" },
-				{ "message": "Update our backup calendar to be up-to-date.", "contributor": "DeKleineKobini" }
+				{ "message": "Update our backup calendar to be up-to-date.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Use a static list of items from the V2 api when needed, decreasing dependency on an active api key.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Allow 'Auction House Filter' to work when there is no API data.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow 'Bazaar Sub Vendor Items' to work when there is no API data.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow 'Energy Warning' to work when there is no API data.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [

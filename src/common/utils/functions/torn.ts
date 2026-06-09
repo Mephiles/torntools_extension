@@ -3,6 +3,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
+import { loadItem } from "@common/utils/torn-api/items";
 import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { elementBuilder, findAllElements, findElementWithText, findParent, getSearchParameters, isElement } from "./dom";
 import { convertToNumber, formatNumber } from "./formatting";
@@ -1703,10 +1704,9 @@ export function getNextChainBonus(current: number) {
 	return CHAIN_BONUSES.find((bonus) => bonus > current);
 }
 
-export function isSellable(id: number | string) {
-	if (!torndata?.itemsMap) return true;
-
-	const item = torndata.itemsMap[id];
+export function isSellable(id: number) {
+	const item = loadItem(id);
+	if (!item) return true;
 
 	return (
 		item &&
@@ -2146,8 +2146,8 @@ export function getUserEnergy() {
 		.map((x) => parseInt(x));
 }
 
-export function getItemEnergy(id: number | string) {
-	const effect = torndata.itemsMap[id]?.effect;
+export function getItemEnergy(id: number) {
+	const effect = loadItem(id)?.effect;
 	if (!effect) return false;
 
 	const energy = effect.match(/(?<=Increases energy by )\d+/);

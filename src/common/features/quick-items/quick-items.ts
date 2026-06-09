@@ -2,9 +2,8 @@ import "./quick-items.css";
 import { isUseItem } from "@common/pages/item-page";
 import { ttStorage } from "@common/utils/context";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
-import { quick, settings, torndata } from "@common/utils/data/database";
+import { quick, settings } from "@common/utils/data/database";
 import type { QuickItem } from "@common/utils/data/default-database";
-import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@common/utils/functions/dom";
@@ -21,8 +20,8 @@ import {
 	getPageStatus,
 	getUserEnergy,
 } from "@common/utils/functions/torn";
-import { getTornItemName, getTornItemType, TORN_ITEMS } from "@common/utils/functions/torn-items";
 import { PHPlus, PHX } from "@common/utils/icons/phosphor-icons";
+import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@features/opened-supply-pack-value/opened-supply-pack-value";
 
@@ -156,11 +155,11 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 	const { id } = data;
 
 	if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
-	if (!allowQuickItem(id, getTornItemType(id))) return null;
+	if (!allowQuickItem(id, loadItem(id)?.type)) return null;
 
 	let equipPosition: number | false | undefined;
-	if (isEquipable(id, getTornItemType(id))) {
-		equipPosition = getEquipPosition(id, getTornItemType(id));
+	if (isEquipable(id, loadItem(id)?.type)) {
+		equipPosition = getEquipPosition(id, loadItem(id)?.type);
 		data.equipPosition = equipPosition;
 	}
 
@@ -178,7 +177,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 					return;
 				}
 
-				const equipItem = isEquipable(id, getTornItemType(id));
+				const equipItem = isEquipable(id, loadItem(id)?.type);
 				// TODO: API Inventory Block.
 				/*if (equipItem) {
 					responseWrap.textContent = "";
@@ -224,7 +223,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 					return;
 				}
 
-				if (settings.pages.items.energyWarning && !equipItem && hasAPIData() && ["Drug", "Energy Drink"].includes(getTornItemType(id))) {
+				if (settings.pages.items.energyWarning && !equipItem && ["Drug", "Energy Drink"].includes(loadItem(id)?.type)) {
 					const received = getItemEnergy(id);
 					if (received) {
 						const [current, max] = getUserEnergy();
@@ -396,9 +395,10 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 		},
 	});
 	itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
-	if (hasAPIData()) {
-		itemWrap.setAttribute("title", torndata.itemsMap[id].name);
-		itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: torndata.itemsMap[id].name }));
+	const item = loadItem(id);
+	if (item) {
+		itemWrap.setAttribute("title", item.name);
+		itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: item.name }));
 
 		// TODO: API Inventory Block.
 		/*if (settings.apiUsage.user.inventory) {
@@ -409,9 +409,6 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 
 			if (inventoryItem.equipped) itemWrap.classList.add("equipped");
 		}*/
-	} else if (id in TORN_ITEMS) {
-		itemWrap.setAttribute("title", TORN_ITEMS[id].name);
-		itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
 	} else {
 		itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: id }));
 	}
@@ -555,7 +552,7 @@ function updateItemAmount(id: number, change: number) {
 }
 
 function updateEquippedItem(id: number, isEquip: boolean) {
-	const equipPosition = getEquipPosition(id, getTornItemType(id));
+	const equipPosition = getEquipPosition(id, loadItem(id)?.type);
 	findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`).forEach((x) => x.classList.remove("equipped"));
 
 	if (isEquip && document.querySelector(`.item[data-id="${id}"]`)) document.querySelector(`.item[data-id="${id}"]`).classList.add("equipped");
@@ -613,7 +610,7 @@ function getXID(item: number): number | null {
 async function getXIDWithDirectCall(item: number): Promise<boolean> {
 	const body = new URLSearchParams();
 	body.set("step", "getSearchList");
-	body.set("q", getTornItemName(item));
+	body.set("q", loadItem(item)?.name);
 
 	const result = await fetchData("torn_direct", { action: "item.php", method: "POST", body });
 

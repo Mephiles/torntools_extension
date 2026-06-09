@@ -1,10 +1,11 @@
 import "./can-energy.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata, userdata } from "@common/utils/data/database";
+import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
+import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 
 function initialiseAddEGains() {
@@ -25,8 +26,11 @@ function addEnergyGains() {
 	findAllElements("[data-category='Energy Drink']").forEach((eCanElement) => {
 		if (eCanElement.querySelector(".tt-e-gains")) return;
 
+		const item = loadItem(parseInt(eCanElement.dataset.item));
+		if (!item) return;
+
 		const baseEnergy = parseInt(
-			torndata.itemsMap[eCanElement.dataset.item].effect
+			item.effect
 				.split(" ")
 				.map((x) => parseInt(x))
 				.filter((x) => !Number.isNaN(x))[0]

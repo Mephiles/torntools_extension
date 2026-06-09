@@ -1,5 +1,5 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
+import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -9,6 +9,7 @@ import { convertToNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS, ITEM_TYPES } from "@common/utils/functions/torn";
+import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 
 let localFilters: any = {};
@@ -256,7 +257,7 @@ type AuctionHouseFilters = {
 };
 
 function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
-	const id = row.querySelector<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1];
+	const id = parseInt(row.querySelector<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1]);
 
 	if (filters.name) {
 		if (!row.querySelector(".item-name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
@@ -264,17 +265,20 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			return;
 		}
 	}
-	if (filters.category) {
-		const details = id in torndata.itemsMap && torndata.itemsMap[id].details;
-		const itemCategory = details && "category" in details ? details.category.toLowerCase() : torndata.itemsMap[id].type;
+	const item = loadItem(id);
+	if (filters.category && item) {
+		const itemCategory =
+			"details" in item && item.details && typeof item.details === "object" && "category" in item.details
+				? String((item.details as Record<string, unknown>).category).toLowerCase()
+				: item?.type;
 
 		if (itemCategory !== filters.category) {
 			hide("category");
 			return;
 		}
 	}
-	if (filters.weaponType) {
-		if (torndata.itemsMap[id].sub_type?.toLowerCase() !== filters.weaponType) {
+	if (filters.weaponType && item) {
+		if (item.sub_type?.toLowerCase() !== filters.weaponType) {
 			hide("weapon_type");
 			return;
 		}
@@ -397,12 +401,6 @@ function getCategories(itemType: string) {
 export default class AuctionHouseFilterFeature extends Feature {
 	constructor() {
 		super("Auction House Filter", "auction");
-	}
-
-	async requirements() {
-		if (!hasAPIData()) return "No API access.";
-
-		return true;
 	}
 
 	isEnabled() {

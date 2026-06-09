@@ -5,6 +5,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
+import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 
 function initialiseAddGains() {
@@ -25,8 +26,11 @@ function addNerveGains() {
 		if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;
 
 		const id = parseInt(alcoholicDrink.dataset.item);
+		const item = loadItem(id);
+		if (!item) return;
+
 		let totalNerve = parseInt(
-			torndata.itemsMap[alcoholicDrink.dataset.item].effect
+			item.effect
 				.split(" ")
 				.map((x) => parseInt(x))
 				.filter((x) => !Number.isNaN(x))[0]
