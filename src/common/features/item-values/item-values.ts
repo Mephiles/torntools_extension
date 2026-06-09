@@ -1,14 +1,14 @@
 import "./item-values.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata, userdata } from "@common/utils/data/database";
+import { settings, torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement, requireItemsLoaded } from "@common/utils/functions/requires";
 import type { XHRDetails } from "@common/utils/functions/script-injector";
-import { getPage, getPageStatus } from "@common/utils/functions/torn";
+import { getPage, getPageStatus, getUserDetails } from "@common/utils/functions/torn";
 import { sleep } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
@@ -336,11 +336,13 @@ export default class ItemValuesFeature extends Feature {
 		if (page === "displaycase") {
 			const userId = location.hash.startsWith("#display/") ? parseInt(location.hash.substring(9)) || false : false;
 
-			if (userId && hasAPIData() && userId !== userdata.profile.id) return false;
+			const details = getUserDetails();
+			if (userId && !details.error && userId !== details.id) return false;
 		} else if (page === "bazaar") {
 			const userId = parseInt(getSearchParameters().get("userId"));
 
-			if (userId && hasAPIData() && userId !== userdata.profile.id) return false;
+			const details = getUserDetails();
+			if (userId && !details.error && userId !== details.id) return false;
 		} else if (page === "faction" && !isInternalFaction) return false;
 
 		return true;

@@ -8,6 +8,7 @@ import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
+import { getUserDetails } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { ExecutionTiming, Feature } from "@features/feature";
 
@@ -35,7 +36,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 
 	const bazaarUserId = parseInt(getSearchParameters().get("userId"));
 
-	if (!bazaarUserId || bazaarUserId === userdata.profile.id) await requireElement(".info-msg-cont:not(.red) .msg");
+	if (!bazaarUserId || bazaarUserId === getUserDetails()?.id) await requireElement(".info-msg-cont:not(.red) .msg");
 	else await requireElement(".info-msg-cont .msg a[href]");
 
 	if (list && Array.isArray(list)) {

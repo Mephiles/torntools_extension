@@ -1,6 +1,6 @@
 import "./display-case-worth.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, userdata } from "@common/utils/data/database";
+import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { UserV1DisplayCaseResponse } from "@common/utils/functions/api-v1.types";
@@ -8,7 +8,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { createMessageBox } from "@common/utils/functions/torn";
+import { createMessageBox, getUserDetails } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function xhrListener() {
@@ -26,7 +26,8 @@ async function addWorth() {
 	const hashId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
 
 	let userId: number | null = null;
-	if (!hashId || (!Number.isNaN(hashId) && parseInt(hashId) !== userdata.profile.id)) userId = parseInt(hashId);
+	const details = getUserDetails();
+	if (!hashId || (!Number.isNaN(hashId) && parseInt(hashId) !== details.id)) userId = parseInt(hashId);
 
 	let result: UserV1DisplayCaseResponse | undefined;
 	try {
