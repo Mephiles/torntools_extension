@@ -9,3 +9,6 @@ Following scripts are still planned to be ported:
   * Needs the personal stats of the current player.
   * Needs the personal stats of the target player.
 * Item Values
+* Travel Table
+  * Needs external connections.
+  * Needs all items stored.
