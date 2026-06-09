@@ -44,8 +44,10 @@ jobs:
 
           response=$(cat /tmp/userscripts-response.json)
 
-          echo "## Uploaded userscripts" >> "${GITHUB_STEP_SUMMARY}"
-          echo "" >> "${GITHUB_STEP_SUMMARY}"
-          echo "| Namespace | Version | File | Status |" >> "${GITHUB_STEP_SUMMARY}"
-          echo "|-----------|---------|------|--------|" >> "${GITHUB_STEP_SUMMARY}"
-          echo "$response" | jq -r '.userscripts[] | "| \(.namespace) | \(.version) | \(.fileName) | \(.status) |"' >> "${GITHUB_STEP_SUMMARY}"
+          {
+              echo "## Uploaded userscripts"
+              echo
+              echo "| Namespace | Version | Download | Status |"
+              echo "|-----------|---------|----------|--------|"
+              echo "$response" | jq -r '.userscripts[] | "| \(.namespace) | \(.version) | [Download](https://torntools.tornplayground.eu/api/userscripts/\(.namespace)/download) | \(.status) |"'
+          } >> "${GITHUB_STEP_SUMMARY}"
