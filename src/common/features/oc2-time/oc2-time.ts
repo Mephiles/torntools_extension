@@ -77,14 +77,14 @@ function buildTimeLeftElement() {
 	if (timeLeft > 0) {
 		const formatOptions: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
 		timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
-    timeLeftElement.title = `Ready at ${formatDate(readyAt, { showYear: true })} at ${formatTime(readyAt)}`;
+		timeLeftElement.title = `Ready at ${formatDate(readyAt, { showYear: true })} at ${formatTime(readyAt)}`;
 
 		timeLeftElement.dataset.end = readyAt.toString();
 		timeLeftElement.dataset.timeSettings = JSON.stringify(formatOptions);
 		countdownTimers.push(timeLeftElement);
 	} else {
-    timeLeftElement.textContent = `Ready ${(userdata.organizedCrime as FactionCrime).status}`;
-    timeLeftElement.title = undefined;
+		timeLeftElement.textContent = `Ready ${(userdata.organizedCrime as FactionCrime).status}`;
+		timeLeftElement.title = undefined;
 	}
 
 	return timeLeftElement;

@@ -29,7 +29,7 @@ async function showTimer() {
 				elementBuilder({
 					type: "a",
 					class: "title",
-          text: "RW: ",
+					text: "RW: ",
 					href: LINKS.faction__ranked_war,
 				}),
 				buildTimeLeftElement(factiondata),
@@ -56,16 +56,16 @@ function buildTimeLeftElement(data: FetchedFactiondataBasic) {
 		else if (timeLeft <= TO_MILLIS.HOURS * 6) timeLeftElement.classList.add("medium");
 
 		const formatOptions: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
-    timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
-    timeLeftElement.title = `Starts at ${formatDate(startAt, { showYear: true })} at ${formatTime(startAt)}`;
+		timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
+		timeLeftElement.title = `Starts at ${formatDate(startAt, { showYear: true })} at ${formatTime(startAt)}`;
 
 		timeLeftElement.dataset.end = startAt.toString();
 		timeLeftElement.dataset.timeSettings = JSON.stringify(formatOptions);
 		timeLeftElement.dataset.doneText = "Ongoing";
 		countdownTimers.push(timeLeftElement);
 	} else {
-    timeLeftElement.textContent = `Ongoing`;
-    timeLeftElement.title = `Started at ${formatDate(startAt, { showYear: true })} at ${formatTime(startAt)}`;
+		timeLeftElement.textContent = `Ongoing`;
+		timeLeftElement.title = `Started at ${formatDate(startAt, { showYear: true })} at ${formatTime(startAt)}`;
 		timeLeftElement.classList.add("short");
 	}
 
