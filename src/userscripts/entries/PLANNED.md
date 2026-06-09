@@ -2,7 +2,6 @@ Following scripts are still planned to be ported:
 * Abroad Items Filter
 * Armory Filter
   * Needs all items stored (can be outdated).
-* Racing Filter
 * Shop Filters
     * Needs all items stored.
 * Stocks Filter
