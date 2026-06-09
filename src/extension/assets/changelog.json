@@ -7,7 +7,8 @@
 			"features": [
 				{ "message": "Use Torn Intel as (opt-in) source for the 'Travel Table'.", "contributor": "DeKleineKobini" },
 				{ "message": "Show faction stakeouts on the targets page.", "contributor": "DeKleineKobini" },
-				{ "message": "Show an indication for faction stakeouts that they are destroyed.", "contributor": "DeKleineKobini" }
+				{ "message": "Show an indication for faction stakeouts that they are destroyed.", "contributor": "DeKleineKobini" },
+				{ "message": "Show the absolute time when a RW starts or OC is ready when hovering over the timer in the sidebar.", "contributor": "RogerFar" }
 			],
 			"fixes": [
 				{ "message": "Resolve an edge-case while force loading the database with an update already going on.", "contributor": "DeKleineKobini" },
