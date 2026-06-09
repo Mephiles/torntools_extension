@@ -1,7 +1,7 @@
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData, hasOC2Data } from "@common/utils/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
-import { type FormatTimeOptions, formatTime } from "@common/utils/functions/formatting";
+import { type FormatTimeOptions, formatDate, formatTime } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { countdownTimers } from "@common/utils/functions/timers";
 import { isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
@@ -77,12 +77,14 @@ function buildTimeLeftElement() {
 	if (timeLeft > 0) {
 		const formatOptions: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
 		timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
+    timeLeftElement.title = `Ready at ${formatDate(readyAt, { showYear: true })} at ${formatTime(readyAt)}`;
 
 		timeLeftElement.dataset.end = readyAt.toString();
 		timeLeftElement.dataset.timeSettings = JSON.stringify(formatOptions);
 		countdownTimers.push(timeLeftElement);
 	} else {
-		timeLeftElement.textContent = `Ready ${(userdata.organizedCrime as FactionCrime).status}`;
+    timeLeftElement.textContent = `Ready ${(userdata.organizedCrime as FactionCrime).status}`;
+    timeLeftElement.title = undefined;
 	}
 
 	return timeLeftElement;
