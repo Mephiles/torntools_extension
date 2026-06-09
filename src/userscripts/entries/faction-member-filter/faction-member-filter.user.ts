@@ -7,8 +7,8 @@ import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 (async () => {
 	await registerUserscriptContext("tt_fmf");
 
-	const feature: Feature = new FactionMemberFilterFeature();
 	await setupFactionsPage();
 
+	const feature: Feature = new FactionMemberFilterFeature();
 	FEATURE_MANAGER.registerFeature(feature);
 })();

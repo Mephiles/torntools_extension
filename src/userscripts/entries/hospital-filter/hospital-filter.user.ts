@@ -7,8 +7,8 @@ import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 (async () => {
 	await registerUserscriptContext("tt_fmf");
 
-	const feature: Feature = new HospitalFilterFeature();
 	setupHospitalPage();
 
+	const feature: Feature = new HospitalFilterFeature();
 	FEATURE_MANAGER.registerFeature(feature);
 })();

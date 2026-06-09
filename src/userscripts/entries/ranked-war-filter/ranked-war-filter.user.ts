@@ -7,8 +7,8 @@ import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 (async () => {
 	await registerUserscriptContext("tt_rwf");
 
-	const feature: Feature = new RankedWarFilterFeature();
 	await setupFactionsPage();
 
+	const feature: Feature = new RankedWarFilterFeature();
 	FEATURE_MANAGER.registerFeature(feature);
 })();

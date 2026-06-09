@@ -7,6 +7,5 @@ import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 	await registerUserscriptContext("tt_sg");
 
 	const feature: Feature = new SpecialistGymsFeature();
-
 	FEATURE_MANAGER.registerFeature(feature);
 })();

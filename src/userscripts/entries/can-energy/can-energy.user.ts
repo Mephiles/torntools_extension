@@ -21,8 +21,8 @@ import type { TornItem } from "tornapi-typescript";
 	await fetchCanEnergyData(key);
 
 	setupItemPage();
-	const feature: Feature = new CanEnergyFeature();
 
+	const feature: Feature = new CanEnergyFeature();
 	FEATURE_MANAGER.registerFeature(feature);
 })();
 

@@ -7,6 +7,5 @@ import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 	await registerUserscriptContext("tt_onf");
 
 	const feature: Feature = new OnlyNewFeedFeature();
-
 	FEATURE_MANAGER.registerFeature(feature);
 })();
