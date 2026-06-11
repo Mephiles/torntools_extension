@@ -1,20 +1,26 @@
-import type { DataFetcher, FetchResponse, OffloadService } from "@common/utils/context";
 import {
+	type DataFetcher,
+	type FetchResponse,
+	type OffloadService,
 	setDataFetcher,
 	setFeatureManager,
 	setOffloadService,
 	setRuntimeInformation,
 	setRuntimeStorage,
 	setScriptInjector,
+	setStaticItemResolver,
 	setTTStorage,
 } from "@common/utils/context";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
 import { executeScript } from "@common/utils/functions/dom";
 import type { ScriptInjector } from "@common/utils/functions/script-injector";
+import type { StaticItemResolver } from "@common/utils/torn-api/items";
+import type { StaticItem } from "@common/utils/torn-api/items.types";
 import { browser } from "wxt/browser";
 import { ExtensionFeatureManager } from "@/runtime/extension-feature-manager";
 import { TTExtensionStorage } from "@/runtime/extension-storage";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
+import { STATIC_ITEM_MAP } from "@/utils/static-data/static-items";
 
 export function registerExtensionContext() {
 	setTTStorage(new TTExtensionStorage());
@@ -26,9 +32,10 @@ export function registerExtensionContext() {
 	setRuntimeStorage(ExtensionRuntimeStorage);
 	setOffloadService(ExtensionOffloadService);
 	setDataFetcher(ExtensionDataFetcher);
+	setStaticItemResolver(ExtensionStaticItemResolver);
 }
 
-export const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean } = {
+const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean } = {
 	getWindow(): Window {
 		return window;
 	},
@@ -48,7 +55,7 @@ export const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean;
 	},
 };
 
-export const ExtensionRuntimeInformation: RuntimeInformation = {
+const ExtensionRuntimeInformation: RuntimeInformation = {
 	getVersion(): string {
 		return browser.runtime.getManifest().version;
 	},
@@ -58,11 +65,11 @@ export const ExtensionRuntimeInformation: RuntimeInformation = {
 	},
 };
 
-export const ExtensionRuntimeStorage: RuntimeStorage = {
+const ExtensionRuntimeStorage: RuntimeStorage = {
 	addChangeListener: (cb) => browser.storage.onChanged.addListener(cb),
 };
 
-export const ExtensionOffloadService: OffloadService = {
+const ExtensionOffloadService: OffloadService = {
 	fetchRelay<R = any>(location: string, options: Record<string, any>): Promise<R> {
 		return BACKGROUND_SERVICE.fetchRelay(location as any, options) as Promise<R>;
 	},
@@ -71,7 +78,7 @@ export const ExtensionOffloadService: OffloadService = {
 	},
 };
 
-export const ExtensionDataFetcher: DataFetcher = {
+const ExtensionDataFetcher: DataFetcher = {
 	async fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse> {
 		const controller = new AbortController();
 		const timeoutId = options?.timeout ? setTimeout(() => controller.abort(), options.timeout) : undefined;
@@ -89,5 +96,11 @@ export const ExtensionDataFetcher: DataFetcher = {
 		} finally {
 			if (timeoutId) clearTimeout(timeoutId);
 		}
+	},
+};
+
+const ExtensionStaticItemResolver: StaticItemResolver = {
+	getStaticItem(id: number): StaticItem | null {
+		return id in STATIC_ITEM_MAP ? STATIC_ITEM_MAP[id] : null;
 	},
 };

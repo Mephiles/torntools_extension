@@ -27,7 +27,10 @@ export const FETCH_PLATFORMS = {
 	ffscouter: "https://ffscouter.com/",
 	laekna: "https://laekna-revive-bot.onrender.com/",
 	tornintel: "https://torn-intel.com/",
+	playground_torntools: "https://torntools.tornplayground.eu/",
 } as const;
+
+export type FetchLocation = keyof typeof FETCH_PLATFORMS;
 
 type FetchMethod = "GET" | "POST";
 
@@ -45,8 +48,6 @@ export interface FetchOptions {
 	relay: boolean;
 	params: { [key: string]: any };
 }
-
-export type FetchLocation = keyof typeof FETCH_PLATFORMS;
 
 const TORN_API_PLATFORMS: FetchLocation[] = ["tornv2"];
 const TEXT_RESPONSE_PLATFORMS: FetchLocation[] = ["torn_direct", "laekna"];
@@ -173,6 +174,9 @@ function buildUrl(location: FetchLocation, options: FetchOptions): string {
 			key = api.ffScouter.key;
 			break;
 		case "tornintel":
+			path = ["api", options.section].join("/");
+			break;
+		case "playground_torntools":
 			path = ["api", options.section].join("/");
 			break;
 		default:

@@ -7,7 +7,7 @@ import { promisify } from "node:util";
 import type { AmmoName, StaticItem, StaticItemMap, StaticItems, Vendor } from "@common/utils/torn-api/items.types";
 import type { TornItem, TornItemArmorDetails, TornItemsResponse, TornItemTypeEnum, TornItemWeaponDetails } from "tornapi-typescript";
 
-const WORKING_DIRECTORY = "src/common/utils/torn-api";
+const WORKING_DIRECTORY = "src/extension/utils/static-data";
 const execAsync = promisify(exec);
 
 if (!process.cwd().endsWith(WORKING_DIRECTORY)) {

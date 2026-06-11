@@ -3,9 +3,10 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Armory Filter",
 	description: "Filter the list of items in a factions armory.",
-	version: "1.0.0",
+	version: "1.1.0",
 	matches: ["https://*.torn.com/factions.php*"],
 	runAt: "document-end",
+	connect: ["torntools.tornplayground.eu"],
 };
 
 export default metadata;

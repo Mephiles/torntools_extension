@@ -1,11 +1,14 @@
-import type { DataFetcher, FetchResponse, OffloadService } from "@common/utils/context";
 import {
+	type DataFetcher,
+	type FetchResponse,
+	type OffloadService,
 	setDataFetcher,
 	setFeatureManager,
 	setOffloadService,
 	setRuntimeInformation,
 	setRuntimeStorage,
 	setScriptInjector,
+	setStaticItemResolver,
 	setTTStorage,
 	ttStorage,
 } from "@common/utils/context";
@@ -26,6 +29,7 @@ import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
+import { ScriptStaticItemResolver } from "@userscripts/runtime/script-static-data-resolver";
 
 export async function registerUserscriptContext(storagePrefix: string) {
 	setTTStorage(new TTScriptStorage(storagePrefix));
@@ -35,6 +39,7 @@ export async function registerUserscriptContext(storagePrefix: string) {
 	setRuntimeStorage(UserscriptRuntimeStorage);
 	setOffloadService(ScriptOffloadService);
 	setDataFetcher(ScriptDataFetcher);
+	setStaticItemResolver(ScriptStaticItemResolver);
 
 	await migrateDatabase(true);
 	initializeDatabaseListener();
@@ -68,7 +73,7 @@ class ScriptFeatureManager implements FeatureManager {
 const fetchListenerInjector = new RequestListenerInjector(injectFetchListeners);
 const xhrListenerInjector = new RequestListenerInjector(injectXhrListeners);
 
-export const UserscriptScriptInjector: ScriptInjector = {
+const UserscriptScriptInjector: ScriptInjector = {
 	getWindow(): Window {
 		return unsafeWindow;
 	},
@@ -80,7 +85,7 @@ export const UserscriptScriptInjector: ScriptInjector = {
 	},
 };
 
-export const UserscriptRuntimeInformation: RuntimeInformation = {
+const UserscriptRuntimeInformation: RuntimeInformation = {
 	getVersion(): string {
 		return GM.info.version;
 	},
@@ -97,7 +102,7 @@ export const UserscriptRuntimeStorage: RuntimeStorage & { callback: StorageChang
 	},
 };
 
-export const ScriptOffloadService: OffloadService = {
+const ScriptOffloadService: OffloadService = {
 	fetchRelay<R = any>(_location: string, _options: Record<string, any>): Promise<R> {
 		return Promise.reject(new Error("OffloadService is not available in script context. Use DataFetcher instead."));
 	},
@@ -106,7 +111,7 @@ export const ScriptOffloadService: OffloadService = {
 	},
 };
 
-export const ScriptDataFetcher: DataFetcher = {
+const ScriptDataFetcher: DataFetcher = {
 	fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse> {
 		return new Promise((resolve, reject) => {
 			GM.xmlHttpRequest({

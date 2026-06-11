@@ -67,6 +67,7 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 					grant: grants,
 					supportURL: "https://github.com/Mephiles/torntools_extension/issues",
 					contributionURL: "https://buymeacoffee.com/dekleinekobini",
+					connect: userscript.connect,
 				},
 				build: {
 					fileName: `${entryName}${fileSuffix}`,
