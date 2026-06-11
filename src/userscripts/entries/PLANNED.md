@@ -1,7 +1,5 @@
 Following scripts are still planned to be ported:
 
-* Shop Filters
-    * Needs all items stored (up-to-date).
 * Stocks Filter
     * Needs all stocks stored (up-to-date).
     * Needs the user stocks stored (up-to-date).
