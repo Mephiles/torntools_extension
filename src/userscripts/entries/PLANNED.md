@@ -1,6 +1,5 @@
 Following scripts are still planned to be ported:
 
-* Abroad Items Filter
 * Shop Filters
     * Needs all items stored (up-to-date).
 * Stocks Filter
