@@ -1,5 +1,6 @@
 import { ttCache } from "@common/utils/data/cache";
 import { fetchData } from "@common/utils/functions/api-fetcher";
+import { millisToNewDay } from "@common/utils/functions/torn";
 import type { StaticItemResolver } from "@common/utils/torn-api/items";
 import type { StaticItem } from "@common/utils/torn-api/items.types";
 
@@ -28,7 +29,7 @@ export const ScriptStaticItemResolver: StaticItemResolver & {
 		}, {});
 
 		this.itemsMap = itemsMap;
-		void ttCache.set({ "static-data": { "items-map": itemsMap } }, 1000);
+		void ttCache.set({ "static-data": { "items-map": itemsMap } }, millisToNewDay());
 	},
 };
 
