@@ -30,13 +30,18 @@ async function addFilter() {
 		class: "content",
 	});
 
-	const profitOnlyFilter = createFilterSection({
-		title: "Profit",
-		checkbox: "Only Profit",
-		default: filters.abroadItems.profitOnly,
-		callback: filtering,
-	});
-	filterContent.appendChild(profitOnlyFilter.element);
+	let profitOnlyFilter: any;
+	if (settings.pages.travel.travelProfits) {
+		profitOnlyFilter = createFilterSection({
+			title: "Profit",
+			checkbox: "Only Profit",
+			default: filters.abroadItems.profitOnly,
+			callback: filtering,
+		});
+		filterContent.appendChild(profitOnlyFilter.element);
+	} else {
+		profitOnlyFilter = { isChecked: () => false };
+	}
 
 	const outOfStockFilter = createFilterSection({
 		title: "Out of stock",
@@ -61,16 +66,21 @@ async function addFilter() {
 	});
 	filterContent.appendChild(categoryFilter.element);
 
-	const taxesFilter = createFilterSection({
-		title: "Taxes",
-		checkboxes: [
-			{ id: "salestax", description: `${SALES_TAX}% Sales Tax` },
-			{ id: "anonymous", description: `${ANONYMOUS_TAX}% Anonymous Tax` },
-		],
-		defaults: filters.abroadItems.taxes,
-		callback: filtering,
-	});
-	filterContent.appendChild(taxesFilter.element);
+	let taxesFilter: any;
+	if (settings.pages.travel.travelProfits) {
+		taxesFilter = createFilterSection({
+			title: "Taxes",
+			checkboxes: [
+				{ id: "salestax", description: `${SALES_TAX}% Sales Tax` },
+				{ id: "anonymous", description: `${ANONYMOUS_TAX}% Anonymous Tax` },
+			],
+			defaults: filters.abroadItems.taxes,
+			callback: filtering,
+		});
+		filterContent.appendChild(taxesFilter.element);
+	} else {
+		taxesFilter = { getSelections: () => [] };
+	}
 
 	content.appendChild(filterContent);
 
