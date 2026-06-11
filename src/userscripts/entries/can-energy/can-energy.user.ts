@@ -10,11 +10,11 @@ import CanEnergyFeature from "@features/can-energy/can-energy";
 import type { Feature } from "@features/feature";
 import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
-import { ScriptStaticItemResolver } from "@userscripts/runtime/script-static-data-resolver";
+import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 (async () => {
 	await registerUserscriptContext("tt_ce");
-	await ScriptStaticItemResolver.loadStaticItems();
+	await ScriptItemResolver.loadItems();
 
 	const key = await requiresAPIKey();
 

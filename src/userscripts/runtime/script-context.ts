@@ -29,7 +29,7 @@ import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
-import { ScriptStaticItemResolver } from "@userscripts/runtime/script-static-data-resolver";
+import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 export async function registerUserscriptContext(storagePrefix: string) {
 	setTTStorage(new TTScriptStorage(storagePrefix));
@@ -39,7 +39,7 @@ export async function registerUserscriptContext(storagePrefix: string) {
 	setRuntimeStorage(UserscriptRuntimeStorage);
 	setOffloadService(ScriptOffloadService);
 	setDataFetcher(ScriptDataFetcher);
-	setStaticItemResolver(ScriptStaticItemResolver);
+	setStaticItemResolver(ScriptItemResolver);
 
 	await migrateDatabase(true);
 	initializeDatabaseListener();

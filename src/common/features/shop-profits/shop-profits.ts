@@ -1,6 +1,6 @@
 import "./shop-profits.css";
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -19,7 +19,7 @@ async function showProfits() {
 		const id = parseInt(item.querySelector(".item").getAttribute("itemid"));
 
 		const price = parseInt(priceElement.firstChild.textContent.replace(/[$,]/g, ""));
-		const value = torndata.itemsMap[id].value.market_price;
+		const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
 
 		const profit = value - price;
 
@@ -47,8 +47,7 @@ export default class ShopProfitsFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
-
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}
 

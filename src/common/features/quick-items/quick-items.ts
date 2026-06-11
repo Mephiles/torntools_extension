@@ -1,6 +1,6 @@
 import "./quick-items.css";
 import { isUseItem } from "@common/pages/item-page";
-import { ttStorage } from "@common/utils/context";
+import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import { quick, settings } from "@common/utils/data/database";
 import type { QuickItem } from "@common/utils/data/default-database";
@@ -21,7 +21,6 @@ import {
 	getUserEnergy,
 } from "@common/utils/functions/torn";
 import { PHPlus, PHX } from "@common/utils/icons/phosphor-icons";
-import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@features/opened-supply-pack-value/opened-supply-pack-value";
 
@@ -155,11 +154,11 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 	const { id } = data;
 
 	if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
-	if (!allowQuickItem(id, loadItem(id)?.type)) return null;
+	if (!allowQuickItem(id, ITEM_RESOLVER.getStaticItem(id)?.type)) return null;
 
 	let equipPosition: number | false | undefined;
-	if (isEquipable(id, loadItem(id)?.type)) {
-		equipPosition = getEquipPosition(id, loadItem(id)?.type);
+	if (isEquipable(id, ITEM_RESOLVER.getStaticItem(id)?.type)) {
+		equipPosition = getEquipPosition(id, ITEM_RESOLVER.getStaticItem(id)?.type);
 		data.equipPosition = equipPosition;
 	}
 
@@ -177,7 +176,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 					return;
 				}
 
-				const equipItem = isEquipable(id, loadItem(id)?.type);
+				const equipItem = isEquipable(id, ITEM_RESOLVER.getStaticItem(id)?.type);
 				// TODO: API Inventory Block.
 				/*if (equipItem) {
 					responseWrap.textContent = "";
@@ -223,7 +222,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 					return;
 				}
 
-				if (settings.pages.items.energyWarning && !equipItem && ["Drug", "Energy Drink"].includes(loadItem(id)?.type)) {
+				if (settings.pages.items.energyWarning && !equipItem && ["Drug", "Energy Drink"].includes(ITEM_RESOLVER.getStaticItem(id)?.type)) {
 					const received = getItemEnergy(id);
 					if (received) {
 						const [current, max] = getUserEnergy();
@@ -395,7 +394,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 		},
 	});
 	itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
-	const item = loadItem(id);
+	const item = ITEM_RESOLVER.getStaticItem(id);
 	if (item) {
 		itemWrap.setAttribute("title", item.name);
 		itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: item.name }));
@@ -552,7 +551,7 @@ function updateItemAmount(id: number, change: number) {
 }
 
 function updateEquippedItem(id: number, isEquip: boolean) {
-	const equipPosition = getEquipPosition(id, loadItem(id)?.type);
+	const equipPosition = getEquipPosition(id, ITEM_RESOLVER.getStaticItem(id)?.type);
 	findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`).forEach((x) => x.classList.remove("equipped"));
 
 	if (isEquip && document.querySelector(`.item[data-id="${id}"]`)) document.querySelector(`.item[data-id="${id}"]`).classList.add("equipped");
@@ -610,7 +609,7 @@ function getXID(item: number): number | null {
 async function getXIDWithDirectCall(item: number): Promise<boolean> {
 	const body = new URLSearchParams();
 	body.set("step", "getSearchList");
-	body.set("q", loadItem(item)?.name);
+	body.set("q", ITEM_RESOLVER.getStaticItem(item)?.name);
 
 	const result = await fetchData("torn_direct", { action: "item.php", method: "POST", body });
 

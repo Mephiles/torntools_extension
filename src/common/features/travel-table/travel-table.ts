@@ -1,8 +1,8 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { Feature } from "@features/feature";
 import "./travel-table.css";
 import { ttStorage } from "@common/utils/context";
-import { filters, settings, torndata, userdata } from "@common/utils/data/database";
+import { filters, settings, userdata } from "@common/utils/data/database";
 import { ENABLE_TORN_INTEL_TABLE } from "@common/utils/feature-toggles";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@common/utils/functions/api.types";
@@ -15,7 +15,6 @@ import { requireElement } from "@common/utils/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@common/utils/functions/torn";
 import { toCorrectType } from "@common/utils/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons";
-import { loadItem } from "@common/utils/torn-api/items";
 import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
 
 interface CountryInformation {
@@ -587,7 +586,7 @@ async function startTable() {
 		type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
 
 		function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
-			const tornItem = torndata.itemsMap[item.id];
+			const tornItem = ITEM_RESOLVER.getFullItem(item.id);
 			const itemType: Lowercase<TornItemTypeEnum> = (tornItem?.type.toLowerCase() as Lowercase<TornItemTypeEnum>) ?? "other";
 			const subType: Lowercase<TornItemWeaponTypeEnum> = (tornItem?.sub_type?.toLowerCase() as Lowercase<TornItemWeaponTypeEnum>) ?? null;
 

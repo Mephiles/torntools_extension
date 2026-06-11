@@ -1,7 +1,6 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
-import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, createWeaponBonusSection } from "@common/utils/functions/filters";
@@ -9,7 +8,6 @@ import { convertToNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS, ITEM_TYPES } from "@common/utils/functions/torn";
-import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 
 let localFilters: any = {};
@@ -265,12 +263,9 @@ function filterRow(row: HTMLElement, filters: Partial<AuctionHouseFilters>) {
 			return;
 		}
 	}
-	const item = loadItem(id);
+	const item = ITEM_RESOLVER.getStaticItem(id);
 	if (filters.category && item) {
-		const itemCategory =
-			"details" in item && item.details && typeof item.details === "object" && "category" in item.details
-				? String((item.details as Record<string, unknown>).category).toLowerCase()
-				: item?.type;
+		const itemCategory = item.details && "category" in item.details ? String(item.details.category).toLowerCase() : item?.type;
 
 		if (itemCategory !== filters.category) {
 			hide("category");

@@ -1,10 +1,9 @@
 import "./bazaar-sub-vendor-items.css";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
-import { loadItem } from "@common/utils/torn-api/items";
 import { ExecutionTiming, Feature } from "@features/feature";
 
 const CLASS_NAME = "tt-sub-vendor-highlight";
@@ -44,7 +43,7 @@ function highlightEverything() {
  * Should highlight the given item based on the price?
  */
 function shouldHighlight(id: number, price: number) {
-	return price < loadItem(id)?.value.sell_price;
+	return price < ITEM_RESOLVER.getStaticItem(id)?.value.sell_price;
 }
 
 function handleItem(item: HighlightableItem) {

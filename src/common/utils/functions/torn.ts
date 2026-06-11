@@ -1,9 +1,9 @@
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
-import { loadItem } from "@common/utils/torn-api/items";
 import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { elementBuilder, findAllElements, findElementWithText, findParent, getSearchParameters, isElement } from "./dom";
 import { convertToNumber, formatNumber } from "./formatting";
@@ -1705,7 +1705,7 @@ export function getNextChainBonus(current: number) {
 }
 
 export function isSellable(id: number) {
-	const item = loadItem(id);
+	const item = ITEM_RESOLVER.getStaticItem(id);
 	if (!item) return true;
 
 	return (
@@ -1988,7 +1988,7 @@ export function getRewardValue(reward: string) {
 				case "Ammunition Pack":
 					break;
 				case "Clothing Cache":
-					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => torndata.itemsMap[id].value.market_price);
+					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => ITEM_RESOLVER.getFullItem(id).value.market_price);
 					break;
 				case "Random Property":
 					prices = torndata.properties
@@ -2147,7 +2147,7 @@ export function getUserEnergy() {
 }
 
 export function getItemEnergy(id: number) {
-	const effect = loadItem(id)?.effect;
+	const effect = ITEM_RESOLVER.getStaticItem(id)?.effect;
 	if (!effect) return false;
 
 	const energy = effect.match(/(?<=Increases energy by )\d+/);

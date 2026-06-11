@@ -1,8 +1,7 @@
 import "./item-values.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -224,8 +223,8 @@ function showItemValues(list: HTMLElement) {
 	// showTotal(list, list.dataset.info);
 
 	for (const item of findAllElements(":scope > li[data-item]", list)) {
-		const id = item.dataset.item;
-		const price = torndata.itemsMap[id].value.market_price;
+		const id = parseInt(item.dataset.item);
+		const price = ITEM_RESOLVER.getFullItem(id).value.market_price;
 
 		const parent = mobile || tablet ? item.querySelector(".name-wrap") : item.querySelector(".bonuses-wrap") || item.querySelector(".name-wrap");
 
@@ -292,7 +291,7 @@ function updateItemAmount(id: number, change: number) {
 		const quantityElement = priceElement.querySelector(".tt-item-quantity");
 		if (!quantityElement) continue;
 
-		const price = torndata.itemsMap[id].value.market_price;
+		const price = ITEM_RESOLVER.getFullItem(id).value.market_price;
 		const newQuantity = parseInt(quantityElement.textContent.match(/(\d*)x = /i)[1]) + change;
 
 		if (newQuantity === 1) {
@@ -349,7 +348,7 @@ export default class ItemValuesFeature extends Feature {
 	}
 
 	requirements() {
-		if (page === "item" && !hasAPIData()) return "No API access.";
+		if (page === "item" && !ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}

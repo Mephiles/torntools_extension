@@ -1,7 +1,6 @@
 import "./shop-values.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
@@ -30,7 +29,7 @@ async function showValues() {
 		row.classList.add("tt-value-modified");
 
 		const id = parseInt(row.dataset.item);
-		const value = torndata.itemsMap[id].value.market_price;
+		const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
 
 		row.querySelector(".desc")!.appendChild(
 			elementBuilder({
@@ -57,7 +56,7 @@ export default class ShopValuesFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}

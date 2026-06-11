@@ -1,6 +1,6 @@
 import "./highlight-cheap-items.css";
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { findAllElements, getHashParameters } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -147,7 +147,7 @@ function highlightSellers(item: number, list: Element, includeModified: boolean)
 function shouldHighlight(id: number, price: number) {
 	const percentage = 1 - (settings.pages.itemmarket.highlightCheapItems as number) / 100;
 
-	const value = torndata.itemsMap[id]?.value?.market_price;
+	const value = ITEM_RESOLVER.getFullItem(id)?.value?.market_price;
 	if (!value) return false;
 
 	return value * percentage >= price;
@@ -220,7 +220,7 @@ export default class HighlightCheapItemsFeature extends Feature {
 	}
 
 	async requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}

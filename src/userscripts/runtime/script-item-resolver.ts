@@ -1,22 +1,29 @@
 import { ttCache } from "@common/utils/data/cache";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { millisToNewDay } from "@common/utils/functions/torn";
-import type { StaticItemResolver } from "@common/utils/torn-api/items";
-import type { StaticItem } from "@common/utils/torn-api/items.types";
+import type { FullItem, ItemResolver, StaticItem } from "@common/utils/torn-api/items.types";
+import type { TornItem } from "tornapi-typescript";
 
-export const ScriptStaticItemResolver: StaticItemResolver & {
-	itemsMap: Record<number, StaticItem>;
-	loadStaticItems: () => Promise<void>;
+export const ScriptItemResolver: ItemResolver & {
+	itemsMap: Record<number, TornItem>;
+	loadItems: () => Promise<void>;
 } = {
 	itemsMap: {},
+	loadItem(id: number): StaticItem | FullItem | null {
+		return this.getFullItem(id) ?? this.getStaticItem(id);
+	},
 	getStaticItem(id: number): StaticItem | null {
+		return this.getFullItem(id);
+	},
+	hasFullItems: () => true,
+	getFullItem(id: number): FullItem | null {
 		if (!Object.keys(this.itemsMap).length) {
 			throw new Error("no items loaded");
 		}
 
-		return id in this.itemsMap ? this.itemsMap[id] : null;
+		return id in this.itemsMap ? (this.itemsMap[id] as FullItem) : null;
 	},
-	async loadStaticItems() {
+	async loadItems() {
 		if (ttCache.hasValue("static-data", "items-map")) {
 			this.itemsMap = ttCache.get("static-data", "items-map");
 			return;
@@ -34,5 +41,5 @@ export const ScriptStaticItemResolver: StaticItemResolver & {
 };
 
 interface PGTornToolsStaticItemsResponse {
-	items: StaticItem[];
+	items: TornItem[];
 }

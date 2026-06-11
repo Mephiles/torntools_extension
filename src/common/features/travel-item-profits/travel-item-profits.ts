@@ -1,8 +1,7 @@
 import "./travel-item-profits.css";
 import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { filters, settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -55,7 +54,7 @@ async function addProfitsColumn() {
 			if (!imageElement) continue;
 
 			const id = convertToNumber(imageElement.srcset.split(" ")[0]);
-			const marketPrice = torndata.itemsMap[id].value.market_price;
+			const marketPrice = ITEM_RESOLVER.getFullItem(id).value.market_price;
 			const buyPrice = convertToNumber(row.querySelector("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent);
 
 			const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;
@@ -122,7 +121,7 @@ export default class TravelItemProfitsFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}

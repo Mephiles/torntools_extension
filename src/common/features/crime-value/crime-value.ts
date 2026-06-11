@@ -1,8 +1,7 @@
 import "./crime-value.css";
 import { isAttemptCrime, type TornInternalAttemptCrime } from "@common/pages/crimes2-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addFetchListener } from "@common/utils/functions/listeners";
@@ -37,10 +36,7 @@ function calculateValue(response: TornInternalAttemptCrime): number {
 		.filter(({ type }) => type === "items" || type === "money")
 		.map((reward) => {
 			if (reward.type === "items") {
-				return reward.value
-					.filter(({ id }) => id in torndata.itemsMap)
-					.map(({ id, amount }) => torndata.itemsMap[id].value.market_price * amount)
-					.reduce((a, b) => a + b, 0);
+				return reward.value.map(({ id, amount }) => ITEM_RESOLVER.getFullItem(id)?.value.market_price * amount).reduce((a, b) => a + b, 0);
 			} else if (reward.type === "money") {
 				return reward.value;
 			} else {
@@ -74,8 +70,7 @@ export default class CrimeValueFeature extends Feature {
 	}
 
 	async requirements() {
-		if (!hasAPIData()) return "No API access.";
-
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}
 

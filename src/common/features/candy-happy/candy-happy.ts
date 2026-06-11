@@ -1,11 +1,10 @@
 import "./candy-happy.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
-import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 
 function initialiseAddGains() {
@@ -24,7 +23,7 @@ function addGains() {
 	findAllElements("[data-category='Candy']").forEach((candy) => {
 		if (candy.querySelector(".tt-candy-gains")) return;
 
-		const item = loadItem(parseInt(candy.dataset.item));
+		const item = ITEM_RESOLVER.getStaticItem(parseInt(candy.dataset.item));
 		if (!item) return;
 
 		// noinspection DuplicatedCode

@@ -1,4 +1,4 @@
-import type { TornItemArmorCoveragePartEnum, TornItemTypeEnum, TornItemWeaponCategoryEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
+import type { TornItemArmorCoveragePartEnum, TornItemTypeEnum, TornItemWeaponCategoryEnum } from "tornapi-typescript";
 
 export type StaticItems = StaticItem[];
 export type StaticItemMap = { [id: string]: StaticItem };
@@ -57,13 +57,15 @@ export type AmmoName =
 
 export type Vendor = { country: string; name: string };
 
-export type StaticItem = {
+export interface StaticItem {
 	id: number;
 	name: string;
 	description: string;
 	effect: null | string;
 	requirement: null | string;
 	image: string;
+	type: TornItemTypeEnum;
+	sub_type: string | null;
 	is_masked: boolean;
 	is_tradable: boolean;
 	is_found_in_city: boolean;
@@ -72,12 +74,14 @@ export type StaticItem = {
 		sell_price: number | null;
 		vendor: null | Vendor;
 	};
-} & (
-	| { type: "Weapon"; sub_type: TornItemWeaponTypeEnum | null; details: WeaponDetails }
-	| { type: "Armor"; sub_type: null; details: ArmorDetails }
-	| { type: "Unused"; sub_type: null; details?: unknown }
-	| { type: Exclude<TornItemTypeEnum, "Weapon" | "Armor" | "Unused">; sub_type: null }
-);
+	details: WeaponDetails | ArmorDetails | null;
+}
 
-export type AllItemTypes = StaticItem["type"];
-export type AllItemSubTypes = StaticItem["sub_type"];
+export type FullItem = StaticItem & { value: StaticItem["value"] & { market_price: number } };
+
+export interface ItemResolver {
+	loadItem(id: number): StaticItem | FullItem | null;
+	getStaticItem(id: number): StaticItem | null;
+	hasFullItems(): boolean;
+	getFullItem(id: number): FullItem | null;
+}

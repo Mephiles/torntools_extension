@@ -1,8 +1,7 @@
 import "./highlight-blood-bags.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -61,12 +60,12 @@ async function highlightBloodBags() {
 		if (page === "factions") {
 			if (item.querySelector(".tt-item-price")) item.querySelector(".tt-item-price").remove();
 
-			if (hasAPIData() && !item.querySelector(".tt-blood-price")) {
+			if (ITEM_RESOLVER.hasFullItems() && !item.querySelector(".tt-blood-price")) {
 				item.querySelector(".name").appendChild(
 					elementBuilder({
 						type: "span",
 						class: "tt-blood-price",
-						text: `${formatNumber(torndata.itemsMap[itemId].value.market_price, { currency: true })}`,
+						text: `${formatNumber(ITEM_RESOLVER.getFullItem(itemId).value.market_price, { currency: true })}`,
 					}),
 				);
 			}

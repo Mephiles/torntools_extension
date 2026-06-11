@@ -1,7 +1,7 @@
 import "./faction-quick-items.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import type { TornInternalUseItem } from "@common/pages/item-page";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { quick, settings } from "@common/utils/data/database";
 import type { QuickFactionItem } from "@common/utils/data/default-database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -12,7 +12,6 @@ import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listen
 import { requireElement } from "@common/utils/functions/requires";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
 import { PHFillPlus, PHX } from "@common/utils/icons/phosphor-icons";
-import { loadItem } from "@common/utils/torn-api/items";
 import { Feature } from "@features/feature";
 
 let movingElement: Element | undefined;
@@ -209,7 +208,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 	const { id } = data;
 
 	if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
-	if (!allowQuickItem(id, typeof id === "number" ? loadItem(id)?.type : null)) return null;
+	if (!allowQuickItem(id, typeof id === "number" ? ITEM_RESOLVER.getStaticItem(id)?.type : null)) return null;
 
 	const itemWrap = elementBuilder({
 		type: "div",
@@ -225,7 +224,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 					return;
 				}
 
-				if (settings.pages.items.energyWarning && typeof id === "number" && ["Drug", "Energy Drink"].includes(loadItem(id)?.type)) {
+				if (settings.pages.items.energyWarning && typeof id === "number" && ["Drug", "Energy Drink"].includes(ITEM_RESOLVER.getStaticItem(id)?.type)) {
 					const received = getItemEnergy(id);
 					if (received) {
 						const [current, max] = getUserEnergy();
@@ -401,7 +400,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 		default: {
 			itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
 
-			const item = loadItem(parseInt(String(id)));
+			const item = ITEM_RESOLVER.getStaticItem(parseInt(String(id)));
 			if (item) {
 				itemWrap.setAttribute("title", item.name);
 				itemWrap.appendChild(elementBuilder({ type: "div", class: "text", text: item.name }));

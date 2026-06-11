@@ -1,16 +1,14 @@
 import "./city-items.css";
-import { ttStorage } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
+import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
+import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { loadItem } from "@common/utils/torn-api/items";
+import type { FullItem } from "@common/utils/torn-api/items.types";
 import { Feature } from "@features/feature";
-import type { TornItem } from "tornapi-typescript";
 
 interface CityItem {
 	id: string;
@@ -33,7 +31,7 @@ async function showHighlight() {
 	const items = getAllItems();
 	handleHighlight();
 	handleSearchBox();
-	if (hasAPIData()) showValue();
+	if (ITEM_RESOLVER.hasFullItems()) showValue();
 	showItemList();
 
 	function getAllItems() {
@@ -45,7 +43,7 @@ async function showHighlight() {
 			marker.classList.add("city-item");
 			marker.dataset.id = id;
 
-			const itemName = loadItem(parseInt(id))?.name ?? id;
+			const itemName = ITEM_RESOLVER.getStaticItem(parseInt(id))?.name ?? id;
 
 			if (settings.pages.city.combineDuplicates) {
 				const duplicate = items.find((item) => item.id === id);
@@ -83,7 +81,7 @@ async function showHighlight() {
 
 	function showValue() {
 		const totalValue = items
-			.map(({ id, count }): TornItem & { count: number } => ({ ...torndata.itemsMap[id], count }))
+			.map(({ id, count }): FullItem & { count: number } => ({ ...ITEM_RESOLVER.getFullItem(parseInt(id)), count }))
 			.filter((item) => !!item)
 			.map(({ value: { market_price: value }, count }) => value * count)
 			.filter((value) => !!value)

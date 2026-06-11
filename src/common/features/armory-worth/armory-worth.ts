@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { Feature } from "@features/feature";
 import "./armory-worth.css";
 import { isInternalFaction } from "@common/pages/factions-page";
@@ -21,7 +21,6 @@ import { formatNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import { loadItem } from "@common/utils/torn-api/items";
 
 type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionV1ArmorResponse &
@@ -89,7 +88,7 @@ async function addWorth(force: boolean) {
 		for (const type of selections) {
 			if (data[type]) {
 				for (const item of data[type]) {
-					total += torndata.itemsMap[item.ID].value.market_price * item.quantity;
+					total += ITEM_RESOLVER.getFullItem(item.ID).value.market_price * item.quantity;
 				}
 			}
 		}

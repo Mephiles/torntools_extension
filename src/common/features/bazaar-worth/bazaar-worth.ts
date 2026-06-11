@@ -1,7 +1,7 @@
 import "./bazaar-worth.css";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
-import { settings, userdata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { UserV1BazaarItem, UserV1BazaarResponse } from "@common/utils/functions/api-v1.types";
 import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
@@ -120,7 +120,7 @@ export default class BazaarWorthFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}

@@ -1,6 +1,6 @@
 import "./missing-sets.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata } from "@common/utils/data/database";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
@@ -105,7 +105,7 @@ function addItemValue(missingItem: HTMLElement) {
 		elementBuilder({
 			type: "span",
 			class: "tt-item-price",
-			text: `${formatNumber(torndata.itemsMap[parseInt(missingItem.dataset.id)].value.market_price, { currency: true })}`,
+			text: `${formatNumber(ITEM_RESOLVER.getFullItem(parseInt(missingItem.dataset.id)).value.market_price, { currency: true })}`,
 		}),
 	);
 }

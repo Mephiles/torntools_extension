@@ -5,7 +5,7 @@ import * as process from "node:process";
 import { createInterface } from "node:readline/promises";
 import { promisify } from "node:util";
 import type { AmmoName, StaticItem, StaticItemMap, StaticItems, Vendor } from "@common/utils/torn-api/items.types";
-import type { TornItem, TornItemArmorDetails, TornItemsResponse, TornItemTypeEnum, TornItemWeaponDetails } from "tornapi-typescript";
+import type { TornItem, TornItemArmorDetails, TornItemsResponse, TornItemWeaponDetails } from "tornapi-typescript";
 
 const WORKING_DIRECTORY = "src/extension/utils/static-data";
 const execAsync = promisify(exec);
@@ -53,6 +53,8 @@ function tornItemToStaticItem(item: TornItem): StaticItem {
 		effect: item.effect,
 		requirement: item.requirement,
 		image: item.image,
+		type: item.type,
+		sub_type: item.sub_type,
 		is_masked: item.is_masked,
 		is_tradable: item.is_tradable,
 		is_found_in_city: item.is_found_in_city,
@@ -61,13 +63,12 @@ function tornItemToStaticItem(item: TornItem): StaticItem {
 			sell_price: item.value.sell_price,
 			vendor: item.value.vendor as Vendor | null,
 		},
+		details: null,
 	};
 
 	if (item.type === "Weapon" && isWeaponDetails(item.details)) {
 		return {
 			...base,
-			type: "Weapon",
-			sub_type: item.sub_type,
 			details: {
 				category: item.details.category,
 				stealth_level: item.details.stealth_level,
@@ -105,19 +106,7 @@ function tornItemToStaticItem(item: TornItem): StaticItem {
 		};
 	}
 
-	if (item.type === "Unused") {
-		return {
-			...base,
-			type: "Unused",
-			sub_type: null,
-		};
-	}
-
-	return {
-		...base,
-		type: item.type as Exclude<TornItemTypeEnum, "Weapon" | "Armor" | "Unused">,
-		sub_type: null,
-	};
+	return base;
 }
 
 const staticItems: StaticItems = result.items.map(tornItemToStaticItem);

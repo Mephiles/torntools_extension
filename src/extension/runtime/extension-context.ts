@@ -11,11 +11,12 @@ import {
 	setStaticItemResolver,
 	setTTStorage,
 } from "@common/utils/context";
+import { torndata } from "@common/utils/data/database";
+import { hasAPIData } from "@common/utils/functions/api";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
 import { executeScript } from "@common/utils/functions/dom";
 import type { ScriptInjector } from "@common/utils/functions/script-injector";
-import type { StaticItemResolver } from "@common/utils/torn-api/items";
-import type { StaticItem } from "@common/utils/torn-api/items.types";
+import type { FullItem, ItemResolver, StaticItem } from "@common/utils/torn-api/items.types";
 import { browser } from "wxt/browser";
 import { ExtensionFeatureManager } from "@/runtime/extension-feature-manager";
 import { TTExtensionStorage } from "@/runtime/extension-storage";
@@ -32,7 +33,7 @@ export function registerExtensionContext() {
 	setRuntimeStorage(ExtensionRuntimeStorage);
 	setOffloadService(ExtensionOffloadService);
 	setDataFetcher(ExtensionDataFetcher);
-	setStaticItemResolver(ExtensionStaticItemResolver);
+	setStaticItemResolver(ExtensionItemResolver);
 }
 
 const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean } = {
@@ -99,8 +100,15 @@ const ExtensionDataFetcher: DataFetcher = {
 	},
 };
 
-const ExtensionStaticItemResolver: StaticItemResolver = {
+const ExtensionItemResolver: ItemResolver = {
+	loadItem(id: number): StaticItem | FullItem | null {
+		return this.getFullItem(id) ?? this.getStaticItem(id);
+	},
 	getStaticItem(id: number): StaticItem | null {
 		return id in STATIC_ITEM_MAP ? STATIC_ITEM_MAP[id] : null;
+	},
+	hasFullItems: () => hasAPIData(),
+	getFullItem(id: number): FullItem | null {
+		return torndata?.itemsMap && id in torndata.itemsMap ? (torndata.itemsMap[id] as FullItem) : null;
 	},
 };
