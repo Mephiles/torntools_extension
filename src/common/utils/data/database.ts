@@ -343,6 +343,10 @@ export function setUserdata(data: DatabaseUserdata) {
 	userdata = data;
 }
 
+export function setStockdata(data: DatabaseStockdata) {
+	stockdata = data;
+}
+
 export function setFactiondata(data: DatabaseFactiondata) {
 	factiondata = data;
 }
