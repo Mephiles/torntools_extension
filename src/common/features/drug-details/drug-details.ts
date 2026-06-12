@@ -139,7 +139,6 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 			options.target.querySelector(`li[itemid="${id}"] .view-item-info`) ||
 			options.target.querySelector(
 				[
-					getPage() === "imarket" ? ".details-wrap[style*='display: block;'], #drugs .m-items-list > .show-item-info" : "",
 					["item", "bazaar", "displaycase"].includes(getPage()) ? ".show-item-info" : "",
 					getPage() === "factions" ? ".view-item-info[style*='display: block;']" : "",
 				]
