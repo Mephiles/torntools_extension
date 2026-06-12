@@ -7,6 +7,7 @@
 	import { onMount } from "svelte";
 	import { toast } from "svelte-sonner";
 	import { browser } from "wxt/browser";
+	import { registerExtensionContext } from "@/runtime/extension-context";
 
 	type PermissionOrigin = {
 		label: string;
@@ -18,6 +19,7 @@
 	let requesting = $state(false);
 
 	onMount(() => {
+		registerExtensionContext()
 		void checkMissingPermissions();
 	});
 
