@@ -197,7 +197,7 @@ import ShopProfitsFeature from "@features/shop-profits/shop-profits";
 import ShopValuesFeature from "@features/shop-values/shop-values";
 import ShowFactionSpyFeature from "@features/show-faction-spy/show-faction-spy";
 import SidebarNotesFeature from "@features/sidebar-notes/sidebar-notes";
-import SpecialistGymsFeature from "@features/specialist-gyms/specialist-gyms";
+import SpecialistGymsFeature from "@features/specialist-gyms/specialist-gyms.svelte";
 import StackingModeFeature from "@features/stacking-mode/stacking-mode";
 import StatsEstimateAbroadFeature from "@features/stats-estimate/stats-estimate-abroad";
 import StatsEstimateAttacksFeature from "@features/stats-estimate/stats-estimate-attacks";
