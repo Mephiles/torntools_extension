@@ -1,5 +1,5 @@
 import "./highlight-cheap-items.css";
-import { ITEM_RESOLVER } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements, getHashParameters } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
@@ -16,27 +16,27 @@ interface ItemEntry {
 
 function initialiseListeners() {
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS].push(({ list }) => {
-		if (!settings.pages.itemmarket.highlightCheapItems) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightItems(findAllElements("[class*='itemList___'] > li:not(.tt-highlight-modified)", list));
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE].push(({ item }) => {
-		if (!settings.pages.itemmarket.highlightCheapItems) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightItems([item]);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS].push(({ item, list }) => {
-		if (!settings.pages.itemmarket.highlightCheapItems) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightSellers(item, list, false);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE].push(({ item, list }) => {
-		if (!settings.pages.itemmarket.highlightCheapItems) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightSellers(item, list, true);
 	});
 	CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(() => {
-		if (!settings.pages.itemmarket.highlightCheapItems) return;
+		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		removeHighlights();
 		highlightEverything();

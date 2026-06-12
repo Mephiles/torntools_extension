@@ -24,7 +24,11 @@
 				},
 				{ "message": "Fix 'Faction Member Filter' trying to wait on last action even if it's disabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Only show parts of the Abroad Items Filter when actually applicable.", "contributor": "DeKleineKobini" },
-				{ "message": "Resolve an issue where requesting the missing permissions kept failing.", "contributor": "DeKleineKobini" }
+				{ "message": "Resolve an issue where requesting the missing permissions kept failing.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Fix the check in 'Highlight Cheap Items' to see if it's still enabled failing if is 0% configured.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" },
