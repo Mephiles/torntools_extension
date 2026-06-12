@@ -1,5 +1,4 @@
-import type { FetchResponse } from "@common/utils/context";
-import { DATA_FETCHER, OFFLOAD_SERVICE, ttStorage } from "@common/utils/context";
+import { DATA_FETCHER, type FetchResponse, OFFLOAD_SERVICE, RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
 import { api, settings } from "@common/utils/data/database";
 import { getBadgeText, setBadge } from "@common/utils/functions/extension";
 import { getRFC } from "@common/utils/functions/torn";
@@ -55,7 +54,7 @@ const TEXT_RESPONSE_PLATFORMS: FetchLocation[] = ["torn_direct", "laekna"];
 export async function fetchData<R = any>(location: FetchLocation, partialOptions: Partial<FetchOptions> = {}): Promise<R> {
 	const options = mergeOptions(partialOptions);
 
-	if (options.relay && SCRIPT_TYPE !== "BACKGROUND") {
+	if (options.relay && SCRIPT_TYPE !== "BACKGROUND" && !RUNTIME_INFORMATION.isUserscript()) {
 		return relayToBackground(location, options);
 	}
 

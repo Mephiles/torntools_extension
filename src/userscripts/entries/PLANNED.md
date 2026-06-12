@@ -8,6 +8,3 @@ Following scripts are still planned to be ported:
     * Needs the personal stats of the target player (up-to-date).
 * Trade Values
     * Needs all items stored (up-to-date).
-* Travel Table
-    * Needs external connections.
-    * Needs all items stored (up-to-date).
