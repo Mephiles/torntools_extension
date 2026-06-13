@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 6 },
+		"version": { "major": 9, "minor": 0, "build": 7 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 6 },
+		"date": "2026/06/13",
 		"logs": {
 			"features": [
 				{ "message": "Use Torn Intel as (opt-in) source for the 'Travel Table'.", "contributor": "DeKleineKobini" },
@@ -45,7 +50,6 @@
 				{ "message": "Allow 'Bazaar Sub Vendor Items' to work when there is no API data.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow 'Energy Warning' to work when there is no API data.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [
 				{ "message": "Refactor the data fetching function completely in preparation of future updates.", "contributor": "DeKleineKobini" },
 				{ "message": "Restructure the extension in preparation for our userscript ports.", "contributor": "DeKleineKobini" },
