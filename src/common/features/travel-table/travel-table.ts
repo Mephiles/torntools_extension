@@ -3,7 +3,6 @@ import { Feature } from "@features/feature";
 import "./travel-table.css";
 import { ttStorage } from "@common/utils/context";
 import { filters, settings, userdata } from "@common/utils/data/database";
-import { ENABLE_TORN_INTEL_TABLE } from "@common/utils/feature-toggles";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@common/utils/functions/api.types";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -575,7 +574,7 @@ async function startTable() {
 			const services: (Promise<YATATravelResponse> | Promise<PrometheusTravelResponse> | Promise<TornIntelTravelResponse>)[] = [];
 
 			if (settings.external.prometheus) services.push(fetchPrometheus());
-			if (settings.external.tornintel && ENABLE_TORN_INTEL_TABLE) services.push(fetchTornIntel());
+			if (settings.external.tornintel) services.push(fetchTornIntel());
 			if (settings.external.yata) services.push(fetchYata());
 
 			if (services.length > 1) return Promise.any(services);
@@ -946,9 +945,7 @@ export default class TravelTableFeature extends Feature {
 
 	requirements() {
 		if (!hasAPIData()) return "No API data!";
-		else if (ENABLE_TORN_INTEL_TABLE && !settings.external.yata && !settings.external.prometheus && !settings.external.tornintel)
-			return "Prometheus, Torn Intel and YATA not enabled";
-		else if (!ENABLE_TORN_INTEL_TABLE && !settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
+		else if (!settings.external.yata && !settings.external.prometheus && !settings.external.tornintel) return "Prometheus, Torn Intel and YATA not enabled";
 		else if (isCaptcha()) return "Captcha present.";
 
 		return true;
