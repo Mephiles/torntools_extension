@@ -10,9 +10,10 @@
 	import StorageText from "../StorageText.svelte";
 	import UserAliases from "./UserAliases.svelte";
 
-	const reviveOptions: { value: string; label: string; description?: string }[] = REVIVE_PROVIDERS.map(provider => {
-		return {value: provider.provider, label: `${provider.name} (${calculateRevivePrice(provider)})`}
-	});
+	const reviveOptions: { value: string; label: string; description?: string }[] = [
+		{ value: "", label: "none" },
+		...REVIVE_PROVIDERS.map(provider => ({ value: provider.provider, label: `${provider.name} (${calculateRevivePrice(provider)})` })),
+	];
 
 	async function requestReviveProviderPermission(provider: string) {
 		if (!provider) return true;
