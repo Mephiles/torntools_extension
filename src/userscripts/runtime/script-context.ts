@@ -29,6 +29,7 @@ import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
+import { getUUID } from "@common/utils/functions/utilities";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 export async function registerUserscriptContext(storagePrefix: string) {
@@ -114,17 +115,29 @@ const ScriptOffloadService: OffloadService = {
 const ScriptDataFetcher: DataFetcher = {
 	fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse> {
 		return new Promise((resolve, reject) => {
+			try {
+				const u = new URL(url);
+				u.searchParams.append("pda-cache-busting", getUUID());
+
+				url = u.toString();
+			} catch {}
+
 			GM.xmlHttpRequest({
 				method: options?.method || "GET",
-				url: url,
+				url,
 				headers: options?.headers,
 				data: options?.method === "POST" ? (typeof options.body === "string" ? options.body : JSON.stringify(options.body)) : undefined,
 				timeout: options?.timeout,
 				onload: (response) => {
+					if (!response) {
+						reject(new Error("Request has no actual response. Likely something went wrong in the fetch implementation."));
+						return;
+					}
+
 					resolve({ text: response.responseText, status: response.status, ok: response.status >= 200 && response.status < 300 });
 				},
-				onerror: (_error) => {
-					reject(new TypeError("Failed to fetch"));
+				onerror: (error) => {
+					reject(error);
 				},
 				ontimeout: () => {
 					reject(new DOMException("Request cancelled because it took too long.", "AbortError"));

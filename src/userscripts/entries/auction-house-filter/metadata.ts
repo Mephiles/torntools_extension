@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Auction House Filter",
 	description: "Filter the list of items in the auction house.",
-	version: "1.0.0",
+	version: "1.0.1",
 	matches: ["https://*.torn.com/amarket.php*"],
 	runAt: "document-end",
 	connect: ["torntools.tornplayground.eu"],

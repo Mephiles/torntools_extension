@@ -281,7 +281,7 @@ async function handleNetworkError(location: FetchLocation, options: FetchOptions
 
 	if (error === "Failed to fetch") {
 		isLocal = true;
-		if (SCRIPT_TYPE === "BACKGROUND" && !(await hasOrigins(FETCH_PLATFORMS[location]))) {
+		if (!RUNTIME_INFORMATION.isUserscript() && SCRIPT_TYPE === "BACKGROUND" && !(await hasOrigins(FETCH_PLATFORMS[location]))) {
 			error = "Permission issues";
 			code = CUSTOM_API_ERROR.NO_PERMISSION;
 		} else {
