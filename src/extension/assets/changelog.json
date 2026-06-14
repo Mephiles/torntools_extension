@@ -13,7 +13,7 @@
 				{ "message": "Don't fail the forum menu hiding when there are no posts in a certain section.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix not being able to add (faction) stakeouts through the dedicated page.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Improve 'City Items' triggering when switching to the map.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [
 				{ "message": "Improve the database loading, when attempting to load more than once.", "contributor": "DeKleineKobini" },
