@@ -19,6 +19,8 @@ class AudioPlayer {
 	}
 
 	async play() {
+		if (!this._src) throw Error("No sound src set.");
+
 		if (typeof Audio !== "undefined") {
 			const audio = new Audio(this._src);
 			audio.volume = this._volume;
@@ -29,15 +31,19 @@ class AudioPlayer {
 			return;
 		}
 
-		await setupAudioPlayerDocument();
+		try {
+			await setupAudioPlayerDocument();
 
-		if (!this._src) throw Error("No sound src set.");
-
-		await browser.runtime.sendMessage({
-			offscreen: "audio",
-			src: this._src,
-			volume: this._volume,
-		} satisfies OffscreenMessage);
+			await browser.runtime.sendMessage({
+				offscreen: "audio",
+				src: this._src,
+				volume: this._volume,
+			} satisfies OffscreenMessage);
+		} catch {
+			// Offscreen document may have been destroyed by the browser.
+			// This is expected — fail silently without propagating an error.
+			console.warn("Audio playback unavailable (offscreen document not ready).");
+		}
 	}
 
 	async pause() {
@@ -171,7 +177,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 			notificationWorker
 				.showNotification(title, options)
 				.then(() => {
-					if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch((error) => reject(error));
+					if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(console.error);
 
 					resolve();
 				})
