@@ -140,7 +140,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 		if (requireInteraction) options.requireInteraction = true;
 		const id = await browser.notifications.create(options);
 
-		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().then(() => {});
+		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(console.error);
 
 		if (settings.notifications.link) notificationRelations[id] = url;
 	}
@@ -171,7 +171,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 			notificationWorker
 				.showNotification(title, options)
 				.then(() => {
-					if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play();
+					if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch((error) => reject(error));
 
 					resolve();
 				})
