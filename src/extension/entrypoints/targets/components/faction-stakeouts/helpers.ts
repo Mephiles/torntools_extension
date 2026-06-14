@@ -5,11 +5,11 @@ export function getFactionStakeoutRows(source: StoredFactionStakeouts | undefine
 	return (source?.list ?? []).toSorted((a, b) => a.order - b.order).map((entry) => getFactionStakeoutRow(entry.id, entry, false));
 }
 
-export function getFactionStakeoutRow(id: number, entry: FactionStakeoutEntry, isNew: boolean): FactionStakeoutRow {
+export function getFactionStakeoutRow(id: number, entry: FactionStakeoutEntry | null, isNew: boolean): FactionStakeoutRow {
 	return {
 		id: id,
-		info: entry.info ?? null,
-		alerts: getAlerts(entry.alerts),
+		info: entry?.info ?? null,
+		alerts: getAlerts(entry?.alerts),
 		isNew,
 	};
 }

@@ -5,12 +5,12 @@ export function getStakeoutRows(source: StoredStakeouts | undefined): StakeoutRo
 	return (source?.list ?? []).toSorted((a, b) => a.order - b.order).map((entry) => getStakeoutRow(entry.id, entry, false));
 }
 
-export function getStakeoutRow(id: number, stakeout: StakeoutData, isNew: boolean): StakeoutRow {
+export function getStakeoutRow(id: number, stakeout: StakeoutData | null, isNew: boolean): StakeoutRow {
 	return {
 		id,
-		info: stakeout.info ?? null,
-		label: stakeout.label ?? "",
-		alerts: getAlerts(stakeout.alerts),
+		info: stakeout?.info ?? null,
+		label: stakeout?.label ?? "",
+		alerts: getAlerts(stakeout?.alerts),
 		isNew,
 	};
 }
