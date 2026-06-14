@@ -9,7 +9,8 @@
 				{
 					"message": "Only show the 'Nothing left to show here.' text with the Only New Feed when there is actually nothing left to show.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Don't fail the forum menu hiding when there are no posts in a certain section.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
