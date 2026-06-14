@@ -104,7 +104,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
 			else {
 				this.container.setAttribute("error-count", this.errorCount.toString());
-				this.addErrorToPopup(error).then(() => {});
+				this.addErrorToPopup(error).catch((err) => console.error(err));
 			}
 		}
 	}
@@ -335,7 +335,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			return;
 		}
 
-		new Promise(async () => {
+		void (async () => {
 			let row = this.container.querySelector(`[feature-name="${feature.name}"]`);
 			if (row) {
 				row.setAttribute("status", status);
@@ -366,7 +366,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 				scopeEl.appendChild(row);
 			}
 			this.hideEmptyScopes();
-		}).catch((error) => {
+		})().catch((error) => {
 			this.logError(`Couldn't log result for ${feature.name}: ${JSON.stringify(options)}`, error);
 		});
 

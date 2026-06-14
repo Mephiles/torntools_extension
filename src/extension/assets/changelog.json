@@ -11,7 +11,8 @@
 			"technical": [
 				{ "message": "Improve the database loading, when attempting to load more than once.", "contributor": "DeKleineKobini" },
 				{ "message": "Better error handling when sending notifications.", "contributor": "DeKleineKobini" },
-				{ "message": "Better error handling when playing sound.", "contributor": "DeKleineKobini" }
+				{ "message": "Better error handling when playing sound.", "contributor": "DeKleineKobini" },
+				{ "message": "Better error catching overall.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

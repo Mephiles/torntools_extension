@@ -201,7 +201,7 @@ async function showLastAction() {
 		upperLimit,
 		element: lastActiveFilter.element,
 	};
-	applyFilter().then(() => {});
+	applyFilter().catch((err) => console.warn(err));
 }
 
 async function removeLastAction() {

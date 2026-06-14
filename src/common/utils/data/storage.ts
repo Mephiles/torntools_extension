@@ -11,16 +11,13 @@ export abstract class TornToolsStorage {
 
 	abstract clear(): Promise<void>;
 
-	change(object: RecursivePartial<Writable<Database>>): Promise<void> {
-		return new Promise(async (resolve) => {
-			const keys = Object.keys(object) as DatabaseKey[];
-			for (const key of keys) {
-				const data = this.recursive(await this.get(key), object[key]);
+	async change(object: RecursivePartial<Writable<Database>>): Promise<void> {
+		const keys = Object.keys(object) as DatabaseKey[];
+		for (const key of keys) {
+			const data = this.recursive(await this.get(key), object[key]);
 
-				await this.set({ [key]: data });
-			}
-			resolve();
-		});
+			await this.set({ [key]: data });
+		}
 	}
 
 	private recursive(parent: any, toChange: any) {

@@ -18,7 +18,7 @@ export class SourceService {
 	private sourceMapConsumer: BasicSourceMapConsumer | null = null;
 
 	constructor() {
-		this.initializeSourceMap().then(() => {});
+		this.initializeSourceMap().catch((err) => console.error(err));
 	}
 
 	private async initializeSourceMap() {

@@ -461,7 +461,7 @@ async function showBox() {
 						};
 					}
 
-					ttCache.set({ [id]: result || false }, getCacheTime(!result, result?.update * 1000), "yata-spy").then(() => {});
+					ttCache.set({ [id]: result || false }, getCacheTime(!result, result?.update * 1000), "yata-spy").catch((err) => console.debug(err));
 					isCached = false;
 				}
 
@@ -521,7 +521,7 @@ async function showBox() {
 							getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
 							"tornstats-spy",
 						)
-						.then(() => {});
+						.catch((err) => console.debug(err));
 					isCached = false;
 				}
 

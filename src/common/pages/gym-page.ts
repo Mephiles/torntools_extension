@@ -51,5 +51,5 @@ function triggerGymLoadFromDOM() {
 
 		triggerCustomListener(EVENT_CHANNELS.GYM_LOAD, { stats: STATS });
 		resolve();
-	}).then(() => {});
+	}).catch((err) => console.debug(err));
 }

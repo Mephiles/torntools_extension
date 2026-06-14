@@ -56,7 +56,7 @@ async function showMuggableCash(json: any) {
 				})
 			).job;
 
-			ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "user-job").then(() => {});
+			ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "user-job").catch((err) => console.debug(err));
 		}
 
 		if (jobResult && jobResult.type === "company" && jobResult.type_id === 5 && jobResult.rating >= 7) {
