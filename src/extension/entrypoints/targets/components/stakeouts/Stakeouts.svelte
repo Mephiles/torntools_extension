@@ -42,7 +42,7 @@
 			<p class="text-sm text-muted-foreground">{amountOfRows} tracked {amountOfRows === 1 ? "player" : "players"}</p>
 		</div>
 		<div class="flex flex-wrap items-center gap-2">
-			<Input class="w-36" type="number" min="1" placeholder="User ID" bind:value={stakeoutId} onkeydown={(event) => event.key === "Enter" && addStakeout()} />
+			<Input class="w-36" type="number" pattern="\d*" inputmode="numeric" min="1" placeholder="User ID" bind:value={stakeoutId} onkeydown={(event) => event.key === "Enter" && addStakeout()} />
 			<Button onclick={addStakeout}>
 				<PlusIcon class="size-4" />
 				Add

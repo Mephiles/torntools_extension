@@ -106,7 +106,7 @@
 										<span>chain reaches</span>
 										<Input
 											class="h-5 w-12 px-1 text-xs"
-											type="number"
+											type="number" pattern="\d*" inputmode="numeric"
 											min="0"
 											value={row.alerts.chainReaches === false ? "" : row.alerts.chainReaches}
 											oninput={(event) => onNumberAlertChange(row.id, "chainReaches", event.currentTarget.value)}
@@ -115,8 +115,8 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>members drop below</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs"
-											type="number"
+											class="h-5 w-12 px-1 text-xs with-number-wheel"
+											type="number" pattern="\d*" inputmode="numeric"
 											min="0"
 											value={row.alerts.memberCountDrops === false ? "" : row.alerts.memberCountDrops}
 											oninput={(event) => onNumberAlertChange(row.id, "memberCountDrops", event.currentTarget.value)}

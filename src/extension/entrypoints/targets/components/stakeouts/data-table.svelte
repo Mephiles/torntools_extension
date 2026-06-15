@@ -133,8 +133,8 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>life drops below</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs"
-											type="number"
+											class="h-5 w-12 px-1 text-xs with-number-wheel"
+											type="number" pattern="\d*" inputmode="numeric"
 											min="1"
 											max="100"
 											value={row.alerts.life || ""}
@@ -145,8 +145,8 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>offline over</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs"
-											type="number"
+											class="h-5 w-12 px-1 text-xs with-number-wheel"
+											type="number" pattern="\d*" inputmode="numeric"
 											min="1"
 											value={row.alerts.offline || ""}
 											oninput={(event) => onNumberAlertChange(row.id, "offline", event.currentTarget.value)}

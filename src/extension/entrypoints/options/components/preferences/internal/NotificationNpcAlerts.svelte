@@ -92,7 +92,8 @@
 							/>
 
 							<Input
-								type="number"
+								type="number" pattern="\d*" inputmode="numeric"
+								class="with-number-wheel"
 								min={1}
 								max={5}
 								placeholder="Level"
@@ -102,7 +103,7 @@
 							/>
 
 							<Input
-								type="number"
+								type="number" pattern="\d*" inputmode="numeric"
 								min={0}
 								max={450}
 								placeholder="Minutes"

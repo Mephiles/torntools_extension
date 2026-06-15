@@ -2,6 +2,7 @@
 	import { ttStorage } from "@common/utils/context";
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";
+	import StorageNumber from "@/entrypoints/options/components/preferences/StorageNumber.svelte";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -49,7 +50,8 @@
 
 				<Input
 					id="financial-itemmarket-highlight-cheap-items"
-					type="number"
+					type="number" pattern="\d*" inputmode="numeric"
+					class="with-number-wheel"
 					min="0"
 					max="100"
 					value={cheapItemThreshold}

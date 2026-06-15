@@ -167,3 +167,13 @@
 		@apply font-sans;
 	}
 }
+
+input[type="number"]:not(.with-number-wheel) {
+	appearance: textfield;
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		appearance: none;
+		margin: 0;
+	}
+}
