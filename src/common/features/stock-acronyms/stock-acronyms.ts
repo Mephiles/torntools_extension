@@ -1,5 +1,6 @@
 import "./stock-acronyms.css";
 import { settings, stockdata } from "@common/utils/data/database";
+import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -32,6 +33,11 @@ export default class StockAcronymsFeature extends Feature {
 
 	precondition() {
 		return getPageStatus().access;
+	}
+
+	requirements() {
+		if (!hasAPIData()) return "No API access.";
+		return true;
 	}
 
 	isEnabled() {

@@ -1,6 +1,7 @@
 import "./total-portfolio-value.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
+import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -78,6 +79,11 @@ function removeProfitAndValue() {
 export default class TotalPortfolioValueFeature extends Feature {
 	constructor() {
 		super("Total Portfolio Value", "stocks");
+	}
+
+	requirements() {
+		if (!hasAPIData()) return "No API access.";
+		return true;
 	}
 
 	isEnabled() {

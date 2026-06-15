@@ -9,6 +9,10 @@
 				{
 					"message": "Only show the 'Nothing left to show here.' text with the Only New Feed when there is actually nothing left to show.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Fix 'Stock Acronyms' and 'Total Portfolio Value' giving errors when there is no api key provided, instead of not running at all",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
