@@ -11,7 +11,7 @@ import {
 	type Writable,
 } from "@common/utils/data/database";
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
-import { notificationRelations, sendNotifications } from "@extension/entrypoints/background/notifications";
+import { cleanupNotifications, initializeBackoff, notificationRelations } from "@extension/entrypoints/background/notifications";
 import { showIconBars, timedUpdates } from "@extension/entrypoints/background/updates";
 import { registerExtensionContext } from "@extension/runtime/extension-context";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@extension/services/proxy-service-keys";
@@ -36,6 +36,7 @@ async function onInstall() {
 	initializeDatabase();
 	void checkUpdate();
 
+	initializeBackoff();
 	void resetAlarms();
 
 	// These are refresh tasks, not clearing.
@@ -66,6 +67,8 @@ async function onStartup() {
 	initializeDatabase();
 	void checkUpdate();
 
+	initializeBackoff();
+
 	// These are refresh tasks, not clearing.
 	clearCache();
 
@@ -78,8 +81,8 @@ async function onStartup() {
 
 const ALARM_NAMES = {
 	CLEAR_CACHE: "clear-cache-alarm",
-	DATA_UPDATE_AND_NOTIFICATIONS: "data-update-and-notifications-alarm",
-	NOTIFICATIONS: "notifications-alarm",
+	DATA_UPDATE: "data-update-alarm",
+	CLEANUP_NOTIFICATIONS: "CLEANUP_NOTIFICATIONS-ALARM",
 } as const;
 
 async function onAlarm(alarm: Alarm) {
@@ -89,12 +92,11 @@ async function onAlarm(alarm: Alarm) {
 		case ALARM_NAMES.CLEAR_CACHE:
 			clearCache();
 			break;
-		case ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS:
-			await timedUpdates();
-			await sendNotifications();
+		case ALARM_NAMES.CLEANUP_NOTIFICATIONS:
+			await cleanupNotifications();
 			break;
-		case ALARM_NAMES.NOTIFICATIONS:
-			await sendNotifications();
+		case ALARM_NAMES.DATA_UPDATE:
+			await timedUpdates();
 			break;
 		default:
 			throw new Error(`Undefined alarm name: ${alarm.name}`);
@@ -109,8 +111,8 @@ export async function resetAlarms() {
 	await browser.alarms.clearAll();
 
 	void browser.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-	void browser.alarms.create(ALARM_NAMES.DATA_UPDATE_AND_NOTIFICATIONS, { periodInMinutes: 0.52 });
-	void browser.alarms.create(ALARM_NAMES.NOTIFICATIONS, { periodInMinutes: 0.08 });
+	void browser.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+	void browser.alarms.create(ALARM_NAMES.CLEANUP_NOTIFICATIONS, { periodInMinutes: 60 });
 }
 
 function onNotificationClicked(id: string) {

@@ -16,6 +16,7 @@ export let ITEM_RESOLVER: ItemResolver;
 export interface OffloadService {
 	fetchRelay<R = any>(location: string, options: Record<string, any>): Promise<R>;
 	initialize(): Promise<{ success: boolean; error?: any }>;
+	reinitializeTimers(): Promise<void>;
 }
 
 export interface FetchResponse {
