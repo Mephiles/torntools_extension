@@ -2,46 +2,30 @@ import type { StakeoutData, StoredStakeouts } from "@common/utils/data/default-d
 import type { StakeoutAlerts, StakeoutRow } from "./columns";
 
 export function getStakeoutRows(source: StoredStakeouts | undefined): StakeoutRow[] {
-	return (source?.order ?? []).map((id) => getStakeoutRow(id, source?.[id], false));
+	return (source?.list ?? []).toSorted((a, b) => a.order - b.order).map((entry) => getStakeoutRow(entry.id, entry, false));
 }
 
-export function getStakeoutRow(id: string, source: StakeoutData | unknown, isNew: boolean): StakeoutRow {
-	if (source && typeof source === "object" && !Array.isArray(source)) {
-		const stakeout = source as StakeoutData;
-
-		return {
-			id,
-			info: stakeout.info ?? null,
-			label: stakeout.label ?? "",
-			alerts: getAlerts(stakeout.alerts),
-			isNew,
-		};
-	}
-
+export function getStakeoutRow(id: number, stakeout: StakeoutData | null, isNew: boolean): StakeoutRow {
 	return {
 		id,
-		info: null,
-		label: "",
-		alerts: getAlerts(),
+		info: stakeout?.info ?? null,
+		label: stakeout?.label ?? "",
+		alerts: getAlerts(stakeout?.alerts),
 		isNew,
 	};
 }
 
 export function getStoredStakeouts(sourceRows: StakeoutRow[], currentDate = 0): StoredStakeouts {
-	const nextStakeouts: StoredStakeouts = {
-		order: sourceRows.map((row) => row.id),
+	return {
 		date: currentDate,
-	};
-
-	for (const row of sourceRows) {
-		nextStakeouts[row.id] = {
+		list: sourceRows.map((row) => ({
+			id: row.id,
+			order: Date.now(),
 			info: row.info,
 			alerts: row.alerts,
 			label: row.label,
-		};
-	}
-
-	return nextStakeouts;
+		})),
+	};
 }
 
 export function getAlerts(alerts?: Partial<StakeoutAlerts>): StakeoutAlerts {

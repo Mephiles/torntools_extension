@@ -10,7 +10,6 @@ import {
 	notifications,
 	npcs,
 	setFactiondata,
-	setFactionStakeouts,
 	setTorndata,
 	settings,
 	setUserdata,
@@ -1082,19 +1081,13 @@ async function updateStakeouts(forceUpdate = false) {
 
 	let success = 0;
 	let failed = 0;
-	for (const id in stakeouts) {
-		const stakeout = stakeouts[id];
-		if (typeof stakeout !== "object" || Array.isArray(stakeout)) continue;
+	for (const stakeout of stakeouts.list) {
+		const id = stakeout.id;
 
 		const oldData = stakeout?.info ?? null;
 		let data: UserProfileResponse;
 		try {
-			data = await fetchData<UserProfileResponse>("tornv2", {
-				section: "user",
-				selections: ["profile"],
-				id,
-				silent: true,
-			});
+			data = await fetchData<UserProfileResponse>("tornv2", { section: "user", selections: ["profile"], id, silent: true });
 			if (!data) {
 				console.log("Unexpected result during stakeout updating.");
 				failed++;
@@ -1230,8 +1223,9 @@ async function updateStakeouts(forceUpdate = false) {
 			}
 		}
 
-		if (id in stakeouts) {
-			stakeouts[id] = {
+		const existingIndex = stakeouts.list.findIndex((e) => e.id === id);
+		if (existingIndex !== -1) {
+			stakeouts.list[existingIndex] = {
 				...stakeout,
 				info: {
 					name: data.profile.name,
@@ -1268,16 +1262,15 @@ async function updateFactionStakeouts(forceUpdate = false) {
 
 	const now = Date.now();
 
-	if (!forceUpdate && "date" in factionStakeouts && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
+	if (!forceUpdate && factionStakeouts.date && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
 		return { updated: false };
 	}
 
 	let success = 0;
 	let failed = 0;
-	for (const factionId in factionStakeouts) {
-		if (Number.isNaN(parseInt(factionId))) continue;
-
-		const oldData = typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null ? factionStakeouts[factionId].info : null;
+	for (const entry of factionStakeouts.list) {
+		const factionId = entry.id;
+		const oldData = entry.info ?? null;
 		let data: FetchedFactionStakeout;
 		try {
 			data = await fetchData<FetchedFactionStakeout>("tornv2", {
@@ -1299,8 +1292,8 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			continue;
 		}
 
-		if (typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null && factionStakeouts[factionId].alerts) {
-			const { chainReaches, memberCountDrops, rankedWarStarts, inRaid, inTerritoryWar } = factionStakeouts[factionId].alerts;
+		if (entry.alerts) {
+			const { chainReaches, memberCountDrops, rankedWarStarts, inRaid, inTerritoryWar } = entry.alerts;
 
 			if (chainReaches !== null) {
 				const oldChainCount = oldData ? oldData.chain : false;
@@ -1344,7 +1337,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 				const key = `faction_${factionId}_memberCountDrops`;
 				if (
 					typeof oldMemberCount === "number" &&
-					memberCount >= oldMemberCount &&
+					memberCount < memberCountDrops &&
 					(!oldMemberCount || oldMemberCount > memberCount) &&
 					!notifications.stakeouts[key]
 				) {
@@ -1393,10 +1386,12 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			}
 		}
 
-		if (typeof factionStakeouts[factionId] === "object" && factionStakeouts[factionId] !== null) {
-			factionStakeouts[factionId].info = {
+		const existingIndex = factionStakeouts.list.findIndex((e) => e.id === factionId);
+		if (existingIndex !== -1) {
+			factionStakeouts.list[existingIndex].info = {
 				name: data.basic.name,
 				chain: data.chain.current,
+				respect: data.basic.respect,
 				members: {
 					current: data.basic.members,
 					maximum: data.basic.capacity,
@@ -1407,7 +1402,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 			};
 		}
 	}
-	setFactionStakeouts({ ...factionStakeouts, date: now });
+	factionStakeouts.date = now;
 
 	await ttStorage.change({ factionStakeouts, notifications });
 	return { updated: true, success, failed };

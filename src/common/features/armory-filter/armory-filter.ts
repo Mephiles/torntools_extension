@@ -1,6 +1,6 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
+import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
+import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { type CheckboxObject, createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -225,7 +225,7 @@ async function applyFilters() {
 }
 
 function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
-	const id = row.querySelector<HTMLElement>(".img-wrap").dataset.itemid;
+	const id = parseInt(row.querySelector<HTMLElement>(".img-wrap").dataset.itemid);
 
 	if (filters.hideUnavailable) {
 		if (row.querySelector(":scope > .loaned a")) {
@@ -239,17 +239,17 @@ function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
 			return;
 		}
 	}
-	if (filters.category) {
-		const details = id in torndata.itemsMap && torndata.itemsMap[id].details;
-		const itemCategory = details && "category" in details ? details.category.toLowerCase() : torndata.itemsMap[id].type;
+	const item = ITEM_RESOLVER.getStaticItem(id);
+	if (filters.category && item) {
+		const itemCategory = item.details && "category" in item.details ? String(item.details.category).toLowerCase() : item?.type;
 
 		if (itemCategory !== filters.category) {
 			hide("category");
 			return;
 		}
 	}
-	if (filters.weaponType) {
-		if (torndata.itemsMap[id].sub_type.toLowerCase() !== filters.weaponType) {
+	if (filters.weaponType && item) {
+		if (item.sub_type?.toLowerCase() !== filters.weaponType) {
 			hide("weapon_type");
 			return;
 		}

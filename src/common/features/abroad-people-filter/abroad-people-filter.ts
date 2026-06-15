@@ -70,7 +70,9 @@ async function addFilters() {
 	const factionFilter = createFilterSection({
 		title: "Faction",
 		select: [
-			...(isPreviousFactionSelectionPresent ? [] : [{ value: filters.abroadPeople.faction, description: filters.abroadPeople.faction }]),
+			...(isPreviousFactionSelectionPresent || !filters.abroadPeople.faction
+				? []
+				: [{ value: filters.abroadPeople.faction, description: filters.abroadPeople.faction }]),
 			...defaultFactionsItems,
 			...onPageFactions,
 		],
@@ -129,7 +131,7 @@ async function addFilters() {
 		localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
 	}
 
-	if (settings.scripts.ffScouter.gauge && hasAPIData()) {
+	if (settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData()) {
 		const ffScoreFilterMin = createFilterSection({
 			title: "FF Score Min",
 			text: "number",

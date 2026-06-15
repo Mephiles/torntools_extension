@@ -2,7 +2,7 @@ import type { CRIMES2 } from "@common/pages/crimes2-page";
 import type { AbroadItem } from "@common/pages/travel-abroad-page";
 import { SCRIPT_INJECTOR } from "@common/utils/context";
 import { executeScript } from "@common/utils/functions/dom";
-import type { FetchDetails, ScriptInjector, XHRDetails } from "@common/utils/functions/script-injector";
+import type { FetchDetails, XHRDetails } from "@common/utils/functions/script-injector";
 import { isTabFocused } from "@common/utils/functions/utilities";
 import type { UserPersonalStatsFull } from "tornapi-typescript";
 
@@ -184,21 +184,6 @@ export function injectXHR() {
 	executeScript(browser.runtime.getURL("/xhr--inject.js"), false);
 	injectedXHR = true;
 }
-
-export const ExtensionScriptInjector: ScriptInjector = {
-	injectFetch() {
-		if (injectedFetch) return;
-
-		executeScript(browser.runtime.getURL("/fetch--inject.js"), false);
-		injectedFetch = true;
-	},
-	injectXHR() {
-		if (injectedXHR) return;
-
-		executeScript(browser.runtime.getURL("/xhr--inject.js"), false);
-		injectedXHR = true;
-	},
-};
 
 export function addXHRListener(callback: (event: CustomEventInit<XHRDetails>) => void) {
 	SCRIPT_INJECTOR.injectXHR();

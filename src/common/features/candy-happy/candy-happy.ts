@@ -1,6 +1,6 @@
 import "./candy-happy.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata, userdata } from "@common/utils/data/database";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -23,9 +23,12 @@ function addGains() {
 	findAllElements("[data-category='Candy']").forEach((candy) => {
 		if (candy.querySelector(".tt-candy-gains")) return;
 
+		const item = ITEM_RESOLVER.getStaticItem(parseInt(candy.dataset.item));
+		if (!item) return;
+
 		// noinspection DuplicatedCode
 		const baseHappy = parseInt(
-			torndata.itemsMap[candy.dataset.item].effect
+			item.effect
 				.split(" ")
 				.map((x) => parseInt(x))
 				.filter((x) => !Number.isNaN(x))[0]

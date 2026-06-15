@@ -5,7 +5,7 @@ import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { CompanyV1EmployeesResponse } from "@common/utils/functions/api-v1.types";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
-import { isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
+import { getUserDetails, isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
 import { getTimeUntilNextJobUpdate } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 import type { UserCompany } from "tornapi-typescript";
@@ -37,7 +37,7 @@ async function getCompanyAddiction() {
 	if (ttCache.hasValue("company", "addiction")) {
 		return ttCache.get<number>("company", "addiction");
 	} else {
-		const id = userdata.profile.id;
+		const id = getUserDetails().id;
 		const company_id = (userdata.job as UserCompany).id;
 
 		try {
@@ -53,7 +53,7 @@ async function getCompanyAddiction() {
 
 			const addiction = response[id].effectiveness.addiction ?? 0;
 
-			ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company").then(() => {});
+			ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company").catch((err) => console.debug(err));
 
 			return addiction;
 		} catch (error) {

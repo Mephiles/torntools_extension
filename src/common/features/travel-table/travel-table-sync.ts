@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
+import { FEATURE_MANAGER, RUNTIME_INFORMATION } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -29,10 +29,18 @@ function syncData(items: SyncItem[], country: string) {
 	nextUpdate = Date.now() + TO_MILLIS.SECONDS * 30;
 
 	const data = {
-		client: "TornTools",
-		version: browser.runtime.getManifest().version,
-		author_name: "Mephiles",
-		author_id: 2087524,
+		...(RUNTIME_INFORMATION.isUserscript()
+			? {
+					client: "TT Userscript",
+					author_name: "DeKleineKobini",
+					author_id: 2114440,
+				}
+			: {
+					client: "TornTools",
+					author_name: "Mephiles",
+					author_id: 2087524,
+				}),
+		version: RUNTIME_INFORMATION.getVersion(),
 		country: country.trim().slice(0, 3).toLowerCase(),
 		items,
 	};

@@ -387,7 +387,7 @@ async function hideSubscriptions() {
 			await requireElement(".ajax-preloader", { parent: feed, invert: true });
 
 			let hasReducedNew = false;
-			findAllElements(".panel > li", feed).forEach((post) => {
+			findAllElements(".panel > li:not(.empty)", feed).forEach((post) => {
 				const params = getHashParameters(new URL(post.querySelector<HTMLAnchorElement>("a[href*='t=']").href).hash);
 				const threadId = parseInt(params.get("t"));
 

@@ -1,13 +1,14 @@
 import "./bazaar-worth.css";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
-import { settings, userdata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { UserV1BazaarItem, UserV1BazaarResponse } from "@common/utils/functions/api-v1.types";
 import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
+import { getUserDetails } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { ExecutionTiming, Feature } from "@features/feature";
 
@@ -35,7 +36,7 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 
 	const bazaarUserId = parseInt(getSearchParameters().get("userId"));
 
-	if (!bazaarUserId || bazaarUserId === userdata.profile.id) await requireElement(".info-msg-cont:not(.red) .msg");
+	if (!bazaarUserId || bazaarUserId === getUserDetails()?.id) await requireElement(".info-msg-cont:not(.red) .msg");
 	else await requireElement(".info-msg-cont .msg a[href]");
 
 	if (list && Array.isArray(list)) {
@@ -119,7 +120,7 @@ export default class BazaarWorthFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}

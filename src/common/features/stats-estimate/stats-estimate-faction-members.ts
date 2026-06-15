@@ -1,4 +1,4 @@
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -42,6 +42,7 @@ function registerListeners() {
 async function startFeature(forced: boolean) {
 	if (isInternalFaction && getFactionSubpage() !== "info") return;
 	if (settings.pages.faction.memberFilter && !forced) return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	await showEstimates();
 }

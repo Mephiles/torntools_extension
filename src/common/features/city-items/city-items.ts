@@ -1,16 +1,14 @@
 import "./city-items.css";
-import { ttStorage } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
+import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
+import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { TORN_ITEMS } from "@common/utils/functions/torn-items";
+import type { FullItem } from "@common/utils/torn-api/items.types";
 import { Feature } from "@features/feature";
-import type { TornItem } from "tornapi-typescript";
 
 interface CityItem {
 	id: string;
@@ -19,9 +17,26 @@ interface CityItem {
 }
 
 let hasContainer = false;
+let loaderObserver: MutationObserver | undefined;
+
+async function triggerHighlight() {
+	if (location.hash.includes("map-cont")) {
+		await showHighlight();
+		return;
+	}
+
+	const mapLoader = document.querySelector(".map-loader-wp");
+
+	loaderObserver = new MutationObserver((_, self) => {
+		showHighlight();
+		self.disconnect();
+		loaderObserver = undefined;
+	});
+	loaderObserver.observe(mapLoader, { attributes: true, attributeFilter: ["style"] });
+}
 
 async function showHighlight() {
-	if (hasContainer) return;
+	if (hasContainer || !location.hash.includes("map-cont")) return;
 
 	await requireElement("#map .highlightItemMarket");
 
@@ -33,7 +48,7 @@ async function showHighlight() {
 	const items = getAllItems();
 	handleHighlight();
 	handleSearchBox();
-	if (hasAPIData()) showValue();
+	if (ITEM_RESOLVER.hasFullItems()) showValue();
 	showItemList();
 
 	function getAllItems() {
@@ -45,7 +60,7 @@ async function showHighlight() {
 			marker.classList.add("city-item");
 			marker.dataset.id = id;
 
-			const itemName = hasAPIData() ? torndata.itemsMap[id].name : id in TORN_ITEMS ? TORN_ITEMS[id].name : id;
+			const itemName = ITEM_RESOLVER.getStaticItem(parseInt(id))?.name ?? id;
 
 			if (settings.pages.city.combineDuplicates) {
 				const duplicate = items.find((item) => item.id === id);
@@ -83,7 +98,7 @@ async function showHighlight() {
 
 	function showValue() {
 		const totalValue = items
-			.map(({ id, count }): TornItem & { count: number } => ({ ...torndata.itemsMap[id], count }))
+			.map(({ id, count }): FullItem & { count: number } => ({ ...ITEM_RESOLVER.getFullItem(parseInt(id)), count }))
 			.filter((item) => !!item)
 			.map(({ value: { market_price: value }, count }) => value * count)
 			.filter((value) => !!value)
@@ -244,11 +259,12 @@ export default class CityItemsFeature extends Feature {
 	}
 
 	async execute() {
-		await showHighlight();
+		await triggerHighlight();
 	}
 
 	cleanup() {
 		removeHighlight();
+		loaderObserver?.disconnect();
 	}
 
 	storageKeys() {

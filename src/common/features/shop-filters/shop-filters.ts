@@ -1,8 +1,7 @@
 import "./shop-filters.css";
-import { ttStorage } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
+import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
+import { filters, settings } from "@common/utils/data/database";
 import { createCheckboxList } from "@common/utils/elements/checkbox-list/checkbox-list";
-import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile, tablet } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -61,7 +60,7 @@ async function filtering() {
 		if (!itemIdAttr) continue;
 
 		const id = convertToNumber(itemIdAttr);
-		const item = torndata.itemsMap[id];
+		const item = ITEM_RESOLVER.getFullItem(id);
 		if (!item) continue;
 
 		const priceText = element.querySelector(".price").firstChild?.textContent ?? "";
@@ -97,8 +96,7 @@ export default class ShopFiltersFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
-
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}
 

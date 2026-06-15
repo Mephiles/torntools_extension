@@ -1,6 +1,6 @@
 import "./alcohol-nerve.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata, userdata } from "@common/utils/data/database";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -25,8 +25,11 @@ function addNerveGains() {
 		if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;
 
 		const id = parseInt(alcoholicDrink.dataset.item);
+		const item = ITEM_RESOLVER.getStaticItem(id);
+		if (!item) return;
+
 		let totalNerve = parseInt(
-			torndata.itemsMap[alcoholicDrink.dataset.item].effect
+			item.effect
 				.split(" ")
 				.map((x) => parseInt(x))
 				.filter((x) => !Number.isNaN(x))[0]

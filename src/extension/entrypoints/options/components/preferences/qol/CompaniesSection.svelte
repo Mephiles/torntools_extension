@@ -83,7 +83,8 @@
 				{#each $settingsStore.employeeInactivityWarning as warning, index (index)}
 					<div class="grid gap-2 rounded-md border border-border bg-background/60 p-2 md:grid-cols-[1fr_3rem_28px]">
 						<Input
-							type="number"
+							type="number" pattern="\d*" inputmode="numeric"
+							class="with-number-wheel"
 							min={0}
 							value={getWarningDraft(warning)}
 							placeholder="Days"

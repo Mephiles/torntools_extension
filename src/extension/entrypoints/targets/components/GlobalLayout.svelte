@@ -16,6 +16,7 @@
 	const navigation = [
 		{ name: "Attack History", path: "/attackhistory" },
 		{ name: "Stakeouts", path: "/stakeouts" },
+		{ name: "Faction Stakeouts", path: "/factionstakeouts" },
 	];
 
 	onMount(() => {

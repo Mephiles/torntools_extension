@@ -109,7 +109,7 @@ async function showGraph() {
 				if (result.status) {
 					result.data = filterData(result.data);
 
-					ttCache.set({ graph: result }, TO_MILLIS.HOURS, "gym").then(() => {});
+					ttCache.set({ graph: result }, TO_MILLIS.HOURS, "gym").catch((err) => console.debug(err));
 				}
 			} catch (error) {
 				result = { status: false, message: errorHandling(error) };

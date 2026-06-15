@@ -20,7 +20,7 @@ export async function setupFactionsPage() {
 				const step = params.get("step");
 
 				if (step === "crimes") {
-					loadCrimes().then(() => {});
+					loadCrimes().catch((err) => console.warn(err));
 				} else if (step === "getMoneyDepositors") {
 					triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
 				} else if (step === "upgradeConfirm") {
@@ -35,11 +35,11 @@ export async function setupFactionsPage() {
 				const sid = params.get("sid");
 
 				if (sid === "factionsProfile") {
-					loadInfo().then(() => {});
+					loadInfo().catch((err) => console.warn(err));
 				} else if (sid === "factionsNews") {
-					loadMain().then(() => {});
+					loadMain().catch((err) => console.warn(err));
 				} else if (sid === "factionsControlMembers") {
-					loadArmory().then(() => {});
+					loadArmory().catch((err) => console.warn(err));
 				}
 			}
 		});
@@ -52,19 +52,19 @@ export async function setupFactionsPage() {
 
 		switch (getFactionSubpage()) {
 			case "main":
-				loadMain().then(() => {});
+				loadMain().catch((err) => console.warn(err));
 				break;
 			case "info":
-				loadInfo().then(() => {});
+				loadInfo().catch((err) => console.warn(err));
 				break;
 			case "crimes":
-				loadCrimes().then(() => {});
+				loadCrimes().catch((err) => console.warn(err));
 				break;
 			case "armoury":
-				loadArmory().then(() => {});
+				loadArmory().catch((err) => console.warn(err));
 				break;
 			case "controls":
-				loadControls().then(() => {});
+				loadControls().catch((err) => console.warn(err));
 				break;
 			default:
 				break;
@@ -169,7 +169,7 @@ export async function setupFactionsPage() {
 				}
 			}
 		}
-	} else {
+	} else if (!(await isDestroyed())) {
 		loadMemberTable();
 	}
 
@@ -345,4 +345,10 @@ export function extractArmorySubcategory(controls: string): string | null {
 	}
 
 	return null;
+}
+
+export async function isDestroyed(): Promise<boolean> {
+	const info: Element = await requireElement(".faction-info");
+
+	return info.classList.contains("faction-destroyed");
 }

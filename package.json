@@ -1,6 +1,6 @@
 {
 	"name": "torntools-extension",
-	"version": "9.0.6",
+	"version": "9.0.8",
 	"type": "module",
 	"scripts": {
 		"types:watch": "tsc --noEmit --watch --pretty",
@@ -20,12 +20,13 @@
 		"format": "biome format",
 		"format:fix": "biome format --write",
 		"lint:fix": "biome lint --write",
-		"check:fix": "biome check --write"
+		"check:fix": "biome check --write",
+		"static-items": "bun tools/update-static-items.ts"
 	},
 	"dependencies": {
 		"@phosphor-icons/core": "^2.1.1",
 		"@phosphor-icons/web": "^2.1.2",
-		"@tailwindcss/vite": "^4.3.0",
+		"@tailwindcss/vite": "^4.3.1",
 		"@tanstack/table-core": "^8.21.3",
 		"@webext-core/proxy-service": "^2.0.1",
 		"@wxt-dev/module-svelte": "^2.0.5",
@@ -33,7 +34,7 @@
 		"sortablejs": "^1.15.7",
 		"source-map": "^0.7.6",
 		"svelte-spa-router": "^5.1.0",
-		"tailwindcss": "^4.3.0",
+		"tailwindcss": "^4.3.1",
 		"tornapi-typescript": "^6.0.0"
 	},
 	"devDependencies": {

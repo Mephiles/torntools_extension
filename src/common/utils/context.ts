@@ -1,6 +1,7 @@
 import type { TornToolsStorage } from "@common/utils/data/storage";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
 import type { ScriptInjector } from "@common/utils/functions/script-injector";
+import type { ItemResolver } from "@common/utils/torn-api/items.types";
 import type { FeatureManager } from "@features/feature-manager";
 
 export let FEATURE_MANAGER: FeatureManager;
@@ -8,6 +9,24 @@ export let ttStorage: TornToolsStorage;
 export let SCRIPT_INJECTOR: ScriptInjector;
 export let RUNTIME_INFORMATION: RuntimeInformation;
 export let RUNTIME_STORAGE: RuntimeStorage;
+export let OFFLOAD_SERVICE: OffloadService;
+export let DATA_FETCHER: DataFetcher;
+export let ITEM_RESOLVER: ItemResolver;
+
+export interface OffloadService {
+	fetchRelay<R = any>(location: string, options: Record<string, any>): Promise<R>;
+	initialize(): Promise<{ success: boolean; error?: any }>;
+}
+
+export interface FetchResponse {
+	text: string;
+	status: number;
+	ok: boolean;
+}
+
+export interface DataFetcher {
+	fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse>;
+}
 
 export function setFeatureManager(featureManager: FeatureManager) {
 	FEATURE_MANAGER = featureManager;
@@ -27,4 +46,16 @@ export function setRuntimeInformation(runtimeInformation: RuntimeInformation) {
 
 export function setRuntimeStorage(runtimeStorage: RuntimeStorage) {
 	RUNTIME_STORAGE = runtimeStorage;
+}
+
+export function setOffloadService(offloadService: OffloadService) {
+	OFFLOAD_SERVICE = offloadService;
+}
+
+export function setDataFetcher(dataFetcher: DataFetcher) {
+	DATA_FETCHER = dataFetcher;
+}
+
+export function setStaticItemResolver(staticItemResolver: ItemResolver) {
+	ITEM_RESOLVER = staticItemResolver;
 }

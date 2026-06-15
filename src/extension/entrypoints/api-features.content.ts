@@ -15,7 +15,7 @@ export default defineContentScript({
 		registerExtensionContext();
 		await loadDatabase();
 
-		loadAPISelections().then(() => {});
+		loadAPISelections().catch((err) => console.error(err));
 		loadAutoAPIFill();
 		loadAPIDemo();
 		loadAPIPretty();

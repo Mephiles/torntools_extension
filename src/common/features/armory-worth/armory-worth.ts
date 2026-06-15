@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { Feature } from "@features/feature";
 import "./armory-worth.css";
 import { isInternalFaction } from "@common/pages/factions-page";
@@ -88,7 +88,7 @@ async function addWorth(force: boolean) {
 		for (const type of selections) {
 			if (data[type]) {
 				for (const item of data[type]) {
-					total += torndata.itemsMap[item.ID].value.market_price * item.quantity;
+					total += ITEM_RESOLVER.getFullItem(item.ID).value.market_price * item.quantity;
 				}
 			}
 		}

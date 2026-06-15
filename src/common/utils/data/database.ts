@@ -2,7 +2,6 @@ import { RUNTIME_INFORMATION, RUNTIME_STORAGE, ttStorage } from "@common/utils/c
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@common/utils/data/default-database";
 import { executeMigrationScripts } from "@common/utils/data/migrations";
-import { sleep } from "@common/utils/functions/utilities";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
 export type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
@@ -70,9 +69,6 @@ export let factionStakeouts: DatabaseFactionStakeouts;
 export let notifications: DatabaseNotifications;
 export let migrations: DatabaseMigrations;
 
-let databaseLoaded = false;
-let databaseLoading = false;
-
 // Initialize database when module is loaded
 //
 
@@ -122,6 +118,9 @@ export const storageListeners: StorageListeners = {
 	migrations: [],
 } as const;
 
+let databaseLoaded = false;
+let databaseLoadPromise: Promise<Omit<Database, "time">> | null = null;
+
 export async function loadDatabase(force = false): Promise<Omit<Database, "time">> {
 	if (databaseLoaded && !force) {
 		return {
@@ -145,21 +144,27 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 			notifications,
 			migrations,
 		};
-	} else if ((databaseLoaded && !settings) || databaseLoading) {
-		await sleep(75);
-		return await loadDatabase(force);
 	}
 
-	databaseLoading = true;
+	// If a load is already in progress, wait for it instead of polling.
+	if (databaseLoadPromise) return await databaseLoadPromise;
 
-	const database = await ttStorage.get();
+	databaseLoadPromise = (async () => {
+		const database = await ttStorage.get();
+		populateDatabaseVariables(database);
+		console.log("TT - Database loaded.", database);
+		return database;
+	})();
 
-	populateDatabaseVariables(database);
-
-	console.log("TT - Database loaded.", database);
-	databaseLoaded = true;
-	databaseLoading = false;
-	return database;
+	try {
+		const result = await databaseLoadPromise;
+		databaseLoaded = true;
+		databaseLoadPromise = null;
+		return result;
+	} catch (error) {
+		databaseLoadPromise = null;
+		throw error;
+	}
 }
 
 // biome-ignore lint/correctness/noUnusedFunctionParameters: Might only be temporary unused.
@@ -272,7 +277,7 @@ export function initializeDatabase() {
 	initializeDatabaseListener();
 }
 
-function initializeDatabaseListener() {
+export function initializeDatabaseListener() {
 	RUNTIME_STORAGE.addChangeListener((changes, area) => {
 		if (area === "local") {
 			for (const key in changes) {
@@ -341,6 +346,10 @@ function initializeDatabaseListener() {
 
 export function setUserdata(data: DatabaseUserdata) {
 	userdata = data;
+}
+
+export function setStockdata(data: DatabaseStockdata) {
+	stockdata = data;
 }
 
 export function setFactiondata(data: DatabaseFactiondata) {

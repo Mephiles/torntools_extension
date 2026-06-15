@@ -1,5 +1,5 @@
 import "./user-alias.css";
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
@@ -70,7 +70,10 @@ export default class UserAliasUserlistFeature extends Feature {
 	}
 
 	async execute() {
-		if (getPage() === "factions" && isInternalFaction && getFactionSubpage() !== "info") return;
+		if (getPage() === "factions") {
+			if (isInternalFaction && getFactionSubpage() !== "info") return;
+			if (!isInternalFaction && (await isDestroyed())) return;
+		}
 
 		await addAlias();
 	}

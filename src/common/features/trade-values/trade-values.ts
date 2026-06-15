@@ -1,5 +1,5 @@
 import "./trade-values.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings, torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
@@ -79,7 +79,7 @@ async function addItemValues() {
 
 			let marketValue = 0;
 			if (Object.hasOwn(localMappings, name)) {
-				marketValue = torndata.itemsMap[localMappings[name]].value.market_price;
+				marketValue = ITEM_RESOLVER.getFullItem(parseInt(localMappings[name])).value.market_price;
 			} else {
 				marketValue = torndata.items.find((i) => i.name === name)?.value?.market_price ?? 0;
 			}

@@ -1,5 +1,25 @@
-import { setFeatureManager, setRuntimeInformation, setRuntimeStorage, setScriptInjector, setTTStorage, ttStorage } from "@common/utils/context";
-import { type DatabaseFilters, type DatabaseLocaldata, migrateDatabase, setFilters, setLocaldata } from "@common/utils/data/database";
+import {
+	type DataFetcher,
+	type FetchResponse,
+	type OffloadService,
+	setDataFetcher,
+	setFeatureManager,
+	setOffloadService,
+	setRuntimeInformation,
+	setRuntimeStorage,
+	setScriptInjector,
+	setStaticItemResolver,
+	setTTStorage,
+	ttStorage,
+} from "@common/utils/context";
+import {
+	type DatabaseFilters,
+	type DatabaseLocaldata,
+	initializeDatabaseListener,
+	migrateDatabase,
+	setFilters,
+	setLocaldata,
+} from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import { injectFetchListeners, injectXhrListeners, RequestListenerInjector, type ScriptInjector } from "@common/utils/functions/script-injector";
 import type { Feature } from "@features/feature";
@@ -7,20 +27,28 @@ import type { FeatureManager } from "@features/feature-manager";
 import { TTScriptStorage } from "@userscripts/runtime/script-storage";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
-import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
+import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
+import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
+import { getUUID } from "@common/utils/functions/utilities";
+import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
-export async function registerUserscriptContext() {
-	setTTStorage(new TTScriptStorage());
+export async function registerUserscriptContext(storagePrefix: string) {
+	setTTStorage(new TTScriptStorage(storagePrefix));
 	setFeatureManager(new ScriptFeatureManager());
 	setScriptInjector(UserscriptScriptInjector);
 	setRuntimeInformation(UserscriptRuntimeInformation);
 	setRuntimeStorage(UserscriptRuntimeStorage);
+	setOffloadService(ScriptOffloadService);
+	setDataFetcher(ScriptDataFetcher);
+	setStaticItemResolver(ScriptItemResolver);
 
 	await migrateDatabase(true);
-	const [localdata, filters] = await ttStorage.get(["localdata", "filters"]);
+	initializeDatabaseListener();
+	const [localdata, filters, cache] = await ttStorage.get(["localdata", "filters", "cache"]);
 
 	setLocaldata((localdata ? localdata : getDefaultStorage(DEFAULT_STORAGE.localdata)) as DatabaseLocaldata);
 	setFilters((filters ? filters : getDefaultStorage(DEFAULT_STORAGE.filters)) as DatabaseFilters);
+	ttCache.cache = cache ? cache : (getDefaultStorage(DEFAULT_STORAGE.cache) as DatabaseCache);
 
 	initializeScriptTheme();
 }
@@ -46,7 +74,10 @@ class ScriptFeatureManager implements FeatureManager {
 const fetchListenerInjector = new RequestListenerInjector(injectFetchListeners);
 const xhrListenerInjector = new RequestListenerInjector(injectXhrListeners);
 
-export const UserscriptScriptInjector: ScriptInjector = {
+const UserscriptScriptInjector: ScriptInjector = {
+	getWindow(): Window {
+		return unsafeWindow;
+	},
 	injectFetch() {
 		fetchListenerInjector.inject();
 	},
@@ -55,7 +86,7 @@ export const UserscriptScriptInjector: ScriptInjector = {
 	},
 };
 
-export const UserscriptRuntimeInformation: RuntimeInformation = {
+const UserscriptRuntimeInformation: RuntimeInformation = {
 	getVersion(): string {
 		return GM.info.version;
 	},
@@ -65,6 +96,53 @@ export const UserscriptRuntimeInformation: RuntimeInformation = {
 	},
 };
 
-export const UserscriptRuntimeStorage: RuntimeStorage = {
-	addChangeListener() {},
+export const UserscriptRuntimeStorage: RuntimeStorage & { callback: StorageChangeCallback } = {
+	callback: () => {},
+	addChangeListener(callback: StorageChangeCallback) {
+		this.callback = callback;
+	},
+};
+
+const ScriptOffloadService: OffloadService = {
+	fetchRelay<R = any>(_location: string, _options: Record<string, any>): Promise<R> {
+		return Promise.reject(new Error("OffloadService is not available in script context. Use DataFetcher instead."));
+	},
+	initialize(): Promise<{ success: boolean; error?: any }> {
+		return Promise.resolve({ success: true });
+	},
+};
+
+const ScriptDataFetcher: DataFetcher = {
+	fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse> {
+		return new Promise((resolve, reject) => {
+			try {
+				const u = new URL(url);
+				u.searchParams.append("pda-cache-busting", getUUID());
+
+				url = u.toString();
+			} catch {}
+
+			GM.xmlHttpRequest({
+				method: options?.method || "GET",
+				url,
+				headers: options?.headers,
+				data: options?.method === "POST" ? (typeof options.body === "string" ? options.body : JSON.stringify(options.body)) : undefined,
+				timeout: options?.timeout,
+				onload: (response) => {
+					if (!response) {
+						reject(new Error("Request has no actual response. Likely something went wrong in the fetch implementation."));
+						return;
+					}
+
+					resolve({ text: response.responseText, status: response.status, ok: response.status >= 200 && response.status < 300 });
+				},
+				onerror: (error) => {
+					reject(error);
+				},
+				ontimeout: () => {
+					reject(new DOMException("Request cancelled because it took too long.", "AbortError"));
+				},
+			});
+		});
+	},
 };

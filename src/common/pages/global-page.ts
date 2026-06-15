@@ -49,7 +49,7 @@ export async function handleTheme() {
 	});
 }
 
-function createOverlay() {
+export function createOverlay() {
 	document.body.appendChild(elementBuilder({ type: "div", class: "tt-overlay tt-hidden" }));
 }
 

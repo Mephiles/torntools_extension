@@ -65,7 +65,7 @@ async function addInfo(force: boolean) {
 	} else {
 		balance = (await fetchData<FactionBalanceResponse>("tornv2", { section: "faction", selections: ["balance"], silent: true })).balance;
 
-		ttCache.set({ [userdata.faction.id]: balance }, TO_MILLIS.SECONDS * 60, "faction-members-balance").then(() => {});
+		ttCache.set({ [userdata.faction.id]: balance }, TO_MILLIS.SECONDS * 60, "faction-members-balance").catch((err) => console.debug(err));
 	}
 
 	if (!balance) {

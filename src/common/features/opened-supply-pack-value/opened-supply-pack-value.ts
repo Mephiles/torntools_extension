@@ -1,8 +1,7 @@
 import "./opened-supply-pack-value.css";
 import { isUseItem, type TornInternalUseItemSuccess } from "@common/pages/item-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
@@ -48,7 +47,11 @@ function calculateValueFromResponse(response: TornInternalUseItemSuccess): numbe
 	if (!response.items?.itemAppear) return null;
 
 	return response.items.itemAppear
-		.map((item) => ("isMoney" in item ? convertToNumber(item.moneyGain.substring(1)) : torndata.itemsMap[item.ID].value.market_price * parseInt(item.qty)))
+		.map((item) =>
+			"isMoney" in item
+				? convertToNumber(item.moneyGain.substring(1))
+				: ITEM_RESOLVER.getFullItem(parseInt(item.ID)).value.market_price * parseInt(item.qty),
+		)
 		.reduce((totalValue, value) => totalValue + value, 0);
 }
 
@@ -122,7 +125,7 @@ export default class OpenedSupplyPackValueFeature extends Feature {
 	}
 
 	async requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}
 }

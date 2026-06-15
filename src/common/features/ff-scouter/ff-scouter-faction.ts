@@ -1,4 +1,4 @@
-import { isInternalFaction } from "@common/pages/factions-page";
+import { isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -23,6 +23,7 @@ function initialise() {
 
 async function showFF(force: boolean) {
 	if (isInternalFaction && !force) return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	await requireElement(".members-list .table-body > li");
 

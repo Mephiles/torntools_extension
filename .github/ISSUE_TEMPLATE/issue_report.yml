@@ -1,0 +1,76 @@
+name: Issue Report
+description: Report an issue
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue! Please fill out the form below.
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser are you using?
+      options:
+        - Chrome
+        - Firefox
+        - Edge
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: browser_custom
+    attributes:
+      label: Custom Browser
+      description: If you selected "Other", type your browser name here.
+      placeholder: "e.g. Brave, Opera"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device
+      description: What type of device?
+      options:
+        - Desktop
+        - Mobile
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Extension Version
+      description: Which version of TornTools? (found in the extension popup or browser extensions page)
+      placeholder: "9.0.8"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: What happened? What did you expect to happen? Steps to reproduce.
+      placeholder: "1. Go to...\n2. Click on...\n3. See error..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: stacktrace
+    attributes:
+      label: Stack Trace / Console Errors
+      description: Paste any errors from the browser console (F12 → Console). Optional but very helpful.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag and drop screenshots here. You can also paste images from your clipboard.
+    validations:
+      required: false

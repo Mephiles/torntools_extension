@@ -1,12 +1,11 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
+import AbroadPeopleFilterFeature from "@features/abroad-people-filter/abroad-people-filter";
 import type { Feature } from "@features/feature";
-import SpecialistGymsFeature from "@features/specialist-gyms/specialist-gyms";
 import { registerUserscriptContext } from "@userscripts/runtime/script-context";
 
 (async () => {
-	await registerUserscriptContext();
+	await registerUserscriptContext("tt_fmf");
 
-	const feature: Feature = new SpecialistGymsFeature();
-
+	const feature: Feature = new AbroadPeopleFilterFeature();
 	FEATURE_MANAGER.registerFeature(feature);
 })();

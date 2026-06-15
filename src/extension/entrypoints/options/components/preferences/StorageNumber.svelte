@@ -44,12 +44,13 @@
 
 	<Input
 		{id}
-		type="number"
+		type="number" pattern="\d*" inputmode="numeric"
 		{min}
 		{max}
 		{step}
 		{disabled}
 		{value}
 		oninput={(event) => updateValue(event.currentTarget.value)}
+		class="with-number-wheel"
 	/>
 </Field.Field>

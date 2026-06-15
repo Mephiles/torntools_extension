@@ -1,8 +1,8 @@
-import { readFileSync, unlink } from "node:fs";
+import { readdirSync, readFileSync, unlink } from "node:fs";
 import { rm } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { USERSCRIPTS } from "@userscripts/registry";
+import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
 import { build } from "vite";
 import type { MonkeyUserScript } from "vite-plugin-monkey";
 import monkey from "vite-plugin-monkey";
@@ -45,7 +45,7 @@ const aliases = {
 	"@userscripts": resolve(root, "src/userscripts"),
 };
 
-async function buildUserscript(userscript: (typeof USERSCRIPTS)[number], fileName: string, grants?: MonkeyUserScript["grant"]) {
+async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, grants?: MonkeyUserScript["grant"]) {
 	await build({
 		root,
 		configFile: false,
@@ -53,21 +53,24 @@ async function buildUserscript(userscript: (typeof USERSCRIPTS)[number], fileNam
 		resolve: { alias: aliases },
 		plugins: [
 			monkey({
-				entry: `src/userscripts/entries/${userscript.name.toLowerCase().replaceAll(" ", "-")}.user.ts`,
+				entry: `src/userscripts/entries/${entryName}/${entryName}.user.ts`,
 				userscript: {
 					name: `TORN: TornTools - ${userscript.name}`,
-					namespace: `torntools.${userscript.name.toLowerCase().replaceAll(" ", "-")}`,
+					namespace: `torntools.${entryName}`,
 					version: userscript.version,
 					description: userscript.description,
 					author,
-					license: "GPL-3",
+					license: "GPL-3.0-or-later",
 					icon,
 					match: userscript.matches,
 					"run-at": userscript.runAt,
 					grant: grants,
+					supportURL: "https://github.com/Mephiles/torntools_extension/issues",
+					contributionURL: "https://buymeacoffee.com/dekleinekobini",
+					connect: userscript.connect,
 				},
 				build: {
-					fileName: fileName,
+					fileName: `${entryName}${fileSuffix}`,
 					metaFileName: false,
 					autoGrant: false,
 				},
@@ -85,18 +88,33 @@ async function buildUserscript(userscript: (typeof USERSCRIPTS)[number], fileNam
 
 await rm(outputDir, { recursive: true, force: true });
 
-for (const userscript of USERSCRIPTS) {
-	const id = userscript.name.toLowerCase().replaceAll(" ", "-");
+const entriesPath = "src/userscripts/entries";
+const metadataFileName = "metadata.ts";
+const entries = readdirSync(entriesPath, { withFileTypes: true });
 
-	await buildUserscript(userscript, `${id}.detect.user.js`);
+for (const entry of entries) {
+	if (!entry.isDirectory()) {
+		continue;
+	}
 
-	const detectPath = resolve(outputDir, `${id}.detect.user.js`);
-	const code = readFileSync(detectPath, "utf-8");
-	const permissions = detectPermissionsFromCode(code);
+	const metadataPath = resolve(root, entriesPath, entry.name, metadataFileName);
 
-	await buildUserscript(userscript, `${id}.user.js`, (permissions.length > 0 ? permissions : undefined) as any);
+	try {
+		const module = await import(metadataPath);
+		const metadata = module.default as UserscriptMetadata;
 
-	unlink(detectPath, () => {});
+		await buildUserscript(entry.name, metadata, `.detect.user.js`);
 
-	console.log(`${userscript.name}: ${permissions.join(", ") || "none"}`);
+		const detectPath = resolve(outputDir, `${entry.name}.detect.user.js`);
+		const code = readFileSync(detectPath, "utf-8");
+		const permissions = detectPermissionsFromCode(code);
+
+		await buildUserscript(entry.name, metadata, `.user.js`, (permissions.length > 0 ? permissions : undefined) as any);
+
+		unlink(detectPath, () => {});
+
+		console.log(`${metadata.name}: ${permissions.join(", ") || "none"}`);
+	} catch {
+		console.error(`No '${metadataFileName}' found in folder: [${entry.name}]`);
+	}
 }

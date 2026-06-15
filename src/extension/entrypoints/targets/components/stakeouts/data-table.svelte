@@ -12,10 +12,10 @@
 	type DataTableProps = {
 		data: StakeoutRow[];
 		columns: ColumnDef<StakeoutRow>[];
-		onRemove: (id: string) => void;
-		onLabelChange: (id: string, label: string) => void;
-		onBooleanAlertChange: (id: string, key: BooleanAlertKey, value: boolean) => void;
-		onNumberAlertChange: (id: string, key: NumberAlertKey, value: string) => void;
+		onRemove: (id: number) => void;
+		onLabelChange: (id: number, label: string) => void;
+		onBooleanAlertChange: (id: number, key: BooleanAlertKey, value: boolean) => void;
+		onNumberAlertChange: (id: number, key: NumberAlertKey, value: string) => void;
 	};
 
 	let { data, columns, onRemove, onLabelChange, onBooleanAlertChange, onNumberAlertChange }: DataTableProps = $props();
@@ -27,7 +27,7 @@
 		get columns() {
 			return columns;
 		},
-		getRowId: (row) => row.id,
+		getRowId: (row) => String(row.id),
 		getCoreRowModel: getCoreRowModel(),
 	});
 
@@ -133,8 +133,8 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>life drops below</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs"
-											type="number"
+											class="h-5 w-12 px-1 text-xs with-number-wheel"
+											type="number" pattern="\d*" inputmode="numeric"
 											min="1"
 											max="100"
 											value={row.alerts.life || ""}
@@ -145,8 +145,8 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>offline over</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs"
-											type="number"
+											class="h-5 w-12 px-1 text-xs with-number-wheel"
+											type="number" pattern="\d*" inputmode="numeric"
 											min="1"
 											value={row.alerts.offline || ""}
 											oninput={(event) => onNumberAlertChange(row.id, "offline", event.currentTarget.value)}

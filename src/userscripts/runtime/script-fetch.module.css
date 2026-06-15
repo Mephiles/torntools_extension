@@ -1,0 +1,7 @@
+.keyField {
+	color: currentColor;
+	padding-block: 2px;
+	padding-inline: 4px;
+	border-radius: 4px;
+	background: #00000060;
+}

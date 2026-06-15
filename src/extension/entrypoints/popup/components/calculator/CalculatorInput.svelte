@@ -4,7 +4,6 @@
 	import type { CalculatorItem } from "@extension/entrypoints/popup/components/calculator/calculator";
 	import * as Command from "@svelte/components/ui/command";
 	import { Input } from "@svelte/components/ui/input";
-	import { cn } from "@svelte/utils";
 	import { onMount } from "svelte";
 	import type { TornItem } from "tornapi-typescript";
 	import { torndataStore } from "../../stores/database-store.svelte";
@@ -63,7 +62,7 @@
 						<Command.Shortcut class="w-20 tracking-normal">
 							<Input
 								id={`calculator-${item.id}`}
-								type="number"
+								type="number" pattern="\d*" inputmode="numeric"
 								min="0"
 								class="h-7 text-xs"
 								value={selectedItems.find((selected) => selected.id === item.id.toString())?.amount ?? ""}

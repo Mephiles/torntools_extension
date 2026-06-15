@@ -17,14 +17,15 @@
 	margin-right: 2.8px;
 }
 
-.onlyShowNewPosts :global(li:not(.new)) {
+.onlyShowNewPosts :global(li:not(.new):not(.empty)) {
 	display: none !important;
-}
-
-:global(.panel-scrollbar:has(li.new:not(.tt-hidden))) .nothingToShow {
-	display: none;
 }
 
 .nothingToShow {
 	padding: 10px;
+	display: none;
+
+	.onlyShowNewPosts :global(.panel-scrollbar:has(li:not(.tt-hidden):not(.empty):not(.new)):not(:has(li.new))) & {
+		display: block;
+	}
 }

@@ -8,10 +8,10 @@ import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
 export const MAX_IMPORT_SIZE = 5 * 1024 * 1024;
 
-export type ExportDatabaseKey = "version" | "settings" | "filters" | "stakeouts" | "notes" | "quick" | "api" | "migrations" | "localdata";
-export type ExportDatabasePayload = Partial<Pick<Database, ExportDatabaseKey>>;
+export type ExportDatabaseKey = keyof Database;
+export type ExportDatabasePayload = Partial<Database>;
 
-const LOCAL_EXPORT_KEYS: ExportDatabaseKey[] = ["version", "settings", "filters", "stakeouts", "notes", "quick", "migrations", "localdata"];
+const LOCAL_EXPORT_KEYS: ExportDatabaseKey[] = ["version", "settings", "filters", "stakeouts", "factionStakeouts", "notes", "quick", "migrations", "localdata"];
 
 export interface ExportData {
 	user: false | { id: number; name: string };

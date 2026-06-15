@@ -93,9 +93,9 @@
 				<StockSection label="Alerts">
 					<div class="grid grid-cols-[auto_1fr] items-center gap-2 rounded-md bg-muted p-2">
 						<label for={`stock-${row.id}-reaches`}>Price reaches</label>
-						<Input id={`stock-${row.id}-reaches`} type="number" min="0" class="h-7" value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceReaches ?? ""} onchange={(event) => setAlert(row.id, "priceReaches", event.currentTarget.value)} />
+						<Input id={`stock-${row.id}-reaches`} type="number" pattern="\d*" inputmode="numeric" min="0" class="h-7" value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceReaches ?? ""} onchange={(event) => setAlert(row.id, "priceReaches", event.currentTarget.value)} />
 						<label for={`stock-${row.id}-falls`}>Price falls to</label>
-						<Input id={`stock-${row.id}-falls`} type="number" min="0" class="h-7" value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceFalls ?? ""} onchange={(event) => setAlert(row.id, "priceFalls", event.currentTarget.value)} />
+						<Input id={`stock-${row.id}-falls`} type="number" pattern="\d*" inputmode="numeric" min="0" class="h-7" value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceFalls ?? ""} onchange={(event) => setAlert(row.id, "priceFalls", event.currentTarget.value)} />
 					</div>
 				</StockSection>
 			</CardContent>

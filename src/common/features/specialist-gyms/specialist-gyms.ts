@@ -478,7 +478,6 @@ function createSpecialistGymsBoxElement(prevElement: Element, getStatsFn: () => 
 		),
 	];
 
-	console.log("DKK load specials", filters);
 	const specialGymSelectOne = createSelect(specialGymOptions);
 	specialGymSelectOne.setSelected(filters.gym.specialist1);
 

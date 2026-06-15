@@ -1,26 +1,98 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 6 },
+		"version": { "major": 9, "minor": 0, "build": 8 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Use Torn Intel as (opt-in) source for the 'Travel Table'.", "contributor": "DeKleineKobini" }],
+			"features": [],
+			"fixes": [
+				{
+					"message": "Only show the 'Nothing left to show here.' text with the Only New Feed when there is actually nothing left to show.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
+			"removed": [],
+			"technical": [
+				{
+					"message": "Only use permissions that the browser allows (remove 'background' and 'offscreen' for Firefox).",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Refactor the require element function for improved performance.", "contributor": "DeKleineKobini" }
+			]
+		}
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 7 },
+		"date": "2026/06/14",
+		"logs": {
+			"fixes": [
+				{
+					"message": "Only show the 'Nothing left to show here.' text with the Only New Feed when there is actually nothing left to show.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Don't fail the forum menu hiding when there are no posts in a certain section.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix not being able to add (faction) stakeouts through the dedicated page.", "contributor": "DeKleineKobini" }
+			],
+			"changes": [{ "message": "Improve 'City Items' triggering when switching to the map.", "contributor": "DeKleineKobini" }],
+			"technical": [
+				{ "message": "Improve the database loading, when attempting to load more than once.", "contributor": "DeKleineKobini" },
+				{ "message": "Better error handling when sending notifications.", "contributor": "DeKleineKobini" },
+				{ "message": "Better error handling when playing sound.", "contributor": "DeKleineKobini" },
+				{ "message": "Better error catching overall.", "contributor": "DeKleineKobini" }
+			]
+		}
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 6 },
+		"date": "2026/06/13",
+		"logs": {
+			"features": [
+				{ "message": "Use Torn Intel as (opt-in) source for the 'Travel Table'.", "contributor": "DeKleineKobini" },
+				{ "message": "Show faction stakeouts on the targets page.", "contributor": "DeKleineKobini" },
+				{ "message": "Show an indication for faction stakeouts that they are destroyed.", "contributor": "DeKleineKobini" },
+				{ "message": "Show the absolute time when a RW starts or OC is ready when hovering over the timer in the sidebar.", "contributor": "RogerFar" }
+			],
 			"fixes": [
 				{ "message": "Resolve an edge-case while force loading the database with an update already going on.", "contributor": "DeKleineKobini" },
 				{ "message": "Expose missing debug objects again.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the disabling of gym stats not saving persistently on very small devices.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the disabling of gym stats not saving persistently on very small devices.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't show the FF score filters when the external service isn't enabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors in a lot of faction page features when visiting a destroyed faction.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the faction id not showing up for a destroyed faction.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Faction Stakeouts' not working properly for a destroyed faction.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Notifications for the faction stakeout alert for when member count dropped would never trigger.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Fix 'Faction Member Filter' trying to wait on last action even if it's disabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Only show parts of the Abroad Items Filter when actually applicable.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve an issue where requesting the missing permissions kept failing.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Fix the check in 'Highlight Cheap Items' to see if it's still enabled failing if is 0% configured.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Put defensive items in their own category in the 'Travel Table'.", "contributor": "DeKleineKobini" },
 				{ "message": "More storage update listeners to support more live updates.", "contributor": "DeKleineKobini" },
 				{ "message": "Have the popup take up the entire screen for smaller devices.", "contributor": "DeKleineKobini" },
-				{ "message": "Pull job point information regular instead of on load with caching.", "contributor": "DeKleineKobini" }
+				{ "message": "Pull job point information regular instead of on load with caching.", "contributor": "DeKleineKobini" },
+				{ "message": "Include faction stakeouts in the exports.", "contributor": "DeKleineKobini" },
+				{ "message": "Update our backup calendar to be up-to-date.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Use a static list of items from the V2 api when needed, decreasing dependency on an active api key.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Allow 'Auction House Filter' to work when there is no API data.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow 'Bazaar Sub Vendor Items' to work when there is no API data.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow 'Energy Warning' to work when there is no API data.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [
 				{ "message": "Refactor the data fetching function completely in preparation of future updates.", "contributor": "DeKleineKobini" },
-				{ "message": "Restructure the extension in preparation for another project.", "contributor": "DeKleineKobini" },
-				{ "message": "Refactor the require element function for improved performance.", "contributor": "DeKleineKobini" }
+				{ "message": "Restructure the extension in preparation for our userscript ports.", "contributor": "DeKleineKobini" },
+				{ "message": "Restructure the stakeout data in our storage.", "contributor": "DeKleineKobini" },
+				{ "message": "Restructure the faction stakeout data in our storage.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
@@ -63,7 +135,8 @@
 				{ "message": "'Total Challenge Contributions' can now handle individual contributions above 1 million.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't show the only new feed icon more than once per feed.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with the 'Property Values' feature.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with the 'Property Happiness' feature.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with the 'Property Happiness' feature.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve there being no option to disable the revive request feature anymore.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better source detection when showing errors for Firefox.", "contributor": "DeKleineKobini" },

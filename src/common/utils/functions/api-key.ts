@@ -1,6 +1,5 @@
-import { ttStorage } from "@common/utils/context";
+import { OFFLOAD_SERVICE, ttStorage } from "@common/utils/context";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 
 export async function checkAPIPermission(key: string) {
 	try {
@@ -22,7 +21,7 @@ export async function changeAPIKey(key: string): Promise<void> {
 		await fetchData("tornv2", { section: "user", selections: ["basic"], key, silent: true });
 		await ttStorage.change({ api: { torn: { key } } });
 
-		await BACKGROUND_SERVICE.initialize();
+		await OFFLOAD_SERVICE.initialize();
 	} catch (error) {
 		throw error.error;
 	}

@@ -1,1 +1,1 @@
-export const ENABLE_TORN_INTEL_TABLE = true;
+// Define things here that are already developed but shouldn't be actually be used yet.

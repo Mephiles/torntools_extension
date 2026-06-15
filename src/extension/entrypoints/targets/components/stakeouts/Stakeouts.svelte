@@ -9,7 +9,7 @@
 	import { getStakeoutRow, getStakeoutRows, getStoredStakeouts } from "./helpers";
 	import StakeoutsTable from "./StakeoutsTable.svelte";
 
-	const amountOfRows = $derived($stakeoutsStore?.order?.length ?? 0);
+	const amountOfRows = $derived($stakeoutsStore?.list?.length ?? 0);
 	let stakeoutId = $state<number>(null);
 
 	async function resetStakeouts() {
@@ -24,12 +24,12 @@
 		}
 
 		const rows = getStakeoutRows($stakeoutsStore);
-		if (rows.some((row) => row.id === String(stakeoutId))) {
+		if (rows.some((row) => row.id === stakeoutId)) {
 			toast.error("This user already has a stakeout.");
 			return;
 		}
 
-		const nextStakeouts = getStoredStakeouts([...rows, getStakeoutRow(String(stakeoutId), null, true)], $stakeoutsStore?.date ?? 0);
+		const nextStakeouts = getStoredStakeouts([...rows, getStakeoutRow(stakeoutId, null, true)], $stakeoutsStore?.date ?? 0);
 		ttStorage.set({ stakeouts: nextStakeouts }).catch(console.error);
 		stakeoutId = null;
 	}
@@ -42,7 +42,7 @@
 			<p class="text-sm text-muted-foreground">{amountOfRows} tracked {amountOfRows === 1 ? "player" : "players"}</p>
 		</div>
 		<div class="flex flex-wrap items-center gap-2">
-			<Input class="w-36" type="number" min="1" placeholder="User ID" bind:value={stakeoutId} onkeydown={(event) => event.key === "Enter" && addStakeout()} />
+			<Input class="w-36" type="number" pattern="\d*" inputmode="numeric" min="1" placeholder="User ID" bind:value={stakeoutId} onkeydown={(event) => event.key === "Enter" && addStakeout()} />
 			<Button onclick={addStakeout}>
 				<PlusIcon class="size-4" />
 				Add

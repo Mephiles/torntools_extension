@@ -21,7 +21,7 @@ async function addID() {
 	if (isInternalFaction && getFactionSubpage() !== "info") return;
 	if (document.getElementById("tt-faction-id")) return;
 
-	const container = await requireElement(".faction-info-wrap > .title-black");
+	const container = await requireElement(".faction-info-wrap > .title-black, .faction-name");
 
 	const details = await readFactionDetails();
 	if (!details) throw new Error("Faction ID could not be found.");

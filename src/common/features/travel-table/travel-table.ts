@@ -1,9 +1,8 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { Feature } from "@features/feature";
 import "./travel-table.css";
 import { ttStorage } from "@common/utils/context";
-import { filters, settings, torndata, userdata } from "@common/utils/data/database";
-import { ENABLE_TORN_INTEL_TABLE } from "@common/utils/feature-toggles";
+import { filters, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@common/utils/functions/api.types";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -575,7 +574,7 @@ async function startTable() {
 			const services: (Promise<YATATravelResponse> | Promise<PrometheusTravelResponse> | Promise<TornIntelTravelResponse>)[] = [];
 
 			if (settings.external.prometheus) services.push(fetchPrometheus());
-			if (settings.external.tornintel && ENABLE_TORN_INTEL_TABLE) services.push(fetchTornIntel());
+			if (settings.external.tornintel) services.push(fetchTornIntel());
 			if (settings.external.yata) services.push(fetchYata());
 
 			if (services.length > 1) return Promise.any(services);
@@ -586,12 +585,9 @@ async function startTable() {
 		type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
 
 		function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
-			const itemType: Lowercase<TornItemTypeEnum> =
-				item.id in torndata.itemsMap ? (torndata.itemsMap[item.id].type.toLowerCase() as Lowercase<TornItemTypeEnum>) : "other";
-			const subType: Lowercase<TornItemWeaponTypeEnum> | null =
-				item.id in torndata.itemsMap && torndata.itemsMap[item.id].sub_type
-					? (torndata.itemsMap[item.id].sub_type.toLowerCase() as Lowercase<TornItemWeaponTypeEnum>)
-					: null;
+			const tornItem = ITEM_RESOLVER.getFullItem(item.id);
+			const itemType: Lowercase<TornItemTypeEnum> = (tornItem?.type.toLowerCase() as Lowercase<TornItemTypeEnum>) ?? "other";
+			const subType: Lowercase<TornItemWeaponTypeEnum> = (tornItem?.sub_type?.toLowerCase() as Lowercase<TornItemWeaponTypeEnum>) ?? null;
 
 			let category: TableCategory;
 			switch (itemType) {
@@ -616,7 +612,6 @@ async function startTable() {
 
 			if (getTravelType() === "standard") totalCost += country.cost;
 
-			const tornItem = torndata.itemsMap[item.id];
 			let value: number | "N/A" = tornItem?.value.market_price ?? 0;
 			const time = country.time * getTimeModifier(getTravelType());
 			let profitItem: number | "N/A", profitMinute: number | "N/A", profit: number | "N/A";
@@ -950,9 +945,7 @@ export default class TravelTableFeature extends Feature {
 
 	requirements() {
 		if (!hasAPIData()) return "No API data!";
-		else if (ENABLE_TORN_INTEL_TABLE && !settings.external.yata && !settings.external.prometheus && !settings.external.tornintel)
-			return "Prometheus, Torn Intel and YATA not enabled";
-		else if (!ENABLE_TORN_INTEL_TABLE && !settings.external.yata && !settings.external.prometheus) return "YATA and Prometheus not enabled";
+		else if (!settings.external.yata && !settings.external.prometheus && !settings.external.tornintel) return "Prometheus, Torn Intel and YATA not enabled";
 		else if (isCaptcha()) return "Captcha present.";
 
 		return true;

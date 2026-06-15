@@ -299,8 +299,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new EffectiveBattleStatsFeature());
 		FEATURE_MANAGER.registerFeature(new LiveNetworthFeature());
 	} else if (page === "travel") {
-		setupTravelAbroadPage().then(() => {});
-		setupTravelHomePage().then(() => {});
+		setupTravelAbroadPage().catch((err) => console.error(err));
+		setupTravelHomePage().catch((err) => console.error(err));
 		FEATURE_MANAGER.registerFeature(new TravelTableFeature());
 		FEATURE_MANAGER.registerFeature(new TravelSyncFeature());
 		FEATURE_MANAGER.registerFeature(new AbroadItemsFilterFeature());
@@ -340,7 +340,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new MissingFlowersFeature());
 		FEATURE_MANAGER.registerFeature(new MarketIconsFeature());
 	} else if (page === "auction") {
-		setupAuctionHousePage().then(() => {});
+		setupAuctionHousePage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());
 	} else if (page === "bazaar") {
 		FEATURE_MANAGER.registerFeature(new BazaarFillMaxFeature());
@@ -348,7 +348,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new BazaarWorthFeature());
 		FEATURE_MANAGER.registerFeature(new TotalItemCostFeature());
 	} else if (page === "bounties") {
-		setupBountiesPage().then(() => {});
+		setupBountiesPage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new StatsEstimateBountiesFeature());
 		FEATURE_MANAGER.registerFeature(new BountyFilterFeature());
 	} else if (page === "city") {
@@ -375,7 +375,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
 		FEATURE_MANAGER.registerFeature(new Crimes2BurglaryFilterFeature());
 	} else if (page === "factions") {
-		setupFactionsPage().then(() => {});
+		setupFactionsPage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());
 		FEATURE_MANAGER.registerFeature(new EnergyWarningFeature());
 		FEATURE_MANAGER.registerFeature(new MedicalLifeFeature());
@@ -419,7 +419,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new ForumWarningFeature());
 		FEATURE_MANAGER.registerFeature(new OnlyNewFeedFeature());
 	} else if (page === "gym") {
-		setupGymPage().then(() => {});
+		setupGymPage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new GymDisableStatsFeature());
 		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
 		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
@@ -430,7 +430,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HospitalFilterFeature());
 		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
 	} else if (page === "itemmarket") {
-		setupItemMarketPage().then(() => {});
+		setupItemMarketPage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketLeftBarFeature());

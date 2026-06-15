@@ -3,6 +3,7 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, stockdata, userdata } from "@common/utils/data/database";
 import { createCheckboxDuo } from "@common/utils/elements/checkbox-duo/checkbox-duo";
 import { hasAPIData } from "@common/utils/functions/api";
+import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, type SpecialFilterValue } from "@common/utils/functions/filters";
@@ -132,9 +133,10 @@ async function applyFilter() {
 
 	for (const row of findAllElements("#stockmarketroot ul[class*='stock___']")) {
 		const id = parseInt(row.getAttribute("id"));
+		const stock = stockdata?.[id] as TornV1Stock | undefined;
 
 		// Name
-		const acronym = row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym?.toLowerCase();
+		const acronym = (stock?.acronym ?? row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym)?.toLowerCase();
 		if (
 			name &&
 			!name.split(",").some((name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || acronym?.includes(name.toLowerCase()))

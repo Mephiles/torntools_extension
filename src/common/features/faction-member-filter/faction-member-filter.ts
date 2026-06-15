@@ -1,5 +1,5 @@
 import "./faction-member-filter.css";
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
@@ -21,7 +21,9 @@ function addListener() {
 			if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
 			await addFilter();
-			await showLastAction();
+			if (settings.scripts.lastAction.factionMember) {
+				await showLastAction();
+			}
 		});
 	}
 	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
@@ -59,6 +61,7 @@ function addListener() {
 
 async function addFilter() {
 	if (isInternalFaction && getFactionSubpage() !== "info") return;
+	if (!isInternalFaction && (await isDestroyed())) return;
 
 	await requireElement(".faction-info-wrap .members-list .table-row");
 
@@ -130,7 +133,7 @@ async function addFilter() {
 	filterContent.appendChild(levelFilter.element);
 	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
-	if (settings.scripts.ffScouter.gauge && hasAPIData()) {
+	if (settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData()) {
 		const ffScoreFilterMin = createFilterSection({
 			title: "FF Score Min",
 			text: "number",
@@ -198,7 +201,7 @@ async function showLastAction() {
 		upperLimit,
 		element: lastActiveFilter.element,
 	};
-	applyFilter().then(() => {});
+	applyFilter().catch((err) => console.warn(err));
 }
 
 async function removeLastAction() {

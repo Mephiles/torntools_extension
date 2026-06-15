@@ -1,3 +1,4 @@
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
@@ -1538,132 +1539,160 @@ export const WEAPON_BONUSES = [
 	"Wither",
 ] as const;
 
-export const BACKUP_CALENDAR_2025: TornCalendarResponse = {
+export const BACKUP_CALENDAR_2026: TornCalendarResponse = {
 	calendar: {
 		competitions: [
 			{
-				title: "Christmas Town",
+				title: "Elimination",
 				description:
-					"Torn's very own festive theme park opens its doors to the public, with citizens able to scour both official and player-created maps to search for treasure and avoid traps!",
-				start: 1766102400,
-				end: 1767225599,
+					"Twelve teams enter. One team survives. Be prepared to fight against friends and foes in this daily battle for survival which sees teams players eliminated one by one until a victor is crowned",
+				start: 1788609600,
+				end: 1789732800,
+				fixed_start_time: true,
 			},
 		],
 		events: [
 			{
 				title: "Awareness Awareness Week",
 				description: "Increased awareness for one week",
-				start: 1737331200,
-				end: 1737935999,
+				start: 1768780800,
+				end: 1769385599,
+				fixed_start_time: true,
 			},
 			{
 				title: "Weekend Road Trip",
 				description: "Double racing points & racing skill",
-				start: 1738368000,
-				end: 1738454399,
+				start: 1801396800,
+				end: 1770033599,
+				fixed_start_time: true,
 			},
 			{
 				title: "Valentine's Day",
 				description: "Love Juice reduces the energy cost of attacking & reviving",
-				start: 1739491200,
-				end: 1739577599,
+				start: 1771027200,
+				end: 1771113599,
+				fixed_start_time: false,
 			},
 			{
 				title: "Employee Appreciation Day",
 				description: "Job points received tripled & training effects tripled",
-				start: 1741305600,
-				end: 1741391999,
+				start: 1804248000,
+				end: 1772884799,
+				fixed_start_time: true,
 			},
 			{
 				title: "St Patrick's Day",
 				description: "Alcohol effects are doubled & Green Stout appears in city",
-				start: 1742169600,
-				end: 1742255999,
+				start: 1773705600,
+				end: 1773791999,
+				fixed_start_time: false,
 			},
 			{
 				title: "420 Day",
 				description: "Cannabis effects are tripled",
-				start: 1745107200,
-				end: 1745193599,
+				start: 1776643200,
+				end: 1776729599,
+				fixed_start_time: false,
 			},
 			{
 				title: "Museum Day",
 				description: "10% bonus to museum point rewards",
-				start: 1747526400,
-				end: 1747612799,
+				start: 1779062400,
+				end: 1779148799,
+				fixed_start_time: false,
 			},
 			{
 				title: "World Blood Donor Day",
 				description: "Life and cooldown penalties for drawing blood are halved",
-				start: 1749859200,
-				end: 1749945599,
+				start: 1781395200,
+				end: 1781481599,
+				fixed_start_time: false,
 			},
 			{
 				title: "World Population Day",
 				description: "Level and weapon EXP gained while attacking is doubled",
-				start: 1752192000,
-				end: 1752278399,
+				start: 1783728000,
+				end: 1783814399,
+				fixed_start_time: false,
 			},
 			{
 				title: "World Tiger Day",
 				description: "Hunting experience is increased by x5",
-				start: 1753747200,
-				end: 1753833599,
+				start: 1785283200,
+				end: 1785369599,
+				fixed_start_time: false,
 			},
 			{
 				title: "International Beer Day",
 				description: "Beer items are five times more effective",
-				start: 1754006400,
-				end: 1754092799,
+				start: 1786060800,
+				end: 1786147199,
+				fixed_start_time: false,
 			},
 			{
 				title: "Tourism Day",
 				description: "Travel capacity doubled for flights leaving during this event",
-				start: 1758931200,
-				end: 1759017599,
+				start: 1790467200,
+				end: 1790553599,
+				fixed_start_time: false,
 			},
 			{
-				title: "CaffeineCon 2025",
+				title: "CaffeineCon 2026",
 				description: "Energy drink effects are doubled",
-				start: 1760486400,
-				end: 1760572799,
+				start: 1792022400,
+				end: 1792108799,
+				fixed_start_time: false,
 			},
 			{
 				title: "Trick or Treat",
 				description: "Dress up and attack others to fill your basket with treats",
-				start: 1761350400,
-				end: 1762041599,
+				start: 1792886400,
+				end: 1793577599,
+				fixed_start_time: false,
 			},
 			{
 				title: "World Diabetes Day",
 				description: "Candy effects are tripled",
-				start: 1763078400,
-				end: 1763164799,
+				start: 1794614400,
+				end: 1794700799,
+				fixed_start_time: false,
 			},
 			{
 				title: "Black Friday",
 				description: "Torn's yearly dollar sale sees many bazaars listing goods for $1",
-				start: 1764288000,
-				end: 1764374399,
+				start: 1795737600,
+				end: 1795823999,
+				fixed_start_time: true,
 			},
 			{
 				title: "Slash Wednesday",
 				description: "Hospital times reduced by 75%",
-				start: 1765324800,
-				end: 1765411199,
+				start: 1796774400,
+				end: 1796860799,
+				fixed_start_time: false,
 			},
 			{
 				title: "Torn Anniversary",
-				description: "Torn turns 21 years old",
-				start: 1763164800,
-				end: 1763251199,
+				description: "Torn turns 22 years old",
+				start: 1794700800,
+				end: 1794787199,
+				fixed_start_time: true,
 			},
 			{
 				title: "Easter Egg Hunt",
 				description:
 					"A variety of different Easter eggs will appear at random throughout Torn. Pick them up to add them into your inventory, then consume them at your leisure to receive their powerful effects.",
-				start: 1744848000,
-				end: 1745452799,
+				start: 1775088000,
+				end: 1775692799,
+				fixed_start_time: false,
+			},
+			{
+				title: "Christmas town",
+				description:
+					"Torn's very own festive theme park opens its doors to the public, with citizens able to scour both official and player-created maps to search for treasure and avoid traps!",
+				start: 1797638400,
+				end: 1798761599,
+				fixed_start_time: false,
 			},
 		],
 	},
@@ -1675,10 +1704,9 @@ export function getNextChainBonus(current: number) {
 	return CHAIN_BONUSES.find((bonus) => bonus > current);
 }
 
-export function isSellable(id: number | string) {
-	if (!torndata?.itemsMap) return true;
-
-	const item = torndata.itemsMap[id];
+export function isSellable(id: number) {
+	const item = ITEM_RESOLVER.getStaticItem(id);
+	if (!item) return true;
 
 	return (
 		item &&
@@ -1960,7 +1988,7 @@ export function getRewardValue(reward: string) {
 				case "Ammunition Pack":
 					break;
 				case "Clothing Cache":
-					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => torndata.itemsMap[id].value.market_price);
+					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => ITEM_RESOLVER.getFullItem(id).value.market_price);
 					break;
 				case "Random Property":
 					prices = torndata.properties
@@ -2118,8 +2146,8 @@ export function getUserEnergy() {
 		.map((x) => parseInt(x));
 }
 
-export function getItemEnergy(id: number | string) {
-	const effect = torndata.itemsMap[id]?.effect;
+export function getItemEnergy(id: number) {
+	const effect = ITEM_RESOLVER.getStaticItem(id)?.effect;
 	if (!effect) return false;
 
 	const energy = effect.match(/(?<=Increases energy by )\d+/);
@@ -2240,7 +2268,7 @@ export const TORN_EVENTS = {
 } as const satisfies { [key: string]: TornEvent };
 
 export function isEventActive(calendarEvent: TornEvent, useLocalStart = true) {
-	const calendar: TornCalendarResponse["calendar"] = hasAPIData() ? torndata.calendar : BACKUP_CALENDAR_2025.calendar;
+	const calendar: TornCalendarResponse["calendar"] = hasAPIData() ? torndata.calendar : BACKUP_CALENDAR_2026.calendar;
 
 	if (!(calendarEvent.type in calendar)) throw new Error(`Invalid calendar type '${calendarEvent.type}'!`);
 

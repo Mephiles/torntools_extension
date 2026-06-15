@@ -2,7 +2,6 @@ import "./energy-warning.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getItemEnergy, getPage, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
@@ -32,7 +31,7 @@ async function addWarning(item: HTMLElement) {
 	if (!message) return;
 
 	const factionPage = getPage() === "factions";
-	const received = getItemEnergy(factionPage ? item.querySelector<HTMLElement>(".img-wrap").dataset.itemid : item.dataset.item);
+	const received = getItemEnergy(parseInt(factionPage ? item.querySelector<HTMLElement>(".img-wrap").dataset.itemid : item.dataset.item));
 	if (!received) return;
 
 	const [current] = getUserEnergy();
@@ -85,10 +84,5 @@ export default class EnergyWarningFeature extends Feature {
 
 	storageKeys() {
 		return ["settings.pages.items.energyWarning"];
-	}
-
-	requirements() {
-		if (!hasAPIData()) return "No API access.";
-		return true;
 	}
 }

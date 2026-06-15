@@ -216,7 +216,7 @@ async function initialize() {
 		// TODO - Migrate to V2 (torn/bank).
 		response = (await fetchData<TornV1BankResponse>("tornv2", { section: "torn", legacySelections: ["bank"] })).bank;
 
-		ttCache.set({ bankInterest: response }, millisToNewDay()).then(() => {});
+		ttCache.set({ bankInterest: response }, millisToNewDay()).catch((err) => console.debug(err));
 	}
 
 	bankInvestmentInfoContainer = createBankInvestmentContainer(response, delimiter);

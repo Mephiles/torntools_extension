@@ -77,7 +77,7 @@ export const DEFAULT_STORAGE = {
 			volume: new DefaultSetting("number", 100),
 			requireInteraction: new DefaultSetting("boolean", false),
 			types: {
-				global: new DefaultSetting("boolean", () => Notification.permission === "granted"),
+				global: new DefaultSetting("boolean", () => typeof Notification !== "undefined" && Notification.permission === "granted"),
 				events: new DefaultSetting("boolean", true),
 				messages: new DefaultSetting("boolean", true),
 				status: new DefaultSetting("boolean", true),
@@ -810,8 +810,8 @@ export const DEFAULT_STORAGE = {
 		feedHidden: new DefaultSetting<StoredHiddenFeeds>("object", {}),
 		threadsHiddenInFeed: new DefaultSetting<number[]>("array", []),
 	},
-	stakeouts: new DefaultSetting<StoredStakeouts>("object", { order: [] } as StoredStakeouts),
-	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", {} as StoredFactionStakeouts),
+	stakeouts: new DefaultSetting<StoredStakeouts>("object", { list: [] } as StoredStakeouts),
+	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", { list: [] } as StoredFactionStakeouts),
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),
 		lastAttack: new DefaultSetting("number", 0),
@@ -930,31 +930,33 @@ export type StoredUserdata = FetchedUserdata & {
 	userCrime?: number;
 };
 
-interface StoredFactionStakeouts {
+export interface StoredFactionStakeouts {
 	date: number;
+	list: FactionStakeoutEntry[];
+}
 
-	[id: string]:
-		| {
-				alerts: {
-					chainReaches: number | false;
-					memberCountDrops: number | false;
-					rankedWarStarts: boolean;
-					inRaid: boolean;
-					inTerritoryWar: boolean;
-				};
-				info: {
-					name: string;
-					chain: number;
-					members: {
-						current: number;
-						maximum: number;
-					};
-					rankedWar: boolean;
-					raid: boolean;
-					territoryWar: boolean;
-				};
-		  }
-		| number;
+export interface FactionStakeoutEntry {
+	id: number;
+	order: number;
+	alerts: {
+		chainReaches: number | false;
+		memberCountDrops: number | false;
+		rankedWarStarts: boolean;
+		inRaid: boolean;
+		inTerritoryWar: boolean;
+	};
+	info: {
+		name: string;
+		chain: number;
+		respect: number;
+		members: {
+			current: number;
+			maximum: number;
+		};
+		rankedWar: boolean;
+		raid: boolean;
+		territoryWar: boolean;
+	};
 }
 
 type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReaches: number } };
@@ -968,6 +970,8 @@ export type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | strin
 
 export type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
 export type StakeoutData = {
+	id: number;
+	order: number;
 	info: {
 		name: string;
 		last_action: {
@@ -998,10 +1002,10 @@ export type StakeoutData = {
 	};
 	label: string;
 };
+
 export type StoredStakeouts = {
-	[name: string]: StakeoutData | any[] | number;
-	order: string[];
 	date: number;
+	list: StakeoutData[];
 };
 
 export type QuickItem = { id: number };

@@ -1,7 +1,7 @@
 import { factiondata, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData, hasOC2Data } from "@common/utils/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
-import { type FormatTimeOptions, formatTime } from "@common/utils/functions/formatting";
+import { type FormatTimeOptions, formatDate, formatTime } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { countdownTimers } from "@common/utils/functions/timers";
 import { isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
@@ -57,6 +57,7 @@ function buildTimeLeftElement(data: FetchedFactiondataBasic) {
 
 		const formatOptions: Partial<FormatTimeOptions> = { type: "wordTimer", extraShort: true, showDays: true, truncateSeconds: true };
 		timeLeftElement.textContent = formatTime({ milliseconds: timeLeft }, formatOptions);
+		timeLeftElement.title = `Starts at ${formatDate(startAt, { showYear: true })} at ${formatTime(startAt)}`;
 
 		timeLeftElement.dataset.end = startAt.toString();
 		timeLeftElement.dataset.timeSettings = JSON.stringify(formatOptions);
@@ -64,6 +65,7 @@ function buildTimeLeftElement(data: FetchedFactiondataBasic) {
 		countdownTimers.push(timeLeftElement);
 	} else {
 		timeLeftElement.textContent = `Ongoing`;
+		timeLeftElement.title = `Started at ${formatDate(startAt, { showYear: true })} at ${formatTime(startAt)}`;
 		timeLeftElement.classList.add("short");
 	}
 

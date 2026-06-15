@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
 	import type { DatabaseFactionStakeouts, DatabaseSettings } from "@common/utils/data/database";
+	import type {StoredFactionStakeouts} from "@common/utils/data/default-database";
 	import { factionStakeoutsStore, settingsStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";
@@ -9,9 +10,10 @@
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
 
 	type FactionStakeoutRow = {
-		id: string;
+		id: number;
 		name: string;
 		chain: number | string;
+		respect: number;
 		members: number | string;
 		maxMembers: number | string;
 	};
@@ -19,31 +21,30 @@
 	let factionStakeoutsOpen = $state(true);
 	const factionStakeoutRows = $derived(getFactionStakeoutRows($factionStakeoutsStore, $settingsStore));
 
-	async function removeFactionStakeout(id: string) {
+	async function removeFactionStakeout(id: number) {
 		if (!$factionStakeoutsStore) return;
 
-		const nextStakeouts = { ...$factionStakeoutsStore };
-		delete nextStakeouts[id];
+		const nextStakeouts: StoredFactionStakeouts = {
+			...$factionStakeoutsStore,
+			list: ($factionStakeoutsStore?.list ?? []).filter((e) => e.id !== id),
+		};
 
 		await ttStorage.set({ factionStakeouts: nextStakeouts });
 	}
 
 	function getFactionStakeoutRows(source: DatabaseFactionStakeouts, settings: DatabaseSettings): FactionStakeoutRow[] {
-		if (!settings?.pages?.popup?.showStakeouts || !source) return [];
+		if (!settings?.pages?.popup?.showStakeouts || !source?.list?.length) return [];
 
-		return Object.entries(source).flatMap(([id, stakeout]) => {
-			if (Number.isNaN(Number.parseInt(id, 10)) || typeof stakeout !== "object" || !stakeout) return [];
-
-			return [
-				{
-					id,
-					name: stakeout.info?.name ?? id,
+		return source.list
+				.toSorted((a, b) => a.order - b.order)
+				.map((stakeout) => ({
+					id: stakeout.id,
+					name: stakeout.info?.name ?? String(stakeout.id),
+					respect: stakeout.info?.respect ?? 1, // A default of 0 would result in it being detected as 'destroyed'
 					chain: stakeout.info?.chain ?? "N/A",
 					members: stakeout.info?.members?.current ?? "N/A",
 					maxMembers: stakeout.info?.members?.maximum ?? "N/A",
-				},
-			];
-		});
+				}))
 	}
 
 	function getMembersLabel(row: FactionStakeoutRow) {
@@ -77,8 +78,13 @@
 									rel="noreferrer"
 							>
 								<span class="truncate font-medium">{row.name}</span>
-								<Badge variant="outline" class="shrink-0 whitespace-nowrap">{getMembersLabel(row)}</Badge>
-								<Badge variant="secondary" class="shrink-0 whitespace-nowrap">{getChainLabel(row.chain)}</Badge>
+
+								{#if row.respect > 0}
+									<Badge variant="outline" class="shrink-0 whitespace-nowrap">{getMembersLabel(row)}</Badge>
+									<Badge variant="secondary" class="shrink-0 whitespace-nowrap">{getChainLabel(row.chain)}</Badge>
+								{:else}
+									<Badge variant="destructive" class="uppercase">destroyed</Badge>
+								{/if}
 							</a>
 							<Button variant="ghost" size="icon-xs" class="text-destructive" onclick={() => removeFactionStakeout(row.id)} aria-label="Remove faction stakeout">
 								<TrashIcon />
