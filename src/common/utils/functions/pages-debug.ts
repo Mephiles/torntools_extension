@@ -34,36 +34,36 @@ function fullDataDump(reduction: boolean = true) {
 		if (reduction) {
 			if (storage.settings.notifications?.soundCustom) storage.settings.notifications.soundCustom = "<reduced:custom_sound>";
 			storage.stockdata = { "<reduced>": Object.keys(storage.stockdata).length, date: storage.stockdata.date };
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.education = `<reduced:${storage.torndata.education.length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.honors = `<reduced:${storage.torndata.honors.length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.medals = `<reduced:${storage.torndata.medals.length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.items = `<reduced:${storage.torndata.items.length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.itemsMap = `<reduced:${Object.keys(storage.torndata.itemsMap).length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.stats = `<reduced:${Object.keys(storage.torndata.stats).length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.properties = `<reduced:${storage.torndata.properties.length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.calendar.competitions = `<reduced:${storage.torndata.calendar.competitions.length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.torndata.calendar.events = `<reduced:${storage.torndata.calendar.events.length}>`;
-			if (storage.factiondata.access === "full_access") {
+			if (storage.torndata) {
 				// @ts-expect-error Modifying a copy of the database for debugging purposes.
-				storage.factiondata.crimes = `<reduced:${Object.values(storage.factiondata.crimes).length}>`;
+				storage.torndata.education = `<reduced:${storage.torndata.education?.length ?? "N/A"}>`;
 				// @ts-expect-error Modifying a copy of the database for debugging purposes.
-				storage.factiondata.rankedwars = `<reduced:${storage.factiondata.rankedwars.length}>`;
+				storage.torndata.honors = `<reduced:${storage.torndata.honors?.length ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.torndata.medals = `<reduced:${storage.torndata.medals?.length ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.torndata.items = `<reduced:${storage.torndata.items?.length ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.torndata.itemsMap = `<reduced:${(storage.torndata.itemsMap ? Object.keys(storage.torndata.itemsMap).length : null) ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.torndata.stats = `<reduced:${(storage.torndata.stats ? Object.keys(storage.torndata.stats).length : null) ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.torndata.properties = `<reduced:${storage.torndata.properties?.length ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.torndata.calendar.competitions = `<reduced:${storage.torndata.calendar?.competitions?.length ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.torndata.calendar.events = `<reduced:${storage.torndata.calendar?.events?.length ?? "N/A"}>`;
+			}
+			if (storage.factiondata?.access === "full_access") {
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.factiondata.crimes = `<reduced:${(storage.factiondata.crimes ? Object.values(storage.factiondata.crimes).length : null) ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.factiondata.rankedwars = `<reduced:${storage.factiondata.rankedwars?.length ?? "N/A"}>`;
 			}
 			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.notes.profile = `<reduced:${Object.values(storage.notes.profile).length}>`;
+			storage.notes.profile = `<reduced:${(storage.notes.profile ? Object.values(storage.notes.profile).length : null) ?? "N/A"}>`;
 			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.usage = `<reduced:${Object.keys(storage.usage).length}>`;
-			// @ts-expect-error Modifying a copy of the database for debugging purposes.
-			storage.attackHistory.history = `<reduced:${Object.keys(storage.attackHistory.history).length}>`;
+			storage.attackHistory.history = `<reduced:${(storage.attackHistory?.history ? Object.keys(storage.attackHistory.history).length : null) ?? "N/A"}>`;
 
 			Object.keys(storage.cache).forEach((cacheKey) => {
 				storage.cache[cacheKey] = `<reduced:${Object.values(storage.cache[cacheKey]).length}>`;
