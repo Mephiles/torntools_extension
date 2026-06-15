@@ -77,6 +77,9 @@ const ExtensionOffloadService: OffloadService = {
 	initialize(): Promise<{ success: boolean; error?: any }> {
 		return BACKGROUND_SERVICE.initialize();
 	},
+	async reinitializeTimers() {
+		await BACKGROUND_SERVICE.reinitializeTimers();
+	},
 };
 
 const ExtensionDataFetcher: DataFetcher = {

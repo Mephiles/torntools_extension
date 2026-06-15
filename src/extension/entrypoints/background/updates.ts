@@ -86,7 +86,7 @@ import type {
 	UserWeaponExpResponse,
 	UserWorkStatsResponse,
 } from "tornapi-typescript";
-import { newNotification, notifyUser, storeNotification } from "./notifications";
+import { dispatchNotification, newNotification, notifyUser, storeNotification } from "./notifications";
 
 let lockTimedUpdates = false;
 
@@ -568,7 +568,8 @@ export async function updateUserdata(forceUpdate = false) {
 				let message = events.at(-1)!.event.replace(/<\/?[^>]+(>|$)/g, "");
 				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""})`;
 
-				notifications.events.combined = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
+				const notification = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
+				await dispatchNotification(notification);
 			}
 		}
 
@@ -587,7 +588,8 @@ export async function updateUserdata(forceUpdate = false) {
 				let message = `${messages.at(-1)!.title} - by ${messages.at(-1)!.sender}`;
 				if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
 
-				notifications.messages.combined = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
+				const notification = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
+				await dispatchNotification(notification);
 			}
 		}
 
@@ -689,7 +691,9 @@ export async function updateUserdata(forceUpdate = false) {
 		const utc = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
 		if (date.getUTCHours() !== 0 || date.getUTCMinutes() !== 0 || utc in notifications.newDay) return;
 
-		notifications.newDay[utc] = newNotification("New Day", "It's a new day! Hopefully a sunny one.", LINKS.home);
+		const notification = newNotification("New Day", "It's a new day! Hopefully a sunny one.", LINKS.home);
+		notifications.newDay[utc] = notification;
+		await dispatchNotification(notification);
 	}
 
 	async function notifyBars() {
@@ -723,11 +727,13 @@ export async function updateUserdata(forceUpdate = false) {
 						}
 					})();
 
-					notifications[bar][checkpoint] = newNotification(
+					const notification = newNotification(
 						"Bars",
 						`Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
 						url,
 					);
+					notifications[bar][checkpoint] = notification;
+					await dispatchNotification(notification);
 					break;
 				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
 					delete notifications[bar][checkpoint];
@@ -746,11 +752,9 @@ export async function updateUserdata(forceUpdate = false) {
 
 		for (const checkpoint of checkpoints) {
 			if (oldHoursOffline < hoursOffline && hoursOffline >= checkpoint && !notifications.offline[checkpoint]) {
-				notifications.offline[checkpoint] = newNotification(
-					"Offline",
-					`You've been offline for over ${checkpoint} hour${applyPlural(checkpoint)}.`,
-					LINKS.home,
-				);
+				const notification = newNotification("Offline", `You've been offline for over ${checkpoint} hour${applyPlural(checkpoint)}.`, LINKS.home);
+				notifications.offline[checkpoint] = notification;
+				await dispatchNotification(notification);
 				break;
 			} else if (hoursOffline < checkpoint && notifications.offline[checkpoint]) {
 				delete notifications.offline[checkpoint];
@@ -774,11 +778,13 @@ export async function updateUserdata(forceUpdate = false) {
 				const key = `${count}_${checkpoint}`;
 				if (timeout > checkpoint * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
 
-				notifications.chain[key] = newNotification(
+				const notification = newNotification(
 					"Chain",
 					`Chain timer will run out in ${formatTime({ milliseconds: timeout }, { type: "wordTimer" })}.`,
 					LINKS.chain,
 				);
+				notifications.chain[key] = notification;
+				await dispatchNotification(notification);
 				break;
 			}
 		} else {
@@ -799,11 +805,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 				if (nextBonus - count > checkpoint || notifications.chainCount[key]) continue;
 
-				notifications.chainCount[key] = newNotification(
+				const notification = newNotification(
 					"Chain",
 					`Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
 					LINKS.chain,
 				);
+				notifications.chainCount[key] = notification;
+				await dispatchNotification(notification);
 				break;
 			}
 		} else {
@@ -824,11 +832,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
-				notifications.hospital[checkpoint] = newNotification(
+				const notification = newNotification(
 					"Hospital",
 					`You will be out of the hospital in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 					LINKS.hospital,
 				);
+				notifications.hospital[checkpoint] = notification;
+				await dispatchNotification(notification);
 				break;
 			}
 		} else {
@@ -845,11 +855,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
-				notifications.travel[checkpoint] = newNotification(
+				const notification = newNotification(
 					"Travel",
 					`You will be landing in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 					LINKS.home,
 				);
+				notifications.travel[checkpoint] = notification;
+				await dispatchNotification(notification);
 				break;
 			}
 		} else {
@@ -889,11 +901,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
 
-					notifications[cooldown.memory][checkpoint] = newNotification(
+					const notification = newNotification(
 						cooldown.title,
 						`Your ${cooldown.name} cooldown will end in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 						LINKS.items,
 					);
+					notifications[cooldown.memory][checkpoint] = notification;
+					await dispatchNotification(notification);
 				}
 			} else {
 				notifications[cooldown.memory] = {};
@@ -918,11 +932,13 @@ export async function updateUserdata(forceUpdate = false) {
 						const key = `${name}_${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
 
 						if (!(key in notifications.missionsLimit)) {
-							notifications.missionsLimit[key] = newNotification(
+							const notification = newNotification(
 								"Missions",
 								`You are currently at the maximum amount of contracts (${maxMissions}) for ${name}.`,
 								LINKS.missions,
 							);
+							notifications.missionsLimit[key] = notification;
+							await dispatchNotification(notification);
 						}
 					}
 				}
@@ -942,7 +958,7 @@ export async function updateUserdata(forceUpdate = false) {
 
 						if (timeLeft > checkpoint * TO_MILLIS.HOURS || notifications.missionsExpire[key]) continue;
 
-						notifications.missionsExpire[key] = newNotification(
+						const notification = newNotification(
 							"Missions",
 							`'${mission.title}' by ${name} will expire in ${formatTime(
 								{ milliseconds: timeLeft },
@@ -954,6 +970,8 @@ export async function updateUserdata(forceUpdate = false) {
 							)}.`,
 							LINKS.missions,
 						);
+						notifications.missionsExpire[key] = notification;
+						await dispatchNotification(notification);
 						break;
 					}
 				}
@@ -976,7 +994,9 @@ export async function updateUserdata(forceUpdate = false) {
 					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
 
 					if (!(key in notifications.refillEnergy)) {
-						notifications.refillEnergy[key] = newNotification("Refill", `You have yet to use your energy refill today.`, LINKS.points);
+						const notification = newNotification("Refill", `You have yet to use your energy refill today.`, LINKS.points);
+						notifications.refillEnergy[key] = notification;
+						await dispatchNotification(notification);
 					}
 				}
 			}
@@ -994,7 +1014,9 @@ export async function updateUserdata(forceUpdate = false) {
 					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
 
 					if (!(key in notifications.refillNerve)) {
-						notifications.refillNerve[key] = newNotification("Refill", `You have yet to use your nerve refill today.`, LINKS.points);
+						const notification = newNotification("Refill", `You have yet to use your nerve refill today.`, LINKS.points);
+						notifications.refillNerve[key] = notification;
+						await dispatchNotification(notification);
 					}
 				}
 			}
@@ -1108,12 +1130,15 @@ async function updateStakeouts(forceUpdate = false) {
 			if (okay) {
 				const key = `${id}_okay`;
 				if (data.profile.status.state === "Okay" && (!oldData || oldData.status.state !== data.profile.status.state) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Stakeouts",
 							label ? `${data.profile.name} (${label}) is now okay.` : `${data.profile.name} is now okay.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else if (data.profile.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
 				}
@@ -1128,13 +1153,15 @@ async function updateStakeouts(forceUpdate = false) {
 							reasonText = reason.display_sentence ?? reason.display ?? reason.name;
 							reasonText = ` ${reasonText}`;
 						}
-						notifications.stakeouts[key] = newNotification(
+						const notification = newNotification(
 							"Stakeouts",
 							label
 								? `${data.profile.name} (${label}) is now in the hospital${reasonText}.`
 								: `${data.profile.name} is now in the hospital${reasonText}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
 					}
 				} else if (data.profile.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
@@ -1143,14 +1170,17 @@ async function updateStakeouts(forceUpdate = false) {
 			if (landing) {
 				const key = `${id}_landing`;
 				if (data.profile.status.state !== "Traveling" && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Stakeouts",
 							label
 								? `${data.profile.name} (${label}) is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`
 								: `${data.profile.name} is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else if (data.profile.status.state === "Traveling") {
 					delete notifications.stakeouts[key];
 				}
@@ -1162,12 +1192,15 @@ async function updateStakeouts(forceUpdate = false) {
 					(!oldData || oldData.last_action.status !== data.profile.last_action.status) &&
 					!notifications.stakeouts[key]
 				) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Stakeouts",
 							label ? `${data.profile.name} (${label}) is now online.` : `${data.profile.name} is now online.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else if (data.profile.last_action.status !== "Online") {
 					delete notifications.stakeouts[key];
 				}
@@ -1175,14 +1208,17 @@ async function updateStakeouts(forceUpdate = false) {
 			if (life) {
 				const key = `${id}_life`;
 				if (data.profile.life.current <= data.profile.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Stakeouts",
 							label
 								? `${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} (${label}) life has dropped below ${life}%.`
 								: `${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else if (data.profile.life.current > data.profile.life.maximum * (life / 100)) {
 					delete notifications.stakeouts[key];
 				}
@@ -1193,14 +1229,17 @@ async function updateStakeouts(forceUpdate = false) {
 
 				const key = `${id}_offline`;
 				if (offlineHours >= offline && (!oldOfflineHours || oldOfflineHours < offlineHours) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Stakeouts",
 							label
 								? `${data.profile.name} (${label}) has been offline for ${offlineHours} hours.`
 								: `${data.profile.name} has been offline for ${offlineHours} hours.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else if (offlineHours < offline) {
 					delete notifications.stakeouts[key];
 				}
@@ -1211,12 +1250,15 @@ async function updateStakeouts(forceUpdate = false) {
 
 				const key = `${id}_revivable`;
 				if (!oldIsRevivable && isRevivable && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Stakeouts",
 							label ? `${data.profile.name} (${label}) is now revivable.` : `${data.profile.name} is now revivable.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else if (!oldIsRevivable) {
 					delete notifications.stakeouts[key];
 				}
@@ -1302,12 +1344,15 @@ async function updateFactionStakeouts(forceUpdate = false) {
 				if (chainReaches === 0) {
 					const key = `faction_${factionId}_chainDrops`;
 					if (typeof oldChainCount === "number" && chainCount < oldChainCount && oldChainCount >= 10 && !notifications.stakeouts[key]) {
-						if (settings.notifications.types.global)
-							notifications.stakeouts[key] = newNotification(
+						if (settings.notifications.types.global) {
+							const notification = newNotification(
 								"Faction Stakeouts",
 								`${data.basic.name} has dropped their ${oldChainCount} chain.`,
 								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 							);
+							notifications.stakeouts[key] = notification;
+							await dispatchNotification(notification);
+						}
 					} else if (chainCount > 10) {
 						delete notifications.stakeouts[key];
 					}
@@ -1319,12 +1364,15 @@ async function updateFactionStakeouts(forceUpdate = false) {
 						(!oldChainCount || oldChainCount < chainCount) &&
 						!notifications.stakeouts[key]
 					) {
-						if (settings.notifications.types.global)
-							notifications.stakeouts[key] = newNotification(
+						if (settings.notifications.types.global) {
+							const notification = newNotification(
 								"Faction Stakeouts",
 								`${data.basic.name} has reached a ${chainCount} chain.`,
 								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 							);
+							notifications.stakeouts[key] = notification;
+							await dispatchNotification(notification);
+						}
 					} else if (typeof oldChainCount === "number" && chainCount < oldChainCount) {
 						delete notifications.stakeouts[key];
 					}
@@ -1341,32 +1389,38 @@ async function updateFactionStakeouts(forceUpdate = false) {
 					(!oldMemberCount || oldMemberCount > memberCount) &&
 					!notifications.stakeouts[key]
 				) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Faction Stakeouts",
 							`${data.basic.name} now has less than ${memberCount} members.`,
 							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else {
 					delete notifications.stakeouts[key];
 				}
 			}
 
-			const handleWarStakeout = (type: string, wasValue: boolean, isValue: boolean, createMessage: () => string) => {
+			const handleWarStakeout = async (type: string, wasValue: boolean, isValue: boolean, createMessage: () => string) => {
 				const key = `faction_${factionId}_${type}`;
 				if (isValue && (!oldData || !wasValue) && !notifications.stakeouts[key]) {
-					if (settings.notifications.types.global)
-						notifications.stakeouts[key] = newNotification(
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
 							"Faction Stakeouts",
 							createMessage(),
 							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 						);
+						notifications.stakeouts[key] = notification;
+						await dispatchNotification(notification);
+					}
 				} else if (!isValue) {
 					delete notifications.stakeouts[key];
 				}
 			};
 			if (rankedWarStarts) {
-				handleWarStakeout(
+				await handleWarStakeout(
 					"rankedWarStarts",
 					oldData ? oldData.rankedWar : false,
 					data.wars.ranked !== null,
@@ -1374,10 +1428,10 @@ async function updateFactionStakeouts(forceUpdate = false) {
 				);
 			}
 			if (inRaid) {
-				handleWarStakeout("inRaid", oldData ? oldData.raid : false, data.wars.raids.length > 0, () => `${data.basic.name} is now in a raid.`);
+				await handleWarStakeout("inRaid", oldData ? oldData.raid : false, data.wars.raids.length > 0, () => `${data.basic.name} is now in a raid.`);
 			}
 			if (inTerritoryWar) {
-				handleWarStakeout(
+				await handleWarStakeout(
 					"inTerritoryWar",
 					oldData ? oldData.territoryWar : false,
 					data.wars.territory.length > 0,
@@ -1599,7 +1653,7 @@ async function updateNPCs() {
 
 	if (updated || !npcUpdater) triggerUpdate();
 
-	const alerts = checkNPCAlerts();
+	const alerts = await checkNPCAlerts();
 
 	await ttStorage.set({ notifications });
 
@@ -1749,7 +1803,7 @@ async function updateNPCs() {
 		);
 	}
 
-	function checkNPCAlerts() {
+	async function checkNPCAlerts() {
 		if (!settings.notifications.types.global || !settings.notifications.types.npcsGlobal) return 0;
 		if (!("targets" in npcs)) return 0;
 
@@ -1779,11 +1833,13 @@ async function updateNPCs() {
 
 			if (notifications.npcs[id]) continue;
 
-			notifications.npcs[id] = newNotification(
+			const notification = newNotification(
 				"NPC Loot",
 				`${npc.name} is reaching loot level ${formatNumber(level, { roman: true })} in ${formatTime(left, { type: "wordTimer" })}.`,
 				`https://www.torn.com/profiles.php?XID=${id}`,
 			);
+			notifications.npcs[id] = notification;
+			await dispatchNotification(notification);
 			alerts++;
 		}
 		if (settings.notifications.types.npcPlannedEnabled && npcs.planned) {
@@ -1805,7 +1861,9 @@ async function updateNPCs() {
 
 				if (notifications.npcs[key]) continue;
 
-				notifications.npcs[key] = newNotification("NPC Loot", `There is a planned attack in ${formatTime(left, { type: "wordTimer" })}.`);
+				const notification = newNotification("NPC Loot", `There is a planned attack in ${formatTime(left, { type: "wordTimer" })}.`);
+				notifications.npcs[key] = notification;
+				await dispatchNotification(notification);
 				alerts++;
 			}
 		}

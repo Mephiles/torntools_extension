@@ -110,6 +110,9 @@ const ScriptOffloadService: OffloadService = {
 	initialize(): Promise<{ success: boolean; error?: any }> {
 		return Promise.resolve({ success: true });
 	},
+	reinitializeTimers(): Promise<void> {
+		return Promise.resolve();
+	},
 };
 
 const ScriptDataFetcher: DataFetcher = {

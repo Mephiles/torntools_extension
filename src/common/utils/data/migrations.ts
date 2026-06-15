@@ -1,4 +1,4 @@
-import { RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
+import { OFFLOAD_SERVICE, RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
 import type { Database } from "@common/utils/data/database";
 import type { FactionStakeoutEntry, StakeoutData } from "@common/utils/data/default-database";
 import { toNumericVersion } from "@common/utils/functions/utilities";
@@ -169,6 +169,13 @@ export const MIGRATIONS: MigrationScript[] = [
 				});
 
 			database.factionStakeouts.list = list;
+		},
+	},
+	{
+		id: "16d7de5c-e9ad-4060-966e-49b4252301c5",
+		version: "9.0.7",
+		execute(_database, _flags, _oldStorage) {
+			OFFLOAD_SERVICE.reinitializeTimers().catch(() => {});
 		},
 	},
 ];

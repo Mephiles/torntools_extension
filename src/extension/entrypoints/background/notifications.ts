@@ -1,8 +1,8 @@
 import { ttStorage } from "@common/utils/context";
 import { notificationHistory, notifications, setNotificationHistory, settings } from "@common/utils/data/database";
-import type { TTNotification } from "@common/utils/data/default-database";
+import type { TTFullNotification, TTNotification } from "@common/utils/data/default-database";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
-import { TO_MILLIS } from "@common/utils/functions/utilities";
+import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscreen";
 
 class AudioPlayer {
@@ -81,22 +81,51 @@ export const notificationTestPlayer = new AudioPlayer();
 let notificationSound: string | undefined, notificationWorker: ServiceWorkerRegistration | undefined;
 export const notificationRelations: { [id: string]: string } = {};
 
-export async function sendNotifications() {
+let backoffUntil = 0;
+const backoffQueue: TTFullNotification[] = [];
+let backoffTimer: ReturnType<typeof setTimeout> | null = null;
+
+export function initializeBackoff(durationMs = TO_MILLIS.SECONDS * 3) {
+	backoffUntil = Date.now() + durationMs;
+
+	if (backoffTimer) clearTimeout(backoffTimer);
+	backoffTimer = setTimeout(() => void drainStartupQueue(), durationMs);
+}
+
+export async function dispatchNotification(notification: TTFullNotification) {
+	if (Date.now() < backoffUntil) {
+		backoffQueue.push(notification);
+		return;
+	}
+
+	await notifyUser(notification.title, notification.message, notification.url);
+	notification.seen = true;
+	await storeNotification(notification);
+}
+
+export async function drainStartupQueue() {
+	backoffUntil = 0;
+	if (backoffTimer) {
+		clearTimeout(backoffTimer);
+		backoffTimer = null;
+	}
+
+	for (const notification of backoffQueue) {
+		await notifyUser(notification.title, notification.message, notification.url);
+		notification.seen = true;
+		await storeNotification(notification);
+
+		await sleep(250);
+	}
+}
+
+export async function cleanupNotifications() {
 	for (const type in notifications) {
 		for (const key in notifications[type]) {
 			const notification: TTNotification = notifications[type][key];
 			if ("combined" in notification) continue;
 
-			const { seen, date, title, message, url } = notification;
-
-			if (!seen) {
-				await notifyUser(title, message, url);
-
-				notification.seen = true;
-				await storeNotification({ title, message, url, type, key, date });
-			}
-
-			if (seen && Date.now() - date > 3 * TO_MILLIS.DAYS) {
+			if (notification.date > 3 * TO_MILLIS.DAYS) {
 				delete notifications[type][key];
 			}
 		}
@@ -243,7 +272,7 @@ export function getNotificationSound(type: string, allowDefault = false) {
 	}
 }
 
-export function newNotification(title: string, message: string, link?: string): TTNotification {
+export function newNotification(title: string, message: string, link?: string): TTFullNotification {
 	return {
 		title: `TornTools - ${title}`,
 		message,
