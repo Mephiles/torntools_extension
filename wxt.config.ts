@@ -99,7 +99,7 @@ export default defineConfig({
 				"https://laekna-revive-bot.onrender.com/",
 				"https://torn-intel.com/",
 			],
-			permissions: ["storage", "notifications", "background", "offscreen", "alarms"],
+			permissions: ["storage", "notifications", "alarms", ...(browser === "chrome" ? ["background", "offscreen"] : [])],
 			web_accessible_resources: [
 				{
 					resources: ["images/*", "*--inject.js", "*/*.js.map", "options.html"],

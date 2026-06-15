@@ -8,7 +8,12 @@
 			"fixes": [],
 			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
 			"removed": [],
-			"technical": []
+			"technical": [
+				{
+					"message": "Only use permissions that the browser allows (remove 'background' and 'offscreen' for Firefox).",
+					"contributor": "DeKleineKobini"
+				}
+			]
 		}
 	},
 	{
