@@ -9,6 +9,8 @@ export const SCRIPT_TYPE = (() => {
 		return "POPUP";
 		// } else if (!chrome?.runtime?.onMessage) {
 		// return "WEB";
+	} else if (typeof location !== "undefined" && location.protocol?.includes("extension")) {
+		return "INTERNAL_CONTENT";
 	} else {
 		return "CONTENT";
 	}

@@ -16,6 +16,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
 import { executeScript } from "@common/utils/functions/dom";
 import type { ScriptInjector } from "@common/utils/functions/script-injector";
+import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
 import type { FullItem, ItemResolver, StaticItem } from "@common/utils/torn-api/items.types";
 import { browser } from "wxt/browser";
 import { ExtensionFeatureManager } from "@/runtime/extension-feature-manager";
@@ -23,9 +24,11 @@ import { TTExtensionStorage } from "@/runtime/extension-storage";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 import { STATIC_ITEM_MAP } from "@/utils/static-data/static-items";
 
+const BLACKLISTED_SCRIPT_TYPES: (typeof SCRIPT_TYPE)[] = ["BACKGROUND", "POPUP", "INTERNAL_CONTENT"];
+
 export function registerExtensionContext() {
 	setTTStorage(new TTExtensionStorage());
-	if (typeof window !== "undefined") {
+	if (typeof window !== "undefined" && !BLACKLISTED_SCRIPT_TYPES.includes(SCRIPT_TYPE)) {
 		setFeatureManager(new ExtensionFeatureManager());
 		setScriptInjector(ExtensionScriptInjector);
 	}
