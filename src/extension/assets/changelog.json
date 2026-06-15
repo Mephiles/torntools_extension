@@ -13,7 +13,8 @@
 				{
 					"message": "Fix 'Stock Acronyms' and 'Total Portfolio Value' giving errors when there is no api key provided, instead of not running at all",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Revert the city items change since it now fails to load in most cases.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
 			"removed": [],

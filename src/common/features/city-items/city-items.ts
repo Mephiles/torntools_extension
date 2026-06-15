@@ -17,26 +17,9 @@ interface CityItem {
 }
 
 let hasContainer = false;
-let loaderObserver: MutationObserver | undefined;
-
-async function triggerHighlight() {
-	if (location.hash.includes("map-cont")) {
-		await showHighlight();
-		return;
-	}
-
-	const mapLoader = document.querySelector(".map-loader-wp");
-
-	loaderObserver = new MutationObserver((_, self) => {
-		showHighlight();
-		self.disconnect();
-		loaderObserver = undefined;
-	});
-	loaderObserver.observe(mapLoader, { attributes: true, attributeFilter: ["style"] });
-}
 
 async function showHighlight() {
-	if (hasContainer || !location.hash.includes("map-cont")) return;
+	if (hasContainer) return;
 
 	await requireElement("#map .highlightItemMarket");
 
@@ -259,12 +242,11 @@ export default class CityItemsFeature extends Feature {
 	}
 
 	async execute() {
-		await triggerHighlight();
+		await showHighlight();
 	}
 
 	cleanup() {
 		removeHighlight();
-		loaderObserver?.disconnect();
 	}
 
 	storageKeys() {
