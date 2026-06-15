@@ -6,7 +6,7 @@ import { Feature } from "@features/feature";
 let original = document.title;
 
 async function setTitle() {
-	const name: Element = await requireElement("[class*='headerWrapper__'][class*='rose__'] .user-name");
+	const name = await requireElement("[class*='headerWrapper__'][class*='rose__'] .user-name");
 
 	if (!original) original = document.title;
 	document.title = `${name.textContent} | Attack`;

@@ -17,7 +17,8 @@
 				{
 					"message": "Only use permissions that the browser allows (remove 'background' and 'offscreen' for Firefox).",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Refactor the require element function for improved performance.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

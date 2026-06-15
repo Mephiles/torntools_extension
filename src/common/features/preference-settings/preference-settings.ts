@@ -82,7 +82,7 @@ async function executeFeature() {
 	}
 
 	function connectRedirect() {
-		requireElement("[id^='key-popup-']").then((input) => updateKey(input.value));
+		requireElement<HTMLInputElement>("[id^='key-popup-']").then((input) => updateKey(input.value));
 	}
 }
 

@@ -1,3 +1,5 @@
+import { TO_MILLIS } from "@common/utils/functions/utilities";
+
 type RequireConditionFn = () => any;
 
 interface RequireConditionOptions {
@@ -56,34 +58,137 @@ export function requireCondition(condition: RequireConditionFn, partialOptions: 
 type RequireElementOptions = {
 	invert: boolean;
 	parent: Element | Document;
+	timeout: number;
+	observerOptions: {
+		childList: boolean;
+		subtree: boolean;
+	};
 };
 
-export function requireElement(selector: string, attributes: Partial<RequireElementOptions & RequireConditionOptions> = {}) {
+function checkListener(listener: PendingListener, entry: ObserverEntry): boolean {
+	const element = listener.parent.querySelector<Element>(listener.selector);
+
+	const matched = listener.invert ? !element : !!element;
+	if (!matched) return false;
+
+	clearTimeout(listener.timeoutId);
+	entry.listeners.delete(listener);
+
+	listener.resolve(listener.invert ? true : element);
+
+	cleanupEntryIfEmpty(entry);
+	return true;
+}
+
+function cleanupEntryIfEmpty(entry: ObserverEntry) {
+	if (entry.listeners.size > 0) return;
+
+	entry.observer.disconnect();
+	observerRegistry.delete(entry.parent);
+}
+
+function removeListenerFromRegistry(listener: PendingListener) {
+	const entry = observerRegistry.get(listener.parent);
+	if (!entry) return;
+
+	entry.listeners.delete(listener);
+	cleanupEntryIfEmpty(entry);
+}
+
+export function requireElement<T extends Element = HTMLElement>(selector: string, attributes?: Partial<Omit<RequireElementOptions, "invert">>): Promise<T>;
+export function requireElement(selector: string, attributes?: Partial<RequireElementOptions & { invert: true }>): Promise<true>;
+export function requireElement<T extends Element = HTMLElement>(selector: string, attributes: Partial<RequireElementOptions> = {}): Promise<T | true> {
 	const options: RequireElementOptions = {
 		invert: false,
 		parent: document,
+		timeout: TO_MILLIS.SECONDS * 5,
+		observerOptions: {
+			childList: true,
+			subtree: true,
+		},
 		...attributes,
 	};
-	if (attributes.invert) {
-		return requireCondition(() => !options.parent.querySelector(selector), attributes);
-	} else {
-		return requireCondition(() => options.parent.querySelector(selector), attributes);
-	}
+
+	// Preserve stack for throwing later when needed.
+	const error = new Error("Maximum cycles reached.");
+
+	return new Promise((resolve, reject) => {
+		const element = options.parent.querySelector<T>(selector);
+		if (options.invert && !element) {
+			resolve(true);
+			return;
+		} else if (!options.invert && element) {
+			resolve(element);
+			return;
+		}
+
+		const timeoutId = window.setTimeout(() => {
+			removeListenerFromRegistry(listener);
+			reject(error);
+		}, options.timeout);
+
+		const listener: PendingListener = {
+			selector,
+			invert: options.invert,
+			parent: options.parent,
+			resolve,
+			reject,
+			timeoutId,
+		};
+
+		const entry = getOrCreateObserverEntry(options.parent);
+		entry.listeners.add(listener);
+	});
 }
 
-export function requireSidebar(): Promise<any> {
+interface ObserverEntry {
+	parent: Element | Document;
+	observer: MutationObserver;
+	listeners: Set<PendingListener>;
+}
+
+interface PendingListener {
+	selector: string;
+	invert: boolean;
+	parent: Element | Document;
+	resolve: (value: any) => void;
+	reject: (reason: any) => void;
+	timeoutId: ReturnType<typeof setTimeout>;
+}
+
+const observerRegistry = new Map<Element | Document, ObserverEntry>();
+
+function getOrCreateObserverEntry(parent: Element | Document): ObserverEntry {
+	const existing = observerRegistry.get(parent);
+	if (existing) return existing;
+
+	const observer = new MutationObserver(() => {
+		const entry = observerRegistry.get(parent);
+		if (!entry) return;
+
+		entry.listeners.forEach((listener) => checkListener(listener, entry));
+	});
+
+	const entry: ObserverEntry = { parent, observer, listeners: new Set() };
+	observerRegistry.set(parent, entry);
+	observer.observe(parent, { childList: true, subtree: true });
+
+	return entry;
+}
+
+export function requireSidebar() {
 	return requireElement("#sidebar");
 }
 
-export function requireContent(): Promise<any> {
+export function requireContent() {
 	return requireElement(".content-wrapper");
 }
 
-export function requireItemsLoaded(): Promise<void> {
+export function requireItemsLoaded() {
 	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
 }
 
-export function requireChatsLoaded(): Promise<void> {
+export function requireChatsLoaded() {
 	return requireElement("#chatRoot [class*='chat-list-button__'], #notes_settings_button");
 }
 

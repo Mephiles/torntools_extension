@@ -9,7 +9,7 @@ import { Feature } from "@features/feature";
 async function showEducationFinishTime() {
 	if (userdata.education_timeleft <= 0) return;
 
-	const msg: Element = await requireElement(".msg .bold");
+	const msg = await requireElement(".msg .bold");
 	const overDate = new Date(userdata.dateBasic + userdata.education_timeleft * 1000).getTime();
 
 	msg.insertAdjacentElement(

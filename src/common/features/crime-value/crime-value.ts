@@ -56,7 +56,7 @@ async function displayCrimeValue(value: number) {
 	});
 
 	await requireElement("[class*='loader___']", { invert: true });
-	const rewardElement: Element = await requireElement("[class*='outcome___']:not([class*='exiting']) [class*='outcomeReward___'] [class*='reward___']");
+	const rewardElement = await requireElement("[class*='outcome___']:not([class*='exiting']) [class*='outcomeReward___'] [class*='reward___']");
 	rewardElement.insertAdjacentElement("beforeend", valueElement);
 }
 

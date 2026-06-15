@@ -20,7 +20,7 @@ function initialise() {
 async function addID() {
 	if (document.getElementById("tt-company-id")) return; // Element has already been added - second check in-case feature reinjects
 
-	const container: HTMLElement = await requireElement(
+	const container = await requireElement(
 		isOwnCompany ? "div.company-wrap > div.title-black" : "div.company-details-wrap > div.company-details > div.title-black",
 	);
 

@@ -25,7 +25,7 @@ function initialiseListeners() {
 }
 
 async function showWarnings() {
-	const container: HTMLElement = await requireElement(
+	const container = await requireElement(
 		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']",
 	);
 	if (!container) return;

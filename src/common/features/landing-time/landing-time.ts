@@ -11,7 +11,7 @@ async function showTime() {
 
 	if (destinationTitle.parentElement.querySelector(".tt-landing-time")) return;
 
-	const timer: Element = await requireElement("#travel-root time[datetime]");
+	const timer = await requireElement("#travel-root time[datetime]");
 	const duration = textToTime(timer.textContent);
 
 	const arrival = Date.now() + duration;

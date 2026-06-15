@@ -9,7 +9,7 @@ import { getUserAliasById } from "@features/user-alias/alias";
 async function addAlias() {
 	removeAlias();
 
-	const nameLi: Element = await requireElement(".profile-container.basic-info .info-table > :first-child");
+	const nameLi = await requireElement(".profile-container.basic-info .info-table > :first-child");
 	const userID = convertToNumber(nameLi.querySelector(".user-info-value .bold").textContent.split("[")[1]);
 	const alias = getUserAliasById(userID);
 	if (!alias) return;
