@@ -25,7 +25,7 @@
 	padding: 10px;
 	display: none;
 
-	.onlyShowNewPosts :global(.panel-scrollbar:has(li:not(.tt-hidden):not(.empty):not(.new)):not(:has(li.new))) & {
+	.onlyShowNewPosts :global(.panel-scrollbar:has(li:not(.tt-hidden):not(.empty):not(.new)):not(:has(li.new:not(.tt-hidden)))) & {
 		display: block;
 	}
 }
