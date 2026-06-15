@@ -71,7 +71,7 @@ function checkListener(listener: PendingListener, entry: ObserverEntry): boolean
 	const matched = listener.invert ? !element : !!element;
 	if (!matched) return false;
 
-	clearTimeout(listener.timeoutId);
+	if (listener.timeoutId) clearTimeout(listener.timeoutId);
 	entry.listeners.delete(listener);
 
 	listener.resolve(listener.invert ? true : element);
@@ -122,10 +122,13 @@ export function requireElement<T extends Element = HTMLElement>(selector: string
 			return;
 		}
 
-		const timeoutId = window.setTimeout(() => {
-			removeListenerFromRegistry(listener);
-			reject(error);
-		}, options.timeout);
+		const timeoutId =
+			options.timeout > 0
+				? window.setTimeout(() => {
+						removeListenerFromRegistry(listener);
+						reject(error);
+					}, options.timeout)
+				: null;
 
 		const listener: PendingListener = {
 			selector,
@@ -153,7 +156,7 @@ interface PendingListener {
 	parent: Element | Document;
 	resolve: (value: any) => void;
 	reject: (reason: any) => void;
-	timeoutId: ReturnType<typeof setTimeout>;
+	timeoutId: ReturnType<typeof setTimeout> | null;
 }
 
 const observerRegistry = new Map<Element | Document, ObserverEntry>();

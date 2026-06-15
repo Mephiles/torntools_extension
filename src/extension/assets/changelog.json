@@ -15,7 +15,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Revert the city items change since it now fails to load in most cases.", "contributor": "DeKleineKobini" },
-				{ "message": "Hopefully fix the issue with notifications being duplicated.", "contributor": "DeKleineKobini" }
+				{ "message": "Hopefully fix the issue with notifications being duplicated.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with 'City Items' by not timing out.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
 			"removed": [],

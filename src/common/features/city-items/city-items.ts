@@ -21,7 +21,7 @@ let hasContainer = false;
 async function showHighlight() {
 	if (hasContainer) return;
 
-	await requireElement("#map .highlightItemMarket");
+	await requireElement("#map .highlightItemMarket", { timeout: -1 });
 
 	hasContainer = true;
 
