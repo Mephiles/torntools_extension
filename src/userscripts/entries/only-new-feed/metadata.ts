@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Only New Feed",
 	description: "Only show unread items in your forum feeds.",
-	version: "1.0.8",
+	version: "1.0.9",
 	matches: ["https://*.torn.com/forums.php*"],
 	runAt: "document-end",
 };

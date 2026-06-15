@@ -5,7 +5,12 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [
+				{
+					"message": "Only show the 'Nothing left to show here.' text with the Only New Feed when there is actually nothing left to show.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [
