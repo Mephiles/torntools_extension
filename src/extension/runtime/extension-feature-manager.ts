@@ -96,7 +96,9 @@ export class ExtensionFeatureManager implements FeatureManager {
 				.then((messages) => messages.classList.add("show"));
 		}
 
-		this.generateErrorMessage(info, error).then((message) => console.error(...message));
+		this.generateErrorMessage(info, error)
+			.then((message) => console.error(...message))
+			.catch(() => {});
 
 		if (!this.container) {
 			this.earlyErrors.push(error);

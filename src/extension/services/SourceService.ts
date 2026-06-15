@@ -37,6 +37,7 @@ export class SourceService {
 
 	mappedStack(stack?: string) {
 		if (!stack) return "";
+		if (!this.sourceMapConsumer) return stack;
 
 		return stack
 			.split("\n")
@@ -53,6 +54,8 @@ export class SourceService {
 	}
 
 	fromSource(line: number, column: number): SourceLocation {
+		if (!this.sourceMapConsumer) return null;
+
 		const position = this.sourceMapConsumer.originalPositionFor({ line, column });
 
 		return SourceService.convertSourceLocation(position);
