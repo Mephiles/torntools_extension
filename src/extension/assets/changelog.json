@@ -14,7 +14,8 @@
 					"message": "Fix 'Stock Acronyms' and 'Total Portfolio Value' giving errors when there is no api key provided, instead of not running at all",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Revert the city items change since it now fails to load in most cases.", "contributor": "DeKleineKobini" }
+				{ "message": "Revert the city items change since it now fails to load in most cases.", "contributor": "DeKleineKobini" },
+				{ "message": "Hopefully fix the issue with notifications being duplicated.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
 			"removed": [],
@@ -24,7 +25,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Refactor the require element function for improved performance.", "contributor": "DeKleineKobini" },
-				{ "message": "Better error handling in the source mapper service.", "contributor": "DeKleineKobini" }
+				{ "message": "Better error handling in the source mapper service.", "contributor": "DeKleineKobini" },
+				{ "message": "Improve the notification system without a timer to trigger them.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
