@@ -1972,13 +1972,15 @@ export function getStockReward(reward: string, increment: number) {
 }
 
 export function getRewardValue(reward: string) {
+	if (!ITEM_RESOLVER.hasFullItems()) return -1;
+
 	let value: number;
 	if (reward.startsWith("$")) {
 		value = parseInt(reward.replace("$", "").replaceAll(",", ""));
 	} else if (reward.match(/^\d+x? /i)) {
 		const rewardItem = reward.split(" ").slice(1).join(" ");
 
-		const item = torndata.items.find(({ name }) => name === rewardItem);
+		const item = ITEM_RESOLVER.getAllFullItems().find(({ name }) => name === rewardItem);
 
 		if (item) value = item ? item.value.market_price : -1;
 		else {

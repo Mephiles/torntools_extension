@@ -5,12 +5,17 @@ import type { FullItem, ItemResolver, StaticItem } from "@common/utils/torn-api/
 import type { TornItem } from "tornapi-typescript";
 
 export const ScriptItemResolver: ItemResolver & {
+	items: TornItem[];
 	itemsMap: Record<number, TornItem>;
 	loadItems: () => Promise<void>;
 } = {
+	items: [],
 	itemsMap: {},
 	loadItem(id: number): StaticItem | FullItem | null {
 		return this.getFullItem(id) ?? this.getStaticItem(id);
+	},
+	findItem(matcher: (item: StaticItem | FullItem) => boolean): FullItem {
+		return this.getAllFullItems().find(matcher) ?? null;
 	},
 	getStaticItem(id: number): StaticItem | null {
 		return this.getFullItem(id);
@@ -25,7 +30,9 @@ export const ScriptItemResolver: ItemResolver & {
 	},
 	async loadItems() {
 		if (ttCache.hasValue("static-data", "items-map")) {
-			this.itemsMap = ttCache.get("static-data", "items-map");
+			const map = ttCache.get("static-data", "items-map");
+			this.items = Object.values(map);
+			this.itemsMap = map;
 			return;
 		}
 
@@ -35,8 +42,15 @@ export const ScriptItemResolver: ItemResolver & {
 			return acc;
 		}, {});
 
+		this.items = Object.values(itemsMap);
 		this.itemsMap = itemsMap;
 		void ttCache.set({ "static-data": { "items-map": itemsMap } }, millisToNewDay());
+	},
+	getAllFullItems(): FullItem[] {
+		return this.items as FullItem[];
+	},
+	getAllStaticItems(): StaticItem[] {
+		return this.getAllFullItems();
 	},
 };
 

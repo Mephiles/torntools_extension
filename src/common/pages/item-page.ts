@@ -1,5 +1,4 @@
-import { torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireItemsLoaded } from "@common/utils/functions/requires";
@@ -80,7 +79,7 @@ export function setupItemPage() {
 		} else if (step === "actionForm") {
 			const action = params.get("action");
 
-			if (action === "equip" && hasAPIData()) {
+			if (action === "equip") {
 				const responseElement = elementBuilder({ type: "div", html: xhr.response });
 				const textElement = responseElement.querySelector("h5, [data-status]");
 
@@ -92,7 +91,7 @@ export function setupItemPage() {
 						const itemName = regexResult[2];
 						const equipAction = regexResult[1];
 
-						const item = torndata.items.find((item) => item.name === itemName);
+						const item = ITEM_RESOLVER.findItem((item) => item.name === itemName);
 						if (!item) return;
 
 						triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: item.id });

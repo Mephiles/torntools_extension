@@ -22,7 +22,7 @@ import { browser } from "wxt/browser";
 import { ExtensionFeatureManager } from "@/runtime/extension-feature-manager";
 import { TTExtensionStorage } from "@/runtime/extension-storage";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
-import { STATIC_ITEM_MAP } from "@/utils/static-data/static-items";
+import { STATIC_ITEM_MAP, STATIC_ITEMS } from "@/utils/static-data/static-items";
 
 const BLACKLISTED_SCRIPT_TYPES: (typeof SCRIPT_TYPE)[] = ["BACKGROUND", "POPUP", "INTERNAL_CONTENT"];
 
@@ -110,11 +110,25 @@ const ExtensionItemResolver: ItemResolver = {
 	loadItem(id: number): StaticItem | FullItem | null {
 		return this.getFullItem(id) ?? this.getStaticItem(id);
 	},
+	findItem(matcher: (item: StaticItem | FullItem) => boolean): StaticItem | FullItem | null {
+		if (this.hasFullItems()) {
+			const matched = this.getAllFullItems().find(matcher);
+
+			if (matched) return matched;
+		}
+		return this.getAllStaticItems().find(matcher) ?? null;
+	},
 	getStaticItem(id: number): StaticItem | null {
 		return id in STATIC_ITEM_MAP ? STATIC_ITEM_MAP[id] : null;
 	},
 	hasFullItems: () => hasAPIData(),
 	getFullItem(id: number): FullItem | null {
 		return torndata?.itemsMap && id in torndata.itemsMap ? (torndata.itemsMap[id] as FullItem) : null;
+	},
+	getAllFullItems(): FullItem[] {
+		return (torndata?.items as FullItem[] | undefined) ?? [];
+	},
+	getAllStaticItems(): StaticItem[] {
+		return STATIC_ITEMS;
 	},
 };

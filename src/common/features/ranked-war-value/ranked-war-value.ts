@@ -1,5 +1,5 @@
-import { settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -25,7 +25,7 @@ async function showRWValue() {
 
 				const quantity = parseInt(itemMatch[1]);
 				const itemName = itemMatch[2].trim();
-				const item = torndata.items.find((item) => item.name === itemName);
+				const item = ITEM_RESOLVER.getAllFullItems().find((item) => item.name === itemName);
 				if (!item) return null;
 
 				return quantity * item.value.market_price;
@@ -58,7 +58,7 @@ export default class RankedWarValueFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}

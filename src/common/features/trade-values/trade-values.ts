@@ -1,7 +1,6 @@
 import "./trade-values.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
+import { filters, settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
@@ -52,7 +51,7 @@ async function addItemValues() {
 					else quantityMap[name] = parseInt(quantityRegex[0]);
 				}
 
-				torndata.items
+				ITEM_RESOLVER.getAllFullItems()
 					.filter((i) => Object.hasOwn(quantityMap, i.name))
 					.forEach((i) => {
 						localMappings[i.name] = i.id.toString();
@@ -81,7 +80,7 @@ async function addItemValues() {
 			if (Object.hasOwn(localMappings, name)) {
 				marketValue = ITEM_RESOLVER.getFullItem(parseInt(localMappings[name])).value.market_price;
 			} else {
-				marketValue = torndata.items.find((i) => i.name === name)?.value?.market_price ?? 0;
+				marketValue = ITEM_RESOLVER.getAllFullItems().find((i) => i.name === name)?.value?.market_price ?? 0;
 			}
 			if (marketValue === 0) continue;
 
@@ -150,7 +149,7 @@ export default class TradeValuesFeature extends Feature {
 	}
 
 	requirements() {
-		if (!hasAPIData()) return "No API access.";
+		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}
