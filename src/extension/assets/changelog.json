@@ -1,10 +1,14 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 8 },
+		"version": { "major": 9, "minor": 0, "build": 9 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 8 },
+		"date": "2026/06/16",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{
 					"message": "Only show the 'Nothing left to show here.' text with the Only New Feed when there is actually nothing left to show.",
@@ -21,7 +25,6 @@
 				{ "message": "Better handle unexpected data when doing a full data dump.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Improve number inputs in our internal pages.", "contributor": "DeKleineKobini" }],
-			"removed": [],
 			"technical": [
 				{
 					"message": "Only use permissions that the browser allows (remove 'background' and 'offscreen' for Firefox).",
