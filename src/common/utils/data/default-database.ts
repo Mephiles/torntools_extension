@@ -657,6 +657,7 @@ export const DEFAULT_STORAGE = {
 				owned: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				benefit: new DefaultSetting<SpecialFilterValue>("string", "both"),
 				passive: new DefaultSetting<SpecialFilterValue>("string", "both"),
+				collectionReady: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			price: {
 				price: new DefaultSetting<SpecialFilterValue>("string", "both"),

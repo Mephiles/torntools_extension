@@ -66,10 +66,16 @@ async function addFilters() {
 	passiveFilter.setValue(filters.stocks.investment.passive);
 	localFilters.passive = { getValue: passiveFilter.getValue };
 
+	const collectionReadyFilter = createCheckboxDuo({ description: "Collection Ready" });
+	collectionReadyFilter.onChange(applyFilter);
+	collectionReadyFilter.setValue(filters.stocks.investment.collectionReady);
+	localFilters.collectionReady = { getValue: collectionReadyFilter.getValue };
+
 	const investmentSection = createFilterSection({ title: "Investment" });
 	investmentSection.element.appendChild(ownedFilter.element);
 	investmentSection.element.appendChild(benefitFilter.element);
 	investmentSection.element.appendChild(passiveFilter.element);
+	investmentSection.element.appendChild(collectionReadyFilter.element);
 	filterContent.appendChild(investmentSection.element);
 
 	const priceSection = createFilterSection({ title: "Price" });
@@ -112,12 +118,15 @@ async function applyFilter() {
 	const owned: SpecialFilterValue = localFilters.owned.getValue();
 	const benefit: SpecialFilterValue = localFilters.benefit.getValue();
 	const passive: SpecialFilterValue = localFilters.passive.getValue();
+	const collectionReady: SpecialFilterValue = localFilters.collectionReady.getValue();
 	const price: SpecialFilterValue = localFilters.price.getValue();
 	const profit: SpecialFilterValue = localFilters.profit.getValue();
 
 	// Save filters
 	await ttStorage.change({
-		filters: { stocks: { enabled: localFilters.enabled.isEnabled(), name, investment: { owned, benefit, passive }, price: { price, profit } } },
+		filters: {
+			stocks: { enabled: localFilters.enabled.isEnabled(), name, investment: { owned, benefit, passive, collectionReady }, price: { price, profit } },
+		},
 	});
 
 	// Actual Filtering
@@ -167,6 +176,15 @@ async function applyFilter() {
 			const isPassive = !!row.querySelector("[class*='dividendInfo___'] [class*='passive___']");
 
 			if ((isPassive && passive === "no") || (!isPassive && passive === "yes")) {
+				hideRow(row);
+				continue;
+			}
+		}
+
+		if (collectionReady === "yes" || collectionReady === "no") {
+			const isCollectionReady = !!row.querySelector("[class*='active___'][class*='Ready___']");
+
+			if ((isCollectionReady && collectionReady === "no") || (!isCollectionReady && collectionReady === "yes")) {
 				hideRow(row);
 				continue;
 			}
