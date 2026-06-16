@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [{ "message": "Filter on 'Collection Ready' in the 'Stocks Filter'.", "contributor": "DeKleineKobini" }],
 			"fixes": [],
-			"changes": [],
+			"changes": [{ "message": "Increase the max height of 'Resizable Chat' to about 4 lines .", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}

@@ -9,7 +9,7 @@ import { Feature } from "@features/feature";
 import styles from "./resizable-chat.module.css";
 
 const MIN_HEIGHT = 26;
-const MAX_HEIGHT = 48;
+const MAX_HEIGHT = 64;
 
 export interface StoredResizableChats {
 	[key: string]: string;
@@ -55,7 +55,7 @@ async function resizeInput(chat: HTMLElement) {
 		const setHeight = parseInt(textarea.style.height);
 		const newHeight = Math.max(Math.min(setHeight, MAX_HEIGHT), MIN_HEIGHT);
 
-		await ttStorage.change({ localdata: { chatResize: { [id]: Number.isNaN(setHeight) ? undefined : `${newHeight}px` } } });
+		await ttStorage.change({ localdata: { chatResize: { [id]: !Number.isNaN(newHeight) ? `${newHeight}px` : undefined } } });
 	});
 	resizeObserver.observe(textarea);
 }
