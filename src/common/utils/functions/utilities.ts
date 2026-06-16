@@ -308,3 +308,7 @@ export function isTabFocused() {
 export function isNumber(x: any): x is number {
 	return typeof x === "number";
 }
+
+export function isSpeechSynthesisAvailable() {
+	return typeof SpeechSynthesisUtterance !== "undefined";
+}

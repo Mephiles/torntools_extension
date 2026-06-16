@@ -1,3 +1,5 @@
+import { isSpeechSynthesisAvailable } from "@common/utils/functions/utilities";
+
 export type OffscreenMessage = ({ offscreen: "audio" } & PlayAudioOptions) | ({ offscreen: "tts" } & PlayTTSOptions);
 
 interface PlayAudioOptions {
@@ -20,6 +22,8 @@ interface PlayTTSOptions {
 }
 
 function playTTS({ text, volume, voice, rate }: PlayTTSOptions) {
+	if (!isSpeechSynthesisAvailable()) throw new Error("Speech is disabled in the browser.");
+
 	const ttsMessage = new SpeechSynthesisUtterance(text);
 	ttsMessage.volume = volume;
 	if (voice !== "default") {

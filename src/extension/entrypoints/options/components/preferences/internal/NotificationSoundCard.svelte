@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {isSpeechSynthesisAvailable} from "@common/utils/functions/utilities";
+	import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";
@@ -7,7 +9,6 @@
 	import StopIcon from "phosphor-svelte/lib/StopIcon";
 	import { onDestroy, onMount } from "svelte";
 	import { toast } from "svelte-sonner";
-	import { BACKGROUND_SERVICE } from "../../../../../services/proxy-services";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import ItemSelect from "../ItemSelect.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
@@ -33,10 +34,13 @@
 	function loadVoices() {
 		voices = [
 			{ value: "default", label: "System Default" },
-			...window.speechSynthesis.getVoices().map((voice) => ({
-				value: `${voice.name} (${voice.lang})`,
-				label: `${voice.name} (${voice.lang})`,
-			})),
+			...(isSpeechSynthesisAvailable()
+							? window.speechSynthesis.getVoices().map((voice) => ({
+								value: `${voice.name} (${voice.lang})`,
+								label: `${voice.name} (${voice.lang})`,
+							}))
+							: []
+			),
 		];
 	}
 
@@ -75,6 +79,8 @@
 	}
 
 	onMount(() => {
+		if (!isSpeechSynthesisAvailable()) return;
+
 		const previousVoicesChanged = window.speechSynthesis.onvoiceschanged;
 		window.speechSynthesis.onvoiceschanged = () => {
 			loadVoices();

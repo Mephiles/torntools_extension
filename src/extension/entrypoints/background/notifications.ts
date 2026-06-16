@@ -2,7 +2,7 @@ import { ttStorage } from "@common/utils/context";
 import { notificationHistory, notifications, setNotificationHistory, settings } from "@common/utils/data/database";
 import type { TTFullNotification, TTNotification } from "@common/utils/data/default-database";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
-import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
+import { isSpeechSynthesisAvailable, sleep, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscreen";
 
 class AudioPlayer {
@@ -216,7 +216,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 
 	async function readMessage(text: string) {
 		// Has TTS
-		if (typeof SpeechSynthesisUtterance !== "undefined") {
+		if (isSpeechSynthesisAvailable()) {
 			const ttsMessage = new SpeechSynthesisUtterance(text);
 			ttsMessage.volume = settings.notifications.volume / 100;
 			if (settings.notifications.ttsVoice !== "default") {
