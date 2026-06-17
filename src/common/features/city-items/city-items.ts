@@ -1,231 +1,179 @@
 import "./city-items.css";
-import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
-import { filters, settings } from "@common/utils/data/database";
-import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import { type DecodedCityItem, isMapData } from "@common/pages/city-page";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
+import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
+import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import type { FullItem } from "@common/utils/torn-api/items.types";
 import { Feature } from "@features/feature";
 
 interface CityItem {
-	id: string;
+	item: number;
 	count: number;
 	name: string;
+	entries: { id: string; td: string }[];
 }
 
-let hasContainer = false;
+function initialise() {
+	addXHRListener(({ detail: { page, xhr, json } }) => {
+		if (!FEATURE_MANAGER.isEnabled(CityItemsFeature)) return;
 
-async function showHighlight() {
-	if (hasContainer) return;
+		if (isMapData(page, xhr, json)) {
+			const items = resolveUserItems(json.territoryUserItems);
 
-	await requireElement("#map .highlightItemMarket", { timeout: -1 });
-
-	hasContainer = true;
-
-	// Show container
-	const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
-
-	const items = getAllItems();
-	handleHighlight();
-	handleSearchBox();
-	if (ITEM_RESOLVER.hasFullItems()) showValue();
-	showItemList();
-
-	function getAllItems() {
-		const items: CityItem[] = [];
-
-		for (const marker of findAllElements<HTMLImageElement>("#map .leaflet-marker-icon[src*='/images/items/']")) {
-			const id = marker.src.split("items/")[1].split("/")[0];
-
-			marker.classList.add("city-item");
-			marker.dataset.id = id;
-
-			const itemName = ITEM_RESOLVER.getStaticItem(parseInt(id))?.name ?? id;
-
-			if (settings.pages.city.combineDuplicates) {
-				const duplicate = items.find((item) => item.id === id);
-
-				if (duplicate) duplicate.count++;
-				else items.push({ id, count: 1, name: itemName });
-			} else items.push({ id, count: 1, name: itemName });
+			showCityItemsContainer(items).catch(console.error);
 		}
+	});
+}
 
-		return items;
-	}
+function resolveUserItems(encodedItems: string): CityItem[] {
+	const items: CityItem[] = [];
 
-	function handleHighlight() {
-		const checkbox = createCheckbox({ description: "Highlight items" });
+	const decodedItems: DecodedCityItem[] = JSON.parse(atob(encodedItems));
+	decodedItems.forEach((item) => {
+		const id = ITEM_RESOLVER.findItem((x) => x.name === item.title)?.id ?? -1;
+		const td = btoa([item.c.x, item.c.y, item.id, item.ts].join("O"));
 
-		highlight(filters.city.highlightItems);
+		if (settings.pages.city.combineDuplicates) {
+			const duplicate = items.find((item) => item.item === id);
 
-		checkbox.setChecked(filters.city.highlightItems);
-		checkbox.onChange(() => {
-			const state = checkbox.isChecked();
+			if (duplicate) {
+				duplicate.count++;
+				duplicate.entries.push({ id: item.id, td });
+			} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: item.id, td }] });
+		} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: item.id, td }] });
+	});
 
-			highlight(state);
-			ttStorage.change({ filters: { city: { highlightItems: state } } });
-		});
+	return items;
+}
 
-		options.appendChild(checkbox.element);
+async function showCityItemsContainer(items: CityItem[]) {
+	await requireElement("#map .leaflet-zoom-animated");
 
-		function highlight(state: boolean) {
-			const map = document.querySelector("#map");
+	const { content } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
 
-			if (state) map.classList.add("highlight-items");
-			else map.classList.remove("highlight-items");
-		}
-	}
+	populateContainer(content, items);
+}
 
-	function showValue() {
-		const totalValue = items
-			.map(({ id, count }): FullItem & { count: number } => ({ ...ITEM_RESOLVER.getFullItem(parseInt(id)), count }))
-			.filter((item) => !!item)
-			.map(({ value: { market_price: value }, count }) => value * count)
-			.filter((value) => !!value)
-			.reduce((a, b) => a + b, 0);
-		const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
+function populateContainer(content: HTMLElement, items: CityItem[]) {
+	if (ITEM_RESOLVER.hasFullItems()) showValue(content, items);
+	showItemList(content, items);
+}
 
-		content.appendChild(
-			elementBuilder({
-				type: "div",
-				class: "tt-city-total",
-				children: [
-					elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
-					elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
-				],
-			}),
-		);
-	}
+function showValue(content: HTMLElement, items: CityItem[]) {
+	content.querySelector(".tt-city-total")?.remove();
 
-	function showItemList() {
-		const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
+	const totalValue = items
+		.map(({ item, count }): FullItem & { count: number } => ({ ...ITEM_RESOLVER.getFullItem(item), count }))
+		.filter((item) => !!item)
+		.map(({ value: { market_price: value }, count }) => value * count)
+		.filter((value) => !!value)
+		.reduce((a, b) => a + b, 0);
+	const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
 
-		const type = "text";
-		switch (type) {
-			case "text":
-				generateText();
-				break;
-		}
-
-		content.appendChild(listElement);
-
-		function generateText() {
-			let element: HTMLElement;
-			if (items.length > 0) {
-				const totalCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
-				element = elementBuilder({
-					type: "p",
-					children: [
-						"There",
-						totalCount === 1 ? " is " : " are ",
-						elementBuilder({ type: "strong", text: totalCount }),
-						totalCount === 1 ? " item " : " items ",
-						"in the city: ",
-					],
-				});
-
-				const _items = [...items];
-				if (items.length === 1) {
-					element.appendChild(createItemElement(_items[0]));
-				} else {
-					const last = _items.splice(-1)[0];
-
-					for (const item of _items) {
-						element.appendChild(createItemElement(item));
-						element.appendChild(document.createTextNode(", "));
-					}
-					element.lastChild.remove();
-
-					element.appendChild(document.createTextNode(" and "));
-					element.appendChild(createItemElement(last));
-				}
-
-				element.appendChild(document.createTextNode("."));
-			} else {
-				element = elementBuilder({ type: "p", text: "There are no items in the city." });
-			}
-			listElement.appendChild(element);
-
-			function createItemElement({ id, name, count }: CityItem) {
-				let text: string;
-				if (count > 1) {
-					text = `${count}x ${name}`;
-				} else text = name;
-
-				return elementBuilder({
-					type: "span",
-					text,
-					events: {
-						mouseenter() {
-							for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
-								item.classList.add("force-hover");
-							}
-						},
-						mouseleave() {
-							for (const item of findAllElements(`.city-item[data-id="${id}"].force-hover`)) {
-								item.classList.remove("force-hover");
-							}
-						},
-					},
-				});
-			}
-		}
-	}
-
-	function handleSearchBox() {
-		const searchBox = elementBuilder({
-			type: "label",
-			text: "Search:",
+	content.appendChild(
+		elementBuilder({
+			type: "div",
+			class: "tt-city-total",
 			children: [
-				elementBuilder({
-					type: "input",
-					attributes: {
-						type: "text",
-						// placeholder: "Search for items here",
-					},
-					events: {
-						input: (e) => {
-							const query = (e.target as HTMLInputElement).value.toLowerCase();
-							for (const item of findAllElements(`.city-item.force-hover`)) {
-								item.classList.remove("force-hover");
-							}
-							if (content.previousElementSibling.querySelector(".tt-checkbox-wrapper input:checked"))
-								document.querySelector("#map").classList.add("highlight-items");
-
-							if (!query.length) return;
-
-							const matchedItemIds = items.filter((item) => item.name.toLowerCase().includes(query)).map((item) => item.id);
-							for (const id of matchedItemIds)
-								for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
-									item.classList.add("force-hover");
-								}
-							document.querySelector("#map").classList.remove("highlight-items");
-						},
-					},
-				}),
+				elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
+				elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
 			],
-		});
+		}),
+	);
+}
 
-		content.appendChild(searchBox);
+function showItemList(content: HTMLElement, items: CityItem[]) {
+	const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
+
+	const type = "text";
+	switch (type) {
+		case "text":
+			generateText();
+			break;
 	}
+
+	content.appendChild(listElement);
+
+	function generateText() {
+		let element: HTMLElement;
+		if (items.length > 0) {
+			const totalCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
+			element = elementBuilder({
+				type: "p",
+				children: [
+					"There",
+					totalCount === 1 ? " is " : " are ",
+					elementBuilder({ type: "strong", text: totalCount }),
+					totalCount === 1 ? " item " : " items ",
+					"in the city: ",
+				],
+			});
+
+			const _items = [...items];
+			if (items.length === 1) {
+				element.appendChild(createItemElement(_items[0]));
+			} else {
+				const last = _items.splice(-1)[0];
+
+				for (const item of _items) {
+					element.appendChild(createItemElement(item));
+					element.appendChild(document.createTextNode(", "));
+				}
+				element.lastChild.remove();
+
+				element.appendChild(document.createTextNode(" and "));
+				element.appendChild(createItemElement(last));
+			}
+
+			element.appendChild(document.createTextNode("."));
+		} else {
+			element = elementBuilder({ type: "p", text: "There are no items in the city." });
+		}
+		listElement.appendChild(element);
+
+		function createItemElement({ item, name, count, entries }: CityItem) {
+			let text: string;
+			if (count > 1) {
+				text = `${count}x ${name}`;
+			} else text = name;
+
+			return elementBuilder({
+				type: "span",
+				text,
+				class: "list-item",
+				events: {
+					click() {
+						const entry = entries[0];
+
+						collectItem(entry.td).then(() => {
+							const newItems = [...items.filter((a) => a.item !== item)];
+							if (entries.length > 1) newItems.push({ item, name, count, entries: entries.slice(1) });
+
+							populateContainer(content, newItems);
+						});
+					},
+				},
+			});
+		}
+	}
+}
+
+async function collectItem(td: string): Promise<void> {
+	const body = new URLSearchParams();
+	body.set("step", "uif");
+	body.set("td", td);
+
+	await fetchData("torn_direct", { action: "city.php", method: "POST", body });
 }
 
 function removeHighlight() {
 	removeContainer("City Items");
-
-	for (const item of findAllElements(".city-item")) {
-		item.classList.remove("city-item");
-
-		delete item.dataset.id;
-	}
-
-	const map = document.querySelector("#map");
-	if (map) map.classList.remove("highlight-items");
-
-	hasContainer = false;
 }
 
 export default class CityItemsFeature extends Feature {
@@ -241,8 +189,8 @@ export default class CityItemsFeature extends Feature {
 		return settings.pages.city.items;
 	}
 
-	async execute() {
-		await showHighlight();
+	initialise() {
+		initialise();
 	}
 
 	cleanup() {

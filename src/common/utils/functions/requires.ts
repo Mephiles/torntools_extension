@@ -1,13 +1,13 @@
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
-type RequireConditionFn = () => any;
+type RequireConditionFn<T = any> = () => T | { value: T; success: boolean };
 
 interface RequireConditionOptions {
 	delay: number;
 	maxCycles: number;
 }
 
-export function requireCondition(condition: RequireConditionFn, partialOptions: Partial<RequireConditionOptions> = {}): Promise<any> {
+export function requireCondition<T = any>(condition: RequireConditionFn<T>, partialOptions: Partial<RequireConditionOptions> = {}): Promise<T> {
 	const options: RequireConditionOptions = {
 		delay: 50,
 		maxCycles: 100,
@@ -30,10 +30,10 @@ export function requireCondition(condition: RequireConditionFn, partialOptions: 
 			if (!response) return false;
 
 			if (typeof response === "boolean") {
-				if (response) resolve(true);
+				if (response) resolve(response);
 				else reject();
 			} else if (typeof response === "object") {
-				if (Object.hasOwn(response, "success")) {
+				if ("success" in response) {
 					if (response.success === true) resolve(response.value);
 					else reject(response.value);
 				} else {

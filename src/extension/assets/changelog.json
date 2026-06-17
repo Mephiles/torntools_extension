@@ -4,13 +4,19 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Filter on 'Collection Ready' in the 'Stocks Filter'.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Filter on 'Collection Ready' in the 'Stocks Filter'.", "contributor": "DeKleineKobini" },
+				{ "message": "Click on items in the 'City Items' container to collect them.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Keep everything intact even if SpeechSynthesis is disabled in the browser.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't send duplicate planned npc attack notifications.", "contributor": "DeKleineKobini" }
+                { "message": "Don't send duplicate planned npc attack notifications.", "contributor": "DeKleineKobini" },
+				{ "message": "Show a list of items in your city map again after the map update.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Increase the max height of 'Resizable Chat' to about 4 lines.", "contributor": "DeKleineKobini" }],
-			"removed": [],
+			"removed": [
+				{ "message": "Remove the city item highlighting and searching due to newly introduces technical challenges.", "contributor": "DeKleineKobini" }
+			],
 			"technical": [{ "message": "More abstractions for loading items, to enable more userscripts.", "contributor": "DeKleineKobini" }]
 		}
 	},
