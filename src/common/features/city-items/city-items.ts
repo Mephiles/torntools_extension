@@ -1,9 +1,9 @@
 import "./city-items.css";
 import { type DecodedCityItem, isMapData } from "@common/pages/city-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
@@ -24,17 +24,27 @@ function initialise() {
 		if (!FEATURE_MANAGER.isEnabled(CityItemsFeature)) return;
 
 		if (isMapData(page, xhr, json)) {
-			const items = resolveUserItems(json.territoryUserItems);
+			const items = resolveUserItems(JSON.parse(atob(json.territoryUserItems)));
 
 			showCityItemsContainer(items).catch(console.error);
 		}
 	});
 }
 
-function resolveUserItems(encodedItems: string): CityItem[] {
+function triggerFallback() {
+	if (findContainer("City Items")) return;
+
+	const model = SCRIPT_INJECTOR.getWindow().torn?.model.get();
+	if (!model) return;
+
+	const items = resolveUserItems(SCRIPT_INJECTOR.getWindow().torn.model.get().territoryUserItems);
+
+	showCityItemsContainer(items).catch(console.error);
+}
+
+function resolveUserItems(decodedItems: DecodedCityItem[]): CityItem[] {
 	const items: CityItem[] = [];
 
-	const decodedItems: DecodedCityItem[] = JSON.parse(atob(encodedItems));
 	decodedItems.forEach((item) => {
 		const id = ITEM_RESOLVER.findItem((x) => x.name === item.title)?.id ?? -1;
 		const td = btoa([item.c.x, item.c.y, item.id, item.ts].join("O"));
@@ -191,6 +201,10 @@ export default class CityItemsFeature extends Feature {
 
 	initialise() {
 		initialise();
+	}
+
+	execute() {
+		setTimeout(triggerFallback, 500);
 	}
 
 	cleanup() {

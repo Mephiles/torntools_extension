@@ -1,5 +1,17 @@
 import type { XHRDetails } from "@common/utils/functions/script-injector";
 
+declare global {
+	interface Window {
+		torn: TornCityObject;
+	}
+}
+
+interface TornCityObject {
+	model: {
+		get(): Omit<MapData, "territoryUserItems"> & { territoryUserItems: DecodedCityItem[] };
+	};
+}
+
 type MapData = {
 	mapConstants: {
 		TERRITORY_RESPECT_PRICE: number;
