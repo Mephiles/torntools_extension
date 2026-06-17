@@ -37,7 +37,10 @@ function triggerFallback() {
 	const model = SCRIPT_INJECTOR.getWindow().torn?.model.get();
 	if (!model) return;
 
-	const items = resolveUserItems(SCRIPT_INJECTOR.getWindow().torn.model.get().territoryUserItems);
+	const userItems = model.territoryUserItems;
+	if (!userItems) return;
+
+	const items = resolveUserItems(userItems);
 
 	showCityItemsContainer(items).catch(console.error);
 }
