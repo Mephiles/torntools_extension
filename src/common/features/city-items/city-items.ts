@@ -166,7 +166,7 @@ function showItemList(content: HTMLElement, items: CityItem[]) {
 
 						collectItem(entry.td).then(() => {
 							const newItems = [...items.filter((a) => a.item !== item)];
-							if (entries.length > 1) newItems.push({ item, name, count, entries: entries.slice(1) });
+							if (entries.length > 1) newItems.push({ item, name, count: count - 1, entries: entries.slice(1) });
 
 							populateContainer(content, newItems);
 						});
