@@ -1,5 +1,5 @@
 import "./city-items.css";
-import { type DecodedCityItem, isMapData } from "@common/pages/city-page";
+import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
@@ -12,6 +12,8 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import type { FullItem } from "@common/utils/torn-api/items.types";
 import { Feature } from "@features/feature";
+
+const ENCODING_NUMERIC_SYSTEM = 36;
 
 interface CityItem {
 	item: number;
@@ -46,21 +48,29 @@ function triggerFallback() {
 	showCityItemsContainer(items).catch(console.error);
 }
 
-function resolveUserItems(decodedItems: DecodedCityItem[]): CityItem[] {
+function resolveUserItems(decodedItems: (DecodedCityItem | InternalCityItem)[]): CityItem[] {
 	const items: CityItem[] = [];
 
 	decodedItems.forEach((item) => {
 		const id = ITEM_RESOLVER.findItem((x) => x.name === item.title)?.id ?? -1;
-		const td = btoa([item.c.x, item.c.y, item.id, item.ts].join("O"));
+
+		let internalId: string, td: string;
+		if ("coordinates" in item) {
+			internalId = item.row_id.toString(ENCODING_NUMERIC_SYSTEM);
+			td = btoa([item.coordinates[0], item.coordinates[1], item.row_id, item.timestamp].map((x) => x.toString(ENCODING_NUMERIC_SYSTEM)).join("O"));
+		} else {
+			internalId = item.id;
+			td = btoa([item.c.x, item.c.y, item.id, item.ts].join("O"));
+		}
 
 		if (settings.pages.city.combineDuplicates) {
 			const duplicate = items.find((item) => item.item === id);
 
 			if (duplicate) {
 				duplicate.count++;
-				duplicate.entries.push({ id: item.id, td });
-			} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: item.id, td }] });
-		} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: item.id, td }] });
+				duplicate.entries.push({ id: internalId, td });
+			} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: internalId, td }] });
+		} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: internalId, td }] });
 	});
 
 	return items;

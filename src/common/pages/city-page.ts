@@ -8,7 +8,7 @@ declare global {
 
 interface TornCityObject {
 	model: {
-		get(): Omit<MapData, "territoryUserItems"> & { territoryUserItems: DecodedCityItem[] };
+		get(): Omit<MapData, "territoryUserItems"> & { territoryUserItems: InternalCityItem[] };
 	};
 }
 
@@ -127,4 +127,15 @@ export interface DecodedCityItem {
 	size: { w: number; h: number };
 	item_size: { w: number; h: number };
 	article: string;
+}
+
+export interface InternalCityItem {
+	article: string;
+	coordinates: number[];
+	item_id: number;
+	item_size: { w: number; h: number };
+	row_id: number;
+	size: { w: number; h: number };
+	timestamp: number;
+	title: string;
 }
