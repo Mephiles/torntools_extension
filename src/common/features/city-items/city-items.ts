@@ -34,7 +34,7 @@ function initialise() {
 function triggerFallback() {
 	if (findContainer("City Items")) return;
 
-	const model = SCRIPT_INJECTOR.getWindow().torn?.model.get();
+	const model = SCRIPT_INJECTOR.getWindow().torn?.model?.get?.();
 	if (!model) return;
 
 	const userItems = model.territoryUserItems;
