@@ -102,6 +102,8 @@ function showValue(content: HTMLElement, items: CityItem[]) {
 }
 
 function showItemList(content: HTMLElement, items: CityItem[]) {
+	content.querySelector(".tt-city-items")?.remove();
+
 	const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
 
 	const type = "text";
