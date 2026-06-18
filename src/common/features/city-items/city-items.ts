@@ -2,6 +2,7 @@ import "./city-items.css";
 import { type DecodedCityItem, isMapData } from "@common/pages/city-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
+import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -171,6 +172,16 @@ function showItemList(content: HTMLElement, items: CityItem[]) {
 							if (entries.length > 1) newItems.push({ item, name, count: count - 1, entries: entries.slice(1) });
 
 							populateContainer(content, newItems);
+
+							let text: string;
+							if (ITEM_RESOLVER.hasFullItems()) {
+								const value = ITEM_RESOLVER.getFullItem(item)?.value.market_price ?? 0;
+								text = `Collected ${name} with a value of ${formatNumber(value, { currency: true })}.`;
+							} else {
+								text = `Collected ${name}.`;
+							}
+
+							displayAlert({ title: "Collected Item", text, type: "success" });
 						});
 					},
 				},
