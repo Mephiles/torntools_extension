@@ -37,6 +37,7 @@ export const DEFAULT_STORAGE = {
 			key: new DefaultSetting<string | null>("string"),
 			online: new DefaultSetting("boolean", true),
 			error: new DefaultSetting<string | null>("string"),
+			owner: new DefaultSetting<number | null>("number"),
 		},
 		tornstats: {
 			key: new DefaultSetting<string | null>("string"),
@@ -529,6 +530,10 @@ export const DEFAULT_STORAGE = {
 			tornw3b: new DefaultSetting("boolean", false),
 			ffScouter: new DefaultSetting("boolean", false),
 			tornintel: new DefaultSetting("boolean", false),
+			playgroundTorntools: new DefaultSetting("boolean", false),
+		},
+		reporting: {
+			userdataInvalidOwner: new DefaultSetting("boolean", false),
 		},
 	},
 	filters: {

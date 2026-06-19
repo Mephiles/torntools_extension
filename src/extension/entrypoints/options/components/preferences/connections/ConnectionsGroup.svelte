@@ -90,4 +90,16 @@
 			{ label: "Terms of Service", href: "https://torn-intel.com/terms" },
 		]}
 	/>
+
+	<ExternalServiceCard
+		title="Playground TornTools"
+		description="Semi-official service for TornTools."
+		path="settings.external.playgroundTorntools"
+		enableLabel="Enable Playground TornTools"
+		origin={FETCH_PLATFORMS.playground_torntools}
+		links={[
+			{ label: "Website", href: "https://torntools.tornplayground.eu" },
+			{ label: "Terms of Service", href:  "https://torntools.tornplayground.eu/tos" },
+		]}
+	/>
 </div>

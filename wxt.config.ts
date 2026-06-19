@@ -98,6 +98,7 @@ export default defineConfig({
 				"https://ffscouter.com/",
 				"https://laekna-revive-bot.onrender.com/",
 				"https://torn-intel.com/",
+				"https://torntools.tornplayground.eu//",
 			],
 			permissions: ["storage", "notifications", "alarms", ...(browser === "chrome" ? ["background", "offscreen"] : [])],
 			web_accessible_resources: [

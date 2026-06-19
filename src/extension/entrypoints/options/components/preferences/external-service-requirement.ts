@@ -22,6 +22,9 @@ export const SERVICE_DETAILS = {
 	tornintel: {
 		name: "Torn Intel",
 	},
+	playgroundTorntools: {
+		name: "Playground TornTools",
+	},
 } as const;
 
 export type ExternalService = keyof typeof SERVICE_DETAILS;

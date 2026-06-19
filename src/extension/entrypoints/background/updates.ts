@@ -25,10 +25,11 @@ import type {
 	StoredNpc,
 	StoredNpcs,
 	StoredTorndata,
+	StoredUserdata,
 } from "@common/utils/data/default-database";
 import { FACTION_ACCESS, hasAPIData, hasFactionAPIAccess, isTornApiError } from "@common/utils/functions/api";
 import type { LootRangersLoot, TornstatsLoot, YATALoot } from "@common/utils/functions/api.types";
-import { CUSTOM_API_ERROR, fetchData } from "@common/utils/functions/api-fetcher";
+import { buildFetchRequest, CUSTOM_API_ERROR, type FetchOptions, type FetchRequest, fetchData, mergeOptions } from "@common/utils/functions/api-fetcher";
 import type {
 	FactionV1CrimesResponse,
 	TornV1PawnshopResponse,
@@ -344,31 +345,33 @@ export async function updateUserdata(forceUpdate = false) {
 	console.log("Time elapsed:", Date.now() - userdata.date);
 	if (!selections.length && !selectionsV2.length) return { updated: false };
 
-	const oldUserdata = (await loadDatabase()).userdata;
+	const fetchOptions: Partial<FetchOptions> = {
+		section: "user",
+		legacySelections: selections,
+		selections: selectionsV2,
+		params: { cat: "all", timestamp: Math.floor(Date.now() / 1000) },
+	};
+	const fetchedUserdata = await fetchData<FetchedUserdata>("tornv2", fetchOptions);
+	validateUserdataResponse(fetchedUserdata, buildFetchRequest("tornv2", mergeOptions(fetchOptions)));
 
-	setUserdata({
+	const oldUserdata = (await loadDatabase()).userdata;
+	const newUserdata: StoredUserdata = {
 		...oldUserdata,
-		...(await fetchData<FetchedUserdata>("tornv2", {
-			section: "user",
-			legacySelections: selections,
-			selections: selectionsV2,
-			params: { cat: "all", timestamp: Math.floor(Date.now() / 1000) },
-		})),
-	});
-	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
-	userdata.date = now;
-	userdata.dateBasic = updateBasic ? now : (oldUserdata?.dateBasic ?? now);
-	userdata.datePassive = updatePassive ? now : (oldUserdata?.datePassive ?? now);
+		...fetchedUserdata,
+		date: now,
+		dateBasic: updateBasic ? now : (oldUserdata?.dateBasic ?? now),
+		datePassive: updatePassive ? now : (oldUserdata?.datePassive ?? now),
+	};
 
 	// Notifications have a 100K count limit from being fetched via the Torn API
 	// Use "newevents" selection only when the old events count > new events count
 	// Fetch only when new events arrived
-	if (oldUserdata?.notifications?.events !== userdata?.notifications?.events) {
-		const newEventsCount = (userdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
+	if (oldUserdata?.notifications?.events !== newUserdata?.notifications?.events) {
+		const newEventsCount = (newUserdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
 
 		if (newEventsCount > 0) {
 			const category = newEventsCount <= 25 ? "newevents" : "events";
-			userdata.events = (
+			newUserdata.events = (
 				await fetchData<UserEventsResponse | UserNewEventsResponse>("tornv2", {
 					section: "user",
 					selections: [category],
@@ -378,14 +381,15 @@ export async function updateUserdata(forceUpdate = false) {
 			selections.push(category);
 		}
 	}
-	if (!("events" in userdata) || userdata?.notifications?.events === 0) {
-		userdata.events = [];
+	if (!("events" in newUserdata) || newUserdata?.notifications?.events === 0) {
+		newUserdata.events = [];
 	}
 
 	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
 	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));
 
-	await ttStorage.set({ userdata: { ...oldUserdata, ...userdata } });
+	setUserdata(newUserdata);
+	await ttStorage.set({ userdata: newUserdata });
 
 	await showIconBars().catch((error) => console.error("Error while updating the icon bars.", error));
 	if (updateEssential) {
@@ -412,32 +416,32 @@ export async function updateUserdata(forceUpdate = false) {
 	async function checkAttacks() {
 		if (!settings.pages.global.keepAttackHistory) return;
 
-		if (userdata.attacks) {
+		if (newUserdata.attacks) {
 			await updateAttackHistory();
 
-			delete userdata.attacks;
+			delete newUserdata.attacks;
 		}
 
-		if (oldUserdata.personalstats && userdata.personalstats) {
+		if (oldUserdata.personalstats && newUserdata.personalstats) {
 			const fetchData = [
 				(data: DatabaseUserdata) => data.personalstats.attacking.attacks.lost,
 				(data: DatabaseUserdata) => data.personalstats.attacking.attacks.stalemate,
 				(data: DatabaseUserdata) => data.personalstats.attacking.defends.lost,
 				(data: DatabaseUserdata) => data.personalstats.attacking.defends.stalemate,
 				(data: DatabaseUserdata) => data.personalstats.attacking.killstreak.current,
-			].some((getter) => getter(oldUserdata) !== getter(userdata));
+			].some((getter) => getter(oldUserdata) !== getter(newUserdata));
 
 			await ttStorage.change({ attackHistory: { fetchData } });
 		}
 
 		async function updateAttackHistory() {
 			let lastAttack = attackHistory.lastAttack;
-			userdata.attacks
+			newUserdata.attacks
 				.filter(({ id }) => id > attackHistory.lastAttack)
 				.forEach((attack) => {
 					if (attack.id > lastAttack) lastAttack = attack.id;
 
-					const enemyId = attack.attacker?.id === userdata.profile.id ? attack.defender.id : attack.attacker?.id;
+					const enemyId = attack.attacker?.id === newUserdata.profile.id ? attack.defender.id : attack.attacker?.id;
 					if (!enemyId) return;
 
 					// Set up the data so there are no missing keys.
@@ -463,7 +467,7 @@ export async function updateUserdata(forceUpdate = false) {
 						lastAttackCode: attack.code,
 					};
 
-					if (attack.defender.id === userdata.profile.id) {
+					if (attack.defender.id === newUserdata.profile.id) {
 						if (attack.attacker.name) attackHistory.history[enemyId].name = attack.attacker.name;
 
 						if (attack.result === "Assist") {
@@ -473,7 +477,7 @@ export async function updateUserdata(forceUpdate = false) {
 						} else {
 							attackHistory.history[enemyId].defend_lost++;
 						}
-					} else if (attack.attacker?.id === userdata.profile.id) {
+					} else if (attack.attacker?.id === newUserdata.profile.id) {
 						if (attack.defender.name) attackHistory.history[enemyId].name = attack.defender.name;
 
 						if (attack.result === "Lost" || attack.result === "Timeout") attackHistory.history[enemyId].lose++;
@@ -542,14 +546,14 @@ export async function updateUserdata(forceUpdate = false) {
 	}
 
 	async function processUserdata() {
-		if ("icons" in userdata) {
-			const icon85 = userdata.icons.find(({ id }) => id === 85);
+		if ("icons" in newUserdata) {
+			const icon85 = newUserdata.icons.find(({ id }) => id === 85);
 			if (icon85) {
-				userdata.userCrime = icon85.until * 1000;
-			} else if (userdata.icons.some(({ id }) => id === 86)) {
-				userdata.userCrime = userdata.timestamp * TO_MILLIS.SECONDS;
+				newUserdata.userCrime = icon85.until * 1000;
+			} else if (newUserdata.icons.some(({ id }) => id === 86)) {
+				newUserdata.userCrime = newUserdata.timestamp * TO_MILLIS.SECONDS;
 			} else {
-				userdata.userCrime = -1;
+				newUserdata.userCrime = -1;
 			}
 		}
 	}
@@ -557,7 +561,7 @@ export async function updateUserdata(forceUpdate = false) {
 	async function notifyEventMessages() {
 		if (settings.apiUsage.user.newevents) {
 			const events: { id: string; event: string }[] = [];
-			userdata.events.forEach((event) => {
+			newUserdata.events.forEach((event) => {
 				if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[event.id]) {
 					events.push({ id: event.id, event: event.event });
 					notifications.events[event.id] = { combined: true };
@@ -575,7 +579,7 @@ export async function updateUserdata(forceUpdate = false) {
 
 		if (settings.apiUsage.user.newmessages) {
 			const messages: { id: number; title: string; sender: string }[] = [];
-			userdata.messages
+			newUserdata.messages
 				.filter(({ seen }) => !seen)
 				.forEach((message) => {
 					if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[message.id]) {
@@ -593,14 +597,14 @@ export async function updateUserdata(forceUpdate = false) {
 			}
 		}
 
-		await setBadge("count", { events: userdata.notifications.events, messages: userdata.notifications.messages });
+		await setBadge("count", { events: newUserdata.notifications.events, messages: newUserdata.notifications.messages });
 	}
 
 	async function notifyStatusChange() {
 		if (!settings.notifications.types.global || !settings.notifications.types.status || !oldUserdata.profile?.status) return;
 
 		const previous = oldUserdata.profile.status.state;
-		const current = userdata.profile.status.state;
+		const current = newUserdata.profile.status.state;
 
 		if (current === previous || current === "Traveling" || current === "Abroad") return;
 
@@ -625,10 +629,10 @@ export async function updateUserdata(forceUpdate = false) {
 				});
 			}
 		} else {
-			await notifyUser("TornTools - Status", userdata.profile.status.description, LINKS.home);
+			await notifyUser("TornTools - Status", newUserdata.profile.status.description, LINKS.home);
 			await storeNotification({
 				title: "TornTools - Status",
-				message: userdata.profile.status.description,
+				message: newUserdata.profile.status.description,
 				url: LINKS.home,
 				date: Date.now(),
 			});
@@ -639,8 +643,8 @@ export async function updateUserdata(forceUpdate = false) {
 		if (!settings.apiUsage.user.cooldowns || !settings.notifications.types.global || !settings.notifications.types.cooldowns || !oldUserdata.cooldowns)
 			return;
 
-		for (const type in userdata.cooldowns) {
-			if (userdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
+		for (const type in newUserdata.cooldowns) {
+			if (newUserdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
 			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
 			await storeNotification({
@@ -654,12 +658,12 @@ export async function updateUserdata(forceUpdate = false) {
 
 	async function notifyTravelLanding() {
 		if (!settings.apiUsage.user.travel || !settings.notifications.types.global || !settings.notifications.types.traveling || !oldUserdata.travel) return;
-		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
+		if (newUserdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
-		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}.`, LINKS.home);
+		await notifyUser("TornTools - Traveling", `You have landed in ${newUserdata.travel.destination}.`, LINKS.home);
 		await storeNotification({
 			title: "TornTools - Traveling",
-			message: `You have landed in ${userdata.travel.destination}.`,
+			message: `You have landed in ${newUserdata.travel.destination}.`,
 			url: LINKS.home,
 			date: Date.now(),
 		});
@@ -673,7 +677,7 @@ export async function updateUserdata(forceUpdate = false) {
 			!oldUserdata.education_timeleft
 		)
 			return;
-		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
+		if (newUserdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await notifyUser("TornTools - Education", "You have finished your education course.", LINKS.education);
 		await storeNotification({
@@ -705,13 +709,13 @@ export async function updateUserdata(forceUpdate = false) {
 			const checkpoints = (settings.notifications.types[bar] as any[])
 				.map<number>((checkpoint: string | number) =>
 					typeof checkpoint === "string" && checkpoint.includes("%")
-						? (parseInt(checkpoint) / 100) * userdata[bar].maximum
+						? (parseInt(checkpoint) / 100) * newUserdata[bar].maximum
 						: parseInt(checkpoint.toString()),
 				)
 				.sort((a, b) => b - a);
 
 			for (const checkpoint of checkpoints) {
-				if (oldUserdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+				if (oldUserdata[bar].current < newUserdata[bar].current && newUserdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
 					const url = (() => {
 						switch (bar) {
 							case "energy":
@@ -729,13 +733,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 					const notification = newNotification(
 						"Bars",
-						`Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
+						`Your ${capitalizeText(bar)} bar has reached ${newUserdata[bar].current}/${newUserdata[bar].maximum}.`,
 						url,
 					);
 					notifications[bar][checkpoint] = notification;
 					await dispatchNotification(notification);
 					break;
-				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
+				} else if (newUserdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
 					delete notifications[bar][checkpoint];
 				}
 			}
@@ -748,7 +752,7 @@ export async function updateUserdata(forceUpdate = false) {
 		const checkpoints = settings.notifications.types.offline.sort((a, b) => b - a);
 
 		const oldHoursOffline = Math.floor(((oldUserdata.timestamp - oldUserdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
-		const hoursOffline = Math.floor(((userdata.timestamp - userdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
+		const hoursOffline = Math.floor(((newUserdata.timestamp - newUserdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
 
 		for (const checkpoint of checkpoints) {
 			if (oldHoursOffline < hoursOffline && hoursOffline >= checkpoint && !notifications.offline[checkpoint]) {
@@ -768,11 +772,11 @@ export async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.chainTimerEnabled &&
 			settings.notifications.types.chainTimer.length > 0 &&
-			userdata.chain.timeout !== 0 &&
-			userdata.chain.current >= 10
+			newUserdata.chain.timeout !== 0 &&
+			newUserdata.chain.current >= 10
 		) {
-			const timeout = userdata.chain.timeout * 1000 - (now - userdata.timestamp * 1000); // ms
-			const count = userdata.chain.current;
+			const timeout = newUserdata.chain.timeout * 1000 - (now - newUserdata.timestamp * 1000); // ms
+			const count = newUserdata.chain.current;
 
 			for (const checkpoint of settings.notifications.types.chainTimer.sort((a, b) => a - b)) {
 				const key = `${count}_${checkpoint}`;
@@ -794,10 +798,10 @@ export async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.chainBonusEnabled &&
 			settings.notifications.types.chainBonus.length > 0 &&
-			userdata.chain.timeout !== 0 &&
-			userdata.chain.current >= 10
+			newUserdata.chain.timeout !== 0 &&
+			newUserdata.chain.current >= 10
 		) {
-			const count = userdata.chain.current;
+			const count = newUserdata.chain.current;
 			const nextBonus = getNextChainBonus(count);
 
 			for (const checkpoint of settings.notifications.types.chainBonus.sort((a, b) => b - a)) {
@@ -825,10 +829,10 @@ export async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.leavingHospitalEnabled &&
 			settings.notifications.types.leavingHospital.length &&
-			userdata.profile.status.state === "Hospital"
+			newUserdata.profile.status.state === "Hospital"
 		) {
 			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
-				const timeLeft = userdata.profile.status.until * 1000 - now;
+				const timeLeft = newUserdata.profile.status.until * 1000 - now;
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
@@ -849,9 +853,9 @@ export async function updateUserdata(forceUpdate = false) {
 	async function notifyTraveling() {
 		if (!settings.apiUsage.user.travel || !settings.notifications.types.global) return;
 
-		if (settings.notifications.types.landingEnabled && settings.notifications.types.landing.length && userdata.travel.time_left) {
+		if (settings.notifications.types.landingEnabled && settings.notifications.types.landing.length && newUserdata.travel.time_left) {
 			for (const checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
-				const timeLeft = userdata.travel.arrival_at * 1000 - now;
+				const timeLeft = newUserdata.travel.arrival_at * 1000 - now;
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
@@ -894,10 +898,10 @@ export async function updateUserdata(forceUpdate = false) {
 			if (
 				settings.notifications.types[cooldown.enabled] &&
 				settings.notifications.types[cooldown.setting].length &&
-				userdata.cooldowns[cooldown.name] > 0
+				newUserdata.cooldowns[cooldown.name] > 0
 			) {
 				for (const checkpoint of settings.notifications.types[cooldown.setting].sort((a: number, b: number) => a - b)) {
-					const timeLeft = userdata.cooldowns[cooldown.name] * 1000;
+					const timeLeft = newUserdata.cooldowns[cooldown.name] * 1000;
 
 					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
 
@@ -923,7 +927,7 @@ export async function updateUserdata(forceUpdate = false) {
 			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
 
 			if (new Date() >= cutoff) {
-				for (const { name, contracts } of userdata.missions.givers) {
+				for (const { name, contracts } of newUserdata.missions.givers) {
 					const activeContracts = contracts.filter((contract) => contract.completed_at === null);
 					const maxMissions = name in MAX_MISSIONS ? MAX_MISSIONS[name] : MAX_MISSIONS.DEFAULT;
 
@@ -948,7 +952,7 @@ export async function updateUserdata(forceUpdate = false) {
 		}
 
 		if (settings.notifications.types.missionsExpireEnabled && settings.notifications.types.missionsExpire.length) {
-			for (const { name, contracts } of userdata.missions.givers) {
+			for (const { name, contracts } of newUserdata.missions.givers) {
 				const ongoingMissions = contracts.filter((contract) => contract.status === "Accepted");
 
 				for (const mission of ongoingMissions) {
@@ -989,7 +993,7 @@ export async function updateUserdata(forceUpdate = false) {
 			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
 
 			if (new Date() >= cutoff) {
-				if (!userdata.refills.energy) {
+				if (!newUserdata.refills.energy) {
 					const now = new Date();
 					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
 
@@ -1009,7 +1013,7 @@ export async function updateUserdata(forceUpdate = false) {
 			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
 
 			if (new Date() >= cutoff) {
-				if (!userdata.refills.nerve) {
+				if (!newUserdata.refills.nerve) {
 					const now = new Date();
 					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
 
@@ -1024,6 +1028,46 @@ export async function updateUserdata(forceUpdate = false) {
 			notifications.refillNerve = {};
 		}
 	}
+}
+
+function validateUserdataResponse(fetchedUserdata: FetchedUserdata, request: FetchRequest) {
+	if (!fetchedUserdata?.profile?.id) throw new Error("Aborted updating due to an unexpected response.");
+
+	if (api.torn.owner && api.torn.owner !== fetchedUserdata.profile.id) {
+		reportInvalidUserdataPlayer(fetchedUserdata, request).catch((reason) =>
+			console.warn(
+				"Failed to report the investigation data to Playground TornTools.",
+				{ owner: api.torn.owner, data_player: fetchedUserdata.profile.id },
+				reason,
+			),
+		);
+		throw new Error(`Aborted updating since it seems you received the data from ${fetchedUserdata.profile.id} instead of ${api.torn.owner}.`);
+	}
+}
+
+async function reportInvalidUserdataPlayer(fetchedUserdata: FetchedUserdata, request: FetchRequest) {
+	if (!settings.external.playgroundTorntools || !settings.reporting.userdataInvalidOwner) return;
+
+	const redactedRequest: FetchRequest = {
+		...request,
+		headers: {
+			...request.headers,
+			Authorization: request.headers.Authorization ? `ApiKey <redacted:${request.headers.Authorization.length - 7}>` : null,
+		},
+	};
+
+	const userdata = await ttStorage.get("userdata");
+
+	await fetchData("playground_torntools", {
+		section: "investigation",
+		method: "POST",
+		body: {
+			request: JSON.stringify(redactedRequest),
+			responseBody: JSON.stringify(fetchedUserdata),
+			userdata: JSON.stringify(userdata),
+			timestamp: fetchedUserdata.timestamp * 1000,
+		},
+	});
 }
 
 export async function showIconBars() {

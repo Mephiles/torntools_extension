@@ -1,5 +1,6 @@
 import { OFFLOAD_SERVICE, ttStorage } from "@common/utils/context";
 import { fetchData } from "@common/utils/functions/api-fetcher";
+import type { UserBasicResponse } from "tornapi-typescript";
 
 export async function checkAPIPermission(key: string) {
 	try {
@@ -18,8 +19,8 @@ export async function checkAPIPermission(key: string) {
 
 export async function changeAPIKey(key: string): Promise<void> {
 	try {
-		await fetchData("tornv2", { section: "user", selections: ["basic"], key, silent: true });
-		await ttStorage.change({ api: { torn: { key } } });
+		const data = await fetchData<UserBasicResponse>("tornv2", { section: "user", selections: ["basic"], key, silent: true });
+		await ttStorage.change({ api: { torn: { key, owner: data.profile.id } } });
 
 		await OFFLOAD_SERVICE.initialize();
 	} catch (error) {

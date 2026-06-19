@@ -1,6 +1,6 @@
 import { OFFLOAD_SERVICE, RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
 import type { Database } from "@common/utils/data/database";
-import type { FactionStakeoutEntry, StakeoutData } from "@common/utils/data/default-database";
+import type { FactionStakeoutEntry, StakeoutData, StoredUserdata } from "@common/utils/data/default-database";
 import { toNumericVersion } from "@common/utils/functions/utilities";
 import type { SavedCustomLink } from "@features/custom-links/custom-links";
 import type { UserAlias } from "@features/user-alias/alias";
@@ -176,6 +176,16 @@ export const MIGRATIONS: MigrationScript[] = [
 		version: "9.0.7",
 		execute(_database, _flags, _oldStorage) {
 			OFFLOAD_SERVICE.reinitializeTimers().catch(() => {});
+		},
+	},
+	{
+		id: "a1b8db49-f255-43fc-b3b8-dc82b8c072b1",
+		version: "9.0.9",
+		execute(database, _flags, oldStorage) {
+			const owner: number = (oldStorage.userdata as StoredUserdata)?.profile?.id;
+			if (!owner) return;
+
+			database.api.torn.owner = owner;
 		},
 	},
 ];
