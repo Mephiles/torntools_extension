@@ -1862,8 +1862,8 @@ async function updateNPCs() {
 				if (notifications.npcs[key]) continue;
 
 				const notification = newNotification("NPC Loot", `There is a planned attack in ${formatTime(left, { type: "wordTimer" })}.`);
-				notifications.npcs[key] = notification;
 				await dispatchNotification(notification);
+				await ttStorage.change({ notifications: { npcs: { [key]: notification } } });
 				alerts++;
 			}
 		}
