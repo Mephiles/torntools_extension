@@ -5,7 +5,9 @@ on:
         branches:
             - master
         paths:
-            - 'extension/**'
+            - 'public/**'
+            - 'src/common/**'
+            - 'src/extension/**'
             - 'package.json'
             - 'wxt.config.*'
     workflow_dispatch:
