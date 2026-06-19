@@ -84,7 +84,7 @@ export async function fetchData<R = any>(location: FetchLocation, partialOptions
 	return result.data;
 }
 
-function mergeOptions(partial: Partial<FetchOptions>): FetchOptions {
+export function mergeOptions(partial: Partial<FetchOptions>): FetchOptions {
 	return {
 		section: undefined,
 		id: undefined,
@@ -115,12 +115,12 @@ function decideTimeoutTimer(location: FetchLocation): number {
 	}
 }
 
-type FetchRequest = {
+export type FetchRequest = {
 	url: string;
 	headers: Record<string, string>;
 } & ({ method: "GET" } | { method: "POST"; body: any });
 
-function buildFetchRequest(location: FetchLocation, options: FetchOptions): FetchRequest {
+export function buildFetchRequest(location: FetchLocation, options: FetchOptions): FetchRequest {
 	const url = buildUrl(location, options);
 	const headers: Record<string, string> = buildHeaders(location, options);
 
