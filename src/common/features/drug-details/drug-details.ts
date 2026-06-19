@@ -2,7 +2,7 @@ import "./drug-details.css";
 import { extractArmorySubcategory, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements, isElement, isHTMLElement } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -152,13 +152,15 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 		if (observer) observer.disconnect();
 
 		observer = new MutationObserver((mutations, observer) => {
-			const filteredMutations = mutations.filter((mutation) =>
-				Array.from(mutation.addedNodes).some((node) => isElement(node) && node.classList.contains("info-wrap")),
+			const filteredMutations = mutations.filter(
+				(mutation) =>
+					Array.from(mutation.addedNodes).some((node) => isElement(node) && node.classList.contains("info-wrap")) ||
+					Array.from(mutation.removedNodes).some((node) => isHTMLElement(node) && node.dataset?.addedBy === "TornTools"),
 			);
 			if (!filteredMutations.length) return;
 
 			const newElement = findElement();
-			show(newElement.querySelector(".info-msg"), details);
+			show(newElement.querySelector(".info-msg, [class*='description___']"), details);
 			observer.disconnect();
 			watchChanges(newElement, details);
 		});
@@ -180,7 +182,7 @@ function show(parent: Element, details: DrugDetail) {
 
 	// Pros
 	if (details.pros) {
-		parent.appendChild(elementBuilder({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
+		parent.appendChild(elementBuilder({ type: "div", class: "item-effect pro mt10", text: "Pros:", dataset: { addedBy: "TornTools" } }));
 
 		for (const effect of details.pros) {
 			parent.appendChild(
@@ -188,6 +190,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect pro tabbed",
 					text: effect,
+					dataset: { addedBy: "TornTools" },
 				}),
 			);
 		}
@@ -195,7 +198,7 @@ function show(parent: Element, details: DrugDetail) {
 
 	// Cons
 	if (details.cons) {
-		parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Cons:" }));
+		parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Cons:", dataset: { addedBy: "TornTools" } }));
 
 		for (const effect of details.cons) {
 			parent.appendChild(
@@ -203,6 +206,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: effect,
+					dataset: { addedBy: "TornTools" },
 				}),
 			);
 		}
@@ -215,13 +219,14 @@ function show(parent: Element, details: DrugDetail) {
 				type: "div",
 				class: "item-effect con",
 				text: `Cooldown: ${details.cooldown}`,
+				dataset: { addedBy: "TornTools" },
 			}),
 		);
 	}
 
 	// Overdose
 	if (details.overdose) {
-		parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Overdose:" }));
+		parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Overdose:", dataset: { addedBy: "TornTools" } }));
 
 		// bars
 		if (details.overdose.bars) {
@@ -230,6 +235,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: "Bars",
+					dataset: { addedBy: "TornTools" },
 				}),
 			);
 
@@ -239,6 +245,7 @@ function show(parent: Element, details: DrugDetail) {
 						type: "div",
 						class: "item-effect con double-tabbed",
 						text: effect,
+						dataset: { addedBy: "TornTools" },
 					}),
 				);
 			}
@@ -251,6 +258,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: `Stats: ${details.overdose.stats}`,
+					dataset: { addedBy: "TornTools" },
 				}),
 			);
 		}
@@ -262,6 +270,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: `Hospital: ${details.overdose.hosp_time}`,
+					dataset: { addedBy: "TornTools" },
 				}),
 			);
 		}
@@ -273,6 +282,7 @@ function show(parent: Element, details: DrugDetail) {
 					type: "div",
 					class: "item-effect con tabbed",
 					text: `Extra: ${details.overdose.extra}`,
+					dataset: { addedBy: "TornTools" },
 				}),
 			);
 		}

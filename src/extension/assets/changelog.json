@@ -15,7 +15,8 @@
 			"fixes": [
 				{ "message": "Keep everything intact even if SpeechSynthesis is disabled in the browser.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't send duplicate planned npc attack notifications.", "contributor": "DeKleineKobini" },
-				{ "message": "Show a list of items in your city map again after the map update.", "contributor": "DeKleineKobini" }
+				{ "message": "Show a list of items in your city map again after the map update.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Drug Details' immediately disappearing on the items page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Increase the max height of 'Resizable Chat' to about 4 lines.", "contributor": "DeKleineKobini" },
