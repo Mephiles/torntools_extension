@@ -1,231 +1,215 @@
 import "./city-items.css";
-import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
-import { filters, settings } from "@common/utils/data/database";
-import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
+import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR } from "@common/utils/context";
+import { settings } from "@common/utils/data/database";
+import { displayAlert } from "@common/utils/functions/alerts";
+import { fetchData } from "@common/utils/functions/api-fetcher";
+import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
+import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import type { FullItem } from "@common/utils/torn-api/items.types";
 import { Feature } from "@features/feature";
 
+const ENCODING_NUMERIC_SYSTEM = 36;
+
 interface CityItem {
-	id: string;
+	item: number;
 	count: number;
 	name: string;
+	entries: { id: string; td: string }[];
 }
 
-let hasContainer = false;
+function initialise() {
+	addXHRListener(({ detail: { page, xhr, json } }) => {
+		if (!FEATURE_MANAGER.isEnabled(CityItemsFeature)) return;
 
-async function showHighlight() {
-	if (hasContainer) return;
+		if (isMapData(page, xhr, json)) {
+			const items = resolveUserItems(JSON.parse(atob(json.territoryUserItems)));
 
-	await requireElement("#map .highlightItemMarket", { timeout: -1 });
+			showCityItemsContainer(items).catch(console.error);
+		}
+	});
+}
 
-	hasContainer = true;
+function triggerFallback() {
+	if (findContainer("City Items")) return;
 
-	// Show container
-	const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
+	const model = SCRIPT_INJECTOR.getWindow().torn?.model?.get?.();
+	if (!model) return;
 
-	const items = getAllItems();
-	handleHighlight();
-	handleSearchBox();
-	if (ITEM_RESOLVER.hasFullItems()) showValue();
-	showItemList();
+	const userItems = model.territoryUserItems;
+	if (!userItems) return;
 
-	function getAllItems() {
-		const items: CityItem[] = [];
+	const items = resolveUserItems(userItems);
 
-		for (const marker of findAllElements<HTMLImageElement>("#map .leaflet-marker-icon[src*='/images/items/']")) {
-			const id = marker.src.split("items/")[1].split("/")[0];
+	showCityItemsContainer(items).catch(console.error);
+}
 
-			marker.classList.add("city-item");
-			marker.dataset.id = id;
+function resolveUserItems(decodedItems: (DecodedCityItem | InternalCityItem)[]): CityItem[] {
+	const items: CityItem[] = [];
 
-			const itemName = ITEM_RESOLVER.getStaticItem(parseInt(id))?.name ?? id;
+	decodedItems.forEach((item) => {
+		const id = ITEM_RESOLVER.findItem((x) => x.name === item.title)?.id ?? -1;
 
-			if (settings.pages.city.combineDuplicates) {
-				const duplicate = items.find((item) => item.id === id);
-
-				if (duplicate) duplicate.count++;
-				else items.push({ id, count: 1, name: itemName });
-			} else items.push({ id, count: 1, name: itemName });
+		let internalId: string, td: string;
+		if ("coordinates" in item) {
+			internalId = item.row_id.toString(ENCODING_NUMERIC_SYSTEM);
+			td = btoa([item.coordinates[0], item.coordinates[1], item.row_id, item.timestamp].map((x) => x.toString(ENCODING_NUMERIC_SYSTEM)).join("O"));
+		} else {
+			internalId = item.id;
+			td = btoa([item.c.x, item.c.y, item.id, item.ts].join("O"));
 		}
 
-		return items;
-	}
+		if (settings.pages.city.combineDuplicates) {
+			const duplicate = items.find((item) => item.item === id);
 
-	function handleHighlight() {
-		const checkbox = createCheckbox({ description: "Highlight items" });
+			if (duplicate) {
+				duplicate.count++;
+				duplicate.entries.push({ id: internalId, td });
+			} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: internalId, td }] });
+		} else items.push({ item: id, count: 1, name: item.title, entries: [{ id: internalId, td }] });
+	});
 
-		highlight(filters.city.highlightItems);
+	return items;
+}
 
-		checkbox.setChecked(filters.city.highlightItems);
-		checkbox.onChange(() => {
-			const state = checkbox.isChecked();
+async function showCityItemsContainer(items: CityItem[]) {
+	await requireElement("#map .leaflet-zoom-animated");
 
-			highlight(state);
-			ttStorage.change({ filters: { city: { highlightItems: state } } });
-		});
+	const { content } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
 
-		options.appendChild(checkbox.element);
+	populateContainer(content, items);
+}
 
-		function highlight(state: boolean) {
-			const map = document.querySelector("#map");
+function populateContainer(content: HTMLElement, items: CityItem[]) {
+	if (ITEM_RESOLVER.hasFullItems()) showValue(content, items);
+	showItemList(content, items);
+}
 
-			if (state) map.classList.add("highlight-items");
-			else map.classList.remove("highlight-items");
-		}
-	}
+function showValue(content: HTMLElement, items: CityItem[]) {
+	content.querySelector(".tt-city-total")?.remove();
 
-	function showValue() {
-		const totalValue = items
-			.map(({ id, count }): FullItem & { count: number } => ({ ...ITEM_RESOLVER.getFullItem(parseInt(id)), count }))
-			.filter((item) => !!item)
-			.map(({ value: { market_price: value }, count }) => value * count)
-			.filter((value) => !!value)
-			.reduce((a, b) => a + b, 0);
-		const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
+	const totalValue = items
+		.map(({ item, count }): FullItem & { count: number } => ({ ...ITEM_RESOLVER.getFullItem(item), count }))
+		.filter((item) => !!item)
+		.map(({ value: { market_price: value }, count }) => value * count)
+		.filter((value) => !!value)
+		.reduce((a, b) => a + b, 0);
+	const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
 
-		content.appendChild(
-			elementBuilder({
-				type: "div",
-				class: "tt-city-total",
-				children: [
-					elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
-					elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
-				],
-			}),
-		);
-	}
-
-	function showItemList() {
-		const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
-
-		const type = "text";
-		switch (type) {
-			case "text":
-				generateText();
-				break;
-		}
-
-		content.appendChild(listElement);
-
-		function generateText() {
-			let element: HTMLElement;
-			if (items.length > 0) {
-				const totalCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
-				element = elementBuilder({
-					type: "p",
-					children: [
-						"There",
-						totalCount === 1 ? " is " : " are ",
-						elementBuilder({ type: "strong", text: totalCount }),
-						totalCount === 1 ? " item " : " items ",
-						"in the city: ",
-					],
-				});
-
-				const _items = [...items];
-				if (items.length === 1) {
-					element.appendChild(createItemElement(_items[0]));
-				} else {
-					const last = _items.splice(-1)[0];
-
-					for (const item of _items) {
-						element.appendChild(createItemElement(item));
-						element.appendChild(document.createTextNode(", "));
-					}
-					element.lastChild.remove();
-
-					element.appendChild(document.createTextNode(" and "));
-					element.appendChild(createItemElement(last));
-				}
-
-				element.appendChild(document.createTextNode("."));
-			} else {
-				element = elementBuilder({ type: "p", text: "There are no items in the city." });
-			}
-			listElement.appendChild(element);
-
-			function createItemElement({ id, name, count }: CityItem) {
-				let text: string;
-				if (count > 1) {
-					text = `${count}x ${name}`;
-				} else text = name;
-
-				return elementBuilder({
-					type: "span",
-					text,
-					events: {
-						mouseenter() {
-							for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
-								item.classList.add("force-hover");
-							}
-						},
-						mouseleave() {
-							for (const item of findAllElements(`.city-item[data-id="${id}"].force-hover`)) {
-								item.classList.remove("force-hover");
-							}
-						},
-					},
-				});
-			}
-		}
-	}
-
-	function handleSearchBox() {
-		const searchBox = elementBuilder({
-			type: "label",
-			text: "Search:",
+	content.appendChild(
+		elementBuilder({
+			type: "div",
+			class: "tt-city-total",
 			children: [
-				elementBuilder({
-					type: "input",
-					attributes: {
-						type: "text",
-						// placeholder: "Search for items here",
-					},
-					events: {
-						input: (e) => {
-							const query = (e.target as HTMLInputElement).value.toLowerCase();
-							for (const item of findAllElements(`.city-item.force-hover`)) {
-								item.classList.remove("force-hover");
-							}
-							if (content.previousElementSibling.querySelector(".tt-checkbox-wrapper input:checked"))
-								document.querySelector("#map").classList.add("highlight-items");
-
-							if (!query.length) return;
-
-							const matchedItemIds = items.filter((item) => item.name.toLowerCase().includes(query)).map((item) => item.id);
-							for (const id of matchedItemIds)
-								for (const item of findAllElements(`.city-item[data-id="${id}"]`)) {
-									item.classList.add("force-hover");
-								}
-							document.querySelector("#map").classList.remove("highlight-items");
-						},
-					},
-				}),
+				elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
+				elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
 			],
-		});
+		}),
+	);
+}
 
-		content.appendChild(searchBox);
+function showItemList(content: HTMLElement, items: CityItem[]) {
+	content.querySelector(".tt-city-items")?.remove();
+
+	const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
+
+	const type = "text";
+	switch (type) {
+		case "text":
+			generateText();
+			break;
 	}
+
+	content.appendChild(listElement);
+
+	function generateText() {
+		let element: HTMLElement;
+		if (items.length > 0) {
+			const totalCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
+			element = elementBuilder({
+				type: "p",
+				children: [
+					"There",
+					totalCount === 1 ? " is " : " are ",
+					elementBuilder({ type: "strong", text: totalCount }),
+					totalCount === 1 ? " item " : " items ",
+					"in the city: ",
+				],
+			});
+
+			const _items = [...items];
+			if (items.length === 1) {
+				element.appendChild(createItemElement(_items[0]));
+			} else {
+				const last = _items.splice(-1)[0];
+
+				for (const item of _items) {
+					element.appendChild(createItemElement(item));
+					element.appendChild(document.createTextNode(", "));
+				}
+				element.lastChild.remove();
+
+				element.appendChild(document.createTextNode(" and "));
+				element.appendChild(createItemElement(last));
+			}
+
+			element.appendChild(document.createTextNode("."));
+		} else {
+			element = elementBuilder({ type: "p", text: "There are no items in the city." });
+		}
+		listElement.appendChild(element);
+
+		function createItemElement({ item, name, count, entries }: CityItem) {
+			let text: string;
+			if (count > 1) {
+				text = `${count}x ${name}`;
+			} else text = name;
+
+			return elementBuilder({
+				type: "span",
+				text,
+				class: "list-item",
+				events: {
+					click() {
+						const entry = entries[0];
+
+						collectItem(entry.td).then(() => {
+							const newItems = [...items.filter((a) => a.item !== item)];
+							if (entries.length > 1) newItems.push({ item, name, count: count - 1, entries: entries.slice(1) });
+
+							populateContainer(content, newItems);
+
+							let text: string;
+							if (ITEM_RESOLVER.hasFullItems()) {
+								const value = ITEM_RESOLVER.getFullItem(item)?.value.market_price ?? 0;
+								text = `Collected ${name} with a value of ${formatNumber(value, { currency: true })}.`;
+							} else {
+								text = `Collected ${name}.`;
+							}
+
+							displayAlert({ title: "Collected Item", text, type: "success" });
+						});
+					},
+				},
+			});
+		}
+	}
+}
+
+async function collectItem(td: string): Promise<void> {
+	const body = new URLSearchParams();
+	body.set("step", "uif");
+	body.set("td", td);
+
+	await fetchData("torn_direct", { action: "city.php", method: "POST", body });
 }
 
 function removeHighlight() {
 	removeContainer("City Items");
-
-	for (const item of findAllElements(".city-item")) {
-		item.classList.remove("city-item");
-
-		delete item.dataset.id;
-	}
-
-	const map = document.querySelector("#map");
-	if (map) map.classList.remove("highlight-items");
-
-	hasContainer = false;
 }
 
 export default class CityItemsFeature extends Feature {
@@ -241,8 +225,12 @@ export default class CityItemsFeature extends Feature {
 		return settings.pages.city.items;
 	}
 
-	async execute() {
-		await showHighlight();
+	initialise() {
+		initialise();
+	}
+
+	execute() {
+		setTimeout(triggerFallback, 500);
 	}
 
 	cleanup() {

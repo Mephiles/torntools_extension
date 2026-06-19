@@ -76,6 +76,11 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 				},
 			}),
 		],
+		css: {
+			modules: {
+				localsConvention: "camelCase",
+			},
+		},
 		build: {
 			emptyOutDir: false,
 			minify: false,

@@ -28,6 +28,7 @@ import { TTScriptStorage } from "@userscripts/runtime/script-storage";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
+import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
 import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
 import { getUUID } from "@common/utils/functions/utilities";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
@@ -117,6 +118,10 @@ const ScriptOffloadService: OffloadService = {
 
 const ScriptDataFetcher: DataFetcher = {
 	fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse> {
+		if (url.startsWith(FETCH_PLATFORMS.torn_direct)) {
+			return fetchOnPage(url, options);
+		}
+
 		return new Promise((resolve, reject) => {
 			try {
 				const u = new URL(url);
@@ -149,3 +154,22 @@ const ScriptDataFetcher: DataFetcher = {
 		});
 	},
 };
+
+async function fetchOnPage(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse> {
+	const controller = new AbortController();
+	const timeoutId = options?.timeout ? setTimeout(() => controller.abort(), options.timeout) : undefined;
+
+	try {
+		const response = await fetch(url, {
+			method: options?.method || "GET",
+			...(options?.method === "POST" ? { body: options.body } : {}),
+			headers: options?.headers,
+			signal: controller.signal,
+		});
+
+		const text = await response.text();
+		return { text, status: response.status, ok: response.ok };
+	} finally {
+		if (timeoutId) clearTimeout(timeoutId);
+	}
+}

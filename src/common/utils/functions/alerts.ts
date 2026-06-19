@@ -72,7 +72,7 @@ export function displayAlert(options: AlertOptions): void {
 	setupProgressBar(toast, duration);
 }
 
-function setupProgressBar(toast: HTMLElement, duration: number): void {
+function setupProgressBar(toast: Element, duration: number): void {
 	const progressElement = toast.querySelector<HTMLElement>(`.${styles.toastProgress}`);
 	if (!progressElement || duration <= 0) return;
 
@@ -139,8 +139,8 @@ function getIconForType(type: AlertOptions["type"]): Element {
 	}
 }
 
-function createToastContainer(): HTMLElement {
-	let container = document.querySelector(`.${styles.toastContainer}`) as HTMLElement;
+function createToastContainer() {
+	let container = document.querySelector(`.${styles.toastContainer}`);
 	if (!container) {
 		container = elementBuilder({ type: "div", class: styles.toastContainer });
 		document.body.appendChild(container);
@@ -148,7 +148,7 @@ function createToastContainer(): HTMLElement {
 	return container;
 }
 
-function removeToast(toast: HTMLElement): void {
+function removeToast(toast: Element) {
 	toast.classList.add(styles.removing);
 	setTimeout(() => toast.remove(), 300);
 }
