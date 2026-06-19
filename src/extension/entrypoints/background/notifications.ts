@@ -134,7 +134,7 @@ export async function cleanupNotifications() {
 	await ttStorage.set({ notifications });
 }
 
-export async function notifyUser(title: string, message: string, url?: string) {
+async function notifyUser(title: string, message: string, url?: string) {
 	await setupSoundPlayer();
 
 	const icon = browser.runtime.getURL("/images/icon_128.png");
@@ -242,7 +242,7 @@ export async function notifyUser(title: string, message: string, url?: string) {
 	}
 }
 
-export async function storeNotification(notification: TTNotification) {
+async function storeNotification(notification: TTNotification) {
 	const notificationHistory = await ttStorage.get("notificationHistory");
 
 	if ("combined" in notification) {

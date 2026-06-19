@@ -1,6 +1,6 @@
 import type { Database, DatabaseKey, RecursivePartial, Writable } from "@common/utils/data/database";
 
-type ChangeFunction = (database: Writable<Database>) => void;
+type ChangeFunction<K extends DatabaseKey> = (database: Database[K]) => void;
 
 export abstract class TornToolsStorage {
 	abstract get(): Promise<Database>;
@@ -13,20 +13,18 @@ export abstract class TornToolsStorage {
 
 	abstract clear(): Promise<void>;
 
-	async change(object: RecursivePartial<Writable<Database>>): Promise<void>;
-	async change(fn: ChangeFunction): Promise<void>;
-	async change(objectOrFn: RecursivePartial<Writable<Database>> | ChangeFunction): Promise<void> {
-		if (typeof objectOrFn === "function") {
-			const database = await this.get();
-			objectOrFn(database);
-			await this.set(database);
-		} else {
-			const keys = Object.keys(objectOrFn) as DatabaseKey[];
-			for (const key of keys) {
-				const data = this.recursive(await this.get(key), objectOrFn[key]);
+	async update<K extends DatabaseKey>(key: K, fn: ChangeFunction<K>): Promise<void> {
+		const database = await this.get(key);
+		fn(database);
+		await this.set({ [key]: database });
+	}
 
-				await this.set({ [key]: data });
-			}
+	async change(object: RecursivePartial<Writable<Database>>): Promise<void> {
+		const keys = Object.keys(object) as DatabaseKey[];
+		for (const key of keys) {
+			const data = this.recursive(await this.get(key), object[key]);
+
+			await this.set({ [key]: data });
 		}
 	}
 
