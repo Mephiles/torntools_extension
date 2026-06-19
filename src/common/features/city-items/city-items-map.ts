@@ -1,3 +1,5 @@
+import type { InternalCityItem, TornCityMapRuntime, TornCityObject } from "@common/pages/city-page";
+
 export const CITY_ITEMS_MAP_EVENTS = {
 	SET_ITEMS: "tt-city-items:set-items",
 	REQUEST_MODEL_ITEMS: "tt-city-items:request-model-items",
@@ -68,21 +70,14 @@ interface LeafletOverlayRuntime extends LeafletRuntime {
 	marker(latLng: LeafletLatLngLike, options: LeafletMarkerOptions): LeafletMarker;
 }
 
-interface TornMapRuntime {
+interface TornMapRuntime extends TornCityMapRuntime {
 	lmap?: LeafletMap;
-	minZoom?: number;
 	getLPoint?(point: [number, number]): LeafletPoint;
 }
 
-interface TornModelRuntime {
-	get(): { territoryUserItems?: unknown[] } | null | undefined;
-	get(key: "territoryUserItems"): unknown[] | null | undefined;
-}
-
-interface TornRuntime {
+type TornRuntime = Partial<Pick<TornCityObject, "model">> & {
 	map?: TornMapRuntime;
-	model?: TornModelRuntime;
-}
+};
 
 interface CityItemsMapWindow extends Window {
 	L?: LeafletRuntime;
@@ -277,7 +272,7 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 		return null;
 	}
 
-	function getModelItems(): unknown[] {
+	function getModelItems(): InternalCityItem[] {
 		const model = getTornRuntime()?.model;
 		if (!model) return [];
 
@@ -368,7 +363,7 @@ function isTornMapRuntime(value: unknown): value is TornMapRuntime {
 	);
 }
 
-function isTornModelRuntime(value: unknown): value is TornModelRuntime {
+function isTornModelRuntime(value: unknown): value is TornCityObject["model"] {
 	return isRecord(value) && typeof value.get === "function";
 }
 
