@@ -6,6 +6,7 @@ export interface ScriptInjector {
 	getWindow(): Window;
 	injectFetch(): void;
 	injectXHR(): void;
+	injectCityItemsMap?(): void;
 }
 
 declare global {

@@ -9,6 +9,7 @@ declare global {
 interface TornCityObject {
 	model: {
 		get(): Omit<MapData, "territoryUserItems"> & { territoryUserItems: InternalCityItem[] };
+		get(key: "territoryUserItems"): InternalCityItem[];
 	};
 }
 
