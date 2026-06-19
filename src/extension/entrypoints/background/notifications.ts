@@ -1,5 +1,5 @@
 import { ttStorage } from "@common/utils/context";
-import { notificationHistory, notifications, setNotificationHistory, settings } from "@common/utils/data/database";
+import { setNotificationHistory, settings } from "@common/utils/data/database";
 import type { TTFullNotification, TTNotification } from "@common/utils/data/default-database";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
 import { isSpeechSynthesisAvailable, sleep, TO_MILLIS } from "@common/utils/functions/utilities";
@@ -120,6 +120,7 @@ export async function drainStartupQueue() {
 }
 
 export async function cleanupNotifications() {
+	const notifications = await ttStorage.get("notifications");
 	for (const type in notifications) {
 		for (const key in notifications[type]) {
 			const notification: TTNotification = notifications[type][key];
@@ -130,7 +131,7 @@ export async function cleanupNotifications() {
 			}
 		}
 	}
-	await ttStorage.set({ notifications, notificationHistory });
+	await ttStorage.set({ notifications });
 }
 
 export async function notifyUser(title: string, message: string, url?: string) {
@@ -242,6 +243,8 @@ export async function notifyUser(title: string, message: string, url?: string) {
 }
 
 export async function storeNotification(notification: TTNotification) {
+	const notificationHistory = await ttStorage.get("notificationHistory");
+
 	if ("combined" in notification) {
 		console.warn("Trying to save a combined notification.", notification);
 		return;

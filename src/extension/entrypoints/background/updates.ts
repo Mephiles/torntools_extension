@@ -6,6 +6,7 @@ import {
 	type DatabaseUserdata,
 	factiondata,
 	factionStakeouts,
+	initializeDatabase,
 	loadDatabase,
 	notifications,
 	npcs,
@@ -98,7 +99,7 @@ export async function timedUpdates() {
 
 	const updatePromises: Promise<unknown>[] = [];
 	try {
-		await loadDatabase();
+		await initializeDatabase();
 
 		if (api.torn.key) {
 			updatePromises.push(
@@ -1699,8 +1700,6 @@ async function updateNPCs() {
 
 	const alerts = await checkNPCAlerts();
 
-	await ttStorage.set({ notifications });
-
 	return { updated, alerts };
 
 	async function fetchYata() {
@@ -1858,20 +1857,20 @@ async function updateNPCs() {
 		)) {
 			const npc = npcs.targets[id];
 			if (!npc) {
-				delete notifications.npcs[id];
+				await ttStorage.change(({ notifications }) => delete notifications.npcs[id]);
 				continue;
 			}
 
 			const time = npc.levels[level];
 			if (!time) {
-				delete notifications.npcs[id];
+				await ttStorage.change(({ notifications }) => delete notifications.npcs[id]);
 				continue;
 			}
 
 			const left = time - now;
 			const _minutes = Math.ceil(left / TO_MILLIS.MINUTES);
 			if (_minutes > minutes || _minutes < 0) {
-				delete notifications.npcs[id];
+				await ttStorage.change(({ notifications }) => delete notifications.npcs[id]);
 				continue;
 			}
 
@@ -1882,8 +1881,8 @@ async function updateNPCs() {
 				`${npc.name} is reaching loot level ${formatNumber(level, { roman: true })} in ${formatTime(left, { type: "wordTimer" })}.`,
 				`https://www.torn.com/profiles.php?XID=${id}`,
 			);
-			notifications.npcs[id] = notification;
 			await dispatchNotification(notification);
+			await ttStorage.change({ notifications: { npcs: { [id]: notification } } });
 			alerts++;
 		}
 		if (settings.notifications.types.npcPlannedEnabled && npcs.planned) {
@@ -1892,14 +1891,14 @@ async function updateNPCs() {
 
 				const time = npcs.planned;
 				if (!time) {
-					delete notifications.npcs[key];
+					await ttStorage.change(({ notifications }) => delete notifications.npcs[key]);
 					continue;
 				}
 
 				const left = time - now;
-				const _minutes = Math.ceil(left / TO_MILLIS.MINUTES);
-				if (_minutes > minutes || _minutes < 0) {
-					delete notifications.npcs[key];
+				const minutesPlanned = Math.ceil(left / TO_MILLIS.MINUTES);
+				if (minutesPlanned > minutes || minutesPlanned < 0) {
+					await ttStorage.change(({ notifications }) => delete notifications.npcs[key]);
 					continue;
 				}
 

@@ -272,12 +272,16 @@ function populateDatabaseVariables(database: Database) {
 	ttCache.cache = database.cache;
 }
 
-export function initializeDatabase() {
-	loadDatabase().catch(() => console.error("TT - Failed to load database."));
+export async function initializeDatabase() {
+	await loadDatabase().catch(() => console.error("TT - Failed to load database."));
 	initializeDatabaseListener();
 }
 
+let initializedDatabaseListeners = false;
+
 export function initializeDatabaseListener() {
+	if (initializedDatabaseListeners) return;
+
 	RUNTIME_STORAGE.addChangeListener((changes, area) => {
 		if (area === "local") {
 			for (const key in changes) {
@@ -342,6 +346,7 @@ export function initializeDatabaseListener() {
 			}
 		}
 	});
+	initializedDatabaseListeners = true;
 }
 
 export function setUserdata(data: DatabaseUserdata) {
