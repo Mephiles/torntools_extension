@@ -1,6 +1,11 @@
 name: Publish Userscripts
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'src/userscripts/entries/**/metadata.ts'
   workflow_dispatch:
 
 concurrency:
