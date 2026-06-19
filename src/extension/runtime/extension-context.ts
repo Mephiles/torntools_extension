@@ -13,6 +13,7 @@ import {
 } from "@common/utils/context";
 import { torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
+import { usingFirefox } from "@common/utils/functions/browser";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
 import { executeScript } from "@common/utils/functions/dom";
 import type { ScriptInjector } from "@common/utils/functions/script-injector";
@@ -41,7 +42,7 @@ export function registerExtensionContext() {
 
 const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean } = {
 	getWindow(): Window {
-		return window;
+		return usingFirefox() ? window.wrappedJSObject! : window;
 	},
 	injectedFetch: false,
 	injectFetch() {
