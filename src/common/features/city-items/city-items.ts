@@ -2,6 +2,8 @@ import "./city-items.css";
 import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
+import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import { createSelect } from "@common/utils/elements/select/select";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -9,10 +11,8 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { MONTHS } from "@common/utils/functions/utilities";
-import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { createSelect } from "@common/utils/elements/select/select";
 import { getPageStatus } from "@common/utils/functions/torn";
+import { MONTHS } from "@common/utils/functions/utilities";
 import type { FullItem } from "@common/utils/torn-api/items.types";
 import { ExecutionTiming, Feature } from "@features/feature";
 import { CITY_ITEMS_MAP_EVENTS, type CityItemsMapEntry } from "./city-items-map";
@@ -427,10 +427,7 @@ function showControls(content: HTMLElement, items: CityItem[]) {
 
 	const bandOrder = getBandOrder();
 	const presentBands = bandOrder.filter((band) => items.some((item) => item.entries.some((entry) => getBandForTimestamp(entry.timestamp) === band)));
-	const bandOptions = [
-		{ value: "all", description: "All" },
-		...presentBands.map((band) => ({ value: band, description: formatBandLabel(band) })),
-	];
+	const bandOptions = [{ value: "all", description: "All" }, ...presentBands.map((band) => ({ value: band, description: formatBandLabel(band) }))];
 	const periodSelect = createSelect(bandOptions);
 	if (!periodSelect.setSelected(periodFilter)) {
 		periodSelect.setSelected("all");
@@ -465,7 +462,11 @@ function showControls(content: HTMLElement, items: CityItem[]) {
 				elementBuilder({
 					type: "div",
 					class: "tt-city-group-filter",
-					children: [elementBuilder({ type: "span", class: "tt-city-control-label", text: "Group:" }), groupByCheckbox.element, groupBySelect.element],
+					children: [
+						elementBuilder({ type: "span", class: "tt-city-control-label", text: "Group:" }),
+						groupByCheckbox.element,
+						groupBySelect.element,
+					],
 				}),
 				elementBuilder({
 					type: "label",
@@ -623,7 +624,13 @@ function appendItemsParagraph(parent: HTMLElement, items: CityItem[], withPreamb
 
 	const children: (string | HTMLElement)[] = [];
 	if (withPreamble) {
-		children.push("There", totalCount === 1 ? " is " : " are ", elementBuilder({ type: "strong", text: String(totalCount) }), totalCount === 1 ? " item " : " items ", "in the city: ");
+		children.push(
+			"There",
+			totalCount === 1 ? " is " : " are ",
+			elementBuilder({ type: "strong", text: String(totalCount) }),
+			totalCount === 1 ? " item " : " items ",
+			"in the city: ",
+		);
 	}
 
 	const paragraph = elementBuilder({ type: "p", children });
