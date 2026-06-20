@@ -39,7 +39,7 @@ let visibleGroupCount = GROUP_PAGE_SIZE;
 const collectingEntries = new Set<string>();
 
 function initialise() {
-	SCRIPT_INJECTOR.injectCityItemsMap?.();
+	SCRIPT_INJECTOR.injectCityItemsMap();
 
 	addXHRListener(({ detail: { page, xhr, json } }) => {
 		if (!FEATURE_MANAGER.isEnabled(CityItemsFeature)) return;
@@ -69,7 +69,7 @@ function triggerFallback() {
 		return;
 	}
 
-	SCRIPT_INJECTOR.injectCityItemsMap?.();
+	SCRIPT_INJECTOR.injectCityItemsMap();
 	window.setTimeout(() => dispatchMapEvent(CITY_ITEMS_MAP_EVENTS.REQUEST_MODEL_ITEMS), 100);
 }
 

@@ -6,8 +6,15 @@ export interface ScriptInjector {
 	getWindow(): Window;
 	injectFetch(): void;
 	injectXHR(): void;
-	injectCityItemsMap?(): void;
+	injectCityItemsMap(): void;
 }
+
+export const DEFAULT_SCRIPT_INJECTOR: ScriptInjector = {
+	getWindow: () => window,
+	injectXHR() {},
+	injectFetch() {},
+	injectCityItemsMap() {},
+};
 
 declare global {
 	interface Window {
