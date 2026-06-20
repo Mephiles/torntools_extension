@@ -9,6 +9,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
+import { MONTHS } from "@common/utils/functions/utilities";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createSelect } from "@common/utils/elements/select/select";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -266,7 +267,7 @@ function formatGroupLabel(groupKey: string, groupPeriod = getGroupPeriod()): str
 	if (!Number.isFinite(milliseconds)) return groupKey;
 
 	const date = new Date(milliseconds);
-	if (groupPeriod === "month") return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+	if (groupPeriod === "month") return `${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 	if (groupPeriod === "year") return String(date.getUTCFullYear());
 
 	const formattedDate = formatDate({ milliseconds }, { showYear: true });
