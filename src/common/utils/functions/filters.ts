@@ -162,6 +162,7 @@ export function createFilterSection(
 					{ id: "protected", description: "Protected" },
 					{ id: "incompatible", description: "Incompatible" },
 					{ id: "paid", description: "With Fee" },
+					{ id: "limited-car", description: "Limited Car" },
 				],
 				defaults: options.defaults,
 				callback: options.callback,

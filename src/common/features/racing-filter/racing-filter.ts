@@ -310,6 +310,12 @@ async function applyFilters() {
 			continue;
 		}
 
+		const isLimitedCar = !li.querySelector(".car")!.textContent.trim().includes("Any car");
+		if (hideRacesFilter.length && hideRacesFilter.includes("limited-car") && isLimitedCar) {
+			hideRow(li);
+			continue;
+		}
+
 		// Max Drivers
 		if (maxDriversAllowed < driversMin || maxDriversAllowed > driversMax) {
 			hideRow(li);
