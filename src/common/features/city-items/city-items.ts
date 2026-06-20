@@ -6,7 +6,7 @@ import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { formatNumber } from "@common/utils/functions/formatting";
+import { formatDate, formatNumber, toMultipleDigits } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
@@ -246,23 +246,46 @@ function getGroupPeriod(): GroupPeriod {
 	return GROUP_PERIODS.some((period) => period.key === groupPeriod) ? (groupPeriod as GroupPeriod) : "day";
 }
 
-function getDateKey(milliseconds: number): string {
-	return new Date(milliseconds).toISOString().slice(0, 10);
+function getGroupKey(timestampSeconds: number, groupPeriod = getGroupPeriod()): string {
+	return getGroupStart(timestampSeconds, groupPeriod).toString();
 }
 
-function getGroupKey(timestampSeconds: number, groupPeriod = getGroupPeriod()): string {
+function getGroupStart(timestampSeconds: number, groupPeriod: GroupPeriod): number {
 	const milliseconds = timestampSeconds * 1000;
 	const date = new Date(milliseconds);
 
-	if (groupPeriod === "day") return getDateKey(getUtcDayStart(milliseconds));
-	if (groupPeriod === "week") return getDateKey(getUtcWeekStart(milliseconds));
-	if (groupPeriod === "month") return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+	if (groupPeriod === "day") return getUtcDayStart(milliseconds);
+	if (groupPeriod === "week") return getUtcWeekStart(milliseconds);
+	if (groupPeriod === "month") return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1);
 
-	return String(date.getUTCFullYear());
+	return Date.UTC(date.getUTCFullYear(), 0, 1);
 }
 
 function formatGroupLabel(groupKey: string, groupPeriod = getGroupPeriod()): string {
-	return groupPeriod === "week" ? `Week of ${groupKey}` : groupKey;
+	const milliseconds = Number(groupKey);
+	if (!Number.isFinite(milliseconds)) return groupKey;
+
+	if (groupPeriod === "month") return formatMonthGroupLabel(milliseconds);
+	if (groupPeriod === "year") return String(new Date(milliseconds).getUTCFullYear());
+
+	const date = formatUtcDate(milliseconds);
+	return groupPeriod === "week" ? `Week of ${date}` : date;
+}
+
+function formatUtcDate(milliseconds: number): string {
+	const date = new Date(milliseconds);
+	const formattingDate = settings.formatting.tct ? date : new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+	return formatDate(formattingDate, { showYear: true });
+}
+
+function formatMonthGroupLabel(milliseconds: number): string {
+	const date = new Date(milliseconds);
+	const month = toMultipleDigits(date.getUTCMonth() + 1);
+	const year = date.getUTCFullYear();
+
+	if (settings.formatting.date === "us") return `${month}/${year}`;
+	if (settings.formatting.date === "eu") return `${month}.${year}`;
+	return `${year}-${month}`;
 }
 
 function getCityItemId(item: DecodedCityItem | InternalCityItem): number {
@@ -496,7 +519,7 @@ function getGroupedItems(items: CityItem[]): { label: string; items: CityItem[] 
 	}
 
 	return [...groups.entries()]
-		.sort(([a], [b]) => b.localeCompare(a))
+		.sort(([a], [b]) => Number(b) - Number(a))
 		.map(([key, groupItems]) => ({ label: formatGroupLabel(key, groupPeriod), items: groupItems }));
 }
 
