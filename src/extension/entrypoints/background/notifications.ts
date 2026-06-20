@@ -126,7 +126,7 @@ export async function cleanupNotifications() {
 			const notification: TTNotification = notifications[type][key];
 			if ("combined" in notification) continue;
 
-			if (notification.date > 3 * TO_MILLIS.DAYS) {
+			if (Date.now() - notification.date > 3 * TO_MILLIS.DAYS) {
 				delete notifications[type][key];
 			}
 		}
