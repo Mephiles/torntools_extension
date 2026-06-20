@@ -801,7 +801,7 @@ function serializeEventDetail(detail: unknown): string | undefined {
 }
 
 function highlightItem(itemId: number, state: boolean, className = "force-hover") {
-	for (const item of findAllElements<HTMLElement>(`.city-item[data-id="${itemId}"]`)) {
+	for (const item of findAllElements(`.city-item[data-id="${itemId}"]`)) {
 		item.classList.toggle(className, state);
 	}
 }

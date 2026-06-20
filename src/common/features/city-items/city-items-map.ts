@@ -147,8 +147,8 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 
 	function syncOverlays(): boolean {
 		const map = getMap();
-		const L = pageWindow.L;
-		if (!map || !isLeafletOverlayRuntime(L)) return false;
+		const leaflet = pageWindow.L;
+		if (!map || !isLeafletOverlayRuntime(leaflet)) return false;
 
 		const activeEntryIds = new Set(state.entries.map((entry) => entry.entryId));
 
@@ -172,13 +172,13 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 				record.latLng = latLng;
 			}
 
-			ensureOverlay(record, map, L);
+			ensureOverlay(record, map, leaflet);
 		}
 
 		return state.entries.every((entry) => !!state.overlays.get(entry.entryId)?.marker);
 	}
 
-	function ensureOverlay(record: OverlayRecord, map: LeafletMap, L: LeafletOverlayRuntime) {
+	function ensureOverlay(record: OverlayRecord, map: LeafletMap, leaflet: LeafletOverlayRuntime) {
 		const latLng = record.latLng;
 		if (!latLng) return;
 
@@ -191,14 +191,14 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 				return;
 			}
 
-			const icon = L.divIcon({
+			const icon = leaflet.divIcon({
 				className: "tt-city-item-overlay city-item",
 				html: `<span class="tt-city-item-overlay-content"><img src="${getItemImageUrl(record.entry.itemId)}" alt=""></span>`,
 				iconSize: [BASE_HIGHLIGHT_SIZE, BASE_HIGHLIGHT_SIZE],
 				iconAnchor: [BASE_HIGHLIGHT_SIZE / 2, BASE_HIGHLIGHT_SIZE / 2],
 			});
 
-			const marker = L.marker(latLng, {
+			const marker = leaflet.marker(latLng, {
 				icon,
 				interactive: true,
 				keyboard: false,
@@ -260,12 +260,12 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 		if (!Number.isFinite(entry.x) || !Number.isFinite(entry.y)) return null;
 
 		const tornMap = getTornRuntime()?.map;
-		const L = pageWindow.L;
+		const leaflet = pageWindow.L;
 		try {
-			if (tornMap?.getLPoint && L?.CRS?.EPSG3857?.pointToLatLng) {
+			if (tornMap?.getLPoint && leaflet?.CRS?.EPSG3857?.pointToLatLng) {
 				const point: [number, number] = [entry.x / 2, entry.y / 2];
 				const leafletPoint = tornMap.getLPoint(point);
-				return normalizeLatLng(L.CRS.EPSG3857.pointToLatLng(leafletPoint, tornMap.minZoom));
+				return normalizeLatLng(leaflet.CRS.EPSG3857.pointToLatLng(leafletPoint, tornMap.minZoom));
 			}
 		} catch {}
 
