@@ -6,7 +6,7 @@ import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { formatDate, formatNumber, toMultipleDigits } from "@common/utils/functions/formatting";
+import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
@@ -265,27 +265,12 @@ function formatGroupLabel(groupKey: string, groupPeriod = getGroupPeriod()): str
 	const milliseconds = Number(groupKey);
 	if (!Number.isFinite(milliseconds)) return groupKey;
 
-	if (groupPeriod === "month") return formatMonthGroupLabel(milliseconds);
-	if (groupPeriod === "year") return String(new Date(milliseconds).getUTCFullYear());
-
-	const date = formatUtcDate(milliseconds);
-	return groupPeriod === "week" ? `Week of ${date}` : date;
-}
-
-function formatUtcDate(milliseconds: number): string {
 	const date = new Date(milliseconds);
-	const formattingDate = settings.formatting.tct ? date : new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-	return formatDate(formattingDate, { showYear: true });
-}
+	if (groupPeriod === "month") return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+	if (groupPeriod === "year") return String(date.getUTCFullYear());
 
-function formatMonthGroupLabel(milliseconds: number): string {
-	const date = new Date(milliseconds);
-	const month = toMultipleDigits(date.getUTCMonth() + 1);
-	const year = date.getUTCFullYear();
-
-	if (settings.formatting.date === "us") return `${month}/${year}`;
-	if (settings.formatting.date === "eu") return `${month}.${year}`;
-	return `${year}-${month}`;
+	const formattedDate = formatDate({ milliseconds }, { showYear: true });
+	return groupPeriod === "week" ? `Week of ${formattedDate}` : formattedDate;
 }
 
 function getCityItemId(item: DecodedCityItem | InternalCityItem): number {
