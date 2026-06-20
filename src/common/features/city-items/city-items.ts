@@ -1,6 +1,6 @@
 import "./city-items.css";
 import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -9,24 +9,32 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
+import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import { createSelect } from "@common/utils/elements/select/select";
 import { getPageStatus } from "@common/utils/functions/torn";
 import type { FullItem } from "@common/utils/torn-api/items.types";
 import { ExecutionTiming, Feature } from "@features/feature";
 import { CITY_ITEMS_MAP_EVENTS, type CityItemsMapEntry } from "./city-items-map";
 
 const ENCODING_NUMERIC_SYSTEM = 36;
+const GROUP_PAGE_SIZE = 10;
 
-type CityItemEntry = CityItemsMapEntry;
+type CityItemEntry = CityItemsMapEntry & { timestamp: number };
 
 interface CityItem {
 	item: number;
 	count: number;
 	name: string;
 	entries: CityItemEntry[];
+	timestamp: number;
+	band: string;
 }
 
 let contentElement: HTMLElement | null = null;
 let currentItems: CityItem[] = [];
+let periodFilter = "all";
+let searchQuery = "";
+let visibleGroupCount = GROUP_PAGE_SIZE;
 const collectingEntries = new Set<string>();
 
 function initialise() {
@@ -100,11 +108,11 @@ function isInternalCityItem(value: unknown): value is InternalCityItem {
 		isRecord(value) &&
 		Array.isArray(value.coordinates) &&
 		value.coordinates.length >= 2 &&
-		typeof value.coordinates[0] === "number" &&
-		typeof value.coordinates[1] === "number" &&
-		typeof value.item_id === "number" &&
-		typeof value.row_id === "number" &&
-		typeof value.timestamp === "number" &&
+		Number.isFinite(value.coordinates[0]) &&
+		Number.isFinite(value.coordinates[1]) &&
+		Number.isFinite(value.item_id) &&
+		Number.isFinite(value.row_id) &&
+		Number.isFinite(value.timestamp) &&
 		typeof value.title === "string"
 	);
 }
@@ -155,7 +163,10 @@ function resolveUserItems(decodedItems: (DecodedCityItem | InternalCityItem)[]):
 		const id = getCityItemId(item);
 		if (!Number.isFinite(id)) return;
 
-		const entry = getCityItemEntry(item, id);
+		const timestamp = getItemTimestamp(item);
+		if (!Number.isFinite(timestamp)) return;
+
+		const entry = getCityItemEntry(item, id, timestamp);
 		const name = item.title || ITEM_RESOLVER.loadItem(id)?.name || `Item ${id}`;
 
 		if (settings.pages.city.combineDuplicates) {
@@ -164,11 +175,94 @@ function resolveUserItems(decodedItems: (DecodedCityItem | InternalCityItem)[]):
 			if (duplicate) {
 				duplicate.count++;
 				duplicate.entries.push(entry);
-			} else items.push({ item: id, count: 1, name, entries: [entry] });
-		} else items.push({ item: id, count: 1, name, entries: [entry] });
+				duplicate.timestamp = Math.max(duplicate.timestamp, timestamp);
+			} else {
+				items.push({ item: id, count: 1, name, entries: [entry], timestamp, band: "" });
+			}
+		} else {
+			items.push({ item: id, count: 1, name, entries: [entry], timestamp, band: "" });
+		}
 	});
 
+	for (const item of items) item.band = getBandForTimestamp(item.timestamp);
+
 	return items;
+}
+
+function getItemTimestamp(item: DecodedCityItem | InternalCityItem): number {
+	if ("coordinates" in item) return item.timestamp;
+
+	return parseInt(item.ts, ENCODING_NUMERIC_SYSTEM);
+}
+
+const MILLISECONDS_PER_DAY = 86_400_000;
+
+// Relative time bands, newest first. City item timestamps are useful at UTC-day
+// granularity, so the minimum bucket is a single UTC day; wider bands span
+// multiple days. Bands are non-overlapping by age; every item lands in exactly one.
+const TIME_BANDS = [
+	{ key: "today", maxAgeDays: 0, label: "Today" },
+	{ key: "week", maxAgeDays: 7, label: "This week" },
+	{ key: "month", maxAgeDays: 30, label: "This month" },
+	{ key: "year", maxAgeDays: 365, label: "This year" },
+	{ key: "older", maxAgeDays: Number.POSITIVE_INFINITY, label: "More than a year ago" },
+] as const;
+
+const GROUP_PERIODS = [
+	{ key: "day", label: "Days" },
+	{ key: "week", label: "Weeks" },
+	{ key: "month", label: "Months" },
+	{ key: "year", label: "Years" },
+] as const;
+
+type GroupPeriod = (typeof GROUP_PERIODS)[number]["key"];
+
+function getUtcDayStart(milliseconds: number): number {
+	const date = new Date(milliseconds);
+	return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+}
+
+function getUtcWeekStart(milliseconds: number): number {
+	const dayStart = getUtcDayStart(milliseconds);
+	const day = new Date(dayStart).getUTCDay();
+	return dayStart - ((day + 6) % 7) * MILLISECONDS_PER_DAY;
+}
+
+function getBandForTimestamp(timestampSeconds: number): string {
+	const ageDays = Math.floor((getUtcDayStart(Date.now()) - getUtcDayStart(timestampSeconds * 1000)) / MILLISECONDS_PER_DAY);
+	return TIME_BANDS.find((band) => ageDays <= band.maxAgeDays)?.key ?? "older";
+}
+
+function getBandOrder(): readonly string[] {
+	return TIME_BANDS.map((band) => band.key);
+}
+
+function formatBandLabel(bandKey: string): string {
+	return TIME_BANDS.find((band) => band.key === bandKey)?.label ?? bandKey;
+}
+
+function getGroupPeriod(): GroupPeriod {
+	const groupPeriod = settings.pages.city.groupByPeriodUnit;
+	return GROUP_PERIODS.some((period) => period.key === groupPeriod) ? (groupPeriod as GroupPeriod) : "day";
+}
+
+function getDateKey(milliseconds: number): string {
+	return new Date(milliseconds).toISOString().slice(0, 10);
+}
+
+function getGroupKey(timestampSeconds: number, groupPeriod = getGroupPeriod()): string {
+	const milliseconds = timestampSeconds * 1000;
+	const date = new Date(milliseconds);
+
+	if (groupPeriod === "day") return getDateKey(getUtcDayStart(milliseconds));
+	if (groupPeriod === "week") return getDateKey(getUtcWeekStart(milliseconds));
+	if (groupPeriod === "month") return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+
+	return String(date.getUTCFullYear());
+}
+
+function formatGroupLabel(groupKey: string, groupPeriod = getGroupPeriod()): string {
+	return groupPeriod === "week" ? `Week of ${groupKey}` : groupKey;
 }
 
 function getCityItemId(item: DecodedCityItem | InternalCityItem): number {
@@ -177,7 +271,7 @@ function getCityItemId(item: DecodedCityItem | InternalCityItem): number {
 	return parseInt(item.d, ENCODING_NUMERIC_SYSTEM);
 }
 
-function getCityItemEntry(item: DecodedCityItem | InternalCityItem, itemId: number): CityItemEntry {
+function getCityItemEntry(item: DecodedCityItem | InternalCityItem, itemId: number, timestamp: number): CityItemEntry {
 	let rowId: string, td: string, x: number, y: number;
 
 	if ("coordinates" in item) {
@@ -199,6 +293,7 @@ function getCityItemEntry(item: DecodedCityItem | InternalCityItem, itemId: numb
 		td,
 		x,
 		y,
+		timestamp,
 	};
 }
 
@@ -217,20 +312,43 @@ function setCityItems(items: CityItem[]) {
 	currentItems = items;
 
 	if (contentElement) populateContainer(contentElement, currentItems);
-	syncMapEntries(currentItems);
+	syncVisibleMapEntries();
 }
 
 function populateContainer(content: HTMLElement, items: CityItem[]) {
+	showControls(content, items);
 	if (ITEM_RESOLVER.hasFullItems()) showValue(content, items);
 	else content.querySelector(".tt-city-total")?.remove();
 	showItemList(content, items);
-	showSearchBox(content, items);
 }
 
-function showValue(content: HTMLElement, items: CityItem[]) {
-	content.querySelector(".tt-city-total")?.remove();
+function getFilteredItems(items: CityItem[]): CityItem[] {
+	const periodItems =
+		periodFilter === "all"
+			? items
+			: items.flatMap((item) => {
+					const entries = item.entries.filter((entry) => matchesPeriodFilter(getBandForTimestamp(entry.timestamp)));
+					if (!entries.length) return [];
 
-	const totalValue = items
+					const timestamp = Math.max(...entries.map((entry) => entry.timestamp));
+					return [{ ...item, count: entries.length, entries, timestamp, band: getBandForTimestamp(timestamp) }];
+				});
+
+	const query = searchQuery.trim().toLowerCase();
+	return query ? periodItems.filter((item) => item.name.toLowerCase().includes(query)) : periodItems;
+}
+
+function matchesPeriodFilter(itemBand: string): boolean {
+	if (periodFilter === "older") return itemBand === "older";
+
+	const selectedIndex = TIME_BANDS.findIndex((band) => band.key === periodFilter);
+	const itemIndex = TIME_BANDS.findIndex((band) => band.key === itemBand);
+
+	return selectedIndex >= 0 && itemIndex >= 0 && itemIndex <= selectedIndex;
+}
+
+function calculateItemValue(items: CityItem[]): { value: number; count: number } {
+	const value = items
 		.map(({ item, count }): (FullItem & { count: number }) | null => {
 			const fullItem = ITEM_RESOLVER.getFullItem(item);
 			return fullItem ? { ...fullItem, count } : null;
@@ -239,128 +357,310 @@ function showValue(content: HTMLElement, items: CityItem[]) {
 		.map(({ value: { market_price: value }, count }) => value * count)
 		.filter((value) => !!value)
 		.reduce((a, b) => a + b, 0);
-	const itemCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
+	const count = items.reduce((total, item) => total + item.count, 0);
+
+	return { value, count };
+}
+
+function showValue(content: HTMLElement, items: CityItem[]) {
+	content.querySelector(".tt-city-total")?.remove();
+
+	if (!ITEM_RESOLVER.hasFullItems()) return;
+
+	const { value, count } = calculateItemValue(getFilteredItems(items));
 
 	content.appendChild(
 		elementBuilder({
 			type: "div",
-			class: "tt-city-total",
+			class: "tt-city-total hide-collapse",
 			children: [
-				elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${itemCount}): ` }),
-				elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(totalValue, { currency: true }) }),
+				elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${count}): ` }),
+				elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(value, { currency: true }) }),
 			],
 		}),
 	);
+}
+
+function refreshList() {
+	if (!contentElement) return;
+	showValue(contentElement, currentItems);
+	showItemList(contentElement, currentItems);
+	syncVisibleMapEntries();
+}
+
+function resetVisibleGroups() {
+	visibleGroupCount = GROUP_PAGE_SIZE;
+}
+
+function showControls(content: HTMLElement, items: CityItem[]) {
+	content.querySelector(".tt-city-controls")?.remove();
+
+	const groupByCheckbox = createCheckbox();
+	const groupBySelect = createSelect(GROUP_PERIODS.map((period) => ({ value: period.key, description: period.label })));
+	groupByCheckbox.setChecked(!!settings.pages.city.groupByPeriod);
+	groupBySelect.setSelected(getGroupPeriod());
+	groupBySelect.element.disabled = !groupByCheckbox.isChecked();
+	groupByCheckbox.onChange(() => {
+		const checked = groupByCheckbox.isChecked();
+		settings.pages.city.groupByPeriod = checked;
+		groupBySelect.element.disabled = !checked;
+		resetVisibleGroups();
+		void ttStorage.change({ settings: { pages: { city: { groupByPeriod: checked } } } });
+		refreshList();
+	});
+	groupBySelect.onChange(() => {
+		const groupByPeriodUnit = groupBySelect.getSelected();
+		settings.pages.city.groupByPeriodUnit = groupByPeriodUnit;
+		resetVisibleGroups();
+		void ttStorage.change({ settings: { pages: { city: { groupByPeriodUnit } } } });
+		refreshList();
+	});
+
+	const bandOrder = getBandOrder();
+	const presentBands = bandOrder.filter((band) => items.some((item) => item.entries.some((entry) => getBandForTimestamp(entry.timestamp) === band)));
+	const bandOptions = [
+		{ value: "all", description: "All" },
+		...presentBands.map((band) => ({ value: band, description: formatBandLabel(band) })),
+	];
+	const periodSelect = createSelect(bandOptions);
+	if (!periodSelect.setSelected(periodFilter)) {
+		periodSelect.setSelected("all");
+		periodFilter = "all";
+	}
+	periodSelect.onChange(() => {
+		periodFilter = periodSelect.getSelected();
+		resetVisibleGroups();
+		refreshList();
+	});
+
+	const searchInput = elementBuilder({
+		type: "input",
+		value: searchQuery,
+		attributes: { type: "text" },
+		events: {
+			input: (event) => {
+				if (!(event.currentTarget instanceof HTMLInputElement)) return;
+
+				searchQuery = event.currentTarget.value;
+				resetVisibleGroups();
+				refreshList();
+			},
+		},
+	});
+
+	content.appendChild(
+		elementBuilder({
+			type: "div",
+			class: "tt-city-controls hide-collapse",
+			children: [
+				elementBuilder({
+					type: "div",
+					class: "tt-city-group-filter",
+					children: [elementBuilder({ type: "span", class: "tt-city-control-label", text: "Group:" }), groupByCheckbox.element, groupBySelect.element],
+				}),
+				elementBuilder({
+					type: "label",
+					class: "tt-city-period-filter",
+					children: [elementBuilder({ type: "span", class: "tt-city-control-label", text: "Filter:" }), periodSelect.element],
+				}),
+				elementBuilder({
+					type: "label",
+					class: "tt-city-search-filter",
+					children: [elementBuilder({ type: "span", class: "tt-city-control-label", text: "Search:" }), searchInput],
+				}),
+			],
+		}),
+	);
+}
+
+function getGroupedItems(items: CityItem[]): { label: string; items: CityItem[] }[] {
+	const groupPeriod = getGroupPeriod();
+	const groups = new Map<string, CityItem[]>();
+
+	for (const item of items) {
+		for (const entry of item.entries) {
+			const key = getGroupKey(entry.timestamp, groupPeriod);
+			const groupItems = groups.get(key) ?? [];
+			groups.set(key, groupItems);
+
+			const duplicate = settings.pages.city.combineDuplicates ? groupItems.find((groupedItem) => groupedItem.item === item.item) : undefined;
+			if (duplicate) {
+				duplicate.count++;
+				duplicate.entries.push(entry);
+				duplicate.timestamp = Math.max(duplicate.timestamp, entry.timestamp);
+				duplicate.band = getBandForTimestamp(duplicate.timestamp);
+			} else {
+				groupItems.push({ ...item, count: 1, entries: [entry], timestamp: entry.timestamp, band: getBandForTimestamp(entry.timestamp) });
+			}
+		}
+	}
+
+	return [...groups.entries()]
+		.sort(([a], [b]) => b.localeCompare(a))
+		.map(([key, groupItems]) => ({ label: formatGroupLabel(key, groupPeriod), items: groupItems }));
 }
 
 function showItemList(content: HTMLElement, items: CityItem[]) {
 	content.querySelector(".tt-city-items")?.remove();
 
 	const listElement = elementBuilder({ type: "div", class: "tt-city-items hide-collapse" });
+	const filtered = getFilteredItems(items);
 
-	const type = "text";
-	switch (type) {
-		case "text":
-			generateText();
-			break;
-	}
+	if (settings.pages.city.groupByPeriod) {
+		const groups = getGroupedItems(filtered);
+		const visibleGroups = groups.slice(0, visibleGroupCount);
+		if (!groups.length) {
+			listElement.appendChild(elementBuilder({ type: "p", text: "There are no items in the city." }));
+		} else {
+			for (const group of visibleGroups) {
+				const { value, count } = calculateItemValue(group.items);
+				listElement.appendChild(
+					elementBuilder({
+						type: "div",
+						class: "tt-city-period-group",
+						children: [
+							elementBuilder({
+								type: "div",
+								class: "tt-city-period-header",
+								children: [
+									elementBuilder({ type: "span", class: "tt-city-period-name", text: group.label }),
+									elementBuilder({ type: "span", class: "tt-city-period-count", text: `(${count})` }),
+									elementBuilder({
+										type: "span",
+										class: "tt-city-period-value",
+										text: ITEM_RESOLVER.hasFullItems() ? formatNumber(value, { currency: true }) : "",
+									}),
+								],
+							}),
+						],
+					}),
+				);
+				appendItemsParagraph(listElement, group.items, false);
+			}
+			appendGroupPaginationControls(listElement, groups.length, visibleGroups.length);
+		}
+	} else appendItemsParagraph(listElement, filtered, true);
 
 	content.appendChild(listElement);
-
-	function generateText() {
-		let element: HTMLElement;
-		if (items.length > 0) {
-			const totalCount = items.map(({ count }) => count).reduce((a, b) => a + b, 0);
-			element = elementBuilder({
-				type: "p",
-				children: [
-					"There",
-					totalCount === 1 ? " is " : " are ",
-					elementBuilder({ type: "strong", text: totalCount }),
-					totalCount === 1 ? " item " : " items ",
-					"in the city: ",
-				],
-			});
-
-			const _items = [...items];
-			if (items.length === 1) {
-				element.appendChild(createItemElement(_items[0]));
-			} else {
-				const last = _items.splice(-1)[0];
-
-				for (const item of _items) {
-					element.appendChild(createItemElement(item));
-					element.appendChild(document.createTextNode(", "));
-				}
-				element.lastChild.remove();
-
-				element.appendChild(document.createTextNode(" and "));
-				element.appendChild(createItemElement(last));
-			}
-
-			element.appendChild(document.createTextNode("."));
-		} else {
-			element = elementBuilder({ type: "p", text: "There are no items in the city." });
-		}
-		listElement.appendChild(element);
-
-		function createItemElement({ item, name, count, entries }: CityItem) {
-			let text: string;
-			if (count > 1) {
-				text = `${count}x ${name}`;
-			} else text = name;
-
-			return elementBuilder({
-				type: "span",
-				text,
-				class: "list-item",
-				dataset: { id: item },
-				events: {
-					mouseenter() {
-						highlightItem(item, true);
-					},
-					mouseleave() {
-						highlightItem(item, false);
-					},
-					click(event) {
-						if (!event.isTrusted) return;
-
-						collectEntry(entries[0], item, name).catch(console.error);
-					},
-				},
-			});
-		}
-	}
 }
 
-function showSearchBox(content: HTMLElement, items: CityItem[]) {
-	content.querySelector(".tt-city-search")?.remove();
+function appendGroupPaginationControls(parent: HTMLElement, totalGroups: number, visibleGroups: number) {
+	if (totalGroups <= GROUP_PAGE_SIZE) return;
 
-	const searchBox = elementBuilder({
-		type: "label",
-		class: "tt-city-search",
-		text: "Search:",
-		children: [
+	const hasMore = visibleGroups < totalGroups;
+	const controls = elementBuilder({
+		type: "div",
+		class: "tt-city-group-pagination",
+		children: [elementBuilder({ type: "span", text: `Showing ${visibleGroups} of ${totalGroups} groups` })],
+	});
+
+	if (hasMore) {
+		controls.appendChild(
 			elementBuilder({
-				type: "input",
-				attributes: { type: "text" },
+				type: "button",
+				class: "tt-button-link tt-city-group-pagination-button",
+				text: "Show more",
+				attributes: { type: "button" },
 				events: {
-					input: (event) => {
-						if (!(event.currentTarget instanceof HTMLInputElement)) return;
-
-						const query = event.currentTarget.value.toLowerCase();
-						clearSearchHighlights();
-						if (!query.length) return;
-
-						const matchedItemIds = items.filter((item) => item.name.toLowerCase().includes(query)).map((item) => item.item);
-						for (const itemId of matchedItemIds) highlightItem(itemId, true, "search-hover");
+					click: () => {
+						visibleGroupCount = Math.min(visibleGroupCount + GROUP_PAGE_SIZE, totalGroups);
+						refreshList();
 					},
 				},
 			}),
-		],
-	});
+		);
+		controls.appendChild(
+			elementBuilder({
+				type: "button",
+				class: "tt-button-link tt-city-group-pagination-button",
+				text: "Show all",
+				attributes: { type: "button" },
+				events: {
+					click: () => {
+						visibleGroupCount = totalGroups;
+						refreshList();
+					},
+				},
+			}),
+		);
+	}
 
-	content.appendChild(searchBox);
+	if (visibleGroups > GROUP_PAGE_SIZE) {
+		controls.appendChild(
+			elementBuilder({
+				type: "button",
+				class: "tt-button-link tt-city-group-pagination-button",
+				text: "Show fewer",
+				attributes: { type: "button" },
+				events: {
+					click: () => {
+						resetVisibleGroups();
+						refreshList();
+					},
+				},
+			}),
+		);
+	}
+
+	parent.appendChild(controls);
+}
+
+function appendItemsParagraph(parent: HTMLElement, items: CityItem[], withPreamble: boolean) {
+	const totalCount = items.reduce((total, item) => total + item.count, 0);
+	if (!totalCount) {
+		if (withPreamble) parent.appendChild(elementBuilder({ type: "p", text: "There are no items in the city." }));
+		return;
+	}
+
+	const children: (string | HTMLElement)[] = [];
+	if (withPreamble) {
+		children.push("There", totalCount === 1 ? " is " : " are ", elementBuilder({ type: "strong", text: String(totalCount) }), totalCount === 1 ? " item " : " items ", "in the city: ");
+	}
+
+	const paragraph = elementBuilder({ type: "p", children });
+
+	if (items.length === 1) {
+		paragraph.appendChild(createItemSpan(items[0]));
+	} else {
+		const list = [...items];
+		const last = list.splice(-1)[0];
+
+		for (const item of list) {
+			paragraph.appendChild(createItemSpan(item));
+			paragraph.appendChild(document.createTextNode(", "));
+		}
+		if (paragraph.lastChild) paragraph.lastChild.remove();
+
+		paragraph.appendChild(document.createTextNode(" and "));
+		paragraph.appendChild(createItemSpan(last));
+	}
+
+	paragraph.appendChild(document.createTextNode("."));
+	parent.appendChild(paragraph);
+}
+
+function createItemSpan({ item, name, count, entries }: CityItem) {
+	const text = count > 1 ? `${count}x ${name}` : name;
+
+	return elementBuilder({
+		type: "span",
+		text,
+		class: "list-item",
+		dataset: { id: item },
+		events: {
+			mouseenter() {
+				highlightItem(item, true);
+			},
+			mouseleave() {
+				highlightItem(item, false);
+			},
+			click(event) {
+				if (!event.isTrusted) return;
+
+				collectEntry(entries[0], item, name).catch(console.error);
+			},
+		},
+	});
 }
 
 async function collectEntry(entry: CityItemEntry, item: number, name: string) {
@@ -429,7 +729,9 @@ function removeEntryFromItems(entry: CityItemEntry): CityItem[] {
 		}
 
 		if (item.entries.length > 1) {
-			nextItems.push({ ...item, count: item.count - 1, entries: item.entries.filter((_, index) => index !== entryIndex) });
+			const entries = item.entries.filter((_, index) => index !== entryIndex);
+			const timestamp = Math.max(...entries.map((entry) => entry.timestamp));
+			nextItems.push({ ...item, count: item.count - 1, entries, timestamp, band: getBandForTimestamp(timestamp) });
 		}
 	}
 
@@ -456,6 +758,10 @@ async function collectItem(td: string): Promise<void> {
 
 	const result = await fetchData<unknown>("torn_direct", { action: "city.php", method: "POST", body });
 	if (!isSuccessfulPickupResponse(result, typeof result === "string" ? result : undefined)) throw new Error("City item pickup failed.");
+}
+
+function syncVisibleMapEntries() {
+	syncMapEntries(getFilteredItems(currentItems));
 }
 
 function syncMapEntries(items: CityItem[]) {
@@ -485,11 +791,7 @@ function highlightItem(itemId: number, state: boolean, className = "force-hover"
 }
 
 function clearForcedHighlights() {
-	for (const item of findAllElements(".city-item.force-hover, .city-item.search-hover")) item.classList.remove("force-hover", "search-hover");
-}
-
-function clearSearchHighlights() {
-	for (const item of findAllElements(".city-item.search-hover")) item.classList.remove("search-hover");
+	for (const item of findAllElements(".city-item.force-hover")) item.classList.remove("force-hover");
 }
 
 function parseNumericDatasetValue(value: string | undefined): number | undefined {
@@ -549,6 +851,9 @@ function removeHighlight() {
 	removeContainer("City Items");
 	contentElement = null;
 	currentItems = [];
+	periodFilter = "all";
+	searchQuery = "";
+	resetVisibleGroups();
 	collectingEntries.clear();
 	clearForcedHighlights();
 	dispatchMapEvent(CITY_ITEMS_MAP_EVENTS.CLEAR);

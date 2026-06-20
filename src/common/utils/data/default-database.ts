@@ -442,6 +442,8 @@ export const DEFAULT_STORAGE = {
 			city: {
 				items: new DefaultSetting("boolean", true),
 				combineDuplicates: new DefaultSetting("boolean", true),
+				groupByPeriod: new DefaultSetting("boolean", false),
+				groupByPeriodUnit: new DefaultSetting("string", "day"),
 			},
 			joblist: {
 				specials: new DefaultSetting("boolean", true),
