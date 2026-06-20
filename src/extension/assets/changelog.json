@@ -19,6 +19,8 @@
 				{ "message": "Show a list of items in your city map again after the map update.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Drug Details' immediately disappearing on the items page.", "contributor": "DeKleineKobini" },
 				{ "message": "Show crime achievements again.", "contributor": "DeKleineKobini" },
+				{ "message": "Properly update the notification states.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the notification cleanup logic marking all notifications as outdated incorrectly.", "contributor": "DeKleineKobini" },
 				{ "message": "Restore item highlighting and searching in the 'City Items' map after Torn's map update.", "contributor": "Manuel" }
 			],
 			"changes": [

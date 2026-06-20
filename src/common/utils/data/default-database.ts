@@ -416,6 +416,7 @@ export const DEFAULT_STORAGE = {
 				warnCrime: new DefaultSetting("boolean", false),
 				rankedWarValue: new DefaultSetting("boolean", true),
 				totalChallengeContributions: new DefaultSetting("boolean", true),
+				memberRevives: new DefaultSetting("boolean", true),
 			},
 			property: {
 				value: new DefaultSetting("boolean", true),

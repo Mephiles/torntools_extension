@@ -88,7 +88,7 @@ import type {
 	UserWeaponExpResponse,
 	UserWorkStatsResponse,
 } from "tornapi-typescript";
-import { dispatchNotification, newNotification, notifyUser, storeNotification } from "./notifications";
+import { dispatchNotification, newNotification } from "./notifications";
 
 let lockTimedUpdates = false;
 
@@ -410,8 +410,6 @@ export async function updateUserdata(forceUpdate = false) {
 	await notifyHospital().catch((error) => console.error("Error while sending hospital notifications.", error));
 	await notifySpecificCooldowns().catch((error) => console.error("Error while sending specific cooldown notifications.", error));
 
-	await ttStorage.set({ notifications });
-
 	return { updated: true, types: updatedTypes, selections: [...selections, ...selectionsV2] };
 
 	async function checkAttacks() {
@@ -560,14 +558,8 @@ export async function updateUserdata(forceUpdate = false) {
 	}
 
 	async function notifyEventMessages() {
-		if (settings.apiUsage.user.newevents) {
-			const events: { id: string; event: string }[] = [];
-			newUserdata.events.forEach((event) => {
-				if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[event.id]) {
-					events.push({ id: event.id, event: event.event });
-					notifications.events[event.id] = { combined: true };
-				}
-			});
+		if (settings.apiUsage.user.newevents && settings.notifications.types.global && settings.notifications.types.events) {
+			const events = newUserdata.events.filter((event) => !notifications.events[event.id]);
 			if (events.length) {
 				// Remove profile links from event message
 				let message = events.at(-1)!.event.replace(/<\/?[^>]+(>|$)/g, "");
@@ -575,26 +567,19 @@ export async function updateUserdata(forceUpdate = false) {
 
 				const notification = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
 				await dispatchNotification(notification);
+				await Promise.all(events.map((event) => ttStorage.change({ notifications: { events: { [event.id]: { combined: true } } } })));
 			}
 		}
 
-		if (settings.apiUsage.user.newmessages) {
-			const messages: { id: number; title: string; sender: string }[] = [];
-			newUserdata.messages
-				.filter(({ seen }) => !seen)
-				.forEach((message) => {
-					if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[message.id]) {
-						messages.push({ id: message.id, title: message.topic, sender: message.sender.name });
-						notifications.messages[message.id] = { combined: true };
-					}
-				});
-
+		if (settings.apiUsage.user.newmessages && settings.notifications.types.global && settings.notifications.types.messages) {
+			const messages = newUserdata.messages.filter(({ seen }) => !seen).filter((message) => !notifications.messages[message.id]);
 			if (messages.length) {
-				let message = `${messages.at(-1)!.title} - by ${messages.at(-1)!.sender}`;
+				let message = `${messages.at(-1)!.topic} - by ${messages.at(-1)!.sender.name}`;
 				if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
 
 				const notification = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
 				await dispatchNotification(notification);
+				await Promise.all(messages.map((message) => ttStorage.change({ notifications: { messages: { [message.id]: { combined: true } } } })));
 			}
 		}
 
@@ -611,8 +596,7 @@ export async function updateUserdata(forceUpdate = false) {
 
 		if (current === "Okay") {
 			if (previous === "Hospital") {
-				await notifyUser("TornTools - Status", "You are out of the hospital.", LINKS.home);
-				await storeNotification({
+				await dispatchNotification({
 					title: "TornTools - Status",
 					message: "You are out of the hospital.",
 					url: LINKS.home,
@@ -621,8 +605,7 @@ export async function updateUserdata(forceUpdate = false) {
 					date: Date.now(),
 				});
 			} else if (previous === "Jail") {
-				await notifyUser("TornTools - Status", "You are out of the jail.", LINKS.home);
-				await storeNotification({
+				await dispatchNotification({
 					title: "TornTools - Status",
 					message: "You are out of the jail.",
 					url: LINKS.home,
@@ -630,8 +613,7 @@ export async function updateUserdata(forceUpdate = false) {
 				});
 			}
 		} else {
-			await notifyUser("TornTools - Status", newUserdata.profile.status.description, LINKS.home);
-			await storeNotification({
+			await dispatchNotification({
 				title: "TornTools - Status",
 				message: newUserdata.profile.status.description,
 				url: LINKS.home,
@@ -647,8 +629,7 @@ export async function updateUserdata(forceUpdate = false) {
 		for (const type in newUserdata.cooldowns) {
 			if (newUserdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
-			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
-			await storeNotification({
+			await dispatchNotification({
 				title: "TornTools - Cooldown",
 				message: `Your ${type} cooldown has ended.`,
 				url: LINKS.items,
@@ -661,8 +642,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if (!settings.apiUsage.user.travel || !settings.notifications.types.global || !settings.notifications.types.traveling || !oldUserdata.travel) return;
 		if (newUserdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
-		await notifyUser("TornTools - Traveling", `You have landed in ${newUserdata.travel.destination}.`, LINKS.home);
-		await storeNotification({
+		await dispatchNotification({
 			title: "TornTools - Traveling",
 			message: `You have landed in ${newUserdata.travel.destination}.`,
 			url: LINKS.home,
@@ -680,8 +660,7 @@ export async function updateUserdata(forceUpdate = false) {
 			return;
 		if (newUserdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
-		await notifyUser("TornTools - Education", "You have finished your education course.", LINKS.education);
-		await storeNotification({
+		await dispatchNotification({
 			title: "TornTools - Education",
 			message: "You have finished your education course.",
 			url: LINKS.education,
@@ -697,8 +676,8 @@ export async function updateUserdata(forceUpdate = false) {
 		if (date.getUTCHours() !== 0 || date.getUTCMinutes() !== 0 || utc in notifications.newDay) return;
 
 		const notification = newNotification("New Day", "It's a new day! Hopefully a sunny one.", LINKS.home);
-		notifications.newDay[utc] = notification;
 		await dispatchNotification(notification);
+		await ttStorage.change({ notifications: { newDay: { [utc]: notification } } });
 	}
 
 	async function notifyBars() {
@@ -737,11 +716,11 @@ export async function updateUserdata(forceUpdate = false) {
 						`Your ${capitalizeText(bar)} bar has reached ${newUserdata[bar].current}/${newUserdata[bar].maximum}.`,
 						url,
 					);
-					notifications[bar][checkpoint] = notification;
 					await dispatchNotification(notification);
+					await ttStorage.change({ notifications: { [bar]: { [checkpoint]: notification } } });
 					break;
 				} else if (newUserdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
-					delete notifications[bar][checkpoint];
+					await ttStorage.update("notifications", (notifications) => delete notifications[bar][checkpoint]);
 				}
 			}
 		}
@@ -758,11 +737,11 @@ export async function updateUserdata(forceUpdate = false) {
 		for (const checkpoint of checkpoints) {
 			if (oldHoursOffline < hoursOffline && hoursOffline >= checkpoint && !notifications.offline[checkpoint]) {
 				const notification = newNotification("Offline", `You've been offline for over ${checkpoint} hour${applyPlural(checkpoint)}.`, LINKS.home);
-				notifications.offline[checkpoint] = notification;
 				await dispatchNotification(notification);
+				await ttStorage.change({ notifications: { offline: { [checkpoint]: notification } } });
 				break;
 			} else if (hoursOffline < checkpoint && notifications.offline[checkpoint]) {
-				delete notifications.offline[checkpoint];
+				await ttStorage.update("notifications", (notifications) => delete notifications.offline[checkpoint]);
 			}
 		}
 	}
@@ -788,12 +767,12 @@ export async function updateUserdata(forceUpdate = false) {
 					`Chain timer will run out in ${formatTime({ milliseconds: timeout }, { type: "wordTimer" })}.`,
 					LINKS.chain,
 				);
-				notifications.chain[key] = notification;
 				await dispatchNotification(notification);
+				await ttStorage.change({ notifications: { chain: { [key]: notification } } });
 				break;
 			}
 		} else {
-			notifications.chain = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.chain = {}));
 		}
 
 		if (
@@ -815,12 +794,12 @@ export async function updateUserdata(forceUpdate = false) {
 					`Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
 					LINKS.chain,
 				);
-				notifications.chainCount[key] = notification;
 				await dispatchNotification(notification);
+				await ttStorage.change({ notifications: { chainCount: { [key]: notification } } });
 				break;
 			}
 		} else {
-			notifications.chainCount = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.chainCount = {}));
 		}
 	}
 
@@ -842,12 +821,12 @@ export async function updateUserdata(forceUpdate = false) {
 					`You will be out of the hospital in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 					LINKS.hospital,
 				);
-				notifications.hospital[checkpoint] = notification;
 				await dispatchNotification(notification);
+				await ttStorage.change({ notifications: { hospital: { [checkpoint]: notification } } });
 				break;
 			}
 		} else {
-			notifications.hospital = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.hospital = {}));
 		}
 	}
 
@@ -865,12 +844,12 @@ export async function updateUserdata(forceUpdate = false) {
 					`You will be landing in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 					LINKS.home,
 				);
-				notifications.travel[checkpoint] = notification;
 				await dispatchNotification(notification);
+				await ttStorage.change({ notifications: { travel: { [checkpoint]: notification } } });
 				break;
 			}
 		} else {
-			notifications.travel = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.travel = {}));
 		}
 	}
 
@@ -911,11 +890,11 @@ export async function updateUserdata(forceUpdate = false) {
 						`Your ${cooldown.name} cooldown will end in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 						LINKS.items,
 					);
-					notifications[cooldown.memory][checkpoint] = notification;
 					await dispatchNotification(notification);
+					await ttStorage.change({ notifications: { [cooldown.memory]: { [checkpoint]: notification } } });
 				}
 			} else {
-				notifications[cooldown.memory] = {};
+				await ttStorage.update("notifications", (notifications) => (notifications[cooldown.memory] = {}));
 			}
 		}
 	}
@@ -942,14 +921,14 @@ export async function updateUserdata(forceUpdate = false) {
 								`You are currently at the maximum amount of contracts (${maxMissions}) for ${name}.`,
 								LINKS.missions,
 							);
-							notifications.missionsLimit[key] = notification;
 							await dispatchNotification(notification);
+							await ttStorage.change({ notifications: { missionsLimit: { [key]: notification } } });
 						}
 					}
 				}
 			}
 		} else {
-			notifications.missionsLimit = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.missionsLimit = {}));
 		}
 
 		if (settings.notifications.types.missionsExpireEnabled && settings.notifications.types.missionsExpire.length) {
@@ -975,14 +954,14 @@ export async function updateUserdata(forceUpdate = false) {
 							)}.`,
 							LINKS.missions,
 						);
-						notifications.missionsExpire[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { missionsExpire: { [key]: notification } } });
 						break;
 					}
 				}
 			}
 		} else {
-			notifications.missionsExpire = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.missionsExpire = {}));
 		}
 	}
 
@@ -1000,13 +979,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 					if (!(key in notifications.refillEnergy)) {
 						const notification = newNotification("Refill", `You have yet to use your energy refill today.`, LINKS.points);
-						notifications.refillEnergy[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { refillEnergy: { [key]: notification } } });
 					}
 				}
 			}
 		} else {
-			notifications.refillEnergy = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.refillEnergy = {}));
 		}
 
 		if (settings.notifications.types.refillNerveEnabled && settings.notifications.types.refillNerve) {
@@ -1020,13 +999,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 					if (!(key in notifications.refillNerve)) {
 						const notification = newNotification("Refill", `You have yet to use your nerve refill today.`, LINKS.points);
-						notifications.refillNerve[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { refillNerve: { [key]: notification } } });
 					}
 				}
 			}
 		} else {
-			notifications.refillNerve = {};
+			await ttStorage.update("notifications", (notifications) => (notifications.refillNerve = {}));
 		}
 	}
 }
@@ -1181,11 +1160,11 @@ async function updateStakeouts(forceUpdate = false) {
 							label ? `${data.profile.name} (${label}) is now okay.` : `${data.profile.name} is now okay.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (data.profile.status.state !== "Okay") {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 			if (hospital) {
@@ -1205,11 +1184,11 @@ async function updateStakeouts(forceUpdate = false) {
 								: `${data.profile.name} is now in the hospital${reasonText}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (data.profile.status.state !== "Hospital") {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 			if (landing) {
@@ -1223,11 +1202,11 @@ async function updateStakeouts(forceUpdate = false) {
 								: `${data.profile.name} is now ${data.profile.status.state === "Abroad" ? data.profile.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (data.profile.status.state === "Traveling") {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 			if (online) {
@@ -1243,11 +1222,11 @@ async function updateStakeouts(forceUpdate = false) {
 							label ? `${data.profile.name} (${label}) is now online.` : `${data.profile.name} is now online.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (data.profile.last_action.status !== "Online") {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 			if (life) {
@@ -1261,11 +1240,11 @@ async function updateStakeouts(forceUpdate = false) {
 								: `${data.profile.name}'${data.profile.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (data.profile.life.current > data.profile.life.maximum * (life / 100)) {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 			if (offline) {
@@ -1282,11 +1261,11 @@ async function updateStakeouts(forceUpdate = false) {
 								: `${data.profile.name} has been offline for ${offlineHours} hours.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (offlineHours < offline) {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 			if (revivable) {
@@ -1301,11 +1280,11 @@ async function updateStakeouts(forceUpdate = false) {
 							label ? `${data.profile.name} (${label}) is now revivable.` : `${data.profile.name} is now revivable.`,
 							`https://www.torn.com/profiles.php?XID=${id}`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (!oldIsRevivable) {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 		}
@@ -1338,7 +1317,7 @@ async function updateStakeouts(forceUpdate = false) {
 	}
 	stakeouts.date = now;
 
-	await ttStorage.change({ stakeouts, notifications });
+	await ttStorage.change({ stakeouts });
 	return { updated: true, success, failed };
 }
 
@@ -1395,11 +1374,11 @@ async function updateFactionStakeouts(forceUpdate = false) {
 								`${data.basic.name} has dropped their ${oldChainCount} chain.`,
 								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 							);
-							notifications.stakeouts[key] = notification;
 							await dispatchNotification(notification);
+							await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 						}
 					} else if (chainCount > 10) {
-						delete notifications.stakeouts[key];
+						await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 					}
 				} else {
 					const key = `faction_${factionId}_chainReaches`;
@@ -1415,11 +1394,11 @@ async function updateFactionStakeouts(forceUpdate = false) {
 								`${data.basic.name} has reached a ${chainCount} chain.`,
 								`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 							);
-							notifications.stakeouts[key] = notification;
 							await dispatchNotification(notification);
+							await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 						}
 					} else if (typeof oldChainCount === "number" && chainCount < oldChainCount) {
-						delete notifications.stakeouts[key];
+						await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 					}
 				}
 			}
@@ -1440,11 +1419,11 @@ async function updateFactionStakeouts(forceUpdate = false) {
 							`${data.basic.name} now has less than ${memberCount} members.`,
 							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
 
@@ -1457,11 +1436,11 @@ async function updateFactionStakeouts(forceUpdate = false) {
 							createMessage(),
 							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 						);
-						notifications.stakeouts[key] = notification;
 						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (!isValue) {
-					delete notifications.stakeouts[key];
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			};
 			if (rankedWarStarts) {
@@ -1503,7 +1482,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 	}
 	factionStakeouts.date = now;
 
-	await ttStorage.change({ factionStakeouts, notifications });
+	await ttStorage.change({ factionStakeouts });
 	return { updated: true, success, failed };
 }
 
@@ -1568,8 +1547,7 @@ export async function updateStocks() {
 					currency: true,
 				})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`;
 
-				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
-				await storeNotification({
+				await dispatchNotification({
 					title: "TornTools -  Stock Alerts",
 					message,
 					url: LINKS.stocks,
@@ -1580,8 +1558,7 @@ export async function updateStocks() {
 					currency: true,
 				})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`;
 
-				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
-				await storeNotification({
+				await dispatchNotification({
 					title: "TornTools -  Stock Alerts",
 					message,
 					url: LINKS.stocks,
@@ -1857,20 +1834,20 @@ async function updateNPCs() {
 		)) {
 			const npc = npcs.targets[id];
 			if (!npc) {
-				await ttStorage.change(({ notifications }) => delete notifications.npcs[id]);
+				await ttStorage.update("notifications", (notifications) => delete notifications.npcs[id]);
 				continue;
 			}
 
 			const time = npc.levels[level];
 			if (!time) {
-				await ttStorage.change(({ notifications }) => delete notifications.npcs[id]);
+				await ttStorage.update("notifications", (notifications) => delete notifications.npcs[id]);
 				continue;
 			}
 
 			const left = time - now;
 			const _minutes = Math.ceil(left / TO_MILLIS.MINUTES);
 			if (_minutes > minutes || _minutes < 0) {
-				await ttStorage.change(({ notifications }) => delete notifications.npcs[id]);
+				await ttStorage.update("notifications", (notifications) => delete notifications.npcs[id]);
 				continue;
 			}
 
@@ -1891,14 +1868,14 @@ async function updateNPCs() {
 
 				const time = npcs.planned;
 				if (!time) {
-					await ttStorage.change(({ notifications }) => delete notifications.npcs[key]);
+					await ttStorage.update("notifications", (notifications) => delete notifications.npcs[key]);
 					continue;
 				}
 
 				const left = time - now;
 				const minutesPlanned = Math.ceil(left / TO_MILLIS.MINUTES);
 				if (minutesPlanned > minutes || minutesPlanned < 0) {
-					await ttStorage.change(({ notifications }) => delete notifications.npcs[key]);
+					await ttStorage.update("notifications", (notifications) => delete notifications.npcs[key]);
 					continue;
 				}
 

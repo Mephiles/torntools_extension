@@ -2,7 +2,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { type FetchLocation, type FetchOptions, fetchData } from "@common/utils/functions/api-fetcher";
 import { resetAlarms } from "@extension/entrypoints/background";
 import type { Browser } from "@wxt-dev/browser";
-import { getNotificationSound, notificationTestPlayer, notifyUser } from "@/entrypoints/background/notifications";
+import { dispatchNotification, getNotificationSound, notificationTestPlayer } from "@/entrypoints/background/notifications";
 import { timedUpdates, updateFactiondata, updateStocks, updateTorndata, updateUserdata } from "@/entrypoints/background/updates";
 
 type Alarm = Browser.alarms.Alarm;
@@ -30,7 +30,14 @@ export class BackgroundService {
 
 	notification(title: string, message: string, url?: string): Promise<ActionResponse> {
 		return new Promise<ActionResponse>((resolve) => {
-			notifyUser(title, message, url)
+			dispatchNotification({
+				title,
+				message,
+				url,
+				type: "unknown",
+				key: Date.now(),
+				date: Date.now(),
+			})
 				.then(() => resolve({ success: true }))
 				.catch((error) => resolve({ success: false, error }));
 		});
