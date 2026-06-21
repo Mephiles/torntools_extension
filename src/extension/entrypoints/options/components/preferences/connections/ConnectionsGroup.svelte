@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {ENABLE_PLAYGROUND_TORNTOOLS} from "@common/utils/feature-toggles";
 	import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import ExternalServiceCard from "./ExternalServiceCard.svelte";
@@ -91,15 +92,17 @@
 		]}
 	/>
 
-	<ExternalServiceCard
-		title="Playground TornTools"
-		description="Semi-official service for TornTools."
-		path="settings.external.playgroundTorntools"
-		enableLabel="Enable Playground TornTools"
-		origin={FETCH_PLATFORMS.playground_torntools}
-		links={[
-			{ label: "Website", href: "https://torntools.tornplayground.eu" },
-			{ label: "Terms of Service", href:  "https://torntools.tornplayground.eu/tos" },
-		]}
-	/>
+	{#if ENABLE_PLAYGROUND_TORNTOOLS}
+		<ExternalServiceCard
+			title="Playground TornTools"
+			description="Semi-official service for TornTools."
+			path="settings.external.playgroundTorntools"
+			enableLabel="Enable Playground TornTools"
+			origin={FETCH_PLATFORMS.playground_torntools}
+			links={[
+				{ label: "Website", href: "https://torntools.tornplayground.eu" },
+				{ label: "Terms of Service", href:  "https://torntools.tornplayground.eu/tos" },
+			]}
+		/>
+	{/if}
 </div>

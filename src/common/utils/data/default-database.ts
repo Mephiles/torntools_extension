@@ -535,9 +535,7 @@ export const DEFAULT_STORAGE = {
 			tornintel: new DefaultSetting("boolean", false),
 			playgroundTorntools: new DefaultSetting("boolean", false),
 		},
-		reporting: {
-			userdataInvalidOwner: new DefaultSetting("boolean", false),
-		},
+		reporting: {},
 	},
 	filters: {
 		hospital: {

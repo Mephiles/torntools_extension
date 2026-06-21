@@ -1010,44 +1010,12 @@ export async function updateUserdata(forceUpdate = false) {
 	}
 }
 
-function validateUserdataResponse(fetchedUserdata: FetchedUserdata, request: FetchRequest) {
+function validateUserdataResponse(fetchedUserdata: FetchedUserdata, _request: FetchRequest) {
 	if (!fetchedUserdata?.profile?.id) throw new Error("Aborted updating due to an unexpected response.");
 
 	if (api.torn.owner && api.torn.owner !== fetchedUserdata.profile.id) {
-		reportInvalidUserdataPlayer(fetchedUserdata, request).catch((reason) =>
-			console.warn(
-				"Failed to report the investigation data to Playground TornTools.",
-				{ owner: api.torn.owner, data_player: fetchedUserdata.profile.id },
-				reason,
-			),
-		);
 		throw new Error(`Aborted updating since it seems you received the data from ${fetchedUserdata.profile.id} instead of ${api.torn.owner}.`);
 	}
-}
-
-async function reportInvalidUserdataPlayer(fetchedUserdata: FetchedUserdata, request: FetchRequest) {
-	if (!settings.external.playgroundTorntools || !settings.reporting.userdataInvalidOwner) return;
-
-	const redactedRequest: FetchRequest = {
-		...request,
-		headers: {
-			...request.headers,
-			Authorization: request.headers.Authorization ? `ApiKey <redacted:${request.headers.Authorization.length - 7}>` : null,
-		},
-	};
-
-	const userdata = await ttStorage.get("userdata");
-
-	await fetchData("playground_torntools", {
-		section: "investigation",
-		method: "POST",
-		body: {
-			request: JSON.stringify(redactedRequest),
-			responseBody: JSON.stringify(fetchedUserdata),
-			userdata: JSON.stringify(userdata),
-			timestamp: fetchedUserdata.timestamp * 1000,
-		},
-	});
 }
 
 export async function showIconBars() {

@@ -7,10 +7,6 @@
 			"features": [
 				{ "message": "Filter on 'Collection Ready' in the 'Stocks Filter'.", "contributor": "DeKleineKobini" },
 				{ "message": "Click on items in the 'City Items' container to collect them.", "contributor": "DeKleineKobini" },
-				{
-					"message": "Report some data to the TornTools developers when a response looks to be from another player (fully opt-in).",
-					"contributor": "DeKleineKobini"
-				},
 				{ "message": "Filter out races with a limited car selection.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow grouping and filtering of city items by their spawning date.", "contributor": "Manuel" },
 				{ "message": "Show a message to redirect reports from direct messaging to our public channels.", "contributor": "Manuel" }
