@@ -30,9 +30,6 @@
 				{ "message": "Increase the max height of 'Resizable Chat' to about 4 lines.", "contributor": "DeKleineKobini" },
 				{ "message": "Reject userdata updates if they are from another player.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [
-				{ "message": "Remove the city item highlighting and searching due to newly introduces technical challenges.", "contributor": "DeKleineKobini" }
-			],
 			"technical": [{ "message": "More abstractions for loading items, to enable more userscripts.", "contributor": "DeKleineKobini" }]
 		}
 	},
