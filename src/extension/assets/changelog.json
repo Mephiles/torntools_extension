@@ -11,7 +11,7 @@
 			],
 			"changes": [],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Ignore errors of invalidated context where possible.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
