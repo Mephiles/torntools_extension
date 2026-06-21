@@ -22,6 +22,7 @@ import {
 } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import { injectFetchListeners, injectXhrListeners, RequestListenerInjector, type ScriptInjector } from "@common/utils/functions/script-injector";
+import { injectCityItemsMapListeners } from "@features/city-items/city-items-map";
 import type { Feature } from "@features/feature";
 import type { FeatureManager } from "@features/feature-manager";
 import { TTScriptStorage } from "@userscripts/runtime/script-storage";
@@ -72,8 +73,13 @@ class ScriptFeatureManager implements FeatureManager {
 	}
 }
 
+function injectUserscriptCityItemsMapListeners() {
+	injectCityItemsMapListeners(unsafeWindow);
+}
+
 const fetchListenerInjector = new RequestListenerInjector(injectFetchListeners);
 const xhrListenerInjector = new RequestListenerInjector(injectXhrListeners);
+const cityItemsMapListenerInjector = new RequestListenerInjector(injectUserscriptCityItemsMapListeners);
 
 const UserscriptScriptInjector: ScriptInjector = {
 	getWindow(): Window {
@@ -84,6 +90,9 @@ const UserscriptScriptInjector: ScriptInjector = {
 	},
 	injectXHR() {
 		xhrListenerInjector.inject();
+	},
+	injectCityItemsMap() {
+		cityItemsMapListenerInjector.inject();
 	},
 };
 

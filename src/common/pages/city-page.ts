@@ -6,13 +6,23 @@ declare global {
 	}
 }
 
-interface TornCityObject {
-	model: {
-		get(): Omit<MapData, "territoryUserItems"> & { territoryUserItems: InternalCityItem[] };
-	};
+export interface TornCityObject {
+	model: TornCityModel;
+	map?: TornCityMapRuntime;
 }
 
-type MapData = {
+export interface TornCityModel {
+	get(): Omit<MapData, "territoryUserItems"> & { territoryUserItems: InternalCityItem[] };
+	get(key: "territoryUserItems"): InternalCityItem[];
+}
+
+export interface TornCityMapRuntime {
+	lmap?: unknown;
+	minZoom?: number;
+	getLPoint?(point: [number, number]): unknown;
+}
+
+export type MapData = {
 	mapConstants: {
 		TERRITORY_RESPECT_PRICE: number;
 		TERRITORY_PRICE_COEF: number;
@@ -103,7 +113,7 @@ type MapData = {
 	territoryUserItems: string;
 };
 
-interface FactionData {
+export interface FactionData {
 	image: string;
 	colour: string;
 	colourID: number;

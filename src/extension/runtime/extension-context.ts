@@ -40,7 +40,7 @@ export function registerExtensionContext() {
 	setStaticItemResolver(ExtensionItemResolver);
 }
 
-const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean } = {
+const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean; injectedCityItemsMap: boolean } = {
 	getWindow(): Window {
 		return usingFirefox() ? window.wrappedJSObject! : window;
 	},
@@ -57,6 +57,13 @@ const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; inject
 
 		executeScript(browser.runtime.getURL("/xhr--inject.js"), false);
 		this.injectedXHR = true;
+	},
+	injectedCityItemsMap: false,
+	injectCityItemsMap() {
+		if (this.injectedCityItemsMap) return;
+
+		executeScript(browser.runtime.getURL("/city-items--inject.js"), false);
+		this.injectedCityItemsMap = true;
 	},
 };
 

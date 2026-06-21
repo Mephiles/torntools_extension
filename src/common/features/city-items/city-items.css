@@ -1,26 +1,205 @@
+/*
+ * Credits to Mauk / DoctorN for the original TornTools city item highlight style.
+ */
+#map .tt-city-item-overlay.city-item {
+	box-sizing: border-box;
+	display: block !important;
+	width: 38px !important;
+	height: 38px !important;
+	margin-left: -19px !important;
+	margin-top: -19px !important;
+	z-index: 999 !important;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	pointer-events: auto !important;
+}
+
+#map .tt-city-item-overlay.city-item .tt-city-item-overlay-content {
+	box-sizing: border-box;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	padding: 6px;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.45);
+	box-shadow:
+		0 0 0 1px rgba(255, 255, 255, 0.25),
+		rgb(0, 0, 0) 0 0 9px 4px;
+	transform: translate(-50%, -50%);
+	transition:
+		width 50ms cubic-bezier(0.65, 0.05, 0.36, 1),
+		height 50ms cubic-bezier(0.65, 0.05, 0.36, 1),
+		padding 50ms cubic-bezier(0.65, 0.05, 0.36, 1),
+		box-shadow 50ms cubic-bezier(0.65, 0.05, 0.36, 1),
+		background 50ms 0ms;
+}
+
+#map .tt-city-item-overlay.city-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	pointer-events: none;
+}
+
+#map .tt-city-item-overlay.city-item:hover,
+#map .tt-city-item-overlay.city-item.force-hover {
+	z-index: 1000 !important;
+}
+
+#map .tt-city-item-overlay.city-item:hover .tt-city-item-overlay-content,
+#map .tt-city-item-overlay.city-item.force-hover .tt-city-item-overlay-content {
+	width: 62px;
+	height: 62px;
+	padding: 8px;
+	background: rgba(0, 0, 0, 0.72);
+	box-shadow:
+		0 0 0 2px rgba(255, 255, 255, 0.35),
+		rgb(0, 0, 0) 0 0 12px 5px;
+}
+
 .tt-city-total {
 	font-size: 14px;
 	margin-bottom: 2px;
+}
 
-	.tt-city-total-text {
-		font-weight: bold;
-	}
+.tt-city-total .tt-city-total-text {
+	font-weight: bold;
+}
 
-	.tt-city-total-value {
-		color: var(--tt-color-item-text);
-	}
+.tt-city-total .tt-city-total-value {
+	color: var(--tt-color-item-text);
 }
 
 .tt-city-items {
 	line-height: 14px;
 	/*noinspection CssNonIntegerLengthInPixels*/
 	letter-spacing: 0.2px;
+}
 
-	span:nth-of-type(odd) {
-		color: #aaa;
-	}
+.tt-city-items p > span:nth-of-type(odd) {
+	color: #aaa;
+}
 
-	.list-item {
-		cursor: pointer;
-	}
+.tt-city-items .list-item {
+	cursor: pointer;
+}
+
+.tt-city-controls {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	align-items: center;
+	width: 100%;
+	margin-bottom: 4px;
+	padding: 6px 0;
+	border-bottom: 1px solid var(--default-panel-divider-outer-side-color);
+}
+
+.tt-city-group-filter,
+.tt-city-period-filter,
+.tt-city-search-filter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	min-width: 0;
+	padding: 0 10px;
+}
+
+.tt-city-controls > * + * {
+	border-left: 1px solid var(--default-panel-divider-inner-side-color);
+}
+
+.tt-city-control-label {
+	white-space: nowrap;
+}
+
+.tt-city-group-filter .tt-checkbox-wrapper {
+	display: inline-flex;
+}
+
+.tt-city-period-group {
+	margin-top: 6px;
+}
+
+.tt-city-period-header {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 4px;
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.tt-city-period-count {
+	color: #aaa;
+	font-weight: normal;
+}
+
+.tt-city-period-value {
+	margin-left: auto;
+	color: var(--tt-color-item-text);
+	font-weight: normal;
+}
+
+.tt-city-group-pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 6px;
+	padding-top: 6px;
+	border-top: 1px solid var(--default-panel-divider-inner-side-color);
+	color: var(--default-color);
+}
+
+.tt-city-group-pagination-button {
+	border: none;
+	background: transparent;
+	font: inherit;
+	padding: 0;
+}
+
+.tt-city-controls select,
+.tt-city-search-filter input {
+	max-width: 100%;
+}
+
+.tt-city-search-filter input {
+	width: 180px;
+	min-width: 90px;
+}
+
+body.tt-mobile .tt-city-controls > *,
+body.tt-tablet .tt-city-controls > * {
+	align-items: stretch;
+	flex-direction: column;
+	gap: 4px;
+	padding: 0 6px;
+}
+
+body.tt-mobile .tt-city-group-filter,
+body.tt-tablet .tt-city-group-filter {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+}
+
+body.tt-mobile .tt-city-group-filter .tt-city-control-label,
+body.tt-tablet .tt-city-group-filter .tt-city-control-label {
+	grid-column: 1 / -1;
+}
+
+body.tt-mobile .tt-city-controls select,
+body.tt-tablet .tt-city-controls select,
+body.tt-mobile .tt-city-search-filter input,
+body.tt-tablet .tt-city-search-filter input {
+	width: 100%;
+	min-width: 0;
 }
