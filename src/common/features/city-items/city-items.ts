@@ -722,6 +722,7 @@ function handleCollectedEntry(entry: CityItemEntry, item: number, name: string) 
 	if (!findEntry(entry.td, entry.entryId)) return;
 
 	setCityItems(removeEntryFromItems(entry));
+	clearForcedHighlights();
 
 	let text: string;
 	if (ITEM_RESOLVER.hasFullItems()) {
