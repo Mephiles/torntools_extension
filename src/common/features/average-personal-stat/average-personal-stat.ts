@@ -40,7 +40,7 @@ function calculateStatsAverage(graphData: any) {
 
 			// Insert data
 			const element = document.querySelectorAll("div[class^='titleItem']")[userIndex];
-			if (!element) element.textContent = `${userName} (${formattedAvg} per day)`;
+			if (element) element.textContent = `${userName} (${formattedAvg} per day)`;
 			userIndex++;
 		}
 	}
