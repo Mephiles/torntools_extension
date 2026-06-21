@@ -3,7 +3,13 @@
 		"version": { "major": 9, "minor": 0, "build": 11 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [{ "message": "Sell properties from their detail in single click.", "contributor": "DeKleineKobini" }],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 0, "build": 10 },

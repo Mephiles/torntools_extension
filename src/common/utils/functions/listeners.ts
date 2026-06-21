@@ -1,4 +1,5 @@
 import type { CRIMES2 } from "@common/pages/crimes2-page";
+import type { PropertiesRoute } from "@common/pages/properties-page";
 import type { AbroadItem } from "@common/pages/travel-abroad-page";
 import { SCRIPT_INJECTOR } from "@common/utils/context";
 import { executeScript } from "@common/utils/functions/dom";
@@ -71,6 +72,8 @@ export enum EVENT_CHANNELS {
 	ITEMMARKET_ITEMS_UPDATE = "itemmarket-items-update",
 	ITEMMARKET_ITEM_DETAILS = "itemmarket-item-details",
 	WINDOW__FOCUS = "WINDOW__FOCUS",
+	PROPERTIES__ROUTE = "PROPERTIES__ROUTE",
+	PROPERTIES__ROUTE_PAGE = "PROPERTIES__ROUTE_PAGE",
 }
 
 type EventPayloads = {
@@ -136,6 +139,8 @@ type EventPayloads = {
 	[EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE]: { item: number; list: Element };
 	[EVENT_CHANNELS.ITEMMARKET_ITEMS]: { item: number; list: Element };
 	[EVENT_CHANNELS.WINDOW__FOCUS]: never;
+	[EVENT_CHANNELS.PROPERTIES__ROUTE]: { route: PropertiesRoute };
+	[EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE]: { route: PropertiesRoute };
 };
 
 type CustomEventListener<T extends keyof EventPayloads> = (payload: EventPayloads[T]) => void;

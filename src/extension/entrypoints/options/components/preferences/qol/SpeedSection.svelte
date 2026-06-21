@@ -18,6 +18,7 @@
 			<StorageSwitch path="settings.scripts.noConfirm.pointsMarketBuy" label="Buying points from the market" />
 			<StorageSwitch path="settings.scripts.noConfirm.pointsMarketRemove" label="Removing points from the market" />
 			<StorageSwitch path="settings.scripts.noConfirm.abroadItemBuy" label="Buying items aboard" disabled description="Disabled until further notice." />
+			<StorageSwitch path="settings.scripts.noConfirm.propertiesSell" label="Selling your properties" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 </div>

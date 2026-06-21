@@ -48,6 +48,7 @@ import { setupItemPage } from "@common/pages/item-page";
 import { setupItemMarketPage } from "@common/pages/itemmarket-page";
 import { setupJailPage } from "@common/pages/jail-page";
 import { setupMissionsPage } from "@common/pages/missions-page";
+import { setupPropertiesPage } from "@common/pages/properties-page";
 import { setupTradePage } from "@common/pages/trade-page";
 import { setupTravelHomePage } from "@common/pages/travel-home-page";
 import { setupUserlistPage } from "@common/pages/userlist-page";
@@ -155,6 +156,7 @@ import MuseumAutoFillFeature from "@features/museum-auto-fill/museum-auto-fill";
 import NoConfirmAbroadBuyFeature from "@features/no-confirm/no-confirm-abroad-buy";
 import NoConfirmItemsFeature from "@features/no-confirm/no-confirm-items";
 import NoConfirmPointsMarketFeature from "@features/no-confirm/no-confirm-points-market";
+import NoConfirmPropertiesFeature from "@features/no-confirm/no-confirm-properties";
 import NoConfirmTradeFeature from "@features/no-confirm/no-confirm-trade";
 import NoOutsideLinkAlertFeature from "@features/no-outside-link-alert/no-outside-link-alert";
 import NPCLootTimesFeature from "@features/npc-loot-times/npc-loot-times";
@@ -516,8 +518,11 @@ export function scriptManager() {
 	} else if (page === "points-market") {
 		FEATURE_MANAGER.registerFeature(new NoConfirmPointsMarketFeature());
 	} else if (page === "properties") {
+		setupPropertiesPage().catch((err) => console.debug(err));
+
 		FEATURE_MANAGER.registerFeature(new PropertyValuesFeature());
 		FEATURE_MANAGER.registerFeature(new PropertyHappinessFeature());
+		FEATURE_MANAGER.registerFeature(new NoConfirmPropertiesFeature());
 	} else if (page === "preferences") {
 		FEATURE_MANAGER.registerFeature(new PreferenceSettingsFeature());
 	} else if (page === "targets") {

@@ -488,6 +488,7 @@ export const DEFAULT_STORAGE = {
 				pointsMarketRemove: new DefaultSetting("boolean", false),
 				pointsMarketBuy: new DefaultSetting("boolean", false),
 				abroadItemBuy: new DefaultSetting("boolean", true),
+				propertiesSell: new DefaultSetting("boolean", false),
 			},
 			achievements: {
 				show: new DefaultSetting("boolean", true),
