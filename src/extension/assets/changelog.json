@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Sell properties from their detail in single click.", "contributor": "DeKleineKobini" }],
-			"fixes": [],
+			"fixes": [
+				{ "message": "Block most pages from running on the recaptcha page.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the city items value no longer always being visible.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": []

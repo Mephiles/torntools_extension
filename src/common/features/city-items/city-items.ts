@@ -381,7 +381,7 @@ function showValue(content: HTMLElement, items: CityItem[]) {
 	content.appendChild(
 		elementBuilder({
 			type: "div",
-			class: "tt-city-total hide-collapse",
+			class: "tt-city-total",
 			children: [
 				elementBuilder({ type: "span", class: "tt-city-total-text", text: `Item Value (${count}): ` }),
 				elementBuilder({ type: "span", class: "tt-city-total-value", text: formatNumber(value, { currency: true }) }),
