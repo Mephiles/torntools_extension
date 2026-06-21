@@ -68,6 +68,7 @@ import AveragePersonalStatFeature from "@features/average-personal-stat/average-
 import BarLinksFeature from "@features/bar-links/bar-links";
 import ChatFontSizeFeature from "@features/chat-font-size/chat-font-size";
 import CooldownEndTimesFeature from "@features/cooldown-end-times/cooldown-end-times";
+import CreatorMessagesFeature from "@features/creator-messages/creator-messages";
 import CreatorsFeature from "@features/creators/creators";
 import CrimeValueFeature from "@features/crime-value/crime-value";
 import Crimes2BurglaryFilterFeature from "@features/crimes2-burglary-filter/crimes2-burglary-filter";
@@ -524,6 +525,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new TargetFilterFeature());
 	} else if (page === "hof") {
 		FEATURE_MANAGER.registerFeature(new StatsEstimateHOFFeature());
+	} else if (page === "messages") {
+		FEATURE_MANAGER.registerFeature(new CreatorMessagesFeature());
 	}
 
 	if (isPageWithDrugItems(page)) {

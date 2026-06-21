@@ -12,7 +12,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Filter out races with a limited car selection.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow grouping and filtering of city items by their spawning date.", "contributor": "Manuel" }
+				{ "message": "Allow grouping and filtering of city items by their spawning date.", "contributor": "Manuel" },
+				{ "message": "Show a message to redirect reports from direct messaging to our public channels.", "contributor": "Manuel" }
 			],
 			"fixes": [
 				{ "message": "Keep everything intact even if SpeechSynthesis is disabled in the browser.", "contributor": "DeKleineKobini" },

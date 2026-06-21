@@ -1,0 +1,13 @@
+.message-warning {
+	font-size: 14px;
+	line-height: 14px;
+	color: white;
+	padding: 14px;
+	background: var(--tt-background-green);
+	text-shadow: var(--tutorial-title-shadow);
+	font-weight: bold;
+
+	a {
+		color: currentColor;
+	}
+}
