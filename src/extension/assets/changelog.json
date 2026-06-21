@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 9 },
+		"version": { "major": 9, "minor": 0, "build": 10 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 9 },
+		"date": "2026/06/21",
 		"logs": {
 			"features": [
 				{ "message": "Filter on 'Collection Ready' in the 'Stocks Filter'.", "contributor": "DeKleineKobini" },
