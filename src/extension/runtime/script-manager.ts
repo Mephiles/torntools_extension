@@ -245,51 +245,54 @@ export function scriptManager() {
 	FEATURE_MANAGER.registerFeature(new AlignLeftFeature());
 
 	runGlobalPageScripts();
-	FEATURE_MANAGER.registerFeature(new PointsValueFeature());
-	FEATURE_MANAGER.registerFeature(new RWTimerFeature());
-	FEATURE_MANAGER.registerFeature(new ReviveRequestFeature());
-	FEATURE_MANAGER.registerFeature(new CustomLinksFeature());
-	FEATURE_MANAGER.registerFeature(new CollapsibleAreasFeature());
-	FEATURE_MANAGER.registerFeature(new HideLeaveButtonsFeature());
-	FEATURE_MANAGER.registerFeature(new HideLevelUpgradeFeature());
-	FEATURE_MANAGER.registerFeature(new HideTutorialsFeature());
 	FEATURE_MANAGER.registerFeature(new HideChatFeature());
-	FEATURE_MANAGER.registerFeature(new HideIconsFeature());
-	FEATURE_MANAGER.registerFeature(new HideGymHighlightFeature());
-	FEATURE_MANAGER.registerFeature(new HideNewspaperHighlightFeature());
-	FEATURE_MANAGER.registerFeature(new HighlightEnergyRefillFeature());
-	FEATURE_MANAGER.registerFeature(new HighlightNerveRefillFeature());
-	FEATURE_MANAGER.registerFeature(new HighlightPropertiesFeature());
 	FEATURE_MANAGER.registerFeature(new MiniProfileLastActionFeature());
-	FEATURE_MANAGER.registerFeature(new JobPointsTooltipFeature());
-	FEATURE_MANAGER.registerFeature(new AchievementsFeature());
 	FEATURE_MANAGER.registerFeature(new ChatAutocompleteFeature());
 	FEATURE_MANAGER.registerFeature(new ChatHighlightFeature());
 	FEATURE_MANAGER.registerFeature(new ColoredChatFeature());
-	FEATURE_MANAGER.registerFeature(new CompanyAddictionFeature());
-	FEATURE_MANAGER.registerFeature(new CooldownEndTimesFeature());
-	FEATURE_MANAGER.registerFeature(new EasterEggsFeature());
 	FEATURE_MANAGER.registerFeature(new ChatFontSizeFeature());
-	FEATURE_MANAGER.registerFeature(new FactionOCTimeFeature());
 	FEATURE_MANAGER.registerFeature(new FFScouterGaugeFeature());
 	FEATURE_MANAGER.registerFeature(new FFScouterMiniProfileFeature());
-	FEATURE_MANAGER.registerFeature(new NPCLootTimesFeature());
-	FEATURE_MANAGER.registerFeature(new OCTimeFeature());
-	FEATURE_MANAGER.registerFeature(new OC2TimeFeature());
-	FEATURE_MANAGER.registerFeature(new BarLinksFeature());
 	FEATURE_MANAGER.registerFeature(new SearchChatFeature());
-	FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
-	FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
-	FEATURE_MANAGER.registerFeature(new StackingModeFeature());
-	FEATURE_MANAGER.registerFeature(new UpdateNoticeFeature());
-	FEATURE_MANAGER.registerFeature(new VirusTimerFeature());
 	FEATURE_MANAGER.registerFeature(new TradeTimerFeature());
 	FEATURE_MANAGER.registerFeature(new UserAliasChatFeature());
 	FEATURE_MANAGER.registerFeature(new ResizableChatFeature());
 	FEATURE_MANAGER.registerFeature(new NoOutsideLinkAlertFeature());
-	FEATURE_MANAGER.registerFeature(new UrlFillFeature());
 
 	const page = getPage();
+	if (!isRecaptcha(page)) {
+		FEATURE_MANAGER.registerFeature(new PointsValueFeature());
+		FEATURE_MANAGER.registerFeature(new RWTimerFeature());
+		FEATURE_MANAGER.registerFeature(new ReviveRequestFeature());
+		FEATURE_MANAGER.registerFeature(new CustomLinksFeature());
+		FEATURE_MANAGER.registerFeature(new CollapsibleAreasFeature());
+		FEATURE_MANAGER.registerFeature(new HideLeaveButtonsFeature());
+		FEATURE_MANAGER.registerFeature(new HideLevelUpgradeFeature());
+		FEATURE_MANAGER.registerFeature(new HideTutorialsFeature());
+		FEATURE_MANAGER.registerFeature(new HideIconsFeature());
+		FEATURE_MANAGER.registerFeature(new HideGymHighlightFeature());
+		FEATURE_MANAGER.registerFeature(new HideNewspaperHighlightFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightEnergyRefillFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightNerveRefillFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightPropertiesFeature());
+		FEATURE_MANAGER.registerFeature(new JobPointsTooltipFeature());
+		FEATURE_MANAGER.registerFeature(new AchievementsFeature());
+		FEATURE_MANAGER.registerFeature(new CompanyAddictionFeature());
+		FEATURE_MANAGER.registerFeature(new CooldownEndTimesFeature());
+		FEATURE_MANAGER.registerFeature(new EasterEggsFeature());
+		FEATURE_MANAGER.registerFeature(new FactionOCTimeFeature());
+		FEATURE_MANAGER.registerFeature(new NPCLootTimesFeature());
+		FEATURE_MANAGER.registerFeature(new OCTimeFeature());
+		FEATURE_MANAGER.registerFeature(new OC2TimeFeature());
+		FEATURE_MANAGER.registerFeature(new BarLinksFeature());
+		FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
+		FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
+		FEATURE_MANAGER.registerFeature(new StackingModeFeature());
+		FEATURE_MANAGER.registerFeature(new UpdateNoticeFeature());
+		FEATURE_MANAGER.registerFeature(new VirusTimerFeature());
+		FEATURE_MANAGER.registerFeature(new UrlFillFeature());
+	}
+
 	if (page === "bank") {
 		FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
 		FEATURE_MANAGER.registerFeature(new BankInvestmentDueTimeFeature());
@@ -571,4 +574,8 @@ function isPageWithDrugItems(page: string) {
 
 function isPageWithItemValues(page: string) {
 	return ["bazaar", "displaycase", "factions", "item", "itemuseparcel", "trade"].includes(page);
+}
+
+function isRecaptcha(page: string) {
+	return page === "recaptcha";
 }
