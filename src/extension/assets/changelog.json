@@ -3,7 +3,13 @@
 		"version": { "major": 9, "minor": 0, "build": 10 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Don't lose the error reason when loading the database.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 0, "build": 9 },

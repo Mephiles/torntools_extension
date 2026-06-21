@@ -273,7 +273,7 @@ function populateDatabaseVariables(database: Database) {
 }
 
 export async function initializeDatabase() {
-	await loadDatabase().catch(() => console.error("TT - Failed to load database."));
+	await loadDatabase().catch((reason) => console.error("TT - Failed to load database.", reason));
 	initializeDatabaseListener();
 }
 
