@@ -3,7 +3,7 @@
  */
 #map .tt-city-item-overlay.city-item {
 	box-sizing: border-box;
-	display: block !important;
+	display: none !important;
 	width: 38px !important;
 	height: 38px !important;
 	margin-left: -19px !important;
@@ -13,6 +13,11 @@
 	background: transparent;
 	cursor: pointer;
 	pointer-events: auto !important;
+}
+
+#map.highlight-items .tt-city-item-overlay.city-item,
+#map .tt-city-item-overlay.city-item.force-hover {
+	display: block !important;
 }
 
 #map .tt-city-item-overlay.city-item .tt-city-item-overlay-content {

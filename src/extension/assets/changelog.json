@@ -9,7 +9,8 @@
 				{ "message": "Block most pages from running on the recaptcha page.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the city items value no longer always being visible.", "contributor": "DeKleineKobini" },
 				{ "message": "Show average personal stats again.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the city items not always showing up when you have no items present.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the city items not always showing up when you have no items present.", "contributor": "DeKleineKobini" },
+				{ "message": "Reintroduce the 'Highlight items' checkbox for City Items map overlays.", "contributor": "Manuel" }
 			],
 			"changes": [],
 			"removed": [],
