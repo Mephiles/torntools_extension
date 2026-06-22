@@ -3,7 +3,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { Feature } from "@features/feature";
 
@@ -66,11 +66,6 @@ function sellProperty(propertyId: number) {
 	body.set("ID", propertyId.toString());
 
 	return fetchData<TornInternalSellProperty>("torn_direct", { action: "properties.php", method: "POST", body });
-}
-
-function markPropertyAsSold(propertyWrapper: HTMLElement) {
-	propertyWrapper.style.opacity = "0.3";
-	findAllElements(".options-list > li a", propertyWrapper).forEach((action) => action.remove());
 }
 
 export default class NoConfirmPropertiesFeature extends Feature {
