@@ -63,13 +63,12 @@ function triggerFallback() {
 	if (findContainer("City Items")) return;
 
 	const userItems = getPageModelItems();
-	if (userItems?.length) {
+	if (userItems) {
 		const items = resolveUserItems(userItems);
 		showCityItemsContainer(items).catch(console.error);
 		return;
 	}
 
-	SCRIPT_INJECTOR.injectCityItemsMap();
 	window.setTimeout(() => dispatchMapEvent(CITY_ITEMS_MAP_EVENTS.REQUEST_MODEL_ITEMS), 100);
 }
 
@@ -81,7 +80,7 @@ function handleModelItems(event: Event) {
 	if (!Array.isArray(userItems)) return;
 
 	const internalItems = userItems.filter(isInternalCityItem);
-	if (!internalItems.length) return;
+	if (!internalItems) return;
 
 	const items = resolveUserItems(internalItems);
 	showCityItemsContainer(items).catch(console.error);
