@@ -22,9 +22,8 @@ function initialise() {
 
 async function startFeature() {
 	const sellButton = document.querySelector<HTMLElement>(".btn:has(input[type='submit'][value='SELL'][data-to='agent'])");
-	console.log("DKK start", sellButton);
 	if (!sellButton) return;
-	// findAllElements(".property-option-sell").forEach((sellButton) => {
+
 	sellButton.addEventListener("click", async (event) => {
 		if (!FEATURE_MANAGER.isEnabled(NoConfirmPropertiesFeature)) return;
 		event.preventDefault();
