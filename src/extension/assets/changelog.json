@@ -12,7 +12,7 @@
 				{ "message": "Fix the city items not always showing up when you have no items present.", "contributor": "DeKleineKobini" },
 				{ "message": "Reintroduce the 'Highlight items' checkbox for City Items map overlays.", "contributor": "Manuel" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Adjust the travel time and cost for the 'Travel Table'.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [{ "message": "Ignore errors of invalidated context where possible.", "contributor": "DeKleineKobini" }]
 		}

@@ -27,17 +27,17 @@ interface CountryInformation {
 type TableCategory = "plushie" | "flower" | "drug" | "temporary" | "weapon" | "defensive" | "other";
 
 const COUNTRIES: { [name: string]: CountryInformation } = {
-	arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: 167 },
-	can: { name: "Canada", image: "canada", tag: "canada", cost: 9000, time: 41 },
-	cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 10000, time: 35 },
-	chi: { name: "China", image: "china", tag: "china", cost: 35000, time: 242 },
-	haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 11000, time: 134 },
-	jap: { name: "Japan", image: "japan", tag: "japan", cost: 32000, time: 225 },
-	mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 6500, time: 26 },
-	sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 40000, time: 297 },
-	swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 27000, time: 175 },
-	uae: { name: "UAE", image: "uae", tag: "uae", cost: 32000, time: 271 },
-	uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 1800, time: 159 },
+	arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 17850, time: 158 },
+	can: { name: "Canada", image: "canada", tag: "canada", cost: 7650, time: 39 },
+	cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 8500, time: 33 },
+	chi: { name: "China", image: "china", tag: "china", cost: 29750, time: 229 },
+	haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 9350, time: 127 },
+	jap: { name: "Japan", image: "japan", tag: "japan", cost: 27200, time: 213 },
+	mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 5525, time: 24 },
+	sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 34000, time: 282 },
+	swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 22950, time: 166 },
+	uae: { name: "UAE", image: "uae", tag: "uae", cost: 27200, time: 257 },
+	uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 15300, time: 151 },
 };
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
@@ -825,7 +825,7 @@ function updateValues() {
 function getTravelCount(type?: TravelType) {
 	if (!type) type = getTravelType();
 
-	let count = 5;
+	let count = 10;
 
 	if (hasAPIData() && settings.apiUsage.user.perks) {
 		count += userdata.enhancer_perks
@@ -848,7 +848,7 @@ function getTravelCount(type?: TravelType) {
 			.reduce((a, b) => a + b, 0);
 	}
 
-	if (type !== "standard") count += 10;
+	if (type !== "standard") count += 5;
 
 	return count;
 }
