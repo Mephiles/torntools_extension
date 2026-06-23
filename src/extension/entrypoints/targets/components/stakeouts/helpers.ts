@@ -32,6 +32,7 @@ export function getAlerts(alerts?: Partial<StakeoutAlerts>): StakeoutAlerts {
 	return {
 		okay: alerts?.okay,
 		hospital: alerts?.hospital,
+		flying: alerts?.flying,
 		landing: alerts?.landing,
 		online: alerts?.online,
 		life: alerts?.life,

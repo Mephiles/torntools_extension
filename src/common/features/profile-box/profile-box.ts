@@ -702,7 +702,7 @@ async function showBox() {
 					id,
 					order: Date.now(),
 					info: readStakeoutDataFromProfilePage(),
-					alerts: { okay: false, hospital: false, landing: false, online: false, life: false, offline: false, revivable: false },
+					alerts: { okay: false, hospital: false, flying: false, landing: false, online: false, life: false, offline: false, revivable: false },
 					label: "",
 				});
 				ttStorage.set({ stakeouts });
@@ -742,6 +742,15 @@ async function showBox() {
 			if (!entry) return;
 
 			entry.alerts.hospital = isInHospital.isChecked();
+			ttStorage.set({ stakeouts });
+		});
+
+		const flying = createCheckbox({ description: "is flying" });
+		flying.onChange(() => {
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
+
+			entry.alerts.flying = flying.isChecked();
 			ttStorage.set({ stakeouts });
 		});
 
@@ -797,6 +806,7 @@ async function showBox() {
 				labelElement.element,
 				isOkay.element,
 				isInHospital.element,
+				flying.element,
 				lands.element,
 				comesOnline.element,
 				lifeDrops.element,
@@ -809,6 +819,7 @@ async function showBox() {
 			labelElement.setValue(existingStakeout.label ?? "");
 			isOkay.setChecked(existingStakeout.alerts.okay);
 			isInHospital.setChecked(existingStakeout.alerts.hospital);
+			flying.setChecked(existingStakeout.alerts.flying);
 			lands.setChecked(existingStakeout.alerts.landing);
 			comesOnline.setChecked(existingStakeout.alerts.online);
 			lifeDrops.setValue(existingStakeout.alerts.life === false ? "" : String(existingStakeout.alerts.life));

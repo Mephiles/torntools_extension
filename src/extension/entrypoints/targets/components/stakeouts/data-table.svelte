@@ -123,6 +123,7 @@
 										checked={row.alerts.hospital}
 										onchange={(value) => onBooleanAlertChange(row.id, "hospital", value)}
 									/>
+									<AlertCheckbox id={`flying-${row.id}`} label="is flying" checked={row.alerts.flying} onchange={(value) => onBooleanAlertChange(row.id, "flying", value)} />
 									<AlertCheckbox id={`landing-${row.id}`} label="lands" checked={row.alerts.landing} onchange={(value) => onBooleanAlertChange(row.id, "landing", value)} />
 									<AlertCheckbox
 										id={`online-${row.id}`}

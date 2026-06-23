@@ -1002,6 +1002,7 @@ export type StakeoutData = {
 	alerts: {
 		okay: boolean;
 		hospital: boolean;
+		flying: boolean;
 		landing: boolean;
 		online: boolean;
 		life: number | false;

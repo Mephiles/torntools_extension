@@ -1117,7 +1117,7 @@ async function updateStakeouts(forceUpdate = false) {
 
 		if (stakeout.alerts) {
 			const { label } = stakeout;
-			const { okay, hospital, landing, online, life, offline, revivable } = stakeout.alerts;
+			const { okay, hospital, flying, landing, online, life, offline, revivable } = stakeout.alerts;
 
 			if (okay) {
 				const key = `${id}_okay`;
@@ -1156,6 +1156,22 @@ async function updateStakeouts(forceUpdate = false) {
 						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (data.profile.status.state !== "Hospital") {
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
+				}
+			}
+			if (flying) {
+				const key = `${id}_flying`;
+				if (data.profile.status.state === "Traveling" && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
+							"Stakeouts",
+							label ? `${data.profile.name} (${label}) is now flying.` : `${data.profile.name} is now flying.`,
+							`https://www.torn.com/profiles.php?XID=${id}`,
+						);
+						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
+					}
+				} else if (data.profile.status.state !== "Traveling") {
 					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}

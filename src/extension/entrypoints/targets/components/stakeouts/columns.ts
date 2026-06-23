@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/table-core";
 
 export type StakeoutAlerts = StakeoutData["alerts"];
 export type StakeoutInfo = StakeoutData["info"];
-export type BooleanAlertKey = "okay" | "hospital" | "landing" | "online" | "revivable";
+export type BooleanAlertKey = "okay" | "hospital" | "flying" | "landing" | "online" | "revivable";
 export type NumberAlertKey = "life" | "offline";
 export type StakeoutColumnId = "id" | "name" | "label" | "status" | "lastAction" | "remove" | "notifications";
 
