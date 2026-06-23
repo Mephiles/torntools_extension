@@ -42,7 +42,8 @@ function initialiseFilters() {
 	addFetchListener(async ({ detail: { page, fetch } }) => {
 		if (!FEATURE_MANAGER.isEnabled(RankedWarFilterFeature)) return;
 
-		if (page === "page" && new URL(fetch.url).searchParams.get("sid") === "factionsRankedWarring") {
+		const params = new URL(fetch.url).searchParams;
+		if ((page === "page" && params.get("sid") === "factionsUsers") || (page === "faction_wars" && params.get("step") === "getwarusers")) {
 			await filtering();
 		}
 	});
