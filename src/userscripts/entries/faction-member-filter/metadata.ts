@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Faction Member Filter",
 	description: "Filter the list of members in a faction.",
-	version: "1.0.1",
+	version: "1.0.2",
 	matches: ["https://*.torn.com/factions.php*"],
 	runAt: "document-end",
 };
