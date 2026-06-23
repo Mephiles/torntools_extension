@@ -1,7 +1,7 @@
 import "./city-items.css";
 import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
-import { settings } from "@common/utils/data/database";
+import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createSelect } from "@common/utils/elements/select/select";
 import { displayAlert } from "@common/utils/functions/alerts";
@@ -309,11 +309,30 @@ async function showCityItemsContainer(items: CityItem[]) {
 	await requireElement("#map .leaflet-zoom-animated");
 
 	if (!contentElement || !document.contains(contentElement)) {
-		const { content } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
+		const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: document.querySelector("#tab-menu") });
 		contentElement = content;
+		showHighlightControl(options);
 	}
 
 	setCityItems(items);
+}
+
+function showHighlightControl(options: HTMLElement) {
+	const checkbox = createCheckbox({ description: "Highlight items" });
+	checkbox.setChecked(filters.city.highlightItems);
+	setMapHighlight(filters.city.highlightItems);
+	checkbox.onChange(() => {
+		const highlightItems = checkbox.isChecked();
+
+		setMapHighlight(highlightItems);
+		void ttStorage.change({ filters: { city: { highlightItems } } });
+	});
+
+	options.appendChild(checkbox.element);
+}
+
+function setMapHighlight(state: boolean) {
+	document.querySelector("#map")?.classList.toggle("highlight-items", state);
 }
 
 function setCityItems(items: CityItem[]) {
@@ -872,6 +891,7 @@ function removeHighlight() {
 	resetVisibleGroups();
 	collectingEntries.clear();
 	clearForcedHighlights();
+	setMapHighlight(false);
 	dispatchMapEvent(CITY_ITEMS_MAP_EVENTS.CLEAR);
 	document.removeEventListener("click", handleMapOverlayClick, true);
 }

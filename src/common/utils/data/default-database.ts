@@ -620,6 +620,9 @@ export const DEFAULT_STORAGE = {
 			defense: new DefaultSetting("boolean", false),
 			dexterity: new DefaultSetting("boolean", false),
 		},
+		city: {
+			highlightItems: new DefaultSetting("boolean", true),
+		},
 		bounties: {
 			maxLevel: new DefaultSetting("number", 100),
 			hideUnavailable: new DefaultSetting("boolean", false),
