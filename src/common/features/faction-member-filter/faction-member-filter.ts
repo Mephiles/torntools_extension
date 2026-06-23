@@ -6,7 +6,7 @@ import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics, getSpecialIcons } from "@common/utils/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, getSpecialIcons, getUserActivity } from "@common/utils/functions/filters";
 import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
@@ -282,7 +282,7 @@ async function applyFilter() {
 	for (const li of findAllElements(".members-list .table-body > li")) {
 		// Activity
 		if (activity.length) {
-			const userActivity = li.querySelector("[class*='userOnlineStatusIcon___']").getAttribute("alt");
+			const userActivity = getUserActivity(li);
 
 			if (!activity.some((x) => x.trim() === userActivity)) {
 				hideRow(li);

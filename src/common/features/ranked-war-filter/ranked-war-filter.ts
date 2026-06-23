@@ -5,7 +5,7 @@ import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
+import { createFilterEnabledFunnel, createFilterSection, createStatistics, getUserActivity } from "@common/utils/functions/filters";
 import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, RANK_TRIGGERS } from "@common/utils/functions/torn";
@@ -239,7 +239,7 @@ interface RankedWarFilters {
 
 function filterRow(row: HTMLElement, filters: Partial<RankedWarFilters>, individual: boolean) {
 	if (filters.activity) {
-		const activity = row.querySelector("[class*='userOnlineStatusIcon___']").getAttribute("alt");
+		const activity = getUserActivity(row);
 		if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
 			hide("activity");
 			return;

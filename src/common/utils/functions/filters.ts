@@ -12,6 +12,7 @@ import { camelCase } from "@common/utils/functions/formatting";
 import { WEAPON_BONUSES } from "@common/utils/functions/torn";
 import { getUUID } from "@common/utils/functions/utilities";
 import { PHFillFunnel, PHFillFunnelX } from "@common/utils/icons/phosphor-icons";
+import type { UserLastActionStatusEnum } from "tornapi-typescript";
 
 export type SpecialFilterValue = "both" | "yes" | "no" | "none";
 
@@ -61,6 +62,15 @@ export const defaultFactionsItems: FilterOption[] = [
 export const FILTER_REGEXES = {
 	activity: /Online|Idle|Offline/g,
 } as const;
+
+export type UserActivityStatus = Lowercase<UserLastActionStatusEnum>;
+
+export function getUserActivity(element: ParentNode): UserActivityStatus | "" {
+	const icon = element.querySelector("[class*='userOnlineStatusIcon___']");
+	const label = icon?.getAttribute("alt") || icon?.closest("[aria-label]")?.getAttribute("aria-label") || "";
+
+	return (label.match(/\b(online|idle|offline)\b/i)?.[1].toLowerCase() as UserActivityStatus | undefined) ?? "";
+}
 
 type FilterCallback = (() => void) | (() => Promise<void>);
 interface CommonOptions {
