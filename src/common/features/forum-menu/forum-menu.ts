@@ -26,6 +26,9 @@ function initialiseListeners() {
 }
 
 async function startFeature() {
+	const params = getHashParameters();
+	if (params.has("p") && params.get("p") === "search") return;
+
 	const wrap = await requireElement(".forums-wrap, .forums-committee-wrap, .forums-thread-wrap:not(.search-wrap) .forums-thread");
 
 	if (wrap.classList.contains("forums-committee-wrap")) await showThreads();

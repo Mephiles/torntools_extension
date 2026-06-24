@@ -138,7 +138,7 @@ export function getSearchParameters(input?: string) {
 export function getHashParameters(hash?: string) {
 	if (!hash) hash = location.hash;
 
-	if (hash.startsWith("#/")) hash = hash.substring(2);
+	if (hash.startsWith("#/") || hash.startsWith("#!")) hash = hash.substring(2);
 	else if (hash.startsWith("#") || hash.startsWith("/")) hash = hash.substring(1);
 
 	if (!hash.startsWith("!")) hash = `?${hash}`;

@@ -15,7 +15,8 @@
 				{ "message": "Fix the city items not always showing up when you have no items present.", "contributor": "DeKleineKobini" },
 				{ "message": "Reintroduce the 'Highlight items' checkbox for City Items map overlays.", "contributor": "Manuel" },
 				{ "message": "Fix Activity filters for faction members and ranked wars after Torn's user status markup update.", "contributor": "Manuel" },
-				{ "message": "Fix ranked war filters not live updating properly.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix ranked war filters not live updating properly.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors in forum features on the search page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Adjust the travel time and cost for the 'Travel Table'.", "contributor": "DeKleineKobini" }],
 			"removed": [],
