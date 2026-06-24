@@ -10,7 +10,11 @@ import { Feature } from "@features/feature";
 async function addWarning() {
 	if (document.querySelector(".tt-ally-warning")) document.querySelector(".tt-ally-warning").remove();
 
-	const factionNode = await requireElement<HTMLAnchorElement>(".user-info-value [href*='/factions.php']");
+	await requireElement(".user-info-value [href*='/forums.php']"); // There is always a link to the forums.
+
+	const factionNode = document.querySelector<HTMLAnchorElement>(".user-info-value [href*='/factions.php']");
+	if (!factionNode) return;
+
 	const factionID = parseInt(new URLSearchParams(factionNode.href).get("ID"));
 	const factionName = factionNode.textContent.trim();
 

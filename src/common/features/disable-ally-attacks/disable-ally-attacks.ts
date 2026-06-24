@@ -25,7 +25,10 @@ function listenerFunction(event: MouseEvent) {
 }
 
 async function disableAttackButton() {
-	const factionLink = await requireElement<HTMLAnchorElement>(".user-info-value [href*='/factions.php']");
+	await requireElement(".user-info-value [href*='/forums.php']"); // There is always a link to the forums.
+
+	const factionLink = document.querySelector<HTMLAnchorElement>(".user-info-value [href*='/factions.php']");
+	if (!factionLink) return;
 
 	enableButton();
 
