@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 11 },
+		"version": { "major": 9, "minor": 0, "build": 12 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 11 },
+		"date": "2026/06/25",
 		"logs": {
 			"features": [
 				{ "message": "Sell properties from their detail in single click.", "contributor": "DeKleineKobini" },
@@ -20,7 +25,6 @@
 				{ "message": "Avoid errors with profile features on profiles without faction.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Adjust the travel time and cost for the 'Travel Table'.", "contributor": "DeKleineKobini" }],
-			"removed": [],
 			"technical": [{ "message": "Ignore errors of invalidated context where possible.", "contributor": "DeKleineKobini" }]
 		}
 	},

@@ -1,6 +1,6 @@
 {
 	"name": "torntools-extension",
-	"version": "9.0.11",
+	"version": "9.0.12",
 	"type": "module",
 	"scripts": {
 		"types:watch": "tsc --noEmit --watch --pretty",
