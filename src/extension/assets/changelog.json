@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Avoid errors with 'Ranked War Filter'.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Re-introduce the search functionality on the preferences page.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
