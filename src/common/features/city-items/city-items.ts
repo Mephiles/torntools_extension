@@ -47,7 +47,7 @@ function initialise() {
 		if (isMapData(page, xhr, json)) {
 			const items = resolveUserItems(decodeTerritoryUserItems(json.territoryUserItems));
 
-			showCityItemsContainer(items).catch(console.error);
+			showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
 			return;
 		}
 
@@ -65,7 +65,7 @@ function triggerFallback() {
 	const userItems = getPageModelItems();
 	if (userItems) {
 		const items = resolveUserItems(userItems);
-		showCityItemsContainer(items).catch(console.error);
+		showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
 		return;
 	}
 
@@ -83,7 +83,7 @@ function handleModelItems(event: Event) {
 	if (!internalItems) return;
 
 	const items = resolveUserItems(internalItems);
-	showCityItemsContainer(items).catch(console.error);
+	showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
 }
 
 function getPageModelItems(): InternalCityItem[] | null {
@@ -691,7 +691,7 @@ function createItemSpan({ item, name, count, entries }: CityItem) {
 			click(event) {
 				if (!event.isTrusted) return;
 
-				collectEntry(entries[0], item, name).catch(console.error);
+				collectEntry(entries[0], item, name).catch((cause) => console.error("TT City Items - Failed to collect the item entry.", cause));
 			},
 		},
 	});
@@ -724,7 +724,7 @@ function handleMapOverlayClick(event: MouseEvent) {
 	if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
 
 	const item = findCityItemForEntry(entry);
-	collectEntry(entry, entry.itemId, item?.name ?? entry.name).catch(console.error);
+	collectEntry(entry, entry.itemId, item?.name ?? entry.name).catch((cause) => console.error("TT City Items - Failed to collect the item entry.", cause));
 }
 
 function handleCollectedTd(td: string) {
