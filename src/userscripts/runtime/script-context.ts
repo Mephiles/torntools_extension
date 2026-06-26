@@ -152,6 +152,7 @@ const ScriptDataFetcher: DataFetcher = {
 				data: options?.method === "POST" ? (typeof options.body === "string" ? options.body : JSON.stringify(options.body)) : undefined,
 				timeout: options?.timeout,
 				onload: (response) => {
+					console.debug("TT Userscripts - DataFetcher - onLoad", response);
 					if (!response) {
 						reject(new Error("Request has no actual response. Likely something went wrong in the fetch implementation."));
 						return;
@@ -160,12 +161,15 @@ const ScriptDataFetcher: DataFetcher = {
 					resolve({ text: response.responseText, status: response.status, ok: response.status >= 200 && response.status < 300 });
 				},
 				onerror: (error) => {
+					console.debug("TT Userscripts - DataFetcher - onError", error);
 					reject(error);
 				},
 				ontimeout: () => {
+					console.debug("TT Userscripts - DataFetcher - ontimeout");
 					reject(new DOMException("Request cancelled because it took too long.", "AbortError"));
 				},
 			});
+			console.debug("TT Userscripts - DataFetcher - Launched fetch");
 		});
 	},
 };
