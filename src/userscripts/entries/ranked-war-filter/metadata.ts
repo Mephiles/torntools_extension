@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Ranked War Filter",
 	description: "Filter the ranked war views.",
-	version: "1.0.2",
+	version: "1.0.3",
 	matches: ["https://*.torn.com/factions.php*"],
 	runAt: "document-end",
 };

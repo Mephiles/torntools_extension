@@ -41,6 +41,7 @@ function initialiseFilters() {
 
 	addFetchListener(async ({ detail: { page, fetch } }) => {
 		if (!FEATURE_MANAGER.isEnabled(RankedWarFilterFeature)) return;
+		if (!location.hash.includes("#/war/rank")) return;
 
 		const params = new URL(fetch.url).searchParams;
 		if ((page === "page" && params.get("sid") === "factionsUsers") || (page === "faction_wars" && params.get("step") === "getwarusers")) {
