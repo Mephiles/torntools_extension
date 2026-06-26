@@ -127,6 +127,7 @@ const ScriptOffloadService: OffloadService = {
 
 const ScriptDataFetcher: DataFetcher = {
 	fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: any; timeout?: number }): Promise<FetchResponse> {
+		console.debug("TT Userscripts - DataFetcher - Preparing fetch");
 		if (url.startsWith(FETCH_PLATFORMS.torn_direct)) {
 			return fetchOnPage(url, options);
 		}
@@ -139,6 +140,11 @@ const ScriptDataFetcher: DataFetcher = {
 				url = u.toString();
 			} catch {}
 
+			console.debug(
+				"TT Userscripts - DataFetcher - Fetching through background",
+				typeof GM,
+				typeof GM !== "undefined" ? typeof GM.xmlHttpRequest : "N/A",
+			);
 			GM.xmlHttpRequest({
 				method: options?.method || "GET",
 				url,
