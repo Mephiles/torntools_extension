@@ -31,7 +31,7 @@
 	}
 </script>
 
-<section class="grid gap-2 lg:grid-cols-[10rem_1fr]">
+<section class="grid gap-2 lg:grid-cols-[11rem_1fr]">
 	<PreferencesNavigation activeGroup={activeGroup.id} />
 
 	<div class="space-y-2">
