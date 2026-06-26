@@ -29,14 +29,18 @@ export const ScriptItemResolver: ItemResolver & {
 		return id in this.itemsMap ? (this.itemsMap[id] as FullItem) : null;
 	},
 	async loadItems() {
+		console.debug("TT Userscripts - Loading items.");
 		if (ttCache.hasValue("static-data", "items-map")) {
+			console.debug("TT Userscripts - Using cached items.");
 			const map = ttCache.get("static-data", "items-map");
 			this.items = Object.values(map);
 			this.itemsMap = map;
 			return;
 		}
 
+		console.debug("TT Userscripts - No cached items, fetching.");
 		const data = await fetchData<PGTornToolsStaticItemsResponse>("playground_torntools", { section: "static-items" });
+		console.debug("TT Userscripts - Fetched items from remote.", data);
 		const itemsMap = data.items.reduce((acc, item) => {
 			acc[item.id] = item;
 			return acc;
