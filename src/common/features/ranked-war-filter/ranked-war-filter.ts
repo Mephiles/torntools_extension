@@ -62,7 +62,11 @@ async function addFilters(rankedWarList?: Element) {
 	if (location.hash.includes("#/war/rank")) rankedWarList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war");
 	if (!rankedWarList) return;
 
-	interval = setInterval(() => filtering(), 2500);
+	interval = setInterval(() => {
+		if (!location.hash.includes("#/war/rank")) return;
+
+		filtering();
+	}, 2500);
 
 	const { content, options } = createContainer("Ranked War Filter", {
 		nextElement: rankedWarList,
