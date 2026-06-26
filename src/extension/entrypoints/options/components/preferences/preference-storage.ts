@@ -26,7 +26,7 @@ type PreferenceStorageRoot = Pick<Database, "settings" | "api">;
 export type PreferenceStorageSource = { [Key in keyof PreferenceStorageRoot]?: PreferenceStorageRoot[Key] | undefined };
 
 export type PreferenceStoragePath = DatabaseStoragePath<PreferenceStorageRoot>;
-type PreferenceStorageValue<Path extends PreferenceStoragePath> = PathValue<PreferenceStorageRoot, Path>;
+export type PreferenceStorageValue<Path extends PreferenceStoragePath> = PathValue<PreferenceStorageRoot, Path>;
 type PreferenceStoragePathByValue<Value> = {
 	[Path in PreferenceStoragePath]: Extract<PreferenceStorageValue<Path>, Value> extends never ? never : Path;
 }[PreferenceStoragePath];
