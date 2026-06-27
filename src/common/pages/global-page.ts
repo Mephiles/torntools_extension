@@ -15,7 +15,7 @@ import {
 	SELECTOR_CHAT_V3__VARIOUS_ROOT,
 } from "@common/utils/global/selectors/chatSelectors";
 
-function handleDeviceSizeClasses() {
+export function handleDeviceSizeClasses() {
 	checkDevice().then(({ mobile, tablet }) => {
 		if (mobile) document.body.classList.add("tt-mobile");
 		else document.body.classList.remove("tt-mobile");
