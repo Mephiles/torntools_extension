@@ -1,0 +1,50 @@
+import { FEATURE_MANAGER } from "@common/utils/context";
+import { ttCache } from "@common/utils/data/cache";
+import { setUserdata, userdata } from "@common/utils/data/database";
+import { fetchData } from "@common/utils/functions/api-fetcher";
+import type { UserV1NetworthResponse } from "@common/utils/functions/api-v1.types";
+import { TO_MILLIS } from "@common/utils/functions/utilities";
+import type { Feature } from "@features/feature";
+import LiveNetworthFeature from "@features/live-networth/live-networth";
+import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
+import type { UserPersonalStatsFull } from "tornapi-typescript";
+
+(async () => {
+	await registerUserscriptContext("tt_we");
+
+	const key = await requiresAPIKey();
+
+	await fetchWeaponExperienceData(key);
+
+	const feature: Feature = new LiveNetworthFeature();
+	FEATURE_MANAGER.registerFeature(feature);
+})();
+
+async function fetchWeaponExperienceData(key: string) {
+	const cachedPersonalStats = ttCache.get("tt-personalstats");
+	const cachedNetworth = ttCache.get("tt-networth");
+	const cachedLiveNetworthDate = ttCache.get("tt-networth");
+	if (cachedPersonalStats && cachedNetworth) {
+		setUserdata({ ...userdata, networth: cachedNetworth, personalstats: cachedPersonalStats, date: cachedLiveNetworthDate });
+		return;
+	}
+
+	const data = await fetchData<UserPersonalStatsFull & UserV1NetworthResponse>("tornv2", {
+		section: "user",
+		selections: ["personalstats"],
+		legacySelections: ["networth"],
+		key: key,
+		params: {
+			cat: "all",
+		},
+		includeKey: true,
+	});
+	const date = Date.now();
+
+	await ttCache.set({ "tt-personalstats": data.personalstats }, TO_MILLIS.HOURS);
+	await ttCache.set({ "tt-networth": data.networth }, TO_MILLIS.MINUTES * 30);
+	await ttCache.setIndefinite({ "tt-live-networth-update": date });
+
+	setUserdata({ ...userdata, ...data, date });
+}
