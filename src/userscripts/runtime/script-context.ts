@@ -23,8 +23,7 @@ import {
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import { injectFetchListeners, injectXhrListeners, RequestListenerInjector, type ScriptInjector } from "@common/utils/functions/script-injector";
 import { injectCityItemsMapListeners } from "@features/city-items/city-items-map";
-import type { Feature } from "@features/feature";
-import type { FeatureManager } from "@features/feature-manager";
+import { ScriptFeatureManager } from "@userscripts/runtime/script-feature-manager";
 import { TTScriptStorage } from "@userscripts/runtime/script-storage";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
@@ -58,19 +57,6 @@ export async function registerUserscriptContext(storagePrefix: string) {
 function initializeScriptTheme() {
 	document.documentElement.style.setProperty("--tt-theme-color", "#fff");
 	document.documentElement.style.setProperty("--tt-theme-background", "var(--tt-background-green)");
-}
-
-class ScriptFeatureManager implements FeatureManager {
-	createPopup() {}
-
-	isEnabled(): boolean {
-		return true;
-	}
-
-	registerFeature(feature: Feature): void {
-		feature.initialise();
-		feature.execute();
-	}
 }
 
 function injectUserscriptCityItemsMapListeners() {
