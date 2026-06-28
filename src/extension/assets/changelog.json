@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Avoid errors with 'Ranked War Filter'.", "contributor": "DeKleineKobini" },
-				{ "message": "Better error handling in 'City Items'.", "contributor": "DeKleineKobini" }
+				{ "message": "Better error handling in 'City Items'.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with property features when on the rental or selling markets.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Re-introduce the search functionality on the preferences page.", "contributor": "DeKleineKobini" }],
 			"removed": [],

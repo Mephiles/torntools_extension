@@ -1794,6 +1794,13 @@ export function getPage() {
 			else page = sid;
 			break;
 		}
+		case "properties": {
+			const step = getSearchParameters().get("step")?.toLowerCase();
+
+			if (step === "rentalmarket") page = "properties-rentalmarket";
+			else if (step === "sellingmarket") page = "properties-sellingmarket";
+			break;
+		}
 		case "hospitalview":
 			page = "hospital";
 			break;
