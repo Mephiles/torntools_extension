@@ -21,7 +21,7 @@ export abstract class Feature {
 
 	abstract isEnabled(): boolean;
 	initialise(): void {}
-	// biome-ignore lint/correctness/noUnusedFunctionParameters: Meant to be overridden, so here as a placeholder.
+	// oxlint-disable-next-line no-unused-vars — meant to be overridden, here as a placeholder
 	execute(liveReload?: boolean): void | Promise<void> {}
 	cleanup(): void {}
 

@@ -1,0 +1,11 @@
+{
+	"useTabs": true,
+	"tabWidth": 4,
+	"printWidth": 160,
+	"sortImports": {
+		"newlinesBetween": false
+	},
+	"sortTailwindcss": true,
+	"svelte": true,
+	"ignorePatterns": [".github/**", "bun.lock", "**/*.md"]
+}

@@ -219,7 +219,7 @@ export type LootRangersLoot =
 			};
 			order: number[];
 	  }
-	// biome-ignore lint/complexity/noBannedTypes: that's what we get from Loot Ranger
+	// oxlint-disable-next-line typescript/no-empty-object-type — that's what we get from Loot Ranger
 	| {};
 
 export type FFScouterResult =
