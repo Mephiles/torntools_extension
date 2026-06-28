@@ -3,8 +3,9 @@ import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement, requireItemsLoaded } from "@common/utils/functions/requires";
 import type { XHRDetails } from "@common/utils/functions/script-injector";
 import { getPage, getPageStatus, getUserDetails } from "@common/utils/functions/torn";
@@ -30,9 +31,9 @@ function initialiseItemValues() {
 			setupXHR({ ignoreUntradable: true, addRelative: true });
 			break;
 		case "item":
-			CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(itemListener);
-			CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(itemListener);
-			CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_AMOUNT].push(({ item, amount }) => {
+			addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, itemListener);
+			addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, itemListener);
+			addCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, ({ item, amount }) => {
 				updateItemAmount(item, amount);
 			});
 			break;

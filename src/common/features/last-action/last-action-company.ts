@@ -7,8 +7,8 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { CompanyV1Employees, CompanyV1ProfileResponse } from "@common/utils/functions/api-v1.types";
 import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { dropDecimals } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -16,7 +16,7 @@ import { Feature } from "@features/feature";
 import type { UserJobResponse } from "tornapi-typescript";
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(LastActionCompanyFeature)) return;
 
 		await addLastAction(isOwnCompany);

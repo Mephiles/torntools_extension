@@ -7,8 +7,8 @@ import type { QuickFactionItem } from "@common/utils/data/default-database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatTime } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
 import { PHFillPlus, PHX } from "@common/utils/icons/phosphor-icons";
@@ -43,7 +43,7 @@ function addListener() {
 		}
 	}, 1000);
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(async ({ section }) => {
+	addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
 		if (!FEATURE_MANAGER.isEnabled(FactionQuickItemsFeature)) return;
 
 		if (["medical", "drugs", "boosters", "points", "donate", "consumables", "loot", "utilities"].includes(section)) {

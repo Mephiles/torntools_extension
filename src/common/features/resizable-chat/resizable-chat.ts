@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { isChatV3 } from "@common/utils/functions/torn";
 import { SELECTOR_CHAT_ROOT, SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@common/utils/global/selectors/chatSelectors";
@@ -16,12 +16,12 @@ export interface StoredResizableChats {
 }
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(async ({ chat }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => {
 		if (!FEATURE_MANAGER.isEnabled(ResizableChatFeature)) return;
 
 		await resizeInput(chat);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(async () => {
+	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, async () => {
 		if (!FEATURE_MANAGER.isEnabled(ResizableChatFeature)) return;
 
 		await startFeature();

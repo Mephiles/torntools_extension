@@ -1,6 +1,7 @@
 import { ITEM_RESOLVER } from "@common/utils/context";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireItemsLoaded } from "@common/utils/functions/requires";
 import { isInfiniteUsageItem } from "@common/utils/functions/torn";
 

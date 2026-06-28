@@ -17,8 +17,8 @@ import type {
 	FactionV1WeaponsResponse,
 } from "@common/utils/functions/api-v1.types";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
@@ -32,7 +32,7 @@ type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionV1CurrencyResponse;
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 		if (!FEATURE_MANAGER.isEnabled(ArmoryWorthFeature)) return;
 
 		await addWorth(true);

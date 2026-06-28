@@ -4,8 +4,8 @@ import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createStatistics, type StatisticsResult } from "@common/utils/functions/filters";
-import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 

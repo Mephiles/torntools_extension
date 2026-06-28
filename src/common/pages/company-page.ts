@@ -3,7 +3,7 @@ import { userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { getHashParameters, isElement } from "@common/utils/functions/dom";
-import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 

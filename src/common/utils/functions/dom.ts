@@ -455,3 +455,7 @@ export function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node
 export function isSVGElement(node: Node | EventTarget | null): node is SVGElement {
 	return node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && "ownerSVGElement" in node;
 }
+
+export function isCustomEvent<T>(event: Event): event is CustomEvent<T> {
+	return "detail" in event;
+}

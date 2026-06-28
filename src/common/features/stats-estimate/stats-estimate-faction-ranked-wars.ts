@@ -3,7 +3,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements, isElement } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -15,7 +15,7 @@ let observer: MutationObserver | undefined;
 
 function registerListeners() {
 	if (isInternalFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_MAIN].push(() => {
+		addCustomListener(EVENT_CHANNELS.FACTION_MAIN, () => {
 			if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionRankedWarsFeature)) return;
 
 			observeWars();

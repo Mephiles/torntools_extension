@@ -8,8 +8,8 @@ import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelRespo
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@common/utils/functions/formatting";
-import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@common/utils/functions/torn";
 import { toCorrectType } from "@common/utils/functions/utilities";

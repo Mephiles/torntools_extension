@@ -2,7 +2,8 @@ import "./stacking-mode.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage } from "@common/utils/functions/torn";
 import { crossSvg } from "@common/utils/icons/cross";
@@ -12,7 +13,7 @@ let currentPage: string;
 
 function registerListeners() {
 	if (currentPage === "hospital") {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(disableReviving);
+		addCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, disableReviving);
 	}
 
 	addFetchListener(async (event) => {

@@ -1,4 +1,5 @@
-import { addFetchListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 
 const STATS: { [stat: string]: number } = {};

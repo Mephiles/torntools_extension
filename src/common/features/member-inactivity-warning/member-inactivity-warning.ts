@@ -3,8 +3,8 @@ import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
@@ -12,19 +12,19 @@ let lastActionState: boolean;
 
 function addListener() {
 	if (isInternalFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature)) return;
 
 			await addWarning(true);
 		});
 	}
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
 		if (FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature) && name === "Last Action") {
 			lastActionState = true;
 			await addWarning(true);
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_DISABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature)) return;
 
 		if (name === "Last Action") {
@@ -33,7 +33,7 @@ function addListener() {
 		}
 	});
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature)) return;
 
 		await addWarning(true);

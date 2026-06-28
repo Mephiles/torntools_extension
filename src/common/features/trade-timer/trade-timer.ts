@@ -2,8 +2,8 @@ import "./trade-timer.css";
 import { ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { dropDecimals, formatTime } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { countdownTimers, removeCountdownTimer } from "@common/utils/functions/timers";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -14,10 +14,11 @@ import {
 	SELECTOR_CHAT_V3__SEND_BUTTON,
 	SELECTOR_CHAT_V3__TRADE_CHAT,
 } from "@common/utils/global/selectors/chatSelectors";
+
 import { Feature } from "@features/feature";
 
 function initialise() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(async ({ chat }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => {
 		if (chat.querySelector("[class*='chat-box-header__info__'], [class*='title___']").textContent !== "Trade") return;
 
 		await showTimer(chat);

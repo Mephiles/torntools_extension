@@ -3,6 +3,7 @@ import {
 	type FetchResponse,
 	type OffloadService,
 	setDataFetcher,
+	setEventHandler,
 	setFeatureManager,
 	setOffloadService,
 	setRuntimeInformation,
@@ -31,11 +32,13 @@ import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
 import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
 import { getUUID } from "@common/utils/functions/utilities";
+import { ScriptEventHandler } from "@userscripts/runtime/script-event-handler";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 export async function registerUserscriptContext(storagePrefix: string) {
 	setTTStorage(new TTScriptStorage(storagePrefix));
 	setScriptInjector(UserscriptScriptInjector);
+	setEventHandler(ScriptEventHandler);
 	setFeatureManager(new ScriptFeatureManager());
 	setRuntimeInformation(UserscriptRuntimeInformation);
 	setRuntimeStorage(UserscriptRuntimeStorage);

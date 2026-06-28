@@ -4,18 +4,18 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FullFactionInfoboxFeature)) return;
 
 		await showFull();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_MAIN].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FullFactionInfoboxFeature)) return;
 
 		await showFull();

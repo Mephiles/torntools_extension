@@ -9,7 +9,7 @@ import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
-import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { getPage } from "@common/utils/functions/torn";
 import { isTabFocused } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";

@@ -5,9 +5,9 @@ import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { type CheckboxObject, createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, createWeaponBonusSection } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -29,7 +29,7 @@ let cbHideUnavailable: CheckboxObject | undefined;
 let localFilters: any = {};
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(async ({ section }) => {
+	addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
 		if (!FEATURE_MANAGER.isEnabled(ArmoryFilterFeature)) return;
 
 		if (["weapons", "armour", "temporary"].includes(section)) await addFilter(section);

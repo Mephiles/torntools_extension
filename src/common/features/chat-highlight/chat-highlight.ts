@@ -1,8 +1,8 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { withoutEndPunctuation } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { getUserDetails, HIGHLIGHT_PLACEHOLDERS, is2FACheckPage } from "@common/utils/functions/torn";
 import {
@@ -30,14 +30,14 @@ interface HighlightColor {
 }
 
 function initialiseHighlights() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
 		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
 
 		const messageBox = message.querySelector<HTMLElement>(SELECTOR_CHAT_V2__MESSAGE_BOX);
 		if (messageBox) applyV2Highlights(messageBox);
 		else applyV3Highlights(message);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => {
 		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
 
 		for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`, chat)) {
@@ -47,7 +47,7 @@ function initialiseHighlights() {
 			applyV3Highlights(message);
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REFRESHED].push((information) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, (information) => {
 		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
 
 		if (information) {
@@ -61,14 +61,14 @@ function initialiseHighlights() {
 			}
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(() => {
+	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, () => {
 		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
 
 		for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
 			applyV3Highlights(message);
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(() => {
+	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, () => {
 		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
 
 		applyAllHighlights();

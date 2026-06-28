@@ -3,8 +3,8 @@ import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -30,7 +30,7 @@ function addListeners() {
 			await addAlias();
 	});
 	if (isInternalFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 			if (FEATURE_MANAGER.isEnabled(UserAliasUserlistFeature)) await addAlias();
 		});
 	}

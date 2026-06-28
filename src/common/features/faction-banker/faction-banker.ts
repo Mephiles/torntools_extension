@@ -1,8 +1,8 @@
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -10,7 +10,7 @@ import { Feature } from "@features/feature";
 let originalText: string | undefined;
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_GIVE_TO_USER].push(() => {
+	addCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER, () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionBankerFeature)) return;
 
 		showBalance();

@@ -3,8 +3,8 @@ import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -13,12 +13,12 @@ const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD].push(async () => {
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, async () => {
 		if (!FEATURE_MANAGER.isEnabled(TravelItemProfitsFeature)) return;
 
 		await addProfitsColumn();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH].push(async () => {
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH, async () => {
 		if (!FEATURE_MANAGER.isEnabled(TravelItemProfitsFeature)) return;
 
 		await addProfitsColumn();

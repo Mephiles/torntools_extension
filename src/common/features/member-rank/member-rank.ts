@@ -3,20 +3,20 @@ import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
 function addListener() {
 	if (isInternalFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(MemberRankFeature)) return;
 
 			await addNumbers(true);
 		});
 	}
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
 		if (!FEATURE_MANAGER.isEnabled(MemberRankFeature)) return;
 
 		removeNumbers();

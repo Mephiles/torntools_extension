@@ -3,7 +3,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { elementBuilder, findAllElements, showLoadingPlaceholder } from "@common/utils/functions/dom";
-import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { RANK_TRIGGERS, RANKS } from "@common/utils/functions/torn";
 import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { UserPersonalStatsPopular, UserProfileResponse } from "tornapi-typescript";

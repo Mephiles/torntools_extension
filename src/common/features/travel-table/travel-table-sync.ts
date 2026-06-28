@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER, RUNTIME_INFORMATION } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { getPageStatus, isAbroad } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { ExecutionTiming, Feature } from "@features/feature";

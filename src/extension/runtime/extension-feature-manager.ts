@@ -1,6 +1,6 @@
 import { factiondata, loadDatabase, localdata, npcs, settings, storageListeners, userdata, version } from "@common/utils/data/database";
 import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
 import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";

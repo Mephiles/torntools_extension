@@ -3,8 +3,8 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -54,7 +54,7 @@ export default class TotalChallengeContributionsFeature extends Feature {
 	}
 
 	initialise() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_UPGRADE_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(TotalChallengeContributionsFeature)) return;
 
 			await addCSVContainer();

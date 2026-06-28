@@ -3,25 +3,25 @@ import { isOwnCompany } from "@common/pages/company-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
 let lastActionState: boolean;
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature)) return;
 
 		await addWarning(true);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
 		if (FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature) && name === "Last Action") {
 			lastActionState = true;
 			await addWarning(true);
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_DISABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature)) return;
 
 		if (name === "Last Action") {

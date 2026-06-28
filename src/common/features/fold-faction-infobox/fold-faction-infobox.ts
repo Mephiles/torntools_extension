@@ -3,19 +3,19 @@ import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { findAllElements, getSearchParameters } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FoldFactionInfoboxFeature)) return;
 
 		await foldInfobox();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_MAIN].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FoldFactionInfoboxFeature)) return;
 
 		await foldInfobox();

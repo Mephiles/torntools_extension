@@ -2,7 +2,7 @@ import "./settings-link.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { PHBoldArrowBendUpLeft } from "@common/utils/icons/phosphor-icons";
@@ -10,7 +10,7 @@ import { torntools } from "@common/utils/icons/torntools";
 import { Feature } from "@features/feature";
 
 function initialiseLink() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.STATE_CHANGED].push(() => {
+	addCustomListener(EVENT_CHANNELS.STATE_CHANGED, () => {
 		if (!FEATURE_MANAGER.isEnabled(SettingsLinkFeature)) return;
 
 		const setting = document.querySelector(".tt-settings");

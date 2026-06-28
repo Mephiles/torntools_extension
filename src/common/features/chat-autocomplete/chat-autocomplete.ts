@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { checkDevice, findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { REACT_UPDATE_VERSIONS, updateReactInput } from "@common/utils/functions/torn";
 import {
@@ -12,15 +12,16 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@common/utils/global/selectors/chatSelectors";
+
 import { Feature } from "@features/feature";
 
 function initialiseAutocomplete() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(async ({ chat }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => {
 		if (!FEATURE_MANAGER.isEnabled(ChatAutocompleteFeature)) return;
 
 		await addAutocomplete(chat);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(async () => {
+	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, async () => {
 		if (!FEATURE_MANAGER.isEnabled(ChatAutocompleteFeature)) return;
 
 		await readSettings();

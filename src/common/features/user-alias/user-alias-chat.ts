@@ -2,7 +2,7 @@ import "./user-alias.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { isChatV3 } from "@common/utils/functions/torn";
 import {
@@ -17,6 +17,7 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 	SELECTOR_CHAT_V3__MINIMIZED_NAME,
 } from "@common/utils/global/selectors/chatSelectors";
+
 import { Feature } from "@features/feature";
 import { getUserAliasById, getUserAliasByName } from "@features/user-alias/alias";
 
@@ -26,30 +27,30 @@ async function addListeners() {
 	addAliasTitle();
 	addAliasMessage();
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(() => {
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, () => {
 		if (FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) {
 			addAliasTitle();
 			addAliasMessage();
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
 		if (FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) addAliasMessage(message);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REFRESHED].push(() => {
+	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, () => {
 		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
 
 		removeAlias();
 		addAliasTitle();
 		addAliasMessage();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_RECONNECTED].push(async () => {
+	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, async () => {
 		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
 
 		removeAlias();
 		addAliasTitle();
 		addAliasMessage();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_CLOSED].push(() => {
+	addCustomListener(EVENT_CHANNELS.CHAT_CLOSED, () => {
 		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
 
 		addAliasTitle();

@@ -7,7 +7,7 @@ import { createSelect } from "@common/utils/elements/select/select";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements, isCustomEvent } from "@common/utils/functions/dom";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -129,10 +129,6 @@ function parseEventDetail<T>(event: Event): T | null {
 	}
 
 	return event.detail as T;
-}
-
-function isCustomEvent<T>(event: Event): event is CustomEvent<T> {
-	return "detail" in event;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

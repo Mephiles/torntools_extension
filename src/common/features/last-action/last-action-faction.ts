@@ -6,8 +6,8 @@ import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { dropDecimals } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -18,25 +18,25 @@ let _members: FactionMember[] | undefined;
 
 function addListener() {
 	if (isInternalFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
 
 			await addLastAction(true);
 		});
 	}
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async ({ hasResults }) => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async ({ hasResults }) => {
 		if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
 
 		removeLastAction();
 		if (hasResults) await addLastAction(true);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_SORT].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT, async () => {
 		if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
 
 		removeLastAction();
 		await addLastAction(true);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
 
 		removeLastAction();

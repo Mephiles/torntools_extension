@@ -2,26 +2,26 @@ import "./flying-time.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatDate, formatTime, textToTime } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 async function initialise() {
 	if (mobile || tabletVertical) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(() => {
+		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, () => {
 			if (!FEATURE_MANAGER.isEnabled(FlyingTimeFeature)) return;
 
 			showTime();
 		});
-		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(() => {
+		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, () => {
 			if (!FEATURE_MANAGER.isEnabled(FlyingTimeFeature)) return;
 
 			showTime();
 		});
 	} else {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE].push(() => {
+		addCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE, () => {
 			if (!FEATURE_MANAGER.isEnabled(FlyingTimeFeature)) return;
 
 			showTime();

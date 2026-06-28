@@ -3,7 +3,7 @@ import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 

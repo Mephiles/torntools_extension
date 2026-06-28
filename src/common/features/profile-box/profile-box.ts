@@ -11,8 +11,8 @@ import type { TornstatsSpy, YATASpyResponse } from "@common/utils/functions/api.
 import { CUSTOM_API_ERROR, fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@common/utils/functions/dom";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
-import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";

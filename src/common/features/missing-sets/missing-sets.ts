@@ -3,13 +3,13 @@ import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus, SETS, type SetItem } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseFlowers() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(async ({ tab }) => {
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, async ({ tab }) => {
 		if (!FEATURE_MANAGER.isEnabled(MissingFlowersFeature) || tab !== "Flower") {
 			removeFlowers();
 			return;
@@ -17,7 +17,7 @@ function initialiseFlowers() {
 
 		await showFlowers();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(MissingFlowersFeature)) return;
 
 		if (name === "Item Values") showMarketValues();
@@ -26,7 +26,7 @@ function initialiseFlowers() {
 }
 
 function initialisePlushies() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(async ({ tab }) => {
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, async ({ tab }) => {
 		if (!FEATURE_MANAGER.isEnabled(MissingPlushiesFeature) || tab !== "Plushie") {
 			removePlushies();
 			return;
@@ -34,7 +34,7 @@ function initialisePlushies() {
 
 		await showPlushies();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(MissingPlushiesFeature)) return;
 
 		if (name === "Item Values") showMarketValues();

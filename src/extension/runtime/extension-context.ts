@@ -3,6 +3,7 @@ import {
 	type FetchResponse,
 	type OffloadService,
 	setDataFetcher,
+	setEventHandler,
 	setFeatureManager,
 	setOffloadService,
 	setRuntimeInformation,
@@ -20,6 +21,7 @@ import type { ScriptInjector } from "@common/utils/functions/script-injector";
 import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
 import type { FullItem, ItemResolver, StaticItem } from "@common/utils/torn-api/items.types";
 import { browser } from "wxt/browser";
+import { ExtensionEventHandler } from "@/runtime/extension-event-handler";
 import { ExtensionFeatureManager } from "@/runtime/extension-feature-manager";
 import { TTExtensionStorage } from "@/runtime/extension-storage";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
@@ -33,6 +35,7 @@ export function registerExtensionContext() {
 		setFeatureManager(new ExtensionFeatureManager());
 		setScriptInjector(ExtensionScriptInjector);
 	}
+	setEventHandler(ExtensionEventHandler);
 	setRuntimeInformation(ExtensionRuntimeInformation);
 	setRuntimeStorage(ExtensionRuntimeStorage);
 	setOffloadService(ExtensionOffloadService);

@@ -3,8 +3,9 @@ import { extractArmorySubcategory, isInternalFaction } from "@common/pages/facti
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, isElement, isHTMLElement } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { DRUG_INFORMATION, type DrugDetail, getPage, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -37,7 +38,7 @@ function initialiseDrugDetails() {
 			addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
 			break;
 		case "itemmarket":
-			CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS].push(({ item, element }) => {
+			addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, ({ item, element }) => {
 				if (!FEATURE_MANAGER.isEnabled(DrugDetailsFeature)) return;
 
 				display(item, element.querySelector("[class*='description___']"));

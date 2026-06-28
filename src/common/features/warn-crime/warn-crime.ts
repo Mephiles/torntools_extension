@@ -3,7 +3,8 @@ import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-pag
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasOC1Data } from "@common/utils/functions/api";
-import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUserDetails } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -11,12 +12,12 @@ import { Feature } from "@features/feature";
 const scenarioInformation = {};
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, async () => {
 		if (!FEATURE_MANAGER.isEnabled(WarnCrimeFeature)) return;
 
 		await disableButtons();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2_REFRESH].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, async () => {
 		if (!FEATURE_MANAGER.isEnabled(WarnCrimeFeature)) return;
 
 		await disableButtons();

@@ -2,12 +2,12 @@ import "./hide-chat.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { ExecutionTiming, Feature } from "@features/feature";
 
 function initializeListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED].push(async ({ settingsPanel }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, async ({ settingsPanel }) => {
 		if (!FEATURE_MANAGER.isEnabled(HideChatFeature)) return;
 
 		await showButton(settingsPanel);

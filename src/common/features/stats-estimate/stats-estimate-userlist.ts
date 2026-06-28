@@ -2,7 +2,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -13,12 +13,12 @@ const statsEstimate = new StatsEstimate("Userlist", true);
 let triggerFilter: number | undefined;
 
 function registerListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(() => {
+	addCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE, () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateUserlistFeature) || settings.pages.userlist.filter) return;
 
 		showEstimates();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(() => {
+	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateUserlistFeature)) return;
 
 		if (triggerFilter) clearTimeout(triggerFilter);

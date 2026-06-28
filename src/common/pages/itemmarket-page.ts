@@ -1,5 +1,6 @@
 import { checkDevice, findAllElements, getHashParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
-import { addFetchListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 
 export async function setupItemMarketPage() {

@@ -6,16 +6,16 @@ import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHBoldArrowClockwise } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
 
 function initialiseFilters() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.JAIL_SWITCH_PAGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(JailFilterFeature)) return;
 		if (!localFilters.enabled.isEnabled()) return;
 

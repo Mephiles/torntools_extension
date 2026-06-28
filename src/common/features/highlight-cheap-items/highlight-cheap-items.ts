@@ -2,8 +2,8 @@ import "./highlight-cheap-items.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 import { Feature } from "@features/feature";
@@ -15,27 +15,27 @@ interface ItemEntry {
 }
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS].push(({ list }) => {
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, ({ list }) => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightItems(findAllElements("[class*='itemList___'] > li:not(.tt-highlight-modified)", list));
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE].push(({ item }) => {
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE, ({ item }) => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightItems([item]);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS].push(({ item, list }) => {
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, ({ item, list }) => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightSellers(item, list, false);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE].push(({ item, list }) => {
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE, ({ item, list }) => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		highlightSellers(item, list, true);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.WINDOW__FOCUS].push(() => {
+	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, () => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
 
 		removeHighlights();

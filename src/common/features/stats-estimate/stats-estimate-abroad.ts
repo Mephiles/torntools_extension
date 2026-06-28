@@ -2,7 +2,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -12,7 +12,7 @@ const statsEstimate = new StatsEstimate("Abroad People", true);
 let triggerFilter: number | undefined;
 
 function registerListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(() => {
+	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateAbroadFeature)) return;
 
 		if (triggerFilter) clearTimeout(triggerFilter);

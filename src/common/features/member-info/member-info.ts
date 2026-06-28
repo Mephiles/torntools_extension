@@ -6,8 +6,8 @@ import { settings, userdata } from "@common/utils/data/database";
 import { hasFactionAPIAccess } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -17,12 +17,12 @@ import type { FactionBalance, FactionBalanceResponse } from "tornapi-typescript"
 let lastActionState: boolean;
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		await addInfo(true);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		if (name === "Last Action") {
@@ -30,7 +30,7 @@ function addListener() {
 			await addInfo(true);
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_DISABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		if (name === "Last Action") {
@@ -38,13 +38,13 @@ function addListener() {
 			await addInfo(true);
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async ({ hasResults }) => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async ({ hasResults }) => {
 		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		removeInfo();
 		if (hasResults) await addInfo(true);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_SORT].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT, async () => {
 		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
 
 		removeInfo();

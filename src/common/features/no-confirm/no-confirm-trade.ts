@@ -1,11 +1,11 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ active }) => {
+	addCustomListener(EVENT_CHANNELS.TRADE, async ({ active }) => {
 		if (!FEATURE_MANAGER.isEnabled(NoConfirmTradeFeature)) return;
 		if (!active) return;
 

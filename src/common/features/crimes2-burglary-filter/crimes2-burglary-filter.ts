@@ -4,9 +4,9 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilterSection, createStatistics } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { DisabledUntilNoticeFeature } from "@features/feature";
@@ -16,7 +16,7 @@ let CRIMES2_ROWS_START_Y = 64;
 const localFilters: Record<string, any> = {};
 
 function initialise() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_CRIME_LOADED].push(async ({ crime, crimeRoot, url }) => {
+	addCustomListener(EVENT_CHANNELS.CRIMES2_CRIME_LOADED, async ({ crime, crimeRoot, url }) => {
 		if (crime === CRIMES2.BURGLARY) {
 			if (!FEATURE_MANAGER.isEnabled(Crimes2BurglaryFilterFeature)) return;
 
@@ -33,7 +33,7 @@ function initialise() {
 			removeFilter();
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES2_HOME_LOADED].push(() => removeFilter());
+	addCustomListener(EVENT_CHANNELS.CRIMES2_HOME_LOADED, () => removeFilter());
 }
 
 async function createFilter(crimeRoot: Element) {

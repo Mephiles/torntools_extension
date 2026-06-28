@@ -3,14 +3,14 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { factiondata, settings } from "@common/utils/data/database";
 import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { dropDecimals } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => {
 		if (!FEATURE_MANAGER.isEnabled(OCLastActionFeature)) return;
 
 		showLastAction();

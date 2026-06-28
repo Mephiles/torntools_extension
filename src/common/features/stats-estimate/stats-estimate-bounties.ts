@@ -2,7 +2,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements, getHashParameters } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -11,12 +11,12 @@ import { StatsEstimate } from "./stats-estimate";
 const statsEstimate = new StatsEstimate("Bounties", true);
 
 function registerListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.SWITCH_PAGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.SWITCH_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateBountiesFeature) || settings.pages.bounties.filter) return;
 
 		await showEstimates();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, async () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateBountiesFeature)) return;
 
 		await showEstimates();

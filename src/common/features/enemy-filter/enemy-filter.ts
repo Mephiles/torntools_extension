@@ -4,9 +4,9 @@ import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, RANK_TRIGGERS } from "@common/utils/functions/torn";
 import { DisabledUntilNoticeFeature } from "@features/feature";
@@ -17,7 +17,7 @@ let filterSetupComplete: boolean = false;
 const localFilters: any = {};
 
 async function initialiseFilters() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
 		if (!FEATURE_MANAGER.isEnabled(EnemyFilterFeature)) return;
 
 		const content = findContainer("Enemy Filter", { selector: "main" });

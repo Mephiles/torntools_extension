@@ -16,7 +16,7 @@
 				{ "message": "Trim the forum post content when copying for Discord.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Introduce an abstraction for sending events.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

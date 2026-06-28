@@ -1,5 +1,6 @@
 import { findAllElements, isElement } from "@common/utils/functions/dom";
-import { addFetchListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 import { isAbroad } from "@common/utils/functions/torn";
 import type { SyncItem } from "@features/travel-table/travel-table-sync";

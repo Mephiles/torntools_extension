@@ -4,7 +4,7 @@ import { settings } from "@common/utils/data/database";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHFillTable } from "@common/utils/icons/phosphor-icons";
@@ -75,7 +75,7 @@ export default class CSVChallengeContributionsFeature extends Feature {
 	}
 
 	initialise() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_UPGRADE_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(CSVChallengeContributionsFeature)) return;
 
 			await addCSVContainer();

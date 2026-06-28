@@ -2,17 +2,17 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 const localFilters: any = {};
 
-function initialiseFilters() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(async () => {
+function initialiseListeners() {
+	addCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(HospitalFilterFeature)) return;
 
 		await filtering(true);
@@ -264,7 +264,7 @@ export default class HospitalFilterFeature extends Feature {
 	}
 
 	initialise() {
-		initialiseFilters();
+		initialiseListeners();
 	}
 
 	async execute() {

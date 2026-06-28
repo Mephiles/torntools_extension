@@ -1,5 +1,5 @@
 import { SCRIPT_INJECTOR } from "@common/utils/context";
-import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import type { Feature } from "@features/feature";
 import type { FeatureManager } from "@features/feature-manager";
 

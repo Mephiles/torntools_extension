@@ -2,14 +2,14 @@ import "./trade-open-chat.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, executeScript } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 import { browser } from "wxt/browser";
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ step }) => {
+	addCustomListener(EVENT_CHANNELS.TRADE, async ({ step }) => {
 		if (!FEATURE_MANAGER.isEnabled(TradeOpenChatFeature)) return;
 		if (!["view", "initiateTrade", "accept", "start"].includes(step)) return;
 

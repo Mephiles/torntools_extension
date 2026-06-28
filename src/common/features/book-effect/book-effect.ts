@@ -2,7 +2,7 @@ import "./book-effect.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { BOOK_DESCRIPTIONS, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -10,8 +10,8 @@ function initialiseAddEffects() {
 	const listener = () => {
 		if (FEATURE_MANAGER.isEnabled(BookEffectFeature)) addEffects();
 	};
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
+	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, listener);
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, listener);
 }
 
 function addEffects() {

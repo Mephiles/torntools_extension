@@ -5,8 +5,9 @@ import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, getUserActivity } from "@common/utils/functions/filters";
-import { addFetchListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, RANK_TRIGGERS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -22,7 +23,7 @@ function initialiseFilters() {
 		}
 	});
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
 		if (!FEATURE_MANAGER.isEnabled(RankedWarFilterFeature)) return;
 
 		if (!row.closest(".faction-war")) {

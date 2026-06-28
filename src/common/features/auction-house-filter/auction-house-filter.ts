@@ -3,9 +3,9 @@ import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, createWeaponBonusSection } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS, ITEM_TYPES } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -13,12 +13,12 @@ import { Feature } from "@features/feature";
 let localFilters: any = {};
 
 function initialiseFilters() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.AUCTION_SWITCH_TYPE].push(async ({ type }) => {
+	addCustomListener(EVENT_CHANNELS.AUCTION_SWITCH_TYPE, async ({ type }) => {
 		if (!FEATURE_MANAGER.isEnabled(AuctionHouseFilterFeature)) return;
 
 		await addFilters(type);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.SWITCH_PAGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.SWITCH_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(AuctionHouseFilterFeature)) return;
 
 		await applyFilters();

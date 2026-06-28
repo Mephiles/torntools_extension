@@ -1,5 +1,6 @@
 import type { TornToolsStorage } from "@common/utils/data/storage";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
+import type { EventHandler } from "@common/utils/functions/events";
 import type { ScriptInjector } from "@common/utils/functions/script-injector";
 import type { ItemResolver } from "@common/utils/torn-api/items.types";
 import type { FeatureManager } from "@features/feature-manager";
@@ -12,6 +13,7 @@ export let RUNTIME_STORAGE: RuntimeStorage;
 export let OFFLOAD_SERVICE: OffloadService;
 export let DATA_FETCHER: DataFetcher;
 export let ITEM_RESOLVER: ItemResolver;
+export let EVENT_HANDLER: EventHandler;
 
 export interface OffloadService {
 	fetchRelay<R = any>(location: string, options: Record<string, any>): Promise<R>;
@@ -59,4 +61,8 @@ export function setDataFetcher(dataFetcher: DataFetcher) {
 
 export function setStaticItemResolver(staticItemResolver: ItemResolver) {
 	ITEM_RESOLVER = staticItemResolver;
+}
+
+export function setEventHandler(eventHandler: EventHandler) {
+	EVENT_HANDLER = eventHandler;
 }

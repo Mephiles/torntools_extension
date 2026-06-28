@@ -4,6 +4,7 @@ import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import {
 	createFilterEnabledFunnel,
 	createFilterSection,
@@ -14,7 +15,6 @@ import {
 	type SpecialFilterValue,
 } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { isAbroad, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -23,14 +23,14 @@ import { hasStatsEstimatesLoaded } from "@features/stats-estimate/stats-estimate
 const localFilters: any = {};
 
 function initialiseFilters() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
 		const content = findContainer("People Filter", { selector: "main" });
 		const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
 		if (!statsEstimates?.length) return;
 
 		filterRow(row, { statsEstimates }, true);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!localFilters["FF Score Max"]?.getValue() && !localFilters["FF Score Min"]?.getValue()) return;
 
 		await applyFilters();

@@ -7,7 +7,7 @@ import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
 import type { TornstatsFactionCrimes, YATAFactionMembers } from "@common/utils/functions/api.types";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -25,7 +25,7 @@ interface NNBInformation {
 }
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, async () => {
 		if (!FEATURE_MANAGER.isEnabled(OCNNBFeature)) return;
 
 		await showNNB();

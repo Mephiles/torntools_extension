@@ -3,15 +3,15 @@ import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { findItemInList } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 function initialise() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.MISSION_REWARDS].push(async () => {
+	addCustomListener(EVENT_CHANNELS.MISSION_REWARDS, async () => {
 		if (!FEATURE_MANAGER.isEnabled(MissionRewardsFeature)) return;
 
 		await showRewards();

@@ -4,7 +4,7 @@ import { quick, settings } from "@common/utils/data/database";
 import { usingFirefox } from "@common/utils/functions/browser";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHFillPlus, PHX } from "@common/utils/icons/phosphor-icons";
@@ -22,12 +22,12 @@ let movingElement: Element | undefined;
 let showCrimesAgainOnFirefoxObserver: MutationObserver | undefined;
 
 function initialise() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES_LOADED].push(async () => {
+	addCustomListener(EVENT_CHANNELS.CRIMES_LOADED, async () => {
 		if (!FEATURE_MANAGER.isEnabled(QuickCrimesFeature)) return;
 
 		await loadCrimes();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES_CRIME].push(async () => {
+	addCustomListener(EVENT_CHANNELS.CRIMES_CRIME, async () => {
 		if (!FEATURE_MANAGER.isEnabled(QuickCrimesFeature)) return;
 
 		await loadCrimes();

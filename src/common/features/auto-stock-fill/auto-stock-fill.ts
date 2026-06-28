@@ -2,15 +2,15 @@ import { isOwnCompany } from "@common/pages/company-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, REACT_UPDATE_VERSIONS, updateReactInput } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 import "./auto-stock-fill.css";
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_STOCK_PAGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.COMPANY_STOCK_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(AutoStockFillFeature)) return;
 
 		await addFillStockButton(true);

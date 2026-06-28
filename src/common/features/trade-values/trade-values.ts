@@ -2,14 +2,14 @@ import "./trade-values.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(async ({ step }) => {
+	addCustomListener(EVENT_CHANNELS.TRADE, async ({ step }) => {
 		if (!FEATURE_MANAGER.isEnabled(TradeValuesFeature)) return;
 		if (!["view", "initiateTrade", "accept", "start"].includes(step)) return;
 

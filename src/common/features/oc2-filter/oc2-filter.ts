@@ -4,24 +4,24 @@ import { filters, settings } from "@common/utils/data/database";
 import { hasOC1Data } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { DisabledUntilNoticeFeature } from "@features/feature";
 
 function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, async () => {
 		if (!FEATURE_MANAGER.isEnabled(OC2FilterFeature)) return;
 
 		await addFilter();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2_TAB].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_TAB, async () => {
 		if (!FEATURE_MANAGER.isEnabled(OC2FilterFeature)) return;
 
 		await addFilter();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2_REFRESH].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, async () => {
 		if (!FEATURE_MANAGER.isEnabled(OC2FilterFeature)) return;
 
 		await applyFilters();

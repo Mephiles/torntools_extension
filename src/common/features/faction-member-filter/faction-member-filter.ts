@@ -6,8 +6,8 @@ import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createFilterEnabledFunnel, createFilterSection, createStatistics, getSpecialIcons, getUserActivity } from "@common/utils/functions/filters";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -17,7 +17,7 @@ let localFilters: any = {};
 
 function addListener() {
 	if (isInternalFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
 			await addFilter();
@@ -26,14 +26,14 @@ function addListener() {
 			}
 		});
 	}
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || localFilters["Last Active Filter"]?.element) return;
 
 		if (name === "Last Action") {
 			await showLastAction();
 		}
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_DISABLED].push(async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
 		if (name === "Last Action") {
@@ -41,17 +41,17 @@ function addListener() {
 		}
 	});
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
 		await applyFilter();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
 		await applyFilter();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FF_SCOUTER_GAUGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 		if (!localFilters["FF Score Max"]?.getValue() && !localFilters["FF Score Min"]?.getValue()) return;
 

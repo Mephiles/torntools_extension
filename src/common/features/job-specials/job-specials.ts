@@ -2,14 +2,14 @@ import "./job-specials.css";
 import { settings } from "@common/utils/data/database";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, mobile } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { applyPlural } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { COMPANY_INFORMATION, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 async function addListener() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(async () => {
+	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
 		if (!settings.pages.joblist.specials) return;
 
 		await showSpecials();

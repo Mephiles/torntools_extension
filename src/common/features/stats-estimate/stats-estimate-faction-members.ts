@@ -3,7 +3,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -13,25 +13,25 @@ const statsEstimate = new StatsEstimate("Faction Members", true);
 
 function registerListeners() {
 	if (isInternalFaction) {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature) || settings.pages.faction.memberFilter) return;
 
 			await showEstimates();
 		});
 	}
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(async ({ filter }) => {
+	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, async ({ filter }) => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature) || filter !== "Faction Member Filter") return;
 
 		await showEstimates();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature)) return;
 
 		removeEstimates();
 		await showEstimates();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_SORT].push(async () => {
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT, async () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature)) return;
 
 		removeEstimates();

@@ -1,4 +1,5 @@
-import { addXHRListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { addXHRListener } from "@common/utils/functions/listeners";
 
 export function setupMissionsPage() {
 	addXHRListener(async ({ detail: { page, xhr, ...detail } }) => {

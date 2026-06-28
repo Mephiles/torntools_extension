@@ -4,7 +4,7 @@ import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { getHashParameters } from "@common/utils/functions/dom";
-import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { Feature } from "@features/feature";
 
 function initialise() {

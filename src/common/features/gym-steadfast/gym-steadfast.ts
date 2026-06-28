@@ -2,8 +2,8 @@ import "./gym-steadfast.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -14,7 +14,7 @@ interface SteadfastBonus {
 }
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.GYM_LOAD].push(async () => {
+	addCustomListener(EVENT_CHANNELS.GYM_LOAD, async () => {
 		if (!settings.pages.gym.steadfast) return;
 
 		await showSteadfast();

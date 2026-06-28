@@ -2,7 +2,7 @@ import "./search-chat.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import {
 	SELECTOR_CHAT_ROOT,
@@ -15,15 +15,16 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_CONTENT,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@common/utils/global/selectors/chatSelectors";
+
 import { Feature } from "@features/feature";
 
 function initialiseSearchChat() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => {
 		if (!FEATURE_MANAGER.isEnabled(SearchChatFeature)) return;
 
 		addChatSearch(chat);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
 		if (!FEATURE_MANAGER.isEnabled(SearchChatFeature)) return;
 
 		const parent = message.closest(`[class*='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
@@ -35,7 +36,7 @@ function initialiseSearchChat() {
 		const inputValue = input.value;
 		if (inputValue) searchChat(message.querySelector(`${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__MESSAGE}`), inputValue);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REFRESHED].push(() => {
+	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, () => {
 		if (!FEATURE_MANAGER.isEnabled(SearchChatFeature)) return;
 
 		// Re-filter all chats after they refresh.
@@ -47,7 +48,7 @@ function initialiseSearchChat() {
 			if (inputValue) onChatSearch({ target: input }, chat);
 		});
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED].push(({ peopleMenu }) => {
+	addCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, ({ peopleMenu }) => {
 		addPeopleSearch(peopleMenu);
 	});
 }

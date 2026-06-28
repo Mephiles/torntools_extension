@@ -7,8 +7,9 @@ import type { QuickItem } from "@common/utils/data/default-database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { formatTime } from "@common/utils/functions/formatting";
-import { addFetchListener, addXHRListener, CUSTOM_LISTENERS, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
 import { requireContent, requireItemsLoaded } from "@common/utils/functions/requires";
 import {
 	type ExtractedXID,
@@ -49,17 +50,17 @@ function initialiseQuickItems() {
 		}
 	}, 1000);
 
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_AMOUNT].push(({ item, amount }) => {
+	addCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, ({ item, amount }) => {
 		updateItemAmount(item, amount);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(() => {
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, () => {
 		setupQuickDragListeners();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(({ tab }) => {
+	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, ({ tab }) => {
 		setupOverlayItems(tab);
 		attachEditListeners(isEditing);
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_EQUIPPED].push(({ item, equip }) => {
+	addCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, ({ item, equip }) => {
 		updateEquippedItem(item, equip);
 	});
 

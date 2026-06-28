@@ -1,6 +1,6 @@
 import { settings } from "@common/utils/data/database";
 import { checkDevice, findAllElements } from "@common/utils/functions/dom";
-import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { requireCondition, requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
 

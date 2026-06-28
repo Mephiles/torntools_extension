@@ -1,7 +1,8 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { loadDatabase, settings, storageListeners } from "@common/utils/data/database";
 import { checkDevice, elementBuilder, findAllElements, getSearchParameters, isElement, isHTMLElement } from "@common/utils/functions/dom";
-import { EVENT_CHANNELS, injectFetch, injectXHR, triggerCustomListener } from "@common/utils/functions/listeners";
+import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { injectFetch, injectXHR } from "@common/utils/functions/listeners";
 import { requireChatsLoaded, requireCondition, requireContent } from "@common/utils/functions/requires";
 import { updateTimers } from "@common/utils/functions/timers";
 import { getPage, isChatV3 } from "@common/utils/functions/torn";

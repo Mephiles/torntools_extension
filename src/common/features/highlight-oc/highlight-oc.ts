@@ -4,22 +4,22 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements } from "@common/utils/functions/dom";
-import { CUSTOM_LISTENERS, EVENT_CHANNELS } from "@common/utils/functions/listeners";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(() => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
 
 		highlightCrime1();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2].push(() => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, () => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
 
 		highlightCrime2();
 	});
-	CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES2_REFRESH].push(() => {
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, () => {
 		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
 
 		highlightCrime2();
