@@ -15,16 +15,16 @@ import type { UserPersonalStatsFull } from "tornapi-typescript";
 
 	const key = await requiresAPIKey();
 
-	await fetchWeaponExperienceData(key);
+	await fetchLiveNetworthData(key);
 
 	const feature: Feature = new LiveNetworthFeature();
 	FEATURE_MANAGER.registerFeature(feature);
 })();
 
-async function fetchWeaponExperienceData(key: string) {
+async function fetchLiveNetworthData(key: string) {
 	const cachedPersonalStats = ttCache.get("tt-personalstats");
 	const cachedNetworth = ttCache.get("tt-networth");
-	const cachedLiveNetworthDate = ttCache.get("tt-networth");
+	const cachedLiveNetworthDate = ttCache.get("tt-live-networth-update");
 	if (cachedPersonalStats && cachedNetworth) {
 		setUserdata({ ...userdata, networth: cachedNetworth, personalstats: cachedPersonalStats, date: cachedLiveNetworthDate });
 		return;
