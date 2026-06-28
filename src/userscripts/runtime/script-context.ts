@@ -35,8 +35,8 @@ import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 export async function registerUserscriptContext(storagePrefix: string) {
 	setTTStorage(new TTScriptStorage(storagePrefix));
-	setFeatureManager(new ScriptFeatureManager());
 	setScriptInjector(UserscriptScriptInjector);
+	setFeatureManager(new ScriptFeatureManager());
 	setRuntimeInformation(UserscriptRuntimeInformation);
 	setRuntimeStorage(UserscriptRuntimeStorage);
 	setOffloadService(ScriptOffloadService);
