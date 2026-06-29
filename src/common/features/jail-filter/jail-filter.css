@@ -1,6 +1,9 @@
 .tt-quick-refresh {
 	float: right;
-	margin: 6px 10px 0 0;
+	margin-right: 10px;
+	display: flex;
+	height: 100%;
+	align-items: center;
 	font-size: 16px;
 	cursor: pointer;
 }
