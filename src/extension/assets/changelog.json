@@ -10,7 +10,10 @@
 				{ "message": "Better error handling in 'City Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with property features when on the rental or selling markets.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Re-introduce the search functionality on the preferences page.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Re-introduce the search functionality on the preferences page.", "contributor": "DeKleineKobini" },
+				{ "message": "Trim the forum post content when copying for Discord.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": []
 		}

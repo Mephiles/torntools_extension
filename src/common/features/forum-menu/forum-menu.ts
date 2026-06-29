@@ -228,6 +228,10 @@ async function showPosts() {
 										quotesContent = quotesContent.replace(urlRegex, urlCallback);
 										postContent = postContent.replace(urlRegex, urlCallback);
 
+										// Trim content
+										quotesContent = quotesContent.trim();
+										postContent = postContent.trim();
+
 										let text =
 											`:speech_balloon: **${userName} [${userId}]** on thread **${threadTitle}**:\n` +
 											"```bash\n" +
