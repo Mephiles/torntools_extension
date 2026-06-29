@@ -188,7 +188,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 			requireInteraction,
 			data: { settings: {} },
 		};
-		if (silent) options.silent;
+		if (silent) options.silent = true;
 
 		if (settings.notifications.link) {
 			options.data.link = url;
