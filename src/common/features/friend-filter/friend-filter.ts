@@ -1,219 +1,98 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
+import { createFilter, type FilterController, presetSection, type SliderRange, sliderSection } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { DisabledUntilNoticeFeature } from "@features/feature";
 
-let filterSetupComplete: boolean = false;
+let filter: FilterController | undefined;
 let listObserver: MutationObserver;
 let tableObserver: MutationObserver;
-const localFilters: Record<string, any> = {};
+let filterSetupComplete = false;
 
-async function initialiseFilters() {
+type FriendFilterState = { enabled: boolean; activity: string[]; level: SliderRange };
+
+async function initialiseListeners() {
 	listObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.matches("li[class*='tableRow__']")))) {
-			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(FriendFilterFeature)) applyFilters();
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']")))) {
+			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(FriendFilterFeature)) void filter?.run();
 		}
 	});
-
 	tableObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.tagName === "UL"))) {
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL"))) {
 			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(FriendFilterFeature)) {
-				applyFilters();
+				void filter?.run();
 				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 			}
 		}
 	});
-
 	tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });
 	listObserver.observe(await requireElement(".tableWrapper > ul"), { childList: true });
 }
 
-async function addFilters() {
-	const { content, options } = createContainer("Friend Filter", {
-		class: "mt10",
-		nextElement: await requireElement(".wrapper[role='alert']"),
-		compact: true,
-		filter: true,
-	});
+async function addFilterContainer() {
+	filter?.dispose();
 
-	const statistics = createStatistics("friends");
-	content.appendChild(statistics.element);
-	localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
+	filter = createFilter<FriendFilterState>({
+		rowSelector: ".tableWrapper ul > li",
+		container: { title: "Friend Filter", class: "mt10", nextElement: await requireElement(".wrapper[role='alert']"), compact: true },
+		statisticsLabel: "friends",
+		enabled: filters.friends.enabled,
+		sections: [
+			presetSection({ preset: "activity", defaults: filters.friends.activity }),
+			sliderSection({
+				key: "level",
+				title: "Level Filter",
+				config: { min: 0, max: 100, step: 1 },
+				defaults: { low: filters.friends.levelStart, high: filters.friends.levelEnd },
+				formatCounter: (r) => `Level ${r.start} - ${r.end}`,
+				test: (row, range) => {
+					const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
 
-	const filterContent = elementBuilder({
-		type: "div",
-		class: "content",
-	});
+					if (range.start && level < range.start) return false;
+					if (range.end !== 100 && level > range.end) return false;
 
-	const activityFilter = createFilterSection({
-		type: "Activity",
-		defaults: filters.friends.activity,
-		callback: () => applyFilters(),
-	});
-	filterContent.appendChild(activityFilter.element);
-	localFilters["Activity"] = { getSelections: activityFilter.getSelections };
-
-	const levelFilter = createFilterSection({
-		type: "LevelAll",
-		typeData: {
-			valueLow: filters.friends.levelStart,
-			valueHigh: filters.friends.levelEnd,
+					return true;
+				},
+			}),
+		],
+		onStateChange: async (state) => {
+			await ttStorage.change({
+				filters: { friends: { enabled: state.enabled, activity: state.activity, levelStart: state.level.start, levelEnd: state.level.end } },
+			});
+			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Friend Filter" });
 		},
-		callback: () => applyFilters(),
 	});
-	filterContent.appendChild(levelFilter.element);
-	content.appendChild(filterContent);
-	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
-	const enabledFunnel = createFilterEnabledFunnel();
-	enabledFunnel.onChange(() => applyFilters());
-	enabledFunnel.setEnabled(filters.friends.enabled);
-	options.appendChild(enabledFunnel.element);
-	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
-
-	await applyFilters();
-
+	await filter.run();
 	filterSetupComplete = true;
-}
-
-async function applyFilters() {
-	await requireElement(".tableWrapper ul > li");
-
-	// Get the set filters
-	const content = findContainer("Friend Filter", { selector: "main" });
-	const activity = localFilters["Activity"].getSelections(content);
-	const levels = localFilters["Level Filter"].getStartEnd(content);
-	const levelStart = parseInt(levels.start);
-	const levelEnd = parseInt(levels.end);
-
-	// Update level slider counter
-	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
-
-	// Save filters
-	await ttStorage.change({ filters: { friends: { enabled: localFilters.enabled.isEnabled(), activity, levelStart, levelEnd } } });
-
-	// Actual Filtering
-	if (!localFilters.enabled.isEnabled()) {
-		findAllElements(".tableWrapper ul > li.tt-hidden").forEach((row) => {
-			row.classList.remove("tt-hidden");
-			delete row.dataset.hideReason;
-		});
-		localFilters["Statistics"].updateStatistics(
-			findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
-			findAllElements(".tableWrapper ul > li").length,
-			content,
-		);
-		return;
-	}
-
-	for (const row of findAllElements(".tableWrapper ul > li")) {
-		filterRow(row, { activity, level: { start: levelStart, end: levelEnd } }, false);
-	}
-
-	triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Friend Filter" });
-
-	localFilters["Statistics"].updateStatistics(
-		findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
-		findAllElements(".tableWrapper ul > li").length,
-		content,
-	);
-}
-
-interface FriendFilters {
-	activity: string[];
-	level: {
-		start: number | null;
-		end: number | null;
-	};
-}
-
-function filterRow(row: HTMLElement, filters: Partial<FriendFilters>, individual: boolean) {
-	if (filters.activity) {
-		const activity = row.querySelector("[class*='userOnlineStatusIcon___']").getAttribute("alt");
-		if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
-			hide("activity");
-			return;
-		}
-	}
-	if (filters.level?.start || filters.level?.end) {
-		const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
-		if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
-			hide("level");
-			return;
-		}
-	}
-
-	show();
-
-	function show() {
-		row.classList.remove("tt-hidden");
-		row.removeAttribute("data-hide-reason");
-
-		if (individual) {
-			const content = findContainer("Friend Filter", { selector: "main" });
-
-			localFilters["Statistics"].updateStatistics(
-				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-				findAllElements("ul.user-info-blacklist-wrap > li").length,
-				content,
-			);
-		}
-	}
-
-	function hide(reason: string) {
-		row.classList.add("tt-hidden");
-		row.dataset.hideReason = reason;
-		if (individual) {
-			const content = findContainer("Friend Filter", { selector: "main" });
-
-			localFilters["Statistics"].updateStatistics(
-				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-				findAllElements("ul.user-info-blacklist-wrap> li").length,
-				content,
-			);
-		}
-	}
-}
-
-function removeFilters() {
-	removeContainer("Friend Filter");
-	findAllElements("ul.user-info-blacklist-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
-	if (listObserver) listObserver.disconnect();
-	if (tableObserver) tableObserver.disconnect();
-	filterSetupComplete = false;
 }
 
 export default class FriendFilterFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Friend Filter", "friends");
 	}
-
 	precondition() {
 		return getPageStatus().access;
 	}
-
 	isEnabled() {
 		return settings.pages.friends.filter;
 	}
-
 	async initialise() {
-		await initialiseFilters();
+		await initialiseListeners();
 	}
-
 	async execute() {
-		await addFilters();
+		await addFilterContainer();
 	}
-
 	cleanup() {
-		removeFilters();
+		filter?.dispose();
+		listObserver?.disconnect();
+		tableObserver?.disconnect();
+		filterSetupComplete = false;
 	}
-
 	storageKeys() {
 		return ["settings.pages.friends.filter"];
 	}

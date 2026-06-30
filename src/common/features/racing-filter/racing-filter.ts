@@ -1,374 +1,244 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, getSearchParameters, isTextNode } from "@common/utils/functions/dom";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
+import { getSearchParameters, isTextNode } from "@common/utils/functions/dom";
+import {
+	checkboxesSection,
+	createFilter,
+	type FilterController,
+	multiSelectSection,
+	type SliderRange,
+	sliderSection,
+	textSection,
+} from "@common/utils/functions/filters";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-function initialise() {
+let filter: FilterController | undefined;
+
+function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, ...detail } }) => {
 		if (!FEATURE_MANAGER.isEnabled(RacingFilterFeature) || !("uri" in detail)) return;
 
 		const { uri } = detail;
 		if (page === "page" && uri) {
-			const sid = uri.sid;
-			if (sid !== "racing" && sid !== "undefined") {
+			if (uri.sid !== "racing" && uri.sid !== "undefined") {
 				removeFilters();
 				return;
 			}
-
-			const tab = uri.tab;
-			if (tab !== "customrace" && tab !== "undefined") {
+			if (uri.tab !== "customrace" && uri.tab !== "undefined") {
 				removeFilters();
 				return;
 			}
 
 			await requireElement(".events-list");
-
-			void addFilters();
+			void addFilterContainer();
 		}
 	});
 }
 
-const localFilters: any = {};
+type RacingFilterState = {
+	enabled: boolean;
+	name: string;
+	hideRaces: string[];
+	track: string[];
+	time: SliderRange;
+	laps: SliderRange;
+	drivers: SliderRange;
+};
 
-async function addFilters() {
+async function addFilterContainer() {
 	await requireElement(".custom-events-wrap");
 
-	const { content, options } = createContainer("Racing Filter", {
-		class: "mt10",
-		nextElement: document.querySelector(".custom-events-wrap"),
-		filter: true,
-		compact: true,
-	});
+	filter?.dispose();
 
-	const filterContent = elementBuilder({
-		type: "div",
-		class: "content",
-	});
+	const TRACKS = [
+		"Uptown",
+		"Withdrawal",
+		"Underdog",
+		"Parkland",
+		"Docks",
+		"Commerce",
+		"Two Islands",
+		"Industrial",
+		"Vector",
+		"Mudpit",
+		"Hammerhead",
+		"Sewage",
+		"Meltdown",
+		"Speedway",
+		"Stone Park",
+		"Convict",
+	];
 
-	// Statistics
-	const statistics = createStatistics("races");
-	content.appendChild(statistics.element);
-	localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
-
-	// Hide races
-	const hideRacesFilter = createFilterSection({
-		type: "HideRaces",
-		defaults: filters.racing.hideRaces,
-		callback: applyFilters,
-	});
-	filterContent.appendChild(hideRacesFilter.element);
-	localFilters["HideRaces"] = { getSelections: hideRacesFilter.getSelections };
-
-	// Start time
-	const timeFilter = createFilterSection({
-		title: "Start Time Filter",
-		noTitle: true,
-		slider: {
-			min: 0,
-			max: 48,
-			step: 1,
-			valueLow: filters.racing.timeStart,
-			valueHigh: filters.racing.timeEnd,
+	filter = createFilter<RacingFilterState>({
+		rowSelector: ".events-list > li:not(.clear)",
+		container: {
+			title: "Racing Filter",
+			class: "mt10",
+			nextElement: document.querySelector(".custom-events-wrap"),
+			compact: true,
 		},
-		callback: applyFilters,
-	});
-	filterContent.appendChild(timeFilter.element);
-	localFilters["Start Time Filter"] = { getStartEnd: timeFilter.getStartEnd, updateCounter: timeFilter.updateCounter };
+		statisticsLabel: "races",
+		enabled: filters.racing.enabled,
+		sections: [
+			checkboxesSection({
+				key: "hideRaces",
+				title: "Hide Races",
+				items: [
+					{ id: "full", description: "Full" },
+					{ id: "protected", description: "Protected" },
+					{ id: "incompatible", description: "Incompatible" },
+					{ id: "paid", description: "With Fee" },
+					{ id: "limited-car", description: "Limited Car" },
+				],
+				defaults: filters.racing.hideRaces,
+				test: (row, hideRaces) => {
+					if (!hideRaces.length) return true;
 
-	// Laps
-	const lapsFilter = createFilterSection({
-		title: "Laps",
-		noTitle: true,
-		slider: {
-			min: 1,
-			max: 100,
-			step: 1,
-			valueLow: filters.racing.lapsMin,
-			valueHigh: filters.racing.lapsMax,
-		},
-		callback: applyFilters,
-	});
-	filterContent.appendChild(lapsFilter.element);
-	localFilters["Laps"] = { getStartEnd: lapsFilter.getStartEnd, updateCounter: lapsFilter.updateCounter };
+					const isProtected = row.classList.contains("protected");
+					if (hideRaces.includes("protected") && isProtected) return false;
 
-	// Drivers
-	const driversFilter = createFilterSection({
-		title: "Drivers",
-		noTitle: true,
-		slider: {
-			min: 2,
-			max: 100,
-			step: 1,
-			valueLow: filters.racing.lapsMin,
-			valueHigh: filters.racing.lapsMax,
-		},
-		callback: applyFilters,
-	});
-	filterContent.appendChild(driversFilter.element);
-	localFilters["Drivers"] = { getStartEnd: driversFilter.getStartEnd, updateCounter: driversFilter.updateCounter };
+					const isIncompatible = row.classList.contains("no-suitable");
+					if (hideRaces.includes("incompatible") && isIncompatible) return false;
 
-	// Track
-	const trackFilter = createFilterSection({
-		title: "Track",
-		multiSelect: true,
-		select: [
-			...[
-				"Uptown",
-				"Withdrawal",
-				"Underdog",
-				"Parkland",
-				"Docks",
-				"Commerce",
-				"Two Islands",
-				"Industrial",
-				"Vector",
-				"Mudpit",
-				"Hammerhead",
-				"Sewage",
-				"Meltdown",
-				"Speedway",
-				"Stone Park",
-				"Convict",
-			].map((track) => ({ value: track, description: track })),
+					if (hideRaces.includes("paid")) {
+						const feeEl = row.querySelector<HTMLElement>("li.fee");
+						if (feeEl) {
+							const feeAmount = parseInt(feeEl.textContent.replace(/\D/g, ""), 10);
+							if (feeAmount > 0) return false;
+						}
+					}
+
+					if (hideRaces.includes("full")) {
+						const driversEl = row.querySelector<HTMLElement>("li.drivers");
+						if (driversEl) {
+							const match = driversEl.textContent.replace(/\s+/g, "").match(/(\d+)\/(\d+)/);
+							if (match && parseInt(match[1], 10) >= parseInt(match[2], 10)) return false;
+						}
+					}
+
+					if (hideRaces.includes("limited-car")) {
+						const limited = !row.querySelector(".car")?.textContent.trim().includes("Any car");
+						if (limited) return false;
+					}
+
+					return true;
+				},
+			}),
+
+			sliderSection({
+				key: "time",
+				title: "Start Time Filter",
+				config: { min: 0, max: 48, step: 1 },
+				defaults: { low: filters.racing.timeStart, high: filters.racing.timeEnd },
+				formatCounter: (r) => `Race Start In ${r.start}h - ${r.end}h`,
+				test: (row, range) => {
+					const timeText = row.querySelector<HTMLElement>(".event-wrap .startTime").textContent.trim();
+					if (!timeText || timeText.toLowerCase() === "waiting") {
+						return range.start === 0 && range.end === 0;
+					}
+
+					const clean = timeText.toLowerCase();
+					const hours = parseInt(clean.match(/(\d+)\s*h/)?.[1]) || 0;
+					const minutes = parseInt(clean.match(/(\d+)\s*m/)?.[1]) || 0;
+					const totalHours = hours + Math.floor(minutes / 60);
+
+					if (range.start && totalHours < range.start) return false;
+					if (range.end !== 48 && totalHours >= range.end) return false;
+
+					return true;
+				},
+			}),
+
+			sliderSection({
+				key: "laps",
+				title: "Laps",
+				config: { min: 1, max: 100, step: 1 },
+				defaults: { low: filters.racing.lapsMin, high: filters.racing.lapsMax },
+				formatCounter: (r) => `Laps ${r.start} - ${r.end}`,
+				test: (row, range) => {
+					const laps = parseInt(row.querySelector(".laps").textContent.match(/\d+/)[0], 10);
+					return laps >= range.start && laps <= range.end;
+				},
+			}),
+
+			sliderSection({
+				key: "drivers",
+				title: "Drivers",
+				config: { min: 2, max: 100, step: 1 },
+				defaults: { low: filters.racing.driversMin, high: filters.racing.driversMax },
+				formatCounter: (r) => `Maximum Drivers ${r.start} - ${r.end}`,
+				test: (row, range) => {
+					const driversEl = row.querySelector<HTMLElement>("li.drivers");
+					if (!driversEl) return true;
+
+					const match = driversEl.textContent.replace(/\s+/g, "").match(/(\d+)\/(\d+)/);
+					if (!match) return true;
+
+					const maxDrivers = parseInt(match[2], 10);
+					return maxDrivers >= range.start && maxDrivers <= range.end;
+				},
+			}),
+
+			multiSelectSection({
+				key: "track",
+				title: "Track",
+				items: TRACKS.map((track) => ({ value: track, description: track })),
+				defaults: filters.racing.track,
+				test: (row, track) => {
+					if (!track.length) return true;
+
+					const trackEl = row.querySelector("li.track");
+					const trackName = Array.from(trackEl.childNodes)
+						.filter(isTextNode)
+						.map((node) => node.textContent.trim())
+						.join(" ")
+						.trim();
+
+					return track.includes(trackName);
+				},
+			}),
+
+			textSection({
+				key: "name",
+				title: "Name",
+				defaultValue: filters.racing.name,
+				test: (row, name) => {
+					if (!name) return true;
+
+					const raceName = row.querySelector<HTMLElement>(".event-wrap .name").textContent;
+
+					return raceName.toLowerCase().includes(name.toLowerCase());
+				},
+			}),
 		],
-		defaults: filters.racing.track,
-		callback: applyFilters,
-	});
-	filterContent.appendChild(trackFilter.element);
-	localFilters["Track"] = { getSelected: trackFilter.getSelected };
-
-	// Race name
-	const nameFilter = createFilterSection({
-		title: "Name",
-		text: true,
-		default: filters.racing.name,
-		callback: applyFilters,
-	});
-	filterContent.appendChild(nameFilter.element);
-	localFilters["Name"] = { getValue: nameFilter.getValue };
-
-	content.appendChild(filterContent);
-
-	const enabledFunnel = createFilterEnabledFunnel();
-	enabledFunnel.onChange(applyFilters);
-	enabledFunnel.setEnabled(filters.racing.enabled);
-	options.appendChild(enabledFunnel.element);
-	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
-
-	await applyFilters();
-}
-
-async function applyFilters() {
-	await requireElement(".events-list > li");
-	const content = findContainer("Racing Filter").querySelector("main");
-	const hideRacesFilter = localFilters["HideRaces"].getSelections(content);
-	const startTimeFilter = localFilters["Start Time Filter"].getStartEnd(content);
-	const timeStart = parseInt(startTimeFilter.start);
-	const timeEnd = parseInt(startTimeFilter.end);
-	const lapsFilter = localFilters["Laps"].getStartEnd(content);
-	const minLaps = parseInt(lapsFilter.start);
-	const maxLaps = parseInt(lapsFilter.end);
-	const driversFilter = localFilters["Drivers"].getStartEnd(content);
-	const driversMin = parseInt(driversFilter.start);
-	const driversMax = parseInt(driversFilter.end);
-	const trackFilter: string[] = localFilters["Track"].getSelected(content);
-	const nameFilter = localFilters["Name"].getValue();
-
-	// Update level and time slider counters
-	localFilters["Start Time Filter"].updateCounter(`Race Start In ${timeStart}h - ${timeEnd}h`, content);
-	localFilters["Laps"].updateCounter(`Laps ${minLaps} - ${maxLaps}`, content);
-	localFilters["Drivers"].updateCounter(`Maximum Drivers ${driversMin} - ${driversMax}`, content);
-
-	// Update statistics
-	const allRaces = Array.from(document.querySelectorAll(".events-list > li"));
-
-	// Save filters
-	await ttStorage.change({
-		filters: {
-			racing: {
-				hideRaces: hideRacesFilter,
-				timeStart: timeStart,
-				timeEnd: timeEnd,
-				driversMin: driversMin,
-				driversMax: driversMax,
-				lapsMin: minLaps,
-				lapsMax: maxLaps,
-				track: trackFilter,
-				name: nameFilter,
-			},
+		onStateChange: async (state) => {
+			await ttStorage.change({
+				filters: {
+					racing: {
+						enabled: state.enabled,
+						hideRaces: state.hideRaces,
+						timeStart: state.time.start,
+						timeEnd: state.time.end,
+						lapsMin: state.laps.start,
+						lapsMax: state.laps.end,
+						driversMin: state.drivers.start,
+						driversMax: state.drivers.end,
+						track: state.track,
+						name: state.name,
+					},
+				},
+			});
 		},
 	});
 
-	// Actual Filtering
-	if (!localFilters.enabled.isEnabled()) {
-		findAllElements(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
-		localFilters["Statistics"].updateStatistics(
-			allRaces.filter((li) => li.className !== "clear" && !li.classList.contains("tt-hidden")).length,
-			allRaces.filter((li) => li.className !== "clear").length,
-			content,
-		);
-		return;
-	}
-
-	for (const li of findAllElements(".events-list > li")) {
-		if (li.className === "clear") {
-			continue;
-		}
-
-		// Password
-		const isProtected = li.classList.contains("protected");
-
-		// No suitable cars enlisted
-		const isIncompatible = li.classList.contains("no-suitable");
-
-		// Fee
-		const feeElement = li.querySelector("li.fee");
-
-		let hasFee = false;
-		if (feeElement) {
-			const feeText = feeElement.textContent.replace(/\D/g, ""); // keep only digits
-			const feeAmount = parseInt(feeText, 10);
-			hasFee = feeAmount > 0;
-		}
-
-		// Drivers
-		const driversElement = li.querySelector("li.drivers");
-
-		let isFull = false;
-		let maxDriversAllowed = 0;
-		if (driversElement) {
-			// Extract only numbers and slashes from the text
-			const text = driversElement.textContent.replace(/\s+/g, ""); // remove whitespace
-			// Match the pattern "number / number"
-			const match = text.match(/(\d+)\/(\d+)/);
-
-			if (match) {
-				let driversJoined = 0;
-				driversJoined = parseInt(match[1], 10);
-				maxDriversAllowed = parseInt(match[2], 10);
-				if (driversJoined >= maxDriversAllowed) {
-					isFull = true;
-				}
-			}
-		}
-
-		// Laps
-		const laps = parseInt(li.querySelector(".laps").textContent.match(/\d+/)[0], 10);
-
-		// Start time
-		const timeText = li.querySelector(".event-wrap .startTime").textContent.trim(); // Format can be: "waiting", "26 m", "10 h 30 m"
-
-		let totalHours = 0;
-		if (!timeText || timeText.toLowerCase() === "waiting") {
-			totalHours = -1;
-		} else {
-			// normalize text
-			const cleanText = timeText.toLowerCase();
-
-			// extract hours and minutes explicitly
-			const hoursMatch = cleanText.match(/(\d+)\s*h/);
-			const minsMatch = cleanText.match(/(\d+)\s*m/);
-
-			const hours = hoursMatch ? parseInt(hoursMatch[1], 10) : 0;
-			const minutes = minsMatch ? parseInt(minsMatch[1], 10) : 0;
-
-			// convert to whole hours
-			totalHours = hours + Math.floor(minutes / 60);
-		}
-
-		// Track name
-		const trackElement = li.querySelector("li.track");
-		const trackName = Array.from(trackElement.childNodes)
-			.filter(isTextNode)
-			.map((node) => node.textContent.trim())
-			.join(" ")
-			.trim();
-
-		// Race name
-		const raceName = li.querySelector(".event-wrap .name").textContent;
-
-		// Hide races
-		if (hideRacesFilter.length && hideRacesFilter.includes("protected") && isProtected) {
-			hideRow(li);
-			continue;
-		}
-		if (hideRacesFilter.length && hideRacesFilter.includes("incompatible") && isIncompatible) {
-			hideRow(li);
-			continue;
-		}
-		if (hideRacesFilter.length && hideRacesFilter.includes("paid") && hasFee) {
-			hideRow(li);
-			continue;
-		}
-		if (hideRacesFilter.length && hideRacesFilter.includes("full") && isFull) {
-			hideRow(li);
-			continue;
-		}
-
-		const isLimitedCar = !li.querySelector(".car")!.textContent.trim().includes("Any car");
-		if (hideRacesFilter.length && hideRacesFilter.includes("limited-car") && isLimitedCar) {
-			hideRow(li);
-			continue;
-		}
-
-		// Max Drivers
-		if (maxDriversAllowed < driversMin || maxDriversAllowed > driversMax) {
-			hideRow(li);
-			continue;
-		}
-
-		// Max Laps
-		if (laps < minLaps || laps > maxLaps) {
-			hideRow(li);
-			continue;
-		}
-
-		// Start time
-		if (timeStart === 0 && timeEnd === 0 && totalHours === -1) {
-			// Don't hide races that are waiting
-		} else if ((timeStart && totalHours < timeStart) || (timeEnd !== 48 && totalHours >= timeEnd)) {
-			hideRow(li);
-			continue;
-		}
-
-		// Track
-		if (trackFilter.length && !trackFilter.includes(trackName)) {
-			hideRow(li);
-			continue;
-		}
-
-		// Race name
-		if (!raceName.toLowerCase().includes(nameFilter.toLowerCase())) {
-			hideRow(li);
-			continue;
-		}
-
-		showRow(li);
-	}
-
-	function showRow(li: HTMLElement) {
-		li.classList.remove("tt-hidden");
-	}
-
-	function hideRow(li: HTMLElement) {
-		li.classList.add("tt-hidden");
-	}
-
-	localFilters["Statistics"].updateStatistics(
-		allRaces.filter((li) => !li.classList.contains("tt-hidden") && li.className !== "clear").length,
-		allRaces.filter((li) => li.className !== "clear").length,
-		content,
-	);
+	await filter.run();
 }
 
 function removeFilters() {
-	removeContainer("Racing Filter");
-	findAllElements(".events-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+	filter?.dispose();
 }
 
 export default class RacingFilterFeature extends Feature {
@@ -384,19 +254,19 @@ export default class RacingFilterFeature extends Feature {
 		return settings.pages.racing.filter;
 	}
 
-	storageKeys() {
-		return ["settings.pages.racing.filter"];
-	}
-
 	initialise() {
-		initialise();
+		initialiseListeners();
 	}
 
 	async execute() {
-		if (getSearchParameters().get("tab") === "customrace") await addFilters();
+		if (getSearchParameters().get("tab") === "customrace") await addFilterContainer();
 	}
 
-	cleanup(): void {
+	cleanup() {
 		removeFilters();
+	}
+
+	storageKeys() {
+		return ["settings.pages.racing.filter"];
 	}
 }

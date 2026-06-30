@@ -125,4 +125,8 @@ export default class TravelItemProfitsFeature extends Feature {
 
 		return true;
 	}
+
+	shouldTriggerEvents(): boolean {
+		return true;
+	}
 }

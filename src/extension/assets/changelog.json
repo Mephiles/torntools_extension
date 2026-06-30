@@ -3,7 +3,15 @@
 		"version": { "major": 9, "minor": 0, "build": 13 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Resolve wrong values being applied in the Racing Filter.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": [],
+			"technical": [
+				{ "message": "Refactor the filter helpers and apply it to the 'Abroad Items Filter' and 'Hospital Filter'.", "contributor": "DeKleineKobini" }
+			]
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 0, "build": 12 },
@@ -15,6 +23,7 @@
 				{ "message": "Better error handling in 'City Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with property features when on the rental or selling markets.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix silent notifications not working properly.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve wrong values being applied in the Racing Filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix some weird visual issue with the quick refresh icon on the jail page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [

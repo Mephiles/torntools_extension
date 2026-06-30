@@ -1027,7 +1027,7 @@ type QuickCrime = {
 	icon: string;
 	text: string;
 };
-type QuickJail = "bust" | "bail";
+export type QuickJail = "bust" | "bail";
 
 export type TTFullNotification = {
 	title: string;

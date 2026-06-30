@@ -3,13 +3,15 @@ import { userdata } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createCheckboxList } from "@common/utils/elements/checkbox-list/checkbox-list";
-import { createMultiSelect, createSelect, type SelectOption } from "@common/utils/elements/select/select";
+import { createMultiSelect, createSelect } from "@common/utils/elements/select/select";
 import { DualRangeSlider } from "@common/utils/elements/slider/slider";
 import { createTextbox, type TextboxWithoutDescriptionFilter } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
+import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { camelCase } from "@common/utils/functions/formatting";
-import { WEAPON_BONUSES } from "@common/utils/functions/torn";
+import { requireElement } from "@common/utils/functions/requires";
+import { RANK_TRIGGERS, WEAPON_BONUSES } from "@common/utils/functions/torn";
 import { getUUID } from "@common/utils/functions/utilities";
 import { PHFillFunnel, PHFillFunnelX } from "@common/utils/icons/phosphor-icons";
 import type { UserLastActionStatusEnum } from "tornapi-typescript";
@@ -67,316 +69,22 @@ export type UserActivityStatus = Lowercase<UserLastActionStatusEnum>;
 
 export function getUserActivity(element: ParentNode): UserActivityStatus | "" {
 	const icon = element.querySelector("[class*='userOnlineStatusIcon___']");
-	const label = icon?.getAttribute("alt") || icon?.closest("[aria-label]")?.getAttribute("aria-label") || "";
+	const label = icon.getAttribute("alt") || icon.closest("[aria-label]")?.getAttribute("aria-label");
+	const labelMatch = label.match(/\b(online|idle|offline)\b/i);
+	if (labelMatch) {
+		return labelMatch[1].toLowerCase() as UserActivityStatus | undefined;
+	}
 
-	return (label.match(/\b(online|idle|offline)\b/i)?.[1].toLowerCase() as UserActivityStatus | undefined) ?? "";
+	const title = element.querySelector("#iconTray li").getAttribute("title");
+	const titleMatch = title.match(FILTER_REGEXES.activity);
+	if (titleMatch) {
+		return titleMatch[0].toLowerCase().trim() as UserActivityStatus;
+	}
+
+	return "";
 }
 
 type FilterCallback = (() => void) | (() => Promise<void>);
-interface CommonOptions {
-	title: string;
-	noTitle?: boolean;
-	callback: FilterCallback;
-	style?: Record<string, string>;
-}
-
-type SelectOptions = CommonOptions & {
-	select: FilterOption[];
-	default: string;
-};
-type MultiSelectSectionOptions = CommonOptions & {
-	select: FilterOption[];
-	multiSelect: true;
-	defaults: string[];
-};
-type CheckboxSectionOptions = CommonOptions & {
-	checkbox: string;
-	default: boolean;
-};
-type CheckboxesOptions = CommonOptions &
-	(
-		| {
-				checkboxes: { id: string; description: string }[];
-				defaults: string[];
-		  }
-		| {
-				checkboxes: { id: number; description: string }[];
-				defaults: number[];
-		  }
-	) & { orientation?: "column" | "row" };
-type YNCheckboxesOptions = CommonOptions & {
-	ynCheckboxes: string[];
-	defaults: Record<string, SpecialFilterValue>;
-};
-type SliderOptions = CommonOptions & {
-	slider: {
-		min: number;
-		max: number;
-		step: number;
-		valueLow: number;
-		valueHigh: number;
-	};
-};
-type TextOptions = CommonOptions & {
-	text: true | string;
-	default: string;
-};
-
-type PresetOptions = Omit<Omit<CommonOptions, "title">, "noTitle"> &
-	(
-		| { type: "Activity"; defaults: string[] }
-		| { type: "HideRaces"; defaults: string[] }
-		| { type: "LevelAll" | "LevelPlayer"; typeData: { valueLow: number; valueHigh: number } }
-	);
-
-export function createFilterSection(options: Omit<CommonOptions, "callback">): any;
-export function createFilterSection(options: SelectOptions): any;
-export function createFilterSection(options: MultiSelectSectionOptions): any;
-export function createFilterSection(options: PresetOptions): any;
-export function createFilterSection(options: CheckboxSectionOptions): any;
-export function createFilterSection(options: CheckboxesOptions): any;
-export function createFilterSection(options: YNCheckboxesOptions): any;
-export function createFilterSection(options: SliderOptions): any;
-export function createFilterSection(options: TextOptions): any;
-
-export function createFilterSection(
-	options:
-		| Omit<CommonOptions, "callback">
-		| SelectOptions
-		| MultiSelectSectionOptions
-		| PresetOptions
-		| CheckboxSectionOptions
-		| CheckboxesOptions
-		| YNCheckboxesOptions
-		| SliderOptions
-		| TextOptions,
-): any {
-	if ("type" in options) {
-		// Handle PresetOptions
-		if (options.type === "Activity") {
-			return createFilterSection({
-				title: "Activity",
-				checkboxes: [
-					{ id: "online", description: "Online" },
-					{ id: "idle", description: "Idle" },
-					{ id: "offline", description: "Offline" },
-				],
-				defaults: options.defaults,
-				callback: options.callback,
-			});
-		} else if (options.type === "HideRaces") {
-			return createFilterSection({
-				title: "Hide Races",
-				checkboxes: [
-					{ id: "full", description: "Full" },
-					{ id: "protected", description: "Protected" },
-					{ id: "incompatible", description: "Incompatible" },
-					{ id: "paid", description: "With Fee" },
-					{ id: "limited-car", description: "Limited Car" },
-				],
-				defaults: options.defaults,
-				callback: options.callback,
-			});
-		} else if (options.type === "LevelAll") {
-			return createFilterSection({
-				title: "Level Filter",
-				noTitle: true,
-				slider: {
-					min: 0,
-					max: 100,
-					step: 1,
-					valueLow: options.typeData.valueLow,
-					valueHigh: options.typeData.valueHigh,
-				},
-				callback: options.callback,
-			});
-		} else if (options.type === "LevelPlayer") {
-			return createFilterSection({
-				title: "Level Filter",
-				noTitle: true,
-				slider: {
-					min: 1,
-					max: 100,
-					step: 1,
-					valueLow: options.typeData.valueLow,
-					valueHigh: options.typeData.valueHigh,
-				},
-				callback: options.callback,
-			});
-		}
-		return null;
-	}
-
-	const ccTitle = `${camelCase(options.title)}__section-class`;
-	const section = elementBuilder({ type: "div", class: ccTitle, style: options.style });
-
-	if (!options.noTitle) section.appendChild(elementBuilder({ type: "strong", text: options.title }));
-
-	if (isTextOptions(options)) {
-		const textbox = createTextbox({
-			type: (typeof options.text === "string" ? options.text : "text") as "text" | "number",
-		});
-		textbox.setValue(options.default);
-		textbox.onChange(options.callback);
-
-		section.appendChild(textbox.element);
-
-		return {
-			element: section,
-			getValue: () => textbox.getValue(),
-		};
-	}
-
-	if (isCheckboxOptions(options)) {
-		const checkbox = createCheckbox({ description: options.checkbox });
-		checkbox.onChange(options.callback);
-		checkbox.setChecked(options.default);
-		section.appendChild(checkbox.element);
-
-		return {
-			element: section,
-			isChecked: (content: Element) => content.querySelector<HTMLInputElement>(`.${ccTitle} input`)?.checked ?? false,
-		};
-	}
-
-	if (isCheckboxesOptions(options)) {
-		const checkboxes = createCheckboxList({ items: options.checkboxes, orientation: options.orientation ?? "column", useId: true });
-		checkboxes.onSelectionChange(options.callback);
-		checkboxes.setSelections((Array.isArray(options.defaults) ? options.defaults : []) as string[]);
-		section.appendChild(checkboxes.element);
-
-		return {
-			element: section,
-			getSelections: (content: Element) =>
-				findAllElements(`.${ccTitle} input:checked`, content).map((x) => x.getAttribute("id")?.toLowerCase().trim() ?? ""),
-		};
-	}
-
-	if (isYNCheckboxesOptions(options)) {
-		options.ynCheckboxes.forEach((key) => {
-			const ccKey = camelCase(key);
-			const checkboxesDiv = elementBuilder({ type: "div", class: ccKey });
-			const yCheckbox = createCheckbox({ description: "Y:", reverseLabel: true });
-			const nCheckbox = createCheckbox({ description: "N:", reverseLabel: true });
-			const value = options.defaults[ccKey];
-			if (value === "yes" || value === "both") yCheckbox.setChecked(true);
-			if (value === "no" || value === "both") nCheckbox.setChecked(true);
-			yCheckbox.onChange(options.callback);
-			nCheckbox.onChange(options.callback);
-			checkboxesDiv.appendChild(yCheckbox.element);
-			checkboxesDiv.appendChild(nCheckbox.element);
-			checkboxesDiv.appendChild(elementBuilder({ type: "label", text: key }));
-			section.appendChild(checkboxesDiv);
-		});
-		section.classList.add("tt-yn-checkboxes");
-
-		return {
-			element: section,
-			getSelections,
-		};
-
-		function getSelections(content: HTMLElement) {
-			const selections: { [key: string]: string } = {};
-			for (const specialDiv of findAllElements(`.${ccTitle} > div`, content)) {
-				const checkboxes = findAllElements("input", specialDiv);
-				const yChecked = checkboxes[0].checked;
-				const nChecked = checkboxes[1].checked;
-				const key = specialDiv.className.split("__")[0];
-				if (yChecked && nChecked) selections[key] = "both";
-				else if (yChecked) selections[key] = "yes";
-				else if (nChecked) selections[key] = "no";
-				else selections[key] = "none";
-			}
-			return selections;
-		}
-	}
-
-	if (isMultiSelectOptions(options)) {
-		const multiSelect = createMultiSelect({
-			select: options.select.filter((opt) => opt.value !== ""),
-			defaults: (Array.isArray(options.defaults) ? options.defaults : []) as string[],
-		});
-
-		multiSelect.onChange(options.callback);
-		section.appendChild(multiSelect.element);
-
-		return {
-			element: section,
-			getSelected: () => multiSelect.getSelected(),
-			updateOptions: (newOptions: SelectOption[]) => multiSelect.updateOptionsList(newOptions),
-		};
-	}
-
-	if (isSelectOptions(options)) {
-		const select = createSelect(options.select);
-		select.setSelected(options.default ?? "");
-		select.onChange(options.callback);
-		section.appendChild(select.element);
-
-		return {
-			element: section,
-			getSelected: (content: Element) => content.querySelector<HTMLSelectElement>(`.${ccTitle} select`)?.value ?? "",
-			updateOptions: (newOptions: SelectOption[], content: Element) => select.updateOptionsList(newOptions, content.querySelector(`.${ccTitle} select`)),
-		};
-	}
-
-	if (isSliderOptions(options)) {
-		const rangeSlider = new DualRangeSlider(options.slider);
-		section.appendChild(rangeSlider.slider);
-		section.appendChild(elementBuilder({ type: "div", class: "slider-counter", text: "" }));
-		section.classList.add("tt-slider");
-
-		new MutationObserver(options.callback).observe(rangeSlider.slider, { attributes: true });
-
-		return { element: section, getStartEnd, updateCounter };
-
-		function getStartEnd(content: Element) {
-			const rangeElement = content.querySelector<HTMLElement>(`.${ccTitle} .tt-dual-range`);
-			if (!rangeElement) {
-				return { start: (options as SliderOptions).slider.valueLow, end: (options as SliderOptions).slider.valueHigh };
-			}
-
-			return { start: rangeElement.dataset.low, end: rangeElement.dataset.high };
-		}
-
-		function updateCounter(string: string, content: Element) {
-			const counter = content.querySelector(`.${ccTitle} .slider-counter`);
-			if (!counter) return;
-
-			counter.textContent = string;
-		}
-	}
-
-	return { element: section };
-}
-
-function isTextOptions(options: any): options is TextOptions {
-	return "text" in options;
-}
-
-function isCheckboxOptions(options: any): options is CheckboxSectionOptions {
-	return "checkbox" in options;
-}
-
-function isCheckboxesOptions(options: any): options is CheckboxesOptions {
-	return "checkboxes" in options;
-}
-
-function isYNCheckboxesOptions(options: any): options is YNCheckboxesOptions {
-	return "ynCheckboxes" in options;
-}
-
-function isMultiSelectOptions(options: any): options is MultiSelectSectionOptions {
-	return "select" in options && "multiSelect" in options;
-}
-
-function isSelectOptions(options: any): options is SelectOptions {
-	return "select" in options && !("type" in options);
-}
-
-function isSliderOptions(options: any): options is SliderOptions {
-	return "slider" in options;
-}
 
 interface WeaponBonusOptions {
 	callback: FilterCallback;
@@ -534,4 +242,605 @@ export function createFilterEnabledFunnel(partialOptions: Partial<FilterEnabledF
 		onChange,
 		dispose,
 	};
+}
+
+interface SectionBuildResult<V> {
+	element: HTMLElement;
+	getValue(): V;
+	onBeforeFilter?(): void;
+}
+
+export interface FilterSectionDef<V> {
+	readonly key: string;
+	readonly title: string;
+	build(onChange: () => void): SectionBuildResult<V>;
+	test(row: HTMLElement, value: V): boolean;
+	/** Return false to hide this section from the UI. Re-evaluated on each reRender. */
+	enabled?: () => boolean;
+	/** Place this section in the container header options area instead of the body. Default: "body". */
+	placement?: "body" | "header";
+}
+
+export interface SliderRange {
+	start: number;
+	end: number;
+}
+
+interface CheckboxSectionOptions {
+	key: string;
+	title: string;
+	label?: string;
+	defaultValue: boolean;
+	test: (row: HTMLElement, checked: boolean) => boolean;
+	enabled?: () => boolean;
+}
+
+export function checkboxSection(options: CheckboxSectionOptions): FilterSectionDef<boolean> {
+	const { key, title, label, defaultValue, test, enabled } = options;
+
+	return {
+		key,
+		title,
+		enabled,
+		build(onChange: () => void) {
+			const checkbox = createCheckbox({ description: label ?? title });
+			checkbox.setChecked(defaultValue);
+			checkbox.onChange(onChange);
+
+			return { element: checkbox.element, getValue: () => checkbox.isChecked() };
+		},
+		test,
+	};
+}
+
+interface CheckboxesSectionOptions {
+	key: string;
+	title: string;
+	items: { id: string; description: string }[];
+	defaults: string[];
+	test: (row: HTMLElement, selections: string[]) => boolean;
+	orientation?: "column" | "row";
+	enabled?: () => boolean;
+}
+
+export function checkboxesSection(options: CheckboxesSectionOptions): FilterSectionDef<string[]> {
+	const { key, title, items, defaults, test, orientation, enabled } = options;
+
+	return {
+		key,
+		title,
+		enabled,
+		build(onChange: () => void) {
+			const list = createCheckboxList({ items, orientation: orientation ?? "column", useId: true });
+			list.setSelections(defaults ?? []);
+			list.onSelectionChange(onChange);
+
+			return { element: list.element, getValue: () => list.getSelections() };
+		},
+		test,
+	};
+}
+
+interface SelectOption {
+	value: string;
+	description: string;
+	disabled?: boolean;
+}
+
+interface SelectSectionOptions {
+	key: string;
+	title: string;
+	getOptions(): SelectOption[];
+	defaultValue: string;
+	test: (row: HTMLElement, selected: string) => boolean;
+	enabled?: () => boolean;
+}
+
+export function selectSection(options: SelectSectionOptions): FilterSectionDef<string> {
+	const { key, title, getOptions, defaultValue, test, enabled } = options;
+
+	return {
+		key,
+		title,
+		enabled,
+		build(onChange: () => void) {
+			const select = createSelect(getOptions());
+			select.setSelected(defaultValue);
+			select.onChange(onChange);
+
+			return {
+				element: select.element,
+				getValue: () => select.getSelected(),
+				onBeforeFilter() {
+					select.updateOptionsList(getOptions());
+				},
+			};
+		},
+		test,
+	};
+}
+
+interface SliderSectionOptions {
+	key: string;
+	title: string;
+	config: { min: number; max: number; step: number };
+	defaults: { low: number; high: number };
+	formatCounter?: (range: SliderRange) => string;
+	test: (row: HTMLElement, range: SliderRange) => boolean;
+	enabled?: () => boolean;
+}
+
+export function sliderSection(options: SliderSectionOptions): FilterSectionDef<SliderRange> {
+	const { key, title, config, defaults, formatCounter, test, enabled } = options;
+
+	return {
+		key,
+		title,
+		enabled,
+		build(onChange: () => void) {
+			const slider = new DualRangeSlider({
+				min: config.min,
+				max: config.max,
+				step: config.step,
+				valueLow: defaults.low,
+				valueHigh: defaults.high,
+			});
+
+			const counter = elementBuilder({ type: "div", class: "slider-counter", text: "" });
+			const section = elementBuilder({ type: "div", class: "tt-slider", children: [slider.slider, counter] });
+
+			function readRange(): SliderRange {
+				const low = parseInt(slider.slider.dataset.low) ?? config.min;
+				const high = parseInt(slider.slider.dataset.high) ?? config.max;
+				return { start: Math.min(low, high), end: Math.max(low, high) };
+			}
+
+			function updateCounter() {
+				if (!formatCounter) return;
+
+				counter.textContent = formatCounter(readRange());
+			}
+
+			updateCounter();
+
+			new MutationObserver(() => {
+				updateCounter();
+				onChange();
+			}).observe(slider.slider, { attributes: true });
+
+			return {
+				element: section,
+				getValue: readRange,
+			};
+		},
+		test,
+	};
+}
+
+interface TextSectionOptions {
+	key: string;
+	title: string;
+	type?: "text" | "number";
+	defaultValue: string;
+	test: (row: HTMLElement, value: string) => boolean;
+	enabled?: () => boolean;
+}
+
+export function textSection(options: TextSectionOptions): FilterSectionDef<string> {
+	const { key, title, type, defaultValue, test, enabled } = options;
+
+	return {
+		key,
+		title,
+		enabled,
+		build(onChange: () => void) {
+			const textbox = createTextbox({ type: type ?? "text" });
+			textbox.setValue(defaultValue ?? "");
+			textbox.onChange(onChange);
+
+			return { element: textbox.element, getValue: () => textbox.getValue() };
+		},
+		test,
+	};
+}
+
+interface MultiSelectSectionOptions {
+	key: string;
+	title: string;
+	items: SelectOption[];
+	defaults: string[];
+	test: (row: HTMLElement, selections: string[]) => boolean;
+	enabled?: () => boolean;
+}
+
+export function multiSelectSection(options: MultiSelectSectionOptions): FilterSectionDef<string[]> {
+	const { key, title, items, defaults, test, enabled } = options;
+
+	return {
+		key,
+		title,
+		enabled,
+		build(onChange: () => void) {
+			const multi = createMultiSelect({ select: items, defaults });
+			multi.onChange(onChange);
+			return { element: multi.element, getValue: () => multi.getSelected() };
+		},
+		test,
+	};
+}
+
+export type YNCheckboxState = Record<string, SpecialFilterValue>;
+
+interface YNCheckboxesSectionOptions {
+	key: string;
+	title: string;
+	items: string[];
+	defaults: YNCheckboxState;
+	test: (row: HTMLElement, selections: YNCheckboxState) => boolean;
+	enabled?: () => boolean;
+}
+
+export function ynCheckboxesSection(options: YNCheckboxesSectionOptions): FilterSectionDef<YNCheckboxState> {
+	const { key, title, items, defaults, test, enabled } = options;
+
+	return {
+		key,
+		title,
+		enabled,
+		build(onChange: () => void) {
+			const wrapper = elementBuilder({ type: "div", class: "tt-yn-checkboxes" });
+
+			const checkboxPairs = items.map((item) => {
+				const ccKey = camelCase(item);
+				const pairDiv = elementBuilder({ type: "div", class: ccKey });
+				const yCheckbox = createCheckbox({ description: "Y:", reverseLabel: true });
+				const nCheckbox = createCheckbox({ description: "N:", reverseLabel: true });
+
+				const value = defaults[ccKey];
+				if (value === "yes" || value === "both") yCheckbox.setChecked(true);
+				if (value === "no" || value === "both") nCheckbox.setChecked(true);
+
+				yCheckbox.onChange(onChange);
+				nCheckbox.onChange(onChange);
+
+				pairDiv.appendChild(yCheckbox.element);
+				pairDiv.appendChild(nCheckbox.element);
+				pairDiv.appendChild(elementBuilder({ type: "label", text: item }));
+				wrapper.appendChild(pairDiv);
+
+				return { element: pairDiv, ccKey, yCheckbox, nCheckbox };
+			});
+
+			return {
+				element: wrapper,
+				getValue(): YNCheckboxState {
+					const selections: YNCheckboxState = {};
+					for (const pair of checkboxPairs) {
+						const yChecked = pair.yCheckbox.isChecked();
+						const nChecked = pair.nCheckbox.isChecked();
+
+						if (yChecked && nChecked) selections[pair.ccKey] = "both";
+						else if (yChecked) selections[pair.ccKey] = "yes";
+						else if (nChecked) selections[pair.ccKey] = "no";
+						else selections[pair.ccKey] = "none";
+					}
+					return selections;
+				},
+			};
+		},
+		test,
+	};
+}
+
+type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node };
+
+export interface FilterController {
+	rerenderSections(): void;
+	run(): Promise<void>;
+	dispose(): void;
+}
+
+interface FilterSectionInstance {
+	key: string;
+	getValue(): unknown;
+	test(row: HTMLElement, value: unknown): boolean;
+	onBeforeFilter?(): void;
+}
+
+type ActivityPresetSectionOptions = { preset: "activity"; defaults: string[] };
+type FactionPresetSectionOptions = { preset: "faction"; getOptions(): SelectOption[]; default: string };
+type FFScorePresetSectionOptions = { preset: "ff-score"; defaults: { min: number; max: number }; enabled(): boolean };
+type StatsEstimatesPresetSectionOptions = { preset: "stats-estimates"; enabled(): boolean; defaults: string[] };
+type PresetSectionOptions = ActivityPresetSectionOptions | FactionPresetSectionOptions | FFScorePresetSectionOptions | StatsEstimatesPresetSectionOptions;
+
+export function presetSection(options: ActivityPresetSectionOptions): FilterSectionDef<string[]>;
+export function presetSection(options: FactionPresetSectionOptions): FilterSectionDef<string>;
+export function presetSection(options: FFScorePresetSectionOptions): FilterSectionDef<{ min: number; max: number }>;
+export function presetSection(options: StatsEstimatesPresetSectionOptions): FilterSectionDef<string[]>;
+export function presetSection(options: PresetSectionOptions): FilterSectionDef<unknown> {
+	if (options.preset === "activity") {
+		return checkboxesSection({
+			key: "activity",
+			title: "Activity",
+			items: [
+				{ id: "online", description: "Online" },
+				{ id: "idle", description: "Idle" },
+				{ id: "offline", description: "Offline" },
+			],
+			defaults: options.defaults,
+			test: (row, activity) => {
+				if (!activity.length) return true;
+
+				const userActivity = getUserActivity(row);
+
+				return activity.some((x) => x.trim() === userActivity);
+			},
+		});
+	} else if (options.preset === "faction") {
+		return selectSection({
+			key: "faction",
+			title: "Faction",
+			getOptions: options.getOptions,
+			defaultValue: options.default,
+			test: (row, faction) => {
+				if (!faction) return true;
+
+				const factionElement = row.querySelector<HTMLAnchorElement>(".user.faction");
+				const hasFaction = !!factionElement.href;
+
+				if (faction === "No faction") return !hasFaction;
+				if (faction === "In a faction") return hasFaction;
+
+				const factionName = factionElement.hasAttribute("rel")
+					? factionElement.querySelector<HTMLImageElement>(":scope > img").getAttribute("title").trim() || "N/A"
+					: factionElement.textContent.trim();
+
+				if (faction === "Unknown faction") return hasFaction && factionName === "N/A";
+				else return hasFaction && factionName !== "N/A" && factionName === faction;
+			},
+		});
+	} else if (options.preset === "ff-score") {
+		return {
+			key: "ffScore",
+			title: "FF Score",
+			enabled: options.enabled,
+			build(onChange: () => void) {
+				const minTextbox = createTextbox({
+					type: "number",
+					description: "Min",
+					attributes: { step: "0.1" },
+					style: { maxWidth: "40px", marginLeft: "2px" },
+				});
+				minTextbox.setValue(options.defaults?.min?.toString() ?? "");
+				minTextbox.onChange(onChange);
+
+				const maxTextbox = createTextbox({
+					type: "number",
+					description: "Max",
+					attributes: { step: "0.1" },
+					style: { maxWidth: "40px", marginLeft: "2px" },
+				});
+				maxTextbox.setValue(options.defaults?.max?.toString() ?? "");
+				maxTextbox.onChange(onChange);
+
+				const wrapper = elementBuilder({
+					type: "div",
+					children: [minTextbox.element, maxTextbox.element],
+				});
+
+				return {
+					element: wrapper,
+					getValue() {
+						return {
+							min: parseFloat(minTextbox.getValue()),
+							max: parseFloat(maxTextbox.getValue()),
+						};
+					},
+				};
+			},
+			test: (row, { min, max }) => {
+				const gauge = row.querySelector<HTMLElement>(".tt-ff-scouter-indicator.indicator-lines");
+				if (!gauge) return true;
+
+				const ff = parseFloat(gauge.getAttribute("data-ff-scout"));
+				if (Number.isNaN(ff)) return true;
+
+				if (max && !Number.isNaN(max) && ff > max) return false;
+				if (min && !Number.isNaN(min) && ff < min) return false;
+
+				return true;
+			},
+		} satisfies FilterSectionDef<{ min: number; max: number }>;
+	} else if (options.preset === "stats-estimates") {
+		return checkboxesSection({
+			key: "statsEstimates",
+			title: "Stats Estimates",
+			enabled: options.enabled,
+			items: [{ id: "none", description: "none" }, ...RANK_TRIGGERS.stats.map((t) => ({ id: t, description: t })), { id: "n/a", description: "N/A" }],
+			defaults: options.defaults,
+			test: (row, estimates) => {
+				if (!estimates.length) return true;
+
+				const estimate = row.dataset.estimate?.toLowerCase();
+				if (estimate || !row.classList.contains("tt-estimated")) {
+					return estimates.includes(estimate);
+				}
+				return true;
+			},
+		});
+	}
+}
+
+export function createFilter<State extends Record<string, unknown> & { enabled: boolean } = Record<string, unknown> & { enabled: boolean }>(options: {
+	rowSelector: string;
+	container: {
+		title: string;
+		class?: string;
+		compact?: boolean;
+		filter?: boolean;
+		collapsible?: boolean;
+		applyRounding?: boolean;
+	} & ContainerPosition;
+	sections?: FilterSectionDef<unknown>[];
+	statisticsLabel?: string;
+	enabled?: boolean;
+	onStateChange?: (state: State) => void | Promise<void>;
+}): FilterController {
+	const sections: FilterSectionInstance[] = [];
+	const sectionDefs: FilterSectionDef<unknown>[] = options.sections ?? [];
+	const { rowSelector, container: containerOpts, statisticsLabel, enabled: initialEnabled, onStateChange } = options;
+
+	const { content, options: headerOptions } = createContainer(containerOpts.title, {
+		filter: true,
+		compact: true,
+		...containerOpts,
+	});
+
+	const statistics: StatisticsResult = createStatistics(statisticsLabel ?? "entries", false, false);
+	content.appendChild(statistics.element);
+
+	const sectionWrapper = elementBuilder({ type: "div", class: "content" });
+	content.appendChild(sectionWrapper);
+
+	const wrapperMap = new Map<string, HTMLElement>();
+
+	async function run() {
+		await requireElement(rowSelector);
+
+		sections.forEach((section) => section.onBeforeFilter?.());
+
+		const enabled = funnel.isEnabled();
+		const values = new Map<string, unknown>();
+		for (const section of sections) {
+			values.set(section.key, section.getValue());
+		}
+
+		const state = { enabled } as Record<string, unknown> & { enabled: boolean };
+		for (const [key, value] of values) {
+			state[key] = value;
+		}
+
+		if (onStateChange) {
+			await onStateChange(state as State);
+		}
+
+		if (!enabled) {
+			findAllElements(`${rowSelector}.tt-hidden`).forEach((row) => {
+				row.classList.remove("tt-hidden");
+				delete row.dataset.hideReason;
+			});
+			const allRows = findAllElements(rowSelector);
+			statistics.updateStatistics(allRows.length, allRows.length, content);
+			return;
+		}
+
+		const rows = findAllElements<HTMLElement>(rowSelector);
+		rowLoop: for (const row of rows) {
+			for (const section of sections) {
+				try {
+					if (!section.test(row, values.get(section.key))) {
+						row.classList.add("tt-hidden");
+						row.dataset.hideReason = section.key;
+
+						if (row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+							row.nextElementSibling.classList.add("tt-hidden");
+
+							if (
+								row.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
+								row.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
+							) {
+								row.nextElementSibling.nextElementSibling.classList.add("tt-hidden");
+							}
+						}
+						continue rowLoop;
+					}
+				} catch (e) {
+					console.warn(`TT Filters: Something went wrong when filtering '${section?.key}' in the '${containerOpts?.title}'`, e);
+				}
+			}
+
+			row.classList.remove("tt-hidden");
+
+			if (row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				row.nextElementSibling.classList.remove("tt-hidden");
+
+				if (
+					row.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
+					row.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
+				) {
+					row.nextElementSibling.nextElementSibling.classList.remove("tt-hidden");
+				}
+			}
+			delete row.dataset.hideReason;
+		}
+
+		const visible = rows.filter((r) => !r.classList.contains("tt-hidden")).length;
+		statistics.updateStatistics(visible, rows.length, content);
+	}
+
+	const funnel = createFilterEnabledFunnel();
+	funnel.setEnabled(initialEnabled ?? true);
+	funnel.onChange(() => run());
+	headerOptions.appendChild(funnel.element);
+
+	function addSection(section: FilterSectionDef<unknown>): void {
+		const trigger = () => run();
+		const built = section.build(trigger);
+		const isHeader = section.placement === "header";
+
+		const wrapper = elementBuilder({
+			type: "div",
+			children: [!isHeader && section.title ? elementBuilder({ type: "strong", text: section.title }) : null, built.element],
+		});
+
+		if (isHeader) {
+			headerOptions.appendChild(wrapper);
+		} else {
+			sectionWrapper.appendChild(wrapper);
+		}
+		wrapperMap.set(section.key, wrapper);
+
+		sections.push({
+			key: section.key,
+			getValue: built.getValue.bind(built),
+			test: section.test,
+			onBeforeFilter: built.onBeforeFilter?.bind(built),
+		});
+	}
+
+	function removeSection(key: string): void {
+		const wrapper = wrapperMap.get(key);
+		if (wrapper) {
+			wrapper.remove();
+			wrapperMap.delete(key);
+		}
+
+		const idx = sections.findIndex((s) => s.key === key);
+		if (idx !== -1) {
+			sections.splice(idx, 1);
+		}
+	}
+
+	function rerenderSections(): void {
+		wrapperMap.keys().forEach(removeSection);
+
+		sectionDefs.filter((def) => !def.enabled || def.enabled()).forEach(addSection);
+
+		void run();
+	}
+
+	rerenderSections();
+
+	return {
+		rerenderSections,
+		run,
+		dispose() {
+			removeContainer(containerOpts.title);
+			funnel.dispose();
+			findAllElements(`${rowSelector}.tt-hidden`).forEach((row) => {
+				row.classList.remove("tt-hidden");
+				delete row.dataset.hideReason;
+			});
+		},
+	} satisfies FilterController;
 }

@@ -1,249 +1,137 @@
 import "./stocks-filter.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, stockdata, userdata } from "@common/utils/data/database";
-import { createCheckboxDuo } from "@common/utils/elements/checkbox-duo/checkbox-duo";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics, type SpecialFilterValue } from "@common/utils/functions/filters";
+import { createFilter, type FilterController, textSection, type YNCheckboxState, ynCheckboxesSection } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-async function initialiseFilters() {
+let filter: FilterController | undefined;
+
+async function initialiseListeners() {
 	new MutationObserver((mutations) => {
 		if (!FEATURE_MANAGER.isEnabled(StocksFilterFeature)) return;
 
 		// Stock ticks always update several attributes at once.
 		if (mutations.length < 3) return;
-
-		applyFilter();
+		filter?.run();
 	}).observe(await requireElement("#stockmarketroot [class*='stockMarket___']"), { subtree: true, attributes: true, attributeFilter: ["aria-label"] });
 }
 
-let localFilters: any;
+type StocksFilterState = {
+	enabled: boolean;
+	name: string;
+	investment: YNCheckboxState;
+	priceGroup: YNCheckboxState;
+};
 
-async function addFilters() {
+async function addFilterContainer() {
 	const stockMarketRoot = await requireElement("#stockmarketroot");
 
-	localFilters = {};
+	filter?.dispose();
 
-	const { content, options } = createContainer("Stocks Filter", {
-		class: "mt10 mb10",
-		previousElement: stockMarketRoot.firstElementChild,
-		compact: true,
-		filter: true,
-	});
+	const sections = [
+		textSection({
+			key: "name",
+			title: "Name",
+			defaultValue: filters.stocks.name,
+			test: (row, name) => {
+				if (!name) return true;
+				const id = parseInt(row.getAttribute("id"));
+				const stock = stockdata?.[id] as TornV1Stock | undefined;
+				const acronym = (stock?.acronym ?? row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym)?.toLowerCase();
+				const names = name.split(",");
+				return names.some((n) => row.querySelector(`li[class*="stockName___"][aria-label*="${n}" i]`) || acronym?.includes(n.toLowerCase()));
+			},
+		}),
 
-	const statistics = createStatistics("stocks");
-	content.appendChild(statistics.element);
-	localFilters.statistics = { updateStatistics: statistics.updateStatistics };
+		ynCheckboxesSection({
+			key: "investment",
+			title: "Investment",
+			items: ["Owned", "Benefit", "Passive", "Collection Ready"],
+			defaults: filters.stocks.investment,
+			test: (row, inv) => {
+				if (inv.owned === "yes" || inv.owned === "no") {
+					const isOwned = row.querySelector("p[class*='count___']").textContent !== "None";
+					if ((isOwned && inv.owned === "no") || (!isOwned && inv.owned === "yes")) return false;
+				}
+				if (inv.benefit === "yes" || inv.benefit === "no") {
+					const hasBenefit = !!row.querySelector(".increment.filled");
+					if ((hasBenefit && inv.benefit === "no") || (!hasBenefit && inv.benefit === "yes")) return false;
+				}
+				if (inv.passive === "yes" || inv.passive === "no") {
+					const isPassive = !!row.querySelector("[class*='dividendInfo___'] [class*='passive___']");
+					if ((isPassive && inv.passive === "no") || (!isPassive && inv.passive === "yes")) return false;
+				}
+				if (inv.collectionReady === "yes" || inv.collectionReady === "no") {
+					const isReady = !!row.querySelector("[class*='active___'][class*='Ready___']");
+					if ((isReady && inv.collectionReady === "no") || (!isReady && inv.collectionReady === "yes")) return false;
+				}
+				return true;
+			},
+		}),
 
-	const filterContent = elementBuilder({ type: "div", class: "content" });
+		ynCheckboxesSection({
+			key: "priceGroup",
+			title: "Price",
+			items: hasAPIData() ? ["Price", "Profit"] : ["Price"],
+			defaults: filters.stocks.price,
+			test: (row, pg) => {
+				if (pg.price === "yes" || pg.price === "no") {
+					const isUp = !!row.querySelector("[class*='changePrice___'] [class*='up___']");
+					if ((isUp && pg.price === "no") || (!isUp && pg.price === "yes")) return false;
+				}
 
-	const nameFilter = createFilterSection({
-		title: "Name",
-		text: true,
-		default: filters.stocks.name,
-		callback: applyFilter,
-	});
-	filterContent.appendChild(nameFilter.element);
-	localFilters.name = { getValue: nameFilter.getValue };
+				if (pg.profit === "yes" || pg.profit === "no") {
+					if (!hasAPIData() || !settings.apiUsage.user.stocks) return true;
+					const id = parseInt(row.getAttribute("id"));
+					if (typeof stockdata[id] === "number") return true;
 
-	const ownedFilter = createCheckboxDuo({ description: "Owned" });
-	ownedFilter.onChange(applyFilter);
-	ownedFilter.setValue(filters.stocks.investment.owned);
-	localFilters.owned = { getValue: ownedFilter.getValue };
+					const userStock = userdata.stocks.find((s) => s.id === id);
+					if (!userStock) return false;
 
-	const benefitFilter = createCheckboxDuo({ description: "Benefit" });
-	benefitFilter.onChange(applyFilter);
-	benefitFilter.setValue(filters.stocks.investment.benefit);
-	localFilters.benefit = { getValue: benefitFilter.getValue };
+					const currentPrice = stockdata[id].current_price * userStock.shares;
+					const boughtPrice = userStock.transactions
+						.map(({ shares, price }) => shares * price)
+						.reduce((total, transactionTotal) => total + transactionTotal, 0);
+					const hasProfit = currentPrice > boughtPrice;
 
-	const passiveFilter = createCheckboxDuo({ description: "Passive" });
-	passiveFilter.onChange(applyFilter);
-	passiveFilter.setValue(filters.stocks.investment.passive);
-	localFilters.passive = { getValue: passiveFilter.getValue };
+					if ((hasProfit && pg.profit === "no") || (!hasProfit && pg.profit === "yes")) return false;
+				}
 
-	const collectionReadyFilter = createCheckboxDuo({ description: "Collection Ready" });
-	collectionReadyFilter.onChange(applyFilter);
-	collectionReadyFilter.setValue(filters.stocks.investment.collectionReady);
-	localFilters.collectionReady = { getValue: collectionReadyFilter.getValue };
+				return true;
+			},
+		}),
+	];
 
-	const investmentSection = createFilterSection({ title: "Investment" });
-	investmentSection.element.appendChild(ownedFilter.element);
-	investmentSection.element.appendChild(benefitFilter.element);
-	investmentSection.element.appendChild(passiveFilter.element);
-	investmentSection.element.appendChild(collectionReadyFilter.element);
-	filterContent.appendChild(investmentSection.element);
-
-	const priceSection = createFilterSection({ title: "Price" });
-
-	const priceFilter = createCheckboxDuo({ description: "Price", indicator: "icon" });
-	priceFilter.onChange(applyFilter);
-	priceFilter.setValue(filters.stocks.price.price);
-	priceSection.element.appendChild(priceFilter.element);
-	localFilters.price = { getValue: priceFilter.getValue };
-
-	if (hasAPIData()) {
-		const profitFilter = createCheckboxDuo({ description: "Profit" });
-		profitFilter.onChange(applyFilter);
-		profitFilter.setValue(filters.stocks.price.profit);
-		localFilters.profit = { getValue: profitFilter.getValue };
-		priceSection.element.appendChild(profitFilter.element);
-	} else {
-		localFilters.profit = { getValue: () => "both" };
-	}
-
-	filterContent.appendChild(priceSection.element);
-
-	content.appendChild(filterContent);
-
-	const enabledFunnel = createFilterEnabledFunnel();
-	enabledFunnel.onChange(applyFilter);
-	enabledFunnel.setEnabled(filters.stocks.enabled);
-	options.appendChild(enabledFunnel.element);
-	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
-
-	await applyFilter();
-}
-
-async function applyFilter() {
-	await requireElement("#stockmarketroot ul[class*='stock___']");
-
-	const content = findContainer("Stocks Filter", { selector: "main" });
-
-	const name: string = localFilters.name.getValue();
-	const owned: SpecialFilterValue = localFilters.owned.getValue();
-	const benefit: SpecialFilterValue = localFilters.benefit.getValue();
-	const passive: SpecialFilterValue = localFilters.passive.getValue();
-	const collectionReady: SpecialFilterValue = localFilters.collectionReady.getValue();
-	const price: SpecialFilterValue = localFilters.price.getValue();
-	const profit: SpecialFilterValue = localFilters.profit.getValue();
-
-	// Save filters
-	await ttStorage.change({
-		filters: {
-			stocks: { enabled: localFilters.enabled.isEnabled(), name, investment: { owned, benefit, passive, collectionReady }, price: { price, profit } },
+	filter = createFilter<StocksFilterState>({
+		rowSelector: "#stockmarketroot ul[class*='stock___']",
+		container: {
+			title: "Stocks Filter",
+			class: "mt10 mb10",
+			previousElement: stockMarketRoot.firstElementChild,
+			compact: true,
+		},
+		statisticsLabel: "stocks",
+		enabled: filters.stocks.enabled,
+		sections,
+		onStateChange: async (state) => {
+			await ttStorage.change({
+				filters: {
+					stocks: {
+						enabled: state.enabled,
+						name: state.name,
+						investment: state.investment,
+						price: { price: state.priceGroup.price, profit: state.priceGroup.profit ?? "both" },
+					},
+				},
+			});
 		},
 	});
 
-	// Actual Filtering
-	if (!localFilters.enabled.isEnabled()) {
-		findAllElements("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
-		localFilters.statistics.updateStatistics(
-			findAllElements("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
-			findAllElements("#stockmarketroot ul[class*='stock___']").length,
-			content,
-		);
-		return;
-	}
-
-	for (const row of findAllElements("#stockmarketroot ul[class*='stock___']")) {
-		const id = parseInt(row.getAttribute("id"));
-		const stock = stockdata?.[id] as TornV1Stock | undefined;
-
-		// Name
-		const acronym = (stock?.acronym ?? row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym)?.toLowerCase();
-		if (
-			name &&
-			!name.split(",").some((name) => row.querySelector(`li[class*="stockName___"][aria-label*="${name}" i]`) || acronym?.includes(name.toLowerCase()))
-		) {
-			hideRow(row);
-			continue;
-		}
-
-		if (owned === "yes" || owned === "no") {
-			const isOwned = row.querySelector("p[class*='count___']").textContent !== "None";
-
-			if ((isOwned && owned === "no") || (!isOwned && owned === "yes")) {
-				hideRow(row);
-				continue;
-			}
-		}
-
-		if (benefit === "yes" || benefit === "no") {
-			const hasBenefit = !!row.querySelector(".increment.filled");
-
-			if ((hasBenefit && benefit === "no") || (!hasBenefit && benefit === "yes")) {
-				hideRow(row);
-				continue;
-			}
-		}
-
-		if (passive === "yes" || passive === "no") {
-			const isPassive = !!row.querySelector("[class*='dividendInfo___'] [class*='passive___']");
-
-			if ((isPassive && passive === "no") || (!isPassive && passive === "yes")) {
-				hideRow(row);
-				continue;
-			}
-		}
-
-		if (collectionReady === "yes" || collectionReady === "no") {
-			const isCollectionReady = !!row.querySelector("[class*='active___'][class*='Ready___']");
-
-			if ((isCollectionReady && collectionReady === "no") || (!isCollectionReady && collectionReady === "yes")) {
-				hideRow(row);
-				continue;
-			}
-		}
-
-		if (price === "yes" || price === "no") {
-			const isUp = !!row.querySelector("[class*='changePrice___'] [class*='up___']");
-
-			if ((isUp && price === "no") || (!isUp && price === "yes")) {
-				hideRow(row);
-				continue;
-			}
-		}
-
-		if (hasAPIData() && settings.apiUsage.user.stocks && (profit === "yes" || profit === "no")) {
-			const userStock = userdata.stocks.find((stock) => stock.id === id);
-			if (!userStock) {
-				hideRow(row);
-				continue;
-			}
-
-			if (typeof stockdata[id] === "number") {
-				continue;
-			}
-
-			const currentPrice = stockdata[id].current_price * userStock.shares;
-			const boughtPrice = userStock.transactions.map((transaction) => transaction.shares * transaction.price).reduce((a, b) => a + b, 0);
-
-			const hasProfit = currentPrice > boughtPrice;
-
-			if ((hasProfit && profit === "no") || (!hasProfit && profit === "yes")) {
-				hideRow(row);
-				continue;
-			}
-		}
-
-		showRow(row);
-	}
-
-	function showRow(li: HTMLElement) {
-		li.classList.remove("tt-hidden");
-	}
-
-	function hideRow(li: HTMLElement) {
-		li.classList.add("tt-hidden");
-	}
-
-	localFilters.statistics.updateStatistics(
-		findAllElements("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
-		findAllElements("#stockmarketroot ul[class*='stock___']").length,
-		content,
-	);
-}
-
-function removeFilters() {
-	localFilters = undefined;
-
-	removeContainer("Stocks Filter");
-	findAllElements("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
+	await filter.run();
 }
 
 export default class StocksFilterFeature extends Feature {
@@ -260,15 +148,15 @@ export default class StocksFilterFeature extends Feature {
 	}
 
 	async initialise() {
-		await initialiseFilters();
+		await initialiseListeners();
 	}
 
 	async execute() {
-		await addFilters();
+		await addFilterContainer();
 	}
 
 	cleanup() {
-		removeFilters();
+		filter?.dispose();
 	}
 
 	storageKeys() {
