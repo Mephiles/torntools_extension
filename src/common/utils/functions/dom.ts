@@ -420,7 +420,9 @@ export function updateQuery(key: string, value: string) {
 export async function addInformationSection() {
 	if (document.querySelector(".tt-sidebar-information")) return;
 
-	const parent = await requireElement("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']");
+	const parent = await requireElement(
+		"#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_'], #sidebarroot div[class*='userInformation___']",
+	);
 
 	parent.appendChild(
 		elementBuilder({

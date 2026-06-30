@@ -68,7 +68,9 @@ async function showInformation(id: number) {
 		.reduce((a, b) => a + b, 0);
 	const percentage = (1 + perks / 100) * MEDICAL_ITEMS[id];
 
-	const lifeValues = document.querySelector("[class*='bar__'][class*='life__'] [class*='bar-value___']").textContent.split("/");
+	const lifeValues = document
+		.querySelector("[class*='bar__'][class*='life__'] [class*='bar-value___'], [class*='bar__'][class*='life__'] [class*='barValue___']")
+		.textContent.split("/");
 	const currentLife = parseInt(lifeValues[0]);
 	const maximumLife = parseInt(lifeValues[1]);
 

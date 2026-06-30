@@ -17,7 +17,9 @@ async function showNPCs() {
 	const { content, options } = createContainer("NPCs", {
 		id: "npc-loot-times",
 		applyRounding: false,
-		previousElement: findParent(findElementWithText("h2", "Information"), { partialClass: "sidebar-block_" }),
+		previousElement:
+			findParent(findElementWithText("h2", "Information"), { partialClass: "sidebar-block_" }) ??
+			document.querySelector("[class*='accountLinksWrap___']"),
 	});
 
 	if ("error" in npcs) {

@@ -2,7 +2,7 @@
 	top: 5px;
 	right: calc((100vw - 976px) / 2 - 50px);
 	position: absolute;
-	z-index: 111;
+	z-index: 111111;
 	overflow: hidden;
 }
 
@@ -11,7 +11,6 @@
 	top: 0;
 	left: 33vw;
 	right: unset;
-	z-index: 99999;
 }
 
 .tt-align-left #tt-page-status {

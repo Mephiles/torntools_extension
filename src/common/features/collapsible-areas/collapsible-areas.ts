@@ -1,49 +1,52 @@
-import "./collapsible-areas.css";
 import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { checkDevice, findElementWithText, isElement } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
-import { isPageWithSidebar } from "@common/utils/functions/torn";
+import { isFlyoutSidebar, isPageWithSidebar } from "@common/utils/functions/torn";
 import { PHFillCaretDown } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
+import styles from "./collapsible-areas.module.css";
 
-let observer: MutationObserver | undefined;
+let listener: (() => void) | undefined;
 
 async function addCollapseIcon() {
 	const title = findElementWithText("h2", "Areas");
-	if (!isElement(title) || title.classList.contains("tt-title-torn")) return;
+	if (!isElement(title) || title.classList.contains("tt-collapsible-processed")) return;
 
 	const header = title.parentElement;
 
-	header.classList.add("tt-areas-header");
-	title.classList.add("tt-title-torn");
-	if (filters.containers.collapseAreas) header.classList.add("collapsed");
-	title.addEventListener("click", clickListener);
+	title.classList.add("tt-collapsible-processed");
 
-	const icon = PHFillCaretDown({ class: "icon" });
+	const icon = PHFillCaretDown({ class: styles.collapsibleIcon });
+	title.classList.add(styles.iconContainer);
 	title.appendChild(icon);
 
-	observer = new MutationObserver(() => {
-		if (!title.classList.contains("tt-title-torn")) title.classList.add("tt-title-torn");
-	});
-	observer.observe(title, { attributes: true, attributeFilter: ["class"] });
+	if (isFlyoutSidebar()) {
+		const areaWrapper = header.parentElement;
+
+		header.classList.add(styles.clickableArea);
+		areaWrapper.classList.add(styles.flyoutSupport);
+		if (filters.containers.collapseAreas) areaWrapper.classList.add(styles.collapsed);
+
+		listener = () => clickListener(areaWrapper);
+		header.addEventListener("click", listener);
+	} else {
+		header.classList.add(styles.clickableArea, styles.legacySupport);
+		if (filters.containers.collapseAreas) header.classList.add(styles.collapsed);
+
+		listener = () => clickListener(header);
+		header.addEventListener("click", listener);
+	}
 }
 
 async function removeCollapseIcon() {
-	if (observer) observer.disconnect();
-
-	const header = findElementWithText("h2", "Areas");
-	if (!isElement(header)) return;
-
-	header.classList.remove("tt-title-torn", "collapsed");
-	header.removeEventListener("click", clickListener);
-
-	if (header.querySelector(".icon")) header.querySelector(".icon").remove();
+	document.querySelector(".tt-collapsible-processed")?.classList.remove("tt-collapsible-processed");
+	document.querySelector(`.${styles.collapsed}`)?.classList.remove(styles.collapsed);
+	document.querySelector(`.${styles.collapsibleIcon}`)?.remove();
 }
 
-async function clickListener() {
-	const header = findElementWithText("h2", "Areas").parentElement;
-	const collapsed = header.classList.toggle("collapsed");
+async function clickListener(parent: HTMLElement) {
+	const collapsed = parent.classList.toggle(styles.collapsed);
 
 	await ttStorage.change({ filters: { containers: { collapseAreas: collapsed } } });
 }

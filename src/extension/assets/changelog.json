@@ -14,7 +14,8 @@
 			],
 			"changes": [
 				{ "message": "Re-introduce the search functionality on the preferences page.", "contributor": "DeKleineKobini" },
-				{ "message": "Trim the forum post content when copying for Discord.", "contributor": "DeKleineKobini" }
+				{ "message": "Trim the forum post content when copying for Discord.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt to the flyout sidebar.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Introduce an abstraction for sending events.", "contributor": "DeKleineKobini" }]

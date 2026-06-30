@@ -1,0 +1,37 @@
+.clickable-area {
+	cursor: pointer !important;
+
+	.icon-container {
+		display: flex;
+		align-items: center;
+
+		.collapsible-icon {
+			line-height: inherit;
+			font-size: 16px;
+			top: 1px;
+			right: 9px;
+
+			&.legacy-support {
+				position: absolute;
+			}
+
+			.collapsed & {
+				transform: rotate(-90deg);
+			}
+		}
+	}
+}
+
+.collapsed {
+	&.flyout-support {
+		[class*="area-desktop___"] {
+			display: none !important;
+		}
+
+		margin-bottom: 2px;
+	}
+
+	&.legacy-support + div {
+		display: none;
+	}
+}

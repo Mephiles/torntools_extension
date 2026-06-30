@@ -15,7 +15,9 @@ async function showNotes() {
 		applyRounding: false,
 		contentBackground: false,
 		compact: true,
-		previousElement: findParent(findElementWithText("h2", "Information"), { partialClass: "sidebar-block_" }),
+		previousElement:
+			findParent(findElementWithText("h2", "Information"), { partialClass: "sidebar-block_" }) ??
+			document.querySelector("#sidebar [class*='accountLinksWrap___']"),
 	});
 
 	content.appendChild(

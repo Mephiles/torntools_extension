@@ -26,7 +26,7 @@ function initialiseLink() {
 async function addLink() {
 	await requireSidebar();
 
-	document.querySelector(".areasWrapper [class*='toggle-content__']").appendChild(
+	document.querySelector(".areasWrapper [class*='toggle-content__'], #sidebar [class*='areas___']").appendChild(
 		elementBuilder({
 			type: "div",
 			class: ["tt-settings", "pill"],

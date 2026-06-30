@@ -2150,7 +2150,7 @@ export function isOwnProfile() {
 
 export function getUserEnergy() {
 	return document
-		.querySelector("[class*='bar__'][class*='energy__'] [class*='bar-value___']")
+		.querySelector("[class*='bar__'][class*='energy__'] [class*='bar-value___'], [class*='bar__'][class*='energy__'] [class*='barValue___']")
 		.textContent.split("/")
 		.map((x) => parseInt(x));
 }
@@ -2675,4 +2675,8 @@ export function extractXIDFromHTML(html: string): ExtractedXID[] {
 			return { item: parseInt(itemId), xid: parseInt(armoryId) };
 		})
 		.filter((x) => !!x);
+}
+
+export function isFlyoutSidebar(): boolean {
+	return !!document.querySelector("[class*='userInformation___']");
 }

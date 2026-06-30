@@ -10,7 +10,7 @@ import { Feature } from "@features/feature";
 async function addJobPointsTooltip() {
 	await requireSidebar();
 
-	const jobIcon = await requireElement("#sidebarroot [class*='status-icons__'] a[href*='/job']");
+	const jobIcon = await requireElement("#sidebarroot [class*='status-icons__'] a[href*='/job'], #sidebarroot [class*='statusIcons__'] a[href*='/job']");
 	jobIcon.addEventListener("mouseover", tooltipListener);
 }
 

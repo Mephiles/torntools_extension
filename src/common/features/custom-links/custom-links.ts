@@ -91,7 +91,8 @@ function showOutside(filter: "above" | "under", id: string, links: InternalCusto
 		applyRounding: false,
 		contentBackground: false,
 		compact: true,
-		[filter === "above" ? "nextElement" : "previousElement"]: findParent(getSidebarArea(), { partialClass: "sidebar-block_" }),
+		[filter === "above" ? "nextElement" : "previousElement"]:
+			findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? document.querySelector("#sidebar [class*=areas___]"),
 	});
 
 	for (const link of links.filter((link) => link.location === filter)) {
@@ -110,7 +111,7 @@ function showOutside(filter: "above" | "under", id: string, links: InternalCusto
 function showInside(links: InternalCustomLink[]) {
 	for (const link of findAllElements(".custom-link")) link.remove();
 
-	const areas = findParent(getSidebarArea(), { partialClass: "sidebar-block_" });
+	const areas = findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? document.querySelector("#sidebar [class*=areas___]");
 	for (const link of links.filter((link) => link.location !== "above" && link.location !== "under")) {
 		const locationSplit = link.location.split("_");
 

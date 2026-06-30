@@ -121,7 +121,8 @@ async function showAchievements() {
 			applyRounding: false,
 			contentBackground: false,
 			compact: true,
-			previousElement: findElementWithText<Element>("h2", "Areas").closest("[class*='sidebar-block_']"),
+			previousElement:
+				findElementWithText<Element>("h2", "Areas").closest("[class*='sidebar-block_']") ?? document.querySelector("#sidebar [class*=areas___]"),
 		});
 		showTimer();
 

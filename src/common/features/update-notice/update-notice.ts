@@ -17,8 +17,8 @@ async function showNotice() {
 
 	const currentVersion = browser.runtime.getManifest().version;
 
-	const parent = findElementWithText("h2", "Areas").parentElement.nextElementSibling;
-	parent.insertBefore(
+	findElementWithText("h2", "Areas").parentElement.insertAdjacentElement(
+		"afterend",
 		elementBuilder({
 			type: "div",
 			class: "tt-sidebar-area",
@@ -37,7 +37,6 @@ async function showNotice() {
 				}),
 			],
 		}),
-		parent.firstElementChild,
 	);
 }
 
