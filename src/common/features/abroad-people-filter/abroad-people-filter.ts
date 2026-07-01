@@ -40,8 +40,8 @@ type AbroadPeopleFilterState = {
 	special: YNCheckboxState;
 	status: string[];
 	level: { start: number; end: number };
-	statsEstimates: string[];
-	ffScore: { min: number; max: number };
+	statsEstimates: string[] | undefined;
+	ffScore: { min: number; max: number } | undefined;
 };
 
 async function addFilterContainer() {
@@ -147,8 +147,8 @@ async function addFilterContainer() {
 						levelStart: state.level.start,
 						levelEnd: state.level.end,
 						estimates: state.statsEstimates ?? filters.abroadPeople.estimates,
-						ffScoreMax: state.ffScore.max,
-						ffScoreMin: state.ffScore.min,
+						ffScoreMax: state.ffScore?.max ?? filters.abroadPeople.ffScoreMax,
+						ffScoreMin: state.ffScore?.min ?? filters.abroadPeople.ffScoreMin,
 					},
 				},
 			});

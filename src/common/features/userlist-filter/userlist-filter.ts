@@ -43,8 +43,8 @@ type UserlistFilterState = {
 	level: SliderRange;
 	special: YNCheckboxState;
 	hospReason: YNCheckboxState;
-	statsEstimates: string[];
-	ffScore: { min: number; max: number };
+	statsEstimates: string[] | undefined;
+	ffScore: { min: number; max: number } | undefined;
 };
 
 async function addFilterContainer() {
@@ -173,8 +173,8 @@ async function addFilterContainer() {
 						special: state.special,
 						hospReason: state.hospReason,
 						estimates: state.statsEstimates ?? filters.userlist.estimates,
-						ffScoreMax: state.ffScore.max,
-						ffScoreMin: state.ffScore.min,
+						ffScoreMax: state.ffScore?.max ?? filters.userlist.ffScoreMax,
+						ffScoreMin: state.ffScore?.min ?? filters.userlist.ffScoreMin,
 					},
 				},
 			});

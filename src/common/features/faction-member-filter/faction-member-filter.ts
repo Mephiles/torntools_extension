@@ -72,8 +72,8 @@ type FactionMemberFilterState = {
 	position: string;
 	status: string[];
 	level: SliderRange;
-	lastAction: SliderRange;
-	ffScore: { min: number; max: number };
+	lastAction: SliderRange | undefined;
+	ffScore: { min: number; max: number } | undefined;
 };
 
 async function enableLastAction() {
@@ -243,8 +243,8 @@ async function addFilterContainer() {
 						lastActionStart: state.lastAction?.start ?? filters.faction.lastActionStart,
 						lastActionEnd: state.lastAction?.end,
 						special: state.special,
-						ffScoreMax: state.ffScore.max,
-						ffScoreMin: state.ffScore.min,
+						ffScoreMax: state.ffScore?.max ?? filters.faction.ffScoreMax,
+						ffScoreMin: state.ffScore?.min ?? filters.faction.ffScoreMin,
 					},
 				},
 			});

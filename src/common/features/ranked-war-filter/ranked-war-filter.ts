@@ -49,8 +49,8 @@ type RankedWarFilterState = {
 	activity: string[];
 	status: string[];
 	level: SliderRange;
-	estimates: string[];
-	ffScore: { min: number; max: number };
+	statsEstimates: string[] | undefined;
+	ffScore: { min: number; max: number } | undefined;
 };
 
 async function addFilterContainer(rankedWarList?: Element) {
@@ -141,9 +141,9 @@ async function addFilterContainer(rankedWarList?: Element) {
 						status: state.status,
 						levelStart: state.level.start,
 						levelEnd: state.level.end,
-						estimates: state.estimates ?? filters.factionRankedWar.estimates,
-						ffScoreMax: state.ffScore.max,
-						ffScoreMin: state.ffScore.min,
+						estimates: state.statsEstimates ?? filters.factionRankedWar.estimates,
+						ffScoreMax: state.ffScore?.max ?? filters.factionRankedWar.ffScoreMax,
+						ffScoreMin: state.ffScore?.min ?? filters.factionRankedWar.ffScoreMin,
 					},
 				},
 			});
