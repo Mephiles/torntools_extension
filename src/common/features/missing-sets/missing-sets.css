@@ -25,23 +25,3 @@
 	line-height: 32px;
 	padding-left: 10px;
 }
-
-.tt-missing-set {
-	background-color: var(--tt-color-orange);
-	color: white;
-	padding: 5px 10px;
-	margin: 5px;
-	border-radius: 3px;
-	text-align: center;
-	font-weight: bold;
-}
-
-.tt-set-name {
-	font-size: 14px;
-	margin-bottom: 3px;
-}
-
-.tt-set-info {
-	font-size: 12px;
-	opacity: 0.9;
-}
