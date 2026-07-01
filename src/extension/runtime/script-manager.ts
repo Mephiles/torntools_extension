@@ -149,6 +149,7 @@ import MemberInactivityWarningFeature from "@features/member-inactivity-warning/
 import MemberInfoFeature from "@features/member-info/member-info";
 import MemberRankFeature from "@features/member-rank/member-rank";
 import MiniProfileLastActionFeature from "@features/mini-profile-last-action/mini-profile-last-action";
+import { MissingBooksFeature } from "@features/missing-books/missing-books";
 import { MissingFlowersFeature, MissingPlushiesFeature } from "@features/missing-sets/missing-sets";
 import MissionHintsFeature from "@features/mission-hints/mission-hints";
 import MissionRewardsFeature from "@features/mission-rewards/mission-rewards";
@@ -345,6 +346,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new MissingPlushiesFeature());
 		FEATURE_MANAGER.registerFeature(new MissingFlowersFeature());
 		FEATURE_MANAGER.registerFeature(new MarketIconsFeature());
+		FEATURE_MANAGER.registerFeature(new MissingBooksFeature());
 	} else if (page === "auction") {
 		setupAuctionHousePage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());

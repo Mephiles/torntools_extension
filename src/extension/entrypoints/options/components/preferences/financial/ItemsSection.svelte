@@ -36,6 +36,7 @@
 			<StorageSwitch path="settings.pages.items.medicalLife" label="Show life information when consuming medical items" />
 			<StorageSwitch path="settings.pages.items.hideRecycleMessage" label="Hide the recycle message" />
 			<StorageSwitch path="settings.pages.items.hideTooManyItemsWarning" label="Hide the too many items warning" />
+			<StorageSwitch path="settings.pages.items.missingBooks" label="Display missing books" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 

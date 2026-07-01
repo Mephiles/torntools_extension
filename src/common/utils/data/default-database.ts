@@ -280,6 +280,7 @@ export const DEFAULT_STORAGE = {
 				highlightBloodBags: new DefaultSetting("string", "none"),
 				missingFlowers: new DefaultSetting("boolean", false),
 				missingPlushies: new DefaultSetting("boolean", false),
+				missingBooks: new DefaultSetting("boolean", false),
 				bookEffects: new DefaultSetting("boolean", true),
 				canGains: new DefaultSetting("boolean", true),
 				nerveGains: new DefaultSetting("boolean", true),

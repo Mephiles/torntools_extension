@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Display what books you are still missing.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Avoid errors with 'Ranked War Filter'.", "contributor": "DeKleineKobini" },
 				{ "message": "Better error handling in 'City Items'.", "contributor": "DeKleineKobini" },

@@ -77,7 +77,7 @@ export interface StaticItem {
 	details: WeaponDetails | ArmorDetails | null;
 }
 
-export type FullItem = StaticItem & { value: StaticItem["value"] & { market_price: number } };
+export type FullItem = StaticItem & { value: StaticItem["value"] & { market_price: number }; circulation: number };
 
 export interface ItemResolver {
 	loadItem(id: number): StaticItem | FullItem | null;
