@@ -5,38 +5,35 @@ import { filters, settings } from "@common/utils/data/database";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { createFilterSection, createStatistics } from "@common/utils/functions/filters";
+import { checkboxesSection, createStatistics, textSection } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { DisabledUntilNoticeFeature } from "@features/feature";
 
 let CRIMES2_ROWS_START_Y = 64;
-
 const localFilters: Record<string, any> = {};
 
-function initialise() {
+function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.CRIMES2_CRIME_LOADED, async ({ crime, crimeRoot, url }) => {
-		if (crime === CRIMES2.BURGLARY) {
-			if (!FEATURE_MANAGER.isEnabled(Crimes2BurglaryFilterFeature)) return;
-
-			const searchParams = new URL(url).searchParams;
-			if (searchParams.get("step") === "attempt") {
-				await requireElement(".virtual-item.outcome-expanded button.commit-button");
-
-				const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
-				CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
-			}
-
-			await addFilter(crimeRoot);
-		} else {
+		if (crime !== CRIMES2.BURGLARY) {
 			removeFilter();
+			return;
 		}
+		if (!FEATURE_MANAGER.isEnabled(Crimes2BurglaryFilterFeature)) return;
+
+		const searchParams = new URL(url).searchParams;
+		if (searchParams.get("step") === "attempt") {
+			await requireElement(".virtual-item.outcome-expanded button.commit-button");
+			const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
+			CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
+		}
+		await addFilterContainer(crimeRoot);
 	});
 	addCustomListener(EVENT_CHANNELS.CRIMES2_HOME_LOADED, () => removeFilter());
 }
 
-async function createFilter(crimeRoot: Element) {
+async function createFilterUI(crimeRoot: Element) {
 	document.body.classList.add("torntools-burglary-filter");
 
 	const { content } = createContainer("Burglary Filter", {
@@ -48,41 +45,41 @@ async function createFilter(crimeRoot: Element) {
 
 	const statistics = createStatistics("targets");
 	content.appendChild(statistics.element);
-	localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
+	localFilters.statistics = { updateStatistics: statistics.updateStatistics };
 
-	const filterContent = elementBuilder({
-		type: "div",
-		class: "content",
-	});
+	const filterContent = elementBuilder({ type: "div", class: "content" });
 
-	const targetNameFilter = createFilterSection({
+	const trigger = () => filtering();
+
+	const targetName = textSection({
+		key: "targetName",
 		title: "Target Name",
-		text: "text",
-		default: filters.burglary.targetName,
-		callback: filtering,
+		defaultValue: filters.burglary.targetName,
+		test: () => true,
 	});
-	filterContent.appendChild(targetNameFilter.element);
-	localFilters["Target Name"] = { getValue: targetNameFilter.getValue };
+	const nameBuilt = targetName.build(trigger);
+	filterContent.appendChild(elementBuilder({ type: "div", children: [nameBuilt.element] }));
+	localFilters.targetName = { getValue: nameBuilt.getValue };
 
-	const targetTypeFilter = createFilterSection({
+	const targetType = checkboxesSection({
+		key: "targetType",
 		title: "Target Type",
-		checkboxes: [
-			{ description: "Residential Targets", id: "residential-targets" },
-			{ description: "Commercial Targets", id: "commercial-targets" },
-			{ description: "Industrial Targets", id: "industrial-targets" },
+		items: [
+			{ id: "residential-targets", description: "Residential Targets" },
+			{ id: "commercial-targets", description: "Commercial Targets" },
+			{ id: "industrial-targets", description: "Industrial Targets" },
 		],
 		defaults: filters.burglary.targetType,
-		callback: filtering,
+		test: () => true,
 	});
-	filterContent.appendChild(targetTypeFilter.element);
-	localFilters["Target Type"] = { getSelections: targetTypeFilter.getSelections };
+	const typeBuilt = targetType.build(trigger);
+	filterContent.appendChild(elementBuilder({ type: "div", children: [typeBuilt.element] }));
+	localFilters.targetType = { getSelections: typeBuilt.getValue };
 
 	content.appendChild(filterContent);
-
-	return content;
 }
 
-async function addFilter(crimeRoot: Element | null) {
+async function addFilterContainer(crimeRoot: Element | null) {
 	if (!window.location.hash.includes("burglary")) return;
 	if (!crimeRoot) {
 		try {
@@ -91,9 +88,7 @@ async function addFilter(crimeRoot: Element | null) {
 			return;
 		}
 	}
-
-	if (!findContainer("Burglary Filter")) await createFilter(crimeRoot);
-
+	if (!findContainer("Burglary Filter")) await createFilterUI(crimeRoot);
 	await filtering();
 }
 
@@ -104,17 +99,12 @@ async function filtering() {
 	CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 
 	const content = findContainer("Burglary Filter").querySelector("main");
-	const targetName = localFilters["Target Name"].getValue(content).trim();
-	const targetType = localFilters["Target Type"].getSelections(content);
+	const targetName = localFilters.targetName.getValue() as string;
+	const targetType = localFilters.targetType.getSelections() as string[];
 
-	// Save filters
-	await ttStorage.change({
-		filters: { burglary: { targetName, targetType } },
-	});
+	await ttStorage.change({ filters: { burglary: { targetName: targetName.trim(), targetType } } });
 
-	// Actual Filtering
-	// Burglary targets are absolutely positioned on the page, using translateY style.
-	// Changing translateY ourselves to remove holes in targets list. This also preserves Torn's animation.
+	// ponytail: burglary uses translateY-based layout, not tt-hidden — custom loop stays
 	let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 	for (const targetEl of findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)")) {
 		const rowTargetName = targetEl.querySelector("[class*='crimeOptionSection__']").textContent;
@@ -122,7 +112,6 @@ async function filtering() {
 			hideRow(targetEl);
 			continue;
 		}
-
 		const targetImageSource = targetEl.querySelector<HTMLImageElement>("[class*='crime-image'] img").currentSrc;
 		const matchedImageSource = targetImageSource.match(/residential|commercial|industrial/);
 		const rowTargetType = matchedImageSource?.length ? `${matchedImageSource[0]}-targets` : null;
@@ -130,12 +119,11 @@ async function filtering() {
 			hideRow(targetEl);
 			continue;
 		}
-
 		showRow(targetEl, targetRowHeightsSum);
 		targetRowHeightsSum += convertToNumber(targetEl.style.height);
 	}
 
-	localFilters["Statistics"].updateStatistics(
+	localFilters.statistics.updateStatistics(
 		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child):not(.tt-filter-hidden)").length,
 		findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").length,
 		content,
@@ -146,23 +134,21 @@ function showRow(li: HTMLElement, translateHeight: number) {
 	li.classList.remove("tt-filter-hidden");
 	li.style.transform = `translateY(${translateHeight}px)`;
 }
-
 function hideRow(li: HTMLElement) {
-	li.style.transform = `translateY(0)`;
+	li.style.transform = "translateY(0)";
 	li.classList.add("tt-filter-hidden");
 }
 
 function removeFilter() {
 	document.body.classList.remove("torntools-burglary-filter");
 	removeContainer("Burglary Filter");
-
 	const height = document.querySelector<HTMLElement>(".virtual-item:first-child")?.style?.height;
 	CRIMES2_ROWS_START_Y = height ? convertToNumber(height) : 64;
 	let targetRowHeightsSum = CRIMES2_ROWS_START_Y;
 	findAllElements(".crime-root.burglary-root [class*='virtualList__'] > [class*='virtualItem__']:not(:first-child)").forEach((li) => {
-		li.classList.remove("tt-filter-hidden");
-		li.style.transform = `translateY(${targetRowHeightsSum}px)`;
-		targetRowHeightsSum += convertToNumber(li.style.height);
+		(li as HTMLElement).classList.remove("tt-filter-hidden");
+		(li as HTMLElement).style.transform = `translateY(${targetRowHeightsSum}px)`;
+		targetRowHeightsSum += convertToNumber((li as HTMLElement).style.height);
 	});
 }
 
@@ -170,23 +156,18 @@ export default class Crimes2BurglaryFilterFeature extends DisabledUntilNoticeFea
 	constructor() {
 		super("Burglary Filter", "crimes2");
 	}
-
 	precondition() {
 		return getPageStatus().access;
 	}
-
 	isEnabled() {
 		return settings.pages.crimes2.burglaryFilter;
 	}
-
 	initialise() {
-		initialise();
+		initialiseListeners();
 	}
-
 	cleanup() {
 		removeFilter();
 	}
-
 	storageKeys() {
 		return ["settings.pages.crimes2.burglaryFilter"];
 	}

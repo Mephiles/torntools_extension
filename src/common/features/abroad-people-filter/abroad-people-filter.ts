@@ -1,432 +1,161 @@
-import { ttStorage } from "@common/utils/context";
+import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import {
-	createFilterEnabledFunnel,
-	createFilterSection,
-	createStatistics,
+	checkboxesSection,
+	createFilter,
 	defaultFactionsItems,
-	FILTER_REGEXES,
+	type FilterController,
 	getSpecialIcons,
-	type SpecialFilterValue,
+	presetSection,
+	sliderSection,
+	type YNCheckboxState,
+	ynCheckboxesSection,
 } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { isAbroad, RANK_TRIGGERS, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
+import { extractFactionsFromPage, isAbroad, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import { hasStatsEstimatesLoaded } from "@features/stats-estimate/stats-estimate";
 
-const localFilters: any = {};
+let filter: FilterController;
 
-function initialiseFilters() {
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
-		const content = findContainer("People Filter", { selector: "main" });
-		const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
-		if (!statsEstimates?.length) return;
+function initialiseListeners() {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, async () => {
+		if (!FEATURE_MANAGER.isEnabled(AbroadPeopleFilterFeature)) return;
 
-		filterRow(row, { statsEstimates }, true);
+		await filter.run();
 	});
 	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
-		if (!localFilters["FF Score Max"]?.getValue() && !localFilters["FF Score Min"]?.getValue()) return;
+		if (!FEATURE_MANAGER.isEnabled(AbroadPeopleFilterFeature)) return;
 
-		await applyFilters();
+		await filter.run();
 	});
 }
 
-async function addFilters() {
-	await requireElement(".users-list");
-
-	const { content, options } = createContainer("People Filter", {
-		class: "mt10",
-		nextElement: document.querySelector(".users-list-title"),
-		filter: true,
-	});
-
-	const statistics = createStatistics("players");
-	content.appendChild(statistics.element);
-	localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
-
-	const filterContent = elementBuilder({
-		type: "div",
-		class: "content",
-	});
-
-	const activityFilter = createFilterSection({
-		type: "Activity",
-		defaults: filters.abroadPeople.activity,
-		callback: () => applyFilters(),
-	});
-	filterContent.appendChild(activityFilter.element);
-	localFilters["Activity"] = { getSelections: activityFilter.getSelections };
-
-	const onPageFactions = getFactions();
-	const isPreviousFactionSelectionPresent =
-		!["", "No faction", "Unknown faction", "In a faction"].includes(filters.abroadPeople.faction) &&
-		onPageFactions.some((option) => option.value === filters.abroadPeople.faction);
-	const factionFilter = createFilterSection({
-		title: "Faction",
-		select: [
-			...(isPreviousFactionSelectionPresent || !filters.abroadPeople.faction
-				? []
-				: [{ value: filters.abroadPeople.faction, description: filters.abroadPeople.faction }]),
-			...defaultFactionsItems,
-			...onPageFactions,
-		],
-		default: filters.abroadPeople.faction,
-		callback: () => applyFilters(),
-	});
-	filterContent.appendChild(factionFilter.element);
-	localFilters["Faction"] = { getSelected: factionFilter.getSelected };
-
-	const specialFilter = createFilterSection({
-		title: "Special",
-		ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties", "Bazaar Open"],
-		defaults: filters.abroadPeople.special,
-		callback: () => applyFilters(),
-	});
-	filterContent.appendChild(specialFilter.element);
-	localFilters["Special"] = { getSelections: specialFilter.getSelections };
-
-	const statusFilter = createFilterSection({
-		title: "Status",
-		checkboxes: [
-			{ id: "okay", description: "Okay" },
-			{ id: "hospital", description: "Hospital" },
-		],
-		defaults: filters.abroadPeople.status,
-		callback: () => applyFilters(),
-	});
-	filterContent.appendChild(statusFilter.element);
-	localFilters["Status"] = { getSelections: statusFilter.getSelections };
-
-	const levelFilter = createFilterSection({
-		type: "LevelAll",
-		typeData: {
-			valueLow: filters.abroadPeople.levelStart,
-			valueHigh: filters.abroadPeople.levelEnd,
-		},
-		callback: () => applyFilters(),
-	});
-	filterContent.appendChild(levelFilter.element);
-	content.appendChild(filterContent);
-	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
-
-	if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()) {
-		const estimatesFilter = createFilterSection({
-			title: "Stats Estimates",
-			checkboxes: [
-				{ id: "none", description: "none" },
-				...RANK_TRIGGERS.stats.map((trigger) => ({ id: trigger, description: trigger })),
-				{ id: "n/a", description: "N/A" },
-			],
-			defaults: filters.abroadPeople.estimates,
-			callback: () => applyFilters(),
-		});
-		filterContent.appendChild(estimatesFilter.element);
-
-		localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
-	}
-
-	if (settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData()) {
-		const ffScoreFilterMin = createFilterSection({
-			title: "FF Score Min",
-			text: "number",
-			default: filters.abroadPeople.ffScoreMin?.toString(),
-			callback: () => applyFilters(),
-		});
-		ffScoreFilterMin.element.querySelector("input").step = 0.1;
-		filterContent.appendChild(ffScoreFilterMin.element);
-		localFilters["FF Score Min"] = { getValue: ffScoreFilterMin.getValue };
-
-		const ffScoreFilterMax = createTextbox({
-			type: "number",
-		});
-		ffScoreFilterMax.setValue(filters.abroadPeople.ffScoreMax?.toString());
-		ffScoreFilterMax.onChange(applyFilters);
-		ffScoreFilterMax.element.step = "0.1";
-
-		ffScoreFilterMin.element.appendChild(elementBuilder({ type: "strong", text: "FF Score Max" }));
-		ffScoreFilterMin.element.append(ffScoreFilterMax.element);
-		localFilters["FF Score Max"] = { getValue: ffScoreFilterMax.getValue };
-	}
-
-	const enabledFunnel = createFilterEnabledFunnel();
-	enabledFunnel.onChange(() => applyFilters());
-	enabledFunnel.setEnabled(filters.abroadPeople.enabled);
-	options.appendChild(enabledFunnel.element);
-	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
-
-	await applyFilters();
-}
-
-async function applyFilters() {
-	await requireElement(".users-list > li");
-
-	// Get the set filters
-	const content = findContainer("People Filter", { selector: "main" });
-
-	const activity = localFilters["Activity"].getSelections(content);
-	const faction = localFilters["Faction"].getSelected(content).trim();
-	const special = localFilters["Special"].getSelections(content);
-	const status = localFilters["Status"].getSelections(content);
-	const levels = localFilters["Level Filter"].getStartEnd(content);
-	const levelStart = parseInt(levels.start);
-	const levelEnd = parseInt(levels.end);
-	const statsEstimates =
-		hasStatsEstimatesLoaded("Abroad People") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
-			? localFilters["Stats Estimate"]?.getSelections(content)
-			: undefined;
-	const ffScoreMin = parseFloat(localFilters["FF Score Min"]?.getValue()) ?? null;
-	const ffScoreMax = parseFloat(localFilters["FF Score Max"]?.getValue()) ?? null;
-
-	// Update level slider counter
-	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
-
-	// Save filters
-	await ttStorage.change({
-		filters: {
-			abroadPeople: {
-				enabled: localFilters.enabled.isEnabled(),
-				activity,
-				faction,
-				special,
-				status,
-				levelStart,
-				levelEnd,
-				estimates: statsEstimates ?? filters.abroadPeople.estimates,
-				ffScoreMax,
-				ffScoreMin,
-			},
-		},
-	});
-
-	// Actual Filtering
-	if (!localFilters.enabled.isEnabled()) {
-		findAllElements(".users-list > li.tt-hidden").forEach((row) => {
-			row.classList.remove("tt-hidden");
-			delete row.dataset.hideReason;
-		});
-		localFilters["Statistics"].updateStatistics(
-			findAllElements(".users-list > li:not(.tt-hidden)").length,
-			findAllElements(".users-list > li").length,
-			content,
-		);
-		return;
-	}
-
-	for (const row of findAllElements(".users-list > li")) {
-		filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates, ffScoreMin, ffScoreMax }, false);
-	}
-
-	triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "People Filter" });
-
-	localFilters["Statistics"].updateStatistics(
-		findAllElements(".users-list > li:not(.tt-hidden)").length,
-		findAllElements(".users-list > li").length,
-		content,
-	);
-}
-
-type AbroadPeopleFilters = {
+type AbroadPeopleFilterState = {
+	enabled: boolean;
 	activity: string[];
-	status: string[];
-	level: {
-		start: number;
-		end: number;
-	};
 	faction: string;
-	special: {
-		newPlayer: SpecialFilterValue;
-		inCompany: SpecialFilterValue;
-		inFaction: SpecialFilterValue;
-		isDonator: SpecialFilterValue;
-		hasBounties: SpecialFilterValue;
-		bazaarOpen: SpecialFilterValue;
-	};
-	statsEstimates: string[];
-	ffScoreMax: number;
-	ffScoreMin: number;
+	special: YNCheckboxState;
+	status: string[];
+	level: { start: number; end: number };
+	statsEstimates: string[] | undefined;
+	ffScore: { min: number; max: number } | undefined;
 };
 
-function filterRow(row: HTMLElement, filters: Partial<AbroadPeopleFilters>, individual: boolean) {
-	if (filters.activity?.length) {
-		if (
-			!filters.activity.some(
-				(x) => x.trim() === row.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim(),
-			)
-		) {
-			hide("activity");
-			return;
-		}
-	}
-	if (filters.faction) {
-		const factionElement = row.querySelector<HTMLAnchorElement>(".user.faction");
+async function addFilterContainer() {
+	await requireElement(".users-list");
 
-		const hasFaction = !!factionElement.href;
-		const factionName = hasFaction
-			? factionElement.hasAttribute("rel")
-				? factionElement.querySelector(":scope > img").getAttribute("title").trim() || "N/A"
-				: factionElement.textContent.trim()
-			: false;
-		const isUnknownFaction = hasFaction && factionName === "N/A";
+	const sections = [
+		presetSection({
+			preset: "activity",
+			defaults: filters.abroadPeople.activity,
+		}),
 
-		if (filters.faction === "No faction") {
-			if (hasFaction) {
-				hide("faction");
-				return;
-			}
-		} else if (filters.faction === "Unknown faction") {
-			if (!isUnknownFaction) {
-				// Not "Unknown faction"
-				hide("faction");
-				return;
-			}
-		} else if (filters.faction === "In a faction") {
-			if (!hasFaction) {
-				hide("faction");
-				return;
-			}
-		} else {
-			if (
-				!hasFaction || // No faction
-				isUnknownFaction || // Unknown faction
-				filters.faction !== factionName
-			) {
-				hide("faction");
-				return;
-			}
-		}
-	}
-	if (filters.special) {
-		const match = Object.entries(filters.special)
-			.filter(([, value]) => value !== "both" && value !== "none")
-			.find(([key, value]) => {
-				const icons = getSpecialIcons(row);
-				const filterIcons = SPECIAL_FILTER_ICONS[key];
+		presetSection({
+			preset: "faction",
+			getOptions: () => [...defaultFactionsItems, ...extractFactionsFromPage().map((faction) => ({ value: faction, description: faction }))],
+			default: filters.abroadPeople.faction,
+		}),
 
-				return (
-					(value === "yes" && !icons.some((foundIcon) => filterIcons.includes(foundIcon))) ||
-					(value === "no" && icons.some((foundIcon) => filterIcons.includes(foundIcon)))
-				);
+		ynCheckboxesSection({
+			key: "special",
+			title: "Special",
+			items: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties", "Bazaar Open"],
+			defaults: filters.abroadPeople.special,
+			test: (row, special) => {
+				const match = Object.entries(special)
+					.filter(([, value]) => value !== "both" && value !== "none")
+					.find(([key, value]) => {
+						const icons = getSpecialIcons(row);
+						const filterIcons = SPECIAL_FILTER_ICONS[key];
+						return (
+							(value === "yes" && !icons.some((foundIcon) => filterIcons.includes(foundIcon))) ||
+							(value === "no" && icons.some((foundIcon) => filterIcons.includes(foundIcon)))
+						);
+					});
+
+				return !match;
+			},
+		}),
+
+		checkboxesSection({
+			key: "status",
+			title: "Status",
+			items: [
+				{ id: "okay", description: "Okay" },
+				{ id: "hospital", description: "Hospital" },
+			],
+			defaults: filters.abroadPeople.status,
+			test: (row, status) => {
+				if (!status.length || status.length === 2) return true;
+
+				const rowStatus = row.querySelector<HTMLElement>(".status :last-child").textContent.toLowerCase().trim();
+				return status.includes(rowStatus);
+			},
+		}),
+
+		sliderSection({
+			key: "level",
+			title: "Level Filter",
+			config: { min: 0, max: 100, step: 1 },
+			defaults: { low: filters.abroadPeople.levelStart, high: filters.abroadPeople.levelEnd },
+			formatCounter: (r) => `Level ${r.start} - ${r.end}`,
+			test: (row, range) => {
+				const level = convertToNumber(row.querySelector(".level").textContent);
+
+				if (range.start && level < range.start) return false;
+				if (range.end !== 100 && level > range.end) return false;
+
+				return true;
+			},
+		}),
+
+		presetSection({
+			preset: "stats-estimates",
+			enabled: () => settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData(),
+			defaults: filters.abroadPeople.estimates,
+		}),
+
+		presetSection({
+			preset: "ff-score",
+			enabled: () => settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData(),
+			defaults: { min: filters.abroadPeople.ffScoreMin, max: filters.abroadPeople.ffScoreMax },
+		}),
+	];
+
+	filter = createFilter<AbroadPeopleFilterState>({
+		rowSelector: ".users-list > li",
+		container: {
+			title: "People Filter",
+			class: "mt10",
+			nextElement: document.querySelector(".users-list-title"),
+		},
+		statisticsLabel: "players",
+		enabled: filters.abroadPeople.enabled,
+		sections,
+		onStateChange: async (state) => {
+			await ttStorage.change({
+				filters: {
+					abroadPeople: {
+						enabled: state.enabled,
+						activity: state.activity,
+						faction: state.faction,
+						special: state.special,
+						status: state.status,
+						levelStart: state.level.start,
+						levelEnd: state.level.end,
+						estimates: state.statsEstimates ?? filters.abroadPeople.estimates,
+						ffScoreMax: state.ffScore?.max ?? filters.abroadPeople.ffScoreMax,
+						ffScoreMin: state.ffScore?.min ?? filters.abroadPeople.ffScoreMin,
+					},
+				},
 			});
 
-		if (match) {
-			hide(`special-${match[0]}`);
-			return;
-		}
-	}
-	if (filters.status?.length && filters.status.length !== 2) {
-		const status = row.querySelector(".status :last-child").textContent.toLowerCase().trim();
-
-		if (!filters.status.includes(status)) {
-			hide("status");
-			return;
-		}
-	}
-	if (filters.level?.start || filters.level?.end) {
-		const level = convertToNumber(row.querySelector(".level").textContent);
-		if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
-			hide("level");
-			return;
-		}
-	}
-	if (filters.statsEstimates) {
-		if (filters.statsEstimates.length) {
-			const estimate = row.dataset.estimate?.toLowerCase();
-			if ((estimate || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
-				hide("stats-estimate");
-				return;
-			}
-		}
-	}
-	if (filters.ffScoreMax || filters.ffScoreMin) {
-		try {
-			const gauge = row.querySelector(".tt-ff-scouter-indicator.indicator-lines");
-			if (gauge) {
-				const ffFloat: number = parseFloat(gauge.getAttribute("data-ff-scout"));
-				if (!Number.isNaN(ffFloat)) {
-					if (filters.ffScoreMax && !Number.isNaN(filters.ffScoreMax) && ffFloat > filters.ffScoreMax) {
-						hide("ff-score");
-						return;
-					}
-					if (filters.ffScoreMin && !Number.isNaN(filters.ffScoreMin) && ffFloat < filters.ffScoreMin) {
-						hide("ff-score");
-						return;
-					}
-				}
-			}
-		} catch (error) {
-			console.error("TT - Failed to filter row by FF Score.", error);
-		}
-	}
-
-	show();
-
-	function show() {
-		row.classList.remove("tt-hidden");
-		row.removeAttribute("data-hide-reason");
-
-		if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-			row.nextElementSibling.classList.remove("tt-hidden");
-		}
-
-		if (individual) {
-			const content = findContainer("People Filter", { selector: "main" });
-
-			localFilters["Statistics"].updateStatistics(
-				findAllElements(".users-list > li:not(.tt-hidden)").length,
-				findAllElements(".users-list > li").length,
-				content,
-			);
-		}
-	}
-
-	function hide(reason: string) {
-		row.classList.add("tt-hidden");
-		row.dataset.hideReason = reason;
-
-		if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-			row.nextElementSibling.classList.add("tt-hidden");
-		}
-
-		if (individual) {
-			const content = findContainer("People Filter", { selector: "main" });
-
-			localFilters["Statistics"].updateStatistics(
-				findAllElements(".users-list > li:not(.tt-hidden)").length,
-				findAllElements(".users-list > li").length,
-				content,
-			);
-		}
-	}
-}
-
-function getFactions() {
-	const rows = findAllElements(".users-list > li .user.faction");
-	const _factions = new Set(
-		rows[0].querySelector("img")
-			? rows
-					.map((row) => row.querySelector("img"))
-					.filter((img) => !!img)
-					.map((img) => img.getAttribute("title").trim())
-					.filter((tag) => !!tag)
-			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
-	);
-
-	const factions = [];
-	for (const faction of _factions) {
-		factions.push({ value: faction, description: faction });
-	}
-	return factions;
-}
-
-function removeFilters() {
-	removeContainer("People Filter");
-	findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "People Filter" });
+		},
+	});
 }
 
 export default class AbroadPeopleFilterFeature extends Feature {
@@ -443,15 +172,15 @@ export default class AbroadPeopleFilterFeature extends Feature {
 	}
 
 	initialise() {
-		initialiseFilters();
+		initialiseListeners();
 	}
 
 	async execute() {
-		await addFilters();
+		await addFilterContainer();
 	}
 
 	cleanup() {
-		removeFilters();
+		filter?.dispose();
 	}
 
 	storageKeys() {

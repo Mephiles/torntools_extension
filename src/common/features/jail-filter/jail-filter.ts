@@ -1,321 +1,214 @@
 import "./jail-filter.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, quick, settings, userdata } from "@common/utils/data/database";
-import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { createTextbox } from "@common/utils/elements/textbox/textbox";
+import type { QuickJail } from "@common/utils/data/default-database";
+import { type CheckboxObject, createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { hasAPIData } from "@common/utils/functions/api";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
+import { findContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics, defaultFactionsItems, FILTER_REGEXES } from "@common/utils/functions/filters";
+import {
+	createFilter,
+	defaultFactionsItems,
+	type FilterController,
+	presetSection,
+	type SliderRange,
+	sliderSection,
+	textSection,
+} from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPageStatus } from "@common/utils/functions/torn";
+import { extractFactionsFromPage, getPageStatus } from "@common/utils/functions/torn";
 import { PHBoldArrowClockwise } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
 
-function initialiseFilters() {
-	addCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(JailFilterFeature)) return;
-		if (!localFilters.enabled.isEnabled()) return;
+let filter: FilterController | undefined;
+let cbQuickBust: CheckboxObject | undefined;
+let cbQuickBail: CheckboxObject | undefined;
 
-		await filtering(true);
-	});
-}
-
-const localFilters: any = {};
 const JAIL_FILTER_TIME_REGEX = /(\d+)(?=h)|(\d+)(?=m)/g;
 
-async function addFilters() {
-	await requireElement(".userlist-wrapper .user-info-list-wrap .bust-icon");
-
-	const { content, options } = createContainer("Jail Filter", {
-		class: "mt10",
-		nextElement: document.querySelector(".users-list-title"),
-		compact: true,
-		filter: true,
+function initialiseListeners() {
+	addCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, async () => {
+		if (!FEATURE_MANAGER.isEnabled(JailFilterFeature)) return;
+		await filter?.run();
 	});
-
-	const statistics = createStatistics("players");
-	content.appendChild(statistics.element);
-	localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
-
-	const filterContent = elementBuilder({
-		type: "div",
-		class: "content",
-	});
-
-	const activityFilter = createFilterSection({
-		type: "Activity",
-		defaults: filters.jail.activity,
-		callback: filtering,
-	});
-	filterContent.appendChild(activityFilter.element);
-	localFilters["Activity"] = { getSelections: activityFilter.getSelections };
-
-	const factionFilter = createFilterSection({
-		title: "Faction",
-		select: [...defaultFactionsItems, ...getFactions()],
-		default: "",
-		callback: filtering,
-	});
-	filterContent.appendChild(factionFilter.element);
-	localFilters["Faction"] = { getSelected: factionFilter.getSelected, updateOptions: factionFilter.updateOptions };
-
-	const timeFilter = createFilterSection({
-		title: "Time Filter",
-		noTitle: true,
-		slider: {
-			min: 0,
-			max: 100,
-			step: 1,
-			valueLow: filters.jail.timeStart,
-			valueHigh: filters.jail.timeEnd,
-		},
-		callback: filtering,
-	});
-	filterContent.appendChild(timeFilter.element);
-	localFilters["Time Filter"] = { getStartEnd: timeFilter.getStartEnd, updateCounter: timeFilter.updateCounter };
-
-	const levelFilter = createFilterSection({
-		type: "LevelPlayer",
-		typeData: {
-			valueLow: filters.jail.levelStart,
-			valueHigh: filters.jail.levelEnd,
-		},
-		callback: filtering,
-	});
-	filterContent.appendChild(levelFilter.element);
-	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
-
-	const scoreFilter = createFilterSection({
-		title: "Score Filter",
-		noTitle: true,
-		slider: {
-			min: 0,
-			max: 5000,
-			step: 10,
-			valueLow: filters.jail.scoreStart,
-			valueHigh: filters.jail.scoreEnd,
-		},
-		callback: filtering,
-	});
-	filterContent.appendChild(scoreFilter.element);
-	localFilters["Score Filter"] = { getStartEnd: scoreFilter.getStartEnd, updateCounter: scoreFilter.updateCounter };
-
-	const bailCostFilter = createTextbox({ type: "number", description: "Maximum Bail Cost", attributes: { min: "0" } });
-	bailCostFilter.setValue(filters.jail.bailCost === -1 ? "" : filters.jail.bailCost?.toString() || "");
-	bailCostFilter.onChange(filtering);
-
-	filterContent.appendChild(bailCostFilter.element);
-	localFilters["Bail Cost"] = { getValue: bailCostFilter.getValue };
-
-	content.appendChild(filterContent);
-
-	const enabledFunnel = createFilterEnabledFunnel();
-	enabledFunnel.onChange(filtering);
-	enabledFunnel.setEnabled(filters.jail.enabled);
-	options.appendChild(enabledFunnel.element);
-	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
-
-	const quickBust = createCheckbox({ description: "Quick Bust" });
-	quickBust.onChange(applyQuickBustAndBail);
-	quickBust.setChecked(quick.jail.includes("bust"));
-	options.appendChild(quickBust.element);
-	localFilters["Quick Bust"] = { isChecked: quickBust.isChecked };
-
-	const quickBail = createCheckbox({ description: "Quick Bail" });
-	quickBail.onChange(applyQuickBustAndBail);
-	quickBail.setChecked(quick.jail.includes("bail"));
-	options.appendChild(quickBail.element);
-	localFilters["Quick Bail"] = { isChecked: quickBail.isChecked };
-
-	await filtering();
 }
 
-async function filtering(pageChange: boolean = false) {
-	await requireElement(".users-list > li");
-	const content = findContainer("Jail Filter").querySelector("main");
-	const activity: string[] = localFilters["Activity"].getSelections(content);
-	const faction: string = localFilters["Faction"].getSelected(content).trim();
-	const times = localFilters["Time Filter"].getStartEnd(content);
-	const bailCost = parseInt(localFilters["Bail Cost"].getValue());
-	const timeStart = parseInt(times.start);
-	const timeEnd = parseInt(times.end);
-	const levels = localFilters["Level Filter"].getStartEnd(content);
-	const levelStart = parseInt(levels.start);
-	const levelEnd = parseInt(levels.end);
-	const scores = localFilters["Score Filter"].getStartEnd(content);
-	const scoreStart = parseInt(scores.start);
-	const scoreEnd = parseInt(scores.end);
+type JailFilterState = {
+	enabled: boolean;
+	activity: string[];
+	faction: string;
+	time: SliderRange;
+	level: SliderRange;
+	score: SliderRange;
+	bailCost: string;
+};
 
-	let bailMultiplier = 1;
-	if (hasAPIData() && settings.apiUsage.user.perks) {
-		const educationBailPerk = userdata.education_perks.filter((perk) => perk.includes("bail cost reduction"));
-		if (educationBailPerk.length > 0) {
-			const eduReduction = parseFloat(educationBailPerk[0].split(" ")[1].replace("%", "")) / 100;
-			bailMultiplier *= 1 - eduReduction;
-		}
+async function addFilterContainer() {
+	await requireElement(".userlist-wrapper .user-info-list-wrap .bust-icon");
 
-		const jobBailPerk = userdata.job_perks.filter((perk) => perk.includes("bail cost reduction"));
-		if (jobBailPerk.length > 0) {
-			const jobReduction = parseFloat(jobBailPerk[0].split(" ")[1].replace("%", "")) / 100;
-			bailMultiplier *= 1 - jobReduction;
-		}
-	}
+	filter?.dispose();
 
-	if (pageChange) {
-		localFilters["Faction"].updateOptions([...defaultFactionsItems, ...getFactions()], content);
-	}
+	const bailMultiplier = getBailMultiplier();
 
-	// Update level and time slider counters
-	localFilters["Time Filter"].updateCounter(`Time ${timeStart}h - ${timeEnd}h`, content);
-	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
-	localFilters["Score Filter"].updateCounter(`Score ${scoreStart} - ${scoreEnd}`, content);
+	const sections = [
+		presetSection({ preset: "activity", defaults: filters.jail.activity }),
 
-	// Save filters
-	await ttStorage.change({
-		filters: {
-			jail: {
-				enabled: localFilters.enabled.isEnabled(),
-				activity: activity,
-				faction: faction,
-				timeStart: timeStart,
-				timeEnd: timeEnd,
-				levelStart: levelStart,
-				levelEnd: levelEnd,
-				scoreStart: scoreStart,
-				scoreEnd: scoreEnd,
-				bailCost: bailCost !== undefined && !Number.isNaN(bailCost) ? bailCost : -1,
+		presetSection({
+			preset: "faction",
+			getOptions: () => [...defaultFactionsItems, ...extractFactionsFromPage().map((faction) => ({ value: faction, description: faction }))],
+			default: filters.jail.faction,
+		}),
+
+		sliderSection({
+			key: "time",
+			title: "Time Filter",
+			config: { min: 0, max: 100, step: 1 },
+			defaults: { low: filters.jail.timeStart, high: filters.jail.timeEnd },
+			formatCounter: (r) => `Time ${r.start}h - ${r.end}h`,
+			test: (row, range) => {
+				const timeText = row.querySelector(".info-wrap .time").textContent;
+				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
+				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
+
+				if (range.start && timeLeftHrs < range.start) return false;
+				if (range.end !== 100 && timeLeftHrs >= range.end) return false;
+
+				return true;
 			},
+		}),
+
+		sliderSection({
+			key: "level",
+			title: "Level Filter",
+			config: { min: 1, max: 100, step: 1 },
+			defaults: { low: filters.jail.levelStart, high: filters.jail.levelEnd },
+			formatCounter: (r) => `Level ${r.start} - ${r.end}`,
+			test: (row, range) => {
+				const level = convertToNumber(row.querySelector(".info-wrap .level").textContent);
+
+				if (range.start && level < range.start) return false;
+				if (range.end !== 100 && level > range.end) return false;
+
+				return true;
+			},
+		}),
+
+		sliderSection({
+			key: "score",
+			title: "Score Filter",
+			config: { min: 0, max: 5000, step: 10 },
+			defaults: { low: filters.jail.scoreStart, high: filters.jail.scoreEnd },
+			formatCounter: (r) => `Score ${r.start} - ${r.end}`,
+			test: (row, range) => {
+				const level = convertToNumber(row.querySelector(".info-wrap .level").textContent);
+				const timeText = row.querySelector(".info-wrap .time").textContent;
+				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
+				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
+
+				const score = level * (timeLeftHrs + 3);
+				if (range.start && score < range.start) return false;
+				if (range.end !== 5000 && score > range.end) return false;
+
+				return true;
+			},
+		}),
+
+		textSection({
+			key: "bailCost",
+			title: "Maximum Bail Cost",
+			type: "number",
+			defaultValue: filters.jail.bailCost === -1 ? "" : (filters.jail.bailCost?.toString() ?? ""),
+			test: (row, bailCostStr) => {
+				const bailCost = parseInt(bailCostStr);
+				if (!bailCost || Number.isNaN(bailCost)) return true;
+
+				const level = convertToNumber(row.querySelector(".info-wrap .level").textContent);
+				const timeText = row.querySelector(".info-wrap .time").textContent;
+				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
+				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
+				const timeLeftMins = parseInt(timeLeft?.length > 1 ? timeLeft[1] : timeLeft?.[0]) || 0;
+				const totalMinutes = timeLeftMins + timeLeftHrs * 60;
+
+				return totalMinutes * level * bailMultiplier * 100 <= bailCost;
+			},
+		}),
+	];
+
+	filter = createFilter<JailFilterState>({
+		rowSelector: ".users-list > li",
+		container: {
+			title: "Jail Filter",
+			class: "mt10",
+			nextElement: document.querySelector(".users-list-title"),
+			compact: true,
+		},
+		statisticsLabel: "players",
+		enabled: filters.jail.enabled,
+		sections,
+		onStateChange: async (state) => {
+			const bailCost = parseInt(state.bailCost);
+
+			await ttStorage.change({
+				filters: {
+					jail: {
+						enabled: state.enabled,
+						activity: state.activity,
+						faction: state.faction,
+						timeStart: state.time.start,
+						timeEnd: state.time.end,
+						levelStart: state.level.start,
+						levelEnd: state.level.end,
+						scoreStart: state.score.start,
+						scoreEnd: state.score.end,
+						bailCost: bailCost !== undefined && !Number.isNaN(bailCost) ? bailCost : -1,
+					},
+				},
+			});
 		},
 	});
 
-	// Actual Filtering
-	if (!localFilters.enabled.isEnabled()) {
-		findAllElements(".users-list > li.tt-hidden").forEach((row) => row.classList.remove("tt-hidden"));
-		localFilters["Statistics"].updateStatistics(
-			findAllElements(".users-list > li:not(.tt-hidden)").length,
-			findAllElements(".users-list > li").length,
-			content,
-		);
-		return;
+	// Standalone options, not actually part of the filter.
+	const optionsEl = findContainer("Jail Filter")?.querySelector<HTMLElement>(".options");
+	if (optionsEl) {
+		cbQuickBust = createCheckbox({ description: "Quick Bust" });
+		cbQuickBust.setChecked(quick.jail.includes("bust"));
+		cbQuickBust.onChange(applyQuickBustAndBail);
+		optionsEl.appendChild(cbQuickBust.element);
+
+		cbQuickBail = createCheckbox({ description: "Quick Bail" });
+		cbQuickBail.setChecked(quick.jail.includes("bail"));
+		cbQuickBail.onChange(applyQuickBustAndBail);
+		optionsEl.appendChild(cbQuickBail.element);
 	}
 
-	for (const li of findAllElements(".users-list > li")) {
-		// Activity
-		if (
-			activity.length &&
-			!activity.includes(li.querySelector("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())
-		) {
-			hideRow(li);
-			continue;
-		}
-
-		// Faction
-		const rowFaction = li.querySelector<HTMLAnchorElement>(".user.faction");
-		const hasFaction = !!rowFaction.href;
-		const factionName = rowFaction.hasAttribute("rel")
-			? rowFaction.querySelector(":scope > img").getAttribute("title").trim() || "N/A"
-			: rowFaction.textContent.trim();
-
-		if (faction && faction !== "No faction" && faction !== "Unknown faction" && faction !== "In a faction") {
-			if (!hasFaction || factionName === "N/A" || factionName !== faction) {
-				hideRow(li);
-				continue;
-			}
-		} else if (faction === "In a faction") {
-			if (!hasFaction) {
-				hideRow(li);
-				continue;
-			}
-		} else if (faction === "No faction") {
-			if (hasFaction) {
-				hideRow(li);
-				continue;
-			}
-		} else if (faction === "Unknown faction") {
-			if (!hasFaction || factionName !== "N/A") {
-				// Not "Unknown faction"
-				hideRow(li);
-				continue;
-			}
-		}
-
-		// Time
-		const timeText = li.querySelector(".info-wrap .time").textContent;
-		const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
-
-		const timeLeftHrs = timeLeft.length > 1 ? parseInt(timeLeft[0]) : 0;
-
-		if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs >= timeEnd)) {
-			hideRow(li);
-			continue;
-		}
-
-		// Level
-		const level = convertToNumber(li.querySelector(".info-wrap .level").textContent);
-		if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
-			hideRow(li);
-			continue;
-		}
-
-		// bail cost
-		if (bailCost) {
-			const timeLeftMins = parseInt(timeLeft.length > 1 ? timeLeft[1] : timeLeft[0]);
-			const totalMinutes = timeLeftMins + timeLeftHrs * 60;
-			const bailTotalCost = totalMinutes * level * bailMultiplier * 100;
-			if (bailTotalCost > bailCost) {
-				hideRow(li);
-				continue;
-			}
-		}
-
-		// Score
-		const score = level * (timeLeftHrs + 3);
-		if ((scoreStart && score < scoreStart) || (scoreEnd !== 5000 && score > scoreEnd)) {
-			hideRow(li);
-			continue;
-		}
-
-		showRow(li);
-	}
-
-	function showRow(li: Element) {
-		li.classList.remove("tt-hidden");
-	}
-
-	function hideRow(li: Element) {
-		li.classList.add("tt-hidden");
-	}
-
-	localFilters["Statistics"].updateStatistics(
-		findAllElements(".users-list > li:not(.tt-hidden)").length,
-		findAllElements(".users-list > li").length,
-		content,
-	);
-
+	await filter.run();
 	await applyQuickBustAndBail();
+}
+
+function getBailMultiplier() {
+	if (!hasAPIData() || !settings.apiUsage.user.perks) return 1;
+
+	return Array.of(...userdata.education_perks, ...userdata.job_perks)
+		.filter((p) => p.includes("bail cost reduction"))
+		.reduce((multiplier, perk) => {
+			return multiplier * (1 - parseFloat(perk.split(" ")[1].replace("%", "")) / 100);
+		}, 1);
 }
 
 async function applyQuickBustAndBail() {
 	await requireElement(".users-list > li");
 
-	const quickModes = [];
-	const quickBust = localFilters["Quick Bust"].isChecked();
-	const quickBail = localFilters["Quick Bail"].isChecked();
+	const quickModes: QuickJail[] = [];
+	if (cbQuickBust?.isChecked()) quickModes.push("bust");
+	if (cbQuickBail?.isChecked()) quickModes.push("bail");
 
-	if (quickBust) quickModes.push("bust");
-	if (quickBail) quickModes.push("bail");
-
-	await ttStorage.change({
-		quick: {
-			jail: quickModes,
-		},
-	});
+	await ttStorage.change({ quick: { jail: quickModes } });
 
 	findAllElements(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
-	if (quickBust || quickBail) {
+
+	if (quickModes.length) {
 		if (document.querySelector(".users-list > li:not(.tt-hidden)")) {
 			if (!document.querySelector(".users-list-title .tt-quick-refresh")) {
 				document.querySelector(".users-list-title").appendChild(newRefreshButton());
@@ -325,16 +218,20 @@ async function applyQuickBustAndBail() {
 				elementBuilder({
 					type: "div",
 					class: "tt-quick-refresh-wrap",
-					children: [...(quickBail ? [newRefreshButton("tt-bail")] : []), ...(quickBust ? [newRefreshButton("tt-bust")] : [])],
+					children: [
+						...(cbQuickBail?.isChecked() ? [newRefreshButton("tt-bail")] : []),
+						...(cbQuickBust?.isChecked() ? [newRefreshButton("tt-bust")] : []),
+					],
 				}),
 			);
 		}
 	}
 
 	findAllElements(".users-list > li").forEach((li) => {
-		if (quickBust) addQAndHref(li.querySelector(":scope > [href*='breakout']"));
+		if (cbQuickBust?.isChecked()) addQAndHref(li.querySelector(":scope > [href*='breakout']"));
 		else removeQAndHref(li.querySelector(":scope > [href*='breakout']"));
-		if (quickBail) addQAndHref(li.querySelector(":scope > [href*='buy']"));
+
+		if (cbQuickBail?.isChecked()) addQAndHref(li.querySelector(":scope > [href*='buy']"));
 		else removeQAndHref(li.querySelector(":scope > [href*='buy']"));
 	});
 
@@ -343,47 +240,23 @@ async function applyQuickBustAndBail() {
 			type: "div",
 			class: `tt-quick-refresh ${customClass}`,
 			children: [PHBoldArrowClockwise()],
-			events: {
-				click: () => location.reload(),
-			},
+			events: { click: () => location.reload() },
 		});
 	}
 
 	function addQAndHref(iconNode: HTMLAnchorElement) {
-		if (iconNode.querySelector(":scope > .tt-quick-q")) return;
+		if (!iconNode || iconNode.querySelector(":scope > .tt-quick-q")) return;
+
 		iconNode.appendChild(elementBuilder({ type: "span", class: "tt-quick-q", text: "Q" }));
 		iconNode.href = `${iconNode.getAttribute("href")}1`;
 	}
 
 	function removeQAndHref(iconNode: HTMLAnchorElement) {
-		const quickQ = iconNode.querySelector(":scope > .tt-quick-q");
-		if (quickQ) quickQ.remove();
+		if (!iconNode) return;
+
+		iconNode.querySelector(".tt-quick-q")?.remove();
 		if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.getAttribute("href").slice(0, -1);
 	}
-}
-
-function getFactions() {
-	const rows = findAllElements(".users-list > li .user.faction");
-	const _factions = new Set(
-		findAllElements(".users-list > li .user.faction img").length
-			? rows
-					.map((row) => row.querySelector("img"))
-					.filter((img) => !!img)
-					.map((img) => img.getAttribute("title").trim())
-					.filter((tag) => !!tag)
-			: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag),
-	);
-
-	const factions = [];
-	for (const faction of _factions) {
-		factions.push({ value: faction, description: faction });
-	}
-	return factions;
-}
-
-function removeFilters() {
-	removeContainer("Jail Filter");
-	findAllElements(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 }
 
 export default class JailFilterFeature extends Feature {
@@ -391,7 +264,7 @@ export default class JailFilterFeature extends Feature {
 		super("Jail Filter", "jail");
 	}
 
-	precondition(): boolean {
+	precondition() {
 		return getPageStatus().access;
 	}
 
@@ -400,15 +273,17 @@ export default class JailFilterFeature extends Feature {
 	}
 
 	initialise() {
-		initialiseFilters();
+		initialiseListeners();
 	}
 
 	async execute() {
-		await addFilters();
+		await addFilterContainer();
 	}
 
 	cleanup() {
-		removeFilters();
+		cbQuickBust = undefined;
+		cbQuickBail = undefined;
+		filter?.dispose();
 	}
 
 	storageKeys() {

@@ -108,6 +108,7 @@
 	justify-content: space-evenly;
 	padding: 10px 0;
 	flex-wrap: wrap;
+	gap: 10px;
 }
 
 body.tt-mobile .tt-filter .content,
@@ -133,7 +134,6 @@ body.tt-tablet .tt-filter .content .tt-checkbox-wrapper {
 
 .tt-filter .content > div {
 	text-align: center;
-	padding: 0 10px;
 }
 
 body.tt-mobile .tt-filter .content > div,

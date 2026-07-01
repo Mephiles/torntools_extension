@@ -1,276 +1,118 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics } from "@common/utils/functions/filters";
+import { createFilter, type FilterController, presetSection, type SliderRange, sliderSection } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPageStatus, RANK_TRIGGERS } from "@common/utils/functions/torn";
+import { getPageStatus } from "@common/utils/functions/torn";
 import { DisabledUntilNoticeFeature } from "@features/feature";
-import { hasStatsEstimatesLoaded } from "@features/stats-estimate/stats-estimate";
 
-let filterSetupComplete: boolean = false;
+let filter: FilterController | undefined;
+let filterSetupComplete = false;
+let listObserver: MutationObserver;
+let tableObserver: MutationObserver;
 
-async function initialiseFilters() {
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
+type TargetFilterState = { enabled: boolean; activity: string[]; level: SliderRange; estimates: string[] };
+
+async function initialiseListeners() {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, () => {
 		if (!FEATURE_MANAGER.isEnabled(TargetFilterFeature)) return;
 
-		const content = findContainer("Target Filter", { selector: "main" });
-		if (!content) return;
-
-		const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
-		if (!statsEstimates?.length) return;
-
-		filterRow(row, { statsEstimates }, true);
+		void filter?.run();
 	});
 
-	const listObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.matches("li[class*='tableRow__']")))) {
-			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(TargetFilterFeature)) applyFilters();
+	listObserver = new MutationObserver((mutations) => {
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']")))) {
+			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(TargetFilterFeature)) void filter?.run();
 		}
 	});
-
-	const tableObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.tagName === "UL"))) {
+	tableObserver = new MutationObserver((mutations) => {
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL"))) {
 			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(TargetFilterFeature)) {
-				applyFilters();
+				void filter?.run();
 				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 			}
 		}
 	});
-
 	tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });
 	listObserver.observe(await requireElement(".tableWrapper > ul"), { childList: true });
 }
 
-const localFilters: any = {};
+async function addFilterContainer() {
+	filter?.dispose();
 
-async function addFilters() {
-	const { content, options } = createContainer("Target Filter", {
-		class: "mt10",
-		nextElement: await requireElement(".wrapper[role='alert']"),
-		compact: true,
-		filter: true,
-	});
+	filter = createFilter<TargetFilterState>({
+		rowSelector: ".tableWrapper ul > li",
+		container: { title: "Target Filter", class: "mt10", nextElement: await requireElement(".wrapper[role='alert']"), compact: true },
+		statisticsLabel: "targets",
+		enabled: filters.targets.enabled,
+		sections: [
+			presetSection({ preset: "activity", defaults: filters.targets.activity }),
+			sliderSection({
+				key: "level",
+				title: "Level Filter",
+				config: { min: 0, max: 100, step: 1 },
+				defaults: { low: filters.targets.levelStart, high: filters.targets.levelEnd },
+				formatCounter: (r) => `Level ${r.start} - ${r.end}`,
+				test: (row, range) => {
+					const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
 
-	const statistics = createStatistics("targets");
-	content.appendChild(statistics.element);
-	localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
+					if (range.start && level < range.start) return false;
+					if (range.end !== 100 && level > range.end) return false;
 
-	const filterContent = elementBuilder({
-		type: "div",
-		class: "content",
-	});
-
-	const activityFilter = createFilterSection({
-		type: "Activity",
-		defaults: filters.targets.activity,
-		callback: () => applyFilters(),
-	});
-	filterContent.appendChild(activityFilter.element);
-	localFilters["Activity"] = { getSelections: activityFilter.getSelections };
-
-	const levelFilter = createFilterSection({
-		type: "LevelAll",
-		typeData: {
-			valueLow: filters.targets.levelStart,
-			valueHigh: filters.targets.levelEnd,
+					return true;
+				},
+			}),
+			presetSection({
+				preset: "stats-estimates",
+				enabled: () => settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.targets && hasAPIData(),
+				defaults: filters.targets.estimates,
+			}),
+		],
+		onStateChange: async (state) => {
+			await ttStorage.change({
+				filters: {
+					targets: {
+						enabled: state.enabled,
+						activity: state.activity,
+						levelStart: state.level.start,
+						levelEnd: state.level.end,
+						estimates: state.estimates ?? filters.targets.estimates,
+					},
+				},
+			});
+			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Target Filter" });
 		},
-		callback: () => applyFilters(),
 	});
-	filterContent.appendChild(levelFilter.element);
-	content.appendChild(filterContent);
-	localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
-	if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.targets && hasAPIData()) {
-		const estimatesFilter = createFilterSection({
-			title: "Stats Estimates",
-			checkboxes: [
-				{ id: "none", description: "none" },
-				...RANK_TRIGGERS.stats.map((trigger) => ({ id: trigger, description: trigger })),
-				{ id: "n/a", description: "N/A" },
-			],
-			defaults: filters.targets.estimates,
-			callback: () => applyFilters(),
-		});
-		filterContent.appendChild(estimatesFilter.element);
-
-		localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
-	}
-
-	const enabledFunnel = createFilterEnabledFunnel();
-	enabledFunnel.onChange(() => applyFilters());
-	enabledFunnel.setEnabled(filters.targets.enabled);
-	options.appendChild(enabledFunnel.element);
-	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
-
-	await applyFilters();
-
+	await filter.run();
 	filterSetupComplete = true;
-}
-
-async function applyFilters() {
-	await requireElement(".tableWrapper ul > li");
-
-	// Get the set filters
-	const content = findContainer("Target Filter", { selector: "main" });
-	const activity = localFilters["Activity"].getSelections(content);
-	const levels = localFilters["Level Filter"].getStartEnd(content);
-	const levelStart = parseInt(levels.start);
-	const levelEnd = parseInt(levels.end);
-	const statsEstimates =
-		hasStatsEstimatesLoaded("Targets") && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.targets && hasAPIData()
-			? localFilters["Stats Estimate"]?.getSelections(content)
-			: undefined;
-
-	// Update level slider counter
-	localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
-
-	// Save filters
-	await ttStorage.change({
-		filters: {
-			targets: {
-				enabled: localFilters.enabled.isEnabled(),
-				activity,
-				levelStart,
-				levelEnd,
-				estimates: statsEstimates ?? filters.targets.estimates,
-			},
-		},
-	});
-
-	// Actual Filtering
-	if (!localFilters.enabled.isEnabled()) {
-		findAllElements(".tableWrapper ul > li.tt-hidden").forEach((row) => {
-			row.classList.remove("tt-hidden");
-			delete row.dataset.hideReason;
-		});
-		localFilters["Statistics"].updateStatistics(
-			findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
-			findAllElements(".tableWrapper ul > li").length,
-			content,
-		);
-		return;
-	}
-
-	for (const row of findAllElements(".tableWrapper ul > li")) {
-		filterRow(row, { activity, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
-	}
-
-	triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Target Filter" });
-
-	localFilters["Statistics"].updateStatistics(
-		findAllElements(".tableWrapper ul > li:not(.tt-hidden)").length,
-		findAllElements(".tableWrapper ul > li").length,
-		content,
-	);
-}
-
-interface TargetFilters {
-	activity: string[];
-	level: {
-		start: number | null;
-		end: number | null;
-	};
-	statsEstimates: string[];
-}
-
-function filterRow(row: HTMLElement, filters: Partial<TargetFilters>, individual: boolean) {
-	if (filters.activity) {
-		const activity = row.querySelector("[class*='userOnlineStatusIcon___']").getAttribute("alt");
-		if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
-			hide("activity");
-			return;
-		}
-	}
-	if (filters.level?.start || filters.level?.end) {
-		const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
-		if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
-			hide("level");
-			return;
-		}
-	}
-	if (filters.statsEstimates?.length) {
-		const estimate = row.dataset.estimate?.toLowerCase();
-		if ((estimate || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
-			hide("stats-estimate");
-			return;
-		}
-	}
-
-	show();
-
-	function show() {
-		row.classList.remove("tt-hidden");
-		row.removeAttribute("data-hide-reason");
-
-		if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-			row.nextElementSibling.classList.remove("tt-hidden");
-		}
-
-		if (individual) {
-			const content = findContainer("Target Filter", { selector: "main" });
-
-			localFilters["Statistics"].updateStatistics(
-				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-				findAllElements("ul.user-info-blacklist-wrap > li").length,
-				content,
-			);
-		}
-	}
-
-	function hide(reason: string) {
-		row.classList.add("tt-hidden");
-		row.dataset.hideReason = reason;
-
-		if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-			row.nextElementSibling.classList.add("tt-hidden");
-		}
-
-		if (individual) {
-			const content = findContainer("Target Filter", { selector: "main" });
-
-			localFilters["Statistics"].updateStatistics(
-				findAllElements("ul.user-info-blacklist-wrap > li:not(.tt-hidden)").length,
-				findAllElements("ul.user-info-blacklist-wrap> li").length,
-				content,
-			);
-		}
-	}
-}
-
-function removeFilters() {
-	removeContainer("Target Filter");
-	findAllElements("ul.user-info-blacklist-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 }
 
 export default class TargetFilterFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Target Filter", "targets");
 	}
-
 	precondition() {
 		return getPageStatus().access;
 	}
-
 	isEnabled() {
 		return settings.pages.targets.filter;
 	}
-
-	async initialise() {
-		await initialiseFilters();
+	initialise() {
+		initialiseListeners();
 	}
-
 	async execute() {
-		await addFilters();
+		await addFilterContainer();
 	}
-
 	cleanup() {
-		removeFilters();
+		filter?.dispose();
+		listObserver?.disconnect();
+		tableObserver?.disconnect();
+		filterSetupComplete = false;
 	}
-
 	storageKeys() {
 		return ["settings.pages.targets.filter"];
 	}

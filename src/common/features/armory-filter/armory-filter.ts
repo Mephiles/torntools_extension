@@ -2,352 +2,243 @@ import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
-import { type CheckboxObject, createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { findContainer } from "@common/utils/functions/containers";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { createFilterEnabledFunnel, createFilterSection, createStatistics, createWeaponBonusSection } from "@common/utils/functions/filters";
+import {
+	checkboxSection,
+	createFilter,
+	createWeaponBonusSection,
+	type FilterController,
+	type FilterSectionDef,
+	selectSection,
+	textSection,
+} from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-type ArmoryFilters = {
-	hideUnavailable: boolean;
-	name: string;
-	category: string;
-	weaponType: string;
-	damage: string;
-	accuracy: string;
-	weaponBonus: WeaponBonusFilter[];
-	defence: string;
-	set: string;
-	armorBonus: string;
-};
-
-let cbHideUnavailable: CheckboxObject | undefined;
-let localFilters: any = {};
+let filter: FilterController | undefined;
+let filterItemType = "";
 
 function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
 		if (!FEATURE_MANAGER.isEnabled(ArmoryFilterFeature)) return;
 
-		if (["weapons", "armour", "temporary"].includes(section)) await addFilter(section);
+		if (["weapons", "armour", "temporary"].includes(section)) await rebuildForTab(section);
 		else hideFilter();
 	});
 }
 
-async function addFilter(section: string | null) {
+function buildSections(itemType: string): FilterSectionDef<unknown>[] {
+	const base = [
+		{
+			...checkboxSection({
+				key: "hideUnavailable",
+				title: "Hide Unavailable",
+				defaultValue: filters.factionArmory.hideUnavailable,
+				test: (row, hideUnavailable) => {
+					if (!hideUnavailable) return true;
+
+					return !row.querySelector(":scope > .loaned a");
+				},
+			}),
+			placement: "header" as const,
+		},
+		textSection({
+			key: "name",
+			title: "Name",
+			defaultValue: filters.factionArmory[itemType].name ?? "",
+			test: (row, name) => {
+				if (!name) return true;
+				return row.querySelector(".name").textContent.toLowerCase().includes(name.toLowerCase());
+			},
+		}),
+	];
+
+	if (itemType === "temporary") return base;
+
+	if (itemType === "weapons") {
+		return [
+			...base,
+			selectSection({
+				key: "category",
+				title: "Category",
+				getOptions: () => [
+					{ value: "", description: "All" },
+					...["Melee", "Secondary", "Primary"].sort().map((t) => ({ value: t.toLowerCase(), description: t })),
+				],
+				defaultValue: filters.factionArmory.weapons.category,
+				test: (row, category) => {
+					if (!category) return true;
+					const id = parseInt(row.querySelector<HTMLElement>(".img-wrap").dataset.itemid);
+					const item = ITEM_RESOLVER.getStaticItem(id);
+					const cat = item?.details && "category" in item.details ? String(item.details.category).toLowerCase() : item?.type;
+					return cat === category;
+				},
+			}),
+			selectSection({
+				key: "weaponType",
+				title: "Weapon Type",
+				getOptions: () => [
+					{ value: "", description: "All" },
+					...["Clubbing", "Piercing", "Slashing", "Mechanical", "Pistol", "Shotgun", "SMG", "Rifle", "Machine gun", "Heavy artillery"].map((t) => ({
+						value: t.toLowerCase(),
+						description: t,
+					})),
+				],
+				defaultValue: filters.factionArmory.weapons.weaponType,
+				test: (row, weaponType) => {
+					if (!weaponType) return true;
+
+					const id = parseInt(row.querySelector<HTMLElement>(".img-wrap").dataset.itemid);
+					return ITEM_RESOLVER.getStaticItem(id)?.sub_type?.toLowerCase() === weaponType;
+				},
+			}),
+			textSection({
+				key: "damage",
+				title: "Damage",
+				type: "number",
+				defaultValue: filters.factionArmory.weapons.damage,
+				test: (row, damage) => {
+					const d = parseFloat(damage);
+					if (Number.isNaN(d)) return true;
+
+					return parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span").textContent) >= d;
+				},
+			}),
+			textSection({
+				key: "accuracy",
+				title: "Accuracy",
+				type: "number",
+				defaultValue: filters.factionArmory.weapons.accuracy,
+				test: (row, accuracy) => {
+					const a = parseFloat(accuracy);
+					if (Number.isNaN(a)) return true;
+
+					return parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span").textContent) >= a;
+				},
+			}),
+			{
+				key: "weaponBonus",
+				title: "Weapon Bonus",
+				build(onChange: () => void) {
+					const ws = createWeaponBonusSection({
+						callback: onChange,
+						defaults: filters.factionArmory.weapons.weaponBonus,
+						configuration: { anyWeaponBonus: true },
+					});
+					return { element: ws.element, getValue: () => ws.getValues() };
+				},
+				test: (row, bonuses: WeaponBonusFilter[]) => {
+					const toFilter = bonuses.filter(({ bonus }) => bonus);
+					if (!toFilter.length) return true;
+
+					const found = Array.from(row.querySelectorAll(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)"))
+						.map((icon) => icon.getAttribute("title"))
+						.map((title) => title.split("<br/>"))
+						.filter((values) => values.length >= 2)
+						.map(([bonus, description]) => ({
+							bonus: bonus.substring(3, bonus.length - 4).toLowerCase(),
+							value: convertToNumber(description),
+						}));
+
+					if (toFilter.some(({ bonus }) => bonus === "any")) return found.length > 0;
+
+					return toFilter.every(({ bonus, value }) => found.filter((f) => f.bonus === bonus && (!value || f.value >= value)).length > 0);
+				},
+			},
+		];
+	}
+
+	// armor
+	return [
+		...base,
+		textSection({
+			key: "defence",
+			title: "Defence",
+			type: "number",
+			defaultValue: filters.factionArmory.armor.defence,
+			test: (row, defence) => {
+				const d = parseFloat(defence);
+				if (Number.isNaN(d)) return true;
+
+				return parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span").textContent) >= d;
+			},
+		}),
+		selectSection({
+			key: "set",
+			title: "Set",
+			getOptions: () => [
+				{ value: "", description: "All" },
+				{ value: "any", description: "Any (ranked)" },
+				...ARMOR_SETS.map((s) => ({ value: s.toLowerCase(), description: s })),
+			],
+			defaultValue: filters.factionArmory.armor.set,
+			test: (row, set) => {
+				if (!set) return true;
+
+				const rowSet = row.querySelector(".name").textContent.split(" ")[0].toLowerCase();
+				if (set === "any") return ARMOR_SETS.map((x) => x.toLowerCase()).includes(rowSet);
+
+				return rowSet === set;
+			},
+		}),
+		textSection({
+			key: "armorBonus",
+			title: "Bonus %",
+			type: "number",
+			defaultValue: filters.factionArmory.armor.armorBonus,
+			test: (row, armorBonus) => {
+				const b = parseFloat(armorBonus);
+				if (Number.isNaN(b)) return true;
+
+				return convertToNumber(row.querySelector(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title")) >= b;
+			},
+		}),
+	];
+}
+
+async function rebuildForTab(section: string) {
 	if (section === "armour") section = "armor";
 	if (section !== "weapons" && section !== "armor" && section !== "temporary") return;
 
-	const { options, content } = createContainer("Armory Filter", {
-		class: "mt10",
-		nextElement: document.querySelector("#faction-armoury > hr"),
-		filter: true,
+	filterItemType = section;
+	filter?.dispose();
+
+	filter = createFilter({
+		rowSelector: ".torn-tabs ~ [aria-hidden*='false'] .item-list > li",
+		container: {
+			title: "Armory Filter",
+			class: "mt10",
+			nextElement: document.querySelector("#faction-armoury > hr"),
+		},
+		statisticsLabel: "items",
+		enabled: filters.factionArmory.enabled,
+		sections: buildSections(section),
+		onStateChange: async (state) => {
+			const specificState = { ...state };
+			delete specificState.enabled;
+			delete specificState.hideUnavailable;
+
+			await ttStorage.change({
+				filters: {
+					factionArmory: {
+						enabled: state.enabled,
+						hideUnavailable: state.hideUnavailable as boolean,
+						[filterItemType]: specificState,
+					},
+				},
+			});
+		},
 	});
 
-	// Reset local filters as there are multiple filter types.
-	const itemType = section;
-	localFilters = { itemType };
-
-	cbHideUnavailable = createCheckbox({ description: "Hide Unavailable" });
-	options.appendChild(cbHideUnavailable.element);
-	cbHideUnavailable.setChecked(filters.factionArmory.hideUnavailable);
-	cbHideUnavailable.onChange(applyFilters);
-
-	const enabledFunnel = createFilterEnabledFunnel();
-	enabledFunnel.onChange(applyFilters);
-	enabledFunnel.setEnabled(filters.factionArmory.enabled);
-	options.appendChild(enabledFunnel.element);
-	localFilters.enabled = { isEnabled: enabledFunnel.isEnabled };
-
-	const statistics = createStatistics("items");
-	content.appendChild(statistics.element);
-	localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
-
-	const filterContent = elementBuilder({ type: "div", class: "content" });
-
-	const nameFilter = createFilterSection({
-		title: "Name",
-		text: true,
-		default: filters.factionArmory[itemType].name,
-		callback: applyFilters,
-	});
-	filterContent.appendChild(nameFilter.element);
-	localFilters.name = { getValue: nameFilter.getValue };
-
-	if (itemType === "weapons") {
-		const categoryFilter = createFilterSection({
-			title: "Category",
-			select: [
-				{ value: "", description: "All" },
-				...["Melee", "Secondary", "Primary"].sort().map((type) => ({ value: type.toLowerCase(), description: type })),
-			],
-			default: filters.factionArmory[itemType].category,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(categoryFilter.element);
-		localFilters.category = { getSelected: categoryFilter.getSelected };
-
-		const weaponTypeFilter = createFilterSection({
-			title: "Weapon Type",
-			select: [
-				{ value: "", description: "All" },
-				...["Clubbing", "Piercing", "Slashing", "Mechanical", "Pistol", "Shotgun", "SMG", "Rifle", "Machine gun", "Heavy artillery"].map((type) => ({
-					value: type.toLowerCase(),
-					description: type,
-				})),
-			],
-			default: filters.factionArmory[itemType].weaponType,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(weaponTypeFilter.element);
-		localFilters.weaponType = { getSelected: weaponTypeFilter.getSelected };
-
-		const damageFilter = createFilterSection({
-			title: "Damage",
-			text: "number",
-			style: { width: "50px" },
-			default: filters.factionArmory[itemType].damage,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(damageFilter.element);
-		localFilters.damage = { getValue: damageFilter.getValue };
-
-		const accuracyFilter = createFilterSection({
-			title: "Accuracy",
-			text: "number",
-			style: { width: "55px" },
-			default: filters.factionArmory[itemType].accuracy,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(accuracyFilter.element);
-		localFilters.accuracy = { getValue: accuracyFilter.getValue };
-
-		const bonusFilter = createWeaponBonusSection({
-			callback: applyFilters,
-			defaults: filters.factionArmory[itemType].weaponBonus,
-			configuration: {
-				anyWeaponBonus: true,
-			},
-		});
-		filterContent.appendChild(bonusFilter.element);
-		localFilters.weaponBonus = { getValues: bonusFilter.getValues };
-	} else if (itemType === "armor") {
-		const defenceFilter = createFilterSection({
-			title: "Defence",
-			text: "number",
-			style: { width: "50px" },
-			default: filters.factionArmory[itemType].defence,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(defenceFilter.element);
-		localFilters.defence = { getValue: defenceFilter.getValue };
-
-		const setFilter = createFilterSection({
-			title: "Set",
-			select: [
-				{ value: "", description: "All" },
-				{ value: "any", description: "Any (ranked)" },
-				...ARMOR_SETS.map((type) => ({ value: type.toLowerCase(), description: type })),
-			],
-			default: filters.factionArmory[itemType].set,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(setFilter.element);
-		localFilters.set = { getSelected: setFilter.getSelected };
-
-		const bonusFilter = createFilterSection({
-			title: "Bonus %",
-			text: "number",
-			style: { width: "55px" },
-			default: filters.factionArmory[itemType].armorBonus,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(bonusFilter.element);
-		localFilters.armorBonus = { getValue: bonusFilter.getValue };
-	}
-
-	content.appendChild(filterContent);
-
-	await applyFilters();
-}
-
-async function applyFilters() {
 	await requireElement(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.last");
-
-	// Get the set filters
-	const content = findContainer("Armory Filter", { selector: "main" });
-	const itemType = localFilters.itemType;
-
-	const hideUnavailable = cbHideUnavailable.isChecked();
-	const name = localFilters.name.getValue();
-
-	const filters: Partial<ArmoryFilters> = { name };
-
-	if (itemType === "weapons") {
-		filters.category = localFilters.category.getSelected(content);
-		filters.weaponType = localFilters.weaponType.getSelected(content);
-		filters.damage = localFilters.damage.getValue();
-		filters.accuracy = localFilters.accuracy.getValue();
-		filters.weaponBonus = localFilters.weaponBonus.getValues();
-	} else if (itemType === "armor") {
-		filters.defence = localFilters.defence.getValue();
-		filters.set = localFilters.set.getSelected(content);
-		filters.armorBonus = localFilters.armorBonus.getValue();
-	}
-
-	// Save the filters
-	await ttStorage.change({ filters: { factionArmory: { enabled: localFilters.enabled.isEnabled(), hideUnavailable, [itemType]: filters } } });
-
-	// Actual Filtering
-	if (!localFilters.enabled.isEnabled()) {
-		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((row) => {
-			row.classList.remove("tt-hidden");
-			delete row.dataset.hideReason;
-		});
-		localFilters["Statistics"].updateStatistics(
-			findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
-			findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
-			content,
-		);
-		return;
-	}
-
-	findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").forEach((li) => filterRow(li, { hideUnavailable, ...filters }));
-
-	localFilters["Statistics"].updateStatistics(
-		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li:not(.tt-hidden)").length,
-		findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li").length,
-		content,
-	);
-}
-
-function filterRow(row: HTMLElement, filters: Partial<ArmoryFilters>) {
-	const id = parseInt(row.querySelector<HTMLElement>(".img-wrap").dataset.itemid);
-
-	if (filters.hideUnavailable) {
-		if (row.querySelector(":scope > .loaned a")) {
-			hide("unavailable");
-			return;
-		}
-	}
-	if (filters.name) {
-		if (!row.querySelector(".name").textContent.toLowerCase().includes(filters.name.toLowerCase())) {
-			hide("name");
-			return;
-		}
-	}
-	const item = ITEM_RESOLVER.getStaticItem(id);
-	if (filters.category && item) {
-		const itemCategory = item.details && "category" in item.details ? String(item.details.category).toLowerCase() : item?.type;
-
-		if (itemCategory !== filters.category) {
-			hide("category");
-			return;
-		}
-	}
-	if (filters.weaponType && item) {
-		if (item.sub_type?.toLowerCase() !== filters.weaponType) {
-			hide("weapon_type");
-			return;
-		}
-	}
-	if (filters.damage && !Number.isNaN(parseFloat(filters.damage))) {
-		const damage = parseFloat(filters.damage);
-
-		if (parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span").textContent) < damage) {
-			hide("damage");
-			return;
-		}
-	}
-	if (filters.accuracy && !Number.isNaN(parseFloat(filters.accuracy))) {
-		const accuracy = parseFloat(filters.accuracy);
-
-		if (parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span").textContent) < accuracy) {
-			hide("accuracy");
-			return;
-		}
-	}
-	if (filters.defence && !Number.isNaN(parseFloat(filters.defence))) {
-		const defence = parseFloat(filters.defence);
-
-		if (parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span").textContent) < defence) {
-			hide("defence");
-			return;
-		}
-	}
-	if (filters.set) {
-		const set = row.querySelector(".name").textContent.split(" ")[0].toLowerCase();
-		if (filters.set === "any") {
-			if (!ARMOR_SETS.map((x) => x.toLowerCase()).includes(set)) {
-				hide("set");
-				return;
-			}
-		} else {
-			if (set !== filters.set) {
-				hide("set");
-				return;
-			}
-		}
-	}
-	if (filters.armorBonus && !Number.isNaN(parseFloat(filters.armorBonus))) {
-		const bonus = parseFloat(filters.armorBonus);
-
-		if (convertToNumber(row.querySelector(".bonus > i[class*='bonus-attachment-']")?.getAttribute("title")) < bonus) {
-			hide("bonus");
-			return;
-		}
-	}
-	const toFilterBonus = filters.weaponBonus?.filter(({ bonus }) => bonus);
-	if (toFilterBonus?.length) {
-		const foundBonuses = findAllElements(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)", row)
-			.map((icon) => icon.getAttribute("title"))
-			.map((title) => title.split("<br/>"))
-			.filter((values) => values.length >= 2)
-			.map(([bonus, description]) => ({
-				bonus: bonus.substring(3, bonus.length - 4).toLowerCase(),
-				value: convertToNumber(description),
-			}));
-
-		let hasBonuses: boolean;
-		if (toFilterBonus.some(({ bonus }) => bonus === "any")) {
-			hasBonuses = !!foundBonuses.length;
-		} else {
-			hasBonuses = toFilterBonus.every(
-				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0,
-			);
-		}
-
-		if (!hasBonuses) {
-			hide("weapon-bonus");
-			return;
-		}
-	}
-
-	show();
-
-	function show() {
-		row.classList.remove("tt-hidden");
-		row.removeAttribute("data-hide-reason");
-	}
-
-	function hide(reason: string) {
-		row.classList.add("tt-hidden");
-		row.dataset.hideReason = reason;
-	}
+	await filter.run();
 }
 
 function hideFilter() {
-	const presentFilter = findContainer("Armory Filter");
-	if (presentFilter) presentFilter.classList.add("tt-hidden");
-}
-
-function removeFilter() {
-	cbHideUnavailable = undefined;
-	removeContainer("Armory Filter");
-	findAllElements(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
+	findContainer("Armory Filter")?.classList.add("tt-hidden");
 }
 
 export default class ArmoryFilterFeature extends Feature {
@@ -368,7 +259,7 @@ export default class ArmoryFilterFeature extends Feature {
 	}
 
 	cleanup() {
-		removeFilter();
+		filter?.dispose();
 	}
 
 	storageKeys() {

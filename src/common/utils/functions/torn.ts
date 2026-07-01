@@ -2677,6 +2677,25 @@ export function extractXIDFromHTML(html: string): ExtractedXID[] {
 		.filter((x) => !!x);
 }
 
+// End of XID extraction
+
+export function extractFactionsFromPage() {
+	const factionLinks = findAllElements<HTMLAnchorElement>(".users-list > li .user.faction");
+	if (!factionLinks.length) return [];
+
+	const factions = new Set(
+		document.querySelector(".users-list > li .user.faction img")
+			? factionLinks
+					.map((row) => row.querySelector("img"))
+					.filter((img) => !!img)
+					.map((img) => img.getAttribute("title").trim())
+					.filter((tag) => !!tag)
+			: factionLinks.map((row) => row.textContent.trim()).filter((tag) => !!tag),
+	);
+
+	return Array.from(factions);
+}
+
 export function isFlyoutSidebar(): boolean {
 	return !!document.querySelector("[class*='userInformation___']");
 }
