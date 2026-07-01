@@ -379,6 +379,9 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 			dragstart(event) {
 				if (!isElement(event.currentTarget)) return;
 
+				event.stopPropagation();
+				event.stopImmediatePropagation();
+
 				event.dataTransfer.effectAllowed = "move";
 				event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
 
