@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 12 },
+		"version": { "major": 9, "minor": 0, "build": 13 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 12 },
+		"date": "2026/07/01",
 		"logs": {
 			"features": [{ "message": "Display what books you are still missing.", "contributor": "DeKleineKobini" }],
 			"fixes": [
@@ -17,7 +22,6 @@
 				{ "message": "Trim the forum post content when copying for Discord.", "contributor": "DeKleineKobini" },
 				{ "message": "Adapt to the flyout sidebar.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [{ "message": "Introduce an abstraction for sending events.", "contributor": "DeKleineKobini" }]
 		}
 	},
