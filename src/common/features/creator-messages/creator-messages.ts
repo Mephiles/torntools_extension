@@ -7,11 +7,11 @@ import styles from "./creator-messages.module.css";
 
 async function startCreatorMessage() {
 	const params = getHashParameters();
-	if (!params?.has("XID")) return;
+	if (params?.has("XID")) {
+		const id = parseInt(params.get("XID"));
 
-	const id = parseInt(params.get("XID"));
-
-	await showCreatorMessageWarning(id);
+		await showCreatorMessageWarning(id);
+	}
 
 	requireElement(".user-id").then((wrapper) => {
 		new MutationObserver(() => {
