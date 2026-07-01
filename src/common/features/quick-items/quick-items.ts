@@ -154,6 +154,11 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 
 	const { id } = data;
 
+	// ponytail: prevent click from firing on swipe (mobile sidebar). 5px catches swipes but tolerates tap jitter.
+	let pointerStartX = 0;
+	let pointerStartY = 0;
+	let pointerMoved = false;
+
 	if (innerContent.querySelector(`.item[data-id='${id}']`)) return innerContent.querySelector(`.item[data-id='${id}']`);
 	if (!allowQuickItem(id, ITEM_RESOLVER.getStaticItem(id)?.type)) return null;
 
@@ -168,7 +173,19 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 		class: temporary ? "temp item" : "item",
 		dataset: data,
 		events: {
+			pointerdown: (event: PointerEvent) => {
+				pointerStartX = event.clientX;
+				pointerStartY = event.clientY;
+				pointerMoved = false;
+			},
+			pointermove: (event: PointerEvent) => {
+				if (!pointerMoved && (Math.abs(event.clientX - pointerStartX) > 5 || Math.abs(event.clientY - pointerStartY) > 5)) {
+					pointerMoved = true;
+				}
+			},
 			click: async () => {
+				if (pointerMoved) return;
+
 				if (itemWrap.classList.contains("removable")) {
 					itemWrap.remove();
 					itemWrap.dispatchEvent(new Event("mouseout"));
@@ -361,6 +378,9 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 			},
 			dragstart(event) {
 				if (!isElement(event.currentTarget)) return;
+
+				event.stopPropagation();
+				event.stopImmediatePropagation();
 
 				event.dataTransfer.effectAllowed = "move";
 				event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
