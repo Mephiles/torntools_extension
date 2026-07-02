@@ -8,6 +8,7 @@ type CacheValue = { value: any } & ({ timeout: number } | { indefinite: true });
 
 class TornToolsCache {
 	private _cache: DatabaseCache;
+	private persistTimer: ReturnType<typeof setTimeout> | null = null;
 
 	constructor() {
 		this._cache = {};
@@ -39,7 +40,7 @@ class TornToolsCache {
 		if (section) delete this.cache[section][key];
 		else delete this.cache[key];
 
-		await ttStorage.set({ cache: this.cache });
+		this.schedulePersist();
 	}
 
 	hasValue(section: string, key?: CacheKey) {
@@ -91,7 +92,7 @@ class TornToolsCache {
 			}
 		}
 
-		await ttStorage.set({ cache: this.cache });
+		this.schedulePersist();
 	}
 
 	private createCacheValue(value: any, timeout: number | null): CacheValue {
@@ -102,9 +103,12 @@ class TornToolsCache {
 	async clear(section?: string) {
 		if (section) {
 			delete this.cache[section];
-			await ttStorage.set({ cache: this.cache });
+			this.schedulePersist();
 		} else {
-			ttStorage.set({ cache: {} }).then(() => (this.cache = {}));
+			this.cache = {};
+			if (this.persistTimer) clearTimeout(this.persistTimer);
+			this.persistTimer = null;
+			await ttStorage.set({ cache: {} });
 		}
 	}
 
@@ -118,7 +122,7 @@ class TornToolsCache {
 			if (!Object.keys(this.cache[section]).length) delete this.cache[section];
 		}
 
-		if (hasChanged) await ttStorage.set({ cache: this.cache });
+		if (hasChanged) this.schedulePersist();
 
 		function refreshObject(object: { [key: string]: any }) {
 			for (const key in object) {
@@ -135,6 +139,15 @@ class TornToolsCache {
 				}
 			}
 		}
+	}
+
+	private schedulePersist() {
+		if (this.persistTimer) clearTimeout(this.persistTimer);
+
+		this.persistTimer = setTimeout(() => {
+			this.persistTimer = null;
+			ttStorage.set({ cache: this.cache }).catch((err) => console.error("Failed to persist cache.", err));
+		}, 500);
 	}
 }
 

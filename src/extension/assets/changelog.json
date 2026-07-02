@@ -14,7 +14,8 @@
 			"changes": [],
 			"removed": [],
 			"technical": [
-				{ "message": "Refactor the filter helpers and apply it to the 'Abroad Items Filter' and 'Hospital Filter'.", "contributor": "DeKleineKobini" }
+				{ "message": "Refactor the filter helpers and apply it to the 'Abroad Items Filter' and 'Hospital Filter'.", "contributor": "DeKleineKobini" },
+				{ "message": "Debounce the cache persisting, which might resolve performance issues.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
