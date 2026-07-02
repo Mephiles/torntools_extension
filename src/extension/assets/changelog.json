@@ -16,7 +16,8 @@
 			"technical": [
 				{ "message": "Refactor the filter helpers and apply it to the 'Abroad Items Filter' and 'Hospital Filter'.", "contributor": "DeKleineKobini" },
 				{ "message": "Debounce the cache persisting, which might resolve performance issues.", "contributor": "DeKleineKobini" },
-				{ "message": "Switch from a 31s cycle to a 30s cycle.", "contributor": "DeKleineKobini" }
+				{ "message": "Switch from a 31s cycle to a 30s cycle.", "contributor": "DeKleineKobini" },
+				{ "message": "Only register the icon bar update if it isn't yet already.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

@@ -22,6 +22,8 @@ import { BackgroundService } from "@/services/BackgroundService";
 
 type Alarm = Browser.alarms.Alarm;
 
+let iconBarListenerRegistered = false;
+
 function onInitialisation() {
 	registerExtensionContext();
 	browser.alarms.getAll().then((currentAlarms) => {
@@ -29,6 +31,12 @@ function onInitialisation() {
 
 		void resetAlarms();
 	});
+}
+
+function registerShowIconBarsListener() {
+	if (iconBarListenerRegistered) return;
+	iconBarListenerRegistered = true;
+	storageListeners.settings.push(showIconBars);
 }
 
 async function onInstall() {
@@ -46,7 +54,7 @@ async function onInstall() {
 	await timedUpdates();
 
 	void showIconBars();
-	storageListeners.settings.push(showIconBars);
+	registerShowIconBarsListener();
 }
 
 async function checkUpdate() {
@@ -76,7 +84,7 @@ async function onStartup() {
 	await timedUpdates();
 
 	void showIconBars();
-	storageListeners.settings.push(showIconBars);
+	registerShowIconBarsListener();
 }
 
 const ALARM_NAMES = {
