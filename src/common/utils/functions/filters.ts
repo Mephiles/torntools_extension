@@ -69,10 +69,12 @@ export type UserActivityStatus = Lowercase<UserLastActionStatusEnum>;
 
 export function getUserActivity(element: ParentNode): UserActivityStatus | "" {
 	const icon = element.querySelector("[class*='userOnlineStatusIcon___']");
-	const label = icon.getAttribute("alt") || icon.closest("[aria-label]")?.getAttribute("aria-label");
-	const labelMatch = label.match(/\b(online|idle|offline)\b/i);
-	if (labelMatch) {
-		return labelMatch[1].toLowerCase() as UserActivityStatus | undefined;
+	if (icon) {
+		const label = icon?.getAttribute("alt") || icon.closest("[aria-label]")?.getAttribute("aria-label");
+		const labelMatch = label?.match(/\b(online|idle|offline)\b/i);
+		if (labelMatch) {
+			return labelMatch[1].toLowerCase() as UserActivityStatus | undefined;
+		}
 	}
 
 	const title = element.querySelector("#iconTray li").getAttribute("title");

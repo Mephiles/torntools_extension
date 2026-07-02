@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Abroad People Filter",
 	description: "Filter the list of people abroad.",
-	version: "1.1.0",
+	version: "1.1.1",
 	matches: ["https://*.torn.com/index.php?page=people*"],
 	runAt: "document-end",
 };
