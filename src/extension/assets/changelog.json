@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Resolve wrong values being applied in the Racing Filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix an issue where the 'Creator Message' is not always shown.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix an issue where the 'Creator Message' is not always shown.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Hide Icons' not working with the flyout bar.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],

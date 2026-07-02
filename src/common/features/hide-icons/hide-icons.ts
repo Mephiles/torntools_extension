@@ -10,7 +10,7 @@ let observer: MutationObserver;
 async function initialiseHideIcons() {
 	await requireSidebar();
 
-	const selector = "#sidebarroot ul[class*='status-icons_']";
+	const selector = "#sidebarroot ul:is([class*='status-icons_'], [class*='statusIcons_'])";
 	if (!document.querySelector(selector)) return;
 
 	observer = new MutationObserver((_mutations, observer) => {
@@ -29,7 +29,7 @@ function applyStyle() {
 }
 
 function moveIcons() {
-	for (const icon of findAllElements("#sidebarroot ul[class*='status-icons_'] > li[class]")) {
+	for (const icon of findAllElements("#sidebarroot ul:is([class*='status-icons_'], [class*='statusIcons_']) > li[class]")) {
 		if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
 
 		icon.parentElement.appendChild(icon);
