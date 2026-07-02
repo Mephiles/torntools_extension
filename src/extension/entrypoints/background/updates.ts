@@ -91,6 +91,7 @@ import type {
 import { dispatchNotification, newNotification } from "./notifications";
 
 let lockTimedUpdates = false;
+const UPDATE_JITTER = 1_000;
 
 export async function timedUpdates() {
 	if (lockTimedUpdates) return;
@@ -252,18 +253,18 @@ export async function updateUserdata(forceUpdate = false) {
 		forceUpdate ||
 		!userdata ||
 		!Object.keys(userdata).length ||
-		hasTimePassed((userdata.date ?? 0) - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
+		hasTimePassed((userdata.date ?? 0) - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
 	const updateBasic =
 		updateEssential &&
 		(forceUpdate ||
 			!userdata?.dateBasic ||
-			(hasTimePassed(userdata?.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
+			(hasTimePassed(userdata?.dateBasic - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
 				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 	const updatePassive =
 		updateEssential &&
 		(forceUpdate ||
 			!userdata?.datePassive ||
-			(hasTimePassed(userdata?.datePassive - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) &&
+			(hasTimePassed(userdata?.datePassive - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) &&
 				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
 	const selections = [];
@@ -1089,7 +1090,7 @@ async function updateStakeouts(forceUpdate = false) {
 
 	const now = Date.now();
 
-	if (!forceUpdate && stakeouts.date && !hasTimePassed(stakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
+	if (!forceUpdate && stakeouts.date && !hasTimePassed(stakeouts.date - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
 		return { updated: false };
 	}
 
@@ -1312,7 +1313,7 @@ async function updateFactionStakeouts(forceUpdate = false) {
 
 	const now = Date.now();
 
-	if (!forceUpdate && factionStakeouts.date && !hasTimePassed(factionStakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
+	if (!forceUpdate && factionStakeouts.date && !hasTimePassed(factionStakeouts.date - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) {
 		return { updated: false };
 	}
 

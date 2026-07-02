@@ -111,7 +111,7 @@ export async function resetAlarms() {
 	await browser.alarms.clearAll();
 
 	void browser.alarms.create(ALARM_NAMES.CLEAR_CACHE, { periodInMinutes: 60 });
-	void browser.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.52 });
+	void browser.alarms.create(ALARM_NAMES.DATA_UPDATE, { periodInMinutes: 0.5 });
 	void browser.alarms.create(ALARM_NAMES.CLEANUP_NOTIFICATIONS, { periodInMinutes: 60 });
 }
 

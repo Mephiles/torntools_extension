@@ -188,6 +188,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			database.api.torn.owner = owner;
 		},
 	},
+	{
+		id: "8a88db28-d02c-4b08-a672-bb73394b5ae4",
+		version: "9.0.12",
+		execute(_database, _flags, _oldStorage) {
+			OFFLOAD_SERVICE.reinitializeTimers().catch(() => {});
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
