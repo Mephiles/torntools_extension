@@ -40,7 +40,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 			test: (row, name) => {
 				if (!name) return true;
 
-				return row.querySelector(".item-name").textContent.toLowerCase().includes(name.toLowerCase());
+				return row.querySelector(".item-name")!.textContent.toLowerCase().includes(name.toLowerCase());
 			},
 		}),
 	];
@@ -143,7 +143,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 					if (!toFilter.length) return true;
 
 					const found = Array.from(row.querySelectorAll(".iconsbonuses .bonus-attachment-icons"))
-						.map((icon) => icon.getAttribute("title"))
+						.map((icon) => icon.getAttribute("title")!)
 						.map((title) => title.split("<br/>"))
 						.filter((values) => values.length >= 2)
 						.map(([bonus, description]) => ({
@@ -167,7 +167,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 				test: (row, quality) => {
 					if (!quality || quality === "all") return true;
 
-					const match = row.querySelector(".item-plate").className.match(/yellow|orange|red/);
+					const match = row.querySelector(".item-plate")!.className.match(/yellow|orange|red/);
 					return (match ? match[0] : "none") === quality;
 				},
 			}),
@@ -200,7 +200,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 			test: (row, set) => {
 				if (!set) return true;
 
-				const rowSet = row.querySelector(".item-cont-wrap .item-name").textContent.split(" ")[0].toLowerCase();
+				const rowSet = row.querySelector(".item-cont-wrap .item-name")!.textContent.split(" ")[0].toLowerCase();
 				return rowSet === set;
 			},
 		}),
@@ -228,13 +228,13 @@ async function rebuildForTab(itemType: string) {
 		container: {
 			title: "Auction House Filter",
 			class: "mt10",
-			nextElement: document.querySelector("#auction-house-tabs"),
+			nextElement: document.querySelector("#auction-house-tabs")!,
 		},
 		statisticsLabel: "items",
 		enabled: filters.auction.enabled,
 		sections: buildSections(itemType),
 		onStateChange: async (state) => {
-			const specificState = { ...state };
+			const specificState: Omit<typeof state, "enabled"> = { ...state };
 			delete specificState.enabled;
 
 			await ttStorage.change({
@@ -255,11 +255,11 @@ async function rebuildForTab(itemType: string) {
 
 async function enableFilter() {
 	const tab = await requireElement(".tabContent[aria-hidden='false']");
-	await rebuildForTab(tab.dataset.itemtype);
+	await rebuildForTab(tab.dataset.itemtype!);
 }
 
 function getItemId(row: HTMLElement): number {
-	return parseInt(row.querySelector<HTMLImageElement>("img.torn-item").src.match(/items\/([0-9]+)\/large.png/i)[1]);
+	return parseInt(row.querySelector<HTMLImageElement>("img.torn-item")!.src.match(/items\/([0-9]+)\/large.png/i)![1]);
 }
 
 function getCategories(itemType: string) {

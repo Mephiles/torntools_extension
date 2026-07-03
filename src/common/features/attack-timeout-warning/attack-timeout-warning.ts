@@ -18,7 +18,7 @@ async function addListener() {
 	if (dialogButtons) {
 		if (dialogButtons.childElementCount === 0) return;
 
-		await new Promise<void>(async (resolve) => {
+		await new Promise<void>((resolve) => {
 			dialogButtons.children[0].addEventListener("click", () => resolve(), { once: true });
 		});
 	}
@@ -27,14 +27,14 @@ async function addListener() {
 
 	observer = new MutationObserver((mutations) => {
 		if (document.querySelector("div[class^='dialogButtons_']")) {
-			observer.disconnect();
+			observer?.disconnect();
 			observer = undefined;
 			return;
 		}
 
 		if (!isTabFocused()) return;
 
-		const seconds = textToTime(mutations[0].target.textContent, { short: true }) / TO_MILLIS.SECONDS;
+		const seconds = textToTime(mutations[0].target.textContent!, { short: true }) / TO_MILLIS.SECONDS;
 		if (seconds <= 0 || seconds >= 30) return;
 
 		if (!hasSentNotification && settings.notifications.types.global) {
@@ -44,7 +44,7 @@ async function addListener() {
 			BACKGROUND_SERVICE.playNotificationSound(settings.notifications.sound, settings.notifications.volume);
 		}
 	});
-	observer.observe(timeoutValue.firstChild, { characterData: true, subtree: true });
+	observer.observe(timeoutValue.firstChild!, { characterData: true, subtree: true });
 }
 
 function stopListener() {

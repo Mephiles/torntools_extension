@@ -20,7 +20,7 @@ export function createCheckboxList(partialOptions: Partial<CheckboxListOptions>)
 
 	let selectedIds: { [key: string]: boolean } = {};
 	const checkboxes: { [key: string]: CheckboxObject } = {};
-	let selectionChangeCallback: () => void;
+	let selectionChangeCallback: (() => void) | undefined;
 
 	for (const item of options.items) {
 		const checkbox = options.useId

@@ -38,8 +38,8 @@ async function addDebugInfo() {
 							"uaFullVersion",
 						]);
 						const platformInfo = `${uaData.platform} ${uaData.platformVersion}`;
-						const browserInfo = uaData.brands
-							.filter((b) => !b.brand.includes("Brand"))
+						const browserInfo = uaData
+							.brands!.filter((b) => !b.brand.includes("Brand"))
 							.map((b) => `${b.brand} v${b.version}`)
 							.join(" - ");
 
@@ -73,7 +73,7 @@ function viewingTTForumThread() {
 	// https://www.torn.com/forums.php#/p=threads&f=67&t=16243863
 
 	const hashParams = getHashParameters();
-	return hashParams.get("p") === "threads" && parseInt(hashParams.get("f")) === 67 && parseInt(hashParams.get("t")) === 16243863;
+	return hashParams.get("p") === "threads" && parseInt(hashParams.get("f")!) === 67 && parseInt(hashParams.get("t")!) === 16243863;
 }
 
 export default class AddDebugInfoFeature extends Feature {

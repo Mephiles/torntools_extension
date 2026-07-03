@@ -91,7 +91,7 @@ async function addFilterContainer() {
 			test: (row, status) => {
 				if (!status.length || status.length === 2) return true;
 
-				const rowStatus = row.querySelector<HTMLElement>(".status :last-child").textContent.toLowerCase().trim();
+				const rowStatus = row.querySelector<HTMLElement>(".status :last-child")!.textContent.toLowerCase().trim();
 				return status.includes(rowStatus);
 			},
 		}),
@@ -103,7 +103,7 @@ async function addFilterContainer() {
 			defaults: { low: filters.abroadPeople.levelStart, high: filters.abroadPeople.levelEnd },
 			formatCounter: (r) => `Level ${r.start} - ${r.end}`,
 			test: (row, range) => {
-				const level = convertToNumber(row.querySelector(".level").textContent);
+				const level = convertToNumber(row.querySelector(".level")!.textContent);
 
 				if (range.start && level < range.start) return false;
 				if (range.end !== 100 && level > range.end) return false;
@@ -121,7 +121,7 @@ async function addFilterContainer() {
 		presetSection({
 			preset: "ff-score",
 			enabled: () => settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData(),
-			defaults: { min: filters.abroadPeople.ffScoreMin, max: filters.abroadPeople.ffScoreMax },
+			defaults: { min: filters.abroadPeople.ffScoreMin ?? 0, max: filters.abroadPeople.ffScoreMax },
 		}),
 	];
 
@@ -130,7 +130,7 @@ async function addFilterContainer() {
 		container: {
 			title: "People Filter",
 			class: "mt10",
-			nextElement: document.querySelector(".users-list-title"),
+			nextElement: document.querySelector(".users-list-title")!,
 		},
 		statisticsLabel: "players",
 		enabled: filters.abroadPeople.enabled,

@@ -122,7 +122,7 @@ function createTableHeaderCell<T>(
 // type TableHeaderCell<T> = ReturnType<typeof createTableHeaderCell<T>>;
 
 function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef: TableColumnDef<T, K>, options: { stretchCell: boolean }) {
-	const cellRenderer = columnDef.cellRendererSelector ? columnDef.cellRendererSelector(rowData) : columnDef.cellRenderer;
+	const cellRenderer = columnDef.cellRendererSelector ? columnDef.cellRendererSelector(rowData) : columnDef.cellRenderer!;
 	const cell = cellRenderer(data);
 	const cellElement = elementBuilder({
 		type: "div",
@@ -187,7 +187,7 @@ function _createRowGroup<T>(groupKey: string, rowGroupInfo: TableRowGroupInfo<T>
 	};
 }
 
-export function createTable<T>(
+export function createTable<T extends Record<string, any>>(
 	tableColumnsDefs: TableColumnDef<T>[],
 	tableRowsData: T[],
 	options: {
@@ -197,11 +197,7 @@ export function createTable<T>(
 		rowGroupInfo?: TableRowGroupInfo<T>;
 	},
 ) {
-	options = {
-		stretchColumns: false,
-		...options,
-	};
-	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION };
+	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION } | undefined;
 	let tableRows = _createTableRows(tableRowsData);
 
 	const tableHeaders = tableColumnsDefs.map((columnDef) => {
@@ -233,7 +229,7 @@ export function createTable<T>(
 
 	function _createTableRows(data: T[]): BaseElement<Node>[] {
 		const rows = data.map((rowData) =>
-			createTableRow(rowData, tableColumnsDefs, {
+			createTableRow<T>(rowData, tableColumnsDefs, {
 				rowClass: options.rowClass,
 				stretchColumns: options.stretchColumns,
 			}),
@@ -243,20 +239,20 @@ export function createTable<T>(
 			return rows;
 		}
 
-		const groups = groupBy(rows, (row) => [getTypedKeyOf(row.data, options.rowGroupInfo.groupBy), row]);
+		const groups = groupBy(rows, (row) => [getTypedKeyOf(row.data, options.rowGroupInfo!.groupBy), row]);
 
 		return Object.entries(groups).flatMap(([groupKey, rows]) => {
-			const rowGroup = _createRowGroup(groupKey, options.rowGroupInfo);
+			const rowGroup = _createRowGroup(groupKey, options.rowGroupInfo!);
 
 			if (!sortInfo) {
 				return [rowGroup, ...rows];
 			}
 
-			const sortedColumnDef = tableColumnsDefs.find((columnDef) => (columnDef.id = sortInfo.columnId));
+			const sortedColumnDef = tableColumnsDefs.find((columnDef) => (columnDef.id = sortInfo!.columnId))!;
 
 			rows.sort((a, b) => {
 				if (sortedColumnDef.sortComparator) {
-					return sortedColumnDef.sortComparator(a.data[sortedColumnDef.id], b.data[sortedColumnDef.id], sortInfo.direction);
+					return sortedColumnDef.sortComparator(a.data[sortedColumnDef.id], b.data[sortedColumnDef.id], sortInfo!.direction);
 				}
 
 				// TODO: Built in sorts for string, number, date? Throw otherwise?
@@ -277,7 +273,7 @@ export function createTable<T>(
 					comparatorResult = -1;
 				}
 
-				return comparatorResult * (sortInfo.direction === COLUMN_SORT_DIRECTION.Asc ? 1 : -1);
+				return comparatorResult * (sortInfo!.direction === COLUMN_SORT_DIRECTION.Asc ? 1 : -1);
 			});
 
 			return [rowGroup, ...rows];
@@ -293,7 +289,7 @@ export function createTable<T>(
 
 	function sortColumn(columnId: keyof T, direction: COLUMN_SORT_DIRECTION) {
 		if (sortInfo) {
-			const colDefIndex = tableColumnsDefs.findIndex((columnDef) => (columnDef.id = sortInfo.columnId));
+			const colDefIndex = tableColumnsDefs.findIndex((columnDef) => (columnDef.id = sortInfo!.columnId));
 			tableHeaders[colDefIndex].clearColumnSort();
 			sortInfo = undefined;
 		}
@@ -328,4 +324,4 @@ export function createTable<T>(
 	};
 }
 
-export type TableElement<T> = ReturnType<typeof createTable<T>>;
+export type TableElement<T extends Record<string, any>> = ReturnType<typeof createTable<T>>;

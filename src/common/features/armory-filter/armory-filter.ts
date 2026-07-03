@@ -51,7 +51,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 			defaultValue: filters.factionArmory[itemType].name ?? "",
 			test: (row, name) => {
 				if (!name) return true;
-				return row.querySelector(".name").textContent.toLowerCase().includes(name.toLowerCase());
+				return row.querySelector(".name")!.textContent.toLowerCase().includes(name.toLowerCase());
 			},
 		}),
 	];
@@ -71,7 +71,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 				defaultValue: filters.factionArmory.weapons.category,
 				test: (row, category) => {
 					if (!category) return true;
-					const id = parseInt(row.querySelector<HTMLElement>(".img-wrap").dataset.itemid);
+					const id = parseInt(row.querySelector<HTMLElement>(".img-wrap")!.dataset.itemid!);
 					const item = ITEM_RESOLVER.getStaticItem(id);
 					const cat = item?.details && "category" in item.details ? String(item.details.category).toLowerCase() : item?.type;
 					return cat === category;
@@ -91,7 +91,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 				test: (row, weaponType) => {
 					if (!weaponType) return true;
 
-					const id = parseInt(row.querySelector<HTMLElement>(".img-wrap").dataset.itemid);
+					const id = parseInt(row.querySelector<HTMLElement>(".img-wrap")!.dataset.itemid!);
 					return ITEM_RESOLVER.getStaticItem(id)?.sub_type?.toLowerCase() === weaponType;
 				},
 			}),
@@ -104,7 +104,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 					const d = parseFloat(damage);
 					if (Number.isNaN(d)) return true;
 
-					return parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span").textContent) >= d;
+					return parseFloat(row.querySelector(".bonus-attachment-item-damage-bonus + span")!.textContent) >= d;
 				},
 			}),
 			textSection({
@@ -116,7 +116,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 					const a = parseFloat(accuracy);
 					if (Number.isNaN(a)) return true;
 
-					return parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span").textContent) >= a;
+					return parseFloat(row.querySelector(".bonus-attachment-item-accuracy-bonus + span")!.textContent) >= a;
 				},
 			}),
 			{
@@ -135,7 +135,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 					if (!toFilter.length) return true;
 
 					const found = Array.from(row.querySelectorAll(".bonuses .bonus > i:not(.bonus-attachment-blank-bonus-25)"))
-						.map((icon) => icon.getAttribute("title"))
+						.map((icon) => icon.getAttribute("title")!)
 						.map((title) => title.split("<br/>"))
 						.filter((values) => values.length >= 2)
 						.map(([bonus, description]) => ({
@@ -163,7 +163,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 				const d = parseFloat(defence);
 				if (Number.isNaN(d)) return true;
 
-				return parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span").textContent) >= d;
+				return parseFloat(row.querySelector(".bonus-attachment-item-defence-bonus + span")!.textContent) >= d;
 			},
 		}),
 		selectSection({
@@ -178,7 +178,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 			test: (row, set) => {
 				if (!set) return true;
 
-				const rowSet = row.querySelector(".name").textContent.split(" ")[0].toLowerCase();
+				const rowSet = row.querySelector(".name")!.textContent.split(" ")[0].toLowerCase();
 				if (set === "any") return ARMOR_SETS.map((x) => x.toLowerCase()).includes(rowSet);
 
 				return rowSet === set;
@@ -211,13 +211,13 @@ async function rebuildForTab(section: string) {
 		container: {
 			title: "Armory Filter",
 			class: "mt10",
-			nextElement: document.querySelector("#faction-armoury > hr"),
+			nextElement: document.querySelector("#faction-armoury > hr")!,
 		},
 		statisticsLabel: "items",
 		enabled: filters.factionArmory.enabled,
 		sections: buildSections(section),
 		onStateChange: async (state) => {
-			const specificState = { ...state };
+			const specificState: Omit<typeof state, "enabled"> = { ...state };
 			delete specificState.enabled;
 			delete specificState.hideUnavailable;
 

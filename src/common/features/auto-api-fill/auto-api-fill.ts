@@ -7,8 +7,8 @@ export function loadAutoAPIFill() {
 	if (!settings.pages.api.autoFillKey) return;
 
 	const input = document.querySelector<HTMLInputElement>("#api_key");
-	if (input.value) return;
+	if (!input || input.value) return;
 
-	input.value = api.torn.key;
+	input.value = api.torn.key!;
 	executeScript(browser.runtime.getURL("/api-key-focus--inject.js"));
 }

@@ -55,7 +55,7 @@ export class DualRangeSlider {
 		this.handles = findAllElements(".handle", this.slider);
 
 		this.handles.forEach((handle) => {
-			const input = this.slider.querySelector<HTMLElement>(`#${handle.getAttribute("for")}`);
+			const input = this.slider!.querySelector<HTMLElement>(`#${handle.getAttribute("for")}`)!;
 
 			handle.addEventListener("mousedown", this.startMove.bind(this));
 			handle.addEventListener("touchstart", this.startMoveTouch.bind(this));
@@ -92,10 +92,10 @@ export class DualRangeSlider {
 	moveKeyboard(event: KeyboardEvent) {
 		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
-		const handle = this.slider.querySelector<HTMLElement>(`.handle[for="${(event.target as Element).id}"]`);
+		const handle = this.slider!.querySelector<HTMLElement>(`.handle[for="${(event.target as Element).id}"]`);
 		if (!handle) return;
 
-		let value = parseInt(handle.dataset.value);
+		let value = parseInt(handle.dataset.value!);
 
 		if (event.key === "ArrowLeft") value -= this.options.step;
 		else if (event.key === "ArrowRight") value += this.options.step;
@@ -108,12 +108,12 @@ export class DualRangeSlider {
 	}
 
 	move(event: { clientX: number }) {
-		const parentRect = this.slider.getBoundingClientRect();
-		const handleRect = this.activeHandle.getBoundingClientRect();
+		const parentRect = this.slider!.getBoundingClientRect();
+		const handleRect = this.activeHandle!.getBoundingClientRect();
 
 		const position = Math.max(Math.min(event.clientX - parentRect.x - this.startPos, parentRect.width - handleRect.width / 2), 0 - handleRect.width / 2);
 
-		this.updateValue(this.activeHandle, this.calculateValue((position + handleRect.width / 2) / parentRect.width));
+		this.updateValue(this.activeHandle!, this.calculateValue((position + handleRect.width / 2) / parentRect.width));
 	}
 
 	calculateValue(percentage: number) {
@@ -133,8 +133,8 @@ export class DualRangeSlider {
 	}
 
 	updateValues() {
-		const valueLeft = parseInt(this.handles[0].dataset.value);
-		const valueRight = parseInt(this.handles[1].dataset.value);
+		const valueLeft = parseInt(this.handles[0]!.dataset.value!);
+		const valueRight = parseInt(this.handles[1]!.dataset.value!);
 
 		const low = Math.min(valueLeft, valueRight);
 		const high = Math.max(valueLeft, valueRight);
@@ -142,16 +142,16 @@ export class DualRangeSlider {
 		this.updateHighlight("left", low);
 		this.updateHighlight("right", high);
 
-		this.slider.dataset.low = low.toString();
-		this.slider.dataset.high = high.toString();
+		this.slider!.dataset.low = low.toString();
+		this.slider!.dataset.high = high.toString();
 	}
 
 	updateHighlight(side: string, value: number) {
-		const rangeWidth = this.slider.getBoundingClientRect().width || 150;
+		const rangeWidth = this.slider!.getBoundingClientRect().width || 150;
 		const handleWidth = this.handles[0].getBoundingClientRect().width || 21;
 
 		const percentage = (value - this.options.min) / (this.options.max - this.options.min);
 
-		this.slider.style.setProperty(`--${side}`, `${percentage * rangeWidth - handleWidth / 2}px`);
+		this.slider!.style.setProperty(`--${side}`, `${percentage * rangeWidth - handleWidth / 2}px`);
 	}
 }

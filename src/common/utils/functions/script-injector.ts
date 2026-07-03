@@ -48,7 +48,7 @@ export class RequestListenerInjector {
 export interface FetchDetails {
 	page: string;
 	text: string;
-	json: undefined | { [key: string]: any };
+	json: undefined | Record<string, any>;
 	fetch: {
 		url: string;
 		body: any;
@@ -68,13 +68,12 @@ export function injectFetchListeners() {
 						json = await response.clone().json();
 					} catch {}
 
-					let body = null;
+					let body: Record<string, any> | null = null;
 					if (init) {
-						body = init.body;
-						if (body !== null && typeof body === "object" && body?.constructor?.name === "FormData") {
+						if (typeof init.body === "object" && init.body?.constructor?.name === "FormData") {
 							const newBody: { [key: string]: any } = {};
 
-							for (const [key, value] of [...body]) {
+							for (const [key, value] of [...(init.body as any)]) {
 								if (isIntNumber(value)) newBody[key] = parseFloat(value);
 								else newBody[key] = value;
 							}
@@ -111,7 +110,7 @@ export type XHRDetails = {
 		requestBody: string;
 		response: any;
 		responseType: XMLHttpRequest["responseType"];
-		responseText: string;
+		responseText?: string;
 		responseURL: string;
 	};
 } & ({ json: any; uri: undefined } | { uri: { [key: string]: string }; json: undefined });
@@ -148,7 +147,7 @@ export function injectXhrListeners() {
 				if (isJsonString(this.response)) json = JSON.parse(this.response);
 				else uri = getUrlParams(this.responseURL);
 
-				let text: string;
+				let text: string | undefined;
 				if (this.responseType === "" || this.responseType === "text") text = this.responseText;
 
 				window.dispatchEvent(

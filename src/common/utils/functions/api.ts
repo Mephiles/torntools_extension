@@ -18,7 +18,7 @@ export function hasAPIData(): boolean {
 export function hasFactionAPIAccess(): boolean {
 	if (!hasAPIData()) return false;
 
-	return userdata.faction && factiondata?.access === FACTION_ACCESS.full_access;
+	return !!userdata.faction && factiondata?.access === FACTION_ACCESS.full_access;
 }
 
 export function hasOC2Data(): boolean {

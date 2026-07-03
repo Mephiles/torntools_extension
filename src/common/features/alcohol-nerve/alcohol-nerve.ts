@@ -24,9 +24,9 @@ function addNerveGains() {
 	findAllElements("[data-category='Alcohol']").forEach((alcoholicDrink) => {
 		if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;
 
-		const id = parseInt(alcoholicDrink.dataset.item);
+		const id = parseInt(alcoholicDrink.dataset.item!);
 		const item = ITEM_RESOLVER.getStaticItem(id);
-		if (!item) return;
+		if (!item?.effect) return;
 
 		let totalNerve = parseInt(
 			item.effect
@@ -50,7 +50,7 @@ function addNerveGains() {
 
 		const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
 		alcoholicDrink
-			.querySelector(".name-wrap")
+			.querySelector(".name-wrap")!
 			.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }));
 	});
 }

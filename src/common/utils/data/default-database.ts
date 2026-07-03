@@ -600,8 +600,8 @@ export const DEFAULT_STORAGE = {
 				bazaarOpen: new DefaultSetting<SpecialFilterValue>("string", "both"),
 			},
 			estimates: new DefaultSetting<string[]>("array", []),
-			ffScoreMax: new DefaultSetting("number", null),
-			ffScoreMin: new DefaultSetting("number", null),
+			ffScoreMax: new DefaultSetting<number | null>("number", null),
+			ffScoreMin: new DefaultSetting<number | null>("number", null),
 		},
 		abroadItems: {
 			enabled: new DefaultSetting("boolean", true),
@@ -819,8 +819,8 @@ export const DEFAULT_STORAGE = {
 		feedHidden: new DefaultSetting<StoredHiddenFeeds>("object", {}),
 		threadsHiddenInFeed: new DefaultSetting<number[]>("array", []),
 	},
-	stakeouts: new DefaultSetting<StoredStakeouts>("object", { list: [] } as StoredStakeouts),
-	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", { list: [] } as StoredFactionStakeouts),
+	stakeouts: new DefaultSetting<StoredStakeouts>("object", { list: [], date: 0 }),
+	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", { list: [], date: 0 }),
 	attackHistory: {
 		fetchData: new DefaultSetting("boolean", true),
 		lastAttack: new DefaultSetting("number", 0),

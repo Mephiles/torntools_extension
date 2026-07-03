@@ -123,7 +123,7 @@ async function addFilterContainer() {
 		container: {
 			title: "Abroad Item Filter",
 			class: "mb10",
-			nextElement: document.querySelector("[class*='shops__']"),
+			nextElement: document.querySelector("[class*='shops__']")!,
 		},
 		statisticsLabel: "items",
 		enabled: filters.abroadItems.enabled,

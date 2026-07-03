@@ -27,18 +27,16 @@ class TornToolsCache {
 	}
 
 	async remove(section: string, key?: CacheKey) {
-		if (!key) {
-			key = section;
-			section = null;
-		}
+		const actualKey: string | number = key ?? section;
+		const actualSection: string | null = key ? section : null;
 
-		if ((section && !this.hasValue(section, key)) || (!section && !this.hasValue(key.toString()))) {
+		if ((actualSection && !this.hasValue(actualSection, actualKey)) || (!actualSection && !this.hasValue(actualKey.toString()))) {
 			// Nothing to delete.
 			return;
 		}
 
-		if (section) delete this.cache[section][key];
-		else delete this.cache[key];
+		if (actualSection) delete this.cache[actualSection][actualKey];
+		else delete this.cache[actualKey];
 
 		this.schedulePersist();
 	}
@@ -48,19 +46,17 @@ class TornToolsCache {
 	}
 
 	private getCacheValue(section: string, key?: CacheKey): CacheValue | null {
-		if (!key) {
-			key = section;
-			section = null;
-		}
+		const actualKey: string | number = key ?? section;
+		const actualSection: string | null = key ? section : null;
 
 		let value: CacheValue | null = null;
-		if (section) {
-			if (section in this.cache && key in this.cache[section]) {
-				value = this.cache[section][key];
+		if (actualSection) {
+			if (section in this.cache && actualKey in this.cache[actualSection]) {
+				value = this.cache[actualSection][actualKey];
 			}
 		} else {
-			if (key in this.cache) {
-				value = this.cache[key];
+			if (actualKey in this.cache) {
+				value = this.cache[actualKey];
 			}
 		}
 

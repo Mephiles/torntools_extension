@@ -14,10 +14,20 @@ export function injectFetch() {
 	injectedFetch = true;
 }
 
-export function addFetchListener(callback: (event: CustomEventInit<FetchDetails>) => void) {
+type CustomEventInitWithRequiredDetail<T> = EventInit & { detail: T };
+
+function hasEventDetail<T>(event: CustomEventInit<T>): event is CustomEventInitWithRequiredDetail<T> {
+	return typeof event.detail !== "undefined";
+}
+
+export function addFetchListener(callback: (event: CustomEventInitWithRequiredDetail<FetchDetails>) => void) {
 	SCRIPT_INJECTOR.injectFetch();
 
-	window.addEventListener(EVENT_CHANNEL_FETCH, callback);
+	window.addEventListener(EVENT_CHANNEL_FETCH, (event: CustomEventInit<FetchDetails>) => {
+		if (!hasEventDetail(event)) return;
+
+		callback(event);
+	});
 }
 
 export function injectXHR() {
@@ -27,8 +37,12 @@ export function injectXHR() {
 	injectedXHR = true;
 }
 
-export function addXHRListener(callback: (event: CustomEventInit<XHRDetails>) => void) {
+export function addXHRListener(callback: (event: CustomEventInitWithRequiredDetail<XHRDetails>) => void) {
 	SCRIPT_INJECTOR.injectXHR();
 
-	window.addEventListener(EVENT_CHANNEL_XHR, callback);
+	window.addEventListener(EVENT_CHANNEL_XHR, (event: CustomEventInit<XHRDetails>) => {
+		if (!hasEventDetail(event)) return;
+
+		callback(event);
+	});
 }

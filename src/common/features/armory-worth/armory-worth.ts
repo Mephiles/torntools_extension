@@ -39,12 +39,12 @@ function addListener() {
 	});
 }
 
-async function addWorth(force: boolean) {
+async function addWorth(force: boolean = false) {
 	if (!force) return;
 
 	document.querySelector(".tt-armory-worth")?.remove();
 
-	const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement;
+	const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement!;
 	// TODO - Migrate to V2 (faction/weapons).
 	// TODO - Migrate to V2 (faction/armor).
 	// TODO - Migrate to V2 (faction/temporary).
@@ -56,7 +56,7 @@ async function addWorth(force: boolean) {
 	const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
 
 	if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
-		handleData(ttCache.get("armory", userdata.faction.id));
+		handleData(ttCache.get("armory", userdata.faction.id)!);
 	} else {
 		fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", legacySelections: selections })
 			.then((data) => {
@@ -88,7 +88,7 @@ async function addWorth(force: boolean) {
 		for (const type of selections) {
 			if (data[type]) {
 				for (const item of data[type]) {
-					total += ITEM_RESOLVER.getFullItem(item.ID).value.market_price * item.quantity;
+					total += ITEM_RESOLVER.getFullItem(item.ID)!.value.market_price * item.quantity;
 				}
 			}
 		}
@@ -116,7 +116,7 @@ async function addWorth(force: boolean) {
 
 function removeWorth() {
 	findAllElements(".tt-armory-worth").forEach((x) => {
-		x.parentElement.classList.remove("tt-modified");
+		x.parentElement!.classList.remove("tt-modified");
 		x.remove();
 	});
 }

@@ -86,7 +86,7 @@ export async function fetchData<R = any>(location: FetchLocation, partialOptions
 
 export function mergeOptions(partial: Partial<FetchOptions>): FetchOptions {
 	return {
-		section: undefined,
+		section: "",
 		id: undefined,
 		selections: [],
 		legacySelections: [],
@@ -129,7 +129,8 @@ export function buildFetchRequest(location: FetchLocation, options: FetchOptions
 }
 
 function buildUrl(location: FetchLocation, options: FetchOptions): string {
-	let path: string, pathSections: (string | number)[], key: string;
+	let path: string | undefined, pathSections: (string | number)[];
+	let key: string | undefined | null;
 
 	const params = new URLSearchParams();
 	switch (location) {
@@ -149,7 +150,7 @@ function buildUrl(location: FetchLocation, options: FetchOptions): string {
 			params.set("rfcv", getRFC());
 			break;
 		case "tornstats":
-			pathSections = ["api", "v2", options.key || api.tornstats.key || api.torn.key];
+			pathSections = ["api", "v2", options.key || api.tornstats.key || api.torn.key || ""];
 			if (options.section) pathSections.push(options.section);
 			if (options.id) pathSections.push(options.id);
 
@@ -184,7 +185,7 @@ function buildUrl(location: FetchLocation, options: FetchOptions): string {
 	}
 
 	if (options.includeKey) {
-		params.append("key", options.key || key || api.torn.key);
+		params.append("key", options.key || key || api.torn.key || "");
 	}
 
 	if (options.params) {

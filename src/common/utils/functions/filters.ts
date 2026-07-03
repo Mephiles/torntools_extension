@@ -73,12 +73,12 @@ export function getUserActivity(element: ParentNode): UserActivityStatus | "" {
 		const label = icon?.getAttribute("alt") || icon.closest("[aria-label]")?.getAttribute("aria-label");
 		const labelMatch = label?.match(/\b(online|idle|offline)\b/i);
 		if (labelMatch) {
-			return labelMatch[1].toLowerCase() as UserActivityStatus | undefined;
+			return labelMatch[1].toLowerCase() as UserActivityStatus;
 		}
 	}
 
-	const title = element.querySelector("#iconTray li").getAttribute("title");
-	const titleMatch = title.match(FILTER_REGEXES.activity);
+	const title = element.querySelector("#iconTray li")?.getAttribute("title");
+	const titleMatch = title?.match(FILTER_REGEXES.activity);
 	if (titleMatch) {
 		return titleMatch[0].toLowerCase().trim() as UserActivityStatus;
 	}
@@ -160,8 +160,8 @@ export function createStatistics(name = "entries", addBrackets = false, lowercas
 	});
 
 	function updateStatistics(count: number, total: number, content: HTMLElement) {
-		content.querySelector(".statistics .stat-count").textContent = count.toString();
-		content.querySelector(".statistics .stat-total").textContent = total.toString();
+		content.querySelector(".statistics .stat-count")!.textContent = count.toString();
+		content.querySelector(".statistics .stat-total")!.textContent = total.toString();
 	}
 
 	return { element: statistics, updateStatistics };
@@ -197,7 +197,7 @@ export function createFilterEnabledFunnel(partialOptions: Partial<FilterEnabledF
 		attributes: { id: options.id, title: "Disable this filter." },
 	});
 
-	let onChangeCallback: (enabled: boolean) => void;
+	let onChangeCallback: ((enabled: boolean) => void) | undefined;
 	let enabled = false;
 
 	function updateIcon() {
@@ -232,7 +232,7 @@ export function createFilterEnabledFunnel(partialOptions: Partial<FilterEnabledF
 
 		enabled = !enabled;
 		updateIcon();
-		onChangeCallback(enabled);
+		onChangeCallback?.(enabled);
 	}
 
 	updateIcon();
@@ -389,11 +389,11 @@ export function sliderSection(options: SliderSectionOptions): FilterSectionDef<S
 			});
 
 			const counter = elementBuilder({ type: "div", class: "slider-counter", text: "" });
-			const section = elementBuilder({ type: "div", class: "tt-slider", children: [slider.slider, counter] });
+			const section = elementBuilder({ type: "div", class: "tt-slider", children: [slider.slider!, counter] });
 
 			function readRange(): SliderRange {
-				const low = parseInt(slider.slider.dataset.low) ?? config.min;
-				const high = parseInt(slider.slider.dataset.high) ?? config.max;
+				const low = parseInt(slider.slider!.dataset!.low!) ?? config.min;
+				const high = parseInt(slider.slider!.dataset!.high!) ?? config.max;
 				return { start: Math.min(low, high), end: Math.max(low, high) };
 			}
 
@@ -408,7 +408,7 @@ export function sliderSection(options: SliderSectionOptions): FilterSectionDef<S
 			new MutationObserver(() => {
 				updateCounter();
 				onChange();
-			}).observe(slider.slider, { attributes: true });
+			}).observe(slider.slider!, { attributes: true });
 
 			return {
 				element: section,
@@ -551,7 +551,7 @@ interface FilterSectionInstance {
 
 type ActivityPresetSectionOptions = { preset: "activity"; defaults: string[] };
 type FactionPresetSectionOptions = { preset: "faction"; getOptions(): SelectOption[]; default: string };
-type FFScorePresetSectionOptions = { preset: "ff-score"; defaults: { min: number; max: number }; enabled(): boolean };
+type FFScorePresetSectionOptions = { preset: "ff-score"; defaults: { min: number | null; max: number | null }; enabled(): boolean };
 type StatsEstimatesPresetSectionOptions = { preset: "stats-estimates"; enabled(): boolean; defaults: string[] };
 type PresetSectionOptions = ActivityPresetSectionOptions | FactionPresetSectionOptions | FFScorePresetSectionOptions | StatsEstimatesPresetSectionOptions;
 
@@ -587,14 +587,14 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 			test: (row, faction) => {
 				if (!faction) return true;
 
-				const factionElement = row.querySelector<HTMLAnchorElement>(".user.faction");
+				const factionElement = row.querySelector<HTMLAnchorElement>(".user.faction")!;
 				const hasFaction = !!factionElement.href;
 
 				if (faction === "No faction") return !hasFaction;
 				if (faction === "In a faction") return hasFaction;
 
 				const factionName = factionElement.hasAttribute("rel")
-					? factionElement.querySelector<HTMLImageElement>(":scope > img").getAttribute("title").trim() || "N/A"
+					? factionElement.querySelector<HTMLImageElement>(":scope > img")?.getAttribute("title")?.trim() || "N/A"
 					: factionElement.textContent.trim();
 
 				if (faction === "Unknown faction") return hasFaction && factionName === "N/A";
@@ -644,7 +644,7 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 				const gauge = row.querySelector<HTMLElement>(".tt-ff-scouter-indicator.indicator-lines");
 				if (!gauge) return true;
 
-				const ff = parseFloat(gauge.getAttribute("data-ff-scout"));
+				const ff = parseFloat(gauge.getAttribute("data-ff-scout")!);
 				if (Number.isNaN(ff)) return true;
 
 				if (max && !Number.isNaN(max) && ff > max) return false;
@@ -665,12 +665,14 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 
 				const estimate = row.dataset.estimate?.toLowerCase();
 				if (estimate || !row.classList.contains("tt-estimated")) {
-					return estimates.includes(estimate);
+					return estimates.includes(estimate ?? "");
 				}
 				return true;
 			},
 		});
 	}
+
+	throw new Error(`Invalid preset options where provided: '${JSON.stringify(options)}`);
 }
 
 export function createFilter<State extends Record<string, unknown> & { enabled: boolean } = Record<string, unknown> & { enabled: boolean }>(options: {

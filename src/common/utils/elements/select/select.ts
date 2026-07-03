@@ -10,7 +10,7 @@ export interface SelectOption<TValue extends string = string> {
 export function createSelect<TValue extends string = string>(options: SelectOption<TValue>[]) {
 	let selectedOptionValue = options[0].value;
 	let shownOptions = options;
-	let onChangeCallback: () => void;
+	let onChangeCallback: (() => void) | undefined;
 
 	const select = elementBuilder({
 		type: "select",
@@ -21,7 +21,7 @@ export function createSelect<TValue extends string = string>(options: SelectOpti
 		// Adding the currently selected option when the current selection is not in new options.
 		// Applicable when the user wants to keep the filter selection for other pages.
 		if (options.every((option) => option.value !== selectedOptionValue))
-			options.unshift(shownOptions.find((option) => option.value === selectedOptionValue));
+			options.unshift(shownOptions.find((option) => option.value === selectedOptionValue)!);
 
 		const newOptions = _createOptionsElements(options);
 

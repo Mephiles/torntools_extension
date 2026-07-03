@@ -11,8 +11,11 @@ export async function loadAPISelections() {
 	findAllElements("p[class*='_fields']").forEach((fields) => {
 		fields.addEventListener("click", (event) => {
 			const s = window.getSelection();
+			if (!s) return;
+
 			const range = s.getRangeAt(0);
 			const node = s.anchorNode;
+			if (!node) return;
 
 			while (range.startOffset !== 0 && range.toString().indexOf(",") !== 0 && range.toString().indexOf(":") === -1) {
 				range.setStart(node, range.startOffset - 1);
@@ -21,18 +24,18 @@ export async function loadAPISelections() {
 
 			do {
 				range.setEnd(node, range.endOffset + 1);
-			} while (range.endOffset < node.textContent.length && range.toString().indexOf(",") === -1 && range.toString().trim() !== "");
+			} while (range.endOffset < node.textContent!.length && range.toString().indexOf(",") === -1 && range.toString().trim() !== "");
 			const selection = range.toString().replaceAll(",", "").trim();
 
-			const panel = (event.target as Element).closest("div.panel-group");
-			const selectionsInput = panel.querySelector<HTMLInputElement>("input[id*=selections]");
+			const panel = (event.target as Element).closest("div.panel-group")!;
+			const selectionsInput = panel.querySelector<HTMLInputElement>("input[id*=selections]")!;
 
 			if (event.ctrlKey) {
 				if (selectionsInput.value.trim() === "") selectionsInput.value = selection;
 				else if (!selectionsInput.value.includes(selection)) selectionsInput.value += `,${selection}`;
 			} else {
 				selectionsInput.value = selection;
-				panel.querySelector("button").click();
+				panel.querySelector("button")?.click();
 			}
 		});
 	});

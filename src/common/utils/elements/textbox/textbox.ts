@@ -57,7 +57,7 @@ export function createTextbox(partialOptions: Partial<TextboxOptions>): TextboxW
 		element = textbox;
 	}
 
-	let onChangeCallback: () => void;
+	let onChangeCallback: (() => void) | undefined;
 
 	function setValue(value: string) {
 		textbox.value = value;
@@ -86,7 +86,7 @@ export function createTextbox(partialOptions: Partial<TextboxOptions>): TextboxW
 	}
 
 	function _onChangeListener() {
-		onChangeCallback();
+		onChangeCallback?.();
 	}
 
 	return {

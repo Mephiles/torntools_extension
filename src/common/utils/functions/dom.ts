@@ -8,12 +8,12 @@ export let mobile: boolean, tablet: boolean, hasSidebar: boolean, tabletHorizont
 
 interface ElementBuilderOptions {
 	id?: string;
-	class?: string | string[];
+	class?: string | (string | null)[];
 	text?: string | number;
 	html?: string;
 	value?: any | (() => any);
 	href?: string;
-	children?: (string | Node)[];
+	children?: (string | Node | null | undefined)[];
 	attributes?: Record<string, string | number | boolean> | (() => Record<string, string | number | boolean>);
 	events?: Partial<{ [E in keyof GlobalEventHandlersEventMap]: (e: GlobalEventHandlersEventMap[E]) => void }>;
 	style?: { [P in keyof CSSStyleDeclaration as P extends string ? (CSSStyleDeclaration[P] extends string ? P : never) : never]?: CSSStyleDeclaration[P] };
@@ -30,7 +30,6 @@ export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K
 		return document.createElement(options);
 	} else if (typeof options === "object") {
 		options = {
-			type: "div",
 			id: undefined,
 			class: undefined,
 			text: undefined,
@@ -59,7 +58,7 @@ export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K
 		}
 		if (options.href && "href" in newElement) newElement.href = options.href;
 
-		for (const child of options.children.filter((child) => !!child) || []) {
+		for (const child of options.children?.filter((child): child is string | Node => !!child) || []) {
 			if (typeof child === "string") {
 				newElement.appendChild(document.createTextNode(child));
 			} else {
@@ -87,10 +86,10 @@ export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K
 	}
 }
 
-export function findElementWithText<K extends keyof HTMLElementTagNameMap>(tag: K, text: string): HTMLElementTagNameMap[K];
-export function findElementWithText<T extends Node = HTMLElement>(tag: string, text: string): T;
+export function findElementWithText<K extends keyof HTMLElementTagNameMap>(tag: K, text: string): HTMLElementTagNameMap[K] | null;
+export function findElementWithText<T extends Node = HTMLElement>(tag: string, text: string): T | null;
 
-export function findElementWithText<T = Node>(tag: string, text: string): T {
+export function findElementWithText<T = Node>(tag: string, text: string): T | null {
 	const node = document.evaluate(`//${tag}[contains(text(), '${text}')]`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 	if (!node) return null;
 
@@ -147,17 +146,17 @@ export function getHashParameters(hash?: string) {
 }
 
 interface FindParentOptions {
-	tag: string;
-	class: string;
-	partialClass: string;
-	id: string;
-	hasAttribute: string;
+	tag?: string;
+	class?: string;
+	partialClass?: string;
+	id?: string;
+	hasAttribute?: string;
 	maxAttempts: number;
 	currentAttempt: number;
 }
 
-export function findParent(element: Node, options: Partial<FindParentOptions> = {}) {
-	options = {
+export function findParent(element: Node, partialOptions: Partial<FindParentOptions> = {}) {
+	const options: FindParentOptions = {
 		tag: undefined,
 		class: undefined,
 		partialClass: undefined,
@@ -165,7 +164,7 @@ export function findParent(element: Node, options: Partial<FindParentOptions> = 
 		hasAttribute: undefined,
 		maxAttempts: -1,
 		currentAttempt: 1,
-		...options,
+		...partialOptions,
 	};
 
 	if (!element?.parentElement) return undefined;
@@ -175,19 +174,20 @@ export function findParent(element: Node, options: Partial<FindParentOptions> = 
 	if (options.id && element.parentElement.id === options.id) return element.parentElement;
 	if (
 		options.class &&
-		((Array.isArray(options.class) && options.class.some((c) => element.parentElement.classList.contains(c))) ||
+		element.parentElement &&
+		((Array.isArray(options.class) && options.class.some((c) => element.parentElement!.classList.contains(c))) ||
 			(!Array.isArray(options.class) && element.parentElement.classList.contains(options.class)))
 	)
 		return element.parentElement;
-	if (options.partialClass && Array.from(element.parentElement.classList).some((c) => c.startsWith(options.partialClass))) return element.parentElement;
+	if (options.partialClass && Array.from(element.parentElement.classList).some((c) => c.startsWith(options.partialClass!))) return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
-	return findParent(element.parentElement, { ...options, currentAttempt: options.currentAttempt + 1 });
+	return findParent(element.parentElement, { ...options, currentAttempt: (options.currentAttempt ?? 0) + 1 });
 }
 
 export function rotateElement(element: HTMLElement | SVGElement, degrees: number) {
 	let uuid: string;
-	if (element.hasAttribute("rotate-id")) uuid = element.getAttribute("rotate-id");
+	if (element.hasAttribute("rotate-id")) uuid = element.getAttribute("rotate-id")!;
 	else {
 		uuid = getUUID();
 		element.setAttribute("rotate-id", uuid);
@@ -223,7 +223,7 @@ export function rotateElement(element: HTMLElement | SVGElement, degrees: number
 type TableSortOrder = "asc" | "desc" | "none";
 
 export function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrder) {
-	const header = table.querySelector(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
+	const header = table.querySelector(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`)!;
 	let icon = header.querySelector<SVGElement>("svg");
 	if (order) {
 		if (icon) {
@@ -266,7 +266,7 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 
 		order = "asc";
 	}
-	icon.dataset.order = order;
+	icon!.dataset.order = order;
 
 	table.dataset.ttSortColumn = columnPlace.toString();
 	table.dataset.ttSortOrder = order;
@@ -304,15 +304,15 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 		return rows;
 
 		function sortHelper(elementA: HTMLElement, elementB: HTMLElement) {
-			elementA = elementA.querySelector(`:scope > *:nth-child(${columnPlace})`);
-			elementB = elementB.querySelector(`:scope > *:nth-child(${columnPlace})`);
+			elementA = elementA.querySelector(`:scope > *:nth-child(${columnPlace})`)!;
+			elementB = elementB.querySelector(`:scope > *:nth-child(${columnPlace})`)!;
 
 			let valueA: string, valueB: string;
 			if (elementA.hasAttribute("sort-type")) {
 				switch (elementA.getAttribute("sort-type")) {
 					case "date":
-						valueA = elementA.getAttribute("value");
-						valueB = elementB.getAttribute("value");
+						valueA = elementA.getAttribute("value")!;
+						valueB = elementB.getAttribute("value")!;
 
 						if (Date.parse(valueA)) valueA = Date.parse(valueA).toString();
 						if (Date.parse(valueB)) valueA = Date.parse(valueB).toString();
@@ -321,23 +321,23 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 						valueA =
 							elementA.dataset[
 								getComputedStyle(elementA)
-									.getPropertyValue("--currentValue")
-									.match(/attr\(data-(.*)\)/i)[1]
-							];
+									.getPropertyValue("--currentValue")!
+									.match(/attr\(data-(.*)\)/i)![1]
+							]!;
 						valueB =
 							elementB.dataset[
 								getComputedStyle(elementB)
-									.getPropertyValue("--currentValue")
-									.match(/attr\(data-(.*)\)/i)[1]
-							];
+									.getPropertyValue("--currentValue")!
+									.match(/attr\(data-(.*)\)/i)![1]
+							]!;
 						break;
 					default:
 						console.warn("Attempting to sort by a non-existing type.", elementA.getAttribute("sort-type"));
 						return { a: 0, b: 0 }; // Keep original sorting order this way.
 				}
 			} else if (elementA.hasAttribute("value")) {
-				valueA = elementA.getAttribute("value");
-				valueB = elementB.getAttribute("value");
+				valueA = elementA.getAttribute("value")!;
+				valueB = elementB.getAttribute("value")!;
 			} else {
 				valueA = elementA.textContent;
 				valueB = elementB.textContent;
@@ -365,7 +365,7 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 export function resortTable(table: HTMLElement) {
 	if (!("ttSortColumn" in table.dataset) || !("ttSortOrder" in table.dataset)) return;
 
-	const column = parseInt(table.dataset.ttSortColumn);
+	const column = parseInt(table.dataset.ttSortColumn!);
 	const order = table.dataset.ttSortOrder as TableSortOrder;
 
 	sortTable(table, column, order);
@@ -439,14 +439,14 @@ export function showInformationSection() {
 }
 
 export function isElement(node: Node | EventTarget | null): node is Element {
-	return node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && typeof (node as Element).className === "string";
+	return !!node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && typeof (node as Element).className === "string";
 }
 
 export function isTextNode(node: Node): node is Text {
 	return node.nodeType === Node.TEXT_NODE;
 }
 
-export function isHTMLElement(node: Node | EventTarget): node is HTMLElement {
+export function isHTMLElement(node: Node | EventTarget | null): node is HTMLElement {
 	return isElement(node) && "dataset" in node && "title" in node;
 }
 
@@ -455,7 +455,7 @@ export function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node
 }
 
 export function isSVGElement(node: Node | EventTarget | null): node is SVGElement {
-	return node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && "ownerSVGElement" in node;
+	return !!node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && "ownerSVGElement" in node;
 }
 
 export function isCustomEvent<T>(event: Event): event is CustomEvent<T> {

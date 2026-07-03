@@ -44,7 +44,7 @@ async function showAchievements() {
 			.map<EnrichedAchievement>((achievement) => {
 				const goals: EnrichedGoal[] = [];
 				let current: number;
-				let completed: boolean;
+				let completed: boolean = false;
 
 				try {
 					current = achievement.stats();
@@ -121,8 +121,7 @@ async function showAchievements() {
 			applyRounding: false,
 			contentBackground: false,
 			compact: true,
-			previousElement:
-				findElementWithText<Element>("h2", "Areas").closest("[class*='sidebar-block_']") ?? document.querySelector("#sidebar [class*=areas___]"),
+			previousElement: findElementWithText("h2", "Areas")!.closest("[class*='sidebar-block_']") ?? document.querySelector("#sidebar [class*=areas___]")!,
 		});
 		showTimer();
 
@@ -202,8 +201,8 @@ async function showAchievements() {
 
 			const progress = elementBuilder({ type: "ol", class: "awards-progress" });
 
-			const score = parseInt(target.dataset.score);
-			const goals = JSON.parse(target.dataset.goals);
+			const score = parseInt(target.dataset.score!);
+			const goals = JSON.parse(target.dataset.goals!);
 
 			let addedScore = false;
 			for (const goal of goals) {

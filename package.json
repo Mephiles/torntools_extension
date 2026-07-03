@@ -3,6 +3,7 @@
 	"version": "9.0.13",
 	"type": "module",
 	"scripts": {
+		"types": "tsc --noEmit --pretty",
 		"types:watch": "tsc --noEmit --watch --pretty",
 		"dev:chrome": "concurrently --names TSC,WXT \"bun run types:watch\" \"wxt\"",
 		"dev:firefox": "concurrently --names TSC,WXT \"bun run types:watch\" \"wxt -b firefox --mv3\"",

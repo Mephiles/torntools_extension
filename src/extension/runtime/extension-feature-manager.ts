@@ -482,15 +482,15 @@ export class ExtensionFeatureManager implements FeatureManager {
 	hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
 
-		findAllElements(".tt-features-list > div[scope]", this.container).forEach((scopeDiv) => {
+		findAllElements(".tt-features-list > div[scope]", this.container!).forEach((scopeDiv) => {
 			let hideScope = false;
 			if (settings.featureDisplayOnlyFailed && findAllElements(":scope > .tt-feature[status*='failed']", scopeDiv).length === 0) hideScope = true;
 			if (settings.featureDisplayHideDisabled && findAllElements(":scope > .tt-feature:not([status*='disabled'])", scopeDiv).length === 0)
 				hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
-		if (!this.container.querySelector(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");
-		else this.container.classList.remove("no-content");
+		if (!this.container!.querySelector(".tt-features-list > div[scope]:not(.no-content)")) this.container!.classList.add("no-content");
+		else this.container!.classList.remove("no-content");
 	}
 
 	isEnabled<T extends Feature>(featureConstructor: new () => T): boolean {
