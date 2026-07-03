@@ -26,6 +26,10 @@ async function showNotes() {
 			class: "notes",
 			value: notes.sidebar.text,
 			style: { height: notes.sidebar.height },
+			attributes: {
+				autocomplete: "off",
+				name: "tt-sidebar-note",
+			},
 			events: {
 				async mouseup(event) {
 					if (!isHTMLElement(event.target) || event.target.style.height === notes.sidebar.height) return;
