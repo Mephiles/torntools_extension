@@ -1,4 +1,6 @@
 <script lang="ts">
+	import PriorityServiceConfiguration
+		from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
@@ -16,6 +18,23 @@
 			</PreferenceSettingGroup>
 
 			<StorageSwitch path="settings.pages.profile.box" label="Show the profile box">
+				{#snippet titleAction()}
+					<PriorityServiceConfiguration
+							title="Spy"
+							services={[
+								{
+									name: "TornStats",
+									pathEnabled: "settings.servicePreferences.spies.tornstats.enabled",
+									pathPriority: "settings.servicePreferences.spies.tornstats.priority"
+								},
+								{
+									name: "YATA",
+									pathEnabled: "settings.servicePreferences.spies.yata.enabled",
+									pathPriority: "settings.servicePreferences.spies.yata.priority"
+								}
+						]} />
+				{/snippet}
+
 				<StorageSwitch path="settings.pages.profile.boxFetch" label="Automatically fetch data from the API" />
 				<StorageSwitch path="settings.pages.profile.boxStats" label="Display personal stats" />
 				<StorageSwitch path="settings.pages.profile.boxSpy" label="Show known spy results" />

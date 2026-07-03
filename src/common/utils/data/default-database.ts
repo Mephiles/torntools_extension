@@ -537,6 +537,18 @@ export const DEFAULT_STORAGE = {
 			tornintel: new DefaultSetting("boolean", false),
 			playgroundTorntools: new DefaultSetting("boolean", false),
 		},
+		servicePreferences: {
+			spies: {
+				tornstats: {
+					enabled: new DefaultSetting("boolean", true),
+					priority: new DefaultSetting("number", 1),
+				},
+				yata: {
+					enabled: new DefaultSetting("boolean", true),
+					priority: new DefaultSetting("number", 2),
+				},
+			},
+		},
 		reporting: {},
 	},
 	filters: {

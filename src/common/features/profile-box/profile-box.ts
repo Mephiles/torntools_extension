@@ -7,20 +7,19 @@ import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createTable, stringCellRenderer } from "@common/utils/elements/table/table";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
-import type { TornstatsSpy, YATASpyResponse } from "@common/utils/functions/api.types";
-import { CUSTOM_API_ERROR, fetchData } from "@common/utils/functions/api-fetcher";
+import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
-import { formatNumber, formatTime } from "@common/utils/functions/formatting";
+import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@common/utils/functions/torn";
-import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { PHBoldArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
 import { STATS } from "@features/profile-box/stats-list";
 import Sortable from "sortablejs";
 import type { UserHofResponse, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
+import { performSpy } from "./spy-performer";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {
 	let node: Node;
@@ -287,10 +286,10 @@ async function showBox() {
 			section.appendChild(elementBuilder({ type: "div", class: "stats-error-message", text: "Failed to fetch data." }));
 		}
 
-		showLoadingPlaceholder(section as HTMLElement, false);
+		showLoadingPlaceholder(section, false);
 
 		async function onStatClick(event: Event) {
-			const row = (event.target as Element).closest(".tt-table-row") as HTMLElement;
+			const row = (event.target as Element).closest<HTMLElement>(".tt-table-row");
 			if (!row) return;
 
 			const table = row.closest(".tt-table")!;
@@ -422,18 +421,6 @@ async function showBox() {
 		}
 	}
 
-	type SpyResult = {
-		defense: number;
-		dexterity: number;
-		speed: number;
-		strength: number;
-		total: number;
-		type: string | false;
-		timestamp: number;
-		updated: string;
-		source: string;
-	};
-
 	async function buildSpy(ignoreCache: boolean) {
 		if (!settings.pages.profile.boxSpy || !settings.apiUsage.user.battlestats) return;
 
@@ -442,132 +429,7 @@ async function showBox() {
 
 		showLoadingPlaceholder(section, true);
 
-		const errors: { service: string; message: string }[] = [];
-		let spy: SpyResult | null = null;
-		let isCached = false;
-		if (settings.external.yata) {
-			try {
-				let result: YATASpyResponse["spies"][string];
-				if (!ignoreCache && ttCache.hasValue("yata-spy", id)) {
-					result = ttCache.get("yata-spy", id);
-					isCached = true;
-				} else {
-					const yataResult = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spy", id, includeKey: true, silent: true });
-
-					if (!("error" in yataResult) && yataResult.spies[id]) {
-						result = {
-							...yataResult.spies[id],
-							update: yataResult.spies[id].update * 1000,
-						};
-					}
-
-					ttCache.set({ [id]: result || false }, getCacheTime(!result, result?.update * 1000), "yata-spy");
-					isCached = false;
-				}
-
-				if (result) {
-					spy = {
-						defense: result.defense,
-						dexterity: result.dexterity,
-						speed: result.speed,
-						strength: result.strength,
-						total: result.total,
-
-						type: false,
-						timestamp: result.update,
-						updated: formatTime(result.update, { type: "ago" }),
-						source: "YATA",
-					};
-				}
-			} catch (error) {
-				if (typeof error.error === "object" && error.error !== null) {
-					const { code, error: message } = error.error;
-
-					if (code === 2 && message === "Player not found") errors.push({ service: "YATA", message: "You don't have an account." });
-					else if (code === 429) errors.push({ service: "YATA", message: "Due to server overload, YATA is imposing a rate limit." });
-					else if (code === 502) errors.push({ service: "YATA", message: "YATA appears to be down." });
-					else errors.push({ service: "YATA", message: `Unknown (${code}) - ${message}` });
-				} else if (error.code === 502) {
-					errors.push({ service: "YATA", message: "YATA appears to be down." });
-				} else if (error.code === CUSTOM_API_ERROR.CANCELLED) {
-					errors.push({ service: "YATA", message: "Request took too long, YATA is probably taking too long to respond." });
-				} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
-					errors.push({ service: "YATA", message: "Network issues. You likely have no internet at this moment." });
-				} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
-					errors.push({ service: "YATA", message: "Permission not granted. Please make sure YATA has permission to run." });
-				} else errors.push({ service: "YATA", message: `Unknown - ${JSON.stringify(error)}` });
-
-				console.log("Couldn't load stat spy from YATA.", error);
-			}
-		}
-		if (settings.external.tornstats) {
-			try {
-				let result: { status: boolean; message: string; spy: undefined | TornstatsSpy["spy"] };
-				if (!ignoreCache && ttCache.hasValue("tornstats-spy", id)) {
-					result = ttCache.get("tornstats-spy", id);
-					isCached = true;
-				} else {
-					result = await fetchData<TornstatsSpy>("tornstats", { section: "spy/user", id, silent: true, relay: true });
-
-					result = {
-						status: result.status,
-						message: result.message,
-						spy: result.spy,
-					};
-
-					ttCache.set(
-						{ [id]: result },
-						getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
-						"tornstats-spy",
-					);
-					isCached = false;
-				}
-
-				if (result.spy?.status) {
-					const timestamp = result.spy.timestamp * 1000;
-
-					if (!spy || timestamp > spy.timestamp) {
-						spy = {
-							defense: result.spy.defense,
-							dexterity: result.spy.dexterity,
-							speed: result.spy.speed,
-							strength: result.spy.strength,
-							total: result.spy.total,
-
-							type: result.spy.type,
-							timestamp,
-							updated: result.spy.difference,
-							source: "TornStats",
-						};
-					}
-				} else {
-					if (!result.status) {
-						if (result.message) {
-							if (result.message.includes("User not found.")) errors.push({ service: "TornStats", message: "You don't have an account." });
-							else if (result.spy.message.includes("Spy not found.")) errors.push({ service: "TornStats", message: "No spy found." });
-							else errors.push({ service: "TornStats", message: `Unknown - ${result.message}` });
-						} else {
-							errors.push({ service: "TornStats", message: `Unknown - ${JSON.stringify(result)}` });
-						}
-					}
-				}
-			} catch (error) {
-				if (typeof error.error === "object" && error.error !== null) {
-					const { code, error: message } = error.error;
-
-					if (code === 429) errors.push({ service: "TornStats", message: "You've exceeded your API limit. Try again in a minute." });
-					else errors.push({ service: "TornStats", message: `Unknown (${code}) - ${message}` });
-				} else if (error.code === 502) {
-					errors.push({ service: "TornStats", message: "TornStats appears to be down." });
-				} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK || error.code === CUSTOM_API_ERROR.CANCELLED) {
-					errors.push({ service: "TornStats", message: "Network issues. You likely have no internet at this moment." });
-				} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
-					errors.push({ service: "TornStats", message: "Permission not granted. Please make sure TornStats has permission to run." });
-				} else errors.push({ service: "TornStats", message: `Unknown - ${JSON.stringify(error)}` });
-
-				console.log("Couldn't load stat spy from TornStats.", error);
-			}
-		}
+		const { result: spy, isCached, errors } = await performSpy(id, ignoreCache);
 
 		showLoadingPlaceholder(section as HTMLElement, false);
 
@@ -673,17 +535,6 @@ async function showBox() {
 
 		function getRelative(them: StatValue, your: StatValue) {
 			return them === "N/A" || your === "N/A" ? "N/A" : your - them;
-		}
-
-		function getCacheTime(hasSpy: boolean, timestamp: number) {
-			if (!hasSpy) {
-				return TO_MILLIS.HOURS;
-			}
-
-			const days = timestamp / TO_MILLIS.DAYS;
-
-			if (days > 31) return TO_MILLIS.HOURS * 6;
-			else return TO_MILLIS.DAYS;
 		}
 	}
 

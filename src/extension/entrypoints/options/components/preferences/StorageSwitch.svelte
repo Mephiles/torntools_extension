@@ -49,11 +49,10 @@
 	<Field.Field orientation="horizontal" class="p-2">
 		<Field.Content>
 			<div class="flex flex-wrap items-center gap-2">
-				<Field.Label for={id} class="w-full">{label}</Field.Label>
+				<Field.Label for={id} class="w-full">{label}{@render titleAction?.()}</Field.Label>
 				{#if externalServices.length}
 					<ExternalServiceRequirement services={externalServices} />
 				{/if}
-				{@render titleAction?.()}
 			</div>
 			{#if description}
 				<Field.Description class="text-xs">{description}</Field.Description>

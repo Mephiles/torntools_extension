@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as Field from "@svelte/components/ui/field";
+	import type { FieldOrientation } from "@svelte/components/ui/field/field.svelte";
 	import { Input } from "@svelte/components/ui/input";
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
 	import { getPreferenceValue, type NumberPreferenceStoragePath, updatePreferenceValue } from "./preference-storage";
@@ -13,6 +14,7 @@
 		max?: number;
 		step?: number;
 		disabled?: boolean;
+		orientation?: FieldOrientation;
 	}
 
 	let {
@@ -24,6 +26,7 @@
 		max = undefined,
 		step = undefined,
 		disabled = false,
+		orientation = "responsive",
 	}: StorageNumberProps = $props();
 
 	const storageSource = $derived({ settings: $settingsStore, api: $apiStore });
@@ -34,7 +37,7 @@
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+<Field.Field {orientation} class="rounded-md border border-border bg-background/60 p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
