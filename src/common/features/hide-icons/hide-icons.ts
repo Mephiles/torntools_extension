@@ -68,7 +68,12 @@ export default class HideIconsFeature extends Feature {
 	}
 
 	async requirements() {
-		await requireSidebar();
+		const hasSidebar = await requireSidebar().then(
+			() => true,
+			() => false,
+		);
+		if (!hasSidebar) return "No sidebar present";
+
 		return true;
 	}
 
