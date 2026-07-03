@@ -15,7 +15,8 @@
 				{
 					"message": "Disable sidebar notes autocomplete, as a possible fix for the bug where it appears in the chat.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Fix energy and nerve refill highlighting not working with the flyout bar.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Persist notification relations so clicking 'old' notifications still opens the correct link.", "contributor": "DeKleineKobini" }
