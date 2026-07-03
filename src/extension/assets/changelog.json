@@ -18,7 +18,8 @@
 				},
 				{ "message": "Fix energy and nerve refill highlighting not working with the flyout bar.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Request Revive' no longer functioning.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with 'Hide Icons' with the flyout sidebar if you are on a page without sidebar.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with 'Hide Icons' with the flyout sidebar if you are on a page without sidebar.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with 'Attack Timeout Error' when loading an attack window without enough energy.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Persist notification relations so clicking 'old' notifications still opens the correct link.", "contributor": "DeKleineKobini" }

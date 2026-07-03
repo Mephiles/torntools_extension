@@ -23,6 +23,8 @@ async function addListener() {
 		});
 	}
 
+	if (document.querySelector("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialog___'][class*='red___']")) return;
+
 	const timeoutValue = await requireElement("span[id^='timeout-value'], [class*='labelContainer___']:nth-child(2) [class*='labelTitle___']");
 
 	observer = new MutationObserver((mutations) => {
