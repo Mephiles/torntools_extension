@@ -41,7 +41,7 @@ async function fetchUserPerks(key: string) {
 		includeKey: true,
 	});
 
-	await ttCache.set({ "tt-user-perks": data }, TO_MILLIS.DAYS);
+	ttCache.set({ "tt-user-perks": data }, TO_MILLIS.DAYS);
 
 	setUserdata({ ...userdata, ...data });
 }

@@ -70,7 +70,7 @@ class TornToolsCache {
 		else return value.timeout > Date.now() ? value : null;
 	}
 
-	async set(object: DatabaseCache, ttl: number, section?: string) {
+	set(object: DatabaseCache, ttl: number, section?: string) {
 		return this._set(object, ttl, section);
 	}
 
@@ -78,7 +78,7 @@ class TornToolsCache {
 		return this._set(object, null, section);
 	}
 
-	private async _set(object: DatabaseCache, ttl: number | null, section?: string) {
+	private _set(object: DatabaseCache, ttl: number | null, section?: string) {
 		const timeout = ttl === null ? null : Date.now() + ttl;
 		if (section) {
 			if (!(section in this.cache)) this.cache[section] = {};

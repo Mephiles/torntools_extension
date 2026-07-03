@@ -65,7 +65,7 @@
             selections: ["itemmarket"],
             params: { limit: 3 },
         });
-        void ttCache.set({[itemId]: result}, TO_MILLIS.SECONDS * 30, "livePrice");
+        ttCache.set({[itemId]: result}, TO_MILLIS.SECONDS * 30, "livePrice");
         return result;
 	}
 
@@ -75,7 +75,7 @@
 		}
 
 		const result = await fetchData<TornW3BResult>("tornw3b", { section: `marketplace/${itemId}` });
-        void ttCache.set({[itemId]: result}, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
+        ttCache.set({[itemId]: result}, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
         return result;
 	}
 </script>

@@ -42,9 +42,9 @@ async function fetchLiveNetworthData(key: string) {
 	});
 	const date = Date.now();
 
-	await ttCache.set({ "tt-personalstats": data.personalstats }, TO_MILLIS.HOURS);
-	await ttCache.set({ "tt-networth": data.networth }, TO_MILLIS.MINUTES * 30);
-	await ttCache.setIndefinite({ "tt-live-networth-update": date });
+	ttCache.set({ "tt-personalstats": data.personalstats }, TO_MILLIS.HOURS);
+	ttCache.set({ "tt-networth": data.networth }, TO_MILLIS.MINUTES * 30);
+	ttCache.setIndefinite({ "tt-live-networth-update": date });
 
 	setUserdata({ ...userdata, ...data, date });
 }

@@ -227,7 +227,7 @@ export class StatsEstimate {
 		if (isOldSystem) return "N/A";
 
 		const estimate = this.getEstimate(rank, level, crimes, networth);
-		this.cacheResult(id, estimate, lastAction * 1000).catch((error) => console.error("Failed to cache stat estimate.", error));
+		this.cacheResult(id, estimate, lastAction * 1000);
 
 		return estimate;
 	}

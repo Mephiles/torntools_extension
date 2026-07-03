@@ -65,7 +65,7 @@ async function showNNB() {
 					result = await fetchData<TornstatsFactionCrimes>("tornstats", { section: "faction/crimes", relay: true });
 
 					if (result.status) {
-						ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").catch((err) => console.debug(err));
+						ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes");
 					}
 				} catch (error) {
 					console.log("TT - Failed to load crimes from TornStats.", error);
@@ -102,7 +102,7 @@ async function showNNB() {
 				try {
 					result = await fetchData<YATAFactionMembers>("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
 
-					ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes").catch((err) => console.debug(err));
+					ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes");
 				} catch (error) {
 					console.log("TT - Failed to load crimes from YATA.", error);
 					return;

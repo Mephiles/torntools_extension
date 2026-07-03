@@ -64,7 +64,7 @@ export async function readCompanyDetails() {
 		const data = await fetchData("tornv2", { section: "user", selections: ["job"], id: userID });
 		const companyID = data.job?.id;
 
-		void ttCache.set({ [userID]: companyID }, TO_MILLIS.DAYS, "company-id");
+		ttCache.set({ [userID]: companyID }, TO_MILLIS.DAYS, "company-id");
 
 		return companyID;
 	}

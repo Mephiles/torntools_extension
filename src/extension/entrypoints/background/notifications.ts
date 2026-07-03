@@ -181,7 +181,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 		if (settings.notifications.link) {
 			const relation: NotificationRelation = { link: url };
 
-			await ttCache.set({ [id]: relation }, TO_MILLIS.DAYS * 3, "notification-relations");
+			ttCache.set({ [id]: relation }, TO_MILLIS.DAYS * 3, "notification-relations");
 		}
 	}
 

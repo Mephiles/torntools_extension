@@ -34,7 +34,7 @@ async function fetchWeaponExperienceData(key: string) {
 		includeKey: true,
 	});
 
-	await ttCache.set({ "tt-weapon-experience": data.weaponexp }, TO_MILLIS.MINUTES * 15);
+	ttCache.set({ "tt-weapon-experience": data.weaponexp }, TO_MILLIS.MINUTES * 15);
 
 	setUserdata({ ...userdata, ...data });
 }

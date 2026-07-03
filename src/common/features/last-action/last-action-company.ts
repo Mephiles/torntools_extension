@@ -46,7 +46,7 @@ async function addLastAction(force: boolean) {
 			})
 		).company.employees;
 
-		ttCache.set({ [id]: employees }, TO_MILLIS.SECONDS * 30, "company-employees").catch((err) => console.debug(err));
+		ttCache.set({ [id]: employees }, TO_MILLIS.SECONDS * 30, "company-employees");
 	}
 
 	const now = Date.now();
@@ -87,7 +87,7 @@ async function extractCompanyId(): Promise<number> {
 
 		if (directorData.job && directorData.job.type === "company") {
 			const companyId = directorData.job.id;
-			ttCache.set({ [companyName]: companyId }, TO_MILLIS.SECONDS * 30, "company-ids").catch((err) => console.debug(err));
+			ttCache.set({ [companyName]: companyId }, TO_MILLIS.SECONDS * 30, "company-ids");
 			return companyId;
 		}
 	}

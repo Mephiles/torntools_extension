@@ -130,7 +130,7 @@ async function fetchSpies(factionID: number) {
 		if (ttCache.hasValue("faction-spy-tornstats", factionID)) data = ttCache.get<TornstatsFactionSpyResponse>("faction-spy-tornstats", factionID);
 		else {
 			data = await fetchData<TornstatsFactionSpyResponse>("tornstats", { section: "spy/faction", id: factionID });
-			void ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-tornstats");
+			ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-tornstats");
 		}
 
 		if (data.status && data.faction.spies) {
@@ -141,7 +141,7 @@ async function fetchSpies(factionID: number) {
 		if (ttCache.hasValue("faction-spy-yata", factionID)) data = ttCache.get<YATASpyResponse>("faction-spy-yata", factionID);
 		else {
 			data = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spies", includeKey: true, params: { faction: factionID } });
-			void ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-yata");
+			ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-yata");
 		}
 
 		if (Object.keys(data.spies).length) {

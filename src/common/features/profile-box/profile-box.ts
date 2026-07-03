@@ -192,7 +192,7 @@ async function showBox() {
 
 				triggerCustomListener(EVENT_CHANNELS.PROFILE_FETCHED, { data });
 
-				ttCache.set({ [id]: data }, millisToNewDay(), "personal-stats").catch(() => {});
+				ttCache.set({ [id]: data }, millisToNewDay(), "personal-stats");
 			} catch (error) {
 				console.log("TT - Couldn't fetch users stats.", error);
 			}
@@ -461,7 +461,7 @@ async function showBox() {
 						};
 					}
 
-					ttCache.set({ [id]: result || false }, getCacheTime(!result, result?.update * 1000), "yata-spy").catch((err) => console.debug(err));
+					ttCache.set({ [id]: result || false }, getCacheTime(!result, result?.update * 1000), "yata-spy");
 					isCached = false;
 				}
 
@@ -515,13 +515,11 @@ async function showBox() {
 						spy: result.spy,
 					};
 
-					ttCache
-						.set(
-							{ [id]: result },
-							getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
-							"tornstats-spy",
-						)
-						.catch((err) => console.debug(err));
+					ttCache.set(
+						{ [id]: result },
+						getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
+						"tornstats-spy",
+					);
 					isCached = false;
 				}
 

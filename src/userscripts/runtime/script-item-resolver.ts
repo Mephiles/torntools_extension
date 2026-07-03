@@ -48,7 +48,7 @@ export const ScriptItemResolver: ItemResolver & {
 
 		this.items = Object.values(itemsMap);
 		this.itemsMap = itemsMap;
-		void ttCache.set({ "static-data": { "items-map": itemsMap } }, millisToNewDay());
+		ttCache.set({ "static-data": { "items-map": itemsMap } }, millisToNewDay());
 	},
 	getAllFullItems(): FullItem[] {
 		return this.items as FullItem[];

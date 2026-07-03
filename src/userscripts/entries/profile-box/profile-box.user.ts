@@ -49,9 +49,9 @@ async function fetchProfileUserdata(key: string) {
 		params: { cat: "all" },
 	});
 
-	await ttCache.set({ "tt-profile-box-data": data }, TO_MILLIS.DAYS);
-	await ttCache.set({ "tt-workstats": data.workstats }, TO_MILLIS.DAYS);
-	await ttCache.set({ "tt-personalstats": data.personalstats }, TO_MILLIS.DAYS);
+	ttCache.set({ "tt-profile-box-data": data }, TO_MILLIS.DAYS);
+	ttCache.set({ "tt-workstats": data.workstats }, TO_MILLIS.DAYS);
+	ttCache.set({ "tt-personalstats": data.personalstats }, TO_MILLIS.DAYS);
 
 	setUserdata({ ...userdata, ...data });
 }

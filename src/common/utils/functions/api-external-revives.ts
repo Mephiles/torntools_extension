@@ -200,7 +200,7 @@ export function doRequestRevive(id: string, name: string, country: string, facti
 			.doRequest(id, name, country, faction, source)
 			.then(({ response, contract }) => {
 				if (hasCooldown) {
-					void ttCache.set({ [`revive-${provider.provider}`]: Date.now() }, provider.cooldown, "cooldown");
+					ttCache.set({ [`revive-${provider.provider}`]: Date.now() }, provider.cooldown, "cooldown");
 				}
 				resolve({ response, contract, provider });
 			})

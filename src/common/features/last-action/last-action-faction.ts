@@ -100,7 +100,7 @@ async function addLastAction(force: boolean) {
 					})
 				).members;
 
-				ttCache.set({ [id]: _members }, TO_MILLIS.SECONDS * 30, "faction-members").catch((err) => console.debug(err));
+				ttCache.set({ [id]: _members }, TO_MILLIS.SECONDS * 30, "faction-members");
 			}
 		}
 

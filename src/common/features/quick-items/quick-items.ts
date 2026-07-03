@@ -592,7 +592,7 @@ function cacheXID(xids: ExtractedXID[]) {
 		{} as Record<number, number>,
 	);
 
-	void ttCache.setIndefinite(cacheObject, "xid--temp");
+	ttCache.setIndefinite(cacheObject, "xid--temp");
 }
 
 function getXID(item: number): number | null {

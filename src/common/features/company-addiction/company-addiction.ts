@@ -53,7 +53,7 @@ async function getCompanyAddiction() {
 
 			const addiction = response[id].effectiveness.addiction ?? 0;
 
-			ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company").catch((err) => console.debug(err));
+			ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company");
 
 			return addiction;
 		} catch (error) {

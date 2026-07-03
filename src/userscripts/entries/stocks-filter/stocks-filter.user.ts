@@ -35,7 +35,7 @@ async function fetchUserStocks(key: string) {
 		includeKey: true,
 	});
 
-	await ttCache.set({ "tt-user-stocks": data }, TO_MILLIS.MINUTES * 5);
+	ttCache.set({ "tt-user-stocks": data }, TO_MILLIS.MINUTES * 5);
 
 	setUserdata({ ...userdata, ...data });
 }
@@ -56,7 +56,7 @@ async function fetchTornStocks(key: string) {
 		})
 	).stocks;
 
-	await ttCache.set({ "tt-torn-stocks": data }, TO_MILLIS.MINUTES * 15);
+	ttCache.set({ "tt-torn-stocks": data }, TO_MILLIS.MINUTES * 15);
 
 	setStockdata({ ...stockdata, ...data });
 }

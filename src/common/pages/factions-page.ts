@@ -314,7 +314,7 @@ export async function readFactionDetails() {
 		const data = await fetchData<UserFactionResponse>("tornv2", { section: "user", selections: ["faction"], id: userID });
 		const factionID = data.faction?.id;
 
-		void ttCache.set({ [userID]: factionID }, TO_MILLIS.DAYS, "faction-id");
+		ttCache.set({ [userID]: factionID }, TO_MILLIS.DAYS, "faction-id");
 
 		return factionID;
 	}
