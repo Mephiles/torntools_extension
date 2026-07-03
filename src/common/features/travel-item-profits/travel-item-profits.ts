@@ -2,7 +2,7 @@ import "./travel-item-profits.css";
 import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -72,7 +72,7 @@ async function addProfitsColumn() {
 			});
 			const innerSpan = elementBuilder({
 				type: "span",
-				text: `${profit < 0 ? "-$" : "+$"}${formatNumber(Math.abs(profit))}`,
+				text: `${profit < 0 ? "-$" : "+$"}${formatNumber(Math.abs(profit), mobile ? { shorten: 3, decimals: 1 } : {})}`,
 			});
 
 			span.classList.remove("tt-color-green", "tt-color-red");

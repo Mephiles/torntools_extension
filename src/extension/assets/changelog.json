@@ -11,7 +11,7 @@
 				{ "message": "Fix 'Hide Icons' not working with the flyout bar.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve an issue with the activity filter not working everywhere.", "contributor": "DeKleineKobini" },
 				{ "message": "Prevent mobile swipes over (Faction) Quick Items from using items accidentally.", "contributor": "Manuel" },
-				{ "message": "Resolve botched table for abroad items on 'small tablet' screens.", "contributor": "Manuel" }
+				{ "message": "Resolve botched table for abroad items on mobile and 'small tablet' screens.", "contributor": "Manuel" }
 			],
 			"changes": [
 				{ "message": "Persist notification relations so clicking 'old' notifications still opens the correct link.", "contributor": "DeKleineKobini" }
