@@ -5,7 +5,7 @@ import { calculateRevivePrice, doRequestRevive } from "@common/utils/functions/a
 import { checkDevice, elementBuilder, isElement } from "@common/utils/functions/dom";
 import { capitalizeText } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPage, getSidebarData, getUserDetails, isFlying } from "@common/utils/functions/torn";
+import { getFactionName, getPage, getUserDetails, isFlying } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { PHFillStethoscope } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
@@ -90,7 +90,7 @@ function showButton() {
 		button.setAttribute("disabled", "");
 
 		const { id, name } = details;
-		const faction = getSidebarData().statusIcons.icons.faction?.subtitle.split(" of ")[1] || "";
+		const faction = getFactionName();
 
 		let country = document.body.dataset.country;
 		if (country === "uk") country = "United Kingdom";

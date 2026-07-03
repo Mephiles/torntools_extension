@@ -2699,3 +2699,23 @@ export function extractFactionsFromPage() {
 export function isFlyoutSidebar(): boolean {
 	return !!document.querySelector("[class*='userInformation___']");
 }
+
+export function getFactionName(): string | null {
+	if (hasAPIData() && userdata?.faction?.name) {
+		return userdata.faction.name;
+	}
+
+	const iconTitle =
+		getSidebarData()?.statusIcons?.icons?.faction?.subtitle ??
+		document.querySelector("li[class*='icon'] a[href='/factions.php?step=your']")?.getAttribute("aria-label") ??
+		(hasAPIData() ? userdata?.icons?.find((icon) => icon.id === 9)?.description : null);
+	if (iconTitle) {
+		const factionParts = iconTitle.split(" of ");
+
+		if (factionParts.length > 1) {
+			return factionParts[1];
+		}
+	}
+
+	return null;
+}
