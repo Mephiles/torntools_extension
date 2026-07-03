@@ -244,7 +244,7 @@ async function loadCrimes() {
 				action: `crimes.php?step=${step}`,
 				method: "post",
 				name: "crimes",
-				draggable: true,
+				draggable: !isTouchDevice,
 			},
 		});
 		innerContent.appendChild(itemWrap);

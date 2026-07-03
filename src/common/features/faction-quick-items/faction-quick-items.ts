@@ -9,6 +9,7 @@ import { createContainer, findContainer, removeContainer } from "@common/utils/f
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatTime } from "@common/utils/functions/formatting";
+import { createSwipeSafeClickEvents } from "@common/utils/functions/gestures";
 import { requireElement } from "@common/utils/functions/requires";
 import { getItemEnergy, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
 import { PHFillPlus, PHX } from "@common/utils/icons/phosphor-icons";
@@ -215,7 +216,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 		class: temporary ? "temp item" : "item",
 		dataset: data,
 		events: {
-			click: async () => {
+			...createSwipeSafeClickEvents(async () => {
 				if (itemWrap.classList.contains("removable")) {
 					itemWrap.remove();
 					itemWrap.dispatchEvent(new Event("mouseout"));
@@ -339,7 +340,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 						}
 					});
 				}
-			},
+			}),
 			dragstart(event) {
 				event.dataTransfer.effectAllowed = "move";
 				event.dataTransfer.setDragImage(event.currentTarget as Element, 0, 0);
@@ -371,7 +372,7 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 			},
 		},
 		attributes: {
-			draggable: true,
+			draggable: !(mobile || tablet),
 		},
 	});
 	switch (id) {
@@ -416,16 +417,14 @@ function addQuickItem(data: { id: string | number }, temporary = false) {
 		class: "tt-close-icon",
 		children: [PHX()],
 		attributes: { title: "Remove quick access." },
-		events: {
-			click: async (event) => {
-				event.stopPropagation();
-				itemWrap.dispatchEvent(new Event("mouseout"));
-				closeIcon.dispatchEvent(new Event("mouseout"));
-				itemWrap.remove();
+		events: createSwipeSafeClickEvents(async (event) => {
+			event.stopPropagation();
+			itemWrap.dispatchEvent(new Event("mouseout"));
+			closeIcon.dispatchEvent(new Event("mouseout"));
+			itemWrap.remove();
 
-				await saveQuickItems();
-			},
-		},
+			await saveQuickItems();
+		}),
 	});
 	itemWrap.appendChild(closeIcon);
 	innerContent.appendChild(itemWrap);

@@ -9,6 +9,7 @@ import { createContainer, findContainer, removeContainer } from "@common/utils/f
 import { elementBuilder, findAllElements, findParent, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { formatTime } from "@common/utils/functions/formatting";
+import { createSwipeSafeClickEvents } from "@common/utils/functions/gestures";
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
 import { requireContent, requireItemsLoaded } from "@common/utils/functions/requires";
 import {
@@ -168,7 +169,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 		class: temporary ? "temp item" : "item",
 		dataset: data,
 		events: {
-			click: async () => {
+			...createSwipeSafeClickEvents(async () => {
 				if (itemWrap.classList.contains("removable")) {
 					itemWrap.remove();
 					itemWrap.dispatchEvent(new Event("mouseout"));
@@ -358,7 +359,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 							);
 					}
 				});
-			},
+			}),
 			dragstart(event) {
 				if (!isElement(event.currentTarget)) return;
 
@@ -391,7 +392,7 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 			},
 		},
 		attributes: {
-			draggable: true,
+			draggable: !(mobile || tablet),
 		},
 	});
 	itemWrap.appendChild(elementBuilder({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
@@ -418,16 +419,14 @@ function addQuickItem(data: QuickItem & { equipPosition?: false | number }, temp
 		class: "tt-close-icon",
 		children: [PHX()],
 		attributes: { title: "Remove quick access." },
-		events: {
-			click: async (event) => {
-				event.stopPropagation();
-				itemWrap.dispatchEvent(new Event("mouseout"));
-				closeIcon.dispatchEvent(new Event("mouseout"));
-				itemWrap.remove();
+		events: createSwipeSafeClickEvents(async (event) => {
+			event.stopPropagation();
+			itemWrap.dispatchEvent(new Event("mouseout"));
+			closeIcon.dispatchEvent(new Event("mouseout"));
+			itemWrap.remove();
 
-				await saveQuickItems();
-			},
-		},
+			await saveQuickItems();
+		}),
 	});
 	itemWrap.appendChild(closeIcon);
 	innerContent.appendChild(itemWrap);
