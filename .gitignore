@@ -39,4 +39,4 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 web-ext.config.ts
 .env.submit*
 
-to-migrate
+sidebar-notes-issue/
