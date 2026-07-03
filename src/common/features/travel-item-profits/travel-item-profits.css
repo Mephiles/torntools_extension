@@ -5,11 +5,11 @@
 	}
 }
 
-.tt-mobile {
-	&.tt-travel-profits [class*="stockTableWrapper___"] {
+@media screen and (max-width: 785px) {
+	.tt-travel-profits [class*="stockTableWrapper___"] {
 		[class*="itemsHeader___"],
 		[class*="row___"] {
-			grid-template-columns: [item] 65px [name] 1fr [stock] 44px [profit] 90px [cost] 66px [buy] 34px;
+			grid-template-columns: [item] 65px [name] 1fr [stock] 44px [profit] 90px [cost] 66px [buy] 34px !important;
 		}
 	}
 
