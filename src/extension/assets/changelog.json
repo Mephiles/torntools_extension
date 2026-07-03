@@ -12,7 +12,9 @@
 				{ "message": "Resolve an issue with the activity filter not working everywhere.", "contributor": "DeKleineKobini" },
 				{ "message": "Prevent mobile swipes over (Faction) Quick Items from using items accidentally.", "contributor": "Manuel" }
 			],
-			"changes": [],
+			"changes": [
+				{ "message": "Persist notification relations so clicking 'old' notifications still opens the correct link.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [{ "message": "Don't allow (Faction) Quick Items drag and drop on touch devices, thanks to the slidebar.", "contributor": "Manuel" }],
 			"technical": [
 				{ "message": "Refactor the filter helpers and apply it to the 'Abroad Items Filter' and 'Hospital Filter'.", "contributor": "DeKleineKobini" },

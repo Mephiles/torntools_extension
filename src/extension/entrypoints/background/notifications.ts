@@ -1,4 +1,5 @@
 import { ttStorage } from "@common/utils/context";
+import { ttCache } from "@common/utils/data/cache";
 import { setNotificationHistory, settings } from "@common/utils/data/database";
 import type { TTFullNotification, TTNotification } from "@common/utils/data/default-database";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
@@ -79,7 +80,6 @@ const notificationPlayer = new AudioPlayer();
 export const notificationTestPlayer = new AudioPlayer();
 
 let notificationSound: string | undefined, notificationWorker: ServiceWorkerRegistration | undefined;
-export const notificationRelations: { [id: string]: string } = {};
 
 let backoffUntil = 0;
 const backoffQueue: TTFullNotification[] = [];
@@ -178,7 +178,11 @@ async function notifyUser(title: string, message: string, url?: string) {
 
 		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(console.error);
 
-		if (settings.notifications.link) notificationRelations[id] = url;
+		if (settings.notifications.link) {
+			const relation: NotificationRelation = { link: url };
+
+			await ttCache.set({ [id]: relation }, TO_MILLIS.DAYS * 3, "notification-relations");
+		}
 	}
 
 	async function notifyService() {
@@ -240,6 +244,10 @@ async function notifyUser(title: string, message: string, url?: string) {
 			} satisfies OffscreenMessage);
 		}
 	}
+}
+
+export interface NotificationRelation {
+	link: string | undefined;
 }
 
 async function storeNotification(notification: TTNotification) {

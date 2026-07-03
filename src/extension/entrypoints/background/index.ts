@@ -11,7 +11,7 @@ import {
 	type Writable,
 } from "@common/utils/data/database";
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
-import { cleanupNotifications, initializeBackoff, notificationRelations } from "@extension/entrypoints/background/notifications";
+import { cleanupNotifications, initializeBackoff, type NotificationRelation } from "@extension/entrypoints/background/notifications";
 import { showIconBars, timedUpdates } from "@extension/entrypoints/background/updates";
 import { registerExtensionContext } from "@extension/runtime/extension-context";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@extension/services/proxy-service-keys";
@@ -124,9 +124,10 @@ export async function resetAlarms() {
 }
 
 function onNotificationClicked(id: string) {
-	if (id in notificationRelations) {
-		void browser.tabs.create({ url: notificationRelations[id] });
-	}
+	const relation = ttCache.get<NotificationRelation>("notification-relations", id);
+	if (!relation?.link) return;
+
+	void browser.tabs.create({ url: relation.link });
 }
 
 // noinspection JSUnusedGlobalSymbols
