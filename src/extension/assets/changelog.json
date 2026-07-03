@@ -9,10 +9,11 @@
 				{ "message": "Resolve wrong values being applied in the Racing Filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix an issue where the 'Creator Message' is not always shown.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Hide Icons' not working with the flyout bar.", "contributor": "DeKleineKobini" },
-				{ "message": "Resolve an issue with the activity filter not working everywhere.", "contributor": "DeKleineKobini" }
+				{ "message": "Resolve an issue with the activity filter not working everywhere.", "contributor": "DeKleineKobini" },
+				{ "message": "Prevent mobile swipes over (Faction) Quick Items from using items accidentally.", "contributor": "Manuel" }
 			],
 			"changes": [],
-			"removed": [],
+			"removed": [{ "message": "Don't allow (Faction) Quick Items drag and drop on touch devices, thanks to the slidebar.", "contributor": "Manuel" }],
 			"technical": [
 				{ "message": "Refactor the filter helpers and apply it to the 'Abroad Items Filter' and 'Hospital Filter'.", "contributor": "DeKleineKobini" },
 				{ "message": "Debounce the cache persisting, which might resolve performance issues.", "contributor": "DeKleineKobini" },
