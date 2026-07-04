@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@phosphor-icons/core": "^2.1.1",
 		"@phosphor-icons/web": "^2.1.2",
-		"@tailwindcss/vite": "^4.3.1",
+		"@tailwindcss/vite": "^4.3.2",
 		"@tanstack/table-core": "^8.21.3",
 		"@webext-core/proxy-service": "^2.0.1",
 		"@wxt-dev/module-svelte": "^2.0.5",
@@ -35,7 +35,7 @@
 		"sortablejs": "^1.15.7",
 		"source-map": "^0.7.6",
 		"svelte-spa-router": "^5.1.1",
-		"tailwindcss": "^4.3.1",
+		"tailwindcss": "^4.3.2",
 		"tornapi-typescript": "^6.0.0"
 	},
 	"devDependencies": {
