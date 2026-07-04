@@ -20,6 +20,7 @@
 </script>
 
 <script lang="ts">
+    import { isElement } from "@common/utils/functions/dom";
 	import { cn, type WithElementRef } from "@svelte/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 
@@ -41,7 +42,7 @@
 	data-align={align}
 	class={cn(inputGroupAddonVariants({ align }), className)}
 	onclick={(e) => {
-		if ((e.target as HTMLElement).closest("button")) {
+		if (!isElement(e.target) || e.target.closest("button")) {
 			return;
 		}
 		e.currentTarget.parentElement?.querySelector("input")?.focus();

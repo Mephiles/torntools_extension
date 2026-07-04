@@ -478,7 +478,7 @@ function setupQuickDragListeners() {
 			document.querySelector("#quickItems > main").classList.add("drag-progress");
 			if (document.querySelector("#quickItems .temp.item") || !isElement(event.target)) return;
 
-			const itemRow = event.target.closest("li[data-item]") as HTMLElement;
+			const itemRow = event.target.closest<HTMLElement>("li[data-item]");
 
 			const id = parseInt(itemRow.dataset.item);
 
