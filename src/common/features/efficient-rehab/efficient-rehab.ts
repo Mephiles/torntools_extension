@@ -2,7 +2,7 @@ import "./efficient-rehab.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, executeScript, findAllElements } from "@common/utils/functions/dom";
-import { applyPlural } from "@common/utils/functions/formatting";
+import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import type { EfficientRehabDetails } from "@extension/entrypoints/efficient-rehab--inject";
@@ -84,8 +84,8 @@ function calculateMaximumAffordableRehabs() {
 	const costPerRehabElement = document.querySelector<HTMLElement>(".money[data-cost]");
 	if (!costPerRehabElement) return null;
 
-	const costPerRehab = parseInt(costPerRehabElement.dataset.cost!);
-	const money = parseInt(document.querySelector<HTMLElement>("#user-money").dataset.money);
+	const costPerRehab = convertToNumber(costPerRehabElement.dataset.cost!);
+	const money = convertToNumber(document.querySelector<HTMLElement>(".rehab-progress-wrap .money[data-money]").dataset.money);
 
 	return Math.floor(money / costPerRehab);
 }
