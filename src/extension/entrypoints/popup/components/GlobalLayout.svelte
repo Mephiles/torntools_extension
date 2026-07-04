@@ -9,7 +9,7 @@
 	import active from "svelte-spa-router/active";
 	import { browser } from "wxt/browser";
 	import { registerExtensionContext } from "@/runtime/extension-context";
-	import { BACKGROUND_SERVICE } from "../../../services/proxy-services";
+	import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 	import { apiStore, settingsStore } from "../stores/database-store.svelte";
 	import { getEnabledPopupTabs } from "../tabs";
 
