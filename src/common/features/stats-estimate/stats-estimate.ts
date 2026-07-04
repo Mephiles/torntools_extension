@@ -215,7 +215,7 @@ export class StatsEstimate {
 	cacheResult(id: number, estimate: string, lastAction: number) {
 		let days = 7;
 
-		if (estimate === (RANK_TRIGGERS.stats as unknown as string[]).at(-1)) days = 31;
+		if (estimate === RANK_TRIGGERS.stats.at(-1)) days = 31;
 		else if (lastAction && lastAction <= Date.now() - TO_MILLIS.DAYS * 180) days = 31;
 		else if (estimate === "N/A") days = 1;
 

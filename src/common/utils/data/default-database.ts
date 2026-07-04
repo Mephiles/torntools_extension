@@ -86,10 +86,10 @@ export const DEFAULT_STORAGE = {
 				cooldowns: new DefaultSetting("boolean", true),
 				education: new DefaultSetting("boolean", true),
 				newDay: new DefaultSetting("boolean", true),
-				energy: new DefaultSetting("array", ["100%"]),
-				nerve: new DefaultSetting("array", ["100%"]),
-				happy: new DefaultSetting("array", ["100%"]),
-				life: new DefaultSetting("array", ["100%"]),
+				energy: new DefaultSetting<(string | number)[]>("array", ["100%"]),
+				nerve: new DefaultSetting<(string | number)[]>("array", ["100%"]),
+				happy: new DefaultSetting<(string | number)[]>("array", ["100%"]),
+				life: new DefaultSetting<(string | number)[]>("array", ["100%"]),
 				offline: new DefaultSetting<number[]>("array", []),
 				chainTimerEnabled: new DefaultSetting("boolean", true),
 				chainBonusEnabled: new DefaultSetting("boolean", true),
@@ -866,7 +866,7 @@ export const DEFAULT_STORAGE = {
 		refillNerve: new DefaultSetting<NotificationMap>("object", {}),
 	},
 	migrations: new DefaultSetting<StoredMigration[]>("array", []),
-} as const;
+};
 
 export function getDefaultStorage(defaultStorage: { [key: string]: any }) {
 	const newStorage: { [key: string]: any } = {};

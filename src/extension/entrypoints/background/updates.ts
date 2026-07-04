@@ -687,7 +687,7 @@ export async function updateUserdata(forceUpdate = false) {
 		for (const bar of ["energy", "happy", "nerve", "life"]) {
 			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) continue;
 
-			const checkpoints = (settings.notifications.types[bar] as any[])
+			const checkpoints = settings.notifications.types[bar]
 				.map<number>((checkpoint: string | number) =>
 					typeof checkpoint === "string" && checkpoint.includes("%")
 						? (parseInt(checkpoint) / 100) * newUserdata[bar].maximum

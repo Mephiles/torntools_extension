@@ -14,6 +14,7 @@ import {
 } from "@common/utils/context";
 import { torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
+import type { FetchLocation } from "@common/utils/functions/api-fetcher";
 import { usingFirefox } from "@common/utils/functions/browser";
 import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
 import { executeScript } from "@common/utils/functions/dom";
@@ -86,7 +87,7 @@ const ExtensionRuntimeStorage: RuntimeStorage = {
 
 const ExtensionOffloadService: OffloadService = {
 	fetchRelay<R = any>(location: string, options: Record<string, any>): Promise<R> {
-		return BACKGROUND_SERVICE.fetchRelay(location as any, options) as Promise<R>;
+		return BACKGROUND_SERVICE.fetchRelay(location as FetchLocation, options) as Promise<R>;
 	},
 	initialize(): Promise<{ success: boolean; error?: any }> {
 		return BACKGROUND_SERVICE.initialize();
