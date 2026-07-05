@@ -65,6 +65,7 @@ import ArmoryFilterFeature from "@features/armory-filter/armory-filter";
 import ArmoryWorthFeature from "@features/armory-worth/armory-worth";
 import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
 import AuctionHouseFilterFeature from "@features/auction-house-filter/auction-house-filter";
+import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
 import BarLinksFeature from "@features/bar-links/bar-links";
 import ChatFontSizeFeature from "@features/chat-font-size/chat-font-size";
@@ -350,6 +351,7 @@ export function scriptManager() {
 	} else if (page === "auction") {
 		setupAuctionHousePage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());
+		FEATURE_MANAGER.registerFeature(new AuctionHouseMovePaginationFeature());
 	} else if (page === "bazaar") {
 		FEATURE_MANAGER.registerFeature(new BazaarFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarSubVendorItemsFeature());

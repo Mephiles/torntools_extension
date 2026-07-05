@@ -2,7 +2,6 @@
 	import { ttStorage } from "@common/utils/context";
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";
-	import StorageNumber from "@/entrypoints/options/components/preferences/StorageNumber.svelte";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -61,6 +60,12 @@
 			<StorageSwitch path="settings.pages.itemmarket.highlightCheapItemsSound" label="Play a sound when highlighting cheap items" />
 			<StorageSwitch path="settings.pages.itemmarket.leftBar" label="Move the market bar to the left" />
 			<StorageSwitch path="settings.pages.itemmarket.fillMax" label="Fill Max" />
+		</PreferenceSettingGroup>
+	</PreferenceSectionCard>
+
+	<PreferenceSectionCard title="Auction House">
+		<PreferenceSettingGroup>
+			<StorageSwitch path="settings.pages.auction.movePagination" label="Move pagination to the top of the list" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 </div>
