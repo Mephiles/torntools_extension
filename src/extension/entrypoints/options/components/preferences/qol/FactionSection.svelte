@@ -4,7 +4,8 @@
 	import { Input } from "@svelte/components/ui/input";
 	import PlusIcon from "phosphor-svelte/lib/PlusIcon";
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
-	import StorageNumber from "@/entrypoints/options/components/preferences/StorageNumber.svelte";
+	import PriorityServiceConfiguration
+		from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -69,7 +70,24 @@
 				label="Show spy details of members of a faction you are viewing"
 				description="Only works if Stats Estimate is turned off for factions, wars and ranked wars."
 				externalServices={["tornstats", "yata"]}
-			/>
+			>
+				{#snippet titleAction()}
+					<PriorityServiceConfiguration
+							title="Faction Spies"
+							services={[
+								{
+									name: "TornStats",
+									pathEnabled: "settings.servicePreferences.factionSpies.tornstats.enabled",
+									pathPriority: "settings.servicePreferences.factionSpies.tornstats.priority"
+								},
+								{
+									name: "YATA",
+									pathEnabled: "settings.servicePreferences.factionSpies.yata.enabled",
+									pathPriority: "settings.servicePreferences.factionSpies.yata.priority"
+								}
+						]} />
+				{/snippet}
+			</StorageSwitch>
 			<StorageSwitch path="settings.pages.faction.totalChallengeContributions" label="Show total challenge contributions" />
 		</PreferenceSettingGroup>
 

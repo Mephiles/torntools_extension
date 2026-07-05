@@ -8,9 +8,129 @@ import type { TornstatsFactionSpyResponse, YATASpyResponse } from "@common/utils
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
+import { executePriorityServices, PriorityService } from "@common/utils/functions/priority-services";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
+
+interface FactionSpyData {
+	strength: number;
+	defense: number;
+	speed: number;
+	dexterity: number;
+	total: number;
+	timestamp: number;
+}
+
+interface FactionSpyFetchResult {
+	spies: Record<string, FactionSpyData>;
+	cached: boolean;
+}
+
+abstract class FactionSpyPerformer extends PriorityService<FactionSpyFetchResult> {
+	protected factionID: number;
+
+	constructor(factionID: number) {
+		super();
+		this.factionID = factionID;
+	}
+}
+
+class TornStatsFactionSpyPerformer extends FactionSpyPerformer {
+	readonly name = "TornStats";
+
+	enabled(): boolean {
+		return settings.external.tornstats && settings.servicePreferences.factionSpies.tornstats.enabled;
+	}
+
+	priority(): number {
+		return settings.servicePreferences.factionSpies.tornstats.priority;
+	}
+
+	async execute(): Promise<FactionSpyFetchResult> {
+		let data: TornstatsFactionSpyResponse;
+		let isCached = false;
+
+		if (ttCache.hasValue("faction-spy-tornstats", this.factionID)) {
+			data = ttCache.get<TornstatsFactionSpyResponse>("faction-spy-tornstats", this.factionID);
+			isCached = true;
+		} else {
+			data = await fetchData<TornstatsFactionSpyResponse>("tornstats", { section: "spy/faction", id: this.factionID });
+			ttCache.set({ [this.factionID]: data }, TO_MILLIS.HOURS, "faction-spy-tornstats");
+		}
+
+		const spies: Record<string, FactionSpyData> =
+			data.status && data.faction.spies
+				? Object.entries(data.faction.members).reduce<Record<string, FactionSpyData>>((spies, [memberID, { spy }]) => {
+						spies[memberID] = spy;
+						return spies;
+					}, {})
+				: {};
+
+		return { spies, cached: isCached };
+	}
+}
+
+class YATAFactionSpyPerformer extends FactionSpyPerformer {
+	readonly name = "YATA";
+
+	enabled(): boolean {
+		return settings.external.yata && settings.servicePreferences.factionSpies.yata.enabled;
+	}
+
+	priority(): number {
+		return settings.servicePreferences.factionSpies.yata.priority;
+	}
+
+	async execute(): Promise<FactionSpyFetchResult> {
+		let data: YATASpyResponse;
+		let isCached = false;
+
+		if (ttCache.hasValue("faction-spy-yata", this.factionID)) {
+			data = ttCache.get<YATASpyResponse>("faction-spy-yata", this.factionID);
+			isCached = true;
+		} else {
+			data = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spies", includeKey: true, params: { faction: this.factionID } });
+			ttCache.set({ [this.factionID]: data }, TO_MILLIS.HOURS, "faction-spy-yata");
+		}
+
+		const spies = Object.entries(data.spies).reduce<Record<string, FactionSpyData>>((spies, [memberID, spyData]) => {
+			spies[memberID] = {
+				strength: spyData.strength,
+				defense: spyData.defense,
+				speed: spyData.speed,
+				dexterity: spyData.dexterity,
+				total: spyData.total,
+				timestamp: spyData.update,
+			};
+			return spies;
+		}, {});
+
+		return { spies, cached: isCached };
+	}
+}
+
+async function fetchSpies(factionID: number): Promise<Record<string, FactionSpyData>> {
+	const services: PriorityService<FactionSpyFetchResult>[] = [new TornStatsFactionSpyPerformer(factionID), new YATAFactionSpyPerformer(factionID)];
+
+	const { result, errors } = await executePriorityServices(services);
+
+	if (result) return window.structuredClone(result.spies);
+
+	const errorMessages = errors.map((e) => `${e.service}: ${e.message}`).join("; ");
+	throw new Error(errorMessages || "No spy service available. Please enable TornStats or YATA.");
+}
+
+function formatSpyStats(spyData: FactionSpyData) {
+	return {
+		strength: formatNumber(spyData.strength, { shorten: 3, decimals: 3 }),
+		defense: formatNumber(spyData.defense, { shorten: 3, decimals: 3 }),
+		speed: formatNumber(spyData.speed, { shorten: 3, decimals: 3 }),
+		dexterity: formatNumber(spyData.dexterity, { shorten: 3, decimals: 3 }),
+		total: formatNumber(spyData.total, { shorten: 3, decimals: 3 }),
+		timestamp: formatTime({ seconds: spyData.timestamp }, { type: "ago", short: true }),
+	};
+}
 
 function registerListeners() {
 	window.addEventListener("hashchange", async (e) => {
@@ -40,7 +160,7 @@ async function fetchAndAddSpies() {
 	const tableBody = document.querySelector(".members-list .table-body");
 	tableBody.classList.add("tt-modified-faction-spy");
 
-	[...tableBody.children].forEach((row) => {
+	Array.from(tableBody.children).forEach((row) => {
 		const memberID = row.querySelector(".member.icons [href*='/profiles.php']")?.getAttribute("href").split("XID=")[1];
 		if (!memberID) return;
 		const spyData = spies[memberID];
@@ -48,19 +168,18 @@ async function fetchAndAddSpies() {
 		let statFields = [];
 		let title = "";
 		if (spyData) {
-			for (const stat of ["strength", "defense", "speed", "dexterity", "total"]) spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
-			spyData.timestamp = formatTime({ seconds: spyData.timestamp as number }, { type: "ago", short: true });
+			const stats = formatSpyStats(spyData);
 
 			const allFields = [
-				`Strength: ${spyData.strength}`,
-				`Defense: ${spyData.defense}`,
-				`Speed: ${spyData.speed}`,
-				`Dexterity: ${spyData.dexterity}`,
-				`Total: ${spyData.total}`,
-				`⏱: ${spyData.timestamp}`,
+				`Strength: ${stats.strength}`,
+				`Defense: ${stats.defense}`,
+				`Speed: ${stats.speed}`,
+				`Dexterity: ${stats.dexterity}`,
+				`Total: ${stats.total}`,
+				`⏱: ${stats.timestamp}`,
 			];
 
-			statFields = allFields.slice(mobile ? 4 : 0).map((text) => elementBuilder({ type: "div", text: text }));
+			statFields = allFields.slice(mobile ? 4 : 0).map((text) => elementBuilder({ type: "div", text }));
 			title = allFields.join("\n");
 		} else statFields.push(elementBuilder({ type: "div", text: "No spy found." }));
 
@@ -80,26 +199,25 @@ async function showRWSpies() {
 
 	const spies = await fetchSpies(enemyFactionID);
 
-	[...enemiesMembersList.children].forEach((row) => {
+	Array.from(enemiesMembersList.children).forEach((row) => {
 		const memberID = row.querySelector("a[href*='/profiles.php']").getAttribute("href").split("XID=")[1];
 		const spyData = spies[memberID];
 
 		let statFields = [];
 		let title = "";
 		if (spyData) {
-			for (const stat of ["strength", "defense", "speed", "dexterity", "total"]) spyData[stat] = formatNumber(spyData[stat], { shorten: 3, decimals: 3 });
-			spyData.timestamp = formatTime({ seconds: spyData.timestamp as number }, { type: "ago", short: true });
+			const stats = formatSpyStats(spyData);
 
 			const allFields = [
-				`Strength: ${spyData.strength}`,
-				`Defense: ${spyData.defense}`,
-				`Speed: ${spyData.speed}`,
-				`Dexterity: ${spyData.dexterity}`,
-				`Total: ${spyData.total}`,
-				`⏱: ${spyData.timestamp}`,
+				`Strength: ${stats.strength}`,
+				`Defense: ${stats.defense}`,
+				`Speed: ${stats.speed}`,
+				`Dexterity: ${stats.dexterity}`,
+				`Total: ${stats.total}`,
+				`⏱: ${stats.timestamp}`,
 			];
 
-			statFields = allFields.slice(4).map((text) => elementBuilder({ type: "div", text: text }));
+			statFields = allFields.slice(4).map((text) => elementBuilder({ type: "div", text }));
 			title = allFields.join("<br>");
 		} else statFields.push(elementBuilder({ type: "div", text: "No spy found." }));
 
@@ -111,55 +229,6 @@ async function showRWSpies() {
 		});
 		row.appendChild(spyElement);
 	});
-}
-
-interface Spy {
-	strength: number;
-	defense: number;
-	speed: number;
-	dexterity: number;
-	total: number;
-	timestamp: number | string;
-}
-
-async function fetchSpies(factionID: number) {
-	const spies: Record<string, Spy> = {};
-
-	if (settings.external.tornstats) {
-		let data: TornstatsFactionSpyResponse;
-		if (ttCache.hasValue("faction-spy-tornstats", factionID)) data = ttCache.get<TornstatsFactionSpyResponse>("faction-spy-tornstats", factionID);
-		else {
-			data = await fetchData<TornstatsFactionSpyResponse>("tornstats", { section: "spy/faction", id: factionID });
-			ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-tornstats");
-		}
-
-		if (data.status && data.faction.spies) {
-			for (const memberID of Object.keys(data.faction.members)) spies[memberID] = data.faction.members[memberID].spy;
-		}
-	} else if (settings.external.yata) {
-		let data: YATASpyResponse;
-		if (ttCache.hasValue("faction-spy-yata", factionID)) data = ttCache.get<YATASpyResponse>("faction-spy-yata", factionID);
-		else {
-			data = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spies", includeKey: true, params: { faction: factionID } });
-			ttCache.set({ [factionID]: data }, TO_MILLIS.HOURS, "faction-spy-yata");
-		}
-
-		if (Object.keys(data.spies).length) {
-			for (const [memberID, spyData] of Object.entries(data.spies))
-				spies[memberID] = {
-					strength: spyData.strength,
-					defense: spyData.defense,
-					speed: spyData.speed,
-					dexterity: spyData.dexterity,
-					total: spyData.total,
-					timestamp: spyData.update,
-				};
-		}
-	} else throw new Error("Please enable TornStats or YATA.");
-
-	// Sometimes, the modifications of the `spies` object causes unnecessary
-	// modifications during storage. Returning a clone instead.
-	return window.structuredClone(spies);
 }
 
 function removeSpies(onlyRWSpies = false) {
@@ -177,8 +246,12 @@ export default class ShowFactionSpyFeature extends Feature {
 
 	requirements() {
 		if (!hasAPIData()) return "No API access.";
-		else if (!settings.external.tornstats && !settings.external.yata) return "Both TornStats and YATA are disabled.";
-		else if (
+
+		const tornstatsEnabled = settings.external.tornstats && settings.servicePreferences.factionSpies.tornstats.enabled;
+		const yataEnabled = settings.external.yata && settings.servicePreferences.factionSpies.yata.enabled;
+		if (!tornstatsEnabled && !yataEnabled) return "Both TornStats and YATA are disabled.";
+
+		if (
 			settings.scripts.statsEstimate.global &&
 			settings.scripts.statsEstimate.factions &&
 			settings.scripts.statsEstimate.wars &&

@@ -548,6 +548,16 @@ export const DEFAULT_STORAGE = {
 					priority: new DefaultSetting("number", 2),
 				},
 			},
+			factionSpies: {
+				tornstats: {
+					enabled: new DefaultSetting("boolean", true),
+					priority: new DefaultSetting("number", 1),
+				},
+				yata: {
+					enabled: new DefaultSetting("boolean", true),
+					priority: new DefaultSetting("number", 2),
+				},
+			},
 			travelData: {
 				prometheus: {
 					enabled: new DefaultSetting("boolean", true),
