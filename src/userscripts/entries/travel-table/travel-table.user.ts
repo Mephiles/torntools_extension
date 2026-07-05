@@ -16,7 +16,7 @@ import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 		ttStorage.change({
 			settings: {
 				external: {
-					yata: !isAbroad(), // Disabling YATA because they block unknown clients.
+					yata: !isAbroad(), // Disabling YATA for uploading data because they block unknown clients.
 					prometheus: true,
 					tornintel: true,
 				},
