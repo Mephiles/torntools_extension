@@ -519,7 +519,7 @@ function getGroupedItems(items: CityItem[]): { label: string; items: CityItem[] 
 		}
 	}
 
-	return [...groups.entries()]
+	return Array.from(groups.entries())
 		.sort(([a], [b]) => Number(b) - Number(a))
 		.map(([key, groupItems]) => ({ label: formatGroupLabel(key, groupPeriod), items: groupItems }));
 }
@@ -652,7 +652,7 @@ function appendItemsParagraph(parent: HTMLElement, items: CityItem[], withPreamb
 	if (items.length === 1) {
 		paragraph.appendChild(createItemSpan(items[0]));
 	} else {
-		const list = [...items];
+		const list = Array.from(items);
 		const last = list.splice(-1)[0];
 
 		for (const item of list) {

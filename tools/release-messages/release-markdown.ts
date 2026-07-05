@@ -122,7 +122,9 @@ function splitMessage(message: string, limit: number): string[] {
 
 			// If next page starts mid-section, prepend the last heading for context
 			const trimmed = next.replace(/^\n+/, "");
-			const lastHeading = [...contentLines].reverse().find((l) => l.startsWith("### "));
+			const lastHeading = Array.from(contentLines)
+				.reverse()
+				.find((l) => l.startsWith("### "));
 			if (lastHeading && trimmed && !trimmed.startsWith("# ") && !trimmed.startsWith("### ")) {
 				next = `\n${lastHeading}\n\n${next}`;
 			}

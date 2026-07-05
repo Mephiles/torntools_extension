@@ -159,7 +159,7 @@ export function createMultiSelect(options: MultiSelectOptions) {
 	}
 
 	function getSelected() {
-		return [...selectedValues];
+		return Array.from(selectedValues);
 	}
 
 	function onChange(callback: () => void) {

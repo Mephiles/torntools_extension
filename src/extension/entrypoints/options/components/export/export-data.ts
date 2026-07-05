@@ -31,7 +31,7 @@ export function isExportData(value: unknown): value is ExportData {
 }
 
 export async function getExportData(includeApi: boolean): Promise<ExportData> {
-	const exportedKeys = [...LOCAL_EXPORT_KEYS];
+	const exportedKeys = Array.from(LOCAL_EXPORT_KEYS);
 	if (includeApi) exportedKeys.unshift("api");
 
 	const values = await ttStorage.get(exportedKeys);

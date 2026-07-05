@@ -53,7 +53,7 @@
 
 	async function getMissingOrigins(origins: PermissionOrigin[]) {
 		const results = await Promise.all(
-			[...origins.values()].map(async (origin) => ({
+			origins.map(async (origin) => ({
 				...origin,
 				granted: await browser.permissions.contains({ origins: [origin.origin] }),
 			})),

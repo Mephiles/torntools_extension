@@ -41,7 +41,7 @@ function observeWars() {
 		observer = new MutationObserver((mutations) => {
 			if (
 				!mutations.some((mutation) =>
-					[...(mutation.addedNodes ?? [])].some(
+					Array.from(mutation.addedNodes).some(
 						(node) => isElement(node) && node.classList.contains("descriptions") && node.querySelector(".enemy-faction"),
 					),
 				)

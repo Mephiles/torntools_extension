@@ -227,7 +227,7 @@ async function loadCrimes() {
 				},
 				dragenter(event) {
 					if (movingElement !== event.currentTarget && isElement(event.currentTarget)) {
-						const children = [...innerContent.children];
+						const children = Array.from(innerContent.children);
 
 						if (children.indexOf(movingElement) > children.indexOf(event.currentTarget))
 							innerContent.insertBefore(movingElement, event.currentTarget);

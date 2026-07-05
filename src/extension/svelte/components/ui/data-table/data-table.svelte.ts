@@ -109,7 +109,7 @@ export function mergeObjects<Sources extends readonly MaybeThunk<any>[]>(...sour
 					}
 				}
 			}
-			return [...all];
+			return Array.from(all);
 		},
 
 		getOwnPropertyDescriptor(_, key) {
