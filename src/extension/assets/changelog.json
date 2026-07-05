@@ -7,7 +7,8 @@
 			"features": [
 				{ "message": "Configure your service preferences for profile spies.", "contributor": "DeKleineKobini" },
 				{ "message": "Configure your service preferences for travel data.", "contributor": "DeKleineKobini" },
-				{ "message": "Configure your service preferences for faction spies.", "contributor": "DeKleineKobini" }
+				{ "message": "Configure your service preferences for faction spies.", "contributor": "DeKleineKobini" },
+				{ "message": "Move the auction house pagination to the top.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Resolve wrong values being applied in the Racing Filter.", "contributor": "DeKleineKobini" },

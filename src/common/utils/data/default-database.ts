@@ -336,6 +336,7 @@ export const DEFAULT_STORAGE = {
 			},
 			auction: {
 				filter: new DefaultSetting("boolean", true),
+				movePagination: new DefaultSetting("boolean", false),
 			},
 			api: {
 				autoFillKey: new DefaultSetting("boolean", true),

@@ -232,6 +232,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	},
 	{ path: "settings.pages.itemmarket.leftBar", label: "Move the market bar to the left", group: "financial", section: "markets", keywords: ["item market"] },
 	{ path: "settings.pages.itemmarket.fillMax", label: "Item Market Fill Max", group: "financial", section: "markets" },
+	{ path: "settings.pages.auction.movePagination", label: "Move pagination to the top of the list", group: "financial", section: "markets" },
 
 	// Section: items
 	{ path: "settings.pages.items.quickItems", label: "Show the quick items container", group: "financial", section: "items" },
