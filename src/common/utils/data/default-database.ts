@@ -548,6 +548,20 @@ export const DEFAULT_STORAGE = {
 					priority: new DefaultSetting("number", 2),
 				},
 			},
+			travelData: {
+				prometheus: {
+					enabled: new DefaultSetting("boolean", true),
+					priority: new DefaultSetting("number", 1),
+				},
+				tornintel: {
+					enabled: new DefaultSetting("boolean", true),
+					priority: new DefaultSetting("number", 1),
+				},
+				yata: {
+					enabled: new DefaultSetting("boolean", true),
+					priority: new DefaultSetting("number", 2),
+				},
+			},
 		},
 		reporting: {},
 	},

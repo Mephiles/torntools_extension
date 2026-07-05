@@ -4,8 +4,6 @@ import "./travel-table.css";
 import { ttStorage } from "@common/utils/context";
 import { filters, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@common/utils/functions/api.types";
-import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -14,6 +12,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@common/utils/functions/torn";
 import { toCorrectType } from "@common/utils/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons";
+import { fetchTravelData, type TravelData } from "@features/travel-table/travel-data-fetcher";
 import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
 
 interface CountryInformation {
@@ -99,7 +98,9 @@ async function startTable() {
 			],
 		});
 
-		const data = await pullInformation();
+		const data = await fetchTravelData();
+		if (!data.stocks) throw "No data available.";
+
 		for (const code of Object.keys(data.stocks)) {
 			const country = COUNTRIES[code];
 			const lastUpdate = data.stocks[code].update;
@@ -557,32 +558,7 @@ async function startTable() {
 			}
 		}
 
-		async function pullInformation() {
-			const fetchYata = () => {
-				return new Promise<YATATravelResponse>((resolve, reject) => {
-					fetchData<YATATravelResponse>("yata", { section: "travel/export/", relay: true })
-						.then((response) => {
-							if ("stocks" in response) resolve(response);
-							else reject(new Error(`Unexpected response from YATA: ${JSON.stringify(response)}`));
-						})
-						.catch(reject);
-				});
-			};
-			const fetchPrometheus = () => fetchData<PrometheusTravelResponse>("prometheus", { section: "travel", relay: true });
-			const fetchTornIntel = () => fetchData<TornIntelTravelResponse>("tornintel", { section: "foreign-stock/travel-table", relay: true });
-
-			const services: (Promise<YATATravelResponse> | Promise<PrometheusTravelResponse> | Promise<TornIntelTravelResponse>)[] = [];
-
-			if (settings.external.prometheus) services.push(fetchPrometheus());
-			if (settings.external.tornintel) services.push(fetchTornIntel());
-			if (settings.external.yata) services.push(fetchYata());
-
-			if (services.length > 1) return Promise.any(services);
-			else if (services.length === 1) return services[0];
-			else throw "No available data.";
-		}
-
-		type StockItem = YATATravelResponse["stocks"][string]["stocks"][number];
+		type StockItem = TravelData["stocks"][string]["stocks"][number];
 
 		function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
 			const tornItem = ITEM_RESOLVER.getFullItem(item.id);

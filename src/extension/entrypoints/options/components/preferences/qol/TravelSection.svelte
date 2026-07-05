@@ -1,4 +1,6 @@
 <script lang="ts">
+	import PriorityServiceConfiguration
+		from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
@@ -13,6 +15,28 @@
 				label="Show a table of all countries with their item and stocks"
 				externalServices={["prometheus", "tornintel", "yata"]}
 			>
+				{#snippet titleAction()}
+					<PriorityServiceConfiguration
+							title="Travel Data"
+							services={[
+								{
+									name: "Prometheus",
+									pathEnabled: "settings.servicePreferences.travelData.prometheus.enabled",
+									pathPriority: "settings.servicePreferences.travelData.prometheus.priority"
+								},
+								{
+									name: "Torn Intel",
+									pathEnabled: "settings.servicePreferences.travelData.tornintel.enabled",
+									pathPriority: "settings.servicePreferences.travelData.tornintel.priority"
+								},
+								{
+									name: "YATA",
+									pathEnabled: "settings.servicePreferences.travelData.yata.enabled",
+									pathPriority: "settings.servicePreferences.travelData.yata.priority"
+								}
+						]} />
+				{/snippet}
+
 				<StorageSwitch path="settings.pages.travel.autoTravelTableCountry" label="Update country in travel table filter as per map selections" />
 			</StorageSwitch>
 			<StorageSwitch path="settings.pages.travel.flyingTime" label="Show the time when you would land when flying now" />
