@@ -88,7 +88,9 @@
 			<StorageSwitch path="settings.pages.auction.filter" label="Auction House" />
 			<StorageSwitch path="settings.pages.bounties.filter" label="Bounties" />
 			<StorageSwitch path="settings.pages.faction.armoryFilter" label="Faction Armory" />
-			<StorageSwitch path="settings.pages.faction.memberFilter" label="Faction Members" />
+			<StorageSwitch path="settings.pages.faction.memberFilter" label="Faction Members">
+				<StorageSwitch path="settings.pages.faction.memberFilterRevivable" label="Filter on revivable status." description="Will send an API request for every visited faction." />
+			</StorageSwitch>
 			<StorageSwitch path="settings.pages.faction.rankedWarFilter" label="Ranked War" />
 			<StorageSwitch path="settings.pages.faction.oc2Filter" label="OC2 2" disabled description="Disabled until further notice." />
 			<StorageSwitch path="settings.pages.competition.filter" label="Competition" disabled description="Disabled until further notice." />
