@@ -6,7 +6,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPageStatus } from "@common/utils/functions/torn";
+import { getPageStatus, isFlying } from "@common/utils/functions/torn";
 import { findItemInList } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
@@ -104,7 +104,7 @@ export default class MissionRewardsFeature extends Feature {
 	}
 
 	precondition() {
-		return getPageStatus().access;
+		return getPageStatus().access && !isFlying();
 	}
 
 	isEnabled() {

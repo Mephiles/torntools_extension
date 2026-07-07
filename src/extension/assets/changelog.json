@@ -3,7 +3,13 @@
 		"version": { "major": 9, "minor": 0, "build": 14 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Disable the 'Mission Rewards' feature when flying to avoid errors.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 0, "build": 13 },
