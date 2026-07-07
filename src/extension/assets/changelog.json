@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 13 },
+		"version": { "major": 9, "minor": 0, "build": 14 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 13 },
+		"date": "2026/07/07",
 		"logs": {
 			"features": [
 				{ "message": "Configure your service preferences for profile spies.", "contributor": "DeKleineKobini" },
