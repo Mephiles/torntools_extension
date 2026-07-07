@@ -1,19 +1,18 @@
 import { settings } from "@common/utils/data/database";
+import { requireElement } from "@common/utils/functions/requires";
 import { isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 let timerUpdateInterval: number | undefined;
 
 async function showTabTimer() {
-	timerUpdateInterval = setInterval(() => updateTabTimer(), 1000);
+	const timerElement = await requireElement("[class*='progressTextLineBreaker__'] time");
 
-	updateTabTimer();
+	timerUpdateInterval = setInterval(() => updateTabTimer(timerElement), 1000);
+	updateTabTimer(timerElement);
 }
 
-function updateTabTimer() {
-	const timerElement = document.querySelector<HTMLElement>("[class*='progressTextLineBreaker__'] time");
-	if (!timerElement) return;
-
+function updateTabTimer(timerElement: HTMLElement) {
 	document.title = `${timerElement.innerText} | TORN`;
 }
 
