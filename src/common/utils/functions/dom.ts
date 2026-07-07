@@ -439,7 +439,7 @@ export function showInformationSection() {
 }
 
 export function isElement(node: Node | EventTarget | null): node is Element {
-	return !!node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && typeof (node as Element).className === "string";
+	return !!node && node instanceof Element;
 }
 
 export function isTextNode(node: Node): node is Text {
@@ -447,7 +447,7 @@ export function isTextNode(node: Node): node is Text {
 }
 
 export function isHTMLElement(node: Node | EventTarget | null): node is HTMLElement {
-	return isElement(node) && "dataset" in node && "title" in node;
+	return !!node && node instanceof HTMLElement;
 }
 
 export function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node | EventTarget, tag: K): node is HTMLElementTagNameMap[K] {
@@ -455,9 +455,9 @@ export function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node
 }
 
 export function isSVGElement(node: Node | EventTarget | null): node is SVGElement {
-	return !!node && "nodeType" in node && node.nodeType === Node.ELEMENT_NODE && "ownerSVGElement" in node;
+	return !!node && node instanceof SVGElement;
 }
 
 export function isCustomEvent<T>(event: Event): event is CustomEvent<T> {
-	return "detail" in event;
+	return event instanceof CustomEvent;
 }

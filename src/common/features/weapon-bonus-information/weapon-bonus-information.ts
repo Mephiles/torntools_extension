@@ -1,7 +1,7 @@
 import "./weapon-bonus-information.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -116,8 +116,16 @@ function initialiseListeners() {
 	});
 }
 
+let logObserver: MutationObserver | undefined;
+let informationObservers: MutationObserver[] = [];
+
 async function showInformation() {
-	await requireElement(".jscroll-added .ajax-preloader", { invert: true });
+	await requireElement("[class*='logContent___']");
+	await requireElement("[class*='logContent___'] .react-loading-skeleton", { invert: true });
+
+	const list = await requireElement("[class*='logWrap___'] ul[class*='list___']");
+	logObserver = new MutationObserver(showInformation);
+	logObserver.observe(list, { childList: true });
 
 	// TODO - Spray					Dual SMGs				Damage Bonus
 	// TODO - Emasculate			Pink MAC-10				Happy Bonus
@@ -126,11 +134,11 @@ async function showInformation() {
 	// TODO - Toxin // wither		Poison Umbrella			Debuff
 	// TODO - Sleep (unreleased)	Tranquilizer Gun		Debuff
 
-	for (const log of findAllElements(".log-list > li:not(.tt-modified)")) {
+	for (const log of findAllElements("[class*='logWrap___'] ul[class*='list___'] > li:not(.tt-modified)")) {
 		log.classList.add("tt-modified");
 
-		const icon = log.querySelector(".message-wrap span:first-child").classList[0];
-		const messageElement = log.querySelector(".message");
+		const icon = log.querySelector("[class*='iconWrap___'] > *").classList[0];
+		const messageElement = log.querySelector("[class*='message___']");
 
 		let bonus: Bonus;
 		switch (icon) {
@@ -167,15 +175,30 @@ async function showInformation() {
 				continue;
 		}
 
-		messageElement.appendChild(
-			elementBuilder({
-				type: "div",
-				class: "tt-bonus-information",
-				children: [PHFillInfo()],
-				attributes: { title: bonus.description },
-			}),
-		);
+		const informationElement = elementBuilder({
+			type: "div",
+			class: "tt-bonus-information",
+			children: [PHFillInfo()],
+			attributes: { title: bonus.description },
+		});
+		messageElement.appendChild(informationElement);
+
+		const observer = new MutationObserver((mutations) => {
+			if (!mutations.flatMap((mo) => Array.from(mo.removedNodes)).some((node) => isElement(node) && node.classList.contains("tt-bonus-information")))
+				return;
+
+			messageElement.appendChild(informationElement);
+		});
+		observer.observe(messageElement, { childList: true });
+		informationObservers.push(observer);
 	}
+}
+
+function removeInformation() {
+	logObserver?.disconnect();
+	logObserver = undefined;
+	informationObservers.forEach((observer) => observer.disconnect());
+	informationObservers = [];
 }
 
 export default class WeaponBonusInformationFeature extends Feature {
@@ -201,5 +224,9 @@ export default class WeaponBonusInformationFeature extends Feature {
 
 	async execute() {
 		await showInformation();
+	}
+
+	cleanup() {
+		removeInformation();
 	}
 }

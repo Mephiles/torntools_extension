@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Disable the 'Mission Rewards' feature when flying to avoid errors.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Adapt to the new attack log layout.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
