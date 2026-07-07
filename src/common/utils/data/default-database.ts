@@ -406,6 +406,7 @@ export const DEFAULT_STORAGE = {
 				numberMembers: new DefaultSetting("boolean", true),
 				warFinishTimes: new DefaultSetting("boolean", false),
 				memberFilter: new DefaultSetting("boolean", true),
+				memberFilterRevivable: new DefaultSetting("boolean", false),
 				armoryFilter: new DefaultSetting("boolean", true),
 				armoryWorth: new DefaultSetting("boolean", true),
 				upgradeRequiredRespect: new DefaultSetting("boolean", true),
@@ -728,6 +729,7 @@ export const DEFAULT_STORAGE = {
 			},
 			ffScoreMax: new DefaultSetting("number", null),
 			ffScoreMin: new DefaultSetting("number", null),
+			revivable: new DefaultSetting<string[]>("array", []),
 		},
 		factionArmory: {
 			enabled: new DefaultSetting("boolean", true),

@@ -1,8 +1,10 @@
 import "./faction-member-filter.css";
-import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isDestroyed, isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttCache } from "@common/utils/data/cache";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
+import { fetchData } from "@common/utils/functions/api-fetcher";
 import { findAllElements, isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import {
@@ -20,7 +22,9 @@ import {
 } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
+import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
+import type { FactionMembersResponse } from "tornapi-typescript";
 
 let filter: FilterController | undefined;
 let lastActionState = false;
@@ -74,6 +78,7 @@ type FactionMemberFilterState = {
 	level: SliderRange;
 	lastAction: SliderRange | undefined;
 	ffScore: { min: number; max: number } | undefined;
+	revivable: string[] | undefined;
 };
 
 async function enableLastAction() {
@@ -102,6 +107,10 @@ async function addFilterContainer() {
 
 	await requireElement(".faction-info-wrap .members-list .table-row");
 	filter?.dispose();
+
+	if (isRevivableEnabled()) {
+		void loadRevivableStatus();
+	}
 
 	const sections = [
 		checkboxesSection({
@@ -220,6 +229,27 @@ async function addFilterContainer() {
 		}),
 	];
 
+	if (isRevivableEnabled()) {
+		sections.push(
+			checkboxesSection({
+				key: "revivable",
+				title: "Revivable",
+				items: [{ id: "only-revivable", description: "Only Revivable" }],
+				defaults: filters.faction.revivable,
+				test: (row, status) => {
+					if (!status.length) return true;
+
+					const revivableString = row.dataset.revivable;
+					if (!revivableString) return true; // If we don't know the status, don't hold it into account.
+
+					const revivable = revivableString === "true";
+
+					return !status.includes("only-revivable") || revivable;
+				},
+			}),
+		);
+	}
+
 	filter = createFilter<FactionMemberFilterState>({
 		rowSelector: ".members-list .table-body > li",
 		container: {
@@ -245,6 +275,7 @@ async function addFilterContainer() {
 						special: state.special,
 						ffScoreMax: state.ffScore?.max ?? filters.faction.ffScoreMax,
 						ffScoreMin: state.ffScore?.min ?? filters.faction.ffScoreMin,
+						revivable: state.revivable ?? filters.faction.revivable,
 					},
 				},
 			});
@@ -263,7 +294,46 @@ function getPositions() {
 		if (!seen.includes(pos)) seen.push(pos);
 	});
 
-	return [{ value: "", description: "All" }, { value: "------", description: "------", disabled: true }, ...seen.map((p) => ({ value: p, description: p }))];
+	return [
+		{ value: "", description: "All" },
+		{
+			value: "------",
+			description: "------",
+			disabled: true,
+		},
+		...seen.map((p) => ({ value: p, description: p })),
+	];
+}
+
+function isRevivableEnabled() {
+	return settings.pages.faction.memberFilterRevivable && hasAPIData();
+}
+
+async function loadRevivableStatus() {
+	const details = await readFactionDetails();
+	if (!details) return;
+
+	let data: FactionMembersResponse;
+	if (ttCache.hasValue("faction-filter-members", details.id)) {
+		data = ttCache.get("faction-filter-members", details.id);
+	} else {
+		data = await fetchData<FactionMembersResponse>("tornv2", {
+			section: "faction",
+			id: details.id,
+			selections: ["members"],
+			silent: true,
+		});
+
+		ttCache.set({ [details.id]: data }, TO_MILLIS.HOURS, "faction-filter-members");
+	}
+
+	data.members.forEach(({ id, is_revivable }) => {
+		const row = document.querySelector<HTMLElement>(`.members-list .table-body > li:has(a[class*="linkWrap"][href*='${id}'])`);
+		if (!row) return;
+
+		row.dataset.revivable = String(is_revivable);
+	});
+	filter?.run();
 }
 
 export default class FactionMemberFilterFeature extends Feature {
