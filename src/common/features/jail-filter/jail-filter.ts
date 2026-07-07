@@ -31,7 +31,8 @@ const JAIL_FILTER_TIME_REGEX = /(\d+)(?=h)|(\d+)(?=m)/g;
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(JailFilterFeature)) return;
-		await filter?.run();
+
+		await Promise.all([filter?.run(), applyQuickBustAndBail()]);
 	});
 }
 

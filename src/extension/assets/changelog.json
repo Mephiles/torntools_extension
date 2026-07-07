@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Disable the 'Mission Rewards' feature when flying to avoid errors.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Disable the 'Mission Rewards' feature when flying to avoid errors.", "contributor": "DeKleineKobini" },
+				{ "message": "Quick bust and quick bail no longer applied when switching pages.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [{ "message": "Adapt to the new attack log layout.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
