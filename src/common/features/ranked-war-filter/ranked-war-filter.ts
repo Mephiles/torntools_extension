@@ -30,7 +30,7 @@ function initialiseListeners() {
 			return;
 		}
 
-		void filter?.run();
+		void filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
 	});
 
 	addFetchListener(async ({ detail: { page, fetch } }) => {

@@ -60,7 +60,13 @@ export class StatsEstimate {
 		};
 
 		findAllElements(selector)
-			.filter((row) => !((row.dataset.hideReason !== "stats-estimate" && row.classList.contains("tt-hidden")) || row.classList.contains("tt-estimated")))
+			.filter(
+				(row) =>
+					!(
+						(row.dataset.hideReason !== "stats-estimate" && row.dataset.hideReason !== "statsEstimate" && row.classList.contains("tt-hidden")) ||
+						row.classList.contains("tt-estimated")
+					),
+			)
 			.forEach((row) => {
 				const request = handler(row);
 				if (!request) return;

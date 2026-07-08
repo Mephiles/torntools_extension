@@ -65,7 +65,7 @@ function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
-		void filter?.run();
+		void filter?.runScoped({ sections: ["ffScouter"] });
 	});
 }
 

@@ -539,6 +539,7 @@ type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { pre
 export interface FilterController {
 	rerenderSections(): void;
 	run(): Promise<void>;
+	runScoped(options?: { rows?: HTMLElement[]; sections?: string[] | null }): Promise<void>;
 	dispose(): void;
 }
 
@@ -708,6 +709,42 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 	const wrapperMap = new Map<string, HTMLElement>();
 
+	function _toggleSiblings(row: HTMLElement, hide: boolean): void {
+		const sibling = row.nextElementSibling;
+		if (!sibling) return;
+
+		const isClass = (element: Element, className: string) => element.classList.contains(className);
+		const nextNext = sibling.nextElementSibling;
+
+		if (isClass(sibling, "tt-last-action") || isClass(sibling, "tt-stats-estimate")) {
+			sibling.classList.toggle("tt-hidden", hide);
+			if (nextNext && (isClass(nextNext, "tt-last-action") || isClass(nextNext, "tt-stats-estimate"))) {
+				nextNext.classList.toggle("tt-hidden", hide);
+			}
+		}
+	}
+
+	function applyFilter(rows: HTMLElement[], activeSections: FilterSectionInstance[], values: Map<string, unknown>): void {
+		rowLoop: for (const row of rows) {
+			for (const section of activeSections) {
+				try {
+					if (!section.test(row, values.get(section.key))) {
+						row.classList.add("tt-hidden");
+						row.dataset.hideReason = section.key;
+						_toggleSiblings(row, true);
+						continue rowLoop;
+					}
+				} catch (e) {
+					console.warn(`TT Filters: Something went wrong when filtering '${section?.key}' in the '${containerOpts?.title}'`, e);
+				}
+			}
+
+			row.classList.remove("tt-hidden");
+			_toggleSiblings(row, false);
+			delete row.dataset.hideReason;
+		}
+	}
+
 	async function run() {
 		await requireElement(rowSelector);
 
@@ -739,47 +776,36 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		}
 
 		const rows = findAllElements<HTMLElement>(rowSelector);
-		rowLoop: for (const row of rows) {
-			for (const section of sections) {
-				try {
-					if (!section.test(row, values.get(section.key))) {
-						row.classList.add("tt-hidden");
-						row.dataset.hideReason = section.key;
-
-						if (row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-							row.nextElementSibling.classList.add("tt-hidden");
-
-							if (
-								row.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
-								row.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
-							) {
-								row.nextElementSibling.nextElementSibling.classList.add("tt-hidden");
-							}
-						}
-						continue rowLoop;
-					}
-				} catch (e) {
-					console.warn(`TT Filters: Something went wrong when filtering '${section?.key}' in the '${containerOpts?.title}'`, e);
-				}
-			}
-
-			row.classList.remove("tt-hidden");
-
-			if (row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				row.nextElementSibling.classList.remove("tt-hidden");
-
-				if (
-					row.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
-					row.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
-				) {
-					row.nextElementSibling.nextElementSibling.classList.remove("tt-hidden");
-				}
-			}
-			delete row.dataset.hideReason;
-		}
+		applyFilter(rows, sections, values);
 
 		const visible = rows.filter((r) => !r.classList.contains("tt-hidden")).length;
 		statistics.updateStatistics(visible, rows.length, content);
+	}
+
+	async function runScoped(options?: { rows?: HTMLElement[]; sections?: string[] | null }) {
+		const scopedRows = options?.rows ?? findAllElements<HTMLElement>(rowSelector);
+		const activeSections = options?.sections ? sections.filter((s) => options.sections.includes(s.key)) : sections;
+
+		activeSections.forEach((s) => s.onBeforeFilter?.());
+
+		const enabled = funnel.isEnabled();
+		const values = new Map<string, unknown>();
+		for (const section of activeSections) {
+			values.set(section.key, section.getValue());
+		}
+
+		if (!enabled) {
+			scopedRows.forEach((row) => {
+				row.classList.remove("tt-hidden");
+				delete row.dataset.hideReason;
+			});
+		} else {
+			applyFilter(scopedRows, activeSections, values);
+		}
+
+		const allRows = findAllElements(rowSelector);
+		const visible = allRows.filter((r) => !r.classList.contains("tt-hidden")).length;
+		statistics.updateStatistics(visible, allRows.length, content);
 	}
 
 	const funnel = createFilterEnabledFunnel();
@@ -838,6 +864,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	return {
 		rerenderSections,
 		run,
+		runScoped,
 		dispose() {
 			removeContainer(containerOpts.title);
 			funnel.dispose();

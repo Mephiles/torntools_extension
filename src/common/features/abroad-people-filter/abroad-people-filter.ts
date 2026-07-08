@@ -21,15 +21,15 @@ import { Feature } from "@features/feature";
 let filter: FilterController;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, async () => {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, async ({ row }) => {
 		if (!FEATURE_MANAGER.isEnabled(AbroadPeopleFilterFeature)) return;
 
-		await filter.run();
+		await filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
 	});
 	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(AbroadPeopleFilterFeature)) return;
 
-		await filter.run();
+		await filter?.runScoped({ sections: ["ffScouter"] });
 	});
 }
 

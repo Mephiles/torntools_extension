@@ -25,15 +25,15 @@ function initialiseListeners() {
 
 		await filter?.run();
 	});
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, () => {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
 		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
 
-		void filter?.run();
+		void filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
 	});
 	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => {
 		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
 
-		void filter?.run();
+		void filter?.runScoped({ sections: ["ffScouter"] });
 	});
 }
 
