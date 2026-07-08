@@ -90,7 +90,7 @@ async function addFilterContainer() {
 			],
 			defaults: filters.abroadItems.categories,
 			test: (row, categories) => {
-				if (!categories.length) return true;
+				if (!categories.length || categories.length === 6) return true;
 
 				const typeElement = row.querySelector("[data-tt-content-type='type']");
 				if (!typeElement) return false;

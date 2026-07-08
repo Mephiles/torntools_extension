@@ -572,7 +572,7 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 			],
 			defaults: options.defaults,
 			test: (row, activity) => {
-				if (!activity.length) return true;
+				if (!activity.length || activity.length === 3) return true;
 
 				const userActivity = getUserActivity(row);
 
@@ -655,14 +655,16 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 			},
 		} satisfies FilterSectionDef<{ min: number; max: number }>;
 	} else if (options.preset === "stats-estimates") {
+		const items = [{ id: "none", description: "none" }, ...RANK_TRIGGERS.stats.map((t) => ({ id: t, description: t })), { id: "n/a", description: "N/A" }];
+
 		return checkboxesSection({
 			key: "statsEstimates",
 			title: "Stats Estimates",
 			enabled: options.enabled,
-			items: [{ id: "none", description: "none" }, ...RANK_TRIGGERS.stats.map((t) => ({ id: t, description: t })), { id: "n/a", description: "N/A" }],
+			items,
 			defaults: options.defaults,
 			test: (row, estimates) => {
-				if (!estimates.length) return true;
+				if (!estimates.length || estimates.length === items.length) return true;
 
 				const estimate = row.dataset.estimate?.toLowerCase();
 				if (estimate || !row.classList.contains("tt-estimated")) {

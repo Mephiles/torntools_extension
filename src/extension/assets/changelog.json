@@ -14,7 +14,10 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"changes": [{ "message": "Adapt to the new attack log layout.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Adapt to the new attack log layout.", "contributor": "DeKleineKobini" },
+				{ "message": "Improve filters when all options in a category are selected.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": []
 		}

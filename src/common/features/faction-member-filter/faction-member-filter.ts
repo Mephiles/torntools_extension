@@ -113,21 +113,7 @@ async function addFilterContainer() {
 	}
 
 	const sections = [
-		checkboxesSection({
-			key: "activity",
-			title: "Activity",
-			items: [
-				{ id: "online", description: "Online" },
-				{ id: "idle", description: "Idle" },
-				{ id: "offline", description: "Offline" },
-			],
-			defaults: filters.faction.activity,
-			test: (row, activity) => {
-				if (!activity.length) return true;
-				const userActivity = getUserActivity(row);
-				return activity.some((x) => x.trim() === userActivity);
-			},
-		}),
+		presetSection({ preset: "activity", defaults: filters.faction.activity }),
 
 		ynCheckboxesSection({
 			key: "special",
