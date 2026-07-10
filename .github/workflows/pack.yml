@@ -106,8 +106,8 @@ jobs:
 
             - name: Generate release messages
               run: |
-                  bun tools/release-messages/release-html.ts
-                  bun tools/release-messages/release-markdown.ts
+                  bun tools/release-messages/release-forums.ts
+                  bun tools/release-messages/release-discord.ts
 
             - name: Run Biome with write
               run: biome check --write

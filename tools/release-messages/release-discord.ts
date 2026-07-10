@@ -35,7 +35,7 @@ async function generateMarkdown(entry: ChangelogEntry) {
 
 	await Promise.all(
 		pages.map(async (page, i) => {
-			const filename = pages.length === 1 ? "release-discord.md" : `release-discord-${i + 1}.md`;
+			const filename = pages.length === 1 ? "release-discord.txt" : `release-discord-${i + 1}.txt`;
 			const file = resolve(OUTPUT_DIR, filename);
 			await writeFile(file, page);
 			console.log(`Written: ${filename} (${page.length} chars)`);

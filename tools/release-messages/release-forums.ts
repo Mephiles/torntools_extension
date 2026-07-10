@@ -27,12 +27,12 @@ async function latestChangelogEntry(): Promise<ChangelogEntry> {
 }
 
 async function generateHTML(entry: ChangelogEntry) {
-	const html = buildHtml(entry);
+	const content = buildHtml(entry);
 
 	await mkdir(OUTPUT_DIR, { recursive: true });
-	const file = resolve(OUTPUT_DIR, "release.html");
-	await writeFile(file, html);
-	console.log(`Written: release.html (${html.length} chars)`);
+	const file = resolve(OUTPUT_DIR, "release_forums.txt");
+	await writeFile(file, content);
+	console.log(`Written: release_forums.txt (${content.length} chars)`);
 }
 
 function buildHtml(entry: ChangelogEntry): string {
