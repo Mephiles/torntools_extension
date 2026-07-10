@@ -2,7 +2,7 @@ import type { StakeoutData, StoredStakeouts } from "@common/utils/data/default-d
 import type { StakeoutAlerts, StakeoutRow } from "./columns";
 
 export function getStakeoutRows(source: StoredStakeouts | undefined): StakeoutRow[] {
-	return (source?.list ?? []).toSorted((a, b) => a.order - b.order).map((entry) => getStakeoutRow(entry.id, entry, false));
+	return (source?.list ?? []).sort((a, b) => a.order - b.order).map((entry) => getStakeoutRow(entry.id, entry, false));
 }
 
 export function getStakeoutRow(id: number, stakeout: StakeoutData | null, isNew: boolean): StakeoutRow {

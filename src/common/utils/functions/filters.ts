@@ -854,7 +854,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	}
 
 	function rerenderSections(): void {
-		wrapperMap.keys().forEach(removeSection);
+		Array.from(wrapperMap.keys()).forEach(removeSection);
 
 		sectionDefs.filter((def) => !def.enabled || def.enabled()).forEach(addSection);
 

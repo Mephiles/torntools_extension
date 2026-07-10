@@ -12,7 +12,8 @@
 				{
 					"message": "Performance optimization of several filters when combined with FFScouter and/or Stats Estimates.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Resolve some issues with older browsers, to a reasonable extend.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Adapt to the new attack log layout.", "contributor": "DeKleineKobini" },
