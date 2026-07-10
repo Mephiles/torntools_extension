@@ -1,6 +1,6 @@
 {
 	"name": "torntools-extension",
-	"version": "9.0.14",
+	"version": "9.0.15",
 	"type": "module",
 	"scripts": {
 		"types": "tsc --noEmit --pretty",

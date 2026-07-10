@@ -1,10 +1,14 @@
 [
 	{
-		"version": { "major": 9, "minor": 0, "build": 14 },
+		"version": { "major": 9, "minor": 0, "build": 15 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 0, "build": 14 },
+		"date": "2026/07/10",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Disable the 'Mission Rewards' feature when flying to avoid errors.", "contributor": "DeKleineKobini" },
 				{ "message": "Quick bust and quick bail no longer applying when switching pages.", "contributor": "DeKleineKobini" },
@@ -18,9 +22,7 @@
 			"changes": [
 				{ "message": "Adapt to the new attack log layout.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve filters when all options in a category are selected.", "contributor": "DeKleineKobini" }
-			],
-			"removed": [],
-			"technical": []
+			]
 		}
 	},
 	{
