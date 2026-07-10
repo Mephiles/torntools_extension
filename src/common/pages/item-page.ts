@@ -171,3 +171,34 @@ type TornInternalSendItemAction =
 function isSendItemAction(step: string, _json: any): _json is TornInternalSendItemAction {
 	return step === "sendItemAction";
 }
+
+export interface TornInternalGetCategoryList {
+	count: number;
+	html: string;
+	list: {
+		ID: number;
+		Qty: number;
+		SellTotal: string;
+		armoryID: number;
+		donating: boolean;
+		equipActionPosition: "use";
+		equipSlot: number;
+		equiped: number;
+		factionID: number;
+		factionItem: boolean;
+		isEquippable: boolean;
+		isUnique: number;
+		itemID: number;
+		name: string;
+		rowKey: string;
+		sell: number;
+		sendAvailable: boolean;
+		sortkey: string;
+		type2: string;
+		untradable: 0 | 1;
+		use: { action: "use"; XID: number; title: "Use" };
+	}[];
+	prevtotal: unknown | null;
+	start: number;
+	total: number;
+}

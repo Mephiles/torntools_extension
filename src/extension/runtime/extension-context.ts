@@ -5,6 +5,7 @@ import {
 	setDataFetcher,
 	setEventHandler,
 	setFeatureManager,
+	setInformationRetriever,
 	setOffloadService,
 	setRuntimeInformation,
 	setRuntimeStorage,
@@ -24,6 +25,7 @@ import type { FullItem, ItemResolver, StaticItem } from "@common/utils/torn-api/
 import { browser } from "wxt/browser";
 import { ExtensionEventHandler } from "@/runtime/extension-event-handler";
 import { ExtensionFeatureManager } from "@/runtime/extension-feature-manager";
+import { ExtensionInformationRetriever } from "@/runtime/extension-information-retriever";
 import { TTExtensionStorage } from "@/runtime/extension-storage";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 import { STATIC_ITEM_MAP, STATIC_ITEMS } from "@/utils/static-data/static-items";
@@ -36,6 +38,7 @@ export function registerExtensionContext() {
 		setFeatureManager(new ExtensionFeatureManager());
 		setScriptInjector(ExtensionScriptInjector);
 	}
+	setInformationRetriever(ExtensionInformationRetriever);
 	setEventHandler(ExtensionEventHandler);
 	setRuntimeInformation(ExtensionRuntimeInformation);
 	setRuntimeStorage(ExtensionRuntimeStorage);

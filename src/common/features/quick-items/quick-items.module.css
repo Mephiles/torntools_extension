@@ -1,0 +1,54 @@
+.special-action-preview {
+	display: inline-block;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+
+	:global(body:not(.dark-mode)) & {
+		border: 1px solid lightgray;
+		background-color: white;
+	}
+
+	:global(body.dark-mode) & {
+		border: 1px solid #444;
+		background-color: #333;
+	}
+}
+
+.special-options {
+	margin-top: 2px;
+	padding: 0 5px 5px 5px;
+}
+
+.special-title {
+	margin-top: 4px;
+	font-weight: bold;
+}
+
+.quick-items-list {
+	width: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+
+	.quick-item {
+		display: inline-block;
+		padding: 5px;
+		border-radius: 5px;
+		cursor: pointer;
+		position: relative;
+
+		.name {
+			text-align: center;
+			align-content: center;
+		}
+
+		&[data-action] .name {
+			height: 100%;
+			width: 80px;
+		}
+	}
+}

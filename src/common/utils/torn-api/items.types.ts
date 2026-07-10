@@ -79,6 +79,10 @@ export interface StaticItem {
 
 export type FullItem = StaticItem & { value: StaticItem["value"] & { market_price: number }; circulation: number };
 
+export function isFullItem(item: StaticItem): item is FullItem {
+	return "market_price" in item.value;
+}
+
 export interface ItemResolver {
 	loadItem(id: number): StaticItem | FullItem | null;
 	findItem(matcher: (item: StaticItem | FullItem) => boolean): StaticItem | FullItem | null;

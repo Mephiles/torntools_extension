@@ -4,7 +4,13 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "List several different reminders in your sidebar.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "List several different reminders in your sidebar.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Introduce special actions for quick items: optimal medical items for life and optimal medical items for getting out of the hospital.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"fixes": [
 				{ "message": "Don't adjust the item value for you own items when using a loaned item.", "contributor": "DeKleineKobini" },
 				{ "message": "Link to the correct missions page.", "contributor": "DeKleineKobini" },

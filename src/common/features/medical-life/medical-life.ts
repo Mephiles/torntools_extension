@@ -63,7 +63,7 @@ function doesRestoreLife(id: number) {
 
 async function showInformation(id: number) {
 	const perks = userdata.education_perks
-		.filter((perk) => perk.includes("Medical item effectiveness"))
+		.filter((perk) => perk.toLowerCase().includes("medical item effectiveness"))
 		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
 		.reduce((a, b) => a + b, 0);
 	const percentage = (1 + perks / 100) * MEDICAL_ITEMS[id];
