@@ -1,5 +1,5 @@
 import { handleDeviceSizeClasses } from "@common/pages/global-page";
-import { SCRIPT_INJECTOR } from "@common/utils/context";
+import { RUNTIME_INFORMATION } from "@common/utils/context";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import type { Feature } from "@features/feature";
 import type { FeatureManager } from "@features/feature-manager";
@@ -40,7 +40,7 @@ export class ScriptFeatureManager implements FeatureManager {
 	}
 
 	private getScriptState() {
-		const win = SCRIPT_INJECTOR.getWindow();
+		const win = RUNTIME_INFORMATION.getWindow();
 		if (!win.ttScriptState) {
 			const newState: ScriptState = { enabled: {} };
 			win.ttScriptState = newState;

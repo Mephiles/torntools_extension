@@ -3,12 +3,6 @@ import { executeScript } from "@common/utils/functions/dom";
 import { injectXHR } from "@common/utils/functions/listeners";
 import { ExecutionTiming, Feature } from "@features/feature";
 
-declare global {
-	interface Window {
-		xhrSendAdjustments?: { [key: string]: (xhr: any, body: string) => string };
-	}
-}
-
 function injectAdjustments() {
 	injectXHR();
 

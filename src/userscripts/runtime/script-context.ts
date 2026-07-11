@@ -30,7 +30,7 @@ import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
 import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
-import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
+import type { RuntimeInformation, RuntimeStorage, StorageChangeCallback, TTWindow } from "@common/utils/functions/context-interfaces";
 import { getUUID } from "@common/utils/functions/utilities";
 import { ScriptEventHandler } from "@userscripts/runtime/script-event-handler";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
@@ -71,9 +71,6 @@ const xhrListenerInjector = new RequestListenerInjector(injectXhrListeners);
 const cityItemsMapListenerInjector = new RequestListenerInjector(injectUserscriptCityItemsMapListeners);
 
 const UserscriptScriptInjector: ScriptInjector = {
-	getWindow(): Window {
-		return unsafeWindow;
-	},
 	injectFetch() {
 		fetchListenerInjector.inject();
 	},
@@ -86,6 +83,10 @@ const UserscriptScriptInjector: ScriptInjector = {
 };
 
 const UserscriptRuntimeInformation: RuntimeInformation = {
+	getWindow(): TTWindow {
+		return unsafeWindow;
+	},
+
 	getVersion(): string {
 		return GM.info.version;
 	},

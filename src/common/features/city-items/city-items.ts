@@ -1,6 +1,6 @@
 import "./city-items.css";
 import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
+import { FEATURE_MANAGER, ITEM_RESOLVER, RUNTIME_INFORMATION, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createSelect } from "@common/utils/elements/select/select";
@@ -87,7 +87,7 @@ function handleModelItems(event: Event) {
 }
 
 function getPageModelItems(): InternalCityItem[] | null {
-	const model = SCRIPT_INJECTOR.getWindow().torn?.model;
+	const model = RUNTIME_INFORMATION.getWindow().torn?.model;
 	if (!model || typeof model.get !== "function") return null;
 
 	try {
@@ -802,7 +802,7 @@ function syncMapEntries(items: CityItem[]) {
 }
 
 function dispatchMapEvent(name: (typeof CITY_ITEMS_MAP_EVENTS)[keyof typeof CITY_ITEMS_MAP_EVENTS], detail?: unknown) {
-	SCRIPT_INJECTOR.getWindow().dispatchEvent(new CustomEvent(name, { detail: serializeEventDetail(detail) }));
+	RUNTIME_INFORMATION.getWindow().dispatchEvent(new CustomEvent(name, { detail: serializeEventDetail(detail) }));
 }
 
 function serializeEventDetail(detail: unknown): string | undefined {

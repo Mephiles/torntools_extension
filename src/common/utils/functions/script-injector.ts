@@ -1,20 +1,12 @@
-import { SCRIPT_INJECTOR } from "@common/utils/context";
+import { RUNTIME_INFORMATION } from "@common/utils/context";
 import { capitalizeText } from "@common/utils/functions/formatting";
 import { isIntNumber } from "@common/utils/functions/utilities";
 
 export interface ScriptInjector {
-	getWindow(): Window;
 	injectFetch(): void;
 	injectXHR(): void;
 	injectCityItemsMap(): void;
 }
-
-export const DEFAULT_SCRIPT_INJECTOR: ScriptInjector = {
-	getWindow: () => window,
-	injectXHR() {},
-	injectFetch() {},
-	injectCityItemsMap() {},
-};
 
 declare global {
 	interface Window {
@@ -57,8 +49,8 @@ export interface FetchDetails {
 }
 
 export function injectFetchListeners() {
-	const oldFetch = SCRIPT_INJECTOR.getWindow().fetch;
-	(SCRIPT_INJECTOR.getWindow().fetch as any) = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>
+	const oldFetch = RUNTIME_INFORMATION.getWindow().fetch;
+	(RUNTIME_INFORMATION.getWindow().fetch as any) = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>
 		new Promise((resolve, reject) => {
 			oldFetch(input, init)
 				.then(async (response: Response) => {
@@ -120,24 +112,9 @@ export function injectXhrListeners() {
 	const oldXHRSend = window.XMLHttpRequest.prototype.send;
 
 	window.XMLHttpRequest.prototype.open = function (method: string, url: string | URL) {
-		let params = this["params"] ?? {};
-
-		if ("xhrOpenAdjustments" in window && typeof window.xhrOpenAdjustments === "object") {
-			for (const key in window.xhrOpenAdjustments) {
-				if (typeof window.xhrOpenAdjustments[key] !== "function") continue;
-
-				const adjustments = window.xhrOpenAdjustments[key]({ ...this }, method, url);
-
-				method = adjustments.method;
-				url = adjustments.url;
-
-				params = { ...params, ...(adjustments.params || {}) };
-			}
-		}
-
 		this["method"] = method;
 		this["url"] = url;
-		this["params"] = params;
+		this["params"] = this["params"] ?? {};
 
 		this.addEventListener("readystatechange", function () {
 			if (this.readyState > 3 && this.status === 200) {

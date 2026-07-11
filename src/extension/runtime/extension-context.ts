@@ -16,7 +16,7 @@ import { torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { FetchLocation } from "@common/utils/functions/api-fetcher";
 import { usingFirefox } from "@common/utils/functions/browser";
-import type { RuntimeInformation, RuntimeStorage } from "@common/utils/functions/context-interfaces";
+import type { RuntimeInformation, RuntimeStorage, TTWindow } from "@common/utils/functions/context-interfaces";
 import { executeScript } from "@common/utils/functions/dom";
 import type { ScriptInjector } from "@common/utils/functions/script-injector";
 import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
@@ -45,9 +45,6 @@ export function registerExtensionContext() {
 }
 
 const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean; injectedCityItemsMap: boolean } = {
-	getWindow(): Window {
-		return usingFirefox() ? window.wrappedJSObject! : window;
-	},
 	injectedFetch: false,
 	injectFetch() {
 		if (this.injectedFetch) return;
@@ -72,6 +69,10 @@ const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; inject
 };
 
 const ExtensionRuntimeInformation: RuntimeInformation = {
+	getWindow(): TTWindow {
+		return usingFirefox() ? (window.wrappedJSObject! as TTWindow) : window;
+	},
+
 	getVersion(): string {
 		return browser.runtime.getManifest().version;
 	},
