@@ -91,16 +91,19 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 	});
 }
 
-await rm(outputDir, { recursive: true, force: true });
+const targetEntry = process.argv[2];
+
+if (!targetEntry) {
+	await rm(outputDir, { recursive: true, force: true });
+}
 
 const entriesPath = "src/userscripts/entries";
 const metadataFileName = "metadata.ts";
 const entries = readdirSync(entriesPath, { withFileTypes: true });
 
 for (const entry of entries) {
-	if (!entry.isDirectory()) {
-		continue;
-	}
+	if (!entry.isDirectory()) continue;
+	if (targetEntry && entry.name !== targetEntry) continue;
 
 	const metadataPath = resolve(root, entriesPath, entry.name, metadataFileName);
 
