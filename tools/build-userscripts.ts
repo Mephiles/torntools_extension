@@ -2,6 +2,7 @@ import { readdirSync, readFileSync, unlink } from "node:fs";
 import { rm } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
 import { build } from "vite";
 import type { MonkeyUserScript } from "vite-plugin-monkey";
@@ -52,6 +53,7 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 		publicDir: false,
 		resolve: { alias: aliases },
 		plugins: [
+			svelte(),
 			monkey({
 				entry: `src/userscripts/entries/${entryName}/${entryName}.user.ts`,
 				userscript: {
@@ -119,7 +121,7 @@ for (const entry of entries) {
 		unlink(detectPath, () => {});
 
 		console.log(`${metadata.name}: ${permissions.join(", ") || "none"}`);
-	} catch {
-		console.error(`No '${metadataFileName}' found in folder: [${entry.name}]`);
+	} catch (error) {
+		console.error(error);
 	}
 }
