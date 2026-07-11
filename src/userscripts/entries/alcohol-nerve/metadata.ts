@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Alcohol Nerve",
 	description: "Show the amount of nerve alcohol would give.",
-	version: "1.0.0",
+	version: "1.0.1",
 	matches: ["https://*.torn.com/item.php*"],
 	runAt: "document-end",
 	connect: ["api.torn.com", "torntools.tornplayground.eu"],

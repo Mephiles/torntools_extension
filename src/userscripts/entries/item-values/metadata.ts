@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Item Values",
 	description: "Display the value of items on various pages.",
-	version: "1.0.1",
+	version: "1.0.2",
 	matches: [
 		"https://*.torn.com/item.php*",
 		"https://*.torn.com/bazaar.php*",

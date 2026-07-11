@@ -1,4 +1,3 @@
-import { handleDeviceSizeClasses } from "@common/pages/global-page";
 import { setupTravelAbroadPage } from "@common/pages/travel-abroad-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { isAbroad } from "@common/utils/functions/torn";
@@ -11,7 +10,6 @@ import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 	if (!isAbroad()) return;
 
 	await registerUserscriptContext("tt_tip");
-	handleDeviceSizeClasses();
 	await ScriptItemResolver.loadItems();
 
 	await setupTravelAbroadPage();

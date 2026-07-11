@@ -1,3 +1,4 @@
+import { handleDeviceSizeClasses } from "@common/pages/global-page";
 import { SCRIPT_INJECTOR } from "@common/utils/context";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import type { Feature } from "@features/feature";
@@ -25,6 +26,10 @@ export class ScriptFeatureManager implements FeatureManager {
 	}
 
 	registerFeature(feature: Feature): void {
+		if (feature.requiresScreenInformation()) {
+			handleDeviceSizeClasses();
+		}
+
 		feature.initialise();
 		feature.execute();
 
