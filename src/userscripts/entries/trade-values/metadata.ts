@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Trade Values",
 	description: "Display the value of items on your trades.",
-	version: "1.0.1",
+	version: "1.0.2",
 	matches: ["https://*.torn.com/trade.php*"],
 	runAt: "document-end",
 	connect: ["torntools.tornplayground.eu"],

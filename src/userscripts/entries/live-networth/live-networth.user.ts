@@ -6,12 +6,16 @@ import type { UserV1NetworthResponse } from "@common/utils/functions/api-v1.type
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import type { Feature } from "@features/feature";
 import LiveNetworthFeature from "@features/live-networth/live-networth";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import type { UserPersonalStatsFull } from "tornapi-typescript";
 
 (async () => {
-	await registerUserscriptContext("tt_we");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_we");
+	registerNetworkUserscriptContext();
 
 	const key = await requiresAPIKey();
 

@@ -8,12 +8,18 @@ import { BACKUP_CALENDAR_2026 } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import CanEnergyFeature from "@features/can-energy/can-energy";
 import type { Feature } from "@features/feature";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 (async () => {
-	await registerUserscriptContext("tt_ce");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_ce");
+	registerNetworkUserscriptContext();
+	registerInjectorUserscriptContext();
 	await ScriptItemResolver.loadItems();
 
 	const key = await requiresAPIKey();

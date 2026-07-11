@@ -4,11 +4,18 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { isAbroad, isFlying } from "@common/utils/functions/torn";
 import TravelTableFeature from "@features/travel-table/travel-table";
 import TravelSyncFeature from "@features/travel-table/travel-table-sync";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 (async () => {
-	await registerUserscriptContext("tt_tt");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_tt");
+	registerNetworkUserscriptContext();
+	registerInjectorUserscriptContext();
+
 	await ScriptItemResolver.loadItems();
 
 	await Promise.all([

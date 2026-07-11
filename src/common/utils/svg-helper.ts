@@ -4,7 +4,7 @@ export interface SvgAttributes {
 	[key: string]: string | number | boolean;
 }
 
-type SVGFactory = (attributes?: SvgAttributes) => SVGElement;
+export type SVGFactory = (attributes?: SvgAttributes) => SVGElement;
 
 export function svgImport(svgImport: string): SVGFactory {
 	if (typeof svgImport !== "string") {

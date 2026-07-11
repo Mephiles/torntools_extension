@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Effective Battle Stats",
 	description: "Display your effective battle stats in the homepage.",
-	version: "1.0.1",
+	version: "1.0.2",
 	matches: ["https://*.torn.com/index.php*"],
 	runAt: "document-end",
 };

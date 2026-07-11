@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Drug Details",
 	description: "Display the full details of drugs on various pages.",
-	version: "1.0.4",
+	version: "1.0.5",
 	matches: [
 		"https://*.torn.com/item.php*",
 		"https://*.torn.com/bazaar.php*",
@@ -13,6 +13,7 @@ const metadata: UserscriptMetadata = {
 		"https://*.torn.com/page.php?sid=ItemMarket*",
 	],
 	runAt: "document-end",
+	connect: ["torntools.tornplayground.eu"],
 };
 
 export default metadata;

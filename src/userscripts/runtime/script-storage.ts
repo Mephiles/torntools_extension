@@ -1,7 +1,7 @@
 import type { Database, DatabaseKey } from "@common/utils/data/database";
 import { DEFAULT_STORAGE } from "@common/utils/data/default-database";
 import { TornToolsStorage } from "@common/utils/data/storage";
-import { UserscriptRuntimeStorage } from "@userscripts/runtime/script-context";
+import { UserscriptRuntimeStorage } from "@userscripts/runtime/context/script-database-context";
 
 export class TTScriptStorage extends TornToolsStorage {
 	constructor(private readonly prefix: string) {

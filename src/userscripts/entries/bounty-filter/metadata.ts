@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Bounty Filter",
 	description: "Filter the bounties list.",
-	version: "1.0.1",
+	version: "1.0.2",
 	matches: ["https://*.torn.com/bounties.php*"],
 	runAt: "document-end",
 };

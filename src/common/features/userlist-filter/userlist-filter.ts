@@ -209,7 +209,8 @@ export default class UserlistFilterFeature extends Feature {
 	}
 
 	isEnabled() {
-		return settings.pages.userlist.filter;
+		return true;
+		// return settings.pages.userlist.filter;
 	}
 
 	initialise() {

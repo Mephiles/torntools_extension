@@ -1,4 +1,4 @@
-import { svgImport } from "@common/utils/svg-helper";
+import { type SVGFactory, svgImport } from "@common/utils/svg-helper";
 import PHBoldArrowBendUpLeftData from "@phosphor-icons/core/bold/arrow-bend-up-left-bold.svg";
 import PHBoldArrowClockwiseData from "@phosphor-icons/core/bold/arrow-clockwise-bold.svg";
 import PHBoldArrowDownData from "@phosphor-icons/core/bold/arrow-down-bold.svg";
@@ -33,38 +33,47 @@ import PHTrashData from "@phosphor-icons/core/regular/trash.svg";
 import PHXData from "@phosphor-icons/core/regular/x.svg";
 import PHXCircleData from "@phosphor-icons/core/regular/x-circle.svg";
 
-export const PHCaretDown = svgImport(PHCaretDownData);
-export const PHEye = svgImport(PHEyeData);
-export const PHEyeSlash = svgImport(PHEyeSlashData);
-export const PHPlus = svgImport(PHPlusData);
-export const PHTrash = svgImport(PHTrashData);
-export const PHQuestion = svgImport(PHQuestionData);
-export const PHX = svgImport(PHXData);
-export const PHXCircle = svgImport(PHXCircleData);
+const lazyImport = (svgData: string): SVGFactory => {
+	let factory: SVGFactory | undefined;
 
-export const PHBoldArrowBendUpLeft = svgImport(PHBoldArrowBendUpLeftData);
-export const PHBoldArrowClockwise = svgImport(PHBoldArrowClockwiseData);
-export const PHBoldArrowDown = svgImport(PHBoldArrowDownData);
-export const PHBoldArrowUp = svgImport(PHBoldArrowUpData);
-export const PHBoldCheck = svgImport(PHBoldCheckData);
-export const PHBoldCheckCircle = svgImport(PHBoldCheckCircleData);
-export const PHBoldCopy = svgImport(PHBoldCopyData);
-export const PHBoldInfo = svgImport(PHBoldInfoData);
-export const PHBoldWarningCircle = svgImport(PHBoldWarningCircleData);
-export const PHBoldXCircle = svgImport(PHBoldXCircleData);
-export const PHBoldSpinnerGap = svgImport(PHBoldSpinnerGapData);
+	return (attributes) => {
+		factory ??= svgImport(svgData);
+		return factory(attributes);
+	};
+};
 
-export const PHFillArrowsOutCardinal = svgImport(PHFillArrowsOutCardinalData);
-export const PHFillAirplane = svgImport(PHFillAirplaneData);
-export const PHFillBell = svgImport(PHFillBellData);
-export const PHFillBellSlash = svgImport(PHFillBellSlashData);
-export const PHFillCaretDown = svgImport(PHFillCaretDownData);
-export const PHFillCaretRight = svgImport(PHFillCaretRightData);
-export const PHFillCaretUp = svgImport(PHFillCaretUpData);
-export const PHFillInfo = svgImport(PHFillInfoData);
-export const PHFillFunnel = svgImport(PHFillFunnelData);
-export const PHFillFunnelX = svgImport(PHFillFunnelXData);
-export const PHFillGear = svgImport(PHFillGearData);
-export const PHFillPlus = svgImport(PHFillPlusData);
-export const PHFillStethoscope = svgImport(PHFillStethoscopeData);
-export const PHFillTable = svgImport(PHFillTableData);
+export const PHCaretDown = lazyImport(PHCaretDownData);
+export const PHEye = lazyImport(PHEyeData);
+export const PHEyeSlash = lazyImport(PHEyeSlashData);
+export const PHPlus = lazyImport(PHPlusData);
+export const PHTrash = lazyImport(PHTrashData);
+export const PHQuestion = lazyImport(PHQuestionData);
+export const PHX = lazyImport(PHXData);
+export const PHXCircle = lazyImport(PHXCircleData);
+
+export const PHBoldArrowBendUpLeft = lazyImport(PHBoldArrowBendUpLeftData);
+export const PHBoldArrowClockwise = lazyImport(PHBoldArrowClockwiseData);
+export const PHBoldArrowDown = lazyImport(PHBoldArrowDownData);
+export const PHBoldArrowUp = lazyImport(PHBoldArrowUpData);
+export const PHBoldCheck = lazyImport(PHBoldCheckData);
+export const PHBoldCheckCircle = lazyImport(PHBoldCheckCircleData);
+export const PHBoldCopy = lazyImport(PHBoldCopyData);
+export const PHBoldInfo = lazyImport(PHBoldInfoData);
+export const PHBoldWarningCircle = lazyImport(PHBoldWarningCircleData);
+export const PHBoldXCircle = lazyImport(PHBoldXCircleData);
+export const PHBoldSpinnerGap = lazyImport(PHBoldSpinnerGapData);
+
+export const PHFillArrowsOutCardinal = lazyImport(PHFillArrowsOutCardinalData);
+export const PHFillAirplane = lazyImport(PHFillAirplaneData);
+export const PHFillBell = lazyImport(PHFillBellData);
+export const PHFillBellSlash = lazyImport(PHFillBellSlashData);
+export const PHFillCaretDown = lazyImport(PHFillCaretDownData);
+export const PHFillCaretRight = lazyImport(PHFillCaretRightData);
+export const PHFillCaretUp = lazyImport(PHFillCaretUpData);
+export const PHFillInfo = lazyImport(PHFillInfoData);
+export const PHFillFunnel = lazyImport(PHFillFunnelData);
+export const PHFillFunnelX = lazyImport(PHFillFunnelXData);
+export const PHFillGear = lazyImport(PHFillGearData);
+export const PHFillPlus = lazyImport(PHFillPlusData);
+export const PHFillStethoscope = lazyImport(PHFillStethoscopeData);
+export const PHFillTable = lazyImport(PHFillTableData);

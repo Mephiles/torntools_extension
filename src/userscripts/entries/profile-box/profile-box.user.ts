@@ -5,12 +5,16 @@ import { setUserdata, userdata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import ProfileBoxFeature from "@features/profile-box/profile-box";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import type { UserPersonalStatsFull, UserWorkStatsResponse } from "tornapi-typescript";
 
 (async () => {
-	await registerUserscriptContext("tt_pb");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_pb");
+	registerNetworkUserscriptContext();
 
 	const key = await requiresAPIKey();
 	await fetchProfileUserdata(key);

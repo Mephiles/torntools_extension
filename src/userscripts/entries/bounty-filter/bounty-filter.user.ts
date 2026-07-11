@@ -2,10 +2,12 @@ import { setupBountiesPage } from "@common/pages/bounties-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import BountyFilterFeature from "@features/bounty-filter/bounty-filter";
 import type { Feature } from "@features/feature";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 
 (async () => {
-	await registerUserscriptContext("tt_bf");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_bf");
 
 	await setupBountiesPage();
 

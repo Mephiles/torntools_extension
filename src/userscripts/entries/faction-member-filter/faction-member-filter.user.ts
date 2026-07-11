@@ -2,10 +2,14 @@ import { setupFactionsPage } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import FactionMemberFilterFeature from "@features/faction-member-filter/faction-member-filter";
 import type { Feature } from "@features/feature";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";
 
 (async () => {
-	await registerUserscriptContext("tt_fmf");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_fmf");
+	registerInjectorUserscriptContext();
 
 	await setupFactionsPage();
 

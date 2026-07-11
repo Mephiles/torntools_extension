@@ -5,12 +5,16 @@ import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { TornV1StocksResponse } from "@common/utils/functions/api-v1.types";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import StocksFilterFeature from "@features/stocks-filter/stocks-filter";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import type { UserStocksResponse } from "tornapi-typescript";
 
 (async () => {
-	await registerUserscriptContext("tt_sf2");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_sf2");
+	registerNetworkUserscriptContext();
 
 	const key = await requiresAPIKey();
 	await Promise.all([fetchUserStocks(key), fetchTornStocks(key)]);

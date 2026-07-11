@@ -5,12 +5,16 @@ import { fetchData } from "@common/utils/functions/api-fetcher";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import type { Feature } from "@features/feature";
 import WeaponExperienceFeature from "@features/weapon-experience/weapon-experience";
-import { registerUserscriptContext } from "@userscripts/runtime/script-context";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import type { UserWeaponExpResponse } from "tornapi-typescript";
 
 (async () => {
-	await registerUserscriptContext("tt_we");
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_we");
+	registerNetworkUserscriptContext();
 
 	const key = await requiresAPIKey();
 

@@ -12,7 +12,6 @@ import {
 	createFilter,
 	type FilterController,
 	getSpecialIcons,
-	getUserActivity,
 	presetSection,
 	type SliderRange,
 	selectSection,

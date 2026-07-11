@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Can Energy",
 	description: "Show the amount of energy a can would give.",
-	version: "1.1.4",
+	version: "1.1.5",
 	matches: ["https://*.torn.com/item.php*"],
 	runAt: "document-end",
 	connect: ["api.torn.com", "torntools.tornplayground.eu"],
