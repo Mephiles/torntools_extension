@@ -51,7 +51,7 @@
 		}
 
 		if (!browser.permissions) {
-			toast.error("There was an issue when requesting additional permissions.");
+			toast.error("There was an issue when requesting additional permissions. Please go to the normal settings page.");
 			return;
 		}
 
