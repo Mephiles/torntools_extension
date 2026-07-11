@@ -26,7 +26,7 @@ export function setupItemPage() {
 				if (!json.success) return;
 
 				if (params.get("step") !== "useItem") return;
-				if (params.has("fac") && params.get("fac") !== "0") return;
+				// if (params.has("fac") && params.get("fac") !== "0") return;
 
 				if (json.items) {
 					if (json.items.itemAppear) {
@@ -49,7 +49,12 @@ export function setupItemPage() {
 					const itemId = parseInt(params.get("itemID"));
 
 					if (!isInfiniteUsageItem(itemId)) {
-						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" });
+						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+							item: parseInt(params.get("itemID")),
+							amount: -1,
+							reason: "usage",
+							loaned: params.has("loaned", "1"),
+						});
 					}
 				}
 			} else if (isSendItemAction(step, json)) {

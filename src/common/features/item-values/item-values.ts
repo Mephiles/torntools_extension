@@ -33,8 +33,8 @@ function initialiseItemValues() {
 		case "item":
 			addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, itemListener);
 			addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, itemListener);
-			addCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, ({ item, amount }) => {
-				updateItemAmount(item, amount);
+			addCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, ({ item, amount, loaned }) => {
+				updateItemAmount(item, amount, loaned);
 			});
 			break;
 	}
@@ -284,8 +284,17 @@ function showItemValues(list: HTMLElement) {
 	}
 }
 
-function updateItemAmount(id: number, change: number) {
+function updateItemAmount(id: number, change: number, loaned?: boolean) {
 	for (const item of findAllElements(`.items-cont > li[data-item="${id}"]`)) {
+		if (typeof loaned === "boolean") {
+			let isLoaned: boolean | undefined;
+			if (item.dataset.rowkey?.includes("f")) {
+				isLoaned = !item.dataset.rowkey.endsWith("f0");
+			}
+
+			if (typeof isLoaned === "boolean" && loaned !== isLoaned) continue;
+		}
+
 		const priceElement = item.querySelector(".tt-item-price");
 		if (!priceElement) continue;
 
