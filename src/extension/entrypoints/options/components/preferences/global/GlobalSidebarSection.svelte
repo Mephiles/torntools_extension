@@ -4,6 +4,7 @@
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
+	import Reminders from "@/entrypoints/options/components/preferences/global/Reminders.svelte";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -115,4 +116,6 @@
 	</PreferenceSectionCard>
 
 	<CustomLinks />
+
+	<Reminders />
 </div>
