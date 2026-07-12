@@ -1,7 +1,9 @@
-import { RUNTIME_INFORMATION } from "@common/utils/context";
+import { RUNTIME_INFORMATION, setRuntimeInformation } from "@common/utils/context";
+import { DEFAULT_RUNTIME_INFORMATION } from "@common/utils/functions/context-interfaces";
 
 // noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
+	setRuntimeInformation(DEFAULT_RUNTIME_INFORMATION);
 	if (typeof RUNTIME_INFORMATION.getWindow().xhrSendAdjustments === "undefined") RUNTIME_INFORMATION.getWindow().xhrSendAdjustments = {};
 
 	function getParams(body: string) {
