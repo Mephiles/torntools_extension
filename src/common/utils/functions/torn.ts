@@ -39,7 +39,7 @@ export const LINKS = {
 	jobs: "https://www.torn.com/companies.php",
 	loan: "https://www.torn.com/loan.php",
 	messages: "https://www.torn.com/messages.php",
-	missions: "https://www.torn.com/loader.php?sid=missions",
+	missions: "https://www.torn.com/page.php?sid=missions",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 	pc: "https://www.torn.com/pc.php",
 	points: "https://www.torn.com/page.php?sid=points",

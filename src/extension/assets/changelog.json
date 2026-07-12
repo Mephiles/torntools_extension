@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Don't adjust the item value for you own items when using a loaned item.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Don't adjust the item value for you own items when using a loaned item.", "contributor": "DeKleineKobini" },
+				{ "message": "Link to the correct missions page.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [{ "message": "Minor internal changes to make userscripts better at tree-shaking.", "contributor": "DeKleineKobini" }]
