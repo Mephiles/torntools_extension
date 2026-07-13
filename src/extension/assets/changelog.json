@@ -10,7 +10,10 @@
 				{ "message": "Link to the correct missions page.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly fill in default values in the database if they are falsy.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },
+				{ "message": "Rename 'Auto Stock Fill' to 'Company Stock Fill'.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": [{ "message": "Minor internal changes to make userscripts better at tree-shaking.", "contributor": "DeKleineKobini" }]
 		}

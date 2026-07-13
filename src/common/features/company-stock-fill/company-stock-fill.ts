@@ -7,11 +7,11 @@ import { convertToNumber, dropDecimals } from "@common/utils/functions/formattin
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, REACT_UPDATE_VERSIONS, updateReactInput } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import "./auto-stock-fill.css";
+import styles from "./company-stock-fill.module.css";
 
 function addListener() {
 	addCustomListener(EVENT_CHANNELS.COMPANY_STOCK_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(AutoStockFillFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(CompanyStockFillFeature)) return;
 
 		await addFillStockButton(true);
 	});
@@ -24,8 +24,8 @@ async function addFillStockButton(add: boolean = false) {
 		"afterend",
 		elementBuilder({
 			type: "div",
-			class: "tt-fill-stock-wrapper",
-			children: [elementBuilder({ type: "button", class: "tt-btn tt-fill-stock", text: "FILL STOCK", events: { click: fillStock } })],
+			class: styles.ttFillStockWrapper,
+			children: [elementBuilder({ type: "button", class: ["tt-btn", styles.ttFillStock], text: "FILL STOCK", events: { click: fillStock } })],
 		}),
 	);
 }
@@ -46,9 +46,9 @@ async function fillStock() {
 	});
 }
 
-export default class AutoStockFillFeature extends Feature {
+export default class CompanyStockFillFeature extends Feature {
 	constructor() {
-		super("Auto Fill Stock", "companies");
+		super("Company Stock Fill", "companies");
 	}
 
 	precondition() {
@@ -68,7 +68,7 @@ export default class AutoStockFillFeature extends Feature {
 	}
 
 	cleanup() {
-		findAllElements(".tt-fill-stock").forEach((x) => x.remove());
+		document.querySelector(`.${styles.ttFillStockWrapper}`)?.remove();
 	}
 
 	storageKeys() {

@@ -3,7 +3,6 @@ import { setupTravelAbroadPage } from "@common/pages/travel-abroad-page";
 import { getPage } from "@common/utils/functions/torn";
 import AbroadPeopleFilterFeature from "@features/abroad-people-filter/abroad-people-filter";
 import AlignLeftFeature from "@features/align-left/align-left";
-import AutoStockFillFeature from "@features/auto-stock-fill/auto-stock-fill";
 import BankInvestmentDueTimeFeature from "@features/bank-investment-due-time/bank-investment-due-time";
 import BankInvestmentInfoFeature from "@features/bank-investment-info/bank-investment-info";
 import BazaarSubVendorItemsFeature from "@features/bazaar-sub-vendor-items/bazaar-sub-vendor-items";
@@ -69,6 +68,7 @@ import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagi
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
 import BarLinksFeature from "@features/bar-links/bar-links";
 import ChatFontSizeFeature from "@features/chat-font-size/chat-font-size";
+import CompanyStockFillFeature from "@features/company-stock-fill/company-stock-fill";
 import CooldownEndTimesFeature from "@features/cooldown-end-times/cooldown-end-times";
 import CreatorMessagesFeature from "@features/creator-messages/creator-messages";
 import CreatorsFeature from "@features/creators/creators";
@@ -365,7 +365,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CityItemsFeature());
 	} else if (page === "companies") {
 		setupCompanyPage();
-		FEATURE_MANAGER.registerFeature(new AutoStockFillFeature());
+		FEATURE_MANAGER.registerFeature(new CompanyStockFillFeature());
 		FEATURE_MANAGER.registerFeature(new CompanyIDFeature());
 		FEATURE_MANAGER.registerFeature(new CompanySpecialsFeature());
 		FEATURE_MANAGER.registerFeature(new EmployeeEffectivenessFeature());
