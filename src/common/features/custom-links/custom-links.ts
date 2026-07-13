@@ -52,7 +52,9 @@ async function showLinks() {
 			);
 		});
 
-		document.querySelector("#sidebar [class*='content_'] [class*='user-information-mobile_']").insertAdjacentElement("beforebegin", customLinksContainer);
+		document
+			.querySelector("#sidebar [class*='user-information-mobile_'], #sidebar [class*='userInformationMobile___']")
+			.insertAdjacentElement("beforebegin", customLinksContainer);
 		document.querySelector(".content-wrapper[role='main']").insertAdjacentElement(
 			"afterbegin",
 			elementBuilder({
