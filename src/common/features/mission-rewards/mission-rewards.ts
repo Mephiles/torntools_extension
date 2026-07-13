@@ -7,7 +7,6 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isFlying } from "@common/utils/functions/torn";
-import { findItemInList } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 function initialise() {
@@ -34,8 +33,8 @@ async function showRewards() {
 		if (type === "Ammo") {
 			const { title: size, ammoType } = information;
 
-			const found = findItemInList(userdata.ammo, { size, type: ammoType });
-			const owned = found ? found.quantity : 0;
+			const ammoSize = userdata.ammo.find((ammo) => ammo.name === size)?.types.find((ammoSize) => ammoSize.name === ammoType);
+			const owned = ammoSize?.quantity ?? 0;
 
 			actionsWrap.insertBefore(
 				elementBuilder({
