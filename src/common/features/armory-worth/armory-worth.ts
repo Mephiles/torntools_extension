@@ -10,7 +10,6 @@ import type {
 	FactionV1ArmorResponse,
 	FactionV1BoostersResponse,
 	FactionV1CesiumResponse,
-	FactionV1CurrencyResponse,
 	FactionV1DrugsResponse,
 	FactionV1MedicalResponse,
 	FactionV1TemporaryResponse,
@@ -21,6 +20,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
+import type { FactionBalanceResponse, FactionBasicResponse } from "tornapi-typescript";
 
 type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionV1ArmorResponse &
@@ -29,7 +29,8 @@ type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionV1DrugsResponse &
 	FactionV1BoostersResponse &
 	FactionV1CesiumResponse &
-	FactionV1CurrencyResponse;
+	FactionBalanceResponse &
+	FactionBasicResponse;
 
 function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
@@ -45,6 +46,7 @@ async function addWorth(force: boolean = false) {
 	document.querySelector(".tt-armory-worth")?.remove();
 
 	const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement!;
+	const selections = ["basic", "balance"];
 	// TODO - Migrate to V2 (faction/weapons).
 	// TODO - Migrate to V2 (faction/armor).
 	// TODO - Migrate to V2 (faction/temporary).
@@ -52,17 +54,16 @@ async function addWorth(force: boolean = false) {
 	// TODO - Migrate to V2 (faction/drugs).
 	// TODO - Migrate to V2 (faction/boosters).
 	// TODO - Migrate to V2 (faction/cesium).
-	// TODO - Migrate to V2 (faction/currency -> faction/balance).
-	const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
+	const legacySelections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium"];
 
 	if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
 		handleData(ttCache.get("armory", userdata.faction.id)!);
 	} else {
-		fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", legacySelections: selections })
+		fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", selections, legacySelections })
 			.then((data) => {
 				handleData(data);
 
-				ttCache.set({ [data.faction_id]: data }, TO_MILLIS.SECONDS * 30, "armory");
+				ttCache.set({ [data.basic.id]: data }, TO_MILLIS.SECONDS * 30, "armory");
 			})
 			.catch((err) => {
 				console.log("Error fetching armory data: ", err);
@@ -84,22 +85,15 @@ async function addWorth(force: boolean = false) {
 	}
 
 	function handleData(data: ArmoryWorthFetchResponse) {
-		let total = 0;
-		for (const type of selections) {
-			if (data[type]) {
-				for (const item of data[type]) {
-					total += ITEM_RESOLVER.getFullItem(item.ID)!.value.market_price * item.quantity;
-				}
-			}
-		}
+		const itemsWorth = legacySelections
+			.flatMap((type) => data[type] ?? [])
+			.map((item) => ITEM_RESOLVER.getFullItem(item.ID)?.value.market_price * item.quantity)
+			.reduce<number>((total, worth) => total + worth, 0);
 
-		// Cesium
-		// if (data.cesium) {
-		// }
+		const points = data.balance.members.map((m) => m.points).reduce((total, points) => total + points, data.balance.faction.points);
+		const pointsWorth = points * torndata.pawnshop.points_value;
 
-		// Points
-		total += data.points * torndata.pawnshop.points_value;
-
+		const total = itemsWorth + pointsWorth;
 		moneyLi.classList.add("tt-modified");
 		moneyLi.appendChild(
 			elementBuilder({
