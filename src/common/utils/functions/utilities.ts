@@ -68,34 +68,6 @@ export const TO_MILLIS = {
 	DAYS: 1000 * 60 * 60 * 24,
 } as const;
 
-export function findItemInObject<T>(object: { [key: string | number]: T }, attributes: object = {}): undefined | (T & { id: string }) {
-	if (!object || Object.keys(attributes).length === 0) return undefined;
-
-	for (const id in object) {
-		const item = {
-			id,
-			...object[id],
-		};
-		if (!Object.keys(attributes).every((attribute) => item[attribute] === attributes[attribute])) continue;
-
-		return item;
-	}
-
-	return undefined;
-}
-
-export function findItemInList<T>(list: T[], attributes: object = {}): undefined | T {
-	if (!list || list.length === 0) return undefined;
-
-	for (const item of list) {
-		if (!Object.keys(attributes).every((attribute) => item[attribute] === attributes[attribute])) continue;
-
-		return item;
-	}
-
-	return undefined;
-}
-
 export function isIntNumber(number: string | null): boolean {
 	if (number === null) return false;
 	if (number.match(/[a-zA-Z]/)) return false;

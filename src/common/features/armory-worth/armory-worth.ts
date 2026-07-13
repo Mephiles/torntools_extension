@@ -87,7 +87,7 @@ async function addWorth(force: boolean = false) {
 	function handleData(data: ArmoryWorthFetchResponse) {
 		const itemsWorth = legacySelections
 			.flatMap((type) => data[type] ?? [])
-			.map((item) => ITEM_RESOLVER.getFullItem(item.ID)?.value.market_price * item.quantity)
+			.map((item) => (ITEM_RESOLVER.getFullItem(item.ID)?.value.market_price ?? 0) * item.quantity)
 			.reduce<number>((total, worth) => total + worth, 0);
 
 		const points = data.balance.members.map((m) => m.points).reduce((total, points) => total + points, data.balance.faction.points);
