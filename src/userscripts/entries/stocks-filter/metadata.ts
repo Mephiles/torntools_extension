@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Stocks Filter",
 	description: "Filter the stocks lists.",
-	version: "1.1.2",
+	version: "1.1.3",
 	matches: ["https://*.torn.com/page.php?sid=stocks*"],
 	runAt: "document-end",
 	connect: ["api.torn.com"],

@@ -33,4 +33,3 @@ export type FactionV1Crimes = FactionV1CrimesResponse["crimes"];
 export type CompanyV1Employees = CompanyV1ProfileResponse["company"]["employees"];
 
 export type TornV1Bank = TornV1BankResponse["bank"];
-export type TornV1Stock = TornV1StocksResponse["stocks"][number];

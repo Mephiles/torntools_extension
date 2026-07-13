@@ -18,6 +18,7 @@ export interface MigrationScript {
 export interface MigrationFlags {
 	updateUserdata: boolean;
 	updateFactiondata: boolean;
+	updateStockdata: boolean;
 	updateTorndata: boolean;
 	clearCache: boolean;
 }
@@ -195,6 +196,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			OFFLOAD_SERVICE.reinitializeTimers().catch(() => {});
 		},
 	},
+	{
+		id: "19384047-faaa-4894-a0bb-1695b964a125",
+		version: "9.0.14",
+		execute(_database, flags, _oldStorage) {
+			flags.updateStockdata = true;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
@@ -207,6 +215,7 @@ export async function executeMigrationScripts(storage: Database, oldStorage: any
 	const flags: MigrationFlags = {
 		updateUserdata: false,
 		updateFactiondata: false,
+		updateStockdata: false,
 		updateTorndata: false,
 		clearCache: false,
 	};
@@ -218,6 +227,7 @@ export async function executeMigrationScripts(storage: Database, oldStorage: any
 
 	if (flags.updateUserdata) storage.userdata.date = 0;
 	if (flags.updateFactiondata) storage.factiondata.date = 0;
+	if (flags.updateStockdata) storage.stockdata.date = 0;
 	if (flags.updateTorndata) storage.torndata.date = 0;
 	if (flags.clearCache) storage.cache = {};
 }

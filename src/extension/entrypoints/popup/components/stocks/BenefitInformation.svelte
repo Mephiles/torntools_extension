@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
 	import { formatNumber } from "@common/utils/functions/formatting";
 	import { isDividendStock } from "@common/utils/functions/torn";
 	import RoiTable from "@extension/entrypoints/popup/components/stocks/RoiTable.svelte";
-	import type { UserStock } from "tornapi-typescript";
+	import type { TornStock, UserStock } from "tornapi-typescript";
 
 	interface BenefitsInformationProps {
-		stock: TornV1Stock;
+		stock: TornStock;
 		userStock: UserStock | null;
 	}
 	const { stock, userStock }: BenefitsInformationProps = $props();
@@ -28,28 +27,28 @@
 		else return "text-destructive";
 	}
 
-	const nonDividendBenefit = $derived(getNonDividendBenefitState(userStock, stock.benefit.frequency));
+	const nonDividendBenefit = $derived(getNonDividendBenefitState(userStock, stock.bonus.frequency));
 	const nonDividendDescriptionClass = $derived(getDescriptionClass(nonDividendBenefit.status));
 </script>
 
 <div class="space-y-1 rounded-md bg-muted p-2">
-	{#if isDividendStock(stock.stock_id)}
+	{#if isDividendStock(stock.id)}
 		<div>
 			{#if userStock?.bonus}
 				{
 					userStock.bonus.available ?
 							"Ready now!" :
-							`Available in ${stock.benefit.frequency - userStock.bonus.progress}/${stock.benefit.frequency} days.`
+							`Available in ${stock.bonus.frequency - userStock.bonus.progress}/${stock.bonus.frequency} days.`
 				}
 			{:else}
-				Available every {stock.benefit.frequency} days.
+				Available every {stock.bonus.frequency} days.
 			{/if}
 		</div>
 		<RoiTable {stock} {userStock} />
 	{:else}
-		<div>Required stocks: {formatNumber(userStock?.shares ?? stock.benefit.requirement)}{userStock ? `/${formatNumber(stock.benefit.requirement)}` : ""}</div>
+		<div>Required stocks: {formatNumber(userStock?.shares ?? stock.bonus.requirement)}{userStock ? `/${formatNumber(stock.bonus.requirement)}` : ""}</div>
 		<div>
-			<span class={nonDividendDescriptionClass}>{stock.benefit.description}</span>
+			<span class={nonDividendDescriptionClass}>{stock.bonus.description}</span>
 			{#if nonDividendBenefit.duration}
 				<span class="text-muted-foreground">{nonDividendBenefit.duration}</span>
 			{/if}

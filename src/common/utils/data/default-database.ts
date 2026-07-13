@@ -1,7 +1,6 @@
 import { RUNTIME_INFORMATION } from "@common/utils/context";
 import type { DatabaseCache } from "@common/utils/data/cache";
 import type { StoredMigration } from "@common/utils/data/migrations";
-import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
 import type { SpecialFilterValue } from "@common/utils/functions/filters";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess, FetchedTorndata, FetchedUserdata } from "@extension/entrypoints/background/updates";
 import type { SavedHighlight } from "@features/chat-highlight/chat-highlight";
@@ -10,7 +9,7 @@ import type { SavedCustomLink } from "@features/custom-links/custom-links";
 import type { StoredHiddenFeeds } from "@features/only-new-feed/only-new-feed";
 import type { StoredResizableChats } from "@features/resizable-chat/resizable-chat";
 import type { UserAlias } from "@features/user-alias/alias";
-import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
+import type { TornItem, TornStock, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
@@ -835,7 +834,10 @@ export const DEFAULT_STORAGE = {
 	},
 	userdata: new DefaultSetting<StoredUserdata>("object", { date: -1 } as StoredUserdata),
 	torndata: new DefaultSetting<StoredTorndata>("object", { date: -2 } as StoredTorndata),
-	stockdata: new DefaultSetting<StoredStockdata>("object", {} as StoredStockdata),
+	stockdata: {
+		date: new DefaultSetting("number", 0),
+		stocks: new DefaultSetting<StoredStocks>("array", []),
+	},
 	factiondata: new DefaultSetting<StoredFactiondata>("object", {} as StoredFactiondata),
 	localdata: {
 		tradeMessage: new DefaultSetting("number", 0),
@@ -1017,7 +1019,7 @@ export type StoredFactiondata = (StoredFactiondataNoAccess | StoredFactiondataBa
 
 export type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | string, TornItem>; date: number };
 
-export type StoredStockdata = { [name: string]: TornV1Stock | number; date: number };
+export type StoredStocks = TornStock[];
 export type StakeoutData = {
 	id: number;
 	order: number;

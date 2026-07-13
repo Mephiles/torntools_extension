@@ -17,7 +17,7 @@ export function isTorndataHealthy(value: DatabaseTorndata) {
 }
 
 export function isStockdataHealthy(value: DatabaseStockdata) {
-	return typeof value === "object" && value !== null && Object.keys(value).length > 5;
+	return typeof value === "object" && value !== null && "stocks" in value && Array.isArray(value.stocks) && value.stocks.length > 5;
 }
 
 export function isFactiondataHealthy(value: DatabaseFactiondata) {

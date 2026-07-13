@@ -12,10 +12,11 @@ async function addAcronyms() {
 	for (const stockName of findAllElements("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
 		const container = stockName.querySelector("[class*='nameContainer__']");
 
-		const id = stockName.closest("[class*='stock___']").id;
-		if (typeof stockdata[id] === "number") continue;
+		const id = parseInt(stockName.closest("[class*='stock___']").id);
+		const stock = stockdata.stocks.find((s) => s.id === id);
+		if (!stock) continue;
 
-		const acronym = stockdata[id].acronym;
+		const acronym = stock.acronym;
 
 		container.classList.add("tt-acronym-container");
 		container.insertAdjacentElement("afterbegin", elementBuilder({ type: "span", class: "tt-acronym", text: `(${acronym}) `, dataset: { acronym } }));

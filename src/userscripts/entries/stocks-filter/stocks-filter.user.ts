@@ -2,14 +2,13 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { setStockdata, setUserdata, stockdata, userdata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import type { TornV1StocksResponse } from "@common/utils/functions/api-v1.types";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import StocksFilterFeature from "@features/stocks-filter/stocks-filter";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
-import type { UserStocksResponse } from "tornapi-typescript";
+import type { TornStocksResponse, UserStocksResponse } from "tornapi-typescript";
 
 (async () => {
 	registerCoreUserscriptContext();
@@ -46,15 +45,15 @@ async function fetchUserStocks(key: string) {
 
 async function fetchTornStocks(key: string) {
 	const cached = ttCache.get("tt-torn-stocks");
-	if (cached) {
-		setStockdata({ ...stockdata, ...cached });
+	if (cached && Array.isArray(cached)) {
+		setStockdata({ ...stockdata, stocks: cached });
 		return;
 	}
 
 	const data = (
-		await fetchData<TornV1StocksResponse>("tornv2", {
+		await fetchData<TornStocksResponse>("tornv2", {
 			section: "torn",
-			legacySelections: ["stocks"],
+			selections: ["stocks"],
 			key: key,
 			includeKey: true,
 		})
@@ -62,5 +61,5 @@ async function fetchTornStocks(key: string) {
 
 	ttCache.set({ "tt-torn-stocks": data }, TO_MILLIS.MINUTES * 15);
 
-	setStockdata({ ...stockdata, ...data });
+	setStockdata({ ...stockdata, stocks: data });
 }

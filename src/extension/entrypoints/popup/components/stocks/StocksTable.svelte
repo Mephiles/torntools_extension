@@ -1,16 +1,14 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
-	import type {DatabaseSettings, DatabaseStockdata, DatabaseUserdata} from "@common/utils/data/database";
-	import type {TornV1Stock} from "@common/utils/functions/api-v1.types";
+	import type { DatabaseSettings, DatabaseStockdata, DatabaseUserdata } from "@common/utils/data/database";
 	import { applyPlural, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
 	import { getStockBoughtPrice } from "@common/utils/functions/torn";
 	import BenefitInformation from "@extension/entrypoints/popup/components/stocks/BenefitInformation.svelte";
 	import StockSection from "@extension/entrypoints/popup/components/stocks/StockSection.svelte";
 	import { Card, CardContent, CardHeader, CardTitle } from "@svelte/components/ui/card";
 	import { Input } from "@svelte/components/ui/input";
-	import type { UserStock } from "tornapi-typescript";
+	import type { TornStock, UserStock } from "tornapi-typescript";
 	import { settingsStore, stockdataStore, userdataStore } from "../../stores/database-store.svelte";
-
 
 	interface StocksTableProps {
 		query: string;
@@ -21,16 +19,14 @@
 
 	function getRows(stockdata: DatabaseStockdata, userdata: DatabaseUserdata, settings: DatabaseSettings, search: string) {
 		const keyword = search.trim().toLowerCase();
-		return Object.entries(stockdata ?? {})
-			.filter(([id]) => id !== "date")
-			.map(([id, stock]) => {
-				if (typeof stock === "number") return null;
-				const userStock = settings?.apiUsage?.user?.stocks ? ((userdata?.stocks ?? []).find((entry: UserStock) => entry.id === Number(id)) ?? null) : null;
-				return { id: Number(id), stock, userStock };
+		return stockdata.stocks
+			.map((stock) => {
+				const userStock = settings?.apiUsage?.user?.stocks ? ((userdata?.stocks ?? []).find((entry: UserStock) => entry.id === stock.id) ?? null) : null;
+				return { id: stock.id, stock, userStock };
 			})
-			.filter((row): row is { id: number; stock: TornV1Stock; userStock: UserStock | null } => !!row)
 			.filter((row) => {
 				if (!keyword) return !!row.userStock;
+
 				return keyword === "*" || `${row.stock.name} (${row.stock.acronym})`.toLowerCase().includes(keyword);
 			});
 	}
@@ -45,13 +41,13 @@
 		});
 	}
 
-	function getProfit(stock: TornV1Stock, userStock: UserStock | null) {
+	function getProfit(stock: TornStock, userStock: UserStock | null) {
 		if (!userStock) return null;
 
 		const boughtPrice = getStockBoughtPrice(userStock).boughtPrice;
 		return {
 			boughtPrice,
-			value: dropDecimals((stock.current_price - boughtPrice) * userStock.shares),
+			value: dropDecimals((stock.market.price - boughtPrice) * userStock.shares),
 		};
 	}
 </script>
@@ -78,8 +74,8 @@
 			<CardContent class="space-y-1 text-xs">
 				<StockSection label="Price Information">
 					<div class="grid grid-cols-2 gap-1 rounded-md bg-muted p-2">
-						<span>Current price: {formatNumber(row.stock.current_price, { decimals: 2, currency: true })}</span>
-						<span>Total shares: {formatNumber(row.stock.total_shares)}</span>
+						<span>Current price: {formatNumber(row.stock.market.price, { decimals: 2, currency: true })}</span>
+						<span>Total shares: {formatNumber(row.stock.market.shares)}</span>
 						{#if profit}
 							<span>Bought at: {formatNumber(profit.boughtPrice, { decimals: 2, currency: true })}</span>
 						{/if}
