@@ -35,7 +35,6 @@ import type {
 	FactionV1CrimesResponse,
 	TornV1PawnshopResponse,
 	TornV1StatsResponse,
-	TornV1StocksResponse,
 	UserV1BarsResponse,
 	UserV1EducationResponse,
 	UserV1NetworthResponse,
@@ -59,6 +58,7 @@ import type {
 	TornItemsResponse,
 	TornMedalsResponse,
 	TornProperties,
+	TornStocksResponse,
 	UserAmmoResponse,
 	UserBattleStatsResponse,
 	UserCalendarResponse,
@@ -1510,24 +1510,28 @@ function hasOutdatedTornStats(): boolean {
 	return !isSameUTCDay(alteredStatsTimestamp, torndata.date) && torndata.date > alteredStatsTimestamp;
 }
 
-type FetchedStockdata = TornV1StocksResponse;
+type FetchedStockdata = TornStocksResponse;
 
 export async function updateStocks() {
-	const oldStocks = { ...stockdata };
-	// TODO - Migrate to V2 (torn/stocks).
-	const stocks = (await fetchData<FetchedStockdata>("tornv2", { section: "torn", legacySelections: ["stocks"] })).stocks;
-	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
+	const oldStocks = [...(stockdata?.stocks ?? [])];
+	const stocks = (await fetchData<FetchedStockdata>("tornv2", { section: "torn", selections: ["stocks"] })).stocks;
+	if (!stocks?.length) throw new Error("Aborted updating due to an unexpected response.");
 
-	await ttStorage.change({ stockdata: { ...stocks, date: Date.now() } });
+	await ttStorage.change({ stockdata: { stocks, date: Date.now() } });
 
-	if (oldStocks && settings.notifications.types.global) {
-		for (const id in settings.notifications.types.stocks) {
-			if (!oldStocks[id] || typeof oldStocks[id] === "number") continue;
+	if (oldStocks.length && settings.notifications.types.global) {
+		for (const _id in settings.notifications.types.stocks) {
+			const id = parseInt(_id);
+			const oldStock = oldStocks.find((s) => s.id === id);
+			if (!oldStock) continue;
+
+			const newStock = stocks.find((s) => s.id === id);
+			if (!newStock) continue;
 
 			const alerts = settings.notifications.types.stocks[id];
 
-			if (alerts.priceFalls && oldStocks[id].current_price > alerts.priceFalls && stocks[id].current_price <= alerts.priceFalls) {
-				const message = `(${stocks[id].acronym}) ${stocks[id].name} has fallen to ${formatNumber(stocks[id].current_price, {
+			if (alerts.priceFalls && oldStock.market.price > alerts.priceFalls && newStock.market.price <= alerts.priceFalls) {
+				const message = `(${newStock.acronym}) ${newStock.name} has fallen to ${formatNumber(newStock.market.price, {
 					currency: true,
 				})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`;
 
@@ -1537,8 +1541,8 @@ export async function updateStocks() {
 					url: LINKS.stocks,
 					date: Date.now(),
 				});
-			} else if (alerts.priceReaches && oldStocks[id].current_price < alerts.priceReaches && stocks[id].current_price >= alerts.priceReaches) {
-				const message = `(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
+			} else if (alerts.priceReaches && oldStock.market.price < alerts.priceReaches && newStock.market.price >= alerts.priceReaches) {
+				const message = `(${newStock.acronym}) ${newStock.name} has reached ${formatNumber(newStock.market.price, {
 					currency: true,
 				})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`;
 

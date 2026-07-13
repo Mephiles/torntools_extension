@@ -2,7 +2,6 @@ import "./stocks-filter.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, stockdata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
 import { createFilter, type FilterController, textSection, type YNCheckboxState, ynCheckboxesSection } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -39,8 +38,9 @@ async function addFilterContainer() {
 			defaultValue: filters.stocks.name,
 			test: (row, name) => {
 				if (!name) return true;
+
 				const id = parseInt(row.getAttribute("id"));
-				const stock = stockdata?.[id] as TornV1Stock | undefined;
+				const stock = stockdata.stocks.find((s) => s.id === id);
 				const acronym = (stock?.acronym ?? row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym)?.toLowerCase();
 				const names = name.split(",");
 				return names.some((n) => row.querySelector(`li[class*="stockName___"][aria-label*="${n}" i]`) || acronym?.includes(n.toLowerCase()));
@@ -87,12 +87,13 @@ async function addFilterContainer() {
 				if (pg.profit === "yes" || pg.profit === "no") {
 					if (!hasAPIData() || !settings.apiUsage.user.stocks) return true;
 					const id = parseInt(row.getAttribute("id"));
-					if (typeof stockdata[id] === "number") return true;
+					const stock = stockdata.stocks.find((s) => s.id === id);
+					if (!stock) return true;
 
 					const userStock = userdata.stocks.find((s) => s.id === id);
 					if (!userStock) return false;
 
-					const currentPrice = stockdata[id].current_price * userStock.shares;
+					const currentPrice = stock.market.price * userStock.shares;
 					const boughtPrice = userStock.transactions
 						.map(({ shares, price }) => shares * price)
 						.reduce((total, transactionTotal) => total + transactionTotal, 0);

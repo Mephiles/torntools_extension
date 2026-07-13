@@ -33,7 +33,10 @@ function fullDataDump(reduction: boolean = true) {
 		});
 		if (reduction) {
 			if (storage.settings.notifications?.soundCustom) storage.settings.notifications.soundCustom = "<reduced:custom_sound>";
-			storage.stockdata = { "<reduced>": Object.keys(storage.stockdata).length, date: storage.stockdata.date };
+			if (storage.stockdata) {
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.stockdata.stocks = `<reduced:${storage.stockdata.stocks?.length ?? "N/A"}>"`;
+			}
 			if (storage.torndata) {
 				// @ts-expect-error Modifying a copy of the database for debugging purposes.
 				storage.torndata.education = `<reduced:${storage.torndata.education?.length ?? "N/A"}>`;

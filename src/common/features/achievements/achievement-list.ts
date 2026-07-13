@@ -1,5 +1,4 @@
 import { stockdata, userdata } from "@common/utils/data/database";
-import type { TornV1Stock } from "@common/utils/functions/api-v1.types";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
 
@@ -684,7 +683,9 @@ export const ACHIEVEMENTS: Achievement[] = [
 	{
 		name: "Stock investment",
 		stats: () =>
-			userdata.stocks.map((stock) => stock.shares * (stockdata[stock.id] as TornV1Stock).current_price).reduce((total, value) => total + value, 0),
+			userdata.stocks
+				.map((stock) => stock.shares * (stockdata.stocks.find((s) => s.id === stock.id)?.market.price ?? 0))
+				.reduce((total, value) => total + value, 0),
 		detection: { keyword: "stock market", include: ["invest"] },
 		requirements: { pages: ["stocks"] },
 	},

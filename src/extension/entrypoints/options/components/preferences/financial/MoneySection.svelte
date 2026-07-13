@@ -12,17 +12,7 @@
 
 	const hiddenCasinoGames = $derived($settingsStore.hideCasinoGames ?? []);
 	const hiddenStocks = $derived($settingsStore.hideStocks ?? []);
-	const stockChoices = $derived.by(() => {
-		const source = ($stockdataStore ?? {}) as Record<string, unknown>;
-
-		return Object.entries(source)
-			.filter((entry): entry is [string, { name: string }] => isStockEntry(entry[1]))
-			.map(([id, stock]) => ({ id, name: stock.name }));
-	});
-
-	function isStockEntry(value: unknown): value is { name: string } {
-		return !!value && typeof value === "object" && "name" in value && typeof (value as { name?: unknown }).name === "string";
-	}
+	const stockChoices = $derived(($stockdataStore?.stocks ?? []).map(stock => ({ id: stock.id.toString(), name: stock.name })));
 
 	async function updateCasinoGameVisibility(game: string, hidden: boolean) {
 		const nextHiddenGames = hidden ? [...hiddenCasinoGames, game] : hiddenCasinoGames.filter((hiddenGame) => hiddenGame !== game);
