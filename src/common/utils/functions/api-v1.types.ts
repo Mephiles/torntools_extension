@@ -1,6 +1,5 @@
 import type { CompanyV1, FactionV1, TornV1, UserV1 } from "tornapi-typescript";
 
-export type UserV1AmmoResponse = UserV1["selections"]["ammo"]["response"];
 export type UserV1BarsResponse = UserV1["selections"]["bars"]["response"];
 export type UserV1BazaarResponse = UserV1["selections"]["bazaar"]["response"];
 export type UserV1DisplayCaseResponse = UserV1["selections"]["display"]["response"];

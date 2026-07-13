@@ -36,7 +36,6 @@ import type {
 	TornV1PawnshopResponse,
 	TornV1StatsResponse,
 	TornV1StocksResponse,
-	UserV1AmmoResponse,
 	UserV1BarsResponse,
 	UserV1EducationResponse,
 	UserV1NetworthResponse,
@@ -60,6 +59,7 @@ import type {
 	TornItemsResponse,
 	TornMedalsResponse,
 	TornProperties,
+	UserAmmoResponse,
 	UserBattleStatsResponse,
 	UserCalendarResponse,
 	UserCooldownsResponse,
@@ -227,7 +227,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserMeritsResponse &
 	UserV1PerksResponse &
 	UserV1NetworthResponse &
-	UserV1AmmoResponse &
+	UserAmmoResponse &
 	UserBattleStatsResponse &
 	UserWorkStatsResponse &
 	UserSkillsResponse &
@@ -293,18 +293,17 @@ export async function updateUserdata(forceUpdate = false) {
 	if (updateBasic) {
 		// TODO - Migrate to V2 (user/perks).
 		// TODO - Migrate to V2 (user/networth).
-		// TODO - Migrate to V2 (user/ammo).
 		for (const selection of [
 			// "inventory",
 			"perks",
 			"networth",
-			"ammo",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
 		}
 		for (const selection of [
+			"ammo",
 			"battlestats",
 			"skills",
 			"calendar",
