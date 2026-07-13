@@ -22,7 +22,6 @@ export type CompanyV1ProfileResponse = CompanyV1["selections"]["profile"]["respo
 export type TornV1BankResponse = TornV1["selections"]["bank"]["response"];
 export type TornV1PawnshopResponse = TornV1["selections"]["pawnshop"]["response"];
 export type TornV1StatsResponse = TornV1["selections"]["stats"]["response"];
-export type TornV1StocksResponse = TornV1["selections"]["stocks"]["response"];
 
 export type UserV1Bar = UserV1BarsResponse["nerve"];
 export type UserV1BazaarItem = UserV1BazaarResponse["bazaar"][number];
