@@ -16,7 +16,6 @@ export type FactionV1MedicalResponse = FactionV1["selections"]["medical"]["respo
 export type FactionV1TemporaryResponse = FactionV1["selections"]["temporary"]["response"];
 export type FactionV1WeaponsResponse = FactionV1["selections"]["weapons"]["response"];
 
-export type CompanyV1EmployeesResponse = CompanyV1["selections"]["employees"]["response"];
 export type CompanyV1ProfileResponse = CompanyV1["selections"]["profile"]["response"];
 
 export type TornV1BankResponse = TornV1["selections"]["bank"]["response"];
