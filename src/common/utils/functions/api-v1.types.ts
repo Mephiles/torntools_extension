@@ -22,7 +22,6 @@ export type CompanyV1EmployeesResponse = CompanyV1["selections"]["employees"]["r
 export type CompanyV1ProfileResponse = CompanyV1["selections"]["profile"]["response"];
 
 export type TornV1BankResponse = TornV1["selections"]["bank"]["response"];
-export type TornV1ItemsResponse = TornV1["selections"]["items"]["response"];
 export type TornV1PawnshopResponse = TornV1["selections"]["pawnshop"]["response"];
 export type TornV1StatsResponse = TornV1["selections"]["stats"]["response"];
 export type TornV1StocksResponse = TornV1["selections"]["stocks"]["response"];
@@ -36,5 +35,4 @@ export type FactionV1Crimes = FactionV1CrimesResponse["crimes"];
 export type CompanyV1Employees = CompanyV1ProfileResponse["company"]["employees"];
 
 export type TornV1Bank = TornV1BankResponse["bank"];
-export type TornV1Items = TornV1ItemsResponse["items"];
 export type TornV1Stock = TornV1StocksResponse["stocks"][number];
