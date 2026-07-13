@@ -2,13 +2,12 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import type { CompanyV1EmployeesResponse } from "@common/utils/functions/api-v1.types";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { getUserDetails, isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
 import { getTimeUntilNextJobUpdate } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
-import type { UserCompany } from "tornapi-typescript";
+import type { CompanyEmployeesResponse, UserCompany } from "tornapi-typescript";
 
 async function showCompanyAddictionLevel() {
 	await requireSidebar();
@@ -40,26 +39,27 @@ async function getCompanyAddiction() {
 		const id = getUserDetails().id;
 		const company_id = (userdata.job as UserCompany).id;
 
+		let response: CompanyEmployeesResponse;
 		try {
-			const response = // TODO - Migrate to V2 (company/employees).
-				(
-					await fetchData<CompanyV1EmployeesResponse>("tornv2", {
-						section: "company",
-						id: company_id,
-						legacySelections: ["employees"],
-						silent: true,
-					})
-				).company_employees;
-
-			const addiction = response[id].effectiveness.addiction ?? 0;
-
-			ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company");
-
-			return addiction;
+			response = await fetchData<CompanyEmployeesResponse>("tornv2", {
+				section: "company",
+				id: company_id,
+				selections: ["employees"],
+				silent: true,
+			});
 		} catch (error) {
 			console.error(`TT - An error occurred when fetching company employees data, Error: ${error}`);
-			throw new Error(`An error occurred when fetching company employees data, Error: ${error}`);
+			throw new Error("Failed fetching company employees.", { cause: error });
 		}
+
+		const employee = response.employees.find((e) => e.id === id);
+		if (!employee || !("effectiveness" in employee)) return 0;
+
+		const addiction = employee.effectiveness.addiction;
+
+		ttCache.set({ addiction: addiction }, getTimeUntilNextJobUpdate(), "company");
+
+		return addiction;
 	}
 }
 
