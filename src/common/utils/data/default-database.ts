@@ -13,17 +13,18 @@ import type { UserAlias } from "@features/user-alias/alias";
 import type { TornItem, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
-type InactivityDisplay = { days: number | null; color: string };
 
 export class DefaultSetting<T = never> {
 	readonly type: SettingType;
-	readonly defaultValue: undefined | T | (() => T) | null;
+	readonly defaultValue: T | (() => T) | null;
 
 	constructor(type: SettingType, defaultValue?: T | (() => T) | null) {
 		this.type = type;
-		this.defaultValue = defaultValue;
+		this.defaultValue = defaultValue ?? null;
 	}
 }
+
+type InactivityDisplay = { days: number | null; color: string };
 
 export const DEFAULT_STORAGE = {
 	version: {

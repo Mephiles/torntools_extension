@@ -233,7 +233,7 @@ function migrateDefaultSetting(oldValue: any, setting: DefaultSetting<any>): any
 		return oldValue;
 	}
 
-	if (setting.defaultValue) {
+	if (setting.defaultValue !== null) {
 		return typeof setting.defaultValue === "function" ? setting.defaultValue() : setting.defaultValue;
 	}
 
