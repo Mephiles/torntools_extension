@@ -195,6 +195,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			OFFLOAD_SERVICE.reinitializeTimers().catch(() => {});
 		},
 	},
+	{
+		// id: "74d901bd-1312-4117-8e5e-188e236feafd",
+		// version: "9.0.15",
+		execute(_database, flags, _oldStorage) {
+			flags.updateUserdata = true;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

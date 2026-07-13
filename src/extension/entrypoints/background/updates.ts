@@ -37,7 +37,6 @@ import type {
 	TornV1StatsResponse,
 	TornV1StocksResponse,
 	UserV1AmmoResponse,
-	UserV1BarsResponse,
 	UserV1EducationResponse,
 	UserV1NetworthResponse,
 	UserV1PerksResponse,
@@ -60,6 +59,7 @@ import type {
 	TornItemsResponse,
 	TornMedalsResponse,
 	TornProperties,
+	UserBarsResponse,
 	UserBattleStatsResponse,
 	UserCalendarResponse,
 	UserCooldownsResponse,
@@ -218,7 +218,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserJobResponse &
 	TimestampResponse &
 	UserNotificationsResponse &
-	UserV1BarsResponse &
+	UserBarsResponse &
 	UserCooldownsResponse &
 	UserTravelResponse &
 	UserNewMessagesResponse &
@@ -276,13 +276,7 @@ export async function updateUserdata(forceUpdate = false) {
 		// Use "newevents" selection only when the old events count > new events count
 		// Fetch the notifications count always, to avoid additional API calls
 
-		// TODO - Migrate to V2 (user/bars).
-		for (const selection of ["bars"]) {
-			if (!settings.apiUsage.user[selection]) continue;
-
-			selections.push(selection);
-		}
-		for (const selection of ["cooldowns", "icons", "newmessages", "money", "travel", "refills"]) {
+		for (const selection of ["cooldowns", "icons", "newmessages", "money", "travel", "refills", "bars"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -684,19 +678,23 @@ export async function updateUserdata(forceUpdate = false) {
 	async function notifyBars() {
 		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
-		for (const bar of ["energy", "happy", "nerve", "life"]) {
-			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) continue;
+		for (const bar of ["energy", "happy", "nerve", "life"] as const) {
+			if (!settings.notifications.types[bar].length || !oldUserdata.bars[bar]) continue;
 
 			const checkpoints = settings.notifications.types[bar]
 				.map<number>((checkpoint: string | number) =>
 					typeof checkpoint === "string" && checkpoint.includes("%")
-						? (parseInt(checkpoint) / 100) * newUserdata[bar].maximum
+						? (parseInt(checkpoint) / 100) * newUserdata.bars[bar].maximum
 						: parseInt(checkpoint.toString()),
 				)
 				.sort((a, b) => b - a);
 
 			for (const checkpoint of checkpoints) {
-				if (oldUserdata[bar].current < newUserdata[bar].current && newUserdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+				if (
+					oldUserdata.bars[bar].current < newUserdata.bars[bar].current &&
+					newUserdata.bars[bar].current >= checkpoint &&
+					!notifications[bar][checkpoint]
+				) {
 					const url = (() => {
 						switch (bar) {
 							case "energy":
@@ -714,13 +712,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 					const notification = newNotification(
 						"Bars",
-						`Your ${capitalizeText(bar)} bar has reached ${newUserdata[bar].current}/${newUserdata[bar].maximum}.`,
+						`Your ${capitalizeText(bar)} bar has reached ${newUserdata.bars[bar].current}/${newUserdata.bars[bar].maximum}.`,
 						url,
 					);
 					await dispatchNotification(notification);
 					await ttStorage.change({ notifications: { [bar]: { [checkpoint]: notification } } });
 					break;
-				} else if (newUserdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
+				} else if (newUserdata.bars[bar].current < checkpoint && notifications[bar][checkpoint]) {
 					await ttStorage.update("notifications", (notifications) => delete notifications[bar][checkpoint]);
 				}
 			}
@@ -753,11 +751,12 @@ export async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.chainTimerEnabled &&
 			settings.notifications.types.chainTimer.length > 0 &&
-			newUserdata.chain.timeout !== 0 &&
-			newUserdata.chain.current >= 10
+			newUserdata.bars.chain &&
+			newUserdata.bars.chain.timeout !== 0 &&
+			newUserdata.bars.chain.current >= 10
 		) {
-			const timeout = newUserdata.chain.timeout * 1000 - (now - newUserdata.timestamp * 1000); // ms
-			const count = newUserdata.chain.current;
+			const timeout = newUserdata.bars.chain.timeout * 1000 - (now - newUserdata.timestamp * 1000); // ms
+			const count = newUserdata.bars.chain.current;
 
 			for (const checkpoint of settings.notifications.types.chainTimer.sort((a, b) => a - b)) {
 				const key = `${count}_${checkpoint}`;
@@ -779,10 +778,11 @@ export async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.chainBonusEnabled &&
 			settings.notifications.types.chainBonus.length > 0 &&
-			newUserdata.chain.timeout !== 0 &&
-			newUserdata.chain.current >= 10
+			newUserdata.bars.chain &&
+			newUserdata.bars.chain.timeout !== 0 &&
+			newUserdata.bars.chain.current >= 10
 		) {
-			const count = newUserdata.chain.current;
+			const count = newUserdata.bars.chain.current;
 			const nextBonus = getNextChainBonus(count);
 
 			for (const checkpoint of settings.notifications.types.chainBonus.sort((a, b) => b - a)) {
@@ -1028,7 +1028,7 @@ export async function showIconBars() {
 		if (settings.pages.icon.nerve) barCount++;
 		if (settings.pages.icon.happy) barCount++;
 		if (settings.pages.icon.life) barCount++;
-		if (settings.pages.icon.chain && userdata.chain && userdata.chain.current > 0) barCount++;
+		if (settings.pages.icon.chain && userdata.bars.chain && userdata.bars.chain.current > 0) barCount++;
 		if (settings.pages.icon.travel && userdata.travel && userdata.travel.time_left > 0) barCount++;
 
 		const canvas = new OffscreenCanvas(128, 128);
@@ -1052,9 +1052,9 @@ export async function showIconBars() {
 
 		let y = padding;
 
-		Object.keys(BAR_COLORS).forEach((key) => {
-			if (!settings.pages.icon[key] || !userdata[key]) return;
-			if (key === "chain" && userdata.chain.current === 0) return;
+		(Object.keys(BAR_COLORS) as (keyof typeof BAR_COLORS)[]).forEach((key) => {
+			if (!settings.pages.icon[key] || !userdata.bars[key]) return;
+			if (key === "chain" && (!userdata.bars.chain || userdata.bars.chain.current === 0)) return;
 
 			let current: number, maximum: number;
 			if (key === "travel") {
@@ -1063,13 +1063,13 @@ export async function showIconBars() {
 				current = totalTrip - userdata[key].time_left;
 				maximum = totalTrip;
 			} else if (key === "chain") {
-				current = userdata[key].current;
-				maximum = userdata[key].maximum;
+				current = userdata.bars[key].current;
+				maximum = userdata.bars[key].max;
 
 				if (current !== maximum) maximum = getNextChainBonus(current);
 			} else {
-				current = userdata[key].current;
-				maximum = userdata[key].maximum;
+				current = userdata.bars[key].current;
+				maximum = userdata.bars[key].maximum;
 			}
 
 			let width = barWidth * (current / maximum);

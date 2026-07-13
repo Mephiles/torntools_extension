@@ -48,10 +48,10 @@ async function showWarnings() {
 					children: [
 						elementBuilder({
 							type: "div",
-							class: ["cooldown", "energy", getDurationClass(userdata.energy.fulltime)],
+							class: ["cooldown", "energy", getDurationClass(userdata.bars.energy.full_time)],
 							text: "Energy",
 						}),
-						elementBuilder({ type: "div", class: ["cooldown", "nerve", getDurationClass(userdata.nerve.fulltime)], text: "Nerve" }),
+						elementBuilder({ type: "div", class: ["cooldown", "nerve", getDurationClass(userdata.bars.nerve.full_time)], text: "Nerve" }),
 						elementBuilder({ type: "div", class: ["cooldown", "drug", getDurationClass(userdata.cooldowns.drug)], text: "Drug" }),
 						elementBuilder({
 							type: "div",
@@ -98,8 +98,8 @@ async function showWarnings() {
 			}),
 		);
 	} else {
-		handleClass(cooldowns.querySelector(".energy"), userdata.energy.fulltime);
-		handleClass(cooldowns.querySelector(".nerve"), userdata.nerve.fulltime);
+		handleClass(cooldowns.querySelector(".energy"), userdata.bars.energy.full_time);
+		handleClass(cooldowns.querySelector(".nerve"), userdata.bars.nerve.full_time);
 		handleClass(cooldowns.querySelector(".drug"), userdata.cooldowns.drug);
 		handleClass(cooldowns.querySelector(".booster"), userdata.cooldowns.booster);
 		handleClass(cooldowns.querySelector(".medical"), userdata.cooldowns.medical);
