@@ -390,7 +390,7 @@ export function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
 	}
 }
 
-export function executeScript(filename: string, remove = true) {
+export function executeScript(filename: string, remove = true, unique = false) {
 	const script = elementBuilder({
 		type: "script",
 		attributes: {
@@ -400,6 +400,8 @@ export function executeScript(filename: string, remove = true) {
 	});
 
 	requireCondition(() => !!document.head).then(() => {
+		if (unique && document.head.querySelector(`:scope > script[src='${filename}']`)) return;
+
 		document.head.appendChild(script);
 
 		if (remove) setTimeout(() => script.remove(), 2000);

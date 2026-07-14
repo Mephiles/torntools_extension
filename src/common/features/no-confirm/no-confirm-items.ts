@@ -1,10 +1,10 @@
+import { SCRIPT_INJECTOR } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { executeScript } from "@common/utils/functions/dom";
-import { injectXHR } from "@common/utils/functions/listeners";
 import { ExecutionTiming, Feature } from "@features/feature";
 
 function injectAdjustments() {
-	injectXHR();
+	SCRIPT_INJECTOR.injectXHR();
 
 	executeScript(browser.runtime.getURL("/item-no-confirm--inject.js"), false);
 }

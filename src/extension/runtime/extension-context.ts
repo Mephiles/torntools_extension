@@ -49,21 +49,21 @@ const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; inject
 	injectFetch() {
 		if (this.injectedFetch) return;
 
-		executeScript(browser.runtime.getURL("/fetch--inject.js"), false);
+		executeScript(browser.runtime.getURL("/fetch--inject.js"), false, true);
 		this.injectedFetch = true;
 	},
 	injectedXHR: false,
 	injectXHR() {
 		if (this.injectedXHR) return;
 
-		executeScript(browser.runtime.getURL("/xhr--inject.js"), false);
+		executeScript(browser.runtime.getURL("/xhr--inject.js"), false, true);
 		this.injectedXHR = true;
 	},
 	injectedCityItemsMap: false,
 	injectCityItemsMap() {
 		if (this.injectedCityItemsMap) return;
 
-		executeScript(browser.runtime.getURL("/city-items--inject.js"), false);
+		executeScript(browser.runtime.getURL("/city-items--inject.js"), false, true);
 		this.injectedCityItemsMap = true;
 	},
 };
