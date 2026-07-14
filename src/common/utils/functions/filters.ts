@@ -727,6 +727,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	}
 
 	function applyFilter(rows: HTMLElement[], activeSections: FilterSectionInstance[], values: Map<string, unknown>): void {
+		const activeSectionReasons = activeSections.map((s) => s.key);
+
 		rowLoop: for (const row of rows) {
 			for (const section of activeSections) {
 				try {
@@ -741,9 +743,11 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 				}
 			}
 
-			row.classList.remove("tt-hidden");
-			_toggleSiblings(row, false);
-			delete row.dataset.hideReason;
+			if (activeSectionReasons.includes(row.dataset.hideReason)) {
+				row.classList.remove("tt-hidden");
+				_toggleSiblings(row, false);
+				delete row.dataset.hideReason;
+			}
 		}
 	}
 

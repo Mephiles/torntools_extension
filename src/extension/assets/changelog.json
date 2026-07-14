@@ -14,7 +14,11 @@
 					"message": "Force load the database on every update cycle to hopefully avoid issues with event notifications.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Avoid loading the injection script more than once.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid loading the injection script more than once.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Resolve filters for additional features like stats estimates not properly applying the other sections.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },
