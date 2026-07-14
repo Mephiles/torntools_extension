@@ -1816,6 +1816,12 @@ export function getPage() {
 		case "crimes":
 			page = "crimes-v1";
 			break;
+		case "shops": {
+			const step = getSearchParameters().get("step")?.toLowerCase();
+
+			if (step === "pawnshop") page = "pawnshop";
+			break;
+		}
 	}
 
 	return page;

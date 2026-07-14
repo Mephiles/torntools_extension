@@ -28,6 +28,10 @@
 				{
 					"message": "Introduce priorities for filter sections to avoid wasting api calls for things like stats estimates.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Identify the pawnshop as an unique page to avoid running most shop features there.",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"removed": [],

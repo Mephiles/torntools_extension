@@ -555,8 +555,10 @@ export function scriptManager() {
 	if (["shops", "bigalgunshop"].includes(page)) {
 		FEATURE_MANAGER.registerFeature(new ShopFiltersFeature());
 		FEATURE_MANAGER.registerFeature(new ShopProfitsFeature());
-		FEATURE_MANAGER.registerFeature(new ShopValuesFeature());
 		FEATURE_MANAGER.registerFeature(new ShopsFillMaxFeature());
+	}
+	if (["shops", "bigalgunshop", "pawnshop"].includes(page)) {
+		FEATURE_MANAGER.registerFeature(new ShopValuesFeature());
 	}
 }
 
