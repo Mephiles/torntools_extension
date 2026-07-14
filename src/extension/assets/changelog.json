@@ -9,7 +9,11 @@
 				{ "message": "Don't adjust the item value for you own items when using a loaned item.", "contributor": "DeKleineKobini" },
 				{ "message": "Link to the correct missions page.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly fill in default values in the database if they are falsy.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix 'Custom Links' for smaller devices with the fly-out sidebar.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix 'Custom Links' for smaller devices with the fly-out sidebar.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Force load the database on every update cycle to hopefully avoid issues with event notifications.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },

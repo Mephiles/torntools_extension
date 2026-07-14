@@ -94,7 +94,7 @@ const ALARM_NAMES = {
 } as const;
 
 async function onAlarm(alarm: Alarm) {
-	await loadDatabase();
+	await loadDatabase(true);
 
 	switch (alarm.name) {
 		case ALARM_NAMES.CLEAR_CACHE:
