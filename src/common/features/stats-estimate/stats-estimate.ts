@@ -60,13 +60,7 @@ export class StatsEstimate {
 		};
 
 		findAllElements(selector)
-			.filter(
-				(row) =>
-					!(
-						(row.dataset.hideReason !== "stats-estimate" && row.dataset.hideReason !== "statsEstimate" && row.classList.contains("tt-hidden")) ||
-						row.classList.contains("tt-estimated")
-					),
-			)
+			.filter((row) => !row.classList.contains("tt-estimated") && (!row.classList.contains("tt-hidden") || row.dataset.hideReason === "statsEstimates"))
 			.forEach((row) => {
 				const request = handler(row);
 				if (!request) return;
@@ -80,6 +74,7 @@ export class StatsEstimate {
 				options.placement(row).insertAdjacentElement("afterend", section);
 
 				showLoadingPlaceholder(field, true);
+				if (row.classList.contains("tt-hidden")) section.classList.add("tt-hidden");
 
 				let estimate: string;
 				if (ttCache.hasValue("stats-estimate", id)) {
@@ -118,7 +113,7 @@ export class StatsEstimate {
 		while (this.queue.length) {
 			const { row, section, id, hasFilter } = this.queue.shift();
 
-			if (row.classList.contains("tt-hidden") && row.dataset.hideReason !== "stats-estimate") {
+			if (row.classList.contains("tt-hidden") && row.dataset.hideReason !== "statsEstimates") {
 				row.classList.remove("tt-estimated");
 				section.remove();
 				continue;
