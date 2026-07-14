@@ -16,7 +16,7 @@
         "source-map": "^0.7.6",
         "svelte-spa-router": "^5.1.1",
         "tailwindcss": "^4.3.2",
-        "tornapi-typescript": "^6.0.3",
+        "tornapi-typescript": "^6.0.4",
       },
       "devDependencies": {
         "@biomejs/biome": "~2.4.16",
@@ -1029,7 +1029,7 @@
 
     "tmp": ["tmp@0.2.5", "", {}, "sha512-voyz6MApa1rQGUxT3E+BK7/ROe8itEx7vD8/HEvt4xwXucvQ5G5oeEiHkmHZJuBO21RpOf+YYm9MOivj709jow=="],
 
-    "tornapi-typescript": ["tornapi-typescript@6.0.3", "", {}, "sha512-SG9Tp6ALDlDTp6cVwrO3juAzjRXXw0nrZusS+oToeNZb8zuqykAOgdg5b3VnLlhkFamTGfPThXFmokCw8HBVNw=="],
+    "tornapi-typescript": ["tornapi-typescript@6.0.4", "", {}, "sha512-jQJM3os9d2js9rkfRAZKhbFuXSEkIIuAc6jAfz4RrLFDeQEKUQy4nKFaSMqpKT2s5Yzv/TJZueFUS5DTb0E7eQ=="],
 
     "tree-kill": ["tree-kill@1.2.2", "", { "bin": { "tree-kill": "cli.js" } }, "sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A=="],
 
