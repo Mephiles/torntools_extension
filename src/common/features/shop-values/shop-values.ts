@@ -23,7 +23,7 @@ function initialiseListeners() {
 }
 
 async function showValues() {
-	await requireElement(".sell-items-list > li:not(.tt-value-modified)");
+	await requireElement(".sell-items-list > li:not(.tt-value-modified), .sell-items-wrap .no-items[style*='block']");
 
 	findAllElements(".sell-items-list > li:not(.tt-value-modified)").forEach((row) => {
 		row.classList.add("tt-value-modified");

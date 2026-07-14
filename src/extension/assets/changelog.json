@@ -19,7 +19,8 @@
 					"message": "Resolve filters for additional features like stats estimates not properly applying the other sections.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Resolve a conflict between filters and stats estimates.", "contributor": "DeKleineKobini" }
+				{ "message": "Resolve a conflict between filters and stats estimates.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with 'Shop Values' when you have nothing to sell.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },
