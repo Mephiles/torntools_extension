@@ -1,5 +1,5 @@
-import { ITEM_RESOLVER } from "@common/utils/context";
-import { torndata, userdata } from "@common/utils/data/database";
+import { INFORMATION_RETRIEVER, ITEM_RESOLVER } from "@common/utils/context";
+import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
@@ -175,7 +175,9 @@ export const ALLOWED_BLOOD = {
 	"b-": [735, 739], // 735
 	"ab+": [732, 733, 734, 735, 736, 737, 738, 739], // 736
 	"ab-": [733, 735, 737, 739], // 737
-} as const;
+};
+
+export type BloodType = keyof typeof ALLOWED_BLOOD;
 
 export const CASINO_GAMES = [
 	"slots",
@@ -2173,6 +2175,13 @@ export function getItemEnergy(id: number) {
 	return !Number.isNaN(parseInt(value)) ? parseInt(value) : false;
 }
 
+export function getUserLife() {
+	return document
+		.querySelector("[class*='bar__'][class*='life__'] :is([class*='bar-value___'], [class*='barValue___'])")
+		.textContent.split("/")
+		.map((x) => parseInt(x));
+}
+
 export function getUsername(row: Element) {
 	let name: string, id: number, combined: string;
 
@@ -2724,4 +2733,59 @@ export function getFactionName(): string | null {
 	}
 
 	return null;
+}
+
+export function getBloodType(): BloodType | null {
+	if (hasAPIData() && settings.apiUsage.user.education && !userdata.education_completed.includes(127)) {
+		return null;
+	}
+
+	if (settings.pages.items.highlightBloodBags !== "none") {
+		return settings.pages.items.highlightBloodBags as BloodType;
+	}
+
+	return "o-";
+}
+
+export function getHospitalTime(): number | null {
+	const header = document.querySelector<HTMLElement>("#topHeaderBanner[data-hospital]");
+	if (header) {
+		const timestamp = parseInt(header.dataset.hospital) * 1000;
+		if (timestamp < Date.now()) return null;
+
+		return timestamp;
+	}
+
+	return null;
+}
+
+export interface CooldownInformation {
+	current: number;
+	max: number;
+	remainder: number;
+}
+
+export async function getMedicalCooldown(): Promise<CooldownInformation | null> {
+	const icons = await INFORMATION_RETRIEVER.getStatusIcons();
+	if (!icons) return null;
+
+	let usedMinutes: number, totalMinutes: number;
+
+	const medicalIcon = icons.get("medical_cooldown");
+	if (medicalIcon && "timerExpiresAt" in medicalIcon && medicalIcon.factionUpgrade) {
+		const usedMillis = (medicalIcon.timerExpiresAt - medicalIcon.serverTimestamp) * 1000;
+		usedMinutes = usedMillis / TO_MILLIS.MINUTES;
+
+		const timerSplit = medicalIcon.factionUpgrade.split(":");
+		totalMinutes = parseInt(timerSplit[0]) * 60 + parseInt(timerSplit[1]) + parseInt(timerSplit[2]) / 60;
+	} else {
+		usedMinutes = 0;
+		totalMinutes = 3_600; // default of 6 hours
+	}
+
+	return {
+		current: usedMinutes,
+		max: totalMinutes,
+		remainder: totalMinutes - usedMinutes,
+	};
 }

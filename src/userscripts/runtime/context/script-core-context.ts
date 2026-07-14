@@ -1,15 +1,17 @@
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
-import { setEventHandler, setFeatureManager, setRuntimeInformation } from "@common/utils/context";
+import { setEventHandler, setFeatureManager, setInformationRetriever, setRuntimeInformation } from "@common/utils/context";
 import type { RuntimeInformation, TTWindow } from "@common/utils/functions/context-interfaces";
 import { isCustomEvent } from "@common/utils/functions/dom";
 import type { CustomEventListener, EventHandler, EventPayloads } from "@common/utils/functions/events";
+import { getStatusIcons, type InformationRetriever } from "@common/utils/functions/torn-injected";
 import { ScriptFeatureManager } from "@userscripts/runtime/script-feature-manager";
 
 export function registerCoreUserscriptContext() {
 	setRuntimeInformation(UserscriptRuntimeInformation);
 	setFeatureManager(new ScriptFeatureManager());
 	setEventHandler(ScriptEventHandler);
+	setInformationRetriever(ScriptInformationRetriever);
 
 	initializeScriptTheme();
 }
@@ -49,4 +51,8 @@ const ScriptEventHandler: EventHandler & { eventRoot: EventTarget } = {
 	get eventRoot() {
 		return document;
 	},
+};
+
+const ScriptInformationRetriever: InformationRetriever = {
+	getStatusIcons: async () => getStatusIcons(),
 };

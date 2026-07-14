@@ -1,28 +1,13 @@
-#quickItems .inner-content {
-	width: 100%;
-	padding: 0 5px 5px 5px;
-	box-sizing: border-box;
-}
-
 #quickItems > main.drag-progress * {
 	pointer-events: none;
 }
 
-#quickItems .inner-content .item {
-	display: inline-block;
-	padding: 5px;
-	border-radius: 5px;
-	cursor: pointer;
-	position: relative;
-	margin: 5px 5px 0 0;
-}
-
-body:not(.dark-mode) #quickItems .inner-content .item {
+body:not(.dark-mode) #quickItems .item {
 	border: 1px solid lightgray;
 	background-color: white;
 }
 
-body.dark-mode #quickItems .inner-content .item {
+body.dark-mode #quickItems .item {
 	border: 1px solid #444;
 	background-color: #333;
 }
@@ -68,10 +53,6 @@ body.dark-mode #quickItems .inner-content .item.equipped {
 	margin: auto;
 }
 
-#quickItems .inner-content .item .text {
-	text-align: center;
-}
-
 #quickItems .inner-content .item .sub-text {
 	text-align: center;
 	font-size: 10px;
@@ -102,7 +83,8 @@ body.dark-mode #quickItems .inner-content .item .sub-text {
 	left: 0 !important;
 }
 
-#quickItems #edit-items-button svg {
+#quickItems #edit-items-button svg,
+#quickItems #custom-actions-button svg {
 	margin-right: 4px;
 }
 
