@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Travel Item Profits",
 	description: "Show the profit of each item abroad.",
-	version: "1.0.6",
+	version: "1.0.7",
 	matches: ["https://*.torn.com/page.php?sid=travel*"],
 	runAt: "document-end",
 	connect: ["torntools.tornplayground.eu"],

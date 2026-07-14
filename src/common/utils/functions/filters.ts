@@ -255,6 +255,7 @@ interface SectionBuildResult<V> {
 export interface FilterSectionDef<V> {
 	readonly key: string;
 	readonly title: string;
+	readonly priority?: number;
 	build(onChange: () => void): SectionBuildResult<V>;
 	test(row: HTMLElement, value: V): boolean;
 	/** Return false to hide this section from the UI. Re-evaluated on each reRender. */
@@ -272,6 +273,7 @@ interface CheckboxSectionOptions {
 	key: string;
 	title: string;
 	label?: string;
+	priority?: number;
 	defaultValue: boolean;
 	test: (row: HTMLElement, checked: boolean) => boolean;
 	enabled?: () => boolean;
@@ -298,6 +300,7 @@ export function checkboxSection(options: CheckboxSectionOptions): FilterSectionD
 interface CheckboxesSectionOptions {
 	key: string;
 	title: string;
+	priority?: number;
 	items: { id: string; description: string }[];
 	defaults: string[];
 	test: (row: HTMLElement, selections: string[]) => boolean;
@@ -306,11 +309,12 @@ interface CheckboxesSectionOptions {
 }
 
 export function checkboxesSection(options: CheckboxesSectionOptions): FilterSectionDef<string[]> {
-	const { key, title, items, defaults, test, orientation, enabled } = options;
+	const { key, title, priority, items, defaults, test, orientation, enabled } = options;
 
 	return {
 		key,
 		title,
+		priority,
 		enabled,
 		build(onChange: () => void) {
 			const list = createCheckboxList({ items, orientation: orientation ?? "column", useId: true });
@@ -332,6 +336,7 @@ interface SelectOption {
 interface SelectSectionOptions {
 	key: string;
 	title: string;
+	priority?: number;
 	getOptions(): SelectOption[];
 	defaultValue: string;
 	test: (row: HTMLElement, selected: string) => boolean;
@@ -339,11 +344,12 @@ interface SelectSectionOptions {
 }
 
 export function selectSection(options: SelectSectionOptions): FilterSectionDef<string> {
-	const { key, title, getOptions, defaultValue, test, enabled } = options;
+	const { key, title, priority, getOptions, defaultValue, test, enabled } = options;
 
 	return {
 		key,
 		title,
+		priority,
 		enabled,
 		build(onChange: () => void) {
 			const select = createSelect(getOptions());
@@ -365,6 +371,7 @@ export function selectSection(options: SelectSectionOptions): FilterSectionDef<s
 interface SliderSectionOptions {
 	key: string;
 	title: string;
+	priority?: number;
 	config: { min: number; max: number; step: number };
 	defaults: { low: number; high: number };
 	formatCounter?: (range: SliderRange) => string;
@@ -373,11 +380,12 @@ interface SliderSectionOptions {
 }
 
 export function sliderSection(options: SliderSectionOptions): FilterSectionDef<SliderRange> {
-	const { key, title, config, defaults, formatCounter, test, enabled } = options;
+	const { key, title, priority, config, defaults, formatCounter, test, enabled } = options;
 
 	return {
 		key,
 		title,
+		priority,
 		enabled,
 		build(onChange: () => void) {
 			const slider = new DualRangeSlider({
@@ -422,6 +430,7 @@ export function sliderSection(options: SliderSectionOptions): FilterSectionDef<S
 interface TextSectionOptions {
 	key: string;
 	title: string;
+	priority?: number;
 	type?: "text" | "number";
 	defaultValue: string;
 	test: (row: HTMLElement, value: string) => boolean;
@@ -429,11 +438,12 @@ interface TextSectionOptions {
 }
 
 export function textSection(options: TextSectionOptions): FilterSectionDef<string> {
-	const { key, title, type, defaultValue, test, enabled } = options;
+	const { key, title, priority, type, defaultValue, test, enabled } = options;
 
 	return {
 		key,
 		title,
+		priority,
 		enabled,
 		build(onChange: () => void) {
 			const textbox = createTextbox({ type: type ?? "text" });
@@ -449,6 +459,7 @@ export function textSection(options: TextSectionOptions): FilterSectionDef<strin
 interface MultiSelectSectionOptions {
 	key: string;
 	title: string;
+	priority?: number;
 	items: SelectOption[];
 	defaults: string[];
 	test: (row: HTMLElement, selections: string[]) => boolean;
@@ -456,11 +467,12 @@ interface MultiSelectSectionOptions {
 }
 
 export function multiSelectSection(options: MultiSelectSectionOptions): FilterSectionDef<string[]> {
-	const { key, title, items, defaults, test, enabled } = options;
+	const { key, title, priority, items, defaults, test, enabled } = options;
 
 	return {
 		key,
 		title,
+		priority,
 		enabled,
 		build(onChange: () => void) {
 			const multi = createMultiSelect({ select: items, defaults });
@@ -476,6 +488,7 @@ export type YNCheckboxState = Record<string, SpecialFilterValue>;
 interface YNCheckboxesSectionOptions {
 	key: string;
 	title: string;
+	priority?: number;
 	items: string[];
 	defaults: YNCheckboxState;
 	test: (row: HTMLElement, selections: YNCheckboxState) => boolean;
@@ -483,11 +496,12 @@ interface YNCheckboxesSectionOptions {
 }
 
 export function ynCheckboxesSection(options: YNCheckboxesSectionOptions): FilterSectionDef<YNCheckboxState> {
-	const { key, title, items, defaults, test, enabled } = options;
+	const { key, title, priority, items, defaults, test, enabled } = options;
 
 	return {
 		key,
 		title,
+		priority,
 		enabled,
 		build(onChange: () => void) {
 			const wrapper = elementBuilder({ type: "div", class: "tt-yn-checkboxes" });
@@ -545,6 +559,7 @@ export interface FilterController {
 
 interface FilterSectionInstance {
 	key: string;
+	priority: number;
 	getValue(): unknown;
 	test(row: HTMLElement, value: unknown): boolean;
 	onBeforeFilter?(): void;
@@ -660,6 +675,7 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 		return checkboxesSection({
 			key: "statsEstimates",
 			title: "Stats Estimates",
+			priority: 100,
 			enabled: options.enabled,
 			items,
 			defaults: options.defaults,
@@ -754,6 +770,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	async function run() {
 		await requireElement(rowSelector);
 
+		sections.sort((a, b) => a.priority - b.priority);
+
 		sections.forEach((section) => section.onBeforeFilter?.());
 
 		const enabled = funnel.isEnabled();
@@ -791,6 +809,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	async function runScoped(options?: { rows?: HTMLElement[]; sections?: string[] | null }) {
 		const scopedRows = options?.rows ?? findAllElements<HTMLElement>(rowSelector);
 		const activeSections = options?.sections ? sections.filter((s) => options.sections.includes(s.key)) : sections;
+		activeSections.sort((a, b) => a.priority - b.priority);
 
 		activeSections.forEach((s) => s.onBeforeFilter?.());
 
@@ -838,6 +857,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 		sections.push({
 			key: section.key,
+			priority: section.priority ?? 1,
 			getValue: built.getValue.bind(built),
 			test: section.test,
 			onBeforeFilter: built.onBeforeFilter?.bind(built),
