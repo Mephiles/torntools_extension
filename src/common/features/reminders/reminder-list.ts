@@ -1,5 +1,4 @@
 import { api, settings, userdata } from "@common/utils/data/database";
-import { MISSION_REWARDS_CORRECT_EXPIRING } from "@common/utils/feature-toggles";
 import { hasFinishedEducation, LINKS } from "@common/utils/functions/torn";
 
 export interface Reminder {
@@ -62,7 +61,7 @@ export const REMINDERS: Reminder[] = [
 		name: "Mission Reward",
 		group: "missions",
 		url: LINKS.missions,
-		enabled: () => settings.apiUsage.user.missions && settings.scripts.reminders.types.missionReward && MISSION_REWARDS_CORRECT_EXPIRING,
+		enabled: () => settings.apiUsage.user.missions && settings.scripts.reminders.types.missionReward,
 		finished: () => userdata.missions.rewards.every((reward) => reward.expires_at * 1000 >= Date.now()),
 	},
 	{
