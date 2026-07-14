@@ -1,0 +1,38 @@
+.reminder-container {
+	margin-bottom: 2px;
+
+	main {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.reminder {
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: var(--default-bg-panel-color);
+	margin-top: 2px;
+	min-height: 22px;
+	color: var(--default-font-color);
+	padding: 5px 0 5px 8px;
+	box-sizing: border-box;
+	height: 100%;
+
+	.tt-tablet & {
+		min-height: 34px;
+	}
+
+	&:hover {
+		background-color: var(--default-bg-panel-active-color);
+	}
+
+	&.finished {
+		color: var(--tt-color-green);
+	}
+}
+
+/* While it's possible to do '&a' in the nested declaration, Biome does not like that (yet). */
+a.reminder {
+	cursor: pointer;
+	text-decoration: none;
+}

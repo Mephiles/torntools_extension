@@ -203,6 +203,18 @@ export const MIGRATIONS: MigrationScript[] = [
 			flags.updateStockdata = true;
 		},
 	},
+	{
+		id: "b2102994-0920-4586-8259-0e5beedc7f13",
+		version: "9.0.15",
+		execute(database, _flags, oldStorage) {
+			if (oldStorage.api.torn.owner) return;
+
+			const owner: number = (oldStorage.userdata as StoredUserdata)?.profile?.id;
+			if (!owner) return;
+
+			database.api.torn.owner = owner;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
