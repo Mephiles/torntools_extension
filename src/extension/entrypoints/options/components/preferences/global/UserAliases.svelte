@@ -68,10 +68,7 @@
 		const userId = parseUserId(pendingAlias.userId);
 		if (userId === null) return;
 
-		void updateAliases([
-			...$settingsStore.userAlias,
-			{ userId, userName: pendingAlias.userName.trim() || null, alias: pendingAlias.alias },
-		]);
+		void updateAliases([...$settingsStore.userAlias, { userId, userName: pendingAlias.userName.trim() || null, alias: pendingAlias.alias }]);
 		pendingAliases = pendingAliases.filter(({ rowId }) => rowId !== pendingAlias.rowId);
 	}
 
@@ -93,14 +90,8 @@
 		pendingAliases = pendingAliases.filter((pendingAlias) => pendingAlias.rowId !== rowId);
 	}
 
-	function updatePendingAlias<K extends keyof Omit<PendingAlias, "rowId">>(
-		rowId: number,
-		key: K,
-		value: PendingAlias[K],
-	) {
-		pendingAliases = pendingAliases.map((pendingAlias) =>
-			pendingAlias.rowId === rowId ? { ...pendingAlias, [key]: value } : pendingAlias,
-		);
+	function updatePendingAlias<K extends keyof Omit<PendingAlias, "rowId">>(rowId: number, key: K, value: PendingAlias[K]) {
+		pendingAliases = pendingAliases.map((pendingAlias) => (pendingAlias.rowId === rowId ? { ...pendingAlias, [key]: value } : pendingAlias));
 	}
 </script>
 
@@ -114,7 +105,7 @@
 	<div class="space-y-1">
 		{#if $settingsStore.userAlias.length || pendingAliases.length}
 			{#each $settingsStore.userAlias as alias, index (index)}
-				<div class="rounded-md border border-border bg-background/60 p-2">
+				<div class="border-border bg-background/60 rounded-md border p-2">
 					<div class="grid gap-2 md:grid-cols-[8rem_1fr_1fr_28px]">
 						<Input
 							value={getAliasIdValue(index, alias.userId)}
@@ -142,10 +133,7 @@
 				</div>
 			{/each}
 			{#each pendingAliases as pendingAlias (pendingAlias.rowId)}
-				<div
-					class="rounded-md border border-border bg-background/60 p-2"
-					onfocusout={(event) => savePendingAliasOnFocusOut(event, pendingAlias)}
-				>
+				<div class="border-border bg-background/60 rounded-md border p-2" onfocusout={(event) => savePendingAliasOnFocusOut(event, pendingAlias)}>
 					<div class="grid gap-2 md:grid-cols-[8rem_1fr_1fr_28px]">
 						<Input
 							bind:value={pendingAlias.userId}
@@ -175,9 +163,7 @@
 				</div>
 			{/each}
 		{:else}
-			<p class="rounded-md border border-dashed border-border p-2 text-center text-muted-foreground">
-				No aliases configured.
-			</p>
+			<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center">No aliases configured.</p>
 		{/if}
 	</div>
 </PreferenceSectionCard>

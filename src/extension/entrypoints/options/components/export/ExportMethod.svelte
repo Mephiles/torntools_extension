@@ -11,9 +11,9 @@
 		description: string;
 		busy?: boolean;
 		allowApi: boolean;
-		onExport: (includeApi: boolean) => (Promise<void> | void);
+		onExport: (includeApi: boolean) => Promise<void> | void;
 		disableImport?: boolean;
-		onImport: () => (Promise<void> | void);
+		onImport: () => Promise<void> | void;
 		information?: Snippet;
 		extraButtons?: Snippet;
 		exportWarning?: Snippet;
@@ -60,27 +60,22 @@
 	}
 </script>
 
-<article class="flex h-full flex-col rounded-lg border border-border p-2">
+<article class="border-border flex h-full flex-col rounded-lg border p-2">
 	<div class="flex flex-wrap items-center gap-2">
 		<h3 class="text-sm font-bold">{title}</h3>
 		{#if recommended}
-			<Badge
-				variant="secondary"
-				class="border-amber-300 bg-amber-100 text-amber-900 dark:border-transparent dark:bg-amber-950 dark:text-amber-200"
-			>
+			<Badge variant="secondary" class="border-amber-300 bg-amber-100 text-amber-900 dark:border-transparent dark:bg-amber-950 dark:text-amber-200">
 				Recommended
 			</Badge>
 		{/if}
 	</div>
-	<p class="mt-1 text-sm text-muted-foreground">{description}</p>
+	<p class="text-muted-foreground mt-1 text-sm">{description}</p>
 
 	{@render information?.()}
 
-	<div class="mt-auto pt-2 flex flex-wrap gap-2">
+	<div class="mt-auto flex flex-wrap gap-2 pt-2">
 		<Button size="sm" disabled={busy} onclick={() => (exportDialog = true)}>Export</Button>
-		<Button size="sm" variant="outline" disabled={busy || disableImport} onclick={() => (importDialog = true)}>
-			Import
-		</Button>
+		<Button size="sm" variant="outline" disabled={busy || disableImport} onclick={() => (importDialog = true)}>Import</Button>
 		{@render extraButtons?.()}
 	</div>
 </article>

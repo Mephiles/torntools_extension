@@ -24,22 +24,19 @@
 	}
 </script>
 
-<section class="rounded-lg border border-border bg-card px-3 py-2">
+<section class="border-border bg-card rounded-lg border px-3 py-2">
 	<div class="space-y-3">
 		<h3 class="text-sm font-semibold">Page Theme</h3>
 
-		<RadioGroup.Root
-			value={$settingsStore.themes.pages}
-			onValueChange={(value) => void updateTheme(value as InternalPageTheme)}
-		>
+		<RadioGroup.Root value={$settingsStore.themes.pages} onValueChange={(value) => void updateTheme(value as InternalPageTheme)}>
 			{#each themeOptions as option (option.value)}
-				<div class="flex items-center gap-2 rounded-sm border border-border px-2 py-1.5">
+				<div class="border-border flex items-center gap-2 rounded-sm border px-2 py-1.5">
 					<RadioGroup.Item value={option.value} id={`internal-page-theme-${option.value}`} />
 
 					<Label class="flex-1 cursor-pointer" for={`internal-page-theme-${option.value}`}>
 						<span class="block font-medium">{option.label}</span>
 						{#if option.description}
-							<p class="text-xs text-muted-foreground">{option.description}</p>
+							<p class="text-muted-foreground text-xs">{option.description}</p>
 						{/if}
 					</Label>
 				</div>

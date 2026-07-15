@@ -8,7 +8,6 @@
 	import type { TornItem } from "tornapi-typescript";
 	import { torndataStore } from "../../stores/database-store.svelte";
 
-
 	interface ItemListProps {
 		selectedItems: CalculatorItem[];
 	}
@@ -23,7 +22,7 @@
 	}
 </script>
 
-<Card size="sm" class="rounded-lg mx-1">
+<Card size="sm" class="mx-1 rounded-lg">
 	<CardContent class="space-y-2 text-xs">
 		{#each selectedItems as item (item.id)}
 			{@const tornItem = itemsMap[item.id]}

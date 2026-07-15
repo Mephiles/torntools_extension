@@ -1,6 +1,5 @@
 <script lang="ts">
-	import PriorityServiceConfiguration
-		from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
+	import PriorityServiceConfiguration from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
@@ -11,7 +10,7 @@
 		<div class="grid gap-1">
 			<PreferenceSettingGroup>
 				<StorageSwitch path="settings.pages.profile.avgpersonalstats" label="Calculate average personal stats" />
-				<StorageSwitch path="settings.pages.profile.idBesideProfileName" label='Reformat profile page headings as "USERNAME [ID]"' />
+				<StorageSwitch path="settings.pages.profile.idBesideProfileName" label="Reformat profile page headings as 'USERNAME [ID]'" />
 				<StorageSwitch path="settings.pages.profile.statusIndicator" label="Show user's status indicator next to their name" />
 				<StorageSwitch path="settings.pages.profile.notes" label="Show profile notes" />
 				<StorageSwitch path="settings.pages.profile.ageToWords" label="Show age of profile in words" />
@@ -20,19 +19,20 @@
 			<StorageSwitch path="settings.pages.profile.box" label="Show the profile box">
 				{#snippet titleAction()}
 					<PriorityServiceConfiguration
-							title="Spy"
-							services={[
-								{
-									name: "TornStats",
-									pathEnabled: "settings.servicePreferences.spies.tornstats.enabled",
-									pathPriority: "settings.servicePreferences.spies.tornstats.priority"
-								},
-								{
-									name: "YATA",
-									pathEnabled: "settings.servicePreferences.spies.yata.enabled",
-									pathPriority: "settings.servicePreferences.spies.yata.priority"
-								}
-						]} />
+						title="Spy"
+						services={[
+							{
+								name: "TornStats",
+								pathEnabled: "settings.servicePreferences.spies.tornstats.enabled",
+								pathPriority: "settings.servicePreferences.spies.tornstats.priority",
+							},
+							{
+								name: "YATA",
+								pathEnabled: "settings.servicePreferences.spies.yata.enabled",
+								pathPriority: "settings.servicePreferences.spies.yata.priority",
+							},
+						]}
+					/>
 				{/snippet}
 
 				<StorageSwitch path="settings.pages.profile.boxFetch" label="Automatically fetch data from the API" />

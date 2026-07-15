@@ -4,14 +4,13 @@
 	import { isToday } from "@common/utils/functions/utilities";
 	import { Card, CardContent } from "@svelte/components/ui/card";
 
+	const { notification }: { notification: TTFullNotification } = $props();
 
-	const { notification } : { notification: TTFullNotification } = $props();
-
-	const displayTitle = $derived(notification.title.replace("TornTools - ", ""))
+	const displayTitle = $derived(notification.title.replace("TornTools - ", ""));
 </script>
 
 <Card size="sm" class="py-2!">
-	<CardContent class="text-xs px-2!">
+	<CardContent class="px-2! text-xs">
 		<a href={notification.url} target="_blank" rel="noreferrer">
 			<div class="flex justify-between">
 				<span class="text-foreground font-bold">{displayTitle}</span>

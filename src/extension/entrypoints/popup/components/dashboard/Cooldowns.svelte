@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {DatabaseSettings, DatabaseUserdata} from "@common/utils/data/database";
+	import type { DatabaseSettings, DatabaseUserdata } from "@common/utils/data/database";
 	import { formatTime } from "@common/utils/functions/formatting";
 	import { settingsStore, userdataStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { cn } from "@svelte/utils";
@@ -12,7 +12,7 @@
 		color: string;
 	};
 
-	const { now } : { now: number } = $props();
+	const { now }: { now: number } = $props();
 
 	const cooldowns = $derived(getCooldowns($userdataStore, $settingsStore, now));
 
@@ -21,8 +21,24 @@
 
 		return [
 			getCooldown("drug", "Drugs", userdata.cooldowns.drug, "https://www.torn.com/item.php#drugs-items", "text-green-500", userdata, currentTime),
-			getCooldown("booster", "Boosters", userdata.cooldowns.booster, "https://www.torn.com/item.php#boosters-items", "text-orange-500", userdata, currentTime),
-			getCooldown("medical", "Medical", userdata.cooldowns.medical, "https://www.torn.com/item.php#medical-items", "text-blue-500", userdata, currentTime),
+			getCooldown(
+				"booster",
+				"Boosters",
+				userdata.cooldowns.booster,
+				"https://www.torn.com/item.php#boosters-items",
+				"text-orange-500",
+				userdata,
+				currentTime,
+			),
+			getCooldown(
+				"medical",
+				"Medical",
+				userdata.cooldowns.medical,
+				"https://www.torn.com/item.php#medical-items",
+				"text-blue-500",
+				userdata,
+				currentTime,
+			),
 		];
 	}
 
@@ -42,7 +58,7 @@
 {#if cooldowns.length}
 	<div class="grid grid-cols-3 gap-1">
 		{#each cooldowns as cooldown (cooldown.id)}
-			<a class="rounded-lg bg-card border border-border/70 p-1 text-center text-xs hover:bg-muted" href={cooldown.href} target="_blank" rel="noreferrer">
+			<a class="bg-card border-border/70 hover:bg-muted rounded-lg border p-1 text-center text-xs" href={cooldown.href} target="_blank" rel="noreferrer">
 				<div class={cn("font-medium", cooldown.color)}>{cooldown.label}</div>
 				<div class="text-foreground/80">{cooldown.value}</div>
 			</a>

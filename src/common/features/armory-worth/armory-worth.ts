@@ -1,7 +1,6 @@
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
-import { Feature } from "@features/feature";
-import "./armory-worth.css";
 import { isInternalFaction } from "@common/pages/factions-page";
+import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import "./armory-worth.css";
 import { ttCache } from "@common/utils/data/cache";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasFactionAPIAccess } from "@common/utils/functions/api";
@@ -20,6 +19,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
+import { Feature } from "@features/feature";
 import type { FactionBalanceResponse, FactionBasicResponse } from "tornapi-typescript";
 
 type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &

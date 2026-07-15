@@ -4,8 +4,8 @@
 	import { cn } from "@svelte/utils";
 	import type { Snippet } from "svelte";
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
-	import ExternalServiceRequirement from "./ExternalServiceRequirement.svelte";
 	import type { ExternalService } from "./external-service-requirement";
+	import ExternalServiceRequirement from "./ExternalServiceRequirement.svelte";
 	import { type BooleanPreferenceStoragePath, getPreferenceValue, updatePreferenceValue } from "./preference-storage";
 
 	interface StorageSwitchProps {
@@ -63,7 +63,7 @@
 	</Field.Field>
 
 	{#if children}
-		<div class="grid gap-1 bg-muted/50 p-2">
+		<div class="bg-muted/50 grid gap-1 p-2">
 			{@render children()}
 		</div>
 	{/if}

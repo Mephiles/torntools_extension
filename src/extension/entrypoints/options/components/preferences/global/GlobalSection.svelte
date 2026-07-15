@@ -12,7 +12,7 @@
 
 	const reviveOptions: { value: string; label: string; description?: string }[] = [
 		{ value: "", label: "none" },
-		...REVIVE_PROVIDERS.map(provider => ({ value: provider.provider, label: `${provider.name} (${calculateRevivePrice(provider)})` })),
+		...REVIVE_PROVIDERS.map((provider) => ({ value: provider.provider, label: `${provider.name} (${calculateRevivePrice(provider)})` })),
 	];
 
 	async function requestReviveProviderPermission(provider: string) {
@@ -40,8 +40,8 @@
 	<PreferenceSectionCard title="Global">
 		<StorageSelect
 			items={[
-				{value: "default", label: "Default (green and black)" },
-				{value: "alternative", label: "Alternative (black and green)" },
+				{ value: "default", label: "Default (green and black)" },
+				{ value: "alternative", label: "Alternative (black and green)" },
 			]}
 			path="settings.themes.containers"
 			label="Container Theme"
@@ -51,9 +51,9 @@
 			<StorageText path="settings.csvDelimiter" label="CSV Delimiter" />
 			<StorageSelect
 				items={[
-					{value: "eu", label: "DD.MM.YYYY" },
-					{value: "us", label: "MM/DD/YYYY" },
-					{value: "iso", label: "YYYY-MM-DD" },
+					{ value: "eu", label: "DD.MM.YYYY" },
+					{ value: "us", label: "MM/DD/YYYY" },
+					{ value: "iso", label: "YYYY-MM-DD" },
 				]}
 				path="settings.formatting.date"
 				label="Date Format"
@@ -61,8 +61,8 @@
 
 			<StorageSelect
 				items={[
-					{value: "eu", label: "24 hours" },
-					{value: "us", label: "12 hours" },
+					{ value: "eu", label: "24 hours" },
+					{ value: "us", label: "12 hours" },
 				]}
 				path="settings.formatting.time"
 				label="Time Format"
@@ -77,18 +77,32 @@
 			<StorageSwitch path="settings.pages.global.hideTutorials" label="Hide tutorials" />
 			<StorageSwitch path="settings.pages.global.hideQuitButtons" label="Hide leave and quit buttons" />
 			<StorageSwitch path="settings.pages.global.miniProfileLastAction" label="Last action in mini profile" />
-			<StorageSwitch path="settings.pages.global.stackingMode" label="Stacking mode" description="This disables gym, attacks, revives, dump searching and hunting." />
-			<StorageSwitch path="settings.pages.global.noOutsideLinkAlert" label="No outside link alert" description="This disables the outside link protection by Torn, be careful about clicking links." />
+			<StorageSwitch
+				path="settings.pages.global.stackingMode"
+				label="Stacking mode"
+				description="This disables gym, attacks, revives, dump searching and hunting."
+			/>
+			<StorageSwitch
+				path="settings.pages.global.noOutsideLinkAlert"
+				label="No outside link alert"
+				description="This disables the outside link protection by Torn, be careful about clicking links."
+			/>
 			<StorageSwitch path="settings.pages.global.pageTitles" label="Clearer page titles" />
-			<StorageSwitch path="settings.pages.global.urlFill" label="URL Fill" description="Allow URLs to be prefilled for you with values."/>
-			<StorageSwitch path="settings.pages.competitions.easterEggs" label="Highlight Easter Eggs" description="During the Easter event, highlight eggs that appear on your screen.">
+			<StorageSwitch path="settings.pages.global.urlFill" label="URL Fill" description="Allow URLs to be prefilled for you with values." />
+			<StorageSwitch
+				path="settings.pages.competitions.easterEggs"
+				label="Highlight Easter Eggs"
+				description="During the Easter event, highlight eggs that appear on your screen."
+			>
 				<StorageSwitch path="settings.pages.competitions.easterEggsAlert" label="with alert" />
 			</StorageSwitch>
 		</PreferenceSettingGroup>
 
 		<PreferenceSettingGroup title="Revives" contentClass="grid">
-			<PreferenceNote text="Revive prices vary per revive provider. They can be changed at their will. We have no connection to any revive provider ourselves."/>
-			<PreferenceNote text="Your API key is NOT shared with any of these services."/>
+			<PreferenceNote
+				text="Revive prices vary per revive provider. They can be changed at their will. We have no connection to any revive provider ourselves."
+			/>
+			<PreferenceNote text="Your API key is NOT shared with any of these services." />
 			<StorageSelect
 				items={reviveOptions}
 				path="settings.pages.global.reviveProvider"

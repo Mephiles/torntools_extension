@@ -2,16 +2,7 @@
 	import { cn } from "@svelte/utils.js";
 	import { Dialog as DialogPrimitive } from "bits-ui";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		...restProps
-	}: DialogPrimitive.TitleProps = $props();
+	let { ref = $bindable(null), class: className, ...restProps }: DialogPrimitive.TitleProps = $props();
 </script>
 
-<DialogPrimitive.Title
-	bind:ref
-	data-slot="dialog-title"
-	class={cn("text-base leading-none font-medium", className)}
-	{...restProps}
-/>
+<DialogPrimitive.Title bind:ref data-slot="dialog-title" class={cn("text-base leading-none font-medium", className)} {...restProps} />

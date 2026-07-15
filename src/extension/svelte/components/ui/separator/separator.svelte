@@ -2,12 +2,7 @@
 	import { cn } from "@svelte/utils.js";
 	import { Separator as SeparatorPrimitive } from "bits-ui";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		"data-slot": dataSlot = "separator",
-		...restProps
-	}: SeparatorPrimitive.RootProps = $props();
+	let { ref = $bindable(null), class: className, "data-slot": dataSlot = "separator", ...restProps }: SeparatorPrimitive.RootProps = $props();
 </script>
 
 <SeparatorPrimitive.Root
@@ -17,7 +12,7 @@
 		"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px",
 		// this is different in shadcn/ui but self-stretch breaks things for us
 		"data-[orientation=vertical]:h-full",
-		className
+		className,
 	)}
 	{...restProps}
 />

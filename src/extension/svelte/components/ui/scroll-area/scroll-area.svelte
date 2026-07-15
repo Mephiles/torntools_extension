@@ -20,12 +20,7 @@
 	} = $props();
 </script>
 
-<ScrollAreaPrimitive.Root
-	bind:ref
-	data-slot="scroll-area"
-	class={cn("relative", className)}
-	{...restProps}
->
+<ScrollAreaPrimitive.Root bind:ref data-slot="scroll-area" class={cn("relative", className)} {...restProps}>
 	<ScrollAreaPrimitive.Viewport
 		bind:ref={viewportRef}
 		data-slot="scroll-area-viewport"

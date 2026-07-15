@@ -4,8 +4,7 @@
 	import { Input } from "@svelte/components/ui/input";
 	import PlusIcon from "phosphor-svelte/lib/PlusIcon";
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
-	import PriorityServiceConfiguration
-		from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
+	import PriorityServiceConfiguration from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -25,11 +24,7 @@
 		void updateFactionInactivityWarning([...$settingsStore.factionInactivityWarning, { days: null, color: "#ff0000" }]);
 	}
 
-	function updateFactionInactivityWarningField<K extends keyof InactivityWarning>(
-		index: number,
-		key: K,
-		value: InactivityWarning[K],
-	) {
+	function updateFactionInactivityWarningField<K extends keyof InactivityWarning>(index: number, key: K, value: InactivityWarning[K]) {
 		const nextWarnings = [...$settingsStore.factionInactivityWarning];
 		const warning = nextWarnings[index];
 		if (!warning) return;
@@ -55,7 +50,7 @@
 <div class="space-y-2">
 	<PreferenceSectionCard title="Faction">
 		<PreferenceSettingGroup>
-			<StorageSwitch path="settings.pages.faction.idBesideFactionName" label='Reformat faction names as "FACTIONNAME [ID]"' />
+			<StorageSwitch path="settings.pages.faction.idBesideFactionName" label="Reformat faction names as 'FACTIONNAME [ID]'" />
 			<StorageSwitch path="settings.pages.faction.banker" label="Show banker options" />
 			<StorageSwitch path="settings.pages.faction.showFullInfobox" label="Show the option to show the description without scroll bar" />
 			<StorageSwitch path="settings.pages.faction.foldableInfobox" label="Make infobox foldable" />
@@ -63,7 +58,11 @@
 			<StorageSwitch path="settings.pages.faction.warFinishTimes" label="Show the finish time of wars" />
 			<StorageSwitch path="settings.pages.faction.armoryWorth" label="Show total worth of faction armory" description="Requires faction API access." />
 			<StorageSwitch path="settings.pages.faction.upgradeRequiredRespect" label="Show respect required for a faction upgrade" />
-			<StorageSwitch path="settings.pages.faction.memberInfo" label="Show money and points balance of members" description="Requires faction API access." />
+			<StorageSwitch
+				path="settings.pages.faction.memberInfo"
+				label="Show money and points balance of members"
+				description="Requires faction API access."
+			/>
 			<StorageSwitch path="settings.pages.faction.quickItems" label="Quick items in the armory" />
 			<StorageSwitch
 				path="settings.pages.faction.showFactionSpy"
@@ -73,19 +72,20 @@
 			>
 				{#snippet titleAction()}
 					<PriorityServiceConfiguration
-							title="Faction Spies"
-							services={[
-								{
-									name: "TornStats",
-									pathEnabled: "settings.servicePreferences.factionSpies.tornstats.enabled",
-									pathPriority: "settings.servicePreferences.factionSpies.tornstats.priority"
-								},
-								{
-									name: "YATA",
-									pathEnabled: "settings.servicePreferences.factionSpies.yata.enabled",
-									pathPriority: "settings.servicePreferences.factionSpies.yata.priority"
-								}
-						]} />
+						title="Faction Spies"
+						services={[
+							{
+								name: "TornStats",
+								pathEnabled: "settings.servicePreferences.factionSpies.tornstats.enabled",
+								pathPriority: "settings.servicePreferences.factionSpies.tornstats.priority",
+							},
+							{
+								name: "YATA",
+								pathEnabled: "settings.servicePreferences.factionSpies.yata.enabled",
+								pathPriority: "settings.servicePreferences.factionSpies.yata.priority",
+							},
+						]}
+					/>
 				{/snippet}
 			</StorageSwitch>
 			<StorageSwitch path="settings.pages.faction.totalChallengeContributions" label="Show total challenge contributions" />
@@ -134,9 +134,11 @@
 		{#if $settingsStore.factionInactivityWarning.length}
 			<div class="space-y-1">
 				{#each $settingsStore.factionInactivityWarning as warning, index (index)}
-					<div class="grid gap-2 rounded-md border border-border bg-background/60 p-2 md:grid-cols-[1fr_3rem_28px]">
+					<div class="border-border bg-background/60 grid gap-2 rounded-md border p-2 md:grid-cols-[1fr_3rem_28px]">
 						<Input
-							type="number" pattern="\d*" inputmode="numeric"
+							type="number"
+							pattern="\d*"
+							inputmode="numeric"
 							class="with-number-wheel"
 							min={0}
 							value={getWarningDraft(warning)}
@@ -155,9 +157,7 @@
 				{/each}
 			</div>
 		{:else}
-			<p class="rounded-md border border-dashed border-border p-2 text-center text-muted-foreground">
-				No inactivity warnings configured.
-			</p>
+			<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center">No inactivity warnings configured.</p>
 		{/if}
 	</PreferenceSectionCard>
 </div>

@@ -89,7 +89,11 @@
 			<StorageSwitch path="settings.pages.bounties.filter" label="Bounties" />
 			<StorageSwitch path="settings.pages.faction.armoryFilter" label="Faction Armory" />
 			<StorageSwitch path="settings.pages.faction.memberFilter" label="Faction Members">
-				<StorageSwitch path="settings.pages.faction.memberFilterRevivable" label="Filter on revivable status." description="Will send an API request for every visited faction." />
+				<StorageSwitch
+					path="settings.pages.faction.memberFilterRevivable"
+					label="Filter on revivable status."
+					description="Will send an API request for every visited faction."
+				/>
 			</StorageSwitch>
 			<StorageSwitch path="settings.pages.faction.rankedWarFilter" label="Ranked War" />
 			<StorageSwitch path="settings.pages.faction.oc2Filter" label="OC2 2" />
@@ -103,7 +107,7 @@
 					href="https://www.torn.com/forums.php#/p=threads&amp;f=61&amp;t=16192039"
 					target="_blank"
 					rel="noreferrer"
-					class="flex items-center gap-1 text-xs text-primary hover:underline"
+					class="text-primary flex items-center gap-1 text-xs hover:underline"
 				>
 					Score formula
 					<ArrowSquareOutIcon aria-hidden="true" />

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ttCache } from "@common/utils/data/cache";
-	import type { TornW3BResult } from "@common/utils/functions/api.types";
 	import { fetchData } from "@common/utils/functions/api-fetcher";
+	import type { TornW3BResult } from "@common/utils/functions/api.types";
 	import { formatNumber } from "@common/utils/functions/formatting";
 	import { isSellable } from "@common/utils/functions/torn";
 	import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -18,7 +18,7 @@
 	interface SearchResultProps {
 		selectedItem: TornItem | null;
 	}
-	let {selectedItem}: SearchResultProps = $props();
+	let { selectedItem }: SearchResultProps = $props();
 
 	let loading = $state(false);
 	let error = $state("");
@@ -60,13 +60,13 @@
 		}
 
 		const result = await fetchData<MarketItemMarketResponse>("tornv2", {
-            section: "market",
-            id: itemId,
-            selections: ["itemmarket"],
-            params: { limit: 3 },
-        });
-        ttCache.set({[itemId]: result}, TO_MILLIS.SECONDS * 30, "livePrice");
-        return result;
+			section: "market",
+			id: itemId,
+			selections: ["itemmarket"],
+			params: { limit: 3 },
+		});
+		ttCache.set({ [itemId]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
+		return result;
 	}
 
 	async function loadTornW3bMarket(itemId: number) {
@@ -75,8 +75,8 @@
 		}
 
 		const result = await fetchData<TornW3BResult>("tornw3b", { section: `marketplace/${itemId}` });
-        ttCache.set({[itemId]: result}, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
-        return result;
+		ttCache.set({ [itemId]: result }, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
+		return result;
 	}
 </script>
 
@@ -88,12 +88,17 @@
 {/if}
 
 {#if selectedItem}
-	<Card size="sm" class="rounded-lg mx-1">
+	<Card size="sm" class="mx-1 rounded-lg">
 		<CardHeader class="grid-cols-[4rem_1fr] gap-x-2">
-			<img class="size-16 rounded-md border border-border object-contain" src={selectedItem.image} alt={selectedItem.name} />
+			<img class="border-border size-16 rounded-md border object-contain" src={selectedItem.image} alt={selectedItem.name} />
 			<div class="min-w-0 space-y-1">
 				<CardTitle>
-					<a class="hover:underline" href={`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${selectedItem.id}&itemName=${selectedItem.name}&itemType=${selectedItem.type}`} target="_blank" rel="noreferrer">
+					<a
+						class="hover:underline"
+						href={`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${selectedItem.id}&itemName=${selectedItem.name}&itemType=${selectedItem.type}`}
+						target="_blank"
+						rel="noreferrer"
+					>
 						{selectedItem.name}
 					</a>
 				</CardTitle>
@@ -125,21 +130,18 @@
 					<AlertDescription>This item cannot be sold.</AlertDescription>
 				</Alert>
 			{:else if loading}
-				<div class="flex items-center gap-2 py-2 text-muted-foreground">
+				<div class="text-muted-foreground flex items-center gap-2 py-2">
 					<Spinner class="size-4" />
 					<span>Loading prices...</span>
 				</div>
 			{:else if itemMarket}
 				<div class={cn("grid gap-2", { "grid-cols-2": showExternalMarket })}>
-					<MarketPrice
-							title="Item Market"
-							listings={tornListings.map((listing) => ({ amount: listing.amount, price: listing.price }))}
-					/>
+					<MarketPrice title="Item Market" listings={tornListings.map((listing) => ({ amount: listing.amount, price: listing.price }))} />
 
 					{#if showExternalMarket}
 						<MarketPrice
-								title="TornW3B Bazaars"
-								listings={tornW3bListings.map((listing) => ({ amount: listing.quantity, price: listing.price }))}
+							title="TornW3B Bazaars"
+							listings={tornW3bListings.map((listing) => ({ amount: listing.quantity, price: listing.price }))}
 						/>
 					{/if}
 				</div>

@@ -16,6 +16,6 @@
 	{#each notifications as notification, index (index)}
 		<Notification {notification} />
 	{:else}
-		<div class="text-sm text-muted-foreground">No notification history.</div>
+		<div class="text-muted-foreground text-sm">No notification history.</div>
 	{/each}
 </div>

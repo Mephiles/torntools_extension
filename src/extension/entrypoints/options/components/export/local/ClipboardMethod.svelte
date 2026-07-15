@@ -2,8 +2,8 @@
 	import { toClipboard } from "@common/utils/functions/utilities";
 	import { Textarea } from "@svelte/components/ui/textarea";
 	import { toast } from "svelte-sonner";
-	import ExportMethod from "../ExportMethod.svelte";
 	import { type ExportData, getExportData, importExportData, parseImportText } from "../export-data";
+	import ExportMethod from "../ExportMethod.svelte";
 
 	let importText = $state("");
 
@@ -33,11 +33,12 @@
 	}
 </script>
 
-<ExportMethod title="Clipboard"
-              description="Copy a compact version of the database, or paste one back in manually."
-              allowApi={true}
-              onExport={exportData}
-              onImport={importData}
+<ExportMethod
+	title="Clipboard"
+	description="Copy a compact version of the database, or paste one back in manually."
+	allowApi={true}
+	onExport={exportData}
+	onImport={importData}
 >
 	{#snippet extraImportInput()}
 		<Textarea bind:value={importText} rows={6} class="text-xs" placeholder="Paste your exported JSON here." />

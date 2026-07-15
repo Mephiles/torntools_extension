@@ -3,10 +3,9 @@
 	import { Button } from "@svelte/components/ui/button";
 	import { toast } from "svelte-sonner";
 	import { settingsStore } from "../../../stores/database-store.svelte";
-	import ExportMethod from "../ExportMethod.svelte";
 	import { importExportData } from "../export-data";
+	import ExportMethod from "../ExportMethod.svelte";
 	import ClearRemoteStorageDialog from "./ClearBrowserSyncDialog.svelte";
-	import RemoteSyncInformation from "./RemoteSyncInformation.svelte";
 	import {
 		clearRemoteSyncData,
 		getByteLength,
@@ -15,6 +14,7 @@
 		type RemoteSyncState,
 		saveRemoteSyncData,
 	} from "./remote-export";
+	import RemoteSyncInformation from "./RemoteSyncInformation.svelte";
 
 	let busy = $state(false);
 	let clearDialogOpen = $state(false);
@@ -79,31 +79,29 @@
 	}
 </script>
 
-<ExportMethod title="Browser Sync"
-              description="Use your browsers synchronized extension storage. Make sure extensions are synced."
-              bind:busy={busy}
-              allowApi={false}
-              onExport={exportData}
-              disableImport={!remoteState.available}
-              onImport={importData}
+<ExportMethod
+	title="Browser Sync"
+	description="Use your browsers synchronized extension storage. Make sure extensions are synced."
+	bind:busy
+	allowApi={false}
+	onExport={exportData}
+	disableImport={!remoteState.available}
+	onImport={importData}
 >
 	{#snippet information()}
 		<RemoteSyncInformation information={remoteState} loading={stateLoading} />
 	{/snippet}
 
 	{#snippet extraButtons()}
-		<Button size="sm" variant="destructive" disabled={busy || !remoteState.available}
-		        onclick={() => clearDialogOpen = true}>
-			Clear
-		</Button>
+		<Button size="sm" variant="destructive" disabled={busy || !remoteState.available} onclick={() => (clearDialogOpen = true)}>Clear</Button>
 	{/snippet}
 
 	{#snippet exportWarning()}
 		{#if showExportWarning}
 			<div
-				class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
-				Your custom notification sound is larger than {formatBytes(REMOTE_SYNC_SOUND_CUSTOM_LIMIT)} and will not
-				be included in the browser sync export.
+				class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100"
+			>
+				Your custom notification sound is larger than {formatBytes(REMOTE_SYNC_SOUND_CUSTOM_LIMIT)} and will not be included in the browser sync export.
 			</div>
 		{/if}
 	{/snippet}

@@ -27,10 +27,4 @@
 	}
 </script>
 
-<DataTable
-	data={rows}
-	{columns}
-	onRemove={removeFactionStakeout}
-	onBooleanAlertChange={updateBooleanAlert}
-	onNumberAlertChange={updateNumberAlert}
-/>
+<DataTable data={rows} {columns} onRemove={removeFactionStakeout} onBooleanAlertChange={updateBooleanAlert} onNumberAlertChange={updateNumberAlert} />

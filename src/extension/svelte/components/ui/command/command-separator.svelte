@@ -2,16 +2,7 @@
 	import { cn } from "@svelte/utils.js";
 	import { Command as CommandPrimitive } from "bits-ui";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		...restProps
-	}: CommandPrimitive.SeparatorProps = $props();
+	let { ref = $bindable(null), class: className, ...restProps }: CommandPrimitive.SeparatorProps = $props();
 </script>
 
-<CommandPrimitive.Separator
-	bind:ref
-	data-slot="command-separator"
-	class={cn("bg-border -mx-1 h-px", className)}
-	{...restProps}
-/>
+<CommandPrimitive.Separator bind:ref data-slot="command-separator" class={cn("bg-border -mx-1 h-px", className)} {...restProps} />

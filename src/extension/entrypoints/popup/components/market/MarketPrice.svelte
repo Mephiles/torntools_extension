@@ -4,7 +4,7 @@
 
 	interface MarketPriceProps {
 		title: string;
-		listings: { amount: number, price: number }[];
+		listings: { amount: number; price: number }[];
 	}
 	const { title, listings }: MarketPriceProps = $props();
 </script>
@@ -21,7 +21,7 @@
 				</Table.Row>
 			{:else}
 				<Table.Row>
-					<Table.Cell colspan={2} class="p-1 text-center text-muted-foreground">No listings found.</Table.Cell>
+					<Table.Cell colspan={2} class="text-muted-foreground p-1 text-center">No listings found.</Table.Cell>
 				</Table.Row>
 			{/each}
 		</Table.Body>

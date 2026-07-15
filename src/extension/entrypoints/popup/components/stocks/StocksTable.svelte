@@ -21,7 +21,9 @@
 		const keyword = search.trim().toLowerCase();
 		return stockdata.stocks
 			.map((stock) => {
-				const userStock = settings?.apiUsage?.user?.stocks ? ((userdata?.stocks ?? []).find((entry: UserStock) => entry.id === stock.id) ?? null) : null;
+				const userStock = settings?.apiUsage?.user?.stocks
+					? ((userdata?.stocks ?? []).find((entry: UserStock) => entry.id === stock.id) ?? null)
+					: null;
 				return { id: stock.id, stock, userStock };
 			})
 			.filter((row) => {
@@ -52,28 +54,35 @@
 	}
 </script>
 
-<div class="space-y-2 mx-1">
+<div class="mx-1 space-y-2">
 	{#each rows as row (row.id)}
 		{@const profit = getProfit(row.stock, row.userStock)}
 		<Card size="sm" class="rounded-lg">
 			<CardHeader>
 				<CardTitle class="flex items-start justify-between gap-2 text-sm">
-					<a class="truncate text-foreground hover:underline" href={`https://www.torn.com/stockexchange.php?stock=${row.stock.acronym}`} target="_blank" rel="noreferrer">
+					<a
+						class="text-foreground truncate hover:underline"
+						href={`https://www.torn.com/stockexchange.php?stock=${row.stock.acronym}`}
+						target="_blank"
+						rel="noreferrer"
+					>
 						{row.stock.name.length > 35 ? row.stock.acronym : row.stock.name}
 					</a>
 					{#if profit}
-							<span class={profit.value > 0 ? "text-primary" : profit.value < 0 ? "text-destructive" : "text-muted-foreground"}>
-								{profit.value > 0 ? "+" : profit.value < 0 ? "-" : ""}{formatNumber(Math.abs(profit.value), { currency: true })}
-							</span>
+						<span class={profit.value > 0 ? "text-primary" : profit.value < 0 ? "text-destructive" : "text-muted-foreground"}>
+							{profit.value > 0 ? "+" : profit.value < 0 ? "-" : ""}{formatNumber(Math.abs(profit.value), { currency: true })}
+						</span>
 					{/if}
 				</CardTitle>
 				{#if row.userStock}
-					<div class="text-xs text-muted-foreground">({formatNumber(row.userStock.shares, { shorten: 2 })} share{applyPlural(row.userStock.shares)})</div>
+					<div class="text-muted-foreground text-xs">
+						({formatNumber(row.userStock.shares, { shorten: 2 })} share{applyPlural(row.userStock.shares)})
+					</div>
 				{/if}
 			</CardHeader>
 			<CardContent class="space-y-1 text-xs">
 				<StockSection label="Price Information">
-					<div class="grid grid-cols-2 gap-1 rounded-md bg-muted p-2">
+					<div class="bg-muted grid grid-cols-2 gap-1 rounded-md p-2">
 						<span>Current price: {formatNumber(row.stock.market.price, { decimals: 2, currency: true })}</span>
 						<span>Total shares: {formatNumber(row.stock.market.shares)}</span>
 						{#if profit}
@@ -87,16 +96,34 @@
 				</StockSection>
 
 				<StockSection label="Alerts">
-					<div class="grid grid-cols-[auto_1fr] items-center gap-2 rounded-md bg-muted p-2">
+					<div class="bg-muted grid grid-cols-[auto_1fr] items-center gap-2 rounded-md p-2">
 						<label for={`stock-${row.id}-reaches`}>Price reaches</label>
-						<Input id={`stock-${row.id}-reaches`} type="number" pattern="\d*" inputmode="numeric" min="0" class="h-7" value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceReaches ?? ""} onchange={(event) => setAlert(row.id, "priceReaches", event.currentTarget.value)} />
+						<Input
+							id={`stock-${row.id}-reaches`}
+							type="number"
+							pattern="\d*"
+							inputmode="numeric"
+							min="0"
+							class="h-7"
+							value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceReaches ?? ""}
+							onchange={(event) => setAlert(row.id, "priceReaches", event.currentTarget.value)}
+						/>
 						<label for={`stock-${row.id}-falls`}>Price falls to</label>
-						<Input id={`stock-${row.id}-falls`} type="number" pattern="\d*" inputmode="numeric" min="0" class="h-7" value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceFalls ?? ""} onchange={(event) => setAlert(row.id, "priceFalls", event.currentTarget.value)} />
+						<Input
+							id={`stock-${row.id}-falls`}
+							type="number"
+							pattern="\d*"
+							inputmode="numeric"
+							min="0"
+							class="h-7"
+							value={$settingsStore?.notifications?.types?.stocks?.[row.id]?.priceFalls ?? ""}
+							onchange={(event) => setAlert(row.id, "priceFalls", event.currentTarget.value)}
+						/>
 					</div>
 				</StockSection>
 			</CardContent>
 		</Card>
 	{:else}
-		<div class="text-sm text-muted-foreground">No stocks found.</div>
+		<div class="text-muted-foreground text-sm">No stocks found.</div>
 	{/each}
 </div>

@@ -2,18 +2,7 @@
 	import { cn } from "@svelte/utils.js";
 	import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		value = $bindable(""),
-		...restProps
-	}: RadioGroupPrimitive.RootProps = $props();
+	let { ref = $bindable(null), class: className, value = $bindable(""), ...restProps }: RadioGroupPrimitive.RootProps = $props();
 </script>
 
-<RadioGroupPrimitive.Root
-	bind:ref
-	bind:value
-	data-slot="radio-group"
-	class={cn("grid gap-2 w-full", className)}
-	{...restProps}
-/>
+<RadioGroupPrimitive.Root bind:ref bind:value data-slot="radio-group" class={cn("grid w-full gap-2", className)} {...restProps} />

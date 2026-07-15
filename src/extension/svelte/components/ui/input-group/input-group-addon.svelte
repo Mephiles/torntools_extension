@@ -6,8 +6,7 @@
 			align: {
 				"inline-start": "pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem] order-first",
 				"inline-end": "pr-2 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem] order-last",
-				"block-start":
-					"px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2 order-first w-full justify-start",
+				"block-start": "px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2 order-first w-full justify-start",
 				"block-end": "px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2 order-last w-full justify-start",
 			},
 		},
@@ -20,7 +19,7 @@
 </script>
 
 <script lang="ts">
-    import { isElement } from "@common/utils/functions/dom";
+	import { isElement } from "@common/utils/functions/dom";
 	import { cn, type WithElementRef } from "@svelte/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 

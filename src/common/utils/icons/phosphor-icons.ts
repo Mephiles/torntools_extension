@@ -27,13 +27,13 @@ import PHFillPlusData from "@phosphor-icons/core/fill/plus-fill.svg";
 import PHFillStethoscopeData from "@phosphor-icons/core/fill/stethoscope-fill.svg";
 import PHFillTableData from "@phosphor-icons/core/fill/table-fill.svg";
 import PHCaretDownData from "@phosphor-icons/core/regular/caret-down.svg";
-import PHEyeData from "@phosphor-icons/core/regular/eye.svg";
 import PHEyeSlashData from "@phosphor-icons/core/regular/eye-slash.svg";
+import PHEyeData from "@phosphor-icons/core/regular/eye.svg";
 import PHPlusData from "@phosphor-icons/core/regular/plus.svg";
 import PHQuestionData from "@phosphor-icons/core/regular/question.svg";
 import PHTrashData from "@phosphor-icons/core/regular/trash.svg";
-import PHXData from "@phosphor-icons/core/regular/x.svg";
 import PHXCircleData from "@phosphor-icons/core/regular/x-circle.svg";
+import PHXData from "@phosphor-icons/core/regular/x.svg";
 
 const lazyImport = (svgData: string): SVGFactory => {
 	let factory: SVGFactory | undefined;

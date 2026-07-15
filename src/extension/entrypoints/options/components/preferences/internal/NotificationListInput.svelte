@@ -20,13 +20,7 @@
 		type?: "text" | "time";
 	}
 
-	let {
-		typeKey,
-		label,
-		description,
-		disabled = false,
-		type = "text",
-	}: NotificationListInputProps = $props();
+	let { typeKey, label, description, disabled = false, type = "text" }: NotificationListInputProps = $props();
 
 	const id = $derived(`notification-${typeKey}`);
 	const value = $derived(formatNotificationList($settingsStore.notifications.types[typeKey] as NotificationListValue));
@@ -36,7 +30,7 @@
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
@@ -44,11 +38,5 @@
 		{/if}
 	</Field.Content>
 
-	<Input
-		{id}
-		{type}
-		{disabled}
-		value={value}
-		oninput={(event) => updateValue(event.currentTarget.value)}
-	/>
+	<Input {id} {type} {disabled} {value} oninput={(event) => updateValue(event.currentTarget.value)} />
 </Field.Field>

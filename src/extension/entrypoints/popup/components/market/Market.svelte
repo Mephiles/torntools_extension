@@ -7,7 +7,7 @@
 </script>
 
 <div class="space-y-2">
-	<ItemSearch bind:selectedItem/>
+	<ItemSearch bind:selectedItem />
 
 	<SearchResult {selectedItem} />
 </div>

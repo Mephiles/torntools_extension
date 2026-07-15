@@ -6,4 +6,4 @@
 	let { text }: PreferenceNoteProps = $props();
 </script>
 
-<span class="ml-2 mb-1 text-muted-foreground text-xs">{text}</span>
+<span class="text-muted-foreground mb-1 ml-2 text-xs">{text}</span>

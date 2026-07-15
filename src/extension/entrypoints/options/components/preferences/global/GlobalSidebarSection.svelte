@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
-	import { ALL_ICONS, } from "@common/utils/functions/torn";
+	import { ALL_ICONS } from "@common/utils/functions/torn";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
@@ -30,7 +30,6 @@
 		const current = $settingsStore.hideIcons;
 		void updateHiddenIcons(current.includes(icon) ? current.filter((entry) => entry !== icon) : [...current, icon]);
 	}
-
 </script>
 
 <div class="space-y-2">
@@ -38,7 +37,11 @@
 		<div class="grid gap-1">
 			<PreferenceSettingGroup>
 				<StorageSwitch path="settings.pages.sidebar.notes" label="Sidebar notes" />
-				<StorageSwitch path="settings.pages.sidebar.companyAddictionLevel" label="Company addiction level" description="Only works if you are a company employee. Working in a city job or being a director doesn't provide this information." />
+				<StorageSwitch
+					path="settings.pages.sidebar.companyAddictionLevel"
+					label="Company addiction level"
+					description="Only works if you are a company employee. Working in a city job or being a director doesn't provide this information."
+				/>
 				<StorageSwitch path="settings.pages.sidebar.showJobPointsToolTip" label="Job points tooltip" />
 				<StorageSwitch path="settings.pages.sidebar.barLinks" label="Make the energy and nerve bar link to a related page" />
 				<StorageSwitch path="settings.pages.sidebar.highlightEnergy" label="Highlight energy when refill is unused" />

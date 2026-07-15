@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from "@svelte/utils.js";
-	import SpinnerIcon from 'phosphor-svelte/lib/Spinner';
+	import SpinnerIcon from "phosphor-svelte/lib/Spinner";
 	import type { SVGAttributes } from "svelte/elements";
 
 	let {
@@ -15,4 +15,12 @@
 	}: SVGAttributes<SVGSVGElement> = $props();
 </script>
 
-<SpinnerIcon {role} name={name === null ? undefined : name} color={color === null ? undefined : color} stroke={stroke === null ? undefined : stroke} aria-label={ariaLabel} class={cn("size-4 animate-spin", className)} {...restProps} />
+<SpinnerIcon
+	{role}
+	name={name === null ? undefined : name}
+	color={color === null ? undefined : color}
+	stroke={stroke === null ? undefined : stroke}
+	aria-label={ariaLabel}
+	class={cn("size-4 animate-spin", className)}
+	{...restProps}
+/>

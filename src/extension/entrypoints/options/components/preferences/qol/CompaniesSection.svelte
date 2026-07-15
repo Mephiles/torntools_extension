@@ -24,11 +24,7 @@
 		void updateEmployeeInactivityWarning([...$settingsStore.employeeInactivityWarning, { days: null, color: "#ff0000" }]);
 	}
 
-	function updateEmployeeInactivityWarningField<K extends keyof InactivityWarning>(
-		index: number,
-		key: K,
-		value: InactivityWarning[K],
-	) {
+	function updateEmployeeInactivityWarningField<K extends keyof InactivityWarning>(index: number, key: K, value: InactivityWarning[K]) {
 		const nextWarnings = [...$settingsStore.employeeInactivityWarning];
 		const warning = nextWarnings[index];
 		if (!warning) return;
@@ -54,7 +50,7 @@
 <div class="space-y-2">
 	<PreferenceSectionCard title="Companies">
 		<PreferenceSettingGroup>
-			<StorageSwitch path="settings.pages.companies.idBesideCompanyName" label='Reformat company names as "COMPANYNAME [ID]"' />
+			<StorageSwitch path="settings.pages.companies.idBesideCompanyName" label="Reformat company names as 'COMPANYNAME [ID]'" />
 			<StorageSwitch
 				path="settings.pages.companies.specials"
 				label="Help with several different company specials"
@@ -81,9 +77,11 @@
 		{#if $settingsStore.employeeInactivityWarning.length}
 			<div class="space-y-1">
 				{#each $settingsStore.employeeInactivityWarning as warning, index (index)}
-					<div class="grid gap-2 rounded-md border border-border bg-background/60 p-2 md:grid-cols-[1fr_3rem_28px]">
+					<div class="border-border bg-background/60 grid gap-2 rounded-md border p-2 md:grid-cols-[1fr_3rem_28px]">
 						<Input
-							type="number" pattern="\d*" inputmode="numeric"
+							type="number"
+							pattern="\d*"
+							inputmode="numeric"
 							class="with-number-wheel"
 							min={0}
 							value={getWarningDraft(warning)}
@@ -102,9 +100,7 @@
 				{/each}
 			</div>
 		{:else}
-			<p class="rounded-md border border-dashed border-border p-2 text-center text-muted-foreground">
-				No inactivity warnings configured.
-			</p>
+			<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center">No inactivity warnings configured.</p>
 		{/if}
 	</PreferenceSectionCard>
 </div>

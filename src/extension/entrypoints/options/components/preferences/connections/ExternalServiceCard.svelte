@@ -5,9 +5,9 @@
 	import { toast } from "svelte-sonner";
 	import { browser } from "wxt/browser";
 	import { apiStore, settingsStore } from "../../../stores/database-store.svelte";
-	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import type { BooleanPreferenceStoragePath, StringPreferenceStoragePath } from "../preference-storage";
 	import { getPreferenceValue, updatePreferenceValue } from "../preference-storage";
+	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import StorageText from "../StorageText.svelte";
 
 	interface ExternalServiceLink {
@@ -74,17 +74,12 @@
 	}
 </script>
 
-<PreferenceSectionCard {title} description={description}>
+<PreferenceSectionCard {title} {description}>
 	<div class="grid gap-1">
 		{#if links.length}
 			<div class="flex flex-wrap gap-x-2 gap-y-1 px-1">
 				{#each links as link (`${link.label}-${link.href}`)}
-					<a
-						href={link.href}
-						target="_blank"
-						rel="noreferrer"
-						class="flex items-center gap-1 text-xs text-primary hover:underline"
-					>
+					<a href={link.href} target="_blank" rel="noreferrer" class="text-primary flex items-center gap-1 text-xs hover:underline">
 						{link.label}
 						<ArrowSquareOutIcon aria-hidden="true" />
 					</a>
@@ -92,7 +87,7 @@
 			</div>
 		{/if}
 
-		<div class="rounded-md border border-border bg-background/60">
+		<div class="border-border bg-background/60 rounded-md border">
 			<Field.Field orientation="horizontal" class="p-2">
 				<Field.Content>
 					<Field.Label for={path.replaceAll(".", "-")} class="w-full">{enableLabel}</Field.Label>

@@ -1,11 +1,11 @@
-import { settings } from "@common/utils/data/database";
-import "./show-faction-spy.css";
 import { isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
+import "./show-faction-spy.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
+import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import type { TornstatsFactionSpyResponse, YATASpyResponse } from "@common/utils/functions/api.types";
 import { fetchData } from "@common/utils/functions/api-fetcher";
+import type { TornstatsFactionSpyResponse, YATASpyResponse } from "@common/utils/functions/api.types";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 import { executePriorityServices, PriorityService } from "@common/utils/functions/priority-services";

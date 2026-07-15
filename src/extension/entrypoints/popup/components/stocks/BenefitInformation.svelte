@@ -31,15 +31,11 @@
 	const nonDividendDescriptionClass = $derived(getDescriptionClass(nonDividendBenefit.status));
 </script>
 
-<div class="space-y-1 rounded-md bg-muted p-2">
+<div class="bg-muted space-y-1 rounded-md p-2">
 	{#if isDividendStock(stock.id)}
 		<div>
 			{#if userStock?.bonus}
-				{
-					userStock.bonus.available ?
-							"Ready now!" :
-							`Available in ${stock.bonus.frequency - userStock.bonus.progress}/${stock.bonus.frequency} days.`
-				}
+				{userStock.bonus.available ? "Ready now!" : `Available in ${stock.bonus.frequency - userStock.bonus.progress}/${stock.bonus.frequency} days.`}
 			{:else}
 				Available every {stock.bonus.frequency} days.
 			{/if}

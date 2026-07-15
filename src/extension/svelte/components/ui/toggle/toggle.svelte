@@ -16,10 +16,4 @@
 	} = $props();
 </script>
 
-<TogglePrimitive.Root
-	bind:ref
-	bind:pressed
-	data-slot="toggle"
-	class={cn(toggleVariants({ variant, size }), className)}
-	{...restProps}
-/>
+<TogglePrimitive.Root bind:ref bind:pressed data-slot="toggle" class={cn(toggleVariants({ variant, size }), className)} {...restProps} />

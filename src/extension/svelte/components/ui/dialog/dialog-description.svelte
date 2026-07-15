@@ -2,11 +2,7 @@
 	import { cn } from "@svelte/utils.js";
 	import { Dialog as DialogPrimitive } from "bits-ui";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		...restProps
-	}: DialogPrimitive.DescriptionProps = $props();
+	let { ref = $bindable(null), class: className, ...restProps }: DialogPrimitive.DescriptionProps = $props();
 </script>
 
 <DialogPrimitive.Description

@@ -62,7 +62,7 @@
 		</div>
 
 		{#if error}
-			<div class="rounded-md border border-destructive/30 bg-destructive/10 px-2 py-1.5 text-xs text-destructive">{error}</div>
+			<div class="border-destructive/30 bg-destructive/10 text-destructive rounded-md border px-2 py-1.5 text-xs">{error}</div>
 		{/if}
 		{#if permissionError}
 			<div class="rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1.5 text-xs text-amber-700 dark:text-amber-300">{permissionError}</div>
@@ -73,9 +73,11 @@
 			<Button size="sm" variant="secondary" class="h-8 flex-1" onclick={openApiPage}>Key page</Button>
 		</div>
 
-		<div class="text-xs text-muted-foreground">TornTools needs a <span class="text-amber-600 dark:text-amber-300">Limited Access</span> key.</div>
+		<div class="text-muted-foreground text-xs">TornTools needs a <span class="text-amber-600 dark:text-amber-300">Limited Access</span> key.</div>
 
 		<Button size="sm" variant="outline" class="h-8 w-full" onclick={openImport}>Import previous settings</Button>
-		<a class="block text-xs text-muted-foreground hover:text-foreground" target="_blank" rel="noreferrer" href={browser.runtime.getURL("/tos.html")}>Terms of Service</a>
+		<a class="text-muted-foreground hover:text-foreground block text-xs" target="_blank" rel="noreferrer" href={browser.runtime.getURL("/tos.html")}
+			>Terms of Service</a
+		>
 	</CardContent>
 </Card>

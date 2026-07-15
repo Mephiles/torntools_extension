@@ -8,9 +8,9 @@
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
-	import NotificationListInput from "./NotificationListInput.svelte";
 	import type { NotificationTypes } from "./notification-storage";
 	import { updateNotificationType } from "./notification-storage";
+	import NotificationListInput from "./NotificationListInput.svelte";
 
 	type NpcAlert = NotificationTypes["npcs"][number];
 
@@ -26,9 +26,7 @@
 			.sort((first, second) => first.order - second.order || first.name.localeCompare(second.name)),
 	);
 	const npcOptions = $derived(npcChoices.map((npc) => ({ value: String(npc.id), label: npc.name })));
-	const canAddNpc = $derived(
-		!disabled && npcChoices.some(({ id }) => !$settingsStore.notifications.types.npcs.some((alert) => alert.id === id)),
-	);
+	const canAddNpc = $derived(!disabled && npcChoices.some(({ id }) => !$settingsStore.notifications.types.npcs.some((alert) => alert.id === id)));
 
 	function updateNpcAlerts(nextAlerts: NpcAlert[]) {
 		void updateNotificationType("npcs", nextAlerts);
@@ -72,18 +70,13 @@
 	{/snippet}
 
 	<div class="grid gap-1">
-		<StorageSwitch
-			path="settings.notifications.types.npcsGlobal"
-			label="NPC alerts"
-			{disabled}
-			externalServices={["tornstats", "yata", "lzpt"]}
-		/>
+		<StorageSwitch path="settings.notifications.types.npcsGlobal" label="NPC alerts" {disabled} externalServices={["tornstats", "yata", "lzpt"]} />
 
 		<PreferenceSettingGroup title="NPC levels" contentClass="grid gap-1">
 			{#if npcOptions.length && $settingsStore.notifications.types.npcs.length}
 				<div class="space-y-1">
 					{#each $settingsStore.notifications.types.npcs as alert, index (alert.id)}
-						<div class="grid gap-2 rounded-md border border-border bg-background/60 p-2 md:grid-cols-[minmax(0,1fr)_5rem_6rem_auto]">
+						<div class="border-border bg-background/60 grid gap-2 rounded-md border p-2 md:grid-cols-[minmax(0,1fr)_5rem_6rem_auto]">
 							<ItemSelect
 								items={npcOptions}
 								placeholder="NPC"
@@ -92,49 +85,44 @@
 							/>
 
 							<Input
-								type="number" pattern="\d*" inputmode="numeric"
+								type="number"
+								pattern="\d*"
+								inputmode="numeric"
 								class="with-number-wheel"
 								min={1}
 								max={5}
 								placeholder="Level"
-								disabled={disabled}
+								{disabled}
 								value={String(alert.level)}
 								oninput={(event) => updateNumberField(index, "level", event.currentTarget.value)}
 							/>
 
 							<Input
-								type="number" pattern="\d*" inputmode="numeric"
+								type="number"
+								pattern="\d*"
+								inputmode="numeric"
 								min={0}
 								max={450}
 								placeholder="Minutes"
-								disabled={disabled}
+								{disabled}
 								value={String(alert.minutes)}
 								oninput={(event) => updateNumberField(index, "minutes", event.currentTarget.value)}
 							/>
 
-							<Button type="button" size="icon" variant="destructive" disabled={disabled} onclick={() => removeNpcAlert(index)}>
+							<Button type="button" size="icon" variant="destructive" {disabled} onclick={() => removeNpcAlert(index)}>
 								<TrashIcon />
 							</Button>
 						</div>
 					{/each}
 				</div>
 			{:else if npcOptions.length}
-				<p class="rounded-md border border-dashed border-border p-2 text-center text-xs text-muted-foreground">
-					No NPC alerts configured.
-				</p>
+				<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center text-xs">No NPC alerts configured.</p>
 			{:else}
-				<p class="rounded-md border border-dashed border-border p-2 text-center text-xs text-muted-foreground">
-					NPC data is not available yet.
-				</p>
+				<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center text-xs">NPC data is not available yet.</p>
 			{/if}
 		</PreferenceSettingGroup>
 
-		<StorageSwitch
-			path="settings.notifications.types.npcPlannedEnabled"
-			label="Planned attack reminder"
-			disabled={disabled}
-			externalServices={["lzpt"]}
-		>
+		<StorageSwitch path="settings.notifications.types.npcPlannedEnabled" label="Planned attack reminder" {disabled} externalServices={["lzpt"]}>
 			<NotificationListInput
 				typeKey="npcPlanned"
 				label="Minutes before planned attack"

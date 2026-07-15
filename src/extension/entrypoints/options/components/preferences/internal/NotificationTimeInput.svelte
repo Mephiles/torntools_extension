@@ -24,7 +24,7 @@
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
@@ -32,11 +32,5 @@
 		{/if}
 	</Field.Content>
 
-	<Input
-		{id}
-		type="time"
-		{disabled}
-		value={value}
-		oninput={(event) => updateValue(event.currentTarget.value)}
-	/>
+	<Input {id} type="time" {disabled} {value} oninput={(event) => updateValue(event.currentTarget.value)} />
 </Field.Field>

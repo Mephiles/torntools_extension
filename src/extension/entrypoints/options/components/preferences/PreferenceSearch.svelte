@@ -13,18 +13,16 @@
 	let { open = $bindable(false) }: PreferenceSearchProps = $props();
 
 	const groupedData = $derived(
-		PREFERENCE_GROUPS
-			.filter((group) => PREFERENCE_SEARCH_DATA.some((item) => item.group === group.id))
-			.flatMap((group) => {
-				const groupItems = PREFERENCE_SEARCH_DATA.filter((item) => item.group === group.id);
-				return (group.sections ?? [])
-					.filter((section) => groupItems.some((item) => item.section === section.id))
-					.map((section) => ({
-						key: `${group.id}/${section.id}`,
-						heading: `${group.title} / ${section.title}`,
-						items: groupItems.filter((item) => item.section === section.id),
-					}));
-			})
+		PREFERENCE_GROUPS.filter((group) => PREFERENCE_SEARCH_DATA.some((item) => item.group === group.id)).flatMap((group) => {
+			const groupItems = PREFERENCE_SEARCH_DATA.filter((item) => item.group === group.id);
+			return (group.sections ?? [])
+				.filter((section) => groupItems.some((item) => item.section === section.id))
+				.map((section) => ({
+					key: `${group.id}/${section.id}`,
+					heading: `${group.title} / ${section.title}`,
+					items: groupItems.filter((item) => item.section === section.id),
+				}));
+		}),
 	);
 
 	function getKeywords(item: SearchablePreference): string[] {
@@ -47,7 +45,7 @@
 <svelte:window onkeydown={handleGlobalKeydown} />
 
 <Dialog.Root bind:open>
-	<Dialog.Content class="p-0 rounded-xl">
+	<Dialog.Content class="rounded-xl p-0">
 		<Dialog.Header class="sr-only">
 			<Dialog.Title>Search preferences</Dialog.Title>
 			<Dialog.Description>Search through the TornTools preferences.</Dialog.Description>
@@ -62,15 +60,11 @@
 				{#each groupedData as group (group.key)}
 					<Command.Group heading={group.heading}>
 						{#each group.items as item (item.path)}
-							<Command.Item
-								value={item.path}
-								keywords={getKeywords(item)}
-								onSelect={() => selectPreference(item)}
-							>
+							<Command.Item value={item.path} keywords={getKeywords(item)} onSelect={() => selectPreference(item)}>
 								<div>
 									<span class="truncate text-sm">{item.label}</span>
 									{#if item.description}
-										<span class="truncate text-xs text-muted-foreground">{item.description}</span>
+										<span class="text-muted-foreground truncate text-xs">{item.description}</span>
 									{/if}
 								</div>
 							</Command.Item>

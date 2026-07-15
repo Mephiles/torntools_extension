@@ -1,7 +1,6 @@
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
-import { Feature } from "@features/feature";
-import "./travel-table.css";
 import { ttStorage } from "@common/utils/context";
+import "./travel-table.css";
 import { filters, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
@@ -12,6 +11,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@common/utils/functions/torn";
 import { toCorrectType } from "@common/utils/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons";
+import { Feature } from "@features/feature";
 import { fetchTravelData, type TravelData } from "@features/travel-table/travel-data-fetcher";
 import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
 

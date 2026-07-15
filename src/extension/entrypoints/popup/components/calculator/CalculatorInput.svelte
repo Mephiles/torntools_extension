@@ -36,9 +36,7 @@
 		if (!keyword) return [];
 
 		const id = Number.parseInt(keyword, 10);
-		return sourceItems
-			.filter((item) => item.name.toLowerCase().includes(keyword) || (!Number.isNaN(id) && item.id === id))
-			.slice(0, 30);
+		return sourceItems.filter((item) => item.name.toLowerCase().includes(keyword) || (!Number.isNaN(id) && item.id === id)).slice(0, 30);
 	}
 
 	async function setAmount(id: string, amount: number) {
@@ -53,7 +51,7 @@
 	<Command.Input bind:value={query} placeholder="Search item ..." />
 
 	{#if listOpen}
-		<Command.List class="mt-1 max-h-52 w-full rounded-md bg-popover p-1 absolute top-full z-10">
+		<Command.List class="bg-popover absolute top-full z-10 mt-1 max-h-52 w-full rounded-md p-1">
 			<Command.Empty class="p-2">No items found.</Command.Empty>
 			<Command.Group class="p-0">
 				{#each matches as item (item.id)}
@@ -62,7 +60,9 @@
 						<Command.Shortcut class="w-20 tracking-normal">
 							<Input
 								id={`calculator-${item.id}`}
-								type="number" pattern="\d*" inputmode="numeric"
+								type="number"
+								pattern="\d*"
+								inputmode="numeric"
 								min="0"
 								class="h-7 text-xs"
 								value={selectedItems.find((selected) => selected.id === item.id.toString())?.amount ?? ""}
