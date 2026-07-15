@@ -18,6 +18,19 @@ interface InternalStatusIconsProps {
 	iconKey: string;
 }
 
+function toStatusIcon(icon: InternalStatusIconsProps["icon"]): StatusIcon {
+	if ("timerExpiresAt" in icon) {
+		return {
+			title: icon.title,
+			subtitle: icon.subtitle,
+			timerExpiresAt: icon.timerExpiresAt,
+			serverTimestamp: icon.serverTimestamp,
+			factionUpgrade: icon.factionUpgrade,
+		};
+	}
+	return { title: icon.title, subtitle: icon.subtitle };
+}
+
 export function getStatusIcons(): StatusIcons {
 	const flyoutIcons = document.querySelector("[class*='statusIcons___']");
 	if (flyoutIcons) {
@@ -25,21 +38,7 @@ export function getStatusIcons(): StatusIcons {
 		if (reactProperties) {
 			return reactProperties.children.reduce<StatusIcons>((map, child) => {
 				const props: InternalStatusIconsProps = child.props;
-
-				let icon: StatusIcon;
-				if ("timerExpiresAt" in props.icon) {
-					icon = {
-						title: props.icon.title,
-						subtitle: props.icon.subtitle,
-						timerExpiresAt: props.icon.timerExpiresAt,
-						serverTimestamp: props.icon.serverTimestamp,
-						factionUpgrade: props.icon.factionUpgrade,
-					};
-				} else {
-					icon = { title: props.icon.title, subtitle: props.icon.subtitle };
-				}
-
-				map.set(props.iconKey, icon);
+				map.set(props.iconKey, toStatusIcon(props.icon));
 				return map;
 			}, new Map());
 		}
@@ -48,22 +47,7 @@ export function getStatusIcons(): StatusIcons {
 	const legacySidebarData = getSidebarData();
 	if (legacySidebarData?.statusIcons?.icons) {
 		return Object.entries(legacySidebarData.statusIcons.icons).reduce<StatusIcons>((map, [key, data]) => {
-			const propsIcon = data as InternalStatusIconsProps["icon"];
-
-			let icon: StatusIcon;
-			if ("timerExpiresAt" in propsIcon) {
-				icon = {
-					title: propsIcon.title,
-					subtitle: propsIcon.subtitle,
-					timerExpiresAt: propsIcon.timerExpiresAt,
-					serverTimestamp: propsIcon.serverTimestamp,
-					factionUpgrade: propsIcon.factionUpgrade,
-				};
-			} else {
-				icon = { title: propsIcon.title, subtitle: propsIcon.subtitle };
-			}
-
-			map.set(key, icon);
+			map.set(key, toStatusIcon(data as InternalStatusIconsProps["icon"]));
 			return map;
 		}, new Map());
 	}
