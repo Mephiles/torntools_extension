@@ -694,6 +694,8 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 	throw new Error(`Invalid preset options where provided: '${JSON.stringify(options)}`);
 }
 
+const DEFAULT_PRIORITY = 50;
+
 export function createFilter<State extends Record<string, unknown> & { enabled: boolean } = Record<string, unknown> & { enabled: boolean }>(options: {
 	rowSelector: string;
 	container: {
@@ -857,7 +859,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 		sections.push({
 			key: section.key,
-			priority: section.priority ?? 1,
+			priority: section.priority ?? DEFAULT_PRIORITY,
 			getValue: built.getValue.bind(built),
 			test: section.test,
 			onBeforeFilter: built.onBeforeFilter?.bind(built),
