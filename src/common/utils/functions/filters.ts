@@ -280,11 +280,12 @@ interface CheckboxSectionOptions {
 }
 
 export function checkboxSection(options: CheckboxSectionOptions): FilterSectionDef<boolean> {
-	const { key, title, label, defaultValue, test, enabled } = options;
+	const { key, title, label, priority, defaultValue, test, enabled } = options;
 
 	return {
 		key,
 		title,
+		priority,
 		enabled,
 		build(onChange: () => void) {
 			const checkbox = createCheckbox({ description: label ?? title });
