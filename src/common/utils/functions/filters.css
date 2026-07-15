@@ -19,18 +19,6 @@
 	gap: 10px;
 }
 
-body.tt-mobile .tt-filter .content,
-body.tt-tablet .tt-filter .content {
-	flex-flow: column;
-	justify-content: center;
-	align-items: center;
-}
-
-body.tt-mobile .tt-filter .content .tt-checkbox-wrapper,
-body.tt-tablet .tt-filter .content .tt-checkbox-wrapper {
-	margin: 1px 0;
-}
-
 .tt-filter .content .tt-yn-checkboxes > div {
 	display: flex;
 	align-items: center;
@@ -42,11 +30,6 @@ body.tt-tablet .tt-filter .content .tt-checkbox-wrapper {
 
 .tt-filter .content > div {
 	text-align: center;
-}
-
-body.tt-mobile .tt-filter .content > div,
-body.tt-tablet .tt-filter .content > div {
-	margin-bottom: 12px;
 }
 
 .tt-filter .content strong {
