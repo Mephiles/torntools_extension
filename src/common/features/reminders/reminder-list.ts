@@ -91,7 +91,7 @@ export const REMINDERS: Reminder[] = [
 		name: "Race",
 		url: LINKS.raceway,
 		enabled: () => settings.apiUsage.user.icons && settings.scripts.reminders.types.race,
-		finished: () => !userdata.icons.find((icon) => icon.title === "Racing"),
+		finished: () => userdata.icons.find((icon) => icon.title === "Racing")?.id === 17,
 	},
 	{
 		name: "Education",
