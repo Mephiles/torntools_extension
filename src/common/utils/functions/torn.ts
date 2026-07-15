@@ -2780,7 +2780,7 @@ export async function getMedicalCooldown(): Promise<CooldownInformation | null> 
 		totalMinutes = parseInt(timerSplit[0]) * 60 + parseInt(timerSplit[1]) + parseInt(timerSplit[2]) / 60;
 	} else {
 		usedMinutes = 0;
-		totalMinutes = 3_600; // default of 6 hours
+		totalMinutes = 360; // default of 6 hours
 	}
 
 	return {
