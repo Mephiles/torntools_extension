@@ -42,7 +42,10 @@
 				}
 			],
 			"removed": [],
-			"technical": [{ "message": "Minor internal changes to make userscripts better at tree-shaking.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Minor internal changes to make userscripts better at tree-shaking.", "contributor": "DeKleineKobini" },
+				{ "message": "Cleanup old code, which should have no impact anywhere.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
