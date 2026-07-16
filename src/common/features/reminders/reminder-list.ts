@@ -69,7 +69,7 @@ export const REMINDERS: Reminder[] = [
 		group: "oc",
 		url: LINKS.organizedCrimes,
 		enabled: () => !!userdata.faction && settings.scripts.reminders.types.oc,
-		finished: () => "id" in userdata.organizedCrime,
+		finished: () => userdata.organizedCrime && "id" in userdata.organizedCrime,
 	},
 	{
 		name: "OC: Item",
@@ -78,7 +78,7 @@ export const REMINDERS: Reminder[] = [
 		enabled: () => !!userdata.faction && settings.scripts.reminders.types.ocItem,
 		finished: () => {
 			// Mark as finished if not in an OC, we have a different reminder for that.
-			if (!("id" in userdata.organizedCrime)) return true;
+			if (!userdata.organizedCrime || !("id" in userdata.organizedCrime)) return true;
 
 			const slot = userdata.organizedCrime.slots.find((slot) => slot.user?.id === api.torn.owner);
 			if (!slot) return true;
