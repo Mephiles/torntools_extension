@@ -2,7 +2,7 @@ import "./stocks-filter.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, stockdata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { createFilter, type FilterController, textSection, type YNCheckboxState, ynCheckboxesSection } from "@common/utils/functions/filters";
+import { createFilter, type DuoCheckboxState, duoCheckboxesSection, type FilterController, textSection } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -22,8 +22,8 @@ async function initialiseListeners() {
 type StocksFilterState = {
 	enabled: boolean;
 	name: string;
-	investment: YNCheckboxState;
-	priceGroup: YNCheckboxState;
+	investment: DuoCheckboxState;
+	priceGroup: DuoCheckboxState;
 };
 
 async function addFilterContainer() {
@@ -47,7 +47,7 @@ async function addFilterContainer() {
 			},
 		}),
 
-		ynCheckboxesSection({
+		duoCheckboxesSection({
 			key: "investment",
 			title: "Investment",
 			items: ["Owned", "Benefit", "Passive", "Collection Ready"],
@@ -73,7 +73,7 @@ async function addFilterContainer() {
 			},
 		}),
 
-		ynCheckboxesSection({
+		duoCheckboxesSection({
 			key: "priceGroup",
 			title: "Price",
 			items: hasAPIData() ? [{ id: "Price", indicator: "icon" }, "Profit"] : [{ id: "Price", indicator: "icon" }],

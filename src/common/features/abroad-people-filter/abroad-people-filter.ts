@@ -5,13 +5,13 @@ import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@commo
 import {
 	checkboxesSection,
 	createFilter,
+	type DuoCheckboxState,
 	defaultFactionsItems,
+	duoCheckboxesSection,
 	type FilterController,
 	getSpecialIcons,
 	presetSection,
 	sliderSection,
-	type YNCheckboxState,
-	ynCheckboxesSection,
 } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -37,7 +37,7 @@ type AbroadPeopleFilterState = {
 	enabled: boolean;
 	activity: string[];
 	faction: string;
-	special: YNCheckboxState;
+	special: DuoCheckboxState;
 	status: string[];
 	level: { start: number; end: number };
 	statsEstimates: string[] | undefined;
@@ -59,7 +59,7 @@ async function addFilterContainer() {
 			default: filters.abroadPeople.faction,
 		}),
 
-		ynCheckboxesSection({
+		duoCheckboxesSection({
 			key: "special",
 			title: "Special",
 			items: ["New Player", "In Company", "In Faction", "Is Donator", "Has Bounties", "Bazaar Open"],

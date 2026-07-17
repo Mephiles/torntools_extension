@@ -10,14 +10,14 @@ import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@commo
 import {
 	checkboxesSection,
 	createFilter,
+	type DuoCheckboxState,
+	duoCheckboxesSection,
 	type FilterController,
 	getSpecialIcons,
 	presetSection,
 	type SliderRange,
 	selectSection,
 	sliderSection,
-	type YNCheckboxState,
-	ynCheckboxesSection,
 } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
@@ -71,7 +71,7 @@ function initialiseListeners() {
 type FactionMemberFilterState = {
 	enabled: boolean;
 	activity: string[];
-	special: YNCheckboxState;
+	special: DuoCheckboxState;
 	position: string;
 	status: string[];
 	level: SliderRange;
@@ -114,7 +114,7 @@ async function addFilterContainer() {
 	const sections = [
 		presetSection({ preset: "activity", defaults: filters.faction.activity }),
 
-		ynCheckboxesSection({
+		duoCheckboxesSection({
 			key: "special",
 			title: "Special",
 			items: ["Fedded", "Fallen", "New Player", "In Company", "Is Donator", "Is Recruit"],

@@ -4,14 +4,14 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import {
 	createFilter,
+	type DuoCheckboxState,
+	duoCheckboxesSection,
 	type FilterController,
 	type FilterSectionDef,
 	getSpecialIcons,
 	presetSection,
 	type SliderRange,
 	sliderSection,
-	type YNCheckboxState,
-	ynCheckboxesSection,
 } from "@common/utils/functions/filters";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, HOSPITALIZATION_REASONS, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
@@ -41,8 +41,8 @@ type UserlistFilterState = {
 	enabled: boolean;
 	activity: string[];
 	level: SliderRange;
-	special: YNCheckboxState;
-	hospReason: YNCheckboxState;
+	special: DuoCheckboxState;
+	hospReason: DuoCheckboxState;
 	statsEstimates: string[] | undefined;
 	ffScore: { min: number; max: number } | undefined;
 };
@@ -58,7 +58,7 @@ async function addFilterContainer() {
 			defaults: filters.userlist.activity,
 		}),
 
-		ynCheckboxesSection({
+		duoCheckboxesSection({
 			key: "special",
 			title: "Special",
 			items: [
@@ -91,7 +91,7 @@ async function addFilterContainer() {
 			},
 		}),
 
-		ynCheckboxesSection({
+		duoCheckboxesSection({
 			key: "hospReason",
 			title: "Hosp Reason",
 			items: ["Attacked By", "Mugged By", "Hospitalized By", "Other"],

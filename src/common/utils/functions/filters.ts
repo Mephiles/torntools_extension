@@ -485,21 +485,21 @@ export function multiSelectSection(options: MultiSelectSectionOptions): FilterSe
 	};
 }
 
-export type YNCheckboxState = Record<string, SpecialFilterValue>;
+export type DuoCheckboxState = Record<string, SpecialFilterValue>;
 
-type YNCheckboxItem = string | { id: string; description?: string; indicator?: "icon" | "text" };
+type DuoCheckboxItem = string | { id: string; description?: string; indicator?: "icon" | "text" };
 
-interface YNCheckboxesSectionOptions {
+interface DuoCheckboxesSectionOptions {
 	key: string;
 	title: string;
 	priority?: number;
-	items: YNCheckboxItem[];
-	defaults: YNCheckboxState;
-	test: (row: HTMLElement, selections: YNCheckboxState) => boolean;
+	items: DuoCheckboxItem[];
+	defaults: DuoCheckboxState;
+	test: (row: HTMLElement, selections: DuoCheckboxState) => boolean;
 	enabled?: () => boolean;
 }
 
-export function ynCheckboxesSection(options: YNCheckboxesSectionOptions): FilterSectionDef<YNCheckboxState> {
+export function duoCheckboxesSection(options: DuoCheckboxesSectionOptions): FilterSectionDef<DuoCheckboxState> {
 	const { key, title, priority, items, defaults, test, enabled } = options;
 
 	return {
@@ -526,8 +526,8 @@ export function ynCheckboxesSection(options: YNCheckboxesSectionOptions): Filter
 
 			return {
 				element: wrapper,
-				getValue(): YNCheckboxState {
-					const selections: YNCheckboxState = {};
+				getValue(): DuoCheckboxState {
+					const selections: DuoCheckboxState = {};
 					for (const { ccKey, duo } of duoInstances) {
 						selections[ccKey] = duo.getValue();
 					}
