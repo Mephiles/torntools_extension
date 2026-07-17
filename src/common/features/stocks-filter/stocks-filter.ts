@@ -76,7 +76,7 @@ async function addFilterContainer() {
 		ynCheckboxesSection({
 			key: "priceGroup",
 			title: "Price",
-			items: hasAPIData() ? ["Price", "Profit"] : ["Price"],
+			items: hasAPIData() ? [{ id: "Price", indicator: "icon" }, "Profit"] : [{ id: "Price", indicator: "icon" }],
 			defaults: filters.stocks.price,
 			test: (row, pg) => {
 				if (pg.price === "yes" || pg.price === "no") {

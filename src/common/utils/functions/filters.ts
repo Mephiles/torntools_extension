@@ -2,6 +2,7 @@ import "./filters.css";
 import { userdata } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import { createCheckboxDuo } from "@common/utils/elements/checkbox-duo/checkbox-duo";
 import { createCheckboxList } from "@common/utils/elements/checkbox-list/checkbox-list";
 import { createMultiSelect, createSelect } from "@common/utils/elements/select/select";
 import { DualRangeSlider } from "@common/utils/elements/slider/slider";
@@ -486,11 +487,13 @@ export function multiSelectSection(options: MultiSelectSectionOptions): FilterSe
 
 export type YNCheckboxState = Record<string, SpecialFilterValue>;
 
+type YNCheckboxItem = string | { id: string; description?: string; indicator?: "icon" | "text" };
+
 interface YNCheckboxesSectionOptions {
 	key: string;
 	title: string;
 	priority?: number;
-	items: string[];
+	items: YNCheckboxItem[];
 	defaults: YNCheckboxState;
 	test: (row: HTMLElement, selections: YNCheckboxState) => boolean;
 	enabled?: () => boolean;
@@ -507,39 +510,26 @@ export function ynCheckboxesSection(options: YNCheckboxesSectionOptions): Filter
 		build(onChange: () => void) {
 			const wrapper = elementBuilder({ type: "div", class: "tt-yn-checkboxes" });
 
-			const checkboxPairs = items.map((item) => {
-				const ccKey = camelCase(item);
-				const pairDiv = elementBuilder({ type: "div", class: ccKey });
-				const yCheckbox = createCheckbox({ description: "Y:", reverseLabel: true });
-				const nCheckbox = createCheckbox({ description: "N:", reverseLabel: true });
+			const duoInstances = items.map((item) => {
+				const id = typeof item === "string" ? item : item.id;
+				const description = typeof item === "string" ? item : (item.description ?? item.id);
+				const indicator = typeof item === "string" ? "text" : (item.indicator ?? "text");
+				const ccKey = camelCase(id);
 
-				const value = defaults[ccKey];
-				if (value === "yes" || value === "both") yCheckbox.setChecked(true);
-				if (value === "no" || value === "both") nCheckbox.setChecked(true);
+				const duo = createCheckboxDuo({ description, indicator });
+				duo.setValue(defaults[ccKey] ?? "none");
+				duo.onChange(onChange);
+				wrapper.appendChild(duo.element);
 
-				yCheckbox.onChange(onChange);
-				nCheckbox.onChange(onChange);
-
-				pairDiv.appendChild(yCheckbox.element);
-				pairDiv.appendChild(nCheckbox.element);
-				pairDiv.appendChild(elementBuilder({ type: "label", text: item }));
-				wrapper.appendChild(pairDiv);
-
-				return { element: pairDiv, ccKey, yCheckbox, nCheckbox };
+				return { ccKey, duo };
 			});
 
 			return {
 				element: wrapper,
 				getValue(): YNCheckboxState {
 					const selections: YNCheckboxState = {};
-					for (const pair of checkboxPairs) {
-						const yChecked = pair.yCheckbox.isChecked();
-						const nChecked = pair.nCheckbox.isChecked();
-
-						if (yChecked && nChecked) selections[pair.ccKey] = "both";
-						else if (yChecked) selections[pair.ccKey] = "yes";
-						else if (nChecked) selections[pair.ccKey] = "no";
-						else selections[pair.ccKey] = "none";
+					for (const { ccKey, duo } of duoInstances) {
+						selections[ccKey] = duo.getValue();
 					}
 					return selections;
 				},
