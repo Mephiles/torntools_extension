@@ -102,7 +102,7 @@ export async function updateFactionStakeouts(forceUpdate = false) {
 					if (settings.notifications.types.global) {
 						const notification = newNotification(
 							"Faction Stakeouts",
-							`${data.basic.name} now has less than ${memberCount} members.`,
+							`${data.basic.name} now has less than ${memberCountDrops} members.`,
 							`https://www.torn.com/factions.php?step=profile&ID=${factionId}#/`,
 						);
 						await dispatchNotification(notification);
