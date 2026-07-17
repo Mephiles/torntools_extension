@@ -80,8 +80,6 @@ function handleModelItems(event: Event) {
 	if (!Array.isArray(userItems)) return;
 
 	const internalItems = userItems.filter(isInternalCityItem);
-	if (!internalItems) return;
-
 	const items = resolveUserItems(internalItems);
 	showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
 }
