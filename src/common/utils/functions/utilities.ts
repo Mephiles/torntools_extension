@@ -117,20 +117,6 @@ export function getCookie(cname: string) {
 	return "";
 }
 
-export function getValue(x: any) {
-	return typeof x === "function" ? x() : x;
-}
-
-export async function getValueAsync<T>(x: () => T | Promise<T>): Promise<T> {
-	if (x.constructor.name === "AsyncFunction") return x();
-	else {
-		const value = x();
-
-		if (value instanceof Promise) return value;
-		else return value;
-	}
-}
-
 export function toCorrectType(object: { [key: string]: any }) {
 	object = { ...object };
 

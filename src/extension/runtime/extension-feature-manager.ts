@@ -2,7 +2,7 @@ import { factiondata, loadDatabase, localdata, npcs, settings, storageListeners,
 import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
-import { arraysEquals, getValueAsync, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
+import { arraysEquals, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
 import { SOURCE_SERVICE } from "@extension/services/proxy-services";
 import type { FeatureManager } from "@features/feature-manager";
@@ -202,10 +202,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			await requireDOMContentLoaded();
 		}
 
-		if (
-			(feature.precondition.constructor.name === "AsyncFunction" && !(await feature.precondition())) ||
-			(feature.precondition.constructor.name !== "AsyncFunction" && !feature.precondition())
-		) {
+		if (!(await feature.precondition())) {
 			return;
 		}
 
@@ -227,7 +224,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			if (feature.isEnabled()) {
 				this.logInfo("Starting feature.", feature);
 
-				const requirements = await getValueAsync(feature.requirements);
+				const requirements = await feature.requirements();
 				if (typeof requirements === "string") {
 					await this.executeFunction(feature.cleanup).catch((error) =>
 						this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error),
@@ -323,13 +320,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 	async executeFunction(func: FeatureFn, liveReload?: boolean) {
 		if (!func) return;
 
-		if (liveReload) {
-			if (func.constructor.name === "AsyncFunction") await func(liveReload);
-			else func(liveReload);
-		} else {
-			if (func.constructor.name === "AsyncFunction") await func();
-			else func();
-		}
+		await (liveReload ? func(liveReload) : func());
 	}
 
 	showResult(feature: Feature, status: FeatureStatus, options: ResultOptions = {}) {
