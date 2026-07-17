@@ -109,12 +109,6 @@ export async function updateUserdata(forceUpdate = false) {
 		// Use "newevents" selection only when the old events count > new events count
 		// Fetch the notifications count always, to avoid additional API calls
 
-		// TODO - Migrate to V2 (user/bars).
-		for (const selection of ["bars"]) {
-			if (!settings.apiUsage.user[selection]) continue;
-
-			selections.push(selection);
-		}
 		for (const selection of ["bars", "cooldowns", "icons", "newmessages", "money", "travel", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
@@ -515,7 +509,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
 		for (const bar of ["energy", "happy", "nerve", "life"] as const) {
-			if (!settings.notifications.types[bar].length || !oldUserdata.bars[bar]) continue;
+			if (!settings.notifications.types[bar].length || !oldUserdata.bars?.[bar]) continue;
 
 			const checkpoints = settings.notifications.types[bar]
 				.map<number>((checkpoint: string | number) =>
@@ -587,7 +581,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.chainTimerEnabled &&
 			settings.notifications.types.chainTimer.length > 0 &&
-			newUserdata.bars.chain &&
+			newUserdata.bars?.chain &&
 			newUserdata.bars.chain.timeout !== 0 &&
 			newUserdata.bars.chain.current >= 10
 		) {
@@ -614,7 +608,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if (
 			settings.notifications.types.chainBonusEnabled &&
 			settings.notifications.types.chainBonus.length > 0 &&
-			newUserdata.bars.chain &&
+			newUserdata.bars?.chain &&
 			newUserdata.bars.chain.timeout !== 0 &&
 			newUserdata.bars.chain.current >= 10
 		) {
