@@ -53,7 +53,6 @@ import { setupTravelHomePage } from "@common/pages/travel-home-page";
 import { setupUserlistPage } from "@common/pages/userlist-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { initializeDatabase } from "@common/utils/data/database";
-import { getSearchParameters } from "@common/utils/functions/dom";
 import AbroadEnergyWarningFeature from "@features/abroad-energy-warning/abroad-energy-warning";
 import AbroadItemsFilterFeature from "@features/abroad-items-filter/abroad-items-filter";
 import AchievementsFeature from "@features/achievements/achievements";
@@ -508,18 +507,15 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CarWinPercentageFeature());
 		FEATURE_MANAGER.registerFeature(new RacingFilterFeature());
 		FEATURE_MANAGER.registerFeature(new RacingUpgradesFeature());
-	} else if (page === "war") {
-		const step = getSearchParameters().get("step");
-		if (step === "chainreport") {
-			FEATURE_MANAGER.registerFeature(new CSVChainReportFeature());
-		} else if (step === "raidreport") {
-			FEATURE_MANAGER.registerFeature(new CSVRaidReportFeature());
-		} else if (step === "rankreport") {
-			FEATURE_MANAGER.registerFeature(new CSVRankedWarReportFeature());
-			FEATURE_MANAGER.registerFeature(new RankedWarValueFeature());
-		} else if (step === "warreport") {
-			FEATURE_MANAGER.registerFeature(new CSVWarReportFeature());
-		}
+	} else if (page === "chainreport") {
+		FEATURE_MANAGER.registerFeature(new CSVChainReportFeature());
+	} else if (page === "raidreport") {
+		FEATURE_MANAGER.registerFeature(new CSVRaidReportFeature());
+	} else if (page === "rankreport") {
+		FEATURE_MANAGER.registerFeature(new CSVRankedWarReportFeature());
+		FEATURE_MANAGER.registerFeature(new RankedWarValueFeature());
+	} else if (page === "warreport") {
+		FEATURE_MANAGER.registerFeature(new CSVWarReportFeature());
 	} else if (page === "highlow") {
 		FEATURE_MANAGER.registerFeature(new HighLowHelperFeature());
 	} else if (page === "blackjack") {

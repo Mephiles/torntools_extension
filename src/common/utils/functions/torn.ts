@@ -1824,6 +1824,12 @@ export function getPage() {
 			if (step === "pawnshop") page = "pawnshop";
 			break;
 		}
+		case "war": {
+			const step = getSearchParameters().get("step")?.toLowerCase();
+
+			if (["chainreport", "raidreport", "rankreport", "warreport"].includes(step)) page = step;
+			break;
+		}
 	}
 
 	return page;
