@@ -315,7 +315,7 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 						valueB = elementB.getAttribute("value")!;
 
 						if (Date.parse(valueA)) valueA = Date.parse(valueA).toString();
-						if (Date.parse(valueB)) valueA = Date.parse(valueB).toString();
+						if (Date.parse(valueB)) valueB = Date.parse(valueB).toString();
 						break;
 					case "css-dataset":
 						valueA =
