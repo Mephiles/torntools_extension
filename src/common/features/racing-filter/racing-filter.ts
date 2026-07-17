@@ -32,6 +32,8 @@ function initialiseListeners() {
 				return;
 			}
 
+			if (!detail.xhr.responseText.includes("event-list")) return;
+
 			await requireElement(".events-list");
 			void addFilterContainer();
 		}

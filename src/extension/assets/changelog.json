@@ -34,7 +34,11 @@
 				{ "message": "Properly sort the NPC information to decide the next update timestamp", "contributor": "DeKleineKobini" },
 				{ "message": "Fix issue with sorting date columns in tables.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix caching issue with stats estimates.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the price filter indicator in 'Stocks Filter'.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the price filter indicator in 'Stocks Filter'.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Avoid an error with 'Racing Filter' when attempting to switch to the custom races tab when already in a race.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },
