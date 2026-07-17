@@ -224,11 +224,11 @@ export class StatsEstimate {
 	}
 
 	getAndCacheResult(id: number, rank: string, level: number, crimes: number, networth: number, lastAction: number) {
-		const isOldSystem = new Date(lastAction * 1000).getUTCFullYear() <= 2015;
+		const isOldSystem = new Date(lastAction).getUTCFullYear() <= 2015;
 		if (isOldSystem) return "N/A";
 
 		const estimate = this.getEstimate(rank, level, crimes, networth);
-		this.cacheResult(id, estimate, lastAction * 1000);
+		this.cacheResult(id, estimate, lastAction);
 
 		return estimate;
 	}

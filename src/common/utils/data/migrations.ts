@@ -215,6 +215,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			database.api.torn.owner = owner;
 		},
 	},
+	{
+		id: "8f883a44-fa45-407b-bdc7-18c6982ab108",
+		version: "9.0.15",
+		execute(database, _flags, _oldStorage) {
+			database.cache["stats-estimate"] = {};
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
