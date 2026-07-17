@@ -14,7 +14,7 @@ export const ScriptItemResolver: ItemResolver & {
 	loadItem(id: number): StaticItem | FullItem | null {
 		return this.getFullItem(id) ?? this.getStaticItem(id);
 	},
-	findItem(matcher: (item: StaticItem | FullItem) => boolean): FullItem {
+	findItem(matcher: (item: StaticItem | FullItem) => boolean): FullItem | null {
 		return this.getAllFullItems().find(matcher) ?? null;
 	},
 	getStaticItem(id: number): StaticItem | null {

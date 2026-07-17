@@ -108,7 +108,7 @@ async function onAlarm(alarm: Alarm) {
 			await timedUpdates();
 			break;
 		default:
-			throw new Error(`Undefined alarm name: ${alarm.name}`);
+			console.warn(`TT - Unknown alarm: ${alarm.name}`);
 	}
 }
 

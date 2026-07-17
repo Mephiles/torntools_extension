@@ -150,7 +150,7 @@ export function scouterService() {
 	const services = [{ name: "ffscouter", service: FF_SCOUTER_SERVICE, check: useFFScouter && hasAPIData() }].filter((s) => s.check);
 
 	const selectedService = services[0];
-	return selectedService.service;
+	return selectedService?.service ?? null;
 }
 
 export function buildScoutInformation(scout: ScouterResult): { message: string; className: string | null; detailMessage: string | null } {

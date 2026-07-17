@@ -448,7 +448,7 @@ async function useQuickItem(id: number, itemWrap: Element, responseWrap: HTMLEle
 			}
 		} else {
 			if (result.includes("Wrong itemID")) {
-				await removeXIDFromCache(id);
+				removeXIDFromCache(id);
 
 				responseWrap.style.display = "block";
 				responseWrap.textContent = "";
@@ -660,8 +660,8 @@ async function getXIDWithDirectCall(item: number): Promise<boolean> {
 	return extracted.length > 0;
 }
 
-async function removeXIDFromCache(item: number) {
-	await ttCache.remove("xid--temp", item);
+function removeXIDFromCache(item: number) {
+	ttCache.remove("xid--temp", item);
 }
 
 function toggleSpecialQuickOptions(content: HTMLElement) {

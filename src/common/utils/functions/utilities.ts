@@ -101,7 +101,7 @@ export function hasTimePassed(timestamp: number, time: number) {
 }
 
 export function getUUID() {
-	return `_${Math.random().toString(36).substr(2, 9)}`;
+	return `_${Math.random().toString(36).slice(2, 11)}`;
 }
 
 export function getCookie(cname: string) {

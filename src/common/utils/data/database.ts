@@ -208,17 +208,17 @@ function convertStorage<T = any>(oldStorage: any, defaultStorage: any): T {
 
 	for (const key in defaultStorage) {
 		if (!oldStorage) oldStorage = {};
-		if (!(key in oldStorage)) oldStorage[key] = {};
 
 		const defaultValue = defaultStorage[key];
+		const oldValue = key in oldStorage ? oldStorage[key] : undefined;
 		if (typeof defaultValue === "object" && defaultValue !== null) {
 			if (defaultValue instanceof DefaultSetting) {
-				newStorage[key] = migrateDefaultSetting(oldStorage[key], defaultValue);
+				newStorage[key] = migrateDefaultSetting(oldValue ?? {}, defaultValue);
 			} else {
-				newStorage[key] = convertStorage(oldStorage[key], defaultValue);
+				newStorage[key] = convertStorage(oldValue ?? {}, defaultValue);
 			}
 		} else {
-			newStorage[key] = oldStorage[key] ?? defaultValue;
+			newStorage[key] = oldValue ?? defaultValue;
 		}
 	}
 

@@ -243,7 +243,7 @@ async function handleError(location: FetchLocation, options: FetchOptions, resul
 		return handleTimeoutError(location, options);
 	}
 
-	if (result.constructor.name === "TypeError") {
+	if (result instanceof TypeError) {
 		return handleNetworkError(location, options, result.message);
 	}
 

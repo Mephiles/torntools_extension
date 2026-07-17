@@ -51,7 +51,6 @@ function initialise() {
 	});
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, ({ country }) => {
 		if (!FEATURE_MANAGER.isEnabled(TravelTableFeature) || !settings.pages.travel.autoTravelTableCountry) return;
-		if (!settings.pages.travel.autoTravelTableCountry) return;
 
 		const content = findContainer("Travel Destinations", { selector: ":scope > main" });
 

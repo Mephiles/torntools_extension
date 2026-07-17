@@ -26,7 +26,7 @@ class TornToolsCache {
 		return this.getCacheValue(section, key)?.value;
 	}
 
-	async remove(section: string, key?: CacheKey) {
+	remove(section: string, key?: CacheKey) {
 		const actualKey: string | number = key ?? section;
 		const actualSection: string | null = key ? section : null;
 
