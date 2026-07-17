@@ -87,7 +87,7 @@ function readSettings() {
 				break;
 			}
 
-			if (name === null || name.trim() === "") return null;
+			if (!name?.trim()) return null;
 
 			return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
 		})
