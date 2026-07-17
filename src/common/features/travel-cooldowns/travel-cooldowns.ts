@@ -75,12 +75,12 @@ async function showWarnings() {
 			container.querySelector("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
 		}
 
-		if (!hasFinishedEducation() || userdata.education_current > 0)
+		if (!hasFinishedEducation() || !userdata.education.current)
 			cooldowns.insertAdjacentElement(
 				"afterend",
 				elementBuilder({
 					type: "div",
-					class: ["cooldown", "education", getDurationClass(userdata.education_timeleft)],
+					class: ["cooldown", "education", getDurationClass(userdata.education.current.until - userdata.date / 1000)],
 					text: "Your education course will end before you return!",
 				}),
 			);
@@ -103,7 +103,11 @@ async function showWarnings() {
 		handleClass(cooldowns.querySelector(".drug"), userdata.cooldowns.drug);
 		handleClass(cooldowns.querySelector(".booster"), userdata.cooldowns.booster);
 		handleClass(cooldowns.querySelector(".medical"), userdata.cooldowns.medical);
-		if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.querySelector(".education"), userdata.education_timeleft);
+		if (!hasFinishedEducation())
+			handleClass(
+				cooldowns.parentElement.querySelector(".education"),
+				userdata.education.current ? userdata.education.current.until - userdata.date / 1000 : 0,
+			);
 		handleClass(cooldowns.parentElement.querySelector(".investment"), userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date / 1000 : 0);
 	}
 

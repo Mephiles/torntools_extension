@@ -25,13 +25,6 @@ export interface MigrationFlags {
 
 export const MIGRATIONS: MigrationScript[] = [
 	{
-		id: "9da14c73-0145-4b1d-90e3-0363a5b57499",
-		version: "9.0.0",
-		execute(_database, flags, _oldStorage) {
-			flags.updateUserdata = true;
-		},
-	},
-	{
 		id: "43fae1f2-5568-4ae5-b12f-f3625e1e58c6",
 		version: "9.0.0",
 		execute(database, _flags, _oldStorage) {
@@ -220,6 +213,13 @@ export const MIGRATIONS: MigrationScript[] = [
 		version: "9.0.15",
 		execute(database, _flags, _oldStorage) {
 			database.cache["stats-estimate"] = {};
+		},
+	},
+	{
+		id: "0e1534e5-a199-429b-9f6d-32eefeae66cd",
+		version: "9.0.15",
+		execute(_database, flags, _oldStorage) {
+			flags.updateUserdata = true;
 		},
 	},
 ];

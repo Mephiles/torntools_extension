@@ -97,6 +97,6 @@ export const REMINDERS: Reminder[] = [
 		name: "Education",
 		url: LINKS.education,
 		enabled: () => settings.apiUsage.user.education && settings.scripts.reminders.types.education,
-		finished: () => userdata.education_current !== 0 || hasFinishedEducation(),
+		finished: () => !!userdata.education.current || hasFinishedEducation(),
 	},
 ];
