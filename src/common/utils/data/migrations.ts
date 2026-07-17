@@ -239,7 +239,7 @@ export async function executeMigrationScripts(storage: Database, oldStorage: any
 		clearCache: false,
 	};
 
-	migrations.reverse().filter((migration) => {
+	migrations.reverse().forEach((migration) => {
 		migration.execute(storage, flags, oldStorage);
 		storage.migrations.push({ id: migration.id });
 	});
