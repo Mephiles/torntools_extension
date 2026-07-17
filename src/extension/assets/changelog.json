@@ -30,7 +30,8 @@
 				{ "message": "Don't crash the 'Chat Highlights' when there is an invalid name configured.", "contributor": "DeKleineKobini" },
 				{ "message": "Better safeguard for stakeout notifications.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix incorrect number being used for faction stakeouts member drops.", "contributor": "DeKleineKobini" },
-				{ "message": "Actually save the NPC information fetched from YATA.", "contributor": "DeKleineKobini" }
+				{ "message": "Actually save the NPC information fetched from YATA.", "contributor": "DeKleineKobini" },
+				{ "message": "Properly sort the NPC information to decide the next update timestamp", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },

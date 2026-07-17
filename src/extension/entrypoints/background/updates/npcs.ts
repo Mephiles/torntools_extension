@@ -269,7 +269,7 @@ export async function updateNPCs() {
 				? Object.values(npcs.targets)
 						.flatMap((npc) => Object.values(npc.levels))
 						.filter((time) => time > now)
-						.sort()[0]
+						.sort((a, b) => a - b)[0]
 				: null;
 		if (!shortest) return;
 
