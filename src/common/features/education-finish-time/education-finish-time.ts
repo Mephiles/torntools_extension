@@ -7,10 +7,10 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 async function showEducationFinishTime() {
-	if (userdata.education_timeleft <= 0) return;
+	if (!userdata.education.current) return;
 
 	const msg = await requireElement(".msg .bold");
-	const overDate = new Date(userdata.dateBasic + userdata.education_timeleft * 1000).getTime();
+	const overDate = new Date(userdata.education.current.until * 1000).getTime();
 
 	msg.insertAdjacentElement(
 		"afterend",

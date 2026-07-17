@@ -2225,9 +2225,9 @@ export function getUsername(row: Element) {
 }
 
 export function hasFinishedEducation() {
-	if (!torndata.education || !userdata.education_completed) return false;
+	if (!torndata.education || !userdata.education?.complete) return false;
 
-	return torndata.education.flatMap((e) => e.courses).every(({ id }) => userdata.education_completed.includes(id));
+	return torndata.education.flatMap((e) => e.courses).every(({ id }) => userdata.education.complete.includes(id));
 }
 
 export function isChatV3() {
@@ -2742,7 +2742,7 @@ export function getFactionName(): string | null {
 }
 
 export function getBloodType(): BloodType | null {
-	if (hasAPIData() && settings.apiUsage.user.education && !userdata.education_completed.includes(127)) {
+	if (hasAPIData() && settings.apiUsage.user.education && !userdata.education?.complete.includes(127)) {
 		return null;
 	}
 

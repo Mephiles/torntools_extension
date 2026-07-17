@@ -2,7 +2,7 @@ import { ttStorage } from "@common/utils/context";
 import { api, attackHistory, type DatabaseUserdata, loadDatabase, notifications, settings, setUserdata, userdata } from "@common/utils/data/database";
 import type { StoredUserdata } from "@common/utils/data/default-database";
 import { buildFetchRequest, type FetchOptions, type FetchRequest, fetchData, mergeOptions } from "@common/utils/functions/api-fetcher";
-import type { UserV1BarsResponse, UserV1EducationResponse, UserV1NetworthResponse, UserV1PerksResponse } from "@common/utils/functions/api-v1.types";
+import type { UserV1BarsResponse, UserV1NetworthResponse, UserV1PerksResponse } from "@common/utils/functions/api-v1.types";
 import { setBadge } from "@common/utils/functions/extension";
 import { applyPlural, capitalizeText, formatTime } from "@common/utils/functions/formatting";
 import { getNextChainBonus, hasFinishedEducation, LINKS, MAX_MISSIONS } from "@common/utils/functions/torn";
@@ -15,6 +15,7 @@ import type {
 	UserBattleStatsResponse,
 	UserCalendarResponse,
 	UserCooldownsResponse,
+	UserEducationResponse,
 	UserEventsResponse,
 	UserFactionResponse,
 	UserHonorsResponse,
@@ -70,7 +71,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserHonorsResponse &
 	UserMedalsResponse &
 	UserMissionsResponse &
-	UserV1EducationResponse &
+	UserEducationResponse &
 	AttacksResponse &
 	(UserEventsResponse | UserNewEventsResponse) &
 	UserVirusResponse &
@@ -155,8 +156,7 @@ export async function updateUserdata(forceUpdate = false) {
 			selectionsV2.push(selection);
 		}
 
-		// TODO - Migrate to V2 (user/education).
-		if (settings.apiUsage.user.education && !hasFinishedEducation()) selections.push("education");
+		if (settings.apiUsage.user.education && !hasFinishedEducation()) selectionsV2.push("education");
 
 		updatedTypes.push("basic");
 	}
@@ -485,10 +485,10 @@ export async function updateUserdata(forceUpdate = false) {
 			!settings.apiUsage.user.education ||
 			!settings.notifications.types.global ||
 			!settings.notifications.types.education ||
-			!oldUserdata.education_timeleft
+			!oldUserdata.education.current ||
+			newUserdata.education.current
 		)
 			return;
-		if (newUserdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await dispatchNotification({
 			title: "TornTools - Education",
