@@ -80,7 +80,7 @@ export async function updateNPCs() {
 			newNpcs.targets[id].current = getCurrentLevel(newNpcs.targets[id]);
 		}
 
-		await ttStorage.set({ npcs });
+		await ttStorage.set({ npcs: newNpcs });
 		return true;
 	}
 
