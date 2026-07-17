@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { DatabaseSettings, DatabaseUserdata } from "@common/utils/data/database";
-	import type { UserV1Bar, UserV1ChainBar } from "@common/utils/functions/api-v1.types";
 	import { formatTime, toSeconds } from "@common/utils/functions/formatting";
 	import {getNextChainBonus, LINKS} from "@common/utils/functions/torn";
 	import { settingsStore, userdataStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Card, CardContent } from "@svelte/components/ui/card";
+	import type {FactionOngoingChain, UserBar} from "tornapi-typescript";
 
 	type DashboardBar = {
 		id: string;
@@ -28,13 +28,13 @@
 
 		if (settings?.apiUsage?.user?.bars) {
 			result.push(
-				getResourceBar("energy", "Energy", userdata.energy, LINKS.gym, "bg-[#7cc833]", userdata, settings, currentTime),
-				getResourceBar("nerve", "Nerve", userdata.nerve, LINKS.crimes, "bg-[#b3382c]", userdata, settings, currentTime),
-				getResourceBar("happy", "Happy", userdata.happy, LINKS.properties, "bg-[#d4c927]", userdata, settings, currentTime),
-				getResourceBar("life", "Life", userdata.life, LINKS.items_medical, "bg-[#7b98ee]", userdata, settings, currentTime),
+				getResourceBar("energy", "Energy", userdata.bars.energy, LINKS.gym, "bg-[#7cc833]", settings, currentTime),
+				getResourceBar("nerve", "Nerve", userdata.bars.nerve, LINKS.crimes, "bg-[#b3382c]", settings, currentTime),
+				getResourceBar("happy", "Happy", userdata.bars.happy, LINKS.properties, "bg-[#d4c927]", settings, currentTime),
+				getResourceBar("life", "Life", userdata.bars.life, LINKS.items_medical, "bg-[#7b98ee]", settings, currentTime),
 			);
 
-			const chainBar = getChainBar(userdata.chain, userdata, currentTime);
+			const chainBar = getChainBar(userdata.bars.chain, currentTime);
 			if (chainBar) result.push(chainBar);
 		}
 
@@ -49,18 +49,17 @@
 	function getResourceBar(
 		id: string,
 		label: string,
-		bar: UserV1Bar | undefined,
+		bar: UserBar | undefined,
 		href: string,
 		color: string,
-		userdata: DatabaseUserdata,
 		settings: DatabaseSettings,
 		currentTime: number,
 	): DashboardBar {
 		const current = bar?.current ?? 0;
 		const maximum = bar?.maximum ?? 100;
-		const serverTime = userdata.server_time ?? Math.floor(currentTime / 1000);
-		const tickAt = (serverTime + (bar?.ticktime ?? 0)) * 1000;
-		let fullAt: number | "full" | "over" = (serverTime + (bar?.fulltime ?? 0)) * 1000;
+		const serverTime = Math.floor(currentTime / 1000);
+		const tickAt = (serverTime + (bar?.tick_time ?? 0)) * 1000;
+		let fullAt: number | "full" | "over" = (serverTime + (bar?.full_time ?? 0)) * 1000;
 
 		if (current === maximum) fullAt = "full";
 		else if (current > maximum) fullAt = "over";
@@ -76,12 +75,12 @@
 		};
 	}
 
-	function getChainBar(bar: UserV1ChainBar | undefined, userdata: DatabaseUserdata, currentTime: number): DashboardBar | null {
+	function getChainBar(bar: FactionOngoingChain | undefined, currentTime: number): DashboardBar | null {
 		const current = bar?.current ?? 0;
 		if (!current) return null;
 
-		const serverTime = userdata.server_time ?? Math.floor(currentTime / 1000);
-		const maximum = current === bar?.maximum ? bar.maximum : (getNextChainBonus(current) ?? bar?.maximum ?? current);
+		const serverTime =  Math.floor(currentTime / 1000);
+		const maximum = current === bar?.max ? bar.max : (getNextChainBonus(current) ?? bar?.max ?? current);
 		const isCooldown = !!bar?.cooldown;
 		const fullAt = (serverTime + (isCooldown ? bar.cooldown : (bar?.timeout ?? 0))) * 1000;
 
