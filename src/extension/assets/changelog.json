@@ -38,6 +38,10 @@
 				{
 					"message": "Avoid an error with 'Racing Filter' when attempting to switch to the custom races tab when already in a race.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Avoid an error with 'Creator Messages' when loading the messages on another page than compose.",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"changes": [

@@ -5,6 +5,14 @@ import { TEAM } from "@common/utils/team";
 import { Feature } from "@features/feature";
 import styles from "./creator-messages.module.css";
 
+function initialiseListeners() {
+	window.addEventListener("hashchange", () => {
+		if (getHashParameters().get("p") !== "compose") return;
+
+		startCreatorMessage().then(() => {});
+	});
+}
+
 async function startCreatorMessage() {
 	const params = getHashParameters();
 	if (params?.has("XID")) {
@@ -16,6 +24,8 @@ async function startCreatorMessage() {
 	requireElement(".user-id").then((wrapper) => {
 		new MutationObserver(() => {
 			const userInput = document.querySelector<HTMLInputElement>(".user-id");
+			if (!userInput) return;
+
 			const inputValue = userInput.value.match(/.*\[(\d+)]/);
 			if (!inputValue) return;
 
@@ -76,7 +86,11 @@ export default class CreatorMessagesFeature extends Feature {
 		return true;
 	}
 
+	initialise() {
+		initialiseListeners();
+	}
+
 	async execute() {
-		await startCreatorMessage();
+		if (getHashParameters().get("p") === "compose") await startCreatorMessage();
 	}
 }
