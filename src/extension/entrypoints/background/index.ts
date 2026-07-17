@@ -12,7 +12,8 @@ import {
 } from "@common/utils/data/database";
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
 import { cleanupNotifications, initializeBackoff, type NotificationRelation } from "@extension/entrypoints/background/notifications";
-import { showIconBars, timedUpdates } from "@extension/entrypoints/background/updates";
+import { timedUpdates } from "@extension/entrypoints/background/updates/";
+import { showIconBars } from "@extension/entrypoints/background/updates/icon-bars";
 import { registerExtensionContext } from "@extension/runtime/extension-context";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@extension/services/proxy-service-keys";
 import { SourceService } from "@extension/services/SourceService";

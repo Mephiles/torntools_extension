@@ -69,9 +69,6 @@ export let factionStakeouts: DatabaseFactionStakeouts;
 export let notifications: DatabaseNotifications;
 export let migrations: DatabaseMigrations;
 
-// Initialize database when module is loaded
-//
-
 type StorageListener<T> = (oldValue: T, newValue: T) => void;
 
 interface StorageListeners {
