@@ -27,7 +27,8 @@
 				},
 				{ "message": "Resolve a conflict between filters and stats estimates.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors with 'Shop Values' when you have nothing to sell.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't crash the 'Chat Highlights' when there is an invalid name configured.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't crash the 'Chat Highlights' when there is an invalid name configured.", "contributor": "DeKleineKobini" },
+				{ "message": "Better safeguard for stakeout notifications.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },

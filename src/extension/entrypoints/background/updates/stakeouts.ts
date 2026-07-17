@@ -86,7 +86,11 @@ export async function updateStakeouts(forceUpdate = false) {
 			}
 			if (flying) {
 				const key = `${id}_flying`;
-				if (data.profile.status.state === "Traveling" && !notifications.stakeouts[key]) {
+				if (
+					data.profile.status.state === "Traveling" &&
+					(!oldData || oldData.status.state !== data.profile.status.state) &&
+					!notifications.stakeouts[key]
+				) {
 					if (settings.notifications.types.global) {
 						const notification = newNotification(
 							"Stakeouts",
@@ -102,7 +106,11 @@ export async function updateStakeouts(forceUpdate = false) {
 			}
 			if (landing) {
 				const key = `${id}_landing`;
-				if (data.profile.status.state !== "Traveling" && !notifications.stakeouts[key]) {
+				if (
+					data.profile.status.state !== "Traveling" &&
+					(!oldData || oldData.status.state !== data.profile.status.state) &&
+					!notifications.stakeouts[key]
+				) {
 					if (settings.notifications.types.global) {
 						const notification = newNotification(
 							"Stakeouts",
@@ -192,7 +200,7 @@ export async function updateStakeouts(forceUpdate = false) {
 						await dispatchNotification(notification);
 						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
-				} else if (!oldIsRevivable) {
+				} else if (!isRevivable) {
 					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
