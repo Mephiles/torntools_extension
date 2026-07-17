@@ -174,7 +174,6 @@ export async function updateUserdata(forceUpdate = false) {
 
 		updatedTypes.push("attack history");
 	}
-	console.log("Time elapsed:", Date.now() - userdata.date);
 	if (!selections.length && !selectionsV2.length) return { updated: false };
 
 	const fetchOptions: Partial<FetchOptions> = {
