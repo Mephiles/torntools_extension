@@ -7,7 +7,7 @@ import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/
 
 (async () => {
 	registerCoreUserscriptContext();
-	registerDatabaseUserscriptContext("tt_js");
+	await registerDatabaseUserscriptContext("tt_js");
 
 	setupCompanyPage();
 
