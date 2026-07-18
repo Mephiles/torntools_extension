@@ -48,6 +48,7 @@ type RacingFilterState = {
 	time: SliderRange;
 	laps: SliderRange;
 	drivers: SliderRange;
+	exemptions: string[];
 };
 
 async function addFilterContainer() {
@@ -215,6 +216,20 @@ async function addFilterContainer() {
 					return raceName.toLowerCase().includes(name.toLowerCase());
 				},
 			}),
+
+			checkboxesSection({
+				key: "exemptions",
+				title: "Exemptions",
+				priority: 0,
+				isExemption: true,
+				items: [{ id: "competitions", description: "Competitions" }],
+				defaults: filters.racing.exemptions,
+				test: (row, exemptCompetitions) => {
+					if (!exemptCompetitions.length) return false;
+
+					return exemptCompetitions.includes("competitions") && row.classList.contains("gold");
+				},
+			}),
 		],
 		onStateChange: async (state) => {
 			await ttStorage.change({
@@ -230,6 +245,7 @@ async function addFilterContainer() {
 						driversMax: state.drivers.end,
 						track: state.track,
 						name: state.name,
+						exemptions: state.exemptions,
 					},
 				},
 			});

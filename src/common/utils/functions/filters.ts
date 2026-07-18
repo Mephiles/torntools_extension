@@ -257,6 +257,8 @@ export interface FilterSectionDef<V> {
 	readonly key: string;
 	readonly title: string;
 	readonly priority?: number;
+	/** When true, if this section's test returns true the row skips all remaining filter checks. */
+	readonly isExemption?: boolean;
 	build(onChange: () => void): SectionBuildResult<V>;
 	test(row: HTMLElement, value: V): boolean;
 	/** Return false to hide this section from the UI. Re-evaluated on each reRender. */
@@ -308,16 +310,18 @@ interface CheckboxesSectionOptions {
 	test: (row: HTMLElement, selections: string[]) => boolean;
 	orientation?: "column" | "row";
 	enabled?: () => boolean;
+	isExemption?: boolean;
 }
 
 export function checkboxesSection(options: CheckboxesSectionOptions): FilterSectionDef<string[]> {
-	const { key, title, priority, items, defaults, test, orientation, enabled } = options;
+	const { key, title, priority, items, defaults, test, orientation, enabled, isExemption } = options;
 
 	return {
 		key,
 		title,
 		priority,
 		enabled,
+		isExemption,
 		build(onChange: () => void) {
 			const list = createCheckboxList({ items, orientation: orientation ?? "column", useId: true });
 			list.setSelections(defaults ?? []);
@@ -551,6 +555,7 @@ export interface FilterController {
 interface FilterSectionInstance {
 	key: string;
 	priority: number;
+	isExemption?: boolean;
 	getValue(): unknown;
 	test(row: HTMLElement, value: unknown): boolean;
 	onBeforeFilter?(): void;
@@ -742,11 +747,13 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 			for (const section of activeSections) {
 				try {
 					if (!section.test(row, values.get(section.key))) {
+						if (section.isExemption) continue;
 						row.classList.add("tt-hidden");
 						row.dataset.hideReason = section.key;
 						_toggleSiblings(row, true);
 						continue rowLoop;
 					}
+					if (section.isExemption) break;
 				} catch (e) {
 					console.warn(`TT Filters: Something went wrong when filtering '${section?.key}' in the '${containerOpts?.title}'`, e);
 				}
@@ -851,6 +858,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		sections.push({
 			key: section.key,
 			priority: section.priority ?? DEFAULT_PRIORITY,
+			isExemption: section.isExemption,
 			getValue: built.getValue.bind(built),
 			test: section.test,
 			onBeforeFilter: built.onBeforeFilter?.bind(built),

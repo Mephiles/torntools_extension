@@ -10,7 +10,8 @@
 					"message": "Introduce special actions for quick items: optimal medical items for life and optimal medical items for getting out of the hospital.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Highlight yourself in faction war reports.", "contributor": "DeKleineKobini" }
+				{ "message": "Highlight yourself in faction war reports.", "contributor": "DeKleineKobini" },
+				{ "message": "Make it possible to exempt competition races from the 'Racing Filter'.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Don't adjust the item value for you own items when using a loaned item.", "contributor": "DeKleineKobini" },
