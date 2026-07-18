@@ -747,13 +747,13 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 			for (const section of activeSections) {
 				try {
 					if (!section.test(row, values.get(section.key))) {
-						if (section.isExemption) continue; // not exempt — fall through to other filters
+						if (section.isExemption) continue;
 						row.classList.add("tt-hidden");
 						row.dataset.hideReason = section.key;
 						_toggleSiblings(row, true);
 						continue rowLoop;
 					}
-					if (section.isExemption) break; // exempt — skip remaining sections
+					if (section.isExemption) break;
 				} catch (e) {
 					console.warn(`TT Filters: Something went wrong when filtering '${section?.key}' in the '${containerOpts?.title}'`, e);
 				}
