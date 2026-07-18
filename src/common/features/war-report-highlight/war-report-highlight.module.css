@@ -1,0 +1,4 @@
+ul.warReportHighlight :global(.bg-blue),
+li.warReportHighlight {
+	background-color: var(--tt-color-green--40) !important;
+}
