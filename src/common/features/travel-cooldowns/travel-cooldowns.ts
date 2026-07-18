@@ -75,12 +75,16 @@ async function showWarnings() {
 			container.querySelector("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
 		}
 
-		if (!hasFinishedEducation() || !userdata.education.current)
+		if (!hasFinishedEducation() || userdata.education.current)
 			cooldowns.insertAdjacentElement(
 				"afterend",
 				elementBuilder({
 					type: "div",
-					class: ["cooldown", "education", getDurationClass(userdata.education.current.until - userdata.date / 1000)],
+					class: [
+						"cooldown",
+						"education",
+						getDurationClass(userdata.education.current ? userdata.education.current.until - userdata.date / 1000 : 0),
+					],
 					text: "Your education course will end before you return!",
 				}),
 			);
