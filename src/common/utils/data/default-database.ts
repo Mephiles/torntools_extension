@@ -632,6 +632,7 @@ export const DEFAULT_STORAGE = {
 			lapsMax: new DefaultSetting("number", 100),
 			track: new DefaultSetting<string[]>("array", []),
 			name: new DefaultSetting("string", ""),
+			exemptions: new DefaultSetting<string[]>("array", []),
 		},
 		containers: new DefaultSetting<{ [id: string]: boolean }>("object", {}),
 		travel: {
