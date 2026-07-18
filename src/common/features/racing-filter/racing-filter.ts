@@ -32,7 +32,7 @@ function initialiseListeners() {
 				return;
 			}
 
-			if (!detail.xhr.responseText.includes("event-list")) return;
+			if (!detail.xhr.responseText.includes("events-list")) return;
 
 			await requireElement(".events-list");
 			void addFilterContainer();
