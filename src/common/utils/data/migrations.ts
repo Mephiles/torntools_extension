@@ -198,7 +198,7 @@ export const MIGRATIONS: MigrationScript[] = [
 	},
 	{
 		id: "b2102994-0920-4586-8259-0e5beedc7f13",
-		version: "9.0.15",
+		version: "9.1.0",
 		execute(database, _flags, oldStorage) {
 			if (oldStorage.api.torn.owner) return;
 
@@ -210,14 +210,14 @@ export const MIGRATIONS: MigrationScript[] = [
 	},
 	{
 		id: "8f883a44-fa45-407b-bdc7-18c6982ab108",
-		version: "9.0.15",
+		version: "9.1.0",
 		execute(database, _flags, _oldStorage) {
 			database.cache["stats-estimate"] = {};
 		},
 	},
 	{
 		id: "0e1534e5-a199-429b-9f6d-32eefeae66cd",
-		version: "9.0.15",
+		version: "9.1.0",
 		execute(_database, flags, _oldStorage) {
 			flags.updateUserdata = true;
 		},
