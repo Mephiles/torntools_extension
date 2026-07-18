@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Jail Filter",
 	description: "Filter the list of users currently in jail.",
-	version: "1.1.6",
+	version: "1.1.7",
 	matches: ["https://*.torn.com/jailview.php*"],
 	runAt: "document-end",
 };

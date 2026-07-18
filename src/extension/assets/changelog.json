@@ -43,6 +43,10 @@
 				{
 					"message": "Avoid an error with 'Creator Messages' when loading the messages on another page than compose.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Resolve an issue with the refresh button with quick actions in the 'Jail Filter' on smaller screen.",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"changes": [
