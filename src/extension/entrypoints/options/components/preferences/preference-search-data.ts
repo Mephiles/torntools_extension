@@ -466,6 +466,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 		keywords: ["organized crime"],
 	},
 	{ path: "settings.pages.faction.rankedWarValue", label: "Show the total rewards for ranked wars", group: "qol", section: "faction" },
+	{ path: "settings.pages.faction.warReportHighlight", label: "Highlight yourself in war reports", group: "qol", section: "faction" },
 
 	// Section: profile
 	{ path: "settings.pages.profile.avgpersonalstats", label: "Calculate average personal stats", group: "qol", section: "profile" },

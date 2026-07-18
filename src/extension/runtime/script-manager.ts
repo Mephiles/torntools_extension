@@ -233,6 +233,8 @@ import UserAliasUserlistFeature from "@features/user-alias/user-alias-userlist";
 import UserlistFilterFeature from "@features/userlist-filter/userlist-filter";
 import VirusTimerFeature from "@features/virus-timer/virus-timer";
 import WarFinishTimesFeature from "@features/war-finish-times/war-finish-times";
+import ChainReportHighlightFeature from "@features/war-report-highlight/chain-report-highlight";
+import WarReportHighlightFeature from "@features/war-report-highlight/war-report-highlight";
 import WarnCrimeFeature from "@features/warn-crime/warn-crime";
 import WeaponBonusInformationFeature from "@features/weapon-bonus-information/weapon-bonus-information";
 import WeaponExperienceFeature from "@features/weapon-experience/weapon-experience";
@@ -509,13 +511,17 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new RacingUpgradesFeature());
 	} else if (page === "chainreport") {
 		FEATURE_MANAGER.registerFeature(new CSVChainReportFeature());
+		FEATURE_MANAGER.registerFeature(new ChainReportHighlightFeature());
 	} else if (page === "raidreport") {
 		FEATURE_MANAGER.registerFeature(new CSVRaidReportFeature());
+		FEATURE_MANAGER.registerFeature(new WarReportHighlightFeature());
 	} else if (page === "rankreport") {
 		FEATURE_MANAGER.registerFeature(new CSVRankedWarReportFeature());
 		FEATURE_MANAGER.registerFeature(new RankedWarValueFeature());
+		FEATURE_MANAGER.registerFeature(new WarReportHighlightFeature());
 	} else if (page === "warreport") {
 		FEATURE_MANAGER.registerFeature(new CSVWarReportFeature());
+		FEATURE_MANAGER.registerFeature(new WarReportHighlightFeature());
 	} else if (page === "highlow") {
 		FEATURE_MANAGER.registerFeature(new HighLowHelperFeature());
 	} else if (page === "blackjack") {

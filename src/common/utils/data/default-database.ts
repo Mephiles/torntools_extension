@@ -422,6 +422,7 @@ export const DEFAULT_STORAGE = {
 				rankedWarValue: new DefaultSetting("boolean", true),
 				totalChallengeContributions: new DefaultSetting("boolean", true),
 				memberRevives: new DefaultSetting("boolean", true),
+				warReportHighlight: new DefaultSetting("boolean", true),
 			},
 			property: {
 				value: new DefaultSetting("boolean", true),

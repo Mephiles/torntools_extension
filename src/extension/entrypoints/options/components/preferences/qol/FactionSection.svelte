@@ -89,6 +89,7 @@
 				{/snippet}
 			</StorageSwitch>
 			<StorageSwitch path="settings.pages.faction.totalChallengeContributions" label="Show total challenge contributions" />
+			<StorageSwitch path="settings.pages.faction.warReportHighlight" label="Highlight yourself in war reports" />
 		</PreferenceSettingGroup>
 
 		<PreferenceSettingGroup title="CSV">
