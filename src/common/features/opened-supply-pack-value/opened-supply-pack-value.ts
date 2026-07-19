@@ -6,7 +6,6 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPage } from "@common/utils/functions/torn";
 import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
@@ -16,8 +15,6 @@ const SUPPLY_PACK_ITEMS = [
 ];
 
 function addListener() {
-	if (getPage() !== "item") return;
-
 	let reqXID: string | undefined;
 	let itemID: number | undefined;
 
