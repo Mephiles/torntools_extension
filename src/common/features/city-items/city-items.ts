@@ -60,7 +60,7 @@ function initialise() {
 }
 
 function triggerFallback() {
-	if (findContainer("City Items")) return;
+	if (document.querySelector("li[aria-controls='quick-links'][aria-selected='true']") || findContainer("City Items")) return;
 
 	const userItems = getPageModelItems();
 	if (userItems) {

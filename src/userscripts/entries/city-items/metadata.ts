@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "City Items",
 	description: "List all available items in your city and allow you to collect them with a single click.",
-	version: "1.0.2",
+	version: "1.0.3",
 	matches: ["https://*.torn.com/city.php*"],
 	runAt: "document-start",
 	connect: ["torntools.tornplayground.eu"],

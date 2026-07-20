@@ -50,7 +50,8 @@
 					"message": "Resolve an issue with the refresh button with quick actions in the 'Jail Filter' on smaller screen.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Correctly display the 'Live Networth' updated counter.", "contributor": "DeKleineKobini" }
+				{ "message": "Correctly display the 'Live Networth' updated counter.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error with 'City Items' when on the quick links.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },
