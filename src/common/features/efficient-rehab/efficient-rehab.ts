@@ -1,19 +1,20 @@
 import "./efficient-rehab.css";
+import { SCRIPT_INJECTOR } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, executeScript, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
-import type { EfficientRehabDetails } from "@extension/entrypoints/efficient-rehab--inject";
 import { Feature } from "@features/feature";
+import type { EfficientRehabDetails } from "./efficient-rehab-listeners";
 
 let isInjected = false;
 let knownPercentages: any;
 
 function addListener() {
-	executeScript(browser.runtime.getURL("/efficient-rehab--inject.js"));
 	window.addEventListener("tt-injected--efficient-rehab", () => (isInjected = true));
+	SCRIPT_INJECTOR.injectEfficientRehab();
 
 	addXHRListener(async ({ detail }) => {
 		if (!("json" in detail)) return;
