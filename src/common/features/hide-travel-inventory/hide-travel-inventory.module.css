@@ -1,0 +1,11 @@
+.hide-inventory-button {
+	display: flex;
+	cursor: pointer;
+	color: var(--content-title-links, #666);
+	align-items: center;
+	gap: 5px;
+}
+
+.hidden-inventory [class*="inventoryPanel___"] {
+	display: none;
+}
