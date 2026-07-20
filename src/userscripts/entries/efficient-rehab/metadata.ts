@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Efficient Rehab",
 	description: "Select how many rehabs are efficient at your current level.",
-	version: "dev-0.0.1",
+	version: "1.0.0",
 	matches: ["https://*.torn.com/index.php?page=rehab*"],
 	runAt: "document-end",
 	connect: ["api.torn.com"],
