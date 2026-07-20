@@ -1,11 +1,3 @@
-.tt-computer {
-	cursor: pointer;
-	color: var(--default-color, #333);
-	text-decoration: none;
-	float: right;
-	display: flex;
-}
-
 .tt-custom-computer {
 	color: var(--content-title-links, #666);
 	text-decoration: none;
