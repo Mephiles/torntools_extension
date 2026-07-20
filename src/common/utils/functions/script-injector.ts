@@ -6,6 +6,7 @@ export interface ScriptInjector {
 	injectFetch(): void;
 	injectXHR(): void;
 	injectCityItemsMap(): void;
+	injectEfficientRehab(): void;
 }
 
 declare global {

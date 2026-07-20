@@ -69,6 +69,9 @@ const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; inject
 		executeScript(browser.runtime.getURL("/city-items--inject.js"), false, true);
 		this.injectedCityItemsMap = true;
 	},
+	injectEfficientRehab() {
+		executeScript(browser.runtime.getURL("/efficient-rehab--inject.js"), false, true);
+	},
 };
 
 const ExtensionRuntimeInformation: RuntimeInformation = {
