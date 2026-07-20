@@ -8,4 +8,8 @@
 
 .hidden-inventory [class*="inventoryPanel___"] {
 	display: none;
+
+	& + [class*="divider___"] {
+		display: none;
+	}
 }
