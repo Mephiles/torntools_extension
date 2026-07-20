@@ -25,7 +25,7 @@ async function showNetworth() {
 		type: "i",
 		class: "networth-info-icon",
 		attributes: {
-			seconds: (Date.now() - userdata.date) / 1000,
+			updatedAt: userdata.networth.timestamp,
 			title: `Last updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })}`,
 			style: "margin-left: 9px;",
 		},
@@ -35,11 +35,11 @@ async function showNetworth() {
 
 	// Update 'last updated'
 	setInterval(() => {
-		const seconds = parseInt(infoIcon.getAttribute("seconds")) + 1;
+		if (infoIcon.hasAttribute("aria-describedby")) return;
 
-		if (!infoIcon.hasAttribute("aria-describedby"))
-			infoIcon.setAttribute("title", `Last updated: ${formatTime({ milliseconds: Date.now() - seconds * 1000 }, { type: "ago" })}`);
-		infoIcon.setAttribute("seconds", seconds.toString());
+		const updated = parseInt(infoIcon.getAttribute("updatedAt"));
+
+		infoIcon.setAttribute("title", `Last updated: ${formatTime({ seconds: updated }, { type: "ago" })}`);
 	}, 1000);
 
 	const table = elementBuilder({
