@@ -75,8 +75,10 @@ async function observeChat() {
 						if (node.tagName === "svg" || !isHTMLElement(node)) return;
 
 						if (node.className?.includes("item___")) {
-							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
-							chatRefreshObserver.observe(node.querySelector(`${SELECTOR_CHAT_V3__BOX_SCROLLER} > div`), { childList: true });
+							if (node.tagName.toLowerCase() !== "button") {
+								triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: node });
+								chatRefreshObserver.observe(node.querySelector(`${SELECTOR_CHAT_V3__BOX_SCROLLER} > div`), { childList: true });
+							}
 						} else if (node.id === "settings_panel") {
 							const panel = (mutation.target as Element).querySelector<HTMLElement>(":scope > [class*='root___']");
 

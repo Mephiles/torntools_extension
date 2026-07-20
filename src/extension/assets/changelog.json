@@ -51,7 +51,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Correctly display the 'Live Networth' updated counter.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error with 'City Items' when on the quick links.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error with 'City Items' when on the quick links.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error when searching for a player in the chats.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Better error message when permissions can't be requested.", "contributor": "DeKleineKobini" },
