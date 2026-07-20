@@ -7,7 +7,7 @@ import { createFilter, type FilterController, presetSection, type SliderRange, s
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { DisabledUntilNoticeFeature } from "@features/feature";
+import { Feature } from "@features/feature";
 
 let filter: FilterController | undefined;
 let filterSetupComplete = false;
@@ -85,34 +85,41 @@ async function addFilterContainer() {
 			});
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Target Filter" });
 		},
+		preserveHeight: true,
 	});
 
 	await filter.run();
 	filterSetupComplete = true;
 }
 
-export default class TargetFilterFeature extends DisabledUntilNoticeFeature {
+export default class TargetFilterFeature extends Feature {
 	constructor() {
 		super("Target Filter", "targets");
 	}
+
 	precondition() {
 		return getPageStatus().access;
 	}
+
 	isEnabled() {
 		return settings.pages.targets.filter;
 	}
-	initialise() {
-		initialiseListeners();
+
+	async initialise() {
+		await initialiseListeners();
 	}
+
 	async execute() {
 		await addFilterContainer();
 	}
+
 	cleanup() {
 		filter?.dispose();
 		listObserver?.disconnect();
 		tableObserver?.disconnect();
 		filterSetupComplete = false;
 	}
+
 	storageKeys() {
 		return ["settings.pages.targets.filter"];
 	}

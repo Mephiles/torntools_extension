@@ -706,10 +706,14 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	statisticsLabel?: string;
 	enabled?: boolean;
 	onStateChange?: (state: State) => void | Promise<void>;
+	/** Prevents infinite-scroll triggers by preserving the row container's height.
+	 *  Pass a number to specify row height in px (default: 36). */
+	preserveHeight?: boolean | number;
 }): FilterController {
 	const sections: FilterSectionInstance[] = [];
 	const sectionDefs: FilterSectionDef<unknown>[] = options.sections ?? [];
-	const { rowSelector, container: containerOpts, statisticsLabel, enabled: initialEnabled, onStateChange } = options;
+	const { rowSelector, container: containerOpts, statisticsLabel, enabled: initialEnabled, onStateChange, preserveHeight } = options;
+	const rowHeight = typeof preserveHeight === "number" ? preserveHeight : 36;
 
 	const { content, options: headerOptions } = createContainer(containerOpts.title, {
 		filter: true,
@@ -738,6 +742,44 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 				nextNext.classList.toggle("tt-hidden", hide);
 			}
 		}
+	}
+
+	/**
+	 * Prevents infinite-scroll from triggering when rows are hidden and the list shrinks.
+	 * Pads just enough so the visible content extends 200px past the viewport bottom,
+	 * never exceeding the natural unfiltered height.
+	 * When filter is disabled / disposed, min-height is cleared.
+	 */
+	function _compensateHeight(rows: HTMLElement[]): void {
+		if (!preserveHeight || !rows.length) return;
+
+		const list = rows[0]?.parentElement;
+		if (!list) return;
+
+		const hiddenCount = rows.filter((r) => r.classList.contains("tt-hidden")).length;
+		if (hiddenCount === 0) {
+			delete list.style.minHeight;
+			return;
+		}
+
+		const listTop = list.getBoundingClientRect().top;
+		const visibleHeight = (rows.length - hiddenCount) * rowHeight;
+		const contentBottom = listTop + visibleHeight;
+
+		const viewportHeight = window.innerHeight;
+		const buffer = 200;
+		const target = viewportHeight + buffer;
+
+		if (contentBottom >= target) {
+			delete list.style.minHeight;
+			return;
+		}
+
+		const deficit = target - contentBottom;
+		const compensated = visibleHeight + deficit;
+		const naturalHeight = rows.length * rowHeight;
+
+		list.style.minHeight = `${Math.min(compensated, naturalHeight)}px`;
 	}
 
 	function applyFilter(rows: HTMLElement[], activeSections: FilterSectionInstance[], values: Map<string, unknown>): void {
@@ -794,6 +836,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 				row.classList.remove("tt-hidden");
 				delete row.dataset.hideReason;
 			});
+			_compensateHeight(findAllElements(rowSelector));
 			const allRows = findAllElements(rowSelector);
 			statistics.updateStatistics(allRows.length, allRows.length, content);
 			return;
@@ -801,6 +844,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 		const rows = findAllElements<HTMLElement>(rowSelector);
 		applyFilter(rows, sections, values);
+		_compensateHeight(rows);
 
 		const visible = rows.filter((r) => !r.classList.contains("tt-hidden")).length;
 		statistics.updateStatistics(visible, rows.length, content);
@@ -827,6 +871,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		} else {
 			applyFilter(scopedRows, activeSections, values);
 		}
+
+		_compensateHeight(scopedRows);
 
 		const allRows = findAllElements(rowSelector);
 		const visible = allRows.filter((r) => !r.classList.contains("tt-hidden")).length;
@@ -899,6 +945,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 				row.classList.remove("tt-hidden");
 				delete row.dataset.hideReason;
 			});
+			const rows = findAllElements(rowSelector);
+			_compensateHeight(rows);
 		},
 	} satisfies FilterController;
 }
