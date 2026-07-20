@@ -319,6 +319,7 @@ export const DEFAULT_STORAGE = {
 				autoFillMax: new DefaultSetting("boolean", true),
 				efficientRehab: new DefaultSetting("boolean", true),
 				efficientRehabSelect: new DefaultSetting("boolean", false),
+				hideInventoryButton: new DefaultSetting("boolean", true),
 			},
 			stocks: {
 				filter: new DefaultSetting("boolean", true),
@@ -882,6 +883,7 @@ export const DEFAULT_STORAGE = {
 		chatResize: new DefaultSetting<StoredResizableChats>("object", {}),
 		feedHidden: new DefaultSetting<StoredHiddenFeeds>("object", {}),
 		threadsHiddenInFeed: new DefaultSetting<number[]>("array", []),
+		hiddenTravelInventory: new DefaultSetting("boolean", false),
 	},
 	stakeouts: new DefaultSetting<StoredStakeouts>("object", { list: [], date: 0 }),
 	factionStakeouts: new DefaultSetting<StoredFactionStakeouts>("object", { list: [], date: 0 }),

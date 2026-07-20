@@ -421,6 +421,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.travel.autoFillMax", label: "Automatically fill max amount of stock while abroad", group: "qol", section: "travel" },
 	{ path: "settings.pages.travel.efficientRehab", label: "Efficiently rehab to not waste any natural decay", group: "qol", section: "travel" },
 	{ path: "settings.pages.travel.efficientRehabSelect", label: "Automatically set rehab slider to the current amount", group: "qol", section: "travel" },
+	{ path: "settings.pages.travel.hideInventoryButton", label: "Show button to hide the travel inventory", group: "qol", section: "travel" },
 
 	// Section: faction
 	{ path: "settings.pages.faction.idBesideFactionName", label: "Reformat faction names as FACTIONNAME [ID]", group: "qol", section: "faction" },

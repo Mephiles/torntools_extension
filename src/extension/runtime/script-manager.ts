@@ -125,6 +125,7 @@ import HideNewspaperHighlightFeature from "@features/hide-newspaper-highlight/hi
 import HideRecycleMessageFeature from "@features/hide-recycle-message/hide-recycle-message";
 import HideStocksFeature from "@features/hide-stocks/hide-stocks";
 import HideTooManyItemsWarningFeature from "@features/hide-too-many-items-warning/hide-too-many-items-warning";
+import HideTravelInventoryFeature from "@features/hide-travel-inventory/hide-travel-inventory";
 import HideTutorialsFeature from "@features/hide-tutorials/hide-tutorials";
 import HighLowHelperFeature from "@features/high-low-helper/high-low-helper";
 import HighlightBloodBagsFeature from "@features/highlight-blood-bags/highlight-blood-bags";
@@ -326,6 +327,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new TravelFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new TravelItemProfitsFeature());
 		FEATURE_MANAGER.registerFeature(new TravelTabTitleTimerFeature());
+		FEATURE_MANAGER.registerFeature(new HideTravelInventoryFeature());
 	} else if (page === "rehab") {
 		FEATURE_MANAGER.registerFeature(new EfficientRehabFeature());
 	} else if (page === "abroad-people") {

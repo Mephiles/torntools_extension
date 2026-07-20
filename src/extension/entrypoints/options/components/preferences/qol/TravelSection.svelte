@@ -49,6 +49,7 @@
 			<StorageSwitch path="settings.pages.travel.landingTime" label="Show the landing time when flying" />
 			<StorageSwitch path="settings.pages.travel.cleanFlight" label="Hide plane and funfact box while flying" />
 			<StorageSwitch path="settings.pages.travel.tabTitleTimer" label="Show travel time in tab title" />
+			<StorageSwitch path="settings.pages.travel.hideInventoryButton" label="Show button to hide the travel inventory" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 
