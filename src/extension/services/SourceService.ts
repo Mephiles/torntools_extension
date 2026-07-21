@@ -23,9 +23,8 @@ export class SourceService {
 
 	private async initializeSourceMap() {
 		// Initialize the WASM module first
-		// @ts-expect-error For some reason this isn't properly typed.
 		SourceMapConsumer.initialize({
-			"lib/mappings.wasm": "https://unpkg.com/source-map@0.7.6/lib/mappings.wasm",
+			"lib/mappings.wasm": "https://unpkg.com/source-map@0.8.0/lib/mappings.wasm",
 		});
 
 		// @ts-expect-error SourceMaps aren't included in the automatic typing

@@ -33,7 +33,7 @@
 		"@wxt-dev/module-svelte": "^2.0.5",
 		"chart.js": "^4.5.1",
 		"sortablejs": "^1.15.7",
-		"source-map": "^0.7.6",
+		"source-map": "^0.8.0",
 		"svelte-spa-router": "^5.1.1",
 		"tailwindcss": "^4.3.3",
 		"tornapi-typescript": "^6.1.1"
