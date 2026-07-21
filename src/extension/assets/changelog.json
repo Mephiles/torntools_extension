@@ -16,7 +16,8 @@
 				{ "message": "Reintroduce the 'Enemy Filter'.", "contributor": "DeKleineKobini" },
 				{ "message": "Reintroduce the 'Friend Filter'.", "contributor": "DeKleineKobini" },
 				{ "message": "Reintroduce the 'Target Filter'.", "contributor": "DeKleineKobini" },
-				{ "message": "Reintroduce the 'OC2 Filter'.", "contributor": "DeKleineKobini" }
+				{ "message": "Reintroduce the 'OC2 Filter'.", "contributor": "DeKleineKobini" },
+				{ "message": "Filter on FF-score on the enemies and targets pages.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Don't adjust the item value for you own items when using a loaned item.", "contributor": "DeKleineKobini" },

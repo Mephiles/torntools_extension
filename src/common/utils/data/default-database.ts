@@ -831,6 +831,8 @@ export const DEFAULT_STORAGE = {
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			estimates: new DefaultSetting<string[]>("array", []),
+			ffScoreMax: new DefaultSetting("number", null),
+			ffScoreMin: new DefaultSetting("number", null),
 		},
 		friends: {
 			enabled: new DefaultSetting("boolean", true),
@@ -844,6 +846,8 @@ export const DEFAULT_STORAGE = {
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			estimates: new DefaultSetting<string[]>("array", []),
+			ffScoreMax: new DefaultSetting("number", null),
+			ffScoreMin: new DefaultSetting("number", null),
 		},
 		burglary: {
 			targetName: new DefaultSetting("string", ""),

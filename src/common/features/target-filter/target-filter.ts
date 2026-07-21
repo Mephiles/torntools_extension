@@ -14,13 +14,24 @@ let filterSetupComplete = false;
 let listObserver: MutationObserver;
 let tableObserver: MutationObserver;
 
-type TargetFilterState = { enabled: boolean; activity: string[]; level: SliderRange; estimates: string[] };
+type TargetFilterState = {
+	enabled: boolean;
+	activity: string[];
+	level: SliderRange;
+	estimates: string[];
+	ffScore: { min: number; max: number } | undefined;
+};
 
 async function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, () => {
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, async ({ row }) => {
 		if (!FEATURE_MANAGER.isEnabled(TargetFilterFeature)) return;
 
-		void filter?.run();
+		await filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
+	});
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
+		if (!FEATURE_MANAGER.isEnabled(TargetFilterFeature)) return;
+
+		await filter?.runScoped({ sections: ["ffScouter"] });
 	});
 
 	listObserver = new MutationObserver((mutations) => {
@@ -70,6 +81,14 @@ async function addFilterContainer() {
 				enabled: () => settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.targets && hasAPIData(),
 				defaults: filters.targets.estimates,
 			}),
+			presetSection({
+				preset: "ff-score",
+				defaults: {
+					min: filters.targets.ffScoreMin,
+					max: filters.targets.ffScoreMax,
+				},
+				enabled: () => settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData(),
+			}),
 		],
 		onStateChange: async (state) => {
 			await ttStorage.change({
@@ -80,6 +99,8 @@ async function addFilterContainer() {
 						levelStart: state.level.start,
 						levelEnd: state.level.end,
 						estimates: state.estimates ?? filters.targets.estimates,
+						ffScoreMax: state.ffScore?.max ?? filters.targets.ffScoreMax,
+						ffScoreMin: state.ffScore?.min ?? filters.targets.ffScoreMin,
 					},
 				},
 			});
