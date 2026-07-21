@@ -12,7 +12,11 @@
 				},
 				{ "message": "Highlight yourself in faction war reports.", "contributor": "DeKleineKobini" },
 				{ "message": "Make it possible to exempt competition races from the 'Racing Filter'.", "contributor": "DeKleineKobini" },
-				{ "message": "Show a button to hide the travel inventory.", "contributor": "DeKleineKobini" }
+				{ "message": "Show a button to hide the travel inventory.", "contributor": "DeKleineKobini" },
+				{ "message": "Reintroduce the 'Enemy Filter'.", "contributor": "DeKleineKobini" },
+				{ "message": "Reintroduce the 'Friend Filter'.", "contributor": "DeKleineKobini" },
+				{ "message": "Reintroduce the 'Target Filter'.", "contributor": "DeKleineKobini" },
+				{ "message": "Reintroduce the 'OC2 Filter'.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Don't adjust the item value for you own items when using a loaned item.", "contributor": "DeKleineKobini" },

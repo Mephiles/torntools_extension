@@ -8,7 +8,7 @@ import { createFilter, type FilterController, presetSection, type SliderRange, s
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { DisabledUntilNoticeFeature } from "@features/feature";
+import { Feature } from "@features/feature";
 
 let filter: FilterController | undefined;
 let filterSetupComplete = false;
@@ -91,34 +91,41 @@ async function addFilterContainer() {
 			});
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Enemy Filter" });
 		},
+		preserveHeight: true,
 	});
 
 	await filter.run();
 	filterSetupComplete = true;
 }
 
-export default class EnemyFilterFeature extends DisabledUntilNoticeFeature {
+export default class EnemyFilterFeature extends Feature {
 	constructor() {
 		super("Enemy Filter", "enemies");
 	}
+
 	precondition() {
 		return getPageStatus().access;
 	}
+
 	isEnabled() {
 		return settings.pages.enemies.filter;
 	}
-	initialise() {
-		initialiseListeners();
+
+	async initialise() {
+		await initialiseListeners();
 	}
+
 	async execute() {
 		await addFilterContainer();
 	}
+
 	cleanup() {
 		filter?.dispose();
 		listObserver?.disconnect();
 		tableObserver?.disconnect();
 		filterSetupComplete = false;
 	}
+
 	storageKeys() {
 		return ["settings.pages.enemies.filter"];
 	}

@@ -6,7 +6,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { checkboxesSection, createFilter, type FilterController } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
-import { DisabledUntilNoticeFeature } from "@features/feature";
+import { Feature } from "@features/feature";
 
 let filter: FilterController | undefined;
 
@@ -81,6 +81,7 @@ async function addFilterContainer() {
 				filters: { oc2: { enabled: state.enabled, difficulty: state.difficulty.map(Number), status: state.status } },
 			});
 		},
+		preserveHeight: 175,
 	});
 
 	await filter.run();
@@ -105,28 +106,35 @@ function getCrimeStatus(row: HTMLElement) {
 	return null;
 }
 
-export default class OC2FilterFeature extends DisabledUntilNoticeFeature {
+export default class OC2FilterFeature extends Feature {
 	constructor() {
 		super("OC2 Filter", "faction");
 	}
+
 	precondition() {
 		return isInternalFaction;
 	}
+
 	isEnabled() {
 		return settings.pages.faction.oc2Filter;
 	}
+
 	initialise() {
 		initialiseListeners();
 	}
+
 	async execute() {
 		await addFilterContainer();
 	}
+
 	cleanup() {
 		filter?.dispose();
 	}
+
 	storageKeys() {
 		return ["settings.pages.faction.oc2Filter"];
 	}
+
 	requirements() {
 		return hasOC1Data() ? "Still on OC1." : super.requirements();
 	}
