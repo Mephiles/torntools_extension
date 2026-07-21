@@ -72,7 +72,6 @@ import CooldownEndTimesFeature from "@features/cooldown-end-times/cooldown-end-t
 import CreatorMessagesFeature from "@features/creator-messages/creator-messages";
 import CreatorsFeature from "@features/creators/creators";
 import CrimeValueFeature from "@features/crime-value/crime-value";
-import Crimes2BurglaryFilterFeature from "@features/crimes2-burglary-filter/crimes2-burglary-filter";
 import CSVChainReportFeature from "@features/csv-chain-report/csv-chain-report";
 import CSVChallengeContributionsFeature from "@features/csv-challenge-contributions/csv-challenge-contributions";
 import CSVRaidReportFeature from "@features/csv-raid-report/csv-raid-report";
@@ -388,7 +387,6 @@ export function scriptManager() {
 	} else if (page === "crimes-v2") {
 		setupCrimesV2Page();
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
-		FEATURE_MANAGER.registerFeature(new Crimes2BurglaryFilterFeature());
 	} else if (page === "factions") {
 		setupFactionsPage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());

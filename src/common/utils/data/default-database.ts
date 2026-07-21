@@ -484,7 +484,6 @@ export const DEFAULT_STORAGE = {
 				filter: new DefaultSetting("boolean", true),
 			},
 			crimes2: {
-				burglaryFilter: new DefaultSetting("boolean", true),
 				value: new DefaultSetting("boolean", true),
 			},
 		},
@@ -848,10 +847,6 @@ export const DEFAULT_STORAGE = {
 			estimates: new DefaultSetting<string[]>("array", []),
 			ffScoreMax: new DefaultSetting("number", null),
 			ffScoreMin: new DefaultSetting("number", null),
-		},
-		burglary: {
-			targetName: new DefaultSetting("string", ""),
-			targetType: new DefaultSetting<string[]>("array", []),
 		},
 		oc2: {
 			enabled: new DefaultSetting("boolean", true),

@@ -78,7 +78,9 @@
 				{ "message": "No longer show the filters in a column on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Open the latest changelog entry by default again.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
+			"removed": [
+				{ "message": "Completely remove the burglary filter, due to technical difficulties with how the page works.", "contributor": "DeKleineKobini" }
+			],
 			"technical": [
 				{ "message": "Minor internal changes to make userscripts better at tree-shaking.", "contributor": "DeKleineKobini" },
 				{ "message": "Cleanup old code, which should have no impact anywhere.", "contributor": "DeKleineKobini" },
