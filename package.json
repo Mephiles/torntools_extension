@@ -59,7 +59,7 @@
 		"typescript": "^7.0.2",
 		"user-agent-data-types": "^0.4.3",
 		"vite": "8.1.0",
-		"vite-plugin-monkey": "^8.0.6",
+		"vite-plugin-monkey": "^8.1.0",
 		"wxt": "^0.20.27"
 	}
 }
