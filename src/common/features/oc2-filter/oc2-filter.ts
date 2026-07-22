@@ -1,4 +1,4 @@
-import { isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
 import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasOC1Data } from "@common/utils/functions/api";
@@ -124,6 +124,8 @@ export default class OC2FilterFeature extends Feature {
 	}
 
 	async execute() {
+		if (getFactionSubpage() !== "crimes") return;
+
 		await addFilterContainer();
 	}
 
