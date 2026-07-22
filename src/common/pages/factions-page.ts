@@ -256,7 +256,7 @@ export async function setupFactionsPage() {
 					if (!firstRemovedNode?.matches("#iconTray")) continue;
 
 					const oldIconsCount = firstRemovedNode.children.length;
-					const newIconsCount = (record.addedNodes?.[0] as Element).children.length;
+					const newIconsCount = (record.addedNodes?.[0] as Element)?.children.length;
 
 					if (oldIconsCount > 0 && newIconsCount > 0 && oldIconsCount !== newIconsCount) {
 						triggerCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE);

@@ -24,7 +24,7 @@
 	},
 	"linter": {
 		"rules": {
-			"recommended": true,
+			"preset": "recommended",
 			"a11y": {
 				"noAutofocus": "off",
 				"noRedundantAlt": "off",
