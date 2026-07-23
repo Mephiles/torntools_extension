@@ -15,7 +15,7 @@
 	});
 </script>
 
-<Accordion type="multiple" class="gap-2">
+<Accordion type="multiple" class="gap-2" value={[changelog[0].version]}>
 	{#each changelog as entry, index (entry.version)}
 		<AccordionItem value={entry.version} class="border rounded-lg">
 			<AccordionTrigger class={cn("px-2.5", index === 0 ? "text-red-600" : "")}>

@@ -75,7 +75,8 @@
 					"message": "Identify the pawnshop as an unique page to avoid running most shop features there.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "No longer show the filters in a column on mobile.", "contributor": "DeKleineKobini" }
+				{ "message": "No longer show the filters in a column on mobile.", "contributor": "DeKleineKobini" },
+				{ "message": "Open the latest changelog entry by default again.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
