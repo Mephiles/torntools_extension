@@ -23,6 +23,14 @@
 
 .tt-ff-scouter-indicator {
 	position: relative;
+
+	#users-list-root &[class*="textWrap___"] {
+		flex-grow: 1;
+
+		& a {
+			flex-grow: 1;
+		}
+	}
 }
 
 .tt-ff-scouter-vertical-line-low-upper,
