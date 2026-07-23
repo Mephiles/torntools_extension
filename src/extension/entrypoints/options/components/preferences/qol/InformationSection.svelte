@@ -94,7 +94,6 @@
 			<StorageSwitch path="settings.pages.faction.rankedWarFilter" label="Ranked War" />
 			<StorageSwitch path="settings.pages.faction.oc2Filter" label="OC2 2" />
 			<StorageSwitch path="settings.pages.competition.filter" label="Competition" disabled description="Disabled until further notice." />
-			<StorageSwitch path="settings.pages.crimes2.burglaryFilter" label="Burglary" disabled description="Disabled until further notice." />
 			<StorageSwitch path="settings.pages.friends.filter" label="Friends" />
 			<StorageSwitch path="settings.pages.enemies.filter" label="Enemies" />
 			<StorageSwitch path="settings.pages.targets.filter" label="Targets" />

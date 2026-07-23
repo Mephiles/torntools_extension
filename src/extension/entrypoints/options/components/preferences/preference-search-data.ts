@@ -309,7 +309,6 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.faction.rankedWarFilter", label: "Filter: Ranked War", group: "qol", section: "information", keywords: ["faction"] },
 	{ path: "settings.pages.faction.oc2Filter", label: "Filter: OC2", group: "qol", section: "information", keywords: ["faction"] },
 	{ path: "settings.pages.competition.filter", label: "Filter: Competition", group: "qol", section: "information" },
-	{ path: "settings.pages.crimes2.burglaryFilter", label: "Filter: Burglary", group: "qol", section: "information", keywords: ["crimes"] },
 	{ path: "settings.pages.friends.filter", label: "Filter: Friends", group: "qol", section: "information" },
 	{ path: "settings.pages.enemies.filter", label: "Filter: Enemies", group: "qol", section: "information" },
 	{ path: "settings.pages.targets.filter", label: "Filter: Targets", group: "qol", section: "information" },
