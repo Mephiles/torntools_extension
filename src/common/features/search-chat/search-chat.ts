@@ -83,6 +83,7 @@ function addChatSearch(chat: Element) {
 					elementBuilder({
 						type: "input",
 						events: { input: (event) => onChatSearch(event, chat) },
+						attributes: { autocomplete: "false" },
 					}),
 				],
 			}),
