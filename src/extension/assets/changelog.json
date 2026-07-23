@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 1, "build": 0 },
+		"version": { "major": 9, "minor": 1, "build": 1 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 1, "build": 0 },
+		"date": "2026/07/23",
 		"logs": {
 			"features": [
 				{ "message": "List several different reminders in your sidebar.", "contributor": "DeKleineKobini" },
@@ -71,10 +76,7 @@
 					"message": "Introduce priorities for filter sections to avoid wasting api calls for things like stats estimates.",
 					"contributor": "DeKleineKobini"
 				},
-				{
-					"message": "Identify the pawnshop as an unique page to avoid running most shop features there.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "Identify the pawnshop as an unique page to avoid running most shop features there.", "contributor": "DeKleineKobini" },
 				{ "message": "No longer show the filters in a column on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Open the latest changelog entry by default again.", "contributor": "DeKleineKobini" }
 			],
