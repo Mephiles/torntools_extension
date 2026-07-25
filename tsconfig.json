@@ -9,5 +9,6 @@
 		"useUnknownInCatchVariables": false,
 		"noImplicitOverride": false,
 		"types": ["bun", "user-agent-data-types"]
-	}
+	},
+	"exclude": ["docs/**/*"]
 }

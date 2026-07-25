@@ -40,3 +40,4 @@ web-ext.config.ts
 .env.submit*
 
 sidebar-notes-issue/
+docs/.astro
