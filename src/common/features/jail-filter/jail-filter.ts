@@ -241,7 +241,7 @@ async function applyQuickBustAndBail() {
 			type: "div",
 			class: `tt-quick-refresh ${customClass}`,
 			children: [PHBoldArrowClockwise()],
-			events: { click: () => location.reload() },
+			events: { click: () => location.reload(true) },
 		});
 	}
 

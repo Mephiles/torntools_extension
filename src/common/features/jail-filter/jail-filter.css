@@ -8,10 +8,32 @@
 	cursor: pointer;
 }
 
-body.tt-mobile .tt-quick-refresh-wrap .tt-quick-refresh,
-body.tt-tablet .tt-quick-refresh-wrap .tt-quick-refresh {
-	margin: 0;
+.tt-quick-refresh-wrap {
+	height: 33px;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 18px;
+
+	.tt-quick-refresh {
+		margin-right: 0;
+
+		&.tt-bail:last-child {
+			margin-right: 48px;
+		}
+	}
+
+	& > * {
+		width: 30px;
+		text-align: center;
+	}
 }
+
+/*body.tt-mobile .tt-quick-refresh-wrap .tt-quick-refresh,*/
+/*body.tt-tablet .tt-quick-refresh-wrap .tt-quick-refresh {*/
+/*	margin: 0;*/
+/*}*/
 
 body.tt-mobile .users-list-title .tt-quick-refresh,
 body.tt-tablet .users-list-title .tt-quick-refresh {
@@ -29,32 +51,4 @@ body.tt-tablet .users-list-title .tt-quick-refresh {
 
 body.tt-mobile .tt-quick-q {
 	margin: 15px 0 0 -5px;
-}
-
-.tt-quick-refresh-wrap {
-	height: 33px;
-	display: flex;
-	width: 100%;
-	align-items: center;
-	justify-content: flex-end;
-}
-
-.tt-quick-refresh-wrap > * {
-	width: 48px;
-	text-align: center;
-}
-
-body.tt-mobile .tt-quick-refresh-wrap > *,
-body.tt-tablet .tt-quick-refresh-wrap > * {
-	width: 41px;
-}
-
-.tt-quick-refresh.tt-bail {
-	position: absolute;
-	margin-right: 48px;
-}
-
-body.tt-mobile .tt-quick-refresh.tt-bail,
-body.tt-tablet .tt-quick-refresh.tt-bail {
-	margin-right: 41px;
 }

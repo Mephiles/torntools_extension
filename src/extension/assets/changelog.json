@@ -8,9 +8,10 @@
 			"fixes": [
 				{ "message": "Force browsers to not autocomplete the search chat input field.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve an issue the special action 'Leave Hospital' with 'Quick Items' on Firefox.", "contributor": "DeKleineKobini" },
-				{ "message": "Display the travel progress in the icon bar again.", "contributor": "DeKleineKobini" }
+				{ "message": "Display the travel progress in the icon bar again.", "contributor": "DeKleineKobini" },
+				{ "message": "Force reload when clicking the reload button from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Minor changes to the reload buttons from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [{ "message": "Wrap even details in specific circumstances to bypass Firefox issues.", "contributor": "DeKleineKobini" }]
 		}
