@@ -14,7 +14,7 @@ export async function showIconBars() {
 	if (settings.pages.icon.happy) barCount++;
 	if (settings.pages.icon.life) barCount++;
 	if (settings.pages.icon.chain && userdata.bars.chain && userdata.bars.chain.current > 0) barCount++;
-	if (settings.pages.icon.travel && userdata.travel && userdata.travel.time_left > 0) barCount++;
+	if (settings.pages.icon.travel && userdata.travel.time_left > 0) barCount++;
 
 	const canvas = new OffscreenCanvas(128, 128);
 
@@ -38,14 +38,19 @@ export async function showIconBars() {
 	let y = padding;
 
 	(Object.keys(BAR_COLORS) as (keyof typeof BAR_COLORS)[]).forEach((key) => {
-		if (!settings.pages.icon[key] || !userdata.bars[key]) return;
-		if (key === "chain" && (!userdata.bars.chain || userdata.bars.chain.current === 0)) return;
+		if (!settings.pages.icon[key]) return;
+
+		if (key === "travel") {
+			if (userdata.travel.time_left <= 0) return;
+		} else if (key === "chain") {
+			if (!userdata.bars.chain || userdata.bars.chain.current === 0) return;
+		} else if (!userdata.bars[key]) return;
 
 		let current: number, maximum: number;
 		if (key === "travel") {
-			const totalTrip = userdata[key].arrival_at - userdata[key].departed_at;
+			const totalTrip = userdata.travel.arrival_at - userdata.travel.departed_at;
 
-			current = totalTrip - userdata[key].time_left;
+			current = totalTrip - userdata.travel.time_left;
 			maximum = totalTrip;
 		} else if (key === "chain") {
 			current = userdata.bars[key].current;
