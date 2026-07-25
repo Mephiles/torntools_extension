@@ -1,3 +1,4 @@
+import { usingFirefox } from "@common/utils/functions/browser";
 import { elementBuilder } from "@common/utils/functions/dom";
 
 export const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as const;
@@ -269,4 +270,10 @@ export function isNumber(x: any): x is number {
 
 export function isSpeechSynthesisAvailable() {
 	return typeof SpeechSynthesisUtterance !== "undefined";
+}
+
+export function contextSafeCustomEvent<T = never>(event: string, detail: T): CustomEvent<T> {
+	const safeDetail: T = usingFirefox() ? document.defaultView.structuredClone(detail) : detail;
+
+	return new CustomEvent(event, { detail: safeDetail });
 }

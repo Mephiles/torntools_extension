@@ -1,5 +1,6 @@
 import { executeScript } from "@common/utils/functions/dom";
 import type { InformationRetriever, StatusIcons } from "@common/utils/functions/torn-injected";
+import { contextSafeCustomEvent } from "@common/utils/functions/utilities";
 import { browser } from "wxt/browser";
 
 interface InformationRequest {
@@ -36,7 +37,7 @@ function retrieve<M extends keyof InformationRetriever>(type: M): ReturnType<Inf
 					{ once: true },
 				);
 
-				document.dispatchEvent(new CustomEvent<InformationRequest>("tt-information-request", { detail: { type } }));
+				document.dispatchEvent(contextSafeCustomEvent<InformationRequest>("tt-information-request", { type }));
 			}) as ReturnType<InformationRetriever[M]>,
 	) as ReturnType<InformationRetriever[M]>;
 }
