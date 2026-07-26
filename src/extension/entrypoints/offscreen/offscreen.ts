@@ -7,10 +7,15 @@ interface PlayAudioOptions {
 	volume: number;
 }
 
+let audio: HTMLAudioElement | undefined;
+
 // Play sound with access to DOM APIs
 function playAudio({ src, volume }: PlayAudioOptions) {
-	const audio = new Audio(src);
+	if (!audio || audio.src !== src) audio = new Audio(src);
+
 	audio.volume = volume;
+	audio.currentTime = 0;
+
 	void audio.play();
 }
 

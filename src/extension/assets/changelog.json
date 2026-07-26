@@ -13,7 +13,10 @@
 			],
 			"changes": [{ "message": "Minor changes to the reload buttons from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" }],
 			"removed": [],
-			"technical": [{ "message": "Wrap even details in specific circumstances to bypass Firefox issues.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Wrap even details in specific circumstances to bypass Firefox issues.", "contributor": "DeKleineKobini" },
+				{ "message": "Reuse the audio object in the offscreen document, with the aim to improve memory usage.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
