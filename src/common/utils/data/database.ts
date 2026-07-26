@@ -149,7 +149,7 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 	databaseLoadPromise = (async () => {
 		const database = await ttStorage.get();
 		populateDatabaseVariables(database);
-		console.log("TT - Database loaded.", database);
+		console.debug("TT - Database loaded.");
 		return database;
 	})();
 
@@ -196,7 +196,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 
 		populateDatabaseVariables(migratedStorage);
 
-		console.log("TT - Database migration completed successfully.");
+		console.debug("TT - Database migration completed successfully.");
 	} catch (error) {
 		console.error("TT - Database migration failed:", error);
 		await loadDatabase();
