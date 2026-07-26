@@ -9,25 +9,26 @@ import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscree
 class AudioPlayer {
 	private _src: string;
 	private _volume: number;
-	private _audio: HTMLAudioElement | undefined;
+	private audio: HTMLAudioElement | undefined;
 
 	set src(src: string) {
 		this._src = src;
+		if (this.audio) this.audio.src = src;
 	}
 
 	set volume(volume: number) {
 		this._volume = volume;
+		if (this.audio) this.audio.volume = volume;
 	}
 
 	async play() {
 		if (!this._src) throw Error("No sound src set.");
 
 		if (typeof Audio !== "undefined") {
-			const audio = new Audio(this._src);
-			audio.volume = this._volume;
-			void audio.play();
+			if (!this.audio) this.audio = new Audio(this._src);
+			else this.audio.currentTime = 0;
 
-			this._audio = audio;
+			void this.audio.play();
 
 			return;
 		}
@@ -48,11 +49,7 @@ class AudioPlayer {
 	}
 
 	async pause() {
-		if (this._audio) {
-			this._audio.pause();
-
-			return;
-		}
+		this.audio?.pause();
 	}
 }
 
