@@ -2,6 +2,8 @@ import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { getNextChainBonus } from "@common/utils/functions/torn";
 
+let context: { canvas: OffscreenCanvas; canvasContext: OffscreenCanvasRenderingContext2D } | undefined;
+
 export async function showIconBars() {
 	if (!settings.apiUsage.user.bars || !hasAPIData() || !settings.pages.icon.global) {
 		await browser.action.setIcon({ path: browser.runtime.getURL("/images/icon_128.png") });
@@ -16,9 +18,18 @@ export async function showIconBars() {
 	if (settings.pages.icon.chain && userdata.bars.chain && userdata.bars.chain.current > 0) barCount++;
 	if (settings.pages.icon.travel && userdata.travel.time_left > 0) barCount++;
 
-	const canvas = new OffscreenCanvas(128, 128);
+	let canvas: OffscreenCanvas;
+	let canvasContext: OffscreenCanvasRenderingContext2D;
+	if (!context) {
+		canvas = new OffscreenCanvas(128, 128);
+		canvasContext = canvas.getContext("2d")!;
 
-	const canvasContext = canvas.getContext("2d");
+		context = { canvas, canvasContext };
+	} else {
+		canvas = context.canvas;
+		canvasContext = context.canvasContext;
+	}
+
 	canvasContext.fillStyle = "#fff";
 	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 
