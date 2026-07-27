@@ -60,6 +60,6 @@
 		"user-agent-data-types": "^0.4.3",
 		"vite": "8.1.0",
 		"vite-plugin-monkey": "^8.1.0",
-		"wxt": "^0.20.27"
+		"wxt": "^0.21.1"
 	}
 }
