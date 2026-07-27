@@ -127,4 +127,7 @@ export default defineConfig({
 
 		return manifest;
 	},
+	zip: {
+		excludeSources: ["src/userscripts/", "tools/"]
+	}
 });
