@@ -36,7 +36,7 @@
 		"source-map": "^0.8.0",
 		"svelte-spa-router": "^5.1.1",
 		"tailwindcss": "^4.3.3",
-		"tornapi-typescript": "^6.1.1"
+		"tornapi-typescript": "^6.2.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~2.4.16",
