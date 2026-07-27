@@ -1028,7 +1028,7 @@ export const COMPANY_INFORMATION: { [name: string]: CompanyInformation } = {
 	"Mining Corporation": {
 		1: {
 			name: "Mining Boom",
-			cost: "5",
+			cost: "20",
 			effect: "Random excavation equipment",
 		},
 		3: {

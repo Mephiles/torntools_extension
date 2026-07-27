@@ -11,7 +11,13 @@
 				{ "message": "Display the travel progress in the icon bar again.", "contributor": "DeKleineKobini" },
 				{ "message": "Force reload when clicking the reload button from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Minor changes to the reload buttons from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Minor changes to the reload buttons from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Update cost of company special 'Mining Boom' in Mining CorporationsUpdate cost of company special 'Mining Boom' in Mining Corporations.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"removed": [],
 			"technical": [
 				{ "message": "Wrap even details in specific circumstances to bypass Firefox issues.", "contributor": "DeKleineKobini" },
