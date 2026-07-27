@@ -9,7 +9,7 @@
         "@phosphor-icons/web": "^2.1.2",
         "@tailwindcss/vite": "^4.3.3",
         "@tanstack/table-core": "^8.21.3",
-        "@webext-core/proxy-service": "^2.0.1",
+        "@webext-core/proxy-service": "^3.0.2",
         "@wxt-dev/module-svelte": "^2.0.5",
         "chart.js": "^4.5.1",
         "sortablejs": "^1.15.7",
@@ -419,7 +419,7 @@
 
     "@webext-core/messaging": ["@webext-core/messaging@2.3.0", "", { "dependencies": { "serialize-error": "^11.0.0", "uid": "^2.0.2", "webextension-polyfill": "^0.10.0" } }, "sha512-gChSVKdRs7JEq5hFH0jVROSvTq+sKq9afXTA/gBswep3RWNLhXyDsXFlvPMkYbmML1XZ8QKKC9ou2MlCKRZwSQ=="],
 
-    "@webext-core/proxy-service": ["@webext-core/proxy-service@2.0.1", "", { "peerDependencies": { "@webext-core/messaging": ">=1.3.1" } }, "sha512-xzOtMW/cFUqqmihj7y6ipdFy/kMSFH46jTn4ac0x/FXfrFq7gm/Gavo6et7JLBomTnFdpjJ08kdbqJ7fP1c2vQ=="],
+    "@webext-core/proxy-service": ["@webext-core/proxy-service@3.0.2", "", { "peerDependencies": { "@webext-core/messaging": ">=1.3.1" } }, "sha512-Cfdxsd+VaFh7ZOvCUzbdqEHIZopRn64BemXcJv3aGQgq98rQ0IVAsLG8M/9yqVcBGtATUvM/Mk2gsVaNcFrZFA=="],
 
     "@wxt-dev/auto-icons": ["@wxt-dev/auto-icons@1.1.1", "", { "dependencies": { "defu": "^6.1.4", "fs-extra": "^11.3.3", "sharp": "^0.34.5" }, "peerDependencies": { "wxt": ">=0.19.0" } }, "sha512-Dw2NKK51CCFurE95NptiEheuxVtkeX4vTQwEbhCkFVP9LzXNxOZTX9C9NAsGe6OfahelXlS51TW74hTSzsMILw=="],
 
