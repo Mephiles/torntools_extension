@@ -10,10 +10,11 @@ import {
 } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import type { RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
-import { TTScriptStorage } from "@userscripts/runtime/script-storage";
+import { PDAScriptStorage, TTScriptStorage } from "@userscripts/runtime/script-storage";
+import { isPDA } from "@userscripts/utils/script-utils";
 
 export async function registerDatabaseUserscriptContext(storagePrefix: string) {
-	setTTStorage(new TTScriptStorage(storagePrefix));
+	setTTStorage(isPDA() ? new PDAScriptStorage() : new TTScriptStorage(storagePrefix));
 	setRuntimeStorage(UserscriptRuntimeStorage);
 
 	await migrateDatabase(true);
