@@ -17,7 +17,7 @@ export class TTScriptStorage extends TornToolsStorage {
 	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 	async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
-			return await Promise.all(key.map((k) => this.storageKey(k)).map((k) => GM.getValue(k)));
+			return await Promise.all(key.map(this.storageKey).map((k) => GM.getValue(k)));
 		} else if (key) {
 			return await GM.getValue(this.storageKey(key));
 		} else {
@@ -56,5 +56,62 @@ export class TTScriptStorage extends TornToolsStorage {
 
 	getSize(): Promise<number> {
 		throw new Error("Method not implemented.");
+	}
+}
+
+export class PDAScriptStorage extends TornToolsStorage {
+	get(): Promise<Database>;
+	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
+	async get(key?: DatabaseKey | DatabaseKey[]) {
+		if (Array.isArray(key)) {
+			return await Promise.all(
+				key.map((k) => {
+					if (k === "cache") return PDA_storage.get(k);
+					else return GM.getValue(k);
+				}),
+			);
+		} else if (key) {
+			if (key === "cache") return await GM.getValue(key);
+			else return await PDA_storage.get(key);
+		} else {
+			const storageKeys = Object.keys(DEFAULT_STORAGE) as DatabaseKey[];
+			const storageValues = await this.get(storageKeys);
+
+			return storageKeys.reduce((total, k, i) => {
+				total[k] = storageValues[i];
+				return total;
+			}, {});
+		}
+	}
+
+	async set(object: { [p: string]: any }): Promise<void> {
+		await Promise.all(
+			Object.entries(object).map(([key, value]) => {
+				UserscriptRuntimeStorage.callback({ [key]: { newValue: value, oldValue: null } }, "local");
+
+				if (key === "cache") return GM.setValue(key, value);
+				else return PDA_storage.set(key, value);
+			}),
+		);
+	}
+
+	async remove(key: string | string[]): Promise<void> {
+		if (typeof key === "string") await PDA_storage.delete(key);
+		else await Promise.all(key.map((k) => PDA_storage.delete(k)));
+	}
+
+	async clear(): Promise<void> {
+		await Promise.all((await PDA_storage.list()).map((k) => PDA_storage.delete(k)));
+	}
+
+	reset(): Promise<void>;
+	reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
+	reset(_key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
+		throw new Error("Method not implemented.");
+	}
+
+	async getSize(): Promise<number> {
+		return (await PDA_storage.usage()).used;
 	}
 }

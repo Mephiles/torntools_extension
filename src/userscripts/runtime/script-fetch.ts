@@ -1,6 +1,7 @@
 import { checkAPIPermission } from "@common/utils/functions/api-key";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { isPDA } from "@userscripts/utils/script-utils";
 import styles from "./script-fetch.module.css";
 
 const PDA_KEY = "###PDA-APIKEY###";
@@ -44,8 +45,4 @@ export async function requiresAPIKey() {
 		);
 		options.appendChild(keyInput);
 	});
-}
-
-function isPDA() {
-	return PDA_KEY.at(0) !== "#";
 }

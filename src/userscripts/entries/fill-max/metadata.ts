@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Fill Max",
 	description: "Show a button to fill the amount input to the maximum amount.",
-	version: "1.0.0",
+	version: "1.0.1",
 	matches: [
 		"https://*.torn.com/page.php?sid=ItemMarket*",
 		"https://*.torn.com/page.php?sid=travel*",
