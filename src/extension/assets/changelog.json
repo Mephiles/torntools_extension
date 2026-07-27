@@ -20,7 +20,7 @@
 			],
 			"removed": [],
 			"technical": [
-				{ "message": "Wrap even details in specific circumstances to bypass Firefox issues.", "contributor": "DeKleineKobini" },
+				{ "message": "Wrap event details in specific circumstances to bypass Firefox issues.", "contributor": "DeKleineKobini" },
 				{ "message": "Reuse the audio object in the offscreen document, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
 				{ "message": "Reuse the canvas object for the status bars, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
 				{ "message": "Reuse the audio object for the notifications, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
