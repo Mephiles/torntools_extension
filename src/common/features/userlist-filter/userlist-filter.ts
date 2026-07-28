@@ -101,7 +101,7 @@ async function addFilterContainer() {
 					.filter(([, value]) => value !== "both" && value !== "none")
 					.find(([key, value]) => {
 						const hospEl = row.querySelector<HTMLElement>("li[title*='Hospital']");
-						if (!hospEl) return true;
+						if (!hospEl) return value === "yes";
 
 						const reason = hospEl.getAttribute("title").split("<br>")[1];
 						if (key === "other") {
