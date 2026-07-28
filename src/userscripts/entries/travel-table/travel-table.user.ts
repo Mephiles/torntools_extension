@@ -34,7 +34,6 @@ import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 	]);
 
 	if (isAbroad()) {
-		await setupTravelAbroadPage();
 		FEATURE_MANAGER.registerFeature(new TravelSyncFeature());
 		return;
 	}

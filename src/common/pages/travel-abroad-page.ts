@@ -1,4 +1,4 @@
-import { findAllElements, isElement } from "@common/utils/functions/dom";
+import { findAllElements, isHTMLElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
@@ -68,7 +68,7 @@ export async function setupTravelAbroadPage() {
 		});
 	});
 	document.addEventListener("click", (event) => {
-		if (isElement(event.target) && event.target.className?.includes("yesNoButton")) {
+		if (isHTMLElement(event.target) && event.target.className?.includes("yesNoButton")) {
 			triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH);
 		}
 	});
