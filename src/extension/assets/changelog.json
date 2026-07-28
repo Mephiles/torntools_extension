@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Request revives from 'Asclepius' for $1M.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Force browsers to not autocomplete the search chat input field.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve an issue the special action 'Leave Hospital' with 'Quick Items' on Firefox.", "contributor": "DeKleineKobini" },

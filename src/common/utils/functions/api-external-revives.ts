@@ -36,8 +36,8 @@ interface ReviveProvider {
 	doRequest: ReviveProviderRequester;
 	cooldown?: number;
 	price: {
-		money: number;
-		xanax: number;
+		money: number | null;
+		xanax: number | null;
 	};
 }
 
@@ -175,6 +175,17 @@ export const REVIVE_PROVIDERS: ReviveProvider[] = [
 			xanax: 2,
 		},
 	},
+	{
+		// Original Script: https://greasyfork.org/en/scripts/553926-asclepius-revive-requests
+		provider: "asclepius",
+		name: "Asclepius",
+		origin: FETCH_PLATFORMS.stig,
+		doRequest: __requestStigFormat("Asclepius"),
+		price: {
+			money: 1_000_000,
+			xanax: null,
+		},
+	},
 ] as const;
 
 interface ReviveResponse {
@@ -211,8 +222,8 @@ export function doRequestRevive(id: string, name: string, country: string, facti
 export function calculateRevivePrice({ price }: ReviveProvider) {
 	const parts: string[] = [];
 
-	if (price?.money) parts.push(formatNumber(price.money, { currency: true, shorten: 3 }));
-	if (price?.xanax) parts.push(`${price.xanax} xan`);
+	if (typeof price?.money === "number") parts.push(formatNumber(price.money, { currency: true, shorten: 3 }));
+	if (typeof price?.xanax === "number") parts.push(`${price.xanax} xan`);
 
 	return parts.length > 0 ? parts.join(" or ") : "unknown";
 }
