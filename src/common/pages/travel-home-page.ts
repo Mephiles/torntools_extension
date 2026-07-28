@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { checkDevice, findAllElements } from "@common/utils/functions/dom";
+import { checkDevice, findAllElements, isElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { requireCondition, requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
@@ -21,7 +21,7 @@ export async function setupTravelHomePage() {
 				const countryElement = destinationElement.querySelector("[class*='country___']");
 				if (!countryElement) return;
 
-				const country = countryElement.textContent.trim().toLowerCase().replaceAll(" ", "_");
+				const country = countryElement.textContent.trim().toLowerCase().replaceAll(" ", "_").replaceAll("-", "_");
 
 				requireCondition(() => destinationElement.classList.contains("expanded")).then(() =>
 					triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country }),
@@ -32,13 +32,14 @@ export async function setupTravelHomePage() {
 		requireElement("fieldset[class*='worldMap___']").then((map: HTMLElement) => {
 			map.addEventListener("click", (event) => {
 				if (
+					!isElement(event.target) ||
 					!settings.pages.travel.table ||
 					!settings.pages.travel.autoTravelTableCountry ||
-					!(event.target as Element).matches("[class*='pin___']:not([class*='currentlyHere___'])")
+					!event.target.matches("[class*='pin___']:not([class*='currentlyHere___'])")
 				)
 					return;
 
-				let country = (event.target as Element).parentElement.querySelector("img").src.replace(".png", "").split("/").at(-1);
+				let country = event.target.parentElement.querySelector("img").src.replace(".png", "").split("/").at(-1).replaceAll("-", "_");
 				if (country === "uk") country = "united_kingdom";
 
 				triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country });
