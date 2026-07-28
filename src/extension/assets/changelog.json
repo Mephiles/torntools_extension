@@ -6,12 +6,12 @@
 		"logs": {
 			"features": [],
 			"fixes": [
-				{ "message": "Resolve the 'Userlist Filter' hiding all players when any 'Hosp Reason' is set to no.", "contributor": "Ech01337" },
 				{ "message": "Force browsers to not autocomplete the search chat input field.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve an issue the special action 'Leave Hospital' with 'Quick Items' on Firefox.", "contributor": "DeKleineKobini" },
 				{ "message": "Display the travel progress in the icon bar again.", "contributor": "DeKleineKobini" },
 				{ "message": "Force reload when clicking the reload button from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error when clicking in specific places while on the abroad item page", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error when clicking in specific places while on the abroad item page", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve the 'Userlist Filter' hiding all players when any 'Hosp Reason' is set to no.", "contributor": "Ech01337" }
 			],
 			"changes": [
 				{ "message": "Minor changes to the reload buttons from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" },
