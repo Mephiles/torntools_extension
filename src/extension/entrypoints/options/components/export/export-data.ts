@@ -21,6 +21,7 @@ export interface ExportData {
 	};
 	date: string;
 	database: ExportDatabasePayload;
+	corrupted?: string[];
 }
 
 export function isExportData(value: unknown): value is ExportData {
@@ -30,17 +31,39 @@ export function isExportData(value: unknown): value is ExportData {
 	return !!candidate.client && typeof candidate.date === "string" && !!candidate.database && typeof candidate.database === "object";
 }
 
-export async function getExportData(includeApi: boolean): Promise<ExportData> {
+export async function getExportData(includeApi: boolean, isFileExport = false): Promise<ExportData> {
 	const exportedKeys = Array.from(LOCAL_EXPORT_KEYS);
 	if (includeApi) exportedKeys.unshift("api");
 
-	const values = await ttStorage.get(exportedKeys);
+	let values: unknown[];
+	const corrupted: string[] = [];
+	try {
+		values = (await ttStorage.get(exportedKeys)) as unknown[];
+	} catch {
+		values = [];
+		for (const key of exportedKeys) {
+			try {
+				const value = await ttStorage.get(key);
+				values.push(value);
+			} catch {
+				corrupted.push(key);
+				values.push(undefined);
+			}
+		}
+	}
+
 	const database: ExportDatabasePayload = {};
 
 	values
 		.filter((value) => !isNumber(value))
 		.forEach((value, index) => {
-			(database as Record<string, unknown>)[exportedKeys[index]] = value;
+			const key = exportedKeys[index];
+
+			if (corrupted.includes(key) && isFileExport) {
+				database[`${key}-corrupted`] = null;
+			} else {
+				database[key] = value as any;
+			}
 		});
 
 	return {
@@ -51,6 +74,7 @@ export async function getExportData(includeApi: boolean): Promise<ExportData> {
 		},
 		date: new Date().toString(),
 		database,
+		...(corrupted.length > 0 && { corrupted }),
 	};
 }
 

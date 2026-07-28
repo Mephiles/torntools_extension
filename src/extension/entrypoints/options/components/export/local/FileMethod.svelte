@@ -7,16 +7,18 @@
 	let fileInput: HTMLInputElement | null = null;
 
 	async function exportData(includeApi: boolean) {
-		const data = JSON.stringify(await getExportData(includeApi), null, 4);
-		const url = window.URL.createObjectURL(new Blob([data], { type: "application/json" }));
+		const exportData = await getExportData(includeApi, true);
+		const data = JSON.stringify(exportData, null, 4);
+		const url = URL.createObjectURL(new Blob([data], { type: "application/json" }));
 
+		const filename = exportData.corrupted?.length ? "torntools-corrupted.json" : "torntools.json";
 		elementBuilder({
 			type: "a",
 			href: url,
-			attributes: { download: "torntools.json" },
+			attributes: { download: filename },
 		}).click();
 
-		window.URL.revokeObjectURL(url);
+		URL.revokeObjectURL(url);
 	}
 
 	async function importData() {
