@@ -32,6 +32,7 @@ We have biome formatting to help you follow our coding conventions.
     - Only implement functions that you need. Most of them should be self-explanatory.
     - `precondition` is for features that have requirements other than just the url
         - Example: feature runs on the travel page, but only when actually flying
+- We also release userscripts of a subset of our features. To make sure those are kept in line, update the version of impacted userscripts as well.
 - Don't use any of Torn's CSS classes, they are always subject to change.
     - It's fine to rely on them as selectors.
         - If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
