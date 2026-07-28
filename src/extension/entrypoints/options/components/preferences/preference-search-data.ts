@@ -507,7 +507,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.scripts.noConfirm.tradeAccept", label: "No confirm: Accepting trades", group: "qol", section: "speed" },
 	{ path: "settings.scripts.noConfirm.pointsMarketBuy", label: "No confirm: Buying points from the market", group: "qol", section: "speed" },
 	{ path: "settings.scripts.noConfirm.pointsMarketRemove", label: "No confirm: Removing points from the market", group: "qol", section: "speed" },
-	{ path: "settings.scripts.noConfirm.abroadItemBuy", label: "No confirm: Buying items aboard", group: "qol", section: "speed" },
+	{ path: "settings.scripts.noConfirm.abroadItemBuy", label: "No confirm: Buying items abroad", group: "qol", section: "speed" },
 	{ path: "settings.scripts.noConfirm.propertiesSell", label: "No confirm: Selling your properties", group: "qol", section: "speed", keywords: ["property"] },
 
 	/*
