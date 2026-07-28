@@ -55,7 +55,7 @@ We have biome formatting to help you follow our coding conventions.
 - All code should work on as many browsers as possible.
     - Optional Chaining isn't supported by Kiwi Browser.
 - Any changes should be added in the `src/extension/assets/changelog.json` file under the first unreleased version.
-    - First contributions should also update `src/common/utils/team.ts` to add yourself as member and choose a
+    - First contributions should also update `src/common/utils/team.ts` to add yourself as member and choose a unique
       color for in the changelog.
 
 ## Development Tips
