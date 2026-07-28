@@ -25,7 +25,8 @@
 				{ "message": "Reuse the canvas object for the status bars, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
 				{ "message": "Reuse the audio object for the notifications, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't log the entire database as much anymore, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
-				{ "message": "No longer force update the storage, with the aim to improve memory usage.", "contributor": "DeKleineKobini" }
+				{ "message": "No longer force update the storage, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
+				{ "message": "Different way of getting the full storage, with the aim to avoid data corruption.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

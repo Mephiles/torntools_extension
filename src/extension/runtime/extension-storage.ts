@@ -14,7 +14,7 @@ export class TTExtensionStorage extends TornToolsStorage {
 		} else if (key) {
 			return (await browser.storage.local.get([key]))[key];
 		} else {
-			return browser.storage.local.get(null);
+			return browser.storage.local.get();
 		}
 	}
 
