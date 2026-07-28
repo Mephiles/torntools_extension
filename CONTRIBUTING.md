@@ -23,7 +23,7 @@ We have biome formatting to help you follow our coding conventions.
 
 - All have to be written in **TypeScript**.
 - We follow a certain pattern for our files.
-    - Each feature has its own file, and those are placed in the `src/extension/features` folder, in a folder based
+    - Each feature has its own file, and those are placed in the `src/common/features` folder, in a folder based
       on the name of it.
     - Both the feature's CSS and JS scripts should reside in the same directory.
         - Don't include empty CSS files.
@@ -37,8 +37,8 @@ We have biome formatting to help you follow our coding conventions.
         - If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
           use an attribute selector `[class*='SOMENAME_']`.
 - Some general rules are:
-    - Any setting for a new feature should be defined in `src/extension/utils/common/data/default-database.js` in `DEFAULT_STORAGE`.
-    - We have some preset color variables set inside `src/extension/utils/common/global/globalVariables.css`. These should be
+    - Any setting for a new feature should be defined in `src/common/utils/data/default-database.ts` in `DEFAULT_STORAGE`.
+    - We have some preset color variables set inside `src/common/utils/global/globalVariables.css`. These should be
       used where possible.
 - All code should be formatted using Biome.
     - We indent using tabs with a width of 4.
@@ -54,7 +54,7 @@ We have biome formatting to help you follow our coding conventions.
 - All code should work on as many browsers as possible.
     - Optional Chaining isn't supported by Kiwi Browser.
 - Any changes should be added in the `src/extension/assets/changelog.json` file under the first unreleased version.
-    - First contributions should also update `src/extension/utils/common/team.js` to add yourself as member and choose a
+    - First contributions should also update `src/common/utils/team.ts` to add yourself as member and choose a
       color for in the changelog.
 
 ## Development Tips
