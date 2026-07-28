@@ -27,19 +27,12 @@
 	}
 </script>
 
-<Button
-	type="button"
-	{variant}
-	disabled={isBusy}
-	aria-busy={isBusy}
-	class="relative w-full justify-center cursor-pointer"
-	onclick={handleClick}
->
+<Button type="button" {variant} disabled={isBusy} aria-busy={isBusy} class="relative w-full cursor-pointer justify-center" onclick={handleClick}>
 	<span class:invisible={isBusy}>
 		{label}
 	</span>
 
 	{#if isBusy}
-		<Spinner class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" aria-label={`${label} in progress`} />
+		<Spinner class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" aria-label={`${label} in progress`} />
 	{/if}
 </Button>

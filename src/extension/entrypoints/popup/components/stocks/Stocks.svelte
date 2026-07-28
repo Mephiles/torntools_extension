@@ -6,7 +6,7 @@
 </script>
 
 <div class="space-y-2">
-	<StockSearch bind:query={query} />
+	<StockSearch bind:query />
 
 	<StocksTable {query} />
 </div>

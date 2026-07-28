@@ -126,7 +126,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = ${JSON.stringify(staticItemMap, nu
 
 await writeFile("./static-items.ts", fileOutput);
 
-const { stdout, stderr } = await execAsync("biome check --write ./static-items.ts");
+const { stdout, stderr } = await execAsync("bun oxfmt ./static-items.ts");
 
 if (stdout) console.log(`stdout: ${stdout}`);
 if (stderr) console.error(`stderr: ${stderr}`);

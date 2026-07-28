@@ -5,7 +5,7 @@
 	const hasApiKey = $derived(!!$apiStore?.torn?.key);
 </script>
 
-<section class="rounded-lg border border-border bg-card py-2 px-3">
+<section class="border-border bg-card rounded-lg border px-3 py-2">
 	<h2 class="text-lg font-bold">Maintenance</h2>
 
 	<div class="mt-2 grid gap-4 lg:grid-cols-[2fr_1fr]">
@@ -20,16 +20,14 @@
 					<MaintenanceActionCard action="factiondata" label="Factiondata" />
 				</div>
 			{:else}
-				<p class="text-sm text-muted-foreground">
-					Data health checks are not relevant without an API key configured.
-				</p>
+				<p class="text-muted-foreground text-sm">Data health checks are not relevant without an API key configured.</p>
 			{/if}
 		</section>
 
 		<section class="space-y-2">
 			<h3 class="text-sm font-bold">Other</h3>
 			<div class="grid gap-2">
-				<MaintenanceActionCard action="reinitialize-timers" label="Reinitialize timers" variant="outline"  />
+				<MaintenanceActionCard action="reinitialize-timers" label="Reinitialize timers" variant="outline" />
 				<MaintenanceActionCard action="clear-cache" label="Clear cache" variant="destructive" />
 			</div>
 		</section>

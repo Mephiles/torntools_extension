@@ -14,7 +14,7 @@
 </script>
 
 <Card.Root class={cn("gap-1 rounded-lg", title || description ? "py-2" : "py-1")}>
-	<Card.Header class="px-3 flex justify-between gap-3">
+	<Card.Header class="flex justify-between gap-3 px-3">
 		<div>
 			{#if title}
 				<Card.Title>{title}</Card.Title>

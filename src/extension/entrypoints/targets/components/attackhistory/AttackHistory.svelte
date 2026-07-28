@@ -4,7 +4,7 @@
 	import { toast } from "svelte-sonner";
 	import { attackHistoryStore } from "../../stores/database-store.svelte";
 	import ResetAction from "../ResetAction.svelte";
-    import HistoryTable from "./HistoryTable.svelte";
+	import HistoryTable from "./HistoryTable.svelte";
 
 	let showPercentages = $state(false);
 	const amountOfRows = $derived(Object.keys($attackHistoryStore?.history ?? {}).length);
@@ -21,7 +21,7 @@
 	<div class="flex flex-wrap items-center justify-between gap-2">
 		<div>
 			<h1 class="text-2xl font-bold">Attack History</h1>
-			<p class="text-sm text-muted-foreground">{amountOfRows} stored {amountOfRows === 1 ? "target" : "targets"}</p>
+			<p class="text-muted-foreground text-sm">{amountOfRows} stored {amountOfRows === 1 ? "target" : "targets"}</p>
 		</div>
 		<div class="flex items-center gap-2">
 			<label class="flex items-center gap-2 text-sm">

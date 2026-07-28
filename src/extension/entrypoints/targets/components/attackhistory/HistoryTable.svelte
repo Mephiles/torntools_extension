@@ -81,4 +81,4 @@
 	}
 </script>
 
-<DataTable data={data} {columns} />
+<DataTable {data} {columns} />

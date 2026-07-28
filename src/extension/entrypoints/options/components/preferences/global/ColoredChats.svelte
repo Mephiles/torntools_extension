@@ -16,14 +16,11 @@
 	}));
 
 	async function updateColoredChats(nextLinks: ColoredChatOption[]) {
-		await ttStorage.change({ settings: { pages: {chat: { titleHighlights: nextLinks } } } });
+		await ttStorage.change({ settings: { pages: { chat: { titleHighlights: nextLinks } } } });
 	}
 
 	function addColoredChat() {
-		void updateColoredChats([
-			...$settingsStore.pages.chat.titleHighlights,
-			{ title: "", color: "blue" } satisfies ColoredChatOption,
-		]);
+		void updateColoredChats([...$settingsStore.pages.chat.titleHighlights, { title: "", color: "blue" } satisfies ColoredChatOption]);
 	}
 
 	function updateColoredChat(index: number, newColoredChat: ColoredChatOption) {
@@ -50,11 +47,11 @@
 			<PlusIcon />
 		</Button>
 	{/snippet}
-	
+
 	{#if $settingsStore.pages.chat.titleHighlights.length}
 		<div class="space-y-1">
 			{#each $settingsStore.pages.chat.titleHighlights as highlight, index (index)}
-				<div class="rounded-md border border-border bg-background/60 p-2">
+				<div class="border-border bg-background/60 rounded-md border p-2">
 					<div class="grid gap-2 md:grid-cols-[repeat(2,1fr)_28px]">
 						<Input
 							value={highlight.title}
@@ -78,9 +75,6 @@
 			{/each}
 		</div>
 	{:else}
-		<p class="rounded-md border border-dashed border-border p-2 text-center text-muted-foreground">
-			No colored chats configured.
-		</p>
+		<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center">No colored chats configured.</p>
 	{/if}
-
 </PreferenceSectionCard>

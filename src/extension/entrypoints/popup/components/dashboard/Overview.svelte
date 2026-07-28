@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {DatabaseSettings, DatabaseUserdata} from "@common/utils/data/database";
+	import type { DatabaseSettings, DatabaseUserdata } from "@common/utils/data/database";
 	import { capitalizeText, formatTime } from "@common/utils/functions/formatting";
 	import { ALL_ICONS } from "@common/utils/functions/torn";
 	import { settingsStore, userdataStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
@@ -13,7 +13,7 @@
 		tooltip: string;
 	};
 
-	const { now } : { now: number } = $props();
+	const { now }: { now: number } = $props();
 	const statusInformation = $derived(getStatusInformation($userdataStore, $settingsStore, now));
 	const visibleIcons = $derived(getVisibleIcons($userdataStore, $settingsStore, now));
 
@@ -51,12 +51,7 @@
 			country: userdata.travel.destination,
 			status: {
 				label,
-				className:
-					status === "hospital"
-						? "text-destructive"
-						: status === "jail"
-							? "text-amber-600 dark:text-amber-400"
-							: "text-primary",
+				className: status === "hospital" ? "text-destructive" : status === "jail" ? "text-amber-600 dark:text-amber-400" : "text-primary",
 			},
 			href: "https://www.torn.com",
 		};
@@ -73,9 +68,7 @@
 
 			const tooltipParts = [userdataIcon.title, userdataIcon.description].filter(Boolean);
 			if (userdataIcon.until) {
-				tooltipParts.push(
-					formatTime({ milliseconds: Math.max(userdataIcon.until * 1000 - currentTime, 0) }, { type: "wordTimer", showDays: true }),
-				);
+				tooltipParts.push(formatTime({ milliseconds: Math.max(userdataIcon.until * 1000 - currentTime, 0) }, { type: "wordTimer", showDays: true }));
 			}
 
 			return [
@@ -90,9 +83,9 @@
 	}
 </script>
 
-<Card size="sm" class="rounded-lg gap-2!">
+<Card size="sm" class="gap-2! rounded-lg">
 	<CardHeader>
-		<CardTitle class="min-w-0 truncate flex flex-wrap items-center justify-between w-full">
+		<CardTitle class="flex w-full min-w-0 flex-wrap items-center justify-between truncate">
 			<a class="hover:underline" href={statusInformation.href} target="_blank" rel="noreferrer">
 				{statusInformation.country}
 			</a>
@@ -108,18 +101,18 @@
 					<Tooltip.Trigger>
 						{#snippet child({ props: _props })}
 							<svelte:element
-									this={icon.href ? "a" : "span"}
-									{..._props}
-									href={icon.href}
-									target={icon.href ? "_blank" : undefined}
-									rel={icon.href ? "noreferrer" : undefined}
-									aria-label={icon.tooltip}
-									class="block size-4 shrink-0 overflow-hidden"
+								this={icon.href ? "a" : "span"}
+								{..._props}
+								href={icon.href}
+								target={icon.href ? "_blank" : undefined}
+								rel={icon.href ? "noreferrer" : undefined}
+								aria-label={icon.tooltip}
+								class="block size-4 shrink-0 overflow-hidden"
 							>
-									<span
-											class="block size-4"
-											style={`background:url(https://torn.com/images/v2/svg_icons/sprites/user_status_icons_sprite.svg);background-position:-${(icon.id - 1) * 18}px 0`}
-									></span>
+								<span
+									class="block size-4"
+									style={`background:url(https://torn.com/images/v2/svg_icons/sprites/user_status_icons_sprite.svg);background-position:-${(icon.id - 1) * 18}px 0`}
+								></span>
 							</svelte:element>
 						{/snippet}
 					</Tooltip.Trigger>

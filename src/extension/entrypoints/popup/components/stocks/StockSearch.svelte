@@ -2,7 +2,6 @@
 	import * as InputGroup from "@svelte/components/ui/input-group/index.js";
 	import MagnifyingGlassIcon from "phosphor-svelte/lib/MagnifyingGlassIcon";
 
-
 	interface StockSearchProps {
 		query: string;
 	}

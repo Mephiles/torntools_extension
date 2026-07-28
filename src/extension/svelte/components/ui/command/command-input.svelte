@@ -2,14 +2,9 @@
 	import * as InputGroup from "@svelte/components/ui/input-group/index.js";
 	import { cn } from "@svelte/utils.js";
 	import { Command as CommandPrimitive } from "bits-ui";
-	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlass';
+	import MagnifyingGlassIcon from "phosphor-svelte/lib/MagnifyingGlass";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		value = $bindable(""),
-		...restProps
-	}: CommandPrimitive.InputProps = $props();
+	let { ref = $bindable(null), class: className, value = $bindable(""), ...restProps }: CommandPrimitive.InputProps = $props();
 </script>
 
 <div data-slot="command-input-wrapper" class="p-1 pb-0">
@@ -17,10 +12,7 @@
 		<CommandPrimitive.Input
 			{value}
 			data-slot="command-input"
-			class={cn(
-				"w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
-				className
-			)}
+			class={cn("w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50", className)}
 			{...restProps}
 		>
 			{#snippet child({ props })}

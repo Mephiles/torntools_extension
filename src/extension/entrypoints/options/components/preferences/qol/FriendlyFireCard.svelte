@@ -64,9 +64,7 @@
 	}
 
 	function updatePendingAlly(rowId: number, value: string) {
-		pendingAllies = pendingAllies.map((pendingAlly) =>
-			pendingAlly.rowId === rowId ? { ...pendingAlly, value } : pendingAlly,
-		);
+		pendingAllies = pendingAllies.map((pendingAlly) => (pendingAlly.rowId === rowId ? { ...pendingAlly, value } : pendingAlly));
 	}
 </script>
 
@@ -85,8 +83,12 @@
 
 		{#if $settingsStore.alliedFactions.length || pendingAllies.length}
 			{#each $settingsStore.alliedFactions as ally, index (index)}
-				<div class="grid gap-2 rounded-md border border-border bg-background/60 p-2 md:grid-cols-[1fr_28px]">
-					<Input value={String(ally)} placeholder="Ally faction name or ID" oninput={(event) => updateAlliedFaction(index, event.currentTarget.value)} />
+				<div class="border-border bg-background/60 grid gap-2 rounded-md border p-2 md:grid-cols-[1fr_28px]">
+					<Input
+						value={String(ally)}
+						placeholder="Ally faction name or ID"
+						oninput={(event) => updateAlliedFaction(index, event.currentTarget.value)}
+					/>
 					<Button type="button" size="icon" variant="destructive" onclick={() => removeAlliedFaction(index)}>
 						<TrashIcon />
 					</Button>
@@ -94,7 +96,7 @@
 			{/each}
 			{#each pendingAllies as pendingAlly (pendingAlly.rowId)}
 				<div
-					class="grid gap-2 rounded-md border border-border bg-background/60 p-2 md:grid-cols-[1fr_28px]"
+					class="border-border bg-background/60 grid gap-2 rounded-md border p-2 md:grid-cols-[1fr_28px]"
 					onfocusout={(event) => savePendingAllyOnFocusOut(event, pendingAlly)}
 				>
 					<Input
@@ -112,9 +114,7 @@
 				</div>
 			{/each}
 		{:else}
-			<div class="rounded-md border border-dashed border-border p-2 text-center text-muted-foreground">
-				No allied factions configured.
-			</div>
+			<div class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center">No allied factions configured.</div>
 		{/if}
 	</div>
 </PreferenceSectionCard>

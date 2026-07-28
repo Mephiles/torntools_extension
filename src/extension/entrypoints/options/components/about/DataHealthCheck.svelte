@@ -9,9 +9,7 @@
 		status: HealthStatus;
 	} = $props();
 
-	const statusText = $derived(
-		status === "checking" ? "checking..." : status === "healthy" ? "likely okay" : "possibly corrupted",
-	);
+	const statusText = $derived(status === "checking" ? "checking..." : status === "healthy" ? "likely okay" : "possibly corrupted");
 	const statusClass = $derived(
 		status === "healthy"
 			? "font-medium text-lime-600 dark:text-lime-400"
@@ -22,7 +20,7 @@
 </script>
 
 <article aria-label={`${label} data health`}>
-	<p class="rounded-lg border border-border p-2 text-sm">
+	<p class="border-border rounded-lg border p-2 text-sm">
 		<strong class="text-sm">{label}:</strong>
 		<span class={statusClass}>{statusText}</span>
 	</p>

@@ -2,8 +2,8 @@ import "./ff-scouter.css";
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import type { FFScouterResult } from "@common/utils/functions/api.types";
 import { fetchData } from "@common/utils/functions/api-fetcher";
+import type { FFScouterResult } from "@common/utils/functions/api.types";
 import { NON_ATTACKABLE_ACCOUNT_IDS } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 

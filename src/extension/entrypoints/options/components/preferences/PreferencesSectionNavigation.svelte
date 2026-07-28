@@ -12,7 +12,7 @@
 	let { groupId, sections, activeSection }: PreferencesSectionNavigationProps = $props();
 </script>
 
-<section class="rounded-lg border border-border bg-card p-2">
+<section class="border-border bg-card rounded-lg border p-2">
 	<div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
 		{#each sections as section (section.id)}
 			<a

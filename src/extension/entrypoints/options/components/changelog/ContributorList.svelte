@@ -14,12 +14,14 @@
 					href={`https://www.torn.com/profiles.php?XID=${contributor.id}`}
 					target="_blank"
 					rel="noopener noreferrer"
-					class="flex items-center before:content-[''] before:inline-block before:w-2 before:h-2 before:rounded-full before:mr-1 before:bg-(--contributor-color) before:border-2 before:border-(--contributor-color) before:align-middle"
+					class="flex items-center before:mr-1 before:inline-block before:h-2 before:w-2 before:rounded-full before:border-2 before:border-(--contributor-color) before:bg-(--contributor-color) before:align-middle before:content-['']"
 				>
 					{contributor.name} [{contributor.id}]
 				</a>
 			{:else}
-				<span class="flex items-center before:content-[''] before:inline-block before:w-2 before:h-2 before:rounded-full before:mr-1 before:bg-(--contributor-color) before:border-2 before:border-(--contributor-color) before:align-middle">
+				<span
+					class="flex items-center before:mr-1 before:inline-block before:h-2 before:w-2 before:rounded-full before:border-2 before:border-(--contributor-color) before:bg-(--contributor-color) before:align-middle before:content-['']"
+				>
 					{contributor.name}
 				</span>
 			{/if}

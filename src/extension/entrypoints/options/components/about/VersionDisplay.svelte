@@ -21,7 +21,7 @@
 	});
 </script>
 
-<section class="rounded-lg border border-border bg-card py-2 px-3">
+<section class="border-border bg-card rounded-lg border px-3 py-2">
 	<h2 class="text-lg font-bold">Version</h2>
 
 	<div class="mt-2 space-y-2 text-sm">

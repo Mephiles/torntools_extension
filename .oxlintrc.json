@@ -1,0 +1,24 @@
+{
+	"plugins": ["jsx-a11y"],
+	"categories": {
+		"correctness": "error",
+		"suspicious": "off",
+		"pedantic": "off",
+		"perf": "off",
+		"style": "off",
+		"restriction": "off",
+		"nursery": "off"
+	},
+	"rules": {
+		"no-shadow": "off",
+		"no-underscore-dangle": "off",
+		"no-unsafe-optional-chaining": "off",
+		"no-async-promise-executor": "off",
+		"no-cond-assign": "off",
+		"no-unused-vars": "off",
+		"typescript/no-explicit-any": "off",
+		"typescript/no-non-null-assertion": "off",
+		"typescript/no-empty-object-type": "off",
+		"typescript/no-wrapper-object-types": "off"
+	}
+}

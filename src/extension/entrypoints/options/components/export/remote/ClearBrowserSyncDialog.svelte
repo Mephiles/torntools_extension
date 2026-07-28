@@ -19,9 +19,7 @@
 	<Dialog.Content class="sm:max-w-md">
 		<Dialog.Header>
 			<Dialog.Title>Clear</Dialog.Title>
-			<Dialog.Description>
-				Are you sure you want to clear the remote storage?
-			</Dialog.Description>
+			<Dialog.Description>Are you sure you want to clear the remote storage?</Dialog.Description>
 		</Dialog.Header>
 
 		<Dialog.Footer>

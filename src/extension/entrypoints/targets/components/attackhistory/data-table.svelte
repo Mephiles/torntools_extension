@@ -75,7 +75,7 @@
 	}
 </script>
 
-<div class="overflow-hidden rounded-sm border bg-card">
+<div class="bg-card overflow-hidden rounded-sm border">
 	<Table.Root class="text-xs">
 		<Table.Header class="bg-muted">
 			{#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
@@ -84,7 +84,7 @@
 						<Table.Head colspan={header.colSpan} class={getHeaderClass(header.column.id)}>
 							{#if !header.isPlaceholder}
 								<button
-									class="flex items-center gap-0.5 font-medium leading-none hover:text-primary disabled:pointer-events-none"
+									class="hover:text-primary flex items-center gap-0.5 leading-none font-medium disabled:pointer-events-none"
 									type="button"
 									disabled={!header.column.getCanSort()}
 									onclick={() => toggleSorting(header.column.id)}
@@ -136,7 +136,7 @@
 				</Table.Row>
 			{:else}
 				<Table.Row>
-					<Table.Cell colspan={columns.length} class="p-4 text-center text-muted-foreground">No attack history stored.</Table.Cell>
+					<Table.Cell colspan={columns.length} class="text-muted-foreground p-4 text-center">No attack history stored.</Table.Cell>
 				</Table.Row>
 			{/each}
 		</Table.Body>

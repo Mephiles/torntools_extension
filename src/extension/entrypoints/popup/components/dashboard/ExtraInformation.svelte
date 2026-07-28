@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
-	import type {DatabaseSettings, DatabaseUserdata} from "@common/utils/data/database";
+	import type { DatabaseSettings, DatabaseUserdata } from "@common/utils/data/database";
 	import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 	import { TO_MILLIS } from "@common/utils/functions/utilities";
 	import { settingsStore, userdataStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
@@ -8,7 +8,7 @@
 	import BellIcon from "phosphor-svelte/lib/BellIcon";
 	import BellSlashIcon from "phosphor-svelte/lib/BellSlashIcon";
 
-	const { now } : { now: number } = $props();
+	const { now }: { now: number } = $props();
 
 	const extraInformation = $derived(getExtraInformation($userdataStore, $settingsStore));
 	const lastUpdated = $derived(getLastUpdated($userdataStore, now));
@@ -32,7 +32,7 @@
 			},
 			{
 				label: "Wallet",
-				value: settings?.apiUsage.user.money ? formatNumber(userdata?.money.wallet ?? 0, {currency: true}) : "N/A",
+				value: settings?.apiUsage.user.money ? formatNumber(userdata?.money.wallet ?? 0, { currency: true }) : "N/A",
 				href: "https://www.torn.com/properties.php#/p=options&tab=vault",
 			},
 		];
@@ -47,25 +47,25 @@
 
 <div class="grid grid-cols-3 gap-1">
 	{#each extraInformation as item (item.label)}
-		<a class="rounded-lg bg-card border border-border/70 p-1 text-center text-xs hover:bg-muted" href={item.href} target="_blank" rel="noreferrer">
+		<a class="bg-card border-border/70 hover:bg-muted rounded-lg border p-1 text-center text-xs" href={item.href} target="_blank" rel="noreferrer">
 			<div class="font-medium">{item.label}</div>
 			<div class="text-foreground/80">{item.value}</div>
 		</a>
 	{/each}
 </div>
 
-<div class="flex items-center justify-between text-xs text-foreground/80">
+<div class="text-foreground/80 flex items-center justify-between text-xs">
 	<div class="flex items-center gap-1">
 		<span>Updated</span>
-		<span class="font-medium text-foreground">{lastUpdated}</span>
+		<span class="text-foreground font-medium">{lastUpdated}</span>
 	</div>
 	<Button
-			variant={notificationsEnabled ? "secondary" : "outline"}
-			size="icon-sm"
-			class={notificationsEnabled ? "text-sidebar-primary" : "text-destructive"}
-			onclick={toggleNotifications}
-			aria-label={notificationsEnabled ? "Disable notifications" : "Enable notifications"}
-			title={notificationsEnabled ? "Notifications enabled" : "Notifications disabled"}
+		variant={notificationsEnabled ? "secondary" : "outline"}
+		size="icon-sm"
+		class={notificationsEnabled ? "text-sidebar-primary" : "text-destructive"}
+		onclick={toggleNotifications}
+		aria-label={notificationsEnabled ? "Disable notifications" : "Enable notifications"}
+		title={notificationsEnabled ? "Notifications enabled" : "Notifications disabled"}
 	>
 		{#if notificationsEnabled}
 			<BellIcon />

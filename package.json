@@ -18,10 +18,11 @@
 		"postinstall": "wxt prepare",
 		"test": "bun test",
 		"test:watch": "bun test --watch",
-		"format": "biome format",
-		"format:fix": "biome format --write",
-		"lint:fix": "biome lint --write",
-		"check:fix": "biome check --write",
+		"format": "oxfmt --check",
+		"format:fix": "oxfmt",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix",
+		"check:fix": "oxfmt && oxlint --fix",
 		"static-items": "bun tools/update-static-items.ts"
 	},
 	"dependencies": {
@@ -39,7 +40,6 @@
 		"tornapi-typescript": "^6.2.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "~2.4.16",
 		"@fontsource-variable/geist": "^5.3.0",
 		"@internationalized/date": "^3.12.2",
 		"@types/bun": "^1.3.14",
@@ -50,6 +50,8 @@
 		"concurrently": "^10.0.4",
 		"drag-drop-touch": "^1.3.1",
 		"mode-watcher": "^1.1.0",
+		"oxfmt": "^0.59.0",
+		"oxlint": "^1.74.0",
 		"phosphor-svelte": "^3.1.0",
 		"shadcn-svelte": "^1.4.2",
 		"svelte-sonner": "^1.1.0",

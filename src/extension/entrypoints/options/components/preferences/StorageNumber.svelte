@@ -37,7 +37,7 @@
 	}
 </script>
 
-<Field.Field {orientation} class="rounded-md border border-border bg-background/60 p-2">
+<Field.Field {orientation} class="border-border bg-background/60 rounded-md border p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
@@ -47,7 +47,9 @@
 
 	<Input
 		{id}
-		type="number" pattern="\d*" inputmode="numeric"
+		type="number"
+		pattern="\d*"
+		inputmode="numeric"
 		{min}
 		{max}
 		{step}

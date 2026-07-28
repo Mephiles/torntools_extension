@@ -29,10 +29,7 @@
 			return;
 		}
 
-		const nextStakeouts = getStoredFactionStakeouts(
-			[...rows, getFactionStakeoutRow(factionId, null, true)],
-			$factionStakeoutsStore?.date ?? 0
-		);
+		const nextStakeouts = getStoredFactionStakeouts([...rows, getFactionStakeoutRow(factionId, null, true)], $factionStakeoutsStore?.date ?? 0);
 		ttStorage.set({ factionStakeouts: nextStakeouts }).catch(console.error);
 		factionId = null;
 	}
@@ -42,15 +39,28 @@
 	<div class="flex flex-wrap items-center justify-between gap-2">
 		<div>
 			<h1 class="text-2xl font-bold">Faction Stakeouts</h1>
-			<p class="text-sm text-muted-foreground">{amountOfRows} tracked {amountOfRows === 1 ? "faction" : "factions"}</p>
+			<p class="text-muted-foreground text-sm">{amountOfRows} tracked {amountOfRows === 1 ? "faction" : "factions"}</p>
 		</div>
 		<div class="flex flex-wrap items-center gap-2">
-			<Input class="w-36" type="number" pattern="\d*" inputmode="numeric" min="1" placeholder="Faction ID" bind:value={factionId} onkeydown={(event) => event.key === "Enter" && addFactionStakeout()} />
+			<Input
+				class="w-36"
+				type="number"
+				pattern="\d*"
+				inputmode="numeric"
+				min="1"
+				placeholder="Faction ID"
+				bind:value={factionId}
+				onkeydown={(event) => event.key === "Enter" && addFactionStakeout()}
+			/>
 			<Button onclick={addFactionStakeout}>
 				<PlusIcon class="size-4" />
 				Add
 			</Button>
-			<ResetAction title="Reset faction stakeouts" description="Are you sure you want to delete all faction stakeouts?" onConfirm={resetFactionStakeouts} />
+			<ResetAction
+				title="Reset faction stakeouts"
+				description="Are you sure you want to delete all faction stakeouts?"
+				onConfirm={resetFactionStakeouts}
+			/>
 		</div>
 	</div>
 

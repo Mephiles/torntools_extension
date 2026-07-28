@@ -12,7 +12,7 @@
 
 	const hiddenCasinoGames = $derived($settingsStore.hideCasinoGames ?? []);
 	const hiddenStocks = $derived($settingsStore.hideStocks ?? []);
-	const stockChoices = $derived(($stockdataStore?.stocks ?? []).map(stock => ({ id: stock.id.toString(), name: stock.name })));
+	const stockChoices = $derived(($stockdataStore?.stocks ?? []).map((stock) => ({ id: stock.id.toString(), name: stock.name })));
 
 	async function updateCasinoGameVisibility(game: string, hidden: boolean) {
 		const nextHiddenGames = hidden ? [...hiddenCasinoGames, game] : hiddenCasinoGames.filter((hiddenGame) => hiddenGame !== game);
@@ -63,13 +63,18 @@
 				{#if stockChoices.length}
 					{#each stockChoices as stock (stock.id)}
 						{@const id = `financial-hidden-stock-${stock.id}`}
-						<div class="rounded-md border border-border bg-background/60">
+						<div class="border-border bg-background/60 rounded-md border">
 							<Field.Field orientation="horizontal" class="p-2">
 								<Field.Content>
 									<Field.Label for={id} class="w-full">{capitalizeText(stock.name)}</Field.Label>
 								</Field.Content>
 
-								<Switch id={id} size="sm" checked={hiddenStocks.includes(stock.id)} onCheckedChange={(hidden) => updateStockVisibility(stock.id, hidden)} />
+								<Switch
+									{id}
+									size="sm"
+									checked={hiddenStocks.includes(stock.id)}
+									onCheckedChange={(hidden) => updateStockVisibility(stock.id, hidden)}
+								/>
 							</Field.Field>
 						</div>
 					{/each}
@@ -89,7 +94,7 @@
 						href="https://www.beatingbonuses.com/bjstrategy.php?decks=8&soft17=stand&doubleon=any2cards&peek=off&das=on&dsa=on&charlie=on&surrender=earlyf&opt=1&btn=Generate+Strategy"
 						target="_blank"
 						rel="noreferrer"
-						class="flex items-center gap-1 text-xs text-primary hover:underline"
+						class="text-primary flex items-center gap-1 text-xs hover:underline"
 					>
 						Strategy calculator
 						<ArrowSquareOutIcon aria-hidden="true" />
@@ -103,13 +108,18 @@
 			<PreferenceSettingGroup title="Hidden Casino Games" contentClass="grid gap-1 grid-cols-2 md:grid-cols-3">
 				{#each CASINO_GAMES as game (game)}
 					{@const id = `financial-hidden-casino-game-${game}`}
-					<div class="rounded-md border border-border bg-background/60">
+					<div class="border-border bg-background/60 rounded-md border">
 						<Field.Field orientation="horizontal" class="p-2">
 							<Field.Content>
 								<Field.Label for={id} class="w-full">{capitalizeText(game)}</Field.Label>
 							</Field.Content>
 
-							<Switch id={id} size="sm" checked={hiddenCasinoGames.includes(game)} onCheckedChange={(hidden) => updateCasinoGameVisibility(game, hidden)} />
+							<Switch
+								{id}
+								size="sm"
+								checked={hiddenCasinoGames.includes(game)}
+								onCheckedChange={(hidden) => updateCasinoGameVisibility(game, hidden)}
+							/>
 						</Field.Field>
 					</div>
 				{/each}

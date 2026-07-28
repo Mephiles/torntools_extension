@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { DatabaseSettings, DatabaseUserdata } from "@common/utils/data/database";
 	import { formatTime, toSeconds } from "@common/utils/functions/formatting";
-	import {getNextChainBonus, LINKS} from "@common/utils/functions/torn";
+	import { getNextChainBonus, LINKS } from "@common/utils/functions/torn";
 	import { settingsStore, userdataStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Card, CardContent } from "@svelte/components/ui/card";
-	import type {FactionOngoingChain, UserBar} from "tornapi-typescript";
+	import type { FactionOngoingChain, UserBar } from "tornapi-typescript";
 
 	type DashboardBar = {
 		id: string;
@@ -17,7 +17,7 @@
 		color: string;
 	};
 
-	const { now } : { now: number } = $props();
+	const { now }: { now: number } = $props();
 
 	const userSettings = $derived($settingsStore?.apiUsage?.user);
 	const bars = $derived(getBars($userdataStore, $settingsStore, now));
@@ -79,7 +79,7 @@
 		const current = bar?.current ?? 0;
 		if (!current) return null;
 
-		const serverTime =  Math.floor(currentTime / 1000);
+		const serverTime = Math.floor(currentTime / 1000);
 		const maximum = current === bar?.max ? bar.max : (getNextChainBonus(current) ?? bar?.max ?? current);
 		const isCooldown = !!bar?.cooldown;
 		const fullAt = (serverTime + (isCooldown ? bar.cooldown : (bar?.timeout ?? 0))) * 1000;
@@ -165,16 +165,16 @@
 						<span class="font-medium">{bar.label}</span>
 						<span class="text-foreground/80">{bar.valueLabel}</span>
 					</div>
-					<div class="h-1.5 overflow-hidden rounded-sm bg-muted">
+					<div class="bg-muted h-1.5 overflow-hidden rounded-sm">
 						<div class={`h-full max-w-full ${bar.color}`} style:width={`${bar.percent}%`}></div>
 					</div>
-					<div class="flex justify-between gap-2 text-xs leading-none text-foreground/80">
+					<div class="text-foreground/80 flex justify-between gap-2 text-xs leading-none">
 						<span>{bar.tickLabel}</span>
 						<span class="truncate text-right">{bar.fullLabel}</span>
 					</div>
 				</a>
 			{:else}
-				<div class="text-xs text-foreground/80">No bar data available.</div>
+				<div class="text-foreground/80 text-xs">No bar data available.</div>
 			{/each}
 		</CardContent>
 	</Card>

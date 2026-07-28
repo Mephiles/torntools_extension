@@ -33,7 +33,7 @@
 </script>
 
 <PreferenceSectionCard>
-	<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+	<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 		<Field.Content>
 			<Field.Label for="api-key">API key</Field.Label>
 			<Field.Description class="text-xs">
@@ -42,22 +42,14 @@
 		</Field.Content>
 
 		<div class="flex gap-1">
-			<Input
-				id="api-key"
-				type="text"
-				placeholder="API key"
-				bind:value={apiKey}
-				disabled={updating}
-			/>
-			<Button type="button" variant="outline" disabled={updating} onclick={() => void updateApiKey()}>
-				Update
-			</Button>
+			<Input id="api-key" type="text" placeholder="API key" bind:value={apiKey} disabled={updating} />
+			<Button type="button" variant="outline" disabled={updating} onclick={() => void updateApiKey()}>Update</Button>
 		</div>
 	</Field.Field>
 
-	<div class="mt-1 rounded-md border border-border bg-background/60 p-2 text-sm">
+	<div class="border-border bg-background/60 mt-1 rounded-md border p-2 text-sm">
 		<h3 class="font-bold">Disclaimer</h3>
-		<div class="mt-1 space-y-1 text-muted-foreground">
+		<div class="text-muted-foreground mt-1 space-y-1">
 			<p>The user is allowed to make 100 requests to Torn's API in a minute.</p>
 			<p>The creators of this extension are not responsible if the user:</p>
 			<ul class="list-disc pl-5">
@@ -65,7 +57,8 @@
 				<li>tries to use the wrong API key too many times</li>
 			</ul>
 			<p>
-				If for some reason you do get your IP blocked because the extension had a bug or glitched or anything, our apologies. Please let us know of such incidents so we can avoid them in the future.
+				If for some reason you do get your IP blocked because the extension had a bug or glitched or anything, our apologies. Please let us know of such
+				incidents so we can avoid them in the future.
 			</p>
 		</div>
 	</div>

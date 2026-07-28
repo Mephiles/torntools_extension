@@ -5,7 +5,7 @@
 	import { getPreferenceValue, type StringPreferenceStoragePath, updatePreferenceValue } from "./preference-storage";
 
 	interface StorageSelectProps {
-		items: {value: string, label: string, disabled?: boolean}[];
+		items: { value: string; label: string; disabled?: boolean }[];
 		path: StringPreferenceStoragePath;
 		label: string;
 		description?: string;
@@ -25,7 +25,7 @@
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
@@ -33,10 +33,5 @@
 		{/if}
 	</Field.Content>
 
-	<ItemSelect
-		{items}
-		placeholder="Select a value"
-		{value}
-		onValueChange={(nextValue) => void updateValue(nextValue)}
-	/>
+	<ItemSelect {items} placeholder="Select a value" {value} onValueChange={(nextValue) => void updateValue(nextValue)} />
 </Field.Field>

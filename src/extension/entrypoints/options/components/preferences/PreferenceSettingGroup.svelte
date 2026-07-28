@@ -11,13 +11,13 @@
 	let { title, description, contentClass = "grid gap-1 md:grid-cols-2", children }: PreferenceSettingGroupProps = $props();
 </script>
 
-<div class="rounded-md border border-border bg-background/60 p-2">
+<div class="border-border bg-background/60 rounded-md border p-2">
 	<div class="mb-1">
 		{#if title}
 			<h3>{title}</h3>
 		{/if}
 		{#if description}
-			<p class="text-xs text-muted-foreground">{description}</p>
+			<p class="text-muted-foreground text-xs">{description}</p>
 		{/if}
 	</div>
 

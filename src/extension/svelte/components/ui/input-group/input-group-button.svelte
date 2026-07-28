@@ -37,13 +37,6 @@
 	} = $props();
 </script>
 
-<Button
-	bind:ref
-	{type}
-	data-size={size}
-	{variant}
-	class={cn(inputGroupButtonVariants({ size }), className)}
-	{...restProps}
->
+<Button bind:ref {type} data-size={size} {variant} class={cn(inputGroupButtonVariants({ size }), className)} {...restProps}>
 	{@render children?.()}
 </Button>

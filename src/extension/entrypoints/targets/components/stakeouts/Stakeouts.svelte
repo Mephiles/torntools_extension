@@ -39,10 +39,19 @@
 	<div class="flex flex-wrap items-center justify-between gap-2">
 		<div>
 			<h1 class="text-2xl font-bold">Stakeouts</h1>
-			<p class="text-sm text-muted-foreground">{amountOfRows} tracked {amountOfRows === 1 ? "player" : "players"}</p>
+			<p class="text-muted-foreground text-sm">{amountOfRows} tracked {amountOfRows === 1 ? "player" : "players"}</p>
 		</div>
 		<div class="flex flex-wrap items-center gap-2">
-			<Input class="w-36" type="number" pattern="\d*" inputmode="numeric" min="1" placeholder="User ID" bind:value={stakeoutId} onkeydown={(event) => event.key === "Enter" && addStakeout()} />
+			<Input
+				class="w-36"
+				type="number"
+				pattern="\d*"
+				inputmode="numeric"
+				min="1"
+				placeholder="User ID"
+				bind:value={stakeoutId}
+				onkeydown={(event) => event.key === "Enter" && addStakeout()}
+			/>
 			<Button onclick={addStakeout}>
 				<PlusIcon class="size-4" />
 				Add

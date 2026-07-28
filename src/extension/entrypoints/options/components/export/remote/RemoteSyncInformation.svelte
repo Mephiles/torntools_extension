@@ -9,7 +9,6 @@
 	}
 
 	let { information, loading }: RemoteSyncInformationProps = $props();
-
 </script>
 
 <div class="mt-1 text-xs">
@@ -21,8 +20,7 @@
 	{:else if information.available}
 		<p>
 			Last update:
-			<span
-				class="font-medium">{formatTime(information.data.date)} {formatDate(information.data.date, { showYear: true })}</span>
+			<span class="font-medium">{formatTime(information.data.date)} {formatDate(information.data.date, { showYear: true })}</span>
 		</p>
 		<p>
 			Version:

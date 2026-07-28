@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { ttStorage } from "@common/utils/context";
-    import { readableChangelog, toDisplayableChangelogEntry } from "@extension/utils/changelog";
+	import { ttStorage } from "@common/utils/context";
+	import { readableChangelog, toDisplayableChangelogEntry } from "@extension/utils/changelog";
 	import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@svelte/components/ui/accordion";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { cn } from "@svelte/utils";
@@ -17,14 +17,12 @@
 
 <Accordion type="multiple" class="gap-2" value={[changelog[0].version]}>
 	{#each changelog as entry, index (entry.version)}
-		<AccordionItem value={entry.version} class="border rounded-lg">
+		<AccordionItem value={entry.version} class="rounded-lg border">
 			<AccordionTrigger class={cn("px-2.5", index === 0 ? "text-red-600" : "")}>
 				{entry.title}
 
 				{#if entry.beta}
-					<Badge variant="secondary" class="ml-1">
-						BETA
-					</Badge>
+					<Badge variant="secondary" class="ml-1">BETA</Badge>
 				{/if}
 			</AccordionTrigger>
 			<AccordionContent>

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import PriorityServiceConfiguration
-		from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
+	import PriorityServiceConfiguration from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
@@ -17,24 +16,25 @@
 			>
 				{#snippet titleAction()}
 					<PriorityServiceConfiguration
-							title="Travel Data"
-							services={[
-								{
-									name: "Prometheus",
-									pathEnabled: "settings.servicePreferences.travelData.prometheus.enabled",
-									pathPriority: "settings.servicePreferences.travelData.prometheus.priority"
-								},
-								{
-									name: "Torn Intel",
-									pathEnabled: "settings.servicePreferences.travelData.tornintel.enabled",
-									pathPriority: "settings.servicePreferences.travelData.tornintel.priority"
-								},
-								{
-									name: "YATA",
-									pathEnabled: "settings.servicePreferences.travelData.yata.enabled",
-									pathPriority: "settings.servicePreferences.travelData.yata.priority"
-								}
-						]} />
+						title="Travel Data"
+						services={[
+							{
+								name: "Prometheus",
+								pathEnabled: "settings.servicePreferences.travelData.prometheus.enabled",
+								pathPriority: "settings.servicePreferences.travelData.prometheus.priority",
+							},
+							{
+								name: "Torn Intel",
+								pathEnabled: "settings.servicePreferences.travelData.tornintel.enabled",
+								pathPriority: "settings.servicePreferences.travelData.tornintel.priority",
+							},
+							{
+								name: "YATA",
+								pathEnabled: "settings.servicePreferences.travelData.yata.enabled",
+								pathPriority: "settings.servicePreferences.travelData.yata.priority",
+							},
+						]}
+					/>
 				{/snippet}
 
 				<StorageSwitch path="settings.pages.travel.autoTravelTableCountry" label="Update country in travel table filter as per map selections" />

@@ -33,10 +33,7 @@
 	}
 
 	function addCustomLink() {
-		void updateCustomLinks([
-			...$settingsStore.customLinks,
-			{ newTab: false, location: "above", name: "", href: "" } satisfies SavedCustomLink,
-		]);
+		void updateCustomLinks([...$settingsStore.customLinks, { newTab: false, location: "above", name: "", href: "" } satisfies SavedCustomLink]);
 	}
 
 	function updateCustomLink(index: number, nextLink: SavedCustomLink) {
@@ -105,7 +102,7 @@
 	{#if $settingsStore.customLinks.length}
 		<div class="space-y-1">
 			{#each $settingsStore.customLinks as link, index (index)}
-				<div class="rounded-md border border-border bg-background/60 p-2">
+				<div class="border-border bg-background/60 rounded-md border p-2">
 					<div class="grid gap-2 lg:grid-cols-[12rem_15rem_1fr]">
 						<ItemSelect
 							items={locationOptions}
@@ -155,12 +152,13 @@
 							<TrashIcon />
 						</Button>
 
-						<div class="flex items-center w-full max-w-sm gap-1.5">
+						<div class="flex w-full max-w-sm items-center gap-1.5">
 							<Label for="new-tab_{index}" class="text-xs">New tab</Label>
-							<Switch id="new-tab_{index}"
-							        size="sm"
-							        checked={link.newTab}
-							        onCheckedChange={(checked) => updateCustomLinkField(index, "newTab", checked)}
+							<Switch
+								id="new-tab_{index}"
+								size="sm"
+								checked={link.newTab}
+								onCheckedChange={(checked) => updateCustomLinkField(index, "newTab", checked)}
 							/>
 						</div>
 					</div>
@@ -168,8 +166,6 @@
 			{/each}
 		</div>
 	{:else}
-		<p class="rounded-md border border-dashed border-border p-2 text-center text-muted-foreground">
-			No custom links configured.
-		</p>
+		<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center">No custom links configured.</p>
 	{/if}
 </PreferenceSectionCard>

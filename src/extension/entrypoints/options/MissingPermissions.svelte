@@ -19,7 +19,7 @@
 	let requesting = $state(false);
 
 	onMount(() => {
-		registerExtensionContext()
+		registerExtensionContext();
 		void checkMissingPermissions();
 	});
 
@@ -95,18 +95,16 @@
 	<Dialog.Content class="max-w-lg">
 		<Dialog.Header>
 			<Dialog.Title>Permission Issue</Dialog.Title>
-			<Dialog.Description>
-				There are settings enabled that require permissions to be given, but those permissions are missing.
-			</Dialog.Description>
+			<Dialog.Description>There are settings enabled that require permissions to be given, but those permissions are missing.</Dialog.Description>
 		</Dialog.Header>
 
 		{#if missingOrigins.length > 0}
-			<div class="rounded-lg border border-border bg-muted/30 p-2 text-sm">
+			<div class="border-border bg-muted/30 rounded-lg border p-2 text-sm">
 				<h3 class="font-medium">Missing permissions:</h3>
-				<ul class="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
+				<ul class="text-muted-foreground mt-2 list-disc space-y-1 pl-5">
 					{#each missingOrigins as { label, origin } (origin)}
 						<li>
-							<span class="font-medium text-foreground">{label}</span>
+							<span class="text-foreground font-medium">{label}</span>
 							<span class="block break-all">{origin}</span>
 						</li>
 					{/each}

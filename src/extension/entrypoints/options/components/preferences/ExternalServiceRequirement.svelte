@@ -16,7 +16,7 @@
 <Tooltip.Root>
 	<Tooltip.Trigger
 		type="button"
-		class="flex items-center gap-1 rounded-md border border-dashed border-border bg-muted/30 px-2 py-1 text-xs text-muted-foreground"
+		class="border-border bg-muted/30 text-muted-foreground flex items-center gap-1 rounded-md border border-dashed px-2 py-1 text-xs"
 	>
 		<span class="text-[10px] uppercase">Requires</span>
 		<span class="flex gap-1">

@@ -41,13 +41,13 @@
 			{
 				"py-1.5": columnId !== "notifications",
 				"py-2": columnId === "notifications",
-				"text-center": columnId === "id" || columnId === "remove"
+				"text-center": columnId === "id" || columnId === "remove",
 			},
 		]);
 	}
 </script>
 
-<div class="overflow-hidden rounded-lg border bg-card">
+<div class="bg-card overflow-hidden rounded-lg border">
 	<Table.Root>
 		<Table.Header class="bg-muted/60">
 			{#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
@@ -69,10 +69,17 @@
 					{#each tableRow.getVisibleCells() as cell (cell.id)}
 						<Table.Cell class={getCellClass(cell.column.id)}>
 							{#if cell.column.id === "id"}
-								<a class="hover:underline" href={`https://www.torn.com/factions.php?step=profile&ID=${row.id}`} target="_blank" rel="noreferrer">{row.id}</a>
+								<a class="hover:underline" href={`https://www.torn.com/factions.php?step=profile&ID=${row.id}`} target="_blank" rel="noreferrer"
+									>{row.id}</a
+								>
 							{:else if cell.column.id === "name"}
 								{#if row.info?.name}
-									<a class="hover:underline" href={`https://www.torn.com/factions.php?step=profile&ID=${row.id}`} target="_blank" rel="noreferrer">{row.info.name}</a>
+									<a
+										class="hover:underline"
+										href={`https://www.torn.com/factions.php?step=profile&ID=${row.id}`}
+										target="_blank"
+										rel="noreferrer">{row.info.name}</a
+									>
 								{:else}
 									<span class="text-muted-foreground">{row.isNew ? "Pending save" : "Unknown"}</span>
 								{/if}
@@ -98,7 +105,7 @@
 								{/if}
 							{:else if cell.column.id === "remove"}
 								<Button variant="ghost" size="icon" aria-label={`Remove faction ${row.id}`} onclick={() => onRemove(row.id)}>
-									<TrashIcon class="size-4 text-destructive" aria-hidden="true" />
+									<TrashIcon class="text-destructive size-4" aria-hidden="true" />
 								</Button>
 							{:else if cell.column.id === "notifications"}
 								<div class="grid grid-cols-2 gap-x-2 gap-y-0.5">
@@ -106,7 +113,9 @@
 										<span>chain reaches</span>
 										<Input
 											class="h-5 w-12 px-1 text-xs"
-											type="number" pattern="\d*" inputmode="numeric"
+											type="number"
+											pattern="\d*"
+											inputmode="numeric"
 											min="0"
 											value={row.alerts.chainReaches === false ? "" : row.alerts.chainReaches}
 											oninput={(event) => onNumberAlertChange(row.id, "chainReaches", event.currentTarget.value)}
@@ -115,8 +124,10 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>members drop below</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs with-number-wheel"
-											type="number" pattern="\d*" inputmode="numeric"
+											class="with-number-wheel h-5 w-12 px-1 text-xs"
+											type="number"
+											pattern="\d*"
+											inputmode="numeric"
 											min="0"
 											value={row.alerts.memberCountDrops === false ? "" : row.alerts.memberCountDrops}
 											oninput={(event) => onNumberAlertChange(row.id, "memberCountDrops", event.currentTarget.value)}
@@ -147,7 +158,7 @@
 				</Table.Row>
 			{:else}
 				<Table.Row>
-					<Table.Cell colspan={columns.length} class="p-4 text-center text-muted-foreground">No faction stakeouts configured.</Table.Cell>
+					<Table.Cell colspan={columns.length} class="text-muted-foreground p-4 text-center">No faction stakeouts configured.</Table.Cell>
 				</Table.Row>
 			{/each}
 		</Table.Body>

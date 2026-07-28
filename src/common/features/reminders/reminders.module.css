@@ -29,10 +29,9 @@
 	&.finished {
 		color: var(--tt-color-green);
 	}
-}
 
-/* While it's possible to do '&a' in the nested declaration, Biome does not like that (yet). */
-a.reminder {
-	cursor: pointer;
-	text-decoration: none;
+	&a {
+		cursor: pointer;
+		text-decoration: none;
+	}
 }

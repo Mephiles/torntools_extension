@@ -1,9 +1,9 @@
 import "./filters.css";
 import { userdata } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
-import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createCheckboxDuo } from "@common/utils/elements/checkbox-duo/checkbox-duo";
 import { createCheckboxList } from "@common/utils/elements/checkbox-list/checkbox-list";
+import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createMultiSelect, createSelect } from "@common/utils/elements/select/select";
 import { DualRangeSlider } from "@common/utils/elements/slider/slider";
 import { createTextbox, type TextboxWithoutDescriptionFilter } from "@common/utils/elements/textbox/textbox";

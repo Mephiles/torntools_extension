@@ -5,7 +5,7 @@
 	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { ModeWatcher, setMode } from "mode-watcher";
 	import type { Snippet } from "svelte";
-	import {link, router} from "svelte-spa-router";
+	import { link, router } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { browser } from "wxt/browser";
 	import { registerExtensionContext } from "@/runtime/extension-context";
@@ -41,29 +41,30 @@
 <Toaster richColors />
 
 <Tooltip.Provider>
-	<div class="min-h-60 bg-background text-foreground" style:width={`${popupWidth}px`} style:min-width={`${popupWidth}px`}>
+	<div class="bg-background text-foreground min-h-60" style:width={`${popupWidth}px`} style:min-width={`${popupWidth}px`}>
 		{#if $apiStore?.torn?.error}
-			<div class="border-b border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+			<div class="border-destructive/30 bg-destructive/10 text-destructive border-b px-3 py-2 text-xs">
 				{$apiStore.torn.error}
 			</div>
 		{/if}
 
 		{#if showNavigation}
-			<div class="border-b border-border p-1">
+			<div class="border-border border-b p-1">
 				<nav class="flex items-center gap-1 overflow-x-auto">
 					{#if $apiStore?.torn?.key}
 						{#each enabledTabs as tab (tab.path)}
 							<a
-									use:link
-									use:active={{ path: tab.path, className: "bg-primary text-primary-foreground hover:bg-primary/90" }}
-									href={tab.path}
-									class="rounded-sm px-1 py-0.5 text-xs transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap"
+								use:link
+								use:active={{ path: tab.path, className: "bg-primary text-primary-foreground hover:bg-primary/90" }}
+								href={tab.path}
+								class="hover:bg-accent hover:text-accent-foreground rounded-sm px-1 py-0.5 text-xs whitespace-nowrap transition-colors"
 							>
 								{tab.label}
 							</a>
 						{/each}
 					{/if}
-					<Button variant="ghost" size="sm" class="ml-auto h-5 px-1 py-0.5 text-xs" onclick={() => browser.runtime.openOptionsPage()}>Settings</Button>
+					<Button variant="ghost" size="sm" class="ml-auto h-5 px-1 py-0.5 text-xs" onclick={() => browser.runtime.openOptionsPage()}>Settings</Button
+					>
 				</nav>
 			</div>
 		{/if}

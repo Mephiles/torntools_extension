@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { elementBuilder } from "@common/utils/functions/dom";
 	import { toast } from "svelte-sonner";
-	import ExportMethod from "../ExportMethod.svelte";
 	import { type ExportData, getExportData, importExportData, parseImportText } from "../export-data";
+	import ExportMethod from "../ExportMethod.svelte";
 
 	let fileInput: HTMLInputElement | null = null;
 
@@ -51,10 +51,11 @@
 
 <input bind:this={fileInput} class="hidden" type="file" accept=".json,application/json" onchange={handleFileChange} />
 
-<ExportMethod title="File"
-              recommended
-              description="Download a formatted file or import one from disk."
-              allowApi={true}
-              onExport={exportData}
-              onImport={importData}
+<ExportMethod
+	title="File"
+	recommended
+	description="Download a formatted file or import one from disk."
+	allowApi={true}
+	onExport={exportData}
+	onImport={importData}
 />

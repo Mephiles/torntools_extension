@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {exposeDebugObjects} from "@common/utils/functions/pages-debug";
+	import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
 	import { initializeDatabaseStore, settingsStore } from "@extension/entrypoints/tos/stores/database-store.svelte";
 	import * as Table from "@svelte/components/ui/table";
 	import { ModeWatcher, setMode } from "mode-watcher";
 	import { onMount } from "svelte";
-	import {BACKGROUND_SERVICE} from "../../services/proxy-services";
+	import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
 	onMount(() => {
 		exposeDebugObjects(BACKGROUND_SERVICE);
@@ -35,27 +35,27 @@
 
 {#snippet answer(_text: string, _subtext?: string)}
 	<Table.Cell class="p-2 align-top whitespace-normal">
-		<code class="block rounded bg-muted p-1 whitespace-normal wrap-break-word">{_text}</code>
+		<code class="bg-muted block rounded p-1 wrap-break-word whitespace-normal">{_text}</code>
 		{#if _subtext}
-			<p class="mt-1 text-muted-foreground">{_subtext}</p>
+			<p class="text-muted-foreground mt-1">{_subtext}</p>
 		{/if}
 	</Table.Cell>
 {/snippet}
 
-<main class="min-h-screen p-8 max-w-6xl mx-auto w-full">
-	<h1 class="text-2xl font-bold text-center">Terms of Service</h1>
+<main class="mx-auto min-h-screen w-full max-w-6xl p-8">
+	<h1 class="text-center text-2xl font-bold">Terms of Service</h1>
 
 	<section class="mt-4 space-y-4">
-		<div class="rounded-lg border border-border bg-card p-2">
+		<div class="border-border bg-card rounded-lg border p-2">
 			<h2 class="text-lg font-bold">Data Collection</h2>
 
-			<p class="text-sm text-muted-foreground">
+			<p class="text-muted-foreground text-sm">
 				TornTools collects and stores data only locally. External services might require your API key and store the data differently. All external
 				services are opt in, and we'll list to the terms of service for each service when opting in.
 			</p>
 
-			<div class="mt-1 rounded-sm border bg-card">
-				<Table.Root class="table-fixed w-full text-xs">
+			<div class="bg-card mt-1 rounded-sm border">
+				<Table.Root class="w-full table-fixed text-xs">
 					<Table.Header class="bg-muted">
 						<Table.Row>
 							{@render head("Data Storage")}

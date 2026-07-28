@@ -1,4 +1,4 @@
-<section class="rounded-lg border border-border bg-card px-3 py-2">
+<section class="border-border bg-card rounded-lg border px-3 py-2">
 	<h2 class="text-lg font-bold">Not Found - Section</h2>
-	<p class="mt-1 text-sm text-muted-foreground">Couldn't find your requested preferences section in this group.</p>
+	<p class="text-muted-foreground mt-1 text-sm">Couldn't find your requested preferences section in this group.</p>
 </section>

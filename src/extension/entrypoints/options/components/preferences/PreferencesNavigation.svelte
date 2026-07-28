@@ -5,8 +5,8 @@
 	import { link } from "svelte-spa-router";
 	import type { PreferenceGroupId } from "./configuration";
 	import { PREFERENCE_GROUPS } from "./configuration";
-	import PreferenceSearch from "./PreferenceSearch.svelte";
 	import { getPreferenceGroupRoute } from "./preferences";
+	import PreferenceSearch from "./PreferenceSearch.svelte";
 
 	interface PreferencesNavigationProps {
 		activeGroup: PreferenceGroupId;
@@ -19,12 +19,8 @@
 	const shortcutKey = $derived(navigator.platform.startsWith("Mac") ? "⌘" : "Ctrl");
 </script>
 
-<aside class="rounded-lg border border-sidebar bg-sidebar p-2 space-y-1 flex flex-col">
-	<Button
-			variant="outline"
-			class="text-muted-foreground"
-			onclick={() => (searchOpen = true)}
-	>
+<aside class="border-sidebar bg-sidebar flex flex-col space-y-1 rounded-lg border p-2">
+	<Button variant="outline" class="text-muted-foreground" onclick={() => (searchOpen = true)}>
 		<MagnifyingGlassIcon />
 		<span class="flex-1">Search</span>
 
@@ -37,9 +33,9 @@
 		{#each PREFERENCE_GROUPS as group (group.id)}
 			<div>
 				<a
-						use:link
-						href={getPreferenceGroupRoute(group.id)}
-						class={`block rounded-md px-3 py-2 text-sm ${
+					use:link
+					href={getPreferenceGroupRoute(group.id)}
+					class={`block rounded-md px-3 py-2 text-sm ${
 						group.id === activeGroup
 							? "bg-accent text-accent-foreground"
 							: "text-accent-foreground/50 hover:bg-accent/50 hover:text-accent-foreground/75"

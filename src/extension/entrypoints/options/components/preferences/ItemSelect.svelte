@@ -2,7 +2,7 @@
 	import * as Select from "@svelte/components/ui/select";
 
 	interface ItemSelectProps {
-		items: {value: string, label: string, disabled?: boolean}[];
+		items: { value: string; label: string; disabled?: boolean }[];
 		placeholder: string;
 		value: string;
 		onValueChange: (value: string) => void;

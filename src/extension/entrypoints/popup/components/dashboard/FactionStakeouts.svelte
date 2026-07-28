@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
 	import type { DatabaseFactionStakeouts, DatabaseSettings } from "@common/utils/data/database";
-	import type {StoredFactionStakeouts} from "@common/utils/data/default-database";
+	import type { StoredFactionStakeouts } from "@common/utils/data/default-database";
 	import { factionStakeoutsStore, settingsStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";
@@ -36,15 +36,15 @@
 		if (!settings?.pages?.popup?.showStakeouts || !source?.list?.length) return [];
 
 		return source.list
-				.toSorted((a, b) => a.order - b.order)
-				.map((stakeout) => ({
-					id: stakeout.id,
-					name: stakeout.info?.name ?? String(stakeout.id),
-					respect: stakeout.info?.respect ?? 1, // A default of 0 would result in it being detected as 'destroyed'
-					chain: stakeout.info?.chain ?? "N/A",
-					members: stakeout.info?.members?.current ?? "N/A",
-					maxMembers: stakeout.info?.members?.maximum ?? "N/A",
-				}))
+			.toSorted((a, b) => a.order - b.order)
+			.map((stakeout) => ({
+				id: stakeout.id,
+				name: stakeout.info?.name ?? String(stakeout.id),
+				respect: stakeout.info?.respect ?? 1, // A default of 0 would result in it being detected as 'destroyed'
+				chain: stakeout.info?.chain ?? "N/A",
+				members: stakeout.info?.members?.current ?? "N/A",
+				maxMembers: stakeout.info?.members?.maximum ?? "N/A",
+			}));
 	}
 
 	function getMembersLabel(row: FactionStakeoutRow) {
@@ -69,13 +69,13 @@
 		{#if factionStakeoutsOpen}
 			<div class="space-y-1">
 				{#each factionStakeoutRows as row (row.id)}
-					<div class="rounded-lg border bg-card p-2 text-xs">
+					<div class="bg-card rounded-lg border p-2 text-xs">
 						<div class="flex items-center gap-2">
 							<a
-									class="-m-1 grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-1 rounded-md p-1 hover:bg-muted/60"
-									href={`https://www.torn.com/factions.php?step=profile&ID=${row.id}#/`}
-									target="_blank"
-									rel="noreferrer"
+								class="hover:bg-muted/60 -m-1 grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-1 rounded-md p-1"
+								href={`https://www.torn.com/factions.php?step=profile&ID=${row.id}#/`}
+								target="_blank"
+								rel="noreferrer"
 							>
 								<span class="truncate font-medium">{row.name}</span>
 
@@ -86,7 +86,13 @@
 									<Badge variant="destructive" class="uppercase">destroyed</Badge>
 								{/if}
 							</a>
-							<Button variant="ghost" size="icon-xs" class="text-destructive" onclick={() => removeFactionStakeout(row.id)} aria-label="Remove faction stakeout">
+							<Button
+								variant="ghost"
+								size="icon-xs"
+								class="text-destructive"
+								onclick={() => removeFactionStakeout(row.id)}
+								aria-label="Remove faction stakeout"
+							>
 								<TrashIcon />
 							</Button>
 						</div>

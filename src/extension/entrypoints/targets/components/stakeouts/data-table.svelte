@@ -61,13 +61,13 @@
 			{
 				"py-1.5": columnId !== "notifications",
 				"py-2": columnId === "notifications",
-				"text-center": columnId === "id" || columnId === "remove"
+				"text-center": columnId === "id" || columnId === "remove",
 			},
 		]);
 	}
 </script>
 
-<div class="overflow-hidden rounded-lg border bg-card">
+<div class="bg-card overflow-hidden rounded-lg border">
 	<Table.Root>
 		<Table.Header class="bg-muted/60">
 			{#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
@@ -89,10 +89,13 @@
 					{#each tableRow.getVisibleCells() as cell (cell.id)}
 						<Table.Cell class={getCellClass(cell.column.id)}>
 							{#if cell.column.id === "id"}
-								<a class="hover:underline" href={`https://www.torn.com/profiles.php?XID=${row.id}`} target="_blank" rel="noreferrer">{row.id}</a>
+								<a class="hover:underline" href={`https://www.torn.com/profiles.php?XID=${row.id}`} target="_blank" rel="noreferrer">{row.id}</a
+								>
 							{:else if cell.column.id === "name"}
 								{#if row.info?.name}
-									<a class="hover:underline" href={`https://www.torn.com/profiles.php?XID=${row.id}`} target="_blank" rel="noreferrer">{row.info.name}</a>
+									<a class="hover:underline" href={`https://www.torn.com/profiles.php?XID=${row.id}`} target="_blank" rel="noreferrer"
+										>{row.info.name}</a
+									>
 								{:else}
 									<span class="text-muted-foreground">{row.isNew ? "Pending save" : "Unknown"}</span>
 								{/if}
@@ -112,19 +115,34 @@
 								{row.info?.last_action.relative ?? ""}
 							{:else if cell.column.id === "remove"}
 								<Button variant="ghost" size="icon" aria-label={`Remove ${row.id}`} onclick={() => onRemove(row.id)}>
-									<TrashIcon class="size-4 text-destructive" aria-hidden="true" />
+									<TrashIcon class="text-destructive size-4" aria-hidden="true" />
 								</Button>
 							{:else if cell.column.id === "notifications"}
 								<div class="grid grid-cols-2 gap-x-2 gap-y-0.5">
-									<AlertCheckbox id={`okay-${row.id}`} label="is okay" checked={row.alerts.okay} onchange={(value) => onBooleanAlertChange(row.id, "okay", value)} />
+									<AlertCheckbox
+										id={`okay-${row.id}`}
+										label="is okay"
+										checked={row.alerts.okay}
+										onchange={(value) => onBooleanAlertChange(row.id, "okay", value)}
+									/>
 									<AlertCheckbox
 										id={`hospital-${row.id}`}
 										label="is in hospital"
 										checked={row.alerts.hospital}
 										onchange={(value) => onBooleanAlertChange(row.id, "hospital", value)}
 									/>
-									<AlertCheckbox id={`flying-${row.id}`} label="is flying" checked={row.alerts.flying} onchange={(value) => onBooleanAlertChange(row.id, "flying", value)} />
-									<AlertCheckbox id={`landing-${row.id}`} label="lands" checked={row.alerts.landing} onchange={(value) => onBooleanAlertChange(row.id, "landing", value)} />
+									<AlertCheckbox
+										id={`flying-${row.id}`}
+										label="is flying"
+										checked={row.alerts.flying}
+										onchange={(value) => onBooleanAlertChange(row.id, "flying", value)}
+									/>
+									<AlertCheckbox
+										id={`landing-${row.id}`}
+										label="lands"
+										checked={row.alerts.landing}
+										onchange={(value) => onBooleanAlertChange(row.id, "landing", value)}
+									/>
 									<AlertCheckbox
 										id={`online-${row.id}`}
 										label="comes online"
@@ -134,8 +152,10 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>life drops below</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs with-number-wheel"
-											type="number" pattern="\d*" inputmode="numeric"
+											class="with-number-wheel h-5 w-12 px-1 text-xs"
+											type="number"
+											pattern="\d*"
+											inputmode="numeric"
 											min="1"
 											max="100"
 											value={row.alerts.life || ""}
@@ -146,8 +166,10 @@
 									<label class="flex items-center gap-1 text-xs">
 										<span>offline over</span>
 										<Input
-											class="h-5 w-12 px-1 text-xs with-number-wheel"
-											type="number" pattern="\d*" inputmode="numeric"
+											class="with-number-wheel h-5 w-12 px-1 text-xs"
+											type="number"
+											pattern="\d*"
+											inputmode="numeric"
 											min="1"
 											value={row.alerts.offline || ""}
 											oninput={(event) => onNumberAlertChange(row.id, "offline", event.currentTarget.value)}
@@ -167,7 +189,7 @@
 				</Table.Row>
 			{:else}
 				<Table.Row>
-					<Table.Cell colspan={columns.length} class="p-4 text-center text-muted-foreground">No stakeouts configured.</Table.Cell>
+					<Table.Cell colspan={columns.length} class="text-muted-foreground p-4 text-center">No stakeouts configured.</Table.Cell>
 				</Table.Row>
 			{/each}
 		</Table.Body>

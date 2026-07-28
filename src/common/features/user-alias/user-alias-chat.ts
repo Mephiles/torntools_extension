@@ -17,7 +17,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 	SELECTOR_CHAT_V3__MINIMIZED_NAME,
 } from "@common/utils/global/selectors/chatSelectors";
-
 import { Feature } from "@features/feature";
 import { getUserAliasById, getUserAliasByName } from "@features/user-alias/alias";
 

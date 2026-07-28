@@ -12,7 +12,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@common/utils/global/selectors/chatSelectors";
-
 import { Feature } from "@features/feature";
 
 function initialiseAutocomplete() {

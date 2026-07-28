@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {exposeDebugObjects} from "@common/utils/functions/pages-debug";
+	import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
 	import { initializeDatabaseStore, settingsStore } from "@extension/entrypoints/targets/stores/database-store.svelte";
 	import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 	import { Separator } from "@svelte/components/ui/separator";
@@ -41,44 +41,45 @@
 <Toaster richColors />
 
 <Tooltip.Provider>
-<div class="flex flex-col min-h-screen">
-	<header class="px-5 py-2 flex items-center justify-center gap-5">
-		<nav>
-			<ul class="flex gap-4">
-				{#each navigation as item (item.path)}
+	<div class="flex min-h-screen flex-col">
+		<header class="flex items-center justify-center gap-5 px-5 py-2">
+			<nav>
+				<ul class="flex gap-4">
+					{#each navigation as item (item.path)}
+						<li>
+							<a
+								use:link
+								use:active={{ path: item.path, className: "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-900" }}
+								href={item.path}
+								class="rounded px-2 py-1 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+							>
+								{item.name}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</nav>
+			<div class="h-6 w-px bg-gray-300 dark:bg-gray-600"></div>
+			<nav>
+				<ul class="flex gap-4">
 					<li>
-						<a use:link
-						   use:active={{path: item.path, className: "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-900"}}
-						   href={item.path}
-						   class="px-2 py-1 rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+						<a
+							href="/options.html"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="rounded px-2 py-1 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
 						>
-							{item.name}
+							Settings
 						</a>
 					</li>
-				{/each}
-			</ul>
-		</nav>
-		<div class="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
-		<nav>
-			<ul class="flex gap-4">
-				<li>
-					<a
-						href="/options.html"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="px-2 py-1 rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
-					>
-						Settings
-					</a>
-				</li>
-			</ul>
-		</nav>
-	</header>
+				</ul>
+			</nav>
+		</header>
 
-	<Separator class="bg-gray-300 dark:bg-gray-600" />
+		<Separator class="bg-gray-300 dark:bg-gray-600" />
 
-	<main class="p-8 max-w-6xl mx-auto w-full">
-		{@render children()}
-	</main>
-</div>
+		<main class="mx-auto w-full max-w-6xl p-8">
+			{@render children()}
+		</main>
+	</div>
 </Tooltip.Provider>

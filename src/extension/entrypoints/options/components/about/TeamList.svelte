@@ -15,12 +15,12 @@
 	}
 </script>
 
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-2 ">
+<div class="grid grid-cols-2 gap-2 lg:grid-cols-4">
 	{#each members as member (member.name)}
-		<div class="rounded-lg border border-border p-2">
+		<div class="border-border rounded-lg border p-2">
 			{#if member.torn !== null}
 				<a
-					class="text-lg text-primary font-bold underline-offset-2 hover:underline"
+					class="text-primary text-lg font-bold underline-offset-2 hover:underline"
 					href={`https://www.torn.com/profiles.php?XID=${member.torn}`}
 					target="_blank"
 					rel="noreferrer"
@@ -28,7 +28,7 @@
 					{member.name}
 				</a>
 			{:else}
-				<p class="text-lg text-primary font-bold">{member.name}</p>
+				<p class="text-primary text-lg font-bold">{member.name}</p>
 			{/if}
 
 			<p class="text-muted-foreground">{getTitle(member.title)}</p>
@@ -37,12 +37,7 @@
 			{#if member.donations?.length}
 				<div class="flex flex-col gap-0.5">
 					{#each member.donations as donation (donation.link)}
-						<a
-							class="underline-offset-1 hover:underline"
-							href={donation.link}
-							target="_blank"
-							rel="noreferrer"
-						>
+						<a class="underline-offset-1 hover:underline" href={donation.link} target="_blank" rel="noreferrer">
 							{donation.name}
 						</a>
 					{/each}

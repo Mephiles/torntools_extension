@@ -47,7 +47,7 @@
 			<PreferenceSettingGroup title="Hide Attack Options" contentClass="grid gap-1 grid-cols-2 sm:grid-cols-3">
 				{#each attackOptions as option (option.value)}
 					{@const id = `hidden-attack-option-${option.value}`}
-					<div class="rounded-md border border-border bg-background/60">
+					<div class="border-border bg-background/60 rounded-md border">
 						<Field.Field orientation="horizontal" class="p-2">
 							<Field.Content>
 								<Field.Label for={id} class="w-full">{option.label}</Field.Label>

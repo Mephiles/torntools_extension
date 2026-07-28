@@ -15,7 +15,6 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE_CONTENT,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 } from "@common/utils/global/selectors/chatSelectors";
-
 import { Feature } from "@features/feature";
 
 function initialiseSearchChat() {

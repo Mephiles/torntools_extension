@@ -15,16 +15,8 @@
 	<PreferenceSectionCard title="Delivery">
 		<div class="grid gap-1">
 			<StorageSwitch path="settings.notifications.types.global" label="Overall Notifications" />
-			<StorageSwitch
-				path="settings.notifications.link"
-				label="Open related page when clicking a notification"
-				disabled={notificationsDisabled}
-			/>
-			<StorageSwitch
-				path="settings.notifications.requireInteraction"
-				label="Keep notifications visible until clicked"
-				disabled={notificationsDisabled}
-			/>
+			<StorageSwitch path="settings.notifications.link" label="Open related page when clicking a notification" disabled={notificationsDisabled} />
+			<StorageSwitch path="settings.notifications.requireInteraction" label="Keep notifications visible until clicked" disabled={notificationsDisabled} />
 		</div>
 	</PreferenceSectionCard>
 
@@ -83,10 +75,7 @@
 				</StorageSwitch>
 			</PreferenceSettingGroup>
 
-			<PreferenceSettingGroup
-				title="Cooldowns"
-				contentClass="grid gap-1 md:grid-cols-2"
-			>
+			<PreferenceSettingGroup title="Cooldowns" contentClass="grid gap-1 md:grid-cols-2">
 				<StorageSwitch path="settings.notifications.types.cooldowns" label="Cooldowns" compact disabled={notificationsDisabled} class="md:col-span-2" />
 				<StorageSwitch path="settings.notifications.types.cooldownDrugEnabled" label="Drug cooldown" disabled={notificationsDisabled}>
 					<NotificationListInput

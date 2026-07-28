@@ -14,7 +14,6 @@ import {
 	SELECTOR_CHAT_V3__SEND_BUTTON,
 	SELECTOR_CHAT_V3__TRADE_CHAT,
 } from "@common/utils/global/selectors/chatSelectors";
-
 import { Feature } from "@features/feature";
 
 function initialise() {

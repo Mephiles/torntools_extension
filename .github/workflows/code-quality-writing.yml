@@ -26,11 +26,8 @@ jobs:
             - name: Install dependencies
               run: bun install --frozen-lockfile
 
-            - name: Setup Biome
-              uses: biomejs/setup-biome@v2
-
-            - name: Run Biome with write
-              run: biome check --write
+            - name: Run Oxfmt + Oxlint with fixes
+              run: bun oxfmt && bun oxlint --fix
 
             - name: Add & Commit
               uses: EndBug/add-and-commit@v10

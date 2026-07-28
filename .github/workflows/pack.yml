@@ -49,9 +49,6 @@ jobs:
 
             - uses: oven-sh/setup-bun@v2
 
-            - name: Setup Biome
-              uses: biomejs/setup-biome@v2
-
             - name: Prepare release metadata
               run: |
                   set -euo pipefail
@@ -109,8 +106,8 @@ jobs:
                   bun tools/release-messages/release-forums.ts
                   bun tools/release-messages/release-discord.ts
 
-            - name: Run Biome with write
-              run: biome check --write
+            - name: Run Oxfmt
+              run: bun oxfmt
 
             - name: Install dependencies
               run: bun install --frozen-lockfile
@@ -214,9 +211,9 @@ jobs:
                   ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | jq --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
                   awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
 
-            - name: Run Biome with write
+            - name: Run Oxfmt
               if: ${{ inputs.commit_beta_changes }}
-              run: biome check --write
+              run: bun oxfmt
 
             - name: Add & Commit
               uses: EndBug/add-and-commit@v10

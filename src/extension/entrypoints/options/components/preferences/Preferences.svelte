@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { replace, router } from "svelte-spa-router";
+	import { getPreferenceSections, resolvePreferenceRoute } from "./preferences";
 	import PreferencesContent from "./PreferencesContent.svelte";
 	import PreferencesNavigation from "./PreferencesNavigation.svelte";
 	import PreferencesSectionNavigation from "./PreferencesSectionNavigation.svelte";
-	import { getPreferenceSections, resolvePreferenceRoute } from "./preferences";
 
 	const routeParts = $derived(getRouteParts(router.location));
 	const resolvedRoute = $derived(resolvePreferenceRoute(routeParts.group, routeParts.section));

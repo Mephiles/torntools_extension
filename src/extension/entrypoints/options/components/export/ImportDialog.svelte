@@ -26,9 +26,9 @@
 		<div class="space-y-3">
 			{@render extraInput?.()}
 
-			<div class="rounded-lg border border-border bg-muted/30 p-3 text-sm">
+			<div class="border-border bg-muted/30 rounded-lg border p-3 text-sm">
 				<h3 class="font-medium">Following items will be overwritten:</h3>
-				<ul class="mt-2 list-disc space-y-0.5 pl-5 text-muted-foreground">
+				<ul class="text-muted-foreground mt-2 list-disc space-y-0.5 pl-5">
 					<li>Version notice</li>
 					<li>Preferences</li>
 					<li>Filters and sorting</li>

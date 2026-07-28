@@ -41,7 +41,7 @@
 
 	<PreferenceSectionCard title="Item Market">
 		<PreferenceSettingGroup>
-			<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+			<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 				<Field.Content>
 					<Field.Label for="financial-itemmarket-highlight-cheap-items">Highlight items below value</Field.Label>
 					<Field.Description class="text-xs">Percentage below item value. Leave empty to disable the threshold.</Field.Description>
@@ -49,7 +49,9 @@
 
 				<Input
 					id="financial-itemmarket-highlight-cheap-items"
-					type="number" pattern="\d*" inputmode="numeric"
+					type="number"
+					pattern="\d*"
+					inputmode="numeric"
 					class="with-number-wheel"
 					min="0"
 					max="100"

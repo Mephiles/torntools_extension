@@ -2,7 +2,7 @@
 	import { Button } from "@svelte/components/ui/button";
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDownIcon";
 	import CaretRightIcon from "phosphor-svelte/lib/CaretRightIcon";
-	import type {Snippet} from "svelte";
+	import type { Snippet } from "svelte";
 
 	interface StockSectionProps {
 		label: string;
@@ -13,7 +13,7 @@
 	let isOpen = $state(false);
 </script>
 
-<Button variant="ghost" size="sm" class="h-7 w-full justify-between px-2" onclick={() => isOpen = !isOpen}>
+<Button variant="ghost" size="sm" class="h-7 w-full justify-between px-2" onclick={() => (isOpen = !isOpen)}>
 	{label}
 	{#if isOpen}
 		<CaretDownIcon size={14} />

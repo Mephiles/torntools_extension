@@ -10,7 +10,6 @@
 		<StorageSwitch path="settings.pages.trade.openChat" label="Chat button in trades" />
 	</PreferenceSectionCard>
 
-
 	<PreferenceSectionCard title="No Confirm">
 		<PreferenceSettingGroup>
 			<StorageSwitch path="settings.scripts.noConfirm.itemEquip" label="Equipping items" />

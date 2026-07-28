@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { formatNumber } from "@common/utils/functions/formatting";
-	import {
-		getRequiredStocks,
-		getRewardValue,
-		getStockIncrement,
-		getStockReward,
-	} from "@common/utils/functions/torn";
+	import { getRequiredStocks, getRewardValue, getStockIncrement, getStockReward } from "@common/utils/functions/torn";
 	import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@svelte/components/ui/table";
 	import type { TornStock, UserStock } from "tornapi-typescript";
 

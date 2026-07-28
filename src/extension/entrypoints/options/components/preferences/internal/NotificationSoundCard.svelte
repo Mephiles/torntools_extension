@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {isSpeechSynthesisAvailable} from "@common/utils/functions/utilities";
+	import { isSpeechSynthesisAvailable } from "@common/utils/functions/utilities";
 	import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Field from "@svelte/components/ui/field";
@@ -35,22 +35,17 @@
 		voices = [
 			{ value: "default", label: "System Default" },
 			...(isSpeechSynthesisAvailable()
-							? window.speechSynthesis.getVoices().map((voice) => ({
-								value: `${voice.name} (${voice.lang})`,
-								label: `${voice.name} (${voice.lang})`,
-							}))
-							: []
-			),
+				? window.speechSynthesis.getVoices().map((voice) => ({
+						value: `${voice.name} (${voice.lang})`,
+						label: `${voice.name} (${voice.lang})`,
+					}))
+				: []),
 		];
 	}
 
 	async function playNotificationSound() {
 		await BACKGROUND_SERVICE.stopNotificationSound();
-		await BACKGROUND_SERVICE.playNotificationSound(
-			$settingsStore.notifications.sound,
-			$settingsStore.notifications.volume,
-			false,
-		);
+		await BACKGROUND_SERVICE.playNotificationSound($settingsStore.notifications.sound, $settingsStore.notifications.volume, false);
 	}
 
 	function updateVolume(value: number | number[]) {
@@ -99,8 +94,8 @@
 </script>
 
 <PreferenceSectionCard title="Sound">
-	<div class="grid gap-1 grid-cols-2">
-		<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+	<div class="grid grid-cols-2 gap-1">
+		<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 			<Field.Content>
 				<Field.Label>Sound effect</Field.Label>
 				<Field.Description class="text-xs">Mute and OS default might not work in all browsers.</Field.Description>
@@ -115,7 +110,7 @@
 		</Field.Field>
 
 		{#if $settingsStore.notifications.sound === "custom"}
-			<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+			<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 				<Field.Content>
 					<Field.Label for="notification-custom-sound">Custom sound</Field.Label>
 					{#if $settingsStore.notifications.soundCustom}
@@ -123,32 +118,20 @@
 					{/if}
 				</Field.Content>
 
-				<Input
-					id="notification-custom-sound"
-					type="file"
-					accept=".mp3,.ogg,.wav"
-					onchange={uploadCustomSound}
-				/>
+				<Input id="notification-custom-sound" type="file" accept=".mp3,.ogg,.wav" onchange={uploadCustomSound} />
 			</Field.Field>
 		{/if}
 
 		{#if showPlayback}
-			<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2 col-span-2">
+			<Field.Field orientation="responsive" class="border-border bg-background/60 col-span-2 rounded-md border p-2">
 				<Field.Content>
 					<Field.Label>Volume</Field.Label>
 					<Field.Description class="text-xs">{$settingsStore.notifications.volume}%</Field.Description>
 				</Field.Content>
 
 				<div class="grid gap-2">
-					<Slider
-						type="single"
-						value={$settingsStore.notifications.volume}
-						min={1}
-						max={100}
-						step={1}
-						onValueChange={updateVolume}
-					/>
-					<div class="flex gap-1.5 justify-end">
+					<Slider type="single" value={$settingsStore.notifications.volume} min={1} max={100} step={1} onValueChange={updateVolume} />
+					<div class="flex justify-end gap-1.5">
 						<Button type="button" size="xs" variant="outline" onclick={() => void playNotificationSound()}>
 							<PlayIcon />
 							Play
@@ -172,7 +155,7 @@
 					step={0.1}
 					disabled={$settingsStore.notifications.tts}
 				/>
-				<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+				<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 					<Field.Content>
 						<Field.Label>TTS voice</Field.Label>
 					</Field.Content>
@@ -186,6 +169,5 @@
 				</Field.Field>
 			</div>
 		</StorageSwitch>
-
 	</div>
 </PreferenceSectionCard>

@@ -1,14 +1,12 @@
 <script lang="ts">
-	import {ENABLE_PLAYGROUND_TORNTOOLS} from "@common/utils/feature-toggles";
+	import { ENABLE_PLAYGROUND_TORNTOOLS } from "@common/utils/feature-toggles";
 	import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import ExternalServiceCard from "./ExternalServiceCard.svelte";
 </script>
 
 <div class="space-y-2">
-	<PreferenceSectionCard>
-		By enabling these services, you agree to the usage of these services as they are provided.
-	</PreferenceSectionCard>
+	<PreferenceSectionCard>By enabling these services, you agree to the usage of these services as they are provided.</PreferenceSectionCard>
 
 	<ExternalServiceCard
 		title="TornStats"
@@ -101,7 +99,7 @@
 			origin={FETCH_PLATFORMS.playground_torntools}
 			links={[
 				{ label: "Website", href: "https://torntools.tornplayground.eu" },
-				{ label: "Terms of Service", href:  "https://torntools.tornplayground.eu/tos" },
+				{ label: "Terms of Service", href: "https://torntools.tornplayground.eu/tos" },
 			]}
 		/>
 	{/if}

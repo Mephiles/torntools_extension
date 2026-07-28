@@ -164,7 +164,7 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 	}
 }
 
-// biome-ignore lint/correctness/noUnusedFunctionParameters: Might only be temporary unused.
+// oxlint-disable-next-line no-unused-vars — might only be temporary unused
 export async function migrateDatabase(force = false): Promise<void> {
 	try {
 		const loadedStorage = await ttStorage.get();

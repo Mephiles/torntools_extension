@@ -1,13 +1,13 @@
 <script lang="ts">
+	import type { BooleanPreferenceStoragePath } from "../preference-storage";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
-	import type { BooleanPreferenceStoragePath } from "../preference-storage";
 	import StorageNumber from "../StorageNumber.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
 	import StorageText from "../StorageText.svelte";
 	import ApiKeyCard from "./ApiKeyCard.svelte";
 
-	const userSelections: { path: BooleanPreferenceStoragePath, label: string }[] = [
+	const userSelections: { path: BooleanPreferenceStoragePath; label: string }[] = [
 		{ path: "settings.apiUsage.user.bars", label: "Bars" },
 		{ path: "settings.apiUsage.user.cooldowns", label: "Cooldowns" },
 		{ path: "settings.apiUsage.user.travel", label: "Travel" },

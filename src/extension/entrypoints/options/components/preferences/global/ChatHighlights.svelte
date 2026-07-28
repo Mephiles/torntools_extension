@@ -10,14 +10,11 @@
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 
 	async function updateHighlights(newHighlights: SavedHighlight[]) {
-		await ttStorage.change({ settings: { pages: {chat: { highlights: newHighlights } } } });
+		await ttStorage.change({ settings: { pages: { chat: { highlights: newHighlights } } } });
 	}
 
 	function addHighlight() {
-		void updateHighlights([
-			...$settingsStore.pages.chat.highlights,
-			{ name: "", color: "#7ca900" } satisfies SavedHighlight,
-		]);
+		void updateHighlights([...$settingsStore.pages.chat.highlights, { name: "", color: "#7ca900" } satisfies SavedHighlight]);
 	}
 
 	function updateHighlight(index: number, newHighlight: SavedHighlight) {
@@ -45,10 +42,10 @@
 		</Button>
 	{/snippet}
 
-	<div class="p-2 text-muted-foreground text-xs">
+	<div class="text-muted-foreground p-2 text-xs">
 		Placeholders:
 
-		<ul class="pl-4 list-disc">
+		<ul class="list-disc pl-4">
 			{#each HIGHLIGHT_PLACEHOLDERS as placeholder, index (index)}
 				<li>{placeholder.name}: {placeholder.description}</li>
 			{/each}
@@ -58,7 +55,7 @@
 	{#if $settingsStore.pages.chat.highlights.length}
 		<div class="space-y-1">
 			{#each $settingsStore.pages.chat.highlights as highlight, index (index)}
-				<div class="rounded-md border border-border bg-background/60 p-2">
+				<div class="border-border bg-background/60 rounded-md border p-2">
 					<div class="grid gap-2 md:grid-cols-[1fr_40px_28px]">
 						<Input
 							value={highlight.name}
@@ -83,9 +80,6 @@
 			{/each}
 		</div>
 	{:else}
-		<p class="rounded-md border border-dashed border-border p-2 text-center text-muted-foreground">
-			No highlights configured.
-		</p>
+		<p class="border-border text-muted-foreground rounded-md border border-dashed p-2 text-center">No highlights configured.</p>
 	{/if}
-
 </PreferenceSectionCard>

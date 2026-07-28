@@ -3,9 +3,9 @@
 	import TeamList from "./TeamList.svelte";
 </script>
 
-<section class="rounded-lg border border-border bg-card py-2 px-3">
+<section class="border-border bg-card rounded-lg border px-3 py-2">
 	<h2 class="text-lg font-bold">Team</h2>
-	<p class="text-sm text-muted-foreground">
+	<p class="text-muted-foreground text-sm">
 		TornTools is free to use but if you feel like giving back to the developers then feel free to donate in-game or via one of the donation links.
 	</p>
 
@@ -13,7 +13,8 @@
 		<TeamList members={TEAM.filter((member) => member.core)} />
 	</div>
 
-	<p class="text-sm text-muted-foreground">
-		and everyone else who contributed to our codebase, helped us beta-test, provided feedback, suggestions and bug reports, or just generally helped out in the Discord.
+	<p class="text-muted-foreground text-sm">
+		and everyone else who contributed to our codebase, helped us beta-test, provided feedback, suggestions and bug reports, or just generally helped out in
+		the Discord.
 	</p>
 </section>

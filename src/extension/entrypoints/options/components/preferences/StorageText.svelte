@@ -11,12 +11,7 @@
 		id?: string;
 	}
 
-	let {
-		path,
-		label,
-		description,
-		id = path.replaceAll(".", "-"),
-	}: StorageTextProps = $props();
+	let { path, label, description, id = path.replaceAll(".", "-") }: StorageTextProps = $props();
 
 	const storageSource = $derived({ settings: $settingsStore, api: $apiStore });
 	const value = $derived(String(getPreferenceValue(storageSource, path) ?? ""));
@@ -26,7 +21,7 @@
 	}
 </script>
 
-<Field.Field orientation="responsive" class="rounded-md border border-border bg-background/60 p-2">
+<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 	<Field.Content>
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
@@ -34,10 +29,5 @@
 		{/if}
 	</Field.Content>
 
-	<Input
-		{id}
-		type="text"
-		{value}
-		oninput={(event) => updateValue(event.currentTarget.value)}
-	/>
+	<Input {id} type="text" {value} oninput={(event) => updateValue(event.currentTarget.value)} />
 </Field.Field>
