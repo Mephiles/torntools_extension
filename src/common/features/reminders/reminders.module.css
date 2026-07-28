@@ -30,7 +30,7 @@
 		color: var(--tt-color-green);
 	}
 
-	&a {
+	a& {
 		cursor: pointer;
 		text-decoration: none;
 	}
