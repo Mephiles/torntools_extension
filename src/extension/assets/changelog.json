@@ -13,7 +13,8 @@
 				{ "message": "Avoid an error when clicking in specific places while on the abroad item page", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve the 'Userlist Filter' hiding all players when any 'Hosp Reason' is set to no.", "contributor": "Ech01337" },
 				{ "message": "Fix South Africa not switching the travel table country.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix a minor typo in the settings.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix a minor typo in the settings.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't hide the buying prompt in the 'Abroad Items Filter'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Minor changes to the reload buttons from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" },

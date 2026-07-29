@@ -259,7 +259,7 @@ export interface FilterSectionDef<V> {
 	readonly priority?: number;
 	/** When true, if this section's test returns true the row skips all remaining filter checks. */
 	readonly isExemption?: boolean;
-	build(onChange: () => void): SectionBuildResult<V>;
+	build?(onChange: () => void): SectionBuildResult<V>;
 	test(row: HTMLElement, value: V): boolean;
 	/** Return false to hide this section from the UI. Re-evaluated on each reRender. */
 	enabled?: () => boolean;
@@ -459,6 +459,16 @@ export function textSection(options: TextSectionOptions): FilterSectionDef<strin
 			return { element: textbox.element, getValue: () => textbox.getValue() };
 		},
 		test,
+	};
+}
+
+export function selectorExemption(options: { key: string; selector: string; priority?: number }): FilterSectionDef<true> {
+	return {
+		key: options.key,
+		title: "",
+		isExemption: true,
+		priority: options.priority ?? 0,
+		test: (row) => !!row.querySelector(options.selector),
 	};
 }
 
@@ -886,28 +896,28 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 	function addSection(section: FilterSectionDef<unknown>): void {
 		const trigger = () => run();
-		const built = section.build(trigger);
+		const built = section.build?.(trigger);
 		const isHeader = section.placement === "header";
 
-		const wrapper = elementBuilder({
-			type: "div",
-			children: [!isHeader && section.title ? elementBuilder({ type: "strong", text: section.title }) : null, built.element],
-		});
+		if (built) {
+			const wrapper = elementBuilder({
+				type: "div",
+				children: [!isHeader && section.title ? elementBuilder({ type: "strong", text: section.title }) : null, built.element],
+			});
 
-		if (isHeader) {
-			headerOptions.appendChild(wrapper);
-		} else {
-			sectionWrapper.appendChild(wrapper);
+			if (isHeader) headerOptions.appendChild(wrapper);
+			else sectionWrapper.appendChild(wrapper);
+
+			wrapperMap.set(section.key, wrapper);
 		}
-		wrapperMap.set(section.key, wrapper);
 
 		sections.push({
 			key: section.key,
 			priority: section.priority ?? DEFAULT_PRIORITY,
 			isExemption: section.isExemption,
-			getValue: built.getValue.bind(built),
+			getValue: built?.getValue.bind(built) ?? (() => true),
 			test: section.test,
-			onBeforeFilter: built.onBeforeFilter?.bind(built),
+			onBeforeFilter: built?.onBeforeFilter?.bind(built),
 		});
 	}
 
@@ -925,7 +935,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	}
 
 	function rerenderSections(): void {
-		Array.from(wrapperMap.keys()).forEach(removeSection);
+		sections.slice().forEach((s) => removeSection(s.key));
 
 		sectionDefs.filter((def) => !def.enabled || def.enabled()).forEach(addSection);
 

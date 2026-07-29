@@ -2,7 +2,7 @@ import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
 import { FEATURE_MANAGER, RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { checkboxesSection, checkboxSection, createFilter, type FilterController } from "@common/utils/functions/filters";
+import { checkboxesSection, checkboxSection, createFilter, selectorExemption, type FilterController } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@common/utils/functions/torn";
@@ -46,6 +46,8 @@ async function addFilterContainer() {
 	await markTravelTableColumns();
 
 	const sections = [
+		selectorExemption({ key: "boughtItems", selector: "[class*='buyPanel___']" }),
+
 		checkboxSection({
 			key: "profitOnly",
 			title: "Profit",
