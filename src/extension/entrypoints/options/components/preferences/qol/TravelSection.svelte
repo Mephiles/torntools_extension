@@ -62,6 +62,7 @@
 			<StorageSwitch path="settings.pages.travel.efficientRehab" label="Efficiently rehab to not waste any natural decay">
 				<StorageSwitch path="settings.pages.travel.efficientRehabSelect" label="Automatically set the slider to the current amount" />
 			</StorageSwitch>
+			<StorageSwitch path="settings.pages.travel.fastHunting" label="Faster hunting" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 </div>

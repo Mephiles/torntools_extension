@@ -89,6 +89,7 @@ import FactionOCTimeFeature from "@features/faction-oc-time/faction-oc-time";
 import FactionQuickItemsFeature from "@features/faction-quick-items/faction-quick-items";
 import FactionStakeoutsFeature from "@features/faction-stakeouts/faction-stakeouts";
 import FairAttackFeature from "@features/fair-attack/fair-attack";
+import FastHuntingFeature from "@features/fast-hunting/fast-hunting.ts";
 import FFScouterAttackFeature from "@features/ff-scouter/ff-scouter-attack";
 import FFScouterFactionFeature from "@features/ff-scouter/ff-scouter-faction";
 import FFScouterGaugeFeature from "@features/ff-scouter/ff-scouter-gauge";
@@ -543,6 +544,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new StatsEstimateHOFFeature());
 	} else if (page === "messages") {
 		FEATURE_MANAGER.registerFeature(new CreatorMessagesFeature());
+	} else if (page === "hunting") {
+		FEATURE_MANAGER.registerFeature(new FastHuntingFeature());
 	}
 
 	if (isPageWithDrugItems(page)) {

@@ -1,0 +1,12 @@
+.fast-hunting :global(.hunt-result-wrap[style]) {
+	display: flex !important;
+	flex-direction: column;
+
+	:global(.hunt-again) {
+		order: 2;
+	}
+
+	:global(.kill-list) {
+		order: 3;
+	}
+}

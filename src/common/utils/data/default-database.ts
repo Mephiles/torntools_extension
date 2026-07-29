@@ -320,6 +320,7 @@ export const DEFAULT_STORAGE = {
 				efficientRehab: new DefaultSetting("boolean", true),
 				efficientRehabSelect: new DefaultSetting("boolean", false),
 				hideInventoryButton: new DefaultSetting("boolean", true),
+				fastHunting: new DefaultSetting("boolean", true),
 			},
 			stocks: {
 				filter: new DefaultSetting("boolean", true),
