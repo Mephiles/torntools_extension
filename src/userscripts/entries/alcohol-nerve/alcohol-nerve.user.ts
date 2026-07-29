@@ -7,7 +7,6 @@ import type { UserV1PerksResponse } from "@common/utils/functions/api-v1.types";
 import { BACKUP_CALENDAR_2026 } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import AlcoholNerveFeature from "@features/alcohol-nerve/alcohol-nerve";
-import type { Feature } from "@features/feature";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";
@@ -29,8 +28,7 @@ import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 	setupItemPage();
 
-	const feature: Feature = new AlcoholNerveFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new AlcoholNerveFeature());
 })();
 
 async function fetchUserPerks(key: string) {

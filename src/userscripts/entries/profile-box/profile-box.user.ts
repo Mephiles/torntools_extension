@@ -34,8 +34,7 @@ import type { UserPersonalStatsFull, UserWorkStatsResponse } from "tornapi-types
 		},
 	});
 
-	const feature = new ProfileBoxFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new ProfileBoxFeature());
 })();
 
 async function fetchProfileUserdata(key: string) {

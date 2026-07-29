@@ -4,7 +4,6 @@ import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { TornV1BankResponse } from "@common/utils/functions/api-v1.types";
 import { millisToNewDay } from "@common/utils/functions/torn";
 import BankInvestmentInfoFeature from "@features/bank-investment-info/bank-investment-info";
-import type { Feature } from "@features/feature";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
@@ -19,8 +18,7 @@ import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 
 	await preFetchBankData(key);
 
-	const feature: Feature = new BankInvestmentInfoFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new BankInvestmentInfoFeature());
 })();
 
 async function preFetchBankData(key: string) {

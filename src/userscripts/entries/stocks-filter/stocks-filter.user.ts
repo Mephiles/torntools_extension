@@ -20,8 +20,7 @@ import type { TornStocksResponse, UserStocksResponse } from "tornapi-typescript"
 
 	await ttStorage.change({ api: { torn: { key } } });
 
-	const feature = new StocksFilterFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new StocksFilterFeature());
 })();
 
 async function fetchUserStocks(key: string) {

@@ -6,7 +6,6 @@ import { setupTravelHomePage } from "@common/pages/travel-home-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { getPage } from "@common/utils/functions/torn";
 import DrugDetailsFeature from "@features/drug-details/drug-details";
-import type { Feature } from "@features/feature";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";
@@ -22,8 +21,7 @@ import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 	await setupActivePage();
 
-	const feature: Feature = new DrugDetailsFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new DrugDetailsFeature());
 })();
 
 async function setupActivePage() {

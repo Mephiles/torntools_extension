@@ -4,7 +4,6 @@ import { setUserdata, userdata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { UserV1NetworthResponse } from "@common/utils/functions/api-v1.types";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import type { Feature } from "@features/feature";
 import LiveNetworthFeature from "@features/live-networth/live-networth";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
@@ -21,8 +20,7 @@ import type { UserPersonalStatsFull } from "tornapi-typescript";
 
 	await fetchLiveNetworthData(key);
 
-	const feature: Feature = new LiveNetworthFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new LiveNetworthFeature());
 })();
 
 async function fetchLiveNetworthData(key: string) {

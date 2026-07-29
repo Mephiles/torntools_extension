@@ -3,7 +3,6 @@ import { ttCache } from "@common/utils/data/cache";
 import { setUserdata, userdata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import type { Feature } from "@features/feature";
 import WeaponExperienceFeature from "@features/weapon-experience/weapon-experience";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
@@ -20,8 +19,7 @@ import type { UserWeaponExpResponse } from "tornapi-typescript";
 
 	await fetchWeaponExperienceData(key);
 
-	const feature: Feature = new WeaponExperienceFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new WeaponExperienceFeature());
 })();
 
 async function fetchWeaponExperienceData(key: string) {

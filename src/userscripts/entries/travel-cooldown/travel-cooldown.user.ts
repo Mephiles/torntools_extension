@@ -5,7 +5,6 @@ import { setTorndata, setUserdata, torndata, userdata } from "@common/utils/data
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { isAbroad, isFlying } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import type { Feature } from "@features/feature";
 import TravelCooldownsFeature from "@features/travel-cooldowns/travel-cooldowns";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
@@ -26,8 +25,7 @@ import type { TornEducationResponse, UserBarsResponse, UserCooldownsResponse, Us
 
 	await Promise.all([fetchUserdataData(key), fetchTornEducation(key), setupTravelHomePage()]);
 
-	const feature: Feature = new TravelCooldownsFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new TravelCooldownsFeature());
 })();
 
 async function fetchUserdataData(key: string) {

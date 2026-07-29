@@ -4,7 +4,6 @@ import { type DatabaseUserdata, setUserdata, userdata } from "@common/utils/data
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import EfficientRehabFeature from "@features/efficient-rehab/efficient-rehab";
-import type { Feature } from "@features/feature";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";
@@ -22,8 +21,7 @@ import type { PersonalStatsDrugs } from "tornapi-typescript";
 
 	await Promise.all([fetchUserRehabAmount(key), ttStorage.change({ settings: { pages: { travel: { efficientRehabSelect: true } } } })]);
 
-	const feature: Feature = new EfficientRehabFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new EfficientRehabFeature());
 })();
 
 async function fetchUserRehabAmount(key: string) {

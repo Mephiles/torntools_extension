@@ -3,7 +3,6 @@ import { setupItemPage } from "@common/pages/item-page";
 import { setupTradePage } from "@common/pages/trade-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { getPage } from "@common/utils/functions/torn";
-import type { Feature } from "@features/feature";
 import ItemValuesFeature from "@features/item-values/item-values";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
@@ -20,8 +19,7 @@ import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
 
 	await setupActivePage();
 
-	const feature: Feature = new ItemValuesFeature();
-	FEATURE_MANAGER.registerFeature(feature);
+	FEATURE_MANAGER.registerFeature(new ItemValuesFeature());
 })();
 
 async function setupActivePage() {
