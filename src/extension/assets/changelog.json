@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 1, "build": 1 },
+		"version": { "major": 9, "minor": 1, "build": 2 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 1, "build": 1 },
+		"date": "2026/07/29",
 		"logs": {
 			"features": [
 				{ "message": "Request revives from 'Asclepius' for $1M.", "contributor": "DeKleineKobini" },
@@ -27,7 +32,6 @@
 				},
 				{ "message": "Make it possible to still export as much data as possible when your database is corrupted.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [
 				{ "message": "Wrap event details in specific circumstances to bypass Firefox issues.", "contributor": "DeKleineKobini" },
 				{ "message": "Reuse the audio object in the offscreen document, with the aim to improve memory usage.", "contributor": "DeKleineKobini" },
