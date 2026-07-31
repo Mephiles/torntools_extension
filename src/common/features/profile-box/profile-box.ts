@@ -551,7 +551,18 @@ async function showBox() {
 					id,
 					order: Date.now(),
 					info: readStakeoutDataFromProfilePage(),
-					alerts: { okay: false, hospital: false, flying: false, landing: false, online: false, life: false, offline: false, revivable: false },
+					alerts: {
+						okay: false,
+						hospital: false,
+						flying: false,
+						landing: false,
+						online: false,
+						idle: false,
+						goesOffline: false,
+						life: false,
+						offline: false,
+						revivable: false,
+					},
 					label: "",
 				});
 				ttStorage.set({ stakeouts });
@@ -621,6 +632,24 @@ async function showBox() {
 			ttStorage.set({ stakeouts });
 		});
 
+		const becomesIdle = createCheckbox({ description: "becomes idle" });
+		becomesIdle.onChange(() => {
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
+
+			entry.alerts.idle = becomesIdle.isChecked();
+			ttStorage.set({ stakeouts });
+		});
+
+		const goesOffline = createCheckbox({ description: "goes offline" });
+		goesOffline.onChange(() => {
+			const entry = stakeouts.list.find((e) => e.id === id);
+			if (!entry) return;
+
+			entry.alerts.goesOffline = goesOffline.isChecked();
+			ttStorage.set({ stakeouts });
+		});
+
 		const lifeDrops = createTextbox({ description: { before: "life drops below", after: "%" }, type: "number", attributes: { min: "1", max: "100" } });
 		lifeDrops.onChange(() => {
 			const entry = stakeouts.list.find((e) => e.id === id);
@@ -658,6 +687,8 @@ async function showBox() {
 				flying.element,
 				lands.element,
 				comesOnline.element,
+				becomesIdle.element,
+				goesOffline.element,
 				lifeDrops.element,
 				offlineFor.element,
 				isRevivable.element,
@@ -671,6 +702,8 @@ async function showBox() {
 			flying.setChecked(existingStakeout.alerts.flying);
 			lands.setChecked(existingStakeout.alerts.landing);
 			comesOnline.setChecked(existingStakeout.alerts.online);
+			becomesIdle.setChecked(existingStakeout.alerts.idle);
+			goesOffline.setChecked(existingStakeout.alerts.goesOffline);
 			lifeDrops.setValue(existingStakeout.alerts.life === false ? "" : String(existingStakeout.alerts.life));
 			offlineFor.setValue(existingStakeout.alerts.offline === false ? "" : String(existingStakeout.alerts.offline));
 			isRevivable.setChecked(existingStakeout.alerts.revivable);

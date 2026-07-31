@@ -1072,6 +1072,8 @@ export type StakeoutData = {
 		flying: boolean;
 		landing: boolean;
 		online: boolean;
+		idle: boolean;
+		goesOffline: boolean;
 		life: number | false;
 		offline: number | false;
 		revivable: boolean;

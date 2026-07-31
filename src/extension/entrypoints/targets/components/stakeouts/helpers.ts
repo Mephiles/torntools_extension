@@ -35,6 +35,8 @@ export function getAlerts(alerts?: Partial<StakeoutAlerts>): StakeoutAlerts {
 		flying: alerts?.flying,
 		landing: alerts?.landing,
 		online: alerts?.online,
+		idle: alerts?.idle,
+		goesOffline: alerts?.goesOffline,
 		life: alerts?.life,
 		offline: typeof alerts?.offline === "number" ? alerts.offline : false,
 		revivable: Boolean(alerts?.revivable),

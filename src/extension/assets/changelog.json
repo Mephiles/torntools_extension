@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Stakeout users on idle and offline status.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{
 					"message": "Resolve an issue with 'Efficient Rehab' on Firefox not selecting the amount of recommended ticks.",

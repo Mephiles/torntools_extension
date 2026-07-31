@@ -149,6 +149,18 @@
 										checked={row.alerts.online}
 										onchange={(value) => onBooleanAlertChange(row.id, "online", value)}
 									/>
+									<AlertCheckbox
+										id={`idle-${row.id}`}
+										label="becomes idle"
+										checked={row.alerts.idle}
+										onchange={(value) => onBooleanAlertChange(row.id, "idle", value)}
+									/>
+									<AlertCheckbox
+										id={`offline-${row.id}`}
+										label="goes offline"
+										checked={row.alerts.goesOffline}
+										onchange={(value) => onBooleanAlertChange(row.id, "goesOffline", value)}
+									/>
 									<label class="flex items-center gap-1 text-xs">
 										<span>life drops below</span>
 										<Input

@@ -42,7 +42,7 @@ export async function updateStakeouts(forceUpdate = false) {
 
 		if (stakeout.alerts) {
 			const { label } = stakeout;
-			const { okay, hospital, flying, landing, online, life, offline, revivable } = stakeout.alerts;
+			const { okay, hospital, flying, landing, online, idle, goesOffline, life, offline, revivable } = stakeout.alerts;
 
 			if (okay) {
 				const key = `${id}_okay`;
@@ -143,6 +143,46 @@ export async function updateStakeouts(forceUpdate = false) {
 						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
 					}
 				} else if (data.profile.last_action.status !== "Online") {
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
+				}
+			}
+			if (idle) {
+				const key = `${id}_idle`;
+				if (
+					data.profile.last_action.status === "Idle" &&
+					(!oldData || oldData.last_action.status !== data.profile.last_action.status) &&
+					!notifications.stakeouts[key]
+				) {
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
+							"Stakeouts",
+							label ? `${data.profile.name} (${label}) has gone idle.` : `${data.profile.name} has gone idle.`,
+							`https://www.torn.com/profiles.php?XID=${id}`,
+						);
+						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
+					}
+				} else if (data.profile.last_action.status !== "Idle") {
+					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
+				}
+			}
+			if (goesOffline) {
+				const key = `${id}_offline_state`;
+				if (
+					data.profile.last_action.status === "Offline" &&
+					(!oldData || oldData.last_action.status !== data.profile.last_action.status) &&
+					!notifications.stakeouts[key]
+				) {
+					if (settings.notifications.types.global) {
+						const notification = newNotification(
+							"Stakeouts",
+							label ? `${data.profile.name} (${label}) went offline.` : `${data.profile.name} went offline.`,
+							`https://www.torn.com/profiles.php?XID=${id}`,
+						);
+						await dispatchNotification(notification);
+						await ttStorage.change({ notifications: { stakeouts: { [key]: notification } } });
+					}
+				} else if (data.profile.last_action.status !== "Offline") {
 					await ttStorage.update("notifications", (notifications) => delete notifications.stakeouts[key]);
 				}
 			}
