@@ -1,3 +1,4 @@
+import { isCustomEvent } from "@common/utils/functions/dom.ts";
 import { type CustomEventListener, EVENT_CHANNELS, type EventHandler, type EventPayloads } from "@common/utils/functions/events";
 
 const CUSTOM_LISTENERS: { [K in keyof EventPayloads]: CustomEventListener<K>[] } = (() => {
@@ -19,5 +20,19 @@ export const ExtensionEventHandler: EventHandler = {
 
 	registerListener<T extends keyof EventPayloads>(channel: T, listener: CustomEventListener<T>) {
 		CUSTOM_LISTENERS[channel].push(listener);
+	},
+
+	triggerEventCrossWorld<T extends keyof EventPayloads>(target: EventTarget, channel: T, payload?: EventPayloads[T]) {
+		target.dispatchEvent(new CustomEvent(channel, { detail: payload !== undefined ? JSON.stringify(payload) : undefined }));
+	},
+
+	registerListenerCrossWorld<T extends keyof EventPayloads>(target: EventTarget, channel: T, listener: CustomEventListener<T>) {
+		target.addEventListener(channel, (event: Event) => {
+			if (!isCustomEvent<EventPayloads[T] | string>(event)) return;
+
+			const rawDetail = event.detail;
+			if (typeof rawDetail === "string") listener(JSON.parse(rawDetail));
+			else listener(rawDetail);
+		});
 	},
 };

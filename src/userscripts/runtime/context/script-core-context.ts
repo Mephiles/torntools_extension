@@ -3,7 +3,7 @@ import "@common/utils/global/globalVariables.css";
 import { setEventHandler, setFeatureManager, setInformationRetriever, setRuntimeInformation } from "@common/utils/context";
 import type { RuntimeInformation, TTWindow } from "@common/utils/functions/context-interfaces";
 import { isCustomEvent } from "@common/utils/functions/dom";
-import type { CustomEventListener, EventHandler, EventPayloads } from "@common/utils/functions/events";
+import { type CustomEventListener, type EventHandler, type EventPayloads } from "@common/utils/functions/events";
 import { getStatusIcons, type InformationRetriever } from "@common/utils/functions/torn-injected";
 import { ScriptFeatureManager } from "@userscripts/runtime/script-feature-manager";
 
@@ -50,6 +50,18 @@ const ScriptEventHandler: EventHandler & { eventRoot: EventTarget } = {
 
 	get eventRoot() {
 		return document;
+	},
+
+	triggerEventCrossWorld<T extends keyof EventPayloads>(target: EventTarget, channel: T, payload?: EventPayloads[T]) {
+		target.dispatchEvent(new CustomEvent(`TT_${channel}`, { detail: payload }));
+	},
+
+	registerListenerCrossWorld<T extends keyof EventPayloads>(target: EventTarget, channel: T, listener: CustomEventListener<T>) {
+		target.addEventListener(`TT_${channel}`, (event: Event) => {
+			if (!isCustomEvent<EventPayloads[T]>(event)) return;
+
+			listener(event.detail);
+		});
 	},
 };
 

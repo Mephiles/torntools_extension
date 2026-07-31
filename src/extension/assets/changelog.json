@@ -3,7 +3,18 @@
 		"version": { "major": 9, "minor": 1, "build": 2 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [
+				{
+					"message": "Resolve an issue with 'Efficient Rehab' on Firefox not selecting the amount of recommended ticks.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 1, "build": 1 },

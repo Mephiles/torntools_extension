@@ -47,6 +47,11 @@ export function registerExtensionContext() {
 	setStaticItemResolver(ExtensionItemResolver);
 }
 
+export function registerExtensionInjectedScriptContext() {
+	setEventHandler(ExtensionEventHandler);
+	setRuntimeInformation(ExtensionRuntimeInformation);
+}
+
 const ExtensionScriptInjector: ScriptInjector & { injectedFetch: boolean; injectedXHR: boolean; injectedCityItemsMap: boolean } = {
 	injectedFetch: false,
 	injectFetch() {

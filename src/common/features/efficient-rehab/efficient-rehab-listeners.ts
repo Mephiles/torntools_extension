@@ -1,17 +1,14 @@
+import { EVENT_HANDLER } from "@common/utils/context";
+import { EVENT_CHANNELS } from "@common/utils/functions/events.ts";
 import type { JQuery } from "@common/utils/type-helper";
-
-export interface EfficientRehabDetails {
-	ticks: number;
-}
 
 declare const $: (selector: string) => JQuery;
 
 export function injectEfficientRehabListeners(pageWindow: Window = window) {
-	pageWindow.addEventListener("tt-efficient-rehab", (event: CustomEventInit<EfficientRehabDetails>) => {
+	EVENT_HANDLER.registerListenerCrossWorld(pageWindow, EVENT_CHANNELS.EFFICIENT_REHAB, ({ ticks }) => {
 		const $slider = $("#rehub-progress .ui-slider");
 		const rehabPercentages = JSON.parse($slider.attr("data-percentages")) || [];
 
-		const { ticks } = event.detail;
 		if (!(ticks in rehabPercentages)) {
 			console.warn("TornTools - Failed to update the rehab amount due to it being an invalid amount of ticks");
 			return;
@@ -21,5 +18,5 @@ export function injectEfficientRehabListeners(pageWindow: Window = window) {
 
 		$slider.slider("value", percentage).slider("option", "slide")({}, { value: $slider.slider("value") });
 	});
-	pageWindow.dispatchEvent(new CustomEvent("tt-injected--efficient-rehab"));
+	EVENT_HANDLER.triggerEventCrossWorld(pageWindow, EVENT_CHANNELS.EFFICIENT_REHAB__INJECTED);
 }

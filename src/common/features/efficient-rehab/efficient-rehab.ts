@@ -1,19 +1,19 @@
 import "./efficient-rehab.css";
-import { SCRIPT_INJECTOR } from "@common/utils/context";
+import { EVENT_HANDLER, SCRIPT_INJECTOR } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { EVENT_CHANNELS } from "@common/utils/functions/events.ts";
 import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
-import type { EfficientRehabDetails } from "./efficient-rehab-listeners";
 
 let isInjected = false;
 let knownPercentages: any;
 
 function addListener() {
-	window.addEventListener("tt-injected--efficient-rehab", () => (isInjected = true));
+	EVENT_HANDLER.registerListenerCrossWorld(window, EVENT_CHANNELS.EFFICIENT_REHAB__INJECTED, () => (isInjected = true));
 	SCRIPT_INJECTOR.injectEfficientRehab();
 
 	addXHRListener(async ({ detail }) => {
@@ -62,7 +62,7 @@ async function showInformation() {
 
 	if (settings.pages.travel.efficientRehabSelect) {
 		const selectRehabs = Math.min(Math.max(maxRehabs - safe, 1), calculateMaximumAffordableRehabs() ?? maxRehabs);
-		window.dispatchEvent(new CustomEvent<EfficientRehabDetails>("tt-efficient-rehab", { detail: { ticks: selectRehabs } }));
+		EVENT_HANDLER.triggerEventCrossWorld(window, EVENT_CHANNELS.EFFICIENT_REHAB, { ticks: selectRehabs });
 		adjustSlider(selectRehabs);
 	}
 

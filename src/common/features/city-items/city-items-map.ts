@@ -1,11 +1,6 @@
 import type { InternalCityItem, TornCityMapRuntime, TornCityObject } from "@common/pages/city-page";
-
-export const CITY_ITEMS_MAP_EVENTS = {
-	SET_ITEMS: "tt-city-items:set-items",
-	REQUEST_MODEL_ITEMS: "tt-city-items:request-model-items",
-	MODEL_ITEMS: "tt-city-items:model-items",
-	CLEAR: "tt-city-items:clear",
-} as const;
+import { EVENT_HANDLER } from "@common/utils/context";
+import { EVENT_CHANNELS } from "@common/utils/functions/events";
 
 export interface CityItemsMapEntry {
 	entryId: string;
@@ -115,20 +110,17 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 	};
 	pageWindow.__ttCityItemsMap = state;
 
-	pageWindow.addEventListener(CITY_ITEMS_MAP_EVENTS.SET_ITEMS, handleSetItemsEvent);
-	pageWindow.addEventListener(CITY_ITEMS_MAP_EVENTS.REQUEST_MODEL_ITEMS, () => {
-		const items = getModelItems();
-		dispatchPageEvent(CITY_ITEMS_MAP_EVENTS.MODEL_ITEMS, { items });
-	});
-	pageWindow.addEventListener(CITY_ITEMS_MAP_EVENTS.CLEAR, clearOverlays);
-
-	function handleSetItemsEvent(event: Event) {
-		const detail = parseEventDetail<{ entries?: unknown }>(event);
-		if (!detail) return;
-
-		state.entries = Array.isArray(detail.entries) ? detail.entries.filter(isCityItemsMapEntry) : [];
+	EVENT_HANDLER.registerListenerCrossWorld(pageWindow, EVENT_CHANNELS.CITY_ITEMS_MAP__SET_ITEMS, ({ entries }) => {
+		state.entries = Array.isArray(entries) ? entries.filter(isCityItemsMapEntry) : [];
 		scheduleSync();
-	}
+	});
+
+	EVENT_HANDLER.registerListenerCrossWorld(pageWindow, EVENT_CHANNELS.CITY_ITEMS_MAP__REQUEST_MODEL_ITEMS, () => {
+		const items = getModelItems();
+		EVENT_HANDLER.triggerEventCrossWorld(pageWindow, EVENT_CHANNELS.CITY_ITEMS_MAP__MODEL_ITEMS, { items });
+	});
+
+	EVENT_HANDLER.registerListenerCrossWorld(pageWindow, EVENT_CHANNELS.CITY_ITEMS_MAP__CLEAR, clearOverlays);
 
 	function scheduleSync() {
 		let attempts = 0;
@@ -293,38 +285,6 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 		const torn: unknown = pageWindow.torn;
 		return isTornRuntime(torn) ? torn : null;
 	}
-
-	function dispatchPageEvent(name: (typeof CITY_ITEMS_MAP_EVENTS)[keyof typeof CITY_ITEMS_MAP_EVENTS], detail?: unknown) {
-		pageWindow.dispatchEvent(new CustomEvent(name, { detail: serializeEventDetail(detail) }));
-	}
-}
-
-function parseEventDetail<T>(event: Event): T | null {
-	if (!isCustomEvent<unknown>(event)) return null;
-
-	if (typeof event.detail === "string") {
-		try {
-			return JSON.parse(event.detail) as T;
-		} catch {
-			return null;
-		}
-	}
-
-	return event.detail as T;
-}
-
-function serializeEventDetail(detail: unknown): string | undefined {
-	if (detail === undefined) return undefined;
-
-	try {
-		return JSON.stringify(detail);
-	} catch {
-		return undefined;
-	}
-}
-
-function isCustomEvent<T>(event: Event): event is CustomEvent<T> {
-	return "detail" in event;
 }
 
 function isCityItemsMapEntry(value: unknown): value is CityItemsMapEntry {

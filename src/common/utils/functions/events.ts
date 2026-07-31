@@ -68,6 +68,12 @@ export enum EVENT_CHANNELS {
 	WINDOW__FOCUS = "WINDOW__FOCUS",
 	PROPERTIES__ROUTE = "PROPERTIES__ROUTE",
 	PROPERTIES__ROUTE_PAGE = "PROPERTIES__ROUTE_PAGE",
+	EFFICIENT_REHAB = "EFFICIENT_REHAB",
+	EFFICIENT_REHAB__INJECTED = "EFFICIENT_REHAB__INJECTED",
+	CITY_ITEMS_MAP__SET_ITEMS = "CITY_ITEMS_MAP__SET_ITEMS",
+	CITY_ITEMS_MAP__REQUEST_MODEL_ITEMS = "CITY_ITEMS_MAP__REQUEST_MODEL_ITEMS",
+	CITY_ITEMS_MAP__MODEL_ITEMS = "CITY_ITEMS_MAP__MODEL_ITEMS",
+	CITY_ITEMS_MAP__CLEAR = "CITY_ITEMS_MAP__CLEAR",
 }
 
 export interface EventPayloads {
@@ -139,6 +145,12 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.WINDOW__FOCUS]: never;
 	[EVENT_CHANNELS.PROPERTIES__ROUTE]: { route: PropertiesRoute };
 	[EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE]: { route: PropertiesRoute };
+	[EVENT_CHANNELS.EFFICIENT_REHAB]: { ticks: number };
+	[EVENT_CHANNELS.EFFICIENT_REHAB__INJECTED]: never;
+	[EVENT_CHANNELS.CITY_ITEMS_MAP__SET_ITEMS]: { entries: unknown[] };
+	[EVENT_CHANNELS.CITY_ITEMS_MAP__REQUEST_MODEL_ITEMS]: never;
+	[EVENT_CHANNELS.CITY_ITEMS_MAP__MODEL_ITEMS]: { items: unknown[] };
+	[EVENT_CHANNELS.CITY_ITEMS_MAP__CLEAR]: never;
 }
 
 export type CustomEventListener<T extends keyof EventPayloads> = (payload: EventPayloads[T]) => void;
@@ -169,4 +181,6 @@ export function addCustomListener<T extends keyof EventPayloads>(channel: T, lis
 export interface EventHandler {
 	triggerEvent<T extends keyof EventPayloads>(channel: T, payload?: EventPayloads[T]): void;
 	registerListener<T extends keyof EventPayloads>(channel: T, listener: CustomEventListener<T>): void;
+	triggerEventCrossWorld<T extends keyof EventPayloads>(target: EventTarget, channel: T, payload?: EventPayloads[T]): void;
+	registerListenerCrossWorld<T extends keyof EventPayloads>(target: EventTarget, channel: T, listener: CustomEventListener<T>): void;
 }

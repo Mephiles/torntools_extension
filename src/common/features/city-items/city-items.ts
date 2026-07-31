@@ -1,13 +1,14 @@
 import "./city-items.css";
 import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER, RUNTIME_INFORMATION, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
+import { EVENT_HANDLER, FEATURE_MANAGER, ITEM_RESOLVER, RUNTIME_INFORMATION, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createSelect } from "@common/utils/elements/select/select";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, isCustomEvent } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -15,7 +16,7 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { MONTHS } from "@common/utils/functions/utilities";
 import type { FullItem } from "@common/utils/torn-api/items.types";
 import { ExecutionTiming, Feature } from "@features/feature";
-import { CITY_ITEMS_MAP_EVENTS, type CityItemsMapEntry } from "./city-items-map";
+import { type CityItemsMapEntry } from "./city-items-map";
 
 const ENCODING_NUMERIC_SYSTEM = 36;
 const GROUP_PAGE_SIZE = 10;
@@ -56,7 +57,15 @@ function initialise() {
 	});
 
 	document.addEventListener("click", handleMapOverlayClick, true);
-	window.addEventListener(CITY_ITEMS_MAP_EVENTS.MODEL_ITEMS, handleModelItems);
+	EVENT_HANDLER.registerListenerCrossWorld(window, EVENT_CHANNELS.CITY_ITEMS_MAP__MODEL_ITEMS, ({ items: userItems }) => {
+		if (!FEATURE_MANAGER.isEnabled(CityItemsFeature) || findContainer("City Items")) return;
+
+		if (!Array.isArray(userItems)) return;
+
+		const internalItems = userItems.filter(isInternalCityItem);
+		const items = resolveUserItems(internalItems);
+		showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
+	});
 }
 
 function triggerFallback() {
@@ -69,19 +78,7 @@ function triggerFallback() {
 		return;
 	}
 
-	window.setTimeout(() => dispatchMapEvent(CITY_ITEMS_MAP_EVENTS.REQUEST_MODEL_ITEMS), 100);
-}
-
-function handleModelItems(event: Event) {
-	const detail = parseEventDetail<{ items?: unknown }>(event);
-	if (!FEATURE_MANAGER.isEnabled(CityItemsFeature) || findContainer("City Items") || !detail) return;
-
-	const userItems = detail.items;
-	if (!Array.isArray(userItems)) return;
-
-	const internalItems = userItems.filter(isInternalCityItem);
-	const items = resolveUserItems(internalItems);
-	showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
+	window.setTimeout(() => EVENT_HANDLER.triggerEventCrossWorld(RUNTIME_INFORMATION.getWindow(), EVENT_CHANNELS.CITY_ITEMS_MAP__REQUEST_MODEL_ITEMS), 100);
 }
 
 function getPageModelItems(): InternalCityItem[] | null {
@@ -113,20 +110,6 @@ function isInternalCityItem(value: unknown): value is InternalCityItem {
 		Number.isFinite(value.timestamp) &&
 		typeof value.title === "string"
 	);
-}
-
-function parseEventDetail<T>(event: Event): T | null {
-	if (!isCustomEvent<unknown>(event)) return null;
-
-	if (typeof event.detail === "string") {
-		try {
-			return JSON.parse(event.detail) as T;
-		} catch {
-			return null;
-		}
-	}
-
-	return event.detail as T;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -794,23 +777,9 @@ function syncVisibleMapEntries() {
 }
 
 function syncMapEntries(items: CityItem[]) {
-	dispatchMapEvent(CITY_ITEMS_MAP_EVENTS.SET_ITEMS, {
+	EVENT_HANDLER.triggerEventCrossWorld(RUNTIME_INFORMATION.getWindow(), EVENT_CHANNELS.CITY_ITEMS_MAP__SET_ITEMS, {
 		entries: items.flatMap(({ entries }) => entries.map(({ entryId, itemId, name, td, x, y }) => ({ entryId, itemId, name, td, x, y }))),
 	});
-}
-
-function dispatchMapEvent(name: (typeof CITY_ITEMS_MAP_EVENTS)[keyof typeof CITY_ITEMS_MAP_EVENTS], detail?: unknown) {
-	RUNTIME_INFORMATION.getWindow().dispatchEvent(new CustomEvent(name, { detail: serializeEventDetail(detail) }));
-}
-
-function serializeEventDetail(detail: unknown): string | undefined {
-	if (detail === undefined) return undefined;
-
-	try {
-		return JSON.stringify(detail);
-	} catch {
-		return undefined;
-	}
 }
 
 function highlightItem(itemId: number, state: boolean, className = "force-hover") {
@@ -886,7 +855,7 @@ function removeHighlight() {
 	collectingEntries.clear();
 	clearForcedHighlights();
 	setMapHighlight(false);
-	dispatchMapEvent(CITY_ITEMS_MAP_EVENTS.CLEAR);
+	EVENT_HANDLER.triggerEventCrossWorld(RUNTIME_INFORMATION.getWindow(), EVENT_CHANNELS.CITY_ITEMS_MAP__CLEAR);
 	document.removeEventListener("click", handleMapOverlayClick, true);
 }
 
