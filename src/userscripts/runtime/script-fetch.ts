@@ -14,7 +14,7 @@ export async function requiresAPIKey() {
 
 	return new Promise<string>((resolve) => {
 		const { options } = createContainer("TornTools Userscript - API Key", {
-			nextElement: document.querySelector(".main-items-cont-wrap"),
+			previousElement: document.querySelector(".content-title"),
 			onlyHeader: true,
 			class: "mb10",
 		});
