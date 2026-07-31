@@ -13,12 +13,10 @@ class AudioPlayer {
 
 	set src(src: string) {
 		this._src = src;
-		if (this.audio) this.audio.src = src;
 	}
 
 	set volume(volume: number) {
 		this._volume = volume;
-		if (this.audio) this.audio.volume = volume;
 	}
 
 	async play() {
@@ -26,7 +24,10 @@ class AudioPlayer {
 
 		if (typeof Audio !== "undefined") {
 			if (!this.audio) this.audio = new Audio(this._src);
-			else this.audio.currentTime = 0;
+			else if (this.audio.src !== this._src) this.audio.src = this._src;
+
+			this.audio.volume = this._volume;
+			this.audio.currentTime = 0;
 
 			void this.audio.play();
 

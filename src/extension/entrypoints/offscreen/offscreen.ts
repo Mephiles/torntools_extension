@@ -11,7 +11,8 @@ let audio: HTMLAudioElement | undefined;
 
 // Play sound with access to DOM APIs
 function playAudio({ src, volume }: PlayAudioOptions) {
-	if (!audio || audio.src !== src) audio = new Audio(src);
+	if (!audio) audio = new Audio(src);
+	else if (audio.src !== src) audio.src = src;
 
 	audio.volume = volume;
 	audio.currentTime = 0;
