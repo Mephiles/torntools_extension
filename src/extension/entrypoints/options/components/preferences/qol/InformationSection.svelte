@@ -118,6 +118,7 @@
 			<StorageSwitch path="settings.pages.travel.itemFilter" label="Travel Items" />
 			<StorageSwitch path="settings.pages.travel.peopleFilter" label="Travel People" />
 			<StorageSwitch path="settings.pages.userlist.filter" label="Userlist" />
+			<StorageSwitch path="settings.pages.property.filter" label="Properties" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 </div>

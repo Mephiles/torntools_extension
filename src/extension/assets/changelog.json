@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Stakeout users on idle and offline status.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Stakeout users on idle and offline status.", "contributor": "DeKleineKobini" },
+				{ "message": "Filter on properties.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{
 					"message": "Resolve an issue with 'Efficient Rehab' on Firefox not selecting the amount of recommended ticks.",
@@ -17,7 +20,8 @@
 				{
 					"message": "Link the 'Item Market' and 'TornW3B Bazaars' headings in the popup's market search to the item's page on those markets.",
 					"contributor": "Aida"
-				}
+				},
+				{ "message": "Improve the page switch detection on the properties page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []

@@ -176,6 +176,7 @@ import PreferenceSettingsFeature from "@features/preference-settings/preference-
 import ProfileBoxFeature from "@features/profile-box/profile-box";
 import ProfileIDFeature from "@features/profile-id/profile-id";
 import ProfileNotesFeature from "@features/profile-notes/profile-notes";
+import PropertiesFilterFeature from "@features/properties-filter/properties-filter.ts";
 import PropertyHappinessFeature from "@features/property-happiness/property-happiness";
 import PropertyValuesFeature from "@features/property-values/property-values";
 import QuickCrimesFeature from "@features/quick-crimes/quick-crimes";
@@ -530,11 +531,11 @@ export function scriptManager() {
 	} else if (page === "points-market") {
 		FEATURE_MANAGER.registerFeature(new NoConfirmPointsMarketFeature());
 	} else if (page === "properties") {
-		setupPropertiesPage().catch((err) => console.debug(err));
-
+		setupPropertiesPage();
 		FEATURE_MANAGER.registerFeature(new PropertyValuesFeature());
 		FEATURE_MANAGER.registerFeature(new PropertyHappinessFeature());
 		FEATURE_MANAGER.registerFeature(new NoConfirmPropertiesFeature());
+		FEATURE_MANAGER.registerFeature(new PropertiesFilterFeature());
 	} else if (page === "preferences") {
 		FEATURE_MANAGER.registerFeature(new PreferenceSettingsFeature());
 	} else if (page === "targets") {

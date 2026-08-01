@@ -5,9 +5,9 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { camelCase } from "@common/utils/functions/formatting";
 import { PHFillCaretDown } from "@common/utils/icons/phosphor-icons";
 
-type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | { defaultPosition: true };
+export type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | { defaultPosition: true };
 
-type ContainerOptions = {
+export type ContainerOptions = {
 	id: string;
 	class: string | (string | null)[];
 	showHeader: boolean;

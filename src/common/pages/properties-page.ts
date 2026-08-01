@@ -3,14 +3,9 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/e
 import { requireElement } from "@common/utils/functions/requires";
 
 export type TornInternalSellPropertySuccess = { link: string; success: boolean; text: string };
-export type TornInternalSellProperty =
-	| {
-			success: false;
-			text: string;
-	  }
-	| TornInternalSellPropertySuccess;
+export type TornInternalSellProperty = { success: false; text: string } | TornInternalSellPropertySuccess;
 
-export async function setupPropertiesPage() {
+export function setupPropertiesPage() {
 	let route = decidePropertiesRoute();
 
 	requireElement("#properties-page-wrap").then((wrapper) => {
@@ -28,6 +23,15 @@ export async function setupPropertiesPage() {
 			route = newRoute;
 			await requireElement(ROUTE_ROOT_MAP[newRoute.page]);
 			await requireElement(".ajax-preloader", { invert: true, parent: wrapper });
+
+			const tabName = getTab(newRoute.page);
+			if (tabName) await requireElement(`.ui-state-active[aria-controls='${tabName}']`);
+
+			const pagination = getPaginationPage(newRoute.page);
+			if (pagination !== null) {
+				await requireElement(`.page-number.active[page='${pagination}']`);
+				await requireElement(".properties-list > li");
+			}
 
 			if (oldRoute.page !== newRoute.page) {
 				triggerCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, { route: newRoute });
@@ -81,3 +85,27 @@ const ROUTE_ROOT_MAP: Record<PropertiesPage, string> = {
 	"spouse-properties": ".properties-list",
 	options: ".property-option",
 };
+
+function getTab(page: PropertiesPage) {
+	switch (page) {
+		case "all-properties":
+			return "all";
+		case "your-properties":
+			return "your";
+		case "spouse-properties":
+			return "spouses";
+		case "options":
+			return null;
+	}
+}
+
+function getPaginationPage(page: PropertiesPage) {
+	if (page === "options") return null;
+
+	const params = getHashParameters();
+	if (!params.has("start")) return 1;
+
+	const start = parseInt(params.get("start"));
+
+	return start / 12 + 1;
+}

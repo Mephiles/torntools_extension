@@ -427,6 +427,7 @@ export const DEFAULT_STORAGE = {
 				warReportHighlight: new DefaultSetting("boolean", true),
 			},
 			property: {
+				filter: new DefaultSetting("boolean", true),
 				value: new DefaultSetting("boolean", true),
 				happy: new DefaultSetting("boolean", true),
 			},
@@ -688,6 +689,12 @@ export const DEFAULT_STORAGE = {
 		bounties: {
 			maxLevel: new DefaultSetting("number", 100),
 			hideUnavailable: new DefaultSetting("boolean", false),
+		},
+		properties: {
+			enabled: new DefaultSetting("boolean", true),
+			daysOnLeaseLow: new DefaultSetting("number", 1),
+			daysOnLeaseHigh: new DefaultSetting("number", 100),
+			status: new DefaultSetting("string", "all"),
 		},
 		userlist: {
 			enabled: new DefaultSetting("boolean", true),

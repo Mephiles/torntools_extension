@@ -1,0 +1,21 @@
+.tt-radio-wrapper,
+.tt-radio-wrapper label {
+	display: inline-flex;
+	align-items: center;
+}
+
+.tt-radio-wrapper > * {
+	cursor: pointer;
+}
+
+.tt-radio-wrapper.reverse-label label {
+	flex-flow: row-reverse;
+}
+
+.tt-radio-wrapper:not(.reverse-label) input {
+	margin-right: 2px;
+}
+
+.tt-radio-wrapper.reverse-label input {
+	margin-left: 2px;
+}

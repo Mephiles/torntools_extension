@@ -4,11 +4,12 @@ import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { createCheckboxDuo } from "@common/utils/elements/checkbox-duo/checkbox-duo";
 import { createCheckboxList } from "@common/utils/elements/checkbox-list/checkbox-list";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import { createRadioList } from "@common/utils/elements/radio-list/radio-list.ts";
 import { createMultiSelect, createSelect } from "@common/utils/elements/select/select";
 import { DualRangeSlider } from "@common/utils/elements/slider/slider";
 import { createTextbox, type TextboxWithoutDescriptionFilter } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { type ContainerOptions, type ContainerPosition, createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { camelCase } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -553,12 +554,45 @@ export function duoCheckboxesSection(options: DuoCheckboxesSectionOptions): Filt
 	};
 }
 
-type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node };
+interface RadioSectionOptions {
+	key: string;
+	name?: string;
+	title: string;
+	priority?: number;
+	items: { value: string; description: string }[];
+	defaultValue: string;
+	test: (row: HTMLElement, value: string) => boolean;
+	orientation?: "column" | "row";
+	enabled?: () => boolean;
+}
+
+export function radioSection(options: RadioSectionOptions): FilterSectionDef<string> {
+	const { key, title, priority, items, defaultValue, test, orientation, enabled } = options;
+	let name = options.name ?? key;
+
+	return {
+		key,
+		title,
+		priority,
+		enabled,
+		build(onChange: () => void) {
+			const list = createRadioList(name, { items, orientation: orientation ?? "column" });
+			list.setValue(defaultValue);
+			list.onSelectionChange(onChange);
+
+			return { element: list.element, getValue: () => list.getValue() };
+		},
+		test,
+	};
+}
 
 export interface FilterController {
 	rerenderSections(): void;
 	run(): Promise<void>;
 	runScoped(options?: { rows?: HTMLElement[]; sections?: string[] | null }): Promise<void>;
+	/** Returns filtered rows. Omit `visible` for all, `true` for visible, `false` for hidden. */
+	getRows(visible?: boolean): HTMLElement[];
+	reattach(position: ContainerPosition): void;
 	dispose(): void;
 }
 
@@ -704,28 +738,26 @@ const DEFAULT_PRIORITY = 50;
 
 export function createFilter<State extends Record<string, unknown> & { enabled: boolean } = Record<string, unknown> & { enabled: boolean }>(options: {
 	rowSelector: string;
-	container: {
-		title: string;
-		class?: string;
-		compact?: boolean;
-		filter?: boolean;
-		collapsible?: boolean;
-		applyRounding?: boolean;
-	} & ContainerPosition;
+	container: { title: string } & Partial<ContainerOptions> & ContainerPosition;
 	sections?: FilterSectionDef<unknown>[];
 	statisticsLabel?: string;
 	enabled?: boolean;
 	onStateChange?: (state: State) => void | Promise<void>;
+	onAfterRun?: () => void | Promise<void>;
 	/** Prevents infinite-scroll triggers by preserving the row container's height.
 	 *  Pass a number to specify row height in px (default: 36). */
 	preserveHeight?: boolean | number;
 }): FilterController {
 	const sections: FilterSectionInstance[] = [];
 	const sectionDefs: FilterSectionDef<unknown>[] = options.sections ?? [];
-	const { rowSelector, container: containerOpts, statisticsLabel, enabled: initialEnabled, onStateChange, preserveHeight } = options;
+	const { rowSelector, container: containerOpts, statisticsLabel, enabled: initialEnabled, onStateChange, onAfterRun, preserveHeight } = options;
 	const rowHeight = typeof preserveHeight === "number" ? preserveHeight : 36;
 
-	const { content, options: headerOptions } = createContainer(containerOpts.title, {
+	const {
+		container,
+		content,
+		options: headerOptions,
+	} = createContainer(containerOpts.title, {
 		filter: true,
 		compact: true,
 		...containerOpts,
@@ -849,6 +881,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 			_compensateHeight(findAllElements(rowSelector));
 			const allRows = findAllElements(rowSelector);
 			statistics.updateStatistics(allRows.length, allRows.length, content);
+			await onAfterRun?.();
 			return;
 		}
 
@@ -858,6 +891,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 		const visible = rows.filter((r) => !r.classList.contains("tt-hidden")).length;
 		statistics.updateStatistics(visible, rows.length, content);
+
+		await onAfterRun?.();
 	}
 
 	async function runScoped(options?: { rows?: HTMLElement[]; sections?: string[] | null }) {
@@ -887,6 +922,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		const allRows = findAllElements(rowSelector);
 		const visible = allRows.filter((r) => !r.classList.contains("tt-hidden")).length;
 		statistics.updateStatistics(visible, allRows.length, content);
+
+		await onAfterRun?.();
 	}
 
 	const funnel = createFilterEnabledFunnel();
@@ -948,6 +985,22 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		rerenderSections,
 		run,
 		runScoped,
+		getRows(visible?: boolean): HTMLElement[] {
+			const rows = findAllElements<HTMLElement>(rowSelector);
+			if (visible === undefined) return rows;
+			return rows.filter((r) => (visible ? !r.classList.contains("tt-hidden") : r.classList.contains("tt-hidden")));
+		},
+		reattach(position: ContainerPosition): void {
+			let parentElement: Node;
+			if ("parentElement" in position) parentElement = position.parentElement;
+			else if ("nextElement" in position) parentElement = position.nextElement.parentElement!;
+			else if ("previousElement" in position) parentElement = position.previousElement.parentElement!;
+			else parentElement = document.querySelector(".content-wrapper")!;
+
+			if ("nextElement" in position) parentElement.insertBefore(container, position.nextElement);
+			else if ("previousElement" in position) parentElement.insertBefore(container, position.previousElement.nextSibling);
+			else parentElement.appendChild(container);
+		},
 		dispose() {
 			removeContainer(containerOpts.title);
 			funnel.dispose();
