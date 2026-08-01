@@ -22,7 +22,7 @@
 		"format:fix": "oxfmt",
 		"lint": "oxlint",
 		"lint:fix": "oxlint --fix",
-		"check:fix": "oxfmt && oxlint --fix",
+		"check:fix": "oxlint --fix && oxfmt",
 		"static-items": "bun tools/update-static-items.ts"
 	},
 	"dependencies": {
