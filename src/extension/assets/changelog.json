@@ -12,7 +12,12 @@
 				},
 				{ "message": "Resolve notification sound not always being the configured volume.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [
+				{
+					"message": "Link the 'Item Market' and 'TornW3B Bazaars' headings in the popup's market search to the item's page on those markets.",
+					"contributor": "Aida"
+				}
+			],
 			"removed": [],
 			"technical": []
 		}

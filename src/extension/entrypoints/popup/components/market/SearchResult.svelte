@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ttCache } from "@common/utils/data/cache";
-	import { fetchData } from "@common/utils/functions/api-fetcher";
+	import { FETCH_PLATFORMS, fetchData } from "@common/utils/functions/api-fetcher";
 	import type { TornW3BResult } from "@common/utils/functions/api.types";
 	import { formatNumber } from "@common/utils/functions/formatting";
 	import { isSellable } from "@common/utils/functions/torn";
@@ -28,6 +28,12 @@
 	const tornListings = $derived(itemMarket?.itemmarket.listings ?? []);
 	const tornW3bListings = $derived((tornW3bMarket?.listings ?? []).slice(0, 3));
 	const showExternalMarket = $derived(!!$settingsStore?.pages?.popup?.bazaarUsingExternal && !!$settingsStore?.external?.tornw3b);
+	const itemMarketUrl = $derived(
+		selectedItem
+			? `https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${selectedItem.id}&itemName=${selectedItem.name}&itemType=${selectedItem.type}`
+			: "",
+	);
+	const tornW3bUrl = $derived(selectedItem ? `${FETCH_PLATFORMS.tornw3b}item/${selectedItem.id}` : "");
 
 	$effect(() => {
 		error = "";
@@ -93,12 +99,7 @@
 			<img class="border-border size-16 rounded-md border object-contain" src={selectedItem.image} alt={selectedItem.name} />
 			<div class="min-w-0 space-y-1">
 				<CardTitle>
-					<a
-						class="hover:underline"
-						href={`https://www.torn.com/page.php?sid=ItemMarket#/market/view=search&itemID=${selectedItem.id}&itemName=${selectedItem.name}&itemType=${selectedItem.type}`}
-						target="_blank"
-						rel="noreferrer"
-					>
+					<a class="hover:underline" href={itemMarketUrl} target="_blank" rel="noreferrer">
 						{selectedItem.name}
 					</a>
 				</CardTitle>
@@ -136,11 +137,16 @@
 				</div>
 			{:else if itemMarket}
 				<div class={cn("grid gap-2", { "grid-cols-2": showExternalMarket })}>
-					<MarketPrice title="Item Market" listings={tornListings.map((listing) => ({ amount: listing.amount, price: listing.price }))} />
+					<MarketPrice
+						title="Item Market"
+						href={itemMarketUrl}
+						listings={tornListings.map((listing) => ({ amount: listing.amount, price: listing.price }))}
+					/>
 
 					{#if showExternalMarket}
 						<MarketPrice
 							title="TornW3B Bazaars"
+							href={tornW3bUrl}
 							listings={tornW3bListings.map((listing) => ({ amount: listing.quantity, price: listing.price }))}
 						/>
 					{/if}
