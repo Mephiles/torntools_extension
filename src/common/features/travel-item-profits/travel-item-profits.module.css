@@ -1,4 +1,4 @@
-.tt-travel-profits [class*="stockTableWrapper___"] {
+.travel-profits [class*="stockTableWrapper___"] {
 	[class*="itemsHeader___"],
 	[class*="row___"] {
 		grid-template-columns: 71px 1.5fr repeat(2, 1fr) 90px repeat(3, 80px);
@@ -6,8 +6,8 @@
 }
 
 @media screen and (max-width: 785px) {
-	.tt-travel-profits [class*="stockTableWrapper___"] [class*="itemsHeader___"],
-	.tt-travel-profits [class*="row___"] {
+	.travel-profits [class*="stockTableWrapper___"] [class*="itemsHeader___"],
+	.travel-profits [class*="row___"] {
 		grid-template-columns: [item] 65px [name] 1fr [stock] 44px [profit] 90px [cost] 66px [buy] 34px !important;
 	}
 
@@ -15,15 +15,15 @@
 		grid-area: attr(data-tt-content-type) !important;
 	}
 
-	.tt-travel-market-heading,
-	.tt-travel-market-cell {
+	.travel-market-heading,
+	.travel-market-cell {
 		border-left: 1px solid var(--default-panel-divider-inner-side-color);
 		grid-area: profit;
 	}
 }
 
 @media screen and (max-width: 450px) {
-	.tt-travel-profits [class*="stockTableWrapper___"] {
+	.travel-profits [class*="stockTableWrapper___"] {
 		[class*="itemsHeader___"],
 		[class*="row___"] {
 			grid-template-columns: [item] 60px [name] 1fr [cost] 66px [profit] 60px [stock] 44px [buy] 32px !important;
@@ -31,8 +31,8 @@
 	}
 }
 
-.tt-travel-market-heading,
-.tt-travel-market-cell {
+.travel-market-heading,
+.travel-market-cell {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -40,8 +40,8 @@
 	position: relative;
 }
 
-.tt-travel-market-heading:before,
-.tt-travel-market-cell:before {
+.travel-market-heading:before,
+.travel-market-cell:before {
 	background: var(--divider-white-right-linear-gradient);
 	bottom: 0;
 	content: "";
@@ -51,8 +51,8 @@
 	width: 1px;
 }
 
-.tt-travel-market-heading:after,
-.tt-travel-market-cell:after {
+.travel-market-heading:after,
+.travel-market-cell:after {
 	background: var(--divider-white-left-linear-gradient);
 	bottom: 0;
 	content: "";

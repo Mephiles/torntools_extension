@@ -8,6 +8,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 import TravelItemProfitsFeature from "@features/travel-item-profits/travel-item-profits";
+import travelItemProfitsStyles from "@features/travel-item-profits/travel-item-profits.module.css";
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
@@ -57,7 +58,7 @@ async function addFilterContainer() {
 			test: (row, profitOnly) => {
 				if (!profitOnly) return true;
 
-				const profitElement = row.querySelector<HTMLElement>(".tt-travel-market-cell");
+				const profitElement = row.querySelector<HTMLElement>(`.${travelItemProfitsStyles.travelMarketCell}`);
 				if (!profitElement) return false;
 
 				return convertToNumber(profitElement.dataset.ttValue) >= 0;

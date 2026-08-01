@@ -1,4 +1,3 @@
-import "./travel-item-profits.css";
 import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
@@ -8,6 +7,7 @@ import { convertToNumber, formatNumber } from "@common/utils/functions/formattin
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
+import styles from "./travel-item-profits.module.css";
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
@@ -29,14 +29,14 @@ async function addProfitsColumn() {
 	await requireElement("[class*='stockTableWrapper___']");
 	void markTravelTableColumns();
 
-	document.body.classList.add("tt-travel-profits");
+	document.body.classList.add(styles.travelProfits);
 	const market = document.querySelector("#travel-root");
 	for (const headings of findAllElements("[class*='stockTableWrapper__'] [class*='itemsHeader__']", market)) {
-		if (!headings.querySelector(".tt-travel-market-heading")) {
+		if (!headings.querySelector(`.${styles.travelMarketHeading}`)) {
 			const profitHeading = elementBuilder({
 				type: "div",
 				text: "Profit",
-				class: `tt-travel-market-heading tt-title-${settings.themes.containers}`,
+				class: `${styles.travelMarketHeading} tt-title-${settings.themes.containers}`,
 				dataset: {
 					ttContentType: "profit",
 				},
@@ -64,7 +64,7 @@ async function addProfitsColumn() {
 
 			const span = elementBuilder({
 				type: "span",
-				class: "tt-travel-market-cell",
+				class: styles.travelMarketCell,
 				dataset: {
 					ttValue: profit.toString(),
 					ttContentType: "profit",
@@ -86,9 +86,8 @@ async function addProfitsColumn() {
 }
 
 function removeProfitsColumn() {
-	document.documentElement.classList.remove("tt-travel-profits");
-	document.querySelector(".travel-agency-market.tt-travel-profits-table")?.classList.remove("tt-travel-profits-table");
-	findAllElements(".tt-travel-market-heading, .tt-travel-market-cell").forEach((x) => x.remove());
+	document.documentElement.classList.remove(styles.travelProfits);
+	findAllElements(`.${styles.travelMarketHeading}, .${styles.travelMarketCell}`).forEach((x) => x.remove());
 }
 
 export default class TravelItemProfitsFeature extends Feature {

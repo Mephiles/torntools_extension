@@ -25,7 +25,7 @@
 				{ "message": "Improve the page switch detection on the properties page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Move 'Travel Item Profit' to modular CSS, in the hope to fix a userscript issue.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
