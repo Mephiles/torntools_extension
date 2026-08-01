@@ -4,13 +4,20 @@
 
 	interface MarketPriceProps {
 		title: string;
+		href?: string;
 		listings: { amount: number; price: number }[];
 	}
-	const { title, listings }: MarketPriceProps = $props();
+	const { title, href, listings }: MarketPriceProps = $props();
 </script>
 
 <section class="space-y-1">
-	<h2 class="text-xs font-bold">{title}</h2>
+	<h2 class="text-xs font-bold">
+		{#if href}
+			<a class="hover:underline" {href} target="_blank" rel="noreferrer">{title}</a>
+		{:else}
+			{title}
+		{/if}
+	</h2>
 
 	<Table.Root>
 		<Table.Body>
