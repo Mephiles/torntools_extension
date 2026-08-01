@@ -10,7 +10,8 @@
 					"message": "Resolve an issue with 'Efficient Rehab' on Firefox not selecting the amount of recommended ticks.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Resolve notification sound not always being the configured volume.", "contributor": "DeKleineKobini" }
+				{ "message": "Resolve notification sound not always being the configured volume.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error in 'Only New Feed' when opening a thread through the search functionality.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

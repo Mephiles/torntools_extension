@@ -1,6 +1,6 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { PHEye, PHEyeSlash } from "@common/utils/icons/phosphor-icons";
@@ -26,6 +26,9 @@ function initialise() {
 }
 
 async function startFeature() {
+	const searchParameters = getSearchParameters();
+	if (searchParameters.has("p") && searchParameters.get("p") !== "main") return;
+
 	const params = getHashParameters();
 	if (params.has("p") && params.get("p") !== "main") return;
 
