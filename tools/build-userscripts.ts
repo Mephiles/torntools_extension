@@ -125,6 +125,6 @@ for (const entry of entries) {
 
 		console.log(`${metadata.name}: ${permissions.join(", ") || "none"}`);
 	} catch (error) {
-		console.error(error);
+		console.error(`Failed building [${entry.name}]:`, error);
 	}
 }

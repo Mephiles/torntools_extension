@@ -26,12 +26,10 @@
 			value: "none",
 			description: "none",
 		},
-		...specialGyms.map(
-			(specialGym): SpecialGymOption => ({
-				value: specialGym,
-				description: specialGymDescMap[specialGym],
-			}),
-		),
+		...specialGyms.map((specialGym: SpecialGym): SpecialGymOption => ({
+			value: specialGym,
+			description: specialGymDescMap[specialGym],
+		})),
 	];
 
 	async function specialGymSelected1(specialGym: SpecialGym | "none") {

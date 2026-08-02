@@ -77,7 +77,7 @@
 	}
 
 	.rounding > .title:not(.collapsed) {
-		border-radius: 5px 5px 0px 0px;
+		border-radius: 5px 5px 0 0;
 	}
 
 	.text {
@@ -102,6 +102,6 @@
 	}
 
 	.rounding > main {
-		border-radius: 0px 0px 5px 5px;
+		border-radius: 0 0 5px 5px;
 	}
 </style>

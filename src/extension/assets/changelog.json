@@ -33,7 +33,10 @@
 				{ "message": "Improve the page switch detection on the properties page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": [{ "message": "Move several features to modular CSS.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Move several features to modular CSS.", "contributor": "DeKleineKobini" },
+				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
