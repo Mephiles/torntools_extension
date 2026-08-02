@@ -695,6 +695,7 @@ export const DEFAULT_STORAGE = {
 			daysOnLeaseLow: new DefaultSetting("number", 1),
 			daysOnLeaseHigh: new DefaultSetting("number", 100),
 			status: new DefaultSetting("string", "all"),
+			types: new DefaultSetting<string[]>("array", []),
 		},
 		userlist: {
 			enabled: new DefaultSetting("boolean", true),

@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
-import { filters, settings } from "@common/utils/data/database";
+import { filters, settings, torndata } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { createFilter, type FilterController, radioSection, type SliderRange, sliderSection } from "@common/utils/functions/filters";
+import { createFilter, type FilterController, multiSelectSection, radioSection, type SliderRange, sliderSection } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -27,12 +27,31 @@ type PropertiesFilterState = {
 	enabled: boolean;
 	daysOnLease: SliderRange;
 	status: string;
+	types: string[];
 };
 
 const REGEX_LEASED = /Leased to (?<name>.*) \((?<left>\d+) \/ (?<total>\d+) days\)/;
 
+const PROPERTY_TYPES = [
+	"Private Island",
+	"Castle",
+	"Palace",
+	"Ranch",
+	"Mansion",
+	"Penthouse",
+	"Villa",
+	"Chalet",
+	"Beach House",
+	"Detached House",
+	"Semi-Detached House",
+	"Apartment",
+	"Trailer",
+];
+
 async function addFilterContainer() {
 	await requireElement(".properties-list > li");
+
+	const eligibleProperties = torndata?.properties ?? [];
 
 	const sections = [
 		sliderSection({
@@ -77,6 +96,21 @@ async function addFilterContainer() {
 				else return true;
 			},
 		}),
+
+		multiSelectSection({
+			key: "types",
+			title: "Types",
+			items: PROPERTY_TYPES.map((property) => ({ value: property, description: property })),
+			defaults: filters.properties.types,
+			test: (row, types) => {
+				if (!types.length) return true;
+
+				const image = row.querySelector(".image-place img[alt]");
+				const type = image.getAttribute("alt").replace("Spouse's ", "");
+
+				return types.includes(type);
+			},
+		}),
 	];
 
 	filter = createFilter<PropertiesFilterState>({
@@ -97,6 +131,7 @@ async function addFilterContainer() {
 						daysOnLeaseLow: state.daysOnLease.start,
 						daysOnLeaseHigh: state.daysOnLease.end,
 						status: state.status,
+						types: state.types,
 					},
 				},
 			});
