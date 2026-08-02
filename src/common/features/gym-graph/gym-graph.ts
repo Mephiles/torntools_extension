@@ -241,6 +241,10 @@ function removeGraph() {
 }
 
 function errorHandling(error: any) {
+	if (typeof error !== "object" || !("error" in error)) {
+		return JSON.stringify(error);
+	}
+
 	if (error.error instanceof HTTPException) {
 		return error.error.message;
 	}
