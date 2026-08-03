@@ -48,6 +48,8 @@ async function addWorth() {
 }
 
 async function displayValue(isOwn: boolean, value: number) {
+	document.querySelector(`.${styles.displayWorth}`)?.remove();
+
 	let element: Element;
 	if (isOwn) {
 		element = createMessageBox(`This display cabinet is worth <span>${formatNumber(value, { currency: true })}</span>.`, {
