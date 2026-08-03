@@ -20,11 +20,9 @@ function initialiseListeners() {
 async function addButton() {
 	await requireElement(`#trade-container .log > li .desc a`);
 
-	const button = elementBuilder({
-		type: "span",
-		text: "Open Chat",
-		class: "tt-open-chat",
-	});
+	if (!(await getTraderID())) return;
+
+	const button = elementBuilder({ type: "span", text: "Open Chat", class: "tt-open-chat" });
 
 	button.addEventListener("click", () => executeScript(browser.runtime.getURL("/trade-open-chat--inject.js")));
 
@@ -34,6 +32,16 @@ async function addButton() {
 			children: [button],
 		}),
 	);
+}
+
+export async function getTraderID() {
+	const playerID = (await cookieStore.get("uid")).value;
+
+	const traderLink = document.querySelector(`#trade-container .log > li .desc a:not([href*="${playerID}"]), .info-msg-cont a:not([href*='${playerID}'])`);
+	const traderMatch = traderLink?.getAttribute("href")?.match(/XID=(\d*)/i);
+	if (!traderMatch) return null;
+
+	return parseInt(traderMatch[1]);
 }
 
 function removeButton() {

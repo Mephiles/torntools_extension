@@ -15,7 +15,11 @@
 				},
 				{ "message": "Resolve notification sound not always being the configured volume.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error in 'Only New Feed' when opening a thread through the search functionality.", "contributor": "DeKleineKobini" },
-				{ "message": "Better error handling for 'Gym Graph'.", "contributor": "DeKleineKobini" }
+				{ "message": "Better error handling for 'Gym Graph'.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Don't display the open trade button when it's not possible to open the chat due to the user id missing anywhere.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{
