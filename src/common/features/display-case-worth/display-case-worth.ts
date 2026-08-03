@@ -88,7 +88,7 @@ async function displayError(isOwn: boolean, error: any) {
 
 async function displayElement(isOwn: boolean, element: Element) {
 	if (isOwn) {
-		document.querySelector(".display-cabinet").insertAdjacentElement("beforebegin", element);
+		(await requireElement(".display-cabinet")).insertAdjacentElement("beforebegin", element);
 	} else {
 		await requireElement(".info-msg-cont .ajax-preloader", { invert: true });
 

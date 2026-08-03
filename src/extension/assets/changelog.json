@@ -20,7 +20,8 @@
 					"message": "Don't display the open trade button when it's not possible to open the chat due to the user id missing anywhere.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Avoid an error in 'Display Case Worth' when refreshing your own display case.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error in 'Display Case Worth' when refreshing your own display case.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve 'Display Case Worth' not always showing up.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
