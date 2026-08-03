@@ -470,12 +470,10 @@ function createSpecialistGymsBoxElement(prevElement: Element, getStatsFn: () => 
 			value: NONE,
 			description: NONE,
 		},
-		...Object.values(SPECIAL_GYM).map(
-			(specialGym): SpecialGymOption => ({
-				value: specialGym,
-				description: specialGymDescMap[specialGym],
-			}),
-		),
+		...Object.values(SPECIAL_GYM).map((specialGym): SpecialGymOption => ({
+			value: specialGym,
+			description: specialGymDescMap[specialGym],
+		})),
 	];
 
 	const specialGymSelectOne = createSelect(specialGymOptions);
