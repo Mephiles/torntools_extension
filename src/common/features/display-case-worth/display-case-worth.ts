@@ -1,4 +1,3 @@
-import "./display-case-worth.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -10,6 +9,7 @@ import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { createMessageBox, getUserDetails } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
+import styles from "./display-case-worth.module.css";
 
 function xhrListener() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
@@ -51,20 +51,15 @@ async function displayValue(isOwn: boolean, value: number) {
 	let element: Element;
 	if (isOwn) {
 		element = createMessageBox(`This display cabinet is worth <span>${formatNumber(value, { currency: true })}</span>.`, {
-			class: "tt-display-worth",
+			class: styles.displayWorth,
 			isHTML: true,
 		});
 	} else {
 		element = elementBuilder({
 			type: "div",
-			class: "tt-display-worth",
+			class: styles.displayWorth,
 			text: "This display cabinet is worth ",
-			children: [
-				elementBuilder({
-					type: "span",
-					text: `${formatNumber(value, { currency: true })}.`,
-				}),
-			],
+			children: [elementBuilder({ type: "span", text: `${formatNumber(value, { currency: true })}.` })],
 		});
 	}
 
@@ -74,13 +69,9 @@ async function displayValue(isOwn: boolean, value: number) {
 async function displayError(isOwn: boolean, error: any) {
 	let element: Element;
 	if (isOwn) {
-		element = createMessageBox(`TORN API returned error: ${error.toString()}.`, { class: "tt-display-worth" });
+		element = createMessageBox(`TORN API returned error: ${error.toString()}.`, { class: styles.displayWorth });
 	} else {
-		element = elementBuilder({
-			type: "div",
-			class: "tt-display-worth",
-			text: `TORN API returned error: ${error.toString()}`,
-		});
+		element = elementBuilder({ type: "div", class: styles.displayWorth, text: `TORN API returned error: ${error.toString()}` });
 	}
 
 	await displayElement(isOwn, element);
@@ -88,7 +79,7 @@ async function displayError(isOwn: boolean, error: any) {
 
 async function displayElement(isOwn: boolean, element: Element) {
 	if (isOwn) {
-		(await requireElement(".display-cabinet")).insertAdjacentElement("beforebegin", element);
+		(await requireElement(`.${styles.displayWorth}`)).insertAdjacentElement("beforebegin", element);
 	} else {
 		await requireElement(".info-msg-cont .ajax-preloader", { invert: true });
 
@@ -97,7 +88,7 @@ async function displayElement(isOwn: boolean, element: Element) {
 }
 
 function removeWorth() {
-	document.querySelector(".tt-display-worth")?.remove();
+	document.querySelector(`.${styles.displayWorth}`)?.remove();
 }
 
 export default class DisplayCaseWorthFeature extends Feature {
