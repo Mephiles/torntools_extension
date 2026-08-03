@@ -53,7 +53,7 @@
 		"oxfmt": "^0.61.0",
 		"oxlint": "^1.76.0",
 		"phosphor-svelte": "^3.1.0",
-		"shadcn-svelte": "^1.4.2",
+		"shadcn-svelte": "^1.5.0",
 		"svelte-sonner": "^1.1.0",
 		"tailwind-merge": "^3.6.0",
 		"tailwind-variants": "^3.3.0",
