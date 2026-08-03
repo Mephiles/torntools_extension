@@ -97,7 +97,7 @@ async function displayElement(isOwn: boolean, element: Element) {
 }
 
 function removeWorth() {
-	document.querySelector(".tt-display-worth").remove();
+	document.querySelector(".tt-display-worth")?.remove();
 }
 
 export default class DisplayCaseWorthFeature extends Feature {
