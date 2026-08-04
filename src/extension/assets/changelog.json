@@ -22,7 +22,8 @@
 				},
 				{ "message": "Avoid an error in 'Display Case Worth' when refreshing your own display case.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve 'Display Case Worth' not always showing up.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the 'Display Case Worth' showing up more than once.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the 'Display Case Worth' showing up more than once.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error in 'Stats Estimate' when the rank can't be read (like for an NPC).", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

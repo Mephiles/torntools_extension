@@ -153,7 +153,8 @@ export class StatsEstimate {
 	}
 
 	getEstimate(rank: string, level: number, crimes: number, networth: number) {
-		rank = rank.match(/[A-Z][a-z ]+/g)[0].trim();
+		rank = rank.match(/[A-Z][a-z ]+/g)?.[0].trim();
+		if (!rank) return "N/A";
 
 		const triggersLevel = RANK_TRIGGERS.level.filter((x) => x <= level).length;
 		const triggersCrimes = RANK_TRIGGERS.crimes.filter((x) => x <= crimes).length;
