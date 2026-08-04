@@ -35,7 +35,7 @@
 			"removed": [],
 			"technical": [
 				{ "message": "Move several features to modular CSS.", "contributor": "DeKleineKobini" },
-				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "DeKleineKobini" }
+				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "AllMight" }
 			]
 		}
 	},
