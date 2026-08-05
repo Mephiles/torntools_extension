@@ -1,0 +1,16 @@
+---
+import Default from "@astrojs/starlight/components/Footer.astro";
+---
+
+<p class="ai-disclaimer">
+  This documentation is mostly written by an AI model. Even though someone went through everything manually, there might still be inaccuracies.
+</p>
+
+<Default {...Astro.props} />
+
+<style>
+  .ai-disclaimer {
+    margin-top: 1rem;
+    opacity: 0.7;
+  }
+</style>

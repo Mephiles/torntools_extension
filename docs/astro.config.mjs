@@ -19,6 +19,9 @@ export default defineConfig({
 			editLink: {
 				baseUrl: "https://github.com/Mephiles/torntools_extension/edit/master/docs/",
 			},
+			components: {
+				Footer: "./src/components/AIDisclaimer.astro",
+			},
 			sidebar: [
 				{
 					label: "Getting Started",
