@@ -7,7 +7,7 @@ hero:
     file: ../../assets/icon.svg
   actions:
     - text: Get Started
-      link: /getting-started/installation/
+      link: getting-started/installation/
       icon: right-arrow
     - text: View on GitHub
       link: https://github.com/Mephiles/torntools_extension
