@@ -5,7 +5,6 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import type { CompanyV1Employees, CompanyV1ProfileResponse } from "@common/utils/functions/api-v1.types";
 import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { dropDecimals } from "@common/utils/functions/formatting";
@@ -13,7 +12,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
-import type { UserJobResponse } from "tornapi-typescript";
+import type { CompanyEmployee, CompanyEmployeesResponse, UserJobResponse } from "tornapi-typescript";
 
 function addListener() {
 	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
@@ -33,18 +32,18 @@ async function addLastAction(force: boolean) {
 
 	const id = await extractCompanyId();
 
-	let employees: CompanyV1Employees;
+	let employees: CompanyEmployee[];
 	if (ttCache.hasValue("company-employees", id)) {
 		employees = ttCache.get("company-employees", id);
 	} else {
 		employees = (
-			await fetchData<CompanyV1ProfileResponse>("tornv2", {
+			await fetchData<CompanyEmployeesResponse>("tornv2", {
 				section: "company",
 				id: id,
-				legacySelections: ["profile"],
+				selections: ["employees"],
 				silent: true,
 			})
-		).company.employees;
+		).employees;
 
 		ttCache.set({ [id]: employees }, TO_MILLIS.SECONDS * 30, "company-employees");
 	}

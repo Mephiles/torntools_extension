@@ -1,4 +1,4 @@
-import type { CompanyV1, FactionV1, TornV1, UserV1 } from "tornapi-typescript";
+import type { FactionV1, TornV1, UserV1 } from "tornapi-typescript";
 
 export type UserV1BazaarResponse = UserV1["selections"]["bazaar"]["response"];
 export type UserV1DisplayCaseResponse = UserV1["selections"]["display"]["response"];
@@ -13,8 +13,6 @@ export type FactionV1MedicalResponse = FactionV1["selections"]["medical"]["respo
 export type FactionV1TemporaryResponse = FactionV1["selections"]["temporary"]["response"];
 export type FactionV1WeaponsResponse = FactionV1["selections"]["weapons"]["response"];
 
-export type CompanyV1ProfileResponse = CompanyV1["selections"]["profile"]["response"];
-
 export type TornV1BankResponse = TornV1["selections"]["bank"]["response"];
 export type TornV1PawnshopResponse = TornV1["selections"]["pawnshop"]["response"];
 export type TornV1StatsResponse = TornV1["selections"]["stats"]["response"];
@@ -22,7 +20,5 @@ export type TornV1StatsResponse = TornV1["selections"]["stats"]["response"];
 export type UserV1BazaarItem = UserV1BazaarResponse["bazaar"][number];
 
 export type FactionV1Crimes = FactionV1CrimesResponse["crimes"];
-
-export type CompanyV1Employees = CompanyV1ProfileResponse["company"]["employees"];
 
 export type TornV1Bank = TornV1BankResponse["bank"];

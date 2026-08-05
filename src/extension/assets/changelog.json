@@ -37,7 +37,8 @@
 			"technical": [
 				{ "message": "Move several features to modular CSS.", "contributor": "DeKleineKobini" },
 				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "AllMight" },
-				{ "message": "Migrate to the V2 version of user/networth.", "contributor": "DeKleineKobini" }
+				{ "message": "Migrate to the V2 version of user/networth.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate from company/profile to the V2 company/employees.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
