@@ -7,6 +7,111 @@ import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
+import type { UserNetworthResponse, UserPersonalStatsFull } from "tornapi-typescript";
+
+interface NetworthType {
+	label: string;
+	liveGetter: (data: UserNetworthResponse) => number;
+	snapshotGetter: (data: UserPersonalStatsFull) => number;
+}
+
+const NETWORTH_TYPES: NetworthType[] = [
+	{
+		label: "Cash on hand",
+		liveGetter: (data) => data.networth.money.wallet,
+		snapshotGetter: (data) => data.personalstats.networth.wallet,
+	},
+	{
+		label: "Cash in vaults",
+		liveGetter: (data) => data.networth.money.vault,
+		snapshotGetter: (data) => data.personalstats.networth.vaults,
+	},
+	{
+		label: "Points",
+		liveGetter: (data) => data.networth.points,
+		snapshotGetter: (data) => data.personalstats.networth.points,
+	},
+	{
+		label: "Items",
+		liveGetter: (data) => data.networth.items.inventory,
+		snapshotGetter: (data) => data.personalstats.networth.inventory,
+	},
+	{
+		label: "Bazaar",
+		liveGetter: (data) => data.networth.items.bazaar,
+		snapshotGetter: (data) => data.personalstats.networth.bazaar,
+	},
+	{
+		label: "Display Case",
+		liveGetter: (data) => data.networth.items.display_case,
+		snapshotGetter: (data) => data.personalstats.networth.display_case,
+	},
+	{
+		label: "Bank",
+		liveGetter: (data) => data.networth.money.city_bank,
+		snapshotGetter: (data) => data.personalstats.networth.bank,
+	},
+	{
+		label: "Trade",
+		liveGetter: (data) => data.networth.items.trades + data.networth.money.pending,
+		snapshotGetter: (data) => data.personalstats.networth.pending,
+	},
+	{
+		label: "Piggy Bank",
+		liveGetter: (data) => data.networth.money.piggy_bank,
+		snapshotGetter: (data) => data.personalstats.networth.piggy_bank,
+	},
+	{
+		label: "Stock Market",
+		liveGetter: (data) => data.networth.assets.stock_market,
+		snapshotGetter: (data) => data.personalstats.networth.stock_market,
+	},
+	{
+		label: "Company",
+		liveGetter: (data) => data.networth.assets.company,
+		snapshotGetter: (data) => data.personalstats.networth.company,
+	},
+	{
+		label: "Bookie",
+		liveGetter: (data) => data.networth.money.bookie,
+		snapshotGetter: (data) => data.personalstats.networth.bookie,
+	},
+	{
+		label: "Auction House",
+		liveGetter: (data) => data.networth.items.auction_house,
+		snapshotGetter: (data) => data.personalstats.networth.auction_house,
+	},
+	{
+		label: "Cayman",
+		liveGetter: (data) => data.networth.money.cayman_bank,
+		snapshotGetter: (data) => data.personalstats.networth.overseas_bank,
+	},
+	{
+		label: "Properties",
+		liveGetter: (data) => data.networth.assets.property,
+		snapshotGetter: (data) => data.personalstats.networth.property,
+	},
+	{
+		label: "Enlisted Cars",
+		liveGetter: (data) => data.networth.items.enlisted_cars,
+		snapshotGetter: (data) => data.personalstats.networth.enlisted_cars,
+	},
+	{
+		label: "Item Market",
+		liveGetter: (data) => data.networth.items.item_market,
+		snapshotGetter: (data) => data.personalstats.networth.item_market,
+	},
+	{
+		label: "Loan",
+		liveGetter: (data) => data.networth.money.loans,
+		snapshotGetter: (data) => data.personalstats.networth.loans,
+	},
+	{
+		label: "Total",
+		liveGetter: (data) => data.networth.total,
+		snapshotGetter: (data) => data.personalstats.networth.total,
+	},
+];
 
 async function showNetworth() {
 	await requireContent();
@@ -53,9 +158,7 @@ async function showNetworth() {
 		],
 	});
 
-	for (const type of getNetworthTypes()) {
-		addToTable(type);
-	}
+	NETWORTH_TYPES.forEach(addToTable);
 
 	content.appendChild(
 		elementBuilder({
@@ -83,51 +186,10 @@ async function showNetworth() {
 		});
 	}
 
-	function getNetworthTypes() {
-		return [
-			"Cash (Wallet and Vault)",
-			"Points",
-			"Items",
-			"Bazaar",
-			"Display Case",
-			"Bank",
-			"Trade",
-			"Piggy Bank",
-			"Stock Market",
-			"Company",
-			"Bookie",
-			"Auction House",
-			"Cayman",
-			"Properties",
-			"Enlisted Cars",
-			"Item Market",
-			"Loan",
-			"Total",
-		] as const;
-	}
-
-	type NetworthType = ReturnType<typeof getNetworthTypes>[number];
-
 	function addToTable(type: NetworthType) {
-		let current: number, previous: number;
+		const previous = type.snapshotGetter(userdata);
+		const current = type.liveGetter(userdata);
 
-		let nameNetworth = type.toLowerCase().replaceAll(" ", "");
-		let nameStats = type.toLowerCase().replaceAll(" ", "_");
-		if (type === "Trade") {
-			nameNetworth = "pending";
-			nameStats = "pending";
-		} else if (type === "Cayman") nameStats = "overseas_bank";
-		else if (type === "Items") nameStats = "inventory";
-		else if (type === "Properties") nameStats = "property";
-		else if (type === "Loan") nameStats = "loans";
-
-		if (type.includes("Cash")) {
-			current = userdata.networth.wallet + userdata.networth.vault;
-			previous = userdata.personalstats.networth.wallet + userdata.personalstats.networth.vaults;
-		} else {
-			current = userdata.networth[nameNetworth];
-			previous = userdata.personalstats.networth[nameStats];
-		}
 		if (current === previous) return;
 
 		const isPositive = current > previous;
@@ -136,7 +198,7 @@ async function showNetworth() {
 			elementBuilder({
 				type: "tr",
 				children: [
-					elementBuilder({ type: "td", text: type }),
+					elementBuilder({ type: "td", text: type.label }),
 					elementBuilder({ type: "td", text: `${formatNumber(current, { shorten: true, currency: true })}` }),
 					elementBuilder({
 						type: "td",

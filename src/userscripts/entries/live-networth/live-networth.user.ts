@@ -2,14 +2,13 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { setUserdata, userdata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import type { UserV1NetworthResponse } from "@common/utils/functions/api-v1.types";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import LiveNetworthFeature from "@features/live-networth/live-networth";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
-import type { UserPersonalStatsFull } from "tornapi-typescript";
+import type { UserNetworthResponse, UserPersonalStatsFull } from "tornapi-typescript";
 
 (async () => {
 	registerCoreUserscriptContext();
@@ -32,10 +31,9 @@ async function fetchLiveNetworthData(key: string) {
 		return;
 	}
 
-	const data = await fetchData<UserPersonalStatsFull & UserV1NetworthResponse>("tornv2", {
+	const data = await fetchData<UserPersonalStatsFull & UserNetworthResponse>("tornv2", {
 		section: "user",
-		selections: ["personalstats"],
-		legacySelections: ["networth"],
+		selections: ["personalstats", "networth"],
 		key: key,
 		params: {
 			cat: "all",

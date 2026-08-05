@@ -2,7 +2,7 @@ import { ttStorage } from "@common/utils/context";
 import { api, attackHistory, type DatabaseUserdata, loadDatabase, notifications, settings, setUserdata, userdata } from "@common/utils/data/database";
 import type { StoredUserdata } from "@common/utils/data/default-database";
 import { buildFetchRequest, type FetchOptions, type FetchRequest, fetchData, mergeOptions } from "@common/utils/functions/api-fetcher";
-import type { UserV1NetworthResponse, UserV1PerksResponse } from "@common/utils/functions/api-v1.types";
+import type { UserV1PerksResponse } from "@common/utils/functions/api-v1.types";
 import { setBadge } from "@common/utils/functions/extension";
 import { applyPlural, capitalizeText, formatTime } from "@common/utils/functions/formatting";
 import { getNextChainBonus, hasFinishedEducation, LINKS, MAX_MISSIONS } from "@common/utils/functions/torn";
@@ -27,6 +27,7 @@ import type {
 	UserMeritsResponse,
 	UserMissionsResponse,
 	UserMoneyResponse,
+	UserNetworthResponse,
 	UserNewEventsResponse,
 	UserNewMessagesResponse,
 	UserNotificationsResponse,
@@ -59,7 +60,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserStocksResponse &
 	UserMeritsResponse &
 	UserV1PerksResponse &
-	UserV1NetworthResponse &
+	UserNetworthResponse &
 	UserAmmoResponse &
 	UserBattleStatsResponse &
 	UserWorkStatsResponse &
@@ -119,11 +120,9 @@ export async function updateUserdata(forceUpdate = false) {
 	}
 	if (updateBasic) {
 		// TODO - Migrate to V2 (user/perks).
-		// TODO - Migrate to V2 (user/networth).
 		for (const selection of [
 			// "inventory",
 			"perks",
-			"networth",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
@@ -145,6 +144,7 @@ export async function updateUserdata(forceUpdate = false) {
 			"virus",
 			"merits",
 			"stocks",
+			"networth",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 

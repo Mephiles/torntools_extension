@@ -30,12 +30,14 @@
 					"message": "Link the 'Item Market' and 'TornW3B Bazaars' headings in the popup's market search to the item's page on those markets.",
 					"contributor": "Aida"
 				},
-				{ "message": "Improve the page switch detection on the properties page.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve the page switch detection on the properties page.", "contributor": "DeKleineKobini" },
+				{ "message": "Split 'cash on hand' and 'cash in vaults' in 'Live Networth'.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
 				{ "message": "Move several features to modular CSS.", "contributor": "DeKleineKobini" },
-				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "AllMight" }
+				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "AllMight" },
+				{ "message": "Migrate to the V2 version of user/networth.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

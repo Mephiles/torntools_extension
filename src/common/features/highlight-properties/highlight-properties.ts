@@ -9,7 +9,7 @@ import { Feature } from "@features/feature";
 async function addHighlight() {
 	await requireSidebar();
 
-	if (Math.abs(userdata.networth.unpaidfees) >= settings.pages.sidebar.upkeepPropHighlight) {
+	if (Math.abs(userdata.networth.money.unpaid_fees) >= settings.pages.sidebar.upkeepPropHighlight) {
 		const navProperties = document.querySelector("#nav-properties");
 
 		if (!navProperties) return;
