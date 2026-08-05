@@ -1,0 +1,85 @@
+---
+title: Travel Table
+description: Sortable profitability table for foreign travel destinations with real-time stock data and profit calculations.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+The Travel Table helps you find the most profitable items to buy and import
+from foreign countries. It shows live stock data, calculates profit margins,
+and lets you sort and filter by country, category, and profitability.
+
+<Aside type="tip">
+	The table appears automatically on the [Travel Agency](https://www.torn.com/travel.php) page when both Torn API data and at least one external stock service
+	are enabled.
+</Aside>
+
+## How It Works
+
+The table combines live stock data from external services with your Torn API
+key to compute per-item profit:
+
+1. **Stock data** is fetched from your enabled external services in priority order — Prometheus and TornIntel are tried first,
+   with YATA as fallback.
+2. **Carrying capacity** is derived from your perks.
+3. **Profit** is calculated per item and per minute of flight time, accounting for flight cost, round trip, sales tax, and anonymous selling.
+
+## Where It Works
+
+| Page                      | Behavior                                                                         |
+| ------------------------- | -------------------------------------------------------------------------------- |
+| **Travel Agency**         | Table appears below the travel map as a "Travel Destinations" container          |
+| **Any page while flying** | An airplane icon appears in the TornTools top bar to toggle the table on and off |
+
+## Usage
+
+### View Modes
+
+The table has two view modes, toggleable from the filter panel:
+
+| Mode         | Columns                                                                                      |
+| ------------ | -------------------------------------------------------------------------------------------- |
+| **Basic**    | Country (flag + name), Item (icon + name, links to Torn item market), Stock, Profit / Minute |
+| **Advanced** | Adds Buy Price, Market Value, Profit / Item, Total Profit, and Cash Needed                   |
+
+### Filters
+
+Use the collapsible filter panel to narrow down results:
+
+- **Travel items** — your carrying capacity (auto-detected from perks)
+- **Hide out of stock** — show only items currently available
+- **Apply sales tax** — include Torn sales tax in profit calculations
+- **Sell anonymously** — apply anonymous selling penalty
+- **Item categories** — filter by type (Plushies, Flowers, Drugs, Weapons, etc.)
+- **Country flags** — show only selected countries; grouped by flight duration
+
+### Sorting
+
+Click any column header to sort ascending/descending. The table defaults to sorting by **Profit / Minute** (highest first).
+Profits are shown in **green** (positive) or **red** (negative).
+
+## Setup / Requirements
+
+- **Enable an external stock service** — uses live stock data from at least an external service (Prometheus, TornIntel, or YATA).
+- **Set your Torn API key** — needed to calculate item capacity
+
+<Aside type="note">
+	Services are tried in priority order. Prometheus and TornIntel are tried first; YATA acts as a fallback. You can adjust priorities yourself.
+</Aside>
+
+## Settings
+
+| Setting                                        | Default | Description                                                              |
+| ---------------------------------------------- | ------- | ------------------------------------------------------------------------ |
+| `settings.pages.travel.table`                  | On      | Master toggle for the Travel Table                                       |
+| `settings.pages.travel.autoTravelTableCountry` | Off     | Clicking a country on the travel page auto-selects its flag in the table |
+
+## Troubleshooting
+
+| Problem                                       | Likely Cause                                            |
+| --------------------------------------------- | ------------------------------------------------------- |
+| "No API data!"                                | API key not set or data not fetched                     |
+| "Prometheus, Torn Intel and YATA not enabled" | No external service enabled in settings                 |
+| "Captcha present."                            | Torn is showing a captcha; resolve it first             |
+| Table is empty                                | All items filtered out — check category/country filters |
+| Profit shows "N/A"                            | Item has no market value listed in Torn                 |

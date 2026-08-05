@@ -1,0 +1,64 @@
+---
+title: Energy Warning
+description: Prevents accidentally wasting energy past the 1000E soft cap when using consumable items.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+The Energy Warning prevents you from accidentally wasting energy when using consumable items. If an item would push
+your energy past the 1000E limit, the extension warns you before use.
+
+## How It Works
+
+When you click an energy-granting item, the extension checks:
+
+1. Your **current energy** (from the sidebar energy bar)
+2. The item's **energy value** (from Torn's item data)
+
+If `current energy + item energy > 1000`, it triggers a two-layer warning:
+
+### Inline Warning
+
+An orange warning text appears near the item description:
+
+> **Warning! Using this item increases your energy to over 1000!**
+
+This is visible immediately when you select the item — before you even try
+to use it.
+
+### Confirmation Dialog
+
+When you click **Use**, a browser confirmation dialog appears:
+
+> **Are you sure to use this item? It will get you to more than 1000E.**
+
+- **Cancel** — the item use is blocked
+- **OK** — the item is used (you've confirmed you want to proceed anyway)
+
+### What Items Are Covered
+
+The warning works for **any item** that grants energy, including:
+
+- Energy Drinks
+- Drugs
+- Feathery Hotel Coupons
+- Any other consumable with an "Increases energy by X" effect
+
+<Aside type="note">
+	The Quick Items toolbar version is less restrictive: it only warns for items of type **Drug** or **Energy Drink**, and only when your current energy is
+	already above your maximum. The items page and faction armory versions warn for all energy-granting items regardless of type.
+</Aside>
+
+## Where It Works
+
+| Page                                | Items Covered                                     |
+| ----------------------------------- | ------------------------------------------------- |
+| **Items page**                      | Any energy-granting item in your inventory        |
+| **Faction armory** (`factions.php`) | Any energy-granting item in your faction's armory |
+| **Quick Items on the items page**   | Energy Drinks and Drugs                           |
+
+## Settings
+
+| Setting                              | Default | Description                                |
+| ------------------------------------ | ------- | ------------------------------------------ |
+| `settings.pages.items.energyWarning` | On      | Warn if an item gives you energy over 1000 |
