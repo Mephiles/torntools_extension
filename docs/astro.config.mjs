@@ -5,6 +5,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
 	site: "https://mephiles.github.io",
 	base: "/torntools_extension",
+	trailingSlash: "always",
 	integrations: [
 		starlight({
 			title: "TornTools",
