@@ -5,11 +5,11 @@ on:
         branches:
             - master
         paths:
-            - "public/**"
-            - "src/common/**"
-            - "src/extension/**"
-            - "package.json"
-            - "wxt.config.*"
+            - 'public/**'
+            - 'src/common/**'
+            - 'src/extension/**'
+            - 'package.json'
+            - 'wxt.config.*'
     workflow_dispatch:
 
 concurrency:
