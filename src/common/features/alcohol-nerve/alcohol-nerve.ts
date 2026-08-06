@@ -18,8 +18,8 @@ function initialiseAddGains() {
 }
 
 function addNerveGains() {
-	const factionPerk = parseInt(userdata.faction_perks.filter((x) => /alcohol/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
-	const companyPerk = parseInt(userdata.job_perks.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	const factionPerk = parseInt(userdata.perks.faction.filter((x) => /alcohol/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	const companyPerk = parseInt(userdata.perks.job.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 
 	findAllElements("[data-category='Alcohol']").forEach((alcoholicDrink) => {
 		if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;

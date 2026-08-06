@@ -848,7 +848,7 @@ function getOptimalLifeItem(percentageMissing: number, bloodType: BloodType | nu
 }
 
 function availableMedicalItems(bloodType: BloodType | null) {
-	const perks = (hasAPIData() ? (userdata?.education_perks ?? []) : [])
+	const perks = (hasAPIData() ? (userdata?.perks.education ?? []) : [])
 		.filter((perk) => perk.toLowerCase().includes("medical item effectiveness"))
 		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
 		.reduce((a, b) => a + b, 0);

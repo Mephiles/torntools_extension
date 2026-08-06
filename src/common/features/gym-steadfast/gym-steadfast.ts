@@ -24,11 +24,11 @@ function initialiseListeners() {
 async function showSteadfast() {
 	const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
 
-	const factionPerks = userdata.faction_perks.filter((perk) => perk.includes("gym gains"));
-	const jobPerks = userdata.job_perks.filter((perk) => perk.includes("gym gains"));
-	const propertyPerk = userdata.property_perks.find((perk) => perk.includes("gym gains"));
-	const eductionPerks = userdata.education_perks.filter((perk) => perk.includes("gym gains"));
-	const bookPerk = userdata.book_perks.find((perk) => perk.includes("gym gains"))?.toLowerCase();
+	const factionPerks = userdata.perks.faction.filter((perk) => perk.includes("gym gains"));
+	const jobPerks = userdata.perks.job.filter((perk) => perk.includes("gym gains"));
+	const propertyPerk = userdata.perks.property.find((perk) => perk.includes("gym gains"));
+	const eductionPerks = userdata.perks.education.filter((perk) => perk.includes("gym gains"));
+	const bookPerk = userdata.perks.book.find((perk) => perk.includes("gym gains"))?.toLowerCase();
 
 	const bonus: Record<string, SteadfastBonus[]> = {
 		strength: [],

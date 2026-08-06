@@ -191,7 +191,7 @@ async function addFilterContainer() {
 function getBailMultiplier() {
 	if (!hasAPIData() || !settings.apiUsage.user.perks) return 1;
 
-	return Array.of(...userdata.education_perks, ...userdata.job_perks)
+	return Array.of(...userdata.perks.education, ...userdata.perks.job)
 		.filter((p) => p.includes("bail cost reduction"))
 		.reduce((multiplier, perk) => {
 			return multiplier * (1 - parseFloat(perk.split(" ")[1].replace("%", "")) / 100);

@@ -62,7 +62,7 @@ function doesRestoreLife(id: number) {
 }
 
 async function showInformation(id: number) {
-	const perks = userdata.education_perks
+	const perks = userdata.perks.education
 		.filter((perk) => perk.toLowerCase().includes("medical item effectiveness"))
 		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
 		.reduce((a, b) => a + b, 0);
