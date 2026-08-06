@@ -803,21 +803,21 @@ function getTravelCount(type?: TravelType) {
 	let count = 10;
 
 	if (hasAPIData() && settings.apiUsage.user.perks) {
-		count += userdata.enhancer_perks
+		count += userdata.perks.enhancer
 			.map((perk) => perk.match(/\+ (\d+) Travel items \(.* Suitcase\)/i))
 			.filter((result) => !!result)
 			.map((result) => parseInt(result[1]))
 			.reduce((a, b) => a + b, 0);
-		count += userdata.job_perks
+		count += userdata.perks.job
 			.filter((perk) => perk.includes("travel") && (perk.includes("item") || perk.includes("capacity")))
 			.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
 			.reduce((a, b) => a + b, 0);
-		count += userdata.faction_perks
+		count += userdata.perks.faction
 			.filter((perk) => perk.includes("travel") && perk.includes("capacity"))
 			.map((result) => convertToNumber(result))
 			.reduce((a, b) => a + b, 0);
 		// CHECK - Improve book perk checking.
-		count += userdata.book_perks
+		count += userdata.perks.book
 			.filter((perk) => perk.includes("travel capacity"))
 			.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
 			.reduce((a, b) => a + b, 0);

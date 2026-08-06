@@ -16,7 +16,7 @@ function initialiseAddEGains() {
 }
 
 function addEnergyGains() {
-	const totalPerkMultiplier = [...userdata.faction_perks, ...userdata.job_perks, ...userdata.book_perks]
+	const totalPerkMultiplier = Array.of(...userdata.perks.faction, ...userdata.perks.job, ...userdata.perks.book)
 		.filter((x) => /energy drinks/i.test(x) || /consumable gain/i.test(x))
 		.map((x) => x.replace(/\D+/g, ""))
 		.map((x) => 1 + parseInt(x) / 100)

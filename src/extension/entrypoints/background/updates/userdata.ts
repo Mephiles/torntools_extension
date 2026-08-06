@@ -2,7 +2,6 @@ import { ttStorage } from "@common/utils/context";
 import { api, attackHistory, type DatabaseUserdata, loadDatabase, notifications, settings, setUserdata, userdata } from "@common/utils/data/database";
 import type { NotificationMap, StoredUserdata } from "@common/utils/data/default-database";
 import { buildFetchRequest, type FetchOptions, type FetchRequest, fetchData, mergeOptions } from "@common/utils/functions/api-fetcher";
-import type { UserV1PerksResponse } from "@common/utils/functions/api-v1.types";
 import { setBadge } from "@common/utils/functions/extension";
 import { applyPlural, capitalizeText, formatTime } from "@common/utils/functions/formatting";
 import { getNextChainBonus, hasFinishedEducation, LINKS, MAX_MISSIONS } from "@common/utils/functions/torn";
@@ -32,6 +31,7 @@ import type {
 	UserNewMessagesResponse,
 	UserNotificationsResponse,
 	UserOrganizedCrimeResponse,
+	UserPerksResponse,
 	UserPersonalStatsFull,
 	UserProfileResponse,
 	UserPropertiesResponse,
@@ -59,7 +59,7 @@ export type FetchedUserdata = UserProfileResponse &
 	UserRefillsResponse & { icons: UserIconPrivate[] } & UserMoneyResponse &
 	UserStocksResponse &
 	UserMeritsResponse &
-	UserV1PerksResponse &
+	UserPerksResponse &
 	UserNetworthResponse &
 	UserAmmoResponse &
 	UserBattleStatsResponse &
@@ -119,15 +119,6 @@ export async function updateUserdata(forceUpdate = false) {
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
-		// TODO - Migrate to V2 (user/perks).
-		for (const selection of [
-			// "inventory",
-			"perks",
-		]) {
-			if (!settings.apiUsage.user[selection]) continue;
-
-			selections.push(selection);
-		}
 		for (const selection of [
 			"ammo",
 			"battlestats",
@@ -145,6 +136,7 @@ export async function updateUserdata(forceUpdate = false) {
 			"merits",
 			"stocks",
 			"networth",
+			"perks",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 

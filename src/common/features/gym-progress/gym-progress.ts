@@ -28,7 +28,7 @@ async function addProgress() {
 
 	const percentage = convertToNumber(currentGym.querySelector("[class*='percentage_']").textContent);
 	let goal = gymGoals[index];
-	if (hasAPIData() && userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
+	if (hasAPIData() && userdata.perks.job.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
 
 	const stat = dropDecimals(goal * (percentage / 100));
 	if (!stat || !goal) return;

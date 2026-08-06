@@ -18,8 +18,8 @@ function initialiseAddGains() {
 }
 
 function addGains() {
-	const factionPerk = parseInt(userdata.faction_perks.filter((x) => /candy/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
-	const companyPerk = parseInt(userdata.job_perks.filter((x) => /consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	const factionPerk = parseInt(userdata.perks.faction.filter((x) => /candy/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	const companyPerk = parseInt(userdata.perks.job.filter((x) => /consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 	findAllElements("[data-category='Candy']").forEach((candy) => {
 		if (candy.querySelector(".tt-candy-gains")) return;
 

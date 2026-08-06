@@ -20,14 +20,14 @@ export const ACHIEVEMENTS: Achievement[] = [
 	{
 		name: "Perks",
 		stats: () =>
-			userdata.education_perks.length +
-			userdata.enhancer_perks.length +
-			userdata.faction_perks.length +
-			userdata.job_perks.length +
-			userdata.book_perks.length +
-			userdata.merit_perks.length +
-			userdata.property_perks.length +
-			userdata.stock_perks.length,
+			userdata.perks.education.length +
+			userdata.perks.enhancer.length +
+			userdata.perks.faction.length +
+			userdata.perks.job.length +
+			userdata.perks.book.length +
+			userdata.perks.merit.length +
+			userdata.perks.property.length +
+			userdata.perks.stock.length,
 		detection: { keyword: "personal perks" },
 		requirements: { pages: ["home"] },
 	},

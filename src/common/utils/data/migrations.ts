@@ -216,8 +216,8 @@ export const MIGRATIONS: MigrationScript[] = [
 		},
 	},
 	{
-		id: "f4c0dd88-a958-4f91-b8ad-cf454949d1ec",
-		version: "9.1.1",
+		id: "4b9a96e4-ce68-46c1-b5ab-b7dfbc699db0",
+		version: "9.1.2",
 		execute(_database, flags, _oldStorage) {
 			flags.updateUserdata = true;
 		},

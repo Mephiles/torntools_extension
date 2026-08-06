@@ -18,7 +18,7 @@ async function autoFillInputs() {
 	if (
 		hasAPIData() &&
 		settings.apiUsage.user.perks &&
-		userdata.job_perks.some((perk) => perk.includes("5 travel flower capacity") || (perk.includes("+5 plushies") && perk.includes("from abroad")))
+		userdata.perks.job.some((perk) => perk.includes("5 travel flower capacity") || (perk.includes("+5 plushies") && perk.includes("from abroad")))
 	) {
 		travelCapacity += 5;
 	}

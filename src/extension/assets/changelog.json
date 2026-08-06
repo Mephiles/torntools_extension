@@ -39,7 +39,8 @@
 				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "AllMight" },
 				{ "message": "Migrate to the V2 version of user/networth.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate from company/profile to the V2 company/employees.", "contributor": "DeKleineKobini" },
-				{ "message": "Save the fetched events in a better way.", "contributor": "DeKleineKobini" }
+				{ "message": "Save the fetched events in a better way.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate to the V2 version of user/perks.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
