@@ -63,10 +63,7 @@
 			],
 			"changes": [
 				{ "message": "Minor changes to the reload buttons from the 'Jail Filter' quick actions.", "contributor": "DeKleineKobini" },
-				{
-					"message": "Update cost of company special 'Mining Boom' in Mining CorporationsUpdate cost of company special 'Mining Boom' in Mining Corporations.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "Update cost of company special 'Mining Boom' in Mining Corporations", "contributor": "DeKleineKobini" },
 				{ "message": "Make it possible to still export as much data as possible when your database is corrupted.", "contributor": "DeKleineKobini" }
 			],
 			"technical": [
