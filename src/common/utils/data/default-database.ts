@@ -1115,7 +1115,7 @@ export type TTFullNotification = {
 	seen?: boolean;
 };
 export type TTNotification = TTFullNotification | { combined: true };
-type NotificationMap = { [key: string]: TTNotification };
+export type NotificationMap = { [key: string]: TTNotification };
 type StoredProfileNotes = { [id: number]: { height: string; text: string } };
 export type AttackHistory = {
 	name: string;

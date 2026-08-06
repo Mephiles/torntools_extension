@@ -1,6 +1,6 @@
 import { ttStorage } from "@common/utils/context";
 import { api, attackHistory, type DatabaseUserdata, loadDatabase, notifications, settings, setUserdata, userdata } from "@common/utils/data/database";
-import type { StoredUserdata } from "@common/utils/data/default-database";
+import type { NotificationMap, StoredUserdata } from "@common/utils/data/default-database";
 import { buildFetchRequest, type FetchOptions, type FetchRequest, fetchData, mergeOptions } from "@common/utils/functions/api-fetcher";
 import type { UserV1PerksResponse } from "@common/utils/functions/api-v1.types";
 import { setBadge } from "@common/utils/functions/extension";
@@ -392,7 +392,13 @@ export async function updateUserdata(forceUpdate = false) {
 
 				const notification = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
 				await dispatchNotification(notification);
-				await Promise.all(events.map((event) => ttStorage.change({ notifications: { events: { [event.id]: { combined: true } } } })));
+
+				const changedEvents = events.reduce<NotificationMap>((total, event) => {
+					total[event.id] = { combined: true };
+					return total;
+				}, {});
+
+				await ttStorage.change({ notifications: { events: changedEvents } });
 			}
 		}
 
