@@ -2,6 +2,7 @@
 	import { calculateRevivePrice, REVIVE_PROVIDERS } from "@common/utils/functions/api-external-revives";
 	import { toast } from "svelte-sonner";
 	import { browser } from "wxt/browser";
+	import { cantRequestPermissionsToast } from "@/entrypoints/options/utilities/toast-helper.ts";
 	import PreferenceNote from "../PreferenceNote.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -22,7 +23,7 @@
 		if (!origin) return false;
 
 		if (!browser.permissions) {
-			toast.error("There was an issue when requesting additional permissions. Please go to the normal settings page.");
+			cantRequestPermissionsToast();
 			return false;
 		}
 

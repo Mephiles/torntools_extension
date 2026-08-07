@@ -4,6 +4,7 @@
 	import ArrowSquareOutIcon from "phosphor-svelte/lib/ArrowSquareOutIcon";
 	import { toast } from "svelte-sonner";
 	import { browser } from "wxt/browser";
+	import { cantRequestPermissionsToast } from "@/entrypoints/options/utilities/toast-helper.ts";
 	import { apiStore, settingsStore } from "../../../stores/database-store.svelte";
 	import type { BooleanPreferenceStoragePath, StringPreferenceStoragePath } from "../preference-storage";
 	import { getPreferenceValue, updatePreferenceValue } from "../preference-storage";
@@ -51,7 +52,7 @@
 		}
 
 		if (!browser.permissions) {
-			toast.error("There was an issue when requesting additional permissions. Please go to the normal settings page.");
+			cantRequestPermissionsToast();
 			return;
 		}
 
