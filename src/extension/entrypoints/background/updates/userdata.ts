@@ -184,7 +184,7 @@ export async function updateUserdata(forceUpdate = false) {
 	// Notifications have a 100K count limit from being fetched via the Torn API
 	// Use "newevents" selection only when the old events count > new events count
 	// Fetch only when new events arrived
-	if (oldUserdata?.notifications?.events !== newUserdata?.notifications?.events) {
+	if (settings.apiUsage.user.newevents && oldUserdata?.notifications?.events !== newUserdata?.notifications?.events) {
 		const newEventsCount = (newUserdata?.notifications?.events ?? 0) - (oldUserdata?.notifications?.events ?? 0);
 
 		if (newEventsCount > 0) {
