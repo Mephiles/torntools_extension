@@ -30,7 +30,7 @@ export async function setupItemMarketPage() {
 
 	const hash = getHashParameters();
 	const view = hash.get("market/view");
-	if (view === "category" || view === "search") {
+	if ((view === "category" || view === "search") && (!mobile || !hash.has("itemID"))) {
 		requireElement(".react-loading-skeleton", { invert: true })
 			.then(() => requireElement("[class*='itemList___'],[class*='noItems___']"))
 			.then(handleItemList);
