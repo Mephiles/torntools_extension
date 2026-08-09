@@ -30,7 +30,7 @@
 					"message": "Improved step detection on the item market for mobile views, resulting in less errors and better feature applying.",
 					"contributor": "DeKleineKobini"
 				}
-            ],
+			],
 			"changes": [
 				{
 					"message": "Link the 'Item Market' and 'TornW3B Bazaars' headings in the popup's market search to the item's page on those markets.",
