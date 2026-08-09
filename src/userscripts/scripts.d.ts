@@ -23,4 +23,12 @@ export declare global {
 		delete(key: string): Promise<void>;
 		usage(): Promise<{ used: number; quota: number }>;
 	}
+
+	interface Window {
+		flutter_inappwebview: FlutterWebview;
+	}
+
+	interface FlutterWebview {
+		callHandler<T = void>(handler: string, ...args: unknown): Promise<T>;
+	}
 }

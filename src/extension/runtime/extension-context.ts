@@ -91,6 +91,10 @@ const ExtensionRuntimeInformation: RuntimeInformation = {
 	isUserscript(): boolean {
 		return false;
 	},
+
+	reloadWindow(force?: boolean) {
+		location.reload(force);
+	},
 };
 
 const ExtensionRuntimeStorage: RuntimeStorage = {

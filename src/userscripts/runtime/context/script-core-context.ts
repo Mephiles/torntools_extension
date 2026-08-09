@@ -6,6 +6,7 @@ import { isCustomEvent } from "@common/utils/functions/dom";
 import { type CustomEventListener, type EventHandler, type EventPayloads } from "@common/utils/functions/events";
 import { getStatusIcons, type InformationRetriever } from "@common/utils/functions/torn-injected";
 import { ScriptFeatureManager } from "@userscripts/runtime/script-feature-manager";
+import { isPDA } from "@userscripts/utils/script-utils.ts";
 
 export function registerCoreUserscriptContext() {
 	setRuntimeInformation(UserscriptRuntimeInformation);
@@ -32,6 +33,11 @@ const UserscriptRuntimeInformation: RuntimeInformation = {
 
 	isUserscript(): boolean {
 		return true;
+	},
+
+	reloadWindow(force?: boolean) {
+		if (isPDA()) void window.flutter_inappwebview.callHandler("reloadPage");
+		else location.reload(force);
 	},
 };
 

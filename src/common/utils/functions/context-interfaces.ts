@@ -9,12 +9,14 @@ export interface RuntimeInformation {
 	getWindow(): TTWindow;
 	getVersion(): string;
 	isUserscript(): boolean;
+	reloadWindow(force?: boolean): void;
 }
 
 export const DEFAULT_RUNTIME_INFORMATION: RuntimeInformation = {
 	getWindow: () => window,
 	getVersion: () => "N/A",
 	isUserscript: () => false,
+	reloadWindow: (force?: boolean) => location.reload(force),
 };
 
 type AreaName = globalThis.Browser.storage.AreaName;
