@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Gym Disable Stats",
 	description: "Disable certain stats to avoid training them accidentally.",
-	version: "1.0.2",
+	version: "1.0.3",
 	matches: ["https://*.torn.com/gym.php*"],
 	runAt: "document-end",
 };

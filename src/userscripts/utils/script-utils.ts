@@ -1,3 +1,4 @@
 export function isPDA() {
-	return "###PDA-APIKEY###".at(0) !== "#";
+	// @ts-ignore: We don't really use this function, we just check its presence to mark this as PDA.
+	return typeof PDA_evaluateJavascript === "function";
 }

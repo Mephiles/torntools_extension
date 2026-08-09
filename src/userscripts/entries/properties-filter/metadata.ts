@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Properties Filter",
 	description: "Filter the properties you and your spouse own.",
-	version: "1.0.2",
+	version: "1.0.3",
 	matches: ["https://*.torn.com/properties.php*"],
 	runAt: "document-end",
 };

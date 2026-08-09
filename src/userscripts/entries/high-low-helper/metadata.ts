@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "High Low Helper",
 	description: "Display the best strategic option in high-low.",
-	version: "1.0.2",
+	version: "1.0.3",
 	matches: ["https://*.torn.com/page.php?sid=highlow*"],
 	runAt: "document-end",
 };

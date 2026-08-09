@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Candy Happy",
 	description: "Show the amount of happy candy would give.",
-	version: "1.0.7",
+	version: "1.0.8",
 	matches: ["https://*.torn.com/item.php*"],
 	runAt: "document-end",
 	connect: ["api.torn.com", "torntools.tornplayground.eu"],
