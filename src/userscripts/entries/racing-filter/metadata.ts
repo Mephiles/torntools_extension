@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Racing Filter",
 	description: "Filter the racing competition list.",
-	version: "1.2.4",
+	version: "1.2.5",
 	matches: ["https://*.torn.com/page.php?sid=racing*"],
 	runAt: "document-end",
 };
