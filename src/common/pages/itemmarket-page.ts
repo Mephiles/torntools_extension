@@ -30,13 +30,16 @@ export async function setupItemMarketPage() {
 
 	const hash = getHashParameters();
 	const view = hash.get("market/view");
-	if ((view === "category" || view === "search") && (!mobile || !hash.has("itemID"))) {
-		requireElement(".react-loading-skeleton", { invert: true })
-			.then(() => requireElement("[class*='itemList___'],[class*='noItems___']"))
-			.then(handleItemList);
-	}
-	if (view === "search" && hash.has("itemID")) {
-		requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, parseInt(hash.get("itemID"))));
+	if (view === "category" || view === "search") {
+		if (hash.has("itemID")) {
+			requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, parseInt(hash.get("itemID"))));
+		}
+
+		if (!mobile || !hash.has("itemID")) {
+			requireElement(".react-loading-skeleton", { invert: true })
+				.then(() => requireElement("[class*='itemList___'],[class*='noItems___']"))
+				.then(handleItemList);
+		}
 	}
 	if (mobile || tablet) {
 		new MutationObserver(async (mutations) => {

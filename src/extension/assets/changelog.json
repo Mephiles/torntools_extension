@@ -25,7 +25,10 @@
 				{ "message": "Fix the 'Display Case Worth' showing up more than once.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error in 'Stats Estimate' when the rank can't be read (like for an NPC).", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve an issue where we weren't respecting the 'newevents' api usage toggle.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error on mobile devices when reloading the item market in certain situations.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Improved step detection on the item market for mobile views, resulting in less errors and better feature applying.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{
