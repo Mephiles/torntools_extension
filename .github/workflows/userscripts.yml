@@ -30,18 +30,23 @@ jobs:
             - name: Build userscripts
               run: bun run build:userscripts
 
+            # Upload in batches (a single request with all userscripts is too large), then combine the per-batch responses into one.
             - name: Upload userscripts
               env:
                   PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
               run: |
                   set -euo pipefail
 
-                  upload_args=()
-                  for file in .output/userscripts/*.user.js; do
-                      upload_args+=(-F "files=@${file};type=application/javascript")
-                  done
-
-                  curl --fail -X POST -H "X-API-TOKEN: ${PG_TT_TOKEN}" "${upload_args[@]}" https://torntools.tornplayground.eu/api/userscripts -o /tmp/userscripts-response.json
+                  find .output/userscripts -maxdepth 1 -name '*.user.js' -print0 \
+                      | xargs -0 -n 20 bash -c '
+                          set -euo pipefail
+                          upload_args=()
+                          for file in "$@"; do
+                              upload_args+=(-F "files=@${file};type=application/javascript")
+                          done
+                          curl --fail -sS -X POST -H "X-API-TOKEN: ${PG_TT_TOKEN}" "${upload_args[@]}" https://torntools.tornplayground.eu/api/userscripts
+                      ' _ \
+                      | jq -s 'map(.userscripts) | {userscripts: add}' > /tmp/userscripts-response.json
 
             - name: Write upload summary
               run: |
