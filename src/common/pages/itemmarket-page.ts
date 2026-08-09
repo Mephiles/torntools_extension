@@ -108,4 +108,21 @@ function handleSellerList(list: Element, item: number) {
 
 		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE, { item, list });
 	}).observe(list, { childList: true });
+
+	if (document.querySelector("[class*='headerButton___']")) {
+		new MutationObserver((mutations, observer) => {
+			if (
+				!mutations.some((mutation) =>
+					Array.from(mutation.removedNodes).some(
+						(node) => isElement(node) && (node.className.includes("containerHeader___") || node.className.includes("sellerList___")),
+					),
+				)
+			) {
+				return;
+			}
+
+			observer.disconnect();
+			handleItemList(document.querySelector("[class*='itemList___']"));
+		}).observe(list.parentElement!, { childList: true });
+	}
 }

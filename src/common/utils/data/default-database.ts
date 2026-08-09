@@ -469,6 +469,7 @@ export const DEFAULT_STORAGE = {
 				highlightCheapItemsSound: new DefaultSetting("boolean", false),
 				leftBar: new DefaultSetting("boolean", false),
 				fillMax: new DefaultSetting("boolean", true),
+				bazaars: new DefaultSetting("boolean", true),
 			},
 			competition: {
 				filter: new DefaultSetting("boolean", true),

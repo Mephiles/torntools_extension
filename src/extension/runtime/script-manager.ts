@@ -38,6 +38,7 @@ import AveragePersonalStatFeature from "@features/average-personal-stat/average-
 import BankInvestmentDueTimeFeature from "@features/bank-investment-due-time/bank-investment-due-time";
 import BankInvestmentInfoFeature from "@features/bank-investment-info/bank-investment-info";
 import BarLinksFeature from "@features/bar-links/bar-links";
+import BazaarMarketFeature from "@features/bazaar-market/bazaar-market.svelte";
 import BazaarSubVendorItemsFeature from "@features/bazaar-sub-vendor-items/bazaar-sub-vendor-items";
 import BazaarWorthFeature from "@features/bazaar-worth/bazaar-worth";
 import BlackjackStrategyFeature from "@features/blackjack-strategy/blackjack-strategy";
@@ -449,6 +450,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketLeftBarFeature());
+		FEATURE_MANAGER.registerFeature(new BazaarMarketFeature());
 	} else if (page === "jail") {
 		setupJailPage();
 		FEATURE_MANAGER.registerFeature(new JailFilterFeature());

@@ -277,3 +277,21 @@ export function contextSafeCustomEvent<T = never>(event: string, detail: T): Cus
 
 	return new CustomEvent(event, { detail: safeDetail });
 }
+
+export function readableErrorMessage(error: unknown): string {
+	if (!error) {
+		return `Unknown error, this should be reported: ${error}`;
+	} else if (error instanceof Error) {
+		return `${error.name}: ${error.message}`;
+	} else if (typeof error === "string") {
+		return error;
+	} else if (typeof error === "object" && !Array.isArray(error)) {
+		if ("message" in error) {
+			return String(error.message);
+		} else if ("error" in error) {
+			return String(error.error);
+		}
+	}
+
+	return `Unknown error, this should be reported: ${JSON.stringify(error)}`;
+}
