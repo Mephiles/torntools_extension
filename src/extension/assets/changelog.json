@@ -42,7 +42,8 @@
 					"message": "Make the error message cleared when requesting permissions through the in-game settings fails.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Update our list of static items.", "contributor": "DeKleineKobini" }
+				{ "message": "Update our list of static items.", "contributor": "DeKleineKobini" },
+				{ "message": "Include 'Arson skill' on the profile box personal stats.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [

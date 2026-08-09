@@ -295,6 +295,14 @@ export const STATS: StatDef[] = [
 			(crimes) => crimes.skills.scamming,
 		),
 	},
+	{
+		name: "Arson skill",
+		type: "criminal offenses",
+		v2Getter: crimesStats(
+			() => 0,
+			(crimes) => crimes.skills.arson,
+		),
+	},
 
 	// Bounties
 	{ name: "Bounties placed", type: "bounties", v2Getter: (data) => data.personalstats.bounties.placed.amount },
