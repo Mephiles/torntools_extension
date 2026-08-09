@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Hospital Filter",
 	description: "Filter the list currently in the hospital.",
-	version: "1.1.6",
+	version: "1.1.7",
 	matches: ["https://*.torn.com/hospitalview.php*"],
 	runAt: "document-end",
 };

@@ -17,7 +17,7 @@ export class TTScriptStorage extends TornToolsStorage {
 	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 	async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
-			return await Promise.all(key.map(this.storageKey).map((k) => GM.getValue(k)));
+			return await Promise.all(key.map((k) => this.storageKey(k)).map((k) => GM.getValue(k)));
 		} else if (key) {
 			return await GM.getValue(this.storageKey(key));
 		} else {

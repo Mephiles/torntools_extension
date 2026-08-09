@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "OC2 Filter",
 	description: "Filter the OC2 list.",
-	version: "1.0.1",
+	version: "1.0.2",
 	matches: ["https://*.torn.com/factions.php*"],
 	runAt: "document-end",
 };

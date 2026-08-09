@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Opened Supply Pack Value",
 	description: "Display the value of the supply pack you just opened.",
-	version: "1.0.2",
+	version: "1.0.3",
 	matches: ["https://*.torn.com/item.php*"],
 	runAt: "document-end",
 	connect: ["torntools.tornplayground.eu"],
