@@ -1,0 +1,150 @@
+.bazaar-market {
+	background-color: var(--bm-bazaars-background-color);
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	:global(body:not(.dark-mode)) & {
+		--bm-text-muted: #666;
+		--bm-text-strong: #333;
+		--bm-listing-border: lightgray;
+		--bm-listing-bg: white;
+		--bm-input-border-color: #ccc;
+		--bm-input-background-color: linear-gradient(0deg, #fff 0%, #fff 100%);
+		--bm-input-color: black;
+		--bm-link-color: #069;
+		--bm-bazaars-background-color: #f2f2f2;
+	}
+
+	:global(body.dark-mode) & {
+		--bm-text-muted: #aaa;
+		--bm-text-strong: #ddd;
+		--bm-listing-border: #444;
+		--bm-listing-bg: #2b2b2b;
+		--bm-input-border-color: #444;
+		--bm-input-background-color: linear-gradient(0deg, #111 0%, #000 100%);
+		--bm-input-color: #fff;
+		--bm-link-color: #74c0fc;
+		--bm-bazaars-background-color: #242424;
+	}
+}
+
+.header {
+	display: flex;
+	align-items: baseline;
+	gap: 5px;
+
+	.title {
+		font-size: 13px;
+		font-weight: bold;
+	}
+}
+
+.value-information {
+	font-size: 11px;
+	color: var(--bm-text-muted);
+
+	strong {
+		color: var(--bm-text-strong);
+	}
+}
+
+.controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+}
+
+.control {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	font-size: 11px;
+	color: var(--bm-text-muted);
+
+	input,
+	select {
+		height: 20px;
+		font-size: 11px;
+		max-width: 80px;
+		padding: 0 4px;
+		border: 1px solid var(--bm-input-border-color);
+		border-radius: 4px;
+		background-color: var(--bm-input-background-color);
+		color: var(--bm-input-color);
+	}
+}
+
+.list-wrapper {
+	flex: 1;
+	overflow-x: auto;
+	overflow-y: hidden;
+
+	&::-webkit-scrollbar {
+		height: 5px;
+	}
+}
+
+.list {
+	display: flex;
+	gap: 8px;
+}
+
+.listing {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	border-radius: 5px;
+	padding: 8px;
+	min-width: 100px;
+	cursor: pointer;
+	border: 1px solid var(--bm-listing-border);
+	background-color: var(--bm-listing-bg);
+	text-decoration: none;
+	color: var(--bm-text-strong);
+}
+
+.player-name {
+	font-weight: bold;
+	text-decoration: none;
+	color: var(--bm-link-color);
+
+	.listing:hover & {
+		text-decoration: underline;
+	}
+}
+
+.details {
+}
+
+.price {
+	font-weight: bold;
+}
+
+.quantity {
+	color: var(--bm-text-muted);
+	font-size: 11px;
+}
+
+.updated-at {
+	font-size: 0.85em;
+	opacity: 0.7;
+}
+
+.footer {
+	margin-top: 2px;
+	font-size: 10px;
+	color: var(--bm-text-muted);
+}
+
+.loading {
+	display: flex;
+	gap: 4px;
+	font-size: 12px;
+}
+
+.error {
+	color: var(--tt-color-red);
+}

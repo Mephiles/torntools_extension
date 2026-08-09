@@ -233,16 +233,20 @@ export type FFScouterResult =
 	| { code: number; error: string };
 
 export type TornW3BResult = {
+	item_id: number;
+	item_name: string;
+	market_price: number;
+	bazaar_average: number;
+	generated_at: number;
 	listings: {
 		item_id: number;
+		uid: string | null;
 		player_id: number;
 		player_name: string;
 		quantity: number;
 		price: number;
 		content_updated: number;
 		last_checked: number;
-		content_updated_relative: string;
-		last_checked_relative: string;
 	}[];
 };
 

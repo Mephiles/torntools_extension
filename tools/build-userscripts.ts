@@ -43,6 +43,7 @@ function detectPermissionsFromCode(code: string): string[] {
 const aliases = {
 	"@common": resolve(root, "src/common"),
 	"@features": resolve(root, "src/common/features"),
+	"@svelte": resolve(root, "src/extension/svelte"),
 	"@userscripts": resolve(root, "src/userscripts"),
 };
 
