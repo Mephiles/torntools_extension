@@ -1,44 +1,17 @@
-import { readdirSync, readFileSync, unlink } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import type { Dirent } from "node:fs";
 import { rm } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
 import { build } from "vite";
-import type { MonkeyUserScript } from "vite-plugin-monkey";
 import monkey from "vite-plugin-monkey";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputDir = resolve(root, ".output/userscripts");
 const author = "DeKleineKobini [2114440] and the TornTools team";
 const icon = "https://www.google.com/s2/favicons?sz=64&domain=torn.com";
-
-const GM_PERMISSION_PATTERNS: Record<string, RegExp> = {
-	"GM.getValue": /\bGM\.getValue\b/,
-	"GM.getValues": /\bGM\.getValues\b/,
-	"GM.setValue": /\bGM\.setValue\b/,
-	"GM.setValues": /\bGM\.setValues\b/,
-	GM_addStyle: /\bGM_addStyle\b/,
-	"GM.info": /\bGM\.info\b/,
-	"GM.registerMenuCommand": /\bGM\.registerMenuCommand\b/,
-	"GM.notification": /\bGM\.notification\b/,
-	"GM.setClipboard": /\bGM\.setClipboard\b/,
-	"GM.getClipboard": /\bGM\.getClipboard\b/,
-	"GM.xmlHttpRequest": /\bGM\.xmlHttpRequest\b/,
-	unsafeWindow: /\bunsafeWindow\b/,
-};
-
-function detectPermissionsFromCode(code: string): string[] {
-	const detected: string[] = [];
-
-	for (const [permission, pattern] of Object.entries(GM_PERMISSION_PATTERNS)) {
-		if (pattern.test(code)) {
-			detected.push(permission);
-		}
-	}
-
-	return detected;
-}
 
 const aliases = {
 	"@common": resolve(root, "src/common"),
@@ -47,14 +20,7 @@ const aliases = {
 	"@userscripts": resolve(root, "src/userscripts"),
 };
 
-async function buildUserscript(
-	entryName: string,
-	userscript: UserscriptMetadata,
-	fileSuffix: string,
-	grants?: MonkeyUserScript["grant"],
-	beta = false,
-	dev = false,
-) {
+async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, beta = false, dev = false) {
 	await build({
 		root,
 		configFile: false,
@@ -74,7 +40,6 @@ async function buildUserscript(
 					icon,
 					match: userscript.matches,
 					"run-at": userscript.runAt,
-					grant: grants,
 					supportURL: "https://github.com/Mephiles/torntools_extension/issues",
 					contributionURL: "https://buymeacoffee.com/dekleinekobini",
 					connect: userscript.connect,
@@ -82,7 +47,8 @@ async function buildUserscript(
 				build: {
 					fileName: `${entryName}${fileSuffix}`,
 					metaFileName: false,
-					autoGrant: false,
+					// Detect GM_* usage in the bundle and bake @grant lines in during this single build.
+					autoGrant: true,
 				},
 			}),
 		],
@@ -101,9 +67,16 @@ async function buildUserscript(
 	});
 }
 
-const targetEntry = process.argv[2];
+function detectPermissionsFromOutput(filePath: string): string[] {
+	const code = readFileSync(filePath, "utf-8");
+	return [...code.matchAll(/^\/\/ @grant\s+(.+)$/gm)].map((match) => match[1]);
+}
+
+const targetEntry = process.argv[2]?.startsWith("--") ? undefined : process.argv[2];
 const isBeta = process.argv.includes("--beta");
 const isDev = process.argv.includes("--dev");
+const concurrencyFlag = process.argv.indexOf("--concurrency");
+const CONCURRENCY = concurrencyFlag !== -1 ? Math.max(1, Number(process.argv[concurrencyFlag + 1])) : 5;
 
 if (!targetEntry) {
 	await rm(outputDir, { recursive: true, force: true });
@@ -112,29 +85,36 @@ if (!targetEntry) {
 const entriesPath = "src/userscripts/entries";
 const metadataFileName = "metadata.ts";
 const entries = readdirSync(entriesPath, { withFileTypes: true });
+const targets = entries.filter((entry): entry is Dirent => entry.isDirectory() && (!targetEntry || entry.name === targetEntry));
 
-for (const entry of entries) {
-	if (!entry.isDirectory()) continue;
-	if (targetEntry && entry.name !== targetEntry) continue;
-
+async function buildEntry(entry: Dirent): Promise<string> {
 	const metadataPath = resolve(root, entriesPath, entry.name, metadataFileName);
 
 	try {
 		const module = await import(metadataPath);
 		const metadata = module.default as UserscriptMetadata;
 
-		await buildUserscript(entry.name, metadata, `.detect.user.js`, undefined, isBeta, isDev);
+		await buildUserscript(entry.name, metadata, `.user.js`, isBeta, isDev);
 
-		const detectPath = resolve(outputDir, `${entry.name}.detect.user.js`);
-		const code = readFileSync(detectPath, "utf-8");
-		const permissions = detectPermissionsFromCode(code);
+		const outputPath = resolve(outputDir, `${entry.name}.user.js`);
+		const permissions = detectPermissionsFromOutput(outputPath);
 
-		await buildUserscript(entry.name, metadata, `.user.js`, (permissions.length > 0 ? permissions : undefined) as any, isBeta, isDev);
-
-		unlink(detectPath, () => {});
-
-		console.log(`${metadata.name}: ${permissions.join(", ") || "none"}`);
+		return `${metadata.name}: ${permissions.join(", ") || "none"}`;
 	} catch (error) {
 		console.error(`Failed building [${entry.name}]:`, error);
+		return "";
 	}
 }
+
+const results: string[] = [];
+let next = 0;
+await Promise.all(
+	Array.from({ length: Math.min(CONCURRENCY, targets.length) }, async () => {
+		while (next < targets.length) {
+			const index = next++;
+			results[index] = await buildEntry(targets[index]);
+		}
+	}),
+);
+
+results.filter((result) => !!result).forEach((result) => console.log(result));
