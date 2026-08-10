@@ -47,7 +47,14 @@ const aliases = {
 	"@userscripts": resolve(root, "src/userscripts"),
 };
 
-async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, grants?: MonkeyUserScript["grant"], beta = false, dev = false) {
+async function buildUserscript(
+	entryName: string,
+	userscript: UserscriptMetadata,
+	fileSuffix: string,
+	grants?: MonkeyUserScript["grant"],
+	beta = false,
+	dev = false,
+) {
 	await build({
 		root,
 		configFile: false,
