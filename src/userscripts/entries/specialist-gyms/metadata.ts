@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Specialist Gyms",
 	description: "Calculate your stat ratio for activating your specialist gyms.",
-	version: "1.1.3",
+	version: "1.1.4",
 	matches: ["https://*.torn.com/gym.php*"],
 	runAt: "document-end",
 };

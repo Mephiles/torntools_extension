@@ -65,12 +65,7 @@ export class PDAScriptStorage extends TornToolsStorage {
 	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 	async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
-			return await Promise.all(
-				key.map((k) => {
-					if (k === "cache") return PDA_storage.get(k);
-					else return GM.getValue(k);
-				}),
-			);
+			return await Promise.all(key.map(this.get.bind(this)));
 		} else if (key) {
 			if (key === "cache") return await GM.getValue(key);
 			else return await PDA_storage.get(key);
@@ -98,11 +93,11 @@ export class PDAScriptStorage extends TornToolsStorage {
 
 	async remove(key: string | string[]): Promise<void> {
 		if (typeof key === "string") await PDA_storage.delete(key);
-		else await Promise.all(key.map((k) => PDA_storage.delete(k)));
+		else await Promise.all(key.map(PDA_storage.delete));
 	}
 
 	async clear(): Promise<void> {
-		await Promise.all((await PDA_storage.list()).map((k) => PDA_storage.delete(k)));
+		await Promise.all((await PDA_storage.list()).map(PDA_storage.delete));
 	}
 
 	reset(): Promise<void>;
