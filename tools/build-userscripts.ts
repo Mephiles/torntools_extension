@@ -47,7 +47,7 @@ const aliases = {
 	"@userscripts": resolve(root, "src/userscripts"),
 };
 
-async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, grants?: MonkeyUserScript["grant"]) {
+async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, grants?: MonkeyUserScript["grant"], beta = false, dev = false) {
 	await build({
 		root,
 		configFile: false,
@@ -58,9 +58,9 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 			monkey({
 				entry: `src/userscripts/entries/${entryName}/${entryName}.user.ts`,
 				userscript: {
-					name: `TORN: TornTools - ${userscript.name}`,
-					namespace: `torntools.${entryName}`,
-					version: userscript.version,
+					name: `TORN: TornTools - ${userscript.name}${beta ? " BETA" : ""}${dev ? " DEV" : ""}`,
+					namespace: `torntools.${entryName}${beta ? "--beta" : ""}${dev ? "--dev" : ""}`,
+					version: `${dev ? "dev-" : ""}${userscript.version}${beta ? "-beta" : ""}`,
 					description: userscript.description,
 					author,
 					license: "GPL-3.0-or-later",
@@ -95,6 +95,8 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 }
 
 const targetEntry = process.argv[2];
+const isBeta = process.argv.includes("--beta");
+const isDev = process.argv.includes("--dev");
 
 if (!targetEntry) {
 	await rm(outputDir, { recursive: true, force: true });
@@ -114,13 +116,13 @@ for (const entry of entries) {
 		const module = await import(metadataPath);
 		const metadata = module.default as UserscriptMetadata;
 
-		await buildUserscript(entry.name, metadata, `.detect.user.js`);
+		await buildUserscript(entry.name, metadata, `.detect.user.js`, undefined, isBeta, isDev);
 
 		const detectPath = resolve(outputDir, `${entry.name}.detect.user.js`);
 		const code = readFileSync(detectPath, "utf-8");
 		const permissions = detectPermissionsFromCode(code);
 
-		await buildUserscript(entry.name, metadata, `.user.js`, (permissions.length > 0 ? permissions : undefined) as any);
+		await buildUserscript(entry.name, metadata, `.user.js`, (permissions.length > 0 ? permissions : undefined) as any, isBeta, isDev);
 
 		unlink(detectPath, () => {});
 
