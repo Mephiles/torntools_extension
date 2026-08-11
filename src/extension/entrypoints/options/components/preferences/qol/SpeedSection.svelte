@@ -6,7 +6,7 @@
 
 <div class="space-y-2">
 	<PreferenceSectionCard>
-		<StorageSwitch path="settings.pages.crimes.quickCrimes" label="Quick Crimes" />
+		<StorageSwitch path="settings.pages.crimes.quickCrimes" label="Quick Crimes" description="Only available for crimes 1.0." />
 		<StorageSwitch path="settings.pages.trade.openChat" label="Chat button in trades" />
 	</PreferenceSectionCard>
 
