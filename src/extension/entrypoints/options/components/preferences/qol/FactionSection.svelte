@@ -90,6 +90,7 @@
 			</StorageSwitch>
 			<StorageSwitch path="settings.pages.faction.totalChallengeContributions" label="Show total challenge contributions" />
 			<StorageSwitch path="settings.pages.faction.warReportHighlight" label="Highlight yourself in war reports" />
+			<StorageSwitch path="settings.pages.faction.rankedWarValue" label="Show the total rewards for ranked wars" />
 		</PreferenceSettingGroup>
 
 		<PreferenceSettingGroup title="CSV">
@@ -119,7 +120,6 @@
 
 			<PreferenceSettingGroup title="OCs v2">
 				<StorageSwitch path="settings.pages.faction.warnCrime" label="Warn when joining a crime without passing the conditions" />
-				<StorageSwitch path="settings.pages.faction.rankedWarValue" label="Show the total rewards for ranked wars" />
 			</PreferenceSettingGroup>
 		</div>
 	</PreferenceSectionCard>
