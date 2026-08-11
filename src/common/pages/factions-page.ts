@@ -353,3 +353,32 @@ export async function isDestroyed(): Promise<boolean> {
 
 	return info.classList.contains("faction-destroyed");
 }
+
+export interface TornInternalArmouryTabContent {
+	items: {
+		name: "Blood Bag : A+";
+		qty: number;
+		image: string;
+		imageSrcSetName: string;
+		imageSrcSetExt: string;
+		user: false;
+		loaned: string;
+		type: string;
+		color: string;
+		item: number;
+		itemID: number;
+		armoryID: number;
+		userID: number;
+		itemActions: {
+			usable: boolean;
+			use: boolean;
+			give: boolean;
+			loaned: boolean;
+			loan: boolean;
+			retrieve: boolean;
+		};
+		glow: string;
+		glowClass: string;
+	}[];
+	isset_pagination: true;
+}

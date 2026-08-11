@@ -9,6 +9,7 @@ import type { SavedHighlight } from "@features/chat-highlight/chat-highlight";
 import type { ColoredChatOption } from "@features/colored-chat/colored-chat";
 import type { SavedCustomLink } from "@features/custom-links/custom-links";
 import type { StoredHiddenFeeds } from "@features/only-new-feed/only-new-feed";
+import type { QuickItem } from "@features/quick-items/shared/quick-items-common.ts";
 import type { StoredResizableChats } from "@features/resizable-chat/resizable-chat";
 import type { UserAlias } from "@features/user-alias/alias";
 import type { TornItem, TornStock, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
@@ -910,7 +911,7 @@ export const DEFAULT_STORAGE = {
 	},
 	quick: {
 		items: new DefaultSetting<QuickItem[]>("array", []),
-		factionItems: new DefaultSetting<QuickFactionItem[]>("array", []),
+		factionItems: new DefaultSetting<QuickItem[]>("array", []),
 		crimes: new DefaultSetting<QuickCrime[]>("array", []),
 		jail: new DefaultSetting<QuickJail[]>("array", []),
 	},
@@ -1095,8 +1096,6 @@ export type StoredStakeouts = {
 	list: StakeoutData[];
 };
 
-export type QuickItem = { id: number };
-export type QuickFactionItem = { id: number | "points-energy" | "points-nerve" };
 type QuickCrime = {
 	step: string;
 	nerve: number;

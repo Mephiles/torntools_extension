@@ -7,7 +7,8 @@
 			"features": [
 				{ "message": "Stakeout users on idle and offline status.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter on properties.", "contributor": "DeKleineKobini" },
-				{ "message": "Display bazaar entries in the item market, powered by TornW3B.", "contributor": "DeKleineKobini" }
+				{ "message": "Display bazaar entries in the item market, powered by TornW3B.", "contributor": "DeKleineKobini" },
+				{ "message": "Special actions in 'Faction Quick Items', like those in 'Quick Items' but using faction items.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{
@@ -43,7 +44,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Update our list of static items.", "contributor": "DeKleineKobini" },
-				{ "message": "Include 'Arson skill' on the profile box personal stats.", "contributor": "DeKleineKobini" }
+				{ "message": "Include 'Arson skill' on the profile box personal stats.", "contributor": "DeKleineKobini" },
+				{ "message": "Make the response of 'Faction Quick Items' visually more appealing.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
@@ -56,7 +58,8 @@
 				{
 					"message": "Minor refactor for the 'Jail Filter' reloading button, to potentially improve script experience.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Refactor 'Quick Items' and 'Faction Quick Items' to use more shared code.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

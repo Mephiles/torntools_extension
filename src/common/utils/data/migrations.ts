@@ -3,6 +3,8 @@ import type { Database } from "@common/utils/data/database";
 import type { FactionStakeoutEntry, StakeoutData, StoredUserdata } from "@common/utils/data/default-database";
 import { toNumericVersion } from "@common/utils/functions/utilities";
 import type { SavedCustomLink } from "@features/custom-links/custom-links";
+import type { QuickItemId } from "@features/quick-items/shared/quick-items-common.ts";
+import { SPECIAL_MEDICAL_HOSPITAL, SPECIAL_MEDICAL_LIFE } from "@features/quick-items/shared/special-actions.ts";
 import type { UserAlias } from "@features/user-alias/alias";
 
 export interface StoredMigration {
@@ -220,6 +222,23 @@ export const MIGRATIONS: MigrationScript[] = [
 		version: "9.1.2",
 		execute(_database, flags, _oldStorage) {
 			flags.updateUserdata = true;
+		},
+	},
+	{
+		id: "787edc7c-9b68-4d4f-9d8f-7f58b33e8d60",
+		version: "9.1.2",
+		execute(database, _flags, oldStorage) {
+			if (oldStorage?.quick?.items?.length) {
+				const items: { id: number }[] = oldStorage.quick.items;
+
+				database.quick.items = items.map((item) => {
+					let id: QuickItemId = item.id;
+					if (id === 100_000) id = SPECIAL_MEDICAL_HOSPITAL;
+					else if (id === 100_001) id = SPECIAL_MEDICAL_LIFE;
+
+					return { id };
+				});
+			}
 		},
 	},
 ];

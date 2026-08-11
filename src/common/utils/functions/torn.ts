@@ -4,6 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
+import type { QuickItemId } from "@features/quick-items/shared/quick-items-common.ts";
 import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { elementBuilder, findAllElements, findElementWithText, findParent, getSearchParameters, isElement } from "./dom";
 import { convertToNumber, formatNumber } from "./formatting";
@@ -2794,4 +2795,31 @@ export async function getMedicalCooldown(): Promise<CooldownInformation | null> 
 		max: totalMinutes,
 		remainder: totalMinutes - usedMinutes,
 	};
+}
+
+export function isEquipable(_id: number, category: string) {
+	return ["Weapon"].includes(category);
+}
+
+export function getEquipPosition(_id: number, category: string) {
+	// 4 = Body Armor
+	// 6 = Helmet
+	// 7 = Pants
+	// 8 = Boots
+	// 9 = Gloves
+	// 10 = CLOTHING - Jacket
+	switch (category) {
+		case "Primary":
+			return 1;
+		case "Secondary":
+			return 2;
+		case "Melee":
+			return 3;
+		case "Temporary":
+			return 5;
+		case "Defensive":
+			return -1; // CHECKME - Get right position;
+		default:
+			return false;
+	}
 }
