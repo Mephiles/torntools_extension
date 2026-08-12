@@ -198,7 +198,7 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 						const from = new Date(millis);
 
 						let years = to.getFullYear() - from.getFullYear();
-						if (to.getMonth() > from.getMonth() || (to.getMonth() === from.getMonth() && to.getDay() > from.getDay())) years--;
+						if (to.getMonth() < from.getMonth() || (to.getMonth() === from.getMonth() && to.getDate() < from.getDate())) years--;
 
 						return years;
 					},
@@ -212,7 +212,7 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 
 						let months = (to.getFullYear() - from.getFullYear()) * 12;
 						months += to.getMonth() - from.getMonth();
-						if (to.getDay() > from.getDay()) months--;
+						if (to.getDate() < from.getDate()) months--;
 
 						return months;
 					},

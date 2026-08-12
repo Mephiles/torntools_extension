@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import { convertToNumber, formatNumber, withoutEndPunctuation } from "./formatting";
+import { afterAll, beforeAll, describe, expect, it, setSystemTime } from "bun:test";
+import { convertToNumber, formatNumber, formatTime, withoutEndPunctuation } from "./formatting";
 
 describe("formatting", () => {
 	describe("convertToNumber", () => {
@@ -139,6 +139,64 @@ describe("formatting", () => {
 		it("should keep words without punctuation intact", () => {
 			expect(withoutEndPunctuation("word")).toBe("word");
 			expect(withoutEndPunctuation("1234")).toBe("1234");
+		});
+	});
+
+	describe("formatTime", () => {
+		const NOW = new Date("2026-08-12T12:00:00Z");
+		const DAY = 86_400_000;
+
+		beforeAll(() => {
+			setSystemTime(NOW);
+		});
+
+		afterAll(() => {
+			setSystemTime();
+		});
+
+		describe("type 'ago'", () => {
+			const at = (date: string) => formatTime({ milliseconds: new Date(date).getTime() }, { type: "ago" });
+
+			it('should format a date in a previous calendar year (~12 months ago) as "12 months ago"', () => {
+				expect(at("2025-08-11T12:00:00Z")).toBe("12 months ago");
+			});
+
+			it('should format a date in a previous calendar year (~19 months ago) as "1 year ago"', () => {
+				expect(at("2025-01-15T12:00:00Z")).toBe("1 year ago");
+			});
+
+			it('should format a date ~2.5 years ago as "2 years ago"', () => {
+				expect(at("2024-01-15T12:00:00Z")).toBe("2 years ago");
+			});
+
+			it('should format a date one month ago as "1 month ago"', () => {
+				expect(at("2026-07-12T12:00:00Z")).toBe("1 month ago");
+			});
+
+			it('should format a date ~11 months ago as "11 months ago"', () => {
+				expect(at("2025-08-21T12:00:00Z")).toBe("11 months ago");
+			});
+
+			it('should format a date one day ago as "1 day ago"', () => {
+				expect(at(new Date(NOW.getTime() - DAY).toISOString())).toBe("1 day ago");
+			});
+
+			it('should format a date two days ago as "2 days ago"', () => {
+				expect(at(new Date(NOW.getTime() - 2 * DAY).toISOString())).toBe("2 days ago");
+			});
+
+			it('should format a date three hours ago as "3 hours ago"', () => {
+				expect(at(new Date(NOW.getTime() - 3 * 3_600_000).toISOString())).toBe("3 hours ago");
+			});
+
+			it('should format a future date as "from now"', () => {
+				expect(at(new Date(NOW.getTime() + 3 * DAY).toISOString())).toBe("3 days from now");
+			});
+
+			it("should use short units when short is set", () => {
+				expect(formatTime({ milliseconds: new Date("2025-01-15T12:00:00Z").getTime() }, { type: "ago", short: true })).toBe("1 y ago");
+				expect(formatTime({ milliseconds: NOW.getTime() - 3 * 3_600_000 }, { type: "ago", short: true })).toBe("3 hrs ago");
+			});
 		});
 	});
 });
