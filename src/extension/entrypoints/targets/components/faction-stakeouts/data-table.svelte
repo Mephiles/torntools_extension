@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";
-	import { createSvelteTable, FlexRender } from "@svelte/components/ui/data-table";
+	import { features, type DataTableFeatures } from "@svelte/components/ui/data-table";
 	import { Input } from "@svelte/components/ui/input";
 	import * as Table from "@svelte/components/ui/table";
 	import { cn } from "@svelte/utils";
-	import { type ColumnDef, getCoreRowModel } from "@tanstack/table-core";
+	import { type ColumnDef, createTable, FlexRender } from "@tanstack/svelte-table";
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
 	import AlertCheckbox from "./AlertCheckbox.svelte";
 	import type { BooleanAlertKey, FactionStakeoutRow, NumberAlertKey } from "./columns";
 
 	type DataTableProps = {
 		data: FactionStakeoutRow[];
-		columns: ColumnDef<FactionStakeoutRow>[];
+		columns: ColumnDef<DataTableFeatures, FactionStakeoutRow>[];
 		onRemove: (id: number) => void;
 		onBooleanAlertChange: (id: number, key: BooleanAlertKey, value: boolean) => void;
 		onNumberAlertChange: (id: number, key: NumberAlertKey, value: string) => void;
@@ -20,7 +20,8 @@
 
 	let { data, columns, onRemove, onBooleanAlertChange, onNumberAlertChange }: DataTableProps = $props();
 
-	const table = createSvelteTable({
+	const table = createTable<DataTableFeatures, FactionStakeoutRow>({
+		features,
 		get data() {
 			return data;
 		},
@@ -28,7 +29,6 @@
 			return columns;
 		},
 		getRowId: (row) => String(row.id),
-		getCoreRowModel: getCoreRowModel(),
 	});
 
 	function getHeaderClass(columnId: string) {
@@ -55,7 +55,7 @@
 					{#each headerGroup.headers as header (header.id)}
 						<Table.Head colspan={header.colSpan} class={getHeaderClass(header.column.id)}>
 							{#if !header.isPlaceholder}
-								<FlexRender content={header.column.columnDef.header} context={header.getContext()} />
+								<FlexRender {header} />
 							{/if}
 						</Table.Head>
 					{/each}
@@ -66,7 +66,7 @@
 			{#each table.getRowModel().rows as tableRow (tableRow.id)}
 				{@const row = tableRow.original}
 				<Table.Row data-id={row.id}>
-					{#each tableRow.getVisibleCells() as cell (cell.id)}
+					{#each tableRow.getAllCells() as cell (cell.id)}
 						<Table.Cell class={getCellClass(cell.column.id)}>
 							{#if cell.column.id === "id"}
 								<a class="hover:underline" href={`https://www.torn.com/factions.php?step=profile&ID=${row.id}`} target="_blank" rel="noreferrer"

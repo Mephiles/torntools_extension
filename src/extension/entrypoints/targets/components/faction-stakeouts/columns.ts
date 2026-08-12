@@ -1,4 +1,5 @@
-import type { ColumnDef } from "@tanstack/table-core";
+import type { DataTableFeatures } from "@svelte/components/ui/data-table";
+import { createColumnHelper } from "@tanstack/svelte-table";
 
 export type FactionStakeoutAlerts = {
 	chainReaches: number | false;
@@ -23,7 +24,6 @@ export type FactionStakeoutInfo = {
 
 export type BooleanAlertKey = "rankedWarStarts" | "inRaid" | "inTerritoryWar";
 export type NumberAlertKey = "chainReaches" | "memberCountDrops";
-export type FactionStakeoutColumnId = "id" | "name" | "chain" | "members" | "respect" | "remove" | "notifications";
 
 export type FactionStakeoutRow = {
 	id: number;
@@ -32,16 +32,14 @@ export type FactionStakeoutRow = {
 	isNew: boolean;
 };
 
-export const columns: ColumnDef<FactionStakeoutRow>[] = [
-	createColumn("id", "ID"),
-	createColumn("name", "Name"),
-	createColumn("chain", "Chain"),
-	createColumn("members", "Members"),
-	createColumn("respect", "Respect"),
-	createColumn("remove", "Remove"),
-	createColumn("notifications", "Notifications"),
-];
+const columnHelper = createColumnHelper<DataTableFeatures, FactionStakeoutRow>();
 
-function createColumn(id: FactionStakeoutColumnId, header: string): ColumnDef<FactionStakeoutRow> {
-	return { id, header };
-}
+export const columns = columnHelper.columns([
+	columnHelper.display({ id: "id", header: "ID" }),
+	columnHelper.display({ id: "name", header: "Name" }),
+	columnHelper.display({ id: "chain", header: "Chain" }),
+	columnHelper.display({ id: "members", header: "Members" }),
+	columnHelper.display({ id: "respect", header: "Respect" }),
+	columnHelper.display({ id: "remove", header: "Remove" }),
+	columnHelper.display({ id: "notifications", header: "Notifications" }),
+]);

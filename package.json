@@ -32,7 +32,7 @@
 		"@phosphor-icons/core": "^2.1.1",
 		"@phosphor-icons/web": "^2.1.2",
 		"@tailwindcss/vite": "^4.3.3",
-		"@tanstack/table-core": "^8.21.3",
+		"@tanstack/svelte-table": "^9.1.2",
 		"@webext-core/proxy-service": "^3.0.2",
 		"@wxt-dev/module-svelte": "^2.0.5",
 		"chart.js": "^4.5.1",

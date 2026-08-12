@@ -1,4 +1,5 @@
-import type { ColumnDef } from "@tanstack/table-core";
+import type { DataTableFeatures } from "@svelte/components/ui/data-table";
+import { createColumnHelper } from "@tanstack/svelte-table";
 
 export type SwitchableKey = "mug" | "leave" | "hospitalise" | "arrest" | "special" | "stealth";
 export type HistoryColumnId =
@@ -47,7 +48,9 @@ export type HistoryRow = {
 	fairFightLabel: string;
 };
 
-export const columns: ColumnDef<HistoryRow>[] = [
+const columnHelper = createColumnHelper<DataTableFeatures, HistoryRow>();
+
+export const columns = columnHelper.columns([
 	createColumn("id", "ID"),
 	createColumn("name", "Name"),
 	createColumn("lastAttack", "Last Attack"),
@@ -66,16 +69,15 @@ export const columns: ColumnDef<HistoryRow>[] = [
 	createColumn("defend_lost", "Defends Lost"),
 	createColumn("respect", "Respect"),
 	createColumn("fair_fight", "FF"),
-];
+]);
 
-function createColumn(id: HistoryColumnId, header: string): ColumnDef<HistoryRow> {
-	return {
-		accessorKey: id,
+function createColumn(id: HistoryColumnId, header: string) {
+	return columnHelper.accessor(id, {
 		header,
 		enableSorting: true,
 		sortDescFirst: id !== "id" && id !== "name",
 		cell: ({ column, row }) => getCellLabel(row.original, column.id),
-	};
+	});
 }
 
 function getCellLabel(row: HistoryRow, columnId: string) {

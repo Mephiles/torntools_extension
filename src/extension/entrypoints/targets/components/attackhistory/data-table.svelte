@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { createSvelteTable, FlexRender } from "@svelte/components/ui/data-table";
+	import { features, type DataTableFeatures } from "@svelte/components/ui/data-table";
 	import * as Table from "@svelte/components/ui/table";
 	import { cn } from "@svelte/utils";
-	import { type ColumnDef, getCoreRowModel, getSortedRowModel, type SortingState } from "@tanstack/table-core";
+	import { createTable, FlexRender, type ColumnDef } from "@tanstack/svelte-table";
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDownIcon";
 	import CaretUpIcon from "phosphor-svelte/lib/CaretUpIcon";
 	import type { HistoryRow } from "./columns";
 
 	type DataTableProps = {
 		data: HistoryRow[];
-		columns: ColumnDef<HistoryRow>[];
+		columns: ColumnDef<DataTableFeatures, HistoryRow>[];
 	};
 
 	let { data, columns }: DataTableProps = $props();
-	let sorting = $state<SortingState>([{ id: "lastAttack", desc: true }]);
 
-	const table = createSvelteTable({
+	const table = createTable<DataTableFeatures, HistoryRow>({
+		features,
 		get data() {
 			return data;
 		},
@@ -23,15 +23,8 @@
 			return columns;
 		},
 		getRowId: (row) => row.id,
-		getCoreRowModel: getCoreRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-		state: {
-			get sorting() {
-				return sorting;
-			},
-		},
-		onSortingChange: (updater) => {
-			sorting = typeof updater === "function" ? updater(sorting) : updater;
+		initialState: {
+			sorting: [{ id: "lastAttack", desc: true }],
 		},
 	});
 
@@ -89,7 +82,7 @@
 									disabled={!header.column.getCanSort()}
 									onclick={() => toggleSorting(header.column.id)}
 								>
-									<FlexRender content={header.column.columnDef.header} context={header.getContext()} />
+									<FlexRender {header} />
 									{#if header.column.getIsSorted()}
 										<span class="flex items-center justify-center">
 											{#if header.column.getIsSorted() === "asc"}
@@ -109,7 +102,7 @@
 		<Table.Body>
 			{#each table.getRowModel().rows as row (row.id)}
 				<Table.Row>
-					{#each row.getVisibleCells() as cell (cell.id)}
+					{#each row.getAllCells() as cell (cell.id)}
 						<Table.Cell class={getCellClass(cell.column.id)}>
 							{#if cell.column.id === "id"}
 								<a class="hover:underline" href={`https://www.torn.com/profiles.php?XID=${row.original.id}`} target="_blank" rel="noreferrer">
@@ -129,7 +122,7 @@
 									{row.original.lastAttackLabel}
 								</a>
 							{:else}
-								<FlexRender content={cell.column.columnDef.cell} context={cell.getContext()} />
+								<FlexRender {cell} />
 							{/if}
 						</Table.Cell>
 					{/each}
