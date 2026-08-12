@@ -59,7 +59,8 @@
 					"message": "Minor refactor for the 'Jail Filter' reloading button, to potentially improve script experience.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Refactor 'Quick Items' and 'Faction Quick Items' to use more shared code.", "contributor": "DeKleineKobini" }
+				{ "message": "Refactor 'Quick Items' and 'Faction Quick Items' to use more shared code.", "contributor": "DeKleineKobini" },
+				{ "message": "Refactor the data tables on the internal targets page for a dependency update.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

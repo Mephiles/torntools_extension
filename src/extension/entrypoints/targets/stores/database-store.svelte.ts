@@ -15,12 +15,12 @@ export const attackHistoryStore = writable<DatabaseAttackHistory>();
 export const stakeoutsStore = writable<DatabaseStakeouts>();
 export const factionStakeoutsStore = writable<DatabaseFactionStakeouts>();
 
-export function initializeDatabaseStore() {
+export async function initializeDatabaseStore() {
 	if (storesInitialized) {
 		return;
 	}
 
-	void initializeDatabase();
+	await initializeDatabase();
 	loadDatabaseStores().then(() => {
 		storesInitialized = true;
 	});
@@ -46,4 +46,8 @@ export async function loadDatabaseStores() {
 	attackHistoryStore.set(attackHistory);
 	stakeoutsStore.set(stakeouts);
 	factionStakeoutsStore.set(factionStakeouts);
+}
+
+export function isStoresInitialized() {
+	return storesInitialized;
 }

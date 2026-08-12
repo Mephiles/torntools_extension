@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
-	import { initializeDatabaseStore, settingsStore } from "@extension/entrypoints/targets/stores/database-store.svelte";
+	import { initializeDatabaseStore, isStoresInitialized, settingsStore } from "@extension/entrypoints/targets/stores/database-store.svelte";
 	import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
 	import { Separator } from "@svelte/components/ui/separator";
 	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { ModeWatcher, setMode } from "mode-watcher";
-	import type { Snippet } from "svelte";
+	import { onMount, type Snippet } from "svelte";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { registerExtensionContext } from "@/runtime/extension-context";
@@ -79,7 +79,9 @@
 		<Separator class="bg-gray-300 dark:bg-gray-600" />
 
 		<main class="mx-auto w-full max-w-6xl p-8">
-			{@render children()}
+			{#if isStoresInitialized()}
+				{@render children()}
+			{/if}
 		</main>
 	</div>
 </Tooltip.Provider>

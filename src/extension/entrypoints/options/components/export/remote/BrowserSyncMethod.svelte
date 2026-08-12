@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatBytes } from "@common/utils/functions/formatting";
 	import { Button } from "@svelte/components/ui/button";
+	import { onMount } from "svelte";
 	import { toast } from "svelte-sonner";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import { importExportData } from "../export-data";

@@ -2,6 +2,7 @@
 	import { ttStorage } from "@common/utils/context";
 	import { formatBytes } from "@common/utils/functions/formatting";
 	import { Spinner } from "@svelte/components/ui/spinner";
+	import { onMount } from "svelte";
 	import { browser } from "wxt/browser";
 
 	let storageSize = $state<string | null>(null);
