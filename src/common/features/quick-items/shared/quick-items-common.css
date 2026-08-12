@@ -1,0 +1,80 @@
+.tt-quick-items-common {
+	> main.drag-progress * {
+		pointer-events: none;
+	}
+
+	.inner-content {
+		.item {
+			.tt-close-icon {
+				opacity: 0;
+				position: absolute;
+				top: 3px;
+				right: 3px;
+				color: #a7a7a7;
+
+				&:hover {
+					color: gray;
+				}
+			}
+
+			.tt-mobile & .tt-close-icon,
+			&:hover .tt-close-icon {
+				opacity: 1;
+			}
+
+			&.temp {
+				opacity: 0.2;
+				border: 1px solid gray;
+			}
+
+			.pic {
+				width: 60px;
+				height: 30px;
+				background-size: cover;
+				margin: auto;
+			}
+
+			body:not(.dark-mode) & {
+				border: 1px solid lightgray;
+				background-color: white;
+			}
+
+			body.dark-mode & {
+				border: 1px solid #444;
+				background-color: #333;
+			}
+
+			body:not(.dark-mode) &.removable {
+				background-color: #ffd5d5 !important;
+			}
+
+			body.dark-mode &.removable {
+				background-color: #9d2f2f !important;
+			}
+		}
+	}
+
+	.response-wrap {
+		display: none;
+		padding: 10px;
+		background-color: var(--items-cont-bg-color);
+		text-align: center;
+		border-top: 1px solid var(--items-cont-description-border-top-color);
+		border-bottom: 1px solid var(--items-cont-description-border-top-color);
+
+		.custom-error {
+			color: var(--tt-color-red);
+		}
+	}
+
+	.ajax-placeholder {
+		left: 0 !important;
+	}
+
+	#edit-items-button,
+	#custom-actions-button {
+		svg {
+			margin-right: 4px;
+		}
+	}
+}
