@@ -46,7 +46,8 @@
 				},
 				{ "message": "Update our list of static items.", "contributor": "DeKleineKobini" },
 				{ "message": "Include 'Arson skill' on the profile box personal stats.", "contributor": "DeKleineKobini" },
-				{ "message": "Make the response of 'Faction Quick Items' visually more appealing.", "contributor": "DeKleineKobini" }
+				{ "message": "Make the response of 'Faction Quick Items' visually more appealing.", "contributor": "DeKleineKobini" },
+				{ "message": "Some minor styling change to the sidebar information (like the oc and virus timers).", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
