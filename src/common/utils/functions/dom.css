@@ -1,10 +1,16 @@
 .tt-loading-placeholder {
-	display: none;
 	margin: 0 auto;
 	padding: 10px;
-	content: var(--default-preloader-url, url(https://www.torn.com/images/v2/main/ajax-loader.gif));
-}
 
-.tt-loading-placeholder.active {
-	display: block;
+	body:not(.dark-mode) & {
+		content: url(https://www.torn.com/images/v2/main/ajax-loader.gif);
+	}
+
+	body.dark-mode & {
+		content: url(https://www.torn.com/images/v2/main/ajax-loader-white.gif);
+	}
+
+	&:not(.active) {
+		display: none;
+	}
 }
