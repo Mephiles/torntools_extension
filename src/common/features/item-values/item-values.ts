@@ -74,13 +74,8 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 	};
 
 	const list = getCurrentList();
-	// TODO: API Inventory Block.
-	// removeTotal(list);
 
 	if (settings.pages.items.values) {
-		// TODO: API Inventory Block.
-		// if (type) showTotal(list, type);
-
 		for (const item of items) {
 			if (options.ignoreUntradable && parseInt(item.untradable)) continue;
 
@@ -138,54 +133,6 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 	}
 }
 
-// TODO: API Inventory Block.
-/*function showTotal(list, type) {
-	if (!hasAPIData() || !settings.apiUsage.user.inventory) return;
-
-	if (list.querySelector(".tt-item-price.price-total")) list.querySelector(".tt-item-price.price-total").parentElement.remove();
-
-	let total;
-	if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).reduce((a, b) => a + b, 0);
-	else
-		total = userdata.inventory
-			.filter((x) => x.type === type)
-			.map((x) => x.quantity * x.market_price)
-			.reduce((a, b) => a + b, 0);
-
-	setTimeout(() => {
-		if (list.querySelector(".tt-item-price.price-total")) {
-			list.querySelector(".tt-item-price.price-total").textContent = `Total Value: ${formatNumber(total, {
-				currency: true,
-			})}`;
-		} else {
-			const wrapper = elementBuilder({
-				type: "li",
-				class: "tt-ignore tt-overlay-ignore tt-item-price-wrap",
-				children: [
-					elementBuilder({
-						type: "li",
-						text: `Total Value: ${formatNumber(total, { currency: true })}`,
-						class: "tt-item-price price-total",
-					}),
-				],
-			});
-
-			list.insertBefore(wrapper, list.firstElementChild);
-
-			new MutationObserver(() => {
-				if (wrapper.classList.contains("tt-item-price-wrap")) return;
-
-				wrapper.classList.remove("first-in-row", "m-first-in-row", "t-first-in-row", "last-row");
-				wrapper.classList.add("tt-ignore", "tt-overlay-ignore", "tt-item-price-wrap");
-			}).observe(wrapper, { attributes: true, attributeFilter: ["class"] });
-		}
-	}, 0);
-}
-
-function removeTotal(list) {
-	list.querySelector(".tt-ignore .tt-item-price")?.parentElement.remove();
-}*/
-
 function addValue(priceElement: Element, quantity: number, price: number) {
 	const totalPrice = quantity * price;
 	if (totalPrice) {
@@ -219,9 +166,6 @@ function addValue(priceElement: Element, quantity: number, price: number) {
 
 function showItemValues(list: HTMLElement) {
 	if (!list.dataset) return;
-
-	// TODO: API Inventory Block.
-	// showTotal(list, list.dataset.info);
 
 	for (const item of findAllElements(":scope > li[data-item]", list)) {
 		const id = parseInt(item.dataset.item);

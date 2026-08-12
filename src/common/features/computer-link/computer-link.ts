@@ -48,13 +48,7 @@ function removeComputer() {
 }
 
 function hasComputer() {
-	// TODO: API Inventory Block.
-	// Add computer link for everyone.
-	// Could be a falsy link for some people who did not buy a PC yet.
-	// But Torn blocks them anyway.
 	return true;
-
-	// return findItemsInObject(userdata.inventory, { ID: 61 }, { single: true }) || findItemsInObject(userdata.inventory, { ID: 154 }, { single: true });
 }
 
 export default class ComputerLinkFeature extends Feature {
