@@ -49,7 +49,8 @@
 				{ "message": "Update our list of static items.", "contributor": "DeKleineKobini" },
 				{ "message": "Include 'Arson skill' on the profile box personal stats.", "contributor": "DeKleineKobini" },
 				{ "message": "Make the response of 'Faction Quick Items' visually more appealing.", "contributor": "DeKleineKobini" },
-				{ "message": "Some minor styling change to the sidebar information (like the oc and virus timers).", "contributor": "DeKleineKobini" }
+				{ "message": "Some minor styling change to the sidebar information (like the oc and virus timers).", "contributor": "DeKleineKobini" },
+				{ "message": "Automatically update the reminders without requiring a refresh.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
@@ -64,7 +65,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Refactor 'Quick Items' and 'Faction Quick Items' to use more shared code.", "contributor": "DeKleineKobini" },
-				{ "message": "Refactor the data tables on the internal targets page for a dependency update.", "contributor": "DeKleineKobini" }
+				{ "message": "Refactor the data tables on the internal targets page for a dependency update.", "contributor": "DeKleineKobini" },
+				{ "message": "Refactor 'Reminders' to use Svelte'.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

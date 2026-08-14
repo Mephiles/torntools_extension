@@ -1,13 +1,9 @@
 .reminder-container {
 	margin-bottom: 2px;
-
-	main {
-		display: flex;
-		flex-direction: column;
-	}
 }
 
 .reminder {
+	display: block;
 	border-bottom-right-radius: 5px;
 	border-top-right-radius: 5px;
 	background-color: var(--default-bg-panel-color);
@@ -18,7 +14,7 @@
 	box-sizing: border-box;
 	height: 100%;
 
-	.tt-tablet & {
+	:global(.tt-tablet) & {
 		min-height: 34px;
 	}
 

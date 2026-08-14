@@ -187,7 +187,7 @@ import RacingUpgradesFeature from "@features/racing-upgrades/racing-upgrades";
 import RankedWarFilterFeature from "@features/ranked-war-filter/ranked-war-filter";
 import RankedWarValueFeature from "@features/ranked-war-value/ranked-war-value";
 import RecommendedNNBFeature from "@features/recommended-nnb/recommended-nnb";
-import RemindersFeature from "@features/reminders/reminders";
+import RemindersFeature from "@features/reminders/reminders.svelte";
 import ResizableChatFeature from "@features/resizable-chat/resizable-chat";
 import ReviveRequestFeature from "@features/revive-request/revive-request";
 import RWTimerFeature from "@features/rw-timer/rw-timer";

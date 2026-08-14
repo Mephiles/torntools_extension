@@ -68,6 +68,17 @@
 		background: var(--tt-theme-background);
 	}
 
+	:global(#sidebarroot) .title {
+		align-items: center;
+		height: 22px;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
+
+	:global(body.tt-tablet #sidebarroot) .title {
+		height: 34px;
+	}
+
 	.collapsible > .title {
 		cursor: pointer;
 	}
