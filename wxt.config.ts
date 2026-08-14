@@ -51,6 +51,11 @@ export default defineConfig({
 			sourcemap: true,
 			minify: false,
 			target: ["chrome109", "firefox128", "edge109"],
+			rolldownOptions: {
+				checks: {
+					pluginTimings: false,
+				},
+			},
 		},
 		server: {
 			hmr: {
