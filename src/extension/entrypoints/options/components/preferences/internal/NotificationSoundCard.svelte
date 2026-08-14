@@ -153,7 +153,7 @@
 					min={0.1}
 					max={10}
 					step={0.1}
-					disabled={$settingsStore.notifications.tts}
+					disabled={!$settingsStore.notifications.tts}
 				/>
 				<Field.Field orientation="responsive" class="border-border bg-background/60 rounded-md border p-2">
 					<Field.Content>
