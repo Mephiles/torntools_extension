@@ -33,7 +33,8 @@
 				},
 				{ "message": "Fix the loading icons not always appearing where needed when using Firefox.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix incorrect calculation of the amount of years passed in some situations.", "contributor": "DeKleineKobini" },
-				{ "message": "Invert the TTS check on TTS rate so it's enabled when TTS is enabled as well.", "contributor": "DeKleineKobini" }
+				{ "message": "Invert the TTS check on TTS rate so it's enabled when TTS is enabled as well.", "contributor": "DeKleineKobini" },
+				{ "message": "Improve the performance of 'Weapon Bonus Information' for very long attack logs.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

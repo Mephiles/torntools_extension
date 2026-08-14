@@ -120,6 +120,8 @@ let logObserver: MutationObserver | undefined;
 let informationObservers: MutationObserver[] = [];
 
 async function showInformation() {
+	logObserver?.disconnect();
+
 	await requireElement("[class*='logContent___']");
 	await requireElement("[class*='logContent___'] .react-loading-skeleton", { invert: true });
 
