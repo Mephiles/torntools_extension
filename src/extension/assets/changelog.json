@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 1, "build": 2 },
+		"version": { "major": 9, "minor": 1, "build": 3 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 1, "build": 2 },
+		"date": "2026/08/16",
 		"logs": {
 			"features": [
 				{ "message": "Stakeout users on idle and offline status.", "contributor": "DeKleineKobini" },
@@ -53,7 +58,6 @@
 				{ "message": "Some minor styling change to the sidebar information (like the oc and virus timers).", "contributor": "DeKleineKobini" },
 				{ "message": "Automatically update the reminders without requiring a refresh.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [
 				{ "message": "Move several features to modular CSS.", "contributor": "DeKleineKobini" },
 				{ "message": "Refactor 'Specialist Gym' to use Svelte'.", "contributor": "AllMight" },
