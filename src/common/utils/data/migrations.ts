@@ -270,7 +270,11 @@ export async function executeMigrationScripts(storage: Database, oldStorage: any
 		storage.migrations.push({ id: migration.id });
 	});
 
-	if (flags.updateUserdata) storage.userdata.date = 0;
+	if (flags.updateUserdata) {
+		storage.userdata.date = 0;
+		storage.userdata.dateBasic = 0;
+		storage.userdata.datePassive = 0;
+	}
 	if (flags.updateFactiondata) storage.factiondata.date = 0;
 	if (flags.updateStockdata) storage.stockdata.date = 0;
 	if (flags.updateTorndata) storage.torndata.date = 0;
