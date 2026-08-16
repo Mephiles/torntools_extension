@@ -160,6 +160,7 @@ export const DEFAULT_STORAGE = {
 				honors: new DefaultSetting("boolean", true),
 				medals: new DefaultSetting("boolean", true),
 				virus: new DefaultSetting("boolean", true),
+				enlistedcars: new DefaultSetting("boolean", true),
 			},
 		},
 		themes: {

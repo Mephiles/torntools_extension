@@ -37,6 +37,7 @@
 		{ path: "settings.apiUsage.user.honors", label: "Honors" },
 		{ path: "settings.apiUsage.user.medals", label: "Medals" },
 		{ path: "settings.apiUsage.user.virus", label: "Virus" },
+		{ path: "settings.apiUsage.user.enlistedcars", label: "Enlisted Cars" },
 	];
 </script>
 
