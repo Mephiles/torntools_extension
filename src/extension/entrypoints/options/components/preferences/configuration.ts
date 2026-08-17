@@ -53,6 +53,7 @@ export const PREFERENCE_GROUPS = [
 			{ id: "companies", title: "Companies" },
 			{ id: "gym", title: "Gym" },
 			{ id: "speed", title: "Speed" },
+			{ id: "racing", title: "Racing" },
 		],
 	},
 	{

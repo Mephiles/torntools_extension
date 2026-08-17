@@ -183,6 +183,7 @@ import PropertyHappinessFeature from "@features/property-happiness/property-happ
 import PropertyValuesFeature from "@features/property-values/property-values";
 import QuickCrimesFeature from "@features/quick-crimes/quick-crimes";
 import QuickItemsFeature from "@features/quick-items/quick-items";
+import RaceCarSelectorFeature from "@features/race-car-selector/race-car-selector.ts";
 import RacingFilterFeature from "@features/racing-filter/racing-filter";
 import RacingUpgradesFeature from "@features/racing-upgrades/racing-upgrades";
 import RankedWarFilterFeature from "@features/ranked-war-filter/ranked-war-filter";
@@ -515,6 +516,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CarWinPercentageFeature());
 		FEATURE_MANAGER.registerFeature(new RacingFilterFeature());
 		FEATURE_MANAGER.registerFeature(new RacingUpgradesFeature());
+		FEATURE_MANAGER.registerFeature(new RaceCarSelectorFeature());
 	} else if (page === "chainreport") {
 		FEATURE_MANAGER.registerFeature(new CSVChainReportFeature());
 		FEATURE_MANAGER.registerFeature(new ChainReportHighlightFeature());

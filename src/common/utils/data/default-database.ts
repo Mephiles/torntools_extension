@@ -391,6 +391,8 @@ export const DEFAULT_STORAGE = {
 				winPercentage: new DefaultSetting("boolean", true),
 				upgrades: new DefaultSetting("boolean", true),
 				filter: new DefaultSetting("boolean", true),
+				carSelector: new DefaultSetting("boolean", true),
+				trackCars: new DefaultSetting<Record<number, number>>("object", {}),
 			},
 			faction: {
 				idBesideFactionName: new DefaultSetting("boolean", false),

@@ -1,0 +1,27 @@
+.car-selected {
+	margin-top: 5px;
+	cursor: pointer;
+
+	:global(.title-black:has(+ .enlist:last-child)) {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-right: 10px;
+	}
+
+	&:not(.shown) {
+		:global(.title-black:has(+ .enlist:last-child)) {
+			border-radius: 5px;
+		}
+
+		:global(.enlist) {
+			display: none;
+		}
+	}
+}
+
+.preferred-car {
+	margin-top: 10px;
+	display: block;
+	color: var(--default-blue-color) !important;
+}

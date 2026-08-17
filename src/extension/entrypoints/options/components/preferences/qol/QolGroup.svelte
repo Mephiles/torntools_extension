@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RacingSection from "@/entrypoints/options/components/preferences/qol/RacingSection.svelte";
 	import SectionNotFound from "../SectionNotFound.svelte";
 	import CombatSection from "./CombatSection.svelte";
 	import CompaniesSection from "./CompaniesSection.svelte";
@@ -32,6 +33,8 @@
 	<GymSection />
 {:else if sectionId === "speed"}
 	<SpeedSection />
+{:else if sectionId === "racing"}
+	<RacingSection />
 {:else}
 	<SectionNotFound />
 {/if}

@@ -291,8 +291,6 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.missions.hints", label: "Mission hints", group: "qol", section: "information", keywords: ["missions"] },
 	{ path: "settings.pages.missions.rewards", label: "Mission reward information", group: "qol", section: "information", keywords: ["missions"] },
 	{ path: "settings.pages.museum.autoFill", label: "Autofill number of sets in museum", group: "qol", section: "information" },
-	{ path: "settings.pages.racing.winPercentage", label: "Show win percentage of each car", group: "qol", section: "information", keywords: ["racing"] },
-	{ path: "settings.pages.racing.upgrades", label: "Show racing upgrade values", group: "qol", section: "information" },
 	{ path: "settings.pages.api.autoDemo", label: "Automatically show demo content on API page", group: "qol", section: "information" },
 	{ path: "settings.pages.api.autoFillKey", label: "Automatically fill your API key on API page", group: "qol", section: "information" },
 	{
@@ -512,6 +510,11 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.scripts.noConfirm.pointsMarketRemove", label: "No confirm: Removing points from the market", group: "qol", section: "speed" },
 	{ path: "settings.scripts.noConfirm.abroadItemBuy", label: "No confirm: Buying items abroad", group: "qol", section: "speed" },
 	{ path: "settings.scripts.noConfirm.propertiesSell", label: "No confirm: Selling your properties", group: "qol", section: "speed", keywords: ["property"] },
+
+	// Section: racing
+	{ path: "settings.pages.racing.winPercentage", label: "Show win percentage of each car", group: "qol", section: "racing", keywords: ["racing"] },
+	{ path: "settings.pages.racing.upgrades", label: "Show racing upgrade values", group: "qol", section: "racing" },
+	{ path: "settings.pages.racing.carSelector", label: "Auto-select your car for each race", group: "qol", section: "racing", keywords: ["racing"] },
 
 	/*
 	 * Connections
