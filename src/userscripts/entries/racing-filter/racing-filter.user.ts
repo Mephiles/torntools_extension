@@ -1,3 +1,4 @@
+import { setupRacingPage } from "@common/pages/racing-page.ts";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import RacingFilterFeature from "@features/racing-filter/racing-filter";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
@@ -8,6 +9,8 @@ import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/
 	registerCoreUserscriptContext();
 	await registerDatabaseUserscriptContext("tt_rf");
 	registerInjectorUserscriptContext();
+
+	setupRacingPage();
 
 	FEATURE_MANAGER.registerFeature(new RacingFilterFeature());
 })();
