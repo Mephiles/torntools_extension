@@ -4,13 +4,13 @@ import { settings } from "@common/utils/data/database";
 import type { BaseElement } from "@common/utils/elements/base-element";
 import { createTable, stringCellRenderer, type TableColumnDef, type TableElement } from "@common/utils/elements/table/table";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import type { TornV1Bank, TornV1BankResponse } from "@common/utils/functions/api-v1.types";
 import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { formatNumber, roundNearest } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, millisToNewDay } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
+import type { TornBank, TornBankResponse } from "tornapi-typescript";
 
 interface MoneyInfo {
 	total: number;
@@ -89,7 +89,7 @@ interface BankInvestmentContainer {
 	dispose: () => void;
 }
 
-function createBankInvestmentContainer(bankAprInfo: any, delimiter: HTMLElement): BankInvestmentContainer {
+function createBankInvestmentContainer(bankAprInfo: TornBank[], delimiter: HTMLElement): BankInvestmentContainer {
 	const tableColumnsDefs: TableColumnDef<BankTableRowData>[] = [
 		{
 			id: "period",
@@ -178,10 +178,11 @@ function createBankInvestmentContainer(bankAprInfo: any, delimiter: HTMLElement)
 	}
 
 	function _getMoneyInfo(period: PERIOD_TYPE, bonuses: INVESTMENTS_BONUSES[]): MoneyInfo {
-		const apr = parseFloat(bankAprInfo[period]);
-		const aprPercent = apr / 100;
+		const info = bankAprInfo.find((i) => i.days === DAYS[period]);
+		if (!info) return { total: -1, daily: -1 };
+
 		const totalBonusRatio = bonuses.reduce((total, bonus) => total * (1 + BONUSES_RATIO[bonus]), 1);
-		const aprWithBonus = aprPercent * totalBonusRatio;
+		const aprWithBonus = (info.rate / 100) * totalBonusRatio;
 		const profitPerDayRatio = (aprWithBonus / DAYS_IN_YEAR) * DAYS[period];
 
 		const total = roundNearest(+profitPerDayRatio.toFixed(4) * balance, 1);
@@ -209,14 +210,13 @@ let bankInvestmentInfoContainer: BankInvestmentContainer;
 async function initialize() {
 	const delimiter = await requireElement(".content-wrapper > .delimiter-999");
 
-	let response: TornV1Bank;
-	if (ttCache.hasValue("bankInterest")) {
-		response = ttCache.get("bankInterest");
+	let response: TornBank[];
+	if (ttCache.hasValue("bank-interest-v2")) {
+		response = ttCache.get("bank-interest-v2");
 	} else {
-		// TODO - Migrate to V2 (torn/bank).
-		response = (await fetchData<TornV1BankResponse>("tornv2", { section: "torn", legacySelections: ["bank"] })).bank;
+		response = (await fetchData<TornBankResponse>("tornv2", { section: "torn", selections: ["bank"] })).bank;
 
-		ttCache.set({ bankInterest: response }, millisToNewDay());
+		ttCache.set({ "bank-interest-v2": response }, millisToNewDay());
 	}
 
 	bankInvestmentInfoContainer = createBankInvestmentContainer(response, delimiter);

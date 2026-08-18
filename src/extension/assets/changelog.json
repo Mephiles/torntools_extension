@@ -3,7 +3,13 @@
 		"version": { "major": 9, "minor": 1, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": [{ "message": "Migrate to the V2 version of torn/bank.", "contributor": "DeKleineKobini" }]
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 1, "build": 2 },

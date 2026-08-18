@@ -241,6 +241,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			}
 		},
 	},
+	{
+		id: "05b6eaf3-790b-46e6-bbad-53d19e3ba164",
+		version: "9.1.2",
+		execute(database, _flags, _oldStorage) {
+			delete database.cache.bankInterest;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
