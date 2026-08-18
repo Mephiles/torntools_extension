@@ -91,7 +91,7 @@ async function addWorth(force: boolean = false) {
 			.reduce<number>((total, worth) => total + worth, 0);
 
 		const points = data.balance.members.map((m) => m.points).reduce((total, points) => total + points, data.balance.faction.points);
-		const pointsWorth = points * torndata.pawnshop.points_value;
+		const pointsWorth = points * torndata.stats.points_averagecost;
 
 		const total = itemsWorth + pointsWorth;
 		moneyLi.classList.add("tt-modified");

@@ -6,7 +6,13 @@
 		"logs": {
 			"features": [],
 			"fixes": [],
-			"changes": [],
+			"changes": [
+				{
+					"message": "Use the average point price for the 'Armory Worth' over the pawn show price (which has been $0 for a while).",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "No longer fetch the pawnshop prices.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to the V2 version of torn/bank.", "contributor": "DeKleineKobini" }]
 		}
