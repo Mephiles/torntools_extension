@@ -42,7 +42,10 @@ async function addFilterContainer() {
 				const id = parseInt(row.getAttribute("id"));
 				const stock = stockdata.stocks.find((s) => s.id === id);
 				const acronym = (stock?.acronym ?? row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym)?.toLowerCase();
-				const names = name.split(",");
+				const names = name
+					.split(",")
+					.map((n) => n.trim())
+					.filter((n) => !!n);
 				return names.some((n) => row.querySelector(`li[class*="stockName___"][aria-label*="${n}" i]`) || acronym?.includes(n.toLowerCase()));
 			},
 		}),
