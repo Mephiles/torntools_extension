@@ -12,7 +12,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "No longer fetch the pawnshop prices.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow spaces before search terms in the stocks filter.", "contributor": "DeKleineKobini" }
+				{ "message": "Allow spaces before search terms in the stocks filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Change the url for requesting revives from Laekna.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Migrate to the V2 version of torn/bank.", "contributor": "DeKleineKobini" }]

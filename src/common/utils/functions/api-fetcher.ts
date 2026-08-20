@@ -24,7 +24,7 @@ export const FETCH_PLATFORMS = {
 	wtf: "https://what-the-f.de/",
 	tornw3b: "https://weav3r.dev/",
 	ffscouter: "https://ffscouter.com/",
-	laekna: "https://laekna-revive-bot.onrender.com/",
+	laekna: "https://moonvault.tail3a72e2.ts.net/",
 	tornintel: "https://torn-intel.com/",
 	playground_torntools: "https://torntools.tornplayground.eu/",
 } as const;

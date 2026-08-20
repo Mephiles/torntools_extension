@@ -101,7 +101,7 @@ export default defineConfig({
 				"https://what-the-f.de/",
 				"https://weav3r.dev/*",
 				"https://ffscouter.com/",
-				"https://laekna-revive-bot.onrender.com/",
+				"https://moonvault.tail3a72e2.ts.net/revive",
 				"https://torn-intel.com/",
 				"https://torntools.tornplayground.eu//",
 			],
