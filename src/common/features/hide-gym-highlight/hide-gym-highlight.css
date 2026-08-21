@@ -1,7 +1,55 @@
-body:not(.tt-mobile):not(.dark-mode) .tt-available {
-	background-color: #d7e2cc;
-}
+.tt-hide-gym-highlight {
+	#nav-gym,
+	#nav-jail_gym {
+		/* Desktop */
+		&:not([class*="area-mobile___"]) {
+			[class*="area-row___"],
+			[class*="areaRow___"] {
+				background-color: var(--default-bg-panel-color) !important;
 
-body:not(.tt-mobile).dark-mode .tt-available {
-	background-color: #4b5738;
+				a[class*="desktopLink"] {
+					color: var(--default-color);
+				}
+
+				svg {
+					fill: url(#sidebar_svg_gradient_regular_desktop);
+				}
+			}
+		}
+
+		/* Legacy sidebar mobile */
+		&[class*="area-mobile___"] [class*="area-row___"] {
+			.sidebarMobileLink {
+				color: #999;
+			}
+
+			svg {
+				fill: url(#sidebar_svg_gradient_regular_mobile);
+				filter: drop-shadow(0 0 1.3px #000);
+			}
+		}
+
+		/* Fly-out sidebar mobile */
+		&[class*="area-mobile___"] {
+			background-color: unset;
+
+			&[class*="active___"] {
+				background: rgba(0, 0, 0, 0.4);
+			}
+
+			[class*="areaRow___"] {
+				a[class*="mobileLink___"] {
+					color: #ddd;
+				}
+
+				svg {
+					fill: url(#sidebar_svg_gradient_regular_mobile);
+				}
+			}
+		}
+
+		&::after {
+			display: none;
+		}
+	}
 }

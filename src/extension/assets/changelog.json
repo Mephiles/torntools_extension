@@ -5,7 +5,11 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" },
+				{ "message": "After the fly-out sidebar changes 'Hide Gym Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
+				{ "message": "After the fly-out sidebar changes 'Hide Newspaper Highlight' no longer worked properly.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{
 					"message": "Use the average point price for the 'Armory Worth' over the pawn show price (which has been $0 for a while).",
