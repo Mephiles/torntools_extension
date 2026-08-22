@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" },
 				{ "message": "After the fly-out sidebar changes 'Hide Gym Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
-				{ "message": "After the fly-out sidebar changes 'Hide Newspaper Highlight' no longer worked properly.", "contributor": "DeKleineKobini" }
+				{ "message": "After the fly-out sidebar changes 'Hide Newspaper Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
+				{ "message": "Properly calculate the HRG ROI for the stocks popup.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

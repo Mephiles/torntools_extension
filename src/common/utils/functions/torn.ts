@@ -1,10 +1,10 @@
+import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
 import { INFORMATION_RETRIEVER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
-import type { QuickItemId } from "@features/quick-items/shared/quick-items-common.ts";
 import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
 import { elementBuilder, findAllElements, findElementWithText, findParent, getSearchParameters, isElement } from "./dom";
 import { convertToNumber, formatNumber } from "./formatting";
@@ -2016,6 +2016,7 @@ export function getRewardValue(reward: string) {
 					break;
 				case "Random Property":
 					prices = torndata.properties
+						.filter(({ name }) => COMMON_PROPERTY_TYPES.includes(name))
 						.map((property) => property.cost)
 						.filter((price) => !!price)
 						.map((price) => price * 0.75);

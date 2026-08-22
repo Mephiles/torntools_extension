@@ -1,3 +1,4 @@
+import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings, torndata } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -31,22 +32,6 @@ type PropertiesFilterState = {
 };
 
 const REGEX_LEASED = /Leased to (?<name>.*) \((?<left>\d+) \/ (?<total>\d+) days\)/;
-
-const PROPERTY_TYPES = [
-	"Private Island",
-	"Castle",
-	"Palace",
-	"Ranch",
-	"Mansion",
-	"Penthouse",
-	"Villa",
-	"Chalet",
-	"Beach House",
-	"Detached House",
-	"Semi-Detached House",
-	"Apartment",
-	"Trailer",
-];
 
 async function addFilterContainer() {
 	await requireElement(".properties-list > li");
@@ -100,7 +85,7 @@ async function addFilterContainer() {
 		multiSelectSection({
 			key: "types",
 			title: "Types",
-			items: PROPERTY_TYPES.map((property) => ({ value: property, description: property })),
+			items: COMMON_PROPERTY_TYPES.map((property) => ({ value: property, description: property })),
 			defaults: filters.properties.types,
 			test: (row, types) => {
 				if (!types.length) return true;

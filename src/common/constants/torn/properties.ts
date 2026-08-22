@@ -1,0 +1,15 @@
+export const COMMON_PROPERTY_TYPES = [
+	"Private Island",
+	"Castle",
+	"Palace",
+	"Ranch",
+	"Mansion",
+	"Penthouse",
+	"Villa",
+	"Chalet",
+	"Beach House",
+	"Detached House",
+	"Semi-Detached House",
+	"Apartment",
+	"Trailer",
+];
