@@ -68,8 +68,8 @@ function fullDataDump(reduction: boolean = true) {
 			// @ts-expect-error Modifying a copy of the database for debugging purposes.
 			storage.attackHistory.history = `<reduced:${(storage.attackHistory?.history ? Object.keys(storage.attackHistory.history).length : null) ?? "N/A"}>`;
 
-			Object.keys(storage.cache).forEach((cacheKey) => {
-				storage.cache[cacheKey] = `<reduced:${Object.values(storage.cache[cacheKey]).length}>`;
+			Object.keys(storage.cache ?? {}).forEach((cacheKey) => {
+				storage.cache![cacheKey] = `<reduced:${Object.values(storage.cache![cacheKey]).length}>`;
 			});
 		}
 

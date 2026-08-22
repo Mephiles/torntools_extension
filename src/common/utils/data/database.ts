@@ -82,17 +82,12 @@ interface StorageListeners {
 	attackHistory: StorageListener<DatabaseAttackHistory>[];
 	stakeouts: StorageListener<DatabaseStakeouts>[];
 	factionStakeouts: StorageListener<DatabaseFactionStakeouts>[];
-	notes: StorageListener<DatabaseNotes>[];
 	factiondata: StorageListener<DatabaseFactiondata>[];
 	localdata: StorageListener<DatabaseLocaldata>[];
-	cache: StorageListener<DatabaseCache>[];
 	api: StorageListener<DatabaseApi>[];
 	npcs: StorageListener<DatabaseNpcs>[];
 	stockdata: StorageListener<DatabaseStockdata>[];
 	notificationHistory: StorageListener<DatabaseNotificationHistory>[];
-	notifications: StorageListener<DatabaseNotifications>[];
-	quick: StorageListener<DatabaseQuick>[];
-	migrations: StorageListener<DatabaseMigrations>[];
 }
 
 export const storageListeners: StorageListeners = {
@@ -104,17 +99,12 @@ export const storageListeners: StorageListeners = {
 	attackHistory: [],
 	stakeouts: [],
 	factionStakeouts: [],
-	notes: [],
 	factiondata: [],
 	localdata: [],
-	cache: [],
 	api: [],
 	npcs: [],
 	stockdata: [],
 	notificationHistory: [],
-	notifications: [],
-	quick: [],
-	migrations: [],
 } as const;
 
 let databaseLoaded = false;
@@ -285,6 +275,9 @@ export function initializeDatabaseListener() {
 		if (area === "local") {
 			for (const key in changes) {
 				switch (key) {
+					case "cacheVersion":
+						void ttStorage.get("cache").then((cache) => ttCache.syncCache(cache ?? {}));
+						break;
 					case "settings":
 						settings = changes.settings.newValue as DatabaseSettings;
 						break;
@@ -340,8 +333,9 @@ export function initializeDatabaseListener() {
 						factionStakeouts = changes.factionStakeouts.newValue as DatabaseFactionStakeouts;
 						break;
 				}
-				if (storageListeners[key])
+				if (key in storageListeners) {
 					storageListeners[key].forEach((listener: StorageListener<any>) => listener(changes[key].oldValue, changes[key].newValue));
+				}
 			}
 		}
 	});

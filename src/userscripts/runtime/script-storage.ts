@@ -1,3 +1,4 @@
+import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
 import type { Database, DatabaseKey } from "@common/utils/data/database";
 import { DEFAULT_STORAGE } from "@common/utils/data/default-database";
 import { TornToolsStorage } from "@common/utils/data/storage";
@@ -54,8 +55,39 @@ export class TTScriptStorage extends TornToolsStorage {
 		throw new Error("Method not implemented.");
 	}
 
+	async setCacheEntries(entries: CacheEntry[]): Promise<void> {
+		const cache = (await this.get("cache")) ?? {};
+		applyCacheEntries(cache, entries);
+		await this.set({ cache });
+	}
+
+	async clearCache(section?: string): Promise<void> {
+		const cache = (await this.get("cache")) ?? {};
+		if (section) {
+			delete cache[section];
+		} else {
+			for (const key of Object.keys(cache)) delete cache[key];
+		}
+		await this.set({ cache });
+	}
+
 	getSize(): Promise<number> {
 		throw new Error("Method not implemented.");
+	}
+}
+
+function applyCacheEntries(cache: DatabaseCache, entries: CacheEntry[]) {
+	for (const entry of entries) {
+		const { section, key } = entry;
+		if (entry.deleted) {
+			if (section && cache[section]) delete cache[section][key];
+			else delete cache[key];
+		} else if (section) {
+			if (!(section in cache)) cache[section] = {};
+			cache[section][key] = entry.cacheValue;
+		} else {
+			cache[key] = entry.cacheValue;
+		}
 	}
 }
 
@@ -104,6 +136,22 @@ export class PDAScriptStorage extends TornToolsStorage {
 	reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
 	reset(_key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
 		throw new Error("Method not implemented.");
+	}
+
+	async setCacheEntries(entries: CacheEntry[]): Promise<void> {
+		const cache = (await this.get("cache")) ?? {};
+		applyCacheEntries(cache, entries);
+		await this.set({ cache });
+	}
+
+	async clearCache(section?: string): Promise<void> {
+		const cache = (await this.get("cache")) ?? {};
+		if (section) {
+			delete cache[section];
+		} else {
+			for (const key of Object.keys(cache)) delete cache[key];
+		}
+		await this.set({ cache });
 	}
 
 	async getSize(): Promise<number> {

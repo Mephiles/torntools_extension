@@ -4,11 +4,19 @@ export type DatabaseCache = { [key: string]: any };
 
 type CacheKey = string | number;
 
-type CacheValue = { value: any } & ({ timeout: number } | { indefinite: true });
+export type CacheValue = { value: any } & ({ timeout: number } | { indefinite: true });
+
+export interface CacheEntry {
+	section?: string;
+	key: string;
+	cacheValue?: CacheValue;
+	deleted?: boolean;
+}
 
 class TornToolsCache {
 	private _cache: DatabaseCache;
 	private persistTimer: ReturnType<typeof setTimeout> | null = null;
+	private pendingChanges = new Map<string, CacheEntry>();
 
 	constructor() {
 		this._cache = {};
@@ -16,6 +24,26 @@ class TornToolsCache {
 
 	set cache(value) {
 		this._cache = value || {};
+		this.pendingChanges.clear();
+	}
+
+	syncCache(value: DatabaseCache) {
+		this._cache = value || {};
+
+		for (const { section, key, cacheValue, deleted } of this.pendingChanges.values()) {
+			if (section) {
+				if (deleted) {
+					if (this._cache[section]) delete this._cache[section][key];
+				} else {
+					if (!(section in this._cache)) this._cache[section] = {};
+					this._cache[section][key] = cacheValue;
+				}
+			} else if (deleted) {
+				delete this._cache[key];
+			} else {
+				this._cache[key] = cacheValue;
+			}
+		}
 	}
 
 	get cache() {
@@ -39,6 +67,11 @@ class TornToolsCache {
 		if (actualSection) delete this.cache[actualSection][actualKey];
 		else delete this.cache[actualKey];
 
+		this.pendingChanges.set(this.changeKey(actualSection ?? undefined, actualKey.toString()), {
+			section: actualSection ?? undefined,
+			key: actualKey.toString(),
+			deleted: true,
+		});
 		this.schedulePersist();
 	}
 
@@ -79,11 +112,15 @@ class TornToolsCache {
 			if (!(section in this.cache)) this.cache[section] = {};
 
 			for (const [key, value] of Object.entries(object)) {
-				this.cache[section][key] = this.createCacheValue(value, timeout);
+				const cacheValue = this.createCacheValue(value, timeout);
+				this.cache[section][key] = cacheValue;
+				this.pendingChanges.set(this.changeKey(section, key), { section, key, cacheValue });
 			}
 		} else {
 			for (const [key, value] of Object.entries(object)) {
-				this.cache[key] = this.createCacheValue(value, timeout);
+				const cacheValue = this.createCacheValue(value, timeout);
+				this.cache[key] = cacheValue;
+				this.pendingChanges.set(this.changeKey(undefined, key), { key, cacheValue });
 			}
 		}
 
@@ -98,12 +135,17 @@ class TornToolsCache {
 	async clear(section?: string) {
 		if (section) {
 			delete this.cache[section];
-			this.schedulePersist();
+
+			for (const key of Array.from(this.pendingChanges.keys())) {
+				if (key.startsWith(`${section}|`)) this.pendingChanges.delete(key);
+			}
+
+			await ttStorage.clearCache(section);
 		} else {
 			this.cache = {};
 			if (this.persistTimer) clearTimeout(this.persistTimer);
 			this.persistTimer = null;
-			await ttStorage.set({ cache: {} });
+			await ttStorage.clearCache();
 		}
 	}
 
@@ -111,15 +153,7 @@ class TornToolsCache {
 		let hasChanged = false;
 		const now = Date.now();
 
-		refreshObject(this.cache);
-
-		for (const section in this.cache) {
-			if (!Object.keys(this.cache[section]).length) delete this.cache[section];
-		}
-
-		if (hasChanged) this.schedulePersist();
-
-		function refreshObject(object: { [key: string]: any }) {
+		const refreshObject = (object: { [key: string]: any }, section?: string) => {
 			for (const key in object) {
 				const value = object[key];
 
@@ -129,11 +163,19 @@ class TornToolsCache {
 
 					hasChanged = true;
 					delete object[key];
+					this.pendingChanges.set(this.changeKey(section, key), { section, key, deleted: true });
 				} else {
-					refreshObject(value);
+					refreshObject(value, key);
 				}
 			}
+		};
+		refreshObject(this.cache);
+
+		for (const section in this.cache) {
+			if (!Object.keys(this.cache[section]).length) delete this.cache[section];
 		}
+
+		if (hasChanged) await this.persist();
 	}
 
 	private schedulePersist() {
@@ -141,8 +183,28 @@ class TornToolsCache {
 
 		this.persistTimer = setTimeout(() => {
 			this.persistTimer = null;
-			ttStorage.set({ cache: this.cache }).catch((err) => console.error("Failed to persist cache.", err));
+			this.persist().catch((err) => console.error("Failed to persist cache.", err));
 		}, 500);
+	}
+
+	private async persist() {
+		if (this.persistTimer) clearTimeout(this.persistTimer);
+
+		if (!this.pendingChanges.size) return;
+
+		const changes = Array.from(this.pendingChanges.values());
+		await ttStorage.setCacheEntries(changes);
+
+		for (const change of changes) {
+			const key = this.changeKey(change.section, change.key);
+			if (this.pendingChanges.get(key) === change) this.pendingChanges.delete(key);
+		}
+
+		this.persistTimer = null;
+	}
+
+	private changeKey(section: string | undefined, key: string): string {
+		return `${section ?? ""}|${key}`;
 	}
 }
 

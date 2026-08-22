@@ -1,4 +1,6 @@
 import { ttCache } from "@common/utils/data/cache";
+import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
+import { bumpCacheVersion, getCache, removeCacheEntries, setCacheEntries } from "@common/utils/data/idb-cache";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { FetchLocation, FetchOptions } from "@common/utils/functions/api-fetcher";
 import { resetAlarms } from "@extension/entrypoints/background";
@@ -75,5 +77,19 @@ export class BackgroundService {
 	async clearCache(): Promise<ActionResponse> {
 		await ttCache.clear();
 		return { success: true };
+	}
+
+	cacheGet(): Promise<DatabaseCache | undefined> {
+		return getCache();
+	}
+
+	async cacheSetEntries(entries: CacheEntry[]): Promise<void> {
+		await setCacheEntries(entries);
+		await bumpCacheVersion();
+	}
+
+	async cacheClearEntries(section?: string): Promise<void> {
+		await removeCacheEntries(section);
+		await bumpCacheVersion();
 	}
 }

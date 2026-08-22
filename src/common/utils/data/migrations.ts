@@ -6,6 +6,7 @@ import type { SavedCustomLink } from "@features/custom-links/custom-links";
 import type { QuickItemId } from "@features/quick-items/shared/quick-items-common.ts";
 import { SPECIAL_MEDICAL_HOSPITAL, SPECIAL_MEDICAL_LIFE } from "@features/quick-items/shared/special-actions.ts";
 import type { UserAlias } from "@features/user-alias/alias";
+import { browser } from "wxt/browser";
 
 export interface StoredMigration {
 	id: string;
@@ -14,7 +15,7 @@ export interface StoredMigration {
 export interface MigrationScript {
 	id: string;
 	version: string;
-	execute: (database: Database, flags: MigrationFlags, oldStorage: any) => void;
+	execute: (database: Database, flags: MigrationFlags, oldStorage: any) => void | Promise<void>;
 }
 
 export interface MigrationFlags {
@@ -255,6 +256,18 @@ export const MIGRATIONS: MigrationScript[] = [
 			flags.updateUserdata = true;
 		},
 	},
+	{
+		id: "eeab9515-6575-4043-b62c-05c16cd4843c",
+		version: "9.2.0",
+		async execute(database, _flags, _oldStorage) {
+			// Read the cache from the storage directly, as otherwise it will be based on the IndexedDB storage.
+			const legacy = await browser.storage.local.get("cache");
+			if (typeof legacy?.cache !== "object" || !legacy.cache) return;
+
+			database.cache = legacy.cache;
+			await browser.storage.local.remove("cache");
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
@@ -272,10 +285,10 @@ export async function executeMigrationScripts(storage: Database, oldStorage: any
 		clearCache: false,
 	};
 
-	[...migrations].reverse().forEach((migration) => {
-		migration.execute(storage, flags, oldStorage);
+	for (const migration of migrations.reverse()) {
+		await migration.execute(storage, flags, oldStorage);
 		storage.migrations.push({ id: migration.id });
-	});
+	}
 
 	if (flags.updateUserdata) {
 		storage.userdata.date = 0;
