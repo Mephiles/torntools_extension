@@ -16,6 +16,7 @@ import type {
 	UserCalendarResponse,
 	UserCooldownsResponse,
 	UserEducationResponse,
+	UserEnlistedCarsResponse,
 	UserEventsResponse,
 	UserFactionResponse,
 	UserHonorsResponse,
@@ -77,7 +78,8 @@ export type FetchedUserdata = UserProfileResponse &
 	AttacksResponse &
 	(UserEventsResponse | UserNewEventsResponse) &
 	UserVirusResponse &
-	UserJobPointsResponse;
+	UserJobPointsResponse &
+	UserEnlistedCarsResponse;
 
 export async function updateUserdata(forceUpdate = false) {
 	const now = Date.now();
@@ -148,7 +150,7 @@ export async function updateUserdata(forceUpdate = false) {
 		updatedTypes.push("basic");
 	}
 	if (updatePassive) {
-		for (const selection of ["jobpoints"]) {
+		for (const selection of ["jobpoints", "enlistedcars"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);

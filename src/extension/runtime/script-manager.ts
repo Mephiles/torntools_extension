@@ -12,6 +12,7 @@ import { setupItemMarketPage } from "@common/pages/itemmarket-page";
 import { setupJailPage } from "@common/pages/jail-page";
 import { setupMissionsPage } from "@common/pages/missions-page";
 import { setupPropertiesPage } from "@common/pages/properties-page";
+import { setupRacingPage } from "@common/pages/racing-page.ts";
 import { setupTradePage } from "@common/pages/trade-page";
 import { setupTravelAbroadPage } from "@common/pages/travel-abroad-page";
 import { setupTravelHomePage } from "@common/pages/travel-home-page";
@@ -31,9 +32,9 @@ import ArmoryFilterFeature from "@features/armory-filter/armory-filter";
 import ArmoryWorthFeature from "@features/armory-worth/armory-worth";
 import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
 import AuctionHouseFilterFeature from "@features/auction-house-filter/auction-house-filter";
-import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
+import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
 import BankInvestmentDueTimeFeature from "@features/bank-investment-due-time/bank-investment-due-time";
 import BankInvestmentInfoFeature from "@features/bank-investment-info/bank-investment-info";
@@ -182,6 +183,7 @@ import PropertyHappinessFeature from "@features/property-happiness/property-happ
 import PropertyValuesFeature from "@features/property-values/property-values";
 import QuickCrimesFeature from "@features/quick-crimes/quick-crimes";
 import QuickItemsFeature from "@features/quick-items/quick-items";
+import RaceCarSelectorFeature from "@features/race-car-selector/race-car-selector.ts";
 import RacingFilterFeature from "@features/racing-filter/racing-filter";
 import RacingUpgradesFeature from "@features/racing-upgrades/racing-upgrades";
 import RankedWarFilterFeature from "@features/ranked-war-filter/ranked-war-filter";
@@ -510,9 +512,11 @@ export function scriptManager() {
 	} else if (page === "personalstats") {
 		FEATURE_MANAGER.registerFeature(new AveragePersonalStatFeature());
 	} else if (page === "racing") {
+		setupRacingPage();
 		FEATURE_MANAGER.registerFeature(new CarWinPercentageFeature());
 		FEATURE_MANAGER.registerFeature(new RacingFilterFeature());
 		FEATURE_MANAGER.registerFeature(new RacingUpgradesFeature());
+		FEATURE_MANAGER.registerFeature(new RaceCarSelectorFeature());
 	} else if (page === "chainreport") {
 		FEATURE_MANAGER.registerFeature(new CSVChainReportFeature());
 		FEATURE_MANAGER.registerFeature(new ChainReportHighlightFeature());
