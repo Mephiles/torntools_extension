@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { apiStore, factiondataStore, stockdataStore, torndataStore, userdataStore } from "../../stores/database-store.svelte";
-	import { getHealthStatus, type HealthStatus, isFactiondataHealthy, isStockdataHealthy, isTorndataHealthy, isUserdataHealthy } from "./data-health";
+	import { getHealthStatus, isFactiondataHealthy, isStockdataHealthy, isTorndataHealthy, isUserdataHealthy } from "./data-health";
+	import type { HealthStatus } from "./data-health";
 	import DataHealthCheck from "./DataHealthCheck.svelte";
 
 	type HealthCheck = {

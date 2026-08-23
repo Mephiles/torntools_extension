@@ -1,12 +1,6 @@
 import { ttStorage } from "@common/utils/context";
-import {
-	type DatabaseAttackHistory,
-	type DatabaseFactionStakeouts,
-	type DatabaseSettings,
-	type DatabaseStakeouts,
-	initializeDatabase,
-	storageListeners,
-} from "@common/utils/data/database";
+import { initializeDatabase, storageListeners } from "@common/utils/data/database";
+import type { DatabaseAttackHistory, DatabaseFactionStakeouts, DatabaseSettings, DatabaseStakeouts } from "@common/utils/data/database";
 import { writable } from "svelte/store";
 
 let storesInitialized = $state(false);

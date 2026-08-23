@@ -1,5 +1,6 @@
 import { setScriptInjector } from "@common/utils/context";
-import { injectFetchListeners, injectXhrListeners, RequestListenerInjector, type ScriptInjector } from "@common/utils/functions/script-injector";
+import { injectFetchListeners, injectXhrListeners, RequestListenerInjector } from "@common/utils/functions/script-injector";
+import type { ScriptInjector } from "@common/utils/functions/script-injector";
 import { injectCityItemsMapListeners } from "@features/city-items/city-items-map";
 import { injectEfficientRehabListeners } from "@features/efficient-rehab/efficient-rehab-listeners";
 

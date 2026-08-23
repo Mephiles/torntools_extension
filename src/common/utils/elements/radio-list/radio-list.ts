@@ -1,5 +1,6 @@
 import "./radio-list.css";
-import { createRadio, type RadioObject } from "@common/utils/elements/radio/radio.ts";
+import { createRadio } from "@common/utils/elements/radio/radio.ts";
+import type { RadioObject } from "@common/utils/elements/radio/radio.ts";
 import { elementBuilder } from "@common/utils/functions/dom";
 
 interface RadioListOptions {

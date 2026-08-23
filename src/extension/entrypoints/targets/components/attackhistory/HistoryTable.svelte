@@ -2,7 +2,8 @@
 	import type { AttackHistory } from "@common/utils/data/default-database";
 	import { formatDate, formatTime } from "@common/utils/functions/formatting";
 	import { attackHistoryStore } from "@extension/entrypoints/targets/stores/database-store.svelte";
-	import { columns, type HistoryRow, type SwitchableKey } from "./columns";
+	import { columns } from "./columns";
+	import type { HistoryRow, SwitchableKey } from "./columns";
 	import DataTable from "./data-table.svelte";
 
 	interface HistoryTableV2Props {

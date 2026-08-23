@@ -1,4 +1,5 @@
-import { type SVGFactory, svgImport } from "@common/utils/svg-helper";
+import { svgImport } from "@common/utils/svg-helper";
+import type { SVGFactory } from "@common/utils/svg-helper";
 import PHBoldArrowBendUpLeftData from "@phosphor-icons/core/bold/arrow-bend-up-left-bold.svg";
 import PHBoldArrowClockwiseData from "@phosphor-icons/core/bold/arrow-clockwise-bold.svg";
 import PHBoldArrowDownData from "@phosphor-icons/core/bold/arrow-down-bold.svg";

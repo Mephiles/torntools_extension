@@ -10,15 +10,13 @@ import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@commo
 import {
 	checkboxesSection,
 	createFilter,
-	type DuoCheckboxState,
 	duoCheckboxesSection,
-	type FilterController,
 	getSpecialIcons,
 	presetSection,
-	type SliderRange,
 	selectSection,
 	sliderSection,
 } from "@common/utils/functions/filters";
+import type { DuoCheckboxState, FilterController, SliderRange } from "@common/utils/functions/filters";
 import { requireElement } from "@common/utils/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";

@@ -1,14 +1,13 @@
 import { ttStorage } from "@common/utils/context";
-import {
-	type DatabaseApi,
-	type DatabaseFactiondata,
-	type DatabaseNpcs,
-	type DatabaseSettings,
-	type DatabaseStockdata,
-	type DatabaseTorndata,
-	type DatabaseUserdata,
-	initializeDatabase,
-	storageListeners,
+import { initializeDatabase, storageListeners } from "@common/utils/data/database";
+import type {
+	DatabaseApi,
+	DatabaseFactiondata,
+	DatabaseNpcs,
+	DatabaseSettings,
+	DatabaseStockdata,
+	DatabaseTorndata,
+	DatabaseUserdata,
 } from "@common/utils/data/database";
 import { writable } from "svelte/store";
 

@@ -1,6 +1,7 @@
 import type { BaseElement } from "@common/utils/elements/base-element";
 import { elementBuilder } from "@common/utils/functions/dom";
-import { getTypedKeyOf, groupBy, type TypedKeyOf } from "@common/utils/functions/utilities";
+import { getTypedKeyOf, groupBy } from "@common/utils/functions/utilities";
+import type { TypedKeyOf } from "@common/utils/functions/utilities";
 import "./table.css";
 import { PHFillCaretDown, PHFillCaretUp } from "@common/utils/icons/phosphor-icons";
 

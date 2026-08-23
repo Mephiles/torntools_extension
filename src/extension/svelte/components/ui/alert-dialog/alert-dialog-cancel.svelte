@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { type ButtonSize, type ButtonVariant, buttonVariants } from "@svelte/components/ui/button/index.js";
+	import { buttonVariants } from "@svelte/components/ui/button/index.js";
+	import type { ButtonSize, ButtonVariant } from "@svelte/components/ui/button/index.js";
 	import { cn } from "@svelte/utils.js";
 	import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
 

@@ -5,7 +5,8 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { getPageStatus, SETS, type SetItem } from "@common/utils/functions/torn";
+import { getPageStatus, SETS } from "@common/utils/functions/torn";
+import type { SetItem } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseFlowers() {

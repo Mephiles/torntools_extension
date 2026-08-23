@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
 	import { factionStakeoutsStore } from "@extension/entrypoints/targets/stores/database-store.svelte";
-	import { type BooleanAlertKey, columns, type FactionStakeoutRow, type NumberAlertKey } from "./columns";
+	import { columns } from "./columns";
+	import type { BooleanAlertKey, FactionStakeoutRow, NumberAlertKey } from "./columns";
 	import DataTable from "./data-table.svelte";
 	import { getFactionStakeoutRows, getStoredFactionStakeouts } from "./helpers";
 

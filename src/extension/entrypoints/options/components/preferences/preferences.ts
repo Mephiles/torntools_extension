@@ -1,10 +1,5 @@
-import {
-	DEFAULT_GROUP_ID,
-	PREFERENCE_GROUPS,
-	type PreferenceGroup,
-	type PreferenceGroupId,
-	type PreferenceSection,
-} from "@extension/entrypoints/options/components/preferences/configuration";
+import { DEFAULT_GROUP_ID, PREFERENCE_GROUPS } from "@extension/entrypoints/options/components/preferences/configuration";
+import type { PreferenceGroup, PreferenceGroupId, PreferenceSection } from "@extension/entrypoints/options/components/preferences/configuration";
 
 function getPreferenceGroup(id?: string | null): PreferenceGroup {
 	return PREFERENCE_GROUPS.find((group) => group.id === id) ?? PREFERENCE_GROUPS[0];

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { cn, type WithoutChildrenOrChild } from "@svelte/utils.js";
+	import { cn } from "@svelte/utils.js";
+	import type { WithoutChildrenOrChild } from "@svelte/utils.js";
 	import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
 	import CircleIcon from "phosphor-svelte/lib/Circle";
 

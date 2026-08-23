@@ -2,7 +2,8 @@
 	import { toClipboard } from "@common/utils/functions/utilities";
 	import { Textarea } from "@svelte/components/ui/textarea";
 	import { toast } from "svelte-sonner";
-	import { type ExportData, getExportData, importExportData, parseImportText } from "../export-data";
+	import { getExportData, importExportData, parseImportText } from "../export-data";
+	import type { ExportData } from "../export-data";
 	import ExportMethod from "../ExportMethod.svelte";
 
 	let importText = $state("");

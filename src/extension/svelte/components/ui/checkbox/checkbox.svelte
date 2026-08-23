@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { cn, type WithoutChildrenOrChild } from "@svelte/utils.js";
+	import { cn } from "@svelte/utils.js";
+	import type { WithoutChildrenOrChild } from "@svelte/utils.js";
 	import { Checkbox as CheckboxPrimitive } from "bits-ui";
 	import CheckIcon from "phosphor-svelte/lib/Check";
 	import MinusIcon from "phosphor-svelte/lib/Minus";

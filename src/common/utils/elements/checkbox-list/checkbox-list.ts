@@ -1,5 +1,6 @@
 import "./checkbox-list.css";
-import { type CheckboxObject, createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import type { CheckboxObject } from "@common/utils/elements/checkbox/checkbox";
 import { elementBuilder } from "@common/utils/functions/dom";
 
 interface CheckboxListOptions {

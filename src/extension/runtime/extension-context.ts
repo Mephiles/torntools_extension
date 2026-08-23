@@ -1,7 +1,4 @@
 import {
-	type DataFetcher,
-	type FetchResponse,
-	type OffloadService,
 	setDataFetcher,
 	setEventHandler,
 	setFeatureManager,
@@ -13,6 +10,7 @@ import {
 	setStaticItemResolver,
 	setTTStorage,
 } from "@common/utils/context";
+import type { DataFetcher, FetchResponse, OffloadService } from "@common/utils/context";
 import { torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import type { FetchLocation } from "@common/utils/functions/api-fetcher";

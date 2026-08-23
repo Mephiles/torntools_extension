@@ -2,7 +2,8 @@ import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import type { Browser } from "@wxt-dev/browser";
-import { defineConfig, type UserManifest } from "wxt";
+import { defineConfig } from "wxt";
+import type { UserManifest } from "wxt";
 
 const APPEND_COMMIT_HASH_ENV = "APPEND_COMMIT_HASH";
 const WXT_ZIP_COMMAND = "zip";

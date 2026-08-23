@@ -1,6 +1,7 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
-import { type DatabaseUserdata, setUserdata, userdata } from "@common/utils/data/database";
+import { setUserdata, userdata } from "@common/utils/data/database";
+import type { DatabaseUserdata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import EfficientRehabFeature from "@features/efficient-rehab/efficient-rehab";

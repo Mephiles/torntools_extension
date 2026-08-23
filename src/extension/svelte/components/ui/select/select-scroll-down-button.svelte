@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { cn, type WithoutChildrenOrChild } from "@svelte/utils.js";
+	import { cn } from "@svelte/utils.js";
+	import type { WithoutChildrenOrChild } from "@svelte/utils.js";
 	import { Select as SelectPrimitive } from "bits-ui";
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDown";
 

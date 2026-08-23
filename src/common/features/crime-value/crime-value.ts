@@ -1,5 +1,6 @@
 import "./crime-value.css";
-import { isAttemptCrime, type TornInternalAttemptCrime } from "@common/pages/crimes2-page";
+import { isAttemptCrime } from "@common/pages/crimes2-page";
+import type { TornInternalAttemptCrime } from "@common/pages/crimes2-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";

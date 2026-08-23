@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { Button } from "@svelte/components/ui/button";
-	import { features, type DataTableFeatures } from "@svelte/components/ui/data-table";
+	import { features } from "@svelte/components/ui/data-table";
+	import type { DataTableFeatures } from "@svelte/components/ui/data-table";
 	import { Input } from "@svelte/components/ui/input";
 	import * as Table from "@svelte/components/ui/table";
 	import { cn } from "@svelte/utils";
-	import { type ColumnDef, createTable, FlexRender } from "@tanstack/svelte-table";
+	import { createTable, FlexRender } from "@tanstack/svelte-table";
+	import type { ColumnDef } from "@tanstack/svelte-table";
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
 	import AlertCheckbox from "./AlertCheckbox.svelte";
 	import type { BooleanAlertKey, NumberAlertKey, StakeoutInfo, StakeoutRow } from "./columns";

@@ -1,5 +1,6 @@
 import { ttCache } from "@common/utils/data/cache";
-import { type FetchLocation, type FetchOptions, fetchData } from "@common/utils/functions/api-fetcher";
+import { fetchData } from "@common/utils/functions/api-fetcher";
+import type { FetchLocation, FetchOptions } from "@common/utils/functions/api-fetcher";
 import { resetAlarms } from "@extension/entrypoints/background";
 import { dispatchNotification, getNotificationSound, notificationTestPlayer } from "@extension/entrypoints/background/notifications";
 import { timedUpdates } from "@extension/entrypoints/background/updates";

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { cn, type WithoutChild } from "@svelte/utils.js";
+	import { cn } from "@svelte/utils.js";
+	import type { WithoutChild } from "@svelte/utils.js";
 	import { Accordion as AccordionPrimitive } from "bits-ui";
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDown";
 	import CaretUpIcon from "phosphor-svelte/lib/CaretUp";

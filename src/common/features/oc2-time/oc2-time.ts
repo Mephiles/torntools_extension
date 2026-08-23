@@ -1,7 +1,8 @@
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData, hasOC2Data } from "@common/utils/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
-import { type FormatTimeOptions, formatDate, formatTime } from "@common/utils/functions/formatting";
+import { formatDate, formatTime } from "@common/utils/functions/formatting";
+import type { FormatTimeOptions } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { countdownTimers } from "@common/utils/functions/timers";
 import { isPageWithSidebar, LINKS } from "@common/utils/functions/torn";

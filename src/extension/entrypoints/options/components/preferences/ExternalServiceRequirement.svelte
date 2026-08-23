@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Badge } from "@svelte/components/ui/badge";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
-	import { type ExternalService, SERVICE_DETAILS } from "./external-service-requirement";
+	import { SERVICE_DETAILS } from "./external-service-requirement";
+	import type { ExternalService } from "./external-service-requirement";
 
 	interface ExternalServiceRequirementProps {
 		services: readonly ExternalService[];

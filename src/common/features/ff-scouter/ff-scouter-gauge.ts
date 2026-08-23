@@ -13,7 +13,8 @@ import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@commo
 import { getPage } from "@common/utils/functions/torn";
 import { isTabFocused } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
-import { type ScouterService, scouterService } from "@features/ff-scouter/ff-scouter";
+import { scouterService } from "@features/ff-scouter/ff-scouter";
+import type { ScouterService } from "@features/ff-scouter/ff-scouter";
 
 let SCOUTER_SERVICE: ScouterService;
 let BLUE_ARROW: string, GREEN_ARROW: string, RED_ARROW: string;

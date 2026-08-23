@@ -1,5 +1,6 @@
 import { isCustomEvent } from "@common/utils/functions/dom.ts";
-import { type CustomEventListener, EVENT_CHANNELS, type EventHandler, type EventPayloads } from "@common/utils/functions/events";
+import { EVENT_CHANNELS } from "@common/utils/functions/events";
+import type { CustomEventListener, EventHandler, EventPayloads } from "@common/utils/functions/events";
 
 const CUSTOM_LISTENERS: { [K in keyof EventPayloads]: CustomEventListener<K>[] } = (() => {
 	const listeners: Partial<{ [K in keyof EventPayloads]: CustomEventListener<K>[] }> = {};

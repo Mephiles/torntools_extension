@@ -2,13 +2,8 @@
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";
 	import { settingsStore } from "../../../stores/database-store.svelte";
-	import {
-		formatNotificationList,
-		type NotificationListValue,
-		type NotificationTypes,
-		parseNotificationList,
-		updateNotificationType,
-	} from "./notification-storage";
+	import { formatNotificationList, parseNotificationList, updateNotificationType } from "./notification-storage";
+	import type { NotificationListValue, NotificationTypes } from "./notification-storage";
 
 	interface NotificationListInputProps {
 		typeKey: {

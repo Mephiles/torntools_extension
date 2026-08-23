@@ -4,15 +4,8 @@ import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { findContainer } from "@common/utils/functions/containers";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import {
-	checkboxSection,
-	createFilter,
-	createWeaponBonusSection,
-	type FilterController,
-	type FilterSectionDef,
-	selectSection,
-	textSection,
-} from "@common/utils/functions/filters";
+import { checkboxSection, createFilter, createWeaponBonusSection, selectSection, textSection } from "@common/utils/functions/filters";
+import type { FilterController, FilterSectionDef } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS } from "@common/utils/functions/torn";

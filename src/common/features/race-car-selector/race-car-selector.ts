@@ -1,4 +1,5 @@
-import { type TrackData, TRACKS } from "@common/pages/racing-page.ts";
+import { TRACKS } from "@common/pages/racing-page.ts";
+import type { TrackData } from "@common/pages/racing-page.ts";
 import { FEATURE_MANAGER } from "@common/utils/context.ts";
 import { settings, userdata } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom.ts";

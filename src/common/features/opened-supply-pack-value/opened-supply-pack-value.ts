@@ -1,5 +1,6 @@
 import "./opened-supply-pack-value.css";
-import { isUseItem, type TornInternalUseItemSuccess } from "@common/pages/item-page";
+import { isUseItem } from "@common/pages/item-page";
+import type { TornInternalUseItemSuccess } from "@common/pages/item-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";

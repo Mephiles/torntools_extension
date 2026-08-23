@@ -7,14 +7,8 @@
 	import { importExportData } from "../export-data";
 	import ExportMethod from "../ExportMethod.svelte";
 	import ClearRemoteStorageDialog from "./ClearBrowserSyncDialog.svelte";
-	import {
-		clearRemoteSyncData,
-		getByteLength,
-		loadRemoteSyncData,
-		REMOTE_SYNC_SOUND_CUSTOM_LIMIT,
-		type RemoteSyncState,
-		saveRemoteSyncData,
-	} from "./remote-export";
+	import { clearRemoteSyncData, getByteLength, loadRemoteSyncData, REMOTE_SYNC_SOUND_CUSTOM_LIMIT, saveRemoteSyncData } from "./remote-export";
+	import type { RemoteSyncState } from "./remote-export";
 	import RemoteSyncInformation from "./RemoteSyncInformation.svelte";
 
 	let busy = $state(false);

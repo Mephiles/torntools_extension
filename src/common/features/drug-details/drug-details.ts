@@ -7,7 +7,8 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { DRUG_INFORMATION, type DrugDetail, getPage, getPageStatus } from "@common/utils/functions/torn";
+import { DRUG_INFORMATION, getPage, getPageStatus } from "@common/utils/functions/torn";
+import type { DrugDetail } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 interface DrugDetailsOptions {

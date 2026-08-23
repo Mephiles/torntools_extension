@@ -6,7 +6,8 @@
 	import { Toaster } from "@svelte/components/ui/sonner";
 	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import { ModeWatcher, setMode } from "mode-watcher";
-	import { onMount, type Snippet } from "svelte";
+	import { onMount } from "svelte";
+	import type { Snippet } from "svelte";
 	import { link } from "svelte-spa-router";
 	import active from "svelte-spa-router/active";
 	import { registerExtensionContext } from "@/runtime/extension-context";

@@ -12,7 +12,8 @@ import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } f
 import { toCorrectType } from "@common/utils/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
-import { fetchTravelData, type TravelData } from "@features/travel-table/travel-data-fetcher";
+import { fetchTravelData } from "@features/travel-table/travel-data-fetcher";
+import type { TravelData } from "@features/travel-table/travel-data-fetcher";
 import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescript";
 
 interface CountryInformation {

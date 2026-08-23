@@ -3,8 +3,10 @@
 	import { ttStorage } from "@common/utils/context";
 	import { formatNumber } from "@common/utils/functions/formatting";
 	import BattleStatInfo from "./battle-stat-info.svelte";
-	import { type BattleStat, battleStats } from "./models/battle-stat";
-	import { type SpecialGym, specialGymDescMap, specialGyms } from "./models/special-gym";
+	import { battleStats } from "./models/battle-stat";
+	import type { BattleStat } from "./models/battle-stat";
+	import { specialGymDescMap, specialGyms } from "./models/special-gym";
+	import type { SpecialGym } from "./models/special-gym";
 	import type { SpecialGymsCalcResult } from "./stats-calculations";
 
 	interface SpecialistGymsBoxProps {

@@ -1,5 +1,6 @@
 import "./faction-quick-items.css";
-import { isInternalFaction, type TornInternalArmouryTabContent } from "@common/pages/factions-page";
+import { isInternalFaction } from "@common/pages/factions-page";
+import type { TornInternalArmouryTabContent } from "@common/pages/factions-page";
 import type { TornInternalUseItem } from "@common/pages/item-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { quick, settings } from "@common/utils/data/database";
@@ -17,11 +18,10 @@ import {
 	formatResponseTimers,
 	initialiseQuickItems,
 	parseQuickItemId,
-	type QuickItem,
-	type QuickItemId,
-	type UseContext,
 } from "@features/quick-items/shared/quick-items-common.ts";
-import { executeSpecialAction, isSpecialAction, type MedicalItemsSource } from "@features/quick-items/shared/special-actions.ts";
+import type { QuickItem, QuickItemId, UseContext } from "@features/quick-items/shared/quick-items-common.ts";
+import { executeSpecialAction, isSpecialAction } from "@features/quick-items/shared/special-actions.ts";
+import type { MedicalItemsSource } from "@features/quick-items/shared/special-actions.ts";
 import commonStyles from "@features/quick-items/shared/quick-items-common.module.css";
 
 let controller: ReturnType<typeof createQuickItemsController> | undefined;

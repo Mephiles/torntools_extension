@@ -3,8 +3,9 @@ import "@common/utils/global/globalVariables.css";
 import { setEventHandler, setFeatureManager, setInformationRetriever, setRuntimeInformation } from "@common/utils/context";
 import type { RuntimeInformation, TTWindow } from "@common/utils/functions/context-interfaces";
 import { isCustomEvent } from "@common/utils/functions/dom";
-import { type CustomEventListener, type EventHandler, type EventPayloads } from "@common/utils/functions/events";
-import { getStatusIcons, type InformationRetriever } from "@common/utils/functions/torn-injected";
+import type { CustomEventListener, EventHandler, EventPayloads } from "@common/utils/functions/events";
+import { getStatusIcons } from "@common/utils/functions/torn-injected";
+import type { InformationRetriever } from "@common/utils/functions/torn-injected";
 import { ScriptFeatureManager } from "@userscripts/runtime/script-feature-manager";
 import { isPDA } from "@userscripts/utils/script-utils.ts";
 

@@ -3,7 +3,8 @@ import { settings } from "@common/utils/data/database";
 import { CUSTOM_API_ERROR, fetchData } from "@common/utils/functions/api-fetcher";
 import type { TornstatsSpy, YATASpyResponse } from "@common/utils/functions/api.types";
 import { formatTime } from "@common/utils/functions/formatting";
-import { executePriorityServices, PriorityService, type ServiceError } from "@common/utils/functions/priority-services";
+import { executePriorityServices, PriorityService } from "@common/utils/functions/priority-services";
+import type { ServiceError } from "@common/utils/functions/priority-services";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
 export interface SpyResult {

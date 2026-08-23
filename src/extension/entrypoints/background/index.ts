@@ -1,24 +1,18 @@
 import { ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
-import {
-	type Database,
-	initializeDatabase,
-	loadDatabase,
-	migrateDatabase,
-	type RecursivePartial,
-	storageListeners,
-	version,
-	type Writable,
-} from "@common/utils/data/database";
+import { initializeDatabase, loadDatabase, migrateDatabase, storageListeners, version } from "@common/utils/data/database";
+import type { Database, RecursivePartial, Writable } from "@common/utils/data/database";
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
-import { cleanupNotifications, initializeBackoff, type NotificationRelation } from "@extension/entrypoints/background/notifications";
+import { cleanupNotifications, initializeBackoff } from "@extension/entrypoints/background/notifications";
+import type { NotificationRelation } from "@extension/entrypoints/background/notifications";
 import { timedUpdates } from "@extension/entrypoints/background/updates/";
 import { showIconBars } from "@extension/entrypoints/background/updates/icon-bars";
 import { registerExtensionContext } from "@extension/runtime/extension-context";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@extension/services/proxy-service-keys";
 import { SourceService } from "@extension/services/SourceService";
 import { registerService } from "@webext-core/proxy-service";
-import { type Browser, browser } from "wxt/browser";
+import { browser } from "wxt/browser";
+import type { Browser } from "wxt/browser";
 import { BackgroundService } from "@/services/BackgroundService";
 
 type Alarm = Browser.alarms.Alarm;

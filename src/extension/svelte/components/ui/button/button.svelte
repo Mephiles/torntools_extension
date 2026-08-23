@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { type ButtonProps, buttonVariants } from "@svelte/components/ui/button/helper";
+	import { buttonVariants } from "@svelte/components/ui/button/helper";
+	import type { ButtonProps } from "@svelte/components/ui/button/helper";
 	import { cn } from "@svelte/utils";
 
 	let {

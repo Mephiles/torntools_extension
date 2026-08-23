@@ -1,7 +1,8 @@
 import { setupItemPage } from "@common/pages/item-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
-import { type DatabaseTorndata, setTorndata, setUserdata, torndata, userdata } from "@common/utils/data/database";
+import { setTorndata, setUserdata, torndata, userdata } from "@common/utils/data/database";
+import type { DatabaseTorndata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { BACKUP_CALENDAR_2026 } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";

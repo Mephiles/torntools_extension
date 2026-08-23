@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { features, type DataTableFeatures } from "@svelte/components/ui/data-table";
+	import { features } from "@svelte/components/ui/data-table";
+	import type { DataTableFeatures } from "@svelte/components/ui/data-table";
 	import * as Table from "@svelte/components/ui/table";
 	import { cn } from "@svelte/utils";
-	import { createTable, FlexRender, type ColumnDef } from "@tanstack/svelte-table";
+	import { createTable, FlexRender } from "@tanstack/svelte-table";
+	import type { ColumnDef } from "@tanstack/svelte-table";
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDownIcon";
 	import CaretUpIcon from "phosphor-svelte/lib/CaretUpIcon";
 	import type { HistoryRow } from "./columns";

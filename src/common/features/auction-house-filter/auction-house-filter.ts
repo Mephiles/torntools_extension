@@ -2,14 +2,8 @@ import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context
 import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
-import {
-	createFilter,
-	createWeaponBonusSection,
-	type FilterController,
-	type FilterSectionDef,
-	selectSection,
-	textSection,
-} from "@common/utils/functions/filters";
+import { createFilter, createWeaponBonusSection, selectSection, textSection } from "@common/utils/functions/filters";
+import type { FilterController, FilterSectionDef } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { ARMOR_SETS, ITEM_TYPES } from "@common/utils/functions/torn";

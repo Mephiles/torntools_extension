@@ -4,7 +4,8 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import { buildScoutInformation, type ScouterService, scouterService } from "@features/ff-scouter/ff-scouter";
+import { buildScoutInformation, scouterService } from "@features/ff-scouter/ff-scouter";
+import type { ScouterService } from "@features/ff-scouter/ff-scouter";
 
 let SCOUTER_SERVICE: ScouterService;
 

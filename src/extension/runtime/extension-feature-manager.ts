@@ -5,7 +5,8 @@ import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requi
 import { arraysEquals, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
 import { SOURCE_SERVICE } from "@extension/services/proxy-services";
-import { ExecutionTiming, type Feature } from "@features/feature";
+import { ExecutionTiming } from "@features/feature";
+import type { Feature } from "@features/feature";
 import "./extension-feature-manager.css";
 import type { FeatureManager } from "@features/feature-manager";
 

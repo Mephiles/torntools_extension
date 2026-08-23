@@ -1,6 +1,7 @@
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
-import { FETCH_PLATFORMS, type FetchOptions, fetchData } from "@common/utils/functions/api-fetcher";
+import { FETCH_PLATFORMS, fetchData } from "@common/utils/functions/api-fetcher";
+import type { FetchOptions } from "@common/utils/functions/api-fetcher";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 

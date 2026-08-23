@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Button } from "@svelte/components/ui/button";
 	import { Spinner } from "@svelte/components/ui/spinner";
-	import { type MaintenanceAction, runMaintenanceAction } from "./maintenance";
+	import { runMaintenanceAction } from "./maintenance";
+	import type { MaintenanceAction } from "./maintenance";
 
 	let {
 		action,

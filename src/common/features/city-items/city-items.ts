@@ -1,5 +1,6 @@
 import "./city-items.css";
-import { type DecodedCityItem, type InternalCityItem, isMapData } from "@common/pages/city-page";
+import { isMapData } from "@common/pages/city-page";
+import type { DecodedCityItem, InternalCityItem } from "@common/pages/city-page";
 import { EVENT_HANDLER, FEATURE_MANAGER, ITEM_RESOLVER, RUNTIME_INFORMATION, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
@@ -16,7 +17,7 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { MONTHS } from "@common/utils/functions/utilities";
 import type { FullItem } from "@common/utils/torn-api/items.types";
 import { ExecutionTiming, Feature } from "@features/feature";
-import { type CityItemsMapEntry } from "./city-items-map";
+import type { CityItemsMapEntry } from "./city-items-map";
 
 const ENCODING_NUMERIC_SYSTEM = 36;
 const GROUP_PAGE_SIZE = 10;

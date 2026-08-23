@@ -2,20 +2,14 @@ import "./jail-filter.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, quick, settings, userdata } from "@common/utils/data/database";
 import type { QuickJail } from "@common/utils/data/default-database";
-import { type CheckboxObject, createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
+import type { CheckboxObject } from "@common/utils/elements/checkbox/checkbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import {
-	createFilter,
-	defaultFactionsItems,
-	type FilterController,
-	presetSection,
-	type SliderRange,
-	sliderSection,
-	textSection,
-} from "@common/utils/functions/filters";
+import { createFilter, defaultFactionsItems, presetSection, sliderSection, textSection } from "@common/utils/functions/filters";
+import type { FilterController, SliderRange } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { extractFactionsFromPage, getPageStatus } from "@common/utils/functions/torn";

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { cn, type WithoutChild } from "@svelte/utils.js";
+	import { cn } from "@svelte/utils.js";
+	import type { WithoutChild } from "@svelte/utils.js";
 	import { Accordion as AccordionPrimitive } from "bits-ui";
 
 	let { ref = $bindable(null), class: className, children, ...restProps }: WithoutChild<AccordionPrimitive.ContentProps> = $props();

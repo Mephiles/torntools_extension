@@ -2,17 +2,8 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
-import {
-	createFilter,
-	type DuoCheckboxState,
-	duoCheckboxesSection,
-	type FilterController,
-	type FilterSectionDef,
-	getSpecialIcons,
-	presetSection,
-	type SliderRange,
-	sliderSection,
-} from "@common/utils/functions/filters";
+import { createFilter, duoCheckboxesSection, getSpecialIcons, presetSection, sliderSection } from "@common/utils/functions/filters";
+import type { DuoCheckboxState, FilterController, FilterSectionDef, SliderRange } from "@common/utils/functions/filters";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, HOSPITALIZATION_REASONS, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";

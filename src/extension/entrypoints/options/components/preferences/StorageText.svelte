@@ -2,7 +2,8 @@
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
-	import { getPreferenceValue, type StringPreferenceStoragePath, updatePreferenceValue } from "./preference-storage";
+	import { getPreferenceValue, updatePreferenceValue } from "./preference-storage";
+	import type { StringPreferenceStoragePath } from "./preference-storage";
 
 	interface StorageTextProps {
 		path: StringPreferenceStoragePath;

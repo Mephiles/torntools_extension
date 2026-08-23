@@ -1,6 +1,8 @@
 import { RUNTIME_INFORMATION, RUNTIME_STORAGE, ttStorage } from "@common/utils/context";
-import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
-import { DEFAULT_STORAGE, DefaultSetting, type DefaultStorageType } from "@common/utils/data/default-database";
+import { ttCache } from "@common/utils/data/cache";
+import type { DatabaseCache } from "@common/utils/data/cache";
+import { DEFAULT_STORAGE, DefaultSetting } from "@common/utils/data/default-database";
+import type { DefaultStorageType } from "@common/utils/data/default-database";
 import { executeMigrationScripts } from "@common/utils/data/migrations";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;

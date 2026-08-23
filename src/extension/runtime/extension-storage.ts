@@ -1,4 +1,5 @@
-import { api, type Database, type DatabaseKey } from "@common/utils/data/database";
+import { api } from "@common/utils/data/database";
+import type { Database, DatabaseKey } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import { TornToolsStorage } from "@common/utils/data/storage";
 

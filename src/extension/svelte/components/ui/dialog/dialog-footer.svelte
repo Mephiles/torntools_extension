@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button } from "@svelte/components/ui/button/index.js";
-	import { cn, type WithElementRef } from "@svelte/utils.js";
+	import { cn } from "@svelte/utils.js";
+	import type { WithElementRef } from "@svelte/utils.js";
 	import { Dialog as DialogPrimitive } from "bits-ui";
 	import type { HTMLAttributes } from "svelte/elements";
 

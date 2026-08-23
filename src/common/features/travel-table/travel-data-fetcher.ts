@@ -1,7 +1,8 @@
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@common/utils/functions/api.types";
-import { executePriorityServices, type PriorityService } from "@common/utils/functions/priority-services";
+import { executePriorityServices } from "@common/utils/functions/priority-services";
+import type { PriorityService } from "@common/utils/functions/priority-services";
 
 export type TravelStock = Record<
 	string,

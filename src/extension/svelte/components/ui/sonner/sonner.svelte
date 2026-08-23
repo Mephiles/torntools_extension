@@ -5,7 +5,8 @@
 	import SpinnerIcon from "phosphor-svelte/lib/Spinner";
 	import WarningIcon from "phosphor-svelte/lib/Warning";
 	import XCircleIcon from "phosphor-svelte/lib/XCircle";
-	import { Toaster as Sonner, type ToasterProps as SonnerProps } from "svelte-sonner";
+	import { Toaster as Sonner } from "svelte-sonner";
+	import type { ToasterProps as SonnerProps } from "svelte-sonner";
 
 	let { ...restProps }: SonnerProps = $props();
 </script>

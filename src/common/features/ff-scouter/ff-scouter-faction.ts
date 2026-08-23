@@ -7,7 +7,8 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import { contrastFFColor, ffColor, type ScouterResult, type ScouterService, scouterService } from "@features/ff-scouter/ff-scouter";
+import { contrastFFColor, ffColor, scouterService } from "@features/ff-scouter/ff-scouter";
+import type { ScouterResult, ScouterService } from "@features/ff-scouter/ff-scouter";
 
 let SCOUTER_SERVICE: ScouterService;
 

@@ -3,7 +3,8 @@
 	import * as Dialog from "@svelte/components/ui/dialog";
 	import { push } from "svelte-spa-router";
 	import { PREFERENCE_GROUPS } from "./configuration";
-	import { getLastKey, PREFERENCE_SEARCH_DATA, type SearchablePreference } from "./preference-search-data";
+	import { getLastKey, PREFERENCE_SEARCH_DATA } from "./preference-search-data";
+	import type { SearchablePreference } from "./preference-search-data";
 	import { getPreferenceSectionRoute } from "./preferences";
 
 	interface PreferenceSearchProps {

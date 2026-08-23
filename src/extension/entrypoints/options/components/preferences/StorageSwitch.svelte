@@ -6,7 +6,8 @@
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
 	import type { ExternalService } from "./external-service-requirement";
 	import ExternalServiceRequirement from "./ExternalServiceRequirement.svelte";
-	import { type BooleanPreferenceStoragePath, getPreferenceValue, updatePreferenceValue } from "./preference-storage";
+	import { getPreferenceValue, updatePreferenceValue } from "./preference-storage";
+	import type { BooleanPreferenceStoragePath } from "./preference-storage";
 
 	interface StorageSwitchProps {
 		path: BooleanPreferenceStoragePath;

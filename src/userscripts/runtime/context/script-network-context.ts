@@ -1,4 +1,5 @@
-import { type DataFetcher, type FetchResponse, type OffloadService, setDataFetcher, setOffloadService, setStaticItemResolver } from "@common/utils/context";
+import { setDataFetcher, setOffloadService, setStaticItemResolver } from "@common/utils/context";
+import type { DataFetcher, FetchResponse, OffloadService } from "@common/utils/context";
 import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
 import { getUUID } from "@common/utils/functions/utilities";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";

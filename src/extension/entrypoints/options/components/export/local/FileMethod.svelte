@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { elementBuilder } from "@common/utils/functions/dom";
 	import { toast } from "svelte-sonner";
-	import { type ExportData, getExportData, importExportData, parseImportText } from "../export-data";
+	import { getExportData, importExportData, parseImportText } from "../export-data";
+	import type { ExportData } from "../export-data";
 	import ExportMethod from "../ExportMethod.svelte";
 
 	let fileInput: HTMLInputElement | null = null;

@@ -5,14 +5,13 @@ import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@commo
 import {
 	checkboxesSection,
 	createFilter,
-	type DuoCheckboxState,
 	defaultFactionsItems,
 	duoCheckboxesSection,
-	type FilterController,
 	getSpecialIcons,
 	presetSection,
 	sliderSection,
 } from "@common/utils/functions/filters";
+import type { DuoCheckboxState, FilterController } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { extractFactionsFromPage, isAbroad, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";

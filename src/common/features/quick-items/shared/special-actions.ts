@@ -2,9 +2,11 @@ import { ITEM_RESOLVER } from "@common/utils/context.ts";
 import { userdata } from "@common/utils/data/database.ts";
 import { hasAPIData } from "@common/utils/functions/api.ts";
 import { elementBuilder } from "@common/utils/functions/dom.ts";
-import { ALLOWED_BLOOD, type BloodType, getBloodType, getHospitalTime, getMedicalCooldown, getUserLife } from "@common/utils/functions/torn.ts";
+import { ALLOWED_BLOOD, getBloodType, getHospitalTime, getMedicalCooldown, getUserLife } from "@common/utils/functions/torn.ts";
+import type { BloodType } from "@common/utils/functions/torn.ts";
 import { TO_MILLIS } from "@common/utils/functions/utilities.ts";
-import { isFullItem, type StaticItem } from "@common/utils/torn-api/items.types.ts";
+import { isFullItem } from "@common/utils/torn-api/items.types.ts";
+import type { StaticItem } from "@common/utils/torn-api/items.types.ts";
 import type { QuickItem, QuickItemId } from "@features/quick-items/shared/quick-items-common.ts";
 import styles from "./special-actions.module.css";
 

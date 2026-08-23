@@ -1,15 +1,8 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import {
-	checkboxSection,
-	createFilter,
-	defaultFactionsItems,
-	type FilterController,
-	presetSection,
-	type SliderRange,
-	sliderSection,
-} from "@common/utils/functions/filters";
+import { checkboxSection, createFilter, defaultFactionsItems, presetSection, sliderSection } from "@common/utils/functions/filters";
+import type { FilterController, SliderRange } from "@common/utils/functions/filters";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { extractFactionsFromPage, getPageStatus } from "@common/utils/functions/torn";

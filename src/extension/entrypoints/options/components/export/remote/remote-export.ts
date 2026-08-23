@@ -1,6 +1,7 @@
 import type { Database } from "@common/utils/data/database";
 import { browser } from "wxt/browser";
-import { type ExportData, getExportData, isExportData } from "../export-data";
+import { getExportData, isExportData } from "../export-data";
+import type { ExportData } from "../export-data";
 
 export const REMOTE_SYNC_SOUND_CUSTOM_LIMIT = 64 * 1024;
 

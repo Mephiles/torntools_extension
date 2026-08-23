@@ -1,7 +1,9 @@
 import "./quick-items.css";
-import { isUseItem, type TornInternalGetCategoryList } from "@common/pages/item-page";
+import { isUseItem } from "@common/pages/item-page";
+import type { TornInternalGetCategoryList } from "@common/pages/item-page";
 import { ITEM_RESOLVER } from "@common/utils/context";
-import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
+import { ttCache } from "@common/utils/data/cache";
+import type { DatabaseCache } from "@common/utils/data/cache";
 import { quick, settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { removeContainer } from "@common/utils/functions/containers";
@@ -10,7 +12,6 @@ import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@commo
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
 import { requireContent, requireItemsLoaded } from "@common/utils/functions/requires";
 import {
-	type ExtractedXID,
 	extractXIDFromDOM,
 	extractXIDFromHTML,
 	extractXIDFromJson,
@@ -19,6 +20,7 @@ import {
 	getPageStatus,
 	isEquipable,
 } from "@common/utils/functions/torn";
+import type { ExtractedXID } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 import { calculateAndShowTotalValueInQuickItems, shouldDisplayOpenedValue } from "@features/opened-supply-pack-value/opened-supply-pack-value";
 import {
@@ -27,11 +29,10 @@ import {
 	createQuickItemsController,
 	formatResponseTimers,
 	initialiseQuickItems,
-	type QuickItem,
-	type QuickItemId,
-	type UseContext,
 } from "@features/quick-items/shared/quick-items-common.ts";
-import { customError, executeSpecialAction, isSpecialAction, type MedicalItemsSource } from "@features/quick-items/shared/special-actions.ts";
+import type { QuickItem, QuickItemId, UseContext } from "@features/quick-items/shared/quick-items-common.ts";
+import { customError, executeSpecialAction, isSpecialAction } from "@features/quick-items/shared/special-actions.ts";
+import type { MedicalItemsSource } from "@features/quick-items/shared/special-actions.ts";
 
 let controller: ReturnType<typeof createQuickItemsController> | undefined;
 

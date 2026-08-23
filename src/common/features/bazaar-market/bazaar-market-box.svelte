@@ -4,7 +4,8 @@
 	import { formatNumber } from "@common/utils/functions/formatting.ts";
 	import { readableErrorMessage } from "@common/utils/functions/utilities.ts";
 	import type { StaticItem } from "@common/utils/torn-api/items.types.ts";
-	import BazaarListings, { type SortField, type SortOrder } from "@features/bazaar-market/BazaarListings.svelte";
+	import BazaarListings from "@features/bazaar-market/BazaarListings.svelte";
+	import type { SortField, SortOrder } from "@features/bazaar-market/BazaarListings.svelte";
 	import { Spinner } from "@svelte/components/ui/spinner";
 	import styles from "./bazaar-market.module.css";
 

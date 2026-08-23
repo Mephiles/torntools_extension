@@ -1,13 +1,8 @@
 import { setRuntimeStorage, setTTStorage, ttStorage } from "@common/utils/context";
-import { type DatabaseCache, ttCache } from "@common/utils/data/cache";
-import {
-	type DatabaseFilters,
-	type DatabaseLocaldata,
-	initializeDatabaseListener,
-	migrateDatabase,
-	setFilters,
-	setLocaldata,
-} from "@common/utils/data/database";
+import { ttCache } from "@common/utils/data/cache";
+import type { DatabaseCache } from "@common/utils/data/cache";
+import { initializeDatabaseListener, migrateDatabase, setFilters, setLocaldata } from "@common/utils/data/database";
+import type { DatabaseFilters, DatabaseLocaldata } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import type { RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
 import { PDAScriptStorage, TTScriptStorage } from "@userscripts/runtime/script-storage";

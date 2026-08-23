@@ -1,15 +1,8 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { getSearchParameters, isTextNode } from "@common/utils/functions/dom";
-import {
-	checkboxesSection,
-	createFilter,
-	type FilterController,
-	multiSelectSection,
-	type SliderRange,
-	sliderSection,
-	textSection,
-} from "@common/utils/functions/filters";
+import { checkboxesSection, createFilter, multiSelectSection, sliderSection, textSection } from "@common/utils/functions/filters";
+import type { FilterController, SliderRange } from "@common/utils/functions/filters";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";

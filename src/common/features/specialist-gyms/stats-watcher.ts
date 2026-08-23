@@ -1,6 +1,7 @@
 import { observeChain } from "@common/utils/functions/requires";
 import { toRecord } from "@common/utils/functions/utilities";
-import { type BattleStat, battleStats } from "./models/battle-stat";
+import { battleStats } from "./models/battle-stat";
+import type { BattleStat } from "./models/battle-stat";
 
 export function createStatsWatcher() {
 	type ChangeCallback = (statsExist: boolean) => void;
