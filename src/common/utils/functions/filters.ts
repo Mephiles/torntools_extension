@@ -993,7 +993,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 			return rows.filter((r) => (visible ? !r.classList.contains("tt-hidden") : r.classList.contains("tt-hidden")));
 		},
 		reattach(position: ContainerPosition): void {
-			let parentElement: Node;
+			let parentElement: Element;
 			if ("parentElement" in position) parentElement = position.parentElement;
 			else if ("nextElement" in position) parentElement = position.nextElement.parentElement!;
 			else if ("previousElement" in position) parentElement = position.previousElement.parentElement!;

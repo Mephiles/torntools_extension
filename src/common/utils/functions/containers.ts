@@ -5,7 +5,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { camelCase } from "@common/utils/functions/formatting";
 import { PHFillCaretDown } from "@common/utils/icons/phosphor-icons";
 
-export type ContainerPosition = { parentElement: Node } | { nextElement: Node } | { previousElement: Node } | { defaultPosition: true };
+export type ContainerPosition = { parentElement: Element } | { nextElement: Element } | { previousElement: Element } | { defaultPosition: true };
 
 export type ContainerOptions = {
 	id: string;
@@ -53,7 +53,7 @@ export function createContainer(title: string, partialOptions: Partial<Container
 
 	const { container, collapsed } = _createContainer(title, options);
 
-	let parentElement: Node;
+	let parentElement: Element;
 	if ("parentElement" in options) parentElement = options.parentElement;
 	else if ("nextElement" in options) parentElement = options.nextElement.parentElement!;
 	else if ("previousElement" in options) parentElement = options.previousElement.parentElement!;
