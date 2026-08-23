@@ -2,25 +2,25 @@
 	"plugins": ["import", "jsx-a11y"],
 	"categories": {
 		"correctness": "error",
-		"suspicious": "off",
+		"nursery": "off",
 		"pedantic": "off",
 		"perf": "off",
-		"style": "off",
 		"restriction": "off",
-		"nursery": "off"
+		"style": "off",
+		"suspicious": "off"
 	},
 	"rules": {
+		"consistent-type-imports": "warn",
+		"consistent-type-specifier-style": "warn",
+		"no-async-promise-executor": "off",
+		"no-cond-assign": "off",
+		"no-empty-object-type": "off",
+		"no-explicit-any": "off",
+		"no-non-null-assertion": "off",
 		"no-shadow": "off",
 		"no-underscore-dangle": "off",
 		"no-unsafe-optional-chaining": "off",
-		"no-async-promise-executor": "off",
-		"no-cond-assign": "off",
 		"no-unused-vars": "off",
-		"typescript/no-explicit-any": "off",
-		"typescript/no-non-null-assertion": "off",
-		"typescript/no-empty-object-type": "off",
-		"typescript/no-wrapper-object-types": "off",
-		"typescript/consistent-type-imports": "warn",
-		"import/consistent-type-specifier-style": "warn"
+		"no-wrapper-object-types": "off"
 	}
 }
