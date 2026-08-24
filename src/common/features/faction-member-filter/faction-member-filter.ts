@@ -92,8 +92,7 @@ async function disableLastAction() {
 
 	lastActionState = false;
 	findAllElements(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
-		x.classList.remove("tt-hidden");
-		x.classList.remove("last-action");
+		x.classList.remove("tt-hidden", "last-action");
 	});
 	filter?.rerenderSections();
 }
@@ -126,8 +125,8 @@ async function addFilterContainer() {
 					const definedIcons = SPECIAL_FILTER_ICONS[key];
 					if (value === "yes") {
 						if (!foundIcons.some((fi) => definedIcons.includes(fi))) return false;
-					} else if (value === "no") {
-						if (foundIcons.some((fi) => definedIcons.includes(fi))) return false;
+					} else if (value === "no" && foundIcons.some((fi) => definedIcons.includes(fi))) {
+						return false;
 					}
 				}
 				return true;

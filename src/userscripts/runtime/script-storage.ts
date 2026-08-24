@@ -8,7 +8,7 @@ export class TTScriptStorage extends TornToolsStorage {
 		super();
 	}
 
-	private storageKey(key: DatabaseKey | string): string {
+	private storageKey(key: string): string {
 		return key === "cache" ? key : `${this.prefix}_${key}`;
 	}
 

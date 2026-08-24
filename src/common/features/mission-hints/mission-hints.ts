@@ -335,7 +335,7 @@ async function showHints() {
 	};
 
 	for (const context of findAllElements(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
-		const title = (context.querySelector(".title-black").childNodes[0] as Text).wholeText.replace(/\n/g, "").trim();
+		const title = (context.querySelector(".title-black").childNodes[0] as Text).wholeText.replaceAll("\n", "").trim();
 
 		const key = transformTitle(title);
 		let task: string, hint: HTMLElement | string | null;
@@ -344,14 +344,12 @@ async function showHints() {
 
 			task = mission.task;
 			hint = mission.hint ? elementBuilder({ type: "span", html: mission.hint }) : null;
+		} else if (title.includes("{name}")) {
+			task = "You are using a conflicting script.";
+			hint = "Please remove the script that changes the mission title or contact the TornTools developers.";
 		} else {
-			if (title.includes("{name}")) {
-				task = "You are using a conflicting script.";
-				hint = "Please remove the script that changes the mission title or contact the TornTools developers.";
-			} else {
-				task = "Couldn't find information for this mission.";
-				hint = "Contact the TornTools developers.";
-			}
+			task = "Couldn't find information for this mission.";
+			hint = "Contact the TornTools developers.";
 		}
 
 		const children = [

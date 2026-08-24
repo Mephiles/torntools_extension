@@ -16,7 +16,7 @@ async function addID() {
 function removeID() {
 	const title = document.querySelector("h4#skip-to-content");
 
-	const name = title.textContent.replace(/ \[.*]/g, "");
+	const name = title.textContent.replaceAll(/ \[.*]/g, "");
 	title.textContent = `${name}'${name.endsWith("s") ? "" : "s"} Profile`;
 	title.removeAttribute("title");
 	title.removeEventListener("click", copyID);

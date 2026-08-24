@@ -111,7 +111,7 @@ export class SourceService {
 		return {
 			rawPath: raw.source,
 			path: cleanedPath,
-			file: splitPath[splitPath.length - 1],
+			file: splitPath.at(-1),
 			line: raw.line,
 			column: raw.column,
 		};

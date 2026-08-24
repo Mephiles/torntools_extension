@@ -198,6 +198,7 @@ export interface TornInternalGetCategoryList {
 		untradable: 0 | 1;
 		use: { action: "use"; XID: number; title: "Use" };
 	}[];
+	// oxlint-disable-next-line typescript/no-redundant-type-constituents
 	prevtotal: unknown | null;
 	start: number;
 	total: number;

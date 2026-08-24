@@ -21,7 +21,7 @@ export class ScriptFeatureManager implements FeatureManager {
 
 	createPopup() {}
 
-	isEnabled<T extends Feature>(featureConstructor: new () => T): boolean {
+	isEnabled(featureConstructor: new () => Feature): boolean {
 		return this.getScriptState().enabled[new featureConstructor().name];
 	}
 

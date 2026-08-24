@@ -235,7 +235,7 @@ export async function updateNPCs() {
 			alerts++;
 		}
 		if (settings.notifications.types.npcPlannedEnabled && npcs.planned) {
-			for (const minutes of settings.notifications.types.npcPlanned.sort()) {
+			for (const minutes of settings.notifications.types.npcPlanned.slice().sort((a, b) => a - b)) {
 				const key = `npc_planned_${minutes}`;
 
 				const time = npcs.planned;

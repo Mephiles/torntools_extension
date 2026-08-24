@@ -328,7 +328,7 @@ export function getFactionSubpage() {
 	if (params.has("tab")) return params.get("tab");
 
 	if (hash.startsWith("#faction-")) {
-		return hash.substring("#faction-".length);
+		return hash.slice("#faction-".length);
 	}
 
 	return "";

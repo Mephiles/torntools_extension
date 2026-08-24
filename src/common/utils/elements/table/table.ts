@@ -59,9 +59,7 @@ function createTableHeaderCell<T>(
 	const headerCellElement = elementBuilder({
 		type: "div",
 		class: ["tt-table-header-cell", ...(columnDef.class ? [columnDef.class] : [])],
-		style: {
-			...(options.stretchColumns ? { minWidth: `${columnDef.width}px`, flex: "1" } : { width: `${columnDef.width}px` }),
-		},
+		style: options.stretchColumns ? { minWidth: `${columnDef.width}px`, flex: "1" } : { width: `${columnDef.width}px` },
 		children: [
 			elementBuilder({
 				type: "span",
@@ -128,9 +126,7 @@ function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef
 	const cellElement = elementBuilder({
 		type: "div",
 		class: ["tt-table-row-cell", ...(columnDef.class ? [columnDef.class] : [])],
-		style: {
-			...(options.stretchCell ? { minWidth: `${columnDef.width}px`, flex: "1" } : { width: `${columnDef.width}px` }),
-		},
+		style: options.stretchCell ? { minWidth: `${columnDef.width}px`, flex: "1" } : { width: `${columnDef.width}px` },
 		children: [cell.element],
 	});
 

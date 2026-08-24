@@ -106,8 +106,7 @@ export function toDisplayableChangelogEntry(entry: ChangelogEntry): DisplayableC
 function concatenateVersion(version: ChangelogEntry["version"]) {
 	const parts: string[] = [];
 
-	parts.push(`v${version.major}`);
-	parts.push(version.minor.toString());
+	parts.push(`v${version.major}`, version.minor.toString());
 	if (version.build) parts.push(version.build.toString());
 
 	return parts.join(".");

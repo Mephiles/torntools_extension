@@ -144,7 +144,7 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 					["item", "bazaar", "displaycase"].includes(getPage()) ? ".show-item-info" : "",
 					getPage() === "factions" ? ".view-item-info[style*='display: block;']" : "",
 				]
-					.filter((x) => x)
+					.filter(Boolean)
 					.join(", "),
 			)
 		);

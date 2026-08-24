@@ -37,8 +37,10 @@ export async function executePriorityServices<TResult>(
 
 	for (const [, group] of sortedGroups) {
 		if (selectBest) {
+			// oxlint-disable-next-line no-await-in-loop -- We explicitly want this to be blocking.
 			best = await executeGroupAllSettled(group, selectBest, errors);
 		} else {
+			// oxlint-disable-next-line no-await-in-loop -- We explicitly want this to be blocking.
 			best = await executeGroupRace(group, errors);
 		}
 

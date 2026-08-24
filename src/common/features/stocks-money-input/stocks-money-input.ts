@@ -10,11 +10,11 @@ const SELL_TAX_RATE = 0.001;
 function parseMoneyInput(input: string): number | null {
 	let money: number;
 	if (input.endsWith("k") || input.endsWith("K")) {
-		money = parseFloat(input.substring(0, input.length)) * 1000;
+		money = parseFloat(input) * 1000;
 	} else if (input.endsWith("m") || input.endsWith("M")) {
-		money = parseFloat(input.substring(0, input.length)) * 1000 * 1000;
+		money = parseFloat(input) * 1000 * 1000;
 	} else if (input.endsWith("b") || input.endsWith("B")) {
-		money = parseFloat(input.substring(0, input.length)) * 1000 * 1000 * 1000;
+		money = parseFloat(input) * 1000 * 1000 * 1000;
 	} else {
 		money = parseFloat(input);
 	}

@@ -17,14 +17,14 @@ export async function loadAPISelections() {
 			const node = s.anchorNode;
 			if (!node) return;
 
-			while (range.startOffset !== 0 && range.toString().indexOf(",") !== 0 && range.toString().indexOf(":") === -1) {
+			while (range.startOffset !== 0 && range.toString().indexOf(",") !== 0 && !range.toString().includes(":")) {
 				range.setStart(node, range.startOffset - 1);
 			}
 			if (range.startOffset !== 0) range.setStart(node, range.startOffset + 1);
 
 			do {
 				range.setEnd(node, range.endOffset + 1);
-			} while (range.endOffset < node.textContent!.length && range.toString().indexOf(",") === -1 && range.toString().trim() !== "");
+			} while (range.endOffset < node.textContent!.length && !range.toString().includes(",") && range.toString().trim() !== "");
 			const selection = range.toString().replaceAll(",", "").trim();
 
 			const panel = (event.target as Element).closest("div.panel-group")!;

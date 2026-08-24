@@ -20,9 +20,10 @@ async function registerListeners() {
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
 					.some((node) => node.matches("li[class*='tableRow__']")),
-			)
+			) &&
+			FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)
 		) {
-			if (FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)) showEstimates();
+			showEstimates();
 		}
 	});
 
@@ -32,12 +33,11 @@ async function registerListeners() {
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
 					.some((node) => node.tagName === "UL"),
-			)
+			) &&
+			FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)
 		) {
-			if (FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)) {
-				showEstimates();
-				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
-			}
+			showEstimates();
+			listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 		}
 	});
 

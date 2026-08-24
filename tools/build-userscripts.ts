@@ -1,14 +1,13 @@
 import { readFileSync, readdirSync } from "node:fs";
 import type { Dirent } from "node:fs";
 import { rm } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
 import { build } from "vite";
 import monkey from "vite-plugin-monkey";
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const root = resolve(import.meta.dirname, "..");
 const outputDir = resolve(root, ".output/userscripts");
 const author = "DeKleineKobini [2114440] and the TornTools team";
 const icon = "https://www.google.com/s2/favicons?sz=64&domain=torn.com";

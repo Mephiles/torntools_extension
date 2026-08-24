@@ -30,7 +30,7 @@ export function createStatsWatcher() {
 	});
 
 	function readStats() {
-		return toRecord(battleStats, (statName) => [statName, +statsValueElementsMap[statName].textContent.replace(/,/g, "")]);
+		return toRecord(battleStats, (statName) => [statName, +statsValueElementsMap[statName].textContent.replaceAll(",", "")]);
 	}
 
 	function onChange(cb: ChangeCallback) {

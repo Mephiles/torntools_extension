@@ -140,6 +140,7 @@ export interface TornstatsSpy {
 				total_timestamp: number;
 		  }
 		| TornstatsError;
+	// oxlint-disable-next-line typescript/no-redundant-type-constituents
 	attacks: unknown | TornstatsError;
 }
 

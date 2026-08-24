@@ -402,7 +402,7 @@ function showControls(content: HTMLElement, items: CityItem[]) {
 
 	const groupByCheckbox = createCheckbox();
 	const groupBySelect = createSelect(GROUP_PERIODS.map((period) => ({ value: period.key, description: period.label })));
-	groupByCheckbox.setChecked(!!settings.pages.city.groupByPeriod);
+	groupByCheckbox.setChecked(settings.pages.city.groupByPeriod);
 	groupBySelect.setSelected(getGroupPeriod());
 	groupBySelect.element.disabled = !groupByCheckbox.isChecked();
 	groupByCheckbox.onChange(() => {

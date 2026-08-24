@@ -6,10 +6,9 @@
  */
 
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const root = resolve(import.meta.dirname, "..");
 const entriesDir = resolve(root, "src/userscripts/entries");
 const bump: "patch" | "minor" = process.argv.includes("--minor") ? "minor" : "patch";
 

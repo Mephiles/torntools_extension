@@ -60,10 +60,12 @@ interface ReactProperties {
 		$$typeof: symbol;
 		key: string;
 		props: any;
+		// oxlint-disable-next-line typescript/no-redundant-type-constituents
 		ref: unknown | null;
 		type: unknown;
 	}[];
 	className: string;
+	// oxlint-disable-next-line typescript/no-redundant-type-constituents
 	ref: unknown | null;
 }
 

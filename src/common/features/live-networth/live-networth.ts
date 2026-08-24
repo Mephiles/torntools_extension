@@ -199,10 +199,10 @@ async function showNetworth() {
 				type: "tr",
 				children: [
 					elementBuilder({ type: "td", text: type.label }),
-					elementBuilder({ type: "td", text: `${formatNumber(current, { shorten: true, currency: true })}` }),
+					elementBuilder({ type: "td", text: formatNumber(current, { shorten: true, currency: true }) }),
 					elementBuilder({
 						type: "td",
-						text: `${formatNumber(current - previous, { shorten: true, currency: true, forceOperation: true })}`,
+						text: formatNumber(current - previous, { shorten: true, currency: true, forceOperation: true }),
 						class: isPositive ? "positive" : "negative",
 					}),
 				],

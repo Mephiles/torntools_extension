@@ -42,7 +42,7 @@ export interface FetchOptions {
 	key: undefined | string;
 	action: undefined | string;
 	method: FetchMethod;
-	body: undefined | any;
+	body: any;
 	silent: boolean;
 	includeKey: boolean;
 	relay: boolean;

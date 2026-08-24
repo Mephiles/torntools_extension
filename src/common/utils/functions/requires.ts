@@ -66,7 +66,7 @@ type RequireElementOptions = {
 };
 
 function checkListener(listener: PendingListener, entry: ObserverEntry): boolean {
-	const element = listener.parent.querySelector<Element>(listener.selector);
+	const element = listener.parent.querySelector(listener.selector);
 
 	const matched = listener.invert ? !element : !!element;
 	if (!matched) return false;

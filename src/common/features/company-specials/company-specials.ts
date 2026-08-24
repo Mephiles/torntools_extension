@@ -21,11 +21,9 @@ function initialiseCompanySpecials() {
 
 		const { page, json } = detail;
 
-		if (page === "companies" && json) {
-			if (json.result?.msg) {
-				if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
-				if (json.result.msg.total) calculateSpies(json).catch((error) => console.error("Couldn't help with the spies.", error));
-			}
+		if (page === "companies" && json?.result?.msg) {
+			if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
+			if (json.result.msg.total) calculateSpies(json).catch((error) => console.error("Couldn't help with the spies.", error));
 		}
 	});
 }
@@ -59,7 +57,7 @@ async function showMuggableCash(json: any) {
 			ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "user-job");
 		}
 
-		if (jobResult && jobResult.type === "company" && jobResult.type_id === 5 && jobResult.rating >= 7) {
+		if (jobResult?.type === "company" && jobResult.type_id === 5 && jobResult.rating >= 7) {
 			percentageMin /= 4;
 			percentageMax /= 4;
 		}

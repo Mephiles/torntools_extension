@@ -461,15 +461,16 @@ export function formatNumber(number: number | string, partialOptions: Partial<Fo
 
 		if (version === 1 || version === 2) {
 			if (abstract >= 1e9) {
-				if (abstract % 1e9 === 0) text = (abstract / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
+				if (abstract % 1e9 === 0) text = (abstract / 1e9).toString().replaceAll(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
 				else text = (abstract / 1e9).toFixed(3) + words.billion;
 			} else if (abstract >= 1e6) {
 				if (abstract % 1e6 === 0) text = abstract / 1e6 + words.million;
 				else text = (abstract / 1e6).toFixed(3) + words.million;
-			} else if (abstract >= 1e3) {
-				if (abstract % 1e3 === 0) text = abstract / 1e3 + words.thousand;
+			} else if (abstract >= 1e3 && abstract % 1e3 === 0) {
+				text = abstract / 1e3 + words.thousand;
 			}
 		} else {
+			// oxlint-disable-next-line no-lonely-if
 			if (abstract >= 1e9) {
 				if (abstract % 1e9 === 0) text = abstract / 1e9 + words.billion;
 				else text = parseFloat((abstract / 1e9).toFixed(decimals)) + words.billion;

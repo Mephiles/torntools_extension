@@ -22,6 +22,7 @@ class TornToolsCache {
 		return this._cache;
 	}
 
+	// oxlint-disable-next-line no-unnecessary-type-parameters -- public generic API; callers pass explicit type args (e.g. ttCache.get<...>)
 	get<T = any>(section: string, key?: CacheKey): T | undefined {
 		return this.getCacheValue(section, key)?.value;
 	}
@@ -54,10 +55,8 @@ class TornToolsCache {
 			if (section in this.cache && actualKey in this.cache[actualSection]) {
 				value = this.cache[actualSection][actualKey];
 			}
-		} else {
-			if (actualKey in this.cache) {
-				value = this.cache[actualKey];
-			}
+		} else if (actualKey in this.cache) {
+			value = this.cache[actualKey];
 		}
 
 		if (value === null || !("value" in value)) return null;

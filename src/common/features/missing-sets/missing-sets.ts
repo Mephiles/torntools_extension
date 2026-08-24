@@ -106,7 +106,7 @@ function addItemValue(missingItem: HTMLElement) {
 		elementBuilder({
 			type: "span",
 			class: "tt-item-price",
-			text: `${formatNumber(ITEM_RESOLVER.getFullItem(parseInt(missingItem.dataset.id)).value.market_price, { currency: true })}`,
+			text: formatNumber(ITEM_RESOLVER.getFullItem(parseInt(missingItem.dataset.id)).value.market_price, { currency: true }),
 		}),
 	);
 }

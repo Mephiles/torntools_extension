@@ -29,7 +29,7 @@ async function addCSVContainer() {
 			const link = row.querySelector<HTMLAnchorElement>(".player a");
 			const name = link.getAttribute("aria-label");
 
-			return parseInt(name.match(/(?<= \().*(?=\))/)[0].replaceAll(/,/g, ""));
+			return parseInt(name.match(/(?<= \().*(?=\))/)[0].replaceAll(",", ""));
 		})
 		.reduce((total, value) => total + value, 0);
 

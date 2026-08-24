@@ -17,7 +17,7 @@ function __requestStigFormat(vendor: string): ReviveProviderRequester {
 			fetchData("stig", {
 				...__DEFAULT_REVIVE_REQUEST,
 				section: "request",
-				body: { tornid: id.toString(), username: name, source: source, vendor, type: "revive" },
+				body: { tornid: id, username: name, source: source, vendor, type: "revive" },
 			})
 				.then((response) => {
 					if (Object.hasOwn(response, "contract")) {

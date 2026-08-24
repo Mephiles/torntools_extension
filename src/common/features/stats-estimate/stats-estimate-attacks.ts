@@ -69,10 +69,10 @@ async function showEstimate() {
 				`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`,
 			);
 		} else {
-			if (side === "attacker")
-				entries = document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']");
-			else if (side === "defender")
-				entries = document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']");
+			entries =
+				side === "attacker"
+					? document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']")
+					: document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']");
 		}
 
 		entries.classList.add("tt-stats-estimate-attacks-wrapper");

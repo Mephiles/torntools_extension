@@ -53,7 +53,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 					if (!category) return true;
 					const id = getItemId(row);
 					const item = ITEM_RESOLVER.getStaticItem(id);
-					const cat = item?.details && "category" in item.details ? String(item.details.category).toLowerCase() : item?.type;
+					const cat = item?.details && "category" in item.details ? item.details.category.toLowerCase() : item?.type;
 					return cat === category;
 				},
 			}),
@@ -73,7 +73,7 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 
 					const id = getItemId(row);
 					const item = ITEM_RESOLVER.getStaticItem(id);
-					const cat = item?.details && "category" in item.details ? String(item.details.category).toLowerCase() : item?.type;
+					const cat = item?.details && "category" in item.details ? item.details.category.toLowerCase() : item?.type;
 					return cat === category;
 				},
 			}),
@@ -141,11 +141,11 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 						.map((title) => title.split("<br/>"))
 						.filter((values) => values.length >= 2)
 						.map(([bonus, description]) => ({
-							bonus: bonus.substring(3, bonus.length - 4).toLowerCase(),
+							bonus: bonus.slice(3, -4).toLowerCase(),
 							value: convertToNumber(description),
 						}));
 
-					return toFilter.every(({ bonus, value }) => found.filter((f) => f.bonus === bonus && (!value || f.value >= value)).length > 0);
+					return toFilter.every(({ bonus, value }) => found.some((f) => f.bonus === bonus && (!value || f.value >= value)));
 				},
 			} as FilterSectionDef<unknown>,
 			selectSection({

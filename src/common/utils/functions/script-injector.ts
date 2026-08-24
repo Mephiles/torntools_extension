@@ -55,24 +55,22 @@ export function injectFetchListeners() {
 		new Promise((resolve, reject) => {
 			oldFetch(input, init)
 				.then(async (response: Response) => {
-					const page = response.url.substring(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
+					const page = response.url.slice(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
 					let json = {};
 					try {
 						json = await response.clone().json();
 					} catch {}
 
 					let body: Record<string, any> | null = null;
-					if (init) {
-						if (typeof init.body === "object" && init.body?.constructor?.name === "FormData") {
-							const newBody: { [key: string]: any } = {};
+					if (init && typeof init.body === "object" && init.body?.constructor?.name === "FormData") {
+						const newBody: { [key: string]: any } = {};
 
-							for (const [key, value] of [...(init.body as any)]) {
-								if (isIntNumber(value)) newBody[key] = parseFloat(value);
-								else newBody[key] = value;
-							}
-
-							body = newBody;
+						for (const [key, value] of init.body as any) {
+							if (isIntNumber(value)) newBody[key] = parseFloat(value);
+							else newBody[key] = value;
 						}
+
+						body = newBody;
 					}
 
 					const url = response.url || (input as string);
@@ -119,7 +117,7 @@ export function injectXhrListeners() {
 
 		this.addEventListener("readystatechange", function () {
 			if (this.readyState > 3 && this.status === 200) {
-				const page = this.responseURL.substring(this.responseURL.indexOf("torn.com/") + "torn.com/".length, this.responseURL.indexOf(".php"));
+				const page = this.responseURL.slice(this.responseURL.indexOf("torn.com/") + "torn.com/".length, this.responseURL.indexOf(".php"));
 
 				let json: any, uri: any;
 				if (isJsonString(this.response)) json = JSON.parse(this.response);
@@ -162,7 +160,7 @@ export function injectXhrListeners() {
 			for (const key in window.xhrSendAdjustments) {
 				if (typeof window.xhrSendAdjustments[key] !== "function") continue;
 
-				body = window.xhrSendAdjustments[key]({ ...this }, body);
+				body = window.xhrSendAdjustments[key](Object.assign({}, this), body);
 			}
 		}
 

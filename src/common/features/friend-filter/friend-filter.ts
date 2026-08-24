@@ -18,16 +18,22 @@ type FriendFilterState = { enabled: boolean; activity: string[]; level: SliderRa
 
 async function initialiseListeners() {
 	listObserver = new MutationObserver((mutations) => {
-		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']")))) {
-			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(FriendFilterFeature)) void filter?.run();
+		if (
+			mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']"))) &&
+			filterSetupComplete &&
+			FEATURE_MANAGER.isEnabled(FriendFilterFeature)
+		) {
+			void filter?.run();
 		}
 	});
 	tableObserver = new MutationObserver((mutations) => {
-		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL"))) {
-			if (filterSetupComplete && FEATURE_MANAGER.isEnabled(FriendFilterFeature)) {
-				void filter?.run();
-				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
-			}
+		if (
+			mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL")) &&
+			filterSetupComplete &&
+			FEATURE_MANAGER.isEnabled(FriendFilterFeature)
+		) {
+			void filter?.run();
+			listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 		}
 	});
 	tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });

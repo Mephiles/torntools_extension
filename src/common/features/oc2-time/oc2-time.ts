@@ -23,8 +23,7 @@ async function showTimer() {
 	if (inCrime) {
 		elements.push(buildTimeLeftElement());
 		if (settings.pages.sidebar.oc2TimerPosition) {
-			elements.push(elementBuilder({ type: "span", text: " - " }));
-			elements.push(buildPositionElement());
+			elements.push(elementBuilder({ type: "span", text: " - " }), buildPositionElement());
 		}
 		if (settings.pages.sidebar.oc2TimerLevel) {
 			elements.push(buildLevelElement());

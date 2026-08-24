@@ -20,7 +20,7 @@ async function showRequiredRespect(force: boolean) {
 	const availableRespect = parseInt(
 		document
 			.querySelector("#faction-upgrades .skill-tree .residue-respect")
-			.textContent.replace(/[\n, ]/g, "")
+			.textContent.replaceAll(/[\n, ]/g, "")
 			.trim(),
 	);
 	const requiredNode = document.querySelector("#faction-upgrades #stu-confirmation div[role] .required .text");
@@ -30,7 +30,7 @@ async function showRequiredRespect(force: boolean) {
 	if (requiredNode.parentElement.classList.contains("completed")) {
 		diff = 0;
 	} else {
-		const upgradeRespect = parseInt(requiredNode.textContent.replace(/.*Requires: |.*Assigned: | respect.*|,/g, ""));
+		const upgradeRespect = parseInt(requiredNode.textContent.replaceAll(/.*Requires: |.*Assigned: | respect.*|,/g, ""));
 		diff = upgradeRespect - availableRespect;
 		if (diff < 0) diff = 0;
 	}

@@ -27,7 +27,7 @@ export function createSelect<TValue extends string = string>(options: SelectOpti
 
 		// Removing all the existing options.
 		while (s.firstChild) {
-			s.removeChild(s.firstChild);
+			s.firstChild.remove();
 		}
 
 		const documentFragment = document.createDocumentFragment();
@@ -143,7 +143,7 @@ export function createMultiSelect(options: MultiSelectOptions) {
 				},
 			});
 			checkbox.checked = selectedValues.includes(opt.value);
-			checkbox.disabled = !!opt.disabled;
+			checkbox.disabled = opt.disabled ?? false;
 
 			const text = elementBuilder({ type: "span", text: opt.description });
 

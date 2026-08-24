@@ -24,7 +24,7 @@ async function startFeature() {
 	observer?.disconnect();
 
 	observer = new MutationObserver((mutations) => {
-		const firstAdditionMutation = mutations.filter((x) => x.addedNodes.length)[0];
+		const firstAdditionMutation = mutations.find((x) => x.addedNodes.length);
 		if ((firstAdditionMutation.target as Element).matches("#employees.employees")) showEffectiveness();
 	});
 	observer.observe(await requireElement(".company-wrap > .manage-company"), { childList: true, subtree: true });

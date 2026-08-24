@@ -59,7 +59,7 @@ async function addAutocomplete(chat: HTMLElement) {
 		}
 		event.preventDefault();
 
-		const valueBeforeCursor = textarea.value.substr(0, textarea.selectionStart);
+		const valueBeforeCursor = textarea.value.slice(0, textarea.selectionStart);
 		const searchValueMatch = valueBeforeCursor.match(/([^A-Za-z\d\-_]?)([A-Za-z\d\-_]*)$/);
 
 		if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
@@ -76,11 +76,9 @@ async function addAutocomplete(chat: HTMLElement) {
 		currentUsername = matchedUsernames[index];
 
 		const valueStart = searchValueMatch.index + searchValueMatch[1].length;
-		updateReactInput(
-			textarea,
-			textarea.value.substring(0, valueStart) + currentUsername + textarea.value.substring(valueBeforeCursor.length, textarea.value.length),
-			{ version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT },
-		);
+		updateReactInput(textarea, textarea.value.slice(0, valueStart) + currentUsername + textarea.value.slice(valueBeforeCursor.length), {
+			version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT,
+		});
 
 		const selectionIndex = valueStart + currentUsername.length;
 		textarea.setSelectionRange(selectionIndex, selectionIndex);

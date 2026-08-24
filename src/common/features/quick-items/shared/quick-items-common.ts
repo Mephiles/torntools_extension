@@ -272,9 +272,8 @@ export function createQuickItemsController(options: QuickItemsControllerOptions)
 						const received = getItemEnergy(id);
 						if (received) {
 							const [current, max] = getUserEnergy();
-							if (current > max && received + current > 1000) {
-								if (!confirm("Are you sure to use this item ? It will get you to more than 1000E.")) return;
-							}
+							if (current > max && received + current > 1000 && !confirm("Are you sure to use this item ? It will get you to more than 1000E."))
+								return;
 						}
 					}
 

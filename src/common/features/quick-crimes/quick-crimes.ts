@@ -313,8 +313,7 @@ function showCrimesAgainOnFirefox(containerId: string) {
 			.filter((mutation) => mutation.removedNodes.length)
 			.flatMap((mutation) => Array.from(mutation.removedNodes))
 			.filter(isElement)
-			.map((node) => node.id)
-			.find((id) => id === containerId);
+			.some((node) => node.id === containerId);
 		if (hasRemovedQuickCrimes) return;
 
 		await loadCrimes();

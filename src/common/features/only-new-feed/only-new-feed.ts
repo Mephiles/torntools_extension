@@ -101,9 +101,9 @@ function handleHiddenElements(feedElement: Element) {
 }
 
 function cleanupFeeds() {
-	findAllElements(`${styles.onlyNewFeedButton}`).forEach((e) => e.remove());
-	findAllElements(`${styles.nothingToShow}`).forEach((e) => e.remove());
-	findAllElements(`${styles.onlyShowNewPosts}`).forEach((e) => e.classList.remove(styles.onlyShowNewPosts));
+	findAllElements(`.${styles.onlyNewFeedButton}`).forEach((e) => e.remove());
+	findAllElements(`.${styles.nothingToShow}`).forEach((e) => e.remove());
+	findAllElements(`.${styles.onlyShowNewPosts}`).forEach((e) => e.classList.remove(styles.onlyShowNewPosts));
 }
 
 export default class OnlyNewFeedFeature extends Feature {

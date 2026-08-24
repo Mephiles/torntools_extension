@@ -73,7 +73,7 @@ export function isIntNumber(number: string | null): boolean {
 	if (number === null) return false;
 	if (number.match(/[a-zA-Z]/)) return false;
 
-	const _number = parseFloat(number.toString());
+	const _number = parseFloat(number);
 	return !Number.isNaN(_number) && Number.isFinite(_number) && _number % 1 === 0;
 }
 
@@ -112,7 +112,7 @@ export function getCookie(cname: string) {
 		cookie = cookie.trimStart();
 
 		if (cookie.includes(name)) {
-			return cookie.substring(name.length);
+			return cookie.slice(name.length);
 		}
 	}
 	return "";
@@ -142,7 +142,7 @@ export function toClipboard(text: string) {
 		textarea.select();
 		const copied = document.execCommand("copy");
 
-		document.body.removeChild(textarea);
+		textarea.remove();
 		return copied;
 	}
 }

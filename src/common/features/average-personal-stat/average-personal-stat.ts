@@ -36,7 +36,7 @@ function calculateStatsAverage(graphData: any) {
 			const difference = upperVal - lowerVal;
 			const avg = difference / timeLength;
 			const roundedAvg = avg.toFixed(2); // Rounds to 2 decimal places
-			const formattedAvg = roundedAvg.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			const formattedAvg = roundedAvg.replaceAll(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 			// Insert data
 			const element = document.querySelectorAll("div[class^='titleItem']")[userIndex];

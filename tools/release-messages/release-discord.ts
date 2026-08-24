@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { resolve } from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
 import type { ChangelogEntry } from "@/utils/changelog";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+const ROOT = resolve(import.meta.dirname, "../..");
 const CHANGELOG_PATH = resolve(ROOT, "src/extension/assets/changelog.json");
 const OUTPUT_DIR = resolve(ROOT, ".output/release");
 const DISCORD_CHAR_LIMIT = 2000;
@@ -74,7 +73,7 @@ function splitMessage(message: string, limit: number): string[] {
 			return pages;
 		}
 
-		const last = pages[pages.length - 1];
+		const last = pages.at(-1);
 		const candidate = `${last}\n${line}`;
 		if (candidate.length <= limit) {
 			pages[pages.length - 1] = candidate;
@@ -122,7 +121,8 @@ function splitMessage(message: string, limit: number): string[] {
 
 			// If next page starts mid-section, prepend the last heading for context
 			const trimmed = next.replace(/^\n+/, "");
-			const lastHeading = Array.from(contentLines)
+			const lastHeading = contentLines
+				.slice()
 				.reverse()
 				.find((l) => l.startsWith("### "));
 			if (lastHeading && trimmed && !trimmed.startsWith("# ") && !trimmed.startsWith("### ")) {

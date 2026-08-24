@@ -29,7 +29,7 @@ async function addItemValues() {
 
 		if (!text.includes("says:") && text.includes("added")) {
 			if (text.includes("$")) {
-				totalValue = parseInt(text.match(/\$([\d,]*)/i)[1].replace(/,/g, ""));
+				totalValue = parseInt(text.match(/\$([\d,]*)/i)[1].replaceAll(",", ""));
 			} else {
 				const itemEntries = text
 					.replace(" added", "")

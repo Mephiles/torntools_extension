@@ -67,7 +67,7 @@ function getTradeChat() {
 	const openChats = findAllElements(`#chatRoot [class^='chat-box__'], ${SELECTOR_CHAT_V3__TRADE_CHAT}`);
 	if (!openChats.length) return null;
 
-	return openChats.filter((chat) => chat.querySelector("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade")?.[0];
+	return openChats.find((chat) => chat.querySelector("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade");
 }
 
 function listenTradeChatInput(tradeChat: Element | null) {
@@ -85,7 +85,7 @@ async function onKeyUp(event: KeyboardEvent) {
 
 	const message = await new Promise<Element>((resolve) => {
 		new MutationObserver((mutations, observer) => {
-			const mutation = mutations.filter((mutation) => mutation.addedNodes.length).at(-1);
+			const mutation = mutations.findLast((mutation) => mutation.addedNodes.length);
 			if (!mutation) return;
 
 			const node = mutation.addedNodes[0] as Element;

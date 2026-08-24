@@ -102,7 +102,7 @@ async function addFilterContainer() {
 					if (hideRaces.includes("paid")) {
 						const feeEl = row.querySelector<HTMLElement>("li.fee");
 						if (feeEl) {
-							const feeAmount = parseInt(feeEl.textContent.replace(/\D/g, ""), 10);
+							const feeAmount = parseInt(feeEl.textContent.replaceAll(/\D/g, ""), 10);
 							if (feeAmount > 0) return false;
 						}
 					}
@@ -110,7 +110,7 @@ async function addFilterContainer() {
 					if (hideRaces.includes("full")) {
 						const driversEl = row.querySelector<HTMLElement>("li.drivers");
 						if (driversEl) {
-							const match = driversEl.textContent.replace(/\s+/g, "").match(/(\d+)\/(\d+)/);
+							const match = driversEl.textContent.replaceAll(/\s+/g, "").match(/(\d+)\/(\d+)/);
 							if (match && parseInt(match[1], 10) >= parseInt(match[2], 10)) return false;
 						}
 					}
@@ -170,7 +170,7 @@ async function addFilterContainer() {
 					const driversEl = row.querySelector<HTMLElement>("li.drivers");
 					if (!driversEl) return true;
 
-					const match = driversEl.textContent.replace(/\s+/g, "").match(/(\d+)\/(\d+)/);
+					const match = driversEl.textContent.replaceAll(/\s+/g, "").match(/(\d+)\/(\d+)/);
 					if (!match) return true;
 
 					const maxDrivers = parseInt(match[2], 10);

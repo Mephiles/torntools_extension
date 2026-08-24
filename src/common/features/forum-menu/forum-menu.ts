@@ -194,7 +194,7 @@ async function showPosts() {
 											const author = quote.querySelector<HTMLElement>(":scope > .author-quote a").innerText;
 											const content = quote.querySelector<HTMLElement>(":scope > .quote-post > .quote-post-content").innerText;
 
-											quotesContent = `${prefix} ${author}:\n${content.replace(/^/gm, prefix)}\n${quotesContent}`;
+											quotesContent = `${prefix} ${author}:\n${content.replaceAll(/^/gm, prefix)}\n${quotesContent}`;
 											prefix = `> ${prefix}`;
 										}
 
@@ -261,14 +261,14 @@ async function showPosts() {
 
 										if (quotesContent.length > 0) {
 											if (quotesContent.length > maxLength / 2) {
-												quotesContent = `${quotesContent.substring(0, maxLength / 2 - 5)}[...]`;
+												quotesContent = `${quotesContent.slice(0, Math.max(0, maxLength / 2 - 5))}[...]`;
 											}
 
 											postContent = `${quotesContent}\n\n${postContent}`;
 										}
 
 										if (postContent.length > maxLength) {
-											text = text.replace("$$$TEXT_CONTENT$$$", `${postContent.substring(0, maxLength - 5)}[...]`);
+											text = text.replace("$$$TEXT_CONTENT$$$", `${postContent.slice(0, Math.max(0, maxLength - 5))}[...]`);
 										} else text = text.replace("$$$TEXT_CONTENT$$$", postContent);
 
 										toClipboard(text);

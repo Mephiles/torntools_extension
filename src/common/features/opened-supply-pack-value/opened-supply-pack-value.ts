@@ -46,9 +46,7 @@ function calculateValueFromResponse(response: TornInternalUseItemSuccess): numbe
 
 	return response.items.itemAppear
 		.map((item) =>
-			"isMoney" in item
-				? convertToNumber(item.moneyGain.substring(1))
-				: ITEM_RESOLVER.getFullItem(parseInt(item.ID)).value.market_price * parseInt(item.qty),
+			"isMoney" in item ? convertToNumber(item.moneyGain.slice(1)) : ITEM_RESOLVER.getFullItem(parseInt(item.ID)).value.market_price * parseInt(item.qty),
 		)
 		.reduce((totalValue, value) => totalValue + value, 0);
 }

@@ -27,7 +27,7 @@ async function addPercentage() {
 
 	findAllElements(".enlist-info").forEach((stat) => {
 		const values = findAllElements(".enlisted-stat > li", stat)
-			.map((item) => item.textContent.replace(/[^\w :]/g, "").trim())
+			.map((item) => item.textContent.replaceAll(/[^\w :]/g, "").trim())
 			.filter((text) => REGEX.test(text))
 			.map((text) => convertToNumber(text));
 

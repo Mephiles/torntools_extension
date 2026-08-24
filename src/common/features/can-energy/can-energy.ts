@@ -18,7 +18,7 @@ function initialiseAddEGains() {
 function addEnergyGains() {
 	const totalPerkMultiplier = Array.of(...userdata.perks.faction, ...userdata.perks.job, ...userdata.perks.book)
 		.filter((x) => /energy drinks/i.test(x) || /consumable gain/i.test(x))
-		.map((x) => x.replace(/\D+/g, ""))
+		.map((x) => x.replaceAll(/\D+/g, ""))
 		.map((x) => 1 + parseInt(x) / 100)
 		.reduce((totalMultiplier, perkMultiplier) => totalMultiplier * perkMultiplier, 1);
 
@@ -32,7 +32,7 @@ function addEnergyGains() {
 			item.effect
 				.split(" ")
 				.map((x) => parseInt(x))
-				.filter((x) => !Number.isNaN(x))[0]
+				.find((x) => !Number.isNaN(x))
 				.toString(),
 		);
 		let totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);

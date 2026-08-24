@@ -36,7 +36,7 @@ async function removeFillMax() {
 	}
 }
 
-async function maxBuyListener(clickEvent: any | null = null) {
+async function maxBuyListener(clickEvent: any = null) {
 	if (mobile || tabletVertical) {
 		await requireElement(`${SELECTOR_MOBILE_LIST} [class*='buyForm___']`);
 		findAllElements(`${SELECTOR_MOBILE_LIST} [class*='itemDescription__']:not(.tt-fill-max)`).forEach((buyForm) => {
@@ -61,8 +61,8 @@ async function maxBuyListener(clickEvent: any | null = null) {
 						: parseInt(parent.querySelector("[class*='amount__']").childNodes[1].textContent);
 					if (!settings.pages.bazaar.maxBuyIgnoreCash) {
 						const price = mobile
-							? parseInt(parent.querySelector("[class*='price_']").childNodes[0].textContent.replace(/[,$]/g, ""))
-							: parseInt(parent.querySelector("[class*='price_']").textContent.replace(/[,$]/g, ""));
+							? parseInt(parent.querySelector("[class*='price_']").childNodes[0].textContent.replaceAll(/[,$]/g, ""))
+							: parseInt(parent.querySelector("[class*='price_']").textContent.replaceAll(/[,$]/g, ""));
 						const money = parseInt(document.querySelector<HTMLElement>("#user-money").dataset.money);
 						if (Math.floor(money / price) < max) max = Math.floor(money / price);
 					}

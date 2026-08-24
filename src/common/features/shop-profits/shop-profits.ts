@@ -18,7 +18,7 @@ async function showProfits() {
 
 		const id = parseInt(item.querySelector(".item").getAttribute("itemid"));
 
-		const price = parseInt(priceElement.firstChild.textContent.replace(/[$,]/g, ""));
+		const price = parseInt(priceElement.firstChild.textContent.replaceAll(/[$,]/g, ""));
 		const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
 
 		const profit = value - price;

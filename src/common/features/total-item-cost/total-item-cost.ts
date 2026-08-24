@@ -10,11 +10,12 @@ import { Feature } from "@features/feature";
 function initialiseListeners() {
 	document.addEventListener("click", (event) => {
 		if (
+			FEATURE_MANAGER.isEnabled(TotalItemCostFeature) &&
 			isElement(event.target) &&
 			Array.from(event.target.classList).some((c) => c.startsWith("controlPanelButton__")) &&
 			event.target.ariaLabel.includes("Buy")
 		) {
-			if (FEATURE_MANAGER.isEnabled(TotalItemCostFeature)) addPrice();
+			addPrice();
 		}
 	});
 }
@@ -36,7 +37,7 @@ function removePrice() {
 }
 
 function changeTotalPrice(amount: number) {
-	const stock = parseInt(document.querySelector("[class*='buyMenu_'] [class*='amount_']").textContent.split(")")[0].replace(/\D+/g, ""));
+	const stock = parseInt(document.querySelector("[class*='buyMenu_'] [class*='amount_']").textContent.split(")")[0].replaceAll(/\D+/g, ""));
 	const price = parseInt(document.querySelector("[class*='buyMenu_'] [class*='price_']").textContent.split("$")[1].replaceAll(",", ""));
 	if (amount > stock) amount = stock;
 	if (document.querySelector("#tt-total-cost")) document.querySelector("#tt-total-cost").innerHTML = formatNumber(price * amount, { currency: true });

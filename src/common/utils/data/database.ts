@@ -189,7 +189,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 		// 	return;
 		// }
 
-		const migratedStorage = convertStorage<Database>(loadedStorage, DEFAULT_STORAGE);
+		const migratedStorage: Database = convertStorage(loadedStorage, DEFAULT_STORAGE);
 		await executeMigrationScripts(migratedStorage, loadedStorage);
 
 		migratedStorage.version.current = currentVersion;
@@ -205,7 +205,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 	}
 }
 
-function convertStorage<T = any>(oldStorage: any, defaultStorage: any): T {
+function convertStorage(oldStorage: any, defaultStorage: any): any {
 	const newStorage: any = {};
 
 	for (const key in defaultStorage) {

@@ -43,7 +43,7 @@ async function tooltipListener() {
 	if (tooltipBodyText.includes(pointsText)) return;
 
 	if (lastParenthesisIndex > -1)
-		tooltipBodyEl.textContent = tooltipBodyText.substr(0, lastParenthesisIndex) + pointsText + tooltipBodyText.substr(lastParenthesisIndex);
+		tooltipBodyEl.textContent = tooltipBodyText.slice(0, lastParenthesisIndex) + pointsText + tooltipBodyText.slice(lastParenthesisIndex);
 	else tooltipBodyEl.insertAdjacentText("beforeend", pointsText);
 }
 

@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { resolve } from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
 import type { ChangelogEntry } from "@/utils/changelog";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+const ROOT = resolve(import.meta.dirname, "../..");
 const CHANGELOG_PATH = resolve(ROOT, "src/extension/assets/changelog.json");
 const OUTPUT_DIR = resolve(ROOT, ".output/release");
 
@@ -54,7 +53,7 @@ function versionString(v: ChangelogEntry["version"]): string {
 }
 
 function encodeCharacters(s: string): string {
-	return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+	return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 }
 
 await generate();

@@ -1773,9 +1773,9 @@ export function getRFC() {
 }
 
 export function getPage() {
-	let page = location.pathname.substring(1);
-	if (page.endsWith(".php")) page = page.substring(0, page.length - 4);
-	else if (page.endsWith(".html")) page = page.substring(0, page.length - 3);
+	let page = location.pathname.slice(1);
+	if (page.endsWith(".php")) page = page.slice(0, -4);
+	else if (page.endsWith(".html")) page = page.slice(0, -3);
 
 	switch (page) {
 		case "index": {

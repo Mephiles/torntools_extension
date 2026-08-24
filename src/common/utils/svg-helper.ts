@@ -12,7 +12,7 @@ export function svgImport(svgImport: string): SVGFactory {
 	}
 
 	if (svgImport.startsWith("data:image/svg+xml")) {
-		const encodedData = svgImport.substring("data:image/svg+xml,".length);
+		const encodedData = svgImport.slice("data:image/svg+xml,".length);
 
 		let svgContent: string;
 		try {

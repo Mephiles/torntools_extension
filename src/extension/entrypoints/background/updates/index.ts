@@ -31,9 +31,6 @@ export async function timedUpdates() {
 						else console.log("Skipped this userdata update.");
 					})
 					.catch((error) => logError("updating userdata", error)),
-			);
-
-			updatePromises.push(
 				updateStakeouts()
 					.then(({ updated, success, failed }) => {
 						if (updated) {
@@ -42,9 +39,6 @@ export async function timedUpdates() {
 						} else console.log("Skipped this stakeout update.");
 					})
 					.catch((error) => logError("updating stakeouts", error)),
-			);
-
-			updatePromises.push(
 				updateFactionStakeouts()
 					.then(({ updated, success, failed }) => {
 						if (updated) {
@@ -91,9 +85,8 @@ export async function timedUpdates() {
 					if (alerts) console.log(`Sent out ${alerts} npc alerts.`);
 				})
 				.catch((error) => logError("updating npcs", error)),
+			verifyTime().catch((error) => logError("Failed to verify your time to be synced.", error)),
 		);
-
-		updatePromises.push(verifyTime().catch((error) => logError("Failed to verify your time to be synced.", error)));
 
 		await Promise.all(updatePromises);
 	} finally {

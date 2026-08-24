@@ -1,26 +1,90 @@
 {
-	"plugins": ["import", "jsx-a11y"],
+	"options": {
+		"typeAware": true
+	},
+	"plugins": ["eslint", "import", "jest", "node", "oxc", "promise", "typescript", "unicorn"],
 	"categories": {
 		"correctness": "error",
-		"nursery": "off",
-		"pedantic": "off",
-		"perf": "off",
-		"restriction": "off",
-		"style": "off",
-		"suspicious": "off"
+		"suspicious": "warn"
 	},
 	"rules": {
-		"consistent-type-imports": "warn",
-		"consistent-type-specifier-style": "warn",
-		"no-async-promise-executor": "off",
-		"no-cond-assign": "off",
-		"no-empty-object-type": "off",
-		"no-explicit-any": "off",
-		"no-non-null-assertion": "off",
-		"no-shadow": "off",
-		"no-underscore-dangle": "off",
-		"no-unsafe-optional-chaining": "off",
-		"no-unused-vars": "off",
-		"no-wrapper-object-types": "off"
+		"eslint/array-callback-return": "warn",
+		"eslint/no-async-promise-executor": "off",
+		"eslint/no-cond-assign": "off",
+		"eslint/no-constructor-return": "error",
+		"eslint/no-shadow": "off",
+		"eslint/no-underscore-dangle": "off",
+		"eslint/no-unsafe-optional-chaining": "off",
+		"eslint/no-unused-vars": [
+			"error",
+			{
+				"fix": {
+					"imports": "safe-fix",
+					"variables": "off"
+				},
+				"argsIgnorePattern": "^_",
+				"varsIgnorePattern": "^_",
+				"caughtErrorsIgnorePattern": "^_"
+			}
+		],
+		"import/consistent-type-specifier-style": "warn",
+		"import/newline-after-import": [
+			"warn",
+			{
+				"considerComments": true,
+				"exactCount": true
+			}
+		],
+		"import/no-duplicates": "warn",
+		"import/no-self-import": "warn",
+		"import/no-unassigned-import": [
+			"error",
+			{
+				"allow": ["**/*.css", "drag-drop-touch"]
+			}
+		],
+		"oxc/no-accumulating-spread": "error",
+		"promise/always-return": "off",
+		"typescript/ban-ts-comment": [
+			"warn",
+			{
+				"minimumDescriptionLength": 5
+			}
+		],
+		"typescript/consistent-return": "off",
+		"typescript/consistent-type-imports": "warn",
+		"typescript/no-base-to-string": "off",
+		"typescript/no-deprecated": "allow",
+		"typescript/no-empty-object-type": "off",
+		"typescript/no-explicit-any": "off",
+		"typescript/no-floating-promises": "off",
+		"typescript/no-mixed-enums": "warn",
+		"typescript/no-non-null-assertion": "off",
+		"typescript/no-unnecessary-boolean-literal-compare": "off",
+		"typescript/no-unnecessary-type-assertion": "off",
+		"typescript/no-unsafe-type-assertion": "off",
+		"typescript/no-useless-default-assignment": "off",
+		"typescript/no-wrapper-object-types": "off",
+		"typescript/prefer-includes": "warn",
+		"typescript/prefer-optional-chain": "warn",
+		"typescript/restrict-template-expressions": "off",
+		"typescript/unbound-method": "off",
+		"unicorn/consistent-function-scoping": "off",
+		"unicorn/new-for-builtins": "error",
+		"unicorn/no-abusive-eslint-disable": "error",
+		"unicorn/no-array-reverse": "off",
+		"unicorn/no-array-sort": "off",
+		"unicorn/no-lonely-if": "warn",
+		"unicorn/prefer-array-find": "error",
+		"unicorn/prefer-array-flat": "warn",
+		"unicorn/prefer-array-flat-map": "error",
+		"unicorn/prefer-array-some": "warn",
+		"unicorn/prefer-at": "warn",
+		"unicorn/prefer-dom-node-remove": "warn",
+		"unicorn/prefer-import-meta-properties": "warn",
+		"unicorn/prefer-native-coercion-functions": "warn",
+		"unicorn/prefer-single-call": "warn",
+		"unicorn/prefer-string-replace-all": "warn",
+		"unicorn/prefer-string-slice": "warn"
 	}
 }

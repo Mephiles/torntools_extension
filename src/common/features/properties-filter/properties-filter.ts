@@ -1,6 +1,6 @@
 import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
-import { filters, settings, torndata } from "@common/utils/data/database";
+import { filters, settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilter, multiSelectSection, radioSection, sliderSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
@@ -36,8 +36,6 @@ const REGEX_LEASED = /Leased to (?<name>.*) \((?<left>\d+) \/ (?<total>\d+) days
 
 async function addFilterContainer() {
 	await requireElement(".properties-list > li");
-
-	const eligibleProperties = torndata?.properties ?? [];
 
 	const sections = [
 		sliderSection({

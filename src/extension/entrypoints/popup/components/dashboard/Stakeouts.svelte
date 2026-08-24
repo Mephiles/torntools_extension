@@ -18,7 +18,8 @@
 		if (!settings?.pages?.popup?.showStakeouts || !source?.list?.length) return [];
 
 		return source.list
-			.toSorted((a, b) => a.order - b.order)
+			.slice()
+			.sort((a, b) => a.order - b.order)
 			.map((stakeout) => ({
 				id: stakeout.id,
 				name: stakeout.info?.name ?? String(stakeout.id),

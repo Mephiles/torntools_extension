@@ -57,7 +57,7 @@ async function executeFeature() {
 				connectButton.classList.remove("tt-hidden");
 
 				if (defaultKey) {
-					// Using onclick to avoid multiple events.
+					// oxlint-disable-next-line prefer-add-event-listener onclick replaces the handler instead of stacking duplicates
 					connectButton.onclick = () => updateKey(defaultKey);
 					connectButton.removeAttribute("href");
 					connectButton.setAttribute("title", "Connect using the default key.");

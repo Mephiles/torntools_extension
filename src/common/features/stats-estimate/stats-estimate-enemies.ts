@@ -12,17 +12,21 @@ const statsEstimate = new StatsEstimate("Enemies", true);
 
 async function registerListeners() {
 	const listObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.matches("li[class*='tableRow__']")))) {
-			if (FEATURE_MANAGER.isEnabled(StatsEstimateEnemiesFeature)) showEstimates();
+		if (
+			mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.matches("li[class*='tableRow__']"))) &&
+			FEATURE_MANAGER.isEnabled(StatsEstimateEnemiesFeature)
+		) {
+			showEstimates();
 		}
 	});
 
 	const tableObserver = new MutationObserver((mutations) => {
-		if (mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.tagName === "UL"))) {
-			if (FEATURE_MANAGER.isEnabled(StatsEstimateEnemiesFeature)) {
-				showEstimates();
-				listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
-			}
+		if (
+			mutations.some((mutation) => Array.from(mutation.addedNodes).some((node) => isElement(node) && node.tagName === "UL")) &&
+			FEATURE_MANAGER.isEnabled(StatsEstimateEnemiesFeature)
+		) {
+			showEstimates();
+			listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
 		}
 	});
 

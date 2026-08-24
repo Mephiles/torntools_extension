@@ -17,8 +17,8 @@ import { getPageStatus, isOwnProfile, millisToNewDay } from "@common/utils/funct
 import { PHBoldArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
 import { STATS } from "@features/profile-box/stats-list";
-import Sortable from "sortablejs";
-import type { UserHofResponse, UserLastActionStatusEnum, UserPersonalStatsFull, UserStatusStateEnum } from "tornapi-typescript";
+import SortableJS from "sortablejs";
+import type { UserHofResponse, UserLastActionStatusEnum, UserPersonalStatsFull } from "tornapi-typescript";
 import { performSpy } from "./spy-performer";
 
 function numberCellRenderer(value: StatValue | { relative: StatValue; value: StatValue }) {
@@ -155,10 +155,10 @@ async function showBox() {
 		relativeValue.onChange(() => {
 			const isRelative = relativeValue.isChecked();
 
-			for (const field of findAllElements<HTMLElement>(".relative-field", content)) {
+			for (const field of findAllElements(".relative-field", content)) {
 				const value = isRelative ? field.dataset.relative : field.dataset.value;
 
-				const options = { ...(JSON.parse(field.dataset.options ?? "false") || {}), forceOperation: isRelative };
+				const options = { ...JSON.parse(field.dataset.options ?? "false"), forceOperation: isRelative };
 
 				field.textContent = formatNumber(value, options);
 			}
@@ -201,7 +201,7 @@ async function showBox() {
 			buildCustom();
 			buildOthers();
 
-			const sortable = new Sortable(section.querySelector(".custom-stats .tt-table-body")!, {
+			const sortable = new SortableJS(section.querySelector(".custom-stats .tt-table-body")!, {
 				animation: 150,
 				disabled: true,
 				onEnd: () => saveStats(),
@@ -728,7 +728,7 @@ async function showBox() {
 				else respect = "-";
 
 				return {
-					element: document.createTextNode(respect.toString()),
+					element: document.createTextNode(respect),
 					dispose: () => {},
 				};
 			}
@@ -802,7 +802,7 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 		lifeMaximum = 100;
 	}
 
-	let statusState: UserStatusStateEnum | string;
+	let statusState: string;
 	let statusColor: string;
 	if (document.querySelector("li[id*='icon15']")) {
 		statusState = "Hospital";

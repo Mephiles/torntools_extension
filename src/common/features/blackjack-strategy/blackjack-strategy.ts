@@ -522,16 +522,15 @@ function executeStrategy(data: any) {
 		} else {
 			playerValue = data.player.score;
 		}
-	} else {
-		if (cards.player.includes("A") && data.player.score !== data.player.lowestScore) {
-			const leftOver = cards.player.filter((card) => card !== "A").map(getWorth) as number[];
-			const leftOverWorth = leftOver.reduce((a, b) => a + b, 0) + (cards.player.length - 1 - leftOver.length);
+	} else if (cards.player.includes("A") && data.player.score !== data.player.lowestScore) {
+		const leftOver = cards.player.filter((card) => card !== "A").map(getWorth) as number[];
+		const leftOverWorth = leftOver.reduce((a, b) => a + b, 0) + (cards.player.length - 1 - leftOver.length);
 
-			playerValue = `A,${leftOverWorth}`;
-		} else {
-			playerValue = data.player.score;
-		}
+		playerValue = `A,${leftOverWorth}`;
+	} else {
+		playerValue = data.player.score;
 	}
+
 	const suggestion = getSuggestion(playerValue);
 
 	const element = document.querySelector(".tt-blackjack-suggestion");

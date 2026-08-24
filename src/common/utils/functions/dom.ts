@@ -11,6 +11,7 @@ interface ElementBuilderOptions {
 	class?: string | (string | null)[];
 	text?: string | number;
 	html?: string;
+	// oxlint-disable-next-line typescript/no-redundant-type-constituents
 	value?: any | (() => any);
 	href?: string;
 	children?: (string | Node | null | undefined)[];
@@ -87,7 +88,7 @@ export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K
 }
 
 export function findElementWithText<K extends keyof HTMLElementTagNameMap>(tag: K, text: string): HTMLElementTagNameMap[K] | null;
-export function findElementWithText<T extends Node = HTMLElement>(tag: string, text: string): T | null;
+export function findElementWithText(tag: string, text: string): HTMLElement | null;
 
 export function findElementWithText<T = Node>(tag: string, text: string): T | null {
 	const node = document.evaluate(`//${tag}[contains(text(), '${text}')]`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -137,8 +138,8 @@ export function getSearchParameters(input?: string) {
 export function getHashParameters(hash?: string) {
 	if (!hash) hash = location.hash;
 
-	if (hash.startsWith("#/") || hash.startsWith("#!")) hash = hash.substring(2);
-	else if (hash.startsWith("#") || hash.startsWith("/")) hash = hash.substring(1);
+	if (hash.startsWith("#/") || hash.startsWith("#!")) hash = hash.slice(2);
+	else if (hash.startsWith("#") || hash.startsWith("/")) hash = hash.slice(1);
 
 	if (!hash.startsWith("!")) hash = `?${hash}`;
 
@@ -280,7 +281,7 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 	let rows: HTMLElement[];
 	if (!table.querySelector("tr:not(.heading), .row:not(.header)")) rows = [];
 	else {
-		rows = findAllElements<HTMLElement>("tr:not(.header), .row:not(.header)", table);
+		rows = findAllElements("tr:not(.header), .row:not(.header)", table);
 		rows = sortRows(rows);
 	}
 
@@ -346,8 +347,8 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 			let a: number, b: number;
 			if (Number.isNaN(parseFloat(valueA))) {
 				if (valueA.includes("$")) {
-					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
-					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
+					a = parseFloat(valueA.replace("$", "").replaceAll(",", ""));
+					b = parseFloat(valueB.replace("$", "").replaceAll(",", ""));
 				} else {
 					a = valueA.toLowerCase().localeCompare(valueB.toLowerCase());
 					b = 0;

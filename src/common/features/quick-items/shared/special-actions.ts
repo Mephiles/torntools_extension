@@ -195,7 +195,7 @@ function findOptimalHospitalItems(minutesLeft: number, bloodType: BloodType | nu
 		const remainderItems = items.filter(({ quantity }) => quantity > 0);
 		if (!remainderItems.length) return { error: "You lack the items to leave the hospital." };
 
-		const item = remainderItems.find((i) => i.medical.time >= ongoingMinutesLeft) ?? remainderItems[remainderItems.length - 1];
+		const item = remainderItems.find((i) => i.medical.time >= ongoingMinutesLeft) ?? remainderItems.at(-1);
 		item.quantity--;
 		ids.push({ id: item.id, cooldown: item.medical.cooldown });
 		ongoingMinutesLeft -= item.medical.time;
@@ -211,7 +211,7 @@ function getOptimalLifeItem(percentageMissing: number, bloodType: BloodType | nu
 	const fillItems = items.filter((item) => item.medical.life >= percentageMissing);
 	if (fillItems.length) return fillItems[0];
 
-	const bestLife = items[items.length - 1].medical.life;
+	const bestLife = items.at(-1).medical.life;
 	return items.find((i) => i.medical.life === bestLife);
 }
 

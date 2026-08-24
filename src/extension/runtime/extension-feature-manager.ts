@@ -104,12 +104,11 @@ export class ExtensionFeatureManager implements FeatureManager {
 
 		if (!this.container) {
 			this.earlyErrors.push(error);
+		} else if (this.errorCount <= 25) {
+			this.container.setAttribute("error-count", this.errorCount.toString());
+			this.addErrorToPopup(error).catch((err) => console.error(err));
 		} else {
-			if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
-			else {
-				this.container.setAttribute("error-count", this.errorCount.toString());
-				this.addErrorToPopup(error).catch((err) => console.error(err));
-			}
+			this.container.setAttribute("error-count", "25+");
 		}
 	}
 
@@ -485,7 +484,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 		else this.container!.classList.remove("no-content");
 	}
 
-	isEnabled<T extends Feature>(featureConstructor: new () => T): boolean {
+	isEnabled(featureConstructor: new () => Feature): boolean {
 		const feature = this.features.find((f) => f instanceof featureConstructor);
 		if (!feature) return false;
 

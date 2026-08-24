@@ -383,7 +383,7 @@ export async function updateUserdata(forceUpdate = false) {
 			const events = newUserdata.events.filter((event) => !notifications.events[event.id]);
 			if (events.length) {
 				// Remove profile links from event message
-				let message = events.at(-1)!.event.replace(/<\/?[^>]+(>|$)/g, "");
+				let message = events.at(-1)!.event.replaceAll(/<\/?[^>]+(>|$)/g, "");
 				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""})`;
 
 				const notification = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
@@ -560,7 +560,7 @@ export async function updateUserdata(forceUpdate = false) {
 	async function notifyOffline() {
 		if (!settings.notifications.types.global || !settings.notifications.types.offline.length || !oldUserdata?.profile?.last_action?.timestamp) return;
 
-		const checkpoints = settings.notifications.types.offline.sort((a, b) => b - a);
+		const checkpoints = settings.notifications.types.offline.slice().sort((a, b) => b - a);
 
 		const oldHoursOffline = Math.floor(((oldUserdata.timestamp - oldUserdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
 		const hoursOffline = Math.floor(((newUserdata.timestamp - newUserdata.profile.last_action.timestamp) * TO_MILLIS.SECONDS) / TO_MILLIS.HOURS);
@@ -590,7 +590,7 @@ export async function updateUserdata(forceUpdate = false) {
 			const timeout = newUserdata.bars.chain.timeout * 1000 - (now - newUserdata.timestamp * 1000); // ms
 			const count = newUserdata.bars.chain.current;
 
-			for (const checkpoint of settings.notifications.types.chainTimer.sort((a, b) => a - b)) {
+			for (const checkpoint of settings.notifications.types.chainTimer.slice().sort((a, b) => a - b)) {
 				const key = `${count}_${checkpoint}`;
 				if (timeout > checkpoint * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
 
@@ -617,7 +617,7 @@ export async function updateUserdata(forceUpdate = false) {
 			const count = newUserdata.bars.chain.current;
 			const nextBonus = getNextChainBonus(count);
 
-			for (const checkpoint of settings.notifications.types.chainBonus.sort((a, b) => b - a)) {
+			for (const checkpoint of settings.notifications.types.chainBonus.slice().sort((a, b) => b - a)) {
 				const key = `${nextBonus}_${checkpoint}`;
 
 				if (nextBonus - count > checkpoint || notifications.chainCount[key]) continue;
@@ -644,7 +644,7 @@ export async function updateUserdata(forceUpdate = false) {
 			settings.notifications.types.leavingHospital.length &&
 			newUserdata.profile.status.state === "Hospital"
 		) {
-			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
+			for (const checkpoint of settings.notifications.types.leavingHospital.slice().sort((a, b) => a - b)) {
 				const timeLeft = newUserdata.profile.status.until * 1000 - now;
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
@@ -667,7 +667,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if (!settings.apiUsage.user.travel || !settings.notifications.types.global) return;
 
 		if (settings.notifications.types.landingEnabled && settings.notifications.types.landing.length && newUserdata.travel.time_left) {
-			for (const checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
+			for (const checkpoint of settings.notifications.types.landing.slice().sort((a, b) => a - b)) {
 				const timeLeft = newUserdata.travel.arrival_at * 1000 - now;
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
@@ -713,7 +713,7 @@ export async function updateUserdata(forceUpdate = false) {
 				settings.notifications.types[cooldown.setting].length &&
 				newUserdata.cooldowns[cooldown.name] > 0
 			) {
-				for (const checkpoint of settings.notifications.types[cooldown.setting].sort((a: number, b: number) => a - b)) {
+				for (const checkpoint of settings.notifications.types[cooldown.setting].slice().sort((a: number, b: number) => a - b)) {
 					const timeLeft = newUserdata.cooldowns[cooldown.name] * 1000;
 
 					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
@@ -769,7 +769,7 @@ export async function updateUserdata(forceUpdate = false) {
 				const ongoingMissions = contracts.filter((contract) => contract.status === "Accepted");
 
 				for (const mission of ongoingMissions) {
-					for (const checkpoint of settings.notifications.types.missionsExpire.sort((a, b) => a - b)) {
+					for (const checkpoint of settings.notifications.types.missionsExpire.slice().sort((a, b) => a - b)) {
 						const timeLeft = mission.expires_at * 1000 - now;
 						const key = `${name}_${mission.title}_${mission.created_at}_${checkpoint}`;
 
@@ -805,16 +805,14 @@ export async function updateUserdata(forceUpdate = false) {
 			const limitParts = settings.notifications.types.refillEnergy.split(":").map((part) => parseInt(part, 10));
 			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
 
-			if (new Date() >= cutoff) {
-				if (!newUserdata.refills.energy) {
-					const now = new Date();
-					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+			if (new Date() >= cutoff && !newUserdata.refills.energy) {
+				const now = new Date();
+				const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
 
-					if (!(key in notifications.refillEnergy)) {
-						const notification = newNotification("Refill", `You have yet to use your energy refill today.`, LINKS.points);
-						await dispatchNotification(notification);
-						await ttStorage.change({ notifications: { refillEnergy: { [key]: notification } } });
-					}
+				if (!(key in notifications.refillEnergy)) {
+					const notification = newNotification("Refill", `You have yet to use your energy refill today.`, LINKS.points);
+					await dispatchNotification(notification);
+					await ttStorage.change({ notifications: { refillEnergy: { [key]: notification } } });
 				}
 			}
 		} else {
@@ -825,16 +823,14 @@ export async function updateUserdata(forceUpdate = false) {
 			const limitParts = settings.notifications.types.refillNerve.split(":").map((part) => parseInt(part, 10));
 			const cutoff = getUTCTodayAtTime(limitParts[0], limitParts[1]);
 
-			if (new Date() >= cutoff) {
-				if (!newUserdata.refills.nerve) {
-					const now = new Date();
-					const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+			if (new Date() >= cutoff && !newUserdata.refills.nerve) {
+				const now = new Date();
+				const key = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
 
-					if (!(key in notifications.refillNerve)) {
-						const notification = newNotification("Refill", `You have yet to use your nerve refill today.`, LINKS.points);
-						await dispatchNotification(notification);
-						await ttStorage.change({ notifications: { refillNerve: { [key]: notification } } });
-					}
+				if (!(key in notifications.refillNerve)) {
+					const notification = newNotification("Refill", `You have yet to use your nerve refill today.`, LINKS.points);
+					await dispatchNotification(notification);
+					await ttStorage.change({ notifications: { refillNerve: { [key]: notification } } });
 				}
 			}
 		} else {

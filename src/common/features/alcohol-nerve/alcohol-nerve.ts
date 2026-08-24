@@ -18,8 +18,8 @@ function initialiseAddGains() {
 }
 
 function addNerveGains() {
-	const factionPerk = parseInt(userdata.perks.faction.filter((x) => /alcohol/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
-	const companyPerk = parseInt(userdata.perks.job.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	const factionPerk = parseInt(userdata.perks.faction.filter((x) => /alcohol/i.test(x)).map((x) => x.replaceAll(/\D+/g, ""))[0]);
+	const companyPerk = parseInt(userdata.perks.job.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replaceAll(/\D+/g, ""))[0]);
 
 	findAllElements("[data-category='Alcohol']").forEach((alcoholicDrink) => {
 		if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;
@@ -32,7 +32,7 @@ function addNerveGains() {
 			item.effect
 				.split(" ")
 				.map((x) => parseInt(x))
-				.filter((x) => !Number.isNaN(x))[0]
+				.find((x) => !Number.isNaN(x))
 				.toString(),
 		);
 		if (!Number.isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;

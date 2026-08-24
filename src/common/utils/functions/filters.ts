@@ -738,6 +738,7 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 
 const DEFAULT_PRIORITY = 50;
 
+// oxlint-disable-next-line no-unnecessary-type-parameters -- public generic API; callers pass explicit State type args
 export function createFilter<State extends Record<string, unknown> & { enabled: boolean } = Record<string, unknown> & { enabled: boolean }>(options: {
 	rowSelector: string;
 	container: { title: string } & Partial<ContainerOptions> & ContainerPosition;
@@ -887,7 +888,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 			return;
 		}
 
-		const rows = findAllElements<HTMLElement>(rowSelector);
+		const rows = findAllElements(rowSelector);
 		applyFilter(rows, sections, values);
 		_compensateHeight(rows);
 
@@ -898,7 +899,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	}
 
 	async function runScoped(options?: { rows?: HTMLElement[]; sections?: string[] | null }) {
-		const scopedRows = options?.rows ?? findAllElements<HTMLElement>(rowSelector);
+		const scopedRows = options?.rows ?? findAllElements(rowSelector);
 		const activeSections = options?.sections ? sections.filter((s) => options.sections.includes(s.key)) : sections;
 		activeSections.sort((a, b) => a.priority - b.priority);
 
@@ -988,7 +989,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		run,
 		runScoped,
 		getRows(visible?: boolean): HTMLElement[] {
-			const rows = findAllElements<HTMLElement>(rowSelector);
+			const rows = findAllElements(rowSelector);
 			if (visible === undefined) return rows;
 			return rows.filter((r) => (visible ? !r.classList.contains("tt-hidden") : r.classList.contains("tt-hidden")));
 		},

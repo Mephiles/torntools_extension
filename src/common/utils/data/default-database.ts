@@ -12,7 +12,7 @@ import type { StoredHiddenFeeds } from "@features/only-new-feed/only-new-feed";
 import type { QuickItem } from "@features/quick-items/shared/quick-items-common.ts";
 import type { StoredResizableChats } from "@features/resizable-chat/resizable-chat";
 import type { UserAlias } from "@features/user-alias/alias";
-import type { TornItem, TornStock, UserLastActionStatusEnum, UserStatusStateEnum } from "tornapi-typescript";
+import type { TornItem, TornStock, UserLastActionStatusEnum } from "tornapi-typescript";
 
 type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
 
@@ -81,7 +81,7 @@ export const DEFAULT_STORAGE = {
 			volume: new DefaultSetting("number", 100),
 			requireInteraction: new DefaultSetting("boolean", false),
 			types: {
-				global: new DefaultSetting("boolean", () => typeof Notification !== "undefined" && Notification.permission === "granted"),
+				global: new DefaultSetting("boolean", () => globalThis.Notification?.permission === "granted"),
 				events: new DefaultSetting("boolean", true),
 				messages: new DefaultSetting("boolean", true),
 				status: new DefaultSetting("boolean", true),
@@ -1072,7 +1072,7 @@ export type StakeoutData = {
 			maximum: number;
 		};
 		status: {
-			state: UserStatusStateEnum | string;
+			state: string;
 			color: string;
 			until: number | null;
 			description: string;

@@ -41,11 +41,11 @@ async function addTotal() {
 			null,
 		);
 		if (moneyElementsList.snapshotLength !== 2) continue;
-		const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replace(/[$, ]/g, ""));
+		const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replaceAll(/[$, ]/g, ""));
 		const totalLostElement = moneyElementsList.snapshotItem(1);
 		if (!isElement(totalLostElement)) return;
 
-		const totalLost = parseInt(totalLostElement.textContent.replace(/[$, ]/g, ""));
+		const totalLost = parseInt(totalLostElement.textContent.replaceAll(/[$, ]/g, ""));
 
 		if (document.querySelector(`.${statsType}-stats-wrap .tt-net-total`)) return;
 

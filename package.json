@@ -58,6 +58,7 @@
 		"mode-watcher": "^1.1.0",
 		"oxfmt": "^0.64.0",
 		"oxlint": "^1.79.0",
+		"oxlint-tsgolint": "^7.0.2001",
 		"phosphor-svelte": "^3.1.0",
 		"shadcn-svelte": "^1.5.0",
 		"svelte-sonner": "^1.2.1",

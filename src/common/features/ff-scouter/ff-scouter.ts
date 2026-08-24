@@ -147,9 +147,8 @@ export function scouterService() {
 	const { ffScouter: useFFScouter } = settings.external;
 	if (!useFFScouter) return null;
 
-	const services = [{ name: "ffscouter", service: FF_SCOUTER_SERVICE, check: useFFScouter && hasAPIData() }].filter((s) => s.check);
+	const selectedService = [{ name: "ffscouter", service: FF_SCOUTER_SERVICE, check: useFFScouter && hasAPIData() }].find((s) => s.check);
 
-	const selectedService = services[0];
 	return selectedService?.service ?? null;
 }
 

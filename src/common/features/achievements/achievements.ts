@@ -72,7 +72,7 @@ async function showAchievements() {
 
 								let desc = description;
 								desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
-								desc = desc.replace(/\D|\d+%/g, ""); // replace all non-numbers and percentages
+								desc = desc.replaceAll(/\D|\d+%/g, ""); // replace all non-numbers and percentages
 
 								const score = parseInt(desc) || null;
 								if (score === null || Number.isNaN(score)) continue;
@@ -86,7 +86,7 @@ async function showAchievements() {
 
 								goals.push({
 									score,
-									completed: !!userdata[type].find((a: any) => a.id === merit.id),
+									completed: userdata[type].some((a: any) => a.id === merit.id),
 									count: 1,
 								});
 							}
@@ -94,7 +94,7 @@ async function showAchievements() {
 					}
 
 					if (detectedGoals) {
-						goals.push(...detectedGoals.map(({ score, type, id }) => ({ score, completed: !!userdata[type].find((a) => a.id === id), count: 1 })));
+						goals.push(...detectedGoals.map(({ score, type, id }) => ({ score, completed: userdata[type].some((a) => a.id === id), count: 1 })));
 					}
 
 					goals.sort((a, b) => a.score - b.score);
@@ -108,6 +108,7 @@ async function showAchievements() {
 					completed,
 				};
 			})
+			.slice()
 			.sort((a, b) => {
 				const groupA = (a.group ?? a.name).toUpperCase();
 				const groupB = (b.group ?? b.name).toUpperCase();

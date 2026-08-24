@@ -18,8 +18,8 @@ function initialiseAddGains() {
 }
 
 function addGains() {
-	const factionPerk = parseInt(userdata.perks.faction.filter((x) => /candy/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
-	const companyPerk = parseInt(userdata.perks.job.filter((x) => /consumable boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+	const factionPerk = parseInt(userdata.perks.faction.filter((x) => /candy/i.test(x)).map((x) => x.replaceAll(/\D+/g, ""))[0]);
+	const companyPerk = parseInt(userdata.perks.job.filter((x) => /consumable boost/i.test(x)).map((x) => x.replaceAll(/\D+/g, ""))[0]);
 	findAllElements("[data-category='Candy']").forEach((candy) => {
 		if (candy.querySelector(".tt-candy-gains")) return;
 
@@ -31,7 +31,7 @@ function addGains() {
 			item.effect
 				.split(" ")
 				.map((x) => parseInt(x))
-				.filter((x) => !Number.isNaN(x))[0]
+				.find((x) => !Number.isNaN(x))
 				.toString(),
 		);
 		let totalHappy = baseHappy;

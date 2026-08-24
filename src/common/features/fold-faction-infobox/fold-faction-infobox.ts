@@ -57,7 +57,7 @@ async function foldInfobox() {
 
 	title.appendChild(arrow);
 
-	fold(!!filters.containers[key]);
+	fold(filters.containers[key] ?? false);
 
 	if (!title.classList.contains(`tt-${key}`)) {
 		title.classList.add(`tt-${key}`);
@@ -69,10 +69,7 @@ async function foldInfobox() {
 
 		if (state === null) {
 			state = description.classList.toggle("folded");
-		} else {
-			if (state) description.classList.add("folded");
-			else description.classList.remove("folded");
-		}
+		} else description.classList.toggle("folded", state);
 
 		if (state) {
 			arrow.innerHTML = PHFillCaretRight().innerHTML;

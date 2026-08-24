@@ -65,7 +65,7 @@ async function highlightBloodBags() {
 					elementBuilder({
 						type: "span",
 						class: "tt-blood-price",
-						text: `${formatNumber(ITEM_RESOLVER.getFullItem(itemId).value.market_price, { currency: true })}`,
+						text: formatNumber(ITEM_RESOLVER.getFullItem(itemId).value.market_price, { currency: true }),
 					}),
 				);
 			}

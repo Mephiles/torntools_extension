@@ -92,7 +92,7 @@ function resolveEmployee(id: number, company: FetchedCompany): ResolvedEmployee 
 }
 
 async function extractCompanyId(): Promise<number> {
-	if (isOwnCompany && userdata.job && userdata.job.type === "company") {
+	if (isOwnCompany && userdata.job?.type === "company") {
 		return userdata.job.id;
 	}
 
@@ -108,7 +108,7 @@ async function extractCompanyId(): Promise<number> {
 		const directorID = document.querySelector<HTMLAnchorElement>(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
 		const directorData = await fetchData<UserJobResponse>("tornv2", { section: "user", selections: ["job"], id: directorID });
 
-		if (directorData.job && directorData.job.type === "company") {
+		if (directorData.job?.type === "company") {
 			const companyId = directorData.job.id;
 			ttCache.set({ [companyName]: companyId }, TO_MILLIS.SECONDS * 30, "company-ids");
 			return companyId;

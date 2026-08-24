@@ -154,13 +154,13 @@ function addValue(priceElement: Element, quantity: number, price: number) {
 		priceElement.appendChild(
 			elementBuilder({
 				type: "span",
-				text: `${formatNumber(totalPrice, { currency: true })}`,
+				text: formatNumber(totalPrice, { currency: true }),
 			}),
 		);
 	} else if (price === 0) {
 		priceElement.textContent = "N/A";
 	} else {
-		priceElement.textContent = `${formatNumber(price, { currency: true })}`;
+		priceElement.textContent = formatNumber(price, { currency: true });
 	}
 }
 
@@ -194,7 +194,7 @@ function showItemValues(list: HTMLElement) {
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
-						text: `${formatNumber(price, { currency: true })}`,
+						text: formatNumber(price, { currency: true }),
 					}),
 				);
 			} else {
@@ -214,14 +214,14 @@ function showItemValues(list: HTMLElement) {
 				priceElement.appendChild(
 					elementBuilder({
 						type: "span",
-						text: `${formatNumber(totalPrice, { currency: true })}`,
+						text: formatNumber(totalPrice, { currency: true }),
 					}),
 				);
 			}
 		} else if (price === 0) {
 			priceElement.textContent = "N/A";
 		} else {
-			priceElement.textContent = `${formatNumber(price, { currency: true })}`;
+			priceElement.textContent = formatNumber(price, { currency: true });
 		}
 
 		parent.appendChild(priceElement);
@@ -253,12 +253,12 @@ function updateItemAmount(id: number, change: number, loaned?: boolean) {
 			priceElement.appendChild(
 				elementBuilder({
 					type: "span",
-					text: `${formatNumber(price, { currency: true })}`,
+					text: formatNumber(price, { currency: true }),
 				}),
 			);
 		} else {
 			quantityElement.textContent = `${newQuantity}x = `;
-			priceElement.querySelector("span:last-child").textContent = `${formatNumber(price * newQuantity, { currency: true })}`;
+			priceElement.querySelector("span:last-child").textContent = formatNumber(price * newQuantity, { currency: true });
 		}
 	}
 }
@@ -287,7 +287,7 @@ export default class ItemValuesFeature extends Feature {
 		if (!getPageStatus().access) return false;
 
 		if (page === "displaycase") {
-			const userId = location.hash.startsWith("#display/") ? parseInt(location.hash.substring(9)) || false : false;
+			const userId = location.hash.startsWith("#display/") ? parseInt(location.hash.slice(9)) || false : false;
 
 			const details = getUserDetails();
 			if (userId && !details.error && userId !== details.id) return false;

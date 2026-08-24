@@ -2,7 +2,7 @@ import type { FactionStakeoutEntry, StoredFactionStakeouts } from "@common/utils
 import type { FactionStakeoutAlerts, FactionStakeoutRow } from "./columns";
 
 export function getFactionStakeoutRows(source: StoredFactionStakeouts | undefined): FactionStakeoutRow[] {
-	return (source?.list ?? []).sort((a, b) => a.order - b.order).map((entry) => getFactionStakeoutRow(entry.id, entry, false));
+	return [...(source?.list ?? [])].sort((a, b) => a.order - b.order).map((entry) => getFactionStakeoutRow(entry.id, entry, false));
 }
 
 export function getFactionStakeoutRow(id: number, entry: FactionStakeoutEntry | null, isNew: boolean): FactionStakeoutRow {
@@ -31,8 +31,8 @@ export function getAlerts(alerts?: Partial<FactionStakeoutAlerts>): FactionStake
 	return {
 		chainReaches: typeof alerts?.chainReaches === "number" ? alerts.chainReaches : false,
 		memberCountDrops: typeof alerts?.memberCountDrops === "number" ? alerts.memberCountDrops : false,
-		rankedWarStarts: Boolean(alerts?.rankedWarStarts),
-		inRaid: Boolean(alerts?.inRaid),
-		inTerritoryWar: Boolean(alerts?.inTerritoryWar),
+		rankedWarStarts: alerts?.rankedWarStarts ?? false,
+		inRaid: alerts?.inRaid ?? false,
+		inTerritoryWar: alerts?.inTerritoryWar ?? false,
 	};
 }

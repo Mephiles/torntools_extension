@@ -20,7 +20,7 @@ class AudioPlayer {
 	}
 
 	async play() {
-		if (!this._src) throw Error("No sound src set.");
+		if (!this._src) throw new Error("No sound src set.");
 
 		if (typeof Audio !== "undefined") {
 			if (!this.audio) this.audio = new Audio(this._src);

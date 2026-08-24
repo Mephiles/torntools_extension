@@ -19,7 +19,7 @@ async function showTimer() {
 	await addInformationSection();
 	showInformationSection();
 
-	const hasRWPlanned = !!factiondata.rankedwars.find((w) => w.end === 0);
+	const hasRWPlanned = factiondata.rankedwars.some((w) => w.end === 0);
 	if (!hasRWPlanned) return;
 
 	document.querySelector(".tt-sidebar-information").appendChild(
