@@ -19,7 +19,8 @@
 				{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" },
 				{ "message": "After the fly-out sidebar changes 'Hide Gym Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
 				{ "message": "After the fly-out sidebar changes 'Hide Newspaper Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
-				{ "message": "Properly calculate the HRG ROI for the stocks popup.", "contributor": "DeKleineKobini" }
+				{ "message": "Properly calculate the HRG ROI for the stocks popup.", "contributor": "DeKleineKobini" },
+				{ "message": "Prevent the cache from filling up the limited storage.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
@@ -36,7 +37,10 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"technical": [{ "message": "Migrate to the V2 version of torn/bank.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Migrate to the V2 version of torn/bank.", "contributor": "DeKleineKobini" },
+				{ "message": "Move the cache to IndexedDB to reduce extension storage usage.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{

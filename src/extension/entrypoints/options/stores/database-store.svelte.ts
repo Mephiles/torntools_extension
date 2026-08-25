@@ -30,27 +30,13 @@ export function initializeDatabaseStore() {
 		storesInitialized = true;
 	});
 
-	storageListeners.settings.push((_oldSettings, newSettings) => {
-		settingsStore.set(newSettings);
-	});
-	storageListeners.api.push((_oldApi, newApi) => {
-		apiStore.set(newApi);
-	});
-	storageListeners.userdata.push((_oldUserdata, newUserdata) => {
-		userdataStore.set(newUserdata);
-	});
-	storageListeners.torndata.push((_oldTorndata, newTorndata) => {
-		torndataStore.set(newTorndata);
-	});
-	storageListeners.stockdata.push((_oldStockdata, newStockdata) => {
-		stockdataStore.set(newStockdata);
-	});
-	storageListeners.factiondata.push((_oldFactiondata, newFactiondata) => {
-		factiondataStore.set(newFactiondata);
-	});
-	storageListeners.npcs.push((_oldNpcs, newNpcs) => {
-		npcsStore.set(newNpcs);
-	});
+	storageListeners.settings.push((_oldSettings, newSettings) => settingsStore.set(newSettings));
+	storageListeners.api.push((_oldApi, newApi) => apiStore.set(newApi));
+	storageListeners.userdata.push((_oldUserdata, newUserdata) => userdataStore.set(newUserdata));
+	storageListeners.torndata.push((_oldTorndata, newTorndata) => torndataStore.set(newTorndata));
+	storageListeners.stockdata.push((_oldStockdata, newStockdata) => stockdataStore.set(newStockdata));
+	storageListeners.factiondata.push((_oldFactiondata, newFactiondata) => factiondataStore.set(newFactiondata));
+	storageListeners.npcs.push((_oldNpcs, newNpcs) => npcsStore.set(newNpcs));
 }
 
 export async function loadDatabaseStores() {

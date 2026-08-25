@@ -1,4 +1,4 @@
-import { factiondata, loadDatabase, localdata, npcs, settings, storageListeners, userdata, version } from "@common/utils/data/database";
+import { factiondata, filters, loadDatabase, localdata, npcs, settings, storageListeners, userdata, version } from "@common/utils/data/database";
 import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
@@ -288,6 +288,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			["factiondata", () => factiondata],
 			["localdata", () => localdata],
 			["npcs", () => npcs],
+			["filters", () => filters],
 		] as const) {
 			if (!(key in storageKeys)) continue;
 

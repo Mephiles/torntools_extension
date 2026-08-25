@@ -1,3 +1,4 @@
+import type { CacheEntry } from "@common/utils/data/cache";
 import type { Database, DatabaseKey, RecursivePartial, Writable } from "@common/utils/data/database";
 
 type ChangeFunction<K extends DatabaseKey> = (database: Database[K]) => void;
@@ -12,6 +13,10 @@ export abstract class TornToolsStorage {
 	abstract remove(key: string | string[]): Promise<void>;
 
 	abstract clear(): Promise<void>;
+
+	abstract setCacheEntries(entries: CacheEntry[]): Promise<void>;
+
+	abstract clearCache(section?: string): Promise<void>;
 
 	async update<K extends DatabaseKey>(key: K, fn: ChangeFunction<K>): Promise<void> {
 		const database = await this.get(key);

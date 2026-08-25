@@ -107,7 +107,13 @@ async function onAlarm(alarm: Alarm) {
 }
 
 function clearCache() {
-	ttCache.refresh().catch((error) => console.error("Error while clearing cache.", error));
+	ttCache
+		.refresh()
+		.catch(() => {
+			console.warn("TT - Failed to properly refresh the cache, moving over to clearing it entirely.");
+			return ttCache.clear();
+		})
+		.catch((error) => console.error("Error while refreshing and clearing cache.", error));
 }
 
 export async function resetAlarms() {

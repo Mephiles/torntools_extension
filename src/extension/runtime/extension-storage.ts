@@ -1,7 +1,51 @@
+import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
 import { api } from "@common/utils/data/database";
 import type { Database, DatabaseKey } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
+import { bumpCacheVersion, CACHE_VERSION_KEY, getCache, removeCacheEntries, setCacheEntries as idbSetCacheEntries } from "@common/utils/data/idb-cache";
 import { TornToolsStorage } from "@common/utils/data/storage";
+import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
+import { browser } from "wxt/browser";
+import { BACKGROUND_SERVICE } from "@/services/proxy-services";
+
+const isContentScript = SCRIPT_TYPE === "CONTENT";
+
+function flattenCache(cache: DatabaseCache): CacheEntry[] {
+	const entries: CacheEntry[] = [];
+	for (const [sectionOrKey, sectionValue] of Object.entries(cache)) {
+		if (sectionValue && typeof sectionValue === "object" && !("value" in sectionValue)) {
+			for (const [key, cacheValue] of Object.entries(sectionValue as Record<string, CacheEntry["cacheValue"]>)) {
+				entries.push({ section: sectionOrKey, key, cacheValue });
+			}
+		} else {
+			entries.push({ key: sectionOrKey, cacheValue: sectionValue as CacheEntry["cacheValue"] });
+		}
+	}
+
+	return entries;
+}
+
+async function readCache(): Promise<DatabaseCache | undefined> {
+	return isContentScript ? BACKGROUND_SERVICE.cacheGet() : getCache();
+}
+
+async function writeCacheEntries(entries: CacheEntry[]): Promise<void> {
+	if (isContentScript) {
+		await BACKGROUND_SERVICE.cacheSetEntries(entries);
+	} else {
+		await idbSetCacheEntries(entries);
+		await bumpCacheVersion();
+	}
+}
+
+async function clearCacheFromStorage(section?: string): Promise<void> {
+	if (isContentScript) {
+		await BACKGROUND_SERVICE.cacheClearEntries(section);
+	} else {
+		await removeCacheEntries(section);
+		await bumpCacheVersion();
+	}
+}
 
 export class TTExtensionStorage extends TornToolsStorage {
 	get(): Promise<Database>;
@@ -9,26 +53,60 @@ export class TTExtensionStorage extends TornToolsStorage {
 	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
 	async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
-			const data = await browser.storage.local.get(key);
+			const data = await browser.storage.local.get(key as string[]);
+			if ((key as DatabaseKey[]).includes("cache")) {
+				data.cache = await readCache();
+			}
 
 			return key.map((i) => data[i]);
 		} else if (key) {
+			if (key === "cache") return await readCache();
 			return (await browser.storage.local.get([key]))[key];
 		} else {
-			return browser.storage.local.get();
+			const data = await browser.storage.local.get();
+			delete data[CACHE_VERSION_KEY];
+
+			const cache = await readCache();
+			if (cache !== undefined) data.cache = cache;
+
+			return data;
 		}
 	}
 
-	set(object: { [key: string]: any }) {
-		return browser.storage.local.set(object);
+	async set(object: { [key: string]: any }) {
+		const cache = object.cache;
+		const rest = { ...object };
+		delete rest.cache;
+
+		if (cache !== undefined) {
+			await writeCacheEntries(flattenCache(cache));
+		}
+		if (Object.keys(rest).length) {
+			await browser.storage.local.set(rest);
+		}
 	}
 
-	remove(key: string | string[]) {
-		return browser.storage.local.remove(Array.isArray(key) ? key : [key]);
+	async setCacheEntries(entries: CacheEntry[]) {
+		await writeCacheEntries(entries);
 	}
 
-	clear() {
-		return browser.storage.local.clear();
+	async clearCache(section?: string) {
+		await clearCacheFromStorage(section);
+	}
+
+	async remove(key: string | string[]) {
+		const keys = Array.isArray(key) ? key : [key];
+
+		const writes: Promise<void>[] = [];
+		if (keys.includes("cache")) writes.push(clearCacheFromStorage());
+		if (keys.some((k) => k !== "cache")) writes.push(browser.storage.local.remove(keys.filter((k) => k !== "cache")));
+
+		await Promise.all(writes);
+	}
+
+	async clear() {
+		await browser.storage.local.clear();
+		await clearCacheFromStorage();
 	}
 
 	async reset(key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
