@@ -162,7 +162,13 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 			if (!filteredMutations.length) return;
 
 			const newElement = findElement();
-			show(newElement.querySelector(".info-msg, [class*='description___']"), details);
+			if (!newElement) {
+				observer.disconnect();
+				return;
+			}
+
+			const info = newElement.querySelector(".info-msg, [class*='description___']");
+			if (info) show(info, details);
 			observer.disconnect();
 			watchChanges(newElement, details);
 		});
