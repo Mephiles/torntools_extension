@@ -127,8 +127,10 @@ export class TTExtensionStorage extends TornToolsStorage {
 	async getSize() {
 		let size: number;
 
-		if (browser.storage.local.getBytesInUse) size = await browser.storage.local.getBytesInUse();
-		else size = JSON.stringify(await this.get(null)).length;
+		if (browser.storage.local.getBytesInUse) {
+			size = await browser.storage.local.getBytesInUse();
+			size += JSON.stringify((await readCache()) ?? {}).length;
+		} else size = JSON.stringify(await this.get(null)).length;
 
 		return size;
 	}
