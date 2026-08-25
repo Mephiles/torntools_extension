@@ -409,6 +409,7 @@ export const DEFAULT_STORAGE = {
 				ocTimes: new DefaultSetting("boolean", true),
 				ocLastAction: new DefaultSetting("boolean", true),
 				clickableBalances: new DefaultSetting("boolean", true),
+				balanceWarning: new DefaultSetting("boolean", true),
 				showFullInfobox: new DefaultSetting("boolean", true),
 				foldableInfobox: new DefaultSetting("boolean", true),
 				numberMembers: new DefaultSetting("boolean", true),

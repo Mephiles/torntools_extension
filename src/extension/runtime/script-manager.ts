@@ -36,6 +36,7 @@ import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
 import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
+import BalanceWarningFeature from "@features/balance-warning/balance-warning.ts";
 import BankInvestmentDueTimeFeature from "@features/bank-investment-due-time/bank-investment-due-time";
 import BankInvestmentInfoFeature from "@features/bank-investment-info/bank-investment-info";
 import BarLinksFeature from "@features/bar-links/bar-links";
@@ -407,6 +408,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionQuickItemsFeature());
 		FEATURE_MANAGER.registerFeature(new FoldFactionInfoboxFeature());
 		FEATURE_MANAGER.registerFeature(new ClickableBalancesFeature());
+		FEATURE_MANAGER.registerFeature(new BalanceWarningFeature());
 		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
 		FEATURE_MANAGER.registerFeature(new CSVChallengeContributionsFeature());
 		FEATURE_MANAGER.registerFeature(new MemberRankFeature());

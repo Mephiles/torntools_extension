@@ -94,6 +94,7 @@
 
 		<PreferenceSettingGroup title="Banking">
 			<StorageSwitch path="settings.pages.faction.clickableBalances" label="Clickable balances" />
+			<StorageSwitch path="settings.pages.faction.balanceWarning" label="Balance warning" />
 		</PreferenceSettingGroup>
 
 		<PreferenceSettingGroup title="CSV">
