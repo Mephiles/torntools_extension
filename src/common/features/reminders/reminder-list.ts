@@ -25,6 +25,13 @@ export const REMINDERS: Reminder[] = [
 		finished: () => userdata.refills.nerve,
 	},
 	{
+		name: "Casino Refill",
+		group: "refills",
+		url: LINKS.points,
+		enabled: () => settings.apiUsage.user.refills && settings.scripts.reminders.types.casinoRefill,
+		finished: () => userdata.refills.token,
+	},
+	{
 		name: "Medical Cooldown",
 		group: "cooldowns",
 		url: LINKS.items_medical,

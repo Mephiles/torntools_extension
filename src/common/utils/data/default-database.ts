@@ -513,6 +513,7 @@ export const DEFAULT_STORAGE = {
 				types: {
 					energyRefill: new DefaultSetting("boolean", true),
 					nerveRefill: new DefaultSetting("boolean", true),
+					casinoRefill: new DefaultSetting("boolean", false),
 					medicalCooldown: new DefaultSetting("boolean", true),
 					boosterCooldown: new DefaultSetting("boolean", true),
 					drugCooldown: new DefaultSetting("boolean", true),

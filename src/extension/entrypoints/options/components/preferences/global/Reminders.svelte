@@ -13,6 +13,7 @@
 		<PreferenceSettingGroup description="What reminders should be included in the list?">
 			<StorageSwitch path="settings.scripts.reminders.types.energyRefill" label="Energy Refill" />
 			<StorageSwitch path="settings.scripts.reminders.types.nerveRefill" label="Nerve Refill" />
+			<StorageSwitch path="settings.scripts.reminders.types.casinoRefill" label="Casino Refill" />
 			<StorageSwitch path="settings.scripts.reminders.types.medicalCooldown" label="Medical Cooldown" />
 			<StorageSwitch path="settings.scripts.reminders.types.boosterCooldown" label="Booster Cooldown" />
 			<StorageSwitch path="settings.scripts.reminders.types.drugCooldown" label="Drug Cooldown" />

@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Reminder for using your casino refill (disabled by default).", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" },
 				{ "message": "After the fly-out sidebar changes 'Hide Gym Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },

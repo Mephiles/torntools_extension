@@ -154,6 +154,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.scripts.reminders.finished", label: "Include reminders with finished tasks", group: "global", section: "sidebar" },
 	{ path: "settings.scripts.reminders.types.energyRefill", label: "Reminders: Energy Refill", group: "global", section: "sidebar" },
 	{ path: "settings.scripts.reminders.types.nerveRefill", label: "Reminders: Nerve Refill", group: "global", section: "sidebar" },
+	{ path: "settings.scripts.reminders.types.casinoRefill", label: "Reminders: Casino Refill", group: "global", section: "sidebar" },
 	{ path: "settings.scripts.reminders.types.medicalCooldown", label: "Reminders: Medical Cooldown", group: "global", section: "sidebar" },
 	{ path: "settings.scripts.reminders.types.boosterCooldown", label: "Reminders: Booster Cooldown", group: "global", section: "sidebar" },
 	{ path: "settings.scripts.reminders.types.drugCooldown", label: "Reminders: Drug Cooldown", group: "global", section: "sidebar" },
