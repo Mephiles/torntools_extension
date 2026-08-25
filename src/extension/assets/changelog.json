@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Reminder for using your casino refill (disabled by default).", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Reminder for using your casino refill (disabled by default).", "contributor": "DeKleineKobini" },
+				{ "message": "Make faction balances clickable when on the give money page, even for out of faction balances.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" },
 				{ "message": "After the fly-out sidebar changes 'Hide Gym Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
@@ -20,7 +23,12 @@
 				{ "message": "Allow spaces before search terms in the stocks filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Change the url for requesting revives from Laekna.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
+			"removed": [
+				{
+					"message": "Remove the 'Faction Banker' feature, as it was broken for a while already. New features are meant to replace this as well.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"technical": [{ "message": "Migrate to the V2 version of torn/bank.", "contributor": "DeKleineKobini" }]
 		}
 	},

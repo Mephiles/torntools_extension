@@ -408,7 +408,7 @@ export const DEFAULT_STORAGE = {
 				ocNnb: new DefaultSetting("boolean", true),
 				ocTimes: new DefaultSetting("boolean", true),
 				ocLastAction: new DefaultSetting("boolean", true),
-				banker: new DefaultSetting("boolean", true),
+				clickableBalances: new DefaultSetting("boolean", true),
 				showFullInfobox: new DefaultSetting("boolean", true),
 				foldableInfobox: new DefaultSetting("boolean", true),
 				numberMembers: new DefaultSetting("boolean", true),

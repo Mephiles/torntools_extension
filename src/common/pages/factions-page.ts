@@ -22,8 +22,6 @@ export async function setupFactionsPage() {
 
 				if (step === "crimes") {
 					loadCrimes().catch((err) => console.warn(err));
-				} else if (step === "getMoneyDepositors") {
-					triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
 				} else if (step === "upgradeConfirm") {
 					if (document.querySelector<HTMLElement>(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
 					triggerCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO);
@@ -41,6 +39,10 @@ export async function setupFactionsPage() {
 					loadMain().catch((err) => console.warn(err));
 				} else if (sid === "factionsControlMembers") {
 					loadArmory().catch((err) => console.warn(err));
+				} else if (sid === "factionsGiveToUserInitData") {
+					requireElement("#faction-give-to-user-root [class*='money___']").then(() => {
+						triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE);
+					});
 				}
 			}
 		});
@@ -166,7 +168,9 @@ export async function setupFactionsPage() {
 
 			function checkGiveToUser() {
 				if (document.querySelector(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
-					triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
+					requireElement("#faction-give-to-user-root [class*='money___']").then(() => {
+						triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE);
+					});
 				}
 			}
 		}

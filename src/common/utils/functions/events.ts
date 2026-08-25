@@ -21,7 +21,7 @@ export enum EVENT_CHANNELS {
 	FACTION_CRIMES2 = "faction-crimes2",
 	FACTION_CRIMES2_TAB = "faction-crimes2-tab",
 	FACTION_CRIMES2_REFRESH = "faction-crimes2-refresh",
-	FACTION_GIVE_TO_USER = "faction-give-to-user",
+	FACTION_GIVE_TO_USER_PAGE = "faction-give-to-user-page",
 	FACTION_UPGRADE_INFO = "faction-upgrade-info",
 	FACTION_INFO = "faction-info",
 	FACTION_MAIN = "faction-main",
@@ -95,7 +95,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.FACTION_CRIMES]: never;
 	[EVENT_CHANNELS.FACTION_CRIMES2]: never;
 	[EVENT_CHANNELS.FACTION_CRIMES2_REFRESH]: never;
-	[EVENT_CHANNELS.FACTION_GIVE_TO_USER]: never;
+	[EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE]: never;
 	[EVENT_CHANNELS.FACTION_UPGRADE_INFO]: never;
 	[EVENT_CHANNELS.FACTION_INFO]: never;
 	[EVENT_CHANNELS.FACTION_MAIN]: never;

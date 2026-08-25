@@ -51,7 +51,6 @@
 	<PreferenceSectionCard title="Faction">
 		<PreferenceSettingGroup>
 			<StorageSwitch path="settings.pages.faction.idBesideFactionName" label="Reformat faction names as 'FACTIONNAME [ID]'" />
-			<StorageSwitch path="settings.pages.faction.banker" label="Show banker options" />
 			<StorageSwitch path="settings.pages.faction.showFullInfobox" label="Show the option to show the description without scroll bar" />
 			<StorageSwitch path="settings.pages.faction.foldableInfobox" label="Make infobox foldable" />
 			<StorageSwitch path="settings.pages.faction.numberMembers" label="Add numbers to every member of faction" />
@@ -91,6 +90,10 @@
 			<StorageSwitch path="settings.pages.faction.totalChallengeContributions" label="Show total challenge contributions" />
 			<StorageSwitch path="settings.pages.faction.warReportHighlight" label="Highlight yourself in war reports" />
 			<StorageSwitch path="settings.pages.faction.rankedWarValue" label="Show the total rewards for ranked wars" />
+		</PreferenceSettingGroup>
+
+		<PreferenceSettingGroup title="Banking">
+			<StorageSwitch path="settings.pages.faction.clickableBalances" label="Clickable balances" />
 		</PreferenceSettingGroup>
 
 		<PreferenceSettingGroup title="CSV">

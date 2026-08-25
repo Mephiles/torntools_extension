@@ -426,7 +426,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 
 	// Section: faction
 	{ path: "settings.pages.faction.idBesideFactionName", label: "Reformat faction names as FACTIONNAME [ID]", group: "qol", section: "faction" },
-	{ path: "settings.pages.faction.banker", label: "Show banker options", group: "qol", section: "faction" },
+	{ path: "settings.pages.faction.clickableBalances", label: "Clickable balances", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.showFullInfobox", label: "Show full faction description without scroll bar", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.foldableInfobox", label: "Make faction infobox foldable", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.numberMembers", label: "Add numbers to every member of faction", group: "qol", section: "faction" },

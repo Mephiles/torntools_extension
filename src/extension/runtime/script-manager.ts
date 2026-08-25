@@ -54,6 +54,7 @@ import ChatFontSizeFeature from "@features/chat-font-size/chat-font-size";
 import ChatHighlightFeature from "@features/chat-highlight/chat-highlight";
 import CityItemsFeature from "@features/city-items/city-items";
 import CleanFlightFeature from "@features/clean-flight/clean-flight";
+import ClickableBalancesFeature from "@features/clickable-balances/clickable-balances";
 import CollapsibleAreasFeature from "@features/collapsible-areas/collapsible-areas";
 import ColoredChatFeature from "@features/colored-chat/colored-chat";
 import CompanyAddictionFeature from "@features/company-addiction/company-addiction";
@@ -84,7 +85,6 @@ import EmployeeInactivityWarningFeature from "@features/employee-inactivity-warn
 import EnemyFilterFeature from "@features/enemy-filter/enemy-filter";
 import EnergyWarningFeature from "@features/energy-warning/energy-warning";
 import EventWorthFeature from "@features/event-worth/event-worth";
-import FactionBankerFeature from "@features/faction-banker/faction-banker";
 import FactionIDFeature from "@features/faction-id/faction-id";
 import FactionMemberFilterFeature from "@features/faction-member-filter/faction-member-filter";
 import FactionOCTimeFeature from "@features/faction-oc-time/faction-oc-time";
@@ -406,7 +406,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionStakeoutsFeature());
 		FEATURE_MANAGER.registerFeature(new FactionQuickItemsFeature());
 		FEATURE_MANAGER.registerFeature(new FoldFactionInfoboxFeature());
-		FEATURE_MANAGER.registerFeature(new FactionBankerFeature());
+		FEATURE_MANAGER.registerFeature(new ClickableBalancesFeature());
 		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
 		FEATURE_MANAGER.registerFeature(new CSVChallengeContributionsFeature());
 		FEATURE_MANAGER.registerFeature(new MemberRankFeature());
