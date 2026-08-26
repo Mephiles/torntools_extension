@@ -13,6 +13,7 @@ import {
 	SELECTOR_CHAT_V3__MESSAGE,
 	SELECTOR_CHAT_V3__MESSAGE_SELF,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
+	SELECTOR_CHAT_V3__VARIOUS_ROOT,
 } from "@common/utils/global/selectors/chatSelectors";
 import { Feature } from "@features/feature";
 
@@ -147,10 +148,10 @@ function applyV3Highlights(message: HTMLElement) {
 	if (senderElement) {
 		sender = senderElement.textContent.replace(":", "");
 	} else {
-		const hasBox = message.querySelector("[class*='box___']");
-		if (hasBox && message.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
+		const root = message.closest(SELECTOR_CHAT_V3__VARIOUS_ROOT);
+		if (root?.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
 			sender = getUserDetails().name;
-		} else if (hasBox && !message.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
+		} else if (root && !root.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
 			const chatItem = message.closest("[class*='item___']");
 			const title = chatItem.querySelector("[class*='title___']");
 			sender = title.textContent;

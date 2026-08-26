@@ -21,7 +21,8 @@
 				{ "message": "After the fly-out sidebar changes 'Hide Gym Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
 				{ "message": "After the fly-out sidebar changes 'Hide Newspaper Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly calculate the HRG ROI for the stocks popup.", "contributor": "DeKleineKobini" },
-				{ "message": "Prevent the cache from filling up the limited storage.", "contributor": "DeKleineKobini" }
+				{ "message": "Prevent the cache from filling up the limited storage.", "contributor": "DeKleineKobini" },
+				{ "message": "'Chat Highlight' no longer worked for yourself in chat 3.0 in private chats.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
