@@ -17,6 +17,7 @@
 			],
 			"fixes": [
 				{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" },
+				{ "message": "No longer throw errors in 'Drug Details' when the item info panel is closed while it updates.", "contributor": "SAY-5" },
 				{ "message": "After the fly-out sidebar changes 'Hide Gym Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
 				{ "message": "After the fly-out sidebar changes 'Hide Newspaper Highlight' no longer worked properly.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly calculate the HRG ROI for the stocks popup.", "contributor": "DeKleineKobini" },
