@@ -377,7 +377,7 @@ export const TEAM: TeamMember[] = [
 		title: "Developer",
 		core: false,
 		torn: null,
-		color: "#c47f2f",
+		color: "#0d9488",
 	},
 ];
 
