@@ -1,4 +1,4 @@
-import { loadDatabaseStores } from "@extension/entrypoints/options/stores/database-store.svelte";
+import { loadDatabase } from "@common/utils/data/database.ts";
 import { toast } from "svelte-sonner";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
@@ -18,7 +18,7 @@ export async function runMaintenanceAction(action: MaintenanceAction) {
 			if (result.success === false) {
 				toast.error("message" in result ? result.message : getActionError(result.error, `Failed to fetch ${action}.`));
 			} else {
-				await loadDatabaseStores();
+				await loadDatabase(true);
 				toast.success(`Fetched ${action}.`);
 			}
 		}

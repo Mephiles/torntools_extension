@@ -21,14 +21,9 @@ export const factiondataStore = writable<DatabaseFactiondata>();
 export const npcsStore = writable<DatabaseNpcs>();
 
 export function initializeDatabaseStore() {
-	if (storesInitialized) {
-		return;
-	}
+	if (storesInitialized) return;
 
-	void initializeDatabase();
-	loadDatabaseStores().then(() => {
-		storesInitialized = true;
-	});
+	loadDatabaseStores().then(() => (storesInitialized = true));
 
 	storageListeners.settings.push((_oldSettings, newSettings) => settingsStore.set(newSettings));
 	storageListeners.api.push((_oldApi, newApi) => apiStore.set(newApi));
@@ -39,7 +34,9 @@ export function initializeDatabaseStore() {
 	storageListeners.npcs.push((_oldNpcs, newNpcs) => npcsStore.set(newNpcs));
 }
 
-export async function loadDatabaseStores() {
+async function loadDatabaseStores() {
+	await initializeDatabase();
+
 	const [settings, api, userdata, torndata, stockdata, factiondata, npcs] = await ttStorage.get([
 		"settings",
 		"api",

@@ -1,9 +1,8 @@
 import { ttStorage } from "@common/utils/context";
-import { userdata } from "@common/utils/data/database";
+import { loadDatabase, userdata } from "@common/utils/data/database";
 import type { Database } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { isNumber } from "@common/utils/functions/utilities";
-import { loadDatabaseStores } from "@extension/entrypoints/options/stores/database-store.svelte";
 import { browser } from "wxt/browser";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
@@ -91,7 +90,7 @@ export async function importExportData(data: ExportData) {
 		await BACKGROUND_SERVICE.initialize();
 	}
 
-	await loadDatabaseStores();
+	await loadDatabase(true);
 }
 
 export function parseImportText(text: string): ExportData {

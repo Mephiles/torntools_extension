@@ -10,14 +10,9 @@ export const stakeoutsStore = writable<DatabaseStakeouts>();
 export const factionStakeoutsStore = writable<DatabaseFactionStakeouts>();
 
 export async function initializeDatabaseStore() {
-	if (storesInitialized) {
-		return;
-	}
+	if (storesInitialized) return;
 
-	await initializeDatabase();
-	loadDatabaseStores().then(() => {
-		storesInitialized = true;
-	});
+	loadDatabaseStores().then(() => (storesInitialized = true));
 
 	storageListeners.settings.push((_oldData, newData) => {
 		settingsStore.set(newData);
@@ -33,7 +28,9 @@ export async function initializeDatabaseStore() {
 	});
 }
 
-export async function loadDatabaseStores() {
+async function loadDatabaseStores() {
+	await initializeDatabase();
+
 	const [settings, attackHistory, stakeouts, factionStakeouts] = await ttStorage.get(["settings", "attackHistory", "stakeouts", "factionStakeouts"] as const);
 
 	settingsStore.set(settings);
