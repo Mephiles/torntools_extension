@@ -16,7 +16,7 @@ function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, () => {
 		if (!FEATURE_MANAGER.isEnabled(BazaarMarketFeature)) return;
 
-		dispose();
+		removeExistingBox();
 	});
 }
 
@@ -32,31 +32,45 @@ async function startFeature() {
 
 let bazaarMarketBox: unknown;
 let pendingItemId: number;
+let latestRequest = 0;
 
-async function displayBazaars(itemId: number) {
+async function displayBazaars(itemId: number, retry = 0) {
 	const item = ITEM_RESOLVER.getStaticItem(itemId);
 	if (!item) return;
 
 	pendingItemId = itemId;
+	const request = ++latestRequest;
 
-	const nextElement = await requireElement("[class*='sellerList___']");
+	const anchor = await requireElement("[class*='sellerList___']");
 
-	if (pendingItemId !== itemId) return;
+	if (request !== latestRequest || pendingItemId !== itemId) {
+		return;
+	}
 
-	if (bazaarMarketBox) await unmount(bazaarMarketBox);
-
+	removeExistingBox();
 	bazaarMarketBox = mount(BazaarMarketBox, {
-		target: nextElement.parentElement!,
-		anchor: nextElement,
+		target: anchor.parentElement!,
+		anchor,
 		props: { item },
 	});
+
+	// For some reason the element sometimes gets disconnected immediately, without even triggering a MutationObserver.
+	if (retry < 3) {
+		const marketBox = anchor.previousElementSibling;
+		setTimeout(() => {
+			if (marketBox.isConnected || !anchor.isConnected || request !== latestRequest || pendingItemId !== itemId) return;
+
+			void displayBazaars(itemId, retry++);
+		});
+	}
+}
+
+function removeExistingBox() {
+	if (bazaarMarketBox) void unmount(bazaarMarketBox);
 }
 
 function dispose() {
-	if (bazaarMarketBox) {
-		void unmount(bazaarMarketBox);
-		bazaarMarketBox = undefined;
-	}
+	removeExistingBox();
 	pendingItemId = undefined;
 }
 
