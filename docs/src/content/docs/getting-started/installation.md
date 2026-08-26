@@ -17,6 +17,10 @@ TornTools is available on all major browser extension stores.
 
 Many features require a Torn API key. To set one up:
 
-1. Go to [Torn API page](https://www.torn.com/api.html)
+1. Go to [Torn Settings](https://www.torn.com/preferences.php#tab=api)
 2. Generate an API key with limited access 
-3. Paste the key into TornTools
+3. Open our popup
+   * You can find our popup in the top right of your browser.
+   * It will be shown as a TT icon, if you haven't provided an api key yet.  
+     Otherwise, it might show a white background with some bars on it representing your energy, nerve and other resources and timers. 
+4. Paste the key
