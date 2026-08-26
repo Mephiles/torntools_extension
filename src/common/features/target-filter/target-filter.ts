@@ -32,7 +32,7 @@ async function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(TargetFilterFeature)) return;
 
-		await filter?.runScoped({ sections: ["ffScouter"] });
+		await filter?.runScoped({ sections: ["ffScore"] });
 	});
 
 	listObserver = new MutationObserver((mutations) => {

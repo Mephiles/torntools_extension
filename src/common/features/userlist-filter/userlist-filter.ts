@@ -21,10 +21,10 @@ function initialiseListeners() {
 
 		void filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
 	});
-	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => {
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
 
-		void filter?.runScoped({ sections: ["ffScouter"] });
+		await filter?.runScoped({ sections: ["ffScore"] });
 	});
 }
 

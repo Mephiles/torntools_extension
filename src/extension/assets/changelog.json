@@ -27,7 +27,8 @@
 					"message": "Always wait on the database to be loaded before rendering internal pages, avoiding things like the popup dashboard not always loading",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Avoid the 'Bazaar Market' showing up twice", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid the 'Bazaar Market' showing up twice", "contributor": "DeKleineKobini" },
+				{ "message": "Trigger the correct filter section when the ff scouter gauge loads.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

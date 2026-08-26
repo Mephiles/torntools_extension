@@ -28,7 +28,7 @@ function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(AbroadPeopleFilterFeature)) return;
 
-		await filter?.runScoped({ sections: ["ffScouter"] });
+		await filter?.runScoped({ sections: ["ffScore"] });
 	});
 }
 

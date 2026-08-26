@@ -59,10 +59,10 @@ function initialiseListeners() {
 
 		void filter?.run();
 	});
-	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => {
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
 
-		void filter?.runScoped({ sections: ["ffScouter"] });
+		await filter?.runScoped({ sections: ["ffScore"] });
 	});
 }
 
