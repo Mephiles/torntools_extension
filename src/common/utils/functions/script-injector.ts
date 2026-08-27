@@ -61,16 +61,24 @@ export function injectFetchListeners() {
 						json = await response.clone().json();
 					} catch {}
 
-					let body: Record<string, any> | null = null;
-					if (init && typeof init.body === "object" && init.body?.constructor?.name === "FormData") {
-						const newBody: { [key: string]: any } = {};
+					let body: any = null;
+					if (init) {
+						if (typeof init.body === "string" && isJsonString(init.body)) {
+							try {
+								body = JSON.parse(init.body);
+							} catch {}
+						} else if (typeof init?.body === "object" && init.body?.constructor?.name === "FormData") {
+							const newBody: { [key: string]: any } = {};
 
-						for (const [key, value] of init.body as any) {
-							if (isIntNumber(value)) newBody[key] = parseFloat(value);
-							else newBody[key] = value;
+							for (const [key, value] of init.body as any) {
+								if (isIntNumber(value)) newBody[key] = parseFloat(value);
+								else newBody[key] = value;
+							}
+
+							body = newBody;
+						} else {
+							body = init.body;
 						}
-
-						body = newBody;
 					}
 
 					const url = response.url || (input as string);
@@ -154,7 +162,7 @@ export function injectXhrListeners() {
 
 		return oldXHROpen.apply(this, arguments as any);
 	};
-	window.XMLHttpRequest.prototype.send = function (body) {
+	window.XMLHttpRequest.prototype.send = function (body: any) {
 		this["params"] = this["params"] ?? {};
 		if ("xhrSendAdjustments" in window && typeof window.xhrSendAdjustments === "object") {
 			for (const key in window.xhrSendAdjustments) {

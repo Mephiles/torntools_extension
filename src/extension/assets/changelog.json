@@ -29,7 +29,8 @@
 				},
 				{ "message": "Avoid the 'Bazaar Market' showing up twice", "contributor": "DeKleineKobini" },
 				{ "message": "Trigger the correct filter section when the ff scouter gauge loads.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix 'Display Case Worth' not showing due to the worth message attaching to the wrong element.", "contributor": "Jubaka" }
+				{ "message": "Fix 'Display Case Worth' not showing due to the worth message attaching to the wrong element.", "contributor": "Jubaka" },
+				{ "message": "'Average Personal Stat' no longer showed up.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

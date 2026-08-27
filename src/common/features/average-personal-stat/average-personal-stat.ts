@@ -11,7 +11,8 @@ function init() {
 			fetch: { body },
 		} = event.detail;
 		if (page !== "personalstats") return;
-		if (body.includes("getGraphData")) {
+
+		if (body?.step === "getGraphData") {
 			calculateStatsAverage(json);
 		}
 	});
