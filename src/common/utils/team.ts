@@ -383,7 +383,7 @@ export const TEAM: TeamMember[] = [
 		name: "Jubaka",
 		title: "Developer",
 		core: false,
-		torn: null,
+		torn: 2933938,
 		color: "#7775cf",
 	},
 ];
