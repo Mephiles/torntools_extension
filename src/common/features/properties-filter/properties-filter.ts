@@ -1,6 +1,7 @@
 import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
+import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilter, multiSelectSection, radioSection, sliderSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
@@ -14,14 +15,12 @@ function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(PropertiesFilterFeature)) return;
 
-		filter?.reattach({ previousElement: document.querySelector(".properties-tabs")! });
-		await filter?.run();
+		await reattachFilter();
 	});
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(PropertiesFilterFeature)) return;
 
-		filter?.reattach({ previousElement: document.querySelector(".properties-tabs")! });
-		await filter?.run();
+		await reattachFilter();
 	});
 }
 
@@ -130,6 +129,16 @@ async function addFilterContainer() {
 	});
 }
 
+async function reattachFilter() {
+	if (!filter) {
+		await addFilterContainer();
+		return;
+	}
+
+	filter.reattach({ previousElement: document.querySelector(".properties-tabs")! });
+	await filter.run();
+}
+
 export default class PropertiesFilterFeature extends Feature {
 	constructor() {
 		super("Properties Filter", "properties");
@@ -148,6 +157,9 @@ export default class PropertiesFilterFeature extends Feature {
 	}
 
 	async execute() {
+		const p = getHashParameters().get("p");
+		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
+
 		await addFilterContainer();
 	}
 

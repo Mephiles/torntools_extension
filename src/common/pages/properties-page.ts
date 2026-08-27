@@ -29,7 +29,9 @@ export function setupPropertiesPage() {
 
 			const pagination = getPaginationPage(newRoute.page);
 			if (pagination !== null) {
-				await requireElement(`.page-number.active[page='${pagination}']`);
+				if (document.querySelector(".page-number.active")) {
+					await requireElement(`.page-number.active[page='${pagination}']`);
+				}
 				await requireElement(".properties-list > li");
 			}
 
