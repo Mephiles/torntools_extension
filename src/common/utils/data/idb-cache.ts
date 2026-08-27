@@ -116,6 +116,6 @@ export async function removeCacheEntries(section?: string): Promise<void> {
 	if (section === undefined) {
 		await withStore("readwrite", (store) => store.clear());
 	} else {
-		await withStore("readwrite", (store) => store.delete(IDBKeyRange.bound([section, ""], [section, "\uffff"])));
+		await withStore("readwrite", (store) => store.delete(IDBKeyRange.bound([section], [section, []])));
 	}
 }
