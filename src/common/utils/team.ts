@@ -379,6 +379,13 @@ export const TEAM: TeamMember[] = [
 		torn: null,
 		color: "#0d9488",
 	},
+	{
+		name: "Jubaka",
+		title: "Developer",
+		core: false,
+		torn: 2933938,
+		color: "#7775cf",
+	},
 ];
 
 interface Contributor {

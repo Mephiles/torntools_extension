@@ -37,7 +37,7 @@ async function addWorth() {
 			legacySelections: ["display"],
 		});
 	} catch (error) {
-		await displayError(!!userId, error);
+		await displayError(!userId, error);
 		console.log("TT - Display Cabinet Worth API Error:", error);
 		return;
 	}
@@ -81,7 +81,7 @@ async function displayError(isOwn: boolean, error: any) {
 
 async function displayElement(isOwn: boolean, element: Element) {
 	if (isOwn) {
-		(await requireElement(`.${styles.displayWorth}`)).insertAdjacentElement("beforebegin", element);
+		(await requireElement(".display-cabinet")).insertAdjacentElement("beforebegin", element);
 	} else {
 		await requireElement(".info-msg-cont .ajax-preloader", { invert: true });
 
