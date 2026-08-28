@@ -29,6 +29,7 @@ export enum EVENT_CHANNELS {
 	FACTION_NATIVE_SORT = "faction-sort_native",
 	FACTION_NATIVE_ICON_UPDATE = "faction-icon_update_native",
 	FF_SCOUTER_GAUGE = "ff-scouter-gauge",
+	FF_SCOUTER_FACTION_LIST = "ff-scouter-faction-list",
 	ITEM_AMOUNT = "item-amount",
 	ITEM_EQUIPPED = "item-equipped",
 	ITEM_ITEMS_LOADED = "item-items-loaded",
@@ -102,6 +103,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.FACTION_NATIVE_SORT]: never;
 	[EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE]: never;
 	[EVENT_CHANNELS.FF_SCOUTER_GAUGE]: never;
+	[EVENT_CHANNELS.FF_SCOUTER_FACTION_LIST]: never;
 	[EVENT_CHANNELS.ITEM_AMOUNT]: { item: number; amount: number; reason: string; loaned?: boolean };
 	[EVENT_CHANNELS.ITEM_EQUIPPED]: { equip: boolean; item: number };
 	[EVENT_CHANNELS.ITEM_ITEMS_LOADED]: { tab: HTMLElement; initial: boolean };

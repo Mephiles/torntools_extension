@@ -3,12 +3,12 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
-import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import { contrastFFColor, ffColor, scouterService } from "@features/ff-scouter/ff-scouter";
 import type { ScouterResult, ScouterService } from "@features/ff-scouter/ff-scouter";
+import { contrastFFColor, ffColor, scouterService } from "@features/ff-scouter/ff-scouter";
 
 let SCOUTER_SERVICE: ScouterService;
 
@@ -95,6 +95,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 			}),
 		);
 	});
+	triggerCustomListener(EVENT_CHANNELS.FF_SCOUTER_FACTION_LIST);
 }
 
 function removeFF() {

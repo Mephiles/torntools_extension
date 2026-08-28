@@ -699,11 +699,15 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 				};
 			},
 			test: (row, { min, max }) => {
-				const gauge = row.querySelector<HTMLElement>(".tt-ff-scouter-indicator.indicator-lines");
-				if (!gauge) return true;
+				let ff: number;
 
-				const ff = parseFloat(gauge.getAttribute("data-ff-scout")!);
-				if (Number.isNaN(ff)) return true;
+				if (row.dataset.ffScout) ff = parseFloat(row.dataset.ffScout);
+				else {
+					const gauge = row.querySelector<HTMLElement>(".tt-ff-scouter-indicator.indicator-lines");
+					if (gauge) ff = parseFloat(gauge.getAttribute("data-ff-scout")!);
+				}
+
+				if (Number.isNaN(ff) || ff < 0) return true;
 
 				if (max && !Number.isNaN(max) && ff > max) return false;
 				if (min && !Number.isNaN(min) && ff < min) return false;

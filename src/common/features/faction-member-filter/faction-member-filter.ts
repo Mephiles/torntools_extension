@@ -64,6 +64,11 @@ function initialiseListeners() {
 
 		await filter?.runScoped({ sections: ["ffScore"] });
 	});
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_FACTION_LIST, async () => {
+		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
+
+		await filter?.runScoped({ sections: ["ffScore"] });
+	});
 }
 
 type FactionMemberFilterState = {
@@ -182,7 +187,7 @@ async function addFilterContainer() {
 
 		presetSection({
 			preset: "ff-score",
-			enabled: () => settings.scripts.ffScouter.gauge && settings.external.ffScouter && hasAPIData(),
+			enabled: () => (settings.scripts.ffScouter.gauge || settings.scripts.ffScouter.factionList) && settings.external.ffScouter && hasAPIData(),
 			defaults: { min: filters.faction.ffScoreMin, max: filters.faction.ffScoreMax },
 		}),
 
@@ -209,28 +214,25 @@ async function addFilterContainer() {
 				return true;
 			},
 		}),
+
+		checkboxesSection({
+			key: "revivable",
+			title: "Revivable",
+			enabled: isRevivableEnabled,
+			items: [{ id: "only-revivable", description: "Only Revivable" }],
+			defaults: filters.faction.revivable,
+			test: (row, status) => {
+				if (!status.length) return true;
+
+				const revivableString = row.dataset.revivable;
+				if (!revivableString) return true; // If we don't know the status, don't hold it into account.
+
+				const revivable = revivableString === "true";
+
+				return !status.includes("only-revivable") || revivable;
+			},
+		}),
 	];
-
-	if (isRevivableEnabled()) {
-		sections.push(
-			checkboxesSection({
-				key: "revivable",
-				title: "Revivable",
-				items: [{ id: "only-revivable", description: "Only Revivable" }],
-				defaults: filters.faction.revivable,
-				test: (row, status) => {
-					if (!status.length) return true;
-
-					const revivableString = row.dataset.revivable;
-					if (!revivableString) return true; // If we don't know the status, don't hold it into account.
-
-					const revivable = revivableString === "true";
-
-					return !status.includes("only-revivable") || revivable;
-				},
-			}),
-		);
-	}
 
 	filter = createFilter<FactionMemberFilterState>({
 		rowSelector: ".members-list .table-body > li",
