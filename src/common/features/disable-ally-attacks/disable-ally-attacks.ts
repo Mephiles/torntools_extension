@@ -42,7 +42,7 @@ async function disableAttackButton() {
 		})
 	) {
 		const attackButton = document.querySelector(".profile-buttons .profile-button-attack");
-		if (attackButton.classList.contains("cross")) return;
+		if (!attackButton || attackButton.classList.contains("cross")) return;
 
 		const crossSvgNode = crossSvg();
 		crossSvgNode.classList.add("tt-disable-ally");
