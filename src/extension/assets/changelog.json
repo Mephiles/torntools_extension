@@ -41,7 +41,8 @@
 					"message": "Resolve the 'Property Values' and 'Property Happiness' features not appearing on the your and spouse properties tab.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Avoid an error with 'Disable Ally Attacks' when visiting your own profile.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error with 'Disable Ally Attacks' when visiting your own profile.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve a visual issue on profiles caused by 'TT Creators' and 'FF Profile'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

@@ -12,7 +12,7 @@ function buildProfileTitleBar() {
 		const title = document.querySelector(".content-title");
 		title.insertAdjacentElement("afterend", element);
 
-		element.insertAdjacentElement("afterend", elementBuilder({ type: "hr" }));
+		element.insertAdjacentElement("afterend", elementBuilder({ type: "hr", class: "page-head-delimiter" }));
 	}
 
 	return element;
