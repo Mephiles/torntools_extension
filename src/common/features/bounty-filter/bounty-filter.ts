@@ -3,7 +3,7 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
-import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createStatistics } from "@common/utils/functions/filters";
 import type { StatisticsResult } from "@common/utils/functions/filters";
@@ -133,6 +133,9 @@ export default class BountyFilterFeature extends Feature {
 	}
 
 	async execute() {
+		const params = getHashParameters();
+		if (params.has("p") && params.get("p") !== "main") return;
+
 		await addFilter();
 	}
 
