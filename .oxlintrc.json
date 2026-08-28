@@ -68,6 +68,7 @@
 		"typescript/prefer-includes": "warn",
 		"typescript/prefer-optional-chain": "warn",
 		"typescript/restrict-template-expressions": "off",
+		"typescript/triple-slash-reference": "off",
 		"typescript/unbound-method": "off",
 		"unicorn/consistent-function-scoping": "off",
 		"unicorn/new-for-builtins": "error",
