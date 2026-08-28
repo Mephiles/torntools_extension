@@ -42,7 +42,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Avoid an error with 'Disable Ally Attacks' when visiting your own profile.", "contributor": "DeKleineKobini" },
-				{ "message": "Resolve a visual issue on profiles caused by 'TT Creators' and 'FF Profile'.", "contributor": "DeKleineKobini" }
+				{ "message": "Resolve a visual issue on profiles caused by 'TT Creators' and 'FF Profile'.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'OC Available Players' showing up in OC2 in some cases.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

@@ -36,7 +36,7 @@ function showAvailable() {
 	}
 
 	async function displayAvailable(amount: number) {
-		if (document.querySelector("[class*='manualSpawnerContainer___']")) return;
+		if (document.querySelector("[class*='buttonsContainer___']")) return;
 
 		const crimes = document.querySelector("#faction-crimes");
 
