@@ -31,9 +31,16 @@
 				{ "message": "Trigger the correct filter section when the ff scouter gauge loads.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix 'Display Case Worth' not showing due to the worth message attaching to the wrong element.", "contributor": "Jubaka" },
 				{ "message": "'Average Personal Stat' no longer showed up.", "contributor": "DeKleineKobini" },
-				{ "message": "Resolve the 'Properties Filter' not showing up when visiting from the options page first.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Resolve the 'Properties Filter', 'Property Values' and 'Property Happiness' features not showing up when visiting from the options page first.",
+					"contributor": "DeKleineKobini"
+				},
 				{ "message": "Resolve the 'Properties Filter' not showing up on tabs without pagination.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error with 'Bounty Filter' when loading the page to add bounties.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error with 'Bounty Filter' when loading the page to add bounties.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Resolve the 'Property Values' and 'Property Happiness' features not appearing on the your and spouse properties tab.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{

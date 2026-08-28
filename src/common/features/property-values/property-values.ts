@@ -1,31 +1,32 @@
+import type { PropertiesPage } from "@common/pages/properties-page.ts";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-let observer: MutationObserver;
+const SUPPORTED_ROUTES: PropertiesPage[] = ["all-properties", "spouse-properties", "your-properties"];
 
-function initialiseListener() {
-	observer = new MutationObserver(async () => {
-		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature)) return;
-
-		const params = getHashParameters();
-		if (params.has("p") && params.get("p") !== "properties") return;
+function initialiseListeners() {
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route }) => {
+		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
 
 		await addPropertyValues();
 	});
-	observer.observe(document.querySelector("#properties-page-wrap"), { childList: true });
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route }) => {
+		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
+
+		await addPropertyValues();
+	});
 }
 
 async function addPropertyValues() {
 	await requireElement("#properties-page-wrap .properties-list .title");
 
-	for (const property of findAllElements(".properties-list > *:not(.clear)")) {
-		if (property.querySelector(".tt-property-value")) continue;
-
+	for (const property of findAllElements(".properties-list > *:not(.clear):not(:has(.tt-property-value))")) {
 		const info = property.querySelector(".info > li:nth-child(2)");
 		if (!info) continue;
 
@@ -58,19 +59,18 @@ export default class PropertyValuesFeature extends Feature {
 	}
 
 	initialise() {
-		initialiseListener();
+		initialiseListeners();
 	}
 
 	async execute() {
-		const params = getHashParameters();
-		if (params.has("p") && params.get("p") !== "properties") return;
+		const p = getHashParameters().get("p");
+		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
 
 		await addPropertyValues();
 	}
 
 	cleanup() {
 		removeValues();
-		if (observer) observer.disconnect();
 	}
 
 	storageKeys() {

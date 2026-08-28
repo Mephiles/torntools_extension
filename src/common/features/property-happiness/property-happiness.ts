@@ -1,32 +1,33 @@
 import "./property-happiness.css";
+import type { PropertiesPage } from "@common/pages/properties-page.ts";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-let observer: MutationObserver;
+const SUPPORTED_ROUTES: PropertiesPage[] = ["all-properties", "spouse-properties", "your-properties"];
 
-function initialiseListener() {
-	observer = new MutationObserver(async () => {
-		if (!FEATURE_MANAGER.isEnabled(PropertyHappinessFeature)) return;
-
-		const params = getHashParameters();
-		if (params.has("p") && params.get("p") !== "properties") return;
+function initialiseListeners() {
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route }) => {
+		if (!FEATURE_MANAGER.isEnabled(PropertyHappinessFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
 
 		await addPropertyHappiness();
 	});
-	observer.observe(document.querySelector("#properties-page-wrap"), { childList: true });
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route }) => {
+		if (!FEATURE_MANAGER.isEnabled(PropertyHappinessFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
+
+		await addPropertyHappiness();
+	});
 }
 
 async function addPropertyHappiness() {
 	await requireElement("#properties-page-wrap .properties-list .title");
 
-	for (const property of findAllElements(".properties-list > li:not(.clear)")) {
-		if (property.classList.contains("tt-modified")) return;
-
+	for (const property of findAllElements(".properties-list > li:not(.clear):not(.tt-modified)")) {
 		const propertyID = parseInt(property.querySelector<HTMLElement>(".image-place").dataset.id);
 		const apiProperty = userdata.properties.find((p) => p.id === propertyID);
 
@@ -61,19 +62,18 @@ export default class PropertyHappinessFeature extends Feature {
 	}
 
 	initialise() {
-		initialiseListener();
+		initialiseListeners();
 	}
 
 	async execute() {
-		const params = getHashParameters();
-		if (params.has("p") && params.get("p") !== "properties") return;
+		const p = getHashParameters().get("p");
+		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
 
 		await addPropertyHappiness();
 	}
 
 	cleanup() {
 		removeValues();
-		if (observer) observer.disconnect();
 	}
 
 	storageKeys() {

@@ -44,7 +44,7 @@ export function setupPropertiesPage() {
 	});
 }
 
-type PropertiesPage = "all-properties" | "your-properties" | "spouse-properties" | "options";
+export type PropertiesPage = "all-properties" | "your-properties" | "spouse-properties" | "options";
 
 export interface PropertiesRoute {
 	page: PropertiesPage;
