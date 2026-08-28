@@ -127,6 +127,11 @@ export class DualRangeSlider {
 		this.updateValues();
 	}
 
+	setRange(low: number, high: number) {
+		this.updateValue(this.handles[0], low);
+		this.updateValue(this.handles[1], high);
+	}
+
 	stopMove() {
 		window.removeEventListener("mousemove", this.moveListener);
 		window.removeEventListener("touchmove", this.moveTouchListener);

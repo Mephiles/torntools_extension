@@ -1,6 +1,7 @@
 import { RUNTIME_INFORMATION } from "@common/utils/context";
 import type { DatabaseCache } from "@common/utils/data/cache";
 import type { StoredMigration } from "@common/utils/data/migrations";
+import type { FilterPresetsMap } from "@common/utils/functions/filter-presets.ts";
 import type { SpecialFilterValue } from "@common/utils/functions/filters";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess } from "@extension/entrypoints/background/updates/factiondata";
 import type { FetchedTorndata } from "@extension/entrypoints/background/updates/torndata";
@@ -645,6 +646,7 @@ export const DEFAULT_STORAGE = {
 			exemptions: new DefaultSetting<string[]>("array", []),
 		},
 		containers: new DefaultSetting<{ [id: string]: boolean }>("object", {}),
+		presets: new DefaultSetting<FilterPresetsMap>("object", {}),
 		travel: {
 			open: new DefaultSetting("boolean", false),
 			type: new DefaultSetting("string", "basic"),

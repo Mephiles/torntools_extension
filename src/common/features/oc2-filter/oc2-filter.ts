@@ -83,6 +83,7 @@ async function addFilterContainer() {
 			});
 		},
 		preserveHeight: 175,
+		presets: { key: "oc2" },
 	});
 
 	await filter.run();

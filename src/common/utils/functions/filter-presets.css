@@ -1,0 +1,149 @@
+.tt-container.tt-has-presets .title .text {
+	width: auto;
+	flex: 0 0 auto;
+}
+
+.tt-container.tt-has-presets .title .options {
+	width: auto;
+	flex: 1 1 auto;
+}
+
+.tt-filter .tt-filter-preset-quick {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin-inline: 6px;
+}
+
+.tt-filter .tt-filter-preset-quick-btn {
+	padding-inline: 6px;
+}
+
+.tt-filter-presets {
+	padding: 5px 10px;
+	border-bottom: 1px solid currentColor;
+}
+
+.tt-filter-presets-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	cursor: pointer;
+
+	.icon {
+		min-width: 16px;
+	}
+
+	&.collapsed {
+		& + .tt-filter-presets-body {
+			display: none;
+		}
+
+		.icon {
+			transform: rotate(-90deg);
+		}
+	}
+}
+
+.tt-filter-presets-body {
+	margin-top: 4px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.tt-filter-presets-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.tt-filter-presets-row {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.tt-filter-presets-row-name {
+	flex: 1 1 auto;
+}
+
+.tt-filter-presets-row-label {
+	flex: 0 0 100px;
+	opacity: 0.7;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tt-filter-presets-icon-btn {
+	display: flex;
+	padding: 2px;
+
+	&:hover {
+		background: var(--tt-color-light-green);
+	}
+
+	&:first-of-type {
+		margin-inline-start: auto;
+	}
+}
+
+.tt-filter-presets-icon-btn svg {
+	width: 14px;
+	height: 14px;
+}
+
+.tt-filter-presets-fields {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex: 1 1 auto;
+
+	.tt-input {
+		flex: 1 1 auto;
+		padding-inline: 4px;
+		padding-block: 3px;
+		border-radius: 6px;
+	}
+}
+
+.tt-filter-presets-save {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	font-size: 11px;
+	padding-inline: 6px;
+
+	svg {
+		width: 12px;
+		height: 12px;
+	}
+}
+
+.tt-filter-presets-cancel {
+	font-size: 11px;
+	padding-inline: 6px;
+}
+
+.tt-filter-presets-editing .tt-filter-presets-label {
+	width: 70px;
+	flex: 0 0 auto;
+}
+
+.tt-filter-presets-actions {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.tt-filter-presets-add {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.tt-filter-presets-limit {
+	font-size: 11px;
+	opacity: 0.7;
+}
