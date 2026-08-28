@@ -43,7 +43,8 @@
 				{ "message": "No longer fetch the pawnshop prices.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow spaces before search terms in the stocks filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Change the url for requesting revives from Laekna.", "contributor": "DeKleineKobini" },
-				{ "message": "Have the 'FF Score' filter also work on page specific ff score features..", "contributor": "DeKleineKobini" }
+				{ "message": "Have the 'FF Score' filter also work on page specific ff score features..", "contributor": "DeKleineKobini" },
+				{ "message": "Only display achievements with real circulation, to avoid unreleased ones being shown.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{

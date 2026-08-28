@@ -64,6 +64,8 @@ async function showAchievements() {
 							const merits = torndata[type];
 
 							for (const merit of merits) {
+								if (typeof merit.circulation !== "undefined" && merit.circulation <= 0) continue;
+
 								const description = merit.description.toLowerCase();
 								if (!description.includes(keyword)) continue;
 
