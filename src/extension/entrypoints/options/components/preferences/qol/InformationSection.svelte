@@ -60,6 +60,7 @@
 	<PreferenceSectionCard title="Museum">
 		<PreferenceSettingGroup>
 			<StorageSwitch path="settings.pages.museum.autoFill" label="Autofill number of sets in museum" />
+			<StorageSwitch path="settings.pages.museum.marketLinks" label="Show a link to the Item Market when viewing an item's details" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 

@@ -292,6 +292,13 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.missions.hints", label: "Mission hints", group: "qol", section: "information", keywords: ["missions"] },
 	{ path: "settings.pages.missions.rewards", label: "Mission reward information", group: "qol", section: "information", keywords: ["missions"] },
 	{ path: "settings.pages.museum.autoFill", label: "Autofill number of sets in museum", group: "qol", section: "information" },
+	{
+		path: "settings.pages.museum.marketLinks",
+		label: "Show a link to the Item Market when viewing an item's details",
+		group: "qol",
+		section: "information",
+		keywords: ["museum", "market"],
+	},
 	{ path: "settings.pages.api.autoDemo", label: "Automatically show demo content on API page", group: "qol", section: "information" },
 	{ path: "settings.pages.api.autoFillKey", label: "Automatically fill your API key on API page", group: "qol", section: "information" },
 	{
