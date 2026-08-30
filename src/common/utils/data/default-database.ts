@@ -481,6 +481,7 @@ export const DEFAULT_STORAGE = {
 			},
 			museum: {
 				autoFill: new DefaultSetting("boolean", true),
+				marketLinks: new DefaultSetting("boolean", true),
 			},
 			enemies: {
 				filter: new DefaultSetting("boolean", true),

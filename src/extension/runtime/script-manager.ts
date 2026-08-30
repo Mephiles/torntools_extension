@@ -156,6 +156,7 @@ import { MissingFlowersFeature, MissingPlushiesFeature } from "@features/missing
 import MissionHintsFeature from "@features/mission-hints/mission-hints";
 import MissionRewardsFeature from "@features/mission-rewards/mission-rewards";
 import MuseumAutoFillFeature from "@features/museum-auto-fill/museum-auto-fill";
+import MuseumMarketLinkFeature from "@features/museum-market-link/museum-market-link";
 import NoConfirmAbroadBuyFeature from "@features/no-confirm/no-confirm-abroad-buy";
 import NoConfirmItemsFeature from "@features/no-confirm/no-confirm-items";
 import NoConfirmPointsMarketFeature from "@features/no-confirm/no-confirm-points-market";
@@ -340,6 +341,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new StatsEstimateAbroadFeature());
 	} else if (page === "museum") {
 		FEATURE_MANAGER.registerFeature(new MuseumAutoFillFeature());
+		FEATURE_MANAGER.registerFeature(new MuseumMarketLinkFeature());
 	} else if (page === "item") {
 		setupItemPage();
 		FEATURE_MANAGER.registerFeature(new HideRecycleMessageFeature());

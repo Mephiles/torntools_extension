@@ -1,0 +1,9 @@
+.tt-museum-market-link {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.tt-museum-market-link:hover {
+	filter: brightness(1.2);
+}
