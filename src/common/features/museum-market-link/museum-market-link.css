@@ -1,9 +1,18 @@
 .tt-museum-market-link {
 	display: inline-flex;
 	align-items: center;
+	margin-left: -5px;
 	cursor: pointer;
 }
 
 .tt-museum-market-link:hover {
-	filter: brightness(1.2);
+	opacity: 0.7;
+}
+
+body.dark-mode .tt-museum-market-link .cql-item-market {
+	filter: brightness(0) invert(1);
+}
+
+body:not(.dark-mode) .tt-museum-market-link .cql-item-market {
+	filter: brightness(0);
 }

@@ -11,13 +11,16 @@ function initialiseMarketLink() {
 	const tabs = document.querySelector("#tabs");
 	if (!tabs) return;
 
+	observer?.disconnect();
 	observer = new MutationObserver(() => showMarketLink());
 	observer.observe(tabs, { childList: true, subtree: true, attributes: true, attributeFilter: ["src"] });
+
+	showMarketLink();
 }
 
 function showMarketLink() {
 	const wrapper = document.querySelector("#tabs .show-item-info");
-	const infoElement = wrapper?.querySelector<HTMLElement>("[class*='itemInfo___']");
+	const infoElement = wrapper?.querySelector("[class*='itemInfo___']");
 	const image = wrapper?.querySelector<HTMLImageElement>("img");
 	if (!infoElement || !image?.src) return;
 
@@ -48,26 +51,26 @@ function showMarketLink() {
 	});
 
 	if (!fillEmptyPropertySlot(infoElement, link)) {
-		const container = infoElement.querySelector<HTMLElement>("[class*='descriptionWrapper___']") || infoElement;
+		const container = infoElement.querySelector("[class*='descriptionWrapper___']") || infoElement;
 		container.appendChild(link);
 	}
 }
 
-function fillEmptyPropertySlot(infoElement: HTMLElement, link: HTMLElement) {
-	const list = infoElement.querySelector<HTMLElement>("[class*='properties___']");
-	const titleTemplate = list?.querySelector<HTMLElement>("[class*='title___']");
-	const valueWrapperTemplate = list?.querySelector<HTMLElement>("[class*='valueWrapper___']");
+function fillEmptyPropertySlot(infoElement: Element, link: HTMLElement) {
+	const list = infoElement.querySelector("[class*='properties___']");
+	const titleTemplate = list?.querySelector("[class*='title___']");
+	const valueWrapperTemplate = list?.querySelector("[class*='valueWrapper___']");
 	if (!list || !titleTemplate || !valueWrapperTemplate) return false;
 
 	const emptyContainer = Array.from(list.children)
 		.map((row) => row.children[0])
-		.find((container): container is HTMLElement => !!container && container.children.length === 0);
+		.find((container) => container?.children.length === 0);
 	if (!emptyContainer) return false;
 
-	const title = titleTemplate.cloneNode(true) as HTMLElement;
+	const title = titleTemplate.cloneNode(true);
 	title.textContent = "Market:";
 
-	const valueWrapper = valueWrapperTemplate.cloneNode(false) as HTMLElement;
+	const valueWrapper = valueWrapperTemplate.cloneNode(false);
 	valueWrapper.appendChild(link);
 
 	emptyContainer.append(title, valueWrapper);
@@ -75,7 +78,7 @@ function fillEmptyPropertySlot(infoElement: HTMLElement, link: HTMLElement) {
 }
 
 function removeMarketLink(scope: ParentNode = document) {
-	const link = scope.querySelector<HTMLElement>(".tt-museum-market-link");
+	const link = scope.querySelector(".tt-museum-market-link");
 	if (!link) return;
 
 	const valueWrapper = link.parentElement;
@@ -100,16 +103,14 @@ export default class MuseumMarketLinkFeature extends Feature {
 		return settings.pages.museum.marketLinks;
 	}
 
-	initialise() {
-		initialiseMarketLink();
-	}
-
 	execute() {
-		showMarketLink();
+		initialiseMarketLink();
 	}
 
 	cleanup() {
 		observer?.disconnect();
+		observer = undefined;
+
 		removeMarketLink();
 	}
 

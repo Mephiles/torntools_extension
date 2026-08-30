@@ -5,7 +5,6 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Add a link to the Item Market when viewing an item's details on the museum page.", "contributor": "Callz" },
 				{ "message": "Reminder for using your casino refill (disabled by default).", "contributor": "DeKleineKobini" },
 				{
 					"message": "Make faction balances clickable when on the give money page, even for out of faction balances.",
@@ -14,7 +13,8 @@
 				{
 					"message": "Display an alert when giving money from the faction when the player balance doesn't allow it and no other balance matches the amount.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Add a link to the Item Market when viewing an item's details on the museum page.", "contributor": "Callz" }
 			],
 			"fixes": [
 				{ "message": "Resolve issues with 'Company Last Action'.", "contributor": "DeKleineKobini" },
