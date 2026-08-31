@@ -335,7 +335,12 @@ async function showHints() {
 	};
 
 	for (const context of findAllElements(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
-		const title = (context.querySelector(".title-black").childNodes[0] as Text).wholeText.replaceAll("\n", "").trim();
+		let title: string;
+		if (context.dataset.originalTitle) title = context.dataset.originalTitle;
+		else {
+			title = context.querySelector(".title-black").childNodes[0].textContent;
+		}
+		title = title?.trim();
 
 		const key = transformTitle(title);
 		let task: string, hint: HTMLElement | string | null;
