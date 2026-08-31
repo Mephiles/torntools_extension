@@ -30,6 +30,7 @@ import PHFillTableData from "@phosphor-icons/core/fill/table-fill.svg";
 import PHCaretDownData from "@phosphor-icons/core/regular/caret-down.svg";
 import PHEyeSlashData from "@phosphor-icons/core/regular/eye-slash.svg";
 import PHEyeData from "@phosphor-icons/core/regular/eye.svg";
+import PHPencilSimpleData from "@phosphor-icons/core/regular/pencil-simple.svg";
 import PHPlusData from "@phosphor-icons/core/regular/plus.svg";
 import PHQuestionData from "@phosphor-icons/core/regular/question.svg";
 import PHTrashData from "@phosphor-icons/core/regular/trash.svg";
@@ -51,6 +52,7 @@ export const PHEyeSlash = lazyImport(PHEyeSlashData);
 export const PHPlus = lazyImport(PHPlusData);
 export const PHTrash = lazyImport(PHTrashData);
 export const PHQuestion = lazyImport(PHQuestionData);
+export const PHPencilSimple = lazyImport(PHPencilSimpleData);
 export const PHX = lazyImport(PHXData);
 export const PHXCircle = lazyImport(PHXCircleData);
 

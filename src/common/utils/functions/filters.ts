@@ -13,6 +13,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import type { ContainerOptions, ContainerPosition } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { createFilterPresets } from "@common/utils/functions/filter-presets";
 import { camelCase } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { RANK_TRIGGERS, WEAPON_BONUSES } from "@common/utils/functions/torn";
@@ -253,6 +254,7 @@ export function createFilterEnabledFunnel(partialOptions: Partial<FilterEnabledF
 interface SectionBuildResult<V> {
 	element: HTMLElement;
 	getValue(): V;
+	setValue?(value: V): void;
 	onBeforeFilter?(): void;
 }
 
@@ -298,7 +300,7 @@ export function checkboxSection(options: CheckboxSectionOptions): FilterSectionD
 			checkbox.setChecked(defaultValue);
 			checkbox.onChange(onChange);
 
-			return { element: checkbox.element, getValue: () => checkbox.isChecked() };
+			return { element: checkbox.element, getValue: () => checkbox.isChecked(), setValue: (value) => checkbox.setChecked(value) };
 		},
 		test,
 	};
@@ -330,7 +332,7 @@ export function checkboxesSection(options: CheckboxesSectionOptions): FilterSect
 			list.setSelections(defaults ?? []);
 			list.onSelectionChange(onChange);
 
-			return { element: list.element, getValue: () => list.getSelections() };
+			return { element: list.element, getValue: () => list.getSelections(), setValue: (value) => list.setSelections(value ?? []) };
 		},
 		test,
 	};
@@ -368,6 +370,7 @@ export function selectSection(options: SelectSectionOptions): FilterSectionDef<s
 			return {
 				element: select.element,
 				getValue: () => select.getSelected(),
+				setValue: (value) => select.setSelected(value),
 				onBeforeFilter() {
 					select.updateOptionsList(getOptions());
 				},
@@ -422,14 +425,26 @@ export function sliderSection(options: SliderSectionOptions): FilterSectionDef<S
 
 			updateCounter();
 
+			let suppressChange = false;
+
 			new MutationObserver(() => {
 				updateCounter();
+				if (suppressChange) {
+					// setValue mutates the slider synchronously; all mutations arrive in this single observer batch.
+					suppressChange = false;
+					return;
+				}
 				onChange();
 			}).observe(slider.slider!, { attributes: true });
 
 			return {
 				element: section,
 				getValue: readRange,
+				setValue(range) {
+					// The MutationObserver above fires onChange async; suppress it so the preset loader can run() once itself.
+					suppressChange = true;
+					slider.setRange(range.start, range.end);
+				},
 			};
 		},
 		test,
@@ -459,7 +474,7 @@ export function textSection(options: TextSectionOptions): FilterSectionDef<strin
 			textbox.setValue(defaultValue ?? "");
 			textbox.onChange(onChange);
 
-			return { element: textbox.element, getValue: () => textbox.getValue() };
+			return { element: textbox.element, getValue: () => textbox.getValue(), setValue: (value) => textbox.setValue(value ?? "") };
 		},
 		test,
 	};
@@ -496,7 +511,7 @@ export function multiSelectSection(options: MultiSelectSectionOptions): FilterSe
 		build(onChange: () => void) {
 			const multi = createMultiSelect({ select: items, defaults });
 			multi.onChange(onChange);
-			return { element: multi.element, getValue: () => multi.getSelected() };
+			return { element: multi.element, getValue: () => multi.getSelected(), setValue: (value) => multi.setSelected(value ?? []) };
 		},
 		test,
 	};
@@ -550,6 +565,11 @@ export function duoCheckboxesSection(options: DuoCheckboxesSectionOptions): Filt
 					}
 					return selections;
 				},
+				setValue(value: DuoCheckboxState) {
+					for (const { ccKey, duo } of duoInstances) {
+						duo.setValue(value[ccKey] ?? "none");
+					}
+				},
 			};
 		},
 		test,
@@ -582,7 +602,7 @@ export function radioSection(options: RadioSectionOptions): FilterSectionDef<str
 			list.setValue(defaultValue);
 			list.onSelectionChange(onChange);
 
-			return { element: list.element, getValue: () => list.getValue() };
+			return { element: list.element, getValue: () => list.getValue(), setValue: (value) => list.setValue(value) };
 		},
 		test,
 	};
@@ -603,6 +623,7 @@ interface FilterSectionInstance {
 	priority: number;
 	isExemption?: boolean;
 	getValue(): unknown;
+	setValue?(value: unknown): void;
 	test(row: HTMLElement, value: unknown): boolean;
 	onBeforeFilter?(): void;
 }
@@ -696,6 +717,10 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 							max: parseFloat(maxTextbox.getValue()),
 						};
 					},
+					setValue({ min, max }: { min: number | null; max: number | null }) {
+						minTextbox.setNumberValue(min);
+						maxTextbox.setNumberValue(max);
+					},
 				};
 			},
 			test: (row, { min, max }) => {
@@ -754,6 +779,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 	/** Prevents infinite-scroll triggers by preserving the row container's height.
 	 *  Pass a number to specify row height in px (default: 36). */
 	preserveHeight?: boolean | number;
+	/** Enable saveable/loadable filter presets. `key` is the filter's key in `filters` storage. */
+	presets?: { key: string; max?: number };
 }): FilterController {
 	const sections: FilterSectionInstance[] = [];
 	const sectionDefs: FilterSectionDef<unknown>[] = options.sections ?? [];
@@ -960,6 +987,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 			priority: section.priority ?? DEFAULT_PRIORITY,
 			isExemption: section.isExemption,
 			getValue: built?.getValue.bind(built) ?? (() => true),
+			setValue: built?.setValue?.bind(built),
 			test: section.test,
 			onBeforeFilter: built?.onBeforeFilter?.bind(built),
 		});
@@ -988,6 +1016,26 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 	rerenderSections();
 
+	let presets: ReturnType<typeof createFilterPresets> | undefined;
+	if (options.presets) {
+		presets = createFilterPresets({
+			storageKey: options.presets.key,
+			max: options.presets.max,
+			headerOptions,
+			content,
+			captureValues: () => {
+				return sections.reduce<Record<string, unknown>>((acc, section) => {
+					acc[section.key] = section.getValue();
+					return acc;
+				}, {});
+			},
+			setValues: (values) => {
+				sections.forEach((section) => section.setValue?.(values[section.key]));
+			},
+			run,
+		});
+	}
+
 	return {
 		rerenderSections,
 		run,
@@ -1011,6 +1059,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		dispose() {
 			removeContainer(containerOpts.title);
 			funnel.dispose();
+			presets?.dispose();
 			findAllElements(`${rowSelector}.tt-hidden`).forEach((row) => {
 				row.classList.remove("tt-hidden");
 				delete row.dataset.hideReason;
