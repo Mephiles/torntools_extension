@@ -1,3 +1,5 @@
+import { ttStorage } from "@common/utils/context.ts";
+import { api } from "@common/utils/data/database.ts";
 import { checkAPIPermission } from "@common/utils/functions/api-key";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -8,10 +10,16 @@ const PDA_KEY = "###PDA-APIKEY###";
 const STORAGE_LOCATION = "tt_scripts_key";
 
 export async function requiresAPIKey() {
-	if (isPDA()) return PDA_KEY;
+	if (isPDA()) {
+		await setKey(PDA_KEY);
+		return PDA_KEY;
+	}
 
 	const storageKey = localStorage.getItem(STORAGE_LOCATION);
-	if (storageKey) return storageKey;
+	if (storageKey) {
+		await setKey(storageKey);
+		return storageKey;
+	}
 
 	return new Promise<string>((resolve) => {
 		const { options } = createContainer("TornTools Userscript - API Key", {
@@ -35,7 +43,7 @@ export async function requiresAPIKey() {
 						if (validation.access) {
 							localStorage.setItem(STORAGE_LOCATION, key);
 							removeContainer("TornTools Userscript - API Key");
-							resolve(key);
+							setKey(key).then(() => resolve(key));
 						} else {
 							window.alert("Not a valid key or not enough permissions (limited access).");
 						}
@@ -45,4 +53,9 @@ export async function requiresAPIKey() {
 		);
 		options.appendChild(keyInput);
 	});
+}
+
+async function setKey(key: string) {
+	await ttStorage.change({ api: { torn: { key } } });
+	api.torn.key = key;
 }
