@@ -10,7 +10,8 @@
 				{
 					"message": "No longer disable a feature live when changing the settings. That now requires a reload.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Allow commas and $ in 'Stocks Money Input'.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [{ "message": "Update the lifecycle of features.", "contributor": "DeKleineKobini" }]

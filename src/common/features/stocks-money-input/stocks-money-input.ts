@@ -8,16 +8,19 @@ import styles from "./stocks-money-input.module.css";
 const SELL_TAX_RATE = 0.001;
 
 function parseMoneyInput(input: string): number | null {
+	const normalized = input.replaceAll(/[$, ]/g, "").toLowerCase();
+
 	let money: number;
-	if (input.endsWith("k") || input.endsWith("K")) {
-		money = parseFloat(input) * 1000;
-	} else if (input.endsWith("m") || input.endsWith("M")) {
-		money = parseFloat(input) * 1000 * 1000;
-	} else if (input.endsWith("b") || input.endsWith("B")) {
-		money = parseFloat(input) * 1000 * 1000 * 1000;
+	if (normalized.endsWith("k")) {
+		money = parseFloat(normalized) * 1000;
+	} else if (normalized.endsWith("m")) {
+		money = parseFloat(normalized) * 1000 * 1000;
+	} else if (normalized.endsWith("b")) {
+		money = parseFloat(normalized) * 1000 * 1000 * 1000;
 	} else {
-		money = parseFloat(input);
+		money = parseFloat(normalized);
 	}
+
 	return Number.isNaN(money) ? null : money;
 }
 
