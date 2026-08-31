@@ -32,7 +32,7 @@
 		"@phosphor-icons/core": "^2.1.1",
 		"@phosphor-icons/web": "^2.1.2",
 		"@tailwindcss/vite": "^4.3.3",
-		"@tanstack/svelte-table": "^9.2.3",
+		"@tanstack/svelte-table": "^9.2.4",
 		"@webext-core/proxy-service": "^3.0.2",
 		"@wxt-dev/module-svelte": "^2.0.5",
 		"chart.js": "^4.5.1",
@@ -43,7 +43,7 @@
 	},
 	"devDependencies": {
 		"@astrojs/mdx": "^7.0.8",
-		"@astrojs/starlight": "^0.41.9",
+		"@astrojs/starlight": "^0.41.10",
 		"@astrojs/svelte": "^9.0.1",
 		"@fontsource-variable/geist": "^5.3.0",
 		"@internationalized/date": "^3.12.3",
@@ -69,7 +69,7 @@
 		"typescript": "~6.0.3",
 		"user-agent-data-types": "^0.4.3",
 		"vite": "^8.2.2",
-		"vite-plugin-monkey": "^8.1.0",
+		"vite-plugin-monkey": "^8.1.1",
 		"wxt": "^0.21.4"
 	}
 }
