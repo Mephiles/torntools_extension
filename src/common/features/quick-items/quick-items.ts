@@ -6,7 +6,6 @@ import { ttCache } from "@common/utils/data/cache";
 import type { DatabaseCache } from "@common/utils/data/cache";
 import { quick, settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, findParent, mobile, tablet } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
@@ -369,10 +368,6 @@ export default class QuickItemsFeature extends Feature {
 
 	async execute() {
 		await loadQuickItems();
-	}
-
-	cleanup() {
-		removeContainer("Quick Items");
 	}
 
 	storageKeys() {

@@ -19,10 +19,6 @@ export default class HideLeaveButtonsFeature extends Feature {
 		applyStyle();
 	}
 
-	cleanup() {
-		document.documentElement.style.setProperty("--torntools-hide-leave-button", "flex");
-	}
-
 	storageKeys() {
 		return ["settings.pages.global.hideQuitButtons"];
 	}

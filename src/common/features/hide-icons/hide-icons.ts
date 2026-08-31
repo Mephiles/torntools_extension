@@ -53,16 +53,6 @@ export default class HideIconsFeature extends Feature {
 		applyStyle();
 	}
 
-	cleanup() {
-		if (observer) {
-			observer.disconnect();
-		}
-		// Reset styles
-		for (const { icon } of ALL_ICONS) {
-			document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, "initial");
-		}
-	}
-
 	storageKeys() {
 		return ["settings.hideIcons"];
 	}

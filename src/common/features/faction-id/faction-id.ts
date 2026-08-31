@@ -1,7 +1,7 @@
 import { getFactionSubpage, isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -31,10 +31,6 @@ async function addID() {
 	container.appendChild(elementBuilder({ type: "span", text: ` [${details.id}]`, id: "tt-faction-id" }));
 }
 
-function removeID() {
-	findAllElements("#tt-faction-id").forEach((element) => element.remove());
-}
-
 export default class FactionIDFeature extends Feature {
 	constructor() {
 		super("Faction ID", "faction");
@@ -54,10 +50,6 @@ export default class FactionIDFeature extends Feature {
 
 	async execute() {
 		await addID();
-	}
-
-	cleanup() {
-		removeID();
 	}
 
 	storageKeys() {

@@ -49,10 +49,6 @@ function showChats() {
 	document.documentElement.classList.remove("tt-chat-hidden");
 }
 
-function removeButton() {
-	document.querySelector(".tt-hide-chat-option")?.remove();
-}
-
 export default class HideChatFeature extends Feature {
 	constructor() {
 		super("Hide Chat", "chat", ExecutionTiming.IMMEDIATELY);
@@ -69,11 +65,6 @@ export default class HideChatFeature extends Feature {
 	async execute() {
 		hideChats();
 		await showButton();
-	}
-
-	cleanup() {
-		showChats();
-		removeButton();
 	}
 
 	storageKeys() {

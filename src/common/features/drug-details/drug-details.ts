@@ -318,10 +318,6 @@ export default class DrugDetailsFeature extends Feature {
 		// No execute needed as this is event-based
 	}
 
-	cleanup() {
-		if (observer) observer.disconnect();
-	}
-
 	storageKeys() {
 		return ["settings.pages.items.drugDetails"];
 	}

@@ -98,11 +98,6 @@ function fillFF(list: Element, results: ScouterResult[]) {
 	triggerCustomListener(EVENT_CHANNELS.FF_SCOUTER_FACTION_LIST);
 }
 
-function removeFF() {
-	document.querySelector(".tt-ff-scouter-faction-list-header")?.remove();
-	findAllElements(".tt-ff-scouter-faction-list-value").forEach((e) => e.remove());
-}
-
 export default class FFScouterFactionFeature extends Feature {
 	constructor() {
 		super("FF Scouter Faction", "ff-scouter");
@@ -130,10 +125,6 @@ export default class FFScouterFactionFeature extends Feature {
 
 	async execute() {
 		await showFF(false);
-	}
-
-	cleanup() {
-		removeFF();
 	}
 
 	storageKeys(): string[] {

@@ -56,14 +56,6 @@ async function addListeners() {
 	});
 }
 
-function liveReloadFunction(liveReload: boolean) {
-	if (liveReload) {
-		removeAlias();
-		addAliasTitle();
-		addAliasMessage();
-	}
-}
-
 function addAliasTitle() {
 	if (isChatV3()) {
 		findAllElements([SELECTOR_CHAT_V3__MINIMIZED_NAME, SELECTOR_CHAT_V3__HEADER_NAME].join(", ")).forEach((chatHeader) => {
@@ -153,19 +145,13 @@ export default class UserAliasChatFeature extends Feature {
 		await addListeners();
 	}
 
-	execute(liveReload?: boolean) {
-		liveReloadFunction(liveReload);
-	}
-
-	cleanup() {
+	reload() {
 		removeAlias();
+		addAliasTitle();
+		addAliasMessage();
 	}
 
 	storageKeys() {
 		return ["settings.userAlias"];
-	}
-
-	shouldLiveReload() {
-		return true;
 	}
 }

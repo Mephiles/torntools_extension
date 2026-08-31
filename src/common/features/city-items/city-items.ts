@@ -7,7 +7,7 @@ import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createSelect } from "@common/utils/elements/select/select";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer, findContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
@@ -846,20 +846,6 @@ function isSuccessfulPickupResponse(json: unknown, text?: string): boolean {
 	return false;
 }
 
-function removeHighlight() {
-	removeContainer("City Items");
-	contentElement = null;
-	currentItems = [];
-	periodFilter = "all";
-	searchQuery = "";
-	resetVisibleGroups();
-	collectingEntries.clear();
-	clearForcedHighlights();
-	setMapHighlight(false);
-	EVENT_HANDLER.triggerEventCrossWorld(RUNTIME_INFORMATION.getWindow(), EVENT_CHANNELS.CITY_ITEMS_MAP__CLEAR);
-	document.removeEventListener("click", handleMapOverlayClick, true);
-}
-
 export default class CityItemsFeature extends Feature {
 	constructor() {
 		super("City Items", "city", ExecutionTiming.IMMEDIATELY);
@@ -879,10 +865,6 @@ export default class CityItemsFeature extends Feature {
 
 	execute() {
 		setTimeout(triggerFallback, 500);
-	}
-
-	cleanup() {
-		removeHighlight();
 	}
 
 	requiresScreenInformation() {

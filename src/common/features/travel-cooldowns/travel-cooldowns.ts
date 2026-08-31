@@ -2,7 +2,7 @@ import "./travel-cooldowns.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements, mobile, tabletVertical } from "@common/utils/functions/dom";
+import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { textToTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -128,10 +128,6 @@ async function showWarnings() {
 	}
 }
 
-function removeWarnings() {
-	findAllElements(".tt-cooldowns, .tt-cooldowns ~ .cooldown").forEach((cooldown) => cooldown.remove());
-}
-
 export default class TravelCooldownsFeature extends Feature {
 	constructor() {
 		super("Travel Cooldowns", "travel");
@@ -168,9 +164,5 @@ export default class TravelCooldownsFeature extends Feature {
 
 	async execute() {
 		await showWarnings();
-	}
-
-	cleanup() {
-		removeWarnings();
 	}
 }

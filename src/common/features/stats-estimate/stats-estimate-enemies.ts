@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -48,11 +48,6 @@ async function showEstimates() {
 	);
 }
 
-function removeEstimates() {
-	statsEstimate.clearQueue();
-	findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
-}
-
 export default class StatsEstimateEnemiesFeature extends Feature {
 	constructor() {
 		super("Stats Estimate Enemies", "enemies");
@@ -78,10 +73,6 @@ export default class StatsEstimateEnemiesFeature extends Feature {
 
 	async execute() {
 		await showEstimates();
-	}
-
-	cleanup() {
-		removeEstimates();
 	}
 
 	storageKeys(): string[] {

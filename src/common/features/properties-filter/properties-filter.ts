@@ -163,15 +163,6 @@ export default class PropertiesFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.getRows().forEach((row, index) => {
-			row.classList.remove("t-m-clear", "m-clear");
-			if ((index + 1) % 2 === 0) row.classList.add("t-m-clear");
-			if ((index + 1) % 3 === 0) row.classList.add("m-clear");
-		});
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.property.filter"];
 	}

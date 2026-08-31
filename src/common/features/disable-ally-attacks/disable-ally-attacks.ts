@@ -76,10 +76,6 @@ export default class DisableAllyAttacksFeature extends Feature {
 		await disableAttackButton();
 	}
 
-	cleanup() {
-		enableButton();
-	}
-
 	storageKeys() {
 		return ["settings.pages.profile.disableAllyAttacks", "settings.alliedFactions"];
 	}

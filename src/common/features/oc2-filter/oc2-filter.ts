@@ -131,10 +131,6 @@ export default class OC2FilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.faction.oc2Filter"];
 	}

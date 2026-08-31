@@ -2,7 +2,7 @@ import "./quick-crimes.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { quick, settings } from "@common/utils/data/database";
 import { usingFirefox } from "@common/utils/functions/browser";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer, findContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
@@ -321,14 +321,6 @@ function showCrimesAgainOnFirefox(containerId: string) {
 	showCrimesAgainOnFirefoxObserver.observe(document.querySelector(".content-wrapper"), { childList: true, attributes: true, subtree: true });
 }
 
-function dispose() {
-	removeContainer("Quick Crimes");
-	if (showCrimesAgainOnFirefoxObserver) {
-		showCrimesAgainOnFirefoxObserver.disconnect();
-		showCrimesAgainOnFirefoxObserver = undefined;
-	}
-}
-
 export default class QuickCrimesFeature extends Feature {
 	constructor() {
 		super("Quick Crimes", "crimes");
@@ -348,10 +340,6 @@ export default class QuickCrimesFeature extends Feature {
 
 	async execute() {
 		await loadCrimes();
-	}
-
-	cleanup() {
-		dispose();
 	}
 
 	storageKeys() {

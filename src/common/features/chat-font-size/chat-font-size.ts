@@ -19,10 +19,6 @@ export default class ChatFontSizeFeature extends Feature {
 		applySize();
 	}
 
-	cleanup() {
-		applySize();
-	}
-
 	storageKeys() {
 		return ["settings.pages.chat.fontSize"];
 	}

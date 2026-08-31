@@ -188,11 +188,6 @@ function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 	}
 }
 
-function removeUpgrades() {
-	findAllElements(".tt-race-need-icon, .tt-race-upgrades").forEach((element) => element.remove());
-	findAllElements(".pm-items-wrap .d-wrap .pm-items .unlock.tt-modified").forEach((upgrade) => cleanUpgrade(upgrade, null));
-}
-
 export default class RacingUpgradesFeature extends Feature {
 	constructor() {
 		super("Racing Upgrades", "racing");
@@ -216,9 +211,5 @@ export default class RacingUpgradesFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup(): void {
-		removeUpgrades();
 	}
 }

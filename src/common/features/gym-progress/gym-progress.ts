@@ -1,7 +1,7 @@
 import "./gym-progress.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { convertToNumber, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
@@ -44,13 +44,6 @@ async function addProgress() {
 	);
 }
 
-function removeDiv() {
-	findAllElements(".tt-gym-energy-progress").forEach((x) => {
-		x.closest("[class*='notification__']").classList.remove("tt-modified");
-		x.remove();
-	});
-}
-
 export default class GymProgressFeature extends Feature {
 	constructor() {
 		super("Gym Progress", "gym");
@@ -62,10 +55,6 @@ export default class GymProgressFeature extends Feature {
 
 	async execute() {
 		await addProgress();
-	}
-
-	cleanup() {
-		removeDiv();
 	}
 
 	storageKeys() {

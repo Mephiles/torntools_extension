@@ -17,10 +17,6 @@ export default class AlignLeftFeature extends Feature {
 		}
 	}
 
-	cleanup() {
-		document.documentElement.classList.remove("tt-align-left");
-	}
-
 	storageKeys() {
 		return ["settings.pages.global.alignLeft"];
 	}

@@ -271,13 +271,6 @@ async function startValues() {
 	}
 }
 
-function removeValues() {
-	for (const value of findAllElements(".tt-item-price")) {
-		if (value.classList.contains("price-total")) value.parentElement.remove();
-		else value.remove();
-	}
-}
-
 export default class ItemValuesFeature extends Feature {
 	constructor() {
 		super("Item Values", "items");
@@ -317,10 +310,6 @@ export default class ItemValuesFeature extends Feature {
 
 	async execute() {
 		await startValues();
-	}
-
-	cleanup() {
-		removeValues();
 	}
 
 	storageKeys() {

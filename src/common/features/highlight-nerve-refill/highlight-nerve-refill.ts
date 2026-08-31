@@ -34,10 +34,6 @@ export default class HighlightNerveRefillFeature extends Feature {
 		applyStyle();
 	}
 
-	cleanup() {
-		document.documentElement.classList.remove("tt-highlight-nerve-refill");
-	}
-
 	storageKeys() {
 		return ["settings.pages.sidebar.highlightNerve", "userdata.refills.nerve"];
 	}

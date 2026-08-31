@@ -44,10 +44,6 @@ async function showRWValue() {
 	});
 }
 
-function removeValue() {
-	findAllElements(`.${styles.rankedWarValue}`).forEach((v) => v.remove());
-}
-
 export default class RankedWarValueFeature extends Feature {
 	constructor() {
 		super("Ranked War Value", "faction");
@@ -69,10 +65,6 @@ export default class RankedWarValueFeature extends Feature {
 
 	async execute() {
 		await showRWValue();
-	}
-
-	cleanup() {
-		removeValue();
 	}
 
 	storageKeys() {

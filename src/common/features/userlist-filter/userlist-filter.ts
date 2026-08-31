@@ -212,10 +212,6 @@ export default class UserlistFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.userlist.filter"];
 	}

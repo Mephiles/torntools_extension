@@ -55,10 +55,6 @@ function addNerveGains() {
 	});
 }
 
-function removeNerveGains() {
-	findAllElements(".tt-alcohol-gains").forEach((x) => x.remove());
-}
-
 export default class AlcoholNerveFeature extends Feature {
 	constructor() {
 		super("Alcohol Nerve", "items");
@@ -78,10 +74,6 @@ export default class AlcoholNerveFeature extends Feature {
 
 	async execute() {
 		addNerveGains();
-	}
-
-	cleanup() {
-		removeNerveGains();
 	}
 
 	storageKeys() {

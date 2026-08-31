@@ -2,7 +2,7 @@ import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context
 import "./travel-table.css";
 import { filters, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer, findContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, mobile, resortTable, sortTable } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@common/utils/functions/formatting";
@@ -879,16 +879,6 @@ function getTravelType() {
 
 type TravelType = ReturnType<typeof getTravelType>;
 
-function removeTable() {
-	removeIcon();
-	removeContainer("Travel Destinations");
-
-	function removeIcon() {
-		const icon = document.querySelector(".tt-travel");
-		if (icon) icon.remove();
-	}
-}
-
 export default class TravelTableFeature extends Feature {
 	constructor() {
 		super("Travel Table", "travel");
@@ -908,10 +898,6 @@ export default class TravelTableFeature extends Feature {
 
 	async execute() {
 		await startTable();
-	}
-
-	cleanup() {
-		removeTable();
 	}
 
 	storageKeys() {

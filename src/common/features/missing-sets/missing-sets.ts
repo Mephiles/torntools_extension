@@ -178,10 +178,6 @@ export class MissingFlowersFeature extends Feature {
 		await showFlowers();
 	}
 
-	cleanup() {
-		removeFlowers();
-	}
-
 	storageKeys() {
 		return ["settings.pages.items.missingFlowers"];
 	}
@@ -211,10 +207,6 @@ export class MissingPlushiesFeature extends Feature {
 
 	async execute() {
 		await showPlushies();
-	}
-
-	cleanup() {
-		removePlushies();
 	}
 
 	storageKeys() {

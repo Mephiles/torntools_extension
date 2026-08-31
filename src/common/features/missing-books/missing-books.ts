@@ -79,10 +79,6 @@ export class MissingBooksFeature extends Feature {
 		await showBooks();
 	}
 
-	cleanup() {
-		removeBooks();
-	}
-
 	storageKeys() {
 		return ["settings.pages.items.missingBooks"];
 	}

@@ -251,15 +251,7 @@ export default class ArmoryFilterFeature extends Feature {
 		addListener();
 	}
 
-	cleanup() {
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.faction.armoryFilter"];
-	}
-
-	shouldLiveReload() {
-		return true;
 	}
 }

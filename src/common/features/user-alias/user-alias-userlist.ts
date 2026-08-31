@@ -78,10 +78,6 @@ export default class UserAliasUserlistFeature extends Feature {
 		await addAlias();
 	}
 
-	cleanup() {
-		removeAlias();
-	}
-
 	storageKeys() {
 		return ["settings.userAlias"];
 	}

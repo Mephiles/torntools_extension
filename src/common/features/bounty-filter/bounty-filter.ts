@@ -2,7 +2,7 @@ import "./bounty-filter.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer, findContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createStatistics } from "@common/utils/functions/filters";
@@ -114,11 +114,6 @@ async function addFilter() {
 	}
 }
 
-function removeFilter() {
-	findAllElements(".bounties-list > .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
-	removeContainer("Bounty Filter");
-}
-
 export default class BountyFilterFeature extends Feature {
 	constructor() {
 		super("Bounty Filter", "bounties");
@@ -137,10 +132,6 @@ export default class BountyFilterFeature extends Feature {
 		if (params.has("p") && params.get("p") !== "main") return;
 
 		await addFilter();
-	}
-
-	cleanup() {
-		removeFilter();
 	}
 
 	storageKeys() {

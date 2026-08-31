@@ -100,13 +100,6 @@ export default class FriendFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.dispose();
-		listObserver?.disconnect();
-		tableObserver?.disconnect();
-		filterSetupComplete = false;
-	}
-
 	storageKeys() {
 		return ["settings.pages.friends.filter"];
 	}

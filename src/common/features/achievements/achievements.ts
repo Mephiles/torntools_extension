@@ -286,10 +286,6 @@ export default class AchievementsFeature extends Feature {
 		await showAchievements();
 	}
 
-	cleanup() {
-		removeAchievements();
-	}
-
 	storageKeys() {
 		return ["settings.scripts.achievements.show", "settings.scripts.achievements.completed"];
 	}

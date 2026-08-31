@@ -1,7 +1,7 @@
 import "./item-market-fill-max.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements, mobile, tablet } from "@common/utils/functions/dom";
+import { mobile, tablet } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, updateReactInput } from "@common/utils/functions/torn";
@@ -35,10 +35,6 @@ async function addButton() {
 	itemMarketRoot.classList.add("tt-show-fill-max");
 }
 
-function removeButton() {
-	findAllElements(".tt-show-fill-max").forEach((x) => x.classList.remove("tt-show-fill-max"));
-}
-
 export default class ItemMarketFillMaxFeature extends Feature {
 	constructor() {
 		super("Item Market Fill Max", "item market");
@@ -58,10 +54,6 @@ export default class ItemMarketFillMaxFeature extends Feature {
 
 	async execute() {
 		await addButton();
-	}
-
-	cleanup() {
-		removeButton();
 	}
 
 	storageKeys() {

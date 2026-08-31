@@ -19,10 +19,6 @@ export default class HideTutorialsFeature extends Feature {
 		await applyStyle();
 	}
 
-	cleanup() {
-		document.documentElement.style.setProperty("--torntools-hide-tutorials", "flex");
-	}
-
 	storageKeys() {
 		return ["settings.pages.global.hideTutorials"];
 	}

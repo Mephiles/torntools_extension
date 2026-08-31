@@ -9,12 +9,13 @@ import { Feature } from "@features/feature";
 
 function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO, async () => {
-		if (FEATURE_MANAGER.isEnabled(UpgradeRequiredRespectFeature)) await showRequiredRespect(true);
+		if (!FEATURE_MANAGER.isEnabled(UpgradeRequiredRespectFeature)) return;
+
+		await showRequiredRespect();
 	});
 }
 
-async function showRequiredRespect(force: boolean) {
-	if (!force) return;
+async function showRequiredRespect() {
 	await requireElement("#faction-upgrades #stu-confirmation div[role] > :nth-child(3)");
 
 	const availableRespect = parseInt(
@@ -38,14 +39,6 @@ async function showRequiredRespect(force: boolean) {
 	requiredNode.textContent += ` (${formatNumber(diff)} needed to go)`;
 }
 
-function removeRequiredRespect() {
-	const requiredNode = document.querySelector("#faction-upgrades #stu-confirmation div[role] > .tt-modified > .text");
-	if (requiredNode) {
-		requiredNode.textContent = requiredNode.textContent.replace(/ \(.*\)/, "");
-		requiredNode.parentElement.classList.remove("tt-modified");
-	}
-}
-
 export default class UpgradeRequiredRespectFeature extends Feature {
 	constructor() {
 		super("Upgrade Required Respect", "faction");
@@ -67,15 +60,7 @@ export default class UpgradeRequiredRespectFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await showRequiredRespect(liveReload);
-	}
-
-	cleanup() {
-		removeRequiredRespect();
-	}
-
-	shouldLiveReload() {
-		return true;
+	async reload() {
+		await showRequiredRespect();
 	}
 }

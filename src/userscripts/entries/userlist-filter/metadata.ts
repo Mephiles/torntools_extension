@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Userlist Filter",
 	description: "Filter the (advanced) search userlist.",
-	version: "1.1.9",
+	version: "1.1.10",
 	matches: ["https://*.torn.com/page.php?sid=UserList*"],
 	runAt: "document-end",
 };

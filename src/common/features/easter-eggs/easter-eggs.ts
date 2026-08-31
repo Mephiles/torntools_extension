@@ -125,12 +125,6 @@ export default class EasterEggsFeature extends Feature {
 		await enableDetector();
 	}
 
-	cleanup() {
-		document.body.classList.remove("tt-easter-highlight");
-		const popup = document.querySelector("#tt-easter-popup");
-		if (popup) popup.remove();
-	}
-
 	storageKeys() {
 		return ["settings.pages.competitions.easterEggs"];
 	}

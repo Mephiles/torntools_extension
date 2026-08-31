@@ -109,14 +109,6 @@ function stackBlockSvg(customClass?: string) {
 	return svg;
 }
 
-function enableUsage() {
-	hiddenDivs.forEach((x) => x.classList.remove("tt-hidden"));
-	hiddenDivs = [];
-
-	findAllElements(".tt-mouse-block").forEach((x) => x.classList.remove("tt-mouse-block"));
-	findAllElements("#profile-mini-root .tt-cross, .tt-stacking, .tt-stack-block").forEach((x) => x.remove());
-}
-
 export default class StackingModeFeature extends Feature {
 	constructor() {
 		super("Stacking Mode", "global");
@@ -137,9 +129,5 @@ export default class StackingModeFeature extends Feature {
 
 	async execute() {
 		await disableUsage();
-	}
-
-	cleanup() {
-		enableUsage();
 	}
 }

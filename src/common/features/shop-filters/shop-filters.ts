@@ -81,11 +81,6 @@ async function filtering() {
 	}
 }
 
-function removeFilters() {
-	findAllElements(".tt-shop-filters").forEach((x) => x.remove());
-	findAllElements(".buy-items-wrap .items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
-}
-
 export default class ShopFiltersFeature extends Feature {
 	constructor() {
 		super("Shop Filters", "shops");
@@ -106,10 +101,6 @@ export default class ShopFiltersFeature extends Feature {
 
 	async execute() {
 		await addFilters();
-	}
-
-	cleanup() {
-		removeFilters();
 	}
 
 	storageKeys() {

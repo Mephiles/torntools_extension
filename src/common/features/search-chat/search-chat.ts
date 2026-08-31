@@ -167,25 +167,6 @@ function onChatSearch(event: { target: EventTarget }, chat: Element) {
 		chatBody.scrollTop = chatBody.scrollHeight;
 	}
 }
-
-function removeSearch() {
-	for (const chat of findAllElements(
-		"#chatRoot [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__'], [class*='list___'] [class*='item___']",
-	)) {
-		for (const message of findAllElements(
-			`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX} div[class='tt-hidden'], div[class*='root___'][class*='tt-hidden']`,
-			chat,
-		)) {
-			message.classList.remove("tt-hidden");
-		}
-		const chatBody = chat.querySelector(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, [class*='scrollContainer___']`);
-		chatBody.scrollTop = chatBody.scrollHeight;
-
-		chat.querySelector(".tt-chat-filter").remove();
-	}
-	findAllElements("#chatRoot .tt-chat-filter").forEach((x) => x.remove());
-}
-
 function searchChat(message: Element | null, keyword: string) {
 	if (!message) return;
 
@@ -224,10 +205,6 @@ export default class SearchChatFeature extends Feature {
 
 	async execute() {
 		await showSearch();
-	}
-
-	cleanup() {
-		removeSearch();
 	}
 
 	storageKeys() {

@@ -141,13 +141,6 @@ export default class TargetFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.dispose();
-		listObserver?.disconnect();
-		tableObserver?.disconnect();
-		filterSetupComplete = false;
-	}
-
 	storageKeys() {
 		return ["settings.pages.targets.filter"];
 	}

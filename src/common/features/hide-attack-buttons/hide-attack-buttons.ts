@@ -50,10 +50,6 @@ export default class HideAttackButtonsFeature extends Feature {
 		await addObserver();
 	}
 
-	async cleanup() {
-		await removeObserver();
-	}
-
 	storageKeys() {
 		return ["settings.pages.attack.hideAttackButtons"];
 	}

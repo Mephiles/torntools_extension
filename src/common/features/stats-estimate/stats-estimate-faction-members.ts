@@ -105,10 +105,6 @@ export default class StatsEstimateFactionMembersFeature extends Feature {
 		await startFeature(false);
 	}
 
-	cleanup() {
-		removeEstimates();
-	}
-
 	storageKeys(): string[] {
 		return ["settings.scripts.statsEstimate.global", "settings.scripts.statsEstimate.factions"];
 	}

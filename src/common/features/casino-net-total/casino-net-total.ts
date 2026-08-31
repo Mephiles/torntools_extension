@@ -1,7 +1,7 @@
 import "./casino-net-total.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage, getPageStatus } from "@common/utils/functions/torn";
@@ -76,10 +76,6 @@ function isBookie() {
 	return page === "bookie";
 }
 
-function removeTotal() {
-	findAllElements(".tt-net-total").forEach((x) => x.remove());
-}
-
 export default class CasinoNetTotalFeature extends Feature {
 	constructor() {
 		super("Casino Net Total", "casino");
@@ -99,10 +95,6 @@ export default class CasinoNetTotalFeature extends Feature {
 
 	async execute() {
 		await addTotal();
-	}
-
-	cleanup() {
-		removeTotal();
 	}
 
 	storageKeys() {

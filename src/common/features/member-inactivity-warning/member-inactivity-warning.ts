@@ -19,18 +19,16 @@ function addListener() {
 		});
 	}
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
-		if (FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature) && name === "Last Action") {
-			lastActionState = true;
-			await addWarning(true);
-		}
-	});
-	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature) || name !== "Last Action") return;
 
-		if (name === "Last Action") {
-			lastActionState = false;
-			removeWarning();
-		}
+		lastActionState = true;
+		await addWarning(true);
+	});
+	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
+		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature) || name !== "Last Action") return;
+
+		lastActionState = true;
+		await addWarning(true);
 	});
 
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
@@ -61,13 +59,6 @@ async function addWarning(force: boolean) {
 	}
 }
 
-function removeWarning() {
-	findAllElements(".tt-inactive").forEach((inactive) => {
-		inactive.style.removeProperty("--tt-inactive-background");
-		inactive.classList.remove("tt-inactive");
-	});
-}
-
 export default class FactionInactivityWarningFeature extends Feature {
 	constructor() {
 		super("Member Inactivity Warning", "faction");
@@ -82,19 +73,15 @@ export default class FactionInactivityWarningFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await addWarning(liveReload);
+	async execute() {
+		await addWarning(false);
 	}
 
-	cleanup() {
-		removeWarning();
+	async reload() {
+		await addWarning(true);
 	}
 
 	storageKeys(): string[] {
 		return ["settings.factionInactivityWarning"];
-	}
-
-	shouldLiveReload(): boolean {
-		return true;
 	}
 }

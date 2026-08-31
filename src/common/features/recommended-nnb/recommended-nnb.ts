@@ -45,14 +45,6 @@ async function showRecommendedNNB() {
 	}
 }
 
-function removeRecommendedNNB() {
-	document.querySelector(".faction-crimes-wrap .begin-wrap")?.classList.remove("tt-modified");
-
-	for (const nnb of findAllElements(".tt-recommended-nnb")) {
-		nnb.remove();
-	}
-}
-
 export default class RecommendedNNBFeature extends Feature {
 	constructor() {
 		super("Recommended NNB", "faction");
@@ -72,10 +64,6 @@ export default class RecommendedNNBFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeRecommendedNNB();
 	}
 
 	storageKeys() {

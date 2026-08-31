@@ -94,10 +94,6 @@ export default class CompanyAddictionFeature extends Feature {
 		await showCompanyAddictionLevel();
 	}
 
-	cleanup() {
-		removeCompanyAddictionLevel();
-	}
-
 	storageKeys() {
 		return ["settings.pages.sidebar.companyAddictionLevel", "userdata.job.id"];
 	}

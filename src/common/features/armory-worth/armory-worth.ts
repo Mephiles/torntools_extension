@@ -14,7 +14,7 @@ import type {
 	FactionV1TemporaryResponse,
 	FactionV1WeaponsResponse,
 } from "@common/utils/functions/api-v1.types";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -36,13 +36,11 @@ function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
 		if (!FEATURE_MANAGER.isEnabled(ArmoryWorthFeature)) return;
 
-		await addWorth(true);
+		await addWorth();
 	});
 }
 
-async function addWorth(force: boolean = false) {
-	if (!force) return;
-
+async function addWorth() {
 	document.querySelector(".tt-armory-worth")?.remove();
 
 	const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement!;
@@ -108,13 +106,6 @@ async function addWorth(force: boolean = false) {
 	}
 }
 
-function removeWorth() {
-	findAllElements(".tt-armory-worth").forEach((x) => {
-		x.parentElement!.classList.remove("tt-modified");
-		x.remove();
-	});
-}
-
 export default class ArmoryWorthFeature extends Feature {
 	constructor() {
 		super("Armory Worth", "faction");
@@ -132,12 +123,8 @@ export default class ArmoryWorthFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await addWorth(liveReload);
-	}
-
-	cleanup() {
-		removeWorth();
+	async reload() {
+		await addWorth();
 	}
 
 	storageKeys() {
@@ -147,10 +134,6 @@ export default class ArmoryWorthFeature extends Feature {
 	requirements() {
 		if (!hasFactionAPIAccess()) return "No faction API access.";
 
-		return true;
-	}
-
-	shouldLiveReload(): boolean {
 		return true;
 	}
 }

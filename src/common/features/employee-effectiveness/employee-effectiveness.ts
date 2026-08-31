@@ -50,12 +50,6 @@ async function showEffectiveness() {
 	}
 }
 
-function removeEffectiveness() {
-	for (const effectiveness of findAllElements(".tt-employee-effectiveness")) effectiveness.classList.remove("tt-employee-effectiveness");
-	observer?.disconnect();
-	observer = null;
-}
-
 export default class EmployeeEffectivenessFeature extends Feature {
 	constructor() {
 		super("Employee Effectiveness", "companies");
@@ -75,10 +69,6 @@ export default class EmployeeEffectivenessFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeEffectiveness();
 	}
 
 	storageKeys() {

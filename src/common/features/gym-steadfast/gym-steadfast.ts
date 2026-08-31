@@ -1,7 +1,7 @@
 import "./gym-steadfast.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -111,10 +111,6 @@ async function showSteadfast() {
 	}
 }
 
-function removeSteadfast() {
-	for (const steadfast of findAllElements(".tt-gym-steadfast")) steadfast.remove();
-}
-
 export default class GymSteadfastFeature extends Feature {
 	constructor() {
 		super("Gym Steadfast", "gym");
@@ -134,10 +130,6 @@ export default class GymSteadfastFeature extends Feature {
 
 	async execute() {
 		await showSteadfast();
-	}
-
-	cleanup() {
-		removeSteadfast();
 	}
 
 	storageKeys() {

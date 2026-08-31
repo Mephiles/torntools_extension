@@ -21,21 +21,6 @@ async function addFillMax() {
 		reactObserver.observe(await requireElement(SELECTOR_MOBILE_LIST), { childList: true });
 	} else document.addEventListener("click", maxBuyListener);
 }
-
-async function removeFillMax() {
-	if (mobile || tabletVertical) {
-		await requireElement("[class*='buyForm___']");
-		findAllElements("[class*='buyForm___']").forEach((x) => {
-			x.classList.remove("tt-fill-max");
-			x.querySelector(styles.ttMaxBuyBazaar).remove();
-		});
-		reactObserver.disconnect();
-	} else {
-		document.removeEventListener("click", maxBuyListener);
-		findAllElements(".tt-max-buy").forEach((x) => x.remove());
-	}
-}
-
 async function maxBuyListener(clickEvent: any = null) {
 	if (mobile || tabletVertical) {
 		await requireElement(`${SELECTOR_MOBILE_LIST} [class*='buyForm___']`);
@@ -99,10 +84,6 @@ export default class BazaarFillMaxFeature extends Feature {
 
 	async execute() {
 		await addFillMax();
-	}
-
-	async cleanup() {
-		await removeFillMax();
 	}
 
 	storageKeys() {

@@ -273,10 +273,6 @@ export default class RacingFilterFeature extends Feature {
 		if (getSearchParameters().get("tab") === "customrace") await addFilterContainer();
 	}
 
-	cleanup() {
-		removeFilters();
-	}
-
 	storageKeys() {
 		return ["settings.pages.racing.filter"];
 	}

@@ -15,10 +15,6 @@ export default class FastHuntingFeature extends Feature {
 		document.body.classList.add(styles.fastHunting);
 	}
 
-	cleanup() {
-		document.body.classList.remove(styles.fastHunting);
-	}
-
 	storageKeys() {
 		return ["settings.pages.travel.fastHunting"];
 	}

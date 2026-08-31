@@ -14,10 +14,6 @@ async function greyOut() {
 	}
 }
 
-function removeGreying() {
-	findAllElements(".tt-grey").forEach((x) => x.classList.remove("tt-grey"));
-}
-
 export default class GreyCompletedCoursesFeature extends Feature {
 	constructor() {
 		super("Grey Completed Courses", "education");
@@ -33,10 +29,6 @@ export default class GreyCompletedCoursesFeature extends Feature {
 
 	async execute() {
 		await greyOut();
-	}
-
-	cleanup() {
-		removeGreying();
 	}
 
 	storageKeys() {

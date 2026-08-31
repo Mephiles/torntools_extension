@@ -42,10 +42,6 @@ export default class UserAliasProfileFeature extends Feature {
 		await addAlias();
 	}
 
-	cleanup() {
-		removeAlias();
-	}
-
 	storageKeys() {
 		return ["settings.userAlias"];
 	}

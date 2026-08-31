@@ -51,10 +51,6 @@ function showAvailable() {
 	}
 }
 
-function removeAvailable() {
-	for (const available of findAllElements(".tt-available-players")) available.remove();
-}
-
 export default class OCAvailablePlayersFeature extends Feature {
 	constructor() {
 		super("OC Available Players", "faction");
@@ -74,10 +70,6 @@ export default class OCAvailablePlayersFeature extends Feature {
 
 	execute() {
 		startFeature();
-	}
-
-	cleanup() {
-		removeAvailable();
 	}
 
 	storageKeys() {

@@ -25,10 +25,6 @@ function addEffects() {
 	});
 }
 
-function removeEffects() {
-	findAllElements(".tt-book-effect").forEach((x) => x.remove());
-}
-
 export default class BookEffectFeature extends Feature {
 	constructor() {
 		super("Book Effect", "items");
@@ -48,10 +44,6 @@ export default class BookEffectFeature extends Feature {
 
 	execute() {
 		addEffects();
-	}
-
-	cleanup() {
-		removeEffects();
 	}
 
 	storageKeys() {

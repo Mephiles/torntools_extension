@@ -46,10 +46,6 @@ function showLastAction() {
 	}
 }
 
-function removeLastAction() {
-	for (const lastAction of findAllElements(".tt-oc-last-action")) lastAction.remove();
-}
-
 export default class OCLastActionFeature extends Feature {
 	constructor() {
 		super("OC Last Action", "faction");
@@ -69,10 +65,6 @@ export default class OCLastActionFeature extends Feature {
 
 	execute() {
 		startFeature();
-	}
-
-	cleanup() {
-		removeLastAction();
 	}
 
 	storageKeys() {

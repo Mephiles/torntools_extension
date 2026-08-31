@@ -43,11 +43,6 @@ async function addPropertyHappiness() {
 	}
 }
 
-function removeValues() {
-	findAllElements(".tt-property-happiness").forEach((x) => x.remove());
-	findAllElements(".properties-list > li.tt-modified").forEach((x) => x.classList.remove("tt-modified"));
-}
-
 export default class PropertyHappinessFeature extends Feature {
 	constructor() {
 		super("Property Happiness", "property");
@@ -70,10 +65,6 @@ export default class PropertyHappinessFeature extends Feature {
 		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
 
 		await addPropertyHappiness();
-	}
-
-	cleanup() {
-		removeValues();
 	}
 
 	storageKeys() {

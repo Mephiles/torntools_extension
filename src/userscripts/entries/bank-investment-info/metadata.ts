@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Bank Investment Info",
 	description: "Display an overview of the bank profit per period.",
-	version: "1.0.6",
+	version: "1.0.7",
 	matches: ["https://*.torn.com/bank.php*"],
 	runAt: "document-end",
 	connect: ["api.torn.com"],

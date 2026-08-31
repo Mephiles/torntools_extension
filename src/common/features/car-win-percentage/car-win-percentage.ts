@@ -39,10 +39,6 @@ async function addPercentage() {
 	});
 }
 
-function removePercentage() {
-	findAllElements(".tt-win-percentage").forEach((x) => x.remove());
-}
-
 export default class CarWinPercentageFeature extends Feature {
 	constructor() {
 		super("Car Win Percentage", "racing");
@@ -62,10 +58,6 @@ export default class CarWinPercentageFeature extends Feature {
 
 	async execute() {
 		if (["cars", "parts"].includes(getSearchParameters().get("tab"))) await addPercentage();
-	}
-
-	cleanup() {
-		removePercentage();
 	}
 
 	storageKeys() {

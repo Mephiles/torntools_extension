@@ -45,11 +45,6 @@ async function toggleInventory() {
 	await ttStorage.change({ localdata: { hiddenTravelInventory: newState } });
 }
 
-function removeButton() {
-	document.querySelector(`.${styles.hideInventoryButton}`)?.remove();
-	document.querySelector(`.${styles.hiddenInventory}`)?.classList.remove(styles.hiddenInventory);
-}
-
 export default class HideTravelInventoryFeature extends Feature {
 	constructor() {
 		super("Hide Travel Inventory", "travel");
@@ -65,10 +60,6 @@ export default class HideTravelInventoryFeature extends Feature {
 
 	async execute() {
 		await showButton();
-	}
-
-	cleanup() {
-		removeButton();
 	}
 
 	storageKeys() {

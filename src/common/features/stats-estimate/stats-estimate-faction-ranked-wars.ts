@@ -2,7 +2,7 @@ import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -68,14 +68,6 @@ function showEstimates() {
 	});
 }
 
-function removeEstimates() {
-	observer?.disconnect();
-	observer = undefined;
-
-	statsEstimate.clearQueue();
-	findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
-}
-
 export default class StatsEstimateFactionRankedWarsFeature extends Feature {
 	constructor() {
 		super("Stats Estimate Faction Ranked Wars", "factions");
@@ -101,10 +93,6 @@ export default class StatsEstimateFactionRankedWarsFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeEstimates();
 	}
 
 	storageKeys(): string[] {

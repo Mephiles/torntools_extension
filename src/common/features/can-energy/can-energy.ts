@@ -47,10 +47,6 @@ function addEnergyGains() {
 	});
 }
 
-function removeEnergyGains() {
-	findAllElements(".tt-e-gains").forEach((x) => x.remove());
-}
-
 export default class CanEnergyFeature extends Feature {
 	constructor() {
 		super("Can Energy", "items");
@@ -76,10 +72,6 @@ export default class CanEnergyFeature extends Feature {
 
 	execute() {
 		addEnergyGains();
-	}
-
-	cleanup() {
-		removeEnergyGains();
 	}
 
 	storageKeys() {

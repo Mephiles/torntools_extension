@@ -110,11 +110,6 @@ function hideEnlistedCars() {
 	wrapper.classList.add(styles.carSelected);
 }
 
-function removeSelectedCar() {
-	document.querySelector(`.${styles.preferredCar}`)?.remove();
-	document.querySelector(`.${styles.carSelected}`).classList.remove(styles.carSelected);
-}
-
 export default class RaceCarSelectorFeature extends Feature {
 	constructor() {
 		super("Race Car Selector", "racing");
@@ -130,10 +125,6 @@ export default class RaceCarSelectorFeature extends Feature {
 
 	initialise() {
 		initialiseListeners();
-	}
-
-	cleanup() {
-		removeSelectedCar();
 	}
 
 	storageKeys() {

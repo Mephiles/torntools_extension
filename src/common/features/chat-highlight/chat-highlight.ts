@@ -228,10 +228,6 @@ export default class ChatHighlightFeature extends Feature {
 		readSettings();
 	}
 
-	cleanup() {
-		removeHighlights();
-	}
-
 	storageKeys() {
 		return ["settings.pages.chat.highlights"];
 	}

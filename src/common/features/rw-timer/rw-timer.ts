@@ -102,10 +102,6 @@ export default class RWTimerFeature extends Feature {
 		await showTimer();
 	}
 
-	cleanup() {
-		removeTimer();
-	}
-
 	storageKeys() {
 		return ["settings.pages.sidebar.rwTimer"];
 	}

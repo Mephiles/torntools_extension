@@ -1,6 +1,6 @@
 import { settings } from "@common/utils/data/database";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, findParent, hasSidebar, mobile } from "@common/utils/functions/dom";
+import { elementBuilder, findAllElements, findParent, hasSidebar } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { ALL_AREAS, CUSTOM_LINKS_PRESET, getSidebarArea, isPageWithSidebar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -138,18 +138,6 @@ function showInside(links: InternalCustomLink[]) {
 	}
 }
 
-function removeLinks() {
-	if (mobile) {
-		const customLinksContainer = document.querySelector(".tt-custom-links-container");
-		if (customLinksContainer) customLinksContainer.remove();
-	} else {
-		removeContainer("Custom Links", { id: "customLinksAbove" });
-		removeContainer("Custom Links", { id: "customLinksUnder" });
-	}
-
-	for (const link of findAllElements(".custom-link")) link.remove();
-}
-
 export default class CustomLinksFeature extends Feature {
 	constructor() {
 		super("Custom Links", "sidebar");
@@ -165,10 +153,6 @@ export default class CustomLinksFeature extends Feature {
 
 	async execute() {
 		await showLinks();
-	}
-
-	cleanup() {
-		removeLinks();
 	}
 
 	storageKeys() {

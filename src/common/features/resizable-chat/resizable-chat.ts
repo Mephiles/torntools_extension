@@ -60,15 +60,6 @@ async function resizeInput(chat: HTMLElement) {
 	resizeObserver.observe(textarea);
 }
 
-function removeResize() {
-	findAllElements(styles.resizableChat).forEach((textarea) => {
-		textarea.style.height = "";
-		textarea.classList.remove(styles.resizableChat);
-	});
-	resizeObserver?.disconnect();
-	resizeObserver = undefined;
-}
-
 export default class ResizableChatFeature extends Feature {
 	constructor() {
 		super("Resizable Chat", "chat");
@@ -90,10 +81,6 @@ export default class ResizableChatFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeResize();
 	}
 
 	storageKeys() {

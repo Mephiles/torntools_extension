@@ -1,7 +1,7 @@
 import "./npc-loot-times.css";
 import { ttStorage } from "@common/utils/context";
 import { npcs, settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText, findParent, isElement } from "@common/utils/functions/dom";
 import { dropDecimals, formatTime } from "@common/utils/functions/formatting";
 import type { FormatTimeOptions } from "@common/utils/functions/formatting";
@@ -158,10 +158,6 @@ async function showNPCs() {
 	);
 }
 
-function removeNPCs() {
-	removeContainer("NPCs", { id: "npc-loot-times" });
-}
-
 export default class NPCLootTimesFeature extends Feature {
 	constructor() {
 		super("NPC Loot Times", "sidebar");
@@ -187,10 +183,6 @@ export default class NPCLootTimesFeature extends Feature {
 
 	async execute() {
 		await showNPCs();
-	}
-
-	cleanup() {
-		removeNPCs();
 	}
 
 	storageKeys() {

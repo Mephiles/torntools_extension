@@ -25,11 +25,6 @@ async function showFF() {
 	const title = await requireElement("[class*='topSection___']");
 	title.insertAdjacentElement("afterend", element);
 }
-
-function removeFF() {
-	document.querySelector(".tt-ff-scouter-attack")?.remove();
-}
-
 function getUserID() {
 	const params = new URL(location.href).searchParams;
 	const id = params.get("user2ID");
@@ -64,10 +59,6 @@ export default class FFScouterAttackFeature extends Feature {
 
 	async execute() {
 		await showFF();
-	}
-
-	cleanup() {
-		removeFF();
 	}
 
 	storageKeys(): string[] {

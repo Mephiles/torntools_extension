@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
 import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
@@ -54,10 +54,6 @@ async function addCSVContainer() {
 	options.appendChild(exportButton);
 }
 
-function removeCSVContainer() {
-	removeContainer("Chain Report");
-}
-
 export default class CSVChainReportFeature extends Feature {
 	constructor() {
 		super("Chain Report to CSV", "faction");
@@ -69,10 +65,6 @@ export default class CSVChainReportFeature extends Feature {
 
 	async execute() {
 		await addCSVContainer();
-	}
-
-	cleanup() {
-		removeCSVContainer();
 	}
 
 	storageKeys() {

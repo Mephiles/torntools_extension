@@ -51,10 +51,6 @@ function showTimes() {
 	}
 }
 
-function removeTimes() {
-	for (const timer of findAllElements(".tt-oc-time")) timer.remove();
-}
-
 export default class OCTimesFeature extends Feature {
 	constructor() {
 		super("OC Times", "faction");
@@ -74,10 +70,6 @@ export default class OCTimesFeature extends Feature {
 
 	execute() {
 		startFeature();
-	}
-
-	cleanup() {
-		removeTimes();
 	}
 
 	storageKeys() {

@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Book Effect",
 	description: "Show the book effect for books.",
-	version: "1.0.7",
+	version: "1.0.8",
 	matches: ["https://*.torn.com/item.php*"],
 	runAt: "document-end",
 	connect: ["torntools.tornplayground.eu"],

@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
 import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
@@ -49,10 +49,6 @@ async function addCSVContainer() {
 	options.appendChild(exportButton);
 }
 
-function removeCSVContainer() {
-	removeContainer("Raid Report");
-}
-
 export default class CSVRaidReportFeature extends Feature {
 	constructor() {
 		super("Raid Report to CSV", "faction");
@@ -68,10 +64,6 @@ export default class CSVRaidReportFeature extends Feature {
 
 	async execute() {
 		await addCSVContainer();
-	}
-
-	cleanup() {
-		removeCSVContainer();
 	}
 
 	storageKeys() {

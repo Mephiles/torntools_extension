@@ -177,11 +177,6 @@ export default class RankedWarFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		if (interval) clearInterval(interval);
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.faction.rankedWarFilter"];
 	}

@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isHTMLElement } from "@common/utils/functions/dom";
+import { elementBuilder, isHTMLElement } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, updateReactInput } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -117,12 +117,6 @@ async function addMoneyInputListeners() {
 	document.body.classList.add(styles.ttStockMoneyInput);
 }
 
-function removeMoneyInputListeners() {
-	document.querySelector("[class*='stockMarket__']")?.removeEventListener("click", addMoneyInputs);
-	findAllElements(`.${styles.ttMoneyInput}`).forEach((x) => x.remove());
-	document.body.classList.remove(styles.ttStockMoneyInput);
-}
-
 export default class StocksMoneyInputFeature extends Feature {
 	constructor() {
 		super("Stocks Money Input", "stocks");
@@ -142,9 +136,5 @@ export default class StocksMoneyInputFeature extends Feature {
 
 	async execute() {
 		await addMoneyInputListeners();
-	}
-
-	cleanup() {
-		removeMoneyInputListeners();
 	}
 }

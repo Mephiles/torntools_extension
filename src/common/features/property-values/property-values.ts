@@ -41,10 +41,6 @@ async function addPropertyValues() {
 	}
 }
 
-function removeValues() {
-	findAllElements(".tt-property-value").forEach((x) => x.remove());
-}
-
 export default class PropertyValuesFeature extends Feature {
 	constructor() {
 		super("Property Values", "property");
@@ -67,10 +63,6 @@ export default class PropertyValuesFeature extends Feature {
 		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
 
 		await addPropertyValues();
-	}
-
-	cleanup() {
-		removeValues();
 	}
 
 	storageKeys() {

@@ -40,10 +40,6 @@ export default class HideStocksFeature extends Feature {
 		await hideStocks();
 	}
 
-	cleanup() {
-		unhideStocks();
-	}
-
 	storageKeys() {
 		return ["settings.hideStocks"];
 	}

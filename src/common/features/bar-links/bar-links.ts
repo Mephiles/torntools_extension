@@ -61,16 +61,6 @@ async function addLinks() {
 		});
 }
 
-function removeLinks() {
-	Object.keys(BAR_LINKS)
-		.map((selector) => document.querySelector<HTMLElement>(selector))
-		.filter((e) => !!e)
-		.forEach((barName) => {
-			barName.removeEventListener("click", onClick);
-			barName.classList.remove("bar-link");
-		});
-}
-
 export default class BarLinksFeature extends Feature {
 	constructor() {
 		super("Bar Links", "sidebar", ExecutionTiming.IMMEDIATELY);
@@ -93,10 +83,6 @@ export default class BarLinksFeature extends Feature {
 
 	async execute() {
 		await addLinks();
-	}
-
-	cleanup() {
-		removeLinks();
 	}
 
 	storageKeys() {

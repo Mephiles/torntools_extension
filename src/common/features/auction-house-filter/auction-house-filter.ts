@@ -282,10 +282,6 @@ export default class AuctionHouseFilterFeature extends Feature {
 		await enableFilter();
 	}
 
-	cleanup() {
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.auction.filter"];
 	}

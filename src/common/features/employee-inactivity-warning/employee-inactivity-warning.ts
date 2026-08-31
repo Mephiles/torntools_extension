@@ -16,18 +16,16 @@ function addListener() {
 		await addWarning(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
-		if (FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature) && name === "Last Action") {
-			lastActionState = true;
-			await addWarning(true);
-		}
-	});
-	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature) || name !== "Last Action") return;
 
-		if (name === "Last Action") {
-			lastActionState = false;
-			removeWarning();
-		}
+		lastActionState = true;
+		await addWarning(true);
+	});
+	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
+		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature) || name !== "Last Action") return;
+
+		lastActionState = true;
+		await addWarning(true);
 	});
 }
 
@@ -50,13 +48,6 @@ async function addWarning(force: boolean | undefined) {
 	}
 }
 
-function removeWarning() {
-	findAllElements(".tt-inactive").forEach((inactive) => {
-		inactive.style.removeProperty("--tt-inactive-background");
-		inactive.classList.remove("tt-inactive");
-	});
-}
-
 export default class EmployeeInactivityWarningFeature extends Feature {
 	constructor() {
 		super("Employee Inactivity Warning", "companies");
@@ -71,19 +62,15 @@ export default class EmployeeInactivityWarningFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await addWarning(liveReload);
+	async execute() {
+		await addWarning(false);
 	}
 
-	cleanup() {
-		removeWarning();
+	async reload() {
+		await addWarning(true);
 	}
 
 	storageKeys(): string[] {
 		return ["settings.employeeInactivityWarning"];
-	}
-
-	shouldLiveReload(): boolean {
-		return true;
 	}
 }

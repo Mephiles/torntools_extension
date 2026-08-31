@@ -42,15 +42,6 @@ function fillClickedBalance(event: MouseEvent) {
 
 	fillBalance(user.combined, balance, activeMember);
 }
-
-function removeClickableBalances() {
-	findAllElements(`.${styles.clickableBalanceWrapper}`).forEach((row) => row.classList.remove(styles.clickableBalanceWrapper));
-	findAllElements(`.${styles.clickableBalance}`).forEach((balanceElement) => {
-		balanceElement.classList.remove(styles.clickableBalance);
-		balanceElement.removeEventListener("click", fillClickedBalance);
-	});
-}
-
 function fillBalance(user: string, amount: number, activeMember: boolean) {
 	const moneyRoot = moneyRootElement();
 	if (!moneyRoot) {
@@ -105,10 +96,6 @@ export default class ClickableBalancesFeature extends Feature {
 		if (params.has("option") && params.get("option") !== "give-to-user") return;
 
 		makeBalancesClickable();
-	}
-
-	cleanup() {
-		removeClickableBalances();
 	}
 
 	storageKeys() {

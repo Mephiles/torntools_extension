@@ -12,10 +12,6 @@ async function setTitle() {
 	document.title = `${name.textContent} | Attack`;
 }
 
-function reset() {
-	document.title = original;
-}
-
 export default class PageTitleFeature extends Feature {
 	constructor() {
 		super("Page Title", "global");
@@ -31,10 +27,6 @@ export default class PageTitleFeature extends Feature {
 
 	async execute() {
 		await setTitle();
-	}
-
-	cleanup() {
-		reset();
 	}
 
 	storageKeys() {

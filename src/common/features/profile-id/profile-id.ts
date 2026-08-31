@@ -12,16 +12,6 @@ async function addID() {
 	title.setAttribute("title", "Click to copy.");
 	title.addEventListener("click", copyID);
 }
-
-function removeID() {
-	const title = document.querySelector("h4#skip-to-content");
-
-	const name = title.textContent.replaceAll(/ \[.*]/g, "");
-	title.textContent = `${name}'${name.endsWith("s") ? "" : "s"} Profile`;
-	title.removeAttribute("title");
-	title.removeEventListener("click", copyID);
-}
-
 function copyID() {
 	toClipboard(document.querySelector("h4#skip-to-content").textContent);
 }
@@ -47,10 +37,6 @@ export default class ProfileIDFeature extends Feature {
 
 	async execute() {
 		await addID();
-	}
-
-	cleanup() {
-		removeID();
 	}
 
 	storageKeys() {

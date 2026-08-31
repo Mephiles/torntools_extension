@@ -73,10 +73,6 @@ export default class AttackTimeoutWarningFeature extends Feature {
 		await addListener();
 	}
 
-	cleanup() {
-		stopListener();
-	}
-
 	storageKeys() {
 		return ["settings.pages.attack.timeoutWarning"];
 	}

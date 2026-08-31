@@ -1,7 +1,6 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad } from "@common/utils/functions/torn";
@@ -43,11 +42,6 @@ async function showEstimates() {
 	);
 }
 
-function removeEstimates() {
-	statsEstimate.clearQueue();
-	findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
-}
-
 export default class StatsEstimateAbroadFeature extends Feature {
 	constructor() {
 		super("Stats Estimate Abroad", "travel");
@@ -73,10 +67,6 @@ export default class StatsEstimateAbroadFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeEstimates();
 	}
 
 	storageKeys() {

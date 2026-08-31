@@ -131,10 +131,6 @@ export default class OC2TimeFeature extends Feature {
 		await showTimer();
 	}
 
-	cleanup() {
-		removeTimer();
-	}
-
 	storageKeys() {
 		return [
 			"settings.pages.sidebar.oc2Timer",

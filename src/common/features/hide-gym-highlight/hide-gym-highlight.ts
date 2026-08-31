@@ -7,10 +7,6 @@ function hideGymHighlight() {
 	document.documentElement.classList.add("tt-hide-gym-highlight");
 }
 
-function removeHiddenHighlight() {
-	document.documentElement.classList.remove("tt-hide-gym-highlight");
-}
-
 export default class HideGymHighlightFeature extends Feature {
 	constructor() {
 		super("Hide Gym Highlight", "sidebar");
@@ -26,10 +22,6 @@ export default class HideGymHighlightFeature extends Feature {
 
 	execute() {
 		hideGymHighlight();
-	}
-
-	cleanup() {
-		removeHiddenHighlight();
 	}
 
 	storageKeys() {

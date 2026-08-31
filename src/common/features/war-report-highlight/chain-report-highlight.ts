@@ -10,10 +10,6 @@ async function highlightName() {
 	findAllElements(".members-names-rows, .members-stats-rows").forEach((list) => list.classList.add(styles.warReportHighlight));
 }
 
-function removeHighlight() {
-	findAllElements(`.${styles.warReportHighlight}`).forEach((list) => list.classList.remove(styles.warReportHighlight));
-}
-
 export default class ChainReportHighlightFeature extends Feature {
 	constructor() {
 		super("Chain Report Highlight", "faction");
@@ -25,10 +21,6 @@ export default class ChainReportHighlightFeature extends Feature {
 
 	async execute() {
 		await highlightName();
-	}
-
-	cleanup() {
-		removeHighlight();
 	}
 
 	storageKeys() {

@@ -1,7 +1,7 @@
 import { isOwnCompany, readCompanyDetails } from "@common/pages/company-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -30,10 +30,6 @@ async function addID() {
 	container.appendChild(elementBuilder({ type: "span", text: ` [${details.id}]`, id: "tt-company-id" }));
 }
 
-function removeID() {
-	findAllElements("#tt-company-id").forEach((element) => element.remove());
-}
-
 export default class CompanyIDFeature extends Feature {
 	constructor() {
 		super("Company ID", "companies");
@@ -53,10 +49,6 @@ export default class CompanyIDFeature extends Feature {
 
 	async execute() {
 		await addID();
-	}
-
-	cleanup() {
-		removeID();
 	}
 
 	storageKeys() {

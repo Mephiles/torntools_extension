@@ -44,10 +44,10 @@ function initialiseListeners() {
 
 		await enableLastAction();
 	});
-	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || name !== "Last Action") return;
 
-		await disableLastAction();
+		await enableLastAction();
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, () => {
 		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
@@ -89,16 +89,6 @@ async function enableLastAction() {
 	await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
 	lastActionMax = parseInt(document.querySelector(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
 	lastActionState = true;
-	filter?.rerenderSections();
-}
-
-async function disableLastAction() {
-	if (!lastActionState) return;
-
-	lastActionState = false;
-	findAllElements(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
-		x.classList.remove("tt-hidden", "last-action");
-	});
 	filter?.rerenderSections();
 }
 
@@ -335,11 +325,6 @@ export default class FactionMemberFilterFeature extends Feature {
 
 	async execute() {
 		await addFilterContainer();
-	}
-
-	cleanup() {
-		lastActionState = false;
-		filter?.dispose();
 	}
 
 	storageKeys() {

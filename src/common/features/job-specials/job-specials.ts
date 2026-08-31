@@ -1,6 +1,6 @@
 import "./job-specials.css";
 import { settings } from "@common/utils/data/database";
-import { createContainer, findContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer, findContainer } from "@common/utils/functions/containers";
 import { elementBuilder, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { applyPlural } from "@common/utils/functions/formatting";
@@ -78,10 +78,6 @@ async function showSpecials() {
 	}
 }
 
-function removeSpecials() {
-	removeContainer("Job Specials");
-}
-
 export default class JobSpecialsFeature extends Feature {
 	constructor() {
 		super("Job Specials", "joblist");
@@ -101,10 +97,6 @@ export default class JobSpecialsFeature extends Feature {
 
 	async execute() {
 		await showSpecials();
-	}
-
-	cleanup() {
-		removeSpecials();
 	}
 
 	storageKeys() {

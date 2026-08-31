@@ -52,15 +52,6 @@ async function showValue() {
 	executeScript(browser.runtime.getURL("/points-value--inject.js"));
 }
 
-function removeValue() {
-	const block = document.querySelector(".tt-points-value");
-	if (!block) return;
-
-	block.classList.remove("tt-points-value");
-	block.removeEventListener("mouseover", setTitleAttributes);
-	for (const elements of findAllElements(":scope > span", block)) elements.removeAttribute("title");
-}
-
 export default class PointsValueFeature extends Feature {
 	constructor() {
 		super("Points Value", "sidebar");
@@ -84,10 +75,6 @@ export default class PointsValueFeature extends Feature {
 
 	async execute() {
 		await showValue();
-	}
-
-	cleanup() {
-		removeValue();
 	}
 
 	storageKeys() {
