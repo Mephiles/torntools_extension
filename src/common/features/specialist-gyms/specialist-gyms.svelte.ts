@@ -4,14 +4,14 @@ import { toRecord } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 import { mount, unmount } from "svelte";
 import BattleStatInfo from "./battle-stat-info.svelte";
-import { battleStats } from "./models/battle-stat";
 import type { BattleStat } from "./models/battle-stat";
+import { battleStats } from "./models/battle-stat";
 import type { SpecialGym } from "./models/special-gym";
 import SpecialistGymsBox from "./specialist-gyms-box.svelte";
-import { calculateSpecialGymsData } from "./stats-calculations";
 import type { SpecialGymsCalcResult } from "./stats-calculations";
-import { createStatsWatcher } from "./stats-watcher";
+import { calculateSpecialGymsData } from "./stats-calculations";
 import type { StatsWatcher } from "./stats-watcher";
+import { createStatsWatcher } from "./stats-watcher";
 
 function createGymContentManager(gymsDataFn: () => SpecialGymsCalcResult) {
 	const propertiesContainer = document.querySelector('[class*="gymContent___"] > [class*="properties___"]');
@@ -23,7 +23,7 @@ function createGymContentManager(gymsDataFn: () => SpecialGymsCalcResult) {
 	let statInfoComponentsMap: Partial<Record<BattleStat, unknown>> = {};
 
 	for (const battleStat of battleStats) {
-		const component = mount(BattleStatInfo, {
+		statInfoComponentsMap[battleStat] = mount(BattleStatInfo, {
 			target: areasElementsMap[battleStat],
 			props: {
 				get gymsData() {
@@ -33,8 +33,6 @@ function createGymContentManager(gymsDataFn: () => SpecialGymsCalcResult) {
 				marginTopPx: 5,
 			},
 		});
-
-		statInfoComponentsMap[battleStat] = component;
 	}
 
 	function dispose() {
