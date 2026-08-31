@@ -29,9 +29,10 @@ async function generateHTML(entry: ChangelogEntry) {
 	const content = buildHtml(entry);
 
 	await mkdir(OUTPUT_DIR, { recursive: true });
-	const file = resolve(OUTPUT_DIR, "release_forums.txt");
+	const filename = `release_forums-${versionString(entry.version)}.txt`;
+	const file = resolve(OUTPUT_DIR, filename);
 	await writeFile(file, content);
-	console.log(`Written: release_forums.txt (${content.length} chars)`);
+	console.log(`Written: ${filename} (${content.length} chars)`);
 }
 
 function buildHtml(entry: ChangelogEntry): string {
