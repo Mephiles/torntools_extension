@@ -10,7 +10,7 @@ import { Feature } from "@features/feature";
 function initialise() {
 	if (isInternalFaction) {
 		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(FactionIDFeature) || !settings.pages.faction.idBesideFactionName) return;
+			if (!FEATURE_MANAGER.isEnabled(FactionIDFeature)) return;
 
 			await addID();
 		});
