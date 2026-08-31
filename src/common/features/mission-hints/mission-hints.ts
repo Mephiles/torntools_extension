@@ -348,8 +348,8 @@ async function showHints() {
 			task = "You are using a conflicting script.";
 			hint = "Please remove the script that changes the mission title or contact the TornTools developers.";
 		} else {
-			task = "Couldn't find information for this mission.";
-			hint = "Contact the TornTools developers.";
+			task = "Couldn't find information for this mission. One known cause would be a conflicting script.";
+			hint = "Please remove the script that changes the mission title or contact the TornTools developers. Otherwise, contact the TornTools developers.";
 		}
 
 		const children = [

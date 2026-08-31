@@ -56,7 +56,8 @@
 				{ "message": "Allow spaces before search terms in the stocks filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Change the url for requesting revives from Laekna.", "contributor": "DeKleineKobini" },
 				{ "message": "Have the 'FF Score' filter also work on page specific ff score features.", "contributor": "DeKleineKobini" },
-				{ "message": "Only display achievements with real circulation, to avoid unreleased ones being shown.", "contributor": "DeKleineKobini" }
+				{ "message": "Only display achievements with real circulation, to avoid unreleased ones being shown.", "contributor": "DeKleineKobini" },
+				{ "message": "Show a clearer message in 'Mission Hints' about conflicting scripts..", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{
