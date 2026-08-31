@@ -135,12 +135,12 @@ export default class LastActionFactionFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await addLastAction(liveReload);
+	async execute() {
+		await addLastAction(false);
 	}
 
-	cleanup() {
-		removeLastAction();
+	async reload() {
+		await addLastAction(true);
 	}
 
 	storageKeys(): string[] {
@@ -148,10 +148,6 @@ export default class LastActionFactionFeature extends Feature {
 	}
 
 	shouldTriggerEvents(): boolean {
-		return true;
-	}
-
-	shouldLiveReload(): boolean {
 		return true;
 	}
 }

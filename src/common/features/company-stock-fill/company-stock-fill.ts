@@ -63,19 +63,15 @@ export default class CompanyStockFillFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await addFillStockButton(liveReload);
+	async execute() {
+		await addFillStockButton(false);
 	}
 
-	cleanup() {
-		document.querySelector(`.${styles.ttFillStockWrapper}`)?.remove();
+	async reload() {
+		await addFillStockButton(true);
 	}
 
 	storageKeys() {
 		return ["settings.pages.companies.autoStockFill"];
-	}
-
-	shouldLiveReload(): boolean {
-		return true;
 	}
 }

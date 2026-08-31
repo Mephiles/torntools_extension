@@ -160,10 +160,6 @@ export default class HighLowHelperFeature extends Feature {
 		initialiseHelper();
 	}
 
-	cleanup() {
-		removeHelper();
-	}
-
 	storageKeys() {
 		return ["settings.pages.casino.highlow"];
 	}

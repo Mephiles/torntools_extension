@@ -1,6 +1,6 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { PHEye, PHEyeSlash } from "@common/utils/icons/phosphor-icons";
@@ -100,12 +100,6 @@ function handleHiddenElements(feedElement: Element) {
 	);
 }
 
-function cleanupFeeds() {
-	findAllElements(`.${styles.onlyNewFeedButton}`).forEach((e) => e.remove());
-	findAllElements(`.${styles.nothingToShow}`).forEach((e) => e.remove());
-	findAllElements(`.${styles.onlyShowNewPosts}`).forEach((e) => e.classList.remove(styles.onlyShowNewPosts));
-}
-
 export default class OnlyNewFeedFeature extends Feature {
 	constructor() {
 		super("Only New Feed", "forums");
@@ -125,9 +119,5 @@ export default class OnlyNewFeedFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		cleanupFeeds();
 	}
 }

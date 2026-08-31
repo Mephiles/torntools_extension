@@ -26,17 +26,7 @@ function createBankInvestmentFacade(investmentTimeLeftElement: Element) {
 	});
 
 	investmentTimeLeftElement.insertAdjacentElement("afterend", investmentDueTimeElement);
-
-	function dispose() {
-		investmentDueTimeElement.remove();
-	}
-
-	return {
-		dispose,
-	};
 }
-
-let bankInvestmentFacade: ReturnType<typeof createBankInvestmentFacade> | undefined;
 
 export default class BankInvestmentDueTimeFeature extends Feature {
 	constructor() {
@@ -59,12 +49,7 @@ export default class BankInvestmentDueTimeFeature extends Feature {
 	}
 
 	async execute() {
-		bankInvestmentFacade = createBankInvestmentFacade(await requireElement("p.m-clear"));
-	}
-
-	cleanup() {
-		bankInvestmentFacade?.dispose();
-		bankInvestmentFacade = undefined;
+		createBankInvestmentFacade(await requireElement("p.m-clear"));
 	}
 
 	storageKeys() {

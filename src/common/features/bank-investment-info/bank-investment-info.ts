@@ -86,11 +86,7 @@ function bankMoneyCellRenderer(bankMoneyData: MoneyInfo): BaseElement {
 	};
 }
 
-interface BankInvestmentContainer {
-	dispose: () => void;
-}
-
-function createBankInvestmentContainer(bankAprInfo: TornBank[], delimiter: HTMLElement): BankInvestmentContainer {
+function createBankInvestmentContainer(bankAprInfo: TornBank[], delimiter: HTMLElement) {
 	const tableColumnsDefs: TableColumnDef<BankTableRowData>[] = [
 		{
 			id: "period",
@@ -159,14 +155,9 @@ function createBankInvestmentContainer(bankAprInfo: TornBank[], delimiter: HTMLE
 		],
 	});
 
-	const { content, container } = createContainer("Bank Investment", { previousElement: delimiter });
+	const { content } = createContainer("Bank Investment", { previousElement: delimiter });
 	content.appendChild(moneyInput);
 	content.appendChild(investmentTable.element);
-
-	function dispose() {
-		investmentTable.dispose();
-		container.remove();
-	}
 
 	function _createRow(period: PERIOD_TYPE): BankTableRowData {
 		return {
@@ -200,13 +191,7 @@ function createBankInvestmentContainer(bankAprInfo: TornBank[], delimiter: HTMLE
 		bestPeriod = tableRowsData.reduce((maxRow, row) => (row.regular.daily > maxRow.regular.daily ? row : maxRow), tableRowsData[0]).period;
 		investmentTable.updateData(tableRowsData);
 	}
-
-	return {
-		dispose,
-	};
 }
-
-let bankInvestmentInfoContainer: BankInvestmentContainer;
 
 async function initialize() {
 	const delimiter = await requireElement(".content-wrapper > .delimiter-999");
@@ -220,12 +205,7 @@ async function initialize() {
 		ttCache.set({ "bank-interest-v2": response }, millisToNewDay());
 	}
 
-	bankInvestmentInfoContainer = createBankInvestmentContainer(response, delimiter);
-}
-
-function teardown() {
-	bankInvestmentInfoContainer?.dispose();
-	bankInvestmentInfoContainer = undefined;
+	createBankInvestmentContainer(response, delimiter);
 }
 
 export default class BankInvestmentInfoFeature extends Feature {
@@ -243,10 +223,6 @@ export default class BankInvestmentInfoFeature extends Feature {
 
 	async execute() {
 		await initialize();
-	}
-
-	cleanup() {
-		teardown();
 	}
 
 	storageKeys() {

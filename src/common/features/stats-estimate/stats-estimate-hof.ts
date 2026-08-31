@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -62,11 +62,6 @@ async function showEstimates() {
 	);
 }
 
-function removeEstimates() {
-	statsEstimate.clearQueue();
-	findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
-}
-
 export default class StatsEstimateHOFFeature extends Feature {
 	constructor() {
 		super("Stats Estimate HOF", "halloffame");
@@ -92,10 +87,6 @@ export default class StatsEstimateHOFFeature extends Feature {
 
 	async execute() {
 		await showEstimates();
-	}
-
-	cleanup() {
-		removeEstimates();
 	}
 
 	storageKeys(): string[] {

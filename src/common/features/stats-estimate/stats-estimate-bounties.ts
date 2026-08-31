@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -50,11 +50,6 @@ async function showEstimates() {
 	);
 }
 
-function removeEstimates() {
-	statsEstimate.clearQueue();
-	findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
-}
-
 export default class StatsEstimateBountiesFeature extends Feature {
 	constructor() {
 		super("Stats Estimate Bounties", "bounties");
@@ -80,10 +75,6 @@ export default class StatsEstimateBountiesFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeEstimates();
 	}
 
 	storageKeys(): string[] {

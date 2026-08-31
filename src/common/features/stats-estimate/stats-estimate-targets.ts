@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -60,15 +60,6 @@ async function showEstimates() {
 	);
 }
 
-function removeEstimates() {
-	statsEstimate.clearQueue();
-	findAllElements(".tt-stats-estimate").forEach((estimate) => estimate.remove());
-	document.body.classList.remove("tt-transparent-estimates");
-
-	listObserver?.disconnect();
-	tableObserver?.disconnect();
-}
-
 export default class StatsEstimateTargetsFeature extends Feature {
 	constructor() {
 		super("Stats Estimate Targets", "targets");
@@ -94,10 +85,6 @@ export default class StatsEstimateTargetsFeature extends Feature {
 
 	async execute() {
 		await showEstimates();
-	}
-
-	cleanup() {
-		removeEstimates();
 	}
 
 	storageKeys(): string[] {

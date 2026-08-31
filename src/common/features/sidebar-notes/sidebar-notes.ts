@@ -1,7 +1,7 @@
 import "./sidebar-notes.css";
 import { ttStorage } from "@common/utils/context";
 import { notes, settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText, findParent, isHTMLElement } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
@@ -46,10 +46,6 @@ async function showNotes() {
 	);
 }
 
-function removeNotes() {
-	removeContainer("Notes", { id: "sidebarNotes" });
-}
-
 export default class SidebarNotesFeature extends Feature {
 	constructor() {
 		super("Sidebar Notes", "sidebar");
@@ -71,10 +67,6 @@ export default class SidebarNotesFeature extends Feature {
 
 	async execute() {
 		await showNotes();
-	}
-
-	cleanup() {
-		removeNotes();
 	}
 
 	storageKeys() {

@@ -68,10 +68,6 @@ export default class UpdateNoticeFeature extends Feature {
 		await showNotice();
 	}
 
-	cleanup() {
-		removeNotice();
-	}
-
 	storageKeys() {
 		return ["settings.updateNotice", "version.showNotice"];
 	}

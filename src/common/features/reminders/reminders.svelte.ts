@@ -4,7 +4,7 @@ import { checkDevice, findElementWithText } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import { mount, unmount } from "svelte";
+import { mount } from "svelte";
 import { REMINDERS } from "./reminder-list";
 import RemindersBox from "./reminders-box.svelte";
 
@@ -72,13 +72,6 @@ function initialiseListeners() {
 	storageListeners.userdata.push(updateReminders);
 }
 
-function dispose() {
-	if (remindersBox) {
-		void unmount(remindersBox);
-		remindersBox = undefined;
-	}
-}
-
 export default class RemindersFeature extends Feature {
 	constructor() {
 		super("Reminders", "sidebar");
@@ -106,10 +99,6 @@ export default class RemindersFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		dispose();
 	}
 
 	storageKeys() {

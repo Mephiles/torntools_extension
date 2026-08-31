@@ -96,12 +96,6 @@ async function showCheckboxes() {
 	}
 }
 
-function dispose() {
-	for (const checkbox of findAllElements(".tt-stat-checkbox")) checkbox.remove();
-	for (const stat of findAllElements(".tt-gym-locked, #gymroot ul[class*='properties___'] > li.tt-modified"))
-		stat.classList.remove(".tt-gym-locked", "tt-modified");
-}
-
 export default class GymDisableStatsFeature extends Feature {
 	constructor() {
 		super("Disable Stats", "gym");
@@ -121,10 +115,6 @@ export default class GymDisableStatsFeature extends Feature {
 
 	async execute() {
 		await showCheckboxes();
-	}
-
-	cleanup() {
-		dispose();
 	}
 
 	storageKeys() {

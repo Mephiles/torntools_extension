@@ -54,12 +54,6 @@ async function showMarketIcons() {
 	if (lastItem?.querySelector(".outside-actions")) lastItem.querySelector(".outside-actions").classList.add("last-action");
 }
 
-function removeMarketIcons() {
-	for (const link of findAllElements(".market-link")) {
-		link.remove();
-	}
-}
-
 export default class MarketIconsFeature extends Feature {
 	constructor() {
 		super("Market Icons", "items");
@@ -79,10 +73,6 @@ export default class MarketIconsFeature extends Feature {
 
 	async execute() {
 		await showMarketIcons();
-	}
-
-	cleanup() {
-		removeMarketIcons();
 	}
 
 	storageKeys() {

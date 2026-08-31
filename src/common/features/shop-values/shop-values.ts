@@ -41,11 +41,6 @@ async function showValues() {
 	});
 }
 
-function removeValues() {
-	findAllElements(".tt-value-modified").forEach((element) => element.classList.remove("tt-value-modified"));
-	findAllElements(".tt-market-value").forEach((element) => element.remove());
-}
-
 export default class ShopValuesFeature extends Feature {
 	constructor() {
 		super("Shop Values", "shops");
@@ -71,10 +66,6 @@ export default class ShopValuesFeature extends Feature {
 
 	async execute() {
 		await showValues();
-	}
-
-	cleanup() {
-		removeValues();
 	}
 
 	storageKeys() {

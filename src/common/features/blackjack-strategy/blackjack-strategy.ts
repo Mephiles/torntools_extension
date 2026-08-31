@@ -615,10 +615,6 @@ export default class BlackjackStrategyFeature extends Feature {
 		initialiseStrategy();
 	}
 
-	cleanup() {
-		removeSuggestion();
-	}
-
 	storageKeys() {
 		return ["settings.pages.casino.blackjack"];
 	}

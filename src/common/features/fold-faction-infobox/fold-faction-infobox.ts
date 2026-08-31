@@ -2,7 +2,7 @@ import "./fold-faction-infobox.css";
 import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { findAllElements, getSearchParameters } from "@common/utils/functions/dom";
+import { getSearchParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -83,12 +83,6 @@ async function foldInfobox() {
 	}
 }
 
-function removeFull() {
-	for (const arrow of findAllElements(".tt-collapse-infobox")) arrow.remove();
-	for (const title of findAllElements(".tt-foldable-infobox")) title.classList.remove("tt-foldable-infobox");
-	for (const foldable of findAllElements(".tt-foldable, .folded")) foldable.classList.remove("tt-foldable", "folded");
-}
-
 export default class FoldFactionInfoboxFeature extends Feature {
 	constructor() {
 		super("Fold Infobox", "faction");
@@ -110,10 +104,6 @@ export default class FoldFactionInfoboxFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeFull();
 	}
 
 	storageKeys() {

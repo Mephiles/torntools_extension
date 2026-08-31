@@ -1,7 +1,7 @@
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
 import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -57,10 +57,6 @@ async function addCSVContainer() {
 	options.appendChild(exportButton);
 }
 
-function removeCSVContainer() {
-	removeContainer("Export Challenge Contributions");
-}
-
 export default class CSVChallengeContributionsFeature extends Feature {
 	constructor() {
 		super("Challenge Contributions to CSV", "faction");
@@ -80,10 +76,6 @@ export default class CSVChallengeContributionsFeature extends Feature {
 
 			await addCSVContainer();
 		});
-	}
-
-	cleanup() {
-		removeCSVContainer();
 	}
 
 	storageKeys() {

@@ -34,10 +34,6 @@ export default class HighlightEnergyRefillFeature extends Feature {
 		applyStyle();
 	}
 
-	cleanup() {
-		document.documentElement.classList.remove("tt-highlight-energy-refill");
-	}
-
 	storageKeys() {
 		return ["settings.pages.sidebar.highlightEnergy", "userdata.refills.energy"];
 	}

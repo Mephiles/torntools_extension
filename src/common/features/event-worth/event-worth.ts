@@ -1,6 +1,5 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
@@ -37,13 +36,6 @@ async function addWorth() {
 	);
 }
 
-function removeWorth() {
-	findAllElements("[class*='eventsList__'] [class*='eventItem___'] [class*='message__']").forEach((x) => {
-		x.removeAttribute("title");
-		x.classList.remove("tt-modified");
-	});
-}
-
 export default class EventWorthFeature extends Feature {
 	constructor() {
 		super("Event Worth", "events");
@@ -55,10 +47,6 @@ export default class EventWorthFeature extends Feature {
 
 	async execute() {
 		await addWorth();
-	}
-
-	cleanup() {
-		removeWorth();
 	}
 
 	storageKeys() {

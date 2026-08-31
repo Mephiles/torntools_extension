@@ -132,10 +132,6 @@ export default class EfficientRehabFeature extends Feature {
 		await showInformation();
 	}
 
-	cleanup() {
-		removeInformation();
-	}
-
 	storageKeys() {
 		return ["settings.pages.travel.efficientRehab", "settings.apiUsage.user.personalstats"];
 	}

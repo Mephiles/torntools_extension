@@ -87,10 +87,6 @@ export default class FactionOCTimeFeature extends Feature {
 		await showTimer();
 	}
 
-	cleanup() {
-		removeTimer();
-	}
-
 	storageKeys() {
 		return ["settings.pages.sidebar.factionOCTimer", "factiondata.crimes"];
 	}

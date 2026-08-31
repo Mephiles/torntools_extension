@@ -42,11 +42,6 @@ async function showComputer() {
 		}),
 	);
 }
-
-function removeComputer() {
-	document.querySelector(".tt-computer")?.remove();
-}
-
 function hasComputer() {
 	return true;
 }
@@ -73,10 +68,6 @@ export default class ComputerLinkFeature extends Feature {
 
 	async execute() {
 		await showComputer();
-	}
-
-	cleanup() {
-		removeComputer();
 	}
 
 	storageKeys() {

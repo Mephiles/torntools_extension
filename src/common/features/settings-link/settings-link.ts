@@ -1,7 +1,7 @@
 import "./settings-link.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
@@ -74,15 +74,6 @@ function generateFrame() {
 	});
 }
 
-function removeLink() {
-	findAllElements(".tt-back, .tt-settings, #tt-settings-iframe").forEach((x) => x.remove());
-
-	const tornContent = document.querySelector<HTMLElement>(".content-wrapper[role*='main']");
-	if (tornContent.style.display === "none") tornContent.style.display = "block";
-
-	document.body.classList.remove("tt-iframe-open");
-}
-
 export default class SettingsLinkFeature extends Feature {
 	constructor() {
 		super("Settings Link", "sidebar");
@@ -108,10 +99,6 @@ export default class SettingsLinkFeature extends Feature {
 
 	async execute() {
 		await addLink();
-	}
-
-	cleanup() {
-		removeLink();
 	}
 
 	storageKeys() {

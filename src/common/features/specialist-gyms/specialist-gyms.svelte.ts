@@ -106,15 +106,6 @@ async function startFeature() {
 	});
 }
 
-function disposeFeature() {
-	statsWatcher.dispose();
-	unmount(specialGymsInfo);
-	gymContentManager.dispose();
-	statsWatcher = undefined;
-	specialGymsInfo = undefined;
-	gymContentManager = undefined;
-}
-
 export default class SpecialistGymsFeature extends Feature {
 	constructor() {
 		super("Specialist Gyms", "gym");
@@ -130,10 +121,6 @@ export default class SpecialistGymsFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		disposeFeature();
 	}
 
 	storageKeys() {

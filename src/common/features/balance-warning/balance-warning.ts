@@ -107,19 +107,6 @@ function matchesAnyBalance(amount: number): boolean {
 function showWarning() {
 	return confirm("You are giving more than the balance of this user, and doesn't match any other balance either.");
 }
-
-function removeWarning() {
-	formObserver?.disconnect();
-	formObserver = undefined;
-	acceptedWarnings.clear();
-
-	const button = document.querySelector<HTMLElement>(`.${styles.balanceWarningIntercepted}`);
-	if (button) {
-		button.classList.remove(styles.balanceWarningIntercepted);
-		button.removeEventListener("click", giveMoneyHandler);
-	}
-}
-
 function moneyRootElement() {
 	return document.querySelector("#faction-give-to-user-root [class*='money___']");
 }
@@ -147,10 +134,6 @@ export default class BalanceWarningFeature extends Feature {
 		if (params.has("option") && params.get("option") !== "give-to-user") return;
 
 		pageLoad();
-	}
-
-	cleanup() {
-		removeWarning();
 	}
 
 	storageKeys() {

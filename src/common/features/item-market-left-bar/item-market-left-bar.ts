@@ -15,10 +15,6 @@ export default class ItemMarketLeftBarFeature extends Feature {
 		document.documentElement.classList.add("tt-item-market-left-bar");
 	}
 
-	cleanup() {
-		document.documentElement.classList.remove("tt-item-market-left-bar");
-	}
-
 	storageKeys() {
 		return ["settings.pages.itemmarket.leftBar"];
 	}

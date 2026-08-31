@@ -1,7 +1,7 @@
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
@@ -36,10 +36,6 @@ async function addCSVContainer() {
 	options.appendChild(document.createTextNode(formatNumber(totalContributions)));
 }
 
-function removeCSVContainer() {
-	removeContainer("Total Challenge Contributions");
-}
-
 export default class TotalChallengeContributionsFeature extends Feature {
 	constructor() {
 		super("Total Challenge Contributions", "faction");
@@ -59,10 +55,6 @@ export default class TotalChallengeContributionsFeature extends Feature {
 
 			await addCSVContainer();
 		});
-	}
-
-	cleanup() {
-		removeCSVContainer();
 	}
 
 	storageKeys() {

@@ -43,13 +43,6 @@ async function showExperience() {
 	}
 }
 
-function removeExperience() {
-	while (observers.length) observers.pop().disconnect();
-
-	findAllElements(".tt-weapon").forEach((weapon) => weapon.classList.remove("tt-weapon"));
-	findAllElements(".tt-weapon-experience").forEach((experience) => experience.remove());
-}
-
 export default class WeaponExperienceFeature extends Feature {
 	constructor() {
 		super("Weapon Experience", "attack");
@@ -65,10 +58,6 @@ export default class WeaponExperienceFeature extends Feature {
 
 	async execute() {
 		await showExperience();
-	}
-
-	cleanup() {
-		removeExperience();
 	}
 
 	storageKeys() {

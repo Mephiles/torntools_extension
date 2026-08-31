@@ -107,13 +107,6 @@ export default class MuseumMarketLinkFeature extends Feature {
 		initialiseMarketLink();
 	}
 
-	cleanup() {
-		observer?.disconnect();
-		observer = undefined;
-
-		removeMarketLink();
-	}
-
 	storageKeys() {
 		return ["settings.pages.museum.marketLinks"];
 	}

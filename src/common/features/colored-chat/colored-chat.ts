@@ -89,10 +89,6 @@ export default class ColoredChatFeature extends Feature {
 		await showColoredChats();
 	}
 
-	cleanup() {
-		removeColoredChats();
-	}
-
 	storageKeys() {
 		return ["settings.pages.chat.titleHighlights"];
 	}

@@ -176,20 +176,6 @@ function handleDisabledPost(event: MouseEvent) {
 	}
 }
 
-function removeWarning() {
-	document.querySelector("#ttBugWarning")?.remove();
-
-	if (observer) {
-		observer.disconnect();
-		observer = null;
-	}
-
-	const actions = document.querySelector("#bbc-editor .actions");
-	if (actions) {
-		actions.querySelector<HTMLElement>("button[type='submit']")?.removeEventListener("click", handleDisabledPost);
-	}
-}
-
 export default class ForumWarningFeature extends Feature {
 	constructor() {
 		super("Forum Warning", "forums");
@@ -209,9 +195,5 @@ export default class ForumWarningFeature extends Feature {
 
 	execute() {
 		showWarning();
-	}
-
-	cleanup() {
-		removeWarning();
 	}
 }

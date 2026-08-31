@@ -41,12 +41,6 @@ function hideCasinoGames() {
 	}
 }
 
-async function unhideCasinoGames() {
-	document.querySelector(`.${styles.ttMsg}`)?.remove();
-	document.querySelector(`.${styles.ttHiddenParent}`).classList.remove(styles.ttHiddenParent);
-	findAllElements(`.${styles.ttHiddenGame}`).forEach((x) => x.remove());
-}
-
 export default class HideCasinoGamesFeature extends Feature {
 	constructor() {
 		super("Hide Casino Games", "casino");
@@ -62,10 +56,6 @@ export default class HideCasinoGamesFeature extends Feature {
 
 	execute() {
 		hideCasinoGames();
-	}
-
-	async cleanup() {
-		await unhideCasinoGames();
 	}
 
 	storageKeys() {

@@ -4,7 +4,7 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { factionStakeouts, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
@@ -150,10 +150,6 @@ async function displayBox() {
 	}
 }
 
-function removeBox() {
-	removeContainer("Faction Stakeout");
-}
-
 export default class FactionStakeoutsFeature extends Feature {
 	constructor() {
 		super("Faction Stakeouts", "faction");
@@ -177,10 +173,6 @@ export default class FactionStakeoutsFeature extends Feature {
 		if (isInternalFaction && !document.querySelector(".faction-description")) return;
 
 		await displayBox();
-	}
-
-	cleanup() {
-		removeBox();
 	}
 
 	storageKeys() {

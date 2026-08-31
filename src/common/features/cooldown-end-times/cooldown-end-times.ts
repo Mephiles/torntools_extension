@@ -56,11 +56,6 @@ async function addEndTimes() {
 	tooltipObserver.observe(document.body, { childList: true });
 }
 
-async function removeEndTimes() {
-	findAllElements(".tt-tooltip-end-times").forEach((x) => x.remove());
-	tooltipObserver.disconnect();
-}
-
 export default class CooldownEndTimesFeature extends Feature {
 	constructor() {
 		super("Cooldown End Times", "sidebar");
@@ -76,10 +71,6 @@ export default class CooldownEndTimesFeature extends Feature {
 
 	async execute() {
 		await addEndTimes();
-	}
-
-	async cleanup() {
-		await removeEndTimes();
 	}
 
 	storageKeys() {

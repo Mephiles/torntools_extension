@@ -178,10 +178,6 @@ export default class AbroadPeopleFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.travel.peopleFilter"];
 	}

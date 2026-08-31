@@ -1,7 +1,7 @@
 import "./preference-settings.css";
 import { api } from "@common/utils/data/database";
 import { changeAPIKey } from "@common/utils/functions/api-key";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
@@ -86,10 +86,6 @@ async function executeFeature() {
 	}
 }
 
-function dispose() {
-	removeContainer("TornTools - Settings", { id: "tt-settings-container" });
-}
-
 export default class PreferenceSettingsFeature extends Feature {
 	constructor() {
 		super("Preference Settings", "preferences");
@@ -101,9 +97,5 @@ export default class PreferenceSettingsFeature extends Feature {
 
 	async execute() {
 		await executeFeature();
-	}
-
-	cleanup() {
-		dispose();
 	}
 }

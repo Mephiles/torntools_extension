@@ -77,15 +77,6 @@ function getCurrentTab() {
 	return document.querySelector("#factions > ul.faction-tabs > li[aria-selected='true']").getAttribute("data-case").replace("faction-", "");
 }
 
-async function removeHighlights() {
-	for (const highlight of findAllElements(".good-blood, .bad-blood")) {
-		highlight.classList.remove("good-blood", "bad-blood");
-
-		const price = highlight.querySelector(".tt-item-price");
-		if (price) price.remove();
-	}
-}
-
 export default class HighlightBloodBagsFeature extends Feature {
 	constructor() {
 		super("Highlight Blood Bags", "items");
@@ -105,10 +96,6 @@ export default class HighlightBloodBagsFeature extends Feature {
 
 	async execute() {
 		await highlightBloodBags();
-	}
-
-	async cleanup() {
-		await removeHighlights();
 	}
 
 	storageKeys() {

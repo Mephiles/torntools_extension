@@ -3,7 +3,7 @@ import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
-import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -71,12 +71,6 @@ async function showFull() {
 	});
 }
 
-function removeFull() {
-	for (const infobox of findAllElements(".tt-full-infobox")) infobox.remove();
-	for (const title of findAllElements(".tt-infobox-title")) title.classList.remove("tt-infobox-title");
-	for (const overflow of findAllElements(".prevent-overflow")) overflow.classList.remove("prevent-overflow");
-}
-
 export default class FullFactionInfoboxFeature extends Feature {
 	constructor() {
 		super("Full Infobox", "faction");
@@ -98,10 +92,6 @@ export default class FullFactionInfoboxFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeFull();
 	}
 
 	storageKeys() {

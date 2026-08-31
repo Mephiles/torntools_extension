@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Crime Value",
 	description: "Display the value of the items part of the crime outcome.",
-	version: "1.0.2",
+	version: "1.0.3",
 	matches: ["https://*.torn.com/page.php?sid=crimes*"],
 	runAt: "document-end",
 	connect: ["torntools.tornplayground.eu"],

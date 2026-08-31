@@ -129,12 +129,6 @@ async function addItemValues() {
 	}
 }
 
-function removeItemValues() {
-	document.body.classList.remove("tt-trade-values");
-	findAllElements(".tt-item-value, .tt-log-value, .tt-total-value, .tt-hide-values").forEach((x) => x.remove());
-	findAllElements(".tt-modified").forEach((x) => x.classList.remove("tt-modified"));
-}
-
 export default class TradeValuesFeature extends Feature {
 	constructor() {
 		super("Trade Values", "trade");
@@ -160,10 +154,6 @@ export default class TradeValuesFeature extends Feature {
 
 	async execute() {
 		await addItemValues();
-	}
-
-	cleanup() {
-		removeItemValues();
 	}
 
 	storageKeys() {

@@ -64,11 +64,6 @@ async function addDebugInfo() {
 
 	(await requireElement("#editor-form")).insertAdjacentElement("afterend", addDebugInfoBtn);
 }
-
-function removeButton() {
-	document.querySelector("#tt-debug-info-btn")?.remove();
-}
-
 function viewingTTForumThread() {
 	// https://www.torn.com/forums.php#/p=threads&f=67&t=16243863
 
@@ -88,11 +83,6 @@ export default class AddDebugInfoFeature extends Feature {
 	initialise() {
 		void addDebugInfo();
 		window.addEventListener("hashchange", addDebugInfo);
-	}
-
-	cleanup() {
-		removeButton();
-		window.removeEventListener("hashchange", addDebugInfo);
 	}
 
 	storageKeys() {

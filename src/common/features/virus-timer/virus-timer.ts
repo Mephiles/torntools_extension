@@ -88,8 +88,4 @@ export default class VirusTimerFeature extends Feature {
 	async execute() {
 		await showTimer();
 	}
-
-	cleanup() {
-		removeTimer();
-	}
 }

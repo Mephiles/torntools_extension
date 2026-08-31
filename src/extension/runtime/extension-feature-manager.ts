@@ -10,7 +10,7 @@ import type { Feature } from "@features/feature";
 import "./extension-feature-manager.css";
 import type { FeatureManager } from "@features/feature-manager";
 
-type FeatureSingleFn = ((liveReload?: boolean) => void) | ((liveReload?: boolean) => Promise<void>) | null;
+type FeatureSingleFn = (() => void) | (() => Promise<void>) | null;
 
 type FeatureFn = FeatureSingleFn;
 
@@ -218,7 +218,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 		return this.features.find((feature) => feature.name === name) ?? null;
 	}
 
-	private async startFeature(feature: Feature, liveReload?: boolean) {
+	private async startFeature(feature: Feature) {
 		await Promise.all([loadDatabase(), feature.requiresScreenInformation() ? checkDevice() : Promise.resolve()]);
 		try {
 			if (feature.isEnabled()) {
@@ -226,10 +226,6 @@ export class ExtensionFeatureManager implements FeatureManager {
 
 				const requirements = await feature.requirements();
 				if (typeof requirements === "string") {
-					await this.executeFunction(feature.cleanup).catch((error) =>
-						this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error),
-					);
-
 					this.showResult(feature, "information", { message: requirements });
 					return;
 				}
@@ -238,35 +234,38 @@ export class ExtensionFeatureManager implements FeatureManager {
 					await this.executeFunction(feature.initialise);
 					this.initialized.push(feature.name);
 				}
-				if (liveReload && feature.shouldLiveReload()) {
-					await this.executeFunction(feature.execute, liveReload);
-				} else {
-					await this.executeFunction(feature.execute);
-				}
+				await this.executeFunction(feature.execute);
 
+				this.loadedFeatures.push(feature.name);
 				this.showResult(feature, "loaded");
 
 				if (feature.shouldTriggerEvents()) {
 					triggerCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, { name: feature.name });
 				}
 			} else {
-				if (this.loadedFeatures.includes(feature.name)) {
-					this.logInfo("Disabling feature.", feature);
-					await this.executeFunction(feature.cleanup);
-					if (feature.shouldTriggerEvents()) {
-						triggerCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, { name: feature.name });
-					}
-				}
-
 				this.showResult(feature, "disabled");
 			}
 		} catch (error) {
-			await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to cleanup in a failed start of "${feature.name}".`, error));
-
 			this.showResult(feature, "failed");
 			this.logError(`Failed to start "${feature.name}".`, error);
 		}
-		this.loadedFeatures.push(feature.name);
+	}
+
+	private async reloadFeature(feature: Feature) {
+		if (!feature.isEnabled()) return;
+
+		try {
+			this.logInfo("Reload feature.", feature);
+
+			await this.executeFunction(feature.reload);
+
+			if (feature.shouldTriggerEvents()) {
+				triggerCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, { name: feature.name });
+			}
+		} catch (error) {
+			this.showResult(feature, "failed");
+			this.logError(`Failed to reload "${feature.name}".`, error);
+		}
 	}
 
 	startLoadListeners(feature: Feature) {
@@ -306,7 +305,9 @@ export class ExtensionFeatureManager implements FeatureManager {
 				)
 					return;
 
-				this.startFeature(feature, true).catch((error) => this.logError(`Failed to start "${feature.name}" during live reload.`, error));
+				const outcome = this.loadedFeatures.includes(feature.name) ? this.reloadFeature(feature) : this.startFeature(feature);
+
+				outcome.catch((error) => this.logError(`Failed to start or reload "${feature.name}" during an update.`, error));
 			});
 		}
 
@@ -318,10 +319,8 @@ export class ExtensionFeatureManager implements FeatureManager {
 		}
 	}
 
-	async executeFunction(func: FeatureFn, liveReload?: boolean) {
-		if (!func) return;
-
-		await (liveReload ? func(liveReload) : func());
+	async executeFunction(func: FeatureFn) {
+		await func?.();
 	}
 
 	showResult(feature: Feature, status: FeatureStatus, options: ResultOptions = {}) {

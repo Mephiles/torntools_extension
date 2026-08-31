@@ -38,13 +38,6 @@ async function addCollapseIcon() {
 		header.addEventListener("click", listener);
 	}
 }
-
-async function removeCollapseIcon() {
-	document.querySelector(".tt-collapsible-processed")?.classList.remove("tt-collapsible-processed");
-	document.querySelector(`.${styles.collapsed}`)?.classList.remove(styles.collapsed);
-	document.querySelector(`.${styles.collapsibleIcon}`)?.remove();
-}
-
 async function clickListener(parent: HTMLElement) {
 	const collapsed = parent.classList.toggle(styles.collapsed);
 
@@ -74,10 +67,6 @@ export default class CollapsibleAreasFeature extends Feature {
 
 	async execute() {
 		await addCollapseIcon();
-	}
-
-	async cleanup() {
-		await removeCollapseIcon();
 	}
 
 	storageKeys() {

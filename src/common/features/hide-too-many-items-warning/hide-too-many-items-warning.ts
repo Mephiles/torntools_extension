@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { findAllElements, isHTMLElement } from "@common/utils/functions/dom";
+import { isHTMLElement } from "@common/utils/functions/dom";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -21,12 +21,6 @@ function hideMessage() {
 	delimiter.classList.add("tt-hidden");
 }
 
-function showMessage() {
-	findAllElements(".tt-hidden[data-type='too-many-items-warning']").forEach((hidden) => {
-		hidden.classList.remove("tt-hidden");
-	});
-}
-
 export default class HideTooManyItemsWarningFeature extends Feature {
 	constructor() {
 		super("Hide Too Many Items Warning", "items");
@@ -42,10 +36,6 @@ export default class HideTooManyItemsWarningFeature extends Feature {
 
 	execute() {
 		hideMessage();
-	}
-
-	cleanup() {
-		showMessage();
 	}
 
 	storageKeys() {

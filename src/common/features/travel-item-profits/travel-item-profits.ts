@@ -85,11 +85,6 @@ async function addProfitsColumn() {
 	}
 }
 
-function removeProfitsColumn() {
-	document.documentElement.classList.remove(styles.travelProfits);
-	findAllElements(`.${styles.travelMarketHeading}, .${styles.travelMarketCell}`).forEach((x) => x.remove());
-}
-
 export default class TravelItemProfitsFeature extends Feature {
 	constructor() {
 		super("Travel Item Profits", "travel");
@@ -109,10 +104,6 @@ export default class TravelItemProfitsFeature extends Feature {
 
 	async execute() {
 		await addProfitsColumn();
-	}
-
-	cleanup() {
-		removeProfitsColumn();
 	}
 
 	storageKeys(): string[] {

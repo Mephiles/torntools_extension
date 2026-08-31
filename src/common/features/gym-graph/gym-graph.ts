@@ -3,7 +3,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData, HTTPException } from "@common/utils/functions/api-fetcher";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder, mobile, showLoadingPlaceholder } from "@common/utils/functions/dom";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -236,10 +236,6 @@ async function showGraph() {
 	}
 }
 
-function removeGraph() {
-	removeContainer("Graph");
-}
-
 function errorHandling(error: any) {
 	if (typeof error !== "object" || !("error" in error)) {
 		return JSON.stringify(error);
@@ -282,10 +278,6 @@ export default class GymGraphFeature extends Feature {
 
 	async execute() {
 		await showGraph();
-	}
-
-	cleanup() {
-		removeGraph();
 	}
 
 	storageKeys() {

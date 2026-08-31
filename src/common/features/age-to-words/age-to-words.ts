@@ -1,6 +1,6 @@
 import "./age-to-words.css";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { calculateDatePeriod, TO_MILLIS } from "@common/utils/functions/utilities";
@@ -28,13 +28,6 @@ async function addWords() {
 	ageDiv.querySelector(".block-value")!.insertAdjacentElement("afterend", elementBuilder("br"));
 }
 
-function removeWords() {
-	const ageDiv = document.querySelector(".box-info.age")!;
-	ageDiv.querySelector(".box-name")!.classList.remove("tt-hidden");
-	findAllElements(".block-value + br", ageDiv).forEach((x) => x.remove());
-	findAllElements(".tt-age-text").forEach((x) => x.remove());
-}
-
 export default class AgeToWordsFeature extends Feature {
 	constructor() {
 		super("Age to Words", "profile");
@@ -46,10 +39,6 @@ export default class AgeToWordsFeature extends Feature {
 
 	async execute() {
 		await addWords();
-	}
-
-	cleanup() {
-		removeWords();
 	}
 
 	storageKeys() {

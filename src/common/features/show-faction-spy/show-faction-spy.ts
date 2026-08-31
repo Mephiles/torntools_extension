@@ -274,10 +274,6 @@ export default class ShowFactionSpyFeature extends Feature {
 		await fetchAndAddSpies();
 	}
 
-	cleanup() {
-		removeSpies();
-	}
-
 	storageKeys() {
 		return [
 			"settings.pages.faction.showFactionSpy",

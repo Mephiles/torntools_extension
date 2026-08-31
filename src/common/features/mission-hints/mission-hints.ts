@@ -374,11 +374,6 @@ async function showHints() {
 	}
 }
 
-function removeHints() {
-	for (const context of findAllElements(".giver-cont-wrap > div[id^=mission].tt-modified")) context.classList.remove(".tt-modified");
-	for (const information of findAllElements(".tt-mission-information")) information.remove();
-}
-
 export default class MissionHintsFeature extends Feature {
 	constructor() {
 		super("Mission Hints", "missions");
@@ -398,10 +393,6 @@ export default class MissionHintsFeature extends Feature {
 
 	async execute() {
 		await showHints();
-	}
-
-	cleanup() {
-		removeHints();
 	}
 
 	storageKeys() {

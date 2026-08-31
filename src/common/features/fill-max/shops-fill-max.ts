@@ -41,14 +41,6 @@ async function addFillMax() {
 	});
 }
 
-function removeFillMax() {
-	findAllElements(styles.ttBuyShops).forEach((ttBuy) => {
-		ttBuy.classList.remove(styles.ttBuyShops);
-		ttBuy.querySelector(styles.ttMaxBuyShops).remove();
-		ttBuy.querySelector(styles.ttMaxBuyOverlayShops).remove();
-	});
-}
-
 export default class ShopsFillMaxFeature extends Feature {
 	constructor() {
 		super("Shops Fill Max", "shops");
@@ -64,10 +56,6 @@ export default class ShopsFillMaxFeature extends Feature {
 
 	async execute() {
 		await addFillMax();
-	}
-
-	cleanup() {
-		removeFillMax();
 	}
 
 	storageKeys() {

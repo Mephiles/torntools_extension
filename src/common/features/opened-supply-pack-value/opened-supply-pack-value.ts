@@ -112,10 +112,6 @@ export default class OpenedSupplyPackValueFeature extends Feature {
 		addListener();
 	}
 
-	cleanup() {
-		removeTotalValueElement();
-	}
-
 	storageKeys() {
 		return ["settings.pages.items.openedSupplyPackValue"];
 	}

@@ -38,11 +38,6 @@ function showResult(scout: ScouterResult) {
 
 	appendToBuildProfileTitleBar(element);
 }
-
-function removeFF() {
-	document.querySelector(".tt-ff-scouter-profile")?.remove();
-}
-
 function getUserID() {
 	return parseInt(
 		document.querySelector(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0],
@@ -75,10 +70,6 @@ export default class FfScouterProfileFeature extends Feature {
 
 	async execute() {
 		await showFF();
-	}
-
-	cleanup() {
-		removeFF();
 	}
 
 	storageKeys(): string[] {

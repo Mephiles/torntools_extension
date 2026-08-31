@@ -313,16 +313,7 @@ export default class FactionQuickItemsFeature extends Feature {
 		addListener();
 	}
 
-	cleanup() {
-		controller?.dispose();
-		controller = undefined;
-	}
-
 	storageKeys() {
 		return ["settings.pages.faction.quickItems"];
-	}
-
-	shouldLiveReload() {
-		return true;
 	}
 }

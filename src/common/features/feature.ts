@@ -22,8 +22,8 @@ export abstract class Feature {
 	abstract isEnabled(): boolean;
 	initialise(): void {}
 	// oxlint-disable-next-line no-unused-vars — meant to be overridden, here as a placeholder
-	execute(liveReload?: boolean): void | Promise<void> {}
-	cleanup(): void {}
+	execute(): void | Promise<void> {}
+	reload(): void | Promise<void> {}
 
 	storageKeys(): string[] {
 		return [];
@@ -34,10 +34,6 @@ export abstract class Feature {
 	}
 
 	shouldTriggerEvents(): boolean {
-		return false;
-	}
-
-	shouldLiveReload(): boolean {
 		return false;
 	}
 

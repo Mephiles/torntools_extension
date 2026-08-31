@@ -54,11 +54,6 @@ function handleItem(item: HighlightableItem) {
 	}
 }
 
-function removeHighlights() {
-	observer?.disconnect();
-	findAllElements(`.${CLASS_NAME}`).forEach((item) => item.classList.remove(CLASS_NAME));
-}
-
 export default class BazaarSubVendorItemsFeature extends Feature {
 	constructor() {
 		super("Highlight Cheap Items", "bazaar", ExecutionTiming.DOM_INTERACTIVE);
@@ -74,10 +69,6 @@ export default class BazaarSubVendorItemsFeature extends Feature {
 
 	execute() {
 		highlightEverything();
-	}
-
-	cleanup() {
-		removeHighlights();
 	}
 
 	storageKeys() {

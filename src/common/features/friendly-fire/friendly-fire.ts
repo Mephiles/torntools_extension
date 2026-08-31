@@ -1,7 +1,7 @@
 import "./friendly-fire.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { isIntNumber } from "@common/utils/functions/utilities";
@@ -39,10 +39,6 @@ async function addWarning() {
 	}
 }
 
-function removeWarning() {
-	findAllElements(".tt-ally-warning").forEach((x) => x.remove());
-}
-
 export default class FriendlyFireFeature extends Feature {
 	constructor() {
 		super("Friendly Fire", "profile");
@@ -58,10 +54,6 @@ export default class FriendlyFireFeature extends Feature {
 
 	async execute() {
 		await addWarning();
-	}
-
-	cleanup() {
-		removeWarning();
 	}
 
 	storageKeys() {

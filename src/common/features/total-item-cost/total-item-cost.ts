@@ -1,7 +1,7 @@
 import "./total-item-cost.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -32,10 +32,6 @@ function addPrice() {
 	});
 }
 
-function removePrice() {
-	findAllElements("#tt-total-cost").forEach((x) => x.remove());
-}
-
 function changeTotalPrice(amount: number) {
 	const stock = parseInt(document.querySelector("[class*='buyMenu_'] [class*='amount_']").textContent.split(")")[0].replaceAll(/\D+/g, ""));
 	const price = parseInt(document.querySelector("[class*='buyMenu_'] [class*='price_']").textContent.split("$")[1].replaceAll(",", ""));
@@ -62,10 +58,6 @@ export default class TotalItemCostFeature extends Feature {
 
 	execute() {
 		addPrice();
-	}
-
-	cleanup() {
-		removePrice();
 	}
 
 	storageKeys() {

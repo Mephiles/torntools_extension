@@ -83,10 +83,6 @@ export default class CrimeValueFeature extends Feature {
 		addListener();
 	}
 
-	cleanup() {
-		removeCrimeValue();
-	}
-
 	storageKeys() {
 		return ["settings.pages.crimes2.value"];
 	}

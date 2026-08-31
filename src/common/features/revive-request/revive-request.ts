@@ -158,11 +158,6 @@ export default class ReviveRequestFeature extends Feature {
 		startFeature();
 	}
 
-	cleanup() {
-		removeButton();
-		if (observer) observer.disconnect();
-	}
-
 	storageKeys() {
 		return ["settings.pages.global.reviveProvider"];
 	}

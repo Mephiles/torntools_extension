@@ -7,10 +7,6 @@ async function addCleanFlight() {
 	document.querySelector("#travel-root")?.classList.add("tt-clean-flight");
 }
 
-function removeCleanFlight() {
-	document.querySelector(".tt-clean-flight")?.classList.remove("tt-clean-flight");
-}
-
 export default class CleanFlightFeature extends Feature {
 	constructor() {
 		super("Clean Flight", "travel");
@@ -26,10 +22,6 @@ export default class CleanFlightFeature extends Feature {
 
 	async execute() {
 		await addCleanFlight();
-	}
-
-	cleanup() {
-		removeCleanFlight();
 	}
 
 	storageKeys() {

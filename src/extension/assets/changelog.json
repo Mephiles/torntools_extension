@@ -3,7 +3,18 @@
 		"version": { "major": 9, "minor": 2, "build": 1 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [
+				{
+					"message": "No longer disable a feature live when changing the settings. That now requires a reload.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"removed": [],
+			"technical": [{ "message": "Update the lifecycle of features.", "contributor": "DeKleineKobini" }]
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 2, "build": 0 },
@@ -76,7 +87,8 @@
 			],
 			"technical": [
 				{ "message": "Migrate to the V2 version of torn/bank.", "contributor": "DeKleineKobini" },
-				{ "message": "Move the cache to IndexedDB to reduce extension storage usage.", "contributor": "DeKleineKobini" }
+				{ "message": "Move the cache to IndexedDB to reduce extension storage usage.", "contributor": "DeKleineKobini" },
+				{ "message": "Make a distinction between loading and reloading.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

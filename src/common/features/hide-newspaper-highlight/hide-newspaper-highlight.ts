@@ -6,10 +6,6 @@ function hideChats() {
 	document.documentElement.classList.add("tt-hide-newspaper-highlight");
 }
 
-function showChats() {
-	document.documentElement.classList.remove("tt-hide-newspaper-highlight");
-}
-
 export default class HideNewspaperHighlightFeature extends Feature {
 	constructor() {
 		super("Hide Newspaper Highlight", "sidebar", ExecutionTiming.IMMEDIATELY);
@@ -21,10 +17,6 @@ export default class HideNewspaperHighlightFeature extends Feature {
 
 	execute() {
 		hideChats();
-	}
-
-	cleanup() {
-		showChats();
 	}
 
 	storageKeys() {

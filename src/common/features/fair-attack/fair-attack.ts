@@ -1,6 +1,6 @@
 import { attackHistory, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -26,10 +26,6 @@ async function showFF() {
 	);
 }
 
-function removeFF() {
-	findAllElements(".tt-fair-attack").forEach((ff) => ff.remove());
-}
-
 export default class FairAttackFeature extends Feature {
 	constructor() {
 		super("Fair Attack", "attack");
@@ -45,10 +41,6 @@ export default class FairAttackFeature extends Feature {
 
 	async execute() {
 		await showFF();
-	}
-
-	cleanup() {
-		removeFF();
 	}
 
 	storageKeys() {

@@ -118,14 +118,6 @@ async function extractCompanyId(): Promise<number> {
 	throw new Error("Failed to extract company id.");
 }
 
-function removeLastAction() {
-	const list = document.querySelector(".employee-list-wrap .employee-list.tt-modified, .employees-wrap .employees-list.tt-modified");
-	if (list) {
-		findAllElements(":scope > div.tt-last-action", list).forEach((x) => x.remove());
-		list.classList.remove("tt-modified");
-	}
-}
-
 export default class LastActionCompanyFeature extends Feature {
 	constructor() {
 		super("Last Action Company", "last action");
@@ -145,12 +137,8 @@ export default class LastActionCompanyFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await addLastAction(liveReload);
-	}
-
-	cleanup() {
-		removeLastAction();
+	async execute() {
+		await addLastAction(false);
 	}
 
 	storageKeys(): string[] {

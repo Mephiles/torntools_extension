@@ -22,7 +22,7 @@ function initialiseListeners() {
 
 		filter.rerenderSections();
 	});
-	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, (feature) => {
+	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, (feature) => {
 		if (!FEATURE_MANAGER.isEnabled(AbroadItemsFilterFeature) || feature.name !== "Travel Item Profits") return;
 
 		filter.rerenderSections();
@@ -176,10 +176,6 @@ export default class AbroadItemsFilterFeature extends Feature {
 
 	async execute() {
 		await addFilterContainer();
-	}
-
-	cleanup() {
-		filter?.dispose();
 	}
 
 	storageKeys() {

@@ -3,7 +3,6 @@ import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -47,10 +46,6 @@ function highlightCrime2() {
 	member.closest("[class*='contentLayer___']").classList.add("tt-oc-highlight");
 }
 
-function removeHighlight() {
-	for (const highlight of findAllElements(".tt-oc-highlight")) highlight.classList.remove("tt-oc-highlight");
-}
-
 export default class HighlightOCFeature extends Feature {
 	constructor() {
 		super("Highlight OC", "faction");
@@ -70,10 +65,6 @@ export default class HighlightOCFeature extends Feature {
 
 	execute() {
 		startFeature();
-	}
-
-	cleanup() {
-		removeHighlight();
 	}
 
 	storageKeys() {

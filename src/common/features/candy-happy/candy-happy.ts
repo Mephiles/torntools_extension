@@ -46,10 +46,6 @@ function addGains() {
 	});
 }
 
-function removeGains() {
-	findAllElements(".tt-candy-gains").forEach((x) => x.remove());
-}
-
 export default class CandyHappyFeature extends Feature {
 	constructor() {
 		super("Candy Happy", "items");
@@ -75,10 +71,6 @@ export default class CandyHappyFeature extends Feature {
 
 	execute() {
 		addGains();
-	}
-
-	cleanup() {
-		removeGains();
 	}
 
 	storageKeys() {

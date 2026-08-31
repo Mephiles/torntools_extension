@@ -101,18 +101,6 @@ async function onKeyUp(event: KeyboardEvent) {
 	await ttStorage.change({ localdata: { tradeMessage: Date.now() + TO_MILLIS.SECONDS * 61 } });
 }
 
-function cleanup() {
-	timer?.remove();
-	timer = null;
-
-	const tradeChat = getTradeChat();
-	if (!tradeChat) return;
-
-	tradeChat.querySelector(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`).parentElement.classList.remove("tt-modified");
-
-	tradeChat.querySelector("textarea").removeEventListener("keypress", onKeyUp);
-}
-
 export default class TradeTimerFeature extends Feature {
 	constructor() {
 		super("Trade Timer", "chat");
@@ -128,10 +116,6 @@ export default class TradeTimerFeature extends Feature {
 
 	async execute() {
 		await showTimer();
-	}
-
-	cleanup() {
-		cleanup();
 	}
 
 	storageKeys() {

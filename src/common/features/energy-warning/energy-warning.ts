@@ -56,11 +56,6 @@ function clickListener(event: MouseEvent) {
 	}
 }
 
-function removeWarning() {
-	findAllElements(".tt-energy-warning").forEach((x) => x.remove());
-	findAllElements("a.next-act").forEach((x) => x.removeEventListener("click", clickListener, { capture: true }));
-}
-
 export default class EnergyWarningFeature extends Feature {
 	constructor() {
 		super("Energy Warning", "items");
@@ -76,10 +71,6 @@ export default class EnergyWarningFeature extends Feature {
 
 	initialise() {
 		initialiseListener();
-	}
-
-	cleanup() {
-		removeWarning();
 	}
 
 	storageKeys() {

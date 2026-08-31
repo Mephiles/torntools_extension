@@ -30,10 +30,6 @@ async function addFinishTimes() {
 	}
 }
 
-function removeFunction() {
-	findAllElements(".f-war-list.war-new .status-wrap .tt-timer").forEach((timer) => timer.remove());
-}
-
 export default class WarFinishTimesFeature extends Feature {
 	constructor() {
 		super("War Finish Times", "faction");
@@ -53,9 +49,5 @@ export default class WarFinishTimesFeature extends Feature {
 
 	async execute() {
 		await addFinishTimes();
-	}
-
-	cleanup() {
-		removeFunction();
 	}
 }

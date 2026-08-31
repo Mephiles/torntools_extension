@@ -184,11 +184,6 @@ async function showNNB() {
 	}
 }
 
-function removeNNBs() {
-	for (const nnb of findAllElements(".tt-nnb")) nnb.remove();
-	for (const nnb of findAllElements(".crimes-list ul.plans-list .tt-modified")) nnb.remove();
-}
-
 export default class OCNNBFeature extends Feature {
 	constructor() {
 		super("OC NNB", "faction");
@@ -208,10 +203,6 @@ export default class OCNNBFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		removeNNBs();
 	}
 
 	storageKeys() {

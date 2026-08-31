@@ -275,12 +275,6 @@ export default class JailFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		cbQuickBust = undefined;
-		cbQuickBail = undefined;
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.jail.filter"];
 	}

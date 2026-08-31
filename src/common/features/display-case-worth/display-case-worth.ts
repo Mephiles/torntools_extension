@@ -89,10 +89,6 @@ async function displayElement(isOwn: boolean, element: Element) {
 	}
 }
 
-function removeWorth() {
-	document.querySelector(`.${styles.displayWorth}`)?.remove();
-}
-
 export default class DisplayCaseWorthFeature extends Feature {
 	constructor() {
 		super("Display Case Worth", "display case");
@@ -113,10 +109,6 @@ export default class DisplayCaseWorthFeature extends Feature {
 
 	async execute() {
 		await addWorth();
-	}
-
-	cleanup() {
-		removeWorth();
 	}
 
 	storageKeys() {

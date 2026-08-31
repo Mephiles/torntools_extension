@@ -43,13 +43,6 @@ async function showEstimate() {
 	}
 }
 
-function removeEstimate() {
-	observer?.disconnect();
-	observer = undefined;
-
-	document.querySelector(".tt-stats-estimate-profile")?.remove();
-}
-
 export default class StatsEstimateProfileFeature extends Feature {
 	constructor() {
 		super("Stats Estimate Profile", "profiles");
@@ -71,10 +64,6 @@ export default class StatsEstimateProfileFeature extends Feature {
 
 	async execute() {
 		await showEstimate();
-	}
-
-	cleanup() {
-		removeEstimate();
 	}
 
 	storageKeys(): string[] {

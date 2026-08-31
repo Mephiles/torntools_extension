@@ -71,10 +71,6 @@ export default class MemberRankFeature extends Feature {
 		await addNumbers(false);
 	}
 
-	cleanup() {
-		removeNumbers();
-	}
-
 	storageKeys() {
 		return ["settings.pages.faction.numberMembers"];
 	}

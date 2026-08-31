@@ -19,12 +19,6 @@ async function hideUpgrade() {
 	else infoRow.closest(".info-msg").classList.add("tt-level-upgrade");
 }
 
-function showUpgrade() {
-	for (const info of findAllElements(".tt-level-upgrade")) {
-		info.classList.remove("tt-level-upgrade");
-	}
-}
-
 export default class HideLevelUpgradeFeature extends Feature {
 	constructor() {
 		super("Hide Level Upgrade", "global", ExecutionTiming.IMMEDIATELY);
@@ -37,11 +31,6 @@ export default class HideLevelUpgradeFeature extends Feature {
 	async execute() {
 		applyStyle();
 		await hideUpgrade();
-	}
-
-	cleanup() {
-		document.documentElement.style.setProperty("--torntools-hide-upgrade-button", "block");
-		showUpgrade();
 	}
 
 	storageKeys() {

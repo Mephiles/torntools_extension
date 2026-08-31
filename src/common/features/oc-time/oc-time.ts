@@ -78,10 +78,6 @@ export default class OCTimeFeature extends Feature {
 		await showTimer();
 	}
 
-	cleanup() {
-		removeTimer();
-	}
-
 	storageKeys() {
 		return ["settings.pages.sidebar.ocTimer", "factiondata.userCrime", "userdata.userCrime"];
 	}

@@ -43,7 +43,7 @@ export enum EVENT_CHANNELS {
 	TRAVEL_ABROAD__SHOP_LOAD = "TRAVEL_ABROAD__SHOP_LOAD",
 	TRAVEL_ABROAD__SHOP_REFRESH = "TRAVEL_ABROAD__SHOP_REFRESH",
 	FEATURE_ENABLED = "feature-enabled",
-	FEATURE_DISABLED = "feature-disabled",
+	FEATURE_RELOADED = "feature-reloaded",
 	STATE_CHANGED = "state-changed",
 	SHOP__LOAD = "SHOP__LOAD",
 	GYM_LOAD = "gym-load",
@@ -118,7 +118,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH]: never;
 	[EVENT_CHANNELS.TRADE]: { step: string; active: boolean };
 	[EVENT_CHANNELS.FEATURE_ENABLED]: { name: string };
-	[EVENT_CHANNELS.FEATURE_DISABLED]: { name: string };
+	[EVENT_CHANNELS.FEATURE_RELOADED]: { name: string };
 	[EVENT_CHANNELS.STATE_CHANGED]: { oldState: string | null; newState: string | undefined };
 	[EVENT_CHANNELS.SHOP__LOAD]: never;
 	[EVENT_CHANNELS.GYM_LOAD]: { stats: Record<string, number> };

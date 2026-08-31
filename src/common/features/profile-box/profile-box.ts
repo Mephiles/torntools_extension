@@ -8,7 +8,7 @@ import { createTable, stringCellRenderer } from "@common/utils/elements/table/ta
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
@@ -769,11 +769,6 @@ async function showBox() {
 		content.appendChild(section);
 	}
 }
-
-function removeBox() {
-	removeContainer("User Information");
-}
-
 function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	let name: string;
 	const nameElement = document.querySelector<HTMLElement>(".user.name[data-placeholder]");
@@ -880,10 +875,6 @@ export default class ProfileBoxFeature extends Feature {
 
 	async execute() {
 		await showBox();
-	}
-
-	cleanup() {
-		removeBox();
 	}
 
 	storageKeys(): string[] {

@@ -94,10 +94,6 @@ export default class TotalPortfolioValueFeature extends Feature {
 		await addProfitAndValue();
 	}
 
-	cleanup() {
-		removeProfitAndValue();
-	}
-
 	storageKeys() {
 		return ["settings.pages.stocks.valueAndProfit", "userdata.stocks"];
 	}

@@ -26,11 +26,6 @@ async function showTime() {
 	);
 }
 
-function removeTime() {
-	const timer = document.querySelector(".tt-landing-time");
-	if (timer) timer.remove();
-}
-
 export default class LandingTimeFeature extends Feature {
 	constructor() {
 		super("Landing Time", "travel");
@@ -46,10 +41,6 @@ export default class LandingTimeFeature extends Feature {
 
 	async execute() {
 		await showTime();
-	}
-
-	cleanup() {
-		removeTime();
 	}
 
 	storageKeys() {

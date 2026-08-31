@@ -138,10 +138,6 @@ export default class HospitalFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.dispose();
-	}
-
 	storageKeys() {
 		return ["settings.pages.hospital.filter"];
 	}

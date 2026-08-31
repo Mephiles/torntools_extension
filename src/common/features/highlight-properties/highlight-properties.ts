@@ -1,7 +1,6 @@
 import "./highlight-properties.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements } from "@common/utils/functions/dom";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -16,10 +15,6 @@ async function addHighlight() {
 
 		navProperties.classList.add("tt-upkeep");
 	}
-}
-
-function removeHighlight() {
-	findAllElements(".tt-upkeep").forEach((x) => x.classList.remove("tt-upkeep"));
 }
 
 export default class HighlightPropertiesFeature extends Feature {
@@ -37,10 +32,6 @@ export default class HighlightPropertiesFeature extends Feature {
 
 	async execute() {
 		await addHighlight();
-	}
-
-	cleanup() {
-		removeHighlight();
 	}
 
 	storageKeys() {

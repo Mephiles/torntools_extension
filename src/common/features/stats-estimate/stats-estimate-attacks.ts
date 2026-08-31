@@ -1,6 +1,6 @@
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements, getSearchParameters, mobile, tablet } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters, mobile, tablet } from "@common/utils/functions/dom";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -80,11 +80,6 @@ async function showEstimate() {
 	}
 }
 
-function removeEstimate() {
-	findAllElements(".tt-stats-estimate-attacks").forEach((estimate) => estimate.remove());
-	findAllElements(".tt-stats-estimate-attacks-wrapper").forEach((wrapper) => wrapper.classList.remove("tt-stats-estimate-attacks-wrapper"));
-}
-
 export default class StatsEstimateAttacksFeature extends Feature {
 	constructor() {
 		super("Stats Estimate Attacks", "attack");
@@ -106,10 +101,6 @@ export default class StatsEstimateAttacksFeature extends Feature {
 
 	async execute() {
 		await showEstimate();
-	}
-
-	cleanup() {
-		removeEstimate();
 	}
 
 	storageKeys(): string[] {

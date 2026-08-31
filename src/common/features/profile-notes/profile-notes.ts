@@ -1,7 +1,7 @@
 import "./profile-notes.css";
 import { ttStorage } from "@common/utils/context";
 import { notes, settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -34,11 +34,6 @@ async function addNotes() {
 		ttStorage.change({ notes: { profile: { [userID]: { text, height } } } });
 	}
 }
-
-function removeNotes() {
-	removeContainer("Profile Notes");
-}
-
 function getUserID() {
 	return document.querySelector(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
 }
@@ -58,10 +53,6 @@ export default class ProfileNotesFeature extends Feature {
 
 	async execute() {
 		await addNotes();
-	}
-
-	cleanup() {
-		removeNotes();
 	}
 
 	storageKeys() {

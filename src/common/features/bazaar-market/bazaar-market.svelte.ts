@@ -69,11 +69,6 @@ function removeExistingBox() {
 	if (bazaarMarketBox) void unmount(bazaarMarketBox);
 }
 
-function dispose() {
-	removeExistingBox();
-	pendingItemId = undefined;
-}
-
 export default class BazaarMarketFeature extends Feature {
 	constructor() {
 		super("Bazaar Market", "item market");
@@ -95,10 +90,6 @@ export default class BazaarMarketFeature extends Feature {
 
 	async execute() {
 		await startFeature();
-	}
-
-	cleanup() {
-		dispose();
 	}
 
 	storageKeys() {

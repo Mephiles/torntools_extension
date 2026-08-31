@@ -1,6 +1,6 @@
 import "./effective-battle-stats.css";
 import { settings } from "@common/utils/data/database";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { checkDevice, elementBuilder, findElementWithText } from "@common/utils/functions/dom";
 import { convertToNumber, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
@@ -67,10 +67,6 @@ export default class EffectiveBattleStatsFeature extends Feature {
 
 	async execute() {
 		await showEffectiveBattleStats();
-	}
-
-	cleanup() {
-		removeContainer("Effective Battle Stats");
 	}
 
 	storageKeys() {

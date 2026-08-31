@@ -21,19 +21,17 @@ function addListener() {
 	addFetchListener(async ({ detail: { page, json, fetch } }) => {
 		if (page === "bazaar" && json) {
 			if (json.list) {
-				if (json.list.length === 0) await addWorth(true, []);
-				else if (json.list.length === json.total) await addWorth(true, json.list as BazaarFetchItem[]);
-				else if (json.list.length < json.total) await addWorth(true, null);
+				if (json.list.length === 0) await addWorth([]);
+				else if (json.list.length === json.total) await addWorth(json.list as BazaarFetchItem[]);
+				else if (json.list.length < json.total) await addWorth();
 			} else if (new URLSearchParams(fetch.url).get("step") === "getBazaarItems") {
-				await addWorth(true, null);
+				await addWorth();
 			}
 		}
 	});
 }
 
-async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
-	if (!liveReload) return;
-
+async function addWorth(list: BazaarFetchItem[] | null = null) {
 	const bazaarUserId = parseInt(getSearchParameters().get("userId"));
 
 	if (!bazaarUserId || bazaarUserId === getUserDetails()?.id) await requireElement(".info-msg-cont:not(.red) .msg");
@@ -110,10 +108,6 @@ async function addWorth(liveReload: boolean, list: BazaarFetchItem[] | null) {
 	}
 }
 
-function removeWorth() {
-	document.querySelector(".tt-bazaar-text")?.remove();
-}
-
 export default class BazaarWorthFeature extends Feature {
 	constructor() {
 		super("Bazaar Worth", "bazaar", ExecutionTiming.IMMEDIATELY);
@@ -133,20 +127,12 @@ export default class BazaarWorthFeature extends Feature {
 		addListener();
 	}
 
-	async execute(liveReload?: boolean) {
-		await addWorth(liveReload ?? false, null);
-	}
-
-	cleanup() {
-		removeWorth();
+	async reload() {
+		await addWorth();
 	}
 
 	storageKeys() {
 		return ["settings.pages.bazaar.worth"];
-	}
-
-	shouldLiveReload(): boolean {
-		return true;
 	}
 
 	requiresScreenInformation(): boolean {

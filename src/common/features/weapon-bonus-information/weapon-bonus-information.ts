@@ -196,13 +196,6 @@ async function showInformation() {
 	}
 }
 
-function removeInformation() {
-	logObserver?.disconnect();
-	logObserver = undefined;
-	informationObservers.forEach((observer) => observer.disconnect());
-	informationObservers = [];
-}
-
 export default class WeaponBonusInformationFeature extends Feature {
 	constructor() {
 		super("Weapon Bonus Information", "attack log");
@@ -226,9 +219,5 @@ export default class WeaponBonusInformationFeature extends Feature {
 
 	async execute() {
 		await showInformation();
-	}
-
-	cleanup() {
-		removeInformation();
 	}
 }

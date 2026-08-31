@@ -250,15 +250,6 @@ function convertFFToPercentage(ff: number) {
 	return percent;
 }
 
-function removeGauge() {
-	if (rafId) {
-		cancelAnimationFrame(rafId);
-		rafId = null;
-	}
-	findAllElements(".tt-ff-scouter-indicator").forEach((element) => element.classList.remove("tt-ff-scouter-indicator"));
-	findAllElements(".tt-ff-scouter-arrow").forEach((element) => element.remove());
-}
-
 export default class FFScouterGaugeFeature extends Feature {
 	constructor() {
 		super("FF Scouter Gauge", "ff-scouter");
@@ -286,10 +277,6 @@ export default class FFScouterGaugeFeature extends Feature {
 
 	execute() {
 		safeTriggerGauge();
-	}
-
-	cleanup() {
-		removeGauge();
 	}
 
 	storageKeys(): string[] {

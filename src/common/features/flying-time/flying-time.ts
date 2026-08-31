@@ -59,11 +59,6 @@ async function showTime() {
 	}
 }
 
-function removeTime() {
-	const timer = document.querySelector(".tt-flying-time");
-	if (timer) timer.remove();
-}
-
 export default class FlyingTimeFeature extends Feature {
 	constructor() {
 		super("Flying Time", "travel");
@@ -83,10 +78,6 @@ export default class FlyingTimeFeature extends Feature {
 
 	async execute() {
 		await showTime();
-	}
-
-	cleanup() {
-		removeTime();
 	}
 
 	storageKeys() {

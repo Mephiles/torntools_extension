@@ -18,10 +18,6 @@ async function showEducationFinishTime() {
 	);
 }
 
-function removeTime() {
-	document.querySelector(".tt-time")?.remove();
-}
-
 export default class EducationFinishTimeFeature extends Feature {
 	constructor() {
 		super("Education Finish Time", "education");
@@ -42,10 +38,6 @@ export default class EducationFinishTimeFeature extends Feature {
 
 	async execute() {
 		await showEducationFinishTime();
-	}
-
-	cleanup() {
-		removeTime();
 	}
 
 	storageKeys() {

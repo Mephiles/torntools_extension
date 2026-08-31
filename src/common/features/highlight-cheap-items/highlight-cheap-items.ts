@@ -211,10 +211,6 @@ export default class HighlightCheapItemsFeature extends Feature {
 		highlightEverything();
 	}
 
-	cleanup() {
-		removeHighlights();
-	}
-
 	storageKeys() {
 		return ["settings.pages.itemmarket.highlightCheapItems", "settings.pages.itemmarket.highlightCheapItemsSound"];
 	}

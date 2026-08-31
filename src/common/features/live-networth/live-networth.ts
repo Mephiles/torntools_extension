@@ -1,7 +1,7 @@
 import "./live-networth.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { createContainer, removeContainer } from "@common/utils/functions/containers";
+import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder, findElementWithText } from "@common/utils/functions/dom";
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
@@ -232,10 +232,6 @@ export default class LiveNetworthFeature extends Feature {
 
 	async execute() {
 		await showNetworth();
-	}
-
-	cleanup() {
-		removeContainer("Live Networth");
 	}
 
 	storageKeys() {

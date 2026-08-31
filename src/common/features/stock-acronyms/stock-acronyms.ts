@@ -23,10 +23,6 @@ async function addAcronyms() {
 	}
 }
 
-function removeAcronyms() {
-	findAllElements(".tt-acronym").forEach((x) => x.remove());
-}
-
 export default class StockAcronymsFeature extends Feature {
 	constructor() {
 		super("Stock Acronyms", "stocks");
@@ -47,10 +43,6 @@ export default class StockAcronymsFeature extends Feature {
 
 	async execute() {
 		await addAcronyms();
-	}
-
-	cleanup() {
-		removeAcronyms();
 	}
 
 	storageKeys() {

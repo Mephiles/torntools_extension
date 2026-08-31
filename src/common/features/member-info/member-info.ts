@@ -23,20 +23,16 @@ function addListener() {
 		await addInfo(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature) || name !== "Last Action") return;
 
-		if (name === "Last Action") {
-			lastActionState = true;
-			await addInfo(true);
-		}
+		lastActionState = true;
+		await addInfo(true);
 	});
-	addCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
+	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
+		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature) || name !== "Last Action") return;
 
-		if (name === "Last Action") {
-			lastActionState = false;
-			await addInfo(true);
-		}
+		lastActionState = true;
+		await addInfo(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async ({ hasResults }) => {
 		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
@@ -53,7 +49,7 @@ function addListener() {
 }
 
 async function addInfo(force: boolean) {
-	if (!force) return;
+	if (!force || lastActionState) return;
 	removeInfo();
 
 	await requireElement(".members-list .table-body > li");
@@ -145,15 +141,7 @@ export default class MemberInfoFeature extends Feature {
 		await addInfo(false);
 	}
 
-	cleanup() {
-		removeInfo();
-	}
-
 	storageKeys() {
 		return ["settings.pages.faction.memberInfo"];
-	}
-
-	shouldLiveReload() {
-		return true;
 	}
 }

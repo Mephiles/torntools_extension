@@ -18,11 +18,6 @@ async function addIndicator() {
 	);
 }
 
-function removeIndicator() {
-	const addedIcon = document.querySelector("#skip-to-content").parentElement.querySelector(".tt-profile-icon");
-	if (addedIcon) addedIcon.remove();
-}
-
 export default class StatusIndicatorFeature extends Feature {
 	constructor() {
 		super("Status Indicator", "profile");
@@ -38,10 +33,6 @@ export default class StatusIndicatorFeature extends Feature {
 
 	async execute() {
 		await addIndicator();
-	}
-
-	cleanup() {
-		removeIndicator();
 	}
 
 	storageKeys() {

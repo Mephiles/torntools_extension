@@ -44,10 +44,6 @@ export async function getTraderID() {
 	return parseInt(traderMatch[1]);
 }
 
-function removeButton() {
-	document.querySelector(".tt-open-chat")?.remove();
-}
-
 export default class TradeOpenChatFeature extends Feature {
 	constructor() {
 		super("Trade Open Chat", "trade");
@@ -67,10 +63,6 @@ export default class TradeOpenChatFeature extends Feature {
 
 	async execute() {
 		await addButton();
-	}
-
-	cleanup() {
-		removeButton();
 	}
 
 	storageKeys() {
