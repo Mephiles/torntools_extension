@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 2, "build": 0 },
+		"version": { "major": 9, "minor": 2, "build": 1 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 2, "build": 0 },
+		"date": "2026/08/31",
 		"logs": {
 			"features": [
 				{ "message": "Reminder for using your casino refill (disabled by default).", "contributor": "DeKleineKobini" },
