@@ -50,6 +50,8 @@ function giveMoneyHandler(event: MouseEvent) {
 	const inputValues = getGiveMoneyInputs();
 	if (!inputValues) return;
 
+	if (!document.querySelector<HTMLInputElement>("#give-money")?.checked) return;
+
 	const { user, money } = inputValues;
 	if (allowFromPersonalBalance(user, money) || matchesAnyBalance(money)) return;
 
