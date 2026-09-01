@@ -43,7 +43,7 @@
 	},
 	"devDependencies": {
 		"@astrojs/mdx": "^8.0.0",
-		"@astrojs/starlight": "^0.41.10",
+		"@astrojs/starlight": "^0.41.11",
 		"@astrojs/svelte": "^9.0.1",
 		"@fontsource-variable/geist": "^5.3.0",
 		"@types/bun": "^1.4.0",
@@ -59,7 +59,7 @@
 		"oxlint": "^1.81.0",
 		"oxlint-tsgolint": "^7.0.2001",
 		"phosphor-svelte": "^3.1.0",
-		"shadcn-svelte": "^1.5.1",
+		"shadcn-svelte": "^1.6.0",
 		"svelte-sonner": "^1.2.1",
 		"tailwind-merge": "^3.6.0",
 		"tailwind-variants": "^3.3.1",
