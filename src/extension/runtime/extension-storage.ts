@@ -2,7 +2,14 @@ import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
 import { api } from "@common/utils/data/database";
 import type { Database, DatabaseKey } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
-import { bumpCacheVersion, CACHE_VERSION_KEY, getCache, removeCacheEntries, setCacheEntries as idbSetCacheEntries } from "@common/utils/data/idb-cache";
+import {
+	bumpCacheVersion,
+	CACHE_VERSION_KEY,
+	FALLBACK_CACHE_KEY,
+	getCache,
+	removeCacheEntries,
+	setCacheEntries as idbSetCacheEntries,
+} from "@common/utils/data/idb-cache";
 import { TornToolsStorage } from "@common/utils/data/storage";
 import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
 import { browser } from "wxt/browser";
@@ -65,6 +72,7 @@ export class TTExtensionStorage extends TornToolsStorage {
 		} else {
 			const data = await browser.storage.local.get();
 			delete data[CACHE_VERSION_KEY];
+			delete data[FALLBACK_CACHE_KEY];
 
 			const cache = await readCache();
 			if (cache !== undefined) data.cache = cache;
