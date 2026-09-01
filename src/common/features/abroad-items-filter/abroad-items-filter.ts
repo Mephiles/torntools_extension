@@ -90,6 +90,7 @@ async function addFilterContainer() {
 				{ id: "drug", description: "Drugs" },
 				{ id: "weapon", description: "Weapons" },
 				{ id: "temporary", description: "Temporary" },
+				{ id: "defensive", description: "Defensive" },
 				{ id: "other", description: "Other" },
 			],
 			defaults: filters.abroadItems.categories,
@@ -149,7 +150,7 @@ async function addFilterContainer() {
 }
 
 const weaponTypes = new Set(["melee", "primary", "secondary"]);
-const allowedCategories = new Set(["plushie", "flower", "drug", "temporary"]);
+const allowedCategories = new Set(["plushie", "flower", "drug", "temporary", "defensive"]);
 
 function simplifyItemCategory(category: string) {
 	if (weaponTypes.has(category)) return "weapon";
