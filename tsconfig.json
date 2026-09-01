@@ -3,7 +3,6 @@
 	"compilerOptions": {
 		"strictNullChecks": false,
 		"strictPropertyInitialization": false,
-		"noPropertyAccessFromIndexSignature": false,
 		"noUncheckedIndexedAccess": false,
 		"types": ["user-agent-data-types"]
 	},
