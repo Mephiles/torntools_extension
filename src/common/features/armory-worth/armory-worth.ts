@@ -45,13 +45,6 @@ async function addWorth() {
 
 	const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement!;
 	const selections = ["basic", "balance"];
-	// TODO - Migrate to V2 (faction/weapons).
-	// TODO - Migrate to V2 (faction/armor).
-	// TODO - Migrate to V2 (faction/temporary).
-	// TODO - Migrate to V2 (faction/medical).
-	// TODO - Migrate to V2 (faction/drugs).
-	// TODO - Migrate to V2 (faction/boosters).
-	// TODO - Migrate to V2 (faction/cesium).
 	const legacySelections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium"];
 
 	if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {

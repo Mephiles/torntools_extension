@@ -129,13 +129,6 @@ async function showInformation() {
 	logObserver = new MutationObserver(showInformation);
 	logObserver.observe(list, { childList: true });
 
-	// TODO - Spray					Dual SMGs				Damage Bonus
-	// TODO - Emasculate			Pink MAC-10				Happy Bonus
-	// TODO - Hazardous				Nock Gun				Damage Penalty
-	// TODO - Storage				Handbag					Passive
-	// TODO - Toxin // wither		Poison Umbrella			Debuff
-	// TODO - Sleep (unreleased)	Tranquilizer Gun		Debuff
-
 	for (const log of findAllElements("[class*='logWrap___'] ul[class*='list___'] > li:not(.tt-modified)")) {
 		log.classList.add("tt-modified");
 

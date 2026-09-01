@@ -252,7 +252,6 @@ export function createTable<T extends Record<string, any>>(
 					return sortedColumnDef.sortComparator(a.data[sortedColumnDef.id], b.data[sortedColumnDef.id], sortInfo!.direction);
 				}
 
-				// TODO: Built in sorts for string, number, date? Throw otherwise?
 				const valueA = a.data[sortedColumnDef.id];
 				const valueB = b.data[sortedColumnDef.id];
 

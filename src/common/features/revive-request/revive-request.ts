@@ -85,7 +85,7 @@ function showButton() {
 
 	async function requestRevive() {
 		const details = getUserDetails();
-		if (details.error) return false; // TODO - Show error message.
+		if (details.error) return false;
 
 		button.setAttribute("disabled", "");
 

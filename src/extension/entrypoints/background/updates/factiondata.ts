@@ -43,7 +43,7 @@ export async function updateFactiondata() {
 				...data,
 				access: FACTION_ACCESS.full_access,
 				date: Date.now(),
-				userCrime: calculateOC(data.crimes, userdata.profile.id), // FIXME - Look into OC2 not breaking this.
+				userCrime: calculateOC(data.crimes, userdata.profile.id),
 			};
 		} catch (error) {
 			if (error?.code === 7) {
