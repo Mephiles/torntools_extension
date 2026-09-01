@@ -1,19 +1,7 @@
 [
 	{
-		"version": { "major": 9, "minor": 2, "build": 2 },
+		"version": { "major": 9, "minor": 2, "build": 3 },
 		"title": "Beta",
-		"date": false,
-		"logs": {
-			"features": [],
-			"fixes": [{ "message": "Fallback to extension storage if IndexedDB is unavailable for the cache.", "contributor": "DeKleineKobini" }],
-			"changes": [],
-			"removed": [],
-			"technical": []
-		}
-	},
-	{
-		"version": { "major": 9, "minor": 2, "build": 1 },
-		"date": "2026/09/01",
 		"logs": {
 			"fixes": [
 				{ "message": "Make sure the required API information is present for 'Race Car Selector'.", "contributor": "DeKleineKobini" },
@@ -25,6 +13,13 @@
 				{ "message": "Define 'Defensive' as its own category in 'Abroad Items Filter'.", "contributor": "DeKleineKobini" }
 			],
 			"technical": [{ "message": "Update the lifecycle of features.", "contributor": "DeKleineKobini" }]
+		}
+	},
+	{
+		"version": { "major": 9, "minor": 2, "build": 2 },
+		"date": "2026/09/01",
+		"logs": {
+			"fixes": [{ "message": "Fallback to extension storage if IndexedDB is unavailable for the cache.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
