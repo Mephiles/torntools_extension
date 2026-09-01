@@ -3,6 +3,7 @@
 		"version": { "major": 9, "minor": 2, "build": 3 },
 		"title": "Beta",
 		"logs": {
+			"features": [],
 			"fixes": [
 				{ "message": "Make sure the required API information is present for 'Race Car Selector'.", "contributor": "DeKleineKobini" },
 				{ "message": "'OC Last Action' (for OC1) was no longer working.", "contributor": "DeKleineKobini" },
@@ -13,6 +14,7 @@
 				{ "message": "Allow commas and $ in 'Stocks Money Input'.", "contributor": "DeKleineKobini" },
 				{ "message": "Define 'Defensive' as its own category in 'Abroad Items Filter'.", "contributor": "DeKleineKobini" }
 			],
+			"removed": [],
 			"technical": [{ "message": "Update the lifecycle of features.", "contributor": "DeKleineKobini" }]
 		}
 	},
