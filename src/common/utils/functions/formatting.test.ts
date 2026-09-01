@@ -1,5 +1,20 @@
 import { afterAll, beforeAll, describe, expect, it, setSystemTime } from "bun:test";
-import { convertToNumber, formatNumber, formatTime, withoutEndPunctuation } from "./formatting";
+import {
+	applyPlural,
+	camelCase,
+	capitalizeText,
+	convertToNumber,
+	daySuffix,
+	dropDecimals,
+	formatBytes,
+	formatNumber,
+	formatTime,
+	roundNearest,
+	textToTime,
+	toMultipleDigits,
+	toSeconds,
+	withoutEndPunctuation,
+} from "./formatting";
 
 describe("formatting", () => {
 	describe("convertToNumber", () => {
@@ -197,6 +212,184 @@ describe("formatting", () => {
 				expect(formatTime({ milliseconds: new Date("2025-01-15T12:00:00Z").getTime() }, { type: "ago", short: true })).toBe("1 y ago");
 				expect(formatTime({ milliseconds: NOW.getTime() - 3 * 3_600_000 }, { type: "ago", short: true })).toBe("3 hrs ago");
 			});
+		});
+	});
+
+	describe("dropDecimals", () => {
+		it("should truncate decimals towards zero", () => {
+			expect(dropDecimals(1.9)).toBe(1);
+			expect(dropDecimals(-1.9)).toBe(-1);
+			expect(dropDecimals(0.5)).toBe(0);
+			expect(dropDecimals(123.456)).toBe(123);
+		});
+	});
+
+	describe("roundNearest", () => {
+		it("should round to the nearest multiple", () => {
+			expect(roundNearest(5, 10)).toBe(10);
+			expect(roundNearest(4, 10)).toBe(0);
+			expect(roundNearest(7, 5)).toBe(5);
+			expect(roundNearest(3, 5)).toBe(5);
+			expect(roundNearest(15, 10)).toBe(20);
+		});
+	});
+
+	describe("camelCase", () => {
+		it("should convert text to lower camel case", () => {
+			expect(camelCase("Hello World")).toBe("helloWorld");
+			expect(camelCase("hello world")).toBe("helloworld");
+		});
+
+		it("should convert text to upper camel case when lowerCamelCase is false", () => {
+			expect(camelCase("Hello World", false)).toBe("HelloWorld");
+		});
+
+		it("should remove all spaces", () => {
+			expect(camelCase("multi   word text")).toBe("multiwordtext");
+		});
+	});
+
+	describe("toSeconds", () => {
+		it("should truncate milliseconds to seconds", () => {
+			expect(toSeconds(1500)).toBe(1);
+			expect(toSeconds(3000)).toBe(3);
+			expect(toSeconds(1234)).toBe(1);
+			expect(toSeconds(-1000)).toBe(-1);
+		});
+
+		it("should accept Date objects", () => {
+			expect(toSeconds(new Date(5000))).toBe(5);
+		});
+	});
+
+	describe("textToTime", () => {
+		it("should parse hh:mm as hours and minutes", () => {
+			expect(textToTime("1:30")).toBe(5_400_000);
+		});
+
+		it("should parse mm:ss when short is set", () => {
+			expect(textToTime("1:30", { short: true })).toBe(90_000);
+		});
+
+		it("should parse hh:mm:ss", () => {
+			expect(textToTime("1:02:03")).toBe(3_723_000);
+		});
+
+		it("should parse dd:hh:mm:ss", () => {
+			expect(textToTime("1:00:00:05")).toBe(86_405_000);
+		});
+
+		it("should parse labeled units", () => {
+			expect(textToTime("1d 2h")).toBe(93_600_000);
+			expect(textToTime("5min")).toBe(300_000);
+			expect(textToTime("30s")).toBe(30_000);
+			expect(textToTime("1h 30min 45s")).toBe(5_445_000);
+		});
+	});
+
+	describe("toMultipleDigits", () => {
+		it("should pad numbers to at least two digits", () => {
+			expect(toMultipleDigits(5)).toBe("05");
+			expect(toMultipleDigits(12)).toBe("12");
+			expect(toMultipleDigits(123)).toBe("123");
+			expect(toMultipleDigits("7")).toBe("07");
+		});
+
+		it("should respect a custom digit count", () => {
+			expect(toMultipleDigits(5, 3)).toBe("005");
+		});
+
+		it("should return undefined for undefined input", () => {
+			expect(toMultipleDigits(undefined)).toBeUndefined();
+		});
+	});
+
+	describe("capitalizeText", () => {
+		it("should capitalize the first character only", () => {
+			expect(capitalizeText("hello")).toBe("Hello");
+			expect(capitalizeText("hello world")).toBe("Hello world");
+		});
+
+		it("should capitalize every word when everyWord is set", () => {
+			expect(capitalizeText("hello world", { everyWord: true })).toBe("Hello World");
+		});
+	});
+
+	describe("applyPlural", () => {
+		it("should return an empty string for exactly one", () => {
+			expect(applyPlural(1)).toBe("");
+		});
+
+		it("should return 's' otherwise", () => {
+			expect(applyPlural(2)).toBe("s");
+			expect(applyPlural(0)).toBe("s");
+			expect(applyPlural(11)).toBe("s");
+		});
+	});
+
+	describe("daySuffix", () => {
+		it("should add the correct ordinal suffix", () => {
+			expect(daySuffix(1)).toBe("1st");
+			expect(daySuffix(2)).toBe("2nd");
+			expect(daySuffix(3)).toBe("3rd");
+			expect(daySuffix(4)).toBe("4th");
+			expect(daySuffix(11)).toBe("11th");
+			expect(daySuffix(12)).toBe("12th");
+			expect(daySuffix(13)).toBe("13th");
+			expect(daySuffix(21)).toBe("21st");
+			expect(daySuffix(22)).toBe("22nd");
+			expect(daySuffix(23)).toBe("23rd");
+			expect(daySuffix(31)).toBe("31st");
+		});
+	});
+
+	describe("formatBytes", () => {
+		it("should format zero bytes", () => {
+			expect(formatBytes(0)).toBe("0 bytes");
+		});
+
+		it("should format bytes without a unit bump", () => {
+			expect(formatBytes(500)).toBe("500 bytes");
+		});
+
+		it("should bump units at 1024 boundaries", () => {
+			expect(formatBytes(1024)).toBe("1 KB");
+			expect(formatBytes(1536)).toBe("1.5 KB");
+			expect(formatBytes(1048576)).toBe("1 MB");
+		});
+
+		it("should respect the decimals option", () => {
+			expect(formatBytes(1536, { decimals: 0 })).toBe("2 KB");
+		});
+
+		it("should throw for negative bytes", () => {
+			expect(() => formatBytes(-1)).toThrow();
+		});
+	});
+
+	describe("formatTime wordTimer", () => {
+		it("should format days, hours, minutes and seconds", () => {
+			expect(formatTime({ milliseconds: 93_784_000 }, { type: "wordTimer", showDays: true })).toBe("1 day 2 hours 3 minutes and 4 seconds");
+		});
+
+		it("should use extra short units", () => {
+			expect(formatTime({ milliseconds: 93_784_000 }, { type: "wordTimer", showDays: true, extraShort: true })).toBe("1d 2h 3m 4s");
+		});
+
+		it("should use short units", () => {
+			expect(formatTime({ milliseconds: 93_784_000 }, { type: "wordTimer", showDays: true, short: true })).toBe("1 day 2 hrs 3 mins and 4 secs");
+		});
+
+		it("should hide seconds when hideSeconds is set", () => {
+			expect(formatTime({ milliseconds: 7_384_000 }, { type: "wordTimer", hideSeconds: true })).toBe("2 hours and 3 minutes");
+		});
+
+		it("should skip days when showDays is not set", () => {
+			expect(formatTime({ milliseconds: 7_384_000 }, { type: "wordTimer" })).toBe("2 hours 3 minutes and 4 seconds");
+		});
+
+		it("should truncate seconds when a larger unit is shown", () => {
+			expect(formatTime({ milliseconds: 86_402_000 }, { type: "wordTimer", showDays: true, truncateSeconds: true })).toBe("1 day");
 		});
 	});
 });

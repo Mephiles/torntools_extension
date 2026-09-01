@@ -252,7 +252,7 @@ interface FormattableUnit {
 	extraShort: string;
 }
 
-export function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions) {
+function formatTimeAsWordTimer(millis: number, options: FormatTimeOptions) {
 	const date = new Date(millis);
 
 	let hasShownDays = false;
@@ -527,20 +527,6 @@ export function daySuffix(number: number): string {
 
 export function withoutEndPunctuation(text: string): string {
 	return text.replace(/[.,!?;:]+$/, "");
-}
-
-export function getDaySuffix(day: number): string {
-	if (day > 3 && day < 21) return "th";
-	switch (day % 10) {
-		case 1:
-			return "st";
-		case 2:
-			return "nd";
-		case 3:
-			return "rd";
-		default:
-			return "th";
-	}
 }
 
 interface FormatBytesOptions {
