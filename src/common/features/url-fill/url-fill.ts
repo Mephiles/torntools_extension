@@ -30,15 +30,15 @@ export default class UrlFillFeature extends Feature {
 		super("URL Fill", "global");
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.pages.global.urlFill;
 	}
 
-	async execute() {
+	override async execute() {
 		handleFilledUrl();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.global.urlFill"];
 	}
 }

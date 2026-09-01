@@ -46,26 +46,26 @@ export default class PropertyValuesFeature extends Feature {
 		super("Property Values", "property");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.property.value;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		const p = getHashParameters().get("p");
 		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
 
 		await addPropertyValues();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.property.value"];
 	}
 }

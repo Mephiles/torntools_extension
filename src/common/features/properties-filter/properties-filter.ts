@@ -144,26 +144,26 @@ export default class PropertiesFilterFeature extends Feature {
 		super("Properties Filter", "properties");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.property.filter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		const p = getHashParameters().get("p");
 		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
 
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.property.filter"];
 	}
 }

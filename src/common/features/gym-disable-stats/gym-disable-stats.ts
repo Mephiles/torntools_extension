@@ -101,23 +101,23 @@ export default class GymDisableStatsFeature extends Feature {
 		super("Disable Stats", "gym");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.gym.disableStats;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showCheckboxes();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.gym.disableStats", "filters.gym"];
 	}
 }

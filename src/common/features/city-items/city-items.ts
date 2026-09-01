@@ -851,27 +851,27 @@ export default class CityItemsFeature extends Feature {
 		super("City Items", "city", ExecutionTiming.IMMEDIATELY);
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.city.items;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	execute() {
+	override execute() {
 		setTimeout(triggerFallback, 500);
 	}
 
-	requiresScreenInformation() {
+	override requiresScreenInformation() {
 		return false;
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.city.items"];
 	}
 }

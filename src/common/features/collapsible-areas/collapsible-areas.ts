@@ -49,11 +49,11 @@ export default class CollapsibleAreasFeature extends Feature {
 		super("Collapse Areas", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		const { hasSidebar } = await checkDevice();
 		if (!hasSidebar) return "Not supported on mobiles or tablets!";
 
@@ -61,15 +61,15 @@ export default class CollapsibleAreasFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.collapseAreas;
 	}
 
-	async execute() {
+	override async execute() {
 		await addCollapseIcon();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.collapseAreas"];
 	}
 }

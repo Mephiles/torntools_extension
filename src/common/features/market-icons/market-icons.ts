@@ -59,27 +59,27 @@ export default class MarketIconsFeature extends Feature {
 		super("Market Icons", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.marketLinks;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseMarketIcons();
 	}
 
-	async execute() {
+	override async execute() {
 		await showMarketIcons();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.marketLinks"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if ((await checkDevice()).mobile) return "Not supported on mobile!";
 		return true;
 	}

@@ -239,19 +239,19 @@ export default class ArmoryFilterFeature extends Feature {
 		super("Armory Filter", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.armoryFilter;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.armoryFilter"];
 	}
 }

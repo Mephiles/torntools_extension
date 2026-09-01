@@ -212,23 +212,23 @@ export default class ChatHighlightFeature extends Feature {
 		super("Chat Highlight", "chat");
 	}
 
-	precondition() {
+	override precondition() {
 		return !is2FACheckPage();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return !!settings.pages.chat.highlights.length;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseHighlights();
 	}
 
-	execute() {
+	override execute() {
 		readSettings();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.highlights"];
 	}
 }

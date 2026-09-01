@@ -51,27 +51,27 @@ export default class CompanyStockFillFeature extends Feature {
 		super("Company Stock Fill", "companies");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isOwnCompany;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.companies.autoStockFill;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFillStockButton(false);
 	}
 
-	async reload() {
+	override async reload() {
 		await addFillStockButton(true);
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.companies.autoStockFill"];
 	}
 }

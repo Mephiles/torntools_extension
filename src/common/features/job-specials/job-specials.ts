@@ -83,23 +83,23 @@ export default class JobSpecialsFeature extends Feature {
 		super("Job Specials", "joblist");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.joblist.specials;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await showSpecials();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.joblist.specials"];
 	}
 }

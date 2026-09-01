@@ -51,27 +51,27 @@ export default class HighlightOCFeature extends Feature {
 		super("Highlight OC", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.highlightOwn;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.highlightOwn"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;

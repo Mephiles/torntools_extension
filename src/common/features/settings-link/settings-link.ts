@@ -79,29 +79,29 @@ export default class SettingsLinkFeature extends Feature {
 		super("Settings Link", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.settingsLink;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseLink();
 	}
 
-	async execute() {
+	override async execute() {
 		await addLink();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.settingsLink"];
 	}
 }

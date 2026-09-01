@@ -78,19 +78,19 @@ export default class CreatorMessagesFeature extends Feature {
 		super("Creator Messages", "messages");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		if (getHashParameters().get("p") === "compose") await startCreatorMessage();
 	}
 }

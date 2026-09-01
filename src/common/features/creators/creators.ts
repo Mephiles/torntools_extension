@@ -31,15 +31,15 @@ export default class CreatorsFeature extends Feature {
 		super("Creators", "profile");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return true;
 	}
 
-	async execute() {
+	override async execute() {
 		await showCreators();
 	}
 }

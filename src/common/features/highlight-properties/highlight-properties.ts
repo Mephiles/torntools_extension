@@ -22,23 +22,23 @@ export default class HighlightPropertiesFeature extends Feature {
 		super("Highlight Properties", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isFlying() && !isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return !!settings.pages.sidebar.upkeepPropHighlight;
 	}
 
-	async execute() {
+	override async execute() {
 		await addHighlight();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.upkeepPropHighlight"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
 
 		return true;

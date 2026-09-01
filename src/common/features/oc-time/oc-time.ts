@@ -58,11 +58,11 @@ export default class OCTimeFeature extends Feature {
 		super("OC Time", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !((settings.apiUsage.user.icons && userdata.userCrime) || "userCrime" in factiondata)) return "No API access.";
 		else if (!hasOC1Data()) return "No OC 1 data.";
 		else if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
@@ -70,15 +70,15 @@ export default class OCTimeFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.ocTimer && !!userdata?.faction;
 	}
 
-	async execute() {
+	override async execute() {
 		await showTimer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.ocTimer", "factiondata.userCrime", "userdata.userCrime"];
 	}
 }

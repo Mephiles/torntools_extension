@@ -64,24 +64,24 @@ export default class FactionInactivityWarningFeature extends Feature {
 		super("Member Inactivity Warning", "faction");
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return !!settings.factionInactivityWarning.filter((warning) => warning.days !== null).length;
 	}
 
-	initialise() {
+	override initialise() {
 		lastActionState = settings.scripts.lastAction.factionMember;
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addWarning(false);
 	}
 
-	async reload() {
+	override async reload() {
 		await addWarning(true);
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.factionInactivityWarning"];
 	}
 }

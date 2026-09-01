@@ -326,23 +326,23 @@ export default class QuickCrimesFeature extends Feature {
 		super("Quick Crimes", "crimes");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.crimes.quickCrimes;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await loadCrimes();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.crimes.quickCrimes"];
 	}
 }

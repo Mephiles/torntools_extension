@@ -89,29 +89,29 @@ export default class WarnCrimeFeature extends Feature {
 		super("Warn Crime", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return isInternalFaction;
 	}
 
-	requirements() {
+	override requirements() {
 		if (hasOC1Data()) return "Still on OC1.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.warnCrime;
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.faction.warnCrime"];
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		if (getFactionSubpage() !== "crimes") return;
 
 		await disableButtons();

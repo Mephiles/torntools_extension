@@ -24,19 +24,19 @@ export default class AuctionHouseMovePaginationFeature extends Feature {
 		super("Auction House Move Pagination", "auction");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.auction.movePagination;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await movePagination();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.auction.movePagination"];
 	}
 }

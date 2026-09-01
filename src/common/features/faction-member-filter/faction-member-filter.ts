@@ -315,19 +315,19 @@ export default class FactionMemberFilterFeature extends Feature {
 		super("Faction Member Filter", "faction");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.memberFilter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.memberFilter"];
 	}
 }

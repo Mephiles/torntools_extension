@@ -607,15 +607,15 @@ export default class BlackjackStrategyFeature extends Feature {
 		super("Blackjack Strategy", "casino");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.casino.blackjack;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseStrategy();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.casino.blackjack"];
 	}
 }

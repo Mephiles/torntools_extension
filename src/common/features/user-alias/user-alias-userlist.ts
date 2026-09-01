@@ -61,15 +61,15 @@ export default class UserAliasUserlistFeature extends Feature {
 		super("User Alias - Userlist", SCOPES_LIST[getPage()]);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.userAlias.length > 0;
 	}
 
-	initialise() {
+	override initialise() {
 		addListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		if (getPage() === "factions") {
 			if (isInternalFaction && getFactionSubpage() !== "info") return;
 			if (!isInternalFaction && (await isDestroyed())) return;
@@ -78,7 +78,7 @@ export default class UserAliasUserlistFeature extends Feature {
 		await addAlias();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.userAlias"];
 	}
 }

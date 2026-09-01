@@ -119,29 +119,29 @@ export default class MemberInfoFeature extends Feature {
 		super("Member Info", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.memberInfo;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasFactionAPIAccess()) return "No Faction API access!";
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		lastActionState = settings.scripts.lastAction.factionMember;
 		await addInfo(false);
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.memberInfo"];
 	}
 }

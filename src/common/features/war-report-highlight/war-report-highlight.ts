@@ -15,21 +15,21 @@ export default class WarReportHighlightFeature extends Feature {
 		super("War Report Highlight", "faction");
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.warReportHighlight;
 	}
 
-	async execute() {
+	override async execute() {
 		await highlightName();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.warReportHighlight"];
 	}
 }

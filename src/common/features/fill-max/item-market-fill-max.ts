@@ -40,23 +40,23 @@ export default class ItemMarketFillMaxFeature extends Feature {
 		super("Item Market Fill Max", "item market");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.itemmarket.fillMax;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addButton();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.itemmarket.fillMax"];
 	}
 }

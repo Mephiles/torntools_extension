@@ -38,19 +38,19 @@ export default class NoConfirmPointsMarketFeature extends Feature {
 		super("Points Market No Confirm", "points");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.noConfirm.pointsMarketRemove || settings.scripts.noConfirm.pointsMarketBuy;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.scripts.noConfirm.pointsMarketRemove", "settings.scripts.noConfirm.pointsMarketBuy"];
 	}
 }

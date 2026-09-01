@@ -64,23 +64,23 @@ export default class FlyingTimeFeature extends Feature {
 		super("Flying Time", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isFlying() && !isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.flyingTime;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await showTime();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.flyingTime"];
 	}
 }

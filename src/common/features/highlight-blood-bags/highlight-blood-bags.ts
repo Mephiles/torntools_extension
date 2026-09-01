@@ -82,23 +82,23 @@ export default class HighlightBloodBagsFeature extends Feature {
 		super("Highlight Blood Bags", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !(page === "factions" && !isInternalFaction);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.highlightBloodBags !== "none";
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseBloodBags();
 	}
 
-	async execute() {
+	override async execute() {
 		await highlightBloodBags();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.highlightBloodBags"];
 	}
 }

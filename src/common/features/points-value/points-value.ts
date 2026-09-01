@@ -57,11 +57,11 @@ export default class PointsValueFeature extends Feature {
 		super("Points Value", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		const { hasSidebar } = await checkDevice();
 		if (!hasSidebar) return "Not supported on mobiles or tablets, or page without sidebar!";
 
@@ -69,15 +69,15 @@ export default class PointsValueFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.pointsValue;
 	}
 
-	async execute() {
+	override async execute() {
 		await showValue();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.pointsValue"];
 	}
 }

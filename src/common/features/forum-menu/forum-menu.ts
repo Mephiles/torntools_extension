@@ -423,19 +423,19 @@ export default class ForumMenuFeature extends Feature {
 		super("Forum Menu", "forums");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.forums.menu;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.forums.menu"];
 	}
 }

@@ -42,24 +42,24 @@ export default class ShopProfitsFeature extends Feature {
 		super("Shop Profits", "shops");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.shops.profit;
 	}
 
-	async execute() {
+	override async execute() {
 		await showProfits();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.shops.profit"];
 	}
 }

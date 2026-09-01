@@ -857,27 +857,27 @@ export default class ProfileBoxFeature extends Feature {
 		super("Profile Box", "profile");
 	}
 
-	precondition(): boolean {
+	override precondition(): boolean {
 		return getPageStatus().access && !isOwnProfile();
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		return true;
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return (
 			settings.pages.profile.box &&
 			(settings.pages.profile.boxStats || settings.pages.profile.boxSpy || settings.pages.profile.boxStakeout || settings.pages.profile.boxAttackHistory)
 		);
 	}
 
-	async execute() {
+	override async execute() {
 		await showBox();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return [
 			"settings.pages.profile.box",
 			"settings.pages.profile.boxStats",

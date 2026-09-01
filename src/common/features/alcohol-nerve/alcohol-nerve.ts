@@ -60,27 +60,27 @@ export default class AlcoholNerveFeature extends Feature {
 		super("Alcohol Nerve", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.nerveGains;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseAddGains();
 	}
 
-	async execute() {
+	override async execute() {
 		addNerveGains();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.nerveGains"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		return true;
 	}

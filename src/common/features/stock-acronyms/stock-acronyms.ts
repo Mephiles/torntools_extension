@@ -28,24 +28,24 @@ export default class StockAcronymsFeature extends Feature {
 		super("Stock Acronyms", "stocks");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.stocks.acronyms;
 	}
 
-	async execute() {
+	override async execute() {
 		await addAcronyms();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.stocks.acronyms"];
 	}
 }

@@ -40,15 +40,15 @@ export default class MiniProfileLastActionFeature extends Feature {
 		super("Mini Profile Last Action", "global");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.global.miniProfileLastAction;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseMiniProfile();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.miniProfileLastAction"];
 	}
 }

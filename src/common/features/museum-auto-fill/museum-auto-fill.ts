@@ -38,23 +38,23 @@ export default class MuseumAutoFillFeature extends Feature {
 		super("Museum Auto Fill", "museum");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.museum.autoFill;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await autoFill();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.museum.autoFill"];
 	}
 }

@@ -46,19 +46,19 @@ export default class HideCasinoGamesFeature extends Feature {
 		super("Hide Casino Games", "casino");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return !!settings.hideCasinoGames.length;
 	}
 
-	execute() {
+	override execute() {
 		hideCasinoGames();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.hideCasinoGames"];
 	}
 }

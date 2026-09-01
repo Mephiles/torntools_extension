@@ -61,19 +61,19 @@ export default class CooldownEndTimesFeature extends Feature {
 		super("Cooldown End Times", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.cooldownEndTimes;
 	}
 
-	async execute() {
+	override async execute() {
 		await addEndTimes();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.cooldownEndTimes"];
 	}
 }

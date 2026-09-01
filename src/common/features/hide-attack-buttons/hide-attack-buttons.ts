@@ -38,19 +38,19 @@ export default class HideAttackButtonsFeature extends Feature {
 		super("Hide Attack Buttons", "attack", ExecutionTiming.IMMEDIATELY);
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.attack.hideAttackButtons.length > 0;
 	}
 
-	async execute() {
+	override async execute() {
 		await addObserver();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.attack.hideAttackButtons"];
 	}
 }

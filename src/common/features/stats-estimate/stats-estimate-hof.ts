@@ -67,29 +67,29 @@ export default class StatsEstimateHOFFeature extends Feature {
 		super("Stats Estimate HOF", "halloffame");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.hof;
 	}
 
-	initialise() {
+	override initialise() {
 		registerListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showEstimates();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.statsEstimate.global", "settings.scripts.statsEstimate.hof"];
 	}
 }

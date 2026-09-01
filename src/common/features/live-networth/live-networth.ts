@@ -216,25 +216,25 @@ export default class LiveNetworthFeature extends Feature {
 		super("Live Networth", "home");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isFlying() && !isAbroad();
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.home.networthDetails;
 	}
 
-	async execute() {
+	override async execute() {
 		await showNetworth();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.home.networthDetails", "userdata.networth"];
 	}
 }

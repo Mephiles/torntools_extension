@@ -125,19 +125,19 @@ export default class StocksMoneyInputFeature extends Feature {
 		super("Stocks Money Input", "stocks");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.pages.stocks.moneyInput;
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.stocks.moneyInput"];
 	}
 
-	async execute() {
+	override async execute() {
 		await addMoneyInputListeners();
 	}
 }

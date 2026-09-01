@@ -91,11 +91,11 @@ export default class PreferenceSettingsFeature extends Feature {
 		super("Preference Settings", "preferences");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return true;
 	}
 
-	async execute() {
+	override async execute() {
 		await executeFeature();
 	}
 }

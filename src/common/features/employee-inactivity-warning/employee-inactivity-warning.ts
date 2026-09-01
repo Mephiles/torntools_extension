@@ -53,24 +53,24 @@ export default class EmployeeInactivityWarningFeature extends Feature {
 		super("Employee Inactivity Warning", "companies");
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return !!settings.employeeInactivityWarning.filter((warning) => warning.days !== null).length;
 	}
 
-	initialise() {
+	override initialise() {
 		lastActionState = isOwnCompany ? settings.scripts.lastAction.companyOwn : settings.scripts.lastAction.companyOther;
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addWarning(false);
 	}
 
-	async reload() {
+	override async reload() {
 		await addWarning(true);
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.employeeInactivityWarning"];
 	}
 }

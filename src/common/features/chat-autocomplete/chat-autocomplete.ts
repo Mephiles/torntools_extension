@@ -90,26 +90,26 @@ export default class ChatAutocompleteFeature extends Feature {
 		super("Chat Autocomplete", "chat");
 	}
 
-	async requirements() {
+	override async requirements() {
 		const devices = await checkDevice();
 		if (devices.mobile || devices.tablet) return "Not supported on mobile/tablet!";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.chat.completeUsernames;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseAutocomplete();
 	}
 
-	async execute() {
+	override async execute() {
 		await readSettings();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.completeUsernames"];
 	}
 }

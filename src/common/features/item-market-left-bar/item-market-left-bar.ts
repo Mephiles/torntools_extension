@@ -7,19 +7,19 @@ export default class ItemMarketLeftBarFeature extends Feature {
 		super("Item Market Left Bar", "item market", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.itemmarket.leftBar;
 	}
 
-	execute() {
+	override execute() {
 		document.documentElement.classList.add("tt-item-market-left-bar");
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.itemmarket.leftBar"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

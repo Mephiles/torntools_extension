@@ -15,15 +15,15 @@ export default class ChainReportHighlightFeature extends Feature {
 		super("Chain Report Highlight", "faction");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.warReportHighlight;
 	}
 
-	async execute() {
+	override async execute() {
 		await highlightName();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.warReportHighlight"];
 	}
 }

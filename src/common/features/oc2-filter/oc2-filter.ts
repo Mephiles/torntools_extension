@@ -113,29 +113,29 @@ export default class OC2FilterFeature extends Feature {
 		super("OC2 Filter", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.oc2Filter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		if (getFactionSubpage() !== "crimes") return;
 
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.oc2Filter"];
 	}
 
-	requirements() {
+	override requirements() {
 		return hasOC1Data() ? "Still on OC1." : super.requirements();
 	}
 }

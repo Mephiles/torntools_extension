@@ -33,26 +33,26 @@ export default class BankInvestmentDueTimeFeature extends Feature {
 		super("Bank Investment Due Time", "bank");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.bank.investmentDueTime;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.money) return "No API access.";
 		else if (!userdata.money.city_bank?.until) return "No active investment.";
 
 		return true;
 	}
 
-	async execute() {
+	override async execute() {
 		createBankInvestmentFacade(await requireElement("p.m-clear"));
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.bank.investmentDueTime", "userdata.money.city_bank.until"];
 	}
 }

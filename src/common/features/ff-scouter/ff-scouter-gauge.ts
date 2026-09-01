@@ -255,18 +255,18 @@ export default class FFScouterGaugeFeature extends Feature {
 		super("FF Scouter Gauge", "ff-scouter");
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 
 		return true;
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.scripts.ffScouter.gauge;
 	}
 
-	initialise() {
+	override initialise() {
 		SCOUTER_SERVICE = scouterService();
 		BLUE_ARROW = browser.runtime.getURL("/images/svg-icons/blue-arrow.svg");
 		GREEN_ARROW = browser.runtime.getURL("/images/svg-icons/green-arrow.svg");
@@ -275,11 +275,11 @@ export default class FFScouterGaugeFeature extends Feature {
 		initialise();
 	}
 
-	execute() {
+	override execute() {
 		safeTriggerGauge();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.ffScouter.gauge", "settings.external.ffScouter"];
 	}
 }

@@ -81,20 +81,20 @@ export default class TotalPortfolioValueFeature extends Feature {
 		super("Total Portfolio Value", "stocks");
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.stocks.valueAndProfit;
 	}
 
-	async execute() {
+	override async execute() {
 		await addProfitAndValue();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.stocks.valueAndProfit", "userdata.stocks"];
 	}
 }

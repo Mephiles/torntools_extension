@@ -257,23 +257,23 @@ export default class RacingFilterFeature extends Feature {
 		super("Racing Filter", "racing");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.racing.filter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		if (getSearchParameters().get("tab") === "customrace") await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.racing.filter"];
 	}
 }

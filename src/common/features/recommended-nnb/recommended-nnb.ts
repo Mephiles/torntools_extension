@@ -50,23 +50,23 @@ export default class RecommendedNNBFeature extends Feature {
 		super("Recommended NNB", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.recommendedNnb;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.recommendedNnb"];
 	}
 }

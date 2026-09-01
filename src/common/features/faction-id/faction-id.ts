@@ -36,23 +36,23 @@ export default class FactionIDFeature extends Feature {
 		super("Faction ID", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.idBesideFactionName;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await addID();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.idBesideFactionName"];
 	}
 }

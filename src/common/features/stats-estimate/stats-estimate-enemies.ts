@@ -53,29 +53,29 @@ export default class StatsEstimateEnemiesFeature extends Feature {
 		super("Stats Estimate Enemies", "enemies");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.enemies;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await registerListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showEstimates();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.statsEstimate.global", "settings.scripts.statsEstimate.enemies"];
 	}
 }

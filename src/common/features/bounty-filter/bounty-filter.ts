@@ -119,22 +119,22 @@ export default class BountyFilterFeature extends Feature {
 		super("Bounty Filter", "bounties");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.bounties.filter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListener();
 	}
 
-	async execute() {
+	override async execute() {
 		const params = getHashParameters();
 		if (params.has("p") && params.get("p") !== "main") return;
 
 		await addFilter();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.bounties.filter"];
 	}
 }

@@ -48,19 +48,19 @@ export default class AbroadAutoFillMaxFeature extends Feature {
 		super("Abroad Auto Fill Max", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.autoFillMax;
 	}
 
-	async execute() {
+	override async execute() {
 		await autoFillInputs();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.autoFillMax"];
 	}
 }

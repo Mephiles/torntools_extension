@@ -30,23 +30,23 @@ export default class BookEffectFeature extends Feature {
 		super("Book Effect", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.bookEffects;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseAddEffects();
 	}
 
-	execute() {
+	override execute() {
 		addEffects();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.bookEffects"];
 	}
 }

@@ -7,21 +7,21 @@ export default class AlignLeftFeature extends Feature {
 		super("Align Left", "global", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.global.alignLeft;
 	}
 
-	execute() {
+	override execute() {
 		if (document.title !== "Torn - Just a moment...") {
 			document.documentElement.classList.add("tt-align-left");
 		}
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.alignLeft"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

@@ -44,19 +44,19 @@ export default class FriendlyFireFeature extends Feature {
 		super("Friendly Fire", "profile");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.profile.showAllyWarning;
 	}
 
-	async execute() {
+	override async execute() {
 		await addWarning();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.profile.showAllyWarning", "settings.allyFactionsIDs"];
 	}
 }

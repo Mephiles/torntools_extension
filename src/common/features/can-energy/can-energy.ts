@@ -52,29 +52,29 @@ export default class CanEnergyFeature extends Feature {
 		super("Can Energy", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.canGains;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseAddEGains();
 	}
 
-	execute() {
+	override execute() {
 		addEnergyGains();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.canGains"];
 	}
 }

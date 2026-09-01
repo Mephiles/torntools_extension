@@ -62,24 +62,24 @@ export class MissingBooksFeature extends Feature {
 		super("Missing Books", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.missingBooks;
 	}
 
-	async initialise() {
+	override async initialise() {
 		initialiseBooks();
 	}
 
-	async execute() {
+	override async execute() {
 		await requireElement(".last-row");
 		await showBooks();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.missingBooks"];
 	}
 }

@@ -95,19 +95,19 @@ export default class MuseumMarketLinkFeature extends Feature {
 		super("Museum Market Link", "museum");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.museum.marketLinks;
 	}
 
-	execute() {
+	override execute() {
 		initialiseMarketLink();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.museum.marketLinks"];
 	}
 }

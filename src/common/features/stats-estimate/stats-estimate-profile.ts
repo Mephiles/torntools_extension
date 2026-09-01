@@ -48,25 +48,25 @@ export default class StatsEstimateProfileFeature extends Feature {
 		super("Stats Estimate Profile", "profiles");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isOwnProfile();
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.profiles;
 	}
 
-	async execute() {
+	override async execute() {
 		await showEstimate();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.statsEstimate.global", "settings.scripts.statsEstimate.profiles"];
 	}
 }

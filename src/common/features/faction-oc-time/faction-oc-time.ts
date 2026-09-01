@@ -67,11 +67,11 @@ export default class FactionOCTimeFeature extends Feature {
 		super("Faction OC Timer", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !("crimes" in factiondata) || !factiondata.crimes) return "No API access.";
 		else if (!hasOC1Data()) return "No OC 1 data.";
 		else if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
@@ -79,15 +79,15 @@ export default class FactionOCTimeFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.factionOCTimer;
 	}
 
-	async execute() {
+	override async execute() {
 		await showTimer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.factionOCTimer", "factiondata.crimes"];
 	}
 }

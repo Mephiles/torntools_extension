@@ -77,11 +77,11 @@ export default class RemindersFeature extends Feature {
 		super("Reminders", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!(await checkDevice()).hasSidebar) return "Not supported without sidebar!";
 
 		if (!hasAPIData()) return "No API access.";
@@ -89,19 +89,19 @@ export default class RemindersFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.reminders.show;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.scripts.reminders.show", "settings.scripts.reminders.finished"];
 	}
 }

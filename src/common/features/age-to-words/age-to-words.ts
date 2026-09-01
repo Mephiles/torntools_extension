@@ -33,15 +33,15 @@ export default class AgeToWordsFeature extends Feature {
 		super("Age to Words", "profile");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.profile.ageToWords;
 	}
 
-	async execute() {
+	override async execute() {
 		await addWords();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.profile.ageToWords"];
 	}
 }

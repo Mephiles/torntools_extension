@@ -52,24 +52,24 @@ export default class EffectiveBattleStatsFeature extends Feature {
 		super("Effective Battle Stats", "home");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isFlying() && !isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.home.effectiveStats;
 	}
 
-	async requirements() {
+	override async requirements() {
 		await checkDevice();
 		return true;
 	}
 
-	async execute() {
+	override async execute() {
 		await showEffectiveBattleStats();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.home.effectiveStats"];
 	}
 }

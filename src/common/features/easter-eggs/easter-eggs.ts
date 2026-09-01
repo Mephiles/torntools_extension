@@ -109,23 +109,23 @@ export default class EasterEggsFeature extends Feature {
 		super("Easter Eggs", "event");
 	}
 
-	precondition() {
+	override precondition() {
 		return isEventActive(TORN_EVENTS.EASTER_EGG_HUNT, true);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.competitions.easterEggs;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseDetector();
 	}
 
-	async execute() {
+	override async execute() {
 		await enableDetector();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.competitions.easterEggs"];
 	}
 }

@@ -31,19 +31,19 @@ export default class LandingTimeFeature extends Feature {
 		super("Landing Time", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isFlying();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.landingTime;
 	}
 
-	async execute() {
+	override async execute() {
 		await showTime();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.landingTime"];
 	}
 }

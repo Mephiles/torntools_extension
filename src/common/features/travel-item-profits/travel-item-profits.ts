@@ -90,33 +90,33 @@ export default class TravelItemProfitsFeature extends Feature {
 		super("Travel Item Profits", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isAbroad();
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.pages.travel.travelProfits;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addProfitsColumn();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.travel.travelProfits"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}
 
-	shouldTriggerEvents(): boolean {
+	override shouldTriggerEvents(): boolean {
 		return true;
 	}
 }

@@ -51,29 +51,29 @@ export default class CandyHappyFeature extends Feature {
 		super("Candy Happy", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.candyHappyGains;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseAddGains();
 	}
 
-	execute() {
+	override execute() {
 		addGains();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.candyHappyGains"];
 	}
 }

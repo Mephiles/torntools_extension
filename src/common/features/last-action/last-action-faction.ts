@@ -121,33 +121,33 @@ export default class LastActionFactionFeature extends Feature {
 		super("Last Action Faction", "last action");
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.scripts.lastAction.factionMember;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access!";
 
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addLastAction(false);
 	}
 
-	async reload() {
+	override async reload() {
 		await addLastAction(true);
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.lastAction.factionMember"];
 	}
 
-	shouldTriggerEvents(): boolean {
+	override shouldTriggerEvents(): boolean {
 		return true;
 	}
 }

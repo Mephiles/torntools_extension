@@ -163,11 +163,11 @@ export default class NPCLootTimesFeature extends Feature {
 		super("NPC Loot Times", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		const { hasSidebar } = await checkDevice();
 		if (!hasSidebar) return "Not supported on mobiles or tablets!";
 
@@ -177,15 +177,15 @@ export default class NPCLootTimesFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.npcLootTimes;
 	}
 
-	async execute() {
+	override async execute() {
 		await showNPCs();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.npcLootTimes", "npcs.targets"];
 	}
 }

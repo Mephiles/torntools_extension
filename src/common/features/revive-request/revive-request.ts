@@ -138,7 +138,7 @@ export default class ReviveRequestFeature extends Feature {
 		page = getPage();
 	}
 
-	async requirements() {
+	override async requirements() {
 		const devices = await checkDevice();
 		if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
 		else if (isFlying()) return false;
@@ -146,19 +146,19 @@ export default class ReviveRequestFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return !!settings.pages.global.reviveProvider;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.reviveProvider"];
 	}
 }

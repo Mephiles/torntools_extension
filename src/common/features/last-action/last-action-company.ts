@@ -123,29 +123,29 @@ export default class LastActionCompanyFeature extends Feature {
 		super("Last Action Company", "last action");
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return (isOwnCompany && settings.scripts.lastAction.companyOwn) || (!isOwnCompany && settings.scripts.lastAction.companyOther);
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access!";
 
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addLastAction(false);
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.lastAction.companyOwn", "settings.scripts.lastAction.companyOther"];
 	}
 
-	shouldTriggerEvents(): boolean {
+	override shouldTriggerEvents(): boolean {
 		return true;
 	}
 }

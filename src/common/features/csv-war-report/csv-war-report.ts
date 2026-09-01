@@ -55,19 +55,19 @@ export default class CSVWarReportFeature extends Feature {
 		super("War Report to CSV", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.csvWarReport;
 	}
 
-	async execute() {
+	override async execute() {
 		await addCSVContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.csvWarReport"];
 	}
 }

@@ -104,19 +104,19 @@ export default class OpenedSupplyPackValueFeature extends Feature {
 		super("Opened Supply Pack Value", "items");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.openedSupplyPackValue;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.openedSupplyPackValue"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}

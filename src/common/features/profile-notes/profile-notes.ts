@@ -43,19 +43,19 @@ export default class ProfileNotesFeature extends Feature {
 		super("Profile Notes", "profile");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.profile.notes;
 	}
 
-	async execute() {
+	override async execute() {
 		await addNotes();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.profile.notes"];
 	}
 }

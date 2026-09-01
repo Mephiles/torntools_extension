@@ -103,31 +103,31 @@ export default class FFScouterFactionFeature extends Feature {
 		super("FF Scouter Faction", "ff-scouter");
 	}
 
-	precondition(): boolean {
+	override precondition(): boolean {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 
 		return true;
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.scripts.ffScouter.factionList;
 	}
 
-	initialise() {
+	override initialise() {
 		SCOUTER_SERVICE = scouterService();
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await showFF(false);
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.ffScouter.factionList", "settings.external.ffScouter"];
 	}
 }

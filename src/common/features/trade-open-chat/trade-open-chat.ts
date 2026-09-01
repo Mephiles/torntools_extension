@@ -49,23 +49,23 @@ export default class TradeOpenChatFeature extends Feature {
 		super("Trade Open Chat", "trade");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.trade.openChat;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addButton();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.trade.openChat"];
 	}
 }

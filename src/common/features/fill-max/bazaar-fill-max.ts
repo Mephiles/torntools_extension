@@ -70,23 +70,23 @@ export default class BazaarFillMaxFeature extends Feature {
 		super("Bazaar Fill Max", "bazaar");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.bazaar.fillMax;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFillMax();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.bazaar.fillMax"];
 	}
 }

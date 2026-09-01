@@ -106,19 +106,19 @@ export default class TradeTimerFeature extends Feature {
 		super("Trade Timer", "chat");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.chat.tradeTimer;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await showTimer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.tradeTimer", "localdata.tradeMessage"];
 	}
 }

@@ -13,10 +13,10 @@ export class TTScriptStorage extends TornToolsStorage {
 		return key === "cache" ? key : `${this.prefix}_${key}`;
 	}
 
-	get(): Promise<Database>;
-	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
-	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
-	async get(key?: DatabaseKey | DatabaseKey[]) {
+	override get(): Promise<Database>;
+	override get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	override get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
+	override async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
 			return await Promise.all(key.map((k) => this.storageKey(k)).map((k) => GM.getValue(k)));
 		} else if (key) {
@@ -32,7 +32,7 @@ export class TTScriptStorage extends TornToolsStorage {
 		}
 	}
 
-	async set(object: { [p: string]: any }): Promise<void> {
+	override async set(object: { [p: string]: any }): Promise<void> {
 		await Promise.all(
 			Object.entries(object).map(([key, value]) => {
 				UserscriptRuntimeStorage.callback({ [key]: { newValue: value, oldValue: null } }, "local");
@@ -41,27 +41,27 @@ export class TTScriptStorage extends TornToolsStorage {
 		);
 	}
 
-	remove(_key: string | string[]): Promise<void> {
+	override remove(_key: string | string[]): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 
-	clear(): Promise<void> {
+	override clear(): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 
-	reset(): Promise<void>;
-	reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
-	reset(_key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
+	override reset(): Promise<void>;
+	override reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
+	override reset(_key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 
-	async setCacheEntries(entries: CacheEntry[]): Promise<void> {
+	override async setCacheEntries(entries: CacheEntry[]): Promise<void> {
 		const cache = (await this.get("cache")) ?? {};
 		applyCacheEntries(cache, entries);
 		await this.set({ cache });
 	}
 
-	async clearCache(section?: string): Promise<void> {
+	override async clearCache(section?: string): Promise<void> {
 		const cache = (await this.get("cache")) ?? {};
 		if (section) {
 			delete cache[section];
@@ -71,7 +71,7 @@ export class TTScriptStorage extends TornToolsStorage {
 		await this.set({ cache });
 	}
 
-	getSize(): Promise<number> {
+	override getSize(): Promise<number> {
 		throw new Error("Method not implemented.");
 	}
 }
@@ -92,10 +92,10 @@ function applyCacheEntries(cache: DatabaseCache, entries: CacheEntry[]) {
 }
 
 export class PDAScriptStorage extends TornToolsStorage {
-	get(): Promise<Database>;
-	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
-	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
-	async get(key?: DatabaseKey | DatabaseKey[]) {
+	override get(): Promise<Database>;
+	override get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	override get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
+	override async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
 			return await Promise.all(key.map(this.get.bind(this)));
 		} else if (key) {
@@ -112,7 +112,7 @@ export class PDAScriptStorage extends TornToolsStorage {
 		}
 	}
 
-	async set(object: { [p: string]: any }): Promise<void> {
+	override async set(object: { [p: string]: any }): Promise<void> {
 		await Promise.all(
 			Object.entries(object).map(([key, value]) => {
 				UserscriptRuntimeStorage.callback({ [key]: { newValue: value, oldValue: null } }, "local");
@@ -123,28 +123,28 @@ export class PDAScriptStorage extends TornToolsStorage {
 		);
 	}
 
-	async remove(key: string | string[]): Promise<void> {
+	override async remove(key: string | string[]): Promise<void> {
 		if (typeof key === "string") await PDA_storage.delete(key);
 		else await Promise.all(key.map(PDA_storage.delete));
 	}
 
-	async clear(): Promise<void> {
+	override async clear(): Promise<void> {
 		await Promise.all((await PDA_storage.list()).map(PDA_storage.delete));
 	}
 
-	reset(): Promise<void>;
-	reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
-	reset(_key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
+	override reset(): Promise<void>;
+	override reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
+	override reset(_key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 
-	async setCacheEntries(entries: CacheEntry[]): Promise<void> {
+	override async setCacheEntries(entries: CacheEntry[]): Promise<void> {
 		const cache = (await this.get("cache")) ?? {};
 		applyCacheEntries(cache, entries);
 		await this.set({ cache });
 	}
 
-	async clearCache(section?: string): Promise<void> {
+	override async clearCache(section?: string): Promise<void> {
 		const cache = (await this.get("cache")) ?? {};
 		if (section) {
 			delete cache[section];
@@ -154,7 +154,7 @@ export class PDAScriptStorage extends TornToolsStorage {
 		await this.set({ cache });
 	}
 
-	async getSize(): Promise<number> {
+	override async getSize(): Promise<number> {
 		return (await PDA_storage.usage()).used;
 	}
 }

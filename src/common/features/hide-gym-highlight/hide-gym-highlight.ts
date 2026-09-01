@@ -12,19 +12,19 @@ export default class HideGymHighlightFeature extends Feature {
 		super("Hide Gym Highlight", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.hideGymHighlight;
 	}
 
-	execute() {
+	override execute() {
 		hideGymHighlight();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.hideGymHighlight"];
 	}
 }

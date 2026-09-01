@@ -143,19 +143,19 @@ export default class CustomLinksFeature extends Feature {
 		super("Custom Links", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return !!settings.customLinks.length;
 	}
 
-	async execute() {
+	override async execute() {
 		await showLinks();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.customLinks"];
 	}
 }

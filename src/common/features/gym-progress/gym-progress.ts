@@ -44,15 +44,15 @@ export default class GymProgressFeature extends Feature {
 		super("Gym Progress", "gym");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.gym.progress;
 	}
 
-	async execute() {
+	override async execute() {
 		await addProgress();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.gym.progress"];
 	}
 }

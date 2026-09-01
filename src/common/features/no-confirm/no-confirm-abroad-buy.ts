@@ -7,11 +7,11 @@ export default class NoConfirmAbroadBuyFeature extends DisabledUntilNoticeFeatur
 		super("Abroad Buy No Confirm", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.noConfirm.abroadItemBuy;
 	}
 }

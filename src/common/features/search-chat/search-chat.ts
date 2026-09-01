@@ -195,19 +195,19 @@ export default class SearchChatFeature extends Feature {
 		super("Search Chat", "chat");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.chat.searchChat;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseSearchChat();
 	}
 
-	async execute() {
+	override async execute() {
 		await showSearch();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.searchChat"];
 	}
 }

@@ -47,29 +47,29 @@ export default class StatsEstimateAbroadFeature extends Feature {
 		super("Stats Estimate Abroad", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isAbroad();
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.abroad;
 	}
 
-	initialise() {
+	override initialise() {
 		registerListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.scripts.statsEstimate.global", "settings.scripts.statsEstimate.abroad"];
 	}
 }

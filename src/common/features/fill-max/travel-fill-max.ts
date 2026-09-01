@@ -7,11 +7,11 @@ export default class TravelFillMaxFeature extends DisabledUntilNoticeFeature {
 		super("Travel Fill Max", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isAbroad();
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.pages.travel.fillMax;
 	}
 }

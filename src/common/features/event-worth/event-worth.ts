@@ -41,15 +41,15 @@ export default class EventWorthFeature extends Feature {
 		super("Event Worth", "events");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.events.worth;
 	}
 
-	async execute() {
+	override async execute() {
 		await addWorth();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.events.worth"];
 	}
 }

@@ -98,19 +98,19 @@ export default class MedicalLifeFeature extends Feature {
 		super("Medical Life", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return page !== "factions" || isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.medicalLife;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.medicalLife"];
 	}
 }

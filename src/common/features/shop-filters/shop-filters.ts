@@ -86,24 +86,24 @@ export default class ShopFiltersFeature extends Feature {
 		super("Shop Filters", "shops");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.shops.filters;
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilters();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.shops.filters"];
 	}
 }

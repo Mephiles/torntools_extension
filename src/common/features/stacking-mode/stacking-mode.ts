@@ -114,20 +114,20 @@ export default class StackingModeFeature extends Feature {
 		super("Stacking Mode", "global");
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.pages.global.stackingMode;
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.global.stackingMode"];
 	}
 
-	initialise() {
+	override initialise() {
 		currentPage = getPage();
 		registerListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await disableUsage();
 	}
 }

@@ -276,7 +276,7 @@ export default class ItemValuesFeature extends Feature {
 		super("Item Values", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		if (!getPageStatus().access) return false;
 
 		if (page === "displaycase") {
@@ -294,29 +294,29 @@ export default class ItemValuesFeature extends Feature {
 		return true;
 	}
 
-	requirements() {
+	override requirements() {
 		if (page === "item" && !ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.values;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseItemValues();
 	}
 
-	async execute() {
+	override async execute() {
 		await startValues();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.values"];
 	}
 
-	shouldTriggerEvents(): boolean {
+	override shouldTriggerEvents(): boolean {
 		return true;
 	}
 }

@@ -131,23 +131,23 @@ export default class EnemyFilterFeature extends Feature {
 		super("Enemy Filter", "enemies");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.enemies.filter;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.enemies.filter"];
 	}
 }

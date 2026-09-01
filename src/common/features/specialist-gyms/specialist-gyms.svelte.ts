@@ -109,19 +109,19 @@ export default class SpecialistGymsFeature extends Feature {
 		super("Specialist Gyms", "gym");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.gym.specialist;
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.gym.specialist"];
 	}
 }

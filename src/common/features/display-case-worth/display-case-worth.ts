@@ -94,24 +94,24 @@ export default class DisplayCaseWorthFeature extends Feature {
 		super("Display Case Worth", "display case");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.displayCase.worth;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		xhrListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addWorth();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.displayCase.worth"];
 	}
 }

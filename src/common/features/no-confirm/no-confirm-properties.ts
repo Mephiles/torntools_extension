@@ -73,19 +73,19 @@ export default class NoConfirmPropertiesFeature extends Feature {
 		super("Properties No Confirm", "properties");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.noConfirm.propertiesSell;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.scripts.noConfirm.propertiesSell"];
 	}
 }

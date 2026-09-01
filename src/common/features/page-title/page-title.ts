@@ -17,19 +17,19 @@ export default class PageTitleFeature extends Feature {
 		super("Page Title", "global");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.global.pageTitles;
 	}
 
-	async execute() {
+	override async execute() {
 		await setTitle();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.pageTitles"];
 	}
 }

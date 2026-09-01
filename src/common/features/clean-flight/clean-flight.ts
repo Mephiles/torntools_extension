@@ -12,19 +12,19 @@ export default class CleanFlightFeature extends Feature {
 		super("Clean Flight", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isFlying();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.cleanFlight;
 	}
 
-	async execute() {
+	override async execute() {
 		await addCleanFlight();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.cleanFlight"];
 	}
 }

@@ -59,19 +59,19 @@ export default class MemberRankFeature extends Feature {
 		super("Member Rank", "faction");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.numberMembers;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addNumbers(false);
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.numberMembers"];
 	}
 }

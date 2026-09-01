@@ -105,19 +105,19 @@ export default class OnlyNewFeedFeature extends Feature {
 		super("Only New Feed", "forums");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.forums.onlyNewFeedButton;
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.forums.onlyNewFeedButton"];
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 }

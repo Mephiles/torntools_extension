@@ -155,27 +155,27 @@ export default class FactionStakeoutsFeature extends Feature {
 		super("Faction Stakeouts", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && (isInternalFaction || getSearchParameters().get("step") === "profile");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.stakeout;
 	}
 
-	initialise() {
+	override initialise() {
 		if (isInternalFaction) {
 			initialiseListeners();
 		}
 	}
 
-	async execute() {
+	override async execute() {
 		if (isInternalFaction && !document.querySelector(".faction-description")) return;
 
 		await displayBox();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.stakeout"];
 	}
 }

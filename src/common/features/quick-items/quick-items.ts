@@ -354,23 +354,23 @@ export default class QuickItemsFeature extends Feature {
 		super("Quick Items", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.quickItems;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await loadQuickItems();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.quickItems"];
 	}
 }

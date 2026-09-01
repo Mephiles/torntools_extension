@@ -44,23 +44,23 @@ export default class CarWinPercentageFeature extends Feature {
 		super("Car Win Percentage", "racing");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.racing.winPercentage;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListener();
 	}
 
-	async execute() {
+	override async execute() {
 		if (["cars", "parts"].includes(getSearchParameters().get("tab"))) await addPercentage();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.racing.winPercentage"];
 	}
 }

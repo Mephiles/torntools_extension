@@ -52,27 +52,27 @@ export default class AveragePersonalStatFeature extends Feature {
 		super("Average Personal Stat", "personalstats", ExecutionTiming.IMMEDIATELY);
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.profile.avgpersonalstats;
 	}
 
-	initialise() {
+	override initialise() {
 		init();
 	}
 
-	execute() {
+	override execute() {
 		init();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.profile.avgpersonalstats"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

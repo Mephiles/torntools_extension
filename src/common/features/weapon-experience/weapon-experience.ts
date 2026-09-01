@@ -48,23 +48,23 @@ export default class WeaponExperienceFeature extends Feature {
 		super("Weapon Experience", "attack");
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.pages.attack.weaponExperience;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showExperience();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.attack.weaponExperience"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.weaponexp) return "No API access.";
 		return true;
 	}

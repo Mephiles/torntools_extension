@@ -61,19 +61,19 @@ export default class AttackTimeoutWarningFeature extends Feature {
 		super("Attack Timeout Warning", "attack");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.attack.timeoutWarning;
 	}
 
-	async execute() {
+	override async execute() {
 		await addListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.attack.timeoutWarning"];
 	}
 }

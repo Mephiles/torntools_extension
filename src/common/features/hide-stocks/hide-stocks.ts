@@ -28,19 +28,19 @@ export default class HideStocksFeature extends Feature {
 		super("Hide Stocks", "stocks");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.hideStocks.length > 0;
 	}
 
-	async execute() {
+	override async execute() {
 		await hideStocks();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.hideStocks"];
 	}
 }

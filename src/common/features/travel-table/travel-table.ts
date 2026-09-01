@@ -884,27 +884,27 @@ export default class TravelTableFeature extends Feature {
 		super("Travel Table", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return !isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.table;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await startTable();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata", "settings.external.prometheus"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API data!";
 		else if (!settings.external.yata && !settings.external.prometheus && !settings.external.tornintel) return "Prometheus, Torn Intel and YATA not enabled";
 		else if (isCaptcha()) return "Captcha present.";

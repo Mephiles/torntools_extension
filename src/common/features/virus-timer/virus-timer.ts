@@ -66,26 +66,26 @@ export default class VirusTimerFeature extends Feature {
 		super("Virus Timer", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.virus) return "No API access.";
 		else if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.virusTimer;
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.virusTimer"];
 	}
 
-	async execute() {
+	override async execute() {
 		await showTimer();
 	}
 }

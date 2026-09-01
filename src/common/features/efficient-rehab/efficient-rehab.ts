@@ -114,25 +114,25 @@ export default class EfficientRehabFeature extends Feature {
 		super("Efficient Rehab", "travel");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.efficientRehab;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.personalstats) return "No API access.";
 
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await showInformation();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.efficientRehab", "settings.apiUsage.user.personalstats"];
 	}
 }

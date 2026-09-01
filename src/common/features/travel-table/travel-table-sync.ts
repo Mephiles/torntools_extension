@@ -67,23 +67,23 @@ export default class TravelSyncFeature extends Feature {
 		super("Travel Sync", "travel", ExecutionTiming.DOM_INTERACTIVE);
 	}
 
-	precondition() {
+	override precondition() {
 		return isAbroad() && getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.table;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.table", "settings.external.yata", "settings.external.prometheus", "settings.external.tornintel"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!settings.external.yata && !settings.external.prometheus && !settings.external.tornintel) return "Prometheus, Torn Intel and YATA not enabled";
 
 		return true;

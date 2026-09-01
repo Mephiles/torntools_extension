@@ -60,23 +60,23 @@ export default class FFScouterMiniProfileFeature extends Feature {
 		super("FF Scouter Mini Profile", "ff-scouter");
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 
 		return true;
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.scripts.ffScouter.miniProfile;
 	}
 
-	async initialise() {
+	override async initialise() {
 		SCOUTER_SERVICE = scouterService();
 		initialiseMiniProfile();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.ffScouter.miniProfile", "settings.external.ffScouter"];
 	}
 }

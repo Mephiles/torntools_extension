@@ -104,27 +104,27 @@ export default class ArmoryWorthFeature extends Feature {
 		super("Armory Worth", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.armoryWorth;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async reload() {
+	override async reload() {
 		await addWorth();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.armoryWorth"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasFactionAPIAccess()) return "No faction API access.";
 
 		return true;

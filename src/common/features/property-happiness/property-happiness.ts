@@ -48,26 +48,26 @@ export default class PropertyHappinessFeature extends Feature {
 		super("Property Happiness", "property");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.apiUsage.user.properties && settings.pages.property.happy;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		const p = getHashParameters().get("p");
 		if (p && p !== "properties" && p !== "yourProperties" && p !== "spousesProperties") return;
 
 		await addPropertyHappiness();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.apiUsage.user.properties", "settings.pages.property.happy"];
 	}
 }

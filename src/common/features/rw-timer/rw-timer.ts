@@ -82,11 +82,11 @@ export default class RWTimerFeature extends Feature {
 		super("RW Timer", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!hasOC2Data()) return "No OC 2 data.";
 		else if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
@@ -94,15 +94,15 @@ export default class RWTimerFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.rwTimer && !!userdata?.faction;
 	}
 
-	async execute() {
+	override async execute() {
 		await showTimer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.rwTimer"];
 	}
 }

@@ -70,20 +70,20 @@ export default class CrimeValueFeature extends Feature {
 		super("Crime Value", "crimes");
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.crimes2.value;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.crimes2.value"];
 	}
 }

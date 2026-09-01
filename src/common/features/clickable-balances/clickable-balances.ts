@@ -78,19 +78,19 @@ export default class ClickableBalancesFeature extends Feature {
 		super("Clickable Balances", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.clickableBalances;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		const params = getHashParameters();
 		if (params.get("tab") !== "controls") return;
 		if (params.has("option") && params.get("option") !== "give-to-user") return;
@@ -98,7 +98,7 @@ export default class ClickableBalancesFeature extends Feature {
 		makeBalancesClickable();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.clickableBalances"];
 	}
 }

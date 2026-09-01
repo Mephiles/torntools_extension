@@ -55,29 +55,29 @@ export default class StatsEstimateBountiesFeature extends Feature {
 		super("Stats Estimate Bounties", "bounties");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.bounties;
 	}
 
-	initialise() {
+	override initialise() {
 		registerListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.statsEstimate.global", "settings.scripts.statsEstimate.bounties"];
 	}
 }

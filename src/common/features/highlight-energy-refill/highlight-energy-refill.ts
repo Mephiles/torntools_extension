@@ -15,30 +15,30 @@ export default class HighlightEnergyRefillFeature extends Feature {
 		super("Highlight Energy Refill", "sidebar", ExecutionTiming.IMMEDIATELY);
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.refills) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.highlightEnergy;
 	}
 
-	async execute() {
+	override async execute() {
 		await requireElement("body");
 		applyStyle();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.highlightEnergy", "userdata.refills.energy"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

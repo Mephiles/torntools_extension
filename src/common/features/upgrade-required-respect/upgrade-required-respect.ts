@@ -44,23 +44,23 @@ export default class UpgradeRequiredRespectFeature extends Feature {
 		super("Upgrade Required Respect", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.upgradeRequiredRespect;
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.faction.upgradeRequiredRespect"];
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async reload() {
+	override async reload() {
 		await showRequiredRespect();
 	}
 }

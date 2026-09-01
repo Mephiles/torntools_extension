@@ -7,15 +7,15 @@ export default class NoOutsideLinkAlertFeature extends Feature {
 		super("No Outside Link Alert", "global", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.global.noOutsideLinkAlert;
 	}
 
-	initialise() {
+	override initialise() {
 		executeScript(browser.runtime.getURL("/no-outside-link-alert--inject.js"), false);
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.noOutsideLinkAlert"];
 	}
 }

@@ -54,24 +54,24 @@ export default class HideChatFeature extends Feature {
 		super("Hide Chat", "chat", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.chat.hideChatButton;
 	}
 
-	initialise() {
+	override initialise() {
 		initializeListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		hideChats();
 		await showButton();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.hideChatButton"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

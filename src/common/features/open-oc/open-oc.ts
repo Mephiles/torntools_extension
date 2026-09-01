@@ -35,23 +35,23 @@ export default class OpenOCFeature extends Feature {
 		super("Open OC", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.openOc;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.openOc"];
 	}
 }

@@ -213,19 +213,19 @@ export default class BankInvestmentInfoFeature extends Feature {
 		super("Bank Investment Info", "bank");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.bank.investmentInfo;
 	}
 
-	async execute() {
+	override async execute() {
 		await initialize();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.bank.investmentInfo"];
 	}
 }

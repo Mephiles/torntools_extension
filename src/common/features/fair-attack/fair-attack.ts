@@ -31,23 +31,23 @@ export default class FairAttackFeature extends Feature {
 		super("Fair Attack", "attack");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.attack.fairAttack && settings.pages.global.keepAttackHistory;
 	}
 
-	async execute() {
+	override async execute() {
 		await showFF();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.attack.fairAttack", "settings.pages.global.keepAttackHistory"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData()) return "No API access.";
 		return true;
 	}

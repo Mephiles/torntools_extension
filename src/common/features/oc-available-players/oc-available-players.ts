@@ -56,23 +56,23 @@ export default class OCAvailablePlayersFeature extends Feature {
 		super("OC Available Players", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.availablePlayers;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.availablePlayers"];
 	}
 }

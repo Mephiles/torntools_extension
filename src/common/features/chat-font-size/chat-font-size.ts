@@ -11,15 +11,15 @@ export default class ChatFontSizeFeature extends Feature {
 		super("Chat Font Size", "chat", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.chat.fontSize !== 12;
 	}
 
-	execute() {
+	override execute() {
 		applySize();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.fontSize"];
 	}
 }

@@ -7,15 +7,15 @@ export default class FastHuntingFeature extends Feature {
 		super("Fast Hunting", "travel");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.fastHunting;
 	}
 
-	execute() {
+	override execute() {
 		document.body.classList.add(styles.fastHunting);
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.fastHunting"];
 	}
 }

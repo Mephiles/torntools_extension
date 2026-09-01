@@ -133,11 +133,11 @@ export default class TravelCooldownsFeature extends Feature {
 		super("Travel Cooldowns", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isFlying() && !isAbroad();
 	}
 
-	requirements() {
+	override requirements() {
 		if (
 			!hasAPIData() ||
 			!settings.apiUsage.user.bars ||
@@ -150,19 +150,19 @@ export default class TravelCooldownsFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.cooldownWarnings;
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.cooldownWarnings"];
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showWarnings();
 	}
 }

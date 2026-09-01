@@ -301,19 +301,19 @@ export default class FactionQuickItemsFeature extends Feature {
 		super("Faction Quick Items", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return isInternalFaction && getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.quickItems;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.quickItems"];
 	}
 }

@@ -61,19 +61,19 @@ export default class EnergyWarningFeature extends Feature {
 		super("Energy Warning", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && (getPage() !== "factions" || isInternalFaction);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.energyWarning;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.energyWarning"];
 	}
 }

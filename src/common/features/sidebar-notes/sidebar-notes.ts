@@ -51,25 +51,25 @@ export default class SidebarNotesFeature extends Feature {
 		super("Sidebar Notes", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.notes;
 	}
 
-	async execute() {
+	override async execute() {
 		await showNotes();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.notes"];
 	}
 }

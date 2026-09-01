@@ -54,17 +54,17 @@ abstract class SpyPerformer extends PriorityService<SpyFetchResult> {
 }
 
 class YATASpyPerformer extends SpyPerformer {
-	readonly name = "YATA";
+	override readonly name = "YATA";
 
-	enabled(): boolean {
+	override enabled(): boolean {
 		return settings.external.yata && settings.servicePreferences.spies.yata.enabled;
 	}
 
-	priority(): number {
+	override priority(): number {
 		return settings.servicePreferences.spies.yata.priority;
 	}
 
-	async execute(): Promise<SpyFetchResult> {
+	override async execute(): Promise<SpyFetchResult> {
 		let result: YATASpyResponse["spies"][string];
 		let isCached = false;
 
@@ -109,17 +109,17 @@ class YATASpyPerformer extends SpyPerformer {
 }
 
 class TornStatsSpyPerformer extends SpyPerformer {
-	readonly name = "TornStats";
+	override readonly name = "TornStats";
 
-	enabled(): boolean {
+	override enabled(): boolean {
 		return settings.external.tornstats && settings.servicePreferences.spies.tornstats.enabled;
 	}
 
-	priority(): number {
+	override priority(): number {
 		return settings.servicePreferences.spies.tornstats.priority;
 	}
 
-	async execute(): Promise<SpyFetchResult> {
+	override async execute(): Promise<SpyFetchResult> {
 		let result: { status: boolean; message: string; spy: undefined | TornstatsSpy["spy"] };
 		let isCached = false;
 

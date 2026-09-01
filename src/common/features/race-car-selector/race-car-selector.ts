@@ -116,25 +116,25 @@ export default class RaceCarSelectorFeature extends Feature {
 		super("Race Car Selector", "racing");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.enlistedcars) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.racing.carSelector;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.racing.carSelector"];
 	}
 }

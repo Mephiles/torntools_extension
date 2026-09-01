@@ -118,19 +118,19 @@ export default class BalanceWarningFeature extends Feature {
 		super("Balance Warning", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.balanceWarning;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		const params = getHashParameters();
 		if (params.get("tab") !== "controls") return;
 		if (params.has("option") && params.get("option") !== "give-to-user") return;
@@ -138,7 +138,7 @@ export default class BalanceWarningFeature extends Feature {
 		pageLoad();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.balanceWarning"];
 	}
 }

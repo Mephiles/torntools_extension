@@ -44,23 +44,23 @@ export default class TotalItemCostFeature extends Feature {
 		super("Total Item Cost", "bazaar");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.bazaar.itemsCost;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		addPrice();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.bazaar.itemsCost"];
 	}
 }

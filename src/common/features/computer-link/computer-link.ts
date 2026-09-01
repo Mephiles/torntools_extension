@@ -51,26 +51,26 @@ export default class ComputerLinkFeature extends Feature {
 		super("Computer Link", "global");
 	}
 
-	precondition() {
+	override precondition() {
 		return isFlying() || isAbroad();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (hasAPIData() && settings.apiUsage.user.inventory && !hasComputer()) return "No computer found!";
 
 		await checkDevice();
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.computer;
 	}
 
-	async execute() {
+	override async execute() {
 		await showComputer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.computer"];
 	}
 }

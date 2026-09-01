@@ -302,23 +302,23 @@ export default class DrugDetailsFeature extends Feature {
 		super("Drug Details", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !(getPage() === "factions" && !isInternalFaction);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.drugDetails;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseDrugDetails();
 	}
 
-	execute() {
+	override execute() {
 		// No execute needed as this is event-based
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.drugDetails"];
 	}
 }

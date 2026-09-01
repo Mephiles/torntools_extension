@@ -59,19 +59,19 @@ export default class BazaarSubVendorItemsFeature extends Feature {
 		super("Highlight Cheap Items", "bazaar", ExecutionTiming.DOM_INTERACTIVE);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.bazaar.highlightSubVendorItems;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	execute() {
+	override execute() {
 		highlightEverything();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.bazaar.highlightSubVendorItems"];
 	}
 }

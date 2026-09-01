@@ -65,26 +65,26 @@ export default class JobPointsTooltipFeature extends Feature {
 		super("Job Points Tooltip", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.jobpoints) return "No API access.";
 		else if (!userdata.job) return "Currently you don't have a job.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.showJobPointsToolTip;
 	}
 
-	async execute() {
+	override async execute() {
 		await addJobPointsTooltip();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.showJobPointsToolTip"];
 	}
 }

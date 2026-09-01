@@ -189,27 +189,27 @@ export default class OCNNBFeature extends Feature {
 		super("OC NNB", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.ocNnb;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.ocNnb", "settings.external.yata"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.yata && !settings.external.tornstats) return "YATA or TornStats not enabled";
 		else if (!hasOC1Data()) return "No OC 1 data.";

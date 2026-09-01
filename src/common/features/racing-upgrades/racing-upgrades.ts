@@ -193,23 +193,23 @@ export default class RacingUpgradesFeature extends Feature {
 		super("Racing Upgrades", "racing");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.racing.upgrades;
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.racing.upgrades"];
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 }

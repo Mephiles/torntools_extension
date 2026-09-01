@@ -19,19 +19,19 @@ export default class GreyCompletedCoursesFeature extends Feature {
 		super("Grey Completed Courses", "education");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.education.greyOut;
 	}
 
-	async execute() {
+	override async execute() {
 		await greyOut();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.education.greyOut"];
 	}
 }

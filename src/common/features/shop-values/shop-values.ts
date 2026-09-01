@@ -46,29 +46,29 @@ export default class ShopValuesFeature extends Feature {
 		super("Shop Values", "shops");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.shops.values;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showValues();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.shops.values"];
 	}
 }

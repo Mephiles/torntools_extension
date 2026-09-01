@@ -37,17 +37,17 @@ abstract class FactionSpyPerformer extends PriorityService<FactionSpyFetchResult
 }
 
 class TornStatsFactionSpyPerformer extends FactionSpyPerformer {
-	readonly name = "TornStats";
+	override readonly name = "TornStats";
 
-	enabled(): boolean {
+	override enabled(): boolean {
 		return settings.external.tornstats && settings.servicePreferences.factionSpies.tornstats.enabled;
 	}
 
-	priority(): number {
+	override priority(): number {
 		return settings.servicePreferences.factionSpies.tornstats.priority;
 	}
 
-	async execute(): Promise<FactionSpyFetchResult> {
+	override async execute(): Promise<FactionSpyFetchResult> {
 		let data: TornstatsFactionSpyResponse;
 		let isCached = false;
 
@@ -72,17 +72,17 @@ class TornStatsFactionSpyPerformer extends FactionSpyPerformer {
 }
 
 class YATAFactionSpyPerformer extends FactionSpyPerformer {
-	readonly name = "YATA";
+	override readonly name = "YATA";
 
-	enabled(): boolean {
+	override enabled(): boolean {
 		return settings.external.yata && settings.servicePreferences.factionSpies.yata.enabled;
 	}
 
-	priority(): number {
+	override priority(): number {
 		return settings.servicePreferences.factionSpies.yata.priority;
 	}
 
-	async execute(): Promise<FactionSpyFetchResult> {
+	override async execute(): Promise<FactionSpyFetchResult> {
 		let data: YATASpyResponse;
 		let isCached = false;
 
@@ -244,7 +244,7 @@ export default class ShowFactionSpyFeature extends Feature {
 		super("Show Faction Spy", "faction");
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 
 		const tornstatsEnabled = settings.external.tornstats && settings.servicePreferences.factionSpies.tornstats.enabled;
@@ -262,19 +262,19 @@ export default class ShowFactionSpyFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.showFactionSpy;
 	}
 
-	initialise() {
+	override initialise() {
 		registerListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await fetchAndAddSpies();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return [
 			"settings.pages.faction.showFactionSpy",
 			"settings.external.tornstats",

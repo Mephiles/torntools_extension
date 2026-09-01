@@ -116,27 +116,27 @@ export default class GymSteadfastFeature extends Feature {
 		super("Gym Steadfast", "gym");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.gym.steadfast;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showSteadfast();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.gym.steadfast"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.perks) return "No API access.";
 
 		return true;

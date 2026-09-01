@@ -161,23 +161,23 @@ export default class RankedWarFilterFeature extends Feature {
 		super("Ranked War Filter", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.rankedWarFilter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.rankedWarFilter"];
 	}
 }

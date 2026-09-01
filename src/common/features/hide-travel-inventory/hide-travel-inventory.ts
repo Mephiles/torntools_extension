@@ -50,19 +50,19 @@ export default class HideTravelInventoryFeature extends Feature {
 		super("Hide Travel Inventory", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isFlying() || isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.hideInventoryButton;
 	}
 
-	async execute() {
+	override async execute() {
 		await showButton();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.hideInventoryButton"];
 	}
 }

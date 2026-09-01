@@ -30,19 +30,19 @@ export default class NoConfirmTradeFeature extends Feature {
 		super("Trade No Confirm", "trade");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.noConfirm.tradeAccept;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await removeConfirmation();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.scripts.noConfirm.tradeAccept"];
 	}
 }

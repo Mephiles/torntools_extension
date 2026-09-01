@@ -65,25 +65,25 @@ export default class ResizableChatFeature extends Feature {
 		super("Resizable Chat", "chat");
 	}
 
-	requirements() {
+	override requirements() {
 		if (!isChatV3()) return "Only for chat v3.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.chat.resizable;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.resizable"];
 	}
 }

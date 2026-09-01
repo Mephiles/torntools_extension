@@ -35,19 +35,19 @@ export default class WarFinishTimesFeature extends Feature {
 		super("War Finish Times", "faction");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.warFinishTimes;
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.faction.warFinishTimes"];
 	}
 
-	initialise() {
+	override initialise() {
 		startListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFinishTimes();
 	}
 }

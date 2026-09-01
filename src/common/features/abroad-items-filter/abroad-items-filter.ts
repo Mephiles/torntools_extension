@@ -163,23 +163,23 @@ export default class AbroadItemsFilterFeature extends Feature {
 		super("Abroad Item Filter", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isAbroad() && getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.itemFilter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.itemFilter"];
 	}
 }

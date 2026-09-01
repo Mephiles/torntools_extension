@@ -11,19 +11,19 @@ export default class HideLeaveButtonsFeature extends Feature {
 		super("Hide Leave Buttons", "global", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.global.hideQuitButtons;
 	}
 
-	execute() {
+	override execute() {
 		applyStyle();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.hideQuitButtons"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

@@ -195,27 +195,27 @@ export default class HighlightCheapItemsFeature extends Feature {
 		super("Highlight Cheap Items", "item market");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.itemmarket.highlightCheapItems !== "";
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		highlightEverything();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.itemmarket.highlightCheapItems", "settings.pages.itemmarket.highlightCheapItemsSound"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;

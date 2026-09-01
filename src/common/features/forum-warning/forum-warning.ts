@@ -181,19 +181,19 @@ export default class ForumWarningFeature extends Feature {
 		super("Forum Warning", "forums");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return true;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialise();
 	}
 
-	execute() {
+	override execute() {
 		showWarning();
 	}
 }

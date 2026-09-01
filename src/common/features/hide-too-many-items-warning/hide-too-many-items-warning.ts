@@ -26,19 +26,19 @@ export default class HideTooManyItemsWarningFeature extends Feature {
 		super("Hide Too Many Items Warning", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.hideTooManyItemsWarning;
 	}
 
-	execute() {
+	override execute() {
 		hideMessage();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.hideTooManyItemsWarning"];
 	}
 }

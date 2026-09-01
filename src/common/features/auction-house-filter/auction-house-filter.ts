@@ -270,19 +270,19 @@ export default class AuctionHouseFilterFeature extends Feature {
 		super("Auction House Filter", "auction");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.auction.filter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await enableFilter();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.auction.filter"];
 	}
 }

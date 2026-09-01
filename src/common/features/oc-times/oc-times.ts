@@ -56,27 +56,27 @@ export default class OCTimesFeature extends Feature {
 		super("OC Times", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.ocTimes;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.ocTimes"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !factiondata || !("crimes" in factiondata) || !factiondata.crimes) return "No API access.";
 		else if (!hasOC1Data()) return "No OC 1 data.";
 

@@ -19,19 +19,19 @@ export default class TravelTabTitleTimerFeature extends Feature {
 		super("Travel Tab Title Timer", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isFlying();
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.pages.travel.tabTitleTimer;
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.travel.tabTitleTimer"];
 	}
 
-	async execute() {
+	override async execute() {
 		await showTabTimer();
 	}
 }

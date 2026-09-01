@@ -23,24 +23,24 @@ export default class EducationFinishTimeFeature extends Feature {
 		super("Education Finish Time", "education");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.education.finishTime;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.education) return "No API access.";
 		return true;
 	}
 
-	async execute() {
+	override async execute() {
 		await showEducationFinishTime();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.education.finishTime"];
 	}
 }

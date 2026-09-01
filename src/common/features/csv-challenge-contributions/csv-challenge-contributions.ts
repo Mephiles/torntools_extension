@@ -62,15 +62,15 @@ export default class CSVChallengeContributionsFeature extends Feature {
 		super("Challenge Contributions to CSV", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.csvChallengeContributions;
 	}
 
-	initialise() {
+	override initialise() {
 		addCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(CSVChallengeContributionsFeature)) return;
 
@@ -78,7 +78,7 @@ export default class CSVChallengeContributionsFeature extends Feature {
 		});
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.csvChallengeContributions"];
 	}
 }

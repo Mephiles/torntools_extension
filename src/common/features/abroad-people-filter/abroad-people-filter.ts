@@ -162,23 +162,23 @@ export default class AbroadPeopleFilterFeature extends Feature {
 		super("People Filter", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isAbroad();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.peopleFilter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.peopleFilter"];
 	}
 }

@@ -38,30 +38,30 @@ export default class FFScouterAttackFeature extends Feature {
 		super("FF Scouter Attack", "ff-scouter");
 	}
 
-	precondition(): boolean {
+	override precondition(): boolean {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 
 		return true;
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.scripts.ffScouter.attack;
 	}
 
-	initialise() {
+	override initialise() {
 		SCOUTER_SERVICE = scouterService();
 	}
 
-	async execute() {
+	override async execute() {
 		await showFF();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.ffScouter.attack", "settings.external.ffScouter"];
 	}
 }

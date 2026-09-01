@@ -26,19 +26,19 @@ export default class HideRecycleMessageFeature extends Feature {
 		super("Hide Recycle Message", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.hideRecycleMessage;
 	}
 
-	execute() {
+	override execute() {
 		hideMessage();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.hideRecycleMessage"];
 	}
 }

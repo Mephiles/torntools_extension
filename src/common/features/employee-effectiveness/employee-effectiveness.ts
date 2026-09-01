@@ -55,23 +55,23 @@ export default class EmployeeEffectivenessFeature extends Feature {
 		super("Employee Effectiveness", "companies");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isOwnCompany;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return !!settings.pages.companies.employeeEffectiveness;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.companies.employeeEffectiveness"];
 	}
 }

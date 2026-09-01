@@ -11,19 +11,19 @@ export default class HideNewspaperHighlightFeature extends Feature {
 		super("Hide Newspaper Highlight", "sidebar", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.hideNewspaperHighlight;
 	}
 
-	execute() {
+	override execute() {
 		hideChats();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.hideNewspaperHighlight"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

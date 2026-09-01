@@ -46,19 +46,19 @@ export default class ShopsFillMaxFeature extends Feature {
 		super("Shops Fill Max", "shops");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.shops.fillMax;
 	}
 
-	async execute() {
+	override async execute() {
 		await addFillMax();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.shops.fillMax"];
 	}
 }

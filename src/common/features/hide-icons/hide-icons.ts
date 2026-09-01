@@ -41,23 +41,23 @@ export default class HideIconsFeature extends Feature {
 		super("Hide Icons", "sidebar", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.hideIcons.length > 0;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialiseHideIcons();
 	}
 
-	execute() {
+	override execute() {
 		applyStyle();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.hideIcons"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		const hasSidebar = await requireSidebar().then(
 			() => true,
 			() => false,
@@ -67,7 +67,7 @@ export default class HideIconsFeature extends Feature {
 		return true;
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

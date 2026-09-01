@@ -54,19 +54,19 @@ export default class CSVRankedWarReportFeature extends Feature {
 		super("Ranked War Report to CSV", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.csvRankedWarReport;
 	}
 
-	async execute() {
+	override async execute() {
 		await addCSVContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.csvRankedWarReport"];
 	}
 }

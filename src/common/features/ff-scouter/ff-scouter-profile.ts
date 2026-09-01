@@ -49,30 +49,30 @@ export default class FfScouterProfileFeature extends Feature {
 		super("FF Scouter Profile", "ff-scouter");
 	}
 
-	precondition(): boolean {
+	override precondition(): boolean {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.ffScouter) return "FFScouter not enabled.";
 
 		return true;
 	}
 
-	isEnabled(): boolean {
+	override isEnabled(): boolean {
 		return settings.scripts.ffScouter.profile;
 	}
 
-	initialise() {
+	override initialise() {
 		SCOUTER_SERVICE = scouterService();
 	}
 
-	async execute() {
+	override async execute() {
 		await showFF();
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.scripts.ffScouter.profile", "settings.external.ffScouter"];
 	}
 }

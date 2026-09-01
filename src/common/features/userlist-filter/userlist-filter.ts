@@ -195,24 +195,24 @@ export default class UserlistFilterFeature extends Feature {
 		super("Userlist Filter", "userlist");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return true;
 		// return settings.pages.userlist.filter;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.userlist.filter"];
 	}
 }

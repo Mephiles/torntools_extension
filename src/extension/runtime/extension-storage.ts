@@ -55,10 +55,10 @@ async function clearCacheFromStorage(section?: string): Promise<void> {
 }
 
 export class TTExtensionStorage extends TornToolsStorage {
-	get(): Promise<Database>;
-	get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
-	get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
-	async get(key?: DatabaseKey | DatabaseKey[]) {
+	override get(): Promise<Database>;
+	override get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	override get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
+	override async get(key?: DatabaseKey | DatabaseKey[]) {
 		if (Array.isArray(key)) {
 			const data = await browser.storage.local.get(key as string[]);
 			if ((key as DatabaseKey[]).includes("cache")) {
@@ -81,7 +81,7 @@ export class TTExtensionStorage extends TornToolsStorage {
 		}
 	}
 
-	async set(object: { [key: string]: any }) {
+	override async set(object: { [key: string]: any }) {
 		const cache = object.cache;
 		const rest = { ...object };
 		delete rest.cache;
@@ -94,15 +94,15 @@ export class TTExtensionStorage extends TornToolsStorage {
 		}
 	}
 
-	async setCacheEntries(entries: CacheEntry[]) {
+	override async setCacheEntries(entries: CacheEntry[]) {
 		await writeCacheEntries(entries);
 	}
 
-	async clearCache(section?: string) {
+	override async clearCache(section?: string) {
 		await clearCacheFromStorage(section);
 	}
 
-	async remove(key: string | string[]) {
+	override async remove(key: string | string[]) {
 		const keys = Array.isArray(key) ? key : [key];
 
 		const writes: Promise<void>[] = [];
@@ -112,12 +112,12 @@ export class TTExtensionStorage extends TornToolsStorage {
 		await Promise.all(writes);
 	}
 
-	async clear() {
+	override async clear() {
 		await browser.storage.local.clear();
 		await clearCacheFromStorage();
 	}
 
-	async reset(key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
+	override async reset(key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
 		if (["attackHistory", "stakeouts", "factionStakeouts"].includes(key)) {
 			await this.set({ [key]: getDefaultStorage(DEFAULT_STORAGE)[key] });
 		} else {
@@ -132,7 +132,7 @@ export class TTExtensionStorage extends TornToolsStorage {
 		}
 	}
 
-	async getSize() {
+	override async getSize() {
 		let size: number;
 
 		if (browser.storage.local.getBytesInUse) {

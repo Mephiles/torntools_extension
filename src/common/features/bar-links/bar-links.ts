@@ -66,26 +66,26 @@ export default class BarLinksFeature extends Feature {
 		super("Bar Links", "sidebar", ExecutionTiming.IMMEDIATELY);
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		const { mobile } = await checkDevice();
 		if (mobile) return "Not supported on mobile!";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.barLinks;
 	}
 
-	async execute() {
+	override async execute() {
 		await addLinks();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.barLinks"];
 	}
 }

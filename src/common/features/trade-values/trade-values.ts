@@ -134,29 +134,29 @@ export default class TradeValuesFeature extends Feature {
 		super("Trade Values", "trade");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.trade.itemValues;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addItemValues();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.trade.itemValues"];
 	}
 }

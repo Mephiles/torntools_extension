@@ -137,21 +137,21 @@ export default class UserAliasChatFeature extends Feature {
 		super("User Alias - Chat", "chat");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.userAlias.length > 0;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await addListeners();
 	}
 
-	reload() {
+	override reload() {
 		removeAlias();
 		addAliasTitle();
 		addAliasMessage();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.userAlias"];
 	}
 }

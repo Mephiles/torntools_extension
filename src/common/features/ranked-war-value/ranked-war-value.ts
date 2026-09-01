@@ -49,25 +49,25 @@ export default class RankedWarValueFeature extends Feature {
 		super("Ranked War Value", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	requirements() {
+	override requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.rankedWarValue;
 	}
 
-	async execute() {
+	override async execute() {
 		await showRWValue();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.rankedWarValue"];
 	}
 }

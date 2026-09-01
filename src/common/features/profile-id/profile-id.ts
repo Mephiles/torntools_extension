@@ -27,19 +27,19 @@ export default class ProfileIDFeature extends Feature {
 		super("Profile ID", "profile");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.profile.idBesideProfileName;
 	}
 
-	async execute() {
+	override async execute() {
 		await addID();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.profile.idBesideProfileName"];
 	}
 }

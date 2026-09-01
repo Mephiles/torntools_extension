@@ -50,25 +50,25 @@ export default class UpdateNoticeFeature extends Feature {
 		super("Update Notice", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.updateNotice;
 	}
 
-	async execute() {
+	override async execute() {
 		await showNotice();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.updateNotice", "version.showNotice"];
 	}
 }

@@ -34,15 +34,15 @@ export default class UserAliasProfileFeature extends Feature {
 		super("User Alias - Profile", "profile");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.userAlias.length > 0;
 	}
 
-	async execute() {
+	override async execute() {
 		await addAlias();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.userAlias"];
 	}
 }

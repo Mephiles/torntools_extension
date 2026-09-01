@@ -379,23 +379,23 @@ export default class MissionHintsFeature extends Feature {
 		super("Mission Hints", "missions");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.missions.hints;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await showHints();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.missions.hints"];
 	}
 }

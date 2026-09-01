@@ -144,19 +144,19 @@ export default class StocksFilterFeature extends Feature {
 		super("Stocks Filter", "stocks");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.stocks.filter;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
@@ -164,7 +164,7 @@ export default class StocksFilterFeature extends Feature {
 		filter?.dispose();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.stocks.filter"];
 	}
 }

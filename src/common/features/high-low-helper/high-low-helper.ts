@@ -152,15 +152,15 @@ export default class HighLowHelperFeature extends Feature {
 		super("High-low Helper", "casino");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.casino.highlow;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseHelper();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.casino.highlow"];
 	}
 }

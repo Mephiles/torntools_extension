@@ -8,15 +8,15 @@ export default class AbroadEnergyWarningFeature extends DisabledUntilNoticeFeatu
 		super("Abroad Energy Warning", "travel");
 	}
 
-	precondition() {
+	override precondition() {
 		return isAbroad() && getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.travel.energyWarning;
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.travel.energyWarning"];
 	}
 }

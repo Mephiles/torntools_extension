@@ -63,19 +63,19 @@ export default class DisableAllyAttacksLoaderFeature extends Feature {
 		super("Disable Ally Attacks", "attacks", ExecutionTiming.IMMEDIATELY);
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isOwnProfile();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.profile.disableAllyAttacks;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await startListener();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.profile.disableAllyAttacks", "settings.alliedFactions"];
 	}
 }

@@ -41,15 +41,15 @@ export default class TotalChallengeContributionsFeature extends Feature {
 		super("Total Challenge Contributions", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.totalChallengeContributions;
 	}
 
-	initialise() {
+	override initialise() {
 		addCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO, async () => {
 			if (!FEATURE_MANAGER.isEnabled(TotalChallengeContributionsFeature)) return;
 
@@ -57,7 +57,7 @@ export default class TotalChallengeContributionsFeature extends Feature {
 		});
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.totalChallengeContributions"];
 	}
 }

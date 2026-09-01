@@ -252,11 +252,11 @@ export default class AchievementsFeature extends Feature {
 		super("Achievements", "achievements", ExecutionTiming.IMMEDIATELY);
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		await requireElement("body");
 		const devices = await checkDevice();
 		if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
@@ -278,15 +278,15 @@ export default class AchievementsFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.achievements.show;
 	}
 
-	async execute() {
+	override async execute() {
 		await showAchievements();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.scripts.achievements.show", "settings.scripts.achievements.completed"];
 	}
 }

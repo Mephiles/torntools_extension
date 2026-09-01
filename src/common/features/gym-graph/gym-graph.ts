@@ -268,23 +268,23 @@ export default class GymGraphFeature extends Feature {
 		super("Gym Graph", "gym");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.gym.graph;
 	}
 
-	async execute() {
+	override async execute() {
 		await showGraph();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.gym.graph", "settings.external.tornstats"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (!settings.external.tornstats) return "TornStats not enabled";
 

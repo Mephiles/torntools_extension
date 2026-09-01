@@ -74,25 +74,25 @@ export default class BazaarMarketFeature extends Feature {
 		super("Bazaar Market", "item market");
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!settings.external.tornw3b) return "TornW3B not enabled.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.itemmarket.bazaars;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.itemmarket.bazaars"];
 	}
 }

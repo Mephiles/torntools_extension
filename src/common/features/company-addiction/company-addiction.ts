@@ -72,11 +72,11 @@ export default class CompanyAddictionFeature extends Feature {
 		super("Company Addiction Level", "sidebar");
 	}
 
-	precondition() {
+	override precondition() {
 		return isPageWithSidebar();
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData()) return "No API access.";
 		else if (userdata.job === null) return "You need to have a company job.";
 		else if (userdata.job.type === "job") return "City jobs do not have addiction effects.";
@@ -86,15 +86,15 @@ export default class CompanyAddictionFeature extends Feature {
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.sidebar.companyAddictionLevel;
 	}
 
-	async execute() {
+	override async execute() {
 		await showCompanyAddictionLevel();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.sidebar.companyAddictionLevel", "userdata.job.id"];
 	}
 }

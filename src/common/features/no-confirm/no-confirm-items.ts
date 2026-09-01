@@ -14,11 +14,11 @@ export default class ItemNoConfirmItemsFeature extends Feature {
 		super("Item No Confirm", "items", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.scripts.noConfirm.itemEquip;
 	}
 
-	execute() {
+	override execute() {
 		injectAdjustments();
 	}
 }

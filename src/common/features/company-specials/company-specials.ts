@@ -215,19 +215,19 @@ export default class CompanySpecialsFeature extends Feature {
 		super("Company Specials", "companies");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.companies.specials;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseCompanySpecials();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.companies.specials"];
 	}
 }

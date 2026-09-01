@@ -162,27 +162,27 @@ export class MissingFlowersFeature extends Feature {
 		super("Missing Flowers", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.missingFlowers;
 	}
 
-	async initialise() {
+	override async initialise() {
 		initialiseFlowers();
 	}
 
-	async execute() {
+	override async execute() {
 		await showFlowers();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.missingFlowers"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 		return true;
 	}
@@ -193,27 +193,27 @@ export class MissingPlushiesFeature extends Feature {
 		super("Missing Plushies", "items");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.items.missingPlushies;
 	}
 
-	async initialise() {
+	override async initialise() {
 		initialisePlushies();
 	}
 
-	async execute() {
+	override async execute() {
 		await showPlushies();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.items.missingPlushies"];
 	}
 
-	requirements() {
+	override requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 		return true;
 	}

@@ -102,27 +102,27 @@ export default class MissionRewardsFeature extends Feature {
 		super("Mission Rewards", "missions");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && !isFlying();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.missions.rewards;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await showRewards();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.missions.rewards"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !settings.apiUsage.user.ammo) return "No API access.";
 		return true;
 	}

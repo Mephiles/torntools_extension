@@ -59,15 +59,15 @@ export default class CSVChainReportFeature extends Feature {
 		super("Chain Report to CSV", "faction");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.csvChainReport;
 	}
 
-	async execute() {
+	override async execute() {
 		await addCSVContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.csvChainReport"];
 	}
 }

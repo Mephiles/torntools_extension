@@ -81,23 +81,23 @@ export default class CasinoNetTotalFeature extends Feature {
 		super("Casino Net Total", "casino");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.casino.netTotal;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListener();
 	}
 
-	async execute() {
+	override async execute() {
 		await addTotal();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.casino.netTotal"];
 	}
 }

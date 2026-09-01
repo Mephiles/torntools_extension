@@ -23,19 +23,19 @@ export default class StatusIndicatorFeature extends Feature {
 		super("Status Indicator", "profile");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.profile.statusIndicator;
 	}
 
-	async execute() {
+	override async execute() {
 		await addIndicator();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.profile.statusIndicator"];
 	}
 }

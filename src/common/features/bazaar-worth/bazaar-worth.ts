@@ -113,29 +113,29 @@ export default class BazaarWorthFeature extends Feature {
 		super("Bazaar Worth", "bazaar", ExecutionTiming.IMMEDIATELY);
 	}
 
-	requirements() {
+	override requirements() {
 		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
 
 		return true;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.bazaar.worth;
 	}
 
-	initialise() {
+	override initialise() {
 		addListener();
 	}
 
-	async reload() {
+	override async reload() {
 		await addWorth();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.bazaar.worth"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

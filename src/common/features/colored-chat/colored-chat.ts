@@ -73,23 +73,23 @@ export default class ColoredChatFeature extends Feature {
 		super("Colored Chat", "chat");
 	}
 
-	precondition() {
+	override precondition() {
 		return !is2FACheckPage();
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return !!settings.pages.chat.titleHighlights.length;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseColoredChats();
 	}
 
-	async execute() {
+	override async execute() {
 		await showColoredChats();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.chat.titleHighlights"];
 	}
 }

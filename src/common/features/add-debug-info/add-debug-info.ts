@@ -76,16 +76,16 @@ export default class AddDebugInfoFeature extends Feature {
 		super("Add Debug Info", "forums");
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.forums.debugInfoBtn;
 	}
 
-	initialise() {
+	override initialise() {
 		void addDebugInfo();
 		window.addEventListener("hashchange", addDebugInfo);
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.forums.debugInfoBtn"];
 	}
 }

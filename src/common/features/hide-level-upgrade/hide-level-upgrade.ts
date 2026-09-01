@@ -24,20 +24,20 @@ export default class HideLevelUpgradeFeature extends Feature {
 		super("Hide Level Upgrade", "global", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.global.hideLevelUpgrade;
 	}
 
-	async execute() {
+	override async execute() {
 		applyStyle();
 		await hideUpgrade();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.hideLevelUpgrade"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

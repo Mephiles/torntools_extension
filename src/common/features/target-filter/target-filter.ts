@@ -125,23 +125,23 @@ export default class TargetFilterFeature extends Feature {
 		super("Target Filter", "targets");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.targets.filter;
 	}
 
-	async initialise() {
+	override async initialise() {
 		await initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await addFilterContainer();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.targets.filter"];
 	}
 }

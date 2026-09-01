@@ -194,23 +194,23 @@ export default class WeaponBonusInformationFeature extends Feature {
 		super("Weapon Bonus Information", "attack log");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.attack.bonusInformation;
 	}
 
-	storageKeys(): string[] {
+	override storageKeys(): string[] {
 		return ["settings.pages.attack.bonusInformation"];
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	async execute() {
+	override async execute() {
 		await showInformation();
 	}
 }

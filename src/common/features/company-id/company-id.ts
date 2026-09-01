@@ -35,23 +35,23 @@ export default class CompanyIDFeature extends Feature {
 		super("Company ID", "companies");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.companies.idBesideCompanyName;
 	}
 
-	initialise() {
+	override initialise() {
 		initialise();
 	}
 
-	async execute() {
+	override async execute() {
 		await addID();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.companies.idBesideCompanyName"];
 	}
 }

@@ -11,19 +11,19 @@ export default class HideTutorialsFeature extends Feature {
 		super("Hide Tutorials", "global", ExecutionTiming.IMMEDIATELY);
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.global.hideTutorials;
 	}
 
-	async execute() {
+	override async execute() {
 		await applyStyle();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.global.hideTutorials"];
 	}
 
-	requiresScreenInformation(): boolean {
+	override requiresScreenInformation(): boolean {
 		return false;
 	}
 }

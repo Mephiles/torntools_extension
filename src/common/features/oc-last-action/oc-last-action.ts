@@ -53,27 +53,27 @@ export default class OCLastActionFeature extends Feature {
 		super("OC Last Action", "faction");
 	}
 
-	precondition() {
+	override precondition() {
 		return getPageStatus().access && isInternalFaction;
 	}
 
-	isEnabled() {
+	override isEnabled() {
 		return settings.pages.faction.ocLastAction;
 	}
 
-	initialise() {
+	override initialise() {
 		initialiseListeners();
 	}
 
-	execute() {
+	override execute() {
 		startFeature();
 	}
 
-	storageKeys() {
+	override storageKeys() {
 		return ["settings.pages.faction.ocLastAction"];
 	}
 
-	async requirements() {
+	override async requirements() {
 		if (!hasAPIData() || !factiondata || !("members" in factiondata)) return "No API access.";
 		else if (!hasOC1Data()) return "No OC 1 data.";
 
