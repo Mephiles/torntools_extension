@@ -2,6 +2,7 @@ import { TRACKS } from "@common/pages/racing-page.ts";
 import type { TrackData } from "@common/pages/racing-page.ts";
 import { FEATURE_MANAGER } from "@common/utils/context.ts";
 import { settings, userdata } from "@common/utils/data/database";
+import { hasAPIData } from "@common/utils/functions/api.ts";
 import { elementBuilder } from "@common/utils/functions/dom.ts";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events.ts";
 import { getPageStatus, getRFC } from "@common/utils/functions/torn";
@@ -117,6 +118,12 @@ export default class RaceCarSelectorFeature extends Feature {
 
 	precondition() {
 		return getPageStatus().access;
+	}
+
+	requirements() {
+		if (!hasAPIData() || !settings.apiUsage.user.enlistedcars) return "No API access.";
+
+		return true;
 	}
 
 	isEnabled() {
