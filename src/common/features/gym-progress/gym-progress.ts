@@ -12,12 +12,7 @@ async function addProgress() {
 		200, 500, 1000, 2000, 2750, 3000, 3500, 4000, 6000, 7000, 8000, 11000, 12420, 18000, 18100, 24140, 31260, 36610, 46640, 56520, 67775, 84535, 106305,
 	];
 
-	let currentGym: Element;
-	try {
-		currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']");
-	} catch {
-		console.log("TornTools: No gym progress bar found. User probably unlocked all gyms.");
-	}
+	const currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']").catch(() => undefined);
 	if (!currentGym) return;
 
 	const categoryElement = currentGym.parentElement;

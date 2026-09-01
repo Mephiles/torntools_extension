@@ -6,6 +6,4 @@ import { injectXhrListeners, RequestListenerInjector } from "@common/utils/funct
 export default defineUnlistedScript(() => {
 	setRuntimeInformation(DEFAULT_RUNTIME_INFORMATION);
 	new RequestListenerInjector(injectXhrListeners).inject();
-
-	console.log("Script Injected - XHR Interception");
 });

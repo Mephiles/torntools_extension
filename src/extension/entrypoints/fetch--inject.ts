@@ -6,6 +6,4 @@ import { injectFetchListeners, RequestListenerInjector } from "@common/utils/fun
 export default defineUnlistedScript(() => {
 	setRuntimeInformation(DEFAULT_RUNTIME_INFORMATION);
 	new RequestListenerInjector(injectFetchListeners).inject();
-
-	console.log("Script Injected - Fetch Interception");
 });

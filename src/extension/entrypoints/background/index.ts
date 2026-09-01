@@ -154,5 +154,4 @@ export default defineBackground(() => {
 		self.addEventListener("online", timedUpdates);
 	}
 	exposeDebugObjects(backgroundService);
-	console.log("Background script loaded");
 });

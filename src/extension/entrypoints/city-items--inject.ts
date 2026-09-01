@@ -6,6 +6,4 @@ export default defineUnlistedScript(() => {
 	registerExtensionInjectedScriptContext();
 
 	injectCityItemsMapListeners();
-
-	console.log("Script Injected - City Items Map Hooks");
 });
