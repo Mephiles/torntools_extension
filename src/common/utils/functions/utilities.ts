@@ -21,13 +21,7 @@ export function arraysEquals(a1: unknown[], a2: unknown[]) {
 	if (a1.length !== a2.length) return false;
 
 	for (let i = 0; i < a1.length; i++) {
-		const x1 = a1[i];
-		const x2 = a2[i];
-		if (Array.isArray(x1) && Array.isArray(x2)) {
-			if (!arraysEquals(x1, x2)) return false;
-		} else if (typeof x1 === "object" && typeof x2 === "object") {
-			if (!objectsEquals(x1 as object, x2 as object)) return false;
-		} else if (x1 !== x2) {
+		if (!valueEquals(a1[i], a2[i])) {
 			return false;
 		}
 	}
@@ -35,27 +29,32 @@ export function arraysEquals(a1: unknown[], a2: unknown[]) {
 }
 
 export function objectsEquals(o1: object, o2: object) {
-	for (const property in o1) {
-		if (Object.hasOwn(o1, property) !== Object.hasOwn(o2, property)) return false;
-		else if (typeof o1[property] !== typeof o2[property]) return false;
-	}
-	for (const property in o2) {
-		if (Object.hasOwn(o1, property) !== Object.hasOwn(o2, property)) return false;
-		else if (typeof o1[property] !== typeof o2[property]) return false;
+	const entries1 = new Map(Object.entries(o1));
+	const entries2 = new Map(Object.entries(o2));
+	if (entries1.size !== entries2.size) return false;
 
-		if (!Object.hasOwn(o1, property)) continue;
+	for (const [property, x1] of entries1) {
+		const x2 = entries2.get(property);
+		if (x2 === undefined && !entries2.has(property)) return false;
 
-		const x1 = o1[property];
-		const x2 = o2[property];
-
-		if (Array.isArray(x1) && Array.isArray(x2)) {
-			if (!arraysEquals(x1, x2)) return false;
-		} else if (typeof x1 === "object" && typeof x2 === "object") {
-			if (!objectsEquals(x1, x2)) return false;
-		} else if (x1 !== x2) return false;
+		if (!valueEquals(x1, x2)) {
+			return false;
+		}
 	}
 
 	return true;
+}
+
+function valueEquals(x1: unknown, x2: unknown) {
+	if (typeof x1 !== typeof x2) return false;
+
+	if (Array.isArray(x1) && Array.isArray(x2)) {
+		return arraysEquals(x1, x2);
+	} else if (typeof x1 === "object" && typeof x2 === "object" && x1 !== null && x2 !== null) {
+		return objectsEquals(x1, x2);
+	} else {
+		return x1 === x2;
+	}
 }
 
 export function sleep(millis: number): Promise<void> {

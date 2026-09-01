@@ -1,5 +1,5 @@
 import "./warn-crime.css";
-import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
+import { getFactionSubpage, isInternalFaction, isOrganizedCrimeList } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasOC1Data } from "@common/utils/functions/api";
@@ -9,7 +9,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getUserDetails } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-const scenarioInformation = {};
+const scenarioInformation: { [scenario: string]: { [slot: string]: { hasItem: boolean | null; successChance: number } } } = {};
 
 function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, async () => {
@@ -27,10 +27,8 @@ function addListener() {
 
 		const params = new URL(fetch.url).searchParams;
 		const sid = params.get("sid");
-		if (sid !== "organizedCrimesData") return;
-
 		const step = params.get("step");
-		if (step !== "crimeList") return;
+		if (!isOrganizedCrimeList(sid, step, json)) return;
 
 		if (!json.success) return;
 
@@ -50,9 +48,7 @@ function addListener() {
 		);
 
 		slots.forEach(({ scenario: { name: scenarioName }, ...slot }) => {
-			if (!(scenarioName in scenarioInformation)) scenarioInformation[scenarioName] = {};
-			if (!(slot.name in scenarioInformation[scenarioName])) scenarioInformation[scenarioName][slot.name] = {};
-
+			scenarioInformation[scenarioName] ??= {};
 			scenarioInformation[scenarioName][slot.name] = {
 				hasItem: slot.hasItem,
 				successChance: slot.successChance,

@@ -6,7 +6,7 @@ import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireContent, requireElement, requireItemsLoaded } from "@common/utils/functions/requires";
-import { ALLOWED_BLOOD, getPage, getPageStatus } from "@common/utils/functions/torn";
+import { ALLOWED_BLOOD, getBloodType, getPage, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 const page = getPage();
@@ -42,7 +42,7 @@ async function highlightBloodBags() {
 		} else return;
 	}
 
-	const allowedBlood: number[] = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
+	const allowedBlood: number[] = ALLOWED_BLOOD[getBloodType()] ?? [];
 
 	for (const item of findAllElements("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], [id='tab=armoury&sub=medical'] .item-list > li")) {
 		if (!item.querySelector(".name-wrap, .name")) continue;

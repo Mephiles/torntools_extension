@@ -58,7 +58,7 @@ function removeAlias() {
 
 export default class UserAliasUserlistFeature extends Feature {
 	constructor() {
-		super("User Alias - Userlist", SCOPES_LIST[getPage()]);
+		super("User Alias - Userlist", SCOPES_LIST[getPage() as keyof typeof SCOPES_LIST]);
 	}
 
 	override isEnabled() {

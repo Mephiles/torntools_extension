@@ -10,6 +10,10 @@ import { Feature } from "@features/feature";
 
 let filter: FilterController | undefined;
 
+function isHospitalizationReason(key: string): key is keyof typeof HOSPITALIZATION_REASONS {
+	return key in HOSPITALIZATION_REASONS;
+}
+
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
@@ -101,10 +105,12 @@ async function addFilterContainer() {
 								(value === "no" && !HOSPITALIZATION_REASONS.other.some((r) => reason.match(r)))
 							);
 						}
-						return (
-							(value === "yes" && !reason.includes(HOSPITALIZATION_REASONS[key])) ||
-							(value === "no" && reason.includes(HOSPITALIZATION_REASONS[key]))
-						);
+						if (!isHospitalizationReason(key)) return false;
+
+						const reasonPhrases = HOSPITALIZATION_REASONS[key];
+						if (typeof reasonPhrases !== "string") return false;
+
+						return (value === "yes" && !reason.includes(reasonPhrases)) || (value === "no" && reason.includes(reasonPhrases));
 					});
 				return !match;
 			},

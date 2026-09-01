@@ -37,7 +37,7 @@ export const ScriptItemResolver: ItemResolver & {
 		}
 
 		const data = await fetchData<PGTornToolsStaticItemsResponse>("playground_torntools", { section: "static-items" });
-		const itemsMap = data.items.reduce((acc, item) => {
+		const itemsMap = data.items.reduce<Record<number, TornItem>>((acc, item) => {
 			acc[item.id] = item;
 			return acc;
 		}, {});

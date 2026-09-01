@@ -73,13 +73,15 @@ export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K
 
 			for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute].toString());
 		}
-		for (const event in options.events) newElement.addEventListener(event, options.events[event]);
+		Object.entries(options.events || {})
+			.filter((entry): entry is [string, EventListener] => !!entry)
+			.forEach(([event, handler]) => newElement.addEventListener(event, handler));
 
-		for (const key in options.style) newElement.style[key] = options.style[key];
-		for (const key in options.dataset) {
-			if (typeof options.dataset[key] === "object") newElement.dataset[key] = JSON.stringify(options.dataset[key]);
-			else newElement.dataset[key] = options.dataset[key].toString();
-		}
+		Object.entries(options.style || {}).forEach(([key, value]) => newElement.style.setProperty(key, value));
+		Object.entries(options.dataset || {}).forEach(([key, value]) => {
+			if (typeof value === "object") newElement.dataset[key] = JSON.stringify(value);
+			else newElement.dataset[key] = value.toString();
+		});
 
 		return newElement;
 	} else {

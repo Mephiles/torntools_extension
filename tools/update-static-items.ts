@@ -46,7 +46,7 @@ function isArmorDetails(details: TornItemWeaponDetails | TornItemArmorDetails | 
 }
 
 function tornItemToStaticItem(item: TornItem): StaticItem {
-	const base = {
+	const base: StaticItem = {
 		id: item.id,
 		name: item.name,
 		description: item.description,

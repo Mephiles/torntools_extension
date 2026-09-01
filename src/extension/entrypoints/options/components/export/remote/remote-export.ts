@@ -1,12 +1,8 @@
-import type { Database } from "@common/utils/data/database";
 import { browser } from "wxt/browser";
 import { getExportData, isExportData } from "../export-data";
 import type { ExportData } from "../export-data";
 
 export const REMOTE_SYNC_SOUND_CUSTOM_LIMIT = 64 * 1024;
-
-export type ExportDatabaseKey = "version" | "settings" | "filters" | "stakeouts" | "notes" | "quick" | "api";
-export type ExportDatabasePayload = Partial<Pick<Database, ExportDatabaseKey>>;
 
 const REMOTE_SYNC_ITEM_LIMIT = 10 * 1024;
 const REMOTE_SYNC_SCHEMA_VERSION = 1;
@@ -134,14 +130,20 @@ function parseChunkedRemoteSyncData(items: Record<string, unknown>): ExportData 
 	}
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === "object" && value !== null;
+}
+
 export async function getRemoteSyncExportPreview(): Promise<{ data: ExportData; omittedSoundCustom: boolean }> {
 	const data = await getExportData(false);
-	const soundCustom = data.database.settings?.notifications?.soundCustom;
+	const settings = isRecord(data.database.settings) ? data.database.settings : undefined;
+	const notifications = settings && isRecord(settings.notifications) ? settings.notifications : undefined;
+	const soundCustom = notifications?.soundCustom;
 
 	let omittedSoundCustom = false;
 	if (typeof soundCustom === "string" && soundCustom.length > 0 && getByteLength(soundCustom) > REMOTE_SYNC_SOUND_CUSTOM_LIMIT) {
-		if (data.database.settings?.notifications) {
-			delete data.database.settings.notifications.soundCustom;
+		if (notifications) {
+			delete notifications.soundCustom;
 		}
 
 		omittedSoundCustom = true;

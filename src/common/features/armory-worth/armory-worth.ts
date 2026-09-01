@@ -45,12 +45,12 @@ async function addWorth() {
 
 	const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement!;
 	const selections = ["basic", "balance"];
-	const legacySelections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium"];
+	const legacySelections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium"] as const;
 
 	if (userdata.faction && ttCache.hasValue("armory", userdata.faction.id)) {
 		handleData(ttCache.get("armory", userdata.faction.id)!);
 	} else {
-		fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", selections, legacySelections })
+		fetchData<ArmoryWorthFetchResponse>("tornv2", { section: "faction", selections, legacySelections: [...legacySelections] })
 			.then((data) => {
 				handleData(data);
 
@@ -77,7 +77,10 @@ async function addWorth() {
 
 	function handleData(data: ArmoryWorthFetchResponse) {
 		const itemsWorth = legacySelections
-			.flatMap((type) => data[type] ?? [])
+			.flatMap((type): { ID: number; quantity: number }[] => {
+				const value = data[type];
+				return Array.isArray(value) ? value : [];
+			})
 			.map((item) => (ITEM_RESOLVER.getFullItem(item.ID)?.value.market_price ?? 0) * item.quantity)
 			.reduce<number>((total, worth) => total + worth, 0);
 

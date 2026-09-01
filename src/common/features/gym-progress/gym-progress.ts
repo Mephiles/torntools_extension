@@ -12,7 +12,7 @@ async function addProgress() {
 		200, 500, 1000, 2000, 2750, 3000, 3500, 4000, 6000, 7000, 8000, 11000, 12420, 18000, 18100, 24140, 31260, 36610, 46640, 56520, 67775, 84535, 106305,
 	];
 
-	const currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']").catch(() => undefined);
+	const currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']").catch((): undefined => undefined);
 	if (!currentGym) return;
 
 	const categoryElement = currentGym.parentElement;

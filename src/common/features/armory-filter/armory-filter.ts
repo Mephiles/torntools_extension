@@ -23,7 +23,7 @@ function addListener() {
 	});
 }
 
-function buildSections(itemType: string): FilterSectionDef<unknown>[] {
+function buildSections(itemType: "weapons" | "armor" | "temporary"): FilterSectionDef<unknown>[] {
 	const base = [
 		{
 			...checkboxSection({

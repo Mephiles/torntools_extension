@@ -24,11 +24,11 @@ export class BackgroundService {
 
 	playNotificationSound(s: string, volume: number, allowDefault?: boolean) {
 		const sound = getNotificationSound(s, allowDefault ?? true);
-		if (sound) {
-			notificationTestPlayer.volume = volume / 100;
-			notificationTestPlayer.src = sound;
-			void notificationTestPlayer.play();
-		}
+		if (!sound) return;
+
+		notificationTestPlayer.volume = volume / 100;
+		notificationTestPlayer.src = sound;
+		void notificationTestPlayer.play();
 	}
 
 	stopNotificationSound() {

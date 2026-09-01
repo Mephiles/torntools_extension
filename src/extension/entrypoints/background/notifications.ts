@@ -87,7 +87,9 @@ export function initializeBackoff(durationMs = TO_MILLIS.SECONDS * 3) {
 	backoffUntil = Date.now() + durationMs;
 
 	if (backoffTimer) clearTimeout(backoffTimer);
-	backoffTimer = setTimeout(() => void drainStartupQueue(), durationMs);
+	backoffTimer = setTimeout(() => {
+		void drainStartupQueue();
+	}, durationMs);
 }
 
 export async function dispatchNotification(notification: TTFullNotification) {
@@ -101,7 +103,7 @@ export async function dispatchNotification(notification: TTFullNotification) {
 	await storeNotification(notification);
 }
 
-export async function drainStartupQueue() {
+export async function drainStartupQueue(): Promise<void> {
 	backoffUntil = 0;
 	if (backoffTimer) {
 		clearTimeout(backoffTimer);
@@ -119,13 +121,13 @@ export async function drainStartupQueue() {
 
 export async function cleanupNotifications() {
 	const notifications = await ttStorage.get("notifications");
-	for (const type in notifications) {
-		for (const key in notifications[type]) {
-			const notification: TTNotification = notifications[type][key];
+	for (const notifs of Object.values(notifications)) {
+		for (const key in notifs) {
+			const notification: TTNotification = notifs[key];
 			if ("combined" in notification) continue;
 
 			if (Date.now() - notification.date > 3 * TO_MILLIS.DAYS) {
-				delete notifications[type][key];
+				delete notifs[key];
 			}
 		}
 	}
@@ -266,7 +268,7 @@ async function storeNotification(notification: TTNotification) {
 	await ttStorage.set({ notificationHistory });
 }
 
-export function getNotificationSound(type: string, allowDefault = false) {
+export function getNotificationSound(type: string, allowDefault = false): string | null {
 	switch (type) {
 		case "1":
 		case "2":
@@ -277,7 +279,7 @@ export function getNotificationSound(type: string, allowDefault = false) {
 		case "custom":
 			return settings.notifications.soundCustom;
 		default:
-			return allowDefault ? getNotificationSound("1") : false;
+			return allowDefault ? getNotificationSound("1") : null;
 	}
 }
 

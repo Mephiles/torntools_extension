@@ -17,7 +17,7 @@ export async function updateNPCs() {
 		return { updated: false };
 	}
 
-	const NPCS = {
+	const NPCS: Record<number, string> = {
 		4: "DUKE",
 		7: "Amanda",
 		9: "Anonymous",
@@ -73,7 +73,7 @@ export async function updateNPCs() {
 					4: hospital + TO_MILLIS.MINUTES * 210,
 					5: hospital + TO_MILLIS.MINUTES * 450,
 				},
-				name: NPCS[id] ?? "Unknown",
+				name: NPCS[parseInt(id)] ?? "Unknown",
 				order: parseInt(id),
 			};
 

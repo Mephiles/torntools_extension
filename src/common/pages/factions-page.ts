@@ -386,3 +386,58 @@ export interface TornInternalArmouryTabContent {
 	}[];
 	isset_pagination: true;
 }
+
+export function isOrganizedCrimeList(sid: string, step: string, _json: any): _json is TornInternalOrganizedCrimeList {
+	return sid === "organizedCrimesData" && step === "crimeList";
+}
+
+export interface TornInternalOrganizedCrimeList {
+	success: true;
+	data: {
+		ID: number;
+		status: string;
+		expiresAt: number;
+		playerSlots: {
+			key: string;
+			name: string;
+			successChance: number;
+			title: string;
+			type: string;
+			requirement: {
+				id: number;
+				name: string;
+				doesExist: boolean;
+				use: boolean;
+			} | null;
+			player: {
+				ID: number;
+				name: string;
+				honorID: number;
+				honorStyle: string;
+				spentPercent: number;
+				isBlocking: boolean;
+				slotPosition: number;
+			} | null;
+		}[];
+		participantsTotal: number;
+		scenario: {
+			ID: number;
+			name: string;
+			scene: string;
+			slug: string;
+			level: number;
+			description: string;
+			result: string;
+			scenes: unknown[];
+			difficultyTier: number;
+		};
+		endTime: unknown;
+		phaseStatus: string;
+		rewards: unknown;
+		notSeen: boolean;
+		isPayoutUsed: boolean;
+		preRequisiteCrimeID: unknown;
+	}[];
+	startFrom: number;
+	nextStartFrom: number;
+}

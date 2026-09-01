@@ -7,7 +7,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-const ORGANIZED_CRIMES = {
+const ORGANIZED_CRIMES: Record<string, string> = {
 	Blackmail: "anyone",
 	Kidnapping: "~20",
 	"Bomb Threat": "25-30",

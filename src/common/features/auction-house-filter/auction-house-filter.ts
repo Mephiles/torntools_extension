@@ -25,12 +25,12 @@ function initialiseListeners() {
 	});
 }
 
-function buildSections(itemType: string): FilterSectionDef<unknown>[] {
+function buildSections(itemType: "weapons" | "armor" | "items" | "temporary"): FilterSectionDef<unknown>[] {
 	const base = [
 		textSection({
 			key: "name",
 			title: "Name",
-			defaultValue: filters.auction[itemType].name ?? "",
+			defaultValue: itemType === "temporary" ? "" : (filters.auction[itemType].name ?? ""),
 			test: (row, name) => {
 				if (!name) return true;
 
@@ -214,6 +214,8 @@ function buildSections(itemType: string): FilterSectionDef<unknown>[] {
 }
 
 async function rebuildForTab(itemType: string) {
+	if (itemType !== "weapons" && itemType !== "armor" && itemType !== "items" && itemType !== "temporary") return;
+
 	filterItemType = itemType;
 	filter?.dispose();
 

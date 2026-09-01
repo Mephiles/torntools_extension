@@ -8,6 +8,8 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { sleep } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
+const GYM_STATS = ["strength", "speed", "dexterity", "defense"] as const;
+
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.GYM_LOAD, async () => {
 		if (!settings.pages.gym.disableStats) return;
@@ -72,7 +74,7 @@ async function showCheckboxes() {
 			}),
 		);
 
-		const name = ["strength", "speed", "dexterity", "defense"].find((s) => stat.className.includes(s));
+		const name = GYM_STATS.find((s) => stat.className.includes(s));
 		if (!name) continue;
 
 		if (filters.gym[name]) toggleStat(stat, false);
@@ -89,7 +91,7 @@ async function showCheckboxes() {
 		checkbox.checked = isLocked;
 
 		if (save) {
-			const name = ["strength", "speed", "dexterity", "defense"].find((s) => stat.className.includes(s));
+			const name = GYM_STATS.find((s) => stat.className.includes(s));
 
 			if (name) ttStorage.change({ filters: { gym: { [name]: isLocked } } });
 		}

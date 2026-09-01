@@ -25,10 +25,13 @@ export class TTScriptStorage extends TornToolsStorage {
 			const storageKeys = Object.keys(DEFAULT_STORAGE) as DatabaseKey[];
 			const storageValues = await this.get(storageKeys);
 
-			return storageKeys.reduce((total, k, i) => {
-				total[k] = storageValues[i];
-				return total;
-			}, {});
+			return storageKeys.reduce(
+				(total, k, i) => {
+					total[k] = storageValues[i];
+					return total;
+				},
+				{} as Record<DatabaseKey, unknown>,
+			);
 		}
 	}
 
@@ -105,10 +108,13 @@ export class PDAScriptStorage extends TornToolsStorage {
 			const storageKeys = Object.keys(DEFAULT_STORAGE) as DatabaseKey[];
 			const storageValues = await this.get(storageKeys);
 
-			return storageKeys.reduce((total, k, i) => {
-				total[k] = storageValues[i];
-				return total;
-			}, {});
+			return storageKeys.reduce(
+				(total, k, i) => {
+					total[k] = storageValues[i];
+					return total;
+				},
+				{} as Record<DatabaseKey, unknown>,
+			);
 		}
 	}
 

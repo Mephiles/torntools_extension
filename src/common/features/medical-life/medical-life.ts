@@ -11,7 +11,7 @@ import { Feature } from "@features/feature";
 
 const page = getPage();
 
-const MEDICAL_ITEMS = {
+const MEDICAL_ITEMS: Record<number, number> = {
 	66: 15,
 	67: 10,
 	68: 5,

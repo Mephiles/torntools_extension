@@ -1438,7 +1438,7 @@ export const SETS = {
 	],
 } as const satisfies Record<string, SetItem[]>;
 
-export const SPECIAL_FILTER_ICONS = {
+export const SPECIAL_FILTER_ICONS: Record<string, string[]> = {
 	traveling: ["icon71"],
 	isFedded: ["icon70"],
 	fedded: ["icon70"],
@@ -1454,7 +1454,7 @@ export const SPECIAL_FILTER_ICONS = {
 	isRecruit: ["icon81"],
 	hasBounties: ["icon13"],
 	bazaarOpen: ["icon35"],
-} as const;
+};
 
 export const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000] as const;
 
@@ -2464,7 +2464,7 @@ export const TAX_RATES = {
 	sellAnonymouslyPercentage: 10,
 } as const;
 
-export const CUSTOM_LINKS_PRESET = {
+export const CUSTOM_LINKS_PRESET: Record<string, { link: string }> = {
 	"Auction House": { link: "https://www.torn.com/amarket.php" },
 	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },
 	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
@@ -2476,7 +2476,7 @@ export const CUSTOM_LINKS_PRESET = {
 	"Points Market": { link: "https://www.torn.com/pmarket.php" },
 	Raceway: { link: "https://www.torn.com/page.php?sid=racing" },
 	"Travel Agency": { link: "https://www.torn.com/page.php?sid=travel" },
-} as const;
+};
 
 export const HIGHLIGHT_PLACEHOLDERS = [
 	{
@@ -2486,15 +2486,15 @@ export const HIGHLIGHT_PLACEHOLDERS = [
 	},
 ] as const;
 
-export const CHAT_TITLE_COLORS = {
+export const CHAT_TITLE_COLORS: Record<string, [string, string]> = {
 	blue: ["rgb(10,60,173)", "rgb(22,109,236)"],
 	brown: ["rgb(109,53,4)", "rgb(146,69,4)"],
 	orange: ["rgb(227,130,5)", "rgb(234,164,50)"],
 	purple: ["rgb(94,7,119)", "rgb(184,9,241)"],
 	red: ["rgb(123,4,4)", "rgb(255,3,3)"],
-} as const;
+};
 
-export const BOOK_DESCRIPTIONS = {
+export const BOOK_DESCRIPTIONS: Record<number, string> = {
 	744: "Incr. Str by 5% up to 10m upon completion.",
 	745: "Incr. Spd by 5% up to 10m upon completion.",
 	746: "Incr. Def by 5% up to 10m upon completion.",
@@ -2539,13 +2539,12 @@ export const BOOK_DESCRIPTIONS = {
 	785: "Re-use your last used book (31 days).",
 	786: "Boost your employee effectiveness (31 days).",
 	787: "Guaranteed escape attempt success (31 days)",
-} as const;
+};
 
 export const RANK_TRIGGERS = {
 	level: [2, 6, 11, 26, 31, 50, 71, 100],
 	crimes: [100, 5000, 10000, 20000, 30000, 50000],
 	networth: [5000000, 50000000, 500000000, 5000000000, 50000000000],
-
 	stats: ["under 2k", "2k - 25k", "20k - 250k", "200k - 2.5m", "2m - 25m", "20m - 250m", "over 200m"],
 } as const;
 
@@ -2567,7 +2566,7 @@ export function isInfiniteUsageItem(id: number): boolean {
 
 export const TORNTOOLS_FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16243863";
 
-export const RANKS = {
+export const RANKS: Record<string, number> = {
 	"Absolute beginner": 1,
 	Beginner: 2,
 	Inexperienced: 3,
@@ -2594,7 +2593,7 @@ export const RANKS = {
 	Legendary: 24,
 	Elite: 25,
 	Invincible: 26,
-} as const;
+};
 
 export function isDarkTheme() {
 	return document.body.classList.contains("dark-mode");

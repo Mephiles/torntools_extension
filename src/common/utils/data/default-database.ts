@@ -1010,6 +1010,7 @@ export interface StoredNpc {
 		3: number;
 		4: number;
 		5: number;
+		[key: number]: number;
 	};
 	current?: number;
 	scheduled?: boolean;
@@ -1124,7 +1125,7 @@ export type TTFullNotification = {
 };
 export type TTNotification = TTFullNotification | { combined: true };
 export type NotificationMap = { [key: string]: TTNotification };
-type StoredProfileNotes = { [id: number]: { height: string; text: string } };
+type StoredProfileNotes = { [id: string]: { height: string; text: string } };
 export type AttackHistory = {
 	name: string;
 	defend: number;

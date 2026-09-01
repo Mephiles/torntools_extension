@@ -12,6 +12,13 @@ export interface ScriptInjector {
 declare global {
 	interface Window {
 		ttInjected: Record<string, boolean>;
+		xhrSendAdjustments?: { [key: string]: (xhr: XMLHttpRequest, body: any) => any };
+	}
+	interface XMLHttpRequest {
+		method?: string;
+		url?: string | URL;
+		params?: { [key: string]: any };
+		requestBody?: any;
 	}
 }
 
@@ -164,7 +171,7 @@ export function injectXhrListeners() {
 	};
 	window.XMLHttpRequest.prototype.send = function (body: any) {
 		this["params"] = this["params"] ?? {};
-		if ("xhrSendAdjustments" in window && typeof window.xhrSendAdjustments === "object") {
+		if ("xhrSendAdjustments" in window && typeof window.xhrSendAdjustments === "object" && window.xhrSendAdjustments) {
 			for (const key in window.xhrSendAdjustments) {
 				if (typeof window.xhrSendAdjustments[key] !== "function") continue;
 

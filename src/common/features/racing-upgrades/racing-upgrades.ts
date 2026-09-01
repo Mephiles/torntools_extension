@@ -80,7 +80,7 @@ async function showUpgrades() {
 	}
 
 	parts = parts.filter((value, index, self) => self.indexOf(value) === index);
-	const needed = [];
+	const needed: string[] = [];
 	parts.forEach((part) => {
 		if (document.querySelector(`.pm-items .bought[data-part="${part}"]`)) return;
 
@@ -92,14 +92,14 @@ async function showUpgrades() {
 			if (!category) category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
 
 			item.classList.add("tt-modified");
-			item.querySelector<HTMLElement>(".status").style["background-color"] = color;
+			item.querySelector<HTMLElement>(".status").style.setProperty("background-color", color);
 			item.querySelector(".status").classList.add("tt-modified");
 
 			// oxlint-disable-next-line prefer-add-event-listener -- item handlers are replaced on re-render, not stacked
 			item.onmouseenter = () => {
 				for (const item of findAllElements(".pm-items .unlock")) {
 					if (item.getAttribute("data-part") === part) {
-						item.querySelector<HTMLElement>(".title").style["background-color"] = color;
+						item.querySelector<HTMLElement>(".title").style.setProperty("background-color", color);
 						item.style.opacity = "1";
 					} else {
 						item.style.opacity = "0.5";
@@ -110,7 +110,7 @@ async function showUpgrades() {
 			item.onmouseleave = () => {
 				for (const item of findAllElements(".pm-items .unlock")) {
 					if (item.getAttribute("data-part") === part) {
-						item.querySelector<HTMLElement>(".title").style["background-color"] = "";
+						item.querySelector<HTMLElement>(".title").style.setProperty("background-color", "");
 					}
 					item.style.opacity = "1";
 				}
@@ -155,7 +155,7 @@ function resetUpgrades() {
 
 function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 	unlockElement.classList.remove("tt-modified");
-	unlockElement.querySelector<HTMLElement>(".status").style["background-color"] = "";
+	unlockElement.querySelector<HTMLElement>(".status").style.setProperty("background-color", "");
 	unlockElement.querySelector(".status").classList.remove("tt-modified");
 	// oxlint-disable-next-line prefer-add-event-listener -- assignment resets (replaces) the previous handler
 	unlockElement.onmouseenter = () => {};
@@ -164,7 +164,7 @@ function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 
 	for (const item of findAllElements(".pm-items .unlock")) {
 		if (item.getAttribute("data-part") === part || part === null) {
-			item.querySelector<HTMLElement>(".title").style["background-color"] = "";
+			item.querySelector<HTMLElement>(".title").style.setProperty("background-color", "");
 			item.classList.remove("tt-modified");
 		}
 		item.style.opacity = "1";

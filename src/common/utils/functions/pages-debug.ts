@@ -8,7 +8,7 @@ type BGService = BackgroundService | ProxyService<BackgroundService>;
 
 export function exposeDebugObjects(backgroundService: BGService) {
 	// noinspection JSUnusedGlobalSymbols
-	globalThis.DebugFunctions = {
+	(globalThis as any).DebugFunctions = {
 		fullDataDump,
 		forceUpdateUserdata: () => backgroundService.forceUpdate("userdata"),
 		forceUpdateTorndata: () => backgroundService.forceUpdate("torndata"),
@@ -17,7 +17,7 @@ export function exposeDebugObjects(backgroundService: BGService) {
 		notification: (title: string, message: string) => backgroundService.notification(title, message),
 	};
 	// noinspection JSUnusedGlobalSymbols
-	globalThis.InternalObjects = {
+	(globalThis as any).InternalObjects = {
 		ttStorage,
 		ttCache,
 	};

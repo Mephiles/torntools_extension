@@ -36,8 +36,8 @@ async function showEffectiveness() {
 	const list = await requireElement(".employee-list");
 
 	for (const row of findAllElements(".effectiveness[data-multipliers]", list)) {
-		const multipliers = JSON.parse(row.dataset.multipliers) || [];
-		const reduction = multipliers.filter((multiplier: any) => multiplier < 0).reduce((a, b) => a + b, 0) * -1;
+		const multipliers: number[] = JSON.parse(row.dataset.multipliers) || [];
+		const reduction = multipliers.filter((multiplier) => multiplier < 0).reduce((a, b) => a + b, 0) * -1;
 
 		const element = row.querySelector(".effectiveness-value");
 

@@ -6,15 +6,7 @@ import { capitalizeText } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { Feature } from "@features/feature";
 
-interface CardDeck {
-	hearts: number[];
-	diamonds: number[];
-	clubs: number[];
-	spades: number[];
-}
-type CardSuit = keyof CardDeck;
-
-let deck: CardDeck;
+let deck: Record<string, number[]>;
 shuffleDeck();
 
 function initialiseHelper() {
@@ -67,7 +59,7 @@ function executeStrategy(data: any) {
 	let higher = 0;
 	let lower = 0;
 	for (const suit in deck) {
-		for (const value of deck[suit]) {
+		for (const value of deck[suit as keyof typeof deck]) {
 			if (value > dealerValue) higher++;
 			else if (value < dealerValue) lower++;
 		}
@@ -94,7 +86,7 @@ function executeStrategy(data: any) {
 }
 
 function getCardWorth({ classCode, nameShort }: { classCode: string; nameShort: string }) {
-	const suit = classCode.split("-")[0] as CardSuit;
+	const suit = classCode.split("-")[0];
 
 	let value: number;
 	if (!Number.isNaN(parseInt(nameShort))) value = parseInt(nameShort);
@@ -134,7 +126,7 @@ function shuffleDeck() {
 	};
 }
 
-function removeCard(suit: CardSuit, value: number) {
+function removeCard(suit: string, value: number) {
 	deck[suit].splice(deck[suit].indexOf(value), 1);
 }
 

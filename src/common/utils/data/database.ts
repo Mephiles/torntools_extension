@@ -333,13 +333,17 @@ export function initializeDatabaseListener() {
 						factionStakeouts = changes.factionStakeouts.newValue as DatabaseFactionStakeouts;
 						break;
 				}
-				if (key in storageListeners) {
+				if (hasStorageListener(key)) {
 					storageListeners[key].forEach((listener: StorageListener<any>) => listener(changes[key].oldValue, changes[key].newValue));
 				}
 			}
 		}
 	});
 	initializedDatabaseListeners = true;
+}
+
+function hasStorageListener(key: string): key is keyof StorageListeners {
+	return key in storageListeners;
 }
 
 export function setUserdata(data: DatabaseUserdata) {

@@ -25,9 +25,9 @@ export function readableChangelog() {
 		}
 
 		// Remove all empty log sections
-		Object.entries(entry.logs)
+		Object.entries(log.logs)
 			.filter(([, logs]) => !logs.length)
-			.forEach(([section]) => delete entry.logs[section]);
+			.forEach(([section]) => delete log.logs[section]);
 
 		return log;
 	});

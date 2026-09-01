@@ -33,7 +33,7 @@ export async function updateTorndata() {
 
 	const newData: StoredTorndata = {
 		...data,
-		itemsMap: data.items.reduce((map, item) => {
+		itemsMap: data.items.reduce<StoredTorndata["itemsMap"]>((map, item) => {
 			map[item.id] = item;
 			return map;
 		}, {}),

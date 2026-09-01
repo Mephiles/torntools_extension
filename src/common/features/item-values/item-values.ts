@@ -31,18 +31,15 @@ function initialiseItemValues() {
 			setupXHR({ ignoreUntradable: true, addRelative: true });
 			break;
 		case "item":
-			addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, itemListener);
-			addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, itemListener);
+			addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, ({ tab }) => {
+				if (!FEATURE_MANAGER.isEnabled(ItemValuesFeature)) return;
+
+				showItemValues(tab);
+			});
 			addCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, ({ item, amount, loaned }) => {
 				updateItemAmount(item, amount, loaned);
 			});
 			break;
-	}
-
-	function itemListener({ tab }) {
-		if (!FEATURE_MANAGER.isEnabled(ItemValuesFeature)) return;
-
-		showItemValues(tab);
 	}
 
 	function setupXHR(options: ItemValuesXHROptions = {}) {

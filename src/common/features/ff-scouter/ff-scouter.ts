@@ -63,12 +63,12 @@ export class ScouterService {
 		const cachedTargets = uniqueTargets.filter((target) => this.inCache(target));
 		const missingTargets = uniqueTargets.filter((target) => !this.inCache(target)).filter((target) => !NON_ATTACKABLE_ACCOUNT_IDS.includes(target));
 
-		const results = {};
+		const results: Record<string, ScouterResult> = {};
 
-		cachedTargets.map((target) => this.fromCache(target)).forEach((result) => (results[result.player_id] = result));
+		cachedTargets.map((target) => this.fromCache(target)).forEach((result) => (results[String(result.player_id)] = result));
 
 		const resultList = await this._fetchGroup(missingTargets);
-		resultList.forEach((result) => (results[result.player_id] = result));
+		resultList.forEach((result) => (results[String(result.player_id)] = result));
 
 		return results;
 	}

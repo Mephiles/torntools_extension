@@ -105,8 +105,8 @@ export async function updateUserdata(forceUpdate = false) {
 			(hasTimePassed(userdata?.datePassive - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) &&
 				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
-	const selections = [];
-	const selectionsV2 = [];
+	const selections: string[] = [];
+	const selectionsV2: string[] = [];
 	if (updateEssential) {
 		// TODO - Move some of those behind a setting.
 		selectionsV2.push("profile", "faction", "job", "timestamp", "notifications");
@@ -114,7 +114,7 @@ export async function updateUserdata(forceUpdate = false) {
 		// Use "newevents" selection only when the old events count > new events count
 		// Fetch the notifications count always, to avoid additional API calls
 
-		for (const selection of ["bars", "cooldowns", "icons", "newmessages", "money", "travel", "refills"]) {
+		for (const selection of ["bars", "cooldowns", "icons", "newmessages", "money", "travel", "refills"] as const) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -141,7 +141,7 @@ export async function updateUserdata(forceUpdate = false) {
 			"stocks",
 			"networth",
 			"perks",
-		]) {
+		] as const) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -152,7 +152,7 @@ export async function updateUserdata(forceUpdate = false) {
 		updatedTypes.push("basic");
 	}
 	if (updatePassive) {
-		for (const selection of ["jobpoints", "enlistedcars"]) {
+		for (const selection of ["jobpoints", "enlistedcars"] as const) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selectionsV2.push(selection);
@@ -453,7 +453,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if (!settings.apiUsage.user.cooldowns || !settings.notifications.types.global || !settings.notifications.types.cooldowns || !oldUserdata.cooldowns)
 			return;
 
-		for (const type in newUserdata.cooldowns) {
+		for (const type of Object.keys(newUserdata.cooldowns) as (keyof typeof newUserdata.cooldowns)[]) {
 			if (newUserdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
 			await dispatchNotification({
@@ -705,7 +705,7 @@ export async function updateUserdata(forceUpdate = false) {
 				memory: "medical",
 				enabled: "cooldownMedicalEnabled",
 			},
-		];
+		] as const;
 
 		for (const cooldown of COOLDOWNS) {
 			if (
@@ -716,7 +716,7 @@ export async function updateUserdata(forceUpdate = false) {
 				for (const checkpoint of settings.notifications.types[cooldown.setting].slice().sort((a: number, b: number) => a - b)) {
 					const timeLeft = newUserdata.cooldowns[cooldown.name] * 1000;
 
-					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
+					if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications[cooldown.memory][String(checkpoint)]) continue;
 
 					const notification = newNotification(
 						cooldown.title,
@@ -742,7 +742,7 @@ export async function updateUserdata(forceUpdate = false) {
 			if (new Date() >= cutoff) {
 				for (const { name, contracts } of newUserdata.missions.givers) {
 					const activeContracts = contracts.filter((contract) => contract.completed_at === null);
-					const maxMissions = name in MAX_MISSIONS ? MAX_MISSIONS[name] : MAX_MISSIONS.DEFAULT;
+					const maxMissions = name in MAX_MISSIONS ? MAX_MISSIONS[name as keyof typeof MAX_MISSIONS] : MAX_MISSIONS.DEFAULT;
 
 					if (activeContracts.length >= maxMissions) {
 						const now = new Date();

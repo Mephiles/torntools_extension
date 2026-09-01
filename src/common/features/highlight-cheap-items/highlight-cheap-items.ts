@@ -65,7 +65,7 @@ function highlightEverything() {
 		id = parseInt(params.get("itemID"));
 	} else if (document.querySelector("[class*='sellerListWrapper___']")) {
 		const image = document.querySelector("[class*='sellerListWrapper___']").previousElementSibling.querySelector<HTMLImageElement>("img.torn-item");
-		if (!image) return null;
+		if (!image) return;
 
 		id = convertToNumber(image.src);
 	}
@@ -187,7 +187,7 @@ function removeHighlights() {
 function playSound() {
 	if (!settings.pages.itemmarket.highlightCheapItemsSound) return;
 
-	BACKGROUND_SERVICE.playNotificationSound(settings.notifications.sound, settings.notifications.volume);
+	void BACKGROUND_SERVICE.playNotificationSound(settings.notifications.sound, settings.notifications.volume);
 }
 
 export default class HighlightCheapItemsFeature extends Feature {
