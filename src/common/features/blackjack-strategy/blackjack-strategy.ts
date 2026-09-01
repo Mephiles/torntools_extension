@@ -127,8 +127,7 @@ function executeStrategy(data: any) {
 					if (hand[0] === hand[1]) {
 						let value: number;
 						if (Number.isNaN(parseInt(hand[0]))) {
-							if (hand[0] === "A")
-								return "H"; // It's not in the suggestions array, but we should always hit A,A after split
+							if (hand[0] === "A") return "H"; // It's not in the suggestions array, but we should always hit A,A after split
 							else value = 20;
 						} else value = parseInt(hand[0]) * 2;
 
