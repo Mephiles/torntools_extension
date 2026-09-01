@@ -6,6 +6,7 @@ const DB_VERSION = 2;
 const STORE_NAME = "cache";
 
 export const CACHE_VERSION_KEY = "cacheVersion";
+export const FALLBACK_CACHE_KEY = "cache-fallback";
 
 let cacheVersionCounter = 0;
 
@@ -20,12 +21,23 @@ interface StoredCacheEntry {
 }
 
 let databasePromise: Promise<IDBDatabase> | null = null;
+let idbAvailable = true;
 
 function openDatabase(): Promise<IDBDatabase> {
 	if (databasePromise) return databasePromise;
+	if (!idbAvailable) return Promise.reject(new Error("IndexedDB is unavailable, falling back to extension storage"));
 
-	databasePromise = new Promise((resolve, reject) => {
-		const request = indexedDB.open(DB_NAME, DB_VERSION);
+	databasePromise = new Promise<IDBDatabase>((resolve, reject) => {
+		let openRequest: IDBOpenDBRequest | undefined;
+		try {
+			openRequest = indexedDB.open(DB_NAME, DB_VERSION);
+		} catch (error) {
+			idbAvailable = false;
+			databasePromise = null;
+			reject(error);
+			return;
+		}
+		const request = openRequest!;
 
 		request.onupgradeneeded = () => {
 			const database = request.result;
@@ -41,6 +53,7 @@ function openDatabase(): Promise<IDBDatabase> {
 			resolve(database);
 		});
 		request.addEventListener("error", () => {
+			idbAvailable = false;
 			databasePromise = null;
 			reject(request.error);
 		});
@@ -73,13 +86,56 @@ async function withStore<T>(mode: IDBTransactionMode, operation: (store: IDBObje
 	return value;
 }
 
+type StoredEntryMap = Record<string, StoredCacheEntry>;
+const entryKey = (section: string, key: string) => `${section}\u0000${key}`;
+
+async function fallbackRead(): Promise<StoredEntryMap> {
+	const stored = (await browser.storage.local.get(FALLBACK_CACHE_KEY))[FALLBACK_CACHE_KEY] as StoredEntryMap | undefined;
+	return stored ? { ...stored } : {};
+}
+
+async function fallbackGetEntries(): Promise<StoredCacheEntry[]> {
+	return Object.values(await fallbackRead());
+}
+
+async function fallbackApply(entries: CacheEntry[]): Promise<void> {
+	const map = await fallbackRead();
+	for (const entry of entries) {
+		const key = entryKey(entry.section ?? "", entry.key);
+		if (entry.deleted) {
+			delete map[key];
+		} else {
+			map[key] = { section: entry.section ?? "", key: entry.key, cacheValue: entry.cacheValue };
+		}
+	}
+	await browser.storage.local.set({ [FALLBACK_CACHE_KEY]: map });
+}
+
+async function fallbackClear(section?: string): Promise<void> {
+	if (section === undefined) {
+		await browser.storage.local.remove(FALLBACK_CACHE_KEY);
+		return;
+	}
+
+	const map = await fallbackRead();
+	for (const [key, entry] of Object.entries(map)) {
+		if (entry.section === section) delete map[key];
+	}
+	await browser.storage.local.set({ [FALLBACK_CACHE_KEY]: map });
+}
+
+function toCacheEntry({ section, key, cacheValue }: StoredCacheEntry): CacheEntry {
+	return { section: section || undefined, key, cacheValue };
+}
+
 export async function getCacheEntries(): Promise<CacheEntry[]> {
-	const records = await withStore("readonly", (store) => store.getAll() as IDBRequest<StoredCacheEntry[]>);
-	return records.map(({ section, key, cacheValue }) => ({
-		section: section || undefined,
-		key,
-		cacheValue,
-	}));
+	try {
+		const records = await withStore("readonly", (store) => store.getAll() as IDBRequest<StoredCacheEntry[]>);
+		return records.map(toCacheEntry);
+	} catch (error) {
+		if (idbAvailable) throw error;
+		return (await fallbackGetEntries()).map(toCacheEntry);
+	}
 }
 
 export async function getCache(): Promise<DatabaseCache | undefined> {
@@ -100,22 +156,32 @@ export async function getCache(): Promise<DatabaseCache | undefined> {
 }
 
 export async function setCacheEntries(entries: CacheEntry[]): Promise<void> {
-	await withStore("readwrite", (store) => {
-		for (const entry of entries) {
-			const section = entry.section ?? "";
-			if (entry.deleted) {
-				store.delete([section, entry.key]);
-			} else {
-				store.put({ section, key: entry.key, cacheValue: entry.cacheValue }, [section, entry.key]);
+	try {
+		await withStore("readwrite", (store) => {
+			for (const entry of entries) {
+				const section = entry.section ?? "";
+				if (entry.deleted) {
+					store.delete([section, entry.key]);
+				} else {
+					store.put({ section, key: entry.key, cacheValue: entry.cacheValue }, [section, entry.key]);
+				}
 			}
-		}
-	});
+		});
+	} catch (error) {
+		if (idbAvailable) throw error;
+		await fallbackApply(entries);
+	}
 }
 
 export async function removeCacheEntries(section?: string): Promise<void> {
-	if (section === undefined) {
-		await withStore("readwrite", (store) => store.clear());
-	} else {
-		await withStore("readwrite", (store) => store.delete(IDBKeyRange.bound([section], [section, []])));
+	try {
+		if (section === undefined) {
+			await withStore("readwrite", (store) => store.clear());
+		} else {
+			await withStore("readwrite", (store) => store.delete(IDBKeyRange.bound([section], [section, []])));
+		}
+	} catch (error) {
+		if (idbAvailable) throw error;
+		await fallbackClear(section);
 	}
 }
