@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Make sure the required API information is present for 'Race Car Selector'.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Make sure the required API information is present for 'Race Car Selector'.", "contributor": "DeKleineKobini" },
+				{ "message": "'OC Last Action' (for OC1) was no longer working.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{
 					"message": "No longer disable a feature live when changing the settings. That now requires a reload.",

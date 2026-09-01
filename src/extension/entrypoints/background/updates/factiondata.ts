@@ -6,9 +6,9 @@ import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { FactionV1CrimesResponse } from "@common/utils/functions/api-v1.types";
 import { hasTimePassed, TO_MILLIS } from "@common/utils/functions/utilities";
 import { calculateOC } from "@extension/entrypoints/background/updates-helper";
-import type { FactionBasicResponse, FactionRankedWarResponse } from "tornapi-typescript";
+import type { FactionBasicResponse, FactionMembersResponse, FactionRankedWarResponse } from "tornapi-typescript";
 
-export type FetchedFactiondataBasic = FactionBasicResponse & FactionRankedWarResponse;
+export type FetchedFactiondataBasic = FactionBasicResponse & FactionRankedWarResponse & FactionMembersResponse;
 export type FetchedFactiondataWithAccess = FetchedFactiondataBasic & FactionV1CrimesResponse;
 
 export async function updateFactiondata() {
@@ -34,7 +34,7 @@ export async function updateFactiondata() {
 			// TODO - Migrate to V2 (faction/crimes).
 			const data = await fetchData<FetchedFactiondataWithAccess>("tornv2", {
 				section: "faction",
-				selections: ["basic", "rankedwars"],
+				selections: ["basic", "rankedwars", "members"],
 				legacySelections: ["crimes"],
 				silent: true,
 			});

@@ -29,19 +29,21 @@ function showLastAction() {
 	const nowDate = Date.now();
 
 	for (const row of findAllElements(".organize-wrap .crimes-list .details-list > li:not(:first-child) > ul")) {
-		const id = new URL(row.querySelector<HTMLAnchorElement>(".member a").href).searchParams.get("XID");
+		const id = Number(new URL(row.querySelector<HTMLAnchorElement>(".member a").href).searchParams.get("XID"));
+		const member = factiondata.members.find((m) => m.id === id);
 
-		const lastAction = factiondata.basic.members[id].last_action;
-		const hours = dropDecimals((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS);
+		let relative: string, hours: number | string;
+		if (member) {
+			relative = member.last_action.relative;
+			hours = dropDecimals((nowDate - member.last_action.timestamp * 1000) / TO_MILLIS.HOURS);
+		} else {
+			relative = "N/A";
+			hours = "N/A";
+		}
 
 		row.insertAdjacentElement(
 			"afterend",
-			elementBuilder({
-				type: "div",
-				class: "tt-oc-last-action",
-				text: `Last action: ${lastAction.relative}`,
-				attributes: { hours: hours },
-			}),
+			elementBuilder({ type: "div", class: "tt-oc-last-action", text: `Last action: ${relative}`, attributes: { hours } }),
 		);
 	}
 }

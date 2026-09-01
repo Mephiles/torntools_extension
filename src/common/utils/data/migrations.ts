@@ -261,6 +261,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			await browser.storage.local.remove("cache");
 		},
 	},
+	{
+		id: "00a1517d-27a6-48f2-a4f9-1c439d17e544",
+		version: "9.2.0",
+		execute(_database, flags, _oldStorage) {
+			flags.updateFactiondata = true;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
