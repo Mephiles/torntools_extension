@@ -219,13 +219,6 @@ export const MIGRATIONS: MigrationScript[] = [
 		},
 	},
 	{
-		id: "4b9a96e4-ce68-46c1-b5ab-b7dfbc699db0",
-		version: "9.1.2",
-		execute(_database, flags, _oldStorage) {
-			flags.updateUserdata = true;
-		},
-	},
-	{
 		id: "787edc7c-9b68-4d4f-9d8f-7f58b33e8d60",
 		version: "9.1.2",
 		execute(database, _flags, oldStorage) {
