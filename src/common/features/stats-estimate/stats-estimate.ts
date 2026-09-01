@@ -128,8 +128,9 @@ export class StatsEstimate {
 					triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row, estimate });
 				}
 			} catch (error) {
-				if (error.show) {
-					section.textContent = error.message;
+				const estimateError = error as { message?: string; show?: boolean };
+				if (estimateError.show) {
+					section.textContent = estimateError.message ?? "";
 				} else {
 					section.remove();
 				}
@@ -182,10 +183,11 @@ export class StatsEstimate {
 					silent: true,
 				});
 			} catch (error) {
+				const apiError = error as { error?: string; code?: number };
 				let message: string;
-				if (error.error) message = error.error;
-				else if (error.code) message = `Unknown (code ${error.code})`;
-				else message = error;
+				if (apiError.error) message = apiError.error;
+				else if (apiError.code) message = `Unknown (code ${apiError.code})`;
+				else message = typeof error === "string" ? error : "Unknown error";
 
 				throw { message, show: true };
 			}

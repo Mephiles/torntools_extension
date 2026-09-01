@@ -46,7 +46,7 @@ export async function updateFactiondata() {
 				userCrime: calculateOC(data.crimes, userdata.profile.id),
 			};
 		} catch (error) {
-			if (error?.code === 7) {
+			if ((error as { code?: number } | null)?.code === 7) {
 				const data = await updateBasic();
 
 				return { ...data, retry: Date.now() };

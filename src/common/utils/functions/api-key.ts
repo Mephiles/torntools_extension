@@ -13,7 +13,7 @@ export async function checkAPIPermission(key: string) {
 			return { access: false };
 		}
 	} catch (error) {
-		throw error.error;
+		throw (error as { error: unknown }).error;
 	}
 }
 
@@ -24,6 +24,6 @@ export async function changeAPIKey(key: string): Promise<void> {
 
 		await OFFLOAD_SERVICE.initialize();
 	} catch (error) {
-		throw error.error;
+		throw (error as { error: unknown }).error;
 	}
 }

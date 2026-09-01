@@ -6,7 +6,6 @@
 		"strictPropertyInitialization": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"noUncheckedIndexedAccess": false,
-		"useUnknownInCatchVariables": false,
 		"noImplicitOverride": false,
 		"types": ["user-agent-data-types"]
 	},
