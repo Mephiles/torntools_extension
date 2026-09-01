@@ -1,23 +1,23 @@
 [
 	{
-		"version": { "major": 9, "minor": 2, "build": 1 },
+		"version": { "major": 9, "minor": 2, "build": 2 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 2, "build": 1 },
+		"date": "2026/09/01",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Make sure the required API information is present for 'Race Car Selector'.", "contributor": "DeKleineKobini" },
 				{ "message": "'OC Last Action' (for OC1) was no longer working.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
-				{
-					"message": "No longer disable a feature live when changing the settings. That now requires a reload.",
-					"contributor": "DeKleineKobini"
-				},
+				{ "message": "No longer disable a feature live when changing the settings. That now requires a reload.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow commas and $ in 'Stocks Money Input'.", "contributor": "DeKleineKobini" },
 				{ "message": "Define 'Defensive' as its own category in 'Abroad Items Filter'.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [{ "message": "Update the lifecycle of features.", "contributor": "DeKleineKobini" }]
 		}
 	},
