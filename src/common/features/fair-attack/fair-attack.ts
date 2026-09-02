@@ -1,6 +1,7 @@
 import { attackHistory, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -13,7 +14,7 @@ async function showFF() {
 	const ff = attackHistory.history[id]?.latestFairFightModifier;
 	if (!ff) return;
 
-	const entries = document.querySelector("div[class*='headerWrapper___'][class*='rose___'] div[class*='textEntries___']");
+	const entries = findElement("div[class*='headerWrapper___'][class*='rose___'] div[class*='textEntries___']");
 
 	entries.classList.add("tt-fair-attack");
 	entries.insertAdjacentElement(

@@ -1,8 +1,8 @@
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { applyPlural } from "@common/utils/functions/formatting";
 import { createMessageBox, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -16,16 +16,16 @@ function initialiseListeners() {
 }
 
 function startFeature() {
-	if (!document.querySelector(".faction-crimes-wrap")) return;
+	if (!findElement(".faction-crimes-wrap", true)) return;
 
 	showAvailable();
 }
 
 function showAvailable() {
-	if (document.querySelector("div.plans-list.p10")) {
+	if (findElement("div.plans-list.p10", true)) {
 		displayAvailable(0).then(() => {});
 	} else {
-		const list = document.querySelector("ul.plans-list");
+		const list = findElement("ul.plans-list", true);
 		if (!list) {
 			displayAvailable(-1).then(() => {});
 			return;
@@ -36,9 +36,9 @@ function showAvailable() {
 	}
 
 	async function displayAvailable(amount: number) {
-		if (document.querySelector("[class*='buttonsContainer___']")) return;
+		if (findElement("[class*='buttonsContainer___']", true)) return;
 
-		const crimes = document.querySelector("#faction-crimes");
+		const crimes = findElement("#faction-crimes");
 
 		let message: string;
 		if (amount === -1) {

@@ -2,8 +2,9 @@ import "./drug-details.css";
 import { extractArmorySubcategory, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isElement, isHTMLElement } from "@common/utils/functions/dom";
+import { elementBuilder, isElement, isHTMLElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -31,8 +32,7 @@ function initialiseDrugDetails() {
 		case "factions":
 			setupXHR({
 				react: () =>
-					extractArmorySubcategory(document.querySelector("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls")) ===
-					"donate",
+					extractArmorySubcategory(findElement("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls")) === "donate",
 			});
 			break;
 		case "bazaar":
@@ -42,7 +42,7 @@ function initialiseDrugDetails() {
 			addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, ({ item, element }) => {
 				if (!FEATURE_MANAGER.isEnabled(DrugDetailsFeature)) return;
 
-				display(item, element.querySelector("[class*='description___']"));
+				display(item, findElement("[class*='description___']", element));
 			});
 			break;
 	}
@@ -69,7 +69,7 @@ function addMutationObserver(selector: string) {
 
 			const newNodes = viewMutations[0].addedNodes;
 			let target: Element;
-			if (Array.from(newNodes).some((node) => isElement(node) && node.querySelector(":scope > [class*='preloader_']"))) {
+			if (Array.from(newNodes).some((node) => isElement(node) && findElement(":scope > [class*='preloader_']", node, true))) {
 				target = await new Promise((resolve) => {
 					new MutationObserver((mutations1, observer) => {
 						observer.disconnect();
@@ -81,11 +81,11 @@ function addMutationObserver(selector: string) {
 			}
 
 			let id: number;
-			const armoryInfo = target.querySelector("[aria-labelledby*='armory-info-']");
+			const armoryInfo = findElement("[aria-labelledby*='armory-info-']", target, true);
 			if (armoryInfo) {
 				id = parseInt(armoryInfo.getAttribute("aria-labelledby").match(/armory-info-(\d*)/i)[1]);
 			} else {
-				const image = target.querySelector("img");
+				const image = findElement("img", target, true);
 
 				if (image) {
 					id = convertToNumber(image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1]);
@@ -95,7 +95,7 @@ function addMutationObserver(selector: string) {
 			}
 
 			showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
-		}).observe(document.querySelector(selector), { subtree: true, childList: true });
+		}).observe(findElement(selector), { subtree: true, childList: true });
 	});
 }
 
@@ -114,38 +114,40 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 	if (
 		options.react &&
 		(typeof options.react !== "function" || options.react()) &&
-		options.target.querySelector(".info-active .show-item-info[data-reactid]")
+		findElement(".info-active .show-item-info[data-reactid]", options.target, true)
 	) {
-		const reactid = options.target.querySelector<HTMLElement>(".info-active .show-item-info").dataset.reactid;
+		const reactid = findElement(".info-active .show-item-info", options.target).dataset.reactid;
 
 		await requireElement(`[data-reactid="${reactid}"] .ajax-placeholder, [data-reactid="${reactid}"] .ajax-preloader`, { invert: true });
 
-		element = options.target.querySelector(`[data-reactid="${reactid}"]`);
+		element = findElement(`[data-reactid="${reactid}"]`, options.target);
 	} else {
-		element = findElement();
+		element = findWrapper();
 		await requireElement(".ajax-placeholder, .ajax-preloader", { invert: true, parent: element });
 	}
 
 	const details = DRUG_INFORMATION[id];
 	if (!details) return;
 
-	[element.querySelector(".info-msg, [class*='description___']"), document.querySelector(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`)]
+	[findElement(".info-msg, [class*='description___']", element), findElement(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`, true)]
 		.filter((info) => !!info)
 		.forEach((info) => {
 			show(info, details);
 			if (options.changeListener) watchChanges(element, details);
 		});
 
-	function findElement() {
+	function findWrapper() {
 		return (
-			options.target.querySelector(`li[itemid="${id}"] .view-item-info`) ||
-			options.target.querySelector(
+			findElement(`li[itemid="${id}"] .view-item-info`, options.target, true) ||
+			findElement(
 				[
 					["item", "bazaar", "displaycase"].includes(getPage()) ? ".show-item-info" : "",
 					getPage() === "factions" ? ".view-item-info[style*='display: block;']" : "",
 				]
 					.filter(Boolean)
 					.join(", "),
+				options.target,
+				true,
 			)
 		);
 	}
@@ -161,13 +163,13 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 			);
 			if (!filteredMutations.length) return;
 
-			const newElement = findElement();
+			const newElement = findWrapper();
 			if (!newElement) {
 				observer.disconnect();
 				return;
 			}
 
-			const info = newElement.querySelector(".info-msg, [class*='description___']");
+			const info = findElement(".info-msg, [class*='description___']", newElement, true);
 			if (info) show(info, details);
 			observer.disconnect();
 			watchChanges(newElement, details);

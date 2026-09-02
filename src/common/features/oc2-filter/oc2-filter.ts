@@ -5,6 +5,7 @@ import { hasOC1Data } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { checkboxesSection, createFilter } from "@common/utils/functions/filters";
 import type { FilterController } from "@common/utils/functions/filters";
+import { findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
@@ -40,7 +41,7 @@ async function addFilterContainer() {
 			test: (row, difficulty) => {
 				if (!difficulty.length) return true;
 
-				const level = convertToNumber(row.querySelector("[class*='levelValue___']").textContent);
+				const level = convertToNumber(findElement("[class*='levelValue___']", row).textContent);
 				return difficulty.includes(String(level));
 			},
 		}),
@@ -72,7 +73,7 @@ async function addFilterContainer() {
 		container: {
 			title: "OC Filter",
 			class: "mt10 mb10",
-			previousElement: list.parentElement.querySelector(".page-head-delimiter"),
+			previousElement: findElement(".page-head-delimiter", list.parentElement),
 		},
 		statisticsLabel: "crimes",
 		enabled: filters.oc2.enabled,
@@ -90,19 +91,19 @@ async function addFilterContainer() {
 }
 
 function isCompletedCrimesTab() {
-	const activeTab = document.querySelector("#faction-crimes-root [class*='buttonsContainer___'] > [class*='active___']");
+	const activeTab = findElement("#faction-crimes-root [class*='buttonsContainer___'] > [class*='active___']", true);
 	if (!activeTab) return false;
 	return activeTab.textContent.trim().toLowerCase().includes("completed");
 }
 
 function getCrimeStatus(row: HTMLElement) {
-	if (row.querySelector('div[class*="failed"]')) return "failed";
-	const successDiv = row.querySelector('div[class*="success"]');
+	if (findElement('div[class*="failed"]', row, true)) return "failed";
+	const successDiv = findElement('div[class*="success"]', row, true);
 	if (successDiv) {
-		if (row.querySelector('span[aria-label="Paid"]')) return "paid";
-		const payoutBtn = row.querySelector('button[class*="payoutBtn"]');
+		if (findElement('span[aria-label="Paid"]', row, true)) return "paid";
+		const payoutBtn = findElement('button[class*="payoutBtn"]', row, true);
 		if (payoutBtn?.textContent.includes("PayOut")) return "unpaid";
-		if (row.querySelector('div[class*="nextCrimeContainer"]')) return "chain";
+		if (findElement('div[class*="nextCrimeContainer"]', row, true)) return "chain";
 		return "unpaid";
 	}
 	return null;

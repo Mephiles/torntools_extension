@@ -2,6 +2,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -31,20 +32,18 @@ function registerListeners() {
 async function showEstimates() {
 	await requireElement("[class*='tableBody___'] > [class*='tableRow___']");
 
-	const hofType = document.querySelector("[class*='buttonWrapper___'][class*='selected___'] [class*='title___']").textContent.toLowerCase();
+	const hofType = findElement("[class*='buttonWrapper___'][class*='selected___'] [class*='title___']").textContent.toLowerCase();
 	if (["battle stats", "faction respect", "faction chains", "faction rank"].includes(hofType)) return;
 
-	const levelIndex = Array.from(document.querySelector("[class*='tableHead___'] [class*='tableRow___']").children).findIndex(
-		(title) => title.textContent === "level",
-	);
+	const levelIndex = Array.from(findElement("[class*='tableHead___'] [class*='tableRow___']").children).findIndex((title) => title.textContent === "level");
 	if (levelIndex === -1) return;
 
 	statsEstimate.clearQueue();
 	statsEstimate.showEstimates(
 		"[class*='tableBody___'] > [class*='tableRow___']",
 		(row) => ({
-			id: parseInt(row.querySelector<HTMLAnchorElement>("a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-			level: parseInt(row.querySelector(`td:nth-child(${levelIndex + 1})`).textContent),
+			id: parseInt(findElement<HTMLAnchorElement>("a[href*='profiles.php']", row).href.match(/(?<=XID=).*/)[0]),
+			level: parseInt(findElement(`td:nth-child(${levelIndex + 1})`, row).textContent),
 		}),
 		{
 			generator: () => {

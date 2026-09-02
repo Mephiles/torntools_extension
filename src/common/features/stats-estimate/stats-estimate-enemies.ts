@@ -2,6 +2,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { isElement } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -26,7 +27,7 @@ async function registerListeners() {
 			FEATURE_MANAGER.isEnabled(StatsEstimateEnemiesFeature)
 		) {
 			showEstimates();
-			listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
+			listObserver.observe(findElement(".tableWrapper > ul"), { childList: true });
 		}
 	});
 
@@ -41,8 +42,8 @@ async function showEstimates() {
 	statsEstimate.showEstimates(
 		".tableWrapper ul > li",
 		(row) => ({
-			id: parseInt(row.querySelector<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-			level: convertToNumber(row.querySelector("[class*='level__']").textContent),
+			id: parseInt(findElement<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']", row).href.match(/(?<=XID=).*/)[0]),
+			level: convertToNumber(findElement("[class*='level__']", row).textContent),
 		}),
 		{ hasFilter: true },
 	);

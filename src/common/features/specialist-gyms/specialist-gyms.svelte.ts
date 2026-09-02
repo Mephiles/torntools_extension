@@ -1,4 +1,5 @@
 import { filters, settings } from "@common/utils/data/database";
+import { findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { toRecord } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -14,10 +15,10 @@ import type { StatsWatcher } from "./stats-watcher";
 import { createStatsWatcher } from "./stats-watcher";
 
 function createGymContentManager(gymsDataFn: () => SpecialGymsCalcResult) {
-	const propertiesContainer = document.querySelector('[class*="gymContent___"] > [class*="properties___"]');
+	const propertiesContainer = findElement('[class*="gymContent___"] > [class*="properties___"]');
 	const areasElementsMap = toRecord(battleStats, (statName) => [
 		statName,
-		propertiesContainer.querySelector(`[class*="${statName.toLowerCase()}___"] > [class*="propertyContent___"]`),
+		findElement(`[class*="${statName.toLowerCase()}___"] > [class*="propertyContent___"]`, propertiesContainer),
 	]);
 
 	let statInfoComponentsMap: Partial<Record<BattleStat, unknown>> = {};
@@ -69,7 +70,7 @@ async function startFeature() {
 			stats = statsWatcher.readStats();
 
 			if (!specialGymsInfo) {
-				const root = document.querySelector("#gymroot");
+				const root = findElement("#gymroot");
 				specialGymsInfo = mount(SpecialistGymsBox, {
 					target: root.parentElement,
 					anchor: root.nextSibling,

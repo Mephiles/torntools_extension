@@ -1,4 +1,5 @@
 import { settings } from "@common/utils/data/database";
+import { findAllElements } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { ExecutionTiming, Feature } from "@features/feature";
@@ -40,7 +41,7 @@ function calculateStatsAverage(graphData: any) {
 			const formattedAvg = roundedAvg.replaceAll(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 			// Insert data
-			const element = document.querySelectorAll("div[class^='titleItem']")[userIndex];
+			const element = findAllElements("div[class^='titleItem']")[userIndex];
 			if (element) element.textContent = `${userName} (${formattedAvg} per day)`;
 			userIndex++;
 		}

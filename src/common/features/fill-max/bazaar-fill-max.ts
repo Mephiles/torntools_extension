@@ -1,5 +1,6 @@
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, mobile, tabletVertical } from "@common/utils/functions/dom";
+import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -30,7 +31,7 @@ async function maxBuyListener(clickEvent: any = null) {
 		});
 	} else {
 		if (!clickEvent?.target.closest("[class*='controlPanelButton___']")) return;
-		requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.querySelector("[class*='buyMenu__']")));
+		requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(findElement("[class*='buyMenu__']")));
 	}
 
 	function addButtonAndListener(parent: Element) {
@@ -42,24 +43,24 @@ async function maxBuyListener(clickEvent: any = null) {
 				click(event) {
 					event.stopPropagation();
 					let max = mobile
-						? parseInt(parent.querySelector("[class*='amount__']").firstElementChild.textContent)
-						: parseInt(parent.querySelector("[class*='amount__']").childNodes[1].textContent);
+						? parseInt(findElement("[class*='amount__']", parent).firstElementChild.textContent)
+						: parseInt(findElement("[class*='amount__']", parent).childNodes[1].textContent);
 					if (!settings.pages.bazaar.maxBuyIgnoreCash) {
 						const price = mobile
-							? parseInt(parent.querySelector("[class*='price_']").childNodes[0].textContent.replaceAll(/[,$]/g, ""))
-							: parseInt(parent.querySelector("[class*='price_']").textContent.replaceAll(/[,$]/g, ""));
-						const money = parseInt(document.querySelector<HTMLElement>("#user-money").dataset.money);
+							? parseInt(findElement("[class*='price_']", parent).childNodes[0].textContent.replaceAll(/[,$]/g, ""))
+							: parseInt(findElement("[class*='price_']", parent).textContent.replaceAll(/[,$]/g, ""));
+						const money = parseInt(findElement("#user-money").dataset.money);
 						if (Math.floor(money / price) < max) max = Math.floor(money / price);
 					}
 					if (max > 10000) max = 10000;
 
-					parent.querySelector<HTMLInputElement>("[class*='buyAmountInput_']").value = max.toString();
-					parent.querySelector("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
+					findElement<HTMLInputElement>("[class*='buyAmountInput_']", parent).value = max.toString();
+					findElement("[class*='buyAmountInput_']", parent).dispatchEvent(new Event("input", { bubbles: true }));
 				},
 			},
 		});
 
-		const buyButton = parent.querySelector("[class*='buy_']");
+		const buyButton = findElement("[class*='buy_']", parent);
 		buyButton.classList.add(styles.ttBuyBazaar);
 		buyButton.parentElement.appendChild(fillMax);
 	}

@@ -1,6 +1,6 @@
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { isAbroad, updateReactInput } from "@common/utils/functions/torn";
@@ -12,7 +12,7 @@ async function autoFillInputs() {
 	const money = convertToNumber((await requireElement(".info-msg-cont .msg strong:nth-of-type(2)")).textContent);
 	if (money === 0) return;
 
-	const capacityText = document.querySelector(".info-msg-cont .msg strong:nth-of-type(3)").textContent.split(" / ");
+	const capacityText = findElement(".info-msg-cont .msg strong:nth-of-type(3)").textContent.split(" / ");
 	const boughtItems = convertToNumber(capacityText[0]);
 	let travelCapacity = convertToNumber(capacityText[1]);
 	if (
@@ -27,10 +27,10 @@ async function autoFillInputs() {
 	if (leftCapacity === 0) return;
 
 	findAllElements("[class*='stockTableWrapper___'] [class*='row___']").forEach((item) => {
-		const stock = convertToNumber(item.querySelector("[data-tt-content-type='stock']").textContent);
+		const stock = convertToNumber(findElement("[data-tt-content-type='stock']", item).textContent);
 		if (stock === 0) return;
 
-		const price = convertToNumber(item.querySelector("[data-tt-content-type='type'] + div [class*='displayPrice__']").textContent);
+		const price = convertToNumber(findElement("[data-tt-content-type='type'] + div [class*='displayPrice__']", item).textContent);
 
 		const affordableStock = dropDecimals(money / price);
 		if (affordableStock === 0 || affordableStock === 1) return;

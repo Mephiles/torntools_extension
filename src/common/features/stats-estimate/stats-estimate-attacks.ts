@@ -1,6 +1,7 @@
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, getSearchParameters, mobile, tablet } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -65,14 +66,12 @@ async function showEstimate() {
 		let entries: HTMLElement;
 		if (mobile || tablet) {
 			const sideColor = side === "attacker" ? "green___" : "rose___";
-			entries = document.querySelector(
-				`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`,
-			);
+			entries = findElement(`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`, true);
 		} else {
 			entries =
 				side === "attacker"
-					? document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']")
-					: document.querySelector("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']");
+					? findElement("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']", true)
+					: findElement("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']", true);
 		}
 
 		entries.classList.add("tt-stats-estimate-attacks-wrapper");

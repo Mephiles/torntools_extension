@@ -1,4 +1,5 @@
 import { stockdata, userdata } from "@common/utils/data/database";
+import { findElement } from "@common/utils/functions/find-elements";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
 
@@ -112,7 +113,7 @@ export const ACHIEVEMENTS: Achievement[] = [
 	{
 		name: "Donations",
 		stats: () => {
-			const description = document.querySelector("#church-donate .desc > p:first-child > span");
+			const description = findElement("#church-donate .desc > p:first-child > span", true);
 			if (!description) return -1;
 			return parseInt(description.textContent.slice(1).replaceAll(",", ""));
 		},

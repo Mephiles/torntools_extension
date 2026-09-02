@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
+import { findAllElements } from "@common/utils/functions/find-elements";
 
 export function loadAPIPretty() {
 	if (!settings.pages.api.autoPretty) return;

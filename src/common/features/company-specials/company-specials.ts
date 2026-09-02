@@ -4,7 +4,8 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -107,7 +108,7 @@ async function calculateSpies(json: any) {
 
 	await requireElement(".specials-confirm-cont ul.job-info > li");
 
-	const specialContext = document.querySelector(".specials-confirm-cont");
+	const specialContext = findElement(".specials-confirm-cont", true);
 
 	if (missing.length === 1) {
 		const missingStat = missing[0];
@@ -138,7 +139,7 @@ async function calculateSpies(json: any) {
 	if (settings.external.tornstats) {
 		specialContext.classList.add("tt-modified");
 
-		const backWrap = specialContext.querySelector(".back");
+		const backWrap = findElement(".back", specialContext, true);
 
 		if (backWrap) {
 			const button = elementBuilder({
@@ -161,7 +162,7 @@ async function calculateSpies(json: any) {
 							relay: true,
 						})
 							.then((response) => {
-								const responseElement = specialContext.querySelector(".external-response");
+								const responseElement = findElement(".external-response", specialContext, true);
 
 								if (response.status) {
 									if (responseElement) {

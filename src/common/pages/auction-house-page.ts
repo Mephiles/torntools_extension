@@ -1,5 +1,5 @@
-import { findAllElements } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements } from "@common/utils/functions/find-elements";
 import { requireDOMContentLoaded } from "@common/utils/functions/requires";
 
 export async function setupAuctionHousePage() {

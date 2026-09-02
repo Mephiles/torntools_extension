@@ -1,5 +1,6 @@
 import { getHashParameters } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 
 export type TornInternalSellPropertySuccess = { link: string; success: boolean; text: string };
@@ -29,7 +30,7 @@ export function setupPropertiesPage() {
 
 			const pagination = getPaginationPage(newRoute.page);
 			if (pagination !== null) {
-				if (document.querySelector(".page-number.active")) {
+				if (findElement(".page-number.active", true)) {
 					await requireElement(`.page-number.active[page='${pagination}']`);
 				}
 				await requireElement(".properties-list > li");

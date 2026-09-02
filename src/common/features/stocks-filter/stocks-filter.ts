@@ -4,6 +4,7 @@ import { filters, settings, stockdata, userdata } from "@common/utils/data/datab
 import { hasAPIData } from "@common/utils/functions/api";
 import { createFilter, duoCheckboxesSection, textSection } from "@common/utils/functions/filters";
 import type { DuoCheckboxState, FilterController } from "@common/utils/functions/filters";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -42,12 +43,12 @@ async function addFilterContainer() {
 
 				const id = parseInt(row.getAttribute("id"));
 				const stock = stockdata.stocks.find((s) => s.id === id);
-				const acronym = (stock?.acronym ?? row.querySelector<HTMLElement>(".tt-acronym")?.dataset.acronym)?.toLowerCase();
+				const acronym = (stock?.acronym ?? findElement(".tt-acronym", row, true)?.dataset.acronym)?.toLowerCase();
 				const names = name
 					.split(",")
 					.map((n) => n.trim())
 					.filter((n) => !!n);
-				return names.some((n) => row.querySelector(`li[class*="stockName___"][aria-label*="${n}" i]`) || acronym?.includes(n.toLowerCase()));
+				return names.some((n) => findElement(`li[class*="stockName___"][aria-label*="${n}" i]`, row, true) || acronym?.includes(n.toLowerCase()));
 			},
 		}),
 
@@ -58,19 +59,19 @@ async function addFilterContainer() {
 			defaults: filters.stocks.investment,
 			test: (row, inv) => {
 				if (inv.owned === "yes" || inv.owned === "no") {
-					const isOwned = row.querySelector("p[class*='count___']").textContent !== "None";
+					const isOwned = findElement("p[class*='count___']", row).textContent !== "None";
 					if ((isOwned && inv.owned === "no") || (!isOwned && inv.owned === "yes")) return false;
 				}
 				if (inv.benefit === "yes" || inv.benefit === "no") {
-					const hasBenefit = !!row.querySelector(".increment.filled");
+					const hasBenefit = !!findElement(".increment.filled", row, true);
 					if ((hasBenefit && inv.benefit === "no") || (!hasBenefit && inv.benefit === "yes")) return false;
 				}
 				if (inv.passive === "yes" || inv.passive === "no") {
-					const isPassive = !!row.querySelector("[class*='dividendInfo___'] [class*='passive___']");
+					const isPassive = !!findElement("[class*='dividendInfo___'] [class*='passive___']", row, true);
 					if ((isPassive && inv.passive === "no") || (!isPassive && inv.passive === "yes")) return false;
 				}
 				if (inv.collectionReady === "yes" || inv.collectionReady === "no") {
-					const isReady = !!row.querySelector("[class*='active___'][class*='Ready___']");
+					const isReady = !!findElement("[class*='active___'][class*='Ready___']", row, true);
 					if ((isReady && inv.collectionReady === "no") || (!isReady && inv.collectionReady === "yes")) return false;
 				}
 				return true;
@@ -84,7 +85,7 @@ async function addFilterContainer() {
 			defaults: filters.stocks.price,
 			test: (row, pg) => {
 				if (pg.price === "yes" || pg.price === "no") {
-					const isUp = !!row.querySelector("[class*='changePrice___'] [class*='up___']");
+					const isUp = !!findElement("[class*='changePrice___'] [class*='up___']", row, true);
 					if ((isUp && pg.price === "no") || (!isUp && pg.price === "yes")) return false;
 				}
 

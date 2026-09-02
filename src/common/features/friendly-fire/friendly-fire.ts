@@ -2,17 +2,18 @@ import "./friendly-fire.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { isIntNumber } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 async function addWarning() {
-	if (document.querySelector(".tt-ally-warning")) document.querySelector(".tt-ally-warning").remove();
+	if (findElement(".tt-ally-warning", true)) findElement(".tt-ally-warning").remove();
 
 	await requireElement(".user-info-value [href*='/forums.php']"); // There is always a link to the forums.
 
-	const factionNode = document.querySelector<HTMLAnchorElement>(".user-info-value [href*='/factions.php']");
+	const factionNode = findElement<HTMLAnchorElement>(".user-info-value [href*='/factions.php']", true);
 	if (!factionNode) return;
 
 	const factionID = parseInt(new URLSearchParams(factionNode.href).get("ID"));
@@ -29,7 +30,7 @@ async function addWarning() {
 		warning = "This user is an ally!";
 
 	if (warning) {
-		document.querySelector(".profile-left-wrapper .title-black").appendChild(
+		findElement(".profile-left-wrapper .title-black").appendChild(
 			elementBuilder({
 				type: "span",
 				class: "tt-ally-warning",

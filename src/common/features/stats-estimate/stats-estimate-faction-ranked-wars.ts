@@ -4,6 +4,7 @@ import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -42,12 +43,12 @@ function observeWars() {
 
 			showEstimates();
 		});
-		observer.observe(document.querySelector("ul.f-war-list"), { childList: true });
+		observer.observe(findElement("ul.f-war-list"), { childList: true });
 	});
 }
 
 function showEstimates() {
-	const list = document.querySelector(".f-war-list:has([class*='warListItem___'][class*='active___'] [class*='rankBox'])");
+	const list = findElement(".f-war-list:has([class*='warListItem___'][class*='active___'] [class*='rankBox'])", true);
 	if (!list) return;
 
 	requireElement(".faction-war .members-list").then(() => {
@@ -56,13 +57,13 @@ function showEstimates() {
 			".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 			(row) => {
 				return {
-					id: parseInt(row.querySelector<HTMLAnchorElement>("[class*='honorWrap__'] > a").href.split("XID=")[1]),
-					level: parseInt(row.querySelector(".level").textContent.trim()),
+					id: parseInt(findElement<HTMLAnchorElement>("[class*='honorWrap__'] > a", row).href.split("XID=")[1]),
+					level: parseInt(findElement(".level", row).textContent.trim()),
 				};
 			},
 			{
 				hasFilter: true,
-				placement: (row) => row.querySelector(".clear"),
+				placement: (row) => findElement(".clear", row, true),
 			},
 		);
 	});

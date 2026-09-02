@@ -1,4 +1,5 @@
 import "./dom.css";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { requireCondition, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
 import { getUUID } from "@common/utils/functions/utilities";
 import { PHFillCaretDown, PHFillCaretUp } from "@common/utils/icons/phosphor-icons";
@@ -87,23 +88,6 @@ export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K
 	} else {
 		throw new Error("Invalid options provided to newElement.");
 	}
-}
-
-export function findElementWithText<K extends keyof HTMLElementTagNameMap>(tag: K, text: string): HTMLElementTagNameMap[K] | null;
-export function findElementWithText(tag: string, text: string): HTMLElement | null;
-
-export function findElementWithText<T = Node>(tag: string, text: string): T | null {
-	const node = document.evaluate(`//${tag}[contains(text(), '${text}')]`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-	if (!node) return null;
-
-	return node as T;
-}
-
-export function findAllElements<K extends keyof HTMLElementTagNameMap>(tagName: K, parent?: ParentNode): HTMLElementTagNameMap[K][];
-export function findAllElements<T extends Element = HTMLElement>(selector: string, parent?: ParentNode): T[];
-
-export function findAllElements(selector: string, parent: ParentNode = document): Element[] {
-	return Array.from(parent.querySelectorAll(selector));
 }
 
 interface DeviceInformation {
@@ -226,8 +210,8 @@ export function rotateElement(element: HTMLElement | SVGElement, degrees: number
 type TableSortOrder = "asc" | "desc" | "none";
 
 export function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrder) {
-	const header = table.querySelector(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`)!;
-	let icon = header.querySelector<SVGElement>("svg");
+	const header = findElement(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`, table);
+	let icon = findElement<SVGElement>("svg", header, true);
 	if (order) {
 		if (icon) {
 			switch (order) {
@@ -277,11 +261,11 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 	for (const h of findAllElements("th, .row.header > *", table)) {
 		if (h === header) continue;
 
-		h.querySelector("i")?.remove();
+		findElement("i", h, true)?.remove();
 	}
 
 	let rows: HTMLElement[];
-	if (!table.querySelector("tr:not(.heading), .row:not(.header)")) rows = [];
+	if (!findElement("tr:not(.heading), .row:not(.header)", table, true)) rows = [];
 	else {
 		rows = findAllElements("tr:not(.header), .row:not(.header)", table);
 		rows = sortRows(rows);
@@ -307,8 +291,8 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 		return rows;
 
 		function sortHelper(elementA: HTMLElement, elementB: HTMLElement) {
-			elementA = elementA.querySelector(`:scope > *:nth-child(${columnPlace})`)!;
-			elementB = elementB.querySelector(`:scope > *:nth-child(${columnPlace})`)!;
+			elementA = findElement(`:scope > *:nth-child(${columnPlace})`, elementA);
+			elementB = findElement(`:scope > *:nth-child(${columnPlace})`, elementB);
 
 			let valueA: string, valueB: string;
 			if (elementA.hasAttribute("sort-type")) {
@@ -375,7 +359,7 @@ export function resortTable(table: HTMLElement) {
 }
 
 export function showLoadingPlaceholder(element: HTMLElement, show: boolean) {
-	const placeholder = element.querySelector(".tt-loading-placeholder");
+	const placeholder = findElement(".tt-loading-placeholder", element, true);
 
 	if (show) {
 		if (placeholder) {
@@ -403,7 +387,7 @@ export function executeScript(filename: string, remove = true, unique = false) {
 	});
 
 	requireCondition(() => !!document.head).then(() => {
-		if (unique && document.head.querySelector(`:scope > script[src='${filename}']`)) return;
+		if (unique && findElement(`:scope > script[src='${filename}']`, document.head, true)) return;
 
 		document.head.appendChild(script);
 
@@ -423,7 +407,7 @@ export function updateQuery(key: string, value: string) {
 }
 
 export async function addInformationSection() {
-	if (document.querySelector(".tt-sidebar-information")) return;
+	if (findElement(".tt-sidebar-information", true)) return;
 
 	const parent = await requireElement(
 		"#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_'], #sidebarroot div[class*='userInformation___']",
@@ -439,8 +423,8 @@ export async function addInformationSection() {
 }
 
 export function showInformationSection() {
-	document.querySelector(".tt-sidebar-information-divider")?.classList.remove("tt-hidden");
-	document.querySelector(".tt-sidebar-information")?.classList.remove("tt-hidden");
+	findElement(".tt-sidebar-information-divider", true)?.classList.remove("tt-hidden");
+	findElement(".tt-sidebar-information", true)?.classList.remove("tt-hidden");
 }
 
 export function isElement(node: Node | EventTarget | null): node is Element {

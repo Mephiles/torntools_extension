@@ -2,6 +2,7 @@ import "./filter-presets.css";
 import { ttStorage } from "@common/utils/context";
 import { filters } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { PHFillCaretDown, PHFillPlus, PHPencilSimple, PHTrash } from "@common/utils/icons/phosphor-icons";
 
 interface FilterPresetsOptions {
@@ -32,7 +33,7 @@ export function createFilterPresets(options: FilterPresetsOptions) {
 	const panel = elementBuilder({ type: "div", class: "tt-filter-presets" });
 	const quickButtons = elementBuilder({ type: "div", class: "tt-filter-preset-quick" });
 	const title = options.headerOptions.parentElement;
-	const titleText = title?.querySelector(":scope > .text");
+	const titleText = title ? findElement(":scope > .text", title, true) : undefined;
 	if (titleText) {
 		title.parentElement!.classList.add("tt-has-presets");
 		title.insertBefore(quickButtons, titleText.nextSibling);

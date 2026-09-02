@@ -1,8 +1,9 @@
 import "./stacking-mode.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage } from "@common/utils/functions/torn";
@@ -30,7 +31,7 @@ function registerListeners() {
 		attackButton.classList.add("tt-mouse-block");
 		attackButton.appendChild(stackBlockSvg());
 
-		if (miniProfile.querySelector(".profile-container").classList.contains("hospital")) {
+		if (findElement(".profile-container", miniProfile).classList.contains("hospital")) {
 			const reviveButton = await requireElement(".profile-button-revive", { parent: miniProfile });
 			reviveButton.classList.add("tt-mouse-block");
 			reviveButton.appendChild(stackBlockSvg());

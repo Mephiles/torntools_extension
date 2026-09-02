@@ -1,8 +1,9 @@
 import "./book-effect.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { BOOK_DESCRIPTIONS, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -16,9 +17,9 @@ function initialiseAddEffects() {
 
 function addEffects() {
 	findAllElements("[data-category='Book']").forEach((book) => {
-		if (book.querySelector(".tt-book-effect")) return;
+		if (findElement(".tt-book-effect", book, true)) return;
 
-		book.querySelector(".name-wrap .qty.t-hide").insertAdjacentElement(
+		findElement(".name-wrap .qty.t-hide", book).insertAdjacentElement(
 			"afterend",
 			elementBuilder({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` }),
 		);

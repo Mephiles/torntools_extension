@@ -1,6 +1,7 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
 import { elementBuilder, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { PHEye, PHEyeSlash } from "@common/utils/icons/phosphor-icons";
@@ -46,7 +47,7 @@ async function handleFeeds() {
 	await requireElement("#updates");
 
 	FEEDS.forEach(({ id, selector }) => {
-		const feedElement = document.querySelector(selector);
+		const feedElement = findElement(selector, true);
 		if (!feedElement) return;
 
 		const isHiddenInitially = localdata.feedHidden[id] ?? false;
@@ -55,8 +56,8 @@ async function handleFeeds() {
 			handleHiddenElements(feedElement);
 		}
 
-		const parent = feedElement.querySelector(".title-toggle");
-		if (!parent || parent.querySelector(`.${styles.onlyNewFeedButton}`)) return;
+		const parent = findElement(".title-toggle", feedElement, true);
+		if (!parent || findElement(`.${styles.onlyNewFeedButton}`, parent, true)) return;
 
 		const hideButton = elementBuilder({
 			type: "button",
@@ -75,7 +76,7 @@ async function handleFeeds() {
 }
 
 async function toggleFeed(id: string, hideButton: HTMLElement, feedElement: Element) {
-	const iconElement = hideButton.querySelector("svg");
+	const iconElement = findElement("svg", hideButton);
 	const isHidden = feedElement.classList.toggle(styles.onlyShowNewPosts);
 
 	if (isHidden) {
@@ -89,9 +90,9 @@ async function toggleFeed(id: string, hideButton: HTMLElement, feedElement: Elem
 }
 
 function handleHiddenElements(feedElement: Element) {
-	if (feedElement.querySelector(`.${styles.nothingToShow}`)) return;
+	if (findElement(`.${styles.nothingToShow}`, feedElement, true)) return;
 
-	feedElement.querySelector(".panel-scrollbar").appendChild(
+	findElement(".panel-scrollbar", feedElement).appendChild(
 		elementBuilder({
 			type: "div",
 			class: styles.nothingToShow,

@@ -1,7 +1,8 @@
 import "./effective-battle-stats.css";
 import { settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
-import { checkDevice, elementBuilder, findElementWithText } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
+import { findElement, findElementWithText } from "@common/utils/functions/find-elements";
 import { convertToNumber, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
@@ -10,7 +11,7 @@ import { Feature } from "@features/feature";
 async function showEffectiveBattleStats() {
 	await requireContent();
 
-	const statsContainer = findElementWithText("h5", "Battle Stats").parentElement.nextElementSibling.querySelector("ul.info-cont-wrap");
+	const statsContainer = findElement("ul.info-cont-wrap", findElementWithText("h5", "Battle Stats").parentElement.nextElementSibling);
 	const { content } = createContainer("Effective Battle Stats", {
 		collapsible: false,
 		applyRounding: false,
@@ -21,9 +22,9 @@ async function showEffectiveBattleStats() {
 	let effectiveTotal = 0;
 	const stats = ["Strength", "Defense", "Speed", "Dexterity"];
 	for (let i = 0; i < stats.length; i++) {
-		const base = convertToNumber(statsContainer.querySelector(`li:nth-child(${i + 1}) .desc`).textContent);
+		const base = convertToNumber(findElement(`li:nth-child(${i + 1}) .desc`, statsContainer).textContent);
 
-		const modifierText = statsContainer.querySelector(`li:nth-child(${i + 1}) .mod`).textContent.trim();
+		const modifierText = findElement(`li:nth-child(${i + 1}) .mod`, statsContainer).textContent.trim();
 		let modifier: number;
 		if (modifierText.charAt(0) === "+") modifier = parseInt(modifierText.slice(1, -1)) / 100 + 1;
 		else modifier = 1 - parseInt(modifierText.slice(1, -1)) / 100;

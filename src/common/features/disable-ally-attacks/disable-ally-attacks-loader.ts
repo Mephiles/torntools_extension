@@ -4,6 +4,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, mobile, tablet } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile } from "@common/utils/functions/torn";
@@ -27,7 +28,7 @@ async function startListener() {
 
 async function disableAttackButton(factionID: number | null) {
 	if (!factionID) return;
-	if (document.querySelector(".tt-disable-ally-attack")) return;
+	if (findElement(".tt-disable-ally-attack", true)) return;
 
 	const selector =
 		mobile || tablet

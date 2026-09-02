@@ -1,6 +1,7 @@
 import { ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireContent } from "@common/utils/functions/requires";
 import { createTTTopLinks, isAbroad, isFlying } from "@common/utils/functions/torn";
 import { PHBoldEye, PHBoldEyeSlash } from "@common/utils/icons/phosphor-icons";
@@ -9,7 +10,7 @@ import styles from "./hide-travel-inventory.module.css";
 
 async function showButton() {
 	await requireContent();
-	if (document.querySelector(`.${styles.hideInventoryButton}`)) return;
+	if (findElement(`.${styles.hideInventoryButton}`, true)) return;
 
 	const ttTopLinks = await createTTTopLinks();
 
@@ -25,7 +26,7 @@ async function showButton() {
 	);
 
 	if (localdata.hiddenTravelInventory) {
-		document.getElementById("travel-root")?.classList.add(styles.hiddenInventory);
+		findElement("#travel-root", true)?.classList.add(styles.hiddenInventory);
 	}
 }
 
@@ -39,8 +40,8 @@ async function toggleInventory() {
 		icon = PHBoldEyeSlash();
 	}
 
-	document.querySelector(`.${styles.hideInventoryButton} svg`)?.replaceWith(icon);
-	document.getElementById("travel-root")?.classList.toggle(styles.hiddenInventory, newState);
+	findElement(`.${styles.hideInventoryButton} svg`, true)?.replaceWith(icon);
+	findElement("#travel-root", true)?.classList.toggle(styles.hiddenInventory, newState);
 
 	await ttStorage.change({ localdata: { hiddenTravelInventory: newState } });
 }

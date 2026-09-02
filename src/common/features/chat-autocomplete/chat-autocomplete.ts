@@ -1,7 +1,8 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { checkDevice, findAllElements } from "@common/utils/functions/dom";
+import { checkDevice } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { REACT_UPDATE_VERSIONS, updateReactInput } from "@common/utils/functions/torn";
 import {
@@ -46,7 +47,7 @@ async function addAutocomplete(chat: HTMLElement) {
 	);
 	if (!messages.length) return;
 
-	const textarea = chat.querySelector<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)");
+	const textarea = findElement<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)", chat, true);
 	if (!textarea) return;
 	textarea.classList.add("tt-chat-autocomplete");
 

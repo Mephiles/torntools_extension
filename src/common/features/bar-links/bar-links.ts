@@ -1,6 +1,7 @@
 import "./bar-links.css";
 import { settings } from "@common/utils/data/database";
 import { checkDevice } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isInCountry, isPageWithSidebar } from "@common/utils/functions/torn";
 import { ExecutionTiming, Feature } from "@features/feature";
@@ -40,7 +41,7 @@ async function addLinks() {
 	await requireSidebar();
 
 	Object.keys(BAR_LINKS)
-		.map((selector) => document.querySelector<HTMLElement>(selector))
+		.map((selector) => findElement(selector, true))
 		.filter((bar) => !!bar)
 		.forEach((barLink) => {
 			barLink.removeAttribute("href");

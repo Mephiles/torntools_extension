@@ -3,6 +3,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements.ts";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -19,14 +20,14 @@ function initialise() {
 
 async function addID() {
 	if (isInternalFaction && getFactionSubpage() !== "info") return;
-	if (document.getElementById("tt-faction-id")) return;
+	if (findElement("#tt-faction-id", true)) return;
 
 	const container = await requireElement(".faction-info-wrap > .title-black, .faction-name");
 
 	const details = await readFactionDetails();
 	if (!details) throw new Error("Faction ID could not be found.");
 
-	if (document.getElementById("tt-faction-id")) return;
+	if (findElement("#tt-faction-id", true)) return;
 
 	container.appendChild(elementBuilder({ type: "span", text: ` [${details.id}]`, id: "tt-faction-id" }));
 }

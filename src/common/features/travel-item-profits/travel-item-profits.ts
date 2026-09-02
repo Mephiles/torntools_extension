@@ -1,8 +1,9 @@
 import { markTravelTableColumns } from "@common/pages/travel-abroad-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
+import { elementBuilder, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, TAX_RATES } from "@common/utils/functions/torn";
@@ -30,9 +31,9 @@ async function addProfitsColumn() {
 	void markTravelTableColumns();
 
 	document.body.classList.add(styles.travelProfits);
-	const market = document.querySelector("#travel-root");
+	const market = findElement("#travel-root", true);
 	for (const headings of findAllElements("[class*='stockTableWrapper__'] [class*='itemsHeader__']", market)) {
-		if (!headings.querySelector(`.${styles.travelMarketHeading}`)) {
+		if (!findElement(`.${styles.travelMarketHeading}`, headings, true)) {
 			const profitHeading = elementBuilder({
 				type: "div",
 				text: "Profit",
@@ -41,7 +42,7 @@ async function addProfitsColumn() {
 					ttContentType: "profit",
 				},
 			});
-			headings.insertBefore(profitHeading, headings.querySelector("[class*='tabletColC__']"));
+			headings.insertBefore(profitHeading, findElement("[class*='tabletColC__']", headings, true));
 		}
 		await requireElement("[class*='stockTableWrapper___'] > li");
 		const rows = findAllElements("[class*='stockTableWrapper___'] > li:not(:has([data-tt-content-type='profit']))");
@@ -50,12 +51,12 @@ async function addProfitsColumn() {
 		const sellAnonymously = filters.abroadItems.taxes.includes("anonymous");
 
 		for (const row of rows) {
-			const imageElement = row.querySelector<HTMLImageElement>("[data-tt-content-type='item'] img");
+			const imageElement = findElement<HTMLImageElement>("[data-tt-content-type='item'] img", row, true);
 			if (!imageElement) continue;
 
 			const id = convertToNumber(imageElement.srcset.split(" ")[0]);
 			const marketPrice = ITEM_RESOLVER.getFullItem(id).value.market_price;
-			const buyPrice = convertToNumber(row.querySelector("[data-tt-content-type='type'] + div [class*='neededSpace___']").textContent);
+			const buyPrice = convertToNumber(findElement("[data-tt-content-type='type'] + div [class*='neededSpace___']", row).textContent);
 
 			const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;
 			const anonymousTax = sellAnonymously ? Math.ceil((marketPrice * ANONYMOUS_TAX) / 100) : 0;
@@ -80,7 +81,7 @@ async function addProfitsColumn() {
 			else if (profit < 0) span.classList.add("tt-color-red");
 
 			span.appendChild(innerSpan);
-			row.querySelector(":scope > div[class*='row__']").insertBefore(span, row.querySelector("[data-tt-content-type='stock']"));
+			findElement(":scope > div[class*='row__']", row).insertBefore(span, findElement("[data-tt-content-type='stock']", row, true));
 		}
 	}
 }

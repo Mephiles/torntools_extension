@@ -2,8 +2,9 @@ import "./recommended-nnb.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
+import { elementBuilder, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -27,17 +28,17 @@ function initialiseListeners() {
 }
 
 async function startFeature() {
-	if (!document.querySelector(".faction-crimes-wrap")) return;
+	if (!findElement(".faction-crimes-wrap", true)) return;
 
 	await showRecommendedNNB();
 }
 
 async function showRecommendedNNB() {
-	const parent = document.querySelector(".faction-crimes-wrap .begin-wrap");
+	const parent = findElement(".faction-crimes-wrap .begin-wrap", true);
 	if (!parent) return;
 	parent.classList.add("tt-modified");
 
-	const heading = parent.querySelector(".plan-crimes[role=heading]");
+	const heading = findElement(".plan-crimes[role=heading]", parent);
 	heading.appendChild(elementBuilder({ type: "span", class: "tt-recommended-nnb", text: mobile ? "NNB" : "Recommended NNB" }));
 
 	for (const crime of findAllElements(".crimes-list .item-wrap .plan-crimes", parent)) {

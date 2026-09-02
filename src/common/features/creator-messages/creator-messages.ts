@@ -1,4 +1,5 @@
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { TEAM } from "@common/utils/team";
@@ -23,7 +24,7 @@ async function startCreatorMessage() {
 
 	requireElement(".user-id").then((wrapper) => {
 		new MutationObserver(() => {
-			const userInput = document.querySelector<HTMLInputElement>(".user-id");
+			const userInput = findElement<HTMLInputElement>(".user-id", true);
 			if (!userInput) return;
 
 			const inputValue = userInput.value.match(/.*\[(\d+)]/);
@@ -35,7 +36,7 @@ async function startCreatorMessage() {
 }
 
 async function showCreatorMessageWarning(id: number) {
-	const warning = document.querySelector(`.${styles.messageWarning}`);
+	const warning = findElement(`.${styles.messageWarning}`, true);
 
 	const creator = TEAM.find(({ torn }) => torn === id);
 	if (!creator?.core) {

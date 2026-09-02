@@ -2,7 +2,8 @@ import "./achievements.css";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
-import { checkDevice, elementBuilder, findElementWithText, mobile, tablet } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder, mobile, tablet } from "@common/utils/functions/dom";
+import { findElement, findElementWithText } from "@common/utils/functions/find-elements";
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 import { requireElement, requireSidebar } from "@common/utils/functions/requires";
 import { countTimers } from "@common/utils/functions/timers";
@@ -125,7 +126,7 @@ async function showAchievements() {
 			applyRounding: false,
 			contentBackground: false,
 			compact: true,
-			previousElement: findElementWithText("h2", "Areas")!.closest("[class*='sidebar-block_']") ?? document.querySelector("#sidebar [class*=areas___]")!,
+			previousElement: findElementWithText("h2", "Areas").closest("[class*='sidebar-block_']") ?? findElement("#sidebar [class*=areas___]"),
 		});
 		showTimer();
 
@@ -191,7 +192,7 @@ async function showAchievements() {
 			const target = event.target as HTMLElement;
 			if (target.classList.contains("active")) return;
 
-			const active = document.querySelector(".tt-award.active");
+			const active = findElement(".tt-award.active", true);
 			if (active) active.classList.remove("active");
 
 			target.classList.add("active");

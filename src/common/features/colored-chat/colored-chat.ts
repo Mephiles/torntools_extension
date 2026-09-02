@@ -1,8 +1,8 @@
 import "./colored-chat.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { CHAT_TITLE_COLORS, is2FACheckPage } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -43,7 +43,7 @@ async function showColoredChats(loaded = false) {
 	});
 	findAllElements("[class*='root___']:has(> button[id*='channel_panel_button:'][title])") // Chat 3.0 - minimized group chats
 		.forEach((chatHeader) => {
-			const chatPlayer = chatHeader.querySelector("button[title]").getAttribute("title");
+			const chatPlayer = findElement("button[title]", chatHeader).getAttribute("title");
 			const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);
 
 			applyColor(highlights, chatHeader);

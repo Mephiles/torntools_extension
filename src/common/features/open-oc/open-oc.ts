@@ -1,8 +1,8 @@
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -15,14 +15,14 @@ function initialiseListeners() {
 }
 
 async function startFeature() {
-	if (!document.querySelector(".faction-crimes-wrap")) return;
+	if (!findElement(".faction-crimes-wrap", true)) return;
 
 	await openCrimes();
 }
 
 async function openCrimes() {
 	for (const crime of findAllElements(".organize-wrap .crimes-list > li")) {
-		const status = crime.querySelector(".status .bold");
+		const status = findElement(".status .bold", crime, true);
 		if (status?.textContent.trim() !== "Ready") continue;
 
 		const allReady = findAllElements(".details-list > li:not(:first-child) .stat", crime).every((row) => row.textContent === "Okay");

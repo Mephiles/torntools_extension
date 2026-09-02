@@ -1,6 +1,7 @@
 import { factiondata, filters, loadDatabase, localdata, npcs, settings, storageListeners, userdata, version } from "@common/utils/data/database";
-import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
 import { arraysEquals, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
@@ -177,7 +178,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 				],
 			});
 		}
-		this.container.querySelector(".error-messages").appendChild(errorElement);
+		findElement(".error-messages", this.container).appendChild(errorElement);
 	}
 
 	private clearEarlyErrors() {
@@ -330,11 +331,11 @@ export class ExtensionFeatureManager implements FeatureManager {
 		}
 
 		void (async () => {
-			let row = this.container.querySelector(`[feature-name="${feature.name}"]`);
+			let row = findElement(`[feature-name="${feature.name}"]`, this.container, true);
 			if (row) {
 				row.setAttribute("status", status);
 
-				const statusIcon = row.querySelector("svg");
+				const statusIcon = findElement("svg", row);
 				const newIcon = getIconElement(status);
 				statusIcon.replaceWith(newIcon);
 
@@ -348,14 +349,14 @@ export class ExtensionFeatureManager implements FeatureManager {
 					children: [getIconElement(status), elementBuilder({ type: "span", text: feature.name })],
 				});
 
-				let scopeEl = this.container.querySelector(`[scope*="${feature.scope}"]`);
+				let scopeEl = findElement(`[scope*="${feature.scope}"]`, this.container, true);
 				if (!scopeEl) {
 					scopeEl = elementBuilder({
 						type: "div",
 						attributes: { scope: feature.scope },
 						children: [elementBuilder({ type: "div", text: `— ${feature.scope} —` })],
 					});
-					this.container.querySelector(".tt-features-list").appendChild(scopeEl);
+					findElement(".tt-features-list", this.container).appendChild(scopeEl);
 				}
 				scopeEl.appendChild(row);
 			}
@@ -416,7 +417,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 									const target = e.target as Element;
 									const title = target.matches(`#${this.containerID}`) ? target : target.closest(`#${this.containerID}`);
 
-									title.querySelector("button").style.backgroundImage = title.classList.toggle("open")
+									findElement("button", title).style.backgroundImage = title.classList.toggle("open")
 										? `url(${browser.runtime.getURL("/images/svg-icons/cross.svg")})`
 										: `url(${browser.runtime.getURL("/images/icon_128.png")})`;
 								},
@@ -440,7 +441,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 									children: [PHBoldCopy()],
 									events: {
 										click: () => {
-											toClipboard(`TornTools ${document.querySelector<HTMLElement>("#tt-page-status .error-messages").innerText}`);
+											toClipboard(`TornTools ${findElement("#tt-page-status .error-messages").innerText}`);
 										},
 									},
 								}),
@@ -480,7 +481,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 				hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
-		if (!this.container!.querySelector(".tt-features-list > div[scope]:not(.no-content)")) this.container!.classList.add("no-content");
+		if (!findElement(".tt-features-list > div[scope]:not(.no-content)", this.container!, true)) this.container!.classList.add("no-content");
 		else this.container!.classList.remove("no-content");
 	}
 

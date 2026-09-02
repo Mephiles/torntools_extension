@@ -5,7 +5,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import {
 	checkboxesSection,
@@ -17,6 +17,7 @@ import {
 	sliderSection,
 } from "@common/utils/functions/filters";
 import type { DuoCheckboxState, FilterController, SliderRange } from "@common/utils/functions/filters";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -87,7 +88,7 @@ async function enableLastAction() {
 	if (lastActionState) return;
 
 	await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
-	lastActionMax = parseInt(document.querySelector(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
+	lastActionMax = parseInt(findElement(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
 	lastActionState = true;
 	filter?.rerenderSections();
 }
@@ -135,7 +136,7 @@ async function addFilterContainer() {
 			defaultValue: "",
 			test: (row, position) => {
 				if (!position) return true;
-				const liPosition = row.querySelector(".position .ellipsis").textContent.trim();
+				const liPosition = findElement(".position .ellipsis", row).textContent.trim();
 				return liPosition === position;
 			},
 		}),
@@ -154,7 +155,7 @@ async function addFilterContainer() {
 			test: (row, status) => {
 				if (!status.length || status.length === 5) return true;
 
-				const liStatus = row.querySelector(".status .ellipsis").textContent.trim().toLowerCase();
+				const liStatus = findElement(".status .ellipsis", row).textContent.trim().toLowerCase();
 				return status.includes(liStatus);
 			},
 		}),
@@ -166,7 +167,7 @@ async function addFilterContainer() {
 			defaults: { low: filters.faction.levelStart, high: filters.faction.levelEnd },
 			formatCounter: (r) => `Level ${r.start} - ${r.end}`,
 			test: (row, range) => {
-				const level = parseInt(row.querySelector(".lvl").textContent);
+				const level = parseInt(findElement(".lvl", row).textContent);
 
 				if (range.start && level < range.start) return false;
 				if (range.end !== 100 && level > range.end) return false;
@@ -229,7 +230,7 @@ async function addFilterContainer() {
 		container: {
 			title: "Member Filter",
 			class: "mt10",
-			nextElement: document.querySelector(".faction-info-wrap > .members-list"),
+			nextElement: findElement(".faction-info-wrap > .members-list"),
 			compact: true,
 		},
 		statisticsLabel: "players",
@@ -302,7 +303,7 @@ async function loadRevivableStatus() {
 	}
 
 	data.members.forEach(({ id, is_revivable }) => {
-		const row = document.querySelector<HTMLElement>(`.members-list .table-body > li:has(a[class*="linkWrap"][href*='${id}'])`);
+		const row = findElement(`.members-list .table-body > li:has(a[class*="linkWrap"][href*='${id}'])`, true);
 		if (!row) return;
 
 		row.dataset.revivable = String(is_revivable);

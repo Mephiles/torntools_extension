@@ -1,7 +1,8 @@
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -50,11 +51,11 @@ async function showBooks() {
 		),
 	});
 
-	document.querySelector(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
+	findElement(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
 }
 
 function removeBooks() {
-	document.getElementById("missing-books")?.remove();
+	findElement("#missing-books", true)?.remove();
 }
 
 export class MissingBooksFeature extends Feature {

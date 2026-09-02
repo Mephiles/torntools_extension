@@ -3,6 +3,7 @@ import { api } from "@common/utils/data/database.ts";
 import { checkAPIPermission } from "@common/utils/functions/api-key";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { isPDA } from "@userscripts/utils/script-utils";
 import styles from "./script-fetch.module.css";
 
@@ -23,7 +24,7 @@ export async function requiresAPIKey() {
 
 	return new Promise<string>((resolve) => {
 		const { options } = createContainer("TornTools Userscript - API Key", {
-			previousElement: document.querySelector(".content-title"),
+			previousElement: findElement(".content-title"),
 			onlyHeader: true,
 			class: "mb10",
 		});

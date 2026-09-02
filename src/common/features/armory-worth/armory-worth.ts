@@ -16,6 +16,7 @@ import type {
 } from "@common/utils/functions/api-v1.types";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -41,7 +42,7 @@ function addListener() {
 }
 
 async function addWorth() {
-	document.querySelector(".tt-armory-worth")?.remove();
+	findElement(".tt-armory-worth", true)?.remove();
 
 	const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement!;
 	const selections = ["basic", "balance"];

@@ -1,7 +1,8 @@
 import "./forum-menu.css";
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -53,7 +54,7 @@ async function showThreads() {
 
 		const userId = getUsername(thread).id;
 
-		const threadLink = new URL(thread.querySelector<HTMLAnchorElement>("a.thread-name").href);
+		const threadLink = new URL(findElement<HTMLAnchorElement>("a.thread-name", thread).href);
 		const threadField = getHashParameters(threadLink.hash).get("t") ?? threadLink.searchParams.get("t");
 		const threadId = convertToNumber(threadField);
 
@@ -111,10 +112,10 @@ async function showPosts() {
 			post.remove();
 			continue;
 		}
-		post.querySelector(".tt-forums-button")?.remove();
+		findElement(".tt-forums-button", post, true)?.remove();
 
-		const userId = convertToNumber(post.querySelector(".poster-id").textContent);
-		const userName = post.querySelector(".poster-name").textContent;
+		const userId = convertToNumber(findElement(".poster-id", post).textContent);
+		const userName = findElement(".poster-name", post).textContent;
 
 		const shouldHidePosts = settings.pages.forums.hidePosts[userId];
 		if (shouldHidePosts) {
@@ -157,7 +158,7 @@ async function showPosts() {
 		}
 
 		const name = `${userName}'${userName.endsWith("s") ? "" : "s"}`;
-		post.querySelector(".action-wrap .right-part").insertAdjacentElement(
+		findElement(".action-wrap .right-part", post).insertAdjacentElement(
 			"beforebegin",
 			elementBuilder({
 				type: "li",
@@ -173,16 +174,16 @@ async function showPosts() {
 								text: "Copy post for Discord",
 								events: {
 									click(event) {
-										const threadTitle = document.querySelector("#topic-title").textContent.replaceAll("\u200B", "").trim();
-										const threadId = document.querySelector<HTMLElement>(".subscribe").dataset.thread;
+										const threadTitle = findElement("#topic-title").textContent.replaceAll("\u200B", "").trim();
+										const threadId = findElement(".subscribe").dataset.thread;
 
 										const postId = post.dataset.id;
-										const date = post.querySelector(".time-wrap > .created, .time-wrap > .posted").textContent;
+										const date = findElement(".time-wrap > .created, .time-wrap > .posted", post).textContent;
 
 										let likes: string, dislikes: string;
-										if (!post.querySelector(".rating-results-pending")) {
-											likes = post.querySelector(".like > .value").textContent.trim();
-											dislikes = post.querySelector(".dislike > .value").textContent.trim();
+										if (!findElement(".rating-results-pending", post, true)) {
+											likes = findElement(".like > .value", post).textContent.trim();
+											dislikes = findElement(".dislike > .value", post).textContent.trim();
 										} else {
 											likes = "N/A";
 											dislikes = "N/A";
@@ -191,14 +192,14 @@ async function showPosts() {
 										let quotesContent = "";
 										let prefix = "> ";
 										for (const quote of findAllElements(".post-quote", post)) {
-											const author = quote.querySelector<HTMLElement>(":scope > .author-quote a").innerText;
-											const content = quote.querySelector<HTMLElement>(":scope > .quote-post > .quote-post-content").innerText;
+											const author = findElement(":scope > .author-quote a", quote).innerText;
+											const content = findElement(":scope > .quote-post > .quote-post-content", quote).innerText;
 
 											quotesContent = `${prefix} ${author}:\n${content.replaceAll(/^/gm, prefix)}\n${quotesContent}`;
 											prefix = `> ${prefix}`;
 										}
 
-										let postContent = post.querySelector(".post-container .post").textContent;
+										let postContent = findElement(".post-container .post", post).textContent;
 
 										// Replace emoticons
 										const emoticonRegex = /\[img].*?emotions\/(\w+).*?\[\/img]/gs;
@@ -388,14 +389,14 @@ async function hideSubscriptions() {
 
 	await Promise.all(
 		FEEDS.map(async (f) => {
-			const feed = document.querySelector(f);
+			const feed = findElement(f, true);
 			if (!feed) return;
 
 			await requireElement(".ajax-preloader", { parent: feed, invert: true });
 
 			let hasReducedNew = false;
 			findAllElements(".panel > li:not(.empty)", feed).forEach((post) => {
-				const params = getHashParameters(new URL(post.querySelector<HTMLAnchorElement>("a[href*='t=']").href).hash);
+				const params = getHashParameters(new URL(findElement<HTMLAnchorElement>("a[href*='t=']", post).href).hash);
 				const threadId = parseInt(params.get("t"));
 
 				if (!localdata.threadsHiddenInFeed.includes(threadId)) return;
@@ -412,7 +413,7 @@ async function hideSubscriptions() {
 }
 
 function adjustNewCounter(feed: Element) {
-	const qtyElement = feed.querySelector(".title-black .qty");
+	const qtyElement = findElement(".title-black .qty", feed);
 	const newQuantity = findAllElements(".panel > li.new:not(.tt-hidden)", feed).length;
 
 	qtyElement.textContent = `(${newQuantity})`;

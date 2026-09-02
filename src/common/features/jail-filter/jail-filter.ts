@@ -6,10 +6,11 @@ import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import type { CheckboxObject } from "@common/utils/elements/checkbox/checkbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilter, defaultFactionsItems, presetSection, sliderSection, textSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { extractFactionsFromPage, getPageStatus } from "@common/utils/functions/torn";
@@ -63,7 +64,7 @@ async function addFilterContainer() {
 			defaults: { low: filters.jail.timeStart, high: filters.jail.timeEnd },
 			formatCounter: (r) => `Time ${r.start}h - ${r.end}h`,
 			test: (row, range) => {
-				const timeText = row.querySelector(".info-wrap .time").textContent;
+				const timeText = findElement(".info-wrap .time", row).textContent;
 				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
 				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
 
@@ -81,7 +82,7 @@ async function addFilterContainer() {
 			defaults: { low: filters.jail.levelStart, high: filters.jail.levelEnd },
 			formatCounter: (r) => `Level ${r.start} - ${r.end}`,
 			test: (row, range) => {
-				const level = convertToNumber(row.querySelector(".info-wrap .level").textContent);
+				const level = convertToNumber(findElement(".info-wrap .level", row).textContent);
 
 				if (range.start && level < range.start) return false;
 				if (range.end !== 100 && level > range.end) return false;
@@ -97,8 +98,8 @@ async function addFilterContainer() {
 			defaults: { low: filters.jail.scoreStart, high: filters.jail.scoreEnd },
 			formatCounter: (r) => `Score ${r.start} - ${r.end}`,
 			test: (row, range) => {
-				const level = convertToNumber(row.querySelector(".info-wrap .level").textContent);
-				const timeText = row.querySelector(".info-wrap .time").textContent;
+				const level = convertToNumber(findElement(".info-wrap .level", row).textContent);
+				const timeText = findElement(".info-wrap .time", row).textContent;
 				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
 				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
 
@@ -119,8 +120,8 @@ async function addFilterContainer() {
 				const bailCost = parseInt(bailCostStr);
 				if (!bailCost || Number.isNaN(bailCost)) return true;
 
-				const level = convertToNumber(row.querySelector(".info-wrap .level").textContent);
-				const timeText = row.querySelector(".info-wrap .time").textContent;
+				const level = convertToNumber(findElement(".info-wrap .level", row).textContent);
+				const timeText = findElement(".info-wrap .time", row).textContent;
 				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
 				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
 				const timeLeftMins = parseInt(timeLeft?.length > 1 ? timeLeft[1] : timeLeft?.[0]) || 0;
@@ -136,7 +137,7 @@ async function addFilterContainer() {
 		container: {
 			title: "Jail Filter",
 			class: "mt10",
-			nextElement: document.querySelector(".users-list-title"),
+			nextElement: findElement(".users-list-title"),
 			compact: true,
 		},
 		statisticsLabel: "players",
@@ -165,7 +166,8 @@ async function addFilterContainer() {
 	});
 
 	// Standalone options, not actually part of the filter.
-	const optionsEl = findContainer("Jail Filter")?.querySelector<HTMLElement>(".options");
+	const optionsContainer = findContainer("Jail Filter");
+	const optionsEl = optionsContainer ? findElement(".options", optionsContainer, true) : null;
 	if (optionsEl) {
 		cbQuickBust = createCheckbox({ description: "Quick Bust" });
 		cbQuickBust.setChecked(quick.jail.includes("bust"));
@@ -204,12 +206,12 @@ async function applyQuickBustAndBail() {
 	findAllElements(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
 
 	if (quickModes.length) {
-		if (document.querySelector(".users-list > li:not(.tt-hidden)")) {
-			if (!document.querySelector(".users-list-title .tt-quick-refresh")) {
-				document.querySelector(".users-list-title").appendChild(newRefreshButton());
+		if (findElement(".users-list > li:not(.tt-hidden)", true)) {
+			if (!findElement(".users-list-title .tt-quick-refresh", true)) {
+				findElement(".users-list-title").appendChild(newRefreshButton());
 			}
 		} else {
-			document.querySelector(".users-list").appendChild(
+			findElement(".users-list").appendChild(
 				elementBuilder({
 					type: "div",
 					class: "tt-quick-refresh-wrap",
@@ -223,11 +225,11 @@ async function applyQuickBustAndBail() {
 	}
 
 	findAllElements(".users-list > li").forEach((li) => {
-		if (cbQuickBust?.isChecked()) addQAndHref(li.querySelector(":scope > [href*='breakout']"));
-		else removeQAndHref(li.querySelector(":scope > [href*='breakout']"));
+		if (cbQuickBust?.isChecked()) addQAndHref(findElement(":scope > [href*='breakout']", li, true));
+		else removeQAndHref(findElement(":scope > [href*='breakout']", li, true));
 
-		if (cbQuickBail?.isChecked()) addQAndHref(li.querySelector(":scope > [href*='buy']"));
-		else removeQAndHref(li.querySelector(":scope > [href*='buy']"));
+		if (cbQuickBail?.isChecked()) addQAndHref(findElement(":scope > [href*='buy']", li, true));
+		else removeQAndHref(findElement(":scope > [href*='buy']", li, true));
 	});
 
 	function newRefreshButton(customClass = "") {
@@ -240,7 +242,7 @@ async function applyQuickBustAndBail() {
 	}
 
 	function addQAndHref(iconNode: HTMLAnchorElement) {
-		if (!iconNode || iconNode.querySelector(":scope > .tt-quick-q")) return;
+		if (!iconNode || findElement(":scope > .tt-quick-q", iconNode, true)) return;
 
 		iconNode.appendChild(elementBuilder({ type: "span", class: "tt-quick-q", text: "Q" }));
 		iconNode.href = `${iconNode.getAttribute("href")}1`;
@@ -249,7 +251,7 @@ async function applyQuickBustAndBail() {
 	function removeQAndHref(iconNode: HTMLAnchorElement) {
 		if (!iconNode) return;
 
-		iconNode.querySelector(".tt-quick-q")?.remove();
+		findElement(".tt-quick-q", iconNode, true)?.remove();
 		if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.getAttribute("href").slice(0, -1);
 	}
 }

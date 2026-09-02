@@ -1,6 +1,7 @@
 import { settings } from "@common/utils/data/database";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, findParent, hasSidebar } from "@common/utils/functions/dom";
+import { elementBuilder, findParent, hasSidebar } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { ALL_AREAS, CUSTOM_LINKS_PRESET, getSidebarArea, isPageWithSidebar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -25,8 +26,7 @@ async function showLinks() {
 		showOutside("under", "customLinksUnder", links);
 		showInside(links);
 	} else {
-		const oldCustomLinksContainer = document.querySelector(".tt-custom-links-container");
-		if (oldCustomLinksContainer) oldCustomLinksContainer.remove();
+		findElement(".tt-custom-links-container", true).remove();
 
 		const customLinksContainer = elementBuilder({
 			type: "div",
@@ -52,10 +52,11 @@ async function showLinks() {
 			);
 		});
 
-		document
-			.querySelector("#sidebar [class*='user-information-mobile_'], #sidebar [class*='userInformationMobile___']")
-			.insertAdjacentElement("beforebegin", customLinksContainer);
-		document.querySelector(".content-wrapper[role='main']").insertAdjacentElement(
+		findElement("#sidebar [class*='user-information-mobile_'], #sidebar [class*='userInformationMobile___']").insertAdjacentElement(
+			"beforebegin",
+			customLinksContainer,
+		);
+		findElement(".content-wrapper[role='main']").insertAdjacentElement(
 			"afterbegin",
 			elementBuilder({
 				type: "div",
@@ -94,7 +95,7 @@ function showOutside(filter: "above" | "under", id: string, links: InternalCusto
 		contentBackground: false,
 		compact: true,
 		[filter === "above" ? "nextElement" : "previousElement"]:
-			findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? document.querySelector("#sidebar [class*=areas___]"),
+			findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? findElement("#sidebar [class*=areas___]"),
 	});
 
 	for (const link of links.filter((link) => link.location === filter)) {
@@ -113,14 +114,14 @@ function showOutside(filter: "above" | "under", id: string, links: InternalCusto
 function showInside(links: InternalCustomLink[]) {
 	for (const link of findAllElements(".custom-link")) link.remove();
 
-	const areas = findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? document.querySelector("#sidebar [class*=areas___]");
+	const areas = findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? findElement("#sidebar [class*=areas___]", true);
 	for (const link of links.filter((link) => link.location !== "above" && link.location !== "under")) {
 		const locationSplit = link.location.split("_");
 
 		const location = locationSplit.splice(1).join("_");
 		const area = ALL_AREAS.filter((area) => area.class === location);
 		if (!area) continue;
-		let target = areas.querySelector(`#nav-${area[0].class}`);
+		let target = findElement(`#nav-${area[0].class}`, areas, true);
 		if (!target) continue;
 
 		if (locationSplit[0] === "under") target = target.nextSibling as HTMLElement;
@@ -132,7 +133,7 @@ function showInside(links: InternalCustomLink[]) {
 			text: link.name,
 			attributes: { target: link.newTab ? "_blank" : "_self" },
 		});
-		const parent = areas.querySelector("div[class*='toggle-content_']");
+		const parent = findElement("div[class*='toggle-content_']", areas);
 		if (target) parent.insertBefore(pill, target);
 		else parent.appendChild(pill);
 	}

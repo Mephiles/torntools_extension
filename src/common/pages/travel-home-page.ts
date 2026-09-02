@@ -1,6 +1,7 @@
 import { settings } from "@common/utils/data/database";
-import { checkDevice, findAllElements, isElement } from "@common/utils/functions/dom";
+import { checkDevice, isElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireCondition, requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
 
@@ -18,7 +19,7 @@ export async function setupTravelHomePage() {
 				const destinationElement = (event.target as Element).closest("[class*='destination___']");
 				if (!destinationElement) return;
 
-				const countryElement = destinationElement.querySelector("[class*='country___']");
+				const countryElement = findElement("[class*='country___']", destinationElement, true);
 				if (!countryElement) return;
 
 				const country = countryElement.textContent.trim().toLowerCase().replaceAll(" ", "_").replaceAll("-", "_");
@@ -39,7 +40,7 @@ export async function setupTravelHomePage() {
 				)
 					return;
 
-				let country = event.target.parentElement.querySelector("img").src.replace(".png", "").split("/").at(-1).replaceAll("-", "_");
+				let country = findElement<HTMLImageElement>("img", event.target.parentElement).src.replace(".png", "").split("/").at(-1).replaceAll("-", "_");
 				if (country === "uk") country = "united_kingdom";
 
 				triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country });
@@ -50,7 +51,7 @@ export async function setupTravelHomePage() {
 			new MutationObserver((_, initialObserver) => {
 				triggerCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE);
 
-				const timeElement = destinationPanel.querySelector("[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]");
+				const timeElement = findElement("[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", destinationPanel);
 
 				new MutationObserver(() => {
 					triggerCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE);

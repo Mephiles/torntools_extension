@@ -4,6 +4,7 @@ import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { textToTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@common/utils/functions/torn";
@@ -30,13 +31,15 @@ async function showWarnings() {
 	);
 	if (!container) return;
 
-	const durationText = container.querySelector(
+	const durationText = findElement(
 		["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", "),
+		container,
+		true,
 	)?.textContent;
 	if (!durationText) return;
 
 	const duration = textToTime(durationText) * 2;
-	let cooldowns = container.parentElement.querySelector(".tt-cooldowns");
+	let cooldowns = findElement(".tt-cooldowns", container.parentElement, true);
 	if (!cooldowns) {
 		cooldowns = elementBuilder({
 			type: "div",
@@ -72,7 +75,7 @@ async function showWarnings() {
 
 		if (!mobile && !tabletVertical) container.insertAdjacentElement("beforebegin", cooldowns);
 		else {
-			container.querySelector("[class*='expandable___']").insertAdjacentElement("afterend", cooldowns);
+			findElement("[class*='expandable___']", container).insertAdjacentElement("afterend", cooldowns);
 		}
 
 		if (!hasFinishedEducation() || userdata.education.current)
@@ -102,24 +105,27 @@ async function showWarnings() {
 			}),
 		);
 	} else {
-		handleClass(cooldowns.querySelector(".energy"), userdata.bars.energy.full_time);
-		handleClass(cooldowns.querySelector(".nerve"), userdata.bars.nerve.full_time);
-		handleClass(cooldowns.querySelector(".drug"), userdata.cooldowns.drug);
-		handleClass(cooldowns.querySelector(".booster"), userdata.cooldowns.booster);
-		handleClass(cooldowns.querySelector(".medical"), userdata.cooldowns.medical);
+		handleClass(findElement(".energy", cooldowns, true), userdata.bars.energy.full_time);
+		handleClass(findElement(".nerve", cooldowns, true), userdata.bars.nerve.full_time);
+		handleClass(findElement(".drug", cooldowns, true), userdata.cooldowns.drug);
+		handleClass(findElement(".booster", cooldowns, true), userdata.cooldowns.booster);
+		handleClass(findElement(".medical", cooldowns, true), userdata.cooldowns.medical);
 		if (!hasFinishedEducation())
 			handleClass(
-				cooldowns.parentElement.querySelector(".education"),
+				findElement(".education", cooldowns.parentElement, true),
 				userdata.education.current ? userdata.education.current.until - userdata.date / 1000 : 0,
 			);
-		handleClass(cooldowns.parentElement.querySelector(".investment"), userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date / 1000 : 0);
+		handleClass(
+			findElement(".investment", cooldowns.parentElement, true),
+			userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date / 1000 : 0,
+		);
 	}
 
 	function getDurationClass(time: number) {
 		return time * 1000 < duration ? "waste" : "";
 	}
 
-	function handleClass(element: HTMLElement, time: number) {
+	function handleClass(element: HTMLElement | null, time: number) {
 		if (!element) return;
 
 		const isWasted = time * 1000 < duration;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LanguageInjectionConfiguration">
+    <injection language="CSS" injector-id="js">
+      <display-name>findAllElements</display-name>
+      <single-file value="false" />
+      <place><![CDATA[jsLiteralExpression().and(jsArgument("findAllElements", 0))]]></place>
+    </injection>
+    <injection language="CSS" injector-id="js">
+      <display-name>findElement</display-name>
+      <single-file value="false" />
+      <place><![CDATA[jsLiteralExpression().and(jsArgument("findElement", 0))]]></place>
+    </injection>
+  </component>
+</project>

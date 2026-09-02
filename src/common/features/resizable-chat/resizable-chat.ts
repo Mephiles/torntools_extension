@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { isChatV3 } from "@common/utils/functions/torn";
 import { SELECTOR_CHAT_ROOT, SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@common/utils/global/selectors/chatSelectors";
@@ -37,13 +37,13 @@ async function startFeature() {
 }
 
 async function resizeInput(chat: HTMLElement) {
-	const firstRoot = chat.querySelector(SELECTOR_CHAT_V3__VARIOUS_ROOT);
+	const firstRoot = findElement(SELECTOR_CHAT_V3__VARIOUS_ROOT, chat, true);
 	if (!firstRoot || firstRoot.id) return;
 
 	await requireElement("[class*='loader___']", { parent: chat, invert: true });
 	const textarea = await requireElement<HTMLTextAreaElement>("textarea", { parent: chat });
 
-	const id = chat.querySelector(`${SELECTOR_CHAT_V3__VARIOUS_ROOT}[id]`).id;
+	const id = findElement(`${SELECTOR_CHAT_V3__VARIOUS_ROOT}[id]`, chat).id;
 
 	if (id in localdata.chatResize) {
 		textarea.style.height = localdata.chatResize[id];

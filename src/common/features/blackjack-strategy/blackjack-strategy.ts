@@ -2,6 +2,7 @@ import "./blackjack-strategy.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { SUGGESTIONS } from "@features/blackjack-strategy/blackjack-suggestions.ts";
 import { Feature } from "@features/feature";
@@ -81,10 +82,10 @@ function executeStrategy(data: any) {
 
 	const suggestion = getSuggestion(playerValue);
 
-	const element = document.querySelector(".tt-blackjack-suggestion");
+	const element = findElement(".tt-blackjack-suggestion", true);
 	if (element) element.textContent = suggestion;
 	else {
-		document.querySelector(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
+		findElement(".player-cards").appendChild(elementBuilder({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
 	}
 
 	function getWorth(card: string | number) {
@@ -145,7 +146,7 @@ function executeStrategy(data: any) {
 }
 
 function removeSuggestion() {
-	const suggestion = document.querySelector(".tt-blackjack-suggestion");
+	const suggestion = findElement(".tt-blackjack-suggestion", true);
 	if (suggestion) suggestion.remove();
 }
 

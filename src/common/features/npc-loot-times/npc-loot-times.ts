@@ -2,7 +2,8 @@ import "./npc-loot-times.css";
 import { ttStorage } from "@common/utils/context";
 import { npcs, settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
-import { checkDevice, elementBuilder, findElementWithText, findParent, isElement } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder, findParent, isElement } from "@common/utils/functions/dom";
+import { findElement, findElementWithText } from "@common/utils/functions/find-elements";
 import { dropDecimals, formatTime } from "@common/utils/functions/formatting";
 import type { FormatTimeOptions } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
@@ -19,8 +20,7 @@ async function showNPCs() {
 		id: "npc-loot-times",
 		applyRounding: false,
 		previousElement:
-			findParent(findElementWithText("h2", "Information"), { partialClass: "sidebar-block_" }) ??
-			document.querySelector("[class*='accountLinksWrap___']"),
+			findParent(findElementWithText("h2", "Information", true), { partialClass: "sidebar-block_" }) ?? findElement("[class*='accountLinksWrap___']"),
 	});
 
 	if ("error" in npcs) {

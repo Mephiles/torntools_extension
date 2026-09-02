@@ -2,8 +2,9 @@ import "./alcohol-nerve.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -22,7 +23,7 @@ function addNerveGains() {
 	const companyPerk = parseInt(userdata.perks.job.filter((x) => /alcohol boost|consumable boost/i.test(x)).map((x) => x.replaceAll(/\D+/g, ""))[0]);
 
 	findAllElements("[data-category='Alcohol']").forEach((alcoholicDrink) => {
-		if (alcoholicDrink.querySelector(".tt-alcohol-gains")) return;
+		if (findElement(".tt-alcohol-gains", alcoholicDrink, true)) return;
 
 		const id = parseInt(alcoholicDrink.dataset.item!);
 		const item = ITEM_RESOLVER.getStaticItem(id);
@@ -49,9 +50,10 @@ function addNerveGains() {
 		const minNerve = Math.floor(totalNerve);
 
 		const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
-		alcoholicDrink
-			.querySelector(".name-wrap")!
-			.insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }));
+		findElement(".name-wrap", alcoholicDrink).insertAdjacentElement(
+			"beforeend",
+			elementBuilder({ type: "span", class: "tt-alcohol-gains", text: `${nerveRange} N` }),
+		);
 	});
 }
 

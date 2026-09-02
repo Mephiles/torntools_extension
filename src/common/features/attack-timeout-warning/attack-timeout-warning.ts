@@ -1,4 +1,5 @@
 import { settings } from "@common/utils/data/database";
+import { findElement } from "@common/utils/functions/find-elements";
 import { textToTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -14,7 +15,7 @@ async function addListener() {
 
 	await requireElement("[class*='playerArea__'] [class*='playerWindow__']");
 
-	const dialogButtons = document.querySelector("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']");
+	const dialogButtons = findElement("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialogButtons__']", true);
 	if (dialogButtons) {
 		if (dialogButtons.childElementCount === 0) return;
 
@@ -23,12 +24,12 @@ async function addListener() {
 		});
 	}
 
-	if (document.querySelector("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialog___'][class*='red___']")) return;
+	if (findElement("[class*='playerArea__'] [class*='playerWindow__'] [class*='dialog___'][class*='red___']", true)) return;
 
 	const timeoutValue = await requireElement("span[id^='timeout-value'], [class*='labelContainer___']:nth-child(2) [class*='labelTitle___']");
 
 	observer = new MutationObserver((mutations) => {
-		if (document.querySelector("div[class^='dialogButtons_']")) {
+		if (findElement("div[class^='dialogButtons_']", true)) {
 			observer?.disconnect();
 			observer = undefined;
 			return;

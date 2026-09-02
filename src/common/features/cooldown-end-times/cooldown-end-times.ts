@@ -1,5 +1,6 @@
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatDate, formatTime, textToTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
@@ -26,16 +27,16 @@ const tooltipObserver = new MutationObserver((mutations: MutationRecord[]) => {
 			if (!(addedNode instanceof Element)) return;
 			if (!addedNode.getAttribute("id") || !addedNode.hasAttribute("data-floating-ui-portal")) return;
 
-			const tooltipElement = addedNode,
-				tooltipTitleElement = tooltipElement.getElementsByTagName("b")?.[0],
-				tooltipTitle = tooltipTitleElement?.textContent;
+			const tooltipElement = addedNode;
+			let tooltipTitleElement = findElement("b", tooltipElement, true);
+			let tooltipTitle = tooltipTitleElement?.textContent;
 			if (!tooltipTitle || (!REQUIRED_TOOLTIP_TITLES.includes(tooltipTitle) && BAR_TOOLTIP_TITLES.every((title) => !tooltipTitle.startsWith(title))))
 				return;
 
 			const timeElement =
-				tooltipElement.querySelector("[class*='static-width___']")?.firstChild ?? // For cooldown icon tooltips.
-				tooltipElement.querySelector("p[class*='bar-descr__']")?.lastChild ?? // For energy, nerve, happy, and life bar tooltips.
-				tooltipElement.querySelector("p:not([class])");
+				findElement("[class*='static-width___']", tooltipElement, true)?.firstChild ?? // For cooldown icon tooltips.
+				findElement("p[class*='bar-descr__']", tooltipElement, true)?.lastChild ?? // For energy, nerve, happy, and life bar tooltips.
+				findElement("p:not([class])", tooltipElement, true);
 			if (!timeElement) return;
 
 			findAllElements(".tt-tooltip-end-times").forEach((x) => x.remove());

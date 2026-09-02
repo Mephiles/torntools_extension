@@ -2,6 +2,7 @@ import "./casino-net-total.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage, getPageStatus } from "@common/utils/functions/torn";
@@ -47,7 +48,7 @@ async function addTotal() {
 
 		const totalLost = parseInt(totalLostElement.textContent.replaceAll(/[$, ]/g, ""));
 
-		if (document.querySelector(`.${statsType}-stats-wrap .tt-net-total`)) return;
+		if (findElement(`.${statsType}-stats-wrap .tt-net-total`, true)) return;
 
 		await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
 		totalLostElement.closest("li:not(.stat-value)").insertAdjacentElement(

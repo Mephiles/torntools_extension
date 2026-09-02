@@ -1,3 +1,4 @@
+import { findElement } from "@common/utils/functions/find-elements";
 import { getSidebarData } from "@common/utils/functions/torn";
 
 export interface InformationRetriever {
@@ -32,7 +33,7 @@ function toStatusIcon(icon: InternalStatusIconsProps["icon"]): StatusIcon {
 }
 
 export function getStatusIcons(): StatusIcons {
-	const flyoutIcons = document.querySelector("[class*='statusIcons___']");
+	const flyoutIcons = findElement("[class*='statusIcons___']", true);
 	if (flyoutIcons) {
 		const reactProperties = getReactProperties(flyoutIcons);
 		if (reactProperties) {

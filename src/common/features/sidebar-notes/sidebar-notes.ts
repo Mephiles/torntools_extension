@@ -2,7 +2,8 @@ import "./sidebar-notes.css";
 import { ttStorage } from "@common/utils/context";
 import { notes, settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
-import { checkDevice, elementBuilder, findElementWithText, findParent, isHTMLElement } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder, findParent, isHTMLElement } from "@common/utils/functions/dom";
+import { findElement, findElementWithText } from "@common/utils/functions/find-elements";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -16,8 +17,8 @@ async function showNotes() {
 		contentBackground: false,
 		compact: true,
 		previousElement:
-			findParent(findElementWithText("h2", "Information"), { partialClass: "sidebar-block_" }) ??
-			document.querySelector("#sidebar [class*='accountLinksWrap___']"),
+			findParent(findElementWithText("h2", "Information", true), { partialClass: "sidebar-block_" }) ??
+			findElement("#sidebar [class*='accountLinksWrap___']", true),
 	});
 
 	content.appendChild(

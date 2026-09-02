@@ -1,8 +1,8 @@
 import "./user-alias.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { isChatV3 } from "@common/utils/functions/torn";
 import {
@@ -76,7 +76,7 @@ function addAliasTitle() {
 			const alias = getUserAliasByName(chatPlayerTitle);
 			if (!alias) return;
 
-			const nameNode = chatHeader.querySelector<HTMLElement>("[class*='minimized-chat-box__username-text__']");
+			const nameNode = findElement("[class*='minimized-chat-box__username-text__']", chatHeader);
 			nameNode.dataset.original = nameNode.textContent;
 			nameNode.firstChild.textContent = alias.alias;
 		});
@@ -87,7 +87,7 @@ function addAliasTitle() {
 			const alias = getUserAliasByName(chatPlayerTitle);
 			if (!alias) return;
 
-			const nameNode = chatHeader.querySelector<HTMLElement>(SELECTOR_CHAT_V2__HEADER_NAME);
+			const nameNode = findElement(SELECTOR_CHAT_V2__HEADER_NAME, chatHeader);
 			nameNode.dataset.original = nameNode.textContent;
 			nameNode.firstChild.textContent = alias.alias;
 		});
@@ -110,7 +110,7 @@ function addAliasMessage(message: Element | null = null) {
 		return;
 	}
 
-	const profileLink = message.querySelector<HTMLAnchorElement>("a[href*='/profiles.php?XID=']");
+	const profileLink = findElement<HTMLAnchorElement>("a[href*='/profiles.php?XID=']", message, true);
 	if (!profileLink) return;
 
 	const messageUserID = parseInt(profileLink.href.split("=")[1]);

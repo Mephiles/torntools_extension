@@ -2,8 +2,9 @@ import "./missing-sets.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
+import { elementBuilder, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { getPageStatus, SETS } from "@common/utils/functions/torn";
 import type { SetItem } from "@common/utils/functions/torn";
@@ -48,7 +49,7 @@ async function showFlowers() {
 }
 
 function removeFlowers() {
-	if (document.querySelector("#needed-flowers")) document.querySelector("#needed-flowers").remove();
+	findElement("#needed-flowers", true)?.remove();
 }
 
 async function showPlushies() {
@@ -56,11 +57,11 @@ async function showPlushies() {
 }
 
 function removePlushies() {
-	if (document.querySelector("#needed-plushies")) document.querySelector("#needed-plushies").remove();
+	findElement("#needed-plushies", true)?.remove();
 }
 
 async function show(id: string, selector: string, items: SetItem[]) {
-	if (document.querySelector(`#${id}`)) document.querySelector(`#${id}`).remove();
+	if (findElement(`#${id}`, true)) findElement(`#${id}`).remove();
 
 	const currentItemsElements = findAllElements(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
 	if (!currentItemsElements.length || currentItemsElements.length === items.length) return;
@@ -94,14 +95,14 @@ async function show(id: string, selector: string, items: SetItem[]) {
 
 		isFirst = false;
 	}
-	document.querySelector(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
+	findElement(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
 }
 
 function addItemValue(missingItem: HTMLElement) {
 	if (!settings.pages.items.values) return;
 	if (!hasAPIData()) return;
 
-	missingItem.querySelector(":scope > span").insertAdjacentElement(
+	findElement(":scope > span", missingItem).insertAdjacentElement(
 		"afterend",
 		elementBuilder({
 			type: "span",
@@ -120,9 +121,9 @@ function showMarketValues() {
 async function addMarketIcon(missingItem: HTMLElement, first: boolean, last: boolean) {
 	if (!settings.pages.items.marketLinks) return;
 	if (mobile) return;
-	if (missingItem.querySelector(".market-link")) return;
+	if (findElement(".market-link", missingItem, true)) return;
 
-	let parent = missingItem.querySelector(".outside-actions");
+	let parent = findElement(".outside-actions", missingItem, true);
 	if (!parent) {
 		parent = elementBuilder({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
 

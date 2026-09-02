@@ -1,3 +1,4 @@
+import { findElement } from "@common/utils/functions/find-elements";
 import { observeChain } from "@common/utils/functions/requires";
 import { toRecord } from "@common/utils/functions/utilities";
 import { battleStats } from "./models/battle-stat";
@@ -12,7 +13,7 @@ export function createStatsWatcher() {
 		const statsObservers = battleStats.map((statName) => {
 			const selector = `[class*="${statName.toLowerCase()}___"] [class*="propertyTitle___"] [class*="propertyValue___"]`;
 			const observer = new MutationObserver(() => onChangeCallback?.(true));
-			const element = gymContent.querySelector(selector);
+			const element = findElement(selector, gymContent, true);
 
 			statsValueElementsMap[statName] = element;
 			observer.observe(element, { characterData: true, childList: true, subtree: true });

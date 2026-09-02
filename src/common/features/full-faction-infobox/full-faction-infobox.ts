@@ -5,6 +5,7 @@ import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -23,7 +24,7 @@ function initialiseListeners() {
 }
 
 async function startFeature() {
-	if (isInternalFaction && !document.querySelector(".faction-description, .members-list, .announcement")) return;
+	if (isInternalFaction && !findElement(".faction-description, .members-list, .announcement", true)) return;
 	if (!isInternalFaction && (await isDestroyed())) return;
 
 	await showFull();
@@ -34,17 +35,17 @@ async function showFull() {
 
 	if (isInternalFaction) {
 		if (getFactionSubpage() === "info") {
-			title = document.querySelector(".faction-title");
-			description = document.querySelector(".faction-description");
+			title = findElement(".faction-title", true);
+			description = findElement(".faction-description", true);
 			key = "faction_description_full";
 		} else {
-			title = document.querySelector("#faction-main [data-title='announcement'][role='heading']");
+			title = findElement("#faction-main [data-title='announcement'][role='heading']", true);
 			description = title?.nextElementSibling;
 			key = "faction_announcement_full";
 		}
 	} else {
 		title = await requireElement(".faction-title");
-		description = document.querySelector(".faction-description");
+		description = findElement(".faction-description", true);
 		key = "faction_description_full";
 	}
 	if (!title || !description || !key) return;

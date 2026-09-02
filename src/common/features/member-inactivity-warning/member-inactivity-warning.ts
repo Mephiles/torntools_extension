@@ -2,8 +2,8 @@ import "./member-inactivity-warning.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
@@ -46,7 +46,7 @@ async function addWarning(force: boolean) {
 	for (const row of findAllElements(".members-list .table-body > li")) {
 		if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 		// Skip users that are confirmed to be dead IRL.
-		if (row.querySelector("[id*='icon77___']")) continue;
+		if (findElement("[id*='icon77___']", row, true)) continue;
 
 		const days = dropDecimals(convertToNumber(row.nextElementSibling.getAttribute("hours")) / 24);
 

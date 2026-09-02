@@ -3,6 +3,7 @@ import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, dropDecimals } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -78,8 +79,8 @@ async function showSteadfast() {
 	for (const [stat, perks] of Object.entries(bonus)) {
 		if (perks.length < 1) continue;
 
-		const box = properties.querySelector(`[class*='${stat}___']`);
-		if (box.querySelector(".tt-gym-steadfast")) continue;
+		const box = findElement(`[class*='${stat}___']`, properties);
+		if (findElement(".tt-gym-steadfast", box, true)) continue;
 
 		const parent = elementBuilder({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
 		box.insertBefore(parent, box.firstElementChild);

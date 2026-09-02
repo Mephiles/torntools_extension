@@ -3,8 +3,9 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { PHFillTable } from "@common/utils/icons/phosphor-icons";
@@ -15,7 +16,7 @@ async function addCSVContainer() {
 	if (!location.hash.includes("tab=upgrades")) return;
 
 	const descriptionWrap = await requireElement("#factions #faction-upgrades .body #stu-confirmation .description-wrap");
-	const contributionsWrap = descriptionWrap.querySelector(".contributions-wrap");
+	const contributionsWrap = findElement(".contributions-wrap", descriptionWrap, true);
 	if (!contributionsWrap) return;
 
 	const { options } = createContainer("Export Challenge Contributions", {
@@ -31,18 +32,18 @@ async function addCSVContainer() {
 		children: [PHFillTable(), elementBuilder({ type: "span", text: "CSV" })],
 		events: {
 			click() {
-				const upgradeName = descriptionWrap.querySelector("[role='alert'] .name").textContent;
+				const upgradeName = findElement("[role='alert'] .name", descriptionWrap).textContent;
 
 				const csv = new CSVExport(`${upgradeName} Contributors`);
 				csv.append(upgradeName);
 				csv.append("Number", "Name", "Profile Link", "Ex Member", "Contributions");
 
 				for (const row of findAllElements(".flexslides li:not(.slide)", contributionsWrap)) {
-					const link = row.querySelector<HTMLAnchorElement>(".player a");
+					const link = findElement<HTMLAnchorElement>(".player a", row);
 					const name = link.getAttribute("aria-label");
 
 					csv.append(
-						row.querySelector(".numb").textContent,
+						findElement(".numb", row).textContent,
 						name.match(/.*(?= \()/)[0],
 						link.href,
 						row.classList.contains("ex-member") ? "Yes" : "No",

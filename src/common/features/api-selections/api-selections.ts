@@ -1,6 +1,6 @@
 import "./api-selections.css";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 
 export async function loadAPISelections() {
@@ -28,14 +28,14 @@ export async function loadAPISelections() {
 			const selection = range.toString().replaceAll(",", "").trim();
 
 			const panel = (event.target as Element).closest("div.panel-group")!;
-			const selectionsInput = panel.querySelector<HTMLInputElement>("input[id*=selections]")!;
+			const selectionsInput = findElement<HTMLInputElement>("input[id*=selections]", panel);
 
 			if (event.ctrlKey) {
 				if (selectionsInput.value.trim() === "") selectionsInput.value = selection;
 				else if (!selectionsInput.value.includes(selection)) selectionsInput.value += `,${selection}`;
 			} else {
 				selectionsInput.value = selection;
-				panel.querySelector("button")?.click();
+				findElement("button", panel, true)?.click();
 			}
 		});
 	});

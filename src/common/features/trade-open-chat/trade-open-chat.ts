@@ -3,6 +3,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, executeScript } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -26,7 +27,7 @@ async function addButton() {
 
 	button.addEventListener("click", () => executeScript(browser.runtime.getURL("/trade-open-chat--inject.js")));
 
-	document.querySelector("#trade-container > .title-black").appendChild(
+	findElement("#trade-container > .title-black").appendChild(
 		elementBuilder({
 			type: "div",
 			children: [button],
@@ -37,7 +38,7 @@ async function addButton() {
 export async function getTraderID() {
 	const playerID = (await cookieStore.get("uid")).value;
 
-	const traderLink = document.querySelector(`#trade-container .log > li .desc a:not([href*="${playerID}"]), .info-msg-cont a:not([href*='${playerID}'])`);
+	const traderLink = findElement(`#trade-container .log > li .desc a:not([href*="${playerID}"]), .info-msg-cont a:not([href*='${playerID}'])`, true);
 	const traderMatch = traderLink?.getAttribute("href")?.match(/XID=(\d*)/i);
 	if (!traderMatch) return null;
 

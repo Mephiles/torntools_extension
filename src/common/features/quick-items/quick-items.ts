@@ -6,8 +6,9 @@ import { ttCache } from "@common/utils/data/cache";
 import type { DatabaseCache } from "@common/utils/data/cache";
 import { quick, settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { elementBuilder, findAllElements, findParent, mobile, tablet } from "@common/utils/functions/dom";
+import { elementBuilder, findParent, mobile, tablet } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
 import { requireContent, requireItemsLoaded } from "@common/utils/functions/requires";
 import {
@@ -37,7 +38,7 @@ let controller: ReturnType<typeof createQuickItemsController> | undefined;
 
 const medicalSource: MedicalItemsSource = {
 	loadFromDOM: () => {
-		const medicalList = document.querySelector("#medical-items[data-all='1']");
+		const medicalList = findElement("#medical-items[data-all='1']", true);
 		if (!medicalList) return null;
 
 		return findAllElements("li[data-item][data-qty]", medicalList).map((row) => ({
@@ -87,7 +88,7 @@ function initialiseListeners() {
 async function loadQuickItems() {
 	controller = createQuickItemsController({
 		title: "Quick Items",
-		nextElement: () => document.querySelector(".equipped-items-wrap"),
+		nextElement: () => findElement(".equipped-items-wrap", true),
 		savedItems: () => quick.items,
 		getOverlayItems: () => [
 			...findAllElements("#categoriesItem:not(.no-items)").filter((category) =>
@@ -266,7 +267,7 @@ function setupQuickDragListeners() {
 	for (const item of findAllElements(".items-cont[aria-expanded=true] > li[data-item]")) {
 		if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
-		const titleWrap = item.querySelector<HTMLElement>(".title-wrap");
+		const titleWrap = findElement(".title-wrap", item);
 		if (titleWrap.hasAttribute("draggable")) continue;
 
 		titleWrap.setAttribute("draggable", "true");
@@ -296,7 +297,7 @@ function updateEquippedItem(id: number, isEquip: boolean) {
 	const equipPosition = getEquipPosition(id, ITEM_RESOLVER.getStaticItem(id)?.type);
 	findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`).forEach((x) => x.classList.remove("equipped"));
 
-	if (isEquip && document.querySelector(`.item[data-id="${id}"]`)) document.querySelector(`.item[data-id="${id}"]`).classList.add("equipped");
+	if (isEquip && findElement(`.item[data-id="${id}"]`, true)) findElement(`.item[data-id="${id}"]`).classList.add("equipped");
 }
 
 function setupOverlayItems(tab: Element) {

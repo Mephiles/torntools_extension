@@ -2,7 +2,8 @@ import "./preference-settings.css";
 import { api } from "@common/utils/data/database";
 import { changeAPIKey } from "@common/utils/functions/api-key";
 import { createContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
@@ -49,9 +50,10 @@ async function executeFeature() {
 			requireElement("[class*='api___']").then(async (apiContainer) => {
 				await requireElement("li[class*='keyRow___']", { parent: apiContainer });
 
-				const defaultKey = findAllElements("li[class*='keyRow___']", apiContainer)
-					.find((element) => !element.querySelector("[class*='name___']").textContent)
-					?.querySelector("input").value;
+				const keyRow = findAllElements("li[class*='keyRow___']", apiContainer).find(
+					(element) => !findElement("[class*='name___']", element).textContent,
+				);
+				const defaultKey = keyRow ? findElement<HTMLInputElement>("input", keyRow).value : undefined;
 
 				connectButton.textContent = "Connect";
 				connectButton.classList.remove("tt-hidden");
@@ -72,7 +74,7 @@ async function executeFeature() {
 	}
 
 	function updateKey(key: string) {
-		const connectButton = document.querySelector("#connect-torntools");
+		const connectButton = findElement("#connect-torntools");
 
 		changeAPIKey(key).then(() => {
 			connectButton.setAttribute("disabled", "");

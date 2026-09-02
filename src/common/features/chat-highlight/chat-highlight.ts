@@ -1,7 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { withoutEndPunctuation } from "@common/utils/functions/formatting";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { getUserDetails, HIGHLIGHT_PLACEHOLDERS, is2FACheckPage } from "@common/utils/functions/torn";
@@ -34,7 +34,7 @@ function initialiseHighlights() {
 	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
 		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
 
-		const messageBox = message.querySelector<HTMLElement>(SELECTOR_CHAT_V2__MESSAGE_BOX);
+		const messageBox = findElement(SELECTOR_CHAT_V2__MESSAGE_BOX, message, true);
 		if (messageBox) applyV2Highlights(messageBox);
 		else applyV3Highlights(message);
 	});
@@ -114,7 +114,7 @@ function applyV2Highlights(message: HTMLElement) {
 	if (!message) return;
 	if (!highlights?.length) return;
 
-	const sender = simplify(message.querySelector(SELECTOR_CHAT_V2__MESSAGE_SENDER).textContent.replace(":", ""));
+	const sender = simplify(findElement(SELECTOR_CHAT_V2__MESSAGE_SENDER, message).textContent.replace(":", ""));
 	const words = message.lastElementChild.textContent
 		.split(" ")
 		.map(simplify)
@@ -144,7 +144,7 @@ function applyV3Highlights(message: HTMLElement) {
 	if (!highlights?.length) return;
 
 	let sender: string;
-	const senderElement = message.querySelector(SELECTOR_CHAT_V3__MESSAGE_SENDER);
+	const senderElement = findElement(SELECTOR_CHAT_V3__MESSAGE_SENDER, message, true);
 	if (senderElement) {
 		sender = senderElement.textContent.replace(":", "");
 	} else {
@@ -153,14 +153,13 @@ function applyV3Highlights(message: HTMLElement) {
 			sender = getUserDetails().name;
 		} else if (root && !root.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
 			const chatItem = message.closest("[class*='item___']");
-			const title = chatItem.querySelector("[class*='title___']");
+			const title = findElement("[class*='title___']", chatItem);
 			sender = title.textContent;
 		} else return;
 	}
 	sender = simplify(sender);
 
-	const words = message
-		.querySelector("[class*='message___']")
+	const words = findElement("[class*='message___']", message)
 		.textContent.split(" ")
 		.map(simplify)
 		.flatMap((text) => [text, withoutEndPunctuation(text)]);

@@ -1,4 +1,5 @@
+import { findElement } from "@common/utils/functions/find-elements.ts";
 import { mount } from "svelte";
 import Options from "./Options.svelte";
 
-mount(Options, { target: document.getElementById("app")! });
+mount(Options, { target: findElement("#app") });

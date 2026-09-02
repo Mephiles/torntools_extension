@@ -1,6 +1,6 @@
 import "./hide-icons.css";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { ALL_ICONS } from "@common/utils/functions/torn";
 import { ExecutionTiming, Feature } from "@features/feature";
@@ -11,14 +11,14 @@ async function initialiseHideIcons() {
 	await requireSidebar();
 
 	const selector = "#sidebarroot ul:is([class*='status-icons_'], [class*='statusIcons_'])";
-	if (!document.querySelector(selector)) return;
+	if (!findElement(selector, true)) return;
 
 	observer = new MutationObserver((_mutations, observer) => {
 		observer.disconnect();
 		moveIcons();
-		observer.observe(document.querySelector(selector), { childList: true, attributes: true });
+		observer.observe(findElement(selector), { childList: true, attributes: true });
 	});
-	observer.observe(document.querySelector(selector), { childList: true, attributes: true });
+	observer.observe(findElement(selector), { childList: true, attributes: true });
 }
 
 function applyStyle() {

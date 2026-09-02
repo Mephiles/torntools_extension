@@ -9,8 +9,9 @@ import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, isHTMLElement, showLoadingPlaceholder } from "@common/utils/functions/dom";
+import { elementBuilder, isHTMLElement, showLoadingPlaceholder } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@common/utils/functions/torn";
@@ -93,7 +94,7 @@ async function showBox() {
 	const id = parseInt(match[1]);
 
 	const { content, options } = createContainer("User Information", {
-		nextElement: document.querySelector(".medals-wrapper") || document.querySelector(".basic-information")?.closest(".profile-wrapper") || undefined,
+		nextElement: findElement(".medals-wrapper", true) || findElement(".basic-information", true)?.closest(".profile-wrapper") || undefined,
 		class: "mt10",
 	});
 
@@ -201,7 +202,7 @@ async function showBox() {
 			buildCustom();
 			buildOthers();
 
-			const sortable = new SortableJS(section.querySelector(".custom-stats .tt-table-body")!, {
+			const sortable = new SortableJS(findElement(".custom-stats .tt-table-body", section), {
 				animation: 150,
 				disabled: true,
 				onEnd: () => saveStats(),
@@ -215,13 +216,13 @@ async function showBox() {
 					click() {
 						if (moveButton.classList.toggle("active")) {
 							// Enable movement.
-							section.querySelector(".other-stats-button")!.setAttribute("disabled", "");
+							findElement(".other-stats-button", section).setAttribute("disabled", "");
 							findAllElements(".custom-stats .tt-table-row", section).forEach((row) => row.classList.add("tt-sortable"));
 
 							sortable.option("disabled", false);
 						} else {
 							// Disable movement.
-							section.querySelector(".other-stats-button")!.removeAttribute("disabled");
+							findElement(".other-stats-button", section).removeAttribute("disabled");
 							findAllElements(".custom-stats .tt-table-row", section).forEach((row) => row.classList.remove("tt-sortable"));
 
 							sortable.option("disabled", true);
@@ -236,15 +237,15 @@ async function showBox() {
 				text: "View other stats.",
 				events: {
 					click() {
-						const isCustom = !content.querySelector(".custom-stats")!.classList.toggle("tt-hidden");
+						const isCustom = !findElement(".custom-stats", content).classList.toggle("tt-hidden");
 
 						if (isCustom) {
-							content.querySelector(".other-stats")!.classList.add("tt-hidden");
-							content.querySelector(".move-stats")!.classList.remove("tt-hidden");
+							findElement(".other-stats", content).classList.add("tt-hidden");
+							findElement(".move-stats", content).classList.remove("tt-hidden");
 							otherList.textContent = "View other stats.";
 						} else {
-							content.querySelector(".other-stats")!.classList.remove("tt-hidden");
-							content.querySelector(".move-stats")!.classList.add("tt-hidden");
+							findElement(".other-stats", content).classList.remove("tt-hidden");
+							findElement(".move-stats", content).classList.add("tt-hidden");
 							otherList.textContent = "View custom list.";
 						}
 					},
@@ -257,13 +258,13 @@ async function showBox() {
 				children: [PHFillGear()],
 				events: {
 					click() {
-						const overlay = document.querySelector(".tt-overlay")!;
+						const overlay = findElement(".tt-overlay");
 
-						const button = section.querySelector(".edit-stats")!;
-						const otherStatsButton = section.querySelector(".other-stats-button")!;
+						const button = findElement(".edit-stats", section);
+						const otherStatsButton = findElement(".other-stats-button", section);
 
-						const customStats = section.querySelector(".custom-stats")!;
-						const otherStats = section.querySelector(".other-stats")!;
+						const customStats = findElement(".custom-stats", section);
+						const otherStats = findElement(".other-stats", section);
 
 						if (overlay.classList.toggle("tt-hidden")) {
 							// Overlay is now hidden.
@@ -299,7 +300,7 @@ async function showBox() {
 				await saveStats();
 				buildOthers(true);
 			} else {
-				const otherTable = table.previousElementSibling!.querySelector(".tt-table-body")!;
+				const otherTable = findElement(".tt-table-body", table.previousElementSibling!);
 
 				otherTable.appendChild(row);
 				await saveStats();
@@ -406,14 +407,14 @@ async function showBox() {
 			const table = createStatsTable("other-stats", _stats, true, true);
 
 			if (requireCleanup) {
-				section.querySelector(".other-stats")?.remove();
+				findElement(".other-stats", section, true)?.remove();
 
 				if (overlayStatus) {
 					table.element.classList.add("tt-overlay-item");
 					findAllElements(".tt-table-row:not(.tt-table-row-header)", table.element).forEach((row) => row.removeEventListener("click", onStatClick));
 				}
 
-				const actions = section.querySelector(".stat-actions")!;
+				const actions = findElement(".stat-actions", section);
 				actions.parentElement!.insertBefore(table.element, actions);
 			} else {
 				section.appendChild(table.element);
@@ -771,14 +772,14 @@ async function showBox() {
 }
 function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 	let name: string;
-	const nameElement = document.querySelector<HTMLElement>(".user.name[data-placeholder]");
+	const nameElement = findElement(".user.name[data-placeholder]", true);
 	if (nameElement) name = nameElement.dataset.placeholder!;
 	else name = "Unknown";
 
 	let lastActionStatus: UserLastActionStatusEnum;
-	if (document.querySelector("li[id*='icon2']")) lastActionStatus = "Offline";
-	else if (document.querySelector("li[id*='icon62']")) lastActionStatus = "Idle";
-	else if (document.querySelector("li[id*='icon1']")) lastActionStatus = "Online";
+	if (findElement("li[id*='icon2']", true)) lastActionStatus = "Offline";
+	else if (findElement("li[id*='icon62']", true)) lastActionStatus = "Idle";
+	else if (findElement("li[id*='icon1']", true)) lastActionStatus = "Online";
 	else lastActionStatus = "Offline";
 
 	const lastActionElement = extractInformationProfileInformationTable("Last action");
@@ -799,16 +800,16 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 
 	let statusState: string;
 	let statusColor: string;
-	if (document.querySelector("li[id*='icon15']")) {
+	if (findElement("li[id*='icon15']", true)) {
 		statusState = "Hospital";
 		statusColor = "red";
-	} else if (document.querySelector("li[id*='icon16']")) {
+	} else if (findElement("li[id*='icon16']", true)) {
 		statusState = "Jail";
 		statusColor = "red";
-	} else if (document.querySelector("li[id*='icon71']")) {
+	} else if (findElement("li[id*='icon71']", true)) {
 		statusState = "Traveling";
 		statusColor = "blue";
-	} else if (document.querySelector("li[id*='icon77']")) {
+	} else if (findElement("li[id*='icon77']", true)) {
 		statusState = "Fallen";
 		statusColor = "red";
 	} else {
@@ -816,7 +817,7 @@ function readStakeoutDataFromProfilePage(): StakeoutData["info"] {
 		statusColor = "green";
 	}
 
-	const statusDescriptionElement = document.querySelector(".main-desc");
+	const statusDescriptionElement = findElement(".main-desc", true);
 	const statusDescription = statusDescriptionElement ? statusDescriptionElement.textContent : "Unknown";
 
 	return {

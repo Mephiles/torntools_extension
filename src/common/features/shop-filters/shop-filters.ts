@@ -2,7 +2,8 @@ import "./shop-filters.css";
 import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckboxList } from "@common/utils/elements/checkbox-list/checkbox-list";
-import { elementBuilder, findAllElements, mobile, tablet } from "@common/utils/functions/dom";
+import { elementBuilder, mobile, tablet } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -55,7 +56,7 @@ async function filtering() {
 	await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
 
 	for (const element of findAllElements(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
-		const itemElement = element.querySelector(".item");
+		const itemElement = findElement(".item", element);
 		const itemIdAttr = itemElement.getAttribute("itemid");
 		if (!itemIdAttr) continue;
 
@@ -63,7 +64,7 @@ async function filtering() {
 		const item = ITEM_RESOLVER.getFullItem(id);
 		if (!item) continue;
 
-		const priceText = element.querySelector(".price").firstChild?.textContent ?? "";
+		const priceText = findElement(".price", element).firstChild?.textContent ?? "";
 		const price = convertToNumber(priceText);
 
 		const profitable = item.value.market_price - price > 0;
@@ -72,7 +73,7 @@ async function filtering() {
 			continue;
 		}
 
-		if (hideUnder100 && convertToNumber(element.querySelector(".instock").textContent) < 100) {
+		if (hideUnder100 && convertToNumber(findElement(".instock", element).textContent) < 100) {
 			element.classList.add("tt-hidden");
 			continue;
 		}

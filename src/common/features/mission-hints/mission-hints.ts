@@ -1,8 +1,9 @@
 import "./mission-hints.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -343,7 +344,7 @@ async function showHints() {
 		let title: string;
 		if (context.dataset.originalTitle) title = context.dataset.originalTitle;
 		else {
-			title = context.querySelector(".title-black").childNodes[0].textContent;
+			title = findElement(".title-black", context).childNodes[0].textContent;
 		}
 		title = title?.trim();
 
@@ -370,7 +371,7 @@ async function showHints() {
 			children.push(elementBuilder("br"), elementBuilder({ type: "span", children: [elementBuilder({ type: "b", text: "Hint: " }), hint] }));
 		}
 
-		context.querySelector(".max-height-fix").appendChild(elementBuilder({ type: "div", class: "tt-mission-information", children }));
+		findElement(".max-height-fix", context).appendChild(elementBuilder({ type: "div", class: "tt-mission-information", children }));
 		context.classList.add("tt-modified");
 	}
 

@@ -2,8 +2,9 @@ import "./efficient-rehab.css";
 import { EVENT_HANDLER, SCRIPT_INJECTOR } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS } from "@common/utils/functions/events.ts";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { applyPlural, convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
@@ -66,7 +67,7 @@ async function showInformation() {
 		adjustSlider(selectRehabs);
 	}
 
-	document.querySelector(".rehab-desc").insertAdjacentElement("afterend", informationElement);
+	findElement(".rehab-desc").insertAdjacentElement("afterend", informationElement);
 }
 
 function calculateSafeRehabs() {
@@ -82,11 +83,11 @@ function calculateSafeRehabs() {
 }
 
 function calculateMaximumAffordableRehabs() {
-	const costPerRehabElement = document.querySelector<HTMLElement>(".money[data-cost]");
+	const costPerRehabElement = findElement(".money[data-cost]", true);
 	if (!costPerRehabElement) return null;
 
 	const costPerRehab = convertToNumber(costPerRehabElement.dataset.cost!);
-	const money = convertToNumber(document.querySelector<HTMLElement>(".rehab-progress-wrap .money[data-money]").dataset.money);
+	const money = convertToNumber(findElement(".rehab-progress-wrap .money[data-money]").dataset.money);
 
 	return Math.floor(money / costPerRehab);
 }
@@ -98,7 +99,7 @@ function removeInformation() {
 type AvailablePercentages = Record<string, number>;
 
 function adjustSlider(ticks: number) {
-	const slider = document.querySelector("#rehub-progress .ui-slider");
+	const slider = findElement("#rehub-progress .ui-slider", true);
 	if (!slider) return;
 
 	const availablePercentages: AvailablePercentages = JSON.parse(slider.getAttribute("data-percentages")) || {};
@@ -106,7 +107,7 @@ function adjustSlider(ticks: number) {
 		? slider.clientWidth
 		: (slider.clientWidth / (100 - availablePercentages[1])) * (availablePercentages[ticks] - availablePercentages[1]) || 0;
 
-	slider.querySelector<HTMLElement>(".range-slider-track").style.left = `${width}px`;
+	findElement(".range-slider-track", slider).style.left = `${width}px`;
 }
 
 export default class EfficientRehabFeature extends Feature {

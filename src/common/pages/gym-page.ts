@@ -1,4 +1,5 @@
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements.ts";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 
@@ -32,7 +33,7 @@ export async function setupGymPage() {
 		}
 	});
 
-	document.getElementById("gymroot").addEventListener("click", (event) => {
+	findElement("#gymroot").addEventListener("click", (event) => {
 		const target = event.target as Element;
 		if (target.tagName !== "BUTTON" || (target.textContent !== "BACK TO GYM" && target.textContent !== "Cancel")) return;
 

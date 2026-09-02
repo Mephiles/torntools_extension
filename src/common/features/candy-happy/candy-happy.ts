@@ -2,8 +2,9 @@ import "./candy-happy.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -21,7 +22,7 @@ function addGains() {
 	const factionPerk = parseInt(userdata.perks.faction.filter((x) => /candy/i.test(x)).map((x) => x.replaceAll(/\D+/g, ""))[0]);
 	const companyPerk = parseInt(userdata.perks.job.filter((x) => /consumable boost/i.test(x)).map((x) => x.replaceAll(/\D+/g, ""))[0]);
 	findAllElements("[data-category='Candy']").forEach((candy) => {
-		if (candy.querySelector(".tt-candy-gains")) return;
+		if (findElement(".tt-candy-gains", candy, true)) return;
 
 		const item = ITEM_RESOLVER.getStaticItem(parseInt(candy.dataset.item));
 		if (!item) return;
@@ -42,7 +43,7 @@ function addGains() {
 			totalHappy *= 2;
 		}
 
-		candy.querySelector(".name-wrap").insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
+		findElement(".name-wrap", candy).insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
 	});
 }
 

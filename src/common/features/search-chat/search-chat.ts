@@ -1,8 +1,9 @@
 import "./search-chat.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import {
 	SELECTOR_CHAT_ROOT,
@@ -29,18 +30,18 @@ function initialiseSearchChat() {
 		const parent = message.closest(`[class*='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
 		if (!parent) return;
 
-		const input = parent.querySelector<HTMLInputElement>(".tt-chat-filter input");
+		const input = findElement<HTMLInputElement>(".tt-chat-filter input", parent, true);
 		if (!input) return;
 
 		const inputValue = input.value;
-		if (inputValue) searchChat(message.querySelector(`${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__MESSAGE}`), inputValue);
+		if (inputValue) searchChat(findElement(`${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__MESSAGE}`, message, true), inputValue);
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, () => {
 		if (!FEATURE_MANAGER.isEnabled(SearchChatFeature)) return;
 
 		// Re-filter all chats after they refresh.
 		findAllElements(`[class*='group-chat-box__chat-box-wrapper__'], ${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']`).forEach((chat) => {
-			const input = chat.querySelector<HTMLInputElement>(".tt-chat-filter input");
+			const input = findElement<HTMLInputElement>(".tt-chat-filter input", chat, true);
 			if (!input) return;
 
 			const inputValue = input.value;
@@ -66,9 +67,9 @@ async function showSearch() {
 }
 
 function addChatSearch(chat: Element) {
-	if (chat.querySelector(".tt-chat-filter")) return;
+	if (findElement(".tt-chat-filter", chat, true)) return;
 
-	const chatFooter = chat.querySelector("[class*='chat-box-footer__'], [class*='content___'] > [class*='root___']:nth-child(2)");
+	const chatFooter = findElement("[class*='chat-box-footer__'], [class*='content___'] > [class*='root___']:nth-child(2)", chat, true);
 	if (!chatFooter) return;
 
 	const searchElement = elementBuilder({
@@ -89,18 +90,18 @@ function addChatSearch(chat: Element) {
 		],
 	});
 
-	const scrollContainer = chat.querySelector("[class*='scrollContainer___']");
+	const scrollContainer = findElement("[class*='scrollContainer___']", chat, true);
 	if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
 
 	chatFooter.insertAdjacentElement("beforebegin", searchElement);
 }
 
 function addPeopleSearch(peopleMenu: Element | null = null) {
-	if (!peopleMenu) peopleMenu = document.querySelector("#chatRoot [class*='chat-app__panel__']");
+	if (!peopleMenu) peopleMenu = findElement("#chatRoot [class*='chat-app__panel__']", true);
 
-	if (!peopleMenu || peopleMenu.querySelector(".tt-chat-filter")) return;
+	if (!peopleMenu || findElement(".tt-chat-filter", peopleMenu, true)) return;
 
-	peopleMenu.querySelector("[class*='chat-list-header__tabs__']")?.insertAdjacentElement(
+	findElement("[class*='chat-list-header__tabs__']", peopleMenu, true)?.insertAdjacentElement(
 		"beforebegin",
 		elementBuilder({
 			type: "div",
@@ -118,7 +119,11 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 									const isUserID = !Number.isNaN(parseInt(keyword));
 
 									if (
-										peopleMenu.querySelector("[class*='chat-list-header__tabs__'] [class*='chat-list-header__tab--active__']:first-child")
+										findElement(
+											"[class*='chat-list-header__tabs__'] [class*='chat-list-header__tab--active__']:first-child",
+											peopleMenu,
+											true,
+										)
 									) {
 										// "Chats" tab opened.
 										const list = findAllElements<HTMLAnchorElement>(
@@ -163,7 +168,7 @@ function onChatSearch(event: { target: EventTarget }, chat: Element) {
 	}
 
 	if (!keyword) {
-		const chatBody = chat.querySelector(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_SCROLLER}`);
+		const chatBody = findElement(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_SCROLLER}`, chat);
 		chatBody.scrollTop = chatBody.scrollHeight;
 	}
 }
@@ -175,14 +180,14 @@ function searchChat(message: Element | null, keyword: string) {
 		const target = splitInput.shift().split(":")[1];
 		keyword = splitInput.join(" ");
 
-		const sender = message.querySelector<HTMLAnchorElement>(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`);
+		const sender = findElement<HTMLAnchorElement>(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`, message);
 		if (!sender.textContent.toLowerCase().includes(target) && (Number.isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
 			message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");
 			return;
 		}
 	}
 
-	const messageText = message.querySelector(`p, ${SELECTOR_CHAT_V3__MESSAGE_CONTENT}`).textContent.toLowerCase();
+	const messageText = findElement(`p, ${SELECTOR_CHAT_V3__MESSAGE_CONTENT}`, message).textContent.toLowerCase();
 	if (keyword && !messageText.includes(keyword)) {
 		message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");
 	} else {

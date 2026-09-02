@@ -1,6 +1,7 @@
 import { factiondata, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatTime } from "@common/utils/functions/formatting";
 import type { FormatTimeOptions } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
@@ -38,7 +39,7 @@ async function showTimer() {
 		}
 	}
 
-	document.querySelector(".tt-sidebar-information").appendChild(
+	findElement(".tt-sidebar-information").appendChild(
 		elementBuilder({
 			type: "section",
 			id: "ocTimer",
@@ -49,7 +50,7 @@ async function showTimer() {
 }
 
 function removeTimer() {
-	const timer = document.querySelector("#ocTimer");
+	const timer = findElement("#ocTimer", true);
 	if (timer) timer.remove();
 }
 

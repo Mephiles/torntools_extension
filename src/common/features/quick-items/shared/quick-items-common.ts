@@ -1,7 +1,8 @@
 import { ITEM_RESOLVER, ttStorage } from "@common/utils/context.ts";
 import { settings } from "@common/utils/data/database.ts";
 import { createContainer } from "@common/utils/functions/containers.ts";
-import { elementBuilder, findAllElements, findParent, isElement, isHTMLElement, mobile, tablet } from "@common/utils/functions/dom.ts";
+import { elementBuilder, findParent, isElement, isHTMLElement, mobile, tablet } from "@common/utils/functions/dom.ts";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { formatTime } from "@common/utils/functions/formatting.ts";
 import { createSwipeSafeClickEvents } from "@common/utils/functions/gestures.ts";
 import { getEquipPosition, getItemEnergy, getUserEnergy, isEquipable } from "@common/utils/functions/torn.ts";
@@ -60,8 +61,8 @@ export function createQuickDragHandlers(options: QuickDragHandlerOptions) {
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
-				document.querySelector(`${container} > main`).classList.add("drag-progress");
-				if (document.querySelector(`${container} .temp.item`) || !isElement(event.target)) return;
+				findElement(`${container} > main`).classList.add("drag-progress");
+				if (findElement(`${container} .temp.item`, true) || !isElement(event.target)) return;
 
 				const id = options.resolveQuickItem(event.target);
 				if (id === null) return;
@@ -70,8 +71,8 @@ export function createQuickDragHandlers(options: QuickDragHandlerOptions) {
 			}, 10);
 		},
 		async onDragEnd() {
-			document.querySelector(`${container} .temp.item`)?.remove();
-			document.querySelector(`${container} > main`).classList.remove("drag-progress");
+			findElement(`${container} .temp.item`, true)?.remove();
+			findElement(`${container} > main`).classList.remove("drag-progress");
 
 			await options.saveQuickItems();
 		},
@@ -167,7 +168,7 @@ export function createQuickItemsController(options: QuickItemsControllerOptions)
 							});
 							options.getOverlayItems().forEach((item) => item.classList.toggle("tt-overlay-item", isEditing));
 							options.onEditToggle?.(isEditing);
-							document.querySelector(".tt-overlay")?.classList.toggle("tt-hidden", !isEditing);
+							findElement(".tt-overlay", true)?.classList.toggle("tt-hidden", !isEditing);
 							if (isEditing) attachEditListeners();
 							else detachEditListeners();
 						}
@@ -237,8 +238,9 @@ export function createQuickItemsController(options: QuickItemsControllerOptions)
 	function addQuickItem(item: QuickItem, temporary = false) {
 		const { id } = item;
 
-		if (controlledContainerElements.content.querySelector(`.item[data-id='${id}']`))
-			return controlledContainerElements.content.querySelector(`.item[data-id='${id}']`);
+		const existingItem = findElement(`.item[data-id='${id}']`, controlledContainerElements.content, true);
+		if (existingItem) return existingItem;
+
 		if (!options.allowQuickItem(id, typeof id === "number" ? ITEM_RESOLVER.getStaticItem(id)?.type : null)) return null;
 
 		const dataset: Record<string, any> = { id };

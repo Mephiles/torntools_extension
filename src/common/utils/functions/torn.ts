@@ -6,7 +6,8 @@ import { requireCondition, requireElement } from "@common/utils/functions/requir
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
 import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
-import { elementBuilder, findAllElements, findElementWithText, findParent, getSearchParameters, isElement } from "./dom";
+import { elementBuilder, findParent, getSearchParameters, isElement } from "./dom";
+import { findAllElements, findElement, findElementWithText } from "./find-elements";
 import { convertToNumber, formatNumber } from "./formatting";
 
 export const LINKS = {
@@ -1841,7 +1842,7 @@ export function isPageWithSidebar(): boolean {
 }
 
 export function isCaptcha() {
-	return !!document.querySelector(".captcha");
+	return !!findElement(".captcha", true);
 }
 
 export function hasDarkMode() {
@@ -2049,7 +2050,7 @@ export function getStockBoughtPrice(stock: UserStock) {
 }
 
 export function is2FACheckPage() {
-	return !!document.querySelector(".content-wrapper.logged-out .two-factor-auth-container");
+	return !!findElement(".content-wrapper.logged-out .two-factor-auth-container", true);
 }
 
 /*
@@ -2110,7 +2111,7 @@ Resend
 </div>*/
 
 export function getPageStatus() {
-	const infoMessage = document.querySelector(".content-wrapper .info-msg-cont");
+	const infoMessage = findElement(".content-wrapper .info-msg-cont", true);
 	if (infoMessage?.classList.contains("red")) {
 		const message = infoMessage.textContent;
 
@@ -2120,8 +2121,8 @@ export function getPageStatus() {
 		return { access: false, message: infoMessage.textContent };
 	}
 
-	if (document.querySelector(".captcha")) return { access: false, message: "Captcha required" };
-	else if (document.querySelector(".dirty-bomb")) return { access: false, message: "Dirty bomb screen" };
+	if (findElement(".captcha", true)) return { access: false, message: "Captcha required" };
+	else if (findElement(".dirty-bomb", true)) return { access: false, message: "Dirty bomb screen" };
 	else if (is2FACheckPage()) return { access: false, message: "2 Factor Authentication" };
 
 	return { access: true };
@@ -2140,7 +2141,7 @@ export function getUserDetails() {
 	let id: number, name: string;
 
 	if (!hasAPIData()) {
-		const script = document.querySelector("script[uid][name]");
+		const script = findElement("script[uid][name]", true);
 		if (!script) return { error: "Couldn't get details" };
 
 		id = parseInt(script.getAttribute("uid"));
@@ -2165,8 +2166,7 @@ export function isOwnProfile() {
 }
 
 export function getUserEnergy() {
-	return document
-		.querySelector("[class*='bar__'][class*='energy__'] [class*='bar-value___'], [class*='bar__'][class*='energy__'] [class*='barValue___']")
+	return findElement("[class*='bar__'][class*='energy__'] [class*='bar-value___'], [class*='bar__'][class*='energy__'] [class*='barValue___']")
 		.textContent.split("/")
 		.map((x) => parseInt(x));
 }
@@ -2184,8 +2184,7 @@ export function getItemEnergy(id: number) {
 }
 
 export function getUserLife() {
-	return document
-		.querySelector("[class*='bar__'][class*='life__'] :is([class*='bar-value___'], [class*='barValue___'])")
+	return findElement("[class*='bar__'][class*='life__'] :is([class*='bar-value___'], [class*='barValue___'])")
 		.textContent.split("/")
 		.map((x) => parseInt(x));
 }
@@ -2193,9 +2192,9 @@ export function getUserLife() {
 export function getUsername(row: Element) {
 	let name: string, id: number, combined: string;
 
-	const element = row.querySelector<HTMLLinkElement>(".user.name");
+	const element = findElement<HTMLLinkElement>(".user.name", row, true);
 	if (element) {
-		const title = element.querySelector(":scope > [title]");
+		const title = findElement(":scope > [title]", element, true);
 		if (title) {
 			combined = title.getAttribute("title");
 
@@ -2209,9 +2208,9 @@ export function getUsername(row: Element) {
 			combined = `${name} [${id}]`;
 		}
 	} else {
-		const link = row.querySelector<HTMLLinkElement>("a[href*='profiles']");
+		const link = findElement<HTMLLinkElement>("a[href*='profiles']", row);
 		if (link.getAttribute("id")) {
-			name = link.querySelector("span").textContent || "";
+			name = findElement("span", link).textContent || "";
 			id = convertToNumber(link.getAttribute("id").split("-")[0]);
 
 			combined = name ? `${name} [${id}]` : id.toString();
@@ -2233,7 +2232,7 @@ export function hasFinishedEducation() {
 }
 
 export function isChatV3() {
-	return !!document.getElementById("notes_settings_button");
+	return !!findElement("#notes_settings_button", true);
 }
 
 let ttTopLinks: HTMLElement | undefined, ttTopLinksCreating: boolean | undefined;
@@ -2453,7 +2452,7 @@ export const MAX_MISSIONS = {
 } as const;
 
 export function getSidebarArea(): Node | null {
-	const areasTitle = findElementWithText("h2", "Areas");
+	const areasTitle = findElementWithText("h2", "Areas", true);
 	if (!areasTitle) return null;
 
 	return areasTitle;
@@ -2621,9 +2620,7 @@ export function extractXIDFromDOM(root: ParentNode): ExtractedXID[] {
 				const itemString = node.getAttribute("data-item") || node.getAttribute("data-itemid");
 				if (!itemString) return null;
 
-				const equipButton = node.querySelector<HTMLElement>(
-					'[data-action="equip"], [data-action="unequip"], button[name="equip"], button[name="unequip"]',
-				);
+				const equipButton = findElement('[data-action="equip"], [data-action="unequip"], button[name="equip"], button[name="unequip"]', node, true);
 				const xidString = extractRawXIDFromDataset(node) || extractRawXIDFromDataset(equipButton);
 				if (!xidString) return null;
 
@@ -2689,9 +2686,7 @@ export function extractXIDFromHTML(html: string): ExtractedXID[] {
 			if (!itemId) return null;
 
 			const armoryId =
-				li.getAttribute("data-armoryid") ||
-				li.getAttribute("data-id") ||
-				li.querySelector<HTMLElement>(`[data-id]:not([data-id='${itemId}'])`)?.dataset?.id;
+				li.getAttribute("data-armoryid") || li.getAttribute("data-id") || findElement(`[data-id]:not([data-id='${itemId}'])`, li, true)?.dataset?.id;
 			if (!armoryId) return null;
 
 			return { item: parseInt(itemId), xid: parseInt(armoryId) };
@@ -2706,9 +2701,9 @@ export function extractFactionsFromPage() {
 	if (!factionLinks.length) return [];
 
 	const factions = new Set(
-		document.querySelector(".users-list > li .user.faction img")
+		findElement(".users-list > li .user.faction img", true)
 			? factionLinks
-					.map((row) => row.querySelector("img"))
+					.map((row) => findElement("img", row, true))
 					.filter((img) => !!img)
 					.map((img) => img.getAttribute("title").trim())
 					.filter((tag) => !!tag)
@@ -2719,7 +2714,7 @@ export function extractFactionsFromPage() {
 }
 
 export function isFlyoutSidebar(): boolean {
-	return !!document.querySelector("[class*='userInformation___']");
+	return !!findElement("[class*='userInformation___']", true);
 }
 
 export function getFactionName(): string | null {
@@ -2729,7 +2724,7 @@ export function getFactionName(): string | null {
 
 	const iconTitle =
 		getSidebarData()?.statusIcons?.icons?.faction?.subtitle ??
-		document.querySelector("li[class*='icon'] a[href='/factions.php?step=your']")?.getAttribute("aria-label") ??
+		findElement("li[class*='icon'] a[href='/factions.php?step=your']", true)?.getAttribute("aria-label") ??
 		(hasAPIData() ? userdata?.icons?.find((icon) => icon.id === 9)?.description : null);
 	if (iconTitle) {
 		const factionParts = iconTitle.split(" of ");
@@ -2755,7 +2750,7 @@ export function getBloodType(): BloodType | null {
 }
 
 export function getHospitalTime(): number | null {
-	const header = document.querySelector<HTMLElement>("#topHeaderBanner[data-hospital]");
+	const header = findElement("#topHeaderBanner[data-hospital]", true);
 	if (header) {
 		const timestamp = parseInt(header.dataset.hospital) * 1000;
 		if (timestamp < Date.now()) return null;

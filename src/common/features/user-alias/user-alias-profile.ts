@@ -1,6 +1,7 @@
 import "./user-alias.css";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
@@ -10,18 +11,18 @@ async function addAlias() {
 	removeAlias();
 
 	const nameLi = await requireElement(".profile-container.basic-info .info-table > :first-child");
-	const userID = convertToNumber(nameLi.querySelector(".user-info-value .bold").textContent.split("[")[1]);
+	const userID = convertToNumber(findElement(".user-info-value .bold", nameLi).textContent.split("[")[1]);
 	const alias = getUserAliasById(userID);
 	if (!alias) return;
 
-	const profileImg = document.querySelector(".user.name");
+	const profileImg = findElement(".user.name");
 	const aliasSpan = elementBuilder({ type: "span", class: "tt-user-alias", text: alias.alias });
 	profileImg.insertAdjacentElement("afterend", aliasSpan);
 
 	const cloneLi = nameLi.cloneNode(true) as Element;
 	cloneLi.classList.add("tt-alias");
-	cloneLi.querySelector(".user-information-section .bold").textContent = "Alias";
-	cloneLi.querySelector(".user-info-value .bold").textContent = alias.alias;
+	findElement(".user-information-section .bold", cloneLi).textContent = "Alias";
+	findElement(".user-info-value .bold", cloneLi).textContent = alias.alias;
 	nameLi.insertAdjacentElement("afterend", cloneLi);
 }
 

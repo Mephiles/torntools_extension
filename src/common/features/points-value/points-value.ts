@@ -1,7 +1,8 @@
 import "./points-value.css";
 import { settings, torndata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { checkDevice, executeScript, findAllElements, isElement } from "@common/utils/functions/dom";
+import { checkDevice, executeScript, isElement } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
@@ -10,7 +11,7 @@ import { Feature } from "@features/feature";
 function setTitleAttributes() {
 	findAllElements(".tt-points-value > span").forEach((element) => {
 		const value = torndata.stats.points_averagecost;
-		const points = convertToNumber(element.parentElement.querySelector("span[class*='value___']").textContent);
+		const points = convertToNumber(findElement("span[class*='value___']", element.parentElement).textContent);
 
 		element.setAttribute(
 			"title",

@@ -1,5 +1,5 @@
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { createMessageBox, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -13,14 +13,15 @@ async function hideStocks() {
 			stockNode.classList.add(styles.hiddenStock);
 		}
 	});
-	document
-		.querySelector("#stockmarketroot [class*='appHeaderWrapper__']")
-		.insertAdjacentElement("afterend", createMessageBox("Some stocks have been hidden.", { class: styles.ttStocksHidden }));
+	findElement("#stockmarketroot [class*='appHeaderWrapper__']").insertAdjacentElement(
+		"afterend",
+		createMessageBox("Some stocks have been hidden.", { class: styles.ttStocksHidden }),
+	);
 }
 
 function unhideStocks() {
 	findAllElements("#stockmarketroot .tt-hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove(styles.hiddenStock));
-	document.querySelector(".tt-stocks-hidden")?.remove();
+	findElement(".tt-stocks-hidden", true)?.remove();
 }
 
 export default class HideStocksFeature extends Feature {

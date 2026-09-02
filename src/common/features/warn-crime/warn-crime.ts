@@ -4,6 +4,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasOC1Data } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUserDetails } from "@common/utils/functions/torn";
@@ -59,14 +60,14 @@ function addListener() {
 
 async function disableButtons() {
 	const list = await requireElement(".tt-oc2-list");
-	list.querySelectorAll("[class*='joinButton___']:not(.tt-warn-crime--processed)").forEach((button) => {
+	findAllElements("[class*='joinButton___']:not(.tt-warn-crime--processed)", list).forEach((button) => {
 		button.classList.add("tt-warn-crime--processed");
 
 		const scenarioElement = button.closest("[class*='contentLayer___']");
 		const slotElement = button.closest("[class*='wrapper___']");
 
-		const scenarioName = scenarioElement.querySelector("[class*='panelTitle___']").textContent;
-		const position = slotElement.querySelector("[class*='title___']").textContent;
+		const scenarioName = findElement("[class*='panelTitle___']", scenarioElement).textContent;
+		const position = findElement("[class*='title___']", slotElement).textContent;
 
 		const blocked: string[] = [];
 

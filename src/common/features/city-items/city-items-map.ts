@@ -1,6 +1,7 @@
 import type { InternalCityItem, TornCityMapRuntime, TornCityObject } from "@common/pages/city-page";
 import { EVENT_HANDLER } from "@common/utils/context";
 import { EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 
 export interface CityItemsMapEntry {
 	entryId: string;
@@ -243,7 +244,7 @@ export function injectCityItemsMapListeners(pageWindow: CityItemsMapWindow = win
 	}
 
 	function getMap(): LeafletMap | null {
-		const mapElement = pageWindow.document.querySelector<LeafletMapElement>("#map");
+		const mapElement = findElement<LeafletMapElement>("#map", pageWindow.document, true);
 		const map = getTornRuntime()?.map?.lmap ?? mapElement?._leaflet_map;
 		return isLeafletMap(map) ? map : null;
 	}

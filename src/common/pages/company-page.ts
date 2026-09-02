@@ -4,6 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { getHashParameters, isElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 
@@ -25,7 +26,7 @@ export function setupCompanyPage() {
 					return;
 
 				triggerCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE);
-			}).observe(document.querySelector(".content #mainContainer .content-wrapper"), { childList: true });
+			}).observe(findElement(".content #mainContainer .content-wrapper"), { childList: true });
 		});
 	} else {
 		window.addEventListener("hashchange", () => {

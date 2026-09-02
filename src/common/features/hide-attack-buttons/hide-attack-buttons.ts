@@ -1,5 +1,6 @@
 import { settings } from "@common/utils/data/database";
-import { findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
+import { findAllElements } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { ExecutionTiming, Feature } from "@features/feature";

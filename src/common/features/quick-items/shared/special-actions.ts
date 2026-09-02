@@ -2,6 +2,7 @@ import { ITEM_RESOLVER } from "@common/utils/context.ts";
 import { userdata } from "@common/utils/data/database.ts";
 import { hasAPIData } from "@common/utils/functions/api.ts";
 import { elementBuilder } from "@common/utils/functions/dom.ts";
+import { findElement } from "@common/utils/functions/find-elements.ts";
 import { ALLOWED_BLOOD, getBloodType, getHospitalTime, getMedicalCooldown, getUserLife } from "@common/utils/functions/torn.ts";
 import type { BloodType } from "@common/utils/functions/torn.ts";
 import { TO_MILLIS } from "@common/utils/functions/utilities.ts";
@@ -31,7 +32,7 @@ export function getSpecialAction(id: QuickItemId): SpecialAction {
 }
 
 export function toggleSpecialQuickOptions(content: HTMLElement, addQuickItem: (item: QuickItem) => void, saveQuickItems: () => Promise<void>) {
-	const existingOptions = content.querySelector(`.${styles.specialOptions}`);
+	const existingOptions = findElement(`.${styles.specialOptions}`, content, true);
 	if (existingOptions) {
 		existingOptions.remove();
 		return;

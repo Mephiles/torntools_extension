@@ -4,6 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { UserV1DisplayCaseResponse } from "@common/utils/functions/api-v1.types";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -48,7 +49,7 @@ async function addWorth() {
 }
 
 async function displayValue(isOwn: boolean, value: number) {
-	document.querySelector(`.${styles.displayWorth}`)?.remove();
+	findElement(`.${styles.displayWorth}`, true)?.remove();
 
 	let element: Element;
 	if (isOwn) {
@@ -85,7 +86,7 @@ async function displayElement(isOwn: boolean, element: Element) {
 	} else {
 		await requireElement(".info-msg-cont .ajax-preloader", { invert: true });
 
-		document.querySelector(".info-msg-cont .msg").appendChild(element);
+		findElement(".info-msg-cont .msg").appendChild(element);
 	}
 }
 

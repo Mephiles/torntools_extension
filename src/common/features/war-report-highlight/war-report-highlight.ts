@@ -1,5 +1,6 @@
 import { api, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 import styles from "./war-report-highlight.module.css";
@@ -7,7 +8,7 @@ import styles from "./war-report-highlight.module.css";
 async function highlightName() {
 	await requireElement(".members-list");
 
-	document.querySelector(`li:has(.member a[href*='${api.torn.owner}'])`)?.classList.add(styles.warReportHighlight);
+	findElement(`li:has(.member a[href*='${api.torn.owner}'])`, true)?.classList.add(styles.warReportHighlight);
 }
 
 export default class WarReportHighlightFeature extends Feature {

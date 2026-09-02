@@ -1,12 +1,13 @@
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 import styles from "./hide-casino-games.module.css";
 
 function hideCasinoGames() {
-	const msg = document.querySelector(".msg.right-round");
-	if (!msg.querySelector(`.${styles.ttMsg}`)) {
+	const msg = findElement(".msg.right-round");
+	if (!findElement(`.${styles.ttMsg}`, msg, true)) {
 		msg.appendChild(
 			elementBuilder({
 				type: "div",
@@ -26,7 +27,7 @@ function hideCasinoGames() {
 	});
 
 	for (const gameClass of settings.hideCasinoGames) {
-		const game = document.querySelector(`.${gameClass}`);
+		const game = findElement(`.${gameClass}`);
 
 		game.parentElement.classList.add(styles.ttHiddenParent);
 		game.classList.add(styles.ttHiddenGame);

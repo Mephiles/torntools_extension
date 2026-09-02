@@ -5,8 +5,9 @@ import { factionStakeouts, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createTextbox } from "@common/utils/elements/textbox/textbox";
 import { createContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -170,7 +171,7 @@ export default class FactionStakeoutsFeature extends Feature {
 	}
 
 	override async execute() {
-		if (isInternalFaction && !document.querySelector(".faction-description")) return;
+		if (isInternalFaction && !findElement(".faction-description", true)) return;
 
 		await displayBox();
 	}

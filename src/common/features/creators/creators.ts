@@ -1,5 +1,6 @@
 import "./creators.css";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { torntools } from "@common/utils/icons/torntools";
@@ -16,7 +17,7 @@ async function showCreators() {
 
 	const title = Array.isArray(creator.title) ? creator.title[0] : creator.title;
 
-	document.querySelector(".content-wrapper .content-title").insertAdjacentElement(
+	findElement(".content-wrapper .content-title").insertAdjacentElement(
 		"afterend",
 		elementBuilder({
 			type: "div",

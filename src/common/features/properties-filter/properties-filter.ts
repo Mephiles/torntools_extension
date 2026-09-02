@@ -5,6 +5,7 @@ import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { createFilter, multiSelectSection, radioSection, sliderSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -44,7 +45,7 @@ async function addFilterContainer() {
 			defaults: { low: filters.properties.daysOnLeaseLow, high: filters.properties.daysOnLeaseHigh },
 			formatCounter: ({ start, end }) => `${start} - ${end} days`,
 			test: (row, range) => {
-				const description = row.querySelector(".image-description > span");
+				const description = findElement(".image-description > span", row, true);
 				if (!description) return true;
 
 				const leaseMatch = REGEX_LEASED.exec(description.textContent.trim());
@@ -70,7 +71,7 @@ async function addFilterContainer() {
 			test: (row, status) => {
 				if (status === "all") return true;
 
-				const description = row.querySelector(".image-description > span")?.textContent.toLowerCase();
+				const description = findElement(".image-description > span", row, true)?.textContent.toLowerCase();
 				if (!description) return false;
 
 				if (status === "occupied") return description?.includes("living");
@@ -88,7 +89,7 @@ async function addFilterContainer() {
 			test: (row, types) => {
 				if (!types.length) return true;
 
-				const image = row.querySelector(".image-place img[alt]");
+				const image = findElement(".image-place img[alt]", row);
 				const type = image.getAttribute("alt").replace("Spouse's ", "");
 
 				return types.includes(type);
@@ -101,7 +102,7 @@ async function addFilterContainer() {
 		container: {
 			title: "Properties Filter",
 			class: "mt10 mb10",
-			previousElement: document.querySelector(".properties-tabs")!,
+			previousElement: findElement(".properties-tabs"),
 		},
 		statisticsLabel: "properties",
 		enabled: filters.properties.enabled,
@@ -135,7 +136,7 @@ async function reattachFilter() {
 		return;
 	}
 
-	filter.reattach({ previousElement: document.querySelector(".properties-tabs")! });
+	filter.reattach({ previousElement: findElement(".properties-tabs") });
 	await filter.run();
 }
 

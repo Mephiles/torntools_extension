@@ -2,7 +2,8 @@ import "./total-portfolio-value.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements, mobile } from "@common/utils/functions/dom";
+import { elementBuilder, mobile } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { sleep } from "@common/utils/functions/utilities";
@@ -19,7 +20,7 @@ async function addProfitAndValue() {
 		await sleep(0.5);
 		calculateAndShowProfits();
 	});
-	observer.observe(document.querySelector("#priceTab"), { attributeOldValue: true });
+	observer.observe(findElement("#priceTab"), { attributeOldValue: true });
 }
 
 function calculateAndShowProfits() {
@@ -43,7 +44,7 @@ function calculateAndShowProfits() {
 		.reduce((a, b) => a + b, 0);
 
 	const shorten = mobile ? 2 : true;
-	document.querySelector("#stockmarketroot h4").appendChild(
+	findElement("#stockmarketroot h4").appendChild(
 		elementBuilder({
 			type: "span",
 			class: "tt-total-stock-value",
@@ -59,21 +60,21 @@ function calculateAndShowProfits() {
 			],
 		}),
 	);
-	if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
+	if (mobile) findElement("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
 }
 
 function getStockPrices() {
 	const data: Record<string, number> = {};
 	findAllElements("[class*='stockMarket__'] > ul[id]").forEach((stock) => {
-		data[stock.id] = parseFloat(stock.querySelector("#priceTab > :first-child").textContent);
+		data[stock.id] = parseFloat(findElement("#priceTab > :first-child", stock).textContent);
 	});
 	return data;
 }
 
 function removeProfitAndValue() {
-	const ttTotalStockValue = document.querySelector("#stockmarketroot .tt-total-stock-value");
+	const ttTotalStockValue = findElement("#stockmarketroot .tt-total-stock-value", true);
 	if (ttTotalStockValue) ttTotalStockValue.remove();
-	if (mobile) document.querySelector("#stockmarketroot [class*='topSection__']").classList.remove("tt-total-stock-value-wrap");
+	if (mobile) findElement("#stockmarketroot [class*='topSection__']").classList.remove("tt-total-stock-value-wrap");
 }
 
 export default class TotalPortfolioValueFeature extends Feature {

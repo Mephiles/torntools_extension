@@ -1,8 +1,9 @@
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements, getHashParameters } from "@common/utils/functions/dom.ts";
+import { getHashParameters } from "@common/utils/functions/dom.ts";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { convertToNumber } from "@common/utils/functions/formatting.ts";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -25,7 +26,7 @@ function pageLoad() {
 
 	interceptGiveMoneyClick();
 
-	const form = document.querySelector<HTMLElement>("#faction-give-to-user-root [class*='money___'] form");
+	const form = findElement("#faction-give-to-user-root [class*='money___'] form", true);
 	if (!form) return;
 
 	formObserver = new MutationObserver((mutations) => {
@@ -37,8 +38,9 @@ function pageLoad() {
 }
 
 function interceptGiveMoneyClick() {
-	const giveMoneyButton = document.querySelector<HTMLElement>(
+	const giveMoneyButton = findElement(
 		`#faction-give-to-user-root [class*='money___'] [class*='ctaButton___']:not(.${styles.balanceWarningIntercepted})`,
+		true,
 	);
 	if (!giveMoneyButton) return;
 
@@ -50,7 +52,7 @@ function giveMoneyHandler(event: MouseEvent) {
 	const inputValues = getGiveMoneyInputs();
 	if (!inputValues) return;
 
-	if (!document.querySelector<HTMLInputElement>("#give-money")?.checked) return;
+	if (!findElement<HTMLInputElement>("#give-money", true)?.checked) return;
 
 	const { user, money } = inputValues;
 	if (allowFromPersonalBalance(user, money) || matchesAnyBalance(money)) return;
@@ -75,10 +77,10 @@ function getGiveMoneyInputs(): GiveMoneyInputs | null {
 	const moneyRoot = moneyRootElement();
 	if (!moneyRoot) return null;
 
-	const moneyInput = moneyRoot.querySelector<HTMLInputElement>(".input-money[type='hidden']");
+	const moneyInput = findElement<HTMLInputElement>(".input-money[type='hidden']", moneyRoot, true);
 	if (!moneyInput?.value) return null;
 
-	const userInput = moneyRoot.querySelector<HTMLInputElement>("[class*='userAutocomplete___']");
+	const userInput = findElement<HTMLInputElement>("[class*='userAutocomplete___']", moneyRoot, true);
 	if (!userInput?.value) return null;
 
 	const userMatch = userInput.value.match(/.*\[(\d+)]/);
@@ -91,10 +93,10 @@ function getGiveMoneyInputs(): GiveMoneyInputs | null {
 }
 
 function allowFromPersonalBalance(userId: number, amount: number): boolean {
-	const userRow = document.querySelector(`#faction-give-to-user-root [class*='money___'] li:has(a[href$='XID=${userId}'])`);
+	const userRow = findElement(`#faction-give-to-user-root [class*='money___'] li:has(a[href$='XID=${userId}'])`, true);
 	if (!userRow) return false;
 
-	const balanceElement = userRow.querySelector<HTMLElement>("[class*='editBalanceWrap___']");
+	const balanceElement = findElement("[class*='editBalanceWrap___']", userRow, true);
 	if (!balanceElement) return false;
 
 	return convertToNumber(balanceElement.textContent) >= amount;
@@ -110,7 +112,7 @@ function showWarning() {
 	return confirm("You are giving more than the balance of this user, and doesn't match any other balance either.");
 }
 function moneyRootElement() {
-	return document.querySelector("#faction-give-to-user-root [class*='money___']");
+	return findElement("#faction-give-to-user-root [class*='money___']", true);
 }
 
 export default class BalanceWarningFeature extends Feature {

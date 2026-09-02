@@ -1,7 +1,8 @@
 import { settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
-import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { PHFillTable } from "@common/utils/icons/phosphor-icons";
@@ -12,7 +13,7 @@ async function addCSVContainer() {
 	await requireElement(".members-stats-col.respect");
 
 	const { options } = createContainer("Chain Report", {
-		previousElement: document.querySelector(".content-wrapper .content-title"),
+		previousElement: findElement(".content-wrapper .content-title"),
 		onlyHeader: true,
 	});
 	const exportButton = elementBuilder({
@@ -23,7 +24,7 @@ async function addCSVContainer() {
 			click() {
 				const chainID = getSearchParameters().get("chainID");
 				const csv = new CSVExport(`Chain Report [${chainID}]`);
-				csv.append(document.querySelector(".report-title-faction-name").textContent);
+				csv.append(findElement(".report-title-faction-name").textContent);
 				csv.append(
 					"Members",
 					"Respect",

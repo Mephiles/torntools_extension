@@ -12,6 +12,26 @@
 		"eslint/no-async-promise-executor": "off",
 		"eslint/no-cond-assign": "off",
 		"eslint/no-constructor-return": "error",
+		"eslint/no-restricted-properties": [
+			"error",
+			{
+				"property": "querySelectorAll",
+				"message": "Use findAllElements(selector, parent?) from @common/utils/functions/find-elements instead."
+			},
+			{
+				"property": "querySelector",
+				"message": "Use findElement(selector, parent?, optional?) from @common/utils/functions/find-elements instead."
+			},
+			{
+				"property": "getElementById",
+				"object": "document",
+				"message": "Use findElement(selector, parent?, optional?) from @common/utils/functions/find-elements instead."
+			},
+			{
+				"property": "getElementsByTagName",
+				"message": "Use findElement(selector, parent?, optional?) from @common/utils/functions/find-elements instead."
+			}
+		],
 		"eslint/no-shadow": "off",
 		"eslint/no-underscore-dangle": "off",
 		"eslint/no-unsafe-optional-chaining": "off",
@@ -62,6 +82,7 @@
 		"typescript/no-non-null-assertion": "off",
 		"typescript/no-unnecessary-boolean-literal-compare": "off",
 		"typescript/no-unnecessary-type-assertion": "off",
+		"typescript/no-unnecessary-type-parameters": "off",
 		"typescript/no-unsafe-type-assertion": "off",
 		"typescript/no-useless-default-assignment": "off",
 		"typescript/no-wrapper-object-types": "off",
@@ -87,5 +108,13 @@
 		"unicorn/prefer-single-call": "warn",
 		"unicorn/prefer-string-replace-all": "warn",
 		"unicorn/prefer-string-slice": "warn"
-	}
+	},
+	"overrides": [
+		{
+			"files": ["src/common/utils/functions/find-elements.ts"],
+			"rules": {
+				"eslint/no-restricted-properties": "off"
+			}
+		}
+	]
 }

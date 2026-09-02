@@ -5,8 +5,9 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { dropDecimals } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
@@ -47,7 +48,7 @@ function addListener() {
 async function addLastAction(force: boolean) {
 	if (isInternalFaction && !force) return;
 	if (!isInternalFaction && (await isDestroyed())) return;
-	if (document.querySelector(".tt-last-action")) return;
+	if (findElement(".tt-last-action", true)) return;
 
 	await requireElement(".members-list .table-body > li");
 
@@ -56,7 +57,7 @@ async function addLastAction(force: boolean) {
 
 	const members = await loadMembers(id);
 
-	const list = document.querySelector(".members-list .table-body");
+	const list = findElement(".members-list .table-body", true);
 	if (!list) return;
 
 	list.classList.add("tt-modified");
@@ -64,7 +65,7 @@ async function addLastAction(force: boolean) {
 	let maxHours = 0;
 	findAllElements(":scope > li.table-row", list).forEach((row) => {
 		// Don't show this for fallen players.
-		if (row.querySelector(".icons li[id*='icon77___']")) return;
+		if (findElement(".icons li[id*='icon77___']", row, true)) return;
 
 		const userID = getUsername(row).id;
 		const member = members.find((m) => m.id === userID);
@@ -109,7 +110,7 @@ async function addLastAction(force: boolean) {
 }
 
 function removeLastAction() {
-	const list = document.querySelector(".members-list .table-body.tt-modified");
+	const list = findElement(".members-list .table-body.tt-modified", true);
 	if (list) {
 		findAllElements(":scope > div.tt-last-action", list).forEach((x) => x.remove());
 		list.classList.remove("tt-modified");

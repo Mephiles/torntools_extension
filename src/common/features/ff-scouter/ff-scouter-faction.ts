@@ -2,8 +2,9 @@ import { isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -28,7 +29,7 @@ async function showFF(force: boolean) {
 
 	await requireElement(".members-list .table-body > li");
 
-	const list = document.querySelector(".members-list .table-body");
+	const list = findElement(".members-list .table-body", true);
 
 	const memberIds = findAllElements<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']", list).map((link) =>
 		parseInt(new URL(link.href).searchParams.get("XID")),
@@ -44,7 +45,7 @@ async function showFF(force: boolean) {
 				text: "FF",
 				attributes: { tabindex: "0" },
 			});
-			document.querySelector(".table-header > .lvl").insertAdjacentElement("afterend", header);
+			findElement(".table-header > .lvl").insertAdjacentElement("afterend", header);
 
 			fillFF(list, Object.values(scouts));
 		})
@@ -56,7 +57,7 @@ async function showFF(force: boolean) {
 function fillFF(list: Element, results: ScouterResult[]) {
 	findAllElements(":scope > li.table-row", list).forEach((row) => {
 		// Don't show this for fallen players.
-		if (row.querySelector(".icons li[id*='icon77___']")) {
+		if (findElement(".icons li[id*='icon77___']", row, true)) {
 			row.dataset.ffScout = "N/A";
 			return;
 		}
@@ -65,7 +66,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 		const scout = results.find((r) => r.player_id === userID);
 		if ("message" in scout || scout.fair_fight === null) {
 			row.dataset.ffScout = "N/A";
-			row.querySelector(".table-cell.lvl").insertAdjacentElement(
+			findElement(".table-cell.lvl", row).insertAdjacentElement(
 				"afterend",
 				elementBuilder({
 					type: "li",
@@ -82,7 +83,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 		const backgroundColor = ffColor(ff);
 		const textColor = contrastFFColor(backgroundColor);
 
-		row.querySelector(".table-cell.lvl").insertAdjacentElement(
+		findElement(".table-cell.lvl", row).insertAdjacentElement(
 			"afterend",
 			elementBuilder({
 				type: "li",

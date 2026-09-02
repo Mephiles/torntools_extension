@@ -1,6 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -21,7 +22,7 @@ function initialiseListener() {
 async function addPercentage() {
 	await requireElement(".enlisted-stat").catch(() => {});
 
-	if (document.querySelector(".tt-win-percentage")) return;
+	if (findElement(".tt-win-percentage", true)) return;
 
 	const REGEX = /(Races won:) (\d)*|(Races entered:) (\d)*/;
 
@@ -35,7 +36,7 @@ async function addPercentage() {
 		if (values[0] === 0) text = "• Win Percentage: 0%";
 		else text = `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%`;
 
-		stat.querySelector(".enlisted-stat").insertAdjacentElement("beforeend", elementBuilder({ type: "li", class: "tt-win-percentage", text: text }));
+		findElement(".enlisted-stat", stat).insertAdjacentElement("beforeend", elementBuilder({ type: "li", class: "tt-win-percentage", text: text }));
 	});
 }
 

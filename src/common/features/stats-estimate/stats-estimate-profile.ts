@@ -1,6 +1,7 @@
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, isTextNode } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -19,26 +20,26 @@ async function showEstimate() {
 
 	const estimate = await statsEstimate.fetchEstimate(id);
 
-	const title = document.querySelector(".profile-right-wrapper > .profile-action .title-black");
+	const title = findElement(".profile-right-wrapper > .profile-action .title-black");
 
 	title.appendChild(elementBuilder({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
 
 	observer?.disconnect();
 	observer = new MutationObserver((mutations) => {
 		if (!mutations.some((mutation) => Array.from(mutation.addedNodes).every(isTextNode))) return;
-		if (title.querySelector(".tt-stats-estimate-profile")) return;
+		if (findElement(".tt-stats-estimate-profile", title, true)) return;
 
 		title.appendChild(elementBuilder({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
 	});
 	observer.observe(title, { childList: true });
 
 	function getLevel() {
-		const levelWrap = document.querySelector(".box-info .box-value");
+		const levelWrap = findElement(".box-info .box-value");
 
 		return (
-			(parseInt(levelWrap.querySelector(".digit-r .digit").textContent) || 0) * 100 +
-			(parseInt(levelWrap.querySelector(".digit-m .digit").textContent) || 0) * 10 +
-			parseInt(levelWrap.querySelector(".digit-l .digit").textContent)
+			(parseInt(findElement(".digit-r .digit", levelWrap).textContent) || 0) * 100 +
+			(parseInt(findElement(".digit-m .digit", levelWrap).textContent) || 0) * 10 +
+			parseInt(findElement(".digit-l .digit", levelWrap).textContent)
 		);
 	}
 }

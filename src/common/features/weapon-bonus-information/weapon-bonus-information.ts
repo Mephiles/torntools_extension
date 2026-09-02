@@ -1,7 +1,8 @@
 import "./weapon-bonus-information.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { elementBuilder, isElement } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -132,8 +133,8 @@ async function showInformation() {
 	for (const log of findAllElements("[class*='logWrap___'] ul[class*='list___'] > li:not(.tt-modified)")) {
 		log.classList.add("tt-modified");
 
-		const icon = log.querySelector("[class*='iconWrap___'] > *").classList[0];
-		const messageElement = log.querySelector("[class*='message___']");
+		const icon = findElement("[class*='iconWrap___'] > *", log).classList[0];
+		const messageElement = findElement("[class*='message___']", log, true);
 
 		let bonus: Bonus;
 		switch (icon) {

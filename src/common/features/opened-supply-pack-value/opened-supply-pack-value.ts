@@ -4,6 +4,7 @@ import type { TornInternalUseItemSuccess } from "@common/pages/item-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements.ts";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -96,7 +97,7 @@ function isDrugPackUseRequest(params: URLSearchParams) {
 }
 
 function removeTotalValueElement() {
-	document.getElementById("ttOpenedValueText")?.remove();
+	findElement("#ttOpenedValueText", true)?.remove();
 }
 
 export default class OpenedSupplyPackValueFeature extends Feature {

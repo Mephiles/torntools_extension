@@ -1,5 +1,6 @@
-import { checkDevice, findAllElements, getHashParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
+import { checkDevice, getHashParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 
@@ -26,7 +27,7 @@ export async function setupItemMarketPage() {
 		}
 	});
 
-	const root = document.querySelector("#item-market-root");
+	const root = findElement("#item-market-root");
 
 	const hash = getHashParameters();
 	const view = hash.get("market/view");
@@ -65,7 +66,7 @@ function handleItemList(list: Element) {
 
 	triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, { list });
 	findAllElements("[class*='itemList___'] > li", list).forEach((itemElement) => {
-		const priceElement = itemElement.querySelector("[class*='priceAndTotal___'] span:first-child");
+		const priceElement = findElement("[class*='priceAndTotal___'] span:first-child", itemElement, true);
 		if (!priceElement) return;
 
 		new MutationObserver(() => {
@@ -82,9 +83,7 @@ function handleItemList(list: Element) {
 
 			await requireElement(".tornPreloader", { invert: true });
 
-			const item = parseInt(
-				infoWrapper.querySelector<HTMLImageElement>("img").src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)[1],
-			);
+			const item = parseInt(findElement<HTMLImageElement>("img", infoWrapper).src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)[1]);
 
 			triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, { item, element: infoWrapper });
 		}).observe(list, { childList: true });
@@ -109,7 +108,7 @@ function handleSellerList(list: Element, item: number) {
 		triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE, { item, list });
 	}).observe(list, { childList: true });
 
-	if (document.querySelector("[class*='headerButton___']")) {
+	if (findElement("[class*='headerButton___']", true)) {
 		new MutationObserver((mutations, observer) => {
 			if (
 				!mutations.some((mutation) =>
@@ -122,7 +121,7 @@ function handleSellerList(list: Element, item: number) {
 			}
 
 			observer.disconnect();
-			handleItemList(document.querySelector("[class*='itemList___']"));
+			handleItemList(findElement("[class*='itemList___']"));
 		}).observe(list.parentElement!, { childList: true });
 	}
 }

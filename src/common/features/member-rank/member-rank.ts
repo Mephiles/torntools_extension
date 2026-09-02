@@ -2,8 +2,9 @@ import "./member-rank.css";
 import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
@@ -28,17 +29,17 @@ async function addNumbers(force: boolean) {
 	if (!force && isInternalFaction && getFactionSubpage() !== "info") return;
 	if (!isInternalFaction && (await isDestroyed())) return;
 
-	if (document.querySelector(".tt-member-index")) return;
+	if (findElement(".tt-member-index", true)) return;
 	await requireElement(".faction-info-wrap .table-body > .table-row");
 
-	const list = document.querySelector(".faction-info-wrap .members-list");
+	const list = findElement(".faction-info-wrap .members-list");
 	if (list.classList.contains("tt-modified")) return;
 	list.classList.add("tt-modified");
 
 	let reduced = 0;
 	findAllElements(".table-body > .table-row", list).forEach((row, index) => {
 		let text: string;
-		if (row.querySelector(".icons li[id*='icon77___']")) {
+		if (findElement(".icons li[id*='icon77___']", row, true)) {
 			text = "-";
 			reduced++;
 		} else {
@@ -51,7 +52,7 @@ async function addNumbers(force: boolean) {
 
 function removeNumbers() {
 	findAllElements(".tt-member-index").forEach((element) => element.remove());
-	document.querySelector(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
+	findElement(".faction-info-wrap .members-list.tt-modified", true)?.classList.remove("tt-modified");
 }
 
 export default class MemberRankFeature extends Feature {

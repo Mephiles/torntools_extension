@@ -2,7 +2,8 @@ import "./live-networth.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createContainer } from "@common/utils/functions/containers";
-import { elementBuilder, findElementWithText } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement, findElementWithText } from "@common/utils/functions/find-elements";
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
@@ -121,7 +122,7 @@ async function showNetworth() {
 		showHeader: false,
 		applyRounding: false,
 		compact: true,
-		parentElement: findElementWithText("h5", "General Information").parentElement.nextElementSibling.querySelector("ul.info-cont-wrap"),
+		parentElement: findElement("ul.info-cont-wrap", findElementWithText("h5", "General Information").parentElement.nextElementSibling),
 	});
 	const networthRow = newRow("(Live) Networth", formatNumber(userdata.networth.total, { currency: true }));
 
@@ -135,7 +136,7 @@ async function showNetworth() {
 			style: "margin-left: 9px;",
 		},
 	});
-	networthRow.querySelector(".desc").appendChild(infoIcon);
+	findElement(".desc", networthRow).appendChild(infoIcon);
 	content.appendChild(networthRow);
 
 	// Update 'last updated'

@@ -2,8 +2,9 @@ import "./mission-rewards.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isFlying } from "@common/utils/functions/torn";
@@ -20,14 +21,14 @@ function initialise() {
 async function showRewards() {
 	await requireElement("ul.rewards-list li");
 
-	const credits = parseInt(document.querySelector(".total-mission-points").textContent.replace(",", ""));
+	const credits = parseInt(findElement(".total-mission-points").textContent.replace(",", ""));
 
 	for (const reward of findAllElements(".rewards-list li")) {
 		const information = JSON.parse(reward.dataset.ammoInfo);
 		const { points, basicType: type } = information;
 
 		// Show if you can afford it.
-		const actionsWrap = reward.querySelector(".act-wrap");
+		const actionsWrap = findElement(".act-wrap", reward);
 		actionsWrap.classList.add("tt-mission-reward", credits < points ? "not-affordable" : "affordable");
 
 		if (type === "Ammo") {
@@ -48,7 +49,7 @@ async function showRewards() {
 						}),
 					],
 				}),
-				actionsWrap.querySelector(".actions"),
+				findElement(".actions", actionsWrap, true),
 			);
 			reward.classList.add("tt-modified");
 		} else if (type === "Item") {
@@ -58,9 +59,9 @@ async function showRewards() {
 			const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
 			const totalValue = amount * value;
 
-			reward
-				.querySelector(".img-wrap")
-				.appendChild(elementBuilder({ type: "span", class: "tt-mission-reward-individual", text: formatNumber(value, { currency: true }) }));
+			findElement(".img-wrap", reward).appendChild(
+				elementBuilder({ type: "span", class: "tt-mission-reward-individual", text: formatNumber(value, { currency: true }) }),
+			);
 
 			actionsWrap.insertBefore(
 				elementBuilder({
@@ -90,7 +91,7 @@ async function showRewards() {
 						}),
 					],
 				}),
-				actionsWrap.querySelector(".actions"),
+				findElement(".actions", actionsWrap),
 			);
 			reward.classList.add("tt-modified");
 		}

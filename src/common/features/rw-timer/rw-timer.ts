@@ -1,6 +1,7 @@
 import { factiondata, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData, hasOC2Data } from "@common/utils/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatDate, formatTime } from "@common/utils/functions/formatting";
 import type { FormatTimeOptions } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
@@ -22,7 +23,7 @@ async function showTimer() {
 	const hasRWPlanned = factiondata.rankedwars.some((w) => w.end === 0);
 	if (!hasRWPlanned) return;
 
-	document.querySelector(".tt-sidebar-information").appendChild(
+	findElement(".tt-sidebar-information").appendChild(
 		elementBuilder({
 			type: "section",
 			id: "rwTimer",
@@ -74,7 +75,7 @@ function buildTimeLeftElement(data: FetchedFactiondataBasic) {
 }
 
 function removeTimer() {
-	document.querySelector("#rwTimer")?.remove();
+	findElement("#rwTimer", true)?.remove();
 }
 
 export default class RWTimerFeature extends Feature {

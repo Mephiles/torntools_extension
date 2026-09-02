@@ -1,6 +1,7 @@
 import "./status-indicator.css";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -8,7 +9,7 @@ import { Feature } from "@features/feature";
 async function addIndicator() {
 	const basicInfo = await requireElement(".profile-container .row.basic-info > *:first-child");
 
-	document.querySelector("#skip-to-content").insertAdjacentElement(
+	findElement("#skip-to-content").insertAdjacentElement(
 		"beforebegin",
 		elementBuilder({
 			type: "ul",

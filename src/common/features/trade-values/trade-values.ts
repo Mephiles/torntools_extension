@@ -1,8 +1,9 @@
 import "./trade-values.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -66,7 +67,7 @@ async function addItemValues() {
 		side.classList.add("tt-modified");
 		let totalValue = 0;
 
-		const cashInTrade = side.querySelector(".cont .color1 .desc > li .name");
+		const cashInTrade = findElement(".cont .color1 .desc > li .name", side, true);
 		if (cashInTrade && cashInTrade.textContent.trim() !== "No money in trade")
 			totalValue += parseInt(cashInTrade.textContent.match(/\$([\d,]*)/i)[1].replaceAll(",", ""));
 
@@ -125,7 +126,7 @@ async function addItemValues() {
 			children: [checkbox],
 		});
 
-		side.querySelector(".title-black").appendChild(wrap);
+		findElement(".title-black", side).appendChild(wrap);
 	}
 }
 

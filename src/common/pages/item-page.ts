@@ -1,6 +1,7 @@
 import { ITEM_RESOLVER } from "@common/utils/context";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireItemsLoaded } from "@common/utils/functions/requires";
 import { isInfiniteUsageItem } from "@common/utils/functions/torn";
@@ -75,7 +76,7 @@ export function setupItemPage() {
 				if (!tab) return;
 
 				new MutationObserver((_mutations, observer) => {
-					if (document.querySelector("li.ajax-item-loader")) return;
+					if (findElement("li.ajax-item-loader", true)) return;
 
 					triggerCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab, initial: false });
 
@@ -87,7 +88,7 @@ export function setupItemPage() {
 
 			if (action === "equip") {
 				const responseElement = elementBuilder({ type: "div", html: xhr.response });
-				const textElement = responseElement.querySelector("h5, [data-status]");
+				const textElement = findElement("h5, [data-status]", responseElement, true);
 
 				if (textElement) {
 					const text = textElement.textContent.trim();
@@ -121,7 +122,7 @@ export function setupItemPage() {
 }
 
 function getCurrentTab() {
-	return document.querySelector<HTMLElement>("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
+	return findElement("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])", true);
 }
 
 export type TornInternalUseItemSuccess = {

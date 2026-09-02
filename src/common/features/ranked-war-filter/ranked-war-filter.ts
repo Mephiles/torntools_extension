@@ -5,6 +5,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { checkboxesSection, createFilter, presetSection, sliderSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
+import { findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -16,7 +17,7 @@ let interval: number | undefined;
 function initialiseListeners() {
 	document.addEventListener("click", async (event) => {
 		const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
-		if (rankedWarItem?.querySelector(":scope > [data-warid]")) {
+		if (rankedWarItem && findElement(":scope > [data-warid]", rankedWarItem, true)) {
 			addFilterContainer(
 				(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war"),
 			).catch(console.error);
@@ -86,7 +87,7 @@ async function addFilterContainer(rankedWarList?: Element) {
 			test: (row, status) => {
 				if (!status.length) return true;
 
-				const statusEl = row.querySelector<HTMLElement>(".status");
+				const statusEl = findElement(".status", row, true);
 				if (!statusEl) return true;
 
 				return status.some((s) => statusEl.classList.contains(s));
@@ -100,7 +101,7 @@ async function addFilterContainer(rankedWarList?: Element) {
 			defaults: { low: filters.factionRankedWar.levelStart, high: filters.factionRankedWar.levelEnd },
 			formatCounter: (r) => `Level ${r.start} - ${r.end}`,
 			test: (row, range) => {
-				const level = parseInt(row.querySelector(".level").textContent);
+				const level = parseInt(findElement(".level", row).textContent);
 
 				if (range.start && level < range.start) return false;
 				if (range.end !== 100 && level > range.end) return false;

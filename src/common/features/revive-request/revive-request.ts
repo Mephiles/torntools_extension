@@ -3,6 +3,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { calculateRevivePrice, doRequestRevive } from "@common/utils/functions/api-external-revives";
 import { checkDevice, elementBuilder, isElement } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { capitalizeText } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getFactionName, getPage, getUserDetails, isFlying } from "@common/utils/functions/torn";
@@ -29,7 +30,7 @@ async function initialiseListeners() {
 			if (!isHospitalised()) return;
 
 			showButton();
-		}).observe(document.querySelector("#react-root"), { childList: true });
+		}).observe(findElement("#react-root"), { childList: true });
 	} else if (page === "forums") {
 		await requireElement("#forums-page-wrap");
 
@@ -47,7 +48,7 @@ async function initialiseListeners() {
 				return;
 
 			showButton();
-		}).observe(document.querySelector("#forums-page-wrap"), { childList: true });
+		}).observe(findElement("#forums-page-wrap"), { childList: true });
 	}
 }
 
@@ -77,9 +78,9 @@ function showButton() {
 
 	function getParent() {
 		return (
-			(page === "item" && document.querySelector("#top-page-links-list")) ||
-			document.querySelector(".links-footer, .content-title .clear, .forums-main-wrap, [class*='linksContainer___']") ||
-			document.querySelector(".links-top-wrap")
+			(page === "item" && findElement("#top-page-links-list", true)) ||
+			findElement(".links-footer, .content-title .clear, .forums-main-wrap, [class*='linksContainer___']", true) ||
+			findElement(".links-top-wrap", true)
 		);
 	}
 
@@ -113,7 +114,7 @@ function showButton() {
 	}
 
 	function displayMessage(message: string, error: boolean = false) {
-		const element = button.querySelector("span");
+		const element = findElement("span", button);
 		element.textContent = message;
 		if (!error) element.classList.add("tt-revive-success");
 
@@ -129,7 +130,7 @@ function isHospitalised() {
 }
 
 function removeButton() {
-	document.querySelector(".tt-revive")?.remove();
+	findElement(".tt-revive", true)?.remove();
 }
 
 export default class ReviveRequestFeature extends Feature {

@@ -2,13 +2,14 @@ import "./museum-market-link.css";
 import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus, isSellable } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 let observer: MutationObserver | undefined;
 
 function initialiseMarketLink() {
-	const tabs = document.querySelector("#tabs");
+	const tabs = findElement("#tabs", true);
 	if (!tabs) return;
 
 	observer?.disconnect();
@@ -19,9 +20,9 @@ function initialiseMarketLink() {
 }
 
 function showMarketLink() {
-	const wrapper = document.querySelector("#tabs .show-item-info");
-	const infoElement = wrapper?.querySelector("[class*='itemInfo___']");
-	const image = wrapper?.querySelector<HTMLImageElement>("img");
+	const wrapper = findElement("#tabs .show-item-info", true);
+	const infoElement = wrapper ? findElement("[class*='itemInfo___']", wrapper, true) : undefined;
+	const image = wrapper ? findElement<HTMLImageElement>("img", wrapper, true) : undefined;
 	if (!infoElement || !image?.src) return;
 
 	const match = image.src.match(/items\/([0-9]+)\/large.*\.png/i);
@@ -29,7 +30,7 @@ function showMarketLink() {
 
 	const id = parseInt(match[1]);
 
-	const existingLink = infoElement.querySelector<HTMLElement>(".tt-museum-market-link");
+	const existingLink = findElement(".tt-museum-market-link", infoElement, true);
 	if (existingLink) {
 		if (parseInt(existingLink.dataset.itemId) === id) return;
 
@@ -38,7 +39,7 @@ function showMarketLink() {
 
 	if (!isSellable(id)) return;
 
-	const name = document.querySelector(`.item-wrapper[itemid="${id}"] .coll-item-header`)?.textContent?.trim() || ITEM_RESOLVER.getStaticItem(id)?.name || "";
+	const name = findElement(`.item-wrapper[itemid="${id}"] .coll-item-header`, true)?.textContent?.trim() || ITEM_RESOLVER.getStaticItem(id)?.name || "";
 	const category = ITEM_RESOLVER.getStaticItem(id)?.type || "";
 
 	const link = elementBuilder({
@@ -51,15 +52,15 @@ function showMarketLink() {
 	});
 
 	if (!fillEmptyPropertySlot(infoElement, link)) {
-		const container = infoElement.querySelector("[class*='descriptionWrapper___']") || infoElement;
+		const container = findElement("[class*='descriptionWrapper___']", infoElement, true) || infoElement;
 		container.appendChild(link);
 	}
 }
 
 function fillEmptyPropertySlot(infoElement: Element, link: HTMLElement) {
-	const list = infoElement.querySelector("[class*='properties___']");
-	const titleTemplate = list?.querySelector("[class*='title___']");
-	const valueWrapperTemplate = list?.querySelector("[class*='valueWrapper___']");
+	const list = findElement("[class*='properties___']", infoElement, true);
+	const titleTemplate = list ? findElement("[class*='title___']", list, true) : undefined;
+	const valueWrapperTemplate = list ? findElement("[class*='valueWrapper___']", list, true) : undefined;
 	if (!list || !titleTemplate || !valueWrapperTemplate) return false;
 
 	const emptyContainer = Array.from(list.children)
@@ -78,7 +79,7 @@ function fillEmptyPropertySlot(infoElement: Element, link: HTMLElement) {
 }
 
 function removeMarketLink(scope: ParentNode = document) {
-	const link = scope.querySelector(".tt-museum-market-link");
+	const link = findElement(".tt-museum-market-link", scope, true);
 	if (!link) return;
 
 	const valueWrapper = link.parentElement;

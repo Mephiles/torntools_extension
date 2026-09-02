@@ -3,6 +3,7 @@ import { settings } from "@common/utils/data/database";
 import { createContainer, findContainer } from "@common/utils/functions/containers";
 import { elementBuilder, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { applyPlural } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { COMPANY_INFORMATION, getPageStatus } from "@common/utils/functions/torn";
@@ -21,11 +22,11 @@ async function showSpecials() {
 	await requireElement(".content-wrapper .company-details");
 
 	const { content } = createContainer("Job Specials", {
-		previousElement: document.querySelector(".company-details-wrap"),
+		previousElement: findElement(".company-details-wrap"),
 		spacer: true,
 	});
 
-	const companyType = document.querySelector(".details-wrap ul.info .m-title .m-show:not(.arrow-left)").textContent.trim();
+	const companyType = findElement(".details-wrap ul.info .m-title .m-show:not(.arrow-left)").textContent.trim();
 	const companyInfo = COMPANY_INFORMATION[companyType];
 
 	for (const stars of [1, 3, 5, 7, 10] as const) {

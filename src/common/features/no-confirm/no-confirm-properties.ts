@@ -5,6 +5,7 @@ import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { Feature } from "@features/feature";
 
 function initialise() {
@@ -21,7 +22,7 @@ function initialise() {
 }
 
 async function startFeature() {
-	const sellButton = document.querySelector<HTMLElement>(".btn:has(input[type='submit'][value='SELL'][data-to='agent'])");
+	const sellButton = findElement(".btn:has(input[type='submit'][value='SELL'][data-to='agent'])", true);
 	if (!sellButton) return;
 
 	sellButton.addEventListener("click", async (event) => {

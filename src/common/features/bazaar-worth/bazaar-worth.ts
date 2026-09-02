@@ -5,6 +5,7 @@ import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { UserV1BazaarItem, UserV1BazaarResponse } from "@common/utils/functions/api-v1.types";
 import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -53,7 +54,7 @@ async function addWorth(list: BazaarFetchItem[] | null = null) {
 				ttCache.set({ [bazaarUserId]: result.bazaar }, TO_MILLIS.SECONDS * 30, "bazaar");
 			})
 			.catch((error) => {
-				document.querySelector(".info-msg-cont .msg").appendChild(
+				findElement(".info-msg-cont .msg").appendChild(
 					elementBuilder({
 						type: "div",
 						class: "tt-bazaar-text",
@@ -76,10 +77,10 @@ async function addWorth(list: BazaarFetchItem[] | null = null) {
 		}
 
 		await requireElement("[class*='preloader___']:not(.undefined)", { invert: true });
-		const text = document.querySelector(".tt-bazaar-text span");
+		const text = findElement(".tt-bazaar-text span", true);
 		if (text) text.textContent = formatNumber(total, { currency: true });
 		else {
-			const message = document.querySelector(".info-msg-cont .msg");
+			const message = findElement(".info-msg-cont .msg", true);
 			if (!message) return;
 
 			observerText(message, bazaar);

@@ -8,8 +8,9 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { hasAPIData } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { getPage } from "@common/utils/functions/torn";
 import { isTabFocused } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -33,7 +34,7 @@ function initialise() {
 				mutation.addedNodes.length > 0 &&
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
-					.some((element) => element.matches(pageSelector) || element.querySelector(pageSelector)),
+					.some((element) => element.matches(pageSelector) || findElement(pageSelector, element, true)),
 		);
 		if (!hasRelevantNodes) return;
 
@@ -174,7 +175,7 @@ function processBatches(elementsWithIds: GaugeElements[]): Promise<void> {
 
 							updates.push(() => {
 								element.style.setProperty("--band-percent", percent.toString());
-								element.querySelector(".tt-ff-scouter-arrow")?.remove();
+								findElement(".tt-ff-scouter-arrow", element, true)?.remove();
 								element.appendChild(
 									elementBuilder({
 										type: "img",
@@ -216,7 +217,7 @@ function extractPlayerId(element: HTMLAnchorElement): string | null {
 		if (match) return match.groups.target_id;
 	}
 
-	const anchor = element.querySelector("a");
+	const anchor = findElement("a", element, true);
 	if (anchor?.href) {
 		const match = anchor.href.match(/.*XID=(?<target_id>\d+)/);
 		if (match) return match.groups.target_id;

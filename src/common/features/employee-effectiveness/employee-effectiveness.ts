@@ -2,8 +2,9 @@ import "./employee-effectiveness.css";
 import { isOwnCompany } from "@common/pages/company-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -39,7 +40,7 @@ async function showEffectiveness() {
 		const multipliers: number[] = JSON.parse(row.dataset.multipliers) || [];
 		const reduction = multipliers.filter((multiplier) => multiplier < 0).reduce((a, b) => a + b, 0) * -1;
 
-		const element = row.querySelector(".effectiveness-value");
+		const element = findElement(".effectiveness-value", row);
 
 		if (reduction < settings.pages.companies.employeeEffectiveness) {
 			element.classList.remove("tt-employee-effectiveness"); // Live reload

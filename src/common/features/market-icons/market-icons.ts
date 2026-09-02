@@ -1,7 +1,8 @@
 import "./market-icons.css";
 import { settings } from "@common/utils/data/database";
-import { checkDevice, elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireItemsLoaded } from "@common/utils/functions/requires";
 import { getPageStatus, isSellable } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -17,21 +18,21 @@ async function showMarketIcons() {
 	let isFirst = true;
 	let lastItem: Element | undefined;
 	for (const item of findAllElements(".items-cont[aria-expanded=true] > li[data-item]:not(.tt-ignore):not(.ajax-placeholder)")) {
-		if (item.querySelector(".market-link")) continue;
+		if (findElement(".market-link", item, true)) continue;
 
 		if (item.classList.contains("item-group")) item.classList.add("tt-modified");
 
 		const id = parseInt(item.dataset.item);
 		if (!isSellable(id)) continue;
 
-		let parent = item.querySelector(".outside-actions");
+		let parent = findElement(".outside-actions", item, true);
 		if (!parent) {
 			parent = elementBuilder({ type: "div", class: `outside-actions ${isFirst ? "first-action" : ""}` });
 
 			item.appendChild(parent);
 		}
 
-		const name = item.querySelector(".thumbnail-wrap").getAttribute("aria-label");
+		const name = findElement(".thumbnail-wrap", item).getAttribute("aria-label");
 		const category = item.dataset.category;
 
 		parent.appendChild(
@@ -51,7 +52,8 @@ async function showMarketIcons() {
 		isFirst = false;
 		lastItem = item;
 	}
-	if (lastItem?.querySelector(".outside-actions")) lastItem.querySelector(".outside-actions").classList.add("last-action");
+	const lastActions = lastItem ? findElement(".outside-actions", lastItem, true) : undefined;
+	lastActions?.classList.add("last-action");
 }
 
 export default class MarketIconsFeature extends Feature {

@@ -5,6 +5,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData, HTTPException } from "@common/utils/functions/api-fetcher";
 import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder, mobile, showLoadingPlaceholder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, hasDarkMode } from "@common/utils/functions/torn";
@@ -26,7 +27,7 @@ async function showGraph() {
 		const button = elementBuilder({ type: "button", text: "Update TornStats", class: "tt-btn tornstats-button" });
 
 		button.addEventListener("click", async () => {
-			if (wrapper.querySelector(".tornstats-response")) wrapper.querySelector(".tornstats-response").remove();
+			if (findElement(".tornstats-response", wrapper, true)) findElement(".tornstats-response", wrapper).remove();
 
 			const responseElement = elementBuilder({ type: "div", class: "tornstats-response" });
 			wrapper.appendChild(responseElement);

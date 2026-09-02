@@ -2,8 +2,8 @@ import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
-import { findAllElements } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -55,11 +55,11 @@ async function showEstimates() {
 		".faction-info-wrap .table-body > .table-row",
 		(row) => {
 			// Don't show this for fallen players.
-			if (row.querySelector(".icons li[id*='icon77___']")) return null;
+			if (findElement(".icons li[id*='icon77___']", row, true)) return null;
 
 			return {
 				id: getUsername(row).id,
-				level: parseInt(row.querySelector(".lvl").textContent.trim()),
+				level: parseInt(findElement(".lvl", row).textContent.trim()),
 			};
 		},
 		{

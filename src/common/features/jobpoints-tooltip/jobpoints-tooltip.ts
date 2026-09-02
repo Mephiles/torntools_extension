@@ -1,6 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
+import { findElement } from "@common/utils/functions/find-elements.ts";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement, requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
@@ -26,7 +27,7 @@ async function tooltipListener() {
 
 	const tooltipEl = await requireElement("body > div[id][data-floating-ui-portal] [class*='tooltip__']");
 
-	const tooltipBodyEl = tooltipEl.getElementsByTagName("p")[0];
+	const tooltipBodyEl = findElement("p", tooltipEl);
 	const tooltipBodyText = tooltipBodyEl.textContent;
 
 	// Race condition

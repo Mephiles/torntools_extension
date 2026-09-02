@@ -1,7 +1,7 @@
 import "./bazaar-sub-vendor-items.css";
 import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireContent } from "@common/utils/functions/requires";
 import { ExecutionTiming, Feature } from "@features/feature";
@@ -26,12 +26,12 @@ function initialise() {
 function highlightEverything() {
 	const items = findAllElements("[class*='item__'] > [class*='itemDescription__']")
 		// filter out $1 items that you can't buy
-		.filter((element) => !element.querySelector("[class*='isBlockedForBuying___']"))
+		.filter((element) => !findElement("[class*='isBlockedForBuying___']", element, true))
 		.map<HighlightableItem>((element) => {
 			return {
 				element,
-				id: convertToNumber(element.querySelector("img").src),
-				price: convertToNumber(element.querySelector("[class*='price___']").textContent),
+				id: convertToNumber(findElement("img", element).src),
+				price: convertToNumber(findElement("[class*='price___']", element).textContent),
 			};
 		})
 		.filter((item) => item.element);

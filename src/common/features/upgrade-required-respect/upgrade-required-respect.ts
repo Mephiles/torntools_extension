@@ -2,6 +2,7 @@ import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -19,12 +20,11 @@ async function showRequiredRespect() {
 	await requireElement("#faction-upgrades #stu-confirmation div[role] > :nth-child(3)");
 
 	const availableRespect = parseInt(
-		document
-			.querySelector("#faction-upgrades .skill-tree .residue-respect")
+		findElement("#faction-upgrades .skill-tree .residue-respect")
 			.textContent.replaceAll(/[\n, ]/g, "")
 			.trim(),
 	);
-	const requiredNode = document.querySelector("#faction-upgrades #stu-confirmation div[role] .required .text");
+	const requiredNode = findElement("#faction-upgrades #stu-confirmation div[role] .required .text", true);
 	if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;
 
 	let diff: number;

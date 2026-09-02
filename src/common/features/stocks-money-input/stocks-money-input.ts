@@ -1,5 +1,6 @@
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isHTMLElement } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, updateReactInput } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -25,10 +26,10 @@ function parseMoneyInput(input: string): number | null {
 }
 
 function getActiveStockPrice(): number | null {
-	const stockRow = document.querySelector("[class*='stockOwned__'][class*='active__']")?.parentElement;
+	const stockRow = findElement("[class*='stockOwned__'][class*='active__']", true)?.parentElement;
 	if (!stockRow) return null;
 
-	const priceElement = stockRow.querySelector("li[class*='stockPrice__'] [class*='price__']");
+	const priceElement = findElement("li[class*='stockPrice__'] [class*='price__']", stockRow, true);
 	if (!priceElement) return null;
 
 	const price = parseFloat(priceElement.textContent);
@@ -58,7 +59,7 @@ function createMoneyInputHandler(blockType: string) {
 
 		if (quantity <= 0) return;
 
-		const stockInput = document.querySelector(`[class*='stockDropdown__'] ${blockType} input.input-money:not([type='hidden'])`) as HTMLInputElement;
+		const stockInput = findElement<HTMLInputElement>(`[class*='stockDropdown__'] ${blockType} input.input-money:not([type='hidden'])`);
 		updateReactInput(stockInput, quantity.toString());
 	};
 }
@@ -72,7 +73,7 @@ async function addMoneyInputs(event: { target: EventTarget }) {
 	if (!stockOwnedElement) return;
 
 	for (const blockSelector of ["[class*='buyBlock__']", "[class*='sellBlock__']"]) {
-		if (document.querySelector(`${blockSelector} .${styles.ttMoneyInput}`)) continue;
+		if (findElement(`${blockSelector} .${styles.ttMoneyInput}`, true)) continue;
 
 		clearInputObserver(blockSelector);
 
@@ -91,9 +92,9 @@ async function addMoneyInputs(event: { target: EventTarget }) {
 		});
 
 		const blockElement = await requireElement(blockSelector);
-		if (blockElement.querySelector(`.${styles.ttMoneyInput}`)) continue;
+		if (findElement(`.${styles.ttMoneyInput}`, blockElement, true)) continue;
 
-		blockElement.querySelector("[class*='manageBlock__']").appendChild(moneyInputElement);
+		findElement("[class*='manageBlock__']", blockElement).appendChild(moneyInputElement);
 
 		const observer = new MutationObserver(() => addMoneyInputs({ target: event.target }));
 		observer.observe(blockElement, { childList: true });
@@ -112,9 +113,9 @@ function clearInputObserver(selector: string) {
 async function addMoneyInputListeners() {
 	await requireElement("[class*='stockMarket__'] ul[class*='stock__'] li[class*='stockOwned__']");
 
-	document.querySelector<HTMLElement>("[class*='stockMarket__']").addEventListener("click", addMoneyInputs);
+	findElement("[class*='stockMarket__']").addEventListener("click", addMoneyInputs);
 	if (location.href.includes("&tab=owned")) {
-		await addMoneyInputs({ target: document.querySelector("li[class*='stockOwned__'][class*='active__']") });
+		await addMoneyInputs({ target: findElement("li[class*='stockOwned__'][class*='active__']", true) });
 	}
 
 	document.body.classList.add(styles.ttStockMoneyInput);

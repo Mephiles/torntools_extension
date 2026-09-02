@@ -1,8 +1,9 @@
 import { settings } from "@common/utils/data/database";
+import { findElement } from "@common/utils/functions/find-elements.ts";
 
 export function loadAPIDemo() {
 	if (!settings.pages.api.autoDemo) return;
 
-	document.getElementById("documentation")!.style.setProperty("display", "none");
-	document.getElementById("demo")!.style.removeProperty("display");
+	findElement("#documentation").style.setProperty("display", "none");
+	findElement("#demo").style.removeProperty("display");
 }

@@ -1,6 +1,7 @@
 import "./easter-eggs.css";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { elementBuilder, isElement } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { isEventActive, TORN_EVENTS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -8,15 +9,15 @@ import { Feature } from "@features/feature";
 const EGG_SELECTOR = "#easter-egg-hunt-root [class*='eggContainer__']";
 
 function initialiseDetector() {
-	const container = document.querySelector("#mainContainer");
+	const container = findElement("#mainContainer", true);
 
 	if (container) {
 		new MutationObserver(async (mutations, observer) => {
 			for (const node of mutations.flatMap((mutation) => Array.from(mutation.addedNodes))) {
 				if (!isElement(node)) continue;
 
-				if (node.matches(EGG_SELECTOR) || node.querySelector(EGG_SELECTOR)) {
-					await highlightEgg(node.matches(EGG_SELECTOR) ? node : node.querySelector(EGG_SELECTOR));
+				if (node.matches(EGG_SELECTOR) || findElement(EGG_SELECTOR, node, true)) {
+					await highlightEgg(node.matches(EGG_SELECTOR) ? node : findElement(EGG_SELECTOR, node));
 					observer.disconnect();
 					break;
 				}
@@ -38,8 +39,8 @@ async function highlightEgg(egg: Element) {
 
 	const locationText = calculateLocation(await requireElement(`${EGG_SELECTOR} img`));
 
-	document.querySelector(".tt-overlay").classList.remove("tt-hidden");
-	document.querySelector<HTMLElement>(".tt-overlay").style.zIndex = "999";
+	findElement(".tt-overlay").classList.remove("tt-hidden");
+	findElement(".tt-overlay").style.zIndex = "999";
 
 	const popup = elementBuilder({
 		type: "div",
@@ -67,8 +68,8 @@ async function highlightEgg(egg: Element) {
 	});
 
 	function removePopup() {
-		document.querySelector(".tt-overlay").classList.add("tt-hidden");
-		document.querySelector<HTMLElement>(".tt-overlay").style = "";
+		findElement(".tt-overlay").classList.add("tt-hidden");
+		findElement(".tt-overlay").style = "";
 		popup.remove();
 	}
 }

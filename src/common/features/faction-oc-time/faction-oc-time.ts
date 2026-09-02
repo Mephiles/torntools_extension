@@ -1,6 +1,7 @@
 import { factiondata, settings } from "@common/utils/data/database";
 import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatTime } from "@common/utils/functions/formatting";
 import type { FormatTimeOptions } from "@common/utils/functions/formatting";
 import { requireSidebar } from "@common/utils/functions/requires";
@@ -45,7 +46,7 @@ async function showTimer() {
 			factionOCElement.textContent = "No OCs planned.";
 		}
 
-		document.querySelector(".tt-sidebar-information").appendChild(
+		findElement(".tt-sidebar-information").appendChild(
 			elementBuilder({
 				type: "section",
 				id: "factionOCTimer",
@@ -58,7 +59,7 @@ async function showTimer() {
 
 function removeTimer() {
 	// Timer for the next available *faction* OC
-	const secondTimer = document.querySelector("#factionOCTimer");
+	const secondTimer = findElement("#factionOCTimer", true);
 	if (secondTimer) secondTimer.remove();
 }
 

@@ -1,6 +1,7 @@
 import "./forum-warning.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, TORNTOOLS_FORUM_POST } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -18,9 +19,9 @@ async function initialise() {
 
 function showWarning() {
 	// Ignore when there is no correct element.
-	if (!document.querySelector(".forums-committee-wrap, .forums-create-new")) return;
+	if (!findElement(".forums-committee-wrap, .forums-create-new", true)) return;
 	// Ignore when there already is a warning present.
-	if (document.querySelector("#ttBugWarning")) return;
+	if (findElement("#ttBugWarning", true)) return;
 
 	const hash = getHashParameters();
 
@@ -33,10 +34,10 @@ function showWarning() {
 
 	let parent: Element, position: "afterend" | "beforebegin";
 	if (page === "forums") {
-		parent = document.querySelector("ul.title");
+		parent = findElement("ul.title");
 		position = "afterend";
 	} else if (page === "newthread") {
-		parent = document.querySelector("#editor-wrapper");
+		parent = findElement("#editor-wrapper");
 		position = "beforebegin";
 
 		requireElement("[class*='actionButtonsWrapper__'] button", { parent }).then((button) =>
@@ -70,7 +71,7 @@ function showWarning() {
 	);
 
 	function showPopup() {
-		const overlay = document.querySelector(".tt-overlay");
+		const overlay = findElement(".tt-overlay");
 
 		overlay.classList.remove("tt-hidden");
 		overlay.addEventListener("click", closePopup);
@@ -122,7 +123,7 @@ function handleDisabledPost(event: MouseEvent) {
 	event.stopPropagation();
 	event.stopImmediatePropagation();
 
-	const overlay = document.querySelector(".tt-overlay");
+	const overlay = findElement(".tt-overlay");
 
 	overlay.classList.remove("tt-hidden");
 	overlay.addEventListener("click", closePopup);
@@ -165,7 +166,7 @@ function handleDisabledPost(event: MouseEvent) {
 		],
 	});
 
-	document.querySelector("#editor-form").appendChild(popup);
+	findElement("#editor-form").appendChild(popup);
 
 	function closePopup() {
 		overlay.removeEventListener("click", closePopup);

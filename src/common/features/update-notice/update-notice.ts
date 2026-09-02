@@ -1,6 +1,7 @@
 import "./update-notice.css";
 import { settings, version } from "@common/utils/data/database";
-import { checkDevice, elementBuilder, findElementWithText } from "@common/utils/functions/dom";
+import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
+import { findElement, findElementWithText } from "@common/utils/functions/find-elements";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -13,7 +14,7 @@ async function showNotice() {
 		return;
 	}
 
-	if (document.querySelector("#ttUpdateNotice")) return;
+	if (findElement("#ttUpdateNotice", true)) return;
 
 	const currentVersion = browser.runtime.getManifest().version;
 
@@ -41,7 +42,7 @@ async function showNotice() {
 }
 
 function removeNotice() {
-	const notice = document.querySelector("#ttUpdateNotice");
+	const notice = findElement("#ttUpdateNotice", true);
 	if (notice) notice.remove();
 }
 

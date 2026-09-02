@@ -5,8 +5,9 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { elementBuilder, findAllElements, getHashParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { dropDecimals } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
@@ -26,7 +27,7 @@ type FetchedCompany = CompanyEmployeesResponse & CompanyProfileResponse;
 
 async function addLastAction(force: boolean) {
 	if (isOwnCompany && getHashParameters().get("option") !== "employees" && !force) return;
-	if (document.querySelector(".tt-last-action")) return;
+	if (findElement(".tt-last-action", true)) return;
 	if (isOwnCompany && !settings.scripts.lastAction.companyOwn) return;
 	if (!isOwnCompany && !settings.scripts.lastAction.companyOther) return;
 
@@ -44,7 +45,7 @@ async function addLastAction(force: boolean) {
 	}
 
 	const now = Date.now();
-	const list = document.querySelector(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
+	const list = findElement(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
 	for (const row of findAllElements(":scope > li", list)) {
 		const { id } = getUsername(row);
 
@@ -101,11 +102,11 @@ async function extractCompanyId(): Promise<number> {
 		return id;
 	}
 
-	const companyName = document.querySelector<HTMLElement>(".company-details").dataset.name;
+	const companyName = findElement(".company-details").dataset.name;
 	if (ttCache.hasValue("company-ids", companyName)) {
 		return ttCache.get<number>("company-ids", companyName);
 	} else {
-		const directorID = document.querySelector<HTMLAnchorElement>(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
+		const directorID = findElement<HTMLAnchorElement>(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
 		const directorData = await fetchData<UserJobResponse>("tornv2", { section: "user", selections: ["job"], id: directorID });
 
 		if (directorData.job?.type === "company") {

@@ -1,6 +1,7 @@
 import "./add-debug-info.css";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, executeScript, getHashParameters } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 import { browser } from "wxt/browser";
@@ -9,7 +10,7 @@ let debugInfo: string | undefined;
 
 async function addDebugInfo() {
 	if (!viewingTTForumThread()) return;
-	if (document.querySelector("#tt-debug-info-btn")) return;
+	if (findElement("#tt-debug-info-btn", true)) return;
 
 	const addDebugInfoBtn = elementBuilder({
 		type: "button",
@@ -18,7 +19,7 @@ async function addDebugInfo() {
 		class: "tt-btn",
 		events: {
 			click: async () => {
-				const bbcEditor = document.querySelector("#editor-wrapper .editor-content.mce-content-body");
+				const bbcEditor = findElement("#editor-wrapper .editor-content.mce-content-body", true);
 				if (!bbcEditor) return;
 				if (bbcEditor.innerHTML.startsWith("Debug Information:")) return;
 

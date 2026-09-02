@@ -2,8 +2,9 @@ import "./item-values.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement, requireItemsLoaded } from "@common/utils/functions/requires";
@@ -79,12 +80,12 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 			requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list })
 				.then(async () => {
 					await sleep(0);
-					const itemRow = list.querySelector(`li[data-reactid*='$${item.armoryID}']`);
+					const itemRow = findElement(`li[data-reactid*='$${item.armoryID}']`, list);
 
-					const parent = itemRow.querySelector(".name-wrap");
-					if (parent.querySelector(".tt-item-price")) {
+					const parent = findElement(".name-wrap", itemRow);
+					if (findElement(".tt-item-price", parent, true)) {
 						if (type) return;
-						else parent.querySelector(".tt-item-price").remove();
+						else findElement(".tt-item-price", parent).remove();
 					}
 
 					if (options.addRelative) parent.parentElement.classList.add("relative");
@@ -92,7 +93,7 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 					const price = parseInt(item.averageprice) || 0;
 					const quantity = parseInt(item.Qty) || 1;
 
-					const valueWrap = itemRow.querySelector<HTMLElement>(".info-wrap");
+					const valueWrap = findElement(".info-wrap", itemRow, true);
 
 					if (valueWrap?.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
 						valueWrap.innerHTML = "";
@@ -126,7 +127,7 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 	}
 
 	function getCurrentList() {
-		return document.querySelector(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']");
+		return findElement(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']", true);
 	}
 }
 
@@ -168,20 +169,21 @@ function showItemValues(list: HTMLElement) {
 		const id = parseInt(item.dataset.item);
 		const price = ITEM_RESOLVER.getFullItem(id).value.market_price;
 
-		const parent = mobile || tablet ? item.querySelector(".name-wrap") : item.querySelector(".bonuses-wrap") || item.querySelector(".name-wrap");
+		const parent =
+			mobile || tablet ? findElement(".name-wrap", item, true) : (findElement(".bonuses-wrap", item, true) ?? findElement(".name-wrap", item, true));
 
-		const quantity = parseInt(item.querySelector(".item-amount.qty").textContent) || 1;
+		const quantity = parseInt(findElement(".item-amount.qty", item).textContent) || 1;
 		const totalPrice = quantity * price;
 
-		if (parent.querySelector(".tt-item-price")) continue;
+		if (findElement(".tt-item-price", parent, true)) continue;
 
 		let priceElement: HTMLElement;
-		if (item.querySelector(".bonuses-wrap")) {
+		if (findElement(".bonuses-wrap", item, true)) {
 			priceElement = elementBuilder({ type: "li", class: "tt-item-price fl" });
 		} else {
 			priceElement = elementBuilder({ type: "span", class: "tt-item-price" });
 
-			if (item.querySelector("button.group-arrow")) {
+			if (findElement("button.group-arrow", item, true)) {
 				priceElement.style.setProperty("padding-right", "30px", "important");
 			}
 		}
@@ -236,10 +238,10 @@ function updateItemAmount(id: number, change: number, loaned?: boolean) {
 			if (typeof isLoaned === "boolean" && loaned !== isLoaned) continue;
 		}
 
-		const priceElement = item.querySelector(".tt-item-price");
+		const priceElement = findElement(".tt-item-price", item, true);
 		if (!priceElement) continue;
 
-		const quantityElement = priceElement.querySelector(".tt-item-quantity");
+		const quantityElement = findElement(".tt-item-quantity", priceElement, true);
 		if (!quantityElement) continue;
 
 		const price = ITEM_RESOLVER.getFullItem(id).value.market_price;
@@ -255,7 +257,7 @@ function updateItemAmount(id: number, change: number, loaned?: boolean) {
 			);
 		} else {
 			quantityElement.textContent = `${newQuantity}x = `;
-			priceElement.querySelector("span:last-child").textContent = formatNumber(price * newQuantity, { currency: true });
+			findElement("span:last-child", priceElement).textContent = formatNumber(price * newQuantity, { currency: true });
 		}
 	}
 }
@@ -264,7 +266,7 @@ async function startValues() {
 	if (page === "item") {
 		await requireItemsLoaded();
 
-		showItemValues(document.querySelector(".itemsList[aria-expanded='true']"));
+		showItemValues(findElement(".itemsList[aria-expanded='true']"));
 	}
 }
 

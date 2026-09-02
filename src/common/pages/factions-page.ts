@@ -2,8 +2,9 @@ import { ttCache } from "@common/utils/data/cache";
 import { userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { findAllElements, getHashParameters, getSearchParameters, isElement } from "@common/utils/functions/dom";
+import { getHashParameters, getSearchParameters, isElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 import { isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
@@ -23,7 +24,7 @@ export async function setupFactionsPage() {
 				if (step === "crimes") {
 					loadCrimes().catch((err) => console.warn(err));
 				} else if (step === "upgradeConfirm") {
-					if (document.querySelector<HTMLElement>(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
+					if (findElement(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
 					triggerCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO);
 				}
 			}
@@ -50,7 +51,7 @@ export async function setupFactionsPage() {
 		await requireElement(".faction-tabs");
 
 		// document.querySelector(".faction-tabs li[data-case=mainTabContent]").addEventListener("click", loadMain);
-		document.querySelector(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+		findElement(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
 		// document.querySelector(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 
 		switch (getFactionSubpage()) {
@@ -106,8 +107,8 @@ export async function setupFactionsPage() {
 
 					new MutationObserver(() => triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH)).observe(list, { childList: true });
 
-					buttonsContainer.querySelectorAll("button").forEach((button) => {
-						const tabName = button.querySelector("[class*='tabName___']").textContent.trim();
+					findAllElements("button", buttonsContainer).forEach((button) => {
+						const tabName = findElement("[class*='tabName___']", button).textContent.trim();
 
 						new MutationObserver(() => {
 							if (!button.className.includes("active___")) return;
@@ -121,7 +122,7 @@ export async function setupFactionsPage() {
 
 		async function loadArmory() {
 			const tab = await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
-			await requireElement(":scope > .ajax-preloader", { invert: true, parent: document.getElementById(tab.getAttribute("aria-controls")) });
+			await requireElement(":scope > .ajax-preloader", { invert: true, parent: findElement(`#${tab.getAttribute("aria-controls")}`) });
 
 			const section = getCurrentSection();
 			if (!section) return;
@@ -146,10 +147,10 @@ export async function setupFactionsPage() {
 				if (!mutation) return;
 
 				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: extractArmorySubcategory((mutation.target as Element).id) });
-			}).observe(document.querySelector("#faction-armoury-tabs"), { childList: true, subtree: true });
+			}).observe(findElement("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 			function getCurrentSection() {
-				const controls = document.querySelector("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']")?.getAttribute("aria-controls");
+				const controls = findElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']", true)?.getAttribute("aria-controls");
 				if (!controls) return null;
 
 				return extractArmorySubcategory(controls);
@@ -159,7 +160,7 @@ export async function setupFactionsPage() {
 		async function loadControls() {
 			await requireElement(".control-tabs");
 
-			const giveToUser = document.querySelector(".control-tabs > li[aria-controls='option-give-to-user']");
+			const giveToUser = findElement(".control-tabs > li[aria-controls='option-give-to-user']", true);
 
 			if (giveToUser) {
 				checkGiveToUser();
@@ -167,7 +168,7 @@ export async function setupFactionsPage() {
 			}
 
 			function checkGiveToUser() {
-				if (document.querySelector(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+				if (findElement(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
 					requireElement("#faction-give-to-user-root [class*='money___']").then(() => {
 						triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE);
 					});
@@ -181,7 +182,7 @@ export async function setupFactionsPage() {
 	let observer: MutationObserver | undefined;
 
 	function loadMemberTable() {
-		const table = document.querySelector(".members-list .table-body");
+		const table = findElement(".members-list .table-body", true);
 
 		handleFilter();
 		handleSorting();
@@ -246,7 +247,7 @@ export async function setupFactionsPage() {
 				new MutationObserver((_mutations, observer) => {
 					triggerCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT);
 					observer.disconnect();
-				}).observe(document.querySelector(".members-list .table-body"), { childList: true });
+				}).observe(findElement(".members-list .table-body"), { childList: true });
 			}
 		}
 
@@ -274,7 +275,7 @@ export async function setupFactionsPage() {
 }
 
 export async function readFactionDetails() {
-	const viewWarsLink = document.querySelector<HTMLAnchorElement>("a.view-wars")?.href;
+	const viewWarsLink = findElement<HTMLAnchorElement>("a.view-wars", true)?.href;
 	if (viewWarsLink) {
 		const match = viewWarsLink.match(/ranked\/(\d+)/);
 		if (match) {
@@ -282,7 +283,7 @@ export async function readFactionDetails() {
 		}
 	}
 
-	const factionIDLink = document.querySelector<HTMLAnchorElement>(".faction-info a[href*='factionID']");
+	const factionIDLink = findElement<HTMLAnchorElement>(".faction-info a[href*='factionID']", true);
 	if (factionIDLink) {
 		const match = factionIDLink.href.match(/#factionID=(\d+)/);
 		if (match) {

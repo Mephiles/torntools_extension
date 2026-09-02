@@ -4,6 +4,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -26,21 +27,21 @@ function initialiseListeners() {
 }
 
 function startFeature() {
-	if (!document.querySelector(".faction-crimes-wrap")) return;
+	if (!findElement(".faction-crimes-wrap", true)) return;
 
 	if (userdata.organizedCrime) highlightCrime2();
 	else highlightCrime1();
 }
 
 function highlightCrime1() {
-	const member = document.querySelector(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.profile.id}"]`);
+	const member = findElement(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.profile.id}"]`, true);
 	if (!member) return;
 
 	member.closest(".item-wrap").classList.add("tt-oc-highlight");
 }
 
 function highlightCrime2() {
-	const member = document.querySelector(`[class*='slotMenuItem___'][href="/profiles.php?XID=${userdata.profile.id}"]`);
+	const member = findElement(`[class*='slotMenuItem___'][href="/profiles.php?XID=${userdata.profile.id}"]`, true);
 	if (!member) return;
 
 	member.closest("[class*='contentLayer___']").classList.add("tt-oc-highlight");

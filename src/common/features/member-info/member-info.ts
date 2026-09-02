@@ -5,8 +5,9 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasFactionAPIAccess } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
@@ -75,7 +76,7 @@ async function addInfo(force: boolean) {
 		if (!userBalance || (!userBalance.points && !userBalance.money)) return;
 
 		// Don't show this for fallen players.
-		if (li.querySelector(".icons li[id*='icon77___']")) return;
+		if (findElement(".icons li[id*='icon77___']", li, true)) return;
 
 		const nextSibling = li.nextSibling as HTMLElement | undefined;
 

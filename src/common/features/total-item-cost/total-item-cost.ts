@@ -2,6 +2,7 @@ import "./total-item-cost.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -22,21 +23,19 @@ function initialiseListeners() {
 
 function addPrice() {
 	requireElement("[class*='buyMenu_'] [class*='price_']").then(() => {
-		if (document.querySelector("#tt-total-cost")) return;
-		document
-			.querySelector("[class*='buyMenu_'] [class*='amount_']")
-			.insertAdjacentElement("beforeend", elementBuilder({ type: "span", id: "tt-total-cost" }));
-		const inputElement = document.querySelector<HTMLInputElement>("[class*='buyMenu_'] [class*='buyForm_'] input[class*='numberInput_']");
+		if (findElement("#tt-total-cost", true)) return;
+		findElement("[class*='buyMenu_'] [class*='amount_']").insertAdjacentElement("beforeend", elementBuilder({ type: "span", id: "tt-total-cost" }));
+		const inputElement = findElement<HTMLInputElement>("[class*='buyMenu_'] [class*='buyForm_'] input[class*='numberInput_']");
 		changeTotalPrice(parseInt(inputElement.value));
 		inputElement.addEventListener("input", (event) => changeTotalPrice(parseInt((event.target as HTMLInputElement).value)));
 	});
 }
 
 function changeTotalPrice(amount: number) {
-	const stock = parseInt(document.querySelector("[class*='buyMenu_'] [class*='amount_']").textContent.split(")")[0].replaceAll(/\D+/g, ""));
-	const price = parseInt(document.querySelector("[class*='buyMenu_'] [class*='price_']").textContent.split("$")[1].replaceAll(",", ""));
+	const stock = parseInt(findElement("[class*='buyMenu_'] [class*='amount_']").textContent.split(")")[0].replaceAll(/\D+/g, ""));
+	const price = parseInt(findElement("[class*='buyMenu_'] [class*='price_']").textContent.split("$")[1].replaceAll(",", ""));
 	if (amount > stock) amount = stock;
-	if (document.querySelector("#tt-total-cost")) document.querySelector("#tt-total-cost").innerHTML = formatNumber(price * amount, { currency: true });
+	if (findElement("#tt-total-cost", true)) findElement("#tt-total-cost").innerHTML = formatNumber(price * amount, { currency: true });
 }
 
 export default class TotalItemCostFeature extends Feature {

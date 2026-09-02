@@ -1,7 +1,8 @@
 import { settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
 import { CSVExport } from "@common/utils/functions/csv";
-import { elementBuilder, findAllElements, getSearchParameters } from "@common/utils/functions/dom";
+import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { PHFillTable } from "@common/utils/icons/phosphor-icons";
@@ -12,7 +13,7 @@ async function addCSVContainer() {
 	await requireElement(".faction-war");
 
 	const { options } = createContainer("War Report", {
-		previousElement: document.querySelector(".content-wrapper .content-title"),
+		previousElement: findElement(".content-wrapper .content-title"),
 		onlyHeader: true,
 	});
 
@@ -26,7 +27,7 @@ async function addCSVContainer() {
 				const csv = new CSVExport(`War Report [${warID}]`);
 
 				for (const selector of ["enemy", "your"]) {
-					csv.append(document.querySelector(`.faction-war .${selector}`).textContent);
+					csv.append(findElement(`.faction-war .${selector}`).textContent);
 					csv.append("Members", "Level", "Points", "Joins", "Clears");
 
 					const members = findAllElements(`.${selector}-faction .members-list > *[class]`);
@@ -34,10 +35,10 @@ async function addCSVContainer() {
 						for (const row of members) {
 							csv.append(
 								getUsername(row).combined,
-								row.querySelector(".lvl").textContent,
-								row.querySelector(".points").textContent,
-								row.querySelector(".joins").textContent,
-								row.querySelector(".knock-off").textContent,
+								findElement(".lvl", row).textContent,
+								findElement(".points", row).textContent,
+								findElement(".joins", row).textContent,
+								findElement(".knock-off", row).textContent,
 							);
 						}
 					} else csv.append("None");

@@ -6,6 +6,7 @@ import { isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createFilter, presetSection, sliderSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
+import { findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -52,7 +53,7 @@ async function initialiseListeners() {
 			FEATURE_MANAGER.isEnabled(EnemyFilterFeature)
 		) {
 			void filter?.run();
-			listObserver.observe(document.querySelector(".tableWrapper > ul"), { childList: true });
+			listObserver.observe(findElement(".tableWrapper > ul"), { childList: true });
 		}
 	});
 	tableObserver.observe(await requireElement(".tableWrapper"), { childList: true });
@@ -81,7 +82,7 @@ async function addFilterContainer() {
 				defaults: { low: filters.enemies.levelStart, high: filters.enemies.levelEnd },
 				formatCounter: (r) => `Level ${r.start} - ${r.end}`,
 				test: (row, range) => {
-					const level = convertToNumber(row.querySelector("[class*='level__']").textContent);
+					const level = convertToNumber(findElement("[class*='level__']", row).textContent);
 
 					if (range.start && level < range.start) return false;
 					if (range.end !== 100 && level > range.end) return false;

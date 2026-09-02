@@ -1,5 +1,6 @@
 import { PHBoldCheckCircle, PHBoldInfo, PHBoldWarningCircle, PHBoldXCircle, PHX } from "@common/utils/icons/phosphor-icons";
 import { elementBuilder } from "./dom";
+import { findElement } from "./find-elements";
 import styles from "./alerts.module.css";
 
 interface AlertOptions {
@@ -73,10 +74,10 @@ export function displayAlert(options: AlertOptions): void {
 }
 
 function setupProgressBar(toast: Element, duration: number): void {
-	const progressElement = toast.querySelector<HTMLElement>(`.${styles.toastProgress}`);
+	const progressElement = findElement(`.${styles.toastProgress}`, toast, true);
 	if (!progressElement || duration <= 0) return;
 
-	const iconElement = toast.querySelector(`.${styles.toastIcon} i`);
+	const iconElement = findElement(`.${styles.toastIcon} i`, toast, true);
 	if (iconElement) {
 		const computedColor = getComputedStyle(iconElement).color;
 		progressElement.style.setProperty("--progress-color", computedColor);
@@ -140,7 +141,7 @@ function getIconForType(type: AlertOptions["type"]): Element {
 }
 
 function createToastContainer() {
-	let container = document.querySelector(`.${styles.toastContainer}`);
+	let container = findElement(`.${styles.toastContainer}`, true);
 	if (!container) {
 		container = elementBuilder({ type: "div", class: styles.toastContainer });
 		document.body.appendChild(container);

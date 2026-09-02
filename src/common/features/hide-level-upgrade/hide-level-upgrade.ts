@@ -1,6 +1,6 @@
 import "./hide-level-upgrade.css";
 import { settings } from "@common/utils/data/database";
-import { findAllElements } from "@common/utils/functions/dom";
+import { findAllElements } from "@common/utils/functions/find-elements";
 import { requireContent, requireDOMInteractive } from "@common/utils/functions/requires";
 import { ExecutionTiming, Feature } from "@features/feature";
 

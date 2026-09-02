@@ -1,8 +1,9 @@
 import "./trade-timer.css";
 import { ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements, isElement } from "@common/utils/functions/dom";
+import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { dropDecimals, formatTime } from "@common/utils/functions/formatting";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { countdownTimers, removeCountdownTimer } from "@common/utils/functions/timers";
@@ -18,7 +19,7 @@ import { Feature } from "@features/feature";
 
 function initialise() {
 	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => {
-		if (chat.querySelector("[class*='chat-box-header__info__'], [class*='title___']").textContent !== "Trade") return;
+		if (findElement("[class*='chat-box-header__info__'], [class*='title___']", chat).textContent !== "Trade") return;
 
 		await showTimer(chat);
 	});
@@ -34,7 +35,7 @@ async function showTimer(tradeChat: Element | undefined | null = null) {
 	if (!tradeChat) return;
 	await requireElement("[class*='loader___']", { parent: tradeChat, invert: true });
 
-	const sendButton = tradeChat.querySelector(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`);
+	const sendButton = findElement(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`, tradeChat);
 	sendButton.parentElement.classList.add("tt-modified");
 
 	if (!timer) {
@@ -67,21 +68,21 @@ function getTradeChat() {
 	const openChats = findAllElements(`#chatRoot [class^='chat-box__'], ${SELECTOR_CHAT_V3__TRADE_CHAT}`);
 	if (!openChats.length) return null;
 
-	return openChats.find((chat) => chat.querySelector("[class*='chat-box-header__info__'], [class*='title___']").textContent === "Trade");
+	return openChats.find((chat) => findElement("[class*='chat-box-header__info__'], [class*='title___']", chat).textContent === "Trade");
 }
 
 function listenTradeChatInput(tradeChat: Element | null) {
 	if (!tradeChat) tradeChat = getTradeChat();
 	if (!tradeChat) return;
 
-	tradeChat.querySelector<HTMLElement>("[class*='chat-box-footer__textarea__'], textarea").addEventListener("keyup", onKeyUp);
+	findElement("[class*='chat-box-footer__textarea__'], textarea", tradeChat).addEventListener("keyup", onKeyUp);
 }
 
 async function onKeyUp(event: KeyboardEvent) {
 	if (event.key !== "Enter" || !isElement(event.target)) return;
 
 	const tradeChat = event.target.closest(`[class^='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
-	const chatBody = tradeChat.querySelector(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_LIST}`);
+	const chatBody = findElement(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_LIST}`, tradeChat);
 
 	const message = await new Promise<Element>((resolve) => {
 		new MutationObserver((mutations, observer) => {

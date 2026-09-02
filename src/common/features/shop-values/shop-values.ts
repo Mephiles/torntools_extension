@@ -1,7 +1,8 @@
 import "./shop-values.css";
 import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
@@ -31,7 +32,7 @@ async function showValues() {
 		const id = parseInt(row.dataset.item);
 		const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
 
-		row.querySelector(".desc")!.appendChild(
+		findElement(".desc", row).appendChild(
 			elementBuilder({
 				type: "span",
 				class: "tt-market-value",

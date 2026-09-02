@@ -1,5 +1,6 @@
 import "./slider.css";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { roundNearest } from "@common/utils/functions/formatting";
 import { getUUID } from "@common/utils/functions/utilities";
 
@@ -55,7 +56,7 @@ export class DualRangeSlider {
 		this.handles = findAllElements(".handle", this.slider);
 
 		this.handles.forEach((handle) => {
-			const input = this.slider!.querySelector<HTMLElement>(`#${handle.getAttribute("for")}`)!;
+			const input = findElement(`#${handle.getAttribute("for")}`, this.slider!);
 
 			handle.addEventListener("mousedown", this.startMove.bind(this));
 			handle.addEventListener("touchstart", this.startMoveTouch.bind(this));
@@ -92,7 +93,7 @@ export class DualRangeSlider {
 	moveKeyboard(event: KeyboardEvent) {
 		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
-		const handle = this.slider!.querySelector<HTMLElement>(`.handle[for="${(event.target as Element).id}"]`);
+		const handle = findElement(`.handle[for="${(event.target as Element).id}"]`, this.slider!, true);
 		if (!handle) return;
 
 		let value = parseInt(handle.dataset.value!);

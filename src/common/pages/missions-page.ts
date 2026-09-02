@@ -1,4 +1,5 @@
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
 
 export function setupMissionsPage() {
@@ -15,12 +16,12 @@ export function setupMissionsPage() {
 			new MutationObserver((_mutations, observer) => {
 				triggerCustomListener(EVENT_CHANNELS.MISSION_REWARDS);
 				observer.disconnect();
-			}).observe(document.querySelector("#viewMissionsRewardsContainer"), { childList: true });
+			}).observe(findElement("#viewMissionsRewardsContainer"), { childList: true });
 		} else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") {
 			new MutationObserver((_mutations, observer) => {
 				triggerCustomListener(EVENT_CHANNELS.MISSION_LOAD);
 				observer.disconnect();
-			}).observe(document.querySelector("#missionsMainContainer"), { childList: true });
+			}).observe(findElement("#missionsMainContainer"), { childList: true });
 		}
 	});
 }

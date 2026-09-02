@@ -1,8 +1,9 @@
 import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements, getHashParameters, isHTMLElement } from "@common/utils/functions/dom.ts";
+import { getHashParameters, isHTMLElement } from "@common/utils/functions/dom.ts";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { convertToNumber } from "@common/utils/functions/formatting.ts";
 import { getPageStatus, getUsername, updateReactInput } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -20,7 +21,7 @@ function makeBalancesClickable() {
 	findAllElements(
 		`#faction-give-to-user-root [class*='money___'] [class*='userListWrap___'] [class*='listItem___']:not(.${styles.clickableBalanceWrapper})`,
 	).forEach((row) => {
-		const balanceElement = row.querySelector<HTMLElement>("[class*='editBalanceWrap___']");
+		const balanceElement = findElement("[class*='editBalanceWrap___']", row, true);
 		if (!balanceElement) return;
 
 		row.classList.add(styles.clickableBalanceWrapper);
@@ -38,7 +39,7 @@ function fillClickedBalance(event: MouseEvent) {
 
 	const user = getUsername(row);
 	const balance = convertToNumber(balanceElement.textContent);
-	const activeMember = !row.querySelector("[class*='inactive___']");
+	const activeMember = !findElement("[class*='inactive___']", row, true);
 
 	fillBalance(user.combined, balance, activeMember);
 }
@@ -49,19 +50,19 @@ function fillBalance(user: string, amount: number, activeMember: boolean) {
 		return;
 	}
 
-	const moneyInput = moneyRoot.querySelector<HTMLInputElement>(".input-money:not([type='hidden'])");
+	const moneyInput = findElement<HTMLInputElement>(".input-money:not([type='hidden'])", moneyRoot, true);
 	if (!moneyInput) {
 		console.warn(`TT - Failed to fill the balance for ${user} with ${amount} because we didn't find the money input.`);
 		return;
 	}
 
-	const userInput = moneyRoot.querySelector<HTMLInputElement>("[class*='userAutocomplete___']");
+	const userInput = findElement<HTMLInputElement>("[class*='userAutocomplete___']", moneyRoot, true);
 	if (!userInput) {
 		console.warn(`TT - Failed to fill the balance for ${user} with ${amount} because we didn't find the user input.`);
 		return;
 	}
 
-	moneyRoot.querySelector("[class*='userAutocomplete___']")?.classList.toggle("error", !activeMember);
+	findElement("[class*='userAutocomplete___']", moneyRoot, true)?.classList.toggle("error", !activeMember);
 
 	updateReactInput(moneyInput, amount.toString());
 	updateReactInput(userInput, user);
@@ -70,7 +71,7 @@ function fillBalance(user: string, amount: number, activeMember: boolean) {
 }
 
 function moneyRootElement() {
-	return document.querySelector("#faction-give-to-user-root [class*='money___']");
+	return findElement("#faction-give-to-user-root [class*='money___']", true);
 }
 
 export default class ClickableBalancesFeature extends Feature {

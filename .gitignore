@@ -28,7 +28,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 *.tsbuildinfo
 
 # IntelliJ based IDEs
-.idea
+.idea/*
+!.idea/IntelliLang.xml
 
 # Finder (MacOS) folder config
 .DS_Store

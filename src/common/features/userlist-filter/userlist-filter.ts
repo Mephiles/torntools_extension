@@ -4,6 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { createFilter, duoCheckboxesSection, getSpecialIcons, presetSection, sliderSection } from "@common/utils/functions/filters";
 import type { DuoCheckboxState, FilterController, FilterSectionDef, SliderRange } from "@common/utils/functions/filters";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, HOSPITALIZATION_REASONS, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -95,7 +96,7 @@ async function addFilterContainer() {
 				const match = Object.entries(hospReason)
 					.filter(([, value]) => value !== "both" && value !== "none")
 					.find(([key, value]) => {
-						const hospEl = row.querySelector<HTMLElement>("li[title*='Hospital']");
+						const hospEl = findElement("li[title*='Hospital']", row, true);
 						if (!hospEl) return value === "yes";
 
 						const reason = hospEl.getAttribute("title").split("<br>")[1];
@@ -123,7 +124,7 @@ async function addFilterContainer() {
 			defaults: { low: filters.userlist.levelStart, high: filters.userlist.levelEnd },
 			formatCounter: (r) => `Level ${r.start} - ${r.end}`,
 			test: (row, range) => {
-				const level = parseInt(row.querySelector(".level .value").textContent);
+				const level = parseInt(findElement(".level .value", row).textContent);
 
 				if (range.start && level < range.start) return false;
 				if (range.end !== 100 && level > range.end) return false;
@@ -153,7 +154,7 @@ async function addFilterContainer() {
 		container: {
 			title: "Userlist Filter",
 			class: "mt10",
-			nextElement: document.querySelector(".users-list-title"),
+			nextElement: findElement(".users-list-title"),
 			compact: true,
 		},
 		statisticsLabel: "players",
@@ -183,7 +184,7 @@ async function addFilterContainer() {
 	// Wait for ajax content to finish loading before first filter run
 	await requireCondition(() => {
 		return (
-			!document.querySelector(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader") ||
+			!findElement(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader", true) ||
 			!!document.evaluate(
 				"//*[contains(@class, 'userlist-wrapper')][.//*[contains(text(), 'No users found')]]",
 				document,

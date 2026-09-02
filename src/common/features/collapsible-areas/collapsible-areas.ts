@@ -1,6 +1,7 @@
 import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { checkDevice, findElementWithText, isElement } from "@common/utils/functions/dom";
+import { checkDevice, isElement } from "@common/utils/functions/dom";
+import { findElementWithText } from "@common/utils/functions/find-elements";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isFlyoutSidebar, isPageWithSidebar } from "@common/utils/functions/torn";
 import { PHFillCaretDown } from "@common/utils/icons/phosphor-icons";
@@ -10,7 +11,7 @@ import styles from "./collapsible-areas.module.css";
 let listener: (() => void) | undefined;
 
 async function addCollapseIcon() {
-	const title = findElementWithText("h2", "Areas");
+	const title = findElementWithText("h2", "Areas", true);
 	if (!isElement(title) || title.classList.contains("tt-collapsible-processed")) return;
 
 	const header = title.parentElement;

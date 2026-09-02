@@ -2,8 +2,9 @@ import { isInternalFaction } from "@common/pages/factions-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { factiondata, settings } from "@common/utils/data/database";
 import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
-import { elementBuilder, findAllElements } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { dropDecimals } from "@common/utils/functions/formatting";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -18,7 +19,7 @@ function initialiseListeners() {
 }
 
 function startFeature() {
-	if (!document.querySelector(".faction-crimes-wrap")) return;
+	if (!findElement(".faction-crimes-wrap", true)) return;
 
 	showLastAction();
 }
@@ -29,7 +30,7 @@ function showLastAction() {
 	const nowDate = Date.now();
 
 	for (const row of findAllElements(".organize-wrap .crimes-list .details-list > li:not(:first-child) > ul")) {
-		const id = Number(new URL(row.querySelector<HTMLAnchorElement>(".member a").href).searchParams.get("XID"));
+		const id = Number(new URL(findElement<HTMLAnchorElement>(".member a", row).href).searchParams.get("XID"));
 		const member = factiondata.members.find((m) => m.id === id);
 
 		let relative: string, hours: number | string;

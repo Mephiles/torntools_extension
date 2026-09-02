@@ -3,6 +3,7 @@ import { ttStorage } from "@common/utils/context";
 import { notes, settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -12,7 +13,7 @@ async function addNotes() {
 
 	const userID = getUserID();
 	const { content } = createContainer("Profile Notes", {
-		previousElement: document.querySelector(".profile-wrapper"),
+		previousElement: findElement(".profile-wrapper"),
 		class: "mt10",
 	});
 	const textarea = elementBuilder({ type: "textarea" });
@@ -35,7 +36,7 @@ async function addNotes() {
 	}
 }
 function getUserID() {
-	return document.querySelector(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
+	return findElement(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
 }
 
 export default class ProfileNotesFeature extends Feature {

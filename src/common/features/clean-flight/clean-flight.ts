@@ -1,10 +1,11 @@
 import "./clean-flight.css";
 import { settings } from "@common/utils/data/database";
+import { findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus, isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 async function addCleanFlight() {
-	document.querySelector("#travel-root")?.classList.add("tt-clean-flight");
+	findElement("#travel-root", true)?.classList.add("tt-clean-flight");
 }
 
 export default class CleanFlightFeature extends Feature {

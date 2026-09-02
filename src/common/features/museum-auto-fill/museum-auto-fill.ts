@@ -1,6 +1,7 @@
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { findAllElements, isElement } from "@common/utils/functions/dom";
+import { isElement } from "@common/utils/functions/dom";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
@@ -26,7 +27,7 @@ async function autoFill() {
 	const leastQuantity = !quantities.includes(0) ? quantities.sort((a, b) => a - b)[0] : null;
 	if (!leastQuantity) return;
 
-	const input = document.querySelector<HTMLInputElement>("[aria-hidden*='false'] .set-description input[type*='tel']");
+	const input = findElement<HTMLInputElement>("[aria-hidden*='false'] .set-description input[type*='tel']");
 	if (!input.disabled) {
 		input.value = leastQuantity.toString();
 		input.dispatchEvent(new Event("keyup"));

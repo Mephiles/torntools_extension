@@ -2,6 +2,7 @@ import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -27,8 +28,8 @@ function registerListeners() {
 
 async function startFeature() {
 	if (settings.pages.userlist.filter) {
-		const list = document.querySelector(".user-info-list-wrap");
-		if (!list || list.querySelector(".ajax-placeholder, .ajax-preloader")) return;
+		const list = findElement(".user-info-list-wrap", true);
+		if (!list || findElement(".ajax-placeholder, .ajax-preloader", list, true)) return;
 	}
 
 	await showEstimates();
@@ -42,8 +43,8 @@ async function showEstimates() {
 	statsEstimate.showEstimates(
 		".user-info-list-wrap > li",
 		(row) => ({
-			id: parseInt(row.querySelector<HTMLAnchorElement>(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
-			level: parseInt(row.querySelector(".level").textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
+			id: parseInt(findElement<HTMLAnchorElement>(".user.name[href*='profiles.php']", row).href.match(/(?<=XID=).*/)[0]),
+			level: parseInt(findElement(".level", row).textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 		}),
 		{ hasFilter: true },
 	);
