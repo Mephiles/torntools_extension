@@ -36,7 +36,7 @@ async function addNotes() {
 	}
 }
 function getUserID() {
-	return findElement(".basic-info .user-info-value .bold").textContent.match(/(?<=\[).*(?=])/g)[0];
+	return findElement(".basic-info .user-info-value .bold").textContent!.match(/(?<=\[).*(?=])/g)![0];
 }
 
 export default class ProfileNotesFeature extends Feature {

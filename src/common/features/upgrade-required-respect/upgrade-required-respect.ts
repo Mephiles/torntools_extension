@@ -28,14 +28,14 @@ async function showRequiredRespect() {
 	if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;
 
 	let diff: number;
-	if (requiredNode.parentElement.classList.contains("completed")) {
+	if (requiredNode.parentElement!.classList.contains("completed")) {
 		diff = 0;
 	} else {
 		const upgradeRespect = parseInt(requiredNode.textContent.replaceAll(/.*Requires: |.*Assigned: | respect.*|,/g, ""));
 		diff = upgradeRespect - availableRespect;
 		if (diff < 0) diff = 0;
 	}
-	requiredNode.parentElement.classList.add("tt-modified");
+	requiredNode.parentElement!.classList.add("tt-modified");
 	requiredNode.textContent += ` (${formatNumber(diff)} needed to go)`;
 }
 

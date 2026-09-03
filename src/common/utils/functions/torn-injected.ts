@@ -2,7 +2,7 @@ import { findElement } from "@common/utils/functions/find-elements";
 import { getSidebarData } from "@common/utils/functions/torn";
 
 export interface InformationRetriever {
-	getStatusIcons(): Promise<StatusIcons>;
+	getStatusIcons(): Promise<StatusIcons | null>;
 }
 
 type StatusIcon = {
@@ -32,7 +32,7 @@ function toStatusIcon(icon: InternalStatusIconsProps["icon"]): StatusIcon {
 	return { title: icon.title, subtitle: icon.subtitle };
 }
 
-export function getStatusIcons(): StatusIcons {
+export function getStatusIcons(): StatusIcons | null {
 	const flyoutIcons = findElement("[class*='statusIcons___']", true);
 	if (flyoutIcons) {
 		const reactProperties = getReactProperties(flyoutIcons);
@@ -70,7 +70,7 @@ interface ReactProperties {
 	ref: unknown | null;
 }
 
-function getReactProperties(obj: any): ReactProperties {
+function getReactProperties(obj: any): ReactProperties | null {
 	const property = Object.keys(obj).find((k) => k.startsWith("__reactProps"));
 	if (!property) return null;
 

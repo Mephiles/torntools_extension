@@ -30,7 +30,7 @@ async function addFillMax() {
 
 			let max = convertToNumber(findElement(".instock", item).textContent);
 			if (!settings.pages.shops.maxBuyIgnoreCash) {
-				const price = convertToNumber(findElement(".price", item).firstChild.textContent);
+				const price = convertToNumber(findElement(".price", item).firstChild!.textContent!);
 				const money = convertToNumber(findElement("#user-money").dataset.money);
 
 				if (Math.floor(money / price) < max) max = Math.floor(money / price);

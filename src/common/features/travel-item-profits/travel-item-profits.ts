@@ -31,7 +31,7 @@ async function addProfitsColumn() {
 	void markTravelTableColumns();
 
 	document.body.classList.add(styles.travelProfits);
-	const market = findElement("#travel-root", true);
+	const market = findElement("#travel-root");
 	for (const headings of findAllElements("[class*='stockTableWrapper__'] [class*='itemsHeader__']", market)) {
 		if (!findElement(`.${styles.travelMarketHeading}`, headings, true)) {
 			const profitHeading = elementBuilder({
@@ -55,7 +55,11 @@ async function addProfitsColumn() {
 			if (!imageElement) continue;
 
 			const id = convertToNumber(imageElement.srcset.split(" ")[0]);
-			const marketPrice = ITEM_RESOLVER.getFullItem(id).value.market_price;
+
+			const resolvedItem = ITEM_RESOLVER.getFullItem(id);
+			if (!resolvedItem) continue;
+
+			const marketPrice = resolvedItem.value.market_price;
 			const buyPrice = convertToNumber(findElement("[data-tt-content-type='type'] + div [class*='neededSpace___']", row).textContent);
 
 			const salesTax = applySalesTax ? Math.ceil((marketPrice * SALES_TAX) / 100) : 0;

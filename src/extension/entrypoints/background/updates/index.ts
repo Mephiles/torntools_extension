@@ -27,7 +27,7 @@ export async function timedUpdates() {
 			updatePromises.push(
 				updateUserdata()
 					.then(({ updated, types, selections }) => {
-						if (updated) console.log(`Updated ${types.join("+")} userdata.`, selections);
+						if (updated) console.log(`Updated ${(types ?? []).join("+")} userdata.`, selections);
 						else console.log("Skipped this userdata update.");
 					})
 					.catch((error) => logError("updating userdata", error)),

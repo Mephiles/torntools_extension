@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Faction Quick Items",
 	description: "Use items from the faction armory faster.",
-	version: "1.0.1",
+	version: "1.0.2",
 	matches: ["https://*.torn.com/factions.php*"],
 	runAt: "document-end",
 	connect: ["torntools.tornplayground.eu"],

@@ -65,7 +65,7 @@ export async function updateStakeouts(forceUpdate = false) {
 				if (data.profile.status.state === "Hospital" && (!oldData || oldData.status.state !== data.profile.status.state)) {
 					if (settings.notifications.types.global) {
 						let reasonText = "";
-						const reason = getHospitalizationReason(data.profile.status.details);
+						const reason = getHospitalizationReason(data.profile.status.details ?? "");
 						if (reason?.important) {
 							reasonText = reason.display_sentence ?? reason.display ?? reason.name;
 							reasonText = ` ${reasonText}`;

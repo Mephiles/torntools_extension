@@ -20,7 +20,7 @@ function initialise() {
 		highlightEverything();
 	});
 
-	requireContent().then(() => observer.observe(document.body, { childList: true, subtree: true }));
+	requireContent().then(() => observer!.observe(document.body, { childList: true, subtree: true }));
 }
 
 function highlightEverything() {
@@ -43,14 +43,17 @@ function highlightEverything() {
  * Should highlight the given item based on the price?
  */
 function shouldHighlight(id: number, price: number) {
-	return price < ITEM_RESOLVER.getStaticItem(id)?.value.sell_price;
+	const item = ITEM_RESOLVER.getStaticItem(id);
+	if (!item?.value.sell_price) return false;
+
+	return price < item.value.sell_price;
 }
 
 function handleItem(item: HighlightableItem) {
 	if (shouldHighlight(item.id, item.price)) {
-		item.element.parentElement.classList.add(CLASS_NAME);
+		item.element.parentElement!.classList.add(CLASS_NAME);
 	} else {
-		item.element.parentElement.classList.remove(CLASS_NAME);
+		item.element.parentElement!.classList.remove(CLASS_NAME);
 	}
 }
 

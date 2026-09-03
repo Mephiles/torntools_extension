@@ -77,7 +77,7 @@ export class StatsEstimate {
 				showLoadingPlaceholder(field, true);
 				if (row.classList.contains("tt-hidden")) section.classList.add("tt-hidden");
 
-				let estimate: string;
+				let estimate: string | undefined;
 				if (ttCache.hasValue("stats-estimate", id)) {
 					estimate = ttCache.get<string>("stats-estimate", id);
 				}
@@ -112,7 +112,7 @@ export class StatsEstimate {
 		this.running = true;
 
 		while (this.queue.length) {
-			const { row, section, id, hasFilter } = this.queue.shift();
+			const { row, section, id, hasFilter } = this.queue.shift()!;
 
 			if (row.classList.contains("tt-hidden") && row.dataset.hideReason !== "statsEstimates") {
 				row.classList.remove("tt-estimated");
@@ -155,20 +155,21 @@ export class StatsEstimate {
 	}
 
 	getEstimate(rank: string, level: number, crimes: number, networth: number) {
-		rank = rank.match(/[A-Z][a-z ]+/g)?.[0].trim();
-		if (!rank) return "N/A";
+		const matchedRank = rank.match(/[A-Z][a-z ]+/g)?.[0].trim();
+		if (!matchedRank) return "N/A";
 
 		const triggersLevel = RANK_TRIGGERS.level.filter((x) => x <= level).length;
 		const triggersCrimes = RANK_TRIGGERS.crimes.filter((x) => x <= crimes).length;
 		const triggersNetworth = RANK_TRIGGERS.networth.filter((x) => x <= networth).length;
 
-		const triggersStats = RANKS[rank] - triggersLevel - triggersCrimes - triggersNetworth - 1;
+		const triggersStats = RANKS[matchedRank] - triggersLevel - triggersCrimes - triggersNetworth - 1;
 
 		return RANK_TRIGGERS.stats[triggersStats] ?? "N/A";
 	}
 
 	async fetchEstimate(id: number) {
-		let estimate: string, data: UserProfileResponse & UserPersonalStatsPopular;
+		let estimate: string | undefined;
+		let data: (UserProfileResponse & UserPersonalStatsPopular) | undefined;
 		if (ttCache.hasValue("stats-estimate", id)) {
 			estimate = ttCache.get<string>("stats-estimate", id);
 		} else {

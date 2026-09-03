@@ -29,8 +29,12 @@ async function showValues() {
 	findAllElements(".sell-items-list > li:not(.tt-value-modified)").forEach((row) => {
 		row.classList.add("tt-value-modified");
 
-		const id = parseInt(row.dataset.item);
-		const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
+		const id = parseInt(row.dataset.item!);
+
+		const resolvedItem = ITEM_RESOLVER.getFullItem(id);
+		if (!resolvedItem) return;
+
+		const value = resolvedItem.value.market_price;
 
 		findElement(".desc", row).appendChild(
 			elementBuilder({

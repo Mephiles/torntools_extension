@@ -54,7 +54,7 @@ export default class FFScouterAttackFeature extends Feature {
 	}
 
 	override initialise() {
-		SCOUTER_SERVICE = scouterService();
+		SCOUTER_SERVICE = scouterService()!;
 	}
 
 	override async execute() {

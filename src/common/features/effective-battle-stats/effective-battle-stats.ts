@@ -11,7 +11,7 @@ import { Feature } from "@features/feature";
 async function showEffectiveBattleStats() {
 	await requireContent();
 
-	const statsContainer = findElement("ul.info-cont-wrap", findElementWithText("h5", "Battle Stats").parentElement.nextElementSibling);
+	const statsContainer = findElement("ul.info-cont-wrap", findElementWithText("h5", "Battle Stats").parentElement!.nextElementSibling!);
 	const { content } = createContainer("Effective Battle Stats", {
 		collapsible: false,
 		applyRounding: false,

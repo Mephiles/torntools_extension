@@ -33,7 +33,7 @@ const medicalSource: MedicalItemsSource = {
 		if (!medicalList) return null;
 
 		return findAllElements(".item-list > li", medicalList).map((row) => ({
-			id: parseInt(findElement(".img-wrap[data-itemid]", row).dataset.itemid),
+			id: parseInt(findElement(".img-wrap[data-itemid]", row).dataset.itemid!),
 			quantity: parseInt(findElement(".qty", row).textContent),
 		}));
 	},
@@ -90,13 +90,13 @@ async function showQuickItems(section: string) {
 			...findAllElements(".armoury-tabs .item-list > li").filter((item) => {
 				const imgWrap = findElement(".img-wrap", item);
 
-				return allowQuickItem(imgWrap.dataset.itemid, findElement(".type", item, true)?.textContent);
+				return allowQuickItem(imgWrap.dataset.itemid!, findElement(".type", item, true)?.textContent ?? null);
 			}),
 			...findAllElements("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']"),
 		],
 		parseSourceItem: (element) => {
-			const target = element.dataset.type === "tt-points" ? element : findParent(element, { tag: "LI" });
-			const id = findElement(".img-wrap", target).dataset.itemid;
+			const target = element.dataset.type === "tt-points" ? element : findParent(element, { tag: "LI" })!;
+			const id = findElement(".img-wrap", target).dataset.itemid!;
 
 			return { id: parseQuickItemId(id) };
 		},
@@ -149,10 +149,10 @@ function setupQuickDragListeners() {
 			let element = target;
 			if (!element.hasAttribute("draggable")) element = element.closest("[draggable]") ?? element;
 
-			return parseQuickItemId(findElement(".img-wrap", element).dataset.itemid);
+			return parseQuickItemId(findElement(".img-wrap", element).dataset.itemid!);
 		},
-		addQuickItem: (item, temporary) => controller.addQuickItem(item, temporary),
-		saveQuickItems: () => controller.saveQuickItems(),
+		addQuickItem: (item, temporary) => controller!.addQuickItem(item, temporary),
+		saveQuickItems: () => controller!.saveQuickItems(),
 	});
 
 	if (tab.id === "tab=armoury&sub=points") {
@@ -179,7 +179,7 @@ function setupQuickDragListeners() {
 		for (const item of findAllElements(".item-list > li", tab)) {
 			const imgWrap = findElement(".img-wrap", item);
 
-			if (!allowQuickItem(parseInt(imgWrap.dataset.itemid), findElement(".type", item, true)?.textContent)) continue;
+			if (!allowQuickItem(parseInt(imgWrap.dataset.itemid!), findElement(".type", item, true)?.textContent ?? null)) continue;
 
 			if (enableDrag) {
 				item.setAttribute("draggable", "true");
@@ -287,7 +287,7 @@ async function useQuickItem({ id }: QuickItem, context: UseContext) {
 function allowQuickItem(id: QuickItemId, category: string | null) {
 	return (
 		isSpecialAction(id) ||
-		["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
+		["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category ?? "") ||
 		id === "points-energy" ||
 		id === "points-nerve"
 	);

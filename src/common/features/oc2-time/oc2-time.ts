@@ -65,9 +65,9 @@ function buildTimeLeftElement() {
 	// The result is that this now provides the earliest projected end/initiation time
 	if (missingMembers > 0) {
 		const missingTime = TO_MILLIS.DAYS * missingMembers;
-		readyAt = Math.max((userdata.organizedCrime as FactionCrime).ready_at * 1000 + missingTime, now + missingTime);
+		readyAt = Math.max(((userdata.organizedCrime as FactionCrime).ready_at ?? 0) * 1000 + missingTime, now + missingTime);
 	} else {
-		readyAt = (userdata.organizedCrime as FactionCrime).ready_at * 1000;
+		readyAt = ((userdata.organizedCrime as FactionCrime).ready_at ?? 0) * 1000;
 	}
 
 	const timeLeft = readyAt - now;

@@ -14,7 +14,7 @@ function initialiseListeners() {
 			FEATURE_MANAGER.isEnabled(TotalItemCostFeature) &&
 			isElement(event.target) &&
 			Array.from(event.target.classList).some((c) => c.startsWith("controlPanelButton__")) &&
-			event.target.ariaLabel.includes("Buy")
+			event.target.ariaLabel?.includes("Buy")
 		) {
 			addPrice();
 		}

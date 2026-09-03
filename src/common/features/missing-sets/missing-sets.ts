@@ -66,7 +66,7 @@ async function show(id: string, selector: string, items: SetItem[]) {
 	const currentItemsElements = findAllElements(`#category-wrap > ${selector}[aria-expanded='true'] > li[data-item]`);
 	if (!currentItemsElements.length || currentItemsElements.length === items.length) return;
 
-	const currentItems = currentItemsElements.map((x) => parseInt(x.dataset.item));
+	const currentItems = currentItemsElements.map((x) => parseInt(x.dataset.item!));
 	const needed = items.filter((x) => !currentItems.some((y) => x.id === y)).sort((a, b) => a.name.localeCompare(b.name));
 	if (needed.length <= 0) return;
 
@@ -102,12 +102,15 @@ function addItemValue(missingItem: HTMLElement) {
 	if (!settings.pages.items.values) return;
 	if (!hasAPIData()) return;
 
+	const fullItem = ITEM_RESOLVER.getFullItem(parseInt(missingItem.dataset.id!));
+	if (!fullItem) return;
+
 	findElement(":scope > span", missingItem).insertAdjacentElement(
 		"afterend",
 		elementBuilder({
 			type: "span",
 			class: "tt-item-price",
-			text: formatNumber(ITEM_RESOLVER.getFullItem(parseInt(missingItem.dataset.id)).value.market_price, { currency: true }),
+			text: formatNumber(fullItem.value.market_price, { currency: true }),
 		}),
 	);
 }
@@ -130,7 +133,7 @@ async function addMarketIcon(missingItem: HTMLElement, first: boolean, last: boo
 		missingItem.appendChild(parent);
 	}
 
-	const id = parseInt(missingItem.dataset.id);
+	const id = parseInt(missingItem.dataset.id!);
 	const { name, category } = missingItem.dataset;
 
 	parent.appendChild(

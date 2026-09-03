@@ -18,7 +18,7 @@ async function showNotes() {
 		compact: true,
 		previousElement:
 			findParent(findElementWithText("h2", "Information", true), { partialClass: "sidebar-block_" }) ??
-			findElement("#sidebar [class*='accountLinksWrap___']", true),
+			findElement("#sidebar [class*='accountLinksWrap___']"),
 	});
 
 	content.appendChild(

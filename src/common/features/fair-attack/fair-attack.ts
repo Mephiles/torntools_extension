@@ -10,7 +10,7 @@ import { Feature } from "@features/feature";
 async function showFF() {
 	await requireElement("div[class*='textEntries___']");
 
-	const id = parseInt(getSearchParameters().get("user2ID"));
+	const id = parseInt(getSearchParameters().get("user2ID")!);
 	const ff = attackHistory.history[id]?.latestFairFightModifier;
 	if (!ff) return;
 

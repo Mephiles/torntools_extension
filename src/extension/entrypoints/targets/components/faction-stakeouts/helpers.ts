@@ -18,12 +18,7 @@ export function getStoredFactionStakeouts(sourceRows: FactionStakeoutRow[], curr
 	const now = Date.now();
 	return {
 		date: currentDate,
-		list: sourceRows.map((row) => ({
-			id: row.id,
-			order: now,
-			info: row.info,
-			alerts: row.alerts,
-		})),
+		list: sourceRows.flatMap((row) => (row.info === null ? [] : [{ id: row.id, order: now, info: row.info, alerts: row.alerts }])),
 	};
 }
 

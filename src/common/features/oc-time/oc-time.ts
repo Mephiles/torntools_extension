@@ -18,6 +18,8 @@ async function showTimer() {
 	showInformationSection();
 
 	const userCrime = "userCrime" in factiondata ? factiondata.userCrime : userdata.userCrime;
+	if (!userCrime) return;
+
 	const timeLeft = userCrime - Date.now();
 
 	const timeLeftElement = elementBuilder({ type: "span", class: "countdown" });

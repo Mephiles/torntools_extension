@@ -15,7 +15,8 @@ function addListener() {
 
 		if (!FEATURE_MANAGER.isEnabled(ItemMarketFillMaxFeature)) return;
 
-		const listing = target.closest("li");
+		const listing = target.closest("li")!;
+
 		// The purchase amount input is not visible in mobiles and tablets until
 		// the Buy icon is clicked. Hence exit early.
 		if ((mobile || tablet) && !listing.children[0].matches("[class*='sellerRow__'][class*='expanded__']")) return;

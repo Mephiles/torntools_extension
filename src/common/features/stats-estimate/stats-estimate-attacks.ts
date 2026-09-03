@@ -18,7 +18,7 @@ async function showEstimate() {
 	handleAttacker();
 
 	function handleDefender() {
-		const id = parseInt(getSearchParameters().get("user2ID"));
+		const id = parseInt(getSearchParameters().get("user2ID")!);
 
 		statsEstimate
 			.fetchEstimate(id)
@@ -43,7 +43,7 @@ async function showEstimate() {
 				},
 			} = userdata;
 
-			let crimes: number;
+			let crimes: number = 0;
 			if (crimesStats.version === "v1") crimes = (crimesStats as PersonalStatsCrimesV1).total;
 			else if (crimesStats.version === "v2") crimes = (crimesStats as PersonalStatsCrimesV2).offenses.total;
 
@@ -66,12 +66,12 @@ async function showEstimate() {
 		let entries: HTMLElement;
 		if (mobile || tablet) {
 			const sideColor = side === "attacker" ? "green___" : "rose___";
-			entries = findElement(`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`, true);
+			entries = findElement(`div[class*='playersModelWrap___'] div[class*='headerWrapper___'][class*=${sideColor}] div[class*='textEntries___']`);
 		} else {
 			entries =
 				side === "attacker"
-					? findElement("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']", true)
-					: findElement("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']", true);
+					? findElement("div[class*='playersModelWrap___'] div[class*='player___']:first-child div[class*='textEntries___']")
+					: findElement("div[class*='playersModelWrap___'] div[class*='player___']:nth-child(2) div[class*='textEntries___']");
 		}
 
 		entries.classList.add("tt-stats-estimate-attacks-wrapper");

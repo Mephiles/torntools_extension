@@ -17,7 +17,7 @@ async function startListener() {
 		if (closedOption || !FEATURE_MANAGER.isEnabled(DisableAllyAttacksLoaderFeature) || page !== "page") return;
 
 		const params = new URL(fetch.url).searchParams;
-		const sid = params.get("sid");
+		const sid = params.get("sid")!;
 
 		if (!isAttackData(sid, json)) return;
 		if (!json.DB.defenderUser.factionID || json.viewStyle !== "nonAttack") return;

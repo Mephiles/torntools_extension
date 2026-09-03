@@ -90,7 +90,7 @@ function showEstimates() {
 			const anchorMatch = findElement<HTMLAnchorElement>(".user.name, [class*='honorWrap___']", row).href.match(/.*XID=(?<id>\d+)/);
 
 			return {
-				id: parseInt(anchorMatch.groups.id),
+				id: parseInt(anchorMatch!.groups!.id!),
 				level: parseInt(findElement(".level", row).textContent.trim()),
 			};
 		});

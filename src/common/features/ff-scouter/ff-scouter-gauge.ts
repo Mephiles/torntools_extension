@@ -34,7 +34,7 @@ function initialise() {
 				mutation.addedNodes.length > 0 &&
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
-					.some((element) => element.matches(pageSelector) || findElement(pageSelector, element, true)),
+					.some((element) => pageSelector && (element.matches(pageSelector) || findElement(pageSelector, element, true))),
 		);
 		if (!hasRelevantNodes) return;
 
@@ -118,7 +118,7 @@ function triggerGauge() {
 }
 
 interface GaugeElements {
-	element: HTMLElement;
+	element: HTMLAnchorElement;
 	id: string;
 }
 
@@ -128,7 +128,7 @@ function applyGauge(e: HTMLAnchorElement[]) {
 	const elements: Array<GaugeElements> = e
 		.filter((el) => !el.classList.contains("tt-ff-scouter-indicator"))
 		.map((element) => ({ element, id: extractPlayerId(element) }))
-		.filter(({ id }) => !!id);
+		.filter((e): e is GaugeElements => e.id !== null);
 	if (!elements.length) return Promise.resolve();
 
 	return processBatches(elements);
@@ -208,19 +208,19 @@ function processBatches(elementsWithIds: GaugeElements[]): Promise<void> {
 function extractPlayerId(element: HTMLAnchorElement): string | null {
 	if (element.nodeName.toLowerCase() === "a") {
 		const match = element.href?.match(/.*XID=(?<target_id>\d+)/);
-		if (match) return match.groups.target_id;
+		if (match) return match.groups!.target_id;
 	}
 
 	const parent = element.parentElement as HTMLAnchorElement;
 	if (parent?.href) {
 		const match = parent.href.match(/.*XID=(?<target_id>\d+)/);
-		if (match) return match.groups.target_id;
+		if (match) return match.groups!.target_id;
 	}
 
 	const anchor = findElement("a", element, true);
 	if (anchor?.href) {
 		const match = anchor.href.match(/.*XID=(?<target_id>\d+)/);
-		if (match) return match.groups.target_id;
+		if (match) return match.groups!.target_id;
 	}
 
 	return null;
@@ -268,11 +268,11 @@ export default class FFScouterGaugeFeature extends Feature {
 	}
 
 	override initialise() {
-		SCOUTER_SERVICE = scouterService();
+		SCOUTER_SERVICE = scouterService()!;
 		BLUE_ARROW = browser.runtime.getURL("/images/svg-icons/blue-arrow.svg");
 		GREEN_ARROW = browser.runtime.getURL("/images/svg-icons/green-arrow.svg");
 		RED_ARROW = browser.runtime.getURL("/images/svg-icons/red-arrow.svg");
-		pageSelector = SELECTORS.get(getPage());
+		pageSelector = SELECTORS.get(getPage()) ?? null;
 		initialise();
 	}
 

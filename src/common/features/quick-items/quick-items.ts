@@ -42,8 +42,8 @@ const medicalSource: MedicalItemsSource = {
 		if (!medicalList) return null;
 
 		return findAllElements("li[data-item][data-qty]", medicalList).map((row) => ({
-			id: parseInt(row.dataset.item),
-			quantity: parseInt(row.dataset.qty),
+			id: parseInt(row.dataset.item!),
+			quantity: parseInt(row.dataset.qty!),
 		}));
 	},
 	loadDirectly: async () => {
@@ -81,28 +81,28 @@ function initialiseListeners() {
 	});
 	addXHRListener(({ detail: { xhr, json } }) => {
 		if (json) cacheXID(extractXIDFromJson(json));
-		cacheXID(extractXIDFromHTML(xhr.responseText));
+		cacheXID(extractXIDFromHTML(xhr.responseText!));
 	});
 }
 
 async function loadQuickItems() {
 	controller = createQuickItemsController({
 		title: "Quick Items",
-		nextElement: () => findElement(".equipped-items-wrap", true),
+		nextElement: () => findElement(".equipped-items-wrap"),
 		savedItems: () => quick.items,
 		getOverlayItems: () => [
 			...findAllElements("#categoriesItem:not(.no-items)").filter((category) =>
-				["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other", "Supply Pack"].includes(category.dataset.type),
+				["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other", "Supply Pack"].includes(category.dataset.type!),
 			),
 			...findAllElements("ul.items-cont:not(.no-items)"),
 		],
 		getSourceItems: () =>
-			findAllElements("ul.items-cont[aria-expanded='true'] > li").filter((item) => allowQuickItem(parseInt(item.dataset.item), item.dataset.category)),
+			findAllElements("ul.items-cont[aria-expanded='true'] > li").filter((item) => allowQuickItem(parseInt(item.dataset.item!), item.dataset.category!)),
 		parseSourceItem: (element) => {
 			const target = findParent(element, { hasAttribute: "data-item" });
 			if (!target) return null;
 
-			return { id: parseInt(target.dataset.item) };
+			return { id: parseInt(target.dataset.item!) };
 		},
 		storageKey: "items",
 		allowQuickItem,
@@ -130,8 +130,9 @@ async function useQuickItem({ id }: QuickItem, context: UseContext) {
 	const { itemWrap, responseWrap, innerContent } = context;
 	const itemId = id as number;
 	const staticItem = ITEM_RESOLVER.getStaticItem(itemId);
-	const equipItem = isEquipable(itemId, staticItem?.type);
-	const equipPosition = equipItem ? getEquipPosition(itemId, staticItem?.type) : false;
+	const itemType = staticItem?.type ?? "";
+	const equipItem = isEquipable(itemId, itemType);
+	const equipPosition = equipItem ? getEquipPosition(itemId, itemType) : false;
 
 	const xid: number | null = getXID(itemId);
 	if (equipItem && xid === null) {
@@ -159,7 +160,7 @@ async function useQuickItem({ id }: QuickItem, context: UseContext) {
 		body.set("step", "actionForm");
 		body.set("confirm", "1");
 		body.set("action", "equip");
-		body.set("id", xid.toString());
+		body.set("id", xid!.toString());
 	} else {
 		body.set("step", "useItem");
 		body.set("id", itemId.toString());
@@ -167,7 +168,7 @@ async function useQuickItem({ id }: QuickItem, context: UseContext) {
 	}
 
 	fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
-		if (typeof result === "object" && isUseItem(body.get("step"), result)) {
+		if (typeof result === "object" && isUseItem(body.get("step")!, result)) {
 			const links = buildResponseLinks(result.success && result.links ? result.links : []);
 
 			responseWrap.style.display = "block";
@@ -258,14 +259,14 @@ function setupQuickDragListeners() {
 		containerId: "quickItems",
 		resolveQuickItem: (target) => {
 			const itemRow = target.closest<HTMLElement>("li[data-item]");
-			return itemRow ? parseInt(itemRow.dataset.item) : null;
+			return itemRow ? parseInt(itemRow.dataset.item!) : null;
 		},
-		addQuickItem: (item, temporary) => controller.addQuickItem(item, temporary),
-		saveQuickItems: () => controller.saveQuickItems(),
+		addQuickItem: (item, temporary) => controller!.addQuickItem(item, temporary),
+		saveQuickItems: () => controller!.saveQuickItems(),
 	});
 
 	for (const item of findAllElements(".items-cont[aria-expanded=true] > li[data-item]")) {
-		if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
+		if (!allowQuickItem(parseInt(item.dataset.item!), item.dataset.category!)) continue;
 
 		const titleWrap = findElement(".title-wrap", item);
 		if (titleWrap.hasAttribute("draggable")) continue;
@@ -276,9 +277,9 @@ function setupQuickDragListeners() {
 	}
 }
 
-function allowQuickItem(id: QuickItemId, category: string) {
+function allowQuickItem(id: QuickItemId, category: string | null) {
 	return (
-		["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
+		["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category ?? "") ||
 		(typeof id === "number" &&
 			[
 				// Temporary Items
@@ -294,7 +295,7 @@ function allowQuickItem(id: QuickItemId, category: string) {
 }
 
 function updateEquippedItem(id: number, isEquip: boolean) {
-	const equipPosition = getEquipPosition(id, ITEM_RESOLVER.getStaticItem(id)?.type);
+	const equipPosition = getEquipPosition(id, ITEM_RESOLVER.getStaticItem(id)?.type ?? "");
 	findAllElements(`.item.equipped[data-equip-position="${equipPosition}"]`).forEach((x) => x.classList.remove("equipped"));
 
 	if (isEquip && findElement(`.item[data-id="${id}"]`, true)) findElement(`.item[data-id="${id}"]`).classList.add("equipped");
@@ -302,7 +303,7 @@ function updateEquippedItem(id: number, isEquip: boolean) {
 
 function setupOverlayItems(tab: Element) {
 	for (const item of findAllElements("li[data-item][data-category]", tab)) {
-		if (allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
+		if (allowQuickItem(parseInt(item.dataset.item!), item.dataset.category!)) continue;
 
 		item.classList.add("tt-overlay-ignore");
 	}
@@ -327,7 +328,7 @@ function getXID(item: number): number | null {
 	if (fromDOM) return fromDOM.xid;
 
 	if (ttCache.hasValue("xid--temp", item)) {
-		return ttCache.get("xid--temp", item);
+		return ttCache.get("xid--temp", item)!;
 	}
 
 	return null;
@@ -336,7 +337,7 @@ function getXID(item: number): number | null {
 async function getXIDWithDirectCall(item: number): Promise<boolean> {
 	const body = new URLSearchParams();
 	body.set("step", "getSearchList");
-	body.set("q", ITEM_RESOLVER.getStaticItem(item)?.name);
+	body.set("q", ITEM_RESOLVER.getStaticItem(item)?.name ?? "");
 
 	const result = await fetchData("torn_direct", { action: "item.php", method: "POST", body });
 

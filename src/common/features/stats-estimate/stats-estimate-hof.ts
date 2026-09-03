@@ -42,7 +42,7 @@ async function showEstimates() {
 	statsEstimate.showEstimates(
 		"[class*='tableBody___'] > [class*='tableRow___']",
 		(row) => ({
-			id: parseInt(findElement<HTMLAnchorElement>("a[href*='profiles.php']", row).href.match(/(?<=XID=).*/)[0]),
+			id: parseInt(findElement<HTMLAnchorElement>("a[href*='profiles.php']", row).href.match(/(?<=XID=).*/)![0]),
 			level: parseInt(findElement(`td:nth-child(${levelIndex + 1})`, row).textContent),
 		}),
 		{

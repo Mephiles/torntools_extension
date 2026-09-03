@@ -19,7 +19,7 @@ function hideChats() {
 	if (settings.pages.chat.hideChat) document.documentElement.classList.add("tt-chat-hidden");
 }
 
-async function showButton(settingsPanel: HTMLElement = null) {
+async function showButton(settingsPanel: HTMLElement | null = null) {
 	if (!settingsPanel) {
 		await requireChatsLoaded();
 

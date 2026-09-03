@@ -76,7 +76,7 @@ async function loadCrimes() {
 
 						const draggableCrimes = findAllElements(".specials-cont-wrap form[name='crimes'] .item[draggable='true']");
 						if (draggableCrimes.length) {
-							draggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']").classList.add("tt-overlay-item");
+							draggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']")!.classList.add("tt-overlay-item");
 
 							for (const crime of draggableCrimes) {
 								crime.addEventListener("click", onCrimeClick);
@@ -88,7 +88,7 @@ async function loadCrimes() {
 
 						const nonDraggableCrimes = findAllElements(".specials-cont-wrap form[name='crimes'] .item[draggable='false']");
 						if (nonDraggableCrimes.length) {
-							nonDraggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']").classList.remove("tt-overlay-item");
+							nonDraggableCrimes[0].closest(".specials-cont-wrap form[name='crimes']")!.classList.remove("tt-overlay-item");
 
 							for (const crime of nonDraggableCrimes) {
 								crime.removeEventListener("click", onCrimeClick);
@@ -112,7 +112,7 @@ async function loadCrimes() {
 		if (!form?.hasAttribute("action")) return;
 
 		const action = `${location.origin}/${form.getAttribute("action")}`;
-		const step = getSearchParameters(action).get("step");
+		const step = getSearchParameters(action).get("step")!;
 		if (!["docrime2", "docrime4"].includes(step)) return;
 
 		for (const crime of findAllElements("ul.item", form)) {
@@ -127,10 +127,10 @@ async function loadCrimes() {
 	}
 
 	function onDragStart(event: DragEvent) {
-		if (!isElement(event.target)) return;
+		if (!isElement(event.target) || !event.dataTransfer) return;
 		const target = event.target;
 
-		event.dataTransfer.setData("text/plain", null);
+		event.dataTransfer.setData("text/plain", "");
 
 		setTimeout(() => {
 			findElement("#quickCrimes > main").classList.add("drag-progress");
@@ -140,7 +140,7 @@ async function loadCrimes() {
 			const nerve = parseInt(findElement<HTMLInputElement>("input[name='nervetake']", form).value);
 
 			const action = `${location.origin}/${form.getAttribute("action")}`;
-			const step = getSearchParameters(action).get("step");
+			const step = getSearchParameters(action).get("step")!;
 
 			const data = {
 				step,
@@ -165,7 +165,7 @@ async function loadCrimes() {
 	}
 
 	function addQuickCrime(data: QuickCrime, temporary: boolean) {
-		const content = findContainer("Quick Crimes", { selector: ":scope > main" });
+		const content = findContainer("Quick Crimes", { selector: ":scope > main" })!;
 		const innerContent = findElement(".inner-content", content);
 
 		const { step, nerve, name, icon, text } = data;
@@ -212,13 +212,15 @@ async function loadCrimes() {
 					}
 				},
 				dragstart(event) {
+					if (!event.dataTransfer) return;
+
 					event.dataTransfer.effectAllowed = "move";
 					event.dataTransfer.setDragImage(event.currentTarget as Element, 0, 0);
 
 					movingElement = event.currentTarget as Element;
 				},
 				async dragend() {
-					movingElement.classList.remove("temp");
+					movingElement?.classList.remove("temp");
 					movingElement = undefined;
 
 					await saveCrimes();
@@ -227,18 +229,18 @@ async function loadCrimes() {
 					event.preventDefault();
 				},
 				dragenter(event) {
-					if (movingElement !== event.currentTarget && isElement(event.currentTarget)) {
-						const children = Array.from(innerContent.children);
+					if (!movingElement || movingElement === event.currentTarget || !isElement(event.currentTarget)) return;
 
-						if (children.indexOf(movingElement) > children.indexOf(event.currentTarget))
-							innerContent.insertBefore(movingElement, event.currentTarget);
-						else if (event.currentTarget.nextElementSibling) {
-							innerContent.insertBefore(movingElement, event.currentTarget.nextElementSibling);
-						} else {
-							innerContent.appendChild(movingElement);
-						}
-						movingElement.classList.add("temp");
+					const children = Array.from(innerContent.children);
+
+					if (children.indexOf(movingElement) > children.indexOf(event.currentTarget)) {
+						innerContent.insertBefore(movingElement, event.currentTarget);
+					} else if (event.currentTarget.nextElementSibling) {
+						innerContent.insertBefore(movingElement, event.currentTarget.nextElementSibling);
+					} else {
+						innerContent.appendChild(movingElement);
 					}
+					movingElement.classList.add("temp");
 				},
 			},
 			attributes: {
@@ -254,13 +256,13 @@ async function loadCrimes() {
 	}
 
 	async function saveCrimes() {
-		const content = findContainer("Quick Crimes", { selector: ":scope > main" });
+		const content = findContainer("Quick Crimes", { selector: ":scope > main" })!;
 
 		await ttStorage.change({
 			quick: {
 				crimes: findAllElements(".quick-item", content).map((crime) => ({
 					step: crime.dataset.step,
-					nerve: parseInt(crime.dataset.nerve),
+					nerve: parseInt(crime.dataset.nerve!),
 					name: crime.dataset.name,
 					icon: crime.dataset.icon,
 					text: crime.dataset.text,
@@ -275,13 +277,13 @@ async function loadCrimes() {
 
 		if (!isElement(event.target)) return;
 
-		const item = event.target.closest(".item");
+		const item = event.target.closest(".item")!;
 
 		const form = findElement(".specials-cont-wrap form[name='crimes']");
 		const nerve = parseInt(findElement<HTMLInputElement>("input[name='nervetake']", form).value);
 
 		const action = `${location.origin}/${form.getAttribute("action")}`;
-		const step = getSearchParameters(action).get("step");
+		const step = getSearchParameters(action).get("step")!;
 
 		const data = {
 			step,
@@ -292,6 +294,7 @@ async function loadCrimes() {
 		};
 
 		const quick = addQuickCrime(data, false);
+		if (!quick) return;
 
 		quick.classList.add("removable", "tt-overlay-item");
 		findElement(".item", quick).classList.remove("item");

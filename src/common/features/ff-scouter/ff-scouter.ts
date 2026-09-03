@@ -34,7 +34,7 @@ export class ScouterService {
 	}
 
 	fromCache(target: number): ScouterResult {
-		return ttCache.get(this.cacheKey, target);
+		return ttCache.get(this.cacheKey, target)!;
 	}
 
 	toCache(result: ScouterResult) {
@@ -156,7 +156,7 @@ export function buildScoutInformation(scout: ScouterResult): { message: string; 
 	let message: string, className: string | null, detailMessage: string | null;
 	if (!("message" in scout)) {
 		const now = Date.now();
-		const age = now - scout.last_updated * 1000;
+		const age = now - scout.last_updated! * 1000;
 
 		let suffix: string;
 		if (age < TO_MILLIS.DAYS) {
@@ -175,7 +175,7 @@ export function buildScoutInformation(scout: ScouterResult): { message: string; 
 			suffix = years === 1 ? "(1 year old)" : `(${years} years old)`;
 		}
 
-		message = `Fair Fight: ${scout.fair_fight.toFixed(2)} ${suffix}`.trim();
+		message = `Fair Fight: ${scout.fair_fight!.toFixed(2)} ${suffix}`.trim();
 		className = null;
 		detailMessage = null;
 	} else {

@@ -94,7 +94,10 @@ export class ExtensionFeatureManager implements FeatureManager {
 		this.errorCount = this.errorCount + 1;
 		if (this.errorCount === 1) {
 			// Show error messages with the first error.
-			requireCondition(() => this.container)
+			requireCondition(() => {
+				if (this.container !== null) return this.container;
+				else return null;
+			})
 				.then((container) => requireElement(".error-messages", { parent: container }))
 				.then((messages) => messages.classList.add("show"));
 		}
@@ -163,6 +166,12 @@ export class ExtensionFeatureManager implements FeatureManager {
 						elementBuilder({ type: "div", class: "name", text: error.message }),
 						elementBuilder({ type: "pre", class: "stack", text: formattedLocation }),
 					],
+				});
+			} else {
+				errorElement = elementBuilder({
+					type: "pre",
+					class: "error",
+					children: [elementBuilder({ type: "div", class: "name", text: `Unknown error message: ${String(error)}` })],
 				});
 			}
 		} else {
@@ -331,7 +340,10 @@ export class ExtensionFeatureManager implements FeatureManager {
 		}
 
 		void (async () => {
-			let row = findElement(`[feature-name="${feature.name}"]`, this.container, true);
+			const container = this.container;
+			if (!container) return;
+
+			let row = findElement(`[feature-name="${feature.name}"]`, container, true);
 			if (row) {
 				row.setAttribute("status", status);
 
@@ -349,14 +361,14 @@ export class ExtensionFeatureManager implements FeatureManager {
 					children: [getIconElement(status), elementBuilder({ type: "span", text: feature.name })],
 				});
 
-				let scopeEl = findElement(`[scope*="${feature.scope}"]`, this.container, true);
+				let scopeEl = findElement(`[scope*="${feature.scope}"]`, container, true);
 				if (!scopeEl) {
 					scopeEl = elementBuilder({
 						type: "div",
 						attributes: { scope: feature.scope },
 						children: [elementBuilder({ type: "div", text: `— ${feature.scope} —` })],
 					});
-					findElement(".tt-features-list", this.container).appendChild(scopeEl);
+					findElement(".tt-features-list", container).appendChild(scopeEl);
 				}
 				scopeEl.appendChild(row);
 			}
@@ -415,7 +427,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 							events: {
 								click: (e) => {
 									const target = e.target as Element;
-									const title = target.matches(`#${this.containerID}`) ? target : target.closest(`#${this.containerID}`);
+									const title = target.matches(`#${this.containerID}`) ? target : target.closest(`#${this.containerID}`)!;
 
 									findElement("button", title).style.backgroundImage = title.classList.toggle("open")
 										? `url(${browser.runtime.getURL("/images/svg-icons/cross.svg")})`

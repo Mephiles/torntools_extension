@@ -56,24 +56,27 @@ function highlightEverything() {
 				price: convertToNumber(findElement("[class*='priceAndTotal'] > span", element).textContent),
 			};
 		})
-		.filter((item) => item?.element);
+		.filter((item) => item !== null);
 
 	handleCategoryItems(categoryItems);
 
 	let id: number | undefined;
 	const params = getHashParameters();
 	if (params.has("itemID")) {
-		id = parseInt(params.get("itemID"));
-	} else if (findElement("[class*='sellerListWrapper___']", true)) {
-		const image = findElement<HTMLImageElement>("img.torn-item", findElement("[class*='sellerListWrapper___']").previousElementSibling, true);
-		if (!image) return;
+		id = parseInt(params.get("itemID")!);
+	} else {
+		const wrapper = findElement("[class*='sellerListWrapper___']", true);
+		if (wrapper?.previousElementSibling) {
+			const image = findElement<HTMLImageElement>("img.torn-item", wrapper.previousElementSibling, true);
+			if (!image) return;
 
-		id = convertToNumber(image.src);
+			id = convertToNumber(image.src);
+		}
 	}
 
 	if (id !== undefined) {
 		const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)")
-			.map<ItemEntry>((element) => {
+			.map<ItemEntry | null>((element) => {
 				const priceElement = findElement("[class*='price___']", element, true);
 				if (!priceElement) return null;
 
@@ -83,15 +86,15 @@ function highlightEverything() {
 					id,
 				};
 			})
-			.filter((item) => !!item);
+			.filter((item) => item !== null);
 
 		handleItemSellers(id, itemSellers);
 	}
 
 	if (params.has("itemID")) {
-		const id = parseInt(params.get("itemID"));
+		const id = parseInt(params.get("itemID")!);
 		const itemSellers = findAllElements("[class*='rowWrapper___']:not(.tt-highlight-modified)")
-			.map<ItemEntry>((element) => {
+			.map<ItemEntry | null>((element) => {
 				const priceElement = findElement("[class*='price___']", element, true);
 				if (!priceElement) return null;
 
@@ -101,7 +104,7 @@ function highlightEverything() {
 					id,
 				};
 			})
-			.filter((item) => !!item);
+			.filter((item) => item !== null);
 
 		handleItemSellers(id, itemSellers);
 	}
@@ -122,7 +125,7 @@ function highlightItems(items: Element[]) {
 				price: convertToNumber(priceElement.textContent),
 			};
 		})
-		.filter((item) => item?.element);
+		.filter((item) => item !== null);
 
 	handleCategoryItems(itemEntries);
 }

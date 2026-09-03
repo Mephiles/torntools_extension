@@ -5,7 +5,7 @@ export interface Reminder {
 	name: string;
 	group?: string;
 	url?: string;
-	enabled?: () => boolean;
+	enabled: () => boolean;
 	finished: () => boolean;
 }
 
@@ -76,7 +76,7 @@ export const REMINDERS: Reminder[] = [
 		group: "oc",
 		url: LINKS.organizedCrimes,
 		enabled: () => !!userdata.faction && settings.scripts.reminders.types.oc,
-		finished: () => userdata.organizedCrime && "id" in userdata.organizedCrime,
+		finished: () => userdata.organizedCrime !== null && "id" in userdata.organizedCrime,
 	},
 	{
 		name: "OC: Item",

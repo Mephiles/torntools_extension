@@ -146,7 +146,7 @@ export async function setupFactionsPage() {
 				const mutation = mutations.find((mutation) => extractArmorySubcategory((mutation.target as Element).id) !== null);
 				if (!mutation) return;
 
-				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: extractArmorySubcategory((mutation.target as Element).id) });
+				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: extractArmorySubcategory((mutation.target as Element).id)! });
 			}).observe(findElement("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 			function getCurrentSection() {
@@ -297,22 +297,28 @@ export async function readFactionDetails() {
 		const userID = userdata.profile.id;
 		if (!userID) return null; // ID could not be found
 
-		return { id: await getFactionIDFromUser(userID) };
+		const id = await getFactionIDFromUser(userID);
+		if (!id) return null;
+
+		return { id };
 	}
 
 	const params = getSearchParameters();
 
 	if (isIntNumber(params.get("ID"))) {
-		return { id: parseInt(params.get("ID")) };
+		return { id: parseInt(params.get("ID")!) };
 	}
 
 	if (isIntNumber(params.get("userID")) && hasAPIData()) {
-		return { id: await getFactionIDFromUser(parseInt(params.get("userID"))) };
+		const id = await getFactionIDFromUser(parseInt(params.get("userID")!));
+		if (!id) return null;
+
+		return { id };
 	}
 
 	return null; // ID could not be found
 
-	async function getFactionIDFromUser(userID: number): Promise<number> {
+	async function getFactionIDFromUser(userID: number): Promise<number | undefined> {
 		const cached = ttCache.get("faction-id", userID);
 		if (cached) return cached;
 

@@ -40,7 +40,7 @@ export async function setupTravelHomePage() {
 				)
 					return;
 
-				let country = findElement<HTMLImageElement>("img", event.target.parentElement).src.replace(".png", "").split("/").at(-1).replaceAll("-", "_");
+				let country = findElement<HTMLImageElement>("img", event.target.parentElement!).src.replace(".png", "").split("/").at(-1)!.replaceAll("-", "_");
 				if (country === "uk") country = "united_kingdom";
 
 				triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country });

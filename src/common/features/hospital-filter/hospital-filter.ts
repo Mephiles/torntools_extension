@@ -62,7 +62,7 @@ async function addFilterContainer() {
 			defaults: { low: filters.hospital.timeStart, high: filters.hospital.timeEnd },
 			formatCounter: ({ start, end }) => `Time ${start}h - ${end}h`,
 			test: (row, range) => {
-				const hoursLeft = parseInt(findElement(".info-wrap .time", row).lastChild.textContent?.match(/(\d*)h/)?.[1]) || 0;
+				const hoursLeft = parseInt(findElement(".info-wrap .time", row, true)?.lastChild?.textContent?.match(/(\d*)h/)?.[1] ?? "") || 0;
 
 				if (range.start && hoursLeft < range.start) return false;
 				if (range.end !== 100 && hoursLeft > range.end) return false;

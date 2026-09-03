@@ -198,7 +198,7 @@ async function initialize() {
 
 	let response: TornBank[];
 	if (ttCache.hasValue("bank-interest-v2")) {
-		response = ttCache.get("bank-interest-v2");
+		response = ttCache.get("bank-interest-v2")!;
 	} else {
 		response = (await fetchData<TornBankResponse>("tornv2", { section: "torn", selections: ["bank"] })).bank;
 

@@ -309,7 +309,7 @@ export function calculateSpecialGymsData(
 
 	const neglectedStatName = Object.values(BattleStat).find(
 		(statName) => statName !== singleStatConfig.statName && statName !== twoStatsConfig.statOneName && statName !== twoStatsConfig.statTwoName,
-	);
+	)!;
 
 	const result = calculateSingleStatAndTwoStatsGyms(
 		stats[singleStatConfig.statName],

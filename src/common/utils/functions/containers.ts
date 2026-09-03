@@ -10,7 +10,7 @@ export type ContainerPosition = { parentElement: Element } | { nextElement: Elem
 
 export type ContainerOptions = {
 	id: string;
-	class: string | (string | null)[];
+	class: string | (string | null | undefined)[];
 	showHeader: boolean;
 	onlyHeader: boolean;
 	collapsible: boolean;

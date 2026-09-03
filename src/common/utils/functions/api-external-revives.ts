@@ -42,7 +42,7 @@ interface ReviveProvider {
 	};
 }
 
-type ReviveProviderRequester = (id: string, name: string, country: string, faction: string, source: string) => Promise<any>;
+type ReviveProviderRequester = (id: string, name: string, country: string, faction: string | null, source: string) => Promise<any>;
 
 export const REVIVE_PROVIDERS: ReviveProvider[] = [
 	{
@@ -195,7 +195,7 @@ interface ReviveResponse {
 	provider: ReviveProvider;
 }
 
-export function doRequestRevive(id: string, name: string, country: string, faction: string) {
+export function doRequestRevive(id: string, name: string, country: string, faction: string | null) {
 	const source = `TornTools v${browser.runtime.getManifest().version}`;
 
 	const providerName = settings.pages.global.reviveProvider || "";

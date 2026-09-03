@@ -27,13 +27,16 @@ function addListener() {
 		if (page !== "page" || !json) return;
 
 		const params = new URL(fetch.url).searchParams;
-		const sid = params.get("sid");
-		const step = params.get("step");
+		const sid = params.get("sid")!;
+		const step = params.get("step")!;
 		if (!isOrganizedCrimeList(sid, step, json)) return;
 
 		if (!json.success) return;
 
-		const playerId = getUserDetails().id;
+		const details = getUserDetails();
+		if ("error" in details) return;
+
+		const playerId = details.id;
 		const slots = json.data.flatMap((crime) =>
 			crime.playerSlots
 				.filter((slot) => slot.player === null || slot.player.ID !== playerId)
@@ -63,8 +66,8 @@ async function disableButtons() {
 	findAllElements("[class*='joinButton___']:not(.tt-warn-crime--processed)", list).forEach((button) => {
 		button.classList.add("tt-warn-crime--processed");
 
-		const scenarioElement = button.closest("[class*='contentLayer___']");
-		const slotElement = button.closest("[class*='wrapper___']");
+		const scenarioElement = button.closest("[class*='contentLayer___']")!;
+		const slotElement = button.closest("[class*='wrapper___']")!;
 
 		const scenarioName = findElement("[class*='panelTitle___']", scenarioElement).textContent;
 		const position = findElement("[class*='title___']", slotElement).textContent;

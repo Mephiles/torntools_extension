@@ -51,7 +51,7 @@ async function addFilterContainer() {
 				const leaseMatch = REGEX_LEASED.exec(description.textContent.trim());
 				if (!leaseMatch) return true;
 
-				const days = parseInt(leaseMatch.groups.left);
+				const days = parseInt(leaseMatch.groups!.left);
 				if (isNaN(days)) return false;
 
 				return days >= range.start && days <= range.end;
@@ -90,7 +90,7 @@ async function addFilterContainer() {
 				if (!types.length) return true;
 
 				const image = findElement(".image-place img[alt]", row);
-				const type = image.getAttribute("alt").replace("Spouse's ", "");
+				const type = image.getAttribute("alt")!.replace("Spouse's ", "");
 
 				return types.includes(type);
 			},

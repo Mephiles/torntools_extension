@@ -53,7 +53,7 @@ export class SourceService {
 			.join("\n");
 	}
 
-	fromSource(line: number, column: number): SourceLocation {
+	fromSource(line: number, column: number): SourceLocation | null {
 		if (!this.sourceMapConsumer) return null;
 
 		const position = this.sourceMapConsumer.originalPositionFor({ line, column });
@@ -64,22 +64,22 @@ export class SourceService {
 	static parseGeneratedSourceStackFrame(stackLine: string): { method: string | null; line: number; column: number } | null {
 		const chromeMethodFrame = stackLine.match(SourceService.CHROME_METHOD_STACK_LINE);
 		if (chromeMethodFrame) {
-			return SourceService.convertStackFrameGroups(chromeMethodFrame.groups);
+			return SourceService.convertStackFrameGroups(chromeMethodFrame.groups!);
 		}
 
 		const chromeFrame = stackLine.match(SourceService.CHROME_STACK_LINE);
 		if (chromeFrame) {
-			return SourceService.convertStackFrameGroups(chromeFrame.groups);
+			return SourceService.convertStackFrameGroups(chromeFrame.groups!);
 		}
 
 		const firefoxMethodFrame = stackLine.match(SourceService.FIREFOX_METHOD_STACK_LINE);
 		if (firefoxMethodFrame) {
-			return SourceService.convertStackFrameGroups(firefoxMethodFrame.groups);
+			return SourceService.convertStackFrameGroups(firefoxMethodFrame.groups!);
 		}
 
 		const firefoxFrame = stackLine.match(SourceService.FIREFOX_STACK_LINE);
 		if (firefoxFrame) {
-			return SourceService.convertStackFrameGroups(firefoxFrame.groups);
+			return SourceService.convertStackFrameGroups(firefoxFrame.groups!);
 		}
 
 		return null;
@@ -111,7 +111,7 @@ export class SourceService {
 		return {
 			rawPath: raw.source,
 			path: cleanedPath,
-			file: splitPath.at(-1),
+			file: splitPath.at(-1)!,
 			line: raw.line,
 			column: raw.column,
 		};

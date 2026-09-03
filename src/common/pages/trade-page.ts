@@ -6,14 +6,14 @@ export function setupTradePage() {
 	addXHRListener(({ detail: { page, xhr } }) => {
 		if (page === "trade") {
 			const params = new URLSearchParams(xhr.requestBody);
-			const step = params.get("step");
+			const step = params.get("step") ?? "";
 
 			triggerEvent(step);
 		}
 	});
 	window.addEventListener("hashchange", () => {
 		const params = getHashParameters();
-		const step = params.get("step");
+		const step = params.get("step") ?? "";
 
 		triggerEvent(step);
 	});

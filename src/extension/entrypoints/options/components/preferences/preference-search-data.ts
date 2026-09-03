@@ -12,7 +12,7 @@ export interface SearchablePreference {
 
 export function getLastKey(path: string): string {
 	const parts = path.split(".");
-	return parts.at(-1);
+	return parts.at(-1)!;
 }
 
 export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [

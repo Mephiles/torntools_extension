@@ -129,7 +129,7 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 
 	let millis: number;
 	if ("milliseconds" in time) millis = time.milliseconds;
-	else if ("seconds" in time) millis = time.seconds * TO_MILLIS.SECONDS;
+	else millis = time.seconds * TO_MILLIS.SECONDS;
 
 	let date: Date, parts: number[];
 	switch (options.type) {
@@ -224,8 +224,9 @@ export function formatTime(time: DateObject, partialOptions: Partial<FormatTimeO
 				{ text: options.short ? "now" : "just now", millis: 0 },
 			];
 
+			const agoFilter = options.agoFilter;
 			let _units = UNITS;
-			if (options.agoFilter) _units = UNITS.filter((value) => value.millis <= options.agoFilter);
+			if (agoFilter) _units = UNITS.filter((value) => value.millis <= agoFilter);
 
 			for (const unit of _units) {
 				if (timeAgo < unit.millis) continue;
@@ -322,7 +323,7 @@ export function formatDate(date: DateObject, partialOptions: Partial<FormatDateO
 
 	let millis: number;
 	if ("milliseconds" in date) millis = date.milliseconds;
-	else if ("seconds" in date) millis = date.seconds * 1000;
+	else millis = date.seconds * 1000;
 
 	const _date = new Date(millis);
 
@@ -338,7 +339,7 @@ export function formatDate(date: DateObject, partialOptions: Partial<FormatDateO
 	}
 
 	const parts: number[] = [];
-	let separator: string;
+	let separator: string | undefined;
 	switch (settings.formatting.date) {
 		case "us":
 			separator = "/";
@@ -435,7 +436,7 @@ export function formatNumber(number: number | string, partialOptions: Partial<Fo
 
 	const abstract = Math.abs(number);
 	const operation = number < 0 ? "-" : options.forceOperation ? "+" : "";
-	let text: string;
+	let text: string | undefined;
 
 	if (options.shorten) {
 		const version = options.shorten === true ? 1 : options.shorten;

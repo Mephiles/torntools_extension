@@ -10,8 +10,8 @@ function handleFilledUrl() {
 	const params = getSearchParameters();
 
 	if (page === "profiles" && params.has("send-money")) {
-		const money = parseInt(params.get("send-money"));
-		const message = params.get("send-money-message");
+		const money = parseInt(params.get("send-money")!);
+		const message = params.get("send-money-message")!;
 
 		void prefillSendMoney(money, message);
 	}

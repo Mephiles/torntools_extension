@@ -63,13 +63,13 @@ function decidePropertiesRoute(): PropertiesRoute {
 	const step = params.get("p");
 	if (!step || step === "properties") {
 		page = "all-properties";
-		paramStart = params.has("start") ? parseInt(params.get("start")) : null;
+		paramStart = params.has("start") ? parseInt(params.get("start")!) : null;
 	} else if (step === "yourProperties") {
 		page = "your-properties";
-		paramStart = params.has("start") ? parseInt(params.get("start")) : null;
+		paramStart = params.has("start") ? parseInt(params.get("start")!) : null;
 	} else if (step === "spousesProperties") {
 		page = "spouse-properties";
-		paramStart = params.has("start") ? parseInt(params.get("start")) : null;
+		paramStart = params.has("start") ? parseInt(params.get("start")!) : null;
 	} else if (step === "options") {
 		page = "options";
 		paramTab = params.get("tab");
@@ -108,7 +108,7 @@ function getPaginationPage(page: PropertiesPage) {
 	const params = getHashParameters();
 	if (!params.has("start")) return 1;
 
-	const start = parseInt(params.get("start"));
+	const start = parseInt(params.get("start")!);
 
 	return start / 12 + 1;
 }

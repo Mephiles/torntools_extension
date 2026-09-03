@@ -41,7 +41,7 @@ function showResult(scout: ScouterResult) {
 }
 function getUserID() {
 	return parseInt(
-		findElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0],
+		findElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)![0],
 	);
 }
 
@@ -66,7 +66,7 @@ export default class FfScouterProfileFeature extends Feature {
 	}
 
 	override initialise() {
-		SCOUTER_SERVICE = scouterService();
+		SCOUTER_SERVICE = scouterService()!;
 	}
 
 	override async execute() {

@@ -50,7 +50,9 @@ function addListener() {
 }
 
 async function addInfo(force: boolean) {
-	if (!force || lastActionState) return;
+	if (!userdata.faction) return;
+	if (!force || lastActionState || !userdata.faction) return;
+
 	removeInfo();
 
 	await requireElement(".members-list .table-body > li");
@@ -58,7 +60,7 @@ async function addInfo(force: boolean) {
 
 	let balance: FactionBalance;
 	if (ttCache.hasValue("faction-members-balance", userdata.faction.id)) {
-		balance = ttCache.get<FactionBalance>("faction-members-balance", userdata.faction.id);
+		balance = ttCache.get<FactionBalance>("faction-members-balance", userdata.faction.id)!;
 	} else {
 		balance = (await fetchData<FactionBalanceResponse>("tornv2", { section: "faction", selections: ["balance"], silent: true })).balance;
 
@@ -78,10 +80,10 @@ async function addInfo(force: boolean) {
 		// Don't show this for fallen players.
 		if (findElement(".icons li[id*='icon77___']", li, true)) return;
 
-		const nextSibling = li.nextSibling as HTMLElement | undefined;
+		const nextSibling = li.nextSibling as HTMLElement | null;
 
 		const memberInfo = elementBuilder({ type: "div", class: "tt-member-info" });
-		const parent = lastActionState && nextSibling?.className?.includes("tt-last-action") ? li.nextSibling : memberInfo;
+		const parent = lastActionState && nextSibling?.className?.includes("tt-last-action") ? nextSibling : memberInfo;
 
 		if (userBalance.points) {
 			parent.appendChild(

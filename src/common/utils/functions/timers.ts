@@ -22,14 +22,14 @@ export function updateTimers() {
 			delete countdown.dataset.seconds;
 			countdownTimers.splice(index, 1);
 		} else {
-			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings!));
 			countdown.dataset.seconds = seconds.toString();
 		}
 	});
 	countTimers.forEach((countdown) => {
-		const seconds = parseInt(countdown.dataset.seconds);
+		const seconds = parseInt(countdown.dataset.seconds!);
 
-		countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+		countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings!));
 	});
 }
 

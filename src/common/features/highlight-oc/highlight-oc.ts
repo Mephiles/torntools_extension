@@ -37,14 +37,14 @@ function highlightCrime1() {
 	const member = findElement(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.profile.id}"]`, true);
 	if (!member) return;
 
-	member.closest(".item-wrap").classList.add("tt-oc-highlight");
+	member.closest(".item-wrap")!.classList.add("tt-oc-highlight");
 }
 
 function highlightCrime2() {
 	const member = findElement(`[class*='slotMenuItem___'][href="/profiles.php?XID=${userdata.profile.id}"]`, true);
 	if (!member) return;
 
-	member.closest("[class*='contentLayer___']").classList.add("tt-oc-highlight");
+	member.closest("[class*='contentLayer___']")!.classList.add("tt-oc-highlight");
 }
 
 export default class HighlightOCFeature extends Feature {

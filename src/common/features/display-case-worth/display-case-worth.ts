@@ -24,11 +24,11 @@ function xhrListener() {
 }
 
 async function addWorth() {
-	const hashId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1) : "";
+	const hashId = location.hash.split("/").length > 1 ? location.hash.split("/").at(-1)! : "";
 
-	let userId: number | null = null;
+	let userId: number | undefined;
 	const details = getUserDetails();
-	if (!hashId || (!Number.isNaN(hashId) && parseInt(hashId) !== details.id)) userId = parseInt(hashId);
+	if (!hashId || (!Number.isNaN(hashId) && ("error" in details || parseInt(hashId) !== details.id))) userId = parseInt(hashId);
 
 	let result: UserV1DisplayCaseResponse | undefined;
 	try {

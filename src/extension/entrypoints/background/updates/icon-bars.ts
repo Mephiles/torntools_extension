@@ -59,15 +59,25 @@ export async function showIconBars() {
 
 		let current: number, maximum: number;
 		if (key === "travel") {
-			const totalTrip = userdata.travel.arrival_at - userdata.travel.departed_at;
+			const arrivalAt = userdata.travel.arrival_at;
+			const departedAt = userdata.travel.departed_at;
+			if (arrivalAt === null || departedAt === null) return;
+
+			const totalTrip = arrivalAt - departedAt;
 
 			current = totalTrip - userdata.travel.time_left;
 			maximum = totalTrip;
 		} else if (key === "chain") {
-			current = userdata.bars[key].current;
-			maximum = userdata.bars[key].max;
+			const chain = userdata.bars.chain;
+			if (!chain) return;
 
-			if (current !== maximum) maximum = getNextChainBonus(current);
+			current = chain.current;
+			maximum = chain.max;
+
+			if (current !== maximum) {
+				const next = getNextChainBonus(current);
+				if (next !== undefined) maximum = next;
+			}
 		} else {
 			current = userdata.bars[key].current;
 			maximum = userdata.bars[key].maximum;

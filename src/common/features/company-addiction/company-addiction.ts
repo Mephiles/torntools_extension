@@ -18,6 +18,7 @@ async function showCompanyAddictionLevel() {
 	showInformationSection();
 
 	const addiction = await getCompanyAddiction();
+	if (!addiction) return;
 
 	const companyAddictionElement = elementBuilder({ type: "span", dataset: { addiction } });
 
@@ -37,7 +38,10 @@ async function getCompanyAddiction() {
 	if (ttCache.hasValue("company", "addiction")) {
 		return ttCache.get<number>("company", "addiction");
 	} else {
-		const id = getUserDetails().id;
+		const details = getUserDetails();
+		if ("error" in details) return;
+
+		const { id } = details;
 		const company_id = (userdata.job as UserCompany).id;
 
 		let response: CompanyEmployeesResponse;

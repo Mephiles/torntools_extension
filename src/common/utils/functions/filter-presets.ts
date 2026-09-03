@@ -32,7 +32,7 @@ export type FilterPresetsMap = { [filterKey: string]: FilterPresets };
 export function createFilterPresets(options: FilterPresetsOptions) {
 	const panel = elementBuilder({ type: "div", class: "tt-filter-presets" });
 	const quickButtons = elementBuilder({ type: "div", class: "tt-filter-preset-quick" });
-	const title = options.headerOptions.parentElement;
+	const title = options.headerOptions.parentElement!;
 	const titleText = title ? findElement(":scope > .text", title, true) : undefined;
 	if (titleText) {
 		title.parentElement!.classList.add("tt-has-presets");

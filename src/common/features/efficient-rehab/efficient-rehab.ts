@@ -41,7 +41,7 @@ function addListener() {
 async function showInformation() {
 	await requireCondition(() => isInjected);
 
-	const percentages = knownPercentages ?? JSON.parse((await requireElement("#rehub-progress .range-slider-data")).dataset.percentages);
+	const percentages = knownPercentages ?? JSON.parse((await requireElement("#rehub-progress .range-slider-data")).dataset.percentages!);
 
 	const maxRehabs = parseInt(Object.keys(percentages).reverse()[0]);
 	const { safe } = calculateSafeRehabs();
@@ -102,7 +102,7 @@ function adjustSlider(ticks: number) {
 	const slider = findElement("#rehub-progress .ui-slider", true);
 	if (!slider) return;
 
-	const availablePercentages: AvailablePercentages = JSON.parse(slider.getAttribute("data-percentages")) || {};
+	const availablePercentages: AvailablePercentages = JSON.parse(slider.getAttribute("data-percentages")!) || {};
 	const width = !availablePercentages[2]
 		? slider.clientWidth
 		: (slider.clientWidth / (100 - availablePercentages[1])) * (availablePercentages[ticks] - availablePercentages[1]) || 0;

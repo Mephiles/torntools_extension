@@ -76,7 +76,7 @@ async function showGraph() {
 					if (gains.length) {
 						ttCache.remove("gym", "graph");
 						// Remove old chart and load it again.
-						content.lastElementChild.remove();
+						content.lastElementChild?.remove();
 						loadGraph();
 					}
 
@@ -147,7 +147,7 @@ async function showGraph() {
 		const canvas = elementBuilder({ type: "canvas", attributes: { width, height } });
 		wrapper.appendChild(canvas);
 
-		const context = canvas.getContext("2d");
+		const context = canvas.getContext("2d")!;
 
 		const gymChart = createChart();
 
@@ -155,9 +155,9 @@ async function showGraph() {
 		await requireElement<HTMLInputElement>("#dark-mode-state").then((el) =>
 			el.addEventListener("change", () => {
 				const color = el.checked ? "#fff" : "#000";
-				gymChart.options.scales.x.ticks.color = color;
-				gymChart.options.scales.y.ticks.color = color;
-				gymChart.options.plugins.legend.labels.color = color;
+				gymChart.options.scales!.x!.ticks!.color = color;
+				gymChart.options.scales!.y!.ticks!.color = color;
+				gymChart.options.plugins!.legend!.labels!.color = color;
 				gymChart.update();
 			}),
 		);

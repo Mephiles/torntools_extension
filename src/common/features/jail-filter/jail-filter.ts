@@ -66,7 +66,7 @@ async function addFilterContainer() {
 			test: (row, range) => {
 				const timeText = findElement(".info-wrap .time", row).textContent;
 				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
-				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
+				const timeLeftHrs = timeLeft && timeLeft.length > 1 ? parseInt(timeLeft[0]) : 0;
 
 				if (range.start && timeLeftHrs < range.start) return false;
 				if (range.end !== 100 && timeLeftHrs >= range.end) return false;
@@ -101,7 +101,7 @@ async function addFilterContainer() {
 				const level = convertToNumber(findElement(".info-wrap .level", row).textContent);
 				const timeText = findElement(".info-wrap .time", row).textContent;
 				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
-				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
+				const timeLeftHrs = timeLeft && timeLeft.length > 1 ? parseInt(timeLeft[0]) : 0;
 
 				const score = level * (timeLeftHrs + 3);
 				if (range.start && score < range.start) return false;
@@ -123,8 +123,8 @@ async function addFilterContainer() {
 				const level = convertToNumber(findElement(".info-wrap .level", row).textContent);
 				const timeText = findElement(".info-wrap .time", row).textContent;
 				const timeLeft = timeText.match(JAIL_FILTER_TIME_REGEX);
-				const timeLeftHrs = timeLeft?.length > 1 ? parseInt(timeLeft[0]) : 0;
-				const timeLeftMins = parseInt(timeLeft?.length > 1 ? timeLeft[1] : timeLeft?.[0]) || 0;
+				const timeLeftHrs = timeLeft && timeLeft.length > 1 ? parseInt(timeLeft[0]) : 0;
+				const timeLeftMins = parseInt(timeLeft && timeLeft.length > 1 ? timeLeft[1] : (timeLeft?.[0] ?? "")) || 0;
 				const totalMinutes = timeLeftMins + timeLeftHrs * 60;
 
 				return totalMinutes * level * bailMultiplier * 100 <= bailCost;
@@ -241,18 +241,18 @@ async function applyQuickBustAndBail() {
 		});
 	}
 
-	function addQAndHref(iconNode: HTMLAnchorElement) {
+	function addQAndHref(iconNode: HTMLAnchorElement | null) {
 		if (!iconNode || findElement(":scope > .tt-quick-q", iconNode, true)) return;
 
 		iconNode.appendChild(elementBuilder({ type: "span", class: "tt-quick-q", text: "Q" }));
 		iconNode.href = `${iconNode.getAttribute("href")}1`;
 	}
 
-	function removeQAndHref(iconNode: HTMLAnchorElement) {
+	function removeQAndHref(iconNode: HTMLAnchorElement | null) {
 		if (!iconNode) return;
 
 		findElement(".tt-quick-q", iconNode, true)?.remove();
-		if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.getAttribute("href").slice(0, -1);
+		if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.getAttribute("href")!.slice(0, -1);
 	}
 }
 

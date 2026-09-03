@@ -32,7 +32,7 @@ function initialiseDrugDetails() {
 		case "factions":
 			setupXHR({
 				react: () =>
-					extractArmorySubcategory(findElement("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls")) === "donate",
+					extractArmorySubcategory(findElement("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls")!) === "donate",
 			});
 			break;
 		case "bazaar":
@@ -83,12 +83,12 @@ function addMutationObserver(selector: string) {
 			let id: number;
 			const armoryInfo = findElement("[aria-labelledby*='armory-info-']", target, true);
 			if (armoryInfo) {
-				id = parseInt(armoryInfo.getAttribute("aria-labelledby").match(/armory-info-(\d*)/i)[1]);
+				id = parseInt(armoryInfo.getAttribute("aria-labelledby")!.match(/armory-info-(\d*)/i)![1]);
 			} else {
 				const image = findElement("img", target, true);
 
 				if (image) {
-					id = convertToNumber(image.src.match(/items\/([0-9]+)\/large.*\.png/i)[1]);
+					id = convertToNumber(image.src.match(/items\/([0-9]+)\/large.*\.png/i)![1]);
 				} else {
 					throw new Error("No id found for this item!");
 				}
@@ -122,7 +122,10 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 
 		element = findElement(`[data-reactid="${reactid}"]`, options.target);
 	} else {
-		element = findWrapper();
+		const wrapper = findWrapper();
+		if (!wrapper) return;
+
+		element = wrapper;
 		await requireElement(".ajax-placeholder, .ajax-preloader", { invert: true, parent: element });
 	}
 

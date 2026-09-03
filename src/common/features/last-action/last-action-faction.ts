@@ -52,10 +52,11 @@ async function addLastAction(force: boolean) {
 
 	await requireElement(".members-list .table-body > li");
 
-	const id = isInternalFaction ? "own" : (await readFactionDetails()).id;
+	const id = isInternalFaction ? "own" : (await readFactionDetails())?.id;
 	if (!id) return;
 
 	const members = await loadMembers(id);
+	if (!members) return;
 
 	const list = findElement(".members-list .table-body", true);
 	if (!list) return;

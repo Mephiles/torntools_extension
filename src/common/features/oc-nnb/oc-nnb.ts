@@ -60,7 +60,7 @@ async function showNNB() {
 		async function loadTornstats() {
 			let result: TornstatsFactionCrimes;
 			if (ttCache.hasValue("crimes", "tornstats")) {
-				result = ttCache.get<TornstatsFactionCrimes>("crimes", "tornstats");
+				result = ttCache.get<TornstatsFactionCrimes>("crimes", "tornstats")!;
 			} else {
 				try {
 					result = await fetchData<TornstatsFactionCrimes>("tornstats", { section: "faction/crimes", relay: true });
@@ -98,7 +98,7 @@ async function showNNB() {
 		async function loadYATA() {
 			let result: YATAFactionMembers;
 			if (ttCache.hasValue("crimes", "yata")) {
-				result = ttCache.get<YATAFactionMembers>("crimes", "yata");
+				result = ttCache.get<YATAFactionMembers>("crimes", "yata")!;
 			} else {
 				try {
 					result = await fetchData<YATAFactionMembers>("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
@@ -132,7 +132,7 @@ async function showNNB() {
 
 			const stat = findElement(".stat", row);
 			if (row.classList.contains("title")) {
-				stat.parentElement.insertBefore(
+				stat.parentElement!.insertBefore(
 					elementBuilder({
 						type: "li",
 						class: "tt-nnb",
@@ -144,7 +144,7 @@ async function showNNB() {
 				continue;
 			}
 
-			const id = findElement(".h", row).getAttribute("href").split("XID=")[1];
+			const id = findElement(".h", row).getAttribute("href")!.split("XID=")[1];
 			if (typeof data === "object" && id in data) {
 				const { nnb, verified } = data[id];
 
@@ -161,7 +161,7 @@ async function showNNB() {
 
 			const act = findElement(".act", row);
 			if (row.classList.contains("title")) {
-				act.parentElement.insertBefore(
+				act.parentElement!.insertBefore(
 					elementBuilder({
 						type: "li",
 						class: "tt-nnb short",
@@ -173,7 +173,7 @@ async function showNNB() {
 				continue;
 			}
 
-			const id = findElement(".h", row).getAttribute("href").split("XID=")[1];
+			const id = findElement(".h", row).getAttribute("href")!.split("XID=")[1];
 			if (typeof data === "object" && id in data) {
 				const { nnb, verified } = data[id];
 

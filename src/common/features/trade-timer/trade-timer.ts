@@ -36,7 +36,7 @@ async function showTimer(tradeChat: Element | undefined | null = null) {
 	await requireElement("[class*='loader___']", { parent: tradeChat, invert: true });
 
 	const sendButton = findElement(`[class*='chat-box-footer__send-icon-wrapper__'], ${SELECTOR_CHAT_V3__SEND_BUTTON}`, tradeChat);
-	sendButton.parentElement.classList.add("tt-modified");
+	sendButton.parentElement!.classList.add("tt-modified");
 
 	if (!timer) {
 		timer = elementBuilder({
@@ -68,7 +68,7 @@ function getTradeChat() {
 	const openChats = findAllElements(`#chatRoot [class^='chat-box__'], ${SELECTOR_CHAT_V3__TRADE_CHAT}`);
 	if (!openChats.length) return null;
 
-	return openChats.find((chat) => findElement("[class*='chat-box-header__info__'], [class*='title___']", chat).textContent === "Trade");
+	return openChats.find((chat) => findElement("[class*='chat-box-header__info__'], [class*='title___']", chat).textContent === "Trade") ?? null;
 }
 
 function listenTradeChatInput(tradeChat: Element | null) {
@@ -82,6 +82,8 @@ async function onKeyUp(event: KeyboardEvent) {
 	if (event.key !== "Enter" || !isElement(event.target)) return;
 
 	const tradeChat = event.target.closest(`[class^='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
+	if (!tradeChat) return;
+
 	const chatBody = findElement(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_LIST}`, tradeChat);
 
 	const message = await new Promise<Element>((resolve) => {

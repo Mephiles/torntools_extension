@@ -81,7 +81,13 @@ interface StatRow {
 	them: StatValue;
 	you: { value: StatValue; relative: StatValue };
 	format?: StatFormat | null;
-	type?: string;
+	type: string;
+}
+
+interface SpyRow {
+	stat: string;
+	them: StatValue;
+	you: { value: StatValue; relative: StatValue };
 }
 
 let overlayStatus = false;
@@ -94,7 +100,7 @@ async function showBox() {
 	const id = parseInt(match[1]);
 
 	const { content, options } = createContainer("User Information", {
-		nextElement: findElement(".medals-wrapper", true) || findElement(".basic-information", true)?.closest(".profile-wrapper") || undefined,
+		nextElement: (findElement(".medals-wrapper", true) || findElement(".basic-information", true)?.closest(".profile-wrapper"))!,
 		class: "mt10",
 	});
 
@@ -157,7 +163,7 @@ async function showBox() {
 			const isRelative = relativeValue.isChecked();
 
 			for (const field of findAllElements(".relative-field", content)) {
-				const value = isRelative ? field.dataset.relative : field.dataset.value;
+				const value = isRelative ? field.dataset.relative! : field.dataset.value!;
 
 				const options = { ...JSON.parse(field.dataset.options ?? "false"), forceOperation: isRelative };
 
@@ -179,7 +185,7 @@ async function showBox() {
 
 		let data: UserPersonalStatsFull & UserHofResponse;
 		if (ttCache.hasValue("personal-stats", id)) {
-			data = ttCache.get<UserPersonalStatsFull & UserHofResponse>("personal-stats", id);
+			data = ttCache.get<UserPersonalStatsFull & UserHofResponse>("personal-stats", id)!;
 		} else {
 			try {
 				data = await fetchData<UserPersonalStatsFull & UserHofResponse>("tornv2", {
@@ -195,6 +201,9 @@ async function showBox() {
 				ttCache.set({ [id]: data }, millisToNewDay(), "personal-stats");
 			} catch (error) {
 				console.log("TT - Couldn't fetch users stats.", error);
+				section.appendChild(elementBuilder({ type: "div", class: "stats-error-message", text: "Failed to fetch data." }));
+				showLoadingPlaceholder(section, false);
+				return;
 			}
 		}
 
@@ -283,8 +292,6 @@ async function showBox() {
 
 			const actions = elementBuilder({ type: "div", class: "stat-actions", children: [moveButton, otherList, editButton] });
 			section.appendChild(actions);
-		} else {
-			section.appendChild(elementBuilder({ type: "div", class: "stats-error-message", text: "Failed to fetch data." }));
 		}
 
 		showLoadingPlaceholder(section, false);
@@ -337,12 +344,7 @@ async function showBox() {
 						return rowData.them > rowData.you?.value ? "superior-them" : "superior-you";
 					},
 					stretchColumns: true,
-					rowGroupInfo: hasHeaders
-						? {
-								groupBy: "type",
-								cellRenderer: stringCellRenderer,
-							}
-						: undefined,
+					rowGroupInfo: hasHeaders ? { groupBy: "type", cellRenderer: stringCellRenderer } : undefined,
 				},
 			);
 		}
@@ -370,6 +372,7 @@ async function showBox() {
 						stat: stat.name,
 						them: them,
 						you: { value: you, relative: you - them },
+						type: stat.type,
 						format: stat.format,
 					};
 				})
@@ -435,7 +438,7 @@ async function showBox() {
 		showLoadingPlaceholder(section as HTMLElement, false);
 
 		if (spy) {
-			const table = createTable<StatRow>(
+			const table = createTable<SpyRow>(
 				[
 					{ id: "stat", title: "Stat", width: 60, cellRenderer: stringCellRenderer },
 					{ id: "them", title: "Them", class: "their-stat", width: 80, cellRenderer: numberCellRenderer },
@@ -734,9 +737,9 @@ async function showBox() {
 				};
 			}
 
-			function ffCellRenderer(modifier: number) {
+			function ffCellRenderer(modifier: number | undefined) {
 				let ff: string;
-				if (modifier > 0) ff = formatNumber(modifier, { decimals: 2 });
+				if (modifier !== undefined && modifier > 0) ff = formatNumber(modifier, { decimals: 2 });
 				else ff = "-";
 
 				return {

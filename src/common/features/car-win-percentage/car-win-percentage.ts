@@ -58,7 +58,7 @@ export default class CarWinPercentageFeature extends Feature {
 	}
 
 	override async execute() {
-		if (["cars", "parts"].includes(getSearchParameters().get("tab"))) await addPercentage();
+		if (["cars", "parts"].includes(getSearchParameters().get("tab")!)) await addPercentage();
 	}
 
 	override storageKeys() {

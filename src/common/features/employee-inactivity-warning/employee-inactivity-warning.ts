@@ -35,9 +35,9 @@ async function addWarning(force: boolean | undefined) {
 	await requireElement(".employee-list-wrap .employee-list > li + .tt-last-action, .employees-wrap .employees-list > li + .tt-last-action");
 
 	for (const row of findAllElements(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li")) {
-		if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
+		if (!row.nextElementSibling!.classList.contains("tt-last-action")) continue;
 
-		const days = parseInt((row.nextElementSibling as HTMLElement).dataset.days);
+		const days = parseInt((row.nextElementSibling as HTMLElement).dataset.days!);
 
 		for (const warning of settings.employeeInactivityWarning) {
 			if (warning.days === null || days < warning.days) continue;

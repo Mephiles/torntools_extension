@@ -44,11 +44,11 @@ async function addWarning(force: boolean) {
 	await requireElement(".tt-last-action");
 
 	for (const row of findAllElements(".members-list .table-body > li")) {
-		if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
+		if (!row.nextElementSibling!.classList.contains("tt-last-action")) continue;
 		// Skip users that are confirmed to be dead IRL.
 		if (findElement("[id*='icon77___']", row, true)) continue;
 
-		const days = dropDecimals(convertToNumber(row.nextElementSibling.getAttribute("hours")) / 24);
+		const days = dropDecimals(convertToNumber(row.nextElementSibling!.getAttribute("hours")) / 24);
 
 		for (const warning of settings.factionInactivityWarning) {
 			if (warning.days === null || days < warning.days) continue;

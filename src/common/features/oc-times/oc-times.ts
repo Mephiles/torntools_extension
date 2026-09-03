@@ -31,7 +31,7 @@ function showTimes() {
 		const details = findElement(".details-wrap", crime, true);
 		if (!details) continue;
 
-		const id = details.dataset.crime;
+		const id = details.dataset.crime!;
 
 		let text: string;
 		if ("crimes" in factiondata && id in factiondata.crimes) {

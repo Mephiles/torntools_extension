@@ -23,12 +23,12 @@ function initialiseListeners() {
 			if (!activeRow) return;
 
 			const trackElement = findElement(".track", activeRow);
-			const track = trackElement.childNodes[0].textContent.trim();
+			const track = trackElement.childNodes[0].textContent!.trim();
 
 			const joinLinkElement = findElement<HTMLAnchorElement>("a[step-value='chooseRacingCar']", activeRow, true);
 			if (joinLinkElement) {
 				const joinParams = new URL(joinLinkElement.href).searchParams;
-				const id = parseInt(joinParams.get("id"));
+				const id = parseInt(joinParams.get("id")!);
 
 				CUSTOM_RACES[id] = track;
 			}
@@ -36,7 +36,7 @@ function initialiseListeners() {
 			const passwordForm = findElement(".join-password-form", activeRow, true);
 			if (passwordForm) {
 				const idInput = findElement("input[name='id']", passwordForm);
-				const id = parseInt(idInput.getAttribute("value"));
+				const id = parseInt(idInput.getAttribute("value")!);
 
 				CUSTOM_RACES[id] = track;
 			}

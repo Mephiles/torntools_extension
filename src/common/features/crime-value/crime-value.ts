@@ -16,8 +16,8 @@ function addListener() {
 		if (page !== "page" || !json) return;
 
 		const params = new URL(fetch.url).searchParams;
-		const sid = params.get("sid");
-		const step = params.get("step");
+		const sid = params.get("sid")!;
+		const step = params.get("step")!;
 
 		if (!isAttemptCrime(sid, step, json)) return;
 
@@ -38,7 +38,7 @@ function calculateValue(response: TornInternalAttemptCrime): number {
 		.filter(({ type }) => type === "items" || type === "money")
 		.map((reward) => {
 			if (reward.type === "items") {
-				return reward.value.map(({ id, amount }) => ITEM_RESOLVER.getFullItem(id)?.value.market_price * amount).reduce((a, b) => a + b, 0);
+				return reward.value.map(({ id, amount }) => (ITEM_RESOLVER.getFullItem(id)?.value.market_price ?? 0) * amount).reduce((a, b) => a + b, 0);
 			} else if (reward.type === "money") {
 				return reward.value;
 			} else {

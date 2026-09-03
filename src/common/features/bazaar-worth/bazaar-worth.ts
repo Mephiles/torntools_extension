@@ -33,9 +33,10 @@ function addListener() {
 }
 
 async function addWorth(list: BazaarFetchItem[] | null = null) {
-	const bazaarUserId = parseInt(getSearchParameters().get("userId"));
+	const bazaarUserId = parseInt(getSearchParameters().get("userId")!);
 
-	if (!bazaarUserId || bazaarUserId === getUserDetails()?.id) await requireElement(".info-msg-cont:not(.red) .msg");
+	const details = getUserDetails();
+	if (!bazaarUserId || (!("error" in details) && bazaarUserId === details.id)) await requireElement(".info-msg-cont:not(.red) .msg");
 	else await requireElement(".info-msg-cont .msg a[href]");
 
 	if (list && Array.isArray(list)) {
@@ -44,7 +45,7 @@ async function addWorth(list: BazaarFetchItem[] | null = null) {
 	}
 
 	if (ttCache.hasValue("bazaar", bazaarUserId)) {
-		handleBazaar(ttCache.get("bazaar", bazaarUserId)).catch(console.error);
+		handleBazaar(ttCache.get("bazaar", bazaarUserId)!).catch(console.error);
 	} else {
 		// TODO - Migrate to V2 (user/bazaar).
 		fetchData<UserV1BazaarResponse>("tornv2", { section: "user", id: bazaarUserId, legacySelections: ["bazaar"] })

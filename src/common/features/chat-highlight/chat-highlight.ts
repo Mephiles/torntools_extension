@@ -78,7 +78,7 @@ function initialiseHighlights() {
 
 function readSettings() {
 	highlights = settings.pages.chat.highlights
-		.map<HighlightColor>((highlight) => {
+		.map<HighlightColor | null>((highlight) => {
 			let { name, color } = highlight;
 
 			for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
@@ -92,7 +92,7 @@ function readSettings() {
 
 			return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
 		})
-		.filter((h) => !!h);
+		.filter((highlight) => highlight !== null);
 
 	applyAllHighlights();
 }
@@ -115,8 +115,8 @@ function applyV2Highlights(message: HTMLElement) {
 	if (!highlights?.length) return;
 
 	const sender = simplify(findElement(SELECTOR_CHAT_V2__MESSAGE_SENDER, message).textContent.replace(":", ""));
-	const words = message.lastElementChild.textContent
-		.split(" ")
+	const words = message
+		.lastElementChild!.textContent!.split(" ")
 		.map(simplify)
 		.flatMap((text) => [text, withoutEndPunctuation(text)]);
 
@@ -150,9 +150,10 @@ function applyV3Highlights(message: HTMLElement) {
 	} else {
 		const root = message.closest(SELECTOR_CHAT_V3__VARIOUS_ROOT);
 		if (root?.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
-			sender = getUserDetails().name;
+			const details = getUserDetails();
+			sender = "name" in details ? (details.name ?? "") : "";
 		} else if (root && !root.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {
-			const chatItem = message.closest("[class*='item___']");
+			const chatItem = message.closest("[class*='item___']")!;
 			const title = findElement("[class*='title___']", chatItem);
 			sender = title.textContent;
 		} else return;

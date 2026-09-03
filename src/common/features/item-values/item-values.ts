@@ -71,9 +71,9 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 		...partialOptions,
 	};
 
-	const list = getCurrentList();
-
 	if (settings.pages.items.values) {
+		const list = getCurrentList();
+
 		for (const item of items) {
 			if (options.ignoreUntradable && parseInt(item.untradable)) continue;
 
@@ -88,7 +88,7 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 						else findElement(".tt-item-price", parent).remove();
 					}
 
-					if (options.addRelative) parent.parentElement.classList.add("relative");
+					if (options.addRelative) parent.parentElement!.classList.add("relative");
 
 					const price = parseInt(item.averageprice) || 0;
 					const quantity = parseInt(item.Qty) || 1;
@@ -127,7 +127,7 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 	}
 
 	function getCurrentList() {
-		return findElement(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']", true);
+		return findElement(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']");
 	}
 }
 
@@ -166,11 +166,12 @@ function showItemValues(list: HTMLElement) {
 	if (!list.dataset) return;
 
 	for (const item of findAllElements(":scope > li[data-item]", list)) {
-		const id = parseInt(item.dataset.item);
-		const price = ITEM_RESOLVER.getFullItem(id).value.market_price;
+		const id = parseInt(item.dataset.item!);
+		const fullItem = ITEM_RESOLVER.getFullItem(id);
+		if (!fullItem) continue;
+		const price = fullItem.value.market_price;
 
-		const parent =
-			mobile || tablet ? findElement(".name-wrap", item, true) : (findElement(".bonuses-wrap", item, true) ?? findElement(".name-wrap", item, true));
+		const parent = mobile || tablet ? findElement(".name-wrap", item) : (findElement(".bonuses-wrap", item, true) ?? findElement(".name-wrap", item));
 
 		const quantity = parseInt(findElement(".item-amount.qty", item).textContent) || 1;
 		const totalPrice = quantity * price;
@@ -238,14 +239,17 @@ function updateItemAmount(id: number, change: number, loaned?: boolean) {
 			if (typeof isLoaned === "boolean" && loaned !== isLoaned) continue;
 		}
 
+		const fullItem = ITEM_RESOLVER.getFullItem(id);
+		if (!fullItem) continue;
+
 		const priceElement = findElement(".tt-item-price", item, true);
 		if (!priceElement) continue;
 
 		const quantityElement = findElement(".tt-item-quantity", priceElement, true);
 		if (!quantityElement) continue;
 
-		const price = ITEM_RESOLVER.getFullItem(id).value.market_price;
-		const newQuantity = parseInt(quantityElement.textContent.match(/(\d*)x = /i)[1]) + change;
+		const price = fullItem.value.market_price;
+		const newQuantity = parseInt(quantityElement.textContent.match(/(\d*)x = /i)![1]) + change;
 
 		if (newQuantity === 1) {
 			priceElement.innerHTML = "";
@@ -282,12 +286,12 @@ export default class ItemValuesFeature extends Feature {
 			const userId = location.hash.startsWith("#display/") ? parseInt(location.hash.slice(9)) || false : false;
 
 			const details = getUserDetails();
-			if (userId && !details.error && userId !== details.id) return false;
+			if (userId && !("error" in details) && userId !== details.id) return false;
 		} else if (page === "bazaar") {
-			const userId = parseInt(getSearchParameters().get("userId"));
+			const userId = parseInt(getSearchParameters().get("userId")!);
 
 			const details = getUserDetails();
-			if (userId && !details.error && userId !== details.id) return false;
+			if (userId && !("error" in details) && userId !== details.id) return false;
 		} else if (page === "faction" && !isInternalFaction) return false;
 
 		return true;

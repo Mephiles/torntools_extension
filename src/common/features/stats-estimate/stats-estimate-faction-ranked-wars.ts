@@ -63,7 +63,7 @@ function showEstimates() {
 			},
 			{
 				hasFilter: true,
-				placement: (row) => findElement(".clear", row, true),
+				placement: (row) => findElement(".clear", row, true) ?? row,
 			},
 		);
 	});

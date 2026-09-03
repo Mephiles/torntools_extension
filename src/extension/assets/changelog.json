@@ -16,7 +16,8 @@
 			"changes": [],
 			"removed": [],
 			"technical": [
-				{ "message": "Use a custom helper function for finding single elements, as part of the TypeScript journey.", "contributor": "DeKleineKobini" }
+				{ "message": "Use a custom helper function for finding single elements, as part of the TypeScript journey.", "contributor": "DeKleineKobini" },
+				{ "message": "Enable stricter null-checks, as final step in the TypeScript journey.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

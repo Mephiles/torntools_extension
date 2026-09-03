@@ -6,7 +6,6 @@ export type StatFormat = "currency";
 export type StatDef = {
 	name: string;
 	type: string;
-
 	format?: StatFormat;
 } & (
 	| { v2Getter: (data: UserPersonalStatsFull) => number }
@@ -75,10 +74,10 @@ export const STATS: StatDef[] = [
 	{ name: "Bazaar customers", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.customers },
 	{ name: "Bazaar sales", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.sales },
 	{ name: "Bazaar revenue", type: "trading", v2Getter: (data) => data.personalstats.trading.bazaar.profit },
-	{ name: "Item Market customers", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.customers },
-	{ name: "Item Market sales", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.sales },
-	{ name: "Item Market revenue", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.revenue },
-	{ name: "Item Market fees paid", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market.fees },
+	{ name: "Item Market customers", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market?.customers ?? 0 },
+	{ name: "Item Market sales", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market?.sales ?? 0 },
+	{ name: "Item Market revenue", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market?.revenue ?? 0 },
+	{ name: "Item Market fees paid", type: "trading", v2Getter: (data) => data.personalstats.trading.item_market?.fees ?? 0 },
 
 	// Jail
 	{ name: "Times jailed", type: "jail", v2Getter: (data) => data.personalstats.jail.times_jailed },

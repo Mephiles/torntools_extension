@@ -17,11 +17,11 @@ let interval: number | undefined;
 function initialiseListeners() {
 	document.addEventListener("click", async (event) => {
 		const rankedWarItem = (event.target as Element).closest("[class*='warListItem__']");
-		if (rankedWarItem && findElement(":scope > [data-warid]", rankedWarItem, true)) {
-			addFilterContainer(
-				(await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement })).closest(".faction-war"),
-			).catch(console.error);
-		}
+		if (!rankedWarItem || !findElement(":scope > [data-warid]", rankedWarItem, true)) return;
+
+		const enemyFaction = await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement! });
+
+		addFilterContainer(enemyFaction.closest(".faction-war")!).catch(console.error);
 	});
 
 	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {

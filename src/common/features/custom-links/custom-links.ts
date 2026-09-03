@@ -26,7 +26,7 @@ async function showLinks() {
 		showOutside("under", "customLinksUnder", links);
 		showInside(links);
 	} else {
-		findElement(".tt-custom-links-container", true).remove();
+		findElement(".tt-custom-links-container", true)?.remove();
 
 		const customLinksContainer = elementBuilder({
 			type: "div",
@@ -114,7 +114,7 @@ function showOutside(filter: "above" | "under", id: string, links: InternalCusto
 function showInside(links: InternalCustomLink[]) {
 	for (const link of findAllElements(".custom-link")) link.remove();
 
-	const areas = findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? findElement("#sidebar [class*=areas___]", true);
+	const areas = findParent(getSidebarArea(), { partialClass: "sidebar-block_" }) ?? findElement("#sidebar [class*=areas___]");
 	for (const link of links.filter((link) => link.location !== "above" && link.location !== "under")) {
 		const locationSplit = link.location.split("_");
 

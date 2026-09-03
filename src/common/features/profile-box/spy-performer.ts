@@ -65,7 +65,7 @@ class YATASpyPerformer extends SpyPerformer {
 	}
 
 	override async execute(): Promise<SpyFetchResult> {
-		let result: YATASpyResponse["spies"][string];
+		let result: YATASpyResponse["spies"][string] | undefined;
 		let isCached = false;
 
 		try {
@@ -125,7 +125,7 @@ class TornStatsSpyPerformer extends SpyPerformer {
 
 		try {
 			if (!this.ignoreCache && ttCache.hasValue("tornstats-spy", this.id)) {
-				result = ttCache.get("tornstats-spy", this.id);
+				result = ttCache.get("tornstats-spy", this.id)!;
 				isCached = true;
 			} else {
 				const tsResult = await fetchData<TornstatsSpy>("tornstats", { section: "spy/user", id: this.id, silent: true, relay: true });
@@ -138,7 +138,7 @@ class TornStatsSpyPerformer extends SpyPerformer {
 
 				ttCache.set(
 					{ [this.id]: result },
-					getCacheTime(result.spy?.status, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
+					getCacheTime(result.spy?.status ?? false, result.spy && "timestamp" in result.spy ? result.spy.timestamp * 1000 : 0),
 					"tornstats-spy",
 				);
 				isCached = false;

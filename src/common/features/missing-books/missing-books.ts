@@ -28,7 +28,7 @@ async function showBooks() {
 	const currentItemsElements = findAllElements(`#category-wrap > #books-items[aria-expanded='true'] > li[data-item]`);
 	if (!currentItemsElements.length || currentItemsElements.length === books.length) return;
 
-	const currentItems = currentItemsElements.map((x) => parseInt(x.dataset.item));
+	const currentItems = currentItemsElements.map((x) => parseInt(x.dataset.item!));
 	const needed = books.filter((x) => !currentItems.some((y) => x.id === y)).sort((a, b) => a.name.localeCompare(b.name));
 	if (!needed.length) return;
 

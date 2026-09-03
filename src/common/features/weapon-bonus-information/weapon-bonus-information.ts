@@ -111,9 +111,9 @@ const BONUSES: Record<string, Bonus> = {
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, uri } }) => {
 		if (!FEATURE_MANAGER.isEnabled(WeaponBonusInformationFeature)) return;
-		if (page !== "page") return;
+		if (page !== "page" || uri?.sid !== "attackLog") return;
 
-		if (uri.sid === "attackLog") await showInformation();
+		await showInformation();
 	});
 }
 
@@ -135,6 +135,7 @@ async function showInformation() {
 
 		const icon = findElement("[class*='iconWrap___'] > *", log).classList[0];
 		const messageElement = findElement("[class*='message___']", log, true);
+		if (!messageElement) continue;
 
 		let bonus: Bonus;
 		switch (icon) {

@@ -1,7 +1,7 @@
 import "./search-chat.css";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder } from "@common/utils/functions/dom";
+import { elementBuilder, isElementOfTag } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
@@ -132,22 +132,22 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 										);
 										list.forEach((chatEntry) => {
 											const shouldHide =
-												keyword &&
+												Boolean(keyword) &&
 												((isUserID && chatEntry.href.split("?XID=")[1] !== keyword) ||
 													(!isUserID && !chatEntry.textContent.toLowerCase().includes(keyword)));
-											if (shouldHide) chatEntry.closest("button").classList.add("tt-hidden");
-											else chatEntry.closest("button").classList.remove("tt-hidden");
+
+											chatEntry.closest("button")!.classList.toggle("tt-hidden", shouldHide);
 										});
 									} else {
 										// Other tabs opened.
 										const list = findAllElements<HTMLAnchorElement>("#scrollableDiv > [class*='member-card__'] a", peopleMenu);
 										list.forEach((chatEntry) => {
 											const shouldHide =
-												keyword &&
+												Boolean(keyword) &&
 												((isUserID && chatEntry.href.split("?XID=")[1] !== keyword) ||
 													(!isUserID && !chatEntry.textContent.toLowerCase().includes(keyword)));
-											if (shouldHide) chatEntry.closest("[class*='member-card__']").classList.add("tt-hidden");
-											else chatEntry.closest("[class*='member-card__']").classList.remove("tt-hidden");
+
+											chatEntry.closest("[class*='member-card__']")!.classList.toggle("tt-hidden", shouldHide);
 										});
 									}
 								},
@@ -160,8 +160,10 @@ function addPeopleSearch(peopleMenu: Element | null = null) {
 	);
 }
 
-function onChatSearch(event: { target: EventTarget }, chat: Element) {
-	const keyword = (event.target as HTMLInputElement).value.toLowerCase();
+function onChatSearch(event: { target: EventTarget | null }, chat: Element) {
+	if (!isElementOfTag(event.target, "input")) return;
+
+	const keyword = event.target.value.toLowerCase();
 
 	for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
 		searchChat(message, keyword);
@@ -177,22 +179,19 @@ function searchChat(message: Element | null, keyword: string) {
 
 	if (keyword.startsWith("by:") || keyword.startsWith("u:")) {
 		const splitInput = keyword.split(" ");
-		const target = splitInput.shift().split(":")[1];
+		const target = splitInput.shift()!.split(":")[1];
 		keyword = splitInput.join(" ");
 
 		const sender = findElement<HTMLAnchorElement>(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`, message);
 		if (!sender.textContent.toLowerCase().includes(target) && (Number.isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
-			message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");
+			message.closest("[class*='chat-box-message___'], div[class*='root___']")!.classList.add("tt-hidden");
 			return;
 		}
 	}
 
 	const messageText = findElement(`p, ${SELECTOR_CHAT_V3__MESSAGE_CONTENT}`, message).textContent.toLowerCase();
-	if (keyword && !messageText.includes(keyword)) {
-		message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.add("tt-hidden");
-	} else {
-		message.closest("[class*='chat-box-message___'], div[class*='root___']").classList.remove("tt-hidden");
-	}
+
+	message.closest("[class*='chat-box-message___'], div[class*='root___']")!.classList.toggle("tt-hidden", Boolean(keyword) && !messageText.includes(keyword));
 }
 
 export default class SearchChatFeature extends Feature {
