@@ -1,9 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 2, "build": 3 },
+		"version": { "major": 9, "minor": 2, "build": 4 },
 		"title": "Beta",
+		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 2, "build": 3 },
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Make sure the required API information is present for 'Race Car Selector'.", "contributor": "DeKleineKobini" },
 				{ "message": "'OC Last Action' (for OC1) was no longer working.", "contributor": "DeKleineKobini" },
@@ -14,16 +18,14 @@
 				{ "message": "Allow commas and $ in 'Stocks Money Input'.", "contributor": "DeKleineKobini" },
 				{ "message": "Define 'Defensive' as its own category in 'Abroad Items Filter'.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [{ "message": "Update the lifecycle of features.", "contributor": "DeKleineKobini" }]
-		}
+		},
+		"date": "2026/09/03"
 	},
 	{
 		"version": { "major": 9, "minor": 2, "build": 2 },
 		"date": "2026/09/01",
-		"logs": {
-			"fixes": [{ "message": "Fallback to extension storage if IndexedDB is unavailable for the cache.", "contributor": "DeKleineKobini" }]
-		}
+		"logs": { "fixes": [{ "message": "Fallback to extension storage if IndexedDB is unavailable for the cache.", "contributor": "DeKleineKobini" }] }
 	},
 	{
 		"version": { "major": 9, "minor": 2, "build": 0 },
