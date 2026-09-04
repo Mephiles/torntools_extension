@@ -252,6 +252,12 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 
 	// Section: items
 	{ path: "settings.pages.items.quickItems", label: "Show the quick items container", group: "financial", section: "items" },
+	{
+		path: "settings.pages.items.highlightQuickItemBloodBags",
+		label: "Highlight blood bags in the quick items",
+		group: "financial",
+		section: "items",
+	},
 	{ path: "settings.pages.items.drugDetails", label: "Show details about drugs", group: "financial", section: "items" },
 	{ path: "settings.pages.items.highlightBloodBags", label: "Highlight blood bags", group: "financial", section: "items" },
 	{ path: "settings.pages.items.energyWarning", label: "Warn if an item gives you energy over 1000", group: "financial", section: "items" },
